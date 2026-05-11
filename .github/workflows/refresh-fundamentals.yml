@@ -29,10 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
-      - name: Checkout main
+      - name: Checkout master
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: master
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -63,8 +63,8 @@ jobs:
             echo "no_changes=true" >> $GITHUB_ENV
           fi
 
-      - name: Commit + push to main
+      - name: Commit + push to master
         if: env.no_changes != 'true'
         run: |
           git commit -m "data: refresh fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ)) [skip ci]"
-          git push origin main
+          git push origin master
