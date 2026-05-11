@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard - stockportfolio.pro</title>
+    <meta name="description" content="Portfolio tracker dashboard with holdings, allocation, and performance charts." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://stockportfolio.pro/dashboard" />
+    <link rel="icon" href="Media/icon.png" />
+    <link rel="stylesheet" href="styles.css?v=20260508-7" />
+    <link rel="stylesheet" href="css/dashboard.css?v=20260508-2" />
+    <script defer src="https://d3js.org/d3.v7.min.js"></script>
+    <script id="auth-gate">if(!localStorage.getItem('token')){ location.href = 'login.html?next=' + encodeURIComponent('dashboard.html' + (location.search||'')); }</script>
+  </head>
+  <body class="glass dash-page">
+    <div class="waves"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
+    <div id="loading-overlay" class="loading-overlay" hidden aria-live="polite" aria-busy="true">
+      <div class="loading-panel"><div class="spinner"></div></div>
+    </div>
+    <header class="navbar" role="banner">
+      <div class="brand">
+        <img src="Media/icon.png" alt="Logo" class="brand-icon" />
+        <span class="brand-name">stockportfolio.pro</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="news.html" data-guarded><span class="sticker sm" aria-hidden="true">📰</span>News</a>
+        <a class="btn" href="fundamentals.html" data-guarded><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
+        <a class="btn" href="dashboard.html" data-guarded><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
+        <a class="btn" href="support.html"><span class="sticker sm" aria-hidden="true">💬</span>Support</a>
+        <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit</a>
+        <button id="toggle-headings" class="btn btn-quiet" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      </div>
+    </header>
+
+    <main class="container dash-container">
+      <header class="dash-header">
+        <div>
+          <h1 class="dash-title">My Portfolio</h1>
+          <p class="dash-sub" id="dash-sub">Track holdings, allocation, and performance.</p>
+        </div>
+        <div class="dash-update" id="dash-updated" aria-live="polite">—</div>
+      </header>
+
+      <!-- KPI tiles -->
+      <section class="dash-kpis" aria-label="Portfolio summary">
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Total Value</div>
+          <div class="dash-kpi-value" id="kpi-total">—</div>
+          <div class="dash-kpi-delta" id="kpi-total-delta">&nbsp;</div>
+        </article>
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Day Change</div>
+          <div class="dash-kpi-value" id="kpi-day">—</div>
+          <div class="dash-kpi-delta" id="kpi-day-delta">&nbsp;</div>
+        </article>
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Total Gain / Loss</div>
+          <div class="dash-kpi-value" id="kpi-gain">—</div>
+          <div class="dash-kpi-delta" id="kpi-gain-delta">&nbsp;</div>
+        </article>
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Holdings</div>
+          <div class="dash-kpi-value" id="kpi-holdings">0</div>
+          <div class="dash-kpi-delta neutral" id="kpi-holdings-note">No positions yet</div>
+        </article>
+      </section>
+
+      <!-- Charts row -->
+      <section class="dash-charts">
+        <article class="dash-chart-card dash-chart-perf">
+          <header class="dash-card-head">
+            <h2 class="dash-card-title">Portfolio Value</h2>
+            <div class="dash-controls" id="perf-range">
+              <button class="dash-toggle" data-range="5D">5D</button>
+              <button class="dash-toggle active" data-range="1M">1M</button>
+              <button class="dash-toggle" data-range="6M">6M</button>
+              <button class="dash-toggle" data-range="1Y">1Y</button>
+              <button class="dash-toggle" data-range="ALL">All</button>
+            </div>
+          </header>
+          <div id="perf-chart" class="dash-chart"></div>
+        </article>
+
+        <article class="dash-chart-card dash-chart-alloc">
+          <header class="dash-card-head">
+            <h2 class="dash-card-title">Allocation</h2>
+          </header>
+          <div id="alloc-chart" class="dash-chart"></div>
+          <ul class="dash-alloc-legend" id="alloc-legend"></ul>
+        </article>
+      </section>
+
+      <!-- Add Stock -->
+      <section class="dash-add-card" id="add-stock-card">
+        <header class="dash-card-head">
+          <h2 class="dash-card-title">Add Position</h2>
+        </header>
+        <form id="add-stock-form" class="dash-add-form">
+          <div class="dash-field dash-field-grow">
+            <label for="stock-symbol">Company or symbol</label>
+            <div class="dash-input-wrap">
+              <input id="stock-symbol" placeholder="AAPL — Apple Inc." autocomplete="off" />
+              <ul id="search-results" class="dropdown" style="display:none"></ul>
+            </div>
+          </div>
+          <div class="dash-field dash-field-narrow">
+            <label for="shares">Shares</label>
+            <input id="shares" type="number" min="0" step="any" placeholder="10" />
+          </div>
+          <div class="dash-field dash-field-narrow">
+            <label for="purchase-price">Buy price</label>
+            <input id="purchase-price" type="number" min="0" step="any" placeholder="auto" />
+          </div>
+          <div class="dash-field dash-field-narrow">
+            <label for="purchase-date">Buy date</label>
+            <input id="purchase-date" type="date" />
+          </div>
+          <button type="submit" class="btn btn-primary dash-add-btn">Add</button>
+        </form>
+        <p class="dash-add-help" id="add-error" hidden></p>
+      </section>
+
+      <!-- Holdings table -->
+      <section class="dash-table-card">
+        <header class="dash-card-head">
+          <h2 class="dash-card-title">Holdings</h2>
+        </header>
+        <div class="dash-table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th class="dash-col-name">Name</th>
+                <th class="dash-col-symbol">Symbol</th>
+                <th class="num">Shares</th>
+                <th class="num">Buy Price</th>
+                <th class="num">Current</th>
+                <th class="num">Total Cost</th>
+                <th class="num">Market Value</th>
+                <th class="num">P/L</th>
+                <th class="dash-col-actions" aria-label="Actions"></th>
+              </tr>
+            </thead>
+            <tbody id="holdings-list">
+              <tr class="dash-empty-row"><td colspan="9">Add a position to get started.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="container">
+      <footer class="landing-footer">
+        <a class="footer-brand" href="index.html">© 2025 stockportfolio.pro. All rights reserved.</a>
+        <div class="footer-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="support.html">Support</a>
+          <a href="support.html#contact-info">Contact</a>
+          <a href="sitemap.html">Sitemap</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="top100-sheet.js?v=20260211-4"></script>
+    <script src="symbol-lookup.js?v=20260211-4"></script>
+    <script src="js/dashboard.js?v=20260508-3"></script>
+  </body>
+</html>

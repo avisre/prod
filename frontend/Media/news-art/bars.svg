@@ -1,0 +1,110 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgBars" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d111a"/>
+      <stop offset="100%" stop-color="#181b25"/>
+    </linearGradient>
+    <radialGradient id="glowBars" cx="0.5" cy="0.95" r="0.6">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.20"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="bar1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="bar2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </linearGradient>
+    <linearGradient id="reflection" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#3b82f6" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="softShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3"/>
+      <feOffset dx="0" dy="3"/>
+      <feComponentTransfer><feFuncA type="linear" slope="0.4"/></feComponentTransfer>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bgBars)"/>
+  <rect width="800" height="500" fill="url(#glowBars)"/>
+
+  <!-- Y-axis ticks -->
+  <g stroke="#26282e" stroke-width="1" stroke-dasharray="2,5" opacity="0.6">
+    <line x1="80" y1="120" x2="780" y2="120"/>
+    <line x1="80" y1="200" x2="780" y2="200"/>
+    <line x1="80" y1="280" x2="780" y2="280"/>
+    <line x1="80" y1="360" x2="780" y2="360"/>
+  </g>
+  <g font-family="Inter, system-ui, sans-serif" font-size="10" fill="#5e6168" font-weight="600">
+    <text x="68" y="124" text-anchor="end">$2B</text>
+    <text x="68" y="204" text-anchor="end">$1.5B</text>
+    <text x="68" y="284" text-anchor="end">$1B</text>
+    <text x="68" y="364" text-anchor="end">$500M</text>
+  </g>
+
+  <!-- Baseline -->
+  <line x1="80" y1="400" x2="780" y2="400" stroke="#33363d" stroke-width="1.5"/>
+
+  <!-- Bars + reflection -->
+  <g filter="url(#softShadow)">
+    <g>
+      <rect x="100" y="290" width="56" height="110" rx="3" fill="url(#bar1)"/>
+      <rect x="100" y="402" width="56" height="44"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="178" y="240" width="56" height="160" rx="3" fill="url(#bar2)"/>
+      <rect x="178" y="402" width="56" height="56"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="256" y="180" width="56" height="220" rx="3" fill="url(#bar1)"/>
+      <rect x="256" y="402" width="56" height="64"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="334" y="220" width="56" height="180" rx="3" fill="url(#bar2)"/>
+      <rect x="334" y="402" width="56" height="60"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="412" y="150" width="56" height="250" rx="3" fill="url(#bar1)"/>
+      <rect x="412" y="402" width="56" height="68"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="490" y="200" width="56" height="200" rx="3" fill="url(#bar2)"/>
+      <rect x="490" y="402" width="56" height="56"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="568" y="120" width="56" height="280" rx="3" fill="url(#bar1)"/>
+      <rect x="568" y="402" width="56" height="72"  rx="3" fill="url(#reflection)"/>
+    </g>
+    <g>
+      <rect x="646" y="170" width="56" height="230" rx="3" fill="url(#bar2)"/>
+      <rect x="646" y="402" width="56" height="60"  rx="3" fill="url(#reflection)"/>
+    </g>
+  </g>
+
+  <!-- Trend line over the bars -->
+  <path d="M128,290 L206,240 L284,180 L362,220 L440,150 L518,200 L596,120 L674,170"
+        fill="none" stroke="#fbbf24" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round" opacity="0.85"/>
+  <g fill="#fbbf24">
+    <circle cx="128" cy="290" r="3.5"/>
+    <circle cx="206" cy="240" r="3.5"/>
+    <circle cx="284" cy="180" r="3.5"/>
+    <circle cx="362" cy="220" r="3.5"/>
+    <circle cx="440" cy="150" r="3.5"/>
+    <circle cx="518" cy="200" r="3.5"/>
+    <circle cx="596" cy="120" r="3.5"/>
+    <circle cx="674" cy="170" r="3.5"/>
+  </g>
+
+  <g transform="translate(40 40)">
+    <rect width="148" height="30" rx="6" fill="#0f1115" stroke="#26282e"/>
+    <circle cx="14" cy="15" r="5" fill="#3b82f6"/>
+    <text x="26" y="20" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#dbeafe">EARNINGS</text>
+    <text x="105" y="20" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#fbbf24">BEAT</text>
+  </g>
+  <g font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#a3a6ad" letter-spacing="2">
+    <text x="760" y="58" text-anchor="end">QUARTERLY</text>
+  </g>
+</svg>

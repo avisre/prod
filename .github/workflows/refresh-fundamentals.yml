@@ -1,0 +1,70 @@
+name: Refresh fundamentals cache
+
+# Pulls fresh fundamentals from Alpha Vantage for every symbol in
+# frontend/data/sp500-companies.json (or top-100-companies.json if that
+# isn't present yet) and force-pushes the result to a dedicated branch.
+# Force-pushing keeps git history flat so the data churn doesn't bloat
+# the repo over time.
+
+on:
+  schedule:
+    # Nightly at 22:30 UTC (90 min after US market close)
+    - cron: '30 22 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      max_symbols:
+        description: 'Cap symbols processed (0 = all)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-fundamentals
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Update S&P 500 symbol list
+        run: node scripts/build-sp500-list.js
+
+      - name: Refresh fundamentals JSON files
+        env:
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+          ALPHA_MIN_INTERVAL_MS: '400'
+          MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
+        run: node scripts/refresh-fundamentals.js frontend/data/sp500-companies.json
+
+      - name: Configure git
+        run: |
+          git config user.name  'stockportfolio-bot'
+          git config user.email 'bot@stockportfolio.pro'
+
+      - name: Stage data folder
+        run: |
+          git add frontend/data/sp500-companies.json \
+                  frontend/data/top-100-fundamentals-index.json \
+                  frontend/data/fundamentals/
+          if git diff --cached --quiet; then
+            echo "no_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit + push to main
+        if: env.no_changes != 'true'
+        run: |
+          git commit -m "data: refresh fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ)) [skip ci]"
+          git push origin main

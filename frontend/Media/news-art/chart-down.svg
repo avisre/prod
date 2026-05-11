@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bgDown" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#180d10"/>
+      <stop offset="55%" stop-color="#13141a"/>
+      <stop offset="100%" stop-color="#1d1820"/>
+    </linearGradient>
+    <radialGradient id="glowDown" cx="0.22" cy="0.22" r="0.55">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.32"/>
+      <stop offset="65%" stop-color="#ef4444" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="areaDown" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ef4444" stop-opacity="0.55"/>
+      <stop offset="60%" stop-color="#ef4444" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#ef4444" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="lineDown" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fca5a5"/>
+      <stop offset="55%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#7f1d1d"/>
+    </linearGradient>
+    <filter id="lineGlowD" x="-10%" y="-30%" width="120%" height="160%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="dotGlowD" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="800" height="500" fill="url(#bgDown)"/>
+  <rect width="800" height="500" fill="url(#glowDown)"/>
+
+  <g fill="#2c2330" opacity="0.6">
+    <g>
+      <circle cx="60"  cy="120" r="1"/><circle cx="160" cy="120" r="1"/>
+      <circle cx="260" cy="120" r="1"/><circle cx="360" cy="120" r="1"/>
+      <circle cx="460" cy="120" r="1"/><circle cx="560" cy="120" r="1"/>
+      <circle cx="660" cy="120" r="1"/><circle cx="760" cy="120" r="1"/>
+    </g>
+    <g>
+      <circle cx="60"  cy="220" r="1"/><circle cx="160" cy="220" r="1"/>
+      <circle cx="260" cy="220" r="1"/><circle cx="360" cy="220" r="1"/>
+      <circle cx="460" cy="220" r="1"/><circle cx="560" cy="220" r="1"/>
+      <circle cx="660" cy="220" r="1"/><circle cx="760" cy="220" r="1"/>
+    </g>
+    <g>
+      <circle cx="60"  cy="320" r="1"/><circle cx="160" cy="320" r="1"/>
+      <circle cx="260" cy="320" r="1"/><circle cx="360" cy="320" r="1"/>
+      <circle cx="460" cy="320" r="1"/><circle cx="560" cy="320" r="1"/>
+      <circle cx="660" cy="320" r="1"/><circle cx="760" cy="320" r="1"/>
+    </g>
+  </g>
+
+  <!-- Candlestick shadows -->
+  <g opacity="0.45">
+    <rect x="115" y="115" width="6" height="38" rx="1" fill="#ef4444"/>
+    <rect x="195" y="145" width="6" height="40" rx="1" fill="#ef4444"/>
+    <rect x="275" y="180" width="6" height="36" rx="1" fill="#ef4444"/>
+    <rect x="355" y="200" width="6" height="44" rx="1" fill="#ef4444"/>
+    <rect x="435" y="240" width="6" height="38" rx="1" fill="#ef4444"/>
+    <rect x="515" y="280" width="6" height="40" rx="1" fill="#ef4444"/>
+    <rect x="595" y="320" width="6" height="35" rx="1" fill="#ef4444"/>
+    <rect x="675" y="360" width="6" height="32" rx="1" fill="#ef4444"/>
+  </g>
+
+  <path d="M0,90 L80,128 L160,162 L240,180 L320,235 L400,260 L480,310 L560,332 L640,378 L720,402 L800,432 L800,500 L0,500 Z" fill="url(#areaDown)"/>
+  <path d="M0,90 L80,128 L160,162 L240,180 L320,235 L400,260 L480,310 L560,332 L640,378 L720,402 L800,432"
+        fill="none" stroke="url(#lineDown)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round" filter="url(#lineGlowD)"/>
+
+  <g fill="#ef4444">
+    <circle cx="240" cy="180" r="4"/>
+    <circle cx="480" cy="310" r="4"/>
+    <circle cx="640" cy="378" r="4"/>
+  </g>
+  <g>
+    <circle cx="800" cy="432" r="14" fill="#ef4444" opacity="0.18"/>
+    <circle cx="800" cy="432" r="9"  fill="#ef4444" opacity="0.4"/>
+    <circle cx="800" cy="432" r="5"  fill="#fecaca" filter="url(#dotGlowD)"/>
+  </g>
+
+  <!-- Pull-back arrow icon -->
+  <g transform="translate(40 40)">
+    <rect width="138" height="30" rx="6" fill="#0f1115" stroke="#3a1f24"/>
+    <path d="M14,18 L20,11 L20,15 L25,15 L25,21 L20,21 L20,25 Z" fill="#fca5a5"/>
+    <text x="34" y="20" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#fecaca">PULLBACK</text>
+    <text x="98" y="20" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700" fill="#fca5a5">−4.8%</text>
+  </g>
+
+  <g font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700" fill="#a3a6ad" letter-spacing="2">
+    <text x="760" y="58" text-anchor="end">VOLATILITY</text>
+  </g>
+</svg>

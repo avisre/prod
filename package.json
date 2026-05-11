@@ -1,0 +1,15 @@
+{
+  "name": "prod-main",
+  "version": "1.0.0",
+  "description": "This folder contains a snapshot of the app after the recent Fundamentals + Dashboard improvements (adaptive axes, cleaned layout, new charts, tooltips, USD unit labels, and per-user portfolio).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "yahoo-finance2": "^3.14.0"
+  }
+}

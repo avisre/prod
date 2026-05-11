@@ -1,0 +1,11 @@
+{
+  "generatedAt": "2026-05-11T06:19:27.410Z",
+  "count": 1,
+  "source": "yahoo-finance2",
+  "files": [
+    {
+      "symbol": "BRK.B",
+      "file": "data/fundamentals/BRK_B.json"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>News - stockportfolio.pro</title>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4K10D2FPTT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4K10D2FPTT');
+</script>
+    <link rel="icon" href="Media/icon.png" />
+    <link rel="stylesheet" href="styles.css?v=20260508-7" />
+    <link rel="stylesheet" href="css/news.css?v=20260508-13" />
+  </head>
+  <body class="glass news-page">
+    <div class="waves"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
+    <div id="loading-overlay" class="loading-overlay" hidden aria-live="polite" aria-busy="true">
+      <div class="loading-panel"><div class="spinner"></div></div>
+    </div>
+    <header class="navbar" role="banner">
+        <div class="brand">
+          <img src="Media/icon.png" alt="Logo" class="brand-icon" />
+          <span class="brand-name">stockportfolio.pro</span>
+        </div>
+        <div class="nav-actions">
+          <a class="btn" href="news.html" data-guarded><span class="sticker sm" aria-hidden="true">📰</span>News</a>
+          <a class="btn" href="fundamentals.html" data-guarded><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
+          <a class="btn" href="dashboard.html" data-guarded><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
+          <a class="btn" href="support.html"><span class="sticker sm" aria-hidden="true">💬</span>Support</a>
+          <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit</a>
+          <button id="toggle-headings" class="btn btn-quiet" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+        </div>
+      </header>
+
+    <!-- Market overview strip: sticky label on the left, marquee cards
+         on the right (hover to pause). -->
+    <div class="yf-ticker-tape" aria-label="Market quotes">
+      <div class="yf-tape-leftlabel">
+        <span class="yf-tape-leftlabel-icon" aria-hidden="true">◉</span>
+        <span>Markets</span>
+      </div>
+      <div class="yf-tape-viewport">
+        <div class="yf-tape-track" id="ticker-tape"></div>
+      </div>
+    </div>
+
+    <div class="container yf-container">
+      <section class="yf-toolbar" aria-label="News filters">
+        <div class="yf-search-input">
+          <span class="yf-search-icon" aria-hidden="true">🔍</span>
+          <input id="tickers" placeholder="Search news by ticker or company" aria-label="Search" />
+          <ul id="news-search-results" class="dropdown hidden"></ul>
+        </div>
+        <button id="load" class="yf-search-go" type="button">Search</button>
+      </section>
+
+      <nav class="yf-tabs" aria-label="Topics">
+        <div class="yf-tabs-row" id="topics-row"></div>
+      </nav>
+
+      <nav class="yf-asset-classes" aria-label="Asset class">
+        <div class="yf-asset-classes-row" id="asset-classes-row"></div>
+      </nav>
+
+      <h1 class="yf-page-title">Latest News</h1>
+
+      <main class="yf-main-grid">
+        <!-- LEFT: Featured + secondary cards -->
+        <section class="yf-feature-col" aria-label="Featured stories">
+          <a class="yf-feature-card" id="news-feature" target="_blank" rel="noopener noreferrer" hidden></a>
+          <div class="yf-secondary-grid" id="news-secondary"></div>
+        </section>
+
+        <!-- MIDDLE: Latest compact headline list -->
+        <section class="yf-latest-col" aria-label="Latest headlines">
+          <div class="yf-section-bar">
+            <h2 class="yf-section-heading">Latest</h2>
+          </div>
+          <ul class="yf-latest-list" id="news-latest"></ul>
+          <p class="yf-empty" id="news-empty" hidden>No news matched these filters yet.</p>
+        </section>
+
+        <!-- RIGHT: Sidebar widget stack -->
+        <aside class="yf-sidebar" aria-label="Markets and trending">
+          <div class="yf-card">
+            <div class="yf-card-header">
+              <h3>Trending tickers</h3>
+            </div>
+            <ul class="yf-tickers yf-trending" id="trending-list">
+              <li class="yf-tickers-empty">Loading…</li>
+            </ul>
+          </div>
+
+          <div class="yf-card">
+            <div class="yf-card-header">
+              <h3>Top gainers</h3>
+            </div>
+            <ul class="yf-tickers" id="movers-gainers">
+              <li class="yf-tickers-empty">Loading…</li>
+            </ul>
+          </div>
+
+          <div class="yf-card">
+            <div class="yf-card-header">
+              <h3>Top losers</h3>
+            </div>
+            <ul class="yf-tickers" id="movers-losers">
+              <li class="yf-tickers-empty">Loading…</li>
+            </ul>
+          </div>
+
+          <div class="yf-card">
+            <div class="yf-card-header">
+              <h3>Most active</h3>
+            </div>
+            <ul class="yf-tickers" id="movers-active">
+              <li class="yf-tickers-empty">Loading…</li>
+            </ul>
+          </div>
+
+          <div class="yf-card">
+            <div class="yf-card-header">
+              <h3>Recently viewed</h3>
+            </div>
+            <ul class="yf-tickers" id="recent-viewed">
+              <li class="yf-tickers-empty">Visit a fundamentals page to start tracking.</li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- BOTTOM: "More news" stream — fills dead space under feature+latest cols. -->
+        <section class="yf-more-news" aria-label="More news">
+          <div class="yf-section-bar">
+            <h2 class="yf-section-heading">More news</h2>
+          </div>
+          <div class="yf-stream" id="news-stream"></div>
+        </section>
+      </main>
+    </div>
+    <div class="container">
+      <footer class="landing-footer">
+        <span>&copy; 2025 stockportfolio.pro. All rights reserved.</span>
+        <div class="footer-links">
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="support.html">Support</a>
+          <a href="support.html#contact-info">Contact</a>
+        <a href="sitemap.html">Sitemap</a>
+        </div>
+      </footer>
+    </div>
+
+
+    <script src="top100-sheet.js?v=20260211-4"></script>
+    <script src="symbol-lookup.js?v=20260211-4"></script>
+    <script src="script.js"></script>
+    <script src="js/news.js?v=20260508-10"></script>
+  </body>
+  </html>

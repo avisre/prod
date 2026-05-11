@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign in - stockportfolio.pro</title>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4K10D2FPTT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+      gtag('config', 'G-4K10D2FPTT');
+    </script>
+
+    <meta
+      name="description"
+      content="Sign in to your stockportfolio.pro account to access your portfolio dashboard, fundamentals tools, and news workspace."
+    />
+    <meta name="keywords" content="stockportfolio.pro login, sign in, portfolio dashboard, stock tracker" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta name="author" content="stockportfolio.pro" />
+    <meta name="language" content="en" />
+    <link rel="canonical" href="https://stockportfolio.pro/login" />
+
+    <meta property="og:title" content="Login - stockportfolio.pro" />
+    <meta
+      property="og:description"
+      content="Secure login for the stockportfolio.pro portfolio and fundamentals dashboard."
+    />
+    <meta property="og:url" content="https://stockportfolio.pro/login" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://stockportfolio.pro/images/og-login.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Login - stockportfolio.pro" />
+    <meta
+      name="twitter:description"
+      content="Access your stockportfolio.pro dashboard and fundamentals workspace."
+    />
+    <meta name="twitter:image" content="https://stockportfolio.pro/images/twitter-login.jpg" />
+
+    <link rel="icon" href="Media/icon.png" />
+    <link rel="stylesheet" href="styles.css?v=20260508-7" />
+    <link rel="stylesheet" href="css/login.css?v=20260228-7" />
+  </head>
+
+  <body class="login-page">
+    <div class="grid" aria-hidden="true"></div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <div class="chartline" aria-hidden="true">
+      <svg viewBox="0 0 1200 700" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#3B82F6" stop-opacity=".55" />
+            <stop offset=".55" stop-color="#8B5CFF" stop-opacity=".7" />
+            <stop offset="1" stop-color="#6D5CFF" stop-opacity=".55" />
+          </linearGradient>
+        </defs>
+
+        <path
+          d="M0,470 C120,420 160,520 260,480 C360,440 420,360 520,390 C640,430 700,290 820,320 C940,350 1030,210 1200,260"
+        />
+      </svg>
+    </div>
+
+    <header class="navbar" role="banner">
+      <div class="brand">
+        <img src="Media/icon.png" alt="Logo" class="brand-icon" />
+        <span class="brand-name">stockportfolio.pro</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="index.html">Exit</a>
+      </div>
+    </header>
+
+    <main class="wrap">
+      <section class="shell" aria-label="Sign in">
+        <aside class="panel">
+          <div class="blob" aria-hidden="true"></div>
+
+          <h1 class="headline">Sign in to your visual portfolio cockpit.</h1>
+          <p class="sub">
+            Track performance, fundamentals, and allocation in one clean dashboard built for clarity, not spreadsheets.
+          </p>
+
+          <div class="chips" aria-label="Trust highlights">
+            <div class="chip"><span class="dot" aria-hidden="true"></span> Encrypted sessions</div>
+            <div class="chip"><span class="dot" aria-hidden="true"></span> No spam</div>
+            <div class="chip"><span class="dot" aria-hidden="true"></span> One-click export</div>
+          </div>
+        </aside>
+
+        <section class="card" aria-label="Sign in form">
+          <h2>Welcome back</h2>
+          <p>Sign in to continue to your dashboard.</p>
+
+          <form id="login-form">
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="input">
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  autocomplete="email"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="password">Password</label>
+              <div class="input">
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="**********"
+                  autocomplete="current-password"
+                  required
+                />
+                <button class="toggle" type="button" id="togglePw" aria-label="Show password">Show</button>
+              </div>
+            </div>
+
+            <div class="row">
+              <label class="check">
+                <input type="checkbox" name="remember" />
+                Remember me
+              </label>
+
+              <button type="button" id="toggle-change-password" class="link link-btn">Forgot password?</button>
+            </div>
+
+            <div id="social-login-shell" class="social-auth-shell" hidden>
+              <div class="divider">
+                <span>Quick sign-in</span>
+              </div>
+              <div class="social-auth-status" role="status" aria-live="polite" hidden></div>
+              <div class="sso">
+                <div id="google-login-button" class="sso-provider" hidden></div>
+              </div>
+            </div>
+
+            <button class="btn auth-submit-btn" type="submit">Sign in</button>
+
+            <div id="error-message" class="error-message" role="alert" aria-live="polite"></div>
+            <div id="success-message" class="success-message" role="status" aria-live="polite"></div>
+
+            <div class="foot">
+              New here? <a class="link" href="register.html">Create an account</a>
+            </div>
+          </form>
+
+          <form id="change-password-form" class="cp-form" aria-label="Change password" hidden>
+            <div class="cp-head">
+              <h3 class="cp-title">Change password</h3>
+              <p class="cp-sub">Update your password using your current login details.</p>
+            </div>
+
+            <div class="field">
+              <label for="cp-email">Email</label>
+              <div class="input">
+                <input id="cp-email" name="cp-email" type="email" required autocomplete="email" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cp-current-password">Current password</label>
+              <div class="input">
+                <input
+                  id="cp-current-password"
+                  name="cp-current-password"
+                  type="password"
+                  required
+                  autocomplete="current-password"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="cp-new-password">New password</label>
+              <p class="cp-hint">Use at least 8 characters, including uppercase, lowercase, and a number.</p>
+              <div class="input">
+                <input
+                  id="cp-new-password"
+                  name="cp-new-password"
+                  type="password"
+                  required
+                  autocomplete="new-password"
+                  aria-describedby="cp-password-rules"
+                />
+              </div>
+              <ul id="cp-password-rules" class="cp-rules" aria-live="polite" aria-atomic="true">
+                <li class="password-rule" data-rule="length">At least 8 characters</li>
+                <li class="password-rule" data-rule="uppercase">Contains an uppercase letter (A-Z)</li>
+                <li class="password-rule" data-rule="lowercase">Contains a lowercase letter (a-z)</li>
+                <li class="password-rule" data-rule="number">Contains a number (0-9)</li>
+              </ul>
+            </div>
+
+            <button class="btn cp-btn auth-submit-btn" type="submit">Change password</button>
+            <div id="change-password-error" class="error-message" role="alert" aria-live="polite"></div>
+            <div id="change-password-success" class="success-message" role="status" aria-live="polite"></div>
+          </form>
+        </section>
+      </section>
+    </main>
+
+    <div class="container">
+     <footer class="landing-footer">
+      <a class="footer-brand" href="index.html">&copy; 2025 stockportfolio.pro. All rights reserved.</a>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="support.html">Support</a>
+        <a href="support.html#contact-info">Contact</a>
+        <a href="sitemap.html">Sitemap</a>
+      </div>
+    </footer>
+    </div>
+
+    <script src="js/social-auth.js?v=20260328-1"></script>
+    <script src="js/login.js?v=20260328-1"></script>
+  </body>
+</html>
+
