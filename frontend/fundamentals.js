@@ -23,8 +23,6 @@
   const API_URL = resolveApiUrl();
   const CACHE_TTL_MS = 60 * 60 * 1000;
   const FX_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
-  const DEFAULT_ALPHA_KEY = '6VWT72JNHHLBF3MH';
-  const LOCAL_CACHE_VERSION = '20260211-7';
   const MAX_ANNUAL_COLUMNS = 6;
   const MAX_QUARTERLY_COLUMNS = 8;
 
@@ -135,16 +133,6 @@
   function authHeaders() {
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
-  }
-
-  function getAlphaKey() {
-    const key = String(localStorage.getItem('alpha_key') || DEFAULT_ALPHA_KEY || '').trim();
-    return key;
-  }
-
-  function hasAlphaRateLimitMessage(payload) {
-    const msg = String(payload?.Note || payload?.Information || '').toLowerCase();
-    return msg.includes('frequency') || msg.includes('rate limit') || msg.includes('call volume');
   }
 
   function isValidCurrencyCode(value) {
@@ -367,15 +355,6 @@
     return `fundamentals_cache_v8_${symbol}`;
   }
 
-  async function getTopSheetCompany(symbol) {
-    if (!window.Top100Sheet || typeof window.Top100Sheet.getBySymbol !== 'function') return null;
-    try {
-      return await window.Top100Sheet.getBySymbol(symbol);
-    } catch (_) {
-      return null;
-    }
-  }
-
   function toAlphaNumericString(value) {
     return Number.isFinite(value) ? String(value) : '';
   }
@@ -396,10 +375,6 @@
     return { country: '-', currency: '-' };
   }
 
-  function symbolToLocalFilename(symbol) {
-    return `${String(symbol || '').toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`;
-  }
-
   function toAlphaSymbol(symbol) {
     const upper = String(symbol || '').toUpperCase().trim();
     // Alpha Vantage uses hyphen for many US class-share symbols (e.g. BRK-B).
@@ -407,38 +382,6 @@
     return upper;
   }
 
-  function buildTopSheetPayload(symbol, company) {
-    const pe = parseNumber(company?.peRatio);
-    const eps = parseNumber(company?.eps);
-    const estimatedPrice = Number.isFinite(pe) && Number.isFinite(eps) ? pe * eps : null;
-
-    return {
-      source: 'top100-sheet',
-      quote: {
-        'Global Quote': {
-          '01. symbol': symbol,
-          '05. price': Number.isFinite(estimatedPrice) ? estimatedPrice.toFixed(2) : '',
-          '09. change': '',
-          '10. change percent': ''
-        }
-      },
-      overview: {
-        Symbol: symbol,
-        Name: String(company?.name || symbol),
-        Country: inferCountryCurrencyBySymbol(symbol).country,
-        Currency: inferCountryCurrencyBySymbol(symbol).currency,
-        Sector: String(company?.sector || ''),
-        MarketCapitalization: toAlphaNumericString(parseNumber(company?.marketCap)),
-        PERatio: toAlphaNumericString(pe),
-        EPS: toAlphaNumericString(eps)
-      },
-      daily: { 'Time Series (Daily)': {} },
-      monthly: { 'Monthly Adjusted Time Series': {} },
-      income: { annualReports: [], quarterlyReports: [] },
-      balance: { annualReports: [], quarterlyReports: [] },
-      cash: { annualReports: [], quarterlyReports: [] }
-    };
-  }
 
   function normalizeFundamentalsPayload(symbol, payload, companyHint = null) {
     const out = payload && typeof payload === 'object' ? payload : {};
@@ -506,70 +449,6 @@
     return normalizeFundamentalsPayload(symbolForNormalize, rawPayload);
   }
 
-  async function fetchAlphaDirect(functionName, params = {}) {
-    const key = getAlphaKey();
-    if (!key) return null;
-    const query = new URLSearchParams({ function: functionName, apikey: key, ...params });
-    const url = `https://www.alphavantage.co/query?${query.toString()}`;
-    const response = await fetch(url, { cache: 'no-store' });
-    if (!response.ok) return null;
-    const payload = await response.json().catch(() => null);
-    if (!payload || typeof payload !== 'object') return null;
-    if (payload['Error Message']) return null;
-    if (hasAlphaRateLimitMessage(payload)) return null;
-    return payload;
-  }
-
-  async function fetchDirectFundamentalsPayload(symbolForApi, symbolForNormalize) {
-    const symbol = String(symbolForApi || '').toUpperCase();
-    if (!symbol) return null;
-    const [quote, overview, daily, monthly, income, balance, cash] = await Promise.all([
-      fetchAlphaDirect('GLOBAL_QUOTE', { symbol }),
-      fetchAlphaDirect('OVERVIEW', { symbol }),
-      fetchAlphaDirect('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: 'full' }),
-      fetchAlphaDirect('TIME_SERIES_MONTHLY_ADJUSTED', { symbol }),
-      fetchAlphaDirect('INCOME_STATEMENT', { symbol }),
-      fetchAlphaDirect('BALANCE_SHEET', { symbol }),
-      fetchAlphaDirect('CASH_FLOW', { symbol })
-    ]);
-
-    const payload = normalizeFundamentalsPayload(symbolForNormalize, {
-      quote: quote || {},
-      overview: overview || {},
-      daily: daily || {},
-      monthly: monthly || {},
-      income: income || {},
-      balance: balance || {},
-      cash: cash || {}
-    });
-    return payload;
-  }
-
-  async function fetchTopSheetFundamentals(symbol) {
-    // Hint from top-100-companies.json is optional enrichment only — the local
-    // fundamentals cache covers the full S&P 500, so we still try the JSON
-    // file even when the symbol isn't on the top-100 hint sheet.
-    const company = await getTopSheetCompany(symbol);
-
-    const filename = symbolToLocalFilename(symbol);
-    const url = `data/fundamentals/${filename}?v=${LOCAL_CACHE_VERSION}`;
-    try {
-      const response = await fetch(url, { cache: 'no-store' });
-      if (!response.ok) {
-        return null;
-      }
-      const payload = await response.json();
-      if (!payload || typeof payload !== 'object') {
-        return null;
-      }
-      const normalized = normalizeFundamentalsPayload(symbol, payload, company);
-      normalized.source = normalized.source || 'sp500-local-fundamentals';
-      return normalized;
-    } catch (_) {
-      return null;
-    }
-  }
-
   function loadCached(symbol) {
     const key = symbol.toUpperCase();
     const inMemory = memoryCache.get(key);
@@ -611,52 +490,22 @@
       return cachedPayload;
     }
 
-    // Run the local-bundle lookup and the backend API attempts in parallel —
-    // whichever returns full coverage first wins. Sequential awaits used to
-    // dominate latency for cold loads.
+    // Backend proxies Alpha Vantage with a rate gate; we just call it.
+    // Try the symbol and its Alpha-formatted variant (e.g. BRK.B -> BRK-B).
     const candidates = Array.from(new Set([key, toAlphaSymbol(key)].filter(Boolean)));
-    const localPromise = fetchTopSheetFundamentals(key).catch(() => null);
-    const apiPromises = candidates.map((candidate) =>
-      fetchFromApiSymbol(candidate, key).catch(() => null)
+    const settled = await Promise.allSettled(
+      candidates.map((candidate) => fetchFromApiSymbol(candidate, key))
     );
 
-    const payloadPool = [];
     let lastPayload = null;
-
-    const ingest = (payload) => {
-      if (!payload) return null;
-      const normalized = normalizeFundamentalsPayload(key, payload);
-      payloadPool.push(normalized);
-      lastPayload = normalized;
-      if (hasFinancialStatementCoverage(normalized)) {
-        storeCached(key, normalized);
-        return normalized;
-      }
-      return null;
-    };
-
-    const settled = await Promise.allSettled([localPromise, ...apiPromises]);
     for (const result of settled) {
-      if (result.status !== 'fulfilled') continue;
-      const winner = ingest(result.value);
-      if (winner) return winner;
-    }
-
-    // Last-resort: direct Alpha calls from the browser, also in parallel.
-    const directResults = await Promise.allSettled(
-      candidates.map((candidate) =>
-        fetchDirectFundamentalsPayload(candidate, key).catch(() => null)
-      )
-    );
-    for (const result of directResults) {
       if (result.status !== 'fulfilled' || !result.value) continue;
-      payloadPool.push(result.value);
-      const merged = mergeFundamentalsPayload(key, payloadPool);
-      if (hasFinancialStatementCoverage(merged)) {
-        storeCached(key, merged);
-        return merged;
+      const payload = result.value;
+      lastPayload = payload;
+      if (hasFinancialStatementCoverage(payload)) {
+        storeCached(key, payload);
+        return payload;
       }
-      lastPayload = merged;
     }
 
     if (lastPayload) {
