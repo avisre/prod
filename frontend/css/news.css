@@ -844,15 +844,22 @@
 
 @media (max-width: 640px) {
   .yf-story {
-    grid-template-columns: 110px 1fr;
-    gap: 12px;
-    padding: 14px 0;
+    grid-template-columns: 96px 1fr;
+    gap: 10px;
+    padding: 12px 0;
   }
-  .yf-story-title { font-size: 15px; }
+  .yf-story-title { font-size: 14.5px; }
+  .yf-story-meta { font-size: 11px; }
   .yf-tape-item { padding: 0 12px; font-size: 11.5px; }
-  .yf-page-title { font-size: 24px; }
+  .yf-page-title { font-size: 22px; }
   .yf-sidebar { flex-direction: column; }
   .yf-sidebar .yf-card { flex: 1 1 auto; }
   .yf-secondary-grid { grid-template-columns: 1fr; }
   .yf-feature-card .yf-feature-title { font-size: 19px; }
+  .yf-ticker-tape { width: calc(100% - 16px); min-height: 64px; }
+  .yf-tape-card { min-width: 124px; padding: 8px 12px; }
+  .yf-tape-spark { display: none; }
+  .yf-asset-chip { padding: 7px 12px; font-size: 12px; min-height: 32px; display: inline-flex; align-items: center; }
+  .yf-toolbar { flex-wrap: wrap; gap: 8px; }
+  .yf-search-input { width: 100%; }
 }

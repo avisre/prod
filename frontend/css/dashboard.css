@@ -406,6 +406,16 @@
 @media (max-width: 560px) {
   .dash-add-form { flex-direction: column; align-items: stretch; }
   .dash-field-narrow { flex: 1 1 auto; }
-  .dash-add-btn { width: 100%; }
+  .dash-add-btn { width: 100%; min-height: 44px; font-size: 14px; }
   .dash-header { flex-direction: column; align-items: flex-start; }
+  .dash-kpis { gap: 10px; }
+  .dash-kpi { padding: 12px 14px; }
+  .dash-kpi-value { font-size: 20px; }
+  .dash-card-head { gap: 6px; }
+  .dash-controls { flex-wrap: wrap; }
+  .dash-toggle { min-height: 32px; padding: 6px 10px; }
+  .dash-remove-btn { min-height: 32px; padding: 6px 10px; }
+  .dash-chart-card { padding: 12px 14px 14px; }
+  .dash-add-card, .dash-table-card { padding: 12px 14px; }
+  .dash-table thead th, .dash-table tbody td { padding: 8px 10px; }
 }

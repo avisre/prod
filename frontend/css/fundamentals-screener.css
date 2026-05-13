@@ -652,4 +652,14 @@
   .scr-pros-cons { grid-template-columns: 1fr; }
   .scr-company-header { flex-direction: column; align-items: flex-start; }
   .scr-quote-snapshot { text-align: left; }
+  .scr-search-bar { gap: 6px; }
+  .scr-search-input { height: 44px; padding: 0 12px; }
+  .scr-search-go { height: 44px; padding: 0 16px; }
+  .scr-pricechart-header { flex-direction: column; }
+  .scr-pricechart-controls { align-items: flex-start; width: 100%; }
+  .scr-overlay-row { justify-content: flex-start; }
+  .scr-pricechart-ranges .scr-toggle-btn { padding: 6px 10px; min-height: 32px; }
+  .scr-toggle-btn { min-height: 32px; padding: 7px 11px; }
+  .scr-tab { padding: 10px 12px; font-size: 13px; }
+  .scr-section { padding: 12px 14px; }
 }
