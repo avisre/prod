@@ -546,8 +546,10 @@
   }
 
   async function fetchTopSheetFundamentals(symbol) {
+    // Hint from top-100-companies.json is optional enrichment only — the local
+    // fundamentals cache covers the full S&P 500, so we still try the JSON
+    // file even when the symbol isn't on the top-100 hint sheet.
     const company = await getTopSheetCompany(symbol);
-    if (!company) return null;
 
     const filename = symbolToLocalFilename(symbol);
     const url = `data/fundamentals/${filename}?v=${LOCAL_CACHE_VERSION}`;
@@ -561,7 +563,7 @@
         return null;
       }
       const normalized = normalizeFundamentalsPayload(symbol, payload, company);
-      normalized.source = normalized.source || 'top100-local-fundamentals';
+      normalized.source = normalized.source || 'sp500-local-fundamentals';
       return normalized;
     } catch (_) {
       return null;
@@ -2073,7 +2075,7 @@
     const abs = Math.abs(value);
     let suffix = '';
     let scaled = value;
-    if (abs >= 1e12) { scaled = value / 1e12; suffix = ' Cr.'; }
+    if (abs >= 1e12) { scaled = value / 1e12; suffix = ' T'; }
     else if (abs >= 1e9) { scaled = value / 1e9; suffix = ' B'; }
     else if (abs >= 1e6) { scaled = value / 1e6; suffix = ' M'; }
     return `${symbol}${scaled.toLocaleString(undefined, { maximumFractionDigits: 2 })}${suffix}`;
