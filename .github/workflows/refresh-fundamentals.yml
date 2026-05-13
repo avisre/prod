@@ -29,15 +29,19 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
-      - name: Checkout master
+      - name: Checkout main
         uses: actions/checkout@v4
         with:
-          ref: master
+          ref: main
 
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Update S&P 500 symbol list
         run: node scripts/build-sp500-list.js
@@ -63,8 +67,8 @@ jobs:
             echo "no_changes=true" >> $GITHUB_ENV
           fi
 
-      - name: Commit + push to master
+      - name: Commit + push to main
         if: env.no_changes != 'true'
         run: |
           git commit -m "data: refresh fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ)) [skip ci]"
-          git push origin master
+          git push origin main
