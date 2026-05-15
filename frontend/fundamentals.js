@@ -1800,16 +1800,17 @@
     const preferredSet = new Set(preferredOrder);
     const extraKeys = Array.from(keySet).filter((key) => !preferredSet.has(key)).sort();
     const orderedKeys = Array.from(new Set([...preferredOrder, ...extraKeys]));
-    // Hide rows where every reporting period is empty — keeps the table from
-    // showing 10+ rows of "-" for fields Yahoo doesn't break out for this
-    // company (e.g. preferred-stock fields on companies that have none).
-    const hasAnyValue = (key) => reports.some((report) => {
+    // Row is "good enough" only if at least half the period cells carry a
+    // real number. Filters out dead rows AND rows where only one of five
+    // years has data (which renders as a wall of dashes with one number).
+    const fillThreshold = Math.max(1, Math.ceil(reports.length / 2));
+    const filledCount = (key) => reports.reduce((acc, report) => {
       const raw = report[key];
-      if (raw === undefined || raw === null || raw === '') return false;
+      if (raw === undefined || raw === null || raw === '') return acc;
       const num = parseNumber(raw);
-      return Number.isFinite(num) && num !== 0;
-    });
-    const visibleKeys = orderedKeys.filter(hasAnyValue);
+      return (Number.isFinite(num) && num !== 0) ? acc + 1 : acc;
+    }, 0);
+    const visibleKeys = orderedKeys.filter((key) => filledCount(key) >= fillThreshold);
 
     const scaleCandidates = [];
     visibleKeys.forEach((key) => {

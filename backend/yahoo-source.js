@@ -516,7 +516,10 @@ async function fetchOverview(symbol) {
 
 // FTS gives ~5 rows with ~30-60 fields each (vs quoteSummary's ~10 fields).
 // We pull annual + quarterly in parallel and sort newest-first to match
-// what Alpha Vantage returned.
+// what Alpha Vantage returned. Yahoo's retention for the oldest period in
+// the response is poor — that row usually has 5-10% of fields populated
+// while younger periods have 80%+. We drop those sparse rows so every
+// rendered column in the frontend is actually filled.
 async function fetchFtsRows(symbol, module) {
     const ys = toYahooSymbol(symbol);
     const now = new Date();
@@ -526,9 +529,27 @@ async function fetchFtsRows(symbol, module) {
         yf.fundamentalsTimeSeries(ys, { period1: start, period2: now, type: 'quarterly', module })
     ]);
     const sortByDate = (rows) => (rows || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Count populated numeric fields (excludes meta keys date/TYPE/periodType).
+    const fillCount = (row) => {
+        let c = 0;
+        for (const [k, v] of Object.entries(row || {})) {
+            if (k === 'date' || k === 'TYPE' || k === 'periodType') continue;
+            if (Number.isFinite(v) && v !== 0) c++;
+        }
+        return c;
+    };
+    // Drop rows that are 2x sparser than the best row — keeps the response
+    // free of "ghost" oldest-period rows that render as a column of dashes.
+    const pruneSparse = (rows) => {
+        if (!rows.length) return rows;
+        const best = rows.reduce((m, r) => Math.max(m, fillCount(r)), 0);
+        if (best < 4) return rows; // not enough data anywhere — keep everything
+        const threshold = Math.max(4, Math.ceil(best * 0.4));
+        return rows.filter((r) => fillCount(r) >= threshold);
+    };
     return {
-        annual: sortByDate(annual.status === 'fulfilled' ? annual.value : []),
-        quarterly: sortByDate(quarterly.status === 'fulfilled' ? quarterly.value : [])
+        annual: pruneSparse(sortByDate(annual.status === 'fulfilled' ? annual.value : [])),
+        quarterly: pruneSparse(sortByDate(quarterly.status === 'fulfilled' ? quarterly.value : []))
     };
 }
 
