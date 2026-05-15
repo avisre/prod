@@ -13,6 +13,7 @@ const Stripe = require('stripe');
 const { OAuth2Client } = require('google-auth-library');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
+const yahooSource = require('./yahoo-source');
 require('dotenv').config();
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -46,8 +47,9 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
-// Alpha Vantage API Key from environment variable
-const ALPHA_VANTAGE_API_KEY = process.env.ALPHA_VANTAGE_API_KEY ;
+// Alpha Vantage is no longer used — all market data is served from
+// Yahoo Finance via backend/yahoo-source.js. The env var is kept here
+// only so existing deployments don't reject unrecognised settings.
 const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV !== 'production' ? 'dev-jwt-secret-change-me' : '');
 if (!JWT_SECRET) {
   throw new Error('JWT_SECRET is required when NODE_ENV=production');
@@ -606,39 +608,26 @@ async function verifyPassword(password, storedHash) {
   // very old/plaintext fallback
   return password === storedHash;
 }
-/**
- * Alpha Vantage HTTP client wrapper (Dependency Inversion)
- * Consumers depend on this small interface rather than axios directly.
- */
-function createAlphaClient(http, apiKey){
-  async function searchSymbols(query){
-    const resp = await http.get('https://www.alphavantage.co/query', {
-      params: { function:'SYMBOL_SEARCH', keywords:query, apikey: apiKey }
-    });
-    const list = resp?.data?.bestMatches || [];
-    return list.map(m => ({ symbol: m['1. symbol'], name: m['2. name'] }));
-  }
-  async function intraday(symbol, interval='5min'){
-    const resp = await http.get('https://www.alphavantage.co/query', {
-      params: { function:'TIME_SERIES_INTRADAY', symbol, interval, apikey: apiKey }
-    });
-    return resp?.data?.['Time Series (5min)'] || {};
-  }
-  async function globalQuote(symbol){
-    const resp = await http.get('https://www.alphavantage.co/query', {
-      params: { function:'GLOBAL_QUOTE', symbol, apikey: apiKey }
-    });
-    return resp?.data?.['Global Quote'] || {};
-  }
-  async function overview(symbol){
-    const resp = await http.get('https://www.alphavantage.co/query', {
-      params: { function:'OVERVIEW', symbol, apikey: apiKey }
-    });
-    return resp?.data || {};
-  }
-  return { searchSymbols, intraday, globalQuote, overview };
-}
-const alphaClient = createAlphaClient(axios, ALPHA_VANTAGE_API_KEY);
+// Stock-data client: Yahoo-backed, exposes the same interface
+// (searchSymbols / intraday / globalQuote / overview) the rest of the
+// app uses for portfolio price + profile lookups.
+const alphaClient = {
+    async searchSymbols(query) {
+        const data = await yahooSource.fetchSymbolSearch(query);
+        return (data?.bestMatches || []).map((m) => ({ symbol: m['1. symbol'], name: m['2. name'] }));
+    },
+    async intraday(symbol /*, interval='5min' */) {
+        const data = await yahooSource.fetchIntraday(symbol, '5min');
+        return data?.['Time Series (5min)'] || {};
+    },
+    async globalQuote(symbol) {
+        const data = await yahooSource.fetchQuote(symbol);
+        return data?.['Global Quote'] || {};
+    },
+    async overview(symbol) {
+        return yahooSource.fetchOverview(symbol);
+    }
+};
 
 // Process-wide gate keeping outbound Alpha calls under their 5-req/sec
 // burst limit. We chain a 220ms wait after each acquired slot so calls
@@ -652,23 +641,20 @@ async function acquireAlphaSlot() {
     await ready;
 }
 
+// All historical Alpha Vantage call sites land here. We now serve them
+// from Yahoo Finance (free, no API key) shaped into the same response
+// objects the routes + frontend already consume. The slot gate is kept
+// as a polite outbound throttle; Yahoo doesn't enforce a 5 req/sec cap
+// like Alpha did, but the gate prevents accidental flood loops.
 async function fetchAlpha(functionName, params = {}) {
-    if (!ALPHA_VANTAGE_API_KEY) {
-        const err = new Error('Alpha Vantage API key not configured');
-        err.status = 500;
-        throw err;
-    }
     await acquireAlphaSlot();
-    const resp = await axios.get('https://www.alphavantage.co/query', {
-        params: { function: functionName, apikey: ALPHA_VANTAGE_API_KEY, ...params }
-    });
-    const data = resp?.data || {};
-    if (data && (data.Note || data['Error Message'])) {
-        const err = new Error(data.Note || data['Error Message']);
-        err.status = 502;
+    try {
+        return await yahooSource.fetchFromYahoo(functionName, params);
+    } catch (error) {
+        const err = new Error(error?.message || 'Upstream data source failed');
+        err.status = error?.status || 502;
         throw err;
     }
-    return data;
 }
 
 // Alpha sometimes returns 200 OK with a top-level "Information" or "Note"
