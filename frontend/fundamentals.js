@@ -1800,7 +1800,16 @@
     const preferredSet = new Set(preferredOrder);
     const extraKeys = Array.from(keySet).filter((key) => !preferredSet.has(key)).sort();
     const orderedKeys = Array.from(new Set([...preferredOrder, ...extraKeys]));
-    const visibleKeys = orderedKeys;
+    // Hide rows where every reporting period is empty — keeps the table from
+    // showing 10+ rows of "-" for fields Yahoo doesn't break out for this
+    // company (e.g. preferred-stock fields on companies that have none).
+    const hasAnyValue = (key) => reports.some((report) => {
+      const raw = report[key];
+      if (raw === undefined || raw === null || raw === '') return false;
+      const num = parseNumber(raw);
+      return Number.isFinite(num) && num !== 0;
+    });
+    const visibleKeys = orderedKeys.filter(hasAnyValue);
 
     const scaleCandidates = [];
     visibleKeys.forEach((key) => {

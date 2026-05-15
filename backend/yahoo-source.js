@@ -115,6 +115,43 @@ function buildOverview(symbol, summary) {
     };
 }
 
+// FTS rows carry many more fields than quoteSummary's deprecated statement
+// modules. We map them into the Alpha-shape envelope the frontend expects.
+function buildIncomeReportsFromFTS(rows) {
+    return (rows || []).map((r) => ({
+        fiscalDateEnding: isoDay(r.date) || '',
+        reportedCurrency: 'USD',
+        grossProfit: n(r.grossProfit),
+        totalRevenue: n(r.totalRevenue),
+        costOfRevenue: n(r.costOfRevenue ?? r.reconciledCostOfRevenue),
+        costofGoodsAndServicesSold: n(r.costOfRevenue ?? r.reconciledCostOfRevenue),
+        operatingIncome: n(r.operatingIncome ?? r.totalOperatingIncomeAsReported),
+        sellingGeneralAndAdministrative: n(r.sellingGeneralAndAdministration),
+        researchAndDevelopment: n(r.researchAndDevelopment),
+        operatingExpenses: n(r.operatingExpense ?? r.totalExpenses),
+        investmentIncomeNet: '',
+        netInterestIncome: n(r.netInterestIncome),
+        interestIncome: n(r.interestIncome ?? r.interestIncomeNonOperating),
+        interestExpense: n(r.interestExpense ?? r.interestExpenseNonOperating),
+        nonInterestIncome: '',
+        otherNonOperatingIncome: n(r.otherNonOperatingIncomeExpenses ?? r.otherIncomeExpense),
+        depreciation: n(r.reconciledDepreciation),
+        depreciationAndAmortization: n(r.reconciledDepreciation),
+        incomeBeforeTax: n(r.pretaxIncome),
+        incomeTaxExpense: n(r.taxProvision),
+        interestAndDebtExpense: n(r.interestExpense ?? r.interestExpenseNonOperating),
+        netIncomeFromContinuingOperations: n(r.netIncomeContinuousOperations ?? r.netIncomeFromContinuingOperationNetMinorityInterest),
+        comprehensiveIncomeNetOfTax: n(r.netIncomeCommonStockholders),
+        ebit: n(r.EBIT),
+        ebitda: n(r.EBITDA ?? r.normalizedEBITDA),
+        netIncome: n(r.netIncome ?? r.netIncomeIncludingNoncontrollingInterests),
+        eps: n(r.basicEPS),
+        dilutedEPS: n(r.dilutedEPS)
+    }));
+}
+
+// Legacy quoteSummary-shaped builder kept as a fallback for tickers where FTS
+// returns nothing (very rare since Yahoo migrated to FTS as the canonical source).
 function buildIncomeReports(history) {
     const list = history?.incomeStatementHistory || [];
     return list.map((r) => ({
@@ -146,6 +183,49 @@ function buildIncomeReports(history) {
         netIncome: n(r.netIncome),
         eps: '',
         dilutedEPS: ''
+    }));
+}
+
+function buildBalanceReportsFromFTS(rows) {
+    return (rows || []).map((r) => ({
+        fiscalDateEnding: isoDay(r.date) || '',
+        reportedCurrency: 'USD',
+        totalAssets: n(r.totalAssets),
+        totalCurrentAssets: n(r.currentAssets),
+        cashAndCashEquivalentsAtCarryingValue: n(r.cashAndCashEquivalents ?? r.cashFinancial),
+        cashAndShortTermInvestments: n(r.cashCashEquivalentsAndShortTermInvestments),
+        inventory: n(r.inventory),
+        currentNetReceivables: n(r.receivables ?? r.accountsReceivable),
+        totalNonCurrentAssets: n(r.totalNonCurrentAssets),
+        propertyPlantEquipment: n(r.netPPE ?? r.grossPPE),
+        accumulatedDepreciationAmortizationPPE: n(r.accumulatedDepreciation),
+        intangibleAssets: '',
+        intangibleAssetsExcludingGoodwill: '',
+        goodwill: '',
+        investments: n(r.investmentsAndAdvances),
+        longTermInvestments: n(r.investmentinFinancialAssets ?? r.investmentsAndAdvances),
+        shortTermInvestments: n(r.otherShortTermInvestments),
+        otherCurrentAssets: n(r.otherCurrentAssets),
+        otherNonCurrentAssets: n(r.otherNonCurrentAssets),
+        totalLiabilities: n(r.totalLiabilitiesNetMinorityInterest),
+        totalCurrentLiabilities: n(r.currentLiabilities),
+        currentAccountsPayable: n(r.accountsPayable ?? r.payables),
+        deferredRevenue: n(r.currentDeferredRevenue),
+        currentDebt: n(r.currentDebt),
+        shortTermDebt: n(r.currentDebt),
+        totalNonCurrentLiabilities: n(r.totalNonCurrentLiabilitiesNetMinorityInterest),
+        capitalLeaseObligations: n(r.leases),
+        longTermDebt: n(r.longTermDebt),
+        currentLongTermDebt: n(r.currentDebt),
+        longTermDebtNoncurrent: n(r.longTermDebt),
+        shortLongTermDebtTotal: n(r.totalDebt),
+        otherCurrentLiabilities: n(r.otherCurrentLiabilities),
+        otherNonCurrentLiabilities: n(r.otherNonCurrentLiabilities),
+        totalShareholderEquity: n(r.stockholdersEquity ?? r.totalEquityGrossMinorityInterest),
+        treasuryStock: '',
+        retainedEarnings: n(r.retainedEarnings),
+        commonStock: n(r.commonStock ?? r.capitalStock),
+        commonStockSharesOutstanding: n(r.ordinarySharesNumber ?? r.shareIssued)
     }));
 }
 
@@ -191,6 +271,44 @@ function buildBalanceReports(history) {
         commonStock: n(r.commonStock),
         commonStockSharesOutstanding: n(r.commonStockSharesOutstanding)
     }));
+}
+
+function buildCashReportsFromFTS(rows) {
+    return (rows || []).map((r) => {
+        const capex = r.capitalExpenditure;
+        const div = r.cashDividendsPaid ?? r.commonStockDividendPaid;
+        return {
+            fiscalDateEnding: isoDay(r.date) || '',
+            reportedCurrency: 'USD',
+            operatingCashflow: n(r.operatingCashFlow ?? r.cashFlowFromContinuingOperatingActivities),
+            paymentsForOperatingActivities: '',
+            proceedsFromOperatingActivities: '',
+            changeInOperatingLiabilities: n(r.changeInPayablesAndAccruedExpense),
+            changeInOperatingAssets: '',
+            depreciationDepletionAndAmortization: n(r.depreciationAmortizationDepletion ?? r.depreciationAndAmortization),
+            capitalExpenditures: n(Number.isFinite(capex) ? -Math.abs(capex) : null),
+            changeInReceivables: n(r.changesInAccountReceivables ?? r.changeInReceivables),
+            changeInInventory: n(r.changeInInventory),
+            profitLoss: n(r.netIncomeFromContinuingOperations),
+            cashflowFromInvestment: n(r.cashFlowFromContinuingInvestingActivities ?? r.investingCashFlow),
+            cashflowFromFinancing: n(r.cashFlowFromContinuingFinancingActivities ?? r.financingCashFlow),
+            proceedsFromRepaymentsOfShortTermDebt: n(r.netShortTermDebtIssuance),
+            paymentsForRepurchaseOfCommonStock: n(r.repurchaseOfCapitalStock != null ? -Math.abs(r.repurchaseOfCapitalStock) : null),
+            paymentsForRepurchaseOfEquity: '',
+            paymentsForRepurchaseOfPreferredStock: '',
+            dividendPayout: n(Number.isFinite(div) ? -Math.abs(div) : null),
+            dividendPayoutCommonStock: n(Number.isFinite(div) ? -Math.abs(div) : null),
+            dividendPayoutPreferredStock: '',
+            proceedsFromIssuanceOfCommonStock: n(r.netCommonStockIssuance),
+            proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet: n(r.longTermDebtIssuance),
+            proceedsFromIssuanceOfPreferredStock: '',
+            proceedsFromRepurchaseOfEquity: '',
+            proceedsFromSaleOfTreasuryStock: '',
+            changeInCashAndCashEquivalents: n(r.changesInCash),
+            changeInExchangeRate: '',
+            netIncome: n(r.netIncomeFromContinuingOperations)
+        };
+    });
 }
 
 function buildCashReports(history) {
@@ -396,33 +514,48 @@ async function fetchOverview(symbol) {
     return buildOverview(symbol, summary);
 }
 
-async function fetchIncomeStatement(symbol) {
+// FTS gives ~5 rows with ~30-60 fields each (vs quoteSummary's ~10 fields).
+// We pull annual + quarterly in parallel and sort newest-first to match
+// what Alpha Vantage returned.
+async function fetchFtsRows(symbol, module) {
     const ys = toYahooSymbol(symbol);
-    const summary = await yf.quoteSummary(ys, { modules: ['incomeStatementHistory', 'incomeStatementHistoryQuarterly'] });
+    const now = new Date();
+    const start = new Date(now); start.setFullYear(now.getFullYear() - 10);
+    const [annual, quarterly] = await Promise.allSettled([
+        yf.fundamentalsTimeSeries(ys, { period1: start, period2: now, type: 'annual', module }),
+        yf.fundamentalsTimeSeries(ys, { period1: start, period2: now, type: 'quarterly', module })
+    ]);
+    const sortByDate = (rows) => (rows || []).slice().sort((a, b) => new Date(b.date) - new Date(a.date));
+    return {
+        annual: sortByDate(annual.status === 'fulfilled' ? annual.value : []),
+        quarterly: sortByDate(quarterly.status === 'fulfilled' ? quarterly.value : [])
+    };
+}
+
+async function fetchIncomeStatement(symbol) {
+    const { annual, quarterly } = await fetchFtsRows(symbol, 'financials');
     return {
         symbol,
-        annualReports: buildIncomeReports(summary?.incomeStatementHistory),
-        quarterlyReports: buildIncomeReports(summary?.incomeStatementHistoryQuarterly)
+        annualReports: buildIncomeReportsFromFTS(annual),
+        quarterlyReports: buildIncomeReportsFromFTS(quarterly)
     };
 }
 
 async function fetchBalanceSheet(symbol) {
-    const ys = toYahooSymbol(symbol);
-    const summary = await yf.quoteSummary(ys, { modules: ['balanceSheetHistory', 'balanceSheetHistoryQuarterly'] });
+    const { annual, quarterly } = await fetchFtsRows(symbol, 'balance-sheet');
     return {
         symbol,
-        annualReports: buildBalanceReports(summary?.balanceSheetHistory),
-        quarterlyReports: buildBalanceReports(summary?.balanceSheetHistoryQuarterly)
+        annualReports: buildBalanceReportsFromFTS(annual),
+        quarterlyReports: buildBalanceReportsFromFTS(quarterly)
     };
 }
 
 async function fetchCashFlow(symbol) {
-    const ys = toYahooSymbol(symbol);
-    const summary = await yf.quoteSummary(ys, { modules: ['cashflowStatementHistory', 'cashflowStatementHistoryQuarterly'] });
+    const { annual, quarterly } = await fetchFtsRows(symbol, 'cash-flow');
     return {
         symbol,
-        annualReports: buildCashReports(summary?.cashflowStatementHistory),
-        quarterlyReports: buildCashReports(summary?.cashflowStatementHistoryQuarterly)
+        annualReports: buildCashReportsFromFTS(annual),
+        quarterlyReports: buildCashReportsFromFTS(quarterly)
     };
 }
 
