@@ -617,7 +617,11 @@
   }
 
   function formatScaledCurrency(value, scale) {
-    if (!Number.isFinite(value)) return '-';
+    // Treat missing / unreported line items as $0. For most companies most
+    // of the time the Alpha-schema fields Yahoo + SEC don't break out
+    // (preferred-stock activity, treasury stock movements, etc.) are
+    // actually zero — and the visual is cleaner than a wall of dashes.
+    if (!Number.isFinite(value)) return '$0';
     const scaled = value / (scale.divisor || 1);
     const text = Math.abs(scaled).toLocaleString(undefined, { maximumFractionDigits: 2 });
     return scaled < 0 ? `($${text})` : `$${text}`;
@@ -1799,18 +1803,10 @@
     const preferredOrder = config.preferred || [];
     const preferredSet = new Set(preferredOrder);
     const extraKeys = Array.from(keySet).filter((key) => !preferredSet.has(key)).sort();
-    const orderedKeys = Array.from(new Set([...preferredOrder, ...extraKeys]));
-    // Row is "good enough" only if at least half the period cells carry a
-    // real number. Filters out dead rows AND rows where only one of five
-    // years has data (which renders as a wall of dashes with one number).
-    const fillThreshold = Math.max(1, Math.ceil(reports.length / 2));
-    const filledCount = (key) => reports.reduce((acc, report) => {
-      const raw = report[key];
-      if (raw === undefined || raw === null || raw === '') return acc;
-      const num = parseNumber(raw);
-      return (Number.isFinite(num) && num !== 0) ? acc + 1 : acc;
-    }, 0);
-    const visibleKeys = orderedKeys.filter((key) => filledCount(key) >= fillThreshold);
+    // Show every standard row from the Alpha schema — even ones Yahoo
+    // doesn't break out for this company — so the full tag list is
+    // visible. Empty cells render as "-" via formatScaledCurrency.
+    const visibleKeys = Array.from(new Set([...preferredOrder, ...extraKeys]));
 
     const scaleCandidates = [];
     visibleKeys.forEach((key) => {

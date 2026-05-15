@@ -553,31 +553,70 @@ async function fetchFtsRows(symbol, module) {
     };
 }
 
+// Yahoo quoteSummary still carries a handful of statement fields (notably
+// interestExpense, interestIncome, totalOtherIncomeExpenseNet) even when
+// FTS doesn't. We use it as a per-row backfill keyed by fiscalDateEnding.
+async function fetchQuoteSummaryStatements(symbol) {
+    const ys = toYahooSymbol(symbol);
+    try {
+        const s = await yf.quoteSummary(ys, {
+            modules: [
+                'incomeStatementHistory', 'incomeStatementHistoryQuarterly',
+                'balanceSheetHistory', 'balanceSheetHistoryQuarterly',
+                'cashflowStatementHistory', 'cashflowStatementHistoryQuarterly'
+            ]
+        });
+        return s || {};
+    } catch (_) { return {}; }
+}
+
+function mergeNonEmpty(target, source) {
+    for (const r of target) {
+        const match = source.find((s) => s.fiscalDateEnding === r.fiscalDateEnding);
+        if (!match) continue;
+        for (const [k, v] of Object.entries(match)) {
+            if ((r[k] === '' || r[k] === null || r[k] === undefined) && v !== '' && v !== null && v !== undefined) {
+                r[k] = v;
+            }
+        }
+    }
+    return target;
+}
+
 async function fetchIncomeStatement(symbol) {
-    const { annual, quarterly } = await fetchFtsRows(symbol, 'financials');
-    return {
-        symbol,
-        annualReports: buildIncomeReportsFromFTS(annual),
-        quarterlyReports: buildIncomeReportsFromFTS(quarterly)
-    };
+    const [{ annual, quarterly }, qs] = await Promise.all([
+        fetchFtsRows(symbol, 'financials'),
+        fetchQuoteSummaryStatements(symbol)
+    ]);
+    const annualReports = buildIncomeReportsFromFTS(annual);
+    const quarterlyReports = buildIncomeReportsFromFTS(quarterly);
+    mergeNonEmpty(annualReports, buildIncomeReports(qs.incomeStatementHistory));
+    mergeNonEmpty(quarterlyReports, buildIncomeReports(qs.incomeStatementHistoryQuarterly));
+    return { symbol, annualReports, quarterlyReports };
 }
 
 async function fetchBalanceSheet(symbol) {
-    const { annual, quarterly } = await fetchFtsRows(symbol, 'balance-sheet');
-    return {
-        symbol,
-        annualReports: buildBalanceReportsFromFTS(annual),
-        quarterlyReports: buildBalanceReportsFromFTS(quarterly)
-    };
+    const [{ annual, quarterly }, qs] = await Promise.all([
+        fetchFtsRows(symbol, 'balance-sheet'),
+        fetchQuoteSummaryStatements(symbol)
+    ]);
+    const annualReports = buildBalanceReportsFromFTS(annual);
+    const quarterlyReports = buildBalanceReportsFromFTS(quarterly);
+    mergeNonEmpty(annualReports, buildBalanceReports(qs.balanceSheetHistory));
+    mergeNonEmpty(quarterlyReports, buildBalanceReports(qs.balanceSheetHistoryQuarterly));
+    return { symbol, annualReports, quarterlyReports };
 }
 
 async function fetchCashFlow(symbol) {
-    const { annual, quarterly } = await fetchFtsRows(symbol, 'cash-flow');
-    return {
-        symbol,
-        annualReports: buildCashReportsFromFTS(annual),
-        quarterlyReports: buildCashReportsFromFTS(quarterly)
-    };
+    const [{ annual, quarterly }, qs] = await Promise.all([
+        fetchFtsRows(symbol, 'cash-flow'),
+        fetchQuoteSummaryStatements(symbol)
+    ]);
+    const annualReports = buildCashReportsFromFTS(annual);
+    const quarterlyReports = buildCashReportsFromFTS(quarterly);
+    mergeNonEmpty(annualReports, buildCashReports(qs.cashflowStatementHistory));
+    mergeNonEmpty(quarterlyReports, buildCashReports(qs.cashflowStatementHistoryQuarterly));
+    return { symbol, annualReports, quarterlyReports };
 }
 
 async function fetchDaily(symbol, outputsize = 'compact') {

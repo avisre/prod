@@ -14,6 +14,7 @@ const { OAuth2Client } = require('google-auth-library');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
+const secSource = require('./sec-source');
 require('dotenv').config();
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -1814,7 +1815,11 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, async (req, res) => {
             overview.EPS = overview.EPS || (local.eps ? String(local.eps) : '');
             overview.Sector = overview.Sector || local.sector || '';
         }
-        res.json({ quote, overview, daily, monthly, income, balance, cash });
+        // SEC EDGAR backfill: fill any cell Yahoo left blank from the
+        // company's actual XBRL filings. US-only, but free + no API key.
+        const payload = { quote, overview, daily, monthly, income, balance, cash };
+        await secSource.backfillStatements(symbol, payload).catch(() => {});
+        res.json(payload);
     } catch (error) {
         res.status(error.status || 500).json({ message: error.message || 'Fundamentals load failed' });
     }
