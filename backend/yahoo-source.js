@@ -488,32 +488,124 @@ async function fetchMovers() {
     };
 }
 
+// Broad-market query basket used when the request doesn't filter by ticker.
+// Mixing index ETFs, sector ETFs, mega-caps, and topical keywords spreads
+// the news mix across different desks (markets, earnings, macro, tech).
+const BROAD_MARKET_QUERIES = [
+    'SPY', 'QQQ', 'DIA', 'IWM',
+    'AAPL', 'NVDA', 'MSFT', 'GOOGL', 'TSLA', 'AMZN', 'META',
+    'XLF', 'XLE', 'XLK',
+    'stocks', 'market', 'earnings', 'economy', 'wall street'
+];
+
+// Yahoo Finance RSS feed for the general headline index. Free, no key, and
+// returns ~25 broad-market items refreshed throughout the day.
+const YAHOO_RSS_INDEX = 'https://finance.yahoo.com/news/rssindex';
+const YAHOO_RSS_TICKER = (symbol) => `https://feeds.finance.yahoo.com/rss/2.0/headline?s=${encodeURIComponent(symbol)}&region=US&lang=en-US`;
+
+function parseRssItems(xml) {
+    if (!xml) return [];
+    const items = [];
+    const blockRe = /<item\b[^>]*>([\s\S]*?)<\/item>/gi;
+    let match;
+    while ((match = blockRe.exec(xml)) !== null) {
+        const block = match[1];
+        const grab = (tag) => {
+            const re = new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}>`, 'i');
+            const m = re.exec(block);
+            if (!m) return '';
+            return m[1]
+                .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+                .replace(/<[^>]+>/g, '')
+                .trim();
+        };
+        const title = grab('title');
+        const link = grab('link');
+        const pub = grab('pubDate');
+        const desc = grab('description');
+        const source = grab('source') || grab('dc:creator');
+        if (!title || !link) continue;
+        const ts = pub ? Date.parse(pub) : NaN;
+        const time = Number.isFinite(ts)
+            ? new Date(ts).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}Z$/, '')
+            : '';
+        // Some Yahoo RSS items embed <img src="..."> inside the description.
+        const imgMatch = block.match(/<media:thumbnail\b[^>]*url="([^"]+)"|<enclosure\b[^>]*url="([^"]+)"/i);
+        const banner = imgMatch ? (imgMatch[1] || imgMatch[2]) : '';
+        items.push({
+            uuid: link,
+            title,
+            link,
+            summary: desc,
+            publisher: source || 'Yahoo Finance',
+            providerPublishTime: Number.isFinite(ts) ? Math.floor(ts / 1000) : null,
+            thumbnail: banner ? { resolutions: [{ url: banner }] } : null,
+            relatedTickers: []
+        });
+    }
+    return items;
+}
+
+async function fetchYahooRss(url) {
+    try {
+        const resp = await axios.get(url, {
+            headers: { 'User-Agent': 'Mozilla/5.0 stockportfolio.pro', Accept: 'application/rss+xml,application/xml;q=0.9,*/*;q=0.8' },
+            timeout: 10000,
+            responseType: 'text'
+        });
+        return parseRssItems(resp.data || '');
+    } catch (_) {
+        return [];
+    }
+}
+
 async function fetchNews(params = {}) {
     const tickers = String(params.tickers || '').split(',').map((t) => t.trim()).filter(Boolean);
-    const limit = Math.max(1, Math.min(50, Number(params.limit) || 40));
-    let feed = [];
+    const limit = Math.max(1, Math.min(80, Number(params.limit) || 40));
+
+    // Pick the source list: caller-supplied tickers, or our broad-market basket.
+    const queries = tickers.length
+        ? tickers.slice(0, 8).map(toYahooSymbol)
+        : BROAD_MARKET_QUERIES;
+    const perQuery = tickers.length
+        ? Math.max(8, Math.ceil(limit / Math.max(1, tickers.length)) + 4)
+        : Math.max(8, Math.ceil(limit / 6));
+
+    // Yahoo's search-based news + RSS feeds run in parallel — each adds ~10-25
+    // headlines, dedup keeps the total tidy.
+    const tasks = queries.map((q) => yf.search(q, { quotesCount: 0, newsCount: perQuery }).catch(() => null));
+    tasks.push(fetchYahooRss(YAHOO_RSS_INDEX));
     if (tickers.length) {
-        // search() returns news for the leading query term; gather across tickers and merge.
-        const settled = await Promise.allSettled(
-            tickers.slice(0, 5).map((t) => yf.search(toYahooSymbol(t), { quotesCount: 0, newsCount: Math.ceil(limit / tickers.length) + 4 }))
-        );
-        const seen = new Set();
-        for (const r of settled) {
-            if (r.status !== 'fulfilled') continue;
-            for (const item of (r.value?.news || [])) {
-                const key = item.uuid || item.link || item.title;
-                if (!key || seen.has(key)) continue;
-                seen.add(key);
-                feed.push(buildNewsItem(item));
-            }
+        for (const t of tickers.slice(0, 4)) {
+            tasks.push(fetchYahooRss(YAHOO_RSS_TICKER(toYahooSymbol(t))));
         }
-    } else {
-        // No tickers — pull broad market news via "stocks" search.
-        const r = await yf.search('stocks', { quotesCount: 0, newsCount: limit + 8 });
-        for (const item of (r?.news || [])) feed.push(buildNewsItem(item));
     }
+
+    const settled = await Promise.allSettled(tasks);
+    const seenUrl = new Set();
+    const seenTitle = new Set();
+    const feed = [];
+    for (const r of settled) {
+        if (r.status !== 'fulfilled' || !r.value) continue;
+        const list = Array.isArray(r.value) ? r.value : (r.value.news || []);
+        for (const item of list) {
+            const url = String(item?.link || item?.uuid || '').split('?')[0].split('#')[0];
+            const titleKey = String(item?.title || '').trim().toLowerCase().slice(0, 80);
+            if (!url && !titleKey) continue;
+            if (url && seenUrl.has(url)) continue;
+            if (titleKey && seenTitle.has(titleKey)) continue;
+            if (url) seenUrl.add(url);
+            if (titleKey) seenTitle.add(titleKey);
+            feed.push(buildNewsItem(item));
+        }
+    }
+
     feed.sort((a, b) => (b.time_published || '').localeCompare(a.time_published || ''));
-    return { items: feed.length, sentiment_score_definition: 'unavailable', feed: feed.slice(0, limit) };
+    return {
+        items: feed.length,
+        sentiment_score_definition: 'unavailable',
+        feed: feed.slice(0, limit)
+    };
 }
 
 // ---- Unified dispatcher ----
