@@ -30,17 +30,33 @@
   <link rel="alternate" hreflang="en" href="https://stockportfolio.pro/" />
   <link rel="alternate" hreflang="x-default" href="https://stockportfolio.pro/" />
 
-  <meta property="og:title" content="stockportfolio.pro - Understand your portfolio in minutes" />
-  <meta property="og:description" content="Track holdings, allocation, fundamentals and performance in one calm dashboard. Start a 7-day free trial." />
+  <meta property="og:title" content="Stock Portfolio Pro - Understand your portfolio in minutes" />
+  <meta property="og:description" content="Track holdings, allocation, fundamentals and performance in one calm dashboard. Free no-signup demo, then 7-day free trial." />
   <meta property="og:url" content="https://stockportfolio.pro/" />
   <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="stockportfolio.pro" />
-  <meta property="og:image" content="https://stockportfolio.pro/images/og-landing.jpg" />
+  <meta property="og:locale" content="en_GB" />
+  <meta property="og:site_name" content="Stock Portfolio Pro" />
+  <meta property="og:image" content="https://stockportfolio.pro/Media/icon.png" />
+  <meta property="og:image:alt" content="Stock Portfolio Pro logo" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="stockportfolio.pro - Understand your portfolio in minutes" />
-  <meta name="twitter:description" content="Track holdings, allocation, fundamentals and performance in one calm dashboard. Start a 7-day free trial." />
-  <meta name="twitter:image" content="https://stockportfolio.pro/images/twitter-landing.jpg" />
+  <meta name="twitter:title" content="Stock Portfolio Pro - Understand your portfolio in minutes" />
+  <meta name="twitter:description" content="Track holdings, allocation, fundamentals and performance in one calm dashboard. Free no-signup demo at /demo." />
+  <meta name="twitter:image" content="https://stockportfolio.pro/Media/icon.png" />
+
+  <!-- Theme + mobile -->
+  <meta name="theme-color" content="#1a1a1a" />
+  <meta name="apple-mobile-web-app-title" content="Stock Portfolio Pro" />
+  <link rel="apple-touch-icon" href="Media/icon.png" />
+
+  <!-- Search engine verification placeholders.
+       Google: https://search.google.com/search-console -> Add property
+              (Domain or URL prefix) -> HTML tag method ->
+              copy the `content` value into the meta tag below, then deploy.
+       Bing:   https://www.bing.com/webmasters -> Add a site ->
+              "Add a meta tag" method -> copy the value into msvalidate.01. -->
+  <meta name="google-site-verification" content="REPLACE_WITH_GOOGLE_VERIFICATION_CODE" />
+  <meta name="msvalidate.01" content="REPLACE_WITH_BING_VERIFICATION_CODE" />
 
   <script type="application/ld+json">
     {
@@ -63,12 +79,37 @@
           }
         },
         {
+          "@type": "Person",
+          "@id": "https://avisre.github.io/#person",
+          "name": "Avinash Sreekumar",
+          "url": "https://avisre.github.io",
+          "jobTitle": "Full-stack JavaScript Developer",
+          "sameAs": [
+            "https://github.com/avisre",
+            "https://linkedin.com/in/avinash-sreekumar-102a92258",
+            "https://avisre.github.io"
+          ]
+        },
+        {
           "@type": "SoftwareApplication",
-          "name": "stockportfolio.pro",
+          "name": "Stock Portfolio Pro",
+          "alternateName": "stockportfolio.pro",
           "applicationCategory": "FinanceApplication",
+          "applicationSubCategory": "Portfolio Tracker",
           "operatingSystem": "Web",
           "url": "https://stockportfolio.pro/",
+          "screenshot": "https://stockportfolio.pro/Media/demo-loop.webp",
+          "creator": { "@id": "https://avisre.github.io/#person" },
+          "author": { "@id": "https://avisre.github.io/#person" },
           "offers": [
+            {
+              "@type": "Offer",
+              "name": "Free demo",
+              "price": "0",
+              "priceCurrency": "GBP",
+              "url": "https://stockportfolio.pro/demo",
+              "description": "Free no-signup read-only demo with a sample 5-stock portfolio."
+            },
             {
               "@type": "Offer",
               "name": "Monthly",
@@ -84,7 +125,30 @@
               "description": "£70 per year. Save £14 versus monthly billing."
             }
           ],
-          "description": "Portfolio tracking workspace for holdings, allocation, fundamentals, and performance."
+          "description": "Production-grade portfolio tracker with hand-rolled D3 charts, real-time market data via Yahoo Finance, and Stripe subscription gating."
+        },
+        {
+          "@type": "WebApplication",
+          "name": "Stock Portfolio Pro",
+          "applicationCategory": "FinanceApplication",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "operatingSystem": "Web",
+          "url": "https://stockportfolio.pro/",
+          "creator": { "@id": "https://avisre.github.io/#person" },
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "GBP",
+            "url": "https://stockportfolio.pro/demo",
+            "description": "Free no-signup demo available."
+          },
+          "featureList": [
+            "Holdings tracking",
+            "Allocation breakdown",
+            "Performance charts (D3.js)",
+            "Company fundamentals",
+            "Live market data via Yahoo Finance"
+          ]
         },
         {
           "@type": "FAQPage",

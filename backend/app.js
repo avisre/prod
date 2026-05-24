@@ -2207,6 +2207,38 @@ app.get(/^\/terms\/?$/, (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/terms.html'));
 });
 
+// SEO + LLM-agent discovery files.
+// express.static defaults to dotfiles:'ignore', so /.well-known/* would
+// otherwise fall through to the SPA catch-all below and return index.html.
+// Define these explicitly so crawlers get the real file with the right MIME.
+app.get('/.well-known/security.txt', (req, res) => {
+    res.type('text/plain; charset=utf-8');
+    res.sendFile(path.join(__dirname, '../frontend/.well-known/security.txt'));
+});
+app.get('/security.txt', (req, res) => {
+    res.redirect(301, '/.well-known/security.txt');
+});
+app.get('/llms.txt', (req, res) => {
+    res.type('text/plain; charset=utf-8');
+    res.sendFile(path.join(__dirname, '../frontend/llms.txt'));
+});
+app.get('/llms-full.txt', (req, res) => {
+    res.type('text/plain; charset=utf-8');
+    res.sendFile(path.join(__dirname, '../frontend/llms-full.txt'));
+});
+app.get('/humans.txt', (req, res) => {
+    res.type('text/plain; charset=utf-8');
+    res.sendFile(path.join(__dirname, '../frontend/humans.txt'));
+});
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain; charset=utf-8');
+    res.sendFile(path.join(__dirname, '../frontend/robots.txt'));
+});
+app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml; charset=utf-8');
+    res.sendFile(path.join(__dirname, '../frontend/sitemap.xml'));
+});
+
 // Middleware to serve frontend HTML file
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/index.html'));

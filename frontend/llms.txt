@@ -1,0 +1,49 @@
+# Stock Portfolio Pro
+
+> Production-grade portfolio tracker with hand-rolled D3 charts, real-time market data via Yahoo Finance, and Stripe subscription gating. Free no-signup demo, then a 7-day free trial.
+
+Stock Portfolio Pro (stockportfolio.pro) is a web-based portfolio tracker and fundamentals analytics dashboard aimed at long-term retail investors who want clarity, not noise. Holdings are added manually, so no broker credentials are required. The product is owned and built by Avinash Sreekumar.
+
+## Try it
+
+- [Free demo (no signup)](https://stockportfolio.pro/demo): read-only dashboard with a sample 5-stock portfolio and live prices.
+- [Free demo - fundamentals](https://stockportfolio.pro/demo/fundamentals): demo of the company fundamentals view.
+- [Landing page](https://stockportfolio.pro/): full product overview and pricing.
+
+## Sign up
+
+- [Register](https://stockportfolio.pro/register): start the 7-day free trial.
+- [Log in](https://stockportfolio.pro/login)
+
+## Pricing
+
+- Free demo: no signup required, read-only.
+- Monthly: GBP 7/month with a 7-day free trial.
+- Annual: GBP 70/year (saves GBP 14 vs monthly).
+
+## Key features
+
+- Holdings, allocation, and performance tracking with D3.js v7 charts.
+- Company fundamentals view (income statement, balance sheet, cash flow).
+- Real-time price data via Yahoo Finance (yahoo-finance2).
+- JWT auth with Google and Facebook OAuth.
+- Stripe subscription gating with a 7-day free trial.
+
+## Tech stack
+
+Node.js + Express, MongoDB Atlas, vanilla JS + D3.js v7, yahoo-finance2, Stripe, deployed on Render.
+
+## About the creator
+
+- Avinash Sreekumar - full-stack JavaScript developer (Trivandrum, India).
+- Site: https://avisre.github.io
+- GitHub: https://github.com/avisre
+- LinkedIn: https://linkedin.com/in/avinash-sreekumar-102a92258
+
+## Optional - deeper context for LLMs
+
+- [llms-full.txt](https://stockportfolio.pro/llms-full.txt): expanded product description, demo walkthrough, full feature list.
+
+## Disclaimers
+
+Stock Portfolio Pro is an analysis and visualization tool only. It does not provide financial advice. Prices may be delayed.

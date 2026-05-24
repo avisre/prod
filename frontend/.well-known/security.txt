@@ -1,0 +1,7 @@
+# Security contact for Stock Portfolio Pro
+# https://stockportfolio.pro/.well-known/security.txt
+
+Contact: mailto:avinashsreekumar007@gmail.com
+Expires: 2027-05-24T23:59:59.000Z
+Preferred-Languages: en
+Canonical: https://stockportfolio.pro/.well-known/security.txt

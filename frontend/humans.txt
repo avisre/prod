@@ -1,0 +1,20 @@
+/* TEAM */
+Creator & developer: Avinash Sreekumar
+Site:                https://avisre.github.io
+GitHub:              https://github.com/avisre
+LinkedIn:            https://linkedin.com/in/avinash-sreekumar-102a92258
+Location:            Trivandrum, India
+
+/* THANKS */
+Yahoo Finance - market data
+D3.js - charting
+Stripe - payments
+MongoDB Atlas - data
+Render - hosting
+
+/* SITE */
+Last update:   2026-05-24
+Language:      English
+Doctype:       HTML5
+IDE:           VS Code
+Stack:         Node.js, Express, MongoDB, vanilla JS, D3.js v7
