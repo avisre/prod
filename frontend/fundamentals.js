@@ -21,6 +21,10 @@
   }
 
   const API_URL = resolveApiUrl();
+  // When DEMO_MODE is on, route market-data calls through the public,
+  // unauthenticated /api/demo/* mirrors instead of the JWT-gated routes.
+  const DEMO_MODE = typeof window !== 'undefined' && window.__DEMO_MODE === true;
+  const ALPHA_PREFIX = DEMO_MODE ? `${API_URL}/demo/alpha` : `${API_URL}/alpha`;
   const CACHE_TTL_MS = 60 * 60 * 1000;
   const FX_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
   const MAX_ANNUAL_COLUMNS = 6;
@@ -131,6 +135,7 @@
   };
 
   function authHeaders() {
+    if (DEMO_MODE) return {};
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
@@ -441,7 +446,7 @@
   }
 
   async function fetchFromApiSymbol(symbolForApi, symbolForNormalize) {
-    const response = await fetch(`${API_URL}/alpha/fundamentals/${encodeURIComponent(symbolForApi)}`, {
+    const response = await fetch(`${ALPHA_PREFIX}/fundamentals/${encodeURIComponent(symbolForApi)}`, {
       headers: authHeaders()
     });
     if (!response.ok) return null;
@@ -2079,7 +2084,7 @@
   // skips quote so the bundled JSON file isn't stale by minutes).
   async function fetchLiveQuote(symbol) {
     try {
-      const r = await fetch(`${API_URL}/alpha/quote/${encodeURIComponent(symbol)}`, { headers: authHeaders() });
+      const r = await fetch(`${ALPHA_PREFIX}/quote/${encodeURIComponent(symbol)}`, { headers: authHeaders() });
       if (!r.ok) return null;
       const data = await r.json().catch(() => null);
       const price = data && data['Global Quote'] && data['Global Quote']['05. price'];

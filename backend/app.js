@@ -2062,6 +2062,119 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
     res.status(200).send({ received: true });
 });
 
+// ============================================================
+// DEMO MODE — read-only, no-auth public preview portfolio.
+// Additive-only: serves clone HTML pages and a JSON snapshot
+// from in-memory constants. Real /api/* routes are untouched.
+// ============================================================
+const DEMO_PORTFOLIO = [
+    { _id: 'demo-aapl', symbol: 'AAPL', name: 'Apple Inc.',           sector: 'Technology',         shares: 120, purchasePrice: 148.32, purchaseDate: '2023-03-15T00:00:00.000Z' },
+    { _id: 'demo-msft', symbol: 'MSFT', name: 'Microsoft Corp.',      sector: 'Technology',         shares: 65,  purchasePrice: 285.10, purchaseDate: '2023-05-22T00:00:00.000Z' },
+    { _id: 'demo-tsla', symbol: 'TSLA', name: 'Tesla, Inc.',          sector: 'Consumer Cyclical',  shares: 45,  purchasePrice: 192.84, purchaseDate: '2024-01-09T00:00:00.000Z' },
+    { _id: 'demo-nvda', symbol: 'NVDA', name: 'NVIDIA Corporation',   sector: 'Technology',         shares: 80,  purchasePrice: 412.55, purchaseDate: '2024-04-18T00:00:00.000Z' },
+    { _id: 'demo-jpm',  symbol: 'JPM',  name: 'JPMorgan Chase & Co.', sector: 'Financial Services', shares: 50,  purchasePrice: 156.40, purchaseDate: '2023-09-04T00:00:00.000Z' }
+];
+
+// Block any state-changing verb anywhere under /api/demo
+app.use('/api/demo', (req, res, next) => {
+    const method = String(req.method || '').toUpperCase();
+    if (method === 'POST' || method === 'PUT' || method === 'PATCH' || method === 'DELETE') {
+        return res.status(403).json({
+            message: 'Editing is disabled in demo mode — sign up to manage your own portfolio.',
+            code: 'DEMO_READ_ONLY'
+        });
+    }
+    next();
+});
+
+// Demo portfolio: in-memory holdings, prices enriched live (best-effort).
+app.get('/api/demo/portfolio', async (req, res) => {
+    const enriched = await Promise.all(DEMO_PORTFOLIO.map(async (row) => {
+        const payload = { ...row };
+        try {
+            payload.currentPrice = await getStockPrice(payload.symbol);
+        } catch (priceError) {
+            // Fall back to the seeded purchase price so the demo never looks broken.
+            payload.currentPrice = payload.purchasePrice;
+        }
+        return payload;
+    }));
+    res.json(enriched);
+});
+
+// Demo passthroughs for market data — same internals as real routes,
+// just no auth required. Read-only by definition.
+app.get('/api/demo/alpha/time-series/daily', async (req, res) => {
+    const symbol = safeUpper(req.query.symbol);
+    const outputsize = (req.query.outputsize || 'compact').toString();
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    try {
+        const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize }, ALPHA_CACHE_TTL_MS.daily);
+        res.json(data);
+    } catch (error) {
+        res.status(error.status || 500).json({ message: error.message || 'Daily series failed' });
+    }
+});
+
+app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    try {
+        const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
+        const [quote, overview, daily, monthly, income, balance, cash] = await Promise.all([
+            fetchAlphaCached('GLOBAL_QUOTE', { symbol }, ALPHA_CACHE_TTL_MS.quote),
+            fetchAlphaCached('OVERVIEW', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
+            fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: historyDepth }, ALPHA_CACHE_TTL_MS.daily),
+            fetchAlphaCached('TIME_SERIES_MONTHLY_ADJUSTED', { symbol }, ALPHA_CACHE_TTL_MS.monthly),
+            fetchAlphaCached('INCOME_STATEMENT', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
+            fetchAlphaCached('BALANCE_SHEET', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
+            fetchAlphaCached('CASH_FLOW', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals)
+        ]);
+        const local = topCompaniesBySymbol.get(symbol);
+        if (local) {
+            overview.Name = overview.Name || local.name;
+            overview.MarketCapitalization = overview.MarketCapitalization || (local.marketCap ? String(local.marketCap) : '');
+            overview.PERatio = overview.PERatio || (local.peRatio ? String(local.peRatio) : '');
+            overview.EPS = overview.EPS || (local.eps ? String(local.eps) : '');
+            overview.Sector = overview.Sector || local.sector || '';
+        }
+        const payload = { quote, overview, daily, monthly, income, balance, cash };
+        await secSource.backfillStatements(symbol, payload).catch(() => {});
+        res.json(payload);
+    } catch (error) {
+        res.status(error.status || 500).json({ message: error.message || 'Fundamentals load failed' });
+    }
+});
+
+app.get('/api/demo/alpha/quote/:symbol', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    try {
+        const data = await fetchAlphaCached('GLOBAL_QUOTE', { symbol }, ALPHA_CACHE_TTL_MS.quote);
+        res.json(data);
+    } catch (error) {
+        res.status(error.status || 500).json({ message: error.message || 'Quote load failed' });
+    }
+});
+
+// Demo HTML pages — clones of dashboard/fundamentals with a banner +
+// __DEMO_MODE flag set inline before the page scripts load.
+app.get(/^\/demo\/?$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/demo-dashboard.html'));
+});
+
+app.get(/^\/demo\/fundamentals\/?$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/demo-fundamentals.html'));
+});
+
+// Pretty filenames too, in case anyone links them directly.
+app.get(/^\/demo-dashboard\.html$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/demo-dashboard.html'));
+});
+app.get(/^\/demo-fundamentals\.html$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/demo-fundamentals.html'));
+});
+
 // Landing page variants
 app.get(/^\/(landing-v2|v2)\/?$/, (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/landing-v2.html'));

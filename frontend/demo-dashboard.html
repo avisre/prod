@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo Dashboard - stockportfolio.pro</title>
+    <meta name="description" content="Read-only demo of the stockportfolio.pro dashboard with a sample 5-stock portfolio. No sign-up required." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://stockportfolio.pro/demo" />
+    <link rel="icon" href="Media/icon.png" />
+    <link rel="stylesheet" href="styles.css?v=20260508-7" />
+    <link rel="stylesheet" href="css/dashboard.css?v=20260508-2" />
+    <script defer src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- DEMO MODE: set BEFORE any other script so script.js / dashboard.js -->
+    <!-- both see the flag and skip the login gate / hide edit UI. -->
+    <script>window.__DEMO_MODE = true;</script>
+    <style>
+      .demo-banner {
+        background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+        color: #1a1a1a;
+        font-weight: 700;
+        text-align: center;
+        padding: 10px 18px;
+        font-size: 14px;
+        position: relative;
+        z-index: 50;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.25);
+      }
+      .demo-banner a {
+        color: #0b1220;
+        text-decoration: underline;
+        font-weight: 800;
+        margin-left: 8px;
+      }
+      .demo-banner a:hover { text-decoration: none; }
+      .dash-demo-locked { color: #6b7280; font-style: italic; }
+    </style>
+  </head>
+  <body class="glass dash-page">
+    <div class="demo-banner" role="status" aria-live="polite">
+      DEMO MODE — read-only example portfolio.
+      <a href="register.html">Sign up free</a>
+    </div>
+    <div class="waves"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
+    <div id="loading-overlay" class="loading-overlay" hidden aria-live="polite" aria-busy="true">
+      <div class="loading-panel"><div class="spinner"></div></div>
+    </div>
+    <header class="navbar" role="banner">
+      <div class="brand">
+        <img src="Media/icon.png" alt="Logo" class="brand-icon" />
+        <span class="brand-name">stockportfolio.pro</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="demo-fundamentals.html"><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
+        <a class="btn" href="demo-dashboard.html"><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
+        <a class="btn btn-primary" href="register.html"><span class="sticker sm" aria-hidden="true">✨</span>Sign up free</a>
+        <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit demo</a>
+        <button id="toggle-headings" class="btn btn-quiet" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+      </div>
+    </header>
+
+    <main class="container dash-container">
+      <header class="dash-header">
+        <div>
+          <h1 class="dash-title">Sample Portfolio</h1>
+          <p class="dash-sub" id="dash-sub">A sample portfolio with live prices. Sign up to build your own.</p>
+        </div>
+        <div class="dash-update" id="dash-updated" aria-live="polite">—</div>
+      </header>
+
+      <!-- KPI tiles -->
+      <section class="dash-kpis" aria-label="Portfolio summary">
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Total Value</div>
+          <div class="dash-kpi-value" id="kpi-total">—</div>
+          <div class="dash-kpi-delta" id="kpi-total-delta">&nbsp;</div>
+        </article>
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Day Change</div>
+          <div class="dash-kpi-value" id="kpi-day">—</div>
+          <div class="dash-kpi-delta" id="kpi-day-delta">&nbsp;</div>
+        </article>
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Total Gain / Loss</div>
+          <div class="dash-kpi-value" id="kpi-gain">—</div>
+          <div class="dash-kpi-delta" id="kpi-gain-delta">&nbsp;</div>
+        </article>
+        <article class="dash-kpi">
+          <div class="dash-kpi-label">Holdings</div>
+          <div class="dash-kpi-value" id="kpi-holdings">0</div>
+          <div class="dash-kpi-delta neutral" id="kpi-holdings-note">No positions yet</div>
+        </article>
+      </section>
+
+      <!-- Charts row -->
+      <section class="dash-charts">
+        <article class="dash-chart-card dash-chart-perf">
+          <header class="dash-card-head">
+            <h2 class="dash-card-title">Portfolio Value</h2>
+            <div class="dash-controls" id="perf-range">
+              <button class="dash-toggle" data-range="5D">5D</button>
+              <button class="dash-toggle active" data-range="1M">1M</button>
+              <button class="dash-toggle" data-range="6M">6M</button>
+              <button class="dash-toggle" data-range="1Y">1Y</button>
+              <button class="dash-toggle" data-range="ALL">All</button>
+            </div>
+          </header>
+          <div id="perf-chart" class="dash-chart"></div>
+        </article>
+
+        <article class="dash-chart-card dash-chart-alloc">
+          <header class="dash-card-head">
+            <h2 class="dash-card-title">Allocation</h2>
+          </header>
+          <div id="alloc-chart" class="dash-chart"></div>
+          <ul class="dash-alloc-legend" id="alloc-legend"></ul>
+        </article>
+      </section>
+
+      <!-- Add Stock card kept in DOM but hidden by dashboard.js in DEMO_MODE -->
+      <section class="dash-add-card" id="add-stock-card" style="display:none">
+        <header class="dash-card-head">
+          <h2 class="dash-card-title">Add Position</h2>
+        </header>
+      </section>
+
+      <!-- Holdings table -->
+      <section class="dash-table-card">
+        <header class="dash-card-head">
+          <h2 class="dash-card-title">Holdings</h2>
+        </header>
+        <div class="dash-table-wrap">
+          <table class="dash-table">
+            <thead>
+              <tr>
+                <th class="dash-col-name">Name</th>
+                <th class="dash-col-symbol">Symbol</th>
+                <th class="num">Shares</th>
+                <th class="num">Buy Price</th>
+                <th class="num">Current</th>
+                <th class="num">Total Cost</th>
+                <th class="num">Market Value</th>
+                <th class="num">P/L</th>
+                <th class="dash-col-actions" aria-label="Actions"></th>
+              </tr>
+            </thead>
+            <tbody id="holdings-list">
+              <tr class="dash-empty-row"><td colspan="9">Loading sample portfolio…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="container">
+      <footer class="landing-footer">
+        <a class="footer-brand" href="index.html">© 2025 stockportfolio.pro. All rights reserved.</a>
+        <div class="footer-links">
+          <a href="register.html">Sign up free</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="support.html">Support</a>
+        </div>
+      </footer>
+    </div>
+
+    <script src="top100-sheet.js?v=20260211-4"></script>
+    <script src="symbol-lookup.js?v=20260211-4"></script>
+    <script src="js/dashboard.js?v=20260508-3"></script>
+  </body>
+</html>

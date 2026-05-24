@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Demo Fundamentals - stockportfolio.pro</title>
+    <meta name="description" content="Read-only demo of the stockportfolio.pro fundamentals view. Explore company financials and charts without signing up." />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="canonical" href="https://stockportfolio.pro/demo/fundamentals" />
+    <link rel="icon" href="Media/icon.png" />
+    <link rel="stylesheet" href="styles.css?v=20260508-7" />
+    <link rel="stylesheet" href="css/fundamentals-screener.css?v=20260508-3" />
+    <script defer src="https://d3js.org/d3.v7.min.js"></script>
+    <!-- DEMO MODE: set BEFORE any other script so script.js / fundamentals.js -->
+    <!-- both see the flag and skip the login gate / use /api/demo/*. -->
+    <script>window.__DEMO_MODE = true;</script>
+    <style>
+      .demo-banner {
+        background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+        color: #1a1a1a;
+        font-weight: 700;
+        text-align: center;
+        padding: 10px 18px;
+        font-size: 14px;
+        position: relative;
+        z-index: 50;
+        box-shadow: 0 1px 8px rgba(0,0,0,0.25);
+      }
+      .demo-banner a {
+        color: #0b1220;
+        text-decoration: underline;
+        font-weight: 800;
+        margin-left: 8px;
+      }
+      .demo-banner a:hover { text-decoration: none; }
+    </style>
+  </head>
+  <body class="glass scr-page">
+    <div class="demo-banner" role="status" aria-live="polite">
+      DEMO MODE — read-only example view.
+      <a href="register.html">Sign up free</a>
+    </div>
+    <div class="waves"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
+    <div id="loading-overlay" class="loading-overlay" hidden aria-live="polite" aria-busy="true">
+      <div class="loading-panel"><div class="spinner"></div></div>
+    </div>
+    <header class="navbar" role="banner">
+        <div class="brand">
+          <img src="Media/icon.png" alt="Logo" class="brand-icon" />
+          <span class="brand-name">stockportfolio.pro</span>
+        </div>
+        <div class="nav-actions">
+          <a class="btn" href="demo-fundamentals.html"><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
+          <a class="btn" href="demo-dashboard.html"><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
+          <a class="btn btn-primary" href="register.html"><span class="sticker sm" aria-hidden="true">✨</span>Sign up free</a>
+          <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit demo</a>
+          <button id="toggle-headings" class="btn btn-quiet" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+        </div>
+      </header>
+    <div class="container scr-container">
+
+      <!-- Search bar -->
+      <section class="scr-search-bar" id="fundamentals-search-card">
+        <div class="scr-search-input">
+          <span class="scr-search-icon" aria-hidden="true">🔍</span>
+          <input id="symbol-input" placeholder="Try AAPL, MSFT, TSLA, NVDA or JPM" autocomplete="off" />
+          <ul id="symbol-results" class="dropdown" style="display:none"></ul>
+        </div>
+        <button id="go-btn" class="scr-search-go" type="button">Go</button>
+      </section>
+
+      <!-- Company header (name + meta) -->
+      <header class="scr-company-header" id="company-header">
+        <div class="scr-company-title">
+          <h1 id="company-name">Search a stock to begin</h1>
+          <div class="scr-company-meta">
+            <span class="scr-symbol" id="company-symbol"></span>
+            <span class="scr-meta-sep" aria-hidden="true">•</span>
+            <span id="company-exchange">US Equity</span>
+            <span class="scr-meta-sep" aria-hidden="true">•</span>
+            <span id="company-sector"></span>
+          </div>
+        </div>
+        <div class="scr-quote-snapshot" id="quote-snapshot">
+          <div class="scr-price" id="quote-price">—</div>
+          <div class="scr-price-change" id="quote-change">—</div>
+        </div>
+      </header>
+
+      <!-- Metric tiles -->
+      <section class="scr-tiles" id="metric-tiles" aria-label="Key metrics"></section>
+
+      <!-- About section -->
+      <section class="scr-about" id="about-section" hidden>
+        <h2 class="scr-section-title">About</h2>
+        <p class="scr-about-body" id="company-about"></p>
+        <div class="scr-tags" id="company-tags"></div>
+      </section>
+
+      <!-- Pros / Cons -->
+      <section class="scr-pros-cons" id="pros-cons-section" hidden>
+        <article class="scr-pros">
+          <h3 class="scr-pros-title">PROS</h3>
+          <ul id="company-pros"></ul>
+        </article>
+        <article class="scr-cons">
+          <h3 class="scr-cons-title">CONS</h3>
+          <ul id="company-cons"></ul>
+        </article>
+      </section>
+
+      <!-- Price chart -->
+      <section class="scr-section scr-pricechart-section">
+        <div class="scr-pricechart-header">
+          <div class="scr-pricechart-summary">
+            <div class="scr-summary-line">
+              <span class="scr-summary-price" id="pc-price">—</span>
+              <span class="scr-summary-change" id="pc-change">—</span>
+            </div>
+            <div class="scr-summary-meta">
+              <span class="scr-summary-label">Market Cap:</span>
+              <span class="scr-summary-value" id="pc-mcap">—</span>
+              <span class="scr-summary-sep" aria-hidden="true">|</span>
+              <span class="scr-summary-label">Curr P/E:</span>
+              <span class="scr-summary-value" id="pc-pe">—</span>
+              <span class="scr-summary-sep" aria-hidden="true">|</span>
+              <span class="scr-summary-label">Median P/E:</span>
+              <span class="scr-summary-value" id="pc-median-pe">—</span>
+            </div>
+          </div>
+          <div class="scr-pricechart-controls">
+            <div class="scr-overlay-row" id="price-overlay-controls">
+              <button class="scr-overlay-btn active" data-overlay="price"><span class="scr-overlay-dot" style="background:#3b82f6"></span>Price &amp; Market Cap</button>
+              <button class="scr-overlay-btn" data-overlay="pe"><span class="scr-overlay-dot" style="background:#a855f7"></span>Price to Earning</button>
+            </div>
+          </div>
+        </div>
+        <div id="price-chart" class="scr-chart"></div>
+        <div class="scr-pricechart-ranges">
+          <div class="scr-toggle" id="price-range-controls">
+            <button class="scr-toggle-btn" data-range="1M">1m</button>
+            <button class="scr-toggle-btn" data-range="6M">6m</button>
+            <button class="scr-toggle-btn active" data-range="1Y">1Yr</button>
+            <button class="scr-toggle-btn" data-range="3Y">3Yr</button>
+            <button class="scr-toggle-btn" data-range="5Y">5Yr</button>
+            <button class="scr-toggle-btn" data-range="10Y">10Yr</button>
+            <button class="scr-toggle-btn" data-range="MAX">Max</button>
+          </div>
+        </div>
+        <div id="price-mode-controls" hidden>
+          <button class="scr-toggle-btn active" data-mode="price">Price</button>
+          <button class="scr-toggle-btn" data-mode="pe">PE Ratio</button>
+        </div>
+      </section>
+
+      <!-- Hidden but used by render code -->
+      <div id="quote" hidden></div>
+      <div id="ratios" hidden></div>
+      <div id="fundamentals-link" hidden></div>
+
+      <!-- Quarterly / P&L / Balance / Cash / Ratios — tabbed -->
+      <section class="scr-section">
+        <div class="scr-section-head">
+          <h2 class="scr-section-title">Financials</h2>
+          <div class="scr-controls">
+            <div class="scr-toggle" id="basis-controls">
+              <button class="scr-toggle-btn active" data-basis="annual">Annual</button>
+              <button class="scr-toggle-btn" data-basis="quarterly">Quarterly</button>
+            </div>
+            <div class="scr-toggle" id="unit-controls" title="Scale numbers">
+              <button class="scr-toggle-btn active" data-unit="auto">Auto</button>
+              <button class="scr-toggle-btn" data-unit="million">Millions</button>
+              <button class="scr-toggle-btn" data-unit="billion">Billions</button>
+            </div>
+          </div>
+        </div>
+        <div class="scr-tabs fin-tabs" role="tablist">
+          <button class="scr-tab tab active" data-tab="income">Profit &amp; Loss</button>
+          <button class="scr-tab tab" data-tab="balance">Balance Sheet</button>
+          <button class="scr-tab tab" data-tab="cash">Cash Flow</button>
+          <button class="scr-tab tab" data-tab="ratios">Ratios</button>
+        </div>
+        <div class="scr-table-wrap">
+          <table class="scr-table">
+            <thead id="tbl-head"></thead>
+            <tbody id="tbl-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Charts grid -->
+      <section class="scr-section">
+        <h2 class="scr-section-title">Charts</h2>
+        <div class="scr-chart-grid">
+          <article class="scr-chart-card">
+            <h3 class="scr-chart-title">Revenue</h3>
+            <div class="chart-scroll-wrap"><div id="rev-chart" class="scr-chart sm"></div></div>
+          </article>
+          <article class="scr-chart-card">
+            <h3 class="scr-chart-title">Net Income</h3>
+            <div class="chart-scroll-wrap"><div id="ni-chart" class="scr-chart sm"></div></div>
+          </article>
+          <article class="scr-chart-card">
+            <h3 class="scr-chart-title">Cash Flows</h3>
+            <div class="chart-scroll-wrap"><div id="ocf-chart" class="scr-chart sm"></div></div>
+          </article>
+          <article class="scr-chart-card">
+            <h3 class="scr-chart-title">Assets &amp; Liabilities</h3>
+            <div class="chart-scroll-wrap"><div id="balance-chart" class="scr-chart sm"></div></div>
+          </article>
+          <article class="scr-chart-card">
+            <h3 class="scr-chart-title">Cash on Hand / Net Debt</h3>
+            <div class="chart-scroll-wrap"><div id="cashnet-chart" class="scr-chart sm"></div></div>
+          </article>
+          <article class="scr-chart-card">
+            <h3 class="scr-chart-title">Shares Outstanding</h3>
+            <div class="chart-scroll-wrap"><div id="shares-chart" class="scr-chart sm"></div></div>
+          </article>
+        </div>
+      </section>
+
+    </div>
+    <div class="container">
+      <footer class="landing-footer">
+        <a class="footer-brand" href="index.html">© 2025 stockportfolio.pro. All rights reserved.</a>
+        <div class="footer-links">
+          <a href="register.html">Sign up free</a>
+          <a href="privacy.html">Privacy</a>
+          <a href="terms.html">Terms</a>
+          <a href="support.html">Support</a>
+        </div>
+      </footer>
+    </div>
+    <script src="top100-sheet.js?v=20260211-4"></script>
+    <script src="symbol-lookup.js?v=20260211-4"></script>
+    <script src="fundamentals.js?v=20260515-5"></script>
+  </body>
+</html>

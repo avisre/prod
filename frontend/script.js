@@ -130,6 +130,12 @@ const PAGE_NAME = (() => {
   return raw ? raw.toLowerCase() : 'index.html';
 })();
 const RESTRICTED_PAGES = new Set(['dashboard.html', 'fundamentals.html', 'news.html']);
+// Demo pages are publicly accessible read-only previews — they must never
+// be auth-gated regardless of which path the user lands on.
+const DEMO_PAGES = new Set(['demo-dashboard.html', 'demo-fundamentals.html']);
+const IS_DEMO_PAGE = DEMO_PAGES.has(PAGE_NAME) ||
+  /^\/demo(\/|$)/.test(location.pathname) ||
+  (typeof window !== 'undefined' && window.__DEMO_MODE === true);
 
 const getToken = () => {
   const fromStorage = localStorage.getItem('token');
@@ -142,7 +148,7 @@ const getToken = () => {
   return '';
 };
 
-if (RESTRICTED_PAGES.has(PAGE_NAME) && !getToken()) {
+if (!IS_DEMO_PAGE && RESTRICTED_PAGES.has(PAGE_NAME) && !getToken()) {
   const next = PAGE_NAME + (location.search || '');
   window.location.replace(`login.html?next=${encodeURIComponent(next)}`);
 }

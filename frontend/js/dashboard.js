@@ -13,6 +13,18 @@
   }
 
   const API_URL = resolveApiUrl();
+  // Demo mode (set inline in demo-dashboard.html before this script loads):
+  // we route portfolio + market-data calls through /api/demo/... which is
+  // unauthenticated and read-only, and hide any add/remove UI.
+  const DEMO_MODE = typeof window !== 'undefined' && window.__DEMO_MODE === true;
+  const PORTFOLIO_URL = DEMO_MODE ? `${API_URL}/demo/portfolio` : `${API_URL}/portfolio`;
+  const DAILY_URL = (sym, depth) => DEMO_MODE
+    ? `${API_URL}/demo/alpha/time-series/daily?symbol=${encodeURIComponent(sym)}&outputsize=${depth}`
+    : `${API_URL}/alpha/time-series/daily?symbol=${encodeURIComponent(sym)}&outputsize=${depth}`;
+  const FUNDAMENTALS_LINK = (sym) => DEMO_MODE
+    ? `demo-fundamentals.html?symbol=${encodeURIComponent(sym)}`
+    : `fundamentals.html?symbol=${encodeURIComponent(sym)}`;
+
   const $ = (id) => document.getElementById(id);
   const Loader = {
     show() { const el = $('loading-overlay'); if (el) el.removeAttribute('hidden'); },
@@ -20,6 +32,7 @@
   };
 
   function authHeaders() {
+    if (DEMO_MODE) return {};
     const token = localStorage.getItem('token');
     return token ? { Authorization: `Bearer ${token}` } : {};
   }
@@ -48,7 +61,7 @@
 
   // ---- API helpers ----
   async function fetchPortfolio() {
-    const resp = await fetch(`${API_URL}/portfolio`, { headers: authHeaders() });
+    const resp = await fetch(PORTFOLIO_URL, { headers: authHeaders() });
     if (!resp.ok) {
       const err = await resp.json().catch(() => ({}));
       throw new Error(err.message || `HTTP ${resp.status}`);
@@ -57,6 +70,9 @@
   }
 
   async function addHolding(payload) {
+    if (DEMO_MODE) {
+      throw new Error('Editing is disabled in demo mode — sign up to manage your own portfolio.');
+    }
     const resp = await fetch(`${API_URL}/portfolio`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', ...authHeaders() },
@@ -68,6 +84,9 @@
   }
 
   async function removeHolding(id) {
+    if (DEMO_MODE) {
+      throw new Error('Editing is disabled in demo mode — sign up to manage your own portfolio.');
+    }
     const resp = await fetch(`${API_URL}/portfolio/${id}`, {
       method: 'DELETE',
       headers: authHeaders()
@@ -91,7 +110,7 @@
       // Cached full is a superset — fine to serve when compact requested.
       if (cached.depth === depth || cached.depth === 'full') return cached.data;
     }
-    const url = `${API_URL}/alpha/time-series/daily?symbol=${encodeURIComponent(symbol)}&outputsize=${depth}`;
+    const url = DAILY_URL(symbol, depth);
     const resp = await fetch(url, { headers: authHeaders() });
     if (!resp.ok) return [];
     const data = await resp.json().catch(() => null);
@@ -172,16 +191,19 @@
 
       const tr = document.createElement('tr');
       tr.dataset.symbol = sym;
+      const actionsHtml = DEMO_MODE
+        ? '<span class="dash-demo-locked" title="Editing is disabled in demo mode">—</span>'
+        : `<button class="dash-remove-btn" data-id="${h._id}">Remove</button>`;
       tr.innerHTML = `
         <td class="dash-name">${escapeHTML(h.name || sym)}</td>
-        <td><a class="dash-symbol-pill" href="fundamentals.html?symbol=${encodeURIComponent(sym)}">${sym}</a></td>
+        <td><a class="dash-symbol-pill" href="${FUNDAMENTALS_LINK(sym)}">${sym}</a></td>
         <td class="num">${shares.toLocaleString(undefined, { maximumFractionDigits: 4 })}</td>
         <td class="num">${fmt.format(buy)}</td>
         <td class="num">${fmt.format(cur)}</td>
         <td class="num">${fmt.format(cost)}</td>
         <td class="num">${fmt.format(value)}</td>
         <td class="num ${plClass}">${fmtSigned(pl)} (${fmtPct(plPct)})</td>
-        <td class="dash-col-actions"><button class="dash-remove-btn" data-id="${h._id}">Remove</button></td>
+        <td class="dash-col-actions">${actionsHtml}</td>
       `;
       tbody.appendChild(tr);
     });
@@ -585,9 +607,22 @@
     });
   }
 
+  function applyDemoModeUI() {
+    if (!DEMO_MODE) return;
+    // Hide the Add Position card entirely — demo is read-only.
+    const addCard = document.getElementById('add-stock-card');
+    if (addCard) addCard.style.display = 'none';
+    // Update dashboard subtitle so visitors know it's a sample.
+    const sub = document.getElementById('dash-sub');
+    if (sub) sub.textContent = 'A sample portfolio with live prices. Sign up to build your own.';
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    bindSymbolSearch();
-    bindForm();
+    applyDemoModeUI();
+    if (!DEMO_MODE) {
+      bindSymbolSearch();
+      bindForm();
+    }
     bindRangeButtons();
     refresh();
     window.addEventListener('resize', () => {
