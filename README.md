@@ -1,6 +1,22 @@
-# Version 2 Snapshot
+# Stock Portfolio Pro
 
-This folder contains a snapshot of the app after the recent Fundamentals + Dashboard improvements (adaptive axes, cleaned layout, new charts, tooltips, USD unit labels, and per-user portfolio).
+**Live:** https://stockportfolio.pro · **No-signup demo:** https://stockportfolio.pro/demo
+**Built by:** [Avinash Sreekumar](https://avisre.github.io) — cross-platform full-stack developer (Trivandrum, India)
+
+A production-grade portfolio tracker and analytics dashboard with hand-rolled D3 charts, drill-down fundamentals, and real-time market data. Read-only demo seeded with AAPL / MSFT / TSLA / NVDA / JPM lives at `/demo`.
+
+## Stack
+- **Backend:** Node.js + Express, MongoDB Atlas (Mongoose)
+- **Frontend:** Vanilla HTML/CSS/JS + D3.js v7 (custom SVG charts — no Recharts, no Chart.js)
+- **Market data:** `yahoo-finance2` wrapped to mimic Alpha Vantage response shape (provider-swappable), plus Alpha Vantage fallback for fundamentals
+- **Auth:** JWT + Google OAuth (`google-auth-library`) + Facebook OAuth + bcrypt/argon2
+- **Payments:** Stripe subscription gating for paid features
+- **Performance:** in-memory tiered TTL cache (60 s quotes → 12 h fundamentals), ~2.5 req/s outbound throttle to stay inside upstream limits
+- **Deploy:** Render with custom domain, HTTPS/SSL
+
+## Snapshot notes
+
+This folder contains the production snapshot — Fundamentals + Dashboard improvements (adaptive axes, cleaned layout, new charts, tooltips, USD unit labels, per-user portfolio, plus the `/demo` read-only route).
 
 ## Structure
 
