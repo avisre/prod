@@ -690,6 +690,21 @@ mongoose.set('bufferCommands', false);
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/stockportfolio';
 connectMongoWithFallback(MONGODB_URI);
 
+// Canonical URL hygiene: 301 any non-root page URL that has a trailing slash
+// to the slash-less version (e.g. /privacy/ -> /privacy). GET only; skips the
+// API and the root. Prevents trailing-slash duplicate URLs from being indexed
+// as separate pages.
+app.use((req, res, next) => {
+    if (req.method === 'GET') {
+        const p = req.path;
+        if (p !== '/' && p.endsWith('/') && !p.startsWith('/api')) {
+            const qs = req.originalUrl.slice(p.length); // preserve querystring
+            return res.redirect(301, p.replace(/\/+$/, '') + qs);
+        }
+    }
+    next();
+});
+
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
@@ -2205,6 +2220,21 @@ app.get(/^\/privacy\/?$/, (req, res) => {
 
 app.get(/^\/terms\/?$/, (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/terms.html'));
+});
+
+// Pretty routes for the remaining static pages. These were referenced in the
+// sitemap/canonicals but had no route, so they fell through to the SPA
+// catch-all and served the homepage (soft 404). Serve the real page instead.
+app.get(/^\/support\/?$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/support.html'));
+});
+
+app.get(/^\/news\/?$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/news.html'));
+});
+
+app.get(/^\/sitemap\/?$/, (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/sitemap.html'));
 });
 
 // SEO + LLM-agent discovery files.
