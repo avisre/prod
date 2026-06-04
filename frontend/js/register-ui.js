@@ -21,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const terms = el('terms');
   const createBtn = el('createBtn');
+  const submitHint = el('submit-hint');
   const matchHint = el('matchHint');
   const form = el('register-form');
   const errorBox = el('error-message');
@@ -118,10 +119,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordValue = passwordInput?.value || '';
     const confirmValue = confirmInput?.value || '';
     const activeErrorField = (errorBox?.dataset.errorField || '').trim();
-    const nameOk = nameValue.length >= 2;
+    const nameOk = !nameInput || nameValue.length >= 2;
     const emailOk = emailLooksValid(emailValue);
     const emailServerOk = !getEmailServerIssue();
-    const passwordOk = score >= 3;
+    // Match the actual submit policy (length + uppercase + lowercase + number),
+    // so the button never enables when submission would be rejected.
+    const passwordOk = score >= 4;
     const confirmPresent = !confirmInput || confirmValue.length > 0;
     const matchOk = !confirmInput || (passwordValue && passwordValue === confirmValue);
     const termsOk = !terms || terms.checked;
@@ -142,6 +145,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const canSubmit = nameOk && emailOk && emailServerOk && passwordOk && confirmPresent && matchOk && termsOk;
     if (createBtn) createBtn.disabled = !canSubmit;
+
+    if (submitHint) {
+      let nextStep = '';
+      if (!nameOk) nextStep = nameValue.length ? NAME_TOO_SHORT_MESSAGE : 'Enter your full name to continue.';
+      else if (!emailOk) nextStep = 'Enter a valid email address.';
+      else if (!emailServerOk) nextStep = getEmailServerIssue();
+      else if (!passwordOk) {
+        if (passwordValue.length < 8) nextStep = 'Make your password at least 8 characters.';
+        else if (!/[A-Z]/.test(passwordValue)) nextStep = 'Add an uppercase letter (A-Z) to your password.';
+        else if (!/[a-z]/.test(passwordValue)) nextStep = 'Add a lowercase letter (a-z) to your password.';
+        else if (!/[0-9]/.test(passwordValue)) nextStep = 'Add a number (0-9) to your password.';
+        else nextStep = 'Strengthen your password to continue.';
+      } else if (!confirmPresent) nextStep = PASSWORD_CONFIRM_REQUIRED_MESSAGE;
+      else if (!matchOk) nextStep = PASSWORD_MISMATCH_MESSAGE;
+      else if (!termsOk) nextStep = TERMS_REQUIRED_MESSAGE;
+      submitHint.textContent = nextStep;
+      submitHint.style.display = nextStep ? '' : 'none';
+    }
     if (errorBox) {
       const errorField = (errorBox.dataset.errorField || '').trim();
       const fieldResolved =
@@ -180,31 +201,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const termsOk = !terms || terms.checked;
 
     if (
-      nameValue.length < 2 ||
+      (nameInput && nameValue.length < 2) ||
       !emailValue ||
       !emailOk ||
       emailServerIssue ||
       !passwordValue ||
-      passwordScore < 3 ||
-      !confirmValue ||
+      passwordScore < 4 ||
+      (confirmInput && !confirmValue) ||
       !matchOk ||
       !termsOk
     ) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      if (!nameValue) showFormError('Please enter your full name.', 'name');
-      else if (nameValue.length < 2) showFormError(NAME_TOO_SHORT_MESSAGE, 'name');
+      if (nameInput && !nameValue) showFormError('Please enter your full name.', 'name');
+      else if (nameInput && nameValue.length < 2) showFormError(NAME_TOO_SHORT_MESSAGE, 'name');
       else if (!emailValue) showFormError('Please enter your email address.', 'email');
       else if (!emailOk) showFormError('Please enter a valid email address.', 'email');
       else if (emailServerIssue) showFormError(emailServerIssue, 'email');
       else if (!passwordValue) showFormError('Please create a password before continuing.', 'password');
-      else if (passwordScore < 3) showFormError(PASSWORD_POLICY_MESSAGE, 'password');
-      else if (!confirmValue) showFormError(PASSWORD_CONFIRM_REQUIRED_MESSAGE, 'confirm');
+      else if (passwordScore < 4) showFormError(PASSWORD_POLICY_MESSAGE, 'password');
+      else if (confirmInput && !confirmValue) showFormError(PASSWORD_CONFIRM_REQUIRED_MESSAGE, 'confirm');
       else if (!matchOk) showFormError(PASSWORD_MISMATCH_MESSAGE, 'confirm');
       else showFormError(TERMS_REQUIRED_MESSAGE, 'terms');
       setInvalidState(nameInput, !nameValue || nameValue.length < 2);
       setInvalidState(emailInput, !emailOk || Boolean(emailServerIssue) || !emailValue);
-      setInvalidState(passwordInput, !passwordValue || passwordScore < 3);
+      setInvalidState(passwordInput, !passwordValue || passwordScore < 4);
       setInvalidState(confirmInput, !confirmValue || !matchOk);
       if (terms) terms.setAttribute('aria-invalid', termsOk ? 'false' : 'true');
     }

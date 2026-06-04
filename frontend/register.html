@@ -33,11 +33,11 @@
 
     <meta
       name="description"
-      content="Create your stockportfolio.pro account and start a 7-day free trial. Choose monthly or annual and get full access instantly."
+      content="Create your stockportfolio.pro account. Choose monthly (£27/mo) or annual (£270/yr) and get full access instantly."
     />
     <meta
       name="keywords"
-      content="stock portfolio, portfolio tracker, register, free trial"
+      content="stock portfolio, portfolio tracker, register, subscription"
     />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://www.stockportfolio.pro/register" />
@@ -45,7 +45,7 @@
     <meta property="og:title" content="Register - stockportfolio.pro" />
     <meta
       property="og:description"
-      content="Create your account and start a 7-day free trial."
+      content="Create your account. £27/month or £270/year, cancel anytime."
     />
     <meta property="og:url" content="https://www.stockportfolio.pro/register" />
     <meta property="og:type" content="website" />
@@ -55,7 +55,7 @@
     <meta name="twitter:title" content="Register - stockportfolio.pro" />
     <meta
       name="twitter:description"
-      content="Create your account and start a 7-day free trial."
+      content="Create your account. £27/month or £270/year, cancel anytime."
     />
     <meta name="twitter:image" content="https://www.stockportfolio.pro/images/twitter-register.jpg" />
 
@@ -65,7 +65,7 @@
     <link rel="icon" href="Media/icon.png" />
 
     <link rel="stylesheet" href="styles.css?v=20260508-7" />
-    <link rel="stylesheet" href="css/register.css?v=20260328-3" />
+    <link rel="stylesheet" href="css/register.css?v=20260603-2" />
   </head>
 
   <body class="register-page">
@@ -104,17 +104,17 @@
 
           <h1 class="headline"><span class="grad">Choose your plan</span> and create your account in under a minute.</h1>
           <p class="sub">
-            Start with a low-friction monthly trial or lock in the annual plan and save &pound;14 while keeping your portfolio workspace ready for every earnings season.
+            Start monthly for flexibility or lock in the annual plan and save &pound;54 while keeping your portfolio workspace ready for every earnings season.
           </p>
 
           <div class="stats">
             <div class="stat">
               <b>Annual savings</b>
-              <span>Pay &pound;70/year, save the cost of 2 months, and skip monthly rebilling.</span>
+              <span>Pay &pound;270/year, save the cost of 2 months, and skip monthly rebilling.</span>
             </div>
             <div class="stat">
-              <b>Monthly trial</b>
-              <span>Start free for 7 days, then continue at &pound;7/month.</span>
+              <b>Monthly</b>
+              <span>&pound;27/month, billed today. Cancel anytime.</span>
             </div>
           </div>
 
@@ -167,38 +167,25 @@
         </aside>
 
         <section class="card" aria-label="Registration form">
-          <h2>Create account</h2>
-          <p id="register-subcopy">Choose the plan that fits how often you review your portfolio.</p>
+          <h2>Create your account</h2>
+          <p id="register-subcopy">No portfolio data needed to start &mdash; add holdings once you're in.</p>
 
           <div class="register-plan-picker" role="group" aria-label="Choose your plan">
-            <button class="register-plan-card is-selected" type="button" data-plan-option="annual" aria-pressed="true">
-              <span class="register-plan-card-badge register-plan-card-badge-annual">Best value</span>
-              <span class="register-plan-card-name">Annual</span>
-              <span class="register-plan-card-price">&pound;70/year</span>
-              <span class="register-plan-card-copy">Save &pound;14 per year, stay ready for earnings season, and avoid monthly rebilling.</span>
-            </button>
-            <button class="register-plan-card" type="button" data-plan-option="monthly" aria-pressed="false">
-              <span class="register-plan-card-badge register-plan-card-badge-monthly">7-day trial</span>
+            <button class="register-plan-card is-selected" type="button" data-plan-option="monthly" aria-pressed="true">
               <span class="register-plan-card-name">Monthly</span>
-              <span class="register-plan-card-price">&pound;7/month</span>
-              <span class="register-plan-card-copy">Start free for 7 days, then continue monthly if the workflow fits.</span>
+              <span class="register-plan-card-price">&pound;27/mo</span>
+              <span class="register-plan-card-badge register-plan-card-badge-monthly">Cancel anytime</span>
+            </button>
+            <button class="register-plan-card" type="button" data-plan-option="annual" aria-pressed="false">
+              <span class="register-plan-card-name">Annual</span>
+              <span class="register-plan-card-price">&pound;270/yr</span>
+              <span class="register-plan-card-badge register-plan-card-badge-annual">Save &pound;54</span>
             </button>
           </div>
 
           <p id="register-plan-summary" class="register-plan-summary">
-            Annual selected. Save &pound;14 per year, keep the full dashboard unlocked, and avoid monthly rebilling.
+            Monthly selected. &pound;27/month, billed today. Cancel anytime.
           </p>
-
-          <div class="register-trust" role="note" aria-label="Trial and trust information">
-            <p class="register-trust-title">Before you start</p>
-            <ul class="register-trust-list">
-              <li id="register-trust-price">Annual plan: &pound;70/year. Save &pound;14 versus monthly billing.</li>
-              <li id="register-trust-billing">Full access starts immediately and renews once a year, so your workspace is ready whenever markets move.</li>
-              <li>Not financial advice</li>
-              <li>No broker connection required</li>
-              <li>Cancel anytime</li>
-            </ul>
-          </div>
 
           <div id="social-register-shell" class="social-auth-shell" hidden>
             <div class="social-auth-status" role="status" aria-live="polite" hidden></div>
@@ -206,25 +193,16 @@
               <div id="google-register-button" class="sso-provider" hidden></div>
             </div>
             <div class="divider">
-              <span>or create an account with email</span>
+              <span>or sign up with email</span>
             </div>
           </div>
 
           <form id="register-form" novalidate>
-            <input type="hidden" id="selected-plan" name="plan" value="annual" />
-            <div class="two">
-              <div class="field">
-                <label for="name">Full name</label>
-                <div class="input">
-                  <input id="name" name="name" type="text" placeholder="Jane Doe" autocomplete="name" required aria-required="true" />
-                </div>
-              </div>
-
-              <div class="field">
-                <label for="email">Email</label>
-                <div class="input">
-                  <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required aria-required="true" />
-                </div>
+            <input type="hidden" id="selected-plan" name="plan" value="monthly" />
+            <div class="field">
+              <label for="email">Email</label>
+              <div class="input">
+                <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required aria-required="true" />
               </div>
             </div>
 
@@ -235,56 +213,31 @@
                   id="password"
                   name="password"
                   type="password"
-                  placeholder="Create a strong password"
+                  placeholder="Create a password"
                   autocomplete="new-password"
                   required
                   aria-required="true"
-                  aria-describedby="password-rules"
+                  aria-describedby="password-hint"
                 />
                 <button class="toggle" type="button" id="togglePw" aria-label="Show password">Show</button>
               </div>
-
-              <div class="meter" aria-live="polite">
-                <div class="bar"><div class="fill" id="fill"></div></div>
-                <div class="meterRow">
-                  <div class="strength" id="strengthText">Strength: -</div>
-                  <div class="strength" id="scoreText">0 / 4</div>
-                </div>
-              </div>
-
-              <ul id="password-rules" class="password-rules" aria-live="polite" aria-atomic="true">
-                <li class="password-rule" data-rule="length"><span class="badge">*</span> 8+ characters</li>
-                <li class="password-rule" data-rule="uppercase"><span class="badge">*</span> Uppercase (A-Z)</li>
-                <li class="password-rule" data-rule="lowercase"><span class="badge">*</span> Lowercase (a-z)</li>
-                <li class="password-rule" data-rule="number"><span class="badge">*</span> Number (0-9)</li>
-              </ul>
-
-              <div class="hint">Tip: add a symbol for extra strength (optional).</div>
+              <div class="hint" id="password-hint">8+ characters, with an uppercase letter, a lowercase letter, and a number.</div>
             </div>
 
-            <div class="field">
-              <label for="confirm">Confirm password</label>
-              <div class="input">
-                <input id="confirm" name="confirm" type="password" placeholder="Re-enter password" autocomplete="new-password" required aria-required="true" />
-                <button class="toggle" type="button" id="toggleConfirm" aria-label="Show password">Show</button>
-              </div>
-              <div class="hint" id="matchHint" style="display: none;"></div>
-            </div>
-
-            <div class="row">
-              <label class="check" for="terms">
-                <input type="checkbox" id="terms" required aria-required="true" />
-                <span>
-                  I agree to the <a class="link" href="terms.html">Terms</a> and
-                  <a class="link" href="privacy.html">Privacy Policy</a>.
-                </span>
-              </label>
-            </div>
+            <label class="check" for="terms">
+              <input type="checkbox" id="terms" required aria-required="true" />
+              <span>
+                I agree to the <a class="link" href="terms.html">Terms</a> and
+                <a class="link" href="privacy.html">Privacy Policy</a>.
+              </span>
+            </label>
 
             <div id="error-message" class="error-message" role="alert" aria-live="assertive" tabindex="-1"></div>
             <div id="success-message" class="success-message" role="status" aria-live="polite"></div>
 
-            <button class="btn auth-submit-btn" id="createBtn" type="submit" disabled>Continue to annual checkout</button>
+            <button class="btn auth-submit-btn" id="createBtn" type="submit" disabled>Subscribe &mdash; &pound;27/month</button>
+            <p id="submit-hint" class="register-submit-hint" role="status" aria-live="polite" style="display: none;"></p>
+            <p id="cta-caption" class="register-cta-caption">&pound;27/month, billed today. Cancel anytime.</p>
 
             <div class="foot">
               Already have an account? <a class="link" href="login.html">Sign in</a>
@@ -308,9 +261,9 @@
     </div>
 
     <script src="js/consent.js?v=20260210-1"></script>
-    <script src="js/register-ui.js?v=20260328-5"></script>
+    <script src="js/register-ui.js?v=20260603-2"></script>
     <script src="js/social-auth.js?v=20260328-1"></script>
-    <script src="js/register.js?v=20260328-4"></script>
+    <script src="js/register.js?v=20260603-3"></script>
   </body>
 </html>
 

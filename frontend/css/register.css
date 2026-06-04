@@ -131,11 +131,16 @@ body.register-page .wrap {
 }
 
 body.register-page .shell {
-  width: min(1060px, 100%);
+  width: min(460px, 100%);
   display: grid;
-  grid-template-columns: 1.05fr 0.95fr;
+  grid-template-columns: 1fr;
   gap: 22px;
   align-items: stretch;
+}
+
+/* Minimal single-card sign-up: the marketing panel is hidden. */
+body.register-page .shell .panel {
+  display: none;
 }
 
 body.register-page .panel,
@@ -607,6 +612,21 @@ body.register-page .hint {
   color: rgba(255, 255, 255, 0.58);
   font-size: 12px;
   line-height: 1.35;
+}
+
+body.register-page .register-submit-hint {
+  margin: 10px 0 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(255, 214, 165, 0.95);
+}
+
+body.register-page .register-cta-caption {
+  margin: 8px 0 0;
+  font-size: 12px;
+  line-height: 1.4;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.56);
 }
 
 body.register-page .meter {

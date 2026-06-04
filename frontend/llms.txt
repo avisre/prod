@@ -1,6 +1,6 @@
 # Stock Portfolio Pro
 
-> Production-grade portfolio tracker with hand-rolled D3 charts, real-time market data via Yahoo Finance, and Stripe subscription gating. Free no-signup demo, then a 7-day free trial.
+> Production-grade portfolio tracker with hand-rolled D3 charts, real-time market data via Yahoo Finance, and Stripe subscription gating. Free no-signup demo, then a paid subscription (£27/month or £270/year).
 
 Stock Portfolio Pro (stockportfolio.pro) is a web-based portfolio tracker and fundamentals analytics dashboard aimed at long-term retail investors who want clarity, not noise. Holdings are added manually, so no broker credentials are required. The product is owned and built by Avinash Sreekumar.
 
@@ -12,14 +12,14 @@ Stock Portfolio Pro (stockportfolio.pro) is a web-based portfolio tracker and fu
 
 ## Sign up
 
-- [Register](https://stockportfolio.pro/register): start the 7-day free trial.
+- [Register](https://stockportfolio.pro/register): create an account and subscribe.
 - [Log in](https://stockportfolio.pro/login)
 
 ## Pricing
 
 - Free demo: no signup required, read-only.
-- Monthly: GBP 7/month with a 7-day free trial.
-- Annual: GBP 70/year (saves GBP 14 vs monthly).
+- Monthly: GBP 27/month, billed monthly.
+- Annual: GBP 270/year (saves GBP 54 vs monthly).
 
 ## Key features
 
@@ -27,7 +27,7 @@ Stock Portfolio Pro (stockportfolio.pro) is a web-based portfolio tracker and fu
 - Company fundamentals view (income statement, balance sheet, cash flow).
 - Real-time price data via Yahoo Finance (yahoo-finance2).
 - JWT auth with Google and Facebook OAuth.
-- Stripe subscription gating with a 7-day free trial.
+- Stripe subscription gating (monthly or annual).
 
 ## Tech stack
 

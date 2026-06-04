@@ -18,6 +18,8 @@ const secSource = require('./sec-source');
 require('dotenv').config();
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
+const { sendNewUserEmails } = require('./mailer');
+
 const app = express();
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
@@ -59,11 +61,11 @@ const alphaResponseCache = new Map();
 const EXPECTED_STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID || 'acct_1TDj4gAUeKapY1OP';
 const MONTHLY_PLAN_ID = 'monthly';
 const ANNUAL_PLAN_ID = 'annual';
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '7.00');
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '27.00');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'GBP';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '70.00');
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '270.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
-const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
+const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '0', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
 const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL || '';
@@ -576,6 +578,20 @@ function emailLooksValid(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(email || '').trim());
 }
 
+// Provisional display name from an email local-part when no name is supplied
+// at sign-up (e.g. "jane.doe@x.com" -> "Jane Doe"). Falls back to "Member".
+function deriveNameFromEmail(email) {
+  const local = String(email || '').split('@')[0] || '';
+  const words = local
+    .replace(/[._\-+]+/g, ' ')
+    .replace(/[^a-zA-Z ]/g, '')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
+  return words.join(' ') || 'Member';
+}
+
 function isDatabaseUnavailableError(error) {
   const msg = String(error?.message || '').toLowerCase();
   return (
@@ -848,7 +864,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
             submit: {
                 message: planConfig.planId === ANNUAL_PLAN_ID
                     ? 'Annual plan for long-term investors. Cancel anytime.'
-                    : '7-day free trial. Cancel anytime before renewal.'
+                    : 'Monthly plan, billed today. Cancel anytime before renewal.'
             }
         },
         subscription_data: {
@@ -1148,6 +1164,12 @@ async function findOrCreateSocialUser(profile) {
     user.markModified('subscription');
     await user.save();
 
+    if (created) {
+        // New social signup: onboarding email + owner notification (fire-and-forget).
+        sendNewUserEmails({ name: user.name, email: user.email, plan: profile.provider ? `social (${profile.provider})` : 'social' })
+            .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+    }
+
     return { user, created };
 }
 
@@ -1205,23 +1227,8 @@ app.post('/api/subscribe', async (req, res) => {
     const trimmedName = String(name || '').trim();
     const rawEmail = String(email || '').trim();
     const normalizedEmail = normalizeEmail(email);
-      if (!trimmedName) {
-          return sendApiError(
-              res,
-              createHttpError(400, 'Please enter your full name.', 'NAME_REQUIRED', { field: 'name' })
-          );
-      }
-      if (trimmedName.length < 2) {
-          return sendApiError(
-              res,
-              createHttpError(
-                  400,
-                  'Please enter at least 2 characters for your name.',
-                  'NAME_TOO_SHORT',
-                  { field: 'name' }
-              )
-          );
-      }
+      // Name is optional at sign-up (minimal flow); we derive a provisional
+      // display name from the email and let the user edit it later.
       if (!rawEmail) {
           return sendApiError(
               res,
@@ -1278,7 +1285,10 @@ app.post('/api/subscribe', async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ name: trimmedName, email: normalizedEmail, password: hashedPassword });
+        const displayName = trimmedName.length >= 2
+            ? trimmedName
+            : deriveNameFromEmail(normalizedEmail);
+        const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
 
         user.subscription = ensureSubscriptionShape(user);
         user.subscription.status = 'pending';
@@ -1295,6 +1305,10 @@ app.post('/api/subscribe', async (req, res) => {
         user.subscription.lastPaymentAt = null;
         user.markModified('subscription');
         await user.save();
+
+        // New signup: send onboarding email + owner notification (fire-and-forget).
+        sendNewUserEmails({ name: displayName, email: normalizedEmail, plan: planConfig.planName })
+            .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
 
         const session = await createCheckoutSessionForUser(user, {
             req,

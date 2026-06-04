@@ -37,33 +37,36 @@ const PLAN_CONFIG = Object.freeze({
   annual: {
     plan: 'annual',
     label: 'Annual',
-    summary: 'Annual selected. Save \u00a314 per year, keep the full dashboard unlocked, and avoid monthly rebilling.',
-    subcopy: 'Annual plan gives you 12 months of access for \u00a370/year and keeps your workspace ready year-round.',
-    trustPrice: 'Annual plan: \u00a370/year. Save \u00a314 versus monthly billing.',
+    summary: 'Annual selected. Save \u00a354 per year, keep the full dashboard unlocked, and avoid monthly rebilling.',
+    subcopy: 'Annual plan gives you 12 months of access for \u00a3270/year and keeps your workspace ready year-round.',
+    trustPrice: 'Annual plan: \u00a3270/year. Save \u00a354 versus monthly billing.',
     trustBilling: 'Full access starts immediately and renews once a year, so your workspace is ready whenever markets move.',
-    submitLabel: 'Continue to annual checkout',
+    submitLabel: 'Subscribe \u2014 \u00a3270/year',
+    ctaCaption: 'Billed \u00a3270 today, renews yearly. Cancel anytime.',
     startingMessage: 'Redirecting to annual checkout...',
     redirectMessage: 'Redirecting to annual checkout...'
   },
   monthly: {
     plan: 'monthly',
     label: 'Monthly',
-    summary: 'Monthly selected. Start free for 7 days, then \u00a37/month.',
-    subcopy: 'Monthly plan includes a 7-day free trial.',
-    trustPrice: '7-day free trial, then \u00a37/month.',
-    trustBilling: 'Cancel anytime before the trial ends to avoid billing.',
-    submitLabel: 'Start 7-day trial',
-    startingMessage: 'Starting your trial...',
+    summary: 'Monthly selected. \u00a327/month, billed today. Cancel anytime.',
+    subcopy: 'Monthly plan billed at \u00a327/month.',
+    trustPrice: '\u00a327/month, billed today.',
+    trustBilling: 'Renews monthly. Cancel anytime.',
+    submitLabel: 'Subscribe \u2014 \u00a327/month',
+    ctaCaption: '\u00a327/month, billed today. Cancel anytime.',
+    startingMessage: 'Starting your subscription...',
     redirectMessage: 'Redirecting to Stripe checkout...'
   }
 });
-let selectedPlan = 'annual';
+let selectedPlan = 'monthly';
 
 function normalizePlan(value) {
   const plan = String(value || '').trim().toLowerCase();
   if (plan === 'annual' || plan === 'year' || plan === 'yearly') return 'annual';
   if (plan === 'monthly' || plan === 'month') return 'monthly';
-  return 'annual';
+  // Default to the monthly plan.
+  return 'monthly';
 }
 
 function getSelectedPlanConfig() {
@@ -114,6 +117,11 @@ function updatePlanSelectionUi() {
   const submitBtn = document.getElementById('createBtn');
   if (submitBtn) {
     submitBtn.textContent = planConfig.submitLabel;
+  }
+
+  const ctaCaptionEl = document.getElementById('cta-caption');
+  if (ctaCaptionEl) {
+    ctaCaptionEl.textContent = planConfig.ctaCaption;
   }
 }
 
@@ -347,15 +355,11 @@ async function startSubscription(event) {
   const errorEl = document.getElementById('error-message');
   const successEl = document.getElementById('success-message');
   const planConfig = getSelectedPlanConfig();
-  const name = document.getElementById('name')?.value?.trim() || '';
   const email = document.getElementById('email')?.value?.trim().toLowerCase() || '';
   const password = document.getElementById('password')?.value || '';
-  const confirmPassword = document.getElementById('confirm')?.value || '';
   const termsAccepted = Boolean(document.getElementById('terms')?.checked);
   const nextAfterAuth = new URLSearchParams(window.location.search).get('next') || 'news.html';
 
-  if (!name) return showError('Please enter your full name.', { code: 'NAME_REQUIRED', field: 'name' });
-  if (name.length < 2) return showError(NAME_TOO_SHORT_MESSAGE, { code: 'NAME_TOO_SHORT', field: 'name' });
   if (!email) return showError('Please enter your email address.', { code: 'EMAIL_REQUIRED', field: 'email' });
   if (!emailLooksValid(email)) return showError('Please enter a valid email address.', { code: 'EMAIL_INVALID', field: 'email' });
 
@@ -372,14 +376,6 @@ async function startSubscription(event) {
     return;
   }
 
-  if (!confirmPassword) {
-    return showError(CONFIRM_PASSWORD_REQUIRED_MESSAGE, { code: 'PASSWORD_CONFIRM_REQUIRED', field: 'confirm' });
-  }
-
-  if (password !== confirmPassword) {
-    return showError(PASSWORD_MISMATCH_MESSAGE, { code: 'PASSWORD_MISMATCH', field: 'confirm' });
-  }
-
   if (!termsAccepted) {
     return showError(TERMS_REQUIRED_MESSAGE, { code: 'TERMS_REQUIRED', field: 'terms' });
   }
@@ -390,7 +386,7 @@ async function startSubscription(event) {
     successEl.style.display = '';
   }
 
-  const payload = { name, email, password, flow: 'register', next: nextAfterAuth, plan: planConfig.plan };
+  const payload = { email, password, flow: 'register', next: nextAfterAuth, plan: planConfig.plan };
   const attribution = getAttributionPayload();
   if (attribution) payload.attribution = attribution;
 
