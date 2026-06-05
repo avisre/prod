@@ -875,11 +875,6 @@
     "sector": "Energy"
   },
   {
-    "symbol": "EPAM",
-    "name": "EPAM Systems",
-    "sector": "Information Technology"
-  },
-  {
     "symbol": "EQT",
     "name": "EQT Corporation",
     "sector": "Energy"
@@ -987,6 +982,11 @@
   {
     "symbol": "FDX",
     "name": "FedEx",
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "FDXF",
+    "name": "FedEx Freight",
     "sector": "Industrials"
   },
   {
