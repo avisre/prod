@@ -172,4 +172,4 @@ Disallow: /api/
 # ---------------------------------------------------------------------------
 # Sitemaps
 # ---------------------------------------------------------------------------
-Sitemap: https://stockportfolio.pro/sitemap.xml
+Sitemap: https://www.stockportfolio.pro/sitemap.xml
