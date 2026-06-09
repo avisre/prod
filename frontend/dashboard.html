@@ -134,6 +134,11 @@
       <section class="dash-table-card">
         <header class="dash-card-head">
           <h2 class="dash-card-title">Holdings</h2>
+          <div class="dash-data-tools" id="dash-data-tools">
+            <input id="csv-import-input" type="file" accept=".csv,text/csv" hidden />
+            <button type="button" class="btn btn-quiet dash-tool-btn" id="import-csv-btn">Import CSV</button>
+            <button type="button" class="btn btn-quiet dash-tool-btn" id="export-csv-btn">Export CSV</button>
+          </div>
         </header>
         <div class="dash-table-wrap">
           <table class="dash-table">
@@ -173,6 +178,6 @@
 
     <script src="top100-sheet.js?v=20260211-4"></script>
     <script src="symbol-lookup.js?v=20260211-4"></script>
-    <script src="js/dashboard.js?v=20260508-3"></script>
+    <script src="js/dashboard.js?v=20260610-1"></script>
   </body>
 </html>

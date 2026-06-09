@@ -37,25 +37,25 @@ const PLAN_CONFIG = Object.freeze({
   annual: {
     plan: 'annual',
     label: 'Annual',
-    summary: 'Annual selected. Save \u00a354 per year, keep the full dashboard unlocked, and avoid monthly rebilling.',
-    subcopy: 'Annual plan gives you 12 months of access for \u00a3270/year and keeps your workspace ready year-round.',
-    trustPrice: 'Annual plan: \u00a3270/year. Save \u00a354 versus monthly billing.',
+    summary: 'Annual selected. Save \u00a318 per year, keep the full dashboard unlocked, and avoid monthly rebilling.',
+    subcopy: 'Annual plan gives you 12 months of access for \u00a390/year and keeps your workspace ready year-round.',
+    trustPrice: 'Annual plan: \u00a390/year. Save \u00a318 versus monthly billing.',
     trustBilling: 'Full access starts immediately and renews once a year, so your workspace is ready whenever markets move.',
-    submitLabel: 'Subscribe \u2014 \u00a3270/year',
-    ctaCaption: 'Billed \u00a3270 today, renews yearly. Cancel anytime.',
+    submitLabel: 'Subscribe \u2014 \u00a390/year',
+    ctaCaption: 'Billed \u00a390 today, renews yearly. Cancel anytime.',
     startingMessage: 'Redirecting to annual checkout...',
     redirectMessage: 'Redirecting to annual checkout...'
   },
   monthly: {
     plan: 'monthly',
     label: 'Monthly',
-    summary: 'Monthly selected. \u00a327/month, billed today. Cancel anytime.',
-    subcopy: 'Monthly plan billed at \u00a327/month.',
-    trustPrice: '\u00a327/month, billed today.',
-    trustBilling: 'Renews monthly. Cancel anytime.',
-    submitLabel: 'Subscribe \u2014 \u00a327/month',
-    ctaCaption: '\u00a327/month, billed today. Cancel anytime.',
-    startingMessage: 'Starting your subscription...',
+    summary: 'Monthly selected. 7-day free trial, then \u00a39/month. Cancel anytime.',
+    subcopy: 'Start with a 7-day free trial, then \u00a39/month. Your card is added now but not charged until the trial ends.',
+    trustPrice: '7-day free trial, then \u00a39/month.',
+    trustBilling: 'Card added at signup, first charge after the 7-day trial. Renews monthly. Cancel anytime.',
+    submitLabel: 'Start 7-day free trial',
+    ctaCaption: 'Free for 7 days, then \u00a39/month. Cancel anytime.',
+    startingMessage: 'Starting your free trial...',
     redirectMessage: 'Redirecting to Stripe checkout...'
   }
 });

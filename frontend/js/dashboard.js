@@ -170,11 +170,159 @@
     if (updated) updated.textContent = `Updated ${fmtDate(new Date())}`;
   }
 
+  // A realistic sample portfolio new users can load with one click, then
+  // edit or delete. Removes the empty-dashboard wall — the #1 activation
+  // killer — by delivering instant value (live prices, charts, allocation).
+  const SAMPLE_HOLDINGS = [
+    { symbol: 'AAPL',  name: 'Apple Inc.',            shares: 25, purchasePrice: 175.00, purchaseDate: '2024-01-15' },
+    { symbol: 'MSFT',  name: 'Microsoft Corporation', shares: 12, purchasePrice: 370.00, purchaseDate: '2024-02-01' },
+    { symbol: 'NVDA',  name: 'NVIDIA Corporation',    shares: 30, purchasePrice: 62.00,  purchaseDate: '2024-01-20' },
+    { symbol: 'GOOGL', name: 'Alphabet Inc.',         shares: 18, purchasePrice: 140.00, purchaseDate: '2024-03-04' },
+    { symbol: 'JPM',   name: 'JPMorgan Chase & Co.',  shares: 15, purchasePrice: 172.00, purchaseDate: '2024-02-12' }
+  ];
+
+  async function loadSamplePortfolio() {
+    if (DEMO_MODE) return;
+    Loader.show();
+    try {
+      for (const h of SAMPLE_HOLDINGS) {
+        await addHolding({
+          symbol: h.symbol,
+          name: h.name,
+          shares: h.shares,
+          purchasePrice: h.purchasePrice,
+          purchaseDate: new Date(`${h.purchaseDate}T00:00:00`).toISOString()
+        });
+      }
+      await refresh();
+    } catch (e) {
+      const err = $('add-error');
+      if (err) { err.textContent = e.message || 'Could not load sample portfolio.'; err.hidden = false; }
+    } finally { Loader.hide(); }
+  }
+
+  function exportHoldingsCSV() {
+    const rows = state.holdings || [];
+    if (!rows.length) return;
+    const header = ['Symbol', 'Name', 'Shares', 'PurchasePrice', 'PurchaseDate', 'CurrentPrice'];
+    const csvEscape = (v) => {
+      const s = String(v == null ? '' : v);
+      return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+    };
+    const lines = [header.join(',')];
+    rows.forEach((h) => {
+      lines.push([
+        h.symbol,
+        h.name,
+        h.shares,
+        h.purchasePrice ?? '',
+        h.purchaseDate ? String(h.purchaseDate).slice(0, 10) : '',
+        h.currentPrice ?? ''
+      ].map(csvEscape).join(','));
+    });
+    const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `portfolio-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function parseHoldingsCSV(text) {
+    const lines = String(text || '').split(/\r?\n/).filter((l) => l.trim());
+    if (!lines.length) return [];
+    // Detect & skip a header row (first cell non-numeric symbol like "Symbol").
+    const splitRow = (line) => {
+      const out = []; let cur = ''; let inQ = false;
+      for (let i = 0; i < line.length; i++) {
+        const c = line[i];
+        if (inQ) {
+          if (c === '"' && line[i + 1] === '"') { cur += '"'; i++; }
+          else if (c === '"') inQ = false;
+          else cur += c;
+        } else if (c === '"') inQ = true;
+        else if (c === ',') { out.push(cur); cur = ''; }
+        else cur += c;
+      }
+      out.push(cur);
+      return out.map((s) => s.trim());
+    };
+    const first = splitRow(lines[0]).map((s) => s.toLowerCase());
+    const hasHeader = first.includes('symbol') || first.includes('ticker');
+    const body = hasHeader ? lines.slice(1) : lines;
+    const out = [];
+    for (const line of body) {
+      const c = splitRow(line);
+      const symbol = (c[0] || '').toUpperCase();
+      if (!symbol) continue;
+      // Flexible: Symbol, [Name], Shares, [PurchasePrice], [PurchaseDate]
+      // If col1 looks numeric, treat as 2-col (Symbol, Shares).
+      let name = '', shares, price, date;
+      if (c.length >= 5) { name = c[1]; shares = Number(c[2]); price = Number(c[3]); date = c[4]; }
+      else if (c.length === 4) { name = c[1]; shares = Number(c[2]); price = Number(c[3]); }
+      else if (c.length === 3) {
+        if (Number.isFinite(Number(c[1]))) { shares = Number(c[1]); price = Number(c[2]); }
+        else { name = c[1]; shares = Number(c[2]); }
+      } else if (c.length === 2) { shares = Number(c[1]); }
+      if (!Number.isFinite(shares) || shares <= 0) continue;
+      const row = { symbol, name: name || symbol, shares };
+      if (Number.isFinite(price) && price > 0) row.purchasePrice = price;
+      if (date && !Number.isNaN(new Date(date).getTime())) row.purchaseDate = new Date(`${date}T00:00:00`).toISOString();
+      out.push(row);
+    }
+    return out;
+  }
+
+  async function importHoldingsCSV(file) {
+    if (DEMO_MODE || !file) return;
+    const err = $('add-error');
+    if (err) { err.textContent = ''; err.hidden = true; }
+    let text = '';
+    try { text = await file.text(); }
+    catch (_) { if (err) { err.textContent = 'Could not read that file.'; err.hidden = false; } return; }
+    const rows = parseHoldingsCSV(text);
+    if (!rows.length) {
+      if (err) { err.textContent = 'No valid rows found. Use columns: Symbol, Name, Shares, PurchasePrice, PurchaseDate.'; err.hidden = false; }
+      return;
+    }
+    Loader.show();
+    let added = 0;
+    try {
+      for (const r of rows) { try { await addHolding(r); added++; } catch (_) { /* skip bad row */ } }
+      await refresh();
+      if (err && added < rows.length) {
+        err.textContent = `Imported ${added} of ${rows.length} rows (some were skipped).`;
+        err.hidden = false;
+      }
+    } finally { Loader.hide(); }
+  }
+
   function renderHoldings(holdings) {
     const tbody = $('holdings-list');
     if (!tbody) return;
     if (!holdings.length) {
-      tbody.innerHTML = '<tr class="dash-empty-row"><td colspan="9">Add a position to get started.</td></tr>';
+      if (DEMO_MODE) {
+        tbody.innerHTML = '<tr class="dash-empty-row"><td colspan="9">Sample portfolio loading…</td></tr>';
+        return;
+      }
+      tbody.innerHTML = `
+        <tr class="dash-empty-row"><td colspan="9">
+          <div class="dash-onboard">
+            <p class="dash-onboard-title">Your portfolio is empty</p>
+            <p class="dash-onboard-sub">Add a position above, import a CSV, or start with a sample portfolio you can edit or delete.</p>
+            <div class="dash-onboard-actions">
+              <button type="button" class="btn btn-primary" id="load-sample-btn">Load a sample portfolio</button>
+              <button type="button" class="btn btn-quiet" id="onboard-import-btn">Import from CSV</button>
+            </div>
+          </div>
+        </td></tr>`;
+      const sampleBtn = document.getElementById('load-sample-btn');
+      if (sampleBtn) sampleBtn.addEventListener('click', loadSamplePortfolio);
+      const impBtn = document.getElementById('onboard-import-btn');
+      if (impBtn) impBtn.addEventListener('click', () => document.getElementById('csv-import-input')?.click());
       return;
     }
     tbody.innerHTML = '';
@@ -607,11 +755,27 @@
     });
   }
 
+  function bindDataTools() {
+    const exportBtn = document.getElementById('export-csv-btn');
+    const importBtn = document.getElementById('import-csv-btn');
+    const fileInput = document.getElementById('csv-import-input');
+    if (exportBtn) exportBtn.addEventListener('click', exportHoldingsCSV);
+    if (importBtn && fileInput) importBtn.addEventListener('click', () => fileInput.click());
+    if (fileInput) fileInput.addEventListener('change', () => {
+      const f = fileInput.files && fileInput.files[0];
+      if (f) importHoldingsCSV(f);
+      fileInput.value = '';
+    });
+  }
+
   function applyDemoModeUI() {
     if (!DEMO_MODE) return;
     // Hide the Add Position card entirely — demo is read-only.
     const addCard = document.getElementById('add-stock-card');
     if (addCard) addCard.style.display = 'none';
+    // Hide import/export tools in demo.
+    const tools = document.getElementById('dash-data-tools');
+    if (tools) tools.style.display = 'none';
     // Update dashboard subtitle so visitors know it's a sample.
     const sub = document.getElementById('dash-sub');
     if (sub) sub.textContent = 'A sample portfolio with live prices. Sign up to build your own.';
@@ -622,6 +786,7 @@
     if (!DEMO_MODE) {
       bindSymbolSearch();
       bindForm();
+      bindDataTools();
     }
     bindRangeButtons();
     refresh();
