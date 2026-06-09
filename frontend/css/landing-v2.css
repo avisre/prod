@@ -676,7 +676,6 @@ img {
 }
 
 .lp-card:hover {
-  transform: translateY(-4px);
   box-shadow: 0 22px 48px rgba(15, 23, 42, 1), 0 0 0 1px rgba(99, 102, 241, 0.18), 0 0 34px var(--lp-glow-violet);
   border-color: rgba(129, 140, 248, 0.95);
   background: #020617;
@@ -817,7 +816,6 @@ img {
 
 .lp-quote-card:hover,
 .lp-founder-note:hover {
-  transform: translateY(-3px);
   box-shadow: 0 22px 48px rgba(15, 23, 42, 1), 0 0 0 1px rgba(34, 211, 238, 0.14), 0 0 28px var(--lp-glow-cyan);
   border-color: rgba(34, 211, 238, 0.55);
 }
@@ -888,6 +886,25 @@ img {
   box-shadow: 0 24px 58px rgba(15, 23, 42, 1), 0 0 0 1px rgba(99, 102, 241, 0.22), 0 0 38px var(--lp-glow-violet);
   border-color: rgba(129, 140, 248, 0.85);
 }
+
+/* ---- Click affordances (fix dead clicks) ----
+   Pricing cards are fully clickable via their CTA (stretched link), so a
+   click anywhere on the card works. Purely informational cards get a
+   default cursor and no lift, so they no longer look clickable. */
+.lp-pricing-card { position: relative; cursor: pointer; }
+.lp-pricing-card .lp-pricing-cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.lp-pricing-card .lp-pricing-cta { position: static; }
+.lp-card, .lp-quote-card, .lp-founder-note, .lp-how-card, .lp-demo-card,
+.lp-outcome, .lp-section-header, .lp-trust-chips .lp-chip { cursor: default; }
+/* Anything genuinely interactive always shows the hand cursor. */
+a[href], button, [role="button"], .lp-btn, .lp-demo-tab,
+summary, label[for], input[type="submit"] { cursor: pointer; }
+button:disabled, .lp-btn:disabled { cursor: not-allowed; }
 
 .lp-pricing-badge {
   width: fit-content;
@@ -1049,7 +1066,6 @@ body.landing-v2.lp-modal-open {
 }
 
 .lp-how-card:hover {
-  transform: translateY(-3px);
   box-shadow: 0 20px 44px rgba(15, 23, 42, 1), 0 0 0 1px rgba(148, 163, 184, 0.18), 0 0 26px rgba(148, 163, 184, 0.14);
   border-color: rgba(148, 163, 184, 0.9);
 }

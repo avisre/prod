@@ -12,6 +12,9 @@ Allow: /demo
 Allow: /demo/
 Allow: /demo-dashboard.html
 Allow: /demo-fundamentals.html
+Allow: /stocks
+Allow: /stocks/
+Allow: /vs/
 Allow: /sitemap.xml
 Allow: /llms.txt
 Allow: /llms-full.txt

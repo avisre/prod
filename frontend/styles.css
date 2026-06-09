@@ -286,6 +286,14 @@ h2 {
   font-size: 13px;
 }
 
+/* Click affordances — every interactive element shows the hand cursor so
+   visitors can tell what's clickable (reduces "dead clicks"). */
+a[href], button, [role="button"], summary, label[for],
+.btn, .tab, .scr-tab, .scr-toggle-btn, .scr-overlay-btn,
+.dash-toggle, .dash-tool-btn, .yf-asset-chip, .dropdown li,
+.fin-tabs .tab { cursor: pointer; }
+button:disabled, .btn:disabled, [aria-disabled="true"] { cursor: not-allowed; }
+
 /* Controls and buttons */
 .controls { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0 }
 .btn {

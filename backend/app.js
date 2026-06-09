@@ -721,6 +721,29 @@ app.use((req, res, next) => {
     next();
 });
 
+// ---- Public SEO pages (organic-traffic engine) ----
+// Registered before static so /stocks/:ticker, /stocks, /sitemap.xml,
+// and /vs/:competitor are server-rendered. All public, no auth.
+const seoPages = require('./seo-pages');
+const comparisonPages = require('./comparison-pages');
+
+app.get('/sitemap.xml', (req, res) => {
+    res.set('Content-Type', 'application/xml').send(seoPages.buildSitemap());
+});
+app.get('/stocks', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
+});
+app.get('/stocks/:ticker', (req, res) => {
+    const html = seoPages.renderStockPage(req.params.ticker);
+    if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
+    res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+});
+app.get('/vs/:competitor', (req, res) => {
+    const html = comparisonPages.renderComparison(req.params.competitor);
+    if (!html) return res.redirect(302, '/');
+    res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+});
+
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '../frontend')));
 
