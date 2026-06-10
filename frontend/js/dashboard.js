@@ -614,6 +614,9 @@
     const needsFull = FULL_HISTORY_RANGES.has(state.perfRange);
     const depth = needsFull ? 'full' : 'compact';
     loadPerformanceSeries(depth).catch((e) => console.error('Perf series load failed:', e));
+
+    // Weekly AI briefing (cached server-side; cheap to call).
+    loadBriefing(false).catch(() => {});
   }
 
   async function loadPerformanceSeries(depth = 'compact') {
@@ -755,6 +758,38 @@
     });
   }
 
+  async function loadBriefing(force) {
+    if (DEMO_MODE) return;
+    const card = document.getElementById('briefing-card');
+    const body = document.getElementById('briefing-body');
+    const meta = document.getElementById('briefing-meta');
+    if (!card || !body) return;
+    // Only show the card once the user has holdings.
+    if (!state.holdings || !state.holdings.length) { card.hidden = true; return; }
+    card.hidden = false;
+    if (force) body.textContent = 'Regenerating your briefing…';
+    try {
+      const url = `${API_URL}/portfolio/briefing${force ? '?refresh=1' : ''}`;
+      const resp = await fetch(url, { headers: authHeaders() });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const data = await resp.json();
+      body.textContent = data.briefing || '';
+      if (meta) {
+        const when = data.generatedAt ? new Date(data.generatedAt) : null;
+        const tag = data.source === 'ai' ? 'AI summary' : 'Summary';
+        meta.textContent = `${tag}${when && !Number.isNaN(when.getTime()) ? ' · ' + when.toLocaleDateString() : ''} · not financial advice`;
+      }
+    } catch (e) {
+      body.textContent = 'Briefing is unavailable right now.';
+      if (meta) meta.textContent = '';
+    }
+  }
+
+  function bindBriefing() {
+    const btn = document.getElementById('briefing-refresh');
+    if (btn) btn.addEventListener('click', () => loadBriefing(true));
+  }
+
   function bindDataTools() {
     const exportBtn = document.getElementById('export-csv-btn');
     const importBtn = document.getElementById('import-csv-btn');
@@ -787,6 +822,7 @@
       bindSymbolSearch();
       bindForm();
       bindDataTools();
+      bindBriefing();
     }
     bindRangeButtons();
     refresh();

@@ -18,7 +18,7 @@
     <link rel="canonical" href="https://www.stockportfolio.pro/dashboard" />
     <link rel="icon" href="Media/icon.png" />
     <link rel="stylesheet" href="styles.css?v=20260610-1" />
-    <link rel="stylesheet" href="css/dashboard.css?v=20260508-2" />
+    <link rel="stylesheet" href="css/dashboard.css?v=20260610-1" />
     <script defer src="https://d3js.org/d3.v7.min.js"></script>
     <script id="auth-gate">if(!localStorage.getItem('token')){ location.href = 'login.html?next=' + encodeURIComponent('dashboard.html' + (location.search||'')); }</script>
   </head>
@@ -73,6 +73,16 @@
           <div class="dash-kpi-value" id="kpi-holdings">0</div>
           <div class="dash-kpi-delta neutral" id="kpi-holdings-note">No positions yet</div>
         </article>
+      </section>
+
+      <!-- AI weekly briefing -->
+      <section class="dash-briefing-card" id="briefing-card" hidden>
+        <header class="dash-card-head">
+          <h2 class="dash-card-title"><span class="dash-briefing-spark" aria-hidden="true">✦</span> Your weekly briefing</h2>
+          <button type="button" class="btn btn-quiet dash-tool-btn" id="briefing-refresh" title="Regenerate">Refresh</button>
+        </header>
+        <p class="dash-briefing-body" id="briefing-body">Generating your briefing…</p>
+        <p class="dash-briefing-meta" id="briefing-meta"></p>
       </section>
 
       <!-- Charts row -->
@@ -178,6 +188,6 @@
 
     <script src="top100-sheet.js?v=20260211-4"></script>
     <script src="symbol-lookup.js?v=20260211-4"></script>
-    <script src="js/dashboard.js?v=20260610-1"></script>
+    <script src="js/dashboard.js?v=20260610-2"></script>
   </body>
 </html>

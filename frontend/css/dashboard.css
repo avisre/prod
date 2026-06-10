@@ -380,6 +380,31 @@
   font-size: 13px;
 }
 
+/* ---- AI weekly briefing ---- */
+.dash-briefing-card {
+  margin-top: 18px;
+  background:
+    radial-gradient(circle at top left, rgba(59,130,246,0.10), transparent 55%),
+    var(--dash-surface);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+}
+.dash-briefing-card[hidden] { display: none; }
+.dash-briefing-spark { color: var(--primary); margin-right: 4px; }
+.dash-briefing-body {
+  margin: 6px 0 0;
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--dash-text);
+}
+.dash-briefing-meta {
+  margin: 10px 0 0;
+  font-size: 11.5px;
+  color: var(--dash-muted);
+  letter-spacing: 0.01em;
+}
+
 /* ---- Onboarding empty state ---- */
 .dash-onboard {
   display: flex;

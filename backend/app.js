@@ -15,6 +15,7 @@ const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
 const secSource = require('./sec-source');
+const aiBriefing = require('./ai-briefing');
 require('dotenv').config();
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -1985,6 +1986,47 @@ app.get('/api/portfolio', authMiddleware, async (req, res) => {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
         }
         res.status(500).json({ message: error.message });
+    }
+});
+
+// AI weekly portfolio briefing. Numbers are computed deterministically in
+// ai-briefing.js; the model only writes prose. Cached per user for 12h so we
+// make at most ~2 model calls per user per day.
+const _briefingCache = new Map(); // userId -> { at, payload }
+const BRIEFING_TTL_MS = 12 * 60 * 60 * 1000;
+app.get('/api/portfolio/briefing', authMiddleware, async (req, res) => {
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const cacheKey = String(ownerId);
+        const force = String(req.query.refresh || '') === '1';
+        const cached = _briefingCache.get(cacheKey);
+        if (!force && cached && Date.now() - cached.at < BRIEFING_TTL_MS) {
+            return res.json({ ...cached.payload, cached: true });
+        }
+
+        const portfolio = await Stock.find({ user: ownerId });
+        const enriched = await Promise.all(portfolio.map(async (stock) => {
+            const ticker = safeUpper(stock.symbol);
+            const obj = stock.toObject();
+            obj.symbol = ticker;
+            try { obj.currentPrice = await getStockPrice(ticker); } catch (_) { /* keep stored price */ }
+            return obj;
+        }));
+
+        const result = await aiBriefing.generateBriefing(enriched);
+        const payload = {
+            briefing: result.briefing,
+            facts: result.facts,
+            source: result.source,
+            generatedAt: new Date().toISOString()
+        };
+        _briefingCache.set(cacheKey, { at: Date.now(), payload });
+        res.json({ ...payload, cached: false });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) {
+            return res.status(503).json({ message: 'Database unavailable.' });
+        }
+        res.status(500).json({ message: error.message || 'Briefing failed' });
     }
 });
 
