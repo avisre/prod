@@ -61,7 +61,7 @@
 
     <link rel="icon" href="Media/icon.png" />
     <link rel="stylesheet" href="styles.css?v=20260610-1" />
-    <link rel="stylesheet" href="css/fundamentals-screener.css?v=20260508-3" />
+    <link rel="stylesheet" href="css/fundamentals-screener.css?v=20260610-1" />
     <script defer src="https://d3js.org/d3.v7.min.js"></script>
     <script id="auth-gate">if(!localStorage.getItem('token')){ location.href = 'login.html?next=' + encodeURIComponent('fundamentals.html' + (location.search||'')); }</script>
   </head>
@@ -116,6 +116,16 @@
 
       <!-- Metric tiles (Screener's signature 9-tile grid) -->
       <section class="scr-tiles" id="metric-tiles" aria-label="Key metrics"></section>
+
+      <!-- AI financial summary -->
+      <section class="scr-ai-summary" id="ai-summary-section" hidden>
+        <div class="scr-ai-head">
+          <h2 class="scr-section-title"><span class="scr-ai-spark" aria-hidden="true">✦</span> AI summary</h2>
+          <button type="button" class="scr-ai-btn" id="ai-summary-btn">Summarise the financials</button>
+        </div>
+        <p class="scr-ai-body" id="ai-summary-body" hidden></p>
+        <p class="scr-ai-meta" id="ai-summary-meta" hidden></p>
+      </section>
 
       <!-- About section -->
       <section class="scr-about" id="about-section" hidden>
@@ -261,6 +271,6 @@
     </div>
     <script src="top100-sheet.js?v=20260211-4"></script>
     <script src="symbol-lookup.js?v=20260211-4"></script>
-    <script src="fundamentals.js?v=20260515-5"></script>
+    <script src="fundamentals.js?v=20260610-1"></script>
   </body>
 </html>

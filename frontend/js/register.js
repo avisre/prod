@@ -57,6 +57,18 @@ const PLAN_CONFIG = Object.freeze({
     ctaCaption: 'Free for 7 days, then \u00a39/month. Cancel anytime.',
     startingMessage: 'Starting your free trial...',
     redirectMessage: 'Redirecting to Stripe checkout...'
+  },
+  pro: {
+    plan: 'pro',
+    label: 'Pro',
+    summary: 'Pro selected. 7-day free trial, then \u00a325/month. Your private AI portfolio analyst, cancel anytime.',
+    subcopy: 'Everything in Core plus the AI assistant: ask anything about your portfolio and get AI summaries of any company. 7-day free trial, then \u00a325/month.',
+    trustPrice: '7-day free trial, then \u00a325/month.',
+    trustBilling: 'Card added at signup, first charge after the 7-day trial. Renews monthly. Cancel anytime.',
+    submitLabel: 'Start Pro free trial',
+    ctaCaption: 'Free for 7 days, then \u00a325/month. Cancel anytime.',
+    startingMessage: 'Starting your free trial...',
+    redirectMessage: 'Redirecting to Stripe checkout...'
   }
 });
 let selectedPlan = 'monthly';
@@ -64,6 +76,7 @@ let selectedPlan = 'monthly';
 function normalizePlan(value) {
   const plan = String(value || '').trim().toLowerCase();
   if (plan === 'annual' || plan === 'year' || plan === 'yearly') return 'annual';
+  if (plan === 'pro') return 'pro';
   if (plan === 'monthly' || plan === 'month') return 'monthly';
   // Default to the monthly plan.
   return 'monthly';

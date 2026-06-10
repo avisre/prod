@@ -16,7 +16,22 @@ const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHis
 const yahooSource = require('./yahoo-source');
 const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
+const aiFeatures = require('./ai-features');
 require('dotenv').config();
+
+// Pro-tier gate. AI_PRO_FOR_ALL=true (default) gives every active subscriber the
+// AI features now; set it to 'false' once a paid Pro plan is live to restrict
+// the AI assistant to Pro subscribers only.
+const AI_PRO_FOR_ALL = process.env.AI_PRO_FOR_ALL !== 'false';
+function isProUser(req) {
+    if (AI_PRO_FOR_ALL) return true;
+    const planId = (req.subscription && req.subscription.planId) || (req.user && req.user.subscription && req.user.subscription.planId);
+    return planId === 'pro' || planId === 'pro-annual';
+}
+function proGate(req, res, next) {
+    if (isProUser(req)) return next();
+    return res.status(402).json({ message: 'This is a Pro feature. Upgrade to Pro to use the AI assistant.', code: 'PRO_REQUIRED' });
+}
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
 const { sendNewUserEmails } = require('./mailer');
@@ -62,10 +77,12 @@ const alphaResponseCache = new Map();
 const EXPECTED_STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID || 'acct_1TDj4gAUeKapY1OP';
 const MONTHLY_PLAN_ID = 'monthly';
 const ANNUAL_PLAN_ID = 'annual';
+const PRO_PLAN_ID = 'pro';
 const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '9.00');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'GBP';
 const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '90.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
+const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
@@ -75,6 +92,7 @@ const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY || '';
 const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID || '';
 const STRIPE_PRICE_ID_MONTHLY = process.env.STRIPE_PRICE_ID_MONTHLY || STRIPE_PRICE_ID || '';
 const STRIPE_PRICE_ID_ANNUAL = process.env.STRIPE_PRICE_ID_ANNUAL || '';
+const STRIPE_PRICE_ID_PRO = process.env.STRIPE_PRICE_ID_PRO || '';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || '';
@@ -264,6 +282,9 @@ function normalizePlanSelection(value) {
   if (plan === ANNUAL_PLAN_ID || plan === 'year' || plan === 'yearly') {
     return ANNUAL_PLAN_ID;
   }
+  if (plan === PRO_PLAN_ID) {
+    return PRO_PLAN_ID;
+  }
   if (plan === MONTHLY_PLAN_ID || plan === 'month' || plan === 'monthly') {
     return MONTHLY_PLAN_ID;
   }
@@ -283,6 +304,17 @@ function getPlanConfig(value) {
       trialDays: 0
     };
   }
+  if (planId === PRO_PLAN_ID) {
+    return {
+      planId: PRO_PLAN_ID,
+      planName: 'Pro',
+      billingInterval: 'month',
+      price: PRO_PLAN_PRICE,
+      currency: CORE_PLAN_CURRENCY,
+      stripePriceId: STRIPE_PRICE_ID_PRO,
+      trialDays: TRIAL_DAYS
+    };
+  }
   return {
     planId: MONTHLY_PLAN_ID,
     planName: 'Monthly',
@@ -297,6 +329,9 @@ function getPlanConfig(value) {
 function getPlanConfigByPriceId(priceId) {
   if (priceId && priceId === STRIPE_PRICE_ID_ANNUAL) {
     return getPlanConfig(ANNUAL_PLAN_ID);
+  }
+  if (priceId && priceId === STRIPE_PRICE_ID_PRO) {
+    return getPlanConfig(PRO_PLAN_ID);
   }
   if (priceId && (priceId === STRIPE_PRICE_ID_MONTHLY || priceId === STRIPE_PRICE_ID)) {
     return getPlanConfig(MONTHLY_PLAN_ID);
@@ -2027,6 +2062,51 @@ app.get('/api/portfolio/briefing', authMiddleware, async (req, res) => {
             return res.status(503).json({ message: 'Database unavailable.' });
         }
         res.status(500).json({ message: error.message || 'Briefing failed' });
+    }
+});
+
+// --- Pro AI features ---
+// Plain-English summary of a company's latest financials. Cached per symbol
+// (fundamentals only change nightly).
+const _aiSummaryCache = new Map();
+const AI_SUMMARY_TTL_MS = 12 * 60 * 60 * 1000;
+app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const cached = _aiSummaryCache.get(symbol);
+        if (cached && Date.now() - cached.at < AI_SUMMARY_TTL_MS) {
+            return res.json({ ...cached.payload, cached: true });
+        }
+        const result = await aiFeatures.summarizeFinancials(symbol);
+        if (!result.summary) return res.status(404).json({ message: 'No financial data available for this symbol.' });
+        const payload = { symbol, summary: result.summary, source: result.source, generatedAt: new Date().toISOString() };
+        _aiSummaryCache.set(symbol, { at: Date.now(), payload });
+        res.json({ ...payload, cached: false });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'AI summary failed' });
+    }
+});
+
+// Conversational portfolio Q&A (Pro).
+app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
+    const question = String((req.body && req.body.question) || '').trim();
+    if (!question) return res.status(400).json({ message: 'Ask a question.' });
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const portfolio = await Stock.find({ user: ownerId });
+        const enriched = await Promise.all(portfolio.map(async (stock) => {
+            const ticker = safeUpper(stock.symbol);
+            const obj = stock.toObject();
+            obj.symbol = ticker;
+            try { obj.currentPrice = await getStockPrice(ticker); } catch (_) { /* keep stored */ }
+            return obj;
+        }));
+        const result = await aiFeatures.answerPortfolioQuestion(enriched, question);
+        res.json({ answer: result.answer, source: result.source });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Question failed' });
     }
 });
 

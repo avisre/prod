@@ -18,7 +18,7 @@
     <link rel="canonical" href="https://www.stockportfolio.pro/dashboard" />
     <link rel="icon" href="Media/icon.png" />
     <link rel="stylesheet" href="styles.css?v=20260610-1" />
-    <link rel="stylesheet" href="css/dashboard.css?v=20260610-1" />
+    <link rel="stylesheet" href="css/dashboard.css?v=20260610-2" />
     <script defer src="https://d3js.org/d3.v7.min.js"></script>
     <script id="auth-gate">if(!localStorage.getItem('token')){ location.href = 'login.html?next=' + encodeURIComponent('dashboard.html' + (location.search||'')); }</script>
   </head>
@@ -83,6 +83,20 @@
         </header>
         <p class="dash-briefing-body" id="briefing-body">Generating your briefing…</p>
         <p class="dash-briefing-meta" id="briefing-meta"></p>
+
+        <div class="dash-ask" id="dash-ask">
+          <form id="ask-form" class="dash-ask-form">
+            <input id="ask-input" class="dash-ask-input" type="text" autocomplete="off"
+                   placeholder="Ask about your portfolio — e.g. &ldquo;where am I over-concentrated?&rdquo;" maxlength="500" />
+            <button type="submit" class="btn btn-primary dash-ask-btn" id="ask-btn">Ask</button>
+          </form>
+          <div class="dash-ask-suggest" id="ask-suggest">
+            <button type="button" class="dash-ask-chip">What's my biggest risk?</button>
+            <button type="button" class="dash-ask-chip">Where am I over-concentrated?</button>
+            <button type="button" class="dash-ask-chip">Summarise my performance</button>
+          </div>
+          <p class="dash-ask-answer" id="ask-answer" hidden></p>
+        </div>
       </section>
 
       <!-- Charts row -->
@@ -188,6 +202,6 @@
 
     <script src="top100-sheet.js?v=20260211-4"></script>
     <script src="symbol-lookup.js?v=20260211-4"></script>
-    <script src="js/dashboard.js?v=20260610-2"></script>
+    <script src="js/dashboard.js?v=20260610-3"></script>
   </body>
 </html>

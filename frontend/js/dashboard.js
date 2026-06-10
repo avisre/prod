@@ -790,6 +790,50 @@
     if (btn) btn.addEventListener('click', () => loadBriefing(true));
   }
 
+  async function askPortfolio(question) {
+    const ans = document.getElementById('ask-answer');
+    const btn = document.getElementById('ask-btn');
+    const input = document.getElementById('ask-input');
+    if (!ans || !question.trim()) return;
+    ans.hidden = false;
+    ans.textContent = 'Thinking…';
+    if (btn) btn.disabled = true;
+    try {
+      const resp = await fetch(`${API_URL}/portfolio/ask`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders() },
+        body: JSON.stringify({ question: question.trim() })
+      });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.status === 402 && data.code === 'PRO_REQUIRED') {
+        ans.innerHTML = 'The AI assistant is a Pro feature. <a href="register.html?plan=pro" style="color:var(--primary)">Upgrade to Pro</a> to ask questions about your portfolio.';
+      } else if (!resp.ok) {
+        ans.textContent = data.message || 'Could not answer right now.';
+      } else {
+        ans.textContent = data.answer || 'No answer.';
+      }
+    } catch (_) {
+      ans.textContent = 'The assistant is unavailable right now.';
+    } finally {
+      if (btn) btn.disabled = false;
+      if (input) input.value = '';
+    }
+  }
+
+  function bindAsk() {
+    const form = document.getElementById('ask-form');
+    const input = document.getElementById('ask-input');
+    const suggest = document.getElementById('ask-suggest');
+    if (form) form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      askPortfolio((input && input.value) || '');
+    });
+    if (suggest) suggest.addEventListener('click', (e) => {
+      const chip = e.target.closest('.dash-ask-chip');
+      if (chip) askPortfolio(chip.textContent);
+    });
+  }
+
   function bindDataTools() {
     const exportBtn = document.getElementById('export-csv-btn');
     const importBtn = document.getElementById('import-csv-btn');
@@ -823,6 +867,7 @@
       bindForm();
       bindDataTools();
       bindBriefing();
+      bindAsk();
     }
     bindRangeButtons();
     refresh();

@@ -2106,6 +2106,7 @@
     // Screener-style top section
     renderScreenerHeader(state.symbol, overview, payload.quote);
     renderMetricTiles(overview, payload.quote);
+    resetAiSummary();
     renderAbout(overview);
     renderProsCons(overview, payload);
     renderPriceSummary(overview, payload.quote, payload);
@@ -2265,9 +2266,53 @@
     }
   }
 
+  function resetAiSummary() {
+    const sec = $('ai-summary-section');
+    const body = $('ai-summary-body');
+    const meta = $('ai-summary-meta');
+    const btn = $('ai-summary-btn');
+    if (!sec) return;
+    sec.hidden = false;
+    if (body) { body.hidden = true; body.textContent = ''; }
+    if (meta) { meta.hidden = true; meta.textContent = ''; }
+    if (btn) { btn.disabled = false; btn.textContent = 'Summarise the financials'; }
+  }
+
+  async function loadAiSummary() {
+    const sym = state.symbol;
+    const body = $('ai-summary-body');
+    const meta = $('ai-summary-meta');
+    const btn = $('ai-summary-btn');
+    if (!sym || !body) return;
+    if (btn) { btn.disabled = true; btn.textContent = 'Summarising…'; }
+    body.hidden = false; body.textContent = 'Reading the financials…';
+    try {
+      const resp = await fetch(`${API_URL}/stocks/${encodeURIComponent(sym)}/ai-summary`, { headers: authHeaders() });
+      const data = await resp.json().catch(() => ({}));
+      if (resp.status === 402 && data.code === 'PRO_REQUIRED') {
+        body.innerHTML = 'AI summaries are a Pro feature. <a href="register.html?plan=pro" style="color:var(--scr-accent,#3b82f6)">Upgrade to Pro</a> to unlock plain-English financial summaries.';
+      } else if (!resp.ok) {
+        body.textContent = data.message || 'Summary unavailable.';
+      } else {
+        body.textContent = data.summary || 'No summary.';
+        if (meta) { meta.hidden = false; meta.textContent = `${data.source === 'ai' ? 'AI summary' : 'Summary'} · not financial advice`; }
+      }
+    } catch (_) {
+      body.textContent = 'Summary unavailable right now.';
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Regenerate'; }
+    }
+  }
+
+  function bindAiSummary() {
+    const btn = $('ai-summary-btn');
+    if (btn) btn.addEventListener('click', loadAiSummary);
+  }
+
   function bindControls() {
     const go = $('go-btn');
     const input = $('symbol-input');
+    bindAiSummary();
     if (go) {
       go.addEventListener('click', () => loadSymbol(input?.value || getQP('symbol')));
     }

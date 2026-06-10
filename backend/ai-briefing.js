@@ -15,9 +15,7 @@
 //   AI_BRIEFING_BASE_URL   default https://openrouter.ai/api/v1
 //   AI_BRIEFING_MODEL      default moonshotai/kimi-k2.6
 
-const AI_API_KEY = process.env.AI_BRIEFING_API_KEY || '';
-const AI_BASE_URL = (process.env.AI_BRIEFING_BASE_URL || 'https://openrouter.ai/api/v1').replace(/\/+$/, '');
-const AI_MODEL = process.env.AI_BRIEFING_MODEL || 'moonshotai/kimi-k2.6';
+const aiClient = require('./ai-client');
 
 function n(v) { const x = Number(v); return Number.isFinite(x) ? x : 0; }
 function pct1(v) { return `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`; }
@@ -106,31 +104,10 @@ const SYSTEM_PROMPT = [
 ].join(' ');
 
 async function callModel(facts) {
-    const body = {
-        model: AI_MODEL,
-        messages: [
-            { role: 'system', content: SYSTEM_PROMPT },
-            { role: 'user', content: `Portfolio facts (JSON):\n${JSON.stringify(facts)}\n\nWrite the weekly briefing.` }
-        ],
-        temperature: 0.4,
-        max_tokens: 320
-    };
-    const resp = await fetch(`${AI_BASE_URL}/chat/completions`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${AI_API_KEY}`
-        },
-        body: JSON.stringify(body)
-    });
-    if (!resp.ok) {
-        const t = await resp.text().catch(() => '');
-        throw new Error(`AI provider ${resp.status}: ${t.slice(0, 160)}`);
-    }
-    const data = await resp.json();
-    const text = data?.choices?.[0]?.message?.content?.trim();
-    if (!text) throw new Error('AI provider returned no content');
-    return text;
+    return aiClient.chat([
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: `Portfolio facts (JSON):\n${JSON.stringify(facts)}\n\nWrite the weekly briefing.` }
+    ], { temperature: 0.4, maxTokens: 320 });
 }
 
 // Returns { briefing, facts, source } — never throws; falls back to template.
@@ -139,7 +116,7 @@ async function generateBriefing(holdings) {
     if (facts.empty) {
         return { briefing: buildTemplateBriefing(facts), facts, source: 'empty' };
     }
-    if (!AI_API_KEY) {
+    if (!aiClient.AI_CONFIGURED) {
         return { briefing: buildTemplateBriefing(facts), facts, source: 'template' };
     }
     try {
@@ -151,4 +128,4 @@ async function generateBriefing(holdings) {
     }
 }
 
-module.exports = { computePortfolioFacts, buildTemplateBriefing, generateBriefing, AI_CONFIGURED: !!AI_API_KEY };
+module.exports = { computePortfolioFacts, buildTemplateBriefing, generateBriefing, AI_CONFIGURED: aiClient.AI_CONFIGURED };
