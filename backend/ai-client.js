@@ -151,20 +151,31 @@ async function chat(messages, { temperature = 0.4, maxTokens = 320, purpose = 'b
     return text;
 }
 
-// Hard identifiers that should never appear in a finance answer; their
-// presence means the model is talking about itself / its provider.
+// Self-revelatory phrasing — blocked regardless of subject. Bare AI company
+// and model names are NOT here: they are legitimate finance subjects (OpenAI
+// partnerships, a DeepSeek-driven selloff…) and live in the contextual list.
 const IDENTITY_PATTERNS = [
-    /deepseek/i, /\bkimi\b/i, /moonshot/i, /\bollama\b/i, /openrouter/i,
-    /\bqwen\b/i, /gpt-?oss/i, /chatgpt/i, /\bopenai\b/i, /anthropic/i,
-    /\bclaude\b/i, /\bllama\b/i, /minimax/i, /nemotron/i, /\bcogito\b/i,
-    /\bk2\.\d/i, /large language model/i, /\blanguage model\b/i,
+    /openrouter/i, /gpt-?oss/i, /nemotron/i, /\bcogito\b/i, /\bk2\.\d/i,
+    /\b(i\s+am|i'?m)\s+(an?\s+)?(large\s+)?language\s+model/i,
     /\bi am an? (ai|a\.i\.|artificial)/i, /\bi'?m an? (ai|a\.i\.|artificial)/i,
-    /\bas an? (ai|a\.i\.|language model)/i, /trained by/i, /\bi was trained\b/i,
+    /\bas an? (ai|a\.i\.|language model),?\s+i\b/i,
+    /\bas an? (ai|a\.i\.)\s+(assistant|model|chatbot|agent)\b/i, /\bi was trained\b/i,
     /\bmy training data\b/i, /powered by (a|an|the)?\s*\w+\s*(model|llm)/i,
     /\bunderlying model\b/i, /\bsystem prompt\b/i
 ];
+// Provider/model names only leak identity in self-referential phrasing
+// ("I'm …", "I run on …", "… powers this assistant") — never as news subjects.
+const NAME = '(deepseek|kimi|moonshot|qwen|chatgpt|openai|anthropic|claude|llama|minimax|ollama|glm|gemini|grok|mistral)';
+const IDENTITY_SELF_PATTERNS = [
+    new RegExp("\\b(i\\s+am|i'?m)\\s+(an?\\s+|the\\s+)?" + NAME + '\\b', 'i'),
+    new RegExp("\\b(i\\s+am|i'?m|this\\s+(assistant|chatbot)\\s+is)\\b[^.!?\\n]{0,30}\\b(powered|built|made|created|developed|trained)\\s+by\\s+[^.!?\\n]{0,20}" + NAME, 'i'),
+    new RegExp("\\bi\\s+(use|run|run\\s+on)\\s+(an?\\s+|the\\s+)?" + NAME + '\\b', 'i'),
+    new RegExp('\\bmy\\s+(model|provider|maker|creator|architecture|training|underlying)\\b[^.!?\\n]{0,40}\\b' + NAME, 'i'),
+    new RegExp('\\b' + NAME + "\\b[^.!?\\n]{0,40}\\b(powers|runs|is\\s+behind)\\s+(me|this\\s+assistant)\\b", 'i')
+];
 function leaksIdentity(text) {
-    return IDENTITY_PATTERNS.some((re) => re.test(text));
+    return IDENTITY_PATTERNS.some((re) => re.test(text))
+        || IDENTITY_SELF_PATTERNS.some((re) => re.test(text));
 }
 
 module.exports = { chat, chatRaw, chatRawStream, isConfigured, leaksIdentity };

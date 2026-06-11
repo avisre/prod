@@ -377,10 +377,14 @@
         get_ratios_history: (a) => `${(a.symbol || '').toUpperCase()} ratio history`,
         get_health_checks: (a) => `${(a.symbol || '').toUpperCase()} health checks`,
         get_quote: (a) => `${(a.symbol || '').toUpperCase()} snapshot`,
+        get_price_history: (a) => `${(a.symbol || '').toUpperCase()} 20-yr returns`,
+        get_segments: (a) => `${(a.symbol || '').toUpperCase()} segments (10-K)`,
+        get_insider_activity: (a) => `${(a.symbol || '').toUpperCase()} insider trades`,
         screen_universe: () => 'Screened the fundamentals universe',
         get_portfolio: () => 'Your portfolio',
         calculator: () => 'Calculator',
         search_web: (a) => `Searched the web: ${String(a.query || '').slice(0, 40)}`,
+        search_filings: (a) => `Searched SEC filings: ${String(a.query || '').slice(0, 40)}`,
         fetch_page: (a) => { try { return 'Read ' + new URL(a.url).hostname.replace('www.', ''); } catch (_) { return 'Read a page'; } }
     };
 

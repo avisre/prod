@@ -19,6 +19,9 @@ const mongoose = require('mongoose');
 const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
 const yahooSource = require('./yahoo-source');
+const secSource = require('./sec-source');
+const segments = require('./segments');
+const insiders = require('./insiders');
 const axios = require('axios');
 
 const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
@@ -292,6 +295,125 @@ async function toolGetQuote({ symbol }) {
     };
 }
 
+// ---- Tool: get_price_history (20 years of monthly adjusted closes) ----
+// Adjusted close is split- AND dividend-adjusted, so return figures computed
+// from it are TOTAL returns (dividends reinvested). All maths is done here,
+// deterministically — the model never derives returns itself.
+async function toolGetPriceHistory({ symbol, years }) {
+    const data = await loadFundAny(symbol);
+    if (!data) return NO_DATA(symbol);
+    const series = (data.monthly || {})['Monthly Adjusted Time Series'] || {};
+    const dates = Object.keys(series).sort(); // oldest first
+    if (dates.length < 2) return { error: `No price history for ${symbol}.` };
+    const adj = (d) => num(series[d]['5. adjusted close']);
+    const div = (d) => num(series[d]['7. dividend amount']) || 0;
+    const close = (d) => num(series[d]['4. close']);
+
+    // Annual rows: calendar-year end adjusted close and total return.
+    const byYear = new Map();
+    for (const d of dates) {
+        const y = d.slice(0, 4);
+        byYear.set(y, { last: d }); // dates ascend, so this ends on the year's last month
+    }
+    const yearKeys = [...byYear.keys()].sort();
+    const capYears = Math.min(Math.max(num(years) || 20, 2), 20);
+    const shown = yearKeys.slice(-capYears - 1); // one extra for the first return base
+    const lines = ['year|yearEndAdjClose|totalReturnPct'];
+    const rows = [];
+    for (let i = 1; i < shown.length; i++) {
+        const y = shown[i]; const prev = shown[i - 1];
+        const a0 = adj(byYear.get(prev).last); const a1 = adj(byYear.get(y).last);
+        const ret = (a0 !== null && a1 !== null && a0 > 0) ? (a1 / a0 - 1) * 100 : null;
+        const isYtd = y === yearKeys[yearKeys.length - 1] && dates[dates.length - 1].slice(5, 7) !== '12';
+        rows.push([
+            isYtd ? `${y} YTD` : y,
+            a1 === null ? '' : a1.toFixed(2),
+            ret === null ? '' : ret.toFixed(1)
+        ]);
+    }
+    rows.reverse(); // newest first, matching the other tools
+    for (const r of rows) lines.push(r.map(cell).join('|'));
+
+    // Trailing total-return CAGRs from the latest month back N years.
+    const lastD = dates[dates.length - 1];
+    const lastAdj = adj(lastD);
+    const cagrs = {};
+    for (const n of [1, 3, 5, 10, 15, 20]) {
+        const idx = dates.length - 1 - n * 12;
+        if (idx < 0) continue;
+        const base = adj(dates[idx]);
+        if (base !== null && lastAdj !== null && base > 0) {
+            cagrs[`${n}y`] = Number(((Math.pow(lastAdj / base, 1 / n) - 1) * 100).toFixed(1));
+        }
+    }
+
+    // Max drawdown on monthly adjusted closes over the shown window.
+    let peak = -Infinity; let peakD = null; let mdd = 0; let mddPeakD = null; let mddTroughD = null;
+    for (const d of dates.slice(-capYears * 12)) {
+        const a = adj(d);
+        if (a === null) continue;
+        if (a > peak) { peak = a; peakD = d; }
+        const dd = peak > 0 ? (a / peak - 1) * 100 : 0;
+        if (dd < mdd) { mdd = dd; mddPeakD = peakD; mddTroughD = d; }
+    }
+
+    return {
+        symbol: String(symbol).toUpperCase(),
+        asOf: lastD,
+        lastClose: close(lastD) === null ? null : Number(close(lastD).toFixed(2)),
+        totalReturnCagrPct: cagrs,
+        maxDrawdown: mdd < 0 ? { pct: Number(mdd.toFixed(1)), fromMonth: String(mddPeakD).slice(0, 7), toMonth: String(mddTroughD).slice(0, 7) } : null,
+        note: 'Returns are TOTAL returns (split- and dividend-adjusted, monthly closes). Rows newest first; a "YTD" row is the partial current year. For dividend history use the cash flow statement (dividendPayout) and get_quote (current yield).',
+        source: 'stockportfolio.pro price cache (nightly refresh)',
+        table: lines.join('\n')
+    };
+}
+
+// ---- Tool: get_segments (business-segment revenue from the latest 10-K) ----
+async function toolGetSegments({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        const r = await segments.extractSegments(key);
+        if (r.error) return r;
+        return { ...r, source: `Segment note of the FY 10-K filed ${(r.filing || {}).date || 'recently'} (SEC EDGAR)` };
+    } catch (e) {
+        return { error: 'Segment extraction failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_insider_activity (the filed Form 4 trail) ----
+async function toolGetInsiders({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        const h = await insiders.history(key);
+        if (!h.filingsParsed) {
+            return h.building
+                ? { symbol: key, note: 'Insider history is being built from EDGAR right now (takes a minute or two on first request). Answer the rest of the question and say insider data is still loading.' }
+                : { symbol: key, note: 'No Form 4 filings parsed for this company in the last 3 years.' };
+        }
+        const qLines = ['quarter|openMarketBuys|openMarketSells|buyValue$|sellValue$'];
+        for (const q of h.quarters.slice(-12).reverse()) {
+            qLines.push([q.key, q.buys, q.sells, Math.round(q.buyVal), Math.round(q.sellVal)].map(cell).join('|'));
+        }
+        const tLines = ['date|owner|relation|side|shares|value$'];
+        for (const t of (h.recent || []).slice(0, 15)) {
+            tLines.push([t.date, t.owner, t.relation, t.side, t.shares, t.value === null ? '' : Math.round(t.value)].map(cell).join('|'));
+        }
+        return {
+            symbol: key,
+            stillBuilding: !!h.building,
+            note: 'Open-market purchases (code P) and sales (code S) only — awards, option exercises, gifts and tax withholding are excluded. Quarters newest first.',
+            source: h.source,
+            quartersTable: qLines.join('\n'),
+            recentTradesTable: tLines.join('\n')
+        };
+    } catch (e) {
+        return { error: 'Insider history unavailable: ' + (e.message || 'unknown') };
+    }
+}
+
 // ---- Tool: screen_universe (real screener over the ~500-ticker cache) ----
 let _screenIndex = null;
 function buildScreenIndex() {
@@ -533,70 +655,251 @@ const TOOLS = [
     {
         type: 'function',
         function: {
+            name: 'get_price_history',
+            description: 'Up to 20 years of share-price performance for a US-listed company: annual TOTAL returns (dividends reinvested), trailing 1/3/5/10/15/20-year return CAGRs, max drawdown, and dividends per share by year. All computed deterministically from adjusted closes. Use for "how has the stock done", long-run returns, drawdowns, dividend growth.',
+            parameters: {
+                type: 'object',
+                properties: {
+                    symbol: { type: 'string' },
+                    years: { type: 'integer', description: 'Window in years (2-20, default 20).' }
+                },
+                required: ['symbol']
+            }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_segments',
+            description: 'Business-segment revenue breakdown (name, revenue, % of revenue, one-line description) extracted from the segment note of the company\'s latest 10-K. Use for "where does the revenue come from", "how big is the cloud business" questions. First request for a company can take ~20s.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_insider_activity',
+            description: 'Insider open-market buys and sells over the last 3 years, parsed from filed SEC Form 4s: quarterly buy/sell totals plus the most recent individual trades with owner names and values. Use for "are insiders buying" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'search_filings',
+            description: 'Full-text search across ALL SEC filings since 2001 (10-K, 10-Q, 8-K, S-1, proxies, exhibits…). Finds the primary-source documents behind events: contracts, risk factors, executive changes, guidance. Wrap exact phrases in double quotes. Returns filing links you can read with fetch_page.',
+            parameters: {
+                type: 'object',
+                properties: {
+                    query: { type: 'string', description: 'e.g. "supply agreement" lithium' },
+                    ticker: { type: 'string', description: 'Restrict to one company.' },
+                    forms: { type: 'string', description: 'Comma-separated form types, e.g. "10-K,8-K".' },
+                    start_date: { type: 'string', description: 'YYYY-MM-DD' },
+                    end_date: { type: 'string', description: 'YYYY-MM-DD' },
+                    limit: { type: 'integer', description: 'Max 10, default 8.' }
+                },
+                required: ['query']
+            }
+        }
+    },
+    {
+        type: 'function',
+        function: {
             name: 'search_web',
-            description: 'Search recent news headlines on the live web (titles, sources, dates, URLs). Use when the user asks about recent events, news, announcements or anything after the latest filing. SHORT queries work best — company name or ticker plus at most one keyword; never include dates. Follow up with fetch_page to read an article.',
-            parameters: { type: 'object', properties: { query: { type: 'string', description: 'short, e.g. "NVIDIA earnings" or "Apple"' } }, required: ['query'] }
+            description: 'Search the live web for news: relevance-ranked headlines with source and date, plus readable article URLs. Use for recent events, announcements or anything after the latest filing. SHORT queries work best — company name plus at most two keywords; never include dates.',
+            parameters: { type: 'object', properties: { query: { type: 'string', description: 'short, e.g. "NVIDIA earnings" or "Apple antitrust"' } }, required: ['query'] }
         }
     },
     {
         type: 'function',
         function: {
             name: 'fetch_page',
-            description: 'Fetch one https page and return its readable text (capped). Use to read an article found via search_web, or a URL the user gave you.',
-            parameters: { type: 'object', properties: { url: { type: 'string' } }, required: ['url'] }
+            description: 'Fetch one https page and return its readable text (capped). Use to read an article from search_web\'s readableArticles, a filing document from search_filings, or a URL the user gave you. For LONG documents (10-Ks, proxies) ALWAYS pass "find" — you get excerpts around each match instead of just the first pages.',
+            parameters: {
+                type: 'object',
+                properties: {
+                    url: { type: 'string' },
+                    find: { type: 'string', description: 'Keyword or phrase to locate, e.g. "artificial intelligence". Returns up to 6 excerpts around matches anywhere in the document.' }
+                },
+                required: ['url']
+            }
         }
     }
 ];
 
 // ---- Tools: the live web (latest info beyond the filings) ----
+// Google News RSS — key-free, relevance-ranked, dated. Its article links are
+// JavaScript shells (unfetchable), so results carry headline/source/date only;
+// the Yahoo results below provide the fetchable URLs.
+function decodeEntities(s) {
+    return String(s || '')
+        .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").trim();
+}
+async function fetchGoogleNews(query, limit) {
+    const u = `https://news.google.com/rss/search?q=${encodeURIComponent(query)}&hl=en-US&gl=US&ceid=US:en`;
+    const r = await axios.get(u, {
+        timeout: 10000, maxContentLength: 2 * 1024 * 1024,
+        headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0' }
+    });
+    const items = String(r.data).split('<item>').slice(1);
+    const out = [];
+    for (const it of items.slice(0, limit)) {
+        const pick = (tag) => decodeEntities((it.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`)) || [])[1] || '');
+        let title = pick('title');
+        const source = pick('source');
+        // Google appends " - Publisher" to every title — strip the duplicate.
+        if (source && title.endsWith(` - ${source}`)) title = title.slice(0, -(source.length + 3));
+        const pub = pick('pubDate');
+        const published = pub ? new Date(pub).toISOString().slice(0, 10) : null;
+        if (title) out.push({ title, publisher: source || null, published });
+    }
+    return out;
+}
 async function toolSearchWeb({ query }) {
+    const q = String(query || '').trim();
+    let google = []; let yahoo = [];
+    try { google = await fetchGoogleNews(q, 8); } catch (_) { /* fall through to Yahoo */ }
     try {
-        const q = String(query || '').trim();
-        let results = await yahooSource.fetchNewsSearch(q, 10);
-        // the index matches literally — dates/long phrases kill it; fall back
-        // to the first couple of words (usually the company) automatically
-        if (!results.length && q.split(/\s+/).length > 2) {
-            results = await yahooSource.fetchNewsSearch(q.split(/\s+/).slice(0, 2).join(' '), 10);
+        yahoo = await yahooSource.fetchNewsSearch(q, 6);
+        if (!yahoo.length && q.split(/\s+/).length > 2) {
+            // the Yahoo index matches literally — fall back to the first couple
+            // of words (usually the company name)
+            yahoo = await yahooSource.fetchNewsSearch(q.split(/\s+/).slice(0, 2).join(' '), 6);
         }
-        if (!results.length) return { results: [], note: 'No recent news found for that query.' };
-        return { results, note: 'Headlines from the live web — NOT filed data. Attribute claims to their source and publication date.' };
+    } catch (_) { /* one source failing is fine */ }
+    if (!google.length && !yahoo.length) return { results: [], note: 'No recent news found for that query. Try a shorter query (company name + one keyword).' };
+    return {
+        headlines: google,
+        readableArticles: yahoo,
+        note: 'Live web results — NOT filed data. Attribute every claim to its source and date. "headlines" have no fetchable URL; to read further, fetch_page a URL from "readableArticles", or use search_filings for primary documents.'
+    };
+}
+
+// ---- Tool: search_filings (SEC EDGAR full-text search, every filing since 2001) ----
+async function toolSearchFilings({ query, ticker, forms, start_date, end_date, limit }) {
+    const q = String(query || '').trim();
+    if (!q) return { error: 'No query given.' };
+    try {
+        const params = new URLSearchParams({ q });
+        const f = String(forms || '').toUpperCase().replace(/\s/g, '');
+        if (/^[A-Z0-9,\-\/]{1,40}$/.test(f) && f) params.set('forms', f);
+        const sd = /^\d{4}-\d{2}-\d{2}$/.test(String(start_date || '')) ? start_date : null;
+        const ed = /^\d{4}-\d{2}-\d{2}$/.test(String(end_date || '')) ? end_date : null;
+        if (sd || ed) {
+            params.set('dateRange', 'custom');
+            if (sd) params.set('startdt', sd);
+            if (ed) params.set('enddt', ed);
+        }
+        if (ticker) {
+            const cik = await secSource.cikFor(String(ticker).toUpperCase().trim());
+            if (cik) params.set('ciks', cik);
+        }
+        const r = await axios.get(`https://efts.sec.gov/LATEST/search-index?${params}`, {
+            headers: secSource.SEC_HEADERS, timeout: 15000
+        });
+        const hits = (((r.data || {}).hits || {}).hits || []);
+        const total = ((((r.data || {}).hits || {}).total || {}).value) || 0;
+        const cap = Math.min(Math.max(num(limit) || 8, 1), 10);
+        const results = hits.slice(0, cap).map((h) => {
+            const s = h._source || {};
+            const [adsh, file] = String(h._id || '').split(':');
+            const cik = Number((s.ciks || [])[0]);
+            return {
+                company: (s.display_names || [])[0] || null,
+                form: s.form || null,
+                filed: s.file_date || null,
+                periodEnding: s.period_ending || null,
+                url: (cik && adsh && file) ? `https://www.sec.gov/Archives/edgar/data/${cik}/${adsh.replace(/-/g, '')}/${file}` : null
+            };
+        });
+        return {
+            query: q,
+            totalMatches: total,
+            results,
+            note: 'Full-text search over SEC filings (2001-present). These are primary-source documents — use fetch_page on a url to read one. Phrase queries: wrap in double quotes.'
+        };
     } catch (e) {
-        return { error: 'News search failed: ' + (e.message || 'unknown') };
+        return { error: 'Filing search failed: ' + ((e.response && e.response.status) || e.message || 'unknown') };
     }
 }
 function pageToText(html) {
     return String(html || '')
+        // inline-XBRL filings hide a machine-readable header full of tag soup
+        // before the readable document — drop it (and any display:none block)
+        .replace(/<ix:header[\s\S]*?<\/ix:header>/gi, ' ')
+        .replace(/<(div|span)[^>]*style="[^"]*display:\s*none[^"]*"[\s\S]*?<\/\1>/gi, ' ')
         .replace(/<script[\s\S]*?<\/script>/gi, ' ')
         .replace(/<style[\s\S]*?<\/style>/gi, ' ')
         .replace(/<[^>]+>/g, ' ')
         .replace(/&nbsp;|&#160;/g, ' ')
         .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+        .replace(/&quot;/g, '"').replace(/&apos;/g, "'")
+        .replace(/&#(\d+);/g, (m, n) => (n > 31 && n < 65536 ? String.fromCharCode(n) : ' '))
+        .replace(/&#x([0-9a-f]+);/gi, (m, n) => { const c = parseInt(n, 16); return c > 31 && c < 65536 ? String.fromCharCode(c) : ' '; })
         .replace(/\s+/g, ' ')
         .trim();
 }
-async function toolFetchPage({ url }, depth = 0) {
+// With a `find` keyword, return windows of text around each match anywhere in
+// the document — the only way to reach page 47 of a 10-K within a char cap.
+function keywordWindows(text, find, cap) {
+    const hay = text.toLowerCase();
+    const needle = String(find).toLowerCase().trim();
+    if (!needle) return null;
+    const windows = [];
+    let idx = 0; let last = -Infinity;
+    while (windows.length < 6 && (idx = hay.indexOf(needle, idx)) !== -1) {
+        if (idx > last) { // skip matches inside the previous window
+            const start = Math.max(0, idx - 600);
+            const end = Math.min(text.length, idx + 1800);
+            windows.push((start > 0 ? '…' : '') + text.slice(start, end) + (end < text.length ? '…' : ''));
+            last = end;
+        }
+        idx += needle.length;
+    }
+    if (!windows.length) return null;
+    return windows.join('\n\n').slice(0, cap);
+}
+async function toolFetchPage({ url, find }, depth = 0) {
     const u = String(url || '').trim();
     if (!/^https:\/\//i.test(u)) return { error: 'Only https:// URLs can be fetched.' };
     if (/localhost|127\.0\.0\.1|0\.0\.0\.0|\[::1\]|192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\./.test(u)) {
         return { error: 'That address cannot be fetched.' };
     }
+    if (/^https:\/\/news\.google\.com\//i.test(u)) {
+        return { error: 'Google News links are not readable. Use the headline as-is, fetch a URL from readableArticles instead, or use search_filings for the underlying document.' };
+    }
+    // SEC requires a declared User-Agent, and filings deserve a bigger window
+    // than news articles.
+    const isSec = /^https:\/\/([a-z0-9-]+\.)*sec\.gov\//i.test(u);
     try {
         const r = await axios.get(u, {
-            timeout: 12000, maxContentLength: 3 * 1024 * 1024, maxRedirects: 3,
-            headers: { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0' }
+            timeout: 15000, maxContentLength: (isSec ? 40 : 3) * 1024 * 1024, maxRedirects: 3,
+            headers: isSec ? secSource.SEC_HEADERS : { 'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:140.0) Gecko/20100101 Firefox/140.0' }
         });
         const html = String(r.data);
-        const text = pageToText(html).slice(0, 12000);
+        const cap = isSec ? 28000 : 12000;
+        const full = pageToText(html);
+        const text = full.slice(0, cap);
         // aggregator shells (yahoo /m/ links, consent walls) carry the real
         // article in rel=canonical — follow it once
         if (depth === 0 && text.length < 1200) {
             const can = html.match(/rel="canonical"\s+href="(https:\/\/[^"]+)"/i) || html.match(/property="og:url"\s+content="(https:\/\/[^"]+)"/i);
             if (can && can[1] && can[1] !== u) {
-                const inner = await toolFetchPage({ url: can[1] }, 1);
+                const inner = await toolFetchPage({ url: can[1], find }, 1);
                 if (!inner.error) return inner;
             }
         }
         if (text.length < 200) return { error: 'Page had no readable text (may need JavaScript). Use the headline and source from search_web instead — do not retry.' };
+        if (find) {
+            const windowed = keywordWindows(full, find, cap);
+            if (windowed) return { url: u, find: String(find), text: windowed, note: 'Excerpts around each match of your keyword, in document order. Web content — attribute claims to this source.' };
+            return { url: u, find: String(find), text: text.slice(0, 3000), note: `Keyword "${find}" not found in the document (${full.length} chars). Start of the document shown — try a different keyword.` };
+        }
+        if (full.length > cap) {
+            return { url: u, text, note: `Web content — NOT filed data. Attribute claims to this source. TRUNCATED: showing the first ${cap} of ${full.length} chars — for a long document, call fetch_page again with a "find" keyword to jump to the relevant section.` };
+        }
         return { url: u, text, note: 'Web content — NOT filed data. Attribute claims to this source.' };
     } catch (e) {
         return { error: `Could not fetch that page (${(e.response && e.response.status) || e.code || 'network'}). Use the headline from search_web instead — do not retry.` };
@@ -609,10 +912,14 @@ function runTool(name, args, ctx) {
         case 'get_ratios_history': return toolGetRatios(args || {});
         case 'get_health_checks': return toolGetHealthChecks(args || {});
         case 'get_quote': return toolGetQuote(args || {});
+        case 'get_price_history': return toolGetPriceHistory(args || {});
+        case 'get_segments': return toolGetSegments(args || {});
+        case 'get_insider_activity': return toolGetInsiders(args || {});
         case 'screen_universe': return toolScreenUniverse(args || {});
         case 'get_portfolio': return toolGetPortfolio(ctx);
         case 'calculator': return toolCalculator(args || {});
         case 'search_web': return toolSearchWeb(args || {});
+        case 'search_filings': return toolSearchFilings(args || {});
         case 'fetch_page': return toolFetchPage(args || {});
         default: return { error: `Unknown tool ${name}` };
     }
@@ -622,8 +929,10 @@ const ASK_SYSTEM = [
     'You are Ask, the stockportfolio.pro research assistant for long-term investors.',
     'SCOPE: you ONLY answer questions about companies, financial statements, valuation, portfolios, markets and investing concepts. For anything else (general knowledge, coding, writing, personal chat, politics), decline in one sentence and steer back to finance. Do not answer the off-topic part.',
     'GROUNDING (the most important rule): every figure you state MUST come from a tool result in THIS conversation. Call the tools — do not answer financial-data questions from memory. If the tools cannot provide something, say plainly that it is outside your data rather than estimating. Never silently blend in remembered numbers.',
-    'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines) then fetch_page (read the article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
-    'COVERAGE: every US exchange-listed company that reports in USD (~7,000 tickers on Nasdaq/NYSE) — get_financials/get_ratios_history/get_health_checks/get_quote work for ALL of them (an uncached small-cap takes a few extra seconds on first fetch). screen_universe screens the S&P 1500 subset only. Foreign companies and their ADRs (Toyota, SAP, Alibaba…) are NOT covered — say so plainly if asked.',
+    'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
+    'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
+    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — always use it for "how has the stock performed" questions instead of inferring from valuation data. get_segments gives the revenue mix from the latest 10-K. get_insider_activity gives the filed Form 4 buy/sell record — describe it neutrally (insiders sell for many reasons).',
+    'COVERAGE: every US exchange-listed company that reports in USD (~7,000 tickers on Nasdaq/NYSE) — get_financials/get_ratios_history/get_health_checks/get_quote/get_price_history work for ALL of them (an uncached small-cap takes a few extra seconds on first fetch). screen_universe screens the S&P 1500 subset only. Foreign companies and their ADRs (Toyota, SAP, Alibaba…) are NOT covered — say so plainly if asked.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios you derive yourself).',
     'EFFICIENCY: you have a hard budget of a few tool rounds. Batch aggressively — request EVERY company\'s data in the same round (parallel tool calls), and put ALL your arithmetic into ONE calculator call with ";"-separated expressions.',
@@ -703,8 +1012,8 @@ async function ask({ question, history, ctx, onEvent }) {
     let totalTokens = 0;
     // mechanical per-question budgets for the web tools — prompts bend under
     // failure pressure, counters don't
-    const WEB_BUDGET = { search_web: 3, fetch_page: 3 };
-    const webUsed = { search_web: 0, fetch_page: 0 };
+    const WEB_BUDGET = { search_web: 3, fetch_page: 4, search_filings: 3 };
+    const webUsed = { search_web: 0, fetch_page: 0, search_filings: 0 };
     try {
         for (let iter = 0; iter < MAX_ITERS; iter++) {
             const lastRound = iter === MAX_ITERS - 1;
