@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Support &amp; contact — stockportfolio.pro</title>
+  <meta name="description" content="Contact stockportfolio.pro — send a ticket and a real person responds within one business day." />
+  <link rel="canonical" href="https://www.stockportfolio.pro/support" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+  <style>
+    .sup { max-width: 980px; margin: 0 auto; }
+    .sup-head { padding: 56px 0 8px; }
+    .sup-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 48px; align-items: start; }
+    @media (max-width: 860px) { .sup-grid { grid-template-columns: 1fr; } }
+    .sup-fact { padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .sup-fact b { display: block; font-size: 14.5px; }
+    .sup-fact span { font-size: 13px; color: var(--ink-2); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container sup">
+      <div class="sup-head">
+        <p class="label" id="contact-info">Support &amp; contact</p>
+        <h1 class="title-1" style="margin-top:10px;">We're here to help.</h1>
+        <p class="muted" style="margin-top:14px; max-width:56ch;">Send a ticket below and we'll respond within one business day — or reach us directly at <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p>
+      </div>
+      <hr class="section-rule" />
+
+      <div class="sup-grid">
+        <div>
+          <div class="sup-fact"><b>Every ticket hits a real teammate</b><span>Bugs, billing and feature ideas land in one shared inbox, so you're never bounced around.</span></div>
+          <div class="sup-fact"><b>Billing &amp; subscriptions</b><span>Trials, plan changes, cancellations and refunds — include the email on your account.</span></div>
+          <div class="sup-fact"><b>Data questions</b><span>Spotted a number that looks wrong? Tell us the company and the fiscal year — we'll trace it to the filing.</span></div>
+          <div class="sup-fact" style="border-bottom:0;"><b>Product feedback</b><span>What's missing, what's confusing, what you'd love — we read all of it.</span></div>
+        </div>
+
+        <form class="card card-pad" id="ticket-form" style="display:grid; gap:14px;">
+          <p class="label">Send us a message</p>
+          <label class="field"><span>Name</span><input class="input" id="t-name" required maxlength="120" /></label>
+          <label class="field"><span>Email</span><input class="input" id="t-email" type="email" required maxlength="200" /></label>
+          <label class="field"><span>Subject</span><input class="input" id="t-subject" required maxlength="200" /></label>
+          <label class="field"><span>Message</span><textarea class="input" id="t-message" required maxlength="4000" rows="6" style="height:auto; padding:12px; resize:vertical;"></textarea></label>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <button class="btn btn-primary" type="submit">Submit ticket</button>
+            <span class="small faint" id="t-status">Response time: under 1 business day.</span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script>
+    (function () {
+      V2.nav('');
+      V2.footer();
+      const $ = (id) => document.getElementById(id);
+      $('ticket-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = e.target.querySelector('button[type=submit]');
+        const status = $('t-status');
+        btn.disabled = true;
+        status.style.color = '';
+        status.innerHTML = V2.spinner('Sending your ticket…');
+        try {
+          const r = await fetch('/api/support', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: $('t-name').value.trim(),
+              email: $('t-email').value.trim(),
+              subject: $('t-subject').value.trim(),
+              message: $('t-message').value.trim()
+            })
+          });
+          const d = await r.json().catch(() => ({}));
+          if (!r.ok) throw new Error(d.message || 'Could not submit the ticket — try again.');
+          status.textContent = d.message || 'Thanks — your ticket is in. We reply within a business day.';
+          status.style.color = 'var(--pos)';
+          e.target.reset();
+        } catch (err) {
+          status.textContent = err.message;
+          status.style.color = 'var(--neg)';
+        } finally {
+          btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

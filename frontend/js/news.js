@@ -696,6 +696,20 @@ if (!localStorage.getItem('token')) {
   }
 
   async function loadMarketData() {
+    // One slim batched request (~2KB) instead of a full daily series per
+    // symbol (~34KB × 9). Falls back to per-symbol fetches if unavailable.
+    try {
+      const symbols = TAPE_SYMBOLS.map((d) => d.proxy).join(',');
+      const resp = await fetch(`${API_URL}/market/strip?symbols=${encodeURIComponent(symbols)}`);
+      if (resp.ok) {
+        const data = await resp.json();
+        const quotes = TAPE_SYMBOLS.map((d) => (data.quotes && data.quotes[d.proxy]) || null);
+        if (quotes.some(Boolean)) {
+          renderTape(TAPE_SYMBOLS, quotes);
+          return;
+        }
+      }
+    } catch (_) { /* fall through to legacy path */ }
     try {
       const tapeQuotes = await Promise.all(
         TAPE_SYMBOLS.map((d) => fetchQuoteForProxy(d.proxy).catch(() => null))

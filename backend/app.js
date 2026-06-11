@@ -17,6 +17,9 @@ const yahooSource = require('./yahoo-source');
 const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
+const aiChat = require('./ai-chat');
+const xray = require('./xray');
+const watchdog = require('./watchdog');
 require('dotenv').config();
 
 // Pro-tier gate. AI_PRO_FOR_ALL=true (default) gives every active subscriber the
@@ -60,7 +63,9 @@ app.use(helmet({
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 300,
+  // v2 pages fan out ~9 API calls each — 300 allowed only ~33 page views
+  // per window for a legitimate researcher. 900 still throttles abuse.
+  max: 900,
   standardHeaders: true,
   legacyHeaders: false
 });
@@ -780,8 +785,14 @@ app.get('/vs/:competitor', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
 
-// Serve static frontend files
+// CUTOVER (local): v2 is the product at / — it wins name collisions; anything
+// it doesn't have (Media, legal pages, demo pages, data/) falls through to v1.
+app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'] }));
 app.use(express.static(path.join(__dirname, '../frontend')));
+// transition window: old surface stays reachable at /v1; /v2 links keep working
+app.use('/v1', express.static(path.join(__dirname, '../frontend')));
+app.use('/v2', express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], redirect: false }));
+app.get('/v2', (req, res) => res.sendFile(path.join(__dirname, '../frontend-v2/index.html')));
 
 // User Schema for MongoDB
 const SubscriptionSchema = new mongoose.Schema({
@@ -965,6 +976,13 @@ const StockSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 const Stock = mongoose.model('Stock', StockSchema);
+
+// One watchlist per user — a flat set of tickers to keep an eye on.
+const WatchlistSchema = new mongoose.Schema({
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true },
+    symbols: { type: [String], default: [] }
+});
+const Watchlist = mongoose.model('Watchlist', WatchlistSchema);
 
 const priceCache = new Map();
 const profileCache = new Map();
@@ -1863,6 +1881,48 @@ app.get('/api/alpha/time-series/daily', authMiddleware, async (req, res) => {
     }
 });
 
+// Slim market-strip endpoint: last close, change and 30-close sparkline per
+// symbol in ONE response (~2KB) instead of the tape fetching 8 full daily
+// series (~270KB). Shared 10-min cache across all users.
+const _stripCache = new Map(); // symbols-key -> { at, payload }
+const STRIP_TTL_MS = 10 * 60 * 1000;
+app.get('/api/market/strip', async (req, res) => {
+    const symbols = String(req.query.symbols || 'SPY,QQQ,DIA,IWM')
+        .split(',').map((s) => safeUpper(s.trim())).filter(Boolean).slice(0, 12);
+    const key = symbols.join(',');
+    const cached = _stripCache.get(key);
+    if (cached && Date.now() - cached.at < STRIP_TTL_MS) return res.json(cached.payload);
+    try {
+        const out = {};
+        await Promise.all(symbols.map(async (symbol) => {
+            try {
+                const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: 'compact' }, ALPHA_CACHE_TTL_MS.daily);
+                const series = data && data['Time Series (Daily)'];
+                if (!series) return;
+                const dates = Object.keys(series).sort((a, b) => (a < b ? 1 : -1));
+                if (dates.length < 2) return;
+                const latest = parseFloat(series[dates[0]]['4. close']);
+                const prior = parseFloat(series[dates[1]]['4. close']);
+                if (!Number.isFinite(latest) || !Number.isFinite(prior) || prior === 0) return;
+                const closes = dates.slice(0, 30).reverse()
+                    .map((d) => Number(parseFloat(series[d]['4. close']).toFixed(2)))
+                    .filter((v) => Number.isFinite(v));
+                out[symbol] = {
+                    value: latest,
+                    change: Number((latest - prior).toFixed(4)),
+                    pct: Number((((latest - prior) / prior) * 100).toFixed(4)),
+                    closes
+                };
+            } catch (_) { /* symbol failed — leave out, tape shows dash */ }
+        }));
+        const payload = { quotes: out, at: new Date().toISOString() };
+        _stripCache.set(key, { at: Date.now(), payload });
+        res.json(payload);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Market strip failed' });
+    }
+});
+
 app.get('/api/alpha/time-series/monthly', authMiddleware, async (req, res) => {
     const symbol = safeUpper(req.query.symbol);
     if (!symbol) {
@@ -2110,6 +2170,356 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
     }
 });
 
+// ----- Ask: the tool-grounded financial chatbot (metered, not Pro-gated) -----
+// Free users get a monthly taste (AI_CHAT_FREE_LIMIT, default 5); Pro gets
+// AI_CHAT_PRO_LIMIT (default 300). Quota is only consumed on a real answer.
+app.post('/api/ai/chat', authMiddleware, async (req, res) => {
+    const question = String((req.body && req.body.question) || '').trim();
+    if (!question) return res.status(400).json({ message: 'Ask a question.' });
+    try {
+        const userId = portfolioOwnerId(req);
+        const limit = aiChat.limits(isProUser(req));
+        const used = await aiChat.getUsage(userId);
+        if (used >= limit) {
+            return res.status(429).json({
+                message: isProUser(req)
+                    ? `You've used all ${limit} Ask queries this month — the counter resets on the 1st.`
+                    : `You've used your ${limit} free Ask queries this month. Upgrade to Pro for ${aiChat.limits(true)} a month.`,
+                code: 'ASK_QUOTA', quota: { used, limit, remaining: 0 }
+            });
+        }
+        // Holdings context for the get_portfolio tool (stored prices — no live
+        // price fan-out per chat message).
+        let holdings = [];
+        try { holdings = (await Stock.find({ user: userId })).map((s) => s.toObject()); } catch (_) { holdings = []; }
+        const clientHistory = Array.isArray(req.body && req.body.history) ? req.body.history : [];
+        // a fresh page sends no history — pick the thread back up from the
+        // user's last few stored exchanges (cross-session memory)
+        const history = clientHistory.length ? clientHistory : await aiChat.recentHistory(userId);
+
+        // Streaming mode (stream:true in the body): answer over SSE so the
+        // user sees tool progress and the answer typing out instead of a
+        // ~30s silent wait. Events: tool / delta / rollback / done / error.
+        // Quota and auth errors above still return plain JSON — the widget
+        // switches on the response content-type.
+        if ((req.body && req.body.stream) === true) {
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache, no-transform',
+                Connection: 'keep-alive',
+                'X-Accel-Buffering': 'no'
+            });
+            let closed = false;
+            req.on('close', () => { closed = true; });
+            const send = (event, data) => {
+                if (closed || res.writableEnded) return;
+                res.write(`event: ${event}\ndata: ${JSON.stringify(data || {})}\n\n`);
+            };
+            // Keep proxies from timing out the connection between LLM rounds.
+            const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
+            try {
+                const result = await aiChat.ask({
+                    question, history, ctx: { holdings },
+                    onEvent: (e) => send(e.type, e)
+                });
+                const counted = result.source === 'ai' || result.source === 'blocked';
+                if (counted) await aiChat.recordUse(userId);
+                if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+                const usedNow = counted ? used + 1 : used;
+                send('done', {
+                    answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
+                    quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) }
+                });
+            } catch (error) {
+                send('error', { message: error.message || 'Ask failed' });
+            } finally {
+                clearInterval(ping);
+                if (!res.writableEnded) res.end();
+            }
+            return;
+        }
+
+        const result = await aiChat.ask({ question, history, ctx: { holdings } });
+        const counted = result.source === 'ai' || result.source === 'blocked';
+        if (counted) await aiChat.recordUse(userId);
+        if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+        const usedNow = counted ? used + 1 : used;
+        res.json({
+            answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
+            quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) }
+        });
+    } catch (error) {
+        if (!res.headersSent) res.status(500).json({ message: error.message || 'Ask failed' });
+    }
+});
+
+// ----- Portfolio X-Ray: look-through fundamentals of the whole portfolio -----
+const _xrayCache = new Map(); // userId -> { at, payload }
+const XRAY_TTL_MS = 60 * 60 * 1000;
+app.get('/api/portfolio/xray', authMiddleware, async (req, res) => {
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const key = String(ownerId);
+        const force = String(req.query.refresh || '') === '1';
+        const cached = _xrayCache.get(key);
+        if (!force && cached && Date.now() - cached.at < XRAY_TTL_MS) {
+            return res.json({ ...cached.payload, cached: true });
+        }
+        const portfolio = await Stock.find({ user: ownerId });
+        const enriched = await Promise.all(portfolio.map(async (stock) => {
+            const obj = stock.toObject();
+            obj.symbol = safeUpper(stock.symbol);
+            try { obj.currentPrice = await getStockPrice(obj.symbol); } catch (_) { /* stored price */ }
+            return obj;
+        }));
+        const payload = xray.computeXray(enriched);
+        _xrayCache.set(key, { at: Date.now(), payload });
+        res.json({ ...payload, cached: false });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'X-Ray failed' });
+    }
+});
+
+// ----- Alerts (Filing Watchdog + health-check flips, see backend/watchdog.js) -----
+app.get('/api/alerts', authMiddleware, async (req, res) => {
+    try {
+        const result = await watchdog.listAlerts(portfolioOwnerId(req));
+        res.json(result);
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Alerts load failed' });
+    }
+});
+
+app.post('/api/alerts/seen', authMiddleware, async (req, res) => {
+    try {
+        await watchdog.markSeen(portfolioOwnerId(req));
+        res.json({ ok: true });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Alerts update failed' });
+    }
+});
+
+// ----- Screener (public, un-gated — rivals charge for this; SEC data is free) -----
+app.get('/api/screener', (req, res) => {
+    try {
+        const q = req.query || {};
+        const result = aiChat.screenRows({
+            sector: q.sector,
+            min_revenue_cagr_5y_pct: q.minRevCagr5y,
+            min_net_margin_pct: q.minNetMargin,
+            min_roe_pct: q.minRoe,
+            min_dividend_yield_pct: q.minDivYield,
+            min_market_cap_billions: q.minMarketCapB,
+            min_profitable_years_of_last_10: q.minProfitableYears,
+            min_latest_qtr_earnings_growth_yoy_pct: q.minQtrEarningsGrowth,
+            max_pe: q.maxPe,
+            require_positive_fcf: String(q.fcfPositive || '') === '1',
+            sort_by: q.sortBy,
+            limit: q.limit,
+            maxLimit: 100
+        });
+        res.json({ ...result, sectors: aiChat.sectorList() });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Screener failed' });
+    }
+});
+
+// ----- Watchlist (one flat list per user) -----
+app.get('/api/watchlist', authMiddleware, async (req, res) => {
+    try {
+        const doc = await Watchlist.findOne({ user: portfolioOwnerId(req) }).lean();
+        const symbols = (doc && doc.symbols) || [];
+        // enrich from the public screen index (no per-symbol fan-out)
+        const rows = symbols.map((s) => {
+            const m = aiChat.metricsFor(s);
+            return m ? { symbol: s, name: m.name, sector: m.sector, marketCapB: m.marketCapB, pe: m.pe, netMarginPct: m.netMarginPct, revCagr5Pct: m.revCagr5Pct, qtrNetIncomeYoYPct: m.qtrNetIncomeYoYPct } : { symbol: s };
+        });
+        res.json({ symbols, rows });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Watchlist load failed' });
+    }
+});
+
+app.post('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol || !/^[A-Z0-9.\-]{1,10}$/.test(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
+    try {
+        const doc = await Watchlist.findOneAndUpdate(
+            { user: portfolioOwnerId(req) },
+            { $addToSet: { symbols: symbol } },
+            { upsert: true, new: true }
+        );
+        res.json({ symbols: doc.symbols });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Watchlist update failed' });
+    }
+});
+
+app.delete('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    try {
+        const doc = await Watchlist.findOneAndUpdate(
+            { user: portfolioOwnerId(req) },
+            { $pull: { symbols: symbol } },
+            { new: true }
+        );
+        res.json({ symbols: (doc && doc.symbols) || [] });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Watchlist update failed' });
+    }
+});
+
+// ----- Company extras (v2 page): SEC filings + ownership, public + cached -----
+const _filingsCache = new Map(); // SYM -> { at, payload }
+const COMPANY_EXTRA_TTL_MS = 24 * 60 * 60 * 1000;
+const DOC_FORMS = new Set(['10-K', '10-K/A', '10-Q', '10-Q/A', '8-K', '8-K/A', '4', 'DEF 14A']);
+const DOC_CATEGORY = (form) => {
+    if (form.startsWith('10-K')) return 'annual';
+    if (form.startsWith('10-Q')) return 'quarterly';
+    if (form.startsWith('8-K')) return 'events';
+    if (form === '4') return 'insider';
+    if (form === 'DEF 14A') return 'proxy';
+    return 'other';
+};
+app.get('/api/company/:symbol/filings', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const cached = _filingsCache.get(symbol);
+        if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) return res.json(cached.payload);
+        const filings = await watchdog.fetchFilingsDeep(symbol, DOC_FORMS, {
+            '10-K': 7, '10-K/A': 2, '10-Q': 8, '10-Q/A': 2, '8-K': 8, '8-K/A': 2, '4': 10, 'DEF 14A': 5
+        });
+        if (filings === null) return res.status(404).json({ message: 'No SEC filings found for this symbol.' });
+        const categories = { annual: [], quarterly: [], events: [], insider: [], proxy: [] };
+        const caps = { annual: 9, quarterly: 10, events: 10, insider: 10, proxy: 5 };
+        for (const f of filings) {
+            const cat = DOC_CATEGORY(f.form);
+            if (!categories[cat] || categories[cat].length >= caps[cat]) continue;
+            categories[cat].push({ form: f.form, label: watchdog.FORM_LABEL[f.form] || f.form, date: f.date, url: f.url });
+        }
+        const payload = {
+            symbol,
+            categories,
+            // legacy flat list (kept for any cached frontend)
+            filings: [].concat(categories.annual, categories.quarterly, categories.events).slice(0, 14),
+            source: 'SEC EDGAR'
+        };
+        _filingsCache.set(symbol, { at: Date.now(), payload });
+        res.json(payload);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Filings load failed' });
+    }
+});
+
+// Insider history — the real Form 4 trail (3 years), parsed from EDGAR.
+// Public; first request per company kicks off a background build (~1-2 min)
+// and the response says so.
+const insiders = require('./insiders');
+app.get('/api/company/:symbol/insider-history', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const result = await insiders.history(symbol);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Insider history failed' });
+    }
+});
+
+// Insights — connected, decision-relevant analysis from a deterministic
+// fact pack (Pro: this is the synthesized intelligence tier).
+const insights = require('./insights');
+app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const result = await insights.generateInsights(symbol);
+        if (result.error) return res.status(404).json({ message: result.error });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Insights failed' });
+    }
+});
+
+// Key Points — the AI-extracted company dossier from the latest 10-K.
+// Public: one extraction per filing, cached forever in Mongo, so the spend
+// is bounded the same way the segments cache is.
+const keypoints = require('./keypoints');
+app.get('/api/company/:symbol/keypoints', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const result = await keypoints.extractKeyPoints(symbol);
+        if (result.error) return res.status(404).json({ message: result.error });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Key points failed' });
+    }
+});
+
+const _ownershipCache = new Map(); // SYM -> { at, payload }
+app.get('/api/company/:symbol/ownership', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const cached = _ownershipCache.get(symbol);
+        if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) return res.json(cached.payload);
+        const data = await yahooSource.fetchOwnership(symbol);
+        const payload = { symbol, ...data, source: 'Yahoo Finance (13F-derived)' };
+        _ownershipCache.set(symbol, { at: Date.now(), payload });
+        res.json(payload);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Ownership load failed' });
+    }
+});
+
+// Business segments, AI-extracted from the latest 10-K (Pro — the synthesized
+// intelligence is metered; the raw numbers everywhere else stay open).
+const segments = require('./segments');
+app.get('/api/company/:symbol/segments', authMiddleware, proGate, async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        const result = await segments.extractSegments(symbol);
+        if (result.error) return res.status(404).json({ message: result.error });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Segment extraction failed' });
+    }
+});
+
+// Quota peek so the UI can show "3 of 5 free questions left" before asking.
+// Thumbs on an Ask answer — stored for quality review, nothing else.
+app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
+    try {
+        await mongoose.connection.collection('ai_chat_feedback').insertOne({
+            userId: String(portfolioOwnerId(req)),
+            verdict: (req.body && req.body.verdict) === 'up' ? 'up' : 'down',
+            question: String((req.body && req.body.question) || '').slice(0, 1000),
+            answer: String((req.body && req.body.answer) || '').slice(0, 4000),
+            at: new Date()
+        });
+        res.json({ ok: true });
+    } catch (_) {
+        res.status(500).json({ message: 'Could not record feedback.' });
+    }
+});
+
+app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
+    try {
+        const limit = aiChat.limits(isProUser(req));
+        const used = await aiChat.getUsage(portfolioOwnerId(req));
+        res.json({ used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req) });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Quota check failed' });
+    }
+});
+
 app.post('/api/portfolio', authMiddleware, async (req, res) => {
     const { symbol, name, shares, purchaseDate, purchasePrice } = req.body;
     try {
@@ -2334,7 +2744,7 @@ app.get('/api/demo/alpha/quote/:symbol', async (req, res) => {
 // Demo HTML pages — clones of dashboard/fundamentals with a banner +
 // __DEMO_MODE flag set inline before the page scripts load.
 app.get(/^\/demo\/?$/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/demo-dashboard.html'));
+    res.redirect('/dashboard.html?demo=1'); // v2 read-only demo portfolio
 });
 
 app.get(/^\/demo\/fundamentals\/?$/, (req, res) => {
@@ -2357,16 +2767,16 @@ app.get(/^\/(landing-v2|v2)\/?$/, (req, res) => {
 // Dashboard URL is preserved for backwards compatibility but redirects
 // users to the Fundamentals workspace.
 app.get(/^\/dashboard\/?$/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/dashboard.html'));
+    res.sendFile(path.join(__dirname, '../frontend-v2/dashboard.html'));
 });
 
 // Pretty routes for static auth pages
 app.get(/^\/login\/?$/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/login.html'));
+    res.sendFile(path.join(__dirname, '../frontend-v2/login.html'));
 });
 
 app.get(/^\/register\/?$/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/register.html'));
+    res.sendFile(path.join(__dirname, '../frontend-v2/register.html'));
 });
 
 app.get(/^\/founding\/?$/, (req, res) => {
@@ -2436,6 +2846,7 @@ app.get('*', (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+watchdog.start();
 
 
 

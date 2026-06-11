@@ -27,8 +27,10 @@
   const ALPHA_PREFIX = DEMO_MODE ? `${API_URL}/demo/alpha` : `${API_URL}/alpha`;
   const CACHE_TTL_MS = 60 * 60 * 1000;
   const FX_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
-  const MAX_ANNUAL_COLUMNS = 6;
-  const MAX_QUARTERLY_COLUMNS = 8;
+  // With the SEC EDGAR extension the payload carries 15+ annual years and
+  // ~48 quarters; the table shows all of it (horizontally scrollable).
+  const MAX_ANNUAL_COLUMNS = 100;
+  const MAX_QUARTERLY_COLUMNS = 48;
 
   const $ = (id) => document.getElementById(id);
   const getQP = (k) => new URLSearchParams(location.search).get(k);
@@ -357,7 +359,9 @@
   }
 
   function cacheKey(symbol) {
-    return `fundamentals_cache_v8_${symbol}`;
+    // v9: SEC-extended deep history (15+ annual yrs, 48 quarters) — old
+    // shallow cached payloads must not short-circuit the fetch.
+    return `fundamentals_cache_v11_${symbol}`;
   }
 
   function toAlphaNumericString(value) {
@@ -1738,100 +1742,305 @@
       .replace(/\b\w/g, (char) => char.toUpperCase());
   }
 
-  function renderTableHeader(periods, caption) {
+  // ---- Macrotrends-style statement table -------------------------------
+  // Curated row layouts: bold totals, indented components, derived margin
+  // rows. Row styles: total | sub | pct | pershare | count.
+
+  const gv = (key) => (row) => parseNumber(row?.[key]);
+
+  function grossProfitOf(row) {
+    const gp = parseNumber(row?.grossProfit);
+    if (Number.isFinite(gp)) return gp;
+    const rev = parseNumber(row?.totalRevenue);
+    const cogs = parseNumber(row?.costOfRevenue);
+    return Number.isFinite(rev) && Number.isFinite(cogs) ? rev - cogs : null;
+  }
+
+  function totalDebtOf(row) {
+    const combined = parseNumber(row?.shortLongTermDebtTotal);
+    if (Number.isFinite(combined)) return combined;
+    const st = parseNumber(row?.shortTermDebt);
+    const lt = parseNumber(row?.longTermDebt);
+    if (!Number.isFinite(st) && !Number.isFinite(lt)) return null;
+    return (Number.isFinite(st) ? st : 0) + (Number.isFinite(lt) ? lt : 0);
+  }
+
+  function freeCashFlowOf(row) {
+    const ocf = parseNumber(row?.operatingCashflow);
+    const capex = parseNumber(row?.capitalExpenditures);
+    if (!Number.isFinite(ocf)) return null;
+    return ocf + (Number.isFinite(capex) ? capex : 0);
+  }
+
+  function safeRatio(numerator, denominator) {
+    if (!Number.isFinite(numerator) || !Number.isFinite(denominator) || denominator === 0) return null;
+    return numerator / denominator;
+  }
+
+  const STATEMENT_LAYOUT = {
+    income: [
+      { label: 'Revenue', style: 'total', key: 'totalRevenue', get: gv('totalRevenue') },
+      { label: 'Cost of Revenue', style: 'sub', key: 'costOfRevenue', get: gv('costOfRevenue') },
+      { label: 'Gross Profit', style: 'total', key: 'grossProfit', get: grossProfitOf },
+      { label: 'Gross Margin', style: 'pct', get: (r) => safeRatio(grossProfitOf(r), parseNumber(r?.totalRevenue)) },
+      { label: 'R&D', style: 'sub', key: 'researchAndDevelopment', get: gv('researchAndDevelopment') },
+      { label: 'SG&A', style: 'sub', key: 'sellingGeneralAndAdministrative', get: gv('sellingGeneralAndAdministrative') },
+      { label: 'Operating Income', style: 'total', key: 'operatingIncome', get: gv('operatingIncome') },
+      { label: 'Operating Margin', style: 'pct', get: (r) => safeRatio(parseNumber(r?.operatingIncome), parseNumber(r?.totalRevenue)) },
+      { label: 'Interest Expense', style: 'sub', key: 'interestExpense', get: gv('interestExpense') },
+      { label: 'Pre-Tax Income', style: 'total', key: 'incomeBeforeTax', get: gv('incomeBeforeTax') },
+      { label: 'Income Tax', style: 'sub', key: 'incomeTaxExpense', get: gv('incomeTaxExpense') },
+      { label: 'Net Income', style: 'total', key: 'netIncome', get: gv('netIncome') },
+      { label: 'Net Margin', style: 'pct', get: (r) => safeRatio(parseNumber(r?.netIncome), parseNumber(r?.totalRevenue)) },
+      { label: 'EPS (Diluted)', style: 'pershare', key: 'dilutedEPS', get: (r) => parseNumber(r?.dilutedEPS) ?? parseNumber(r?.eps) }
+    ],
+    balance: [
+      { label: 'Total Assets', style: 'total', key: 'totalAssets', get: gv('totalAssets') },
+      { label: 'Cash & Equivalents', style: 'sub', key: 'cashAndCashEquivalentsAtCarryingValue', get: gv('cashAndCashEquivalentsAtCarryingValue') },
+      { label: 'Short-Term Investments', style: 'sub', key: 'shortTermInvestments', get: gv('shortTermInvestments') },
+      { label: 'Receivables', style: 'sub', key: 'currentNetReceivables', get: gv('currentNetReceivables') },
+      { label: 'Inventory', style: 'sub', key: 'inventory', get: gv('inventory') },
+      { label: 'Property, Plant & Equip.', style: 'sub', key: 'propertyPlantEquipment', get: gv('propertyPlantEquipment') },
+      { label: 'Goodwill', style: 'sub', key: 'goodwill', get: gv('goodwill') },
+      { label: 'Total Liabilities', style: 'total', key: 'totalLiabilities', get: gv('totalLiabilities') },
+      { label: 'Current Liabilities', style: 'sub', key: 'totalCurrentLiabilities', get: gv('totalCurrentLiabilities') },
+      { label: 'Short-Term Debt', style: 'sub', key: 'shortTermDebt', get: gv('shortTermDebt') },
+      { label: 'Long-Term Debt', style: 'sub', key: 'longTermDebt', get: gv('longTermDebt') },
+      { label: 'Total Debt', style: 'sub', key: 'totalDebt', get: totalDebtOf },
+      { label: 'Shareholders’ Equity', style: 'total', key: 'totalShareholderEquity', get: gv('totalShareholderEquity') },
+      { label: 'Retained Earnings', style: 'sub', key: 'retainedEarnings', get: gv('retainedEarnings') },
+      { label: 'Shares Outstanding', style: 'count', key: 'commonStockSharesOutstanding', get: gv('commonStockSharesOutstanding') }
+    ],
+    cash: [
+      { label: 'Operating Cash Flow', style: 'total', key: 'operatingCashflow', get: gv('operatingCashflow') },
+      { label: 'D&A', style: 'sub', key: 'depreciationDepletionAndAmortization', get: gv('depreciationDepletionAndAmortization') },
+      { label: 'Investing Cash Flow', style: 'total', key: 'cashflowFromInvestment', get: gv('cashflowFromInvestment') },
+      { label: 'Capital Expenditures', style: 'sub', key: 'capitalExpenditures', get: gv('capitalExpenditures') },
+      { label: 'Financing Cash Flow', style: 'total', key: 'cashflowFromFinancing', get: gv('cashflowFromFinancing') },
+      { label: 'Dividends Paid', style: 'sub', key: 'dividendPayout', get: gv('dividendPayout') },
+      { label: 'Share Buybacks', style: 'sub', key: 'paymentsForRepurchaseOfCommonStock', get: gv('paymentsForRepurchaseOfCommonStock') },
+      { label: 'Stock Issuance', style: 'sub', key: 'proceedsFromIssuanceOfCommonStock', get: gv('proceedsFromIssuanceOfCommonStock') },
+      { label: 'Free Cash Flow', style: 'total', key: 'freeCashFlow', get: freeCashFlowOf },
+      { label: 'Net Change in Cash', style: 'sub', key: 'changeInCashAndCashEquivalents', get: gv('changeInCashAndCashEquivalents') }
+    ]
+  };
+
+  // CAGR across the displayed window (annual basis). Needs positive
+  // endpoints — sign flips make the exponent meaningless.
+  function computeCagr(values, dates) {
+    let first = null, last = null, firstIdx = -1, lastIdx = -1;
+    values.forEach((v, i) => {
+      if (!Number.isFinite(v)) return;
+      if (first === null) { first = v; firstIdx = i; }
+      last = v; lastIdx = i;
+    });
+    if (first === null || firstIdx === lastIdx || first <= 0 || last <= 0) return null;
+    const years = (new Date(dates[lastIdx]) - new Date(dates[firstIdx])) / (365.25 * 86400000);
+    if (!(years >= 1.5)) return null;
+    return Math.pow(last / first, 1 / years) - 1;
+  }
+
+  // Quarterly basis: latest quarter vs same quarter a year earlier.
+  function computeYoY(values) {
+    const lastIdx = values.length - 1;
+    if (lastIdx < 4) return null;
+    const last = values[lastIdx];
+    const prior = values[lastIdx - 4];
+    if (!Number.isFinite(last) || !Number.isFinite(prior) || prior === 0) return null;
+    return (last - prior) / Math.abs(prior);
+  }
+
+  function fmtGrowth(v) {
+    if (!Number.isFinite(v)) return '<span class="fin-dim">–</span>';
+    const pct = (v * 100).toFixed(1);
+    const cls = v >= 0 ? 'fin-up' : 'fin-down';
+    return `<span class="${cls}">${v >= 0 ? '+' : ''}${pct}%</span>`;
+  }
+
+  function fmtCellValue(value, style, scale) {
+    if (!Number.isFinite(value)) return '<span class="fin-dim">–</span>';
+    if (style === 'pct') {
+      return `<span class="${value < 0 ? 'fin-neg' : ''}">${(value * 100).toFixed(1)}%</span>`;
+    }
+    if (style === 'pershare') {
+      return value < 0 ? `<span class="fin-neg">(${Math.abs(value).toFixed(2)})</span>` : value.toFixed(2);
+    }
+    if (style === 'count') {
+      const abs = Math.abs(value);
+      if (abs >= 1e9) return `${(value / 1e9).toFixed(2)}B`;
+      if (abs >= 1e6) return `${(value / 1e6).toFixed(0)}M`;
+      return value.toLocaleString();
+    }
+    if (style === 'num') {
+      return value < 0 ? `<span class="fin-neg">(${Math.abs(value).toFixed(2)})</span>` : value.toFixed(2);
+    }
+    const scaled = value / (scale.divisor || 1);
+    const digits = (scale.divisor || 1) >= 1e9 ? 1 : 0;
+    // Fixed decimals so columns don't mix "391" with "416.2".
+    const text = Math.abs(scaled).toLocaleString(undefined, { minimumFractionDigits: digits, maximumFractionDigits: digits });
+    return scaled < 0 ? `<span class="fin-neg">(${text})</span>` : text;
+  }
+
+  // Stock Rover-style per-row trend sparkline (oldest → newest, left → right).
+  // Direction colours only apply when "up is good" (money rows); ratio rows
+  // like Debt/Equity stay neutral so a rising line never reads as praise.
+  function sparklineSVG(values, directional) {
+    const pts = values.map((v, i) => [i, v]).filter(([, v]) => Number.isFinite(v));
+    if (pts.length < 3) return '<span class="fin-dim">–</span>';
+    const W = 64, H = 20, P = 2;
+    const xs = pts.map((p) => p[0]);
+    const ys = pts.map((p) => p[1]);
+    const minX = Math.min(...xs), maxX = Math.max(...xs);
+    const minY = Math.min(...ys), maxY = Math.max(...ys);
+    const spanX = (maxX - minX) || 1;
+    const spanY = (maxY - minY) || 1;
+    const coords = pts.map(([x, y]) =>
+      `${(P + ((x - minX) / spanX) * (W - 2 * P)).toFixed(1)},${(H - P - ((y - minY) / spanY) * (H - 2 * P)).toFixed(1)}`
+    ).join(' ');
+    const up = pts[pts.length - 1][1] >= pts[0][1];
+    const cls = directional ? (up ? ' up' : ' down') : '';
+    return `<svg class="fin-spark${cls}" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" aria-hidden="true"><polyline points="${coords}" fill="none" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/></svg>`;
+  }
+
+  function renderFinHeader(caption, growthLabel, periods) {
     const thead = $('tbl-head');
     if (!thead) return;
     thead.innerHTML = `
       <tr class="fin-caption">
-        <th class="fin-name">${caption}</th>
+        <th class="fin-c1" colspan="3">${caption}</th>
         ${periods.map(() => '<th></th>').join('')}
       </tr>
       <tr>
-        <th>Metric</th>
+        <th class="fin-c1">Metric</th>
+        <th class="fin-c2">${growthLabel}</th>
+        <th class="fin-c3">Trend</th>
         ${periods.map((period) => `<th>${period}</th>`).join('')}
       </tr>
     `;
   }
 
-  function renderTableBody(rows) {
+  function renderFinRows(rowDefs, reports, scale) {
     const tbody = $('tbl-body');
     if (!tbody) return;
-    tbody.innerHTML = '';
-    rows.forEach((row) => {
-      const tr = document.createElement('tr');
-      const metric = document.createElement('td');
-      metric.className = 'fin-name';
-      metric.textContent = row.label;
-      tr.appendChild(metric);
-      row.values.forEach((value) => {
-        const td = document.createElement('td');
-        td.textContent = value;
-        tr.appendChild(td);
+    const dates = reports.map((r) => r.fiscalDateEnding);
+    const html = rowDefs.map((def) => {
+      const values = reports.map((report) => {
+        const v = def.get(report);
+        return Number.isFinite(v) ? v : null;
       });
-      tbody.appendChild(tr);
-    });
+      if (!values.some((v) => v !== null)) return ''; // hide fully-empty rows
+      const moneyish = !def.style || def.style === 'total' || def.style === 'sub' || def.style === 'pershare' || def.style === 'count';
+      const growth = !moneyish ? null
+        : (state.basis === 'quarterly' ? computeYoY(values) : computeCagr(values, dates));
+      const cells = values.map((v) => `<td class="fin-val">${fmtCellValue(v, def.style, scale)}</td>`).join('');
+      return `
+        <tr class="fin-row fin-row-${def.style || 'sub'}" ${def.key ? `data-rowkey="${def.key}"` : ''}>
+          <td class="fin-c1">${def.label}</td>
+          <td class="fin-c2">${moneyish ? fmtGrowth(growth) : ''}</td>
+          <td class="fin-c3">${sparklineSVG(values, moneyish && def.style !== 'count')}</td>
+          ${cells}
+        </tr>`;
+    }).join('');
+    tbody.innerHTML = html;
   }
 
-  function renderRatiosTable(overview) {
-    const numericEntries = Object.entries(overview || {})
-      .map(([key, value]) => [key, parseNumber(value)])
-      .filter(([, value]) => Number.isFinite(value));
-    renderTableHeader(['Value'], 'Overview Ratios');
-    renderTableBody(numericEntries.map(([key, value]) => ({
-      label: toLabel(key),
-      values: [formatNumber(value, 4)]
-    })));
+  function scrollTableToNewest() {
+    const wrap = document.querySelector('.scr-table-wrap');
+    if (wrap) wrap.scrollLeft = wrap.scrollWidth;
+  }
+
+  // Per-period key for joining income/balance/cash rows of the same
+  // fiscal period (dates can differ by a few days across statements).
+  function periodKey(dateText) {
+    return String(dateText || '').slice(0, 7);
+  }
+
+  function indexReports(reports) {
+    const map = new Map();
+    (reports || []).forEach((row) => {
+      if (row?.fiscalDateEnding) map.set(periodKey(row.fiscalDateEnding), row);
+    });
+    return map;
+  }
+
+  // Ratios tab: full per-year ratio history derived from the three
+  // statements (Macrotrends-style), not the TTM overview dump.
+  function renderRatiosHistoryTable(data) {
+    const income = getReports(data.income);
+    if (!income.length) {
+      renderFinHeader('Ratios (No Data)', '', []);
+      const tbody = $('tbl-body');
+      if (tbody) tbody.innerHTML = '';
+      return;
+    }
+    const balanceByPeriod = indexReports(getReports(data.balance));
+    const cashByPeriod = indexReports(getReports(data.cash));
+
+    const joined = income.map((inc) => ({
+      fiscalDateEnding: inc.fiscalDateEnding,
+      inc,
+      bal: balanceByPeriod.get(periodKey(inc.fiscalDateEnding)) || {},
+      cf: cashByPeriod.get(periodKey(inc.fiscalDateEnding)) || {}
+    }));
+
+    const RATIO_ROWS = [
+      { label: 'Gross Margin', style: 'pct', get: (r) => safeRatio(grossProfitOf(r.inc), parseNumber(r.inc.totalRevenue)) },
+      { label: 'Operating Margin', style: 'pct', get: (r) => safeRatio(parseNumber(r.inc.operatingIncome), parseNumber(r.inc.totalRevenue)) },
+      { label: 'Net Margin', style: 'pct', get: (r) => safeRatio(parseNumber(r.inc.netIncome), parseNumber(r.inc.totalRevenue)) },
+      { label: 'FCF Margin', style: 'pct', get: (r) => safeRatio(freeCashFlowOf(r.cf), parseNumber(r.inc.totalRevenue)) },
+      { label: 'Return on Equity', style: 'pct', get: (r) => safeRatio(parseNumber(r.inc.netIncome), parseNumber(r.bal.totalShareholderEquity)) },
+      { label: 'Return on Assets', style: 'pct', get: (r) => safeRatio(parseNumber(r.inc.netIncome), parseNumber(r.bal.totalAssets)) },
+      { label: 'Current Ratio', style: 'num', get: (r) => safeRatio(parseNumber(r.bal.totalCurrentAssets), parseNumber(r.bal.totalCurrentLiabilities)) },
+      { label: 'Debt / Equity', style: 'num', get: (r) => safeRatio(totalDebtOf(r.bal), parseNumber(r.bal.totalShareholderEquity)) },
+      { label: 'OCF / Net Income', style: 'num', get: (r) => safeRatio(parseNumber(r.cf.operatingCashflow), parseNumber(r.inc.netIncome)) },
+      { label: 'Capex % of Revenue', style: 'pct', get: (r) => { const v = safeRatio(parseNumber(r.cf.capitalExpenditures), parseNumber(r.inc.totalRevenue)); return Number.isFinite(v) ? Math.abs(v) : null; } },
+      { label: 'Shares Outstanding', style: 'count', key: 'commonStockSharesOutstanding', get: (r) => parseNumber(r.bal.commonStockSharesOutstanding) }
+    ];
+
+    const periods = joined.map((row) => formatPeriodLabel(row.fiscalDateEnding));
+    renderFinHeader(
+      `Ratios | ${state.basis === 'annual' ? 'Annual' : 'Quarterly'} | derived from reported statements`,
+      state.basis === 'quarterly' ? 'YoY' : 'CAGR',
+      periods
+    );
+    renderFinRows(RATIO_ROWS, joined, { divisor: 1, label: '' });
+    scrollTableToNewest();
   }
 
   function renderStatementTable(data) {
     if (state.activeTab === 'ratios') {
-      renderRatiosTable(data.overview || {});
+      renderRatiosHistoryTable(data);
       return;
     }
 
     const config = TAB_CONFIG[state.activeTab];
     const reports = getReports(data[config.field]);
     if (!reports.length) {
-      renderTableHeader([], `${config.caption} (No Data)`);
-      renderTableBody([]);
+      renderFinHeader(`${config.caption} (No Data)`, '', []);
+      const tbody = $('tbl-body');
+      if (tbody) tbody.innerHTML = '';
       return;
     }
 
-    const periods = reports.map((report) => formatPeriodLabel(report.fiscalDateEnding));
-    const keySet = new Set();
-    reports.forEach((report) => {
-      Object.keys(report).forEach((key) => {
-        if (key !== 'fiscalDateEnding' && key !== 'reportedCurrency') keySet.add(key);
-      });
-    });
-
-    const preferredOrder = config.preferred || [];
-    const preferredSet = new Set(preferredOrder);
-    const extraKeys = Array.from(keySet).filter((key) => !preferredSet.has(key)).sort();
-    // Show every standard row from the Alpha schema — even ones Yahoo
-    // doesn't break out for this company — so the full tag list is
-    // visible. Empty cells render as "-" via formatScaledCurrency.
-    const visibleKeys = Array.from(new Set([...preferredOrder, ...extraKeys]));
-
+    const layout = STATEMENT_LAYOUT[state.activeTab] || [];
     const scaleCandidates = [];
-    visibleKeys.forEach((key) => {
+    layout.forEach((def) => {
+      if (def.style !== 'total' && def.style !== 'sub') return;
       reports.forEach((report) => {
-        const value = parseNumber(report[key]);
+        const value = def.get(report);
         if (Number.isFinite(value)) scaleCandidates.push(value);
       });
     });
     const scale = determineScale(scaleCandidates);
 
-    renderTableHeader(
-      periods,
-      `${config.caption} | ${state.basis === 'annual' ? 'Annual' : 'Quarterly'} | ${scale.label} of US $`
+    const periods = reports.map((report) => formatPeriodLabel(report.fiscalDateEnding));
+    renderFinHeader(
+      `${config.caption} | ${state.basis === 'annual' ? 'Annual' : 'Quarterly'} | ${scale.label} of US $`,
+      state.basis === 'quarterly' ? 'YoY' : 'CAGR',
+      periods
     );
-
-    const rows = visibleKeys.map((key) => ({
-      label: toLabel(key),
-      values: reports.map((report) => formatScaledCurrency(parseNumber(report[key]), scale))
-    }));
-    renderTableBody(rows);
+    renderFinRows(layout, reports, scale);
+    scrollTableToNewest();
   }
 
   // ---- Price-chart summary above chart ----
@@ -1990,27 +2199,73 @@
     host.innerHTML = tiles.map((t) => tileHTML(t.label, t.value)).join('');
   }
 
+  // AV overview strings are sometimes ALLCAPS ("ELECTRONIC COMPUTERS") —
+  // title-case those, leave already-clean values alone.
+  function cleanFactText(value) {
+    const text = String(value || '').trim();
+    if (!text) return '';
+    if (text !== text.toUpperCase()) return text;
+    return text.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase());
+  }
+
+  function headquartersOf(overview) {
+    const parts = String(overview?.Address || '').split(',').map((p) => p.trim()).filter(Boolean);
+    if (parts.length >= 3) return cleanFactText(`${parts[1]}, ${parts[2]}`);
+    return cleanFactText(parts.join(', '));
+  }
+
   function renderAbout(overview) {
     const section = $('about-section');
     const body = $('company-about');
-    const tags = $('company-tags');
+    const title = $('about-title');
+    const toggle = $('about-toggle');
+    const facts = $('company-facts');
     const description = String(overview?.Description || '').trim();
     if (!description) {
       if (section) section.hidden = true;
       return;
     }
     if (section) section.hidden = false;
+    if (title) title.textContent = overview?.Name ? `About ${overview.Name}` : 'About';
     if (body) body.textContent = description;
-    if (tags) {
-      tags.innerHTML = '';
-      const labels = [overview?.Sector, overview?.Industry, overview?.Country, overview?.Exchange]
-        .map((v) => String(v || '').trim())
-        .filter(Boolean);
-      labels.forEach((text) => {
-        const t = document.createElement('span');
-        t.className = 'scr-tag';
-        t.textContent = text;
-        tags.appendChild(t);
+
+    // Clamp long descriptions to 6 lines with a Show more toggle.
+    if (body && toggle) {
+      body.classList.add('clamped');
+      toggle.textContent = 'Show more';
+      toggle.hidden = true;
+      toggle.onclick = () => {
+        const clamped = body.classList.toggle('clamped');
+        toggle.textContent = clamped ? 'Show more' : 'Show less';
+      };
+      requestAnimationFrame(() => {
+        if (body.scrollHeight > body.clientHeight + 4) toggle.hidden = false;
+        else body.classList.remove('clamped');
+      });
+    }
+
+    if (facts) {
+      const rows = [
+        ['Sector', cleanFactText(overview?.Sector)],
+        ['Industry', cleanFactText(overview?.Industry)],
+        ['Headquarters', headquartersOf(overview)],
+        ['Country', cleanFactText(overview?.Country)],
+        ['Exchange', String(overview?.Exchange || '').trim()],
+        ['Fiscal Year End', cleanFactText(overview?.FiscalYearEnd)],
+        ['Latest Quarter', String(overview?.LatestQuarter || '').trim()]
+      ].filter(([, v]) => v);
+      facts.innerHTML = '';
+      rows.forEach(([label, value]) => {
+        const row = document.createElement('div');
+        row.className = 'scr-fact';
+        const l = document.createElement('span');
+        l.className = 'scr-fact-label';
+        l.textContent = label;
+        const v = document.createElement('span');
+        v.className = 'scr-fact-value';
+        v.textContent = value;
+        row.append(l, v);
+        facts.appendChild(row);
       });
     }
   }
@@ -2062,6 +2317,209 @@
     consUl.innerHTML = cons.length ? cons.map((t) => `<li>${t}</li>`).join('') : '<li>No notable risk signals from current ratios.</li>';
   }
 
+  // ---- Health Check (Simply Wall St-style plain-English ✓/✗ checks) ----
+  // Every check is computed from the 10-19 years of SEC-extended annual
+  // reports, ascending order. A check returning null is skipped (not
+  // enough history to judge).
+
+  function annualSeries(payload, section, getter) {
+    const rows = (payload?.[section]?.annualReports || [])
+      .filter((r) => r && r.fiscalDateEnding)
+      .slice()
+      .sort((a, b) => new Date(a.fiscalDateEnding) - new Date(b.fiscalDateEnding));
+    return rows.map((r) => ({ date: r.fiscalDateEnding, value: getter(r) }))
+      .filter((p) => Number.isFinite(p.value));
+  }
+
+  function seriesCagr(points, maxYears) {
+    if (points.length < 2) return null;
+    const recent = points.slice(-Math.min(points.length, maxYears + 1));
+    const first = recent[0], last = recent[recent.length - 1];
+    if (first.value <= 0 || last.value <= 0) return null;
+    const years = (new Date(last.date) - new Date(first.date)) / (365.25 * 86400000);
+    if (!(years >= 1.5)) return null;
+    return { rate: Math.pow(last.value / first.value, 1 / years) - 1, years: Math.round(years) };
+  }
+
+  function computeHealthChecks(payload) {
+    const rev = annualSeries(payload, 'income', (r) => parseNumber(r.totalRevenue));
+    const ni = annualSeries(payload, 'income', (r) => parseNumber(r.netIncome));
+    const eps = annualSeries(payload, 'income', (r) => parseNumber(r.dilutedEPS) ?? parseNumber(r.eps));
+    const margins = annualSeries(payload, 'income', (r) => safeRatio(parseNumber(r.netIncome), parseNumber(r.totalRevenue)));
+    const equity = annualSeries(payload, 'balance', (r) => parseNumber(r.totalShareholderEquity));
+    const cash = annualSeries(payload, 'balance', (r) => {
+      const c = parseNumber(r.cashAndCashEquivalentsAtCarryingValue);
+      const sti = parseNumber(r.shortTermInvestments);
+      if (!Number.isFinite(c)) return null;
+      return c + (Number.isFinite(sti) ? sti : 0);
+    });
+    const debt = annualSeries(payload, 'balance', totalDebtOf);
+    const shares = annualSeries(payload, 'balance', (r) => parseNumber(r.commonStockSharesOutstanding));
+    const ocf = annualSeries(payload, 'cash', (r) => parseNumber(r.operatingCashflow));
+    const fcf = annualSeries(payload, 'cash', freeCashFlowOf);
+    const divs = annualSeries(payload, 'cash', (r) => parseNumber(r.dividendPayout));
+
+    const last = (s) => s.length ? s[s.length - 1].value : null;
+    const pct = (v, d = 1) => `${(v * 100).toFixed(d)}%`;
+
+    const groups = [
+      { title: 'Growth', checks: [] },
+      { title: 'Profitability', checks: [] },
+      { title: 'Financial Health', checks: [] },
+      { title: 'Shareholder Returns', checks: [] }
+    ];
+    const add = (gi, ok, text, tab, rowkey) => {
+      if (ok === null || !text) return;
+      groups[gi].checks.push({ ok, text, tab, rowkey });
+    };
+
+    // -- Growth
+    const revC = seriesCagr(rev, 10);
+    add(0, revC ? revC.rate > 0.05 : null,
+      revC ? `Revenue ${revC.rate >= 0 ? 'grew' : 'shrank'} ${pct(Math.abs(revC.rate))}/yr over ${revC.years} years` : null,
+      'income', 'totalRevenue');
+    const epsC = seriesCagr(eps, 10);
+    if (revC && epsC) {
+      add(0, epsC.rate > revC.rate, epsC.rate > revC.rate
+        ? `EPS grew faster than revenue (${pct(epsC.rate)} vs ${pct(revC.rate)}/yr)`
+        : `EPS grew slower than revenue (${pct(epsC.rate)} vs ${pct(revC.rate)}/yr)`,
+        'income', 'dilutedEPS');
+    }
+    const revRecent = seriesCagr(rev.slice(-6), 5);
+    if (revC && revRecent && revC.years >= 8) {
+      add(0, revRecent.rate >= revC.rate * 0.6, revRecent.rate >= revC.rate
+        ? `Growth accelerating: last-5yr ${pct(revRecent.rate)}/yr vs ${pct(revC.rate)} long-term`
+        : `Growth ${revRecent.rate >= revC.rate * 0.6 ? 'holding up' : 'slowing'}: last-5yr ${pct(revRecent.rate)}/yr vs ${pct(revC.rate)} long-term`,
+        'income', 'totalRevenue');
+    }
+
+    // -- Profitability
+    const m = last(margins);
+    add(1, Number.isFinite(m) ? m > 0.10 : null,
+      Number.isFinite(m) ? `Net margin ${pct(m)}${m > 0.20 ? ' — top tier' : m > 0.10 ? ' — healthy' : m > 0 ? ' — thin' : ' — loss-making'}` : null,
+      'income', 'netIncome');
+    if (margins.length >= 6) {
+      const then = margins[margins.length - 6].value;
+      add(1, m > then, `Net margin ${m > then ? 'improved' : 'declined'} vs 5 years ago (${pct(then)} → ${pct(m)})`, 'ratios');
+    }
+    if (ni.length >= 5) {
+      const last5 = ni.slice(-5);
+      const profitable = last5.filter((p) => p.value > 0).length;
+      add(1, profitable === 5, profitable === 5
+        ? 'Profitable in each of the last 5 years'
+        : `Posted a loss in ${5 - profitable} of the last 5 years`, 'income', 'netIncome');
+    }
+
+    // -- Financial Health
+    const cashNow = last(cash), debtNow = last(debt);
+    if (Number.isFinite(cashNow) && Number.isFinite(debtNow)) {
+      add(2, cashNow >= debtNow, cashNow >= debtNow
+        ? `More cash (${compactMoney(cashNow, 'USD')}) than debt (${compactMoney(debtNow, 'USD')})`
+        : `Debt (${compactMoney(debtNow, 'USD')}) exceeds cash (${compactMoney(cashNow, 'USD')})`, 'balance', 'totalDebt');
+    }
+    if (ocf.length >= 5) {
+      const pos = ocf.slice(-5).filter((p) => p.value > 0).length;
+      add(2, pos === 5, pos === 5
+        ? 'Positive operating cash flow in each of the last 5 years'
+        : `Negative operating cash flow in ${5 - pos} of the last 5 years`, 'cash', 'operatingCashflow');
+    }
+    if (Number.isFinite(last(ocf)) && Number.isFinite(debtNow) && debtNow > 0) {
+      const cover = last(ocf) / debtNow;
+      add(2, cover > 0.2, cover > 0.2
+        ? `Operating cash flow covers ${pct(cover, 0)} of total debt`
+        : `Operating cash flow covers only ${pct(cover, 0)} of total debt`, 'cash', 'operatingCashflow');
+    }
+    if (equity.length >= 6) {
+      const eqThen = equity[equity.length - 6].value;
+      const eqNow = last(equity);
+      if (Number.isFinite(eqThen) && Number.isFinite(eqNow) && eqThen > 0) {
+        const chg = (eqNow - eqThen) / eqThen;
+        add(2, chg > -0.05, `Shareholders’ equity ${chg >= 0 ? 'grew' : 'shrank'} ${pct(Math.abs(chg), 0)} over 5 years${chg < -0.05 ? ' (often buyback-driven — check the trend)' : ''}`, 'balance', 'totalShareholderEquity');
+      }
+    }
+
+    // -- Shareholder Returns
+    if (shares.length >= 6) {
+      const recent = shares.slice(-Math.min(shares.length, 11));
+      const shFirst = recent[0].value, shLast = recent[recent.length - 1].value;
+      const yrs = Math.round((new Date(recent[recent.length - 1].date) - new Date(recent[0].date)) / (365.25 * 86400000));
+      if (Number.isFinite(shFirst) && Number.isFinite(shLast) && shFirst > 0 && yrs >= 3) {
+        const chg = (shLast - shFirst) / shFirst;
+        add(3, chg < 0.02, chg < 0
+          ? `Buybacks reduced share count ${pct(Math.abs(chg), 0)} in ${yrs} years`
+          : `Share count ${chg < 0.02 ? 'roughly flat' : `diluted ${pct(chg, 0)}`} over ${yrs} years`, 'balance', 'commonStockSharesOutstanding');
+      }
+    }
+    if (divs.length) {
+      let streak = 0;
+      for (let i = divs.length - 1; i >= 0; i--) {
+        if (divs[i].value < 0) streak++;
+        else break;
+      }
+      if (streak > 0) {
+        add(3, streak >= 5, `${streak} straight year${streak > 1 ? 's' : ''} of dividend payments`, 'cash', 'dividendPayout');
+      } else {
+        add(3, false, 'Pays no dividend', 'cash', 'dividendPayout');
+      }
+    }
+    const fcfNow = last(fcf);
+    const revNow = last(rev);
+    if (Number.isFinite(fcfNow) && Number.isFinite(revNow) && revNow > 0) {
+      const fm = fcfNow / revNow;
+      add(3, fcfNow > 0, fcfNow > 0
+        ? `Free cash flow positive (${pct(fm)} of revenue)`
+        : 'Free cash flow is negative', 'cash', 'freeCashFlow');
+    }
+
+    return groups.filter((g) => g.checks.length);
+  }
+
+  function renderHealthCheck(payload) {
+    const section = $('health-check-section');
+    const grid = $('health-grid');
+    const score = $('health-score');
+    if (!section || !grid) return false;
+
+    const groups = computeHealthChecks(payload);
+    const total = groups.reduce((n, g) => n + g.checks.length, 0);
+    if (total < 4) { section.hidden = true; return false; }
+    const passed = groups.reduce((n, g) => n + g.checks.filter((c) => c.ok).length, 0);
+
+    section.hidden = false;
+    if (score) score.textContent = `${passed} of ${total} checks passed`;
+    grid.innerHTML = groups.map((group) => `
+      <div class="scr-health-group">
+        <div class="scr-health-group-title">${group.title}</div>
+        ${group.checks.map((c) => `
+          <button type="button" class="scr-health-item ${c.ok ? 'pass' : 'fail'}"
+            ${c.tab ? `data-tab="${c.tab}"` : ''} ${c.rowkey ? `data-rowkey="${c.rowkey}"` : ''}>
+            <span class="scr-health-mark">${c.ok ? '✓' : '✗'}</span>${c.text}
+          </button>`).join('')}
+      </div>`).join('');
+
+    // Click a check → jump to the relevant statement row.
+    grid.querySelectorAll('.scr-health-item[data-tab]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
+        const rowkey = btn.dataset.rowkey;
+        if (!tab || !state.data) return;
+        state.activeTab = tab;
+        syncToggles();
+        renderStatementTable(state.data);
+        const wrap = document.querySelector('.scr-table-wrap');
+        if (wrap) wrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        if (rowkey) {
+          const row = document.querySelector(`#tbl-body tr[data-rowkey="${rowkey}"]`);
+          if (row) {
+            row.classList.add('fin-flash');
+            setTimeout(() => row.classList.remove('fin-flash'), 2400);
+          }
+        }
+      });
+    });
+    return true;
+  }
+
   function trackRecentSymbol(symbol, overview) {
     if (!symbol) return;
     try {
@@ -2108,7 +2566,15 @@
     renderMetricTiles(overview, payload.quote);
     resetAiSummary();
     renderAbout(overview);
-    renderProsCons(overview, payload);
+    // Health Check supersedes the simpler Pros/Cons callout when there's
+    // enough statement history to compute it.
+    const healthRendered = renderHealthCheck(payload);
+    if (healthRendered) {
+      const prosCons = $('pros-cons-section');
+      if (prosCons) prosCons.hidden = true;
+    } else {
+      renderProsCons(overview, payload);
+    }
     renderPriceSummary(overview, payload.quote, payload);
 
     // Keep the legacy renderers running so existing data hooks work too.

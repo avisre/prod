@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Sitemap — stockportfolio.pro</title>
+  <meta name="description" content="Every key destination on stockportfolio.pro — product pages, account pages, and legal resources." />
+  <link rel="canonical" href="https://www.stockportfolio.pro/sitemap" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+  <style>
+    .map { max-width: 980px; margin: 0 auto; }
+    .map-head { padding: 56px 0 8px; }
+    .map-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 36px; }
+    .map-grid ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 2px; }
+    .map-grid a { display: block; padding: 8px 0; border-bottom: 1px solid var(--line); color: var(--ink); font-size: 14px; }
+    .map-grid a:hover { color: var(--accent-ink); }
+    .map-grid li:last-child a { border-bottom: 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container map">
+      <div class="map-head">
+        <p class="label">Site structure</p>
+        <h1 class="title-1" style="margin-top:10px;">Sitemap</h1>
+        <p class="muted" style="margin-top:14px; max-width:56ch;">Every key destination, in one keyboard-and-screen-reader-friendly place.</p>
+      </div>
+      <hr class="section-rule" />
+
+      <div class="map-grid">
+        <div>
+          <p class="label">Research</p>
+          <ul>
+            <li><a href="/screener.html">Screener</a></li>
+            <li><a href="/company.html?symbol=AAPL">Company pages</a></li>
+            <li><a href="/news.html">Markets &amp; news</a></li>
+            <li><a href="/ask.html">Ask — the AI analyst</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Account</p>
+          <ul>
+            <li><a href="/index.html">Home</a></li>
+            <li><a href="/dashboard.html">Portfolio</a></li>
+            <li><a href="/dashboard.html?demo=1">Demo portfolio</a></li>
+            <li><a href="/login.html">Log in</a></li>
+            <li><a href="/register.html">Start free trial</a></li>
+            <li><a href="/support.html">Support &amp; contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Legal</p>
+          <ul>
+            <li><a href="/privacy.html">Privacy policy</a></li>
+            <li><a href="/terms.html">Terms of use</a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="label">Machine-readable</p>
+          <ul>
+            <li><a href="/sitemap.xml">XML sitemap</a></li>
+            <li><a href="/robots.txt">robots.txt</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script>V2.nav(''); V2.footer();</script>
+</body>
+</html>

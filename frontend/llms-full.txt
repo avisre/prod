@@ -68,7 +68,7 @@ The app then:
    price, total cost, market value, and P/L.
 7. To see the fundamentals view, click Fundamentals or go directly to
    https://stockportfolio.pro/demo/fundamentals.
-8. To create a real portfolio, click "Sign up free" - this starts the 7-day
+8. To create a real portfolio, click "Start free trial" - this starts the 7-day
    free trial via Stripe.
 
 ## Tech stack

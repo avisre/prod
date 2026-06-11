@@ -109,7 +109,7 @@ async function summarizeFinancials(symbol) {
         const summary = await aiClient.chat([
             { role: 'system', content: FIN_SYSTEM },
             { role: 'user', content: `Company financial facts (JSON):\n${JSON.stringify(facts)}\n\nWrite the summary.` }
-        ], { temperature: 0.3, maxTokens: 300 });
+        ], { temperature: 0.3, maxTokens: 300, purpose: 'summary' });
         return { summary, facts, source: 'ai' };
     } catch (e) {
         return { summary: templateFinancialSummary(facts), facts, source: 'template-fallback' };

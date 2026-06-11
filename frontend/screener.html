@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Stock Screener — stockportfolio.pro</title>
+    <meta
+      name="description"
+      content="Free stock screener over 1,500+ US companies (S&P 1500): filter by revenue growth, margins, ROE, P/E, dividend yield and quarterly earnings growth — built on SEC filing data."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.stockportfolio.pro/screener" />
+    <link rel="icon" href="Media/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="styles.css?v=20260610-1" />
+    <link rel="stylesheet" href="css/fundamentals-screener.css?v=20260611-4" />
+    <link rel="stylesheet" href="css/screener-page.css?v=20260612-1" />
+    <link rel="stylesheet" href="css/ask.css?v=20260612-1" />
+  </head>
+  <body class="glass scr-page">
+    <div class="waves"><div class="wave w1"></div><div class="wave w2"></div><div class="wave w3"></div></div>
+    <header class="navbar" role="banner">
+      <div class="brand">
+        <img src="Media/icon.png" alt="Logo" class="brand-icon" />
+        <span class="brand-name">stockportfolio.pro</span>
+      </div>
+      <div class="nav-actions">
+        <a class="btn" href="news.html" data-guarded><span class="sticker sm" aria-hidden="true">📰</span>News</a>
+        <a class="btn" href="fundamentals.html" data-guarded><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
+        <a class="btn" href="screener.html"><span class="sticker sm" aria-hidden="true">🧮</span>Screener</a>
+        <a class="btn" href="dashboard.html" data-guarded><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
+        <a class="btn" href="support.html"><span class="sticker sm" aria-hidden="true">💬</span>Support</a>
+        <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit</a>
+      </div>
+    </header>
+
+    <div class="container scr-container">
+      <header class="scrn-header">
+        <h1>Stock Screener</h1>
+        <p class="scrn-sub">Filter 1,500+ US companies (the S&amp;P 1500) by real filed fundamentals — free, no account needed. Data from SEC 10-K/10-Q filings.</p>
+      </header>
+
+      <!-- Preset screens -->
+      <div class="scrn-presets" id="presets">
+        <button type="button" class="scrn-preset" data-preset="compounders">Quality compounders</button>
+        <button type="button" class="scrn-preset" data-preset="cashmachines">Cash machines</button>
+        <button type="button" class="scrn-preset" data-preset="hypergrowth">Hypergrowth</button>
+        <button type="button" class="scrn-preset" data-preset="dividends">Dividend payers</button>
+        <button type="button" class="scrn-preset" data-preset="value">Value</button>
+        <button type="button" class="scrn-preset" data-preset="earnings">Earnings accelerators</button>
+        <button type="button" class="scrn-preset scrn-preset-clear" data-preset="clear">Clear</button>
+      </div>
+
+      <!-- Filters -->
+      <section class="scr-section scrn-filters" aria-label="Screen filters">
+        <div class="scrn-filter-grid">
+          <label class="scrn-field">
+            <span>Sector</span>
+            <select id="f-sector"><option value="">All sectors</option></select>
+          </label>
+          <label class="scrn-field">
+            <span>Min revenue CAGR (5y, %)</span>
+            <input id="f-cagr" type="number" step="1" placeholder="e.g. 10" />
+          </label>
+          <label class="scrn-field">
+            <span>Min net margin (%)</span>
+            <input id="f-margin" type="number" step="1" placeholder="e.g. 15" />
+          </label>
+          <label class="scrn-field">
+            <span>Min ROE (%)</span>
+            <input id="f-roe" type="number" step="1" placeholder="e.g. 15" />
+          </label>
+          <label class="scrn-field">
+            <span>Max P/E</span>
+            <input id="f-pe" type="number" step="1" placeholder="e.g. 25" />
+          </label>
+          <label class="scrn-field">
+            <span>Min dividend yield (%)</span>
+            <input id="f-div" type="number" step="0.1" placeholder="e.g. 2" />
+          </label>
+          <label class="scrn-field">
+            <span>Min market cap ($B)</span>
+            <input id="f-mcap" type="number" step="1" placeholder="e.g. 10" />
+          </label>
+          <label class="scrn-field">
+            <span>Min qtr earnings growth (YoY %)</span>
+            <input id="f-qtr" type="number" step="5" placeholder="e.g. 25" />
+          </label>
+          <label class="scrn-field">
+            <span>Profitable yrs (of last 10)</span>
+            <input id="f-prof" type="number" min="0" max="10" step="1" placeholder="e.g. 8" />
+          </label>
+          <label class="scrn-field scrn-check">
+            <input id="f-fcf" type="checkbox" />
+            <span>Positive free cash flow</span>
+          </label>
+        </div>
+        <div class="scrn-actions">
+          <span class="scrn-count" id="result-count"></span>
+          <button type="button" class="scr-search-go" id="run-btn">Run screen</button>
+        </div>
+      </section>
+
+      <!-- Results -->
+      <section class="scr-section">
+        <div class="scr-table-wrap scrn-results-wrap">
+          <table class="scr-table scrn-table" id="results-table">
+            <thead>
+              <tr>
+                <th data-sort="symbol" class="sortable">Company</th>
+                <th data-sort="sector" class="sortable">Sector</th>
+                <th data-sort="marketCapB" class="sortable">Mkt Cap</th>
+                <th data-sort="pe" class="sortable">P/E</th>
+                <th data-sort="revCagr5Pct" class="sortable">Rev CAGR 5y</th>
+                <th data-sort="netMarginPct" class="sortable">Net Margin</th>
+                <th data-sort="roePct" class="sortable">ROE</th>
+                <th data-sort="divYieldPct" class="sortable">Div Yield</th>
+                <th data-sort="qtrNetIncomeYoYPct" class="sortable">Qtr Earn YoY</th>
+                <th data-sort="profitableYears10" class="sortable">Profit Yrs/10</th>
+              </tr>
+            </thead>
+            <tbody id="results-body">
+              <tr><td colspan="10" class="scrn-empty">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="scrn-foot">Fundamentals from latest SEC annual filings; valuation snapshot refreshed nightly. Share counts and per-share figures as filed. Educational data — not investment advice.</p>
+      </section>
+
+      <!-- Conversion: the screener is free; the depth behind it is the product -->
+      <section class="scr-section scrn-cta" aria-label="Go deeper">
+        <div class="scrn-cta-inner">
+          <div class="scrn-cta-copy">
+            <h2>Go deeper on any of these companies</h2>
+            <p>19 years of SEC-filed statements, ratio history and health checks — plus Ask, the AI assistant that answers with numbers from filings, and alerts when your holdings file with the SEC.</p>
+          </div>
+          <div class="scrn-cta-actions">
+            <a class="scr-search-go scrn-cta-btn" href="register.html?plan=monthly">Start 7-day free trial</a>
+            <a class="scrn-cta-ghost" href="demo-fundamentals.html?symbol=AAPL">See a sample company page</a>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script src="js/screener.js?v=20260611-1" defer></script>
+    <script src="js/ask.js?v=20260612-1" defer></script>
+  </body>
+</html>

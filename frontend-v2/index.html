@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>stockportfolio.pro — the AI analyst grounded in SEC filings</title>
+  <meta name="description" content="Research every US-listed stock with up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings. From £9/month." />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "name": "stockportfolio.pro",
+        "url": "https://www.stockportfolio.pro/",
+        "logo": "https://www.stockportfolio.pro/Media/icon.png"
+      },
+      {
+        "@type": "WebSite",
+        "name": "stockportfolio.pro",
+        "url": "https://www.stockportfolio.pro/",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "https://www.stockportfolio.pro/company.html?symbol={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "stockportfolio.pro",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web",
+        "url": "https://www.stockportfolio.pro/",
+        "description": "Research every US-listed stock with up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings — plus a calm portfolio tracker.",
+        "offers": [
+          { "@type": "Offer", "name": "Free screener", "price": "0", "priceCurrency": "GBP", "description": "Screen the S&P 1500 by filed fundamentals — no account needed." },
+          { "@type": "Offer", "name": "Monthly", "price": "9.00", "priceCurrency": "GBP", "description": "7-day free trial, then £9/month." },
+          { "@type": "Offer", "name": "Pro", "price": "25.00", "priceCurrency": "GBP", "description": "7-day free trial, then £25/month — includes the AI analyst." },
+          { "@type": "Offer", "name": "Annual", "price": "90.00", "priceCurrency": "GBP", "description": "£90 per year — two months free versus monthly." }
+        ],
+        "featureList": [
+          "Up to 19 years of SEC-filed financial statements for every US-listed company",
+          "Free stock screener (S&P 1500)",
+          "AI research assistant grounded in SEC filings",
+          "Business segments extracted from 10-K filings",
+          "Portfolio X-Ray, health checks and SEC filing alerts"
+        ]
+      }
+    ]
+  }
+  </script>
+  <style>
+    /* landing-only refinements, derived from the system */
+    .hero { padding: 80px 0 64px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+    .hero .display { max-width: 17ch; }
+    .hero-sub { max-width: 54ch; margin-top: 20px; font-size: 17px; color: var(--ink-2); }
+    .hero-actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .hero-note { margin-top: 14px; font-size: 12.5px; color: var(--ink-3); }
+    .live-card { margin: 0; }
+    .live-card .kpi-row { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 980px) { .hero { grid-template-columns: 1fr; gap: 40px; } }
+    .principle { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 32px; padding: 36px 0; border-top: 1px solid var(--line); }
+    .principle h3 { font-size: 21px; font-weight: 650; letter-spacing: -0.015em; line-height: 1.25; }
+    .principle p { color: var(--ink-2); max-width: 58ch; }
+    .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .price-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; }
+    .price-fig { font-size: 34px; font-weight: 650; letter-spacing: -0.03em; }
+    .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
+    .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
+    .price-list li::before { content: '—  '; color: var(--ink-3); }
+    .ask-demo { border-left: 2px solid var(--line-strong); padding-left: 28px; }
+    @media (max-width: 760px) {
+      .hero { padding: 56px 0 40px; }
+      .principle { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <section class="hero">
+        <div>
+          <p class="label" style="margin-bottom:14px; color:var(--accent-ink);">Ask — the AI analyst</p>
+          <h1 class="display">Ask anything. Answered from the filings — and today's web.</h1>
+          <p class="hero-sub">An AI analyst over up to 19 years of SEC-filed statements on every US-listed company, plus live news when it matters — every claim attributed, every chart drawn from the real numbers. Never from memory. Never advice.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/register.html">Start 7-day free trial</a>
+            <a class="btn btn-ghost" href="/ask.html">See Ask in action</a>
+          </div>
+          <p class="hero-note">No charge for 7 days, then £9/month. The screener is <a href="/screener.html">free for everyone</a> — no account. Or <a href="/dashboard.html?demo=1">see a demo portfolio</a>.</p>
+        </div>
+
+        <!-- what an answer actually looks like -->
+        <div class="card card-pad" style="font-size:13.5px;">
+          <div class="ask-q" style="margin-bottom:14px; max-width:88%;">Compare NVIDIA, AMD and Intel over 10 years — who's structurally winning?</div>
+          <p class="small faint" style="margin:0 0 10px;">✓ Researched 9 sources <span style="font-size:9px;">▸</span></p>
+          <table style="width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:12.5px; margin-bottom:12px;">
+            <thead><tr style="color:var(--ink-3); font-size:10.5px; text-transform:uppercase; letter-spacing:0.05em;">
+              <th style="text-align:left; padding:4px 0;">Metric</th><th style="text-align:right;">NVDA</th><th style="text-align:right;">AMD</th><th style="text-align:right;">INTC</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:5px 0; border-top:1px solid var(--line);">9-yr revenue CAGR</td><td style="text-align:right; border-top:1px solid var(--line);" class="delta-pos">+46.6%</td><td style="text-align:right; border-top:1px solid var(--line);" class="delta-pos">+26.0%</td><td style="text-align:right; border-top:1px solid var(--line);" class="delta-neg">−1.3%</td></tr>
+              <tr><td style="padding:5px 0; border-top:1px solid var(--line);">Gross margin now</td><td style="text-align:right; border-top:1px solid var(--line);">71.1%</td><td style="text-align:right; border-top:1px solid var(--line);">49.5%</td><td style="text-align:right; border-top:1px solid var(--line);">34.8%</td></tr>
+            </tbody>
+          </table>
+          <p class="small" style="color:var(--ink-2); margin:0 0 10px; border-top:1px solid var(--line-strong); padding-top:10px;"><strong>The read</strong> — three divergent paths: NVIDIA's AI-mix margins surged to 71%, AMD climbed steadily upmarket, Intel's collapsed under manufacturing cost pressure…</p>
+          <p class="small" style="margin:0;"><span style="border:1px solid var(--line-strong); border-radius:999px; padding:5px 12px; color:var(--accent-ink);">How do their R&amp;D budgets compare? →</span></p>
+          <p class="provenance" style="margin-top:14px;">A real Ask answer — filed statements + live web, charts included. 5 questions/month on Monthly, 300 on Pro.</p>
+        </div>
+      </section>
+
+      <section class="section" style="margin-top:24px;">
+        <div class="principle">
+          <h3>Grounded, or silent.</h3>
+          <div>
+            <p>Every figure Ask gives you comes from a tool call over filed statements, cited with its fiscal period. For anything after the latest filing it reads the live web — and tells you exactly which source and date each claim came from. If neither contains the answer, it says so. No estimates dressed as facts, no AI memory.</p>
+            <!-- the product, live — not a screenshot -->
+            <div class="card card-pad live-card" style="margin-top:20px;">
+              <div style="display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:18px;">
+                <span class="label" id="live-title">Apple Inc. — live from our data</span>
+                <a class="small" href="/company.html?symbol=AAPL" id="live-link">Open the full page →</a>
+              </div>
+              <div class="kpi-row" id="live-strip" style="gap:24px 40px;">
+                <div class="kpi"><span class="label">Revenue</span><span class="kpi-value skeleton">416.16B</span></div>
+                <div class="kpi"><span class="label">Net margin</span><span class="kpi-value skeleton">26.9%</span></div>
+                <div class="kpi"><span class="label">Free cash flow</span><span class="kpi-value skeleton">98.7B</span></div>
+                <div class="kpi"><span class="label">Shares outstanding</span><span class="kpi-value skeleton">14.8B</span></div>
+              </div>
+              <p class="provenance" id="live-prov">Loading from SEC filings…</p>
+            </div>
+          </div>
+        </div>
+        <div class="principle">
+          <h3>Nineteen years deep.</h3>
+          <p>Most tools show you four or five years — enough to see a moment, not a business. We extend every company back through its actual 10-K filings: up to 19 annual years and 48 quarters, split-adjusted, with the ratios and health checks computed for you.</p>
+        </div>
+        <div class="principle">
+          <h3>The screener is free. For everyone.</h3>
+          <p>Screen the entire S&amp;P 1500 by real filed fundamentals — growth, margins, returns, valuation, dividends — with no account at all. The depth behind each result is the product; the door is open.</p>
+        </div>
+      </section>
+
+      <section class="section" id="pricing">
+        <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint">7-day free trial on every plan · cancel anytime</span></div>
+        <div class="price-grid">
+          <div class="card price-card">
+            <span class="label">Monthly</span>
+            <div class="price-fig">£9<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">The full research library, for one investor.</p>
+            <ul class="price-list">
+              <li>Every US-listed company — up to 19 years of statements, 48 quarters, split-adjusted</li>
+              <li>Ratios, health checks &amp; growth records computed for you</li>
+              <li>Peer comparison &amp; side-by-side company compare</li>
+              <li>Markets page: news, movers, trending tickers</li>
+              <li>Portfolio tracker with look-through quality view</li>
+              <li>Watchlist + SEC filing alerts</li>
+              <li>Insider buy/sell history from Form 4 filings</li>
+              <li>5 Ask questions a month, grounded in filings</li>
+              <li>CSV export of any table</li>
+            </ul>
+            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=monthly">Start 7-day free trial</a>
+          </div>
+          <div class="card price-card" style="border-color: var(--ink);">
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Pro</span><span class="small" style="color:var(--accent-ink); font-weight:650;">The analyst tier</span></div>
+            <div class="price-fig">£25<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">Everything in Monthly, plus the AI analyst.</p>
+            <ul class="price-list">
+              <li><strong>300 Ask questions a month</strong> — comparisons, screens, portfolio Q&amp;A, with charts &amp; tables in every answer</li>
+              <li><strong>Insights</strong> — what makes each business unique, read from 19 years of its filings</li>
+              <li><strong>Business segments</strong> — revenue split by product line, extracted from the 10-K</li>
+              <li><strong>Weekly portfolio briefing</strong> — what changed in your holdings' filings, every Monday</li>
+              <li><strong>Latest insider quarter</strong> — see what insiders did most recently</li>
+              <li>Financial summaries on demand</li>
+            </ul>
+            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=pro">Start Pro free trial</a>
+          </div>
+          <div class="card price-card">
+            <span class="label">Annual</span>
+            <div class="price-fig">£90<span>/year</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">Monthly, paid once a year.</p>
+            <ul class="price-list">
+              <li>Everything in the Monthly plan</li>
+              <li>Two months free versus monthly billing (£7.50/month effective)</li>
+              <li>One renewal a year — nothing else to think about</li>
+              <li>Upgrade to Pro anytime, prorated</li>
+            </ul>
+            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=annual">Continue to annual</a>
+          </div>
+        </div>
+        <p class="provenance">Card added at signup; nothing charged during the trial. Cancel anytime. Not investment advice.</p>
+      </section>
+
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script>
+    V2.nav('home');
+    V2.footer();
+    // The hero card is the real product: live AAPL story strip from the API.
+    (async () => {
+      try {
+        const r = await fetch('/api/demo/alpha/fundamentals/AAPL');
+        const p = await r.json();
+        const num = V2.num, money = V2.money, pct = V2.pct;
+        const inc = (p.income || {}).annualReports || [];
+        const cf = (p.cash || {}).annualReports || [];
+        const bal = (p.balance || {}).annualReports || [];
+        const oldest = inc[inc.length - 1] || {};
+        const latest = inc[0] || {};
+        const yrs = inc.length - 1;
+        const rev0 = num(oldest.totalRevenue), revN = num(latest.totalRevenue);
+        const cagr = (rev0 > 0 && revN > 0 && yrs > 1) ? (Math.pow(revN / rev0, 1 / yrs) - 1) * 100 : null;
+        const nm = num(latest.netIncome) !== null && revN ? num(latest.netIncome) / revN * 100 : null;
+        const ocf = num((cf[0] || {}).operatingCashflow), capex = num((cf[0] || {}).capitalExpenditures);
+        const fcf = (ocf !== null && capex !== null) ? ocf + capex : null;
+        const sh = num((bal[0] || {}).commonStockSharesOutstanding);
+        const cells = [
+          ['Revenue', money(revN), cagr === null ? '' : `+${cagr.toFixed(1)}%/yr over ${yrs} yrs`],
+          ['Net margin', nm === null ? '—' : pct(nm), 'latest fiscal year'],
+          ['Free cash flow', money(fcf), 'latest fiscal year'],
+          ['Shares outstanding', money(sh), 'split-adjusted']
+        ];
+        document.getElementById('live-strip').innerHTML = cells.map(([l, v, s]) =>
+          `<div class="kpi"><span class="label">${l}</span><span class="kpi-value" style="font-size:24px;">${v}</span><span class="kpi-sub">${s}</span></div>`).join('');
+        document.getElementById('live-prov').textContent =
+          `${inc.length} fiscal years on record — pulled live from the same SEC-filed data you'd be using. Not a mock-up.`;
+      } catch (_) {
+        document.getElementById('live-prov').textContent = 'Live data unavailable right now.';
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Company — stockportfolio.pro</title>
+  <meta name="description" content="Up to 19 years of SEC-filed financial statements, ratios and health checks." />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <!-- ① Masthead: name, price, chart — one instrument, no boxes -->
+      <div class="mast">
+        <div class="mast-top">
+          <div>
+            <h1 class="title-1" id="co-name" style="font-size:32px;"><span class="skeleton">Company name…</span></h1>
+            <p class="small faint" id="co-crumb" style="margin-top:4px;">&nbsp;</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:18px;">
+            <button class="btn btn-ghost btn-sm" id="co-watch" hidden>☆ Watch</button>
+            <div>
+              <div class="mast-price" id="co-price">&nbsp;</div>
+              <div class="small num" id="co-change" style="text-align:right;">&nbsp;</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mast-chart" id="chart-block" hidden>
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:10px;">
+            <div style="display:flex; gap:10px; align-items:center;">
+              <div class="seg" id="seg-chart" role="group" aria-label="Chart mode">
+                <button aria-pressed="true" data-cm="price">Price</button>
+                <button aria-pressed="false" data-cm="pe">P/E</button>
+              </div>
+              <button class="chip" id="cap-toggle" aria-pressed="false" title="Overlay market cap (left axis)">+ Market cap</button>
+            </div>
+            <div class="seg" id="seg-range" role="group" aria-label="Range">
+              <button aria-pressed="false" data-r="0.5">6M</button>
+              <button aria-pressed="false" data-r="1">1Y</button>
+              <button aria-pressed="false" data-r="5">5Y</button>
+              <button aria-pressed="true" data-r="10">10Y</button>
+              <button aria-pressed="false" data-r="99">Max</button>
+            </div>
+          </div>
+          <div id="main-chart" class="chart-wrap"></div>
+          <p class="provenance" id="chart-prov"></p>
+        </div>
+      </div>
+
+      <hr class="section-rule" />
+
+      <!-- ② Key numbers + about (the original arrangement) -->
+      <div style="display:grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap:36px;" id="kv-block">
+        <div class="kv" id="kv-grid"></div>
+        <div id="about-col" hidden>
+          <p class="label" id="about-title" style="margin-bottom:6px;">About</p>
+          <dl id="about-facts" style="margin:0 0 12px; display:grid; gap:0; font-size:12.5px;"></dl>
+          <div class="prose clamp" id="about-text"></div>
+          <button class="btn-quiet small" id="about-more" style="border:0; background:none; color:var(--accent); cursor:pointer; padding:4px 0;" hidden>Read more ▾</button>
+        </div>
+      </div>
+
+      <hr class="section-rule" />
+
+      <!-- ③ Key points — the dossier from the 10-K -->
+      <section id="kp-section">
+        <div class="section-head" style="margin-bottom:12px;">
+          <h2 class="title-2">Key points</h2>
+          <span class="small faint">from the company’s own latest 10-K</span>
+        </div>
+        <div id="kp-body" style="columns:2; column-gap:48px;"><p class="loading-line"><span class="spin" aria-hidden="true"></span>Reading the latest 10-K… (first visit extracts the dossier — ~20s)</p></div>
+      </section>
+
+      <hr class="section-rule" />
+
+      <!-- ④ Peers + compare -->
+      <section id="peers-section" hidden>
+        <div class="section-head">
+          <h2 class="title-2">Peers</h2>
+          <div style="display:flex; align-items:center; gap:14px;">
+            <span class="small faint" id="peers-sub"></span>
+            <div class="nav-search" style="width:220px;">
+              <input type="search" id="cmp-input" placeholder="Compare with…" autocomplete="off" aria-label="Compare with another company" />
+              <div class="nav-search-results" id="cmp-results" hidden></div>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap"><table class="table-data table-clickable" id="peers-table"></table></div>
+        <div id="cmp-body" hidden style="margin-top:16px;">
+          <div class="table-wrap"><table class="table-data" id="cmp-table"></table></div>
+          <div class="card card-pad" style="margin-top:16px;">
+            <p class="label" style="margin-bottom:10px;">Share price, indexed to 100</p>
+            <div id="cmp-chart"></div>
+          </div>
+          <p class="provenance" id="cmp-prov"></p>
+        </div>
+        <p class="provenance">Same-sector companies from our S&amp;P 1500 universe, by market cap. Fundamentals from latest SEC annual filings.</p>
+      </section>
+
+      <hr class="section-rule" />
+
+      <!-- ⑤ Statements (+ growth cards inside) -->
+      <section>
+        <div class="section-head">
+          <h2 class="title-2">Financial statements</h2>
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <div class="seg" id="seg-statement" role="group" aria-label="Statement">
+              <button aria-pressed="true" data-st="income">Income</button>
+              <button aria-pressed="false" data-st="balance">Balance</button>
+              <button aria-pressed="false" data-st="cash">Cash flow</button>
+            </div>
+            <div class="seg" id="seg-basis" role="group" aria-label="Basis">
+              <button aria-pressed="true" data-basis="annual">Annual</button>
+              <button aria-pressed="false" data-basis="quarterly">Quarterly</button>
+            </div>
+            <div class="seg" id="seg-view" role="group" aria-label="View">
+              <button aria-pressed="true" data-view="usd">$</button>
+              <button aria-pressed="false" data-view="yoy">Growth</button>
+              <button aria-pressed="false" data-view="ps">Per share</button>
+            </div>
+            <button class="btn btn-ghost btn-sm" id="csv-btn" style="align-self:center;">CSV</button>
+          </div>
+        </div>
+        <div class="scroll-top" id="stmt-scroll-top" aria-hidden="true"><div></div></div>
+        <div class="table-wrap" id="stmt-wrap">
+          <table class="table-data" id="stmt-table"></table>
+        </div>
+        <p class="provenance">All figures in USD from SEC filings (10-K/10-Q), as filed. Per-share figures and share counts adjusted to the current split basis. ▸ unfolds a total into its components.</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px; margin-top:20px;" id="cagr-cards"></div>
+      </section>
+
+      <hr class="section-rule" />
+
+      <!-- ⑥ The checks — one verdict, machine-made, labeled -->
+      <section id="checks-section" hidden>
+        <div class="section-head" style="margin-bottom:12px;">
+          <h2 class="title-2">The checks</h2>
+          <span class="small faint" id="checks-score"></span>
+        </div>
+        <div class="health-list" id="health-list"></div>
+      </section>
+
+      <hr class="section-rule" />
+
+      <!-- ⑦ Ratios -->
+      <section id="duo-section">
+        <div class="section-head"><h2 class="title-2">Ratios, 19 years</h2></div>
+        <div class="table-wrap"><table class="table-data" id="ratio-table"></table></div>
+        <p class="provenance">Computed deterministically from filed annual statements — no estimates, no AI. Click any row for its chart.</p>
+      </section>
+
+      <hr class="section-rule" />
+
+      <!-- ⑦ Ownership -->
+      <section id="own-section" hidden>
+        <div class="section-head"><h2 class="title-2">Ownership</h2><span class="small faint" id="own-strip" style="display:flex; gap:18px;"></span></div>
+        <div class="table-wrap"><table class="table-data" id="own-table"></table></div>
+        <div id="insider-hist-block" hidden style="margin-top:24px;">
+          <div class="section-head" style="margin-bottom:10px;">
+            <h3 class="title-3">Insider activity over time</h3>
+            <div class="seg" id="seg-hist" role="group" aria-label="Period">
+              <button aria-pressed="false" data-p="annual">Annual</button>
+              <button aria-pressed="true" data-p="quarterly">Quarterly</button>
+            </div>
+          </div>
+          <div class="table-wrap"><table class="table-data" id="insider-hist-table"></table></div>
+          <p class="provenance" id="insider-hist-prov"></p>
+        </div>
+        <div id="insider-block" hidden style="margin-top:24px;">
+          <div class="section-head" style="margin-bottom:10px;">
+            <h3 class="title-3">Insider transactions</h3>
+            <div style="display:flex; gap:14px; align-items:center;">
+              <span class="small faint" id="insider-net"></span>
+              <div class="seg" id="seg-insider" role="group" aria-label="Insider filter">
+                <button aria-pressed="true" data-side="all">All</button>
+                <button aria-pressed="false" data-side="buy">Buys</button>
+                <button aria-pressed="false" data-side="sell">Sells</button>
+              </div>
+            </div>
+          </div>
+          <div class="table-wrap"><table class="table-data" id="insider-table"></table></div>
+        </div>
+        <p class="provenance">Institutional holdings from 13F filings, insider trades from Form 4 filings — via market data providers. Percentages of shares outstanding.</p>
+      </section>
+
+      <!-- ⑧ Documents -->
+      <section class="section" id="docs-section" hidden>
+        <div class="section-head"><h2 class="title-2">Documents</h2><span class="small faint">straight from SEC EDGAR</span></div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px;" id="docs-grid"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Insights drawer (segments + AI summary) -->
+  <button class="drawer-tab" id="drawer-tab" hidden>Insights · Pro</button>
+  <div class="drawer-dim" id="drawer-dim" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="Insights">
+    <button class="drawer-close" id="drawer-close" aria-label="Close">×</button>
+    <p class="label" style="margin-bottom:18px;">Insights · Pro</p>
+    <div id="insights-body"><p class="small faint">Open to generate…</p></div>
+    <hr class="hairline" />
+    <div id="seg-body"></div>
+  </aside>
+
+  <script src="assets/app.js"></script>
+  <script src="assets/company.js"></script>
+</body>
+</html>

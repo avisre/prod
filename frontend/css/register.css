@@ -425,7 +425,7 @@ body.register-page .card p {
 
 body.register-page .register-plan-picker {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin-bottom: 12px;
 }
@@ -496,6 +496,12 @@ body.register-page .register-plan-card-badge-monthly {
   color: #dbeafe;
   background: rgba(59, 130, 246, 0.2);
   border: 1px solid rgba(96, 165, 250, 0.2);
+}
+
+body.register-page .register-plan-card-badge-pro {
+  color: #f3e8ff;
+  background: rgba(139, 92, 255, 0.24);
+  border: 1px solid rgba(167, 139, 250, 0.26);
 }
 
 body.register-page .register-plan-summary {

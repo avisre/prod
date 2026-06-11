@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Create your account — stockportfolio.pro</title>
+  <meta name="description" content="Start a 7-day free trial. Monthly £9, Annual £90, Pro £25 with the AI analyst." />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+  <style>
+    .plan-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .plan-card {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      padding: 14px;
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      gap: 2px;
+    }
+    .plan-card[aria-pressed='true'] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+    .plan-name { font-size: 13px; font-weight: 650; }
+    .plan-price { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+    .plan-tag { font-size: 11px; color: var(--ink-3); }
+    @media (max-width: 560px) { .plan-pick { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container" style="max-width:480px; padding-top:72px;">
+      <h1 class="title-1">Create your account</h1>
+      <p class="muted small" style="margin-top:6px;" id="plan-summary">7-day free trial, then £9/month. Cancel anytime.</p>
+
+      <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
+        <div class="plan-pick" role="group" aria-label="Choose your plan">
+          <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">
+            <span class="plan-name">Monthly</span><span class="plan-price">£9/mo</span><span class="plan-tag">Cancel anytime</span>
+          </button>
+          <button type="button" class="plan-card" data-plan="annual" aria-pressed="false">
+            <span class="plan-name">Annual</span><span class="plan-price">£90/yr</span><span class="plan-tag">Save £18</span>
+          </button>
+          <button type="button" class="plan-card" data-plan="pro" aria-pressed="false">
+            <span class="plan-name">Pro</span><span class="plan-price">£25/mo</span><span class="plan-tag">AI analyst</span>
+          </button>
+        </div>
+        <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
+        <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="new-password" required minlength="8" /></label>
+        <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
+        <button class="btn btn-primary" type="submit" id="submit">Start 7-day free trial</button>
+        <p class="small delta-neg" id="error" role="alert" hidden></p>
+        <p class="small faint" style="margin:0;">Card added at checkout, nothing charged during the trial. By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+      </form>
+      <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script>
+    V2.nav('register');
+    const SUMMARY = {
+      monthly: ['7-day free trial, then £9/month. Cancel anytime.', 'Start 7-day free trial'],
+      annual: ['£90 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
+      pro: ['7-day free trial, then £25/month — includes the AI analyst.', 'Start Pro free trial']
+    };
+    let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
+    if (!SUMMARY[plan]) plan = 'monthly';
+    function syncPlan() {
+      document.querySelectorAll('.plan-card').forEach((b) => b.setAttribute('aria-pressed', b.dataset.plan === plan));
+      document.getElementById('plan-summary').textContent = SUMMARY[plan][0];
+      document.getElementById('submit').textContent = SUMMARY[plan][1];
+    }
+    document.querySelectorAll('.plan-card').forEach((b) =>
+      b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
+    syncPlan();
+
+    // Post-checkout return (works pre- and post-cutover): Stripe sends the
+    // user back with ?session=success — log in with the held credentials,
+    // retrying while the webhook activates the subscription.
+    (async function postCheckout() {
+      const params = new URLSearchParams(location.search);
+      const err = document.getElementById('error');
+      if (params.get('session') === 'cancel') {
+        err.textContent = 'Checkout was cancelled — nothing was charged. Pick a plan and try again whenever you like.';
+        err.hidden = false;
+        return;
+      }
+      if (params.get('session') !== 'success') return;
+      const raw = sessionStorage.getItem('pendingRegisterCredentials');
+      if (!raw) return;
+      let creds = null;
+      try { creds = JSON.parse(raw); } catch (_) { return; }
+      if (!creds || !creds.email) return;
+      const nextRaw = params.get('next') || 'dashboard.html';
+      const next = /^[a-z][a-z0-9+.-]*:|^\/\//i.test(nextRaw) ? 'dashboard.html' : nextRaw.replace(/^\/+/, '');
+      const btn = document.getElementById('submit');
+      btn.disabled = true;
+      btn.textContent = 'Payment received — signing you in…';
+      for (let attempt = 0; attempt < 6; attempt++) {
+        try {
+          const r = await fetch(`${V2.API}/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(creds)
+          });
+          const data = await r.json().catch(() => ({}));
+          if (r.ok && data.token) {
+            localStorage.setItem('token', data.token);
+            sessionStorage.removeItem('pendingRegisterCredentials');
+            location.href = '/' + next;
+            return;
+          }
+          if (r.status === 401) break; // bad credentials — retrying won't help
+          // anything else (402 webhook lag, 429 rate-limit, 5xx) — retry
+        } catch (_) { /* transient — retry */ }
+        btn.textContent = 'Finalising your subscription…';
+        await new Promise((res) => setTimeout(res, 3000));
+      }
+      btn.disabled = false;
+      syncPlan();
+      err.textContent = 'Payment completed, but sign-in needs another moment — try logging in directly.';
+      err.hidden = false;
+    })();
+
+    document.getElementById('reg-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit');
+      const err = document.getElementById('error');
+      btn.disabled = true; err.hidden = true;
+      btn.textContent = 'Setting up…';
+      try {
+        const r = await fetch(`${V2.API}/subscribe`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value,
+            plan,
+            next: 'dashboard.html' // checkout return lands back in v2
+          })
+        });
+        const data = await r.json().catch(() => ({}));
+        if (r.ok && data.url) {
+          // Same handoff key v1 uses — whichever register page Stripe returns
+          // to can auto-login once the webhook activates the subscription.
+          sessionStorage.setItem('pendingRegisterCredentials', JSON.stringify({
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value
+          }));
+          location.href = data.url; // Stripe checkout
+        } else {
+          err.textContent = data.message || 'Could not create the account — please try again.';
+          err.hidden = false;
+          btn.disabled = false;
+          syncPlan();
+        }
+      } catch (_) {
+        err.textContent = 'Network problem — please try again.';
+        err.hidden = false;
+        btn.disabled = false;
+        syncPlan();
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Markets &amp; news — stockportfolio.pro</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+  <style>
+    /* ticker tape */
+    .tape { display: flex; gap: 0; overflow-x: auto; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 8px; scrollbar-width: none; }
+    .tape::-webkit-scrollbar { display: none; }
+    .tape-item { flex: 0 0 auto; display: grid; gap: 1px; padding: 10px 22px 10px 0; margin-right: 22px; border-right: 1px solid var(--line); min-width: 108px; }
+    .tape-item:last-child { border-right: 0; }
+    .tape-item .label { font-size: 10.5px; }
+    .tape-item b { font-size: 14px; font-variant-numeric: tabular-nums; font-weight: 600; }
+
+    /* toolbar */
+    .news-toolbar { display: flex; gap: 12px; align-items: center; margin: 22px 0 10px; flex-wrap: wrap; }
+    .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
+
+    /* the Yahoo-style grid: feature | latest | sidebar, stream below */
+    .mkt-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) 300px; gap: 36px; margin-top: 22px; }
+    @media (max-width: 1100px) { .mkt-grid { grid-template-columns: 1fr; } }
+
+    .feature-card { display: block; color: var(--ink); }
+    .feature-card a, .sec-card a { color: inherit; }
+    .feature-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); display: block; }
+    .feature-title { font-size: 22px; font-weight: 650; letter-spacing: -0.015em; line-height: 1.3; margin: 12px 0 6px; }
+    .feature-card:hover .feature-title { color: var(--accent-ink); }
+    .sec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 26px; }
+    .sec-card { display: block; color: var(--ink); }
+    .sec-img { width: 100%; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); display: block; }
+    .sec-title { font-size: 14.5px; font-weight: 600; line-height: 1.4; margin: 8px 0 4px; }
+    .sec-card:hover .sec-title { color: var(--accent-ink); }
+    .news-meta { font-size: 11.5px; color: var(--ink-3); display: flex; gap: 8px; flex-wrap: wrap; }
+    .news-meta a { color: var(--ink-2); font-weight: 550; }
+
+    .latest-list { list-style: none; margin: 0; padding: 0; }
+    .latest-list li { padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .latest-list h3 { font-size: 13.5px; font-weight: 600; line-height: 1.45; margin: 0 0 4px; }
+    .latest-list h3 a { color: var(--ink); }
+    .latest-list h3 a:hover { color: var(--accent-ink); }
+
+    .side-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 20px; overflow: hidden; }
+    .side-card h3 { font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); padding: 12px 16px 10px; margin: 0; border-bottom: 1px solid var(--line); }
+    .side-list { list-style: none; margin: 0; padding: 0; }
+    .side-list li { display: flex; align-items: baseline; gap: 10px; padding: 9px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .side-list li:last-child { border-bottom: 0; }
+    .side-list .tk { font-weight: 650; color: var(--ink); min-width: 52px; }
+    .side-list .vl { margin-left: auto; font-variant-numeric: tabular-nums; }
+    .side-list .ch { font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
+    .side-empty { padding: 14px 16px; font-size: 12.5px; color: var(--ink-3); }
+
+    .stream { display: grid; gap: 0; grid-column: 1 / 3; }
+    @media (max-width: 1100px) { .stream { grid-column: 1; } }
+    .stream-item { display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: start; }
+    .stream-img { width: 200px; aspect-ratio: 16/9; object-fit: cover; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); display: block; }
+    .stream-item h3 { font-size: 15px; font-weight: 600; line-height: 1.4; margin: 0 0 5px; }
+    .stream-item h3 a { color: var(--ink); }
+    .stream-item h3 a:hover { color: var(--accent-ink); }
+    .stream-sum { font-size: 13px; color: var(--ink-2); margin: 0 0 6px; max-width: 78ch; }
+    @media (max-width: 640px) { .stream-item { grid-template-columns: 1fr; } .stream-img { width: 100%; } }
+
+    .tone-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--ink-3); }
+    .tone-dot.pos { background: var(--green, #2e7d4f); }
+    .tone-dot.neg { background: var(--red, #b3402e); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+      <div class="page-head">
+        <h1 class="title-1">Markets</h1>
+      </div>
+
+      <!-- ① market tape -->
+      <div class="tape" id="tape" aria-label="Market quotes"></div>
+
+      <!-- ② search + topic + asset filters -->
+      <div class="news-toolbar">
+        <div class="nav-search" style="width:320px;">
+          <input type="search" id="news-q" placeholder="Search news by ticker or company" autocomplete="off" aria-label="Search news" />
+          <div class="nav-search-results" id="news-q-results" hidden></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="news-go">Search</button>
+        <span class="small faint" id="news-q-active"></span>
+      </div>
+      <div class="chip-row" id="topics-row" role="group" aria-label="Topics"></div>
+      <div class="chip-row" id="assets-row" role="group" aria-label="Asset class"></div>
+
+      <!-- ③ the grid: featured | latest | sidebar, stream below -->
+      <div class="mkt-grid">
+        <section aria-label="Featured stories">
+          <article class="feature-card" id="news-feature" hidden></article>
+          <div class="sec-grid" id="news-secondary"></div>
+        </section>
+
+        <section aria-label="Latest headlines">
+          <div class="section-head" style="margin-bottom:4px;"><h2 class="title-3">Latest</h2></div>
+          <ul class="latest-list" id="news-latest"></ul>
+          <p class="small faint" id="news-empty" hidden style="padding:20px 0;">No news matched these filters yet.</p>
+        </section>
+
+        <aside aria-label="Markets and trending">
+          <div class="side-card">
+            <h3>Trending tickers</h3>
+            <ul class="side-list" id="trending-list"><li class="side-empty"><span class="loading-line"><span class="spin"></span>Loading…</span></li></ul>
+          </div>
+          <div class="side-card">
+            <h3>Top gainers</h3>
+            <ul class="side-list" id="movers-gainers"><li class="side-empty">Loading…</li></ul>
+          </div>
+          <div class="side-card">
+            <h3>Top losers</h3>
+            <ul class="side-list" id="movers-losers"><li class="side-empty">Loading…</li></ul>
+          </div>
+          <div class="side-card">
+            <h3>Most active</h3>
+            <ul class="side-list" id="movers-active"><li class="side-empty">Loading…</li></ul>
+          </div>
+          <div class="side-card">
+            <h3>Recently viewed</h3>
+            <ul class="side-list" id="recent-viewed"><li class="side-empty">Open a company page to start tracking.</li></ul>
+          </div>
+        </aside>
+
+        <section class="stream" aria-label="More news">
+          <div class="section-head" style="margin-bottom:4px;"><h2 class="title-3">More news</h2></div>
+          <div id="news-stream"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script src="assets/news.js"></script>
+</body>
+</html>

@@ -11,7 +11,7 @@
 </script>
 
   <meta charset="UTF-8" />
-  <title>Stock Portfolio Tracker & Fundamentals Dashboard | stockportfolio.pro</title>
+  <title>Stock Research & Portfolio Tracker — 19 Years of SEC Financials | stockportfolio.pro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <!-- Google tag (gtag.js) -->
@@ -29,7 +29,7 @@
     gtag('config', 'G-4K10D2FPTT', { anonymize_ip: true });
   </script>
 
-  <meta name="description" content="Track holdings, allocation, fundamentals, and performance in one portfolio tracker. £9/month or £90/year on stockportfolio.pro." />
+  <meta name="description" content="Research 1,500+ US stocks with 19 years of SEC-filed financials, a free screener and an AI assistant that cites filings — plus a calm portfolio tracker. From £9/month." />
   <meta name="keywords" content="stock portfolio, portfolio tracker, stock fundamentals, allocation, performance, investment dashboard" />
   <meta name="robots" content="index, follow" />
   <meta name="googlebot" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
@@ -159,7 +159,10 @@
             "Holdings tracking",
             "Allocation breakdown",
             "Performance charts (D3.js)",
-            "Company fundamentals",
+            "19 years of SEC-filed fundamentals for 1,500+ US companies",
+            "Free stock screener (S&P 1500)",
+            "AI research assistant grounded in SEC filings",
+            "Portfolio X-Ray and SEC filing alerts",
             "Live market data via Yahoo Finance"
           ]
         },
@@ -213,6 +216,14 @@
                 "@type": "Answer",
                 "text": "Account and portfolio data are used to provide the service. Analytics are optional and only enabled with consent."
               }
+            },
+            {
+              "@type": "Question",
+              "name": "Where does the financial data come from?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Statements and ratios come straight from companies' SEC filings (10-K and 10-Q) — up to 19 years of history for 1,500+ US companies. Prices and valuation snapshots come from market data providers."
+              }
             }
           ]
         }
@@ -221,6 +232,9 @@
   </script>
 
   <link rel="icon" href="Media/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
   <link rel="stylesheet" href="styles.css?v=20260610-1" />
   <link rel="stylesheet" href="css/landing-v2.css?v=20260610-1" />
 </head>
@@ -234,8 +248,9 @@
             <span class="brand-name">stockportfolio.pro</span>
           </span>
         </a>
-        <nav class="lp-nav-links" aria-label="On-page sections">
-          <a href="#outcomes">Outcomes</a>
+        <nav class="lp-nav-links" aria-label="Site sections">
+          <a href="screener.html">Screener</a>
+          <a href="/stocks">Stocks</a>
           <a href="#features">Features</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
@@ -252,20 +267,20 @@
         <div class="lp-hero-grid">
           <div class="lp-hero-copy">
             <p class="lp-badge">Built for long-term investors who want clarity, not noise.</p>
-            <h1 id="hero-title"><img class="lp-heading-cartoon lp-heading-cartoon-hero" src="Media/cartoon_1.svg" alt="" role="presentation" aria-hidden="true" />Understand your portfolio in minutes &#8212; not weekends.</h1>
+            <h1 id="hero-title"><img class="lp-heading-cartoon lp-heading-cartoon-hero" src="Media/cartoon_1.svg" alt="" role="presentation" aria-hidden="true" />Research stocks like an analyst. Review your portfolio in minutes.</h1>
             <p class="lp-hero-sub">
-              Track holdings, allocation, fundamentals and performance in one calm dashboard.
-              No broker connection required.
+              19 years of SEC-filed financials on 1,500+ US companies, a screener that&rsquo;s free for everyone,
+              and an AI assistant that answers with numbers from filings &mdash; wrapped around a calm portfolio dashboard.
             </p>
             <div class="lp-hero-actions">
               <a class="lp-btn lp-btn-primary" href="register.html?plan=monthly">
                 <img class="lp-btn-cartoon" src="Media/cartoon_12.svg" alt="" aria-hidden="true" />
                 Start 7-day free trial
               </a>
-              <a class="lp-btn lp-btn-ghost" href="demo">Try the live demo &mdash; no signup</a>
+              <a class="lp-btn lp-btn-ghost" href="screener.html">Try the free screener &mdash; no signup</a>
               <button class="lp-btn lp-btn-ghost" type="button" data-demo-open>Watch 15s demo</button>
             </div>
-            <p class="lp-hero-note">No charge for 7 days, then &pound;9/month. Annual &pound;90/year saves &pound;18. Cancel anytime.</p>
+            <p class="lp-hero-note">No charge for 7 days, then &pound;9/month. Annual &pound;90/year saves &pound;18. Cancel anytime. Or <a href="demo">try the live demo</a> first.</p>
             <div class="lp-trust-chips" aria-label="Key assurances">
               <span class="lp-chip"><span class="lp-ico lp-ico-x" aria-hidden="true"></span>Cancel anytime</span>
               <span class="lp-chip"><span class="lp-ico lp-ico-link-off" aria-hidden="true"></span>No broker connection</span>
@@ -383,20 +398,28 @@
             <p class="lp-card-body">Visualize allocation by ticker, sector, and theme so you can rebalance with confidence.</p>
           </article>
           <article class="lp-card">
-            <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_3.svg" alt="" role="presentation" aria-hidden="true" />Fundamentals</h3>
-            <p class="lp-card-body">Scan key fundamentals quickly so you understand the businesses you own, not just the tickers.</p>
+            <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_3.svg" alt="" role="presentation" aria-hidden="true" />Deep fundamentals</h3>
+            <p class="lp-card-body">Up to 19 years of income, balance sheet and cash-flow statements for 1,500+ US companies &mdash; straight from SEC filings, with ratios and health checks computed for you.</p>
+          </article>
+          <article class="lp-card">
+            <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_10.svg" alt="" role="presentation" aria-hidden="true" />Ask, the AI analyst</h3>
+            <p class="lp-card-body">Ask anything about a company or your portfolio in plain English. Every number in the answer comes from filed data &mdash; never from AI memory &mdash; with sources shown.</p>
+          </article>
+          <article class="lp-card">
+            <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_6.svg" alt="" role="presentation" aria-hidden="true" />Screener</h3>
+            <p class="lp-card-body">Screen the S&amp;P 1500 by real filed fundamentals &mdash; growth, margins, ROE, valuation. Free for everyone, no account needed.</p>
+          </article>
+          <article class="lp-card">
+            <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_8.svg" alt="" role="presentation" aria-hidden="true" />X-Ray &amp; alerts</h3>
+            <p class="lp-card-body">See your portfolio&rsquo;s look-through P/E, margins and health in one view, and get alerted when a holding files with the SEC or a health check flips.</p>
           </article>
           <article class="lp-card">
             <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_13.svg" alt="" role="presentation" aria-hidden="true" />Performance</h3>
             <p class="lp-card-body">See portfolio and position performance over time with clean, distraction-free charts.</p>
           </article>
           <article class="lp-card">
-            <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_11.svg" alt="" role="presentation" aria-hidden="true" />Export</h3>
-            <p class="lp-card-body">Export your portfolio data so you always have your own copy.</p>
-          </article>
-          <article class="lp-card">
             <h3 class="lp-card-title"><img class="lp-title-cartoon" src="Media/cartoon_4.svg" alt="" role="presentation" aria-hidden="true" />Privacy-first</h3>
-            <p class="lp-card-body">No broker connections. Conversion analytics run only when you accept consent.</p>
+            <p class="lp-card-body">No broker connections. Export your data any time. Analytics run only with consent.</p>
           </article>
         </div>
       </section>
@@ -475,8 +498,9 @@
               <p class="lp-pricing-copy"><strong>7-day free trial, then &pound;25/month.</strong> Everything in Core, plus the AI assistant.</p>
               <p class="lp-pricing-savings">Your private AI analyst for your portfolio and any stock.</p>
               <ul class="lp-pricing-list">
-                <li>Ask anything about your portfolio in plain English.</li>
+                <li>300 Ask questions a month &mdash; answers grounded in SEC filings.</li>
                 <li>AI summaries of any company's financials.</li>
+                <li>Weekly AI briefing on your portfolio.</li>
                 <li>Everything in the Core plan included.</li>
               </ul>
               <a class="lp-btn lp-btn-primary lp-pricing-cta" href="register.html?plan=pro">
@@ -495,8 +519,9 @@
               <p class="lp-pricing-savings">Full access starts immediately. Renews once a year.</p>
               <ul class="lp-pricing-list">
                 <li>Unlimited portfolios, watchlists, and positions.</li>
-                <li>Full access to allocation, fundamentals, and performance views.</li>
-                <li>Export your data any time and keep your own copy.</li>
+                <li>19 years of SEC-filed financials on 1,500+ US companies.</li>
+                <li>Portfolio X-Ray, health checks and SEC filing alerts.</li>
+                <li>5 Ask AI questions a month included.</li>
               </ul>
               <a class="lp-btn lp-btn-primary lp-pricing-cta" href="register.html?plan=annual">
                 <img class="lp-btn-cartoon" src="Media/cartoon_12.svg" alt="" aria-hidden="true" />
@@ -514,7 +539,7 @@
               <p class="lp-pricing-savings">Billed monthly. Cancel anytime.</p>
               <ul class="lp-pricing-list">
                 <li>Everything in the annual plan, billed monthly.</li>
-                <li>No long-term commitment.</li>
+                <li>7-day free trial before any charge.</li>
                 <li>Cancel anytime before renewal.</li>
               </ul>
               <a class="lp-btn lp-btn-ghost lp-pricing-cta" href="register.html?plan=monthly">
@@ -558,6 +583,15 @@
             </button>
             <div class="lp-faq-panel" id="faq-panel-2" role="region" aria-labelledby="faq-trigger-2" hidden>
               <p>No. You can add holdings manually. Broker credentials are never required.</p>
+            </div>
+          </article>
+          <article class="lp-faq-item" role="listitem">
+            <button class="lp-faq-trigger" type="button" aria-expanded="false" aria-controls="faq-panel-9" id="faq-trigger-9">
+              <span>Where does the financial data come from?</span>
+              <span class="lp-faq-icon" aria-hidden="true"></span>
+            </button>
+            <div class="lp-faq-panel" id="faq-panel-9" role="region" aria-labelledby="faq-trigger-9" hidden>
+              <p>Statements and ratios come straight from companies&rsquo; SEC filings (10-K and 10-Q) &mdash; up to 19 years of history for 1,500+ US companies. Prices and valuation snapshots come from market data providers.</p>
             </div>
           </article>
           <article class="lp-faq-item" role="listitem">

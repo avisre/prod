@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Log in — stockportfolio.pro</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+</head>
+<body>
+  <main>
+    <div class="container" style="max-width:420px; padding-top:72px;">
+      <h1 class="title-1">Log in</h1>
+      <p class="muted small" style="margin-top:6px;">Welcome back.</p>
+      <form id="login-form" class="card card-pad" style="display:grid; gap:14px; margin-top:24px;">
+        <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
+        <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="current-password" required /></label>
+        <button class="btn btn-primary" type="submit" id="submit">Log in</button>
+        <p class="small delta-neg" id="error" role="alert" hidden></p>
+      </form>
+      <p class="small muted" style="margin-top:16px;">New here? <a href="/register.html">Start a 7-day free trial</a>.</p>
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script>
+    V2.nav('login');
+    document.getElementById('login-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submit');
+      const err = document.getElementById('error');
+      btn.disabled = true; err.hidden = true;
+      try {
+        const r = await fetch(`${V2.API}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('email').value.trim(),
+            password: document.getElementById('password').value
+          })
+        });
+        const data = await r.json().catch(() => ({}));
+        if (r.ok && data.token) {
+          localStorage.setItem('token', data.token);
+          location.href = '/dashboard.html';
+        } else {
+          err.textContent = data.message || 'Invalid email or password.';
+          err.hidden = false;
+        }
+      } catch (_) {
+        err.textContent = 'Network problem — please try again.';
+        err.hidden = false;
+      } finally { btn.disabled = false; }
+    });
+  </script>
+</body>
+</html>

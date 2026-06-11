@@ -60,8 +60,12 @@
     />
 
     <link rel="icon" href="Media/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="styles.css?v=20260610-1" />
-    <link rel="stylesheet" href="css/fundamentals-screener.css?v=20260610-1" />
+    <link rel="stylesheet" href="css/fundamentals-screener.css?v=20260611-4" />
+    <link rel="stylesheet" href="css/ask.css?v=20260612-1" />
     <script defer src="https://d3js.org/d3.v7.min.js"></script>
     <script id="auth-gate">if(!localStorage.getItem('token')){ location.href = 'login.html?next=' + encodeURIComponent('fundamentals.html' + (location.search||'')); }</script>
   </head>
@@ -78,6 +82,7 @@
         <div class="nav-actions">
           <a class="btn" href="news.html" data-guarded><span class="sticker sm" aria-hidden="true">📰</span>News</a>
           <a class="btn" href="fundamentals.html" data-guarded><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
+          <a class="btn" href="screener.html"><span class="sticker sm" aria-hidden="true">🧮</span>Screener</a>
           <a class="btn" href="dashboard.html" data-guarded><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
           <a class="btn" href="support.html"><span class="sticker sm" aria-hidden="true">💬</span>Support</a>
           <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit</a>
@@ -129,9 +134,14 @@
 
       <!-- About section -->
       <section class="scr-about" id="about-section" hidden>
-        <h2 class="scr-section-title">About</h2>
-        <p class="scr-about-body" id="company-about"></p>
-        <div class="scr-tags" id="company-tags"></div>
+        <h2 class="scr-section-title" id="about-title">About</h2>
+        <div class="scr-about-grid">
+          <div class="scr-about-main">
+            <p class="scr-about-body" id="company-about"></p>
+            <button type="button" class="scr-about-more" id="about-toggle" hidden>Show more</button>
+          </div>
+          <aside class="scr-about-facts" id="company-facts" aria-label="Key facts"></aside>
+        </div>
       </section>
 
       <!-- Pros / Cons (Screener's signature two-column callout) -->
@@ -144,6 +154,15 @@
           <h3 class="scr-cons-title">CONS</h3>
           <ul id="company-cons"></ul>
         </article>
+      </section>
+
+      <!-- Health Check (plain-English ✓/✗ checks computed from 10+ yrs of SEC data) -->
+      <section class="scr-section scr-health" id="health-check-section" hidden>
+        <div class="scr-health-head">
+          <h2 class="scr-section-title">Health Check</h2>
+          <span class="scr-health-score" id="health-score"></span>
+        </div>
+        <div class="scr-health-grid" id="health-grid"></div>
       </section>
 
       <!-- Price chart -->
@@ -271,6 +290,7 @@
     </div>
     <script src="top100-sheet.js?v=20260211-4"></script>
     <script src="symbol-lookup.js?v=20260211-4"></script>
-    <script src="fundamentals.js?v=20260610-1"></script>
+    <script src="fundamentals.js?v=20260611-4"></script>
+    <script src="js/ask.js?v=20260612-1" defer></script>
   </body>
 </html>

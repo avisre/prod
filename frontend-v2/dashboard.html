@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portfolio — stockportfolio.pro</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css" />
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <div class="page-head" id="locked" hidden>
+        <h1 class="title-1">Your portfolio</h1>
+        <p class="muted" style="margin-top:8px; max-width:54ch;">Log in to see your holdings, performance, allocation and filing alerts.</p>
+        <div style="display:flex; gap:12px; margin-top:20px;">
+          <a class="btn btn-primary" href="/login.html">Log in</a>
+          <a class="btn btn-ghost" href="/register.html">Start free trial</a>
+        </div>
+      </div>
+
+      <div id="authed" hidden>
+        <div class="page-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+          <div>
+            <p class="label">Portfolio</p>
+            <h1 class="display" id="pf-total" style="margin-top:6px;">&nbsp;</h1>
+            <p class="muted small" id="pf-sub">&nbsp;</p>
+          </div>
+          <form class="card card-pad" id="add-form" style="display:grid; grid-template-columns: 110px 90px 110px auto; gap:10px; align-items:end;">
+            <label class="field"><span>Ticker</span><input class="input" id="add-sym" placeholder="NVDA" required style="text-transform:uppercase;" /></label>
+            <label class="field"><span>Shares</span><input class="input" id="add-shares" type="number" min="0" step="any" required /></label>
+            <label class="field"><span>Price paid</span><input class="input" id="add-price" type="number" min="0" step="any" placeholder="optional" /></label>
+            <button class="btn btn-primary" type="submit">Add</button>
+          </form>
+        </div>
+
+        <!-- Performance + allocation -->
+        <section class="section" id="charts-section" hidden>
+          <div style="display:grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap:24px; align-items:stretch;" id="charts-grid">
+            <div class="card card-pad">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;">
+                <span class="label">Portfolio value</span>
+                <div class="seg" id="perf-range" role="group" aria-label="Range">
+                  <button aria-pressed="false" data-r="1M">1M</button>
+                  <button aria-pressed="true" data-r="3M">3M</button>
+                  <button aria-pressed="false" data-r="1Y">1Y</button>
+                  <button aria-pressed="false" data-r="MAX">Max</button>
+                </div>
+              </div>
+              <div id="perf-chart"><p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin"></span>Loading price history…</span></p></div>
+            </div>
+            <div class="card card-pad">
+              <span class="label" style="display:block; margin-bottom:12px;">Allocation</span>
+              <div style="display:grid; grid-template-columns: minmax(0,1fr) auto; gap:18px; align-items:center;">
+                <div id="alloc-chart"></div>
+                <div id="alloc-legend" style="display:grid; gap:7px; font-size:12.5px;"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Alerts -->
+        <section class="section" id="alerts-section" hidden>
+          <div class="section-head"><h2 class="title-2">What changed</h2><span class="small faint" id="alerts-sub"></span></div>
+          <div id="alerts-list" style="display:grid; gap:8px;"></div>
+        </section>
+
+        <!-- Holdings -->
+        <section class="section">
+          <div class="section-head"><h2 class="title-2">Holdings</h2></div>
+          <div class="table-wrap">
+            <table class="table-data" id="holdings">
+              <thead><tr>
+                <th class="row-head" style="text-align:left;">Company</th>
+                <th>Shares</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th>Gain</th><th></th>
+              </tr></thead>
+              <tbody id="holdings-body"><tr><td colspan="8" class="faint" style="text-align:center; padding:36px;">Loading…</td></tr></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Watchlist -->
+        <section class="section" id="watch-section" hidden>
+          <div class="section-head"><h2 class="title-2">Watchlist</h2><span class="small faint">starred from any company page</span></div>
+          <div class="table-wrap">
+            <table class="table-data table-clickable" id="watch-table">
+              <thead><tr>
+                <th class="row-head" style="text-align:left;">Company</th>
+                <th>Mkt cap</th><th>P/E</th><th>Rev CAGR 5y</th><th>Net margin</th><th>Qtr earn YoY</th><th></th>
+              </tr></thead>
+              <tbody id="watch-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Look-through: the portfolio read as one business -->
+        <section class="section" id="xray-section" hidden>
+          <div class="section-head">
+            <h2 class="title-2">Inside your holdings</h2>
+            <span class="small faint">your whole portfolio read as one business — every number value-weighted through what you own</span>
+          </div>
+          <div class="card card-pad"><div class="kpi-row" id="xray-strip" style="gap:24px 40px;"></div></div>
+          <div id="xray-flags" style="display:grid; gap:8px; margin-top:12px;"></div>
+        </section>
+
+        <!-- Weekly briefing -->
+        <section class="section" id="brief-section" hidden>
+          <div class="section-head">
+            <h2 class="title-2">Weekly briefing</h2>
+            <span class="small faint" id="brief-sub"></span>
+          </div>
+          <div class="card card-pad prose" id="brief-body" style="max-width:none;"></div>
+        </section>
+
+        <!-- Ask -->
+        <section class="section">
+          <div class="section-head">
+            <h2 class="title-2">Ask about your portfolio</h2>
+            <button class="btn btn-ghost btn-sm" id="pf-csv">Export CSV</button>
+          </div>
+          <div id="pf-ask"></div>
+        </section>
+      </div>
+
+    </div>
+  </main>
+  <script src="assets/app.js"></script>
+  <script src="assets/dashboard.js"></script>
+</body>
+</html>

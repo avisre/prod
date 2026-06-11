@@ -17,22 +17,34 @@
  * Usage:
  *   node scripts/refresh-fundamentals.js [symbol-list.json]
  *
+ * SEC EDGAR extension: after the Yahoo pull, each US symbol's statements
+ * are extended from SEC XBRL companyFacts — annual history grows from
+ * Yahoo's ~4 years to 15+, and quarterly reports (which Yahoo's
+ * quoteSummary doesn't give us at all) are synthesized back ~12 years.
+ *
  * Env vars:
  *   MAX_SYMBOLS=20       Cap symbols processed (0 = no cap)
  *   HISTORY_DEPTH=full   Pull full daily history (default ~6 months)
  *   CONCURRENCY=5        Parallel Yahoo requests (default 5)
+ *   SEC_EXTEND=0         Skip the SEC EDGAR extension (default on)
+ *   WRITE_INDEX=0        Skip rewriting the index file (for partial runs)
  */
 
 const fs = require('fs');
 const path = require('path');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance();
+const secSource = require(path.join(__dirname, '..', 'backend', 'sec-source'));
+
+const SEC_EXTEND = String(process.env.SEC_EXTEND || '1') !== '0';
+const WRITE_INDEX = String(process.env.WRITE_INDEX || '1') !== '0';
 
 const ROOT = path.resolve(__dirname, '..');
 const FRONTEND_DATA = path.join(ROOT, 'frontend', 'data');
 const OUT_DIR = path.join(FRONTEND_DATA, 'fundamentals');
 const INDEX_FILE = path.join(FRONTEND_DATA, 'top-100-fundamentals-index.json');
 const DEFAULT_LISTS = [
+  path.join(FRONTEND_DATA, 'sp1500-companies.json'),
   path.join(FRONTEND_DATA, 'sp500-companies.json'),
   path.join(FRONTEND_DATA, 'top-100-companies.json')
 ];
@@ -422,18 +434,29 @@ async function main() {
     if (result.income) payload.income = result.income;
     if (result.balance) payload.balance = result.balance;
     if (result.cash) payload.cash = result.cash;
+    if (SEC_EXTEND) {
+      try {
+        // backfillStatements also normalizes shares/per-share figures to the
+        // current split basis (backend/split-adjust.js).
+        await secSource.backfillStatements(symbol, payload);
+      } catch (err) {
+        errors.push('sec:' + (err.message || 'unknown'));
+      }
+    }
     fs.writeFileSync(file, JSON.stringify(payload));
     wrote++;
     indexFiles.push({ symbol, file: `data/fundamentals/${path.basename(file)}` });
     if (errors.length) console.log(`[${i + 1}/${limit}] ${symbol.padEnd(7)} OK ${(fs.statSync(file).size / 1024).toFixed(1)} KB (partial: ${errors.join(',')})`);
   }, CONCURRENCY);
 
-  fs.writeFileSync(INDEX_FILE, JSON.stringify({
-    generatedAt: new Date().toISOString(),
-    count: indexFiles.length,
-    source: 'yahoo-finance2',
-    files: indexFiles
-  }, null, 2));
+  if (WRITE_INDEX) {
+    fs.writeFileSync(INDEX_FILE, JSON.stringify({
+      generatedAt: new Date().toISOString(),
+      count: indexFiles.length,
+      source: 'yahoo-finance2',
+      files: indexFiles
+    }, null, 2));
+  }
 
   const secs = ((Date.now() - start) / 1000).toFixed(1);
   console.log(`\nDone in ${secs}s — wrote ${wrote}, skipped ${skipped}.`);

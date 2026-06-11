@@ -17,6 +17,9 @@
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://www.stockportfolio.pro/dashboard" />
     <link rel="icon" href="Media/icon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" />
     <link rel="stylesheet" href="styles.css?v=20260610-1" />
     <link rel="stylesheet" href="css/dashboard.css?v=20260610-2" />
     <script defer src="https://d3js.org/d3.v7.min.js"></script>
@@ -35,7 +38,8 @@
       <div class="nav-actions">
         <a class="btn" href="news.html" data-guarded><span class="sticker sm" aria-hidden="true">📰</span>News</a>
         <a class="btn" href="fundamentals.html" data-guarded><span class="sticker sm" aria-hidden="true">📈</span>Fundamentals</a>
-        <a class="btn" href="dashboard.html" data-guarded><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
+        <a class="btn" href="screener.html"><span class="sticker sm" aria-hidden="true">🧮</span>Screener</a>
+          <a class="btn" href="dashboard.html" data-guarded><span class="sticker sm" aria-hidden="true">📊</span>Dashboard</a>
         <a class="btn" href="support.html"><span class="sticker sm" aria-hidden="true">💬</span>Support</a>
         <a class="btn" href="index.html"><span class="sticker sm" aria-hidden="true">🚪</span>Exit</a>
         <button id="toggle-headings" class="btn btn-quiet" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
@@ -125,6 +129,41 @@
       </section>
 
       <!-- Add Stock -->
+
+      <!-- Portfolio X-Ray: look-through fundamentals (no competitor has this) -->
+      <section class="xray-card" id="xray-section" hidden>
+        <div class="xray-head">
+          <h2 class="xray-title">Portfolio X-Ray <span class="xray-tag">Look-through</span></h2>
+        </div>
+        <p class="xray-sub">If your whole portfolio were one business, this is the business you'd own — margins, growth, returns and valuation weighted by what you hold. Computed from SEC filings.</p>
+        <div class="xray-tiles" id="xray-tiles"></div>
+        <p class="xray-concentration" id="xray-concentration"></p>
+        <div class="xray-tablewrap">
+          <table class="xray-table">
+            <thead>
+              <tr>
+                <th>Holding</th><th>Weight</th><th>P/E</th><th>Net Margin</th><th>ROE</th><th>Rev CAGR 5y</th><th>Qtr Earn YoY</th><th>Health</th>
+              </tr>
+            </thead>
+            <tbody id="xray-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Alerts: Filing Watchdog + health-check flips on your holdings -->
+      <section class="alerts-card" id="alerts-section" hidden>
+        <div class="alerts-head">
+          <h2 class="alerts-title">Alerts <span class="alerts-tag">Watchdog</span></h2>
+          <div class="alerts-actions">
+            <span class="alerts-badge" id="alerts-badge"></span>
+            <button type="button" class="alerts-mark-read" id="alerts-mark-read">Mark all read</button>
+          </div>
+        </div>
+        <p class="alerts-sub">New SEC filings (10-K, 10-Q, 8-K) and health-check changes on the stocks you hold. Checked automatically every few hours.</p>
+        <div class="alerts-list" id="alerts-list"></div>
+        <p class="alerts-empty" id="alerts-empty" hidden>Nothing yet — you'll see new filings and health-check changes for your holdings here.</p>
+      </section>
+
       <section class="dash-add-card" id="add-stock-card">
         <header class="dash-card-head">
           <h2 class="dash-card-title">Add Position</h2>
@@ -203,5 +242,11 @@
     <script src="top100-sheet.js?v=20260211-4"></script>
     <script src="symbol-lookup.js?v=20260211-4"></script>
     <script src="js/dashboard.js?v=20260610-3"></script>
+      <link rel="stylesheet" href="css/ask.css?v=20260612-1" />
+    <link rel="stylesheet" href="css/xray.css?v=20260611-1" />
+    <link rel="stylesheet" href="css/alerts.css?v=20260611-1" />
+    <script src="js/ask.js?v=20260612-1" defer></script>
+    <script src="js/xray.js?v=20260611-1" defer></script>
+    <script src="js/alerts.js?v=20260611-1" defer></script>
   </body>
 </html>

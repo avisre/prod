@@ -583,40 +583,63 @@ function mergeNonEmpty(target, source) {
     return target;
 }
 
+// Yahoo statements come back in the company's REPORTING currency — JPY for
+// Toyota's ADR, EUR for SAP's — not USD. Stamp rows honestly instead of the
+// old hardcoded 'USD' so downstream consumers can warn the user.
+const _finCurrencyCache = new Map();
+async function financialCurrency(symbol) {
+    const ys = toYahooSymbol(symbol);
+    if (_finCurrencyCache.has(ys)) return _finCurrencyCache.get(ys);
+    let cur = 'USD';
+    try {
+        const s = await yf.quoteSummary(ys, { modules: ['financialData'] });
+        cur = (s && s.financialData && s.financialData.financialCurrency) || 'USD';
+    } catch (_) { /* default USD */ }
+    _finCurrencyCache.set(ys, cur);
+    return cur;
+}
+function stampCurrency(reports, cur) {
+    for (const r of reports) r.reportedCurrency = cur;
+    return reports;
+}
+
 async function fetchIncomeStatement(symbol) {
-    const [{ annual, quarterly }, qs] = await Promise.all([
+    const [{ annual, quarterly }, qs, cur] = await Promise.all([
         fetchFtsRows(symbol, 'financials'),
-        fetchQuoteSummaryStatements(symbol)
+        fetchQuoteSummaryStatements(symbol),
+        financialCurrency(symbol)
     ]);
     const annualReports = buildIncomeReportsFromFTS(annual);
     const quarterlyReports = buildIncomeReportsFromFTS(quarterly);
     mergeNonEmpty(annualReports, buildIncomeReports(qs.incomeStatementHistory));
     mergeNonEmpty(quarterlyReports, buildIncomeReports(qs.incomeStatementHistoryQuarterly));
-    return { symbol, annualReports, quarterlyReports };
+    return { symbol, annualReports: stampCurrency(annualReports, cur), quarterlyReports: stampCurrency(quarterlyReports, cur) };
 }
 
 async function fetchBalanceSheet(symbol) {
-    const [{ annual, quarterly }, qs] = await Promise.all([
+    const [{ annual, quarterly }, qs, cur] = await Promise.all([
         fetchFtsRows(symbol, 'balance-sheet'),
-        fetchQuoteSummaryStatements(symbol)
+        fetchQuoteSummaryStatements(symbol),
+        financialCurrency(symbol)
     ]);
     const annualReports = buildBalanceReportsFromFTS(annual);
     const quarterlyReports = buildBalanceReportsFromFTS(quarterly);
     mergeNonEmpty(annualReports, buildBalanceReports(qs.balanceSheetHistory));
     mergeNonEmpty(quarterlyReports, buildBalanceReports(qs.balanceSheetHistoryQuarterly));
-    return { symbol, annualReports, quarterlyReports };
+    return { symbol, annualReports: stampCurrency(annualReports, cur), quarterlyReports: stampCurrency(quarterlyReports, cur) };
 }
 
 async function fetchCashFlow(symbol) {
-    const [{ annual, quarterly }, qs] = await Promise.all([
+    const [{ annual, quarterly }, qs, cur] = await Promise.all([
         fetchFtsRows(symbol, 'cash-flow'),
-        fetchQuoteSummaryStatements(symbol)
+        fetchQuoteSummaryStatements(symbol),
+        financialCurrency(symbol)
     ]);
     const annualReports = buildCashReportsFromFTS(annual);
     const quarterlyReports = buildCashReportsFromFTS(quarterly);
     mergeNonEmpty(annualReports, buildCashReports(qs.cashflowStatementHistory));
     mergeNonEmpty(quarterlyReports, buildCashReports(qs.cashflowStatementHistoryQuarterly));
-    return { symbol, annualReports, quarterlyReports };
+    return { symbol, annualReports: stampCurrency(annualReports, cur), quarterlyReports: stampCurrency(quarterlyReports, cur) };
 }
 
 async function fetchDaily(symbol, outputsize = 'compact') {
@@ -825,8 +848,64 @@ async function fetchFromYahoo(functionName, params = {}) {
     }
 }
 
+// Major holders, top institutions and insider activity for the Ownership
+// section (v2 company page).
+async function fetchOwnership(symbol) {
+    const r = await yf.quoteSummary(toYahooSymbol(symbol), {
+        modules: ['majorHoldersBreakdown', 'institutionOwnership', 'insiderTransactions', 'netSharePurchaseActivity']
+    });
+    const mh = (r && r.majorHoldersBreakdown) || {};
+    const inst = (((r && r.institutionOwnership) || {}).ownershipList || []).map((o) => ({
+        organization: o.organization || '',
+        pctHeld: Number.isFinite(o.pctHeld) ? o.pctHeld : null,
+        value: Number.isFinite(o.value) ? o.value : null,
+        reportDate: o.reportDate ? new Date(o.reportDate).toISOString().slice(0, 10) : null
+    }));
+    const insiders = (((r && r.insiderTransactions) || {}).transactions || []).slice(0, 40).map((t) => {
+        const text = String(t.transactionText || '');
+        const side = /purchase|buy/i.test(text) ? 'buy' : (/sale|sell/i.test(text) ? 'sell' : 'other');
+        return {
+            name: t.filerName || '',
+            relation: t.filerRelation || '',
+            side,
+            text: text.slice(0, 120),
+            date: t.startDate ? new Date(t.startDate).toISOString().slice(0, 10) : null,
+            shares: Number.isFinite(t.shares) ? t.shares : null,
+            value: Number.isFinite(t.value) ? t.value : null
+        };
+    });
+    const net = (r && r.netSharePurchaseActivity) || {};
+    return {
+        insidersPctHeld: Number.isFinite(mh.insidersPercentHeld) ? mh.insidersPercentHeld : null,
+        institutionsPctHeld: Number.isFinite(mh.institutionsPercentHeld) ? mh.institutionsPercentHeld : null,
+        institutionsCount: Number.isFinite(mh.institutionsCount) ? mh.institutionsCount : null,
+        topInstitutions: inst,
+        insiderTransactions: insiders,
+        insiderNet: {
+            period: net.period || null,
+            buyCount: Number.isFinite(net.buyInfoCount) ? net.buyInfoCount : null,
+            buyShares: Number.isFinite(net.buyInfoShares) ? net.buyInfoShares : null,
+            sellCount: Number.isFinite(net.sellInfoCount) ? net.sellInfoCount : null,
+            sellShares: Number.isFinite(net.sellInfoShares) ? net.sellInfoShares : null,
+            netShares: Number.isFinite(net.netInfoShares) ? net.netInfoShares : null
+        }
+    };
+}
+
+// Free news search (no key): Yahoo's search endpoint with news-only results.
+async function fetchNewsSearch(query, count = 10) {
+    const r = await yf.search(String(query || '').slice(0, 120), { quotesCount: 0, newsCount: Math.min(15, count) });
+    return (r.news || []).map((n) => ({
+        title: n.title,
+        publisher: n.publisher,
+        url: n.link,
+        published: n.providerPublishTime ? new Date(n.providerPublishTime).toISOString().slice(0, 10) : ''
+    }));
+}
+
 module.exports = {
     fetchFromYahoo,
+    fetchNewsSearch,
     fetchQuote,
     fetchOverview,
     fetchIncomeStatement,
@@ -838,5 +917,6 @@ module.exports = {
     fetchSymbolSearch,
     fetchMovers,
     fetchNews,
+    fetchOwnership,
     toYahooSymbol
 };

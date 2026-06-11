@@ -1,0 +1,72 @@
+/* Portfolio X-Ray — look-through fundamentals section on the dashboard */
+.xray-card {
+  margin-top: 24px;
+  padding: 20px 24px;
+  background: var(--panel-solid, #11161f);
+  border: 1px solid var(--border, #2a3548);
+  border-radius: 8px;
+}
+.xray-card[hidden] { display: none; }
+.xray-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.xray-title { margin: 0; font-size: 15px; font-weight: 700; color: var(--text, #e8edf5); letter-spacing: -0.01em; }
+.xray-tag {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9cc0ff;
+  background: rgba(79, 140, 255, 0.12);
+  border: 1px solid rgba(79, 140, 255, 0.3);
+  padding: 2px 9px;
+  border-radius: 999px;
+}
+.xray-sub { margin: 4px 0 0; color: var(--text-muted, #8b96a8); font-size: 12.5px; max-width: 70ch; }
+
+.xray-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0;
+  margin-top: 16px;
+  border: 1px solid var(--border-soft, #222b3c);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.xray-tile { padding: 13px 16px; border-right: 1px solid var(--border-soft, #222b3c); }
+.xray-tile:last-child { border-right: 0; }
+.xray-tile-label { font-size: 11.5px; color: var(--text-muted, #8b96a8); font-weight: 500; }
+.xray-tile-value { font-size: 19px; font-weight: 700; color: var(--text, #e8edf5); font-variant-numeric: tabular-nums; margin-top: 3px; }
+.xray-tile-sub { font-size: 10.5px; color: var(--text-muted, #8b96a8); margin-top: 2px; }
+
+.xray-concentration { margin: 14px 2px 0; font-size: 13px; line-height: 1.6; color: #cbd0d8; }
+.xray-dim { color: var(--text-muted, #8b96a8); font-size: 12px; }
+
+.xray-tablewrap { overflow-x: auto; margin-top: 14px; border: 1px solid var(--border-soft, #222b3c); border-radius: 8px; }
+.xray-table { width: 100%; border-collapse: collapse; font-size: 12.75px; font-variant-numeric: tabular-nums; }
+.xray-table thead th {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-muted, #8b96a8);
+  font-weight: 600;
+  text-align: right;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border, #2a3548);
+  background: var(--surface-2, #1d2636);
+  white-space: nowrap;
+}
+.xray-table thead th:first-child { text-align: left; }
+.xray-table tbody td { padding: 7px 12px; text-align: right; border-bottom: 1px solid var(--border-soft, #222b3c); color: var(--text, #e8edf5); white-space: nowrap; }
+.xray-table tbody td:first-child { text-align: left; }
+.xray-table tbody tr:last-child td { border-bottom: 0; }
+.xray-table tbody tr:hover td { background: rgba(255, 255, 255, 0.025); }
+.xray-sym { color: #93b8ff; font-weight: 700; text-decoration: none; font-size: 12px; letter-spacing: 0.03em; }
+.xray-sym:hover { text-decoration: underline; }
+.xray-up { color: #34d399; }
+.xray-down { color: #f87171; }
+.xray-fails { margin-left: 6px; cursor: help; }
+
+@media (max-width: 700px) {
+  .xray-tiles { grid-template-columns: repeat(2, 1fr); }
+  .xray-tile { border-bottom: 1px solid var(--border-soft, #222b3c); }
+  .xray-table thead th:nth-child(n+5), .xray-table tbody td:nth-child(n+5) { display: none; }
+}
