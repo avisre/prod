@@ -1,49 +1,49 @@
-# Stock Portfolio Pro
+# stockportfolio.pro
 
-> Production-grade portfolio tracker with hand-rolled D3 charts, real-time market data via Yahoo Finance, and Stripe subscription gating. Free no-signup demo, then a paid subscription (£27/month or £270/year).
+> The AI analyst grounded in SEC filings. Research every US-listed stock with up to 19 years of filed financials, a free screener over the S&P 1500, free server-rendered fundamentals pages for 1,500+ companies, and an AI assistant that answers only from SEC filings — never from model memory. From £9/month after a 7-day free trial; the screener and stock pages are free with no account.
 
-Stock Portfolio Pro (stockportfolio.pro) is a web-based portfolio tracker and fundamentals analytics dashboard aimed at long-term retail investors who want clarity, not noise. Holdings are added manually, so no broker credentials are required. The product is owned and built by Avinash Sreekumar.
+stockportfolio.pro is a web-based equity research and portfolio tool for long-term retail investors. Every figure shown is computed from official SEC filings (10-K and 10-Q), refreshed nightly. Holdings are added manually, so no broker credentials are required. The product is owned and built by Avinash Sreekumar.
 
-## Try it
+## Free, no account needed
 
-- [Free demo (no signup)](https://stockportfolio.pro/demo): read-only dashboard with a sample 5-stock portfolio and live prices.
-- [Free demo - fundamentals](https://stockportfolio.pro/demo/fundamentals): demo of the company fundamentals view.
-- [Landing page](https://stockportfolio.pro/): full product overview and pricing.
+- [Stock directory](https://www.stockportfolio.pro/stocks): fundamentals snapshots for 1,500+ US companies (S&P 500, MidCap 400, SmallCap 600) — revenue and earnings history, valuation, financial health checks, FAQ.
+- [Any single stock](https://www.stockportfolio.pro/stocks/AAPL): replace AAPL with any ticker, e.g. /stocks/MSFT, /stocks/NVDA.
+- [Free screener](https://www.stockportfolio.pro/screener): filter the S&P 1500 by growth, margins, ROE, valuation, and dividends — all from filed data.
+- [Demo portfolio](https://www.stockportfolio.pro/demo): read-only sample portfolio, no signup.
 
-## Sign up
+## Paid product
 
-- [Register](https://stockportfolio.pro/register): create an account and subscribe.
-- [Log in](https://stockportfolio.pro/login)
+- [Landing page](https://www.stockportfolio.pro/): product overview and pricing.
+- [Ask — the AI analyst](https://www.stockportfolio.pro/ask): ask anything about any US-listed company; every figure in the answer comes from SEC filings with sources shown (Pro plan).
+- [Company workspace](https://www.stockportfolio.pro/company?symbol=AAPL): interactive view — up to 19 years of income statement, balance sheet and cash flow, 48 quarters, ratios, ownership, business segments from 10-Ks.
+- [Register](https://www.stockportfolio.pro/register): 7-day free trial.
 
 ## Pricing
 
-- Free demo: no signup required, read-only.
-- Monthly: GBP 27/month, billed monthly.
-- Annual: GBP 270/year (saves GBP 54 vs monthly).
+- Free: screener, /stocks pages, and demo — no account.
+- Monthly: £9/month after a 7-day free trial.
+- Annual: £90/year (two months free vs monthly).
+- Pro: £25/month — includes Ask, the SEC-grounded AI analyst.
+- Cancel anytime.
 
 ## Key features
 
-- Holdings, allocation, and performance tracking with D3.js v7 charts.
-- Company fundamentals view (income statement, balance sheet, cash flow).
-- Real-time price data via Yahoo Finance (yahoo-finance2).
-- JWT auth with Google and Facebook OAuth.
-- Stripe subscription gating (monthly or annual).
-
-## Tech stack
-
-Node.js + Express, MongoDB Atlas, vanilla JS + D3.js v7, yahoo-finance2, Stripe, deployed on Render.
+- Up to 19 years of SEC-filed financial statements for every US-listed company (~10,400 searchable).
+- Free stock screener over the S&P 1500.
+- AI research assistant that answers only from filings, with sources shown for every figure.
+- Business segments extracted from 10-K filings.
+- Portfolio tracking, health checks, and SEC filing alerts.
 
 ## About the creator
 
-- Avinash Sreekumar - full-stack JavaScript developer (Trivandrum, India).
+- Avinash Sreekumar — full-stack JavaScript developer (Trivandrum, India).
 - Site: https://avisre.github.io
 - GitHub: https://github.com/avisre
-- LinkedIn: https://linkedin.com/in/avinash-sreekumar-102a92258
 
-## Optional - deeper context for LLMs
+## Optional — deeper context for LLMs
 
-- [llms-full.txt](https://stockportfolio.pro/llms-full.txt): expanded product description, demo walkthrough, full feature list.
+- [llms-full.txt](https://www.stockportfolio.pro/llms-full.txt): expanded product description and FAQ.
 
 ## Disclaimers
 
-Stock Portfolio Pro is an analysis and visualization tool only. It does not provide financial advice. Prices may be delayed.
+stockportfolio.pro is an analysis and visualization tool only. It does not provide financial advice. Data may be delayed or inaccurate.

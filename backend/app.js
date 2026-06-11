@@ -4,6 +4,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
+const compression = require('compression');
 const rateLimit = require('express-rate-limit');
 const bcrypt = require('bcryptjs');
 const argon2 = require('argon2');
@@ -59,6 +60,14 @@ app.use(cors());
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' }
+}));
+// gzip the HTML/CSS/JS surfaces (Core Web Vitals / crawl speed). The API is
+// excluded so the AI chat's SSE stream is never buffered by the compressor.
+app.use(compression({
+  filter: (req, res) => {
+    if (req.path.startsWith('/api')) return false;
+    return compression.filter(req, res);
+  }
 }));
 
 const apiLimiter = rateLimit({
@@ -785,10 +794,49 @@ app.get('/vs/:competitor', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
 
+// Interactive company page (/company?symbol=SYM): the data renders client-side,
+// so crawlers and link unfurlers would otherwise see only the skeleton with a
+// generic title. Inject the company's name into <title>/description/OG and
+// point the canonical at the server-rendered /stocks/SYM page so ranking
+// signals consolidate there. Registered before static so it wins the path.
+const COMPANY_TPL_PATH = path.join(__dirname, '../frontend-v2/company.html');
+let _companyTpl = null;
+app.get(['/company.html', '/company'], (req, res) => {
+    if (_companyTpl === null) {
+        try { _companyTpl = fs.readFileSync(COMPANY_TPL_PATH, 'utf8'); } catch (_) { _companyTpl = ''; }
+    }
+    res.set('Content-Type', 'text/html; charset=utf-8');
+    if (!_companyTpl) return res.sendFile(COMPANY_TPL_PATH);
+    const sym = String(req.query.symbol || '').toUpperCase().replace(/[^A-Z0-9.\-]/g, '').slice(0, 10);
+    const name = sym && seoPages.companyName(sym);
+    if (!sym || !name) return res.send(_companyTpl);
+    const escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const title = `${name} (${sym}) financials, ratios & health checks — stockportfolio.pro`;
+    const desc = `${name} (${sym}): up to 19 years of SEC-filed income statement, balance sheet and cash flow, valuation ratios, ownership and plain-English health checks.`;
+    const canonical = seoPages.hasStockPage(sym)
+        ? `https://www.stockportfolio.pro/stocks/${sym}`
+        : `https://www.stockportfolio.pro/company?symbol=${sym}`;
+    const html = _companyTpl
+        .replace(/<title>[\s\S]*?<\/title>/, () => `<title>${escAttr(title)}</title>`)
+        .replace(/(<meta name="description" content=")[^"]*/, (_, p1) => p1 + escAttr(desc))
+        .replace(/(<link rel="canonical" href=")[^"]*/, (_, p1) => p1 + canonical)
+        .replace(/(<meta property="og:title" content=")[^"]*/, (_, p1) => p1 + escAttr(title))
+        .replace(/(<meta property="og:description" content=")[^"]*/, (_, p1) => p1 + escAttr(desc))
+        .replace(/(<meta property="og:url" content=")[^"]*/, (_, p1) => p1 + canonical)
+        .replace(/(<meta name="twitter:title" content=")[^"]*/, (_, p1) => p1 + escAttr(title))
+        .replace(/(<meta name="twitter:description" content=")[^"]*/, (_, p1) => p1 + escAttr(desc));
+    res.send(html);
+});
+
 // CUTOVER (local): v2 is the product at / — it wins name collisions; anything
 // it doesn't have (Media, legal pages, demo pages, data/) falls through to v1.
-app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'] }));
-app.use(express.static(path.join(__dirname, '../frontend')));
+// HTML revalidates on every request (assets aren't fingerprinted, so a deploy
+// must show up immediately); images/css/js/data may be cached for an hour.
+const staticCacheHeaders = (res, filePath) => {
+    res.setHeader('Cache-Control', filePath.endsWith('.html') ? 'no-cache' : 'public, max-age=3600');
+};
+app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
+app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));
 // transition window: old surface stays reachable at /v1; /v2 links keep working
 app.use('/v1', express.static(path.join(__dirname, '../frontend')));
 app.use('/v2', express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], redirect: false }));

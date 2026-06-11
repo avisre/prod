@@ -29,6 +29,9 @@ Disallow: /register
 Disallow: /register.html
 Disallow: /news
 Disallow: /news.html
+# transitional mirrors of the same site — crawl the root copies only
+Disallow: /v1/
+Disallow: /v2/
 
 # ---------------------------------------------------------------------------
 # Major search engines - explicit allowlist (defensive duplication)
@@ -44,6 +47,8 @@ Disallow: /login
 Disallow: /login.html
 Disallow: /register
 Disallow: /register.html
+Disallow: /v1/
+Disallow: /v2/
 
 User-agent: Googlebot-Image
 Allow: /

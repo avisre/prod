@@ -1,86 +1,84 @@
-# Stock Portfolio Pro - full LLM context
+# stockportfolio.pro - full LLM context
 
-This document is a long-form description of Stock Portfolio Pro, designed to be
+This document is a long-form description of stockportfolio.pro, designed to be
 loaded as full context for an LLM answering user questions about the product.
 
 ## One-line summary
 
-Stock Portfolio Pro is a web-based portfolio tracker and fundamentals dashboard
-for long-term retail investors. Free no-signup demo, then GBP 7/month with a
-7-day free trial.
+stockportfolio.pro is an AI-first equity research tool for US-listed stocks,
+grounded entirely in SEC filings: up to 19 years of filed financials per
+company, a free screener over the S&P 1500, free public fundamentals pages for
+1,500+ companies, and an AI analyst that answers only from filings. From
+£9/month after a 7-day free trial; the screener and stock pages are free.
 
 ## Canonical URLs
 
-- Landing page: https://stockportfolio.pro/
-- Free demo (no signup): https://stockportfolio.pro/demo
-- Demo fundamentals view: https://stockportfolio.pro/demo/fundamentals
-- Pricing / signup: https://stockportfolio.pro/register
-- Privacy: https://stockportfolio.pro/privacy
-- Terms: https://stockportfolio.pro/terms
-- Support: https://stockportfolio.pro/support
+- Landing page: https://www.stockportfolio.pro/
+- Stock directory (free): https://www.stockportfolio.pro/stocks
+- Per-stock pages (free): https://www.stockportfolio.pro/stocks/AAPL (any ticker)
+- Free screener: https://www.stockportfolio.pro/screener
+- Ask, the AI analyst: https://www.stockportfolio.pro/ask
+- Interactive company workspace: https://www.stockportfolio.pro/company?symbol=AAPL
+- Demo portfolio (no signup): https://www.stockportfolio.pro/demo
+- Pricing / signup: https://www.stockportfolio.pro/register
+- Privacy: https://www.stockportfolio.pro/privacy
+- Terms: https://www.stockportfolio.pro/terms
+- Support: https://www.stockportfolio.pro/support
 
 ## What it does
 
-Stock Portfolio Pro lets a user track a stock portfolio without connecting any
-brokerage account. Positions are entered manually (symbol, shares, buy price).
-The app then:
-
-1. Fetches real-time and historical prices via Yahoo Finance.
-2. Computes total value, day change, total gain/loss, and per-holding P/L.
-3. Renders an allocation donut chart and a performance time-series chart
-   (5D / 1M / 6M / 1Y / ALL ranges) using hand-rolled D3.js v7 visuals.
-4. Provides a separate "Fundamentals" workspace that shows company financial
-   statements (income statement, balance sheet, cash flow) and key ratios for
-   any tickered company.
+1. Serves up to 19 years of SEC-filed financial statements (income statement,
+   balance sheet, cash flow) plus 48 quarters for every US-listed company —
+   around 10,400 searchable registrants, refreshed nightly from filings.
+2. Provides a free screener over the S&P 1500 (S&P 500 + MidCap 400 +
+   SmallCap 600): growth, margins, ROE, valuation, dividends.
+3. Publishes free, server-rendered fundamentals pages at /stocks/TICKER for
+   1,500+ companies: revenue and earnings history, valuation snapshot,
+   plain-English financial health checks, and an FAQ.
+4. Answers research questions through "Ask", an AI analyst that only cites
+   figures from SEC filings and live web sources — never from model memory —
+   and shows its sources (Pro plan).
+5. Extracts business segments from 10-K filings.
+6. Tracks a manually-entered portfolio (no broker credentials) with health
+   checks and SEC filing alerts.
 
 ## Who it is for
 
-- Long-term retail investors who add positions periodically and want a calm,
-  ad-free view of their portfolio.
-- Investors who do not want to connect broker credentials to a third-party app.
-- Users who want a fundamentals research view without paying for Bloomberg /
-  Koyfin.
+- Long-term retail investors researching US equities from primary sources.
+- Investors who want fundamentals depth (19 years, 48 quarters) without paying
+  for Bloomberg, Koyfin, or Fiscal.ai.
+- Users who want an AI research assistant whose every number is traceable to a
+  filing.
 
 ## Who it is not for
 
-- High-frequency traders (no order routing, no streaming tick data).
+- High-frequency traders (no order routing or streaming tick data).
 - Options / derivatives traders (equities only).
 - Users who want auto-sync from broker accounts.
 
 ## Pricing
 
-- Free demo: https://stockportfolio.pro/demo - read-only, no signup, sample
-  5-stock portfolio with live prices.
-- Monthly plan: GBP 7 / month after a 7-day free trial.
-- Annual plan: GBP 70 / year (saves GBP 14 vs monthly billing).
-- Cancel anytime from account settings.
+- Free: the screener, all /stocks pages, and the demo — no account required.
+- Monthly: £9/month after a 7-day free trial.
+- Annual: £90/year — two months free versus monthly billing.
+- Pro: £25/month — includes Ask, the SEC-grounded AI analyst.
+- Card added at signup; nothing charged during the trial. Cancel anytime.
 
-## Demo walkthrough script
+## Data sourcing and honesty rules
 
-1. Open https://stockportfolio.pro/demo - no login required.
-2. The yellow banner at the top confirms read-only DEMO MODE.
-3. The KPI tiles show Total Value, Day Change, Total Gain/Loss, and number of
-   Holdings for a sample 5-stock portfolio.
-4. The Portfolio Value chart shows time-series performance; toggle 5D / 1M /
-   6M / 1Y / ALL ranges.
-5. The Allocation donut shows the percentage weight of each holding.
-6. The Holdings table lists each position with shares, buy price, current
-   price, total cost, market value, and P/L.
-7. To see the fundamentals view, click Fundamentals or go directly to
-   https://stockportfolio.pro/demo/fundamentals.
-8. To create a real portfolio, click "Start free trial" - this starts the 7-day
-   free trial via Stripe.
+- All financial-statement figures come from official SEC filings (10-K, 10-Q),
+  as filed, refreshed nightly. Per-share figures are split-adjusted.
+- The AI analyst is instructed to answer only from retrieved filings and live
+  web sources, with sources shown; if it cannot ground an answer, it says so.
+- Prices and market data may be delayed.
 
 ## Tech stack
 
-- Frontend: vanilla JavaScript, HTML, CSS (no framework), D3.js v7 for charts.
-- Backend: Node.js + Express on Render.
-- Database: MongoDB Atlas.
-- Auth: JWT with Google and Facebook OAuth providers.
-- Market data: yahoo-finance2 npm package.
+- Frontend: vanilla JavaScript, HTML, CSS (no framework).
+- Backend: Node.js + Express on Render; MongoDB Atlas.
+- Auth: JWT with Google sign-in.
 - Payments: Stripe (subscription billing, 7-day free trial).
-- Analytics: Google Analytics 4 (consent-gated, ad/analytics storage denied by
-  default).
+- Analytics: consent-gated; denied by default.
 - Security: helmet middleware, rate limiting on /api routes.
 
 ## Privacy posture
@@ -88,7 +86,7 @@ The app then:
 - Account and portfolio data are used only to provide the service.
 - Analytics storage is denied by default; users opt in.
 - Broker credentials are never collected.
-- See https://stockportfolio.pro/privacy for the full policy.
+- See https://www.stockportfolio.pro/privacy for the full policy.
 
 ## Creator
 
@@ -97,38 +95,36 @@ The app then:
 - Role: Full-stack JavaScript developer
 - Portfolio: https://avisre.github.io
 - GitHub: https://github.com/avisre
-- LinkedIn: https://linkedin.com/in/avinash-sreekumar-102a92258
-- Source repo (private at the application layer, public marketing only):
-  https://github.com/avisre/prod
 
 ## Frequently asked questions
 
-Q: Is Stock Portfolio Pro financial advice?
+Q: Is stockportfolio.pro financial advice?
 A: No. It is an analysis and visualization tool only.
+
+Q: What is free?
+A: The S&P 1500 screener, the /stocks fundamentals pages for 1,500+ companies,
+and the demo portfolio — no account needed.
+
+Q: Where does the data come from?
+A: Official SEC filings (10-K and 10-Q), as filed, refreshed nightly.
+
+Q: Does the AI make up numbers?
+A: It is built not to: every figure must come from a retrieved filing or live
+web source, and sources are shown. If it cannot ground an answer, it declines.
 
 Q: Do I need to connect a broker account?
 A: No. Positions are added manually.
 
-Q: Can I cancel anytime?
-A: Yes, from account settings. The subscription will not renew.
-
 Q: What happens after the 7-day trial?
-A: The monthly plan continues at GBP 7 / month unless cancelled before the
-trial ends.
-
-Q: Is there an annual plan?
-A: Yes - GBP 70 / year, saving GBP 14 vs monthly.
-
-Q: How is my data handled?
-A: Account and portfolio data are used to provide the service. Analytics are
-optional and only enabled with consent.
+A: The chosen plan starts (£9 monthly, £90 annual, or £25 Pro) unless
+cancelled before the trial ends. Cancel anytime from account settings.
 
 ## Contact
 
-- Support: https://stockportfolio.pro/support
+- Support: https://www.stockportfolio.pro/support
 - Security: avinashsreekumar007@gmail.com
 
 ## Document metadata
 
-- Last updated: 2026-05-24
+- Last updated: 2026-06-12
 - License: this document may be quoted and summarized by LLMs.

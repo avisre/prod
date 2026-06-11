@@ -152,15 +152,15 @@ function nav() {
   <a class="brand" href="/"><img src="/Media/icon.png" alt="stockportfolio.pro logo" />stockportfolio.pro</a>
   <div style="display:flex;align-items:center;gap:16px">
     <a href="/stocks" style="font-size:13px;font-weight:500">Stocks</a>
-    <a href="/screener.html" style="font-size:13px;font-weight:500">Screener</a>
-    <a class="seo-cta-btn" href="/register.html?plan=monthly">Start 7-day free trial</a>
+    <a href="/screener" style="font-size:13px;font-weight:500">Screener</a>
+    <a class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
   </div>
 </header>`;
 }
 
 function footer() {
     return `<footer class="seo-foot">
-  <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener.html">Free screener</a> &middot; <a href="/register.html?plan=monthly">Free trial</a> &middot; <a href="/privacy.html">Privacy</a> &middot; <a href="/terms.html">Terms</a></p>
+  <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
   <p class="seo-disc">Data is provided for informational purposes only and may be delayed or inaccurate. stockportfolio.pro is an analysis and visualization tool and does not provide financial advice. &copy; 2026 stockportfolio.pro.</p>
 </footer></body></html>`;
 }
@@ -341,14 +341,14 @@ function renderStockPage(ticker) {
   <div class="seo-lock">
     <h3>Explore ${esc(String(income.length))} years of ${esc(name)} financials — interactive</h3>
     <p>Full income statement, balance sheet and cash flow with CAGR and trend on every row, 48 quarters, valuation ratios, plain-English health checks, and Ask — our SEC-grounded research assistant.</p>
-    <a class="seo-cta-btn" href="/company.html?symbol=${esc(sym)}">Open the interactive view — free</a>
-    <p style="margin-top:10px"><a href="/register.html?plan=monthly" style="font-size:13px">Or start a 7-day free trial to track ${esc(sym)} in your portfolio &rarr;</a></p>
+    <a class="seo-cta-btn" href="/company?symbol=${esc(sym)}">Open the interactive view — free</a>
+    <p style="margin-top:10px"><a href="/register?plan=monthly" style="font-size:13px">Or start a 7-day free trial to track ${esc(sym)} in your portfolio &rarr;</a></p>
   </div>
   ${about}
   ${faqBlock}
   <div class="seo-section"><h2>Explore more stocks</h2>
     <div class="seo-links">${linkPills}</div>
-    <p style="margin-top:10px"><a href="/stocks" style="color:var(--primary)">Browse all 500+ companies &rarr;</a> &middot; <a href="/screener.html" style="color:var(--primary)">Screen them by fundamentals &rarr;</a></p>
+    <p style="margin-top:10px"><a href="/stocks" style="color:var(--primary)">Browse all 1,500+ companies &rarr;</a> &middot; <a href="/screener" style="color:var(--primary)">Screen them by fundamentals &rarr;</a></p>
   </div>
 </main>` + footer();
 }
@@ -378,13 +378,44 @@ function renderStockIndex() {
 }
 
 // ---- sitemap ----
+// Clean paths only (the server resolves them), and no URLs that robots.txt
+// disallows (/login, /register) — a sitemap pointing at blocked pages just
+// generates Search Console errors and wastes crawl budget.
 function buildSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/founding', '/demo', '/register.html', '/login.html', '/support.html', '/privacy.html', '/terms.html', '/stocks', '/screener.html', '/vs/sharesight', '/vs/stock-rover', '/vs/simply-wall-st'];
+    const staticUrls = ['/', '/stocks', '/screener', '/ask', '/support', '/privacy', '/terms', '/sitemap', '/vs/sharesight', '/vs/stock-rover', '/vs/simply-wall-st'];
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
     loadCompanies().forEach((c) => urls.push({ loc: `${SITE}/stocks/${c.symbol}`, pri: '0.6' }));
     const body = urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority></url>`).join('\n');
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
 
-module.exports = { renderStockPage, renderStockIndex, buildSitemap, loadCompanies };
+// ---- helpers for the interactive company page's dynamic <head> ----
+// Name lookup over the full US universe (~10.4k registrants), falling back to
+// the S&P 1500 list. Lazy-loaded once.
+let _usNames = null;
+function companyName(symbol) {
+    const sym = String(symbol || '').toUpperCase();
+    const c = loadCompanies().find((x) => x.symbol === sym);
+    if (c) return c.name;
+    if (_usNames === null) {
+        _usNames = new Map();
+        try {
+            const raw = JSON.parse(fs.readFileSync(path.join(DATA, 'us-companies.json'), 'utf8'));
+            (Array.isArray(raw) ? raw : (raw.companies || [])).forEach((x) => {
+                if (x.symbol) _usNames.set(String(x.symbol).toUpperCase(), x.name || x.symbol);
+            });
+        } catch (_) { /* directory missing — sp1500 fallback above still works */ }
+    }
+    return _usNames.get(sym) || null;
+}
+
+// True when /stocks/SYM renders a real page (in the universe or cached on disk)
+function hasStockPage(symbol) {
+    const sym = String(symbol || '').toUpperCase();
+    if (!sym) return false;
+    if (loadCompanies().some((c) => c.symbol === sym)) return true;
+    return fs.existsSync(symbolToFile(sym));
+}
+
+module.exports = { renderStockPage, renderStockIndex, buildSitemap, loadCompanies, companyName, hasStockPage };
