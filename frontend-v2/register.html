@@ -47,6 +47,15 @@
             <span class="plan-name">Pro</span><span class="plan-price">£25/mo</span><span class="plan-tag">AI analyst</span>
           </button>
         </div>
+        <div id="social-shell" hidden style="display:grid; gap:10px;">
+          <div id="google-btn"></div>
+          <p class="small muted" id="social-status" role="status" aria-live="polite" hidden></p>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+            <span class="small faint">or sign up with email</span>
+            <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+          </div>
+        </div>
         <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
         <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="new-password" required minlength="8" /></label>
         <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
@@ -58,6 +67,7 @@
     </div>
   </main>
   <script src="assets/app.js"></script>
+  <script src="assets/social.js"></script>
   <script>
     V2.nav('register');
     const SUMMARY = {
@@ -79,9 +89,24 @@
     // Post-checkout return (works pre- and post-cutover): Stripe sends the
     // user back with ?session=success — log in with the held credentials,
     // retrying while the webhook activates the subscription.
+    V2Social.init({
+      flow: 'register',
+      shellId: 'social-shell',
+      mountId: 'google-btn',
+      statusId: 'social-status',
+      next: 'dashboard.html',
+      getExtraPayload: () => ({ plan })
+    });
+
     (async function postCheckout() {
       const params = new URLSearchParams(location.search);
       const err = document.getElementById('error');
+      // Social checkouts return with a token already stored — V2Social polls
+      // /api/session until the webhook activates, then redirects.
+      if (V2Social.confirmCheckout({ statusId: 'social-status' })) {
+        document.getElementById('social-shell').hidden = false;
+        return;
+      }
       if (params.get('session') === 'cancel') {
         err.textContent = 'Checkout was cancelled — nothing was charged. Pick a plan and try again whenever you like.';
         err.hidden = false;

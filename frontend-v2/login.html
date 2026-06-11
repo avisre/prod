@@ -20,14 +20,34 @@
         <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
         <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="current-password" required /></label>
         <button class="btn btn-primary" type="submit" id="submit">Log in</button>
+        <div id="social-shell" hidden style="display:grid; gap:10px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+            <span class="small faint">or</span>
+            <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+          </div>
+          <div id="google-btn"></div>
+          <p class="small muted" id="social-status" role="status" aria-live="polite" hidden></p>
+        </div>
         <p class="small delta-neg" id="error" role="alert" hidden></p>
       </form>
       <p class="small muted" style="margin-top:16px;">New here? <a href="/register.html">Start a 7-day free trial</a>.</p>
     </div>
   </main>
   <script src="assets/app.js"></script>
+  <script src="assets/social.js"></script>
   <script>
     V2.nav('login');
+    // Stripe sends social-login checkouts back here (?session=success&checkout=social).
+    V2Social.confirmCheckout({ statusId: 'social-status' }) &&
+      (document.getElementById('social-shell').hidden = false);
+    V2Social.init({
+      flow: 'login',
+      shellId: 'social-shell',
+      mountId: 'google-btn',
+      statusId: 'social-status',
+      next: 'dashboard.html'
+    });
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submit');
