@@ -2889,9 +2889,11 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/sitemap.xml'));
 });
 
-// Middleware to serve frontend HTML file
+// Anything that reached this point matches no page, file, or route. Serving
+// the homepage here (the old behavior) made every bad URL a 200 "soft 404"
+// that wastes crawl budget and pollutes the index — return a real 404.
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/index.html'));
+    res.status(404).sendFile(path.join(__dirname, '../frontend-v2/404.html'));
 });
 
 // Start the server
