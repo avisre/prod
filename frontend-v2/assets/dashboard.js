@@ -151,9 +151,30 @@
           </div>`;
         $('pf-total').textContent = '—';
         $('pf-sub').textContent = 'Portfolio tracking is part of the paid plans.';
-        ['holdings', 'charts-section', 'xray-section', 'brief-section', 'alerts-section', 'rules-section', 'attrib-section', 'wash-section'].forEach((id) => {
+        ['holdings', 'charts-section', 'xray-section', 'alerts-section', 'rules-section', 'attrib-section', 'wash-section'].forEach((id) => {
             const el = $(id); if (el) el.hidden = true;
         });
+        // Show a sample briefing so the feature is visible before subscribing.
+        loadSampleBriefing();
+    }
+
+    async function loadSampleBriefing() {
+        const section = $('brief-section');
+        const body = $('brief-body');
+        const sub = $('brief-sub');
+        if (!section || !body) return;
+        try {
+            const r = await fetch(`${API}/portfolio/briefing/sample`);
+            if (!r.ok) return;
+            const data = await r.json();
+            body.innerHTML = '<div style="opacity:.7">' + (data.briefing || '') + '</div>'
+                + '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-subtle)">'
+                + '<p class="small muted" style="margin:0 0 8px"><strong>Sample briefing</strong> — 5-stock demo portfolio. Subscribe to get your own weekly briefing.</p>'
+                + '<a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Start 7-day free trial →</a>'
+                + '</div>';
+            if (sub) sub.textContent = 'sample · 5-stock demo portfolio';
+            section.hidden = false;
+        } catch (_) { /* non-critical */ }
     }
 
     async function loadHoldings() {

@@ -98,7 +98,7 @@
         </div>
         <div class="ask-msgs" id="askw-msgs">
           <div class="ask-msg ask-msg-ai">
-            <div class="ask-bubble">Ask me about any of the 1,500+ US companies we cover (the S&amp;P 1500) — statements back to ~2007, ratios, health checks, screening, or your own portfolio. Every number comes from filed data, never from AI memory.</div>
+            <div class="ask-bubble">Ask me about any US-listed company (all ~10,400 SEC registrants — not just the S&amp;P 1500) — statements back to ~2007, ratios, health checks, screener, or your own portfolio. Every number comes from filed data, never from AI memory.</div>
           </div>
           <div class="ask-suggestions" id="askw-suggestions"></div>
         </div>
@@ -207,8 +207,21 @@
                 if (r.status === 401) {
                     addMsg('ai', 'Please <a href="login.html">log in</a> to use Ask.');
                 } else if (r.status === 429) {
-                    addMsg('ai', `${esc(data.message || 'Monthly Ask limit reached.')} <a href="register.html#pricing">See plans</a>.`);
                     if (data.quota) setQuota(data.quota);
+                    const isPro = data.quota && data.quota.limit >= 300;
+                    const nudgeHtml = `<div class="ask-limit-nudge">
+<div class="ask-limit-preview"><div class="ask-limit-preview-inner">
+Revenue grew 18% YoY to $12.4B in fiscal 2024, driven by cloud services (+34%). Net margin expanded to 22.1% from 19.8%. Free cash flow of $2.8B, covering capex 2.4×. P/E of 24× is below the sector median of 28×. Key risk: hardware segment declining 6% per quarter.
+</div><div class="ask-limit-preview-label">Upgrade to see answers</div></div>
+<div class="ask-limit-msg">You've used all ${data.quota ? data.quota.limit : ''} Ask questions this month.</div>
+${isPro ? `<p style="color:var(--ask-muted);font-size:12px">Your Pro quota resets on the 1st.</p>` : `
+<div class="ask-limit-plans">
+<div class="ask-limit-plan"><b>Core — £9/mo</b><span>25 Ask questions/mo</span></div>
+<div class="ask-limit-plan"><b>Pro — £25/mo</b><span>300 Ask questions/mo<br>+ AI summaries</span></div>
+</div>
+<a class="ask-limit-cta" href="register.html?plan=pro">Upgrade to Pro — 7 days free</a>`}
+</div>`;
+                    addMsg('ai', nudgeHtml);
                 } else if (!r.ok || !data.answer) {
                     addMsg('ai', 'Something went wrong — please try again.');
                 } else {
@@ -296,7 +309,7 @@
         const q = input.value.trim();
         if (!q) return;
         if (!token()) {
-            addMsg('ai', 'Ask needs an account — <a href="login.html">log in</a> or <a href="register.html">start a 7-day free trial</a>. Core plans include 5 Ask questions a month; Pro includes 300.');
+            addMsg('ai', 'Ask needs an account — <a href="login.html">log in</a> or <a href="register.html">start a 7-day free trial</a>. Core plans include 25 Ask questions a month; Pro includes 300.');
             return;
         }
         input.value = '';

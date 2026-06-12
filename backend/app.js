@@ -889,6 +889,46 @@ app.get(['/company.html', '/company'], (req, res) => {
     res.send(html);
 });
 
+// ---- Screener SSR (/screener, /screener.html): inject default top-50 rows so
+// crawlers see a real HTML table instead of "Loading…". JS hydrates on load.
+let _screenerTpl = null;
+function screenerTpl() {
+    if (_screenerTpl === null) {
+        try { _screenerTpl = fs.readFileSync(path.join(__dirname, '../frontend/screener.html'), 'utf8'); }
+        catch (_) { _screenerTpl = ''; }
+    }
+    return _screenerTpl;
+}
+function renderScreenerRows() {
+    const esc = (v) => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const fmt = (v, dp) => v == null ? '—' : Number(v).toFixed(dp);
+    const { rows } = aiChat.screenRows({ limit: 50, maxLimit: 50 });
+    return rows.map((r) => `<tr>
+<td><a href="/stocks/${esc(r.symbol)}">${esc(r.name)} <span class="scrn-sym">${esc(r.symbol)}</span></a></td>
+<td>${esc(r.sector)}</td>
+<td>${r.marketCapB == null ? '—' : '$' + fmt(r.marketCapB, 1) + 'B'}</td>
+<td>${fmt(r.pe, 1)}</td>
+<td>${r.revCagr5Pct == null ? '—' : fmt(r.revCagr5Pct, 1) + '%'}</td>
+<td>${r.netMarginPct == null ? '—' : fmt(r.netMarginPct, 1) + '%'}</td>
+<td>${r.roePct == null ? '—' : fmt(r.roePct, 1) + '%'}</td>
+<td>${r.divYieldPct == null ? '—' : fmt(r.divYieldPct, 2) + '%'}</td>
+<td>${r.qtrNetIncomeYoYPct == null ? '—' : fmt(r.qtrNetIncomeYoYPct, 1) + '%'}</td>
+<td>${r.profitableYears10 == null ? '—' : r.profitableYears10}</td>
+</tr>`).join('\n');
+}
+app.get(['/screener', '/screener.html'], (req, res) => {
+    const tpl = screenerTpl();
+    if (!tpl) return res.sendFile(path.join(__dirname, '../frontend/screener.html'));
+    const ssrRows = renderScreenerRows();
+    const html = tpl.replace(
+        '<tr><td colspan="10" class="scrn-empty">Loading…</td></tr>',
+        ssrRows
+    );
+    res.set('Content-Type', 'text/html; charset=utf-8')
+       .set('Cache-Control', 'public, max-age=3600')
+       .send(html);
+});
+
 // CUTOVER (local): v2 is the product at / — it wins name collisions; anything
 // it doesn't have (Media, legal pages, demo pages, data/) falls through to v1.
 // HTML revalidates on every request (assets aren't fingerprinted, so a deploy
@@ -960,6 +1000,20 @@ function applyPlanToSubscription(user, planInput) {
     user.subscription.billingInterval = planConfig.billingInterval;
     user.subscription.stripePriceId = planConfig.stripePriceId || null;
     return planConfig;
+}
+
+// ---- Funnel event tracking (server-side, no third-party) ----
+// Events: signup | trial_start | paid | cancel
+// Stored in the 'funnel_events' Mongo collection with fire-and-forget writes.
+async function trackFunnel(event, userId, plan) {
+    try {
+        await mongoose.connection.collection('funnel_events').insertOne({
+            event: String(event),
+            userId: userId ? String(userId) : null,
+            plan: plan ? String(plan) : null,
+            at: new Date()
+        });
+    } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
 }
 
 async function activateSubscription(user, { subscriptionId, customerId, planId, stripeStatus, trialEndsAt, stripePriceId } = {}) {
@@ -1494,6 +1548,7 @@ app.post('/api/subscribe', async (req, res) => {
         // New signup: send onboarding email + owner notification (fire-and-forget).
         sendNewUserEmails({ name: displayName, email: normalizedEmail, plan: planConfig.planName })
             .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+        trackFunnel('signup', user._id, planConfig.planName);
 
         if (planConfig.planId === FREE_PLAN_ID) {
             return res.status(200).json({
@@ -2249,6 +2304,28 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
     }
 });
 
+// Sample briefing for free/logged-out users — demonstrates the feature pre-payment.
+// Uses the demo portfolio with indicative prices; deterministic template (no LLM call).
+let _sampleBriefingCache = null;
+app.get('/api/portfolio/briefing/sample', async (req, res) => {
+    try {
+        if (!_sampleBriefingCache) {
+            const demoHoldings = [
+                { symbol: 'AAPL', name: 'Apple Inc.',     sector: 'Technology',        shares: 20, purchasePrice: 148, currentPrice: 185 },
+                { symbol: 'MSFT', name: 'Microsoft Corp.',sector: 'Technology',        shares: 10, purchasePrice: 285, currentPrice: 420 },
+                { symbol: 'JNJ',  name: 'Johnson & Johnson', sector: 'Healthcare',     shares: 15, purchasePrice: 160, currentPrice: 148 },
+                { symbol: 'JPM',  name: 'JPMorgan Chase', sector: 'Financial Services',shares: 12, purchasePrice: 156, currentPrice: 210 },
+                { symbol: 'XOM',  name: 'ExxonMobil',     sector: 'Energy',           shares: 25, purchasePrice: 90,  currentPrice: 108 }
+            ];
+            const result = await aiBriefing.generateBriefing(demoHoldings);
+            _sampleBriefingCache = { briefing: result.briefing, facts: result.facts, generatedAt: new Date().toISOString(), sample: true };
+        }
+        res.json(_sampleBriefingCache);
+    } catch (err) {
+        res.status(500).json({ message: err.message || 'Sample briefing failed' });
+    }
+});
+
 // --- Pro AI features ---
 // Plain-English summary of a company's latest financials. Cached per symbol
 // (fundamentals only change nightly).
@@ -2770,7 +2847,7 @@ app.get('/api/company/:symbol/filing-diff', authMiddleware, proGate, async (req,
     }
 });
 
-// Quota peek so the UI can show "3 of 5 free questions left" before asking.
+// Quota peek so the UI can show "2 of 3 free questions left" before asking.
 // Thumbs on an Ask answer — stored for quality review, nothing else.
 app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
     try {
@@ -2880,7 +2957,11 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         ? await stripe.subscriptions.retrieve(payload.subscription)
                         : null;
                     if (subscription) {
+                        const prevStatus = user.subscription && user.subscription.status;
                         await syncSubscriptionFromStripe(user, subscription, payload.customer);
+                        const newStatus = user.subscription && user.subscription.status;
+                        if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName);
+                        else if (newStatus === 'active' && prevStatus !== 'active') trackFunnel('trial_start', user._id, user.subscription.planName);
                     } else {
                         await activateSubscription(user, {
                             subscriptionId: payload.subscription,
@@ -2889,6 +2970,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             stripeStatus: 'active',
                             stripePriceId: payload.metadata?.stripePriceId || null
                         });
+                        trackFunnel('trial_start', user._id, user.subscription.planName);
                     }
                 }
             }
@@ -2900,7 +2982,13 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             const subscription = payload;
             const user = await User.findOne({ stripeSubscriptionId: subscription.id });
             if (user) {
+                const prevStatus = user.subscription && user.subscription.status;
                 await syncSubscriptionFromStripe(user, subscription, subscription.customer);
+                const newStatus = user.subscription && user.subscription.status;
+                // trialing → active = first real payment
+                if (prevStatus === 'trialing' && newStatus === 'active') {
+                    trackFunnel('paid', user._id, user.subscription.planName);
+                }
             }
         } catch (err) {
             console.error('Stripe webhook update error:', err);
@@ -2910,10 +2998,12 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             const subscription = payload;
             const user = await User.findOne({ stripeSubscriptionId: subscription.id });
             if (user) {
+                const plan = user.subscription && user.subscription.planName;
                 user.subscription.status = 'cancelled';
                 user.subscription.trialEndsAt = null;
                 user.stripeSubscriptionId = null;
                 await user.save();
+                trackFunnel('cancel', user._id, plan);
             }
         } catch (err) {
             console.error('Stripe webhook delete error:', err);
@@ -3113,6 +3203,56 @@ app.get('/robots.txt', (req, res) => {
 app.get('/sitemap.xml', (req, res) => {
     res.type('application/xml; charset=utf-8');
     res.sendFile(path.join(__dirname, '../frontend/sitemap.xml'));
+});
+
+// ---- /admin/funnel — private funnel dashboard (token-gated) ----
+// Protect with ADMIN_TOKEN env var; if not set the route returns 403.
+app.get('/admin/funnel', async (req, res) => {
+    const token = process.env.ADMIN_TOKEN;
+    const provided = req.query.token || req.headers['x-admin-token'];
+    if (!token || provided !== token) return res.status(403).send('Forbidden');
+    try {
+        const col = mongoose.connection.collection('funnel_events');
+        const events = await col.find({}).toArray();
+        const count = (ev) => events.filter((e) => e.event === ev).length;
+        const pct = (n, d) => d ? `${((n / d) * 100).toFixed(1)}%` : '—';
+        const signups = count('signup');
+        const trials = count('trial_start');
+        const paid = count('paid');
+        const cancels = count('cancel');
+        // Per-plan breakdown
+        const byPlan = {};
+        events.forEach((e) => {
+            const p = e.plan || 'unknown';
+            if (!byPlan[p]) byPlan[p] = { signup:0, trial_start:0, paid:0, cancel:0 };
+            if (byPlan[p][e.event] !== undefined) byPlan[p][e.event]++;
+        });
+        const planRows = Object.entries(byPlan).sort((a,b) => b[1].signup - a[1].signup)
+            .map(([p, v]) => `<tr><td>${p}</td><td>${v.signup}</td><td>${v.trial_start}</td><td>${v.paid}</td><td>${v.cancel}</td></tr>`).join('');
+        const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Funnel — stockportfolio.pro</title>
+<style>body{font:14px/1.6 system-ui,sans-serif;margin:2rem;color:#111}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px 12px;text-align:left}th{background:#f5f5f5}h2{margin-top:2rem}.metric{display:inline-block;background:#f9f9f9;border:1px solid #ddd;border-radius:6px;padding:1rem 1.5rem;margin:.5rem;min-width:160px}.metric b{display:block;font-size:2rem}</style>
+</head><body>
+<h1>Funnel — stockportfolio.pro</h1>
+<div>
+  <div class="metric"><b>${signups}</b> Signups</div>
+  <div class="metric"><b>${trials}</b> Trial starts</div>
+  <div class="metric"><b>${paid}</b> Paid conversions</div>
+  <div class="metric"><b>${cancels}</b> Cancellations</div>
+</div>
+<h2>Conversion rates</h2>
+<table><thead><tr><th>Step</th><th>Rate</th></tr></thead><tbody>
+<tr><td>Signup → Trial start</td><td>${pct(trials, signups)}</td></tr>
+<tr><td>Trial start → Paid</td><td>${pct(paid, trials)}</td></tr>
+<tr><td>Paid → Cancelled</td><td>${pct(cancels, paid)}</td></tr>
+</tbody></table>
+<h2>By plan</h2>
+<table><thead><tr><th>Plan</th><th>Signups</th><th>Trial starts</th><th>Paid</th><th>Cancels</th></tr></thead><tbody>${planRows}</tbody></table>
+<p style="color:#888;margin-top:2rem">Events total: ${events.length} — as of ${new Date().toISOString()}</p>
+</body></html>`;
+        res.set('Content-Type', 'text/html; charset=utf-8').set('Cache-Control', 'no-store').send(html);
+    } catch (err) {
+        res.status(500).send(`Error: ${err.message}`);
+    }
 });
 
 // Anything that reached this point matches no page, file, or route. Serving

@@ -7,8 +7,9 @@
 //   - Provenance: every tool result carries fiscal period end dates; the
 //     answer cites them and the API returns the tool trace for UI chips.
 //   - Finance-only + identity trade secret (same rules as ai-features.js).
-//   - Metered: free users get AI_CHAT_FREE_LIMIT queries/month (default 5),
-//     Pro gets AI_CHAT_PRO_LIMIT (default 300). Counters live in Mongo.
+//   - Metered: free users get AI_CHAT_FREE_LIMIT queries/month (default 3),
+//     core gets AI_CHAT_CORE_LIMIT (default 25), pro AI_CHAT_PRO_LIMIT (default 300).
+//     Counters live in Mongo.
 //
 // The agentic loop speaks OpenAI-style tool calls via aiClient.chatRaw with
 // purpose 'chat' (env AI_MODEL_CHAT, default glm-5.1 per the shootout).
