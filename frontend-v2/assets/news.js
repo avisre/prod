@@ -189,10 +189,12 @@
         const empty = $('news-empty');
         empty.hidden = true;
         if (!token()) {
-            renderFeatured(null); renderSecondary([]); renderStream([]);
-            $('news-latest').innerHTML = '';
-            empty.hidden = false;
-            empty.innerHTML = 'News needs an account — <a href="/login.html">log in</a> or <a href="/register.html">start a free trial</a>.';
+            // Collapse the hollow columns into the composed sign-in panel —
+            // otherwise the centre of the grid is a void.
+            $('news-signedout').hidden = false;
+            $('news-feature-col').hidden = true;
+            $('news-latest-col').hidden = true;
+            $('news-stream-col').hidden = true;
             ['trending-list'].forEach((id) => { $(id).innerHTML = '<li class="side-empty">Sign in to see trending.</li>'; });
             return;
         }
