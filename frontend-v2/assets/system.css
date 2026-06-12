@@ -216,18 +216,38 @@ a:hover { color: var(--accent-ink); }
 .input::placeholder { color: var(--ink-3); }
 .input:focus, .select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); }
 
-/* ---------- Loading ring (the system's one spinner) ---------- */
+/* ---------- Loading ring (the system's one spinner) ----------
+   Depth from hairlines, not weight: a hairline track in the page's
+   own line color, and one ink arc that tapers to nothing — drawn,
+   not spun. Constant angular speed; the calm is the point. */
 .spin {
   display: inline-block;
   width: 18px; height: 18px;
-  border: 2px solid var(--line);
+  border: 1.5px solid var(--line);
   border-top-color: var(--ink);
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: spin 0.9s linear infinite;
   vertical-align: -4px;
 }
-.spin-lg { width: 28px; height: 28px; border-width: 2.5px; }
+.spin-lg { width: 28px; height: 28px; }
+@supports ((-webkit-mask: conic-gradient(#000, #0000)) or (mask: conic-gradient(#000, #0000))) {
+  .spin {
+    border: 0;
+    background:
+      conic-gradient(var(--ink) 0 100deg, rgba(28, 27, 24, 0) 100deg 360deg),
+      conic-gradient(var(--line) 0 360deg);
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 1.8px), #000 calc(100% - 1.2px));
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 1.8px), #000 calc(100% - 1.2px));
+  }
+  .spin-lg {
+    -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 2.4px), #000 calc(100% - 1.6px));
+    mask: radial-gradient(farthest-side, #0000 calc(100% - 2.4px), #000 calc(100% - 1.6px));
+  }
+}
 @keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .spin { animation-duration: 2s; }
+}
 .loading-line { display: inline-flex; align-items: center; gap: 10px; color: var(--ink-3); font-size: var(--text-sm); }
 
 /* ---------- Consent banner ---------- */

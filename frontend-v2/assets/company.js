@@ -681,7 +681,7 @@
         const sym2 = other.toUpperCase().replace(/[^A-Z0-9.\-]/g, '');
         if (!sym2 || sym2 === symbol) return;
         $('cmp-body').hidden = false;
-        $('cmp-table').innerHTML = '<tbody><tr><td style="text-align:left" class="faint">Loading…</td></tr></tbody>';
+        $('cmp-table').innerHTML = '<tbody><tr><td style="text-align:left" class="faint"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></td></tr></tbody>';
         try {
             const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}`);
             if (!r.ok) throw new Error('nope');
