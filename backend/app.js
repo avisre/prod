@@ -297,23 +297,28 @@ async function connectMongoWithFallback(uri) {
     connectTimeoutMS: 10000
   };
 
-  try {
-    await mongoose.connect(uri, options);
-    console.log(`MongoDB connected (${redactMongoUri(uri)})`);
-    return;
-  } catch (error) {
-    if (!String(uri || '').startsWith('mongodb+srv://') || !isMongoSrvResolutionError(error)) {
-      console.error('MongoDB connection error:', error);
-      return;
-    }
-
+  // A failed first connect must not strand the process without a database
+  // (mongoose only auto-reconnects established connections): keep retrying
+  // with capped backoff until the connection succeeds.
+  for (let attempt = 1; ; attempt++) {
     try {
-      const directUri = await expandMongoSrvUri(uri);
-      await mongoose.connect(directUri, options);
-      console.log(`MongoDB connected via SRV fallback (${redactMongoUri(directUri)})`);
-    } catch (fallbackError) {
-      console.error('MongoDB connection error:', error);
-      console.error('MongoDB SRV fallback error:', fallbackError);
+      await mongoose.connect(uri, options);
+      console.log(`MongoDB connected (${redactMongoUri(uri)})`);
+      return;
+    } catch (error) {
+      if (String(uri || '').startsWith('mongodb+srv://') && isMongoSrvResolutionError(error)) {
+        try {
+          const directUri = await expandMongoSrvUri(uri);
+          await mongoose.connect(directUri, options);
+          console.log(`MongoDB connected via SRV fallback (${redactMongoUri(directUri)})`);
+          return;
+        } catch (fallbackError) {
+          console.error('MongoDB SRV fallback error:', fallbackError);
+        }
+      }
+      const delayMs = Math.min(60000, 5000 * attempt);
+      console.error(`MongoDB connection error (attempt ${attempt}, retrying in ${delayMs / 1000}s):`, error);
+      await new Promise((resolve) => setTimeout(resolve, delayMs));
     }
   }
 }
