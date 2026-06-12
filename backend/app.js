@@ -902,7 +902,7 @@ app.get(['/company.html', '/company'], (req, res) => {
 let _screenerTpl = null;
 function screenerTpl() {
     if (_screenerTpl === null) {
-        try { _screenerTpl = fs.readFileSync(path.join(__dirname, '../frontend/screener.html'), 'utf8'); }
+        try { _screenerTpl = fs.readFileSync(path.join(__dirname, '../frontend-v2/screener.html'), 'utf8'); }
         catch (_) { _screenerTpl = ''; }
     }
     return _screenerTpl;
@@ -911,17 +911,19 @@ function renderScreenerRows() {
     const esc = (v) => String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const fmt = (v, dp) => v == null ? '—' : Number(v).toFixed(dp);
     const { rows } = aiChat.screenRows({ limit: 50, maxLimit: 50 });
-    return rows.map((r) => `<tr>
-<td><a href="/stocks/${esc(r.symbol)}">${esc(r.name)} <span class="scrn-sym">${esc(r.symbol)}</span></a></td>
-<td>${esc(r.sector)}</td>
+    // Mirrors frontend-v2/assets/screener.js render(), but with crawlable
+    // /stocks/ links — JS hydrates over these rows on load.
+    return rows.map((r) => `<tr data-sym="${esc(r.symbol)}">
+<td class="row-head"><a href="/stocks/${esc(r.symbol)}"><strong>${esc(r.symbol)}</strong>&ensp;<span class="muted">${esc(r.name)}</span></a></td>
+<td class="small muted" style="text-transform:capitalize;">${esc(String(r.sector || '').toLowerCase())}</td>
 <td>${r.marketCapB == null ? '—' : '$' + fmt(r.marketCapB, 1) + 'B'}</td>
 <td>${fmt(r.pe, 1)}</td>
-<td>${r.revCagr5Pct == null ? '—' : fmt(r.revCagr5Pct, 1) + '%'}</td>
+<td class="${r.revCagr5Pct > 0 ? 'delta-pos' : r.revCagr5Pct < 0 ? 'delta-neg' : ''}">${r.revCagr5Pct == null ? '—' : fmt(r.revCagr5Pct, 1) + '%'}</td>
 <td>${r.netMarginPct == null ? '—' : fmt(r.netMarginPct, 1) + '%'}</td>
 <td>${r.roePct == null ? '—' : fmt(r.roePct, 1) + '%'}</td>
 <td>${r.divYieldPct == null ? '—' : fmt(r.divYieldPct, 2) + '%'}</td>
-<td>${r.qtrNetIncomeYoYPct == null ? '—' : fmt(r.qtrNetIncomeYoYPct, 1) + '%'}</td>
-<td>${r.profitableYears10 == null ? '—' : r.profitableYears10}</td>
+<td class="${r.qtrNetIncomeYoYPct > 0 ? 'delta-pos' : r.qtrNetIncomeYoYPct < 0 ? 'delta-neg' : ''}">${r.qtrNetIncomeYoYPct == null ? '—' : fmt(r.qtrNetIncomeYoYPct, 0) + '%'}</td>
+<td>${r.profitableYears10 == null ? '—' : r.profitableYears10 + '/10'}</td>
 </tr>`).join('\n');
 }
 app.get(['/screener', '/screener.html'], (req, res) => {
@@ -929,7 +931,7 @@ app.get(['/screener', '/screener.html'], (req, res) => {
     if (!tpl) return res.sendFile(path.join(__dirname, '../frontend/screener.html'));
     const ssrRows = renderScreenerRows();
     const html = tpl.replace(
-        '<tr><td colspan="10" class="scrn-empty">Loading…</td></tr>',
+        '<tr><td colspan="10" style="text-align:center; padding:40px;" class="faint">Loading the universe…</td></tr>',
         ssrRows
     );
     res.set('Content-Type', 'text/html; charset=utf-8')
