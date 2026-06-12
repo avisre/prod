@@ -158,6 +158,16 @@
         </div>
       </section>
 
+      <section class="section" id="tour">
+        <div class="section-head"><h2 class="title-1">See it in 60 seconds</h2><span class="small faint">Ask, the screener and 19-year fundamentals — one minute, real product.</span></div>
+        <!-- click-to-play facade: the YouTube iframe only loads on demand,
+             so the embed costs nothing on page load and sets no cookies -->
+        <button id="tour-play" type="button" aria-label="Play the 60-second product tour"
+                style="display:block; width:100%; max-width:960px; margin:0 auto; padding:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; cursor:pointer; background:var(--surface); line-height:0;">
+          <img src="/assets/tour-poster.jpg" alt="60-second product tour video" loading="lazy" width="1280" height="720" style="width:100%; height:auto; display:block;" />
+        </button>
+      </section>
+
       <section class="section" id="pricing">
         <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint">Free plan, no card · 7-day trial on paid plans · cancel anytime</span></div>
         <div class="price-grid">
@@ -238,6 +248,16 @@
   <script>
     V2.nav('home');
     V2.footer();
+    // 60-second tour: swap the poster for the YouTube player on click.
+    document.getElementById('tour-play').addEventListener('click', function () {
+      const frame = document.createElement('iframe');
+      frame.src = 'https://www.youtube-nocookie.com/embed/pBBw0vVaBsU?autoplay=1&rel=0';
+      frame.title = '60-second product tour';
+      frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+      frame.setAttribute('allowfullscreen', '');
+      frame.style.cssText = 'display:block; width:100%; max-width:960px; margin:0 auto; aspect-ratio:16/9; border:1px solid var(--line); border-radius:var(--radius);';
+      this.replaceWith(frame);
+    }, { once: true });
     // The hero card is the real product: live AAPL story strip from the API.
     (async () => {
       try {
