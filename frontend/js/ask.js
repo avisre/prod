@@ -98,7 +98,7 @@
         </div>
         <div class="ask-msgs" id="askw-msgs">
           <div class="ask-msg ask-msg-ai">
-            <div class="ask-bubble">Ask me about any US-listed company (all ~10,400 SEC registrants — not just the S&amp;P 1500) — statements back to ~2007, ratios, health checks, screener, or your own portfolio. Every number comes from filed data, never from AI memory.</div>
+            <div class="ask-bubble">Ask me about any US-listed company that files in USD (not just the S&amp;P 1500) — statements back to ~2007, ratios, health checks, screener, or your own portfolio. Every number comes from filed data, never from AI memory.</div>
           </div>
           <div class="ask-suggestions" id="askw-suggestions"></div>
         </div>

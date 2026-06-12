@@ -110,7 +110,7 @@ const COMPETITORS = {
             ['Monthly price', '£9/mo (~$11); Pro with AI analyst £25/mo', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
             ['Data source', 'Official SEC filings, refreshed nightly', 'S&P Capital IQ (global)'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'No'],
-            ['US coverage', 'Every US-listed company (~10,400), 19 yrs', 'Global, full history on Pro'],
+            ['US coverage', 'Every USD-reporting US-listed company, 19 yrs', 'Global, full history on Pro'],
             ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, alerts', 'Yes + superinvestor tracking'],
             ['Best for', 'US-focused investors who want grounded AI + filings', 'Global coverage and guru-watching']
         ]
