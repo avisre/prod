@@ -793,6 +793,9 @@ app.get('/vs/:competitor', (req, res) => {
     if (!html) return res.redirect(302, '/');
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
+// Metric histories (/stocks/SYM/revenue), X-vs-Y comparisons (/compare/A-vs-B),
+// and screen landing pages (/screens/dividend-stocks) — see backend/seo-extra.js
+app.use(require('./seo-extra').router);
 
 // Interactive company page (/company?symbol=SYM): the data renders client-side,
 // so crawlers and link unfurlers would otherwise see only the skeleton with a

@@ -185,7 +185,13 @@ function renderStockPage(ticker) {
     const income = (data && data.income && data.income.annualReports) || [];
 
     const canonical = `${SITE}/stocks/${sym}`;
-    const title = `${name} (${sym}) Stock Fundamentals, Financials & Analysis`;
+    // Metric + year-range words are the long-tail hooks searchers actually type
+    // ("apple revenue by year", "{name} net income 2018").
+    const fyOf = (r) => String((r || {}).fiscalDateEnding || '').slice(0, 4);
+    const titleYears = income.length >= 2 ? `${fyOf(income[income.length - 1])}-${fyOf(income[0])}` : '';
+    const title = titleYears
+        ? `${name} (${sym}) Revenue, Net Income & Financials ${titleYears}`
+        : `${name} (${sym}) Stock Fundamentals, Financials & Analysis`;
     const metricBits = [
         mcap ? `Market cap ${money(mcap)}` : '',
         pe ? `P/E ${ratio(pe)}` : '',
@@ -312,6 +318,44 @@ function renderStockPage(ticker) {
                 : `${sym} does not pay a dividend based on its most recent filings.`
         });
     }
+    // PAA-style additions from data already on hand: debt, gross margin,
+    // market cap, fiscal year end.
+    const bal0 = ((data && data.balance && data.balance.annualReports) || [])[0] || {};
+    const ltd = num(bal0.longTermDebt) !== null ? num(bal0.longTermDebt) : num(bal0.longTermDebtNoncurrent);
+    const std = num(bal0.shortTermDebt) !== null ? num(bal0.shortTermDebt) : num(bal0.currentDebt);
+    if (ltd !== null || std !== null) {
+        const balFY = String(bal0.fiscalDateEnding || '').slice(0, 4) || latestFY;
+        faqs.push({
+            q: `How much debt does ${name} have?`,
+            a: `As of fiscal year ${balFY}, ${sym} carried roughly ${money((ltd || 0) + (std || 0))} in total debt (short- plus long-term borrowings), per its filed balance sheet.`
+        });
+    }
+    {
+        let gp = num(latestInc.grossProfit); if (gp === 0) gp = null;
+        let cor = num(latestInc.costOfRevenue); if (cor === 0) cor = null;
+        if (gp === null && revN !== null && cor !== null) gp = revN - cor;
+        if (gp !== null && revN) faqs.push({
+            q: `What is ${name}'s gross margin?`,
+            a: `${sym}'s gross margin was ${((gp / revN) * 100).toFixed(1)}% in fiscal ${latestFY} — gross profit of ${money(gp)} on revenue of ${money(revN)}.`
+        });
+    }
+    if (num(mcap) !== null) faqs.push({
+        q: `What is ${name}'s market cap?`,
+        a: `${name} (${sym}) has a market capitalization of about ${money(mcap)}, based on the latest data in our nightly-refreshed cache.`
+    });
+    {
+        // overview.FiscalYearEnd is blank in SEC-sourced caches — derive the
+        // month from the latest annual report's fiscalDateEnding instead.
+        const fyMonth = (() => {
+            const mIdx = parseInt(String(latestInc.fiscalDateEnding || '').slice(5, 7), 10);
+            const names = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            return (mIdx >= 1 && mIdx <= 12) ? names[mIdx - 1] : (ov.FiscalYearEnd || '');
+        })();
+        if (fyMonth) faqs.push({
+            q: `When does ${name}'s fiscal year end?`,
+            a: `${sym}'s fiscal year ends in ${fyMonth}. Its most recent annual filing covers the fiscal year ending ${latestInc.fiscalDateEnding || latestFY}.`
+        });
+    }
     faqs.push({ q: 'Where does this data come from?', a: `All figures are computed from ${name}'s official SEC filings (10-K and 10-Q), covering ${income.length} years of history, refreshed nightly. stockportfolio.pro does not provide investment advice.` });
     const faqBlock = `<div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>` +
         faqs.map((f) => `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;color:var(--text);font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('') + '</div>';
@@ -330,6 +374,17 @@ function renderStockPage(ticker) {
     const about = desc ? `<div class="seo-section"><h2>About ${esc(name)}</h2><p class="seo-about">${esc(desc)}</p></div>` : '';
     const meta = [sector, industry, exchange].filter(Boolean).map(esc).join(' &middot; ');
 
+    // Per-metric history pages (seo-extra) — linked here so crawlers discover
+    // them from every ticker page, not just the sitemap. Lazy require: this
+    // module loads before seo-extra.
+    let metricBlock = '';
+    try {
+        const extra = require('./seo-extra');
+        const links = extra.METRIC_SLUGS
+            .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(sym)} ${esc(extra.METRICS[s].label.toLowerCase())}</a>`).join('');
+        metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history by metric</h2><div class="seo-links">${links}</div></div>`;
+    } catch (_) { /* seo-extra unavailable — page renders without the block */ }
+
     return head(title, description, canonical, jsonld) + faqLdTag + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
@@ -344,6 +399,7 @@ function renderStockPage(ticker) {
     <a class="seo-cta-btn" href="/company?symbol=${esc(sym)}">Open the interactive view — free</a>
     <p style="margin-top:10px"><a href="/register?plan=monthly" style="font-size:13px">Or start a 7-day free trial to track ${esc(sym)} in your portfolio &rarr;</a></p>
   </div>
+  ${metricBlock}
   ${about}
   ${faqBlock}
   <div class="seo-section"><h2>Explore more stocks</h2>
@@ -383,9 +439,15 @@ function renderStockIndex() {
 // generates Search Console errors and wastes crawl budget.
 function buildSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/stocks', '/screener', '/ask', '/support', '/privacy', '/terms', '/sitemap', '/vs/sharesight', '/vs/stock-rover', '/vs/simply-wall-st'];
+    const staticUrls = ['/', '/stocks', '/screener', '/ask', '/support', '/privacy', '/terms', '/sitemap'];
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
+    try { // competitor comparison pages — driven by the registry, not a hardcoded list
+        require('./comparison-pages').competitors.forEach((s) => urls.push({ loc: `${SITE}/vs/${s}`, pri: '0.7' }));
+    } catch (_) { /* module unavailable */ }
     loadCompanies().forEach((c) => urls.push({ loc: `${SITE}/stocks/${c.symbol}`, pri: '0.6' }));
+    try { // metric histories, X-vs-Y comparisons, screen landing pages (seo-extra)
+        require('./seo-extra').sitemapUrls().forEach((u) => urls.push({ loc: SITE + u.loc, pri: u.pri }));
+    } catch (_) { /* seo-extra unavailable — base sitemap still valid */ }
     const body = urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority></url>`).join('\n');
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
@@ -418,4 +480,8 @@ function hasStockPage(symbol) {
     return fs.existsSync(symbolToFile(sym));
 }
 
-module.exports = { renderStockPage, renderStockIndex, buildSitemap, loadCompanies, companyName, hasStockPage };
+module.exports = {
+    renderStockPage, renderStockIndex, buildSitemap, loadCompanies, companyName, hasStockPage,
+    // shared by seo-extra.js (metric pages / compare pages / screen pages)
+    loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer
+};

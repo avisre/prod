@@ -44,6 +44,77 @@ const COMPETITORS = {
             ['Best for', 'Long-term investors who want clarity, not 50 panels', 'Power users who screen and research heavily']
         ]
     },
+    'macrotrends': {
+        name: 'Macrotrends',
+        slug: 'macrotrends',
+        blurb: 'Macrotrends is a long-running free reference site for historical stock charts and financial-statement data, with decades of history on large caps. It is a lookup tool rather than a research workspace.',
+        theirPrice: 'Free tier (ad-supported); paid subscription unlocks more data and downloads.',
+        rows: [
+            ['Price', 'Free stock pages & screener; £9/mo for the full workspace', 'Free tier with ads; paid unlocks downloads'],
+            ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, from SEC filings', 'Long histories, sourced from Zacks'],
+            ['AI research assistant', 'Yes — Ask answers from SEC filings, sources shown', 'No'],
+            ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, alerts', 'No'],
+            ['Screener', 'Free, S&P 1500, fundamentals-based', 'Free, 50+ filters'],
+            ['Workflow', 'One workspace: statements, ratios, health checks, Ask', 'Page-by-page chart lookups'],
+            ['Best for', 'Researching and tracking your own portfolio in one place', 'Quick free chart lookups']
+        ]
+    },
+    'stockanalysis': {
+        name: 'StockAnalysis.com',
+        slug: 'stockanalysis',
+        blurb: 'StockAnalysis.com is a popular free site for clean stock statistics and financial statements, with a Pro tier for deeper history and exports.',
+        theirPrice: 'Free site; Pro about $9.99/month (or $79/year), Unlimited $199/year.',
+        rows: [
+            ['Price', 'Free stock pages & screener; £9/mo full workspace', 'Free; Pro ~$9.99/mo'],
+            ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, from SEC filings', '10+ yrs free, more on Pro'],
+            ['AI research assistant', 'Yes — Ask answers from SEC filings, sources shown', 'No'],
+            ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, SEC filing alerts', 'Watchlists'],
+            ['Health checks', 'Plain-English pass/fail checks per company', 'No'],
+            ['Best for', 'Going from research to tracking an actual portfolio', 'Fast free data lookups']
+        ]
+    },
+    'koyfin': {
+        name: 'Koyfin',
+        slug: 'koyfin',
+        blurb: 'Koyfin is a professional-grade market dashboard with broad asset coverage (equities, macro, FX) aimed at advanced users and advisors.',
+        theirPrice: 'Free plan; Plus ~$39/month and Premium ~$79/month (annual billing); advisor tiers from $209/month.',
+        rows: [
+            ['Monthly price', '£9/mo (~$11); Pro with AI analyst £25/mo', 'Plus ~$39/mo, Premium ~$79/mo (annual)'],
+            ['Free / trial', 'Free screener & stock pages; 7-day trial on paid', 'Free plan with limits'],
+            ['Fundamentals depth', 'Up to 19 years, SEC-filed, with health checks', 'Deep, multi-asset, customizable dashboards'],
+            ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'Limited'],
+            ['Learning curve', 'Calm, opinionated, one workspace', 'Powerful but dashboard-heavy'],
+            ['Best for', 'Long-term US-equity investors at a fraction of the price', 'Multi-asset pros and advisors']
+        ]
+    },
+    'fiscal-ai': {
+        name: 'Fiscal.ai',
+        slug: 'fiscal-ai',
+        blurb: 'Fiscal.ai (formerly FinChat) is an AI-first stock research platform known for KPI datasets and copilot-style chat over company data.',
+        theirPrice: 'Free plan; Pro ~$39/month billed annually ($49 monthly); Max ~$79/month billed annually.',
+        rows: [
+            ['Monthly price', 'Pro with AI analyst £25/mo (~$32); Core £9/mo', 'Pro ~$39/mo, Max ~$79/mo (annual billing)'],
+            ['AI grounding', 'Answers only from SEC filings + live web, sources shown; refuses when unsure', 'AI copilot over its datasets'],
+            ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, SEC-filed', '10+ yrs, 20+ on Max; segment KPIs'],
+            ['Portfolio tracking', 'Yes — holdings, X-Ray, SEC filing alerts', 'Watchlists & dashboards'],
+            ['Free tier', 'Free screener + 1,500 free stock data pages', 'Free plan with limits'],
+            ['Best for', 'SEC-grounded answers + portfolio at half the price', 'KPI-heavy deep dives on global names']
+        ]
+    },
+    'tikr': {
+        name: 'TIKR',
+        slug: 'tikr',
+        blurb: 'TIKR is a research terminal built on S&P Capital IQ data, popular for global coverage and superinvestor portfolio tracking.',
+        theirPrice: 'Free plan (limited); Plus ~$24.95/month; Pro ~$54.95/month.',
+        rows: [
+            ['Monthly price', '£9/mo (~$11); Pro with AI analyst £25/mo', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
+            ['Data source', 'Official SEC filings, refreshed nightly', 'S&P Capital IQ (global)'],
+            ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'No'],
+            ['US coverage', 'Every US-listed company (~10,400), 19 yrs', 'Global, full history on Pro'],
+            ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, alerts', 'Yes + superinvestor tracking'],
+            ['Best for', 'US-focused investors who want grounded AI + filings', 'Global coverage and guru-watching']
+        ]
+    },
     'simply-wall-st': {
         name: 'Simply Wall St',
         slug: 'simply-wall-st',
