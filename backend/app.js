@@ -82,7 +82,10 @@ app.use((req, res, next) => {
 app.use(cors());
 app.use(helmet({
   contentSecurityPolicy: false,
-  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' }
+  crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+  // helmet's no-referrer default breaks YouTube embeds (error 153);
+  // strict-origin-when-cross-origin is the modern browser default.
+  referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
 }));
 // gzip the HTML/CSS/JS surfaces (Core Web Vitals / crawl speed). The API is
 // excluded so the AI chat's SSE stream is never buffered by the compressor.

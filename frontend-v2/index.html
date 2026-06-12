@@ -255,6 +255,9 @@
       frame.title = '60-second product tour';
       frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
       frame.setAttribute('allowfullscreen', '');
+      // YouTube refuses embeds with no referrer (error 153) — override the
+      // site-wide Referrer-Policy header for this frame.
+      frame.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.style.cssText = 'display:block; width:100%; max-width:960px; margin:0 auto; aspect-ratio:16/9; border:1px solid var(--line); border-radius:var(--radius);';
       this.replaceWith(frame);
     }, { once: true });
