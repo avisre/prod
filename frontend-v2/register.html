@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Start a 7-day free trial. Monthly £9, Annual £90, Pro £25 with the AI analyst." />
+  <meta name="description" content="Free plan, no card needed — or a 7-day trial. Monthly £9, Annual £90, Pro £25 (£190/yr) with the AI analyst." />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
   <link rel="stylesheet" href="assets/system.css" />
   <style>
-    .plan-pick { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .plan-pick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .plan-card {
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-sm);
@@ -37,6 +37,9 @@
 
       <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
         <div class="plan-pick" role="group" aria-label="Choose your plan">
+          <button type="button" class="plan-card" data-plan="free" aria-pressed="false">
+            <span class="plan-name">Free</span><span class="plan-price">£0</span><span class="plan-tag">No card needed</span>
+          </button>
           <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">
             <span class="plan-name">Monthly</span><span class="plan-price">£9/mo</span><span class="plan-tag">Cancel anytime</span>
           </button>
@@ -44,9 +47,15 @@
             <span class="plan-name">Annual</span><span class="plan-price">£90/yr</span><span class="plan-tag">Save £18</span>
           </button>
           <button type="button" class="plan-card" data-plan="pro" aria-pressed="false">
-            <span class="plan-name">Pro</span><span class="plan-price">£25/mo</span><span class="plan-tag">AI analyst</span>
+            <span class="plan-name">Pro</span><span class="plan-price">£25/mo</span><span class="plan-tag">AI analyst · £190/yr</span>
           </button>
         </div>
+        <p class="small muted" id="pro-annual-row" hidden style="margin:-8px 0 0;">
+          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="checkbox" id="pro-annual-toggle" style="accent-color:var(--ink);" />
+            <span>Bill Pro yearly — <strong>£190/yr</strong> (save £110 vs monthly)</span>
+          </label>
+        </p>
         <div id="social-shell" hidden style="display:grid; gap:10px;">
           <div id="google-btn"></div>
           <p class="small muted" id="social-status" role="status" aria-live="polite" hidden></p>
@@ -61,7 +70,7 @@
         <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
         <button class="btn btn-primary" type="submit" id="submit">Start 7-day free trial</button>
         <p class="small delta-neg" id="error" role="alert" hidden></p>
-        <p class="small faint" style="margin:0;">Card added at checkout, nothing charged during the trial. By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+        <p class="small faint" style="margin:0;"><span id="card-note">Card added at checkout, nothing charged during the trial.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
       </form>
       <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
     </div>
@@ -71,19 +80,31 @@
   <script>
     V2.nav('register');
     const SUMMARY = {
+      free: ['Free forever — screener, a 10-company watchlist and 3 Ask questions a month. No card.', 'Create free account'],
       monthly: ['7-day free trial, then £9/month. Cancel anytime.', 'Start 7-day free trial'],
       annual: ['£90 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
-      pro: ['7-day free trial, then £25/month — includes the AI analyst.', 'Start Pro free trial']
+      pro: ['7-day free trial, then £25/month — includes the AI analyst.', 'Start Pro free trial'],
+      'pro-annual': ['£190 billed today, renews yearly — save £110 versus Pro monthly.', 'Continue to Pro Annual checkout']
     };
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
     if (!SUMMARY[plan]) plan = 'monthly';
+    const cardPlan = (p) => (p === 'pro-annual' ? 'pro' : p); // annual Pro highlights the Pro card
     function syncPlan() {
-      document.querySelectorAll('.plan-card').forEach((b) => b.setAttribute('aria-pressed', b.dataset.plan === plan));
+      document.querySelectorAll('.plan-card').forEach((b) => b.setAttribute('aria-pressed', b.dataset.plan === cardPlan(plan)));
       document.getElementById('plan-summary').textContent = SUMMARY[plan][0];
       document.getElementById('submit').textContent = SUMMARY[plan][1];
+      const row = document.getElementById('pro-annual-row');
+      row.hidden = cardPlan(plan) !== 'pro';
+      document.getElementById('pro-annual-toggle').checked = plan === 'pro-annual';
+      document.getElementById('card-note').textContent = plan === 'free'
+        ? 'No card required.'
+        : 'Card added at checkout, nothing charged during the trial.';
     }
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
+    document.getElementById('pro-annual-toggle').addEventListener('change', (e) => {
+      plan = e.target.checked ? 'pro-annual' : 'pro'; syncPlan();
+    });
     syncPlan();
 
     // Post-checkout return (works pre- and post-cutover): Stripe sends the
@@ -167,6 +188,12 @@
           })
         });
         const data = await r.json().catch(() => ({}));
+        if (r.ok && data.plan === 'free' && data.token) {
+          // Free plan: no checkout — straight into the product.
+          localStorage.setItem('token', data.token);
+          location.href = '/dashboard.html';
+          return;
+        }
         if (r.ok && data.url) {
           // Same handoff key v1 uses — whichever register page Stripe returns
           // to can auto-login once the webhook activates the subscription.

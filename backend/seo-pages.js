@@ -356,6 +356,26 @@ function renderStockPage(ticker) {
             a: `${sym}'s fiscal year ends in ${fyMonth}. Its most recent annual filing covers the fiscal year ending ${latestInc.fiscalDateEnding || latestFY}.`
         });
     }
+    // Reverse DCF — "what growth is priced in" (unique crawlable angle: the
+    // anti-black-box valuation block; assumptions stated inline).
+    let rdcfBlock = '';
+    try {
+        const rd = require('./reverse-dcf').computeFromData(sym, data);
+        if (rd && !rd.error && rd.impliedGrowthPct !== null) {
+            const a = rd.assumptions; const rec = rd.record || {};
+            const recBits = [
+                rec.fcfCagr5Pct !== null ? `free cash flow actually grew ${rec.fcfCagr5Pct}%/yr over the last five fiscal years` : '',
+                rec.revCagr5Pct !== null ? `revenue ${rec.revCagr5Pct}%/yr` : ''
+            ].filter(Boolean).join(' and ');
+            const sentence = `At today's market cap of ${money(rd.marketCap)}, ${name} is priced for free-cash-flow growth of about ${rd.impliedGrowthPct}% per year for ${a.horizonYears} years (assuming a ${a.discountRatePct}% discount rate and ${a.terminalGrowthPct}% terminal growth, base FCF ${money(rd.fcfBase)} from the ${rd.fcfBasis}).${recBits ? ` For comparison, ${recBits}, computed from its SEC filings.` : ''}`;
+            rdcfBlock = `<div class="seo-section"><h2>What growth is priced into ${esc(sym)} stock?</h2>
+              <p style="margin:0;color:var(--text);font-size:14px;line-height:1.7;max-width:74ch">${esc(sentence)} This is a reverse DCF — a translation of the price into a growth assumption you can judge, not a fair value and not advice. <a href="/company?symbol=${esc(sym)}">Change the assumptions yourself in the interactive view &rarr;</a></p></div>`;
+            faqs.push({
+                q: `What growth is priced into ${sym} stock?`,
+                a: sentence
+            });
+        }
+    } catch (_) { /* page renders without the block */ }
     faqs.push({ q: 'Where does this data come from?', a: `All figures are computed from ${name}'s official SEC filings (10-K and 10-Q), covering ${income.length} years of history, refreshed nightly. stockportfolio.pro does not provide investment advice.` });
     const faqBlock = `<div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>` +
         faqs.map((f) => `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;color:var(--text);font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('') + '</div>';
@@ -393,6 +413,7 @@ function renderStockPage(ticker) {
   <div class="seo-grid">${tiles}</div>
   ${teaserTable}
   ${healthBlock}
+  ${rdcfBlock}
   <div class="seo-lock">
     <h3>Explore ${esc(String(income.length))} years of ${esc(name)} financials — interactive</h3>
     <p>Full income statement, balance sheet and cash flow with CAGR and trend on every row, 48 quarters, valuation ratios, plain-English health checks, and Ask — our SEC-grounded research assistant.</p>

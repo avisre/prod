@@ -90,6 +90,17 @@
 
       <hr class="section-rule" />
 
+      <!-- ③a Filing Diff — what changed vs the prior filing (Pro) -->
+      <section id="filing-diff" hidden>
+        <div class="section-head" style="margin-bottom:12px;">
+          <h2 class="title-2">What changed</h2>
+          <span class="small faint" id="fdiff-sub">newest 10-K/10-Q vs the one before it</span>
+        </div>
+        <div id="fdiff-body"></div>
+      </section>
+
+      <hr class="section-rule" id="fdiff-rule" hidden />
+
       <!-- ④ Peers + compare -->
       <section id="peers-section" hidden>
         <div class="section-head">
@@ -158,6 +169,17 @@
       </section>
 
       <hr class="section-rule" />
+
+      <!-- ⑥b What's priced in — reverse DCF vs the filed record -->
+      <section id="rdcf-section" hidden>
+        <div class="section-head" style="margin-bottom:12px;">
+          <h2 class="title-2">What's priced in</h2>
+          <span class="small faint">reverse DCF — every input shown, all of them yours to change</span>
+        </div>
+        <div id="rdcf-body"></div>
+      </section>
+
+      <hr class="section-rule" id="rdcf-rule" hidden />
 
       <!-- ⑦ Ratios -->
       <section id="duo-section">

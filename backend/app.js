@@ -21,16 +21,39 @@ const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const xray = require('./xray');
 const watchdog = require('./watchdog');
+const reverseDcf = require('./reverse-dcf');
 require('dotenv').config();
 
-// Pro-tier gate. AI_PRO_FOR_ALL=true (default) gives every active subscriber the
-// AI features now; set it to 'false' once a paid Pro plan is live to restrict
-// the AI assistant to Pro subscribers only.
-const AI_PRO_FOR_ALL = process.env.AI_PRO_FOR_ALL !== 'false';
+// Tier ladder: free < core < pro.
+//   free — no card: screener/SEO (public anyway), watchlist (capped), a taste of Ask.
+//   core — any active paying plan (monthly/annual): portfolio, fundamentals, alerts, X-Ray.
+//   pro  — pro / pro-annual: full Ask quota + AI intelligence features.
+// AI_PRO_FOR_ALL=true lifts every active paying subscriber to pro (the legacy
+// behavior, useful for grandfathering early subscribers); default is false now
+// that the Pro tier has real teeth (Filing Diff, attribution, smart alerts,
+// wash-sale guard, segments, insights, 300 Ask).
+const AI_PRO_FOR_ALL = process.env.AI_PRO_FOR_ALL === 'true';
+function userTier(user, subscription) {
+    const sub = subscription || (user && user.subscription) || {};
+    const planId = sub.planId || '';
+    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    if (active && (planId === 'pro' || planId === 'pro-annual')) return 'pro';
+    if (active && planId !== 'free') return AI_PRO_FOR_ALL ? 'pro' : 'core';
+    if (active && planId === 'free') return 'free';
+    // pending / cancelled / expired: prod downgrades to the free tier instead
+    // of a blanket 402; dev (REQUIRE_ACTIVE_SUBSCRIPTION unset) stays permissive.
+    return REQUIRE_ACTIVE_SUBSCRIPTION ? 'free' : (AI_PRO_FOR_ALL ? 'pro' : 'core');
+}
 function isProUser(req) {
-    if (AI_PRO_FOR_ALL) return true;
-    const planId = (req.subscription && req.subscription.planId) || (req.user && req.user.subscription && req.user.subscription.planId);
-    return planId === 'pro' || planId === 'pro-annual';
+    return (req.tier || userTier(req.user, req.subscription)) === 'pro';
+}
+function coreGate(req, res, next) {
+    const tier = req.tier || userTier(req.user, req.subscription);
+    if (tier === 'core' || tier === 'pro') return next();
+    return res.status(402).json({
+        message: 'This feature needs a subscription. Start a free trial to unlock it.',
+        code: 'SUBSCRIPTION_REQUIRED'
+    });
 }
 function proGate(req, res, next) {
     if (isProUser(req)) return next();
@@ -92,11 +115,14 @@ const EXPECTED_STRIPE_ACCOUNT_ID = process.env.STRIPE_ACCOUNT_ID || 'acct_1TDj4g
 const MONTHLY_PLAN_ID = 'monthly';
 const ANNUAL_PLAN_ID = 'annual';
 const PRO_PLAN_ID = 'pro';
+const PRO_ANNUAL_PLAN_ID = 'pro-annual';
+const FREE_PLAN_ID = 'free';
 const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '9.00');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'GBP';
 const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '90.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
 const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '190.00');
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
@@ -107,6 +133,7 @@ const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID || '';
 const STRIPE_PRICE_ID_MONTHLY = process.env.STRIPE_PRICE_ID_MONTHLY || STRIPE_PRICE_ID || '';
 const STRIPE_PRICE_ID_ANNUAL = process.env.STRIPE_PRICE_ID_ANNUAL || '';
 const STRIPE_PRICE_ID_PRO = process.env.STRIPE_PRICE_ID_PRO || '';
+const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || '';
@@ -293,6 +320,12 @@ async function connectMongoWithFallback(uri) {
 
 function normalizePlanSelection(value) {
   const plan = String(value || '').trim().toLowerCase();
+  if (plan === FREE_PLAN_ID) {
+    return FREE_PLAN_ID;
+  }
+  if (plan === PRO_ANNUAL_PLAN_ID || plan === 'proannual' || plan === 'pro-yearly' || plan === 'pro-year') {
+    return PRO_ANNUAL_PLAN_ID;
+  }
   if (plan === ANNUAL_PLAN_ID || plan === 'year' || plan === 'yearly') {
     return ANNUAL_PLAN_ID;
   }
@@ -307,6 +340,28 @@ function normalizePlanSelection(value) {
 
 function getPlanConfig(value) {
   const planId = normalizePlanSelection(value);
+  if (planId === FREE_PLAN_ID) {
+    return {
+      planId: FREE_PLAN_ID,
+      planName: 'Free',
+      billingInterval: 'month',
+      price: 0,
+      currency: CORE_PLAN_CURRENCY,
+      stripePriceId: null,
+      trialDays: 0
+    };
+  }
+  if (planId === PRO_ANNUAL_PLAN_ID) {
+    return {
+      planId: PRO_ANNUAL_PLAN_ID,
+      planName: 'Pro Annual',
+      billingInterval: 'year',
+      price: PRO_ANNUAL_PLAN_PRICE,
+      currency: CORE_PLAN_CURRENCY,
+      stripePriceId: STRIPE_PRICE_ID_PRO_ANNUAL,
+      trialDays: 0
+    };
+  }
   if (planId === ANNUAL_PLAN_ID) {
     return {
       planId: ANNUAL_PLAN_ID,
@@ -343,6 +398,9 @@ function getPlanConfig(value) {
 function getPlanConfigByPriceId(priceId) {
   if (priceId && priceId === STRIPE_PRICE_ID_ANNUAL) {
     return getPlanConfig(ANNUAL_PLAN_ID);
+  }
+  if (priceId && priceId === STRIPE_PRICE_ID_PRO_ANNUAL) {
+    return getPlanConfig(PRO_ANNUAL_PLAN_ID);
   }
   if (priceId && priceId === STRIPE_PRICE_ID_PRO) {
     return getPlanConfig(PRO_PLAN_ID);
@@ -1316,17 +1374,6 @@ async function authMiddleware(req, res, next) {
         }
 
         const normalized = ensureSubscriptionShape(user);
-        if (REQUIRE_ACTIVE_SUBSCRIPTION && !subscriptionIsActive(user.subscription)) {
-            if (user.isModified('subscription')) {
-                await user.save().catch(() => {});
-            }
-            return res.status(402).json({
-                message: 'An active subscription is required to use the app.',
-                code: 'SUBSCRIPTION_REQUIRED',
-                subscription: normalized
-            });
-        }
-
         if (user.isModified('subscription')) {
             await user.save().catch(() => {});
         }
@@ -1334,6 +1381,10 @@ async function authMiddleware(req, res, next) {
         req.userId = user._id;
         req.user = user;
         req.subscription = normalized;
+        // free / core / pro — an expired or never-started subscription now
+        // downgrades to the free tier (coreGate/proGate 402 on gated routes)
+        // instead of locking the whole API behind a blanket 402.
+        req.tier = userTier(user, normalized);
         next();
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -1387,7 +1438,7 @@ app.post('/api/subscribe', async (req, res) => {
         );
     }
 
-    if (!stripe) {
+    if (!stripe && planConfig.planId !== FREE_PLAN_ID) {
         return sendApiError(
             res,
             createHttpError(
@@ -1431,12 +1482,26 @@ app.post('/api/subscribe', async (req, res) => {
         user.subscription.activatedAt = null;
         user.subscription.renewedAt = null;
         user.subscription.lastPaymentAt = null;
+        // Free plan: no card, no checkout — the account is live immediately.
+        if (planConfig.planId === FREE_PLAN_ID) {
+            user.subscription.status = 'active';
+            user.subscription.activatedAt = new Date();
+            user.subscription.trialEndsAt = null;
+        }
         user.markModified('subscription');
         await user.save();
 
         // New signup: send onboarding email + owner notification (fire-and-forget).
         sendNewUserEmails({ name: displayName, email: normalizedEmail, plan: planConfig.planName })
             .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+
+        if (planConfig.planId === FREE_PLAN_ID) {
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalizeSubscription(user.subscription),
+                plan: FREE_PLAN_ID
+            });
+        }
 
         const session = await createCheckoutSessionForUser(user, {
             req,
@@ -1624,6 +1689,22 @@ app.post('/api/auth/social', async (req, res) => {
             });
         }
 
+        // Free plan via social sign-in: activate immediately, no checkout.
+        if (planConfig.planId === FREE_PLAN_ID) {
+            applyPlanToSubscription(user, FREE_PLAN_ID);
+            user.subscription.status = 'active';
+            user.subscription.activatedAt = new Date();
+            user.subscription.trialEndsAt = null;
+            user.markModified('subscription');
+            await user.save();
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalizeSubscription(user.subscription),
+                created,
+                provider
+            });
+        }
+
         if (!stripe) {
             return res.status(402).json({
                 message: 'An active subscription is required to use the app.',
@@ -1746,17 +1827,8 @@ app.post('/api/login', async (req, res) => {
             }
         }
 
-        if (REQUIRE_ACTIVE_SUBSCRIPTION && !subscriptionIsActive(user.subscription)) {
-            if (user.isModified('subscription')) {
-                await user.save().catch(() => {});
-            }
-            return res.status(402).json({
-                message: 'An active subscription is required to log in. Please complete payment.',
-                code: 'SUBSCRIPTION_REQUIRED',
-                subscription: normalized
-            });
-        }
-
+        // Expired/pending subscriptions still log in — they land on the free
+        // tier and coreGate'd routes prompt the upgrade.
         if (user.isModified('subscription')) {
             await user.save().catch(() => {});
         }
@@ -1842,7 +1914,8 @@ app.get('/api/session', authMiddleware, async (req, res) => {
         res.json({
             ok: true,
             profile,
-            subscription
+            subscription,
+            tier: req.tier
         });
     } catch (error) {
         console.error('/api/session error:', error);
@@ -1918,7 +1991,7 @@ app.get('/api/alpha/search', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/api/alpha/time-series/daily', authMiddleware, async (req, res) => {
+app.get('/api/alpha/time-series/daily', authMiddleware, coreGate, async (req, res) => {
     const symbol = safeUpper(req.query.symbol);
     const outputsize = (req.query.outputsize || 'compact').toString();
     if (!symbol) {
@@ -1974,7 +2047,7 @@ app.get('/api/market/strip', async (req, res) => {
     }
 });
 
-app.get('/api/alpha/time-series/monthly', authMiddleware, async (req, res) => {
+app.get('/api/alpha/time-series/monthly', authMiddleware, coreGate, async (req, res) => {
     const symbol = safeUpper(req.query.symbol);
     if (!symbol) {
         return res.status(400).json({ message: 'symbol is required' });
@@ -1987,7 +2060,7 @@ app.get('/api/alpha/time-series/monthly', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/api/alpha/fundamentals/:symbol', authMiddleware, async (req, res) => {
+app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) {
         return res.status(400).json({ message: 'symbol is required' });
@@ -2027,7 +2100,7 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, async (req, res) => {
 // Lightweight quote-only endpoint. Used by the frontend to overlay a
 // fresh price on top of a locally-cached fundamentals payload (the static
 // cache skips GLOBAL_QUOTE on purpose since it's live data).
-app.get('/api/alpha/quote/:symbol', authMiddleware, async (req, res) => {
+app.get('/api/alpha/quote/:symbol', authMiddleware, coreGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
@@ -2038,7 +2111,7 @@ app.get('/api/alpha/quote/:symbol', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/api/alpha/movers', authMiddleware, async (req, res) => {
+app.get('/api/alpha/movers', authMiddleware, coreGate, async (req, res) => {
     try {
         const data = await fetchAlphaCached('TOP_GAINERS_LOSERS', {}, ALPHA_CACHE_TTL_MS.quote);
         res.json(data);
@@ -2047,7 +2120,7 @@ app.get('/api/alpha/movers', authMiddleware, async (req, res) => {
     }
 });
 
-app.get('/api/alpha/news', authMiddleware, async (req, res) => {
+app.get('/api/alpha/news', authMiddleware, coreGate, async (req, res) => {
     const tickers = (req.query.tickers || '').toString().trim();
     const topics = (req.query.topics || '').toString().trim();
     const limit = (req.query.limit || '40').toString().trim();
@@ -2111,7 +2184,7 @@ function portfolioOwnerId(req) {
     return req.userId;
 }
 
-app.get('/api/portfolio', authMiddleware, async (req, res) => {
+app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
         const portfolio = await Stock.find({ user: ownerId });
@@ -2140,7 +2213,7 @@ app.get('/api/portfolio', authMiddleware, async (req, res) => {
 // make at most ~2 model calls per user per day.
 const _briefingCache = new Map(); // userId -> { at, payload }
 const BRIEFING_TTL_MS = 12 * 60 * 60 * 1000;
-app.get('/api/portfolio/briefing', authMiddleware, async (req, res) => {
+app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
         const cacheKey = String(ownerId);
@@ -2229,13 +2302,13 @@ app.post('/api/ai/chat', authMiddleware, async (req, res) => {
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     try {
         const userId = portfolioOwnerId(req);
-        const limit = aiChat.limits(isProUser(req));
+        const limit = aiChat.limits(req.tier);
         const used = await aiChat.getUsage(userId);
         if (used >= limit) {
             return res.status(429).json({
                 message: isProUser(req)
                     ? `You've used all ${limit} Ask queries this month — the counter resets on the 1st.`
-                    : `You've used your ${limit} free Ask queries this month. Upgrade to Pro for ${aiChat.limits(true)} a month.`,
+                    : `You've used your ${limit} Ask queries this month. Upgrade for ${aiChat.limits(req.tier === 'free' ? 'core' : 'pro')} a month.`,
                 code: 'ASK_QUOTA', quota: { used, limit, remaining: 0 }
             });
         }
@@ -2307,7 +2380,7 @@ app.post('/api/ai/chat', authMiddleware, async (req, res) => {
 // ----- Portfolio X-Ray: look-through fundamentals of the whole portfolio -----
 const _xrayCache = new Map(); // userId -> { at, payload }
 const XRAY_TTL_MS = 60 * 60 * 1000;
-app.get('/api/portfolio/xray', authMiddleware, async (req, res) => {
+app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
         const key = String(ownerId);
@@ -2332,6 +2405,71 @@ app.get('/api/portfolio/xray', authMiddleware, async (req, res) => {
     }
 });
 
+// ----- Wash-sale guard: cross-account tax-lot intelligence (Pro) -----
+const washSale = require('./wash-sale');
+app.post('/api/tax/import', authMiddleware, proGate, async (req, res) => {
+    try {
+        const result = await washSale.importCsv(portfolioOwnerId(req), req.body || {});
+        res.json(result);
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(Number(error.status) || 500).json({ message: error.message || 'Import failed' });
+    }
+});
+
+app.get('/api/tax/accounts', authMiddleware, proGate, async (req, res) => {
+    try {
+        res.json({ accounts: await washSale.listAccounts(portfolioOwnerId(req)) });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Accounts load failed' });
+    }
+});
+
+app.delete('/api/tax/accounts/:account', authMiddleware, proGate, async (req, res) => {
+    try {
+        await washSale.deleteAccount(portfolioOwnerId(req), decodeURIComponent(req.params.account));
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Delete failed' });
+    }
+});
+
+app.get('/api/tax/wash-sales', authMiddleware, proGate, async (req, res) => {
+    try {
+        res.json(await washSale.washReport(portfolioOwnerId(req)));
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Wash-sale report failed' });
+    }
+});
+
+app.get('/api/tax/wash-check', authMiddleware, proGate, async (req, res) => {
+    try {
+        res.json(await washSale.preTradeCheck(portfolioOwnerId(req), req.query.symbol));
+    } catch (error) {
+        res.status(Number(error.status) || 500).json({ message: error.message || 'Check failed' });
+    }
+});
+
+// ----- Movement attribution: why the portfolio moved today (Pro) -----
+const attribution = require('./attribution');
+const _attribCache = new Map(); // userId -> { at, payload }
+const ATTRIB_TTL_MS = 20 * 60 * 1000;
+app.get('/api/portfolio/attribution', authMiddleware, proGate, async (req, res) => {
+    try {
+        const userId = String(portfolioOwnerId(req));
+        const hit = _attribCache.get(userId);
+        if (hit && Date.now() - hit.at < ATTRIB_TTL_MS) return res.json(hit.payload);
+        const holdings = (await Stock.find({ user: userId })).map((s) => s.toObject());
+        const payload = await attribution.computeAttribution(holdings);
+        _attribCache.set(userId, { at: Date.now(), payload });
+        if (_attribCache.size > 500) _attribCache.delete(_attribCache.keys().next().value);
+        res.json(payload);
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Attribution failed' });
+    }
+});
+
 // ----- Alerts (Filing Watchdog + health-check flips, see backend/watchdog.js) -----
 app.get('/api/alerts', authMiddleware, async (req, res) => {
     try {
@@ -2350,6 +2488,36 @@ app.post('/api/alerts/seen', authMiddleware, async (req, res) => {
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
         res.status(500).json({ message: error.message || 'Alerts update failed' });
+    }
+});
+
+// ----- Alert rules: user valuation thresholds (Pro, see backend/smart-alerts.js) -----
+const smartAlerts = require('./smart-alerts');
+app.get('/api/alert-rules', authMiddleware, proGate, async (req, res) => {
+    try {
+        res.json({ rules: await smartAlerts.listRules(portfolioOwnerId(req)) });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Rules load failed' });
+    }
+});
+
+app.post('/api/alert-rules', authMiddleware, proGate, async (req, res) => {
+    try {
+        const rule = await smartAlerts.createRule(portfolioOwnerId(req), req.body || {});
+        res.status(201).json({ rule });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(Number(error.status) || 500).json({ message: error.message || 'Rule create failed' });
+    }
+});
+
+app.delete('/api/alert-rules/:id', authMiddleware, proGate, async (req, res) => {
+    try {
+        await smartAlerts.deleteRule(portfolioOwnerId(req), req.params.id);
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Rule delete failed' });
     }
 });
 
@@ -2395,10 +2563,21 @@ app.get('/api/watchlist', authMiddleware, async (req, res) => {
     }
 });
 
+const FREE_WATCHLIST_CAP = parseInt(process.env.FREE_WATCHLIST_CAP || '10', 10);
 app.post('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol || !/^[A-Z0-9.\-]{1,10}$/.test(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
+        if (req.tier === 'free') {
+            const existing = await Watchlist.findOne({ user: portfolioOwnerId(req) }).lean();
+            const symbols = (existing && existing.symbols) || [];
+            if (!symbols.includes(symbol) && symbols.length >= FREE_WATCHLIST_CAP) {
+                return res.status(402).json({
+                    message: `The free plan tracks up to ${FREE_WATCHLIST_CAP} companies. Upgrade to keep adding.`,
+                    code: 'SUBSCRIPTION_REQUIRED'
+                });
+            }
+        }
         const doc = await Watchlist.findOneAndUpdate(
             { user: portfolioOwnerId(req) },
             { $addToSet: { symbols: symbol } },
@@ -2482,6 +2661,31 @@ app.get('/api/company/:symbol/insider-history', async (req, res) => {
     }
 });
 
+// ----- Reverse DCF: the growth rate today's price implies, vs the record -----
+const _rdcfCache = new Map(); // SYM|r|tg|base -> { at, payload }
+const RDCF_TTL_MS = 60 * 60 * 1000;
+app.get('/api/company/:symbol/reverse-dcf', authMiddleware, coreGate, async (req, res) => {
+    try {
+        const symbol = safeUpper(req.params.symbol);
+        if (!symbol || !/^[A-Z0-9.\-]{1,10}$/.test(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
+        const opts = {
+            discountRatePct: req.query.r,
+            terminalGrowthPct: req.query.tg,
+            base: req.query.base
+        };
+        const key = `${symbol}|${opts.discountRatePct || ''}|${opts.terminalGrowthPct || ''}|${opts.base || ''}`;
+        const hit = _rdcfCache.get(key);
+        if (hit && Date.now() - hit.at < RDCF_TTL_MS) return res.json(hit.payload);
+        const payload = await reverseDcf.computeReverseDcf(symbol, opts);
+        if (payload.error) return res.status(404).json({ message: payload.error });
+        _rdcfCache.set(key, { at: Date.now(), payload });
+        if (_rdcfCache.size > 500) _rdcfCache.delete(_rdcfCache.keys().next().value);
+        res.json(payload);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Reverse DCF failed' });
+    }
+});
+
 // Insights — connected, decision-relevant analysis from a deterministic
 // fact pack (Pro: this is the synthesized intelligence tier).
 const insights = require('./insights');
@@ -2544,6 +2748,28 @@ app.get('/api/company/:symbol/segments', authMiddleware, proGate, async (req, re
     }
 });
 
+// Filing Diff — what changed in the newest 10-K/10-Q vs the prior one (Pro).
+// First call per filing pair fetches both documents and runs the comparison
+// (~30-60s); after that it's served from the Mongo cache.
+const filingDiff = require('./filing-diff');
+const _diffInflight = new Map(); // SYM -> Promise (collapse concurrent first hits)
+app.get('/api/company/:symbol/filing-diff', authMiddleware, proGate, async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    try {
+        let p = _diffInflight.get(symbol);
+        if (!p) {
+            p = filingDiff.computeFilingDiff(symbol).finally(() => _diffInflight.delete(symbol));
+            _diffInflight.set(symbol, p);
+        }
+        const result = await p;
+        if (result.error) return res.status(404).json({ message: result.error });
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Filing comparison failed' });
+    }
+});
+
 // Quota peek so the UI can show "3 of 5 free questions left" before asking.
 // Thumbs on an Ask answer — stored for quality review, nothing else.
 app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
@@ -2563,15 +2789,15 @@ app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
 
 app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
     try {
-        const limit = aiChat.limits(isProUser(req));
+        const limit = aiChat.limits(req.tier);
         const used = await aiChat.getUsage(portfolioOwnerId(req));
-        res.json({ used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req) });
+        res.json({ used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req), tier: req.tier });
     } catch (error) {
         res.status(500).json({ message: error.message || 'Quota check failed' });
     }
 });
 
-app.post('/api/portfolio', authMiddleware, async (req, res) => {
+app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     const { symbol, name, shares, purchaseDate, purchasePrice } = req.body;
     try {
         if (!symbol || !shares) {
@@ -2616,7 +2842,7 @@ app.post('/api/portfolio', authMiddleware, async (req, res) => {
     }
 });
 
-app.delete('/api/portfolio/:id', authMiddleware, async (req, res) => {
+app.delete('/api/portfolio/:id', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
         const stock = await Stock.findOneAndDelete({ _id: req.params.id, user: ownerId });

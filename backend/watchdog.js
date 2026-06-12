@@ -34,7 +34,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const AlertSchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
   symbol: { type: String, required: true },
-  type: { type: String, enum: ['filing', 'health-flip'], required: true },
+  type: { type: String, enum: ['filing', 'health-flip', 'insider-cluster', 'dividend-risk', 'threshold', 'filing-diff'], required: true },
   title: { type: String, required: true },
   detail: { type: String, default: '' },
   url: { type: String, default: '' },
@@ -127,6 +127,31 @@ async function scanSymbolFilings(symbol, holderIds) {
         url: f.url
       });
     }
+    // Fresh 10-K/10-Q: compute the what-changed diff in the background and
+    // alert Pro holders with the headline. Fire-and-forget — the sweep never
+    // waits on document fetches + the model.
+    const reportForm = fresh.find((f) => f.form === '10-K' || f.form === '10-Q');
+    if (reportForm) {
+      (async () => {
+        try {
+          const filingDiff = require('./filing-diff'); // lazy: avoids load cycle
+          const smartAlerts = require('./smart-alerts');
+          const diff = await filingDiff.computeFilingDiff(symbol);
+          if (diff && !diff.error && diff.headline) {
+            const ids = await smartAlerts.proFilter(holderIds);
+            if (ids.length) {
+              await createAlerts(ids, {
+                symbol,
+                type: 'filing-diff',
+                title: `${symbol}: what changed in the new ${reportForm.form} (${reportForm.date})`,
+                detail: diff.headline,
+                url: `/company.html?symbol=${encodeURIComponent(symbol)}#filing-diff`
+              });
+            }
+          }
+        } catch (_) { /* diff alert is enrichment */ }
+      })();
+    }
   }
   state.seenAccessions = [...new Set([...seen, ...filings.map((f) => f.accession)])].slice(-200);
   state.filingsCheckedAt = new Date();
@@ -186,12 +211,16 @@ async function scan() {
       holders.get(sym).add(String(h.user));
     }
     symbols = [...holders.keys()];
+    const smartAlerts = require('./smart-alerts'); // lazy: avoids cycles at module load
     for (const symbol of symbols) {
       const ids = [...holders.get(symbol)];
       try { await scanSymbolFilings(symbol, ids); } catch (_) { /* per-symbol fail-open */ }
       try { await scanSymbolHealth(symbol, ids); } catch (_) { /* per-symbol fail-open */ }
+      try { await smartAlerts.scanInsiderCluster(symbol, ids, createAlerts); } catch (_) { /* fail-open */ }
+      try { await smartAlerts.scanDividendRisk(symbol, ids, createAlerts); } catch (_) { /* fail-open */ }
       await sleep(SYMBOL_THROTTLE_MS);
     }
+    try { await smartAlerts.scanRules(createAlerts); } catch (_) { /* fail-open */ }
     return { symbols: symbols.length, ms: Date.now() - startedAt };
   } finally {
     running = false;
@@ -267,4 +296,4 @@ async function fetchFilingsDeep(symbol, forms, perFormCap = {}) {
   return out;
 }
 
-module.exports = { start, scan, listAlerts, markSeen, fetchRecentFilings, fetchFilingsDeep, FORM_LABEL };
+module.exports = { start, scan, listAlerts, markSeen, fetchRecentFilings, fetchFilingsDeep, FORM_LABEL, createAlerts, Alert, WatchState };

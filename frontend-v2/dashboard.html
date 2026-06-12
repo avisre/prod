@@ -65,10 +65,62 @@
           </div>
         </section>
 
+        <!-- Why it moved today (Pro) -->
+        <section class="section" id="attrib-section" hidden>
+          <div class="section-head"><h2 class="title-2">Why it moved today</h2><span class="small faint" id="attrib-sub"></span></div>
+          <div id="attrib-body"></div>
+        </section>
+
         <!-- Alerts -->
         <section class="section" id="alerts-section" hidden>
           <div class="section-head"><h2 class="title-2">What changed</h2><span class="small faint" id="alerts-sub"></span></div>
           <div id="alerts-list" style="display:grid; gap:8px;"></div>
+        </section>
+
+        <!-- Alert rules: your own valuation thresholds, checked on the sweep -->
+        <section class="section" id="rules-section" hidden>
+          <div class="section-head"><h2 class="title-2">Alert rules</h2><span class="small faint">your valuation thresholds — checked against nightly-refreshed filings data</span></div>
+          <div id="rules-list" style="display:grid; gap:8px;"></div>
+          <form id="rule-form" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; align-items:center;">
+            <input class="input" id="rule-sym" placeholder="Ticker" style="width:90px;" required aria-label="Ticker" />
+            <select class="input" id="rule-metric" style="width:180px;" aria-label="Metric">
+              <option value="pe">P/E</option>
+              <option value="divYieldPct">Dividend yield %</option>
+              <option value="marketCapB">Market cap ($B)</option>
+              <option value="revCagr5Pct">Revenue CAGR 5y %</option>
+            </select>
+            <select class="input" id="rule-op" style="width:130px;" aria-label="Direction">
+              <option value="lt">drops below</option>
+              <option value="gt">rises above</option>
+            </select>
+            <input class="input" id="rule-val" type="number" step="any" style="width:100px;" required placeholder="Value" aria-label="Value" />
+            <button class="btn btn-ghost btn-sm" type="submit">Add rule</button>
+            <span class="small faint" id="rule-msg" role="status"></span>
+          </form>
+        </section>
+
+        <!-- Wash-sale guard: cross-account tax-lot intelligence (Pro) -->
+        <section class="section" id="wash-section" hidden>
+          <div class="section-head"><h2 class="title-2">Wash-sale guard</h2><span class="small faint">your brokers each see only their own accounts — this sees all of them</span></div>
+          <div id="wash-accounts" class="small muted" style="margin-bottom:10px;"></div>
+          <div id="wash-report" style="display:grid; gap:8px;"></div>
+          <form id="wash-import" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; align-items:center;">
+            <input class="input" id="wash-acct" placeholder="Account name (e.g. Fidelity taxable)" style="width:240px;" required aria-label="Account name" />
+            <select class="input" id="wash-type" style="width:120px;" aria-label="Account type">
+              <option value="taxable">Taxable</option>
+              <option value="ira">IRA</option>
+            </select>
+            <input type="file" id="wash-file" accept=".csv,text/csv" required aria-label="Trade history CSV" class="small" />
+            <button class="btn btn-ghost btn-sm" type="submit">Import trades</button>
+            <span class="small faint" id="wash-msg" role="status"></span>
+          </form>
+          <p class="small faint" style="margin:8px 0 0; max-width:74ch;">Export trade history as CSV from each broker (any format with date, symbol, action, quantity, price) and import every account — including IRAs. Re-importing an account replaces it. A planning aid, not tax advice.</p>
+          <form id="wash-check" style="display:flex; gap:8px; margin-top:12px; align-items:center;">
+            <span class="small">Pre-trade check:</span>
+            <input class="input" id="wash-check-sym" placeholder="Ticker" style="width:90px;" aria-label="Ticker to check" />
+            <button class="btn btn-ghost btn-sm" type="submit">If I sell at a loss today…</button>
+            <span class="small" id="wash-check-out" role="status" style="max-width:46ch;"></span>
+          </form>
         </section>
 
         <!-- Holdings -->

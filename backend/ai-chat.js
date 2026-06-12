@@ -1083,8 +1083,11 @@ async function ask({ question, history, ctx, onEvent }) {
 }
 
 // ---- Metering: per-user monthly counters in Mongo ----
-function limits(isPro) {
-    return isPro ? Number(process.env.AI_CHAT_PRO_LIMIT || 300) : Number(process.env.AI_CHAT_FREE_LIMIT || 5);
+// Accepts a tier string ('free' | 'core' | 'pro') or the legacy boolean isPro.
+function limits(tier) {
+    if (tier === true || tier === 'pro') return Number(process.env.AI_CHAT_PRO_LIMIT || 300);
+    if (tier === 'core') return Number(process.env.AI_CHAT_CORE_LIMIT || 25);
+    return Number(process.env.AI_CHAT_FREE_LIMIT || 3);
 }
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 
@@ -1127,4 +1130,4 @@ async function recordUse(userId) {
     } catch (_) { /* fail-open */ }
 }
 
-module.exports = { ask, getUsage, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, makeRoundStreamer };
+module.exports = { ask, getUsage, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, makeRoundStreamer, loadFundAny };

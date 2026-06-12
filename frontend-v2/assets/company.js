@@ -517,6 +517,107 @@
         $('checks-section').hidden = false;
     }
 
+    // ---------- ③a filing diff: what changed vs the prior filing (Pro) ----------
+    async function loadFilingDiff() {
+        const sec = $('filing-diff'); const body = $('fdiff-body'); const rule = $('fdiff-rule');
+        sec.hidden = false; rule.hidden = false;
+        body.innerHTML = '<p class="loading-line"><span class="spin" aria-hidden="true"></span>Comparing the two most recent filings… (first visit reads both documents — ~30-60s)</p>';
+        try {
+            const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/filing-diff`,
+                { headers: { Authorization: `Bearer ${token()}` } });
+            if (r.status === 401 || r.status === 402) {
+                body.innerHTML = `<p class="small muted" style="max-width:64ch;">What changed in the newest 10-K/10-Q versus the one before it — guidance language, risk factors, demand commentary, quoted from the filings. A Pro feature: <a href="/register.html?plan=pro">start a Pro trial</a>.</p>`;
+                return;
+            }
+            if (!r.ok) { sec.hidden = true; rule.hidden = true; return; }
+            const d = await r.json();
+            const toneChip = d.tone
+                ? `<span class="chip" style="${d.tone === 'deteriorating' ? 'color:var(--neg);' : d.tone === 'improving' ? 'color:var(--pos);' : ''}">${esc(d.tone)}</span>`
+                : '';
+            $('fdiff-sub').textContent = `${d.latest.form} filed ${d.latest.date} vs ${d.prev.form} filed ${d.prev.date}`;
+            body.innerHTML = `
+              <p style="font-size:15px; max-width:74ch; margin:0 0 14px;"><strong>${esc(d.headline)}</strong> ${toneChip}</p>
+              <div style="display:grid; gap:10px;">
+                ${(d.changes || []).map((c) => `
+                  <div class="notice">
+                    <strong>${esc(c.area)}</strong> — ${esc(c.what)}
+                    ${c.quote ? `<br /><span class="small muted">“${esc(c.quote)}”</span>` : ''}
+                  </div>`).join('')}
+              </div>
+              <p class="provenance" style="margin-top:12px;">${esc(d.note || '')} <a href="${esc(d.latest.url)}" rel="noopener" target="_blank">New filing</a> · <a href="${esc(d.prev.url)}" rel="noopener" target="_blank">Prior filing</a></p>`;
+        } catch (_) { sec.hidden = true; rule.hidden = true; }
+    }
+
+    // ---------- ③b what's priced in (reverse DCF) ----------
+    const bn = (v) => (v === null || v === undefined) ? '—'
+        : (Math.abs(v) >= 1e12 ? '$' + (v / 1e12).toFixed(2) + 'T'
+            : Math.abs(v) >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B'
+                : '$' + (v / 1e6).toFixed(0) + 'M');
+    const gp = (v) => v === null || v === undefined ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%/yr';
+    async function loadReverseDcf(opts = {}) {
+        const sec = $('rdcf-section'); const body = $('rdcf-body'); const rule = $('rdcf-rule');
+        try {
+            const q = new URLSearchParams();
+            if (opts.r) q.set('r', opts.r);
+            if (opts.tg) q.set('tg', opts.tg);
+            if (opts.base) q.set('base', opts.base);
+            const resp = await fetch(`${API}/company/${encodeURIComponent(symbol)}/reverse-dcf?${q}`,
+                { headers: { Authorization: `Bearer ${token()}` } });
+            if (resp.status === 401 || resp.status === 402) {
+                body.innerHTML = `<p class="small muted" style="max-width:64ch;">What growth rate does today's price assume? We solve it from the filings and put it next to the company's actual record — <a href="/login.html">log in</a> or <a href="/register.html">start a trial</a> to see it.</p>`;
+                sec.hidden = false; rule.hidden = false; return;
+            }
+            if (!resp.ok) { sec.hidden = true; rule.hidden = true; return; }
+            const d = await resp.json();
+            const a = d.assumptions || {};
+            const rec = d.record || {};
+            const verdictNum = d.impliedGrowthPct;
+            const headline = verdictNum === null
+                ? (d.priced === 'beyond-model' ? '>100%/yr' : 'n/a')
+                : gp(verdictNum);
+            body.innerHTML = `
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px;">
+                <div class="card card-pad">
+                  <p class="label" style="margin-bottom:6px;">Priced-in FCF growth</p>
+                  <div style="font-size:30px; font-weight:650; letter-spacing:-0.02em; font-variant-numeric:tabular-nums;">${headline}</div>
+                  <p class="small muted" style="margin-top:6px;">for ${a.horizonYears || 10} years, to justify ${bn(d.marketCap)} today at a ${a.discountRatePct}% discount rate (${a.terminalGrowthPct}% terminal growth). Base FCF ${bn(d.fcfBase)} — ${esc(d.fcfBasis || '')}.</p>
+                </div>
+                <div class="card card-pad">
+                  <p class="label" style="margin-bottom:6px;">The filed record</p>
+                  <table class="table-data" style="font-size:13px;">
+                    <tr><td>FCF growth, 5 yrs</td><td class="num">${gp(rec.fcfCagr5Pct)}</td></tr>
+                    <tr><td>FCF growth, 10 yrs</td><td class="num">${gp(rec.fcfCagr10Pct)}</td></tr>
+                    <tr><td>Revenue growth, 5 yrs</td><td class="num">${gp(rec.revCagr5Pct)}</td></tr>
+                    <tr><td>Revenue growth, 10 yrs</td><td class="num">${gp(rec.revCagr10Pct)}</td></tr>
+                  </table>
+                </div>
+                <div class="card card-pad">
+                  <p class="label" style="margin-bottom:6px;">Your assumptions</p>
+                  <div style="display:grid; gap:10px; font-size:13px;">
+                    <label style="display:flex; justify-content:space-between; align-items:center; gap:8px;">Discount rate
+                      <input class="input" id="rdcf-r" type="number" min="5" max="25" step="0.5" value="${a.discountRatePct}" style="width:84px; text-align:right;" />%</label>
+                    <label style="display:flex; justify-content:space-between; align-items:center; gap:8px;">Terminal growth
+                      <input class="input" id="rdcf-tg" type="number" min="0" max="4" step="0.25" value="${a.terminalGrowthPct}" style="width:84px; text-align:right;" />%</label>
+                    <label style="display:flex; justify-content:space-between; align-items:center; gap:8px;">FCF base
+                      <select class="input" id="rdcf-base" style="width:140px;">
+                        <option value="latest"${opts.base === 'avg3' ? '' : ' selected'}>Latest year</option>
+                        <option value="avg3"${opts.base === 'avg3' ? ' selected' : ''}>3-year average</option>
+                      </select></label>
+                    <button class="btn btn-ghost btn-sm" id="rdcf-go">Recalculate</button>
+                  </div>
+                </div>
+              </div>
+              <p class="provenance" style="margin-top:12px;">${(d.notes || []).map(esc).join(' ')} Not a fair value and not advice — a translation of today's price into a growth assumption you can judge.</p>`;
+            sec.hidden = false; rule.hidden = false;
+            const go = () => loadReverseDcf({
+                r: document.getElementById('rdcf-r').value,
+                tg: document.getElementById('rdcf-tg').value,
+                base: document.getElementById('rdcf-base').value
+            });
+            document.getElementById('rdcf-go').addEventListener('click', go);
+        } catch (_) { sec.hidden = true; rule.hidden = true; }
+    }
+
     // ---------- ④ peers + compare ----------
     async function renderPeers() {
         const sector = ((payload.overview || {}).Sector || '').trim();
@@ -1253,6 +1354,8 @@
             renderCagrCards();
             renderRatios();
             renderPeers();
+            loadReverseDcf();
+            loadFilingDiff();
             renderOwnership();
             renderDocs();
             wireDrawer();

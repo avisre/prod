@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>stockportfolio.pro — the AI analyst grounded in SEC filings</title>
-  <meta name="description" content="Research every US-listed stock with up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings. From £9/month." />
+  <meta name="description" content="Research every US-listed stock with up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings. Free plan — no card needed." />
   <link rel="canonical" href="https://www.stockportfolio.pro/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="stockportfolio.pro" />
@@ -50,8 +50,10 @@
         "description": "Research every US-listed stock with up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings — plus a calm portfolio tracker.",
         "offers": [
           { "@type": "Offer", "name": "Free screener", "price": "0", "priceCurrency": "GBP", "description": "Screen the S&P 1500 by filed fundamentals — no account needed." },
+          { "@type": "Offer", "name": "Free", "price": "0.00", "priceCurrency": "GBP", "description": "Free forever — screener, 10-company watchlist, 3 Ask questions a month. No card." },
           { "@type": "Offer", "name": "Monthly", "price": "9.00", "priceCurrency": "GBP", "description": "7-day free trial, then £9/month." },
           { "@type": "Offer", "name": "Pro", "price": "25.00", "priceCurrency": "GBP", "description": "7-day free trial, then £25/month — includes the AI analyst." },
+          { "@type": "Offer", "name": "Pro Annual", "price": "190.00", "priceCurrency": "GBP", "description": "£190 per year — the AI analyst tier, save £110 versus Pro monthly." },
           { "@type": "Offer", "name": "Annual", "price": "90.00", "priceCurrency": "GBP", "description": "£90 per year — two months free versus monthly." }
         ],
         "featureList": [
@@ -104,7 +106,7 @@
             <a class="btn btn-primary" href="/register.html">Start 7-day free trial</a>
             <a class="btn btn-ghost" href="/ask.html">See Ask in action</a>
           </div>
-          <p class="hero-note">No charge for 7 days, then £9/month. The screener is <a href="/screener.html">free for everyone</a> — no account. Or <a href="/dashboard.html?demo=1">see a demo portfolio</a>.</p>
+          <p class="hero-note">There's a <a href="/register.html?plan=free">free plan</a> — no card needed. Paid plans from £9/month after a 7-day trial. The screener is <a href="/screener.html">free for everyone</a> — no account. Or <a href="/dashboard.html?demo=1">see a demo portfolio</a>.</p>
         </div>
 
         <!-- what an answer actually looks like -->
@@ -157,8 +159,20 @@
       </section>
 
       <section class="section" id="pricing">
-        <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint">7-day free trial on every plan · cancel anytime</span></div>
+        <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint">Free plan, no card · 7-day trial on paid plans · cancel anytime</span></div>
         <div class="price-grid">
+          <div class="card price-card">
+            <span class="label">Free</span>
+            <div class="price-fig">£0<span>/forever</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">Kick the tyres. No card.</p>
+            <ul class="price-list">
+              <li>The full S&amp;P 1500 screener</li>
+              <li>Free fundamentals pages for 1,500+ companies</li>
+              <li>Watchlist for up to 10 companies</li>
+              <li>3 Ask questions a month, grounded in filings</li>
+            </ul>
+            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=free">Create free account</a>
+          </div>
           <div class="card price-card">
             <span class="label">Monthly</span>
             <div class="price-fig">£9<span>/month</span></div>
@@ -171,7 +185,7 @@
               <li>Portfolio tracker with look-through quality view</li>
               <li>Watchlist + SEC filing alerts</li>
               <li>Insider buy/sell history from Form 4 filings</li>
-              <li>5 Ask questions a month, grounded in filings</li>
+              <li>25 Ask questions a month, grounded in filings</li>
               <li>CSV export of any table</li>
             </ul>
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=monthly">Start 7-day free trial</a>
@@ -179,14 +193,15 @@
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Pro</span><span class="small" style="color:var(--accent-ink); font-weight:650;">The analyst tier</span></div>
             <div class="price-fig">£25<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">Everything in Monthly, plus the AI analyst.</p>
+            <p class="small muted" style="margin:4px 0 14px;">Everything in Monthly, plus the AI analyst. <strong>£190/yr</strong> billed annually — save £110.</p>
             <ul class="price-list">
               <li><strong>300 Ask questions a month</strong> — comparisons, screens, portfolio Q&amp;A, with charts &amp; tables in every answer</li>
+              <li><strong>Filing Diff</strong> — what changed in each new 10-K/10-Q versus the last one, per holding</li>
+              <li><strong>Smart alerts</strong> — insider cluster buys, dividend-risk flags, your own valuation thresholds</li>
+              <li><strong>Daily attribution</strong> — why your portfolio moved today, quantified</li>
               <li><strong>Insights</strong> — what makes each business unique, read from 19 years of its filings</li>
               <li><strong>Business segments</strong> — revenue split by product line, extracted from the 10-K</li>
               <li><strong>Weekly portfolio briefing</strong> — what changed in your holdings' filings, every Monday</li>
-              <li><strong>Latest insider quarter</strong> — see what insiders did most recently</li>
-              <li>Financial summaries on demand</li>
             </ul>
             <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=pro">Start Pro free trial</a>
           </div>
@@ -203,7 +218,7 @@
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=annual">Continue to annual</a>
           </div>
         </div>
-        <p class="provenance">Card added at signup; nothing charged during the trial. Cancel anytime. Not investment advice.</p>
+        <p class="provenance">Free plan needs no card. Paid plans: card added at signup, nothing charged during the trial, cancel anytime. No first-year discount games — the price you see is the price it stays. Not investment advice.</p>
       </section>
 
       <!-- crawlable entry to the public research library (server-rendered /stocks pages) -->

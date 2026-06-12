@@ -299,7 +299,7 @@
             ${authed
                 ? `<a class="btn btn-quiet" href="#" id="v2-signout">Sign out</a>`
                 : `<a class="btn btn-quiet" href="/login.html">Log in</a>
-                   <a class="btn btn-primary btn-sm" href="/register.html">Start free trial</a>`}
+                   <a class="btn btn-primary btn-sm" href="/register.html">Sign up free</a>`}
           </div>`;
         document.body.prepend(el);
 
@@ -441,7 +441,7 @@
                     const data = await r.json().catch(() => ({}));
                     workingRow.remove();
                     if (r.status === 401) {
-                        answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html">start a free trial</a>.`;
+                        answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
                     } else if (r.status === 429) {
                         answerEl.innerHTML = `${esc(data.message || 'Monthly limit reached.')} <a href="/register.html?plan=pro">See Pro</a>.`;
                     } else if (data.answer) {

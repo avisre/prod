@@ -139,10 +139,28 @@
             }));
     }
 
+    // Free plan: portfolio APIs answer 402 — keep the session, swap the
+    // portfolio surfaces for an upgrade card, leave the watchlist live.
+    function freeMode() {
+        const form = $('add-form');
+        if (form) form.outerHTML = `
+          <div class="card card-pad" style="max-width:420px;">
+            <p class="label" style="margin-bottom:6px;">Free plan</p>
+            <p class="small muted" style="margin:0 0 12px;">You’re on the free plan — screener, a 10-company watchlist and 3 Ask questions a month. Start a 7-day trial to track a portfolio with X-Ray, alerts and the weekly briefing.</p>
+            <a class="btn btn-primary" href="/register.html?plan=monthly">Start 7-day free trial</a>
+          </div>`;
+        $('pf-total').textContent = '—';
+        $('pf-sub').textContent = 'Portfolio tracking is part of the paid plans.';
+        ['holdings', 'charts-section', 'xray-section', 'brief-section', 'alerts-section', 'rules-section', 'attrib-section', 'wash-section'].forEach((id) => {
+            const el = $(id); if (el) el.hidden = true;
+        });
+    }
+
     async function loadHoldings() {
         try {
             const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio`, { headers: auth });
-            if (!DEMO && (r.status === 401 || r.status === 402)) { localStorage.removeItem('token'); location.reload(); return; }
+            if (!DEMO && r.status === 401) { localStorage.removeItem('token'); location.reload(); return; }
+            if (!DEMO && r.status === 402) { freeMode(); return; }
             const list = await r.json();
             const rows = (Array.isArray(list) ? list : []).map((h) => {
                 const shares = num(h.shares) || 0;
@@ -216,6 +234,38 @@
         } catch (_) { /* x-ray is enrichment, not critical */ }
     }
 
+    // ---- why it moved today: per-holding contribution + headlines (Pro) ----
+    async function loadAttribution() {
+        try {
+            const r = await fetch(`${API}/portfolio/attribution`, { headers: auth });
+            if (!r.ok) return; // 402 (not Pro) or transient — section stays hidden
+            const d = await r.json();
+            if (d.empty || d.portfolioDayPct === null || d.portfolioDayPct === undefined) return;
+            const sign = d.portfolioDayPct >= 0 ? '+' : '';
+            const cls = d.portfolioDayPct > 0 ? 'delta-pos' : d.portfolioDayPct < 0 ? 'delta-neg' : '';
+            $('attrib-sub').textContent = `as of ${d.asOf}${d.coveragePct < 95 ? ` · quotes cover ${d.coveragePct}% of value` : ''}`;
+            const maxAbs = Math.max(...d.movers.map((m) => Math.abs(m.contributionPct || 0)), 0.01);
+            const rows = d.movers.filter((m) => m.contributionPct !== null).slice(0, 6).map((m) => {
+                const w = Math.round(Math.abs(m.contributionPct) / maxAbs * 100);
+                const mc = m.contributionPct > 0 ? 'var(--pos)' : 'var(--neg)';
+                const head = (m.headlines && m.headlines[0])
+                    ? `<div class="small muted" style="margin-top:2px;">${esc(m.headlines[0].title)}${m.headlines[0].url ? ` <a href="${esc(m.headlines[0].url)}" rel="noopener" target="_blank">↗</a>` : ''}</div>`
+                    : '';
+                return `<div style="display:grid; grid-template-columns: 70px 1fr auto; gap:10px; align-items:start; padding:6px 0; border-bottom:1px solid var(--line);">
+                  <a href="/company.html?symbol=${esc(m.symbol)}"><strong>${esc(m.symbol)}</strong></a>
+                  <div><div style="height:6px; width:${w}%; min-width:2px; background:${mc}; border-radius:3px; margin-top:6px;"></div>${head}</div>
+                  <span class="num small" style="text-align:right;">${m.dayPct >= 0 ? '+' : ''}${m.dayPct}% day<br /><span class="faint">${m.contributionPct >= 0 ? '+' : ''}${m.contributionPct} pts of yours</span></span>
+                </div>`;
+            }).join('');
+            $('attrib-body').innerHTML = `
+              <p style="margin:0 0 10px; font-size:20px; font-weight:650;" class="${cls}">${sign}${d.portfolioDayPct}% today${d.portfolioDayUsd !== null ? ` <span class="small muted" style="font-weight:400;">(${d.portfolioDayUsd >= 0 ? '+' : '−'}$${money(Math.abs(d.portfolioDayUsd))})</span>` : ''}</p>
+              ${d.narrative ? `<p class="small" style="max-width:74ch; margin:0 0 12px;">${esc(d.narrative)}</p>` : ''}
+              <div>${rows}</div>
+              <p class="provenance" style="margin-top:10px;">${esc(d.note || '')}</p>`;
+            $('attrib-section').hidden = false;
+        } catch (_) { /* enrichment */ }
+    }
+
     async function loadAlerts() {
         try {
             const r = await fetch(`${API}/alerts`, { headers: auth });
@@ -225,7 +275,10 @@
             if (!alerts.length) return;
             $('alerts-sub').textContent = `${data.unseen || 0} new`;
             $('alerts-list').innerHTML = alerts.map((a) => {
-                const cls = a.type === 'health-flip' ? (String(a.title || '').includes('now passes') ? 'notice-pos' : 'notice-neg') : '';
+                const cls = a.type === 'health-flip' ? (String(a.title || '').includes('PASS') ? 'notice-pos' : 'notice-neg')
+                    : a.type === 'insider-cluster' ? 'notice-pos'
+                    : a.type === 'dividend-risk' ? 'notice-neg'
+                    : '';
                 const when = a.createdAt ? new Date(a.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
                 return `<div class="notice ${cls}"><strong>${esc(a.symbol)}</strong> — ${esc(a.title)} <span class="faint small" style="float:right">${when}</span></div>`;
             }).join('');
@@ -233,6 +286,122 @@
             fetch(`${API}/alerts/seen`, { method: 'POST', headers: auth }).catch(() => {});
         } catch (_) { /* quiet */ }
     }
+
+    // ---- alert rules (Pro): valuation thresholds checked on the sweep ----
+    const RULE_METRIC = { pe: 'P/E', divYieldPct: 'dividend yield %', marketCapB: 'market cap ($B)', revCagr5Pct: 'revenue CAGR 5y %' };
+    async function loadRules() {
+        try {
+            const r = await fetch(`${API}/alert-rules`, { headers: auth });
+            if (r.status === 402) return; // not Pro — section stays hidden
+            if (!r.ok) return;
+            const data = await r.json();
+            const rules = data.rules || [];
+            $('rules-list').innerHTML = rules.length ? rules.map((x) => `
+              <div class="notice" style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+                <span><strong>${esc(x.symbol)}</strong> — ${esc(RULE_METRIC[x.metric] || x.metric)} ${x.op === 'lt' ? 'drops below' : 'rises above'} ${esc(String(x.value))}
+                  ${x.armed ? '' : '<span class="faint small">(fired — re-arms when it reverses)</span>'}</span>
+                <button class="btn btn-quiet btn-sm" data-rule-del="${esc(String(x._id))}">Remove</button>
+              </div>`).join('')
+                : '<p class="small faint" style="margin:0;">No rules yet — add one below, e.g. “AAPL P/E drops below 25”.</p>';
+            $('rules-section').hidden = false;
+            document.querySelectorAll('[data-rule-del]').forEach((b) =>
+                b.addEventListener('click', async () => {
+                    await fetch(`${API}/alert-rules/${b.dataset.ruleDel}`, { method: 'DELETE', headers: auth }).catch(() => {});
+                    loadRules();
+                }));
+        } catch (_) { /* enrichment */ }
+    }
+    $('rule-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = $('rule-msg');
+        msg.textContent = '';
+        try {
+            const r = await fetch(`${API}/alert-rules`, {
+                method: 'POST',
+                headers: { ...auth, 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    symbol: $('rule-sym').value.trim().toUpperCase(),
+                    metric: $('rule-metric').value,
+                    op: $('rule-op').value,
+                    value: Number($('rule-val').value)
+                })
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) { msg.textContent = data.message || 'Could not add the rule.'; return; }
+            $('rule-sym').value = ''; $('rule-val').value = '';
+            loadRules();
+        } catch (_) { msg.textContent = 'Network problem — try again.'; }
+    });
+
+    // ---- wash-sale guard (Pro): cross-account tax-lot intelligence ----
+    async function loadWash() {
+        try {
+            const r = await fetch(`${API}/tax/accounts`, { headers: auth });
+            if (r.status === 402 || !r.ok) return; // not Pro — stays hidden
+            const data = await r.json();
+            const accounts = data.accounts || [];
+            $('wash-section').hidden = false;
+            $('wash-accounts').innerHTML = accounts.length
+                ? 'Imported: ' + accounts.map((a) =>
+                    `<span class="chip">${esc(a.account)} (${esc(a.accountType)}, ${a.trades} trades) <a href="#" data-wash-del="${encodeURIComponent(a.account)}" aria-label="Remove ${esc(a.account)}">✕</a></span>`).join(' ')
+                : 'No accounts imported yet — start with your most active broker.';
+            document.querySelectorAll('[data-wash-del]').forEach((b) =>
+                b.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await fetch(`${API}/tax/accounts/${b.dataset.washDel}`, { method: 'DELETE', headers: auth }).catch(() => {});
+                    loadWash();
+                }));
+            if (!accounts.length) { $('wash-report').innerHTML = ''; return; }
+            const rep = await (await fetch(`${API}/tax/wash-sales`, { headers: auth })).json();
+            const f = rep.findings || [];
+            $('wash-report').innerHTML = f.length ? (
+                `<p class="small" style="margin:0;"><strong>${f.length} wash sale${f.length > 1 ? 's' : ''} detected</strong> — about $${money(rep.totalDisallowedEstimate)} of losses disallowed.</p>` +
+                f.slice(0, 10).map((x) => `
+                  <div class="notice ${x.iraPoison ? 'notice-neg' : ''}">
+                    <strong>${esc(x.symbol)}</strong> — sold ${x.sharesSold} sh at a $${money(Math.abs(x.loss))} loss on ${esc(x.sellDate)} (${esc(x.sellAccount)});
+                    bought within 30 days in ${x.conflicts.map((c) => esc(c.account)).filter((v, i, a) => a.indexOf(v) === i).join(', ')} →
+                    ~$${money(x.disallowedEstimate)} disallowed${x.iraPoison ? ' — <strong>IRA buy: this loss is permanently gone</strong>' : ' (rolls into the new shares’ basis)'}.
+                  </div>`).join('')
+            ) : '<p class="small muted" style="margin:0;">No wash sales found across your imported accounts. The pre-trade check below keeps it that way.</p>';
+            if (rep.note) $('wash-report').innerHTML += `<p class="provenance" style="margin-top:6px;">${esc(rep.note)}</p>`;
+        } catch (_) { /* enrichment */ }
+    }
+    $('wash-import').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const msg = $('wash-msg');
+        const file = $('wash-file').files[0];
+        if (!file) { msg.textContent = 'Choose a CSV file.'; return; }
+        if (file.size > 4 * 1024 * 1024) { msg.textContent = 'CSV too large (4MB max).'; return; }
+        msg.textContent = 'Importing…';
+        try {
+            const csv = await file.text();
+            const r = await fetch(`${API}/tax/import`, {
+                method: 'POST',
+                headers: { ...auth, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ account: $('wash-acct').value, accountType: $('wash-type').value, csv })
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) { msg.textContent = data.message || 'Import failed.'; return; }
+            msg.textContent = `Imported ${data.imported} trades${data.skipped ? ` (${data.skipped} rows skipped)` : ''}.`;
+            $('wash-file').value = '';
+            loadWash();
+        } catch (_) { msg.textContent = 'Network problem — try again.'; }
+    });
+    $('wash-check').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const out = $('wash-check-out');
+        const sym = $('wash-check-sym').value.trim().toUpperCase();
+        if (!sym) return;
+        out.textContent = '…';
+        try {
+            const r = await fetch(`${API}/tax/wash-check?symbol=${encodeURIComponent(sym)}`, { headers: auth });
+            const d = await r.json().catch(() => ({}));
+            if (!r.ok) { out.textContent = d.message || 'Check failed.'; return; }
+            out.innerHTML = d.wouldWash
+                ? `<span class="delta-neg">⚠ Would wash${d.iraPoison ? ' — IRA buy in window: loss would be permanently disallowed' : ''}.</span> ${esc(d.recentBuys.map((b) => `${b.shares} sh bought ${b.date} in ${b.account}`).join('; '))}`
+                : `<span class="delta-pos">✓ Clear.</span> ${esc(d.note)}`;
+        } catch (_) { out.textContent = 'Network problem.'; }
+    });
 
     if (!DEMO) $('add-form').addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -348,7 +517,10 @@
     loadHoldings();
     if (!DEMO) {
         loadXray();
+        loadAttribution();
         loadAlerts();
+        loadRules();
+        loadWash();
         loadBriefing();
         loadWatchlist();
     }
