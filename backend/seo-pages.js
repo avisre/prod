@@ -49,6 +49,9 @@ function loadFundamentals(symbol) {
         if (fs.existsSync(f)) data = JSON.parse(fs.readFileSync(f, 'utf8'));
     } catch (_) { data = null; }
     _fundCache.set(key, data);
+    // Fundamentals blobs run large; cap the map so a full-universe crawl can't
+    // pin every symbol's payload in heap (was an unbounded OOM source).
+    if (_fundCache.size > 300) _fundCache.delete(_fundCache.keys().next().value);
     return data;
 }
 
@@ -162,7 +165,7 @@ function footer() {
     return `<footer class="seo-foot">
   <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
   <p class="seo-disc">Data is provided for informational purposes only and may be delayed or inaccurate. stockportfolio.pro is an analysis and visualization tool and does not provide financial advice. &copy; 2026 stockportfolio.pro.</p>
-</footer></body></html>`;
+</footer><script>try{var pv=JSON.stringify({path:location.pathname});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
 }
 
 // ---- stock page ----

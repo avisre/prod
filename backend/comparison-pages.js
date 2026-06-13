@@ -174,7 +174,7 @@ function nav() {
 }
 function footer() {
     return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo">Live demo</a> &middot; <a href="/register.html?plan=monthly">Free trial</a></p>
-  <p class="seo-disc">Competitor names and prices are trademarks of their respective owners and are shown for comparison only; pricing may change — check each provider for current details. stockportfolio.pro does not provide financial advice.</p></footer></body></html>`;
+  <p class="seo-disc">Competitor names and prices are trademarks of their respective owners and are shown for comparison only; pricing may change — check each provider for current details. stockportfolio.pro does not provide financial advice.</p></footer><script>try{var pv=JSON.stringify({path:location.pathname});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
 }
 
 function renderComparison(slug) {

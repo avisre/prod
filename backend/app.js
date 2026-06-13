@@ -439,6 +439,8 @@ function cacheGet(map, key, ttlMs) {
 
 function cacheSet(map, key, value) {
   map.set(key, { value, timestamp: Date.now() });
+  // Bound the map so a full-universe sweep can't grow it without limit.
+  if (map.size > 2000) map.delete(map.keys().next().value);
 }
 
 function createHttpError(status, message, code, details = {}) {
@@ -1013,14 +1015,15 @@ function applyPlanToSubscription(user, planInput) {
 }
 
 // ---- Funnel event tracking (server-side, no third-party) ----
-// Events: signup | trial_start | paid | cancel
+// Events: page_view | signup | trial_start | paid | cancel
 // Stored in the 'funnel_events' Mongo collection with fire-and-forget writes.
-async function trackFunnel(event, userId, plan) {
+async function trackFunnel(event, userId, plan, extra) {
     try {
         await mongoose.connection.collection('funnel_events').insertOne({
             event: String(event),
             userId: userId ? String(userId) : null,
             plan: plan ? String(plan) : null,
+            ...(extra || {}),
             at: new Date()
         });
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
@@ -2106,6 +2109,7 @@ app.get('/api/market/strip', async (req, res) => {
         }));
         const payload = { quotes: out, at: new Date().toISOString() };
         _stripCache.set(key, { at: Date.now(), payload });
+        if (_stripCache.size > 500) _stripCache.delete(_stripCache.keys().next().value);
         res.json(payload);
     } catch (error) {
         res.status(500).json({ message: error.message || 'Market strip failed' });
@@ -2305,6 +2309,7 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
             generatedAt: new Date().toISOString()
         };
         _briefingCache.set(cacheKey, { at: Date.now(), payload });
+        if (_briefingCache.size > 500) _briefingCache.delete(_briefingCache.keys().next().value);
         res.json({ ...payload, cached: false });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -2353,6 +2358,7 @@ app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, r
         if (!result.summary) return res.status(404).json({ message: 'No financial data available for this symbol.' });
         const payload = { symbol, summary: result.summary, source: result.source, generatedAt: new Date().toISOString() };
         _aiSummaryCache.set(symbol, { at: Date.now(), payload });
+        if (_aiSummaryCache.size > 500) _aiSummaryCache.delete(_aiSummaryCache.keys().next().value);
         res.json({ ...payload, cached: false });
     } catch (error) {
         res.status(500).json({ message: error.message || 'AI summary failed' });
@@ -2485,6 +2491,7 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
         }));
         const payload = xray.computeXray(enriched);
         _xrayCache.set(key, { at: Date.now(), payload });
+        if (_xrayCache.size > 500) _xrayCache.delete(_xrayCache.keys().next().value);
         res.json({ ...payload, cached: false });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
@@ -2727,6 +2734,7 @@ app.get('/api/company/:symbol/filings', async (req, res) => {
             source: 'SEC EDGAR'
         };
         _filingsCache.set(symbol, { at: Date.now(), payload });
+        if (_filingsCache.size > 500) _filingsCache.delete(_filingsCache.keys().next().value);
         res.json(payload);
     } catch (error) {
         res.status(500).json({ message: error.message || 'Filings load failed' });
@@ -2814,6 +2822,7 @@ app.get('/api/company/:symbol/ownership', async (req, res) => {
         const data = await yahooSource.fetchOwnership(symbol);
         const payload = { symbol, ...data, source: 'Yahoo Finance (13F-derived)' };
         _ownershipCache.set(symbol, { at: Date.now(), payload });
+        if (_ownershipCache.size > 500) _ownershipCache.delete(_ownershipCache.keys().next().value);
         res.json(payload);
     } catch (error) {
         res.status(500).json({ message: error.message || 'Ownership load failed' });
@@ -3215,6 +3224,16 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/sitemap.xml'));
 });
 
+// ---- page-view beacon (first-party, no cookies) — the funnel's top step ----
+// Crawlers don't run JS so most never reach this; UA filter as belt-and-braces.
+app.post('/api/track/page_view', (req, res) => {
+    const ua = String(req.headers['user-agent'] || '');
+    if (/bot|crawl|spider|slurp|headless|lighthouse|facebookexternalhit|preview/i.test(ua)) return res.status(204).end();
+    const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
+    trackFunnel('page_view', null, null, { path: viewPath });
+    res.status(204).end();
+});
+
 // ---- /admin/funnel — private funnel dashboard (token-gated) ----
 // Protect with ADMIN_TOKEN env var; if not set the route returns 403.
 app.get('/admin/funnel', async (req, res) => {
@@ -3223,41 +3242,50 @@ app.get('/admin/funnel', async (req, res) => {
     if (!token || provided !== token) return res.status(403).send('Forbidden');
     try {
         const col = mongoose.connection.collection('funnel_events');
-        const events = await col.find({}).toArray();
-        const count = (ev) => events.filter((e) => e.event === ev).length;
+        // aggregate in Mongo — page_view volume makes a full toArray() untenable
+        const groups = await col.aggregate([
+            { $group: { _id: { event: '$event', plan: '$plan' }, n: { $sum: 1 } } }
+        ]).toArray();
+        const count = (ev) => groups.filter((g) => g._id.event === ev).reduce((s, g) => s + g.n, 0);
         const pct = (n, d) => d ? `${((n / d) * 100).toFixed(1)}%` : '—';
+        const pageViews = count('page_view');
         const signups = count('signup');
+        const freeSignups = groups.filter((g) => g._id.event === 'signup' && g._id.plan === 'Free').reduce((s, g) => s + g.n, 0);
         const trials = count('trial_start');
         const paid = count('paid');
         const cancels = count('cancel');
-        // Per-plan breakdown
+        // Per-plan breakdown (page views carry no plan — excluded)
         const byPlan = {};
-        events.forEach((e) => {
-            const p = e.plan || 'unknown';
+        groups.forEach((g) => {
+            if (g._id.event === 'page_view') return;
+            const p = g._id.plan || 'unknown';
             if (!byPlan[p]) byPlan[p] = { signup:0, trial_start:0, paid:0, cancel:0 };
-            if (byPlan[p][e.event] !== undefined) byPlan[p][e.event]++;
+            if (byPlan[p][g._id.event] !== undefined) byPlan[p][g._id.event] += g.n;
         });
         const planRows = Object.entries(byPlan).sort((a,b) => b[1].signup - a[1].signup)
             .map(([p, v]) => `<tr><td>${p}</td><td>${v.signup}</td><td>${v.trial_start}</td><td>${v.paid}</td><td>${v.cancel}</td></tr>`).join('');
+        const total = groups.reduce((s, g) => s + g.n, 0);
         const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Funnel — stockportfolio.pro</title>
 <style>body{font:14px/1.6 system-ui,sans-serif;margin:2rem;color:#111}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px 12px;text-align:left}th{background:#f5f5f5}h2{margin-top:2rem}.metric{display:inline-block;background:#f9f9f9;border:1px solid #ddd;border-radius:6px;padding:1rem 1.5rem;margin:.5rem;min-width:160px}.metric b{display:block;font-size:2rem}</style>
 </head><body>
 <h1>Funnel — stockportfolio.pro</h1>
 <div>
-  <div class="metric"><b>${signups}</b> Signups</div>
+  <div class="metric"><b>${pageViews}</b> Page views</div>
+  <div class="metric"><b>${signups}</b> Signups (${freeSignups} free)</div>
   <div class="metric"><b>${trials}</b> Trial starts</div>
   <div class="metric"><b>${paid}</b> Paid conversions</div>
   <div class="metric"><b>${cancels}</b> Cancellations</div>
 </div>
 <h2>Conversion rates</h2>
 <table><thead><tr><th>Step</th><th>Rate</th></tr></thead><tbody>
+<tr><td>Page view → Free signup</td><td>${pct(freeSignups, pageViews)}</td></tr>
 <tr><td>Signup → Trial start</td><td>${pct(trials, signups)}</td></tr>
 <tr><td>Trial start → Paid</td><td>${pct(paid, trials)}</td></tr>
 <tr><td>Paid → Cancelled</td><td>${pct(cancels, paid)}</td></tr>
 </tbody></table>
 <h2>By plan</h2>
 <table><thead><tr><th>Plan</th><th>Signups</th><th>Trial starts</th><th>Paid</th><th>Cancels</th></tr></thead><tbody>${planRows}</tbody></table>
-<p style="color:#888;margin-top:2rem">Events total: ${events.length} — as of ${new Date().toISOString()}</p>
+<p style="color:#888;margin-top:2rem">Events total: ${total} — as of ${new Date().toISOString()}</p>
 </body></html>`;
         res.set('Content-Type', 'text/html; charset=utf-8').set('Cache-Control', 'no-store').send(html);
     } catch (err) {

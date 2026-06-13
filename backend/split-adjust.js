@@ -184,6 +184,7 @@ async function fetchSplits(symbol) {
   });
   const splits = r?.events?.splits || [];
   splitsCache.set(key, { at: Date.now(), splits });
+  if (splitsCache.size > 2000) splitsCache.delete(splitsCache.keys().next().value);
   return splits;
 }
 

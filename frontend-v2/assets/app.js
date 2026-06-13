@@ -6,6 +6,13 @@
     const API = `${window.location.origin}/api`;
     const token = () => localStorage.getItem('token');
 
+    // ---------- first-party page-view ping (server-side count, no cookies) ----------
+    try {
+        const pv = JSON.stringify({ path: location.pathname });
+        const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/page_view', new Blob([pv], { type: 'application/json' }));
+        if (!sent) fetch('/api/track/page_view', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: pv, keepalive: true }).catch(() => {});
+    } catch (_) { /* never block the page */ }
+
     // ---------- formatters ----------
     function num(v) {
         if (v === null || v === undefined || v === '' || v === 'None') return null;

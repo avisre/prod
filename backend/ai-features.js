@@ -39,6 +39,9 @@ function loadFundamentals(symbol) {
         if (fs.existsSync(f)) data = JSON.parse(fs.readFileSync(f, 'utf8'));
     } catch (_) { data = null; }
     _fundCache.set(key, data);
+    // Fundamentals blobs run large; cap the map so a full-universe crawl can't
+    // pin every symbol's payload in heap (was an unbounded OOM source).
+    if (_fundCache.size > 300) _fundCache.delete(_fundCache.keys().next().value);
     return data;
 }
 
