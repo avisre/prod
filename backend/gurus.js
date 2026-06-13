@@ -4,6 +4,8 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
 const secSource = require('./sec-source');
+const YahooFinance = require('yahoo-finance2').default;
+const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 
 const GURU_LIST = [
     { id: 'berkshire',   name: 'Warren Buffett',         fund: 'Berkshire Hathaway',        cik: '0001067983' },
@@ -209,6 +211,151 @@ function classify(cur, prevMap, hasPrev) {
     return { activity: 'hold', shareChangePct: null, prevShares };
 }
 
+// ─── Portfolio performance computation ────────────────────────────────────────
+// "Performance" here = if you bought the CURRENT 13F portfolio at a past date,
+// what would your return be today? Computed from current Yahoo Finance prices
+// vs historical monthly closes. NOT the fund's actual realised returns.
+
+const PERF_PERIODS = [
+    { key: '3m', months: 3 },
+    { key: '6m', months: 6 },
+    { key: '1y', months: 12 },
+    { key: '5y', months: 60 },
+    { key: '10y', months: 120 },
+    { key: '15y', months: 180 },
+];
+
+// Shared across all guru builds in this process lifetime.
+let _nameTickerMap = null;
+const _monthlyCache = new Map(); // ticker → Map<'YYYY-MM', adjClose>
+
+// Normalize a company name for matching: uppercase, strip common suffixes + punctuation.
+function normName(s) {
+    return s.toUpperCase()
+        .replace(/[.,&''']/g, ' ')
+        .replace(/\b(THE|INC|CORP|CORPORATION|CO|LTD|LIMITED|LLC|PLC|HOLDINGS|HLDGS|HOLDING|GROUP|GRP|INTL|INTERNATIONAL|TECHNOLOGIES|TECHNOLOGY|TECH|SYSTEMS|INDUSTRIES|INDUSTRY|ENTERPRISES|SERVICES|SOLUTIONS|PARTNERS|CAPITAL|MGMT|MANAGEMENT|COMMON|STOCK|SHS|SHARES|CLASS [AB]|CL [AB]|ADR|ORD|CVR|DEL|NEW|A|B)\b/g, ' ')
+        .replace(/\s+/g, ' ').trim();
+}
+
+async function loadNameTickerMap() {
+    if (_nameTickerMap) return _nameTickerMap;
+    const r = await axios.get('https://www.sec.gov/files/company_tickers.json', {
+        headers: secSource.SEC_HEADERS, timeout: 15000,
+    });
+    _nameTickerMap = new Map();
+    for (const v of Object.values(r.data || {})) {
+        if (!v.ticker || !v.title) continue;
+        const norm = normName(v.title);
+        if (norm && !_nameTickerMap.has(norm)) _nameTickerMap.set(norm, v.ticker.toUpperCase());
+    }
+    return _nameTickerMap;
+}
+
+function matchTicker(holdingName, nameMap) {
+    const norm = normName(holdingName);
+    if (nameMap.has(norm)) return nameMap.get(norm);
+    // Progressive word-drop from the right (handles "BERKSHIRE HATHAWAY B" → "BERKSHIRE HATHAWAY")
+    const words = norm.split(' ').filter(Boolean);
+    for (let len = words.length - 1; len >= 2; len--) {
+        const k = words.slice(0, len).join(' ');
+        if (nameMap.has(k)) return nameMap.get(k);
+    }
+    return null;
+}
+
+// Fetch 16 years of monthly history for one ticker, cache it.
+async function getMonthlyHistory(ticker) {
+    const yt = ticker.replace(/\./g, '-');
+    if (_monthlyCache.has(yt)) return _monthlyCache.get(yt);
+    const now = new Date();
+    const from = new Date(now); from.setFullYear(from.getFullYear() - 16);
+    const empty = new Map();
+    try {
+        const rows = await yf.historical(yt, {
+            period1: from.toISOString().slice(0, 10),
+            period2: now.toISOString().slice(0, 10),
+            interval: '1mo',
+        });
+        const byMonth = new Map(rows.filter(r => r.adjClose).map(r => [r.date.toISOString().slice(0, 7), r.adjClose]));
+        _monthlyCache.set(yt, byMonth);
+        return byMonth;
+    } catch (_) {
+        _monthlyCache.set(yt, empty);
+        return empty;
+    }
+}
+
+// Get the closest available monthly close to N months ago.
+function priceNMonthsAgo(history, months) {
+    const d = new Date(); d.setMonth(d.getMonth() - months);
+    for (let delta = 0; delta <= 3; delta++) {
+        const try1 = new Date(d); try1.setMonth(try1.getMonth() - delta);
+        const k1 = try1.toISOString().slice(0, 7);
+        if (history.has(k1)) return history.get(k1);
+        if (delta > 0) {
+            const try2 = new Date(d); try2.setMonth(try2.getMonth() + delta);
+            const k2 = try2.toISOString().slice(0, 7);
+            if (history.has(k2)) return history.get(k2);
+        }
+    }
+    return null;
+}
+
+// Compute hypothetical performance for each period given the top holdings.
+async function computePerformance(holdings) {
+    const nameMap = await loadNameTickerMap().catch(() => null);
+    if (!nameMap) return null;
+
+    // Match top-30 holdings to tickers (top 30 typically covers 70-90%+ of value)
+    const candidates = holdings.slice(0, 30).filter(h => h.shareType !== 'PRN' && h.weight > 0);
+    const matched = [];
+    for (const h of candidates) {
+        const ticker = matchTicker(h.name, nameMap);
+        if (ticker) matched.push({ ticker, weight: h.weight });
+    }
+    if (!matched.length) return null;
+
+    // Fetch monthly history for each unique ticker (shared across gurus via _monthlyCache)
+    const uniqueTickers = [...new Set(matched.map(m => m.ticker))];
+    for (const ticker of uniqueTickers) {
+        await getMonthlyHistory(ticker);
+        await sleep(80);
+    }
+
+    // Current price = latest entry in the monthly history
+    const curPrice = new Map();
+    for (const ticker of uniqueTickers) {
+        const h = _monthlyCache.get(ticker.replace(/\./g, '-')) || new Map();
+        if (!h.size) continue;
+        const latest = [...h.entries()].sort((a, b) => b[0].localeCompare(a[0]))[0];
+        if (latest) curPrice.set(ticker, latest[1]);
+    }
+
+    // Compute weighted return for each period
+    const result = {};
+    const coverage = matched.filter(m => curPrice.has(m.ticker)).reduce((s, m) => s + m.weight, 0);
+    if (coverage < 10) return null; // can't compute meaningfully
+
+    for (const { key, months } of PERF_PERIODS) {
+        let weightedRet = 0, covW = 0;
+        for (const { ticker, weight } of matched) {
+            const cur = curPrice.get(ticker);
+            if (!cur) continue;
+            const hist = _monthlyCache.get(ticker.replace(/\./g, '-'));
+            const past = hist ? priceNMonthsAgo(hist, months) : null;
+            if (!past) continue;
+            const ret = (cur - past) / past;
+            weightedRet += weight * ret;
+            covW += weight;
+        }
+        if (covW >= 10) {
+            // Scale to full portfolio (assumes unmatched holdings performed similarly)
+            result[key] = parseFloat(((weightedRet / covW) * 100).toFixed(2));
+        }
+    }
+    return Object.keys(result).length ? { periods: result, coverage: parseFloat(coverage.toFixed(1)) } : null;
+}
+
 // Build one guru's portfolio (current holdings + activity diff) and save to MongoDB
 const _building = new Set();
 async function buildGuru(guru) {
@@ -254,6 +401,9 @@ async function buildGuru(guru) {
             sells = sells.slice(0, 25);
         }
 
+        // Compute hypothetical performance from current holdings × Yahoo Finance history
+        const performance = await computePerformance(top50).catch(() => null);
+
         const doc = {
             id: guru.id,
             name: guru.name,
@@ -268,6 +418,7 @@ async function buildGuru(guru) {
             holdings: top50,
             sells,
             hasActivity,
+            performance,
             builtAt: new Date(),
         };
 

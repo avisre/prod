@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260614-2" />
+  <link rel="stylesheet" href="assets/system.css?v=20260614-3" />
   <style>
     /* ─── Two-panel shell ─── */
     .gurus-shell {
@@ -157,6 +157,64 @@
     .guru-stat-v { font-size: 17px; font-weight: 650; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; color: var(--ink); }
     .guru-stat-k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; }
 
+    /* ─── Performance strip ─── */
+    .perf-strip {
+      margin-top: 14px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .perf-strip-hd {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 14px 5px;
+      border-bottom: 1px solid var(--line);
+    }
+    .perf-strip-label {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ink-3);
+    }
+    .perf-strip-note {
+      font-size: 10px;
+      color: var(--ink-3);
+    }
+    .perf-cells {
+      display: flex;
+    }
+    .perf-cell {
+      flex: 1;
+      padding: 8px 10px 7px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
+    .perf-cell:last-child { border-right: 0; }
+    .perf-cell-period {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--ink-3);
+      margin-bottom: 3px;
+    }
+    .perf-cell-val {
+      font-size: 14px;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.01em;
+    }
+    .perf-pos { color: var(--pos); }
+    .perf-neg { color: var(--neg); }
+    @media (max-width: 760px) {
+      .perf-cells { overflow-x: auto; scrollbar-width: none; }
+      .perf-cells::-webkit-scrollbar { display: none; }
+      .perf-cell { flex: 0 0 72px; }
+    }
+
     /* ─── Sector allocation ─── */
     .sector-section { padding: 18px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
     .sector-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 12px; }
@@ -289,7 +347,7 @@
     </div>
   </main>
 
-  <script src="assets/app.js?v=20260614-1"></script>
+  <script src="assets/app.js?v=20260614-2"></script>
   <script>
     V2.nav('gurus');
     V2.footer();
@@ -425,6 +483,27 @@
       }
     }
 
+    /* ─── Performance strip HTML ─── */
+    const PERF_LABELS = { '3m':'3M', '6m':'6M', '1y':'1Y', '5y':'5Y', '10y':'10Y', '15y':'15Y' };
+    function perfStripHtml(perf) {
+      if (!perf || !perf.periods || !Object.keys(perf.periods).length) return '';
+      const cells = Object.entries(PERF_LABELS).map(([key, label]) => {
+        const v = perf.periods[key];
+        if (v === undefined || v === null) return `<div class="perf-cell"><div class="perf-cell-period">${label}</div><div class="perf-cell-val" style="color:var(--ink-3);">—</div></div>`;
+        const cls = v >= 0 ? 'perf-pos' : 'perf-neg';
+        const sign = v >= 0 ? '+' : '';
+        return `<div class="perf-cell"><div class="perf-cell-period">${label}</div><div class="perf-cell-val ${cls}">${sign}${v.toFixed(1)}%</div></div>`;
+      }).join('');
+      return `
+        <div class="perf-strip">
+          <div class="perf-strip-hd">
+            <span class="perf-strip-label">Performance (current holdings)</span>
+            <span class="perf-strip-note">Hypothetical · ${perf.coverage}% of portfolio matched</span>
+          </div>
+          <div class="perf-cells">${cells}</div>
+        </div>`;
+    }
+
     /* ─── Render a full guru panel ─── */
     function renderGuru(data) {
       const meta = GURU_META[data.id] || {};
@@ -490,6 +569,7 @@
                 SEC Filing ↗</a>` : ''}
           </div>
           ${meta.bio ? `<p class="guru-hd-bio">${V2.esc(meta.bio)}</p>` : ''}
+          ${perfStripHtml(data.performance)}
           <div class="guru-stats">
             <div class="guru-stat">
               <span class="guru-stat-v">${fmtVal(data.totalValue)}</span>
