@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260613-3" />
+  <link rel="stylesheet" href="assets/system.css?v=20260613-4" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -65,6 +65,19 @@
         ]
       }
     ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "stockportfolio.pro — 60-second product tour",
+    "description": "A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and 19 years of filed fundamentals.",
+    "thumbnailUrl": "https://www.stockportfolio.pro/assets/tour-poster.jpg",
+    "uploadDate": "2026-06-12",
+    "duration": "PT1M3S",
+    "contentUrl": "https://www.stockportfolio.pro/assets/tour-1080p.mp4",
+    "embedUrl": "https://www.stockportfolio.pro/#tour"
   }
   </script>
   <style>
@@ -160,12 +173,17 @@
 
       <section class="section" id="tour">
         <div class="section-head"><h2 class="title-1">See it in 60 seconds</h2><span class="small faint">Ask, the screener and 19-year fundamentals — one minute, real product.</span></div>
-        <!-- click-to-play facade: the YouTube iframe only loads on demand,
-             so the embed costs nothing on page load and sets no cookies -->
-        <button id="tour-play" type="button" aria-label="Play the 60-second product tour"
-                style="display:block; width:100%; max-width:960px; margin:0 auto; padding:0; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; cursor:pointer; background:var(--surface); line-height:0;">
-          <img src="/assets/tour-poster.jpg" alt="60-second product tour video" loading="lazy" width="1280" height="720" style="width:100%; height:auto; display:block;" />
-        </button>
+        <!-- self-hosted tour: poster facade until click, then the <video> mounts
+             (nothing loads on page view). Quality menu: Auto / 1080p / 720p. -->
+        <div id="tour-stage" style="position:relative; width:100%; max-width:960px; margin:0 auto; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
+          <button id="tour-play" type="button" aria-label="Play the 60-second product tour"
+                  style="position:absolute; inset:0; width:100%; height:100%; padding:0; border:0; cursor:pointer; background:#000; line-height:0;">
+            <img src="/assets/tour-poster.jpg" alt="60-second product tour" loading="lazy" width="1280" height="720" style="width:100%; height:100%; object-fit:cover; display:block;" />
+            <span class="tour-play-badge" aria-hidden="true">
+              <svg viewBox="0 0 68 48" width="64" height="46"><path d="M66.5 7.7a8 8 0 0 0-5.6-5.7C56 .7 34 .7 34 .7s-22 0-26.9 1.3A8 8 0 0 0 1.5 7.7 83 83 0 0 0 .2 24a83 83 0 0 0 1.3 16.3 8 8 0 0 0 5.6 5.7C12 47.3 34 47.3 34 47.3s22 0 26.9-1.3a8 8 0 0 0 5.6-5.7A83 83 0 0 0 67.8 24a83 83 0 0 0-1.3-16.3z" fill="rgba(0,0,0,.5)"/><path d="M27 34V14l18 10z" fill="#fff"/></svg>
+            </span>
+          </button>
+        </div>
       </section>
 
       <!-- the stickiest paid feature, shown before signup: a real generated briefing -->
@@ -260,19 +278,67 @@
   <script>
     V2.nav('home');
     V2.footer();
-    // 60-second tour: swap the poster for the YouTube player on click.
-    document.getElementById('tour-play').addEventListener('click', function () {
-      const frame = document.createElement('iframe');
-      frame.src = 'https://www.youtube-nocookie.com/embed/pBBw0vVaBsU?autoplay=1&rel=0';
-      frame.title = '60-second product tour';
-      frame.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
-      frame.setAttribute('allowfullscreen', '');
-      // YouTube refuses embeds with no referrer (error 153) — override the
-      // site-wide Referrer-Policy header for this frame.
-      frame.referrerPolicy = 'strict-origin-when-cross-origin';
-      frame.style.cssText = 'display:block; width:100%; max-width:960px; margin:0 auto; aspect-ratio:16/9; border:1px solid var(--line); border-radius:var(--radius);';
-      this.replaceWith(frame);
-    }, { once: true });
+    // 60-second tour: self-hosted, mounts on click. Quality menu Auto/1080p/720p;
+    // Auto picks by connection + viewport so it streams a level that plays smoothly.
+    (function () {
+      var stage = document.getElementById('tour-stage');
+      var playBtn = document.getElementById('tour-play');
+      if (!stage || !playBtn) return;
+      var SRC = { '1080p': '/assets/tour-1080p.mp4', '720p': '/assets/tour-720p.mp4' };
+      function auto() {
+        try {
+          var c = navigator.connection;
+          if (c && (c.saveData || /2g/.test(c.effectiveType || '') || (c.downlink && c.downlink < 3))) return '720p';
+        } catch (e) { /* no Network Information API */ }
+        return window.innerWidth < 720 ? '720p' : '1080p';
+      }
+      playBtn.addEventListener('click', function () {
+        var v = document.createElement('video');
+        v.controls = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+        v.setAttribute('playsinline', ''); v.poster = '/assets/tour-poster.jpg';
+        v.style.cssText = 'width:100%; height:100%; display:block; background:#000;';
+        v.src = SRC[auto()];
+
+        var sel = document.createElement('div');
+        sel.className = 'tour-q';
+        sel.innerHTML = '<button type="button" class="tour-q-btn" aria-haspopup="true" aria-expanded="false"></button>'
+          + '<ul class="tour-q-menu" hidden>'
+          + '<li><button type="button" data-q="auto">Auto</button></li>'
+          + '<li><button type="button" data-q="1080p">1080p</button></li>'
+          + '<li><button type="button" data-q="720p">720p</button></li>'
+          + '</ul>';
+        var btn = sel.querySelector('.tour-q-btn');
+        var menu = sel.querySelector('.tour-q-menu');
+        var current = 'auto';
+        function refresh() {
+          btn.textContent = current === 'auto' ? 'Auto · ' + auto() : current;
+          sel.querySelectorAll('[data-q]').forEach(function (b) { b.setAttribute('aria-current', b.dataset.q === current ? 'true' : 'false'); });
+        }
+        function setQ(q) {
+          current = q;
+          var target = q === 'auto' ? auto() : q;
+          if (v.src.indexOf(SRC[target]) === -1) {
+            var t = v.currentTime, playing = !v.paused;
+            v.src = SRC[target];
+            v.addEventListener('loadedmetadata', function once() {
+              v.removeEventListener('loadedmetadata', once);
+              try { v.currentTime = t; } catch (e) { /* seek may be clamped */ }
+              if (playing) v.play().catch(function () {});
+            });
+          }
+          refresh(); menu.hidden = true; btn.setAttribute('aria-expanded', 'false');
+        }
+        btn.addEventListener('click', function () { var h = menu.hidden; menu.hidden = !h; btn.setAttribute('aria-expanded', String(h)); });
+        sel.querySelectorAll('[data-q]').forEach(function (b) { b.addEventListener('click', function () { setQ(b.dataset.q); }); });
+        document.addEventListener('click', function (e) { if (!sel.contains(e.target)) { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); } });
+        refresh();
+
+        stage.innerHTML = '';
+        stage.appendChild(v);
+        stage.appendChild(sel);
+        v.play().catch(function () { /* autoplay may need a tap on some mobiles */ });
+      }, { once: true });
+    })();
     // The hero card is the real product: live AAPL story strip from the API.
     (async () => {
       try {

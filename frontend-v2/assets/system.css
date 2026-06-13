@@ -554,6 +554,19 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-plan .tag { display: inline-block; margin-top: 6px; font-size: var(--text-xs); color: var(--accent-ink); font-weight: 600; }
 @media (max-width: 560px) { .ask-plans { grid-template-columns: 1fr; } }
 
+/* ---------- 60-second tour: play badge + quality menu ---------- */
+.tour-play-badge { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.tour-play-badge svg { filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4)); transition: transform 0.15s ease; }
+#tour-play:hover .tour-play-badge svg { transform: scale(1.06); }
+.tour-q { position: absolute; right: 10px; bottom: 48px; z-index: 3; font-size: 12px; }
+.tour-q-btn { background: rgba(0, 0, 0, 0.6); color: #fff; border: 0; border-radius: 6px; padding: 5px 9px; cursor: pointer; font: inherit; line-height: 1; font-variant-numeric: tabular-nums; }
+.tour-q-btn:hover { background: rgba(0, 0, 0, 0.82); }
+.tour-q-menu { list-style: none; margin: 6px 0 0; padding: 4px; position: absolute; right: 0; bottom: 100%; background: rgba(0, 0, 0, 0.86); border-radius: 8px; min-width: 100px; }
+.tour-q-menu li { margin: 0; }
+.tour-q-menu button { width: 100%; text-align: left; background: none; border: 0; color: #fff; padding: 6px 10px; border-radius: 5px; cursor: pointer; font: inherit; }
+.tour-q-menu button:hover { background: rgba(255, 255, 255, 0.15); }
+.tour-q-menu button[aria-current="true"] { color: #5b9bff; font-weight: 600; }
+
 /* ---------- Alerts / notices ---------- */
 .notice {
   border: 1px solid var(--line);

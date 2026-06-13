@@ -472,8 +472,21 @@ function buildSitemap() {
     try { // metric histories, X-vs-Y comparisons, screen landing pages (seo-extra)
         require('./seo-extra').sitemapUrls().forEach((u) => urls.push({ loc: SITE + u.loc, pri: u.pri }));
     } catch (_) { /* seo-extra unavailable — base sitemap still valid */ }
-    const body = urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority></url>`).join('\n');
-    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
+    // the homepage carries the 60-second product tour — declare it so crawlers
+    // can index the video (Google video sitemap extension)
+    const homeVideo = `\n    <video:video>\n`
+        + `      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n`
+        + `      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n`
+        + `      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and 19 years of filed fundamentals.</video:description>\n`
+        + `      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n`
+        + `      <video:player_loc>${SITE}/#tour</video:player_loc>\n`
+        + `      <video:duration>63</video:duration>\n`
+        + `    </video:video>`;
+    const body = urls.map((u) => {
+        const vid = u.loc === `${SITE}/` ? homeVideo : '';
+        return `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority>${vid}</url>`;
+    }).join('\n');
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${body}\n</urlset>\n`;
 }
 
 // ---- helpers for the interactive company page's dynamic <head> ----
