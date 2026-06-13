@@ -2770,6 +2770,7 @@ app.get('/api/company/:symbol/filings', async (req, res) => {
 // Public; first request per company kicks off a background build (~1-2 min)
 // and the response says so.
 const insiders = require('./insiders');
+const gurus = require('./gurus');
 app.get('/api/company/:symbol/insider-history', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
@@ -3316,6 +3317,22 @@ app.get('/admin/funnel', async (req, res) => {
         res.set('Content-Type', 'text/html; charset=utf-8').set('Cache-Control', 'no-store').send(html);
     } catch (err) {
         res.status(500).send(`Error: ${err.message}`);
+    }
+});
+
+// ----- Guru portfolio routes (13F-HR from SEC EDGAR) -----
+app.get('/api/gurus', (req, res) => {
+    res.json({ gurus: gurus.list() });
+});
+
+app.get('/api/gurus/:id', async (req, res) => {
+    try {
+        const data = await gurus.holdings(req.params.id);
+        if (!data) return res.status(404).json({ error: 'Guru not found' });
+        res.json(data);
+    } catch (err) {
+        console.error('[gurus] route error:', err.message);
+        res.status(500).json({ error: 'Failed to fetch guru portfolio' });
     }
 });
 

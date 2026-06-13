@@ -334,17 +334,19 @@
     // ---------- nav ----------
     function nav(current) {
         const authed = !!token();
+        const cur = (page) => current === page ? "aria-current='page'" : '';
         const el = document.createElement('header');
         el.className = 'nav';
         el.innerHTML = `
           <div class="container nav-inner">
             <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
             <nav class="nav-links" aria-label="Primary">
-              <a href="/screener.html" ${current === 'screener' ? "aria-current='page'" : ''}>Screener</a>
-              <a href="/company.html?symbol=AAPL" ${current === 'company' ? "aria-current='page'" : ''}>Companies</a>
-              <a href="/news.html" ${current === 'news' ? "aria-current='page'" : ''}>Markets</a>
-              <a href="/ask.html" ${current === 'ask' ? "aria-current='page'" : ''}>Ask&nbsp;AI</a>
-              <a href="/dashboard.html" ${current === 'dashboard' ? "aria-current='page'" : ''}>Portfolio</a>
+              <a href="/screener.html" ${cur('screener')}>Screener</a>
+              <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
+              <a href="/news.html" ${cur('news')}>Markets</a>
+              <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
+              <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
+              <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">
@@ -356,11 +358,64 @@
                 ? `<a class="btn btn-quiet" href="#" id="v2-signout">Sign out</a>`
                 : `<a class="btn btn-quiet" href="/login.html">Log in</a>
                    <a class="btn btn-primary btn-sm" href="/register.html">Sign up free</a>`}
+            <button class="nav-ham" id="v2-ham" aria-label="Open menu" aria-expanded="false" aria-controls="v2-mobile-nav">
+              <svg width="20" height="15" viewBox="0 0 20 15" fill="currentColor" aria-hidden="true">
+                <rect y="0" width="20" height="2" rx="1"/><rect y="6.5" width="20" height="2" rx="1"/><rect y="13" width="20" height="2" rx="1"/>
+              </svg>
+            </button>
+          </div>
+          <div class="nav-mobile" id="v2-mobile-nav" aria-hidden="true">
+            <div class="nav-mobile-dim" id="v2-mobile-dim"></div>
+            <div class="nav-mobile-panel" role="dialog" aria-label="Navigation">
+              <div class="nav-mobile-top">
+                <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
+                <button class="nav-mobile-close" id="v2-mobile-close" aria-label="Close menu">✕</button>
+              </div>
+              <nav>
+                <a href="/screener.html" ${cur('screener')}>Screener</a>
+                <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
+                <a href="/news.html" ${cur('news')}>Markets</a>
+                <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
+                <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
+                <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
+              </nav>
+              <div class="nav-mobile-auth">
+                ${authed
+                    ? `<a class="btn btn-ghost" href="#" id="v2-mobile-signout">Sign out</a>`
+                    : `<a class="btn btn-ghost" href="/login.html">Log in</a>
+                       <a class="btn btn-primary" href="/register.html">Start free trial</a>`}
+              </div>
+            </div>
           </div>`;
         document.body.prepend(el);
 
+        // Mobile nav open/close
+        const ham = el.querySelector('#v2-ham');
+        const mobileNav = el.querySelector('#v2-mobile-nav');
+        const dim = el.querySelector('#v2-mobile-dim');
+        const closeBtn = el.querySelector('#v2-mobile-close');
+        function openMenu() {
+            mobileNav.setAttribute('aria-hidden', 'false');
+            ham.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+            requestAnimationFrame(() => mobileNav.classList.add('is-open'));
+        }
+        function closeMenu() {
+            mobileNav.classList.remove('is-open');
+            ham.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+            setTimeout(() => mobileNav.setAttribute('aria-hidden', 'true'), 240);
+        }
+        ham.addEventListener('click', openMenu);
+        dim.addEventListener('click', closeMenu);
+        closeBtn.addEventListener('click', closeMenu);
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
+
         const out = el.querySelector('#v2-signout');
         if (out) out.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); location.reload(); });
+        const mobileOut = el.querySelector('#v2-mobile-signout');
+        if (mobileOut) mobileOut.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); location.reload(); });
+
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
         mountConsent();
     }
@@ -421,7 +476,7 @@
           <div class="container footer-inner">
             <div>© 2026 stockportfolio.pro — figures from SEC filings (10-K/10-Q), as filed; per-share figures split-adjusted. Not investment advice.</div>
             <div style="display:flex; gap:20px;">
-              <a href="/stocks">All stocks</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
+              <a href="/stocks">All stocks</a><a href="/gurus.html">Gurus</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
             </div>
           </div>`;
         document.body.appendChild(el);

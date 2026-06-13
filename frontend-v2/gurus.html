@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Guru Portfolios — famous investors' 13F holdings | stockportfolio.pro</title>
+  <meta name="description" content="See what the world's top investors actually own — Warren Buffett, Bill Ackman, Seth Klarman and more, direct from their SEC 13F-HR filings." />
+  <link rel="canonical" href="https://www.stockportfolio.pro/gurus" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="stockportfolio.pro" />
+  <meta property="og:title" content="Guru Portfolios — famous investors' 13F holdings" />
+  <meta property="og:description" content="See what the world's top investors actually own — direct from their SEC 13F-HR filings." />
+  <meta property="og:url" content="https://www.stockportfolio.pro/gurus" />
+  <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20260614-2" />
+  <style>
+    /* ─── Two-panel shell ─── */
+    .gurus-shell {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      min-height: 72vh;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 28px;
+    }
+
+    /* ─── Left sidebar (guru list) ─── */
+    .gurus-sidebar {
+      border-right: 1px solid var(--line);
+      background: var(--surface);
+      overflow-y: auto;
+    }
+    .gurus-sidebar-hd {
+      padding: 14px 16px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+      border-bottom: 1px solid var(--line);
+    }
+    .guru-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 11px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid var(--line);
+      border-left: 3px solid transparent;
+      background: none;
+      width: 100%;
+      text-align: left;
+      font-family: inherit;
+      transition: background 0.1s ease;
+    }
+    .guru-item:last-child { border-bottom: 0; }
+    .guru-item:hover { background: var(--paper); }
+    .guru-item.is-active {
+      background: var(--accent-tint);
+      border-left-color: var(--accent);
+    }
+    .guru-avatar {
+      width: 34px; height: 34px; border-radius: 50%; flex: none;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 750; letter-spacing: -0.02em;
+    }
+    .guru-item-text { min-width: 0; }
+    .guru-item-name { font-size: 13px; font-weight: 650; color: var(--ink); line-height: 1.3; }
+    .guru-item.is-active .guru-item-name { color: var(--accent-ink); }
+    .guru-item-fund { font-size: 11.5px; color: var(--ink-3); margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .guru-item-aum  { font-size: 11px; font-weight: 650; color: var(--pos); margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+    /* ─── Mobile: sidebar becomes horizontal scroll ─── */
+    .gurus-sidebar-mobile {
+      display: none;
+      overflow-x: auto;
+      scrollbar-width: none;
+      gap: 8px;
+      padding: 14px 0 10px;
+      border-bottom: 1px solid var(--line);
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+    .gurus-sidebar-mobile::-webkit-scrollbar { display: none; }
+    .guru-pill {
+      flex: none;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      cursor: pointer;
+      background: var(--surface);
+      font-family: inherit;
+      white-space: nowrap;
+      font-size: 13px;
+      font-weight: 550;
+      color: var(--ink-2);
+      transition: border-color 0.12s;
+    }
+    .guru-pill:hover { border-color: var(--ink-3); color: var(--ink); }
+    .guru-pill.is-active { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .guru-pill .guru-avatar { width: 22px; height: 22px; font-size: 9px; }
+    .guru-pill.is-active .guru-avatar { background: rgba(255,255,255,0.2) !important; color: #fff; }
+
+    /* ─── Right main panel ─── */
+    .gurus-main {
+      background: var(--paper);
+      overflow: hidden;
+    }
+
+    /* ─── Guru header ─── */
+    .guru-hd {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      padding: 20px 24px 18px;
+    }
+    .guru-hd-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .guru-hd-identity { display: flex; align-items: center; gap: 14px; }
+    .guru-hd-avatar { width: 48px; height: 48px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 750; }
+    .guru-hd-name { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+    .guru-hd-fund { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+    .guru-hd-bio { font-size: 13px; color: var(--ink-2); margin-top: 10px; max-width: 68ch; line-height: 1.6; }
+
+    /* Stats strip */
+    .guru-stats {
+      display: flex;
+      gap: 0;
+      margin-top: 16px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--paper);
+    }
+    .guru-stat {
+      flex: 1;
+      padding: 10px 14px;
+      border-right: 1px solid var(--line);
+      display: grid;
+      gap: 2px;
+    }
+    .guru-stat:last-child { border-right: 0; }
+    .guru-stat-v { font-size: 17px; font-weight: 650; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .guru-stat-k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; }
+
+    /* ─── Sector allocation ─── */
+    .sector-section { padding: 18px 24px; border-bottom: 1px solid var(--line); background: var(--surface); }
+    .sector-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink-3); margin-bottom: 12px; }
+    .sector-bars { display: grid; gap: 7px; }
+    .sector-row { display: grid; grid-template-columns: 110px 1fr 48px; align-items: center; gap: 10px; font-size: 12.5px; }
+    .sector-label { color: var(--ink-2); font-weight: 550; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sector-bar-track { background: var(--line); border-radius: 3px; height: 7px; overflow: hidden; }
+    .sector-bar-fill  { height: 100%; border-radius: 3px; transition: width 0.4s ease; }
+    .sector-pct { text-align: right; font-weight: 650; font-variant-numeric: tabular-nums; color: var(--ink); }
+
+    /* ─── Holdings table ─── */
+    .holdings-section { padding: 0 24px 28px; }
+    .holdings-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 16px 0 12px;
+    }
+    .holdings-title { font-size: 13px; font-weight: 700; color: var(--ink); }
+    .holdings-count { font-size: 12px; color: var(--ink-3); }
+    .holdings-filter-wrap { position: relative; margin-left: auto; }
+    .holdings-filter-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); color: var(--ink-3); pointer-events: none; }
+    .holdings-filter { height: 32px; padding: 0 10px 0 28px; font-size: 12.5px; border: 1px solid var(--line-strong); border-radius: 8px; background: var(--paper); width: 190px; }
+    .holdings-filter:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-tint); width: 220px; }
+
+    /* Tabs (Holdings / Buys / Sells) */
+    .guru-tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-top: 4px; }
+    .guru-tab {
+      appearance: none; border: 0; background: none; font-family: inherit; cursor: pointer;
+      padding: 12px 4px 11px; margin-right: 18px; font-size: 13px; font-weight: 600;
+      color: var(--ink-3); border-bottom: 2px solid transparent; margin-bottom: -1px;
+      display: inline-flex; align-items: center; gap: 6px; transition: color 0.12s;
+    }
+    .guru-tab:hover { color: var(--ink); }
+    .guru-tab.is-active { color: var(--ink); border-bottom-color: var(--accent); }
+    .guru-tab span {
+      font-size: 11px; font-weight: 650; color: var(--ink-3);
+      background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
+      padding: 1px 7px; font-variant-numeric: tabular-nums;
+    }
+    .guru-tab.is-active span { color: var(--accent-ink); background: var(--accent-tint); border-color: transparent; }
+    .muted-cell { color: var(--ink-3); }
+
+    /* Table overrides for holding-specific styling */
+    .guru-table .pct-cell { min-width: 160px; }
+    .pct-bar-row { display: flex; align-items: center; gap: 8px; }
+    .pct-bar-fill { height: 6px; border-radius: 3px; background: var(--accent); flex: none; }
+    .pct-num { font-weight: 650; font-size: var(--text-sm); font-variant-numeric: tabular-nums; color: var(--ink); }
+    .activity-badge {
+      display: inline-block; padding: 2px 7px; border-radius: 4px;
+      font-size: 10.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+    }
+    .badge-new  { background: #ecfdf5; color: #059669; }
+    .badge-add  { background: #eff6ff; color: #2563eb; }
+    .badge-hold { background: var(--paper); color: var(--ink-3); border: 1px solid var(--line); }
+    .badge-reduce { background: #fff7ed; color: #d97706; }
+    .badge-sold   { background: #fef2f2; color: #dc2626; }
+    .co-name { font-weight: 600; font-size: 13px; color: var(--ink); }
+    .co-cusip { font-size: 10.5px; color: var(--ink-3); margin-top: 1px; font-variant-numeric: tabular-nums; }
+    .co-link { color: var(--ink); text-decoration: none; }
+    .co-link:hover { color: var(--accent); }
+
+    /* State placeholders */
+    .guru-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 52vh; gap: 12px; color: var(--ink-3); text-align: center; padding: 24px; }
+    .guru-placeholder svg { opacity: 0.3; }
+
+    /* ─── Responsive ─── */
+    @media (max-width: 900px) {
+      .guru-stats { flex-wrap: wrap; }
+      .guru-stat { flex: 1 1 40%; }
+    }
+    @media (max-width: 760px) {
+      .gurus-shell { grid-template-columns: 1fr; border: 0; margin-top: 0; }
+      .gurus-sidebar { display: none; }
+      .gurus-sidebar-mobile { display: flex; }
+      .guru-hd { padding: 16px; }
+      .guru-hd-avatar { width: 38px; height: 38px; font-size: 14px; }
+      .guru-hd-name { font-size: 17px; }
+      .sector-section, .holdings-section { padding-left: 16px; padding-right: 16px; }
+      .holdings-filter { width: 150px; }
+      .holdings-filter:focus { width: 180px; }
+      .guru-stats { flex-wrap: wrap; }
+      .guru-stat { flex: 1 1 42%; min-width: 0; }
+      .guru-stat-v { font-size: 15px; }
+      .sector-row { grid-template-columns: 90px 1fr 40px; }
+    }
+    @media (max-width: 520px) {
+      .guru-hd-bio { display: none; }
+      .holdings-toolbar { gap: 8px; }
+      .holdings-filter-wrap { margin-left: 0; width: 100%; }
+      .holdings-filter { width: 100%; }
+      .holdings-filter:focus { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <div class="page-head" style="padding-bottom:0;">
+        <h1 class="title-1">Guru Portfolios</h1>
+        <p class="muted" style="margin-top:6px; max-width:60ch;">Top institutional investors' holdings — filed quarterly with the SEC. Data sourced directly from 13F-HR filings on EDGAR.</p>
+      </div>
+
+      <!-- Mobile horizontal guru list (hidden on desktop) -->
+      <div class="gurus-sidebar-mobile" id="gurus-mobile-list"></div>
+
+      <!-- Two-panel shell -->
+      <div class="gurus-shell">
+
+        <!-- Left: Guru list (desktop only) -->
+        <aside class="gurus-sidebar">
+          <div class="gurus-sidebar-hd">Investors</div>
+          <div id="gurus-sidebar-list"></div>
+        </aside>
+
+        <!-- Right: Holdings panel -->
+        <div class="gurus-main" id="gurus-main">
+          <div class="guru-placeholder" id="guru-placeholder">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/>
+              <circle cx="17" cy="9" r="3"/><path d="M21 21v-2a3 3 0 0 0-2-2.83"/>
+            </svg>
+            <p class="small">Select an investor to view their portfolio</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="assets/app.js?v=20260614-1"></script>
+  <script>
+    V2.nav('gurus');
+    V2.footer();
+
+    /* ─── Guru metadata (bio, avatar colour, initials) ─── */
+    const GURU_META = {
+      berkshire:   { initials: 'WB', color: '#2563eb', bio: 'Value investing pioneer. Buys wonderful companies at fair prices and holds forever. Top 5 positions typically exceed 65% of the disclosed portfolio.' },
+      pershing:    { initials: 'BA', color: '#dc2626', bio: 'Concentrated activist investor. Takes large stakes and pushes for strategic change. Runs a highly public, high-conviction book.' },
+      baupost:     { initials: 'SK', color: '#059669', bio: 'Deep value and distressed specialist. Baupost\'s 13F shows only its long US equity sleeve — a fraction of a secretive, multi-strategy portfolio.' },
+      thirdpoint:  { initials: 'DL', color: '#d97706', bio: 'Event-driven activist. Third Point targets spin-offs, management changes, and mispriced assets — often with vocal public campaigns.' },
+      appaloosa:   { initials: 'DT', color: '#7c3aed', bio: 'Distressed debt and equity specialist. David Tepper made billions buying bank stocks in 2009. Known for high-conviction macro-driven stock picks.' },
+      greenlight:  { initials: 'DE', color: '#0891b2', bio: 'Long-short value manager. David Einhorn is famous for calling out fraudulent accounting and high-profile short positions alongside value longs.' },
+      viking:      { initials: 'AH', color: '#0d9488', bio: 'Long-biased fundamental equity hedge fund. Among the largest and most respected funds, known for rigorous bottom-up research and steady outperformance.' },
+      scion:       { initials: 'MB', color: '#b91c1c', bio: 'Michael Burry of "The Big Short" fame. Scion runs an ultra-concentrated contrarian book — often just 10–15 positions based on deep fundamental work.' },
+      duquesne:    { initials: 'SD', color: '#475569', bio: 'Family office of Stanley Druckenmiller. Legendary macro-driven stock picker; known for agile position management and reading the economic cycle early.' },
+      renaissance: { initials: 'JS', color: '#6d28d9', bio: 'Quantitative pioneer Jim Simons. The 13F covers only the public long equity book of their institutional strategy — not the legendary Medallion fund.' },
+    };
+
+    /* ─── Sector detection from company name ─── */
+    const SECTOR_MAP = [
+      { name: 'Technology',     color: '#3b82f6', rx: /apple|microsoft|nvidia|alphabet|google|meta |samsung|oracle|intel|cisco|amd|broadcom|qualcomm|adobe|salesforce|servicenow|snowflake|workday|paypal|verisign|autodesk|fortinet|palo alto|crowdstrike|cloudflare|zscaler|datadog|shopify|ebay|booking hold|expedia|airbnb|uber|lyft|semiconductor|software|microchip|digital realty|equinix|tech |techno|comput|ibm/ },
+      { name: 'Financial',      color: '#10b981', rx: /bank|financial|jpmorgan|wells fargo|citigroup|visa|mastercard|american express|moody|s&p global|blackrock|blackstone|goldman|morgan stanley|berkshire|truist|pnc|regions|ally|synchrony|discover|capital one|insurance|fiserv|fis |global payments|schwab|ameriprise|fidelity national/ },
+      { name: 'Healthcare',     color: '#f59e0b', rx: /health|pharma|medic|biotech|therapeutics|bioscience|johnson & johnson|pfizer|merck |abbvie|eli lilly|bristol|amgen|gilead|regeneron|moderna|vertex|biogen|illumina|iqvia|unitedhealth|cvs |cigna|humana|centene|elevance|medtronic|stryker|becton|boston scientific|edwards|intuitive|dexcom|abbott|baxter|cardinal/ },
+      { name: 'Consumer',       color: '#8b5cf6', rx: /coca-cola|pepsi|kraft|walmart|target|costco|home depot|lowe|walgreen|dollar |ross stores|tjx|procter|colgate|unilever|nike|mcdonald|starbucks|yum |chipotle|darden|hilton|marriott|hyatt|royal caribbean|carnival|estee|food|beverage|restaurant|retail|consumer/ },
+      { name: 'Energy',         color: '#ef4444', rx: /energy|oil |gas |petroleum|chevron|exxon|conocophillips|occidental|pioneer|valero|phillips 66|devon|coterra|diamondback|halliburton|schlumberger|baker hughes|transocean|kinder morgan|williams co|oneok|targa|enterprise product|energy transfer/ },
+      { name: 'Communication',  color: '#06b6d4', rx: /verizon|at&t|t-mobile|comcast|charter|disney|warner|paramount|discovery|activision|electronic arts|take-two|fox |media|telecom|wireless|broadcast/ },
+      { name: 'Industrial',     color: '#f97316', rx: /caterpillar|deere|honeywell|boeing|lockheed|raytheon|northrop|general dynamic|l3harris|transdigm|heico|textron|aerospace|defense|manufactur|parker hannifin|eaton|emerson|illinois tool|dover|danaher|fortive|roper|ametek|3m company|general electric|carrier|otis|trane|johnson control/ },
+      { name: 'Real Estate',    color: '#ec4899', rx: /realty|reit|property|prologis|simon property|public storage|extra space|equity residential|avalonbay|mid-america|camden|essex|sun communities|invitation homes|american tower|crown castle|iron mountain/ },
+      { name: 'Materials',      color: '#14b8a6', rx: /mining|chemical|steel |aluminum|copper|gold |silver |nucor|steel dynamics|cleveland-cliffs|alcoa|freeport|newmont|barrick|dow inc|dupont|lyondell|huntsman|celanese|eastman|sherwin|ppg/ },
+      { name: 'Utilities',      color: '#84cc16', rx: /nextera|duke energy|dominion|southern company|american electric|eversource|xcel|consolidated edison|pg&e|sempra|entergy|firstenergy|exelon|utility|utilities|electric power/ },
+    ];
+
+    function detectSector(name) {
+      const n = name.toLowerCase();
+      for (const s of SECTOR_MAP) { if (s.rx.test(n)) return s; }
+      return { name: 'Other', color: '#94a3b8' };
+    }
+
+    /* ─── Formatters ─── */
+    function fmtVal(v) {
+      if (!v && v !== 0) return '—';
+      const b = v / 1e9;
+      if (b >= 1)  return '$' + b.toFixed(1) + 'B';
+      const m = v / 1e6;
+      return '$' + m.toFixed(0) + 'M';
+    }
+    function fmtShares(n, type) {
+      if (n === null || n === undefined) return '—';
+      const sfx = type === 'PRN' ? ' prn' : '';
+      if (n >= 1e9) return (n / 1e9).toFixed(2) + 'B' + sfx;
+      if (n >= 1e6) return (n / 1e6).toFixed(2) + 'M' + sfx;
+      if (n >= 1e3) return (n / 1e3).toFixed(0) + 'K' + sfx;
+      return n.toLocaleString() + sfx;
+    }
+    function fmtDate(d) {
+      if (!d) return '—';
+      const dt = new Date(d + 'T00:00:00');
+      return isNaN(dt) ? d : dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    function quarter(d) {
+      if (!d) return '—';
+      const dt = new Date(d + 'T00:00:00');
+      if (isNaN(dt)) return d;
+      return 'Q' + (Math.floor(dt.getMonth() / 3) + 1) + ' \'' + String(dt.getFullYear()).slice(2);
+    }
+    function initials(name) {
+      return name.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+    }
+
+    /* ─── State ─── */
+    let activeId = null;
+    let currentData = null;
+    let activeTab = 'holdings';
+
+    /* ─── Render sidebar list (desktop + mobile) ─── */
+    function renderSidebars(guruList) {
+      const sidebarEl = document.getElementById('gurus-sidebar-list');
+      const mobileEl  = document.getElementById('gurus-mobile-list');
+
+      guruList.forEach((g) => {
+        const meta = GURU_META[g.id] || {};
+        const avatarBg = meta.color || '#6b7280';
+        const inits = meta.initials || initials(g.name);
+
+        // Desktop item
+        const btn = document.createElement('button');
+        btn.className = 'guru-item';
+        btn.dataset.id = g.id;
+        btn.innerHTML = `
+          <div class="guru-avatar" style="background:${avatarBg}22; color:${avatarBg};">${inits}</div>
+          <div class="guru-item-text">
+            <div class="guru-item-name">${V2.esc(g.name)}</div>
+            <div class="guru-item-fund">${V2.esc(g.fund)}</div>
+            <div class="guru-item-aum" id="aum-d-${g.id}"></div>
+          </div>`;
+        btn.addEventListener('click', () => selectGuru(g.id, guruList));
+        sidebarEl.appendChild(btn);
+
+        // Mobile pill
+        const pill = document.createElement('button');
+        pill.className = 'guru-pill';
+        pill.dataset.id = g.id;
+        pill.innerHTML = `
+          <div class="guru-avatar" style="background:${avatarBg}33; color:${avatarBg};">${inits}</div>
+          ${V2.esc(g.name)}`;
+        pill.addEventListener('click', () => selectGuru(g.id, guruList));
+        mobileEl.appendChild(pill);
+      });
+    }
+
+    /* ─── Mark active on both sidebar + mobile pills ─── */
+    function markActive(id) {
+      document.querySelectorAll('.guru-item').forEach(b => b.classList.toggle('is-active', b.dataset.id === id));
+      document.querySelectorAll('.guru-pill').forEach(b => b.classList.toggle('is-active', b.dataset.id === id));
+    }
+
+    /* ─── Select a guru → fetch + render ─── */
+    async function selectGuru(id, guruList) {
+      if (activeId === id) return;
+      activeId = id;
+      markActive(id);
+
+      const main = document.getElementById('gurus-main');
+      main.innerHTML = `<div class="guru-placeholder"><span class="loading-line"><span class="spin"></span>Loading 13F data…</span></div>`;
+
+      try {
+        const r = await fetch('/api/gurus/' + id);
+        const data = await r.json();
+        if (activeId !== id) return;
+        renderGuru(data);
+      } catch (_) {
+        main.innerHTML = `<div class="guru-placeholder"><p class="small">Failed to load — please try again.</p></div>`;
+      }
+    }
+
+    /* ─── Render a full guru panel ─── */
+    function renderGuru(data) {
+      const meta = GURU_META[data.id] || {};
+      const avatarColor = meta.color || '#6b7280';
+      const inits = meta.initials || initials(data.name || '');
+
+      // Update AUM on sidebar items
+      if (data.totalValue) {
+        const aumD = document.getElementById('aum-d-' + data.id);
+        if (aumD) aumD.textContent = fmtVal(data.totalValue);
+      }
+
+      // Building state (first fetch — EDGAR hit in progress)
+      if (data.building && !(data.holdings && data.holdings.length)) {
+        document.getElementById('gurus-main').innerHTML = `
+          <div class="guru-placeholder">
+            <span class="loading-line"><span class="spin"></span>Fetching 13F from SEC EDGAR…</span>
+            <p class="small faint" style="margin-top:8px;">Parsing the InfoTable XML for ${V2.esc(data.fund || data.name || '')} — takes ~30 s on first load.</p>
+            <button class="btn btn-ghost btn-sm" onclick="location.reload()">Refresh</button>
+          </div>`;
+        setTimeout(() => { if (activeId === data.id) selectGuru(data.id, []); }, 35000);
+        return;
+      }
+
+      if (!data.holdings || !data.holdings.length) {
+        document.getElementById('gurus-main').innerHTML = `<div class="guru-placeholder"><p class="small">No equity holdings found for this period.</p></div>`;
+        return;
+      }
+
+      /* ── Sector aggregation ── */
+      const sectorTotals = {};
+      let totalTracked = 0;
+      for (const h of data.holdings) {
+        const s = detectSector(h.name);
+        sectorTotals[s.name] = (sectorTotals[s.name] || { color: s.color, value: 0 });
+        sectorTotals[s.name].value += h.value || 0;
+        totalTracked += h.value || 0;
+      }
+      const sectors = Object.entries(sectorTotals)
+        .map(([name, d]) => ({ name, color: d.color, pct: totalTracked > 0 ? (d.value / totalTracked) * 100 : 0 }))
+        .sort((a, b) => b.pct - a.pct)
+        .slice(0, 7);
+
+      /* ── Buys / sells counts for tab badges ── */
+      const buysN  = data.holdings.filter(h => h.activity === 'new' || h.activity === 'add').length;
+      const sellsN = data.holdings.filter(h => h.activity === 'reduce').length + (data.sells ? data.sells.length : 0);
+
+      /* ── Build HTML ── */
+      const main = document.getElementById('gurus-main');
+      main.innerHTML = `
+        <!-- Guru header -->
+        <div class="guru-hd">
+          <div class="guru-hd-top">
+            <div class="guru-hd-identity">
+              <div class="guru-hd-avatar" style="background:${avatarColor}20; color:${avatarColor};">${inits}</div>
+              <div>
+                <div class="guru-hd-name">${V2.esc(data.name || '')}</div>
+                <div class="guru-hd-fund">${V2.esc(data.fund || '')} · ${quarter(data.reportingPeriod)}</div>
+              </div>
+            </div>
+            ${data.cik ? `<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener"
+                href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(data.cik)}&type=13F-HR&dateb=&owner=include&count=5">
+                SEC Filing ↗</a>` : ''}
+          </div>
+          ${meta.bio ? `<p class="guru-hd-bio">${V2.esc(meta.bio)}</p>` : ''}
+          <div class="guru-stats">
+            <div class="guru-stat">
+              <span class="guru-stat-v">${fmtVal(data.totalValue)}</span>
+              <span class="guru-stat-k">Portfolio Value</span>
+            </div>
+            <div class="guru-stat">
+              <span class="guru-stat-v">${data.holdingsTotal || data.holdings.length}</span>
+              <span class="guru-stat-k">Positions</span>
+            </div>
+            <div class="guru-stat">
+              <span class="guru-stat-v">${quarter(data.reportingPeriod)}</span>
+              <span class="guru-stat-k">Period</span>
+            </div>
+            <div class="guru-stat">
+              <span class="guru-stat-v">${fmtDate(data.filingDate)}</span>
+              <span class="guru-stat-k">Filed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sector allocation -->
+        <div class="sector-section">
+          <div class="sector-section-title">Sector Allocation</div>
+          <div class="sector-bars" id="sector-bars">
+            ${sectors.map(s => `
+              <div class="sector-row">
+                <span class="sector-label">${V2.esc(s.name)}</span>
+                <div class="sector-bar-track">
+                  <div class="sector-bar-fill" style="width:${Math.min(100, (s.pct / sectors[0].pct) * 100).toFixed(1)}%; background:${s.color};"></div>
+                </div>
+                <span class="sector-pct" style="color:${s.color};">${s.pct.toFixed(1)}%</span>
+              </div>`).join('')}
+          </div>
+        </div>
+
+        <!-- Holdings -->
+        <div class="holdings-section">
+          ${data.hasActivity ? `
+          <div class="guru-tabs" id="guru-tabs" role="tablist">
+            <button class="guru-tab is-active" data-tab="holdings" role="tab">All Holdings <span>${data.holdingsTotal}</span></button>
+            <button class="guru-tab" data-tab="buys" role="tab">Buys <span>${buysN}</span></button>
+            <button class="guru-tab" data-tab="sells" role="tab">Sells <span>${sellsN}</span></button>
+          </div>` : ''}
+          <div class="holdings-toolbar">
+            <span class="holdings-title" id="h-tab-title">Holdings</span>
+            <span class="holdings-count" id="h-count"></span>
+            <div class="holdings-filter-wrap">
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="6" cy="6" r="4.5"/><path d="M10 10l2.5 2.5"/></svg>
+              <input class="holdings-filter" id="h-filter" type="search" placeholder="Filter…" />
+            </div>
+          </div>
+
+          <div class="scroll-top" id="h-scroll-top"><div></div></div>
+          <div class="table-wrap" id="h-table-wrap">
+            <table class="table-data guru-table" id="h-table">
+              <thead><tr>
+                <th style="width:34px; text-align:right;">#</th>
+                <th class="row-head" style="min-width:190px; text-align:left;">Company</th>
+                <th class="pct-cell" style="min-width:150px;">% Portfolio</th>
+                <th style="min-width:96px;">Activity</th>
+                <th>Shares</th>
+                <th style="min-width:84px;">Reported Px</th>
+                <th>Value</th>
+              </tr></thead>
+              <tbody id="h-body"></tbody>
+            </table>
+          </div>
+
+          <p class="provenance" style="margin-top:12px;">
+            Source: SEC EDGAR 13F-HR · Filed ${fmtDate(data.filingDate)}${data.prevPeriod ? ' · activity vs ' + quarter(data.prevPeriod) : ''} ·
+            Top 50 by value · Reported price = value ÷ shares at quarter-end ·
+            <a href="https://www.sec.gov/divisions/investment/13ffaq.htm" target="_blank" rel="noopener">13F FAQ ↗</a> · Not investment advice.
+          </p>
+        </div>`;
+
+      /* ── Tab + table state ── */
+      currentData = data;
+      activeTab = 'holdings';
+      renderTable();
+
+      /* ── Proxy scroll bar sync ── */
+      const tw = document.getElementById('h-table-wrap');
+      const st = document.getElementById('h-scroll-top');
+      if (tw && st) {
+        tw.addEventListener('scroll', () => st.scrollLeft = tw.scrollLeft);
+        st.addEventListener('scroll', () => tw.scrollLeft = st.scrollLeft);
+      }
+
+      /* ── Tabs ── */
+      document.querySelectorAll('.guru-tab').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          activeTab = btn.dataset.tab;
+          document.querySelectorAll('.guru-tab').forEach((b) => b.classList.toggle('is-active', b === btn));
+          const t = document.getElementById('h-tab-title');
+          if (t) t.textContent = activeTab === 'buys' ? 'Recent Buys' : activeTab === 'sells' ? 'Recent Sells' : 'Holdings';
+          const f = document.getElementById('h-filter'); if (f) f.value = '';
+          renderTable();
+        });
+      });
+
+      /* ── Filter ── */
+      const filterInput = document.getElementById('h-filter');
+      if (filterInput) filterInput.addEventListener('input', applyFilter);
+    }
+
+    /* ─── Rows for the active tab ─── */
+    function rowsForTab(data, tab) {
+      if (tab === 'buys') return data.holdings.filter((h) => h.activity === 'new' || h.activity === 'add');
+      if (tab === 'sells') {
+        const reduced = data.holdings.filter((h) => h.activity === 'reduce');
+        const sold = (data.sells || []).map((s) => ({
+          name: s.name, cusip: s.cusip, prevShares: s.prevShares,
+          value: null, weight: null, shares: null, reportedPrice: null, activity: 'sold',
+        }));
+        return [...reduced, ...sold];
+      }
+      return data.holdings;
+    }
+
+    /* ─── Render table body for current tab ─── */
+    function renderTable() {
+      const data = currentData;
+      if (!data) return;
+      const rows = rowsForTab(data, activeTab);
+      const maxW = data.holdings.reduce((m, h) => Math.max(m, h.weight || 0), 0);
+      const body = document.getElementById('h-body');
+      if (!body) return;
+      body.innerHTML = rows.length
+        ? rows.map((h, i) => rowHtml(h, i, maxW)).join('')
+        : `<tr class="empty-row"><td colspan="7" style="text-align:center; padding:30px; color:var(--ink-3);">No ${activeTab === 'buys' ? 'new buys or adds' : activeTab === 'sells' ? 'sells' : 'holdings'} this quarter.</td></tr>`;
+      applyFilter();
+      const tw = document.getElementById('h-table-wrap');
+      const st = document.getElementById('h-scroll-top');
+      if (tw && st && st.firstChild) st.firstChild.style.width = tw.scrollWidth + 'px';
+    }
+
+    /* ─── Filter within the active tab ─── */
+    function applyFilter() {
+      const fi = document.getElementById('h-filter');
+      const q = (fi ? fi.value : '').trim().toLowerCase();
+      let shown = 0, total = 0;
+      document.querySelectorAll('#h-body tr').forEach((tr) => {
+        if (tr.classList.contains('empty-row')) return;
+        total++;
+        const hide = q && !(tr.dataset.name || '').includes(q) && !(tr.dataset.cusip || '').includes(q);
+        tr.hidden = hide;
+        if (!hide) shown++;
+      });
+      const countEl = document.getElementById('h-count');
+      if (countEl) {
+        const noun = activeTab === 'sells' ? 'positions' : activeTab === 'buys' ? 'buys' : 'holdings';
+        countEl.textContent = q ? shown + ' match' + (shown !== 1 ? 'es' : '') : total + ' ' + noun;
+      }
+    }
+
+    /* ─── Activity badge ─── */
+    function activityBadge(h) {
+      switch (h.activity) {
+        case 'new':    return '<span class="activity-badge badge-new">New Buy</span>';
+        case 'add':    return '<span class="activity-badge badge-add">Add' + (h.shareChangePct != null ? ' +' + Math.round(h.shareChangePct) + '%' : '') + '</span>';
+        case 'reduce': return '<span class="activity-badge badge-reduce">Reduce' + (h.shareChangePct != null ? ' ' + Math.round(Math.abs(h.shareChangePct)) + '%' : '') + '</span>';
+        case 'sold':   return '<span class="activity-badge badge-sold">Sold Out</span>';
+        case 'hold':   return '<span class="activity-badge badge-hold">Hold</span>';
+        default:       return '<span class="muted-cell">—</span>';
+      }
+    }
+
+    /* ─── One holdings row ─── */
+    function rowHtml(h, i, maxW) {
+      const sector = detectSector(h.name);
+      const searchUrl = '/screener.html?q=' + encodeURIComponent(h.name);
+      const pctCell = h.weight != null
+        ? `<div class="pct-bar-row">
+             <div class="pct-bar-fill" style="width:${maxW > 0 ? Math.min(100, Math.round((h.weight / maxW) * 100)) : 0}px; background:${sector.color};"></div>
+             <span class="pct-num">${h.weight.toFixed(2)}%</span>
+           </div>`
+        : '<span class="muted-cell">—</span>';
+      const sharesCell = h.shares != null
+        ? fmtShares(h.shares, h.shareType)
+        : (h.prevShares != null ? `<span class="muted-cell">${fmtShares(h.prevShares)} → 0</span>` : '—');
+      const priceCell = h.reportedPrice != null ? '$' + h.reportedPrice.toFixed(2) : '<span class="muted-cell">—</span>';
+      const valueCell = h.value != null ? fmtVal(h.value) : '<span class="muted-cell">—</span>';
+      return `<tr data-name="${V2.esc(h.name.toLowerCase())}" data-cusip="${V2.esc(h.cusip || '')}">
+        <td style="text-align:right; color:var(--ink-3); font-size:12px;">${i + 1}</td>
+        <td class="row-head">
+          <div class="co-name"><a class="co-link" href="${searchUrl}" title="Screen for similar companies">${V2.esc(h.name)}</a></div>
+          ${h.cusip ? `<div class="co-cusip">${V2.esc(h.cusip)}</div>` : ''}
+        </td>
+        <td class="pct-cell">${pctCell}</td>
+        <td>${activityBadge(h)}</td>
+        <td>${sharesCell}</td>
+        <td style="font-variant-numeric:tabular-nums;">${priceCell}</td>
+        <td>${valueCell}</td>
+      </tr>`;
+    }
+
+    /* ─── Bootstrap ─── */
+    (async () => {
+      try {
+        const r = await fetch('/api/gurus');
+        const { gurus } = await r.json();
+        if (!gurus || !gurus.length) throw new Error('empty');
+        renderSidebars(gurus);
+        // Auto-select first
+        selectGuru(gurus[0].id, gurus);
+      } catch (_) {
+        document.getElementById('gurus-main').innerHTML =
+          `<div class="guru-placeholder"><p class="small">Could not load guru list — please refresh.</p></div>`;
+      }
+    })();
+  </script>
+</body>
+</html>
