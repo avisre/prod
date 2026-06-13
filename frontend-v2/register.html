@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Free plan, no card needed — or a 7-day trial. Monthly £9, Annual £90, Pro £25 (£190/yr) with the AI analyst." />
+  <meta name="description" content="Start your 7-day free trial. Monthly £9, Annual £90, Pro £25 (£190/yr) with the AI analyst." />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -37,9 +37,6 @@
 
       <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
         <div class="plan-pick" role="group" aria-label="Choose your plan">
-          <button type="button" class="plan-card" data-plan="free" aria-pressed="false">
-            <span class="plan-name">Free</span><span class="plan-price">£0</span><span class="plan-tag">No card needed</span>
-          </button>
           <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">
             <span class="plan-name">Monthly</span><span class="plan-price">£9/mo</span><span class="plan-tag">Cancel anytime</span>
           </button>
@@ -80,7 +77,6 @@
   <script>
     V2.nav('register');
     const SUMMARY = {
-      free: ['Free forever — screener, a 10-company watchlist and 3 Ask questions a month. No card.', 'Create free account'],
       monthly: ['7-day free trial, then £9/month. Cancel anytime.', 'Start 7-day free trial'],
       annual: ['£90 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
       pro: ['7-day free trial, then £25/month — includes the AI analyst.', 'Start Pro free trial'],
@@ -96,9 +92,7 @@
       const row = document.getElementById('pro-annual-row');
       row.hidden = cardPlan(plan) !== 'pro';
       document.getElementById('pro-annual-toggle').checked = plan === 'pro-annual';
-      document.getElementById('card-note').textContent = plan === 'free'
-        ? 'No card required.'
-        : 'Card added at checkout, nothing charged during the trial.';
+      document.getElementById('card-note').textContent = 'Card added at checkout, nothing charged during the trial.';
     }
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
@@ -188,12 +182,6 @@
           })
         });
         const data = await r.json().catch(() => ({}));
-        if (r.ok && data.plan === 'free' && data.token) {
-          // Free plan: no checkout — straight into the product.
-          localStorage.setItem('token', data.token);
-          location.href = '/dashboard.html';
-          return;
-        }
         if (r.ok && data.url) {
           // Same handoff key v1 uses — whichever register page Stripe returns
           // to can auto-login once the webhook activates the subscription.
