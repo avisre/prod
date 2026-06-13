@@ -8,16 +8,38 @@ const YahooFinance = require('yahoo-finance2').default;
 const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 
 const GURU_LIST = [
-    { id: 'berkshire',   name: 'Warren Buffett',         fund: 'Berkshire Hathaway',        cik: '0001067983' },
-    { id: 'pershing',    name: 'Bill Ackman',             fund: 'Pershing Square Capital',   cik: '0001336528' },
-    { id: 'baupost',     name: 'Seth Klarman',            fund: 'Baupost Group',             cik: '0001061768' },
-    { id: 'thirdpoint',  name: 'Dan Loeb',                fund: 'Third Point',               cik: '0001040273' },
-    { id: 'appaloosa',   name: 'David Tepper',            fund: 'Appaloosa Management',      cik: '0001656456' },
-    { id: 'greenlight',  name: 'David Einhorn',           fund: 'Greenlight Capital',        cik: '0001489933' },
-    { id: 'viking',      name: 'Andreas Halvorsen',       fund: 'Viking Global Investors',   cik: '0001103804' },
-    { id: 'scion',       name: 'Michael Burry',           fund: 'Scion Asset Management',    cik: '0001649339' },
-    { id: 'duquesne',    name: 'Stanley Druckenmiller',   fund: 'Duquesne Family Office',    cik: '0001536411' },
-    { id: 'renaissance', name: 'Jim Simons',              fund: 'Renaissance Technologies',  cik: '0001037389' },
+    // ── Legendary value / concentrated investors ──────────────────────────────
+    { id: 'berkshire',    name: 'Warren Buffett',         fund: 'Berkshire Hathaway',           cik: '0001067983' },
+    { id: 'pershing',     name: 'Bill Ackman',            fund: 'Pershing Square Capital',      cik: '0001336528' },
+    { id: 'baupost',      name: 'Seth Klarman',           fund: 'Baupost Group',                cik: '0001061768' },
+    { id: 'scion',        name: 'Michael Burry',          fund: 'Scion Asset Management',       cik: '0001649339' },
+    { id: 'duquesne',     name: 'Stanley Druckenmiller',  fund: 'Duquesne Family Office',       cik: '0001536411' },
+    { id: 'soros',        name: 'George Soros',           fund: 'Soros Fund Management',        cik: '0001029160' },
+    { id: 'himalaya',     name: 'Li Lu',                  fund: 'Himalaya Capital Management',  cik: '0001709323' },
+    { id: 'southeastern', name: 'Mason Hawkins',          fund: 'Southeastern Asset Management',cik: '0000807985' },
+    { id: 'abrams',       name: 'David Abrams',           fund: 'Abrams Capital Management',    cik: '0001358706' },
+    { id: 'yacktman',     name: 'Donald Yacktman',        fund: 'Yacktman Asset Management',    cik: '0000905567' },
+    { id: 'tweedy',       name: 'Tweedy Browne',          fund: 'Tweedy Browne Company',        cik: '0000732905' },
+    { id: 'akre',         name: 'Chuck Akre',             fund: 'Akre Capital Management',      cik: '0001112520' },
+    { id: 'davis',        name: 'Christopher Davis',      fund: 'Davis Advisors',               cik: '0001036325' },
+    // ── Macro & quant ────────────────────────────────────────────────────────
+    { id: 'renaissance',  name: 'Jim Simons',             fund: 'Renaissance Technologies',     cik: '0001037389' },
+    { id: 'bridgewater',  name: 'Ray Dalio',              fund: 'Bridgewater Associates',       cik: '0001350694' },
+    // ── Event-driven / activist ───────────────────────────────────────────────
+    { id: 'thirdpoint',   name: 'Dan Loeb',               fund: 'Third Point',                  cik: '0001040273' },
+    { id: 'appaloosa',    name: 'David Tepper',           fund: 'Appaloosa Management',         cik: '0001656456' },
+    { id: 'greenlight',   name: 'David Einhorn',          fund: 'Greenlight Capital',           cik: '0001489933' },
+    { id: 'tci',          name: 'Chris Hohn',             fund: 'TCI Fund Management',          cik: '0001647251' },
+    { id: 'valueact',     name: 'Mason Morfit',           fund: 'ValueAct Capital',             cik: '0001418814' },
+    { id: 'cooperman',    name: 'Leon Cooperman',         fund: 'Omega Advisors',               cik: '0000898382' },
+    // ── Long-biased fundamental hedge funds ──────────────────────────────────
+    { id: 'viking',       name: 'Andreas Halvorsen',      fund: 'Viking Global Investors',      cik: '0001103804' },
+    { id: 'tigerglob',    name: 'Chase Coleman',          fund: 'Tiger Global Management',      cik: '0001167483' },
+    { id: 'lonepine',     name: 'Stephen Mandel',         fund: 'Lone Pine Capital',            cik: '0001061165' },
+    { id: 'maverick',     name: 'Lee Ainslie',            fund: 'Maverick Capital',             cik: '0000934639' },
+    { id: 'durable',      name: 'Henry Ellenbogen',       fund: 'Durable Capital Partners',     cik: '0001798849' },
+    // ── Diversified / institutional ───────────────────────────────────────────
+    { id: 'ariel',        name: 'John Rogers',            fund: 'Ariel Investments',            cik: '0000936753' },
 ];
 
 const CACHE_TTL_MS = 24 * 3600 * 1000;
