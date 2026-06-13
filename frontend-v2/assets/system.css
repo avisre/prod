@@ -519,6 +519,41 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 @keyframes askBlink { 50% { opacity: 0; } }
 .ask-quota { font-size: var(--text-xs); color: var(--ink-3); }
 
+/* ---------- Ask quota wall (monthly taste used up) ---------- */
+/* A blurred ghost of an answer's shape, fading out, then one upgrade panel. */
+.ask-wall { margin-top: 6px; }
+.ask-wall-ghost {
+  filter: blur(5px); opacity: 0.5; max-width: 74ch;
+  user-select: none; -webkit-user-select: none; pointer-events: none;
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 100%);
+          mask-image: linear-gradient(180deg, #000 0%, #000 42%, transparent 100%);
+}
+.ask-wall-ghost .g { background: var(--line-strong); border-radius: 6px; height: 12px; margin-bottom: 13px; }
+.ask-wall-ghost .g.h { height: 17px; width: 44%; background: var(--ink-3); margin-bottom: 18px; }
+.ask-wall-ghost .g.s { width: 88%; }
+.ask-wall-ghost .g.m { width: 96%; }
+.ask-wall-ghost .g.t { width: 66%; }
+.ask-wall-ghost .g-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 14px; margin: 20px 0; }
+.ask-wall-ghost .g-row .g { margin: 0; }
+.ask-wall-panel {
+  position: relative; margin-top: -10px; max-width: 74ch;
+  border: 1px solid var(--line); border-radius: 16px; background: var(--surface);
+  padding: 22px 24px; box-shadow: 0 10px 30px -18px rgba(0, 0, 0, 0.25);
+}
+.ask-wall-panel h3 { margin: 0 0 4px; font-size: var(--text-lg); letter-spacing: -0.01em; }
+.ask-wall-panel .sub { margin: 0 0 16px; color: var(--ink-2); font-size: var(--text-sm); }
+.ask-plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+.ask-plan { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; }
+.ask-plan.is-current { background: var(--paper); }
+.ask-plan.is-pick { border-color: var(--ink); }
+.ask-plan .pn { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-3); font-weight: 600; }
+.ask-plan .pp { font-size: var(--text-lg); font-weight: 650; margin: 3px 0; font-variant-numeric: tabular-nums; }
+.ask-plan .pp span { font-size: var(--text-xs); font-weight: 400; color: var(--ink-3); }
+.ask-plan .pq { font-size: var(--text-sm); color: var(--ink-2); }
+.ask-plan .pq strong { color: var(--ink); }
+.ask-plan .tag { display: inline-block; margin-top: 6px; font-size: var(--text-xs); color: var(--accent-ink); font-weight: 600; }
+@media (max-width: 560px) { .ask-plans { grid-template-columns: 1fr; } }
+
 /* ---------- Alerts / notices ---------- */
 .notice {
   border: 1px solid var(--line);

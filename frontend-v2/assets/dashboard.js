@@ -167,8 +167,8 @@
             const r = await fetch(`${API}/portfolio/briefing/sample`);
             if (!r.ok) return;
             const data = await r.json();
-            body.innerHTML = '<div style="opacity:.7">' + (data.briefing || '') + '</div>'
-                + '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border-subtle)">'
+            body.innerHTML = '<div class="ask-a">' + markdown(data.briefing || '') + '</div>'
+                + '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">'
                 + '<p class="small muted" style="margin:0 0 8px"><strong>Sample briefing</strong> — 5-stock demo portfolio. Subscribe to get your own weekly briefing.</p>'
                 + '<a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Start 7-day free trial →</a>'
                 + '</div>';

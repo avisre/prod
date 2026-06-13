@@ -96,13 +96,28 @@ app.use(compression({
   }
 }));
 
+// The public, unauthenticated page-view beacon gets its own tight per-IP cap
+// so a flood can't spend the shared /api budget or pile unbounded writes into
+// funnel_events. A real researcher fires ~1 beacon per page; 120/15min is far
+// above honest use and hard below abuse. Beacons are dropped past the cap —
+// fine for fire-and-forget analytics.
+const pageViewLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 120,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/track/page_view', pageViewLimiter);
+
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   // v2 pages fan out ~9 API calls each — 300 allowed only ~33 page views
   // per window for a legitimate researcher. 900 still throttles abuse.
   max: 900,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  // the beacon has its own limiter above — don't let it spend this budget too
+  skip: (req) => req.path === '/track/page_view'
 });
 app.use('/api', apiLimiter);
 
@@ -1020,10 +1035,10 @@ function applyPlanToSubscription(user, planInput) {
 async function trackFunnel(event, userId, plan, extra) {
     try {
         await mongoose.connection.collection('funnel_events').insertOne({
+            ...(extra || {}),
             event: String(event),
             userId: userId ? String(userId) : null,
             plan: plan ? String(plan) : null,
-            ...(extra || {}),
             at: new Date()
         });
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
@@ -2402,7 +2417,9 @@ app.post('/api/ai/chat', authMiddleware, async (req, res) => {
                 message: isProUser(req)
                     ? `You've used all ${limit} Ask queries this month — the counter resets on the 1st.`
                     : `You've used your ${limit} Ask queries this month. Upgrade for ${aiChat.limits(req.tier === 'free' ? 'core' : 'pro')} a month.`,
-                code: 'ASK_QUOTA', quota: { used, limit, remaining: 0 }
+                // tier lets the client render the right upgrade ladder even when
+                // AI_CHAT_*_LIMIT env overrides make limit→tier inference ambiguous
+                code: 'ASK_QUOTA', tier: req.tier === true ? 'pro' : req.tier, quota: { used, limit, remaining: 0 }
             });
         }
         // Holdings context for the get_portfolio tool (stored prices — no live
@@ -3260,7 +3277,8 @@ app.get('/admin/funnel', async (req, res) => {
             if (g._id.event === 'page_view') return;
             const p = g._id.plan || 'unknown';
             if (!byPlan[p]) byPlan[p] = { signup:0, trial_start:0, paid:0, cancel:0 };
-            if (byPlan[p][g._id.event] !== undefined) byPlan[p][g._id.event] += g.n;
+            // accumulate dynamically so a future event type isn't silently dropped
+            byPlan[p][g._id.event] = (byPlan[p][g._id.event] || 0) + g.n;
         });
         const planRows = Object.entries(byPlan).sort((a,b) => b[1].signup - a[1].signup)
             .map(([p, v]) => `<tr><td>${p}</td><td>${v.signup}</td><td>${v.trial_start}</td><td>${v.paid}</td><td>${v.cancel}</td></tr>`).join('');

@@ -236,6 +236,55 @@
     // ---------- loading ring ----------
     const spinner = (label) => `<span class="loading-line"><span class="spin" aria-hidden="true"></span>${esc(label || 'Loading…')}</span>`;
 
+    // ---------- Ask quota wall ----------
+    // Shown when a free/core user spends their monthly Ask allowance. Instead
+    // of a flat "limit reached" line, show a blurred ghost of an answer's shape
+    // (the value is seen, not described) above one upgrade panel with the plan
+    // ladder and a single CTA. Pro users just get a reset note, no upsell.
+    const ASK_PLANS = {
+        free: { name: 'Free', price: '£0', per: '/forever', q: 3 },
+        core: { name: 'Core', price: '£9', per: '/mo', q: 25 },
+        pro: { name: 'Pro', price: '£25', per: '/mo', q: 300 }
+    };
+    function quotaWall(data) {
+        const limit = (data && data.quota && Number(data.quota.limit)) || 3;
+        // trust the server's tier when it sends one (survives AI_CHAT_*_LIMIT env
+        // overrides); fall back to inferring from the limit for older responses
+        const sent = data && data.tier;
+        const tier = (sent === 'pro' || sent === 'core' || sent === 'free')
+            ? sent
+            : (limit >= 300 ? 'pro' : limit >= 25 ? 'core' : 'free');
+        if (tier === 'pro') {
+            return `<div class="notice">${esc((data && data.message) || "You've used all your Ask questions this month — the counter resets on the 1st.")}</div>`;
+        }
+        const cards = ['free', 'core', 'pro'].map((k) => {
+            const p = ASK_PLANS[k];
+            const current = k === tier;
+            const pick = k === 'pro' && tier !== 'pro';
+            return `<div class="ask-plan${current ? ' is-current' : ''}${pick ? ' is-pick' : ''}">
+                <div class="pn">${p.name}</div>
+                <div class="pp">${p.price}<span>${esc(p.per)}</span></div>
+                <div class="pq"><strong>${p.q}</strong> Ask / mo</div>
+                ${current ? '<div class="tag">Your plan</div>' : pick ? '<div class="tag">Recommended</div>' : ''}
+              </div>`;
+        }).join('');
+        return `<div class="ask-wall">
+          <div class="ask-wall-ghost" aria-hidden="true">
+            <div class="g h"></div>
+            <div class="g s"></div><div class="g m"></div><div class="g t"></div>
+            <div class="g-row"><div class="g"></div><div class="g"></div><div class="g"></div>
+              <div class="g"></div><div class="g"></div><div class="g"></div></div>
+            <div class="g s"></div><div class="g m"></div>
+          </div>
+          <div class="ask-wall-panel">
+            <h3>That's your ${limit} Ask questions for this month.</h3>
+            <p class="sub">Upgrade to keep going — comparisons, screens, portfolio Q&amp;A, with charts, tables and a source under every figure. The counter resets on the 1st either way.</p>
+            <div class="ask-plans">${cards}</div>
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=pro">Start Pro free trial</a>
+          </div>
+        </div>`;
+    }
+
     // ---------- analytics, consent-gated (prod hostname only) ----------
     // Nothing loads until the user says yes; the choice is remembered and
     // shared with v1 (same key). Decline = the scripts never exist.
@@ -450,7 +499,7 @@
                     if (r.status === 401) {
                         answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
                     } else if (r.status === 429) {
-                        answerEl.innerHTML = `${esc(data.message || 'Monthly limit reached.')} <a href="/register.html?plan=pro">See Pro</a>.`;
+                        answerEl.innerHTML = quotaWall(data);
                     } else if (data.answer) {
                         finish(data);
                     } else {
