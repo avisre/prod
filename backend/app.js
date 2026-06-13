@@ -958,10 +958,18 @@ app.get(['/screener', '/screener.html'], (req, res) => {
 
 // CUTOVER (local): v2 is the product at / — it wins name collisions; anything
 // it doesn't have (Media, legal pages, demo pages, data/) falls through to v1.
-// HTML revalidates on every request (assets aren't fingerprinted, so a deploy
-// must show up immediately); images/css/js/data may be cached for an hour.
+// Cache tiers, by how the asset changes:
+//  - HTML: never cache — a deploy must show up immediately.
+//  - css/js/fonts/video: 1yr immutable. All css/js are version-stamped (?v=…),
+//    so a new build = a new URL; fonts/video are stable. This is the LCP win.
+//  - images: 30d — not version-stamped, but they rarely change.
+//  - everything else (data/*.json refreshed nightly, etc.): 1h for freshness.
+const ONE_YEAR = 'public, max-age=31536000, immutable';
 const staticCacheHeaders = (res, filePath) => {
-    res.setHeader('Cache-Control', filePath.endsWith('.html') ? 'no-cache' : 'public, max-age=3600');
+    if (filePath.endsWith('.html')) { res.setHeader('Cache-Control', 'no-cache'); return; }
+    if (/\.(css|js|mjs|woff2?|ttf|otf|mp4|webm)$/i.test(filePath)) { res.setHeader('Cache-Control', ONE_YEAR); return; }
+    if (/\.(png|jpe?g|gif|svg|ico|webp|avif)$/i.test(filePath)) { res.setHeader('Cache-Control', 'public, max-age=2592000'); return; }
+    res.setHeader('Cache-Control', 'public, max-age=3600');
 };
 app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
 app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));

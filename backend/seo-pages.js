@@ -29,7 +29,7 @@ function loadCompanies() {
         const raw = JSON.parse(fs.readFileSync(file, 'utf8'));
         const list = Array.isArray(raw) ? raw : (raw.companies || []);
         _companies = list
-            .map((c) => ({ symbol: String(c.symbol || '').toUpperCase(), name: c.name || c.symbol, sector: c.sector || '' }))
+            .map((c) => ({ symbol: String(c.symbol || '').toUpperCase(), name: c.name || c.symbol, sector: c.sector || '', index: c.index || '' }))
             .filter((c) => c.symbol);
     } catch (_) { _companies = []; }
     return _companies;
@@ -163,6 +163,7 @@ function nav() {
 
 function footer() {
     return `<footer class="seo-foot">
+  <p><a href="/screens/dividend-stocks">Best dividend stocks</a> &middot; <a href="/screens/high-growth-stocks">Fastest-growing</a> &middot; <a href="/screens/most-profitable-stocks">Most profitable</a> &middot; <a href="/screens/low-pe-stocks">Low P/E value</a> &middot; <a href="/screens/quality-compounders">Quality compounders</a></p>
   <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
   <p class="seo-disc">Data is provided for informational purposes only and may be delayed or inaccurate. stockportfolio.pro is an analysis and visualization tool and does not provide financial advice. &copy; 2026 stockportfolio.pro.</p>
 </footer><script>try{var pv=JSON.stringify({path:location.pathname});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
@@ -387,9 +388,17 @@ function renderStockPage(ticker) {
         mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
     })}</script>`;
 
-    // Internal links to other stocks (same sector first, then a spread) for crawlability
+    // Internal links to other stocks (same sector first, then a spread) for crawlability.
+    // Filter by the company-list sector (GICS), not ov.Sector — fundamentals use a
+    // different taxonomy ("Technology" vs "Information Technology"), which otherwise
+    // matches nothing and silently drops every same-sector link.
     const all = loadCompanies();
-    const sameSector = all.filter((c) => c.sector === sector && c.symbol !== sym).slice(0, 12);
+    const peerSector = (company && company.sector) || sector;
+    // Large-cap peers first (S&P 500 > 400 > 600) so links land on recognizable
+    // names, not alphabetical micro-caps.
+    const idxRank = { sp500: 0, sp400: 1, sp600: 2 };
+    const sameSector = all.filter((c) => c.sector === peerSector && c.symbol !== sym)
+        .sort((a, b) => (idxRank[a.index] ?? 3) - (idxRank[b.index] ?? 3)).slice(0, 12);
     const others = all.filter((c) => c.symbol !== sym && !sameSector.includes(c)).slice(0, 12);
     const linkPills = [...sameSector, ...others].slice(0, 20)
         .map((c) => `<a href="/stocks/${esc(c.symbol)}">${esc(c.symbol)}</a>`).join('');
@@ -408,6 +417,18 @@ function renderStockPage(ticker) {
         metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history by metric</h2><div class="seo-links">${links}</div></div>`;
     } catch (_) { /* seo-extra unavailable — page renders without the block */ }
 
+    // Head-to-head compare pages (seo-extra) — link the top same-sector peers so
+    // crawlers reach /compare/* contextually, not just via the sitemap. Use the
+    // alphabetical canonical order ([a,b].sort()) so these don't 301.
+    let compareBlock = '';
+    if (sameSector.length) {
+        const cmp = sameSector.slice(0, 8).map((c) => {
+            const [a, b] = [sym, String(c.symbol).toUpperCase()].sort();
+            return `<a href="/compare/${esc(a)}-vs-${esc(b)}">${esc(sym)} vs ${esc(c.symbol)}</a>`;
+        }).join('');
+        compareBlock = `<div class="seo-section"><h2>Compare ${esc(name)} with peers</h2><div class="seo-links">${cmp}</div></div>`;
+    }
+
     return head(title, description, canonical, jsonld) + faqLdTag + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
@@ -424,6 +445,7 @@ function renderStockPage(ticker) {
     <p style="margin-top:10px"><a href="/register?plan=monthly" style="font-size:13px">Or start a 7-day free trial to track ${esc(sym)} in your portfolio &rarr;</a></p>
   </div>
   ${metricBlock}
+  ${compareBlock}
   ${about}
   ${faqBlock}
   <div class="seo-section"><h2>Explore more stocks</h2>
@@ -463,7 +485,7 @@ function renderStockIndex() {
 // generates Search Console errors and wastes crawl budget.
 function buildSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/stocks', '/screener', '/ask', '/support', '/privacy', '/terms', '/sitemap'];
+    const staticUrls = ['/', '/tour', '/stocks', '/screener', '/ask', '/support', '/privacy', '/terms', '/sitemap'];
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
     try { // competitor comparison pages — driven by the registry, not a hardcoded list
         require('./comparison-pages').competitors.forEach((s) => urls.push({ loc: `${SITE}/vs/${s}`, pri: '0.7' }));
@@ -472,18 +494,19 @@ function buildSitemap() {
     try { // metric histories, X-vs-Y comparisons, screen landing pages (seo-extra)
         require('./seo-extra').sitemapUrls().forEach((u) => urls.push({ loc: SITE + u.loc, pri: u.pri }));
     } catch (_) { /* seo-extra unavailable — base sitemap still valid */ }
-    // the homepage carries the 60-second product tour — declare it so crawlers
-    // can index the video (Google video sitemap extension)
-    const homeVideo = `\n    <video:video>\n`
+    // the /tour page carries the 60-second product tour as its main content
+    // (where Google can index it as a video) — declare it via the video sitemap
+    // extension, attached to /tour, not the homepage.
+    const tourVideo = `\n    <video:video>\n`
         + `      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n`
         + `      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n`
         + `      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and 19 years of filed fundamentals.</video:description>\n`
         + `      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n`
-        + `      <video:player_loc>${SITE}/#tour</video:player_loc>\n`
+        + `      <video:player_loc>${SITE}/tour</video:player_loc>\n`
         + `      <video:duration>63</video:duration>\n`
         + `    </video:video>`;
     const body = urls.map((u) => {
-        const vid = u.loc === `${SITE}/` ? homeVideo : '';
+        const vid = u.loc === `${SITE}/tour` ? tourVideo : '';
         return `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority>${vid}</url>`;
     }).join('\n');
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${body}\n</urlset>\n`;

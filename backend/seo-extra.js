@@ -364,31 +364,31 @@ function renderComparePage(pairSlug) {
 // ---------- screener-preset landing pages ----------
 const SCREENS = {
     'dividend-stocks': {
-        h1: 'Best Dividend Stocks in the S&P 1500',
-        intro: 'S&P 1500 companies yielding at least 2.5% that were profitable in at least 8 of the last 10 fiscal years — steady payers, not yield traps.',
+        h1: 'Best Dividend Stocks in the US Market',
+        intro: 'US companies yielding at least 2.5% that were profitable in at least 8 of the last 10 fiscal years — steady payers, not yield traps.',
         args: { min_dividend_yield_pct: 2.5, min_profitable_years_of_last_10: 8, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
         cols: ['divYieldPct', 'pe', 'netMarginPct']
     },
     'high-growth-stocks': {
-        h1: 'Fastest-Growing Stocks in the S&P 1500',
+        h1: 'Fastest-Growing Stocks in the US Market',
         intro: 'Companies compounding revenue at 20%+ per year over the last five fiscal years, straight from SEC-filed statements.',
         args: { min_revenue_cagr_5y_pct: 20, sort_by: 'revCagr5Pct', limit: 25, maxLimit: 25 },
         cols: ['revCagr5Pct', 'netMarginPct', 'pe']
     },
     'most-profitable-stocks': {
-        h1: 'Most Profitable Stocks in the S&P 1500',
-        intro: 'The highest net-margin businesses in the S&P 1500 — companies that keep 25 cents or more of every revenue dollar.',
+        h1: 'Most Profitable Stocks in the US Market',
+        intro: 'The highest net-margin businesses in the US market — companies that keep 25 cents or more of every revenue dollar.',
         args: { min_net_margin_pct: 25, sort_by: 'netMarginPct', limit: 25, maxLimit: 25 },
         cols: ['netMarginPct', 'roePct', 'pe']
     },
     'low-pe-stocks': {
-        h1: 'Low P/E Value Stocks in the S&P 1500',
+        h1: 'Low P/E Value Stocks in the US Market',
         intro: 'Profitable, cash-generating companies trading under 12× earnings — classic value screens, computed from filings.',
         args: { max_pe: 12, require_positive_fcf: true, min_profitable_years_of_last_10: 7, sort_by: 'pe', limit: 25, maxLimit: 25 },
         cols: ['pe', 'divYieldPct', 'netMarginPct']
     },
     'quality-compounders': {
-        h1: 'Quality Compounder Stocks in the S&P 1500',
+        h1: 'Quality Compounder Stocks in the US Market',
         intro: 'High-return businesses (ROE ≥ 15%) growing revenue ≥ 8%/yr with at least 9 profitable years of the last 10.',
         args: { min_roe_pct: 15, min_revenue_cagr_5y_pct: 8, min_profitable_years_of_last_10: 9, sort_by: 'roePct', limit: 25, maxLimit: 25 },
         cols: ['roePct', 'revCagr5Pct', 'netMarginPct']
@@ -441,7 +441,7 @@ function renderScreenPage(slug) {
   </div>
   <div class="seo-lock">
     <h3>Run your own screen — free</h3>
-    <p>The full screener covers the S&P 1500 with growth, margin, ROE, valuation and dividend filters. No account needed.</p>
+    <p>The full screener covers 3,800+ US companies with growth, margin, ROE, valuation and dividend filters. No account needed.</p>
     <a class="seo-cta-btn" href="/screener">Open the free screener</a>
   </div>
   <div class="seo-section"><h2>More screens</h2><div class="seo-links">${others}</div></div>
