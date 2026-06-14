@@ -141,4 +141,20 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
   return true;
 }
 
-module.exports = { sendNewUserEmails, isMailerConfigured };
+// Generic single send (used by the weekly Monitor digest). Never throws;
+// no-ops if SMTP isn't configured. Returns true only on a successful send.
+async function sendMail({ to, subject, html, text } = {}) {
+  const transporter = getTransporter();
+  const c = config();
+  if (!transporter) { console.warn('[mailer] SMTP not configured — skipping send to ' + (to || '(no to)')); return false; }
+  if (!to) return false;
+  try {
+    await transporter.sendMail({ from: c.from, to, subject, html, text });
+    return true;
+  } catch (e) {
+    console.error('[mailer] send failed:', e && e.message);
+    return false;
+  }
+}
+
+module.exports = { sendNewUserEmails, isMailerConfigured, sendMail, config, escapeHtml };

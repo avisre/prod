@@ -347,6 +347,7 @@
               <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
               <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
+              <a href="/monitor.html" ${cur('monitor')}>Monitor</a>
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">
@@ -378,6 +379,7 @@
                 <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
                 <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
+                <a href="/monitor.html" ${cur('monitor')}>Filing Monitor</a>
               </nav>
               <div class="nav-mobile-auth">
                 ${authed

@@ -72,7 +72,7 @@
       <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
     </div>
   </main>
-  <script src="assets/app.js?v=20260614-3"></script>
+  <script src="assets/app.js?v=20260614-6"></script>
   <script src="assets/social.js?v=20260612-1"></script>
   <script>
     V2.nav('register');
@@ -80,19 +80,28 @@
       monthly: ['7-day free trial, then £9/month. Cancel anytime.', 'Start 7-day free trial'],
       annual: ['£90 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
       pro: ['7-day free trial, then £25/month — includes the AI analyst.', 'Start Pro free trial'],
-      'pro-annual': ['£190 billed today, renews yearly — save £110 versus Pro monthly.', 'Continue to Pro Annual checkout']
+      'pro-annual': ['£190 billed today, renews yearly — save £110 versus Pro monthly.', 'Continue to Pro Annual checkout'],
+      power: ['$590 billed today, renews yearly — the full research desk + Filing Monitor for serious individuals.', 'Continue to Power checkout'],
+      desk: ['$1,990 billed today, renews yearly — full coverage + Filing Monitor for RIAs, analysts and small funds.', 'Continue to Desk checkout']
     };
+    // Premium annual plans sold via direct links (outreach): charged today, no trial.
+    const DIRECT_PLANS = new Set(['power', 'desk']);
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
     if (!SUMMARY[plan]) plan = 'monthly';
     const cardPlan = (p) => (p === 'pro-annual' ? 'pro' : p); // annual Pro highlights the Pro card
     function syncPlan() {
+      const direct = DIRECT_PLANS.has(plan);
+      const picker = document.querySelector('.plan-pick');
+      if (picker) picker.style.display = direct ? 'none' : ''; // direct links = clean single-plan checkout
       document.querySelectorAll('.plan-card').forEach((b) => b.setAttribute('aria-pressed', b.dataset.plan === cardPlan(plan)));
       document.getElementById('plan-summary').textContent = SUMMARY[plan][0];
       document.getElementById('submit').textContent = SUMMARY[plan][1];
       const row = document.getElementById('pro-annual-row');
-      row.hidden = cardPlan(plan) !== 'pro';
+      row.hidden = direct || cardPlan(plan) !== 'pro';
       document.getElementById('pro-annual-toggle').checked = plan === 'pro-annual';
-      document.getElementById('card-note').textContent = 'Card added at checkout, nothing charged during the trial.';
+      document.getElementById('card-note').textContent = direct
+        ? 'Billed today, securely via Stripe. Cancel anytime before renewal.'
+        : 'Card added at checkout, nothing charged during the trial.';
     }
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));

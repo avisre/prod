@@ -37,7 +37,7 @@ function userTier(user, subscription) {
     const sub = subscription || (user && user.subscription) || {};
     const planId = sub.planId || '';
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    if (active && (planId === 'pro' || planId === 'pro-annual')) return 'pro';
+    if (active && (planId === 'pro' || planId === 'pro-annual' || planId === 'power' || planId === 'desk')) return 'pro';
     if (active && planId !== 'free') return AI_PRO_FOR_ALL ? 'pro' : 'core';
     if (active && planId === 'free') return 'free';
     // pending / cancelled / expired: prod downgrades to the free tier instead
@@ -58,6 +58,18 @@ function coreGate(req, res, next) {
 function proGate(req, res, next) {
     if (isProUser(req)) return next();
     return res.status(402).json({ message: 'This is a Pro feature. Upgrade to Pro to use the AI assistant.', code: 'PRO_REQUIRED' });
+}
+// The Filing Change Monitor is the Power/Desk differentiator — NOT included in
+// the £25 Pro tier (which keeps per-holding Filing Diff). Plan-based, so it
+// doesn't disturb the free<core<pro ladder every other gate relies on.
+function hasMonitor(req) {
+    const sub = req.subscription || (req.user && req.user.subscription) || {};
+    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    return active && ['power', 'desk', 'enterprise'].includes(sub.planId);
+}
+function monitorGate(req, res, next) {
+    if (hasMonitor(req)) return next();
+    return res.status(402).json({ message: 'The Filing Change Monitor is on the Power and Desk plans.', code: 'MONITOR_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -141,6 +153,14 @@ const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '90.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
 const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
 const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '190.00');
+// Premium annual tiers for the Filing Monitor launch — both unlock the full
+// Pro feature set; differ only by price/positioning/support. USD, billed yearly.
+const POWER_PLAN_ID = 'power';
+const DESK_PLAN_ID = 'desk';
+const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '590.00');
+const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
+const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1990.00');
+const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
@@ -152,6 +172,8 @@ const STRIPE_PRICE_ID_MONTHLY = process.env.STRIPE_PRICE_ID_MONTHLY || STRIPE_PR
 const STRIPE_PRICE_ID_ANNUAL = process.env.STRIPE_PRICE_ID_ANNUAL || '';
 const STRIPE_PRICE_ID_PRO = process.env.STRIPE_PRICE_ID_PRO || '';
 const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
+const STRIPE_PRICE_ID_POWER = process.env.STRIPE_PRICE_ID_POWER || '';
+const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || '';
@@ -355,6 +377,12 @@ function normalizePlanSelection(value) {
   if (plan === PRO_PLAN_ID) {
     return PRO_PLAN_ID;
   }
+  if (plan === DESK_PLAN_ID) {
+    return DESK_PLAN_ID;
+  }
+  if (plan === POWER_PLAN_ID) {
+    return POWER_PLAN_ID;
+  }
   if (plan === MONTHLY_PLAN_ID || plan === 'month' || plan === 'monthly') {
     return MONTHLY_PLAN_ID;
   }
@@ -407,6 +435,28 @@ function getPlanConfig(value) {
       trialDays: TRIAL_DAYS
     };
   }
+  if (planId === DESK_PLAN_ID) {
+    return {
+      planId: DESK_PLAN_ID,
+      planName: 'Desk',
+      billingInterval: 'year',
+      price: DESK_PLAN_PRICE,
+      currency: DESK_PLAN_CURRENCY,
+      stripePriceId: STRIPE_PRICE_ID_DESK,
+      trialDays: 0
+    };
+  }
+  if (planId === POWER_PLAN_ID) {
+    return {
+      planId: POWER_PLAN_ID,
+      planName: 'Power',
+      billingInterval: 'year',
+      price: POWER_PLAN_PRICE,
+      currency: POWER_PLAN_CURRENCY,
+      stripePriceId: STRIPE_PRICE_ID_POWER,
+      trialDays: 0
+    };
+  }
   return {
     planId: MONTHLY_PLAN_ID,
     planName: 'Monthly',
@@ -419,6 +469,12 @@ function getPlanConfig(value) {
 }
 
 function getPlanConfigByPriceId(priceId) {
+  if (priceId && priceId === STRIPE_PRICE_ID_DESK) {
+    return getPlanConfig(DESK_PLAN_ID);
+  }
+  if (priceId && priceId === STRIPE_PRICE_ID_POWER) {
+    return getPlanConfig(POWER_PLAN_ID);
+  }
   if (priceId && priceId === STRIPE_PRICE_ID_ANNUAL) {
     return getPlanConfig(ANNUAL_PLAN_ID);
   }
@@ -1003,7 +1059,10 @@ const UserSchema = new mongoose.Schema({
     avatarUrl: { type: String, default: null },
     subscription: { type: SubscriptionSchema, default: createDefaultSubscription },
     stripeCustomerId: { type: String, default: null },
-    stripeSubscriptionId: { type: String, default: null }
+    stripeSubscriptionId: { type: String, default: null },
+    // Weekly Filing Monitor digest (Power/Desk): opt-out + last-sent for cadence.
+    digestOptOut: { type: Boolean, default: false },
+    lastDigestAt: { type: Date, default: null }
 });
 
 const User = mongoose.model('User', UserSchema);
@@ -2546,7 +2605,7 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
 
 // ----- Wash-sale guard: cross-account tax-lot intelligence (Pro) -----
 const washSale = require('./wash-sale');
-app.post('/api/tax/import', authMiddleware, proGate, async (req, res) => {
+app.post('/api/tax/import', authMiddleware, monitorGate, async (req, res) => {
     try {
         const result = await washSale.importCsv(portfolioOwnerId(req), req.body || {});
         res.json(result);
@@ -2556,7 +2615,7 @@ app.post('/api/tax/import', authMiddleware, proGate, async (req, res) => {
     }
 });
 
-app.get('/api/tax/accounts', authMiddleware, proGate, async (req, res) => {
+app.get('/api/tax/accounts', authMiddleware, monitorGate, async (req, res) => {
     try {
         res.json({ accounts: await washSale.listAccounts(portfolioOwnerId(req)) });
     } catch (error) {
@@ -2564,7 +2623,7 @@ app.get('/api/tax/accounts', authMiddleware, proGate, async (req, res) => {
     }
 });
 
-app.delete('/api/tax/accounts/:account', authMiddleware, proGate, async (req, res) => {
+app.delete('/api/tax/accounts/:account', authMiddleware, monitorGate, async (req, res) => {
     try {
         await washSale.deleteAccount(portfolioOwnerId(req), decodeURIComponent(req.params.account));
         res.json({ ok: true });
@@ -2573,7 +2632,7 @@ app.delete('/api/tax/accounts/:account', authMiddleware, proGate, async (req, re
     }
 });
 
-app.get('/api/tax/wash-sales', authMiddleware, proGate, async (req, res) => {
+app.get('/api/tax/wash-sales', authMiddleware, monitorGate, async (req, res) => {
     try {
         res.json(await washSale.washReport(portfolioOwnerId(req)));
     } catch (error) {
@@ -2581,7 +2640,7 @@ app.get('/api/tax/wash-sales', authMiddleware, proGate, async (req, res) => {
     }
 });
 
-app.get('/api/tax/wash-check', authMiddleware, proGate, async (req, res) => {
+app.get('/api/tax/wash-check', authMiddleware, monitorGate, async (req, res) => {
     try {
         res.json(await washSale.preTradeCheck(portfolioOwnerId(req), req.query.symbol));
     } catch (error) {
@@ -2791,6 +2850,9 @@ app.get('/api/company/:symbol/filings', async (req, res) => {
 // and the response says so.
 const insiders = require('./insiders');
 const gurus = require('./gurus');
+const filingMonitor = require('./filing-monitor');
+const monitorDigest = require('./monitor-digest');
+const mailer = require('./mailer');
 app.get('/api/company/:symbol/insider-history', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
@@ -3394,6 +3456,91 @@ app.get('/api/gurus/:id/analysis', authMiddleware, proGate, async (req, res) => 
     }
 });
 
+// ---- Filing Change Monitor (Pro) — "research analyst on autopilot" ----
+// What materially changed in a company's latest SEC report: verbatim narrative
+// changes fused with hard year-over-year financial deltas, ranked by a
+// deterministic materiality score. On-demand for any ticker; a feed across the
+// user's holdings + watchlist.
+app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        const [holdings, wl] = await Promise.all([
+            Stock.find({ user: req.userId }, { symbol: 1 }).lean(),
+            Watchlist.findOne({ user: req.userId }, { symbols: 1 }).lean()
+        ]);
+        const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];
+        res.json(await filingMonitor.feedFor(symbols));
+    } catch (err) {
+        console.error('[filings] feed error:', err.message);
+        res.status(500).json({ error: 'Failed to load filing feed' });
+    }
+});
+
+app.get('/api/filings/:symbol/report', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        const report = await filingMonitor.buildReport(req.params.symbol, { force: req.query.refresh === '1' });
+        if (report && report.error) return res.status(404).json(report);
+        res.json({ report });
+    } catch (err) {
+        console.error('[filings] report error:', err.message);
+        res.status(500).json({ error: 'Failed to build filing report' });
+    }
+});
+
+// ---- Weekly Filing Monitor digest (Power/Desk) — the retention engine ----
+function digestUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'digest' }, JWT_SECRET); }
+
+app.get('/api/digest/unsubscribe', async (req, res) => {
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    try {
+        const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
+        if (decoded.p !== 'digest') throw new Error('wrong token purpose');
+        await User.updateOne({ _id: decoded.userId }, { $set: { digestOptOut: true } });
+        res.set('Content-Type', 'text/html').send(page('<h2>Unsubscribed</h2><p>You won\'t get the weekly Filing Monitor digest anymore. You can turn it back on from your dashboard, and the Monitor itself is always available at <a href="/monitor">/monitor</a>.</p>'));
+    } catch (_) {
+        res.status(400).set('Content-Type', 'text/html').send(page('<h2>Invalid link</h2><p>This unsubscribe link is invalid. Please use the link from a recent digest email.</p>'));
+    }
+});
+
+async function runDigestSweep() {
+    if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
+    if (!mailer.isMailerConfigured()) return { skipped: 'no smtp' };
+    const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
+    const ACTIVE = ['active', 'trialing', 'cancel_at_period_end'];
+    const dueBefore = new Date(Date.now() - 6.5 * 86400000); // per-user ~weekly cadence
+    const users = await User.find({
+        'subscription.planId': { $in: ['power', 'desk', 'enterprise'] },
+        'subscription.status': { $in: ACTIVE },
+        digestOptOut: { $ne: true },
+        $or: [{ lastDigestAt: null }, { lastDigestAt: { $lt: dueBefore } }]
+    }).limit(200);
+    let sent = 0;
+    for (const u of users) {
+        try {
+            const [holdings, wl] = await Promise.all([
+                Stock.find({ user: u._id }, { symbol: 1 }).lean(),
+                Watchlist.findOne({ user: u._id }, { symbols: 1 }).lean()
+            ]);
+            const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];
+            if (symbols.length) {
+                const unsubUrl = `${appUrl}/api/digest/unsubscribe?token=${digestUnsubToken(u._id)}`;
+                const digest = await monitorDigest.buildUserDigest(u, { appUrl, unsubUrl, symbols });
+                if (digest && await mailer.sendMail({ to: u.email, subject: digest.subject, html: digest.html, text: digest.text })) sent++;
+            }
+            u.lastDigestAt = new Date();
+            await u.save().catch(() => {});
+        } catch (_) { /* per-user fail-open */ }
+    }
+    return { eligible: users.length, sent };
+}
+
+function startDigest() {
+    if (String(process.env.MONITOR_DIGEST || '1') === '0') { console.log('[digest] disabled via MONITOR_DIGEST=0'); return; }
+    // Daily tick; lastDigestAt enforces a per-user ~weekly cadence and survives restarts.
+    setTimeout(() => { runDigestSweep().then((r) => console.log('[digest] initial sweep', JSON.stringify(r))).catch(() => {}); }, 120 * 1000);
+    setInterval(() => { runDigestSweep().then((r) => console.log('[digest] sweep', JSON.stringify(r))).catch(() => {}); }, 24 * 3600 * 1000);
+    console.log('[digest] scheduled daily (per-user weekly cadence)');
+}
+
 // Anything that reached this point matches no page, file, or route. Serving
 // the homepage here (the old behavior) made every bad URL a 200 "soft 404"
 // that wastes crawl budget and pollutes the index — return a real 404.
@@ -3406,6 +3553,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 watchdog.start();
 gurus.start();
+startDigest();
 
 
 

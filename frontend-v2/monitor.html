@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Filing Change Monitor — what changed in the latest SEC filing | stockportfolio.pro</title>
+  <meta name="description" content="Your research analyst on autopilot: an instant, cited read on what materially changed in any company's latest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved." />
+  <link rel="canonical" href="https://www.stockportfolio.pro/monitor" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="stockportfolio.pro" />
+  <meta property="og:title" content="Filing Change Monitor — what changed in the latest SEC filing" />
+  <meta property="og:description" content="An instant, cited read on what materially changed in any company's latest SEC filing — numbers and narrative, ranked by materiality." />
+  <meta property="og:url" content="https://www.stockportfolio.pro/monitor" />
+  <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20260614-4" />
+  <style>
+    .mon-hero { max-width: 720px; margin: 8px auto 0; text-align: center; }
+    .mon-hero .label { display: inline-block; }
+    .mon-hero p.muted { max-width: 60ch; margin: 12px auto 0; }
+    /* search */
+    .mon-form { display: flex; gap: 10px; max-width: 520px; margin: 24px auto 0; }
+    .mon-form .input { flex: 1; text-transform: uppercase; }
+    @media (max-width: 480px) { .mon-form { flex-direction: column; } .mon-form .btn { width: 100%; } }
+    /* report card */
+    .mon-card-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+    .mon-chip { display: inline-block; font-size: 12px; font-weight: 650; padding: 5px 11px; border-radius: 999px; white-space: nowrap; }
+    .mon-chip-high { background: var(--neg-tint); color: var(--neg); }
+    .mon-chip-med { background: var(--accent-tint); color: var(--accent-ink); }
+    .mon-chip-low { background: var(--pos-tint); color: var(--pos); }
+    .mon-summary { margin: 18px 0 4px; padding: 16px 18px; background: var(--accent-tint); border-radius: var(--radius); }
+    .mon-summary-badge { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 8px; }
+    .mon-section { margin-top: 26px; }
+    .mon-section-hd { display: flex; align-items: center; gap: 12px; }
+    .mon-tone { font-size: 12px; font-weight: 650; padding: 3px 10px; border-radius: 999px; }
+    .mon-tone-up { background: var(--pos-tint); color: var(--pos); }
+    .mon-tone-down { background: var(--neg-tint); color: var(--neg); }
+    .mon-tone-flat { background: var(--accent-tint); color: var(--accent-ink); }
+    /* numbers grid */
+    .mon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 14px; }
+    .mon-stat { border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 12px 14px; }
+    .mon-stat-label { font-size: 12px; color: var(--ink-2); font-weight: 550; }
+    .mon-stat-val { font-size: 19px; font-weight: 650; margin-top: 4px; font-variant-numeric: tabular-nums; }
+    .mon-stat-delta { font-size: 13px; font-weight: 650; margin-top: 3px; font-variant-numeric: tabular-nums; }
+    .mon-stat-prior { font-size: 11.5px; color: var(--ink-3); margin-top: 2px; }
+    .mon-up { color: var(--pos); }
+    .mon-down { color: var(--neg); }
+    .mon-flat { color: var(--ink-3); }
+    /* narrative changes */
+    .mon-headline { font-size: 16px; font-weight: 600; margin: 12px 0 4px; }
+    .mon-changes { display: grid; gap: 14px; margin-top: 12px; }
+    .mon-change { border-left: 3px solid var(--line-strong); padding-left: 14px; }
+    .mon-change-area { font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-3); }
+    .mon-change-what { margin-top: 3px; }
+    .mon-quote { margin: 8px 0 0; padding: 8px 12px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); font-style: italic; color: var(--ink-2); font-size: 14px; }
+    .mon-quote::before { content: '“'; } .mon-quote::after { content: '”'; }
+    .mon-note { margin-top: 22px; }
+    /* feed */
+    .mon-feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+    .mon-feed-item { text-align: left; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; font-family: inherit; transition: border-color 0.1s ease, box-shadow 0.1s ease; }
+    .mon-feed-item:hover { border-color: var(--line-strong); box-shadow: 0 6px 18px rgba(28,27,24,0.06); }
+    .mon-feed-top { display: flex; justify-content: space-between; align-items: center; }
+    .mon-feed-sym { font-weight: 700; font-size: 15px; }
+    .mon-feed-sum { margin: 10px 0 0; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+    .mon-pending { margin-top: 16px; }
+    .mon-tag { display: inline-block; background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); padding: 4px 10px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit; color: var(--ink); margin: 4px 2px 0; }
+    .mon-tag:hover { border-color: var(--ink-3); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <section class="mon-hero">
+        <span class="label">Filing Change Monitor</span>
+        <h1 class="title-1" style="margin-top:10px;">What changed in the latest filing — and why it matters</h1>
+        <p class="muted">Your research analyst on autopilot. Enter any US-listed ticker and get an instant, cited read on its most recent 10-K, 10-Q or 8-K: the year-over-year numbers and the guidance, risk and demand language that moved — ranked by how much it matters.</p>
+        <form class="mon-form" id="mon-form">
+          <input class="input" id="mon-input" placeholder="Ticker — e.g. NVDA" autocomplete="off" aria-label="Ticker symbol" />
+          <button class="btn btn-primary" type="submit">Analyze latest filing</button>
+        </form>
+        <p class="small faint" style="margin-top:10px;">SEC-filed companies only · grounded in the filings, not investment advice</p>
+      </section>
+
+      <section style="margin-top:28px;">
+        <div id="mon-report" hidden></div>
+      </section>
+
+      <section class="section" id="mon-feed-wrap" hidden>
+        <div class="section-head">
+          <h2 class="title-2">Your watchlist &amp; holdings</h2>
+          <span class="small faint">ranked by materiality</span>
+        </div>
+        <div id="mon-feed"></div>
+      </section>
+
+    </div>
+  </main>
+  <script src="assets/app.js?v=20260614-6"></script>
+  <script>
+    V2.nav('monitor');
+    V2.footer();
+  </script>
+  <script src="assets/monitor.js?v=20260614-2"></script>
+</body>
+</html>

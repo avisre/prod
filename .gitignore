@@ -27,6 +27,12 @@ backend/_verify-seed.js
 frontend/_preview.html
 frontend/_debug.html
 
+# Underscore-prefixed local scratch: benchmarks, harnesses, token minters,
+# one-off probes. NEVER push (the repo goes public during deploy). Some hold
+# secrets (_bench.js). Real source never uses a leading underscore here.
+/_*.js
+backend/_*.js
+
 # --- Build / cache ---
 .cache/
 dist/
@@ -56,3 +62,6 @@ temp_updatePortfolio.txt
 tmp/
 temp/
 *.tmp
+
+# Local marketing kit — never push (repo goes public during deploy)
+marketing/
