@@ -107,6 +107,11 @@
     const remaining = parseInt(remRaw, 10);
     const limit = parseInt(limRaw, 10);
     if (!Number.isFinite(remaining) || !Number.isFinite(limit)) return;
+    // Two limiters emit ratelimit-* headers: the small per-day trial gate
+    // (free / no-login) and a 900/window global abuse limiter that also applies
+    // to Power/Desk. Only the trial gate drives this counter — if the limit is
+    // the large global one, the user is entitled (trial skipped); show nothing.
+    if (limit > 10) return;
     const msg = remaining > 0
       ? `<strong>${remaining} of ${limit} free report${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Unlimited reads on every filing across your whole watchlist are on Power.</span>`
       : `<strong>That’s your ${limit} free reports for today.</strong> <span class="faint">Power gives you unlimited filing intelligence across your whole watchlist — the read institutions pay five figures a seat for.</span>`;

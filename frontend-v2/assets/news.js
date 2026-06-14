@@ -204,6 +204,15 @@
             if (topic !== 'all') q.set('topics', topic);
             if (tickers) q.set('tickers', tickers);
             const r = await fetch(`${API}/alpha/news?${q}`, { headers: { Authorization: `Bearer ${token()}` } });
+            if (r.status === 401 || r.status === 402) {
+                // Markets news + sentiment are a paid feature. Show an upgrade
+                // prompt — not a transient "try again" — and don't leave the
+                // trending rail spinning on "Loading…" forever.
+                renderFeatured(null); renderSecondary([]); renderLatest([]); renderStream([]);
+                $('news-latest').innerHTML = '<li class="side-empty">Live news &amp; sentiment are on the paid plans — <a href="/register.html">start a free trial</a>.</li>';
+                $('trending-list').innerHTML = '<li class="side-empty">On the paid plans.</li>';
+                return;
+            }
             if (!r.ok) throw new Error('news ' + r.status);
             const data = await r.json();
             const items = (data.feed || []).filter((it) => it && it.title && it.url);
@@ -220,6 +229,7 @@
             renderTrending(items);
         } catch (_) {
             $('news-latest').innerHTML = '<li class="side-empty">Couldn’t load news — try again.</li>';
+            renderTrending([]); // don't leave the trending rail spinning on a real error
         }
     }
 
@@ -231,7 +241,7 @@
         if (!token()) { setMsg('Sign in to see movers.'); return; }
         try {
             const r = await fetch(`${API}/alpha/movers`, { headers: { Authorization: `Bearer ${token()}` } });
-            if (!r.ok) { setMsg(r.status === 401 || r.status === 402 ? 'Sign in to see movers.' : 'Movers unavailable right now.'); return; }
+            if (!r.ok) { setMsg(r.status === 402 ? 'On the paid plans.' : r.status === 401 ? 'Sign in to see movers.' : 'Movers unavailable right now.'); return; }
             const data = await r.json();
             if (!Array.isArray(data.top_gainers) || !data.top_gainers.length) { setMsg('Movers throttled by data provider.'); return; }
             const paint = (id, rows) => {
