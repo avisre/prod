@@ -339,6 +339,23 @@ async function buildReport(symbol, { force = false } = {}) {
     return payload;
 }
 
+// Build-free cache peek for the poll path: resolve the latest filing's
+// accession (one cheap EDGAR submissions call) and return a cached report if
+// one exists, else null. Never downloads filings, never calls the model — so a
+// polling client can ask "is it ready yet?" cheaply without kicking a rebuild.
+async function peekReport(symbol) {
+    const sym = String(symbol || '').toUpperCase().trim();
+    if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return null;
+    let found = null;
+    try { found = await latestFilings(sym); } catch (_) { return null; }
+    if (!found) return null;
+    const keyFiling = found.periodic || found.latest;
+    try {
+        const hit = await reportCol().findOne({ symbol: sym, accession: keyFiling.accession }, { projection: { _id: 0 } });
+        return hit && hit.payload ? { ...hit.payload, cached: true } : null;
+    } catch (_) { return null; }
+}
+
 // ---- 5. Watchlist/portfolio feed: cached reports only (fast, no SEC calls) ----
 // Returns the most recent cached report per symbol, ranked by materiality then
 // filing date. Symbols with no cached report yet are listed as "analyze".

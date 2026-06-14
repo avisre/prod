@@ -2,7 +2,7 @@
 // filing" report for any ticker, plus a materiality-ranked feed across the
 // user's holdings + watchlist. Pro feature: a 402 swaps in the upgrade card.
 (function () {
-  const { API, token, esc, markdown, spinner } = window.V2;
+  const { API, token, esc, markdown, spinner, companies } = window.V2;
   const auth = () => (token() ? { Authorization: 'Bearer ' + token() } : {});
   const $ = (id) => document.getElementById(id);
 
@@ -113,8 +113,8 @@
     // the large global one, the user is entitled (trial skipped); show nothing.
     if (limit > 10) return;
     const msg = remaining > 0
-      ? `<strong>${remaining} of ${limit} free report${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Unlimited reads on every filing across your whole watchlist are on Power.</span>`
-      : `<strong>That’s your ${limit} free reports for today.</strong> <span class="faint">Power gives you unlimited filing intelligence across your whole watchlist — the read institutions pay five figures a seat for.</span>`;
+      ? `<strong>${remaining} of ${limit} free stock${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Re-runs of a stock you’ve already opened stay free. Unlimited stocks across your whole watchlist are on Power.</span>`
+      : `<strong>That’s your ${limit} free stocks for today.</strong> <span class="faint">Power gives you unlimited filing intelligence across your whole watchlist — the read institutions pay five figures a seat for.</span>`;
     const banner = document.createElement('div');
     banner.className = 'card card-pad mon-trial-note';
     banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
@@ -131,7 +131,7 @@
     out.innerHTML = `
       <div class="card card-pad mon-upsell">
         <span class="mon-summary-badge">✦ The Filing Monitor — unlimited on Power</span>
-        <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free reports</h2>
+        <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
         <p class="muted" style="max-width:62ch;">Power gives you an instant, cited read on what materially changed in any 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality — unlimited, with an auto-updating feed across your whole watchlist. The job institutional desks pay five figures a seat for.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
           <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $69/mo</a>
@@ -142,41 +142,79 @@
     out.hidden = false;
   }
 
+  // A cold read of a large filing (e.g. Berkshire's 10-K) can take a couple of
+  // minutes. The server kicks the build and returns {status:'building'} fast; we
+  // poll until the report lands instead of holding one long request the user
+  // gives up on. The build runs server-side regardless, so it always resolves —
+  // we just show honest progress and load it the moment it's ready.
+  const POLL_MS = 6000;
+  const MAX_WAIT_MS = 240000; // 4 min before we hand back a manual retry
+
+  function monFail(out, sym, msg) {
+    out.innerHTML = `<div class="card card-pad">
+      <p class="small faint">${esc(msg)}</p>
+      <button class="btn btn-ghost" type="button" id="mon-retry" style="margin-top:10px;">Try ${esc(sym)} again</button>
+    </div>`;
+    const btn = $('mon-retry');
+    if (btn) btn.addEventListener('click', () => analyze(sym));
+  }
+
   async function analyze(sym) {
     sym = String(sym || '').toUpperCase().trim();
     if (!sym) return;
     const out = $('mon-report');
     out.hidden = false;
-    out.innerHTML = `<div class="card card-pad">${spinner('Reading ' + esc(sym) + '’s latest filing & the prior quarter… the first read can take up to a minute, then it’s instant.')}</div>`;
+    out.innerHTML = `<div class="card card-pad">${spinner('Reading ' + esc(sym) + '’s latest filing & the prior quarter… a large 10-K can take a couple of minutes — this loads the moment it’s ready, no need to refresh.')}</div>`;
     try { history.replaceState(null, '', '?symbol=' + encodeURIComponent(sym)); } catch (_) {}
-    // No login required: the first few reports a day are free (per IP). Never
-    // leave the spinner up forever — bound the request; the server caches a
-    // finished report, so a retry after a slow first read comes back instantly.
-    const ctrl = new AbortController();
-    const timer = setTimeout(() => ctrl.abort(), 100000);
-    try {
-      const r = await fetch(`${API}/filings/${encodeURIComponent(sym)}/report`, { headers: auth(), signal: ctrl.signal });
+
+    const started = Date.now();
+    let first = true;        // the first call starts the build + counts the free-trial
+    let countedResp = null;  // hold the trial-counting response for the footer counter
+
+    const reqOnce = async (poll) => {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), 45000);
+      try {
+        return await fetch(`${API}/filings/${encodeURIComponent(sym)}/report${poll ? '?poll=1' : ''}`,
+          { headers: auth(), signal: ctrl.signal });
+      } finally { clearTimeout(t); }
+    };
+
+    while (true) {
+      let r;
+      try {
+        r = await reqOnce(!first);
+      } catch (_) {
+        // a single attempt timed out / dropped — keep waiting within the cap
+        if (Date.now() - started > MAX_WAIT_MS) {
+          monFail(out, sym, 'This filing is taking longer than usual to analyse. It often finishes in the background — give it a moment and try ' + sym + ' again, and it should come straight back.');
+          return;
+        }
+        first = false;
+        await new Promise((res) => setTimeout(res, POLL_MS));
+        continue;
+      }
       if (r.status === 429) { trialWall(out); return; } // free trial spent for the day
       if (r.status === 402) { upsell(out); return; }    // logged-in, needs Power/Desk
-      const d = await r.json();
-      if (!r.ok || !d.report) {
-        out.innerHTML = `<div class="card card-pad"><p class="small faint">${esc((d && d.error) || 'Could not analyze that filing.')}</p></div>`;
+      if (first) countedResp = r;                        // the counted (non-poll) response
+      if (r.status === 202) {                            // still building — poll on
+        if (Date.now() - started > MAX_WAIT_MS) {
+          monFail(out, sym, 'Still working on this one — a large filing can take a few minutes. It’s being prepared in the background; try ' + sym + ' again shortly and it’ll come straight back.');
+          return;
+        }
+        first = false;
+        await new Promise((res) => setTimeout(res, POLL_MS));
+        continue;
+      }
+      let d = null;
+      try { d = await r.json(); } catch (_) { d = null; }
+      if (!r.ok || !d || !d.report) {
+        monFail(out, sym, (d && d.error) || 'Could not analyze that filing.');
         return;
       }
       renderReport(d.report);
-      maybeShowTrialCounter(r);
-    } catch (err) {
-      const timedOut = err && err.name === 'AbortError';
-      out.innerHTML = `<div class="card card-pad">
-        <p class="small faint">${timedOut
-          ? 'This filing is taking longer than usual to analyse. It often finishes in the background — give it a moment and try again, and it should come straight back.'
-          : 'Something went wrong. Please try again.'}</p>
-        <button class="btn btn-ghost" type="button" id="mon-retry" style="margin-top:10px;">Try ${esc(sym)} again</button>
-      </div>`;
-      const btn = $('mon-retry');
-      if (btn) btn.addEventListener('click', () => analyze(sym));
-    } finally {
-      clearTimeout(timer);
+      maybeShowTrialCounter(countedResp || r);
+      return;
     }
   }
 
@@ -184,6 +222,49 @@
     $('mon-input').value = sym;
     analyze(sym);
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Ticker autocomplete on the monitor input — same US-company list the nav
+  // search and portfolio add-form use. A wrong/foreign symbol no longer
+  // dead-ends: you pick a valid ticker from the list (and it analyzes at once).
+  function wireAutocomplete() {
+    const input = $('mon-input');
+    if (!input || !companies) return;
+    // wrap so the dropdown anchors to the input (the form is a flex row)
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; flex:1; display:flex;';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    input.style.flex = '1';
+    const box = document.createElement('div');
+    box.className = 'sym-ac';
+    box.hidden = true;
+    wrap.appendChild(box);
+    let items = [], active = -1;
+    const render = () => {
+      if (!items.length) { box.hidden = true; return; }
+      box.innerHTML = items.map((c, i) =>
+        `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}</span></button>`).join('');
+      box.hidden = false;
+    };
+    const choose = (sym) => { box.hidden = true; items = []; pick(sym); };
+    input.addEventListener('input', async () => {
+      const q = input.value.trim().toUpperCase();
+      if (q.length < 1) { box.hidden = true; return; }
+      const list = await companies();
+      const starts = list.filter((c) => c.symbol && c.symbol.toUpperCase().startsWith(q));
+      const names = list.filter((c) => c.symbol && !c.symbol.toUpperCase().startsWith(q) && (c.name || '').toUpperCase().includes(q));
+      items = starts.concat(names).slice(0, 8); active = -1; render();
+    });
+    input.addEventListener('keydown', (e) => {
+      if (box.hidden) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, items.length - 1); render(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); render(); }
+      else if (e.key === 'Enter' && items.length) { e.preventDefault(); choose(items[active >= 0 ? active : 0].symbol); }
+      else if (e.key === 'Escape') { box.hidden = true; }
+    });
+    box.addEventListener('click', (e) => { const btn = e.target.closest('button[data-sym]'); if (btn) choose(btn.dataset.sym); });
+    document.addEventListener('click', (e) => { if (e.target !== input && !box.contains(e.target)) box.hidden = true; });
   }
 
   async function loadFeed() {
@@ -221,6 +302,7 @@
   document.addEventListener('DOMContentLoaded', () => {
     const form = $('mon-form');
     if (form) form.addEventListener('submit', (e) => { e.preventDefault(); analyze($('mon-input').value); });
+    wireAutocomplete();
     const sym = new URLSearchParams(window.location.search).get('symbol');
     if (sym) { $('mon-input').value = sym.toUpperCase(); analyze(sym); }
     loadFeed();

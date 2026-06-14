@@ -598,6 +598,20 @@ function safeUpper(value = '') {
   return String(value || '').trim().toUpperCase();
 }
 
+// Class shares are written a dozen ways by humans and data vendors:
+// Berkshire B is BRK.B (NYSE/CNBC/Morningstar), BRK-B (Yahoo), BRK/B
+// (Bloomberg/Fidelity), sometimes "BRK B". Yahoo — our upstream — only
+// resolves the dash form, so the dotted/slashed forms used to return degraded
+// data or a 502 blank page. Normalize any separator to '-' so every spelling
+// of the same security lands on the same full record. A plain ticker with no
+// separator is untouched.
+function normalizeTicker(value = '') {
+  return safeUpper(value)
+    .replace(/[.\/\s]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function trimTrailingSlash(value = '') {
   return String(value || '').trim().replace(/\/+$/, '');
 }
@@ -888,13 +902,22 @@ async function acquireAlphaSlot() {
 // like Alpha did, but the gate prevents accidental flood loops.
 async function fetchAlpha(functionName, params = {}) {
     await acquireAlphaSlot();
-    try {
-        return await yahooSource.fetchFromYahoo(functionName, params);
-    } catch (error) {
-        const err = new Error(error?.message || 'Upstream data source failed');
-        err.status = error?.status || 502;
-        throw err;
+    // Cold (uncached) first loads pull live from Yahoo; a transient hiccup or
+    // timeout there used to surface as a blank "couldn't load". One quiet retry
+    // with a short backoff catches the common transient case; a genuinely
+    // missing symbol just fails again and bubbles up as before.
+    let lastError;
+    for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+            return await yahooSource.fetchFromYahoo(functionName, params);
+        } catch (error) {
+            lastError = error;
+            if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 400));
+        }
     }
+    const err = new Error(lastError?.message || 'Upstream data source failed');
+    err.status = lastError?.status || 502;
+    throw err;
 }
 
 // Alpha sometimes returns 200 OK with a top-level "Information" or "Note"
@@ -907,6 +930,11 @@ function isAlphaRateLimitPayload(data) {
 }
 
 async function fetchAlphaCached(functionName, params = {}, ttlMs = 0) {
+    // Normalize ticker spelling (BRK.B / BRK/B / "BRK B" → BRK-B) before the
+    // upstream call AND the cache key, so every form hits the same full record.
+    if (params && params.symbol) {
+        params = { ...params, symbol: normalizeTicker(params.symbol) };
+    }
     if (!ttlMs) {
         return fetchAlpha(functionName, params);
     }
@@ -3551,33 +3579,89 @@ app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
     }
 });
 
-// Filing Monitor free trial. The "/monitor" landing is pitched as "try any
-// ticker, no login" — so a single report is public, capped per IP per day so the
-// public AI endpoint can't become a cost/abuse sink. Power/Desk skip the cap
-// (unlimited); the materiality feed across a watchlist stays Power/Desk-only.
-// Cap is >1 so a slow first read the visitor retries doesn't burn their whole
-// allowance.
-const MONITOR_TRIAL_PER_DAY = 3;
-const monitorTrialLimiter = rateLimit({
-    windowMs: 24 * 60 * 60 * 1000,
-    max: MONITOR_TRIAL_PER_DAY,
-    standardHeaders: true,
-    legacyHeaders: false,
-    skip: (req) => hasMonitor(req), // Power/Desk: unlimited, never counted
-    handler: (req, res) => res.status(429).json({
-        code: 'TRIAL_EXHAUSTED',
-        message: 'You’ve used your free Filing Monitor reports for today. Sign up free to keep exploring, or upgrade to Power for unlimited reports across your whole watchlist.'
-    })
-});
+// Filing Monitor free trial. The "/monitor" landing is pitched as "free for 3
+// stocks, no login" — so free use is capped at MONITOR_FREE_STOCKS DISTINCT
+// stocks per IP per day, NOT per request. Counting by stock is what the page
+// promises and means a slow first read you retry, or the client's status
+// polling, never burns a credit — only a brand-new ticker does, and only once it
+// returns a real report (a typo costs nothing). Power/Desk skip the cap; the
+// materiality feed across a watchlist stays Power/Desk-only. A raw request flood
+// is still caught by the global abuse limiter; the expensive build is de-duped
+// and cached, so the 3-stock cap also bounds cost to ≤3 model passes per IP/day.
+const MONITOR_FREE_STOCKS = parseInt(process.env.MONITOR_FREE_STOCKS || '3', 10);
+const MONITOR_FREE_WINDOW_MS = 24 * 60 * 60 * 1000;
+const _monitorFreeSeen = new Map(); // ipKey -> { at:number, syms:Set<string> }
 
-app.get('/api/filings/:symbol/report', optionalAuth, monitorTrialLimiter, async (req, res) => {
+// Per-IP record of which stocks a free visitor has spent today (lazy 24h reset).
+function monitorFreeRecord(req) {
+    const key = req.ip || 'unknown';
+    const now = Date.now();
+    let rec = _monitorFreeSeen.get(key);
+    if (!rec || now - rec.at > MONITOR_FREE_WINDOW_MS) { rec = { at: now, syms: new Set() }; _monitorFreeSeen.set(key, rec); }
+    if (_monitorFreeSeen.size > 50000) { const k = _monitorFreeSeen.keys().next().value; if (k !== key) _monitorFreeSeen.delete(k); }
+    return rec;
+}
+
+// In-flight report builds, de-duped per symbol. A cold read of a giant filing
+// (e.g. Berkshire's 10-K) can take minutes — far past any proxy/browser timeout.
+// So instead of holding one long request (which the client gives up on, leaving
+// the user staring at a spinner), we kick the build, return fast with
+// {status:'building'} if it isn't done within MONITOR_FAST_MS, and let the
+// client poll (?poll=1, free) until the cached report lands. Concurrent visitors
+// and the poller all share ONE build via this map — no duplicate SEC+LLM passes.
+const _monitorInflight = new Map();
+const MONITOR_FAST_MS = 9000;
+
+app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
     try {
+        const sym = String(req.params.symbol || '').toUpperCase().trim();
+        const normSym = normalizeTicker(sym); // BRK.B and BRK-B are one stock
+
+        // Poll path: free, build-free, never spends a credit. Returns the report
+        // once cached, else {status:'building'} — never kicks a new build.
+        if (req.query.poll === '1') {
+            if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym });
+            const cached = await filingMonitor.peekReport(sym).catch(() => null);
+            if (cached) return res.json({ report: cached });
+            return res.status(202).json({ status: 'building', symbol: sym });
+        }
+
+        // Free allowance: MONITOR_FREE_STOCKS DISTINCT stocks / IP / day. A stock
+        // already on the visitor's list re-runs free; only a brand-new ticker
+        // spends a credit, and only once it yields a real report (claimed below).
+        const paid = hasMonitor(req);
+        let freeRec = null, known = false;
+        if (!paid) {
+            freeRec = monitorFreeRecord(req);
+            known = freeRec.syms.has(normSym);
+            res.setHeader('RateLimit-Limit', String(MONITOR_FREE_STOCKS));
+            if (!known && freeRec.syms.size >= MONITOR_FREE_STOCKS) {
+                res.setHeader('RateLimit-Remaining', '0');
+                return res.status(429).json({
+                    code: 'TRIAL_EXHAUSTED',
+                    message: `That's your ${MONITOR_FREE_STOCKS} free stocks for today. Sign up free to keep exploring, or upgrade to Power for unlimited filing intelligence across your whole watchlist.`,
+                    stocks: [...freeRec.syms]
+                });
+            }
+            // counter reflects the state once this stock is claimed
+            res.setHeader('RateLimit-Remaining', String(Math.max(0, MONITOR_FREE_STOCKS - (freeRec.syms.size + (known ? 0 : 1)))));
+        }
+
         // Only Power/Desk may force a fresh (uncached) rebuild — otherwise a
         // trial visitor could spam ?refresh=1 to force the AI path every call.
         const force = req.query.refresh === '1' && hasMonitor(req);
-        const report = await filingMonitor.buildReport(req.params.symbol, { force });
-        if (report && report.error) return res.status(404).json(report);
-        res.json({ report });
+        let build = (!force && _monitorInflight.get(sym)) || null;
+        if (!build) {
+            build = filingMonitor.buildReport(sym, { force })
+                .catch((err) => { console.error('[filings] build error:', err && err.message); return { error: 'Couldn’t analyse that filing right now — please try again in a moment.' }; })
+                .finally(() => { _monitorInflight.delete(sym); });
+            _monitorInflight.set(sym, build);
+        }
+        const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), MONITOR_FAST_MS))]);
+        if (winner && winner.error) return res.status(404).json(winner); // typo/invalid → no credit spent
+        if (freeRec && !known) freeRec.syms.add(normSym);                  // real report (or building) → claim the stock
+        if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym });
+        return res.json({ report: winner });
     } catch (err) {
         console.error('[filings] report error:', err.message);
         res.status(500).json({ error: 'Failed to build filing report' });

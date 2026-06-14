@@ -185,6 +185,32 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .nav-search-results .sym { font-weight: 650; min-width: 52px; font-variant-numeric: tabular-nums; }
 .nav-search-results .nm { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
+/* Ticker autocomplete dropdown — shared by the portfolio add-form and the
+   Filing Monitor. Same look as the nav search; anchored to its input wrapper. */
+.sym-ac {
+  position: absolute;
+  top: calc(100% + 4px); left: 0; right: 0;
+  z-index: 50;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 12px 32px rgba(28, 27, 24, 0.12);
+  overflow: hidden auto;
+  max-height: 320px;
+  text-align: left;
+}
+.sym-ac button {
+  display: flex; gap: 10px; align-items: baseline;
+  width: 100%; padding: 9px 12px;
+  background: none; border: 0; border-bottom: 1px solid var(--line);
+  font: inherit; font-size: var(--text-sm); color: var(--ink);
+  text-transform: none; cursor: pointer;
+}
+.sym-ac button:last-child { border-bottom: 0; }
+.sym-ac button:hover, .sym-ac button.is-active { background: var(--accent-tint); }
+.sym-ac .sym { font-weight: 650; min-width: 52px; font-variant-numeric: tabular-nums; }
+.sym-ac .nm { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
 /* ---------- Buttons + inputs ---------- */
 .btn {
   display: inline-flex;
