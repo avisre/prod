@@ -424,6 +424,45 @@
         } catch (_) { out.textContent = 'Network problem.'; }
     });
 
+    // Ticker autocomplete on the portfolio add-input — same company list the nav
+    // search uses; clicking a suggestion fills the ticker (doesn't navigate away).
+    function wireTickerAutocomplete() {
+        const input = $('add-sym');
+        if (!input) return;
+        const label = input.closest('label') || input.parentElement;
+        label.style.position = 'relative';
+        const box = document.createElement('div');
+        box.className = 'sym-ac';
+        box.hidden = true;
+        label.appendChild(box);
+        let items = [], active = -1;
+        const render = () => {
+            if (!items.length) { box.hidden = true; return; }
+            box.innerHTML = items.map((c, i) =>
+                `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}</span></button>`).join('');
+            box.hidden = false;
+        };
+        const pick = (sym) => { input.value = sym; box.hidden = true; items = []; const sh = $('add-shares'); if (sh) sh.focus(); };
+        input.addEventListener('input', async () => {
+            const q = input.value.trim().toUpperCase();
+            if (q.length < 1) { box.hidden = true; return; }
+            const list = await window.V2.companies();
+            const starts = list.filter((c) => c.symbol && c.symbol.toUpperCase().startsWith(q));
+            const names = list.filter((c) => c.symbol && !c.symbol.toUpperCase().startsWith(q) && (c.name || '').toUpperCase().includes(q));
+            items = starts.concat(names).slice(0, 8); active = -1; render();
+        });
+        input.addEventListener('keydown', (e) => {
+            if (box.hidden) return;
+            if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, items.length - 1); render(); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); render(); }
+            else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(items[active].symbol); }
+            else if (e.key === 'Escape') { box.hidden = true; }
+        });
+        box.addEventListener('click', (e) => { const btn = e.target.closest('button[data-sym]'); if (btn) pick(btn.dataset.sym); });
+        document.addEventListener('click', (e) => { if (e.target !== input && !box.contains(e.target)) box.hidden = true; });
+    }
+    wireTickerAutocomplete();
+
     if (!DEMO) $('add-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const symbol = $('add-sym').value.trim().toUpperCase();

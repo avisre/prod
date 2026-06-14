@@ -11,6 +11,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
   <link rel="stylesheet" href="assets/system.css?v=20260614-3" />
+  <style>
+    /* Ticker autocomplete dropdown on the portfolio add-input */
+    .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
+      background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+      box-shadow: 0 12px 32px rgba(28, 27, 24, 0.10); overflow: hidden; max-height: 320px; overflow-y: auto; }
+    .sym-ac button { display: flex; gap: 10px; align-items: baseline; width: 100%; text-align: left;
+      padding: 8px 12px; font-size: var(--text-sm); color: var(--ink); background: transparent;
+      border: 0; border-bottom: 1px solid var(--line); cursor: pointer; }
+    .sym-ac button:last-child { border-bottom: 0; }
+    .sym-ac button:hover, .sym-ac button.is-active { background: var(--accent-tint); }
+    .sym-ac .sym { font-weight: 650; min-width: 52px; font-variant-numeric: tabular-nums; }
+    .sym-ac .nm { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  </style>
 </head>
 <body>
   <main>
@@ -183,6 +196,6 @@
     </div>
   </main>
   <script src="assets/app.js?v=20260614-2"></script>
-  <script src="assets/dashboard.js?v=20260613-3"></script>
+  <script src="assets/dashboard.js?v=20260614-1"></script>
 </body>
 </html>
