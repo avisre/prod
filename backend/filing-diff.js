@@ -101,7 +101,7 @@ async function computeFilingDiff(symbol) {
             role: 'user',
             content: `Company: ${sym}. Compare the NEW ${latest.form} (filed ${latest.date}) against the PRIOR ${prev.form} (filed ${prev.date}).${extra}\n\n=== PRIOR FILING (${prev.date}) — excerpts ===\n${oldDoc}\n\n=== NEW FILING (${latest.date}) — excerpts ===\n${newDoc}`
         }
-    ], { purpose: 'summary', temperature: 0, maxTokens: 4000 });
+    ], { purpose: 'summary', temperature: 0, maxTokens: 4000, timeoutMs: 40000 });
 
     const tryParse = (msg) => {
         try {

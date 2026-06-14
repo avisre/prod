@@ -57,7 +57,7 @@ async function proFilter(userIds) {
         const User = mongoose.models.User;
         if (!User) return [];
         const users = await User.find(
-            { _id: { $in: userIds }, 'subscription.planId': { $in: ['pro', 'pro-annual'] }, 'subscription.status': { $in: ['active', 'trialing', 'cancel_at_period_end'] } },
+            { _id: { $in: userIds }, 'subscription.planId': { $in: ['pro', 'pro-annual', 'power', 'power-monthly', 'desk', 'enterprise'] }, 'subscription.status': { $in: ['active', 'trialing', 'cancel_at_period_end'] } },
             { _id: 1 }
         ).lean();
         return users.map((u) => String(u._id));

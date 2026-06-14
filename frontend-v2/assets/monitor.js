@@ -96,26 +96,82 @@
     out.hidden = false;
   }
 
+  // After a free-trial report, show how many are left and nudge to upgrade.
+  // Power/Desk skip the server limiter, so these headers are absent for them —
+  // no banner, no nag for paying users. The report is already rendered; we
+  // prepend the note above it.
+  function maybeShowTrialCounter(r) {
+    const remRaw = r.headers.get('ratelimit-remaining');
+    const limRaw = r.headers.get('ratelimit-limit');
+    if (remRaw === null || limRaw === null) return; // unlimited (Power/Desk)
+    const remaining = parseInt(remRaw, 10);
+    const limit = parseInt(limRaw, 10);
+    if (!Number.isFinite(remaining) || !Number.isFinite(limit)) return;
+    const msg = remaining > 0
+      ? `<strong>${remaining} of ${limit} free report${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Unlimited reads on every filing across your whole watchlist are on Power.</span>`
+      : `<strong>That’s your ${limit} free reports for today.</strong> <span class="faint">Power gives you unlimited filing intelligence across your whole watchlist — the read institutions pay five figures a seat for.</span>`;
+    const banner = document.createElement('div');
+    banner.className = 'card card-pad mon-trial-note';
+    banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
+    banner.innerHTML = `<div class="small" style="max-width:58ch; margin:0;">${msg}</div>
+      <div style="flex-shrink:0;">
+        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Go unlimited — Power $69/mo</a>
+      </div>`;
+    const out = $('mon-report');
+    out.insertBefore(banner, out.firstChild);
+  }
+
+  // The free no-login trial is spent for the day — convert rather than dead-end.
+  function trialWall(out) {
+    out.innerHTML = `
+      <div class="card card-pad mon-upsell">
+        <span class="mon-summary-badge">✦ The Filing Monitor — unlimited on Power</span>
+        <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free reports</h2>
+        <p class="muted" style="max-width:62ch;">Power gives you an instant, cited read on what materially changed in any 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality — unlimited, with an auto-updating feed across your whole watchlist. The job institutional desks pay five figures a seat for.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
+          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $69/mo</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Or $590/yr — save 29%</a>
+        </div>
+        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,990/yr →</a></p>
+      </div>`;
+    out.hidden = false;
+  }
+
   async function analyze(sym) {
     sym = String(sym || '').toUpperCase().trim();
     if (!sym) return;
     const out = $('mon-report');
     out.hidden = false;
-    out.innerHTML = `<div class="card card-pad">${spinner('Reading ' + esc(sym) + '’s latest filing &amp; the prior quarter… the first read can take up to a minute, then it’s instant.')}</div>`;
+    out.innerHTML = `<div class="card card-pad">${spinner('Reading ' + esc(sym) + '’s latest filing & the prior quarter… the first read can take up to a minute, then it’s instant.')}</div>`;
     try { history.replaceState(null, '', '?symbol=' + encodeURIComponent(sym)); } catch (_) {}
-    if (!token()) { window.location.href = '/login.html?next=' + encodeURIComponent('/monitor.html?symbol=' + sym); return; }
+    // No login required: the first few reports a day are free (per IP). Never
+    // leave the spinner up forever — bound the request; the server caches a
+    // finished report, so a retry after a slow first read comes back instantly.
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), 100000);
     try {
-      const r = await fetch(`${API}/filings/${encodeURIComponent(sym)}/report`, { headers: auth() });
-      if (r.status === 401) { window.location.href = '/login.html'; return; }
-      if (r.status === 402) { upsell(out); return; }
+      const r = await fetch(`${API}/filings/${encodeURIComponent(sym)}/report`, { headers: auth(), signal: ctrl.signal });
+      if (r.status === 429) { trialWall(out); return; } // free trial spent for the day
+      if (r.status === 402) { upsell(out); return; }    // logged-in, needs Power/Desk
       const d = await r.json();
       if (!r.ok || !d.report) {
         out.innerHTML = `<div class="card card-pad"><p class="small faint">${esc((d && d.error) || 'Could not analyze that filing.')}</p></div>`;
         return;
       }
       renderReport(d.report);
-    } catch (_) {
-      out.innerHTML = `<div class="card card-pad"><p class="small faint">Something went wrong. Please try again.</p></div>`;
+      maybeShowTrialCounter(r);
+    } catch (err) {
+      const timedOut = err && err.name === 'AbortError';
+      out.innerHTML = `<div class="card card-pad">
+        <p class="small faint">${timedOut
+          ? 'This filing is taking longer than usual to analyse. It often finishes in the background — give it a moment and try again, and it should come straight back.'
+          : 'Something went wrong. Please try again.'}</p>
+        <button class="btn btn-ghost" type="button" id="mon-retry" style="margin-top:10px;">Try ${esc(sym)} again</button>
+      </div>`;
+      const btn = $('mon-retry');
+      if (btn) btn.addEventListener('click', () => analyze(sym));
+    } finally {
+      clearTimeout(timer);
     }
   }
 

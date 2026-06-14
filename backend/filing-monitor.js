@@ -231,7 +231,7 @@ async function execSummary(facts) {
         const text = String(await aiClient.chat([
             { role: 'system', content: SUMMARY_SYSTEM },
             { role: 'user', content: `Facts JSON:\n${JSON.stringify(facts)}\n\nWrite the brief.` }
-        ], { temperature: 0.4, maxTokens: 320, purpose: 'summary' }) || '').trim();
+        ], { temperature: 0.4, maxTokens: 320, purpose: 'summary', timeoutMs: 40000 }) || '').trim();
         if (!text || aiClient.leaksIdentity(text)) return { text: template, source: 'template-fallback' };
         return { text, source: 'ai' };
     } catch (err) {
@@ -281,10 +281,17 @@ async function buildReport(symbol, { force = false } = {}) {
     const data = await aiChat.loadFundAny(sym).catch(() => null);
     const deltasObj = data ? computeDeltas(data) : { deltas: [], period: null, priorPeriod: null, currency: null };
 
-    // Narrative (reuses filing-diff.js — itself cached per filing pair)
+    // Narrative (reuses filing-diff.js — itself cached per filing pair).
+    // A THROW here is a transient failure (AI/SEC timeout or network) — distinct
+    // from a returned {error} (e.g. "only one filing", a permanent fact). We
+    // never want to cache a transiently narrative-less report: the narrative is
+    // the headline of this product, so on a transient miss we skip the cache
+    // write below and let the next request rebuild it.
     let narrative = null;
+    let narrativeTransientFail = false;
     if (periodic) {
-        try { narrative = await filingDiff.computeFilingDiff(sym); } catch (_) { narrative = null; }
+        try { narrative = await filingDiff.computeFilingDiff(sym); }
+        catch (_) { narrative = null; narrativeTransientFail = true; }
     }
 
     const materiality = scoreMateriality(deltasObj.deltas, narrative);
@@ -320,13 +327,15 @@ async function buildReport(symbol, { force = false } = {}) {
         note: 'What-changed narrative is quoted from the filing; year-over-year figures are computed from filed statements. Educational, not investment advice.',
         generatedAt: new Date().toISOString()
     };
-    try {
-        await col.updateOne(
-            { symbol: sym, accession: keyFiling.accession },
-            { $set: { symbol: sym, accession: keyFiling.accession, filedDate: keyFiling.date, materiality, payload, at: new Date() } },
-            { upsert: true }
-        );
-    } catch (_) { /* cache best-effort */ }
+    if (!narrativeTransientFail) {
+        try {
+            await col.updateOne(
+                { symbol: sym, accession: keyFiling.accession },
+                { $set: { symbol: sym, accession: keyFiling.accession, filedDate: keyFiling.date, materiality, payload, at: new Date() } },
+                { upsert: true }
+            );
+        } catch (_) { /* cache best-effort */ }
+    }
     return payload;
 }
 

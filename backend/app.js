@@ -37,7 +37,7 @@ function userTier(user, subscription) {
     const sub = subscription || (user && user.subscription) || {};
     const planId = sub.planId || '';
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    if (active && (planId === 'pro' || planId === 'pro-annual' || planId === 'power' || planId === 'desk')) return 'pro';
+    if (active && (planId === 'pro' || planId === 'pro-annual' || planId === 'power' || planId === 'power-monthly' || planId === 'desk')) return 'pro';
     if (active && planId !== 'free') return AI_PRO_FOR_ALL ? 'pro' : 'core';
     if (active && planId === 'free') return 'free';
     // pending / cancelled / expired: prod downgrades to the free tier instead
@@ -65,7 +65,7 @@ function proGate(req, res, next) {
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    return active && ['power', 'desk', 'enterprise'].includes(sub.planId);
+    return active && ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId);
 }
 function monitorGate(req, res, next) {
     if (hasMonitor(req)) return next();
@@ -159,6 +159,12 @@ const POWER_PLAN_ID = 'power';
 const DESK_PLAN_ID = 'desk';
 const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '590.00');
 const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
+// Power, billed monthly — same access as annual Power, lower activation friction
+// for pros who won't commit $590 upfront. $69/mo ≈ $828/yr, so annual is a clear
+// 29% saving (anchored to BamSEC's $69/mo). Same Monitor unlock as annual Power.
+const POWER_MONTHLY_PLAN_ID = 'power-monthly';
+const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '69.00');
+const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
 const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1990.00');
 const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
@@ -173,6 +179,7 @@ const STRIPE_PRICE_ID_ANNUAL = process.env.STRIPE_PRICE_ID_ANNUAL || '';
 const STRIPE_PRICE_ID_PRO = process.env.STRIPE_PRICE_ID_PRO || '';
 const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
 const STRIPE_PRICE_ID_POWER = process.env.STRIPE_PRICE_ID_POWER || '';
+const STRIPE_PRICE_ID_POWER_MONTHLY = process.env.STRIPE_PRICE_ID_POWER_MONTHLY || '';
 const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
@@ -383,6 +390,9 @@ function normalizePlanSelection(value) {
   if (plan === POWER_PLAN_ID) {
     return POWER_PLAN_ID;
   }
+  if (plan === POWER_MONTHLY_PLAN_ID || plan === 'powermonthly' || plan === 'power-month' || plan === 'power-mo') {
+    return POWER_MONTHLY_PLAN_ID;
+  }
   if (plan === MONTHLY_PLAN_ID || plan === 'month' || plan === 'monthly') {
     return MONTHLY_PLAN_ID;
   }
@@ -457,6 +467,17 @@ function getPlanConfig(value) {
       trialDays: 0
     };
   }
+  if (planId === POWER_MONTHLY_PLAN_ID) {
+    return {
+      planId: POWER_MONTHLY_PLAN_ID,
+      planName: 'Power',
+      billingInterval: 'month',
+      price: POWER_MONTHLY_PLAN_PRICE,
+      currency: POWER_MONTHLY_PLAN_CURRENCY,
+      stripePriceId: STRIPE_PRICE_ID_POWER_MONTHLY,
+      trialDays: 0
+    };
+  }
   return {
     planId: MONTHLY_PLAN_ID,
     planName: 'Monthly',
@@ -474,6 +495,9 @@ function getPlanConfigByPriceId(priceId) {
   }
   if (priceId && priceId === STRIPE_PRICE_ID_POWER) {
     return getPlanConfig(POWER_PLAN_ID);
+  }
+  if (priceId && priceId === STRIPE_PRICE_ID_POWER_MONTHLY) {
+    return getPlanConfig(POWER_MONTHLY_PLAN_ID);
   }
   if (priceId && priceId === STRIPE_PRICE_ID_ANNUAL) {
     return getPlanConfig(ANNUAL_PLAN_ID);
@@ -746,6 +770,16 @@ function ensureSubscriptionShape(user) {
     if (!user.subscription.stripePriceId && planConfig.stripePriceId) {
       user.subscription.stripePriceId = planConfig.stripePriceId;
     }
+  }
+  // Complimentary grants (manual, e.g. a comped reviewer) are modelled as a
+  // 'trialing' sub with a trialEndsAt and NO stripeSubscriptionId. Stripe's own
+  // trials always carry a stripeSubscriptionId and are expired by webhook, so
+  // this guard only ever touches manual comps: once the window passes, drop to
+  // free. Runs on every authed request, so the comp self-expires.
+  const s = user.subscription;
+  if (s && s.status === 'trialing' && s.trialEndsAt && !user.stripeSubscriptionId
+    && new Date(s.trialEndsAt).getTime() < Date.now()) {
+    s.status = 'cancelled';
   }
   return normalizeSubscription(user.subscription);
 }
@@ -3342,6 +3376,48 @@ app.post('/api/track/page_view', (req, res) => {
     res.status(204).end();
 });
 
+// ---- /api/admin/comp — grant complimentary access to a reviewer ----
+// Token-gated (ADMIN_TOKEN, same as /admin/funnel). The user must already have
+// an account (so they set their own password). Modelled as a manual 'trialing'
+// sub that AUTO-EXPIRES via the guard in ensureSubscriptionShape — no Stripe,
+// no cron. Re-POST to extend. Example:
+//   curl -X POST https://www.stockportfolio.pro/api/admin/comp \
+//     -H "x-admin-token: $ADMIN_TOKEN" -H 'content-type: application/json' \
+//     -d '{"email":"mav@example.com","days":7,"plan":"desk"}'
+app.post('/api/admin/comp', async (req, res) => {
+    const token = process.env.ADMIN_TOKEN;
+    const provided = req.query.token || req.headers['x-admin-token'];
+    if (!token || provided !== token) return res.status(403).json({ message: 'Forbidden' });
+    const email = String(req.body?.email || '').trim().toLowerCase();
+    const days = Math.min(90, Math.max(1, parseInt(req.body?.days, 10) || 7));
+    const plan = ['desk', 'power'].includes(String(req.body?.plan || '').toLowerCase())
+        ? String(req.body.plan).toLowerCase() : 'desk';
+    if (!email) return res.status(400).json({ message: 'email is required' });
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ message: `No account for ${email}. Ask them to register first, then retry.` });
+        const now = new Date();
+        const endsAt = new Date(now.getTime() + days * 86400000);
+        const pc = getPlanConfig(plan);
+        user.subscription.planId = pc.planId;
+        user.subscription.planName = pc.planName;
+        user.subscription.price = pc.price;
+        user.subscription.currency = pc.currency;
+        user.subscription.billingInterval = pc.billingInterval;
+        user.subscription.stripePriceId = null; // a comp, not a Stripe price
+        user.subscription.status = 'trialing';
+        user.subscription.trialStartedAt = now;
+        user.subscription.trialEndsAt = endsAt;
+        user.subscription.activatedAt = now;
+        user.markModified('subscription');
+        await user.save();
+        res.json({ ok: true, email, plan, status: 'trialing', expiresAt: endsAt.toISOString() });
+    } catch (err) {
+        console.error('[admin/comp] error:', err.message);
+        res.status(500).json({ message: 'Failed to grant complimentary access' });
+    }
+});
+
 // ---- /admin/funnel — private funnel dashboard (token-gated) ----
 // Protect with ADMIN_TOKEN env var; if not set the route returns 403.
 app.get('/admin/funnel', async (req, res) => {
@@ -3475,9 +3551,31 @@ app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
     }
 });
 
-app.get('/api/filings/:symbol/report', authMiddleware, monitorGate, async (req, res) => {
+// Filing Monitor free trial. The "/monitor" landing is pitched as "try any
+// ticker, no login" — so a single report is public, capped per IP per day so the
+// public AI endpoint can't become a cost/abuse sink. Power/Desk skip the cap
+// (unlimited); the materiality feed across a watchlist stays Power/Desk-only.
+// Cap is >1 so a slow first read the visitor retries doesn't burn their whole
+// allowance.
+const MONITOR_TRIAL_PER_DAY = 3;
+const monitorTrialLimiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000,
+    max: MONITOR_TRIAL_PER_DAY,
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: (req) => hasMonitor(req), // Power/Desk: unlimited, never counted
+    handler: (req, res) => res.status(429).json({
+        code: 'TRIAL_EXHAUSTED',
+        message: 'You’ve used your free Filing Monitor reports for today. Sign up free to keep exploring, or upgrade to Power for unlimited reports across your whole watchlist.'
+    })
+});
+
+app.get('/api/filings/:symbol/report', optionalAuth, monitorTrialLimiter, async (req, res) => {
     try {
-        const report = await filingMonitor.buildReport(req.params.symbol, { force: req.query.refresh === '1' });
+        // Only Power/Desk may force a fresh (uncached) rebuild — otherwise a
+        // trial visitor could spam ?refresh=1 to force the AI path every call.
+        const force = req.query.refresh === '1' && hasMonitor(req);
+        const report = await filingMonitor.buildReport(req.params.symbol, { force });
         if (report && report.error) return res.status(404).json(report);
         res.json({ report });
     } catch (err) {
@@ -3508,7 +3606,7 @@ async function runDigestSweep() {
     const ACTIVE = ['active', 'trialing', 'cancel_at_period_end'];
     const dueBefore = new Date(Date.now() - 6.5 * 86400000); // per-user ~weekly cadence
     const users = await User.find({
-        'subscription.planId': { $in: ['power', 'desk', 'enterprise'] },
+        'subscription.planId': { $in: ['power', 'power-monthly', 'desk', 'enterprise'] },
         'subscription.status': { $in: ACTIVE },
         digestOptOut: { $ne: true },
         $or: [{ lastDigestAt: null }, { lastDigestAt: { $lt: dueBefore } }]
