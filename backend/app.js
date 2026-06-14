@@ -1488,6 +1488,26 @@ async function authMiddleware(req, res, next) {
     }
 }
 
+// Optional auth: like authMiddleware but NEVER rejects. Resolves req.tier from a
+// valid token when present; logged-out or invalid token → 'free'. For public
+// pages that reveal extra data to subscribers (e.g. guru performance + activity).
+async function optionalAuth(req, res, next) {
+    req.tier = 'free';
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) return next();
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await User.findById(decoded.userId);
+        if (user) {
+            const normalized = ensureSubscriptionShape(user);
+            req.user = user;
+            req.subscription = normalized;
+            req.tier = userTier(user, normalized);
+        }
+    } catch (_) { /* invalid / expired token → treat as logged-out (free) */ }
+    next();
+}
+
 // Subscription signup route
 app.post('/api/subscribe', async (req, res) => {
     const { name, email, password } = req.body || {};
@@ -3321,15 +3341,33 @@ app.get('/admin/funnel', async (req, res) => {
 });
 
 // ----- Guru portfolio routes (13F-HR from SEC EDGAR) -----
+// Tiering ladder:
+//   free  — holdings table only (PUBLIC: SEO + acquisition magnet).
+//   core  — + 3M-15Y performance strip, sold-out list, per-holding activity diff.
+//   pro   — + AI analysis of the portfolio.
+// Paid fields are stripped server-side for lower tiers and flagged so the page
+// renders an upgrade teaser in their place.
+function lockGuruData(data) {
+    const holdings = Array.isArray(data.holdings)
+        ? data.holdings.map(({ activity, shareChangePct, prevShares, ...keep }) => keep)
+        : data.holdings;
+    return { ...data, holdings, sells: [], performance: null, hasActivity: false, analysis: null, locked: true, analysisLocked: true };
+}
+function stripGuruAnalysis(data) {
+    return { ...data, analysis: null, analysisLocked: true };
+}
+
 app.get('/api/gurus', (req, res) => {
     res.json({ gurus: gurus.list() });
 });
 
-app.get('/api/gurus/:id', async (req, res) => {
+app.get('/api/gurus/:id', optionalAuth, async (req, res) => {
     try {
         const data = await gurus.holdings(req.params.id);
         if (!data) return res.status(404).json({ error: 'Guru not found' });
-        res.json(data);
+        if (req.tier === 'pro') return res.json(data);                  // full incl. AI analysis
+        if (req.tier === 'core') return res.json(stripGuruAnalysis(data)); // perf + activity, no analysis
+        return res.json(lockGuruData(data));                            // holdings only
     } catch (err) {
         console.error('[gurus] route error:', err.message);
         res.status(500).json({ error: 'Failed to fetch guru portfolio' });
@@ -3347,6 +3385,7 @@ app.get('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 watchdog.start();
+gurus.start();
 
 
 

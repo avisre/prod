@@ -4,6 +4,7 @@
 const axios = require('axios');
 const mongoose = require('mongoose');
 const secSource = require('./sec-source');
+const guruAnalysis = require('./guru-analysis');
 const YahooFinance = require('yahoo-finance2').default;
 const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 
@@ -426,6 +427,15 @@ async function buildGuru(guru) {
         // Compute hypothetical performance from current holdings × Yahoo Finance history
         const performance = await computePerformance(top50).catch(() => null);
 
+        // AI analysis (Pro feature) — numbers computed in code, model writes prose.
+        const analysis = await guruAnalysis.generate({
+            name: guru.name, fund: guru.fund,
+            reportingPeriod: filings[0].period,
+            prevPeriod: filings[1] ? filings[1].period : null,
+            totalValue, holdingsTotal: all.length,
+            holdings: top50, sells, performance, hasActivity,
+        }).catch((e) => { console.warn(`[gurus] analysis failed for ${guru.id}:`, e.message); return null; });
+
         const doc = {
             id: guru.id,
             name: guru.name,
@@ -441,6 +451,7 @@ async function buildGuru(guru) {
             sells,
             hasActivity,
             performance,
+            analysis,
             builtAt: new Date(),
         };
 
@@ -451,6 +462,47 @@ async function buildGuru(guru) {
     } finally {
         _building.delete(guru.id);
     }
+}
+
+// ─── Cache pre-warming ────────────────────────────────────────────────────────
+// The lazy stale-while-revalidate path in holdings() means the very first
+// visitor to a cold guru is served an empty "building" page while the 30-60s
+// EDGAR+Yahoo build runs. 13F data only changes quarterly (and the perf strip is
+// re-priced against today's close), so we proactively (re)build every guru into
+// MongoDB on a daily cycle. After the first warm pass every page is instant.
+const REFRESH_INTERVAL_MS = 24 * 3600 * 1000;
+
+async function refreshAll() {
+    if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
+    const col = mongoose.connection.collection('guru_portfolios');
+    const existing = await col.find({}, { projection: { id: 1, builtAt: 1 } }).toArray();
+    const builtAt = new Map(existing.map((d) => [d.id, new Date(d.builtAt).getTime()]));
+    let built = 0, fresh = 0;
+    for (const guru of GURU_LIST) {
+        const ts = builtAt.get(guru.id);
+        if (ts && Date.now() - ts < CACHE_TTL_MS) { fresh++; continue; }
+        await buildGuru(guru); // builds sequentially — buildGuru self-rate-limits + logs its own errors
+        built++;
+        await sleep(STEP_MS); // breathing room between gurus
+    }
+    return { built, fresh, total: GURU_LIST.length };
+}
+
+// Kick off the prewarm scheduler (called once from app.js after the server boots).
+function start() {
+    if (String(process.env.GURU_PREWARM || '1') === '0') {
+        console.log('[gurus] prewarm disabled via GURU_PREWARM=0');
+        return;
+    }
+    // Delay the first sweep so it doesn't fight boot/Mongo-connect; staggered
+    // 30s past the watchdog's 90s initial sweep to avoid a cold-start spike.
+    setTimeout(() => {
+        refreshAll().then((r) => console.log('[gurus] initial prewarm', JSON.stringify(r))).catch((e) => console.error('[gurus] prewarm error', e.message));
+    }, 120 * 1000);
+    setInterval(() => {
+        refreshAll().then((r) => console.log('[gurus] refresh', JSON.stringify(r))).catch(() => {});
+    }, REFRESH_INTERVAL_MS);
+    console.log(`[gurus] prewarm scheduled every ${Math.round(REFRESH_INTERVAL_MS / 60000)} min`);
 }
 
 function list() {
@@ -468,4 +520,4 @@ async function holdings(id) {
     return { id, name: guru.name, fund: guru.fund, holdings: [], building: true };
 }
 
-module.exports = { list, holdings, buildGuru, GURU_LIST };
+module.exports = { list, holdings, buildGuru, refreshAll, start, GURU_LIST };

@@ -209,6 +209,35 @@
     }
     .perf-pos { color: var(--pos); }
     .perf-neg { color: var(--neg); }
+    /* Locked insights teaser (free / logged-out) */
+    .gl-blur { filter: blur(5px); color: var(--ink-3); user-select: none; }
+    .guru-lock-cta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 9px 14px;
+      border-top: 1px solid var(--line);
+    }
+    .guru-lock-cta .guru-lock-text { font-size: 12px; color: var(--ink-2); margin: 0; line-height: 1.45; }
+    /* AI analysis section (Pro) */
+    .guru-ai {
+      margin-top: 16px;
+      padding: 13px 16px 14px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+    }
+    .guru-ai-hd { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
+    .guru-ai-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-ink); }
+    .guru-ai-note { font-size: 10.5px; color: var(--ink-3); }
+    .guru-ai-body { font-size: 13.5px; line-height: 1.62; color: var(--ink-2); }
+    .guru-ai-body p { margin: 0 0 9px; }
+    .guru-ai-body p:last-child { margin-bottom: 0; }
+    .guru-ai-body ul { margin: 4px 0 9px; padding-left: 18px; }
+    .guru-ai-body li { margin-bottom: 4px; }
+    .guru-ai-locked .guru-lock-text { font-size: 12.5px; color: var(--ink-2); margin: 0 0 10px; max-width: 62ch; line-height: 1.5; }
     @media (max-width: 760px) {
       .perf-cells { overflow-x: auto; scrollbar-width: none; }
       .perf-cells::-webkit-scrollbar { display: none; }
@@ -491,7 +520,8 @@
       main.innerHTML = `<div class="guru-placeholder"><span class="loading-line"><span class="spin"></span>Loading 13F data…</span></div>`;
 
       try {
-        const r = await fetch('/api/gurus/' + id);
+        const tk = localStorage.getItem('token');
+        const r = await fetch('/api/gurus/' + id, tk ? { headers: { Authorization: 'Bearer ' + tk } } : undefined);
         const data = await r.json();
         if (activeId !== id) return;
         renderGuru(data);
@@ -519,6 +549,52 @@
           </div>
           <div class="perf-cells">${cells}</div>
         </div>`;
+    }
+
+    /* ─── Locked insights teaser (free / logged-out) ─── */
+    function lockedInsightsHtml(data) {
+      const ghost = ['+14.2%', '+9.7%', '+22.1%', '+86.5%', '+148.3%', '+212.0%'];
+      const cells = Object.values(PERF_LABELS).map((label, i) =>
+        `<div class="perf-cell"><div class="perf-cell-period">${label}</div><div class="perf-cell-val gl-blur">${ghost[i]}</div></div>`
+      ).join('');
+      return `
+        <div class="perf-strip guru-lock">
+          <div class="perf-strip-hd">
+            <span class="perf-strip-label">Performance &amp; activity</span>
+            <span class="perf-strip-note">🔒 Core feature</span>
+          </div>
+          <div class="perf-cells">${cells}</div>
+          <div class="guru-lock-cta">
+            <p class="guru-lock-text">See ${V2.esc(data.name || 'this investor')}'s 3M–15Y hypothetical returns and every buy &amp; sell this quarter.</p>
+            <a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Unlock with Core</a>
+          </div>
+        </div>`;
+    }
+
+    /* ─── AI analysis section (Pro) ─── */
+    function analysisHtml(data) {
+      if (data.analysis && data.analysis.text) {
+        return `
+          <div class="guru-ai">
+            <div class="guru-ai-hd">
+              <span class="guru-ai-badge">✦ AI Analysis</span>
+              <span class="guru-ai-note">Generated from this 13F · not investment advice</span>
+            </div>
+            <div class="guru-ai-body">${V2.markdown(data.analysis.text)}</div>
+          </div>`;
+      }
+      if (data.analysisLocked) {
+        return `
+          <div class="guru-ai guru-ai-locked">
+            <div class="guru-ai-hd">
+              <span class="guru-ai-badge">✦ AI Analysis</span>
+              <span class="perf-strip-note">🔒 Pro feature</span>
+            </div>
+            <p class="guru-lock-text">Get an AI read on ${V2.esc(data.name || 'this investor')}'s quarter — biggest moves, concentration, and notable new buys and exits.</p>
+            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro">Upgrade to Pro</a>
+          </div>`;
+      }
+      return '';
     }
 
     /* ─── Render a full guru panel ─── */
@@ -586,7 +662,7 @@
                 SEC Filing ↗</a>` : ''}
           </div>
           ${meta.bio ? `<p class="guru-hd-bio">${V2.esc(meta.bio)}</p>` : ''}
-          ${perfStripHtml(data.performance)}
+          ${data.locked ? lockedInsightsHtml(data) : perfStripHtml(data.performance)}
           <div class="guru-stats">
             <div class="guru-stat">
               <span class="guru-stat-v">${fmtVal(data.totalValue)}</span>
@@ -606,6 +682,8 @@
             </div>
           </div>
         </div>
+
+        ${analysisHtml(data)}
 
         <!-- Sector allocation -->
         <div class="sector-section">
@@ -646,7 +724,7 @@
                 <th style="width:34px; text-align:right;">#</th>
                 <th class="row-head" style="min-width:190px; text-align:left;">Company</th>
                 <th class="pct-cell" style="min-width:150px;">% Portfolio</th>
-                <th style="min-width:96px;">Activity</th>
+                ${data.locked ? '' : '<th style="min-width:96px;">Activity</th>'}
                 <th>Shares</th>
                 <th style="min-width:84px;">Reported Px</th>
                 <th>Value</th>
@@ -716,7 +794,7 @@
       if (!body) return;
       body.innerHTML = rows.length
         ? rows.map((h, i) => rowHtml(h, i, maxW)).join('')
-        : `<tr class="empty-row"><td colspan="7" style="text-align:center; padding:30px; color:var(--ink-3);">No ${activeTab === 'buys' ? 'new buys or adds' : activeTab === 'sells' ? 'sells' : 'holdings'} this quarter.</td></tr>`;
+        : `<tr class="empty-row"><td colspan="${data.locked ? 6 : 7}" style="text-align:center; padding:30px; color:var(--ink-3);">No ${activeTab === 'buys' ? 'new buys or adds' : activeTab === 'sells' ? 'sells' : 'holdings'} this quarter.</td></tr>`;
       applyFilter();
       const tw = document.getElementById('h-table-wrap');
       const st = document.getElementById('h-scroll-top');
@@ -776,7 +854,7 @@
           ${h.cusip ? `<div class="co-cusip">${V2.esc(h.cusip)}</div>` : ''}
         </td>
         <td class="pct-cell">${pctCell}</td>
-        <td>${activityBadge(h)}</td>
+        ${currentData && currentData.locked ? '' : `<td>${activityBadge(h)}</td>`}
         <td>${sharesCell}</td>
         <td style="font-variant-numeric:tabular-nums;">${priceCell}</td>
         <td>${valueCell}</td>
