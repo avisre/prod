@@ -728,12 +728,16 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 760px) {
+/* Nav collapses to the hamburger at <=900px so tablets (761-900) don't show the
+   full desktop nav, which is too wide and forced horizontal scroll. */
+@media (max-width: 900px) {
   .nav-links { display: none; }
   .nav-search { flex: 1; max-width: 280px; }
   .nav-inner { gap: 10px; }
   .nav .btn-quiet { display: none; }
   .nav .btn-sm { display: none; }
+}
+@media (max-width: 760px) {
   .display { font-size: clamp(30px, 9vw, 40px); }
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .table-data th, .table-data td { padding: 8px 10px; }
@@ -753,7 +757,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   border-radius: 6px;
 }
 .nav-ham:hover { background: var(--accent-tint); }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .nav-ham { display: flex; align-items: center; }
 }
 

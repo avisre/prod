@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260614-3" />
+  <link rel="stylesheet" href="assets/system.css?v=20260614-4" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -23,6 +23,13 @@
     .sym-ac button:hover, .sym-ac button.is-active { background: var(--accent-tint); }
     .sym-ac .sym { font-weight: 650; min-width: 52px; font-variant-numeric: tabular-nums; }
     .sym-ac .nm { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Add-holding form: stack on small screens so the ticker input + its
+       autocomplete dropdown get full width (and nothing overflows). */
+    @media (max-width: 560px) {
+      #add-form { grid-template-columns: 1fr 1fr !important; }
+      #add-form > label:first-child { grid-column: 1 / -1; }
+      #add-form > button[type=submit] { grid-column: 1 / -1; }
+    }
   </style>
 </head>
 <body>
@@ -195,7 +202,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20260614-2"></script>
+  <script src="assets/app.js?v=20260614-3"></script>
   <script src="assets/dashboard.js?v=20260614-1"></script>
 </body>
 </html>
