@@ -252,11 +252,12 @@ async function latestFilings(symbol) {
     return { latest, periodic, filings };
 }
 
-async function buildReport(symbol, { force = false } = {}) {
+async function buildReport(symbol, { force = false, onStage = () => {} } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return { error: 'Invalid ticker.' };
 
     let found = null;
+    onStage('finding'); // locating the latest filing on SEC EDGAR
     try {
         found = await latestFilings(sym);
     } catch (err) {
@@ -277,6 +278,7 @@ async function buildReport(symbol, { force = false } = {}) {
         } catch (_) { /* cache best-effort */ }
     }
 
+    onStage('reading'); // reading the filing + the prior period (the slow part)
     // Numbers (deterministic, cheap)
     const data = await aiChat.loadFundAny(sym).catch(() => null);
     const deltasObj = data ? computeDeltas(data) : { deltas: [], period: null, priorPeriod: null, currency: null };
@@ -296,6 +298,7 @@ async function buildReport(symbol, { force = false } = {}) {
 
     const materiality = scoreMateriality(deltasObj.deltas, narrative);
     const facts = summaryFacts(sym, keyFiling, deltasObj, narrative);
+    onStage('summarizing'); // writing the what-changed brief
     const summary = await execSummary(facts);
 
     const payload = {
@@ -388,4 +391,4 @@ async function feedFor(symbols) {
     return { items, pending };
 }
 
-module.exports = { buildReport, feedFor, computeDeltas, scoreMateriality };
+module.exports = { buildReport, peekReport, feedFor, computeDeltas, scoreMateriality };

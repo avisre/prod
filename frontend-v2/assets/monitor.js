@@ -89,8 +89,8 @@
         <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Power &amp; Desk</h2>
         <p class="muted" style="max-width:62ch;">Get an instant, cited read on what materially changed in any company's latest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved — plus a materiality-ranked feed across your whole watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — $1,990/yr</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Power — $590/yr</a>
+          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — £1,490/yr</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Power — £440/yr</a>
         </div>
       </div>`;
     out.hidden = false;
@@ -120,7 +120,7 @@
     banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
     banner.innerHTML = `<div class="small" style="max-width:58ch; margin:0;">${msg}</div>
       <div style="flex-shrink:0;">
-        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Go unlimited — Power $69/mo</a>
+        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Go unlimited — Power £49/mo</a>
       </div>`;
     const out = $('mon-report');
     out.insertBefore(banner, out.firstChild);
@@ -134,29 +134,68 @@
         <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
         <p class="muted" style="max-width:62ch;">Power gives you an instant, cited read on what materially changed in any 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality — unlimited, with an auto-updating feed across your whole watchlist. The job institutional desks pay five figures a seat for.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $69/mo</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Or $590/yr — save 29%</a>
+          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — £49/mo</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Or £440/yr — save 25%</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,990/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">£1,490/yr →</a></p>
       </div>`;
     out.hidden = false;
   }
 
   // A cold read of a large filing (e.g. Berkshire's 10-K) can take a couple of
-  // minutes. The server kicks the build and returns {status:'building'} fast; we
-  // poll until the report lands instead of holding one long request the user
-  // gives up on. The build runs server-side regardless, so it always resolves —
-  // we just show honest progress and load it the moment it's ready.
+  // minutes. The server kicks the build and returns {status:'building', stage}
+  // fast; we poll until the report lands, showing WHAT it's doing at each step
+  // instead of a mute spinner the user gives up on (and a specific, useful card
+  // when something actually fails).
   const POLL_MS = 6000;
   const MAX_WAIT_MS = 240000; // 4 min before we hand back a manual retry
 
-  function monFail(out, sym, msg) {
+  const STAGE_LABEL = {
+    finding: 'Locating the latest filing on SEC EDGAR…',
+    reading: 'Reading the filing and the year-ago period — a large 10-K can take a couple of minutes…',
+    summarizing: 'Writing the what-changed brief…'
+  };
+
+  function setBuilding(out, sym, stage, elapsedMs) {
+    const base = STAGE_LABEL[stage] || ('Reading ' + sym + '’s latest filing & the prior quarter…');
+    const hint = elapsedMs > 45000
+      ? 'Still going — big filings take longer. This loads the moment it’s ready; no need to refresh, and you won’t lose the work if you wait.'
+      : 'This loads the moment it’s ready — no need to refresh.';
+    out.innerHTML = `<div class="card card-pad">${spinner(base)}<p class="small faint" style="margin:10px 0 0;">${esc(hint)}</p></div>`;
+  }
+
+  // Detailed, specific failure cards so the user always knows what happened and
+  // what to do next — never a bare "could not analyze".
+  function monFail(out, sym, kind, detail) {
+    const CARD = {
+      notfound: ['No SEC filings for ' + sym,
+        'The Monitor covers <strong>US exchange-listed companies that file with the SEC</strong> (10-K, 10-Q, 8-K). Foreign listings, ETFs and funds won’t have filings here. Check the ticker, or pick a US company from the search above.'],
+      sec: ['SEC EDGAR didn’t respond',
+        'The SEC’s filing system (EDGAR) is slow or briefly unavailable right now — that’s on their side, not yours. Give it a few seconds and try again.'],
+      slow: ['Still reading a large filing',
+        sym + '’s filing is large and it’s taking longer than usual. It’s still being prepared in the background — keep this tab open, or try again in a moment and it’ll come straight back (the work isn’t lost).'],
+      invalid: ['That doesn’t look like a ticker',
+        'Enter a stock symbol — e.g. <strong>NVDA</strong> — and pick from the suggestions as you type.'],
+      offline: ['You appear to be offline',
+        'We couldn’t reach the server. Check your connection and try again.'],
+      generic: ['Couldn’t analyse that filing', esc(detail || 'Something went wrong on our side while building the report. Please try again.')]
+    };
+    const [title, body] = CARD[kind] || CARD.generic;
     out.innerHTML = `<div class="card card-pad">
-      <p class="small faint">${esc(msg)}</p>
-      <button class="btn btn-ghost" type="button" id="mon-retry" style="margin-top:10px;">Try ${esc(sym)} again</button>
+      <h3 class="title-3" style="margin:0 0 6px;">${esc(title)}</h3>
+      <p class="small faint" style="max-width:64ch; margin:0;">${body}</p>
+      <button class="btn btn-ghost btn-sm" type="button" id="mon-retry" style="margin-top:14px;">Try ${esc(sym)} again</button>
     </div>`;
     const btn = $('mon-retry');
     if (btn) btn.addEventListener('click', () => analyze(sym));
+  }
+
+  function classifyErr(msg) {
+    const m = String(msg || '').toLowerCase();
+    if (/no sec filings|exchange-listed|we cover|could ?n.t find|no filings found/.test(m)) return 'notfound';
+    if (/edgar|reach.*sec|sec.*(unavailable|slow|respond)/.test(m)) return 'sec';
+    if (/invalid ticker|not a (valid )?ticker|doesn.t look/.test(m)) return 'invalid';
+    return 'generic';
   }
 
   async function analyze(sym) {
@@ -164,12 +203,12 @@
     if (!sym) return;
     const out = $('mon-report');
     out.hidden = false;
-    out.innerHTML = `<div class="card card-pad">${spinner('Reading ' + esc(sym) + '’s latest filing & the prior quarter… a large 10-K can take a couple of minutes — this loads the moment it’s ready, no need to refresh.')}</div>`;
+    setBuilding(out, sym, null, 0);
     try { history.replaceState(null, '', '?symbol=' + encodeURIComponent(sym)); } catch (_) {}
 
     const started = Date.now();
-    let first = true;        // the first call starts the build + counts the free-trial
-    let countedResp = null;  // hold the trial-counting response for the footer counter
+    let first = true;        // the first call starts the build + counts the free-stock
+    let countedResp = null;  // hold the credit-counting response for the footer counter
 
     const reqOnce = async (poll) => {
       const ctrl = new AbortController();
@@ -185,31 +224,27 @@
       try {
         r = await reqOnce(!first);
       } catch (_) {
-        // a single attempt timed out / dropped — keep waiting within the cap
-        if (Date.now() - started > MAX_WAIT_MS) {
-          monFail(out, sym, 'This filing is taking longer than usual to analyse. It often finishes in the background — give it a moment and try ' + sym + ' again, and it should come straight back.');
-          return;
-        }
+        if (typeof navigator !== 'undefined' && navigator.onLine === false) { monFail(out, sym, 'offline'); return; }
+        if (Date.now() - started > MAX_WAIT_MS) { monFail(out, sym, 'slow'); return; }
         first = false;
         await new Promise((res) => setTimeout(res, POLL_MS));
         continue;
       }
-      if (r.status === 429) { trialWall(out); return; } // free trial spent for the day
+      if (r.status === 429) { trialWall(out); return; } // free stocks spent for the day
       if (r.status === 402) { upsell(out); return; }    // logged-in, needs Power/Desk
       if (first) countedResp = r;                        // the counted (non-poll) response
-      if (r.status === 202) {                            // still building — poll on
-        if (Date.now() - started > MAX_WAIT_MS) {
-          monFail(out, sym, 'Still working on this one — a large filing can take a few minutes. It’s being prepared in the background; try ' + sym + ' again shortly and it’ll come straight back.');
-          return;
-        }
+      let d = null;
+      try { d = await r.json(); } catch (_) { d = null; }
+      if (r.status === 202) {                            // still building — show the stage, poll on
+        if (Date.now() - started > MAX_WAIT_MS) { monFail(out, sym, 'slow'); return; }
+        setBuilding(out, sym, d && d.stage, Date.now() - started);
         first = false;
         await new Promise((res) => setTimeout(res, POLL_MS));
         continue;
       }
-      let d = null;
-      try { d = await r.json(); } catch (_) { d = null; }
       if (!r.ok || !d || !d.report) {
-        monFail(out, sym, (d && d.error) || 'Could not analyze that filing.');
+        const kind = classifyErr(d && d.error);
+        monFail(out, sym, kind, kind === 'generic' ? (d && d.error) : null);
         return;
       }
       renderReport(d.report);

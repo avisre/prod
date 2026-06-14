@@ -3610,6 +3610,7 @@ function monitorFreeRecord(req) {
 // client poll (?poll=1, free) until the cached report lands. Concurrent visitors
 // and the poller all share ONE build via this map — no duplicate SEC+LLM passes.
 const _monitorInflight = new Map();
+const _monitorProgress = new Map(); // symbol -> current build stage, for "what's happening" feedback
 const MONITOR_FAST_MS = 9000;
 
 app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
@@ -3620,10 +3621,10 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         // Poll path: free, build-free, never spends a credit. Returns the report
         // once cached, else {status:'building'} — never kicks a new build.
         if (req.query.poll === '1') {
-            if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym });
+            if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
             const cached = await filingMonitor.peekReport(sym).catch(() => null);
             if (cached) return res.json({ report: cached });
-            return res.status(202).json({ status: 'building', symbol: sym });
+            return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
         }
 
         // Free allowance: MONITOR_FREE_STOCKS DISTINCT stocks / IP / day. A stock
@@ -3652,15 +3653,15 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const force = req.query.refresh === '1' && hasMonitor(req);
         let build = (!force && _monitorInflight.get(sym)) || null;
         if (!build) {
-            build = filingMonitor.buildReport(sym, { force })
+            build = filingMonitor.buildReport(sym, { force, onStage: (stage) => _monitorProgress.set(sym, stage) })
                 .catch((err) => { console.error('[filings] build error:', err && err.message); return { error: 'Couldn’t analyse that filing right now — please try again in a moment.' }; })
-                .finally(() => { _monitorInflight.delete(sym); });
+                .finally(() => { _monitorInflight.delete(sym); _monitorProgress.delete(sym); });
             _monitorInflight.set(sym, build);
         }
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), MONITOR_FAST_MS))]);
         if (winner && winner.error) return res.status(404).json(winner); // typo/invalid → no credit spent
         if (freeRec && !known) freeRec.syms.add(normSym);                  // real report (or building) → claim the stock
-        if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym });
+        if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
         return res.json({ report: winner });
     } catch (err) {
         console.error('[filings] report error:', err.message);
