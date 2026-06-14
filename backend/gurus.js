@@ -427,15 +427,9 @@ async function buildGuru(guru) {
         // Compute hypothetical performance from current holdings × Yahoo Finance history
         const performance = await computePerformance(top50).catch(() => null);
 
-        // AI analysis (Pro feature) — numbers computed in code, model writes prose.
-        const analysis = await guruAnalysis.generate({
-            name: guru.name, fund: guru.fund,
-            reportingPeriod: filings[0].period,
-            prevPeriod: filings[1] ? filings[1].period : null,
-            totalValue, holdingsTotal: all.length,
-            holdings: top50, sells, performance, hasActivity,
-        }).catch((e) => { console.warn(`[gurus] analysis failed for ${guru.id}:`, e.message); return null; });
-
+        // AI analysis is NOT generated here — it's produced on demand when a Pro
+        // user clicks "Generate AI analysis" (see analysisFor), then cached on the
+        // doc keyed to the filing accession so it isn't re-run every visit.
         const doc = {
             id: guru.id,
             name: guru.name,
@@ -451,7 +445,6 @@ async function buildGuru(guru) {
             sells,
             hasActivity,
             performance,
-            analysis,
             builtAt: new Date(),
         };
 
@@ -520,4 +513,23 @@ async function holdings(id) {
     return { id, name: guru.name, fund: guru.fund, holdings: [], building: true };
 }
 
-module.exports = { list, holdings, buildGuru, refreshAll, start, GURU_LIST };
+// On-demand AI analysis (Pro). Generated only when requested; cached on the doc
+// keyed to the filing accession so it's re-run only when a new 13F is filed, not
+// on every visit or daily rebuild.
+async function analysisFor(id) {
+    const guru = GURU_LIST.find((g) => g.id === id);
+    if (!guru) return null;
+    const col = mongoose.connection.collection('guru_portfolios');
+    const doc = await col.findOne({ id }, { projection: { _id: 0 } });
+    if (!doc || !Array.isArray(doc.holdings) || !doc.holdings.length) return null;
+    if (doc.analysis && doc.analysis.text && doc.analysis.accession === doc.accession) {
+        return doc.analysis; // cached, still matches the current filing
+    }
+    const generated = await guruAnalysis.generate(doc);
+    if (!generated || !generated.text) return null;
+    const analysis = { ...generated, accession: doc.accession, generatedAt: new Date() };
+    await col.updateOne({ id }, { $set: { analysis } }).catch(() => {});
+    return analysis;
+}
+
+module.exports = { list, holdings, analysisFor, buildGuru, refreshAll, start, GURU_LIST };

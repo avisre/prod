@@ -573,14 +573,16 @@
 
     /* ─── AI analysis section (Pro) ─── */
     function analysisHtml(data) {
-      if (data.analysis && data.analysis.text) {
+      if (data.analysisAvailable) {
         return `
           <div class="guru-ai">
             <div class="guru-ai-hd">
               <span class="guru-ai-badge">✦ AI Analysis</span>
-              <span class="guru-ai-note">Generated from this 13F · not investment advice</span>
+              <span class="guru-ai-note">Reads this 13F for you · not investment advice</span>
             </div>
-            <div class="guru-ai-body">${V2.markdown(data.analysis.text)}</div>
+            <div id="guru-ai-body">
+              <button class="btn btn-primary btn-sm" id="guru-ai-btn" type="button">Generate AI analysis</button>
+            </div>
           </div>`;
       }
       if (data.analysisLocked) {
@@ -595,6 +597,24 @@
           </div>`;
       }
       return '';
+    }
+
+    /* ─── On-demand AI analysis (Pro) — fetched only when the button is clicked ─── */
+    async function loadAnalysis(id) {
+      const body = document.getElementById('guru-ai-body');
+      if (!body) return;
+      const tk = localStorage.getItem('token');
+      body.innerHTML = `<span class="loading-line"><span class="spin"></span>Reading the filing…</span>`;
+      try {
+        const r = await fetch('/api/gurus/' + id + '/analysis', { headers: tk ? { Authorization: 'Bearer ' + tk } : {} });
+        if (!r.ok) throw new Error('http ' + r.status);
+        const d = await r.json();
+        body.innerHTML = `<div class="guru-ai-body">${V2.markdown((d.analysis && d.analysis.text) || '')}</div>`;
+      } catch (_) {
+        body.innerHTML = `<p class="small faint" style="margin:0;">Couldn't generate the analysis right now. <a href="#" id="guru-ai-retry">Try again</a></p>`;
+        const retry = document.getElementById('guru-ai-retry');
+        if (retry) retry.addEventListener('click', (e) => { e.preventDefault(); loadAnalysis(id); });
+      }
     }
 
     /* ─── Render a full guru panel ─── */
@@ -768,6 +788,10 @@
       /* ── Filter ── */
       const filterInput = document.getElementById('h-filter');
       if (filterInput) filterInput.addEventListener('input', applyFilter);
+
+      /* ── AI analysis button (Pro) ── */
+      const aiBtn = document.getElementById('guru-ai-btn');
+      if (aiBtn) aiBtn.addEventListener('click', () => loadAnalysis(data.id));
     }
 
     /* ─── Rows for the active tab ─── */

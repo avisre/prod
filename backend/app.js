@@ -3353,8 +3353,15 @@ function lockGuruData(data) {
         : data.holdings;
     return { ...data, holdings, sells: [], performance: null, hasActivity: false, analysis: null, locked: true, analysisLocked: true };
 }
+// Core: keep perf + activity, no analysis (analysis is Pro). free uses lockGuruData.
 function stripGuruAnalysis(data) {
-    return { ...data, analysis: null, analysisLocked: true };
+    const { analysis, ...rest } = data;
+    return { ...rest, analysisLocked: true };
+}
+// Pro: full data, but the analysis is fetched on demand (a click), never auto-sent.
+function proGuruData(data) {
+    const { analysis, ...rest } = data;
+    return { ...rest, analysisAvailable: true };
 }
 
 app.get('/api/gurus', (req, res) => {
@@ -3365,12 +3372,25 @@ app.get('/api/gurus/:id', optionalAuth, async (req, res) => {
     try {
         const data = await gurus.holdings(req.params.id);
         if (!data) return res.status(404).json({ error: 'Guru not found' });
-        if (req.tier === 'pro') return res.json(data);                  // full incl. AI analysis
+        if (req.tier === 'pro') return res.json(proGuruData(data));     // perf + activity; analysis on demand
         if (req.tier === 'core') return res.json(stripGuruAnalysis(data)); // perf + activity, no analysis
         return res.json(lockGuruData(data));                            // holdings only
     } catch (err) {
         console.error('[gurus] route error:', err.message);
         res.status(500).json({ error: 'Failed to fetch guru portfolio' });
+    }
+});
+
+// On-demand AI analysis for one guru (Pro only) — generated on first request per
+// filing, then cached. Pro users trigger this by clicking "Generate AI analysis".
+app.get('/api/gurus/:id/analysis', authMiddleware, proGate, async (req, res) => {
+    try {
+        const analysis = await gurus.analysisFor(req.params.id);
+        if (!analysis) return res.status(404).json({ error: 'Analysis unavailable' });
+        res.json({ analysis });
+    } catch (err) {
+        console.error('[gurus] analysis route error:', err.message);
+        res.status(500).json({ error: 'Failed to generate analysis' });
     }
 });
 
