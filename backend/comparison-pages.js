@@ -129,6 +129,91 @@ const COMPETITORS = {
             ['Broker connection required', 'No — manual or CSV, you keep your data', 'Optional'],
             ['Best for', 'Investors who want the actual numbers + their portfolio', 'Investors who prefer visual snapshots']
         ]
+    },
+    "wallstreetzen": {
+        name: "WallStreetZen",
+        slug: "wallstreetzen",
+        blurb: "WallStreetZen is a stock research platform built around a 115-factor quantitative rating system (Zen Ratings) and transparent analyst performance rankings, aimed at part-time investors who want screeners and due diligence tools.",
+        theirPrice: "Free tier (limited screener); Premium $19.50/month when billed yearly ($234/year) or $59/month if paid monthly; 14-day trial for $1.",
+        rows: [
+            ["Monthly price (annual plan)","£9/mo (~$11); 7-day free trial on paid app, cancel anytime","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
+            ["Fundamentals depth","Up to 19 years annual + 48 quarters, from SEC filings; health checks included","Historical fundamentals + 115-factor Zen Ratings; no explicit statement of years back"],
+            ["AI research assistant","Yes — Ask answers from SEC filings, sources shown; refuses when unsure","No AI assistant; offers analyst rankings and due diligence checks instead"],
+            ["Analyst ratings & consensus","No analyst consensus or call transcripts included","Ranks 130+ top analysts by historical accuracy, win rate, and returns; shows analyst consensus — a genuine strength"],
+            ["Portfolio tracking","Yes — holdings, allocation, X-Ray (look-through P/E), SEC filing-change alerts","No portfolio tracking; watchlists only"],
+            ["Public access","Free public screener + per-stock data pages (no login required); 7-day paid trial","Limited free screener; Premium required for full features"],
+            ["Best for","Researching and tracking your own portfolio with real SEC filings in one calm workspace","Part-time investors who want a screener backed by transparent analyst performance data"]
+        ]
+    },
+    "seeking-alpha": {
+        name: "Seeking Alpha",
+        slug: "seeking-alpha",
+        blurb: "Established investment research platform with expert-contributor analysis, analyst consensus ratings, and earnings-call transcripts focused primarily on US-listed stocks.",
+        theirPrice: "£25/month equivalent (~$299/year standard, currently $225/year summer sale June-July 2026)",
+        rows: [
+            ["Data depth","Up to 19 annual years + 48 quarters from SEC 10-K/10-Q via EDGAR; deterministic, health-checked","Quant Rating system scores based on 100+ metrics; does not publish historical-depth years covered"],
+            ["AI research tool","Conversational Ask (portfolio + company Q&A), grounded only in SEC filings + live web, shows sources, refuses when unsure","Expert-contributor articles + AI-generated earnings-call summaries; no portfolio-aware questioning"],
+            ["Analyst consensus & estimates","NOT AVAILABLE","Wall Street consensus ratings, earnings/revenue estimates, revision tracking from professional analysts — a genuine strength"],
+            ["International & multi-asset coverage","US-only (3,835 stocks in screener); no bonds, ETFs, funds, or international stocks","Global coverage including international stocks, plus some ETF/fund analysis"],
+            ["Earnings transcripts & calls","NOT INCLUDED; use SEC filings only","Full earnings-call transcripts, audio, and AI-generated insights summaries included — a genuine strength"],
+            ["Best for","Hands-on portfolio holders who want filing-grounded AI explanations of their own holdings and deep SEC-filing research","Investors seeking broad analyst consensus, earnings-call insights, and global market coverage with a research-community foundation"]
+        ]
+    },
+    "gurufocus": {
+        name: "GuruFocus",
+        slug: "gurufocus",
+        blurb: "GuruFocus is a value-investing research platform tracking institutional investor trades and providing a 500+ filter screener across 100 global markets with 20+ years of financial history.",
+        theirPrice: "Premium ~$449/year (US data); Premium Plus ~$1,335/year (global); Professional ~$2,385/year (API + tools). 7-day free trial; 30-day money-back guarantee.",
+        rows: [
+            ["Geographic coverage","US only (~3,835 stocks)","100+ markets globally (100,000+ stocks including Europe, Asia, Canada, Latin America) — a genuine strength"],
+            ["Historical depth","Up to 19 annual years + 48 quarters (deterministic from SEC 10-K/10-Q)","30+ years of fundamental data; U.S. data back to 2006"],
+            ["Analyst ratings & consensus","None — AI analysis is sourced from SEC filings, grounded, and disclosed","Built-in analyst ratings dashboard, price targets, earnings call transcripts — a genuine strength"],
+            ["Stock screening","Free screener + data pages; fundamentals + valuation focus","500+ filter screener (fundamentals, valuation, profitability, growth, gurus, insiders); Buffett/Ben Graham strategy templates"],
+            ["Institutional trade tracking","Filing-change alerts; no guru portfolio tracking","8,000+ institutional investor tracking; real-time guru trades (Buffett, Icahn, etc.) with weekly updates — a genuine strength"],
+            ["Best for","US investors seeking AI-driven, filing-sourced analysis with transparent reasoning at low cost","Global value investors tracking guru moves, earnings calls, and analyst consensus across 100 markets"]
+        ]
+    },
+    "finviz": {
+        name: "Finviz",
+        slug: "finviz",
+        blurb: "Finviz is an established browser-based stock screener and research platform focused on technical and fundamental visualization with real-time data and backtesting capabilities.",
+        theirPrice: "$39.50/month or $299.50/year (~$25/month annually); 7-day free trial",
+        rows: [
+            ["Historical financial depth","Up to 19 years of annual data + 48 quarters from verified SEC filings (10-K/10-Q)","Current fundamentals + analyst estimates; limited historical depth — a weakness"],
+            ["Research sources","SEC filings + AI analysis (no third-party analyst ratings or transcripts)","No analyst consensus, ratings, or earnings call transcripts; visualization-focused"],
+            ["Screening & technical analysis","Fundamental + technical filters tied to actual SEC data","60+ filter criteria (technical, fundamental); backtesting included — a genuine strength"],
+            ["Data source & transparency","Direct SEC filings (10-K, 10-Q) with sourced AI reasoning; refuses when unsure","Compiled market data from multiple sources; aggregation details limited"],
+            ["Geographic coverage","US stocks only (~3,835 in screener)","US-focused (~10,000 US stocks) + some international via ADRs — broader"],
+            ["Best for","Long-term investors & portfolio trackers seeking deep SEC filing analysis + real-time filing-change alerts","Active traders & technicians who value advanced backtesting, technical screening, and pre-market data"]
+        ]
+    },
+    "morningstar": {
+        name: "Morningstar Investor",
+        slug: "morningstar",
+        blurb: "Independent research platform with proprietary analyst ratings and fundamental analysis covering 600,000+ stocks, ETFs, and mutual funds globally.",
+        theirPrice: "$249/year (~$21/month; often $199 first year); $34.95/month monthly billing; 7-day free trial",
+        rows: [
+            ["Geographic Coverage","US only (3,835 stocks); no international","Global: 600,000+ securities across US, Europe, Asia, emerging markets — a genuine strength"],
+            ["Analyst Research & Ratings","No analyst estimates; AI analysis grounded in SEC filings only","Proprietary independent analyst team; star ratings, Medalist ratings, fair-value estimates — a genuine strength"],
+            ["Historical Financial Depth","Up to 19 annual years + 48 quarters from SEC filings; deterministic, compliance-verified","Core fundamentals (balance sheet, P&L, cash flow) for listed companies; less depth explicitly detailed"],
+            ["Portfolio Tracking & Analysis","Holdings view, X-Ray (look-through P/E), filing-change alerts, 7-day free trial","Portfolio X-Ray, Stock Intersection tool, customizable watchlists, manual entry (no auto-linking)"],
+            ["Earnings Calls & Consensus Estimates","None; no earnings call transcripts, no analyst consensus","None; does not provide earnings call transcripts or consensus estimates"],
+            ["Best for","US stock research grounded in SEC filings; AI-assisted due diligence with sourced reasoning","Global fund/ETF research and long-term fundamental stock analysis using proprietary analyst ratings"]
+        ]
+    },
+    "yahoo-finance": {
+        name: "Yahoo Finance Plus",
+        slug: "yahoo-finance",
+        blurb: "Established multi-tier financial platform with global market coverage, portfolio tools, and professional-grade analysis at higher price points.",
+        theirPrice: "Bronze $9.95/mo (~$95/yr); Silver ~$24.95/mo (~$239/yr); Gold ~$49.95/mo (~$479/yr) with 20% annual discount",
+        rows: [
+            ["Entry Price","£9/mo (~$11/mo); 7-day free trial on paid app","Bronze $9.95/mo (lowest tier)"],
+            ["Data Depth (History)","Up to 19 years annual + 48 quarters from verified SEC filings (10-K/10-Q)","~40 years downloadable data (Gold tier); breadth unclear, not SEC-verified"],
+            ["Geographic Coverage","US equities only, no international","Global coverage + UK studio + 24/5 US market data; supports non-US stocks on US exchanges — a genuine strength"],
+            ["AI/Research","Grounded AI analyst (Pro tier, £25/mo) with SEC filing sources; refuses when unsure","Research reports, stock recommendations, Motley Fool Stock Advisor (Gold); analyst estimates & consensus not emphasized"],
+            ["Alerts & Monitoring","SEC filing-change alerts (free + paid), holdings & portfolio X-Ray","Premium alerts + advanced portfolio analysis at Bronze tier; broader market monitoring"],
+            ["Best For","US-focused value investors wanting auditable SEC-sourced research + filing alerts at low cost","Global traders & multi-asset portfolio managers needing professional tools, analyst research, and 24/5 market data"]
+        ]
     }
 };
 
