@@ -642,23 +642,23 @@
                 const hl = x.symbol === symbol;
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
                   <td class="row-head">${esc(x.symbol)}&ensp;<span class="muted" style="font-weight:400;">${esc(x.name || '')}</span></td>
-                  <td>${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
-                  <td>${fixed(x.pe, 1)}</td>
-                  <td>${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
-                  <td>${cell(x.netMarginPct, (v) => pct(v))}</td>
-                  <td>${cell(x.roePct, (v) => pct(v))}</td>
-                  <td>${x.divYieldPct === null ? '—' : pct(x.divYieldPct, 2)}</td>
-                  <td>${x.profitableYears10 ?? '—'}/10</td>
+                  <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
+                  <td data-label="P/E">${fixed(x.pe, 1)}</td>
+                  <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
+                  <td data-label="Net margin">${cell(x.netMarginPct, (v) => pct(v))}</td>
+                  <td data-label="ROE">${cell(x.roePct, (v) => pct(v))}</td>
+                  <td data-label="Div yield">${x.divYieldPct === null ? '—' : pct(x.divYieldPct, 2)}</td>
+                  <td data-label="Profit yrs">${x.profitableYears10 ?? '—'}/10</td>
                 </tr>`;
             }
             html += `<tr class="row-rule"><td class="row-head muted">Median · ${all.length} companies</td>
-              <td class="muted">${med('marketCapB') === null ? '—' : '$' + money(med('marketCapB') * 1e9)}</td>
-              <td class="muted">${fixed(med('pe'), 1)}</td>
-              <td class="muted">${pct(med('revCagr5Pct'))}</td>
-              <td class="muted">${pct(med('netMarginPct'))}</td>
-              <td class="muted">${pct(med('roePct'))}</td>
-              <td class="muted">${med('divYieldPct') === null ? '—' : pct(med('divYieldPct'), 2)}</td>
-              <td class="muted">${med('profitableYears10') ?? '—'}/10</td></tr></tbody>`;
+              <td class="muted" data-label="Mkt cap">${med('marketCapB') === null ? '—' : '$' + money(med('marketCapB') * 1e9)}</td>
+              <td class="muted" data-label="P/E">${fixed(med('pe'), 1)}</td>
+              <td class="muted" data-label="Rev CAGR 5y">${pct(med('revCagr5Pct'))}</td>
+              <td class="muted" data-label="Net margin">${pct(med('netMarginPct'))}</td>
+              <td class="muted" data-label="ROE">${pct(med('roePct'))}</td>
+              <td class="muted" data-label="Div yield">${med('divYieldPct') === null ? '—' : pct(med('divYieldPct'), 2)}</td>
+              <td class="muted" data-label="Profit yrs">${med('profitableYears10') ?? '—'}/10</td></tr></tbody>`;
             const table = $('peers-table');
             table.innerHTML = html;
             $('peers-sub').textContent = sector.toLowerCase() + ' · median of ' + all.length;
@@ -1017,9 +1017,9 @@
                     '<thead><tr><th class="row-head" style="text-align:left;">Holder</th><th>% held</th><th>Value</th><th>Reported</th></tr></thead><tbody>' +
                     top.map((t) => `<tr>
                       <td class="row-head">${esc(t.organization)}</td>
-                      <td>${t.pctHeld === null ? '—' : pct(t.pctHeld * 100, 2)}</td>
-                      <td>${t.value === null ? '—' : '$' + money(t.value)}</td>
-                      <td class="muted">${esc(t.reportDate || '—')}</td>
+                      <td data-label="% held">${t.pctHeld === null ? '—' : pct(t.pctHeld * 100, 2)}</td>
+                      <td data-label="Value">${t.value === null ? '—' : '$' + money(t.value)}</td>
+                      <td class="muted" data-label="Reported">${esc(t.reportDate || '—')}</td>
                     </tr>`).join('') + '</tbody>';
             }
             renderInsiders(o);
@@ -1162,11 +1162,11 @@
             ? '<thead><tr><th class="row-head" style="text-align:left;">Insider</th><th style="text-align:left;">Role</th><th>Action</th><th>Shares</th><th>Value</th><th>Date</th></tr></thead><tbody>' +
               rows.map((t) => `<tr>
                 <td class="row-head">${esc(t.name)}</td>
-                <td class="small muted" style="text-align:left; white-space:normal;">${esc(t.relation)}</td>
-                <td class="${t.side === 'buy' ? 'delta-pos' : t.side === 'sell' ? 'delta-neg' : 'muted'}" style="font-weight:600; text-transform:capitalize;">${esc(t.side)}</td>
-                <td>${t.shares === null ? '—' : money(t.shares, 0)}</td>
-                <td>${t.value === null ? '—' : '$' + money(t.value)}</td>
-                <td class="muted">${esc(t.date || '—')}</td>
+                <td class="small muted" style="text-align:left; white-space:normal;" data-label="Role">${esc(t.relation)}</td>
+                <td class="${t.side === 'buy' ? 'delta-pos' : t.side === 'sell' ? 'delta-neg' : 'muted'}" style="font-weight:600; text-transform:capitalize;" data-label="Action">${esc(t.side)}</td>
+                <td data-label="Shares">${t.shares === null ? '—' : money(t.shares, 0)}</td>
+                <td data-label="Value">${t.value === null ? '—' : '$' + money(t.value)}</td>
+                <td class="muted" data-label="Date">${esc(t.date || '—')}</td>
               </tr>`).join('') + '</tbody>'
             : '<tbody><tr><td class="faint" style="text-align:center; padding:20px;">None in the recent filings.</td></tr></tbody>';
     }
