@@ -70,15 +70,15 @@
         $('results-body').innerHTML = sorted.map((r) => `
           <tr data-sym="${esc(r.symbol)}">
             <td class="row-head"><strong>${esc(r.symbol)}</strong>&ensp;<span class="muted">${esc(r.name)}</span></td>
-            <td class="small muted" style="text-transform:capitalize;">${esc((r.sector || '').toLowerCase())}</td>
-            <td>${r.marketCapB === null ? '—' : '$' + money(r.marketCapB * 1e9)}</td>
-            <td>${fixed(r.pe, 1)}</td>
-            <td class="${r.revCagr5Pct > 0 ? 'delta-pos' : r.revCagr5Pct < 0 ? 'delta-neg' : ''}">${pct(r.revCagr5Pct)}</td>
-            <td>${pct(r.netMarginPct)}</td>
-            <td>${pct(r.roePct)}</td>
-            <td>${r.divYieldPct === null ? '—' : pct(r.divYieldPct, 2)}</td>
-            <td class="${r.qtrNetIncomeYoYPct > 0 ? 'delta-pos' : r.qtrNetIncomeYoYPct < 0 ? 'delta-neg' : ''}">${pct(r.qtrNetIncomeYoYPct, 0)}</td>
-            <td>${r.profitableYears10 ?? '—'}/10</td>
+            <td class="small muted" style="text-transform:capitalize;" data-label="Sector">${esc((r.sector || '').toLowerCase())}</td>
+            <td data-label="Mkt cap">${r.marketCapB === null ? '—' : '$' + money(r.marketCapB * 1e9)}</td>
+            <td data-label="P/E">${fixed(r.pe, 1)}</td>
+            <td data-label="Rev CAGR 5y" class="${r.revCagr5Pct > 0 ? 'delta-pos' : r.revCagr5Pct < 0 ? 'delta-neg' : ''}">${pct(r.revCagr5Pct)}</td>
+            <td data-label="Net margin">${pct(r.netMarginPct)}</td>
+            <td data-label="ROE">${pct(r.roePct)}</td>
+            <td data-label="Div yield">${r.divYieldPct === null ? '—' : pct(r.divYieldPct, 2)}</td>
+            <td data-label="Qtr earn YoY" class="${r.qtrNetIncomeYoYPct > 0 ? 'delta-pos' : r.qtrNetIncomeYoYPct < 0 ? 'delta-neg' : ''}">${pct(r.qtrNetIncomeYoYPct, 0)}</td>
+            <td data-label="Profit yrs">${r.profitableYears10 ?? '—'}/10</td>
           </tr>`).join('');
         document.querySelectorAll('#results-body tr').forEach((tr) =>
             tr.addEventListener('click', () => { location.href = `/company.html?symbol=${tr.dataset.sym}`; }));

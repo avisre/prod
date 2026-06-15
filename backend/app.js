@@ -1057,15 +1057,15 @@ function renderScreenerRows() {
     // /stocks/ links — JS hydrates over these rows on load.
     return rows.map((r) => `<tr data-sym="${esc(r.symbol)}">
 <td class="row-head"><a href="/stocks/${esc(r.symbol)}"><strong>${esc(r.symbol)}</strong>&ensp;<span class="muted">${esc(r.name)}</span></a></td>
-<td class="small muted" style="text-transform:capitalize;">${esc(String(r.sector || '').toLowerCase())}</td>
-<td>${r.marketCapB == null ? '—' : '$' + fmt(r.marketCapB, 1) + 'B'}</td>
-<td>${fmt(r.pe, 1)}</td>
-<td class="${r.revCagr5Pct > 0 ? 'delta-pos' : r.revCagr5Pct < 0 ? 'delta-neg' : ''}">${r.revCagr5Pct == null ? '—' : fmt(r.revCagr5Pct, 1) + '%'}</td>
-<td>${r.netMarginPct == null ? '—' : fmt(r.netMarginPct, 1) + '%'}</td>
-<td>${r.roePct == null ? '—' : fmt(r.roePct, 1) + '%'}</td>
-<td>${r.divYieldPct == null ? '—' : fmt(r.divYieldPct, 2) + '%'}</td>
-<td class="${r.qtrNetIncomeYoYPct > 0 ? 'delta-pos' : r.qtrNetIncomeYoYPct < 0 ? 'delta-neg' : ''}">${r.qtrNetIncomeYoYPct == null ? '—' : fmt(r.qtrNetIncomeYoYPct, 0) + '%'}</td>
-<td>${r.profitableYears10 == null ? '—' : r.profitableYears10 + '/10'}</td>
+<td class="small muted" style="text-transform:capitalize;" data-label="Sector">${esc(String(r.sector || '').toLowerCase())}</td>
+<td data-label="Mkt cap">${r.marketCapB == null ? '—' : '$' + fmt(r.marketCapB, 1) + 'B'}</td>
+<td data-label="P/E">${fmt(r.pe, 1)}</td>
+<td data-label="Rev CAGR 5y" class="${r.revCagr5Pct > 0 ? 'delta-pos' : r.revCagr5Pct < 0 ? 'delta-neg' : ''}">${r.revCagr5Pct == null ? '—' : fmt(r.revCagr5Pct, 1) + '%'}</td>
+<td data-label="Net margin">${r.netMarginPct == null ? '—' : fmt(r.netMarginPct, 1) + '%'}</td>
+<td data-label="ROE">${r.roePct == null ? '—' : fmt(r.roePct, 1) + '%'}</td>
+<td data-label="Div yield">${r.divYieldPct == null ? '—' : fmt(r.divYieldPct, 2) + '%'}</td>
+<td data-label="Qtr earn YoY" class="${r.qtrNetIncomeYoYPct > 0 ? 'delta-pos' : r.qtrNetIncomeYoYPct < 0 ? 'delta-neg' : ''}">${r.qtrNetIncomeYoYPct == null ? '—' : fmt(r.qtrNetIncomeYoYPct, 0) + '%'}</td>
+<td data-label="Profit yrs">${r.profitableYears10 == null ? '—' : r.profitableYears10 + '/10'}</td>
 </tr>`).join('\n');
 }
 app.get(['/screener', '/screener.html'], (req, res) => {
