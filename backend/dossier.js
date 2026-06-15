@@ -17,13 +17,14 @@ const insights = require('./insights');
 const segments = require('./segments');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
+const analysis = require('./dossier-analysis');
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 function dossierCol() { return mongoose.connection.collection('company_dossiers'); }
 
 // Compact, grounded fact digest the synthesis models write over. ONLY finished
 // numbers go in — the models never compute, only narrate.
-function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs }) {
+function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic }) {
     const lines = [];
     if (overview) {
         lines.push(`Company: ${overview.Name || ''} (${overview.Symbol || ''}), ${overview.Sector || 'n/a'} / ${overview.Industry || 'n/a'}.`);
@@ -47,7 +48,73 @@ function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs }) {
     if (insightItems && insightItems.length) {
         lines.push('Analyst observations: ' + insightItems.map((i) => i.title).join('; ') + '.');
     }
+    if (peers) {
+        lines.push(`Competitive: ${peers.verdict}`);
+        if (peers.multiples) lines.push(`Peer multiples: trades at ${peers.multiples.companyPe}x P/E vs sector median ${peers.multiples.peerMedianPe}x (${peers.multiples.premiumPct >= 0 ? '+' : ''}${peers.multiples.premiumPct}%).`);
+    }
+    if (forensic && forensic.length) {
+        lines.push('Forensic signals: ' + forensic.map((s) => `${s.label} = ${s.value} (${s.read})`).join(' | '));
+    }
     return lines.join('\n');
+}
+
+const RISK_SYSTEM = [
+    'You write the RISK FACTORS section of an equity research dossier from the supplied facts digest. Reply with ONLY a JSON object, no prose, no fences.',
+    'Schema: {"risks": [{"risk": str, "trigger": str, "impact": str, "mitigant": str, "severity": "high"|"medium"|"low"}]}',
+    'A good risk is NOT generic — each states the specific CONDITION under which it materialises ("trigger"), the concrete EFFECT on the business or valuation ("impact"), and a "mitigant": the offsetting factor in the supplied facts that softens it (or "" if none). 3-5 risks, drawn from the digest (e.g. expectation gap, margin compression, leverage, customer/segment concentration, dividend coverage, decelerating growth, the filing\'s own flagged changes).',
+    'STRICT GROUNDING: tie each risk and mitigant to a fact in the digest; never invent figures or outside facts. No advice, no buy/sell language.'
+].join('\n');
+
+const EDGE_SYSTEM = [
+    'You write the "Edge" section of an equity research dossier — the few NON-OBVIOUS, decision-relevant observations a generic summary would miss, drawn from the computed forensic signals supplied. Reply with ONLY a JSON object, no prose, no fences.',
+    'Schema: {"insights": [{"insight": str, "evidence": str, "soWhat": str}]}',
+    'Pick the 3-4 MOST surprising or consequential signals (e.g. an expectation gap, weak FCF conversion, an accruals flag, margin trajectory, capital-allocation read, Rule of 40, leverage). "insight" is the non-obvious point; "evidence" is the specific number from the signals; "soWhat" is why it matters for a decision.',
+    'STRICT GROUNDING: every insight must rest on a supplied signal — never invent numbers. Be sharp and specific, not generic. No advice, no buy/sell language.'
+].join('\n');
+
+function parseObj(msg, guard) {
+    try {
+        const raw = String(msg.content || '').replace(/```json|```/g, '').trim();
+        const p = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
+        return guard(p) ? p : null;
+    } catch (_) { return null; }
+}
+
+async function riskSection(digest) {
+    const call = (extra) => aiClient.chatRaw([
+        { role: 'system', content: RISK_SYSTEM },
+        { role: 'user', content: `Facts digest:\n${digest}${extra}\n\nWrite the risk factors.` }
+    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1400, timeoutMs: 45000 });
+    let p = null;
+    try { p = parseObj(await call(''), (x) => Array.isArray(x.risks)); } catch (_) { p = null; }
+    if (!p) { try { p = parseObj(await call('\nREPLY WITH ONLY THE JSON OBJECT.'), (x) => Array.isArray(x.risks)); } catch (_) { p = null; } }
+    if (!p) return [];
+    const SEV = new Set(['high', 'medium', 'low']);
+    return p.risks.slice(0, 5).map((r) => ({
+        risk: String(r.risk || '').slice(0, 200),
+        trigger: String(r.trigger || '').slice(0, 240),
+        impact: String(r.impact || '').slice(0, 240),
+        mitigant: String(r.mitigant || '').slice(0, 240),
+        severity: SEV.has(r.severity) ? r.severity : 'medium'
+    })).filter((r) => r.risk);
+}
+
+async function edgeSection(forensic) {
+    if (!forensic || !forensic.length) return [];
+    const digest = forensic.map((s) => `- ${s.label}: ${s.value} — ${s.read} [${s.flag}]`).join('\n');
+    const call = (extra) => aiClient.chatRaw([
+        { role: 'system', content: EDGE_SYSTEM },
+        { role: 'user', content: `Computed forensic signals:\n${digest}${extra}\n\nWrite the Edge section.` }
+    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1200, timeoutMs: 45000 });
+    let p = null;
+    try { p = parseObj(await call(''), (x) => Array.isArray(x.insights)); } catch (_) { p = null; }
+    if (!p) { try { p = parseObj(await call('\nREPLY WITH ONLY THE JSON OBJECT.'), (x) => Array.isArray(x.insights)); } catch (_) { p = null; } }
+    if (!p) return [];
+    return p.insights.slice(0, 4).map((i) => ({
+        insight: String(i.insight || '').slice(0, 220),
+        evidence: String(i.evidence || '').slice(0, 160),
+        soWhat: String(i.soWhat || '').slice(0, 240)
+    })).filter((i) => i.insight);
 }
 
 const SUMMARY_SYSTEM = [
@@ -132,9 +199,17 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     const monitor = ok(monitorR);
     const deltas = monitor && monitor.deltas ? monitor.deltas : [];
 
-    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs });
-    onStage('writing'); // executive summary + bull/bear synthesis
-    const [summary, bb] = await Promise.all([execSummary(digest), bullBear(digest)]);
+    // deterministic layers (cheap, in-memory): peer/competitive + forensic edge
+    let peers = null;
+    try { peers = analysis.peerAnalysis(sym, overview); } catch (_) { peers = null; }
+    let forensic = [];
+    try { forensic = analysis.forensicSignals(data, rdcf, overview); } catch (_) { forensic = []; }
+
+    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic });
+    onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
+    const [summary, bb, risks, edge] = await Promise.all([
+        execSummary(digest), bullBear(digest), riskSection(digest), edgeSection(forensic)
+    ]);
 
     const mc = num(overview.MarketCapitalization);
     const payload = {
@@ -163,8 +238,12 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
             note: rdcf.notes && rdcf.notes[0] ? rdcf.notes[0] : null
         } : null,
         analystRead: insightItems,
+        edge: edge || [],
         bull: bb ? bb.bull : [],
         bear: bb ? bb.bear : [],
+        risks: risks || [],
+        competitive: peers,
+        forensicSignals: forensic,
         healthChecks: checks.map((c) => ({ label: c.label, pass: !!c.pass, detail: c.detail || '' })),
         recentChanges: monitor ? {
             summary: monitor.summary,

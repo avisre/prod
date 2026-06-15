@@ -86,6 +86,46 @@
         <ul class="dos-read" style="padding-left:18px;">${d.analystRead.map((i) => `<li><span class="t">${esc(i.title)}</span><br />${esc(i.body)}</li>`).join('')}</ul>
       </div>` : '';
 
+    // Edge — the non-obvious forensic insights (the differentiator)
+    const edge = (d.edge || []).length ? `
+      <div class="dos-sec">
+        <h2>Edge <span class="small faint">non-obvious signals a summary misses</span></h2>
+        <ul class="dos-read" style="padding-left:18px;">${d.edge.map((i) => `<li><span class="t">${esc(i.insight)}</span>${i.evidence ? ` <span class="small" style="color:var(--accent-ink); font-variant-numeric:tabular-nums;">${esc(i.evidence)}</span>` : ''}${i.soWhat ? `<br /><span class="basis">${esc(i.soWhat)}</span>` : ''}</li>`).join('')}</ul>
+      </div>` : '';
+
+    // Competitive positioning + peer-multiples valuation
+    const cp = d.competitive;
+    const competitive = cp ? `
+      <div class="dos-sec">
+        <h2>Competitive positioning <span class="small faint">vs ${cp.peerCount} ${esc(cp.sector)} peers</span></h2>
+        <p style="max-width:74ch;">${esc(cp.verdict)}</p>
+        <div class="table-wrap"><table class="table-data">
+          <thead><tr><th>Metric</th><th>${esc(d.name || sym)}</th><th>Peer median</th></tr></thead>
+          <tbody>
+            <tr><td>P/E</td><td>${cp.company.pe ?? '—'}</td><td>${cp.medians.pe ?? '—'}</td></tr>
+            <tr><td>Rev CAGR 5y</td><td>${cp.company.revCagr5Pct ?? '—'}%</td><td>${cp.medians.revCagr5Pct ?? '—'}%</td></tr>
+            <tr><td>Net margin</td><td>${cp.company.netMarginPct ?? '—'}%</td><td>${cp.medians.netMarginPct ?? '—'}%</td></tr>
+            <tr><td>ROE</td><td>${cp.company.roePct ?? '—'}%</td><td>${cp.medians.roePct ?? '—'}%</td></tr>
+            <tr><td>Dividend yield</td><td>${cp.company.divYieldPct ?? '—'}%</td><td>${cp.medians.divYieldPct ?? '—'}%</td></tr>
+          </tbody>
+        </table></div>
+        ${cp.multiples ? `<p class="small" style="margin-top:8px;">On a peer-multiples basis it trades at <strong>${cp.multiples.companyPe}× P/E</strong> vs the sector median <strong>${cp.multiples.peerMedianPe}×</strong> — a ${cp.multiples.premiumPct >= 0 ? `${cp.multiples.premiumPct}% premium` : `${Math.abs(cp.multiples.premiumPct)}% discount`} (${cp.multiples.repriceToMedianPct >= 0 ? '+' : ''}${cp.multiples.repriceToMedianPct}% to re-rate to the peer median).</p>` : ''}
+        ${(cp.comps || []).length ? `<div class="table-wrap" style="margin-top:10px;"><table class="table-data"><thead><tr><th>Closest peers</th><th>Mkt cap $B</th><th>P/E</th><th>Rev 5y</th><th>Net mgn</th><th>ROE</th></tr></thead><tbody>${cp.comps.map((c) => `<tr><td><a href="/dossier.html?symbol=${esc(c.symbol)}">${esc(c.symbol)}</a></td><td>${c.marketCapB ?? '—'}</td><td>${c.pe ?? '—'}</td><td>${c.revCagr5Pct ?? '—'}%</td><td>${c.netMarginPct ?? '—'}%</td><td>${c.roePct ?? '—'}%</td></tr>`).join('')}</tbody></table></div>` : ''}
+      </div>` : '';
+
+    const SEV = { high: 'th-broken', medium: 'th-weakening', low: 'th-holding' };
+    const risks = (d.risks || []).length ? `
+      <div class="dos-sec">
+        <h2>Investment risks</h2>
+        <div style="display:grid; gap:10px;">${d.risks.map((r) => `
+          <div class="dos-case" style="border-top:3px solid ${r.severity === 'high' ? 'var(--neg)' : r.severity === 'low' ? 'var(--pos)' : 'var(--accent-ink)'};">
+            <div style="display:flex; justify-content:space-between; gap:10px; align-items:baseline;"><strong>${esc(r.risk)}</strong><span class="th-badge ${SEV[r.severity] || 'th-weakening'}">${esc(r.severity)}</span></div>
+            <div class="small" style="margin-top:6px;"><strong>Trigger:</strong> ${esc(r.trigger)}</div>
+            <div class="small"><strong>Impact:</strong> ${esc(r.impact)}</div>
+            ${r.mitigant ? `<div class="small" style="margin-top:4px; color:var(--ink-3);"><strong>Mitigant:</strong> ${esc(r.mitigant)}</div>` : ''}
+          </div>`).join('')}</div>
+      </div>` : '';
+
     const caseList = (arr) => (arr || []).map((x) => `<li>${esc(x.point)}${x.basis ? `<br /><span class="basis">${esc(x.basis)}</span>` : ''}</li>`).join('');
     const bullbear = (d.bull && d.bull.length) || (d.bear && d.bear.length) ? `
       <div class="dos-sec">
@@ -126,12 +166,15 @@
       </div>
       <div class="dos-snap">${snap}</div>
       ${d.executiveSummary ? `<div class="dos-sec"><div class="dos-summary">${esc(d.executiveSummary)}</div></div>` : ''}
+      ${edge}
       ${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch; line-height:1.7;">${esc(s.description)}</p></div>` : ''}
       ${segs}
       ${d.keyFigures ? `<div class="dos-sec"><h2>Key figures</h2><div class="dos-keyfig">${esc(d.keyFigures)}</div></div>` : ''}
       ${read}
+      ${competitive}
       ${valuationHtml}
       ${bullbear}
+      ${risks}
       ${checks}
       ${recent}
       <div id="dos-thesis"></div>
