@@ -308,7 +308,7 @@
     out.innerHTML = `
       <div class="dos-head">
         <div>
-          <h1 class="title-1" style="margin:0;">${esc(d.name || sym)} <span class="faint" style="font-weight:600;">(${esc(sym)})</span></h1>
+          <h1 class="title-1" style="margin:0;">${esc(d.name || sym)} <span class="faint" style="font-weight:600;">(${esc(sym)})</span><span class="beta-badge">Beta</span></h1>
           <p class="small faint" style="margin:4px 0 0;">${esc([d.sector, d.industry].filter(Boolean).join(' · ') || 'US-listed equity')} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
         </div>
         <div class="dos-actions">

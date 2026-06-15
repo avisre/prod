@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
   <link rel="stylesheet" href="assets/system.css?v=20260615-1" />
   <style>
+    .beta-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); vertical-align: middle; margin-left: 8px; }
     .dos-hero { max-width: 760px; margin: 8px auto 0; text-align: center; }
     .dos-form { display: flex; gap: 10px; max-width: 520px; margin: 22px auto 0; }
     .dos-form .input { flex: 1; text-transform: uppercase; }
@@ -68,9 +69,10 @@
   <main>
     <div class="container" style="padding-top:40px;">
       <div class="dos-hero" id="dos-hero">
-        <span class="label">✦ Research Dossier</span>
+        <span class="label">✦ Research Dossier</span><span class="beta-badge">Beta</span>
         <h1 class="title-1" style="margin-top:8px;">The full initiation report — on any stock, in minutes</h1>
         <p class="muted" style="max-width:64ch; margin:12px auto 0;">The business, segments, ten-year figures, what the price assumes, the bull and bear case, and what just changed in the latest filing — threaded into one source-linked write-up. The analyst job, on demand. Then state your thesis and we grade it against every new filing.</p>
+        <p class="small faint" style="max-width:60ch; margin:10px auto 0;">Beta — AI-assisted research over SEC filings. Every figure is computed from filed statements, but always verify against the source links before acting.</p>
       </div>
       <div id="dos-search-wrap">
         <form class="dos-form" id="dos-form">
@@ -82,7 +84,7 @@
     </div>
   </main>
   <script src="assets/app.js?v=20260615-2"></script>
-  <script src="assets/dossier.js?v=20260615-5"></script>
+  <script src="assets/dossier.js?v=20260615-6"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>
