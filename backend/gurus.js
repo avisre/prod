@@ -532,4 +532,38 @@ async function analysisFor(id) {
     return analysis;
 }
 
-module.exports = { list, holdings, analysisFor, buildGuru, refreshAll, start, GURU_LIST };
+// Which tracked investors (of the GURU_LIST) currently hold `symbol`, from
+// their latest 13F. Matches the company name on each holding to a ticker via
+// the same SEC name→ticker map the builder uses. Returns holders sorted by
+// position value, plus the count of gurus scanned. Subsample, not total
+// institutional ownership — label it as such in the UI.
+async function holdersOf(symbol) {
+    const sym = String(symbol || '').toUpperCase().trim();
+    if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return { symbol: sym, holders: [], scanned: 0 };
+    let nameMap;
+    try { nameMap = await loadNameTickerMap(); } catch (_) { nameMap = new Map(); }
+    const col = mongoose.connection.collection('guru_portfolios');
+    let docs = [];
+    try { docs = await col.find({}, { projection: { id: 1, name: 1, fund: 1, holdings: 1, reportingPeriod: 1, totalValue: 1 } }).toArray(); } catch (_) { docs = []; }
+    const holders = [];
+    for (const d of docs) {
+        for (const h of (d.holdings || [])) {
+            if (!h || !h.name) continue;
+            if (matchTicker(h.name, nameMap) !== sym) continue;
+            holders.push({
+                id: d.id, name: d.name, fund: d.fund,
+                value: h.value || null,
+                shares: h.shares || null,
+                weight: typeof h.weight === 'number' ? Math.round(h.weight * 10) / 10 : null,
+                activity: h.activity || null,
+                shareChangePct: typeof h.shareChangePct === 'number' ? Math.round(h.shareChangePct) : null,
+                reportingPeriod: d.reportingPeriod || null
+            });
+            break; // one position per guru
+        }
+    }
+    holders.sort((a, b) => (b.value || 0) - (a.value || 0));
+    return { symbol: sym, holders, scanned: docs.length };
+}
+
+module.exports = { list, holdings, analysisFor, buildGuru, refreshAll, start, GURU_LIST, holdersOf };

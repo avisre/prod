@@ -11,7 +11,7 @@
   const POLL_MS = 6000;
   const MAX_WAIT_MS = 300000; // 5 min — a dossier touches several filings + the model
   const STAGE_LABEL = {
-    gathering: 'Gathering the grounded surfaces — financials, segments, valuation, the latest filing…',
+    gathering: 'Gathering the grounded surfaces — financials, segments, valuation, industry drivers, governance & ownership, ESG, the latest filings…',
     writing: 'Writing the executive summary and the bull vs bear case…'
   };
 
@@ -223,6 +223,81 @@
         </div>`;
     }
 
+    // Industry & competitive drivers — Positive/Negative tags, verbatim evidence
+    const ind = d.industry;
+    const dirBadge = (dir) => { const m = { positive: ['Positive', 'th-holding'], negative: ['Negative', 'th-broken'], mixed: ['Mixed', 'th-weakening'] }; const [lab, cls] = m[dir] || m.mixed; return `<span class="th-badge ${cls}">${lab}</span>`; };
+    const industryHtml = ind && !ind.error && ind.drivers && ind.drivers.length ? `
+      <div class="dos-sec">
+        <h2>Industry &amp; competitive drivers ${ind.sectorContext ? `<span class="small faint">${esc(ind.sector)} · ${ind.sectorContext.peerCount} peers · ${esc(ind.sectorContext.structure || '')}${ind.sectorContext.hhi != null ? ` · HHI ${ind.sectorContext.hhi}` : ''}</span>` : ''}</h2>
+        ${ind.sectorNarrative ? `<p style="max-width:74ch;">${esc(ind.sectorNarrative)}</p>` : ''}
+        ${ind.sectorContext ? `<div class="dos-snap" style="margin:10px 0;">${snapRow('Sector median growth', ind.sectorContext.medianRevCagr5Pct != null ? ind.sectorContext.medianRevCagr5Pct + '%/yr' : null)}${snapRow('Sector median net margin', ind.sectorContext.medianNetMarginPct != null ? ind.sectorContext.medianNetMarginPct + '%' : null)}${snapRow('Market structure', ind.sectorContext.structure)}</div>` : ''}
+        <div class="table-wrap"><table class="table-data">
+          <thead><tr><th>Driver</th><th>For ${esc(sym)}</th><th>Position</th><th>Why</th></tr></thead>
+          <tbody>${ind.drivers.map((dr) => `<tr><td>${esc(dr.driver)}${dr.evidence ? `<br /><span class="small faint">“${esc(dr.evidence)}”</span>` : ''} <span class="small faint">[${esc(dr.source)}]</span></td><td>${dirBadge(dr.direction)}</td><td class="small">${esc(dr.companyPosition || '—')}</td><td class="small">${esc(dr.rationale || '')}</td></tr>`).join('')}</tbody>
+        </table></div>
+        ${ind.honesty ? `<p class="provenance" style="margin-top:8px;">${esc(ind.honesty)}</p>` : ''}
+      </div>` : '';
+
+    // Governance & ownership — board (DEF 14A) + insider Form 4 + tracked 13F holders
+    const g = d.governance;
+    let governanceHtml = '';
+    if (g && (g.board || g.insider || (g.ownership && g.ownership.holders && g.ownership.holders.length))) {
+      const b = g.board;
+      const boardGrid = b ? `<div class="dos-snap" style="margin:8px 0 14px;">${snapRow('Board size', b.boardSize != null ? b.boardSize : null)}${snapRow('Independent', b.independencePct != null ? b.independencePct + '%' : null)}${snapRow('Women on board', b.womenPct != null ? b.womenPct + '%' : null)}${snapRow('CEO also Chair', b.ceoChairCombined == null ? null : (b.ceoChairCombined ? 'Yes' : 'No'))}${snapRow('Say-on-pay', b.sayOnPayApprovalPct != null ? b.sayOnPayApprovalPct + '%' : null)}${snapRow('CEO pay ratio', b.ceoPayRatio != null ? Math.round(b.ceoPayRatio) + '× median' : null)}${snapRow('Dual-class shares', b.dualClassShares == null ? null : (b.dualClassShares ? 'Yes' : 'No'))}</div>` : (g.boardError ? `<p class="small faint">${esc(g.boardError)}</p>` : '');
+      const ins = g.insider;
+      const insiderHtml = ins ? `<h3 class="title-3" style="margin:6px 0 8px;">Insider activity <span class="small faint">Form 4 · last 8 quarters · ${esc(ins.sentiment)}</span></h3><p class="small">Net ${ins.netShares >= 0 ? 'bought' : 'sold'} ${money(Math.abs(ins.netShares))} shares (${bn(Math.abs(ins.netValue))}) across ${ins.buys + ins.sells} transactions over two years.</p>${(ins.recent || []).length ? `<div class="table-wrap"><table class="table-data"><thead><tr><th>Date</th><th>Insider</th><th>Side</th><th>Shares</th><th>Value</th></tr></thead><tbody>${ins.recent.slice(0, 8).map((t) => `<tr><td>${esc(t.date || '')}</td><td>${esc(t.owner || '')}${t.relation ? `<br /><span class="small faint">${esc(t.relation)}</span>` : ''}</td><td class="${t.side === 'buy' ? 'delta-pos' : 'delta-neg'}">${esc(t.side)}</td><td>${t.shares != null ? money(t.shares) : '—'}</td><td>${t.value != null ? bn(t.value) : '—'}</td></tr>`).join('')}</tbody></table></div>` : ''}` : '';
+      const own = g.ownership;
+      const ownHtml = own && own.holders && own.holders.length ? `<h3 class="title-3" style="margin:14px 0 8px;">Tracked investors holding ${esc(sym)} <span class="small faint">${own.holderCount} of ${own.scanned}${own.period ? ' · ' + esc(own.period) : ''}</span></h3><div class="table-wrap"><table class="table-data"><thead><tr><th>Investor</th><th>Position</th><th>Weight</th><th>Activity</th></tr></thead><tbody>${own.holders.slice(0, 10).map((h) => `<tr><td>${esc(h.name)}${h.fund ? `<br /><span class="small faint">${esc(h.fund)}</span>` : ''}</td><td>${h.value != null ? bn(h.value) : '—'}</td><td>${h.weight != null ? h.weight + '%' : '—'}</td><td class="small ${(h.shareChangePct || 0) > 0 ? 'delta-pos' : (h.shareChangePct || 0) < 0 ? 'delta-neg' : ''}">${h.activity ? esc(h.activity) : ''}${h.shareChangePct != null ? ` ${h.shareChangePct > 0 ? '+' : ''}${h.shareChangePct}%` : ''}</td></tr>`).join('')}</tbody></table></div>${own.note ? `<p class="small faint" style="margin-top:6px;">${esc(own.note)}</p>` : ''}` : '';
+      const flags = (g.redFlags || []).length ? `<div style="margin-top:12px;">${g.redFlags.map((f) => `<p class="small" style="margin:4px 0; color:var(--neg);">⚠ ${esc(f)}</p>`).join('')}</div>` : '';
+      governanceHtml = `<div class="dos-sec"><h2>Governance &amp; ownership</h2>${boardGrid}${insiderHtml}${ownHtml}${flags}${g.source ? `<p class="provenance" style="margin-top:8px;">${esc(g.source)}${g.boardFiling && g.boardFiling.url ? ` · <a href="${esc(g.boardFiling.url)}" target="_blank" rel="noopener">DEF 14A ${esc(g.boardFiling.date || '')} ↗</a>` : ''}</p>` : ''}</div>`;
+    }
+
+    // ESG — filings-grounded, disclosure-completeness score (climate is voluntary)
+    const eg = d.esg;
+    let esgHtml = '';
+    if (eg && eg.transparency) {
+      const t = eg.transparency, env = eg.environmental, hc = eg.humanCapital, gv = eg.governance, lit = eg.litigation;
+      const pillar = (label, val) => `<div style="flex:1;min-width:90px;"><div class="small faint">${label}</div><div style="font-weight:650;">${val}/100</div></div>`;
+      const li = (k, v) => (v == null || v === '' || v === false) ? '' : `<div class="small"><strong>${esc(k)}:</strong> ${esc(v === true ? 'Yes' : v)}</div>`;
+      const card = (title, rows, basis) => rows ? `<div class="dos-case"><h3 style="margin:0 0 6px;">${title}</h3>${rows}${basis ? `<p class="small faint" style="margin-top:6px;">${esc(basis)}</p>` : ''}</div>` : '';
+      const govCard = gv ? card('Governance', [li('Board independence', gv.independencePct != null ? gv.independencePct + '%' : null), li('Women on board', gv.womenPct != null ? gv.womenPct + '%' : null), li('Say-on-pay', gv.sayOnPayApprovalPct != null ? gv.sayOnPayApprovalPct + '%' : null), li('Dual-class', gv.dualClassShares === true ? 'Yes' : gv.dualClassShares === false ? 'No' : null), li('CEO pay ratio', gv.ceoPayRatio != null ? Math.round(gv.ceoPayRatio) + '×' : null)].join(''), 'DEF 14A · mandated') : '';
+      const envCard = env ? card('Environmental', [li('Discusses climate', env.discussesClimate ? 'Yes' : 'Not disclosed'), li('Emissions target', env.emissionsTarget), li('Net-zero commitment', env.netZeroCommitment === true ? 'Yes' : null), li('Renewable share', env.renewablePct != null ? env.renewablePct + '%' : null), li('Scope 1', env.scope1), li('Scope 2', env.scope2), env.summary ? `<div class="small" style="margin-top:4px;">${esc(env.summary)}</div>` : ''].join(''), env.basis) : '';
+      const hcCard = hc ? card('Human capital', [li('Employees', hc.employeeCount != null ? money(hc.employeeCount) : null), li('Turnover', hc.turnoverPct != null ? hc.turnoverPct + '%' : null), li('DEI disclosed', hc.deiDisclosed ? 'Yes' : null), li('Health &amp; safety', hc.safetyDisclosed ? 'Yes' : null), li('Training', hc.trainingDisclosed ? 'Yes' : null), hc.summary ? `<div class="small" style="margin-top:4px;">${esc(hc.summary)}</div>` : ''].join(''), hc.basis) : '';
+      const litHtml = lit && lit.materiality && lit.materiality !== 'none' && lit.materiality !== 'low' ? `<p class="small" style="margin-top:10px;"><strong>Litigation materiality: ${esc(lit.materiality)}.</strong> ${esc(lit.summary || '')}</p>` : '';
+      esgHtml = `<div class="dos-sec"><h2>ESG &amp; disclosure transparency <span class="small faint">${t.overall}/100 · ${esc(t.verdict)}</span></h2><div style="display:flex; gap:18px; margin:6px 0 12px;">${pillar('Governance', t.byPillar.governance)}${pillar('Environmental', t.byPillar.environmental)}${pillar('Human capital', t.byPillar.humanCapital)}</div><div class="dos-bullbear" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">${govCard}${envCard}${hcCard}</div>${litHtml}${eg.honesty ? `<p class="provenance" style="margin-top:10px;">${esc(eg.honesty)}</p>` : ''}</div>`;
+    }
+
+    // Forward DCF + transparent WACC buildup — descriptive fair value, no rating
+    const fd = d.forwardDcf;
+    let forwardDcfHtml = '';
+    if (fd && !fd.error && fd.fairValue && fd.fairValue.perShare != null) {
+      const w = fd.waccBuildup, fv = fd.fairValue, a = fd.assumptions, sc2 = fd.scenarios, proj = fd.projection;
+      const waccRows = [
+        ['Risk-free rate (Rf)', w.riskFreePct + '%', '10Y Treasury, editable'],
+        ['Beta (β)', w.beta, w.betaSource],
+        ['Equity risk premium', w.erpPct + '%', 'Damodaran 2026, editable'],
+        ['Cost of equity (Re)', w.costOfEquityPct + '%', 'Rf + β × ERP'],
+        ['Cost of debt (Rd)', w.costOfDebtPct != null ? w.costOfDebtPct + '%' : '—', w.costOfDebtNote],
+        ['Tax rate', w.taxRatePct + '%', 'effective, from the 10-K'],
+        ['Weight equity / debt', w.weightEquityPct + '% / ' + w.weightDebtPct + '%', 'market equity vs book debt'],
+        ['WACC', `<strong>${w.waccPct}%</strong>`, 'wE·Re + wD·Rd·(1−tax)']
+      ];
+      const scRow = (k) => { const x = sc2[k]; return `<tr><td style="text-transform:capitalize;">${k}</td><td>${x.growthPct}%/yr</td><td>${x.perShare != null ? '$' + x.perShare : '—'}</td><td class="${(x.upsidePct || 0) >= 0 ? 'delta-pos' : 'delta-neg'}">${x.upsidePct != null ? (x.upsidePct >= 0 ? '+' : '') + x.upsidePct + '%' : '—'}</td></tr>`; };
+      const projRows = proj && proj.yearRows ? proj.yearRows.map((y) => `<tr><td>Y${y.year}</td><td>${bn(y.fcff)}</td><td>${y.discountFactor}</td><td>${bn(y.pv)}</td></tr>`).join('') : '';
+      forwardDcfHtml = `<div class="dos-sec"><h2>Forward DCF &amp; WACC <span class="small faint">descriptive fair value — every input shown, none of it a recommendation</span></h2>
+        <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+          <div style="flex:2; min-width:280px;"><div class="table-wrap"><table class="table-data"><thead><tr><th>WACC buildup</th><th>Value</th><th>Source</th></tr></thead><tbody>${waccRows.map(([k, v, src]) => `<tr><td>${k}</td><td>${v}</td><td class="small faint">${esc(src || '')}</td></tr>`).join('')}</tbody></table></div></div>
+          <div style="flex:1; min-width:200px;"><div class="dos-case" style="border-top:3px solid var(--accent-ink);"><div class="small faint">Base-case fair value</div><div style="font-size:28px; font-weight:700;">$${fv.perShare}</div><div class="small">vs $${fv.currentPrice} now · <span class="${fv.upsidePct >= 0 ? 'delta-pos' : 'delta-neg'}">${fv.upsidePct >= 0 ? '+' : ''}${fv.upsidePct}%</span></div>${fv.status ? `<div class="basis" style="margin-top:6px;">${esc(fv.status)}</div>` : ''}</div></div>
+        </div>
+        <div class="table-wrap" style="margin-top:14px;"><table class="table-data"><thead><tr><th>Scenario</th><th>FCF growth</th><th>Fair value/share</th><th>vs market</th></tr></thead><tbody>${scRow('bear')}${scRow('base')}${scRow('bull')}</tbody></table></div>
+        ${projRows ? `<details style="margin-top:10px;"><summary class="small" style="cursor:pointer;">Year-by-year FCFF projection (base case)</summary><div class="table-wrap" style="margin-top:8px;"><table class="table-data"><thead><tr><th>Year</th><th>FCFF</th><th>Discount factor</th><th>PV</th></tr></thead><tbody>${projRows}</tbody></table></div><p class="small faint" style="margin-top:6px;">Terminal value ${bn(proj.terminalValuePv)} (${proj.terminalSharePct}% of EV). EV ${bn(proj.enterpriseValue)} − net debt ${bn(proj.netDebt)} = equity ${bn(proj.equityValue)}.</p></details>` : ''}
+        <p class="small faint" style="margin-top:8px;">FCF growth anchored on the filed 5-year FCF CAGR (${a.historicalFcfCagr5Pct != null ? a.historicalFcfCagr5Pct + '%/yr' : 'n/a'}) ± an 8-pt band; ${a.horizonYears}-yr horizon; ${a.terminalGrowthPct}% terminal growth${a.terminalGrowthClamped ? ' (capped below WACC)' : ''}.</p>
+        <p class="provenance" style="margin-top:6px;">${esc(fd.disclaimer)}</p>
+      </div>`;
+    } else if (fd && fd.note) {
+      forwardDcfHtml = `<div class="dos-sec"><h2>Forward DCF &amp; WACC</h2><p class="muted" style="max-width:74ch;">${esc(fd.note)}</p>${fd.waccBuildup ? `<p class="small faint" style="margin-top:6px;">Computed WACC ${fd.waccBuildup.waccPct}% (cost of equity ${fd.waccBuildup.costOfEquityPct}%, beta ${fd.waccBuildup.beta}).</p>` : ''}</div>`;
+    }
+
     out.innerHTML = `
       <div class="dos-head">
         <div>
@@ -237,13 +312,17 @@
       <div class="dos-snap">${snap}</div>
       ${d.executiveSummary ? `<div class="dos-sec"><div class="dos-summary">${esc(d.executiveSummary)}</div></div>` : ''}
       ${edge}
+      ${industryHtml}
       ${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch; line-height:1.7;">${esc(s.description)}</p></div>` : ''}
       ${segs}
       ${d.keyFigures ? `<div class="dos-sec"><h2>Key figures</h2><div class="dos-keyfig">${esc(d.keyFigures)}</div></div>` : ''}
       ${read}
       ${competitive}
+      ${governanceHtml}
+      ${esgHtml}
       ${valuationHtml}
       ${scenarioHtml}
+      ${forwardDcfHtml}
       ${bullbear}
       ${risks}
       ${financialHtml}

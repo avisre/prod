@@ -18,13 +18,17 @@ const segments = require('./segments');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
 const analysis = require('./dossier-analysis');
+const governance = require('./governance');
+const esgMod = require('./esg');
+const industry = require('./industry');
+const valuationDcf = require('./valuation-dcf');
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 function dossierCol() { return mongoose.connection.collection('company_dossiers'); }
 
 // Compact, grounded fact digest the synthesis models write over. ONLY finished
 // numbers go in — the models never compute, only narrate.
-function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic }) {
+function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg }) {
     const lines = [];
     if (overview) {
         lines.push(`Company: ${overview.Name || ''} (${overview.Symbol || ''}), ${overview.Sector || 'n/a'} / ${overview.Industry || 'n/a'}.`);
@@ -54,6 +58,27 @@ function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers
     }
     if (forensic && forensic.length) {
         lines.push('Forensic signals: ' + forensic.map((s) => `${s.label} = ${s.value} (${s.read})`).join(' | '));
+    }
+    if (valuation && !valuation.error && valuation.fairValue && valuation.fairValue.perShare !== null) {
+        const fv = valuation.fairValue;
+        lines.push(`Forward DCF: base-case fair value ~$${fv.perShare}/share vs ~$${fv.currentPrice}/share now (${fv.upsidePct >= 0 ? '+' : ''}${fv.upsidePct}%); WACC ${valuation.waccBuildup.waccPct}% (Re ${valuation.waccBuildup.costOfEquityPct}%, beta ${valuation.waccBuildup.beta}). ${fv.status || ''}`);
+    }
+    if (industryData && !industryData.error && industryData.drivers && industryData.drivers.length) {
+        const tag = (d) => `${d.driver} [${d.direction}]`;
+        lines.push('Industry drivers: ' + industryData.drivers.slice(0, 6).map(tag).join('; ') + (industryData.sectorContext ? ` (sector ${industryData.sectorContext.structure}, HHI ${industryData.sectorContext.hhi}).` : '.'));
+    }
+    if (gov) {
+        const b = gov.board;
+        const bits = [];
+        if (b) { if (b.independencePct !== null) bits.push(`board ${b.independencePct}% independent`); if (b.ceoChairCombined === true) bits.push('CEO/Chair combined'); if (b.dualClassShares === true) bits.push('dual-class shares'); if (b.ceoPayRatio !== null) bits.push(`CEO pay ${Math.round(b.ceoPayRatio)}× median`); }
+        if (gov.insider && gov.insider.sentiment) bits.push(`insiders ${gov.insider.sentiment} (8q)`);
+        if (gov.ownership && gov.ownership.holderCount) bits.push(`${gov.ownership.holderCount} tracked investors hold it`);
+        if (bits.length) lines.push('Governance/ownership: ' + bits.join(', ') + '.');
+        if (gov.redFlags && gov.redFlags.length) lines.push('Governance flags: ' + gov.redFlags.join(' ').slice(0, 400));
+    }
+    if (esg && esg.transparency) {
+        lines.push(`ESG disclosure transparency: ${esg.transparency.overall}/100 (${esg.transparency.verdict}) — governance ${esg.transparency.byPillar.governance}, environmental ${esg.transparency.byPillar.environmental}, human-capital ${esg.transparency.byPillar.humanCapital}.`);
+        if (esg.litigation && esg.litigation.materiality && esg.litigation.materiality !== 'none' && esg.litigation.materiality !== 'low') lines.push(`Litigation materiality: ${esg.litigation.materiality}.`);
     }
     return lines.join('\n');
 }
@@ -207,7 +232,22 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     let financials = null;
     try { financials = analysis.financialHistory(data); } catch (_) { financials = null; }
 
-    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic });
+    // Initiation-grade grounded sections — industry, governance and the forward
+    // DCF run concurrently (each fetches its own SEC filing or is pure compute);
+    // ESG runs after, reusing governance's board leg and the now-cached 10-K text.
+    const [govR, industryR, valuationR] = await Promise.allSettled([
+        governance.buildGovernance(sym),
+        industry.buildIndustry(sym, { overview, peers, financials }),
+        valuationDcf.buildValuation(sym, { data, rdcf })
+    ]);
+    const gov = govR.status === 'fulfilled' ? govR.value : null;
+    const industryData = ok(industryR);
+    const valuation = ok(valuationR);
+    let esg = null;
+    try { esg = await esgMod.buildESG(sym, { governance: gov }); } catch (_) { esg = null; }
+    if (esg && esg.error && !esg.governance && !esg.environmental && !esg.humanCapital) esg = null;
+
+    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg });
     onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
     const [summary, bb, risks, edge] = await Promise.all([
         execSummary(digest), bullBear(digest), riskSection(digest), edgeSection(forensic)
@@ -231,6 +271,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         },
         executiveSummary: summary,
         keyFigures: pack ? pack.lines : null,
+        industry: industryData || null,
         segments: segs ? { fiscalYear: segs.fiscalYear, items: segs.segments, note: segs.note || null } : null,
         valuation: rdcf ? {
             impliedGrowthPct: rdcf.impliedGrowthPct,
@@ -240,6 +281,9 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
             scenarios: rdcf.scenarios || null,
             note: rdcf.notes && rdcf.notes[0] ? rdcf.notes[0] : null
         } : null,
+        forwardDcf: valuation || null,
+        governance: gov || null,
+        esg: esg || null,
         financials,
         analystRead: insightItems,
         edge: edge || [],
