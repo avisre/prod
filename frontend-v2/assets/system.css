@@ -316,6 +316,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   justify-content: space-between;
   gap: var(--s4);
   margin-bottom: var(--s4);
+  flex-wrap: wrap;
 }
 .section-head .title-2 { margin: 0; }
 .hairline { border: 0; border-top: 1px solid var(--line); margin: var(--s6) 0; }
@@ -361,9 +362,20 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .scroll-top > div { height: 1px; }
 .table-wrap {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--surface);
+  /* CSS scroll shadows: a soft shadow on whichever edge has more content,
+     so wide tables read as "scroll for more" instead of looking cut off. */
+  background:
+    linear-gradient(to right, var(--surface) 30%, rgba(247, 245, 240, 0)) left center,
+    linear-gradient(to left, var(--surface) 30%, rgba(247, 245, 240, 0)) right center,
+    radial-gradient(farthest-side at 0 50%, rgba(28, 27, 24, 0.12), rgba(28, 27, 24, 0)) left center,
+    radial-gradient(farthest-side at 100% 50%, rgba(28, 27, 24, 0.12), rgba(28, 27, 24, 0)) right center;
+  background-color: var(--surface);
+  background-repeat: no-repeat;
+  background-size: 44px 100%, 44px 100%, 16px 100%, 16px 100%;
+  background-attachment: local, local, scroll, scroll;
 }
 .table-data {
   border-collapse: separate;
@@ -651,6 +663,7 @@ main { min-height: 60vh; padding-bottom: var(--s7); }
 .section-rule { border: 0; border-top: 1px solid var(--line); margin: 22px 0; }
 
 /* ---------- Key-numbers grid (label left, value right, hairline rows) ---------- */
+.kv-block { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr); gap: 36px; align-items: start; }
 .kv { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 48px; }
 .kv-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 13.5px; }
 .kv-row span { color: var(--ink-2); }
@@ -748,6 +761,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .drawer-close:hover { color: var(--ink); }
 
 @media (max-width: 760px) {
+  .kv-block { grid-template-columns: 1fr; gap: 22px; }
   .kv { grid-template-columns: 1fr; }
   .duo { grid-template-columns: 1fr; }
   .ask-sheet { bottom: 70px; max-height: 60vh; }
