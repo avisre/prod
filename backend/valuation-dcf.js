@@ -176,6 +176,16 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
                 : 'within ±20% of the base-case estimate (broadly fairly valued on these assumptions)';
     }
 
+    // A backward-looking DCF is the WRONG lens for a company priced for growth far
+    // above its historical free-cash-flow trend (tiny FCF yield, extreme implied
+    // downside). Rather than print a misleading "$9 fair value, −93%", flag it and
+    // let the frontend reframe it as what it is — a statement about expectations.
+    const fcfYieldPct = marketCap > 0 ? (fcffBase / marketCap) * 100 : null;
+    const historicalAnchorWeak = (base.upsidePct !== null && base.upsidePct < -70) || (fcfYieldPct !== null && fcfYieldPct > 0 && fcfYieldPct < 1.5);
+    const weakNote = historicalAnchorWeak
+        ? `The price reflects expected free-cash-flow growth well above ${sym}'s historical trend (its current FCF is only ~${fcfYieldPct !== null ? fcfYieldPct.toFixed(1) : '—'}% of market cap). A DCF anchored to past cash flows understates companies the market is pricing for rapid future growth — read this alongside "What's priced in", which solves for the growth the price actually implies.`
+        : null;
+
     return {
         symbol: sym,
         name: ov.Name || sym,
@@ -189,7 +199,9 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
             perShare: base.perShare,
             currentPrice: currentPrice !== null ? r2(currentPrice) : null,
             upsidePct: base.upsidePct,
-            status
+            status,
+            historicalAnchorWeak,
+            weakNote
         },
         scenarios: { bear, base: { ...base, yearRows: undefined, pvTerminal: undefined }, bull },
         projection: { yearRows: base.yearRows, terminalValuePv: base.pvTerminal, terminalSharePct: base.terminalPct, enterpriseValue: base.enterpriseValue, netDebt: Math.round(netDebt), equityValue: base.equityValue },
