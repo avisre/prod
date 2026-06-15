@@ -204,6 +204,8 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     try { peers = analysis.peerAnalysis(sym, overview); } catch (_) { peers = null; }
     let forensic = [];
     try { forensic = analysis.forensicSignals(data, rdcf, overview); } catch (_) { forensic = []; }
+    let financials = null;
+    try { financials = analysis.financialHistory(data); } catch (_) { financials = null; }
 
     const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic });
     onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
@@ -235,8 +237,10 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
             assumptions: rdcf.assumptions,
             record: rdcf.record,
             marketCap: rdcf.marketCap,
+            scenarios: rdcf.scenarios || null,
             note: rdcf.notes && rdcf.notes[0] ? rdcf.notes[0] : null
         } : null,
+        financials,
         analystRead: insightItems,
         edge: edge || [],
         bull: bb ? bb.bull : [],

@@ -185,4 +185,40 @@ function forensicSignals(data, rdcf, overview) {
     return sig;
 }
 
-module.exports = { peerAnalysis, forensicSignals };
+// ---- Financial history: DuPont decomposition + ratios across years ----
+// One pass over the filed statements feeds both the DuPont table and the
+// trend charts. Oldest→newest. All computed; nothing modelled.
+function financialHistory(data, maxYears = 8) {
+    const inc = annual(data, 'income'), bal = annual(data, 'balance'), cash = annual(data, 'cash');
+    if (!inc.length) return null;
+    const byFy = new Map();
+    const put = (fy, k, v) => { if (!byFy.has(fy)) byFy.set(fy, { fy }); byFy.get(fy)[k] = v; };
+    for (const r of inc) { const fy = String(r.fiscalDateEnding || '').slice(0, 4); if (fy) { put(fy, 'rev', num(r.totalRevenue)); put(fy, 'gp', num(r.grossProfit)); put(fy, 'cor', num(r.costOfRevenue)); put(fy, 'op', num(r.operatingIncome)); put(fy, 'ni', num(r.netIncome)); put(fy, 'int', num(r.interestExpense)); } }
+    for (const r of bal) { const fy = String(r.fiscalDateEnding || '').slice(0, 4); if (fy) { put(fy, 'assets', num(r.totalAssets)); put(fy, 'eq', num(r.totalShareholderEquity)); put(fy, 'curAssets', num(r.totalCurrentAssets)); put(fy, 'curLiab', num(r.totalCurrentLiabilities)); put(fy, 'std', num(r.shortTermDebt)); put(fy, 'ltd', num(r.longTermDebt)); put(fy, 'cltd', num(r.currentLongTermDebt)); } }
+    for (const r of cash) { const fy = String(r.fiscalDateEnding || '').slice(0, 4); if (fy) { put(fy, 'ocf', num(r.operatingCashflow)); put(fy, 'capex', num(r.capitalExpenditures)); } }
+
+    const pct = (a, b) => (a !== null && a !== undefined && b && b !== 0 ? r1((a / b) * 100) : null);
+    const rows = [...byFy.values()].sort((a, b) => a.fy.localeCompare(b.fy)).slice(-maxYears).map((y) => {
+        let gp = y.gp; if (gp === 0) gp = null;
+        if (gp === null && y.rev !== null && y.cor) gp = y.rev - y.cor;
+        const debt = (y.std || 0) + (y.ltd || 0) + (y.cltd || 0);
+        const fcf = (y.ocf !== null && y.capex !== null) ? y.ocf + y.capex : null;
+        return {
+            fy: y.fy,
+            revenue: y.rev, netIncome: y.ni, fcf,
+            grossMarginPct: pct(gp, y.rev),
+            opMarginPct: pct(y.op, y.rev),
+            netMarginPct: pct(y.ni, y.rev),
+            assetTurnover: (y.rev !== null && y.assets) ? r1(y.rev / y.assets) : null,
+            roaPct: pct(y.ni, y.assets),
+            roePct: pct(y.ni, y.eq),
+            roicPct: (y.op !== null && (debt + (y.eq || 0)) > 0) ? r1((y.op * 0.79 / (debt + y.eq)) * 100) : null, // NOPAT≈op×(1−21%)
+            currentRatio: (y.curAssets !== null && y.curLiab) ? r1(y.curAssets / y.curLiab) : null,
+            debtToEquity: (y.eq && y.eq !== 0) ? r1(debt / y.eq) : null,
+            interestCoverage: (y.op !== null && y.int) ? r1(y.op / Math.abs(y.int)) : null
+        };
+    });
+    return rows.length ? rows : null;
+}
+
+module.exports = { peerAnalysis, forensicSignals, financialHistory };

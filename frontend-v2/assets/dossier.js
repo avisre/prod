@@ -49,6 +49,41 @@
   const TONE = { improving: 'pos', deteriorating: 'neg', stable: '' };
   function snapRow(k, v) { return v == null || v === '' || v === 'None' ? '' : `<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`; }
 
+  // ---- compact inline SVG charts (print-friendly, dependency-free) ----
+  const C = { ink: '#1c1b18', accent: '#1a4fd6', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
+  function chartBars(rows, key, fmt, color) {
+    const pts = rows.map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
+    if (pts.length < 2) return '';
+    const max = Math.max(...pts.map((p) => Math.abs(p.v))) || 1;
+    const W = 100, H = 46, n = pts.length, bw = (W / n) * 0.62, gap = (W / n) * 0.38;
+    const bars = pts.map((p, i) => {
+      const h = Math.max(1, (Math.abs(p.v) / max) * (H - 14));
+      const x = i * (W / n) + gap / 2;
+      return `<rect x="${x.toFixed(1)}" y="${(H - 10 - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${color}" rx="0.5"><title>${esc(p.fy)}: ${esc(fmt(p.v))}</title></rect>`;
+    }).join('');
+    const labs = `<text x="0" y="${H}" font-size="4" fill="${C.grey}">${esc(pts[0].fy)}</text><text x="${W}" y="${H}" font-size="4" fill="${C.grey}" text-anchor="end">${esc(pts[pts.length - 1].fy)}</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:90px;display:block">${bars}${labs}</svg>`;
+  }
+  function chartLines(rows, series) {
+    const fys = rows.map((r) => r.fy);
+    const all = series.flatMap((s) => rows.map((r) => r[s.key]).filter((v) => v !== null && v !== undefined));
+    if (all.length < 2) return '';
+    const min = Math.min(...all), max = Math.max(...all), span = (max - min) || 1;
+    const W = 100, H = 46, n = rows.length;
+    const x = (i) => (n <= 1 ? 0 : (i / (n - 1)) * W);
+    const y = (v) => H - 10 - ((v - min) / span) * (H - 14);
+    const lines = series.map((s) => {
+      const pts = rows.map((r, i) => ({ i, v: r[s.key] })).filter((p) => p.v !== null && p.v !== undefined);
+      if (pts.length < 2) return '';
+      const d = pts.map((p, k) => `${k ? 'L' : 'M'}${x(p.i).toFixed(1)} ${y(p.v).toFixed(1)}`).join(' ');
+      return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="1.2"/>`;
+    }).join('');
+    const labs = `<text x="0" y="${H}" font-size="4" fill="${C.grey}">${esc(fys[0])}</text><text x="${W}" y="${H}" font-size="4" fill="${C.grey}" text-anchor="end">${esc(fys[fys.length - 1])}</text>`;
+    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:90px;display:block">${lines}${labs}</svg>`;
+  }
+  function legend(items) { return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">${items.map((i) => `<span class="small" style="color:var(--ink-3)"><span style="display:inline-block;width:9px;height:9px;background:${i.color};border-radius:2px;margin-right:4px;vertical-align:middle"></span>${esc(i.label)}</span>`).join('')}</div>`; }
+  const bn = (v) => (v == null ? '—' : Math.abs(v) >= 1e12 ? '$' + (v / 1e12).toFixed(2) + 'T' : Math.abs(v) >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B' : '$' + (v / 1e6).toFixed(0) + 'M');
+
   function render(out, d, sym) {
     const s = d.snapshot || {};
     const mc = num(s.marketCap);
@@ -153,6 +188,41 @@
         <p class="small faint" style="margin-top:6px;">Want this pushed when it files? <a href="/monitor.html?symbol=${esc(sym)}">Open it in the Monitor →</a></p>
       </div>` : '';
 
+    // Scenario value range (bear/base/bull) — descriptive, no target price
+    const sc = d.valuation && d.valuation.scenarios;
+    const scenarioHtml = sc ? `
+      <div class="dos-sec">
+        <h2>Scenario value range <span class="small faint">bear / base / bull — a value band, not a price target</span></h2>
+        <div class="dos-bullbear" style="grid-template-columns:repeat(3,1fr);">
+          ${['bear', 'base', 'bull'].map((k) => { const x = sc[k]; const up = x.upsidePct; return `<div class="dos-case" style="border-top:3px solid ${k === 'bull' ? 'var(--pos)' : k === 'bear' ? 'var(--neg)' : 'var(--accent-ink)'};"><h3 style="text-transform:capitalize;">${k}</h3><div style="font-size:20px;font-weight:650;">${bn(x.value)}</div><div class="small ${up >= 0 ? 'delta-pos' : 'delta-neg'}">${up >= 0 ? '+' : ''}${up}% vs market cap</div><div class="basis">at ${x.growthPct}%/yr FCF growth</div></div>`; }).join('')}
+        </div>
+        <p class="provenance" style="margin-top:8px;">${esc(sc.basis)}</p>
+      </div>` : '';
+
+    // Financial analysis — trend charts + DuPont / ratio table
+    const fin = d.financials;
+    let financialHtml = '';
+    if (fin && fin.length >= 2) {
+      const dupont = [
+        ['Gross margin', 'grossMarginPct', '%'], ['Operating margin', 'opMarginPct', '%'], ['Net margin', 'netMarginPct', '%'],
+        ['Asset turnover', 'assetTurnover', 'x'], ['ROA', 'roaPct', '%'], ['ROE', 'roePct', '%'], ['ROIC', 'roicPct', '%'],
+        ['Current ratio', 'currentRatio', 'x'], ['Debt / equity', 'debtToEquity', 'x'], ['Interest coverage', 'interestCoverage', 'x']
+      ];
+      const head = fin.map((r) => `<th>${esc(r.fy)}</th>`).join('');
+      const body = dupont.map(([label, key, suf]) => `<tr><td>${label}</td>${fin.map((r) => `<td>${r[key] == null ? '—' : r[key] + (suf === '%' ? '%' : '×')}</td>`).join('')}</tr>`).join('');
+      financialHtml = `
+        <div class="dos-sec">
+          <h2>Financial analysis</h2>
+          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:14px;">
+            <div><p class="small faint" style="margin:0 0 2px;">Revenue</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>
+            <div><p class="small faint" style="margin:0 0 2px;">Margins</p>${chartLines(fin, [{ key: 'grossMarginPct', color: C.grey }, { key: 'opMarginPct', color: C.accent }, { key: 'netMarginPct', color: C.pos }])}${legend([{ label: 'Gross', color: C.grey }, { label: 'Operating', color: C.accent }, { label: 'Net', color: C.pos }])}</div>
+            <div><p class="small faint" style="margin:0 0 2px;">Returns</p>${chartLines(fin, [{ key: 'roePct', color: C.accent }, { key: 'roicPct', color: C.pos }])}${legend([{ label: 'ROE', color: C.accent }, { label: 'ROIC', color: C.pos }])}</div>
+          </div>
+          <div class="table-wrap"><table class="table-data"><thead><tr><th>DuPont &amp; ratios</th>${head}</tr></thead><tbody>${body}</tbody></table></div>
+          <p class="small faint" style="margin-top:6px;">Computed from filed annual statements. ROIC uses NOPAT ≈ operating income × (1 − 21%).</p>
+        </div>`;
+    }
+
     out.innerHTML = `
       <div class="dos-head">
         <div>
@@ -173,8 +243,10 @@
       ${read}
       ${competitive}
       ${valuationHtml}
+      ${scenarioHtml}
       ${bullbear}
       ${risks}
+      ${financialHtml}
       ${checks}
       ${recent}
       <div id="dos-thesis"></div>

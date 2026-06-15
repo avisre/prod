@@ -117,7 +117,36 @@ function computeFromData(symbol, data, opts = {}) {
         fcfHistory: fcfHistory.slice(0, 11).reverse() // oldest→newest for charting
     };
 
+    // Scenario fair-value RANGE (bear / base / bull) — the inverse of the
+    // reverse solve: set a growth rate, value the FCF stream, compare to today's
+    // market cap. Growth anchors come from the filed record (5yr FCF CAGR) ±
+    // a band, so the range is grounded in what the company has actually done.
+    // Descriptive only — a value band, NOT a buy/sell call or a single target.
+    let scenarios = null;
+    if (fcfBase > 0) {
+        const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+        const baseG = record.fcfCagr5Pct !== null ? clamp(record.fcfCagr5Pct, -5, 30) : Math.min(impliedGrowthPct || 8, 15);
+        const bearG = clamp(baseG - 8, -10, baseG);
+        const bullG = clamp(baseG + 8, baseG, 40);
+        const one = (gPct) => {
+            const value = presentValue(fcfBase, gPct / 100, r, tg, horizon);
+            return {
+                growthPct: Number(gPct.toFixed(1)),
+                value: Math.round(value),
+                upsidePct: marketCap > 0 ? Number(((value / marketCap - 1) * 100).toFixed(1)) : null
+            };
+        };
+        scenarios = {
+            currentMarketCap: marketCap,
+            bear: one(bearG),
+            base: one(baseG),
+            bull: one(bullG),
+            basis: `Growth anchored on the company's filed 5-year FCF CAGR (${record.fcfCagr5Pct ?? 'n/a'}%/yr) ± an 8-point band, valued at a ${Number((r * 100).toFixed(1))}% discount rate and ${Number((tg * 100).toFixed(2))}% terminal growth. A descriptive value range, not a recommendation or price target.`
+        };
+    }
+
     return {
+        scenarios,
         symbol: String(symbol).toUpperCase(),
         name: ov.Name || String(symbol).toUpperCase(),
         marketCap,
