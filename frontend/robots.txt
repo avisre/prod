@@ -23,12 +23,11 @@ Disallow: /dashboard
 Disallow: /dashboard.html
 Disallow: /fundamentals
 Disallow: /fundamentals.html
-# /login and /register are intentionally crawlable but carry <meta robots noindex>,
+# /login and /news are intentionally crawlable but carry <meta robots noindex>,
 # so Google can READ the noindex and drop them cleanly. Blocking them here caused
 # the Search Console "Indexed, though blocked by robots.txt" warning (a catch-22:
-# a blocked page can't be seen, so its noindex never registers).
-Disallow: /news
-Disallow: /news.html
+# a blocked page can't be seen, so its noindex never registers). /register stays
+# crawlable + indexable (it's a conversion landing page).
 # transitional mirrors of the same site — crawl the root copies only
 Disallow: /v1/
 Disallow: /v2/
