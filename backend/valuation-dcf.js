@@ -176,15 +176,27 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
                 : 'within ±20% of the base-case estimate (broadly fairly valued on these assumptions)';
     }
 
-    // A backward-looking DCF is the WRONG lens for a company priced for growth far
-    // above its historical free-cash-flow trend (tiny FCF yield, extreme implied
-    // downside). Rather than print a misleading "$9 fair value, −93%", flag it and
-    // let the frontend reframe it as what it is — a statement about expectations.
+    // A single-point DCF is unreliable in three situations; in each we flag it
+    // low-confidence and let the frontend reframe the number rather than present a
+    // misleading "fair value". (1) hypergrowth: tiny FCF yield — the market prices
+    // growth far above the historical trend. (2) low spread: WACC sits near
+    // terminal growth, so the Gordon terminal value (and the answer) explodes on
+    // tiny assumption changes — heavy-debt, low-beta names like telecoms. (3)
+    // extreme: the fair value lands far from the price, a sign the anchor misfits.
     const fcfYieldPct = marketCap > 0 ? (fcffBase / marketCap) * 100 : null;
-    const historicalAnchorWeak = (base.upsidePct !== null && base.upsidePct < -70) || (fcfYieldPct !== null && fcfYieldPct > 0 && fcfYieldPct < 1.5);
-    const weakNote = historicalAnchorWeak
-        ? `The price reflects expected free-cash-flow growth well above ${sym}'s historical trend (its current FCF is only ~${fcfYieldPct !== null ? fcfYieldPct.toFixed(1) : '—'}% of market cap). A DCF anchored to past cash flows understates companies the market is pricing for rapid future growth — read this alongside "What's priced in", which solves for the growth the price actually implies.`
-        : null;
+    const spreadPP = (wacc - tg) * 100;
+    let weakReason = null;
+    if (fcfYieldPct !== null && fcfYieldPct > 0 && fcfYieldPct < 1.5) weakReason = 'hypergrowth';
+    else if (spreadPP < 2) weakReason = 'lowspread';
+    else if (base.upsidePct !== null && Math.abs(base.upsidePct) > 65) weakReason = 'extreme';
+    const historicalAnchorWeak = !!weakReason;
+    const weakNote = weakReason === 'hypergrowth'
+        ? `The price reflects expected free-cash-flow growth well above ${sym}'s historical trend (its current FCF is only ~${fcfYieldPct.toFixed(1)}% of market cap). A DCF anchored to past cash flows understates companies the market is pricing for rapid future growth — read this alongside "What's priced in", which solves for the growth the price actually implies.`
+        : weakReason === 'lowspread'
+            ? `${sym}'s computed WACC (${r2(wacc * 100)}%) sits close to the terminal growth rate, so the terminal value — and therefore the fair value — is extremely sensitive to small changes in the discount rate. Treat the per-share figure as indicative only; the scenario range and "What's priced in" are the better lenses for a name with this capital structure.`
+            : weakReason === 'extreme'
+                ? `The model's fair value lands far from the current price. A DCF anchored to ${sym}'s historical free-cash-flow trend is a poor fit when the market is pricing a different trajectory — read it alongside "What's priced in", which solves for the growth the price actually implies.`
+                : null;
 
     return {
         symbol: sym,
