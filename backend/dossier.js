@@ -236,7 +236,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     // DCF run concurrently (each fetches its own SEC filing or is pure compute);
     // ESG runs after, reusing governance's board leg and the now-cached 10-K text.
     const [govR, industryR, valuationR] = await Promise.allSettled([
-        governance.buildGovernance(sym),
+        governance.buildGovernance(sym, { name: overview.Name }),
         industry.buildIndustry(sym, { overview, peers, financials }),
         valuationDcf.buildValuation(sym, { data, rdcf })
     ]);

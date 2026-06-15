@@ -13,6 +13,7 @@
 const filing = require('./filing-fetcher');
 const insiders = require('./insiders');
 const gurus = require('./gurus');
+const governanceWeb = require('./governance-web');
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 // many of these fields are never legitimately zero — a model that returns 0
@@ -124,20 +125,42 @@ function redFlags(gov) {
     return flags;
 }
 
-async function buildGovernance(symbol) {
+async function buildGovernance(symbol, { name = null } = {}) {
     const [gov, ins, own] = await Promise.all([
         extractGovernance(symbol).catch((e) => ({ error: String(e && e.message || e) })),
         insiderSummary(symbol).catch(() => null),
         ownership(symbol).catch(() => null)
     ]);
+
+    // Web enrichment — fill ONLY the qualitative fields the proxy extraction left
+    // blank (CEO, CEO-also-Chair, dual-class), from verified free public sources.
+    // Filing values are never overwritten; provenance is recorded for the UI.
+    let webProvenance = null, webSources = [];
+    if (gov && !gov.error) {
+        try {
+            const enr = await governanceWeb.enrichGovernance(symbol, name, gov);
+            const prov = {};
+            for (const [k, info] of Object.entries(enr.fields || {})) {
+                if (gov[k] == null && info && info.value != null) {
+                    gov[k] = info.value;
+                    if (k === 'independentDirectors' && gov.boardSize) gov.independencePct = Math.round((info.value / gov.boardSize) * 1000) / 10;
+                    prov[k] = { source: 'web', urls: info.sources || [], confidence: info.confidence || 'medium', evidence: info.evidence || null };
+                }
+            }
+            if (Object.keys(prov).length) { webProvenance = prov; webSources = enr.sourcesUsed || []; gov.webEnriched = true; }
+        } catch (_) { /* best-effort; filing-only on failure */ }
+    }
+
     return {
         board: gov && !gov.error ? gov : null,
         boardError: gov && gov.error ? gov.error : null,
         boardFiling: gov && gov.filing ? gov.filing : null,
+        webProvenance,
+        webSources,
         insider: ins,
         ownership: own,
-        redFlags: redFlags(gov),
-        source: 'DEF 14A (board, compensation), Form 4 (insider trades), and 13F filings of tracked investors — all from SEC EDGAR.'
+        redFlags: redFlags(gov), // recomputed AFTER the merge — a web-found dual-class now flags
+        source: 'DEF 14A (board, compensation), Form 4 (insider trades), and 13F filings of tracked investors — all from SEC EDGAR.' + (webProvenance ? ' Fields marked “web” were filled from public sources (Wikipedia/Wikidata) and cross-checked across two independent sources.' : '')
     };
 }
 
