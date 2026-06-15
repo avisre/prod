@@ -352,7 +352,7 @@
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">
-              <input type="search" id="v2-search" placeholder="Search any US-listed company…" autocomplete="off"
+              <input type="search" id="v2-search" placeholder="Search a company…" autocomplete="off"
                      aria-label="Search companies" />
               <div class="nav-search-results" id="v2-search-results" hidden></div>
             </div>
