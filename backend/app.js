@@ -3676,6 +3676,86 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
     }
 });
 
+// ---- Research Dossier (Power/Desk) — the on-demand initiation report ----
+// The Monitor says "what changed in a name I follow"; the dossier answers
+// "should I own this at all" — a from-scratch, source-linked write-up on ANY
+// ticker. It composes several slow grounded surfaces, so (like the Monitor) we
+// decouple the build and let the client poll, sharing one build across callers.
+const dossier = require('./dossier');
+const thesisModel = require('./thesis');
+const _dossierInflight = new Map();
+const _dossierProgress = new Map();
+const DOSSIER_FAST_MS = 9000;
+
+app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        const sym = String(req.params.symbol || '').toUpperCase().trim();
+        if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return res.status(400).json({ message: 'Invalid ticker.' });
+
+        // Poll path: build-free, returns the dossier once cached else {building}.
+        if (req.query.poll === '1') {
+            if (_dossierInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
+            const cached = await dossier.peekDossier(sym).catch(() => null);
+            if (cached) return res.json({ dossier: cached });
+            return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
+        }
+
+        const force = req.query.refresh === '1';
+        let build = (!force && _dossierInflight.get(sym)) || null;
+        if (!build) {
+            build = dossier.buildDossier(sym, { force, onStage: (stage) => _dossierProgress.set(sym, stage) })
+                .catch((err) => { console.error('[dossier] build error:', err && err.message); return { error: 'Couldn’t build the dossier right now — please try again in a moment.' }; })
+                .finally(() => { _dossierInflight.delete(sym); _dossierProgress.delete(sym); });
+            _dossierInflight.set(sym, build);
+        }
+        const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), DOSSIER_FAST_MS))]);
+        if (winner && winner.error) return res.status(404).json(winner);
+        if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
+        return res.json({ dossier: winner });
+    } catch (err) {
+        console.error('[dossier] route error:', err.message);
+        res.status(500).json({ message: 'Failed to build the dossier.' });
+    }
+});
+
+// ---- Thesis Tracker (Power/Desk) — your stated reasons, graded each filing ----
+app.get('/api/thesis', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        res.json({ theses: await thesisModel.listTheses(req.userId) });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: error.message || 'Failed to load theses.' });
+    }
+});
+
+app.post('/api/thesis', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        const doc = await thesisModel.saveThesis(req.userId, req.body && req.body.symbol, req.body && req.body.text);
+        res.status(201).json({ thesis: { symbol: doc.symbol, text: doc.text, claims: doc.claims } });
+    } catch (error) {
+        res.status(Number(error.status) || 500).json({ message: error.message || 'Failed to save thesis.' });
+    }
+});
+
+app.delete('/api/thesis/:symbol', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        await thesisModel.deleteThesis(req.userId, req.params.symbol);
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Failed to delete thesis.' });
+    }
+});
+
+app.get('/api/thesis/:symbol/grade', authMiddleware, monitorGate, async (req, res) => {
+    try {
+        const result = await thesisModel.gradeThesis(req.userId, req.params.symbol, { force: req.query.refresh === '1' });
+        if (result.error) return res.status(404).json(result);
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Failed to grade thesis.' });
+    }
+});
+
 // ---- Weekly Filing Monitor digest (Power/Desk) — the retention engine ----
 function digestUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'digest' }, JWT_SECRET); }
 

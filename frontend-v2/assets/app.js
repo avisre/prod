@@ -348,6 +348,7 @@
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
               <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
               <a href="/monitor.html" ${cur('monitor')}>Monitor</a>
+              <a href="/dossier.html" ${cur('dossier')}>Dossier</a>
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">
@@ -380,6 +381,7 @@
                 <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
                 <a href="/monitor.html" ${cur('monitor')}>Filing Monitor</a>
+                <a href="/dossier.html" ${cur('dossier')}>Research Dossier</a>
               </nav>
               <div class="nav-mobile-auth">
                 ${authed

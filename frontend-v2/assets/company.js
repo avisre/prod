@@ -186,6 +186,8 @@
         const q = (payload.quote || {})['Global Quote'] || {};
         $('co-crumb').textContent = [symbol, ov.Sector, ov.Exchange].filter(Boolean).join('  ·  ');
         $('co-name').textContent = ov.Name || symbol;
+        const dos = $('co-dossier');
+        if (dos) { dos.href = `/dossier.html?symbol=${encodeURIComponent(symbol)}`; dos.hidden = false; }
         document.title = `${ov.Name || symbol} (${symbol}) — 19 years of financials | stockportfolio.pro`;
         const price = num(q['05. price']);
         const chPct = num(String(q['10. change percent'] || '').replace('%', ''));

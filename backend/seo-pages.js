@@ -542,6 +542,7 @@ function buildSitemap() {
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
     urls.push({ loc: `${SITE}/gurus`, pri: '0.8' }); // guru 13F portfolios — marquee feature page
     urls.push({ loc: `${SITE}/monitor`, pri: '0.8' }); // filing change monitor — pro feature landing
+    urls.push({ loc: `${SITE}/dossier`, pri: '0.8' }); // research dossier — power/desk feature landing
     try { // competitor comparison pages — driven by the registry, not a hardcoded list
         require('./comparison-pages').competitors.forEach((s) => urls.push({ loc: `${SITE}/vs/${s}`, pri: '0.7' }));
     } catch (_) { /* module unavailable */ }

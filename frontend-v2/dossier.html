@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Research Dossier — the full initiation report on any stock | stockportfolio.pro</title>
+  <meta name="description" content="An on-demand, source-linked research dossier on any US-listed company: the business, segments, 10-year figures, what's priced in, the bull and bear case, recent filing changes — the write-up a junior analyst spends 20-40 hours on, generated in minutes. Track your own thesis against each new filing." />
+  <link rel="canonical" href="https://www.stockportfolio.pro/dossier" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Research Dossier — the full initiation report on any stock" />
+  <meta property="og:description" content="The decision-grade research write-up, source-linked and on demand, plus a thesis tracker that grades your reasons against each new filing." />
+  <meta property="og:url" content="https://www.stockportfolio.pro/dossier" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20260615-1" />
+  <style>
+    .dos-hero { max-width: 760px; margin: 8px auto 0; text-align: center; }
+    .dos-form { display: flex; gap: 10px; max-width: 520px; margin: 22px auto 0; }
+    .dos-form .input { flex: 1; text-transform: uppercase; }
+    @media (max-width: 480px) { .dos-form { flex-direction: column; } .dos-form .btn { width: 100%; } }
+    .dos-doc { max-width: 860px; margin: 28px auto 0; }
+    .dos-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+    .dos-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .dos-snap { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 12px; margin: 18px 0 4px; }
+    .dos-snap .k { font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--ink-3); }
+    .dos-snap .v { font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .dos-sec { margin-top: 30px; }
+    .dos-sec h2 { font-size: 19px; margin: 0 0 10px; letter-spacing: -.01em; }
+    .dos-summary { padding: 16px 18px; background: var(--accent-tint); border-radius: var(--radius); font-size: 15.5px; line-height: 1.7; }
+    .dos-bullbear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 620px) { .dos-bullbear { grid-template-columns: 1fr; } }
+    .dos-case { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 16px; }
+    .dos-case.bull { border-top: 3px solid var(--pos); }
+    .dos-case.bear { border-top: 3px solid var(--neg); }
+    .dos-case h3 { font-size: 14px; margin: 0 0 10px; }
+    .dos-case li { margin: 0 0 10px; font-size: 13.5px; line-height: 1.6; }
+    .dos-case .basis { color: var(--ink-3); font-size: 12px; }
+    .dos-keyfig { white-space: pre-wrap; font-size: 13px; line-height: 1.7; font-variant-numeric: tabular-nums; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px; overflow-x: auto; }
+    .dos-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
+    .dos-check { display: flex; gap: 8px; align-items: baseline; font-size: 13px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
+    .dos-check .mk { font-weight: 800; }
+    .dos-check.pass .mk { color: var(--pos); } .dos-check.fail .mk { color: var(--neg); }
+    .dos-seg td:last-child, .dos-seg th:last-child { text-align: right; }
+    .dos-read li { margin-bottom: 12px; }
+    .dos-read .t { font-weight: 650; font-size: 14.5px; }
+    .dos-prov { margin-top: 26px; color: var(--ink-3); font-size: 12px; line-height: 1.6; }
+    /* thesis tracker */
+    .th-claim { display: grid; grid-template-columns: 110px 1fr; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+    .th-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 4px 9px; border-radius: 999px; text-align: center; }
+    .th-holding { background: var(--pos-tint); color: var(--pos); }
+    .th-weakening { background: var(--accent-tint); color: var(--accent-ink); }
+    .th-broken { background: var(--neg-tint); color: var(--neg); }
+    .th-unclear { background: var(--surface); color: var(--ink-3); border: 1px solid var(--line-strong); }
+    .th-ev { color: var(--ink-3); font-size: 12.5px; margin-top: 3px; }
+    /* print / export deliverable */
+    @media print {
+      .nav, .nav-mobile, #dos-search-wrap, .dos-actions, .dos-thesis-edit, footer, .dos-hero .dos-form { display: none !important; }
+      .dos-doc { max-width: none; margin: 0; }
+      .dos-summary { background: #f3f3f3 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      a { color: inherit; text-decoration: none; }
+      .dos-sec { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container" style="padding-top:40px;">
+      <div class="dos-hero" id="dos-hero">
+        <span class="label">✦ Research Dossier</span>
+        <h1 class="title-1" style="margin-top:8px;">The full initiation report — on any stock, in minutes</h1>
+        <p class="muted" style="max-width:64ch; margin:12px auto 0;">The business, segments, ten-year figures, what the price assumes, the bull and bear case, and what just changed in the latest filing — threaded into one source-linked write-up. The analyst job, on demand. Then state your thesis and we grade it against every new filing.</p>
+      </div>
+      <div id="dos-search-wrap">
+        <form class="dos-form" id="dos-form">
+          <input class="input" id="dos-sym" placeholder="Ticker — e.g. AAPL" autocomplete="off" aria-label="Ticker" />
+          <button class="btn btn-primary" type="submit">Build dossier</button>
+        </form>
+      </div>
+      <div id="dos-report" class="dos-doc" hidden></div>
+    </div>
+  </main>
+  <script src="assets/app.js?v=20260615-1"></script>
+  <script src="assets/dossier.js?v=20260615-1"></script>
+  <script>V2.nav('dossier'); V2.footer();</script>
+</body>
+</html>
