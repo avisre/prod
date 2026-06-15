@@ -984,6 +984,13 @@ app.get('/sitemap.xml', (req, res) => {
 app.get('/stocks', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
 });
+// E-E-A-T transparency pages (server-rendered, public, no auth).
+app.get('/methodology', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderMethodology());
+});
+app.get('/editorial-policy', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderEditorialPolicy());
+});
 app.get('/stocks/:ticker', (req, res) => {
     const html = seoPages.renderStockPage(req.params.ticker);
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());

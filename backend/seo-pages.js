@@ -17,6 +17,18 @@ const SITE = 'https://www.stockportfolio.pro';
 const CLARITY_ID = 'x0dsu053xa';
 const GA_ID = 'G-4K10D2FPTT';
 
+// Site-level publisher entity, emitted on every SEO page. Gives Google a stable
+// Organization to attach E-E-A-T / authorship to (YMYL finance now expects a
+// verifiable publisher) — pages reference it by @id for author/publisher.
+const ORG_LD = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Organization',
+    '@id': `${SITE}/#org`, name: 'stockportfolio.pro', url: SITE,
+    logo: `${SITE}/Media/icon.png`,
+    description: 'US stock fundamentals, financial statements and analysis computed deterministically from official SEC filings (10-K/10-Q via EDGAR).',
+    foundingDate: '2024',
+    sameAs: ['https://www.sec.gov/edgar']
+});
+
 // ---- data loading (cached) ----
 let _companies = null;
 function loadCompanies() {
@@ -53,6 +65,18 @@ function loadFundamentals(symbol) {
     // pin every symbol's payload in heap (was an unbounded OOM source).
     if (_fundCache.size > 300) _fundCache.delete(_fundCache.keys().next().value);
     return data;
+}
+
+// Honest "last updated" for a symbol = when the nightly cache last wrote its
+// fundamentals file. Real freshness, not a fabricated date (Google penalises
+// fake freshness). Returns a Date or null.
+function fundamentalsMtime(symbol) {
+    try { return fs.statSync(symbolToFile(symbol)).mtime; } catch (_) { return null; }
+}
+function fmtDate(d) {
+    if (!d) return '';
+    try { return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
+    catch (_) { return d.toISOString().slice(0, 10); }
 }
 
 // ---- formatting ----
@@ -106,7 +130,7 @@ function head(title, description, canonical, jsonld) {
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
-${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}
+<script type="application/ld+json">${ORG_LD}</script>${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}
 <style>
   /* v2 design system, self-contained (paper/ink; color = meaning only) */
   :root{--paper:#faf9f6;--surface:#fff;--ink:#1c1b18;--ink2:#5f5c55;--ink3:#8f8b82;--line:#e8e6e0;--line2:#d8d5cd;--accent:#1a4fd6;--pos:#1b7a4b;--neg:#b3261e}
@@ -164,7 +188,8 @@ function nav() {
 function footer() {
     return `<footer class="seo-foot">
   <p><a href="/screens/dividend-stocks">Best dividend stocks</a> &middot; <a href="/screens/high-growth-stocks">Fastest-growing</a> &middot; <a href="/screens/most-profitable-stocks">Most profitable</a> &middot; <a href="/screens/low-pe-stocks">Low P/E value</a> &middot; <a href="/screens/quality-compounders">Quality compounders</a></p>
-  <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+  <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/methodology">Methodology</a> &middot; <a href="/editorial-policy">Editorial policy</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+  <p class="seo-disc">Compiled by the <strong>stockportfolio.pro</strong> research desk from companies&#39; official U.S. SEC filings (10-K/10-Q via <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">EDGAR</a>). All figures are computed deterministically from filed statements — no analyst estimates, no AI-guessed numbers, and no paid placement. See our <a href="/methodology">methodology</a> and <a href="/editorial-policy">editorial policy</a>.</p>
   <p class="seo-disc">Data is provided for informational purposes only and may be delayed or inaccurate. stockportfolio.pro is an analysis and visualization tool and does not provide financial advice. &copy; 2026 stockportfolio.pro.</p>
 </footer><script>try{var pv=JSON.stringify({path:location.pathname});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
 }
@@ -189,12 +214,15 @@ function renderStockPage(ticker) {
     const income = (data && data.income && data.income.annualReports) || [];
 
     const canonical = `${SITE}/stocks/${sym}`;
+    const mtime = fundamentalsMtime(sym);
+    const mtimeISO = mtime ? mtime.toISOString() : null;
+    const freshness = fmtDate(mtime);
     // Metric + year-range words are the long-tail hooks searchers actually type
     // ("apple revenue by year", "{name} net income 2018").
     const fyOf = (r) => String((r || {}).fiscalDateEnding || '').slice(0, 4);
     const titleYears = income.length >= 2 ? `${fyOf(income[income.length - 1])}-${fyOf(income[0])}` : '';
     const title = titleYears
-        ? `${name} (${sym}) Revenue, Net Income & Financials ${titleYears}`
+        ? `${name} (${sym}) Stock — Revenue, Net Income & Financials ${titleYears}`
         : `${name} (${sym}) Stock Fundamentals, Financials & Analysis`;
     const metricBits = [
         mcap ? `Market cap ${money(mcap)}` : '',
@@ -219,6 +247,16 @@ function renderStockPage(ticker) {
                 tickerSymbol: sym,
                 ...(desc ? { description: desc.slice(0, 280) } : {}),
                 url: canonical
+            },
+            {
+                '@type': 'WebPage',
+                '@id': canonical,
+                url: canonical,
+                name: title,
+                ...(mtimeISO ? { dateModified: mtimeISO } : {}),
+                isBasedOn: 'https://www.sec.gov/edgar',
+                publisher: { '@id': `${SITE}/#org` },
+                author: { '@id': `${SITE}/#org` }
             }
         ]
     });
@@ -406,6 +444,19 @@ function renderStockPage(ticker) {
     const about = desc ? `<div class="seo-section"><h2>About ${esc(name)}</h2><p class="seo-about">${esc(desc)}</p></div>` : '';
     const meta = [sector, industry, exchange].filter(Boolean).map(esc).join(' &middot; ');
 
+    // Lead summary — one-sentence synthesis of the numbers. "Information gain":
+    // a citable takeaway above the fold for crawlers and AI answer engines, the
+    // signal the 2026 core updates reward. All deterministic from filed data.
+    const leadGrowth = (revP && revP !== 0 && revN !== null) ? ((revN - revP) / Math.abs(revP) * 100) : null;
+    const leadBits = [];
+    if (revN !== null) leadBits.push(`posted ${money(revN)} in revenue for fiscal ${latestFY}` + (leadGrowth !== null ? ` (${leadGrowth >= 0 ? 'up' : 'down'} ${Math.abs(leadGrowth).toFixed(1)}% year over year)` : ''));
+    if (niN !== null && revN && niN >= 0) leadBits.push(`at a ${((niN / revN) * 100).toFixed(1)}% net margin`);
+    else if (niN !== null && niN < 0) leadBits.push(`with a net loss of ${money(Math.abs(niN))}`);
+    if (metrics.revCagr5Pct !== null && metrics.revCagr5Pct !== undefined) leadBits.push(`and has compounded revenue about ${metrics.revCagr5Pct.toFixed(1)}%/yr over five years`);
+    const leadSentence = leadBits.length ? `${name} (${sym}) ${leadBits.join(', ')}, per its SEC filings.` : '';
+    const leadHtml = leadSentence ? `<p class="seo-about" style="margin:8px 0 4px">${esc(leadSentence)}</p>` : '';
+    const freshHtml = freshness ? `<p style="font-size:12px;color:var(--ink3);margin:2px 0 16px">Data last refreshed ${esc(freshness)} from SEC filings &middot; <a href="/methodology" style="color:var(--ink3)">how we compute this</a></p>` : '';
+
     // Per-metric history pages (seo-extra) — linked here so crawlers discover
     // them from every ticker page, not just the sitemap. Lazy require: this
     // module loads before seo-extra.
@@ -434,6 +485,8 @@ function renderStockPage(ticker) {
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
   <h1 class="seo-h1">${esc(name)} <span style="color:var(--muted);font-weight:600">(${esc(sym)})</span></h1>
   <p class="seo-sub">${meta || 'US-listed equity'}</p>
+  ${leadHtml}
+  ${freshHtml}
   <div class="seo-grid">${tiles}</div>
   ${teaserTable}
   ${healthBlock}
@@ -485,7 +538,7 @@ function renderStockIndex() {
 // generates Search Console errors and wastes crawl budget.
 function buildSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/tour', '/stocks', '/screener', '/ask', '/support', '/privacy', '/terms', '/sitemap'];
+    const staticUrls = ['/', '/tour', '/stocks', '/screener', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap'];
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
     urls.push({ loc: `${SITE}/gurus`, pri: '0.8' }); // guru 13F portfolios — marquee feature page
     urls.push({ loc: `${SITE}/monitor`, pri: '0.8' }); // filing change monitor — pro feature landing
@@ -542,8 +595,67 @@ function hasStockPage(symbol) {
     return fs.existsSync(symbolToFile(sym));
 }
 
+// ---- E-E-A-T pages (methodology + editorial policy) ----
+// Honest, verifiable transparency pages. YMYL finance now expects a clear,
+// checkable account of where numbers come from and how rankings are decided.
+function renderMethodology() {
+    const canonical = `${SITE}/methodology`;
+    const title = 'Methodology — How stockportfolio.pro Computes Its Data';
+    const description = 'Where our numbers come from (U.S. SEC filings via EDGAR), how each metric and screen is computed, our refresh cadence, and the limitations — full transparency on the data behind stockportfolio.pro.';
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'AboutPage', name: title, url: canonical,
+        publisher: { '@id': `${SITE}/#org` }, isBasedOn: 'https://www.sec.gov/edgar'
+    });
+    const S = (h, body) => `<div class="seo-section"><h2>${h}</h2><div class="seo-about">${body}</div></div>`;
+    return head(title, description, canonical, jsonld) + nav() + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/">Home</a> / Methodology</div>
+  <h1 class="seo-h1">Methodology</h1>
+  <p class="seo-sub">How stockportfolio.pro turns raw regulatory filings into the fundamentals, metrics, and screens you see — stated plainly so you can check our work.</p>
+  ${S('Where the data comes from', `<p>Every financial figure on this site is computed from companies&#39; official filings with the U.S. Securities and Exchange Commission — annual reports (Form 10-K) and quarterly reports (Form 10-Q), sourced via <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. Prices come from end-of-day market data. We do not use analyst estimates, forecasts, or third-party &ldquo;adjusted&rdquo; numbers in the figures we report.</p>`)}
+  ${S('Coverage &amp; history', `<p>We cover 1,500+ US-listed companies in the per-stock pages (S&amp;P 500, MidCap 400, SmallCap 600) and 3,800+ in the screener, with up to 19 fiscal years of history per company where filings exist.</p>`)}
+  ${S('How often it updates', `<p>The fundamentals cache is rebuilt nightly. Each stock and metric page shows the date its underlying data was last refreshed. Newly filed 10-Ks and 10-Qs flow in on the next nightly build.</p>`)}
+  ${S('How metrics are computed', `<p>All metrics are deterministic functions of filed line items — no AI, no editorial judgement, no hand-tuning:</p>
+    <ul>
+      <li><strong>Revenue, net income, gross profit, EBITDA</strong> — taken directly from the income statement; gross profit is derived as revenue minus cost of revenue when not separately disclosed.</li>
+      <li><strong>Margins</strong> — net margin = net income ÷ revenue; gross margin = gross profit ÷ revenue, for the same fiscal year.</li>
+      <li><strong>Growth (CAGR)</strong> — compound annual growth rate between the first and last fiscal year of the window, not an average of yearly changes.</li>
+      <li><strong>Free cash flow</strong> — operating cash flow minus capital expenditure (capex sign normalised across filing sources).</li>
+      <li><strong>P/E history</strong> — fiscal-year-end adjusted close ÷ diluted EPS for that year.</li>
+      <li><strong>Reverse DCF</strong> — solves for the free-cash-flow growth rate the current market cap implies, with the discount rate, horizon, and terminal growth stated inline on each page. It is a translation of price into an assumption you can judge — not a fair value and not advice.</li>
+    </ul>`)}
+  ${S('Financial health checks', `<p>The pass/fail health checks (profitability, debt, cash flow, dividend coverage, etc.) are fixed rules applied to the filed statements — the same thresholds for every company. They describe what the filings say; they are not buy/sell signals.</p>`)}
+  ${S('What we don&#39;t do', `<p>We don&#39;t publish price targets, we don&#39;t accept payment for placement in any ranking or screen, and we don&#39;t present opinion as data. Figures can still be delayed or contain source errors — see our <a href="/editorial-policy">editorial policy</a> for corrections, and always verify against the primary filing before acting.</p>`)}
+  <div class="seo-section"><p style="font-size:13px"><a href="/editorial-policy">Editorial policy &amp; independence &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p></div>
+</main>` + footer();
+}
+
+function renderEditorialPolicy() {
+    const canonical = `${SITE}/editorial-policy`;
+    const title = 'Editorial Policy & Independence — stockportfolio.pro';
+    const description = 'Our independence, how rankings and screens are decided, our corrections process, affiliate disclosure, and why nothing here is investment advice.';
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'AboutPage', name: 'Editorial Policy & Independence', url: canonical,
+        publisher: { '@id': `${SITE}/#org` }
+    });
+    const S = (h, body) => `<div class="seo-section"><h2>${h}</h2><div class="seo-about">${body}</div></div>`;
+    return head(title, description, canonical, jsonld) + nav() + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/">Home</a> / Editorial policy</div>
+  <h1 class="seo-h1">Editorial policy &amp; independence</h1>
+  <p class="seo-sub">How stockportfolio.pro decides what to show, keeps it independent, and fixes mistakes.</p>
+  ${S('Independence', `<p>stockportfolio.pro is an independent analysis tool. No company can pay to appear, rank higher, or be presented more favourably in any stock page, comparison, screen, or list. Rankings and screens are produced by deterministic filters over filed fundamentals — never by editorial selection or commercial relationship.</p>`)}
+  ${S('How rankings and screens work', `<p>Every &ldquo;best / fastest / most&rdquo; list is the output of a stated, reproducible filter (for example, &ldquo;dividend yield ≥ 2.5% and profitable in ≥ 8 of the last 10 years, sorted by yield&rdquo;). The criteria are shown on each page. Run the same filter yourself in the <a href="/screener">free screener</a> to verify.</p>`)}
+  ${S('Corrections', `<p>If a figure looks wrong, it usually traces to the source filing or a data-vendor mapping. We correct confirmed errors on the next nightly build. Report an issue at <a href="mailto:avinashsreekumar007@gmail.com">avinashsreekumar007@gmail.com</a> with the ticker and the figure, and we&#39;ll investigate.</p>`)}
+  ${S('Disclosures', `<p>Some outbound links (for example to brokers or partner tools) may be affiliate links that earn us a commission at no cost to you. Affiliate relationships never influence which companies&#39; data we show or how any ranking is computed.</p>`)}
+  ${S('Not investment advice', `<p>Everything here is information and analysis for research and education only. It is not investment, financial, tax, or legal advice, and not a recommendation to buy or sell any security. Markets carry risk; do your own research and consider a licensed professional before investing.</p>`)}
+  <div class="seo-section"><p style="font-size:13px"><a href="/methodology">How we compute our data &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a></p></div>
+</main>` + footer();
+}
+
 module.exports = {
     renderStockPage, renderStockIndex, buildSitemap, loadCompanies, companyName, hasStockPage,
+    renderMethodology, renderEditorialPolicy,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
     loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer
 };

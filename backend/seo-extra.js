@@ -167,6 +167,9 @@ function renderMetricPage(ticker, slug) {
     const growth = cagr(usable[usable.length - 1]?.value, usable[0]?.value, yrsSpan);
 
     const canonical = `${SITE}/stocks/${sym}/${slug}`;
+    const fundFile = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals', `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
+    let mtimeISO = null, freshness = '';
+    try { const mt = fs.statSync(fundFile).mtime; mtimeISO = mt.toISOString(); freshness = mt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (_) { /* no mtime */ }
     // short form for the title tail: "EPS (Earnings per Share)" -> "EPS",
     // "Dividend History" -> "Dividend" (avoids "History History")
     const shortLabel = m.label.replace(/\s*\(.*\)/, '').replace(/\s+History$/i, '');
@@ -220,6 +223,12 @@ function renderMetricPage(ticker, slug) {
             {
                 '@type': 'FAQPage',
                 mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
+            },
+            {
+                '@type': 'WebPage', '@id': canonical, url: canonical, name: title,
+                ...(mtimeISO ? { dateModified: mtimeISO } : {}),
+                isBasedOn: 'https://www.sec.gov/edgar',
+                publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` }
             }
         ]
     });
@@ -239,7 +248,7 @@ function renderMetricPage(ticker, slug) {
       <thead><tr><th>Fiscal year</th><th>${esc(m.label)}</th>${m.auxLabel ? `<th>${esc(m.auxLabel)}</th>` : ''}<th>Change (YoY)</th></tr></thead>
       <tbody>${trs}</tbody>
     </table></div>
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. Refreshed nightly.</p>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
   </div>
   <div class="seo-lock">
     <h3>See the full picture for ${esc(name)}</h3>
