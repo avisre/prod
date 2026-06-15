@@ -17,7 +17,10 @@
 // two YTD facts that share the same period start (Q4 = FY − 9-month).
 
 const axios = require('axios');
+const mongoose = require('mongoose');
 const splitAdjust = require('./split-adjust');
+const bulkFacts = require('./companyfacts-bulk'); // opt-in bulk companyfacts (inert unless SEC_BULK_DIR set)
+require('./sec-throttle'); // installs the global ≤8/sec axios interceptor for *.sec.gov
 
 const SEC_HEADERS = {
     'User-Agent': 'stockportfolio.pro contact@stockportfolio.pro',
@@ -40,25 +43,54 @@ function factsCacheSet(key, entry) {
     }
 }
 
+const TICKER_MAP_TTL_MS = 7 * 24 * 60 * 60 * 1000; // 7d — the list changes slowly
+function tickerMapCol() { try { return mongoose.connection.collection('sec_ticker_map'); } catch (_) { return null; } }
+
+// Ticker→CIK resolver. Hardened after a 50-stock sweep exposed the original:
+// a single SEC 429/503 threw, and the catch cached an EMPTY map — which, being
+// truthy, was then returned for the entire process, silently breaking every
+// filing-backed section until restart. Now: never cache empty; retry; and
+// persist to Mongo so SEC throttling (or a fresh worker) can't break the map.
 async function loadTickerMap() {
-    if (_tickerMap) return _tickerMap;
+    if (_tickerMap && Object.keys(_tickerMap).length) return _tickerMap;
+
+    // 1) Mongo-persisted map — survives SEC throttling and process restarts.
+    let staleFallback = null;
     try {
-        const r = await axios.get('https://www.sec.gov/files/company_tickers.json', {
-            headers: SEC_HEADERS,
-            timeout: 15000
-        });
-        const out = {};
-        for (const v of Object.values(r.data || {})) {
-            if (v?.ticker && v?.cik_str != null) {
-                out[String(v.ticker).toUpperCase()] = String(v.cik_str).padStart(10, '0');
+        const col = tickerMapCol();
+        if (col) {
+            const doc = await col.findOne({ _id: 'company_tickers' });
+            if (doc && doc.map && Object.keys(doc.map).length) {
+                if (Date.now() - new Date(doc.at || 0).getTime() < TICKER_MAP_TTL_MS) { _tickerMap = doc.map; return _tickerMap; }
+                staleFallback = doc.map; // expired → try to refresh, but keep as fallback
             }
         }
-        _tickerMap = out;
-        return _tickerMap;
-    } catch (_) {
-        _tickerMap = {};
-        return _tickerMap;
+    } catch (_) { /* best-effort */ }
+
+    // 2) Refresh from SEC with retry; persist on success.
+    for (let i = 0; i < 3; i++) {
+        try {
+            const r = await axios.get('https://www.sec.gov/files/company_tickers.json', { headers: SEC_HEADERS, timeout: 15000 });
+            const out = {};
+            if (r.data && typeof r.data === 'object') {
+                for (const v of Object.values(r.data)) {
+                    if (v && v.ticker && v.cik_str != null) out[String(v.ticker).toUpperCase()] = String(v.cik_str).padStart(10, '0');
+                }
+            }
+            if (Object.keys(out).length) {
+                _tickerMap = out;
+                try { const col = tickerMapCol(); if (col) await col.updateOne({ _id: 'company_tickers' }, { $set: { map: out, at: new Date() } }, { upsert: true }); } catch (_) { /* cache best-effort */ }
+                return _tickerMap;
+            }
+        } catch (_) { /* transient — retry */ }
+        await new Promise((res) => setTimeout(res, 800 * (i + 1)));
     }
+
+    // 3) SEC unavailable: use a stale Mongo map if we have one; otherwise return
+    // an empty map WITHOUT caching it, so the next call retries instead of being
+    // permanently poisoned.
+    if (staleFallback) { _tickerMap = staleFallback; return _tickerMap; }
+    return {};
 }
 
 async function fetchCompanyFacts(symbol) {
@@ -69,6 +101,13 @@ async function fetchCompanyFacts(symbol) {
     const map = await loadTickerMap();
     const cik = map[key];
     if (!cik) return null;
+
+    // Prefer the nightly bulk zip when a disk is configured (zero live SEC calls);
+    // otherwise hit the per-ticker API (now globally throttled by sec-throttle).
+    try {
+        const bf = await bulkFacts.factsForCik(cik);
+        if (bf) { factsCacheSet(key, { fetchedAt: Date.now(), facts: bf }); return bf; }
+    } catch (_) { /* fall through to live API */ }
 
     try {
         const r = await axios.get(`https://data.sec.gov/api/xbrl/companyfacts/CIK${cik}.json`, {

@@ -132,34 +132,35 @@ async function buildGovernance(symbol, { name = null } = {}) {
         ownership(symbol).catch(() => null)
     ]);
 
-    // Web enrichment — fill ONLY the qualitative fields the proxy extraction left
-    // blank (CEO, CEO-also-Chair, dual-class), from verified free public sources.
-    // Filing values are never overwritten; provenance is recorded for the UI.
+    // Web enrichment — fill the qualitative fields (CEO, dual-class) from verified
+    // free sources + the authoritative 10-K. Runs EVEN WHEN the proxy extraction
+    // failed: a missing DEF 14A shouldn't also cost us the dual-class flag (which
+    // the 10-K can establish). Filing values are never overwritten; provenance kept.
+    let board = (gov && !gov.error) ? gov : null;
     let webProvenance = null, webSources = [];
-    if (gov && !gov.error) {
-        try {
-            const enr = await governanceWeb.enrichGovernance(symbol, name, gov);
-            const prov = {};
-            for (const [k, info] of Object.entries(enr.fields || {})) {
-                if (gov[k] == null && info && info.value != null) {
-                    gov[k] = info.value;
-                    if (k === 'independentDirectors' && gov.boardSize) gov.independencePct = Math.round((info.value / gov.boardSize) * 1000) / 10;
-                    prov[k] = { source: 'web', urls: info.sources || [], confidence: info.confidence || 'medium', evidence: info.evidence || null };
-                }
+    try {
+        const seed = board || {}; // empty board if the proxy couldn't be read
+        const enr = await governanceWeb.enrichGovernance(symbol, name, seed);
+        const prov = {};
+        for (const [k, info] of Object.entries(enr.fields || {})) {
+            if (seed[k] == null && info && info.value != null) {
+                seed[k] = info.value;
+                if (k === 'independentDirectors' && seed.boardSize) seed.independencePct = Math.round((info.value / seed.boardSize) * 1000) / 10;
+                prov[k] = { source: 'web', urls: info.sources || [], confidence: info.confidence || 'medium', evidence: info.evidence || null };
             }
-            if (Object.keys(prov).length) { webProvenance = prov; webSources = enr.sourcesUsed || []; gov.webEnriched = true; }
-        } catch (_) { /* best-effort; filing-only on failure */ }
-    }
+        }
+        if (Object.keys(prov).length) { board = seed; board.webEnriched = true; webProvenance = prov; webSources = enr.sourcesUsed || []; }
+    } catch (_) { /* best-effort; filing-only on failure */ }
 
     return {
-        board: gov && !gov.error ? gov : null,
+        board,
         boardError: gov && gov.error ? gov.error : null,
         boardFiling: gov && gov.filing ? gov.filing : null,
         webProvenance,
         webSources,
         insider: ins,
         ownership: own,
-        redFlags: redFlags(gov), // recomputed AFTER the merge — a web-found dual-class now flags
+        redFlags: redFlags(board), // recomputed AFTER the merge — a web-found dual-class now flags
         source: 'DEF 14A (board, compensation), Form 4 (insider trades), and 13F filings of tracked investors — all from SEC EDGAR.' + (webProvenance ? ' Fields marked “web” were filled from public sources (Wikipedia/Wikidata) and cross-checked across two independent sources.' : '')
     };
 }

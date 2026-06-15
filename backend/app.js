@@ -3824,6 +3824,15 @@ app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 watchdog.start();
 gurus.start();
 startDigest();
+// Pre-warm the most-viewed dossiers in the background (top ~300 by market cap).
+// On in production automatically; locally only with PREWARM=on. SEC calls are
+// globally throttled (sec-throttle), so this never trips a rate limit.
+if (process.env.NODE_ENV === 'production' || process.env.PREWARM === 'on') {
+    try { require('./prewarm').start({ n: Number(process.env.PREWARM_TICKERS) || 300 }); }
+    catch (e) { console.log('[prewarm] not started:', e && e.message); }
+}
+// Optional: nightly SEC bulk companyfacts (inert unless SEC_BULK_DIR is set).
+try { require('./companyfacts-bulk').start(); } catch (e) { console.log('[companyfacts-bulk] not started:', e && e.message); }
 
 
 

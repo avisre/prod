@@ -24,13 +24,25 @@ function htmlToText(html) {
 
 function col() { return mongoose.connection.collection('filing_text'); }
 
+// Retry with backoff — SEC EDGAR occasionally 503s or throttles; one transient
+// failure shouldn't blank a whole dossier section. Retries on throw OR null.
+async function retry(fn, tries = 3, baseMs = 700) {
+    let last = null;
+    for (let i = 0; i < tries; i++) {
+        try { const v = await fn(); if (v != null) return v; last = new Error('empty'); }
+        catch (e) { last = e; }
+        if (i < tries - 1) await new Promise((r) => setTimeout(r, baseMs * (i + 1)));
+    }
+    throw last || new Error('failed');
+}
+
 // Fetch the latest filing of `form` (e.g. '10-K', 'DEF 14A'), return plain text.
 // Cached in Mongo per (symbol, accession). `form` accepts the EDGAR form label.
 async function getFilingText(symbol, form, { maxChars = 220000 } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return null;
     let filings = null;
-    try { filings = await watchdog.fetchFilingsDeep(sym, new Set([form]), { [form]: 1 }); } catch (_) { filings = null; }
+    try { filings = await retry(async () => { const r = await watchdog.fetchFilingsDeep(sym, new Set([form]), { [form]: 1 }); return (r && r.length) ? r : null; }); } catch (_) { filings = null; }
     if (!filings || !filings.length) {
         // some forms (DEF 14A) aren't in the recent window fetchRecentFilings scans;
         // fetchFilingsDeep covers the archive, so a null here means truly none.
@@ -46,7 +58,7 @@ async function getFilingText(symbol, form, { maxChars = 220000 } = {}) {
 
     let text;
     try {
-        const r = await axios.get(f.url, { headers: secSource.SEC_HEADERS, timeout: 35000, maxContentLength: MAX_FETCH_BYTES });
+        const r = await retry(() => axios.get(f.url, { headers: secSource.SEC_HEADERS, timeout: 35000, maxContentLength: MAX_FETCH_BYTES }));
         text = htmlToText(r.data).slice(0, maxChars);
     } catch (_) { return { error: `Couldn't fetch the ${form} for ${sym} right now.` }; }
     if (!text || text.length < 500) return { error: `Couldn't read the ${form} text for ${sym}.` };

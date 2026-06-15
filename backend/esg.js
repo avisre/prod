@@ -93,17 +93,28 @@ async function buildESG(symbol, { governance = null } = {}) {
     const esg = await extractEsgFromTenK(symbol).catch((e) => ({ error: String(e && e.message || e) }));
     const gov = governance && governance.board ? governance.board : null;
 
+    // A FAILED 10-K fetch must NOT score as "0% disclosure" — that falsely implies
+    // the company discloses nothing. Unavailable pillars are null and excluded from
+    // the score; the score is reweighted over the pillars we could actually read.
+    const tenKOk = esg && !esg.error;
     const byPillar = {
-        governance: govCompleteness(gov),
-        environmental: esg && !esg.error ? envCompleteness(esg.environmental) : 0,
-        humanCapital: esg && !esg.error ? hcCompleteness(esg.humanCapital) : 0
+        governance: gov ? govCompleteness(gov) : null,
+        environmental: tenKOk ? envCompleteness(esg.environmental) : null,
+        humanCapital: tenKOk ? hcCompleteness(esg.humanCapital) : null
     };
-    const overall = Math.round(0.40 * byPillar.governance + 0.35 * byPillar.environmental + 0.25 * byPillar.humanCapital);
-    const verdict = overall >= 70 ? 'Transparent disclosure' : overall >= 45 ? 'Selective disclosure' : 'Minimal ESG disclosure';
+    const W = { governance: 0.40, environmental: 0.35, humanCapital: 0.25 };
+    let numer = 0, denom = 0;
+    for (const k of Object.keys(W)) if (byPillar[k] != null) { numer += W[k] * byPillar[k]; denom += W[k]; }
+    const overall = denom > 0 ? Math.round(numer / denom) : null;
+    const verdict = overall == null ? null : overall >= 70 ? 'Transparent disclosure' : overall >= 45 ? 'Selective disclosure' : 'Minimal ESG disclosure';
+    const partial = !tenKOk; // 10-K legs couldn't be read
+
+    // Whole section is withheld only when NOTHING could be read.
+    if (overall == null) return { error: (esg && esg.error) || 'ESG data unavailable.', transparency: null };
 
     return {
-        error: esg && esg.error && !gov ? esg.error : null,
-        transparency: { overall, byPillar, verdict },
+        error: null,
+        transparency: { overall, byPillar, verdict, partial, unavailable: partial ? "Couldn't read the 10-K — environmental & human-capital pillars are unavailable; score reflects governance only." : null },
         governance: gov ? {
             boardSize: gov.boardSize, independencePct: gov.independencePct, womenPct: gov.womenPct,
             ceoChairCombined: gov.ceoChairCombined, sayOnPayApprovalPct: gov.sayOnPayApprovalPct,
