@@ -840,7 +840,7 @@
             const caret = isParent
                 ? `<button class="grp-caret" data-g="${def.parentOf}" aria-label="Expand components" title="Show the components">${expanded.has(def.parentOf) ? '▾' : '▸'}</button>`
                 : '';
-            html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}" data-i="${ri}"${hide ? ' hidden' : ''}>
+            html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
               <td class="row-head">${caret}${def.label}</td>
               <td>${sparkline(sparkVals, { neutral: !!def.neutral })}</td>`;
             vals.forEach((v, i) => {
@@ -855,17 +855,21 @@
         }
         html += '</tbody>';
         table.innerHTML = html;
-        // caret toggles its group; stopPropagation keeps row-click = chart
-        table.querySelectorAll('.grp-caret').forEach((btn) =>
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const g = Number(btn.dataset.g);
+        // Tapping anywhere on a parent row toggles its component group. The ▸
+        // glyph alone is only ~12×18px — far too small to hit on a phone, which
+        // is why "unfold" felt broken on mobile. The whole row is the target now.
+        table.querySelectorAll('tr.grp-parent').forEach((row) => {
+            row.style.cursor = 'pointer';
+            row.addEventListener('click', () => {
+                const g = Number(row.dataset.g);
                 const set = expandedGroups[stState];
                 const open = !set.has(g);
                 if (open) set.add(g); else set.delete(g);
-                btn.textContent = open ? '▾' : '▸';
+                const c = row.querySelector('.grp-caret');
+                if (c) c.textContent = open ? '▾' : '▸';
                 table.querySelectorAll('.grp-' + g).forEach((tr) => { tr.hidden = !open; });
-            }));
+            });
+        });
         const wrap = $('stmt-wrap');
         wrap.scrollLeft = wrap.scrollWidth;
         // proxy scrollbar above the table mirrors the real one below
