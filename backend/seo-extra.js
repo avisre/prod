@@ -173,7 +173,19 @@ function renderMetricPage(ticker, slug) {
     // short form for the title tail: "EPS (Earnings per Share)" -> "EPS",
     // "Dividend History" -> "Dividend" (avoids "History History")
     const shortLabel = m.label.replace(/\s*\(.*\)/, '').replace(/\s+History$/i, '');
-    const title = `${name} ${m.label} ${y0}-${y1} | ${sym} ${shortLabel} History by Year`;
+    // Front-load name+ticker (queries use both) and put the actual latest value
+    // in the title — a result that visibly contains the answer earns the click
+    // even at position 4-5. Strip the noisy legal suffix ("Corporation", ", Inc.")
+    // so a long legal name doesn't push the value past SERP truncation. Fall back
+    // to a plain range when there's no value (e.g. a company that pays no dividend).
+    const titleName = name.replace(/^The\s+/i, '')
+        .replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
+        .trim() || name;
+    // A "$0"/"0" headline (e.g. a company that pays no dividend) reads as broken
+    // and won't earn the click — use the plain range title in that case.
+    const title = (latestVal !== null && latestVal !== 0)
+        ? `${titleName} (${sym}) ${shortLabel}: ${m.fmt(latestVal)} (${y1}) — ${yrsSpan}-Year History`
+        : `${titleName} (${sym}) ${shortLabel} History ${y0}–${y1}`;
     const description = `${name} (${sym}) annual ${m.noun} from ${y0} to ${y1}` +
         (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
         (growth !== null ? `, ${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%/yr over ${yrsSpan} years` : '') +
@@ -278,7 +290,11 @@ function comparePairs() {
     Object.values(bySector).forEach((list) => {
         list.sort((a, b) => b.marketCapB - a.marketCapB);
         list.forEach((r, i) => {
-            [list[i + 1], list[i + 2]].forEach((p) => {
+            // 4 nearest same-sector neighbours by market cap (was 2). Compare
+            // pages are the highest-CTR surface in Search Console, so widen the
+            // net — still similar-size, same-sector pairs, exactly what searchers
+            // type ("X vs Y").
+            [list[i + 1], list[i + 2], list[i + 3], list[i + 4]].forEach((p) => {
                 if (!p) return;
                 const [a, b] = [r.symbol, p.symbol].sort();
                 set.add(`${a}-vs-${b}`);
@@ -375,30 +391,35 @@ const SCREENS = {
     'dividend-stocks': {
         h1: 'Best Dividend Stocks in the US Market',
         intro: 'US companies yielding at least 2.5% that were profitable in at least 8 of the last 10 fiscal years — steady payers, not yield traps.',
+        explainer: 'A high dividend yield only matters if the company can keep paying it. This screen starts from yield but requires a real, multi-year record of profitability, so it leans toward durable payers rather than stocks whose yield looks high only because the price has collapsed. Yields move inversely with price, so a name near the top today may rank differently after the next nightly refresh — always check the payout against the underlying earnings before relying on it.',
         args: { min_dividend_yield_pct: 2.5, min_profitable_years_of_last_10: 8, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
         cols: ['divYieldPct', 'pe', 'netMarginPct']
     },
     'high-growth-stocks': {
         h1: 'Fastest-Growing Stocks in the US Market',
         intro: 'Companies compounding revenue at 20%+ per year over the last five fiscal years, straight from SEC-filed statements.',
+        explainer: 'Revenue growth is the clearest signal that a company is winning customers and taking share. This screen ranks businesses purely on their five-year revenue CAGR computed from filed income statements — no forward analyst estimates — so what you see is what they actually delivered, not what the Street hopes for. Fast top-line growth says nothing on its own about profitability or valuation, so the margin and P/E columns are shown alongside to give the full picture.',
         args: { min_revenue_cagr_5y_pct: 20, sort_by: 'revCagr5Pct', limit: 25, maxLimit: 25 },
         cols: ['revCagr5Pct', 'netMarginPct', 'pe']
     },
     'most-profitable-stocks': {
         h1: 'Most Profitable Stocks in the US Market',
         intro: 'The highest net-margin businesses in the US market — companies that keep 25 cents or more of every revenue dollar.',
+        explainer: 'Net margin shows how much of every revenue dollar a company keeps after every cost — operations, interest and tax. Consistently high margins usually point to pricing power, a capital-light model, or a durable competitive moat. This list ranks the US market’s highest-margin businesses from their latest filed income statement; margins vary widely by industry, so it is most useful for comparing companies against their own history and close peers.',
         args: { min_net_margin_pct: 25, sort_by: 'netMarginPct', limit: 25, maxLimit: 25 },
         cols: ['netMarginPct', 'roePct', 'pe']
     },
     'low-pe-stocks': {
         h1: 'Low P/E Value Stocks in the US Market',
         intro: 'Profitable, cash-generating companies trading under 12× earnings — classic value screens, computed from filings.',
+        explainer: 'A low price-to-earnings ratio can mean a stock is genuinely cheap — or that the market expects its earnings to fall. To separate value from value-traps, this screen requires positive free cash flow and a multi-year record of profits, then ranks the survivors from the lowest P/E up. That filtering is the whole point: plenty of stocks screen as "low P/E" simply because earnings are about to roll over, and those are exactly the ones this list is built to exclude. A low multiple is a starting question, not an answer.',
         args: { max_pe: 12, require_positive_fcf: true, min_profitable_years_of_last_10: 7, sort_by: 'pe', limit: 25, maxLimit: 25 },
         cols: ['pe', 'divYieldPct', 'netMarginPct']
     },
     'quality-compounders': {
         h1: 'Quality Compounder Stocks in the US Market',
         intro: 'High-return businesses (ROE ≥ 15%) growing revenue ≥ 8%/yr with at least 9 profitable years of the last 10.',
+        explainer: 'The rare businesses that combine high returns on equity with steady growth and consistent profits tend to compound shareholder value year after year. This screen demands all three at once — ROE of at least 15%, revenue growth of at least 8% a year, and a near-spotless record of nine profitable years out of the last ten — measured from filed statements, not projections. It deliberately favours proven durability over the fastest-growing or cheapest names.',
         args: { min_roe_pct: 15, min_revenue_cagr_5y_pct: 8, min_profitable_years_of_last_10: 9, sort_by: 'roePct', limit: 25, maxLimit: 25 },
         cols: ['roePct', 'revCagr5Pct', 'netMarginPct']
     }
@@ -424,6 +445,33 @@ function renderScreenPage(slug) {
     const trs = rows.map((r, i) =>
         `<tr><td>${i + 1}. <a href="/stocks/${esc(r.symbol)}">${esc(r.name)} (${esc(r.symbol)})</a></td>` +
         s.cols.map((c) => `<td>${esc(COL_DEFS[c][1](r[c]))}</td>`).join('') + `</tr>`).join('');
+
+    // FAQ block — unique, data-backed text so these pages rank for the long tail
+    // ("what are low pe stocks", "lowest pe stock", "how is X calculated"). The
+    // top-of-list answer is generated from the live ranking.
+    const top = rows[0];
+    const c0 = s.cols[0];
+    const c0Label = COL_DEFS[c0][0].toLowerCase();
+    const c0Val = COL_DEFS[c0][1](top[c0]);
+    const faqs = [
+        {
+            q: `How is the "${s.h1}" list calculated?`,
+            a: `${s.intro} The ranking is produced by a deterministic filter over companies' SEC-filed annual statements, re-run every night — no editorial picks and no paid placement. ${matched} companies pass the filter today; the top ${rows.length} are shown.`
+        },
+        {
+            q: `What is the top-ranked stock in this screen right now?`,
+            a: `As of the latest nightly refresh, ${top.name} (${top.symbol}) ranks first, with ${c0Label} of ${c0Val}. The full ranked list of ${rows.length} companies is in the table above, and you can re-run or adjust the filters yourself in the free screener.`
+        },
+        {
+            q: `How often is this list updated?`,
+            a: `It is recomputed every night from the latest SEC filing data, so newly filed 10-Ks and 10-Qs flow into the ranking on the next build. The figures reflect what companies have actually reported, not analyst forecasts.`
+        },
+        {
+            q: `Is this investment advice?`,
+            a: `No. This is a factual, rules-based screen of filed fundamentals for research and education only — not a recommendation to buy or sell any security. Always verify against the primary filing and consider your own circumstances before investing.`
+        }
+    ];
+
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org',
         '@graph': [
@@ -431,9 +479,15 @@ function renderScreenPage(slug) {
             {
                 '@type': 'ItemList', name: s.h1, url: canonical,
                 itemListElement: rows.slice(0, 10).map((r, i) => ({ '@type': 'ListItem', position: i + 1, name: `${r.name} (${r.symbol})`, url: `${SITE}/stocks/${r.symbol}` }))
+            },
+            {
+                '@type': 'FAQPage',
+                mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
             }
         ]
     });
+    const faqHtml = faqs.map((f) =>
+        `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
     const others = Object.keys(SCREENS).filter((k) => k !== slug)
         .map((k) => `<a href="/screens/${k}">${esc(SCREENS[k].h1)}</a>`).join('');
     return head(title, description, canonical, jsonld) + nav() + `
@@ -441,6 +495,7 @@ function renderScreenPage(slug) {
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Screens / ${esc(s.h1)}</div>
   <h1 class="seo-h1">${esc(s.h1)} <span style="color:var(--ink3);font-weight:600">(${year})</span></h1>
   <p class="seo-sub">${esc(s.intro)} ${matched} companies qualify today — top ${rows.length} below, recomputed nightly from SEC filings.</p>
+  ${s.explainer ? `<p class="seo-about" style="margin:4px 0 20px">${esc(s.explainer)}</p>` : ''}
   <div class="seo-section">
     <div style="overflow-x:auto"><table class="seo-table">
       <thead><tr><th>Company</th>${colHead}</tr></thead>
@@ -453,6 +508,7 @@ function renderScreenPage(slug) {
     <p>The full screener covers 3,800+ US companies with growth, margin, ROE, valuation and dividend filters. No account needed.</p>
     <a class="seo-cta-btn" href="/screener">Open the free screener</a>
   </div>
+  <div class="seo-section"><h2>${esc(s.h1)} — frequently asked questions</h2>${faqHtml}</div>
   <div class="seo-section"><h2>More screens</h2><div class="seo-links">${others}</div></div>
 </main>` + footer();
 }

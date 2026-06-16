@@ -514,8 +514,8 @@ function renderStockIndex() {
     const bySector = {};
     all.forEach((c) => { (bySector[c.sector || 'Other'] = bySector[c.sector || 'Other'] || []).push(c); });
     const canonical = `${SITE}/stocks`;
-    const title = 'Browse Stock Fundamentals for 1,500+ US Companies | stockportfolio.pro';
-    const description = 'Free fundamentals, financials, and price data for 1,500+ US companies (S&P 500, MidCap 400, SmallCap 600). Search any ticker for revenue, earnings, valuation ratios, and statements.';
+    const title = 'Stock Fundamentals — Revenue, P/E & Financials for 1,500+ US Stocks';
+    const description = "Look up any US stock's fundamentals free: revenue, net income, P/E, margins, dividends and up to 19 years of financials computed from SEC filings. Browse 1,500+ companies — S&P 500, MidCap 400 and SmallCap 600.";
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'CollectionPage',
         name: 'Stock fundamentals directory', url: canonical
@@ -527,7 +527,7 @@ function renderStockIndex() {
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <h1 class="seo-h1">Stock fundamentals directory</h1>
-  <p class="seo-sub">Revenue, earnings, valuation and financial statements for 500+ US-listed companies. Pick a ticker to see its snapshot, or start a free trial for full statements and portfolio tracking.</p>
+  <p class="seo-sub">Revenue, earnings, valuation and financial statements for 1,500+ US-listed companies. Pick a ticker to see its snapshot, or start a free trial for full statements and portfolio tracking.</p>
   ${sectorBlocks}
 </main>` + footer();
 }
