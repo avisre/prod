@@ -430,10 +430,10 @@ function renderComparePage(pairSlug) {
   <div class="seo-section" style="margin:22px 0">
     <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px">
       <span style="font-size:13.5px;color:var(--ink2);font-weight:600">Compare with another company:</span>
-      <input id="cmpAdd" list="cmpPeers" autocomplete="off" placeholder="ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="flex:1;min-width:140px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;background:var(--paper);color:var(--ink)">
+      <input id="cmpAdd" list="cmpPeers" autocomplete="off" placeholder="ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="flex:1;min-width:150px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;background:var(--paper);color:var(--ink)">
       <datalist id="cmpPeers">${datalist}</datalist>
-      <button type="button" onclick="cmpGo('${esc(a)}')" style="padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer">vs ${esc(a)}</button>
-      <button type="button" onclick="cmpGo('${esc(b)}')" style="padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer">vs ${esc(b)}</button>
+      <button type="button" onclick="cmpGo('${esc(a)}')" style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">vs ${esc(a)}</button>
+      <button type="button" onclick="cmpGo('${esc(b)}')" style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">vs ${esc(b)}</button>
     </div>
   </div>
   <script>
