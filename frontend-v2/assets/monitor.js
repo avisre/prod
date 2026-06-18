@@ -66,7 +66,7 @@
         </div>
 
         <div class="mon-summary">
-          <span class="mon-summary-badge">✦ What changed &amp; why it matters</span>
+          <span class="mon-summary-badge">What changed &amp; why it matters</span>
           <div class="prose">${markdown(rep.summary || '')}</div>
         </div>
 
@@ -85,7 +85,7 @@
   function upsell(out) {
     out.innerHTML = `
       <div class="card card-pad mon-upsell">
-        <span class="mon-summary-badge">✦ Power &amp; Desk feature</span>
+        <span class="mon-summary-badge">Power &amp; Desk feature</span>
         <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Power &amp; Desk</h2>
         <p class="muted" style="max-width:62ch;">Get an instant, cited read on what materially changed in any company's latest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved — plus a materiality-ranked feed across your whole watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
@@ -130,7 +130,7 @@
   function trialWall(out) {
     out.innerHTML = `
       <div class="card card-pad mon-upsell">
-        <span class="mon-summary-badge">✦ The Filing Monitor — unlimited on Power</span>
+        <span class="mon-summary-badge">The Filing Monitor — unlimited on Power</span>
         <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
         <p class="muted" style="max-width:62ch;">Power gives you an instant, cited read on what materially changed in any 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality — unlimited, with an auto-updating feed across your whole watchlist. The job institutional desks pay five figures a seat for.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">

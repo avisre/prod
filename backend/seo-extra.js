@@ -323,19 +323,31 @@ function renderComparePage(pairSlug) {
 
     const fmtB = (v) => v === null ? '—' : `$${v >= 1000 ? (v / 1000).toFixed(2) + 'T' : v.toFixed(1) + 'B'}`;
     const fmtP = (v) => v === null ? '—' : `${v.toFixed(1)}%`;
-    const rowsDef = [
-        ['Market cap', fmtB(ma.marketCapB), fmtB(mb.marketCapB)],
-        ['Revenue (latest FY)', money(inca.totalRevenue), money(incb.totalRevenue)],
-        ['Net income (latest FY)', money(inca.netIncome), money(incb.netIncome)],
-        ['Revenue growth (5y CAGR)', fmtP(ma.revCagr5Pct), fmtP(mb.revCagr5Pct)],
-        ['Net margin', fmtP(ma.netMarginPct), fmtP(mb.netMarginPct)],
-        ['Return on equity', fmtP(ma.roePct), fmtP(mb.roePct)],
-        ['P/E ratio', ma.pe === null ? '—' : ma.pe.toFixed(1), mb.pe === null ? '—' : mb.pe.toFixed(1)],
-        ['Dividend yield', fmtP(ma.divYieldPct), fmtP(mb.divYieldPct)],
-        ['Profitable years (of last 10)', String(ma.profitableYears10), String(mb.profitableYears10)],
-        ['Positive free cash flow', ma.fcfPositive === null ? '—' : (ma.fcfPositive ? 'Yes' : 'No'), mb.fcfPositive === null ? '—' : (mb.fcfPositive ? 'Yes' : 'No')]
+    const peFmt = (v) => (v === null || v === undefined) ? '—' : v.toFixed(1);
+    const yesNo = (v) => (v === null || v === undefined) ? '—' : (v ? 'Yes' : 'No');
+    // win: 0 -> A stronger, 1 -> B stronger, -1 -> tie / not comparable.
+    const hi = (av, bv) => (av == null || bv == null || av === bv) ? -1 : (av > bv ? 0 : 1);
+    const loPos = (av, bv) => (av == null || bv == null || !(av > 0 && bv > 0) || av === bv) ? -1 : (av < bv ? 0 : 1);
+    const boolWin = (av, bv) => (av == null || bv == null || av === bv) ? -1 : (av ? 0 : 1);
+    // Only quality / return / value rows get a "winner". Raw size (market cap,
+    // revenue, net income) is bigger-not-better, so those stay untinted.
+    const rowsMeta = [
+        { l: 'Market cap', a: fmtB(ma.marketCapB), b: fmtB(mb.marketCapB), w: -1 },
+        { l: 'Revenue (latest FY)', a: money(inca.totalRevenue), b: money(incb.totalRevenue), w: -1 },
+        { l: 'Net income (latest FY)', a: money(inca.netIncome), b: money(incb.netIncome), w: -1 },
+        { l: 'Revenue growth (5y CAGR)', a: fmtP(ma.revCagr5Pct), b: fmtP(mb.revCagr5Pct), w: hi(ma.revCagr5Pct, mb.revCagr5Pct) },
+        { l: 'Net margin', a: fmtP(ma.netMarginPct), b: fmtP(mb.netMarginPct), w: hi(ma.netMarginPct, mb.netMarginPct) },
+        { l: 'Return on equity', a: fmtP(ma.roePct), b: fmtP(mb.roePct), w: hi(ma.roePct, mb.roePct) },
+        { l: 'P/E ratio', a: peFmt(ma.pe), b: peFmt(mb.pe), w: loPos(ma.pe, mb.pe) },
+        { l: 'Dividend yield', a: fmtP(ma.divYieldPct), b: fmtP(mb.divYieldPct), w: hi(ma.divYieldPct, mb.divYieldPct) },
+        { l: 'Profitable years (of last 10)', a: String(ma.profitableYears10), b: String(mb.profitableYears10), w: hi(ma.profitableYears10, mb.profitableYears10) },
+        { l: 'Positive free cash flow', a: yesNo(ma.fcfPositive), b: yesNo(mb.fcfPositive), w: boolWin(ma.fcfPositive, mb.fcfPositive) }
     ];
-    const trs = rowsDef.map((r) => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('');
+    const winCell = 'background:rgba(27,122,75,.10);color:var(--pos);font-weight:650';
+    const trs = rowsMeta.map((r) =>
+        `<tr><td>${esc(r.l)}</td>` +
+        `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
+        `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
 
     const faqs = [
         {
@@ -362,26 +374,109 @@ function renderComparePage(pairSlug) {
     const faqHtml = faqs.map((f) =>
         `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
 
+    // ---- plain-English verdict, lifted above the fold (answers the query) ----
+    const peX = (v) => `${v.toFixed(1)}×`;
+    const vClause = (av, bv, dir, fmt, phrase) => {
+        if (av == null || bv == null || av === bv) return null;
+        if (dir === 'lo' && !(av > 0 && bv > 0)) return null;
+        const aWins = dir === 'hi' ? av > bv : av < bv;
+        const w = aWins ? a : b, wv = aWins ? av : bv, lv = aWins ? bv : av;
+        return `<strong>${esc(w)}</strong> ${phrase} (${fmt(wv)} vs ${fmt(lv)})`;
+    };
+    const vbits = [
+        vClause(ma.revCagr5Pct, mb.revCagr5Pct, 'hi', fmtP, 'grows revenue faster'),
+        vClause(ma.netMarginPct, mb.netMarginPct, 'hi', fmtP, 'earns a higher net margin'),
+        vClause(ma.roePct, mb.roePct, 'hi', fmtP, 'has the stronger return on equity'),
+        vClause(ma.pe, mb.pe, 'lo', peX, 'trades cheaper on earnings'),
+        vClause(ma.divYieldPct, mb.divYieldPct, 'hi', fmtP, 'pays a higher dividend yield')
+    ].filter(Boolean).slice(0, 3);
+    let sizeBit = null;
+    if (ma.marketCapB != null && mb.marketCapB != null && ma.marketCapB !== mb.marketCapB) {
+        const bigA = ma.marketCapB > mb.marketCapB;
+        sizeBit = `<strong>${esc(bigA ? a : b)}</strong> is the larger company (${fmtB(Math.max(ma.marketCapB, mb.marketCapB))} vs ${fmtB(Math.min(ma.marketCapB, mb.marketCapB))})`;
+    }
+    const vSent = [];
+    if (sizeBit) vSent.push(sizeBit + '.');
+    if (vbits.length) vSent.push('On the fundamentals, ' + vbits.join('; ') + '.');
+    const verdictHtml = vSent.length
+        ? `<div style="border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;background:var(--surface);padding:14px 16px;margin:8px 0 4px;font-size:14.5px;line-height:1.65;color:var(--ink)">${vSent.join(' ')} <span style="color:var(--ink3)">Full numbers below — the stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>.</span></div>`
+        : '';
+
+    // ---- related comparisons + ticker-swap (keep them in the format that converts) ----
+    const peersOf = (m) => (m && m.sector && m.marketCapB != null)
+        ? aiChat.screenRows({ sector: m.sector, sort_by: 'marketCapB', limit: 300, maxLimit: 300 }).rows
+            .filter((r) => r.symbol && r.symbol !== a && r.symbol !== b && r.marketCapB != null)
+            .sort((x, y) => Math.abs(x.marketCapB - m.marketCapB) - Math.abs(y.marketCapB - m.marketCapB))
+        : [];
+    const peersA = peersOf(ma), peersB = peersOf(mb);
+    const relSeen = new Set([`${a}-vs-${b}`]);
+    const related = [];
+    for (let i = 0; i < 4; i++) {
+        for (const [sym, peers] of [[a, peersA], [b, peersB]]) {
+            const p = peers[i]; if (!p) continue;
+            const [x, y] = [sym, p.symbol].sort();
+            const slug = `${x}-vs-${y}`;
+            if (relSeen.has(slug)) continue;
+            relSeen.add(slug);
+            related.push(slug);
+        }
+    }
+    const relatedHtml = related.slice(0, 8)
+        .map((slug) => `<a href="/compare/${esc(slug)}">${esc(slug.replace('-vs-', ' vs '))}</a>`).join('');
+    const dlSyms = [];
+    for (let i = 0; i < 12; i++) for (const peers of [peersA, peersB]) { const p = peers[i]; if (p && !dlSyms.includes(p.symbol)) dlSyms.push(p.symbol); }
+    const datalist = dlSyms.slice(0, 20).map((s) => `<option value="${esc(s)}">`).join('');
+    const swapHtml = related.length ? `
+  <div class="seo-section" style="margin:22px 0">
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px">
+      <span style="font-size:13.5px;color:var(--ink2);font-weight:600">Compare with another company:</span>
+      <input id="cmpAdd" list="cmpPeers" autocomplete="off" placeholder="ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="flex:1;min-width:140px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:13.5px;background:var(--paper);color:var(--ink)">
+      <datalist id="cmpPeers">${datalist}</datalist>
+      <button type="button" onclick="cmpGo('${esc(a)}')" style="padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer">vs ${esc(a)}</button>
+      <button type="button" onclick="cmpGo('${esc(b)}')" style="padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:13px;font-weight:600;cursor:pointer">vs ${esc(b)}</button>
+    </div>
+  </div>
+  <script>
+  function cmpGo(base){var el=document.getElementById('cmpAdd');var v=(el.value||'').toUpperCase().replace(/[^A-Z0-9.]/g,'');if(!v||v===base)return;var p=[base,v].sort();location.href='/compare/'+p[0]+'-vs-'+p[1];}
+  document.getElementById('cmpAdd').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();cmpGo('${esc(a)}');}});
+  </script>` : '';
+
+    // ---- contextual screens, picked from where these two are strong ----
+    const scr = [];
+    const add = (k, l) => scr.push(`<a href="/screens/${k}">${esc(l)} &rarr;</a>`);
+    const ge = (v, t) => v != null && v >= t;
+    if (ge(ma.revCagr5Pct, 15) || ge(mb.revCagr5Pct, 15)) add('high-growth-stocks', 'Fastest-growing stocks');
+    if (ge(ma.netMarginPct, 20) || ge(mb.netMarginPct, 20)) add('most-profitable-stocks', 'Most profitable stocks');
+    if (ge(ma.roePct, 15) || ge(mb.roePct, 15)) add('quality-compounders', 'Quality compounders');
+    if ((ma.pe != null && ma.pe > 0 && ma.pe <= 15) || (mb.pe != null && mb.pe > 0 && mb.pe <= 15)) add('low-pe-stocks', 'Low P/E value stocks');
+    if (ge(ma.divYieldPct, 2) || ge(mb.divYieldPct, 2)) add('dividend-stocks', 'Best dividend stocks');
+    if (!scr.length) { add('quality-compounders', 'Quality compounders'); add('high-growth-stocks', 'Fastest-growing stocks'); }
+    const screensHtml = scr.slice(0, 4).join('');
+
     return { html: head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
   <h1 class="seo-h1">${esc(a)} vs ${esc(b)}</h1>
   <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
+  ${verdictHtml}
   <div class="seo-section">
     <div style="overflow-x:auto"><table class="seo-table">
       <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
       <tbody>${trs}</tbody>
     </table></div>
   </div>
+  ${swapHtml}
   <div class="seo-lock">
-    <h3>Compare them properly — statement by statement</h3>
-    <p>Open either company interactively: 19 years of income statement, balance sheet and cash flow, ratios, health checks, and Ask — the SEC-grounded research assistant.</p>
-    <a class="seo-cta-btn" href="/company?symbol=${esc(a)}">Open ${esc(a)} — free</a>
-    &nbsp; <a class="seo-cta-btn" href="/company?symbol=${esc(b)}">Open ${esc(b)} — free</a>
+    <h3>See the full ${esc(a)} vs ${esc(b)} breakdown</h3>
+    <p>Both companies across 19 years of income statement, balance sheet and cash flow — with ratios, health checks and Ask, the SEC-grounded research assistant. Free, no account needed.</p>
+    <a class="seo-cta-btn" href="/company?symbol=${esc(a)}">Open ${esc(a)}'s full financials &rarr;</a>
+    &nbsp; <a class="seo-cta-btn" href="/company?symbol=${esc(b)}">Open ${esc(b)}'s full financials &rarr;</a>
   </div>
+  ${relatedHtml ? `<div class="seo-section"><h2>More comparisons</h2><div class="seo-links">${relatedHtml}</div></div>` : ''}
   <div class="seo-section"><h2>Frequently asked questions</h2>${faqHtml}</div>
-  <div class="seo-section">
-    <p><a href="/stocks/${esc(a)}">${esc(a)} fundamentals &rarr;</a> &middot; <a href="/stocks/${esc(b)}">${esc(b)} fundamentals &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p>
+  <div class="seo-section"><h2>Keep exploring</h2>
+    <div class="seo-links">${screensHtml}</div>
+    <p style="margin-top:10px"><a href="/stocks/${esc(a)}">${esc(a)} fundamentals &rarr;</a> &middot; <a href="/stocks/${esc(b)}">${esc(b)} fundamentals &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p>
   </div>
 </main>` + footer() };
 }

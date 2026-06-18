@@ -519,6 +519,15 @@
         $('checks-section').hidden = false;
     }
 
+    // Defensive: strip any leaked model self-correction from cached diffs so it
+    // never renders (the backend now cleans new diffs at the source).
+    const stripReasoning = (s) => {
+        let w = String(s || '').trim();
+        const m = w.search(/\b(wait,|actually[,:]?\s*(the\s+)?calculation|need to recalc(ulate)?|let me\s+(recalc|recompute|re-?check|reconsider)|recalculate\b|hmm,)/i);
+        if (m === 0) return '';
+        if (m > 0) w = w.slice(0, m).trim().replace(/[\s,;:?(]+$/, '');
+        return w;
+    };
     // ---------- ③a filing diff: what changed vs the prior filing (Pro) ----------
     async function loadFilingDiff() {
         const sec = $('filing-diff'); const body = $('fdiff-body'); const rule = $('fdiff-rule');
@@ -540,7 +549,9 @@
             body.innerHTML = `
               <p style="font-size:15px; max-width:74ch; margin:0 0 14px;"><strong>${esc(d.headline)}</strong> ${toneChip}</p>
               <div style="display:grid; gap:10px;">
-                ${(d.changes || []).map((c) => `
+                ${(d.changes || []).map((c) => ({ area: c.area, what: stripReasoning(c.what), quote: c.quote }))
+                  .filter((c) => c.area && c.what && c.what.length >= 12)
+                  .map((c) => `
                   <div class="notice">
                     <strong>${esc(c.area)}</strong> — ${esc(c.what)}
                     ${c.quote ? `<br /><span class="small muted">“${esc(c.quote)}”</span>` : ''}

@@ -72,8 +72,22 @@ const DIFF_SYSTEM = [
     'Schema: {"headline": str, "changes": [{"area": str, "what": str, "quote": str|null}], "tone": "improving"|"stable"|"deteriorating"|null}',
     '"headline" is one sentence: the single most decision-relevant change (or "Little changed" if true). Each "changes" item: "area" is a short label (Guidance, Risk factors, Demand, Margins, Liquidity, Legal, Segments...), "what" is 1-2 factual sentences on what changed NEW vs PRIOR, "quote" is a short verbatim phrase from the NEW filing when one exists.',
     'STRICT GROUNDING: only report differences observable between the two supplied texts. Both are excerpts — if something is absent from the excerpts, do not speculate about it. Never use outside knowledge, never estimate numbers not present. 3-7 changes; fewer if little changed.',
+    'Each "what" is a finished statement only — never show your working, scratch arithmetic, or self-correction (no "Wait", "let me recalculate", "actually the calculation…"). Do not recompute figures; report only what the two texts state.',
     'No investment advice, no buy/sell language — describe, never recommend.'
 ].join('\n');
+
+// Defence in depth: the diff model (temp 0, JSON) occasionally spills self-
+// correction / scratch arithmetic into a "what" field ("…40.7%? Actually
+// calculation… Wait, need to recalc…"). Trim at the first such tell and drop the
+// change if nothing useful survives, so reasoning never reaches the page.
+const REASONING_TELL = /\b(wait,|actually[,:]?\s*(the\s+)?calculation|need to recalc(ulate)?|let me\s+(recalc|recompute|re-?check|reconsider)|recalculate\b|hmm,)/i;
+function cleanWhat(s) {
+    let what = String(s || '').trim();
+    const m = what.search(REASONING_TELL);
+    if (m === 0) return '';
+    if (m > 0) what = what.slice(0, m).trim().replace(/[\s,;:?(]+$/, '');
+    return what;
+}
 
 async function computeFilingDiff(symbol) {
     const sym = String(symbol || '').toUpperCase().trim();
@@ -123,9 +137,9 @@ async function computeFilingDiff(symbol) {
         tone: ['improving', 'stable', 'deteriorating'].includes(parsed.tone) ? parsed.tone : null,
         changes: parsed.changes.slice(0, 8).map((c) => ({
             area: String(c.area || '').slice(0, 60),
-            what: String(c.what || '').slice(0, 500),
+            what: cleanWhat(c.what).slice(0, 500),
             quote: c.quote ? String(c.quote).slice(0, 280) : null
-        })).filter((c) => c.area && c.what),
+        })).filter((c) => c.area && c.what && c.what.length >= 12),
         latest: { form: latest.form, date: latest.date, url: latest.url },
         prev: { form: prev.form, date: prev.date, url: prev.url },
         note: 'Compared from narrative excerpts (outlook, risks, MD&A) of both filings — quotes are verbatim from the new filing. Not advice.',
