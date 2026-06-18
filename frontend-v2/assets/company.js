@@ -958,8 +958,14 @@
             menu.hidden = false;
             btn.setAttribute('aria-expanded', 'true');
             // Wide popovers are fixed + right-anchored to the viewport; pin their
-            // top to the button so they drop directly beneath it.
-            if (menu.classList.contains('opts-wide')) menu.style.top = (btn.getBoundingClientRect().bottom + 6) + 'px';
+            // top to the button so they drop directly beneath it, and clamp the
+            // height to the space actually left below — otherwise a tall menu
+            // (e.g. Documents on mobile) runs off the bottom of the screen.
+            if (menu.classList.contains('opts-wide')) {
+                const top = btn.getBoundingClientRect().bottom + 6;
+                menu.style.top = top + 'px';
+                menu.style.maxHeight = Math.min(window.innerHeight * 0.7, window.innerHeight - top - 16) + 'px';
+            }
         };
         btn.addEventListener('click', (e) => { e.stopPropagation(); menu.hidden ? open() : close(); });
         document.addEventListener('click', (e) => { if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) close(); });
@@ -1266,19 +1272,27 @@
             const linkChip = (f) => `<a href="${esc(f.url)}" target="_blank" rel="noopener" class="doc-chip num">${esc(f.date)} ↗</a>`;
             const primary = cols.find(([k]) => k === 'annual') || cols[0];
             const rest = cols.filter((c) => c !== primary);
-            $('docs-grid').innerHTML = `
-              <p class="title-3" style="margin:0 0 2px;">${primary[1]}</p>
-              <p class="faint" style="font-size:11px; margin:0 0 12px;">${primary[2]}</p>
-              <div class="doc-chips">${cats[primary[0]].map(linkChip).join('')}</div>`;
-            if (rest.length) {
-                $('docs-rest').innerHTML = rest.map(([k, title, sub]) => `
-                  <div class="card">
+            const docCard = ([k, title, sub]) => `
+                  <div class="card card-pad">
                     <p class="label" style="margin:0 0 8px;">${title} <span class="faint" style="font-weight:400; text-transform:none; letter-spacing:0;">· ${sub}</span></p>
                     <div class="doc-chips">${cats[k].map(linkChip).join('')}</div>
-                  </div>`).join('');
-                $('docs-opts').hidden = false;
-            } else {
+                  </div>`;
+            // Desktop has room for everything inline — no Options popover. Mobile
+            // keeps Annual inline and tucks the rest under Options.
+            if (window.innerWidth > 640) {
+                $('docs-grid').innerHTML = `<div class="docs-cols">${cols.map(docCard).join('')}</div>`;
                 $('docs-opts').hidden = true;
+            } else {
+                $('docs-grid').innerHTML = `
+                  <p class="title-3" style="margin:0 0 2px;">${primary[1]}</p>
+                  <p class="faint" style="font-size:11px; margin:0 0 12px;">${primary[2]}</p>
+                  <div class="doc-chips">${cats[primary[0]].map(linkChip).join('')}</div>`;
+                if (rest.length) {
+                    $('docs-rest').innerHTML = rest.map(docCard).join('');
+                    $('docs-opts').hidden = false;
+                } else {
+                    $('docs-opts').hidden = true;
+                }
             }
             $('docs-section').hidden = false;
         } catch (_) { /* enrichment */ }

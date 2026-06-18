@@ -679,6 +679,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .notice-pos { border-left-color: var(--pos); }
 
 /* ---------- Document filing links ---------- */
+.docs-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
 .doc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .doc-chip {
   display: inline-flex; align-items: center; gap: 4px;
