@@ -12,12 +12,29 @@
   <meta property="og:description" content="An instant, cited read on what materially changed in any company's latest SEC filing — numbers and narrative, ranked by materiality." />
   <meta property="og:url" content="https://www.stockportfolio.pro/monitor" />
   <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
+  <meta property="og:video" content="https://www.stockportfolio.pro/assets/monitor-1080p.mp4" />
+  <meta property="og:video:type" content="video/mp4" />
+  <meta property="og:video:width" content="1920" />
+  <meta property="og:video:height" content="1080" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
   <link rel="stylesheet" href="assets/system.css?v=20260615-7" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "VideoObject",
+    "name": "Filing Change Monitor — what changed in the latest SEC filing",
+    "description": "A walkthrough of the stockportfolio.pro Filing Change Monitor: enter any US ticker and get an instant, cited read on its newest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality.",
+    "thumbnailUrl": "https://www.stockportfolio.pro/assets/monitor-poster.jpg",
+    "uploadDate": "2026-06-18T12:00:00+00:00",
+    "duration": "PT18S",
+    "contentUrl": "https://www.stockportfolio.pro/assets/monitor-1080p.mp4",
+    "embedUrl": "https://www.stockportfolio.pro/monitor"
+  }
+  </script>
   <style>
     .mon-hero { max-width: 720px; margin: 8px auto 0; text-align: center; }
     .mon-hero .label { display: inline-block; }
@@ -86,6 +103,21 @@
         <p class="small faint" style="margin-top:10px;"><strong>Free for 3 stocks, no login</strong> — re-runs of a stock you’ve opened stay free · SEC-filed companies only · grounded in the filings, not investment advice</p>
       </section>
 
+      <!-- Feature demo video — indexable (VideoObject in <head> + video sitemap). -->
+      <section style="max-width:880px; margin:30px auto 0;">
+        <div style="position:relative; width:100%; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
+          <video controls preload="none" playsinline poster="/assets/monitor-poster.jpg"
+                 width="1280" height="720" style="width:100%; height:100%; display:block; background:#000;"
+                 aria-label="Filing Change Monitor — what changed in NVIDIA's latest 10-Q">
+            <source src="/assets/monitor-1080p.mp4" type="video/mp4" />
+            <source src="/assets/monitor-720p.mp4" type="video/mp4" />
+            Your browser doesn&rsquo;t support embedded video.
+            <a href="/assets/monitor-1080p.mp4">Download the demo (MP4)</a>.
+          </video>
+        </div>
+        <p class="small faint" style="text-align:center; margin:10px auto 0;">See it in action — the Monitor reads NVIDIA&rsquo;s latest 10-Q and surfaces the numbers that moved and the language that changed, each cited from the filing.</p>
+      </section>
+
       <section style="margin-top:28px;">
         <div id="mon-report" hidden></div>
       </section>
@@ -105,6 +137,6 @@
     V2.nav('monitor');
     V2.footer();
   </script>
-  <script src="assets/monitor.js?v=20260615-5"></script>
+  <script src="assets/monitor.js?v=20260618-1"></script>
 </body>
 </html>
