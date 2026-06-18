@@ -154,19 +154,19 @@ const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRE
 const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
 const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '190.00');
 // Premium annual tiers for the Filing Monitor launch — both unlock the full
-// Pro feature set; differ only by price/positioning/support. USD, billed yearly.
+// Pro feature set; differ only by price/positioning/support. GBP, billed yearly.
 const POWER_PLAN_ID = 'power';
 const DESK_PLAN_ID = 'desk';
-const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '590.00');
-const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
+const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '440.00');
+const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'GBP';
 // Power, billed monthly — same access as annual Power, lower activation friction
-// for pros who won't commit $590 upfront. $69/mo ≈ $828/yr, so annual is a clear
-// 29% saving (anchored to BamSEC's $69/mo). Same Monitor unlock as annual Power.
+// for pros who won't commit £440 upfront. £49/mo ≈ £588/yr, so annual is a clear
+// 25% saving. Same Monitor unlock as annual Power.
 const POWER_MONTHLY_PLAN_ID = 'power-monthly';
-const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '69.00');
-const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
-const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1990.00');
-const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
+const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '49.00');
+const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'GBP';
+const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1490.00');
+const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'GBP';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
@@ -3343,7 +3343,8 @@ app.get(/^\/register\/?$/, (req, res) => {
 });
 
 app.get(/^\/founding\/?$/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/founding.html'));
+    // Legacy founding page showed stale £90/£9 pricing — canonical funnel is v2 at /.
+    res.redirect(301, '/');
 });
 
 app.get(/^\/privacy\/?$/, (req, res) => {

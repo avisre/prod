@@ -200,7 +200,10 @@
                 ? `${rows.length} holdings · demo data, read-only`
                 : `${rows.length} holdings · stored prices refresh through the day`;
             if (!rows.length) {
-                $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">No holdings yet — add your first above.</td></tr>';
+                $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">'
+                    + 'No holdings yet — add your first above (try <strong>AAPL</strong>, <strong>MSFT</strong> or <strong>NVDA</strong>).'
+                    + '<br><span class="small">Then put it to work: see what just changed in its filings with the <a href="/monitor.html">Filing Monitor</a>, or <a href="/ask.html">ask the AI analyst</a> about it.</span>'
+                    + '</td></tr>';
                 return;
             }
             $('holdings-body').innerHTML = rows.map((r2) => `
