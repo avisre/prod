@@ -365,8 +365,19 @@
                 <rect y="0" width="20" height="2" rx="1"/><rect y="6.5" width="20" height="2" rx="1"/><rect y="13" width="20" height="2" rx="1"/>
               </svg>
             </button>
-          </div>
-          <div class="nav-mobile" id="v2-mobile-nav" aria-hidden="true">
+          </div>`;
+        document.body.prepend(el);
+
+        // Mobile drawer is appended to <body>, NOT nested in <header class="nav">.
+        // The header sets `backdrop-filter: blur(...)`, which makes it the containing
+        // block for any position:fixed descendant — that was clipping this overlay to
+        // the ~60px header height and hiding every menu option. At <body> level, the
+        // fixed overlay resolves against the viewport, so the drawer is full-height.
+        const mob = document.createElement('div');
+        mob.className = 'nav-mobile';
+        mob.id = 'v2-mobile-nav';
+        mob.setAttribute('aria-hidden', 'true');
+        mob.innerHTML = `
             <div class="nav-mobile-dim" id="v2-mobile-dim"></div>
             <div class="nav-mobile-panel" role="dialog" aria-label="Navigation">
               <div class="nav-mobile-top">
@@ -389,15 +400,14 @@
                     : `<a class="btn btn-ghost" href="/login.html">Log in</a>
                        <a class="btn btn-primary" href="/register.html">Start free trial</a>`}
               </div>
-            </div>
-          </div>`;
-        document.body.prepend(el);
+            </div>`;
+        document.body.appendChild(mob);
 
         // Mobile nav open/close
         const ham = el.querySelector('#v2-ham');
-        const mobileNav = el.querySelector('#v2-mobile-nav');
-        const dim = el.querySelector('#v2-mobile-dim');
-        const closeBtn = el.querySelector('#v2-mobile-close');
+        const mobileNav = mob;
+        const dim = mob.querySelector('#v2-mobile-dim');
+        const closeBtn = mob.querySelector('#v2-mobile-close');
         function openMenu() {
             mobileNav.setAttribute('aria-hidden', 'false');
             ham.setAttribute('aria-expanded', 'true');
@@ -417,7 +427,7 @@
 
         const out = el.querySelector('#v2-signout');
         if (out) out.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); location.reload(); });
-        const mobileOut = el.querySelector('#v2-mobile-signout');
+        const mobileOut = mob.querySelector('#v2-mobile-signout');
         if (mobileOut) mobileOut.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); location.reload(); });
 
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
