@@ -518,48 +518,7 @@
           </div>`).join('');
         $('checks-section').hidden = false;
     }
-
-    // Defensive: strip any leaked model self-correction from cached diffs so it
-    // never renders (the backend now cleans new diffs at the source).
-    const stripReasoning = (s) => {
-        let w = String(s || '').trim();
-        const m = w.search(/\b(wait,|actually[,:]?\s*(the\s+)?calculation|need to recalc(ulate)?|let me\s+(recalc|recompute|re-?check|reconsider)|recalculate\b|hmm,)/i);
-        if (m === 0) return '';
-        if (m > 0) w = w.slice(0, m).trim().replace(/[\s,;:?(]+$/, '');
-        return w;
-    };
-    // ---------- ③a filing diff: what changed vs the prior filing (Pro) ----------
-    async function loadFilingDiff() {
-        const sec = $('filing-diff'); const body = $('fdiff-body'); const rule = $('fdiff-rule');
-        sec.hidden = false; rule.hidden = false;
-        body.innerHTML = '<p class="loading-line"><span class="spin" aria-hidden="true"></span>Comparing the two most recent filings… (first visit reads both documents — ~30-60s)</p>';
-        try {
-            const r = await fetch(`${API}/company/${encodeURIComponent(symbol)}/filing-diff`,
-                { headers: { Authorization: `Bearer ${token()}` } });
-            if (r.status === 401 || r.status === 402) {
-                body.innerHTML = `<p class="small muted" style="max-width:64ch;">What changed in the newest 10-K/10-Q versus the one before it — guidance language, risk factors, demand commentary, quoted from the filings. A Pro feature: <a href="/register.html?plan=pro">start a Pro trial</a>.</p>`;
-                return;
-            }
-            if (!r.ok) { sec.hidden = true; rule.hidden = true; return; }
-            const d = await r.json();
-            const toneChip = d.tone
-                ? `<span class="chip" style="${d.tone === 'deteriorating' ? 'color:var(--neg);' : d.tone === 'improving' ? 'color:var(--pos);' : ''}">${esc(d.tone)}</span>`
-                : '';
-            $('fdiff-sub').textContent = `${d.latest.form} filed ${d.latest.date} vs ${d.prev.form} filed ${d.prev.date}`;
-            body.innerHTML = `
-              <p style="font-size:15px; max-width:74ch; margin:0 0 14px;"><strong>${esc(d.headline)}</strong> ${toneChip}</p>
-              <div style="display:grid; gap:10px;">
-                ${(d.changes || []).map((c) => ({ area: c.area, what: stripReasoning(c.what), quote: c.quote }))
-                  .filter((c) => c.area && c.what && c.what.length >= 12)
-                  .map((c) => `
-                  <div class="notice">
-                    <strong>${esc(c.area)}</strong> — ${esc(c.what)}
-                    ${c.quote ? `<br /><span class="small muted">“${esc(c.quote)}”</span>` : ''}
-                  </div>`).join('')}
-              </div>
-              <p class="provenance" style="margin-top:12px;">${esc(d.note || '')} <a href="${esc(d.latest.url)}" rel="noopener" target="_blank">New filing</a> · <a href="${esc(d.prev.url)}" rel="noopener" target="_blank">Prior filing</a></p>`;
-        } catch (_) { sec.hidden = true; rule.hidden = true; }
-    }
+    // Filing diff ("What changed") moved to the Filing Monitor page — removed here.
 
     // ---------- ③b what's priced in (reverse DCF) ----------
     const bn = (v) => (v === null || v === undefined) ? '—'
@@ -597,7 +556,7 @@
                 </div>
                 <div class="card card-pad">
                   <p class="label" style="margin-bottom:6px;">The filed record</p>
-                  <table class="table-data" style="font-size:13px;">
+                  <table class="table-data rdcf-rec" style="font-size:13px;">
                     <tr><td>FCF growth, 5 yrs</td><td class="num">${gp(rec.fcfCagr5Pct)}</td></tr>
                     <tr><td>FCF growth, 10 yrs</td><td class="num">${gp(rec.fcfCagr10Pct)}</td></tr>
                     <tr><td>Revenue growth, 5 yrs</td><td class="num">${gp(rec.revCagr5Pct)}</td></tr>
@@ -648,7 +607,7 @@
             const rows = [self].concat(all.filter((x) => x.symbol !== symbol).slice(0, 7)).filter(Boolean);
             const cell = (v, f, colored) => v === null || v === undefined ? '—'
                 : `<span class="${colored && v !== 0 ? (v > 0 ? 'delta-pos' : 'delta-neg') : ''}">${f(v)}</span>`;
-            let html = `<thead><tr><th class="row-head" style="text-align:left;">Company</th><th>Mkt cap</th><th>P/E</th><th>Rev CAGR 5y</th><th>Net margin</th><th>ROE</th><th>Div yield</th><th>Profit yrs/10</th></tr></thead><tbody>`;
+            let html = `<thead><tr><th class="row-head" style="text-align:left;">Company</th><th>Mkt cap</th><th>P/E</th><th>Rev CAGR 5y</th><th>Profit growth YoY</th><th>Net margin</th><th>ROE</th><th>Div yield</th><th>Profit yrs/10</th></tr></thead><tbody>`;
             for (const x of rows) {
                 const hl = x.symbol === symbol;
                 html += `<tr data-sym="${esc(x.symbol)}" style="${hl ? 'font-weight:650;' : ''}">
@@ -656,6 +615,7 @@
                   <td data-label="Mkt cap">${x.marketCapB === null ? '—' : '$' + money(x.marketCapB * 1e9)}</td>
                   <td data-label="P/E">${fixed(x.pe, 1)}</td>
                   <td data-label="Rev CAGR 5y">${cell(x.revCagr5Pct, (v) => pct(v), true)}</td>
+                  <td data-label="Profit growth YoY">${cell(x.qtrNetIncomeYoYPct, (v) => pct(v), true)}</td>
                   <td data-label="Net margin">${cell(x.netMarginPct, (v) => pct(v))}</td>
                   <td data-label="ROE">${cell(x.roePct, (v) => pct(v))}</td>
                   <td data-label="Div yield">${x.divYieldPct === null ? '—' : pct(x.divYieldPct, 2)}</td>
@@ -666,6 +626,7 @@
               <td class="muted" data-label="Mkt cap">${med('marketCapB') === null ? '—' : '$' + money(med('marketCapB') * 1e9)}</td>
               <td class="muted" data-label="P/E">${fixed(med('pe'), 1)}</td>
               <td class="muted" data-label="Rev CAGR 5y">${pct(med('revCagr5Pct'))}</td>
+              <td class="muted" data-label="Profit growth YoY">${pct(med('qtrNetIncomeYoYPct'))}</td>
               <td class="muted" data-label="Net margin">${pct(med('netMarginPct'))}</td>
               <td class="muted" data-label="ROE">${pct(med('roePct'))}</td>
               <td class="muted" data-label="Div yield">${med('divYieldPct') === null ? '—' : pct(med('divYieldPct'), 2)}</td>
@@ -673,9 +634,18 @@
             const table = $('peers-table');
             table.innerHTML = html;
             $('peers-sub').textContent = sector.toLowerCase() + ' · median of ' + all.length;
+            // Navigate on a genuine TAP only. A horizontal swipe to scroll the
+            // table used to register as a click and yank you to another company,
+            // which made the table feel like it couldn't be scrolled on a phone.
+            let pStart = null;
+            table.addEventListener('pointerdown', (e) => { pStart = { x: e.clientX, y: e.clientY }; });
             table.querySelectorAll('tr[data-sym]').forEach((tr) =>
-                tr.addEventListener('click', () => { if (tr.dataset.sym !== symbol) location.href = `/company.html?symbol=${tr.dataset.sym}`; }));
+                tr.addEventListener('click', (e) => {
+                    if (pStart && (Math.abs(e.clientX - pStart.x) > 8 || Math.abs(e.clientY - pStart.y) > 8)) return;
+                    if (tr.dataset.sym !== symbol) location.href = `/company.html?symbol=${tr.dataset.sym}`;
+                }));
             $('peers-section').hidden = false;
+            attachHScroll(table.closest('.table-wrap'));
         } catch (_) { /* enrichment */ }
     }
 
@@ -708,6 +678,7 @@
                 html += `<tr><td class="row-head">${m.label}</td><td>${a}</td><td>${b}</td></tr>`;
             }
             $('cmp-table').innerHTML = html + '</tbody>';
+            attachHScroll($('cmp-table').closest('.table-wrap'));
             const s1 = monthlySeries(payload); const s2 = monthlySeries(p2);
             const start = [s1[0], s2[0]].map((p) => p && p.month).sort().pop();
             const w1 = s1.filter((p) => p.month >= start).slice(-120);
@@ -887,20 +858,77 @@
         const top = $('stmt-scroll-top');
         top.firstElementChild.style.width = wrap.scrollWidth + 'px';
         top.scrollLeft = wrap.scrollLeft;
+        attachHScroll(wrap);
         // row-click charts deliberately off on statements (user call — later)
+    }
+    // A visible, draggable horizontal scrollbar for any wide .table-wrap. Native
+    // scrollbars are invisible/undraggable on phones, so this thumb (click + drag,
+    // both directions) gives an explicit affordance on every device. Idempotent:
+    // the wrap persists across re-renders, so re-calling just recomputes the thumb.
+    function updateHbar(wrap) {
+        const bar = wrap.__hbar; if (!bar) return;
+        const thumb = bar.firstElementChild;
+        const sw = wrap.scrollWidth, cw = wrap.clientWidth, max = sw - cw;
+        if (max <= 2) { bar.classList.remove('on'); return; }
+        bar.classList.add('on');
+        const bw = bar.clientWidth;
+        const tw = Math.max((cw / sw) * bw, 36);
+        thumb.style.width = tw + 'px';
+        const trackW = bw - tw;
+        thumb.style.transform = 'translateX(' + (max > 0 ? (wrap.scrollLeft / max) * trackW : 0) + 'px)';
+    }
+    function attachHScroll(wrap) {
+        if (!wrap) return;
+        if (wrap.__hbar) { updateHbar(wrap); return; }
+        const bar = document.createElement('div'); bar.className = 'hbar';
+        const thumb = document.createElement('div'); thumb.className = 'hbar-thumb';
+        bar.appendChild(thumb);
+        wrap.insertAdjacentElement('beforebegin', bar);
+        wrap.classList.add('has-hbar');
+        wrap.__hbar = bar;
+        let drag = null;
+        thumb.addEventListener('pointerdown', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            drag = { x: e.clientX, left: wrap.scrollLeft };
+            thumb.classList.add('grabbing');
+            try { thumb.setPointerCapture(e.pointerId); } catch (_) { /* ignore */ }
+        });
+        thumb.addEventListener('pointermove', (e) => {
+            if (!drag) return;
+            const trackW = bar.clientWidth - thumb.offsetWidth;
+            const max = wrap.scrollWidth - wrap.clientWidth;
+            wrap.scrollLeft = drag.left + (e.clientX - drag.x) * (trackW > 0 ? max / trackW : 0);
+        });
+        const end = () => { drag = null; thumb.classList.remove('grabbing'); };
+        thumb.addEventListener('pointerup', end);
+        thumb.addEventListener('pointercancel', end);
+        bar.addEventListener('pointerdown', (e) => {
+            if (e.target === thumb) return;
+            const r = bar.getBoundingClientRect();
+            wrap.scrollLeft = ((e.clientX - r.left) / r.width) * (wrap.scrollWidth - wrap.clientWidth);
+        });
+        wrap.addEventListener('scroll', () => updateHbar(wrap));
+        if (!attachHScroll._resize) {
+            attachHScroll._resize = true;
+            window.addEventListener('resize', () => document.querySelectorAll('.table-wrap.has-hbar').forEach(updateHbar));
+        }
+        updateHbar(wrap);
     }
     (function wireTopScroll() {
         const top = $('stmt-scroll-top');
         const wrap = $('stmt-wrap');
         top.addEventListener('scroll', () => { if (wrap.scrollLeft !== top.scrollLeft) wrap.scrollLeft = top.scrollLeft; });
         wrap.addEventListener('scroll', () => { if (top.scrollLeft !== wrap.scrollLeft) top.scrollLeft = wrap.scrollLeft; });
-        // grab-and-drag panning: press anywhere on the table and pull
-        // left/right; a real drag suppresses the click that would follow
+        // grab-and-drag panning for MOUSE only: press anywhere on the table and
+        // pull left/right; a real drag suppresses the click that would follow.
+        // On touch we must NOT hijack the gesture — manually setting scrollLeft
+        // without preventDefault fights the native pan and the table feels stuck,
+        // so touch falls through to the browser's own horizontal scrolling.
         let down = null;
         let dragged = false;
-        wrap.style.cursor = 'grab';
         wrap.addEventListener('pointerdown', (e) => {
-            if (e.button !== 0 || e.target.closest('button, a')) return;
+            if (e.pointerType !== 'mouse' || e.button !== 0 || e.target.closest('button, a')) return;
+            wrap.style.cursor = 'grab';
             down = { x: e.clientX, left: wrap.scrollLeft };
             dragged = false;
         });
@@ -918,6 +946,28 @@
         wrap.addEventListener('pointerleave', release);
         wrap.addEventListener('click', (e) => { if (dragged) { e.stopPropagation(); e.preventDefault(); dragged = false; } }, true);
     })();
+    // Shared "Options"-style popover: a button toggles an anchored menu, closed
+    // by tapping outside or Esc. Used for the statement controls AND the
+    // Growth & returns groups, so both behave identically.
+    function wirePopover(btnId, menuId) {
+        const btn = $(btnId);
+        const menu = $(menuId);
+        if (!btn || !menu) return;
+        const close = () => { menu.hidden = true; btn.setAttribute('aria-expanded', 'false'); };
+        const open = () => {
+            menu.hidden = false;
+            btn.setAttribute('aria-expanded', 'true');
+            // Wide popovers are fixed + right-anchored to the viewport; pin their
+            // top to the button so they drop directly beneath it.
+            if (menu.classList.contains('opts-wide')) menu.style.top = (btn.getBoundingClientRect().bottom + 6) + 'px';
+        };
+        btn.addEventListener('click', (e) => { e.stopPropagation(); menu.hidden ? open() : close(); });
+        document.addEventListener('click', (e) => { if (!menu.hidden && !menu.contains(e.target) && !btn.contains(e.target)) close(); });
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) close(); });
+    }
+    wirePopover('stmt-opts-btn', 'stmt-opts-menu');
+    wirePopover('cagr-opts-btn', 'cagr-opts-menu');
+    wirePopover('docs-opts-btn', 'docs-opts-menu');
     function wireExpand(table, render) {
         table.querySelectorAll('tr.row-data').forEach((tr) => {
             tr.style.cursor = 'pointer';
@@ -962,7 +1012,7 @@
             { title: 'Stock price CAGR', rows: [10, 5, 3, 1].map((h) => [`${h} yr${h > 1 ? 's' : ''}`, stockCagr(h)]) },
             { title: 'Return on equity', rows: horizons.map((h) => [`${h}-yr avg`, avg(roes, h) === null ? null : avg(roes, h) * 100]).concat([['Latest', roes[roes.length - 1] === null ? null : roes[roes.length - 1] * 100]]) }
         ];
-        $('cagr-cards').innerHTML = cards.map((c) => `
+        const cardHtml = (c) => `
           <div class="card card-pad">
             <p class="label" style="margin-bottom:10px;">${c.title}</p>
             <div style="display:grid; gap:6px;">
@@ -975,7 +1025,13 @@
                 </div>`;
               }).join('')}
             </div>
-          </div>`).join('');
+          </div>`;
+        // Growth (sales + profit) shown inline; the rest (stock CAGR, ROE) tuck
+        // under Options — same primary-visible / secondary-in-menu split as the
+        // financial statements above.
+        $('cagr-cards-main').innerHTML = cards.slice(0, 2).map(cardHtml).join('');
+        $('cagr-cards-rest').innerHTML = cards.slice(2).map(cardHtml).join('');
+        $('cagr-collapse').hidden = false;
     }
 
     // ---------- ⑥ ratios ----------
@@ -1012,6 +1068,7 @@
         }
         table.innerHTML = html + '</tbody>';
         wireExpand(table, render);
+        attachHScroll(table.closest('.table-wrap'));
     }
 
     // ---------- ⑦ ownership / ⑧ documents ----------
@@ -1036,6 +1093,7 @@
                       <td data-label="Value">${t.value === null ? '—' : '$' + money(t.value)}</td>
                       <td class="muted" data-label="Reported">${esc(t.reportDate || '—')}</td>
                     </tr>`).join('') + '</tbody>';
+                attachHScroll($('own-table').closest('.table-wrap'));
             }
             renderInsiders(o);
             renderInsiderHistory(o);
@@ -1146,6 +1204,7 @@
                 }).join('') + '</tr>';
         }
         $('insider-hist-table').innerHTML = html + '</tbody>';
+        attachHScroll($('insider-hist-table').closest('.table-wrap'));
         $('insider-hist-prov').innerHTML = (lock
             ? '🔒 The most recent period is part of Pro — <a href="/register.html?plan=pro">upgrade</a> to see what insiders did latest. '
             : '') + (form4Meta || 'Aggregated from Form 4 filings, as far back as the transactions feed reaches.');
@@ -1184,6 +1243,7 @@
                 <td class="muted" data-label="Date">${esc(t.date || '—')}</td>
               </tr>`).join('') + '</tbody>'
             : '<tbody><tr><td class="faint" style="text-align:center; padding:20px;">None in the recent filings.</td></tr></tbody>';
+        attachHScroll($('insider-table').closest('.table-wrap'));
     }
     async function renderDocs() {
         try {
@@ -1200,18 +1260,26 @@
             ];
             const cols = COLS.filter(([k]) => (cats[k] || []).length);
             if (!cols.length) return;
-            $('docs-grid').innerHTML = cols.map(([k, title, sub]) => `
-              <div class="card" style="overflow:hidden;">
-                <div style="padding:12px 16px 8px; border-bottom:1px solid var(--line);">
-                  <p class="title-3" style="margin:0;">${title}</p>
-                  <p class="faint" style="font-size:11px; margin:2px 0 0;">${sub}</p>
-                </div>
-                ${cats[k].map((f) => `
-                  <a href="${esc(f.url)}" target="_blank" rel="noopener"
-                     style="display:flex; justify-content:space-between; gap:10px; padding:9px 16px; border-bottom:1px solid var(--line); color:var(--ink); font-size:12.5px;">
-                    <span class="num">${esc(f.date)}</span><span class="muted">↗</span>
-                  </a>`).join('')}
-              </div>`).join('');
+            // Same split as the financial statements: the primary thing (Annual
+            // reports / 10-K — what people come for) is shown inline; the rest
+            // (10-Q / 8-K / Form 4 / proxy) sit under the Options menu.
+            const linkChip = (f) => `<a href="${esc(f.url)}" target="_blank" rel="noopener" class="doc-chip num">${esc(f.date)} ↗</a>`;
+            const primary = cols.find(([k]) => k === 'annual') || cols[0];
+            const rest = cols.filter((c) => c !== primary);
+            $('docs-grid').innerHTML = `
+              <p class="title-3" style="margin:0 0 2px;">${primary[1]}</p>
+              <p class="faint" style="font-size:11px; margin:0 0 12px;">${primary[2]}</p>
+              <div class="doc-chips">${cats[primary[0]].map(linkChip).join('')}</div>`;
+            if (rest.length) {
+                $('docs-rest').innerHTML = rest.map(([k, title, sub]) => `
+                  <div class="card">
+                    <p class="label" style="margin:0 0 8px;">${title} <span class="faint" style="font-weight:400; text-transform:none; letter-spacing:0;">· ${sub}</span></p>
+                    <div class="doc-chips">${cats[k].map(linkChip).join('')}</div>
+                  </div>`).join('');
+                $('docs-opts').hidden = false;
+            } else {
+                $('docs-opts').hidden = true;
+            }
             $('docs-section').hidden = false;
         } catch (_) { /* enrichment */ }
     }
@@ -1372,7 +1440,6 @@
             renderRatios();
             renderPeers();
             loadReverseDcf();
-            loadFilingDiff();
             renderOwnership();
             renderDocs();
             wireDrawer();

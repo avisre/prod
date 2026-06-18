@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260615-7" />
+  <link rel="stylesheet" href="assets/system.css?v=20260618-3" />
 </head>
 <body>
   <main>
@@ -91,16 +91,6 @@
 
       <hr class="section-rule" />
 
-      <!-- ③a Filing Diff — what changed vs the prior filing (Pro) -->
-      <section id="filing-diff" hidden>
-        <div class="section-head" style="margin-bottom:12px;">
-          <h2 class="title-2">What changed</h2>
-          <span class="small faint" id="fdiff-sub">newest 10-K/10-Q vs the one before it</span>
-        </div>
-        <div id="fdiff-body"></div>
-      </section>
-
-      <hr class="section-rule" id="fdiff-rule" hidden />
 
       <!-- ④ Peers + compare -->
       <section id="peers-section" hidden>
@@ -114,7 +104,7 @@
             </div>
           </div>
         </div>
-        <div class="table-wrap cards-wrap"><table class="table-data table-clickable table-cards" id="peers-table"></table></div>
+        <div class="table-wrap"><table class="table-data table-clickable" id="peers-table"></table></div>
         <div id="cmp-body" hidden style="margin-top:16px;">
           <div class="table-wrap"><table class="table-data" id="cmp-table"></table></div>
           <div class="card card-pad" style="margin-top:16px;">
@@ -132,22 +122,36 @@
       <section>
         <div class="section-head">
           <h2 class="title-2">Financial statements</h2>
-          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
             <div class="seg" id="seg-statement" role="group" aria-label="Statement">
               <button aria-pressed="true" data-st="income">Income</button>
               <button aria-pressed="false" data-st="balance">Balance</button>
               <button aria-pressed="false" data-st="cash">Cash flow</button>
             </div>
-            <div class="seg" id="seg-basis" role="group" aria-label="Basis">
-              <button aria-pressed="true" data-basis="annual">Annual</button>
-              <button aria-pressed="false" data-basis="quarterly">Quarterly</button>
+            <div class="stmt-opts">
+              <button class="btn btn-ghost btn-sm" id="stmt-opts-btn" aria-expanded="false" aria-controls="stmt-opts-menu" aria-haspopup="true">
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" aria-hidden="true" style="vertical-align:-1px;">
+                  <path d="M1 3h13M1 9.5h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="5" cy="3" r="2" fill="var(--surface)" stroke="currentColor" stroke-width="1.6"/>
+                  <circle cx="10.5" cy="9.5" r="2" fill="var(--surface)" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+                Options
+              </button>
+              <div class="stmt-opts-menu" id="stmt-opts-menu" hidden role="dialog" aria-label="Statement options">
+                <p class="stmt-opts-label">Period</p>
+                <div class="seg" id="seg-basis" role="group" aria-label="Basis">
+                  <button aria-pressed="true" data-basis="annual">Annual</button>
+                  <button aria-pressed="false" data-basis="quarterly">Quarterly</button>
+                </div>
+                <p class="stmt-opts-label">Units</p>
+                <div class="seg" id="seg-view" role="group" aria-label="View">
+                  <button aria-pressed="true" data-view="usd">$</button>
+                  <button aria-pressed="false" data-view="yoy">Growth</button>
+                  <button aria-pressed="false" data-view="ps">Per share</button>
+                </div>
+                <button class="btn btn-ghost btn-sm" id="csv-btn" style="margin-top:12px; width:100%;">Download CSV</button>
+              </div>
             </div>
-            <div class="seg" id="seg-view" role="group" aria-label="View">
-              <button aria-pressed="true" data-view="usd">$</button>
-              <button aria-pressed="false" data-view="yoy">Growth</button>
-              <button aria-pressed="false" data-view="ps">Per share</button>
-            </div>
-            <button class="btn btn-ghost btn-sm" id="csv-btn" style="align-self:center;">CSV</button>
           </div>
         </div>
         <div class="scroll-top" id="stmt-scroll-top" aria-hidden="true"><div></div></div>
@@ -155,7 +159,25 @@
           <table class="table-data" id="stmt-table"></table>
         </div>
         <p class="provenance">All figures in USD from SEC filings (10-K/10-Q), as filed. Per-share figures and share counts adjusted to the current split basis. ▸ unfolds a total into its components.</p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px; margin-top:20px;" id="cagr-cards"></div>
+        <div id="cagr-collapse" hidden style="margin-top:24px;">
+          <div class="section-head" style="margin-bottom:12px;">
+            <h3 class="title-3" style="margin:0;">Growth &amp; returns</h3>
+            <div class="stmt-opts">
+              <button class="btn btn-ghost btn-sm" id="cagr-opts-btn" aria-expanded="false" aria-controls="cagr-opts-menu" aria-haspopup="true">
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" aria-hidden="true" style="vertical-align:-1px;">
+                  <path d="M1 3h13M1 9.5h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="5" cy="3" r="2" fill="var(--surface)" stroke="currentColor" stroke-width="1.6"/>
+                  <circle cx="10.5" cy="9.5" r="2" fill="var(--surface)" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+                Options
+              </button>
+              <div class="stmt-opts-menu opts-wide" id="cagr-opts-menu" hidden role="dialog" aria-label="More growth and returns">
+                <div id="cagr-cards-rest"></div>
+              </div>
+            </div>
+          </div>
+          <div id="cagr-cards-main" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px;"></div>
+        </div>
       </section>
 
       <hr class="section-rule" />
@@ -194,7 +216,7 @@
       <!-- ⑦ Ownership -->
       <section id="own-section" hidden>
         <div class="section-head"><h2 class="title-2">Ownership</h2><span class="small faint" id="own-strip" style="display:flex; gap:18px;"></span></div>
-        <div class="table-wrap cards-wrap"><table class="table-data table-cards" id="own-table"></table></div>
+        <div class="table-wrap"><table class="table-data" id="own-table"></table></div>
         <div id="insider-hist-block" hidden style="margin-top:24px;">
           <div class="section-head" style="margin-bottom:10px;">
             <h3 class="title-3">Insider activity over time</h3>
@@ -218,15 +240,33 @@
               </div>
             </div>
           </div>
-          <div class="table-wrap cards-wrap"><table class="table-data table-cards" id="insider-table"></table></div>
+          <div class="table-wrap"><table class="table-data" id="insider-table"></table></div>
         </div>
         <p class="provenance">Institutional holdings from 13F filings, insider trades from Form 4 filings — via market data providers. Percentages of shares outstanding.</p>
       </section>
 
       <!-- ⑧ Documents -->
       <section class="section" id="docs-section" hidden>
-        <div class="section-head"><h2 class="title-2">Documents</h2><span class="small faint">straight from SEC EDGAR</span></div>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:16px;" id="docs-grid"></div>
+        <div class="section-head">
+          <h2 class="title-2">Documents</h2>
+          <div style="display:flex; gap:14px; align-items:center;">
+            <span class="small faint">straight from SEC EDGAR</span>
+            <div class="stmt-opts" id="docs-opts" hidden>
+              <button class="btn btn-ghost btn-sm" id="docs-opts-btn" aria-expanded="false" aria-controls="docs-opts-menu" aria-haspopup="true">
+                <svg width="15" height="13" viewBox="0 0 15 13" fill="none" aria-hidden="true" style="vertical-align:-1px;">
+                  <path d="M1 3h13M1 9.5h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="5" cy="3" r="2" fill="var(--surface)" stroke="currentColor" stroke-width="1.6"/>
+                  <circle cx="10.5" cy="9.5" r="2" fill="var(--surface)" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+                Options
+              </button>
+              <div class="stmt-opts-menu opts-wide" id="docs-opts-menu" hidden role="dialog" aria-label="Other filings">
+                <div id="docs-rest"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="docs-grid"></div>
       </section>
 
     </div>
@@ -243,7 +283,7 @@
     <div id="seg-body"></div>
   </aside>
 
-  <script src="assets/app.js?v=20260618-1"></script>
-  <script src="assets/company.js?v=20260618-1"></script>
+  <script src="assets/app.js?v=20260618-3"></script>
+  <script src="assets/company.js?v=20260618-3"></script>
 </body>
 </html>

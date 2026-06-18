@@ -567,12 +567,12 @@ function buildSitemap() {
         + `      <video:title>Filing Change Monitor — what changed in the latest SEC filing</video:title>\n`
         + `      <video:description>See the Filing Change Monitor read a company's newest 10-K, 10-Q or 8-K and surface what materially changed — the year-over-year numbers and the guidance, risk and demand language that moved, each cited from the filing.</video:description>\n`
         + `      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n`
-        + `      <video:player_loc>${SITE}/monitor</video:player_loc>\n`
+        + `      <video:player_loc>${SITE}/tour</video:player_loc>\n`
         + `      <video:duration>18</video:duration>\n`
         + `    </video:video>`;
+    // both product videos now live on the consolidated /tour video page
     const body = urls.map((u) => {
-        const vid = u.loc === `${SITE}/tour` ? tourVideo
-            : u.loc === `${SITE}/monitor` ? monitorVideo : '';
+        const vid = u.loc === `${SITE}/tour` ? (tourVideo + monitorVideo) : '';
         return `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority>${vid}</url>`;
     }).join('\n');
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${body}\n</urlset>\n`;

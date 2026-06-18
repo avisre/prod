@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260615-7" />
+  <link rel="stylesheet" href="assets/system.css?v=20260618-3" />
   <style>
     .beta-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); vertical-align: middle; margin-left: 8px; }
     .dos-hero { max-width: 760px; margin: 8px auto 0; text-align: center; }
@@ -33,12 +33,20 @@
     .dos-bullbear { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
     @media (max-width: 620px) { .dos-bullbear { grid-template-columns: 1fr; } }
     .dos-case { border: 1px solid var(--line-strong); border-radius: var(--radius); padding: 14px 16px; }
-    .dos-case.bull { border-top: 3px solid var(--pos); }
-    .dos-case.bear { border-top: 3px solid var(--neg); }
+    /* Severity / direction colour on all edges (border only — no fill), instead
+       of a stripe on the top edge only. */
+    .dos-case.bull   { border-color: var(--pos); }
+    .dos-case.bear   { border-color: var(--neg); }
+    .dos-case--red   { border-color: var(--neg); }
+    .dos-case--green { border-color: var(--pos); }
+    .dos-case--blue  { border-color: var(--accent-ink); }
+    .dos-case--grey  { border-color: var(--ink-3); }
     .dos-case h3 { font-size: 14px; margin: 0 0 10px; }
     .dos-case li { margin: 0 0 10px; font-size: 13.5px; line-height: 1.6; }
     .dos-case .basis { color: var(--ink-3); font-size: 12px; }
-    .dos-keyfig { white-space: pre-wrap; font-size: 13px; line-height: 1.7; font-variant-numeric: tabular-nums; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm); padding: 14px 16px; overflow-x: auto; }
+    .dos-kf-intro { font-size: 13.5px; color: var(--ink-2); line-height: 1.6; margin: 0 0 14px; max-width: 80ch; }
+    .dos-kf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+    .dos-kf-val { margin: 0; font-size: 13px; line-height: 1.55; color: var(--ink-2); font-variant-numeric: tabular-nums; }
     .dos-checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px; }
     .dos-check { display: flex; gap: 8px; align-items: baseline; font-size: 13px; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-sm); }
     .dos-check .mk { font-weight: 800; }
@@ -83,8 +91,8 @@
       <div id="dos-report" class="dos-doc" hidden></div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260615-7"></script>
-  <script src="assets/dossier.js?v=20260618-1"></script>
+  <script src="assets/app.js?v=20260618-3"></script>
+  <script src="assets/dossier.js?v=20260618-3"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>

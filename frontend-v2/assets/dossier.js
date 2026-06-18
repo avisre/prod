@@ -4,9 +4,27 @@
 // it and returns {status:'building', stage} fast; we poll until it lands.
 (function () {
   'use strict';
-  const { API, token, esc, money, num, spinner, nav } = window.V2;
+  const { API, token, esc, money, num, spinner, nav, companies } = window.V2;
   const $ = (id) => document.getElementById(id);
   const auth = () => (token() ? { Authorization: `Bearer ${token()}` } : {});
+
+  // "Key figures" arrives as machine-readable lines ("REVENUE: latest $716.9B…")
+  // meant for the model. Turn each "LABEL: value" into a clean card; the leading
+  // COMPANY line (no colon) becomes a lead-in sentence.
+  function keyFiguresHtml(text) {
+    const lines = String(text || '').split('\n').map((s) => s.trim()).filter(Boolean);
+    let intro = '';
+    let cards = '';
+    for (const line of lines) {
+      const i = line.indexOf(':');
+      if (i > 0) {
+        cards += `<div class="card card-pad"><p class="label" style="margin-bottom:6px;">${esc(line.slice(0, i).trim())}</p><p class="dos-kf-val">${esc(line.slice(i + 1).trim())}</p></div>`;
+      } else {
+        intro += `<p class="dos-kf-intro">${esc(line.replace(/^COMPANY\s+/i, ''))}</p>`;
+      }
+    }
+    return intro + (cards ? `<div class="dos-kf-grid">${cards}</div>` : '');
+  }
 
   const POLL_MS = 6000;
   const MAX_WAIT_MS = 300000; // 5 min — a dossier touches several filings + the model
@@ -153,7 +171,7 @@
       <div class="dos-sec">
         <h2>Investment risks</h2>
         <div style="display:grid; gap:10px;">${d.risks.map((r) => `
-          <div class="dos-case" style="border-top:3px solid ${r.severity === 'high' ? 'var(--neg)' : r.severity === 'low' ? 'var(--pos)' : 'var(--accent-ink)'};">
+          <div class="dos-case dos-case--${r.severity === 'high' ? 'red' : r.severity === 'low' ? 'green' : 'blue'}">
             <div style="display:flex; justify-content:space-between; gap:10px; align-items:baseline;"><strong>${esc(r.risk)}</strong><span class="th-badge ${SEV[r.severity] || 'th-weakening'}">${esc(r.severity)}</span></div>
             <div class="small" style="margin-top:6px;"><strong>Trigger:</strong> ${esc(r.trigger)}</div>
             <div class="small"><strong>Impact:</strong> ${esc(r.impact)}</div>
@@ -194,7 +212,7 @@
       <div class="dos-sec">
         <h2>Scenario value range <span class="small faint">bear / base / bull — a value band, not a price target</span></h2>
         <div class="dos-bullbear" style="grid-template-columns:repeat(3,1fr);">
-          ${['bear', 'base', 'bull'].map((k) => { const x = sc[k]; const up = x.upsidePct; return `<div class="dos-case" style="border-top:3px solid ${k === 'bull' ? 'var(--pos)' : k === 'bear' ? 'var(--neg)' : 'var(--accent-ink)'};"><h3 style="text-transform:capitalize;">${k}</h3><div style="font-size:20px;font-weight:650;">${bn(x.value)}</div><div class="small ${up >= 0 ? 'delta-pos' : 'delta-neg'}">${up >= 0 ? '+' : ''}${up}% vs market cap</div><div class="basis">at ${x.growthPct}%/yr FCF growth</div></div>`; }).join('')}
+          ${['bear', 'base', 'bull'].map((k) => { const x = sc[k]; const up = x.upsidePct; return `<div class="dos-case dos-case--${k === 'bull' ? 'green' : k === 'bear' ? 'red' : 'blue'}"><h3 style="text-transform:capitalize;">${k}</h3><div style="font-size:20px;font-weight:650;">${bn(x.value)}</div><div class="small ${up >= 0 ? 'delta-pos' : 'delta-neg'}">${up >= 0 ? '+' : ''}${up}% vs market cap</div><div class="basis">at ${x.growthPct}%/yr FCF growth</div></div>`; }).join('')}
         </div>
         <p class="provenance" style="margin-top:8px;">${esc(sc.basis)}</p>
       </div>` : '';
@@ -288,8 +306,8 @@
       const scRow = (k) => { const x = sc2[k]; return `<tr><td style="text-transform:capitalize;">${k}</td><td>${x.growthPct}%/yr</td><td>${x.perShare != null ? '$' + x.perShare : '—'}</td><td class="${(x.upsidePct || 0) >= 0 ? 'delta-pos' : 'delta-neg'}">${x.upsidePct != null ? (x.upsidePct >= 0 ? '+' : '') + x.upsidePct + '%' : '—'}</td></tr>`; };
       const projRows = proj && proj.yearRows ? proj.yearRows.map((y) => `<tr><td>Y${y.year}</td><td>${bn(y.fcff)}</td><td>${y.discountFactor}</td><td>${bn(y.pv)}</td></tr>`).join('') : '';
       const weak = fv.historicalAnchorWeak;
-      const weakBanner = weak && fv.weakNote ? `<p class="small" style="margin:0 0 12px; padding:10px 12px; border-left:3px solid var(--accent-ink); background:rgba(26,79,214,.04);">${esc(fv.weakNote)}</p>` : '';
-      const fvCard = `<div class="dos-case" style="border-top:3px solid ${weak ? 'var(--ink-3)' : 'var(--accent-ink)'};"><div class="small faint">${weak ? 'Historical-trend value' : 'Base-case fair value'}</div><div style="font-size:28px; font-weight:700;">$${fv.perShare}</div><div class="small">vs $${fv.currentPrice} now${weak ? '' : ` · <span class="${fv.upsidePct >= 0 ? 'delta-pos' : 'delta-neg'}">${fv.upsidePct >= 0 ? '+' : ''}${fv.upsidePct}%</span>`}</div><div class="basis" style="margin-top:6px;">${weak ? 'On past cash flows only — the price is set by expected growth, not history' : esc(fv.status || '')}</div></div>`;
+      const weakBanner = weak && fv.weakNote ? `<p class="small" style="margin:0 0 12px; padding:10px 12px; border:1px solid var(--accent-ink); border-radius:var(--radius);">${esc(fv.weakNote)}</p>` : '';
+      const fvCard = `<div class="dos-case dos-case--${weak ? 'grey' : 'blue'}"><div class="small faint">${weak ? 'Historical-trend value' : 'Base-case fair value'}</div><div style="font-size:28px; font-weight:700;">$${fv.perShare}</div><div class="small">vs $${fv.currentPrice} now${weak ? '' : ` · <span class="${fv.upsidePct >= 0 ? 'delta-pos' : 'delta-neg'}">${fv.upsidePct >= 0 ? '+' : ''}${fv.upsidePct}%</span>`}</div><div class="basis" style="margin-top:6px;">${weak ? 'On past cash flows only — the price is set by expected growth, not history' : esc(fv.status || '')}</div></div>`;
       forwardDcfHtml = `<div class="dos-sec"><h2>Forward DCF &amp; WACC <span class="small faint">descriptive fair value — every input shown, none of it a recommendation</span></h2>
         ${weakBanner}
         <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
@@ -322,7 +340,7 @@
       ${industryHtml}
       ${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch; line-height:1.7;">${esc(s.description)}</p></div>` : ''}
       ${segs}
-      ${d.keyFigures ? `<div class="dos-sec"><h2>Key figures</h2><div class="dos-keyfig">${esc(d.keyFigures)}</div></div>` : ''}
+      ${d.keyFigures ? `<div class="dos-sec"><h2>Key figures</h2>${keyFiguresHtml(d.keyFigures)}</div>` : ''}
       ${read}
       ${competitive}
       ${governanceHtml}
@@ -450,6 +468,48 @@
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
 
   $('dos-form').addEventListener('submit', (e) => { e.preventDefault(); run($('dos-sym').value, false); });
+
+  // Ticker autocomplete — same as the Monitor search: type a symbol or company
+  // name, pick from the list, and it builds the dossier at once.
+  (function wireAutocomplete() {
+    const input = $('dos-sym');
+    if (!input || !companies) return;
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'position:relative; flex:1; display:flex;';
+    input.parentNode.insertBefore(wrap, input);
+    wrap.appendChild(input);
+    input.style.flex = '1';
+    const box = document.createElement('div');
+    box.className = 'sym-ac';
+    box.hidden = true;
+    wrap.appendChild(box);
+    let items = [], active = -1;
+    const render = () => {
+      if (!items.length) { box.hidden = true; return; }
+      box.innerHTML = items.map((c, i) =>
+        `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}</span></button>`).join('');
+      box.hidden = false;
+    };
+    const choose = (sym) => { box.hidden = true; items = []; input.value = sym; run(sym, false); };
+    input.addEventListener('input', async () => {
+      const q = input.value.trim().toUpperCase();
+      if (q.length < 1) { box.hidden = true; return; }
+      const list = await companies();
+      const starts = list.filter((c) => c.symbol && c.symbol.toUpperCase().startsWith(q));
+      const names = list.filter((c) => c.symbol && !c.symbol.toUpperCase().startsWith(q) && (c.name || '').toUpperCase().includes(q));
+      items = starts.concat(names).slice(0, 8); active = -1; render();
+    });
+    input.addEventListener('keydown', (e) => {
+      if (box.hidden) return;
+      if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, items.length - 1); render(); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); render(); }
+      else if (e.key === 'Enter' && items.length) { e.preventDefault(); choose(items[active >= 0 ? active : 0].symbol); }
+      else if (e.key === 'Escape') { box.hidden = true; }
+    });
+    box.addEventListener('click', (e) => { const btn = e.target.closest('button[data-sym]'); if (btn) choose(btn.dataset.sym); });
+    document.addEventListener('click', (e) => { if (e.target !== input && !box.contains(e.target)) box.hidden = true; });
+  })();
+
   const initial = new URLSearchParams(location.search).get('symbol');
   if (initial) { $('dos-sym').value = initial.toUpperCase(); run(initial, false); }
 })();

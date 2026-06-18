@@ -169,8 +169,8 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   top: 40px; left: 0; right: 0;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 12px 32px rgba(28, 27, 24, 0.10);
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(28, 27, 24, 0.16);
   overflow: hidden;
 }
 .nav-search-results a {
@@ -670,7 +670,6 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 /* ---------- Alerts / notices ---------- */
 .notice {
   border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
   border-radius: var(--radius-sm);
   background: var(--surface);
   padding: var(--s3) var(--s4);
@@ -678,6 +677,65 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 }
 .notice-neg { border-left-color: var(--neg); }
 .notice-pos { border-left-color: var(--pos); }
+
+/* ---------- Document filing links ---------- */
+.doc-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.doc-chip {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 11px; border: 1px solid var(--line); border-radius: 999px;
+  font-size: 12.5px; color: var(--ink); background: var(--surface); white-space: nowrap;
+}
+.doc-chip:hover { border-color: var(--ink-3); }
+
+/* ---------- Statement options popover ---------- */
+.stmt-opts { position: relative; }
+.stmt-opts-menu {
+  position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
+  width: 232px; max-width: calc(100vw - 32px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(28, 27, 24, 0.16);
+  padding: 14px 16px;
+}
+.stmt-opts-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--ink-3); font-weight: 600; margin: 0 0 6px;
+}
+.stmt-opts-label + .seg { margin-bottom: 12px; }
+.stmt-opts-menu .seg { display: flex; width: 100%; }
+.stmt-opts-menu .seg button { flex: 1; }
+/* Wide variant of the Options popover, for the Growth & returns and Documents
+   "rest" — same right-anchored component, just wider with scrolling, and the
+   nested cards/groups stripped so they read like the Options menu sections. */
+/* Wide popovers are viewport-anchored (fixed, 16px off the right edge) so they
+   can never overflow the screen regardless of where their button sits; JS sets
+   `top` to the button's bottom on open. */
+.opts-wide { position: fixed; right: 16px; left: auto; width: min(340px, calc(100vw - 32px)); max-height: 70vh; overflow-y: auto; }
+.opts-wide #cagr-cards-rest, .opts-wide #docs-rest { display: grid; gap: 16px; }
+.opts-wide .card { border: 0; background: none; padding: 0; }
+.opts-wide .card + .card { border-top: 1px solid var(--line); padding-top: 14px; }
+/* Reverse-DCF "filed record": labels flush-left, values flush-right, so the
+   rows align edge-to-edge with the card's heading instead of floating centred. */
+.rdcf-rec td:first-child { text-align: left; padding-left: 0; }
+.rdcf-rec td:last-child { padding-right: 0; }
+
+/* ---------- Draggable horizontal scrollbar for wide tables ---------- */
+.hbar {
+  height: 12px; margin: 0 0 8px; position: relative; display: none;
+  background: var(--paper); border: 1px solid var(--line); border-radius: 999px;
+  touch-action: none; cursor: pointer;
+}
+.hbar.on { display: block; }
+.hbar-thumb {
+  position: absolute; top: 1px; bottom: 1px; left: 0; min-width: 36px;
+  background: var(--ink-3); border-radius: 999px; cursor: grab; touch-action: none;
+}
+.hbar-thumb:hover, .hbar-thumb.grabbing { background: var(--ink-2); }
+.hbar-thumb.grabbing { cursor: grabbing; }
+/* tables with a custom bar hide their native scrollbar to avoid two bars */
+.table-wrap.has-hbar { scrollbar-width: none; }
+.table-wrap.has-hbar::-webkit-scrollbar { height: 0; display: none; }
+/* the old statements proxy scrollbar is replaced by the custom bar */
+.scroll-top { display: none; }
 
 /* ---------- Footer ---------- */
 .footer {
@@ -870,28 +928,32 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   pointer-events: none;
 }
 .nav-mobile[aria-hidden='false'] { pointer-events: auto; }
+/* Compact dropdown (style D): a card anchored top-right under the ☰ — does not
+   cover the page. The dim is an invisible full-screen catcher so a tap outside
+   closes it. */
 .nav-mobile-dim {
   position: absolute;
   inset: 0;
-  background: rgba(28, 27, 24, 0.42);
-  opacity: 0;
-  transition: opacity 0.22s ease;
+  background: transparent;
 }
-.nav-mobile.is-open .nav-mobile-dim { opacity: 1; }
 .nav-mobile-panel {
-  position: absolute;
-  top: 0; left: 0; bottom: 0;
-  width: min(300px, 88vw);
+  position: fixed;
+  top: 60px; right: 12px; left: auto; bottom: auto;
+  width: min(232px, calc(100vw - 24px));
+  max-height: calc(100dvh - 76px);
   background: var(--surface);
-  border-right: 1px solid var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 14px 36px rgba(28, 27, 24, 0.16);
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  transform: translateX(-105%);
-  transition: transform 0.24s cubic-bezier(0.4, 0, 0.2, 1);
-  padding-bottom: env(safe-area-inset-bottom, 0px);
+  transform-origin: top right;
+  opacity: 0;
+  transform: translateY(-6px) scale(0.98);
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
-.nav-mobile.is-open .nav-mobile-panel { transform: none; }
+.nav-mobile.is-open .nav-mobile-panel { opacity: 1; transform: none; }
 .nav-mobile-top {
   display: flex;
   align-items: center;
@@ -900,13 +962,15 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   border-bottom: 1px solid var(--line);
 }
 .nav-mobile-close {
-  border: 0; background: none; font-size: 22px; line-height: 1;
-  color: var(--ink-3); cursor: pointer; padding: 4px; border-radius: 6px;
+  position: absolute; top: 24px; right: 14px; z-index: 2;
+  border: 0; background: none; line-height: 0;
+  color: var(--ink-3); cursor: pointer; padding: 5px; border-radius: 6px;
+  display: inline-flex;
 }
 .nav-mobile-close:hover { color: var(--ink); background: var(--paper); }
 .nav-mobile-panel nav { display: flex; flex-direction: column; padding: 8px 0; }
 .nav-mobile-panel nav a {
-  display: block; padding: 13px 20px;
+  display: block; padding: 13px 20px; text-align: center;
   font-size: 16px; font-weight: 550;
   color: var(--ink); border-bottom: 1px solid var(--line);
 }
@@ -918,7 +982,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   display: flex; flex-direction: column; gap: 8px;
   margin-top: auto;
 }
-.nav-mobile-auth .btn { display: block; text-align: center; height: 44px; }
+.nav-mobile-auth .btn { display: flex; align-items: center; justify-content: center; height: 44px; }
 
 /* ---------- Tablet layout (900px) ---------- */
 @media (max-width: 900px) {

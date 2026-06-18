@@ -380,10 +380,9 @@
         mob.innerHTML = `
             <div class="nav-mobile-dim" id="v2-mobile-dim"></div>
             <div class="nav-mobile-panel" role="dialog" aria-label="Navigation">
-              <div class="nav-mobile-top">
-                <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
-                <button class="nav-mobile-close" id="v2-mobile-close" aria-label="Close menu">✕</button>
-              </div>
+              <button class="nav-mobile-close" id="v2-mobile-close" aria-label="Close menu" type="button">
+                <svg width="10.5" height="10.5" viewBox="0 0 15 15" aria-hidden="true"><path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+              </button>
               <nav>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
@@ -411,18 +410,17 @@
         function openMenu() {
             mobileNav.setAttribute('aria-hidden', 'false');
             ham.setAttribute('aria-expanded', 'true');
-            document.body.style.overflow = 'hidden';
             requestAnimationFrame(() => mobileNav.classList.add('is-open'));
         }
         function closeMenu() {
             mobileNav.classList.remove('is-open');
             ham.setAttribute('aria-expanded', 'false');
-            document.body.style.overflow = '';
-            setTimeout(() => mobileNav.setAttribute('aria-hidden', 'true'), 240);
+            setTimeout(() => mobileNav.setAttribute('aria-hidden', 'true'), 160);
         }
-        ham.addEventListener('click', openMenu);
+        // ☰ toggles the dropdown; the in-panel ✕ (top-right), tap-outside and Esc also close
+        ham.addEventListener('click', () => mobileNav.classList.contains('is-open') ? closeMenu() : openMenu());
         dim.addEventListener('click', closeMenu);
-        closeBtn.addEventListener('click', closeMenu);
+        if (closeBtn) closeBtn.addEventListener('click', closeMenu);
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
 
         const out = el.querySelector('#v2-signout');
@@ -743,5 +741,65 @@
         return engine;
     }
 
-    window.V2 = { API, token, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, spinner };
+    // --- Draggable horizontal scrollbar for any wide .table-wrap, site-wide ---
+    // Native scrollbars are invisible/undraggable on phones, so this thumb (click
+    // + drag, both directions) is an explicit affordance. Idempotent (keyed on
+    // wrap.__hbar) and shared by every page; an observer catches tables rendered
+    // async after data loads. It only shows where a table actually overflows.
+    function updateHbar(wrap) {
+        const bar = wrap.__hbar; if (!bar) return;
+        const thumb = bar.firstElementChild;
+        const sw = wrap.scrollWidth, cw = wrap.clientWidth, max = sw - cw;
+        if (max <= 2) { bar.classList.remove('on'); return; }
+        bar.classList.add('on');
+        const bw = bar.clientWidth;
+        const tw = Math.max((cw / sw) * bw, 36);
+        thumb.style.width = tw + 'px';
+        thumb.style.transform = 'translateX(' + ((bw - tw) > 0 ? (wrap.scrollLeft / max) * (bw - tw) : 0) + 'px)';
+    }
+    function attachHScroll(wrap) {
+        if (!wrap) return;
+        if (wrap.__hbar) { updateHbar(wrap); return; }
+        const bar = document.createElement('div'); bar.className = 'hbar';
+        const thumb = document.createElement('div'); thumb.className = 'hbar-thumb';
+        bar.appendChild(thumb);
+        wrap.insertAdjacentElement('beforebegin', bar);
+        wrap.classList.add('has-hbar');
+        wrap.__hbar = bar;
+        let drag = null;
+        thumb.addEventListener('pointerdown', (e) => {
+            e.preventDefault(); e.stopPropagation();
+            drag = { x: e.clientX, left: wrap.scrollLeft };
+            thumb.classList.add('grabbing');
+            try { thumb.setPointerCapture(e.pointerId); } catch (_) { /* ignore */ }
+        });
+        thumb.addEventListener('pointermove', (e) => {
+            if (!drag) return;
+            const trackW = bar.clientWidth - thumb.offsetWidth;
+            const max = wrap.scrollWidth - wrap.clientWidth;
+            wrap.scrollLeft = drag.left + (e.clientX - drag.x) * (trackW > 0 ? max / trackW : 0);
+        });
+        const end = () => { drag = null; thumb.classList.remove('grabbing'); };
+        thumb.addEventListener('pointerup', end);
+        thumb.addEventListener('pointercancel', end);
+        bar.addEventListener('pointerdown', (e) => {
+            if (e.target === thumb) return;
+            const r = bar.getBoundingClientRect();
+            wrap.scrollLeft = ((e.clientX - r.left) / r.width) * (wrap.scrollWidth - wrap.clientWidth);
+        });
+        wrap.addEventListener('scroll', () => updateHbar(wrap));
+        updateHbar(wrap);
+    }
+    function scanHScroll() { document.querySelectorAll('.table-wrap').forEach(attachHScroll); }
+    function initHScroll() {
+        scanHScroll();
+        let t = null;
+        new MutationObserver(() => { clearTimeout(t); t = setTimeout(scanHScroll, 120); })
+            .observe(document.body, { childList: true, subtree: true });
+        window.addEventListener('resize', () => document.querySelectorAll('.table-wrap').forEach((w) => w.__hbar && updateHbar(w)));
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHScroll);
+    else initHScroll();
+
+    window.V2 = { API, token, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, spinner, attachHScroll };
 })();
