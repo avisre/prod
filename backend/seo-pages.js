@@ -538,7 +538,7 @@ function renderStockIndex() {
 // generates Search Console errors and wastes crawl budget.
 function buildSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/tour', '/stocks', '/screener', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap'];
+    const staticUrls = ['/', '/tour', '/features', '/stocks', '/screener', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap'];
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
     urls.push({ loc: `${SITE}/gurus`, pri: '0.8' }); // guru 13F portfolios — marquee feature page
     urls.push({ loc: `${SITE}/monitor`, pri: '0.8' }); // filing change monitor — pro feature landing
