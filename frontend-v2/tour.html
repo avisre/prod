@@ -38,19 +38,9 @@
     "embedUrl": "https://www.stockportfolio.pro/tour"
   }
   </script>
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "VideoObject",
-    "name": "Filing Change Monitor — what changed in the latest SEC filing",
-    "description": "A walkthrough of the stockportfolio.pro Filing Change Monitor: enter any US ticker and get an instant, cited read on its newest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality.",
-    "thumbnailUrl": "https://www.stockportfolio.pro/assets/monitor-poster.jpg",
-    "uploadDate": "2026-06-18T12:00:00+00:00",
-    "duration": "PT18S",
-    "contentUrl": "https://www.stockportfolio.pro/assets/monitor-1080p.mp4",
-    "embedUrl": "https://www.stockportfolio.pro/tour"
-  }
-  </script>
+  <!-- Only the 60-second tour is declared as a VideoObject: /tour is a single-video
+       watch page (Google indexes one video per page). The Monitor clip below is a
+       supplementary embed, deliberately left without schema so it is not the indexed video. -->
 </head>
 <body>
   <main>
@@ -83,8 +73,10 @@
         </div>
       </section>
 
-      <!-- ② Filing Change Monitor walkthrough. -->
-      <section style="margin-top:48px;">
+      <!-- ② Filing Change Monitor walkthrough — supplementary video, kept secondary to the
+           primary tour above (no VideoObject schema, marked "More demos") so /tour indexes one video. -->
+      <section style="margin-top:48px; border-top:1px solid var(--line); padding-top:32px;">
+        <p class="small faint" style="margin:0 0 6px; text-transform:uppercase; letter-spacing:0.06em;">More demos</p>
         <h2 class="title-2" style="margin:0 0 4px;">Filing Change Monitor</h2>
         <p class="muted" style="max-width:62ch; margin:0 0 16px;">
           Enter any US ticker and get an instant, cited read on its newest <strong>10-K, 10-Q or 8-K</strong> —
