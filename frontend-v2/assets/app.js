@@ -342,6 +342,7 @@
             <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
             <nav class="nav-links" aria-label="Primary">
               <a href="/screener.html" ${cur('screener')}>Screener</a>
+              <a href="/compare" ${cur('compare')}>Compare</a>
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
               <a href="/news.html" ${cur('news')}>Markets</a>
               <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
@@ -385,6 +386,7 @@
               </button>
               <nav>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
+                <a href="/compare" ${cur('compare')}>Compare</a>
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
                 <a href="/news.html" ${cur('news')}>Markets</a>
                 <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
