@@ -3252,8 +3252,14 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         const prevStatus = user.subscription && user.subscription.status;
                         await syncSubscriptionFromStripe(user, subscription, payload.customer);
                         const newStatus = user.subscription && user.subscription.status;
+                        // A Stripe-side trial (card-trial flow) lands as 'trialing'
+                        // → trial_start; converting later fires 'paid' below. Any
+                        // checkout that lands 'active' took money now (annual, the
+                        // no-card→paid upgrade via /api/checkout, direct paid) → 'paid'.
+                        // The prevStatus !== 'active' guard keeps it single-fire across
+                        // the parallel customer.subscription.updated webhook.
                         if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName);
-                        else if (newStatus === 'active' && prevStatus !== 'active') trackFunnel('trial_start', user._id, user.subscription.planName);
+                        else if (newStatus === 'active' && prevStatus !== 'active') trackFunnel('paid', user._id, user.subscription.planName);
                     } else {
                         await activateSubscription(user, {
                             subscriptionId: payload.subscription,
@@ -3262,7 +3268,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             stripeStatus: 'active',
                             stripePriceId: payload.metadata?.stripePriceId || null
                         });
-                        trackFunnel('trial_start', user._id, user.subscription.planName);
+                        trackFunnel('paid', user._id, user.subscription.planName);
                     }
                 }
             }
