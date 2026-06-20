@@ -365,7 +365,7 @@ function renderComparePage(pairSlug) {
     const incb = ((db.income || {}).annualReports || [])[0] || {};
 
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
-    const title = `${a} vs ${b}: Fundamentals Compared (${ma.name} vs ${mb.name})`;
+    const title = `${a} vs ${b} Stock: Which Is the Better Buy? (${ma.name} vs ${mb.name})`;
     const description = `${ma.name} (${a}) vs ${mb.name} (${b}) — side-by-side revenue, margins, growth, P/E, ROE and dividends from SEC filings. Which fundamentals look stronger?`;
 
     const fmtB = (v) => v === null ? '—' : `$${v >= 1000 ? (v / 1000).toFixed(2) + 'T' : v.toFixed(1) + 'B'}`;
@@ -557,7 +557,7 @@ function renderComparePage(pairSlug) {
 <main class="seo-wrap">
   <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}</style>
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
-  <h1 class="seo-h1">${esc(a)} vs ${esc(b)}</h1>
+  <h1 class="seo-h1">${esc(a)} vs ${esc(b)}: Which Stock Is the Better Buy?</h1>
   <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
   ${verdictHtml}
   ${verdictAi}

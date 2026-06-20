@@ -223,8 +223,8 @@ function renderStockPage(ticker) {
     const fyOf = (r) => String((r || {}).fiscalDateEnding || '').slice(0, 4);
     const titleYears = income.length >= 2 ? `${fyOf(income[income.length - 1])}-${fyOf(income[0])}` : '';
     const title = titleYears
-        ? `${name} (${sym}) Stock — Revenue, Net Income & Financials ${titleYears}`
-        : `${name} (${sym}) Stock Fundamentals, Financials & Analysis`;
+        ? `${name} (${sym}) Stock: Fair Value, Revenue & Net Income ${titleYears}`
+        : `${name} (${sym}) Stock Analysis: Fair Value, Financials & Red Flags`;
     const metricBits = [
         mcap ? `Market cap ${money(mcap)}` : '',
         pe ? `P/E ${ratio(pe)}` : '',
@@ -508,7 +508,7 @@ function renderStockPage(ticker) {
     return head(title, description, canonical, jsonld) + faqLdTag + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
-  <h1 class="seo-h1">${esc(name)} <span style="color:var(--muted);font-weight:600">(${esc(sym)})</span></h1>
+  <h1 class="seo-h1">${esc(name)} <span style="color:var(--muted);font-weight:600">(${esc(sym)})</span> Stock Analysis</h1>
   <p class="seo-sub">${meta || 'US-listed equity'}</p>
   ${leadHtml}
   ${freshHtml}
