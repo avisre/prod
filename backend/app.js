@@ -3681,6 +3681,52 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
     }
 });
 
+// ---- Compare AI Verdict — the /compare conversion feature ----
+// A grounded head-to-head: numbers computed in code, the model writes the synthesis
+// (compare-verdict.js). Free trial: VERDICT_FREE_PER_DAY per IP/day for logged-out
+// visitors (the aha); any signed-in user gets it unlimited. Cached reads are free.
+const compareVerdict = require('./compare-verdict');
+const VERDICT_FREE_PER_DAY = parseInt(process.env.VERDICT_FREE_PER_DAY || '4', 10);
+const _verdictFreeSeen = new Map(); // ipKey -> { at:number, n:number }
+function verdictFreeRecord(req) {
+    const key = req.ip || 'unknown';
+    const now = Date.now();
+    let rec = _verdictFreeSeen.get(key);
+    if (!rec || now - rec.at > 24 * 60 * 60 * 1000) { rec = { at: now, n: 0 }; _verdictFreeSeen.set(key, rec); }
+    if (_verdictFreeSeen.size > 50000) { const k = _verdictFreeSeen.keys().next().value; if (k !== key) _verdictFreeSeen.delete(k); }
+    return rec;
+}
+app.get('/api/compare/:pair/verdict', optionalAuth, async (req, res) => {
+    try {
+        const m = String(req.params.pair || '').toUpperCase().match(/^([A-Z0-9.]+)-VS-([A-Z0-9.]+)$/);
+        if (!m) return res.status(400).json({ error: 'Bad comparison.' });
+        let a = m[1], b = m[2];
+        if (a === b) return res.status(400).json({ error: 'Pick two different companies.' });
+        if (a > b) { const t = a; a = b; b = t; } // canonical order
+        const signedIn = !!req.user;
+        let rec = null;
+        if (!signedIn) {
+            rec = verdictFreeRecord(req);
+            res.setHeader('RateLimit-Limit', String(VERDICT_FREE_PER_DAY));
+            if (rec.n >= VERDICT_FREE_PER_DAY) {
+                res.setHeader('RateLimit-Remaining', '0');
+                return res.status(429).json({
+                    code: 'TRIAL_EXHAUSTED',
+                    message: `That's your ${VERDICT_FREE_PER_DAY} free AI verdicts for today. Create a free account to keep comparing.`
+                });
+            }
+        }
+        const out = await compareVerdict.verdictFor(a, b);
+        if (!out) return res.status(404).json({ error: 'We could not find filings for both companies.' });
+        if (rec && !out.cached) rec.n++; // only a real generation spends a credit; cached reads are free
+        if (rec) res.setHeader('RateLimit-Remaining', String(Math.max(0, VERDICT_FREE_PER_DAY - rec.n)));
+        return res.json({ a, b, verdict: out.text, source: out.source, cached: out.cached });
+    } catch (err) {
+        console.error('[verdict] error:', err.message);
+        return res.status(500).json({ error: 'Could not generate the verdict right now.' });
+    }
+});
+
 // ---- Research Dossier (Power/Desk) — the on-demand initiation report ----
 // The Monitor says "what changed in a name I follow"; the dossier answers
 // "should I own this at all" — a from-scratch, source-linked write-up on ANY
