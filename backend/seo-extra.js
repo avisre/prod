@@ -462,6 +462,50 @@ function renderComparePage(pairSlug) {
     if (!scr.length) { add('quality-compounders', 'Quality compounders'); add('high-growth-stocks', 'Fastest-growing stocks'); }
     const screensHtml = scr.slice(0, 4).join('');
 
+    // ---- AI Verdict — grounded head-to-head, generated on click (gated trial) ----
+    const pair = `${a}-vs-${b}`;
+    const verdictAi = `
+  <div class="seo-section" id="aiv" style="border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;background:var(--surface);padding:16px 18px;margin:14px 0 4px">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
+      <div style="flex:1;min-width:220px">
+        <h2 style="margin:0;font-size:16px;line-height:1.3">AI verdict — ${esc(a)} vs ${esc(b)}, read from the filings</h2>
+        <p style="margin:5px 0 0;font-size:12.5px;color:var(--ink2);line-height:1.55;max-width:72ch">The stronger business, the cheaper stock, and the risks &mdash; synthesised from both companies&rsquo; SEC filings, every figure computed not guessed. Not investment advice.</p>
+      </div>
+      <button type="button" id="aivbtn" style="min-height:42px;padding:0 18px;border:0;border-radius:9px;background:var(--accent);color:#fff;font-size:14px;font-weight:650;cursor:pointer;white-space:nowrap">Generate the verdict &rarr;</button>
+    </div>
+    <div id="aivout"></div>
+  </div>
+  <script>
+  (function(){
+    var btn=document.getElementById('aivbtn'),out=document.getElementById('aivout');
+    if(!btn)return;
+    btn.addEventListener('click',function(){
+      btn.disabled=true;var orig=btn.textContent;btn.textContent='Reading the filings…';
+      out.style.marginTop='14px';
+      out.innerHTML='<p style="font-size:13.5px;color:var(--ink3);margin:0">Computing the head-to-head from both companies&rsquo; filings…</p>';
+      var tok=null;try{tok=localStorage.getItem('token');}catch(e){}
+      fetch('/api/compare/${esc(pair)}/verdict',{headers:tok?{Authorization:'Bearer '+tok}:{}}).then(function(r){
+        return r.json().then(function(j){return {status:r.status,j:j};});
+      }).then(function(res){
+        if(res.status===429){
+          out.innerHTML='<div style="border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--paper)"><p style="margin:0 0 12px;font-size:14px;color:var(--ink)">'+(res.j.message||'Free limit reached for today.')+'</p><a class="seo-cta-btn" href="/register.html">Create a free account &rarr;</a></div>';
+          btn.style.display='none';return;
+        }
+        if(res.status!==200||!res.j.verdict){
+          out.innerHTML='<p style="font-size:13.5px;color:var(--ink3);margin:0">Could not generate the verdict right now &mdash; please try again in a moment.</p>';
+          btn.disabled=false;btn.textContent='Try again';return;
+        }
+        var safe=res.j.verdict.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        out.innerHTML='<div style="white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--ink)">'+safe+'</div><p style="margin:10px 0 0;font-size:11.5px;color:var(--ink3)">Computed from SEC-filed statements; the model writes the synthesis, never the numbers. Not investment advice.</p>';
+        btn.style.display='none';
+      }).catch(function(e){
+        out.innerHTML='<p style="font-size:13.5px;color:var(--ink3);margin:0">Something went wrong &mdash; please try again.</p>';
+        btn.disabled=false;btn.textContent=orig;
+      });
+    });
+  })();
+  </script>`;
+
     return { html: head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}</style>
@@ -469,6 +513,7 @@ function renderComparePage(pairSlug) {
   <h1 class="seo-h1">${esc(a)} vs ${esc(b)}</h1>
   <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
   ${verdictHtml}
+  ${verdictAi}
   <div class="seo-section">
     <div style="overflow-x:auto"><table class="seo-table cmp-table">
       <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
