@@ -511,6 +511,82 @@ function metricsFor(symbol) {
     return buildScreenIndex().find((r) => r.symbol === key) || null;
 }
 
+// ---- Red-flag scanner: conservative, deterministic flags from the filed
+// statements. SYNC (uses loadFund, not loadFundAny) so the SSR stock/compare
+// pages can call it inline. Null/missing data NEVER produces a flag — a missed
+// field must not become a false alarm. Each flag cites the numbers behind it.
+function redFlagsFor(symbol) {
+    const data = loadFund(symbol);
+    const sym = String(symbol || '').toUpperCase();
+    if (!data) return null;
+    const years = annualJoined(data); // newest first
+    if (years.length < 2) return { symbol: sym, flags: [], flagCount: 0, asOf: null, source: 'Not enough filed history to scan.' };
+    const get = (y, st, f) => num((y[st] || {})[f]);
+    const latest = years[0], prior = years[1];
+    const flags = [];
+    const add = (severity, title, detail) => flags.push({ severity, title, detail });
+    const grow = (cur, prev) => (cur !== null && prev !== null && prev > 0) ? ((cur - prev) / prev * 100) : null;
+
+    const revC = get(latest, 'income', 'totalRevenue'), revP = get(prior, 'income', 'totalRevenue');
+    const revG = grow(revC, revP);
+
+    // 1) Receivables outrunning revenue (aggressive revenue recognition / collection risk)
+    const recG = grow(get(latest, 'balance', 'currentNetReceivables'), get(prior, 'balance', 'currentNetReceivables'));
+    if (recG !== null && revG !== null && recG > 12 && recG - revG >= 15) {
+        add('warn', 'Receivables growing faster than sales',
+            `Accounts receivable rose ${pct(recG)}% while revenue rose ${pct(revG)}% in the latest year — a gap that can signal looser credit terms or pulled-forward sales. Worth checking days-sales-outstanding.`);
+    }
+    // 2) Inventory building faster than sales (overproduction / obsolescence)
+    const invC = get(latest, 'balance', 'inventory'), invP = get(prior, 'balance', 'inventory');
+    const invG = grow(invC, invP);
+    if (invG !== null && revG !== null && invC > 0 && invP > 0 && invG > 12 && invG - revG >= 20) {
+        add('warn', 'Inventory building faster than sales',
+            `Inventory rose ${pct(invG)}% versus revenue ${pct(revG)}% — possible overproduction or softening demand.`);
+    }
+    // 3) Earnings ahead of cash over 3 years (accruals)
+    const span3 = years.slice(0, Math.min(3, years.length));
+    let niSum = 0, ocfSum = 0, ok3 = span3.length >= 3;
+    for (const y of span3) { const ni = get(y, 'income', 'netIncome'), ocf = get(y, 'cash', 'operatingCashflow'); if (ni === null || ocf === null) { ok3 = false; break; } niSum += ni; ocfSum += ocf; }
+    if (ok3 && niSum > 0 && ocfSum > 0 && niSum > ocfSum * 1.2) {
+        add('warn', 'Reported earnings run ahead of cash',
+            `Over 3 years net income totalled $${mm(niSum)}M but operating cash flow only $${mm(ocfSum)}M — earnings aren't fully backed by cash, an accruals flag worth investigating.`);
+    }
+    // 4) Shareholder dilution (split-guarded, same guard as the buyback check)
+    const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
+    const shWin = years.slice(0, Math.min(5, years.length)).filter((y) => sh(y) !== null);
+    let split = false;
+    for (let i = 1; i < shWin.length; i++) { const a = sh(shWin[i - 1]), b = sh(shWin[i]); if (a > 0 && b > 0 && (a / b > 1.8 || a / b < 0.55)) { split = true; break; } }
+    if (!split && shWin.length >= 3) {
+        const nw = sh(shWin[0]), od = sh(shWin[shWin.length - 1]);
+        if (nw > 0 && od > 0) {
+            const dil = (nw - od) / od * 100;
+            if (dil >= 8) add('warn', 'Share count rising (dilution)',
+                `Shares outstanding grew ${pct(dil)}% over ${shWin.length - 1} years (${mm(od)}M → ${mm(nw)}M) — existing holders' stakes are being diluted.`);
+        }
+    }
+    // 5) Leverage vs cash flow
+    const debt = (get(latest, 'balance', 'longTermDebt') || get(latest, 'balance', 'longTermDebtNoncurrent') || 0)
+        + (get(latest, 'balance', 'shortTermDebt') || get(latest, 'balance', 'currentDebt') || 0)
+        + (get(latest, 'balance', 'currentLongTermDebt') || 0);
+    const ocfL = get(latest, 'cash', 'operatingCashflow');
+    if (debt > 0 && ocfL !== null) {
+        if (ocfL <= 0) add('high', 'Debt with negative operating cash flow',
+            `Carries $${mm(debt)}M of debt while last year's operating cash flow was negative ($${mm(ocfL)}M).`);
+        else if (debt / ocfL >= 5) add('warn', 'Heavy debt load',
+            `Total debt of $${mm(debt)}M is ${(debt / ocfL).toFixed(1)}× last year's operating cash flow — it would take years of cash flow to clear.`);
+    }
+    // 6) Margin trajectory / outright losses
+    const nmOf = (y) => { const ni = get(y, 'income', 'netIncome'), rev = get(y, 'income', 'totalRevenue'); return (ni !== null && rev > 0) ? ni / rev * 100 : null; };
+    if (years.length >= 3) {
+        const nmNew = nmOf(years[0]), nmOld = nmOf(years[Math.min(3, years.length - 1)]);
+        if (nmNew !== null && nmNew < 0) add('high', 'Currently unprofitable',
+            `The latest fiscal year was a net loss (net margin ${pct(nmNew)}%).`);
+        else if (nmNew !== null && nmOld !== null && nmOld > 0 && nmNew > 0 && nmNew <= nmOld - 3) add('watch', 'Net margin shrinking',
+            `Net margin fell from ${pct(nmOld)}% to ${pct(nmNew)}% over ~3 years — profitability is compressing.`);
+    }
+    return { symbol: sym, flags, flagCount: flags.length, asOf: latest.end, source: 'Computed from SEC-filed annual statements — no AI judgement.' };
+}
+
 function toolScreenUniverse(args) {
     const { universe, matched, rows: top } = screenRows(args);
     const fm = (v, dp = 1) => v === null ? '' : Number(v).toFixed(dp);
@@ -1159,4 +1235,4 @@ async function recordUse(userId) {
     } catch (_) { /* fail-open */ }
 }
 
-module.exports = { ask, getUsage, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, makeRoundStreamer, loadFundAny };
+module.exports = { ask, getUsage, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFundAny };
