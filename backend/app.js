@@ -731,6 +731,33 @@ function defaultTrialEndsAt() {
   return date;
 }
 
+// Plans charged today (no no-card trial): the annual commitments bill upfront,
+// and the premium desk plans are sold via direct outreach links. Only the
+// monthly tiers (monthly Core, monthly Pro) enter the no-card 7-day trial —
+// which keeps the register-page copy honest ("billed today" vs "free trial").
+const NO_TRIAL_PLAN_IDS = ['annual', 'pro-annual', 'power', 'power-monthly', 'desk', 'enterprise'];
+
+// No-card 7-day trial: grant full Pro access immediately with NO Stripe
+// subscription and NO card. ensureSubscriptionShape() self-expires it to
+// 'cancelled' at trialEndsAt (the same path comped reviewers use, guarded on
+// the absence of a stripeSubscriptionId), so day 7 drops cleanly to the free
+// tier with nothing charged. Converting to paid is a deliberate click — the
+// in-app Upgrade CTA → POST /api/checkout — and never automatic.
+function startNoCardTrial(user) {
+  const s = user.subscription || {};
+  s.status = 'trialing';
+  s.planId = 'pro';
+  s.planName = 'Pro trial';
+  s.stripePriceId = null;
+  s.trialStartedAt = new Date();
+  s.trialEndsAt = defaultTrialEndsAt();
+  s.activatedAt = null;
+  s.renewedAt = null;
+  s.lastPaymentAt = null;
+  user.subscription = s;
+  user.markModified('subscription');
+}
+
 function createDefaultSubscription(plan = MONTHLY_PLAN_ID) {
   const planConfig = getPlanConfig(plan);
   return {
@@ -1274,7 +1301,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
                 planId: planConfig.planId,
                 billingInterval: planConfig.billingInterval
             },
-            ...(planConfig.trialDays > 0 ? { trial_period_days: planConfig.trialDays } : {})
+            ...((planConfig.trialDays > 0 && !extraMetadata.skipTrial) ? { trial_period_days: planConfig.trialDays } : {})
         },
         metadata: {
             userId: user._id.toString(),
@@ -1680,7 +1707,10 @@ app.post('/api/subscribe', async (req, res) => {
         );
     }
 
-    if (!stripe && planConfig.planId !== FREE_PLAN_ID) {
+    // Only the plans that actually hit Stripe checkout (annual + premium) need
+    // Stripe up front. Free and the no-card trial plans (monthly/pro) never
+    // touch Stripe at signup, so a Stripe outage must not block them.
+    if (!stripe && planConfig.planId !== FREE_PLAN_ID && NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
         return sendApiError(
             res,
             createHttpError(
@@ -1743,6 +1773,21 @@ app.post('/api/subscribe', async (req, res) => {
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
                 plan: FREE_PLAN_ID
+            });
+        }
+
+        // Standard plans (monthly/annual/pro): start a no-card 7-day Pro trial
+        // and land straight in the app — no Stripe, no card. Only the direct
+        // outreach plans (power/desk) still go to paid checkout below.
+        if (!NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
+            startNoCardTrial(user);
+            await user.save();
+            trackFunnel('trial_start', user._id, 'Pro');
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalizeSubscription(user.subscription),
+                trial: true,
+                plan: 'pro'
             });
         }
 
@@ -1945,6 +1990,23 @@ app.post('/api/auth/social', async (req, res) => {
                 subscription: normalizeSubscription(user.subscription),
                 created,
                 provider
+            });
+        }
+
+        // New Google sign-ups on a standard plan get the same no-card 7-day Pro
+        // trial as email sign-ups — straight into the app, no checkout. Only
+        // brand-new accounts (created) so a returning expired user can't loop
+        // the trial; direct outreach plans (power/desk) still go to checkout.
+        if (created && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
+            startNoCardTrial(user);
+            await user.save();
+            trackFunnel('trial_start', user._id, 'Pro');
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalizeSubscription(user.subscription),
+                created,
+                provider,
+                trial: true
             });
         }
 
@@ -2163,6 +2225,36 @@ app.get('/api/session', authMiddleware, async (req, res) => {
     } catch (error) {
         console.error('/api/session error:', error);
         res.status(500).json({ message: 'Unable to load session' });
+    }
+});
+
+// Existing-user upgrade: turn a logged-in trial/free account into a paid
+// subscription. The 7-day trial was the no-card demo, so this charges today
+// (skipTrial) — we never stack a second Stripe trial on top of it.
+app.post('/api/checkout', authMiddleware, async (req, res) => {
+    try {
+        if (!stripe) {
+            return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
+        }
+        const planId = normalizePlanSelection(req.body?.plan || 'pro');
+        const session = await createCheckoutSessionForUser(req.user, {
+            req,
+            planId,
+            skipTrial: true,
+            returnContext: { flow: 'upgrade', next: req.body?.next },
+            metadata: {
+                authFlow: 'upgrade',
+                checkoutType: 'upgrade',
+                next: sanitizeRelativeAppPath(req.body?.next, 'dashboard.html')
+            }
+        });
+        if (!session?.url) {
+            return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+        }
+        res.json({ url: session.url });
+    } catch (error) {
+        console.error('/api/checkout error:', error);
+        res.status(500).json({ message: 'Unable to start checkout', error: error.message });
     }
 });
 
