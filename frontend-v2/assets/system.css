@@ -167,6 +167,10 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .nav-search-results {
   position: absolute;
   top: 40px; left: 0; right: 0;
+  /* Above sibling tables: this dropdown is reused on the company page's peers/
+     compare box, where a table's sticky header (z-index:2) would otherwise paint
+     over it. 60 clears the table yet stays below drawers (64) and the FAB (80). */
+  z-index: 60;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 12px;
