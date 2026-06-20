@@ -324,6 +324,30 @@ function renderStockPage(ticker) {
         }
     } catch (_) { /* page renders without checks */ }
 
+    // Red-flag scanner — deterministic patterns in the filed statements that are
+    // worth a second look. Unique, crawlable, cited; the "what could hurt me" hook
+    // no free numbers-tool surfaces. Sync (redFlagsFor uses the cache loader).
+    let redFlagBlock = '';
+    try {
+        const rf = aiChat.redFlagsFor(sym);
+        if (rf && Array.isArray(rf.flags)) {
+            if (rf.flags.length) {
+                const sev = { high: '#f87171', warn: '#fbbf24', watch: '#9ca3af' };
+                const items = rf.flags.map((f) =>
+                    `<li style="background:var(--panel-solid);border:1px solid var(--border);border-left:3px solid ${sev[f.severity] || '#fbbf24'};border-radius:8px;padding:11px 14px;list-style:none;margin:0">` +
+                    `<strong style="display:block;font-size:13.5px;margin-bottom:3px">${esc(f.title)}</strong>` +
+                    `<span style="color:var(--muted);font-size:12.5px;line-height:1.55">${esc(f.detail)}</span></li>`).join('');
+                redFlagBlock = `<div class="seo-section"><h2>${esc(name)}: ${rf.flags.length} potential red flag${rf.flags.length > 1 ? 's' : ''} in the filings</h2>
+                  <p style="color:var(--muted);font-size:12.5px;margin:0 0 10px">Patterns in the filed statements worth a second look — computed and cited, not AI guesswork, and not a signal to sell. The kind of thing that hides in a 10-K.</p>
+                  <ul style="display:grid;gap:8px;padding:0;margin:0">${items}</ul>
+                  <p style="font-size:13px;margin-top:12px"><a href="/ask.html?q=${encodeURIComponent('Explain the red flags in ' + sym + "'s latest filings")}" style="color:var(--accent);font-weight:600">Ask the AI to dig into these &rarr;</a></p></div>`;
+            } else {
+                redFlagBlock = `<div class="seo-section"><h2>${esc(name)}: no obvious red flags in the filings</h2>
+                  <p style="color:var(--muted);font-size:12.5px;margin:0">Our deterministic scan of the filed statements — receivables vs sales, earnings vs cash, dilution, leverage and margins — didn't flag anything. <a href="/ask.html?q=${encodeURIComponent('What are the main risks in ' + sym + '?')}" style="color:var(--accent);font-weight:600">Ask about the risks &rarr;</a></p></div>`;
+            }
+        }
+    } catch (_) { /* page renders without red flags */ }
+
     // FAQ block + FAQPage JSON-LD (the featured-snippet play).
     const metrics = aiChat.metricsFor(sym) || {};
     const latestInc = income[0] || {};
@@ -490,6 +514,7 @@ function renderStockPage(ticker) {
   <div class="seo-grid">${tiles}</div>
   ${teaserTable}
   ${healthBlock}
+  ${redFlagBlock}
   ${rdcfBlock}
   <div class="seo-lock">
     <h3>Explore ${esc(String(income.length))} years of ${esc(name)} financials — interactive</h3>

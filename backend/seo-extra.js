@@ -398,6 +398,15 @@ function renderComparePage(pairSlug) {
     const vSent = [];
     if (sizeBit) vSent.push(sizeBit + '.');
     if (vbits.length) vSent.push('On the fundamentals, ' + vbits.join('; ') + '.');
+    // Red-flag tally per side — the "what could hurt me" signal no free numbers
+    // table surfaces. Computed from each company's filed statements.
+    const rfa = aiChat.redFlagsFor(a), rfb = aiChat.redFlagsFor(b);
+    const fa = rfa ? rfa.flagCount : null, fb = rfb ? rfb.flagCount : null;
+    if (fa !== null && fb !== null) {
+        if (fa !== fb) vSent.push(`On the filings, <strong>${esc(fa < fb ? a : b)}</strong> carries fewer potential red flags (${Math.min(fa, fb)} vs ${Math.max(fa, fb)}).`);
+        else if (fa === 0) vSent.push('Neither shows an obvious red flag in the filings.');
+        else vSent.push(`Both carry ${fa} potential red flag${fa > 1 ? 's' : ''} in the filings.`);
+    }
     const verdictHtml = vSent.length
         ? `<div style="border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;background:var(--surface);padding:14px 16px;margin:8px 0 4px;font-size:14.5px;line-height:1.65;color:var(--ink)">${vSent.join(' ')} <span style="color:var(--ink3)">Full numbers below — the stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>.</span></div>`
         : '';
