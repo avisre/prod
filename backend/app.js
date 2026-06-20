@@ -1005,6 +1005,10 @@ app.get('/vs/:competitor', (req, res) => {
 // and screen landing pages (/screens/dividend-stocks) — see backend/seo-extra.js
 app.use(require('./seo-extra').router);
 
+// [LOCALYZE-PROXY] Isolated add-on: model backend for the Localyze.ai app.
+// To fully revert: delete this line AND backend/localyze-proxy.js (nothing else refs it).
+app.use(require('./localyze-proxy').router);
+
 // Interactive company page (/company?symbol=SYM): the data renders client-side,
 // so crawlers and link unfurlers would otherwise see only the skeleton with a
 // generic title. Inject the company's name into <title>/description/OG and
