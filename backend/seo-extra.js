@@ -305,6 +305,53 @@ function comparePairs() {
     return _pairs;
 }
 
+// ---- /compare hub: pick two tickers → the side-by-side + AI verdict ----
+// Gives the "Compare" nav item a real home and works as a compare-hub SEO page.
+function renderCompareIndex() {
+    const canonical = `${SITE}/compare`;
+    const title = 'Compare Any Two US Stocks — Fundamentals & AI Verdict | stockportfolio.pro';
+    const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E, ROE and red flags from SEC filings — plus an AI verdict on which is the stronger business and the cheaper stock. Free, no account.';
+    const popular = [['AMD', 'NVDA'], ['AAPL', 'MSFT'], ['GOOGL', 'META'], ['AMZN', 'MSFT'], ['TSLA', 'F'], ['JPM', 'BAC'], ['KO', 'PEP'], ['V', 'MA'], ['AMD', 'INTC'], ['DIS', 'NFLX'], ['CRM', 'ORCL'], ['WMT', 'COST']];
+    const popHtml = popular.map(([a, b]) => { const p = [a, b].slice().sort(); return `<a href="/compare/${p[0]}-vs-${p[1]}" style="display:inline-block;padding:8px 13px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface)">${esc(a)} vs ${esc(b)}</a>`; }).join('');
+    const dl = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AMD', 'INTC', 'JPM', 'BAC', 'V', 'MA', 'KO', 'PEP', 'WMT', 'COST', 'DIS', 'NFLX', 'CRM', 'ORCL', 'BRK.B', 'UNH', 'JNJ', 'XOM'];
+    const datalist = dl.map((s) => `<option value="${s}">`).join('');
+    const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical, publisher: { '@id': `${SITE}/#org` } });
+    return head(title, description, canonical, jsonld) + nav() + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Compare</div>
+  <h1 class="seo-h1">Compare any two US stocks</h1>
+  <p class="seo-sub">Side by side on the filed numbers &mdash; revenue, margins, growth, P/E, ROE, red flags &mdash; plus an AI verdict on which is the stronger business and the cheaper stock. Every figure from SEC filings, refreshed nightly.</p>
+  <div class="seo-section" style="border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <input id="cA" list="cmpDL" autocomplete="off" placeholder="First ticker — e.g. AMD" aria-label="First ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
+      <span style="color:var(--ink3);font-weight:700;font-size:14px">vs</span>
+      <input id="cB" list="cmpDL" autocomplete="off" placeholder="Second ticker — e.g. NVDA" aria-label="Second ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
+      <datalist id="cmpDL">${datalist}</datalist>
+      <button type="button" id="cGo" style="min-height:46px;padding:0 22px;border:0;border-radius:9px;background:var(--accent);color:#fff;font-size:15px;font-weight:650;cursor:pointer;white-space:nowrap">Compare &rarr;</button>
+    </div>
+    <p id="cErr" style="margin:10px 0 0;font-size:13px;color:#b4413c;display:none"></p>
+  </div>
+  <div class="seo-section">
+    <h2>Popular comparisons</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">${popHtml}</div>
+  </div>
+</main>
+<script>
+(function(){
+  function go(){
+    var a=(document.getElementById('cA').value||'').toUpperCase().replace(/[^A-Z0-9.]/g,'');
+    var b=(document.getElementById('cB').value||'').toUpperCase().replace(/[^A-Z0-9.]/g,'');
+    var err=document.getElementById('cErr');
+    if(!a||!b){err.textContent='Enter two tickers to compare.';err.style.display='block';return;}
+    if(a===b){err.textContent='Pick two different companies.';err.style.display='block';return;}
+    var p=[a,b].sort();location.href='/compare/'+p[0]+'-vs-'+p[1];
+  }
+  document.getElementById('cGo').addEventListener('click',go);
+  ['cA','cB'].forEach(function(id){document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();go();}});});
+})();
+</script>` + footer();
+}
+
 function renderComparePage(pairSlug) {
     const mm = String(pairSlug || '').toUpperCase().match(/^([A-Z0-9.]+)-VS-([A-Z0-9.]+)$/);
     if (!mm) return null;
@@ -671,6 +718,9 @@ router.get('/stocks/:ticker/:metric', (req, res, next) => {
     const html = renderMetricPage(req.params.ticker, slug);
     if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(String(req.params.ticker).toUpperCase())}`);
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+});
+router.get('/compare', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(renderCompareIndex());
 });
 router.get('/compare/:pair', (req, res) => {
     const out = renderComparePage(req.params.pair);
