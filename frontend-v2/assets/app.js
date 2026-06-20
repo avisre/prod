@@ -432,6 +432,62 @@
 
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
         mountConsent();
+        trialBanner();
+    }
+
+    // ---------- trial banner ----------
+    // Slim bar above the nav for signed-in users: a countdown during the no-card
+    // Pro trial, and an "ended" prompt once it lapses to free. Both route to the
+    // in-app upgrade checkout. Dismissals (trial state only) hold for the session.
+    async function startUpgrade(e) {
+        if (e) e.preventDefault();
+        const t = token();
+        if (!t) { location.href = '/register.html?plan=pro'; return; }
+        try {
+            const r = await fetch(`${V2.API}/checkout`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
+                body: JSON.stringify({ plan: 'pro', next: 'dashboard.html' })
+            });
+            const d = await r.json().catch(() => ({}));
+            if (r.ok && d.url) { location.href = d.url; return; }
+        } catch (_) { /* fall through to the register page */ }
+        location.href = '/register.html?plan=pro';
+    }
+
+    async function trialBanner() {
+        const t = token();
+        if (!t) return;
+        let s;
+        try {
+            const r = await fetch(`${V2.API}/session`, { headers: { Authorization: `Bearer ${t}` } });
+            if (!r.ok) return;
+            s = await r.json();
+        } catch (_) { return; }
+        const sub = s && s.subscription;
+        if (!sub) return;
+        const ends = sub.trialEndsAt ? new Date(sub.trialEndsAt) : null;
+        let html = '';
+        let dismissible = false;
+        if (sub.status === 'trialing' && ends) {
+            if (sessionStorage.getItem('trialBannerDismissed') === '1') return;
+            const days = Math.max(0, Math.ceil((ends.getTime() - Date.now()) / 86400000));
+            const label = days <= 1 ? 'Last day of your Pro trial' : `${days} days left in your Pro trial`;
+            html = `<span>${label} — the full AI analyst is unlocked.</span> <a href="#" data-upgrade>Keep Pro →</a>`;
+            dismissible = true;
+        } else if (s.tier === 'free' && sub.status === 'cancelled' && !sub.activatedAt && ends && ends.getTime() < Date.now()) {
+            html = `<span>Your free Pro trial has ended.</span> <a href="#" data-upgrade>Upgrade to keep the AI analyst →</a>`;
+        } else {
+            return;
+        }
+        const bar = document.createElement('div');
+        bar.className = 'trial-banner';
+        bar.innerHTML = `<div class="container">${html}${dismissible ? '<button class="trial-x" aria-label="Dismiss">&times;</button>' : ''}</div>`;
+        document.body.prepend(bar);
+        const up = bar.querySelector('[data-upgrade]');
+        if (up) up.addEventListener('click', startUpgrade);
+        const x = bar.querySelector('.trial-x');
+        if (x) x.addEventListener('click', () => { try { sessionStorage.setItem('trialBannerDismissed', '1'); } catch (_) {} bar.remove(); });
     }
 
     // company search over the full US-listed directory (static, cached)

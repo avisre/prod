@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260620-2" />
+  <link rel="stylesheet" href="assets/system.css?v=20260620-3" />
   <style>
     .plan-pick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .plan-card {
@@ -68,12 +68,12 @@
         <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
         <button class="btn btn-primary" type="submit" id="submit">Start 7-day free trial</button>
         <p class="small delta-neg" id="error" role="alert" hidden></p>
-        <p class="small faint" style="margin:0;"><span id="card-note">Card added at checkout, nothing charged during the trial.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+        <p class="small faint" style="margin:0;"><span id="card-note">No card required — full access for 7 days, then choose a plan if you want to keep going.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
       </form>
       <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
     </div>
   </main>
-  <script src="assets/app.js?v=20260620-1"></script>
+  <script src="assets/app.js?v=20260620-3"></script>
   <script src="assets/social.js?v=20260612-1"></script>
   <script>
     V2.nav('register');
@@ -103,7 +103,7 @@
       document.getElementById('pro-annual-toggle').checked = plan === 'pro-annual';
       document.getElementById('card-note').textContent = direct
         ? 'Billed today, securely via Stripe. Cancel anytime before renewal.'
-        : 'Card added at checkout, nothing charged during the trial.';
+        : 'No card required — full access for 7 days, then choose a plan if you want to keep going.';
     }
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
@@ -193,7 +193,13 @@
           })
         });
         const data = await r.json().catch(() => ({}));
-        if (r.ok && data.url) {
+        if (r.ok && data.token && !data.url) {
+          // No-card trial (or free): account is live now — store the token and
+          // go straight into the app, no Stripe checkout.
+          try { localStorage.setItem('token', data.token); } catch (_) {}
+          location.href = '/dashboard.html';
+        } else if (r.ok && data.url) {
+          // Direct paid plans (power/desk) still route through Stripe checkout.
           // Same handoff key v1 uses — whichever register page Stripe returns
           // to can auto-login once the webhook activates the subscription.
           sessionStorage.setItem('pendingRegisterCredentials', JSON.stringify({
