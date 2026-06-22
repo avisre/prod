@@ -415,11 +415,6 @@
     "sector": "Real Estate"
   },
   {
-    "symbol": "CPB",
-    "name": "Campbell's Company (The)",
-    "sector": "Consumer Staples"
-  },
-  {
     "symbol": "COF",
     "name": "Capital One",
     "sector": "Financials"
@@ -1015,6 +1010,11 @@
     "sector": "Financials"
   },
   {
+    "symbol": "FLEX",
+    "name": "Flex Ltd.",
+    "sector": "Information Technology"
+  },
+  {
     "symbol": "F",
     "name": "Ford Motor Company",
     "sector": "Consumer Discretionary"
@@ -1510,6 +1510,11 @@
     "sector": "Materials"
   },
   {
+    "symbol": "MRVL",
+    "name": "Marvell Technology",
+    "sector": "Information Technology"
+  },
+  {
     "symbol": "MAS",
     "name": "Masco",
     "sector": "Industrials"
@@ -1848,11 +1853,6 @@
     "symbol": "PNC",
     "name": "PNC Financial Services",
     "sector": "Financials"
-  },
-  {
-    "symbol": "POOL",
-    "name": "Pool Corporation",
-    "sector": "Consumer Discretionary"
   },
   {
     "symbol": "PPG",
