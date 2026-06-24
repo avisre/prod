@@ -564,7 +564,7 @@ function renderStockIndex() {
 // generates Search Console errors and wastes crawl budget.
 function buildSitemap() {
     const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/tour', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap'];
+    const staticUrls = ['/', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap'];
     const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
     urls.push({ loc: `${SITE}/gurus`, pri: '0.8' }); // guru 13F portfolios — marquee feature page
     urls.push({ loc: `${SITE}/monitor`, pri: '0.8' }); // filing change monitor — pro feature landing
@@ -576,9 +576,13 @@ function buildSitemap() {
     try { // metric histories, X-vs-Y comparisons, screen landing pages (seo-extra)
         require('./seo-extra').sitemapUrls().forEach((u) => urls.push({ loc: SITE + u.loc, pri: u.pri }));
     } catch (_) { /* seo-extra unavailable — base sitemap still valid */ }
-    // the /tour page carries the 60-second product tour as its main content
-    // (where Google can index it as a video) — declare it via the video sitemap
-    // extension, attached to /tour, not the homepage.
+    // Each product video gets its OWN dedicated watch page where the video is the
+    // single, above-the-fold main content — that is what Google needs to index a
+    // video. We declare the canonical watch page for each via the video sitemap
+    // extension: the 60-second tour on /tour, the Filing Change Monitor clip on
+    // /monitor-demo. The same clips may still appear as supplementary embeds on
+    // /features and the homepage, but those carry no VideoObject schema and are not
+    // in the sitemap, so they don't compete to be the indexed watch page.
     const tourVideo = `\n    <video:video>\n`
         + `      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n`
         + `      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n`
@@ -587,12 +591,17 @@ function buildSitemap() {
         + `      <video:player_loc>${SITE}/tour</video:player_loc>\n`
         + `      <video:duration>63</video:duration>\n`
         + `    </video:video>`;
-    // /tour is the dedicated video watch page. Google indexes only ONE video per page,
-    // so we declare ONLY the 60-second tour here (the primary, above-the-fold main
-    // content). The Monitor clip still plays on /tour as a supplementary embed, but is
-    // deliberately kept out of the sitemap + schema so the tour is the one indexed video.
+    const monitorVideo = `\n    <video:video>\n`
+        + `      <video:thumbnail_loc>${SITE}/assets/monitor-poster.jpg</video:thumbnail_loc>\n`
+        + `      <video:title>Filing Change Monitor — reading NVIDIA's latest 10-Q</video:title>\n`
+        + `      <video:description>The Filing Change Monitor reads a company's newest 10-K, 10-Q or 8-K: the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality.</video:description>\n`
+        + `      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n`
+        + `      <video:player_loc>${SITE}/monitor-demo</video:player_loc>\n`
+        + `      <video:duration>18</video:duration>\n`
+        + `    </video:video>`;
     const body = urls.map((u) => {
-        const vid = u.loc === `${SITE}/tour` ? tourVideo : '';
+        const vid = u.loc === `${SITE}/tour` ? tourVideo
+            : u.loc === `${SITE}/monitor-demo` ? monitorVideo : '';
         return `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority>${vid}</url>`;
     }).join('\n');
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${body}\n</urlset>\n`;
