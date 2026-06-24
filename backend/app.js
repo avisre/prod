@@ -1005,6 +1005,23 @@ app.use((req, res, next) => {
 const seoPages = require('./seo-pages');
 const comparisonPages = require('./comparison-pages');
 
+// ---- In-process SSR HTML/XML cache (backend/ssr-cache.js) ----
+// ONE pass-through middleware, mounted here so Express registration order puts
+// it AFTER all global middleware (json 82, cors 94, helmet 95, compression
+// 104, rate limiters 122/134) and the trailing-slash 301 (991), but BEFORE
+// every SSR route below AND the seo-extra router (1033). It self-restricts via
+// an anchored positive allowlist to ONLY: /sitemap.xml, /stocks, /stocks/:t,
+// /stocks/:t/:metric, /compare, /compare/:pair, /screens/:slug, /vs/:c,
+// /methodology, /editorial-policy. Pure pass-through (next()) for everything
+// else, so it never fronts /api, /admin, /company, /screener, /dashboard,
+// /login, /register, express.static, the 404 catch-all, OR the root-mounted
+// localyze-proxy router (1037). Caches GET + status-200 + text/html|xml +
+// no-Set-Cookie only. Deploy clears it; 6h TTL covers the out-of-process
+// nightly fundamentals rewrites. Zero new npm deps.
+const ssrCache = require('./ssr-cache');
+const ssrCacheMw = ssrCache.middleware();
+app.use(ssrCacheMw);
+
 app.get('/sitemap.xml', (req, res) => {
     res.set('Content-Type', 'application/xml').send(seoPages.buildSitemap());
 });
@@ -3970,6 +3987,11 @@ app.get('*', (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Warm the SSR cache's dedicated /sitemap.xml slot ONCE, deferred via
+// setImmediate (inside warmSitemap) so the multi-second cold buildSitemap()
+// parse runs off the health-check critical path instead of blocking the
+// 0.5-CPU loop on Googlebot's first post-deploy hit.
+try { ssrCache.warmSitemap(ssrCacheMw, () => seoPages.buildSitemap()); } catch (e) { console.log('[ssr-cache] sitemap warm skipped:', e && e.message); }
 watchdog.start();
 gurus.start();
 startDigest();
