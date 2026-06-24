@@ -583,12 +583,13 @@ function buildSitemap() {
     // /monitor-demo. The same clips may still appear as supplementary embeds on
     // /features and the homepage, but those carry no VideoObject schema and are not
     // in the sitemap, so they don't compete to be the indexed watch page.
+    // NOTE: no <video:player_loc> — Google's spec forbids player_loc == <loc>, and the
+    // watch page IS the <loc>. <video:content_loc> (the actual .mp4) is what we declare.
     const tourVideo = `\n    <video:video>\n`
         + `      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n`
         + `      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n`
         + `      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and 19 years of filed fundamentals.</video:description>\n`
         + `      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n`
-        + `      <video:player_loc>${SITE}/tour</video:player_loc>\n`
         + `      <video:duration>63</video:duration>\n`
         + `    </video:video>`;
     const monitorVideo = `\n    <video:video>\n`
@@ -596,7 +597,6 @@ function buildSitemap() {
         + `      <video:title>Filing Change Monitor — reading NVIDIA's latest 10-Q</video:title>\n`
         + `      <video:description>The Filing Change Monitor reads a company's newest 10-K, 10-Q or 8-K: the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality.</video:description>\n`
         + `      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n`
-        + `      <video:player_loc>${SITE}/monitor-demo</video:player_loc>\n`
         + `      <video:duration>18</video:duration>\n`
         + `    </video:video>`;
     const body = urls.map((u) => {
