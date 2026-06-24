@@ -184,7 +184,7 @@ function renderMetricPage(ticker, slug) {
     // A "$0"/"0" headline (e.g. a company that pays no dividend) reads as broken
     // and won't earn the click — use the plain range title in that case.
     const title = (latestVal !== null && latestVal !== 0)
-        ? `${titleName} (${sym}) ${shortLabel}: ${m.fmt(latestVal)} (${y1}) — ${yrsSpan}-Year History`
+        ? `${titleName} (${sym}) ${shortLabel}: ${m.fmt(latestVal)} (${y1})`
         : `${titleName} (${sym}) ${shortLabel} History ${y0}–${y1}`;
     const description = `${name} (${sym}) annual ${m.noun} from ${y0} to ${y1}` +
         (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
@@ -309,7 +309,7 @@ function comparePairs() {
 // Gives the "Compare" nav item a real home and works as a compare-hub SEO page.
 function renderCompareIndex() {
     const canonical = `${SITE}/compare`;
-    const title = 'Compare Any Two US Stocks — Fundamentals & AI Verdict | stockportfolio.pro';
+    const title = 'Compare Any Two US Stocks — Fundamentals & AI Verdict';
     const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E, ROE and red flags from SEC filings — plus an AI verdict on which is the stronger business and the cheaper stock. Free, no account.';
     const popular = [['AMD', 'NVDA'], ['AAPL', 'MSFT'], ['GOOGL', 'META'], ['AMZN', 'MSFT'], ['TSLA', 'F'], ['JPM', 'BAC'], ['KO', 'PEP'], ['V', 'MA'], ['AMD', 'INTC'], ['DIS', 'NFLX'], ['CRM', 'ORCL'], ['WMT', 'COST']];
     const popHtml = popular.map(([a, b]) => { const p = [a, b].slice().sort(); return `<a href="/compare/${p[0]}-vs-${p[1]}" style="display:inline-block;padding:8px 13px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface)">${esc(a)} vs ${esc(b)}</a>`; }).join('');
@@ -365,7 +365,7 @@ function renderComparePage(pairSlug) {
     const incb = ((db.income || {}).annualReports || [])[0] || {};
 
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
-    const title = `${a} vs ${b} Stock: Which Is the Better Buy? (${ma.name} vs ${mb.name})`;
+    const title = `${a} vs ${b} Stock: Which Is the Better Buy?`;
     const description = `${ma.name} (${a}) vs ${mb.name} (${b}) — side-by-side revenue, margins, growth, P/E, ROE and dividends from SEC filings. Which fundamentals look stronger?`;
 
     const fmtB = (v) => v === null ? '—' : `$${v >= 1000 ? (v / 1000).toFixed(2) + 'T' : v.toFixed(1) + 'B'}`;

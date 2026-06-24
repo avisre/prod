@@ -266,7 +266,7 @@ function renderComparison(slug) {
     const c = COMPETITORS[String(slug || '').toLowerCase()];
     if (!c) return null;
     const canonical = `${SITE}/vs/${c.slug}`;
-    const title = `stockportfolio.pro vs ${c.name}: Pricing & Features Compared (2026)`;
+    const title = `stockportfolio.pro vs ${c.name}: Pricing & Features (2026)`;
     const description = `${c.name} alternative? Compare stockportfolio.pro and ${c.name} on price, fundamentals, portfolio tracking and ease of use. £9/mo with a 7-day free trial.`;
     const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical });
     const rows = c.rows.map((r) => `<tr><td>${esc(r[0])}</td><td class="us">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('');
