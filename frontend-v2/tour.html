@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Videos — see stockportfolio.pro in action</title>
-  <meta name="description" content="Watch stockportfolio.pro in action: a 60-second product tour, plus a walkthrough of the Filing Change Monitor reading a company's latest SEC filing — the SEC-grounded AI analyst, the free screener, and 19 years of filed fundamentals." />
+  <title>60-second product tour — stockportfolio.pro</title>
+  <meta name="description" content="Watch the 60-second product tour of stockportfolio.pro: Ask, the SEC-grounded AI analyst; the free stock screener over 3,800+ US companies; and up to 19 years of filed fundamentals on every US-listed company." />
   <link rel="canonical" href="https://www.stockportfolio.pro/tour" />
   <meta property="og:type" content="video.other" />
   <meta property="og:site_name" content="stockportfolio.pro" />
-  <meta property="og:title" content="stockportfolio.pro — product videos" />
-  <meta property="og:description" content="A 60-second product tour plus a Filing Change Monitor walkthrough — the SEC-grounded AI analyst, the free screener, and 19 years of filed fundamentals." />
+  <meta property="og:title" content="stockportfolio.pro — 60-second product tour" />
+  <meta property="og:description" content="A 60-second tour of stockportfolio.pro — the SEC-grounded AI analyst, the free screener, and 19 years of filed fundamentals." />
   <meta property="og:url" content="https://www.stockportfolio.pro/tour" />
   <meta property="og:image" content="https://www.stockportfolio.pro/assets/tour-poster.jpg" />
   <meta property="og:video" content="https://www.stockportfolio.pro/assets/tour-1080p.mp4" />
@@ -17,8 +17,8 @@
   <meta property="og:video:width" content="1920" />
   <meta property="og:video:height" content="1080" />
   <meta name="twitter:card" content="player" />
-  <meta name="twitter:title" content="stockportfolio.pro — product videos" />
-  <meta name="twitter:description" content="A 60-second product tour plus a Filing Change Monitor walkthrough." />
+  <meta name="twitter:title" content="stockportfolio.pro — 60-second product tour" />
+  <meta name="twitter:description" content="A 60-second tour of stockportfolio.pro." />
   <meta name="twitter:image" content="https://www.stockportfolio.pro/assets/tour-poster.jpg" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,65 +38,44 @@
     "embedUrl": "https://www.stockportfolio.pro/tour"
   }
   </script>
-  <!-- Only the 60-second tour is declared as a VideoObject: /tour is a single-video
-       watch page (Google indexes one video per page). The Monitor clip below is a
-       supplementary embed, deliberately left without schema so it is not the indexed video. -->
+  <!-- /tour is a dedicated single-video watch page: the 60-second tour is the main
+       content, placed first and above the fold, and it is the only video on this page.
+       The Filing Change Monitor clip now lives on its own watch page (/monitor-demo)
+       so each video has exactly one canonical watch page (declared in the video sitemap),
+       which is what Google needs to index a video. -->
 </head>
 <body>
   <main>
     <div class="container" style="max-width:980px; margin:0 auto; padding:56px 24px;">
 
-      <div class="section-head" style="margin-bottom:20px;">
-        <h1 class="display" style="max-width:20ch;">See stockportfolio.pro in action</h1>
+      <div class="section-head" style="margin-bottom:14px;">
+        <h1 class="display" style="max-width:22ch;">60-second product tour</h1>
       </div>
-      <p class="muted" style="max-width:62ch; margin:0 0 8px; font-size:17px; line-height:1.6;">
-        Short, real-product walkthroughs — no narration, no mock-ups. Every number on screen
-        is pulled from the same SEC-filed data you'd be using.
+
+      <!-- The video is the main content of this watch page: first element, full width. -->
+      <div style="position:relative; width:100%; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
+        <video controls preload="metadata" playsinline poster="/assets/tour-poster.jpg"
+               width="1280" height="720" style="width:100%; height:100%; display:block; background:#000;"
+               aria-label="stockportfolio.pro 60-second product tour">
+          <source src="/assets/tour-1080p.mp4" type="video/mp4" />
+          <source src="/assets/tour-720p.mp4" type="video/mp4" />
+          Your browser doesn&rsquo;t support embedded video.
+          <a href="/assets/tour-1080p.mp4">Download the tour (MP4)</a>.
+        </video>
+      </div>
+
+      <p class="muted" style="max-width:64ch; margin:18px 0 0; font-size:17px; line-height:1.6;">
+        A one-minute, real-product walkthrough — no narration, no mock-ups. You&rsquo;ll see
+        <strong>Ask</strong>, the SEC-grounded AI analyst; the <strong>free screener</strong> over
+        3,800+ US companies; and up to <strong>19 years</strong> of filed fundamentals on every
+        US-listed company. Every number on screen is pulled from the same SEC-filed data you&rsquo;d be using.
       </p>
 
-      <!-- ① The product tour — the first video, about the site as a whole. -->
-      <section style="margin-top:40px;">
-        <h2 class="title-2" style="margin:0 0 4px;">60-second product tour</h2>
-        <p class="muted" style="max-width:62ch; margin:0 0 16px;">
-          <strong>Ask</strong>, the SEC-grounded AI analyst; the <strong>free screener</strong> over
-          3,800+ US companies; and up to <strong>19 years</strong> of filed fundamentals on every US-listed company.
-        </p>
-        <div style="position:relative; width:100%; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
-          <video controls preload="none" playsinline poster="/assets/tour-poster.jpg"
-                 width="1280" height="720" style="width:100%; height:100%; display:block; background:#000;"
-                 aria-label="stockportfolio.pro 60-second product tour">
-            <source src="/assets/tour-1080p.mp4" type="video/mp4" />
-            <source src="/assets/tour-720p.mp4" type="video/mp4" />
-            Your browser doesn&rsquo;t support embedded video.
-            <a href="/assets/tour-1080p.mp4">Download the tour (MP4)</a>.
-          </video>
-        </div>
-      </section>
+      <p class="small faint" style="margin:14px 0 0;">
+        More demos: <a href="/monitor-demo">watch the Filing Change Monitor read a 10-Q &rarr;</a>
+      </p>
 
-      <!-- ② Filing Change Monitor walkthrough — supplementary video, kept secondary to the
-           primary tour above (no VideoObject schema, marked "More demos") so /tour indexes one video. -->
-      <section style="margin-top:48px; border-top:1px solid var(--line); padding-top:32px;">
-        <p class="small faint" style="margin:0 0 6px; text-transform:uppercase; letter-spacing:0.06em;">More demos</p>
-        <h2 class="title-2" style="margin:0 0 4px;">Filing Change Monitor</h2>
-        <p class="muted" style="max-width:62ch; margin:0 0 16px;">
-          Enter any US ticker and get an instant, cited read on its newest <strong>10-K, 10-Q or 8-K</strong> —
-          the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality.
-          Here it reads NVIDIA&rsquo;s latest 10-Q.
-        </p>
-        <div style="position:relative; width:100%; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
-          <video controls preload="none" playsinline poster="/assets/monitor-poster.jpg"
-                 width="1280" height="720" style="width:100%; height:100%; display:block; background:#000;"
-                 aria-label="Filing Change Monitor — what changed in NVIDIA's latest 10-Q">
-            <source src="/assets/monitor-1080p.mp4" type="video/mp4" />
-            <source src="/assets/monitor-720p.mp4" type="video/mp4" />
-            Your browser doesn&rsquo;t support embedded video.
-            <a href="/assets/monitor-1080p.mp4">Download the demo (MP4)</a>.
-          </video>
-        </div>
-        <p class="small faint" style="margin:10px 0 0;"><a href="/monitor">Try the Monitor free</a> — 3 stocks, no login.</p>
-      </section>
-
-      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:44px;">
+      <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:40px;">
         <a class="btn btn-primary" href="/register.html?plan=monthly">Start 7-day free trial</a>
         <a class="btn btn-ghost" href="/screener.html">Try the free screener</a>
         <a class="btn btn-ghost" href="/ask.html">See Ask in action</a>
