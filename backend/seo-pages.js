@@ -220,11 +220,13 @@ function renderStockPage(ticker) {
     const freshness = fmtDate(mtime);
     // Metric + year-range words are the long-tail hooks searchers actually type
     // ("apple revenue by year", "{name} net income 2018").
-    const fyOf = (r) => String((r || {}).fiscalDateEnding || '').slice(0, 4);
-    const titleYears = income.length >= 2 ? `${fyOf(income[income.length - 1])}-${fyOf(income[0])}` : '';
-    const title = titleYears
-        ? `${name} (${sym}) Stock: Fair Value, Revenue & Net Income ${titleYears}`
-        : `${name} (${sym}) Stock Analysis: Fair Value, Financials & Red Flags`;
+    // Keep the <title> under ~60 chars (Google truncates ~60, Bing warns >65): strip
+    // the legal suffix from the company name and keep the keyword tail short. The full
+    // name, year range and Revenue/Net Income terms still live in the description + H1.
+    const shortName = name.replace(/^The\s+/i, '')
+        .replace(/,?\s+(?:&|and)?\s*(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
+        .trim() || name;
+    const title = `${shortName} (${sym}) Stock: Fair Value & Financials`;
     const metricBits = [
         mcap ? `Market cap ${money(mcap)}` : '',
         pe ? `P/E ${ratio(pe)}` : '',
@@ -540,7 +542,7 @@ function renderStockIndex() {
     const bySector = {};
     all.forEach((c) => { (bySector[c.sector || 'Other'] = bySector[c.sector || 'Other'] || []).push(c); });
     const canonical = `${SITE}/stocks`;
-    const title = 'Stock Fundamentals — Revenue, P/E & Financials for 1,500+ US Stocks';
+    const title = 'Stock Fundamentals: Revenue, P/E & Financials for US Stocks';
     const description = "Look up any US stock's fundamentals free: revenue, net income, P/E, margins, dividends and up to 19 years of financials computed from SEC filings. Browse 1,500+ companies — S&P 500, MidCap 400 and SmallCap 600.";
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'CollectionPage',
