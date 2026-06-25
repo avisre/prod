@@ -216,8 +216,8 @@ Revenue grew 18% YoY to $12.4B in fiscal 2024, driven by cloud services (+34%). 
 <div class="ask-limit-msg">You've used all ${data.quota ? data.quota.limit : ''} Ask questions this month.</div>
 ${isPro ? `<p style="color:var(--ask-muted);font-size:12px">Your Pro quota resets on the 1st.</p>` : `
 <div class="ask-limit-plans">
-<div class="ask-limit-plan"><b>Core — £9/mo</b><span>25 Ask questions/mo</span></div>
-<div class="ask-limit-plan"><b>Pro — £25/mo</b><span>300 Ask questions/mo<br>+ AI summaries</span></div>
+<div class="ask-limit-plan"><b>Core — $12/mo</b><span>25 Ask questions/mo</span></div>
+<div class="ask-limit-plan"><b>Pro — $33/mo</b><span>300 Ask questions/mo<br>+ AI summaries</span></div>
 </div>
 <a class="ask-limit-cta" href="register.html?plan=pro">Upgrade to Pro — 7 days free</a>`}
 </div>`;

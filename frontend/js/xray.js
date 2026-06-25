@@ -33,7 +33,7 @@
 
             const lt = d.lookThrough || {};
             $('xray-tiles').innerHTML = [
-                tile('Look-through P/E', fmt(lt.peRatio, 1), 'what you pay per £1 of earnings'),
+                tile('Look-through P/E', fmt(lt.peRatio, 1), 'what you pay per $1 of earnings'),
                 tile('Net margin', fmt(lt.netMarginPct, 1, '%'), 'value-weighted across holdings'),
                 tile('ROE', fmt(lt.roePct, 1, '%'), 'value-weighted'),
                 tile('Revenue growth', fmt(lt.revCagr5Pct, 1, '%/yr'), '5-yr CAGR, value-weighted'),

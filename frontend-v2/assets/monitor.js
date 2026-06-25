@@ -89,8 +89,8 @@
         <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Power &amp; Desk</h2>
         <p class="muted" style="max-width:62ch;">Get an instant, cited read on what materially changed in any company's latest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved — plus a materiality-ranked feed across your whole watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — £1,490/yr</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Power — £440/yr</a>
+          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — $1,961/yr</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Power — $579/yr</a>
         </div>
       </div>`;
     out.hidden = false;
@@ -120,7 +120,7 @@
     banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
     banner.innerHTML = `<div class="small" style="max-width:58ch; margin:0;">${msg}</div>
       <div style="flex-shrink:0;">
-        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Go unlimited — Power £49/mo</a>
+        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Go unlimited — Power $64/mo</a>
       </div>`;
     const out = $('mon-report');
     out.insertBefore(banner, out.firstChild);
@@ -134,10 +134,10 @@
         <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
         <p class="muted" style="max-width:62ch;">Power gives you an instant, cited read on what materially changed in any 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality — unlimited, with an auto-updating feed across your whole watchlist. The job institutional desks pay five figures a seat for.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — £49/mo</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Or £440/yr — save 25%</a>
+          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $64/mo</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Or $579/yr — save 25%</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">£1,490/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,961/yr →</a></p>
       </div>`;
     out.hidden = false;
   }

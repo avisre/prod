@@ -60,7 +60,7 @@ function proGate(req, res, next) {
     return res.status(402).json({ message: 'This is a Pro feature. Upgrade to Pro to use the AI assistant.', code: 'PRO_REQUIRED' });
 }
 // The Filing Change Monitor is the Power/Desk differentiator — NOT included in
-// the £25 Pro tier (which keeps per-holding Filing Diff). Plan-based, so it
+// the $33 Pro tier (which keeps per-holding Filing Diff). Plan-based, so it
 // doesn't disturb the free<core<pro ladder every other gate relies on.
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
@@ -147,26 +147,26 @@ const ANNUAL_PLAN_ID = 'annual';
 const PRO_PLAN_ID = 'pro';
 const PRO_ANNUAL_PLAN_ID = 'pro-annual';
 const FREE_PLAN_ID = 'free';
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '9.00');
-const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'GBP';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '90.00');
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '12.00');
+const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '118.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
-const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
-const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '190.00');
+const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '33.00');
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '250.00');
 // Premium annual tiers for the Filing Monitor launch — both unlock the full
-// Pro feature set; differ only by price/positioning/support. GBP, billed yearly.
+// Pro feature set; differ only by price/positioning/support. USD, billed yearly.
 const POWER_PLAN_ID = 'power';
 const DESK_PLAN_ID = 'desk';
-const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '440.00');
-const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'GBP';
+const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '579.00');
+const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
 // Power, billed monthly — same access as annual Power, lower activation friction
-// for pros who won't commit £440 upfront. £49/mo ≈ £588/yr, so annual is a clear
+// for pros who won't commit $579 upfront. $64/mo ≈ $774/yr, so annual is a clear
 // 25% saving. Same Monitor unlock as annual Power.
 const POWER_MONTHLY_PLAN_ID = 'power-monthly';
-const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '49.00');
-const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'GBP';
-const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1490.00');
-const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'GBP';
+const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '64.00');
+const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
+const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1961.00');
+const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
@@ -3462,7 +3462,7 @@ app.get(/^\/register\/?$/, (req, res) => {
 });
 
 app.get(/^\/founding\/?$/, (req, res) => {
-    // Legacy founding page showed stale £90/£9 pricing — canonical funnel is v2 at /.
+    // Legacy founding page showed stale $118/$12 pricing — canonical funnel is v2 at /.
     res.redirect(301, '/');
 });
 
