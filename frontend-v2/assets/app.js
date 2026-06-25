@@ -242,9 +242,9 @@
     // (the value is seen, not described) above one upgrade panel with the plan
     // ladder and a single CTA. Pro users just get a reset note, no upsell.
     const ASK_PLANS = {
-        free: { name: 'Free', price: '£0', per: '/forever', q: 3 },
-        core: { name: 'Core', price: '£9', per: '/mo', q: 25 },
-        pro: { name: 'Pro', price: '£25', per: '/mo', q: 300 }
+        free: { name: 'Free', price: '$0', per: '/forever', q: 3 },
+        core: { name: 'Core', price: '$12', per: '/mo', q: 25 },
+        pro: { name: 'Pro', price: '$33', per: '/mo', q: 300 }
     };
     function quotaWall(data) {
         const limit = (data && data.quota && Number(data.quota.limit)) || 3;

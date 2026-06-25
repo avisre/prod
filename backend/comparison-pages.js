@@ -20,7 +20,7 @@ const COMPETITORS = {
         blurb: 'Sharesight is a well-established portfolio tracker focused on performance and tax reporting, popular with investors who want detailed dividend and capital-gains records.',
         theirPrice: 'Free up to 10 holdings; paid tiers roughly $7–$23/month (billed annually).',
         rows: [
-            ['Monthly price', '£9/mo (~$11), 7-day free trial', '$7–$23/mo (annual billing)'],
+            ['Monthly price', '$12/mo, 7-day free trial', '$7–$23/mo (annual billing)'],
             ['Free / trial', '7-day free trial, cancel anytime', 'Free up to 10 holdings'],
             ['Company fundamentals', 'Income, balance sheet & cash flow built in', 'Limited; focus is performance & tax'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes — strong tax & dividend reporting'],
@@ -35,7 +35,7 @@ const COMPETITORS = {
         blurb: 'Stock Rover is a powerful research and screening platform aimed at US investors who want deep screeners, ratings and detailed data tables.',
         theirPrice: 'Free plan available; paid tiers roughly $7–$28/month.',
         rows: [
-            ['Monthly price', '£9/mo (~$11), 7-day free trial', '$7–$28/mo'],
+            ['Monthly price', '$12/mo, 7-day free trial', '$7–$28/mo'],
             ['Free / trial', '7-day free trial, cancel anytime', 'Free plan + paid trials'],
             ['Learning curve', 'Simple, calm, opinionated UI', 'Powerful but dense — lots of screens'],
             ['Company fundamentals', 'Clean income, balance sheet & cash flow', 'Extensive data & screeners'],
@@ -50,7 +50,7 @@ const COMPETITORS = {
         blurb: 'Macrotrends is a long-running free reference site for historical stock charts and financial-statement data, with decades of history on large caps. It is a lookup tool rather than a research workspace.',
         theirPrice: 'Free tier (ad-supported); paid subscription unlocks more data and downloads.',
         rows: [
-            ['Price', 'Free stock pages & screener; £9/mo for the full workspace', 'Free tier with ads; paid unlocks downloads'],
+            ['Price', 'Free stock pages & screener; $12/mo for the full workspace', 'Free tier with ads; paid unlocks downloads'],
             ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, from SEC filings', 'Long histories, sourced from Zacks'],
             ['AI research assistant', 'Yes — Ask answers from SEC filings, sources shown', 'No'],
             ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, alerts', 'No'],
@@ -65,7 +65,7 @@ const COMPETITORS = {
         blurb: 'StockAnalysis.com is a popular free site for clean stock statistics and financial statements, with a Pro tier for deeper history and exports.',
         theirPrice: 'Free site; Pro about $9.99/month (or $79/year), Unlimited $199/year.',
         rows: [
-            ['Price', 'Free stock pages & screener; £9/mo full workspace', 'Free; Pro ~$9.99/mo'],
+            ['Price', 'Free stock pages & screener; $12/mo full workspace', 'Free; Pro ~$9.99/mo'],
             ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, from SEC filings', '10+ yrs free, more on Pro'],
             ['AI research assistant', 'Yes — Ask answers from SEC filings, sources shown', 'No'],
             ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, SEC filing alerts', 'Watchlists'],
@@ -79,7 +79,7 @@ const COMPETITORS = {
         blurb: 'Koyfin is a professional-grade market dashboard with broad asset coverage (equities, macro, FX) aimed at advanced users and advisors.',
         theirPrice: 'Free plan; Plus ~$39/month and Premium ~$79/month (annual billing); advisor tiers from $209/month.',
         rows: [
-            ['Monthly price', '£9/mo (~$11); Pro with AI analyst £25/mo', 'Plus ~$39/mo, Premium ~$79/mo (annual)'],
+            ['Monthly price', '$12/mo; Pro with AI analyst $33/mo', 'Plus ~$39/mo, Premium ~$79/mo (annual)'],
             ['Free / trial', 'Free screener & stock pages; 7-day trial on paid', 'Free plan with limits'],
             ['Fundamentals depth', 'Up to 19 years, SEC-filed, with health checks', 'Deep, multi-asset, customizable dashboards'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'Limited'],
@@ -93,7 +93,7 @@ const COMPETITORS = {
         blurb: 'Fiscal.ai (formerly FinChat) is an AI-first stock research platform known for KPI datasets and copilot-style chat over company data.',
         theirPrice: 'Free plan; Pro ~$39/month billed annually ($49 monthly); Max ~$79/month billed annually.',
         rows: [
-            ['Monthly price', 'Pro with AI analyst £25/mo (~$32); Core £9/mo', 'Pro ~$39/mo, Max ~$79/mo (annual billing)'],
+            ['Monthly price', 'Pro with AI analyst $33/mo; Core $12/mo', 'Pro ~$39/mo, Max ~$79/mo (annual billing)'],
             ['AI grounding', 'Answers only from SEC filings + live web, sources shown; refuses when unsure', 'AI copilot over its datasets'],
             ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, SEC-filed', '10+ yrs, 20+ on Max; segment KPIs'],
             ['Portfolio tracking', 'Yes — holdings, X-Ray, SEC filing alerts', 'Watchlists & dashboards'],
@@ -107,7 +107,7 @@ const COMPETITORS = {
         blurb: 'TIKR is a research terminal built on S&P Capital IQ data, popular for global coverage and superinvestor portfolio tracking.',
         theirPrice: 'Free plan (limited); Plus ~$24.95/month; Pro ~$54.95/month.',
         rows: [
-            ['Monthly price', '£9/mo (~$11); Pro with AI analyst £25/mo', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
+            ['Monthly price', '$12/mo; Pro with AI analyst $33/mo', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
             ['Data source', 'Official SEC filings, refreshed nightly', 'S&P Capital IQ (global)'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'No'],
             ['US coverage', 'Every USD-reporting US-listed company, 19 yrs', 'Global, full history on Pro'],
@@ -121,7 +121,7 @@ const COMPETITORS = {
         blurb: 'Simply Wall St is known for its visual "snowflake" company analysis and is popular with investors who like infographic-style research.',
         theirPrice: 'Free plan available; paid roughly $10/month (annual billing).',
         rows: [
-            ['Monthly price', '£9/mo (~$11), 7-day free trial', '~$10/mo (annual billing)'],
+            ['Monthly price', '$12/mo, 7-day free trial', '~$10/mo (annual billing)'],
             ['Free / trial', '7-day free trial, cancel anytime', 'Free plan + paid annual'],
             ['Fundamentals format', 'Real statements: income, balance, cash flow', 'Visual infographics & summaries'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes'],
@@ -136,7 +136,7 @@ const COMPETITORS = {
         blurb: "WallStreetZen is a stock research platform built around a 115-factor quantitative rating system (Zen Ratings) and transparent analyst performance rankings, aimed at part-time investors who want screeners and due diligence tools.",
         theirPrice: "Free tier (limited screener); Premium $19.50/month when billed yearly ($234/year) or $59/month if paid monthly; 14-day trial for $1.",
         rows: [
-            ["Monthly price (annual plan)","£9/mo (~$11); 7-day free trial on paid app, cancel anytime","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
+            ["Monthly price (annual plan)","$12/mo; 7-day free trial on paid app, cancel anytime","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
             ["Fundamentals depth","Up to 19 years annual + 48 quarters, from SEC filings; health checks included","Historical fundamentals + 115-factor Zen Ratings; no explicit statement of years back"],
             ["AI research assistant","Yes — Ask answers from SEC filings, sources shown; refuses when unsure","No AI assistant; offers analyst rankings and due diligence checks instead"],
             ["Analyst ratings & consensus","No analyst consensus or call transcripts included","Ranks 130+ top analysts by historical accuracy, win rate, and returns; shows analyst consensus — a genuine strength"],
@@ -149,7 +149,7 @@ const COMPETITORS = {
         name: "Seeking Alpha",
         slug: "seeking-alpha",
         blurb: "Established investment research platform with expert-contributor analysis, analyst consensus ratings, and earnings-call transcripts focused primarily on US-listed stocks.",
-        theirPrice: "£25/month equivalent (~$299/year standard, currently $225/year summer sale June-July 2026)",
+        theirPrice: "$33/month equivalent (~$299/year standard, currently $225/year summer sale June-July 2026)",
         rows: [
             ["Data depth","Up to 19 annual years + 48 quarters from SEC 10-K/10-Q via EDGAR; deterministic, health-checked","Quant Rating system scores based on 100+ metrics; does not publish historical-depth years covered"],
             ["AI research tool","Conversational Ask (portfolio + company Q&A), grounded only in SEC filings + live web, shows sources, refuses when unsure","Expert-contributor articles + AI-generated earnings-call summaries; no portfolio-aware questioning"],
@@ -207,10 +207,10 @@ const COMPETITORS = {
         blurb: "Established multi-tier financial platform with global market coverage, portfolio tools, and professional-grade analysis at higher price points.",
         theirPrice: "Bronze $9.95/mo (~$95/yr); Silver ~$24.95/mo (~$239/yr); Gold ~$49.95/mo (~$479/yr) with 20% annual discount",
         rows: [
-            ["Entry Price","£9/mo (~$11/mo); 7-day free trial on paid app","Bronze $9.95/mo (lowest tier)"],
+            ["Entry Price","$12/mo; 7-day free trial on paid app","Bronze $9.95/mo (lowest tier)"],
             ["Data Depth (History)","Up to 19 years annual + 48 quarters from verified SEC filings (10-K/10-Q)","~40 years downloadable data (Gold tier); breadth unclear, not SEC-verified"],
             ["Geographic Coverage","US equities only, no international","Global coverage + UK studio + 24/5 US market data; supports non-US stocks on US exchanges — a genuine strength"],
-            ["AI/Research","Grounded AI analyst (Pro tier, £25/mo) with SEC filing sources; refuses when unsure","Research reports, stock recommendations, Motley Fool Stock Advisor (Gold); analyst estimates & consensus not emphasized"],
+            ["AI/Research","Grounded AI analyst (Pro tier, $33/mo) with SEC filing sources; refuses when unsure","Research reports, stock recommendations, Motley Fool Stock Advisor (Gold); analyst estimates & consensus not emphasized"],
             ["Alerts & Monitoring","SEC filing-change alerts (free + paid), holdings & portfolio X-Ray","Premium alerts + advanced portfolio analysis at Bronze tier; broader market monitoring"],
             ["Best For","US-focused value investors wanting auditable SEC-sourced research + filing alerts at low cost","Global traders & multi-asset portfolio managers needing professional tools, analyst research, and 24/5 market data"]
         ]
@@ -267,13 +267,13 @@ function renderComparison(slug) {
     if (!c) return null;
     const canonical = `${SITE}/vs/${c.slug}`;
     const title = `stockportfolio.pro vs ${c.name}: Pricing & Features (2026)`;
-    const description = `${c.name} alternative? Compare stockportfolio.pro and ${c.name} on price, fundamentals, portfolio tracking and ease of use. £9/mo with a 7-day free trial.`;
+    const description = `${c.name} alternative? Compare stockportfolio.pro and ${c.name} on price, fundamentals, portfolio tracking and ease of use. $12/mo with a 7-day free trial.`;
     const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical });
     const rows = c.rows.map((r) => `<tr><td>${esc(r[0])}</td><td class="us">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('');
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <h1 class="seo-h1">stockportfolio.pro vs ${esc(c.name)}</h1>
-  <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>£9/month with a 7-day free trial</strong>.</p>
+  <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>$12/month with a 7-day free trial</strong>.</p>
   <table class="cmp-table">
     <thead><tr><th>&nbsp;</th><th>stockportfolio.pro</th><th>${esc(c.name)}</th></tr></thead>
     <tbody>${rows}</tbody>

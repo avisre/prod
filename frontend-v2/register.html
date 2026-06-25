@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Start your 7-day free trial. Monthly £9, Annual £90, Pro £25 (£190/yr) with the AI analyst." />
+  <meta name="description" content="Start your 7-day free trial. Monthly $12, Annual $118, Pro $33 ($250/yr) with the AI analyst." />
   <meta name="robots" content="noindex, follow" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,24 +34,24 @@
   <main>
     <div class="container" style="max-width:480px; padding-top:72px;">
       <h1 class="title-1">Create your account</h1>
-      <p class="muted small" style="margin-top:6px;" id="plan-summary">7-day free trial, then £9/month. Cancel anytime.</p>
+      <p class="muted small" style="margin-top:6px;" id="plan-summary">7-day free trial, then $12/month. Cancel anytime.</p>
 
       <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
         <div class="plan-pick" role="group" aria-label="Choose your plan">
           <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">
-            <span class="plan-name">Monthly</span><span class="plan-price">£9/mo</span><span class="plan-tag">Cancel anytime</span>
+            <span class="plan-name">Monthly</span><span class="plan-price">$12/mo</span><span class="plan-tag">Cancel anytime</span>
           </button>
           <button type="button" class="plan-card" data-plan="annual" aria-pressed="false">
-            <span class="plan-name">Annual</span><span class="plan-price">£90/yr</span><span class="plan-tag">Save £18</span>
+            <span class="plan-name">Annual</span><span class="plan-price">$118/yr</span><span class="plan-tag">Save $26</span>
           </button>
           <button type="button" class="plan-card" data-plan="pro" aria-pressed="false">
-            <span class="plan-name">Pro</span><span class="plan-price">£25/mo</span><span class="plan-tag">AI analyst · £190/yr</span>
+            <span class="plan-name">Pro</span><span class="plan-price">$33/mo</span><span class="plan-tag">AI analyst · $250/yr</span>
           </button>
         </div>
         <p class="small muted" id="pro-annual-row" hidden style="margin:-8px 0 0;">
           <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
             <input type="checkbox" id="pro-annual-toggle" style="accent-color:var(--ink);" />
-            <span>Bill Pro yearly — <strong>£190/yr</strong> (save £110 vs monthly)</span>
+            <span>Bill Pro yearly — <strong>$250/yr</strong> (save $146 vs monthly)</span>
           </label>
         </p>
         <div id="social-shell" hidden style="display:grid; gap:10px;">
@@ -78,13 +78,13 @@
   <script>
     V2.nav('register');
     const SUMMARY = {
-      monthly: ['7-day free trial, then £9/month. Cancel anytime.', 'Start 7-day free trial'],
-      annual: ['£90 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
-      pro: ['7-day free trial, then £25/month — includes the AI analyst.', 'Start Pro free trial'],
-      'pro-annual': ['£190 billed today, renews yearly — save £110 versus Pro monthly.', 'Continue to Pro Annual checkout'],
-      power: ['£440 billed today, renews yearly — the full research desk + Filing Monitor for serious individuals.', 'Continue to Power checkout'],
-      'power-monthly': ['£49 billed today, then monthly — the full research desk + Filing Monitor, no annual commitment. Cancel anytime.', 'Continue to Power checkout'],
-      desk: ['£1,490 billed today, renews yearly — full coverage + Filing Monitor for RIAs, analysts and small funds.', 'Continue to Desk checkout']
+      monthly: ['7-day free trial, then $12/month. Cancel anytime.', 'Start 7-day free trial'],
+      annual: ['$118 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
+      pro: ['7-day free trial, then $33/month — includes the AI analyst.', 'Start Pro free trial'],
+      'pro-annual': ['$250 billed today, renews yearly — save $146 versus Pro monthly.', 'Continue to Pro Annual checkout'],
+      power: ['$579 billed today, renews yearly — the full research desk + Filing Monitor for serious individuals.', 'Continue to Power checkout'],
+      'power-monthly': ['$64 billed today, then monthly — the full research desk + Filing Monitor, no annual commitment. Cancel anytime.', 'Continue to Power checkout'],
+      desk: ['$1,961 billed today, renews yearly — full coverage + Filing Monitor for RIAs, analysts and small funds.', 'Continue to Desk checkout']
     };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk']);
