@@ -461,6 +461,14 @@ function buildScreenIndex() {
                 roePct: ratio(niy(0), (bal[0] || {}).totalShareholderEquity) !== null
                     ? ratio(niy(0), (bal[0] || {}).totalShareholderEquity) * 100 : null,
                 fcfPositive: fcf !== null ? fcf > 0 : null,
+                // Absolute free cash flow (already computed above, was discarded) — sortable for
+                // the "highest free cash flow stocks" leaderboard. Raw dollars; capex stored negative.
+                fcfAbs: fcf,
+                // Computed PEG = trailing P/E ÷ 5-year revenue CAGR, both from filings (NOT the sparse
+                // vendor PEGRatio field, which embeds forward estimates). Only meaningful for profitable growers.
+                pegRatio: (num(ov.PERatio) > 0 && b5 >= 2 && cagr(rev(b5), rev(0), b5) > 0)
+                    ? num(ov.PERatio) / cagr(rev(b5), rev(0), b5) : null,
+                priceToBook: num(ov.PriceToBookRatio),
                 profitableYears10: profYears,
                 qtrNetIncomeYoYPct: qNiYoY,
                 qtrEpsYoYPct: qEpsYoY,
@@ -473,11 +481,30 @@ function buildScreenIndex() {
     return out;
 }
 
+// Collapse a screen index down to one primary common-stock row per issuer:
+// drops preferreds / warrants / units / rights (their symbols carry a hyphen,
+// e.g. COF-PN) and duplicate share classes (same issuer name, e.g. GOOG/GOOGL),
+// keeping the shortest symbol. These secondary listings inherit the common's
+// overview verbatim, producing junk like "Capital One P/E 0.6, P/B 0.09" that
+// otherwise dominates value leaderboards. Opt-in via exclude_secondary_listings.
+function primaryListings(rows) {
+    const best = new Map();
+    for (const r of rows) {
+        if (r.symbol && r.symbol.includes('-')) continue;
+        const key = (r.name || r.symbol || '').trim().toLowerCase();
+        const cur = best.get(key);
+        if (!cur || r.symbol.length < cur.symbol.length ||
+            (r.symbol.length === cur.symbol.length && r.symbol < cur.symbol)) best.set(key, r);
+    }
+    return [...best.values()];
+}
+
 // Shared filter/sort core — used by the chatbot tool AND the /api/screener
 // route that powers the Screener page.
 function screenRows(args) {
     const a = args || {};
     let rows = buildScreenIndex().slice();
+    if (a.exclude_secondary_listings) rows = primaryListings(rows);
     const universe = rows.length;
     if (a.sector) {
         const s = String(a.sector).toLowerCase();
@@ -486,16 +513,23 @@ function screenRows(args) {
     const ge = (key, val) => { const v = num(val); if (v !== null) rows = rows.filter((r) => r[key] !== null && r[key] >= v); };
     const le = (key, val) => { const v = num(val); if (v !== null) rows = rows.filter((r) => r[key] !== null && r[key] <= v); };
     ge('revCagr5Pct', a.min_revenue_cagr_5y_pct);
+    le('revCagr5Pct', a.max_revenue_cagr_5y_pct); // ceiling kills near-zero-base-year CAGR artifacts (banks etc.)
     ge('netMarginPct', a.min_net_margin_pct);
     ge('roePct', a.min_roe_pct);
+    le('roePct', a.max_roe_pct);                  // ceiling excludes negative/negligible-equity ROE distortions
     ge('divYieldPct', a.min_dividend_yield_pct);
     ge('marketCapB', a.min_market_cap_billions);
+    le('marketCapB', a.max_market_cap_billions);
     ge('profitableYears10', a.min_profitable_years_of_last_10);
     ge('qtrNetIncomeYoYPct', a.min_latest_qtr_earnings_growth_yoy_pct);
     le('pe', a.max_pe);
+    le('pegRatio', a.max_peg);
+    ge('priceToBook', a.min_price_to_book);
+    le('priceToBook', a.max_price_to_book);
     if (a.require_positive_fcf) rows = rows.filter((r) => r.fcfPositive === true);
-    const sortKey = ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct'].includes(a.sort_by) ? a.sort_by : 'marketCapB';
-    const asc = sortKey === 'pe';
+    const sortKey = ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook'].includes(a.sort_by) ? a.sort_by : 'marketCapB';
+    // ascending for "cheapness" metrics (lower is better); descending for everything else
+    const asc = sortKey === 'pe' || sortKey === 'pegRatio' || sortKey === 'priceToBook';
     rows.sort((x, y) => ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]));
     const limit = Math.min(Math.max(num(a.limit) || 10, 1), a.maxLimit || 25);
     return { universe, matched: rows.length, rows: rows.slice(0, limit) };
