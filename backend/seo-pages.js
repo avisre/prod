@@ -227,13 +227,13 @@ function renderStockPage(ticker) {
     const shortName = name.replace(/^The\s+/i, '')
         .replace(/,?\s+(?:&|and)?\s*(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
         .trim() || name;
-    const title = `${shortName} (${sym}) Stock: Fair Value & Financials`;
+    const title = `${shortName} (${sym}) Stock: EPS, P/E, Revenue & Financials`;
     const metricBits = [
         mcap ? `Market cap ${money(mcap)}` : '',
         pe ? `P/E ${ratio(pe)}` : '',
         income[0] && income[0].totalRevenue ? `revenue ${money(income[0].totalRevenue)}` : ''
     ].filter(Boolean).join(', ');
-    const description = `${name} (${sym}) fundamentals: ${metricBits || 'key financials'}. View income statement, balance sheet, cash flow and a price chart on stockportfolio.pro.`;
+    const description = `${name} (${sym}) fundamentals: ${metricBits || 'key financials'}. Earnings per share (EPS), P/E, shares outstanding, revenue & net income, plus income statement, balance sheet and cash flow — computed from SEC filings on stockportfolio.pro.`;
 
     let jsonld = JSON.stringify({
         '@context': 'https://schema.org',
@@ -508,6 +508,22 @@ function renderStockPage(ticker) {
         compareBlock = `<div class="seo-section"><h2>Compare ${esc(name)} with peers</h2><div class="seo-links">${cmp}</div></div>`;
     }
 
+    // SEO visitors land for one number and most never realize we're an AI analyst — the
+    // differentiator a static table can't show. Surface it right after the snapshot with
+    // one-click deep-links into a grounded answer about THIS company.
+    const askQ = (q) => `/ask.html?q=${encodeURIComponent(q)}`;
+    const askHero = `
+  <div class="seo-section" style="border:1px solid var(--accent);border-radius:14px;background:var(--panel-solid);padding:18px 20px">
+    <h2 style="margin:0 0 6px">Ask AI about ${esc(name)} — answered from its SEC filings, not guessed</h2>
+    <p style="margin:0 0 12px;color:var(--muted);font-size:13.5px;line-height:1.55">Not a generic chatbot: every figure in the answer is computed from ${esc(name)}'s 10-K/10-Q, with the receipts shown. Ask anything —</p>
+    <div class="seo-links" style="margin-bottom:14px">
+      <a href="${askQ("Is " + name + " (" + sym + ") overvalued at today's price?")}">Is ${esc(sym)} overvalued right now?</a>
+      <a href="${askQ("What are the biggest red flags in " + sym + "'s latest filings?")}">What are ${esc(sym)}'s red flags?</a>
+      <a href="${askQ("Walk me through " + sym + "'s revenue, margins and free cash flow over the last 10 years.")}">${esc(sym)} revenue &amp; margins, 10 yrs</a>
+    </div>
+    <a class="seo-cta-btn" href="/register?plan=monthly">Try the AI analyst free — no card</a>
+  </div>`;
+
     return head(title, description, canonical, jsonld) + faqLdTag + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
@@ -516,6 +532,7 @@ function renderStockPage(ticker) {
   ${leadHtml}
   ${freshHtml}
   <div class="seo-grid">${tiles}</div>
+  ${askHero}
   ${teaserTable}
   ${healthBlock}
   ${redFlagBlock}

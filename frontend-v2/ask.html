@@ -136,6 +136,18 @@
           engine.send(b.textContent);
         }));
       ta.focus();
+
+      // deep-link: /ask?q=... (stock pages + marketing links) prefills the box and asks
+      // immediately when signed in; otherwise it sits ready while the quota line nudges signup.
+      try {
+        const pq = new URLSearchParams(location.search).get('q');
+        if (pq) {
+          ta.value = pq.slice(0, 1000);
+          go.disabled = !ta.value.trim();
+          if (token()) submit();
+        }
+      } catch (_) { /* prefill is best-effort */ }
+
       // quota line — replaces the static note once known
       (async () => {
         const el = $('quota-line');
