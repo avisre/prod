@@ -305,6 +305,28 @@ function comparePairs() {
     return _pairs;
 }
 
+// Full data-backed universe as datalist <option>s, market-cap sorted, memoized.
+// value = "TICKER — Name" so the native datalist matches BOTH a ticker prefix
+// (e.g. "CBRS") AND a company-name substring (e.g. "cerebras"); the picker JS
+// (cmpExtractSym below) parses the leading ticker back out on submit. Only
+// companies that actually have fundamentals are included, so a suggestion never
+// leads to a 404 /compare page.
+let _univOpts = null;
+function universeOptions() {
+    if (_univOpts !== null) return _univOpts;
+    try {
+        const rows = aiChat.screenRows({ limit: 5000, maxLimit: 5000, sort_by: 'marketCapB' }).rows;
+        _univOpts = rows
+            .filter((r) => r && r.symbol && r.name)
+            .map((r) => `<option value="${esc(r.symbol + ' — ' + r.name)}">`)
+            .join('');
+    } catch (_) { _univOpts = ''; }
+    return _univOpts;
+}
+// Shared client-side helper: turn a datalist value ("TICKER — Name" or a raw
+// ticker the user typed) into a clean ticker. Inlined into each page's script.
+const CMP_EXTRACT_SYM = `function cmpExtractSym(v){v=(v||'').split(' — ')[0];return v.toUpperCase().replace(/[^A-Z0-9.]/g,'');}`;
+
 // ---- /compare hub: pick two tickers → the side-by-side + AI verdict ----
 // Gives the "Compare" nav item a real home and works as a compare-hub SEO page.
 function renderCompareIndex() {
@@ -313,8 +335,7 @@ function renderCompareIndex() {
     const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E, ROE and red flags from SEC filings — plus an AI verdict on which is the stronger business and the cheaper stock. Free, no account.';
     const popular = [['AMD', 'NVDA'], ['AAPL', 'MSFT'], ['GOOGL', 'META'], ['AMZN', 'MSFT'], ['TSLA', 'F'], ['JPM', 'BAC'], ['KO', 'PEP'], ['V', 'MA'], ['AMD', 'INTC'], ['DIS', 'NFLX'], ['CRM', 'ORCL'], ['WMT', 'COST']];
     const popHtml = popular.map(([a, b]) => { const p = [a, b].slice().sort(); return `<a href="/compare/${p[0]}-vs-${p[1]}" style="display:inline-block;padding:8px 13px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface)">${esc(a)} vs ${esc(b)}</a>`; }).join('');
-    const dl = ['AAPL', 'MSFT', 'NVDA', 'AMZN', 'GOOGL', 'META', 'TSLA', 'AMD', 'INTC', 'JPM', 'BAC', 'V', 'MA', 'KO', 'PEP', 'WMT', 'COST', 'DIS', 'NFLX', 'CRM', 'ORCL', 'BRK.B', 'UNH', 'JNJ', 'XOM'];
-    const datalist = dl.map((s) => `<option value="${s}">`).join('');
+    const datalist = universeOptions();
     const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical, publisher: { '@id': `${SITE}/#org` } });
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
@@ -323,9 +344,9 @@ function renderCompareIndex() {
   <p class="seo-sub">Side by side on the filed numbers &mdash; revenue, margins, growth, P/E, ROE, red flags &mdash; plus an AI verdict on which is the stronger business and the cheaper stock. Every figure from SEC filings, refreshed nightly.</p>
   <div class="seo-section" style="border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px">
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <input id="cA" list="cmpDL" autocomplete="off" placeholder="First ticker — e.g. AMD" aria-label="First ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
+      <input id="cA" list="cmpDL" autocomplete="off" placeholder="Company or ticker — e.g. AMD" aria-label="First company or ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
       <span style="color:var(--ink3);font-weight:700;font-size:14px">vs</span>
-      <input id="cB" list="cmpDL" autocomplete="off" placeholder="Second ticker — e.g. NVDA" aria-label="Second ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
+      <input id="cB" list="cmpDL" autocomplete="off" placeholder="Company or ticker — e.g. Nvidia" aria-label="Second company or ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
       <datalist id="cmpDL">${datalist}</datalist>
       <button type="button" id="cGo" style="min-height:46px;padding:0 22px;border:0;border-radius:9px;background:var(--accent);color:#fff;font-size:15px;font-weight:650;cursor:pointer;white-space:nowrap">Compare &rarr;</button>
     </div>
@@ -338,9 +359,10 @@ function renderCompareIndex() {
 </main>
 <script>
 (function(){
+  ${CMP_EXTRACT_SYM}
   function go(){
-    var a=(document.getElementById('cA').value||'').toUpperCase().replace(/[^A-Z0-9.]/g,'');
-    var b=(document.getElementById('cB').value||'').toUpperCase().replace(/[^A-Z0-9.]/g,'');
+    var a=cmpExtractSym(document.getElementById('cA').value);
+    var b=cmpExtractSym(document.getElementById('cB').value);
     var err=document.getElementById('cErr');
     if(!a||!b){err.textContent='Enter two tickers to compare.';err.style.display='block';return;}
     if(a===b){err.textContent='Pick two different companies.';err.style.display='block';return;}
@@ -481,19 +503,20 @@ function renderComparePage(pairSlug) {
         .map((slug) => `<a href="/compare/${esc(slug)}">${esc(slug.replace('-vs-', ' vs '))}</a>`).join('');
     const dlSyms = [];
     for (let i = 0; i < 12; i++) for (const peers of [peersA, peersB]) { const p = peers[i]; if (p && !dlSyms.includes(p.symbol)) dlSyms.push(p.symbol); }
-    const datalist = dlSyms.slice(0, 20).map((s) => `<option value="${esc(s)}">`).join('');
+    const datalist = universeOptions(); // full universe so any company (incl. recent IPOs) is searchable by name or ticker
     const swapHtml = related.length ? `
   <div class="seo-section" style="margin:22px 0">
     <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px">
       <span style="font-size:13.5px;color:var(--ink2);font-weight:600">Compare with another company:</span>
-      <input id="cmpAdd" list="cmpPeers" autocomplete="off" placeholder="ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="flex:1;min-width:150px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;background:var(--paper);color:var(--ink)">
+      <input id="cmpAdd" list="cmpPeers" autocomplete="off" placeholder="company or ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="flex:1;min-width:150px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;background:var(--paper);color:var(--ink)">
       <datalist id="cmpPeers">${datalist}</datalist>
       <button type="button" onclick="cmpGo('${esc(a)}')" style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">vs ${esc(a)}</button>
       <button type="button" onclick="cmpGo('${esc(b)}')" style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">vs ${esc(b)}</button>
     </div>
   </div>
   <script>
-  function cmpGo(base){var el=document.getElementById('cmpAdd');var v=(el.value||'').toUpperCase().replace(/[^A-Z0-9.]/g,'');if(!v||v===base)return;var p=[base,v].sort();location.href='/compare/'+p[0]+'-vs-'+p[1];}
+  ${CMP_EXTRACT_SYM}
+  function cmpGo(base){var el=document.getElementById('cmpAdd');var v=cmpExtractSym(el.value);if(!v||v===base)return;var p=[base,v].sort();location.href='/compare/'+p[0]+'-vs-'+p[1];}
   document.getElementById('cmpAdd').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();cmpGo('${esc(a)}');}});
   </script>` : '';
 
