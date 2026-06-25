@@ -642,6 +642,111 @@ const SCREENS = {
         explainer: 'The rare businesses that combine high returns on equity with steady growth and consistent profits tend to compound shareholder value year after year. This screen demands all three at once — ROE of at least 15%, revenue growth of at least 8% a year, and a near-spotless record of nine profitable years out of the last ten — measured from filed statements, not projections. It deliberately favours proven durability over the fastest-growing or cheapest names.',
         args: { min_roe_pct: 15, min_revenue_cagr_5y_pct: 8, min_profitable_years_of_last_10: 9, sort_by: 'roePct', limit: 25, maxLimit: 25 },
         cols: ['roePct', 'revCagr5Pct', 'netMarginPct']
+    },
+
+    // ---- valuation-discovery cluster (captures the low-pe / low-peg / below-book
+    // searches the site already ranks page 5-7 for, split into matching URLs) ----
+    'low-peg-stocks': {
+        h1: 'Low PEG Stocks: Cheap Relative to Their Own Growth',
+        intro: 'Profitable, cash-generating US companies trading cheaply against their own growth rate — PEG below 1.5, computed from filings rather than analyst estimates.',
+        explainer: 'A low P/E can simply mean a company is shrinking. PEG — the P/E divided by the growth rate — asks the better question: is the stock cheap relative to how fast it is actually growing? Here PEG is computed as trailing P/E ÷ 5-year revenue CAGR, both taken straight from SEC-filed income statements; we deliberately do not use the vendor PEG field, which bakes in forward analyst estimates. To keep the list honest, it requires positive free cash flow, at least 7 profitable years of the last 10, and a P/E under 35, and it excludes the near-zero-base-year growth spikes that make a few names look artificially cheap. A low PEG is a starting question — always check whether the growth is durable before treating it as a value.',
+        args: { max_peg: 1.5, max_pe: 35, min_revenue_cagr_5y_pct: 7, max_revenue_cagr_5y_pct: 40, require_positive_fcf: true, min_profitable_years_of_last_10: 7, sort_by: 'pegRatio', limit: 25, maxLimit: 25 },
+        cols: ['pegRatio', 'pe', 'revCagr5Pct'],
+        related: ['low-pe-stocks', 'stocks-below-book-value', 'undervalued-tech-stocks', 'high-growth-stocks', 'quality-compounders']
+    },
+    'stocks-below-book-value': {
+        h1: 'Stocks Trading Below Book Value in the US Market',
+        intro: 'Profitable US companies whose market price sits below the net book value on their own balance sheet — price-to-book under 1, straight from filings.',
+        explainer: 'A price-to-book ratio below 1 means the market values the whole company at less than the net assets reported on its balance sheet. That can flag a genuine bargain — or a business the market expects to keep destroying value, which is why a sub-1 P/B is so often a trap. This screen requires positive free cash flow and a multi-year record of profits, and it floors price-to-book at 0.2 to drop the distorted, near-zero-equity cases, then ranks the survivors from the lowest P/B up. Book value is least meaningful for asset-light and heavily-financial businesses, so read each name against what it actually owns before drawing conclusions.',
+        args: { min_price_to_book: 0.2, max_price_to_book: 1, require_positive_fcf: true, min_profitable_years_of_last_10: 6, sort_by: 'priceToBook', limit: 25, maxLimit: 25 },
+        cols: ['priceToBook', 'pe', 'roePct'],
+        related: ['low-pe-stocks', 'low-peg-stocks', 'large-cap-value-stocks', 'undervalued-dividend-stocks']
+    },
+    'undervalued-tech-stocks': {
+        h1: 'Undervalued Technology Stocks in the US Market',
+        intro: 'Technology companies trading under 20× earnings with positive free cash flow and a real record of profits — value names in a sector that rarely screens cheap.',
+        explainer: 'Most technology coverage chases the fastest growers, so the profitable, cheaply-valued names get overlooked. This screen filters the technology sector to companies trading under 20× earnings that also generate positive free cash flow and have been profitable in at least 6 of the last 10 years, then ranks them from the lowest P/E up — all computed from SEC filings and recomputed nightly. A low multiple in tech can reflect slowing growth or a maturing product, so the revenue-growth and margin columns are shown alongside to separate cheap-and-steady from cheap-and-fading.',
+        args: { sector: 'technology', max_pe: 20, require_positive_fcf: true, min_profitable_years_of_last_10: 6, sort_by: 'pe', limit: 25, maxLimit: 25 },
+        cols: ['pe', 'revCagr5Pct', 'netMarginPct'],
+        related: ['low-pe-stocks', 'high-dividend-tech-stocks', 'low-peg-stocks', 'large-cap-value-stocks']
+    },
+    'undervalued-dividend-stocks': {
+        h1: 'Undervalued Dividend Stocks in the US Market',
+        intro: 'Income payers yielding 3%+ that also trade under 18× earnings, with positive free cash flow and 8+ profitable years — value and yield in the same screen.',
+        explainer: 'A high yield on an expensive, shaky business is not a bargain. This screen wants both halves of the deal: a dividend yield of at least 3% and a P/E under 18, plus positive free cash flow and at least 8 profitable years of the last 10, so the payout rests on real, repeatable earnings. Names are ranked by yield, with the P/E shown next to it so you can see what you are paying for the income. Yields rise as prices fall, so a stock near the top may be there because the market is worried — always check the payout against the underlying cash flow before relying on it.',
+        args: { min_dividend_yield_pct: 3, max_pe: 18, require_positive_fcf: true, min_profitable_years_of_last_10: 8, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
+        cols: ['divYieldPct', 'pe', 'netMarginPct'],
+        related: ['dividend-stocks', 'high-dividend-energy-stocks', 'high-dividend-tech-stocks', 'low-pe-stocks']
+    },
+
+    // ---- single-metric superlative leaderboards (niche fundamentals Google does
+    // not self-answer; we win on shown numbers + dated, filing-sourced ranking) ----
+    'highest-free-cash-flow-stocks': {
+        h1: 'Stocks With the Highest Free Cash Flow',
+        intro: 'The US companies generating the most free cash flow in absolute dollars — operating cash flow minus capital spending, straight from filed cash-flow statements.',
+        explainer: 'Free cash flow is the cash a business has left after running and reinvesting in itself — the money that can fund dividends, buybacks and debt paydown without borrowing. This leaderboard ranks US companies by absolute free cash flow (operating cash flow minus capital expenditures) taken directly from their latest filed cash-flow statement, and shows the actual dollar figure behind each rank rather than hiding it behind a login. It requires positive free cash flow and a multi-year profit record so the list reflects durable cash machines, not a single unusual year. Absolute FCF naturally favours the largest companies; for efficiency, compare it against revenue and the margin column shown alongside.',
+        args: { require_positive_fcf: true, min_profitable_years_of_last_10: 5, sort_by: 'fcfAbs', limit: 25, maxLimit: 25 },
+        cols: ['fcfAbs', 'netMarginPct', 'pe'],
+        related: ['most-profitable-stocks', 'highest-roe-stocks', 'quality-compounders', 'blue-chip-high-roe-stocks']
+    },
+    'highest-roe-stocks': {
+        h1: 'Stocks With the Highest Return on Equity (ROE)',
+        intro: 'US companies earning the most profit per dollar of shareholder equity — ranked from filed statements, with negative- and negligible-equity distortions removed.',
+        explainer: 'Return on equity measures how much profit a company wrings from each dollar of shareholder capital, and consistently high ROE is a hallmark of a high-quality, capital-efficient business. The catch is that ROE explodes to meaningless numbers when equity is tiny or negative — typically after years of buybacks or losses — so a raw "highest ROE" list is usually topped by accounting artifacts. This screen removes them: it caps ROE at a sane ceiling, requires positive free cash flow and at least 8 profitable years of the last 10, and ranks the genuine high-return operators that remain. ROE is inflated by leverage, so read it next to the margin and growth columns rather than on its own.',
+        args: { min_roe_pct: 15, max_roe_pct: 80, require_positive_fcf: true, min_profitable_years_of_last_10: 8, sort_by: 'roePct', limit: 25, maxLimit: 25 },
+        cols: ['roePct', 'netMarginPct', 'revCagr5Pct'],
+        related: ['most-profitable-stocks', 'highest-free-cash-flow-stocks', 'quality-compounders', 'blue-chip-high-roe-stocks']
+    },
+
+    // ---- qualified combo pages (sector / size × metric) — narrow, bottom-funnel,
+    // knitted into the cluster by the related-link matrix so a low-DA site ranks them ----
+    'high-dividend-tech-stocks': {
+        h1: 'High-Dividend Technology Stocks',
+        intro: 'Technology companies paying a 2%+ dividend yield with a long record of profits — income from a sector usually known for paying none.',
+        explainer: 'Technology is the last place most investors look for income, which is exactly why the dividend payers that do exist are easy to miss. This screen filters the technology sector to companies yielding at least 2% that have also been profitable in at least 8 of the last 10 years, then ranks them by yield — all from SEC filings, recomputed nightly. Because few tech names pay meaningful dividends, this is a deliberately short, high-conviction list; the P/E and margin columns are shown so you can judge whether the yield is backed by a healthy business or a stalled one.',
+        args: { sector: 'technology', min_dividend_yield_pct: 2, min_profitable_years_of_last_10: 8, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
+        cols: ['divYieldPct', 'pe', 'netMarginPct'],
+        related: ['dividend-stocks', 'undervalued-tech-stocks', 'high-dividend-energy-stocks', 'undervalued-dividend-stocks']
+    },
+    'small-cap-growth-stocks': {
+        h1: 'Small-Cap Growth Stocks in the US Market',
+        intro: 'Companies under $2B in market value compounding revenue 15%+ a year with positive free cash flow — fast growers that are also self-funding.',
+        explainer: 'Small-cap growth is where the biggest multi-year winners often start, but it is also where cash-burning stories hide. This screen looks for US companies under $2 billion in market capitalisation growing revenue at least 15% a year over the last five fiscal years, and — unusually for a growth screen — requires positive free cash flow, so the list leans toward businesses funding their own expansion rather than the market’s. Everything is computed from filed statements, not projections. Smaller companies carry more single-stock risk and thinner liquidity, so treat this as a research starting point, and read the margin column to see which growers are actually profitable.',
+        args: { max_market_cap_billions: 2, min_revenue_cagr_5y_pct: 15, max_revenue_cagr_5y_pct: 80, require_positive_fcf: true, min_profitable_years_of_last_10: 5, sort_by: 'revCagr5Pct', limit: 25, maxLimit: 25 },
+        cols: ['revCagr5Pct', 'netMarginPct', 'marketCapB'],
+        related: ['high-growth-stocks', 'profitable-small-cap-stocks', 'quality-compounders', 'low-peg-stocks']
+    },
+    'large-cap-value-stocks': {
+        h1: 'Large-Cap Value Stocks in the US Market',
+        intro: 'Big, established companies above $10B trading under 15× earnings with positive free cash flow — value among the market’s largest names.',
+        explainer: 'When a large, established company trades at a low multiple, it is usually because the market doubts its growth — but size and cash generation also make big caps more resilient than the cheap small-cap names value screens often surface. This screen filters to US companies above $10 billion in market value trading under 15× earnings, with positive free cash flow and a multi-year profit record, then ranks them from the lowest P/E up. All figures come from SEC filings and refresh nightly. A low multiple on a large cap can signal a value opportunity or a slow structural decline, so the yield and ROE columns are shown to help tell durable franchises from value traps.',
+        args: { min_market_cap_billions: 10, max_pe: 15, require_positive_fcf: true, min_profitable_years_of_last_10: 7, sort_by: 'pe', limit: 25, maxLimit: 25 },
+        cols: ['pe', 'divYieldPct', 'roePct'],
+        related: ['low-pe-stocks', 'stocks-below-book-value', 'blue-chip-high-roe-stocks', 'undervalued-dividend-stocks']
+    },
+    'blue-chip-high-roe-stocks': {
+        h1: 'Blue-Chip Stocks With High Return on Equity',
+        intro: 'Mega-cap companies above $50B combining 20%+ ROE with a near-spotless profit record — the market’s largest, most capital-efficient franchises.',
+        explainer: 'The rare combination of enormous scale and high returns on equity tends to mark the market’s strongest competitive moats — businesses big enough to be stable yet still earning outsized returns on the capital they employ. This screen requires a market value above $50 billion, return on equity of at least 20% (capped to exclude negative-equity distortions), and at least 9 profitable years of the last 10, then ranks the survivors by ROE, all from filed statements. ROE is amplified by debt, so the margin column is shown alongside to distinguish genuinely high-quality franchises from leverage-driven ones.',
+        args: { min_market_cap_billions: 50, min_roe_pct: 20, max_roe_pct: 80, min_profitable_years_of_last_10: 9, sort_by: 'roePct', limit: 25, maxLimit: 25 },
+        cols: ['roePct', 'netMarginPct', 'marketCapB'],
+        related: ['highest-roe-stocks', 'quality-compounders', 'large-cap-value-stocks', 'most-profitable-stocks']
+    },
+    'high-dividend-energy-stocks': {
+        h1: 'High-Dividend Energy Stocks in the US Market',
+        intro: 'Energy companies paying a 3%+ dividend yield with a multi-year record of profits — the sector’s highest, best-supported payouts.',
+        explainer: 'Energy is one of the market’s most generous income sectors, but payouts here swing with commodity prices, so the headline yield can flatter a business whose earnings are about to turn. This screen filters the energy sector to companies yielding at least 3% that have been profitable in at least 6 of the last 10 years, then ranks them by yield — straight from SEC filings, recomputed nightly. Several of the highest yielders are partnerships whose distributions and tax treatment differ from ordinary dividends, so the P/E and margin columns are shown to gauge how well each payout is covered before relying on it.',
+        args: { sector: 'energy', min_dividend_yield_pct: 3, min_profitable_years_of_last_10: 6, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
+        cols: ['divYieldPct', 'pe', 'netMarginPct'],
+        related: ['dividend-stocks', 'undervalued-dividend-stocks', 'high-dividend-tech-stocks', 'low-pe-stocks']
+    },
+    'profitable-small-cap-stocks': {
+        h1: 'Profitable Small-Cap Stocks in the US Market',
+        intro: 'Companies under $2B with net margins above 10% and a long record of profits — the small caps that actually make money.',
+        explainer: 'Most small-cap lists are crowded with companies that have never turned a profit. This one inverts that: it filters US companies under $2 billion in market value to those with net margins above 10%, positive free cash flow, and at least 8 profitable years of the last 10, then ranks them by margin — all from filed income statements. The result is a list of genuinely profitable smaller businesses rather than hopeful early-stage stories. Small caps still carry higher single-stock and liquidity risk, and high margins vary by industry, so use the growth column and compare each name against close peers.',
+        args: { max_market_cap_billions: 2, min_net_margin_pct: 10, require_positive_fcf: true, min_profitable_years_of_last_10: 8, sort_by: 'netMarginPct', limit: 25, maxLimit: 25 },
+        cols: ['netMarginPct', 'revCagr5Pct', 'marketCapB'],
+        related: ['small-cap-growth-stocks', 'most-profitable-stocks', 'high-growth-stocks', 'quality-compounders']
     }
 };
 const COL_DEFS = {
@@ -649,14 +754,21 @@ const COL_DEFS = {
     netMarginPct: ['Net margin', (v) => v === null ? '—' : `${v.toFixed(1)}%`],
     roePct: ['ROE', (v) => v === null ? '—' : `${v.toFixed(1)}%`],
     divYieldPct: ['Dividend yield', (v) => v === null ? '—' : `${v.toFixed(2)}%`],
-    pe: ['P/E', (v) => v === null ? '—' : v.toFixed(1)]
+    pe: ['P/E', (v) => v === null ? '—' : v.toFixed(1)],
+    fcfAbs: ['Free cash flow', (v) => money(v)],
+    pegRatio: ['PEG (P/E ÷ growth)', (v) => v === null ? '—' : v.toFixed(2)],
+    priceToBook: ['Price / book', (v) => v === null ? '—' : v.toFixed(2)],
+    marketCapB: ['Market cap', (v) => v === null ? '—' : money(v * 1e9)]
 };
 
 function renderScreenPage(slug) {
     const s = SCREENS[slug];
     if (!s) return null;
     const year = new Date().getFullYear();
-    const { matched, rows } = aiChat.screenRows(s.args);
+    // Force primary-listing cleaning on every SEO screen so preferreds / warrants /
+    // duplicate share classes (which inherit the common's overview and produce junk
+    // like "P/E 0.6") never pollute a public leaderboard.
+    const { matched, rows } = aiChat.screenRows({ ...s.args, exclude_secondary_listings: true });
     if (!rows.length) return null;
     const canonical = `${SITE}/screens/${slug}`;
     const title = `${s.h1} (${year}) — Ranked by Filed Fundamentals`;
@@ -708,7 +820,12 @@ function renderScreenPage(slug) {
     });
     const faqHtml = faqs.map((f) =>
         `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
-    const others = Object.keys(SCREENS).filter((k) => k !== slug)
+    // Internal-link matrix: lead with this screen's curated cousins (a dense,
+    // topically-tight graph lets the whole cluster rank together on a low-DA domain),
+    // then fill with the remaining screens.
+    const relSlugs = (s.related || []).filter((k) => SCREENS[k] && k !== slug);
+    const ordered = [...new Set([...relSlugs, ...Object.keys(SCREENS).filter((k) => k !== slug)])];
+    const others = ordered
         .map((k) => `<a href="/screens/${k}">${esc(SCREENS[k].h1)}</a>`).join('');
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
