@@ -181,9 +181,10 @@ function nav() {
     <a href="/stocks" style="font-size:13px;font-weight:500">Stocks</a>
     <a href="/screener" style="font-size:13px;font-weight:500">Screener</a>
     <a href="/compare" style="font-size:13px;font-weight:500">Compare</a>
-    <a class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
+    <a id="seoNavCta" class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
   </div>
-</header>`;
+</header>
+<script>(function(){try{var t=localStorage.getItem('token');if(!t)return;var p=t.split('.')[1];if(!p)return;var c=JSON.parse(atob(p.replace(/-/g,'+').replace(/_/g,'/')));if(c&&c.exp&&c.exp*1000<Date.now())return;var el=document.getElementById('seoNavCta');if(el){el.textContent='Dashboard';el.setAttribute('href','/dashboard');}}catch(e){}})();</script>`;
 }
 
 function footer() {

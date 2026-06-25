@@ -1032,11 +1032,13 @@
               }).join('')}
             </div>
           </div>`;
-        // Growth (sales + profit) shown inline; the rest (stock CAGR, ROE) tuck
-        // under Options — same primary-visible / secondary-in-menu split as the
-        // financial statements above.
-        $('cagr-cards-main').innerHTML = cards.slice(0, 2).map(cardHtml).join('');
-        $('cagr-cards-rest').innerHTML = cards.slice(2).map(cardHtml).join('');
+        // All Growth & Returns cards (Sales growth, Profit growth, Stock-price
+        // CAGR, Return on equity) shown inline — the mobile-style split that
+        // tucked CAGR/ROE under an Options popover is removed on request.
+        $('cagr-cards-main').innerHTML = cards.map(cardHtml).join('');
+        $('cagr-cards-rest').innerHTML = '';
+        const cagrOptsBtn = $('cagr-opts-btn');
+        if (cagrOptsBtn) cagrOptsBtn.style.display = 'none';
         $('cagr-collapse').hidden = false;
     }
 

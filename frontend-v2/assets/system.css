@@ -930,6 +930,10 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .table-data th, .table-data td { padding: 8px 10px; }
   .table-data .row-head { max-width: 150px; }
+  /* Financial statement table: keep full desktop spacing on phones too — the
+     mobile-condensing treatment is removed for this table on request. */
+  #stmt-table th, #stmt-table td { padding: 9px 14px; }
+  #stmt-table .row-head { max-width: 230px; }
   /* finger-friendly touch targets on phones (WCAG 2.5.5 / Apple HIG 44px) */
   .btn-sm { height: 44px; }
   .nav-search input { height: 44px; }
