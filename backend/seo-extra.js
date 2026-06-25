@@ -827,6 +827,22 @@ function renderScreenPage(slug) {
     const ordered = [...new Set([...relSlugs, ...Object.keys(SCREENS).filter((k) => k !== slug)])];
     const others = ordered
         .map((k) => `<a href="/screens/${k}">${esc(SCREENS[k].h1)}</a>`).join('');
+    // AI hook — the conversion path for SEO visitors who land here from Google.
+    // Deep-links into the SEC-grounded Ask analyst, pre-seeded with this screen's
+    // own top names so the prompt is concrete the moment they click.
+    const a1 = rows[0]; const a2 = rows[1] || a1; const a3 = rows[2] || a1;
+    const askQ = (q) => `/ask?q=${encodeURIComponent(q)}`;
+    const askHero = `
+  <div class="seo-lock" style="border-color:var(--accent)">
+    <h3>Ask the AI analyst about any of these</h3>
+    <p>Every figure it cites comes straight from SEC filings, with the sources shown — never AI guesswork. Put this leaderboard to work:</p>
+    <div class="seo-links" style="margin:10px 0 14px">
+      <a href="${askQ(`Is ${a1.name} (${a1.symbol}) a good buy at today's price? Walk through the fundamentals from its filings.`)}">Is ${esc(a1.symbol)} a good buy? &rarr;</a>
+      <a href="${askQ(`Compare ${a1.symbol} and ${a2.symbol} on growth, margins, returns and valuation, using SEC filings.`)}">${esc(a1.symbol)} vs ${esc(a2.symbol)} &rarr;</a>
+      <a href="${askQ(`Of ${a1.symbol}, ${a2.symbol} and ${a3.symbol}, which has the most durable fundamentals and what is the risk in each?`)}">Rank the top 3 &rarr;</a>
+    </div>
+    <a class="seo-cta-btn" href="/register?plan=monthly">Try the AI analyst free — no card</a>
+  </div>`;
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Screens / ${esc(s.h1)}</div>
@@ -840,6 +856,7 @@ function renderScreenPage(slug) {
     </table></div>
     <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Criteria are deterministic filters over filed annual statements — no editorial picks, no payment for placement. Not investment advice.</p>
   </div>
+  ${askHero}
   <div class="seo-lock">
     <h3>Run your own screen — free</h3>
     <p>The full screener covers 3,800+ US companies with growth, margin, ROE, valuation and dividend filters. No account needed.</p>
