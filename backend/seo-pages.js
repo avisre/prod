@@ -543,7 +543,7 @@ function renderStockIndex() {
     const bySector = {};
     all.forEach((c) => { (bySector[c.sector || 'Other'] = bySector[c.sector || 'Other'] || []).push(c); });
     const canonical = `${SITE}/stocks`;
-    const title = 'Stock Fundamentals: Revenue, P/E & Financials for US Stocks';
+    const title = 'Stock Fundamentals: Revenue, P/E & Financials for 1,500+ US Companies';
     const description = "Look up any US stock's fundamentals free: revenue, net income, P/E, margins, dividends and up to 19 years of financials computed from SEC filings. Browse 1,500+ companies — S&P 500, MidCap 400 and SmallCap 600.";
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'CollectionPage',
