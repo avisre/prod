@@ -88,7 +88,18 @@ function pixelHeadSnippet() {
     const cfg = pixelConfig();
     if (!cfg.metaPixelId && !cfg.googleAdsId) return '';
     return `<script>(function(){
-  try { if (localStorage.getItem('sp_analytics_consent_v1') === 'denied') return; } catch(e){}
+  try {
+    var consent = localStorage.getItem('sp_analytics_consent_v1');
+    if (consent === 'denied') return;
+    // GDPR/ePrivacy: in the EU/UK, marketing pixels need EXPLICIT opt-in, so on
+    // these SSR pages (which carry no consent banner) only fire for an EU/UK
+    // visitor who has actively granted consent on an app page. Region is
+    // approximated client-side via timezone — this works with the cached SSR
+    // HTML, where per-request server geo cannot (the cache is one body for all).
+    var tz = '';
+    try { tz = (Intl.DateTimeFormat().resolvedOptions() || {}).timeZone || ''; } catch (e) {}
+    if (tz.indexOf('Europe/') === 0 && consent !== 'granted') return;
+  } catch(e){}
   if (location.hostname.indexOf('stockportfolio.pro') < 0) return;
   ${pixelRuntime(cfg)}
 })();</script>`;
