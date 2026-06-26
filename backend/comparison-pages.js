@@ -6,6 +6,40 @@
 const SITE = 'https://www.stockportfolio.pro';
 const CLARITY_ID = 'x0dsu053xa';
 const GA_ID = 'G-4K10D2FPTT';
+const OG_IMAGE = `${SITE}/og.png`; // 1200×630 social card (frontend/og.png)
+const { pixelHeadSnippet } = require('./pixels'); // env-driven retargeting (no-op when unset)
+
+// Sitewide JSON-LD entities. Kept in sync with seo-pages.js (this module is
+// deliberately self-contained, mirroring how it already duplicates SITE/GA_ID).
+const ORG_LD = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'Organization',
+    '@id': `${SITE}/#org`, name: 'stockportfolio.pro', url: SITE,
+    logo: `${SITE}/Media/icon.png`,
+    description: 'US stock fundamentals, financial statements and analysis computed deterministically from official SEC filings (10-K/10-Q via EDGAR).',
+    foundingDate: '2024',
+    sameAs: ['https://www.sec.gov/edgar']
+});
+const SOFTWARE_LD = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+    '@id': `${SITE}/#app`,
+    name: 'stockportfolio.pro',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Web',
+    url: SITE,
+    description: 'AI stock analyst grounded in SEC filings (10-K/10-Q): company fundamentals, screening, side-by-side comparisons and portfolio tracking for US stocks.',
+    publisher: { '@id': `${SITE}/#org` },
+    offers: {
+        '@type': 'AggregateOffer', priceCurrency: 'USD', lowPrice: '0', highPrice: '250',
+        offerCount: 5,
+        offers: [
+            { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Monthly', price: '12', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '118', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro', price: '33', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro Annual', price: '250', priceCurrency: 'USD' }
+        ]
+    }
+});
 
 function esc(s) {
     return String(s == null ? '' : s)
@@ -227,13 +261,17 @@ function head(title, description, canonical, jsonld) {
 <meta property="og:title" content="${esc(title)}" /><meta property="og:description" content="${esc(description)}" />
 <meta property="og:url" content="${esc(canonical)}" /><meta property="og:type" content="website" />
 <meta property="og:site_name" content="stockportfolio.pro" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="${OG_IMAGE}" />
+<meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="stylesheet" href="/styles.css?v=20260610-1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
-${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}
+<script type="application/ld+json">${ORG_LD}</script>
+<script type="application/ld+json">${SOFTWARE_LD}</script>${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}${pixelHeadSnippet()}
 <style>
   .seo-wrap{max-width:880px;margin:0 auto;padding:16px}
   .seo-nav{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;margin:14px auto;max-width:880px;border:1px solid var(--border);border-radius:10px;background:var(--panel)}

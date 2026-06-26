@@ -1015,6 +1015,7 @@ app.use((req, res, next) => {
 // and /vs/:competitor are server-rendered. All public, no auth.
 const seoPages = require('./seo-pages');
 const comparisonPages = require('./comparison-pages');
+const { pixelConfig } = require('./pixels');
 
 // ---- In-process SSR HTML/XML cache (backend/ssr-cache.js) ----
 // ONE pass-through middleware, mounted here so Express registration order puts
@@ -1973,6 +1974,13 @@ app.get('/stripe/config', (req, res) => {
         successUrl: buildStripeReturnUrl(req, { session: 'success', flow: 'register' }),
         cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' })
     });
+});
+
+// Retargeting-pixel IDs for the app-page loader (assets/app.js). All four read
+// from the environment; absent → empty strings → the loader no-ops silently.
+// SSR marketing pages inject the same config directly (see backend/pixels.js).
+app.get('/api/analytics/config', (req, res) => {
+    res.json(pixelConfig());
 });
 
 app.get('/api/auth/providers', (req, res) => {
