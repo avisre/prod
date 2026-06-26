@@ -86,6 +86,9 @@
       'power-monthly': ['$64 billed today, then monthly — the full research desk + Filing Monitor, no annual commitment. Cancel anytime.', 'Continue to Power checkout'],
       desk: ['$1,961 billed today, renews yearly — full coverage + Filing Monitor for RIAs, analysts and small funds.', 'Continue to Desk checkout']
     };
+    // Purchase value reported to the ad pixels, in the REAL charged currency (USD —
+    // this app bills in USD; see docs/PIXELS.md on the spec's GBP note).
+    const PLAN_VALUE = { free: 0, monthly: 12, annual: 118, pro: 33, 'pro-annual': 250, power: 579, 'power-monthly': 64, desk: 1961 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk']);
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
@@ -160,6 +163,9 @@
           if (r.ok && data.token) {
             localStorage.setItem('token', data.token);
             sessionStorage.removeItem('pendingRegisterCredentials');
+            // Funnel: payment confirmed on Stripe return (Purchase + Ads
+            // subscribe), valued in the real charged currency (USD).
+            try { if (window.spTrack) window.spTrack('subscribe', { value: PLAN_VALUE[plan] || 0, currency: 'USD', plan }); } catch (_) { /* best-effort */ }
             location.href = '/' + next;
             return;
           }
@@ -197,6 +203,14 @@
           // No-card trial (or free): account is live now — store the token and
           // go straight into the app, no Stripe checkout.
           try { localStorage.setItem('token', data.token); } catch (_) {}
+          // Funnel: account created (CompleteRegistration + Ads signup); a
+          // non-free plan here is a no-card trial start (StartTrial).
+          try {
+            if (window.spTrack) {
+              window.spTrack('signup');
+              if (plan !== 'free') window.spTrack('trial_start', { plan });
+            }
+          } catch (_) { /* pixels best-effort */ }
           location.href = '/dashboard.html';
         } else if (r.ok && data.url) {
           // Direct paid plans (power/desk) still route through Stripe checkout.
@@ -206,6 +220,7 @@
             email: document.getElementById('email').value.trim(),
             password: document.getElementById('password').value
           }));
+          try { if (window.spTrack) window.spTrack('initiate_checkout', { plan }); } catch (_) { /* best-effort */ }
           location.href = data.url; // Stripe checkout
         } else {
           err.textContent = data.message || 'Could not create the account — please try again.';

@@ -9,6 +9,7 @@
 const fs = require('fs');
 const path = require('path');
 const aiChat = require('./ai-chat'); // health checks + per-symbol metrics
+const { pixelHeadSnippet } = require('./pixels'); // env-driven retargeting (no-op when unset)
 
 const FRONTEND = path.join(__dirname, '..', 'frontend');
 const DATA = path.join(FRONTEND, 'data');
@@ -16,6 +17,7 @@ const FUND_DIR = path.join(DATA, 'fundamentals');
 const SITE = 'https://www.stockportfolio.pro';
 const CLARITY_ID = 'x0dsu053xa';
 const GA_ID = 'G-4K10D2FPTT';
+const OG_IMAGE = `${SITE}/og.png`; // 1200×630 social card (frontend/og.png)
 
 // Site-level publisher entity, emitted on every SEO page. Gives Google a stable
 // Organization to attach E-E-A-T / authorship to (YMYL finance now expects a
@@ -27,6 +29,32 @@ const ORG_LD = JSON.stringify({
     description: 'US stock fundamentals, financial statements and analysis computed deterministically from official SEC filings (10-K/10-Q via EDGAR).',
     foundingDate: '2024',
     sameAs: ['https://www.sec.gov/edgar']
+});
+
+// Site-level product entity (FinanceApplication), emitted on every SEO page.
+// offers mirror the live, publicly-advertised tiers (USD) — same prices the
+// register page and index.html quote. No aggregateRating: we don't have a real
+// review corpus yet, and inventing one is a structured-data violation.
+const SOFTWARE_LD = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'SoftwareApplication',
+    '@id': `${SITE}/#app`,
+    name: 'stockportfolio.pro',
+    applicationCategory: 'FinanceApplication',
+    operatingSystem: 'Web',
+    url: SITE,
+    description: 'AI stock analyst grounded in SEC filings (10-K/10-Q): company fundamentals, screening, side-by-side comparisons and portfolio tracking for US stocks.',
+    publisher: { '@id': `${SITE}/#org` },
+    offers: {
+        '@type': 'AggregateOffer', priceCurrency: 'USD', lowPrice: '0', highPrice: '250',
+        offerCount: 5,
+        offers: [
+            { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Monthly', price: '12', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '118', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro', price: '33', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro Annual', price: '250', priceCurrency: 'USD' }
+        ]
+    }
 });
 
 // ---- data loading (cached) ----
@@ -120,9 +148,13 @@ function head(title, description, canonical, jsonld) {
 <meta property="og:url" content="${esc(canonical)}" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="stockportfolio.pro" />
-<meta name="twitter:card" content="summary" />
+<meta property="og:image" content="${OG_IMAGE}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="${esc(title)}" />
 <meta name="twitter:description" content="${esc(description)}" />
+<meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -130,7 +162,8 @@ function head(title, description, canonical, jsonld) {
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
-<script type="application/ld+json">${ORG_LD}</script>${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}
+<script type="application/ld+json">${ORG_LD}</script>
+<script type="application/ld+json">${SOFTWARE_LD}</script>${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}${pixelHeadSnippet()}
 <style>
   /* v2 design system, self-contained (paper/ink; color = meaning only) */
   :root{--paper:#faf9f6;--surface:#fff;--ink:#1c1b18;--ink2:#5f5c55;--ink3:#8f8b82;--line:#e8e6e0;--line2:#d8d5cd;--accent:#1a4fd6;--pos:#1b7a4b;--neg:#b3261e}
@@ -543,8 +576,8 @@ function renderStockIndex() {
     const bySector = {};
     all.forEach((c) => { (bySector[c.sector || 'Other'] = bySector[c.sector || 'Other'] || []).push(c); });
     const canonical = `${SITE}/stocks`;
-    const title = 'Stock Fundamentals: Revenue, P/E & Financials for US Stocks';
-    const description = "Look up any US stock's fundamentals free: revenue, net income, P/E, margins, dividends and up to 19 years of financials computed from SEC filings. Browse 1,500+ companies — S&P 500, MidCap 400 and SmallCap 600.";
+    const title = 'Stock Research & Analysis — AI Analyst Grounded in SEC Filings';
+    const description = 'AI stock research grounded only in SEC filings: revenue, margins, P/E and up to 19 years of financials for 1,500+ US companies. Compare and screen free.';
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'CollectionPage',
         name: 'Stock fundamentals directory', url: canonical
