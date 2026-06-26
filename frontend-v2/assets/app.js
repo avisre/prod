@@ -6,6 +6,29 @@
     const API = `${window.location.origin}/api`;
     const token = () => localStorage.getItem('token');
 
+    // ---------- funnel-event entry point (retargeting) ----------
+    // Safe to call anywhere, anytime: it no-ops until a retargeting pixel has
+    // actually loaded (analytics consent granted AND env IDs set). Mirrors
+    // backend/pixels.js so an event fires identically on SSR and app pages.
+    if (!window.spTrack) window.spTrack = function (name, params) {
+        params = params || {};
+        const k = window.__spPixelCfg || {};
+        try {
+            if (window.fbq) {
+                if (name === 'signup') window.fbq('track', 'CompleteRegistration');
+                else if (name === 'trial_start') window.fbq('track', 'StartTrial');
+                else if (name === 'initiate_checkout') window.fbq('track', 'InitiateCheckout');
+                else if (name === 'subscribe') window.fbq('track', 'Purchase', { value: params.value, currency: params.currency || 'USD' });
+            }
+        } catch (_) { /* pixels are best-effort, never block */ }
+        try {
+            if (window.gtag && k.googleAdsId) {
+                if (name === 'signup' && k.signupLabel) window.gtag('event', 'conversion', { send_to: k.googleAdsId + '/' + k.signupLabel });
+                else if (name === 'subscribe' && k.subscribeLabel) window.gtag('event', 'conversion', { send_to: k.googleAdsId + '/' + k.subscribeLabel, value: params.value, currency: params.currency || 'USD' });
+            }
+        } catch (_) { /* pixels are best-effort, never block */ }
+    };
+
     // ---------- first-party page-view ping (server-side count, no cookies) ----------
     try {
         const pv = JSON.stringify({ path: location.pathname });
@@ -304,6 +327,37 @@
             const t = l.createElement(r); t.async = 1; t.src = 'https://www.clarity.ms/tag/' + i;
             const y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
         })(window, document, 'clarity', 'script', 'x0dsu053xa');
+        loadPixels();
+    }
+
+    // ---------- retargeting pixels, consent-gated (env-driven, no-op-safe) ----------
+    // Only ever runs after loadAnalytics() (i.e. after the user grants consent).
+    // IDs come from the server (/api/analytics/config), which reads them from the
+    // environment — unset → empty strings → nothing loads, no console errors.
+    function loadPixels() {
+        if (window.__spPixels) return;
+        window.__spPixels = true;
+        fetch(`${API}/analytics/config`).then((r) => r.json()).then((C) => {
+            if (!C || (!C.metaPixelId && !C.googleAdsId)) return; // nothing configured
+            window.__spPixelCfg = C;
+            if (C.metaPixelId && !window.fbq) {
+                !function (f, b, e, v, n, t, s) { if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments); }; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s); }(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+                window.fbq('init', C.metaPixelId);
+                window.fbq('track', 'PageView');
+            }
+            if (C.googleAdsId) {
+                window.dataLayer = window.dataLayer || [];
+                window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
+                if (!window.__spAdsScript) {
+                    window.__spAdsScript = true;
+                    const s = document.createElement('script'); s.async = true;
+                    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + C.googleAdsId;
+                    document.head.appendChild(s);
+                    window.gtag('js', new Date());
+                }
+                window.gtag('config', C.googleAdsId);
+            }
+        }).catch(() => { /* pixels are non-essential — ignore */ });
     }
     function mountConsent() {
         let choice = '';
@@ -316,7 +370,7 @@
         el.setAttribute('role', 'dialog');
         el.setAttribute('aria-label', 'Analytics consent');
         el.innerHTML = `
-          <p><strong>Optional analytics.</strong> We'd like to measure which pages convert — nothing else, no ad tracking. Allow it?</p>
+          <p><strong>Optional analytics &amp; marketing.</strong> We'd like to measure which pages convert and, with our ad partners, show you relevant ads off-site. Allow it?</p>
           <div class="consent-actions">
             <button class="btn btn-primary btn-sm" data-c="granted">Allow</button>
             <button class="btn btn-ghost btn-sm" data-c="denied">Decline</button>
