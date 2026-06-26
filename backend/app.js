@@ -80,7 +80,9 @@ app.set('trust proxy', 1);
 app.disable('x-powered-by');
 const jsonParser = express.json();
 app.use((req, res, next) => {
-  if (req.originalUrl === '/stripe/webhook') {
+  // Stripe and AppSumo webhooks need the raw, unparsed body for HMAC signature
+  // verification — let them skip the JSON parser and read the buffer themselves.
+  if (req.originalUrl === '/stripe/webhook' || req.originalUrl === '/appsumo/webhook') {
     next();
   } else {
     jsonParser(req, res, (err) => {
@@ -184,6 +186,15 @@ const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || '';
+// AppSumo Licensing API v2 (lifetime-deal redemption). Credentials come from the
+// AppSumo Partner Portal once both URLs are validated: API key (webhook HMAC +
+// Licensing API), and OAuth client_id/secret. REDIRECT_URI must match the portal
+// exactly. When APPSUMO_API_KEY is unset, the webhook still returns 200 for
+// AppSumo's URL-validation test events but skips HMAC enforcement.
+const APPSUMO_API_KEY = process.env.APPSUMO_API_KEY || '';
+const APPSUMO_CLIENT_ID = process.env.APPSUMO_CLIENT_ID || '';
+const APPSUMO_CLIENT_SECRET = process.env.APPSUMO_CLIENT_SECRET || '';
+const APPSUMO_REDIRECT_URI = process.env.APPSUMO_REDIRECT_URI || 'https://www.stockportfolio.pro/appsumo/redeem';
 const stripe = stripeSecretKey ? Stripe(stripeSecretKey, { apiVersion: '2022-11-15' }) : null;
 const googleOauthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 const REQUIRE_ACTIVE_SUBSCRIPTION = process.env.REQUIRE_ACTIVE_SUBSCRIPTION === 'true';
@@ -1179,7 +1190,14 @@ const UserSchema = new mongoose.Schema({
     stripeSubscriptionId: { type: String, default: null },
     // Weekly Filing Monitor digest (Power/Desk): opt-out + last-sent for cadence.
     digestOptOut: { type: Boolean, default: false },
-    lastDigestAt: { type: Date, default: null }
+    lastDigestAt: { type: Date, default: null },
+    // AppSumo lifetime-deal redemption. appsumoLicenseKey links the account to a
+    // single AppSumo license; appsumoTier (1/2/3) sets appsumoAiCap (30/100/300)
+    // — the per-tier monthly Ask quota that protects margin on a one-time payment.
+    appsumoLicenseKey: { type: String, default: null, index: true },
+    appsumoTier: { type: Number, default: null },
+    appsumoAiCap: { type: Number, default: null },
+    appsumoRedeemedAt: { type: Date, default: null }
 });
 
 const User = mongoose.model('User', UserSchema);
@@ -2679,7 +2697,7 @@ app.post('/api/ai/chat', authMiddleware, async (req, res) => {
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     try {
         const userId = portfolioOwnerId(req);
-        const limit = aiChat.limits(req.tier);
+        const limit = effectiveAskLimit(req);
         const used = await aiChat.getUsage(userId);
         if (used >= limit) {
             return res.status(429).json({
@@ -3175,7 +3193,7 @@ app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
 
 app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
     try {
-        const limit = aiChat.limits(req.tier);
+        const limit = effectiveAskLimit(req);
         const used = await aiChat.getUsage(portfolioOwnerId(req));
         res.json({ used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req), tier: req.tier });
     } catch (error) {
@@ -3327,6 +3345,346 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
 
     res.status(200).send({ received: true });
 });
+
+// ============================================================
+// AppSumo Licensing API v2 — lifetime-deal redemption.
+//   POST /appsumo/webhook       — license lifecycle events (HMAC-signed)
+//   GET  /appsumo/redeem        — OAuth redirect: code -> license, then the
+//                                 account-link / activation page
+//   POST /api/appsumo/activate  — link a verified license to the signed-in user
+// Grants the existing 'pro' tier with no Stripe sub and no expiry; the per-tier
+// AI cap (30/100/300) bounds the Ask quota so a one-time payment can't run away.
+// Docs: https://docs.licensing.appsumo.com/
+// ============================================================
+const crypto = require('crypto');
+
+const AppSumoLicenseSchema = new mongoose.Schema({
+    licenseKey: { type: String, unique: true, index: true },
+    prevLicenseKey: { type: String, default: null },
+    parentLicenseKey: { type: String, default: null },
+    status: { type: String, default: 'inactive' }, // inactive | active | deactivated
+    tier: { type: Number, default: 1 },
+    partnerPlanName: { type: String, default: null },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    redeemedAt: { type: Date, default: null },
+    lastEvent: { type: String, default: null },
+    lastEventAt: { type: Date, default: null },
+    raw: { type: Object, default: null }
+}, { timestamps: true });
+const AppSumoLicense = mongoose.model('AppSumoLicense', AppSumoLicenseSchema);
+
+// AppSumo tier -> Pro grant + monthly Ask cap. Mirrors the listing pricing
+// ($39/$79/$149 = Tier 1/2/3). Unknown tiers default to the top tier so a paying
+// customer is never under-served; the cap still bounds cost.
+const APPSUMO_TIER_CONFIG = {
+    1: { planName: 'Pro — AppSumo (Starter)',  askCap: 30 },
+    2: { planName: 'Pro — AppSumo (Investor)', askCap: 100 },
+    3: { planName: 'Pro — AppSumo (Pro)',      askCap: 300 }
+};
+function appsumoTierConfig(tier) {
+    return APPSUMO_TIER_CONFIG[Number(tier)] || APPSUMO_TIER_CONFIG[3];
+}
+
+// Effective monthly Ask limit: AppSumo redeemers are capped at their tier's quota
+// (never above the Pro quota); everyone else uses the normal tier limit. Guarded
+// on appsumoAiCap, so it is a no-op for every non-AppSumo user.
+function effectiveAskLimit(req) {
+    const base = aiChat.limits(req.tier);
+    const cap = req.user && req.user.appsumoAiCap;
+    return (Number.isFinite(cap) && cap > 0) ? Math.min(cap, base) : base;
+}
+
+async function grantAppSumoProAccess(user, { licenseKey, tier } = {}) {
+    const cfg = appsumoTierConfig(tier);
+    const now = new Date();
+    applyPlanToSubscription(user, PRO_PLAN_ID); // reuse the Pro plan ladder
+    user.subscription.planName = cfg.planName;
+    user.subscription.price = 0;                 // already paid on AppSumo
+    user.subscription.stripePriceId = null;
+    user.subscription.status = 'active';         // active + planId 'pro' => 'pro' tier
+    user.subscription.activatedAt = user.subscription.activatedAt || now;
+    user.subscription.renewedAt = now;
+    user.subscription.lastPaymentAt = now;
+    user.subscription.trialStartedAt = user.subscription.trialStartedAt || now;
+    user.subscription.trialEndsAt = null;        // lifetime — never expires
+    user.stripeSubscriptionId = null;            // not a Stripe subscription
+    user.appsumoLicenseKey = licenseKey || user.appsumoLicenseKey || null;
+    user.appsumoTier = Number(tier) || user.appsumoTier || null;
+    user.appsumoAiCap = cfg.askCap;
+    user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
+    user.markModified('subscription');
+    await user.save();
+    trackFunnel('paid', user._id, cfg.planName, { source: 'appsumo', appsumoLicenseKey: licenseKey || null, appsumoTier: Number(tier) || null });
+}
+
+async function revokeAppSumoAccess(user) {
+    user.subscription.status = 'cancelled';
+    user.subscription.trialEndsAt = null;
+    user.appsumoAiCap = null;
+    user.markModified('subscription');
+    await user.save().catch(() => {});
+    trackFunnel('cancel', user._id, 'Pro — AppSumo', { source: 'appsumo' });
+}
+
+// HMAC-SHA256 of (timestamp + raw body) keyed by the AppSumo API key. Skipped
+// (treated as valid) until APPSUMO_API_KEY is configured, so the portal can
+// validate the URL with its unsigned test events first.
+function appsumoVerifySignature(rawBody, signature, timestamp) {
+    if (!APPSUMO_API_KEY) return true;
+    if (!signature || !timestamp) return false;
+    try {
+        const expected = crypto.createHmac('sha256', APPSUMO_API_KEY)
+            .update(String(timestamp) + rawBody.toString('utf8')).digest('hex');
+        const a = Buffer.from(expected);
+        const b = Buffer.from(String(signature));
+        return a.length === b.length && crypto.timingSafeEqual(a, b);
+    } catch (_) { return false; }
+}
+
+async function appsumoHandleEvent(body) {
+    const event = body.event;
+    const licenseKey = body.license_key;
+    const prevKey = body.prev_license_key;
+    const tier = Number(body.tier) || 1;
+    if (!licenseKey) return;
+    const now = new Date();
+
+    if (event === 'purchase' || event === 'activate') {
+        const lic = await AppSumoLicense.findOneAndUpdate(
+            { licenseKey },
+            { $set: {
+                licenseKey,
+                status: event === 'activate' ? 'active' : 'inactive',
+                tier,
+                parentLicenseKey: body.parent_license_key || null,
+                partnerPlanName: body.partner_plan_name || null,
+                lastEvent: event, lastEventAt: now, raw: body
+            } },
+            { upsert: true, new: true }
+        );
+        if (lic && lic.userId) {
+            const user = await User.findById(lic.userId);
+            if (user) await grantAppSumoProAccess(user, { licenseKey, tier: lic.tier });
+        }
+    } else if (event === 'upgrade' || event === 'downgrade') {
+        let lic = await AppSumoLicense.findOne({ licenseKey: prevKey });
+        if (lic) {
+            lic.prevLicenseKey = prevKey;
+            lic.licenseKey = licenseKey;
+            lic.tier = tier;
+            lic.status = 'active';
+            lic.lastEvent = event; lic.lastEventAt = now; lic.raw = body;
+            await lic.save().catch(() => {});
+        } else {
+            lic = await AppSumoLicense.findOneAndUpdate(
+                { licenseKey },
+                { $set: { licenseKey, prevLicenseKey: prevKey || null, tier, status: 'active', lastEvent: event, lastEventAt: now, raw: body } },
+                { upsert: true, new: true }
+            );
+        }
+        if (lic && lic.userId) {
+            const user = await User.findById(lic.userId);
+            if (user) {
+                user.appsumoLicenseKey = licenseKey;
+                await grantAppSumoProAccess(user, { licenseKey, tier });
+            }
+        }
+    } else if (event === 'deactivate') {
+        const lic = await AppSumoLicense.findOne({ licenseKey });
+        if (lic) {
+            lic.status = 'deactivated'; lic.lastEvent = event; lic.lastEventAt = now;
+            await lic.save().catch(() => {});
+            // Only revoke if this is the user's CURRENT key — an upgrade fires a
+            // simultaneous deactivate on the OLD key, which must not revoke access.
+            if (lic.userId) {
+                const user = await User.findById(lic.userId);
+                if (user && user.appsumoLicenseKey === licenseKey) await revokeAppSumoAccess(user);
+            }
+        }
+    } else if (event === 'migrate') {
+        await AppSumoLicense.findOneAndUpdate(
+            { licenseKey },
+            { $set: { parentLicenseKey: body.parent_license_key || null, tier, lastEvent: 'migrate', lastEventAt: now } },
+            { upsert: true }
+        );
+    }
+}
+
+// Webhook — raw body for HMAC. Always 200 + { event, success } per the spec; on
+// 'activate'/'deactivate' AppSumo applies the status change only after success.
+app.post('/appsumo/webhook', express.raw({ type: '*/*' }), async (req, res) => {
+    const raw = Buffer.isBuffer(req.body) ? req.body : Buffer.from('');
+    let body = {};
+    try {
+        const text = raw.toString('utf8');
+        body = text.trim().startsWith('{') ? JSON.parse(text) : Object.fromEntries(new URLSearchParams(text));
+    } catch (_) { body = {}; }
+    const event = body.event || 'unknown';
+    const isTest = body.test === true || body.test === 'true';
+    // Test/validation events: confirm 200 + success, never touch real data.
+    if (isTest) return res.status(200).json({ event, success: true });
+    if (APPSUMO_API_KEY && !appsumoVerifySignature(raw, req.headers['x-appsumo-signature'], req.headers['x-appsumo-timestamp'])) {
+        return res.status(401).json({ event, success: false, message: 'signature verification failed' });
+    }
+    try {
+        await appsumoHandleEvent(body);
+        return res.status(200).json({ event, success: true });
+    } catch (err) {
+        console.error('AppSumo webhook error:', err);
+        return res.status(200).json({ event, success: false });
+    }
+});
+
+// OAuth redirect: AppSumo sends the buyer here with ?code=. Exchange it for the
+// license, then render the account-link page. No code (e.g. portal URL check) =>
+// just 200 with the page so validation passes.
+app.get('/appsumo/redeem', async (req, res) => {
+    const code = String(req.query.code || '').trim();
+    if (!code) return res.status(200).send(appsumoRedeemPage({ error: '', rt: '', status: '' }));
+    if (!APPSUMO_CLIENT_ID || !APPSUMO_CLIENT_SECRET) {
+        return res.status(200).send(appsumoRedeemPage({ error: 'AppSumo redemption is not finished setting up yet. Please contact support@stockportfolio.pro.', rt: '', status: '' }));
+    }
+    try {
+        const tokenResp = await axios.post('https://appsumo.com/openid/token/',
+            new URLSearchParams({
+                client_id: APPSUMO_CLIENT_ID,
+                client_secret: APPSUMO_CLIENT_SECRET,
+                redirect_uri: APPSUMO_REDIRECT_URI,
+                code,
+                grant_type: 'authorization_code'
+            }).toString(),
+            { headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, timeout: 15000, validateStatus: () => true }
+        );
+        const accessToken = tokenResp.data && tokenResp.data.access_token;
+        if (!accessToken) {
+            return res.status(200).send(appsumoRedeemPage({ error: 'We could not verify your AppSumo purchase — the activation link may have expired. Restart activation from AppSumo.', rt: '', status: '' }));
+        }
+        const licResp = await axios.get('https://appsumo.com/openid/license_key/', {
+            params: { access_token: accessToken }, timeout: 15000, validateStatus: () => true
+        });
+        const licenseKey = licResp.data && licResp.data.license_key;
+        const status = (licResp.data && licResp.data.status) || '';
+        if (!licenseKey) {
+            return res.status(200).send(appsumoRedeemPage({ error: 'No AppSumo license was found for this account.', rt: '', status: '' }));
+        }
+        if (status === 'deactivated') {
+            return res.status(200).send(appsumoRedeemPage({ error: 'This AppSumo license has been deactivated (refunded or cancelled).', rt: '', status }));
+        }
+        const known = await AppSumoLicense.findOne({ licenseKey });
+        const tier = known ? known.tier : 1;
+        const rt = jwt.sign({ asLicenseKey: licenseKey, asTier: tier, asRedeem: true }, JWT_SECRET, { expiresIn: '30m' });
+        return res.status(200).send(appsumoRedeemPage({ error: '', rt, status }));
+    } catch (err) {
+        console.error('AppSumo redeem error:', err && err.message);
+        return res.status(200).send(appsumoRedeemPage({ error: 'Something went wrong verifying your purchase. Please try again, or contact support@stockportfolio.pro.', rt: '', status: '' }));
+    }
+});
+
+// Link a verified license to the signed-in user and grant lifetime Pro.
+app.post('/api/appsumo/activate', authMiddleware, async (req, res) => {
+    try {
+        const rt = String((req.body && req.body.rt) || '');
+        let payload;
+        try { payload = jwt.verify(rt, JWT_SECRET); }
+        catch (_) { return res.status(400).json({ message: 'Your activation link expired. Restart activation from AppSumo to get a fresh one.' }); }
+        if (!payload || !payload.asRedeem || !payload.asLicenseKey) {
+            return res.status(400).json({ message: 'Invalid activation token.' });
+        }
+        const licenseKey = payload.asLicenseKey;
+        const tier = Number(payload.asTier) || 1;
+        let lic = await AppSumoLicense.findOne({ licenseKey });
+        if (!lic) lic = await AppSumoLicense.create({ licenseKey, tier, status: 'active' });
+        if (lic.status === 'deactivated') {
+            return res.status(400).json({ message: 'This AppSumo license has been deactivated.' });
+        }
+        if (lic.userId && String(lic.userId) !== String(req.user._id)) {
+            return res.status(409).json({ message: 'This AppSumo license is already linked to a different account.' });
+        }
+        lic.userId = req.user._id;
+        lic.status = 'active';
+        lic.redeemedAt = lic.redeemedAt || new Date();
+        await lic.save();
+        await grantAppSumoProAccess(req.user, { licenseKey, tier: lic.tier || tier });
+        return res.json({ ok: true, message: 'Your AppSumo lifetime Pro is active.', subscription: normalizeSubscription(req.user.subscription) });
+    } catch (err) {
+        console.error('AppSumo activate error:', err);
+        return res.status(500).json({ message: 'Activation failed. Please try again.' });
+    }
+});
+
+// Self-contained activation page (no build step). Authenticates against
+// /api/login or /api/subscribe, then POSTs the signed redemption token to
+// /api/appsumo/activate. rt/error/status are injected as JSON to avoid any
+// markup injection.
+function appsumoRedeemPage({ error, rt, status }) {
+    const data = JSON.stringify({ rt: rt || '', error: error || '', status: status || '' }).replace(/</g, '\\u003c');
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Activate your AppSumo Pro - StockPortfolio.pro</title>
+<style>
+:root{--red:#E8412E}
+*{box-sizing:border-box}body{margin:0;font:16px/1.5 -apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;background:#f6f7f8;color:#15181c}
+.wrap{max-width:440px;margin:6vh auto;padding:0 18px}
+.card{background:#fff;border:1px solid #e6e8eb;border-radius:16px;padding:28px}
+h1{font-size:22px;margin:14px 0 4px}p.sub{color:#5b6470;margin:0 0 18px}
+label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
+input{width:100%;padding:11px 12px;border:1px solid #cfd4da;border-radius:10px;font-size:15px}
+button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:10px;background:var(--red);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+button.alt{background:#fff;color:#15181c;border:1px solid #cfd4da;margin-top:10px}
+button[disabled]{opacity:.6;cursor:default}
+.msg{margin-top:14px;padding:11px 12px;border-radius:10px;font-size:14px}
+.msg.err{background:#fdecea;color:#b3261e}.msg.ok{background:#e8f5ed;color:#1a7f43}
+.bull{font-size:34px}
+</style></head><body><div class="wrap"><div class="card">
+<div class="bull">&#128002;</div>
+<h1>Activate your lifetime Pro</h1>
+<p class="sub">Log in or create your StockPortfolio.pro account to attach your AppSumo purchase. It's yours for life.</p>
+<div id="form">
+<label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@email.com">
+<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Your password">
+<button id="go">Log in &amp; activate</button>
+<button id="alt" class="alt">Create a new account instead</button>
+</div>
+<div id="out"></div>
+</div></div>
+<script>
+var DATA = ${data};
+var mode = 'login';
+var out = document.getElementById('out');
+var go = document.getElementById('go');
+var alt = document.getElementById('alt');
+function show(cls, html){ out.innerHTML = '<div class="msg '+cls+'">'+html+'</div>'; }
+if (DATA.error) { show('err', DATA.error); go.disabled = true; alt.disabled = true; }
+else if (!DATA.rt) { show('err', 'Open this page from your AppSumo "Redeem" button to activate.'); go.disabled = true; alt.disabled = true; }
+alt.onclick = function(){
+  mode = (mode === 'login') ? 'signup' : 'login';
+  go.textContent = (mode === 'login') ? 'Log in & activate' : 'Create account & activate';
+  alt.textContent = (mode === 'login') ? 'Create a new account instead' : 'I already have an account';
+};
+go.onclick = async function(){
+  var email = document.getElementById('email').value.trim();
+  var password = document.getElementById('password').value;
+  if (!email || !password) { show('err', 'Enter your email and password.'); return; }
+  go.disabled = true; alt.disabled = true; show('', 'Working...');
+  try {
+    var authUrl = (mode === 'login') ? '/api/login' : '/api/subscribe';
+    var authBody = (mode === 'login') ? { email: email, password: password } : { email: email, password: password, plan: 'pro' };
+    var ar = await fetch(authUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(authBody) });
+    var aj = await ar.json();
+    if (!ar.ok || !aj.token) { show('err', (aj && aj.message) || 'Could not sign you in.'); go.disabled=false; alt.disabled=false; return; }
+    var rr = await fetch('/api/appsumo/activate', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+aj.token}, body: JSON.stringify({ rt: DATA.rt }) });
+    var rj = await rr.json();
+    if (!rr.ok) { show('err', (rj && rj.message) || 'Activation failed.'); go.disabled=false; alt.disabled=false; return; }
+    try { localStorage.setItem('token', aj.token); } catch(e){}
+    document.getElementById('form').style.display = 'none';
+    show('ok', '\\u2705 ' + ((rj && rj.message) || 'Pro unlocked.') + ' <a href="/">Go to your dashboard &rarr;</a>');
+  } catch (e) {
+    show('err', 'Network error - please try again.'); go.disabled=false; alt.disabled=false;
+  }
+};
+</script></body></html>`;
+}
 
 // ============================================================
 // DEMO MODE — read-only, no-auth public preview portfolio.
