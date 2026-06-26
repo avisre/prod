@@ -2700,7 +2700,103 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
 // ----- Ask: the tool-grounded financial chatbot (metered, not Pro-gated) -----
 // Free users get a monthly taste (AI_CHAT_FREE_LIMIT, default 5); Pro gets
 // AI_CHAT_PRO_LIMIT (default 300). Quota is only consumed on a real answer.
-app.post('/api/ai/chat', authMiddleware, async (req, res) => {
+// ----- Anonymous Ask teaser: a couple of free, abuse-bounded queries so a
+// cold visitor can feel the filing-grounded answer before the signup wall.
+// Everything off-switchable: ANON_ASK_LIMIT=0 restores signup-required Ask.
+const ANON_ASK_LIMIT = Number(process.env.ANON_ASK_LIMIT ?? 2);        // free queries per browser
+const ANON_ASK_IP_DAY = Number(process.env.ANON_ASK_IP_DAY ?? 6);      // backstop: per IP / day
+const ANON_ASK_GLOBAL_DAY = Number(process.env.ANON_ASK_GLOBAL_DAY ?? 400); // hard daily cost ceiling
+const _anonAsk = { day: '', global: 0, ip: new Map() };
+function _anonAskRoll() {
+    const d = new Date().toISOString().slice(0, 10);
+    if (_anonAsk.day !== d) { _anonAsk.day = d; _anonAsk.global = 0; _anonAsk.ip.clear(); }
+}
+function _anonAskIp(req) {
+    return String((req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.ip || '0');
+}
+function _anonAskReadCount(req) {
+    const raw = (req.headers.cookie || '').split(';').map((s) => s.trim())
+        .find((s) => s.startsWith('sp_ask_trial='));
+    if (!raw) return 0;
+    try { return Number(jwt.verify(decodeURIComponent(raw.slice('sp_ask_trial='.length)), JWT_SECRET).n) || 0; }
+    catch (_) { return 0; }
+}
+function _anonAskCookie(n) {
+    const v = jwt.sign({ n, k: 'ask_trial' }, JWT_SECRET, { expiresIn: '30d' });
+    const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+    return `sp_ask_trial=${encodeURIComponent(v)}; Max-Age=${30 * 24 * 3600}; Path=/; HttpOnly; SameSite=Lax${secure}`;
+}
+// Auth shim for Ask: a real bearer token → full authed path; logged-out (or a
+// junk "null"/"undefined" header) → anonymous teaser path, never a 401.
+function askAuth(req, res, next) {
+    const raw = req.headers.authorization?.split(' ')[1];
+    if (raw && raw !== 'null' && raw !== 'undefined') return authMiddleware(req, res, next);
+    req.anon = true;
+    return next();
+}
+async function anonAskHandler(req, res) {
+    const question = String((req.body && req.body.question) || '').trim();
+    if (!question) return res.status(400).json({ message: 'Ask a question.' });
+    if (ANON_ASK_LIMIT <= 0) {
+        return res.status(401).json({ message: 'Ask needs an account', code: 'ASK_AUTH' });
+    }
+    _anonAskRoll();
+    const ip = _anonAskIp(req);
+    const visitorUsed = _anonAskReadCount(req);
+    const ipUsed = _anonAsk.ip.get(ip) || 0;
+    const wall = (msg) => ({ message: msg, code: 'ASK_TRIAL', trial: true,
+        quota: { used: ANON_ASK_LIMIT, limit: ANON_ASK_LIMIT, remaining: 0 } });
+    if (visitorUsed >= ANON_ASK_LIMIT) {
+        return res.status(429).json(wall(`That's your ${ANON_ASK_LIMIT} free preview ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'}. Start a 7-day free trial — no card — to keep asking.`));
+    }
+    if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
+        return res.status(429).json(wall('The free preview is busy right now. Start a 7-day free trial — no card — for unlimited Ask.'));
+    }
+    // cost is incurred on the call → count the IP/global attempt now; the
+    // per-browser counter only advances on a delivered answer (cookie below).
+    _anonAsk.ip.set(ip, ipUsed + 1);
+    _anonAsk.global += 1;
+    const newVisitor = visitorUsed + 1;
+    const remaining = Math.max(0, ANON_ASK_LIMIT - newVisitor);
+    try {
+        if ((req.body && req.body.stream) === true) {
+            res.writeHead(200, {
+                'Content-Type': 'text/event-stream',
+                'Cache-Control': 'no-cache, no-transform',
+                Connection: 'keep-alive',
+                'X-Accel-Buffering': 'no',
+                'Set-Cookie': _anonAskCookie(newVisitor)
+            });
+            let closed = false;
+            req.on('close', () => { closed = true; });
+            const send = (event, data) => {
+                if (closed || res.writableEnded) return;
+                res.write(`event: ${event}\ndata: ${JSON.stringify(data || {})}\n\n`);
+            };
+            const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
+            try {
+                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, onEvent: (e) => send(e.type, e) });
+                send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
+                    trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
+            } catch (error) {
+                send('error', { message: error.message || 'Ask failed' });
+            } finally {
+                clearInterval(ping);
+                if (!res.writableEnded) res.end();
+            }
+            return;
+        }
+        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] } });
+        res.setHeader('Set-Cookie', _anonAskCookie(newVisitor));
+        res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
+            trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
+    } catch (error) {
+        if (!res.headersSent) res.status(500).json({ message: error.message || 'Ask failed' });
+    }
+}
+
+app.post('/api/ai/chat', askAuth, async (req, res) => {
+    if (req.anon) return anonAskHandler(req, res);
     const question = String((req.body && req.body.question) || '').trim();
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     try {

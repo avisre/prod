@@ -102,7 +102,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260620-3"></script>
+  <script src="assets/app.js?v=20260627-1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine } = window.V2;
@@ -137,10 +137,17 @@
         }));
       ta.focus();
       // quota line — replaces the static note once known
+      // logged-out visitors get a couple of free preview questions (no signup);
+      // hide the portfolio-only prompt since there are no holdings yet
+      if (!token()) {
+        const pf = Array.from(document.querySelectorAll('.prompts button'))
+          .find((b) => /my portfolio|my holding/i.test(b.textContent));
+        if (pf) pf.style.display = 'none';
+      }
       (async () => {
         const el = $('quota-line');
         if (!token()) {
-          el.innerHTML = 'You’ll need an account — <a href="/login.html">log in</a> or <a href="/register.html">start a 7-day free trial</a>.';
+          el.innerHTML = 'A couple of questions free — no signup, no card. <a href="/register.html">Start a 7-day free trial</a> for more.';
           return;
         }
         try {

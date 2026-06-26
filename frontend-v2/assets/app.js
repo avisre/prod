@@ -665,9 +665,11 @@
             };
             block.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             try {
+                const _askHeaders = { 'Content-Type': 'application/json' };
+                if (token()) _askHeaders.Authorization = `Bearer ${token()}`;
                 const r = await fetch(`${API}/ai/chat`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+                    headers: _askHeaders,
                     body: JSON.stringify({ question, history: history.slice(-8), stream: true }),
                     signal: aborter.signal
                 });
@@ -678,7 +680,9 @@
                     if (r.status === 401) {
                         answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
                     } else if (r.status === 429) {
-                        answerEl.innerHTML = quotaWall(data);
+                        answerEl.innerHTML = data && data.trial
+                            ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/register.html?plan=free">Start a 7-day free trial &rarr;</a></div>`
+                            : quotaWall(data);
                     } else if (data.answer) {
                         finish(data);
                     } else {
