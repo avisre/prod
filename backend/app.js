@@ -2706,7 +2706,7 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
 // ----- Anonymous Ask teaser: a couple of free, abuse-bounded queries so a
 // cold visitor can feel the filing-grounded answer before the signup wall.
 // Everything off-switchable: ANON_ASK_LIMIT=0 restores signup-required Ask.
-const ANON_ASK_LIMIT = Number(process.env.ANON_ASK_LIMIT ?? 2);        // free queries per browser
+const ANON_ASK_LIMIT = Number(process.env.ANON_ASK_LIMIT ?? 3);        // free queries per browser
 const ANON_ASK_IP_DAY = Number(process.env.ANON_ASK_IP_DAY ?? 6);      // backstop: per IP / day
 const ANON_ASK_GLOBAL_DAY = Number(process.env.ANON_ASK_GLOBAL_DAY ?? 400); // hard daily cost ceiling
 const _anonAsk = { day: '', global: 0, ip: new Map() };
@@ -2750,10 +2750,10 @@ async function anonAskHandler(req, res) {
     const wall = (msg) => ({ message: msg, code: 'ASK_TRIAL', trial: true,
         quota: { used: ANON_ASK_LIMIT, limit: ANON_ASK_LIMIT, remaining: 0 } });
     if (visitorUsed >= ANON_ASK_LIMIT) {
-        return res.status(429).json(wall(`That's your ${ANON_ASK_LIMIT} free preview ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'}. Start a 7-day free trial — no card — to keep asking.`));
+        return res.status(429).json(wall(`That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'}. Log in or create a free account to keep asking.`));
     }
     if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
-        return res.status(429).json(wall('The free preview is busy right now. Start a 7-day free trial — no card — for unlimited Ask.'));
+        return res.status(429).json(wall('The free preview is busy right now. Log in or create a free account to keep asking.'));
     }
     // cost is incurred on the call → count the IP/global attempt now; the
     // per-browser counter only advances on a delivered answer (cookie below).

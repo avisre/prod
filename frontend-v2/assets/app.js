@@ -685,7 +685,7 @@
                         answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
                     } else if (r.status === 429) {
                         answerEl.innerHTML = data && data.trial
-                            ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/register.html?plan=free">Start a 7-day free trial &rarr;</a></div>`
+                            ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/login.html">Log in</a> or <a href="/register.html?plan=free">create a free account &rarr;</a></div>`
                             : quotaWall(data);
                     } else if (data.answer) {
                         finish(data);
