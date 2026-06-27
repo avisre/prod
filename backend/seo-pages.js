@@ -214,6 +214,7 @@ function nav() {
     <a href="/stocks" style="font-size:13px;font-weight:500">Stocks</a>
     <a href="/screener" style="font-size:13px;font-weight:500">Screener</a>
     <a href="/compare" style="font-size:13px;font-weight:500">Compare</a>
+    <a href="/#pricing" style="font-size:13px;font-weight:500">Pricing</a>
     <a id="seoNavCta" class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
   </div>
 </header>
@@ -365,10 +366,13 @@ function renderStockPage(ticker) {
     // worth a second look. Unique, crawlable, cited; the "what could hurt me" hook
     // no free numbers-tool surfaces. Sync (redFlagsFor uses the cache loader).
     let redFlagBlock = '';
+    let redFlagInfo = { count: 0, top: '' };
     try {
         const rf = aiChat.redFlagsFor(sym);
         if (rf && Array.isArray(rf.flags)) {
+            redFlagInfo.count = rf.flags.length;
             if (rf.flags.length) {
+                redFlagInfo.top = rf.flags[0].title || '';
                 const sev = { high: '#f87171', warn: '#fbbf24', watch: '#9ca3af' };
                 const items = rf.flags.map((f) =>
                     `<li style="background:var(--panel-solid);border:1px solid var(--border);border-left:3px solid ${sev[f.severity] || '#fbbf24'};border-radius:8px;padding:11px 14px;list-style:none;margin:0">` +
@@ -462,10 +466,12 @@ function renderStockPage(ticker) {
     // Reverse DCF — "what growth is priced in" (unique crawlable angle: the
     // anti-black-box valuation block; assumptions stated inline).
     let rdcfBlock = '';
+    let rdInfo = null;
     try {
         const rd = require('./reverse-dcf').computeFromData(sym, data);
         if (rd && !rd.error && rd.impliedGrowthPct !== null) {
             const a = rd.assumptions; const rec = rd.record || {};
+            rdInfo = { impliedGrowthPct: rd.impliedGrowthPct, recordFcfCagr5Pct: (rec.fcfCagr5Pct ?? null), recordRevCagr5Pct: (rec.revCagr5Pct ?? null) };
             const recBits = [
                 rec.fcfCagr5Pct !== null ? `free cash flow actually grew ${rec.fcfCagr5Pct}%/yr over the last five fiscal years` : '',
                 rec.revCagr5Pct !== null ? `revenue ${rec.revCagr5Pct}%/yr` : ''
@@ -541,6 +547,56 @@ function renderStockPage(ticker) {
         compareBlock = `<div class="seo-section"><h2>Compare ${esc(name)} with peers</h2><div class="seo-links">${cmp}</div></div>`;
     }
 
+    // Analyst take — the compelling, filing-grounded narrative read. This is the
+    // conversion surface: it shows a cold visitor the product's analytical brain.
+    // Renders the deterministic template instantly; upgrades to the LLM read on
+    // the next request once it has been generated and disk-cached in the
+    // background. All numbers come from facts computed above; the prose only.
+    let analystBlock = '';
+    try {
+        const analystTake = require('./analyst-take');
+        const passed = healthChecks.filter((c) => c.pass).length;
+        const nm = (revN && niN !== null) ? Number(((niN / revN) * 100).toFixed(1)) : null;
+        const revPv = num((income[1] || {}).totalRevenue); const niPv = num((income[1] || {}).netIncome);
+        const pnm = (revPv && niPv !== null) ? Number(((niPv / revPv) * 100).toFixed(1)) : null;
+        const gm = (() => {
+            let gp = num(latestInc.grossProfit); if (gp === 0) gp = null;
+            let cor = num(latestInc.costOfRevenue); if (cor === 0) cor = null;
+            if (gp === null && revN !== null && cor !== null) gp = revN - cor;
+            return (gp !== null && revN) ? Number(((gp / revN) * 100).toFixed(1)) : null;
+        })();
+        const yearsCount = Math.min(income.length, 10);
+        const revFirstR = income[yearsCount - 1] || {};
+        const debtTot = (ltd !== null || std !== null) ? ((ltd || 0) + (std || 0)) : null;
+        const facts = {
+            sym, name, sector,
+            latestFY, revLatest: money(revN), revFirst: money(num(revFirstR.totalRevenue)), yearsCount,
+            revYoYPct: (leadGrowth !== null && leadGrowth !== undefined) ? Number(leadGrowth.toFixed(1)) : null,
+            revCagr5Pct: (metrics.revCagr5Pct != null ? Number(Number(metrics.revCagr5Pct).toFixed(1)) : null),
+            netMarginPct: nm, netMarginChangePts: (nm !== null && pnm !== null) ? Number((nm - pnm).toFixed(1)) : null,
+            grossMarginPct: gm,
+            fcfMarginPct: null,
+            mcap: money(mcap), pe: num(pe),
+            impliedGrowthPct: rdInfo ? rdInfo.impliedGrowthPct : null,
+            recordFcfCagr5Pct: rdInfo ? (rdInfo.recordFcfCagr5Pct ?? null) : null,
+            recordRevCagr5Pct: rdInfo ? (rdInfo.recordRevCagr5Pct ?? null) : null,
+            healthPassed: passed, healthTotal: healthChecks.length,
+            redFlagsCount: redFlagInfo.count, topRedFlag: redFlagInfo.top,
+            debtTotal: debtTot ? money(debtTot) : null,
+            debtNote: debtTot ? `it carries about ${money(debtTot)} of total debt` : '',
+            paysDividend: !!(divCheck && divCheck.pass), divYield: ov.DividendYield ? pct(ov.DividendYield) : ''
+        };
+        const { take } = analystTake.getTake(sym, facts);
+        if (take) {
+            const paras = take.split(/\n\n+/).map((p) => `<p style="margin:0 0 12px">${esc(p.trim())}</p>`).join('');
+            analystBlock = `<div class="seo-section" style="background:var(--panel-solid);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:18px 22px">
+              <h2 style="margin:0 0 12px">The analyst's take on ${esc(name)}</h2>
+              <div style="font-size:15px;line-height:1.72;color:var(--text);max-width:74ch">${paras}</div>
+              <p style="font-size:12.5px;color:var(--muted);margin:4px 0 0">Synthesised from ${esc(name)}'s SEC filings — descriptive, not advice. <a href="/ask.html?q=${encodeURIComponent('Give me your full analysis of ' + sym)}" style="color:var(--accent);font-weight:600">Ask the analyst your own question &rarr;</a></p>
+            </div>`;
+        }
+    } catch (_) { /* page renders without the take */ }
+
     return head(title, description, canonical, jsonld) + faqLdTag + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
@@ -549,6 +605,7 @@ function renderStockPage(ticker) {
   ${leadHtml}
   ${freshHtml}
   <div class="seo-grid">${tiles}</div>
+  ${analystBlock}
   ${teaserTable}
   ${healthBlock}
   ${redFlagBlock}

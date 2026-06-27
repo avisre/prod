@@ -1040,6 +1040,9 @@ app.get('/sitemap.xml', (req, res) => {
 app.get('/stocks', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
 });
+// Pricing has no standalone page — the homepage #pricing section holds the tiers.
+// Catch /pricing (a URL cold visitors guess; was a 404) and land them on it.
+app.get('/pricing', (req, res) => res.redirect(302, '/#pricing'));
 // E-E-A-T transparency pages (server-rendered, public, no auth).
 app.get('/methodology', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderMethodology());

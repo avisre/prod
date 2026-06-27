@@ -326,7 +326,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 
 /* ---------- Consent banner ---------- */
 .consent {
-  position: fixed; left: 20px; bottom: 20px; z-index: 80;
+  position: fixed; right: 20px; bottom: 20px; z-index: 80;
   max-width: 360px;
   background: var(--surface); border: 1px solid var(--line);
   border-radius: 14px; padding: 16px 18px;

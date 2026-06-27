@@ -395,6 +395,7 @@
           <div class="container nav-inner">
             <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
             <nav class="nav-links" aria-label="Primary">
+              <a href="/stocks" ${cur('stocks')}>Stocks</a>
               <a href="/screener.html" ${cur('screener')}>Screener</a>
               <a href="/compare" ${cur('compare')}>Compare</a>
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
@@ -404,6 +405,7 @@
               <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
               <a href="/monitor.html" ${cur('monitor')}>Monitor</a>
               <a href="/dossier.html" ${cur('dossier')}>Dossier</a>
+              <a href="/#pricing" ${cur('pricing')}>Pricing</a>
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">
@@ -439,6 +441,7 @@
                 <svg width="10.5" height="10.5" viewBox="0 0 15 15" aria-hidden="true"><path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
               </button>
               <nav>
+                <a href="/stocks" ${cur('stocks')}>Stocks</a>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
                 <a href="/compare" ${cur('compare')}>Compare</a>
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
@@ -448,6 +451,7 @@
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
                 <a href="/monitor.html" ${cur('monitor')}>Filing Monitor</a>
                 <a href="/dossier.html" ${cur('dossier')}>Research Dossier</a>
+                <a href="/#pricing" ${cur('pricing')}>Pricing</a>
               </nav>
               <div class="nav-mobile-auth">
                 ${authed
