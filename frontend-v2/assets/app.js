@@ -400,11 +400,16 @@
               <a href="/compare" ${cur('compare')}>Compare</a>
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
               <a href="/news.html" ${cur('news')}>Markets</a>
-              <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
+              <div class="nav-dd">
+                <a href="/ask.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">Ask&nbsp;AI <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
+                <div class="nav-dd-menu" role="menu">
+                  <a href="/ask.html" role="menuitem" ${cur('ask')}><strong>Ask</strong><span>Question any company's filings</span></a>
+                  <a href="/dossier.html" role="menuitem" ${cur('dossier')}><strong>Research Dossier</strong><span>Full auto-generated report</span></a>
+                  <a href="/monitor.html" role="menuitem" ${cur('monitor')}><strong>Filing Monitor</strong><span>What changed in the latest filing</span></a>
+                </div>
+              </div>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
               <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
-              <a href="/monitor.html" ${cur('monitor')}>Monitor</a>
-              <a href="/dossier.html" ${cur('dossier')}>Dossier</a>
               <a href="/#pricing" ${cur('pricing')}>Pricing</a>
             </nav>
             <div class="nav-spacer"></div>
@@ -447,10 +452,10 @@
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
                 <a href="/news.html" ${cur('news')}>Markets</a>
                 <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
+                <a href="/dossier.html" class="nav-mobile-sub" ${cur('dossier')}>Research Dossier</a>
+                <a href="/monitor.html" class="nav-mobile-sub" ${cur('monitor')}>Filing Monitor</a>
                 <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
-                <a href="/monitor.html" ${cur('monitor')}>Filing Monitor</a>
-                <a href="/dossier.html" ${cur('dossier')}>Research Dossier</a>
                 <a href="/#pricing" ${cur('pricing')}>Pricing</a>
               </nav>
               <div class="nav-mobile-auth">
@@ -604,7 +609,7 @@
           <div class="container footer-inner">
             <div>© 2026 stockportfolio.pro — figures from SEC filings (10-K/10-Q), as filed; per-share figures split-adjusted. Not investment advice.</div>
             <div style="display:flex; gap:8px 18px; flex-wrap:wrap;">
-              <a href="/stocks">All stocks</a><a href="/gurus.html">Gurus</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
+              <a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
             </div>
           </div>`;
         document.body.appendChild(el);

@@ -182,6 +182,44 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 }
 .nav-links a { color: var(--ink-2); padding: 6px 4px; }
 .nav-links a:hover, .nav-links a[aria-current='page'] { color: var(--ink); }
+
+/* Ask AI dropdown — consolidates the AI features (Ask / Dossier / Monitor)
+   under one nav item. Pure CSS (hover + focus-within); the desktop nav only
+   shows >1180px, where hover works, so no JS is needed. The trigger still
+   links to /ask.html, so a click goes straight to Ask. */
+.nav-dd { position: relative; display: inline-flex; align-items: center; }
+.nav-dd-trigger { color: var(--ink-2); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; }
+.nav-dd-trigger:hover, .nav-dd-trigger[aria-current='page'] { color: var(--ink); }
+.nav-dd-caret { font-size: 9px; line-height: 1; transition: transform .15s ease; }
+.nav-dd:hover .nav-dd-caret, .nav-dd:focus-within .nav-dd-caret { transform: rotate(180deg); }
+/* invisible bridge so the menu stays open while the cursor crosses the gap */
+.nav-dd::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 10px; }
+.nav-dd-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: -8px;
+  min-width: 250px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.13);
+  padding: 6px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  z-index: 60;
+}
+.nav-dd:hover .nav-dd-menu, .nav-dd:focus-within .nav-dd-menu { display: flex; }
+.nav-dd-menu a { display: flex; flex-direction: column; gap: 1px; padding: 9px 11px; border-radius: 7px; color: var(--ink-2); }
+.nav-dd-menu a:hover { background: var(--accent-tint); }
+.nav-dd-menu a strong { color: var(--ink); font-weight: 600; font-size: var(--text-sm); }
+.nav-dd-menu a span { color: var(--ink-3); font-size: 12px; font-weight: 400; }
+.nav-dd-menu a[aria-current='page'] strong { color: var(--accent); }
+/* mobile drawer: Dossier + Monitor shown as Ask AI's sub-tools. The drawer
+   links are centered, so hierarchy reads via smaller + muted text, not indent. */
+.nav-mobile-panel nav a.nav-mobile-sub { font-size: 14px; font-weight: 500; color: var(--ink-2); padding-top: 9px; padding-bottom: 9px; }
+.nav-mobile-panel nav a.nav-mobile-sub[aria-current='page'] { color: var(--accent); }
+
 .nav-spacer { flex: 1; }
 .nav-search {
   position: relative;
