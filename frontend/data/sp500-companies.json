@@ -605,11 +605,6 @@
     "sector": "Industrials"
   },
   {
-    "symbol": "CAG",
-    "name": "Conagra Brands",
-    "sector": "Consumer Staples"
-  },
-  {
     "symbol": "COP",
     "name": "ConocoPhillips",
     "sector": "Energy"
@@ -1180,8 +1175,13 @@
     "sector": "Consumer Discretionary"
   },
   {
+    "symbol": "HONA",
+    "name": "Honeywell Aerospace",
+    "sector": "Industrials"
+  },
+  {
     "symbol": "HON",
-    "name": "Honeywell",
+    "name": "Honeywell Technologies",
     "sector": "Industrials"
   },
   {
