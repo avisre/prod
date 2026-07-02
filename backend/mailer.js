@@ -141,6 +141,63 @@ Didn't request this? You can safely ignore this email — your password won't ch
   return { html, text };
 }
 
+// Post-redemption honest-review drip for AppSumo buyers. Three stages
+// (0-indexed stage arg is the stage being sent: 1=24h welcome, 2=day-3 check-in,
+// 3=day-10 final ask). CRITICAL: never offer anything in return for a review —
+// incentivized reviews (even honest ones) are an AppSumo delisting offense — and
+// always offer support before asking, since a broken product should reply, not review.
+function appsumoReviewEmail(name, appUrl, stage, reviewUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const dash = `${String(appUrl).replace(/\/$/, '')}/dashboard.html`;
+  const safeReview = escapeHtml(reviewUrl);
+  const safeDash = escapeHtml(dash);
+  const safeUnsub = escapeHtml(unsubUrl || '');
+  const btn = (href, label, bg) => `<a href="${href}" style="background:${bg};color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">${label}</a>`;
+  const foot = (extra) => `
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      ${extra}Reply to this email any time — it reaches me, the founder, directly. Not financial advice.<br/>
+      — Avinash, StockPortfolio.pro${safeUnsub ? `<br/><a href="${safeUnsub}" style="color:#94a3b8;font-size:12px">Stop these emails</a>` : ''}
+    </p>`;
+
+  let subject, body, textBody;
+  if (Number(stage) <= 1) {
+    subject = 'Your StockPortfolio.pro lifetime deal is live — here\'s where to start';
+    body = `
+      <h1 style="font-size:22px;margin:0 0 12px">Welcome aboard, ${safeFirst} 🎉</h1>
+      <p style="font-size:15px;line-height:1.6;color:#334155">Thanks for grabbing the lifetime deal. The fastest way to see what makes this different: open any company and ask a question — every answer cites the exact 10-K / 10-Q line it came from, so you can verify it, not just trust it.</p>
+      <ul style="font-size:15px;line-height:1.7;color:#334155;padding-left:18px">
+        <li>Ask something like "what are the biggest risks in the latest 10-K?" — you'll get a cited answer.</li>
+        <li>Run the screener or compare two companies side by side on SEC-filed fundamentals.</li>
+      </ul>
+      <p style="margin:22px 0">${btn(safeDash, 'Open your dashboard', '#6d5cff')}</p>`;
+    textBody = `Welcome aboard, ${first}!\n\nThanks for grabbing the lifetime deal. Fastest way to see what's different: open any company and ask a question — every answer cites the exact 10-K/10-Q line, so you can verify it.\n\nOpen your dashboard: ${dash}\n\nReply any time — it reaches me, the founder, directly.\n— Avinash, StockPortfolio.pro`;
+  } else if (Number(stage) === 2) {
+    subject = 'How\'s StockPortfolio.pro treating you so far?';
+    body = `
+      <h1 style="font-size:22px;margin:0 0 12px">Quick check-in, ${safeFirst}</h1>
+      <p style="font-size:15px;line-height:1.6;color:#334155">You've had a few days with StockPortfolio.pro. If anything is confusing or not working the way you expected, just reply — I read every message and I'd rather fix it than have you stuck.</p>
+      <p style="font-size:15px;line-height:1.6;color:#334155">And if it's already earning its keep, an honest review on AppSumo genuinely helps a solo founder more than you'd think — it's how other investors find the tool.</p>
+      <p style="margin:22px 0">${btn(safeReview, 'Leave an honest review', '#E8412E')} &nbsp; ${btn(safeDash, 'Back to dashboard', '#6d5cff')}</p>`;
+    textBody = `Quick check-in, ${first}.\n\nIf anything's confusing or not working, just reply — I'd rather fix it than have you stuck. And if it's already useful, an honest AppSumo review genuinely helps a solo founder: ${reviewUrl}\n\n— Avinash, StockPortfolio.pro`;
+  } else {
+    subject = 'A small ask, if StockPortfolio.pro has been useful';
+    body = `
+      <h1 style="font-size:22px;margin:0 0 12px">Thanks for being an early buyer, ${safeFirst}</h1>
+      <p style="font-size:15px;line-height:1.6;color:#334155">You've had StockPortfolio.pro for about a week and a half now. If it's been useful, would you leave an honest review on AppSumo? Early reviews are the single biggest thing that helps a new listing reach other investors — and I read every one to decide what to build next.</p>
+      <p style="font-size:15px;line-height:1.6;color:#334155">If something's holding you back from a great review, tell me first — reply to this email and I'll do my best to sort it.</p>
+      <p style="margin:22px 0">${btn(safeReview, 'Leave an honest review', '#E8412E')}</p>`;
+    textBody = `Thanks for being an early buyer, ${first}.\n\nIf StockPortfolio.pro has been useful, an honest AppSumo review helps a new listing more than anything: ${reviewUrl}\n\nIf something's holding you back, reply first and I'll try to sort it.\n— Avinash, StockPortfolio.pro`;
+  }
+
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    ${body}
+    ${foot(Number(stage) <= 1 ? 'Something not working? ' : '')}
+  </div>`;
+  return { subject, html, text: textBody };
+}
+
 // Send a single password-reset email. Never throws; returns true only on a
 // successful send (false if SMTP isn't configured or the send fails).
 async function sendPasswordResetEmail({ to, name, resetUrl } = {}) {
@@ -200,4 +257,4 @@ async function sendMail({ to, subject, html, text } = {}) {
   }
 }
 
-module.exports = { sendNewUserEmails, sendPasswordResetEmail, isMailerConfigured, sendMail, config, escapeHtml };
+module.exports = { sendNewUserEmails, sendPasswordResetEmail, appsumoReviewEmail, isMailerConfigured, sendMail, config, escapeHtml };

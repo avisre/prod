@@ -218,6 +218,19 @@ const APPSUMO_API_KEY = process.env.APPSUMO_API_KEY || '';
 const APPSUMO_CLIENT_ID = process.env.APPSUMO_CLIENT_ID || '';
 const APPSUMO_CLIENT_SECRET = process.env.APPSUMO_CLIENT_SECRET || '';
 const APPSUMO_REDIRECT_URI = process.env.APPSUMO_REDIRECT_URI || 'https://www.stockportfolio.pro/appsumo/redeem';
+// Product slug on appsumo.com (set once the deal is live) — used to deep-link the
+// review form. Until it's known, fall back to the buyer's AppSumo purchases page,
+// which is always valid and lets them navigate to the product to review/upgrade.
+const APPSUMO_PRODUCT_SLUG = process.env.APPSUMO_PRODUCT_SLUG || '';
+const APPSUMO_ACCOUNT_URL = 'https://appsumo.com/account/products/';
+function appsumoReviewUrl() {
+    return APPSUMO_PRODUCT_SLUG ? `https://appsumo.com/products/${APPSUMO_PRODUCT_SLUG}/#reviews` : APPSUMO_ACCOUNT_URL;
+}
+// Per-license upgrade URL comes from AppSumo (license_change_plan_url) when present;
+// otherwise the buyer manages/upgrades tiers from their AppSumo purchases page.
+function appsumoUpgradeUrl(lic) {
+    return (lic && lic.changePlanUrl) || APPSUMO_ACCOUNT_URL;
+}
 const stripe = stripeSecretKey ? Stripe(stripeSecretKey, { apiVersion: '2022-11-15' }) : null;
 const googleOauthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 const REQUIRE_ACTIVE_SUBSCRIPTION = process.env.REQUIRE_ACTIVE_SUBSCRIPTION === 'true';
@@ -1225,6 +1238,11 @@ const UserSchema = new mongoose.Schema({
     appsumoTier: { type: Number, default: null },
     appsumoAiCap: { type: Number, default: null },
     appsumoRedeemedAt: { type: Date, default: null },
+    // Post-redemption honest-review drip (AppSumo-sanctioned: 24h / day-3 / day-10).
+    // appsumoReviewStage = highest stage already emailed (0..3); opt-out is separate
+    // from the digest opt-out so unsubscribing one never mutes the other.
+    appsumoReviewStage: { type: Number, default: 0 },
+    appsumoEmailsOptOut: { type: Boolean, default: false },
     // Password reset via email. Stores only a SHA-256 hash of the emailed token
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
@@ -2918,14 +2936,28 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const limit = effectiveAskLimit(req);
         const used = await aiChat.getUsage(userId);
         if (used >= limit) {
-            return res.status(429).json({
+            const resp = {
                 message: isProUser(req)
                     ? `You've used all ${limit} Ask queries this month — the counter resets on the 1st.`
                     : `You've used your ${limit} Ask queries this month. Upgrade for ${aiChat.limits(req.tier === 'free' ? 'core' : 'pro')} a month.`,
                 // tier lets the client render the right upgrade ladder even when
                 // AI_CHAT_*_LIMIT env overrides make limit→tier inference ambiguous
                 code: 'ASK_QUOTA', tier: req.tier === true ? 'pro' : req.tier, quota: { used, limit, remaining: 0 }
-            });
+            };
+            // AppSumo tier 1/2 buyers aren't stuck at the cap — they can raise their
+            // monthly Ask limit by upgrading their license. Surface a real link so
+            // the wall offers the upgrade instead of a dead "resets on the 1st".
+            const asTier = Number(req.user && req.user.appsumoTier);
+            if (req.user && req.user.appsumoLicenseKey && asTier > 0 && asTier < 3) {
+                let upgradeUrl = APPSUMO_ACCOUNT_URL;
+                try {
+                    const lic = await AppSumoLicense.findOne({ licenseKey: req.user.appsumoLicenseKey }, { changePlanUrl: 1 }).lean();
+                    upgradeUrl = appsumoUpgradeUrl(lic);
+                } catch (_) { /* fall back to account page */ }
+                resp.appsumo = { isAppSumo: true, tier: asTier, upgradeUrl };
+                resp.message = `You've used all ${limit} Ask questions this month on your AppSumo plan. Upgrade your AppSumo license for a higher monthly limit — or wait for the reset on the 1st.`;
+            }
+            return res.status(429).json(resp);
         }
         // Holdings context for the get_portfolio tool (stored prices — no live
         // price fan-out per chat message).
@@ -3413,7 +3445,18 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
     try {
         const limit = effectiveAskLimit(req);
         const used = await aiChat.getUsage(portfolioOwnerId(req));
-        res.json({ used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req), tier: req.tier });
+        const out = { used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req), tier: req.tier };
+        // AppSumo lifetime buyers: expose tier + a real upgrade link so the UI can
+        // offer "Upgrade your AppSumo license" at the cap instead of a dead end.
+        if (req.user && req.user.appsumoLicenseKey) {
+            let upgradeUrl = APPSUMO_ACCOUNT_URL;
+            try {
+                const lic = await AppSumoLicense.findOne({ licenseKey: req.user.appsumoLicenseKey }, { changePlanUrl: 1 }).lean();
+                upgradeUrl = appsumoUpgradeUrl(lic);
+            } catch (_) { /* fall back to account page */ }
+            out.appsumo = { isAppSumo: true, tier: req.user.appsumoTier || null, cap: req.user.appsumoAiCap || null, upgradeUrl };
+        }
+        res.json(out);
     } catch (error) {
         res.status(500).json({ message: error.message || 'Quota check failed' });
     }
@@ -3583,6 +3626,7 @@ const AppSumoLicenseSchema = new mongoose.Schema({
     status: { type: String, default: 'inactive' }, // inactive | active | deactivated
     tier: { type: Number, default: 1 },
     partnerPlanName: { type: String, default: null },
+    changePlanUrl: { type: String, default: null }, // AppSumo per-license upgrade/downgrade link
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
     redeemedAt: { type: Date, default: null },
     lastEvent: { type: String, default: null },
@@ -3666,6 +3710,7 @@ async function appsumoHandleEvent(body) {
     const tier = Number(body.tier) || 1;
     if (!licenseKey) return;
     const now = new Date();
+    const changePlanUrl = body.license_change_plan_url || body.change_plan_url || null;
 
     if (event === 'purchase' || event === 'activate') {
         const lic = await AppSumoLicense.findOneAndUpdate(
@@ -3676,6 +3721,7 @@ async function appsumoHandleEvent(body) {
                 tier,
                 parentLicenseKey: body.parent_license_key || null,
                 partnerPlanName: body.partner_plan_name || null,
+                ...(changePlanUrl ? { changePlanUrl } : {}),
                 lastEvent: event, lastEventAt: now, raw: body
             } },
             { upsert: true, new: true }
@@ -3691,12 +3737,13 @@ async function appsumoHandleEvent(body) {
             lic.licenseKey = licenseKey;
             lic.tier = tier;
             lic.status = 'active';
+            if (changePlanUrl) lic.changePlanUrl = changePlanUrl;
             lic.lastEvent = event; lic.lastEventAt = now; lic.raw = body;
             await lic.save().catch(() => {});
         } else {
             lic = await AppSumoLicense.findOneAndUpdate(
                 { licenseKey },
-                { $set: { licenseKey, prevLicenseKey: prevKey || null, tier, status: 'active', lastEvent: event, lastEventAt: now, raw: body } },
+                { $set: { licenseKey, prevLicenseKey: prevKey || null, tier, status: 'active', ...(changePlanUrl ? { changePlanUrl } : {}), lastEvent: event, lastEventAt: now, raw: body } },
                 { upsert: true, new: true }
             );
         }
@@ -4553,6 +4600,128 @@ function startDigest() {
     console.log('[digest] scheduled daily (per-user weekly cadence)');
 }
 
+// ---- AppSumo post-redemption honest-review drip + refund reconciliation ----
+function appsumoUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'as-review' }, JWT_SECRET); }
+
+app.get('/api/appsumo/unsubscribe', async (req, res) => {
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    try {
+        const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
+        if (decoded.p !== 'as-review') throw new Error('wrong token purpose');
+        await User.updateOne({ _id: decoded.userId }, { $set: { appsumoEmailsOptOut: true } });
+        res.set('Content-Type', 'text/html').send(page("<h2>Unsubscribed</h2><p>You won't get any more onboarding or review emails about your AppSumo purchase. Your lifetime access is unaffected — sign in any time at <a href=\"/\">StockPortfolio.pro</a>.</p>"));
+    } catch (_) {
+        res.status(400).set('Content-Type', 'text/html').send(page('<h2>Invalid link</h2><p>This unsubscribe link is invalid. Please use the link from a recent email.</p>'));
+    }
+});
+
+// Cumulative delays from redemption; array index == review stage being sent.
+const APPSUMO_REVIEW_STAGES = [null, 24 * 3600 * 1000, 3 * 86400000, 10 * 86400000];
+
+async function runAppSumoReviewSweep() {
+    if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
+    if (!mailer.isMailerConfigured()) return { skipped: 'no smtp' };
+    if (String(process.env.APPSUMO_REVIEW_EMAILS || '1') === '0') return { skipped: 'disabled' };
+    const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
+    const reviewUrl = appsumoReviewUrl();
+    const now = Date.now();
+    // Only email still-active buyers (never ask a refunded/deactivated user for a review).
+    const users = await User.find({
+        appsumoRedeemedAt: { $ne: null },
+        appsumoEmailsOptOut: { $ne: true },
+        appsumoReviewStage: { $lt: 3 },
+        'subscription.status': 'active'
+    }).limit(200);
+    let sent = 0;
+    for (const u of users) {
+        try {
+            const nextStage = (u.appsumoReviewStage || 0) + 1;
+            const threshold = APPSUMO_REVIEW_STAGES[nextStage];
+            if (!threshold) continue;
+            if (now - new Date(u.appsumoRedeemedAt).getTime() < threshold) continue; // not due yet
+            const unsubUrl = `${appUrl}/api/appsumo/unsubscribe?token=${appsumoUnsubToken(u._id)}`;
+            const mail = mailer.appsumoReviewEmail(u.name, appUrl, nextStage, reviewUrl, unsubUrl);
+            if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {
+                u.appsumoReviewStage = nextStage; // bump only on successful send; retries next sweep otherwise
+                await u.save().catch(() => {});
+                sent++;
+            }
+        } catch (_) { /* per-user fail-open */ }
+    }
+    return { eligible: users.length, sent };
+}
+
+async function runAppSumoReconcile() {
+    if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
+    // Safety net on top of the real-time deactivate webhook: any license marked
+    // deactivated (refund/cancel) whose linked user STILL holds the AppSumo grant
+    // gets access revoked. Only touches users whose current key is this deactivated
+    // one — so an upgrade (which deactivates the old key) is never clobbered.
+    const stale = await AppSumoLicense.find({ status: 'deactivated', userId: { $ne: null } }).limit(500);
+    let revoked = 0;
+    for (const lic of stale) {
+        try {
+            const user = await User.findById(lic.userId);
+            if (user && user.appsumoLicenseKey === lic.licenseKey && user.appsumoAiCap != null) {
+                await revokeAppSumoAccess(user);
+                revoked++;
+            }
+        } catch (_) { /* per-license fail-open */ }
+    }
+    return { checked: stale.length, revoked };
+}
+
+// Support tool: look up an AppSumo license by key, or a buyer by email (AppSumo
+// never hands us buyer emails, so key lookup is the only way to answer "my key
+// won't redeem"). Token-gated with ADMIN_TOKEN, same as /api/admin/comp.
+app.get('/api/admin/appsumo/lookup', async (req, res) => {
+    const token = process.env.ADMIN_TOKEN;
+    const provided = req.query.token || req.headers['x-admin-token'];
+    if (!token || provided !== token) return res.status(403).json({ message: 'Forbidden' });
+    try {
+        const key = String(req.query.key || '').trim();
+        const email = String(req.query.email || '').trim().toLowerCase();
+        let lic = null, user = null;
+        if (key) {
+            lic = await AppSumoLicense.findOne({ licenseKey: key }).lean();
+            if (lic && lic.userId) user = await User.findById(lic.userId).lean();
+        } else if (email) {
+            user = await User.findOne({ email }).lean();
+            if (user && user.appsumoLicenseKey) lic = await AppSumoLicense.findOne({ licenseKey: user.appsumoLicenseKey }).lean();
+        } else {
+            return res.status(400).json({ message: 'Provide ?key=<licenseKey> or ?email=<buyer email>' });
+        }
+        const license = lic ? {
+            licenseKey: lic.licenseKey, status: lic.status, tier: lic.tier,
+            prevLicenseKey: lic.prevLicenseKey, partnerPlanName: lic.partnerPlanName,
+            redeemedAt: lic.redeemedAt, lastEvent: lic.lastEvent, lastEventAt: lic.lastEventAt,
+            linkedUserId: lic.userId || null
+        } : null;
+        const buyer = user ? {
+            _id: user._id, email: user.email, name: user.name,
+            appsumoTier: user.appsumoTier, appsumoAiCap: user.appsumoAiCap,
+            appsumoRedeemedAt: user.appsumoRedeemedAt, appsumoReviewStage: user.appsumoReviewStage,
+            subStatus: user.subscription && user.subscription.status,
+            planName: user.subscription && user.subscription.planName
+        } : null;
+        res.json({ found: !!(lic || user), license, buyer });
+    } catch (err) {
+        res.status(500).json({ message: 'Lookup failed' });
+    }
+});
+
+function startAppSumoJobs() {
+    // Daily tick; appsumoReviewStage enforces the drip cadence and survives restarts.
+    // Reconcile runs alongside as a belt-and-suspenders on the deactivate webhook.
+    const tick = () => {
+        runAppSumoReviewSweep().then((r) => console.log('[appsumo] review sweep', JSON.stringify(r))).catch(() => {});
+        runAppSumoReconcile().then((r) => console.log('[appsumo] reconcile', JSON.stringify(r))).catch(() => {});
+    };
+    setTimeout(tick, 150 * 1000);
+    setInterval(tick, 24 * 3600 * 1000);
+    console.log('[appsumo] review drip + reconcile scheduled daily');
+}
+
 // Anything that reached this point matches no page, file, or route. Serving
 // the homepage here (the old behavior) made every bad URL a 200 "soft 404"
 // that wastes crawl budget and pollutes the index — return a real 404.
@@ -4571,6 +4740,7 @@ try { ssrCache.warmSitemap(ssrCacheMw, () => seoPages.buildSitemap()); } catch (
 watchdog.start();
 gurus.start();
 startDigest();
+startAppSumoJobs();
 // Pre-warm the most-viewed dossiers in the background (top ~300 by market cap).
 // On in production automatically; locally only with PREWARM=on. SEC calls are
 // globally throttled (sec-throttle), so this never trips a rate limit.
