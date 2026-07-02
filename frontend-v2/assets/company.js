@@ -528,6 +528,11 @@
     const gp = (v) => v === null || v === undefined ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%/yr';
     async function loadReverseDcf(opts = {}) {
         const sec = $('rdcf-section'); const body = $('rdcf-body'); const rule = $('rdcf-rule');
+        const teaser = () => {
+            body.innerHTML = `<p class="small muted" style="max-width:64ch;">What growth rate does today's price assume? We solve it from the filings and put it next to the company's actual record — <a href="/login.html">log in</a> or <a href="/register.html">start a trial</a> to see it.</p>`;
+            sec.hidden = false; rule.hidden = false;
+        };
+        if (!token()) { teaser(); return; } // signed out: show the teaser without a doomed 401 request
         try {
             const q = new URLSearchParams();
             if (opts.r) q.set('r', opts.r);
@@ -535,10 +540,7 @@
             if (opts.base) q.set('base', opts.base);
             const resp = await fetch(`${API}/company/${encodeURIComponent(symbol)}/reverse-dcf?${q}`,
                 { headers: { Authorization: `Bearer ${token()}` } });
-            if (resp.status === 401 || resp.status === 402) {
-                body.innerHTML = `<p class="small muted" style="max-width:64ch;">What growth rate does today's price assume? We solve it from the filings and put it next to the company's actual record — <a href="/login.html">log in</a> or <a href="/register.html">start a trial</a> to see it.</p>`;
-                sec.hidden = false; rule.hidden = false; return;
-            }
+            if (resp.status === 401 || resp.status === 402) { teaser(); return; }
             if (!resp.ok) { sec.hidden = true; rule.hidden = true; return; }
             const d = await resp.json();
             const a = d.assumptions || {};

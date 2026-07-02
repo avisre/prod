@@ -683,7 +683,7 @@ function buildSitemap() {
         + `      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n`
         + `      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and 19 years of filed fundamentals.</video:description>\n`
         + `      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n`
-        + `      <video:duration>63</video:duration>\n`
+        + `      <video:duration>53</video:duration>\n`
         + `    </video:video>`;
     const monitorVideo = `\n    <video:video>\n`
         + `      <video:thumbnail_loc>${SITE}/assets/monitor-poster.jpg</video:thumbnail_loc>\n`

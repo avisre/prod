@@ -439,6 +439,8 @@
     running = true;
     const out = $('dos-report');
     $('dos-hero').hidden = true;
+    const preview = $('dos-preview');
+    if (preview) preview.hidden = true;
     if (history.replaceState) history.replaceState(null, '', `/dossier.html?symbol=${encodeURIComponent(sym)}`);
     setBuilding(out, sym, null, 0);
     const started = Date.now();

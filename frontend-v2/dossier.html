@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260627-4" />
+  <link rel="stylesheet" href="assets/system.css?v=20260702-1" />
   <style>
     .beta-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); vertical-align: middle; margin-left: 8px; }
     .dos-hero { max-width: 760px; margin: 8px auto 0; text-align: center; }
@@ -65,7 +65,7 @@
     .th-ev { color: var(--ink-3); font-size: 12.5px; margin-top: 3px; }
     /* print / export deliverable */
     @media print {
-      .nav, .nav-mobile, #dos-search-wrap, .dos-actions, .dos-thesis-edit, footer, .dos-hero .dos-form { display: none !important; }
+      .nav, .nav-mobile, #dos-search-wrap, #dos-preview, .dos-actions, .dos-thesis-edit, footer, .dos-hero .dos-form { display: none !important; }
       .dos-doc { max-width: none; margin: 0; }
       .dos-summary { background: #f3f3f3 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       a { color: inherit; text-decoration: none; }
@@ -87,12 +87,27 @@
           <input class="input" id="dos-sym" placeholder="Ticker — e.g. AAPL" autocomplete="off" aria-label="Ticker" />
           <button class="btn btn-primary" type="submit">Build dossier</button>
         </form>
+        <p class="small faint" style="text-align:center; margin:12px auto 0;">Included in the <strong>Power</strong> and <strong>Desk</strong> plans — <a href="/#pricing">see pricing</a>. On another plan, you'll see the upgrade card, never a surprise charge.</p>
+      </div>
+      <div id="dos-preview" style="max-width:760px; margin:36px auto 0;">
+        <p class="label" style="text-align:center;">What's inside every dossier</p>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px 28px; margin-top:14px; font-size:13.5px; line-height:1.55; color:var(--ink-2);">
+          <div>— Executive summary + <strong>Edge</strong>: the non-obvious signals a summary misses</div>
+          <div>— Industry &amp; competitive drivers, with sector structure and peer medians</div>
+          <div>— Segments and ten years of DuPont financials, charted from the filings</div>
+          <div>— What today's price assumes, plus a bear / base / bull value range</div>
+          <div>— Forward DCF with the full WACC buildup — every input shown</div>
+          <div>— Bull vs bear case, investment risks and 8 computed health checks</div>
+          <div>— Governance, insider Form 4 activity and tracked 13F holders</div>
+          <div>— What changed in the latest filing, and <strong>your thesis graded</strong> against every new one</div>
+        </div>
+        <p class="small faint" style="text-align:center; margin:16px auto 0;">Every figure computed from SEC-filed statements — the prose is written over finished facts, and it prints to a clean PDF.</p>
       </div>
       <div id="dos-report" class="dos-doc" hidden></div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260627-4"></script>
-  <script src="assets/dossier.js?v=20260618-3"></script>
+  <script src="assets/app.js?v=20260702-1"></script>
+  <script src="assets/dossier.js?v=20260702-1"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>

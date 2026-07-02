@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260627-4" />
+  <link rel="stylesheet" href="assets/system.css?v=20260702-1" />
   <style>
     .plan-pick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
     .plan-card {
@@ -34,7 +34,7 @@
   <main>
     <div class="container" style="max-width:480px; padding-top:72px;">
       <h1 class="title-1">Create your account</h1>
-      <p class="muted small" style="margin-top:6px;" id="plan-summary">7-day free trial, then $12/month. Cancel anytime.</p>
+      <p class="muted small" style="margin-top:6px;" id="plan-summary">7-day free trial, no card required — $12/month after, only if you stay.</p>
 
       <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
         <div class="plan-pick" role="group" aria-label="Choose your plan">
@@ -73,14 +73,14 @@
       <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
     </div>
   </main>
-  <script src="assets/app.js?v=20260627-4"></script>
+  <script src="assets/app.js?v=20260702-1"></script>
   <script src="assets/social.js?v=20260612-1"></script>
   <script>
     V2.nav('register');
     const SUMMARY = {
-      monthly: ['7-day free trial, then $12/month. Cancel anytime.', 'Start 7-day free trial'],
+      monthly: ['7-day free trial, no card required — $12/month after, only if you stay.', 'Start 7-day free trial'],
       annual: ['$118 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
-      pro: ['7-day free trial, then $33/month — includes the AI analyst.', 'Start Pro free trial'],
+      pro: ['7-day free trial, no card required — $33/month after, with the AI analyst.', 'Start Pro free trial'],
       'pro-annual': ['$250 billed today, renews yearly — save $146 versus Pro monthly.', 'Continue to Pro Annual checkout'],
       power: ['$579 billed today, renews yearly — the full research desk + Filing Monitor for serious individuals.', 'Continue to Power checkout'],
       'power-monthly': ['$64 billed today, then monthly — the full research desk + Filing Monitor, no annual commitment. Cancel anytime.', 'Continue to Power checkout'],

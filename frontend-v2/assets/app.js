@@ -395,7 +395,6 @@
           <div class="container nav-inner">
             <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
             <nav class="nav-links" aria-label="Primary">
-              <a href="/stocks" ${cur('stocks')}>Stocks</a>
               <a href="/screener.html" ${cur('screener')}>Screener</a>
               <a href="/compare" ${cur('compare')}>Compare</a>
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
@@ -419,7 +418,8 @@
               <div class="nav-search-results" id="v2-search-results" hidden></div>
             </div>
             ${authed
-                ? `<a class="btn btn-quiet" href="#" id="v2-signout">Sign out</a>`
+                ? `<a class="btn btn-primary btn-sm" href="/#pricing" id="v2-upgrade" hidden>Upgrade</a>
+                   <a class="btn btn-quiet" href="#" id="v2-signout">Sign out</a>`
                 : `<a class="btn btn-quiet" href="/login.html">Log in</a>
                    <a class="btn btn-primary btn-sm" href="/register.html">Sign up free</a>`}
             <button class="nav-ham" id="v2-ham" aria-label="Open menu" aria-expanded="false" aria-controls="v2-mobile-nav">
@@ -446,7 +446,6 @@
                 <svg width="10.5" height="10.5" viewBox="0 0 15 15" aria-hidden="true"><path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
               </button>
               <nav>
-                <a href="/stocks" ${cur('stocks')}>Stocks</a>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
                 <a href="/compare" ${cur('compare')}>Compare</a>
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
@@ -460,7 +459,8 @@
               </nav>
               <div class="nav-mobile-auth">
                 ${authed
-                    ? `<a class="btn btn-ghost" href="#" id="v2-mobile-signout">Sign out</a>`
+                    ? `<a class="btn btn-primary" href="/#pricing" id="v2-mobile-upgrade" hidden>Upgrade</a>
+                       <a class="btn btn-ghost" href="#" id="v2-mobile-signout">Sign out</a>`
                     : `<a class="btn btn-ghost" href="/login.html">Log in</a>
                        <a class="btn btn-primary" href="/register.html">Start free trial</a>`}
               </div>
@@ -528,6 +528,14 @@
             s = await r.json();
         } catch (_) { return; }
         const sub = s && s.subscription;
+        // Upgrade chip in the nav: visible for every signed-in user except the
+        // top paid tiers (they have nothing to upgrade to in the pricing grid).
+        const topTier = ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub && sub.planId) &&
+            ['active', 'trialing', 'cancel_at_period_end'].includes(sub && sub.status);
+        ['v2-upgrade', 'v2-mobile-upgrade'].forEach((id) => {
+            const chip = document.getElementById(id);
+            if (chip) chip.hidden = topTier;
+        });
         if (!sub) return;
         const ends = sub.trialEndsAt ? new Date(sub.trialEndsAt) : null;
         let html = '';
@@ -609,7 +617,7 @@
           <div class="container footer-inner">
             <div>© 2026 stockportfolio.pro — figures from SEC filings (10-K/10-Q), as filed; per-share figures split-adjusted. Not investment advice.</div>
             <div style="display:flex; gap:8px 18px; flex-wrap:wrap;">
-              <a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
+              <a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
             </div>
           </div>`;
         document.body.appendChild(el);
