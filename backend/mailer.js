@@ -106,6 +106,49 @@ function ownerEmail({ name, email, plan }) {
   return { html, text };
 }
 
+function passwordResetEmail(name, resetUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const safeUrl = escapeHtml(resetUrl);
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    <h1 style="font-size:22px;margin:0 0 12px">Reset your password</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">
+      Hi ${safeFirst}, we got a request to reset the password for your Stock Portfolio Pro account.
+      Click the button below to choose a new one. This link expires in 1 hour and can be used once.
+    </p>
+    <p style="margin:22px 0">
+      <a href="${safeUrl}" style="background:#6d5cff;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">Reset my password</a>
+    </p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      If the button doesn't work, paste this link into your browser:<br/>
+      <a href="${safeUrl}" style="color:#6d5cff;word-break:break-all">${safeUrl}</a>
+    </p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      Didn't request this? You can safely ignore this email — your password won't change.<br/>
+      — The Stock Portfolio Pro team
+    </p>
+  </div>`;
+  const text = `Reset your password
+
+Hi ${first}, we got a request to reset the password for your Stock Portfolio Pro account.
+Open this link to choose a new one (expires in 1 hour, single use):
+
+${resetUrl}
+
+Didn't request this? You can safely ignore this email — your password won't change.
+— The Stock Portfolio Pro team`;
+  return { html, text };
+}
+
+// Send a single password-reset email. Never throws; returns true only on a
+// successful send (false if SMTP isn't configured or the send fails).
+async function sendPasswordResetEmail({ to, name, resetUrl } = {}) {
+  if (!to || !resetUrl) return false;
+  const { html, text } = passwordResetEmail(name, resetUrl);
+  return sendMail({ to, subject: 'Reset your Stock Portfolio Pro password', html, text });
+}
+
 // Fire onboarding + owner-notification emails for a newly created user.
 // Never throws — returns true if at least one send was attempted.
 async function sendNewUserEmails({ name, email, plan } = {}) {
@@ -157,4 +200,4 @@ async function sendMail({ to, subject, html, text } = {}) {
   }
 }
 
-module.exports = { sendNewUserEmails, isMailerConfigured, sendMail, config, escapeHtml };
+module.exports = { sendNewUserEmails, sendPasswordResetEmail, isMailerConfigured, sendMail, config, escapeHtml };

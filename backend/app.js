@@ -135,6 +135,29 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
+// Forgot-password requests send an email, so throttle them hard per IP to
+// prevent inbox flooding and slow down enumeration probing. 5 per 15 min is
+// far above any legitimate need. Mounted after the general limiter so both apply.
+const passwordResetLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/password/forgot', passwordResetLimiter);
+
+// /reset carries a token guess. Tokens are 256-bit random + single-use, so
+// brute force isn't feasible, but throttle per IP anyway so the endpoint can't
+// be hammered and to keep symmetry with /forgot. Slightly higher cap leaves
+// room for a user fumbling the password-policy check a couple of times.
+const passwordResetConfirmLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/password/reset', passwordResetConfirmLimiter);
+
 // Alpha Vantage is no longer used — all market data is served from
 // Yahoo Finance via backend/yahoo-source.js. The env var is kept here
 // only so existing deployments don't reject unrecognised settings.
@@ -1201,7 +1224,12 @@ const UserSchema = new mongoose.Schema({
     appsumoLicenseKey: { type: String, default: null, index: true },
     appsumoTier: { type: Number, default: null },
     appsumoAiCap: { type: Number, default: null },
-    appsumoRedeemedAt: { type: Date, default: null }
+    appsumoRedeemedAt: { type: Date, default: null },
+    // Password reset via email. Stores only a SHA-256 hash of the emailed token
+    // (never the raw token) plus its expiry; both are cleared on a successful
+    // reset so the link is single-use. See /api/password/forgot + /reset.
+    resetPasswordToken: { type: String, default: null, index: true },
+    resetPasswordExpires: { type: Date, default: null }
 });
 
 const User = mongoose.model('User', UserSchema);
@@ -2230,6 +2258,89 @@ app.post('/api/password/change', async (req, res) => {
         }
         console.error('Change password error:', error);
         res.status(500).json({ message: 'Unable to change password right now.' });
+    }
+});
+
+// Forgot password — email a one-time reset link. ALWAYS responds 200 with the
+// same generic message whether or not the email exists, so the endpoint can't
+// be used to enumerate accounts. Only a SHA-256 hash of the token is stored;
+// the raw token lives solely in the emailed link and expires in 1 hour.
+app.post('/api/password/forgot', async (req, res) => {
+    const genericOk = {
+        message: "If an account exists for that email, a password reset link is on its way. Check your inbox (and spam)."
+    };
+    try {
+        const normalizedEmail = normalizeEmail(req.body?.email);
+        if (!normalizedEmail) {
+            return res.status(400).json({ message: 'Email is required.' });
+        }
+
+        const user = await User.findOne({ email: normalizedEmail });
+        if (user) {
+            const rawToken = crypto.randomBytes(32).toString('hex');
+            user.resetPasswordToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+            user.resetPasswordExpires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+            await user.save();
+
+            const appUrl = String(mailer.config().appUrl || 'https://stockportfolio.pro').replace(/\/$/, '');
+            const resetUrl = `${appUrl}/reset-password.html?token=${rawToken}`;
+            // Fire-and-forget: a mail hiccup must not change the response (which
+            // would leak whether the address exists).
+            mailer.sendPasswordResetEmail({ to: user.email, name: user.name, resetUrl })
+                .catch((e) => console.error('[mailer] password-reset email error:', e && e.message));
+        }
+
+        return res.status(200).json(genericOk);
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) {
+            return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
+        }
+        console.error('Forgot password error:', error);
+        return res.status(500).json({ message: 'Unable to process the request right now. Please try again shortly.' });
+    }
+});
+
+// Reset password — complete the flow with the emailed token. Validates the
+// token hash + expiry, applies the new password, and clears the token so the
+// link can't be reused. On success the user is signed in immediately.
+app.post('/api/password/reset', async (req, res) => {
+    try {
+        const { token, newPassword } = req.body || {};
+        if (typeof token !== 'string' || !token.trim()) {
+            return res.status(400).json({ message: 'Your reset link is missing its token. Open the link from your email again.' });
+        }
+        if (!passwordMeetsPolicy(newPassword)) {
+            return res.status(400).json({
+                message: 'New password must be at least 8 characters and include uppercase, lowercase, and a number.'
+            });
+        }
+
+        const tokenHash = crypto.createHash('sha256').update(token.trim()).digest('hex');
+        const user = await User.findOne({
+            resetPasswordToken: tokenHash,
+            resetPasswordExpires: { $gt: new Date() }
+        });
+        if (!user) {
+            return res.status(400).json({ message: 'This reset link is invalid or has expired. Request a new one from the login page.' });
+        }
+
+        user.password = await bcrypt.hash(newPassword, 10);
+        user.resetPasswordToken = null;
+        user.resetPasswordExpires = null;
+        await user.save();
+
+        // Sign them straight in — no need to retype credentials on a fresh password.
+        return res.status(200).json({
+            message: 'Your password has been reset. You are now signed in.',
+            token: createUserToken(user),
+            subscription: normalizeSubscription(user.subscription)
+        });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) {
+            return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
+        }
+        console.error('Reset password error:', error);
+        return res.status(500).json({ message: 'Unable to reset password right now. Please try again shortly.' });
     }
 });
 
