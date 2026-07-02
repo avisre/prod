@@ -24,9 +24,12 @@
     .news-toolbar { display: flex; gap: 12px; align-items: center; margin: 22px 0 10px; flex-wrap: wrap; }
     .chip-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
 
-    /* the Yahoo-style grid: feature | latest | sidebar, stream below */
-    .mkt-grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr) 300px; gap: 36px; margin-top: 22px; }
-    @media (max-width: 1100px) { .mkt-grid { grid-template-columns: 1fr; } }
+    /* the Yahoo-style grid: main content column + independent sidebar.
+       Sidebar is its OWN grid column so its height never pushes the "More news"
+       stream down — the stream only needs to clear feature+latest above it. */
+    .mkt-grid { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 36px; margin-top: 22px; align-items: start; }
+    .mkt-content { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 36px; align-items: start; }
+    @media (max-width: 1100px) { .mkt-grid { grid-template-columns: 1fr; } .mkt-content { grid-template-columns: 1fr; } }
 
     .feature-card { display: block; color: var(--ink); }
     .feature-card a, .sec-card a { color: inherit; }
@@ -102,6 +105,7 @@
 
       <!-- ③ the grid: featured | latest | sidebar, stream below -->
       <div class="mkt-grid">
+        <div class="mkt-content">
         <section class="signedout-panel" id="news-signedout" hidden aria-label="Account required">
           <h2 class="title-2">Market news needs an account</h2>
           <p class="small faint">Curated company headlines linked to the SEC-filed fundamentals behind each ticker, plus trending mentions and daily movers.</p>
@@ -121,6 +125,12 @@
           <ul class="latest-list" id="news-latest"></ul>
           <p class="small faint" id="news-empty" hidden style="padding:20px 0;">No news matched these filters yet.</p>
         </section>
+
+        <section class="stream" id="news-stream-col" aria-label="More news">
+          <div class="section-head" style="margin-bottom:4px;"><h2 class="title-3">More news</h2></div>
+          <div id="news-stream"></div>
+        </section>
+        </div><!-- /.mkt-content -->
 
         <aside aria-label="Markets and trending">
           <div class="side-card">
@@ -144,11 +154,6 @@
             <ul class="side-list" id="recent-viewed"><li class="side-empty">Open a company page to start tracking.</li></ul>
           </div>
         </aside>
-
-        <section class="stream" id="news-stream-col" aria-label="More news">
-          <div class="section-head" style="margin-bottom:4px;"><h2 class="title-3">More news</h2></div>
-          <div id="news-stream"></div>
-        </section>
       </div>
     </div>
   </main>
