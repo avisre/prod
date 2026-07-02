@@ -205,11 +205,19 @@
             if (tickers) q.set('tickers', tickers);
             const r = await fetch(`${API}/alpha/news?${q}`, { headers: { Authorization: `Bearer ${token()}` } });
             if (r.status === 401 || r.status === 402) {
-                // Markets news + sentiment are a paid feature. Show an upgrade
-                // prompt — not a transient "try again" — and don't leave the
-                // trending rail spinning on "Loading…" forever.
-                renderFeatured(null); renderSecondary([]); renderLatest([]); renderStream([]);
-                $('news-latest').innerHTML = '<li class="side-empty">Live news &amp; sentiment are on the paid plans — <a href="/register.html">start a free trial</a>.</li>';
+                // Markets news + sentiment are a paid feature. Collapse the hollow
+                // columns into the spanning panel (same as the signed-out path) so
+                // the wide featured track isn't left as a void down the middle, and
+                // show an upgrade prompt — not a transient "try again". The sidebar
+                // movers show their own paid-plan gate.
+                const panel = $('news-signedout');
+                panel.querySelector('h2').textContent = 'Market news is on the paid plans';
+                panel.querySelector('.signedout-actions').innerHTML =
+                    '<a class="btn btn-primary" href="/register.html">Start a free trial</a>';
+                panel.hidden = false;
+                $('news-feature-col').hidden = true;
+                $('news-latest-col').hidden = true;
+                $('news-stream-col').hidden = true;
                 $('trending-list').innerHTML = '<li class="side-empty">On the paid plans.</li>';
                 return;
             }
