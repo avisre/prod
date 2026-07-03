@@ -1939,31 +1939,78 @@ app.post('/api/subscribe', async (req, res) => {
     }
   });
 
-app.post('/api/support', async (req, res) => {
+// Build + send the support-inbox notification for a ticket. Independent of the
+// DB so a ticket is never lost during an outage. Never throws; resolves to a
+// boolean (true = email accepted for delivery).
+function notifySupportInbox(t) {
     try {
-        const { name, email, subject, message } = req.body || {};
-        if (!name || !email || !subject || !message) {
-            return res.status(400).json({ message: 'All fields are required' });
-        }
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({ message: 'Please provide a valid email address' });
-        }
-        const ticket = new SupportTicket({
-            name: name.trim(),
-            email: email.toLowerCase(),
-            subject: subject.trim(),
-            message: message.trim()
-        });
-        await ticket.save();
-        res.status(201).json({ message: 'Support ticket submitted. We will reach out shortly.' });
+        const { sendMail, escapeHtml } = require('./mailer');
+        const to = process.env.SUPPORT_INBOX_EMAIL || 'support@stockportfolio.pro';
+        const when = new Date().toISOString();
+        const text = `New support ticket\n\nName: ${t.name}\nEmail: ${t.email}\nSubject: ${t.subject}\nWhen: ${when}\n\nMessage:\n${t.message}`;
+        const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#0f172a">`
+            + `<h2 style="margin:0 0 10px">New support ticket</h2>`
+            + `<table style="font-size:14px;border-collapse:collapse">`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">Name</td><td>${escapeHtml(t.name)}</td></tr>`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">Email</td><td><a href="mailto:${escapeHtml(t.email)}">${escapeHtml(t.email)}</a></td></tr>`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">Subject</td><td>${escapeHtml(t.subject)}</td></tr>`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">When</td><td>${when}</td></tr></table>`
+            + `<div style="margin-top:14px;white-space:pre-wrap;font-size:14px;line-height:1.6;border-left:3px solid #e2e8f0;padding-left:12px">${escapeHtml(t.message)}</div></div>`;
+        return sendMail({ to, replyTo: t.email, subject: `[Support] ${t.subject}`, html, text });
+    } catch (e) {
+        console.error('[support] mailer wiring error:', e && e.message);
+        return Promise.resolve(false);
+    }
+}
+
+app.post('/api/support', async (req, res) => {
+    const { name, email, subject, message } = req.body || {};
+    if (!name || !email || !subject || !message) {
+        return res.status(400).json({ message: 'All fields are required' });
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        return res.status(400).json({ message: 'Please provide a valid email address' });
+    }
+    const t = {
+        name: String(name).trim(),
+        email: String(email).toLowerCase(),
+        subject: String(subject).trim(),
+        message: String(message).trim()
+    };
+
+    // Persist to the DB, but the support inbox is the source of truth we never
+    // want to lose — so the ticket is mirrored to email whether or not the save
+    // succeeds. A DB outage must never drop a customer's message.
+    let saved = false;
+    try {
+        await new SupportTicket(t).save();
+        saved = true;
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
-            return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
+            console.warn('[support] DB unavailable — falling back to email only:', error && error.message);
+        } else {
+            console.error('[support] ticket save error:', error && error.message);
         }
-        console.error('Support ticket error:', error);
-        res.status(500).json({ message: 'Unable to submit ticket right now.' });
     }
+
+    if (saved) {
+        // DB captured it: answer immediately, mirror to email in the background.
+        res.status(201).json({ message: 'Support ticket submitted. We will reach out shortly.' });
+        notifySupportInbox(t)
+            .then((ok) => { if (!ok) console.warn('[support] email mirror not sent'); })
+            .catch((e) => console.error('[support] email mirror error:', e && e.message));
+        return;
+    }
+
+    // DB did NOT capture it — email is the only record, so await it and only
+    // report failure if that also fails.
+    let emailed = false;
+    try { emailed = await notifySupportInbox(t); } catch (e) { console.error('[support] fallback email error:', e && e.message); }
+    if (emailed) {
+        return res.status(201).json({ message: 'Support ticket submitted. We will reach out shortly.' });
+    }
+    return res.status(503).json({ message: 'Unable to submit your ticket right now. Please email support@stockportfolio.pro directly.' });
 });
 
 app.post('/api/check-email', async (req, res) => {

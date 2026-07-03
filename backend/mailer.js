@@ -243,13 +243,13 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
 
 // Generic single send (used by the weekly Monitor digest). Never throws;
 // no-ops if SMTP isn't configured. Returns true only on a successful send.
-async function sendMail({ to, subject, html, text } = {}) {
+async function sendMail({ to, subject, html, text, replyTo } = {}) {
   const transporter = getTransporter();
   const c = config();
   if (!transporter) { console.warn('[mailer] SMTP not configured — skipping send to ' + (to || '(no to)')); return false; }
   if (!to) return false;
   try {
-    await transporter.sendMail({ from: c.from, to, subject, html, text });
+    await transporter.sendMail({ from: c.from, to, subject, html, text, ...(replyTo ? { replyTo } : {}) });
     return true;
   } catch (e) {
     console.error('[mailer] send failed:', e && e.message);
