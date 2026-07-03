@@ -93,7 +93,19 @@ app.use((req, res, next) => {
     });
   }
 });
-app.use(cors());
+// The frontend is served same-origin by this app, so browser API calls need no
+// CORS grant. Restrict cross-origin reads to the known site origins (override
+// via CORS_ORIGINS); requests with no Origin header (curl, server-to-server,
+// health checks) are allowed through.
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS
+  || 'https://stockportfolio.pro,https://www.stockportfolio.pro,http://localhost:3000')
+  .split(',').map((s) => s.trim()).filter(Boolean);
+app.use(cors({
+  origin(origin, cb) {
+    if (!origin || ALLOWED_ORIGINS.includes(origin)) return cb(null, true);
+    return cb(null, false);
+  }
+}));
 app.use(helmet({
   contentSecurityPolicy: false,
   crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
@@ -158,10 +170,39 @@ const passwordResetConfirmLimiter = rateLimit({
 });
 app.use('/api/password/reset', passwordResetConfirmLimiter);
 
+// Auth + abuse-prone endpoints. Login and password-change are credential-
+// guessing surfaces; support and check-email can be abused for inbox spam and
+// account enumeration. All fall under the general 900/15min limiter, but these
+// need far tighter per-IP caps than a normal read.
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/login', loginLimiter);
+app.use('/api/password/change', loginLimiter);
+
+const supportLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/support', supportLimiter);
+
+const checkEmailLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/check-email', checkEmailLimiter);
+
 // Alpha Vantage is no longer used — all market data is served from
 // Yahoo Finance via backend/yahoo-source.js. The env var is kept here
 // only so existing deployments don't reject unrecognised settings.
-const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV !== 'production' ? 'dev-jwt-secret-change-me' : '');
+const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV !== 'production' ? require('crypto').randomBytes(32).toString('hex') : '');
 if (!JWT_SECRET) {
   throw new Error('JWT_SECRET is required when NODE_ENV=production');
 }
@@ -1338,7 +1379,7 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
 }
 
 function createUserToken(user) {
-    return jwt.sign({ userId: user._id }, JWT_SECRET);
+    return jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
 }
 
 async function createCheckoutSessionForUser(user, extraMetadata = {}) {
@@ -2891,7 +2932,10 @@ function _anonAskRoll() {
     if (_anonAsk.day !== d) { _anonAsk.day = d; _anonAsk.global = 0; _anonAsk.ip.clear(); }
 }
 function _anonAskIp(req) {
-    return String((req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.ip || '0');
+    // req.ip is proxy-aware (trust proxy = 1), so it reflects the client IP that
+    // Render's proxy appended — not a client-supplied X-Forwarded-For value,
+    // which is spoofable and would let anyone bypass or exhaust the free quota.
+    return String(req.ip || '0');
 }
 function _anonAskReadCount(req) {
     const raw = (req.headers.cookie || '').split(';').map((s) => s.trim())
@@ -3666,6 +3710,15 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
 // ============================================================
 const crypto = require('crypto');
 
+// Constant-time string compare for secrets (admin token, signatures) so an
+// attacker can't recover the value byte-by-byte via response-timing analysis.
+function timingSafeStrEqual(a, b) {
+    const bufA = Buffer.from(String(a ?? ''));
+    const bufB = Buffer.from(String(b ?? ''));
+    if (bufA.length !== bufB.length) return false;
+    return crypto.timingSafeEqual(bufA, bufB);
+}
+
 const AppSumoLicenseSchema = new mongoose.Schema({
     licenseKey: { type: String, unique: true, index: true },
     prevLicenseKey: { type: String, default: null },
@@ -3735,11 +3788,13 @@ async function revokeAppSumoAccess(user) {
     trackFunnel('cancel', user._id, 'Pro — AppSumo', { source: 'appsumo' });
 }
 
-// HMAC-SHA256 of (timestamp + raw body) keyed by the AppSumo API key. Skipped
-// (treated as valid) until APPSUMO_API_KEY is configured, so the portal can
-// validate the URL with its unsigned test events first.
+// HMAC-SHA256 of (timestamp + raw body) keyed by the AppSumo API key. Fails
+// closed: without APPSUMO_API_KEY configured we cannot verify, so real events
+// are rejected. Portal URL validation uses unsigned `test` events, which the
+// webhook short-circuits before this check (see the isTest branch below), so
+// the portal can still validate the endpoint without the key present.
 function appsumoVerifySignature(rawBody, signature, timestamp) {
-    if (!APPSUMO_API_KEY) return true;
+    if (!APPSUMO_API_KEY) return false;
     if (!signature || !timestamp) return false;
     try {
         const expected = crypto.createHmac('sha256', APPSUMO_API_KEY)
@@ -3835,7 +3890,7 @@ app.post('/appsumo/webhook', express.raw({ type: '*/*' }), async (req, res) => {
     const isTest = body.test === true || body.test === 'true';
     // Test/validation events: confirm 200 + success, never touch real data.
     if (isTest) return res.status(200).json({ event, success: true });
-    if (APPSUMO_API_KEY && !appsumoVerifySignature(raw, req.headers['x-appsumo-signature'], req.headers['x-appsumo-timestamp'])) {
+    if (!appsumoVerifySignature(raw, req.headers['x-appsumo-signature'], req.headers['x-appsumo-timestamp'])) {
         return res.status(401).json({ event, success: false, message: 'signature verification failed' });
     }
     try {
@@ -4212,7 +4267,7 @@ app.post('/api/track/page_view', (req, res) => {
 app.post('/api/admin/comp', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
     const provided = req.query.token || req.headers['x-admin-token'];
-    if (!token || provided !== token) return res.status(403).json({ message: 'Forbidden' });
+    if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
     const email = String(req.body?.email || '').trim().toLowerCase();
     const days = Math.min(90, Math.max(1, parseInt(req.body?.days, 10) || 7));
     const plan = ['desk', 'power'].includes(String(req.body?.plan || '').toLowerCase())
@@ -4248,7 +4303,7 @@ app.post('/api/admin/comp', async (req, res) => {
 app.get('/admin/funnel', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
     const provided = req.query.token || req.headers['x-admin-token'];
-    if (!token || provided !== token) return res.status(403).send('Forbidden');
+    if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).send('Forbidden');
     try {
         const col = mongoose.connection.collection('funnel_events');
         // aggregate in Mongo — page_view volume makes a full toArray() untenable
@@ -4593,7 +4648,7 @@ app.get('/api/thesis/:symbol/grade', authMiddleware, monitorGate, async (req, re
 });
 
 // ---- Weekly Filing Monitor digest (Power/Desk) — the retention engine ----
-function digestUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'digest' }, JWT_SECRET); }
+function digestUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'digest' }, JWT_SECRET, { expiresIn: '180d' }); }
 
 app.get('/api/digest/unsubscribe', async (req, res) => {
     const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
@@ -4648,7 +4703,7 @@ function startDigest() {
 }
 
 // ---- AppSumo post-redemption honest-review drip + refund reconciliation ----
-function appsumoUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'as-review' }, JWT_SECRET); }
+function appsumoUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'as-review' }, JWT_SECRET, { expiresIn: '180d' }); }
 
 app.get('/api/appsumo/unsubscribe', async (req, res) => {
     const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
@@ -4724,7 +4779,7 @@ async function runAppSumoReconcile() {
 app.get('/api/admin/appsumo/lookup', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
     const provided = req.query.token || req.headers['x-admin-token'];
-    if (!token || provided !== token) return res.status(403).json({ message: 'Forbidden' });
+    if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
     try {
         const key = String(req.query.key || '').trim();
         const email = String(req.query.email || '').trim().toLowerCase();
