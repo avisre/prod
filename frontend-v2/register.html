@@ -63,6 +63,10 @@
             <span style="flex:1; height:1px; background:var(--line-strong);"></span>
           </div>
         </div>
+        <!-- Honeypot: off-screen, never shown to humans; bots that fill it are dropped server-side. -->
+        <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+          <label>Website<input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
         <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
         <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="new-password" required minlength="8" /></label>
         <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
@@ -194,6 +198,7 @@
           body: JSON.stringify({
             email: document.getElementById('email').value.trim(),
             password: document.getElementById('password').value,
+            website: document.getElementById('hp-website').value, // honeypot — humans leave it empty
             plan,
             next: 'dashboard.html' // checkout return lands back in v2
           })

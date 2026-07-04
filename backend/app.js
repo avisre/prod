@@ -199,6 +199,19 @@ const checkEmailLimiter = rateLimit({
 });
 app.use('/api/check-email', checkEmailLimiter);
 
+// Signups create an account AND fire a welcome email to an unverified address,
+// which makes /api/subscribe a spam relay if left open (observed Jul 2026: a
+// form bot registered strangers' addresses — dotted-gmail victims and
+// phone-number@SMS-gateway addresses — one every ~2h, so the welcome email
+// became the spam payload). 5/hour per IP is far above honest use.
+const subscribeLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/subscribe', subscribeLimiter);
+
 // Alpha Vantage is no longer used — all market data is served from
 // Yahoo Finance via backend/yahoo-source.js. The env var is kept here
 // only so existing deployments don't reject unrecognised settings.
@@ -1793,9 +1806,28 @@ async function optionalAuth(req, res, next) {
     next();
 }
 
+// Email-to-SMS gateways (phone-number@carrier). Signup bots use these to text
+// strangers' phones via our welcome email — no human signs up with one.
+const SMS_GATEWAY_DOMAINS = new Set([
+    'vtext.com', 'vzwpix.com',                      // Verizon
+    'txt.att.net', 'mms.att.net',                   // AT&T
+    'tmomail.net',                                  // T-Mobile
+    'messaging.sprintpcs.com', 'pm.sprint.com',     // Sprint
+    'msg.fi.google.com',                            // Google Fi
+    'sms.myboostmobile.com', 'myboostmobile.com',   // Boost
+    'mymetropcs.com', 'email.uscc.net', 'text.republicwireless.com'
+]);
+
 // Subscription signup route
 app.post('/api/subscribe', async (req, res) => {
     const { name, email, password } = req.body || {};
+    // Honeypot: the register form ships a visually hidden "website" field that
+    // humans never see or fill. A non-empty value is a form bot — swallow the
+    // submission (no account, no email, no funnel event) but answer 200 so the
+    // bot doesn't learn it was detected and adapt.
+    if (String(req.body?.website || '').trim()) {
+        return res.status(200).json({ ok: true });
+    }
     const selectedPlan = normalizePlanSelection(req.body?.plan);
     const planConfig = getPlanConfig(selectedPlan);
     const trimmedName = String(name || '').trim();
@@ -1813,6 +1845,12 @@ app.post('/api/subscribe', async (req, res) => {
         return sendApiError(
             res,
             createHttpError(400, 'Please enter a valid email address.', 'EMAIL_INVALID', { field: 'email' })
+        );
+    }
+    if (SMS_GATEWAY_DOMAINS.has(normalizedEmail.split('@')[1] || '')) {
+        return sendApiError(
+            res,
+            createHttpError(400, 'Please sign up with a regular email address.', 'EMAIL_INVALID', { field: 'email' })
         );
     }
     if (typeof password !== 'string' || !password) {
