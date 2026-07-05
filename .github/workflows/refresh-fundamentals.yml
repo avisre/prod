@@ -8,8 +8,10 @@ name: Refresh fundamentals cache
 
 on:
   schedule:
-    # Nightly at 22:30 UTC (90 min after US market close)
-    - cron: '30 22 * * 1-5'
+    # Weekly: Saturday 22:30 UTC, after the trading week is fully settled.
+    # (Was nightly on weekdays — weekly is enough for filed fundamentals
+    # and cuts Alpha Vantage usage ~5x.)
+    - cron: '30 22 * * 6'
   workflow_dispatch:
     inputs:
       max_symbols:
