@@ -89,10 +89,22 @@ your call.**
 ## ⚠️ Consent + the banner copy change
 
 Pixels on app pages load **only after the user grants analytics consent**
-(`sp_analytics_consent_v1 === 'granted'`), reusing the existing consent gate. On
-SSR marketing pages — which already load GA4/Clarity unconditionally and never
-showed a consent banner — the pixel snippet loads on the production hostname but
-**skips entirely if the visitor previously clicked "Decline"** on an app page.
+(`sp_analytics_consent_v1 === 'granted'`), reusing the existing consent gate —
+i.e. opt-in everywhere in the app.
+
+On SSR marketing pages (which carry no consent banner), the snippet is
+**region-aware**:
+
+- **EU/UK visitors** (detected client-side by an `Europe/*` timezone): pixels fire
+  **only if** the visitor has actively granted consent on an app page — opt-in, per
+  GDPR/ePrivacy. A pure-SSR EU session never fires a marketing pixel.
+- **Everyone else**: pixels fire unless the visitor explicitly clicked "Decline"
+  (opt-out), matching how the SSR pages already treat GA4/Clarity.
+
+The timezone check is an approximation (VPNs/travellers); for full rigour use a
+geo-IP signal or a consent-management platform (CMP). GA4/Clarity on the SSR pages
+still load unconditionally (pre-existing) — out of scope here, but worth the same
+EU treatment if you tighten consent.
 
 The old consent banner copy promised *"nothing else, no ad tracking."* That is no
 longer true once retargeting pixels load behind it, so the copy was updated to:
@@ -100,10 +112,10 @@ longer true once retargeting pixels load behind it, so the copy was updated to:
 > **Optional analytics & marketing.** We'd like to measure which pages convert
 > and, with our ad partners, show you relevant ads off-site. Allow it?
 
-**Please review this copy.** Depending on your audience/jurisdiction (GDPR/ePrivacy
-for EU/UK visitors), you may want the pixels gated behind consent on the SSR pages
-too, or a region-specific banner. Right now SSR marketing pages fire pixels for
-visitors who never explicitly declined.
+**Please review this copy.** EU/UK visitors are now opt-in on every surface (see
+the region-aware gating above); non-EU SSR visitors are opt-out. If your compliance
+bar is stricter, make SSR pixels opt-in for everyone (require `=== 'granted'`
+regardless of region) or add a CMP banner to the SSR pages.
 
 ## Known limitations / recommended follow-ups
 
