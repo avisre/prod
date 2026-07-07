@@ -257,4 +257,69 @@ async function sendMail({ to, subject, html, text, replyTo } = {}) {
   }
 }
 
-module.exports = { sendNewUserEmails, sendPasswordResetEmail, appsumoReviewEmail, isMailerConfigured, sendMail, config, escapeHtml };
+// Trial lifecycle emails (no-card trial drip).
+function trialEndingEmail(name, appUrl, daysLeft, upgradeUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const dash = `${String(appUrl).replace(/\/$/, '')}/dashboard.html`;
+  const safeUpgrade = escapeHtml(upgradeUrl);
+  const safeDash = escapeHtml(dash);
+  const safeUnsub = escapeHtml(unsubUrl || '');
+  const btn = (href, label, bg) => `<a href="${href}" style="background:${bg};color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">${label}</a>`;
+  const foot = (extra) => `
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      ${extra}Reply to this email any time — it reaches me, the founder, directly. Not financial advice.<br/>
+      — Avinash, StockPortfolio.pro${safeUnsub ? `<br/><a href="${safeUnsub}" style="color:#94a3b8;font-size:12px">Stop these emails</a>` : ''}
+    </p>`;
+
+  const subject = `Your Pro trial ends in ${daysLeft} day${daysLeft === 1 ? '' : 's'}`;
+  const body = `
+    <h1 style="font-size:22px;margin:0 0 12px">Your Pro trial ends in ${daysLeft} day${daysLeft === 1 ? '' : 's'}, ${safeFirst}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">You've been exploring with full access to Pro features — 10-K/10-Q answers with citations, the screener, side-by-side compare, and the red-flag scanner. If you've found them useful, keep going with a paid plan.</p>
+    <ul style="font-size:15px;line-height:1.7;color:#334155;padding-left:18px">
+      <li>Every question links to the exact SEC filing and line it came from — verify, don't just trust.</li>
+      <li>Screen the whole S&P 500 by your rules, or compare two stocks head-to-head on fundamentals.</li>
+      <li>Spot red flags automatically — risk patterns that matter in downturns.</li>
+    </ul>
+    <p style="margin:22px 0">${btn(safeUpgrade, 'Upgrade to Pro', '#6d5cff')}</p>`;
+  const textBody = `Your Pro trial ends in ${daysLeft} day${daysLeft === 1 ? '' : 's'}, ${first}.\n\nYou've had full access to 10-K/10-Q answers, the screener, compare, and red-flags. If you've found them useful, keep going with a paid plan.\n\nUpgrade: ${upgradeUrl}\n\nReply any time — it reaches me, the founder, directly.\n— Avinash, StockPortfolio.pro`;
+
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    ${body}
+    ${foot('Something not working? ')}
+  </div>`;
+  return { subject, html, text: textBody };
+}
+
+function trialExpiredEmail(name, appUrl, upgradeUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const dash = `${String(appUrl).replace(/\/$/, '')}/dashboard.html`;
+  const safeUpgrade = escapeHtml(upgradeUrl);
+  const safeDash = escapeHtml(dash);
+  const safeUnsub = escapeHtml(unsubUrl || '');
+  const btn = (href, label, bg) => `<a href="${href}" style="background:${bg};color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">${label}</a>`;
+  const foot = (extra) => `
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      ${extra}Reply to this email any time — it reaches me, the founder, directly. Not financial advice.<br/>
+      — Avinash, StockPortfolio.pro${safeUnsub ? `<br/><a href="${safeUnsub}" style="color:#94a3b8;font-size:12px">Stop these emails</a>` : ''}
+    </p>`;
+
+  const subject = 'Your Pro trial ended — pick up where you left off';
+  const body = `
+    <h1 style="font-size:22px;margin:0 0 12px">Your trial ended, ${safeFirst}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">Your Pro trial is no longer active. If you hit a moment where you wanted to see a 10-K answer, run the screener, or spot a red flag — those are the moments to upgrade. Your portfolio and watchlist are saved.</p>
+    <p style="font-size:15px;line-height:1.6;color:#334155">Questions about what the Pro plan includes, or need help deciding? Just reply to this email. I read every message.</p>
+    <p style="margin:22px 0">${btn(safeUpgrade, 'Upgrade to Pro', '#6d5cff')}</p>`;
+  const textBody = `Your Pro trial ended, ${first}.\n\nYour portfolio and watchlist are saved. If you'd like to see the 10-K answers, screener, and red-flags again, upgrade to a paid plan.\n\nUpgrade: ${upgradeUrl}\n\nQuestions? Reply any time.\n— Avinash, StockPortfolio.pro`;
+
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    ${body}
+    ${foot('')}
+  </div>`;
+  return { subject, html, text: textBody };
+}
+
+module.exports = { sendNewUserEmails, sendPasswordResetEmail, appsumoReviewEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, sendMail, config, escapeHtml };

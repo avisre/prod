@@ -335,6 +335,14 @@ function renderCompareIndex() {
     const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E, ROE and red flags from SEC filings — plus an AI verdict on which is the stronger business and the cheaper stock. Free, no account.';
     const popular = [['AMD', 'NVDA'], ['AAPL', 'MSFT'], ['GOOGL', 'META'], ['AMZN', 'MSFT'], ['TSLA', 'F'], ['JPM', 'BAC'], ['KO', 'PEP'], ['V', 'MA'], ['AMD', 'INTC'], ['DIS', 'NFLX'], ['CRM', 'ORCL'], ['WMT', 'COST']];
     const popHtml = popular.map(([a, b]) => { const p = [a, b].slice().sort(); return `<a href="/compare/${p[0]}-vs-${p[1]}" style="display:inline-block;padding:8px 13px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface)">${esc(a)} vs ${esc(b)}</a>`; }).join('');
+    // Deduplicate browse links against popular pairs and cap at 200
+    const popSet = new Set(popular.map(([a, b]) => { const [x, y] = [a, b].slice().sort(); return `${x}-vs-${y}`; }));
+    const allPairs = comparePairs();
+    const browsePairs = allPairs.filter((p) => !popSet.has(p)).slice(0, 200);
+    const browseHtml = browsePairs.map((slug) => {
+        const parts = slug.split('-vs-');
+        return `<a href="/compare/${esc(slug)}" style="display:inline-block;padding:6px 11px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--surface)">${esc(parts[0])} vs ${esc(parts[1])}</a>`;
+    }).join('');
     const datalist = universeOptions();
     const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical, publisher: { '@id': `${SITE}/#org` } });
     return head(title, description, canonical, jsonld) + nav() + `
@@ -355,6 +363,10 @@ function renderCompareIndex() {
   <div class="seo-section">
     <h2>Popular comparisons</h2>
     <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:6px">${popHtml}</div>
+  </div>
+  <div class="seo-section">
+    <h2>Browse more matchups</h2>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">${browseHtml}</div>
   </div>
 </main>
 <script>

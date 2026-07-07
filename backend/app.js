@@ -1297,6 +1297,11 @@ const UserSchema = new mongoose.Schema({
     // from the digest opt-out so unsubscribing one never mutes the other.
     appsumoReviewStage: { type: Number, default: 0 },
     appsumoEmailsOptOut: { type: Boolean, default: false },
+    // Trial lifecycle emails (no-card trial): drip at 2 days before expiry and on expiry.
+    // trialEmailStage = highest stage already emailed (0=none, 1=2-days-left, 2=expired);
+    // opt-out is separate from digest/appsumo so each drip has independent control.
+    trialEmailStage: { type: Number, default: 0 },
+    trialEmailsOptOut: { type: Boolean, default: false },
     // Password reset via email. Stores only a SHA-256 hash of the emailed token
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
@@ -4755,6 +4760,21 @@ app.get('/api/appsumo/unsubscribe', async (req, res) => {
     }
 });
 
+// ---- Trial lifecycle email unsubscribe ----
+function trialUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'trial-emails' }, JWT_SECRET, { expiresIn: '180d' }); }
+
+app.get('/api/trial/unsubscribe', async (req, res) => {
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    try {
+        const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
+        if (decoded.p !== 'trial-emails') throw new Error('wrong token purpose');
+        await User.updateOne({ _id: decoded.userId }, { $set: { trialEmailsOptOut: true } });
+        res.set('Content-Type', 'text/html').send(page("<h2>Unsubscribed</h2><p>You won't get any more trial lifecycle emails. Your portfolio and data are unaffected — sign in any time at <a href=\"/\">StockPortfolio.pro</a>.</p>"));
+    } catch (_) {
+        res.status(400).set('Content-Type', 'text/html').send(page('<h2>Invalid link</h2><p>This unsubscribe link is invalid. Please use the link from a recent email.</p>'));
+    }
+});
+
 // Cumulative delays from redemption; array index == review stage being sent.
 const APPSUMO_REVIEW_STAGES = [null, 24 * 3600 * 1000, 3 * 86400000, 10 * 86400000];
 
@@ -4850,6 +4870,58 @@ app.get('/api/admin/appsumo/lookup', async (req, res) => {
     }
 });
 
+// ---- Trial lifecycle email drip (no-card trial users) ----
+async function runTrialLifecycleSweep() {
+    if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
+    if (!mailer.isMailerConfigured()) return { skipped: 'no smtp' };
+    if (String(process.env.TRIAL_LIFECYCLE_EMAILS || '1') === '0') return { skipped: 'disabled' };
+    const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
+    const dashUrl = `${appUrl}/dashboard.html`;
+    const ownerEmail = mailer.config().owner || 'avinashsreekumar007@gmail.com';
+    const excludedEmails = new Set([ownerEmail.toLowerCase(), 'avinashsreekumar007@gmail.com', 'avinashsreekumar0007@gmail.com']);
+    const now = Date.now();
+    // Find all users with active trials (trialing status, trialEndsAt set, not opted out).
+    const users = await User.find({
+        'subscription.status': 'trialing',
+        'subscription.trialEndsAt': { $ne: null },
+        trialEmailsOptOut: { $ne: true },
+        // $lt alone skips docs missing the field — trials predating this field have
+        // no trialEmailStage, so match "missing OR < 2" or they'd be silently skipped.
+        $or: [{ trialEmailStage: { $exists: false } }, { trialEmailStage: { $lt: 2 } }]
+    }).limit(200);
+    let sent = 0;
+    for (const u of users) {
+        try {
+            // Skip owner and test accounts.
+            if (excludedEmails.has((u.email || '').toLowerCase())) continue;
+            const trialEndsAt = new Date(u.subscription.trialEndsAt).getTime();
+            const msLeft = trialEndsAt - now;
+            const daysLeft = Math.ceil(msLeft / (24 * 3600 * 1000));
+            // Email 1: 2 days before expiry (0 < msLeft <= 2*24h)
+            if (msLeft > 0 && daysLeft <= 2 && (u.trialEmailStage || 0) < 1) {
+                const unsubUrl = `${appUrl}/api/trial/unsubscribe?token=${trialUnsubToken(u._id)}`;
+                const mail = mailer.trialEndingEmail(u.name, appUrl, daysLeft, dashUrl, unsubUrl);
+                if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {
+                    u.trialEmailStage = 1;
+                    await u.save().catch(() => {});
+                    sent++;
+                }
+            }
+            // Email 2: after expiry (msLeft <= 0)
+            else if (msLeft <= 0 && (u.trialEmailStage || 0) < 2) {
+                const unsubUrl = `${appUrl}/api/trial/unsubscribe?token=${trialUnsubToken(u._id)}`;
+                const mail = mailer.trialExpiredEmail(u.name, appUrl, dashUrl, unsubUrl);
+                if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {
+                    u.trialEmailStage = 2;
+                    await u.save().catch(() => {});
+                    sent++;
+                }
+            }
+        } catch (_) { /* per-user fail-open */ }
+    }
+    return { eligible: users.length, sent };
+}
+
 function startAppSumoJobs() {
     // Daily tick; appsumoReviewStage enforces the drip cadence and survives restarts.
     // Reconcile runs alongside as a belt-and-suspenders on the deactivate webhook.
@@ -4860,6 +4932,16 @@ function startAppSumoJobs() {
     setTimeout(tick, 150 * 1000);
     setInterval(tick, 24 * 3600 * 1000);
     console.log('[appsumo] review drip + reconcile scheduled daily');
+}
+
+function startTrialLifecycleJobs() {
+    // Daily tick; trialEmailStage enforces the drip cadence and survives restarts.
+    const tick = () => {
+        runTrialLifecycleSweep().then((r) => console.log('[trial] lifecycle sweep', JSON.stringify(r))).catch(() => {});
+    };
+    setTimeout(tick, 160 * 1000);
+    setInterval(tick, 24 * 3600 * 1000);
+    console.log('[trial] lifecycle emails scheduled daily');
 }
 
 // Anything that reached this point matches no page, file, or route. Serving
@@ -4881,6 +4963,7 @@ watchdog.start();
 gurus.start();
 startDigest();
 startAppSumoJobs();
+startTrialLifecycleJobs();
 // Pre-warm the most-viewed dossiers in the background (top ~300 by market cap).
 // On in production automatically; locally only with PREWARM=on. SEC calls are
 // globally throttled (sec-throttle), so this never trips a rate limit.
