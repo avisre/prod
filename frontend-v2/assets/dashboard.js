@@ -255,16 +255,17 @@
             $('pf-sub').textContent = DEMO
                 ? `${rows.length} holdings · demo data, read-only`
                 : `${rows.length} holdings · stored prices refresh through the day`;
+            $('holdings-loading').hidden = true;
             if (!rows.length) {
-                $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">'
-                    + 'No holdings yet — add a stock, ETF or mutual fund above (try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>).'
-                    + '<br><span class="small">Then put it to work: see what just changed in its filings with the <a href="/monitor.html">Filing Monitor</a>, or <a href="/ask.html">ask the AI analyst</a> about it.</span>'
-                    + '</td></tr>';
+                $('holdings-empty').hidden = false;
+                ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
                 return true;
             }
-            $('holdings-body').innerHTML = rows.map((r2) => `
+            $('holdings-empty').hidden = true;
+
+            const rowHtml = (r2) => `
               <tr>
-                <td class="row-head"><a href="/company.html?symbol=${esc(r2.symbol)}"><strong>${esc(r2.symbol)}</strong></a>&ensp;<span class="muted small">${esc(r2.name)}</span>${r2.assetType !== 'stock' ? ` <span class="chip" style="padding:2px 6px;font-size:10px;">${esc(r2.assetType === 'mutual_fund' ? 'Mutual fund' : r2.assetType.toUpperCase())}</span>` : ''}</td>
+                <td class="row-head"><a href="/company.html?symbol=${esc(r2.symbol)}"><strong>${esc(r2.symbol)}</strong></a>&ensp;<span class="muted small">${esc(r2.name)}</span></td>
                 <td>${fixed(r2.shares, r2.shares % 1 ? 2 : 0)}</td>
                 <td>${r2.paid === null ? '—' : '$' + fixed(r2.paid, 2)}</td>
                 <td>${r2.price === null ? '—' : '$' + fixed(r2.price, 2)}</td>
@@ -272,7 +273,18 @@
                 <td>${total > 0 && r2.value !== null ? pct(r2.value / total * 100) : '—'}</td>
                 <td class="${r2.gain > 0 ? 'delta-pos' : r2.gain < 0 ? 'delta-neg' : ''}">${r2.gain === null ? '—' : (r2.gain >= 0 ? '+' : '') + r2.gain.toFixed(1) + '%'}</td>
                 <td>${DEMO ? '' : `<button class="btn btn-quiet btn-sm" data-del="${esc(r2.id)}" aria-label="Remove ${esc(r2.symbol)}">Remove</button>`}</td>
-              </tr>`).join('');
+              </tr>`;
+            const groups = {
+                stock: rows.filter((row) => row.assetType !== 'etf' && row.assetType !== 'mutual_fund'),
+                etf: rows.filter((row) => row.assetType === 'etf'),
+                mutual: rows.filter((row) => row.assetType === 'mutual_fund')
+            };
+            Object.entries(groups).forEach(([key, holdings]) => {
+                const group = $(`${key}-holdings-group`);
+                group.hidden = !holdings.length;
+                $(`${key}-holdings-count`).textContent = `${holdings.length} ${holdings.length === 1 ? 'holding' : 'holdings'}`;
+                $(`${key}-holdings-body`).innerHTML = holdings.map(rowHtml).join('');
+            });
             document.querySelectorAll('[data-del]').forEach((b) =>
                 b.addEventListener('click', async () => {
                     if (portfolioActionBusy) return;
@@ -299,7 +311,10 @@
             setPortfolioControlsBusy(portfolioActionBusy);
             return true;
         } catch (_) {
-            $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">Couldn’t load holdings.</td></tr>';
+            $('holdings-empty').hidden = true;
+            ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
+            $('holdings-loading').innerHTML = '<p class="small" style="margin:0; color:var(--neg);">Couldn’t load holdings. Refresh the page to try again.</p>';
+            $('holdings-loading').hidden = false;
             return false;
         }
     }
