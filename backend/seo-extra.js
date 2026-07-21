@@ -489,7 +489,7 @@ function renderComparePage(pairSlug) {
         else vSent.push(`Both carry ${fa} potential red flag${fa > 1 ? 's' : ''} in the filings.`);
     }
     const verdictHtml = vSent.length
-        ? `<div style="border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;background:var(--surface);padding:14px 16px;margin:8px 0 4px;font-size:14.5px;line-height:1.65;color:var(--ink)">${vSent.join(' ')} <span style="color:var(--ink3)">Full numbers below — the stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>.</span></div>`
+        ? `<div style="border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px;margin:8px 0 4px;font-size:14.5px;line-height:1.65;color:var(--ink)">${vSent.join(' ')} <span style="color:var(--ink3)">Full numbers below — the stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>.</span></div>`
         : '';
 
     // ---- related comparisons + ticker-swap (keep them in the format that converts) ----
@@ -547,7 +547,7 @@ function renderComparePage(pairSlug) {
     // ---- AI Verdict — grounded head-to-head, generated on click (gated trial) ----
     const pair = `${a}-vs-${b}`;
     const verdictAi = `
-  <div class="seo-section" id="aiv" style="border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;background:var(--surface);padding:16px 18px;margin:14px 0 4px">
+  <div class="seo-section" id="aiv" style="border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:16px 18px;margin:14px 0 4px">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap">
       <div style="flex:1;min-width:220px">
         <h2 style="margin:0;font-size:16px;line-height:1.3">AI verdict — ${esc(a)} vs ${esc(b)}, read from the filings</h2>
@@ -578,7 +578,10 @@ function renderComparePage(pairSlug) {
           btn.disabled=false;btn.textContent='Try again';return;
         }
         var safe=res.j.verdict.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        out.innerHTML='<div style="white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--ink)">'+safe+'</div><p style="margin:10px 0 0;font-size:11.5px;color:var(--ink3)">Computed from SEC-filed statements; the model writes the synthesis, never the numbers. Not investment advice.</p>';
+        out.innerHTML='<div style="white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--ink)">'+safe+'</div><p style="margin:10px 0 0;font-size:11.5px;color:var(--ink3)">Computed from SEC-filed statements; the model writes the synthesis, never the numbers. Not investment advice.</p><div style="display:flex;gap:7px;align-items:center;margin-top:10px"><span style="font-size:11.5px;color:var(--ink3)">Share</span><button type="button" id="aivx" class="seo-cta-btn" style="cursor:pointer">X / Twitter</button><button type="button" id="aivcopy" class="seo-cta-btn" style="cursor:pointer">Copy</button></div>';
+        var excerpt=res.j.verdict.replace(/\s+/g,' ').slice(0,220),shareTitle='${esc(a)} vs ${esc(b)} AI verdict';
+        document.getElementById('aivx').onclick=function(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTitle+'\n\n'+excerpt)+'&url='+encodeURIComponent(location.href),'_blank','noopener,noreferrer,width=720,height=520');};
+        document.getElementById('aivcopy').onclick=function(){var text=shareTitle+'\n\n'+res.j.verdict+'\n\n'+location.href;navigator.clipboard?navigator.clipboard.writeText(text):window.prompt('Copy this verdict',text);this.textContent='Copied';};
         btn.style.display='none';
       }).catch(function(e){
         out.innerHTML='<p style="font-size:13.5px;color:var(--ink3);margin:0">Something went wrong &mdash; please try again.</p>';

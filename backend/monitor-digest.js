@@ -47,7 +47,7 @@ async function collectItems(symbols, { recentDays = RECENT_DAYS } = {}) {
 function renderEmail(name, items, appUrl, unsubUrl) {
     const base = String(appUrl || 'https://stockportfolio.pro').replace(/\/$/, '');
     const rows = items.map((it) => `
-      <div style="border-left:3px solid #1a4fd6;padding:2px 0 2px 14px;margin:0 0 18px">
+      <div style="padding:2px 0;margin:0 0 18px">
         <div style="font-size:15px;font-weight:700;color:#0f172a">${esc(it.symbol)}
           <span style="font-weight:500;color:#64748b">· ${esc((it.filing && it.filing.label) || '')} ${esc((it.filing && it.filing.date) || '')} · materiality ${esc(String(it.materiality))}</span>
         </div>

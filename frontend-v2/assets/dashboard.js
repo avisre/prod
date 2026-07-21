@@ -19,6 +19,7 @@
     const auth = DEMO ? {} : { Authorization: `Bearer ${token()}` };
     let lastRows = []; // for CSV export
     let portfolioActionBusy = false;
+    let portfolioRefreshVersion = 0;
 
     function setPortfolioControlsBusy(busy) {
         const form = $('add-form');
@@ -39,12 +40,7 @@
         overlay.hidden = false;
     }
 
-    function updatePortfolioAction(title, detail) {
-        if (title) $('portfolio-action-title').textContent = title;
-        if (detail) $('portfolio-action-detail').textContent = detail;
-    }
-
-    function finishPortfolioAction(message, { error = false, holdMs = 1100 } = {}) {
+    function finishPortfolioAction(message, { error = false, holdMs = 550 } = {}) {
         const overlay = $('portfolio-action-overlay');
         const status = $('portfolio-action-status');
         overlay.setAttribute('aria-busy', 'false');
@@ -63,13 +59,6 @@
             portfolioActionBusy = false;
             setPortfolioControlsBusy(false);
         }, holdMs);
-    }
-
-    function resetPortfolioPerformance() {
-        perfSeries.compact = null;
-        perfSeries.full = null;
-        const chart = $('perf-chart');
-        if (chart) chart.innerHTML = '<p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Refreshing price history…</span></p>';
     }
 
     if (DEMO) {
@@ -176,8 +165,13 @@
     async function loadPerformance(rows) {
         const syms = rows.filter((r) => r.shares > 0 && r.symbol).map((r) => r.symbol);
         if (!syms.length) return;
-        if (!perfSeries.compact) perfSeries.compact = await fetchDaily(syms, 'compact');
-        drawPerf(rows);
+        if (!perfSeries.compact) {
+            // Create the store before awaiting so a concurrent add can merge its
+            // one-symbol result instead of being overwritten by this first load.
+            perfSeries.compact = {};
+            Object.assign(perfSeries.compact, await fetchDaily(syms, 'compact'));
+        }
+        drawPerf(lastRows.length ? lastRows : rows);
         if (perfWired) return;
         perfWired = true;
         document.querySelectorAll('#perf-range button').forEach((b) =>
@@ -186,7 +180,8 @@
                 perfRange = b.dataset.r;
                 if ((perfRange === '1Y' || perfRange === 'MAX') && !perfSeries.full) {
                     $('perf-chart').innerHTML = '<p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin"></span>Loading full history…</span></p>';
-                    perfSeries.full = await fetchDaily(lastRows.map((r) => r.symbol), 'full');
+                    perfSeries.full = {};
+                    Object.assign(perfSeries.full, await fetchDaily(lastRows.map((r) => r.symbol), 'full'));
                 }
                 drawPerf(lastRows);
             }));
@@ -233,82 +228,146 @@
         } catch (_) { /* non-critical */ }
     }
 
+    function holdingToRow(h) {
+        const shares = num(h.shares) || 0;
+        const current = num(h.currentPrice);
+        const purchase = num(h.purchasePrice);
+        const price = current !== null ? current : purchase;
+        const value = price !== null ? shares * price : null;
+        const gain = (price !== null && purchase !== null && purchase > 0) ? (price / purchase - 1) * 100 : null;
+        return {
+            id: h._id || h.id,
+            symbol: (h.symbol || '').toUpperCase(),
+            name: h.name || '',
+            assetType: h.assetType || 'stock',
+            shares,
+            paid: purchase,
+            price,
+            value,
+            gain
+        };
+    }
+
+    function renderHoldings(rows) {
+        lastRows = rows;
+        renderAllocation(rows);
+        const total = rows.reduce((sum, row) => sum + (row.value || 0), 0);
+        $('pf-total').textContent = '$' + fixed(total, 2);
+        $('pf-sub').textContent = DEMO
+            ? `${rows.length} holdings · demo data, read-only`
+            : `${rows.length} holdings · stored prices refresh through the day`;
+        $('holdings-loading').hidden = true;
+
+        if (!rows.length) {
+            $('holdings-empty').hidden = false;
+            ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
+            return;
+        }
+        $('holdings-empty').hidden = true;
+
+        const rowHtml = (row) => `
+          <tr>
+            <td class="row-head"><a href="/company.html?symbol=${esc(row.symbol)}"><strong>${esc(row.symbol)}</strong></a>&ensp;<span class="muted small">${esc(row.name)}</span></td>
+            <td>${fixed(row.shares, row.shares % 1 ? 2 : 0)}</td>
+            <td>${row.paid === null ? '—' : '$' + fixed(row.paid, 2)}</td>
+            <td>${row.price === null ? '—' : '$' + fixed(row.price, 2)}</td>
+            <td>${row.value === null ? '—' : '$' + fixed(row.value, 2)}</td>
+            <td>${total > 0 && row.value !== null ? pct(row.value / total * 100) : '—'}</td>
+            <td class="${row.gain > 0 ? 'delta-pos' : row.gain < 0 ? 'delta-neg' : ''}">${row.gain === null ? '—' : (row.gain >= 0 ? '+' : '') + row.gain.toFixed(1) + '%'}</td>
+            <td>${DEMO ? '' : `<button class="btn btn-quiet btn-sm" data-del="${esc(row.id)}" aria-label="Remove ${esc(row.symbol)}">Remove</button>`}</td>
+          </tr>`;
+        const groups = {
+            stock: rows.filter((row) => row.assetType !== 'etf' && row.assetType !== 'mutual_fund'),
+            etf: rows.filter((row) => row.assetType === 'etf'),
+            mutual: rows.filter((row) => row.assetType === 'mutual_fund')
+        };
+        Object.entries(groups).forEach(([key, holdings]) => {
+            const group = $(`${key}-holdings-group`);
+            group.hidden = !holdings.length;
+            $(`${key}-holdings-count`).textContent = `${holdings.length} ${holdings.length === 1 ? 'holding' : 'holdings'}`;
+            $(`${key}-holdings-body`).innerHTML = holdings.map(rowHtml).join('');
+        });
+        document.querySelectorAll('[data-del]').forEach((button) =>
+            button.addEventListener('click', () => removeHolding(button)));
+        setPortfolioControlsBusy(portfolioActionBusy);
+    }
+
+    async function refreshPerformanceForMutation(symbol, removed) {
+        if (removed) {
+            if (perfSeries.compact) delete perfSeries.compact[symbol];
+            if (perfSeries.full) delete perfSeries.full[symbol];
+            if (lastRows.length) drawPerf(lastRows);
+            return;
+        }
+        const compact = await fetchDaily([symbol], 'compact');
+        perfSeries.compact = perfSeries.compact || {};
+        Object.assign(perfSeries.compact, compact);
+        if (perfSeries.full) Object.assign(perfSeries.full, await fetchDaily([symbol], 'full'));
+        drawPerf(lastRows);
+    }
+
+    async function refreshPortfolioInBackground(symbol, { removed = false } = {}) {
+        const version = ++portfolioRefreshVersion;
+        const status = $('portfolio-action-status');
+        status.textContent = 'Holding saved · refreshing performance and analysis in the background…';
+        status.className = 'portfolio-action-status small';
+        status.hidden = false;
+        await Promise.allSettled([
+            refreshPerformanceForMutation(symbol, removed),
+            loadXray(),
+            loadAttribution(),
+            loadBriefing()
+        ]);
+        if (version === portfolioRefreshVersion) {
+            status.textContent = 'Portfolio value, performance and analysis are up to date.';
+            status.className = 'portfolio-action-status small is-success';
+        }
+    }
+
+    async function removeHolding(button) {
+        if (portfolioActionBusy) return;
+        const id = button.dataset.del;
+        const savedRow = lastRows.find((row) => String(row.id) === String(id));
+        const symbol = savedRow ? savedRow.symbol : 'Holding';
+        showPortfolioAction(`Removing ${symbol}`, 'Updating your saved holdings…');
+        try {
+            const response = await fetch(`${API}/portfolio/${id}`, { method: 'DELETE', headers: auth });
+            if (!response.ok) {
+                const data = await response.json().catch(() => ({}));
+                throw new Error(data.message || `Couldn’t remove ${symbol}.`);
+            }
+            renderHoldings(lastRows.filter((row) => String(row.id) !== String(id)));
+            finishPortfolioAction(`${symbol} was removed. Charts and analysis will finish refreshing in the background.`);
+            void refreshPortfolioInBackground(symbol, { removed: true });
+        } catch (error) {
+            finishPortfolioAction(error.message || `${symbol} could not be removed. Please try again.`, { error: true, holdMs: 2200 });
+        }
+    }
+
+    async function refreshLiveHoldingPrices(version) {
+        try {
+            const response = await fetch(`${API}/portfolio`, { headers: auth });
+            if (!response.ok) return;
+            const list = await response.json();
+            // Do not let a response started before a mutation overwrite the
+            // confirmed add/remove that is already visible in the table.
+            if (version !== portfolioRefreshVersion) return;
+            renderHoldings((Array.isArray(list) ? list : []).map(holdingToRow));
+        } catch (_) { /* stored prices remain usable */ }
+    }
+
     async function loadHoldings() {
         try {
-            const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio`, { headers: auth });
-            if (!DEMO && r.status === 401) { localStorage.removeItem('token'); location.reload(); return; }
-            if (!DEMO && r.status === 402) { freeMode(); return; }
-            const list = await r.json();
-            const rows = (Array.isArray(list) ? list : []).map((h) => {
-                const shares = num(h.shares) || 0;
-                const price = num(h.currentPrice) !== null ? num(h.currentPrice) : num(h.purchasePrice);
-                const paid = num(h.purchasePrice);
-                const value = price !== null ? shares * price : null;
-                const gain = (price !== null && paid !== null && paid > 0) ? (price / paid - 1) * 100 : null;
-                return { id: h._id, symbol: (h.symbol || '').toUpperCase(), name: h.name || '', assetType: h.assetType || 'stock', shares, paid, price, value, gain };
-            });
-            lastRows = rows;
-            renderAllocation(rows);
-            await loadPerformance(rows);
-            const total = rows.reduce((a, r2) => a + (r2.value || 0), 0);
-            $('pf-total').textContent = '$' + fixed(total, 2);
-            $('pf-sub').textContent = DEMO
-                ? `${rows.length} holdings · demo data, read-only`
-                : `${rows.length} holdings · stored prices refresh through the day`;
-            $('holdings-loading').hidden = true;
-            if (!rows.length) {
-                $('holdings-empty').hidden = false;
-                ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
-                return true;
-            }
-            $('holdings-empty').hidden = true;
-
-            const rowHtml = (r2) => `
-              <tr>
-                <td class="row-head"><a href="/company.html?symbol=${esc(r2.symbol)}"><strong>${esc(r2.symbol)}</strong></a>&ensp;<span class="muted small">${esc(r2.name)}</span></td>
-                <td>${fixed(r2.shares, r2.shares % 1 ? 2 : 0)}</td>
-                <td>${r2.paid === null ? '—' : '$' + fixed(r2.paid, 2)}</td>
-                <td>${r2.price === null ? '—' : '$' + fixed(r2.price, 2)}</td>
-                <td>${r2.value === null ? '—' : '$' + fixed(r2.value, 2)}</td>
-                <td>${total > 0 && r2.value !== null ? pct(r2.value / total * 100) : '—'}</td>
-                <td class="${r2.gain > 0 ? 'delta-pos' : r2.gain < 0 ? 'delta-neg' : ''}">${r2.gain === null ? '—' : (r2.gain >= 0 ? '+' : '') + r2.gain.toFixed(1) + '%'}</td>
-                <td>${DEMO ? '' : `<button class="btn btn-quiet btn-sm" data-del="${esc(r2.id)}" aria-label="Remove ${esc(r2.symbol)}">Remove</button>`}</td>
-              </tr>`;
-            const groups = {
-                stock: rows.filter((row) => row.assetType !== 'etf' && row.assetType !== 'mutual_fund'),
-                etf: rows.filter((row) => row.assetType === 'etf'),
-                mutual: rows.filter((row) => row.assetType === 'mutual_fund')
-            };
-            Object.entries(groups).forEach(([key, holdings]) => {
-                const group = $(`${key}-holdings-group`);
-                group.hidden = !holdings.length;
-                $(`${key}-holdings-count`).textContent = `${holdings.length} ${holdings.length === 1 ? 'holding' : 'holdings'}`;
-                $(`${key}-holdings-body`).innerHTML = holdings.map(rowHtml).join('');
-            });
-            document.querySelectorAll('[data-del]').forEach((b) =>
-                b.addEventListener('click', async () => {
-                    if (portfolioActionBusy) return;
-                    const row = b.closest('tr');
-                    const symbol = row && row.querySelector('.row-head strong') ? row.querySelector('.row-head strong').textContent.trim() : 'Holding';
-                    showPortfolioAction(`Removing ${symbol}`, 'Updating your saved holdings…');
-                    try {
-                        const response = await fetch(`${API}/portfolio/${b.dataset.del}`, { method: 'DELETE', headers: auth });
-                        if (!response.ok) {
-                            const data = await response.json().catch(() => ({}));
-                            throw new Error(data.message || `Couldn’t remove ${symbol}.`);
-                        }
-                        updatePortfolioAction(`${symbol} removed`, 'Refreshing portfolio value, allocation and performance…');
-                        resetPortfolioPerformance();
-                        const refreshed = await loadHoldings();
-                        if (!refreshed) throw new Error('The holding was removed, but the refreshed portfolio could not be loaded. Reload the page.');
-                        updatePortfolioAction('Finishing the update', 'Refreshing portfolio analysis…');
-                        await Promise.allSettled([loadXray(), loadAttribution(), loadBriefing()]);
-                        finishPortfolioAction(`${symbol} was removed and your portfolio is up to date.`);
-                    } catch (error) {
-                        finishPortfolioAction(error.message || `${symbol} could not be removed. Please try again.`, { error: true, holdMs: 2200 });
-                    }
-                }));
-            setPortfolioControlsBusy(portfolioActionBusy);
+            const response = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio?prices=stored`, { headers: auth });
+            if (!DEMO && response.status === 401) { localStorage.removeItem('token'); location.reload(); return false; }
+            if (!DEMO && response.status === 402) { freeMode(); return false; }
+            if (!response.ok) throw new Error('Holdings request failed');
+            const list = await response.json();
+            const rows = (Array.isArray(list) ? list : []).map(holdingToRow);
+            renderHoldings(rows);
+            // Holdings are usable immediately; historical charts are secondary.
+            void loadPerformance(rows).catch(() => {});
+            if (!DEMO) void refreshLiveHoldingPrices(portfolioRefreshVersion);
             return true;
         } catch (_) {
             $('holdings-empty').hidden = true;
@@ -598,11 +657,11 @@
                 headers: { 'Content-Type': 'application/json', ...auth },
                 body: JSON.stringify(body)
             });
+            const saved = await r.json().catch(() => ({}));
             if (!r.ok) {
-                const d = await r.json().catch(() => ({}));
                 const message = r.status === 402
                     ? 'Your subscription is not active. Restart your trial to add holdings.'
-                    : (d.message || `Couldn’t add ${symbol} — try again.`);
+                    : (saved.message || `Couldn’t add ${symbol} — try again.`);
                 if (r.status === 402) note('Your subscription isn’t active — <a href="/register.html">restart your trial</a> to add holdings.');
                 else note(esc(message));
                 finishPortfolioAction(message, { error: true, holdMs: 2200 });
@@ -610,13 +669,10 @@
             }
             note('');
             $('add-sym').value = ''; $('add-shares').value = ''; $('add-price').value = '';
-            updatePortfolioAction(`${symbol} added`, 'Refreshing portfolio value, allocation and performance…');
-            resetPortfolioPerformance();
-            const refreshed = await loadHoldings();
-            if (!refreshed) throw new Error(`${symbol} was added, but the refreshed portfolio could not be loaded. Reload the page.`);
-            updatePortfolioAction('Finishing the update', 'Refreshing portfolio analysis…');
-            await Promise.allSettled([loadXray(), loadAttribution(), loadBriefing()]);
-            finishPortfolioAction(`${symbol} was added and your portfolio is up to date.`);
+            if (saved && saved._id) renderHoldings([...lastRows, holdingToRow(saved)]);
+            else if (!await loadHoldings()) throw new Error(`${symbol} was added, but the refreshed portfolio could not be loaded. Reload the page.`);
+            finishPortfolioAction(`${symbol} was added. Charts and analysis will finish refreshing in the background.`);
+            void refreshPortfolioInBackground(symbol);
         } catch (error) {
             const message = error.message || 'Network problem — the holding wasn’t added.';
             note(esc(message));

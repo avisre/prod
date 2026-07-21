@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260702-1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260721-funds1" />
   <style>
     /* ─── Two-panel shell ─── */
     .gurus-shell {
@@ -52,7 +52,6 @@
       padding: 11px 16px;
       cursor: pointer;
       border-bottom: 1px solid var(--line);
-      border-left: 3px solid transparent;
       background: none;
       width: 100%;
       text-align: left;
@@ -63,7 +62,6 @@
     .guru-item:hover { background: var(--paper); }
     .guru-item.is-active {
       background: var(--accent-tint);
-      border-left-color: var(--accent);
     }
     .guru-avatar {
       width: 34px; height: 34px; border-radius: 50%; flex: none;
@@ -376,7 +374,7 @@
     </div>
   </main>
 
-  <script src="assets/app.js?v=20260702-3"></script>
+  <script src="assets/app.js?v=20260721-funds1"></script>
   <script>
     V2.nav('gurus');
     V2.footer();
@@ -609,7 +607,11 @@
         const r = await fetch('/api/gurus/' + id + '/analysis', { headers: tk ? { Authorization: 'Bearer ' + tk } : {} });
         if (!r.ok) throw new Error('http ' + r.status);
         const d = await r.json();
-        body.innerHTML = `<div class="guru-ai-body">${V2.markdown((d.analysis && d.analysis.text) || '')}</div>`;
+        const analysis = (d.analysis && d.analysis.text) || '';
+        body.innerHTML = `<div class="guru-ai-body">${V2.markdown(analysis)}</div>`;
+        const share = document.createElement('div');
+        V2.mountShare(share, { title: 'Guru portfolio AI analysis', text: analysis });
+        body.appendChild(share);
       } catch (_) {
         body.innerHTML = `<p class="small faint" style="margin:0;">Couldn't generate the analysis right now. <a href="#" id="guru-ai-retry">Try again</a></p>`;
         const retry = document.getElementById('guru-ai-retry');

@@ -2911,16 +2911,19 @@ function portfolioOwnerId(req) {
 app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
+        const storedOnly = String(req.query.prices || '').toLowerCase() === 'stored';
         const portfolio = await Stock.find({ user: ownerId });
         const enriched = await Promise.all(portfolio.map(async (stock) => {
             const ticker = safeUpper(stock.symbol);
             const payload = stock.toObject();
             payload.symbol = ticker;
             payload.assetType = payload.assetType || 'stock';
-            try {
-                payload.currentPrice = await getStockPrice(ticker);
-            } catch (priceError) {
-                console.warn(`Price update failed for ${ticker}: ${priceError.message}`);
+            if (!storedOnly) {
+                try {
+                    payload.currentPrice = await getStockPrice(ticker);
+                } catch (priceError) {
+                    console.warn(`Price update failed for ${ticker}: ${priceError.message}`);
+                }
             }
             return payload;
         }));
@@ -3732,17 +3735,33 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         if (!Number.isFinite(qty) || qty <= 0) {
             return res.status(400).json({ message: 'Shares must be a positive number' });
         }
+        // One lightweight quote supplies identity, asset type and price. The
+        // old path made a price request and then a second profile request in
+        // sequence (plus a large fund-summary request for ETFs/funds).
         let livePrice = 0;
-        try { livePrice = await getStockPrice(ticker); }
-        catch (priceError) { console.warn(`Price lookup failed for ${ticker}: ${priceError.message}`); }
+        let profile;
+        try {
+            profile = await assetProfile.fetchAssetProfile(ticker, { fundDetails: false });
+            const quotedPrice = Number(profile.price);
+            if (Number.isFinite(quotedPrice) && quotedPrice > 0) {
+                livePrice = quotedPrice;
+                cacheSet(priceCache, ticker, livePrice);
+            }
+        } catch (_) {
+            const fallback = await Promise.allSettled([getCompanyProfile(ticker), getStockPrice(ticker)]);
+            profile = fallback[0].status === 'fulfilled' ? fallback[0].value : {};
+            if (fallback[1].status === 'fulfilled') livePrice = fallback[1].value;
+        }
+        if (!livePrice) {
+            try { livePrice = await getStockPrice(ticker); }
+            catch (priceError) { console.warn(`Price lookup failed for ${ticker}: ${priceError.message}`); }
+        }
 
         const buyPrice = Number.isFinite(Number(purchasePrice)) && Number(purchasePrice) > 0
             ? Number(purchasePrice)
             : livePrice;
 
-        let profile;
-        try { profile = await assetProfile.fetchAssetProfile(ticker); }
-        catch (_) { profile = await getCompanyProfile(ticker); }
+        profile = profile || {};
         const resolvedName = name || profile.name || ticker;
         const sector = profile.sector || profile.category || '';
         let purchase = purchaseDate ? new Date(purchaseDate) : new Date();
@@ -3762,7 +3781,10 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             user: portfolioOwnerId(req)
         });
         await newStock.save();
-        _briefingCache.delete(String(portfolioOwnerId(req)));
+        const cacheKey = String(portfolioOwnerId(req));
+        _briefingCache.delete(cacheKey);
+        _xrayCache.delete(cacheKey);
+        _attribCache.delete(cacheKey);
         res.json(newStock);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -3777,7 +3799,10 @@ app.delete('/api/portfolio/:id', authMiddleware, coreGate, async (req, res) => {
         const ownerId = portfolioOwnerId(req);
         const stock = await Stock.findOneAndDelete({ _id: req.params.id, user: ownerId });
         if (!stock) return res.status(404).json({ message: 'Holding not found or unauthorized' });
-        _briefingCache.delete(String(ownerId));
+        const cacheKey = String(ownerId);
+        _briefingCache.delete(cacheKey);
+        _xrayCache.delete(cacheKey);
+        _attribCache.delete(cacheKey);
         res.status(200).json({ message: 'Holding removed successfully' });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {

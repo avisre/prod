@@ -63,10 +63,14 @@ function normalizeWeights(value) {
     })).filter((row) => row.name && row.weight !== null);
 }
 
-async function fetchAssetProfile(symbol) {
+async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     const key = symbolKey(symbol);
     if (!key || !/^[A-Z0-9\-^=]{1,20}$/.test(key)) throw Object.assign(new Error('Invalid symbol'), { status: 400 });
-    const hit = cache.get(key);
+    // Portfolio mutations only need identity, type and the live quote. Keep
+    // that lightweight response separate from the full fund dossier cache so
+    // adding an ETF/fund does not wait for Yahoo's larger quoteSummary call.
+    const cacheKey = `${key}:${fundDetails ? 'full' : 'basic'}`;
+    const hit = cache.get(cacheKey);
     if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
 
     let quote;
@@ -75,7 +79,7 @@ async function fetchAssetProfile(symbol) {
 
     const assetType = normalizeAssetType(quote.quoteType || quote.typeDisp);
     let summary = {};
-    if (isFundAsset(assetType)) {
+    if (fundDetails && isFundAsset(assetType)) {
         summary = await yahoo.quoteSummary(key, {
             modules: ['topHoldings', 'fundPerformance', 'fundProfile', 'summaryDetail', 'defaultKeyStatistics', 'price']
         }, { validateResult: false }).catch(() => ({}));
@@ -157,7 +161,7 @@ async function fetchAssetProfile(symbol) {
         },
         source: 'Yahoo Finance'
     };
-    cache.set(key, { at: Date.now(), value });
+    cache.set(cacheKey, { at: Date.now(), value });
     if (cache.size > 1000) cache.delete(cache.keys().next().value);
     return value;
 }

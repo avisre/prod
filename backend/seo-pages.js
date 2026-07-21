@@ -589,7 +589,7 @@ function renderStockPage(ticker) {
         const { take } = analystTake.getTake(sym, facts);
         if (take) {
             const paras = take.split(/\n\n+/).map((p) => `<p style="margin:0 0 12px">${esc(p.trim())}</p>`).join('');
-            analystBlock = `<div class="seo-section" style="background:var(--panel-solid);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:12px;padding:18px 22px">
+            analystBlock = `<div class="seo-section" style="background:var(--panel-solid);border:1px solid var(--border);border-radius:12px;padding:18px 22px">
               <h2 style="margin:0 0 12px">The analyst's take on ${esc(name)}</h2>
               <div style="font-size:15px;line-height:1.72;color:var(--text);max-width:74ch">${paras}</div>
               <p style="font-size:12.5px;color:var(--muted);margin:4px 0 0">Synthesised from ${esc(name)}'s SEC filings — descriptive, not advice. <a href="/ask.html?q=${encodeURIComponent('Give me your full analysis of ' + sym)}" style="color:var(--accent);font-weight:600">Ask the analyst your own question &rarr;</a></p>
