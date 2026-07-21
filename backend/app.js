@@ -79,10 +79,19 @@ const app = express();
 app.set('trust proxy', 1);
 app.disable('x-powered-by');
 const jsonParser = express.json();
+function isRawBodyWebhookPath(requestPath) {
+  // Express routes accept a trailing slash by default. Keep the body-parser
+  // bypass in sync with that behaviour or `/appsumo/webhook/` gets parsed as
+  // JSON first, leaving no raw bytes for HMAC verification.
+  const normalizedPath = String(requestPath || '').replace(/\/+$/, '') || '/';
+  return normalizedPath === '/stripe/webhook' || normalizedPath === '/appsumo/webhook';
+}
 app.use((req, res, next) => {
   // Stripe and AppSumo webhooks need the raw, unparsed body for HMAC signature
   // verification — let them skip the JSON parser and read the buffer themselves.
-  if (req.originalUrl === '/stripe/webhook' || req.originalUrl === '/appsumo/webhook') {
+  // Use req.path so a harmless query string or trailing slash cannot change how
+  // the request body is parsed.
+  if (isRawBodyWebhookPath(req.path)) {
     next();
   } else {
     jsonParser(req, res, (err) => {
@@ -277,6 +286,14 @@ const APPSUMO_REDIRECT_URI = process.env.APPSUMO_REDIRECT_URI || 'https://www.st
 // which is always valid and lets them navigate to the product to review/upgrade.
 const APPSUMO_PRODUCT_SLUG = process.env.APPSUMO_PRODUCT_SLUG || '';
 const APPSUMO_ACCOUNT_URL = 'https://appsumo.com/account/products/';
+const missingAppSumoConfig = [
+  !APPSUMO_API_KEY && 'APPSUMO_API_KEY',
+  !APPSUMO_CLIENT_ID && 'APPSUMO_CLIENT_ID',
+  !APPSUMO_CLIENT_SECRET && 'APPSUMO_CLIENT_SECRET'
+].filter(Boolean);
+if (missingAppSumoConfig.length) {
+  console.warn(`[appsumo] integration incomplete; missing ${missingAppSumoConfig.join(', ')}`);
+}
 function appsumoReviewUrl() {
     return APPSUMO_PRODUCT_SLUG ? `https://appsumo.com/products/${APPSUMO_PRODUCT_SLUG}/#reviews` : APPSUMO_ACCOUNT_URL;
 }
@@ -2817,7 +2834,12 @@ app.get('/api/health', (req, res) => {
         timestamp: new Date().toISOString(),
         dbConnected,
         dbState: readyState,
-        mongoUriConfigured: Boolean(process.env.MONGODB_URI)
+        mongoUriConfigured: Boolean(process.env.MONGODB_URI),
+        appsumo: {
+            apiKeyConfigured: Boolean(APPSUMO_API_KEY),
+            oauthConfigured: Boolean(APPSUMO_CLIENT_ID && APPSUMO_CLIENT_SECRET),
+            redirectUri: APPSUMO_REDIRECT_URI
+        }
     });
 });
 
@@ -4973,8 +4995,6 @@ if (process.env.NODE_ENV === 'production' || process.env.PREWARM === 'on') {
 }
 // Optional: nightly SEC bulk companyfacts (inert unless SEC_BULK_DIR is set).
 try { require('./companyfacts-bulk').start(); } catch (e) { console.log('[companyfacts-bulk] not started:', e && e.message); }
-
-
 
 
 
