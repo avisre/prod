@@ -37,8 +37,21 @@
         marketCap: item.marketCap || null,
         peRatio: item.peRatio || null,
         eps: item.eps || null,
-        sector: item.sector || ''
+        sector: item.sector || '',
+        category: item.category || '',
+        assetType: item.assetType || 'stock',
+        assetTypeLabel: item.assetTypeLabel || (item.assetType === 'etf' ? 'ETF' : item.assetType === 'mutual_fund' ? 'Mutual fund' : 'Stock'),
+        quoteType: item.quoteType || ''
       }));
+  }
+
+  async function searchAssets(query) {
+    const trimmed = (query || '').trim();
+    if (!trimmed) return [];
+    const url = `${API_URL}/assets/search?q=${encodeURIComponent(trimmed)}&limit=12`;
+    const resp = await fetch(url, { headers: getHeaders() });
+    if (!resp.ok) return [];
+    return normalizeStored(await resp.json().catch(() => []));
   }
 
   async function searchTopSheet(query) {
@@ -70,6 +83,8 @@
   }
 
   async function searchOne(query){
+    const assets = await searchAssets(query).catch(() => []);
+    if (assets.length) return assets;
     const topSheet = await searchTopSheet(query).catch(() => []);
     if (topSheet.length) return topSheet;
     const local = await searchStored(query).catch(() => []);

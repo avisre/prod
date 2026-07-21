@@ -1,7 +1,7 @@
 // Dashboard: holdings, what changed (alerts), X-Ray, Ask — same APIs as v1.
 (function () {
     'use strict';
-    const { API, token, num, money, pct, fixed, esc, nav, footer, mountAsk, markdown, chart } = window.V2;
+    const { API, token, num, money, pct, fixed, esc, nav, footer, mountAsk, markdown, chart, searchAssets, mountShare } = window.V2;
     nav('dashboard');
     footer();
 
@@ -172,6 +172,9 @@
                 + '<p class="small muted" style="margin:0 0 8px"><strong>Sample briefing</strong> — 5-stock demo portfolio. Subscribe to get your own weekly briefing.</p>'
                 + '<a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Start 7-day free trial →</a>'
                 + '</div>';
+            const share = document.createElement('div');
+            mountShare(share, { title: 'Sample weekly portfolio briefing', text: data.briefing || '', url: location.href });
+            body.appendChild(share);
             if (sub) sub.textContent = 'sample · 5-stock demo portfolio';
             section.hidden = false;
         } catch (_) { /* non-critical */ }
@@ -189,7 +192,7 @@
                 const paid = num(h.purchasePrice);
                 const value = price !== null ? shares * price : null;
                 const gain = (price !== null && paid !== null && paid > 0) ? (price / paid - 1) * 100 : null;
-                return { id: h._id, symbol: (h.symbol || '').toUpperCase(), name: h.name || '', shares, paid, price, value, gain };
+                return { id: h._id, symbol: (h.symbol || '').toUpperCase(), name: h.name || '', assetType: h.assetType || 'stock', shares, paid, price, value, gain };
             });
             lastRows = rows;
             renderAllocation(rows);
@@ -201,14 +204,14 @@
                 : `${rows.length} holdings · stored prices refresh through the day`;
             if (!rows.length) {
                 $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">'
-                    + 'No holdings yet — add your first above (try <strong>AAPL</strong>, <strong>MSFT</strong> or <strong>NVDA</strong>).'
+                    + 'No holdings yet — add a stock, ETF or mutual fund above (try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>).'
                     + '<br><span class="small">Then put it to work: see what just changed in its filings with the <a href="/monitor.html">Filing Monitor</a>, or <a href="/ask.html">ask the AI analyst</a> about it.</span>'
                     + '</td></tr>';
                 return;
             }
             $('holdings-body').innerHTML = rows.map((r2) => `
               <tr>
-                <td class="row-head"><a href="/company.html?symbol=${esc(r2.symbol)}"><strong>${esc(r2.symbol)}</strong></a>&ensp;<span class="muted small">${esc(r2.name)}</span></td>
+                <td class="row-head"><a href="/company.html?symbol=${esc(r2.symbol)}"><strong>${esc(r2.symbol)}</strong></a>&ensp;<span class="muted small">${esc(r2.name)}</span>${r2.assetType !== 'stock' ? ` <span class="chip" style="padding:2px 6px;font-size:10px;">${esc(r2.assetType === 'mutual_fund' ? 'Mutual fund' : r2.assetType.toUpperCase())}</span>` : ''}</td>
                 <td>${fixed(r2.shares, r2.shares % 1 ? 2 : 0)}</td>
                 <td>${r2.paid === null ? '—' : '$' + fixed(r2.paid, 2)}</td>
                 <td>${r2.price === null ? '—' : '$' + fixed(r2.price, 2)}</td>
@@ -245,6 +248,10 @@
             $('xray-strip').innerHTML = cells.map(([l, v]) =>
                 `<div class="kpi"><span class="label">${l}</span><span class="kpi-value" style="font-size:24px;">${v}</span></div>`).join('');
             const flags = [];
+            const fundPositions = (x.positions || []).filter((h) => ['etf', 'mutual_fund'].includes(h.assetType));
+            if (fundPositions.length) {
+                flags.push('<div class="notice">ETF and mutual-fund positions are included in portfolio value, allocation and concentration. Company-only fundamental averages exclude them.</div>');
+            }
             if (x.concentration && x.concentration.topHoldingPct > 30) {
                 flags.push(`<div class="notice">${esc(x.concentration.topHolding)} is ${x.concentration.topHoldingPct.toFixed(0)}% of the portfolio — concentration is your biggest single risk.</div>`);
             }
@@ -442,17 +449,14 @@
         const render = () => {
             if (!items.length) { box.hidden = true; return; }
             box.innerHTML = items.map((c, i) =>
-                `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}</span></button>`).join('');
+                `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></button>`).join('');
             box.hidden = false;
         };
         const pick = (sym) => { input.value = sym; box.hidden = true; items = []; const sh = $('add-shares'); if (sh) sh.focus(); };
         input.addEventListener('input', async () => {
             const q = input.value.trim().toUpperCase();
             if (q.length < 1) { box.hidden = true; return; }
-            const list = await window.V2.companies();
-            const starts = list.filter((c) => c.symbol && c.symbol.toUpperCase().startsWith(q));
-            const names = list.filter((c) => c.symbol && !c.symbol.toUpperCase().startsWith(q) && (c.name || '').toUpperCase().includes(q));
-            items = starts.concat(names).slice(0, 8); active = -1; render();
+            items = await searchAssets(q, { limit: 8 }); active = -1; render();
         });
         input.addEventListener('keydown', (e) => {
             if (box.hidden) return;
@@ -516,7 +520,8 @@
         suggestions: [
             'Is my portfolio concentrated in one sector?',
             'Which of my holdings has the weakest balance sheet?',
-            'How would my portfolio fare if margins compress?'
+            'How would my portfolio fare if margins compress?',
+            'What are the top 3 ETFs and mutual funds over 3 months, 1 year and 3 years?'
         ]
     });
 
@@ -559,6 +564,9 @@
             const data = await r.json();
             if (!data.briefing) return;
             $('brief-body').innerHTML = markdown(data.briefing);
+            const share = document.createElement('div');
+            mountShare(share, { title: 'My weekly portfolio briefing', text: data.briefing, url: location.href });
+            $('brief-body').appendChild(share);
             $('brief-sub').textContent = data.cached ? 'from this week' : 'fresh';
             $('brief-section').hidden = false;
         } catch (_) { /* briefing is enrichment */ }

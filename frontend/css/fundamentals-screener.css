@@ -214,6 +214,8 @@
   color: var(--scr-muted);
 }
 
+body.fund-asset-mode .company-only { display: none !important; }
+
 /* ---- About ---- */
 .scr-about {
   margin-top: 24px;

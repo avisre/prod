@@ -21,7 +21,12 @@ function computeXray(holdings) {
         if (!symbol || shares <= 0 || price === null) continue;
         const value = shares * price;
         totalValue += value;
-        positions.push({ symbol, shares, price, value });
+        positions.push({
+            symbol, shares, price, value,
+            name: h.name || symbol,
+            assetType: String(h.assetType || 'stock'),
+            category: h.category || h.sector || ''
+        });
     }
     if (!positions.length || totalValue <= 0) return { empty: true };
 
@@ -39,6 +44,13 @@ function computeXray(holdings) {
     for (const p of positions) {
         p.weightPct = Number(((p.value / totalValue) * 100).toFixed(1));
         const w = p.value / totalValue;
+        if (p.assetType === 'etf' || p.assetType === 'mutual_fund') {
+            const bucket = p.category || (p.assetType === 'etf' ? 'ETF' : 'Mutual fund');
+            sectorWeights[bucket] = (sectorWeights[bucket] || 0) + w;
+            p.covered = false;
+            p.coverageNote = 'Fund position — included in value and concentration, excluded from company-fundamental averages.';
+            continue;
+        }
         const m = aiChat.metricsFor(p.symbol);
         const sector = (m && m.sector) || 'Other / not covered';
         sectorWeights[sector] = (sectorWeights[sector] || 0) + w;
@@ -92,8 +104,10 @@ function computeXray(holdings) {
         },
         sectors,
         positions: positions.map((p) => ({
-            symbol: p.symbol, weightPct: p.weightPct, value: Number(p.value.toFixed(2)),
+            symbol: p.symbol, name: p.name, assetType: p.assetType, category: p.category || null,
+            weightPct: p.weightPct, value: Number(p.value.toFixed(2)),
             covered: p.covered !== false,
+            coverageNote: p.coverageNote || null,
             pe: p.pe ?? null, netMarginPct: p.netMarginPct ?? null, roePct: p.roePct ?? null,
             revCagr5Pct: p.revCagr5Pct ?? null, qtrEarningsYoYPct: p.qtrEarningsYoYPct ?? null,
             healthScore: p.healthScore || null, healthFails: (p.healthFails || []).slice(0, 4)

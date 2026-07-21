@@ -21,6 +21,7 @@ const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
 const yahooSource = require('./yahoo-source');
 const assetProfile = require('./asset-profile');
+const fundRanking = require('./fund-ranking');
 const secSource = require('./sec-source');
 const segments = require('./segments');
 const insiders = require('./insiders');
@@ -312,6 +313,19 @@ async function toolGetFundProfile({ symbol }) {
         };
     } catch (error) {
         return { error: error.message || `No fund profile for ${symbol}.` };
+    }
+}
+
+// ---- Tool: rank_funds (ETF / mutual-fund performance leaderboards) ----
+async function toolRankFunds(args) {
+    try {
+        return await fundRanking.rankFunds({
+            assetType: args.asset_type || args.assetType || 'all',
+            period: args.period || 'all',
+            limit: args.limit || 3
+        });
+    } catch (error) {
+        return { error: error.message || 'Fund rankings are unavailable right now.' };
     }
 }
 
@@ -714,6 +728,21 @@ const TOOLS = [
     {
         type: 'function',
         function: {
+            name: 'rank_funds',
+            description: 'Rank eligible US ETFs and/or mutual funds by trailing 3-month return, trailing 1-year return, or annualised 3-year return. Use for "best", "top-performing", leaderboard, ranking and screener questions; do not ask the user to provide tickers.',
+            parameters: {
+                type: 'object',
+                properties: {
+                    asset_type: { type: 'string', enum: ['etf', 'mutual_fund', 'all'], description: 'Use all when the user asks for both ETFs and mutual funds.' },
+                    period: { type: 'string', enum: ['3m', '1y', '3y', 'all'], description: 'Use all when several periods are requested.' },
+                    limit: { type: 'integer', description: 'Number of results per asset type and period, 1-10; default 3.' }
+                }
+            }
+        }
+    },
+    {
+        type: 'function',
+        function: {
             name: 'get_financials',
             description: 'Full income statement, balance sheet or cash flow history for a US-listed company from SEC filings. Annual gives up to ~20 fiscal years; quarterly up to 48 quarters. Use this for any question about revenue, profit, debt, cash flow, EPS, shares outstanding etc.',
             parameters: {
@@ -1049,6 +1078,7 @@ async function toolFetchPage({ url, find }, depth = 0) {
 function runTool(name, args, ctx) {
     switch (name) {
         case 'get_fund_profile': return toolGetFundProfile(args || {});
+        case 'rank_funds': return toolRankFunds(args || {});
         case 'get_financials': return toolGetFinancials(args || {});
         case 'get_ratios_history': return toolGetRatios(args || {});
         case 'get_health_checks': return toolGetHealthChecks(args || {});
@@ -1076,7 +1106,7 @@ const ASK_SYSTEM = [
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
-    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives ETF/mutual-fund costs, holdings, allocation, returns and risk. get_segments and get_insider_activity apply to operating companies only.',
+    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
     'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',

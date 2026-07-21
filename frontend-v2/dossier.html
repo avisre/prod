@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260702-1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260721-funds1" />
   <style>
     .beta-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); vertical-align: middle; margin-left: 8px; }
     .dos-hero { max-width: 760px; margin: 8px auto 0; text-align: center; }
@@ -78,13 +78,13 @@
     <div class="container" style="padding-top:40px;">
       <div class="dos-hero" id="dos-hero">
         <span class="label">Research Dossier</span><span class="beta-badge">Beta</span>
-        <h1 class="title-1" style="margin-top:8px;">The full initiation report — on any stock, in minutes</h1>
-        <p class="muted" style="max-width:64ch; margin:12px auto 0;">The business, segments, ten-year figures, what the price assumes, the bull and bear case, and what just changed in the latest filing — threaded into one source-linked write-up. The analyst job, on demand. Then state your thesis and we grade it against every new filing.</p>
-        <p class="small faint" style="max-width:60ch; margin:10px auto 0;">Beta — AI-assisted research over SEC filings. Every figure is computed from filed statements, but always verify against the source links before acting.</p>
+        <h1 class="title-1" style="margin-top:8px;">The full research report — on stocks and funds, in minutes</h1>
+        <p class="muted" style="max-width:64ch; margin:12px auto 0;">Stocks receive a source-linked company initiation report. ETFs and mutual funds receive a fund-specific dossier covering costs, holdings, allocation, performance and risk, without misapplying company financial metrics.</p>
+        <p class="small faint" style="max-width:60ch; margin:10px auto 0;">Beta — AI-assisted research over SEC filings for companies and fund market data for ETFs and mutual funds. Always verify against the source before acting.</p>
       </div>
       <div id="dos-search-wrap">
         <form class="dos-form" id="dos-form">
-          <input class="input" id="dos-sym" placeholder="Ticker — e.g. AAPL" autocomplete="off" aria-label="Ticker" />
+          <input class="input" id="dos-sym" placeholder="Stock or fund ticker — e.g. AAPL, SPY, VTSAX" autocomplete="off" aria-label="Ticker" />
           <button class="btn btn-primary" type="submit">Build dossier</button>
         </form>
         <p class="small faint" style="text-align:center; margin:12px auto 0;">Included in the <strong>Power</strong> and <strong>Desk</strong> plans — <a href="/#pricing">see pricing</a>. On another plan, you'll see the upgrade card, never a surprise charge.</p>
@@ -106,8 +106,8 @@
       <div id="dos-report" class="dos-doc" hidden></div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260702-3"></script>
-  <script src="assets/dossier.js?v=20260702-1"></script>
+  <script src="assets/app.js?v=20260721-funds1"></script>
+  <script src="assets/dossier.js?v=20260721-funds1"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>

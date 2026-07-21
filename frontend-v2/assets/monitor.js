@@ -2,9 +2,41 @@
 // filing" report for any ticker, plus a materiality-ranked feed across the
 // user's holdings + watchlist. Pro feature: a 402 swaps in the upgrade card.
 (function () {
-  const { API, token, esc, markdown, spinner, companies } = window.V2;
+  const { API, token, esc, markdown, spinner, searchAssets, mountShare } = window.V2;
   const auth = () => (token() ? { Authorization: 'Bearer ' + token() } : {});
   const $ = (id) => document.getElementById(id);
+
+  function fundPct(value, digits = 2) {
+    const n = Number(value);
+    return Number.isFinite(n) ? `${(n * 100).toFixed(digits)}%` : '—';
+  }
+
+  function renderFundSnapshot(rep) {
+    const out = $('mon-report');
+    const p = rep.profile || {};
+    const returns = p.returns || {};
+    const facts = [
+      ['Category', p.category || '—'],
+      ['Fund family', p.fundFamily || '—'],
+      ['Expense ratio', fundPct(p.expenseRatio)],
+      ['Yield', fundPct(p.yield)],
+      ['YTD return', fundPct(p.ytdReturn)],
+      ['1-year return', fundPct(returns.oneYear)],
+      ['3-year return', fundPct(returns.threeYear)]
+    ];
+    const holdings = (p.topHoldings || []).slice(0, 5).map((h) => `${h.symbol || h.name}${Number.isFinite(Number(h.weight)) ? ` (${fundPct(h.weight)})` : ''}`).join(', ');
+    out.innerHTML = `<div class="card card-pad mon-card">
+      <div class="mon-card-hd"><div><span class="label">${esc(rep.symbol)} · ${esc(rep.assetTypeLabel || 'Fund')}</span><h2 class="title-2" style="margin:4px 0 0;">AI fund research snapshot</h2><p class="small faint" style="margin:4px 0 0;">Updated ${esc((rep.latestFiling && rep.latestFiling.date) || '')}</p></div></div>
+      <div class="mon-summary"><span class="mon-summary-badge">Costs, composition, performance and risk</span><div class="prose">${markdown(rep.summary || '')}</div></div>
+      <div class="mon-section"><h3 class="title-3">Fund facts</h3><div class="fund-grid">${facts.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div></div>
+      ${holdings ? `<div class="mon-section"><h3 class="title-3">Largest reported holdings</h3><p>${esc(holdings)}</p></div>` : ''}
+      <p class="small faint mon-note">${esc(rep.note || '')}</p>
+    </div>`;
+    const share = document.createElement('div');
+    mountShare(share, { title: `${rep.name || rep.symbol} (${rep.symbol}) fund snapshot`, text: rep.summary || '' });
+    out.querySelector('.mon-card').appendChild(share);
+    out.hidden = false;
+  }
 
   function chip(bucket, score) {
     const cls = bucket === 'high' ? 'mon-chip-high' : bucket === 'medium' ? 'mon-chip-med' : 'mon-chip-low';
@@ -33,6 +65,7 @@
   }
 
   function renderReport(rep) {
+    if (rep && rep.isFund) { renderFundSnapshot(rep); return; }
     const out = $('mon-report');
     const filing = rep.latestFiling || {};
     const deltas = (rep.deltas || []).map(statCard).join('');
@@ -79,6 +112,10 @@
 
         <p class="small faint mon-note">${esc(rep.note || '')}</p>
       </div>`;
+    const share = document.createElement('div');
+    mountShare(share, { title: `${rep.symbol} filing change brief`, text: [rep.summary, narr && narr.headline].filter(Boolean).join('\n\n') });
+    const card = out.querySelector('.mon-card');
+    if (card) card.appendChild(share);
     out.hidden = false;
   }
 
@@ -243,8 +280,9 @@
         continue;
       }
       if (!r.ok || !d || !d.report) {
-        const kind = classifyErr(d && d.error);
-        monFail(out, sym, kind, kind === 'generic' ? (d && d.error) : null);
+        const message = d && (d.message || d.error);
+        const kind = r.status === 422 ? 'notfound' : classifyErr(message);
+        monFail(out, sym, kind, kind === 'generic' ? message : null);
         return;
       }
       renderReport(d.report);
@@ -259,12 +297,13 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Ticker autocomplete on the monitor input — same US-company list the nav
+  // Ticker autocomplete on the monitor input — stocks open a filing-change
+  // report; ETFs and mutual funds open a fund research snapshot.
   // search and portfolio add-form use. A wrong/foreign symbol no longer
   // dead-ends: you pick a valid ticker from the list (and it analyzes at once).
   function wireAutocomplete() {
     const input = $('mon-input');
-    if (!input || !companies) return;
+    if (!input || !searchAssets) return;
     // wrap so the dropdown anchors to the input (the form is a flex row)
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:relative; flex:1; display:flex;';
@@ -279,17 +318,14 @@
     const render = () => {
       if (!items.length) { box.hidden = true; return; }
       box.innerHTML = items.map((c, i) =>
-        `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}</span></button>`).join('');
+        `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></button>`).join('');
       box.hidden = false;
     };
     const choose = (sym) => { box.hidden = true; items = []; pick(sym); };
     input.addEventListener('input', async () => {
       const q = input.value.trim().toUpperCase();
       if (q.length < 1) { box.hidden = true; return; }
-      const list = await companies();
-      const starts = list.filter((c) => c.symbol && c.symbol.toUpperCase().startsWith(q));
-      const names = list.filter((c) => c.symbol && !c.symbol.toUpperCase().startsWith(q) && (c.name || '').toUpperCase().includes(q));
-      items = starts.concat(names).slice(0, 8); active = -1; render();
+      items = await searchAssets(q, { limit: 8 }); active = -1; render();
     });
     input.addEventListener('keydown', (e) => {
       if (box.hidden) return;

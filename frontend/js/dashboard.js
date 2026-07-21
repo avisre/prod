@@ -328,6 +328,8 @@
     tbody.innerHTML = '';
     holdings.forEach((h) => {
       const sym = String(h.symbol || '').toUpperCase();
+      const assetType = String(h.assetType || 'stock');
+      const assetLabel = assetType === 'etf' ? 'ETF' : assetType === 'mutual_fund' ? 'Mutual fund' : assetType === 'crypto' ? 'Crypto' : 'Stock';
       const shares = Number(h.shares) || 0;
       const buy = Number(h.purchasePrice) || 0;
       const cur = Number(h.currentPrice) || 0;
@@ -343,7 +345,7 @@
         ? '<span class="dash-demo-locked" title="Editing is disabled in demo mode">—</span>'
         : `<button class="dash-remove-btn" data-id="${h._id}">Remove</button>`;
       tr.innerHTML = `
-        <td class="dash-name">${escapeHTML(h.name || sym)}</td>
+        <td class="dash-name">${escapeHTML(h.name || sym)} <span class="dash-asset-badge dash-asset-${escapeHTML(assetType)}">${assetLabel}</span></td>
         <td><a class="dash-symbol-pill" href="${FUNDAMENTALS_LINK(sym)}">${sym}</a></td>
         <td class="num">${shares.toLocaleString(undefined, { maximumFractionDigits: 4 })}</td>
         <td class="num">${fmt.format(buy)}</td>
@@ -659,7 +661,8 @@
       items.forEach((item, idx) => {
         const li = document.createElement('li');
         li.dataset.index = String(idx);
-        li.textContent = `${item.name} (${item.symbol})`;
+        const type = item.assetTypeLabel || (item.assetType === 'etf' ? 'ETF' : item.assetType === 'mutual_fund' ? 'Mutual fund' : 'Stock');
+        li.innerHTML = `<span class="dash-search-main">${escapeHTML(item.name)} (${escapeHTML(item.symbol)})</span><span class="dash-search-type">${escapeHTML(type)}</span>`;
         list.appendChild(li);
       });
       list.style.display = items.length ? 'block' : 'none';
@@ -683,6 +686,8 @@
       input.value = `${item.name} (${item.symbol})`;
       input.dataset.symbol = item.symbol;
       input.dataset.name = item.name;
+      input.dataset.assetType = item.assetType || 'stock';
+      input.dataset.quoteType = item.quoteType || '';
     });
 
     document.addEventListener('click', (event) => {
@@ -706,6 +711,7 @@
       const raw = (input?.value || '').trim();
       let symbol = (input?.dataset.symbol || '').trim().toUpperCase();
       let name = (input?.dataset.name || '').trim();
+      const selectedAssetType = (input?.dataset.assetType || '').trim();
       if (!symbol) {
         const match = raw.match(/\(([^)]+)\)\s*$/);
         if (match) { symbol = match[1].toUpperCase(); name = raw.replace(/\s*\([^)]+\)\s*$/, '').trim(); }
@@ -715,18 +721,23 @@
       const buy = Number(buyEl?.value);
       const date = dateEl?.value || null;
       if (!symbol || !Number.isFinite(shares) || shares <= 0) {
-        if (error) { error.textContent = 'Enter a symbol and a positive share count.'; error.hidden = false; }
+        if (error) { error.textContent = 'Enter a symbol and a positive quantity.'; error.hidden = false; }
         return;
       }
 
       const payload = { symbol, name: name || symbol, shares };
+      if (selectedAssetType) payload.assetType = selectedAssetType;
       if (Number.isFinite(buy) && buy > 0) payload.purchasePrice = buy;
       if (date) payload.purchaseDate = new Date(`${date}T00:00:00`).toISOString();
 
       try {
         Loader.show();
         await addHolding(payload);
-        if (input) { input.value = ''; delete input.dataset.symbol; delete input.dataset.name; }
+        if (input) {
+          input.value = '';
+          delete input.dataset.symbol; delete input.dataset.name;
+          delete input.dataset.assetType; delete input.dataset.quoteType;
+        }
         if (sharesEl) sharesEl.value = '';
         if (buyEl) buyEl.value = '';
         if (dateEl) dateEl.value = '';
@@ -763,17 +774,22 @@
     const card = document.getElementById('briefing-card');
     const body = document.getElementById('briefing-body');
     const meta = document.getElementById('briefing-meta');
+    const share = document.getElementById('briefing-share');
     if (!card || !body) return;
     // Only show the card once the user has holdings.
     if (!state.holdings || !state.holdings.length) { card.hidden = true; return; }
     card.hidden = false;
     if (force) body.textContent = 'Regenerating your briefing…';
+    if (share) share.hidden = true;
     try {
       const url = `${API_URL}/portfolio/briefing${force ? '?refresh=1' : ''}`;
       const resp = await fetch(url, { headers: authHeaders() });
       if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
       const data = await resp.json();
       body.textContent = data.briefing || '';
+      if (share && window.AIShare) {
+        window.AIShare.mount(share, { title: 'My stockportfolio.pro weekly briefing', text: data.briefing || '' });
+      }
       if (meta) {
         const when = data.generatedAt ? new Date(data.generatedAt) : null;
         const tag = data.source === 'ai' ? 'AI summary' : 'Summary';
@@ -782,6 +798,7 @@
     } catch (e) {
       body.textContent = 'Briefing is unavailable right now.';
       if (meta) meta.textContent = '';
+      if (share) share.hidden = true;
     }
   }
 
@@ -792,11 +809,13 @@
 
   async function askPortfolio(question) {
     const ans = document.getElementById('ask-answer');
+    const share = document.getElementById('ask-share');
     const btn = document.getElementById('ask-btn');
     const input = document.getElementById('ask-input');
     if (!ans || !question.trim()) return;
     ans.hidden = false;
     ans.textContent = 'Thinking…';
+    if (share) share.hidden = true;
     if (btn) btn.disabled = true;
     try {
       const resp = await fetch(`${API_URL}/portfolio/ask`, {
@@ -811,9 +830,13 @@
         ans.textContent = data.message || 'Could not answer right now.';
       } else {
         ans.textContent = data.answer || 'No answer.';
+        if (share && window.AIShare) {
+          window.AIShare.mount(share, { title: `Portfolio question: ${question.trim()}`, text: data.answer || '' });
+        }
       }
     } catch (_) {
       ans.textContent = 'The assistant is unavailable right now.';
+      if (share) share.hidden = true;
     } finally {
       if (btn) btn.disabled = false;
       if (input) input.value = '';

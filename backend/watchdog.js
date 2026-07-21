@@ -202,7 +202,10 @@ async function scan() {
   try {
     const Stock = mongoose.models.Stock;
     if (!Stock) return { skipped: 'no Stock model' };
-    const holdings = await Stock.find({}, { symbol: 1, user: 1 }).lean();
+    const holdings = await Stock.find(
+      { assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } },
+      { symbol: 1, user: 1 }
+    ).lean();
     const holders = new Map(); // SYMBOL -> Set<userId>
     for (const h of holdings) {
       const sym = String(h.symbol || '').toUpperCase().trim();

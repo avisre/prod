@@ -4,7 +4,7 @@
 // it and returns {status:'building', stage} fast; we poll until it lands.
 (function () {
   'use strict';
-  const { API, token, esc, money, num, spinner, nav, companies } = window.V2;
+  const { API, token, esc, money, num, spinner, nav, searchAssets, mountShare, markdown } = window.V2;
   const $ = (id) => document.getElementById(id);
   const auth = () => (token() ? { Authorization: `Bearer ${token()}` } : {});
 
@@ -67,6 +67,32 @@
   const TONE = { improving: 'pos', deteriorating: 'neg', stable: '' };
   function snapRow(k, v) { return v == null || v === '' || v === 'None' ? '' : `<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`; }
 
+  function renderFundDossier(out, d, sym) {
+    const p = d.profile || {};
+    const ret = p.returns || {};
+    const pct = (v, digits = 2) => Number.isFinite(Number(v)) ? `${(Number(v) * 100).toFixed(digits)}%` : '—';
+    const facts = [
+      ['Category', p.category || '—'], ['Fund family', p.fundFamily || '—'],
+      ['Net assets', Number.isFinite(Number(p.totalAssets)) ? '$' + money(Number(p.totalAssets)) : '—'],
+      ['Expense ratio', pct(p.expenseRatio)], ['Yield', pct(p.yield)],
+      ['YTD return', pct(p.ytdReturn)], ['1-year return', pct(ret.oneYear)],
+      ['3-year return', pct(ret.threeYear)], ['5-year return', pct(ret.fiveYear)],
+      ['Turnover', pct(p.turnover)]
+    ];
+    const holdings = (p.topHoldings || []).map((h) => `<tr><td><strong>${esc(h.symbol || '—')}</strong></td><td>${esc(h.name || '')}</td><td>${pct(h.weight)}</td></tr>`).join('');
+    out.innerHTML = `<article class="dos-paper">
+      <div class="dos-hero"><span class="label">${esc(d.assetTypeLabel || 'Fund')} research dossier</span><h1>${esc(d.name || sym)} <span class="faint">${esc(sym)}</span></h1><p class="small faint">Generated ${esc(String(d.generatedAt || '').slice(0, 10))} · ${esc(p.source || 'fund market data')}</p></div>
+      <div class="dos-sec"><h2>Executive summary</h2><div class="prose">${markdown(d.executiveSummary || '')}</div></div>
+      <div class="dos-sec"><h2>Fund facts</h2><div class="fund-grid">${facts.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div></div>
+      ${holdings ? `<div class="dos-sec"><h2>Largest reported holdings</h2><div class="table-wrap"><table class="table-data"><thead><tr><th>Symbol</th><th>Holding</th><th>Weight</th></tr></thead><tbody>${holdings}</tbody></table></div></div>` : ''}
+      <p class="provenance">A fund dossier uses fund market data, not operating-company SEC financial statements. Holdings and characteristics can be reported on different dates; returns are historical, not forecasts.</p>
+    </article>`;
+    const share = document.createElement('div');
+    mountShare(share, { title: `${d.name || sym} (${sym}) fund research dossier`, text: d.executiveSummary || '' });
+    out.querySelector('.dos-paper').appendChild(share);
+    out.hidden = false;
+  }
+
   // ---- compact inline SVG charts (print-friendly, dependency-free) ----
   const C = { ink: '#1c1b18', accent: '#1a4fd6', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
   function chartBars(rows, key, fmt, color) {
@@ -103,6 +129,7 @@
   const bn = (v) => (v == null ? '—' : Math.abs(v) >= 1e12 ? '$' + (v / 1e12).toFixed(2) + 'T' : Math.abs(v) >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B' : '$' + (v / 1e6).toFixed(0) + 'M');
 
   function render(out, d, sym) {
+    if (d && d.isFund) { renderFundDossier(out, d, sym); return; }
     const s = d.snapshot || {};
     const mc = num(s.marketCap);
     const pct = (x) => { const n = num(x); return n == null ? null : (Math.abs(n) <= 1 ? (n * 100).toFixed(1) : Number(n).toFixed(1)) + '%'; };
@@ -355,6 +382,9 @@
       ${recent}
       <div id="dos-thesis"></div>
       <p class="dos-prov">${esc((d.sources && d.sources.note) || 'Every figure is computed from SEC-filed statements; prose is written over those finished facts. Educational, not investment advice.')}</p>`;
+    const share = document.createElement('div');
+    mountShare(share, { title: `${d.name || sym} (${sym}) research dossier`, text: d.executiveSummary || d.summary || '' });
+    out.appendChild(share);
     out.hidden = false;
 
     $('dos-print').addEventListener('click', () => window.print());
@@ -428,6 +458,9 @@
         <p style="margin:0 0 10px;"><span class="th-badge ${overallCls}">Thesis ${esc(d.overall || 'mixed')}</span> <span class="small">${esc(d.summary || '')}</span></p>
         ${(d.claims || []).map((c) => `<div class="th-claim"><span class="th-badge th-${c.status}">${esc(TH_LABEL[c.status] || c.status)}</span><div>${esc(c.claim)}${c.evidence ? `<div class="th-ev">${esc(c.evidence)}</div>` : ''}</div></div>`).join('')}
         ${d.gradedFiling ? `<p class="small faint" style="margin-top:10px;">Graded against ${esc(d.gradedFiling.label || d.gradedFiling.form || 'the latest filing')}${d.gradedFiling.date ? ` (${esc(d.gradedFiling.date)})` : ''}. ${esc(d.note || '')}</p>` : ''}`;
+      const share = document.createElement('div');
+      mountShare(share, { title: `${sym} thesis grade: ${d.overall || 'mixed'}`, text: d.summary || '' });
+      out.appendChild(share);
     } catch (_) { out.innerHTML = '<p class="small faint">Network problem grading the thesis.</p>'; }
   }
 
@@ -455,7 +488,7 @@
         catch (_) { await wait(POLL_MS); continue; }
         if (r.status === 401) { upsell(out); break; }
         if (r.status === 402) { upsell(out); break; }
-        if (r.status === 404) { const e = await r.json().catch(() => ({})); fail(out, e.message || `Couldn’t build a dossier for ${sym}.`); break; }
+        if (r.status === 404 || r.status === 422) { const e = await r.json().catch(() => ({})); fail(out, e.message || `Couldn’t build a dossier for ${sym}.`); break; }
         if (r.status === 202) { const d = await r.json().catch(() => ({})); setBuilding(out, sym, d.stage, Date.now() - started); await wait(POLL_MS); continue; }
         if (!r.ok) { fail(out, 'Something went wrong building the dossier.'); break; }
         const d = await r.json().catch(() => ({}));
@@ -471,11 +504,12 @@
 
   $('dos-form').addEventListener('submit', (e) => { e.preventDefault(); run($('dos-sym').value, false); });
 
-  // Ticker autocomplete — same as the Monitor search: type a symbol or company
+  // Ticker autocomplete — stocks build company dossiers; ETFs and mutual funds
+  // build fund-specific dossiers from their costs, holdings and performance.
   // name, pick from the list, and it builds the dossier at once.
   (function wireAutocomplete() {
     const input = $('dos-sym');
-    if (!input || !companies) return;
+    if (!input || !searchAssets) return;
     const wrap = document.createElement('div');
     wrap.style.cssText = 'position:relative; flex:1; display:flex;';
     input.parentNode.insertBefore(wrap, input);
@@ -489,17 +523,14 @@
     const render = () => {
       if (!items.length) { box.hidden = true; return; }
       box.innerHTML = items.map((c, i) =>
-        `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}</span></button>`).join('');
+        `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></button>`).join('');
       box.hidden = false;
     };
     const choose = (sym) => { box.hidden = true; items = []; input.value = sym; run(sym, false); };
     input.addEventListener('input', async () => {
       const q = input.value.trim().toUpperCase();
       if (q.length < 1) { box.hidden = true; return; }
-      const list = await companies();
-      const starts = list.filter((c) => c.symbol && c.symbol.toUpperCase().startsWith(q));
-      const names = list.filter((c) => c.symbol && !c.symbol.toUpperCase().startsWith(q) && (c.name || '').toUpperCase().includes(q));
-      items = starts.concat(names).slice(0, 8); active = -1; render();
+      items = await searchAssets(q, { limit: 8 }); active = -1; render();
     });
     input.addEventListener('keydown', (e) => {
       if (box.hidden) return;

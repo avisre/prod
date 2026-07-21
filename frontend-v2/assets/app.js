@@ -403,7 +403,7 @@
             <nav class="nav-links" aria-label="Primary">
               <a href="/screener.html" ${cur('screener')}>Screener</a>
               <a href="/compare" ${cur('compare')}>Compare</a>
-              <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
+              <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
               <a href="/news.html" ${cur('news')}>Markets</a>
               <div class="nav-dd">
                 <a href="/ask.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">Ask&nbsp;AI <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
@@ -419,7 +419,7 @@
             </nav>
             <div class="nav-spacer"></div>
             <div class="nav-search">
-              <input type="search" id="v2-search" placeholder="Search a company…" autocomplete="off"
+              <input type="search" id="v2-search" placeholder="Search stocks, ETFs, funds…" autocomplete="off"
                      aria-label="Search companies" />
               <div class="nav-search-results" id="v2-search-results" hidden></div>
             </div>
@@ -454,7 +454,7 @@
               <nav>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
                 <a href="/compare" ${cur('compare')}>Compare</a>
-                <a href="/company.html?symbol=AAPL" ${cur('company')}>Companies</a>
+                <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
                 <a href="/news.html" ${cur('news')}>Markets</a>
                 <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
                 <a href="/dossier.html" class="nav-mobile-sub" ${cur('dossier')}>Research Dossier</a>
@@ -585,6 +585,24 @@
         _companies = [];
         return _companies;
     }
+    async function searchAssets(query, { limit = 10, types = null } = {}) {
+        const q = String(query || '').trim();
+        if (!q) return [];
+        let rows = [];
+        try {
+            const r = await fetch(`${API}/assets/search?q=${encodeURIComponent(q)}&limit=${Math.min(limit, 20)}`);
+            if (r.ok) rows = await r.json();
+        } catch (_) { /* static fallback below */ }
+        if (!Array.isArray(rows) || !rows.length) {
+            const list = await companies();
+            const up = q.toUpperCase();
+            rows = list.filter((c) => (c.symbol || '').toUpperCase().startsWith(up))
+                .concat(list.filter((c) => !(c.symbol || '').toUpperCase().startsWith(up) && (c.name || '').toUpperCase().includes(up)))
+                .slice(0, limit).map((c) => ({ ...c, assetType: 'stock', assetTypeLabel: 'Stock' }));
+        }
+        if (types && types.length) rows = rows.filter((row) => types.includes(row.assetType || 'stock'));
+        return rows.slice(0, limit);
+    }
     function wireSearch(input, results) {
         if (!input) return;
         let items = [];
@@ -593,16 +611,13 @@
             if (!items.length) { results.hidden = true; return; }
             results.innerHTML = items.map((c, i) =>
                 `<a href="/company.html?symbol=${encodeURIComponent(c.symbol)}" class="${i === active ? 'is-active' : ''}">
-                   <span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}</span></a>`).join('');
+                   <span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></a>`).join('');
             results.hidden = false;
         };
         input.addEventListener('input', async () => {
             const q = input.value.trim().toUpperCase();
             if (q.length < 1) { results.hidden = true; return; }
-            const list = await companies();
-            const starts = list.filter((c) => c.symbol.startsWith(q));
-            const names = list.filter((c) => !c.symbol.startsWith(q) && (c.name || '').toUpperCase().includes(q));
-            items = starts.concat(names).slice(0, 8);
+            items = await searchAssets(q, { limit: 8 });
             active = -1;
             render();
         });
@@ -623,14 +638,54 @@
           <div class="container footer-inner">
             <div>© 2026 stockportfolio.pro — figures from SEC filings (10-K/10-Q), as filed; per-share figures split-adjusted. Not investment advice.</div>
             <div style="display:flex; gap:8px 18px; flex-wrap:wrap;">
-              <a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
+              <a href="/company.html?symbol=SPY">ETFs &amp; funds</a><a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
             </div>
           </div>`;
         document.body.appendChild(el);
     }
 
+    // Reusable, user-initiated sharing for every AI output. No answer is uploaded
+    // or made public by us; a platform only receives content after a click.
+    function mountShare(host, { title = 'stockportfolio.pro research', text = '', url = location.href } = {}) {
+        if (!host) return;
+        const clean = String(text || '').replace(/```[\s\S]*?```/g, ' ').replace(/[#*_>`|\[\]]/g, '').replace(/\s+/g, ' ').trim();
+        const excerpt = clean.length > 220 ? clean.slice(0, 217) + '…' : clean;
+        const shareUrl = String(url || location.href);
+        host.classList.add('share-actions');
+        host.innerHTML = `
+          <span class="share-label">Share</span>
+          <button type="button" class="share-btn" data-share="x">X / Twitter</button>
+          <button type="button" class="share-btn" data-share="linkedin">LinkedIn</button>
+          <button type="button" class="share-btn" data-share="facebook">Facebook</button>
+          <button type="button" class="share-btn" data-share="whatsapp">WhatsApp</button>
+          ${navigator.share ? '<button type="button" class="share-btn" data-share="native">More…</button>' : ''}
+          <button type="button" class="share-btn" data-share="copy">Copy</button>`;
+        host.addEventListener('click', async (event) => {
+            const button = event.target.closest('[data-share]');
+            if (!button) return;
+            if (button.dataset.share === 'x') {
+                const target = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${title}${excerpt ? `\n\n${excerpt}` : ''}`)}&url=${encodeURIComponent(shareUrl)}`;
+                window.open(target, '_blank', 'noopener,noreferrer,width=720,height=520');
+            } else if (button.dataset.share === 'linkedin') {
+                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener,noreferrer,width=720,height=620');
+            } else if (button.dataset.share === 'facebook') {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener,noreferrer,width=720,height=620');
+            } else if (button.dataset.share === 'whatsapp') {
+                window.open(`https://wa.me/?text=${encodeURIComponent([title, excerpt, shareUrl].filter(Boolean).join('\n\n'))}`, '_blank', 'noopener,noreferrer');
+            } else if (button.dataset.share === 'native' && navigator.share) {
+                try { await navigator.share({ title, text: excerpt, url: shareUrl }); } catch (_) { /* cancelled */ }
+            } else if (button.dataset.share === 'copy') {
+                const payload = [title, clean, shareUrl].filter(Boolean).join('\n\n');
+                try { await navigator.clipboard.writeText(payload); button.textContent = 'Copied'; }
+                catch (_) { window.prompt('Copy this research', payload); }
+            }
+        });
+    }
+
     // ---------- Ask (one streaming engine, two shells: inline + floor) ----------
     const TOOL_LABELS = {
+        get_fund_profile: (a) => `${(a.symbol || '').toUpperCase()} fund profile`,
+        rank_funds: (a) => `Ranked ${a.asset_type === 'mutual_fund' ? 'mutual funds' : a.asset_type === 'etf' ? 'ETFs' : 'ETFs and mutual funds'}`,
         get_financials: (a) => `${(a.symbol || '').toUpperCase()} ${a.statement || ''} statements`,
         get_ratios_history: (a) => `${(a.symbol || '').toUpperCase()} ratio history`,
         get_health_checks: (a) => `${(a.symbol || '').toUpperCase()} health checks`,
@@ -797,6 +852,9 @@
                                 body: JSON.stringify({ verdict: b.dataset.v, question, answer: String(data.answer).slice(0, 4000) })
                             }).catch(() => { /* best-effort */ });
                         }));
+                    const share = document.createElement('div');
+                    mountShare(share, { title: `Ask: ${question}`, text: data.answer });
+                    foot.appendChild(share);
                     answerEl.appendChild(foot);
                 }
             } catch (err) {
@@ -822,7 +880,7 @@
     function mountAsk(el, { placeholder, suggestions = [] } = {}) {
         el.innerHTML = `
           <form class="ask-bar">
-            <input class="input" type="text" maxlength="1000" placeholder="${esc(placeholder || 'Ask about any company — answers come from SEC filings…')}" aria-label="Ask a question" />
+            <input class="input" type="text" maxlength="8000" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
             <button class="btn btn-primary" type="submit">Ask</button>
           </form>
           <div class="ask-panel" hidden><div class="ask-exchange"></div></div>
@@ -857,7 +915,7 @@
         bar.innerHTML = `
           <form class="ask-floor-inner">
             <span class="ask-kbd">⌘K</span>
-            <input class="input" type="text" maxlength="1000" placeholder="${esc(placeholder || 'Ask — answers come from SEC filings…')}" aria-label="Ask a question" />
+            <input class="input" type="text" maxlength="8000" placeholder="${esc(placeholder || 'Ask about a company, ETF or mutual fund…')}" aria-label="Ask a question" />
             <button class="btn btn-primary" type="submit">Ask</button>
           </form>`;
         document.body.appendChild(sheet);
@@ -940,5 +998,5 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHScroll);
     else initHScroll();
 
-    window.V2 = { API, token, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, spinner, attachHScroll };
+    window.V2 = { API, token, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
 })();

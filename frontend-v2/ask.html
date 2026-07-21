@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260702-1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260721-funds1" />
   <style>
     /* the canvas: one centred column, generous air */
     .canvas { max-width: 800px; margin: 0 auto; min-height: calc(100vh - 220px); display: flex; flex-direction: column; }
@@ -75,15 +75,15 @@
     <div class="container">
       <div class="canvas">
         <div class="hello">
-          <h1>Ask anything.</h1>
-          <p>Every figure comes from SEC filings — never from memory.</p>
+          <h1>Ask anything about stocks and funds.</h1>
+          <p>Company figures come from SEC filings; ETF and mutual-fund figures come from fund data.</p>
         </div>
 
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
 
         <div class="composer-dock">
           <form class="composer" id="composer">
-            <textarea id="q" rows="2" maxlength="1000" placeholder="Ask about any company, a comparison, a screen, or your portfolio…" aria-label="Ask a question"></textarea>
+            <textarea id="q" rows="2" maxlength="8000" placeholder="Ask about any stock, ETF, mutual fund, comparison, screen, or your portfolio…" aria-label="Ask a question"></textarea>
             <button class="go" type="submit" aria-label="Ask" disabled>
               <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3m0 0L3.5 7.5M8 3l4.5 4.5"/></svg>
             </button>
@@ -97,12 +97,13 @@
           <button>Run the health checks on TSLA and explain every failure.</button>
           <button>Which of V and MA converts more revenue into free cash flow?</button>
           <button>Find companies that grew revenue 10%+ a year with net margins above 20%.</button>
+          <button>What are the top 3 ETFs and mutual funds over 3 months, 1 year and 3 years?</button>
           <button>Is my portfolio concentrated, and which holding is fundamentally weakest?</button>
         </div>
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260702-3"></script>
+  <script src="assets/app.js?v=20260721-funds1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine } = window.V2;

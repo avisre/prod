@@ -19,6 +19,8 @@
         get_ratios_history: (a) => `${(a.symbol || '').toUpperCase()} ratio history`,
         get_health_checks: (a) => `${(a.symbol || '').toUpperCase()} health checks`,
         get_quote: (a) => `${(a.symbol || '').toUpperCase()} snapshot`,
+        get_fund_profile: (a) => `${(a.symbol || '').toUpperCase()} fund profile`,
+        rank_funds: (a) => `Ranked ${a.asset_type === 'etf' ? 'ETFs' : a.asset_type === 'mutual_fund' ? 'mutual funds' : 'ETFs and mutual funds'}`,
         screen_universe: () => 'Screened 1,500 companies',
         get_portfolio: () => 'Your portfolio',
         calculator: () => 'Calculator'
@@ -26,6 +28,7 @@
 
     const SUGGESTIONS = [
         'How has AAPL’s free cash flow trended over the last decade?',
+        'What are the top 3 ETFs and mutual funds over 3 months, 1 year and 3 years?',
         'Which companies grew revenue 10%+ a year with a 20%+ net margin?',
         'Is my portfolio concentrated in one sector?',
         'Run the health checks on AMZN and explain the failures.'
@@ -76,6 +79,57 @@
         }
         closeList();
         return out.join('');
+    }
+
+    // Shared controls used by Ask, AI summaries and portfolio briefings. The
+    // generated text is placed in the social post/copy buffer, never in a URL.
+    if (!window.AIShare) {
+        const excerpt = (value, max = 240) => {
+            const clean = String(value || '').replace(/\s+/g, ' ').trim();
+            return clean.length > max ? `${clean.slice(0, max - 1)}…` : clean;
+        };
+        const openShare = (url) => window.open(url, '_blank', 'noopener,noreferrer,width=760,height=620');
+        const copyText = async (value) => {
+            if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(value);
+            window.prompt('Copy this AI-generated content', value);
+        };
+        window.AIShare = {
+            mount(container, options = {}) {
+                if (!container) return;
+                const title = String(options.title || 'stockportfolio.pro AI insight').trim();
+                const body = String(options.text || '').trim();
+                if (!body) { container.hidden = true; container.innerHTML = ''; return; }
+                const pageUrl = String(options.url || window.location.href);
+                const shortPost = `${title}\n\n${excerpt(body)}\n\n${pageUrl}`;
+                const fullPost = `${title}\n\n${body}\n\n${pageUrl}`;
+                container.hidden = false;
+                container.innerHTML = '<div class="ai-share"><span class="ai-share-label">Share</span></div>';
+                const row = container.firstElementChild;
+                const add = (label, action, className = '') => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = `ai-share-btn ${className}`.trim();
+                    button.textContent = label;
+                    button.addEventListener('click', action);
+                    row.appendChild(button);
+                    return button;
+                };
+                if (navigator.share) {
+                    add('Share…', () => navigator.share({ title, text: body, url: pageUrl }).catch(() => {}), 'ai-share-native');
+                }
+                add('X / Twitter', () => openShare(`https://twitter.com/intent/tweet?text=${encodeURIComponent(shortPost)}`));
+                add('LinkedIn', () => openShare(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(pageUrl)}&summary=${encodeURIComponent(excerpt(body, 500))}`));
+                add('Facebook', () => openShare(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}&quote=${encodeURIComponent(excerpt(body, 500))}`));
+                add('WhatsApp', () => openShare(`https://wa.me/?text=${encodeURIComponent(fullPost.slice(0, 3500))}`));
+                const copy = add('Copy', async () => {
+                    try {
+                        await copyText(fullPost);
+                        copy.textContent = 'Copied';
+                        window.setTimeout(() => { copy.textContent = 'Copy'; }, 1600);
+                    } catch (_) { /* clipboard denied */ }
+                });
+            }
+        };
     }
 
     // --- DOM ---
@@ -174,6 +228,10 @@
     function finishAnswer(question, data) {
         const wrap = addMsg('ai', renderMarkdown(data.answer));
         addChips(wrap, data.toolsUsed);
+        const share = document.createElement('div');
+        share.className = 'ai-share-slot';
+        wrap.querySelector('.ask-bubble').appendChild(share);
+        window.AIShare.mount(share, { title: `Ask: ${question}`, text: data.answer });
         history.push({ role: 'user', content: question }, { role: 'assistant', content: data.answer });
         if (data.quota) setQuota(data.quota);
     }

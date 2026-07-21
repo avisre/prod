@@ -212,6 +212,38 @@
 .ask-stream:empty { display: none; }
 .ask-working { color: var(--ask-muted); font-size: 12px; margin-top: 2px; }
 
+/* Reusable share controls for every AI-generated answer/summary/briefing. */
+.ai-share-slot[hidden] { display: none !important; }
+.ai-share {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid var(--ask-border, rgba(148, 163, 184, .2));
+}
+.ai-share-label {
+  color: var(--ask-muted, #94a3b8);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-right: 2px;
+}
+.ai-share-btn {
+  appearance: none;
+  border: 1px solid var(--ask-border, rgba(148, 163, 184, .28));
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .035);
+  color: var(--ask-text, #e5e7eb);
+  padding: 5px 9px;
+  font: 600 11px/1.1 inherit;
+  cursor: pointer;
+}
+.ai-share-btn:hover { border-color: var(--ask-accent, #3b82f6); background: rgba(59, 130, 246, .12); }
+.ask-msg .ai-share { margin-top: 9px; }
+
 @media (max-width: 560px) {
   #askw-panel { right: 8px; bottom: 76px; height: min(560px, calc(100vh - 100px)); }
   #askw-launcher { right: 14px; bottom: 14px; }

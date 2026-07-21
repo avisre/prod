@@ -7,7 +7,7 @@
 // Insights drawer; Ask is the page's voice — a bar pinned to the floor.
 (function () {
     'use strict';
-    const { API, token, num, money, pct, fixed, esc, sparkline, chart, markdown, nav, footer, mountAskFloor, companies } = window.V2;
+    const { API, token, num, money, pct, fixed, esc, sparkline, chart, markdown, nav, footer, mountAskFloor, companies, mountShare } = window.V2;
 
     const params = new URLSearchParams(location.search);
     const symbol = (params.get('symbol') || 'AAPL').toUpperCase().replace(/[^A-Z0-9.\-]/g, '');
@@ -21,6 +21,79 @@
     } catch (_) { /* private mode */ }
 
     const $ = (id) => document.getElementById(id);
+
+    function fundPct(value, dp = 2) {
+        const n = num(value);
+        return n === null ? '—' : `${(n * 100).toFixed(dp)}%`;
+    }
+    function renderFundProfile(data) {
+        const p = data.profile || {};
+        const section = $('fund-section');
+        // The company research sections remain in the DOM and untouched; they
+        // are simply not applicable to pooled funds and are hidden for this view.
+        [...section.parentElement.children].forEach((node) => {
+            if (node !== section && !node.classList.contains('mast')) node.hidden = true;
+        });
+        section.hidden = false;
+        $('co-name').textContent = p.name || symbol;
+        $('co-crumb').textContent = [symbol, p.assetTypeLabel, p.category, p.exchange].filter(Boolean).join(' · ');
+        $('co-price').textContent = p.price === null ? '—' : `${p.currency === 'USD' ? '$' : ''}${fixed(p.price, 2)}`;
+        $('co-change').textContent = p.changePercent === null ? '—' : `${p.changePercent >= 0 ? '+' : ''}${fixed(p.changePercent, 2)}% today`;
+        $('co-change').className = `small num ${p.changePercent >= 0 ? 'delta-pos' : 'delta-neg'}`;
+        const stats = [
+            ['Net assets', p.totalAssets === null ? '—' : '$' + money(p.totalAssets)],
+            ['Expense ratio', fundPct(p.expenseRatio)], ['Yield', fundPct(p.yield)],
+            ['YTD return', fundPct(p.ytdReturn)], ['3-year return', fundPct(p.returns && p.returns.threeYear)],
+            ['5-year return', fundPct(p.returns && p.returns.fiveYear)],
+            ['3-year beta', p.beta3Year === null ? '—' : fixed(p.beta3Year, 2)],
+            ['Turnover', fundPct(p.turnover)]
+        ];
+        const allocation = [
+            ['Stocks', p.allocations && p.allocations.stock], ['Bonds', p.allocations && p.allocations.bond],
+            ['Cash', p.allocations && p.allocations.cash], ['Other', p.allocations && p.allocations.other]
+        ].filter((row) => num(row[1]) !== null);
+        const bars = (rows) => rows.map(([name, weight]) => `<div class="fund-bar"><span>${esc(name)}</span><span class="fund-bar-track"><span class="fund-bar-fill" style="display:block;width:${Math.max(0, Math.min(100, Number(weight) * 100))}%"></span></span><span class="num">${fundPct(weight, 1)}</span></div>`).join('');
+        const holdings = (p.topHoldings || []).map((h) => `<tr><td class="row-head">${esc(h.symbol || '—')}</td><td>${esc(h.name)}</td><td class="num">${fundPct(h.weight, 2)}</td></tr>`).join('');
+        const sectors = (p.allocations && p.allocations.sectors || []).map((s) => [s.name, s.weight]);
+        const monthly = (data.monthly && data.monthly['Monthly Adjusted Time Series']) || {};
+        const points = Object.keys(monthly).sort().slice(-120).map((d) => [d, num(monthly[d]['5. adjusted close'] || monthly[d]['4. close'])]).filter((x) => x[1] !== null);
+        const chartHtml = points.length > 1 ? chart([{ values: points.map((x) => x[1]), cls: 'accent' }], points.map((x) => x[0].slice(0, 7)), { fmt: (v) => '$' + fixed(v, 0), height: 230 }) : '';
+        section.innerHTML = `
+          <div class="section-head"><div><span class="label">${esc(p.assetTypeLabel || 'Fund')} research</span><h2 class="title-2" style="margin-top:5px;">Costs, composition and performance</h2></div><span class="small faint">${esc(p.fundFamily || '')}</span></div>
+          <div class="fund-grid">${stats.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div>
+          ${chartHtml ? `<div style="margin-top:28px;"><p class="label">Adjusted monthly price · last 10 years</p>${chartHtml}</div>` : ''}
+          <div class="fund-cols">
+            <div><h3 class="title-3">Asset allocation</h3>${bars(allocation)}${sectors.length ? `<h3 class="title-3" style="margin-top:24px;">Sector exposure</h3>${bars(sectors.slice(0, 12))}` : ''}</div>
+            <div><h3 class="title-3">Top holdings</h3>${holdings ? `<div class="table-wrap"><table class="table-data"><thead><tr><th>Symbol</th><th>Holding</th><th>Weight</th></tr></thead><tbody>${holdings}</tbody></table></div>` : '<p class="muted">Holdings are not available from the data source for this fund.</p>'}</div>
+          </div>
+          <div class="card card-pad" style="margin-top:24px;" id="fund-ai-card">
+            <div class="section-head"><div><span class="label">AI fund summary</span><h3 class="title-3" style="margin-top:5px;">Costs, composition, performance and risk</h3></div><button class="btn btn-primary btn-sm" id="fund-ai-btn" type="button">Generate summary</button></div>
+            <div class="prose" id="fund-ai-body" hidden></div>
+            <div id="fund-ai-share"></div>
+          </div>
+          <p class="provenance" style="margin-top:24px;">Source: ${esc(p.source || 'market data provider')}. Fund holdings and characteristics can be reported on different dates. Returns are trailing provider figures; verify the prospectus before making a decision.</p>`;
+        $('fund-ai-btn').addEventListener('click', async () => {
+            const button = $('fund-ai-btn');
+            const body = $('fund-ai-body');
+            if (!token()) { location.href = `/login.html?next=${encodeURIComponent(location.pathname + location.search)}`; return; }
+            button.disabled = true; button.textContent = 'Writing…';
+            try {
+                const r = await fetch(`${API}/stocks/${encodeURIComponent(symbol)}/ai-summary`, { headers: { Authorization: `Bearer ${token()}` } });
+                const result = await r.json().catch(() => ({}));
+                if (!r.ok) {
+                    body.innerHTML = r.status === 402 ? 'This summary is available on Pro. <a href="/register.html">View plans →</a>' : esc(result.message || 'Could not generate the summary.');
+                    body.hidden = false; return;
+                }
+                body.innerHTML = markdown(result.summary || '');
+                body.hidden = false;
+                mountShare($('fund-ai-share'), { title: `${p.name || symbol} (${symbol}) fund research`, text: result.summary || '', url: location.href });
+                button.hidden = true;
+            } catch (_) {
+                body.textContent = 'Network problem — please try again.'; body.hidden = false;
+            } finally { button.disabled = false; if (!button.hidden) button.textContent = 'Try again'; }
+        });
+        document.title = `${symbol} ${p.assetTypeLabel || 'fund'} — holdings, fees and returns | stockportfolio.pro`;
+    }
 
     // ---------- shared math ----------
     const ratio = (a, b) => (a !== null && b !== null && b !== 0) ? a / b : null;
@@ -1341,6 +1414,12 @@
                         <p class="small" style="color:var(--ink-2); margin:0;">${esc(i.body)}</p>
                       </div>`).join('') +
                       `<p class="provenance">${esc(d.basis || '')} Descriptive analysis — not advice.</p>`;
+                    const share = document.createElement('div');
+                    mountShare(share, {
+                        title: `${symbol} AI insights`,
+                        text: (d.insights || []).map((i) => `${i.title}: ${i.body}`).join('\n\n')
+                    });
+                    insBody.appendChild(share);
                 } else {
                     insBody.innerHTML = '<p class="small muted">Insights unavailable right now.</p>';
                 }
@@ -1437,12 +1516,17 @@
             renderStatements();
         }));
 
-    // ---------- the floor: Ask, always present ----------
-    mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
-
     // ---------- load ----------
     (async () => {
         try {
+            const assetRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile?history=1`);
+            const assetData = assetRes.ok ? await assetRes.json() : null;
+            if (assetData && ['etf', 'mutual_fund'].includes(assetData.profile && assetData.profile.assetType)) {
+                renderFundProfile(assetData);
+                mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
+                return;
+            }
+            mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
             const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
             if (!r.ok) throw new Error('load failed');
             payload = await r.json();

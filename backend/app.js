@@ -4570,7 +4570,7 @@ app.get('/api/gurus/:id/analysis', authMiddleware, proGate, async (req, res) => 
 app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
     try {
         const [holdings, wl] = await Promise.all([
-            Stock.find({ user: req.userId }, { symbol: 1 }).lean(),
+            Stock.find({ user: req.userId, assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } }, { symbol: 1 }).lean(),
             Watchlist.findOne({ user: req.userId }, { symbols: 1 }).lean()
         ]);
         const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];
@@ -4620,10 +4620,28 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
         const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
-            return res.status(422).json({
-                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
-                message: `${instrument.assetTypeLabel}s do not file company 10-K/10-Q reports. Open the fund profile for holdings, fees, allocation, returns and risk instead.`
-            });
+            const summary = await aiFeatures.summarizeFinancials(sym);
+            return res.json({ report: {
+                symbol: sym,
+                name: instrument.name || sym,
+                assetType: instrument.assetType,
+                assetTypeLabel: instrument.assetTypeLabel,
+                isFund: true,
+                latestFiling: { label: `${instrument.assetTypeLabel || 'Fund'} research snapshot`, date: new Date().toISOString().slice(0, 10) },
+                summary: summary.summary,
+                profile: {
+                    category: instrument.category || null,
+                    fundFamily: instrument.fundFamily || null,
+                    expenseRatio: instrument.expenseRatio,
+                    yield: instrument.yield,
+                    ytdReturn: instrument.ytdReturn,
+                    returns: instrument.returns || {},
+                    totalAssets: instrument.totalAssets,
+                    topHoldings: (instrument.topHoldings || []).slice(0, 10),
+                    allocations: instrument.allocations || {}
+                },
+                note: `This is an AI-written fund snapshot from ${instrument.source || 'fund market data'}, not a company filing-change report. Fund characteristics may be reported on different dates.`
+            } });
         }
         const normSym = normalizeTicker(sym); // BRK.B and BRK-B are one stock
 
@@ -4749,10 +4767,30 @@ app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) =>
         if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return res.status(400).json({ message: 'Invalid ticker.' });
         const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
-            return res.status(422).json({
-                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
-                message: `${instrument.assetTypeLabel}s use a fund profile rather than a company dossier. Open ${sym}'s profile for holdings, fees, allocation, performance and risk.`
-            });
+            const summary = await aiFeatures.summarizeFinancials(sym);
+            return res.json({ dossier: {
+                symbol: sym,
+                name: instrument.name || sym,
+                assetType: instrument.assetType,
+                assetTypeLabel: instrument.assetTypeLabel,
+                isFund: true,
+                executiveSummary: summary.summary,
+                profile: {
+                    category: instrument.category || null,
+                    fundFamily: instrument.fundFamily || null,
+                    expenseRatio: instrument.expenseRatio,
+                    yield: instrument.yield,
+                    ytdReturn: instrument.ytdReturn,
+                    turnover: instrument.turnover,
+                    beta3Year: instrument.beta3Year,
+                    returns: instrument.returns || {},
+                    totalAssets: instrument.totalAssets,
+                    topHoldings: (instrument.topHoldings || []).slice(0, 10),
+                    allocations: instrument.allocations || {},
+                    source: instrument.source || 'fund market data'
+                },
+                generatedAt: new Date().toISOString()
+            } });
         }
 
         // Poll path: build-free, returns the dossier once cached else {building}.
@@ -4866,7 +4904,7 @@ async function runDigestSweep() {
     for (const u of users) {
         try {
             const [holdings, wl] = await Promise.all([
-                Stock.find({ user: u._id }, { symbol: 1 }).lean(),
+                Stock.find({ user: u._id, assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } }, { symbol: 1 }).lean(),
                 Watchlist.findOne({ user: u._id }, { symbols: 1 }).lean()
             ]);
             const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];

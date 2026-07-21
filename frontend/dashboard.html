@@ -87,6 +87,7 @@
         </header>
         <p class="dash-briefing-body" id="briefing-body">Generating your briefing…</p>
         <p class="dash-briefing-meta" id="briefing-meta"></p>
+        <div id="briefing-share" class="ai-share-slot" hidden></div>
 
         <div class="dash-ask" id="dash-ask">
           <form id="ask-form" class="dash-ask-form">
@@ -100,6 +101,7 @@
             <button type="button" class="dash-ask-chip">Summarise my performance</button>
           </div>
           <p class="dash-ask-answer" id="ask-answer" hidden></p>
+          <div id="ask-share" class="ai-share-slot" hidden></div>
         </div>
       </section>
 
@@ -170,14 +172,14 @@
         </header>
         <form id="add-stock-form" class="dash-add-form">
           <div class="dash-field dash-field-grow">
-            <label for="stock-symbol">Company or symbol</label>
+            <label for="stock-symbol">Stock, ETF or mutual fund</label>
             <div class="dash-input-wrap">
-              <input id="stock-symbol" placeholder="AAPL — Apple Inc." autocomplete="off" />
+              <input id="stock-symbol" placeholder="AAPL, SPY or VTSAX" autocomplete="off" />
               <ul id="search-results" class="dropdown" style="display:none"></ul>
             </div>
           </div>
           <div class="dash-field dash-field-narrow">
-            <label for="shares">Shares</label>
+            <label for="shares">Quantity</label>
             <input id="shares" type="number" min="0" step="any" placeholder="10" />
           </div>
           <div class="dash-field dash-field-narrow">
@@ -209,7 +211,7 @@
               <tr>
                 <th class="dash-col-name">Name</th>
                 <th class="dash-col-symbol">Symbol</th>
-                <th class="num">Shares</th>
+                <th class="num">Quantity</th>
                 <th class="num">Buy Price</th>
                 <th class="num">Current</th>
                 <th class="num">Total Cost</th>

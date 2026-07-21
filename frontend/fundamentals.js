@@ -34,6 +34,9 @@
 
   const $ = (id) => document.getElementById(id);
   const getQP = (k) => new URLSearchParams(location.search).get(k);
+  const escHtml = (value) => String(value == null ? '' : value).replace(/[&<>"']/g, (c) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
   const showLoader = () => {
     const el = $('loading-overlay');
     if (el) el.removeAttribute('hidden');
@@ -2551,6 +2554,7 @@
   }
 
   async function renderPage(symbol, payload) {
+    document.body.classList.remove('fund-asset-mode');
     state.symbol = symbol.toUpperCase();
     state.data = payload;
     const overview = payload.overview || {};
@@ -2670,6 +2674,109 @@
       .slice(0, 8);
   }
 
+  async function fetchAssetProfilePayload(symbol) {
+    try {
+      const resp = await fetch(`${API_URL}/assets/${encodeURIComponent(symbol)}/profile`, { headers: authHeaders() });
+      if (!resp.ok) return null;
+      return resp.json();
+    } catch (_) { return null; }
+  }
+
+  function fundPct(value, digits = 2) {
+    if (value === null || value === undefined || value === '') return '—';
+    const n = Number(value);
+    return Number.isFinite(n) ? `${(n * 100).toFixed(digits)}%` : '—';
+  }
+
+  function renderFundPage(symbol, payload) {
+    const profile = payload && payload.profile;
+    if (!profile) return false;
+    document.body.classList.add('fund-asset-mode');
+    state.symbol = String(symbol || profile.symbol || '').toUpperCase();
+    state.data = { profile };
+
+    const name = $('company-name');
+    const sym = $('company-symbol');
+    const exchange = $('company-exchange');
+    const sector = $('company-sector');
+    const price = $('quote-price');
+    const change = $('quote-change');
+    if (name) name.textContent = profile.name || state.symbol;
+    if (sym) sym.textContent = state.symbol;
+    if (exchange) exchange.textContent = `${profile.assetTypeLabel || 'Fund'}${profile.exchange ? ` · ${profile.exchange}` : ''}`;
+    if (sector) sector.textContent = profile.category || profile.fundFamily || 'US fund';
+    if (price) price.textContent = Number.isFinite(Number(profile.price))
+      ? formatCurrencyByCode(Number(profile.price), profile.currency || 'USD', 2) : '—';
+    if (change) {
+      const move = Number(profile.changePercent);
+      change.textContent = Number.isFinite(move) ? `${move >= 0 ? '+' : ''}${move.toFixed(2)}%` : '';
+      change.classList.toggle('positive', Number.isFinite(move) && move > 0);
+      change.classList.toggle('negative', Number.isFinite(move) && move < 0);
+    }
+
+    const returns = profile.returns || {};
+    const tiles = [
+      ['Asset type', profile.assetTypeLabel || 'Fund', profile.category || ''],
+      ['Current price', Number.isFinite(Number(profile.price)) ? formatCurrencyByCode(Number(profile.price), profile.currency || 'USD', 2) : '—', profile.currency || 'USD'],
+      ['Net assets', profile.totalAssets == null ? '—' : compactMoney(Number(profile.totalAssets), profile.currency || 'USD'), profile.fundFamily || ''],
+      ['Expense ratio', fundPct(profile.expenseRatio, 3), 'Annual'],
+      ['Yield', fundPct(profile.yield), 'Reported'],
+      ['3-month return', fundPct(returns.threeMonth), 'Trailing'],
+      ['1-year return', fundPct(returns.oneYear), 'Trailing'],
+      ['3-year return', fundPct(returns.threeYear), 'Annualised'],
+      ['Turnover', fundPct(profile.turnover), 'Annual'],
+      ['Top holdings', String((profile.topHoldings || []).length || '—'), 'Reported by source']
+    ];
+    const tileHost = $('metric-tiles');
+    if (tileHost) tileHost.innerHTML = tiles.map(([label, value, sub]) => tileHTML(escHtml(label), escHtml(value), escHtml(sub))).join('');
+
+    const top = (profile.topHoldings || []).slice(0, 8).map((h) =>
+      `${h.symbol || h.name}${Number.isFinite(Number(h.weight)) ? ` (${fundPct(h.weight)})` : ''}`
+    );
+    const allocations = profile.allocations || {};
+    const allocationText = [
+      ['Stocks', allocations.stock], ['Bonds', allocations.bond], ['Cash', allocations.cash], ['Other', allocations.other]
+    ].filter(([, value]) => Number.isFinite(Number(value))).map(([label, value]) => `${label} ${fundPct(value)}`);
+    const about = $('about-section');
+    const aboutTitle = $('about-title');
+    const aboutBody = $('company-about');
+    const facts = $('company-facts');
+    if (about) about.hidden = false;
+    if (aboutTitle) aboutTitle.textContent = `${profile.assetTypeLabel || 'Fund'} profile`;
+    if (aboutBody) {
+      aboutBody.classList.remove('clamped');
+      const lines = [];
+      if (allocationText.length) lines.push(`Asset allocation: ${allocationText.join(', ')}.`);
+      if (top.length) lines.push(`Largest reported holdings: ${top.join(', ')}.`);
+      lines.push('Holdings, returns and characteristics may be reported on different source dates.');
+      aboutBody.textContent = lines.join(' ');
+    }
+    const aboutToggle = $('about-toggle');
+    if (aboutToggle) aboutToggle.hidden = true;
+    if (facts) {
+      const rows = [
+        ['Category', profile.category || '—'],
+        ['Fund family', profile.fundFamily || '—'],
+        ['Inception', profile.inceptionDate ? new Date(profile.inceptionDate).toLocaleDateString() : '—'],
+        ['3-year beta', Number.isFinite(Number(profile.beta3Year)) ? Number(profile.beta3Year).toFixed(2) : '—'],
+        ['Rating', profile.rating == null ? '—' : `${profile.rating}/5`],
+        ['Source', profile.source || 'Yahoo Finance']
+      ];
+      facts.innerHTML = rows.map(([label, value]) => `<div class="scr-fact"><span class="scr-fact-label">${escHtml(label)}</span><span class="scr-fact-value">${escHtml(value)}</span></div>`).join('');
+    }
+
+    resetAiSummary();
+    const aiButton = $('ai-summary-btn');
+    if (aiButton) aiButton.textContent = 'Summarise this fund';
+    const input = $('symbol-input');
+    if (input) input.value = state.symbol;
+    const query = new URLSearchParams(location.search);
+    query.set('symbol', state.symbol);
+    history.replaceState({}, '', `${location.pathname}?${query.toString()}`);
+    document.title = `${state.symbol} ${profile.assetTypeLabel || 'Fund'} Profile — stockportfolio.pro`;
+    return true;
+  }
+
   async function loadSymbol(symbol) {
     const rawInput = String(symbol || '').trim();
     const key = await resolveInputSymbol(rawInput);
@@ -2697,10 +2804,14 @@
       // Run name-based candidate lookup and the primary fetch in parallel —
       // SymbolLookup hits the network and used to add ~hundreds of ms before
       // we ever touched the fundamentals API.
-      const [extraCandidates, primaryResult] = await Promise.all([
-        collectLookupCandidates(rawInput, key).catch(() => []),
-        fetchFundamentalsForSymbol(key).catch(() => null)
-      ]);
+      const candidatesPromise = collectLookupCandidates(rawInput, key).catch(() => []);
+      const primaryPromise = fetchFundamentalsForSymbol(key).catch(() => null);
+      const assetPayload = await fetchAssetProfilePayload(key);
+      if (assetPayload && assetPayload.profile && (assetPayload.profile.assetType === 'etf' || assetPayload.profile.assetType === 'mutual_fund')) {
+        renderFundPage(key, assetPayload);
+        return;
+      }
+      const [extraCandidates, primaryResult] = await Promise.all([candidatesPromise, primaryPromise]);
 
       let result;
       if (primaryResult && (!extraCandidates || extraCandidates.length === 0)) {
@@ -2737,10 +2848,12 @@
     const body = $('ai-summary-body');
     const meta = $('ai-summary-meta');
     const btn = $('ai-summary-btn');
+    const share = $('ai-summary-share');
     if (!sec) return;
     sec.hidden = false;
     if (body) { body.hidden = true; body.textContent = ''; }
     if (meta) { meta.hidden = true; meta.textContent = ''; }
+    if (share) { share.hidden = true; share.innerHTML = ''; }
     if (btn) { btn.disabled = false; btn.textContent = 'Summarise the financials'; }
   }
 
@@ -2749,6 +2862,7 @@
     const body = $('ai-summary-body');
     const meta = $('ai-summary-meta');
     const btn = $('ai-summary-btn');
+    const share = $('ai-summary-share');
     if (!sym || !body) return;
     if (btn) { btn.disabled = true; btn.textContent = 'Summarising…'; }
     body.hidden = false; body.textContent = 'Reading the financials…';
@@ -2762,9 +2876,14 @@
       } else {
         body.textContent = data.summary || 'No summary.';
         if (meta) { meta.hidden = false; meta.textContent = `${data.source === 'ai' ? 'AI summary' : 'Summary'} · not financial advice`; }
+        if (share && window.AIShare) {
+          const kind = data.assetType === 'etf' ? 'ETF' : data.assetType === 'mutual_fund' ? 'mutual fund' : 'company';
+          window.AIShare.mount(share, { title: `${sym} ${kind} summary`, text: data.summary || '' });
+        }
       }
     } catch (_) {
       body.textContent = 'Summary unavailable right now.';
+      if (share) share.hidden = true;
     } finally {
       if (btn) { btn.disabled = false; btn.textContent = 'Regenerate'; }
     }
