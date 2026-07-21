@@ -644,40 +644,79 @@
         document.body.appendChild(el);
     }
 
-    // Reusable, user-initiated sharing for every AI output. No answer is uploaded
-    // or made public by us; a platform only receives content after a click.
+    // Reusable, user-initiated sharing for every AI output. Each platform gets
+    // a meaning-preserving rewrite sized for that platform before it opens.
     function mountShare(host, { title = 'stockportfolio.pro research', text = '', url = location.href } = {}) {
         if (!host) return;
         const clean = String(text || '').replace(/```[\s\S]*?```/g, ' ').replace(/[#*_>`|\[\]]/g, '').replace(/\s+/g, ' ').trim();
-        const excerpt = clean.length > 220 ? clean.slice(0, 217) + '…' : clean;
         const shareUrl = String(url || location.href);
+        const prepared = new Map();
         host.classList.add('share-actions');
         host.innerHTML = `
           <span class="share-label">Share</span>
           <button type="button" class="share-btn" data-share="x">X / Twitter</button>
+          <button type="button" class="share-btn" data-share="instagram">Instagram</button>
           <button type="button" class="share-btn" data-share="linkedin">LinkedIn</button>
           <button type="button" class="share-btn" data-share="facebook">Facebook</button>
           <button type="button" class="share-btn" data-share="whatsapp">WhatsApp</button>
+          <button type="button" class="share-btn" data-share="reddit">Reddit</button>
           ${navigator.share ? '<button type="button" class="share-btn" data-share="native">More…</button>' : ''}
-          <button type="button" class="share-btn" data-share="copy">Copy</button>`;
+          <button type="button" class="share-btn" data-share="copy">Copy</button>
+          <span class="share-status" role="status" aria-live="polite"></span>`;
+
+        const status = host.querySelector('.share-status');
+        const say = (message) => { status.textContent = message; clearTimeout(status.__timer); status.__timer = setTimeout(() => { status.textContent = ''; }, 5500); };
+        const copyText = async (value) => {
+            try { await navigator.clipboard.writeText(value); return true; }
+            catch (_) { window.prompt('Copy this post', value); return false; }
+        };
+        const prepare = (platform) => {
+            if (!prepared.has(platform)) prepared.set(platform, fetch(`${API}/ai/share-copy`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ platform, title, content: clean })
+            }).then(async (r) => {
+                const data = await r.json().catch(() => ({}));
+                if (!r.ok || !data.caption) throw new Error(data.message || 'Share rewrite failed');
+                return data.caption;
+            }).catch(() => [title, clean].filter(Boolean).join('\n\n')));
+            return prepared.get(platform);
+        };
         host.addEventListener('click', async (event) => {
             const button = event.target.closest('[data-share]');
             if (!button) return;
-            if (button.dataset.share === 'x') {
-                const target = `https://twitter.com/intent/tweet?text=${encodeURIComponent(`${title}${excerpt ? `\n\n${excerpt}` : ''}`)}&url=${encodeURIComponent(shareUrl)}`;
-                window.open(target, '_blank', 'noopener,noreferrer,width=720,height=520');
-            } else if (button.dataset.share === 'linkedin') {
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener,noreferrer,width=720,height=620');
-            } else if (button.dataset.share === 'facebook') {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank', 'noopener,noreferrer,width=720,height=620');
-            } else if (button.dataset.share === 'whatsapp') {
-                window.open(`https://wa.me/?text=${encodeURIComponent([title, excerpt, shareUrl].filter(Boolean).join('\n\n'))}`, '_blank', 'noopener,noreferrer');
-            } else if (button.dataset.share === 'native' && navigator.share) {
-                try { await navigator.share({ title, text: excerpt, url: shareUrl }); } catch (_) { /* cancelled */ }
-            } else if (button.dataset.share === 'copy') {
+            const platform = button.dataset.share;
+            if (platform === 'copy') {
                 const payload = [title, clean, shareUrl].filter(Boolean).join('\n\n');
-                try { await navigator.clipboard.writeText(payload); button.textContent = 'Copied'; }
-                catch (_) { window.prompt('Copy this research', payload); }
+                await copyText(payload); say('Full research copied.'); return;
+            }
+            const popup = platform === 'native' ? null : window.open('about:blank', '_blank', 'width=760,height=640');
+            if (popup) popup.opener = null;
+            const openPrepared = (target) => {
+                if (popup) popup.location.href = target;
+                else { window.open(target, '_blank', 'noopener,noreferrer'); say('If nothing opened, allow pop-ups and try again.'); }
+            };
+            const original = button.textContent;
+            button.disabled = true; button.textContent = 'Preparing…';
+            try {
+                const caption = await prepare(platform);
+                if (platform === 'x') {
+                    openPrepared(`https://twitter.com/intent/tweet?text=${encodeURIComponent(caption)}&url=${encodeURIComponent(shareUrl)}`);
+                } else if (platform === 'whatsapp') {
+                    openPrepared(`https://wa.me/?text=${encodeURIComponent([caption, shareUrl].filter(Boolean).join('\n\n'))}`);
+                } else if (platform === 'linkedin') {
+                    await copyText(caption); openPrepared(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`); say('LinkedIn post copied — paste it into the share window.');
+                } else if (platform === 'facebook') {
+                    await copyText(caption); openPrepared(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`); say('Facebook post copied — paste it into the share window.');
+                } else if (platform === 'instagram') {
+                    await copyText(caption); openPrepared('https://www.instagram.com/'); say('Instagram caption copied — paste it into your post.');
+                } else if (platform === 'reddit') {
+                    const redditTitle = caption.length > 280 ? caption.slice(0, 277) + '…' : caption;
+                    openPrepared(`https://www.reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(redditTitle)}`);
+                } else if (platform === 'native' && navigator.share) {
+                    try { await navigator.share({ title, text: caption, url: shareUrl }); } catch (_) { /* cancelled */ }
+                }
+            } finally {
+                button.disabled = false; button.textContent = original;
             }
         });
     }

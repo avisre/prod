@@ -3,24 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>stockportfolio.pro — the AI analyst grounded in SEC filings</title>
-  <meta name="description" content="Research any US-listed company that files in USD — up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings. 7-day free trial." />
+  <title>stockportfolio.pro — AI research for stocks, ETFs and mutual funds</title>
+  <meta name="description" content="Research US stocks, ETFs and mutual funds, rank fund performance, and track every asset together in one AI-assisted portfolio." />
   <link rel="canonical" href="https://www.stockportfolio.pro/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="stockportfolio.pro" />
-  <meta property="og:title" content="stockportfolio.pro — the AI analyst grounded in SEC filings" />
-  <meta property="og:description" content="Research any US-listed company that files in USD — up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings." />
+  <meta property="og:title" content="stockportfolio.pro — AI research for stocks, ETFs and mutual funds" />
+  <meta property="og:description" content="Research stocks and funds, rank performance, and track everything in one AI-assisted portfolio." />
   <meta property="og:url" content="https://www.stockportfolio.pro/" />
   <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="stockportfolio.pro — the AI analyst grounded in SEC filings" />
-  <meta name="twitter:description" content="Research any US-listed company that files in USD — up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings." />
+  <meta name="twitter:title" content="stockportfolio.pro — AI research for stocks and funds" />
+  <meta name="twitter:description" content="Stocks, ETFs and mutual funds researched and tracked together." />
   <meta name="twitter:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260702-1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260721-social1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -47,7 +47,7 @@
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web",
         "url": "https://www.stockportfolio.pro/",
-        "description": "Research any US-listed company that files in USD — up to 19 years of SEC-filed financials, a free screener, and an AI assistant that answers from filings — plus a calm portfolio tracker.",
+        "description": "Research US stocks, ETFs and mutual funds, rank fund performance, and track every asset together in one AI-assisted portfolio.",
         "offers": [
           { "@type": "Offer", "name": "Free screener", "price": "0", "priceCurrency": "USD", "description": "Screen 3,800+ US companies by filed fundamentals — no account needed." },
           { "@type": "Offer", "name": "Monthly", "price": "12.00", "priceCurrency": "USD", "description": "7-day free trial, then $12/month." },
@@ -59,6 +59,9 @@
           "Up to 19 years of SEC-filed financial statements for every US-listed company that files in USD",
           "Free stock screener (3,800+ US companies)",
           "AI research assistant grounded in SEC filings",
+          "ETF and mutual-fund profiles, performance rankings and AI research",
+          "One mixed portfolio for stocks, ETFs and mutual funds",
+          "Platform-aware sharing for generated research",
           "Business segments extracted from 10-K filings",
           "Portfolio X-Ray, health checks and SEC filing alerts",
           "Guru portfolios — 27 famous investors' 13F holdings, quarterly moves, performance and AI analysis"
@@ -100,9 +103,20 @@
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
     .ask-demo { border-left: 2px solid var(--line-strong); padding-left: 28px; }
+    .asset-launch { padding:34px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(135deg,var(--accent-tint),var(--surface) 70%); }
+    .asset-launch-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:18px; }
+    .asset-launch-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px; }
+    .asset-launch-card h3 { font-size:17px; margin:6px 0 7px; }
+    .asset-launch-card p { color:var(--ink-2); font-size:13.5px; margin:0; }
+    .asset-launch-foot { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-top:18px; }
     @media (max-width: 760px) {
-      .hero { padding: 56px 0 40px; }
+      .hero { padding: 48px 0 28px; gap:0; }
+      .hero > .card { display:none; }
       .principle { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
+      .asset-launch { padding:22px 18px; }
+      .asset-launch-grid { grid-template-columns:1fr; }
+      .asset-launch-card { padding:16px; }
+      .asset-launch-foot .btn { width:100%; }
     }
   </style>
 </head>
@@ -112,12 +126,12 @@
 
       <section class="hero">
         <div>
-          <p class="label" style="margin-bottom:14px; color:var(--accent-ink);">Ask — the AI analyst</p>
-          <h1 class="display">Ask anything. Answered from the filings — and today's web.</h1>
-          <p class="hero-sub">An AI analyst over up to 19 years of SEC-filed statements on every US-listed company that files in USD, plus live news when it matters — every claim attributed, every chart drawn from the real numbers. Never from memory. Never advice.</p>
+          <p class="label" style="margin-bottom:14px; color:var(--accent-ink);">Stocks · ETFs · mutual funds</p>
+          <h1 class="display">Research every part of your portfolio.</h1>
+          <p class="hero-sub">One AI research workspace for US stocks, ETFs and mutual funds. Company answers are grounded in SEC filings; fund answers use costs, holdings, allocation, risk and reported performance.</p>
           <div class="hero-actions">
             <a class="btn btn-primary" href="/register.html">Start 7-day free trial</a>
-            <a class="btn btn-ghost" href="/ask.html">See Ask in action</a>
+            <a class="btn btn-ghost" href="/ask.html">Ask about stocks &amp; funds</a>
           </div>
           <p class="hero-note">7-day free trial — no card required, full access from the first click. The screener is <a href="/screener.html">free for everyone</a> — no account. Or <a href="/dashboard.html?demo=1">see a demo portfolio</a>.</p>
         </div>
@@ -137,6 +151,22 @@
           <p class="small" style="color:var(--ink-2); margin:0 0 10px; border-top:1px solid var(--line-strong); padding-top:10px;"><strong>The read</strong> — three divergent paths: NVIDIA's AI-mix margins surged to 71%, AMD climbed steadily upmarket, Intel's collapsed under manufacturing cost pressure…</p>
           <p class="small" style="margin:0;"><span style="border:1px solid var(--line-strong); border-radius:999px; padding:5px 12px; color:var(--accent-ink);">How do their R&amp;D budgets compare? →</span></p>
           <p class="provenance" style="margin-top:14px;">A real Ask answer — filed statements + live web, charts included. 25 questions/month on Monthly, 300 on Pro.</p>
+        </div>
+      </section>
+
+      <section class="section asset-launch" id="stocks-etfs-funds">
+        <div class="section-head">
+          <div><span class="label">New · one research workflow</span><h2 class="title-1" style="margin-top:7px;">Stocks and funds now work together</h2></div>
+          <span class="small faint">Desktop and mobile</span>
+        </div>
+        <div class="asset-launch-grid">
+          <article class="asset-launch-card"><span class="label">Stocks</span><h3>19 years of filed fundamentals</h3><p>Statements, ratios, health checks, filing changes and source-linked AI research.</p></article>
+          <article class="asset-launch-card"><span class="label">ETFs</span><h3>Costs, holdings and rankings</h3><p>Research allocation, concentration, risk and top performers over 3 months, 1 year and 3 years.</p></article>
+          <article class="asset-launch-card"><span class="label">Mutual funds</span><h3>Fund-specific analysis</h3><p>Compare fees, category, returns and holdings without applying company-only metrics.</p></article>
+        </div>
+        <div class="asset-launch-foot">
+          <p class="small muted" style="margin:0; max-width:68ch;">Add AAPL, SPY and VTSAX to the same portfolio. Share every AI answer or report to X, Instagram, LinkedIn, Facebook, WhatsApp and more.</p>
+          <a class="btn btn-primary btn-sm" href="/dashboard.html">Open your mixed portfolio →</a>
         </div>
       </section>
 
@@ -175,7 +205,7 @@
       <section class="section" id="ask-feature">
         <div class="section-head"><h2 class="title-1">Ask the AI analyst</h2><span class="small faint">Your questions, answered from the filings — with the work shown.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>Ask anything — "<em>compare NVIDIA, AMD and Intel margins over 10 years</em>", "<em>which of my holdings have rising debt?</em>" Every answer is built from a tool call over the actual SEC filings, cited with its fiscal period, with charts and tables inline. For anything after the latest filing it reads the live web and tells you the source and date. If the answer isn't in either, it says so — never guessed.</p>
+          <p>Ask about companies, ETFs or mutual funds — compare stock fundamentals, inspect a fund's costs and holdings, or rank eligible funds over 3 months, 1 year and 3 years. Company figures come from filings; fund figures come from fund market data.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
             <p class="small muted" style="margin:0;">25 questions/month on Monthly · 300 on Pro</p>
             <a class="btn btn-primary btn-sm" href="/ask.html">Try Ask →</a>
@@ -187,7 +217,7 @@
       <section class="section" id="dashboard-feature">
         <div class="section-head"><h2 class="title-1">Your portfolio, read by AI</h2><span class="small faint">A calm dashboard that does the reading for you.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>Track your holdings and let the AI keep watch: a <strong>weekly Monday briefing</strong> in plain English on what changed in your holdings' filings, a <strong>portfolio X-Ray</strong> that looks through to blended valuation, margins and quality, and <strong>daily attribution</strong> that quantifies why your portfolio moved today — every figure computed from filed statements, never guessed.</p>
+          <p>Track stocks, ETFs and mutual funds together. The AI understands the difference: company fundamentals stay company-only, while fund positions contribute to value, allocation and concentration using fund-specific facts. Weekly briefings and portfolio Q&amp;A cover the complete mixed portfolio.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
             <p class="small muted" style="margin:0;">Weekly briefing · X-Ray · daily attribution · smart alerts</p>
             <a class="btn btn-primary btn-sm" href="/register.html?plan=pro">Start Pro free trial →</a>
@@ -374,7 +404,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20260702-3"></script>
+  <script src="assets/app.js?v=20260721-social1"></script>
   <script>
     V2.nav('home');
     V2.footer();
@@ -481,6 +511,9 @@
         const data = await r.json();
         if (!data.briefing) throw 0;
         el.innerHTML = V2.markdown(data.briefing);
+        const share = document.createElement('div');
+        V2.mountShare(share, { title: 'Sample weekly portfolio briefing', text: data.briefing, url: location.href });
+        el.appendChild(share);
       } catch (_) {
         const sec = document.getElementById('briefing-sample');
         if (sec) sec.hidden = true;

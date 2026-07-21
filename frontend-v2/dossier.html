@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Research Dossier — the full initiation report on any stock | stockportfolio.pro</title>
-  <meta name="description" content="An on-demand, source-linked research dossier on any US-listed company: the business, segments, 10-year figures, what's priced in, the bull and bear case, recent filing changes — the write-up a junior analyst spends 20-40 hours on, generated in minutes. Track your own thesis against each new filing." />
+  <title>Research Dossier for stocks, ETFs and mutual funds | stockportfolio.pro</title>
+  <meta name="description" content="Build a source-linked research dossier for a US stock, ETF or mutual fund." />
   <link rel="canonical" href="https://www.stockportfolio.pro/dossier" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Research Dossier — the full initiation report on any stock" />
@@ -14,13 +14,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260721-funds3" />
+  <link rel="stylesheet" href="assets/system.css?v=20260721-social1" />
   <style>
     .beta-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); vertical-align: middle; margin-left: 8px; }
-    .dos-hero { max-width: 760px; margin: 8px auto 0; text-align: center; }
+    .dos-hero { max-width: 660px; margin: 8vh auto 0; text-align: center; }
     .dos-form { display: flex; gap: 10px; max-width: 520px; margin: 22px auto 0; }
     .dos-form .input { flex: 1; text-transform: uppercase; }
-    @media (max-width: 480px) { .dos-form { flex-direction: column; } .dos-form .btn { width: 100%; } }
+    @media (max-width: 480px) {
+      .dos-hero { margin-top:36px; }
+      .dos-form { flex-direction: column; margin-top:20px; }
+      .dos-form .btn { width: 100%; min-height:44px; }
+      #dos-search-wrap > p { padding:0 12px; }
+    }
     .dos-doc { max-width: 860px; margin: 28px auto 0; }
     .dos-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
     .dos-actions { display: flex; gap: 8px; flex-shrink: 0; }
@@ -77,36 +82,21 @@
   <main>
     <div class="container" style="padding-top:40px;">
       <div class="dos-hero" id="dos-hero">
-        <span class="label">Research Dossier</span><span class="beta-badge">Beta</span>
-        <h1 class="title-1" style="margin-top:8px;">The full research report — on stocks and funds, in minutes</h1>
-        <p class="muted" style="max-width:64ch; margin:12px auto 0;">Stocks receive a source-linked company initiation report. ETFs and mutual funds receive a fund-specific dossier covering costs, holdings, allocation, performance and risk, without misapplying company financial metrics.</p>
-        <p class="small faint" style="max-width:60ch; margin:10px auto 0;">Beta — AI-assisted research over SEC filings for companies and fund market data for ETFs and mutual funds. Always verify against the source before acting.</p>
+        <span class="label">Research Dossier</span>
+        <h1 class="title-1" style="margin-top:10px;">Enter a ticker. Get the complete research.</h1>
+        <p class="muted" style="max-width:54ch; margin:12px auto 0;">Stocks are researched from SEC filings. ETFs and mutual funds are analysed from their costs, holdings, allocation, performance and risk.</p>
       </div>
       <div id="dos-search-wrap">
         <form class="dos-form" id="dos-form">
           <input class="input" id="dos-sym" placeholder="Stock or fund ticker — e.g. AAPL, SPY, VTSAX" autocomplete="off" aria-label="Ticker" />
           <button class="btn btn-primary" type="submit">Build dossier</button>
         </form>
-        <p class="small faint" style="text-align:center; margin:12px auto 0;">Included in the <strong>Power</strong> and <strong>Desk</strong> plans — <a href="/#pricing">see pricing</a>. On another plan, you'll see the upgrade card, never a surprise charge.</p>
-      </div>
-      <div id="dos-preview" style="max-width:760px; margin:36px auto 0;">
-        <p class="label" style="text-align:center;">What's inside every dossier</p>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:10px 28px; margin-top:14px; font-size:13.5px; line-height:1.55; color:var(--ink-2);">
-          <div>— Executive summary + <strong>Edge</strong>: the non-obvious signals a summary misses</div>
-          <div>— Industry &amp; competitive drivers, with sector structure and peer medians</div>
-          <div>— Segments and ten years of DuPont financials, charted from the filings</div>
-          <div>— What today's price assumes, plus a bear / base / bull value range</div>
-          <div>— Forward DCF with the full WACC buildup — every input shown</div>
-          <div>— Bull vs bear case, investment risks and 8 computed health checks</div>
-          <div>— Governance, insider Form 4 activity and tracked 13F holders</div>
-          <div>— What changed in the latest filing, and <strong>your thesis graded</strong> against every new one</div>
-        </div>
-        <p class="small faint" style="text-align:center; margin:16px auto 0;">Every figure computed from SEC-filed statements — the prose is written over finished facts, and it prints to a clean PDF.</p>
+        <p class="small faint" style="text-align:center; margin:12px auto 0;">Power &amp; Desk · source-linked · printable · <a href="/#pricing">see plans</a></p>
       </div>
       <div id="dos-report" class="dos-doc" hidden></div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260721-funds2"></script>
+  <script src="assets/app.js?v=20260721-social1"></script>
   <script src="assets/dossier.js?v=20260721-funds2"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>

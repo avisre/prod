@@ -1107,6 +1107,8 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .share-label { color:var(--ink-3); font-size:11.5px; }
 .share-btn { appearance:none; border:1px solid var(--line-strong); background:var(--surface); color:var(--ink-2); border-radius:999px; padding:4px 9px; font:600 11.5px/1.2 inherit; cursor:pointer; }
 .share-btn:hover { color:var(--ink); border-color:var(--ink-3); }
+.share-btn:disabled { opacity:.62; cursor:wait; }
+.share-status { color:var(--ink-3); font-size:11.5px; min-height:1em; }
 .ask-foot .share-actions { margin:0 0 0 auto; }
 
 /* ETF / mutual-fund profile — isolated from the established company layout. */
@@ -1119,4 +1121,9 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .fund-bar { display:grid; grid-template-columns:minmax(90px,1fr) 3fr 54px; align-items:center; gap:8px; margin:8px 0; font-size:12.5px; }
 .fund-bar-track { height:7px; background:var(--line); border-radius:999px; overflow:hidden; }
 .fund-bar-fill { height:100%; background:var(--accent); border-radius:inherit; }
-@media (max-width:600px) { .ask-foot .share-actions { width:100%; margin-left:0; } }
+@media (max-width:600px) {
+  .ask-foot .share-actions { width:100%; margin-left:0; }
+  .share-actions { gap:7px; }
+  .share-btn { min-height:34px; padding:7px 10px; }
+  .share-status { width:100%; }
+}

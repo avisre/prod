@@ -20,6 +20,7 @@ const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
+const shareCopy = require('./share-copy');
 const xray = require('./xray');
 const watchdog = require('./watchdog');
 const reverseDcf = require('./reverse-dcf');
@@ -200,6 +201,14 @@ const supportLimiter = rateLimit({
   legacyHeaders: false
 });
 app.use('/api/support', supportLimiter);
+
+const shareCopyLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/ai/share-copy', shareCopyLimiter);
 
 const checkEmailLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -3009,6 +3018,20 @@ app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, r
         res.json({ ...payload, cached: false });
     } catch (error) {
         res.status(500).json({ message: error.message || 'AI summary failed' });
+    }
+});
+
+// Rewrite an existing generated answer/article for a platform's practical
+// character limit. This edits presentation only and never changes the research.
+app.post('/api/ai/share-copy', async (req, res) => {
+    const platform = String((req.body && req.body.platform) || '').toLowerCase();
+    const title = String((req.body && req.body.title) || '').trim().slice(0, 500);
+    const content = String((req.body && req.body.content) || '').trim().slice(0, 20000);
+    if (!content) return res.status(400).json({ message: 'Share content is required.' });
+    try {
+        return res.json(await shareCopy.rewriteForPlatform({ platform, title, content }));
+    } catch (error) {
+        return res.status(error.status || 500).json({ message: error.message || 'Could not prepare share copy.' });
     }
 });
 
