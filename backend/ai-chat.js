@@ -12,7 +12,7 @@
 //     Counters live in Mongo.
 //
 // The agentic loop speaks OpenAI-style tool calls via aiClient.chatRaw with
-// purpose 'chat' (env AI_MODEL_CHAT, default glm-5.1 per the shootout).
+// purpose 'chat' (env AI_MODEL_CHAT, default glm-5.1 on Ollama Cloud).
 
 const fs = require('fs');
 const path = require('path');
@@ -20,6 +20,7 @@ const mongoose = require('mongoose');
 const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
 const yahooSource = require('./yahoo-source');
+const assetProfile = require('./asset-profile');
 const secSource = require('./sec-source');
 const segments = require('./segments');
 const insiders = require('./insiders');
@@ -28,6 +29,7 @@ const axios = require('axios');
 const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
 const MAX_TOOLCALLS_PER_ROUND = 12;
+const QUESTION_MAX_CHARS = 8000;
 
 // '' / null / undefined mean "not disclosed" in the cache — never coerce them
 // to 0 (Number('') === 0 would silently turn missing data into real zeros).
@@ -294,6 +296,23 @@ async function toolGetQuote({ symbol }) {
         priceToBook: num(ov.PriceToBookRatio), evToEbitda: num(ov.EVToEBITDA),
         note: 'Snapshot from our nightly-refreshed cache — may lag live market prices.'
     };
+}
+
+// ---- Tool: get_fund_profile (ETF / mutual-fund composition and costs) ----
+async function toolGetFundProfile({ symbol }) {
+    try {
+        const profile = await assetProfile.fetchAssetProfile(symbol);
+        if (!assetProfile.isFundAsset(profile.assetType)) {
+            return { error: `${String(symbol || '').toUpperCase()} is a ${profile.assetTypeLabel}, not an ETF or mutual fund.` };
+        }
+        return {
+            ...profile,
+            units: 'Yield, expense ratio, turnover, allocation weights, holding weights and trailing returns are decimals (0.12 = 12%).',
+            note: 'Fund holdings and characteristics are the latest values supplied by Yahoo Finance and may be reported on different source dates. Funds do not have company income statements, insider trades or a corporate DCF.'
+        };
+    } catch (error) {
+        return { error: error.message || `No fund profile for ${symbol}.` };
+    }
 }
 
 // ---- Tool: get_price_history (20 years of monthly adjusted closes) ----
@@ -648,7 +667,9 @@ function toolGetPortfolio(ctx) {
         const value = price !== null ? sh * price : null;
         if (value !== null) totalValue += value;
         return {
-            symbol: String(h.symbol || '').toUpperCase(), shares: sh,
+            symbol: String(h.symbol || '').toUpperCase(), name: h.name || h.symbol,
+            assetType: assetProfile.normalizeAssetType(h.assetType || h.quoteType || 'stock'),
+            category: h.category || null, shares: sh,
             purchasePrice: num(h.purchasePrice), purchaseDate: h.purchaseDate || null,
             currentPrice: num(h.currentPrice), value: value !== null ? Number(value.toFixed(2)) : null
         };
@@ -682,6 +703,14 @@ function toolCalculator({ expression }) {
 
 // ---- Tool schemas (OpenAI function-calling format) ----
 const TOOLS = [
+    {
+        type: 'function',
+        function: {
+            name: 'get_fund_profile',
+            description: 'ETF and mutual-fund profile: category, family, assets, expense ratio, yield, trailing returns, allocation, top holdings and risk statistics. Use this first for any ETF or mutual-fund question. Company statements, filings and insider tools do not apply to funds.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string', description: 'Fund ticker, e.g. SPY or VTSAX' } }, required: ['symbol'] }
+        }
+    },
     {
         type: 'function',
         function: {
@@ -1019,6 +1048,7 @@ async function toolFetchPage({ url, find }, depth = 0) {
 
 function runTool(name, args, ctx) {
     switch (name) {
+        case 'get_fund_profile': return toolGetFundProfile(args || {});
         case 'get_financials': return toolGetFinancials(args || {});
         case 'get_ratios_history': return toolGetRatios(args || {});
         case 'get_health_checks': return toolGetHealthChecks(args || {});
@@ -1046,8 +1076,8 @@ const ASK_SYSTEM = [
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
-    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — always use it for "how has the stock performed" questions instead of inferring from valuation data. get_segments gives the revenue mix from the latest 10-K. get_insider_activity gives the filed Form 4 buy/sell record — describe it neutrally (insiders sell for many reasons).',
-    'COVERAGE: every US exchange-listed company that reports in USD (~7,000 tickers on Nasdaq/NYSE) — get_financials/get_ratios_history/get_health_checks/get_quote/get_price_history work for ALL of them (an uncached small-cap takes a few extra seconds on first fetch). screen_universe screens the S&P 1500 subset only. Foreign companies and their ADRs (Toyota, SAP, Alibaba…) are NOT covered — say so plainly if asked.',
+    'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives ETF/mutual-fund costs, holdings, allocation, returns and risk. get_segments and get_insider_activity apply to operating companies only.',
+    'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios you derive yourself).',
     'EFFICIENCY: you have a hard budget of a few tool rounds. Batch aggressively — request EVERY company\'s data in the same round (parallel tool calls), and put ALL your arithmetic into ONE calculator call with ";"-separated expressions.',
@@ -1117,7 +1147,7 @@ function makeRoundStreamer(emit) {
 // The resolved return value stays identical to the non-streaming path and is
 // authoritative — callers should render result.answer over streamed text.
 async function ask({ question, history, ctx, onEvent }) {
-    const q = String(question || '').trim().slice(0, 1000);
+    const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty' };
     if (!aiClient.isConfigured()) return { answer: 'Ask is not available right now — the AI service is not configured.', toolsUsed: [], source: 'unconfigured' };
     const emit = (e) => { if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep computing the answer */ } } };
@@ -1125,7 +1155,7 @@ async function ask({ question, history, ctx, onEvent }) {
     const messages = [{ role: 'system', content: ASK_SYSTEM + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.` }];
     for (const h of (Array.isArray(history) ? history.slice(-8) : [])) {
         if (h && (h.role === 'user' || h.role === 'assistant') && typeof h.content === 'string') {
-            messages.push({ role: h.role, content: h.content.slice(0, 2000) });
+            messages.push({ role: h.role, content: h.content.slice(0, QUESTION_MAX_CHARS) });
         }
     }
     messages.push({ role: 'user', content: q });
@@ -1245,7 +1275,7 @@ async function saveExchange(userId, question, answer) {
         const col = mongoose.connection.collection('ai_chat_log');
         await col.updateOne(
             { userId: String(userId) },
-            { $push: { turns: { $each: [{ q: String(question).slice(0, 1000), a: String(answer).slice(0, 4000), at: new Date() }], $slice: -8 } } },
+            { $push: { turns: { $each: [{ q: String(question).slice(0, QUESTION_MAX_CHARS), a: String(answer).slice(0, 8000), at: new Date() }], $slice: -8 } } },
             { upsert: true }
         );
     } catch (_) { /* memory is best-effort */ }

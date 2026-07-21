@@ -98,12 +98,12 @@
         </div>
         <div class="ask-msgs" id="askw-msgs">
           <div class="ask-msg ask-msg-ai">
-            <div class="ask-bubble">Ask me about any US-listed company that files in USD (not just the S&amp;P 1500) — statements back to ~2007, ratios, health checks, screener, or your own portfolio. Every number comes from filed data, never from AI memory.</div>
+            <div class="ask-bubble">Ask me about US-listed companies, ETFs, ticker-addressable US mutual funds, or your own portfolio. Company figures come from filed data; fund answers cover costs, holdings, allocation, returns and risk. Every number comes from a retrieved source, never AI memory.</div>
           </div>
           <div class="ask-suggestions" id="askw-suggestions"></div>
         </div>
         <form class="ask-inputrow" id="askw-form">
-          <textarea id="askw-input" rows="1" maxlength="1000" placeholder="Ask a financial question…"></textarea>
+          <textarea id="askw-input" rows="1" maxlength="8000" placeholder="Ask a financial question…"></textarea>
           <button type="submit" id="askw-send" aria-label="Send">➤</button>
         </form>
       </div>`;

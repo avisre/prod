@@ -10,19 +10,29 @@
 // Read env lazily (at call time) so it works regardless of whether dotenv has
 // loaded yet at require-time, and regardless of env source (Render vs .env).
 function cfg(purpose) {
-    const fallback = process.env.AI_BRIEFING_MODEL || 'deepseek-v4-flash';
+    const explicitBase = String(process.env.AI_BRIEFING_BASE_URL || '').replace(/\/+$/, '');
+    const ollamaKey = process.env.OLLAMA_API_KEY || '';
+    const useOllama = /ollama\.com/i.test(explicitBase) || (!explicitBase && !!ollamaKey);
+    // Direct Ollama Cloud requests use the library model name without the
+    // `:cloud` suffix; that suffix is for a local Ollama daemon forwarding a
+    // request to the cloud. OpenRouter uses its namespaced slug.
+    const fallback = useOllama ? 'glm-5.1' : 'z-ai/glm-5.1';
     const byPurpose = {
-        summary: process.env.AI_MODEL_SUMMARY || 'deepseek-v4-flash',
-        chat: process.env.AI_MODEL_CHAT || 'glm-5.1',
+        summary: process.env.AI_MODEL_SUMMARY || fallback,
+        chat: process.env.AI_MODEL_CHAT || fallback,
         briefing: process.env.AI_MODEL_BRIEFING || fallback
     };
     return {
-        key: process.env.AI_BRIEFING_API_KEY || '',
-        baseUrl: (process.env.AI_BRIEFING_BASE_URL || 'https://openrouter.ai/api/v1').replace(/\/+$/, ''),
+        key: useOllama
+            ? (ollamaKey || process.env.AI_BRIEFING_API_KEY || '')
+            : (process.env.AI_BRIEFING_API_KEY || process.env.OPENROUTER_API_KEY || ''),
+        baseUrl: explicitBase || (useOllama ? 'https://ollama.com/v1' : 'https://openrouter.ai/api/v1'),
         model: byPurpose[purpose] || fallback
     };
 }
-function isConfigured() { return !!(process.env.AI_BRIEFING_API_KEY || ''); }
+function isConfigured() {
+    return !!(process.env.OLLAMA_API_KEY || process.env.AI_BRIEFING_API_KEY || process.env.OPENROUTER_API_KEY || '');
+}
 
 // Low-level call: returns the raw assistant message object ({content,
 // tool_calls, ...}). Used directly by the Ask chatbot's tool loop, which

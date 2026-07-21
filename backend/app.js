@@ -15,6 +15,7 @@ const { OAuth2Client } = require('google-auth-library');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
+const assetProfile = require('./asset-profile');
 const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
@@ -1013,7 +1014,10 @@ async function verifyPassword(password, storedHash) {
 const alphaClient = {
     async searchSymbols(query) {
         const data = await yahooSource.fetchSymbolSearch(query);
-        return (data?.bestMatches || []).map((m) => ({ symbol: m['1. symbol'], name: m['2. name'] }));
+        return (data?.bestMatches || []).map((m) => ({
+            symbol: m['1. symbol'], name: m['2. name'], quoteType: m['3. type'] || '',
+            assetType: assetProfile.normalizeAssetType(m['3. type'])
+        }));
     },
     async intraday(symbol /*, interval='5min' */) {
         const data = await yahooSource.fetchIntraday(symbol, '5min');
@@ -1483,11 +1487,15 @@ const SupportTicketSchema = new mongoose.Schema({
 }, { timestamps: true });
 const SupportTicket = mongoose.model('SupportTicket', SupportTicketSchema);
 
-// Per-user stock holdings used by the Dashboard portfolio tracker.
+// Per-user holdings used by the Dashboard portfolio tracker. The model name is
+// retained for database compatibility; assetType distinguishes stocks/funds.
 const StockSchema = new mongoose.Schema({
     symbol: { type: String, required: true },
     name: { type: String },
     sector: { type: String },
+    assetType: { type: String, enum: ['stock', 'etf', 'mutual_fund', 'crypto', 'other'], default: 'stock' },
+    quoteType: { type: String },
+    category: { type: String },
     shares: { type: Number, required: true },
     purchasePrice: { type: Number },
     purchaseDate: { type: Date },
@@ -2613,15 +2621,58 @@ app.get('/api/search/:query', authMiddleware, async (req, res) => {
         eps: item.eps,
         sector: item.sector
     }));
-    if (localMatches.length) {
-        return res.json(localMatches);
-    }
     try {
-        const matches = await alphaClient.searchSymbols(query);
-        res.json(matches);
+        const matches = (await alphaClient.searchSymbols(query)).filter((row) => !/\.[A-Z]{2,4}$/.test(row.symbol));
+        const seen = new Set();
+        res.json(localMatches.map((row) => ({ ...row, assetType: 'stock', quoteType: 'EQUITY' }))
+            .concat(matches)
+            .filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol))
+            .slice(0, 12));
     } catch (error) {
-        // Return an empty array instead of erroring to avoid breaking UX
-        res.json([]);
+        res.json(localMatches.map((row) => ({ ...row, assetType: 'stock', quoteType: 'EQUITY' })));
+    }
+});
+
+// Public asset directory for the navigation and add-holding autocomplete.
+// Results are additive: the established stock directory stays first, while
+// Yahoo supplies ETFs and mutual funds that are not SEC operating companies.
+app.get('/api/assets/search', async (req, res) => {
+    const query = String(req.query.q || req.query.query || '').trim();
+    const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 20);
+    if (!query) return res.json([]);
+    const local = searchTopCompanies(query, limit).map((row) => ({
+        symbol: row.symbol, name: row.name, sector: row.sector || '',
+        assetType: 'stock', assetTypeLabel: 'Stock', quoteType: 'EQUITY'
+    }));
+    try {
+        const remote = (await alphaClient.searchSymbols(query)).filter((row) => !/\.[A-Z]{2,4}$/.test(row.symbol));
+        const seen = new Set();
+        const out = local.concat(remote.map((row) => ({
+            ...row, assetTypeLabel: assetProfile.assetTypeLabel(row.assetType)
+        }))).filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol));
+        return res.json(out.slice(0, limit));
+    } catch (_) {
+        return res.json(local.slice(0, limit));
+    }
+});
+
+// A normalized, non-company-specific research payload. Fund consumers use
+// this route; legacy stock pages retain the existing SEC fundamentals route.
+app.get('/api/assets/:symbol/profile', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    try {
+        const profile = await assetProfile.fetchAssetProfile(symbol);
+        let daily = null, monthly = null;
+        if (req.query.history === '1') {
+            [daily, monthly] = await Promise.all([
+                fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: 'compact' }, ALPHA_CACHE_TTL_MS.daily).catch(() => null),
+                fetchAlphaCached('TIME_SERIES_MONTHLY_ADJUSTED', { symbol }, ALPHA_CACHE_TTL_MS.monthly).catch(() => null)
+            ]);
+        }
+        return res.json({ profile, ...(daily ? { daily } : {}), ...(monthly ? { monthly } : {}) });
+    } catch (error) {
+        return res.status(error.status || 502).json({ message: error.message || 'Asset profile unavailable' });
     }
 });
 
@@ -2856,6 +2907,7 @@ app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             const ticker = safeUpper(stock.symbol);
             const payload = stock.toObject();
             payload.symbol = ticker;
+            payload.assetType = payload.assetType || 'stock';
             try {
                 payload.currentPrice = await getStockPrice(ticker);
             } catch (priceError) {
@@ -2951,7 +3003,7 @@ app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, r
         }
         const result = await aiFeatures.summarizeFinancials(symbol);
         if (!result.summary) return res.status(404).json({ message: 'No financial data available for this symbol.' });
-        const payload = { symbol, summary: result.summary, source: result.source, generatedAt: new Date().toISOString() };
+        const payload = { symbol, assetType: result.assetType || 'stock', summary: result.summary, source: result.source, generatedAt: new Date().toISOString() };
         _aiSummaryCache.set(symbol, { at: Date.now(), payload });
         if (_aiSummaryCache.size > 500) _aiSummaryCache.delete(_aiSummaryCache.keys().next().value);
         res.json({ ...payload, cached: false });
@@ -3502,6 +3554,13 @@ app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, re
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
+        const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: `Company insights depend on operating-company financial statements. Use Ask for ${symbol}'s fees, allocation, holdings, performance and risk instead.`
+            });
+        }
         const result = await insights.generateInsights(symbol);
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
@@ -3518,6 +3577,13 @@ app.get('/api/company/:symbol/keypoints', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
+        const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: `${instrument.assetTypeLabel}s do not publish company 10-K business dossiers. Use the fund profile or Ask for holdings, costs, allocation, returns and risk.`
+            });
+        }
         const result = await keypoints.extractKeyPoints(symbol);
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
@@ -3550,6 +3616,13 @@ app.get('/api/company/:symbol/segments', authMiddleware, proGate, async (req, re
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
+        const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: `${instrument.assetTypeLabel}s have portfolio allocations and holdings rather than company business segments. Use the fund profile or Ask instead.`
+            });
+        }
         const result = await segments.extractSegments(symbol);
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
@@ -3567,6 +3640,13 @@ app.get('/api/company/:symbol/filing-diff', authMiddleware, proGate, async (req,
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
+        const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: `${instrument.assetTypeLabel}s do not have comparable company 10-K/10-Q filing changes. Use Ask for the fund's latest holdings, costs, performance and risk.`
+            });
+        }
         let p = _diffInflight.get(symbol);
         if (!p) {
             p = filingDiff.computeFilingDiff(symbol).finally(() => _diffInflight.delete(symbol));
@@ -3587,7 +3667,7 @@ app.post('/api/ai/chat/feedback', authMiddleware, async (req, res) => {
         await mongoose.connection.collection('ai_chat_feedback').insertOne({
             userId: String(portfolioOwnerId(req)),
             verdict: (req.body && req.body.verdict) === 'up' ? 'up' : 'down',
-            question: String((req.body && req.body.question) || '').slice(0, 1000),
+            question: String((req.body && req.body.question) || '').slice(0, 8000),
             answer: String((req.body && req.body.answer) || '').slice(0, 4000),
             at: new Date()
         });
@@ -3637,9 +3717,11 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             ? Number(purchasePrice)
             : livePrice;
 
-        let profile = await getCompanyProfile(ticker);
+        let profile;
+        try { profile = await assetProfile.fetchAssetProfile(ticker); }
+        catch (_) { profile = await getCompanyProfile(ticker); }
         const resolvedName = name || profile.name || ticker;
-        const sector = profile.sector || '';
+        const sector = profile.sector || profile.category || '';
         let purchase = purchaseDate ? new Date(purchaseDate) : new Date();
         if (Number.isNaN(purchase.getTime())) purchase = new Date();
 
@@ -3647,6 +3729,9 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             symbol: ticker,
             name: resolvedName,
             sector,
+            assetType: profile.assetType || (isCryptoSymbol(ticker) ? 'crypto' : 'stock'),
+            quoteType: profile.quoteType || '',
+            category: profile.category || '',
             shares: qty,
             purchasePrice: buyPrice,
             purchaseDate: purchase,
@@ -4533,6 +4618,13 @@ const MONITOR_FAST_MS = 9000;
 app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
+        const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: `${instrument.assetTypeLabel}s do not file company 10-K/10-Q reports. Open the fund profile for holdings, fees, allocation, returns and risk instead.`
+            });
+        }
         const normSym = normalizeTicker(sym); // BRK.B and BRK-B are one stock
 
         // Poll path: free, build-free, never spends a credit. Returns the report
@@ -4608,6 +4700,14 @@ app.get('/api/compare/:pair/verdict', optionalAuth, async (req, res) => {
         let a = m[1], b = m[2];
         if (a === b) return res.status(400).json({ error: 'Pick two different companies.' });
         if (a > b) { const t = a; a = b; b = t; } // canonical order
+        const instruments = await Promise.all([a, b].map((symbol) => assetProfile.fetchAssetProfile(symbol).catch(() => null)));
+        const fund = instruments.find((instrument) => instrument && assetProfile.isFundAsset(instrument.assetType));
+        if (fund) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: fund.assetType,
+                message: 'This verdict compares operating-company filings. Ask can compare ETFs and mutual funds by fees, allocation, holdings, returns and risk.'
+            });
+        }
         const signedIn = !!req.user;
         let rec = null;
         if (!signedIn) {
@@ -4647,6 +4747,13 @@ app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) =>
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
         if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return res.status(400).json({ message: 'Invalid ticker.' });
+        const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: `${instrument.assetTypeLabel}s use a fund profile rather than a company dossier. Open ${sym}'s profile for holdings, fees, allocation, performance and risk.`
+            });
+        }
 
         // Poll path: build-free, returns the dossier once cached else {building}.
         if (req.query.poll === '1') {
@@ -4686,6 +4793,14 @@ app.get('/api/thesis', authMiddleware, monitorGate, async (req, res) => {
 
 app.post('/api/thesis', authMiddleware, monitorGate, async (req, res) => {
     try {
+        const symbol = safeUpper(req.body && req.body.symbol);
+        const instrument = symbol ? await assetProfile.fetchAssetProfile(symbol).catch(() => null) : null;
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: 'Automated thesis grading uses company 10-K/10-Q evidence and is not applicable to funds. Use Ask to analyse the fund against its costs, holdings, allocation, returns and risk.'
+            });
+        }
         const doc = await thesisModel.saveThesis(req.userId, req.body && req.body.symbol, req.body && req.body.text);
         res.status(201).json({ thesis: { symbol: doc.symbol, text: doc.text, claims: doc.claims } });
     } catch (error) {
@@ -4704,6 +4819,14 @@ app.delete('/api/thesis/:symbol', authMiddleware, monitorGate, async (req, res) 
 
 app.get('/api/thesis/:symbol/grade', authMiddleware, monitorGate, async (req, res) => {
     try {
+        const symbol = safeUpper(req.params.symbol);
+        const instrument = symbol ? await assetProfile.fetchAssetProfile(symbol).catch(() => null) : null;
+        if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            return res.status(422).json({
+                code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
+                message: 'Fund theses cannot be graded against company 10-K/10-Q filings. Use Ask for a grounded fund analysis instead.'
+            });
+        }
         const result = await thesisModel.gradeThesis(req.userId, req.params.symbol, { force: req.query.refresh === '1' });
         if (result.error) return res.status(404).json(result);
         res.json(result);
@@ -4995,6 +5118,3 @@ if (process.env.NODE_ENV === 'production' || process.env.PREWARM === 'on') {
 }
 // Optional: nightly SEC bulk companyfacts (inert unless SEC_BULK_DIR is set).
 try { require('./companyfacts-bulk').start(); } catch (e) { console.log('[companyfacts-bulk] not started:', e && e.message); }
-
-
-
