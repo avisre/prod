@@ -77,13 +77,15 @@ async function fetchAssetProfile(symbol) {
     let summary = {};
     if (isFundAsset(assetType)) {
         summary = await yahoo.quoteSummary(key, {
-            modules: ['topHoldings', 'fundPerformance', 'summaryDetail', 'defaultKeyStatistics', 'price']
+            modules: ['topHoldings', 'fundPerformance', 'fundProfile', 'summaryDetail', 'defaultKeyStatistics', 'price']
         }, { validateResult: false }).catch(() => ({}));
     }
 
     const sd = summary.summaryDetail || {};
     const ks = summary.defaultKeyStatistics || {};
     const fp = summary.fundPerformance || {};
+    const fund = summary.fundProfile || {};
+    const fees = fund.feesExpensesInvestment || {};
     const th = summary.topHoldings || {};
     const overview = fp.performanceOverview || {};
     const trailing = fp.trailingReturns || {};
@@ -104,17 +106,17 @@ async function fetchAssetProfile(symbol) {
         previousClose,
         changePercent,
         asOf: date(quote.regularMarketTime),
-        category: ks.category || fp.fundCategoryName || '',
-        fundFamily: ks.fundFamily || '',
-        totalAssets: number(ks.totalAssets ?? sd.totalAssets),
-        expenseRatio: number(ks.annualReportExpenseRatio),
+        category: ks.category || fund.categoryName || fp.fundCategoryName || '',
+        fundFamily: ks.fundFamily || fund.family || '',
+        totalAssets: number(ks.totalAssets ?? sd.totalAssets ?? fees.totalNetAssets),
+        expenseRatio: number(ks.annualReportExpenseRatio ?? fees.annualReportExpenseRatio ?? fees.netExpRatio ?? fees.grossExpRatio),
         yield: number(ks.yield ?? sd.yield),
         ytdReturn: number(ks.ytdReturn ?? sd.ytdReturn ?? overview.ytdReturnPct),
         beta3Year: number(ks.beta3Year),
         inceptionDate: date(ks.fundInceptionDate),
         rating: number(ks.morningStarOverallRating),
         riskRating: number(ks.morningStarRiskRating),
-        turnover: number(ks.annualHoldingsTurnover),
+        turnover: number(ks.annualHoldingsTurnover ?? fees.annualHoldingsTurnover),
         returns: {
             oneMonth: number(trailing.oneMonth),
             threeMonth: number(trailing.threeMonth),
