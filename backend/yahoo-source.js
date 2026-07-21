@@ -14,7 +14,12 @@
 //   NEWS_SENTIMENT                   -> yahooFinance.search news + RSS fallback
 
 const YahooFinance = require('yahoo-finance2').default;
-const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
+const noop = () => {};
+const yf = new YahooFinance({
+    suppressNotices: ['yahooSurvey', 'ripHistorical'],
+    logger: { info: noop, warn: noop, error: noop, debug: noop, dir: noop },
+    validation: { logErrors: false, logOptionsErrors: false }
+});
 const axios = require('axios');
 
 // Yahoo uses hyphens for class-share tickers (BRK-B); other feeds use dots.
@@ -671,8 +676,15 @@ async function fetchIntraday(symbol, interval = '5min') {
 }
 
 async function fetchSymbolSearch(keywords) {
-    const r = await yf.search(keywords, { quotesCount: 10, newsCount: 0 });
-    return buildSymbolSearch(r);
+    // Use Yahoo's JSON endpoint directly. The yahoo-finance2 search wrapper can
+    // silently discard ETF/MUTUALFUND rows after upstream schema changes (seen
+    // on Render while quote/profile still worked), leaving autocomplete empty.
+    const response = await axios.get('https://query2.finance.yahoo.com/v1/finance/search', {
+        params: { q: keywords, quotesCount: 10, newsCount: 0, region: 'US', lang: 'en-US' },
+        headers: { 'User-Agent': 'Mozilla/5.0 stockportfolio.pro asset search' },
+        timeout: 12000
+    });
+    return buildSymbolSearch(response && response.data ? response.data : {});
 }
 
 // Yahoo Finance's predefined screener endpoint. yahoo-finance2's wrapper
