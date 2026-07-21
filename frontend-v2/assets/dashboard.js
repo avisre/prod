@@ -18,6 +18,59 @@
 
     const auth = DEMO ? {} : { Authorization: `Bearer ${token()}` };
     let lastRows = []; // for CSV export
+    let portfolioActionBusy = false;
+
+    function setPortfolioControlsBusy(busy) {
+        const form = $('add-form');
+        if (form) form.querySelectorAll('input, button, select').forEach((control) => { control.disabled = busy; });
+        document.querySelectorAll('[data-del]').forEach((button) => { button.disabled = busy; });
+    }
+
+    function showPortfolioAction(title, detail) {
+        portfolioActionBusy = true;
+        setPortfolioControlsBusy(true);
+        const overlay = $('portfolio-action-overlay');
+        overlay.classList.remove('is-error');
+        overlay.setAttribute('aria-busy', 'true');
+        $('portfolio-action-spinner').hidden = false;
+        $('portfolio-action-mark').hidden = true;
+        $('portfolio-action-title').textContent = title;
+        $('portfolio-action-detail').textContent = detail;
+        overlay.hidden = false;
+    }
+
+    function updatePortfolioAction(title, detail) {
+        if (title) $('portfolio-action-title').textContent = title;
+        if (detail) $('portfolio-action-detail').textContent = detail;
+    }
+
+    function finishPortfolioAction(message, { error = false, holdMs = 1100 } = {}) {
+        const overlay = $('portfolio-action-overlay');
+        const status = $('portfolio-action-status');
+        overlay.setAttribute('aria-busy', 'false');
+        overlay.classList.toggle('is-error', error);
+        $('portfolio-action-spinner').hidden = true;
+        $('portfolio-action-mark').hidden = false;
+        $('portfolio-action-mark').textContent = error ? '!' : '✓';
+        $('portfolio-action-title').textContent = error ? 'Portfolio not changed' : 'Portfolio updated';
+        $('portfolio-action-detail').textContent = message;
+        status.textContent = message;
+        status.className = `portfolio-action-status small ${error ? 'is-error' : 'is-success'}`;
+        status.hidden = false;
+        window.setTimeout(() => {
+            overlay.hidden = true;
+            overlay.classList.remove('is-error');
+            portfolioActionBusy = false;
+            setPortfolioControlsBusy(false);
+        }, holdMs);
+    }
+
+    function resetPortfolioPerformance() {
+        perfSeries.compact = null;
+        perfSeries.full = null;
+        const chart = $('perf-chart');
+        if (chart) chart.innerHTML = '<p style="padding:40px 0; text-align:center;"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Refreshing price history…</span></p>';
+    }
 
     if (DEMO) {
         // Read-only sample: hide mutation UI, label clearly, sell quietly.
@@ -196,7 +249,7 @@
             });
             lastRows = rows;
             renderAllocation(rows);
-            loadPerformance(rows);
+            await loadPerformance(rows);
             const total = rows.reduce((a, r2) => a + (r2.value || 0), 0);
             $('pf-total').textContent = '$' + fixed(total, 2);
             $('pf-sub').textContent = DEMO
@@ -207,7 +260,7 @@
                     + 'No holdings yet — add a stock, ETF or mutual fund above (try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>).'
                     + '<br><span class="small">Then put it to work: see what just changed in its filings with the <a href="/monitor.html">Filing Monitor</a>, or <a href="/ask.html">ask the AI analyst</a> about it.</span>'
                     + '</td></tr>';
-                return;
+                return true;
             }
             $('holdings-body').innerHTML = rows.map((r2) => `
               <tr>
@@ -222,11 +275,32 @@
               </tr>`).join('');
             document.querySelectorAll('[data-del]').forEach((b) =>
                 b.addEventListener('click', async () => {
-                    await fetch(`${API}/portfolio/${b.dataset.del}`, { method: 'DELETE', headers: auth }).catch(() => {});
-                    loadHoldings(); loadXray();
+                    if (portfolioActionBusy) return;
+                    const row = b.closest('tr');
+                    const symbol = row && row.querySelector('.row-head strong') ? row.querySelector('.row-head strong').textContent.trim() : 'Holding';
+                    showPortfolioAction(`Removing ${symbol}`, 'Updating your saved holdings…');
+                    try {
+                        const response = await fetch(`${API}/portfolio/${b.dataset.del}`, { method: 'DELETE', headers: auth });
+                        if (!response.ok) {
+                            const data = await response.json().catch(() => ({}));
+                            throw new Error(data.message || `Couldn’t remove ${symbol}.`);
+                        }
+                        updatePortfolioAction(`${symbol} removed`, 'Refreshing portfolio value, allocation and performance…');
+                        resetPortfolioPerformance();
+                        const refreshed = await loadHoldings();
+                        if (!refreshed) throw new Error('The holding was removed, but the refreshed portfolio could not be loaded. Reload the page.');
+                        updatePortfolioAction('Finishing the update', 'Refreshing portfolio analysis…');
+                        await Promise.allSettled([loadXray(), loadAttribution(), loadBriefing()]);
+                        finishPortfolioAction(`${symbol} was removed and your portfolio is up to date.`);
+                    } catch (error) {
+                        finishPortfolioAction(error.message || `${symbol} could not be removed. Please try again.`, { error: true, holdMs: 2200 });
+                    }
                 }));
+            setPortfolioControlsBusy(portfolioActionBusy);
+            return true;
         } catch (_) {
             $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">Couldn’t load holdings.</td></tr>';
+            return false;
         }
     }
 
@@ -235,7 +309,12 @@
             const r = await fetch(`${API}/portfolio/xray`, { headers: auth });
             if (!r.ok) return;
             const x = await r.json();
-            if (!x || !x.lookThrough) return;
+            if (!x || !x.lookThrough) {
+                $('xray-section').hidden = true;
+                $('xray-strip').innerHTML = '';
+                $('xray-flags').innerHTML = '';
+                return;
+            }
             const m = x.lookThrough;
             const cells = [
                 ['Look-through P/E', fixed(m.peRatio, 1)],
@@ -271,7 +350,12 @@
             const r = await fetch(`${API}/portfolio/attribution`, { headers: auth });
             if (!r.ok) return; // 402 (not Pro) or transient — section stays hidden
             const d = await r.json();
-            if (d.empty || d.portfolioDayPct === null || d.portfolioDayPct === undefined) return;
+            if (d.empty || d.portfolioDayPct === null || d.portfolioDayPct === undefined) {
+                $('attrib-section').hidden = true;
+                $('attrib-body').innerHTML = '';
+                $('attrib-sub').textContent = '';
+                return;
+            }
             const sign = d.portfolioDayPct >= 0 ? '+' : '';
             const cls = d.portfolioDayPct > 0 ? 'delta-pos' : d.portfolioDayPct < 0 ? 'delta-neg' : '';
             $('attrib-sub').textContent = `as of ${d.asOf}${d.coveragePct < 95 ? ` · quotes cover ${d.coveragePct}% of value` : ''}`;
@@ -472,6 +556,7 @@
 
     if (!DEMO) $('add-form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (portfolioActionBusy) return;
         const symbol = $('add-sym').value.trim().toUpperCase();
         const shares = Number($('add-shares').value);
         if (!symbol || !shares) return;
@@ -491,8 +576,7 @@
             el.innerHTML = msg;
             el.hidden = !msg;
         };
-        const btn = $('add-form').querySelector('button[type=submit]');
-        btn.disabled = true;
+        showPortfolioAction(`Adding ${symbol}`, 'Checking the ticker and saving the holding…');
         try {
             const r = await fetch(`${API}/portfolio`, {
                 method: 'POST',
@@ -501,17 +585,27 @@
             });
             if (!r.ok) {
                 const d = await r.json().catch(() => ({}));
+                const message = r.status === 402
+                    ? 'Your subscription is not active. Restart your trial to add holdings.'
+                    : (d.message || `Couldn’t add ${symbol} — try again.`);
                 if (r.status === 402) note('Your subscription isn’t active — <a href="/register.html">restart your trial</a> to add holdings.');
-                else note(esc(d.message || `Couldn’t add ${symbol} — try again.`));
+                else note(esc(message));
+                finishPortfolioAction(message, { error: true, holdMs: 2200 });
                 return;
             }
             note('');
             $('add-sym').value = ''; $('add-shares').value = ''; $('add-price').value = '';
-            loadHoldings(); loadXray();
-        } catch (_) {
-            note('Network problem — the holding wasn’t added.');
-        } finally {
-            btn.disabled = false;
+            updatePortfolioAction(`${symbol} added`, 'Refreshing portfolio value, allocation and performance…');
+            resetPortfolioPerformance();
+            const refreshed = await loadHoldings();
+            if (!refreshed) throw new Error(`${symbol} was added, but the refreshed portfolio could not be loaded. Reload the page.`);
+            updatePortfolioAction('Finishing the update', 'Refreshing portfolio analysis…');
+            await Promise.allSettled([loadXray(), loadAttribution(), loadBriefing()]);
+            finishPortfolioAction(`${symbol} was added and your portfolio is up to date.`);
+        } catch (error) {
+            const message = error.message || 'Network problem — the holding wasn’t added.';
+            note(esc(message));
+            finishPortfolioAction(message, { error: true, holdMs: 2200 });
         }
     });
 
@@ -562,7 +656,12 @@
             const r = await fetch(`${API}/portfolio/briefing`, { headers: auth });
             if (!r.ok) return;
             const data = await r.json();
-            if (!data.briefing) return;
+            if (!data.briefing) {
+                $('brief-section').hidden = true;
+                $('brief-body').innerHTML = '';
+                $('brief-sub').textContent = '';
+                return;
+            }
             $('brief-body').innerHTML = markdown(data.briefing);
             const share = document.createElement('div');
             mountShare(share, { title: 'My weekly portfolio briefing', text: data.briefing, url: location.href });

@@ -3762,6 +3762,7 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             user: portfolioOwnerId(req)
         });
         await newStock.save();
+        _briefingCache.delete(String(portfolioOwnerId(req)));
         res.json(newStock);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -3775,8 +3776,9 @@ app.delete('/api/portfolio/:id', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
         const stock = await Stock.findOneAndDelete({ _id: req.params.id, user: ownerId });
-        if (!stock) return res.status(404).json({ message: 'Stock not found or unauthorized' });
-        res.status(200).json({ message: 'Stock deleted successfully' });
+        if (!stock) return res.status(404).json({ message: 'Holding not found or unauthorized' });
+        _briefingCache.delete(String(ownerId));
+        res.status(200).json({ message: 'Holding removed successfully' });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
