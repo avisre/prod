@@ -3952,7 +3952,7 @@ app.post('/appsumo/webhook', express.raw({ type: '*/*' }), async (req, res) => {
         body = text.trim().startsWith('{') ? JSON.parse(text) : Object.fromEntries(new URLSearchParams(text));
     } catch (_) { body = {}; }
     const event = body.event || 'unknown';
-    const isTest = body.test === true || body.test === 'true';
+    const isTest = body.test === true || body.test === 'true' || event === 'test';
     // Test/validation events: confirm 200 + success, never touch real data.
     if (isTest) return res.status(200).json({ event, success: true });
     if (!appsumoVerifySignature(raw, req.headers['x-appsumo-signature'], req.headers['x-appsumo-timestamp'])) {
@@ -4995,7 +4995,6 @@ if (process.env.NODE_ENV === 'production' || process.env.PREWARM === 'on') {
 }
 // Optional: nightly SEC bulk companyfacts (inert unless SEC_BULK_DIR is set).
 try { require('./companyfacts-bulk').start(); } catch (e) { console.log('[companyfacts-bulk] not started:', e && e.message); }
-
 
 
 
