@@ -1,6 +1,6 @@
 # Stock Portfolio Pro - robots.txt
 # Site:    https://stockportfolio.pro
-# Updated: 2026-05-24
+# Updated: 2026-07-24
 # Contact: avinashsreekumar007@gmail.com
 
 # ---------------------------------------------------------------------------
@@ -51,8 +51,12 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
+Disallow: /dashboard
 Disallow: /dashboard.html
+Disallow: /fundamentals
 Disallow: /fundamentals.html
+Disallow: /v1/
+Disallow: /v2/
 
 User-agent: DuckDuckBot
 Allow: /

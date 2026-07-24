@@ -1157,6 +1157,11 @@ app.use(ssrCacheMw);
 app.get('/sitemap.xml', (req, res) => {
     res.set('Content-Type', 'application/xml').send(seoPages.buildSitemap());
 });
+app.get('/sitemaps/:shard.xml', (req, res) => {
+    const xml = seoPages.buildSitemapShard(req.params.shard);
+    if (!xml) return res.status(404).type('text/plain').send('Unknown sitemap shard');
+    res.set('Content-Type', 'application/xml').send(xml);
+});
 app.get('/stocks', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
 });

@@ -71,6 +71,7 @@ const DEFAULTS = {
 // /v2, /, and the root-mounted localyze-proxy router.
 const SSR_PATTERNS = [
   /^\/sitemap\.xml$/,
+  /^\/sitemaps\/[a-z0-9-]+\.xml$/,
   /^\/stocks$/,
   /^\/stocks\/[A-Za-z0-9.\-]+$/,
   /^\/stocks\/[A-Za-z0-9.\-]+\/[a-z-]+$/,

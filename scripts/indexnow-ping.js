@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // Submit the live sitemap's URLs to IndexNow (Bing, DuckDuckGo, Yandex, Seznam,
 // Naver — and the AI engines that read Bing's index). Run after each deploy:
-//   node scripts/indexnow-ping.js            # submit every sitemap URL
-//   node scripts/indexnow-ping.js URL [URL]  # submit specific URLs only
+//   node scripts/indexnow-ping.js            # submit recently changed URLs
+//   node scripts/indexnow-ping.js --all      # submit every sitemap URL (rare)
+//   node scripts/indexnow-ping.js URL [URL]  # submit specific changed URLs
 // The key is public by design (it's served at /<key>.txt for verification).
 // Spec: https://www.indexnow.org/documentation — up to 10,000 URLs per POST.
 
@@ -39,13 +40,37 @@ function post(urlList) {
     });
 }
 
+function parseLocs(xml) {
+    return [...String(xml || '').matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+}
+function parseUrlEntries(xml) {
+    return [...String(xml || '').matchAll(/<url>\s*<loc>([^<]+)<\/loc>(?:\s*<lastmod>([^<]+)<\/lastmod>)?/g)]
+        .map((m) => ({ loc: m[1], lastmod: m[2] || null }));
+}
+async function sitemapUrls({ all = false } = {}) {
+    const root = await get(`https://${HOST}/sitemap.xml`);
+    if (root.status !== 200) throw new Error(`sitemap fetch failed: ${root.status}`);
+    const children = /<sitemapindex\b/.test(root.body) ? parseLocs(root.body) : [];
+    const docs = children.length ? await Promise.all(children.map(async (url) => {
+        const r = await get(url);
+        if (r.status !== 200) throw new Error(`child sitemap fetch failed (${r.status}): ${url}`);
+        return r.body;
+    })) : [root.body];
+    const cutoff = Date.now() - 3 * 24 * 60 * 60 * 1000;
+    return docs.flatMap(parseUrlEntries)
+        .filter((u) => all || !u.lastmod || Date.parse(u.lastmod) >= cutoff)
+        .map((u) => u.loc);
+}
+
 (async () => {
-    let urls = process.argv.slice(2);
-    if (!urls.length) {
-        const sm = await get(`https://${HOST}/sitemap.xml`);
-        if (sm.status !== 200) { console.error('sitemap fetch failed:', sm.status); process.exit(1); }
-        urls = [...sm.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-    }
+    const args = process.argv.slice(2);
+    const all = args.includes('--all');
+    let urls = args.filter((x) => x !== '--all');
+    if (!urls.length) urls = await sitemapUrls({ all });
+    urls = [...new Set(urls)].filter((u) => {
+        try { return new URL(u).hostname === HOST; } catch (_) { return false; }
+    });
+    if (!urls.length) { console.log('no recently changed URLs to submit'); return; }
     console.log(`submitting ${urls.length} URLs to IndexNow as ${HOST}`);
     for (let i = 0; i < urls.length; i += 10000) {
         const batch = urls.slice(i, i + 10000);

@@ -214,6 +214,8 @@ function nav() {
     <a href="/stocks" style="font-size:13px;font-weight:500">Stocks</a>
     <a href="/screener" style="font-size:13px;font-weight:500">Screener</a>
     <a href="/compare" style="font-size:13px;font-weight:500">Compare</a>
+    <a href="/gurus" style="font-size:13px;font-weight:500">Gurus</a>
+    <a href="/methodology" style="font-size:13px;font-weight:500">Methodology</a>
     <a href="/#pricing" style="font-size:13px;font-weight:500">Pricing</a>
     <a id="seoNavCta" class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
   </div>
@@ -651,53 +653,98 @@ function renderStockIndex() {
 </main>` + footer();
 }
 
-// ---- sitemap ----
-// Clean paths only (the server resolves them), and no URLs that robots.txt
-// disallows (/login, /register) — a sitemap pointing at blocked pages just
-// generates Search Console errors and wastes crawl budget.
-function buildSitemap() {
-    const today = new Date().toISOString().slice(0, 10);
-    const staticUrls = ['/', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap'];
-    const urls = staticUrls.map((u) => ({ loc: SITE + u, pri: u === '/' ? '1.0' : '0.7' }));
-    urls.push({ loc: `${SITE}/gurus`, pri: '0.8' }); // guru 13F portfolios — marquee feature page
-    urls.push({ loc: `${SITE}/monitor`, pri: '0.8' }); // filing change monitor — pro feature landing
-    urls.push({ loc: `${SITE}/dossier`, pri: '0.8' }); // research dossier — power/desk feature landing
-    try { // competitor comparison pages — driven by the registry, not a hardcoded list
-        require('./comparison-pages').competitors.forEach((s) => urls.push({ loc: `${SITE}/vs/${s}`, pri: '0.7' }));
-    } catch (_) { /* module unavailable */ }
-    loadCompanies().forEach((c) => urls.push({ loc: `${SITE}/stocks/${c.symbol}`, pri: '0.6' }));
-    try { // metric histories, X-vs-Y comparisons, screen landing pages (seo-extra)
-        require('./seo-extra').sitemapUrls().forEach((u) => urls.push({ loc: SITE + u.loc, pri: u.pri }));
-    } catch (_) { /* seo-extra unavailable — base sitemap still valid */ }
-    // Each product video gets its OWN dedicated watch page where the video is the
-    // single, above-the-fold main content — that is what Google needs to index a
-    // video. We declare the canonical watch page for each via the video sitemap
-    // extension: the 60-second tour on /tour, the Filing Change Monitor clip on
-    // /monitor-demo. The same clips may still appear as supplementary embeds on
-    // /features and the homepage, but those carry no VideoObject schema and are not
-    // in the sitemap, so they don't compete to be the indexed watch page.
-    // NOTE: no <video:player_loc> — Google's spec forbids player_loc == <loc>, and the
-    // watch page IS the <loc>. <video:content_loc> (the actual .mp4) is what we declare.
-    const tourVideo = `\n    <video:video>\n`
-        + `      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n`
-        + `      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n`
-        + `      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and 19 years of filed fundamentals.</video:description>\n`
-        + `      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n`
-        + `      <video:duration>53</video:duration>\n`
-        + `    </video:video>`;
-    const monitorVideo = `\n    <video:video>\n`
-        + `      <video:thumbnail_loc>${SITE}/assets/monitor-poster.jpg</video:thumbnail_loc>\n`
-        + `      <video:title>Filing Change Monitor — reading NVIDIA's latest 10-Q</video:title>\n`
-        + `      <video:description>The Filing Change Monitor reads a company's newest 10-K, 10-Q or 8-K: the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality.</video:description>\n`
-        + `      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n`
-        + `      <video:duration>18</video:duration>\n`
-        + `    </video:video>`;
-    const body = urls.map((u) => {
-        const vid = u.loc === `${SITE}/tour` ? tourVideo
-            : u.loc === `${SITE}/monitor-demo` ? monitorVideo : '';
-        return `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><changefreq>weekly</changefreq><priority>${u.pri}</priority>${vid}</url>`;
-    }).join('\n');
+// ---- sitemap index + truthful, crawl-budget-friendly shards ----
+// The old sitemap marked all 26k URLs as modified today each time it was built.
+// Bing uses lastmod to schedule crawls, so that fake freshness wasted crawl
+// capacity. Shard by page type and use the actual page/data modification date.
+const SITEMAP_CHUNK = 5000;
+const SITEMAP_TTL_MS = 30 * 60 * 1000;
+// Git checkouts stamp every bundled data file with the deploy time. Treat files
+// created during the checkout window as the known snapshot date; later nightly
+// refreshes retain their real filesystem date. This keeps deploys from falsely
+// telling crawlers that thousands of unchanged company pages changed today.
+const SITEMAP_DATA_SNAPSHOT = '2026-07-19';
+const SITEMAP_BOOT_MS = Date.now();
+let _sitemapInventoryCache = null;
+
+function isoMtime(file, fallback = '2026-07-19') {
+    try { return fs.statSync(file).mtime.toISOString().slice(0, 10); } catch (_) { return fallback; }
+}
+function isoDataMtime(file) {
+    try {
+        const modified = fs.statSync(file).mtime;
+        if (Math.abs(modified.getTime() - SITEMAP_BOOT_MS) < 60 * 60 * 1000) return SITEMAP_DATA_SNAPSHOT;
+        return modified.toISOString().slice(0, 10);
+    } catch (_) { return SITEMAP_DATA_SNAPSHOT; }
+}
+function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-07-19'; }
+function staticPageMtime(route) {
+    const names = {
+        '/': 'index.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
+        '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
+        '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html'
+    };
+    if (names[route]) return isoMtime(path.join(__dirname, '..', 'frontend-v2', names[route]));
+    if (route === '/stocks') return isoMtime(path.join(DATA, 'sp1500-companies.json'));
+    if (route === '/compare' || route.startsWith('/screens/')) return isoMtime(path.join(__dirname, 'seo-extra.js'));
+    if (route.startsWith('/vs/')) return isoMtime(path.join(__dirname, 'comparison-pages.js'));
+    return isoMtime(__filename);
+}
+function videoMarkup(route) {
+    if (route === '/tour') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and filed fundamentals.</video:description>\n      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n      <video:duration>53</video:duration>\n    </video:video>`;
+    if (route === '/monitor-demo') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/monitor-poster.jpg</video:thumbnail_loc>\n      <video:title>Filing Change Monitor — reading NVIDIA's latest 10-Q</video:title>\n      <video:description>The Filing Change Monitor reads what changed in a company's newest filing and links the evidence.</video:description>\n      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n      <video:duration>18</video:duration>\n    </video:video>`;
+    return '';
+}
+
+function buildSitemapInventory() {
+    if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
+    const coreRoutes = ['/', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier'];
+    try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
+    const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
+    const mtimes = new Map();
+    const tickerMtime = (sym) => {
+        const key = String(sym || '').toUpperCase();
+        if (!mtimes.has(key)) mtimes.set(key, isoDataMtime(symbolToFile(key)));
+        return mtimes.get(key);
+    };
+    const stocks = loadCompanies().map((c) => ({ loc: `${SITE}/stocks/${c.symbol}`, lastmod: tickerMtime(c.symbol) }));
+    const metrics = [], compares = [], screens = [];
+    try {
+        require('./seo-extra').sitemapUrls().forEach((u) => {
+            const route = u.loc;
+            let m = route.match(/^\/stocks\/([^/]+)\//);
+            if (m) return metrics.push({ loc: SITE + route, lastmod: tickerMtime(m[1]) });
+            m = route.match(/^\/compare\/([A-Z0-9.\-]+)-vs-([A-Z0-9.\-]+)$/i);
+            if (m) return compares.push({ loc: SITE + route, lastmod: maxDate(tickerMtime(m[1]), tickerMtime(m[2])) });
+            screens.push({ loc: SITE + route, lastmod: staticPageMtime(route) });
+        });
+    } catch (_) {}
+    core.push(...screens);
+    const shards = {};
+    const addChunks = (prefix, entries) => {
+        for (let i = 0; i < entries.length; i += SITEMAP_CHUNK) shards[`${prefix}-${Math.floor(i / SITEMAP_CHUNK) + 1}`] = entries.slice(i, i + SITEMAP_CHUNK);
+    };
+    shards.core = core;
+    addChunks('stocks', stocks);
+    addChunks('metrics', metrics);
+    addChunks('comparisons', compares);
+    _sitemapInventoryCache = { at: Date.now(), shards };
+    return shards;
+}
+
+function buildSitemapShard(name) {
+    const entries = buildSitemapInventory()[String(name || '')];
+    if (!entries) return null;
+    const body = entries.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod>${u.video || ''}</url>`).join('\n');
     return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">\n${body}\n</urlset>\n`;
+}
+
+function buildSitemap() {
+    const body = Object.entries(buildSitemapInventory()).map(([name, entries]) => {
+        const lastmod = entries.reduce((latest, u) => maxDate(latest, u.lastmod), '');
+        return `  <sitemap><loc>${SITE}/sitemaps/${name}.xml</loc><lastmod>${lastmod}</lastmod></sitemap>`;
+    }).join('\n');
+    return `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</sitemapindex>\n`;
 }
 
 // ---- helpers for the interactive company page's dynamic <head> ----
@@ -787,7 +834,7 @@ function renderEditorialPolicy() {
 }
 
 module.exports = {
-    renderStockPage, renderStockIndex, buildSitemap, loadCompanies, companyName, hasStockPage,
+    renderStockPage, renderStockIndex, buildSitemap, buildSitemapShard, loadCompanies, companyName, hasStockPage,
     renderMethodology, renderEditorialPolicy,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
     loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer
