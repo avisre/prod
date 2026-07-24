@@ -17,6 +17,7 @@ const insights = require('./insights');
 const segments = require('./segments');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
+const DOSSIER_SCHEMA_VERSION = 3;
 const analysis = require('./dossier-analysis');
 const governance = require('./governance');
 const esgMod = require('./esg');
@@ -144,8 +145,9 @@ async function edgeSection(forensic) {
 
 const SUMMARY_SYSTEM = [
     'You write the one-paragraph executive summary at the top of an equity research dossier, from the supplied facts digest.',
-    'STRICT GROUNDING: use ONLY numbers and facts present in the digest. Never compute, estimate, or add outside knowledge. 3-5 sentences.',
-    'Cover what the business is, how it has performed, and what the price assumes — neutrally. No buy/sell language, no advice, no exclamation marks.'
+    'STRICT GROUNDING: use ONLY numbers and facts present in the digest. Never compute, estimate, or add outside knowledge. Write 4-6 compact sentences.',
+    'Build an evidence-led argument, not a generic company description: quantify the multi-year operating trajectory, compare at least one company metric with its peer median when supplied, state what the current valuation implies versus the historical record, and finish with the most important unresolved tension or limitation in the supplied facts.',
+    'Do not use empty adjectives such as strong, solid, attractive, compelling, significant, healthy or concerning unless the same clause contains the exact evidence that earns the word. Do not merely list metrics; explain the relationship between them. No buy/sell language, no advice, no exclamation marks.'
 ].join('\n');
 
 const BULLBEAR_SYSTEM = [
@@ -204,7 +206,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     if (!force) {
         try {
             const hit = await col.findOne({ symbol: sym, fyEnd }, { projection: { _id: 0 } });
-            if (hit && hit.payload) return { ...hit.payload, cached: true };
+            if (hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION) return { ...hit.payload, cached: true };
         } catch (_) { /* cache best-effort */ }
     }
 
@@ -255,6 +257,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
 
     const mc = num(overview.MarketCapitalization);
     const payload = {
+        schemaVersion: DOSSIER_SCHEMA_VERSION,
         symbol: sym,
         name: overview.Name || sym,
         sector: overview.Sector || '',
@@ -296,11 +299,19 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         recentChanges: monitor ? {
             summary: monitor.summary,
             materiality: monitor.materiality,
+            materialityBreakdown: monitor.materialityBreakdown || null,
             bucket: monitor.materialityBucket,
             headline: monitor.narrative ? monitor.narrative.headline : null,
             tone: monitor.narrative ? monitor.narrative.tone : null,
-            deltas: monitor.deltas ? monitor.deltas.slice(0, 6) : [],
-            filing: monitor.periodic || monitor.latestFiling || null
+            changes: monitor.narrative && monitor.narrative.changes ? monitor.narrative.changes : [],
+            comparison: monitor.narrative ? { latest: monitor.narrative.latest, prev: monitor.narrative.prev } : null,
+            deltas: monitor.deltas || [],
+            reportedPeriod: monitor.reportedPeriod || null,
+            priorPeriod: monitor.priorPeriod || null,
+            currency: monitor.currency || null,
+            filing: monitor.periodic || monitor.latestFiling || null,
+            latestEvent: monitor.latestFiling && monitor.periodic && (monitor.latestFiling.form !== monitor.periodic.form || monitor.latestFiling.date !== monitor.periodic.date)
+                ? monitor.latestFiling : null
         } : null,
         sources: {
             filings: 'SEC EDGAR 10-K/10-Q (statements, segments, risk language)',
@@ -324,7 +335,7 @@ async function peekDossier(symbol) {
         const pack = insights.buildFactPack(sym);
         const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
         const hit = await dossierCol().findOne({ symbol: sym, fyEnd }, { projection: { _id: 0 } });
-        return hit && hit.payload ? { ...hit.payload, cached: true } : null;
+        return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION ? { ...hit.payload, cached: true } : null;
     } catch (_) { return null; }
 }
 

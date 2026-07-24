@@ -6,35 +6,18 @@
   const auth = () => (token() ? { Authorization: 'Bearer ' + token() } : {});
   const $ = (id) => document.getElementById(id);
 
-  function fundPct(value, digits = 2) {
-    const n = Number(value);
-    return Number.isFinite(n) ? `${(n * 100).toFixed(digits)}%` : '—';
-  }
-
-  function renderFundSnapshot(rep) {
+  function renderFundRedirect(rep) {
     const out = $('mon-report');
     const p = rep.profile || {};
-    const returns = p.returns || {};
-    const facts = [
-      ['Category', p.category || '—'],
-      ['Fund family', p.fundFamily || '—'],
-      ['Expense ratio', fundPct(p.expenseRatio)],
-      ['Yield', fundPct(p.yield)],
-      ['YTD return', fundPct(p.ytdReturn)],
-      ['1-year return', fundPct(returns.oneYear)],
-      ['3-year return', fundPct(returns.threeYear)]
-    ];
-    const holdings = (p.topHoldings || []).slice(0, 5).map((h) => `${h.symbol || h.name}${Number.isFinite(Number(h.weight)) ? ` (${fundPct(h.weight)})` : ''}`).join(', ');
     out.innerHTML = `<div class="card card-pad mon-card">
-      <div class="mon-card-hd"><div><span class="label">${esc(rep.symbol)} · ${esc(rep.assetTypeLabel || 'Fund')}</span><h2 class="title-2" style="margin:4px 0 0;">AI fund research snapshot</h2><p class="small faint" style="margin:4px 0 0;">Updated ${esc((rep.latestFiling && rep.latestFiling.date) || '')}</p></div></div>
-      <div class="mon-summary"><span class="mon-summary-badge">Costs, composition, performance and risk</span><div class="prose">${markdown(rep.summary || '')}</div></div>
-      <div class="mon-section"><h3 class="title-3">Fund facts</h3><div class="fund-grid">${facts.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div></div>
-      ${holdings ? `<div class="mon-section"><h3 class="title-3">Largest reported holdings</h3><p>${esc(holdings)}</p></div>` : ''}
-      <p class="small faint mon-note">${esc(rep.note || '')}</p>
+      <span class="label">${esc(rep.symbol)} · ${esc(rep.assetTypeLabel || 'Fund')}</span>
+      <h2 class="title-2" style="margin:8px 0;">This instrument does not file 10-K or 10-Q reports</h2>
+      <p class="muted" style="max-width:62ch;">Filing Monitor is intentionally SEC-only. Use the fund workspace for costs, holdings and performance, or Ask for a source-aware comparison.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;">
+        <a class="btn btn-primary" href="/company.html?symbol=${encodeURIComponent(rep.symbol)}">Open fund workspace</a>
+        <a class="btn btn-ghost" href="/ask.html?q=${encodeURIComponent(`Research ${rep.symbol}`)}">Ask about ${esc(rep.symbol)}</a>
+      </div>
     </div>`;
-    const share = document.createElement('div');
-    mountShare(share, { title: `${rep.name || rep.symbol} (${rep.symbol}) fund snapshot`, text: rep.summary || '' });
-    out.querySelector('.mon-card').appendChild(share);
     out.hidden = false;
   }
 
@@ -44,78 +27,209 @@
     return `<span class="mon-chip ${cls}">${label} · ${esc(String(score))}</span>`;
   }
 
-  function statCard(d) {
-    const dir = d.direction === 'up' ? 'mon-up' : d.direction === 'down' ? 'mon-down' : 'mon-flat';
-    return `<div class="mon-stat">
-      <div class="mon-stat-label">${esc(d.label)}</div>
-      <div class="mon-stat-val">${esc(d.latest)}</div>
-      <div class="mon-stat-delta ${dir}">${esc(d.change)} YoY</div>
-      <div class="mon-stat-prior">from ${esc(d.prior)}</div>
+  const TONE = { improving: ['Improving', 'mon-tone-up'], deteriorating: ['Deteriorating', 'mon-tone-down'], stable: ['Stable', 'mon-tone-flat'] };
+
+  function deltaNumber(d) {
+    const n = parseFloat(String((d && d.change) || '').replace(/[^0-9+\-.]/g, ''));
+    return Number.isFinite(n) ? n : 0;
+  }
+
+  function displayNumber(value) {
+    const s = String(value == null ? '' : value).replace(/,/g, '').trim();
+    const m = s.match(/[-+]?\d*\.?\d+/);
+    if (!m) return 0;
+    let n = Number(m[0]);
+    if (!Number.isFinite(n)) return 0;
+    if (/\bT\b/i.test(s) || /\dT(?:\s|$)/i.test(s)) n *= 1e12;
+    else if (/\bB\b/i.test(s) || /\dB(?:\s|$)/i.test(s)) n *= 1e9;
+    else if (/\bM\b/i.test(s) || /\dM(?:\s|$)/i.test(s)) n *= 1e6;
+    else if (/\bK\b/i.test(s) || /\dK(?:\s|$)/i.test(s)) n *= 1e3;
+    return n;
+  }
+
+  function metricBars(d) {
+    const prior = displayNumber(d.prior), latest = displayNumber(d.latest);
+    const max = Math.max(Math.abs(prior), Math.abs(latest), 1);
+    const row = (label, shown, value, latestRow) => `<div class="mon-bar-line ${latestRow ? 'is-latest' : ''} ${value < 0 ? 'is-negative' : ''}">
+      <span>${label}</span><span class="mon-metric-track"><i class="mon-metric-fill" style="width:${Math.max(3, Math.abs(value) / max * 100).toFixed(1)}%"></i></span><b>${esc(shown)}</b>
+    </div>`;
+    return `<div class="mon-bar-pair">${row('Prior', d.prior, prior, false)}${row('Latest', d.latest, latest, true)}</div>`;
+  }
+
+  function deltaRows(deltas) {
+    return (deltas || []).map((d) => {
+      const dir = d.direction === 'up' ? 'mon-up' : d.direction === 'down' ? 'mon-down' : 'mon-flat';
+      return `<div class="mon-delta-row">
+        <div class="mon-delta-head"><strong>${esc(d.label)}</strong><span class="${dir}">${esc(d.change)}</span></div>
+        ${metricBars(d)}
+      </div>`;
+    }).join('');
+  }
+
+  function numericReadings(deltas) {
+    const all = deltas || [];
+    if (!all.length) return '<li data-n="01">No comparable filed-period figures were available.</li>';
+    const find = (label) => all.find((d) => d.label === label);
+    const rev = find('Revenue'), opm = find('Operating margin'), nm = find('Net margin');
+    const ni = find('Net income'), fcf = find('Free cash flow'), eps = find('Diluted EPS');
+    const lines = [];
+    if (rev && opm) {
+      const bothUp = rev.direction === 'up' && opm.direction === 'up';
+      const tension = rev.direction === 'up' && opm.direction === 'down';
+      lines.push(`${bothUp ? '<strong>Operating leverage improved:</strong>' : tension ? '<strong>Growth and profitability diverged:</strong>' : '<strong>Revenue and margin moved together:</strong>'} revenue went from ${esc(rev.prior)} to ${esc(rev.latest)} (${esc(rev.change)}), while operating margin went from ${esc(opm.prior)} to ${esc(opm.latest)} (${esc(opm.change)}).`);
+    } else if (rev) lines.push(`<strong>Revenue</strong> moved from ${esc(rev.prior)} to ${esc(rev.latest)} (${esc(rev.change)}).`);
+    if (ni && fcf) {
+      const same = ni.direction === fcf.direction;
+      lines.push(`${same ? '<strong>Earnings and cash confirmed each other:</strong>' : '<strong>Earnings and cash diverged:</strong>'} net income moved from ${esc(ni.prior)} to ${esc(ni.latest)} (${esc(ni.change)}), while free cash flow moved from ${esc(fcf.prior)} to ${esc(fcf.latest)} (${esc(fcf.change)}).`);
+    }
+    if (eps) lines.push(`<strong>Per-share earnings</strong> moved from ${esc(eps.prior)} to ${esc(eps.latest)} (${esc(eps.change)}); compare that direction with net income to detect whether share-count changes affected the per-share result.`);
+    if (nm && opm && nm.direction !== opm.direction) lines.push(`<strong>Margin quality needs explanation:</strong> operating margin changed ${esc(opm.change)}, but net margin changed ${esc(nm.change)}, pointing to factors below operating income.`);
+    const largest = all.slice().sort((a, b) => Math.abs(deltaNumber(b)) - Math.abs(deltaNumber(a)))[0];
+    if (largest) lines.push(`<strong>Base-effect caution:</strong> ${esc(largest.label)} has the largest percentage or point move (${esc(largest.change)}), measured from ${esc(largest.prior)}; the absolute starting base matters when judging its persistence.`);
+    return lines.slice(0, 4).map((line, i) => `<li data-n="${String(i + 1).padStart(2, '0')}">${line}</li>`).join('');
+  }
+
+  function materialityHtml(rep) {
+    const b = rep.materialityBreakdown || {};
+    const rows = [
+      ['Numbers', Number(b.numbers || 0)],
+      ['Language', Number(b.language || 0)],
+      ['Risk', Number(b.risk || 0)]
+    ];
+    return `<div class="mon-materiality-layout">
+      <div class="mon-score-ring" style="--score:${Math.max(0, Math.min(100, Number(rep.materiality || 0)))}"><div><strong>${esc(String(rep.materiality || 0))}</strong><span>out of 100</span></div></div>
+      <div class="mon-score-breakdown">${rows.map(([label, value]) => `<div class="mon-score-line"><span>${label}</span><span class="mon-score-track"><i style="width:${Math.max(2, Math.min(100, value))}%"></i></span><b>${value}</b></div>`).join('')}
+        <span class="small faint">${chip(rep.materialityBucket, rep.materiality)}</span>
+      </div>
     </div>`;
   }
 
-  const TONE = { improving: ['Improving', 'mon-tone-up'], deteriorating: ['Deteriorating', 'mon-tone-down'], stable: ['Stable', 'mon-tone-flat'] };
-
-  function changeRow(c) {
-    return `<div class="mon-change">
-      <div class="mon-change-area">${esc(c.area)}</div>
-      <div class="mon-change-what">${esc(c.what)}</div>
-      ${c.quote ? `<blockquote class="mon-quote">${esc(c.quote)}</blockquote>` : ''}
+  function filingEvidenceHtml(narr) {
+    const changes = (narr && narr.changes) || [];
+    if (!changes.length) return '';
+    const quotes = changes.map((c) => {
+      const paired = c.evidenceVerified && c.priorQuote && c.newQuote;
+      return `<div class="mon-language-item">
+        <div class="mon-language-area"><strong>${esc(c.area)}</strong>${paired ? '<span class="mon-verified">Verified passages</span>' : ''}</div>
+        ${paired ? `<div class="mon-quote-pair">
+          <div class="mon-quote-side"><b>Prior filing</b><q>${esc(c.priorQuote)}</q></div>
+          <span class="mon-quote-sep" aria-hidden="true">→</span>
+          <div class="mon-quote-side"><b>New filing</b><q>${esc(c.newQuote)}</q></div>
+        </div>` : '<div class="mon-no-quote">No verified before-and-after passage is available for this item. The difference summary is shown without a quotation.</div>'}
+      </div>`;
+    }).join('');
+    const explanations = changes.map((c) => `<div class="mon-explain-item"><strong>${esc(c.area)}</strong><p>${esc(c.what)}</p></div>`).join('');
+    return `<div class="mon-evidence-block">
+      <div class="mon-evidence-title"><div><span class="mon-section-label">Narrative evidence</span><h3>What management changed in the filing</h3></div>${TONE[narr.tone] ? `<span class="mon-tone ${TONE[narr.tone][1]}">${TONE[narr.tone][0]}</span>` : ''}</div>
+      ${narr.headline ? `<p class="mon-headline">${esc(narr.headline)}</p>` : ''}
+      <div class="mon-evidence-grid">
+        <section><span class="mon-section-label">Before → after · SEC text</span><div class="mon-language-list">${quotes}</div></section>
+        <section><span class="mon-section-label">What the difference means</span><div class="mon-change-explain">${explanations}</div></section>
+      </div>
+      ${narr.latest && narr.prev ? `<p class="small faint" style="margin-top:12px;">Compared <a href="${esc(narr.latest.url)}" target="_blank" rel="noopener">new ${esc(narr.latest.form)} (${esc(narr.latest.date)})</a> against <a href="${esc(narr.prev.url)}" target="_blank" rel="noopener">prior ${esc(narr.prev.form)} (${esc(narr.prev.date)})</a>. Only source-verified quotation pairs are displayed.</p>` : ''}
     </div>`;
+  }
+
+  function researchProse(text) {
+    const raw = String(text || '').trim();
+    if (!raw) return '';
+    if (/\n|^[-*#]/m.test(raw)) return markdown(raw);
+    const sentences = raw.split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean);
+    return sentences.map((sentence) => `<p>${esc(sentence)}</p>`).join('');
+  }
+
+  // Turn a filing read into a concrete research workflow. These are investigation
+  // steps, not trading instructions: the user gets the signal, the next question
+  // and the exact filed metric to watch on the next report.
+  function workflowHtml(rep) {
+    const changes = (rep.narrative && rep.narrative.changes) || [];
+    const deltas = (rep.deltas || []).slice().sort((a, b) => Math.abs(deltaNumber(b)) - Math.abs(deltaNumber(a)));
+    const strongest = deltas[0];
+    const tone = (rep.narrative && rep.narrative.tone) || 'stable';
+    const questions = [];
+    if (changes[0]) questions.push(`What evidence supports the change in ${changes[0].area || 'management’s outlook'}, and what could reverse it?`);
+    if (changes[1]) questions.push(`How material is the ${changes[1].area || 'filing'} change compared with the prior filing?`);
+    if (strongest) questions.push(`Is the ${strongest.label.toLowerCase()} move durable, seasonal, or driven by a one-off item?`);
+    const revenue = deltas.find((d) => d.label === 'Revenue');
+    if (revenue) questions.push(`What drove revenue to ${revenue.latest}, and did growth come with better or worse cash conversion?`);
+    questions.push(`What would disprove the current ${tone} read in the next filing?`);
+    const unique = [...new Set(questions)].slice(0, 3);
+    const watches = deltas.slice(0, 3).map((d) => {
+      const verb = d.direction === 'up' ? 'holds or accelerates' : d.direction === 'down' ? 'stabilises or reverses' : 'moves materially';
+      return `<li><strong>${esc(d.label)}</strong><span>Now ${esc(d.latest)} (${esc(d.change)} YoY). Check whether it ${verb} in the next comparable period.</span></li>`;
+    }).join('');
+    const queryButtons = unique.map((q) => `<a class="mon-question" href="/ask.html?q=${encodeURIComponent(`${rep.symbol}: ${q}`)}"><span>${esc(q)}</span><b>Ask →</b></a>`).join('');
+    return `<section class="mon-workflow">
+      <div class="mon-section-hd"><div><span class="mon-kicker">Investor workflow</span><h3>Turn this filing into your next three checks</h3></div><span class="small faint">Questions are pre-filled in Ask</span></div>
+      <div class="mon-workflow-grid">
+        <div class="mon-workflow-block"><h4>Investigate now</h4><div class="mon-questions">${queryButtons}</div></div>
+        <div class="mon-workflow-block"><h4>Watch next quarter</h4><ol class="mon-watch-list">${watches || '<li><span>No comparable quarterly deltas were available. Track the narrative changes instead.</span></li>'}</ol></div>
+      </div>
+    </section>`;
   }
 
   function renderReport(rep) {
-    if (rep && rep.isFund) { renderFundSnapshot(rep); return; }
+    if (rep && rep.isFund) { renderFundRedirect(rep); return; }
     const out = $('mon-report');
-    const filing = rep.latestFiling || {};
-    const deltas = (rep.deltas || []).map(statCard).join('');
+    const filing = rep.periodic || rep.latestFiling || {};
+    const latest = rep.latestFiling || {};
+    const deltas = rep.deltas || [];
     const narr = rep.narrative;
-    let narrHtml = '';
-    if (narr) {
-      const tone = TONE[narr.tone] || null;
-      narrHtml = `
-        <div class="mon-section">
-          <div class="mon-section-hd">
-            <h3 class="title-3">What changed in the filing</h3>
-            ${tone ? `<span class="mon-tone ${tone[1]}">${tone[0]}</span>` : ''}
-          </div>
-          ${narr.headline ? `<p class="mon-headline">${esc(narr.headline)}</p>` : ''}
-          <div class="mon-changes">${(narr.changes || []).map(changeRow).join('')}</div>
-          ${narr.latest && narr.prev ? `<p class="small faint" style="margin-top:12px;">Compared <a href="${esc(narr.latest.url)}" target="_blank" rel="noopener">new ${esc(narr.latest.form)} (${esc(narr.latest.date)})</a> against <a href="${esc(narr.prev.url)}" target="_blank" rel="noopener">prior ${esc(narr.prev.form)} (${esc(narr.prev.date)})</a>.</p>` : ''}
-        </div>`;
-    } else if (rep.narrativeNote) {
-      narrHtml = `<div class="mon-section"><p class="small faint">${esc(rep.narrativeNote)}</p></div>`;
-    }
+    const comparisonText = narr && narr.latest && narr.prev
+      ? `${narr.latest.form} ${narr.latest.date} vs ${narr.prev.form} ${narr.prev.date}`
+      : `${filing.form || 'filing'} filed ${filing.date || ''}`;
+    const hasSeparateEvent = latest.url && filing.url && (latest.form !== filing.form || latest.date !== filing.date);
 
     out.innerHTML = `
-      <div class="card card-pad mon-card">
+      <div class="card card-pad mon-card mon-card-v2">
         <div class="mon-card-hd">
           <div>
-            <span class="label">${esc(rep.symbol)}</span>
-            <h2 class="title-2" style="margin:4px 0 0;">${esc(filing.label || 'Latest filing')}</h2>
-            <p class="small faint" style="margin:4px 0 0;">Filed ${esc(filing.date || '')}${filing.url ? ` · <a href="${esc(filing.url)}" target="_blank" rel="noopener">on SEC EDGAR ↗</a>` : ''}</p>
+            <span class="label">${esc(rep.symbol)} · Filing Change Monitor</span>
+            <h2 class="title-2" style="margin:5px 0 0;">What changed in the ${esc(filing.label || filing.form || 'latest comparable filing')}</h2>
+            <div class="mon-report-meta"><span class="mon-comparison-badge">Comparing ${esc(comparisonText)}</span><span>Figures: ${esc(rep.reportedPeriod || 'latest period')} vs ${esc(rep.priorPeriod || 'comparable prior period')}</span></div>
           </div>
-          ${chip(rep.materialityBucket, rep.materiality)}
+          ${filing.url ? `<a class="btn btn-ghost btn-sm" href="${esc(filing.url)}" target="_blank" rel="noopener">Open comparison filing ↗</a>` : ''}
         </div>
 
-        <div class="mon-summary">
-          <span class="mon-summary-badge">What changed &amp; why it matters</span>
-          <div class="prose">${markdown(rep.summary || '')}</div>
+        <div class="mon-decision-grid">
+          <section><span class="mon-section-label">Materiality</span>${materialityHtml(rep)}</section>
+          <section><span class="mon-section-label">The 30-second read</span><div class="prose mon-brief-copy">${researchProse(rep.summary || '')}</div></section>
         </div>
 
-        ${deltas ? `<div class="mon-section">
-          <h3 class="title-3">By the numbers <span class="small faint" style="font-weight:400;">· ${esc(rep.reportedPeriod || '')} vs the year-ago quarter</span></h3>
-          <div class="mon-grid">${deltas}</div>
+        ${deltas.length ? `<div class="mon-evidence-block">
+          <div class="mon-evidence-title"><div><span class="mon-section-label">Filed numbers</span><h3>Before and after, on comparable periods</h3></div><span class="small faint">${esc(rep.currency || '')} · no model arithmetic</span></div>
+          <div class="mon-evidence-grid">
+            <section><span class="mon-section-label">Prior → latest</span><div class="mon-delta-list">${deltaRows(deltas)}</div></section>
+            <section><span class="mon-section-label">What moved most</span><ol class="mon-reading-list">${numericReadings(deltas)}</ol></section>
+          </div>
         </div>` : ''}
 
-        ${narrHtml}
+        ${narr ? filingEvidenceHtml(narr) : rep.narrativeNote ? `<div class="mon-section"><p class="small faint">${esc(rep.narrativeNote)}</p></div>` : ''}
+        ${hasSeparateEvent ? `<div class="mon-event-strip"><div><strong>Newer event filing kept separate</strong><p>${esc(latest.label || latest.form)} filed ${esc(latest.date)} is newer than the periodic comparison above; it is not being presented as the same analysis.</p></div><a class="btn btn-ghost btn-sm" href="${esc(latest.url)}" target="_blank" rel="noopener">Open ${esc(latest.form)} ↗</a></div>` : ''}
+        ${workflowHtml(rep)}
 
+        <div class="mon-next-actions">
+          <button class="btn btn-primary btn-sm" type="button" id="mon-track">Track ${esc(rep.symbol)}</button>
+          <a class="btn btn-ghost btn-sm" href="/dossier.html?symbol=${encodeURIComponent(rep.symbol)}#dos-thesis">Build &amp; grade my thesis</a>
+          <a class="btn btn-ghost btn-sm" href="/company.html?symbol=${encodeURIComponent(rep.symbol)}#statements-section">Open financial record</a>
+          ${filing.url ? `<a class="btn btn-ghost btn-sm" href="${esc(filing.url)}" target="_blank" rel="noopener">Open SEC filing ↗</a>` : ''}
+        </div>
         <p class="small faint mon-note">${esc(rep.note || '')}</p>
       </div>`;
     const share = document.createElement('div');
     mountShare(share, { title: `${rep.symbol} filing change brief`, text: [rep.summary, narr && narr.headline].filter(Boolean).join('\n\n') });
     const card = out.querySelector('.mon-card');
     if (card) card.appendChild(share);
+    const track = $('mon-track');
+    if (track) track.addEventListener('click', async () => {
+      if (!token()) { location.href = `/login.html?next=${encodeURIComponent(location.pathname + location.search)}`; return; }
+      track.disabled = true; track.textContent = 'Adding to watchlist…';
+      try {
+        const r = await fetch(`${API}/watchlist/${encodeURIComponent(rep.symbol)}`, { method: 'POST', headers: auth() });
+        track.textContent = r.ok ? `✓ Tracking ${rep.symbol}` : 'Could not add — try again';
+      } catch (_) { track.textContent = 'Could not add — try again'; }
+      finally { track.disabled = false; }
+    });
     out.hidden = false;
   }
 
@@ -297,10 +411,8 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  // Ticker autocomplete on the monitor input — stocks open a filing-change
-  // report; ETFs and mutual funds open a fund research snapshot.
-  // search and portfolio add-form use. A wrong/foreign symbol no longer
-  // dead-ends: you pick a valid ticker from the list (and it analyzes at once).
+  // Ticker autocomplete on the monitor input is deliberately stock-only.
+  // Fund research remains available in Ask and the instrument workspace.
   function wireAutocomplete() {
     const input = $('mon-input');
     if (!input || !searchAssets) return;
@@ -325,7 +437,10 @@
     input.addEventListener('input', async () => {
       const q = input.value.trim().toUpperCase();
       if (q.length < 1) { box.hidden = true; return; }
-      items = await searchAssets(q, { limit: 8 }); active = -1; render();
+      items = (await searchAssets(q, { limit: 16 }))
+        .filter((item) => !item.assetType || item.assetType === 'stock')
+        .slice(0, 8);
+      active = -1; render();
     });
     input.addEventListener('keydown', (e) => {
       if (box.hidden) return;

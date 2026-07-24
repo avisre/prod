@@ -67,29 +67,16 @@
   const TONE = { improving: 'pos', deteriorating: 'neg', stable: '' };
   function snapRow(k, v) { return v == null || v === '' || v === 'None' ? '' : `<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`; }
 
-  function renderFundDossier(out, d, sym) {
-    const p = d.profile || {};
-    const ret = p.returns || {};
-    const pct = (v, digits = 2) => Number.isFinite(Number(v)) ? `${(Number(v) * 100).toFixed(digits)}%` : '—';
-    const facts = [
-      ['Category', p.category || '—'], ['Fund family', p.fundFamily || '—'],
-      ['Net assets', Number.isFinite(Number(p.totalAssets)) ? '$' + money(Number(p.totalAssets)) : '—'],
-      ['Expense ratio', pct(p.expenseRatio)], ['Yield', pct(p.yield)],
-      ['YTD return', pct(p.ytdReturn)], ['1-year return', pct(ret.oneYear)],
-      ['3-year return', pct(ret.threeYear)], ['5-year return', pct(ret.fiveYear)],
-      ['Turnover', pct(p.turnover)]
-    ];
-    const holdings = (p.topHoldings || []).map((h) => `<tr><td><strong>${esc(h.symbol || '—')}</strong></td><td>${esc(h.name || '')}</td><td>${pct(h.weight)}</td></tr>`).join('');
-    out.innerHTML = `<article class="dos-paper">
-      <div class="dos-hero"><span class="label">${esc(d.assetTypeLabel || 'Fund')} research dossier</span><h1>${esc(d.name || sym)} <span class="faint">${esc(sym)}</span></h1><p class="small faint">Generated ${esc(String(d.generatedAt || '').slice(0, 10))} · ${esc(p.source || 'fund market data')}</p></div>
-      <div class="dos-sec"><h2>Executive summary</h2><div class="prose">${markdown(d.executiveSummary || '')}</div></div>
-      <div class="dos-sec"><h2>Fund facts</h2><div class="fund-grid">${facts.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div></div>
-      ${holdings ? `<div class="dos-sec"><h2>Largest reported holdings</h2><div class="table-wrap"><table class="table-data"><thead><tr><th>Symbol</th><th>Holding</th><th>Weight</th></tr></thead><tbody>${holdings}</tbody></table></div></div>` : ''}
-      <p class="provenance">A fund dossier uses fund market data, not operating-company SEC financial statements. Holdings and characteristics can be reported on different dates; returns are historical, not forecasts.</p>
-    </article>`;
-    const share = document.createElement('div');
-    mountShare(share, { title: `${d.name || sym} (${sym}) fund research dossier`, text: d.executiveSummary || '' });
-    out.querySelector('.dos-paper').appendChild(share);
+  function renderFundRedirect(out, d, sym) {
+    out.innerHTML = `<div class="card card-pad">
+      <span class="label">${esc(sym)} · ${esc(d.assetTypeLabel || 'Fund')}</span>
+      <h2 class="title-2" style="margin:8px 0;">Use the fund research workspace</h2>
+      <p class="muted" style="max-width:62ch;">AI Analyst is deliberately SEC-only and does not apply operating-company analysis to pooled funds. The fund workspace covers fees, holdings, allocation, performance and risk with provider-labelled data.</p>
+      <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:18px;">
+        <a class="btn btn-primary" href="/company.html?symbol=${encodeURIComponent(sym)}">Open fund workspace</a>
+        <a class="btn btn-ghost" href="/ask.html?q=${encodeURIComponent(`Research ${sym}`)}">Ask about ${esc(sym)}</a>
+      </div>
+    </div>`;
     out.hidden = false;
   }
 
@@ -99,48 +86,143 @@
     const pts = rows.map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
     if (pts.length < 2) return '';
     const max = Math.max(...pts.map((p) => Math.abs(p.v))) || 1;
-    const W = 100, H = 46, n = pts.length, bw = (W / n) * 0.62, gap = (W / n) * 0.38;
+    const W = 420, H = 160, top = 24, bottom = 28, n = pts.length, plotH = H - top - bottom;
+    const slot = W / n, bw = Math.min(32, slot * .58);
+    const grid = [0, .5, 1].map((t) => `<line x1="0" y1="${top + plotH * t}" x2="${W}" y2="${top + plotH * t}" stroke="${C.faint}" stroke-width="1"/>`).join('');
     const bars = pts.map((p, i) => {
-      const h = Math.max(1, (Math.abs(p.v) / max) * (H - 14));
-      const x = i * (W / n) + gap / 2;
-      return `<rect x="${x.toFixed(1)}" y="${(H - 10 - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${color}" rx="0.5"><title>${esc(p.fy)}: ${esc(fmt(p.v))}</title></rect>`;
+      const h = Math.max(2, (Math.abs(p.v) / max) * plotH);
+      const x = i * slot + (slot - bw) / 2;
+      return `<rect x="${x.toFixed(1)}" y="${(top + plotH - h).toFixed(1)}" width="${bw.toFixed(1)}" height="${h.toFixed(1)}" fill="${color}" rx="2"><title>${esc(p.fy)}: ${esc(fmt(p.v))}</title></rect>`;
     }).join('');
-    const labs = `<text x="0" y="${H}" font-size="4" fill="${C.grey}">${esc(pts[0].fy)}</text><text x="${W}" y="${H}" font-size="4" fill="${C.grey}" text-anchor="end">${esc(pts[pts.length - 1].fy)}</text>`;
-    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:90px;display:block">${bars}${labs}</svg>`;
+    const labs = pts.map((p, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 6}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(p.fy.slice(-2))}</text>`).join('');
+    const latest = pts[pts.length - 1];
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(pts[0].fy)} to ${esc(latest.fy)} trend" style="width:100%;height:160px;display:block">${grid}${bars}${labs}<text x="${W - 4}" y="14" font-size="11" font-weight="650" fill="${C.ink}" text-anchor="end">${esc(fmt(latest.v))}</text></svg>`;
   }
-  function chartLines(rows, series) {
-    const fys = rows.map((r) => r.fy);
-    const all = series.flatMap((s) => rows.map((r) => r[s.key]).filter((v) => v !== null && v !== undefined));
-    if (all.length < 2) return '';
-    const min = Math.min(...all), max = Math.max(...all), span = (max - min) || 1;
-    const W = 100, H = 46, n = rows.length;
-    const x = (i) => (n <= 1 ? 0 : (i / (n - 1)) * W);
-    const y = (v) => H - 10 - ((v - min) / span) * (H - 14);
-    const lines = series.map((s) => {
-      const pts = rows.map((r, i) => ({ i, v: r[s.key] })).filter((p) => p.v !== null && p.v !== undefined);
-      if (pts.length < 2) return '';
-      const d = pts.map((p, k) => `${k ? 'L' : 'M'}${x(p.i).toFixed(1)} ${y(p.v).toFixed(1)}`).join(' ');
-      return `<path d="${d}" fill="none" stroke="${s.color}" stroke-width="1.2"/>`;
-    }).join('');
-    const labs = `<text x="0" y="${H}" font-size="4" fill="${C.grey}">${esc(fys[0])}</text><text x="${W}" y="${H}" font-size="4" fill="${C.grey}" text-anchor="end">${esc(fys[fys.length - 1])}</text>`;
-    return `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" style="width:100%;height:90px;display:block">${lines}${labs}</svg>`;
+  function chartGroupedBars(rows, series) {
+    const usable = (rows || []).filter((r) => series.some((s) => Number.isFinite(Number(r[s.key]))));
+    if (usable.length < 2) return '';
+    const values = series.flatMap((s) => usable.map((r) => Number(r[s.key])).filter(Number.isFinite));
+    const min = Math.min(0, ...values), max = Math.max(0, ...values), span = max - min || 1;
+    const W = 420, H = 170, top = 18, bottom = 30, plotH = H - top - bottom;
+    const y = (v) => top + ((max - v) / span) * plotH;
+    const zeroY = y(0);
+    const slot = W / usable.length;
+    const groupW = Math.min(slot * .72, 38);
+    const bw = Math.max(3, groupW / series.length - 2);
+    const bars = usable.map((r, ri) => series.map((s, si) => {
+      const value = Number(r[s.key]);
+      if (!Number.isFinite(value)) return '';
+      const x = ri * slot + (slot - groupW) / 2 + si * (bw + 2);
+      const vy = y(value), height = Math.max(2, Math.abs(zeroY - vy));
+      return `<rect x="${x.toFixed(1)}" y="${Math.min(vy, zeroY).toFixed(1)}" width="${bw.toFixed(1)}" height="${height.toFixed(1)}" fill="${value < 0 ? C.neg : s.color}" rx="2"><title>${esc(r.fy)} ${esc(s.label)}: ${esc((s.fmt || String)(value))}</title></rect>`;
+    }).join('')).join('');
+    const labels = usable.map((r, i) => `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${H - 7}" font-size="10" fill="${C.grey}" text-anchor="middle">${esc(String(r.fy).slice(-2))}</text>`).join('');
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:170px;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}</svg>`;
   }
   function legend(items) { return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">${items.map((i) => `<span class="small" style="color:var(--ink-3)"><span style="display:inline-block;width:9px;height:9px;background:${i.color};border-radius:2px;margin-right:4px;vertical-align:middle"></span>${esc(i.label)}</span>`).join('')}</div>`; }
   const bn = (v) => (v == null ? '—' : Math.abs(v) >= 1e12 ? '$' + (v / 1e12).toFixed(2) + 'T' : Math.abs(v) >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B' : '$' + (v / 1e6).toFixed(0) + 'M');
 
+  function miniBars(rows, key, color) {
+    const pts = (rows || []).map((r) => Number(r[key])).filter(Number.isFinite);
+    if (pts.length < 2) return '';
+    const max = Math.max(...pts.map((v) => Math.abs(v)), 1);
+    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((v, i) => `<i style="height:${Math.max(8, Math.abs(v) / max * 100).toFixed(1)}%;background:${v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}" title="${esc(String(v))}"></i>`).join('')}</span>`;
+  }
+
+  function decisionTrends(fin) {
+    if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
+    const latest = fin[fin.length - 1] || {};
+    const rows = [
+      ['Revenue', 'revenue', bn(latest.revenue), C.ink],
+      ['Operating margin', 'opMarginPct', latest.opMarginPct == null ? '—' : latest.opMarginPct + '%', C.grey],
+      ['Free cash flow', 'fcf', bn(latest.fcf), C.pos],
+      ['ROIC', 'roicPct', latest.roicPct == null ? '—' : latest.roicPct + '%', C.ink]
+    ];
+    return `<div class="dos-trends">${rows.map(([label, key, value, color]) => `<div class="dos-trend-row"><span>${label}</span>${miniBars(fin, key, color)}<b>${esc(value)}</b></div>`).join('')}</div>`;
+  }
+
+  function displayNumber(value) {
+    const s = String(value == null ? '' : value).replace(/,/g, '').trim();
+    const m = s.match(/[-+]?\d*\.?\d+/);
+    if (!m) return 0;
+    let n = Number(m[0]);
+    if (!Number.isFinite(n)) return 0;
+    if (/\dT(?:\s|$)/i.test(s)) n *= 1e12;
+    else if (/\dB(?:\s|$)/i.test(s)) n *= 1e9;
+    else if (/\dM(?:\s|$)/i.test(s)) n *= 1e6;
+    else if (/\dK(?:\s|$)/i.test(s)) n *= 1e3;
+    return n;
+  }
+
+  function dossierMetricBars(d) {
+    const prior = displayNumber(d.prior), latest = displayNumber(d.latest);
+    const max = Math.max(Math.abs(prior), Math.abs(latest), 1);
+    const row = (label, shown, value, isLatest) => `<div class="dos-bar-line ${isLatest ? 'is-latest' : ''} ${value < 0 ? 'is-negative' : ''}"><span>${label}</span><span class="dos-bar-track"><i class="dos-bar-fill" style="width:${Math.max(3, Math.abs(value) / max * 100).toFixed(1)}%"></i></span><b>${esc(shown)}</b></div>`;
+    return `<div class="dos-bar-pair">${row('Prior', d.prior, prior, false)}${row('Latest', d.latest, latest, true)}</div>`;
+  }
+
+  function financialReadings(fin) {
+    if (!fin || fin.length < 2) return '<li data-n="01">No comparable filed annual history is available.</li>';
+    const first = fin[0], latest = fin[fin.length - 1];
+    const years = Math.max(1, Number(latest.fy) - Number(first.fy));
+    const cagr = (a, b) => a > 0 && b > 0 ? (Math.pow(b / a, 1 / years) - 1) * 100 : null;
+    const revCagr = cagr(Number(first.revenue), Number(latest.revenue));
+    const opMove = Number.isFinite(Number(first.opMarginPct)) && Number.isFinite(Number(latest.opMarginPct)) ? Number(latest.opMarginPct) - Number(first.opMarginPct) : null;
+    const lines = [];
+    if (revCagr != null) lines.push(`Revenue compounded at approximately <strong>${revCagr.toFixed(1)}% a year</strong> from ${first.fy} to ${latest.fy}.`);
+    if (opMove != null) lines.push(`Operating margin moved from <strong>${first.opMarginPct}%</strong> to <strong>${latest.opMarginPct}%</strong>, a ${opMove >= 0 ? '+' : ''}${opMove.toFixed(1)}-point change.`);
+    const fcfVals = fin.map((r) => Number(r.fcf)).filter(Number.isFinite);
+    if (fcfVals.length > 1) {
+      const peak = Math.max(...fcfVals), trough = Math.min(...fcfVals);
+      lines.push(`Free cash flow finished at <strong>${bn(latest.fcf)}</strong> versus <strong>${bn(first.fcf)}</strong> at the start, but ranged from ${bn(trough)} to ${bn(peak)}; the bar pattern matters more than a single end-point growth rate.`);
+    }
+    if (Number.isFinite(Number(latest.netIncome)) && Number.isFinite(Number(latest.fcf)) && Number(latest.netIncome) !== 0) {
+      const conversion = Number(latest.fcf) / Number(latest.netIncome) * 100;
+      lines.push(`Latest free cash flow equalled approximately <strong>${conversion.toFixed(0)}%</strong> of net income (${bn(latest.fcf)} versus ${bn(latest.netIncome)}), a check on earnings-to-cash conversion rather than a quality verdict by itself.`);
+    }
+    if (latest.roicPct != null) lines.push(`Latest filed ROIC is <strong>${latest.roicPct}%</strong>${first.roicPct != null ? ` versus ${first.roicPct}% at the start of the displayed record` : ''}${latest.roePct != null ? `; ROE is ${latest.roePct}% and can differ because of leverage and capital structure` : ''}.`);
+    return (lines.length ? lines : ['The filed history is shown visually; exact ratios remain available below.']).map((x, i) => `<li data-n="${String(i + 1).padStart(2, '0')}">${x}</li>`).join('');
+  }
+
+  function deterministicBrief(d) {
+    const fin = d.financials || [];
+    const first = fin[0] || {}; const latest = fin[fin.length - 1] || {};
+    const years = Math.max(1, Number(latest.fy) - Number(first.fy));
+    const revCagr = first.revenue > 0 && latest.revenue > 0 ? (Math.pow(latest.revenue / first.revenue, 1 / years) - 1) * 100 : null;
+    const lines = [];
+    if (fin.length > 1) lines.push(`${d.name || d.symbol}'s filed revenue rose from ${bn(first.revenue)} in ${first.fy} to ${bn(latest.revenue)} in ${latest.fy}${revCagr == null ? '' : `, a ${revCagr.toFixed(1)}% annualised increase`}; over the same record, operating margin moved from ${first.opMarginPct == null ? 'an unavailable starting value' : first.opMarginPct + '%'} to ${latest.opMarginPct == null ? 'an unavailable latest value' : latest.opMarginPct + '%'}, while latest free cash flow was ${bn(latest.fcf)}.`);
+    const cp = d.competitive;
+    if (cp && cp.company && cp.medians) {
+      const peerBits = [];
+      if (cp.company.revCagr5Pct != null && cp.medians.revCagr5Pct != null) peerBits.push(`five-year revenue growth of ${cp.company.revCagr5Pct}% versus the peer median ${cp.medians.revCagr5Pct}%`);
+      if (cp.company.netMarginPct != null && cp.medians.netMarginPct != null) peerBits.push(`net margin of ${cp.company.netMarginPct}% versus ${cp.medians.netMarginPct}%`);
+      if (peerBits.length) lines.push(`Against ${cp.peerCount || 'its'} ${cp.sector || 'sector'} peers, the filed record shows ${peerBits.join(' and ')}.`);
+      if (cp.company.pe != null && cp.medians.pe != null) lines.push(`The valuation tension is explicit: ${cp.company.pe}× earnings versus a ${cp.medians.pe}× peer median, so the operating advantage must persist merely to defend the current premium.`);
+    }
+    if (d.valuation && d.valuation.impliedGrowthPct != null) {
+      const hist = d.valuation.record && d.valuation.record.fcfCagr5Pct;
+      lines.push(`The reverse-DCF assumptions imply roughly ${d.valuation.impliedGrowthPct}% annual free-cash-flow growth${hist != null ? ` versus a filed five-year rate of ${hist}%` : ''}; that gap is an expectations test, not a forecast or price target.`);
+    }
+    return lines.join(' ') || `This brief is built from ${d.name || d.symbol}'s filed financial record. Open the evidence modules below to test the business, valuation and risks.`;
+  }
+
+  function briefParagraphs(text) {
+    const sentences = String(text || '').trim().split(/(?<=[.!?])\s+(?=[A-Z])/).filter(Boolean);
+    return (sentences.length ? sentences : [String(text || '')]).map((sentence) => `<p>${esc(sentence)}</p>`).join('');
+  }
+
   function render(out, d, sym) {
-    if (d && d.isFund) { renderFundDossier(out, d, sym); return; }
+    if (d && d.isFund) { renderFundRedirect(out, d, sym); return; }
     const s = d.snapshot || {};
+    const briefText = String(d.executiveSummary || '').trim() || deterministicBrief(d);
+    const history = d.financials || [];
     const mc = num(s.marketCap);
     const pct = (x) => { const n = num(x); return n == null ? null : (Math.abs(n) <= 1 ? (n * 100).toFixed(1) : Number(n).toFixed(1)) + '%'; };
-    const snap = [
-      snapRow('Market cap', mc ? '$' + money(mc) : null),
-      snapRow('P/E', s.pe && s.pe !== 'None' ? Number(s.pe).toFixed(1) : null),
-      snapRow('EPS', s.eps && s.eps !== 'None' ? '$' + Number(s.eps).toFixed(2) : null),
-      snapRow('Profit margin', pct(s.profitMargin)),
-      snapRow('ROE', pct(s.roe)),
-      snapRow('Dividend yield', pct(s.dividendYield))
-    ].join('');
+    const keyStrip = [
+      ['Market cap', mc ? '$' + money(mc) : '—'],
+      ['P/E', s.pe && s.pe !== 'None' ? Number(s.pe).toFixed(1) + '×' : '—'],
+      ['TTM margin', pct(s.profitMargin) || '—']
+    ].map(([k, v]) => `<div><small>${esc(k)}</small><strong>${esc(v)}</strong></div>`).join('');
 
     const v = d.valuation;
     const rec = v && v.record ? v.record : {};
@@ -175,10 +257,15 @@
 
     // Competitive positioning + peer-multiples valuation
     const cp = d.competitive;
+    const competitiveRead = cp && cp.company && cp.medians ? [
+      cp.company.revCagr5Pct != null && cp.medians.revCagr5Pct != null ? `Five-year revenue growth is ${cp.company.revCagr5Pct}% versus the ${cp.sector} median of ${cp.medians.revCagr5Pct}% (${(cp.company.revCagr5Pct - cp.medians.revCagr5Pct) >= 0 ? '+' : ''}${(cp.company.revCagr5Pct - cp.medians.revCagr5Pct).toFixed(1)} points).` : '',
+      cp.company.netMarginPct != null && cp.medians.netMarginPct != null ? `Net margin is ${cp.company.netMarginPct}% versus ${cp.medians.netMarginPct}% for the median peer.` : '',
+      cp.company.pe != null && cp.medians.pe != null ? `The shares trade at ${cp.company.pe}× earnings versus ${cp.medians.pe}× for the median peer, so the valuation embeds a ${cp.company.pe >= cp.medians.pe ? 'premium' : 'discount'} alongside those operating differences.` : ''
+    ].filter(Boolean).join(' ') : (cp && cp.verdict) || '';
     const competitive = cp ? `
       <div class="dos-sec">
         <h2>Competitive positioning <span class="small faint">vs ${cp.peerCount} ${esc(cp.sector)} peers</span></h2>
-        <p style="max-width:74ch;">${esc(cp.verdict)}</p>
+        <p style="max-width:74ch;">${esc(competitiveRead)}</p>
         <div class="table-wrap"><table class="table-data">
           <thead><tr><th>Metric</th><th>${esc(d.name || sym)}</th><th>Peer median</th></tr></thead>
           <tbody>
@@ -223,15 +310,33 @@
       </div>` : '';
 
     const rc = d.recentChanges;
-    const recent = rc ? `
-      <div class="dos-sec">
-        <h2>Recent changes ${rc.tone && TONE[rc.tone] ? `<span class="small ${TONE[rc.tone] === 'pos' ? 'delta-pos' : 'delta-neg'}">${esc(rc.tone)}</span>` : ''}</h2>
-        ${rc.headline ? `<p style="max-width:74ch;"><strong>${esc(rc.headline)}</strong></p>` : ''}
-        ${rc.summary ? `<p class="muted" style="max-width:74ch;">${esc(rc.summary)}</p>` : ''}
-        ${(rc.deltas || []).length ? `<div class="table-wrap"><table class="table-data"><thead><tr><th>Metric</th><th>Latest</th><th>Prior</th><th>Change</th></tr></thead><tbody>${rc.deltas.map((x) => `<tr><td>${esc(x.label)}</td><td>${esc(x.latest)}</td><td>${esc(x.prior)}</td><td class="${x.direction === 'up' ? 'delta-pos' : x.direction === 'down' ? 'delta-neg' : ''}">${esc(x.change)}</td></tr>`).join('')}</tbody></table></div>` : ''}
-        ${rc.filing && rc.filing.url ? `<p class="small faint" style="margin-top:8px;"><a href="${esc(rc.filing.url)}" rel="noopener" target="_blank">${esc(rc.filing.label || rc.filing.form || 'Filing')} — ${esc(rc.filing.date || '')} on SEC EDGAR ↗</a></p>` : ''}
-        <p class="small faint" style="margin-top:6px;">Want this pushed when it files? <a href="/monitor.html?symbol=${esc(sym)}">Open it in the Monitor →</a></p>
-      </div>` : '';
+    const recent = rc ? (() => {
+      const deltaRows = (rc.deltas || []).map((x) => `<div class="dos-delta-row">
+        <div class="dos-delta-row-head"><span>${esc(x.label)}</span><b class="${x.direction === 'up' ? 'delta-pos' : x.direction === 'down' ? 'delta-neg' : ''}">${esc(x.change)}</b></div>
+        ${dossierMetricBars(x)}
+      </div>`).join('');
+      const changes = rc.changes || [];
+      const changeRows = changes.map((c) => {
+        const pair = c.evidenceVerified && c.priorQuote && c.newQuote;
+        return `<li><strong>${esc(c.area)}</strong><span>${esc(c.what)}</span>${pair ? `<div class="dos-quote-pair"><div class="dos-quote-side"><b>Prior filing</b><q>${esc(c.priorQuote)}</q></div><i>→</i><div class="dos-quote-side"><b>New filing</b><q>${esc(c.newQuote)}</q></div></div>` : ''}</li>`;
+      }).join('');
+      const cmp = rc.comparison;
+      const mb = rc.materialityBreakdown || {};
+      const materiality = `<div class="dos-materiality"><strong>${esc(String(rc.materiality == null ? '—' : rc.materiality))}</strong><div class="dos-materiality-bars">${[['Numbers',mb.numbers],['Language',mb.language],['Risk',mb.risk]].map(([label,value]) => `<div class="dos-materiality-row"><span>${label}</span><i><b style="width:${Math.max(2,Math.min(100,Number(value)||0))}%"></b></i><strong>${Number(value)||0}</strong></div>`).join('')}</div></div>`;
+      const followups = changes.slice(0, 3).map((c) => `<a href="/ask.html?q=${encodeURIComponent(`${sym}: What evidence supports the ${c.area || 'filing'} change, what could reverse it, and what should the next filing confirm?`)}">Investigate ${esc(c.area || 'change')} →</a>`).join('');
+      const periodText = rc.reportedPeriod && rc.priorPeriod ? `${rc.reportedPeriod} versus ${rc.priorPeriod}` : '';
+      const eventNote = rc.latestEvent ? `<div class="dos-event-note"><strong>Newer event filing kept separate.</strong> ${esc(rc.latestEvent.label || rc.latestEvent.form)} filed ${esc(rc.latestEvent.date)} is newer than the periodic comparison above and is not presented as the same analysis. ${rc.latestEvent.url ? `<a href="${esc(rc.latestEvent.url)}" target="_blank" rel="noopener">Open ${esc(rc.latestEvent.form)} ↗</a>` : ''}</div>` : '';
+      return `<section class="dos-recent-v2" id="dos-latest-change">
+        <div class="dos-section-head"><div><span class="dos-kicker">Latest filing change</span><h2>What moved—and what management rewrote</h2></div><span class="small faint">${esc(periodText)}${rc.currency ? ` · ${esc(rc.currency)}` : ''}</span></div>
+        <div class="dos-filing-grid">
+          <section><span class="dos-kicker">Filed numbers · comparable periods</span>${materiality}<div class="dos-delta-list">${deltaRows || '<p class="small faint">No comparable filed-period figures are available.</p>'}</div></section>
+          <section class="dos-change-copy"><span class="dos-kicker">Research read</span><h3>${esc(rc.headline || 'Latest filing comparison')}</h3>${rc.summary ? `<p>${esc(rc.summary)}</p>` : ''}${changeRows ? `<ul class="dos-change-list">${changeRows}</ul>` : '<p class="small faint">No verified management-language comparison is available for this filing pair.</p>'}
+            ${cmp && cmp.latest && cmp.prev ? `<p class="dos-source-row">Compared <a href="${esc(cmp.latest.url)}" target="_blank" rel="noopener">${esc(cmp.latest.form)} ${esc(cmp.latest.date)}</a> with <a href="${esc(cmp.prev.url)}" target="_blank" rel="noopener">${esc(cmp.prev.form)} ${esc(cmp.prev.date)}</a>. Quotation pairs are displayed only when verified against both SEC documents.</p>` : ''}
+            ${eventNote}<div class="dos-followups">${followups}<a href="/monitor.html?symbol=${encodeURIComponent(sym)}">Open full Filing Monitor →</a></div>
+          </section>
+        </div>
+      </section>`;
+    })() : '';
 
     // Scenario value range (bear/base/bull) — descriptive, no target price
     const sc = d.valuation && d.valuation.scenarios;
@@ -245,7 +350,7 @@
       </div>` : '';
 
     // Financial analysis — trend charts + DuPont / ratio table
-    const fin = d.financials;
+    const fin = history;
     let financialHtml = '';
     if (fin && fin.length >= 2) {
       const dupont = [
@@ -256,16 +361,19 @@
       const head = fin.map((r) => `<th>${esc(r.fy)}</th>`).join('');
       const body = dupont.map(([label, key, suf]) => `<tr><td>${label}</td>${fin.map((r) => `<td>${r[key] == null ? '—' : r[key] + (suf === '%' ? '%' : '×')}</td>`).join('')}</tr>`).join('');
       financialHtml = `
-        <div class="dos-sec">
-          <h2>Financial analysis</h2>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; margin-bottom:14px;">
-            <div><p class="small faint" style="margin:0 0 2px;">Revenue</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>
-            <div><p class="small faint" style="margin:0 0 2px;">Margins</p>${chartLines(fin, [{ key: 'grossMarginPct', color: C.grey }, { key: 'opMarginPct', color: C.accent }, { key: 'netMarginPct', color: C.pos }])}${legend([{ label: 'Gross', color: C.grey }, { label: 'Operating', color: C.accent }, { label: 'Net', color: C.pos }])}</div>
-            <div><p class="small faint" style="margin:0 0 2px;">Returns</p>${chartLines(fin, [{ key: 'roePct', color: C.accent }, { key: 'roicPct', color: C.pos }])}${legend([{ label: 'ROE', color: C.accent }, { label: 'ROIC', color: C.pos }])}</div>
+        <section class="dos-sec dos-financials" id="dos-financials">
+          <div class="dos-section-head"><div><span class="dos-kicker">Financial trajectory</span><h2>The filed record, with the read beside it</h2></div><span class="small faint">Annual statements · exact values on hover</span></div>
+          <div class="dos-financial-evidence">
+            <section><span class="dos-kicker">Visual evidence</span><div class="dos-visual-stack">
+              <div class="dos-visual-panel"><h3>Revenue</h3><p>Scale and compounding</p>${chartBars(fin, 'revenue', bn, C.ink)}</div>
+              <div class="dos-visual-panel"><h3>Earnings and cash</h3><p>Annual net income versus free cash flow</p>${chartGroupedBars(fin, [{ key: 'netIncome', label: 'Net income', color: C.grey, fmt: bn }, { key: 'fcf', label: 'Free cash flow', color: C.pos, fmt: bn }])}${legend([{ label: 'Net income', color: C.grey }, { label: 'Free cash flow', color: C.pos }])}</div>
+            </div></section>
+            <section><span class="dos-kicker">What the record says</span><ol class="dos-financial-read">${financialReadings(fin)}</ol>
+              <div class="dos-visual-panel" style="margin-top:24px;"><h3>Margins and returns</h3><p>Annual operating margin versus return on invested capital</p>${chartGroupedBars(fin, [{ key: 'opMarginPct', label: 'Operating margin', color: C.grey, fmt: (v) => v + '%' }, { key: 'roicPct', label: 'ROIC', color: C.pos, fmt: (v) => v + '%' }])}${legend([{ label: 'Operating margin', color: C.grey }, { label: 'ROIC', color: C.pos }])}</div>
+            </section>
           </div>
-          <div class="table-wrap"><table class="table-data"><thead><tr><th>DuPont &amp; ratios</th>${head}</tr></thead><tbody>${body}</tbody></table></div>
-          <p class="small faint" style="margin-top:6px;">Computed from filed annual statements. ROIC uses NOPAT ≈ operating income × (1 − 21%).</p>
-        </div>`;
+          <details class="dos-ratio-details"><summary>Open the full ratio history</summary><div class="table-wrap"><table class="table-data"><thead><tr><th>DuPont &amp; ratios</th>${head}</tr></thead><tbody>${body}</tbody></table></div><p class="small faint">Computed from filed annual statements. ROIC uses NOPAT ≈ operating income × (1 − 21%).</p></details>
+        </section>`;
     }
 
     // Industry & competitive drivers — Positive/Negative tags, verbatim evidence
@@ -350,6 +458,7 @@
       forwardDcfHtml = `<div class="dos-sec"><h2>Forward DCF &amp; WACC</h2><p class="muted" style="max-width:74ch;">${esc(fd.note)}</p>${fd.waccBuildup ? `<p class="small faint" style="margin-top:6px;">Computed WACC ${fd.waccBuildup.waccPct}% (cost of equity ${fd.waccBuildup.costOfEquityPct}%, beta ${fd.waccBuildup.beta}).</p>` : ''}</div>`;
     }
 
+    const module = (title, subtitle, content, open = false) => content ? `<details class="dos-module"${open ? ' open' : ''}><summary><span><strong>${esc(title)}</strong>${subtitle ? `<small>${esc(subtitle)}</small>` : ''}</span><span class="dos-module-action">View</span></summary><div class="dos-module-body">${content}</div></details>` : '';
     out.innerHTML = `
       <div class="dos-head">
         <div>
@@ -361,29 +470,33 @@
           <button class="btn btn-quiet btn-sm" id="dos-refresh" title="Rebuild from the latest filings">Refresh</button>
         </div>
       </div>
-      <div class="dos-snap">${snap}</div>
-      ${d.executiveSummary ? `<div class="dos-sec"><div class="dos-summary">${esc(d.executiveSummary)}</div></div>` : ''}
-      ${edge}
-      ${industryHtml}
-      ${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch; line-height:1.7;">${esc(s.description)}</p></div>` : ''}
-      ${segs}
-      ${d.keyFigures ? `<div class="dos-sec"><h2>Key figures</h2>${keyFiguresHtml(d.keyFigures)}</div>` : ''}
-      ${read}
-      ${competitive}
-      ${governanceHtml}
-      ${esgHtml}
-      ${valuationHtml}
-      ${scenarioHtml}
-      ${forwardDcfHtml}
-      ${bullbear}
-      ${risks}
+      <nav class="dos-jump" aria-label="Dossier sections"><a href="#dos-brief">Decision brief</a><a href="#dos-financials">Financial trajectory</a><a href="#dos-latest-change">Latest filing</a><a href="#dos-cases">Cases &amp; risks</a><a href="#dos-deep">Deep research</a><a href="#dos-thesis">My thesis</a></nav>
+      <section class="dos-decision-grid" id="dos-brief">
+        <section><span class="dos-kicker">Visual evidence</span><h2>The business trajectory</h2>${decisionTrends(history)}</section>
+        <section><span class="dos-kicker">Decision brief</span><h2>The case in two minutes</h2><div class="dos-decision-copy">${briefParagraphs(briefText)}</div><div class="dos-key-strip">${keyStrip}</div></section>
+      </section>
       ${financialHtml}
-      ${checks}
       ${recent}
+      <section id="dos-cases" class="dos-priority">
+        <div class="dos-section-head"><div><span class="dos-kicker">Decision pressure-test</span><h2>What has to go right—and what can break</h2></div></div>
+        ${bullbear}
+        ${risks}
+      </section>
+      <section id="dos-deep" class="dos-deep">
+        <div class="dos-section-head"><div><span class="dos-kicker">Deep research</span><h2>Open only the evidence you need</h2></div><span class="small faint">The detail is preserved, not dumped on the page.</span></div>
+        <div class="dos-modules">
+          ${module('Business & segments', 'How the company makes money', `${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch;line-height:1.7;">${esc(s.description)}</p></div>` : ''}${segs}`)}
+          ${module('Forensic signals', 'Non-obvious earnings and capital-allocation evidence', `${edge}${read}`)}
+          ${module('Industry & peers', 'Competitive position and comparable-company context', `${industryHtml}${competitive}`)}
+          ${module('Valuation', 'Expectations, scenarios and DCF assumptions', `${valuationHtml}${scenarioHtml}${forwardDcfHtml}`)}
+          ${module('Governance & ownership', 'Board, insiders and tracked investors', `${governanceHtml}${esgHtml}`)}
+          ${module('Financial health checks', 'Deterministic tests from filed statements', checks)}
+        </div>
+      </section>
       <div id="dos-thesis"></div>
       <p class="dos-prov">${esc((d.sources && d.sources.note) || 'Every figure is computed from SEC-filed statements; prose is written over those finished facts. Educational, not investment advice.')}</p>`;
     const share = document.createElement('div');
-    mountShare(share, { title: `${d.name || sym} (${sym}) research dossier`, text: d.executiveSummary || d.summary || '' });
+    mountShare(share, { title: `${d.name || sym} (${sym}) research dossier`, text: briefText });
     out.appendChild(share);
     out.hidden = false;
 
@@ -504,9 +617,8 @@
 
   $('dos-form').addEventListener('submit', (e) => { e.preventDefault(); run($('dos-sym').value, false); });
 
-  // Ticker autocomplete — stocks build company dossiers; ETFs and mutual funds
-  // build fund-specific dossiers from their costs, holdings and performance.
-  // name, pick from the list, and it builds the dossier at once.
+  // Ticker autocomplete is intentionally company-only. Funds use the provider-
+  // labelled instrument workspace and Ask instead of SEC company analysis.
   (function wireAutocomplete() {
     const input = $('dos-sym');
     if (!input || !searchAssets) return;
@@ -530,7 +642,10 @@
     input.addEventListener('input', async () => {
       const q = input.value.trim().toUpperCase();
       if (q.length < 1) { box.hidden = true; return; }
-      items = await searchAssets(q, { limit: 8 }); active = -1; render();
+      items = (await searchAssets(q, { limit: 16 }))
+        .filter((item) => !item.assetType || item.assetType === 'stock')
+        .slice(0, 8);
+      active = -1; render();
     });
     input.addEventListener('keydown', (e) => {
       if (box.hidden) return;
