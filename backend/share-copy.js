@@ -40,14 +40,16 @@ function fallbackCaption(title, content, rule) {
     return withinLimit([clean(title), clean(content)].filter(Boolean).join('\n\n'), rule.limit);
 }
 
-async function rewriteForPlatform({ platform, title, content }) {
+async function rewriteForPlatform({ platform, title, content, allowAi = false } = {}) {
     const key = String(platform || '').toLowerCase();
     const rule = PLATFORM_RULES[key];
     if (!rule) throw Object.assign(new Error('Unsupported sharing platform'), { status: 400 });
     const safeTitle = clean(title).slice(0, 500);
     const safeContent = clean(content).slice(0, 20000);
     const fallback = fallbackCaption(safeTitle, safeContent, rule);
-    if (!safeContent || !aiClient.isConfigured()) return { platform: key, caption: fallback, charLimit: rule.limit, source: 'fallback' };
+    if (!safeContent || !allowAi || !aiClient.isConfigured()) {
+        return { platform: key, caption: fallback, charLimit: rule.limit, source: 'fallback' };
+    }
 
     const cacheKey = `${key}\u0000${safeTitle}\u0000${safeContent}`;
     const hit = cache.get(cacheKey);

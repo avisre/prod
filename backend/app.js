@@ -2996,8 +2996,14 @@ app.get('/api/portfolio/briefing/sample', async (req, res) => {
                 { symbol: 'JPM',  name: 'JPMorgan Chase', sector: 'Financial Services',shares: 12, purchasePrice: 156, currentPrice: 210 },
                 { symbol: 'XOM',  name: 'ExxonMobil',     sector: 'Energy',           shares: 25, purchasePrice: 90,  currentPrice: 108 }
             ];
-            const result = await aiBriefing.generateBriefing(demoHoldings);
-            _sampleBriefingCache = { briefing: result.briefing, facts: result.facts, generatedAt: new Date().toISOString(), sample: true };
+            const facts = aiBriefing.computePortfolioFacts(demoHoldings);
+            _sampleBriefingCache = {
+                briefing: aiBriefing.buildTemplateBriefing(facts),
+                facts,
+                source: 'template',
+                generatedAt: new Date().toISOString(),
+                sample: true
+            };
         }
         res.json(_sampleBriefingCache);
     } catch (err) {
@@ -3031,13 +3037,13 @@ app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, r
 
 // Rewrite an existing generated answer/article for a platform's practical
 // character limit. This edits presentation only and never changes the research.
-app.post('/api/ai/share-copy', async (req, res) => {
+app.post('/api/ai/share-copy', optionalAuth, async (req, res) => {
     const platform = String((req.body && req.body.platform) || '').toLowerCase();
     const title = String((req.body && req.body.title) || '').trim().slice(0, 500);
     const content = String((req.body && req.body.content) || '').trim().slice(0, 20000);
     if (!content) return res.status(400).json({ message: 'Share content is required.' });
     try {
-        return res.json(await shareCopy.rewriteForPlatform({ platform, title, content }));
+        return res.json(await shareCopy.rewriteForPlatform({ platform, title, content, allowAi: isProUser(req) }));
     } catch (error) {
         return res.status(error.status || 500).json({ message: error.message || 'Could not prepare share copy.' });
     }
@@ -3071,7 +3077,7 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
 // ----- Anonymous Ask teaser: a couple of free, abuse-bounded queries so a
 // cold visitor can feel the filing-grounded answer before the signup wall.
 // Everything off-switchable: ANON_ASK_LIMIT=0 restores signup-required Ask.
-const ANON_ASK_LIMIT = Number(process.env.ANON_ASK_LIMIT ?? 3);        // free queries per browser
+const ANON_ASK_LIMIT = Number(process.env.ANON_ASK_LIMIT ?? 0);        // free queries per browser
 const ANON_ASK_IP_DAY = Number(process.env.ANON_ASK_IP_DAY ?? 6);      // backstop: per IP / day
 const ANON_ASK_GLOBAL_DAY = Number(process.env.ANON_ASK_GLOBAL_DAY ?? 400); // hard daily cost ceiling
 const _anonAsk = { day: '', global: 0, ip: new Map() };
@@ -3604,7 +3610,7 @@ app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, re
 // Public: one extraction per filing, cached forever in Mongo, so the spend
 // is bounded the same way the segments cache is.
 const keypoints = require('./keypoints');
-app.get('/api/company/:symbol/keypoints', async (req, res) => {
+app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
     try {
@@ -3615,7 +3621,7 @@ app.get('/api/company/:symbol/keypoints', async (req, res) => {
                 message: `${instrument.assetTypeLabel}s do not publish company 10-K business dossiers. Use the fund profile or Ask for holdings, costs, allocation, returns and risk.`
             });
         }
-        const result = await keypoints.extractKeyPoints(symbol);
+        const result = await keypoints.extractKeyPoints(symbol, { allowAi: isProUser(req) });
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
@@ -4645,7 +4651,7 @@ app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
 // materiality feed across a watchlist stays Power/Desk-only. A raw request flood
 // is still caught by the global abuse limiter; the expensive build is de-duped
 // and cached, so the 3-stock cap also bounds cost to ≤3 model passes per IP/day.
-const MONITOR_FREE_STOCKS = parseInt(process.env.MONITOR_FREE_STOCKS || '3', 10);
+const MONITOR_FREE_STOCKS = parseInt(process.env.MONITOR_FREE_STOCKS || '0', 10);
 const MONITOR_FREE_WINDOW_MS = 24 * 60 * 60 * 1000;
 const _monitorFreeSeen = new Map(); // ipKey -> { at:number, syms:Set<string> }
 
@@ -4675,6 +4681,12 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
         const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
+            if (!hasMonitor(req)) {
+                return res.status(402).json({
+                    code: 'MONITOR_REQUIRED',
+                    message: 'The Filing Change Monitor is available on Power and Desk plans.'
+                });
+            }
             const summary = await aiFeatures.summarizeFinancials(sym);
             return res.json({ report: {
                 symbol: sym,
@@ -4715,6 +4727,12 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const paid = hasMonitor(req);
         let freeRec = null, known = false;
         if (!paid) {
+            if (MONITOR_FREE_STOCKS <= 0) {
+                return res.status(402).json({
+                    code: 'MONITOR_REQUIRED',
+                    message: 'The Filing Change Monitor is available on Power and Desk plans.'
+                });
+            }
             freeRec = monitorFreeRecord(req);
             known = freeRec.syms.has(normSym);
             res.setHeader('RateLimit-Limit', String(MONITOR_FREE_STOCKS));
@@ -4794,7 +4812,7 @@ app.get('/api/compare/:pair/verdict', optionalAuth, async (req, res) => {
                 });
             }
         }
-        const out = await compareVerdict.verdictFor(a, b);
+        const out = await compareVerdict.verdictFor(a, b, { allowAi: isProUser(req) });
         if (!out) return res.status(404).json({ error: 'We could not find filings for both companies.' });
         if (rec && !out.cached) rec.n++; // only a real generation spends a credit; cached reads are free
         if (rec) res.setHeader('RateLimit-Remaining', String(Math.max(0, VERDICT_FREE_PER_DAY - rec.n)));

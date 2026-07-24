@@ -84,9 +84,9 @@ const SYSTEM_PROMPT = [
     'No greeting, no sign-off, no disclaimer (the app adds its own). British English. Refer to each company by ticker. Be tight and concrete, citing the numbers from the facts.'
 ].join(' ');
 
-async function generateFromFacts(facts) {
+async function generateFromFacts(facts, { allowAi = true } = {}) {
     const template = buildTemplate(facts);
-    if (!aiClient.isConfigured()) return { text: template, source: 'template' };
+    if (!allowAi || !aiClient.isConfigured()) return { text: template, source: 'template' };
     try {
         const text = String(await aiClient.chat([
             { role: 'system', content: SYSTEM_PROMPT },
@@ -105,7 +105,7 @@ const _cache = new Map(); // 'A-vs-B' -> { text, source, asOfKey, at }
 const CACHE_MAX = 1500;
 const TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
-async function verdictFor(a, b) {
+async function verdictFor(a, b, { allowAi = true } = {}) {
     const A = String(a || '').toUpperCase(), B = String(b || '').toUpperCase();
     const key = `${A}-vs-${B}`;
     const facts = computeVerdictFacts(A, B);
@@ -116,7 +116,7 @@ async function verdictFor(a, b) {
         _cache.delete(key); _cache.set(key, hit); // LRU bump
         return { text: hit.text, source: hit.source, cached: true };
     }
-    const gen = await generateFromFacts(facts);
+    const gen = await generateFromFacts(facts, { allowAi });
     _cache.set(key, { text: gen.text, source: gen.source, asOfKey, at: Date.now() });
     if (_cache.size > CACHE_MAX) { const k = _cache.keys().next().value; _cache.delete(k); }
     return { text: gen.text, source: gen.source, cached: false };

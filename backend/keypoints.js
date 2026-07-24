@@ -61,7 +61,7 @@ const EXTRACT_SYSTEM = [
     'Max 6 points per section. Plain factual register — no marketing language, no advice.'
 ].join('\n');
 
-async function extractKeyPoints(symbol) {
+async function extractKeyPoints(symbol, { allowAi = true } = {}) {
     const filings = await watchdog.fetchRecentFilings(symbol);
     if (!filings) return { error: 'No SEC filings found for this company.' };
     const tenK = filings.find((f) => f.form === '10-K');
@@ -72,6 +72,10 @@ async function extractKeyPoints(symbol) {
         const hit = await col.findOne({ symbol, accession: tenK.accession });
         if (hit) return { ...hit.payload, cached: true };
     } catch (_) { /* cache is best-effort */ }
+
+    if (!allowAi || !aiClient.isConfigured()) {
+        return { error: 'Key points are available to signed-in paid users after generation.' };
+    }
 
     const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 60e6 });
     const text = dossierWindows(htmlToText(r.data));

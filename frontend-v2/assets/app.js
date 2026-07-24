@@ -672,7 +672,11 @@
         };
         const prepare = (platform) => {
             if (!prepared.has(platform)) prepared.set(platform, fetch(`${API}/ai/share-copy`, {
-                method: 'POST', headers: { 'Content-Type': 'application/json' },
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...(token() ? { Authorization: `Bearer ${token()}` } : {})
+                },
                 body: JSON.stringify({ platform, title, content: clean })
             }).then(async (r) => {
                 const data = await r.json().catch(() => ({}));
