@@ -144,8 +144,9 @@ Didn't request this? You can safely ignore this email — your password won't ch
 // Post-redemption honest-review drip for AppSumo buyers. Three stages
 // (0-indexed stage arg is the stage being sent: 1=24h welcome, 2=day-3 check-in,
 // 3=day-10 final ask). CRITICAL: never offer anything in return for a review —
-// incentivized reviews (even honest ones) are an AppSumo delisting offense — and
-// always offer support before asking, since a broken product should reply, not review.
+// incentivized reviews (even honest ones) are an AppSumo delisting offense. Send
+// the same unconditional request to every buyer; support is a separate option,
+// never a reason to suppress or delay a positive, mixed, or critical review.
 function appsumoReviewEmail(name, appUrl, stage, reviewUrl, unsubUrl) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
   const safeFirst = escapeHtml(first);
@@ -173,21 +174,21 @@ function appsumoReviewEmail(name, appUrl, stage, reviewUrl, unsubUrl) {
       <p style="margin:22px 0">${btn(safeDash, 'Open your dashboard', '#6d5cff')}</p>`;
     textBody = `Welcome aboard, ${first}!\n\nThanks for grabbing the lifetime deal. Fastest way to see what's different: open any company and ask a question — every answer cites the exact 10-K/10-Q line, so you can verify it.\n\nOpen your dashboard: ${dash}\n\nReply any time — it reaches me, the founder, directly.\n— Avinash, StockPortfolio.pro`;
   } else if (Number(stage) === 2) {
-    subject = 'How\'s StockPortfolio.pro treating you so far?';
+    subject = 'Would you share your honest StockPortfolio.pro experience?';
     body = `
       <h1 style="font-size:22px;margin:0 0 12px">Quick check-in, ${safeFirst}</h1>
       <p style="font-size:15px;line-height:1.6;color:#334155">You've had a few days with StockPortfolio.pro. If anything is confusing or not working the way you expected, just reply — I read every message and I'd rather fix it than have you stuck.</p>
-      <p style="font-size:15px;line-height:1.6;color:#334155">And if it's already earning its keep, an honest review on AppSumo genuinely helps a solo founder more than you'd think — it's how other investors find the tool.</p>
+      <p style="font-size:15px;line-height:1.6;color:#334155">Whether your experience has been positive, mixed, or critical, would you share an honest review on AppSumo? It helps other investors decide whether the tool fits their research process, and your feedback helps shape what I improve next.</p>
       <p style="margin:22px 0">${btn(safeReview, 'Leave an honest review', '#E8412E')} &nbsp; ${btn(safeDash, 'Back to dashboard', '#6d5cff')}</p>`;
-    textBody = `Quick check-in, ${first}.\n\nIf anything's confusing or not working, just reply — I'd rather fix it than have you stuck. And if it's already useful, an honest AppSumo review genuinely helps a solo founder: ${reviewUrl}\n\n— Avinash, StockPortfolio.pro`;
+    textBody = `Quick check-in, ${first}.\n\nWhether your experience has been positive, mixed, or critical, would you share an honest AppSumo review? It helps other investors decide whether the tool fits their research process: ${reviewUrl}\n\nIf anything is confusing or not working, reply and I'll help.\n— Avinash, StockPortfolio.pro`;
   } else {
-    subject = 'A small ask, if StockPortfolio.pro has been useful';
+    subject = 'Your honest StockPortfolio.pro review';
     body = `
       <h1 style="font-size:22px;margin:0 0 12px">Thanks for being an early buyer, ${safeFirst}</h1>
-      <p style="font-size:15px;line-height:1.6;color:#334155">You've had StockPortfolio.pro for about a week and a half now. If it's been useful, would you leave an honest review on AppSumo? Early reviews are the single biggest thing that helps a new listing reach other investors — and I read every one to decide what to build next.</p>
-      <p style="font-size:15px;line-height:1.6;color:#334155">If something's holding you back from a great review, tell me first — reply to this email and I'll do my best to sort it.</p>
+      <p style="font-size:15px;line-height:1.6;color:#334155">You've had StockPortfolio.pro for about a week and a half now. Would you leave an honest AppSumo review—including what worked, what didn't, and who you think the tool is best for? Positive, mixed, and critical feedback are all welcome.</p>
+      <p style="font-size:15px;line-height:1.6;color:#334155">I read every review to decide what to improve next. If you also need help, reply to this email and I'll do my best to sort it.</p>
       <p style="margin:22px 0">${btn(safeReview, 'Leave an honest review', '#E8412E')}</p>`;
-    textBody = `Thanks for being an early buyer, ${first}.\n\nIf StockPortfolio.pro has been useful, an honest AppSumo review helps a new listing more than anything: ${reviewUrl}\n\nIf something's holding you back, reply first and I'll try to sort it.\n— Avinash, StockPortfolio.pro`;
+    textBody = `Thanks for being an early buyer, ${first}.\n\nWould you leave an honest AppSumo review—including what worked, what didn't, and who you think the tool is best for? Positive, mixed, and critical feedback are all welcome: ${reviewUrl}\n\nIf you also need help, reply and I'll do my best to sort it.\n— Avinash, StockPortfolio.pro`;
   }
 
   const html = `

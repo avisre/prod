@@ -56,9 +56,9 @@
           { "@type": "Offer", "name": "Annual", "price": "118.00", "priceCurrency": "USD", "description": "$118 per year — two months free versus monthly." }
         ],
         "featureList": [
-          "Up to 19 years of SEC-filed financial statements for every US-listed company that files in USD",
+          "Up to 19 years of SEC-filed financial statements for covered US-listed companies that report in USD, subject to filing and data availability",
           "Free stock screener (3,800+ US companies)",
-          "AI research assistant grounded in SEC filings",
+          "AI research assistant with SEC-filed company fundamentals and separately labelled fund and current-information sources",
           "ETF and mutual-fund profiles, performance rankings and AI research",
           "One mixed portfolio for stocks, ETFs and mutual funds",
           "Platform-aware sharing for generated research",
@@ -160,12 +160,12 @@
           <span class="small faint">Desktop and mobile</span>
         </div>
         <div class="asset-launch-grid">
-          <article class="asset-launch-card"><span class="label">Stocks</span><h3>19 years of filed fundamentals</h3><p>Statements, ratios, health checks, filing changes and source-linked AI research.</p></article>
+          <article class="asset-launch-card"><span class="label">Stocks</span><h3>Up to 19 years of filed fundamentals</h3><p>Statements, ratios, health checks, filing changes and source-linked AI research for covered companies.</p></article>
           <article class="asset-launch-card"><span class="label">ETFs</span><h3>Costs, holdings and rankings</h3><p>Research allocation, concentration, risk and top performers over 3 months, 1 year and 3 years.</p></article>
           <article class="asset-launch-card"><span class="label">Mutual funds</span><h3>Fund-specific analysis</h3><p>Compare fees, category, returns and holdings without applying company-only metrics.</p></article>
         </div>
         <div class="asset-launch-foot">
-          <p class="small muted" style="margin:0; max-width:68ch;">Add AAPL, SPY and VTSAX to the same portfolio. Share every AI answer or report to X, Instagram, LinkedIn, Facebook, WhatsApp and more.</p>
+          <p class="small muted" style="margin:0; max-width:68ch;">Add AAPL, SPY and VTSAX to the same portfolio. Prepare AI answers and reports for sharing to X, Instagram, LinkedIn, Facebook, WhatsApp and more.</p>
           <a class="btn btn-primary btn-sm" href="/dashboard.html">Open your mixed portfolio →</a>
         </div>
       </section>
@@ -174,7 +174,7 @@
         <div class="principle">
           <h3>Grounded, or silent.</h3>
           <div>
-            <p>Every figure Ask gives you comes from a tool call over filed statements, cited with its fiscal period. For anything after the latest filing it reads the live web — and tells you exactly which source and date each claim came from. If neither contains the answer, it says so. No estimates dressed as facts, no AI memory.</p>
+            <p>For companies, reported financial figures come from tool calls over supported filed statements and retain their fiscal period. Fund facts use labelled fund-market data. When a question goes beyond the latest filing, Ask can use dated live-web sources and identifies them separately. If the available evidence does not support an answer, it is designed to say so rather than fill the gap from model memory.</p>
             <!-- the product, live — not a screenshot -->
             <div class="card card-pad live-card" style="margin-top:20px;">
               <div style="display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:18px;">
@@ -193,7 +193,7 @@
         </div>
         <div class="principle">
           <h3>Nineteen years deep.</h3>
-          <p>Most tools show you four or five years — enough to see a moment, not a business. We extend every company back through its actual 10-K filings: up to 19 annual years and 48 quarters, split-adjusted, with the ratios and health checks computed for you.</p>
+          <p>Most tools show you four or five years — enough to see a moment, not a business. Covered US-listed companies that report in USD can extend back through their 10-K filings for up to 19 annual years and 48 quarters, split-adjusted, with ratios and health checks computed from available data.</p>
         </div>
         <div class="principle">
           <h3>The screener is free. For everyone.</h3>
@@ -203,7 +203,7 @@
 
       <!-- Ask AI feature -->
       <section class="section" id="ask-feature">
-        <div class="section-head"><h2 class="title-1">Ask the AI analyst</h2><span class="small faint">Your questions, answered from the filings — with the work shown.</span></div>
+        <div class="section-head"><h2 class="title-1">Ask the AI analyst</h2><span class="small faint">Your questions, answered with the source class shown.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
           <p>Ask about companies, ETFs or mutual funds — compare stock fundamentals, inspect a fund's costs and holdings, or rank eligible funds over 3 months, 1 year and 3 years. Company figures come from filings; fund figures come from fund market data.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
@@ -227,7 +227,7 @@
 
       <!-- the stickiest paid feature, shown before signup: a real generated briefing -->
       <section class="section" id="briefing-sample">
-        <div class="section-head"><h2 class="title-1">Your Monday briefing, before you pay</h2><span class="small faint">A real weekly briefing — plain English, every figure computed from filings. This one reads a 5-stock demo portfolio.</span></div>
+        <div class="section-head"><h2 class="title-1">Your Monday briefing, before you pay</h2><span class="small faint">A real weekly briefing — plain English, with company fundamentals computed from supported filings. This one reads a 5-stock demo portfolio.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
           <div class="ask-a" id="brief-sample-body"><p class="small faint">Loading a sample briefing…</p></div>
           <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
@@ -239,10 +239,10 @@
 
       <!-- Filing Change Monitor — Power/Desk marquee feature (crawlable link to /monitor) -->
       <section class="section" id="monitor-feature">
-        <div class="section-head"><h2 class="title-1">Know what changed in any filing</h2><span class="small faint">Your research analyst on autopilot — before the market digests it.</span></div>
+        <div class="section-head"><h2 class="title-1">Know what changed in a supported filing</h2><span class="small faint">A cited first pass for your research workflow.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>The moment a company files, the <a href="/monitor">Filing Change Monitor</a> reads its latest <strong>10-K, 10-Q or 8-K</strong> and tells you exactly what materially changed — the year-over-year numbers (revenue, margins, EPS, free cash flow) and the guidance, risk-factor and demand language that moved — every claim <strong>quoted from the filing</strong>, never guessed, and ranked by how much it matters.</p>
-          <p style="margin-top:12px;">It's the filing intelligence institutions pay <strong>five figures a seat</strong> for, watching your whole watchlist for you. Every number is computed from the filing; the AI only writes the read. On <strong>Power</strong> and <strong>Desk</strong>.</p>
+          <p>When a supported company files, the <a href="/monitor">Filing Change Monitor</a> reads its latest <strong>10-K, 10-Q or 8-K</strong> and produces a first-pass view of material changes — including available year-over-year figures and cited guidance, risk-factor and demand language — ranked by materiality.</p>
+          <p style="margin-top:12px;">It turns a manual first pass through new filings into a watchlist workflow. Financial comparisons are computed from available filing data; the AI summarizes the cited evidence rather than substituting model memory. On <strong>Power</strong> and <strong>Desk</strong>.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
             <a class="btn btn-primary btn-sm" href="/monitor">Try the Filing Monitor →</a>
             <a class="btn btn-ghost btn-sm" href="#pro-plans">See professional plans →</a>
@@ -252,10 +252,10 @@
 
       <!-- Guru portfolios — 13F tracker + AI analysis (marquee feature; crawlable link to /gurus) -->
       <section class="section" id="gurus-feature">
-        <div class="section-head"><h2 class="title-1">See what the great investors own</h2><span class="small faint">27 legendary funds — straight from their SEC 13F filings.</span></div>
+        <div class="section-head"><h2 class="title-1">See what tracked managers reported</h2><span class="small faint">27 manager portfolios from SEC Form 13F filings.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>Every quarter the largest investors must disclose their US stock holdings to the SEC. We turn those <strong>13F filings</strong> into clean portfolios for <a href="/gurus">Warren Buffett, Bill Ackman, Michael Burry, Seth Klarman</a> and 23 more — every position and its weight, what they bought, added, trimmed and sold versus last quarter, and how the current book would have performed over 3 months to 15 years. Free to browse.</p>
-          <p style="margin-top:12px;">On <strong>Pro</strong>, an AI analyst reads each filing for you — the biggest moves, the concentration, the notable new buys and exits — with every figure computed from the filing, never guessed.</p>
+          <p>Qualifying institutional investment managers report covered holdings on Form 13F after each quarter. We turn available filings for <a href="/gurus">Warren Buffett, Bill Ackman, Michael Burry, Seth Klarman</a> and 23 more into readable snapshots — reported positions and weights, plus share-count additions, increases, decreases and removals versus the prior quarter. These are delayed disclosures, not live portfolios or trade signals. Free to browse.</p>
+          <p style="margin-top:12px;">On <strong>Pro</strong>, an AI analyst summarizes the largest reported changes and concentration. Holding weights and quarterly share-count changes are computed from available 13F data; the narrative is written from those results.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
             <p class="small muted" style="margin:0;">Buffett · Ackman · Burry · Druckenmiller · Soros · Li Lu · Tepper · Einhorn · Dalio &amp; more</p>
             <a class="btn btn-primary btn-sm" href="/gurus">Explore guru portfolios →</a>
@@ -287,14 +287,14 @@
             <div class="price-fig">$12<span>/month</span></div>
             <p class="small muted" style="margin:4px 0 14px;">The full research library, for one investor.</p>
             <ul class="price-list">
-              <li>Every US-listed company that files in USD — up to 19 years of statements, 48 quarters, split-adjusted</li>
+              <li>Covered US-listed companies that file in USD — up to 19 years of statements and 48 quarters, subject to data availability</li>
               <li>Ratios, health checks &amp; growth records computed for you</li>
               <li>Peer comparison &amp; side-by-side company compare</li>
               <li>Markets page: news, movers, trending tickers</li>
               <li>Portfolio tracker with look-through quality view</li>
               <li>Watchlist + SEC filing alerts</li>
               <li>Insider buy/sell history from Form 4 filings</li>
-              <li>25 Ask questions a month, grounded in filings</li>
+              <li>25 Ask questions a month, with filing, fund-data or current-web sources identified as applicable</li>
               <li>CSV export of any table</li>
             </ul>
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=monthly">Start 7-day free trial</a>
@@ -327,7 +327,7 @@
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=annual">Continue to annual</a>
           </div>
         </div>
-        <p class="provenance">The 7-day free trial (no card) applies to the monthly plans — pay only if you stay; annual plans are billed today at checkout. Cancel anytime. No first-year discount games — the price you see is the price it stays. The free screener covers 3,800+ US companies and the library 1,500+; statements and Ask cover every US-listed company that files in USD — foreign ADRs aren't covered. Not investment advice.</p>
+        <p class="provenance">The 7-day free trial (no card) applies to the monthly plans — pay only if you stay; annual plans are billed today at checkout. Cancel anytime. No first-year discount games — the price you see is the price it stays. The free screener covers 3,800+ US companies and the public library 1,500+; the application searches a broader US-listed directory, subject to supported filing and data availability. Foreign ADR coverage is limited. Not investment advice.</p>
       </section>
 
       <!-- Professional tiers — Filing Monitor + research desk for analysts/RIAs/funds (USD, annual) -->
@@ -339,11 +339,11 @@
             <div class="price-fig">$579<span>/year</span></div>
             <p class="small muted" style="margin:4px 0 14px;">The complete research desk + Filing Monitor, for one investor.</p>
             <ul class="price-list">
-              <li><strong>Filing Change Monitor</strong> — what changed in any company's latest 10-K/10-Q/8-K, on demand, cited &amp; ranked by materiality</li>
+              <li><strong>Filing Change Monitor</strong> — a cited first pass over a supported company's latest available 10-K/10-Q/8-K, ranked by materiality</li>
               <li><strong>Watchlist filing feed</strong> — every holding's newest filing, read for you</li>
               <li><strong>Wash-sale guard</strong> — cross-account, cross-broker tax-lot intelligence your brokers can't see</li>
               <li>Everything in Pro: 300 Ask questions, smart alerts, daily attribution, segments, weekly briefing</li>
-              <li>19 years of statements on every US-listed filer</li>
+              <li>Up to 19 years of statements for covered US-listed companies that report in USD</li>
             </ul>
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=power">Get Power →</a>
           </div>
@@ -390,7 +390,7 @@
       <section class="section" style="margin-top:48px; text-align:center;">
         <p class="label" style="color:var(--ink-3); margin-bottom:20px;">Featured on</p>
         <div style="display:flex; flex-wrap:wrap; gap:24px 36px; align-items:center; justify-content:center;">
-          <a href="https://appsumo.com/products/stockportfoliopro?utm_source=partner-badge&amp;utm_medium=referral&amp;utm_campaign=partner-255732" target="_blank" rel="noopener" aria-label="StockPortfolio.pro lifetime deal on AppSumo">
+          <a href="/go/appsumo/website" target="_blank" rel="noopener" aria-label="StockPortfolio.pro lifetime deal on AppSumo">
             <img src="https://appsumo2ppnuxt.b-cdn.net/img/as-badge-featured.2433f63.png" alt="Featured on AppSumo — StockPortfolio.pro lifetime deal" width="220" height="60" loading="lazy" decoding="async" style="display:block;" />
           </a>
           <a href="https://saasbrowser.com/en/saas/1430591/stockportfolio" target="_blank" rel="noopener" aria-label="stockportfolio on SaaS Browser">

@@ -2,7 +2,290 @@
 
 // Platform-aware share copy for generated research. The model edits presentation
 // only: numbers, tickers, claims and the answer's conclusion must stay intact.
+const crypto = require('crypto');
 const aiClient = require('./ai-client');
+
+const DEFAULT_APPSUMO_DEAL_URL = 'https://appsumo.com/products/stockportfoliopro/';
+const ACQUISITION_COOKIE_NAME = 'sp_as_acq';
+const ACQUISITION_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
+const APPSUMO_SOURCE_ALIASES = Object.freeze({ twitter: 'x', site: 'website' });
+const APPSUMO_SOURCES = new Set([
+    'x', 'linkedin', 'reddit', 'facebook', 'instagram', 'whatsapp',
+    'youtube', 'stocktwits', 'email', 'newsletter', 'website', 'app',
+    'report', 'creator', 'partner', 'direct', 'bridge'
+]);
+const PUBLIC_SHARE_ID_RE = /^[A-Za-z0-9_-]{16}$/;
+const PUBLIC_SHARE_LIMITS = Object.freeze({ title: 180, content: 20000, sourceUrl: 2000, inputBytes: 64000 });
+const PUBLIC_SHARE_CREATE_LIMIT_PER_HOUR = 20;
+
+function normalizeAppSumoSource(value) {
+    const raw = String(value || '').trim().toLowerCase();
+    const normalized = APPSUMO_SOURCE_ALIASES[raw] || raw;
+    return APPSUMO_SOURCES.has(normalized) ? normalized : null;
+}
+
+function isAppSumoHostname(hostname) {
+    const host = String(hostname || '').trim().toLowerCase().replace(/\.$/, '');
+    return host === 'appsumo.com' || host.endsWith('.appsumo.com');
+}
+
+// The redirect target is deployment configuration, not a request parameter, but
+// validate it anyway so a typo or poisoned environment cannot turn /go into an
+// open redirect. AppSumo's direct and go.* tracking URLs are both covered.
+function resolveAppSumoRedirect(value, fallback = DEFAULT_APPSUMO_DEAL_URL) {
+    for (const candidate of [value, fallback, DEFAULT_APPSUMO_DEAL_URL]) {
+        try {
+            const target = new URL(String(candidate || ''));
+            if (target.protocol !== 'https:' || target.username || target.password) continue;
+            if (target.port && target.port !== '443') continue;
+            if (!isAppSumoHostname(target.hostname)) continue;
+            return target.toString();
+        } catch (_) { /* try the next safe fallback */ }
+    }
+    return DEFAULT_APPSUMO_DEAL_URL;
+}
+
+// The bridge page is a static asset, so safely attribute its fixed CTA links by
+// replacing one known path with another allowlisted path. The query value is
+// never interpolated until it has passed normalizeAppSumoSource().
+function attributeAppSumoLandingHtml(html, source) {
+    const safeSource = normalizeAppSumoSource(source);
+    if (!safeSource || safeSource === 'bridge') return String(html || '');
+    return String(html || '').replaceAll('/go/appsumo/bridge', `/go/appsumo/${safeSource}`);
+}
+
+// The first drip is product onboarding. Later messages include the neutral
+// review request, so send them only after real Ask usage—not based on sentiment.
+function shouldSendAppSumoReviewStage(stage, askUsage) {
+    const normalizedStage = Number(stage);
+    if (normalizedStage === 1) return true;
+    if (normalizedStage === 2 || normalizedStage === 3) return Number(askUsage) > 0;
+    return false;
+}
+
+function safeTokenEqual(a, b) {
+    const left = Buffer.from(String(a || ''));
+    const right = Buffer.from(String(b || ''));
+    return left.length === right.length && crypto.timingSafeEqual(left, right);
+}
+
+function acquisitionSignature(payload, secret) {
+    return crypto.createHmac('sha256', String(secret || ''))
+        .update(payload)
+        .digest('base64url')
+        .slice(0, 22);
+}
+
+function createAcquisitionCookieValue(source, { secret, now = Date.now(), clickId } = {}) {
+    const safeSource = normalizeAppSumoSource(source);
+    if (!safeSource || !secret) return null;
+    const timestamp = Math.floor(Number(now) / 1000);
+    if (!Number.isFinite(timestamp) || timestamp <= 0) return null;
+    const id = String(clickId || crypto.randomBytes(9).toString('base64url'));
+    if (!/^[A-Za-z0-9_-]{8,32}$/.test(id)) return null;
+    const payload = `v1.${safeSource}.${timestamp}.${id}`;
+    return `${payload}.${acquisitionSignature(payload, secret)}`;
+}
+
+function parseCookieHeader(header) {
+    const out = new Map();
+    for (const part of String(header || '').split(';')) {
+        const index = part.indexOf('=');
+        if (index <= 0) continue;
+        const name = part.slice(0, index).trim();
+        if (!name) continue;
+        let value = part.slice(index + 1).trim();
+        try { value = decodeURIComponent(value); } catch (_) { /* keep raw */ }
+        out.set(name, value);
+    }
+    return out;
+}
+
+function parseAcquisitionCookieHeader(header, {
+    secret,
+    now = Date.now(),
+    maxAgeSeconds = ACQUISITION_MAX_AGE_SECONDS
+} = {}) {
+    if (!secret) return null;
+    const value = parseCookieHeader(header).get(ACQUISITION_COOKIE_NAME);
+    const parts = String(value || '').split('.');
+    if (parts.length !== 5 || parts[0] !== 'v1') return null;
+    const source = normalizeAppSumoSource(parts[1]);
+    const timestamp = Number(parts[2]);
+    const clickId = parts[3];
+    if (!source || !Number.isInteger(timestamp) || !/^[A-Za-z0-9_-]{8,32}$/.test(clickId)) return null;
+    const nowSeconds = Math.floor(Number(now) / 1000);
+    if (!Number.isFinite(nowSeconds) || timestamp > nowSeconds + 300 || nowSeconds - timestamp > maxAgeSeconds) return null;
+    const payload = parts.slice(0, 4).join('.');
+    if (!safeTokenEqual(parts[4], acquisitionSignature(payload, secret))) return null;
+    return { source, clickId, clickedAt: new Date(timestamp * 1000) };
+}
+
+function serializeAcquisitionCookie(value, {
+    secure = true,
+    maxAgeSeconds = ACQUISITION_MAX_AGE_SECONDS,
+    domain = null
+} = {}) {
+    if (!/^[A-Za-z0-9._-]+$/.test(String(value || ''))) return null;
+    const parts = [
+        `${ACQUISITION_COOKIE_NAME}=${encodeURIComponent(value)}`,
+        `Max-Age=${Math.max(0, Math.floor(Number(maxAgeSeconds) || 0))}`,
+        'Path=/',
+        'HttpOnly',
+        'SameSite=Lax'
+    ];
+    const safeDomain = String(domain || '').trim().toLowerCase().replace(/^\./, '');
+    if (safeDomain && /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/.test(safeDomain)) {
+        parts.push(`Domain=${safeDomain}`);
+    }
+    if (secure) parts.push('Secure');
+    return parts.join('; ');
+}
+
+// The product uses both apex and www URLs (the AppSumo OAuth callback is www).
+// A narrowly-scoped first-party domain cookie lets acquisition survive that
+// host transition without trusting arbitrary forwarded Host values.
+function acquisitionCookieDomain(hostname) {
+    const host = String(hostname || '').trim().toLowerCase().replace(/\.$/, '');
+    return (host === 'stockportfolio.pro' || host.endsWith('.stockportfolio.pro'))
+        ? 'stockportfolio.pro'
+        : null;
+}
+
+function makePublicShareId() {
+    return crypto.randomBytes(12).toString('base64url');
+}
+
+function isPublicShareId(value) {
+    return PUBLIC_SHARE_ID_RE.test(String(value || ''));
+}
+
+function stripMarkup(value) {
+    return String(value || '')
+        .normalize('NFKC')
+        .replace(/<!--[\s\S]*?-->/g, ' ')
+        .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1\s*>/gi, ' ')
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/```(?:[A-Za-z0-9_-]+)?\s*/g, '')
+        .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]/g, '');
+}
+
+function sanitizePublicShareTitle(value) {
+    return stripMarkup(value).replace(/\s+/g, ' ').trim().slice(0, PUBLIC_SHARE_LIMITS.title);
+}
+
+function sanitizePublicShareContent(value) {
+    return stripMarkup(value)
+        .replace(/\r\n?/g, '\n')
+        .replace(/[ \t]+\n/g, '\n')
+        .replace(/\n[ \t]+/g, '\n')
+        .replace(/[ \t]{2,}/g, ' ')
+        .replace(/[ \t]+([,.;:!?])/g, '$1')
+        .replace(/\n{4,}/g, '\n\n\n')
+        .trim()
+        .slice(0, PUBLIC_SHARE_LIMITS.content);
+}
+
+function normalizePublicBaseUrl(value) {
+    const fallback = 'https://stockportfolio.pro';
+    try {
+        const target = new URL(String(value || fallback));
+        const localHttp = target.protocol === 'http:' && ['localhost', '127.0.0.1'].includes(target.hostname);
+        if ((target.protocol !== 'https:' && !localHttp) || target.username || target.password) return fallback;
+        return target.origin;
+    } catch (_) { return fallback; }
+}
+
+// Retain only a same-origin public page and a validated ticker. Authentication,
+// reset and arbitrary query parameters never enter the durable share record.
+function safePublicSourceUrl(value, publicBase) {
+    if (!value) return null;
+    const base = normalizePublicBaseUrl(publicBase);
+    try {
+        const target = new URL(String(value), `${base}/`);
+        if (target.origin !== base) return null;
+        if (/^\/(?:api(?:\/|$)|dashboard(?:\.html)?$|settings(?:\.html)?$|login(?:\.html)?$|reset(?:\.html)?$|appsumo\/redeem(?:\/|$))/i.test(target.pathname)) return null;
+        const symbol = String(target.searchParams.get('symbol') || '').trim().toUpperCase();
+        target.hash = '';
+        target.search = '';
+        if (symbol && /^[A-Z0-9.^=-]{1,20}$/.test(symbol)) target.searchParams.set('symbol', symbol);
+        return target.toString();
+    } catch (_) { return null; }
+}
+
+function shareInputError(message, status) {
+    return Object.assign(new Error(message), { status });
+}
+
+function normalizePublicResearchShare(input = {}, { publicBase } = {}) {
+    const rawTitle = String(input.title || '');
+    const rawContent = String(input.content || '');
+    const rawSourceUrl = String(input.sourceUrl || '');
+    const inputBytes = Buffer.byteLength(JSON.stringify({ title: rawTitle, content: rawContent, sourceUrl: rawSourceUrl }));
+    if (inputBytes > PUBLIC_SHARE_LIMITS.inputBytes || rawTitle.length > 1000 || rawContent.length > PUBLIC_SHARE_LIMITS.content || rawSourceUrl.length > PUBLIC_SHARE_LIMITS.sourceUrl) {
+        throw shareInputError('Research share is too large.', 413);
+    }
+    const title = sanitizePublicShareTitle(rawTitle) || 'StockPortfolio.pro research';
+    const content = sanitizePublicShareContent(rawContent);
+    if (content.length < 12) throw shareInputError('Research share content is required.', 400);
+    return { title, content, sourceUrl: safePublicSourceUrl(rawSourceUrl, publicBase) };
+}
+
+function escapeHtml(value) {
+    return String(value ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function renderPlainResearch(value) {
+    return String(value || '').split(/\n{2,}/).filter(Boolean).map((paragraph) =>
+        `<p>${escapeHtml(paragraph).replace(/\n/g, '<br>')}</p>`
+    ).join('\n');
+}
+
+function renderPublicResearchPage(share = {}, { publicBase } = {}) {
+    const id = isPublicShareId(share.publicId) ? String(share.publicId) : 'invalid-share-id';
+    const base = normalizePublicBaseUrl(publicBase);
+    const title = sanitizePublicShareTitle(share.title) || 'StockPortfolio.pro research';
+    const content = sanitizePublicShareContent(share.content);
+    const description = content.replace(/\s+/g, ' ').slice(0, 240);
+    const reportUrl = `${base}/r/${encodeURIComponent(id)}`;
+    const sourceUrl = safePublicSourceUrl(share.sourceUrl, base);
+    const created = share.createdAt && !Number.isNaN(new Date(share.createdAt).getTime())
+        ? new Date(share.createdAt).toISOString()
+        : new Date(0).toISOString();
+    const sourceLink = sourceUrl
+        ? `<a class="source" href="${escapeHtml(sourceUrl)}" rel="nofollow">Open the original research surface</a>`
+        : '';
+    return `<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow,noarchive">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
+<title>${escapeHtml(title)} — StockPortfolio.pro</title>
+<meta name="description" content="${escapeHtml(description)}">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="StockPortfolio.pro">
+<meta property="og:title" content="${escapeHtml(title)}">
+<meta property="og:description" content="${escapeHtml(description)}">
+<meta property="og:url" content="${escapeHtml(reportUrl)}">
+<meta property="article:published_time" content="${escapeHtml(created)}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="${escapeHtml(title)}">
+<meta name="twitter:description" content="${escapeHtml(description)}">
+<link rel="canonical" href="${escapeHtml(reportUrl)}">
+<style>:root{color-scheme:light;--ink:#17202a;--muted:#66717d;--line:#dfe4e8;--brand:#e8412e}*{box-sizing:border-box}body{margin:0;background:#f5f7f8;color:var(--ink);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:820px;margin:0 auto;padding:42px 20px 70px}.brand{color:var(--ink);font-weight:800;text-decoration:none}.eyebrow{margin:28px 0 8px;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(28px,5vw,46px);line-height:1.12;margin:0 0 22px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(22px,5vw,42px);box-shadow:0 10px 35px rgba(20,30,40,.06)}.research p{margin:0 0 1.15em;overflow-wrap:anywhere}.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.source{color:#285f9d}.cta{margin-top:24px;padding:22px;border-radius:16px;background:#17202a;color:#fff}.cta strong{display:block;font-size:20px}.cta p{margin:5px 0 14px;color:#d8dde2}.btn{display:inline-block;padding:11px 16px;border-radius:10px;background:var(--brand);color:#fff;text-decoration:none;font-weight:750}.fine{margin-top:18px;color:var(--muted);font-size:13px}</style></head>
+<body><main class="wrap"><a class="brand" href="${escapeHtml(base)}/">StockPortfolio.pro</a>
+<div class="eyebrow">Unlisted public research</div><h1>${escapeHtml(title)}</h1>
+<article class="card"><div class="research">${renderPlainResearch(content)}</div>
+<div class="meta"><span>Shared ${escapeHtml(created.slice(0, 10))}</span>${sourceLink}</div></article>
+<aside class="cta"><strong>Research the numbers behind your portfolio.</strong><p>Explore source-backed stock and fund research with the StockPortfolio.pro lifetime deal.</p><a class="btn" href="/go/appsumo/report?rid=${encodeURIComponent(id)}" rel="nofollow">View the AppSumo lifetime deal</a></aside>
+<p class="fine">Anyone with this unlisted URL can view this report. Figures and sources reflect the research when it was shared. Verify material facts against the cited filing or source. Research only — not investment advice.</p>
+</main></body></html>`;
+}
 
 const PLATFORM_RULES = {
     x: { label: 'X / Twitter', limit: 245, style: 'one compact post; leave room for the shared URL; at most two hashtags' },
@@ -72,4 +355,32 @@ async function rewriteForPlatform({ platform, title, content, allowAi = false } 
     }
 }
 
-module.exports = { rewriteForPlatform, withinLimit, clean, PLATFORM_RULES };
+module.exports = {
+    rewriteForPlatform,
+    withinLimit,
+    clean,
+    PLATFORM_RULES,
+    DEFAULT_APPSUMO_DEAL_URL,
+    ACQUISITION_COOKIE_NAME,
+    ACQUISITION_MAX_AGE_SECONDS,
+    APPSUMO_SOURCES,
+    PUBLIC_SHARE_LIMITS,
+    PUBLIC_SHARE_CREATE_LIMIT_PER_HOUR,
+    normalizeAppSumoSource,
+    resolveAppSumoRedirect,
+    attributeAppSumoLandingHtml,
+    shouldSendAppSumoReviewStage,
+    createAcquisitionCookieValue,
+    parseAcquisitionCookieHeader,
+    serializeAcquisitionCookie,
+    acquisitionCookieDomain,
+    makePublicShareId,
+    isPublicShareId,
+    normalizePublicBaseUrl,
+    safePublicSourceUrl,
+    normalizePublicResearchShare,
+    sanitizePublicShareTitle,
+    sanitizePublicShareContent,
+    escapeHtml,
+    renderPublicResearchPage
+};

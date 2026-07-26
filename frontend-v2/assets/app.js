@@ -648,9 +648,11 @@
     // a meaning-preserving rewrite sized for that platform before it opens.
     function mountShare(host, { title = 'stockportfolio.pro research', text = '', url = location.href } = {}) {
         if (!host) return;
-        const clean = String(text || '').replace(/```[\s\S]*?```/g, ' ').replace(/[#*_>`|\[\]]/g, '').replace(/\s+/g, ' ').trim();
-        const shareUrl = String(url || location.href);
+        const publicContent = String(text || '').replace(/\u0000/g, '').trim().slice(0, 20000);
+        const clean = publicContent.replace(/```[\s\S]*?```/g, ' ').replace(/[#*_>`|\[\]]/g, '').replace(/\s+/g, ' ').trim();
+        const fallbackUrl = String(url || location.href);
         const prepared = new Map();
+        let publicReportPromise = null;
         host.classList.add('share-actions');
         host.innerHTML = `
           <span class="share-label">Share</span>
@@ -662,6 +664,7 @@
           <button type="button" class="share-btn" data-share="reddit">Reddit</button>
           ${navigator.share ? '<button type="button" class="share-btn" data-share="native">More…</button>' : ''}
           <button type="button" class="share-btn" data-share="copy">Copy</button>
+          <span class="share-disclosure" style="flex-basis:100%;font-size:12px;color:var(--muted,#68717d);line-height:1.4">Clicking a share option creates an unlisted public copy. Anyone with its URL can view the shared research.</span>
           <span class="share-status" role="status" aria-live="polite"></span>`;
 
         const status = host.querySelector('.share-status');
@@ -685,13 +688,41 @@
             }).catch(() => [title, clean].filter(Boolean).join('\n\n')));
             return prepared.get(platform);
         };
+        // No report is created during render or hover. The first explicit share
+        // click creates one immutable URL; every subsequent platform reuses it.
+        const ensurePublicReport = () => {
+            if (!publicReportPromise) {
+                publicReportPromise = fetch(`${API}/research-shares`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token() ? { Authorization: `Bearer ${token()}` } : {})
+                    },
+                    body: JSON.stringify({ title, content: publicContent || clean, sourceUrl: fallbackUrl })
+                }).then(async (r) => {
+                    const data = await r.json().catch(() => ({}));
+                    if (!r.ok || !data.url) throw new Error(data.message || 'Public link creation failed');
+                    return { url: data.url, isPublicReport: true };
+                }).catch(() => ({ url: fallbackUrl, isPublicReport: false }));
+            }
+            return publicReportPromise;
+        };
         host.addEventListener('click', async (event) => {
             const button = event.target.closest('[data-share]');
             if (!button) return;
             const platform = button.dataset.share;
             if (platform === 'copy') {
-                const payload = [title, clean, shareUrl].filter(Boolean).join('\n\n');
-                await copyText(payload); say('Full research copied.'); return;
+                const original = button.textContent;
+                button.disabled = true; button.textContent = 'Creating link…';
+                try {
+                    const report = await ensurePublicReport();
+                    const payload = [title, clean, report.url].filter(Boolean).join('\n\n');
+                    await copyText(payload);
+                    say(report.isPublicReport ? 'Research and its unlisted public link copied.' : 'Public link unavailable; copied this page instead.');
+                } finally {
+                    button.disabled = false; button.textContent = original;
+                }
+                return;
             }
             const popup = platform === 'native' ? null : window.open('about:blank', '_blank', 'width=760,height=640');
             if (popup) popup.opener = null;
@@ -702,7 +733,8 @@
             const original = button.textContent;
             button.disabled = true; button.textContent = 'Preparing…';
             try {
-                const caption = await prepare(platform);
+                const [caption, report] = await Promise.all([prepare(platform), ensurePublicReport()]);
+                const shareUrl = report.url;
                 if (platform === 'x') {
                     openPrepared(`https://twitter.com/intent/tweet?text=${encodeURIComponent(caption)}&url=${encodeURIComponent(shareUrl)}`);
                 } else if (platform === 'whatsapp') {
@@ -712,13 +744,14 @@
                 } else if (platform === 'facebook') {
                     await copyText(caption); openPrepared(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`); say('Facebook post copied — paste it into the share window.');
                 } else if (platform === 'instagram') {
-                    await copyText(caption); openPrepared('https://www.instagram.com/'); say('Instagram caption copied — paste it into your post.');
+                    await copyText([caption, shareUrl].filter(Boolean).join('\n\n')); openPrepared('https://www.instagram.com/'); say('Instagram caption and public report link copied — paste them into your post.');
                 } else if (platform === 'reddit') {
                     const redditTitle = caption.length > 280 ? caption.slice(0, 277) + '…' : caption;
                     openPrepared(`https://www.reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(redditTitle)}`);
                 } else if (platform === 'native' && navigator.share) {
                     try { await navigator.share({ title, text: caption, url: shareUrl }); } catch (_) { /* cancelled */ }
                 }
+                if (!report.isPublicReport) say('Public link unavailable; shared this page instead.');
             } finally {
                 button.disabled = false; button.textContent = original;
             }

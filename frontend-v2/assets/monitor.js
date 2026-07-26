@@ -238,7 +238,7 @@
       <div class="card card-pad mon-upsell">
         <span class="mon-summary-badge">Power &amp; Desk feature</span>
         <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Power &amp; Desk</h2>
-        <p class="muted" style="max-width:62ch;">Get an instant, cited read on what materially changed in any company's latest 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved — plus a materiality-ranked feed across your whole watchlist.</p>
+        <p class="muted" style="max-width:62ch;">Get a cited first pass over material changes in a supported company's latest available 10-K, 10-Q or 8-K — including available year-over-year figures and changes in guidance, risk and demand language — plus a ranked feed across your watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
           <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — $1,961/yr</a>
           <a class="btn btn-ghost" href="/register.html?plan=power">Power — $579/yr</a>
@@ -254,7 +254,7 @@
   function maybeShowTrialCounter(r) {
     const remRaw = r.headers.get('ratelimit-remaining');
     const limRaw = r.headers.get('ratelimit-limit');
-    if (remRaw === null || limRaw === null) return; // unlimited (Power/Desk)
+    if (remRaw === null || limRaw === null) return; // no free-trial stock counter (Power/Desk)
     const remaining = parseInt(remRaw, 10);
     const limit = parseInt(limRaw, 10);
     if (!Number.isFinite(remaining) || !Number.isFinite(limit)) return;
@@ -264,14 +264,14 @@
     // the large global one, the user is entitled (trial skipped); show nothing.
     if (limit > 10) return;
     const msg = remaining > 0
-      ? `<strong>${remaining} of ${limit} free stock${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Re-runs of a stock you’ve already opened stay free. Unlimited stocks across your whole watchlist are on Power.</span>`
-      : `<strong>That’s your ${limit} free stocks for today.</strong> <span class="faint">Power gives you unlimited filing intelligence across your whole watchlist — the read institutions pay five figures a seat for.</span>`;
+      ? `<strong>${remaining} of ${limit} free stock${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Re-runs of a stock you’ve already opened stay free. Power removes the free per-stock trial counter and adds the watchlist workflow.</span>`
+      : `<strong>That’s your ${limit} free stocks for today.</strong> <span class="faint">Power removes the free per-stock trial counter and adds filing-change research across your watchlist.</span>`;
     const banner = document.createElement('div');
     banner.className = 'card card-pad mon-trial-note';
     banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
     banner.innerHTML = `<div class="small" style="max-width:58ch; margin:0;">${msg}</div>
       <div style="flex-shrink:0;">
-        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Go unlimited — Power $64/mo</a>
+        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Get Power — $64/mo</a>
       </div>`;
     const out = $('mon-report');
     out.insertBefore(banner, out.firstChild);
@@ -281,9 +281,9 @@
   function trialWall(out) {
     out.innerHTML = `
       <div class="card card-pad mon-upsell">
-        <span class="mon-summary-badge">The Filing Monitor — unlimited on Power</span>
+        <span class="mon-summary-badge">The Filing Monitor — Power &amp; Desk</span>
         <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
-        <p class="muted" style="max-width:62ch;">Power gives you an instant, cited read on what materially changed in any 10-K, 10-Q or 8-K — the year-over-year numbers and the guidance, risk and demand language that moved, ranked by materiality — unlimited, with an auto-updating feed across your whole watchlist. The job institutional desks pay five figures a seat for.</p>
+        <p class="muted" style="max-width:62ch;">Power gives you a cited first pass over material changes in supported 10-K, 10-Q and 8-K filings, with available numerical and narrative changes ranked by materiality and an updating feed across your watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
           <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $64/mo</a>
           <a class="btn btn-ghost" href="/register.html?plan=power">Or $579/yr — save 25%</a>

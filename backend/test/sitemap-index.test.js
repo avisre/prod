@@ -22,6 +22,7 @@ test('sitemap root is a small index with valid, bounded child shards', () => {
     for (const m of xml.matchAll(/<lastmod>([^<]+)<\/lastmod>/g)) dates.add(m[1]);
   }
   assert.ok(total > 20_000, 'full public inventory remains discoverable');
+  assert.match(seo.buildSitemapShard('core'), /<loc>https:\/\/www\.stockportfolio\.pro\/appsumo<\/loc>/);
   assert.ok(dates.size > 1, 'lastmod must reflect real per-page/data freshness, not generation day');
   assert.equal(seo.buildSitemapShard('does-not-exist'), null);
 });

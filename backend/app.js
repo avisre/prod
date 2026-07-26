@@ -210,6 +210,18 @@ const shareCopyLimiter = rateLimit({
 });
 app.use('/api/ai/share-copy', shareCopyLimiter);
 
+// Creating a durable public report is intentionally user-triggered and cheap,
+// but it is also an unauthenticated write surface (sample research can be
+// shared while logged out). Keep it well below normal read traffic so it cannot
+// become a content-spam sink.
+const researchShareCreateLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: shareCopy.PUBLIC_SHARE_CREATE_LIMIT_PER_HOUR,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+app.use('/api/research-shares', researchShareCreateLimiter);
+
 const checkEmailLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 20,
@@ -296,6 +308,8 @@ const APPSUMO_REDIRECT_URI = process.env.APPSUMO_REDIRECT_URI || 'https://www.st
 // which is always valid and lets them navigate to the product to review/upgrade.
 const APPSUMO_PRODUCT_SLUG = process.env.APPSUMO_PRODUCT_SLUG || '';
 const APPSUMO_ACCOUNT_URL = 'https://appsumo.com/account/products/';
+const APPSUMO_OUTBOUND_URL = shareCopy.resolveAppSumoRedirect(process.env.APPSUMO_ATTRIBUTED_URL);
+const PUBLIC_APP_URL = shareCopy.normalizePublicBaseUrl(process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro');
 const missingAppSumoConfig = [
   !APPSUMO_API_KEY && 'APPSUMO_API_KEY',
   !APPSUMO_CLIENT_ID && 'APPSUMO_CLIENT_ID',
@@ -1284,6 +1298,24 @@ const staticCacheHeaders = (res, filePath) => {
     if (/\.(png|jpe?g|gif|svg|ico|webp|avif)$/i.test(filePath)) { res.setHeader('Cache-Control', 'public, max-age=2592000'); return; }
     res.setHeader('Cache-Control', 'public, max-age=3600');
 };
+// Explicit campaign route. Keep this ahead of extension-based static serving so
+// /appsumo is stable even if the static middleware's resolution rules change.
+app.get('/appsumo', async (req, res, next) => {
+    const source = shareCopy.normalizeAppSumoSource(req.query.source);
+    const landingPath = path.join(__dirname, '../frontend-v2/appsumo.html');
+    res.setHeader('Cache-Control', 'no-cache');
+    if (!source || source === 'bridge') {
+        return res.sendFile(landingPath, (error) => {
+            if (error && !res.headersSent) next(error);
+        });
+    }
+    try {
+        const html = await fs.promises.readFile(landingPath, 'utf8');
+        return res.type('html').send(shareCopy.attributeAppSumoLandingHtml(html, source));
+    } catch (error) {
+        return next(error);
+    }
+});
 app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
 app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));
 // transition window: old surface stays reachable at /v1; /v2 links keep working
@@ -1346,6 +1378,19 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
+// Explicitly-created, unlisted research pages. There is deliberately no TTL:
+// social posts and newsletters need their cited report URL to remain durable.
+// Only sanitized plain text is persisted; renderer-side escaping is a second
+// layer of defence and createdBy is never exposed on the public page.
+const PublicResearchShareSchema = new mongoose.Schema({
+    publicId: { type: String, required: true, unique: true, index: true },
+    title: { type: String, required: true, maxlength: shareCopy.PUBLIC_SHARE_LIMITS.title },
+    content: { type: String, required: true, maxlength: shareCopy.PUBLIC_SHARE_LIMITS.content },
+    sourceUrl: { type: String, default: null, maxlength: shareCopy.PUBLIC_SHARE_LIMITS.sourceUrl },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
+}, { timestamps: true, versionKey: false, collection: 'public_research_shares' });
+const PublicResearchShare = mongoose.model('PublicResearchShare', PublicResearchShareSchema);
+
 async function getUserByToken(token) {
     if (!token) {
         throw { status: 401, message: 'Authentication required' };
@@ -1389,6 +1434,33 @@ async function trackFunnel(event, userId, plan, extra) {
         });
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
 }
+
+// Campaign-safe AppSumo redirect. Only named, allowlisted channels are accepted;
+// the destination is a validated server-side URL, never request-controlled.
+// The signed cookie contains only channel, time and a random click ID (no PII).
+app.get('/go/appsumo/:source', (req, res) => {
+    const source = shareCopy.normalizeAppSumoSource(req.params.source);
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('Referrer-Policy', 'no-referrer');
+    if (!source) return res.status(404).send('Unknown AppSumo campaign source.');
+
+    const value = shareCopy.createAcquisitionCookieValue(source, { secret: JWT_SECRET });
+    const cookie = shareCopy.serializeAcquisitionCookie(value, {
+        secure: process.env.NODE_ENV === 'production' || Boolean(req.secure),
+        domain: shareCopy.acquisitionCookieDomain(req.hostname)
+    });
+    if (cookie) res.setHeader('Set-Cookie', cookie);
+    const acquisition = value
+        ? shareCopy.parseAcquisitionCookieHeader(`${shareCopy.ACQUISITION_COOKIE_NAME}=${encodeURIComponent(value)}`, { secret: JWT_SECRET })
+        : null;
+    const reportId = shareCopy.isPublicShareId(req.query.rid) ? String(req.query.rid) : null;
+    trackFunnel('appsumo_outbound', null, null, {
+        source,
+        acquisitionClickId: acquisition ? acquisition.clickId : null,
+        reportId
+    });
+    return res.redirect(302, APPSUMO_OUTBOUND_URL);
+});
 
 async function activateSubscription(user, { subscriptionId, customerId, planId, stripeStatus, trialEndsAt, stripePriceId } = {}) {
     const now = new Date();
@@ -3049,6 +3121,69 @@ app.post('/api/ai/share-copy', optionalAuth, async (req, res) => {
     }
 });
 
+async function persistPublicResearchShare(payload, createdBy) {
+    // A 96-bit random ID makes collisions vanishingly unlikely. Retrying on the
+    // unique index keeps correctness deterministic even under a mocked RNG/test.
+    for (let attempt = 0; attempt < 4; attempt++) {
+        try {
+            return await PublicResearchShare.create({
+                publicId: shareCopy.makePublicShareId(),
+                title: payload.title,
+                content: payload.content,
+                sourceUrl: payload.sourceUrl || null,
+                createdBy: createdBy || null
+            });
+        } catch (error) {
+            if (error && error.code === 11000) continue;
+            throw error;
+        }
+    }
+    throw Object.assign(new Error('Could not allocate a public report ID.'), { status: 503 });
+}
+
+// Explicit-on-click creation of an immutable, unlisted public research page.
+// Optional auth lets public samples be shared, while retaining a private owner
+// reference for abuse response. The public document never exposes that owner.
+app.post('/api/research-shares', optionalAuth, async (req, res) => {
+    try {
+        const payload = shareCopy.normalizePublicResearchShare(req.body || {}, { publicBase: PUBLIC_APP_URL });
+        const report = await persistPublicResearchShare(payload, req.user && req.user._id);
+        const publicUrl = `${PUBLIC_APP_URL}/r/${report.publicId}`;
+        res.setHeader('Cache-Control', 'no-store');
+        trackFunnel('research_share_created', req.user && req.user._id, null, {
+            reportId: report.publicId,
+            sourceUrl: payload.sourceUrl || null
+        });
+        return res.status(201).json({
+            id: report.publicId,
+            url: publicUrl,
+            visibility: 'unlisted-public',
+            createdAt: report.createdAt
+        });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Public sharing is temporarily unavailable.' });
+        return res.status(error.status || 500).json({ message: error.message || 'Could not create a public research link.' });
+    }
+});
+
+// Social crawlers receive full Open Graph metadata; search crawlers are told not
+// to index these capability URLs. Reports contain escaped plain text only.
+app.get('/r/:id', async (req, res) => {
+    const publicId = String(req.params.id || '');
+    if (!shareCopy.isPublicShareId(publicId)) return res.status(404).send('Research report not found.');
+    try {
+        const report = await PublicResearchShare.findOne({ publicId }).lean();
+        if (!report) return res.status(404).send('Research report not found.');
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        res.setHeader('Cache-Control', 'public, max-age=600, stale-while-revalidate=86400');
+        res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'");
+        return res.type('html').send(shareCopy.renderPublicResearchPage(report, { publicBase: PUBLIC_APP_URL }));
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).send('Research sharing is temporarily unavailable.');
+        return res.status(500).send('Could not load this research report.');
+    }
+});
+
 // Conversational portfolio Q&A (Pro).
 app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
     const question = String((req.body && req.body.question) || '').trim();
@@ -3967,7 +4102,7 @@ function effectiveAskLimit(req) {
     return (Number.isFinite(cap) && cap > 0) ? Math.min(cap, base) : base;
 }
 
-async function grantAppSumoProAccess(user, { licenseKey, tier } = {}) {
+async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition } = {}) {
     const cfg = appsumoTierConfig(tier);
     const now = new Date();
     applyPlanToSubscription(user, PRO_PLAN_ID); // reuse the Pro plan ladder
@@ -3987,7 +4122,14 @@ async function grantAppSumoProAccess(user, { licenseKey, tier } = {}) {
     user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
     user.markModified('subscription');
     await user.save();
-    trackFunnel('paid', user._id, cfg.planName, { source: 'appsumo', appsumoLicenseKey: licenseKey || null, appsumoTier: Number(tier) || null });
+    trackFunnel('paid', user._id, cfg.planName, {
+        source: 'appsumo',
+        appsumoLicenseKey: licenseKey || null,
+        appsumoTier: Number(tier) || null,
+        acquisitionSource: acquisition ? acquisition.source : null,
+        acquisitionClickId: acquisition ? acquisition.clickId : null,
+        acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+    });
 }
 
 async function revokeAppSumoAccess(user) {
@@ -4182,7 +4324,8 @@ app.post('/api/appsumo/activate', authMiddleware, async (req, res) => {
         lic.status = 'active';
         lic.redeemedAt = lic.redeemedAt || new Date();
         await lic.save();
-        await grantAppSumoProAccess(req.user, { licenseKey, tier: lic.tier || tier });
+        const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+        await grantAppSumoProAccess(req.user, { licenseKey, tier: lic.tier || tier, acquisition });
         return res.json({ ok: true, message: 'Your AppSumo lifetime Pro is active.', subscription: normalizeSubscription(req.user.subscription) });
     } catch (err) {
         console.error('AppSumo activate error:', err);
@@ -5055,6 +5198,11 @@ async function runAppSumoReviewSweep() {
             const threshold = APPSUMO_REVIEW_STAGES[nextStage];
             if (!threshold) continue;
             if (now - new Date(u.appsumoRedeemedAt).getTime() < threshold) continue; // not due yet
+            // Stage 1 is onboarding. Stages 2/3 ask for a neutral, honest review,
+            // so require actual product use first. This is usage-based only: no
+            // rating, feedback verdict, or sentiment ever affects eligibility.
+            const hasAskUse = nextStage >= 2 ? await aiChat.hasEverUsed(u._id) : false;
+            if (!shareCopy.shouldSendAppSumoReviewStage(nextStage, hasAskUse ? 1 : 0)) continue;
             const unsubUrl = `${appUrl}/api/appsumo/unsubscribe?token=${appsumoUnsubToken(u._id)}`;
             const mail = mailer.appsumoReviewEmail(u.name, appUrl, nextStage, reviewUrl, unsubUrl);
             if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {

@@ -1299,6 +1299,19 @@ async function getUsage(userId) {
         return (doc && doc.count) || 0;
     } catch (_) { return 0; } // fail-open: a DB blip shouldn't kill the feature
 }
+// Review eligibility must survive a calendar-month rollover. Monthly quota
+// reads intentionally use getUsage(), while this asks whether any successful,
+// metered Ask has ever been recorded for the user.
+async function hasEverUsed(userId) {
+    try {
+        const col = mongoose.connection.collection('ai_chat_usage');
+        const doc = await col.findOne(
+            { userId: String(userId), count: { $gt: 0 } },
+            { projection: { _id: 1 } }
+        );
+        return Boolean(doc);
+    } catch (_) { return false; }
+}
 // Cross-session memory: the last few exchanges per user, so a fresh page
 // (empty client history) can pick the thread back up. Capped at 8 turns.
 async function saveExchange(userId, question, answer) {
@@ -1331,4 +1344,4 @@ async function recordUse(userId) {
     } catch (_) { /* fail-open */ }
 }
 
-module.exports = { ask, getUsage, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFundAny };
+module.exports = { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFundAny };

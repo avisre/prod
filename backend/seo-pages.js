@@ -664,7 +664,13 @@ const SITEMAP_TTL_MS = 30 * 60 * 1000;
 // refreshes retain their real filesystem date. This keeps deploys from falsely
 // telling crawlers that thousands of unchanged company pages changed today.
 const SITEMAP_DATA_SNAPSHOT = '2026-07-19';
-const SITEMAP_BOOT_MS = Date.now();
+// Compare bundled data with the deployed source tree, not process start time.
+// A service may start many hours after a checkout/unpack (as happens in this
+// production snapshot), which made every bundled cache look like a fresh
+// nightly write and collapsed all sitemap dates to the deployment date.
+const SITEMAP_DEPLOY_MS = (() => {
+    try { return fs.statSync(__filename).mtime.getTime(); } catch (_) { return Date.now(); }
+})();
 let _sitemapInventoryCache = null;
 
 function isoMtime(file, fallback = '2026-07-19') {
@@ -673,14 +679,14 @@ function isoMtime(file, fallback = '2026-07-19') {
 function isoDataMtime(file) {
     try {
         const modified = fs.statSync(file).mtime;
-        if (Math.abs(modified.getTime() - SITEMAP_BOOT_MS) < 60 * 60 * 1000) return SITEMAP_DATA_SNAPSHOT;
+        if (modified.getTime() <= SITEMAP_DEPLOY_MS + 60 * 60 * 1000) return SITEMAP_DATA_SNAPSHOT;
         return modified.toISOString().slice(0, 10);
     } catch (_) { return SITEMAP_DATA_SNAPSHOT; }
 }
 function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-07-19'; }
 function staticPageMtime(route) {
     const names = {
-        '/': 'index.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
+        '/': 'index.html', '/appsumo': 'appsumo.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
         '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
         '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html'
     };
@@ -698,7 +704,7 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier'];
+    const coreRoutes = ['/', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier'];
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
     const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
     const mtimes = new Map();
