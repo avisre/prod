@@ -75,7 +75,8 @@ function monitorGate(req, res, next) {
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
-const { sendNewUserEmails } = require('./mailer');
+const mailer = require('./mailer');
+const { sendNewUserEmails } = mailer;
 
 const app = express();
 app.set('trust proxy', 1);
@@ -1374,9 +1375,28 @@ const UserSchema = new mongoose.Schema({
     // reset so the link is single-use. See /api/password/forgot + /reset.
     resetPasswordToken: { type: String, default: null, index: true },
     resetPasswordExpires: { type: Date, default: null }
-});
+}, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
+
+// Append-only, MongoDB-backed customer registry. The unique event key makes
+// Stripe/AppSumo webhook retries idempotent while keeping a durable audit trail
+// of the email address and plan observed at signup or first paid activation.
+const CustomerLifecycleEventSchema = new mongoose.Schema({
+    eventKey: { type: String, required: true, unique: true, index: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    email: { type: String, required: true, lowercase: true, trim: true, index: true },
+    name: { type: String, default: null },
+    type: { type: String, enum: ['signup', 'stripe_paid', 'appsumo_redeemed'], required: true, index: true },
+    source: { type: String, enum: ['direct', 'social', 'stripe', 'appsumo'], required: true, index: true },
+    planId: { type: String, default: null },
+    planName: { type: String, default: null },
+    subscriptionStatus: { type: String, default: null },
+    appsumoTier: { type: Number, default: null },
+    customerEmailedAt: { type: Date, default: null },
+    ownerNotifiedAt: { type: Date, default: null }
+}, { timestamps: true, versionKey: false, collection: 'customer_lifecycle_events' });
+const CustomerLifecycleEvent = mongoose.model('CustomerLifecycleEvent', CustomerLifecycleEventSchema);
 
 // Explicitly-created, unlisted research pages. There is deliberately no TTL:
 // social posts and newsletters need their cited report URL to remain durable.
@@ -1433,6 +1453,46 @@ async function trackFunnel(event, userId, plan, extra) {
             at: new Date()
         });
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
+}
+
+async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier } = {}) {
+    if (!user || !user._id || !user.email) return { created: false, reason: 'missing user email' };
+    const normalizedType = String(type || '');
+    const normalizedSource = source || (normalizedType === 'appsumo_redeemed' ? 'appsumo' : normalizedType === 'stripe_paid' ? 'stripe' : 'direct');
+    let event;
+    try {
+        event = await CustomerLifecycleEvent.create({
+            eventKey: `${String(user._id)}:${normalizedType}`,
+            userId: user._id,
+            email: String(user.email).trim().toLowerCase(),
+            name: user.name || null,
+            type: normalizedType,
+            source: normalizedSource,
+            planId: user.subscription && user.subscription.planId,
+            planName: user.subscription && user.subscription.planName,
+            subscriptionStatus: user.subscription && user.subscription.status,
+            appsumoTier: Number(appsumoTier || user.appsumoTier) || null
+        });
+    } catch (error) {
+        if (error && error.code === 11000) return { created: false, duplicate: true };
+        throw error;
+    }
+
+    if (normalizedType === 'stripe_paid' || normalizedType === 'appsumo_redeemed') {
+        const sent = await mailer.sendCustomerLifecycleEmails({
+            name: user.name,
+            email: user.email,
+            type: normalizedType,
+            plan: user.subscription && user.subscription.planName,
+            tier: Number(appsumoTier || user.appsumoTier) || null,
+            occurredAt: event.createdAt
+        });
+        const updates = {};
+        if (sent.customerSent) updates.customerEmailedAt = new Date();
+        if (sent.ownerSent) updates.ownerNotifiedAt = new Date();
+        if (Object.keys(updates).length) await CustomerLifecycleEvent.updateOne({ _id: event._id }, { $set: updates });
+    }
+    return { created: true, eventId: event._id };
 }
 
 // Campaign-safe AppSumo redirect. Only named, allowlisted channels are accepted;
@@ -1855,6 +1915,8 @@ async function findOrCreateSocialUser(profile) {
     await user.save();
 
     if (created) {
+        recordCustomerLifecycleEvent(user, 'signup', { source: 'social' })
+            .catch((e) => console.error('[customers] social signup registry error:', e && e.message));
         // New social signup: onboarding email + owner notification (fire-and-forget).
         sendNewUserEmails({ name: user.name, email: user.email, plan: profile.provider ? `social (${profile.provider})` : 'social' })
             .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
@@ -2043,6 +2105,8 @@ app.post('/api/subscribe', async (req, res) => {
         user.markModified('subscription');
         await user.save();
 
+        recordCustomerLifecycleEvent(user, 'signup', { source: 'direct' })
+            .catch((e) => console.error('[customers] signup registry error:', e && e.message));
         // New signup: send onboarding email + owner notification (fire-and-forget).
         sendNewUserEmails({ name: displayName, email: normalizedEmail, plan: planConfig.planName })
             .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
@@ -3682,7 +3746,6 @@ const insiders = require('./insiders');
 const gurus = require('./gurus');
 const filingMonitor = require('./filing-monitor');
 const monitorDigest = require('./monitor-digest');
-const mailer = require('./mailer');
 app.get('/api/company/:symbol/insider-history', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol required' });
@@ -3992,7 +4055,10 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         // The prevStatus !== 'active' guard keeps it single-fire across
                         // the parallel customer.subscription.updated webhook.
                         if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName);
-                        else if (newStatus === 'active' && prevStatus !== 'active') trackFunnel('paid', user._id, user.subscription.planName);
+                        else if (newStatus === 'active' && prevStatus !== 'active') {
+                            trackFunnel('paid', user._id, user.subscription.planName);
+                            await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
+                        }
                     } else {
                         await activateSubscription(user, {
                             subscriptionId: payload.subscription,
@@ -4002,6 +4068,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             stripePriceId: payload.metadata?.stripePriceId || null
                         });
                         trackFunnel('paid', user._id, user.subscription.planName);
+                        await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
                     }
                 }
             }
@@ -4019,6 +4086,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 // trialing → active = first real payment
                 if (prevStatus === 'trialing' && newStatus === 'active') {
                     trackFunnel('paid', user._id, user.subscription.planName);
+                    await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
                 }
             }
         } catch (err) {
@@ -4105,6 +4173,7 @@ function effectiveAskLimit(req) {
 async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition } = {}) {
     const cfg = appsumoTierConfig(tier);
     const now = new Date();
+    const firstRedemption = !user.appsumoRedeemedAt;
     applyPlanToSubscription(user, PRO_PLAN_ID); // reuse the Pro plan ladder
     user.subscription.planName = cfg.planName;
     user.subscription.price = 0;                 // already paid on AppSumo
@@ -4122,6 +4191,12 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition } = {
     user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
     user.markModified('subscription');
     await user.save();
+    if (firstRedemption) {
+        await recordCustomerLifecycleEvent(user, 'appsumo_redeemed', {
+            source: 'appsumo',
+            appsumoTier: Number(tier) || null
+        });
+    }
     trackFunnel('paid', user._id, cfg.planName, {
         source: 'appsumo',
         appsumoLicenseKey: licenseKey || null,
@@ -5234,6 +5309,98 @@ async function runAppSumoReconcile() {
     }
     return { checked: stale.length, revoked };
 }
+
+function customerCsvCell(value) {
+    let text = value == null ? '' : String(value);
+    // Prevent spreadsheet formula execution if a name/email is attacker-chosen.
+    if (/^[=+\-@]/.test(text)) text = `'${text}`;
+    return `"${text.replace(/"/g, '""')}"`;
+}
+
+// Admin-only customer registry/export. Emails come from MongoDB User records;
+// no password hashes, license keys, reset tokens, or auth-provider IDs leave the
+// server. Use x-admin-token rather than a query token to keep credentials out of
+// access logs. `source` may be all, appsumo, stripe, subscriber, or signup.
+app.get('/api/admin/customers', async (req, res) => {
+    const token = process.env.ADMIN_TOKEN;
+    const provided = req.headers['x-admin-token'] || req.query.token;
+    if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
+    try {
+        const source = String(req.query.source || 'all').trim().toLowerCase();
+        if (!['all', 'appsumo', 'stripe', 'subscriber', 'signup'].includes(source)) {
+            return res.status(400).json({ message: 'source must be all, appsumo, stripe, subscriber, or signup' });
+        }
+        const limit = Math.min(Math.max(Number(req.query.limit) || 500, 1), 2000);
+        const filter = {};
+        if (source === 'appsumo') filter.appsumoRedeemedAt = { $ne: null };
+        if (source === 'stripe') filter.$or = [{ stripeCustomerId: { $ne: null } }, { stripeSubscriptionId: { $ne: null } }];
+        if (source === 'subscriber') {
+            filter.appsumoRedeemedAt = null;
+            filter['subscription.planId'] = { $ne: FREE_PLAN_ID };
+            filter['subscription.status'] = { $in: ['trialing', 'active', 'cancel_at_period_end'] };
+        }
+        if (source === 'signup') {
+            filter.appsumoRedeemedAt = null;
+            filter.stripeCustomerId = null;
+            filter.stripeSubscriptionId = null;
+        }
+        const users = await User.find(filter, {
+            email: 1, name: 1, subscription: 1,
+            stripeCustomerId: 1, stripeSubscriptionId: 1,
+            appsumoTier: 1, appsumoAiCap: 1, appsumoRedeemedAt: 1,
+            createdAt: 1, updatedAt: 1
+        }).sort({ updatedAt: -1, appsumoRedeemedAt: -1 }).limit(limit).lean();
+
+        const userIds = users.map((user) => user._id);
+        const lifecycleEvents = userIds.length
+            ? await CustomerLifecycleEvent.find({ userId: { $in: userIds } }, {
+                userId: 1, type: 1, source: 1, createdAt: 1,
+                customerEmailedAt: 1, ownerNotifiedAt: 1
+            }).sort({ createdAt: -1 }).lean()
+            : [];
+        const latestEventByUser = new Map();
+        lifecycleEvents.forEach((event) => {
+            const key = String(event.userId);
+            if (!latestEventByUser.has(key)) latestEventByUser.set(key, event);
+        });
+        const customers = users.map((user) => {
+            const event = latestEventByUser.get(String(user._id));
+            const channel = user.appsumoRedeemedAt
+                ? 'appsumo'
+                : (user.stripeCustomerId || user.stripeSubscriptionId ? 'stripe' : 'signup');
+            return {
+                email: user.email,
+                name: user.name || '',
+                channel,
+                planId: user.subscription && user.subscription.planId,
+                planName: user.subscription && user.subscription.planName,
+                subscriptionStatus: user.subscription && user.subscription.status,
+                appsumoTier: user.appsumoTier || null,
+                appsumoAiCap: user.appsumoAiCap || null,
+                createdAt: user.createdAt || null,
+                updatedAt: user.updatedAt || null,
+                appsumoRedeemedAt: user.appsumoRedeemedAt || null,
+                lastPaymentAt: user.subscription && user.subscription.lastPaymentAt,
+                lastLifecycleEvent: event ? event.type : null,
+                customerEmailedAt: event && event.customerEmailedAt,
+                ownerNotifiedAt: event && event.ownerNotifiedAt
+            };
+        });
+        res.setHeader('Cache-Control', 'no-store');
+        if (String(req.query.format || '').toLowerCase() === 'csv') {
+            const columns = ['email', 'name', 'channel', 'planId', 'planName', 'subscriptionStatus', 'appsumoTier', 'appsumoAiCap', 'createdAt', 'updatedAt', 'appsumoRedeemedAt', 'lastPaymentAt', 'lastLifecycleEvent', 'customerEmailedAt', 'ownerNotifiedAt'];
+            const lines = [columns.map(customerCsvCell).join(',')];
+            customers.forEach((customer) => lines.push(columns.map((column) => customerCsvCell(customer[column])).join(',')));
+            res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+            res.setHeader('Content-Disposition', `attachment; filename="stockportfolio-customers-${source}.csv"`);
+            return res.send(`${lines.join('\n')}\n`);
+        }
+        return res.json({ source, count: customers.length, limit, customers });
+    } catch (error) {
+        console.error('[customers] admin export failed:', error && error.message);
+        return res.status(500).json({ message: 'Customer export failed' });
+    }
+});
 
 // Support tool: look up an AppSumo license by key, or a buyer by email (AppSumo
 // never hands us buyer emails, so key lookup is the only way to answer "my key

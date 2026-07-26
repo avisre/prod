@@ -8,10 +8,14 @@
 // Gmail setup: enable 2-Step Verification, create a 16-char App Password, then:
 //   SMTP_HOST=smtp.gmail.com  SMTP_PORT=465  SMTP_SECURE=true
 //   SMTP_USER=you@gmail.com   SMTP_PASS=<app password>
-//   MAIL_FROM="Stock Portfolio Pro <you@gmail.com>"
+//   MAIL_FROM is intentionally ignored for customer-facing mail. All product
+//   messages use the verified support identity below so customers never receive
+//   lifecycle email from a founder's personal address.
 //   OWNER_NOTIFICATION_EMAIL=you@gmail.com
 
 const nodemailer = require('nodemailer');
+const SUPPORT_EMAIL = 'support@stockportfolio.pro';
+const SUPPORT_FROM = `StockPortfolio.pro Support <${SUPPORT_EMAIL}>`;
 
 // Env is read lazily so this module works regardless of require order
 // relative to dotenv.config().
@@ -22,9 +26,8 @@ function config() {
     secure: process.env.SMTP_SECURE === 'true', // true for port 465
     user: process.env.SMTP_USER || '',
     pass: process.env.SMTP_PASS || '',
-    from:
-      process.env.MAIL_FROM ||
-      (process.env.SMTP_USER ? `Stock Portfolio Pro <${process.env.SMTP_USER}>` : ''),
+    from: SUPPORT_FROM,
+    support: SUPPORT_EMAIL,
     owner: process.env.OWNER_NOTIFICATION_EMAIL || 'avinashsreekumar007@gmail.com',
     appUrl: process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro',
   };
@@ -104,6 +107,51 @@ function ownerEmail({ name, email, plan }) {
   </div>`;
   const text = `New signup\nName: ${name || '(not provided)'}\nEmail: ${email}\nPlan: ${plan || '(unknown)'}\nWhen: ${when}`;
   return { html, text };
+}
+
+function customerLifecycleEmail({ name, type, plan, appUrl }) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const dashboard = `${String(appUrl || '').replace(/\/$/, '')}/dashboard.html`;
+  const safeDashboard = escapeHtml(dashboard);
+  const isAppSumo = type === 'appsumo_redeemed';
+  const subject = isAppSumo
+    ? 'Your StockPortfolio.pro AppSumo access is active'
+    : 'Your StockPortfolio.pro subscription is active';
+  const detail = isAppSumo
+    ? `Your AppSumo lifetime plan${plan ? ` (${escapeHtml(plan)})` : ''} is now linked to this account.`
+    : `Your paid subscription${plan ? ` (${escapeHtml(plan)})` : ''} is now active.`;
+  const textDetail = isAppSumo
+    ? `Your AppSumo lifetime plan${plan ? ` (${plan})` : ''} is now linked to this account.`
+    : `Your paid subscription${plan ? ` (${plan})` : ''} is now active.`;
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    <h1 style="font-size:22px;margin:0 0 12px">Access confirmed, ${safeFirst}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">${detail}</p>
+    <p style="margin:22px 0"><a href="${safeDashboard}" style="background:#6d5cff;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">Open your dashboard</a></p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">Need help? Reply to this email or write to ${SUPPORT_EMAIL}.<br/>— StockPortfolio.pro Support</p>
+  </div>`;
+  const text = `Access confirmed, ${first}\n\n${textDetail}\n\nOpen your dashboard: ${dashboard}\n\nNeed help? Reply to this email or write to ${SUPPORT_EMAIL}.\n— StockPortfolio.pro Support`;
+  return { subject, html, text };
+}
+
+function internalCustomerEventEmail({ name, email, type, plan, tier, occurredAt }) {
+  const label = type === 'appsumo_redeemed' ? 'New AppSumo buyer activated' : 'New paid subscriber activated';
+  const when = occurredAt instanceof Date ? occurredAt.toISOString() : new Date().toISOString();
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#0f172a">
+    <h2 style="margin:0 0 10px">${escapeHtml(label)}</h2>
+    <table style="font-size:14px;border-collapse:collapse">
+      <tr><td style="padding:4px 10px 4px 0;color:#64748b">Name</td><td>${escapeHtml(name) || '(not provided)'}</td></tr>
+      <tr><td style="padding:4px 10px 4px 0;color:#64748b">Email</td><td>${escapeHtml(email)}</td></tr>
+      <tr><td style="padding:4px 10px 4px 0;color:#64748b">Channel</td><td>${type === 'appsumo_redeemed' ? 'AppSumo' : 'Stripe'}</td></tr>
+      <tr><td style="padding:4px 10px 4px 0;color:#64748b">Plan</td><td>${escapeHtml(plan) || '(unknown)'}</td></tr>
+      ${tier ? `<tr><td style="padding:4px 10px 4px 0;color:#64748b">AppSumo tier</td><td>${escapeHtml(tier)}</td></tr>` : ''}
+      <tr><td style="padding:4px 10px 4px 0;color:#64748b">When</td><td>${escapeHtml(when)}</td></tr>
+    </table>
+  </div>`;
+  const text = `${label}\nName: ${name || '(not provided)'}\nEmail: ${email || '(unknown)'}\nChannel: ${type === 'appsumo_redeemed' ? 'AppSumo' : 'Stripe'}\nPlan: ${plan || '(unknown)'}${tier ? `\nAppSumo tier: ${tier}` : ''}\nWhen: ${when}`;
+  return { subject: `${label}: ${email || 'unknown'}`, html, text };
 }
 
 function passwordResetEmail(name, resetUrl) {
@@ -222,6 +270,7 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
     const w = welcomeEmail(name, c.appUrl);
     jobs.push(transporter.sendMail({
       from: c.from, to: email,
+      replyTo: c.support,
       subject: 'Welcome to Stock Portfolio Pro 📈',
       html: w.html, text: w.text,
     }));
@@ -230,6 +279,7 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
     const o = ownerEmail({ name, email, plan });
     jobs.push(transporter.sendMail({
       from: c.from, to: c.owner,
+      replyTo: c.support,
       subject: `New signup: ${email || 'unknown'}`,
       html: o.html, text: o.text,
     }));
@@ -242,6 +292,39 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
   return true;
 }
 
+// Customer + internal notification for a first paid activation. The caller
+// owns idempotency in MongoDB and invokes this only after inserting a unique
+// lifecycle event.
+async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occurredAt } = {}) {
+  const transporter = getTransporter();
+  const c = config();
+  if (!transporter) {
+    console.warn(`[mailer] SMTP not configured — skipping ${type || 'customer'} lifecycle mail for ${email || '(no email)'}`);
+    return { customerSent: false, ownerSent: false };
+  }
+  const result = { customerSent: false, ownerSent: false };
+  const jobs = [];
+  if (email) {
+    const customer = customerLifecycleEmail({ name, type, plan, appUrl: c.appUrl });
+    jobs.push(transporter.sendMail({
+      from: c.from, to: email, replyTo: c.support,
+      subject: customer.subject, html: customer.html, text: customer.text,
+    }).then(() => { result.customerSent = true; }));
+  }
+  if (c.owner) {
+    const internal = internalCustomerEventEmail({ name, email, type, plan, tier, occurredAt });
+    jobs.push(transporter.sendMail({
+      from: c.from, to: c.owner, replyTo: c.support,
+      subject: internal.subject, html: internal.html, text: internal.text,
+    }).then(() => { result.ownerSent = true; }));
+  }
+  const settled = await Promise.allSettled(jobs);
+  settled.forEach((entry) => {
+    if (entry.status === 'rejected') console.error('[mailer] lifecycle send failed:', entry.reason && entry.reason.message);
+  });
+  return result;
+}
+
 // Generic single send (used by the weekly Monitor digest). Never throws;
 // no-ops if SMTP isn't configured. Returns true only on a successful send.
 async function sendMail({ to, subject, html, text, replyTo } = {}) {
@@ -250,7 +333,7 @@ async function sendMail({ to, subject, html, text, replyTo } = {}) {
   if (!transporter) { console.warn('[mailer] SMTP not configured — skipping send to ' + (to || '(no to)')); return false; }
   if (!to) return false;
   try {
-    await transporter.sendMail({ from: c.from, to, subject, html, text, ...(replyTo ? { replyTo } : {}) });
+    await transporter.sendMail({ from: c.from, to, subject, html, text, replyTo: replyTo || c.support });
     return true;
   } catch (e) {
     console.error('[mailer] send failed:', e && e.message);
@@ -323,4 +406,4 @@ function trialExpiredEmail(name, appUrl, upgradeUrl, unsubUrl) {
   return { subject, html, text: textBody };
 }
 
-module.exports = { sendNewUserEmails, sendPasswordResetEmail, appsumoReviewEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, sendMail, config, escapeHtml };
+module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, sendPasswordResetEmail, appsumoReviewEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, sendMail, config, escapeHtml, SUPPORT_EMAIL };
