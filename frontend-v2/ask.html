@@ -63,6 +63,20 @@
     .prompts button:hover { border-color: var(--ink-3); color: var(--ink); }
     @media (max-width: 640px) { .prompts { grid-template-columns: 1fr; } }
 
+    .appsumo-activation {
+      background: #fff7ed; border-bottom: 1px solid #fed7aa; color: #7c2d12;
+      font-size: 13px; line-height: 1.5;
+    }
+    .appsumo-activation .container {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 10px 16px; flex-wrap: wrap;
+    }
+    .appsumo-activation button {
+      border: 0; border-radius: 999px; padding: 7px 12px; cursor: pointer;
+      background: #c2410c; color: #fff; font: inherit; font-weight: 700;
+    }
+    .appsumo-activation a { color: #9a3412; font-weight: 650; }
+
     /* conversation state */
     body.in-conversation .hello, body.in-conversation .prompts { display: none; }
     .thread { flex: 1; padding: 40px 0 40px; }
@@ -71,6 +85,14 @@
   </style>
 </head>
 <body>
+  <div class="appsumo-activation" id="appsumo-activation" hidden>
+    <div class="container">
+      <strong>Your AppSumo access is active.</strong>
+      <span>Reach the useful part now: ask one focused question and inspect its source.</span>
+      <button type="button" id="appsumo-first-question">Try a first question</button>
+      <a href="mailto:support@stockportfolio.pro?subject=Help%20with%20my%20first%20AppSumo%20research%20question">Need help? Email support</a>
+    </div>
+  </div>
   <main>
     <div class="container">
       <div class="canvas">
@@ -136,6 +158,13 @@
           $('thread').hidden = false;
           engine.send(b.textContent);
         }));
+      const firstQuestion = $('appsumo-first-question');
+      if (firstQuestion) firstQuestion.addEventListener('click', () => {
+        ta.value = "Did NVIDIA's free cash flow keep up with capital expenditure over the last five fiscal years? Show the reported inputs, calculation, periods, and sources.";
+        go.disabled = false;
+        ta.focus();
+        ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
       ta.focus();
       // quota line — replaces the static note once known
       // logged-out visitors get a couple of free preview questions (no signup);
@@ -156,6 +185,9 @@
           if (r.ok) {
             const q2 = await r.json();
             el.textContent = `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} questions left this month${q2.pro ? ' · Pro' : ''} · never buy/sell advice`;
+            if (q2.appsumo && q2.appsumo.isAppSumo && Number(q2.used) === 0) {
+              $('appsumo-activation').hidden = false;
+            }
           }
         } catch (_) { /* best-effort */ }
       })();
