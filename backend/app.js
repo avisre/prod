@@ -5517,6 +5517,128 @@ function customerCsvCell(value) {
     return `"${text.replace(/"/g, '""')}"`;
 }
 
+// Compact, secret-free dataset for the private marketing dashboard. Funnel
+// events are append-only; customer records are joined only to derive aggregate
+// conversion counts, never returned to the browser.
+async function collectMarketingDashboard() {
+    const col = mongoose.connection.collection('funnel_events');
+    const now = new Date();
+    const since30 = new Date(now.getTime() - 30 * 86400000);
+    const since14 = new Date(now.getTime() - 14 * 86400000);
+    const countEvents = async (match) => col.aggregate([
+        { $match: match },
+        { $group: { _id: '$event', count: { $sum: 1 } } }
+    ]).toArray();
+    const [allRows, windowRows, dailyRows, trialEvents, activationEvents] = await Promise.all([
+        countEvents({}),
+        countEvents({ at: { $gte: since30 } }),
+        col.aggregate([
+            { $match: { at: { $gte: since14 } } },
+            { $project: { event: 1, day: { $dateToString: { format: '%Y-%m-%d', date: '$at', timezone: 'Asia/Kolkata' } } } },
+            { $group: { _id: { day: '$day', event: '$event' }, count: { $sum: 1 } } },
+            { $sort: { '_id.day': 1 } }
+        ]).toArray(),
+        col.find({ event: 'trial_start', userId: { $ne: null } }, { projection: { userId: 1, acquisitionSource: 1 } }).toArray(),
+        col.find({ event: 'activation', userId: { $ne: null } }, { projection: { userId: 1, activationJob: 1 } }).toArray()
+    ]);
+    const counts = (rows) => Object.fromEntries(rows.map((row) => [row._id || 'unknown', Number(row.count || 0)]));
+    const all = counts(allRows);
+    const last30 = counts(windowRows);
+    const trialUserIds = [...new Set(trialEvents.map((event) => String(event.userId)).filter((id) => mongoose.Types.ObjectId.isValid(id)))];
+    const users = trialUserIds.length ? await User.find({ _id: { $in: trialUserIds.map((id) => new mongoose.Types.ObjectId(id)) } }, {
+        appsumoRedeemedAt: 1, stripeCustomerId: 1, stripeSubscriptionId: 1
+    }).lean() : [];
+    const userById = new Map(users.map((user) => [String(user._id), user]));
+    const activatedIds = new Set(activationEvents.map((event) => String(event.userId)));
+    const sourceMap = new Map();
+    trialEvents.forEach((event) => {
+        const source = String(event.acquisitionSource || 'unattributed');
+        if (!sourceMap.has(source)) sourceMap.set(source, { trials: 0, converted: 0, activated: 0 });
+        const row = sourceMap.get(source);
+        const user = userById.get(String(event.userId));
+        row.trials++;
+        if (user && (user.appsumoRedeemedAt || user.stripeCustomerId || user.stripeSubscriptionId)) row.converted++;
+        if (activatedIds.has(String(event.userId))) row.activated++;
+    });
+    const sourceRows = [...sourceMap.entries()].map(([source, row]) => ({ source, ...row }))
+        .sort((a, b) => b.trials - a.trials || a.source.localeCompare(b.source));
+    const activationJobs = {};
+    activationEvents.forEach((event) => {
+        const job = String(event.activationJob || 'unknown');
+        activationJobs[job] = (activationJobs[job] || 0) + 1;
+    });
+    const dayMap = new Map();
+    for (let i = 13; i >= 0; i--) {
+        const day = new Date(now.getTime() - i * 86400000).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
+        dayMap.set(day, { day, page_view: 0, signup: 0, trial_start: 0, paid: 0, activation: 0 });
+    }
+    dailyRows.forEach((row) => {
+        const day = dayMap.get(row._id.day);
+        if (day && Object.prototype.hasOwnProperty.call(day, row._id.event)) day[row._id.event] = Number(row.count || 0);
+    });
+    return {
+        generatedAt: now.toISOString(),
+        targetCustomers: 10,
+        allTime: { ...all, appsumoRedemptions: await User.countDocuments({ appsumoRedeemedAt: { $ne: null } }) },
+        last30: { ...last30, appsumoRedemptions: users.filter((user) => user.appsumoRedeemedAt && new Date(user.appsumoRedeemedAt) >= since30).length },
+        sourceRows,
+        activationJobs,
+        trend: [...dayMap.values()]
+    };
+}
+
+function adminTokenOrForbidden(req, res) {
+    const token = process.env.ADMIN_TOKEN;
+    const provided = req.headers['x-admin-token'];
+    if (!token || !timingSafeStrEqual(provided, token)) {
+        res.status(403).send('Forbidden');
+        return false;
+    }
+    return true;
+}
+
+app.get('/api/admin/marketing', async (req, res) => {
+    if (!adminTokenOrForbidden(req, res)) return;
+    try {
+        res.set('Cache-Control', 'no-store').json(await collectMarketingDashboard());
+    } catch (error) {
+        console.error('[marketing] dashboard failed:', error && error.message);
+        res.status(500).json({ message: 'Marketing dashboard unavailable' });
+    }
+});
+
+app.get('/admin/marketing', async (req, res) => {
+    if (!adminTokenOrForbidden(req, res)) return;
+    try {
+        const data = await collectMarketingDashboard();
+        const n = (value) => Number(value || 0).toLocaleString('en-IN');
+        const pct = (num, den) => den ? `${((num / den) * 100).toFixed(1)}%` : '—';
+        const e = escapeHtml;
+        const w = data.last30;
+        const cards = [
+            ['30-day visits', w.page_view, 'page views'],
+            ['30-day signups', w.signup, 'accounts'],
+            ['30-day trials', w.trial_start, 'started'],
+            ['AppSumo redeemed', data.allTime.appsumoRedemptions, `of ${data.targetCustomers} target`],
+            ['30-day activations', w.activation, 'meaningful jobs']
+        ].map(([label, value, note]) => `<div class="card"><div class="label">${label}</div><strong>${n(value)}</strong><small>${note}</small></div>`).join('');
+        const sourceRows = data.sourceRows.length ? data.sourceRows.map((row) => `<tr><td>${e(row.source)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td><td>${pct(row.converted, row.trials)}</td></tr>`).join('') : '<tr><td colspan="5">No attributed trials yet</td></tr>';
+        const jobNames = { ask: 'Cited Ask answer', comparison: 'Comparison', screener_company: 'Screener → company', portfolio: 'Three-position portfolio' };
+        const jobRows = Object.entries(data.activationJobs).sort((a, b) => b[1] - a[1]).map(([job, value]) => `<tr><td>${e(jobNames[job] || job)}</td><td>${n(value)}</td></tr>`).join('') || '<tr><td colspan="2">No activations yet</td></tr>';
+        const maxTrend = Math.max(1, ...data.trend.map((row) => Math.max(row.signup, row.trial_start, row.paid, row.activation)));
+        const trendRows = data.trend.map((row) => {
+            const bar = (value, color) => `<span class="bar" style="width:${Math.round((value / maxTrend) * 100)}%;background:${color}"></span>`;
+            return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#2563eb')}${n(row.signup)}</td><td>${bar(row.trial_start, '#7c3aed')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
+        }).join('');
+        const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
+body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a{color:#2563eb;text-decoration:none;margin-left:14px}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/api/admin/marketing">JSON</a></div><h1>Marketing progress</h1><div class="muted">Last 30 days versus the first-ten-customer target · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section></main></body></html>`;
+        res.set('Cache-Control', 'no-store').type('html').send(html);
+    } catch (error) {
+        console.error('[marketing] dashboard render failed:', error && error.message);
+        res.status(500).send('Marketing dashboard unavailable');
+    }
+});
+
 // Admin-only customer registry/export. Emails come from MongoDB User records;
 // no password hashes, license keys, reset tokens, or auth-provider IDs leave the
 // server. Use x-admin-token rather than a query token to keep credentials out of
