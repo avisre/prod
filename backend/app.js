@@ -5400,7 +5400,7 @@ function customerCsvCell(value) {
 // access logs. `source` may be all, appsumo, stripe, subscriber, or signup.
 app.get('/api/admin/customers', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
-    const provided = req.headers['x-admin-token'] || req.query.token;
+    const provided = req.headers['x-admin-token'];
     if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
     try {
         const source = String(req.query.source || 'all').trim().toLowerCase();
