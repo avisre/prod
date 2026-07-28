@@ -40,6 +40,21 @@
   <script src="assets/social.js?v=20260612-1"></script>
   <script>
     V2.nav('login');
+    // Keep users on the page that requested authentication, but never allow
+    // an absolute or protocol-relative URL to become an open redirect.
+    function safeNextPath(raw) {
+      const fallback = 'dashboard.html';
+      const value = String(raw || '').trim();
+      if (!value || value.includes('\\') || /^[a-z][a-z0-9+.-]*:/i.test(value) || value.startsWith('//')) return fallback;
+      try {
+        const target = new URL(value, window.location.origin);
+        if (target.origin !== window.location.origin) return fallback;
+        return `${target.pathname.replace(/^\\/+/, '')}${target.search}${target.hash}` || fallback;
+      } catch (_) {
+        return fallback;
+      }
+    }
+    const nextAfterLogin = safeNextPath(new URLSearchParams(window.location.search).get('next'));
     // Stripe sends social-login checkouts back here (?session=success&checkout=social).
     V2Social.confirmCheckout({ statusId: 'social-status' }) &&
       (document.getElementById('social-shell').hidden = false);
@@ -48,7 +63,7 @@
       shellId: 'social-shell',
       mountId: 'google-btn',
       statusId: 'social-status',
-      next: 'dashboard.html'
+      next: nextAfterLogin
     });
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -66,7 +81,7 @@
         });
         const data = await r.json().catch(() => ({}));
         if (r.ok && data.token) {
-          location.href = '/dashboard.html';
+          location.href = '/' + nextAfterLogin;
         } else {
           err.textContent = data.message || 'Invalid email or password.';
           err.hidden = false;
