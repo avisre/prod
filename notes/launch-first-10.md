@@ -2,6 +2,53 @@
 
 Status: **current as of 26 July 2026**.
 
+## Corrected baseline and operating rules (28 July 2026)
+
+The campaign baseline is now **3 AppSumo purchases, 2 redemptions, 11 trial
+starts, 23 signups, 16 AppSumo outbound clicks, and 0 reviews**. The immediate
+objective is seven additional AppSumo customers (10 total), while measuring
+activation rather than counting purchases alone.
+
+Daily cadence:
+
+- Publish one source-backed X insight and make five useful, specific finance or
+  investing replies.
+- Reply to every genuine response and repurpose the strongest insight for
+  LinkedIn.
+- Use only allowlisted campaign sources (`x`, `linkedin`, `reddit`, `creator`,
+  `newsletter`, `email`) and log the bridge visit, signup, trial, activation,
+  redemption, and customer outcome.
+
+Weekly cadence:
+
+- One short product demonstration, one filing or comparison analysis, one
+  transparent limitation, and one founder update.
+- Ten tailored creator, newsletter, or community contacts; no untargeted bulk
+  email.
+
+Organic growth flywheel:
+
+1. Analyze a filing with the product and publish the source-backed page.
+2. Repurpose it as an X post, LinkedIn post, and relevant helpful replies.
+3. Add contextual internal links and a tracked AppSumo CTA.
+4. Improve existing pages ranking in positions 6–20 or receiving impressions
+   without clicks. Start with the best 100–500 pages, adding original analysis,
+   filing dates, methodology, primary sources, related comparisons, and CTAs.
+5. Do not create more programmatic pages until Search Console shows index rate
+   and query demand across the existing 25,733 URLs. Publish a monthly,
+   source-worthy dataset that finance writers can cite.
+
+Measurement windows are 24 hours for reach, 7 days for clicks/signups, and 30
+days for trials, activations, and customers. Judge channels by activated
+customers per qualified conversation, not likes. Stop a message after 20
+qualified conversations with no bridge visits, or an audience after 30 with no
+activation. Pause acquisition if Ask, source links, redemption, or onboarding is
+broken.
+
+The metrics template is `marketing/appsumo-30-day/metrics.csv`; trial fields are
+`trial_started_at`, `trial_ends_at`, `auth_method`, `acquisition_source`,
+`activation_job`, `converted_via`, and `converted_at`.
+
 This supersedes the original `/founding` plan built around the former `£7/month` and `£70/year` subscription offer. The current campaign sells the live AppSumo lifetime deal through `/appsumo` and positions StockPortfolio.pro as a source-aware research workflow.
 
 ## Outcome

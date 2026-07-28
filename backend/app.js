@@ -557,6 +557,11 @@ async function connectMongoWithFallback(uri) {
     try {
       await mongoose.connect(uri, options);
       console.log(`MongoDB connected (${redactMongoUri(uri)})`);
+      // Keep activation beacons idempotent even when several tabs retry at once.
+      await mongoose.connection.collection('funnel_events').createIndex(
+        { event: 1, userId: 1, activationJob: 1 },
+        { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
+      ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
       return;
     } catch (error) {
       if (String(uri || '').startsWith('mongodb+srv://') && isMongoSrvResolutionError(error)) {
@@ -564,6 +569,10 @@ async function connectMongoWithFallback(uri) {
           const directUri = await expandMongoSrvUri(uri);
           await mongoose.connect(directUri, options);
           console.log(`MongoDB connected via SRV fallback (${redactMongoUri(directUri)})`);
+          await mongoose.connection.collection('funnel_events').createIndex(
+            { event: 1, userId: 1, activationJob: 1 },
+            { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
+          ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
           return;
         } catch (fallbackError) {
           console.error('MongoDB SRV fallback error:', fallbackError);
@@ -1515,7 +1524,7 @@ function applyPlanToSubscription(user, planInput) {
 }
 
 // ---- Funnel event tracking (server-side, no third-party) ----
-// Events: page_view | signup | trial_start | paid | cancel
+// Events: page_view | signup | trial_start | activation | paid | cancel
 // Stored in the 'funnel_events' Mongo collection with fire-and-forget writes.
 async function trackFunnel(event, userId, plan, extra) {
     try {
@@ -1527,6 +1536,57 @@ async function trackFunnel(event, userId, plan, extra) {
             at: new Date()
         });
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
+}
+
+const ACTIVATION_JOBS = new Set(['ask', 'comparison', 'screener_company', 'portfolio']);
+
+// Activation is deliberately idempotent per user/job. The upsert key keeps a
+// retrying browser beacon from inflating the marketing funnel while preserving
+// the first completion timestamp and campaign metadata.
+async function trackActivation(userId, job, extra = {}) {
+    if (!userId || !ACTIVATION_JOBS.has(String(job))) return false;
+    if (mongoose.connection.readyState !== 1) return false;
+    const activationJob = String(job);
+    try {
+        await mongoose.connection.collection('funnel_events').updateOne(
+            { event: 'activation', userId: String(userId), activationJob },
+            { $setOnInsert: {
+                ...(extra || {}), event: 'activation', userId: String(userId),
+                activationJob, at: new Date()
+            } },
+            { upsert: true }
+        );
+        return true;
+    } catch (_) {
+        return false;
+    }
+}
+
+function effectiveTrialStatus(user, now = Date.now()) {
+    const sub = user && user.subscription ? user.subscription : {};
+    if (sub.status === 'trialing' && sub.trialEndsAt
+        && new Date(sub.trialEndsAt).getTime() <= now
+        && !user.stripeSubscriptionId && !user.appsumoRedeemedAt) {
+        return 'expired';
+    }
+    return sub.status || 'pending';
+}
+
+// Expire only local/no-card trials. Stripe trials are owned by Stripe's
+// subscription webhooks and AppSumo access is lifetime; neither may be changed
+// by this sweep.
+async function expireNoCardTrials() {
+    if (mongoose.connection.readyState !== 1) return { matchedCount: 0, modifiedCount: 0 };
+    const result = await User.updateMany({
+        'subscription.status': 'trialing',
+        'subscription.trialEndsAt': { $ne: null, $lte: new Date() },
+        stripeSubscriptionId: null,
+        appsumoRedeemedAt: null
+    }, { $set: { 'subscription.status': 'cancelled' } });
+    return {
+        matchedCount: Number(result.matchedCount || result.n || 0),
+        modifiedCount: Number(result.modifiedCount || result.nModified || 0)
+    };
 }
 
 async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier } = {}) {
@@ -2077,6 +2137,7 @@ const SMS_GATEWAY_DOMAINS = new Set([
 // Subscription signup route
 app.post('/api/subscribe', async (req, res) => {
     const { name, email, password } = req.body || {};
+    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
     // Honeypot: the register form ships a visually hidden "website" field that
     // humans never see or fill. A non-empty value is a form bot — swallow the
     // submission (no account, no email, no funnel event) but answer 200 so the
@@ -2204,7 +2265,13 @@ app.post('/api/subscribe', async (req, res) => {
         if (!NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
             startNoCardTrial(user);
             await user.save();
-            trackFunnel('trial_start', user._id, 'Pro');
+            trackFunnel('trial_start', user._id, 'Pro', {
+                authMethod: 'email',
+                selectedPlan: planConfig.planId,
+                acquisitionSource: acquisition ? acquisition.source : null,
+                acquisitionClickId: acquisition ? acquisition.clickId : null,
+                acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+            });
             return res.status(200).json({
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
@@ -2476,7 +2543,14 @@ app.post('/api/auth/social', async (req, res) => {
         if (created && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
             startNoCardTrial(user);
             await user.save();
-            trackFunnel('trial_start', user._id, 'Pro');
+            const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+            trackFunnel('trial_start', user._id, 'Pro', {
+                authMethod: provider,
+                selectedPlan: planConfig.planId,
+                acquisitionSource: acquisition ? acquisition.source : null,
+                acquisitionClickId: acquisition ? acquisition.clickId : null,
+                acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+            });
             return res.status(200).json({
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
@@ -3517,6 +3591,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const counted = result.source === 'ai' || result.source === 'blocked';
                 if (counted) await aiChat.recordUse(userId);
                 if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+                if (result.answer) trackActivation(userId, 'ask');
                 const usedNow = counted ? used + 1 : used;
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
@@ -3535,6 +3610,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+        if (result.answer) trackActivation(userId, 'ask');
         const usedNow = counted ? used + 1 : used;
         res.json({
             answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
@@ -4071,6 +4147,8 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         _briefingCache.delete(cacheKey);
         _xrayCache.delete(cacheKey);
         _attribCache.delete(cacheKey);
+        const portfolioCount = await Stock.countDocuments({ user: portfolioOwnerId(req) });
+        if (portfolioCount >= 3) trackActivation(req.userId, 'portfolio');
         res.json(newStock);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -4131,7 +4209,12 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         // no-card→paid upgrade via /api/checkout, direct paid) → 'paid'.
                         // The prevStatus !== 'active' guard keeps it single-fire across
                         // the parallel customer.subscription.updated webhook.
-                        if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName);
+                        if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName, {
+                            authMethod: user.googleId ? 'google' : user.facebookId ? 'facebook' : 'email',
+                            selectedPlan: user.subscription.planId,
+                            acquisitionSource: null,
+                            acquisitionClickId: null
+                        });
                         else if (newStatus === 'active' && prevStatus !== 'active') {
                             trackFunnel('paid', user._id, user.subscription.planName);
                             await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
@@ -4762,6 +4845,20 @@ app.post('/api/track/page_view', (req, res) => {
     res.status(204).end();
 });
 
+// First-party activation beacon. It is authenticated, allowlisted, and
+// idempotent per user/job so client retries cannot inflate conversion rates.
+app.post('/api/track/activation', authMiddleware, async (req, res) => {
+    const job = String(req.body && req.body.job || '').trim().toLowerCase();
+    if (!ACTIVATION_JOBS.has(job)) return res.status(400).json({ message: 'Unknown activation job.' });
+    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    await trackActivation(req.userId, job, {
+        plan: req.user && req.user.subscription && req.user.subscription.planName,
+        acquisitionSource: acquisition ? acquisition.source : null,
+        acquisitionClickId: acquisition ? acquisition.clickId : null
+    });
+    return res.status(204).end();
+});
+
 // ---- /api/admin/comp — grant complimentary access to a reviewer ----
 // Token-gated (ADMIN_TOKEN, same as /admin/funnel). The user must already have
 // an account (so they set their own password). Modelled as a manual 'trialing'
@@ -4811,6 +4908,7 @@ app.get('/admin/funnel', async (req, res) => {
     const provided = req.headers['x-admin-token'];
     if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).send('Forbidden');
     try {
+        const expiry = await expireNoCardTrials();
         const col = mongoose.connection.collection('funnel_events');
         // aggregate in Mongo — page_view volume makes a full toArray() untenable
         const groups = await col.aggregate([
@@ -4835,6 +4933,21 @@ app.get('/admin/funnel', async (req, res) => {
         });
         const planRows = Object.entries(byPlan).sort((a,b) => b[1].signup - a[1].signup)
             .map(([p, v]) => `<tr><td>${p}</td><td>${v.signup}</td><td>${v.trial_start}</td><td>${v.paid}</td><td>${v.cancel}</td></tr>`).join('');
+        const trialUsers = await User.find({
+            'subscription.trialEndsAt': { $ne: null },
+            appsumoRedeemedAt: null
+        }, {
+            email: 1, subscription: 1, stripeCustomerId: 1, stripeSubscriptionId: 1,
+            googleId: 1, facebookId: 1, createdAt: 1
+        }).sort({ 'subscription.trialStartedAt': -1 }).limit(100).lean();
+        const trialDates = (value) => value
+            ? new Date(value).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' })
+            : '—';
+        const trialRows = trialUsers.map((u) => {
+            const channel = u.stripeCustomerId || u.stripeSubscriptionId ? 'Stripe' : 'No-card';
+            const authMethod = u.googleId ? 'Google' : u.facebookId ? 'Facebook' : 'Email';
+            return `<tr><td>${escapeHtml(u.email || '')}</td><td>${authMethod}</td><td>${channel}</td><td>${escapeHtml(effectiveTrialStatus(u))}</td><td>${trialDates(u.subscription && u.subscription.trialStartedAt)}</td><td>${trialDates(u.subscription && u.subscription.trialEndsAt)}</td></tr>`;
+        }).join('');
         const total = groups.reduce((s, g) => s + g.n, 0);
         const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Funnel — stockportfolio.pro</title>
 <style>body{font:14px/1.6 system-ui,sans-serif;margin:2rem;color:#111}table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;padding:8px 12px;text-align:left}th{background:#f5f5f5}h2{margin-top:2rem}.metric{display:inline-block;background:#f9f9f9;border:1px solid #ddd;border-radius:6px;padding:1rem 1.5rem;margin:.5rem;min-width:160px}.metric b{display:block;font-size:2rem}</style>
@@ -4856,6 +4969,9 @@ app.get('/admin/funnel', async (req, res) => {
 </tbody></table>
 <h2>By plan</h2>
 <table><thead><tr><th>Plan</th><th>Signups</th><th>Trial starts</th><th>Paid</th><th>Cancels</th></tr></thead><tbody>${planRows}</tbody></table>
+<h2>Recent trials</h2>
+<p>${trialUsers.length} trial records shown (up to 100). Expired local trials corrected this request: ${expiry.modifiedCount}.</p>
+<table><thead><tr><th>Email</th><th>Auth</th><th>Channel</th><th>Effective status</th><th>Started (IST)</th><th>Ends (IST)</th></tr></thead><tbody>${trialRows || '<tr><td colspan="6">No trials found</td></tr>'}</tbody></table>
 <p style="color:#888;margin-top:2rem">Events total: ${total} — as of ${new Date().toISOString()}</p>
 </body></html>`;
         res.set('Content-Type', 'text/html; charset=utf-8').set('Cache-Control', 'no-store').send(html);
@@ -5111,6 +5227,7 @@ app.get('/api/compare/:pair/verdict', optionalAuth, async (req, res) => {
         if (!out) return res.status(404).json({ error: 'We could not find filings for both companies.' });
         if (rec && !out.cached) rec.n++; // only a real generation spends a credit; cached reads are free
         if (rec) res.setHeader('RateLimit-Remaining', String(Math.max(0, VERDICT_FREE_PER_DAY - rec.n)));
+        if (req.user) trackActivation(req.user._id, 'comparison');
         return res.json({ a, b, verdict: out.text, source: out.source, cached: out.cached });
     } catch (err) {
         console.error('[verdict] error:', err.message);
@@ -5397,15 +5514,15 @@ function customerCsvCell(value) {
 // Admin-only customer registry/export. Emails come from MongoDB User records;
 // no password hashes, license keys, reset tokens, or auth-provider IDs leave the
 // server. Use x-admin-token rather than a query token to keep credentials out of
-// access logs. `source` may be all, appsumo, stripe, subscriber, or signup.
+// access logs. `source` may be all, appsumo, stripe, subscriber, signup, or trial.
 app.get('/api/admin/customers', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
     const provided = req.headers['x-admin-token'];
     if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
     try {
         const source = String(req.query.source || 'all').trim().toLowerCase();
-        if (!['all', 'appsumo', 'stripe', 'subscriber', 'signup'].includes(source)) {
-            return res.status(400).json({ message: 'source must be all, appsumo, stripe, subscriber, or signup' });
+        if (!['all', 'appsumo', 'stripe', 'subscriber', 'signup', 'trial'].includes(source)) {
+            return res.status(400).json({ message: 'source must be all, appsumo, stripe, subscriber, signup, or trial' });
         }
         const limit = Math.min(Math.max(Number(req.query.limit) || 500, 1), 2000);
         const filter = {};
@@ -5421,9 +5538,14 @@ app.get('/api/admin/customers', async (req, res) => {
             filter.stripeCustomerId = null;
             filter.stripeSubscriptionId = null;
         }
+        if (source === 'trial') {
+            filter.appsumoRedeemedAt = null;
+            filter['subscription.trialEndsAt'] = { $ne: null };
+        }
         const users = await User.find(filter, {
             email: 1, name: 1, subscription: 1,
             stripeCustomerId: 1, stripeSubscriptionId: 1,
+            googleId: 1, facebookId: 1,
             appsumoTier: 1, appsumoAiCap: 1, appsumoRedeemedAt: 1,
             createdAt: 1, updatedAt: 1
         }).sort({ updatedAt: -1, appsumoRedeemedAt: -1 }).limit(limit).lean();
@@ -5440,22 +5562,44 @@ app.get('/api/admin/customers', async (req, res) => {
             const key = String(event.userId);
             if (!latestEventByUser.has(key)) latestEventByUser.set(key, event);
         });
+        const trialEvents = userIds.length
+            ? await mongoose.connection.collection('funnel_events').find({
+                event: 'trial_start', userId: { $in: userIds.map((id) => String(id)) }
+            }).sort({ at: -1 }).toArray()
+            : [];
+        const trialEventByUser = new Map();
+        trialEvents.forEach((event) => {
+            if (!trialEventByUser.has(String(event.userId))) trialEventByUser.set(String(event.userId), event);
+        });
         const customers = users.map((user) => {
             const event = latestEventByUser.get(String(user._id));
+            const trialEvent = trialEventByUser.get(String(user._id));
             const channel = user.appsumoRedeemedAt
                 ? 'appsumo'
-                : (user.stripeCustomerId || user.stripeSubscriptionId ? 'stripe' : 'signup');
+                : (user.stripeCustomerId || user.stripeSubscriptionId ? 'stripe' : 'no_card');
+            const convertedVia = user.appsumoRedeemedAt
+                ? 'appsumo'
+                : (user.stripeCustomerId || user.stripeSubscriptionId ? 'stripe' : null);
             return {
                 email: user.email,
                 name: user.name || '',
                 channel,
+                authMethod: user.googleId ? 'google' : user.facebookId ? 'facebook' : 'email',
                 planId: user.subscription && user.subscription.planId,
                 planName: user.subscription && user.subscription.planName,
                 subscriptionStatus: user.subscription && user.subscription.status,
+                effectiveStatus: effectiveTrialStatus(user),
                 appsumoTier: user.appsumoTier || null,
                 appsumoAiCap: user.appsumoAiCap || null,
                 createdAt: user.createdAt || null,
                 updatedAt: user.updatedAt || null,
+                trialStartedAt: user.subscription && user.subscription.trialStartedAt,
+                trialEndsAt: user.subscription && user.subscription.trialEndsAt,
+                trialEventAt: trialEvent && trialEvent.at,
+                acquisitionSource: trialEvent && trialEvent.acquisitionSource || null,
+                acquisitionClickId: trialEvent && trialEvent.acquisitionClickId || null,
+                convertedVia,
+                convertedAt: user.appsumoRedeemedAt || (user.subscription && user.subscription.lastPaymentAt) || null,
                 appsumoRedeemedAt: user.appsumoRedeemedAt || null,
                 lastPaymentAt: user.subscription && user.subscription.lastPaymentAt,
                 lastLifecycleEvent: event ? event.type : null,
@@ -5465,7 +5609,7 @@ app.get('/api/admin/customers', async (req, res) => {
         });
         res.setHeader('Cache-Control', 'no-store');
         if (String(req.query.format || '').toLowerCase() === 'csv') {
-            const columns = ['email', 'name', 'channel', 'planId', 'planName', 'subscriptionStatus', 'appsumoTier', 'appsumoAiCap', 'createdAt', 'updatedAt', 'appsumoRedeemedAt', 'lastPaymentAt', 'lastLifecycleEvent', 'customerEmailedAt', 'ownerNotifiedAt'];
+            const columns = ['email', 'name', 'channel', 'authMethod', 'planId', 'planName', 'subscriptionStatus', 'effectiveStatus', 'trialStartedAt', 'trialEndsAt', 'trialEventAt', 'acquisitionSource', 'acquisitionClickId', 'convertedVia', 'convertedAt', 'appsumoTier', 'appsumoAiCap', 'createdAt', 'updatedAt', 'appsumoRedeemedAt', 'lastPaymentAt', 'lastLifecycleEvent', 'customerEmailedAt', 'ownerNotifiedAt'];
             const lines = [columns.map(customerCsvCell).join(',')];
             customers.forEach((customer) => lines.push(columns.map((column) => customerCsvCell(customer[column])).join(',')));
             res.setHeader('Content-Type', 'text/csv; charset=utf-8');
@@ -5521,8 +5665,11 @@ app.get('/api/admin/appsumo/lookup', async (req, res) => {
 // ---- Trial lifecycle email drip (no-card trial users) ----
 async function runTrialLifecycleSweep() {
     if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
-    if (!mailer.isMailerConfigured()) return { skipped: 'no smtp' };
-    if (String(process.env.TRIAL_LIFECYCLE_EMAILS || '1') === '0') return { skipped: 'disabled' };
+    // Expiry is a data-integrity operation, not an email side effect. Always
+    // run it so admin reports and access gates do not depend on SMTP.
+    const expiry = await expireNoCardTrials();
+    if (!mailer.isMailerConfigured()) return { expired: expiry.modifiedCount, skipped: 'no smtp' };
+    if (String(process.env.TRIAL_LIFECYCLE_EMAILS || '1') === '0') return { expired: expiry.modifiedCount, skipped: 'disabled' };
     const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
     const dashUrl = `${appUrl}/dashboard.html`;
     const ownerEmail = mailer.config().owner || 'avinashsreekumar007@gmail.com';
@@ -5530,8 +5677,10 @@ async function runTrialLifecycleSweep() {
     const now = Date.now();
     // Find all users with active trials (trialing status, trialEndsAt set, not opted out).
     const users = await User.find({
-        'subscription.status': 'trialing',
+        'subscription.status': { $in: ['trialing', 'cancelled'] },
         'subscription.trialEndsAt': { $ne: null },
+        stripeSubscriptionId: null,
+        appsumoRedeemedAt: null,
         trialEmailsOptOut: { $ne: true },
         // $lt alone skips docs missing the field — trials predating this field have
         // no trialEmailStage, so match "missing OR < 2" or they'd be silently skipped.
@@ -5545,8 +5694,8 @@ async function runTrialLifecycleSweep() {
             const trialEndsAt = new Date(u.subscription.trialEndsAt).getTime();
             const msLeft = trialEndsAt - now;
             const daysLeft = Math.ceil(msLeft / (24 * 3600 * 1000));
-            // Email 1: 2 days before expiry (0 < msLeft <= 2*24h)
-            if (msLeft > 0 && daysLeft <= 2 && (u.trialEmailStage || 0) < 1) {
+            // Email 1: 2 days before expiry (0 < msLeft <= 2*24h).
+            if (msLeft > 0 && u.subscription.status === 'trialing' && daysLeft <= 2 && (u.trialEmailStage || 0) < 1) {
                 const unsubUrl = `${appUrl}/api/trial/unsubscribe?token=${trialUnsubToken(u._id)}`;
                 const mail = mailer.trialEndingEmail(u.name, appUrl, daysLeft, dashUrl, unsubUrl);
                 if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {
@@ -5567,7 +5716,7 @@ async function runTrialLifecycleSweep() {
             }
         } catch (_) { /* per-user fail-open */ }
     }
-    return { eligible: users.length, sent };
+    return { eligible: users.length, sent, expired: expiry.modifiedCount };
 }
 
 function startAppSumoJobs() {

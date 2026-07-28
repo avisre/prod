@@ -5,6 +5,13 @@
 
     const API = `${window.location.origin}/api`;
     const token = () => /(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie) ? 'cookie' : '';
+    const trackActivation = (job) => {
+        if (!token() || !['ask', 'comparison', 'screener_company', 'portfolio'].includes(String(job))) return;
+        fetch(`${API}/track/activation`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+            body: JSON.stringify({ job }), keepalive: true
+        }).catch(() => {});
+    };
     try { localStorage.removeItem('token'); } catch (_) {}
 
     // ---------- funnel-event entry point (retargeting) ----------
@@ -1075,5 +1082,5 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHScroll);
     else initHScroll();
 
-    window.V2 = { API, token, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
+    window.V2 = { API, token, trackActivation, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
 })();

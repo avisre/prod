@@ -7,10 +7,11 @@
 // Insights drawer; Ask is the page's voice — a bar pinned to the floor.
 (function () {
     'use strict';
-    const { API, token, num, money, pct, fixed, esc, sparkline, chart, markdown, nav, footer, mountAskFloor, companies, mountShare } = window.V2;
+    const { API, token, trackActivation, num, money, pct, fixed, esc, sparkline, chart, markdown, nav, footer, mountAskFloor, companies, mountShare } = window.V2;
 
     const params = new URLSearchParams(location.search);
     const symbol = (params.get('symbol') || 'AAPL').toUpperCase().replace(/[^A-Z0-9.\-]/g, '');
+    if (document.referrer && /\/screener(?:\.html)?(?:[/?#]|$)/i.test(document.referrer)) trackActivation('screener_company');
     document.title = `${symbol} — financials | stockportfolio.pro`;
     nav('company');
     footer();
