@@ -19,6 +19,10 @@ Daily cadence:
   `newsletter`, `email`) and log the bridge visit, signup, trial, activation,
   redemption, and customer outcome.
 
+The current publish-ready drafts, reply bank, seven-day queue, and measurement
+tracker are in `marketing/campaign-2026-07-28/CONTENT-PACK.md` and
+`marketing/campaign-2026-07-28/tracker.csv`.
+
 ### High-impression X packaging (integrated from the competitor audit)
 
 The competitor's reach appears to come from packaging a prosecutable thesis for
