@@ -1,9 +1,9 @@
 content_id,platform,planned_date,source,format,cta_url,status,publish_url,impressions_24h,bridge_visits_7d,signups_7d,trials_30d,activations_30d,customers_30d,notes
-x-20260728-a,x,2026-07-28,x,thread,https://www.stockportfolio.pro/appsumo?source=x,ready,,,,,,,,Main verification thread
-x-20260728-r1,x,2026-07-28,x,reply,https://www.stockportfolio.pro/appsumo?source=x,ready,,,,,,,,CTA reply
+x-20260728-a,x,2026-07-28,x,thread,https://www.stockportfolio.pro/appsumo?source=x,published,https://x.com/avisre/status/2082121198792839615,,,,,,,Main verification thread
+x-20260728-r1,x,2026-07-28,x,reply,https://www.stockportfolio.pro/appsumo?source=x,published,https://x.com/avisre/status/2082121527332569241,,,,,,,CTA reply
 x-20260728-r2,x,2026-07-28,x,reply,https://www.stockportfolio.pro/appsumo?source=x,ready,,,,,,,,Evidence reply
 x-20260728-r3,x,2026-07-28,x,reply,https://www.stockportfolio.pro/appsumo?source=x,ready,,,,,,,,Question reply
-linkedin-20260728-a,linkedin,2026-07-28,linkedin,post,https://www.stockportfolio.pro/appsumo?source=linkedin,ready,,,,,,,,Repurposed verification post
+linkedin-20260728-a,linkedin,2026-07-28,linkedin,post,https://www.stockportfolio.pro/appsumo?source=linkedin,published,https://www.linkedin.com/feed/update/urn:li:activity:7487842169169510401/,,,,,,,Repurposed verification post
 x-20260729-a,x,2026-07-29,x,post,https://www.stockportfolio.pro/appsumo?source=x,queued,,,,,,,,Period mismatch
 x-20260730-a,x,2026-07-30,x,post,https://www.stockportfolio.pro/appsumo?source=x,queued,,,,,,,,Screener definition
 x-20260731-a,x,2026-07-31,x,post,https://www.stockportfolio.pro/appsumo?source=x,queued,,,,,,,,Fund vs company evidence
