@@ -19,6 +19,54 @@ Daily cadence:
   `newsletter`, `email`) and log the bridge visit, signup, trial, activation,
   redemption, and customer outcome.
 
+### High-impression X packaging (integrated from the competitor audit)
+
+The competitor's reach appears to come from packaging a prosecutable thesis for
+an active ticker community—not from making unsupported claims. Borrow the
+distribution mechanics while keeping StockPortfolio.pro's source standard:
+
+- Make the first line a concrete tension: what investors are celebrating versus
+  what the filing appears to show. Do not open with a generic launch or feature
+  announcement.
+- Use one falsifiable observation: a reported metric, period, divergence,
+  calculation, or changed filing passage. Never invent a price target or imply
+  fraud without evidence.
+- Put an annotated filing screenshot or chart in the post when it is the
+  argument. Highlight the exact period, units, and source—not decorative brand
+  artwork.
+- Choose a single, actively debated company or fund only when the evidence is
+  material and current. Do not bait, brigade, insult, or target a person.
+- End with a conditional consequence and a genuine question to both sides, such
+  as “What explains the gap?” The goal is informed disagreement, not outrage.
+- Use a four-part sequence: contrarian observation → evidence image →
+  conditional implication → question. Put the tracked AppSumo CTA in the first
+  reply after helping the reader, not in every main post.
+- Build follow-ups that test the thesis after the next filing or material event;
+  link back to the original post so profile visits become a useful research
+  trail.
+- Allocate the X mix as roughly 60% contrarian filing findings, 25%
+  evidence-led replies under active discussions, 10% thesis follow-ups, and 5%
+  direct product/offer posts. Keep the existing five-reply daily minimum.
+
+Example template (fill only with figures verified that day):
+
+```text
+$TICKER investors may be watching the wrong number.
+
+[Metric A] rose [X%], but [Metric B] moved [Y%] in the same reported period.
+That divergence may change how we read [cash conversion / margin quality /
+leverage].
+
+[Annotated filing screenshot with period and source]
+
+Bulls—what explains the gap?
+```
+
+The post must stand alone as useful research. A low-impression post can still
+continue when it creates qualified questions, bridge visits, or activations;
+raw likes are not the success metric. Account-level X impressions are only
+reported when the authenticated X Analytics view is available.
+
 Weekly cadence:
 
 - One short product demonstration, one filing or comparison analysis, one
