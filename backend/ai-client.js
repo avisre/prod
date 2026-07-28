@@ -33,7 +33,7 @@ function cfg(purpose) {
 function isConfigured() {
     return !!(process.env.OLLAMA_API_KEY || process.env.AI_BRIEFING_API_KEY || process.env.OPENROUTER_API_KEY || '');
 }
-const AI_MAX_OUTPUT_TOKENS = Math.max(256, Math.min(Number(process.env.AI_MAX_OUTPUT_TOKENS) || 2048, 8192));
+const AI_MAX_OUTPUT_TOKENS = Math.max(256, Math.min(Number(process.env.AI_MAX_OUTPUT_TOKENS) || 8192, 8192));
 
 // Low-level call: returns the raw assistant message object ({content,
 // tool_calls, ...}). Used directly by the Ask chatbot's tool loop, which
