@@ -5588,18 +5588,13 @@ async function collectMarketingDashboard() {
     };
 }
 
-function adminTokenOrForbidden(req, res) {
-    const token = process.env.ADMIN_TOKEN;
-    const provided = req.headers['x-admin-token'];
-    if (!token || !timingSafeStrEqual(provided, token)) {
-        res.status(403).send('Forbidden');
-        return false;
-    }
-    return true;
+function marketingDashboardOnly(req, res, next) {
+    const email = String(req.user && req.user.email || '').trim().toLowerCase();
+    if (email !== 'rin@gmail.com') return res.status(403).json({ message: 'Dashboard access denied' });
+    return next();
 }
 
-app.get('/api/admin/marketing', async (req, res) => {
-    if (!adminTokenOrForbidden(req, res)) return;
+app.get('/api/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, res) => {
     if (mongoose.connection.readyState !== 1) return res.status(503).json({ message: 'Database is still starting' });
     try {
         res.set('Cache-Control', 'no-store').json(await collectMarketingDashboard());
@@ -5609,8 +5604,7 @@ app.get('/api/admin/marketing', async (req, res) => {
     }
 });
 
-app.get('/admin/marketing', async (req, res) => {
-    if (!adminTokenOrForbidden(req, res)) return;
+app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, res) => {
     if (mongoose.connection.readyState !== 1) return res.status(503).send('Database is still starting');
     try {
         const data = await collectMarketingDashboard();

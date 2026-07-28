@@ -37,3 +37,14 @@ test('admin customer registry supports filtered JSON and CSV exports', () => {
   assert.match(source, /customerEmailedAt/);
   assert.match(source, /ownerNotifiedAt/);
 });
+
+test('marketing dashboard is restricted to the rin account and not ADMIN_TOKEN', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+  assert.match(source, /function marketingDashboardOnly\(req, res, next\)/);
+  assert.match(source, /email !== 'rin@gmail\.com'/);
+  assert.match(source, /app\.get\('\/api\/admin\/marketing', authMiddleware, marketingDashboardOnly/);
+  assert.match(source, /app\.get\('\/admin\/marketing', authMiddleware, marketingDashboardOnly/);
+  const routeStart = source.indexOf("app.get('/api/admin/marketing'");
+  const routeEnd = source.indexOf("app.get('/admin/marketing'");
+  assert.equal(source.slice(routeStart, routeEnd).includes('ADMIN_TOKEN'), false);
+});
