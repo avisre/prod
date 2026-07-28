@@ -29,6 +29,15 @@ test('MongoDB customer events are unique and cover signup, Stripe, and AppSumo',
   assert.match(source, /recordCustomerLifecycleEvent\(user, 'appsumo_redeemed'/);
 });
 
+test('funnel events preserve signed campaign attribution from visit through conversion', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+  assert.match(source, /function acquisitionFunnelFields\(acquisition\)/);
+  assert.match(source, /trackFunnel\('signup', user\._id, planConfig\.planName, \{[\s\S]*\.\.\.acquisitionFunnelFields\(acquisition\)/);
+  assert.match(source, /app\.post\('\/api\/track\/page_view',[\s\S]*parseAcquisitionCookieHeader/);
+  assert.match(source, /function acquisitionStripeMetadata\(acquisition\)/);
+  assert.match(source, /payload\.metadata\?\.acquisitionSource/);
+});
+
 test('admin customer registry supports filtered JSON and CSV exports', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
   assert.match(source, /app\.get\('\/api\/admin\/customers'/);

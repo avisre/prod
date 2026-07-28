@@ -175,6 +175,13 @@ Use platform post URLs and `marketing/appsumo-30-day/metrics.csv` for
 post-level attribution; the first-party cookie deliberately records only the
 channel, timestamp and random click ID.
 
+The product funnel now carries that signed source and click ID through page
+views, email/Google/Facebook signups, no-card trials, Stripe checkout metadata,
+and paid webhooks. Treat an event with no `acquisitionSource` as unattributed:
+it must not be counted as proof that X, LinkedIn, or another channel converted
+the customer. Review the dashboard after 24 hours for reach, seven days for
+qualified visits/signups, and 30 days for activations and paid customers.
+
 ## Activation definition
 
 Count a buyer as activated after they complete at least one meaningful job:

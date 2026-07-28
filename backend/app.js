@@ -1561,6 +1561,29 @@ async function trackFunnel(event, userId, plan, extra) {
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
 }
 
+// Keep campaign attribution consistent across every funnel event. The signed
+// acquisition cookie is the source of truth; never accept a caller-supplied
+// URL or arbitrary source string here.
+function acquisitionFunnelFields(acquisition) {
+    return {
+        acquisitionSource: acquisition ? acquisition.source : null,
+        acquisitionClickId: acquisition ? acquisition.clickId : null,
+        acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+    };
+}
+
+// Stripe metadata must be strings and should omit absent values (Stripe
+// rejects null metadata). These values are copied to webhook events so a
+// later paid conversion can still be tied to the original campaign click.
+function acquisitionStripeMetadata(acquisition) {
+    if (!acquisition) return {};
+    const metadata = {};
+    if (acquisition.source) metadata.acquisitionSource = String(acquisition.source);
+    if (acquisition.clickId) metadata.acquisitionClickId = String(acquisition.clickId);
+    if (acquisition.clickedAt) metadata.acquisitionClickedAt = new Date(acquisition.clickedAt).toISOString();
+    return metadata;
+}
+
 const ACTIVATION_JOBS = new Set(['ask', 'comparison', 'screener_company', 'portfolio']);
 
 // Activation is deliberately idempotent per user/job. The upsert key keeps a
@@ -2274,7 +2297,11 @@ app.post('/api/subscribe', async (req, res) => {
         // New signup: send onboarding email + owner notification (fire-and-forget).
         sendNewUserEmails({ name: displayName, email: normalizedEmail, plan: planConfig.planName })
             .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
-        trackFunnel('signup', user._id, planConfig.planName);
+        trackFunnel('signup', user._id, planConfig.planName, {
+            authMethod: 'email',
+            selectedPlan: planConfig.planId,
+            ...acquisitionFunnelFields(acquisition)
+        });
 
         if (planConfig.planId === FREE_PLAN_ID) {
             return res.status(200).json({
@@ -2293,9 +2320,7 @@ app.post('/api/subscribe', async (req, res) => {
             trackFunnel('trial_start', user._id, 'Pro', {
                 authMethod: 'email',
                 selectedPlan: planConfig.planId,
-                acquisitionSource: acquisition ? acquisition.source : null,
-                acquisitionClickId: acquisition ? acquisition.clickId : null,
-                acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+                ...acquisitionFunnelFields(acquisition)
             });
             return res.status(200).json({
                 token: createUserToken(user),
@@ -2316,7 +2341,8 @@ app.post('/api/subscribe', async (req, res) => {
                 authFlow: 'register',
                 checkoutType: 'email',
                 next: sanitizeRelativeAppPath(req.body?.next, 'news.html'),
-                billingInterval: planConfig.billingInterval
+                billingInterval: planConfig.billingInterval,
+                ...acquisitionStripeMetadata(acquisition)
             }
         });
         if (!session?.url) {
@@ -2532,9 +2558,18 @@ app.post('/api/auth/social', async (req, res) => {
         const flow = String(req.body?.flow || 'login').trim().toLowerCase();
         const selectedPlan = normalizePlanSelection(req.body?.plan);
         const planConfig = getPlanConfig(selectedPlan);
+        const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
         const profile = await verifySocialIdentity(provider, req.body || {});
         const { user, created } = await findOrCreateSocialUser(profile);
         let normalized = ensureSubscriptionShape(user);
+
+        if (created) {
+            trackFunnel('signup', user._id, planConfig.planName, {
+                authMethod: provider,
+                selectedPlan: planConfig.planId,
+                ...acquisitionFunnelFields(acquisition)
+            });
+        }
 
         if (subscriptionIsActive(user.subscription)) {
             return res.status(200).json({
@@ -2568,13 +2603,10 @@ app.post('/api/auth/social', async (req, res) => {
         if (created && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
             startNoCardTrial(user);
             await user.save();
-            const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
             trackFunnel('trial_start', user._id, 'Pro', {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
-                acquisitionSource: acquisition ? acquisition.source : null,
-                acquisitionClickId: acquisition ? acquisition.clickId : null,
-                acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+                ...acquisitionFunnelFields(acquisition)
             });
             return res.status(200).json({
                 token: createUserToken(user),
@@ -2607,7 +2639,8 @@ app.post('/api/auth/social', async (req, res) => {
                 authFlow: flow,
                 checkoutType: 'social',
                 next: sanitizeRelativeAppPath(req.body?.next, 'news.html'),
-                billingInterval: planConfig.billingInterval
+                billingInterval: planConfig.billingInterval,
+                ...acquisitionStripeMetadata(acquisition)
             }
         });
         res.status(200).json({
@@ -2902,6 +2935,7 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
             return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
         }
         const planId = normalizePlanSelection(req.body?.plan || 'pro');
+        const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
         const session = await createCheckoutSessionForUser(req.user, {
             req,
             planId,
@@ -2910,7 +2944,8 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
             metadata: {
                 authFlow: 'upgrade',
                 checkoutType: 'upgrade',
-                next: sanitizeRelativeAppPath(req.body?.next, 'dashboard.html')
+                next: sanitizeRelativeAppPath(req.body?.next, 'dashboard.html'),
+                ...acquisitionStripeMetadata(acquisition)
             }
         });
         if (!session?.url) {
@@ -4234,14 +4269,20 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         // no-card→paid upgrade via /api/checkout, direct paid) → 'paid'.
                         // The prevStatus !== 'active' guard keeps it single-fire across
                         // the parallel customer.subscription.updated webhook.
+                        const campaign = {
+                            acquisitionSource: payload.metadata?.acquisitionSource || null,
+                            acquisitionClickId: payload.metadata?.acquisitionClickId || null,
+                            acquisitionClickedAt: payload.metadata?.acquisitionClickedAt
+                                ? new Date(payload.metadata.acquisitionClickedAt)
+                                : null
+                        };
                         if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName, {
                             authMethod: user.googleId ? 'google' : user.facebookId ? 'facebook' : 'email',
                             selectedPlan: user.subscription.planId,
-                            acquisitionSource: null,
-                            acquisitionClickId: null
+                            ...campaign
                         });
                         else if (newStatus === 'active' && prevStatus !== 'active') {
-                            trackFunnel('paid', user._id, user.subscription.planName);
+                            trackFunnel('paid', user._id, user.subscription.planName, campaign);
                             await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
                         }
                     } else {
@@ -4252,7 +4293,13 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             stripeStatus: 'active',
                             stripePriceId: payload.metadata?.stripePriceId || null
                         });
-                        trackFunnel('paid', user._id, user.subscription.planName);
+                        trackFunnel('paid', user._id, user.subscription.planName, {
+                            acquisitionSource: payload.metadata?.acquisitionSource || null,
+                            acquisitionClickId: payload.metadata?.acquisitionClickId || null,
+                            acquisitionClickedAt: payload.metadata?.acquisitionClickedAt
+                                ? new Date(payload.metadata.acquisitionClickedAt)
+                                : null
+                        });
                         await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
                     }
                 }
@@ -4270,7 +4317,13 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 const newStatus = user.subscription && user.subscription.status;
                 // trialing → active = first real payment
                 if (prevStatus === 'trialing' && newStatus === 'active') {
-                    trackFunnel('paid', user._id, user.subscription.planName);
+                    trackFunnel('paid', user._id, user.subscription.planName, {
+                        acquisitionSource: subscription.metadata?.acquisitionSource || null,
+                        acquisitionClickId: subscription.metadata?.acquisitionClickId || null,
+                        acquisitionClickedAt: subscription.metadata?.acquisitionClickedAt
+                            ? new Date(subscription.metadata.acquisitionClickedAt)
+                            : null
+                    });
                     await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
                 }
             }
@@ -4866,7 +4919,11 @@ app.post('/api/track/page_view', (req, res) => {
     const ua = String(req.headers['user-agent'] || '');
     if (/bot|crawl|spider|slurp|headless|lighthouse|facebookexternalhit|preview/i.test(ua)) return res.status(204).end();
     const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
-    trackFunnel('page_view', null, null, { path: viewPath });
+    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    trackFunnel('page_view', null, null, {
+        path: viewPath,
+        ...acquisitionFunnelFields(acquisition)
+    });
     res.status(204).end();
 });
 
