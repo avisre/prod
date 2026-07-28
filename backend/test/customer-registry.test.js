@@ -63,3 +63,14 @@ test('production trusts the Render proxy hop for per-client rate limits', () => 
   assert.match(source, /process\.env\.TRUST_PROXY_HOPS \|\| DEFAULT_TRUST_PROXY_HOPS/);
   assert.match(source, /app\.set\('trust proxy', TRUST_PROXY_HOPS \|\| false\)/);
 });
+
+test('login page inline JavaScript parses before it attaches the submit handler', () => {
+  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'login.html'), 'utf8');
+  const inlineScripts = [...html.matchAll(/<script(?:\s[^>]*)?>([\s\S]*?)<\/script>/gi)]
+    .map((match) => match[1].trim())
+    .filter(Boolean);
+  assert.ok(inlineScripts.length > 0);
+  for (const source of inlineScripts) {
+    assert.doesNotThrow(() => new Function(source));
+  }
+});

@@ -49,7 +49,7 @@
       try {
         const target = new URL(value, window.location.origin);
         if (target.origin !== window.location.origin) return fallback;
-        return `${target.pathname.replace(/^\\/+/, '')}${target.search}${target.hash}` || fallback;
+        return `${target.pathname.replace(/^\/+/, '')}${target.search}${target.hash}` || fallback;
       } catch (_) {
         return fallback;
       }
