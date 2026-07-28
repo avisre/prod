@@ -36,6 +36,22 @@ test('funnel events preserve signed campaign attribution from visit through conv
   assert.match(source, /app\.post\('\/api\/track\/page_view',[\s\S]*parseAcquisitionCookieHeader/);
   assert.match(source, /function acquisitionStripeMetadata\(acquisition\)/);
   assert.match(source, /payload\.metadata\?\.acquisitionSource/);
+  assert.match(source, /app\.get\('\/api\/free-tools\/:tool'/);
+  assert.match(source, /free_tool_view/);
+  assert.match(source, /free_tool_complete/);
+  assert.match(source, /contentId: acquisition \? acquisition\.contentId/);
+  assert.match(source, /stockportfolio-marketing-tools\.csv/);
+});
+
+test('engineering-as-marketing routes remain public and are included in the sitemap', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+  const seoSource = fs.readFileSync(path.join(__dirname, '..', 'seo-pages.js'), 'utf8');
+  assert.match(source, /definition\.path/);
+  assert.match(source, /renderToolPage/);
+  assert.match(source, /freeToolLimiter/);
+  assert.match(seoSource, /\/tools\/earnings-quality/);
+  assert.match(seoSource, /\/tools\/dilution/);
+  assert.match(seoSource, /\/tools\/filing-timeline/);
 });
 
 test('admin customer registry supports filtered JSON and CSV exports', () => {

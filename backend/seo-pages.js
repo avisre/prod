@@ -624,7 +624,7 @@ function renderStockPage(ticker) {
   ${faqBlock}
   <div class="seo-section"><h2>Explore more stocks</h2>
     <div class="seo-links">${linkPills}</div>
-    <p style="margin-top:10px"><a href="/stocks" style="color:var(--primary)">Browse all 1,500+ companies &rarr;</a> &middot; <a href="/screener" style="color:var(--primary)">Screen them by fundamentals &rarr;</a></p>
+    <p style="margin-top:10px"><a href="/stocks" style="color:var(--primary)">Browse all 1,500+ companies &rarr;</a> &middot; <a href="/screener" style="color:var(--primary)">Screen them by fundamentals &rarr;</a> &middot; <a href="/tools/earnings-quality" style="color:var(--primary)">Check earnings quality &rarr;</a> &middot; <a href="/tools/dilution" style="color:var(--primary)">Check share dilution &rarr;</a></p>
   </div>
 </main>` + footer();
 }
@@ -690,6 +690,7 @@ function staticPageMtime(route) {
         '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
         '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html'
     };
+    if (route.startsWith('/tools/')) return isoMtime(path.join(__dirname, 'free-tools.js'));
     if (names[route]) return isoMtime(path.join(__dirname, '..', 'frontend-v2', names[route]));
     if (route === '/stocks') return isoMtime(path.join(DATA, 'sp1500-companies.json'));
     if (route === '/compare' || route.startsWith('/screens/')) return isoMtime(path.join(__dirname, 'seo-extra.js'));
@@ -704,7 +705,8 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier'];
+    const coreRoutes = ['/', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools'];
+    try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
     const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
     const mtimes = new Map();
@@ -812,7 +814,7 @@ function renderMethodology() {
     </ul>`)}
   ${S('Financial health checks', `<p>The pass/fail health checks (profitability, debt, cash flow, dividend coverage, etc.) are fixed rules applied to the filed statements — the same thresholds for every company. They describe what the filings say; they are not buy/sell signals.</p>`)}
   ${S('What we don&#39;t do', `<p>We don&#39;t publish price targets, we don&#39;t accept payment for placement in any ranking or screen, and we don&#39;t present opinion as data. Figures can still be delayed or contain source errors — see our <a href="/editorial-policy">editorial policy</a> for corrections, and always verify against the primary filing before acting.</p>`)}
-  <div class="seo-section"><p style="font-size:13px"><a href="/editorial-policy">Editorial policy &amp; independence &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p></div>
+  <div class="seo-section"><p style="font-size:13px"><a href="/editorial-policy">Editorial policy &amp; independence &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a> &middot; <a href="/tools/earnings-quality">Earnings quality checker &rarr;</a> &middot; <a href="/tools/dilution">Share dilution calculator &rarr;</a> &middot; <a href="/tools/filing-timeline">SEC filing timeline &rarr;</a></p></div>
 </main>` + footer();
 }
 

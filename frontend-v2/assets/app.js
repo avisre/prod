@@ -410,6 +410,7 @@
             <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
             <nav class="nav-links" aria-label="Primary">
               <a href="/screener.html" ${cur('screener')}>Screener</a>
+              <a href="/tools" ${cur('tools')}>Tools</a>
               <a href="/compare" ${cur('compare')}>Compare</a>
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
               <a href="/news.html" ${cur('news')}>Markets</a>
@@ -461,6 +462,7 @@
               </button>
               <nav>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
+                <a href="/tools" ${cur('tools')}>Tools</a>
                 <a href="/compare" ${cur('compare')}>Compare</a>
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
                 <a href="/news.html" ${cur('news')}>Markets</a>
@@ -646,7 +648,7 @@
           <div class="container footer-inner">
             <div>© 2026 stockportfolio.pro — figures from SEC filings (10-K/10-Q), as filed; per-share figures split-adjusted. Not investment advice.</div>
             <div style="display:flex; gap:8px 18px; flex-wrap:wrap;">
-              <a href="/company.html?symbol=SPY">ETFs &amp; funds</a><a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
+              <a href="/tools">Free tools</a><a href="/company.html?symbol=SPY">ETFs &amp; funds</a><a href="/stocks">All stocks</a><a href="/ask.html">Ask AI</a><a href="/dossier.html">Research Dossier</a><a href="/monitor.html">Filing Monitor</a><a href="/gurus.html">Gurus</a><a href="/#pricing">Pricing</a><a href="/tour">Tour</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/support.html">Support</a><a href="/sitemap.html">Sitemap</a>
             </div>
           </div>`;
         document.body.appendChild(el);

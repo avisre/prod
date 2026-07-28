@@ -99,6 +99,19 @@ test('acquisition cookie is signed, anonymous, cross-host first party, and expir
     }), null);
 });
 
+test('tool content attribution is signed and preserves legacy cookies', () => {
+    const value = shareCopy.createAcquisitionCookieValue('website', {
+        secret: SECRET, now: NOW, clickId: 'tool-click-1', contentId: 'tool-dilution'
+    });
+    assert.match(value, /^v2\.website\.\d+\.tool-click-1\.tool-dilution\./);
+    const parsed = shareCopy.parseAcquisitionCookieHeader(`sp_as_acq=${value}`, { secret: SECRET, now: NOW });
+    assert.equal(parsed.source, 'website');
+    assert.equal(parsed.contentId, 'tool-dilution');
+    assert.equal(shareCopy.normalizeAcquisitionContentId('tool-unknown'), null);
+    const landing = shareCopy.attributeAppSumoLandingHtml('<a href="/go/appsumo/bridge">Deal</a>', 'website', 'tool-earnings-quality');
+    assert.match(landing, /\/go\/appsumo\/website\?content_id=tool-earnings-quality/);
+});
+
 test('public share IDs are 96-bit URL-safe capability identifiers', () => {
     const ids = new Set(Array.from({ length: 500 }, () => shareCopy.makePublicShareId()));
     assert.equal(ids.size, 500);

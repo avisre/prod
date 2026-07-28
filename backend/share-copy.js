@@ -8,6 +8,18 @@ const aiClient = require('./ai-client');
 const DEFAULT_APPSUMO_DEAL_URL = 'https://appsumo.com/products/stockportfoliopro/';
 const ACQUISITION_COOKIE_NAME = 'sp_as_acq';
 const ACQUISITION_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
+const ACQUISITION_CONTENT_IDS = new Set([
+    'tool-earnings-quality', 'tool-dilution', 'tool-filing-timeline', 'tool-filing-change',
+    'tool-revenue-consistency', 'tool-profitability-trend', 'tool-cash-flow-quality',
+    'tool-free-cash-flow-trend', 'tool-working-capital', 'tool-debt-snapshot',
+    'tool-buybacks-vs-dilution', 'tool-insider-filings', 'tool-institutional-filings',
+    'tool-stock-compensation', 'tool-dividend-safety', 'tool-interest-coverage',
+    'tool-balance-sheet-signals', 'tool-goodwill-concentration', 'tool-receivables-warning',
+    'tool-inventory-warning', 'tool-portfolio-filing-alerts', 'tool-portfolio-revenue',
+    'tool-portfolio-dilution', 'tool-etf-overlap', 'tool-etf-sector-concentration',
+    'tool-company-comparison', 'tool-peer-cash-conversion', 'tool-ask-question-builder',
+    'tool-filing-evidence-checklist', 'tool-research-dossier-starter'
+]);
 const APPSUMO_SOURCE_ALIASES = Object.freeze({ twitter: 'x', site: 'website' });
 const APPSUMO_SOURCES = new Set([
     'x', 'linkedin', 'reddit', 'facebook', 'instagram', 'whatsapp',
@@ -22,6 +34,11 @@ function normalizeAppSumoSource(value) {
     const raw = String(value || '').trim().toLowerCase();
     const normalized = APPSUMO_SOURCE_ALIASES[raw] || raw;
     return APPSUMO_SOURCES.has(normalized) ? normalized : null;
+}
+
+function normalizeAcquisitionContentId(value) {
+    const contentId = String(value || '').trim().toLowerCase();
+    return ACQUISITION_CONTENT_IDS.has(contentId) ? contentId : null;
 }
 
 function isAppSumoHostname(hostname) {
@@ -47,11 +64,13 @@ function resolveAppSumoRedirect(value, fallback = DEFAULT_APPSUMO_DEAL_URL) {
 
 // The bridge page is a static asset, so safely attribute its fixed CTA links by
 // replacing one known path with another allowlisted path. The query value is
-// never interpolated until it has passed normalizeAppSumoSource().
-function attributeAppSumoLandingHtml(html, source) {
+// never interpolated until it has passed both allowlists.
+function attributeAppSumoLandingHtml(html, source, contentId) {
     const safeSource = normalizeAppSumoSource(source);
+    const safeContentId = normalizeAcquisitionContentId(contentId);
     if (!safeSource || safeSource === 'bridge') return String(html || '');
-    return String(html || '').replaceAll('/go/appsumo/bridge', `/go/appsumo/${safeSource}`);
+    const suffix = safeContentId ? `?content_id=${encodeURIComponent(safeContentId)}` : '';
+    return String(html || '').replaceAll('/go/appsumo/bridge', `/go/appsumo/${safeSource}${suffix}`);
 }
 
 // The first drip is product onboarding. Later messages include the neutral
@@ -76,14 +95,17 @@ function acquisitionSignature(payload, secret) {
         .slice(0, 22);
 }
 
-function createAcquisitionCookieValue(source, { secret, now = Date.now(), clickId } = {}) {
+function createAcquisitionCookieValue(source, { secret, now = Date.now(), clickId, contentId } = {}) {
     const safeSource = normalizeAppSumoSource(source);
     if (!safeSource || !secret) return null;
     const timestamp = Math.floor(Number(now) / 1000);
     if (!Number.isFinite(timestamp) || timestamp <= 0) return null;
     const id = String(clickId || crypto.randomBytes(9).toString('base64url'));
     if (!/^[A-Za-z0-9_-]{8,32}$/.test(id)) return null;
-    const payload = `v1.${safeSource}.${timestamp}.${id}`;
+    const safeContentId = normalizeAcquisitionContentId(contentId);
+    const payload = safeContentId
+        ? `v2.${safeSource}.${timestamp}.${id}.${safeContentId}`
+        : `v1.${safeSource}.${timestamp}.${id}`;
     return `${payload}.${acquisitionSignature(payload, secret)}`;
 }
 
@@ -109,16 +131,19 @@ function parseAcquisitionCookieHeader(header, {
     if (!secret) return null;
     const value = parseCookieHeader(header).get(ACQUISITION_COOKIE_NAME);
     const parts = String(value || '').split('.');
-    if (parts.length !== 5 || parts[0] !== 'v1') return null;
+    if (!((parts.length === 5 && parts[0] === 'v1') || (parts.length === 6 && parts[0] === 'v2'))) return null;
     const source = normalizeAppSumoSource(parts[1]);
     const timestamp = Number(parts[2]);
     const clickId = parts[3];
+    const contentId = parts[0] === 'v2' ? normalizeAcquisitionContentId(parts[4]) : null;
+    if (parts[0] === 'v2' && !contentId) return null;
     if (!source || !Number.isInteger(timestamp) || !/^[A-Za-z0-9_-]{8,32}$/.test(clickId)) return null;
     const nowSeconds = Math.floor(Number(now) / 1000);
     if (!Number.isFinite(nowSeconds) || timestamp > nowSeconds + 300 || nowSeconds - timestamp > maxAgeSeconds) return null;
-    const payload = parts.slice(0, 4).join('.');
-    if (!safeTokenEqual(parts[4], acquisitionSignature(payload, secret))) return null;
-    return { source, clickId, clickedAt: new Date(timestamp * 1000) };
+    const signature = parts[parts.length - 1];
+    const payload = parts.slice(0, parts.length - 1).join('.');
+    if (!safeTokenEqual(signature, acquisitionSignature(payload, secret))) return null;
+    return { source, clickId, contentId, clickedAt: new Date(timestamp * 1000) };
 }
 
 function serializeAcquisitionCookie(value, {
@@ -363,10 +388,12 @@ module.exports = {
     DEFAULT_APPSUMO_DEAL_URL,
     ACQUISITION_COOKIE_NAME,
     ACQUISITION_MAX_AGE_SECONDS,
+    ACQUISITION_CONTENT_IDS,
     APPSUMO_SOURCES,
     PUBLIC_SHARE_LIMITS,
     PUBLIC_SHARE_CREATE_LIMIT_PER_HOUR,
     normalizeAppSumoSource,
+    normalizeAcquisitionContentId,
     resolveAppSumoRedirect,
     attributeAppSumoLandingHtml,
     shouldSendAppSumoReviewStage,

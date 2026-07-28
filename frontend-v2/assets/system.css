@@ -953,11 +953,9 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 }
 
 /* ---------- Responsive ---------- */
-/* Nav collapses to the hamburger at <=1060px. With 8 primary links (Stocks
-   moved out of the app nav) the full desktop nav measures ~1051px, so it fits
-   from 1061px up — small laptops keep the real nav; narrower gets the
-   hamburger instead. */
-@media (max-width: 1060px) {
+/* The tools catalog adds another primary destination. Collapse before the
+   desktop links can crowd the search/auth controls on small laptops. */
+@media (max-width: 1180px) {
   .nav-links { display: none; }
   .nav-search { flex: 1; max-width: 280px; }
   .nav-inner { gap: 10px; }
@@ -998,7 +996,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   border-radius: 8px;
 }
 .nav-ham:hover { background: var(--accent-tint); }
-@media (max-width: 1060px) {
+@media (max-width: 1180px) {
   .nav-ham { display: flex; align-items: center; }
 }
 
