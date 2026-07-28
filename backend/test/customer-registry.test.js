@@ -74,3 +74,9 @@ test('login page inline JavaScript parses before it attaches the submit handler'
     assert.doesNotThrow(() => new Function(source));
   }
 });
+
+test('populated portfolios use the grouped holdings renderer', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'dashboard.js'), 'utf8');
+  assert.match(source, /const rows = \(Array\.isArray\(list\) \? list : \[\]\)\.map\(holdingToRow\);\s*renderHoldings\(rows\);/);
+  assert.doesNotMatch(source, /\$\('holdings-body'\)/);
+});

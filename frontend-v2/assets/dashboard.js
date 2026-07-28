@@ -361,46 +361,15 @@
             const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio`, { headers: auth });
             if (!DEMO && r.status === 401) { await fetch('/api/logout', { method: 'POST' }).catch(() => {}); location.reload(); return; }
             if (!DEMO && r.status === 402) { freeMode(); return; }
-            const list = await r.json();
-            const rows = (Array.isArray(list) ? list : []).map((h) => {
-                const shares = num(h.shares) || 0;
-                const price = num(h.currentPrice) !== null ? num(h.currentPrice) : num(h.purchasePrice);
-                const paid = num(h.purchasePrice);
-                const value = price !== null ? shares * price : null;
-                const gain = (price !== null && paid !== null && paid > 0) ? (price / paid - 1) * 100 : null;
-                return { id: h._id, symbol: (h.symbol || '').toUpperCase(), name: h.name || '', shares, paid, price, value, gain };
-            });
-            lastRows = rows;
-            renderAllocation(rows);
-            loadPerformance(rows);
-            const total = rows.reduce((a, r2) => a + (r2.value || 0), 0);
-            $('pf-total').textContent = '$' + fixed(total, 2);
-            $('pf-sub').textContent = DEMO
-                ? `${rows.length} holdings · demo data, read-only`
-                : `${rows.length} holdings · stored prices refresh through the day`;
-            if (!rows.length) {
-                $('holdings-body').innerHTML = '<tr><td colspan="8" class="faint" style="text-align:center;padding:36px;">'
-                    + 'No holdings yet — add your first above (try <strong>AAPL</strong>, <strong>MSFT</strong> or <strong>NVDA</strong>).'
-                    + '<br><span class="small">Then put it to work: see what just changed in its filings with the <a href="/monitor.html">Filing Monitor</a>, or <a href="/ask.html">ask the AI analyst</a> about it.</span>'
-                    + '</td></tr>';
-                return;
+            if (!r.ok) {
+                const data = await r.json().catch(() => ({}));
+                throw new Error(data.message || 'Unable to load the portfolio right now.');
             }
-            $('holdings-body').innerHTML = rows.map((r2) => `
-              <tr>
-                <td class="row-head"><a href="/company.html?symbol=${esc(r2.symbol)}"><strong>${esc(r2.symbol)}</strong></a>&ensp;<span class="muted small">${esc(r2.name)}</span></td>
-                <td>${fixed(r2.shares, r2.shares % 1 ? 2 : 0)}</td>
-                <td>${r2.paid === null ? '—' : '$' + fixed(r2.paid, 2)}</td>
-                <td>${r2.price === null ? '—' : '$' + fixed(r2.price, 2)}</td>
-                <td>${r2.value === null ? '—' : '$' + fixed(r2.value, 2)}</td>
-                <td>${total > 0 && r2.value !== null ? pct(r2.value / total * 100) : '—'}</td>
-                <td class="${r2.gain > 0 ? 'delta-pos' : r2.gain < 0 ? 'delta-neg' : ''}">${r2.gain === null ? '—' : (r2.gain >= 0 ? '+' : '') + r2.gain.toFixed(1) + '%'}</td>
-                <td>${DEMO ? '' : `<button class="btn btn-quiet btn-sm" data-del="${esc(r2.id)}" aria-label="Remove ${esc(r2.symbol)}">Remove</button>`}</td>
-              </tr>`).join('');
-            document.querySelectorAll('[data-del]').forEach((b) =>
-                b.addEventListener('click', async () => {
-                    await fetch(`${API}/portfolio/${b.dataset.del}`, { method: 'DELETE', headers: auth }).catch(() => {});
-                    loadHoldings(); loadXray();
-            }));
+            const list = await r.json();
+            const rows = (Array.isArray(list) ? list : []).map(holdingToRow);
+            renderHoldings(rows);
+            loadPerformance(rows);
+            return true;
         } catch (_) {
             $('holdings-empty').hidden = true;
             ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
