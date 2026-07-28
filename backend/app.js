@@ -102,21 +102,36 @@ function authTokenFromRequest(req) {
   if (match && match[1] && !['null', 'undefined', 'cookie'].includes(match[1])) return match[1];
   return parseCookieHeader(req.headers.cookie || '')[AUTH_COOKIE_NAME] || '';
 }
-function setAuthCookie(res, token) {
+function authCookieDomain(req) {
+  const host = String(req && req.headers && req.headers.host || '').split(':')[0].toLowerCase();
+  return host === 'stockportfolio.pro' || host.endsWith('.stockportfolio.pro') ? '; Domain=.stockportfolio.pro' : '';
+}
+function setAuthCookie(res, token, req) {
   if (!token) return;
   const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
-  res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=${encodeURIComponent(token)}; Max-Age=${AUTH_COOKIE_MAX_AGE}; Path=/; HttpOnly; SameSite=Lax${secure}`);
-  res.append('Set-Cookie', `sp_logged_in=1; Max-Age=${AUTH_COOKIE_MAX_AGE}; Path=/; SameSite=Lax${secure}`);
+  const domain = authCookieDomain(req);
+  const common = `Max-Age=${AUTH_COOKIE_MAX_AGE}; Path=/; SameSite=Lax${secure}`;
+  // Clear legacy host-only cookies before setting the shared apex-domain
+  // cookies, otherwise browsers can retain two values with the same name.
+  res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=; Max-Age=0; Path=/; SameSite=Lax${secure}`);
+  res.append('Set-Cookie', `sp_logged_in=; Max-Age=0; Path=/; SameSite=Lax${secure}`);
+  res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=${encodeURIComponent(token)}; ${common}; HttpOnly${domain}`);
+  res.append('Set-Cookie', `sp_logged_in=1; ${common}${domain}`);
 }
-function clearAuthCookie(res) {
+function clearAuthCookie(res, req) {
   const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+  const domain = authCookieDomain(req);
   res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax${secure}`);
   res.append('Set-Cookie', `sp_logged_in=; Max-Age=0; Path=/; SameSite=Lax${secure}`);
+  if (domain) {
+    res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax${secure}${domain}`);
+    res.append('Set-Cookie', `sp_logged_in=; Max-Age=0; Path=/; SameSite=Lax${secure}${domain}`);
+  }
 }
 app.use((req, res, next) => {
   const json = res.json.bind(res);
   res.json = (body) => {
-    if (body && typeof body.token === 'string' && body.token) setAuthCookie(res, body.token);
+    if (body && typeof body.token === 'string' && body.token) setAuthCookie(res, body.token, req);
     return json(body);
   };
   next();
@@ -2869,7 +2884,7 @@ app.get('/api/session', authMiddleware, async (req, res) => {
 });
 
 app.post('/api/logout', (req, res) => {
-    clearAuthCookie(res);
+    clearAuthCookie(res, req);
     res.status(204).end();
 });
 

@@ -48,3 +48,11 @@ test('marketing dashboard is restricted to the rin account and not ADMIN_TOKEN',
   const routeEnd = source.indexOf("app.get('/admin/marketing'");
   assert.equal(source.slice(routeStart, routeEnd).includes('ADMIN_TOKEN'), false);
 });
+
+test('auth cookies are shared across the apex and www production hosts', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+  assert.match(source, /Domain=\.stockportfolio\.pro/);
+  assert.match(source, /authCookieDomain\(req\)/);
+  assert.match(source, /setAuthCookie\(res, body\.token, req\)/);
+  assert.match(source, /clearAuthCookie\(res, req\)/);
+});
