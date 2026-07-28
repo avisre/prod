@@ -1414,6 +1414,7 @@ const SubscriptionSchema = new mongoose.Schema({
     status: { type: String, enum: ['pending','trialing','active','cancel_at_period_end','cancelled'], default: 'pending' },
     trialStartedAt: { type: Date, default: () => new Date() },
     trialEndsAt: { type: Date, default: null },
+    expiredAt: { type: Date, default: null },
     activatedAt: { type: Date, default: null },
     renewedAt: { type: Date, default: null },
     lastPaymentAt: { type: Date, default: null }
@@ -1569,6 +1570,8 @@ function effectiveTrialStatus(user, now = Date.now()) {
         && !user.stripeSubscriptionId && !user.appsumoRedeemedAt) {
         return 'expired';
     }
+    if (sub.expiredAt && new Date(sub.expiredAt).getTime() <= now
+        && !user.stripeSubscriptionId && !user.appsumoRedeemedAt) return 'expired';
     return sub.status || 'pending';
 }
 
@@ -1582,7 +1585,7 @@ async function expireNoCardTrials() {
         'subscription.trialEndsAt': { $ne: null, $lte: new Date() },
         stripeSubscriptionId: null,
         appsumoRedeemedAt: null
-    }, { $set: { 'subscription.status': 'cancelled' } });
+    }, { $set: { 'subscription.status': 'cancelled', 'subscription.expiredAt': new Date() } });
     return {
         matchedCount: Number(result.matchedCount || result.n || 0),
         modifiedCount: Number(result.modifiedCount || result.nModified || 0)
@@ -4933,20 +4936,21 @@ app.get('/admin/funnel', async (req, res) => {
         });
         const planRows = Object.entries(byPlan).sort((a,b) => b[1].signup - a[1].signup)
             .map(([p, v]) => `<tr><td>${p}</td><td>${v.signup}</td><td>${v.trial_start}</td><td>${v.paid}</td><td>${v.cancel}</td></tr>`).join('');
-        const trialUsers = await User.find({
-            'subscription.trialEndsAt': { $ne: null },
-            appsumoRedeemedAt: null
-        }, {
+        const recentTrialEvents = await col.find({ event: 'trial_start', userId: { $ne: null } })
+            .sort({ at: -1 }).limit(100).toArray();
+        const recentTrialIds = [...new Set(recentTrialEvents.map((event) => String(event.userId)).filter((id) => mongoose.Types.ObjectId.isValid(id)))];
+        const trialUsers = await User.find({ _id: { $in: recentTrialIds.map((id) => new mongoose.Types.ObjectId(id)) } }, {
             email: 1, subscription: 1, stripeCustomerId: 1, stripeSubscriptionId: 1,
-            googleId: 1, facebookId: 1, createdAt: 1
+            googleId: 1, facebookId: 1, appsumoRedeemedAt: 1, createdAt: 1
         }).sort({ 'subscription.trialStartedAt': -1 }).limit(100).lean();
         const trialDates = (value) => value
             ? new Date(value).toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'medium', timeStyle: 'short' })
             : '—';
         const trialRows = trialUsers.map((u) => {
-            const channel = u.stripeCustomerId || u.stripeSubscriptionId ? 'Stripe' : 'No-card';
+            const channel = u.appsumoRedeemedAt ? 'AppSumo' : u.stripeCustomerId || u.stripeSubscriptionId ? 'Stripe' : 'No-card';
             const authMethod = u.googleId ? 'Google' : u.facebookId ? 'Facebook' : 'Email';
-            return `<tr><td>${escapeHtml(u.email || '')}</td><td>${authMethod}</td><td>${channel}</td><td>${escapeHtml(effectiveTrialStatus(u))}</td><td>${trialDates(u.subscription && u.subscription.trialStartedAt)}</td><td>${trialDates(u.subscription && u.subscription.trialEndsAt)}</td></tr>`;
+            const event = recentTrialEvents.find((item) => String(item.userId) === String(u._id));
+            return `<tr><td>${escapeHtml(u.email || '')}</td><td>${authMethod}</td><td>${channel}</td><td>${escapeHtml(event && event.acquisitionSource || '—')}</td><td>${escapeHtml(effectiveTrialStatus(u))}</td><td>${trialDates(u.subscription && u.subscription.trialStartedAt)}</td><td>${trialDates(u.subscription && u.subscription.trialEndsAt)}</td><td>${u.appsumoRedeemedAt ? 'AppSumo' : '—'}</td><td>${trialDates(u.appsumoRedeemedAt)}</td></tr>`;
         }).join('');
         const total = groups.reduce((s, g) => s + g.n, 0);
         const html = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Funnel — stockportfolio.pro</title>
@@ -4971,7 +4975,7 @@ app.get('/admin/funnel', async (req, res) => {
 <table><thead><tr><th>Plan</th><th>Signups</th><th>Trial starts</th><th>Paid</th><th>Cancels</th></tr></thead><tbody>${planRows}</tbody></table>
 <h2>Recent trials</h2>
 <p>${trialUsers.length} trial records shown (up to 100). Expired local trials corrected this request: ${expiry.modifiedCount}.</p>
-<table><thead><tr><th>Email</th><th>Auth</th><th>Channel</th><th>Effective status</th><th>Started (IST)</th><th>Ends (IST)</th></tr></thead><tbody>${trialRows || '<tr><td colspan="6">No trials found</td></tr>'}</tbody></table>
+<table><thead><tr><th>Email</th><th>Auth</th><th>Channel</th><th>Source</th><th>Effective status</th><th>Started (IST)</th><th>Ends (IST)</th><th>Converted via</th><th>Converted (IST)</th></tr></thead><tbody>${trialRows || '<tr><td colspan="9">No trials found</td></tr>'}</tbody></table>
 <p style="color:#888;margin-top:2rem">Events total: ${total} — as of ${new Date().toISOString()}</p>
 </body></html>`;
         res.set('Content-Type', 'text/html; charset=utf-8').set('Cache-Control', 'no-store').send(html);
@@ -5539,8 +5543,13 @@ app.get('/api/admin/customers', async (req, res) => {
             filter.stripeSubscriptionId = null;
         }
         if (source === 'trial') {
-            filter.appsumoRedeemedAt = null;
-            filter['subscription.trialEndsAt'] = { $ne: null };
+            // Trial origin is the durable funnel event, not a mutable current
+            // subscription shape; this keeps AppSumo conversions in the report.
+            const trialEventsForFilter = await mongoose.connection.collection('funnel_events').find(
+                { event: 'trial_start', userId: { $ne: null } }, { projection: { userId: 1 } }
+            ).toArray();
+            const trialUserIds = [...new Set(trialEventsForFilter.map((event) => String(event.userId)).filter((id) => mongoose.Types.ObjectId.isValid(id)))];
+            filter._id = { $in: trialUserIds.map((id) => new mongoose.Types.ObjectId(id)) };
         }
         const users = await User.find(filter, {
             email: 1, name: 1, subscription: 1,
