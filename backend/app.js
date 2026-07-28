@@ -5521,6 +5521,7 @@ function customerCsvCell(value) {
 // events are append-only; customer records are joined only to derive aggregate
 // conversion counts, never returned to the browser.
 async function collectMarketingDashboard() {
+    if (mongoose.connection.readyState !== 1) throw new Error('database unavailable');
     const col = mongoose.connection.collection('funnel_events');
     const now = new Date();
     const since30 = new Date(now.getTime() - 30 * 86400000);
@@ -5599,6 +5600,7 @@ function adminTokenOrForbidden(req, res) {
 
 app.get('/api/admin/marketing', async (req, res) => {
     if (!adminTokenOrForbidden(req, res)) return;
+    if (mongoose.connection.readyState !== 1) return res.status(503).json({ message: 'Database is still starting' });
     try {
         res.set('Cache-Control', 'no-store').json(await collectMarketingDashboard());
     } catch (error) {
@@ -5609,6 +5611,7 @@ app.get('/api/admin/marketing', async (req, res) => {
 
 app.get('/admin/marketing', async (req, res) => {
     if (!adminTokenOrForbidden(req, res)) return;
+    if (mongoose.connection.readyState !== 1) return res.status(503).send('Database is still starting');
     try {
         const data = await collectMarketingDashboard();
         const n = (value) => Number(value || 0).toLocaleString('en-IN');
