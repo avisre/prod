@@ -165,7 +165,6 @@
           });
           const data = await r.json().catch(() => ({}));
           if (r.ok && data.token) {
-            localStorage.setItem('token', data.token);
             sessionStorage.removeItem('pendingRegisterCredentials');
             // Funnel: payment confirmed on Stripe return (Purchase + Ads
             // subscribe), valued in the real charged currency (USD).
@@ -207,7 +206,6 @@
         if (r.ok && data.token && !data.url) {
           // No-card trial (or free): account is live now — store the token and
           // go straight into the app, no Stripe checkout.
-          try { localStorage.setItem('token', data.token); } catch (_) {}
           // Funnel: account created (CompleteRegistration + Ads signup); a
           // non-free plan here is a no-card trial start (StartTrial).
           try {

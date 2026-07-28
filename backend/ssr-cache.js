@@ -68,7 +68,7 @@ const DEFAULTS = {
 // Order changes the HTTP status the origin returns (a>b 301s) so we do NOT
 // normalize compare order in the key; only case-fold. Excludes /company(.html),
 // /screener(.html), /api, /admin, /dashboard, /login, /register, /demo, /v1,
-// /v2, /, and the root-mounted localyze-proxy router.
+// /v2, and /.
 const SSR_PATTERNS = [
   /^\/sitemap\.xml$/,
   /^\/sitemaps\/[a-z0-9-]+\.xml$/,

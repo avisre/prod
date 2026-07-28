@@ -75,9 +75,6 @@
             });
             const data = await r.json().catch(() => ({}));
             if (!r.ok) throw new Error(data.message || 'Unable to continue with Google.');
-            if (data.token) {
-              try { localStorage.setItem('token', data.token); } catch (_) {}
-            }
             if (data.url) {
               setStatus(status, 'Redirecting to checkout…');
               location.href = data.url; // Stripe checkout (subscription needed)
@@ -111,7 +108,7 @@
     const status = opts && opts.statusId ? document.getElementById(opts.statusId) : null;
     const nextRaw = params.get('next') || 'dashboard.html';
     const next = /^[a-z][a-z0-9+.-]*:|^\/\//i.test(nextRaw) ? 'dashboard.html' : nextRaw.replace(/^\/+/, '');
-    const token = localStorage.getItem('token');
+    const token = typeof V2.token === 'function' ? V2.token() : '';
     if (!token) {
       setStatus(status, 'Payment completed, but your session is missing — please sign in with Google again.', true);
       return true;

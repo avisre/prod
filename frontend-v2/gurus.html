@@ -518,7 +518,7 @@
       main.innerHTML = `<div class="guru-placeholder"><span class="loading-line"><span class="spin"></span>Loading 13F data…</span></div>`;
 
       try {
-        const tk = localStorage.getItem('token');
+        const tk = typeof V2.token === 'function' ? V2.token() : '';
         const r = await fetch('/api/gurus/' + id, tk ? { headers: { Authorization: 'Bearer ' + tk } } : undefined);
         const data = await r.json();
         if (activeId !== id) return;
@@ -601,7 +601,7 @@
     async function loadAnalysis(id) {
       const body = document.getElementById('guru-ai-body');
       if (!body) return;
-      const tk = localStorage.getItem('token');
+      const tk = typeof V2.token === 'function' ? V2.token() : '';
       body.innerHTML = `<span class="loading-line"><span class="spin"></span>Reading the filing…</span>`;
       try {
         const r = await fetch('/api/gurus/' + id + '/analysis', { headers: tk ? { Authorization: 'Bearer ' + tk } : {} });

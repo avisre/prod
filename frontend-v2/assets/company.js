@@ -1290,7 +1290,7 @@
         attachHScroll($('insider-hist-table').closest('.table-wrap'));
         $('insider-hist-prov').innerHTML = (lock
             ? '🔒 The most recent period is part of Pro — <a href="/register.html?plan=pro">upgrade</a> to see what insiders did latest. '
-            : '') + (form4Meta || 'Aggregated from Form 4 filings, as far back as the transactions feed reaches.');
+            : '') + esc(form4Meta || 'Aggregated from Form 4 filings, as far back as the transactions feed reaches.');
     }
 
     let insiderSide = 'all';

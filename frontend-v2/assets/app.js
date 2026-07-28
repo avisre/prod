@@ -4,7 +4,8 @@
     'use strict';
 
     const API = `${window.location.origin}/api`;
-    const token = () => localStorage.getItem('token');
+    const token = () => /(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie) ? 'cookie' : '';
+    try { localStorage.removeItem('token'); } catch (_) {}
 
     // ---------- funnel-event entry point (retargeting) ----------
     // Safe to call anywhere, anytime: it no-ops until a retargeting pixel has
@@ -495,9 +496,9 @@
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
 
         const out = el.querySelector('#v2-signout');
-        if (out) out.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); location.reload(); });
+        if (out) out.addEventListener('click', async (e) => { e.preventDefault(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
         const mobileOut = mob.querySelector('#v2-mobile-signout');
-        if (mobileOut) mobileOut.addEventListener('click', (e) => { e.preventDefault(); localStorage.removeItem('token'); location.reload(); });
+        if (mobileOut) mobileOut.addEventListener('click', async (e) => { e.preventDefault(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
 
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
         mountConsent();

@@ -2837,7 +2837,7 @@
       console.error('Fundamentals load failed:', error);
       if (renderedFromCache) return;
       const quote = $('quote');
-      if (quote) quote.innerHTML = `<div class="quote-metric"><div class="metric-label">Error</div><div class="metric-value">${error.message || 'Unable to load fundamentals.'}</div></div>`;
+      if (quote) quote.innerHTML = `<div class="quote-metric"><div class="metric-label">Error</div><div class="metric-value">${escHtml(error.message || 'Unable to load fundamentals.')}</div></div>`;
     } finally {
       hideLoader();
     }

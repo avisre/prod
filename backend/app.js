@@ -1,6 +1,8 @@
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
+const dns = require('dns').promises;
+const net = require('net');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -79,8 +81,46 @@ const mailer = require('./mailer');
 const { sendNewUserEmails } = mailer;
 
 const app = express();
-app.set('trust proxy', 1);
+const TRUST_PROXY_HOPS = Math.max(0, Number.parseInt(process.env.TRUST_PROXY_HOPS || '0', 10) || 0);
+app.set('trust proxy', TRUST_PROXY_HOPS || false);
 app.disable('x-powered-by');
+
+const AUTH_COOKIE_NAME = 'sp_auth';
+const AUTH_COOKIE_MAX_AGE = 7 * 24 * 60 * 60;
+function parseCookieHeader(header = '') {
+  const out = {};
+  for (const part of String(header).split(';')) {
+    const i = part.indexOf('=');
+    if (i <= 0) continue;
+    const key = part.slice(0, i).trim();
+    try { out[key] = decodeURIComponent(part.slice(i + 1).trim()); } catch (_) { out[key] = part.slice(i + 1).trim(); }
+  }
+  return out;
+}
+function authTokenFromRequest(req) {
+  const match = String(req.headers.authorization || '').match(/^Bearer\s+(.+)$/i);
+  if (match && match[1] && !['null', 'undefined', 'cookie'].includes(match[1])) return match[1];
+  return parseCookieHeader(req.headers.cookie || '')[AUTH_COOKIE_NAME] || '';
+}
+function setAuthCookie(res, token) {
+  if (!token) return;
+  const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+  res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=${encodeURIComponent(token)}; Max-Age=${AUTH_COOKIE_MAX_AGE}; Path=/; HttpOnly; SameSite=Lax${secure}`);
+  res.append('Set-Cookie', `sp_logged_in=1; Max-Age=${AUTH_COOKIE_MAX_AGE}; Path=/; SameSite=Lax${secure}`);
+}
+function clearAuthCookie(res) {
+  const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+  res.append('Set-Cookie', `${AUTH_COOKIE_NAME}=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax${secure}`);
+  res.append('Set-Cookie', `sp_logged_in=; Max-Age=0; Path=/; SameSite=Lax${secure}`);
+}
+app.use((req, res, next) => {
+  const json = res.json.bind(res);
+  res.json = (body) => {
+    if (body && typeof body.token === 'string' && body.token) setAuthCookie(res, body.token);
+    return json(body);
+  };
+  next();
+});
 const jsonParser = express.json();
 function isRawBodyWebhookPath(requestPath) {
   // Express routes accept a trailing slash by default. Keep the body-parser
@@ -119,7 +159,19 @@ app.use(cors({
   }
 }));
 app.use(helmet({
-  contentSecurityPolicy: false,
+  contentSecurityPolicy: {
+    useDefaults: true,
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", 'https://accounts.google.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
+      imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
+      connectSrc: ["'self'", 'https:'],
+      frameSrc: ["'self'", 'https://accounts.google.com', 'https://www.youtube.com', 'https://www.youtube-nocookie.com'],
+      objectSrc: ["'none'"], baseUri: ["'self'"], formAction: ["'self'"], frameAncestors: ["'self'"]
+    }
+  },
   crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
   // helmet's no-referrer default breaks YouTube embeds (error 153);
   // strict-origin-when-cross-origin is the modern browser default.
@@ -343,6 +395,8 @@ const GOOGLE_ALLOWED_HOSTS = String(
   .filter(Boolean);
 const NEWS_IMAGE_PROXY_TIMEOUT_MS = 5000;
 const NEWS_IMAGE_PROXY_MAX_BYTES = 5 * 1024 * 1024;
+const NEWS_IMAGE_ALLOWED_HOSTS = String(process.env.NEWS_IMAGE_ALLOWED_HOSTS || '*.yimg.com,*.yahoo.com,*.yahooapis.com')
+  .split(',').map((value) => value.trim().toLowerCase()).filter(Boolean);
 
 function getRequestHostname(req) {
   const forwardedHost = String(req?.headers?.['x-forwarded-host'] || '')
@@ -389,27 +443,36 @@ function encodeMongoCredential(value = '') {
   return encodeURIComponent(decodeURIComponent(String(value || '')));
 }
 
-function isPrivateIpHost(hostname = '') {
-  const host = String(hostname || '').trim().toLowerCase();
-  if (!host) return true;
-  if (host === 'localhost' || host === '::1') return true;
-  if (/^\d{1,3}(\.\d{1,3}){3}$/.test(host)) {
-    if (host.startsWith('10.') || host.startsWith('127.') || host.startsWith('192.168.') || host.startsWith('169.254.')) {
-      return true;
-    }
-    if (host.startsWith('172.')) {
-      const second = Number(host.split('.')[1]);
-      if (second >= 16 && second <= 31) return true;
-    }
+function isPrivateIpAddress(address = '') {
+  const ip = String(address || '').trim().toLowerCase();
+  const version = net.isIP(ip);
+  if (!version) return true;
+  if (version === 4) {
+    const [a, b] = ip.split('.').map(Number);
+    return a === 0 || a === 10 || a === 127 || a >= 224 ||
+      (a === 100 && b >= 64 && b <= 127) || (a === 169 && b === 254) ||
+      (a === 172 && b >= 16 && b <= 31) || (a === 192 && (b === 0 || b === 168)) ||
+      (a === 198 && (b === 18 || b === 19));
   }
-  return false;
+  const compact = ip.replace(/^\[|\]$/g, '');
+  if (compact === '::' || compact === '::1' || compact.startsWith('ff') ||
+      compact.startsWith('fe8') || compact.startsWith('fe9') || compact.startsWith('fea') || compact.startsWith('feb') ||
+      compact.startsWith('fc') || compact.startsWith('fd')) return true;
+  const mapped = compact.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
+  return Boolean(mapped && isPrivateIpAddress(mapped[1]));
 }
 
-function isSafeNewsImageUrl(value = '') {
+function isNewsImageHostAllowed(hostname = '') {
+  return NEWS_IMAGE_ALLOWED_HOSTS.some((pattern) => hostMatchesAllowedPattern(hostname, pattern));
+}
+
+async function isSafeNewsImageUrl(value = '') {
   try {
     const parsed = new URL(String(value || ''));
     if (!['http:', 'https:'].includes(parsed.protocol)) return false;
-    if (isPrivateIpHost(parsed.hostname)) return false;
+    if (!isNewsImageHostAllowed(parsed.hostname) || isPrivateIpAddress(parsed.hostname)) return false;
+    const records = await dns.lookup(parsed.hostname, { all: true, verbatim: true });
+    if (!records.length || records.some((record) => isPrivateIpAddress(record.address))) return false;
     return true;
   } catch (_) {
     return false;
@@ -694,12 +757,17 @@ function createHttpError(status, message, code, details = {}) {
 function sendApiError(res, error, fallbackMessage = 'Something went wrong.') {
   const status = Number(error?.status) || 500;
   const payload = {
-    message: String(error?.message || fallbackMessage)
+    message: status >= 500 && process.env.NODE_ENV === 'production'
+      ? fallbackMessage
+      : String(error?.message || fallbackMessage)
   };
   if (error?.code) payload.code = String(error.code);
   if (error?.field) payload.field = String(error.field);
   if (typeof error?.retryable === 'boolean') payload.retryable = error.retryable;
   return res.status(status).json(payload);
+}
+function publicErrorMessage(error, fallbackMessage) {
+  return process.env.NODE_ENV === 'production' ? fallbackMessage : String(error?.message || fallbackMessage);
 }
 
 async function ensureStripeAccountPreflight() {
@@ -739,6 +807,9 @@ async function ensureStripeAccountPreflight() {
 
 function safeUpper(value = '') {
   return String(value || '').trim().toUpperCase();
+}
+function isValidTicker(value = '') {
+  return /^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(String(value || '').trim().toUpperCase());
 }
 
 // Class shares are written a dozen ways by humans and data vendors:
@@ -1162,7 +1233,7 @@ const { pixelConfig } = require('./pixels');
 // /methodology, /editorial-policy. Pure pass-through (next()) for everything
 // else, so it never fronts /api, /admin, /company, /screener, /dashboard,
 // /login, /register, express.static, the 404 catch-all, OR the root-mounted
-// localyze-proxy router (1037). Caches GET + status-200 + text/html|xml +
+// Caches GET + status-200 + text/html|xml +
 // no-Set-Cookie only. Deploy clears it; 6h TTL covers the out-of-process
 // nightly fundamentals rewrites. Zero new npm deps.
 const ssrCache = require('./ssr-cache');
@@ -1204,9 +1275,8 @@ app.get('/vs/:competitor', (req, res) => {
 // and screen landing pages (/screens/dividend-stocks) — see backend/seo-extra.js
 app.use(require('./seo-extra').router);
 
-// [LOCALYZE-PROXY] Isolated add-on: model backend for the Localyze.ai app.
-// To fully revert: delete this line AND backend/localyze-proxy.js (nothing else refs it).
-app.use(require('./localyze-proxy').router);
+// The Localyze model proxy is intentionally not mounted here. It must use a
+// separate service, credential, authentication boundary, and quota.
 
 // Interactive company page (/company?symbol=SYM): the data renders client-side,
 // so crawlers and link unfurlers would otherwise see only the skeleton with a
@@ -1344,6 +1414,7 @@ const UserSchema = new mongoose.Schema({
     name: String,
     email: { type: String, unique: true },
     password: String,
+    authVersion: { type: Number, default: 0 },
     googleId: { type: String, default: null },
     facebookId: { type: String, default: null },
     avatarUrl: { type: String, default: null },
@@ -1424,6 +1495,9 @@ async function getUserByToken(token) {
     const user = await User.findById(decoded.userId);
     if (!user) {
         throw { status: 401, message: 'User not found' };
+    }
+    if (Number(decoded.v || 0) !== Number(user.authVersion || 0)) {
+        throw { status: 401, message: 'Session expired. Please sign in again.' };
     }
     return user;
 }
@@ -1564,7 +1638,7 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
 }
 
 function createUserToken(user) {
-    return jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '30d' });
+    return jwt.sign({ userId: user._id, v: Number(user.authVersion || 0) }, JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
 }
 
 async function createCheckoutSessionForUser(user, extraMetadata = {}) {
@@ -1927,7 +2001,7 @@ async function findOrCreateSocialUser(profile) {
 
 // Middleware to authenticate user and enforce subscription
 async function authMiddleware(req, res, next) {
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = authTokenFromRequest(req);
     if (!token) {
         return res.status(401).json({ message: 'Authentication required' });
     }
@@ -1937,6 +2011,9 @@ async function authMiddleware(req, res, next) {
         const user = await User.findById(decoded.userId);
         if (!user) {
             return res.status(401).json({ message: 'User not found' });
+        }
+        if (Number(decoded.v || 0) !== Number(user.authVersion || 0)) {
+            return res.status(401).json({ message: 'Session expired. Please sign in again.' });
         }
 
         const normalized = ensureSubscriptionShape(user);
@@ -1969,12 +2046,13 @@ async function authMiddleware(req, res, next) {
 // pages that reveal extra data to subscribers (e.g. guru performance + activity).
 async function optionalAuth(req, res, next) {
     req.tier = 'free';
-    const token = req.headers.authorization?.split(' ')[1];
+    const token = authTokenFromRequest(req);
     if (!token) return next();
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         const user = await User.findById(decoded.userId);
         if (user) {
+            if (Number(decoded.v || 0) !== Number(user.authVersion || 0)) return next();
             const normalized = ensureSubscriptionShape(user);
             req.user = user;
             req.subscription = normalized;
@@ -2543,7 +2621,7 @@ app.post('/api/login', async (req, res) => {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
         }
-        res.status(500).json({ message: 'Error logging in', error: error.message });
+        res.status(500).json({ message: 'Unable to log in right now.' });
     }
 });
 
@@ -2573,6 +2651,7 @@ app.post('/api/password/change', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(newPassword, 10);
         user.password = hashedPassword;
+        user.authVersion = Number(user.authVersion || 0) + 1;
         await user.save();
 
         res.status(200).json({ message: 'Password updated successfully. You can now log in with your new password.' });
@@ -2649,6 +2728,7 @@ app.post('/api/password/reset', async (req, res) => {
         }
 
         user.password = await bcrypt.hash(newPassword, 10);
+        user.authVersion = Number(user.authVersion || 0) + 1;
         user.resetPasswordToken = null;
         user.resetPasswordExpires = null;
         await user.save();
@@ -2683,7 +2763,7 @@ app.post('/api/subscription/cancel', authMiddleware, async (req, res) => {
         res.json({ message: 'Subscription will be canceled at the end of the period' });
     } catch (error) {
         console.error('Cancel subscription error:', error);
-        res.status(500).json({ message: 'Unable to cancel the subscription', error: error.message });
+        res.status(500).json({ message: 'Unable to cancel the subscription right now.' });
     }
 });
 
@@ -2707,6 +2787,11 @@ app.get('/api/session', authMiddleware, async (req, res) => {
         console.error('/api/session error:', error);
         res.status(500).json({ message: 'Unable to load session' });
     }
+});
+
+app.post('/api/logout', (req, res) => {
+    clearAuthCookie(res);
+    res.status(204).end();
 });
 
 // Existing-user upgrade: turn a logged-in trial/free account into a paid
@@ -2735,7 +2820,7 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
         res.json({ url: session.url });
     } catch (error) {
         console.error('/api/checkout error:', error);
-        res.status(500).json({ message: 'Unable to start checkout', error: error.message });
+        res.status(500).json({ message: 'Unable to start checkout right now.' });
     }
 });
 
@@ -2846,7 +2931,7 @@ app.get('/api/alpha/search', authMiddleware, async (req, res) => {
         const data = await fetchAlphaCached('SYMBOL_SEARCH', { keywords }, ALPHA_CACHE_TTL_MS.daily);
         res.json({ bestMatches: data.bestMatches || [] });
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Alpha search failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Alpha search failed') });
     }
 });
 
@@ -2860,7 +2945,7 @@ app.get('/api/alpha/time-series/daily', authMiddleware, coreGate, async (req, re
         const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize }, ALPHA_CACHE_TTL_MS.daily);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Daily series failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Daily series failed') });
     }
 });
 
@@ -2903,7 +2988,7 @@ app.get('/api/market/strip', async (req, res) => {
         if (_stripCache.size > 500) _stripCache.delete(_stripCache.keys().next().value);
         res.json(payload);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Market strip failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Market strip failed') });
     }
 });
 
@@ -2916,7 +3001,7 @@ app.get('/api/alpha/time-series/monthly', authMiddleware, coreGate, async (req, 
         const data = await fetchAlphaCached('TIME_SERIES_MONTHLY_ADJUSTED', { symbol }, ALPHA_CACHE_TTL_MS.monthly);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Monthly series failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Monthly series failed') });
     }
 });
 
@@ -2953,7 +3038,7 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         await secSource.backfillStatements(symbol, payload).catch(() => {});
         res.json(payload);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Fundamentals load failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });
     }
 });
 
@@ -2967,7 +3052,7 @@ app.get('/api/alpha/quote/:symbol', authMiddleware, coreGate, async (req, res) =
         const data = await fetchAlphaCached('GLOBAL_QUOTE', { symbol }, ALPHA_CACHE_TTL_MS.quote);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Quote load failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Quote load failed') });
     }
 });
 
@@ -2976,7 +3061,7 @@ app.get('/api/alpha/movers', authMiddleware, coreGate, async (req, res) => {
         const data = await fetchAlphaCached('TOP_GAINERS_LOSERS', {}, ALPHA_CACHE_TTL_MS.quote);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Movers load failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Movers load failed') });
     }
 });
 
@@ -2992,13 +3077,13 @@ app.get('/api/alpha/news', authMiddleware, coreGate, async (req, res) => {
         const data = await fetchAlphaCached('NEWS_SENTIMENT', params, ALPHA_CACHE_TTL_MS.news);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'News load failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'News load failed') });
     }
 });
 
 app.get('/api/news-image', async (req, res) => {
     const targetUrl = String(req.query.url || '').trim();
-    if (!isSafeNewsImageUrl(targetUrl)) {
+    if (!(await isSafeNewsImageUrl(targetUrl))) {
         return res.status(400).send('Invalid image URL');
     }
 
@@ -3008,6 +3093,7 @@ app.get('/api/news-image', async (req, res) => {
             timeout: NEWS_IMAGE_PROXY_TIMEOUT_MS,
             maxContentLength: NEWS_IMAGE_PROXY_MAX_BYTES,
             maxBodyLength: NEWS_IMAGE_PROXY_MAX_BYTES,
+            maxRedirects: 0,
             headers: {
                 'User-Agent': 'stockportfolio.pro image proxy'
             },
@@ -3030,18 +3116,7 @@ app.get('/api/news-image', async (req, res) => {
 app.get('/api/health', (req, res) => {
     const readyState = mongoose.connection.readyState;
     const dbConnected = readyState === 1;
-    res.json({
-        ok: true,
-        timestamp: new Date().toISOString(),
-        dbConnected,
-        dbState: readyState,
-        mongoUriConfigured: Boolean(process.env.MONGODB_URI),
-        appsumo: {
-            apiKeyConfigured: Boolean(APPSUMO_API_KEY),
-            oauthConfigured: Boolean(APPSUMO_CLIENT_ID && APPSUMO_CLIENT_SECRET),
-            redirectUri: APPSUMO_REDIRECT_URI
-        }
-    });
+    res.status(dbConnected ? 200 : 503).json({ ok: dbConnected });
 });
 
 // ----- Portfolio routes (used by the Dashboard tracker) -----
@@ -3073,7 +3148,7 @@ app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
         }
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Unable to load the portfolio right now.' });
     }
 });
 
@@ -3115,7 +3190,7 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable.' });
         }
-        res.status(500).json({ message: error.message || 'Briefing failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Briefing failed') });
     }
 });
 
@@ -3167,7 +3242,7 @@ app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, r
         if (_aiSummaryCache.size > 500) _aiSummaryCache.delete(_aiSummaryCache.keys().next().value);
         res.json({ ...payload, cached: false });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'AI summary failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'AI summary failed') });
     }
 });
 
@@ -3266,7 +3341,7 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
         res.json({ answer: result.answer, source: result.source });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Question failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Question failed') });
     }
 });
 
@@ -3276,7 +3351,9 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
 // ----- Anonymous Ask teaser: a couple of free, abuse-bounded queries so a
 // cold visitor can feel the filing-grounded answer before the signup wall.
 // Everything off-switchable: ANON_ASK_LIMIT=0 restores signup-required Ask.
-const ANON_ASK_LIMIT = Number(process.env.ANON_ASK_LIMIT ?? 0);        // free queries per browser
+const ANON_ASK_LIMIT = process.env.NODE_ENV === 'production' && process.env.ALLOW_ANON_AI !== 'true'
+    ? 0
+    : Number(process.env.ANON_ASK_LIMIT ?? 0);                         // free queries per browser
 const ANON_ASK_IP_DAY = Number(process.env.ANON_ASK_IP_DAY ?? 6);      // backstop: per IP / day
 const ANON_ASK_GLOBAL_DAY = Number(process.env.ANON_ASK_GLOBAL_DAY ?? 400); // hard daily cost ceiling
 const _anonAsk = { day: '', global: 0, ip: new Map() };
@@ -3305,7 +3382,7 @@ function _anonAskCookie(n) {
 // Auth shim for Ask: a real bearer token → full authed path; logged-out (or a
 // junk "null"/"undefined" header) → anonymous teaser path, never a 401.
 function askAuth(req, res, next) {
-    const raw = req.headers.authorization?.split(' ')[1];
+    const raw = authTokenFromRequest(req);
     if (raw && raw !== 'null' && raw !== 'undefined') return authMiddleware(req, res, next);
     req.anon = true;
     return next();
@@ -3355,7 +3432,7 @@ async function anonAskHandler(req, res) {
                 send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
             } catch (error) {
-                send('error', { message: error.message || 'Ask failed' });
+                send('error', { message: publicErrorMessage(error, 'Ask failed') });
             } finally {
                 clearInterval(ping);
                 if (!res.writableEnded) res.end();
@@ -3367,7 +3444,7 @@ async function anonAskHandler(req, res) {
         res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
             trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
     } catch (error) {
-        if (!res.headersSent) res.status(500).json({ message: error.message || 'Ask failed' });
+        if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
     }
 }
 
@@ -3446,7 +3523,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                     quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) }
                 });
             } catch (error) {
-                send('error', { message: error.message || 'Ask failed' });
+                send('error', { message: publicErrorMessage(error, 'Ask failed') });
             } finally {
                 clearInterval(ping);
                 if (!res.writableEnded) res.end();
@@ -3464,7 +3541,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) }
         });
     } catch (error) {
-        if (!res.headersSent) res.status(500).json({ message: error.message || 'Ask failed' });
+        if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
     }
 });
 
@@ -3493,7 +3570,7 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
         res.json({ ...payload, cached: false });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'X-Ray failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'X-Ray failed') });
     }
 });
 
@@ -3505,7 +3582,7 @@ app.post('/api/tax/import', authMiddleware, monitorGate, async (req, res) => {
         res.json(result);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(Number(error.status) || 500).json({ message: error.message || 'Import failed' });
+        res.status(Number(error.status) || 500).json({ message: publicErrorMessage(error, 'Import failed') });
     }
 });
 
@@ -3513,7 +3590,7 @@ app.get('/api/tax/accounts', authMiddleware, monitorGate, async (req, res) => {
     try {
         res.json({ accounts: await washSale.listAccounts(portfolioOwnerId(req)) });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Accounts load failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Accounts load failed') });
     }
 });
 
@@ -3522,7 +3599,7 @@ app.delete('/api/tax/accounts/:account', authMiddleware, monitorGate, async (req
         await washSale.deleteAccount(portfolioOwnerId(req), decodeURIComponent(req.params.account));
         res.json({ ok: true });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Delete failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Delete failed') });
     }
 });
 
@@ -3530,7 +3607,7 @@ app.get('/api/tax/wash-sales', authMiddleware, monitorGate, async (req, res) => 
     try {
         res.json(await washSale.washReport(portfolioOwnerId(req)));
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Wash-sale report failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Wash-sale report failed') });
     }
 });
 
@@ -3538,7 +3615,7 @@ app.get('/api/tax/wash-check', authMiddleware, monitorGate, async (req, res) => 
     try {
         res.json(await washSale.preTradeCheck(portfolioOwnerId(req), req.query.symbol));
     } catch (error) {
-        res.status(Number(error.status) || 500).json({ message: error.message || 'Check failed' });
+        res.status(Number(error.status) || 500).json({ message: publicErrorMessage(error, 'Check failed') });
     }
 });
 
@@ -3558,7 +3635,7 @@ app.get('/api/portfolio/attribution', authMiddleware, proGate, async (req, res) 
         res.json(payload);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Attribution failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Attribution failed') });
     }
 });
 
@@ -3569,7 +3646,7 @@ app.get('/api/alerts', authMiddleware, async (req, res) => {
         res.json(result);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Alerts load failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Alerts load failed') });
     }
 });
 
@@ -3579,7 +3656,7 @@ app.post('/api/alerts/seen', authMiddleware, async (req, res) => {
         res.json({ ok: true });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Alerts update failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Alerts update failed') });
     }
 });
 
@@ -3590,7 +3667,7 @@ app.get('/api/alert-rules', authMiddleware, proGate, async (req, res) => {
         res.json({ rules: await smartAlerts.listRules(portfolioOwnerId(req)) });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Rules load failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Rules load failed') });
     }
 });
 
@@ -3600,7 +3677,7 @@ app.post('/api/alert-rules', authMiddleware, proGate, async (req, res) => {
         res.status(201).json({ rule });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(Number(error.status) || 500).json({ message: error.message || 'Rule create failed' });
+        res.status(Number(error.status) || 500).json({ message: publicErrorMessage(error, 'Rule create failed') });
     }
 });
 
@@ -3609,7 +3686,7 @@ app.delete('/api/alert-rules/:id', authMiddleware, proGate, async (req, res) => 
         await smartAlerts.deleteRule(portfolioOwnerId(req), req.params.id);
         res.json({ ok: true });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Rule delete failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Rule delete failed') });
     }
 });
 
@@ -3634,7 +3711,7 @@ app.get('/api/screener', (req, res) => {
         });
         res.json({ ...result, sectors: aiChat.sectorList() });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Screener failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Screener failed') });
     }
 });
 
@@ -3651,7 +3728,7 @@ app.get('/api/watchlist', authMiddleware, async (req, res) => {
         res.json({ symbols, rows });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Watchlist load failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Watchlist load failed') });
     }
 });
 
@@ -3677,7 +3754,7 @@ app.post('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
         );
         res.json({ symbols: doc.symbols });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Watchlist update failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Watchlist update failed') });
     }
 });
 
@@ -3691,7 +3768,7 @@ app.delete('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
         );
         res.json({ symbols: (doc && doc.symbols) || [] });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Watchlist update failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Watchlist update failed') });
     }
 });
 
@@ -3709,7 +3786,7 @@ const DOC_CATEGORY = (form) => {
 };
 app.get('/api/company/:symbol/filings', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
-    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
         const cached = _filingsCache.get(symbol);
         if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) return res.json(cached.payload);
@@ -3735,7 +3812,7 @@ app.get('/api/company/:symbol/filings', async (req, res) => {
         if (_filingsCache.size > 500) _filingsCache.delete(_filingsCache.keys().next().value);
         res.json(payload);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Filings load failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Filings load failed') });
     }
 });
 
@@ -3748,12 +3825,12 @@ const filingMonitor = require('./filing-monitor');
 const monitorDigest = require('./monitor-digest');
 app.get('/api/company/:symbol/insider-history', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
-    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
         const result = await insiders.history(symbol);
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Insider history failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Insider history failed') });
     }
 });
 
@@ -3778,7 +3855,7 @@ app.get('/api/company/:symbol/reverse-dcf', authMiddleware, coreGate, async (req
         if (_rdcfCache.size > 500) _rdcfCache.delete(_rdcfCache.keys().next().value);
         res.json(payload);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Reverse DCF failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Reverse DCF failed') });
     }
 });
 
@@ -3800,7 +3877,7 @@ app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, re
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Insights failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Insights failed') });
     }
 });
 
@@ -3810,7 +3887,7 @@ app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, re
 const keypoints = require('./keypoints');
 app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
-    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
         const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
@@ -3823,14 +3900,14 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Key points failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Key points failed') });
     }
 });
 
 const _ownershipCache = new Map(); // SYM -> { at, payload }
 app.get('/api/company/:symbol/ownership', async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
-    if (!symbol) return res.status(400).json({ message: 'symbol required' });
+    if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
         const cached = _ownershipCache.get(symbol);
         if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) return res.json(cached.payload);
@@ -3840,7 +3917,7 @@ app.get('/api/company/:symbol/ownership', async (req, res) => {
         if (_ownershipCache.size > 500) _ownershipCache.delete(_ownershipCache.keys().next().value);
         res.json(payload);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Ownership load failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Ownership load failed') });
     }
 });
 
@@ -3862,7 +3939,7 @@ app.get('/api/company/:symbol/segments', authMiddleware, proGate, async (req, re
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Segment extraction failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Segment extraction failed') });
     }
 });
 
@@ -3891,7 +3968,7 @@ app.get('/api/company/:symbol/filing-diff', authMiddleware, proGate, async (req,
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Filing comparison failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Filing comparison failed') });
     }
 });
 
@@ -3929,7 +4006,7 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
         }
         res.json(out);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Quota check failed' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Quota check failed') });
     }
 });
 
@@ -3999,7 +4076,7 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
         }
-        res.status(500).json({ message: error.message });
+        res.status(500).json({ message: 'Unable to complete that request right now.' });
     }
 });
 
@@ -4017,7 +4094,7 @@ app.delete('/api/portfolio/:id', authMiddleware, coreGate, async (req, res) => {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });
         }
-        res.status(500).json({ message: 'Error deleting stock', error: error.message });
+        res.status(500).json({ message: 'Unable to delete that holding right now.' });
     }
 });
 
@@ -4031,7 +4108,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
         event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SECRET);
     } catch (error) {
         console.error('Stripe webhook signature error:', error);
-        return res.status(400).send(`Webhook error: ${error.message}`);
+        return res.status(400).send('Webhook signature invalid');
     }
 
     const payload = event.data.object;
@@ -4532,7 +4609,7 @@ app.get('/api/demo/alpha/time-series/daily', async (req, res) => {
         const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize }, ALPHA_CACHE_TTL_MS.daily);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Daily series failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Daily series failed') });
     }
 });
 
@@ -4562,7 +4639,7 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         await secSource.backfillStatements(symbol, payload).catch(() => {});
         res.json(payload);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Fundamentals load failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });
     }
 });
 
@@ -4573,7 +4650,7 @@ app.get('/api/demo/alpha/quote/:symbol', async (req, res) => {
         const data = await fetchAlphaCached('GLOBAL_QUOTE', { symbol }, ALPHA_CACHE_TTL_MS.quote);
         res.json(data);
     } catch (error) {
-        res.status(error.status || 500).json({ message: error.message || 'Quote load failed' });
+        res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Quote load failed') });
     }
 });
 
@@ -4695,7 +4772,7 @@ app.post('/api/track/page_view', (req, res) => {
 //     -d '{"email":"mav@example.com","days":7,"plan":"desk"}'
 app.post('/api/admin/comp', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
-    const provided = req.query.token || req.headers['x-admin-token'];
+    const provided = req.headers['x-admin-token'];
     if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
     const email = String(req.body?.email || '').trim().toLowerCase();
     const days = Math.min(90, Math.max(1, parseInt(req.body?.days, 10) || 7));
@@ -4731,7 +4808,7 @@ app.post('/api/admin/comp', async (req, res) => {
 // Protect with ADMIN_TOKEN env var; if not set the route returns 403.
 app.get('/admin/funnel', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
-    const provided = req.query.token || req.headers['x-admin-token'];
+    const provided = req.headers['x-admin-token'];
     if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).send('Forbidden');
     try {
         const col = mongoose.connection.collection('funnel_events');
@@ -5116,7 +5193,7 @@ app.get('/api/thesis', authMiddleware, monitorGate, async (req, res) => {
         res.json({ theses: await thesisModel.listTheses(req.userId) });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
-        res.status(500).json({ message: error.message || 'Failed to load theses.' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Failed to load theses.') });
     }
 });
 
@@ -5133,7 +5210,7 @@ app.post('/api/thesis', authMiddleware, monitorGate, async (req, res) => {
         const doc = await thesisModel.saveThesis(req.userId, req.body && req.body.symbol, req.body && req.body.text);
         res.status(201).json({ thesis: { symbol: doc.symbol, text: doc.text, claims: doc.claims } });
     } catch (error) {
-        res.status(Number(error.status) || 500).json({ message: error.message || 'Failed to save thesis.' });
+        res.status(Number(error.status) || 500).json({ message: publicErrorMessage(error, 'Failed to save thesis.') });
     }
 });
 
@@ -5142,7 +5219,7 @@ app.delete('/api/thesis/:symbol', authMiddleware, monitorGate, async (req, res) 
         await thesisModel.deleteThesis(req.userId, req.params.symbol);
         res.json({ ok: true });
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Failed to delete thesis.' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Failed to delete thesis.') });
     }
 });
 
@@ -5160,7 +5237,7 @@ app.get('/api/thesis/:symbol/grade', authMiddleware, monitorGate, async (req, re
         if (result.error) return res.status(404).json(result);
         res.json(result);
     } catch (error) {
-        res.status(500).json({ message: error.message || 'Failed to grade thesis.' });
+        res.status(500).json({ message: publicErrorMessage(error, 'Failed to grade thesis.') });
     }
 });
 
@@ -5407,7 +5484,7 @@ app.get('/api/admin/customers', async (req, res) => {
 // won't redeem"). Token-gated with ADMIN_TOKEN, same as /api/admin/comp.
 app.get('/api/admin/appsumo/lookup', async (req, res) => {
     const token = process.env.ADMIN_TOKEN;
-    const provided = req.query.token || req.headers['x-admin-token'];
+    const provided = req.headers['x-admin-token'];
     if (!token || !timingSafeStrEqual(provided, token)) return res.status(403).json({ message: 'Forbidden' });
     try {
         const key = String(req.query.key || '').trim();
@@ -5524,7 +5601,10 @@ app.get('*', (req, res) => {
 
 // Start the server
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.requestTimeout = Number(process.env.HTTP_REQUEST_TIMEOUT_MS || 130000);
+server.headersTimeout = Number(process.env.HTTP_HEADERS_TIMEOUT_MS || 15000);
+server.keepAliveTimeout = Number(process.env.HTTP_KEEPALIVE_TIMEOUT_MS || 5000);
 // Warm the SSR cache's dedicated /sitemap.xml slot ONCE, deferred via
 // setImmediate (inside warmSitemap) so the multi-second cold buildSitemap()
 // parse runs off the health-check critical path instead of blocking the

@@ -33,6 +33,7 @@ function cfg(purpose) {
 function isConfigured() {
     return !!(process.env.OLLAMA_API_KEY || process.env.AI_BRIEFING_API_KEY || process.env.OPENROUTER_API_KEY || '');
 }
+const AI_MAX_OUTPUT_TOKENS = Math.max(256, Math.min(Number(process.env.AI_MAX_OUTPUT_TOKENS) || 2048, 8192));
 
 // Low-level call: returns the raw assistant message object ({content,
 // tool_calls, ...}). Used directly by the Ask chatbot's tool loop, which
@@ -44,11 +45,7 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
         model,
         messages,
         temperature,
-        // Reasoning models (e.g. Kimi K2.6, GLM 5.1) emit chain-of-thought
-        // into a separate `reasoning` field and the clean answer into
-        // `content` — but both count against max_tokens, so we give a
-        // generous floor to ensure the final answer isn't truncated.
-        max_tokens: Math.max(maxTokens, 3000)
+        max_tokens: Math.min(Math.max(Number(maxTokens) || 256, 256), AI_MAX_OUTPUT_TOKENS)
     };
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
@@ -97,7 +94,7 @@ async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, pu
         model,
         messages,
         temperature,
-        max_tokens: Math.max(maxTokens, 3000),
+        max_tokens: Math.min(Math.max(Number(maxTokens) || 256, 256), AI_MAX_OUTPUT_TOKENS),
         stream: true,
         stream_options: { include_usage: true }
     };
