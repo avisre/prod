@@ -4961,9 +4961,12 @@ app.post('/api/track/page_view', (req, res) => {
     if (/bot|crawl|spider|slurp|headless|lighthouse|facebookexternalhit|preview/i.test(ua)) return res.status(204).end();
     const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const pageContentId = shareCopy.normalizeAcquisitionContentId(req.body && req.body.contentId);
     trackFunnel('page_view', null, null, {
         path: viewPath,
-        ...acquisitionFunnelFields(acquisition)
+        ...acquisitionFunnelFields(acquisition),
+        acquisitionSource: acquisition ? acquisition.source : (pageContentId ? 'website' : null),
+        contentId: acquisition ? acquisition.contentId : pageContentId
     });
     res.status(204).end();
 });
@@ -5688,8 +5691,8 @@ async function collectMarketingDashboard() {
         ]).toArray(),
         col.find({ event: 'trial_start', userId: { $ne: null } }, { projection: { userId: 1, acquisitionSource: 1, contentId: 1 } }).toArray(),
         col.find({ event: 'activation', userId: { $ne: null } }, { projection: { userId: 1, activationJob: 1, contentId: 1 } }).toArray(),
-        col.find({ event: { $in: ['free_tool_view', 'free_tool_complete', 'appsumo_outbound'] } }, {
-            projection: { event: 1, toolId: 1, contentId: 1, userId: 1 }
+        col.find({ event: { $in: ['page_view', 'free_tool_view', 'free_tool_complete', 'appsumo_outbound'] } }, {
+            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1 }
         }).toArray()
     ]);
     const counts = (rows) => Object.fromEntries(rows.map((row) => [row._id || 'unknown', Number(row.count || 0)]));
@@ -5746,6 +5749,27 @@ async function collectMarketingDashboard() {
         const user = userById.get(userId);
         if (user && (user.appsumoRedeemedAt || user.stripeCustomerId || user.stripeSubscriptionId)) row.converted++;
     });
+    const researchRows = [
+        { contentId: 'research-shares-outstanding', slug: 'shares-outstanding' },
+        { contentId: 'research-pe-ratio-history', slug: 'pe-ratio-history' },
+        { contentId: 'research-dilution-scorecard', slug: 'dilution-scorecard' }
+    ].map((row) => ({ ...row, views: 0, ctaClicks: 0, trials: 0, activated: 0, converted: 0 }));
+    const researchById = new Map(researchRows.map((row) => [row.contentId, row]));
+    toolEvents.forEach((event) => {
+        const row = researchById.get(String(event.contentId || ''));
+        if (!row) return;
+        if (event.event === 'page_view') row.views++;
+        if (event.event === 'appsumo_outbound') row.ctaClicks++;
+    });
+    trialEvents.forEach((event) => {
+        const row = researchById.get(String(event.contentId || ''));
+        if (!row) return;
+        const userId = String(event.userId);
+        row.trials++;
+        if (activatedIds.has(userId)) row.activated++;
+        const user = userById.get(userId);
+        if (user && (user.appsumoRedeemedAt || user.stripeCustomerId || user.stripeSubscriptionId)) row.converted++;
+    });
     const dayMap = new Map();
     for (let i = 13; i >= 0; i--) {
         const day = new Date(now.getTime() - i * 86400000).toLocaleDateString('en-CA', { timeZone: 'Asia/Kolkata' });
@@ -5762,6 +5786,7 @@ async function collectMarketingDashboard() {
         last30: { ...last30, appsumoRedemptions: users.filter((user) => user.appsumoRedeemedAt && new Date(user.appsumoRedeemedAt) >= since30).length },
         sourceRows,
         toolRows,
+        researchRows,
         activationJobs,
         trend: [...dayMap.values()]
     };
@@ -5778,9 +5803,10 @@ app.get('/api/admin/marketing', authMiddleware, marketingDashboardOnly, async (r
     try {
         const data = await collectMarketingDashboard();
         if (String(req.query.format || '').toLowerCase() === 'csv') {
-            const columns = ['toolId', 'slug', 'views', 'completions', 'ctaClicks', 'trials', 'activated', 'converted'];
+            const columns = ['kind', 'contentId', 'slug', 'views', 'completions', 'ctaClicks', 'trials', 'activated', 'converted'];
             const lines = [columns.map(customerCsvCell).join(',')];
-            data.toolRows.forEach((row) => lines.push(columns.map((column) => customerCsvCell(row[column])).join(',')));
+            data.toolRows.forEach((row) => { const out = { ...row, kind: 'tool', contentId: row.toolId }; lines.push(columns.map((column) => customerCsvCell(out[column])).join(',')); });
+            data.researchRows.forEach((row) => { const out = { ...row, kind: 'research', completions: '' }; lines.push(columns.map((column) => customerCsvCell(out[column])).join(',')); });
             res.set('Cache-Control', 'no-store').type('text/csv').set('Content-Disposition', 'attachment; filename="stockportfolio-marketing-tools.csv"').send(`${lines.join('\n')}\n`);
             return;
         }
@@ -5810,6 +5836,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const jobNames = { ask: 'Cited Ask answer', comparison: 'Comparison', screener_company: 'Screener → company', portfolio: 'Three-position portfolio' };
         const jobRows = Object.entries(data.activationJobs).sort((a, b) => b[1] - a[1]).map(([job, value]) => `<tr><td>${e(jobNames[job] || job)}</td><td>${n(value)}</td></tr>`).join('') || '<tr><td colspan="2">No activations yet</td></tr>';
         const toolRows = data.toolRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.completions)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
+        const researchRows = data.researchRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
         const maxTrend = Math.max(1, ...data.trend.map((row) => Math.max(row.signup, row.trial_start, row.paid, row.activation)));
         const trendRows = data.trend.map((row) => {
             const bar = (value, color) => `<span class="bar" style="width:${Math.round((value / maxTrend) * 100)}%;background:${color}"></span>`;
@@ -5818,7 +5845,8 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
 body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a{color:#2563eb;text-decoration:none;margin-left:14px}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/api/admin/marketing">JSON</a></div><h1>Marketing progress</h1><div class="muted">Last 30 days versus the first-ten-customer target · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
-        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${toolPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
+        const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
+        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${toolPanel}${researchPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
         res.set('Cache-Control', 'no-store').type('html').send(renderedHtml);
     } catch (error) {
         console.error('[marketing] dashboard render failed:', error && error.message);

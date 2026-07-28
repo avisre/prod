@@ -41,6 +41,8 @@ test('funnel events preserve signed campaign attribution from visit through conv
   assert.match(source, /free_tool_complete/);
   assert.match(source, /contentId: acquisition \? acquisition\.contentId/);
   assert.match(source, /stockportfolio-marketing-tools\.csv/);
+  assert.match(source, /researchRows/);
+  assert.match(source, /Organic research hubs/);
 });
 
 test('engineering-as-marketing routes remain public and are included in the sitemap', () => {

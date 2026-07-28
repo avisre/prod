@@ -93,7 +93,7 @@ const METRICS = {
     'shares-outstanding': {
         label: 'Shares Outstanding', noun: 'shares outstanding', source: 'balance sheet (10-K), split-adjusted',
         fmt: (v) => { const n = num(v); if (n === null) return '—'; return n >= 1e9 ? `${(n / 1e9).toFixed(2)}B` : `${(n / 1e6).toFixed(1)}M`; },
-        rows: (d) => ((d.balance || {}).annualReports || []).map((r) => ({ year: fyYear(r), value: num(r.commonStockSharesOutstanding) }))
+        rows: (d) => ((d.balance || {}).annualReports || []).map((r) => ({ year: fyYear(r), period: r.fiscalDateEnding, value: num(r.commonStockSharesOutstanding) }))
     },
     'dividend-history': {
         label: 'Dividend History', noun: 'dividends paid', fmt: money, source: 'cash flow statement (10-K)',
@@ -106,7 +106,7 @@ const METRICS = {
                 let v = num(r.dividendPayoutCommonStock); if (v === null) v = num(r.dividendPayout);
                 if (v !== null) v = Math.abs(v);
                 const sh = shares[fyYear(r)];
-                return { year: fyYear(r), value: v, aux: (v && sh) ? `$${(v / sh).toFixed(2)}` : null };
+                return { year: fyYear(r), period: r.fiscalDateEnding, value: v, aux: (v && sh) ? `$${(v / sh).toFixed(2)}` : null };
             });
         }
     },
@@ -116,11 +116,44 @@ const METRICS = {
             const e = num(r.dilutedEPS) !== null ? num(r.dilutedEPS) : num(r.eps);
             const c = closeAtFiscalEnd(d, r.fiscalDateEnding);
             const v = (e && e > 0 && c) ? c / e : null;
-            return { year: fyYear(r), value: v };
+            return { year: fyYear(r), period: r.fiscalDateEnding, value: v };
         })
     }
 };
 const METRIC_SLUGS = Object.keys(METRICS);
+const RESEARCH_ROUTES = ['/research/shares-outstanding', '/research/pe-ratio-history', '/research/dilution-scorecard'];
+
+function pctChange(current, prior) {
+    return current !== null && prior !== null && prior !== 0 ? ((current - prior) / Math.abs(prior)) * 100 : null;
+}
+function signedPct(value) {
+    return value === null ? '—' : `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+}
+function secCompanyUrl(symbol, form = '10-K') {
+    return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(symbol)}&type=${encodeURIComponent(form)}&owner=exclude&count=40`;
+}
+function metricCsv(ticker, slug) {
+    const sym = String(ticker || '').toUpperCase(); const m = METRICS[slug]; const data = loadFundamentals(sym);
+    if (!m || !data) return null;
+    const rows = m.rows(data).filter((row) => row.year);
+    if (!(m.allowEmpty ? rows.length >= 2 : rows.filter((row) => row.value !== null).length >= 2)) return null;
+    const quote = (value) => `"${String(value == null ? '' : value).replace(/"/g, '""')}"`;
+    const lines = [['symbol', 'fiscal_year', 'period_end', slug, 'formatted_value', ...(m.auxLabel ? ['auxiliary_value'] : [])]];
+    rows.forEach((row) => lines.push([sym, row.year, row.period || '', row.value == null ? '' : row.value, row.value == null ? '' : m.fmt(row.value), ...(m.auxLabel ? [row.aux || ''] : [])]));
+    return lines.map((line) => line.map(quote).join(',')).join('\n') + '\n';
+}
+function trendSvg(rows, label) {
+    const values = rows.filter((row) => row.value !== null).slice().reverse();
+    if (values.length < 2) return '';
+    const min = Math.min(...values.map((row) => row.value)); const max = Math.max(...values.map((row) => row.value));
+    const span = max - min || 1; const width = 760; const height = 220; const pad = 28;
+    const points = values.map((row, index) => {
+        const x = pad + index * ((width - pad * 2) / Math.max(values.length - 1, 1));
+        const y = height - pad - ((row.value - min) / span) * (height - pad * 2);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+    return `<figure style="margin:20px 0"><svg role="img" aria-labelledby="metric-chart-title" viewBox="0 0 ${width} ${height}" style="display:block;width:100%;height:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px"><title id="metric-chart-title">${esc(label)} history from ${esc(values[0].year)} to ${esc(values[values.length - 1].year)}</title><line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="var(--line2)"/><polyline fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="${points}"/>${values.map((row, index) => { const [x, y] = points.split(' ')[index].split(','); return `<circle cx="${x}" cy="${y}" r="4" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"><title>FY ${esc(row.year)}: ${esc(String(row.value))}</title></circle>`; }).join('')}</svg><figcaption style="font-size:12px;color:var(--ink3);margin-top:7px">Annual filed history. Hover chart points for raw values; the accessible table below is the source of record.</figcaption></figure>`;
+}
 
 // ---------- per-symbol metric availability (for sitemap honesty) ----------
 // One lightweight pass over the cache: parse, record which metrics have >=2
@@ -165,6 +198,9 @@ function renderMetricPage(ticker, slug) {
     const latestVal = usable[0] ? usable[0].value : null;
     const yrsSpan = Number(y1) - Number(y0);
     const growth = cagr(usable[usable.length - 1]?.value, usable[0]?.value, yrsSpan);
+    const oneYear = usable.length > 1 ? pctChange(usable[0].value, usable[1].value) : null;
+    const fiveYearRow = usable.find((row) => Number(row.year) <= Number(usable[0]?.year) - 5) || usable[usable.length - 1];
+    const fiveYear = fiveYearRow && fiveYearRow !== usable[0] ? pctChange(usable[0].value, fiveYearRow.value) : null;
 
     const canonical = `${SITE}/stocks/${sym}/${slug}`;
     const fundFile = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals', `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
@@ -184,12 +220,12 @@ function renderMetricPage(ticker, slug) {
     // A "$0"/"0" headline (e.g. a company that pays no dividend) reads as broken
     // and won't earn the click — use the plain range title in that case.
     const title = (latestVal !== null && latestVal !== 0)
-        ? `${titleName} (${sym}) ${shortLabel}: ${m.fmt(latestVal)} (${y1})`
+        ? `${titleName} ${shortLabel} History: ${m.fmt(latestVal)} (${y1}) | ${sym}`
         : `${titleName} (${sym}) ${shortLabel} History ${y0}–${y1}`;
     const description = `${name} (${sym}) annual ${m.noun} from ${y0} to ${y1}` +
         (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
-        (growth !== null ? `, ${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%/yr over ${yrsSpan} years` : '') +
-        `. Table of ${m.noun} by year, computed from SEC filings.`;
+        (oneYear !== null ? `, ${signedPct(oneYear)} year over year` : '') +
+        `. SEC-filed history, methodology, chart and downloadable CSV.`;
 
     // table rows, newest first, with YoY change
     const trs = all.map((r, i) => {
@@ -249,19 +285,32 @@ function renderMetricPage(ticker, slug) {
         .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(sym)} ${esc(METRICS[s].label.toLowerCase())}</a>`).join('');
     const faqHtml = faqs.map((f) =>
         `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
+    const sourceUrl = secCompanyUrl(sym);
+    const metricHub = slug === 'shares-outstanding' ? '/research/shares-outstanding' : slug === 'pe-ratio' ? '/research/pe-ratio-history' : null;
+    const metricTool = slug === 'shares-outstanding' ? '/tools/dilution' : slug === 'pe-ratio' ? '/tools/company-comparison' : '/tools/dividend-safety';
+    let interpretation = `${name} reported ${m.fmt(latestVal)} of ${m.noun} for fiscal ${usable[0]?.year}.`;
+    if (oneYear !== null) interpretation += ` That was ${Math.abs(oneYear).toFixed(1)}% ${oneYear >= 0 ? 'higher' : 'lower'} than fiscal ${usable[1]?.year}.`;
+    if (fiveYear !== null && fiveYearRow) interpretation += ` Compared with fiscal ${fiveYearRow.year}, the change was ${signedPct(fiveYear)}.`;
+    if (slug === 'shares-outstanding') interpretation += oneYear > 0 ? ' A rising share count can dilute per-share ownership; the filings should be checked for issuance and stock-compensation details.' : oneYear < 0 ? ' A falling share count is consistent with net buybacks exceeding issuance over the period, though the filing should be checked for the components.' : ' The filed year-end share count was broadly unchanged.';
+    if (slug === 'pe-ratio') interpretation += ' This is a fiscal-year-end price divided by diluted EPS—not a live valuation—and is omitted when annual EPS is not positive.';
+    if (slug === 'dividend-history') interpretation += ' This page measures cash dividends reported in the cash-flow statement; the per-share figure is approximate and may differ from declared dividends.';
+    const summaryCards = `<div class="seo-grid"><div class="seo-tile"><div class="l">Latest filed value</div><div class="v">${esc(latestVal === null ? '—' : m.fmt(latestVal))}</div></div><div class="seo-tile"><div class="l">One-year change</div><div class="v">${esc(signedPct(oneYear))}</div></div><div class="seo-tile"><div class="l">Change since ${esc(fiveYearRow?.year || y0)}</div><div class="v">${esc(signedPct(fiveYear))}</div></div><div class="seo-tile"><div class="l">Latest period end</div><div class="v" style="font-size:16px">${esc(usable[0]?.period || usable[0]?.year || '—')}</div></div></div>`;
 
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / ${esc(m.label)}</div>
   <h1 class="seo-h1">${esc(name)} ${esc(m.label)} <span style="color:var(--ink3);font-weight:600">${esc(y0)}–${esc(y1)}</span></h1>
-  <p class="seo-sub">${esc(name)} (${esc(sym)}) annual ${esc(m.noun)} by fiscal year, computed from SEC filings.${growth !== null ? ` Compound growth ${growth >= 0 ? '+' : ''}${growth.toFixed(1)}%/yr over ${yrsSpan} years.` : ''}</p>
+  <p class="seo-sub">${esc(interpretation)}</p>
+  ${summaryCards}
+  ${trendSvg(all, `${name} ${m.label}`)}
   <div class="seo-section">
     <div style="overflow-x:auto"><table class="seo-table">
       <thead><tr><th>Fiscal year</th><th>${esc(m.label)}</th>${m.auxLabel ? `<th>${esc(m.auxLabel)}</th>` : ''}<th>Change (YoY)</th></tr></thead>
       <tbody>${trs}</tbody>
     </table></div>
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="${esc(sourceUrl)}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} 10-K filings at SEC EDGAR</a> · <a href="/methodology" style="color:var(--ink3)">Methodology</a> · <a href="/stocks/${esc(sym)}/${esc(slug)}.csv">Download CSV</a>.</p>
   </div>
+  <div class="seo-section"><h2>How to read this history</h2><p class="seo-about">${esc(interpretation)} Values remain missing when the cached filing does not disclose a comparable line item; they are never estimated. Stock splits, reorganizations and fiscal-calendar changes can reduce comparability.</p><p style="font-size:13px;color:var(--ink3)">Prepared and reviewed by the stockportfolio.pro research desk. Corrections: <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div>
   <div class="seo-lock">
     <h3>See the full picture for ${esc(name)}</h3>
     <p>Complete income statement, balance sheet and cash flow with trend on every row, 48 quarters, ratios, health checks, and Ask — the SEC-grounded research assistant.</p>
@@ -270,9 +319,163 @@ function renderMetricPage(ticker, slug) {
   <div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>${faqHtml}</div>
   <div class="seo-section"><h2>More ${esc(sym)} financial history</h2>
     <div class="seo-links">${siblings}</div>
-    <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a></p>
+    <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="${metricTool}">Analyze ${esc(m.noun)} with a free tool &rarr;</a>${metricHub ? ` &middot; <a href="${metricHub}">Research guide &amp; leaders &rarr;</a>` : ''} &middot; <a href="/stocks">All 1,500+ companies &rarr;</a></p>
   </div>
 </main>` + footer();
+}
+
+// ---------- research hubs and downloadable dilution dataset ----------
+// A deliberately small, curated research layer over the existing stock pages.
+// These pages add interpretation and cross-company context without creating a
+// second programmatic URL explosion. Values stay deterministic and traceable to
+// the same cached SEC statements used everywhere else on the site.
+let _dilutionCache = null;
+function dilutionRows() {
+    if (_dilutionCache && Date.now() - _dilutionCache.at < 6 * 60 * 60 * 1000) return _dilutionCache.rows;
+    let universe = [];
+    try {
+        universe = aiChat.screenRows({ limit: 500, maxLimit: 500, sort_by: 'marketCapB', exclude_secondary_listings: true }).rows;
+    } catch (_) { universe = []; }
+    const rows = [];
+    universe.forEach((company) => {
+        const data = loadFundamentals(company.symbol);
+        const history = ((data || {}).balance?.annualReports || [])
+            .map((row) => ({ period: row.fiscalDateEnding || '', year: fyYear(row), value: num(row.commonStockSharesOutstanding) }))
+            .filter((row) => row.year && row.value !== null && row.value > 0);
+        if (history.length < 2) return;
+        const latest = history[0]; const prior = history[1];
+        // Do not call an abandoned/stale cache row "latest" in a current
+        // cross-company dataset. Individual history pages may still expose it
+        // with its date, but the scorecard requires a 2024-or-newer filing.
+        if (!latest.period || latest.period < '2024-01-01') return;
+        const base5 = history.find((row) => Number(row.year) <= Number(latest.year) - 5) || history[history.length - 1];
+        const oneYearPct = pctChange(latest.value, prior.value);
+        const rawFiveYearPct = base5 === latest ? null : pctChange(latest.value, base5.value);
+        // A single-year move this large is more likely a split, recapitalisation,
+        // merger or mapping discontinuity than ordinary issuance/buybacks. Keep
+        // the row visible but never rank or calculate a misleading score from it.
+        const notComparable = (oneYearPct !== null && Math.abs(oneYearPct) >= 65) ||
+            (rawFiveYearPct !== null && Math.abs(rawFiveYearPct) >= 200);
+        const fiveYearPct = notComparable ? null : rawFiveYearPct;
+        const cash = (((data || {}).cash || {}).annualReports || []).find((row) => fyYear(row) === latest.year) || {};
+        let repurchases = num(cash.paymentsForRepurchaseOfCommonStock);
+        if (repurchases === null) repurchases = num(cash.paymentsForRepurchaseOfEquity);
+        if (repurchases !== null) repurchases = Math.abs(repurchases);
+        rows.push({
+            symbol: company.symbol,
+            name: (data?.overview || {}).Name || company.name || company.symbol,
+            sector: company.sector || (data?.overview || {}).Sector || '',
+            period: latest.period,
+            latestShares: latest.value,
+            oneYearPct: notComparable ? null : oneYearPct,
+            fiveYearPct: notComparable ? null : fiveYearPct,
+            baseYear: base5.year,
+            repurchases,
+            marketCapB: num(company.marketCapB),
+            notComparable
+        });
+    });
+    _dilutionCache = { at: Date.now(), rows };
+    return rows;
+}
+
+function dilutionCsv() {
+    const quote = (value) => `"${String(value == null ? '' : value).replace(/"/g, '""')}"`;
+    const lines = [['symbol', 'company', 'sector', 'latest_period', 'latest_shares', 'one_year_change_pct', 'five_year_change_pct', 'comparison_base_year', 'latest_fy_share_repurchases_usd', 'comparison_status']];
+    dilutionRows().forEach((row) => lines.push([
+        row.symbol, row.name, row.sector, row.period, row.latestShares,
+        row.oneYearPct === null ? '' : row.oneYearPct.toFixed(4),
+        row.fiveYearPct === null ? '' : row.fiveYearPct.toFixed(4), row.baseYear,
+        row.repurchases === null ? '' : row.repurchases,
+        row.notComparable ? 'not directly comparable' : 'comparable'
+    ]));
+    return lines.map((line) => line.map(quote).join(',')).join('\n') + '\n';
+}
+
+const RESEARCH_SYMBOLS = ['AAPL', 'MSFT', 'TSLA', 'NVDA', 'AMZN', 'GOOGL', 'META', 'JPM', 'WMT', 'AVGO'];
+function metricLeaders(slug) {
+    return RESEARCH_SYMBOLS.map((symbol) => {
+        const data = loadFundamentals(symbol); const metric = METRICS[slug];
+        if (!data || !metric) return null;
+        const rows = metric.rows(data).filter((row) => row.value !== null);
+        if (rows.length < 2) return null;
+        return { symbol, name: (data.overview || {}).Name || symbol, latest: rows[0], change: pctChange(rows[0].value, rows[1].value) };
+    }).filter(Boolean);
+}
+
+function researchScaffold({ slug, title, description, h1, intro, body, jsonld }) {
+    const canonical = `${SITE}/research/${slug}`;
+    const contentId = `research-${slug}`;
+    return head(title, description, canonical, JSON.stringify(jsonld)) + nav() + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/">Home</a> / Research / ${esc(h1)}</div>
+  <h1 class="seo-h1">${esc(h1)}</h1>
+  <p class="seo-sub" style="max-width:76ch">${esc(intro)}</p>
+  ${body}
+  <div class="seo-lock"><h3>Turn the source trail into a repeatable workflow</h3><p>Research filings, compare companies and track a real portfolio in one workspace.</p><a class="seo-cta-btn" href="/appsumo?source=website&amp;content_id=${esc(contentId)}">See the StockPortfolio.pro AppSumo offer</a></div>
+</main>` + footer();
+}
+
+function renderSharesResearch() {
+    const canonical = `${SITE}/research/shares-outstanding`;
+    const rows = dilutionRows().filter((row) => !row.notComparable && row.oneYearPct !== null);
+    const rising = rows.filter((row) => row.oneYearPct > 0).sort((a, b) => b.oneYearPct - a.oneYearPct).slice(0, 12);
+    const falling = rows.filter((row) => row.oneYearPct < 0).sort((a, b) => a.oneYearPct - b.oneYearPct).slice(0, 12);
+    const table = (items) => items.map((row) => `<tr><td><a href="/stocks/${esc(row.symbol)}/shares-outstanding">${esc(row.name)} (${esc(row.symbol)})</a></td><td>${esc(row.period)}</td><td>${esc(METRICS['shares-outstanding'].fmt(row.latestShares))}</td><td>${esc(signedPct(row.oneYearPct))}</td><td>${esc(signedPct(row.fiveYearPct))}</td></tr>`).join('');
+    const body = `
+  <div class="seo-grid"><div class="seo-tile"><div class="l">Companies analysed</div><div class="v">${rows.length}</div></div><div class="seo-tile"><div class="l">Filed source</div><div class="v" style="font-size:16px">Annual 10-K</div></div><div class="seo-tile"><div class="l">Refresh</div><div class="v" style="font-size:16px">Nightly</div></div></div>
+  <div class="seo-section"><h2>What a changing share count means</h2><div class="seo-about"><p>Shares outstanding are the company pieces held by investors. If the count rises, each existing share can represent a smaller fraction of the business; if it falls, net repurchases may increase each remaining share&rsquo;s ownership. The direction alone is not a verdict: acquisitions, employee compensation, conversions, buybacks and reorganisations can all move the number.</p><p>This research view compares reported year-end common shares from annual filings. It excludes suspected split or reorganisation discontinuities from leaderboards and links every company back to its full filed history.</p></div></div>
+  <div class="seo-section"><h2>Largest latest-year share-count increases</h2><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Company</th><th>Latest period</th><th>Shares</th><th>1-year</th><th>Long-run context</th></tr></thead><tbody>${table(rising)}</tbody></table></div></div>
+  <div class="seo-section"><h2>Largest latest-year share-count reductions</h2><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Company</th><th>Latest period</th><th>Shares</th><th>1-year</th><th>Long-run context</th></tr></thead><tbody>${table(falling)}</tbody></table></div></div>
+  <div class="seo-lock"><h3>Check any company for dilution</h3><p>Enter a ticker for the exact filed counts, dates, change and split-comparability warning.</p><a class="seo-cta-btn" href="/tools/dilution">Open the free dilution calculator</a></div>
+  <div class="seo-section"><h2>Continue the research</h2><div class="seo-links"><a href="/research/dilution-scorecard">Download the US-company dilution scorecard</a>${RESEARCH_SYMBOLS.slice(0, 8).map((symbol) => `<a href="/stocks/${symbol}/shares-outstanding">${symbol} shares outstanding history</a>`).join('')}</div></div>
+  <div class="seo-section"><h2>Method and limitations</h2><div class="seo-about"><p>Latest and comparison values use <code>commonStockSharesOutstanding</code> from cached annual balance sheets dated 2024 or later. A one-year change of 65% or more, or a five-year change of 200% or more, is labelled not directly comparable and left out of rankings because it may reflect a split, merger, spin-off, pre-listing base or reporting discontinuity. This is a screening signal, not proof of economic dilution and not investment advice.</p><p>Primary source: <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. See the <a href="/methodology">full methodology</a> or report a correction to <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div></div>`;
+    return researchScaffold({
+        slug: 'shares-outstanding', title: 'Shares Outstanding History: Dilution & Buyback Research',
+        description: 'Understand shares outstanding, dilution and buybacks with filed histories, latest-year leaderboards, a free calculator and a downloadable US-company dataset.',
+        h1: 'Shares outstanding, dilution and buybacks', intro: 'A source-backed guide to how company share counts change—and where to inspect the filed evidence before drawing a conclusion.', body,
+        jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Shares outstanding, dilution and buybacks', url: canonical, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` } }
+    });
+}
+
+function renderPeResearch() {
+    const canonical = `${SITE}/research/pe-ratio-history`;
+    const leaders = metricLeaders('pe-ratio');
+    const trs = leaders.map((row) => `<tr><td><a href="/stocks/${esc(row.symbol)}/pe-ratio">${esc(row.name)} (${esc(row.symbol)})</a></td><td>${esc(row.latest.period || row.latest.year)}</td><td>${esc(METRICS['pe-ratio'].fmt(row.latest.value))}×</td><td>${esc(signedPct(row.change))}</td></tr>`).join('');
+    const body = `
+  <div class="seo-grid"><div class="seo-tile"><div class="l">Calculation</div><div class="v" style="font-size:16px">FY-end price ÷ EPS</div></div><div class="seo-tile"><div class="l">Earnings basis</div><div class="v" style="font-size:16px">Diluted annual EPS</div></div><div class="seo-tile"><div class="l">Refresh</div><div class="v" style="font-size:16px">Nightly</div></div></div>
+  <div class="seo-section"><h2>What historical P/E can—and cannot—tell you</h2><div class="seo-about"><p>A P/E ratio relates a stock price to earnings per share. Comparing the same company across fiscal year ends can show how much investors paid for each dollar of annual earnings at different points in time. It does not explain why the multiple changed, and comparisons across sectors can be misleading.</p><p>Our historical series uses the adjusted monthly close at or immediately before each fiscal year end divided by positive diluted EPS from that annual filing. It is not a live P/E, forward estimate or recommendation. Years with zero or negative EPS are deliberately omitted rather than presented as a meaningful multiple.</p></div></div>
+  <div class="seo-section"><h2>Frequently researched P/E histories</h2><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Company</th><th>Fiscal period</th><th>Historical P/E</th><th>Change vs prior FY</th></tr></thead><tbody>${trs}</tbody></table></div></div>
+  <div class="seo-section"><h2>Go deeper</h2><div class="seo-links">${RESEARCH_SYMBOLS.map((symbol) => `<a href="/stocks/${symbol}/pe-ratio">${symbol} P/E ratio history</a>`).join('')}<a href="/screens/low-pe-stocks">Low P/E stock screen</a><a href="/compare">Compare two companies</a></div></div>
+  <div class="seo-lock"><h3>Compare valuation with business quality</h3><p>A lower multiple is not automatically cheaper. Put margins, growth, returns and filed risks beside the valuation.</p><a class="seo-cta-btn" href="/compare">Compare two stocks free</a></div>
+  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Annual EPS comes from company 10-K income statements and fiscal-year-end prices from the adjusted monthly series in the local fundamentals cache. Corporate actions and unusual earnings can impair comparability. Verify the primary filing at <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>; see <a href="/methodology">methodology</a>. Corrections: <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div>`;
+    return researchScaffold({
+        slug: 'pe-ratio-history', title: 'Historical P/E Ratios: Method, Examples & Company Data',
+        description: 'Research historical P/E ratios using fiscal-year-end prices and diluted annual EPS, with transparent methodology and direct links to company histories.',
+        h1: 'Historical P/E ratios, explained with filed data', intro: 'Use consistent fiscal-year snapshots to understand how a company’s earnings multiple changed—without confusing historical P/E with today’s valuation.', body,
+        jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Historical P/E ratios', url: canonical, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` } }
+    });
+}
+
+function renderDilutionScorecard() {
+    const canonical = `${SITE}/research/dilution-scorecard`;
+    const all = dilutionRows();
+    const ranked = all.filter((row) => !row.notComparable && row.oneYearPct !== null)
+        .sort((a, b) => b.oneYearPct - a.oneYearPct).slice(0, 50);
+    const flagged = all.filter((row) => row.notComparable).length;
+    const trs = ranked.map((row, index) => `<tr><td>${index + 1}</td><td><a href="/stocks/${esc(row.symbol)}/shares-outstanding">${esc(row.name)} (${esc(row.symbol)})</a></td><td>${esc(row.sector || '—')}</td><td>${esc(METRICS['shares-outstanding'].fmt(row.latestShares))}</td><td>${esc(signedPct(row.oneYearPct))}</td><td>${esc(signedPct(row.fiveYearPct))}</td><td>${esc(money(row.repurchases))}</td></tr>`).join('');
+    const body = `
+  <div class="seo-grid"><div class="seo-tile"><div class="l">Companies in CSV</div><div class="v">${all.length}</div></div><div class="seo-tile"><div class="l">Comparable rankings</div><div class="v">${all.length - flagged}</div></div><div class="seo-tile"><div class="l">Flagged discontinuities</div><div class="v">${flagged}</div></div></div>
+  <div class="seo-section"><h2>Largest reported latest-year increases</h2><p class="seo-about">Ranked by the latest annual percentage increase in year-end common shares among up to 500 large primary listings with usable recent history. An increase is a research prompt—not a verdict—because acquisitions and compensation may create value even while adding shares.</p><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Rank</th><th>Company</th><th>Sector</th><th>Latest shares</th><th>1-year</th><th>Long-run context</th><th>Latest FY repurchases</th></tr></thead><tbody>${trs}</tbody></table></div><p style="font-size:12.5px;color:var(--ink3)">Dollar amounts automatically use millions, billions or trillions according to scale. <a href="/research/dilution-scorecard.csv">Download all ${all.length} rows as CSV</a>.</p></div>
+  <div class="seo-lock"><h3>Use the data in your own research</h3><p>The CSV includes company, sector, latest period, raw share count, one- and five-year change, repurchases and comparability status.</p><a class="seo-cta-btn" href="/research/dilution-scorecard.csv">Download the free CSV</a></div>
+  <div class="seo-section"><h2>How this scorecard is built</h2><div class="seo-about"><p>Universe: up to 500 market-cap-ranked US primary listings in the existing fundamentals cache whose latest annual share count is dated 2024 or later. Metric: latest reported annual common shares versus the prior annual observation and an observation at least five fiscal years earlier when available. Latest-fiscal-year share repurchases are shown as context, but do not alter the ranking.</p><p>Rows with a one-year change of 65% or more or a five-year change of 200% or more are retained in the downloadable dataset but marked “not directly comparable” and excluded from rankings. Values are never imputed. Source: cached company statements originating in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC filings</a>; refreshed nightly. <a href="/methodology">Methodology</a>. Not investment advice.</p></div></div>
+  <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/research/shares-outstanding">Shares outstanding research guide</a><a href="/tools/dilution">Share dilution calculator</a><a href="/research/pe-ratio-history">Historical P/E research</a></div></div>`;
+    return researchScaffold({
+        slug: 'dilution-scorecard', title: `Share Dilution Scorecard: ${all.length} US Companies + CSV`,
+        description: `Compare one- and five-year share-count changes across ${all.length} large US companies. Filed data, split warnings, buyback context and free CSV.`,
+        h1: 'US company share dilution scorecard', intro: 'A reproducible starting point for finding material share-count changes, with source trails, comparability warnings and a downloadable dataset.', body,
+        jsonld: { '@context': 'https://schema.org', '@type': 'Dataset', name: 'US Company Share Dilution Scorecard', description: 'Annual common-share-count changes and repurchase context for large US-listed companies.', url: canonical, creator: { '@id': `${SITE}/#org` }, isBasedOn: 'https://www.sec.gov/edgar', distribution: { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: `${SITE}/research/dilution-scorecard.csv` } }
+    });
 }
 
 // ---------- head-to-head comparisons ----------
@@ -884,12 +1087,26 @@ function renderScreenPage(slug) {
 
 // ---------- router ----------
 const router = express.Router();
+router.get('/stocks/:ticker/:metric.csv', (req, res, next) => {
+    const slug = String(req.params.metric || '').toLowerCase();
+    if (!METRICS[slug]) return next();
+    const csv = metricCsv(req.params.ticker, slug);
+    if (!csv) return res.status(404).type('text/plain').send('Metric history not found.');
+    const sym = String(req.params.ticker || '').toUpperCase().replace(/[^A-Z0-9.-]/g, '');
+    res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="${sym}-${slug}.csv"`, 'Cache-Control': 'public, max-age=3600' }).send(csv);
+});
 router.get('/stocks/:ticker/:metric', (req, res, next) => {
     const slug = String(req.params.metric || '').toLowerCase();
     if (!METRICS[slug]) return next();
     const html = renderMetricPage(req.params.ticker, slug);
     if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(String(req.params.ticker).toUpperCase())}`);
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+});
+router.get('/research/shares-outstanding', (_req, res) => res.type('html').send(renderSharesResearch()));
+router.get('/research/pe-ratio-history', (_req, res) => res.type('html').send(renderPeResearch()));
+router.get('/research/dilution-scorecard', (_req, res) => res.type('html').send(renderDilutionScorecard()));
+router.get('/research/dilution-scorecard.csv', (_req, res) => {
+    res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="stockportfolio-dilution-scorecard.csv"', 'Cache-Control': 'public, max-age=21600' }).send(dilutionCsv());
 });
 router.get('/compare', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(renderCompareIndex());
@@ -915,7 +1132,12 @@ function sitemapUrls() {
     }
     comparePairs().forEach((p) => urls.push({ loc: `/compare/${p}`, pri: '0.4' }));
     Object.keys(SCREENS).forEach((s) => urls.push({ loc: `/screens/${s}`, pri: '0.7' }));
+    RESEARCH_ROUTES.forEach((route) => urls.push({ loc: route, pri: '0.8' }));
     return urls;
 }
 
-module.exports = { router, METRICS, METRIC_SLUGS, sitemapUrls, comparePairs, SCREENS };
+module.exports = {
+    router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS,
+    renderMetricPage, metricCsv, dilutionRows, dilutionCsv,
+    renderSharesResearch, renderPeResearch, renderDilutionScorecard
+};

@@ -203,6 +203,7 @@ function head(title, description, canonical, jsonld) {
   .seo-foot{max-width:1000px;margin:48px auto 0;padding:24px 16px 40px;border-top:1px solid var(--line);color:var(--ink3);font-size:12px}
   .seo-foot a{color:var(--ink2)}
   .seo-disc{font-size:11.5px;color:var(--ink3);margin-top:18px;line-height:1.6}
+  @media(max-width:760px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-links{gap:10px!important}.seo-nav-hide-mobile{display:none}.seo-cta-btn{padding:8px 11px}.seo-wrap{padding:12px}.seo-table th,.seo-table td{padding:8px 10px}.seo-section{margin:30px 0}}
 </style>
 </head><body>`;
 }
@@ -210,13 +211,15 @@ function head(title, description, canonical, jsonld) {
 function nav() {
     return `<header class="seo-nav">
   <a class="brand" href="/"><img src="/Media/icon.png" alt="stockportfolio.pro logo" />stockportfolio.pro</a>
-  <div style="display:flex;align-items:center;gap:16px">
+  <div class="seo-nav-links" style="display:flex;align-items:center;gap:16px">
     <a href="/stocks" style="font-size:13px;font-weight:500">Stocks</a>
     <a href="/screener" style="font-size:13px;font-weight:500">Screener</a>
-    <a href="/compare" style="font-size:13px;font-weight:500">Compare</a>
-    <a href="/gurus" style="font-size:13px;font-weight:500">Gurus</a>
-    <a href="/methodology" style="font-size:13px;font-weight:500">Methodology</a>
-    <a href="/#pricing" style="font-size:13px;font-weight:500">Pricing</a>
+    <a class="seo-nav-hide-mobile" href="/tools" style="font-size:13px;font-weight:500">Tools</a>
+    <a class="seo-nav-hide-mobile" href="/research/shares-outstanding" style="font-size:13px;font-weight:500">Research</a>
+    <a class="seo-nav-hide-mobile" href="/compare" style="font-size:13px;font-weight:500">Compare</a>
+    <a class="seo-nav-hide-mobile" href="/gurus" style="font-size:13px;font-weight:500">Gurus</a>
+    <a class="seo-nav-hide-mobile" href="/methodology" style="font-size:13px;font-weight:500">Methodology</a>
+    <a class="seo-nav-hide-mobile" href="/#pricing" style="font-size:13px;font-weight:500">Pricing</a>
     <a id="seoNavCta" class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
   </div>
 </header>
@@ -226,10 +229,10 @@ function nav() {
 function footer() {
     return `<footer class="seo-foot">
   <p><a href="/screens/dividend-stocks">Best dividend stocks</a> &middot; <a href="/screens/high-growth-stocks">Fastest-growing</a> &middot; <a href="/screens/most-profitable-stocks">Most profitable</a> &middot; <a href="/screens/low-pe-stocks">Low P/E value</a> &middot; <a href="/screens/low-peg-stocks">Low PEG</a> &middot; <a href="/screens/highest-free-cash-flow-stocks">Highest free cash flow</a> &middot; <a href="/screens/stocks-below-book-value">Below book value</a> &middot; <a href="/screens/quality-compounders">Quality compounders</a></p>
-  <p><a href="/stocks">All stocks</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/methodology">Methodology</a> &middot; <a href="/editorial-policy">Editorial policy</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+  <p><a href="/stocks">All stocks</a> &middot; <a href="/tools">Free tools</a> &middot; <a href="/research/shares-outstanding">Shares research</a> &middot; <a href="/research/pe-ratio-history">P/E research</a> &middot; <a href="/research/dilution-scorecard">Dilution dataset</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/methodology">Methodology</a> &middot; <a href="/editorial-policy">Editorial policy</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
   <p class="seo-disc">Compiled by the <strong>stockportfolio.pro</strong> research desk from companies&#39; official U.S. SEC filings (10-K/10-Q via <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">EDGAR</a>). All figures are computed deterministically from filed statements — no analyst estimates, no AI-guessed numbers, and no paid placement. See our <a href="/methodology">methodology</a> and <a href="/editorial-policy">editorial policy</a>.</p>
   <p class="seo-disc">Data is provided for informational purposes only and may be delayed or inaccurate. stockportfolio.pro is an analysis and visualization tool and does not provide financial advice. &copy; 2026 stockportfolio.pro.</p>
-</footer><script>try{var pv=JSON.stringify({path:location.pathname});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
+</footer><script>try{var rm={'/research/shares-outstanding':'research-shares-outstanding','/research/pe-ratio-history':'research-pe-ratio-history','/research/dilution-scorecard':'research-dilution-scorecard'};var pv=JSON.stringify({path:location.pathname,contentId:rm[location.pathname]||null});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
 }
 
 // ---- stock page ----
@@ -534,7 +537,7 @@ function renderStockPage(ticker) {
         const extra = require('./seo-extra');
         const links = extra.METRIC_SLUGS
             .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(sym)} ${esc(extra.METRICS[s].label.toLowerCase())}</a>`).join('');
-        metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history by metric</h2><div class="seo-links">${links}</div></div>`;
+        metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history by metric</h2><div class="seo-links">${links}<a href="/research/shares-outstanding">Shares outstanding research guide</a><a href="/research/pe-ratio-history">Historical P/E methodology</a><a href="/research/dilution-scorecard">US-company dilution scorecard</a></div></div>`;
     } catch (_) { /* seo-extra unavailable — page renders without the block */ }
 
     // Head-to-head compare pages (seo-extra) — link the top same-sector peers so
@@ -693,7 +696,7 @@ function staticPageMtime(route) {
     if (route.startsWith('/tools/')) return isoMtime(path.join(__dirname, 'free-tools.js'));
     if (names[route]) return isoMtime(path.join(__dirname, '..', 'frontend-v2', names[route]));
     if (route === '/stocks') return isoMtime(path.join(DATA, 'sp1500-companies.json'));
-    if (route === '/compare' || route.startsWith('/screens/')) return isoMtime(path.join(__dirname, 'seo-extra.js'));
+    if (route === '/compare' || route.startsWith('/screens/') || route.startsWith('/research/')) return isoMtime(path.join(__dirname, 'seo-extra.js'));
     if (route.startsWith('/vs/')) return isoMtime(path.join(__dirname, 'comparison-pages.js'));
     return isoMtime(__filename);
 }
@@ -834,7 +837,7 @@ function renderEditorialPolicy() {
   <p class="seo-sub">How stockportfolio.pro decides what to show, keeps it independent, and fixes mistakes.</p>
   ${S('Independence', `<p>stockportfolio.pro is an independent analysis tool. No company can pay to appear, rank higher, or be presented more favourably in any stock page, comparison, screen, or list. Rankings and screens are produced by deterministic filters over filed fundamentals — never by editorial selection or commercial relationship.</p>`)}
   ${S('How rankings and screens work', `<p>Every &ldquo;best / fastest / most&rdquo; list is the output of a stated, reproducible filter (for example, &ldquo;dividend yield ≥ 2.5% and profitable in ≥ 8 of the last 10 years, sorted by yield&rdquo;). The criteria are shown on each page. Run the same filter yourself in the <a href="/screener">free screener</a> to verify.</p>`)}
-  ${S('Corrections', `<p>If a figure looks wrong, it usually traces to the source filing or a data-vendor mapping. We correct confirmed errors on the next nightly build. Report an issue at <a href="mailto:avinashsreekumar007@gmail.com">avinashsreekumar007@gmail.com</a> with the ticker and the figure, and we&#39;ll investigate.</p>`)}
+  ${S('Corrections', `<p>If a figure looks wrong, it usually traces to the source filing or a data-vendor mapping. We correct confirmed errors on the next nightly build. Report an issue at <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a> with the ticker and the figure, and we&#39;ll investigate.</p>`)}
   ${S('Disclosures', `<p>Some outbound links (for example to brokers or partner tools) may be affiliate links that earn us a commission at no cost to you. Affiliate relationships never influence which companies&#39; data we show or how any ranking is computed.</p>`)}
   ${S('Not investment advice', `<p>Everything here is information and analysis for research and education only. It is not investment, financial, tax, or legal advice, and not a recommendation to buy or sell any security. Markets carry risk; do your own research and consider a licensed professional before investing.</p>`)}
   <div class="seo-section"><p style="font-size:13px"><a href="/methodology">How we compute our data &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a></p></div>

@@ -135,3 +135,126 @@ the first sentence with the author’s ticker or question.
 - No automated replies, engagement bait, coordinated brigading, fake urgency,
   unsupported ticker claims, or guaranteed-return language.
 
+## Engineering-as-marketing launch sequence
+
+Use these after the research pages are live. Re-open the linked page immediately
+before posting because the dataset refreshes nightly. Put the tracked link in
+the first reply on X; LinkedIn can carry it at the end of the main post.
+
+### Post 1 — share counts are not revenue growth
+
+Main X post:
+
+> A company can grow—and your slice of it can still shrink.
+>
+> Latest filed year-end share counts in our cache:
+> - Tesla: +16.6% YoY
+> - Amazon: +1.3% YoY
+> - Apple: -2.3% YoY
+>
+> Share count alone is not a verdict. But per-share growth should never be read
+> without it. What caused the change: compensation, M&A, capital raising, or
+> net buybacks?
+
+First reply:
+
+> I made the filed histories, dates, comparability warnings and downloadable
+> cross-company dataset public:
+> https://www.stockportfolio.pro/research/shares-outstanding
+
+Screenshot: the Tesla, Amazon and Apple history rows with fiscal dates and the
+methodology note visible. Do not crop out units or the source label.
+
+### Post 2 — historical P/E is not live P/E
+
+Main X post:
+
+> “Microsoft’s P/E” is incomplete without a date and an earnings period.
+>
+> For a historical comparison I use:
+> fiscal-year-end adjusted price ÷ that year’s diluted EPS.
+>
+> I omit years with non-positive EPS instead of manufacturing a meaningful-looking
+> multiple. Historical P/E is context—not today’s valuation and not a forecast.
+
+First reply:
+
+> Method, limitations and the company histories:
+> https://www.stockportfolio.pro/research/pe-ratio-history
+
+### Post 3 — publish the dataset, not just the claim
+
+Main X post:
+
+> I wanted a reproducible way to find material share-count changes across large
+> US companies.
+>
+> So I published the underlying CSV—not a black-box “dilution score.”
+>
+> It includes the filing period, raw shares, 1-year change, long-run context,
+> repurchase spending and comparability status. Extreme split/merger-like
+> discontinuities are flagged and excluded from the ranking.
+
+First reply:
+
+> Browse it or download the CSV free:
+> https://www.stockportfolio.pro/research/dilution-scorecard
+
+### LinkedIn version
+
+> Share count is one of the easiest financial signals to oversimplify.
+>
+> A rising count can reflect stock compensation, acquisitions, conversions or
+> capital raising. A falling count can reflect net repurchases. Neither direction
+> proves value creation or destruction by itself.
+>
+> I built a public research layer that shows the filed year-end count, exact
+> period, latest-year change, long-run context, repurchase spending and a clear
+> warning when corporate actions make the comparison unreliable. The dataset is
+> downloadable so anyone can reproduce the screen.
+>
+> Research guide: https://www.stockportfolio.pro/research/shares-outstanding
+> Dataset: https://www.stockportfolio.pro/research/dilution-scorecard
+
+### Useful reply bank for current ticker conversations
+
+1. “Revenue growth should be read per share when the share count is changing.
+   I’d check the latest 10-K count and the reason for issuance before calling
+   the headline growth accretive.”
+2. “A five-year share series can break around a split, merger or spin-off. If
+   the discontinuity is extreme, label it non-comparable instead of treating it
+   as ordinary dilution.”
+3. “Repurchase spending and a falling share count are related but not identical:
+   issuance can offset buybacks. The net filed count is the useful cross-check.”
+4. “Historical P/E needs a consistent price date and EPS period. Mixing today’s
+   price with an old fiscal EPS figure makes the comparison look precise but
+   changes the question.”
+5. “A raw dataset is more useful than a proprietary score when the reader can
+   inspect the period, source and exclusion rules.”
+
+### Targeted outreach—personal, not bulk email
+
+Use only after reading the recipient’s recent work and identifying a specific
+fit. Send no more than ten tailored creator/newsletter/community contacts per
+week.
+
+> Hi [name]—your recent [article/post] on [specific company or capital-allocation
+> issue] made me check the filed share-count history. I’ve published a free,
+> downloadable US-company dataset with exact periods, repurchase context and
+> explicit split/merger warnings. If it helps your work, it’s here:
+> https://www.stockportfolio.pro/research/dilution-scorecard
+>
+> I’m the builder, so I’d also genuinely value any methodology criticism. No
+> need to mention it if it isn’t useful.
+
+### 30-day decision gate
+
+- Day 1: verify each page, CSV, canonical and tracked CTA in production; capture
+  annotated desktop and mobile screenshots.
+- Day 7: record indexed state, impressions, clicks, research-page views, CTA
+  clicks and relevant conversations.
+- Day 14: improve the title/hook only if impressions appear without clicks;
+  improve usefulness/internal links if visitors arrive but do not continue.
+- Day 30: keep expanding this cluster only if at least one asset produces
+  qualified impressions plus CTA, signup, trial or activation evidence.
+- Do not publish another broad programmatic URL set until this gate is passed.

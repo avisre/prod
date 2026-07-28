@@ -112,6 +112,15 @@ test('tool content attribution is signed and preserves legacy cookies', () => {
     assert.match(landing, /\/go\/appsumo\/website\?content_id=tool-earnings-quality/);
 });
 
+test('curated research hubs use allowlisted signed content attribution', () => {
+    for (const contentId of ['research-shares-outstanding', 'research-pe-ratio-history', 'research-dilution-scorecard']) {
+        assert.equal(shareCopy.normalizeAcquisitionContentId(contentId), contentId);
+        const value = shareCopy.createAcquisitionCookieValue('website', { secret: SECRET, now: NOW, clickId: 'research1', contentId });
+        const parsed = shareCopy.parseAcquisitionCookieHeader(`sp_as_acq=${value}`, { secret: SECRET, now: NOW });
+        assert.equal(parsed.contentId, contentId);
+    }
+});
+
 test('public share IDs are 96-bit URL-safe capability identifiers', () => {
     const ids = new Set(Array.from({ length: 500 }, () => shareCopy.makePublicShareId()));
     assert.equal(ids.size, 500);

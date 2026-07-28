@@ -75,6 +75,7 @@ const SSR_PATTERNS = [
   /^\/stocks$/,
   /^\/stocks\/[A-Za-z0-9.\-]+$/,
   /^\/stocks\/[A-Za-z0-9.\-]+\/[a-z-]+$/,
+  /^\/research\/(shares-outstanding|pe-ratio-history|dilution-scorecard)$/,
   /^\/compare$/,
   /^\/compare\/[A-Za-z0-9.\-]+-vs-[A-Za-z0-9.\-]+$/,
   /^\/screens\/[a-z0-9-]+$/,

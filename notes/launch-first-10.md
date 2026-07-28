@@ -23,6 +23,16 @@ The current publish-ready drafts, reply bank, seven-day queue, and measurement
 tracker are in `marketing/campaign-2026-07-28/CONTENT-PACK.md` and
 `marketing/campaign-2026-07-28/tracker.csv`.
 
+The engineering-as-marketing layer now adds three curated research assets:
+`/research/shares-outstanding`, `/research/pe-ratio-history`, and
+`/research/dilution-scorecard` (including a downloadable CSV). Each uses a
+distinct allowlisted content ID, so the private marketing dashboard separates
+research-page views, AppSumo CTA clicks, trials, activations and conversions.
+The launch copy, evidence requirements, helpful reply bank, tailored outreach
+template and 7/14/30-day decision gate are appended to the campaign content
+pack. These assets complement the 30 public calculators; they do not authorize
+another large programmatic URL set.
+
 ### High-impression X packaging (integrated from the competitor audit)
 
 The competitor's reach appears to come from packaging a prosecutable thesis for
