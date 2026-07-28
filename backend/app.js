@@ -974,6 +974,7 @@ function startNoCardTrial(user) {
   s.stripePriceId = null;
   s.trialStartedAt = new Date();
   s.trialEndsAt = defaultTrialEndsAt();
+  s.expiredAt = null;
   s.activatedAt = null;
   s.renewedAt = null;
   s.lastPaymentAt = null;
@@ -1044,6 +1045,7 @@ function ensureSubscriptionShape(user) {
   if (s && s.status === 'trialing' && s.trialEndsAt && !user.stripeSubscriptionId
     && new Date(s.trialEndsAt).getTime() < Date.now()) {
     s.status = 'cancelled';
+    s.expiredAt = s.expiredAt || new Date();
   }
   return normalizeSubscription(user.subscription);
 }
