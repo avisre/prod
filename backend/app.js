@@ -78,7 +78,7 @@ function monitorGate(req, res, next) {
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
 const mailer = require('./mailer');
-const { sendNewUserEmails } = mailer;
+const { sendNewUserEmails, escapeHtml } = mailer;
 
 const app = express();
 const TRUST_PROXY_HOPS = Math.max(0, Number.parseInt(process.env.TRUST_PROXY_HOPS || '0', 10) || 0);
