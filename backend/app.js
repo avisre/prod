@@ -81,7 +81,12 @@ const mailer = require('./mailer');
 const { sendNewUserEmails, escapeHtml } = mailer;
 
 const app = express();
-const TRUST_PROXY_HOPS = Math.max(0, Number.parseInt(process.env.TRUST_PROXY_HOPS || '0', 10) || 0);
+// Render terminates the public connection before forwarding it to Express.
+// Trust that single platform hop in production so rate limits are keyed to
+// the visitor address instead of grouping every visitor under Render's proxy.
+// Local/test environments remain untrusted unless explicitly configured.
+const DEFAULT_TRUST_PROXY_HOPS = process.env.NODE_ENV === 'production' ? '1' : '0';
+const TRUST_PROXY_HOPS = Math.max(0, Number.parseInt(process.env.TRUST_PROXY_HOPS || DEFAULT_TRUST_PROXY_HOPS, 10) || 0);
 app.set('trust proxy', TRUST_PROXY_HOPS || false);
 app.disable('x-powered-by');
 

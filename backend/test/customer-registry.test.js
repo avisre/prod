@@ -56,3 +56,10 @@ test('auth cookies are shared across the apex and www production hosts', () => {
   assert.match(source, /setAuthCookie\(res, body\.token, req\)/);
   assert.match(source, /clearAuthCookie\(res, req\)/);
 });
+
+test('production trusts the Render proxy hop for per-client rate limits', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+  assert.match(source, /DEFAULT_TRUST_PROXY_HOPS = process\.env\.NODE_ENV === 'production' \? '1' : '0'/);
+  assert.match(source, /process\.env\.TRUST_PROXY_HOPS \|\| DEFAULT_TRUST_PROXY_HOPS/);
+  assert.match(source, /app\.set\('trust proxy', TRUST_PROXY_HOPS \|\| false\)/);
+});
