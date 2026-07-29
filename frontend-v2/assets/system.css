@@ -165,13 +165,24 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   height: 60px;
 }
 .wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--ink);
   white-space: nowrap;
 }
-.wordmark span { color: var(--ink-3); font-weight: 500; }
+.wordmark-emblem {
+  display: block;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  object-fit: contain;
+}
+.wordmark-text { color: var(--ink); font-weight: 700; }
+.wordmark-text span { color: var(--ink-3); font-weight: 500; }
 .wordmark:hover { color: var(--ink); }
 .nav-links {
   display: flex;

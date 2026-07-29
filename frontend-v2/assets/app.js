@@ -407,7 +407,10 @@
         el.className = 'nav';
         el.innerHTML = `
           <div class="container nav-inner">
-            <a class="wordmark" href="/index.html">stockportfolio<span>.pro</span></a>
+            <a class="wordmark" href="/index.html" aria-label="StockPortfolio.pro home">
+              <img class="wordmark-emblem" src="/Media/icon.png" width="24" height="24" alt="" aria-hidden="true" />
+              <span class="wordmark-text">stockportfolio<span>.pro</span></span>
+            </a>
             <nav class="nav-links" aria-label="Primary">
               <a href="/screener.html" ${cur('screener')}>Screener</a>
               <a href="/tools" ${cur('tools')}>Tools</a>

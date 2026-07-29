@@ -2,6 +2,8 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const freeTools = require('../free-tools');
 
 function fixture(overrides = {}) {
@@ -126,4 +128,13 @@ test('expanded catalog renderer has 30 unique routes and parseable browser JavaS
     const index = freeTools.renderToolIndex();
     assert.equal((index.match(/Open tool/g) || []).length, 30);
     assert.match(index, /V2\.nav\('tools'\)/);
+});
+
+test('shared tools navbar renders the StockPortfolio emblem', () => {
+    const app = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'app.js'), 'utf8');
+    const css = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'system.css'), 'utf8');
+    assert.match(app, /class="wordmark-emblem" src="\/Media\/icon\.png"/);
+    assert.match(app, /aria-label="StockPortfolio\.pro home"/);
+    assert.match(css, /\.wordmark-emblem\s*\{/);
+    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20260729-emblem1/);
 });
