@@ -78,6 +78,8 @@ test('tool pages expose canonical metadata, source CTA and no authentication req
         const html = freeTools.renderToolPage(slug);
         assert.match(html, new RegExp(`canonical" href="https://www\\.stockportfolio\\.pro/tools/${slug}`));
         assert.match(html, /application\/ld\+json/);
+        assert.match(html, /rel="icon" type="image\/png" sizes="48x48" href="\/Media\/icon\.png\?v=20260729-favicon1"/);
+        assert.match(html, /rel="apple-touch-icon" href="\/Media\/icon\.png\?v=20260729-favicon1"/);
         assert.match(html, /content_id=tool-/);
         assert.match(html, /api\/free-tools/);
     }
@@ -128,6 +130,7 @@ test('expanded catalog renderer has 30 unique routes and parseable browser JavaS
     const index = freeTools.renderToolIndex();
     assert.equal((index.match(/Open tool/g) || []).length, 30);
     assert.match(index, /V2\.nav\('tools'\)/);
+    assert.match(index, /rel="icon" type="image\/png" sizes="48x48" href="\/Media\/icon\.png\?v=20260729-favicon1"/);
 });
 
 test('shared tools navbar renders the StockPortfolio emblem', () => {
