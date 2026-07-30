@@ -4,9 +4,10 @@
     "platform": "x",
     "source": "x",
     "contentId": "research-shares-outstanding",
+    "clickId": "x-20260729-shares-main",
     "approved": true,
     "text": "$TSLA investors may be watching revenue while missing the share count. The latest filed year-end count rose 16.6% YoY; $AAPL fell 2.3%. That is not a verdict, but per-share growth should always be read beside issuance, compensation, M&A and buybacks. What explains the gap?",
-    "ctaUrl": "https://www.stockportfolio.pro/appsumo?source=x&content_id=research-shares-outstanding",
+    "ctaUrl": "https://www.stockportfolio.pro/appsumo?source=x&content_id=research-shares-outstanding&click_id=x-20260729-shares-main",
     "sourceUrls": [
       "https://www.stockportfolio.pro/stocks/TSLA/shares-outstanding",
       "https://www.stockportfolio.pro/stocks/AAPL/shares-outstanding"
@@ -18,9 +19,10 @@
     "platform": "x",
     "source": "x",
     "contentId": "research-shares-outstanding",
+    "clickId": "x-20260729-shares-cta",
     "approved": true,
     "text": "I published the filed histories, fiscal dates, comparability warnings and downloadable dataset here: https://www.stockportfolio.pro/research/shares-outstanding",
-    "ctaUrl": "https://www.stockportfolio.pro/appsumo?source=x&content_id=research-shares-outstanding",
+    "ctaUrl": "https://www.stockportfolio.pro/appsumo?source=x&content_id=research-shares-outstanding&click_id=x-20260729-shares-cta",
     "sourceUrls": ["https://www.stockportfolio.pro/research/shares-outstanding"],
     "imagePath": null
   },
@@ -29,9 +31,10 @@
     "platform": "linkedin",
     "source": "linkedin",
     "contentId": "research-shares-outstanding",
+    "clickId": "li-20260729-shares-main",
     "approved": true,
     "text": "Share count is one of the easiest financial signals to oversimplify. A rising count can reflect stock compensation, acquisitions, conversions or capital raising. A falling count can reflect net repurchases. Neither direction proves value creation or destruction by itself.\n\nI published a public research layer showing the filed year-end count, exact period, latest-year change, long-run context, repurchase spending and comparability warnings. The dataset is downloadable so the screen can be reproduced.\n\nResearch guide: https://www.stockportfolio.pro/research/shares-outstanding\nDataset: https://www.stockportfolio.pro/research/dilution-scorecard",
-    "ctaUrl": "https://www.stockportfolio.pro/appsumo?source=linkedin&content_id=research-shares-outstanding",
+    "ctaUrl": "https://www.stockportfolio.pro/appsumo?source=linkedin&content_id=research-shares-outstanding&click_id=li-20260729-shares-main",
     "sourceUrls": ["https://www.stockportfolio.pro/research/shares-outstanding", "https://www.stockportfolio.pro/research/dilution-scorecard"],
     "imagePath": null
   }

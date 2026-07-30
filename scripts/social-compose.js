@@ -12,15 +12,17 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const readline = require('readline');
-const { Builder, By, until } = require('selenium-webdriver');
+const { Builder, By, Key, until } = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
+const { ACQUISITION_CONTENT_IDS } = require('../backend/share-copy');
 
 const ROOT = path.resolve(__dirname, '..');
 const QUEUE = path.join(__dirname, 'social-queue.json');
 const DEFAULT_PROFILE = path.join(os.homedir(), '.local', 'share', 'stockportfolio-social-profile');
 const DEFAULT_TRACKER = path.join(ROOT, 'marketing', 'campaign-2026-07-28', 'tracker.csv');
 const PLATFORMS = new Set(['x', 'linkedin']);
-const CONTENT_ID_RE = /^research-(shares-outstanding|pe-ratio-history|dilution-scorecard)$/;
+const CONTENT_ID_RE = /^(?:research-(?:shares-outstanding|pe-ratio-history|dilution-scorecard)|tool-[a-z0-9-]{3,48})$/;
+const CLICK_ID_RE = /^[A-Za-z0-9_-]{8,32}$/;
 const MAX_CHARS = { x: 280, linkedin: 3000 };
 
 function arg(name, fallback = null) {
@@ -51,13 +53,25 @@ async function validateDraft(draft) {
     if (!PLATFORMS.has(draft.platform)) fail('platform must be x or linkedin');
     if (draft.source !== draft.platform) fail('source must match platform');
     if (draft.approved !== true) fail('draft is not marked approved');
-    if (!CONTENT_ID_RE.test(String(draft.contentId || ''))) fail('contentId is not an allowlisted research ID');
+    if (!CONTENT_ID_RE.test(String(draft.contentId || '')) || !ACQUISITION_CONTENT_IDS.has(String(draft.contentId || ''))) fail('contentId is not an allowlisted research ID');
     if (!String(draft.text || '').trim()) fail('draft text is empty');
     if (draft.text.length > MAX_CHARS[draft.platform]) fail(`${draft.platform} draft exceeds ${MAX_CHARS[draft.platform]} characters`);
+    const format = String(draft.format || 'post').toLowerCase();
+    if (!['post', 'reply'].includes(format)) fail('format must be post or reply');
+    if (format === 'reply') {
+        if (draft.platform !== 'x') fail('reply composer currently supports X only');
+        const target = new URL(draft.targetUrl);
+        if (target.protocol !== 'https:' || !['x.com', 'www.x.com', 'twitter.com', 'www.twitter.com'].includes(target.hostname)
+            || !/^\/[A-Za-z0-9_]{1,15}\/status\/\d+\/?$/.test(target.pathname)) fail('reply target must be an X status URL');
+    }
+    if (!CLICK_ID_RE.test(String(draft.clickId || ''))) fail('clickId must be 8-32 URL-safe characters');
     const cta = new URL(draft.ctaUrl);
     if (cta.protocol !== 'https:' || cta.hostname !== 'www.stockportfolio.pro') fail('CTA must use www.stockportfolio.pro HTTPS');
+    if (!/^\/(?:tools|research|appsumo)(?:\/|$)/.test(cta.pathname)) fail('CTA must point to an approved tool, research page, or AppSumo bridge');
     if (cta.searchParams.get('source') !== draft.source) fail('CTA source does not match platform');
     if (cta.searchParams.get('content_id') !== draft.contentId) fail('CTA content_id does not match draft');
+    if (cta.searchParams.get('click_id') !== draft.clickId) fail('CTA click_id does not match draft');
+    if (draft.ctaInText === true && !draft.text.includes(draft.ctaUrl)) fail('CTA is marked in-text but missing from the draft');
     if (!Array.isArray(draft.sourceUrls) || draft.sourceUrls.length === 0) fail('sourceUrls is required');
     for (const url of draft.sourceUrls) await checkSource(url);
     if (draft.imagePath) {
@@ -82,6 +96,7 @@ function buildDriver(profileDir) {
     try { fs.chmodSync(profileDir, 0o700); } catch (_) {}
     const options = new chrome.Options()
         .addArguments(`--user-data-dir=${profileDir}`, '--no-first-run', '--no-default-browser-check', '--disable-notifications');
+    if (hasFlag('headless')) options.addArguments('--headless=new', '--window-size=1440,1100');
     const binary = chromeBinary();
     if (binary) options.setChromeBinaryPath(binary);
     return new Builder().forBrowser('chrome').setChromeOptions(options).build();
@@ -103,8 +118,16 @@ async function firstElement(driver, selectors, timeoutMs = 120000) {
 
 async function compose(draft, profileDir) {
     const driver = await buildDriver(profileDir);
-    const url = draft.platform === 'x' ? 'https://x.com/compose/post' : 'https://www.linkedin.com/feed/?shareActive=true';
+    const format = String(draft.format || 'post').toLowerCase();
+    const url = format === 'reply'
+        ? draft.targetUrl
+        : (draft.platform === 'x' ? 'https://x.com/compose/post' : 'https://www.linkedin.com/feed/?shareActive=true');
     await driver.get(url);
+    if (format === 'reply') {
+        const replyButton = await firstElement(driver, ['[data-testid="reply"]', 'button[aria-label^="Reply"]'], 30000);
+        if (!replyButton) fail('Reply control was not found on the target post');
+        await replyButton.sendKeys(Key.ENTER);
+    }
     const selectors = draft.platform === 'x'
         ? ['[data-testid="tweetTextarea_0"]', 'div[contenteditable="true"][role="textbox"]', 'textarea[placeholder*="Post"]']
         : ['div[contenteditable="true"][role="textbox"]', '.ql-editor[contenteditable="true"]', 'textarea[placeholder*="What do you want to talk about"]'];
@@ -165,4 +188,4 @@ async function main() {
 }
 
 if (require.main === module) main().catch((error) => { console.error(error.message); process.exitCode = 1; });
-module.exports = { loadDraft, validateDraft, MAX_CHARS, CONTENT_ID_RE, DEFAULT_PROFILE };
+module.exports = { loadDraft, validateDraft, MAX_CHARS, CONTENT_ID_RE, CLICK_ID_RE, DEFAULT_PROFILE };

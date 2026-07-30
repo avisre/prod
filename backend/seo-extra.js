@@ -808,6 +808,7 @@ function renderComparePage(pairSlug) {
       <tbody>${trs}</tbody>
     </table></div>
   </div>
+  <div class="seo-section"><h2>Verify the comparison</h2><div class="seo-links"><a href="/tools/earnings-quality">Check earnings versus cash flow &rarr;</a><a href="/tools/dilution">Compare filed share counts &rarr;</a><a href="/tools/filing-timeline">Open the latest SEC filing timeline &rarr;</a><a href="/tools/company-comparison">Run another company comparison &rarr;</a></div><p style="margin-top:10px;font-size:13px;color:var(--ink3)">Use the filing period and source shown by each tool before treating two figures as comparable.</p></div>
   ${swapHtml}
   <div class="seo-lock">
     <h3>See the full ${esc(a)} vs ${esc(b)} breakdown</h3>

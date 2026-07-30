@@ -4,6 +4,7 @@
 The service-account JSON stays outside the repository. Examples:
   python3 scripts/gsc-stats.py --days 28
   python3 scripts/gsc-stats.py --site sc-domain:stockportfolio.pro --format json
+  python3 scripts/gsc-stats.py --dimensions page,query --row-limit 250 --format csv
 """
 import argparse
 import base64
@@ -97,6 +98,7 @@ def main():
     parser.add_argument("--start")
     parser.add_argument("--end")
     parser.add_argument("--row-limit", type=int, default=25)
+    parser.add_argument("--dimensions", help="Comma-separated custom dimensions, e.g. page,query,date")
     parser.add_argument("--format", choices=("text", "json", "csv"), default="text")
     args = parser.parse_args()
     token, identity = access_token(args.key)
@@ -113,6 +115,13 @@ def main():
         "pages": query(url, headers, date_body, ["page"], args.row_limit),
         "queries": query(url, headers, date_body, ["query"], args.row_limit),
     }
+    custom_dimensions = [item.strip() for item in str(args.dimensions or "").split(",") if item.strip()]
+    allowed_dimensions = {"date", "country", "device", "page", "query", "searchAppearance"}
+    if any(item not in allowed_dimensions for item in custom_dimensions):
+        raise SystemExit(f"--dimensions values must be one of: {', '.join(sorted(allowed_dimensions))}")
+    if custom_dimensions:
+        report["customDimensions"] = custom_dimensions
+        report["custom"] = query(url, headers, date_body, custom_dimensions, args.row_limit)
     if args.format == "json":
         print(json.dumps(report, indent=2))
         return
@@ -121,13 +130,17 @@ def main():
         writer.writerow(["section", "key", "clicks", "impressions", "ctr", "position", "permission"])
         for prop in report["properties"]:
             writer.writerow(["property", prop.get("siteUrl", ""), "", "", "", "", prop.get("permissionLevel", "")])
-        for section in ("totals", "pages", "queries"):
+        for section in ("totals", "pages", "queries", "custom"):
+            if section not in report:
+                continue
             for row in report[section]:
                 writer.writerow([section, " | ".join(row.get("keys", [])) or "TOTAL", row.get("clicks", 0), row.get("impressions", 0), row.get("ctr", 0), row.get("position", 0), ""])
         return
     print(f"GSC report: {args.site} ({date_body['startDate']} → {date_body['endDate']})")
     print(f"Service account: {identity}")
-    for label in ("totals", "pages", "queries"):
+    for label in ("totals", "pages", "queries", "custom"):
+        if label not in report:
+            continue
         print(f"\n{label.upper()}")
         rows = report[label]
         if not rows:

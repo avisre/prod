@@ -16,6 +16,8 @@ test('AppSumo campaign sources are allowlisted and aliases are canonicalized', (
     assert.equal(shareCopy.normalizeAppSumoSource('twitter'), 'x');
     assert.equal(shareCopy.normalizeAppSumoSource('bridge'), 'bridge');
     assert.equal(shareCopy.normalizeAppSumoSource('creator'), 'creator');
+    assert.equal(shareCopy.normalizeAppSumoSource('google'), 'google');
+    assert.equal(shareCopy.normalizeAppSumoSource('bing'), 'bing');
 
     for (const unsafe of ['', 'x/path', '../x', 'x?next=evil', '<script>', 'unknown']) {
         assert.equal(shareCopy.normalizeAppSumoSource(unsafe), null, unsafe);
@@ -36,6 +38,18 @@ test('allowlisted landing source rewrites only the fixed bridge CTA', () => {
     const attributedLanding = shareCopy.attributeAppSumoLandingHtml(landing, 'reddit');
     assert.match(attributedLanding, /\/go\/appsumo\/reddit/);
     assert.doesNotMatch(attributedLanding, /\/go\/appsumo\/bridge/);
+});
+
+test('campaign click IDs survive the bridge but reject unsafe values', () => {
+    assert.equal(shareCopy.normalizeAcquisitionClickId('x-20260730-intent01'), 'x-20260730-intent01');
+    assert.equal(shareCopy.normalizeAcquisitionClickId('../unsafe'), null);
+    const html = shareCopy.attributeAppSumoLandingHtml(
+        '<a href="/go/appsumo/bridge">Deal</a>',
+        'x',
+        'tool-dilution',
+        'x-20260730-intent01'
+    );
+    assert.match(html, /\/go\/appsumo\/x\?content_id=tool-dilution&amp;click_id=x-20260730-intent01|\/go\/appsumo\/x\?content_id=tool-dilution&click_id=x-20260730-intent01/);
 });
 
 test('review asks require product use while stage-one onboarding does not', () => {

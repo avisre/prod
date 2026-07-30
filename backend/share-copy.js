@@ -25,8 +25,10 @@ const APPSUMO_SOURCE_ALIASES = Object.freeze({ twitter: 'x', site: 'website' });
 const APPSUMO_SOURCES = new Set([
     'x', 'linkedin', 'reddit', 'facebook', 'instagram', 'whatsapp',
     'youtube', 'stocktwits', 'email', 'newsletter', 'website', 'app',
-    'report', 'creator', 'partner', 'direct', 'bridge'
+    'report', 'creator', 'partner', 'direct', 'bridge',
+    'google', 'bing', 'duckduckgo'
 ]);
+const ACQUISITION_CLICK_ID_RE = /^[A-Za-z0-9_-]{8,32}$/;
 const PUBLIC_SHARE_ID_RE = /^[A-Za-z0-9_-]{16}$/;
 const PUBLIC_SHARE_LIMITS = Object.freeze({ title: 180, content: 20000, sourceUrl: 2000, inputBytes: 64000 });
 const PUBLIC_SHARE_CREATE_LIMIT_PER_HOUR = 20;
@@ -40,6 +42,11 @@ function normalizeAppSumoSource(value) {
 function normalizeAcquisitionContentId(value) {
     const contentId = String(value || '').trim().toLowerCase();
     return ACQUISITION_CONTENT_IDS.has(contentId) ? contentId : null;
+}
+
+function normalizeAcquisitionClickId(value) {
+    const clickId = String(value || '').trim();
+    return ACQUISITION_CLICK_ID_RE.test(clickId) ? clickId : null;
 }
 
 function isAppSumoHostname(hostname) {
@@ -66,11 +73,15 @@ function resolveAppSumoRedirect(value, fallback = DEFAULT_APPSUMO_DEAL_URL) {
 // The bridge page is a static asset, so safely attribute its fixed CTA links by
 // replacing one known path with another allowlisted path. The query value is
 // never interpolated until it has passed both allowlists.
-function attributeAppSumoLandingHtml(html, source, contentId) {
+function attributeAppSumoLandingHtml(html, source, contentId, clickId) {
     const safeSource = normalizeAppSumoSource(source);
     const safeContentId = normalizeAcquisitionContentId(contentId);
+    const safeClickId = normalizeAcquisitionClickId(clickId);
     if (!safeSource || safeSource === 'bridge') return String(html || '');
-    const suffix = safeContentId ? `?content_id=${encodeURIComponent(safeContentId)}` : '';
+    const query = new URLSearchParams();
+    if (safeContentId) query.set('content_id', safeContentId);
+    if (safeClickId) query.set('click_id', safeClickId);
+    const suffix = query.size ? `?${query.toString()}` : '';
     return String(html || '').replaceAll('/go/appsumo/bridge', `/go/appsumo/${safeSource}${suffix}`);
 }
 
@@ -101,8 +112,8 @@ function createAcquisitionCookieValue(source, { secret, now = Date.now(), clickI
     if (!safeSource || !secret) return null;
     const timestamp = Math.floor(Number(now) / 1000);
     if (!Number.isFinite(timestamp) || timestamp <= 0) return null;
-    const id = String(clickId || crypto.randomBytes(9).toString('base64url'));
-    if (!/^[A-Za-z0-9_-]{8,32}$/.test(id)) return null;
+    const id = normalizeAcquisitionClickId(clickId) || (!clickId ? crypto.randomBytes(9).toString('base64url') : null);
+    if (!id) return null;
     const safeContentId = normalizeAcquisitionContentId(contentId);
     const payload = safeContentId
         ? `v2.${safeSource}.${timestamp}.${id}.${safeContentId}`
@@ -138,7 +149,7 @@ function parseAcquisitionCookieHeader(header, {
     const clickId = parts[3];
     const contentId = parts[0] === 'v2' ? normalizeAcquisitionContentId(parts[4]) : null;
     if (parts[0] === 'v2' && !contentId) return null;
-    if (!source || !Number.isInteger(timestamp) || !/^[A-Za-z0-9_-]{8,32}$/.test(clickId)) return null;
+    if (!source || !Number.isInteger(timestamp) || !normalizeAcquisitionClickId(clickId)) return null;
     const nowSeconds = Math.floor(Number(now) / 1000);
     if (!Number.isFinite(nowSeconds) || timestamp > nowSeconds + 300 || nowSeconds - timestamp > maxAgeSeconds) return null;
     const signature = parts[parts.length - 1];
@@ -395,6 +406,7 @@ module.exports = {
     PUBLIC_SHARE_CREATE_LIMIT_PER_HOUR,
     normalizeAppSumoSource,
     normalizeAcquisitionContentId,
+    normalizeAcquisitionClickId,
     resolveAppSumoRedirect,
     attributeAppSumoLandingHtml,
     shouldSendAppSumoReviewStage,

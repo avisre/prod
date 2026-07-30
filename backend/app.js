@@ -24,6 +24,7 @@ const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
+const marketingAttribution = require('./marketing-attribution');
 const xray = require('./xray');
 const watchdog = require('./watchdog');
 const reverseDcf = require('./reverse-dcf');
@@ -391,6 +392,7 @@ const APPSUMO_PRODUCT_SLUG = process.env.APPSUMO_PRODUCT_SLUG || '';
 const APPSUMO_ACCOUNT_URL = 'https://appsumo.com/account/products/';
 const APPSUMO_OUTBOUND_URL = shareCopy.resolveAppSumoRedirect(process.env.APPSUMO_ATTRIBUTED_URL);
 const PUBLIC_APP_URL = shareCopy.normalizePublicBaseUrl(process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro');
+const MARKETING_QA_TOKEN = process.env.MARKETING_QA_TOKEN || '';
 const missingAppSumoConfig = [
   !APPSUMO_API_KEY && 'APPSUMO_API_KEY',
   !APPSUMO_CLIENT_ID && 'APPSUMO_CLIENT_ID',
@@ -1255,6 +1257,107 @@ app.use((req, res, next) => {
     next();
 });
 
+function marketingRequestFields(req, res) {
+    return marketingAttribution.requestFields(req, res, {
+        secret: JWT_SECRET,
+        qaToken: MARKETING_QA_TOKEN,
+        secure: process.env.NODE_ENV === 'production' || Boolean(req && req.secure)
+    });
+}
+
+function trackingRequestFields(req, res) {
+    const fields = { ...marketingRequestFields(req, res) };
+    const clientReferrer = marketingAttribution.sanitizeReferrer(req && req.body && req.body.referrer);
+    if (clientReferrer) {
+        fields.referrer = clientReferrer;
+        fields.referrerSource = marketingAttribution.referrerSource(clientReferrer);
+    }
+    return fields;
+}
+
+function ensureTrackingAcquisition(req, res, fields, contentId) {
+    const existing = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    if (existing) return existing;
+    const inferredSource = shareCopy.normalizeAppSumoSource(fields && fields.referrerSource);
+    if (!inferredSource || ['direct', 'website', 'bridge'].includes(inferredSource)) return null;
+    return setCampaignAcquisition(req, res, {
+        source: inferredSource,
+        clickId: null,
+        contentId: shareCopy.normalizeAcquisitionContentId(contentId)
+    });
+}
+
+function campaignContentIdForPath(requestPath) {
+    const normalizedPath = String(requestPath || '').replace(/\/+$/, '') || '/';
+    const tool = Object.values(freeTools.TOOL_DEFINITIONS).find((definition) => definition.path === normalizedPath);
+    if (tool) return tool.id;
+    return ({
+        '/research/shares-outstanding': 'research-shares-outstanding',
+        '/research/pe-ratio-history': 'research-pe-ratio-history',
+        '/research/dilution-scorecard': 'research-dilution-scorecard'
+    })[normalizedPath] || null;
+}
+
+function campaignAcquisitionForRequest(req) {
+    const requestedSource = shareCopy.normalizeAppSumoSource(req && req.query && req.query.source);
+    const inferredSource = marketingAttribution.referrerSource(req && (req.headers.referer || req.headers.referrer));
+    const source = requestedSource || shareCopy.normalizeAppSumoSource(inferredSource);
+    if (!source || source === 'internal' || source === 'direct' || source === 'referral' || source === 'bridge') return null;
+    const existing = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const requestedContentId = shareCopy.normalizeAcquisitionContentId(req.query && req.query.content_id)
+        || campaignContentIdForPath(req.path);
+    const requestedClickId = shareCopy.normalizeAcquisitionClickId(req.query && req.query.click_id);
+
+    // A contextual CTA inside a tool is intentionally tagged `website`, but it
+    // must not erase the social/search first touch that brought the visitor to
+    // the tool. Keep the original channel/click while updating the content ID.
+    if (requestedSource === 'website' && existing && existing.source !== 'website') {
+        return {
+            source: existing.source,
+            clickId: existing.clickId,
+            contentId: requestedContentId || existing.contentId
+        };
+    }
+    return {
+        source,
+        clickId: requestedClickId || (existing && existing.source === source ? existing.clickId : null),
+        contentId: requestedContentId || (existing && existing.source === source ? existing.contentId : null)
+    };
+}
+
+function setCampaignAcquisition(req, res, acquisition) {
+    if (!acquisition) return null;
+    const value = shareCopy.createAcquisitionCookieValue(acquisition.source, {
+        secret: JWT_SECRET,
+        clickId: acquisition.clickId,
+        contentId: acquisition.contentId
+    });
+    const cookie = shareCopy.serializeAcquisitionCookie(value, {
+        secure: process.env.NODE_ENV === 'production' || Boolean(req.secure),
+        domain: shareCopy.acquisitionCookieDomain(req.hostname)
+    });
+    if (cookie) res.append('Set-Cookie', cookie);
+    const parsed = value
+        ? shareCopy.parseAcquisitionCookieHeader(`${shareCopy.ACQUISITION_COOKIE_NAME}=${encodeURIComponent(value)}`, { secret: JWT_SECRET })
+        : null;
+    if (parsed) req.campaignAcquisition = parsed;
+    return parsed;
+}
+
+// Capture a first-touch campaign on the initial public HTML request. This is
+// what lets an X/LinkedIn/search visitor use a free tool before signing up or
+// opening AppSumo without losing the original channel and unique click ID.
+app.use((req, res, next) => {
+    if (req.method !== 'GET' || /^(?:\/api|\/admin|\/assets|\/Media|\/data|\/sitemaps)(?:\/|$)/.test(req.path)) return next();
+    if (/\.[A-Za-z0-9]{2,8}$/.test(req.path)) return next();
+    const acquisition = campaignAcquisitionForRequest(req);
+    if (acquisition) {
+        setCampaignAcquisition(req, res, acquisition);
+        marketingRequestFields(req, res);
+    }
+    return next();
+});
+
 // ---- Public SEO pages (organic-traffic engine) ----
 // Registered before static so /stocks/:ticker, /stocks, /sitemap.xml,
 // and /vs/:competitor are server-rendered. All public, no auth.
@@ -1411,18 +1514,22 @@ const staticCacheHeaders = (res, filePath) => {
 // Explicit campaign route. Keep this ahead of extension-based static serving so
 // /appsumo is stable even if the static middleware's resolution rules change.
 app.get('/appsumo', async (req, res, next) => {
-    const source = shareCopy.normalizeAppSumoSource(req.query.source);
-    const contentId = shareCopy.normalizeAcquisitionContentId(req.query.content_id);
+    const acquisition = req.campaignAcquisition || campaignAcquisitionForRequest(req);
     const landingPath = path.join(__dirname, '../frontend-v2/appsumo.html');
     res.setHeader('Cache-Control', 'no-cache');
-    if (!source || source === 'bridge') {
+    if (!acquisition) {
         return res.sendFile(landingPath, (error) => {
             if (error && !res.headersSent) next(error);
         });
     }
     try {
         const html = await fs.promises.readFile(landingPath, 'utf8');
-        return res.type('html').send(shareCopy.attributeAppSumoLandingHtml(html, source, contentId));
+        return res.type('html').send(shareCopy.attributeAppSumoLandingHtml(
+            html,
+            acquisition.source,
+            acquisition.contentId,
+            acquisition.clickId
+        ));
     } catch (error) {
         return next(error);
     }
@@ -1718,11 +1825,12 @@ async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier } 
 app.get('/go/appsumo/:source', (req, res) => {
     const source = shareCopy.normalizeAppSumoSource(req.params.source);
     const contentId = shareCopy.normalizeAcquisitionContentId(req.query.content_id);
+    const clickId = shareCopy.normalizeAcquisitionClickId(req.query.click_id);
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('Referrer-Policy', 'no-referrer');
     if (!source) return res.status(404).send('Unknown AppSumo campaign source.');
 
-    const value = shareCopy.createAcquisitionCookieValue(source, { secret: JWT_SECRET, contentId });
+    const value = shareCopy.createAcquisitionCookieValue(source, { secret: JWT_SECRET, contentId, clickId });
     const cookie = shareCopy.serializeAcquisitionCookie(value, {
         secure: process.env.NODE_ENV === 'production' || Boolean(req.secure),
         domain: shareCopy.acquisitionCookieDomain(req.hostname)
@@ -1736,7 +1844,8 @@ app.get('/go/appsumo/:source', (req, res) => {
         source,
         contentId,
         acquisitionClickId: acquisition ? acquisition.clickId : null,
-        reportId
+        reportId,
+        ...marketingRequestFields(req, res)
     });
     return res.redirect(302, APPSUMO_OUTBOUND_URL);
 });
@@ -2223,6 +2332,7 @@ const SMS_GATEWAY_DOMAINS = new Set([
 app.post('/api/subscribe', async (req, res) => {
     const { name, email, password } = req.body || {};
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const requestFields = trackingRequestFields(req, res);
     // Honeypot: the register form ships a visually hidden "website" field that
     // humans never see or fill. A non-empty value is a form bot — swallow the
     // submission (no account, no email, no funnel event) but answer 200 so the
@@ -2337,7 +2447,8 @@ app.post('/api/subscribe', async (req, res) => {
         trackFunnel('signup', user._id, planConfig.planName, {
             authMethod: 'email',
             selectedPlan: planConfig.planId,
-            ...acquisitionFunnelFields(acquisition)
+            ...acquisitionFunnelFields(acquisition),
+            ...requestFields
         });
 
         if (planConfig.planId === FREE_PLAN_ID) {
@@ -2357,7 +2468,8 @@ app.post('/api/subscribe', async (req, res) => {
             trackFunnel('trial_start', user._id, 'Pro', {
                 authMethod: 'email',
                 selectedPlan: planConfig.planId,
-                ...acquisitionFunnelFields(acquisition)
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
             });
             return res.status(200).json({
                 token: createUserToken(user),
@@ -2596,6 +2708,7 @@ app.post('/api/auth/social', async (req, res) => {
         const selectedPlan = normalizePlanSelection(req.body?.plan);
         const planConfig = getPlanConfig(selectedPlan);
         const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+        const requestFields = trackingRequestFields(req, res);
         const profile = await verifySocialIdentity(provider, req.body || {});
         const { user, created } = await findOrCreateSocialUser(profile);
         let normalized = ensureSubscriptionShape(user);
@@ -2604,7 +2717,8 @@ app.post('/api/auth/social', async (req, res) => {
             trackFunnel('signup', user._id, planConfig.planName, {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
-                ...acquisitionFunnelFields(acquisition)
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
             });
         }
 
@@ -2643,7 +2757,8 @@ app.post('/api/auth/social', async (req, res) => {
             trackFunnel('trial_start', user._id, 'Pro', {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
-                ...acquisitionFunnelFields(acquisition)
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
             });
             return res.status(200).json({
                 token: createUserToken(user),
@@ -4448,7 +4563,7 @@ function effectiveAskLimit(req) {
     return (Number.isFinite(cap) && cap > 0) ? Math.min(cap, base) : base;
 }
 
-async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition } = {}) {
+async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requestFields } = {}) {
     const cfg = appsumoTierConfig(tier);
     const now = new Date();
     const firstRedemption = !user.appsumoRedeemedAt;
@@ -4482,7 +4597,8 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition } = {
         acquisitionSource: acquisition ? acquisition.source : null,
         acquisitionClickId: acquisition ? acquisition.clickId : null,
         contentId: acquisition ? acquisition.contentId : null,
-        acquisitionClickedAt: acquisition ? acquisition.clickedAt : null
+        acquisitionClickedAt: acquisition ? acquisition.clickedAt : null,
+        ...(requestFields || {})
     });
 }
 
@@ -4679,7 +4795,12 @@ app.post('/api/appsumo/activate', authMiddleware, async (req, res) => {
         lic.redeemedAt = lic.redeemedAt || new Date();
         await lic.save();
         const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
-        await grantAppSumoProAccess(req.user, { licenseKey, tier: lic.tier || tier, acquisition });
+        await grantAppSumoProAccess(req.user, {
+            licenseKey,
+            tier: lic.tier || tier,
+            acquisition,
+            requestFields: trackingRequestFields(req, res)
+        });
         return res.json({ ok: true, message: 'Your AppSumo lifetime Pro is active.', subscription: normalizeSubscription(req.user.subscription) });
     } catch (err) {
         console.error('AppSumo activate error:', err);
@@ -4954,19 +5075,18 @@ app.get('/sitemap.xml', (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/sitemap.xml'));
 });
 
-// ---- page-view beacon (first-party, no cookies) — the funnel's top step ----
-// Crawlers don't run JS so most never reach this; UA filter as belt-and-braces.
+// ---- page-view beacon (first-party, anonymous session) — funnel top step ----
 app.post('/api/track/page_view', (req, res) => {
-    const ua = String(req.headers['user-agent'] || '');
-    if (/bot|crawl|spider|slurp|headless|lighthouse|facebookexternalhit|preview/i.test(ua)) return res.status(204).end();
     const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
-    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
     const pageContentId = shareCopy.normalizeAcquisitionContentId(req.body && req.body.contentId);
+    const requestFields = trackingRequestFields(req, res);
+    const acquisition = ensureTrackingAcquisition(req, res, requestFields, pageContentId);
     trackFunnel('page_view', null, null, {
         path: viewPath,
         ...acquisitionFunnelFields(acquisition),
-        acquisitionSource: acquisition ? acquisition.source : (pageContentId ? 'website' : null),
-        contentId: acquisition ? acquisition.contentId : pageContentId
+        contentId: acquisition ? (acquisition.contentId || pageContentId) : pageContentId,
+        trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
+        ...requestFields
     });
     res.status(204).end();
 });
@@ -4978,11 +5098,14 @@ function freeToolId(value) {
 
 app.post('/api/track/free_tool_view', (req, res) => {
     const toolId = freeToolId(req.body && req.body.toolId);
-    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const requestFields = trackingRequestFields(req, res);
+    const acquisition = ensureTrackingAcquisition(req, res, requestFields, toolId);
     if (toolId) trackFunnel('free_tool_view', null, null, {
-        toolId, contentId: toolId, path: String(req.body.path || '').slice(0, 120),
-        acquisitionSource: acquisition ? acquisition.source : 'website',
-        acquisitionClickId: acquisition ? acquisition.clickId : null
+        toolId, path: String(req.body.path || '').slice(0, 120),
+        ...acquisitionFunnelFields(acquisition),
+        contentId: toolId,
+        trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
+        ...requestFields
     });
     res.status(204).end();
 });
@@ -4990,11 +5113,14 @@ app.post('/api/track/free_tool_view', (req, res) => {
 app.post('/api/track/free_tool_complete', (req, res) => {
     const toolId = freeToolId(req.body && req.body.toolId);
     const symbol = freeTools.normalizeSymbol(req.body && req.body.symbol);
-    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const requestFields = trackingRequestFields(req, res);
+    const acquisition = ensureTrackingAcquisition(req, res, requestFields, toolId);
     if (toolId && symbol) trackFunnel('free_tool_complete', null, null, {
-        toolId, contentId: toolId, symbol,
-        acquisitionSource: acquisition ? acquisition.source : 'website',
-        acquisitionClickId: acquisition ? acquisition.clickId : null
+        toolId, symbol,
+        ...acquisitionFunnelFields(acquisition),
+        contentId: toolId,
+        trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
+        ...requestFields
     });
     res.status(204).end();
 });
@@ -5009,7 +5135,8 @@ app.post('/api/track/activation', authMiddleware, async (req, res) => {
         plan: req.user && req.user.subscription && req.user.subscription.planName,
         acquisitionSource: acquisition ? acquisition.source : null,
         acquisitionClickId: acquisition ? acquisition.clickId : null,
-        contentId: acquisition ? acquisition.contentId : null
+        contentId: acquisition ? acquisition.contentId : null,
+        ...trackingRequestFields(req, res)
     });
     return res.status(204).end();
 });
@@ -5676,28 +5803,49 @@ async function collectMarketingDashboard() {
     const now = new Date();
     const since30 = new Date(now.getTime() - 30 * 86400000);
     const since14 = new Date(now.getTime() - 14 * 86400000);
+    const conversionEvents = ['signup', 'trial_start', 'activation', 'paid', 'cancel'];
+    const anonymousEvents = ['page_view', 'free_tool_view', 'free_tool_complete', 'appsumo_outbound'];
+    // New browser events must be explicitly reportable. Historic conversion
+    // events predate classification, so keep them for the customer baseline;
+    // historic anonymous traffic is intentionally excluded because it contains
+    // the known QA/bot bursts that prompted this repair.
+    const reportableMatch = { $or: [
+        { reportable: true },
+        { reportable: { $exists: false }, event: { $in: conversionEvents } }
+    ] };
+    const withMatch = (match) => ({ $and: [match, reportableMatch] });
     const countEvents = async (match) => col.aggregate([
         { $match: match },
         { $group: { _id: '$event', count: { $sum: 1 } } }
     ]).toArray();
-    const [allRows, windowRows, dailyRows, trialEvents, activationEvents, toolEvents] = await Promise.all([
-        countEvents({}),
+    const [allRows, windowRows, rawWindowRows, dailyRows, trialEvents, activationEvents, toolEvents, trafficEvents, excludedRows] = await Promise.all([
+        countEvents(reportableMatch),
+        countEvents(withMatch({ at: { $gte: since30 } })),
         countEvents({ at: { $gte: since30 } }),
         col.aggregate([
-            { $match: { at: { $gte: since14 } } },
+            { $match: withMatch({ at: { $gte: since14 } }) },
             { $project: { event: 1, day: { $dateToString: { format: '%Y-%m-%d', date: '$at', timezone: 'Asia/Kolkata' } } } },
             { $group: { _id: { day: '$day', event: '$event' }, count: { $sum: 1 } } },
             { $sort: { '_id.day': 1 } }
         ]).toArray(),
-        col.find({ event: 'trial_start', userId: { $ne: null } }, { projection: { userId: 1, acquisitionSource: 1, contentId: 1 } }).toArray(),
-        col.find({ event: 'activation', userId: { $ne: null } }, { projection: { userId: 1, activationJob: 1, contentId: 1 } }).toArray(),
-        col.find({ event: { $in: ['page_view', 'free_tool_view', 'free_tool_complete', 'appsumo_outbound'] } }, {
-            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1 }
-        }).toArray()
+        col.find(withMatch({ event: 'trial_start', userId: { $ne: null } }), { projection: { userId: 1, acquisitionSource: 1, acquisitionClickId: 1, contentId: 1 } }).toArray(),
+        col.find(withMatch({ event: 'activation', userId: { $ne: null } }), { projection: { userId: 1, activationJob: 1, contentId: 1 } }).toArray(),
+        col.find({ event: { $in: anonymousEvents }, reportable: true }, {
+            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1 }
+        }).toArray(),
+        col.find({ event: { $in: anonymousEvents }, reportable: true, at: { $gte: since30 } }, {
+            projection: { event: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1 }
+        }).toArray(),
+        col.aggregate([
+            { $match: { event: { $in: anonymousEvents }, at: { $gte: since30 }, reportable: { $ne: true } } },
+            { $group: { _id: { $cond: ['$isQa', 'qa', { $cond: ['$isBot', 'bot', 'unclassified'] }] }, count: { $sum: 1 } } }
+        ]).toArray()
     ]);
     const counts = (rows) => Object.fromEntries(rows.map((row) => [row._id || 'unknown', Number(row.count || 0)]));
     const all = counts(allRows);
     const last30 = counts(windowRows);
+    const rawLast30 = counts(rawWindowRows);
+    const excluded30 = Object.fromEntries(excludedRows.map((row) => [row._id || 'unclassified', Number(row.count || 0)]));
     const trialUserIds = [...new Set(trialEvents.map((event) => String(event.userId)).filter((id) => mongoose.Types.ObjectId.isValid(id)))];
     const users = trialUserIds.length ? await User.find({ _id: { $in: trialUserIds.map((id) => new mongoose.Types.ObjectId(id)) } }, {
         appsumoRedeemedAt: 1, stripeCustomerId: 1, stripeSubscriptionId: 1
@@ -5732,10 +5880,15 @@ async function collectMarketingDashboard() {
         converted: 0
     }));
     const toolById = new Map(toolRows.map((row) => [row.toolId, row]));
+    const seenToolEvents = new Set();
     toolEvents.forEach((event) => {
         const id = String(event.toolId || event.contentId || '');
         const row = toolById.get(id);
         if (!row) return;
+        const identity = event.anonymousSessionId || String(event._id);
+        const dedupeKey = `${event.event}:${id}:${identity}`;
+        if (seenToolEvents.has(dedupeKey)) return;
+        seenToolEvents.add(dedupeKey);
         if (event.event === 'free_tool_view') row.views++;
         if (event.event === 'free_tool_complete') row.completions++;
         if (event.event === 'appsumo_outbound') row.ctaClicks++;
@@ -5755,9 +5908,14 @@ async function collectMarketingDashboard() {
         { contentId: 'research-dilution-scorecard', slug: 'dilution-scorecard' }
     ].map((row) => ({ ...row, views: 0, ctaClicks: 0, trials: 0, activated: 0, converted: 0 }));
     const researchById = new Map(researchRows.map((row) => [row.contentId, row]));
+    const seenResearchEvents = new Set();
     toolEvents.forEach((event) => {
         const row = researchById.get(String(event.contentId || ''));
         if (!row) return;
+        const identity = event.anonymousSessionId || String(event._id);
+        const dedupeKey = `${event.event}:${row.contentId}:${identity}`;
+        if (seenResearchEvents.has(dedupeKey)) return;
+        seenResearchEvents.add(dedupeKey);
         if (event.event === 'page_view') row.views++;
         if (event.event === 'appsumo_outbound') row.ctaClicks++;
     });
@@ -5779,11 +5937,42 @@ async function collectMarketingDashboard() {
         const day = dayMap.get(row._id.day);
         if (day && Object.prototype.hasOwnProperty.call(day, row._id.event)) day[row._id.event] = Number(row.count || 0);
     });
+    const trafficMap = new Map();
+    const trafficSeen = new Set();
+    const uniqueReportableSessions = new Set();
+    trafficEvents.forEach((event) => {
+        const source = String(event.acquisitionSource || event.trafficSource || 'direct');
+        if (!trafficMap.has(source)) trafficMap.set(source, { source, sessions: 0, pageViews: 0, toolCompletions: 0, appsumoClicks: 0 });
+        const row = trafficMap.get(source);
+        if (event.event === 'page_view') row.pageViews++;
+        if (event.event === 'free_tool_complete') row.toolCompletions++;
+        if (event.event === 'appsumo_outbound') row.appsumoClicks++;
+        const sessionKey = `${source}:${event.anonymousSessionId || ''}`;
+        if (event.anonymousSessionId && !trafficSeen.has(sessionKey)) {
+            trafficSeen.add(sessionKey);
+            row.sessions++;
+        }
+        if (event.anonymousSessionId) uniqueReportableSessions.add(event.anonymousSessionId);
+    });
+    const appsumoLicenses = await AppSumoLicense.countDocuments({ status: { $ne: 'deactivated' } });
+    const appsumoLastEvent = await AppSumoLicense.findOne({}, { updatedAt: 1, lastEventAt: 1 }).sort({ updatedAt: -1 }).lean();
     return {
         generatedAt: now.toISOString(),
         targetCustomers: 10,
-        allTime: { ...all, appsumoRedemptions: await User.countDocuments({ appsumoRedeemedAt: { $ne: null } }) },
-        last30: { ...last30, appsumoRedemptions: users.filter((user) => user.appsumoRedeemedAt && new Date(user.appsumoRedeemedAt) >= since30).length },
+        allTime: {
+            ...all,
+            appsumoLicenses,
+            appsumoRedemptions: await User.countDocuments({ appsumoRedeemedAt: { $ne: null } })
+        },
+        last30: {
+            ...last30,
+            estimatedHumanSessions: uniqueReportableSessions.size,
+            appsumoRedemptions: await User.countDocuments({ appsumoRedeemedAt: { $gte: since30 } })
+        },
+        rawLast30,
+        excluded30,
+        trafficRows: [...trafficMap.values()].sort((a, b) => b.sessions - a.sessions || a.source.localeCompare(b.source)),
+        appsumoSync: { lastEventAt: appsumoLastEvent ? (appsumoLastEvent.lastEventAt || appsumoLastEvent.updatedAt || null) : null },
         sourceRows,
         toolRows,
         researchRows,
@@ -5798,15 +5987,26 @@ function marketingDashboardOnly(req, res, next) {
     return next();
 }
 
+app.post('/api/admin/marketing/qa-session', authMiddleware, marketingDashboardOnly, (req, res) => {
+    const enabled = req.body && req.body.enabled !== false;
+    marketingAttribution.setQaModeCookie(res, enabled, {
+        secret: JWT_SECRET,
+        secure: process.env.NODE_ENV === 'production' || Boolean(req.secure),
+        domain: marketingAttribution.cookieDomain(req.hostname)
+    });
+    res.set('Cache-Control', 'no-store').json({ ok: true, qaMode: enabled });
+});
+
 app.get('/api/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, res) => {
     if (mongoose.connection.readyState !== 1) return res.status(503).json({ message: 'Database is still starting' });
     try {
         const data = await collectMarketingDashboard();
         if (String(req.query.format || '').toLowerCase() === 'csv') {
-            const columns = ['kind', 'contentId', 'slug', 'views', 'completions', 'ctaClicks', 'trials', 'activated', 'converted'];
+            const columns = ['kind', 'source', 'contentId', 'slug', 'sessions', 'views', 'completions', 'ctaClicks', 'trials', 'activated', 'converted'];
             const lines = [columns.map(customerCsvCell).join(',')];
             data.toolRows.forEach((row) => { const out = { ...row, kind: 'tool', contentId: row.toolId }; lines.push(columns.map((column) => customerCsvCell(out[column])).join(',')); });
             data.researchRows.forEach((row) => { const out = { ...row, kind: 'research', completions: '' }; lines.push(columns.map((column) => customerCsvCell(out[column])).join(',')); });
+            data.trafficRows.forEach((row) => { const out = { ...row, kind: 'traffic', views: row.pageViews, completions: row.toolCompletions, ctaClicks: row.appsumoClicks }; lines.push(columns.map((column) => customerCsvCell(out[column])).join(',')); });
             res.set('Cache-Control', 'no-store').type('text/csv').set('Content-Disposition', 'attachment; filename="stockportfolio-marketing-tools.csv"').send(`${lines.join('\n')}\n`);
             return;
         }
@@ -5826,10 +6026,12 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const e = escapeHtml;
         const w = data.last30;
         const cards = [
-            ['30-day visits', w.page_view, 'page views'],
+            ['Human sessions · 30d', w.estimatedHumanSessions, 'estimated browsers'],
+            ['Human page views · 30d', w.page_view, 'QA/bots excluded'],
             ['30-day signups', w.signup, 'accounts'],
             ['30-day trials', w.trial_start, 'started'],
-            ['AppSumo redeemed', data.allTime.appsumoRedemptions, `of ${data.targetCustomers} target`],
+            ['AppSumo purchases', data.allTime.appsumoLicenses, `of ${data.targetCustomers} target`],
+            ['AppSumo activated', data.allTime.appsumoRedemptions, 'redeemed licenses'],
             ['30-day activations', w.activation, 'meaningful jobs']
         ].map(([label, value, note]) => `<div class="card"><div class="label">${label}</div><strong>${n(value)}</strong><small>${note}</small></div>`).join('');
         const sourceRows = data.sourceRows.length ? data.sourceRows.map((row) => `<tr><td>${e(row.source)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td><td>${pct(row.converted, row.trials)}</td></tr>`).join('') : '<tr><td colspan="5">No attributed trials yet</td></tr>';
@@ -5837,16 +6039,19 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const jobRows = Object.entries(data.activationJobs).sort((a, b) => b[1] - a[1]).map(([job, value]) => `<tr><td>${e(jobNames[job] || job)}</td><td>${n(value)}</td></tr>`).join('') || '<tr><td colspan="2">No activations yet</td></tr>';
         const toolRows = data.toolRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.completions)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
         const researchRows = data.researchRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
+        const trafficRows = data.trafficRows.length ? data.trafficRows.map((row) => `<tr><td>${e(row.source)}</td><td>${n(row.sessions)}</td><td>${n(row.pageViews)}</td><td>${n(row.toolCompletions)}</td><td>${n(row.appsumoClicks)}</td></tr>`).join('') : '<tr><td colspan="5">No reportable campaign/search sessions yet</td></tr>';
         const maxTrend = Math.max(1, ...data.trend.map((row) => Math.max(row.signup, row.trial_start, row.paid, row.activation)));
         const trendRows = data.trend.map((row) => {
             const bar = (value, color) => `<span class="bar" style="width:${Math.round((value / maxTrend) * 100)}%;background:${color}"></span>`;
             return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#2563eb')}${n(row.signup)}</td><td>${bar(row.trial_start, '#7c3aed')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
         }).join('');
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
-body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a{color:#2563eb;text-decoration:none;margin-left:14px}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/api/admin/marketing">JSON</a></div><h1>Marketing progress</h1><div class="muted">Last 30 days versus the first-ten-customer target · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section></main></body></html>`;
+body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#2563eb;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
-        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${toolPanel}${researchPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
+        const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;
+        const auditPanel = `<section class="panel" style="margin-top:16px"><h2>Measurement audit · 30 days</h2><table><tr><th>Raw page views</th><th>Reportable page views</th><th>QA events excluded</th><th>Bot/automation events excluded</th><th>Unclassified events excluded</th></tr><tr><td>${n(data.rawLast30.page_view)}</td><td>${n(w.page_view)}</td><td>${n(data.excluded30.qa)}</td><td>${n(data.excluded30.bot)}</td><td>${n(data.excluded30.unclassified)}</td></tr></table><div class="legend">AppSumo webhook/license collection last changed: ${e(data.appsumoSync.lastEventAt ? new Date(data.appsumoSync.lastEventAt).toISOString() : 'no event recorded')}. The AppSumo Partner Portal remains definitive for purchases that have not reached the webhook.</div></section>`;
+        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${trafficPanel}${toolPanel}${researchPanel}${auditPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
         res.set('Cache-Control', 'no-store').type('html').send(renderedHtml);
     } catch (error) {
         console.error('[marketing] dashboard render failed:', error && error.message);

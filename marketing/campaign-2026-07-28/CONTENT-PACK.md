@@ -2,8 +2,26 @@
 
 Date: 28 July 2026  
 Objective: generate qualified research conversations and tracked AppSumo visits.  
-Primary CTA: `https://www.stockportfolio.pro/appsumo?source=x`  
-LinkedIn CTA: `https://www.stockportfolio.pro/appsumo?source=linkedin`
+Primary path: exact free tool/research result first, contextual AppSumo bridge second.
+Every new link requires `source`, an allowlisted `content_id`, and a unique
+`click_id`; generate it with `node scripts/campaign-link.js`. The legacy links
+below document already-published posts and must not be reused for new content.
+
+## 30 July conversion update
+
+- Allocate replies 60% to genuine users expressing a current problem, 30% to
+  established creator conversations for distribution, and 10% to our existing
+  replies/customers/community.
+- Help-seeking replies link to the exact useful free tool only when the product
+  directly answers the post. Disclose “I built this”; never pose as an
+  unaffiliated recommendation.
+- Creator replies normally stand alone without a sales link. Let the screenshot
+  and answer earn a profile visit; provide a tracked tool link when requested or
+  clearly useful.
+- Use one explicit AppSumo offer post per week. All other posts teach, prove, or
+  answer.
+- Judge intent replies by tool completions and purchases; judge creator replies
+  by reach, profile visits, and assisted conversions.
 
 These drafts use the high-impression structure: a sharp but defensible
 observation, a concrete verification step, a practical consequence, and a

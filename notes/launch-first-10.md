@@ -1,6 +1,6 @@
 # Zero-budget AppSumo plan — from 3 to 10 customers
 
-Status: **current as of 26 July 2026**.
+Status: **current as of 30 July 2026**.
 
 ## Corrected baseline and operating rules (28 July 2026)
 
@@ -13,11 +13,53 @@ Daily cadence:
 
 - Publish one source-backed X insight and make five useful, specific finance or
   investing replies.
+- Attach a current StockPortfolio.pro evidence screenshot to every substantive
+  X reply. The visible period, units, metric definition, and source trail must
+  support the exact written claim; decorative product images do not qualify.
+- Use Ask for company-specific replies when synthesis adds real value, then
+  sanity-check its periods, calculations, and cited source against the filed or
+  deterministic view before publishing. Reject inconsistent Ask output and use
+  the relevant deterministic tool or research page instead.
 - Reply to every genuine response and repurpose the strongest insight for
   LinkedIn.
 - Use only allowlisted campaign sources (`x`, `linkedin`, `reddit`, `creator`,
   `newsletter`, `email`) and log the bridge visit, signup, trial, activation,
   redemption, and customer outcome.
+
+### Intent-led reply allocation (30 July update)
+
+Reach and conversion are separate jobs. The first three days showed that replies
+under established finance accounts distribute well, but no reply has produced a
+verified AppSumo customer yet. For the next 14 days, allocate replies as follows:
+
+- **60% help/intent:** real investors, analysts, founders, or finance users who
+  explicitly describe a workflow problem the product can solve (finding filing
+  evidence, comparing periods, checking dilution, replacing spreadsheet work,
+  or evaluating a research tool).
+- **30% creator distribution:** relevant established accounts whose discussion
+  gives us a legitimate opportunity to add a filed number, calculation,
+  limitation, or screenshot. The purpose is reach and qualified profile visits.
+- **10% customer/community:** genuine replies to our posts, product questions,
+  objections, and existing-customer conversations.
+
+An intent reply must solve part of the problem before mentioning the product.
+When a link is useful, disclose that we built the tool and link to the exact free
+tool or research page—not the homepage or a naked AppSumo pitch. Every link must
+carry `source`, an allowlisted `content_id`, and a unique `click_id`. The free
+result supplies the contextual AppSumo bridge.
+
+Score intent candidates before replying: explicit problem (0–2), product fit
+(0–2), evidence we can show (0–2), apparent genuine account (0–1), and recency
+(0–1). Reply only at 6/8 or above. Never infer personal finances, provide a
+recommendation, or intrude on an unrelated conversation.
+
+Compare the two reply motions after at least 30 qualified replies each:
+
+- intent replies: tool visits, tool completions, AppSumo visits, purchases;
+- creator replies: reach, profile visits, assisted tool use, assisted purchases.
+
+The working files are `marketing/campaign-2026-07-30/INTENT-LED-CAMPAIGN.md`
+and `marketing/campaign-2026-07-30/intent-tracker.csv`.
 
 The current publish-ready drafts, reply bank, seven-day queue, and measurement
 tracker are in `marketing/campaign-2026-07-28/CONTENT-PACK.md` and
@@ -106,6 +148,13 @@ customers per qualified conversation, not likes. Stop a message after 20
 qualified conversations with no bridge visits, or an audience after 30 with no
 activation. Pause acquisition if Ask, source links, redemption, or onboarding is
 broken.
+
+The private marketing dashboard reports estimated browser sessions by source,
+unique tool use, and excluded QA/bot activity separately. Owner screenshots and
+smoke tests must enable QA exclusion before browsing public pages. AppSumo
+webhook licenses measure purchases visible to the application; the Partner
+Portal remains the definitive record for an unredeemed purchase that has not
+reached the webhook.
 
 The metrics template is `marketing/appsumo-30-day/metrics.csv`; trial fields are
 `trial_started_at`, `trial_ends_at`, `auth_method`, `acquisition_source`,
