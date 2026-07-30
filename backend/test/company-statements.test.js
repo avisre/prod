@@ -1,0 +1,66 @@
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const test = require('node:test');
+
+const companySource = fs.readFileSync(
+  path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'company.js'),
+  'utf8'
+);
+
+function incomeDefinitions() {
+  const block = companySource.match(/income:\s*\[([\s\S]*?)\n\s*\],\n\s*\/\/ Macrotrends content/);
+  assert.ok(block, 'income statement definitions should be present');
+
+  return [...block[1].matchAll(/\{\s*label:\s*'([^']+)'([^\n]*)/g)].map((match) => ({
+    label: match[1],
+    sub: /\bsub:\s*true\b/.test(match[2]),
+    solo: /\bsolo:\s*true\b/.test(match[2])
+  }));
+}
+
+function groupDefinitions(definitions) {
+  const grouped = definitions.map((definition) => ({ ...definition }));
+  let parent = null;
+  let groupId = -1;
+
+  for (const definition of grouped) {
+    if (definition.sub) {
+      if (parent) {
+        if (parent.parentOf === undefined) {
+          groupId += 1;
+          parent.parentOf = groupId;
+        }
+        definition.gid = parent.parentOf;
+      }
+    } else {
+      parent = definition.solo ? null : definition;
+    }
+  }
+
+  return grouped;
+}
+
+test('revenue expands cost of revenue and gross margin, not gross profit', () => {
+  const grouped = groupDefinitions(incomeDefinitions());
+  const byLabel = Object.fromEntries(grouped.map((definition) => [definition.label, definition]));
+
+  assert.deepEqual(
+    grouped.slice(0, 4).map((definition) => definition.label),
+    ['Revenue', 'Cost of revenue', 'Gross margin', 'Gross profit']
+  );
+  assert.equal(byLabel.Revenue.parentOf, byLabel['Cost of revenue'].gid);
+  assert.equal(byLabel.Revenue.parentOf, byLabel['Gross margin'].gid);
+  assert.equal(byLabel['Gross profit'].gid, undefined);
+  assert.equal(byLabel['Gross profit'].parentOf, undefined);
+});
+
+test('revenue components are hidden when collapsed and visible when expanded', () => {
+  const grouped = groupDefinitions(incomeDefinitions());
+  const revenue = grouped.find((definition) => definition.label === 'Revenue');
+  const children = grouped.filter((definition) => definition.gid === revenue.parentOf);
+
+  assert.deepEqual(children.map((definition) => definition.label), ['Cost of revenue', 'Gross margin']);
+  assert.ok(children.every((definition) => !new Set().has(definition.gid)));
+  assert.ok(children.every((definition) => new Set([revenue.parentOf]).has(definition.gid)));
+});

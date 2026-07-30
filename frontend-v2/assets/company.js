@@ -124,13 +124,13 @@
     const signedPct = (v) => v === null ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%';
 
     const ROWS = {
-        // Macrotrends content, accordion order: subtotal first, its
-        // components unfold DIRECTLY BELOW when expanded (same as balance).
+        // Income-statement accordion order: the primary line appears first and
+        // its supporting lines unfold DIRECTLY BELOW it.
         income: [
-            { label: 'Revenue', get: (r) => derive(r).rev, fmt: money, kind: 'money', solo: true },
-            { label: 'Gross profit', get: (r) => derive(r).gp, fmt: money, kind: 'money' },
+            { label: 'Revenue', get: (r) => derive(r).rev, fmt: money, kind: 'money' },
             { label: 'Cost of revenue', get: (r) => derive(r).cor, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Gross margin', get: (r) => ratio(derive(r).gp, derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
+            { label: 'Gross profit', get: (r) => derive(r).gp, fmt: money, kind: 'money', solo: true },
             { label: 'Operating expenses', get: (r) => num(r.operatingExpenses), fmt: money, kind: 'money', neutral: true },
             { label: 'R&D', get: (r) => num(r.researchAndDevelopment), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'SG&A', get: (r) => num(r.sellingGeneralAndAdministrative), fmt: money, kind: 'money', sub: true, neutral: true },
