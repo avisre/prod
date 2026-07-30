@@ -85,17 +85,18 @@ test('financial statement columns have year lanes and whole-column sizing', () =
 });
 
 test('company page cache-busts the approved statement assets together', () => {
-  assert.match(companyHtml, /assets\/system\.css\?v=20260730-currency1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260730-currency1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20260730-fxusd1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260730-fxusd1/);
 });
 
 test('company page separates quote currency from financial-reporting currency', () => {
   assert.match(companySource, /function quoteCurrency\(data = payload\)/);
   assert.match(companySource, /function reportingCurrency\(data = payload\)/);
+  assert.match(companySource, /function sourceReportingCurrency\(data = payload\)/);
   assert.match(companySource, /function hasCurrencyMismatch\(data = payload\)/);
   assert.match(companySource, /currencyAmount\(price, quoteCurrency\(\)/);
   assert.match(companySource, /Financial statements are shown in \$\{reportCur\}/);
-  assert.match(companySource, /The exchange-traded quote and market-cap data are in \$\{quoteCurrency\(\)\}/);
+  assert.match(companySource, /Financial statements are shown in USD, converted from \$\{sourceReportingCurrency\(\)\}/);
   assert.doesNotMatch(companyHtml, /All figures in USD from SEC filings/);
   assert.match(companyHtml, /data-view="usd">Reported</);
 });
@@ -104,5 +105,5 @@ test('cross-currency listings do not run mixed-currency valuation visuals', () =
   assert.match(companySource, /peButton\.hidden = mixedCurrencies/);
   assert.match(companySource, /if \(mixedCurrencies\) showCap = false/);
   assert.match(companySource, /Historical P\/E and price × filed-share-count overlays are disabled/);
-  assert.match(companySource, /A defensible reverse DCF would require period-specific FX rates/);
+  assert.match(companySource, /USD presentation conversion does not supply the listing’s depositary-share ratio/);
 });

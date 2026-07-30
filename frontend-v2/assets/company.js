@@ -244,8 +244,21 @@
         }
         return quoteCurrency(data);
     }
+    function sourceReportingCurrency(data = payload) {
+        const conversion = data && data.currencyConversion;
+        if (conversion && conversion.from) return currencyCode(conversion.from);
+        if (!data) return 'USD';
+        for (const statement of ['income', 'balance', 'cash']) {
+            for (const period of ['annualReports', 'quarterlyReports']) {
+                const row = (((data[statement] || {})[period]) || [])
+                    .find((item) => item && (item.originalReportedCurrency || item.reportedCurrency));
+                if (row) return currencyCode(row.originalReportedCurrency || row.reportedCurrency);
+            }
+        }
+        return quoteCurrency(data);
+    }
     function hasCurrencyMismatch(data = payload) {
-        return quoteCurrency(data) !== reportingCurrency(data);
+        return quoteCurrency(data) !== sourceReportingCurrency(data);
     }
 
     // ---------- data joins ----------
@@ -465,7 +478,7 @@
                 lines: [currencyAmount(p.close, quoteCurrency(), { compact: false })] // price only — the cap reads off the left axis
             })));
             $('chart-prov').textContent = mixedCurrencies
-                ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the statements are reported in ${reportingCurrency()}; combining them without period-specific FX and depositary-share ratios would be misleading.`
+                ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the source statements are reported in ${sourceReportingCurrency()}; USD presentation conversion does not supply the listing’s depositary-share ratio.`
                 : cap
                 ? 'Price (right axis): split-adjusted — ink. Market cap (left axis): price × that fiscal year’s filed share count — blue. Where the lines drift apart, buybacks or dilution is why.'
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count.`;
@@ -655,7 +668,7 @@
     async function loadReverseDcf(opts = {}) {
         const sec = $('rdcf-section'); const body = $('rdcf-body'); const rule = $('rdcf-rule');
         if (hasCurrencyMismatch()) {
-            body.innerHTML = `<p class="small muted" style="max-width:72ch;">Unavailable for this listing: its market quote is in <strong>${esc(quoteCurrency())}</strong>, while its financial statements are reported in <strong>${esc(reportingCurrency())}</strong>. A defensible reverse DCF would require period-specific FX rates and the listing’s depositary-share ratio; silently mixing the two currencies would produce a false result.</p>`;
+            body.innerHTML = `<p class="small muted" style="max-width:72ch;">Unavailable for this listing: its market quote is in <strong>${esc(quoteCurrency())}</strong>, while its source financial statements are reported in <strong>${esc(sourceReportingCurrency())}</strong>. The USD presentation conversion does not supply the listing’s depositary-share ratio, which is required for a defensible per-listed-share valuation.</p>`;
             sec.hidden = false; rule.hidden = false;
             return;
         }
@@ -799,7 +812,7 @@
         $('cmp-body').hidden = false;
         $('cmp-table').innerHTML = '<tbody><tr><td style="text-align:left" class="faint"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></td></tr></tbody>';
         try {
-            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}`);
+            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}?presentationCurrency=USD`);
             if (!r.ok) throw new Error('nope');
             const p2 = await r.json();
             let html = `<thead><tr><th class="row-head" style="text-align:left;">Metric</th><th>${esc(symbol)}</th><th>${esc(sym2)}</th></tr></thead><tbody>`;
@@ -956,8 +969,9 @@
         lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)) };
         const expanded = expandedGroups[stState] || new Set();
         const reportCur = reportingCurrency();
+        const converted = Boolean(payload.currencyConversion && payload.currencyConversion.from && payload.currencyConversion.to === 'USD');
         let html = '<thead><tr><th class="row-head" style="text-align:left">' +
-            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · reported`) +
+            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) +
             '</th><th style="width:96px">Trend</th>';
         rows.forEach((r, i) => { html += `<th${i === rows.length - 1 ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`; });
         html += '</tr></thead><tbody>';
@@ -1002,8 +1016,11 @@
         const provenance = $('stmt-prov');
         if (provenance) {
             const mismatch = hasCurrencyMismatch();
-            provenance.textContent = `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. ` +
-                (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}. ` : '') +
+            const conversionText = converted
+                ? `Financial statements are shown in USD, converted from ${sourceReportingCurrency()}. Balance-sheet figures use the fiscal-period closing monthly FX rate; income and cash-flow figures use average month-end FX rates over each reporting period. This is an approximate convenience conversion. `
+                : `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. `;
+            provenance.textContent = conversionText +
+                (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; ADR-dependent valuation overlays remain disabled. ` : '') +
                 'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Per-share figures and share counts are adjusted to the current split basis. ▸ unfolds a total into its components.';
         }
         // Tapping anywhere on a parent row toggles its component group. The ▸
@@ -1628,7 +1645,7 @@
                 return;
             }
             mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
-            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
+            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`);
             if (!r.ok) throw new Error('load failed');
             payload = await r.json();
             buildSharesMap();

@@ -17,6 +17,7 @@ const { OAuth2Client } = require('google-auth-library');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
+const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
 const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
@@ -78,6 +79,25 @@ function monitorGate(req, res, next) {
     return res.status(402).json({ message: 'The Filing Change Monitor is on the Power and Desk plans.', code: 'MONITOR_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
+
+async function presentFundamentalsCurrency(payload, requestedCurrency) {
+    if (String(requestedCurrency || '').trim().toUpperCase() !== 'USD') return payload;
+    try {
+        return await fxConversion.convertPayloadToUsd(payload);
+    } catch (error) {
+        // A missing FX series must never make the underlying filing data
+        // unavailable or, worse, cause it to be labelled as USD. Return the
+        // untouched native-currency payload with a safe status for the UI.
+        return {
+            ...payload,
+            currencyConversion: {
+                status: 'unavailable',
+                to: 'USD',
+                message: 'USD conversion is temporarily unavailable; figures remain in the company reporting currency.'
+            }
+        };
+    }
+}
 
 const mailer = require('./mailer');
 const { sendNewUserEmails, escapeHtml } = mailer;
@@ -3322,7 +3342,7 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // company's actual XBRL filings. US-only, but free + no API key.
         const payload = { quote, overview, daily, monthly, income, balance, cash };
         await secSource.backfillStatements(symbol, payload).catch(() => {});
-        res.json(payload);
+        res.json(await presentFundamentalsCurrency(payload, req.query.presentationCurrency));
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });
     }
@@ -4960,7 +4980,7 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
         }
         const payload = { quote, overview, daily, monthly, income, balance, cash };
         await secSource.backfillStatements(symbol, payload).catch(() => {});
-        res.json(payload);
+        res.json(await presentFundamentalsCurrency(payload, req.query.presentationCurrency));
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });
     }
