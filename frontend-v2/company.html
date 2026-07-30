@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260730-minibars1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260730-unitsfix1" />
 </head>
 <body>
   <main>
@@ -150,6 +150,10 @@
                   <button aria-pressed="true" data-view="usd">Reported</button>
                   <button aria-pressed="false" data-view="yoy">Growth</button>
                   <button aria-pressed="false" data-view="ps">Per share</button>
+                </div>
+                <div class="stmt-trend-control">
+                  <p class="stmt-opts-label">Table</p>
+                  <button class="btn btn-ghost btn-sm" id="stmt-trend-toggle" type="button" aria-pressed="true">Hide 5Y trend</button>
                 </div>
                 <button class="btn btn-ghost btn-sm" id="csv-btn" style="margin-top:12px; width:100%;">Download CSV</button>
               </div>
@@ -289,6 +293,6 @@
   </aside>
 
   <script src="assets/app.js?v=20260730-stmtscroll1"></script>
-  <script src="assets/company.js?v=20260730-minibars1"></script>
+  <script src="assets/company.js?v=20260730-unitsfix1"></script>
 </body>
 </html>

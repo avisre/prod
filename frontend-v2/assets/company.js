@@ -228,6 +228,7 @@
     let viewState = 'usd';
     let chartMode = 'price';
     let rangeYears = 10;
+    let showStatementTrend = true;
     let sharesByPeriod = new Map();
     let lastRender = { rows: [], periods: [] };
 
@@ -938,14 +939,16 @@
         const table = $('stmt-table');
         const wrap = $('stmt-wrap');
         const rowHead = table && table.querySelector('.row-head');
-        const trendHead = table && table.querySelector('thead th:nth-child(2)');
-        if (!table || !wrap || !rowHead || !trendHead || !wrap.clientWidth) return;
+        const trendHead = table && !table.classList.contains('trend-hidden')
+            ? table.querySelector('thead th:nth-child(2)')
+            : null;
+        if (!table || !wrap || !rowHead || !wrap.clientWidth) return;
 
         const oldMax = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
         const wasAtLatest = oldMax === 0 || oldMax - wrap.scrollLeft <= 4;
         const oldProgress = oldMax ? wrap.scrollLeft / oldMax : 1;
         const rowHeadWidth = rowHead.getBoundingClientRect().width;
-        const trendWidth = trendHead.getBoundingClientRect().width;
+        const trendWidth = trendHead ? trendHead.getBoundingClientRect().width : 0;
         const availableForYears = Math.max(1, wrap.clientWidth - rowHeadWidth - trendWidth);
         const completeYears = window.innerWidth <= 760
             ? (availableForYears >= 176 ? 2 : 1)
@@ -975,6 +978,9 @@
         const min = Math.min(...finite);
         const max = Math.max(...finite);
         const span = max - min;
+        const signed = viewState === 'yoy' || min < 0;
+        const positiveMax = Math.max(0, max);
+        const negativeMax = Math.abs(Math.min(0, min));
         const readable = (value) => String(fmt(value)).replace(/<[^>]*>/g, '');
         const aria = points
             .filter((point) => point.value !== null && Number.isFinite(point.value))
@@ -982,25 +988,44 @@
             .join(', ');
         const bars = points.map((point, index) => {
             if (point.value === null || !Number.isFinite(point.value)) {
-                return '<i class="stmt-mini-bar is-missing" aria-hidden="true"></i>';
+                return '<span class="stmt-mini-slot"><i class="stmt-mini-bar is-missing" aria-hidden="true"></i></span>';
             }
-            const height = span === 0 ? 17 : 7 + ((point.value - min) / span) * 21;
+            const height = signed
+                ? Math.max(3, (Math.abs(point.value) / (point.value < 0 ? (negativeMax || 1) : (positiveMax || 1))) * 13)
+                : (span === 0 ? 17 : 7 + ((point.value - min) / span) * 21);
             const latest = index === points.length - 1 ? ' is-latest' : '';
-            return `<i class="stmt-mini-bar${latest}" style="height:${height.toFixed(1)}px" title="${esc(point.period)}: ${esc(readable(point.value))}" aria-hidden="true"></i>`;
+            const direction = signed ? (point.value < 0 ? ' is-negative' : ' is-positive') : '';
+            return `<span class="stmt-mini-slot"><i class="stmt-mini-bar${direction}${latest}" style="height:${height.toFixed(1)}px" title="${esc(point.period)}: ${esc(readable(point.value))}" aria-hidden="true"></i></span>`;
         }).join('');
-        return `<span class="stmt-mini-bars" role="img" aria-label="${esc(basisState === 'annual' ? 'Five-year trend' : 'Five-quarter trend')}. ${esc(aria)}">${bars}</span>`;
+        const signedClass = signed ? ' is-signed' : '';
+        return `<span class="stmt-mini-bars${signedClass}" role="img" aria-label="${esc(basisState === 'annual' ? 'Five-year trend' : 'Five-quarter trend')}. ${esc(aria)}">${bars}</span>`;
+    }
+    function trendPeriodLabel() { return basisState === 'annual' ? '5Y' : '5Q'; }
+    function syncStatementTrendControls() {
+        const toggle = $('stmt-trend-toggle');
+        if (!toggle) return;
+        toggle.textContent = `${showStatementTrend ? 'Hide' : 'Show'} ${trendPeriodLabel()} trend`;
+        toggle.setAttribute('aria-pressed', String(showStatementTrend));
+    }
+    function setStatementTrendVisible(visible) {
+        showStatementTrend = Boolean(visible);
+        syncStatementTrendControls();
+        if (payload) renderStatements();
     }
     function renderStatements() {
         const rows = reports(stState, basisState);
         const table = $('stmt-table');
         if (!rows.length) { table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>'; return; }
         lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)) };
+        table.classList.toggle('trend-hidden', !showStatementTrend);
         const expanded = expandedGroups[stState] || new Set();
         const reportCur = reportingCurrency();
         const converted = Boolean(payload.currencyConversion && payload.currencyConversion.from && payload.currencyConversion.to === 'USD');
         let html = '<thead><tr><th class="row-head" style="text-align:left">' +
-            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) +
-            `</th><th style="width:96px">${basisState === 'annual' ? '5Y trend' : '5Q trend'}</th>`;
+            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) + '</th>';
+        if (showStatementTrend) {
+            html += `<th class="stmt-trend-head" style="width:96px"><span>${trendPeriodLabel()} trend</span><button class="stmt-trend-close" type="button" aria-label="Hide ${trendPeriodLabel()} trend" title="Hide trend">×</button></th>`;
+        }
         rows.forEach((r, i) => { html += `<th${i === rows.length - 1 ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`; });
         html += '</tr></thead><tbody>';
         let ri = 0;
@@ -1026,8 +1051,8 @@
                 ? `<button class="grp-caret" data-g="${def.parentOf}" aria-label="Expand components" title="Show the components">${expanded.has(def.parentOf) ? '▾' : '▸'}</button>`
                 : '';
             html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
-              <td class="row-head">${caret}${def.label}</td>
-              <td>${statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
+              <td class="row-head">${caret}${def.label}</td>`;
+            if (showStatementTrend) html += `<td>${statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
             vals.forEach((v, i) => {
                 const colCls = [
                     i === vals.length - 1 ? 'col-now' : '',
@@ -1040,6 +1065,12 @@
         }
         html += '</tbody>';
         table.innerHTML = html;
+        table.querySelector('.stmt-trend-close')?.addEventListener('click', (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            setStatementTrendVisible(false);
+        });
+        syncStatementTrendControls();
         const provenance = $('stmt-prov');
         if (provenance) {
             const mismatch = hasCurrencyMismatch();
@@ -1664,6 +1695,7 @@
         b.addEventListener('click', () => {
             document.querySelectorAll('#seg-basis button').forEach((x) => x.setAttribute('aria-pressed', x === b));
             basisState = b.dataset.basis;
+            syncStatementTrendControls();
             renderStatements();
         }));
     document.querySelectorAll('#seg-view button').forEach((b) =>
@@ -1672,6 +1704,11 @@
             viewState = b.dataset.view;
             renderStatements();
         }));
+    $('stmt-trend-toggle').addEventListener('click', () => setStatementTrendVisible(!showStatementTrend));
+    const compactTrendQuery = window.matchMedia('(max-width: 1024px)');
+    compactTrendQuery.addEventListener('change', (event) => {
+        if (!event.matches && !showStatementTrend) setStatementTrendVisible(true);
+    });
 
     // ---------- load ----------
     (async () => {

@@ -576,8 +576,8 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   color: #292822;
 }
 /* Keep the five-period summary beside the metric while fiscal years pan. */
-#stmt-table th:nth-child(2),
-#stmt-table td:nth-child(2) {
+#stmt-table:not(.trend-hidden) th:nth-child(2),
+#stmt-table:not(.trend-hidden) td:nth-child(2) {
   width: 84px;
   min-width: 84px;
   max-width: 84px;
@@ -589,19 +589,25 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   left: 228px;
   z-index: 2;
 }
-#stmt-table thead th:nth-child(2) { z-index: 4; }
-#stmt-table th:nth-child(n + 3),
-#stmt-table td:nth-child(n + 3) {
+#stmt-table:not(.trend-hidden) thead th:nth-child(2) { z-index: 4; }
+#stmt-table:not(.trend-hidden) th:nth-child(n + 3),
+#stmt-table:not(.trend-hidden) td:nth-child(n + 3),
+#stmt-table.trend-hidden th:nth-child(n + 2),
+#stmt-table.trend-hidden td:nth-child(n + 2) {
   width: var(--stmt-year-width, 112px);
   min-width: var(--stmt-year-width, 112px);
   max-width: var(--stmt-year-width, 112px);
 }
-#stmt-table tbody tr:nth-child(odd) td:not(.row-head):nth-child(2n + 3) { background: #fbfaf7; }
+#stmt-table:not(.trend-hidden) tbody tr:nth-child(odd) td:not(.row-head):nth-child(2n + 3),
+#stmt-table.trend-hidden tbody tr:nth-child(odd) td:not(.row-head):nth-child(2n + 2) { background: #fbfaf7; }
 #stmt-table tbody tr:nth-child(even) td:not(.row-head) { background: #f8f7f3; }
-#stmt-table tbody tr:nth-child(even) td:not(.row-head):nth-child(2n + 3) { background: #f5f3ed; }
+#stmt-table:not(.trend-hidden) tbody tr:nth-child(even) td:not(.row-head):nth-child(2n + 3),
+#stmt-table.trend-hidden tbody tr:nth-child(even) td:not(.row-head):nth-child(2n + 2) { background: #f5f3ed; }
 #stmt-table tbody tr:nth-child(even) .row-head { background: #f8f7f3; }
-#stmt-table th:nth-child(5n + 3),
-#stmt-table td:nth-child(5n + 3) { border-left: 2px solid #d2cec4; }
+#stmt-table:not(.trend-hidden) th:nth-child(5n + 3),
+#stmt-table:not(.trend-hidden) td:nth-child(5n + 3),
+#stmt-table.trend-hidden th:nth-child(5n + 2),
+#stmt-table.trend-hidden td:nth-child(5n + 2) { border-left: 2px solid #d2cec4; }
 #stmt-table .col-now {
   background: #edf2ea !important;
   border-left: 2px solid #87947e !important;
@@ -639,19 +645,71 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   gap: 4px;
   border-bottom: 1px solid #d6d3cb;
 }
+.stmt-mini-slot {
+  position: relative;
+  display: block;
+  flex: 0 0 8px;
+  width: 8px;
+  height: 29px;
+}
 .stmt-mini-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
   display: block;
   width: 8px;
   min-height: 4px;
   border-radius: 3px 3px 1px 1px;
   background: #bbb9b2;
 }
-.stmt-mini-bar.is-latest { background: var(--accent); }
+.stmt-mini-bar.is-latest:not(.is-negative) { background: var(--accent); }
+.stmt-mini-bars.is-signed {
+  position: relative;
+  align-items: stretch;
+  border-bottom: 0;
+}
+.stmt-mini-bars.is-signed::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  right: 0;
+  top: 14px;
+  border-top: 1px solid #d6d3cb;
+}
+.stmt-mini-bars.is-signed .stmt-mini-slot { z-index: 1; }
+.stmt-mini-bars.is-signed .stmt-mini-bar.is-positive { bottom: 15px; }
+.stmt-mini-bars.is-signed .stmt-mini-bar.is-negative {
+  top: 15px;
+  bottom: auto;
+  background: var(--neg);
+  border-radius: 1px 1px 3px 3px;
+}
 .stmt-mini-bar.is-missing {
+  top: auto;
+  bottom: 0;
   height: 4px;
   background: #e1ded7;
 }
+.stmt-mini-bars.is-signed .stmt-mini-bar.is-missing { top: 13px; bottom: auto; }
 .stmt-mini-empty { color: #aaa69d; }
+.stmt-trend-head > span { vertical-align: middle; }
+.stmt-trend-close {
+  display: none;
+  width: 26px;
+  height: 26px;
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--ink-3);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.stmt-trend-close:hover { background: #e7e4dc; color: var(--ink); }
 
 /* Wide list tables (screener results) → stacked cards on phones, so every
    metric is visible without horizontal scroll instead of clipped off-edge. */
@@ -925,7 +983,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .stmt-opts { position: relative; }
 .stmt-opts-menu {
   position: absolute; top: calc(100% + 6px); right: 0; z-index: 30;
-  width: 232px; max-width: calc(100vw - 32px);
+  width: 280px; max-width: calc(100vw - 32px);
   background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
   box-shadow: 0 14px 36px rgba(28, 27, 24, 0.16);
   padding: 14px 16px;
@@ -937,6 +995,29 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .stmt-opts-label + .seg { margin-bottom: 12px; }
 .stmt-opts-menu .seg { display: flex; width: 100%; }
 .stmt-opts-menu .seg button { flex: 1; }
+#seg-view {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+#seg-view button {
+  min-width: 0;
+  padding-left: 7px;
+  padding-right: 7px;
+  white-space: nowrap;
+}
+.stmt-trend-control { display: none; margin-top: 2px; }
+.stmt-trend-control .stmt-opts-label { margin-top: 2px; }
+.stmt-trend-control .btn { width: 100%; }
+@media (max-width: 1024px) {
+  .stmt-trend-control { display: block; }
+  .stmt-trend-close { display: inline-grid; place-items: center; }
+  #stmt-table:not(.trend-hidden) th:nth-child(2),
+  #stmt-table:not(.trend-hidden) td:nth-child(2) {
+    width: 104px;
+    min-width: 104px;
+    max-width: 104px;
+  }
+}
 /* Wide variant of the Options popover, for the Growth & returns and Documents
    "rest" — same right-anchored component, just wider with scrolling, and the
    nested cards/groups stripped so they read like the Options menu sections. */
@@ -1133,8 +1214,8 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
     min-width: 180px;
     max-width: 180px;
   }
-  #stmt-table th:nth-child(2),
-  #stmt-table td:nth-child(2) { left: 180px; }
+  #stmt-table:not(.trend-hidden) th:nth-child(2),
+  #stmt-table:not(.trend-hidden) td:nth-child(2) { left: 180px; }
   /* finger-friendly touch targets on phones (WCAG 2.5.5 / Apple HIG 44px) */
   .btn-sm { height: 44px; }
   .nav-search input { height: 44px; }
