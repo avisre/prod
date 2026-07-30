@@ -864,6 +864,34 @@
         }
         return out;
     }
+    function alignStatementYearColumns({ preservePosition = false } = {}) {
+        const table = $('stmt-table');
+        const wrap = $('stmt-wrap');
+        const rowHead = table && table.querySelector('.row-head');
+        if (!table || !wrap || !rowHead || !wrap.clientWidth) return;
+
+        const oldMax = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+        const wasAtLatest = oldMax === 0 || oldMax - wrap.scrollLeft <= 4;
+        const oldProgress = oldMax ? wrap.scrollLeft / oldMax : 1;
+        const rowHeadWidth = rowHead.getBoundingClientRect().width;
+        const availableForYears = Math.max(1, wrap.clientWidth - rowHeadWidth);
+        const completeYears = window.innerWidth <= 760
+            ? (availableForYears >= 176 ? 2 : 1)
+            : Math.max(3, Math.floor(availableForYears / 108));
+        table.style.setProperty('--stmt-year-width', `${availableForYears / completeYears}px`);
+
+        // Layout is synchronous for the width calculation. Preserve a reader's
+        // approximate history position on resize; initial renders remain pinned
+        // to the latest complete fiscal-year column.
+        const newMax = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+        wrap.scrollLeft = !preservePosition || wasAtLatest ? newMax : oldProgress * newMax;
+        const top = $('stmt-scroll-top');
+        if (top && top.firstElementChild) {
+            top.firstElementChild.style.width = wrap.scrollWidth + 'px';
+            top.scrollLeft = wrap.scrollLeft;
+        }
+        updateHbar(wrap);
+    }
     function renderStatements() {
         const rows = reports(stState, basisState);
         const table = $('stmt-table');
@@ -929,7 +957,7 @@
             });
         });
         const wrap = $('stmt-wrap');
-        wrap.scrollLeft = wrap.scrollWidth;
+        alignStatementYearColumns();
         // proxy scrollbar above the table mirrors the real one below
         const top = $('stmt-scroll-top');
         top.firstElementChild.style.width = wrap.scrollWidth + 'px';
@@ -986,7 +1014,14 @@
         wrap.addEventListener('scroll', () => updateHbar(wrap));
         if (!attachHScroll._resize) {
             attachHScroll._resize = true;
-            window.addEventListener('resize', () => document.querySelectorAll('.table-wrap.has-hbar').forEach(updateHbar));
+            let resizeTimer = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => {
+                    alignStatementYearColumns({ preservePosition: true });
+                    document.querySelectorAll('.table-wrap.has-hbar').forEach(updateHbar);
+                }, 100);
+            });
         }
         updateHbar(wrap);
     }

@@ -7,6 +7,14 @@ const companySource = fs.readFileSync(
   path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'company.js'),
   'utf8'
 );
+const systemCss = fs.readFileSync(
+  path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'system.css'),
+  'utf8'
+);
+const companyHtml = fs.readFileSync(
+  path.join(__dirname, '..', '..', 'frontend-v2', 'company.html'),
+  'utf8'
+);
 
 function incomeDefinitions() {
   const block = companySource.match(/income:\s*\[([\s\S]*?)\n\s*\],\n\s*\/\/ Macrotrends content/);
@@ -63,4 +71,20 @@ test('revenue components are hidden when collapsed and visible when expanded', (
   assert.deepEqual(children.map((definition) => definition.label), ['Cost of revenue', 'Gross margin']);
   assert.ok(children.every((definition) => !new Set().has(definition.gid)));
   assert.ok(children.every((definition) => new Set([revenue.parentOf]).has(definition.gid)));
+});
+
+test('financial statement columns have year lanes and whole-column sizing', () => {
+  assert.match(companySource, /function alignStatementYearColumns\(/);
+  assert.match(companySource, /availableForYears \/ completeYears/);
+  assert.match(companySource, /alignStatementYearColumns\(\);/);
+  assert.match(companySource, /alignStatementYearColumns\(\{ preservePosition: true \}\)/);
+  assert.match(systemCss, /#stmt-table tbody tr:nth-child\(even\)/);
+  assert.match(systemCss, /#stmt-table th:nth-child\(n \+ 3\)/);
+  assert.match(systemCss, /#stmt-table \.col-now/);
+  assert.match(systemCss, /content: "Latest"/);
+});
+
+test('company page cache-busts the approved statement assets together', () => {
+  assert.match(companyHtml, /assets\/system\.css\?v=20260730-statements1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260730-statements1/);
 });

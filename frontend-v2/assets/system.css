@@ -506,6 +506,109 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .table-data .row-rule td { border-bottom: 1px solid var(--line-strong); }
 .table-clickable tbody tr { cursor: pointer; }
 
+/* ---------- Financial-statement readability ----------
+   Keep the product's compact hierarchy while making each fiscal year a clear
+   visual lane. JavaScript chooses --stmt-year-width so the sticky metric label
+   never covers a partially visible year at the default latest-period position. */
+#stmt-wrap {
+  border-color: #d7d4cc;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(28, 27, 24, 0.05);
+}
+#stmt-table {
+  width: max-content;
+  min-width: 100%;
+  background: #fff;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+#stmt-table th,
+#stmt-table td {
+  box-sizing: border-box;
+  min-width: 112px;
+  padding: 12px 16px;
+  border-right: 1px solid #e8e5de;
+  border-bottom: 1px solid #e8e5de;
+  letter-spacing: 0.005em;
+}
+#stmt-table th:last-child,
+#stmt-table td:last-child { border-right: 0; }
+#stmt-table thead th {
+  height: 54px;
+  background: #f3f1ec;
+  border-bottom: 2px solid #c9c5bb;
+  color: #5d5a52;
+  font-size: 11px;
+  letter-spacing: 0.075em;
+  vertical-align: middle;
+}
+#stmt-table .row-head {
+  width: 228px;
+  min-width: 228px;
+  max-width: 228px;
+  padding-left: 18px;
+  border-right: 2px solid #c9c5bb;
+  background: #fff;
+  box-shadow: 8px 0 14px -14px rgba(28, 27, 24, 0.65);
+}
+#stmt-table thead .row-head {
+  z-index: 5;
+  background: #f3f1ec;
+  color: #292822;
+}
+/* Trend scrolls away with older periods, but remains visually distinct when
+   the user pans to the beginning of the statement. */
+#stmt-table th:nth-child(2),
+#stmt-table td:nth-child(2) {
+  width: 84px;
+  min-width: 84px;
+  max-width: 84px;
+  padding-left: 10px;
+  padding-right: 10px;
+  background: #faf9f6;
+  border-right: 2px solid #c9c5bb;
+}
+#stmt-table th:nth-child(n + 3),
+#stmt-table td:nth-child(n + 3) {
+  width: var(--stmt-year-width, 112px);
+  min-width: var(--stmt-year-width, 112px);
+  max-width: var(--stmt-year-width, 112px);
+}
+#stmt-table tbody tr:nth-child(odd) td:not(.row-head):nth-child(2n + 3) { background: #fbfaf7; }
+#stmt-table tbody tr:nth-child(even) td:not(.row-head) { background: #f8f7f3; }
+#stmt-table tbody tr:nth-child(even) td:not(.row-head):nth-child(2n + 3) { background: #f5f3ed; }
+#stmt-table tbody tr:nth-child(even) .row-head { background: #f8f7f3; }
+#stmt-table th:nth-child(5n + 3),
+#stmt-table td:nth-child(5n + 3) { border-left: 2px solid #d2cec4; }
+#stmt-table .col-now {
+  background: #edf2ea !important;
+  border-left: 2px solid #87947e !important;
+  color: #1f2b1d;
+  font-weight: 700;
+}
+#stmt-table thead .col-now::after {
+  content: "Latest";
+  display: block;
+  margin-top: 3px;
+  color: #65715f;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+}
+#stmt-table tbody tr.grp-parent td,
+#stmt-table tbody tr.row-rule td { border-top: 1px solid #d2cec4; }
+#stmt-table tbody tr.grp-parent .row-head,
+#stmt-table tbody tr.row-rule .row-head { font-weight: 650; }
+#stmt-table .row-sub .row-head {
+  padding-left: 36px;
+  color: #6b675e;
+}
+#stmt-table tbody tr:hover td,
+#stmt-table tbody tr:hover .row-head { background: #f0ede5 !important; }
+#stmt-table tbody tr:hover .col-now { background: #e2eadf !important; }
+#stmt-table td { color: #2d2b26; }
+
 /* Wide list tables (screener results) → stacked cards on phones, so every
    metric is visible without horizontal scroll instead of clipped off-edge. */
 @media (max-width: 640px) {
@@ -980,8 +1083,12 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   .table-data .row-head { max-width: 150px; }
   /* Financial statement table: keep full desktop spacing on phones too — the
      mobile-condensing treatment is removed for this table on request. */
-  #stmt-table th, #stmt-table td { padding: 9px 14px; }
-  #stmt-table .row-head { max-width: 230px; }
+  #stmt-table th, #stmt-table td { min-width: 104px; padding: 11px 13px; }
+  #stmt-table .row-head {
+    width: 180px;
+    min-width: 180px;
+    max-width: 180px;
+  }
   /* finger-friendly touch targets on phones (WCAG 2.5.5 / Apple HIG 44px) */
   .btn-sm { height: 44px; }
   .nav-search input { height: 44px; }
