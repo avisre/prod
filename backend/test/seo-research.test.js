@@ -4,6 +4,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const extra = require('../seo-extra');
 const seo = require('../seo-pages');
+const competitorComparisons = require('../comparison-pages');
 
 test('high-opportunity metric pages contain answer-first analysis, chart, sources and CSV', () => {
     for (const [symbol, metric] of [['AAPL', 'shares-outstanding'], ['MSFT', 'pe-ratio'], ['NVDA', 'dividend-history']]) {
@@ -25,6 +26,21 @@ test('metric CSV is raw, escaped, and preserves fiscal periods', () => {
     assert.match(csv, /"AAPL","2025","2025-09-30"/);
     assert.ok(csv.trim().split('\n').length >= 3);
     assert.equal(extra.metricCsv('AAPL', 'not-a-metric'), null);
+});
+
+test('stock comparison pages use the shared authenticated navbar', () => {
+    const page = extra.renderComparePage('LB-vs-MUR');
+    assert.ok(page && page.html);
+    assert.match(page.html, /assets\/system\.css\?v=20260730-ssrnav1/);
+    assert.match(page.html, /assets\/app\.js\?v=20260730-ssrnav1/);
+    assert.match(page.html, /V2\.nav\("compare"\)/);
+    assert.match(page.html, /window\.__spSkipAutoPageView=true/);
+    assert.doesNotMatch(page.html, /id="seoNavCta"|<header class="seo-nav"/);
+
+    const competitorPage = competitorComparisons.renderComparison(competitorComparisons.competitors[0]);
+    assert.match(competitorPage, /assets\/system\.css\?v=20260730-ssrnav1/);
+    assert.match(competitorPage, /V2\.nav\('compare'\)/);
+    assert.doesNotMatch(competitorPage, /<header class="seo-nav"/);
 });
 
 test('research hubs are canonical, source-backed and internally connected', () => {

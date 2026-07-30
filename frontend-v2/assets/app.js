@@ -38,11 +38,13 @@
     };
 
     // ---------- first-party page-view ping (anonymous, signed session) ----------
-    try {
-        const pv = JSON.stringify({ path: location.pathname, referrer: document.referrer });
-        const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/page_view', new Blob([pv], { type: 'application/json' }));
-        if (!sent) fetch('/api/track/page_view', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: pv, keepalive: true }).catch(() => {});
-    } catch (_) { /* never block the page */ }
+    if (!window.__spSkipAutoPageView) {
+        try {
+            const pv = JSON.stringify({ path: location.pathname, referrer: document.referrer });
+            const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/page_view', new Blob([pv], { type: 'application/json' }));
+            if (!sent) fetch('/api/track/page_view', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: pv, keepalive: true }).catch(() => {});
+        } catch (_) { /* never block the page */ }
+    }
 
     // ---------- formatters ----------
     function num(v) {

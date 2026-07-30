@@ -296,7 +296,7 @@ function renderMetricPage(ticker, slug) {
     if (slug === 'dividend-history') interpretation += ' This page measures cash dividends reported in the cash-flow statement; the per-share figure is approximate and may differ from declared dividends.';
     const summaryCards = `<div class="seo-grid"><div class="seo-tile"><div class="l">Latest filed value</div><div class="v">${esc(latestVal === null ? '—' : m.fmt(latestVal))}</div></div><div class="seo-tile"><div class="l">One-year change</div><div class="v">${esc(signedPct(oneYear))}</div></div><div class="seo-tile"><div class="l">Change since ${esc(fiveYearRow?.year || y0)}</div><div class="v">${esc(signedPct(fiveYear))}</div></div><div class="seo-tile"><div class="l">Latest period end</div><div class="v" style="font-size:16px">${esc(usable[0]?.period || usable[0]?.year || '—')}</div></div></div>`;
 
-    return head(title, description, canonical, jsonld) + nav() + `
+    return head(title, description, canonical, jsonld) + nav('company') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / ${esc(m.label)}</div>
   <h1 class="seo-h1">${esc(name)} ${esc(m.label)} <span style="color:var(--ink3);font-weight:600">${esc(y0)}–${esc(y1)}</span></h1>
@@ -548,7 +548,7 @@ function renderCompareIndex() {
     }).join('');
     const datalist = universeOptions();
     const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical, publisher: { '@id': `${SITE}/#org` } });
-    return head(title, description, canonical, jsonld) + nav() + `
+    return head(title, description, canonical, jsonld) + nav('compare') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Compare</div>
   <h1 class="seo-h1">Compare any two US stocks</h1>
@@ -794,7 +794,7 @@ function renderComparePage(pairSlug) {
   })();
   </script>`;
 
-    return { html: head(title, description, canonical, jsonld) + nav() + `
+    return { html: head(title, description, canonical, jsonld) + nav('compare') + `
 <main class="seo-wrap">
   <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}</style>
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
@@ -1062,7 +1062,7 @@ function renderScreenPage(slug) {
     </div>
     <a class="seo-cta-btn" href="/register?plan=monthly">Try the AI analyst free — no card</a>
   </div>`;
-    return head(title, description, canonical, jsonld) + nav() + `
+    return head(title, description, canonical, jsonld) + nav('screener') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Screens / ${esc(s.h1)}</div>
   <h1 class="seo-h1">${esc(s.h1)} <span style="color:var(--ink3);font-weight:600">(${year})</span></h1>
@@ -1139,6 +1139,6 @@ function sitemapUrls() {
 
 module.exports = {
     router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS,
-    renderMetricPage, metricCsv, dilutionRows, dilutionCsv,
+    renderMetricPage, renderComparePage, renderCompareIndex, metricCsv, dilutionRows, dilutionCsv,
     renderSharesResearch, renderPeResearch, renderDilutionScorecard
 };

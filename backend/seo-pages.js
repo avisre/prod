@@ -159,6 +159,7 @@ function head(title, description, canonical, jsonld) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+<link rel="stylesheet" href="/assets/system.css?v=20260730-ssrnav1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -208,22 +209,13 @@ function head(title, description, canonical, jsonld) {
 </head><body>`;
 }
 
-function nav() {
-    return `<header class="seo-nav">
-  <a class="brand" href="/"><img src="/Media/icon.png" alt="stockportfolio.pro logo" />stockportfolio.pro</a>
-  <div class="seo-nav-links" style="display:flex;align-items:center;gap:16px">
-    <a href="/stocks" style="font-size:13px;font-weight:500">Stocks</a>
-    <a href="/screener" style="font-size:13px;font-weight:500">Screener</a>
-    <a class="seo-nav-hide-mobile" href="/tools" style="font-size:13px;font-weight:500">Tools</a>
-    <a class="seo-nav-hide-mobile" href="/research/shares-outstanding" style="font-size:13px;font-weight:500">Research</a>
-    <a class="seo-nav-hide-mobile" href="/compare" style="font-size:13px;font-weight:500">Compare</a>
-    <a class="seo-nav-hide-mobile" href="/gurus" style="font-size:13px;font-weight:500">Gurus</a>
-    <a class="seo-nav-hide-mobile" href="/methodology" style="font-size:13px;font-weight:500">Methodology</a>
-    <a class="seo-nav-hide-mobile" href="/#pricing" style="font-size:13px;font-weight:500">Pricing</a>
-    <a id="seoNavCta" class="seo-cta-btn" href="/register?plan=monthly">Start 7-day free trial</a>
-  </div>
-</header>
-<script>(function(){try{var t=localStorage.getItem('token');if(!t)return;var p=t.split('.')[1];if(!p)return;var c=JSON.parse(atob(p.replace(/-/g,'+').replace(/_/g,'/')));if(c&&c.exp&&c.exp*1000<Date.now())return;var el=document.getElementById('seoNavCta');if(el){el.textContent='Dashboard';el.setAttribute('href','/dashboard');}}catch(e){}})();</script>`;
+function nav(current = '') {
+    const active = ['screener', 'tools', 'compare', 'company', 'news', 'ask', 'dossier', 'monitor', 'dashboard', 'gurus', 'pricing'].includes(current)
+        ? current
+        : '';
+    // SEO pages retain their own source-aware page-view beacon in footer().
+    // The flag prevents the shared runtime from recording the same view twice.
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260730-ssrnav1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -602,7 +594,7 @@ function renderStockPage(ticker) {
         }
     } catch (_) { /* page renders without the take */ }
 
-    return head(title, description, canonical, jsonld) + faqLdTag + nav() + `
+    return head(title, description, canonical, jsonld) + faqLdTag + nav('company') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
   <h1 class="seo-h1">${esc(name)} <span style="color:var(--muted);font-weight:600">(${esc(sym)})</span> Stock Analysis</h1>
@@ -648,7 +640,7 @@ function renderStockIndex() {
         const links = bySector[sec].map((c) => `<a href="/stocks/${esc(c.symbol)}" title="${esc(c.name)}">${esc(c.symbol)} <span style="color:var(--muted)">${esc(c.name)}</span></a>`).join('');
         return `<div class="seo-section"><h2>${esc(sec)}</h2><div class="seo-links">${links}</div></div>`;
     }).join('');
-    return head(title, description, canonical, jsonld) + nav() + `
+    return head(title, description, canonical, jsonld) + nav('company') + `
 <main class="seo-wrap">
   <h1 class="seo-h1">Stock fundamentals directory</h1>
   <p class="seo-sub">Revenue, earnings, valuation and financial statements for 1,500+ US-listed companies. Pick a ticker to see its snapshot, or start a free trial for full statements and portfolio tracking.</p>
