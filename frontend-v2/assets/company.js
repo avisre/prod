@@ -23,6 +23,28 @@
 
     const $ = (id) => document.getElementById(id);
 
+    function currencyCode(value, fallback = 'USD') {
+        const code = String(value || fallback).trim().toUpperCase();
+        return /^[A-Z]{3}$/.test(code) ? code : fallback;
+    }
+    function currencyAmount(value, currency, { compact = true, decimals = 2 } = {}) {
+        const n = num(value);
+        if (n === null) return '—';
+        const code = currencyCode(currency);
+        const body = compact ? money(n) : fixed(n, decimals);
+        // Keep the familiar dollar mark for USD. ISO codes are deliberate for
+        // every other currency: ¥ is ambiguous between JPY and CNY, and a bare
+        // number previously made foreign quotes look like dollars.
+        return code === 'USD' ? `$${body}` : `${body}\u00a0${code}`;
+    }
+    function currencyRange(low, high, currency) {
+        const lo = num(low); const hi = num(high);
+        if (lo === null || hi === null) return '—';
+        const code = currencyCode(currency);
+        const values = `${fixed(lo, 0)}–${fixed(hi, 0)}`;
+        return code === 'USD' ? `$${values}` : `${values}\u00a0${code}`;
+    }
+
     function fundPct(value, dp = 2) {
         const n = num(value);
         return n === null ? '—' : `${(n * 100).toFixed(dp)}%`;
@@ -38,11 +60,11 @@
         section.hidden = false;
         $('co-name').textContent = p.name || symbol;
         $('co-crumb').textContent = [symbol, p.assetTypeLabel, p.category, p.exchange].filter(Boolean).join(' · ');
-        $('co-price').textContent = p.price === null ? '—' : `${p.currency === 'USD' ? '$' : ''}${fixed(p.price, 2)}`;
+        $('co-price').textContent = currencyAmount(p.price, p.currency, { compact: false });
         $('co-change').textContent = p.changePercent === null ? '—' : `${p.changePercent >= 0 ? '+' : ''}${fixed(p.changePercent, 2)}% today`;
         $('co-change').className = `small num ${p.changePercent >= 0 ? 'delta-pos' : 'delta-neg'}`;
         const stats = [
-            ['Net assets', p.totalAssets === null ? '—' : '$' + money(p.totalAssets)],
+            ['Net assets', currencyAmount(p.totalAssets, p.currency)],
             ['Expense ratio', fundPct(p.expenseRatio)], ['Yield', fundPct(p.yield)],
             ['YTD return', fundPct(p.ytdReturn)], ['3-year return', fundPct(p.returns && p.returns.threeYear)],
             ['5-year return', fundPct(p.returns && p.returns.fiveYear)],
@@ -58,7 +80,7 @@
         const sectors = (p.allocations && p.allocations.sectors || []).map((s) => [s.name, s.weight]);
         const monthly = (data.monthly && data.monthly['Monthly Adjusted Time Series']) || {};
         const points = Object.keys(monthly).sort().slice(-120).map((d) => [d, num(monthly[d]['5. adjusted close'] || monthly[d]['4. close'])]).filter((x) => x[1] !== null);
-        const chartHtml = points.length > 1 ? chart([{ values: points.map((x) => x[1]), cls: 'accent' }], points.map((x) => x[0].slice(0, 7)), { fmt: (v) => '$' + fixed(v, 0), height: 230 }) : '';
+        const chartHtml = points.length > 1 ? chart([{ values: points.map((x) => x[1]), cls: 'accent' }], points.map((x) => x[0].slice(0, 7)), { fmt: (v) => currencyAmount(v, p.currency, { compact: false, decimals: 0 }), height: 230 }) : '';
         section.innerHTML = `
           <div class="section-head"><div><span class="label">${esc(p.assetTypeLabel || 'Fund')} research</span><h2 class="title-2" style="margin-top:5px;">Costs, composition and performance</h2></div><span class="small faint">${esc(p.fundFamily || '')}</span></div>
           <div class="fund-grid">${stats.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div>
@@ -72,7 +94,7 @@
             <div class="prose" id="fund-ai-body" hidden></div>
             <div id="fund-ai-share"></div>
           </div>
-          <p class="provenance" style="margin-top:24px;">Source: ${esc(p.source || 'market data provider')}. Fund holdings and characteristics can be reported on different dates. Returns are trailing provider figures; verify the prospectus before making a decision.</p>`;
+          <p class="provenance" style="margin-top:24px;">Source: ${esc(p.source || 'market data provider')}. Price and net assets are shown in ${esc(currencyCode(p.currency))}. Fund holdings and characteristics can be reported on different dates. Returns are trailing provider figures; verify the prospectus before making a decision.</p>`;
         $('fund-ai-btn').addEventListener('click', async () => {
             const button = $('fund-ai-btn');
             const body = $('fund-ai-body');
@@ -209,6 +231,23 @@
     let sharesByPeriod = new Map();
     let lastRender = { rows: [], periods: [] };
 
+    function quoteCurrency(data = payload) {
+        return currencyCode((data && data.overview && data.overview.Currency) || 'USD');
+    }
+    function reportingCurrency(data = payload) {
+        if (!data) return 'USD';
+        for (const statement of ['income', 'balance', 'cash']) {
+            for (const period of ['annualReports', 'quarterlyReports']) {
+                const row = (((data[statement] || {})[period]) || []).find((item) => item && item.reportedCurrency);
+                if (row) return currencyCode(row.reportedCurrency);
+            }
+        }
+        return quoteCurrency(data);
+    }
+    function hasCurrencyMismatch(data = payload) {
+        return quoteCurrency(data) !== reportingCurrency(data);
+    }
+
     // ---------- data joins ----------
     function annualJoined() {
         const by = new Map();
@@ -265,7 +304,7 @@
         document.title = `${ov.Name || symbol} (${symbol}) — 19 years of financials | stockportfolio.pro`;
         const price = num(q['05. price']);
         const chPct = num(String(q['10. change percent'] || '').replace('%', ''));
-        $('co-price').textContent = price !== null ? '$' + fixed(price, 2) : '';
+        $('co-price').textContent = price !== null ? currencyAmount(price, quoteCurrency(), { compact: false }) : '';
         const chEl = $('co-change');
         if (chPct !== null) {
             chEl.textContent = (chPct >= 0 ? '+' : '') + chPct.toFixed(2) + '% today';
@@ -279,7 +318,10 @@
     // reads in market-cap terms — price tick × current share count.
     function dualChart(price, cap, labels, fmtPrimary, capAxisMult) {
         const { W, H, padL, padR, padT, padB } = GEOM;
-        const fmtP = fmtPrimary || ((v) => '$' + (v >= 100 ? Math.round(v) : v.toFixed(1)));
+        const fmtP = fmtPrimary || ((v) => currencyAmount(v, quoteCurrency(), {
+            compact: false,
+            decimals: v >= 100 ? 0 : 1
+        }));
         const scale = (vals) => {
             const vs = vals.filter((v) => v !== null && Number.isFinite(v));
             let min = Math.min(...vs); let max = Math.max(...vs);
@@ -301,9 +343,9 @@
             g += `<text x="${W - padR + 8}" y="${(yy + 3.5).toFixed(1)}" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(fmtP(pv))}</text>`;
             if (sc) {
                 const cv = sc.min + fr * (sc.max - sc.min);
-                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${money(cv, 1)}</text>`;
+                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(cv, quoteCurrency()))}</text>`;
             } else if (capAxisMult) {
-                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${money(pv * capAxisMult, 1)}</text>`;
+                g += `<text x="${padL - 8}" y="${(yy + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(currencyAmount(pv * capAxisMult, quoteCurrency()))}</text>`;
             }
         }
         // solid axis borders: left and bottom only — the right edge stays open
@@ -385,6 +427,15 @@
     }
     function renderMainChart() {
         const series = monthlySeries(payload);
+        const mixedCurrencies = hasCurrencyMismatch();
+        const peButton = document.querySelector('#seg-chart button[data-cm="pe"]');
+        if (peButton) peButton.hidden = mixedCurrencies;
+        if (mixedCurrencies && chartMode === 'pe') {
+            chartMode = 'price';
+            document.querySelectorAll('#seg-chart button').forEach((button) =>
+                button.setAttribute('aria-pressed', String(button.dataset.cm === 'price')));
+        }
+        if (mixedCurrencies) showCap = false;
         if (chartMode === 'price') {
             // 6M uses the daily series; longer ranges use monthly
             const useDaily = rangeYears < 1;
@@ -399,21 +450,23 @@
                 : win.map((p) => p.month.slice(0, 4));
             let seen = '';
             const yl = rawLabels.map((y) => { if (y === seen) return ''; seen = y; return y; });
-            const cap = (showCap && sharesByPeriod.size)
+            const cap = (!mixedCurrencies && showCap && sharesByPeriod.size)
                 ? win.map((p) => { const s = sharesAt(p.month.slice(0, 7)); return s ? p.close * s : null; })
                 : null;
             // left axis ALWAYS reads in market cap — via the live cap line
             // when shown, otherwise price × the current share count
-            const sharesNow = sharesByPeriod.size ? sharesAt('9999-12') : null;
+            const sharesNow = !mixedCurrencies && sharesByPeriod.size ? sharesAt('9999-12') : null;
             $('main-chart').innerHTML = dualChart(price, cap, yl, null, cap ? null : sharesNow);
             const fmtPoint = useDaily
                 ? (m) => new Date(m + 'T12:00').toLocaleString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
                 : (m) => new Date(m + '-15').toLocaleString('en-US', { month: 'short', year: 'numeric' });
             wireChartHover(win.map((p) => ({
                 label: fmtPoint(p.month),
-                lines: ['$' + fixed(p.close, 2)] // price only — the cap reads off the left axis
+                lines: [currencyAmount(p.close, quoteCurrency(), { compact: false })] // price only — the cap reads off the left axis
             })));
-            $('chart-prov').textContent = cap
+            $('chart-prov').textContent = mixedCurrencies
+                ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the statements are reported in ${reportingCurrency()}; combining them without period-specific FX and depositary-share ratios would be misleading.`
+                : cap
                 ? 'Price (right axis): split-adjusted — ink. Market cap (left axis): price × that fiscal year’s filed share count — blue. Where the lines drift apart, buybacks or dilution is why.'
                 : `Price (right axis): ${useDaily ? 'daily' : 'monthly'}, split-adjusted. Left axis: the equivalent market cap at today’s share count.`;
         } else {
@@ -438,7 +491,7 @@
             wireChartHover(v.map((pe, i) => ({ label: l[i], lines: [Math.round(pe * 10) / 10 + '× earnings'] })));
             $('chart-prov').textContent = 'P/E by fiscal year: average monthly close across the year ÷ that year’s diluted EPS, both split-adjusted.';
         }
-        $('cap-toggle').hidden = chartMode !== 'price';
+        $('cap-toggle').hidden = chartMode !== 'price' || mixedCurrencies;
         $('chart-block').hidden = false;
     }
     $('cap-toggle').addEventListener('click', () => {
@@ -474,18 +527,20 @@
         const fcf = fcfOf(cf);
         const sh = num(bal.commonStockSharesOutstanding);
         const bps = (num(bal.totalShareholderEquity) !== null && sh) ? num(bal.totalShareholderEquity) / sh : null;
+        const quoteCur = quoteCurrency();
+        const reportCur = reportingCurrency();
         const items = [
-            ['Market cap', money(ov.MarketCapitalization)],
+            ['Market cap', currencyAmount(ov.MarketCapitalization, quoteCur)],
             ['P/E', fixed(ov.PERatio, 1)],
-            [`Revenue ${fy}`, money(d.rev)],
+            [`Revenue ${fy}`, currencyAmount(d.rev, reportCur)],
             ['Forward P/E', fixed(ov.ForwardPE, 1)],
             ['Net margin', pctFmt(nm)],
             ['Dividend yield', ov.DividendYield ? pct(num(ov.DividendYield) * 100, 2) : '—'],
             ['Return on equity', pctFmt(roe)],
-            ['EPS, diluted', num(inc.dilutedEPS) === null ? '—' : '$' + fixed(inc.dilutedEPS, 2)],
-            ['Free cash flow', money(fcf)],
-            ['52-week range', (ov['52WeekLow'] && ov['52WeekHigh']) ? `${fixed(ov['52WeekLow'], 0)}–${fixed(ov['52WeekHigh'], 0)}` : '—'],
-            ['Book value / share', bps === null ? '—' : '$' + fixed(bps, 2)],
+            ['EPS, diluted', currencyAmount(inc.dilutedEPS, reportCur, { compact: false })],
+            ['Free cash flow', currencyAmount(fcf, reportCur)],
+            ['52-week range', currencyRange(ov['52WeekLow'], ov['52WeekHigh'], quoteCur)],
+            ['Book value / filed share', currencyAmount(bps, reportCur, { compact: false })],
             ['Fiscal year end', ov.FiscalYearEnd || (last.end ? new Date(last.end).toLocaleString('en-US', { month: 'short' }) : '—')]
         ];
         $('kv-grid').innerHTML = items.map(([l, v]) =>
@@ -562,10 +617,10 @@
         const cashRaw = get(last, 'balance', 'cashAndCashEquivalentsAtCarryingValue');
         const cash = (cashRaw || 0) + (get(last, 'balance', 'shortTermInvestments') || 0);
         const debt = debtOf(last.balance || {});
-        add('More cash than total debt', cashRaw === null ? null : cash > (debt || 0), `${money(cash)} vs ${money(debt || 0)}`);
+        add('More cash than total debt', cashRaw === null ? null : cash > (debt || 0), `${currencyAmount(cash, reportingCurrency())} vs ${currencyAmount(debt || 0, reportingCurrency())}`);
         add('Operating cash flow positive, five years', span(5).length >= 5 ? span(5).every((y) => (get(y, 'cash', 'operatingCashflow') || 0) > 0) : null, '');
         const fcfN = fcfOf(last.cash || {});
-        add('Free cash flow positive, latest year', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : money(fcfN));
+        add('Free cash flow positive, latest year', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : currencyAmount(fcfN, reportingCurrency()));
         const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
         const shWin = span(Math.min(6, years.length)).filter((y) => sh(y) !== null);
         if (shWin.length >= 3) {
@@ -595,13 +650,15 @@
     // Filing diff ("What changed") moved to the Filing Monitor page — removed here.
 
     // ---------- ③b what's priced in (reverse DCF) ----------
-    const bn = (v) => (v === null || v === undefined) ? '—'
-        : (Math.abs(v) >= 1e12 ? '$' + (v / 1e12).toFixed(2) + 'T'
-            : Math.abs(v) >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B'
-                : '$' + (v / 1e6).toFixed(0) + 'M');
+    const bn = (v) => currencyAmount(v, quoteCurrency());
     const gp = (v) => v === null || v === undefined ? '—' : (v >= 0 ? '+' : '') + v.toFixed(1) + '%/yr';
     async function loadReverseDcf(opts = {}) {
         const sec = $('rdcf-section'); const body = $('rdcf-body'); const rule = $('rdcf-rule');
+        if (hasCurrencyMismatch()) {
+            body.innerHTML = `<p class="small muted" style="max-width:72ch;">Unavailable for this listing: its market quote is in <strong>${esc(quoteCurrency())}</strong>, while its financial statements are reported in <strong>${esc(reportingCurrency())}</strong>. A defensible reverse DCF would require period-specific FX rates and the listing’s depositary-share ratio; silently mixing the two currencies would produce a false result.</p>`;
+            sec.hidden = false; rule.hidden = false;
+            return;
+        }
         const teaser = () => {
             body.innerHTML = `<p class="small muted" style="max-width:64ch;">What growth rate does today's price assume? We solve it from the filings and put it next to the company's actual record — <a href="/login.html">log in</a> or <a href="/register.html">start a trial</a> to see it.</p>`;
             sec.hidden = false; rule.hidden = false;
@@ -726,9 +783,9 @@
     }
 
     const CMP_METRICS = [
-        { label: 'Market cap', get: (p) => money((p.overview || {}).MarketCapitalization) },
+        { label: 'Market cap', get: (p) => currencyAmount((p.overview || {}).MarketCapitalization, quoteCurrency(p)) },
         { label: 'P/E', get: (p) => fixed((p.overview || {}).PERatio, 1) },
-        { label: 'Revenue (latest FY)', get: (p) => money(derive(((p.income || {}).annualReports || [])[0] || {}).rev) },
+        { label: 'Revenue (latest FY)', get: (p) => currencyAmount(derive(((p.income || {}).annualReports || [])[0] || {}).rev, reportingCurrency(p)) },
         { label: 'Revenue CAGR (5y)', get: (p) => { const a = ((p.income || {}).annualReports || []); const b = Math.min(5, a.length - 1); const c = cagr(derive(a[b] || {}).rev, derive(a[0] || {}).rev, b); return c === null ? '—' : signedPct(c); } },
         { label: 'Gross margin', get: (p) => { const r = ((p.income || {}).annualReports || [])[0] || {}; const d = derive(r); return pctFmt(ratio(d.gp, d.rev)); } },
         { label: 'Net margin', get: (p) => { const r = ((p.income || {}).annualReports || [])[0] || {}; return pctFmt(ratio(num(r.netIncome), derive(r).rev)); } },
@@ -898,8 +955,9 @@
         if (!rows.length) { table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>'; return; }
         lastRender = { rows: [], periods: rows.map((r) => periodLabel(r, basisState)) };
         const expanded = expandedGroups[stState] || new Set();
+        const reportCur = reportingCurrency();
         let html = '<thead><tr><th class="row-head" style="text-align:left">' +
-            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? 'Per share' : 'USD') +
+            (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · reported`) +
             '</th><th style="width:96px">Trend</th>';
         rows.forEach((r, i) => { html += `<th${i === rows.length - 1 ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`; });
         html += '</tr></thead><tbody>';
@@ -941,6 +999,13 @@
         }
         html += '</tbody>';
         table.innerHTML = html;
+        const provenance = $('stmt-prov');
+        if (provenance) {
+            const mismatch = hasCurrencyMismatch();
+            provenance.textContent = `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. ` +
+                (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}. ` : '') +
+                'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Per-share figures and share counts are adjusted to the current split basis. ▸ unfolds a total into its components.';
+        }
         // Tapping anywhere on a parent row toggles its component group. The ▸
         // glyph alone is only ~12×18px — far too small to hit on a phone, which
         // is why "unfold" felt broken on mobile. The whole row is the target now.
@@ -1521,7 +1586,7 @@
     // ---------- CSV ----------
     $('csv-btn').addEventListener('click', () => {
         if (!lastRender.rows.length) return;
-        const head = ['Metric'].concat(lastRender.periods).join(',');
+        const head = [`Metric (${viewState === 'yoy' ? 'percent' : reportingCurrency()})`].concat(lastRender.periods).join(',');
         const lines = lastRender.rows.map((row) =>
             [JSON.stringify(row.label)].concat(row.vals.map((v) => v === null ? '' : v)).join(','));
         const blob = new Blob([[head].concat(lines).join('\n')], { type: 'text/csv' });

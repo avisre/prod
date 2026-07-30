@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260730-statements1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260730-currency1" />
 </head>
 <body>
   <main>
@@ -147,7 +147,7 @@
                 </div>
                 <p class="stmt-opts-label">Units</p>
                 <div class="seg" id="seg-view" role="group" aria-label="View">
-                  <button aria-pressed="true" data-view="usd">$</button>
+                  <button aria-pressed="true" data-view="usd">Reported</button>
                   <button aria-pressed="false" data-view="yoy">Growth</button>
                   <button aria-pressed="false" data-view="ps">Per share</button>
                 </div>
@@ -160,7 +160,7 @@
         <div class="table-wrap" id="stmt-wrap">
           <table class="table-data" id="stmt-table"></table>
         </div>
-        <p class="provenance">All figures in USD from SEC filings (10-K/10-Q), as filed. Per-share figures and share counts adjusted to the current split basis. ▸ unfolds a total into its components.</p>
+        <p class="provenance" id="stmt-prov">Financial-statement currency is loading…</p>
         <div id="cagr-collapse" hidden style="margin-top:24px;">
           <div class="section-head" style="margin-bottom:12px;">
             <h3 class="title-3" style="margin:0;">Growth &amp; returns</h3>
@@ -286,6 +286,6 @@
   </aside>
 
   <script src="assets/app.js?v=20260730-attribution1"></script>
-  <script src="assets/company.js?v=20260730-statements1"></script>
+  <script src="assets/company.js?v=20260730-currency1"></script>
 </body>
 </html>
