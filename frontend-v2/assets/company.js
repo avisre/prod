@@ -938,13 +938,15 @@
         const table = $('stmt-table');
         const wrap = $('stmt-wrap');
         const rowHead = table && table.querySelector('.row-head');
-        if (!table || !wrap || !rowHead || !wrap.clientWidth) return;
+        const trendHead = table && table.querySelector('thead th:nth-child(2)');
+        if (!table || !wrap || !rowHead || !trendHead || !wrap.clientWidth) return;
 
         const oldMax = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
         const wasAtLatest = oldMax === 0 || oldMax - wrap.scrollLeft <= 4;
         const oldProgress = oldMax ? wrap.scrollLeft / oldMax : 1;
         const rowHeadWidth = rowHead.getBoundingClientRect().width;
-        const availableForYears = Math.max(1, wrap.clientWidth - rowHeadWidth);
+        const trendWidth = trendHead.getBoundingClientRect().width;
+        const availableForYears = Math.max(1, wrap.clientWidth - rowHeadWidth - trendWidth);
         const completeYears = window.innerWidth <= 760
             ? (availableForYears >= 176 ? 2 : 1)
             : Math.max(3, Math.floor(availableForYears / 108));
@@ -955,12 +957,38 @@
         // to the latest complete fiscal-year column.
         const newMax = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
         wrap.scrollLeft = !preservePosition || wasAtLatest ? newMax : oldProgress * newMax;
-        const top = $('stmt-scroll-top');
-        if (top && top.firstElementChild) {
-            top.firstElementChild.style.width = wrap.scrollWidth + 'px';
-            top.scrollLeft = wrap.scrollLeft;
+        const proxies = [$('stmt-scroll-top'), $('stmt-scroll-bottom')].filter(Boolean);
+        for (const proxy of proxies) {
+            if (!proxy.firstElementChild) continue;
+            proxy.firstElementChild.style.width = wrap.scrollWidth + 'px';
+            proxy.scrollLeft = wrap.scrollLeft;
         }
-        updateHbar(wrap);
+    }
+    function statementMiniBars(values, periods, fmt) {
+        const start = Math.max(0, values.length - 5);
+        const points = values.slice(start).map((value, index) => ({
+            value,
+            period: periods[start + index] || ''
+        }));
+        const finite = points.map((point) => point.value).filter((value) => value !== null && Number.isFinite(value));
+        if (finite.length < 2) return '<span class="stmt-mini-empty">—</span>';
+        const min = Math.min(...finite);
+        const max = Math.max(...finite);
+        const span = max - min;
+        const readable = (value) => String(fmt(value)).replace(/<[^>]*>/g, '');
+        const aria = points
+            .filter((point) => point.value !== null && Number.isFinite(point.value))
+            .map((point) => `${point.period}: ${readable(point.value)}`)
+            .join(', ');
+        const bars = points.map((point, index) => {
+            if (point.value === null || !Number.isFinite(point.value)) {
+                return '<i class="stmt-mini-bar is-missing" aria-hidden="true"></i>';
+            }
+            const height = span === 0 ? 17 : 7 + ((point.value - min) / span) * 21;
+            const latest = index === points.length - 1 ? ' is-latest' : '';
+            return `<i class="stmt-mini-bar${latest}" style="height:${height.toFixed(1)}px" title="${esc(point.period)}: ${esc(readable(point.value))}" aria-hidden="true"></i>`;
+        }).join('');
+        return `<span class="stmt-mini-bars" role="img" aria-label="${esc(basisState === 'annual' ? 'Five-year trend' : 'Five-quarter trend')}. ${esc(aria)}">${bars}</span>`;
     }
     function renderStatements() {
         const rows = reports(stState, basisState);
@@ -972,7 +1000,7 @@
         const converted = Boolean(payload.currencyConversion && payload.currencyConversion.from && payload.currencyConversion.to === 'USD');
         let html = '<thead><tr><th class="row-head" style="text-align:left">' +
             (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) +
-            '</th><th style="width:96px">Trend</th>';
+            `</th><th style="width:96px">${basisState === 'annual' ? '5Y trend' : '5Q trend'}</th>`;
         rows.forEach((r, i) => { html += `<th${i === rows.length - 1 ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`; });
         html += '</tr></thead><tbody>';
         let ri = 0;
@@ -991,7 +1019,6 @@
             const { vals, fmt, colored } = viewVals(def, raw, rows);
             if (vals.every((v) => v === null)) continue;
             lastRender.rows.push({ label: def.label, vals, fmt, neutral: !!def.neutral });
-            const sparkVals = def.invert ? vals.map((v) => v === null ? null : -v) : vals;
             const isParent = def.parentOf !== undefined && liveGroups.has(def.parentOf);
             const inGroup = def.gid !== undefined;
             const hide = inGroup && !expanded.has(def.gid);
@@ -1000,7 +1027,7 @@
                 : '';
             html += `<tr class="${def.sub ? 'row-sub' : ''} ${def.rule ? 'row-rule' : ''}${inGroup ? ' grp-' + def.gid : ''}${isParent ? ' grp-parent' : ''}"${isParent ? ` data-g="${def.parentOf}"` : ''} data-i="${ri}"${hide ? ' hidden' : ''}>
               <td class="row-head">${caret}${def.label}</td>
-              <td>${sparkline(sparkVals, { neutral: !!def.neutral })}</td>`;
+              <td>${statementMiniBars(vals, lastRender.periods, fmt)}</td>`;
             vals.forEach((v, i) => {
                 const colCls = [
                     i === vals.length - 1 ? 'col-now' : '',
@@ -1040,11 +1067,11 @@
         });
         const wrap = $('stmt-wrap');
         alignStatementYearColumns();
-        // proxy scrollbar above the table mirrors the real one below
-        const top = $('stmt-scroll-top');
-        top.firstElementChild.style.width = wrap.scrollWidth + 'px';
-        top.scrollLeft = wrap.scrollLeft;
-        attachHScroll(wrap);
+        // Explicit scrollbars above and below the table mirror its position.
+        for (const proxy of [$('stmt-scroll-top'), $('stmt-scroll-bottom')]) {
+            proxy.firstElementChild.style.width = wrap.scrollWidth + 'px';
+            proxy.scrollLeft = wrap.scrollLeft;
+        }
         // row-click charts deliberately off on statements (user call — later)
     }
     // A visible, draggable horizontal scrollbar for any wide .table-wrap. Native
@@ -1064,7 +1091,7 @@
         thumb.style.transform = 'translateX(' + (max > 0 ? (wrap.scrollLeft / max) * trackW : 0) + 'px)';
     }
     function attachHScroll(wrap) {
-        if (!wrap) return;
+        if (!wrap || wrap.dataset.hbar === 'off') return;
         if (wrap.__hbar) { updateHbar(wrap); return; }
         const bar = document.createElement('div'); bar.className = 'hbar';
         const thumb = document.createElement('div'); thumb.className = 'hbar-thumb';
@@ -1107,11 +1134,23 @@
         }
         updateHbar(wrap);
     }
-    (function wireTopScroll() {
+    (function wireStatementScrollbars() {
         const top = $('stmt-scroll-top');
+        const bottom = $('stmt-scroll-bottom');
         const wrap = $('stmt-wrap');
-        top.addEventListener('scroll', () => { if (wrap.scrollLeft !== top.scrollLeft) wrap.scrollLeft = top.scrollLeft; });
-        wrap.addEventListener('scroll', () => { if (top.scrollLeft !== wrap.scrollLeft) top.scrollLeft = wrap.scrollLeft; });
+        let syncing = false;
+        const syncFrom = (source) => {
+            if (syncing) return;
+            syncing = true;
+            const left = source.scrollLeft;
+            if (source !== wrap) wrap.scrollLeft = left;
+            if (source !== top) top.scrollLeft = left;
+            if (source !== bottom) bottom.scrollLeft = left;
+            syncing = false;
+        };
+        top.addEventListener('scroll', () => syncFrom(top));
+        bottom.addEventListener('scroll', () => syncFrom(bottom));
+        wrap.addEventListener('scroll', () => syncFrom(wrap));
         // grab-and-drag panning for MOUSE only: press anywhere on the table and
         // pull left/right; a real drag suppresses the click that would follow.
         // On touch we must NOT hijack the gesture — manually setting scrollLeft

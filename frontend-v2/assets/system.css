@@ -515,7 +515,25 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   border-radius: 12px;
   background: #fff;
   box-shadow: 0 8px 24px rgba(28, 27, 24, 0.05);
+  scrollbar-width: none;
 }
+#stmt-wrap::-webkit-scrollbar { height: 0; display: none; }
+.stmt-scroll-shell { width: 100%; min-width: 0; }
+.stmt-scroll-proxy {
+  height: 18px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  scrollbar-width: auto;
+  scrollbar-color: #77736a #e8e5de;
+  overscroll-behavior-x: contain;
+}
+.stmt-scroll-proxy:first-child { margin-bottom: 4px; }
+.stmt-scroll-proxy:last-child { margin-top: 4px; }
+.stmt-scroll-proxy > div { height: 1px; }
+.stmt-scroll-proxy::-webkit-scrollbar { height: 12px; }
+.stmt-scroll-proxy::-webkit-scrollbar-track { background: #e8e5de; border-radius: 999px; }
+.stmt-scroll-proxy::-webkit-scrollbar-thumb { background: #77736a; border-radius: 999px; }
+.stmt-scroll-proxy::-webkit-scrollbar-thumb:hover { background: #5f5c55; }
 #stmt-table {
   width: max-content;
   min-width: 100%;
@@ -557,8 +575,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   background: #f3f1ec;
   color: #292822;
 }
-/* Trend scrolls away with older periods, but remains visually distinct when
-   the user pans to the beginning of the statement. */
+/* Keep the five-period summary beside the metric while fiscal years pan. */
 #stmt-table th:nth-child(2),
 #stmt-table td:nth-child(2) {
   width: 84px;
@@ -568,7 +585,11 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   padding-right: 10px;
   background: #faf9f6;
   border-right: 2px solid #c9c5bb;
+  position: sticky;
+  left: 228px;
+  z-index: 2;
 }
+#stmt-table thead th:nth-child(2) { z-index: 4; }
 #stmt-table th:nth-child(n + 3),
 #stmt-table td:nth-child(n + 3) {
   width: var(--stmt-year-width, 112px);
@@ -608,6 +629,29 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 #stmt-table tbody tr:hover .row-head { background: #f0ede5 !important; }
 #stmt-table tbody tr:hover .col-now { background: #e2eadf !important; }
 #stmt-table td { color: #2d2b26; }
+.stmt-mini-bars {
+  width: 64px;
+  height: 30px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  border-bottom: 1px solid #d6d3cb;
+}
+.stmt-mini-bar {
+  display: block;
+  width: 8px;
+  min-height: 4px;
+  border-radius: 3px 3px 1px 1px;
+  background: #bbb9b2;
+}
+.stmt-mini-bar.is-latest { background: var(--accent); }
+.stmt-mini-bar.is-missing {
+  height: 4px;
+  background: #e1ded7;
+}
+.stmt-mini-empty { color: #aaa69d; }
 
 /* Wide list tables (screener results) → stacked cards on phones, so every
    metric is visible without horizontal scroll instead of clipped off-edge. */
@@ -1089,6 +1133,8 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
     min-width: 180px;
     max-width: 180px;
   }
+  #stmt-table th:nth-child(2),
+  #stmt-table td:nth-child(2) { left: 180px; }
   /* finger-friendly touch targets on phones (WCAG 2.5.5 / Apple HIG 44px) */
   .btn-sm { height: 44px; }
   .nav-search input { height: 44px; }

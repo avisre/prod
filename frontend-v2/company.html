@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260730-fxusd1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260730-minibars1" />
 </head>
 <body>
   <main>
@@ -156,9 +156,12 @@
             </div>
           </div>
         </div>
-        <div class="scroll-top" id="stmt-scroll-top" aria-hidden="true"><div></div></div>
-        <div class="table-wrap" id="stmt-wrap">
-          <table class="table-data" id="stmt-table"></table>
+        <div class="stmt-scroll-shell" id="stmt-scroll-shell">
+          <div class="stmt-scroll-proxy" id="stmt-scroll-top" role="region" aria-label="Scroll financial statements horizontally from the top" tabindex="0"><div></div></div>
+          <div class="table-wrap" id="stmt-wrap" data-hbar="off">
+            <table class="table-data" id="stmt-table"></table>
+          </div>
+          <div class="stmt-scroll-proxy" id="stmt-scroll-bottom" role="region" aria-label="Scroll financial statements horizontally from the bottom" tabindex="0"><div></div></div>
         </div>
         <p class="provenance" id="stmt-prov">Financial-statement currency is loading…</p>
         <div id="cagr-collapse" hidden style="margin-top:24px;">
@@ -285,7 +288,7 @@
     <div id="seg-body"></div>
   </aside>
 
-  <script src="assets/app.js?v=20260730-attribution1"></script>
-  <script src="assets/company.js?v=20260730-fxusd1"></script>
+  <script src="assets/app.js?v=20260730-stmtscroll1"></script>
+  <script src="assets/company.js?v=20260730-minibars1"></script>
 </body>
 </html>

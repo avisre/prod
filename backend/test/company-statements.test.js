@@ -15,6 +15,10 @@ const companyHtml = fs.readFileSync(
   path.join(__dirname, '..', '..', 'frontend-v2', 'company.html'),
   'utf8'
 );
+const appSource = fs.readFileSync(
+  path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'app.js'),
+  'utf8'
+);
 
 function incomeDefinitions() {
   const block = companySource.match(/income:\s*\[([\s\S]*?)\n\s*\],\n\s*\/\/ Macrotrends content/);
@@ -76,6 +80,7 @@ test('revenue components are hidden when collapsed and visible when expanded', (
 test('financial statement columns have year lanes and whole-column sizing', () => {
   assert.match(companySource, /function alignStatementYearColumns\(/);
   assert.match(companySource, /availableForYears \/ completeYears/);
+  assert.match(companySource, /wrap\.clientWidth - rowHeadWidth - trendWidth/);
   assert.match(companySource, /alignStatementYearColumns\(\);/);
   assert.match(companySource, /alignStatementYearColumns\(\{ preservePosition: true \}\)/);
   assert.match(systemCss, /#stmt-table tbody tr:nth-child\(even\)/);
@@ -85,8 +90,30 @@ test('financial statement columns have year lanes and whole-column sizing', () =
 });
 
 test('company page cache-busts the approved statement assets together', () => {
-  assert.match(companyHtml, /assets\/system\.css\?v=20260730-fxusd1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260730-fxusd1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20260730-minibars1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260730-minibars1/);
+});
+
+test('financial statements use five-period mini bars instead of sparklines', () => {
+  assert.match(companySource, /function statementMiniBars\(values, periods, fmt\)/);
+  assert.match(companySource, /Five-year trend/);
+  assert.match(companySource, /Five-quarter trend/);
+  assert.match(companySource, /statementMiniBars\(vals, lastRender\.periods, fmt\)/);
+  assert.doesNotMatch(companySource, /sparkline\(sparkVals/);
+  assert.match(systemCss, /\.stmt-mini-bars/);
+  assert.match(systemCss, /\.stmt-mini-bar\.is-latest \{ background: var\(--accent\); \}/);
+  assert.match(systemCss, /#stmt-table th:nth-child\(2\),[\s\S]*position: sticky;[\s\S]*left: 228px;/);
+});
+
+test('financial statements expose synchronized top and bottom horizontal scrollbars', () => {
+  assert.match(companyHtml, /id="stmt-scroll-top"/);
+  assert.match(companyHtml, /id="stmt-scroll-bottom"/);
+  assert.match(companyHtml, /id="stmt-wrap" data-hbar="off"/);
+  assert.match(companySource, /function wireStatementScrollbars/);
+  assert.match(companySource, /bottom\.addEventListener\('scroll'/);
+  assert.match(companySource, /wrap\.addEventListener\('scroll'/);
+  assert.match(systemCss, /\.stmt-scroll-proxy/);
+  assert.match(appSource, /wrap\.dataset\.hbar === 'off'/);
 });
 
 test('company page separates quote currency from financial-reporting currency', () => {

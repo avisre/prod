@@ -1046,7 +1046,7 @@
         thumb.style.transform = 'translateX(' + ((bw - tw) > 0 ? (wrap.scrollLeft / max) * (bw - tw) : 0) + 'px)';
     }
     function attachHScroll(wrap) {
-        if (!wrap) return;
+        if (!wrap || wrap.dataset.hbar === 'off') return;
         if (wrap.__hbar) { updateHbar(wrap); return; }
         const bar = document.createElement('div'); bar.className = 'hbar';
         const thumb = document.createElement('div'); thumb.className = 'hbar-thumb';
