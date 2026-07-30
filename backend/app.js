@@ -205,7 +205,16 @@ app.use(helmet({
     useDefaults: true,
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", 'https://accounts.google.com'],
+      // Google Analytics/Clarity are loaded dynamically after the visitor
+      // grants analytics consent. Keep the origins explicit so the CSP does
+      // not silently block the measurement script on production pages.
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        'https://accounts.google.com',
+        'https://www.googletagmanager.com',
+        'https://www.clarity.ms'
+      ],
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
