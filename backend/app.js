@@ -29,6 +29,7 @@ const marketingAttribution = require('./marketing-attribution');
 const xray = require('./xray');
 const watchdog = require('./watchdog');
 const reverseDcf = require('./reverse-dcf');
+const monitorFreeUsage = require('./monitor-free-usage');
 require('dotenv').config();
 
 // Tier ladder: free < core < pro.
@@ -5374,18 +5375,30 @@ app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
 // materiality feed across a watchlist stays Power/Desk-only. A raw request flood
 // is still caught by the global abuse limiter; the expensive build is de-duped
 // and cached, so the 3-stock cap also bounds cost to ≤3 model passes per IP/day.
-const MONITOR_FREE_STOCKS = parseInt(process.env.MONITOR_FREE_STOCKS || '0', 10);
-const MONITOR_FREE_WINDOW_MS = 24 * 60 * 60 * 1000;
-const _monitorFreeSeen = new Map(); // ipKey -> { at:number, syms:Set<string> }
+const configuredMonitorFreeStocks = Number.parseInt(process.env.MONITOR_FREE_STOCKS || '3', 10);
+const MONITOR_FREE_STOCKS = Number.isFinite(configuredMonitorFreeStocks) ? Math.max(0, Math.min(10, configuredMonitorFreeStocks)) : 3;
+const MonitorFreeUsage = monitorFreeUsage.createModel(mongoose);
 
-// Per-IP record of which stocks a free visitor has spent today (lazy 24h reset).
-function monitorFreeRecord(req) {
-    const key = req.ip || 'unknown';
-    const now = Date.now();
-    let rec = _monitorFreeSeen.get(key);
-    if (!rec || now - rec.at > MONITOR_FREE_WINDOW_MS) { rec = { at: now, syms: new Set() }; _monitorFreeSeen.set(key, rec); }
-    if (_monitorFreeSeen.size > 50000) { const k = _monitorFreeSeen.keys().next().value; if (k !== key) _monitorFreeSeen.delete(k); }
-    return rec;
+// UTC calendar days make the allowance predictable and let MongoDB retain the
+// record across deploys/restarts. Only an HMAC of the client address is stored.
+function monitorFreeContext(req, now = new Date()) {
+    const dayKey = now.toISOString().slice(0, 10);
+    const expiresAt = new Date(`${dayKey}T00:00:00.000Z`);
+    expiresAt.setUTCDate(expiresAt.getUTCDate() + 3);
+    const salt = process.env.MONITOR_FREE_IP_SALT || JWT_SECRET;
+    const clientHash = crypto.createHmac('sha256', salt).update(String(req.ip || 'unknown')).digest('hex');
+    return { clientHash, dayKey, expiresAt };
+}
+
+function setMonitorRateHeaders(res, remaining) {
+    res.setHeader('RateLimit-Limit', String(MONITOR_FREE_STOCKS));
+    res.setHeader('RateLimit-Remaining', String(Math.max(0, remaining)));
+}
+
+async function monitorFreePollAccess(req, normSym) {
+    const record = await monitorFreeUsage.findUsage(MonitorFreeUsage, monitorFreeContext(req));
+    const symbols = Array.isArray(record && record.symbols) ? record.symbols : [];
+    return { allowed: symbols.includes(normSym), remaining: Math.max(0, MONITOR_FREE_STOCKS - symbols.length) };
 }
 
 // In-flight report builds, de-duped per symbol. A cold read of a giant filing
@@ -5402,6 +5415,30 @@ const MONITOR_FAST_MS = 9000;
 app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
+        if (!isValidTicker(sym)) {
+            return res.status(400).json({ code: 'INVALID_TICKER', error: 'Enter a valid ticker symbol.' });
+        }
+        const normSym = normalizeTicker(sym); // BRK.B and BRK-B are one stock
+
+        // Polling may only observe a build that this paid user or free client
+        // is entitled to. It never starts work or consumes another stock.
+        if (req.query.poll === '1') {
+            if (!hasMonitor(req)) {
+                if (MONITOR_FREE_STOCKS <= 0) {
+                    return res.status(402).json({ code: 'MONITOR_REQUIRED', message: 'The Filing Change Monitor is available on Power and Desk plans.' });
+                }
+                const access = await monitorFreePollAccess(req, normSym);
+                setMonitorRateHeaders(res, access.remaining);
+                if (!access.allowed) {
+                    return res.status(403).json({ code: 'MONITOR_POLL_NOT_AUTHORIZED', message: 'Start this report from the Monitor page before polling for it.' });
+                }
+            }
+            if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
+            const cached = await filingMonitor.peekReport(sym).catch(() => null);
+            if (cached) return res.json({ report: cached });
+            return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
+        }
+
         const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
             if (!hasMonitor(req)) {
@@ -5433,22 +5470,12 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
                 note: `This is an AI-written fund snapshot from ${instrument.source || 'fund market data'}, not a company filing-change report. Fund characteristics may be reported on different dates.`
             } });
         }
-        const normSym = normalizeTicker(sym); // BRK.B and BRK-B are one stock
-
-        // Poll path: free, build-free, never spends a credit. Returns the report
-        // once cached, else {status:'building'} — never kicks a new build.
-        if (req.query.poll === '1') {
-            if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
-            const cached = await filingMonitor.peekReport(sym).catch(() => null);
-            if (cached) return res.json({ report: cached });
-            return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
-        }
-
         // Free allowance: MONITOR_FREE_STOCKS DISTINCT stocks / IP / day. A stock
         // already on the visitor's list re-runs free; only a brand-new ticker
-        // spends a credit, and only once it yields a real report (claimed below).
+        // spends a credit. The atomic MongoDB claim bounds concurrent builds;
+        // failed/invalid reports release the claim again.
         const paid = hasMonitor(req);
-        let freeRec = null, known = false;
+        let freeClaim = null;
         if (!paid) {
             if (MONITOR_FREE_STOCKS <= 0) {
                 return res.status(402).json({
@@ -5456,19 +5483,19 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
                     message: 'The Filing Change Monitor is available on Power and Desk plans.'
                 });
             }
-            freeRec = monitorFreeRecord(req);
-            known = freeRec.syms.has(normSym);
-            res.setHeader('RateLimit-Limit', String(MONITOR_FREE_STOCKS));
-            if (!known && freeRec.syms.size >= MONITOR_FREE_STOCKS) {
-                res.setHeader('RateLimit-Remaining', '0');
+            try {
+                freeClaim = await monitorFreeUsage.claim(MonitorFreeUsage, monitorFreeContext(req), normSym, MONITOR_FREE_STOCKS);
+            } catch (error) {
+                console.error('[filings] free allowance error:', error && error.message);
+                return res.status(503).json({ code: 'MONITOR_FREE_UNAVAILABLE', message: 'The free Monitor allowance is temporarily unavailable. Please try again shortly.' });
+            }
+            setMonitorRateHeaders(res, freeClaim.remaining);
+            if (!freeClaim.allowed) {
                 return res.status(429).json({
                     code: 'TRIAL_EXHAUSTED',
-                    message: `That's your ${MONITOR_FREE_STOCKS} free stocks for today. Sign up free to keep exploring, or upgrade to Power for unlimited filing intelligence across your whole watchlist.`,
-                    stocks: [...freeRec.syms]
+                    message: `That's your ${MONITOR_FREE_STOCKS} free stocks for today. Sign up free to keep exploring, or upgrade to Power for unlimited filing intelligence across your whole watchlist.`
                 });
             }
-            // counter reflects the state once this stock is claimed
-            res.setHeader('RateLimit-Remaining', String(Math.max(0, MONITOR_FREE_STOCKS - (freeRec.syms.size + (known ? 0 : 1)))));
         }
 
         // Only Power/Desk may force a fresh (uncached) rebuild — otherwise a
@@ -5481,9 +5508,14 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
                 .finally(() => { _monitorInflight.delete(sym); _monitorProgress.delete(sym); });
             _monitorInflight.set(sym, build);
         }
+        if (freeClaim && freeClaim.claimed) {
+            build.then((result) => {
+                if (result && result.error) return monitorFreeUsage.release(MonitorFreeUsage, freeClaim.id, normSym);
+                return null;
+            }).catch(() => monitorFreeUsage.release(MonitorFreeUsage, freeClaim.id, normSym)).catch(() => {});
+        }
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), MONITOR_FAST_MS))]);
         if (winner && winner.error) return res.status(404).json(winner); // typo/invalid → no credit spent
-        if (freeRec && !known) freeRec.syms.add(normSym);                  // real report (or building) → claim the stock
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
         return res.json({ report: winner });
     } catch (err) {
