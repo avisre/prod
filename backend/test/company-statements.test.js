@@ -91,8 +91,8 @@ test('financial statement columns have year lanes and whole-column sizing', () =
 });
 
 test('company page cache-busts the approved statement assets together', () => {
-  assert.match(companyHtml, /assets\/system\.css\?v=20260730-unitsfix1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260730-unitsfix1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20260803-ai-on-demand1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260803-ai-on-demand1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
