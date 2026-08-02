@@ -562,11 +562,18 @@
     }
 
     // ---------- ③ key points: the dossier from the 10-K ----------
-    async function renderDossier() {
+    async function renderDossier(generate = false) {
         const body = $('kp-body');
         try {
-            const r = await fetch(`/api/company/${encodeURIComponent(symbol)}/keypoints`);
-            if (!r.ok) { body.innerHTML = '<p class="small muted">Key points unavailable for this company.</p>'; return; }
+            const headers = generate && token() ? { Authorization: `Bearer ${token()}` } : {};
+            const suffix = generate ? '?generate=1' : '';
+            const r = await fetch(`/api/company/${encodeURIComponent(symbol)}/keypoints${suffix}`, { headers });
+            if (!r.ok) {
+                body.innerHTML = generate
+                    ? '<p class="small muted">Key points unavailable for this company.</p>'
+                    : '<p class="small muted">Open Insights · Pro to generate filing key points.</p>';
+                return;
+            }
             const d = await r.json();
             if (!Array.isArray(d.sections) || !d.sections.length) { body.innerHTML = '<p class="small muted">Key points unavailable for this company.</p>'; return; }
             const sec = (s) => `
@@ -1588,6 +1595,9 @@
             insBody.innerHTML = `<p class="small muted">${teaser('Insights — the analyst’s reading of 19 years of filings, the valuation record and sector position')}</p>`;
             return;
         }
+        // This is the only path allowed to generate the key-point dossier.
+        // Passive company-page loads request cache-only data and consume no AI.
+        renderDossier(true);
         insBody.innerHTML = '<p class="loading-line"><span class="spin"></span>Connecting 19 years of filings, the valuation record and sector medians…</p>';
         (async () => {
             try {

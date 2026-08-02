@@ -3475,9 +3475,8 @@ app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     }
 });
 
-// AI weekly portfolio briefing. Numbers are computed deterministically in
-// ai-briefing.js; the model only writes prose. Cached per user for 12h so we
-// make at most ~2 model calls per user per day.
+// Deterministic weekly portfolio briefing. It performs no model call, so
+// repeated or automated dashboard loads cannot consume provider usage.
 const _briefingCache = new Map(); // userId -> { at, payload }
 const BRIEFING_TTL_MS = 12 * 60 * 60 * 1000;
 app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) => {
@@ -4214,6 +4213,9 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
+        const generate = String(req.query.generate || '') === '1';
+        if (generate && !req.user) return res.status(401).json({ message: 'Authentication required' });
+        if (generate && !isProUser(req)) return res.status(402).json({ message: 'Key-point generation is available on Pro.' });
         const instrument = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
             return res.status(422).json({
@@ -4221,7 +4223,10 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
                 message: `${instrument.assetTypeLabel}s do not publish company 10-K business dossiers. Use the fund profile or Ask for holdings, costs, allocation, returns and risk.`
             });
         }
-        const result = await keypoints.extractKeyPoints(symbol, { allowAi: isProUser(req) });
+        // Ordinary page loads may read an existing cache but can never create
+        // provider usage. Generation requires the explicit Insights Pro click,
+        // which sends generate=1 from company.js.
+        const result = await keypoints.extractKeyPoints(symbol, { allowAi: generate && isProUser(req) });
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {

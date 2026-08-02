@@ -4,12 +4,9 @@
 // exists just to answer this one question. We answer it deterministically:
 // each holding's day move × its weight = its contribution to your day, sorted
 // by what actually mattered, with today's headlines attached to the biggest
-// movers. An optional one-paragraph narrative is written by the model FROM
-// THE COMPUTED FACTS ONLY (same trust pattern as the weekly briefing) — the
-// arithmetic is never the model's job.
+// movers. Passive dashboard loads are fully deterministic and never invoke AI.
 
 const yahooSource = require('./yahoo-source');
-const aiClient = require('./ai-client');
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 
@@ -104,19 +101,6 @@ async function computeAttribution(holdings) {
         })),
         note: 'Contribution = weight × day move, from live quotes. Headlines are the day\'s news for the biggest movers — context, not confirmed causes.'
     };
-
-    // narrative from facts only; the brief reads fine without it
-    try {
-        const msg = await aiClient.chatRaw([
-            {
-                role: 'system',
-                content: 'You write ONE short paragraph (2-4 sentences) explaining a portfolio\'s day move from the supplied facts JSON. Use ONLY numbers present in the facts — never compute, estimate or add outside knowledge. Mention the 1-3 holdings that drove the move and, if a headline is supplied, weave in at most one per holding with "reportedly"-style attribution. Plain English, no advice, no exclamation marks.'
-            },
-            { role: 'user', content: JSON.stringify(payload) }
-        ], { purpose: 'summary', temperature: 0.2, maxTokens: 400 });
-        const text = String(msg.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-        if (text && !aiClient.leaksIdentity(text)) payload.narrative = text.slice(0, 900);
-    } catch (_) { /* deterministic payload stands alone */ }
 
     return payload;
 }
