@@ -30,6 +30,7 @@ const xray = require('./xray');
 const watchdog = require('./watchdog');
 const reverseDcf = require('./reverse-dcf');
 const monitorFreeUsage = require('./monitor-free-usage');
+const ollamaUsage = require('./ollama-usage-tracker');
 require('dotenv').config();
 
 // Tier ladder: free < core < pro.
@@ -104,6 +105,10 @@ const mailer = require('./mailer');
 const { sendNewUserEmails, escapeHtml } = mailer;
 
 const app = express();
+// Give every request a correlation id before authentication and route handlers
+// run. The shared AI client uses this async context to attribute provider calls
+// to the authenticated user without recording prompts or response contents.
+app.use((req, res, next) => ollamaUsage.runRequest(req, next));
 // Render terminates the public connection before forwarding it to Express.
 // Trust that single platform hop in production so rate limits are keyed to
 // the visitor address instead of grouping every visitor under Render's proxy.
@@ -2308,6 +2313,7 @@ async function authMiddleware(req, res, next) {
         req.userId = user._id;
         req.user = user;
         req.subscription = normalized;
+        ollamaUsage.setActor({ userId: user._id, email: user.email, actorType: 'user' });
         // free / core / pro — an expired or never-started subscription now
         // downgrades to the free tier (coreGate/proGate 402 on gated routes)
         // instead of locking the whole API behind a blanket 402.
@@ -2340,6 +2346,7 @@ async function optionalAuth(req, res, next) {
             const normalized = ensureSubscriptionShape(user);
             req.user = user;
             req.subscription = normalized;
+            ollamaUsage.setActor({ userId: user._id, email: user.email, actorType: 'user' });
             req.tier = userTier(user, normalized);
         }
     } catch (_) { /* invalid / expired token → treat as logged-out (free) */ }
@@ -6056,6 +6063,55 @@ function marketingDashboardOnly(req, res, next) {
     return next();
 }
 
+// Owner-only, real-time Ollama attribution. This is deliberately separate from
+// the marketing funnel: it exposes authenticated customer identity only to the
+// existing rin@gmail.com owner account, never to customers or public visitors.
+app.get('/api/admin/ollama/usage', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    try {
+        const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 168);
+        const limit = Math.min(Math.max(Number(req.query.limit) || 200, 1), 500);
+        const data = await ollamaUsage.snapshot({ sinceMs: hours * 3600 * 1000, limit });
+        res.set('Cache-Control', 'no-store').json(data);
+    } catch (error) {
+        console.error('[ollama] usage snapshot failed:', error && error.message);
+        res.status(500).json({ message: 'Ollama usage tracker unavailable' });
+    }
+});
+
+app.get('/api/admin/ollama/usage/stream', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+        'X-Accel-Buffering': 'no'
+    });
+    let closed = false;
+    const send = (event, data) => {
+        if (closed || res.writableEnded) return;
+        res.write(`event: ${event}\ndata: ${JSON.stringify(data || {})}\n\n`);
+    };
+    const unsubscribe = ollamaUsage.subscribe((message) => {
+        if (message && message.event && message.event.provider === 'ollama') send(message.type, message.event);
+    });
+    const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 15000);
+    req.on('close', () => {
+        closed = true;
+        clearInterval(ping);
+        unsubscribe();
+    });
+    try {
+        const hours = Math.min(Math.max(Number(req.query.hours) || 24, 1), 168);
+        const limit = Math.min(Math.max(Number(req.query.limit) || 200, 1), 500);
+        send('snapshot', await ollamaUsage.snapshot({ sinceMs: hours * 3600 * 1000, limit }));
+    } catch (_) {
+        send('error', { message: 'Ollama usage tracker unavailable' });
+    }
+});
+
+app.get('/admin/ollama', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, 'admin-ollama.html'));
+});
+
 app.post('/api/admin/marketing/qa-session', authMiddleware, marketingDashboardOnly, (req, res) => {
     const enabled = req.body && req.body.enabled !== false;
     marketingAttribution.setQaModeCookie(res, enabled, {
@@ -6115,7 +6171,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
             return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#2563eb')}${n(row.signup)}</td><td>${bar(row.trial_start, '#7c3aed')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
         }).join('');
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
-body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#2563eb;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
+body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#2563eb;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;

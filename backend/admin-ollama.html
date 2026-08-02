@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Ollama usage · StockPortfolio.pro</title>
+  <style>
+    :root{color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--panel:#fff;--bg:#f6f8fb;--blue:#2563eb;--green:#059669;--red:#dc2626}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+    main{max-width:1240px;margin:auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:0 0 12px;font-size:18px}.muted{color:var(--muted)}
+    .top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.controls{display:flex;gap:8px;align-items:center}.controls select,.controls button{border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px 10px;font:inherit}.controls button{cursor:pointer;color:var(--blue)}
+    .status{margin:18px 0;padding:10px 12px;border-radius:8px;background:#eef2ff;color:#3730a3}.status.live{background:#ecfdf5;color:#047857}.status.error{background:#fef2f2;color:#b91c1c}
+    .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}.card strong{display:block;font-size:28px;margin:3px 0}.card small{color:var(--muted)}.panel{padding:16px;margin-top:16px;overflow:auto}
+    table{border-collapse:collapse;width:100%;min-width:760px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{font-size:11px;text-transform:uppercase;color:var(--muted)}.active{color:var(--blue);font-weight:700}.ok{color:var(--green)}.bad{color:var(--red)}.pill{display:inline-block;border-radius:999px;padding:2px 8px;background:#eef2ff;color:#3730a3;font-size:12px}.empty{color:var(--muted);padding:20px 0}.note{margin-top:14px;color:var(--muted);font-size:12px}
+    @media(max-width:700px){main{padding:20px 12px}.top{display:block}.controls{margin-top:12px;flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+<main>
+  <div class="top"><div><h1>Ollama usage tracker</h1><div class="muted">Authenticated customer attribution · live provider calls · last 24 hours</div></div><div class="controls"><label class="muted" for="hours">Window</label><select id="hours"><option value="1">1 hour</option><option value="6">6 hours</option><option value="24" selected>24 hours</option><option value="168">7 days</option></select><button id="refresh" type="button">Refresh</button><a href="/admin/marketing" class="muted">Marketing</a></div></div>
+  <div id="status" class="status">Connecting to the live feed…</div>
+  <div id="cards" class="cards"></div>
+  <section class="panel"><h2>Who is using Ollama</h2><div id="users" class="empty">Waiting for data…</div></section>
+  <section class="panel"><h2>Recent calls</h2><div id="recent" class="empty">Waiting for data…</div><div class="note">Only request metadata is shown. Prompts, answers, cookies, keys and tokens are never stored. Background jobs and anonymous traffic remain separately labelled.</div></section>
+</main>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  let source;
+  const esc = (v) => String(v == null ? '' : v).replace(/[&<>"']/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const fmt = (v) => Number(v || 0).toLocaleString('en-IN');
+  const time = (v) => v ? new Date(v).toLocaleString('en-IN', { dateStyle:'short', timeStyle:'medium' }) : '—';
+  function setStatus(text, kind='') { $('status').textContent = text; $('status').className = `status ${kind}`; }
+  function render(data) {
+    const active = Array.isArray(data.active) ? data.active : [];
+    const events = Array.isArray(data.recent) ? data.recent : [];
+    const users = Array.isArray(data.users) ? data.users : [];
+    const total = events.length;
+    const tokens = events.reduce((n, e) => n + (Number(e.totalTokens) || 0), 0);
+    const errors = events.filter((e) => e.status === 'error').length;
+    $('cards').innerHTML = [
+      ['Active now', active.length, 'in-flight Ollama calls'],
+      ['Calls in window', total, 'completed or failed'],
+      ['Provider tokens', fmt(tokens), 'reported total when available'],
+      ['Errors', errors, 'provider or timeout failures']
+    ].map(([label, value, note]) => `<div class="card"><div class="label">${label}</div><strong>${fmt(value)}</strong><small>${note}</small></div>`).join('');
+    $('users').innerHTML = users.length ? `<table><tr><th>User / actor</th><th>Type</th><th>Calls</th><th>Active</th><th>Errors</th><th>Tokens</th><th>Last call</th><th>Purposes</th></tr>${users.map((u) => `<tr><td>${esc(u.email || u.userId || 'system')}</td><td><span class="pill">${esc(u.actorType)}</span></td><td>${fmt(u.calls)}</td><td class="active">${fmt(u.active)}</td><td class="${u.errors ? 'bad' : 'ok'}">${fmt(u.errors)}</td><td>${fmt(u.totalTokens)}</td><td>${time(u.lastAt)}</td><td>${esc(Object.entries(u.purposes || {}).map(([k,v]) => `${k}: ${v}`).join(', '))}</td></tr>`).join('')}</table>` : '<div class="empty">No Ollama calls in this window.</div>';
+    $('recent').innerHTML = events.length ? `<table><tr><th>When</th><th>User / actor</th><th>Purpose</th><th>Model</th><th>Status</th><th>Duration</th><th>Tokens</th><th>Route</th></tr>${events.map((e) => `<tr><td>${time(e.startedAt)}</td><td>${esc(e.email || e.userId || 'system')}</td><td>${esc(e.purpose)}</td><td>${esc(e.model)}</td><td class="${e.status === 'error' ? 'bad' : e.status === 'active' ? 'active' : 'ok'}">${esc(e.status)}${e.errorCode ? ` · ${esc(e.errorCode)}` : ''}</td><td>${e.durationMs == null ? '—' : `${fmt(e.durationMs)} ms`}</td><td>${e.totalTokens == null ? '—' : fmt(e.totalTokens)}</td><td>${esc(e.route)}</td></tr>`).join('')}</table>` : '<div class="empty">No recent calls.</div>';
+  }
+  async function load() {
+    const hours = $('hours').value;
+    const res = await fetch(`/api/admin/ollama/usage?hours=${encodeURIComponent(hours)}`, { cache:'no-store' });
+    if (!res.ok) throw new Error(`Tracker returned ${res.status}`);
+    render(await res.json());
+  }
+  function connect() {
+    if (source) source.close();
+    source = new EventSource(`/api/admin/ollama/usage/stream?hours=${encodeURIComponent($('hours').value)}`);
+    source.addEventListener('snapshot', (e) => { render(JSON.parse(e.data)); setStatus('Live · updating as calls start and finish', 'live'); });
+    source.addEventListener('start', () => load().catch(() => {}));
+    source.addEventListener('finish', () => load().catch(() => {}));
+    source.onerror = () => setStatus('Live feed disconnected · retrying…', 'error');
+  }
+  function samplePreview() {
+    const now = Date.now();
+    const call = (minutes, email, purpose, status, tokens, route, durationMs=4200) => ({
+      callId:`preview-${minutes}-${purpose}`, actorType:email ? 'user' : 'background',
+      email:email || null, userId:email ? 'preview-user' : null, purpose, model:'glm-5.1',
+      status, totalTokens:tokens, route, durationMs,
+      startedAt:new Date(now - minutes * 60000).toISOString()
+    });
+    const recent = [
+      call(0, 'investor@example.com', 'chat', 'active', null, 'POST /api/ai/chat', null),
+      call(4, 'buyer@example.com', 'dossier', 'completed', 18240, 'GET /api/dossier/AAPL', 28670),
+      call(18, 'investor@example.com', 'chat', 'completed', 5840, 'POST /api/ai/chat', 9110),
+      call(42, null, 'briefing', 'completed', 1260, 'background', 3380),
+      call(67, 'buyer@example.com', 'chat', 'error', null, 'POST /api/ai/chat', 90000)
+    ];
+    render({
+      active:[recent[0]], recent,
+      users:[
+        {email:'investor@example.com',actorType:'user',calls:2,active:1,errors:0,totalTokens:5840,lastAt:recent[0].startedAt,purposes:{chat:2}},
+        {email:'buyer@example.com',actorType:'user',calls:2,active:0,errors:1,totalTokens:18240,lastAt:recent[1].startedAt,purposes:{dossier:1,chat:1}},
+        {email:null,userId:null,actorType:'background',calls:1,active:0,errors:0,totalTokens:1260,lastAt:recent[3].startedAt,purposes:{briefing:1}}
+      ]
+    });
+    setStatus('Local visualization preview · fictional sample data', 'live');
+  }
+  $('refresh').addEventListener('click', () => { load().then(connect).catch((e) => setStatus(e.message, 'error')); });
+  $('hours').addEventListener('change', () => { load().then(connect).catch((e) => setStatus(e.message, 'error')); });
+  if (location.protocol === 'file:') samplePreview();
+  else load().then(connect).catch((e) => setStatus(e.message, 'error'));
+})();
+</script>
+</body>
+</html>
