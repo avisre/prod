@@ -48,8 +48,15 @@ async function prewarm({ n = 300, concurrency = 2, force = false, onProgress = n
     return _last;
 }
 
-// Scheduled warm: one run a few minutes after boot, then daily. Concurrency is
-// low and SEC is throttled, so it never floods anything.
+// Dossier warming is deliberately opt-in. A dossier composes several model
+// calls, so automatically warming hundreds of tickers on every production
+// deploy can exhaust the provider before a customer asks a question.
+function shouldStart(env = process.env) {
+    return String(env.PREWARM || '').trim().toLowerCase() === 'on';
+}
+
+// Scheduled warm: one run a few minutes after boot, then daily. This is only
+// reached when PREWARM=on has been set explicitly.
 function start({ n = 300, intervalMs = 24 * 3600 * 1000, initialDelayMs = 5 * 60 * 1000, concurrency = 2 } = {}) {
     const run = () => prewarm({ n, concurrency })
         .then((r) => console.log('[prewarm]', JSON.stringify(r)))
@@ -61,4 +68,4 @@ function start({ n = 300, intervalMs = 24 * 3600 * 1000, initialDelayMs = 5 * 60
 
 function status() { return { running: _running, last: _last }; }
 
-module.exports = { prewarm, topTickers, start, status };
+module.exports = { prewarm, topTickers, shouldStart, start, status };

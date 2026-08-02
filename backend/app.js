@@ -5594,6 +5594,14 @@ app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) =>
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
         if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return res.status(400).json({ message: 'Invalid ticker.' });
+        const force = req.query.refresh === '1';
+        if (force) {
+            const adminToken = process.env.ADMIN_TOKEN;
+            const provided = req.headers['x-admin-token'];
+            if (!adminToken || !timingSafeStrEqual(provided, adminToken)) {
+                return res.status(403).json({ message: 'Forced dossier refresh is restricted to administrators.' });
+            }
+        }
         const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
             const summary = await aiFeatures.summarizeFinancials(sym);
@@ -5630,7 +5638,6 @@ app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) =>
             return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
         }
 
-        const force = req.query.refresh === '1';
         let build = (!force && _dossierInflight.get(sym)) || null;
         if (!build) {
             build = dossier.buildDossier(sym, { force, onStage: (stage) => _dossierProgress.set(sym, stage) })
@@ -5641,6 +5648,7 @@ app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) =>
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), DOSSIER_FAST_MS))]);
         if (winner && winner.error) return res.status(404).json(winner);
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
+        if (winner && winner.status === 'building') return res.status(202).json(winner);
         return res.json({ dossier: winner });
     } catch (err) {
         console.error('[dossier] route error:', err.message);
@@ -6378,12 +6386,17 @@ gurus.start();
 startDigest();
 startAppSumoJobs();
 startTrialLifecycleJobs();
-// Pre-warm the most-viewed dossiers in the background (top ~300 by market cap).
-// On in production automatically; locally only with PREWARM=on. SEC calls are
-// globally throttled (sec-throttle), so this never trips a rate limit.
-if (process.env.NODE_ENV === 'production' || process.env.PREWARM === 'on') {
-    try { require('./prewarm').start({ n: Number(process.env.PREWARM_TICKERS) || 300 }); }
-    catch (e) { console.log('[prewarm] not started:', e && e.message); }
-}
+// Dossier pre-warming is expensive because each dossier composes several AI
+// sections. Keep it off in every environment unless an operator explicitly
+// opts in; customer-requested dossiers continue to build on demand and persist
+// in Mongo.
+try {
+    const dossierPrewarm = require('./prewarm');
+    if (dossierPrewarm.shouldStart()) {
+        dossierPrewarm.start({ n: Number(process.env.PREWARM_TICKERS) || 300 });
+    } else {
+        console.log('[prewarm] disabled (set PREWARM=on to enable explicitly)');
+    }
+} catch (e) { console.log('[prewarm] not started:', e && e.message); }
 // Optional: nightly SEC bulk companyfacts (inert unless SEC_BULK_DIR is set).
 try { require('./companyfacts-bulk').start(); } catch (e) { console.log('[companyfacts-bulk] not started:', e && e.message); }

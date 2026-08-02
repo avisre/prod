@@ -11,6 +11,7 @@
 // dossier is paid for once per annual cycle, refreshed when a new 10-K lands.
 
 const mongoose = require('mongoose');
+const crypto = require('crypto');
 const aiClient = require('./ai-client');
 const aiChat = require('./ai-chat');
 const insights = require('./insights');
@@ -23,9 +24,41 @@ const governance = require('./governance');
 const esgMod = require('./esg');
 const industry = require('./industry');
 const valuationDcf = require('./valuation-dcf');
+const dossierBuildLock = require('./dossier-build-lock');
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 function dossierCol() { return mongoose.connection.collection('company_dossiers'); }
+const DossierBuildLock = dossierBuildLock.createModel(mongoose);
+const DOSSIER_BUILD_LEASE_MS = 15 * 60 * 1000;
+const DOSSIER_BUILD_WAIT_MS = 6 * 60 * 1000;
+
+function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+
+async function cachedDossier(col, sym, fyEnd) {
+    const hit = await col.findOne({ symbol: sym, fyEnd }, { projection: { _id: 0 } });
+    return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION
+        ? { ...hit.payload, cached: true }
+        : null;
+}
+
+async function acquireDossierLease(col, sym, fyEnd, onStage) {
+    const key = `${sym}:${fyEnd}:v${DOSSIER_SCHEMA_VERSION}`;
+    const owner = crypto.randomUUID();
+    const deadline = Date.now() + DOSSIER_BUILD_WAIT_MS;
+
+    for (;;) {
+        const lease = await dossierBuildLock.acquire(DossierBuildLock, {
+            key, owner, leaseMs: DOSSIER_BUILD_LEASE_MS
+        });
+        if (lease.acquired) return { key, owner };
+
+        onStage('queued');
+        const cached = await cachedDossier(col, sym, fyEnd);
+        if (cached) return { cached };
+        if (Date.now() >= deadline) return { busy: true };
+        await sleep(1000);
+    }
+}
 
 // Compact, grounded fact digest the synthesis models write over. ONLY finished
 // numbers go in — the models never compute, only narrate.
@@ -205,19 +238,41 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     const col = dossierCol();
     if (!force) {
         try {
-            const hit = await col.findOne({ symbol: sym, fyEnd }, { projection: { _id: 0 } });
-            if (hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION) return { ...hit.payload, cached: true };
+            const hit = await cachedDossier(col, sym, fyEnd);
+            if (hit) return hit;
         } catch (_) { /* cache best-effort */ }
     }
 
-    onStage('gathering'); // pulling the grounded surfaces (the slow part)
-    const [rdcfR, checksR, insightsR, segsR, monitorR] = await Promise.allSettled([
-        reverseDcf.computeReverseDcf(sym),
-        Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
-        insights.generateInsights(sym),
-        segments.extractSegments(sym),
-        filingMonitor.buildReport(sym).catch(() => null)
-    ]);
+    let buildLease = null;
+    try {
+        try {
+            const lease = await acquireDossierLease(col, sym, fyEnd, onStage);
+            if (lease.cached) return lease.cached;
+            if (lease.busy) return { status: 'building', symbol: sym, stage: 'queued' };
+            buildLease = lease;
+
+            // Another worker may have completed between our first cache read
+            // and this lease acquisition. Re-check before spending any AI.
+            if (!force) {
+                const hit = await cachedDossier(col, sym, fyEnd);
+                if (hit) return hit;
+            }
+        } catch (error) {
+            // Availability wins if Mongo's lock collection is temporarily
+            // unavailable. The route's in-process promise map still coalesces
+            // requests on this instance, and the final cache write remains
+            // best-effort as before.
+            console.warn('[dossier] build lease unavailable:', error.message);
+        }
+
+        onStage('gathering'); // pulling the grounded surfaces (the slow part)
+        const [rdcfR, checksR, insightsR, segsR, monitorR] = await Promise.allSettled([
+            reverseDcf.computeReverseDcf(sym),
+            Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
+            insights.generateInsights(sym),
+            segments.extractSegments(sym),
+            filingMonitor.buildReport(sym).catch(() => null)
+        ]);
     const ok = (r) => (r.status === 'fulfilled' && r.value && !r.value.error ? r.value : null);
     const rdcf = ok(rdcfR);
     const checks = (checksR.status === 'fulfilled' && checksR.value && Array.isArray(checksR.value.checks)) ? checksR.value.checks : [];
@@ -320,10 +375,17 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         generatedAt: new Date().toISOString()
     };
 
-    try {
-        await col.updateOne({ symbol: sym, fyEnd }, { $set: { symbol: sym, fyEnd, payload, at: new Date() } }, { upsert: true });
-    } catch (_) { /* cache best-effort */ }
-    return payload;
+        try {
+            await col.updateOne({ symbol: sym, fyEnd }, { $set: { symbol: sym, fyEnd, payload, at: new Date() } }, { upsert: true });
+        } catch (_) { /* cache best-effort */ }
+        return payload;
+    } finally {
+        if (buildLease && buildLease.key) {
+            await dossierBuildLock.release(DossierBuildLock, buildLease).catch((error) => {
+                console.warn('[dossier] build lease release failed:', error.message);
+            });
+        }
+    }
 }
 
 // Build-free cache peek for the decoupled poll path.
@@ -334,8 +396,7 @@ async function peekDossier(symbol) {
         if (!data) return null;
         const pack = insights.buildFactPack(sym);
         const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
-        const hit = await dossierCol().findOne({ symbol: sym, fyEnd }, { projection: { _id: 0 } });
-        return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION ? { ...hit.payload, cached: true } : null;
+        return cachedDossier(dossierCol(), sym, fyEnd);
     } catch (_) { return null; }
 }
 
