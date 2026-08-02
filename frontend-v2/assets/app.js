@@ -800,6 +800,67 @@
         let busy = false;
         let aborter = null;
 
+        const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        const recoveryTool = (question) => {
+            const q = String(question || '').toLowerCase();
+            if (/dilut|share count|shares outstanding|buyback|repurchase/.test(q)) return 'dilution';
+            if (/filing|10-k|10-q|8-k|proxy|insider|form 4/.test(q)) return 'filing-timeline';
+            return 'earnings-quality';
+        };
+        async function tickerInQuestion(question) {
+            const q = String(question || '').toUpperCase();
+            const explicit = q.match(/\$([A-Z][A-Z0-9.-]{0,9})/);
+            if (explicit && /^[A-Z0-9.\-]{1,10}$/.test(explicit[1])) return explicit[1];
+            const candidates = q.match(/\b[A-Z][A-Z0-9.-]{0,9}\b/g) || [];
+            const list = await companies();
+            const known = new Set((list || []).map((c) => String(c.symbol || '').toUpperCase()).filter(Boolean));
+            return candidates.find((candidate) => known.has(candidate)) || '';
+        }
+        async function deterministicRecovery(question, answerEl, traceEl) {
+            const symbol = await tickerInQuestion(question);
+            if (!symbol) return false;
+            const tool = recoveryTool(question);
+            let data;
+            try {
+                const r = await fetch(`${API}/free-tools/${tool}?symbol=${encodeURIComponent(symbol)}`);
+                if (!r.ok) return false;
+                data = await r.json();
+            } catch (_) { return false; }
+            if (!data || data.error) return false;
+            const safeSource = /^https:\/\/www\.sec\.gov\//.test(String(data.sourceUrl || '')) ? String(data.sourceUrl) : '';
+            const sourceLink = safeSource ? ` · <a href="${esc(safeSource)}" target="_blank" rel="noopener nofollow">Open SEC source</a>` : '';
+            let body = '';
+            if (tool === 'earnings-quality') {
+                body = `<table><tbody>
+                  <tr><th>Period</th><td>${esc(data.period || '—')}</td></tr>
+                  <tr><th>Revenue</th><td>${money(data.revenue)}</td></tr>
+                  <tr><th>Net income</th><td>${money(data.netIncome)}</td></tr>
+                  <tr><th>Operating cash flow</th><td>${money(data.operatingCashFlow)}</td></tr>
+                  <tr><th>Free cash flow</th><td>${money(data.freeCashFlow)}</td></tr>
+                  <tr><th>Cash conversion</th><td>${data.cashConversionRatio == null ? '—' : pct(Number(data.cashConversionRatio) * 100, 1)}</td></tr>
+                </tbody></table>`;
+            } else if (tool === 'dilution') {
+                body = `<table><tbody>
+                  <tr><th>Latest filed shares</th><td>${fixed(data.latest && data.latest.shares, 0)} (${esc(data.latest && data.latest.period || '—')})</td></tr>
+                  <tr><th>Prior filed shares</th><td>${fixed(data.prior && data.prior.shares, 0)} (${esc(data.prior && data.prior.period || '—')})</td></tr>
+                  <tr><th>Change</th><td>${fixed(data.change, 0)} (${data.percentageChange == null ? '—' : pct(data.percentageChange, 1)})</td></tr>
+                </tbody></table>`;
+            } else {
+                const filings = Array.isArray(data.filings) ? data.filings.slice(0, 6) : [];
+                body = filings.length
+                    ? `<table><thead><tr><th>Form</th><th>Filed</th><th>Source</th></tr></thead><tbody>${filings.map((f) => `<tr><td>${esc(f.form || '—')}</td><td>${esc(f.date || '—')}</td><td><a href="${esc(String(f.url || ''))}" target="_blank" rel="noopener nofollow">SEC filing</a></td></tr>`).join('')}</tbody></table>`
+                    : '<p>No recent filing rows were available for this ticker.</p>';
+            }
+            const warnings = Array.isArray(data.warnings) && data.warnings.length
+                ? `<p class="small faint">${data.warnings.map((w) => esc(w)).join(' ')}</p>` : '';
+            const landing = `/tools/${tool}?symbol=${encodeURIComponent(symbol)}`;
+            answerEl.innerHTML = `<div class="notice"><strong>AI synthesis is temporarily unavailable.</strong><p>Here is a deterministic filing check for ${esc(symbol)} so your research can continue.</p>${body}${warnings}<p class="small faint">No AI conclusion was used. <a href="${landing}">Run the full ${esc(tool.replace(/-/g, ' '))} tool</a>${sourceLink}.</p></div>`;
+            if (traceEl) {
+                traceEl.innerHTML = '<details><summary>Used deterministic filing data</summary><div><span class="ask-step">StockPortfolio.pro fundamentals cache</span></div></details>';
+            }
+            return true;
+        }
+
         async function send(question) {
             if (busy) return;
             busy = true;
@@ -823,6 +884,14 @@
             const workingRow = block.querySelector('.ask-working-row');
             const workingEl = block.querySelector('.ask-working');
             const traceSteps = [];
+            const showFailure = async (message) => {
+                if (workingRow.isConnected) workingRow.remove();
+                renderTrace();
+                if (await deterministicRecovery(question, answerEl, traceEl)) return;
+                answerEl.innerHTML = `<div class="notice">${esc(message || 'Ask is temporarily unavailable.')} <button type="button" class="btn btn-quiet btn-sm" data-ask-retry style="margin-top:10px">Retry this question</button><p class="small faint" style="margin-top:8px">Your question is preserved above. You can retry it without retyping.</p></div>`;
+                const retry = answerEl.querySelector('[data-ask-retry]');
+                if (retry) retry.addEventListener('click', () => { retry.disabled = true; send(question); });
+            };
             block.querySelector('.ask-stop').addEventListener('click', () => { if (aborter) aborter.abort(); });
             const renderTrace = () => {
                 if (!traceSteps.length) { traceEl.innerHTML = ''; return; }
@@ -836,12 +905,22 @@
             try {
                 const _askHeaders = { 'Content-Type': 'application/json' };
                 if (token()) _askHeaders.Authorization = `Bearer ${token()}`;
-                const r = await fetch(`${API}/ai/chat`, {
-                    method: 'POST',
-                    headers: _askHeaders,
-                    body: JSON.stringify({ question, history: history.slice(-8), stream: true }),
-                    signal: aborter.signal
-                });
+                let r;
+                for (let attempt = 0; attempt < 2; attempt++) {
+                    try {
+                        r = await fetch(`${API}/ai/chat`, {
+                            method: 'POST',
+                            headers: _askHeaders,
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true }),
+                            signal: aborter.signal
+                        });
+                        if (r.status < 500 || attempt === 1) break;
+                    } catch (error) {
+                        if ((error && error.name === 'AbortError') || attempt === 1) throw error;
+                    }
+                    workingEl.textContent = 'Temporary issue — retrying…';
+                    await wait(700);
+                }
                 const ct = r.headers.get('content-type') || '';
                 if (!ct.includes('text/event-stream')) {
                     const data = await r.json().catch(() => ({}));
@@ -852,10 +931,10 @@
                         answerEl.innerHTML = data && data.trial
                             ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/login.html">Log in</a> or <a href="/register.html?plan=free">create a free account &rarr;</a></div>`
                             : quotaWall(data);
-                    } else if (data.answer) {
+                    } else if (data.answer && data.source !== 'error') {
                         finish(data);
                     } else {
-                        answerEl.textContent = 'Something went wrong — please try again.';
+                        await showFailure((data && data.message) || 'Ask is temporarily unavailable.');
                     }
                     return;
                 }
@@ -910,8 +989,8 @@
                 answerEl.classList.remove('ask-cursor');
                 workingRow.remove();
                 renderTrace();
-                if (finalData && finalData.answer) finish(finalData);
-                else if (!text) answerEl.textContent = 'Something went wrong — please try again.';
+                if (finalData && finalData.answer && finalData.source !== 'error') finish(finalData);
+                else await showFailure('Ask is temporarily unavailable.');
 
                 function finish(data) {
                     answerEl.classList.remove('ask-cursor');
@@ -956,7 +1035,7 @@
                     answerEl.classList.remove('ask-cursor');
                     answerEl.insertAdjacentHTML('beforeend', '<p class="small faint" style="margin-top:8px;">Stopped.</p>');
                 } else {
-                    workingEl.textContent = 'Network problem — please try again.';
+                    await showFailure('Network problem while reaching Ask.');
                 }
             } finally {
                 busy = false;
