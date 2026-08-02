@@ -32,6 +32,18 @@ const reverseDcf = require('./reverse-dcf');
 const monitorFreeUsage = require('./monitor-free-usage');
 require('dotenv').config();
 
+// Optional, first-party post-purchase attribution question. This is deliberately
+// separate from the signed campaign cookie: a buyer may purchase on another
+// device or discover the product inside AppSumo itself.
+const APPSUMO_DISCOVERY_SOURCES = new Set([
+    'appsumo', 'x', 'linkedin', 'youtube', 'google', 'newsletter',
+    'friend', 'other'
+]);
+function normalizeAppSumoDiscoverySource(value) {
+    const source = String(value || '').trim().toLowerCase();
+    return APPSUMO_DISCOVERY_SOURCES.has(source) ? source : null;
+}
+
 // Tier ladder: free < core < pro.
 //   free — no card: screener/SEO (public anyway), watchlist (capped), a taste of Ask.
 //   core — any active paying plan (monthly/annual): portfolio, fundamentals, alerts, X-Ray.
@@ -1631,6 +1643,9 @@ const UserSchema = new mongoose.Schema({
     appsumoTier: { type: Number, default: null },
     appsumoAiCap: { type: Number, default: null },
     appsumoRedeemedAt: { type: Date, default: null },
+    // Optional self-reported discovery source collected during AppSumo
+    // activation. It complements (and never overwrites) signed attribution.
+    discoverySource: { type: String, default: null, enum: [null, ...APPSUMO_DISCOVERY_SOURCES] },
     // Post-redemption honest-review drip (AppSumo-sanctioned: 24h / day-3 / day-10).
     // appsumoReviewStage = highest stage already emailed (0..3); opt-out is separate
     // from the digest opt-out so unsubscribing one never mutes the other.
@@ -1664,6 +1679,7 @@ const CustomerLifecycleEventSchema = new mongoose.Schema({
     planName: { type: String, default: null },
     subscriptionStatus: { type: String, default: null },
     appsumoTier: { type: Number, default: null },
+    discoverySource: { type: String, default: null, enum: [null, ...APPSUMO_DISCOVERY_SOURCES] },
     customerEmailedAt: { type: Date, default: null },
     ownerNotifiedAt: { type: Date, default: null }
 }, { timestamps: true, versionKey: false, collection: 'customer_lifecycle_events' });
@@ -1808,7 +1824,7 @@ async function expireNoCardTrials() {
     };
 }
 
-async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier } = {}) {
+async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier, discoverySource } = {}) {
     if (!user || !user._id || !user.email) return { created: false, reason: 'missing user email' };
     const normalizedType = String(type || '');
     const normalizedSource = source || (normalizedType === 'appsumo_redeemed' ? 'appsumo' : normalizedType === 'stripe_paid' ? 'stripe' : 'direct');
@@ -1824,7 +1840,8 @@ async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier } 
             planId: user.subscription && user.subscription.planId,
             planName: user.subscription && user.subscription.planName,
             subscriptionStatus: user.subscription && user.subscription.status,
-            appsumoTier: Number(appsumoTier || user.appsumoTier) || null
+            appsumoTier: Number(appsumoTier || user.appsumoTier) || null,
+            discoverySource: normalizeAppSumoDiscoverySource(discoverySource || user.discoverySource)
         });
     } catch (error) {
         if (error && error.code === 11000) return { created: false, duplicate: true };
@@ -4593,7 +4610,7 @@ function effectiveAskLimit(req) {
     return (Number.isFinite(cap) && cap > 0) ? Math.min(cap, base) : base;
 }
 
-async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requestFields } = {}) {
+async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requestFields, discoverySource } = {}) {
     const cfg = appsumoTierConfig(tier);
     const now = new Date();
     const firstRedemption = !user.appsumoRedeemedAt;
@@ -4611,13 +4628,16 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
     user.appsumoLicenseKey = licenseKey || user.appsumoLicenseKey || null;
     user.appsumoTier = Number(tier) || user.appsumoTier || null;
     user.appsumoAiCap = cfg.askCap;
+    const normalizedDiscoverySource = normalizeAppSumoDiscoverySource(discoverySource || user.discoverySource);
+    if (normalizedDiscoverySource) user.discoverySource = normalizedDiscoverySource;
     user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
     user.markModified('subscription');
     await user.save();
     if (firstRedemption) {
         await recordCustomerLifecycleEvent(user, 'appsumo_redeemed', {
             source: 'appsumo',
-            appsumoTier: Number(tier) || null
+            appsumoTier: Number(tier) || null,
+            discoverySource: normalizedDiscoverySource
         });
     }
     trackFunnel('paid', user._id, cfg.planName, {
@@ -4628,6 +4648,7 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
         acquisitionClickId: acquisition ? acquisition.clickId : null,
         contentId: acquisition ? acquisition.contentId : null,
         acquisitionClickedAt: acquisition ? acquisition.clickedAt : null,
+        discoverySource: normalizedDiscoverySource,
         ...(requestFields || {})
     });
 }
@@ -4804,6 +4825,7 @@ app.get('/appsumo/redeem', async (req, res) => {
 app.post('/api/appsumo/activate', authMiddleware, async (req, res) => {
     try {
         const rt = String((req.body && req.body.rt) || '');
+        const discoverySource = normalizeAppSumoDiscoverySource(req.body && req.body.discoverySource);
         let payload;
         try { payload = jwt.verify(rt, JWT_SECRET); }
         catch (_) { return res.status(400).json({ message: 'Your activation link expired. Restart activation from AppSumo to get a fresh one.' }); }
@@ -4829,7 +4851,8 @@ app.post('/api/appsumo/activate', authMiddleware, async (req, res) => {
             licenseKey,
             tier: lic.tier || tier,
             acquisition,
-            requestFields: trackingRequestFields(req, res)
+            requestFields: trackingRequestFields(req, res),
+            discoverySource
         });
         return res.json({ ok: true, message: 'Your AppSumo lifetime Pro is active.', subscription: normalizeSubscription(req.user.subscription) });
     } catch (err) {
@@ -4855,7 +4878,7 @@ function appsumoRedeemPage({ error, rt, status }) {
 .card{background:#fff;border:1px solid #e6e8eb;border-radius:16px;padding:28px}
 h1{font-size:22px;margin:14px 0 4px}p.sub{color:#5b6470;margin:0 0 18px}
 label{display:block;font-size:13px;font-weight:600;margin:14px 0 6px}
-input{width:100%;padding:11px 12px;border:1px solid #cfd4da;border-radius:10px;font-size:15px}
+input,select{width:100%;padding:11px 12px;border:1px solid #cfd4da;border-radius:10px;font-size:15px;background:#fff}
 button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:10px;background:var(--red);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
 button.alt{background:#fff;color:#15181c;border:1px solid #cfd4da;margin-top:10px}
 button[disabled]{opacity:.6;cursor:default}
@@ -4869,6 +4892,8 @@ button[disabled]{opacity:.6;cursor:default}
 <div id="form">
 <label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@email.com">
 <label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Your password">
+<label for="discovery">Where did you first discover StockPortfolio.pro? <span style="font-weight:400;color:#5b6470">(optional)</span></label>
+<select id="discovery"><option value="">Choose one</option><option value="appsumo">AppSumo marketplace</option><option value="x">X / Twitter</option><option value="linkedin">LinkedIn</option><option value="youtube">YouTube</option><option value="google">Google</option><option value="newsletter">Newsletter</option><option value="friend">Friend or colleague</option><option value="other">Other</option></select>
 <button id="go">Log in &amp; activate</button>
 <button id="alt" class="alt">Create a new account instead</button>
 </div>
@@ -4891,6 +4916,7 @@ alt.onclick = function(){
 go.onclick = async function(){
   var email = document.getElementById('email').value.trim();
   var password = document.getElementById('password').value;
+  var discoverySource = document.getElementById('discovery').value;
   if (!email || !password) { show('err', 'Enter your email and password.'); return; }
   go.disabled = true; alt.disabled = true; show('', 'Working...');
   try {
@@ -4899,7 +4925,7 @@ go.onclick = async function(){
     var ar = await fetch(authUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(authBody) });
     var aj = await ar.json();
     if (!ar.ok || !aj.token) { show('err', (aj && aj.message) || 'Could not sign you in.'); go.disabled=false; alt.disabled=false; return; }
-    var rr = await fetch('/api/appsumo/activate', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+aj.token}, body: JSON.stringify({ rt: DATA.rt }) });
+    var rr = await fetch('/api/appsumo/activate', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+aj.token}, body: JSON.stringify({ rt: DATA.rt, discoverySource: discoverySource || undefined }) });
     var rj = await rr.json();
     if (!rr.ok) { show('err', (rj && rj.message) || 'Activation failed.'); go.disabled=false; alt.disabled=false; return; }
     try { localStorage.setItem('token', aj.token); } catch(e){}
@@ -6027,7 +6053,10 @@ async function collectMarketingDashboard() {
     const appsumoLastEvent = await AppSumoLicense.findOne({}, { updatedAt: 1, lastEventAt: 1 }).sort({ updatedAt: -1 }).lean();
     return {
         generatedAt: now.toISOString(),
-        targetCustomers: 10,
+        // The current commercial objective is 50 net active AppSumo customers;
+        // AppSumo's partner portal remains authoritative for gross orders and
+        // refunds that have not reached our webhook yet.
+        targetCustomers: 50,
         allTime: {
             ...all,
             appsumoLicenses,
@@ -6169,6 +6198,7 @@ app.get('/api/admin/customers', async (req, res) => {
             stripeCustomerId: 1, stripeSubscriptionId: 1,
             googleId: 1, facebookId: 1,
             appsumoTier: 1, appsumoAiCap: 1, appsumoRedeemedAt: 1,
+            discoverySource: 1,
             createdAt: 1, updatedAt: 1
         }).sort({ updatedAt: -1, appsumoRedeemedAt: -1 }).limit(limit).lean();
 
@@ -6176,6 +6206,7 @@ app.get('/api/admin/customers', async (req, res) => {
         const lifecycleEvents = userIds.length
             ? await CustomerLifecycleEvent.find({ userId: { $in: userIds } }, {
                 userId: 1, type: 1, source: 1, createdAt: 1,
+                discoverySource: 1,
                 customerEmailedAt: 1, ownerNotifiedAt: 1
             }).sort({ createdAt: -1 }).lean()
             : [];
@@ -6220,6 +6251,7 @@ app.get('/api/admin/customers', async (req, res) => {
                 trialEventAt: trialEvent && trialEvent.at,
                 acquisitionSource: trialEvent && trialEvent.acquisitionSource || null,
                 acquisitionClickId: trialEvent && trialEvent.acquisitionClickId || null,
+                discoverySource: user.discoverySource || event && event.discoverySource || null,
                 convertedVia,
                 convertedAt: user.appsumoRedeemedAt || (user.subscription && user.subscription.lastPaymentAt) || null,
                 appsumoRedeemedAt: user.appsumoRedeemedAt || null,
@@ -6231,7 +6263,7 @@ app.get('/api/admin/customers', async (req, res) => {
         });
         res.setHeader('Cache-Control', 'no-store');
         if (String(req.query.format || '').toLowerCase() === 'csv') {
-            const columns = ['email', 'name', 'channel', 'authMethod', 'planId', 'planName', 'subscriptionStatus', 'effectiveStatus', 'trialStartedAt', 'trialEndsAt', 'trialEventAt', 'acquisitionSource', 'acquisitionClickId', 'convertedVia', 'convertedAt', 'appsumoTier', 'appsumoAiCap', 'createdAt', 'updatedAt', 'appsumoRedeemedAt', 'lastPaymentAt', 'lastLifecycleEvent', 'customerEmailedAt', 'ownerNotifiedAt'];
+            const columns = ['email', 'name', 'channel', 'authMethod', 'planId', 'planName', 'subscriptionStatus', 'effectiveStatus', 'trialStartedAt', 'trialEndsAt', 'trialEventAt', 'acquisitionSource', 'acquisitionClickId', 'discoverySource', 'convertedVia', 'convertedAt', 'appsumoTier', 'appsumoAiCap', 'createdAt', 'updatedAt', 'appsumoRedeemedAt', 'lastPaymentAt', 'lastLifecycleEvent', 'customerEmailedAt', 'ownerNotifiedAt'];
             const lines = [columns.map(customerCsvCell).join(',')];
             customers.forEach((customer) => lines.push(columns.map((column) => customerCsvCell(customer[column])).join(',')));
             res.setHeader('Content-Type', 'text/csv; charset=utf-8');
