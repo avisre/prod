@@ -1,6 +1,7 @@
 // Shared, provider-agnostic LLM client (OpenAI-compatible chat completions).
 // Works with OpenRouter, Moonshot/Kimi, Ollama Cloud, etc. via env config.
 // Used by ai-briefing.js, ai-features.js and ai-chat.js.
+const ollamaUsage = require('./ollama-usage-tracker');
 //
 // Right model for the job — each purpose can run a different model:
 //   summary  — one-shot prose over precomputed facts (fast/cheap, no thinking)
@@ -40,6 +41,7 @@ function isConfigured() {
 async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose = 'briefing', tools = null, toolChoice = null, timeoutMs = 120000 } = {}) {
     const { key, baseUrl, model } = cfg(purpose);
     if (!key) throw new Error('AI not configured');
+    const usageCall = ollamaUsage.start({ baseUrl, model, purpose });
     const body = {
         model,
         messages,
@@ -73,10 +75,14 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
         const data = await resp.json();
         const msg = data?.choices?.[0]?.message || {};
         msg._usage = data?.usage || null;
+        ollamaUsage.finish(usageCall, { status: 'completed', usage: msg._usage });
         return msg;
     } catch (err) {
-        if (err.name === 'AbortError') throw new Error(`AI provider timeout after ${Math.round(timeoutMs / 1000)}s`);
-        throw err;
+        const failure = err.name === 'AbortError'
+            ? new Error(`AI provider timeout after ${Math.round(timeoutMs / 1000)}s`)
+            : err;
+        ollamaUsage.finish(usageCall, { status: 'error', error: failure });
+        throw failure;
     } finally {
         clearTimeout(timer);
     }
@@ -89,6 +95,7 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
 async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, purpose = 'briefing', tools = null, toolChoice = null, idleTimeoutMs = 90000 } = {}, onDelta) {
     const { key, baseUrl, model } = cfg(purpose);
     if (!key) throw new Error('AI not configured');
+    const usageCall = ollamaUsage.start({ baseUrl, model, purpose });
     const body = {
         model,
         messages,
@@ -163,10 +170,14 @@ async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, pu
             msg.tool_calls = [...tcByIndex.keys()].sort((a, b) => a - b).map((i) => tcByIndex.get(i));
             msg.tool_calls.forEach((tc, i) => { if (!tc.id) tc.id = `call_${i}`; });
         }
+        ollamaUsage.finish(usageCall, { status: 'completed', usage: msg._usage });
         return msg;
     } catch (err) {
-        if (err.name === 'AbortError') throw new Error(`AI provider stream timeout (idle ${Math.round(idleTimeoutMs / 1000)}s)`);
-        throw err;
+        const failure = err.name === 'AbortError'
+            ? new Error(`AI provider stream timeout (idle ${Math.round(idleTimeoutMs / 1000)}s)`)
+            : err;
+        ollamaUsage.finish(usageCall, { status: 'error', error: failure });
+        throw failure;
     } finally {
         clearTimeout(idleTimer);
     }
