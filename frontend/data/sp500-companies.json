@@ -202,7 +202,7 @@
   {
     "symbol": "APP",
     "name": "AppLovin",
-    "sector": "Information Technology"
+    "sector": "Communication Services"
   },
   {
     "symbol": "APTV",
@@ -802,7 +802,7 @@
   {
     "symbol": "DD",
     "name": "DuPont",
-    "sector": "Materials"
+    "sector": "Industrials"
   },
   {
     "symbol": "ETN",
@@ -833,11 +833,6 @@
     "symbol": "EW",
     "name": "Edwards Lifesciences",
     "sector": "Health Care"
-  },
-  {
-    "symbol": "EA",
-    "name": "Electronic Arts",
-    "sector": "Communication Services"
   },
   {
     "symbol": "ELV",
@@ -977,6 +972,11 @@
   {
     "symbol": "FDXF",
     "name": "FedEx Freight",
+    "sector": "Industrials"
+  },
+  {
+    "symbol": "FERG",
+    "name": "Ferguson Enterprises",
     "sector": "Industrials"
   },
   {
