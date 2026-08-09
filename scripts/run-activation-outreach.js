@@ -11,6 +11,7 @@ const mailer = require('../backend/mailer');
 
 const CAMPAIGN = 'activation-help-2026-08-09';
 const DAY_MS = 24 * 60 * 60 * 1000;
+const CONTACT_COOLDOWN_MS = 4 * DAY_MS;
 
 function escapeHtml(value) {
   return String(value || '')
@@ -136,10 +137,21 @@ async function main() {
     const segment = isBuyer ? 'appsumo-buyer' : isExpired ? 'expired-trial' : null;
     const outreachKey = `${CAMPAIGN}:${String(user._id)}`;
     const prior = await outbox.findOne({ outreachKey });
+    const normalizedEmail = String(user.email || '').trim().toLowerCase();
+    const recentOtherContact = normalizedEmail ? await outbox.findOne({
+      to: normalizedEmail,
+      status: 'sent',
+      campaign: { $ne: CAMPAIGN },
+      sentAt: { $gte: new Date(Date.now() - CONTACT_COOLDOWN_MS) },
+    }, { projection: { _id: 1 } }) : null;
 
-    if (!segment || optedOut || (prior && prior.status === 'sent') || (prior && prior.status === 'failed' && !retryFailed)) {
+    if (!segment || optedOut || recentOtherContact || (prior && prior.status === 'sent') || (prior && prior.status === 'failed' && !retryFailed)) {
       results.skipped++;
-      results.rows.push({ user: maskEmail(user.email), segment: segment || 'ineligible', action: optedOut ? 'opted-out' : prior?.status || 'skipped' });
+      results.rows.push({
+        user: maskEmail(user.email),
+        segment: segment || 'ineligible',
+        action: optedOut ? 'opted-out' : recentOtherContact ? 'recent-contact-cooldown' : prior?.status || 'skipped',
+      });
       continue;
     }
 
@@ -153,7 +165,7 @@ async function main() {
       if (prior && prior.status === 'failed' && retryFailed) {
         await outbox.updateOne({ outreachKey, status: 'failed' }, { $set: { status: 'sending', retryStartedAt: new Date(), lastError: null } });
       } else {
-        await outbox.insertOne({ outreachKey, campaign: CAMPAIGN, userId: user._id, segment, to: String(user.email).toLowerCase(), status: 'sending', createdAt: new Date() });
+        await outbox.insertOne({ outreachKey, campaign: CAMPAIGN, userId: user._id, segment, to: normalizedEmail, status: 'sending', createdAt: new Date() });
       }
       const email = isBuyer ? buyerEmail(user, appUrl) : expiredTrialEmail(user, appUrl);
       const ok = await mailer.sendMail({ to: user.email, subject: email.subject, html: email.html, text: email.text });

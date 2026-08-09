@@ -86,14 +86,59 @@ async function main() {
   const emailRows = await db.collection('scheduled_emails').find({}).project({ status: 1, skippedReason: 1 }).toArray();
   const email = emailRows.reduce((acc, row) => { const status = String(row.status || 'scheduled'); acc[status] = (acc[status] || 0) + 1; if (status === 'skipped' && /already|duplicate/i.test(String(row.skippedReason || ''))) acc.duplicatePrevented++; return acc; }, { scheduled: 0, sent: 0, failed: 0, skipped: 0, duplicatePrevented: 0 });
   email.attempted = email.sent + email.failed;
+  const outreachRows = await db.collection('campaign_outreach').find({
+    $or: [
+      { sentAt: { $gte: since, $lt: until } },
+      { failedAt: { $gte: since, $lt: until } },
+      { createdAt: { $gte: since, $lt: until } },
+    ],
+  }).project({ campaign: 1, status: 1, outreachKey: 1, to: 1 }).toArray();
+  const outreach = outreachRows.reduce((acc, row) => {
+    const campaign = String(row.campaign || 'unknown');
+    const status = String(row.status || 'unknown');
+    acc[campaign] ||= {};
+    acc[campaign][status] = (acc[campaign][status] || 0) + 1;
+    return acc;
+  }, {});
+  const activationSent = outreach['activation-help-2026-08-09']?.sent || 0;
+  const activationFailed = outreach['activation-help-2026-08-09']?.failed || 0;
+  const supportSent = outreach['support-conversations-2026-08-09']?.sent || 0;
+  const supportFailed = outreach['support-conversations-2026-08-09']?.failed || 0;
+  const creatorSent = outreach['creator-outreach-2026-08-09']?.sent || 0;
+  const creatorFailed = outreach['creator-outreach-2026-08-09']?.failed || 0;
+  const activationRecipients = new Set(outreachRows
+    .filter((row) => row.campaign === 'activation-help-2026-08-09' && row.status === 'sent')
+    .map((row) => String(row.to || '').trim().toLowerCase()).filter(Boolean));
+  const supportRecipients = new Set(outreachRows
+    .filter((row) => row.campaign === 'support-conversations-2026-08-09' && row.status === 'sent')
+    .map((row) => String(row.to || '').trim().toLowerCase()).filter(Boolean));
+  const crossCampaignOverlap = [...activationRecipients].filter((recipient) => supportRecipients.has(recipient)).length;
+  const appsumoRequestSent = outreachRows.some((row) => (
+    row.status === 'sent' && String(row.outreachKey || '').startsWith('appsumo-amplification-2026-08-09:')
+  ));
+  const gmvSnapshot = await db.collection('manual_gmv_snapshots').findOne(
+    { date: day },
+    { projection: { _id: 0, grossOrders: 1, grossSales: 1, refunds: 1, netOrders: 1, payoutEstimate: 1, notes: 1 } },
+  );
   const sprintDir = path.join(__dirname, '../marketing/campaign-2026-08-appsumo-sprint');
   const xRows = readCsv(path.join(sprintDir, 'x-opportunities-2026-08-09.csv'));
+  const xPublished = xRows.filter((row) => String(row[10] || '').trim() === 'published_confirmed').length;
+  const xPrepared = xRows.length - xPublished;
+  const originalPath = path.join(sprintDir, 'x-original-posts-2026-08-09.md');
+  const originalText = fs.existsSync(originalPath) ? fs.readFileSync(originalPath, 'utf8') : '';
+  const originalPublished = (originalText.match(/Status: `published_confirmed`/g) || []).length;
   const creators = countStatuses(path.join(sprintDir, 'creators.csv'), 9);
-  const community = fs.existsSync(path.join(sprintDir, 'COMMUNITY-QUEUE.md')) ? (fs.readFileSync(path.join(sprintDir, 'COMMUNITY-QUEUE.md'), 'utf8').match(/\| ready_auth_required \|/g) || []).length : 0;
-  const text = `# August AppSumo campaign — daily report (${day})\n\nGenerated read-only from MongoDB and campaign artifacts.\n\n## Revenue\n\n- Authoritative Partner Portal GMV: **unavailable** (no imported Partner Portal snapshot).\n- Redeemed AppSumo accounts: **${redeemedRows.length}**. Tier mix: ${Object.entries(tiers).map(([tier, count]) => `Tier ${tier}: ${count}`).join(', ') || 'not available'}.\n- Redeemed list-price proxy: **${money(listProxy)}**. This is not GMV and must not be used as revenue.\n- Exact AppSumo end date: **not configured/confirmed**; urgency is intentionally not inferred.\n\n## Distribution ready today\n\n- X intent replies prepared: **${xRows.length}** (ready_auth_required; no posts claimed published).\n- Original X posts prepared: **2** (ready_auth_required).\n- Creator prospects: **${Object.values(creators).reduce((a, b) => a + b, 0)}**; statuses: ${Object.entries(creators).map(([key, value]) => `${key} ${value}`).join(', ') || 'none'}.\n- Community drafts ready for authenticated posting: **${community}**.\n\n## External funnel events today\n\n- Page views: **${counts.page_view || 0}**\n- Free-tool views/completions: **${counts.tool_view || 0} / ${counts.tool_complete || 0}**\n- AppSumo outbound events: **${counts.appsumo_click || 0}**\n- Signups/trials: **${counts.signup || 0} / ${counts.trial_start || 0}**\n- Meaningful activations: **${counts.meaningful_activation || 0}**\n- Paid/redemption events: **${counts.paid || 0} / ${counts.redemption || 0}**\n- Source-opened events: **${sourceOpens}**\n\n## Advocacy and lifecycle mail\n\n- Review-eligible accounts (aggregate): **${reviewEligible}**\n- Review submissions today: **${reviews}**\n- Lifecycle records — scheduled: **${email.scheduled || 0}**, attempted: **${email.attempted}**, sent: **${email.sent || 0}**, failed: **${email.failed || 0}**, suppressed: **${email.skipped || 0}**, duplicate prevented: **${email.duplicatePrevented}**. These are application states, not inbox opens.\n\n## Warnings\n\n- Partner Portal GMV and exact deal end date are still missing; do not infer either from product database events.\n- Social publishing and creator outreach require an authenticated account and final owner consent; drafts are prepared, not sent.\n- Review and customer outcomes need direct evidence before changing customer-success status.\n`;
-  fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  fs.writeFileSync(OUT, text);
-  if (process.argv.includes('--json')) console.log(JSON.stringify({ day, events: counts, redeemed: redeemedRows.length, listPriceProxy: listProxy, email, xReady: xRows.length, creatorStatuses: creators }, null, 2));
+  const communityText = fs.existsSync(path.join(sprintDir, 'COMMUNITY-QUEUE.md')) ? fs.readFileSync(path.join(sprintDir, 'COMMUNITY-QUEUE.md'), 'utf8') : '';
+  const communityBlocked = (communityText.match(/\| auth_blocked \|/g) || []).length;
+  const portalSummary = gmvSnapshot
+    ? `- Authoritative Partner Portal payout: **${money(gmvSnapshot.payoutEstimate)}** across **${gmvSnapshot.netOrders || gmvSnapshot.grossOrders || 0} payable codes**, with **${gmvSnapshot.refunds || 0} refunds**.\n- Gross customer GMV: **${Number(gmvSnapshot.grossSales || 0) > 0 ? money(gmvSnapshot.grossSales) : 'unavailable in the Partner Portal CSV'}**. Payout is not mislabeled as GMV.`
+    : '- Authoritative Partner Portal payout and GMV: **unavailable** (no manual Partner Portal snapshot for this date).';
+  const text = `# August AppSumo campaign — daily report (${day})\n\nGenerated read-only from MongoDB and campaign artifacts.\n\n## Revenue\n\n${portalSummary}\n- Redeemed AppSumo accounts: **${redeemedRows.length}**. Tier mix: ${Object.entries(tiers).map(([tier, count]) => `Tier ${tier}: ${count}`).join(', ') || 'not available'}.\n- Redeemed list-price proxy: **${money(listProxy)}**. This is not GMV and must not be used as revenue.\n- Exact AppSumo end date: **no scheduled deadline was present in the listing data checked on 2026-08-09**; urgency is intentionally not inferred.\n\n## Distribution today\n\n- X intent replies: **${xPublished} published and confirmed**, **${xPrepared} remaining prepared**.\n- Original X posts: **${originalPublished} published and confirmed**.\n- Creator prospects: **${Object.values(creators).reduce((a, b) => a + b, 0)}**; statuses: ${Object.entries(creators).map(([key, value]) => `${key} ${value}`).join(', ') || 'none'}. Production outbox: **${creatorSent} sent / ${creatorFailed} failed**.\n- AppSumo amplification request: **${appsumoRequestSent ? 'sent from support@stockportfolio.pro' : 'not verified sent'}**.\n- Community drafts still authentication-blocked: **${communityBlocked}**.\n\n## External funnel events today\n\n- Page views: **${counts.page_view || 0}**\n- Free-tool views/completions: **${counts.tool_view || 0} / ${counts.tool_complete || 0}**\n- AppSumo outbound events: **${counts.appsumo_click || 0}**\n- Signups/trials: **${counts.signup || 0} / ${counts.trial_start || 0}**\n- Meaningful activations: **${counts.meaningful_activation || 0}**\n- Paid/redemption events: **${counts.paid || 0} / ${counts.redemption || 0}**\n- Source-opened events: **${sourceOpens}**\n\n## Advocacy and lifecycle mail\n\n- Review-eligible accounts (aggregate): **${reviewEligible}**\n- Review submissions today: **${reviews}**\n- Scheduled lifecycle records — scheduled: **${email.scheduled || 0}**, attempted: **${email.attempted}**, sent: **${email.sent || 0}**, failed: **${email.failed || 0}**, suppressed: **${email.skipped || 0}**, duplicate prevented: **${email.duplicatePrevented}**.\n- Personal support conversations — **${supportSent} sent / ${supportFailed} failed**.\n- Activation outreach — **${activationSent} sent / ${activationFailed} failed**.\n- Same-day recipient overlap between those two campaigns: **${crossCampaignOverlap}**. A four-day cross-campaign cooldown now prevents another overlap.\n\n## Warnings\n\n- Gross customer GMV is not available unless AppSumo supplies buyer sale prices; partner payout must remain separate.\n- Reddit and Hacker News remain authentication-blocked; no community publication is claimed.\n- Review and customer outcomes need direct evidence before changing customer-success status.\n`;
+  if (!process.argv.includes('--no-write')) {
+    fs.mkdirSync(path.dirname(OUT), { recursive: true });
+    fs.writeFileSync(OUT, text);
+  }
+  if (process.argv.includes('--json')) console.log(JSON.stringify({ day, events: counts, redeemed: redeemedRows.length, listPriceProxy: listProxy, email, outreach, gmvSnapshot, xPublished, xPrepared, originalPublished, creatorStatuses: creators, communityBlocked, crossCampaignOverlap }, null, 2));
   else console.log(text);
   await mongoose.disconnect();
 }

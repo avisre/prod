@@ -7,9 +7,9 @@
 5. Reconcile the Partner Portal CSV manually before entering GMV snapshots.
 6. Enable the affiliate pilot only after three real customers choose “Yes, clearly” and the feature is deliberately enabled by the owner.
 
-## AppSumo amplification request — ready to send
+## AppSumo amplification request — sent
 
-**Status: AUTHENTICATION REQUIRED TO SEND.** Send through the AppSumo Partner Portal support/contact channel; no message has been sent by this repository workflow.
+**Status: SENT 2026-08-09 from `support@stockportfolio.pro` to `partners@appsumo.com`.** The production outbox idempotency key prevents a duplicate send.
 
 **Subject:** StockPortfolio.pro — request for August marketplace amplification and deal details
 
