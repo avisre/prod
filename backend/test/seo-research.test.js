@@ -2,6 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const vm = require('node:vm');
 const extra = require('../seo-extra');
 const seo = require('../seo-pages');
 const competitorComparisons = require('../comparison-pages');
@@ -34,6 +35,12 @@ test('stock comparison pages use the shared authenticated navbar', () => {
     assert.match(page.html, /assets\/system\.css\?v=20260730-ssrnav1/);
     assert.match(page.html, /assets\/app\.js\?v=20260730-ssrnav1/);
     assert.match(page.html, /V2\.nav\("compare"\)/);
+    assert.match(page.html, /cmpWireAutocomplete\('cmpAdd','cmpMatches'\)/);
+    assert.ok(Buffer.byteLength(page.html) < 100_000, 'comparison pages must not embed the full ticker universe');
+    const inlineScripts = [...page.html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
+        .filter((match) => !/application\/ld\+json|\bsrc=/i.test(match[1]))
+        .map((match) => match[2]).filter(Boolean);
+    inlineScripts.forEach((source) => assert.doesNotThrow(() => new vm.Script(source)));
     assert.match(page.html, /window\.__spSkipAutoPageView=true/);
     assert.doesNotMatch(page.html, /id="seoNavCta"|<header class="seo-nav"/);
 
@@ -41,6 +48,21 @@ test('stock comparison pages use the shared authenticated navbar', () => {
     assert.match(competitorPage, /assets\/system\.css\?v=20260730-ssrnav1/);
     assert.match(competitorPage, /V2\.nav\('compare'\)/);
     assert.doesNotMatch(competitorPage, /<header class="seo-nav"/);
+});
+
+test('advertised comparison URLs are canonical, renderable primary listings', () => {
+    const pairs = extra.comparePairs();
+    assert.ok(pairs.length >= 5_000 && pairs.length < 7_000, `crawl-prioritized pair count was ${pairs.length}`);
+    assert.ok(pairs.every((pair) => /^[A-Z0-9.]+-vs-[A-Z0-9.]+$/.test(pair)));
+    // The deployment audit checks the full inventory; keep the unit suite fast
+    // while sampling evenly across its sorted range.
+    const samples = Array.from({ length: 25 }, (_, i) => pairs[Math.floor(i * (pairs.length - 1) / 24)]);
+    assert.ok(samples.every((pair) => {
+        const page = extra.renderComparePage(pair);
+        return page && page.html && !page.redirect;
+    }), 'sampled advertised comparisons must return their canonical pages');
+    assert.ok(!pairs.includes('BF-A-vs-BF.B'));
+    assert.ok(!pairs.includes('BF-A-vs-SJM'));
 });
 
 test('research hubs are canonical, source-backed and internally connected', () => {

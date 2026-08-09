@@ -479,56 +479,61 @@ function renderDilutionScorecard() {
 }
 
 // ---------- head-to-head comparisons ----------
-// Pairs: each company with its 2 nearest same-sector neighbours by market cap
-// (deduped, alphabetical canonical order). Built from the screener index so we
-// never load 1,500 full fundamentals files.
+// Pairs: each primary company with its 2 nearest same-sector neighbours by
+// market cap (deduped, alphabetical canonical order). Two neighbours is a
+// deliberate crawl-budget ceiling: widening this to four created 11,602 URLs,
+// almost exactly the comparison-heavy "discovered, currently not indexed"
+// backlog reported by Search Console. The pages still work for any valid pair;
+// this list controls only what we actively advertise to crawlers.
+const POPULAR_COMPARISONS = [
+    ['AMD', 'NVDA'], ['AAPL', 'MSFT'], ['GOOGL', 'META'], ['AMZN', 'MSFT'],
+    ['TSLA', 'F'], ['JPM', 'BAC'], ['KO', 'PEP'], ['V', 'MA'],
+    ['AMD', 'INTC'], ['DIS', 'NFLX'], ['CRM', 'ORCL'], ['WMT', 'COST']
+];
 let _pairs = null;
 function comparePairs() {
     if (_pairs) return _pairs;
-    const rows = aiChat.screenRows({ limit: 5000, maxLimit: 5000, sort_by: 'marketCapB' }).rows
-        .filter((r) => r.marketCapB !== null && r.sector);
+    const rows = aiChat.screenRows({
+        limit: 5000, maxLimit: 5000, sort_by: 'marketCapB', exclude_secondary_listings: true
+    }).rows.filter((r) => r.marketCapB !== null && r.sector && /^[A-Z0-9.]+$/.test(r.symbol));
     const bySector = {};
     rows.forEach((r) => { (bySector[r.sector] = bySector[r.sector] || []).push(r); });
     const set = new Set();
+    POPULAR_COMPARISONS.forEach(([x, y]) => {
+        if (!aiChat.metricsFor(x) || !aiChat.metricsFor(y)) return;
+        const [a, b] = [x, y].sort();
+        set.add(`${a}-vs-${b}`);
+    });
     Object.values(bySector).forEach((list) => {
         list.sort((a, b) => b.marketCapB - a.marketCapB);
         list.forEach((r, i) => {
-            // 4 nearest same-sector neighbours by market cap (was 2). Compare
-            // pages are the highest-CTR surface in Search Console, so widen the
-            // net — still similar-size, same-sector pairs, exactly what searchers
-            // type ("X vs Y").
-            [list[i + 1], list[i + 2], list[i + 3], list[i + 4]].forEach((p) => {
+            [list[i + 1], list[i + 2]].forEach((p) => {
                 if (!p) return;
                 const [a, b] = [r.symbol, p.symbol].sort();
                 set.add(`${a}-vs-${b}`);
             });
         });
     });
-    _pairs = [...set];
+    _pairs = [...set].sort();
     return _pairs;
 }
 
-// Full data-backed universe as datalist <option>s, market-cap sorted, memoized.
-// value = "TICKER — Name" so the native datalist matches BOTH a ticker prefix
-// (e.g. "CBRS") AND a company-name substring (e.g. "cerebras"); the picker JS
-// (cmpExtractSym below) parses the leading ticker back out on submit. Only
-// companies that actually have fundamentals are included, so a suggestion never
-// leads to a 404 /compare page.
-let _univOpts = null;
-function universeOptions() {
-    if (_univOpts !== null) return _univOpts;
-    try {
-        const rows = aiChat.screenRows({ limit: 5000, maxLimit: 5000, sort_by: 'marketCapB' }).rows;
-        _univOpts = rows
-            .filter((r) => r && r.symbol && r.name)
-            .map((r) => `<option value="${esc(r.symbol + ' — ' + r.name)}">`)
-            .join('');
-    } catch (_) { _univOpts = ''; }
-    return _univOpts;
-}
-// Shared client-side helper: turn a datalist value ("TICKER — Name" or a raw
-// ticker the user typed) into a clean ticker. Inlined into each page's script.
+// Shared client-side helpers: the old implementation embedded roughly 180 KB of
+// repeated <option> markup in every comparison page. Search suggestions now use
+// the site's existing public asset search only after a visitor types, keeping
+// the server-rendered response small while retaining company-name autocomplete.
 const CMP_EXTRACT_SYM = `function cmpExtractSym(v){v=(v||'').split(' — ')[0];return v.toUpperCase().replace(/[^A-Z0-9.]/g,'');}`;
+const CMP_AUTOCOMPLETE = `function cmpWireAutocomplete(inputId,boxId){
+  var input=document.getElementById(inputId),box=document.getElementById(boxId);if(!input||!box)return;
+  var rows=[],active=-1,seq=0,timer=null;
+  function close(){rows=[];active=-1;box.hidden=true;box.innerHTML='';input.removeAttribute('aria-activedescendant');}
+  function draw(){if(!rows.length){close();return;}box.innerHTML=rows.map(function(r,i){return '<button type="button" role="option" id="'+boxId+'-'+i+'" data-i="'+i+'" aria-selected="'+(i===active)+'" style="display:flex;width:100%;gap:9px;padding:9px 11px;border:0;border-bottom:1px solid var(--line);background:'+(i===active?'var(--paper)':'var(--surface)')+';color:var(--ink);text-align:left;cursor:pointer"><strong style="min-width:54px">'+V2.esc(r.symbol)+'</strong><span style="color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+V2.esc(r.name||r.symbol)+'</span></button>';}).join('');box.hidden=false;if(active>=0)input.setAttribute('aria-activedescendant',boxId+'-'+active);}
+  function choose(i){var r=rows[i];if(!r)return;input.value=r.symbol+' — '+(r.name||r.symbol);close();input.focus();}
+  input.addEventListener('input',function(){var q=input.value.trim();clearTimeout(timer);var mine=++seq;if(q.length<1){close();return;}timer=setTimeout(function(){V2.searchAssets(q,{limit:8,types:['stock']}).then(function(found){if(mine!==seq)return;rows=(found||[]).filter(function(r){return /^[A-Z0-9.]{1,10}$/.test(r.symbol||'');});active=-1;draw();}).catch(close);},120);});
+  input.addEventListener('keydown',function(e){if(box.hidden||!rows.length)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();active=e.key==='ArrowDown'?(active+1)%rows.length:(active-1+rows.length)%rows.length;draw();}else if(e.key==='Enter'&&active>=0){e.preventDefault();choose(active);}else if(e.key==='Escape')close();});
+  box.addEventListener('pointerdown',function(e){var b=e.target.closest('[data-i]');if(!b)return;e.preventDefault();choose(Number(b.dataset.i));});
+  document.addEventListener('pointerdown',function(e){if(e.target!==input&&!box.contains(e.target))close();});
+}`;
 
 // ---- /compare hub: pick two tickers → the side-by-side + AI verdict ----
 // Gives the "Compare" nav item a real home and works as a compare-hub SEO page.
@@ -536,7 +541,7 @@ function renderCompareIndex() {
     const canonical = `${SITE}/compare`;
     const title = 'Compare Any Two US Stocks — Fundamentals & AI Verdict';
     const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E, ROE and red flags from SEC filings — plus an AI verdict on which is the stronger business and the cheaper stock. Free, no account.';
-    const popular = [['AMD', 'NVDA'], ['AAPL', 'MSFT'], ['GOOGL', 'META'], ['AMZN', 'MSFT'], ['TSLA', 'F'], ['JPM', 'BAC'], ['KO', 'PEP'], ['V', 'MA'], ['AMD', 'INTC'], ['DIS', 'NFLX'], ['CRM', 'ORCL'], ['WMT', 'COST']];
+    const popular = POPULAR_COMPARISONS;
     const popHtml = popular.map(([a, b]) => { const p = [a, b].slice().sort(); return `<a href="/compare/${p[0]}-vs-${p[1]}" style="display:inline-block;padding:8px 13px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface)">${esc(a)} vs ${esc(b)}</a>`; }).join('');
     // Deduplicate browse links against popular pairs and cap at 200
     const popSet = new Set(popular.map(([a, b]) => { const [x, y] = [a, b].slice().sort(); return `${x}-vs-${y}`; }));
@@ -546,7 +551,6 @@ function renderCompareIndex() {
         const parts = slug.split('-vs-');
         return `<a href="/compare/${esc(slug)}" style="display:inline-block;padding:6px 11px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;font-weight:500;color:var(--ink);background:var(--surface)">${esc(parts[0])} vs ${esc(parts[1])}</a>`;
     }).join('');
-    const datalist = universeOptions();
     const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical, publisher: { '@id': `${SITE}/#org` } });
     return head(title, description, canonical, jsonld) + nav('compare') + `
 <main class="seo-wrap">
@@ -555,10 +559,9 @@ function renderCompareIndex() {
   <p class="seo-sub">Side by side on the filed numbers &mdash; revenue, margins, growth, P/E, ROE, red flags &mdash; plus an AI verdict on which is the stronger business and the cheaper stock. Every figure from SEC filings, refreshed nightly.</p>
   <div class="seo-section" style="border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px">
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
-      <input id="cA" list="cmpDL" autocomplete="off" placeholder="Company or ticker — e.g. AMD" aria-label="First company or ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
+      <div style="position:relative;flex:1;min-width:150px"><input id="cA" autocomplete="off" placeholder="Company or ticker — e.g. AMD" aria-label="First company or ticker" aria-autocomplete="list" aria-controls="cAMatches" style="width:100%;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink)"><div id="cAMatches" role="listbox" hidden style="position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);max-height:290px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 10px 28px rgba(0,0,0,.12)"></div></div>
       <span style="color:var(--ink3);font-weight:700;font-size:14px">vs</span>
-      <input id="cB" list="cmpDL" autocomplete="off" placeholder="Company or ticker — e.g. Nvidia" aria-label="Second company or ticker" style="flex:1;min-width:150px;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink);text-transform:uppercase">
-      <datalist id="cmpDL">${datalist}</datalist>
+      <div style="position:relative;flex:1;min-width:150px"><input id="cB" autocomplete="off" placeholder="Company or ticker — e.g. Nvidia" aria-label="Second company or ticker" aria-autocomplete="list" aria-controls="cBMatches" style="width:100%;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink)"><div id="cBMatches" role="listbox" hidden style="position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);max-height:290px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 10px 28px rgba(0,0,0,.12)"></div></div>
       <button type="button" id="cGo" style="min-height:46px;padding:0 22px;border:0;border-radius:9px;background:var(--accent);color:#fff;font-size:15px;font-weight:650;cursor:pointer;white-space:nowrap">Compare &rarr;</button>
     </div>
     <p id="cErr" style="margin:10px 0 0;font-size:13px;color:#b4413c;display:none"></p>
@@ -575,6 +578,8 @@ function renderCompareIndex() {
 <script>
 (function(){
   ${CMP_EXTRACT_SYM}
+  ${CMP_AUTOCOMPLETE}
+  cmpWireAutocomplete('cA','cAMatches');cmpWireAutocomplete('cB','cBMatches');
   function go(){
     var a=cmpExtractSym(document.getElementById('cA').value);
     var b=cmpExtractSym(document.getElementById('cB').value);
@@ -584,7 +589,7 @@ function renderCompareIndex() {
     var p=[a,b].sort();location.href='/compare/'+p[0]+'-vs-'+p[1];
   }
   document.getElementById('cGo').addEventListener('click',go);
-  ['cA','cB'].forEach(function(id){document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();go();}});});
+  ['cA','cB'].forEach(function(id){document.getElementById(id).addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.defaultPrevented){e.preventDefault();go();}});});
 })();
 </script>` + footer();
 }
@@ -698,7 +703,7 @@ function renderComparePage(pairSlug) {
     // ---- related comparisons + ticker-swap (keep them in the format that converts) ----
     const peersOf = (m) => (m && m.sector && m.marketCapB != null)
         ? aiChat.screenRows({ sector: m.sector, sort_by: 'marketCapB', limit: 300, maxLimit: 300 }).rows
-            .filter((r) => r.symbol && r.symbol !== a && r.symbol !== b && r.marketCapB != null)
+            .filter((r) => r.symbol && /^[A-Z0-9.]+$/.test(r.symbol) && r.symbol !== a && r.symbol !== b && r.marketCapB != null)
             .sort((x, y) => Math.abs(x.marketCapB - m.marketCapB) - Math.abs(y.marketCapB - m.marketCapB))
         : [];
     const peersA = peersOf(ma), peersB = peersOf(mb);
@@ -718,21 +723,21 @@ function renderComparePage(pairSlug) {
         .map((slug) => `<a href="/compare/${esc(slug)}">${esc(slug.replace('-vs-', ' vs '))}</a>`).join('');
     const dlSyms = [];
     for (let i = 0; i < 12; i++) for (const peers of [peersA, peersB]) { const p = peers[i]; if (p && !dlSyms.includes(p.symbol)) dlSyms.push(p.symbol); }
-    const datalist = universeOptions(); // full universe so any company (incl. recent IPOs) is searchable by name or ticker
     const swapHtml = related.length ? `
   <div class="seo-section" style="margin:22px 0">
     <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px">
       <span style="font-size:13.5px;color:var(--ink2);font-weight:600">Compare with another company:</span>
-      <input id="cmpAdd" list="cmpPeers" autocomplete="off" placeholder="company or ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="flex:1;min-width:150px;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;background:var(--paper);color:var(--ink)">
-      <datalist id="cmpPeers">${datalist}</datalist>
+      <div style="position:relative;flex:1;min-width:150px"><input id="cmpAdd" autocomplete="off" aria-autocomplete="list" aria-controls="cmpMatches" placeholder="company or ticker, e.g. ${esc(dlSyms[0] || 'MSFT')}" style="width:100%;min-height:44px;padding:0 12px;border:1px solid var(--line);border-radius:8px;font-size:16px;background:var(--paper);color:var(--ink)"><div id="cmpMatches" role="listbox" hidden style="position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);max-height:290px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 10px 28px rgba(0,0,0,.12)"></div></div>
       <button type="button" onclick="cmpGo('${esc(a)}')" style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">vs ${esc(a)}</button>
       <button type="button" onclick="cmpGo('${esc(b)}')" style="min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);font-size:14px;font-weight:600;cursor:pointer">vs ${esc(b)}</button>
     </div>
   </div>
   <script>
   ${CMP_EXTRACT_SYM}
+  ${CMP_AUTOCOMPLETE}
+  cmpWireAutocomplete('cmpAdd','cmpMatches');
   function cmpGo(base){var el=document.getElementById('cmpAdd');var v=cmpExtractSym(el.value);if(!v||v===base)return;var p=[base,v].sort();location.href='/compare/'+p[0]+'-vs-'+p[1];}
-  document.getElementById('cmpAdd').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();cmpGo('${esc(a)}');}});
+  document.getElementById('cmpAdd').addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.defaultPrevented){e.preventDefault();cmpGo('${esc(a)}');}});
   </script>` : '';
 
     // ---- contextual screens, picked from where these two are strong ----
@@ -782,9 +787,9 @@ function renderComparePage(pairSlug) {
         }
         var safe=res.j.verdict.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
         out.innerHTML='<div style="white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--ink)">'+safe+'</div><p style="margin:10px 0 0;font-size:11.5px;color:var(--ink3)">Computed from SEC-filed statements; the model writes the synthesis, never the numbers. Not investment advice.</p><div style="display:flex;gap:7px;align-items:center;margin-top:10px"><span style="font-size:11.5px;color:var(--ink3)">Share</span><button type="button" id="aivx" class="seo-cta-btn" style="cursor:pointer">X / Twitter</button><button type="button" id="aivcopy" class="seo-cta-btn" style="cursor:pointer">Copy</button></div>';
-        var excerpt=res.j.verdict.replace(/\s+/g,' ').slice(0,220),shareTitle='${esc(a)} vs ${esc(b)} AI verdict';
-        document.getElementById('aivx').onclick=function(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTitle+'\n\n'+excerpt)+'&url='+encodeURIComponent(location.href),'_blank','noopener,noreferrer,width=720,height=520');};
-        document.getElementById('aivcopy').onclick=function(){var text=shareTitle+'\n\n'+res.j.verdict+'\n\n'+location.href;navigator.clipboard?navigator.clipboard.writeText(text):window.prompt('Copy this verdict',text);this.textContent='Copied';};
+        var excerpt=res.j.verdict.replace(/\\s+/g,' ').slice(0,220),shareTitle='${esc(a)} vs ${esc(b)} AI verdict';
+        document.getElementById('aivx').onclick=function(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTitle+'\\n\\n'+excerpt)+'&url='+encodeURIComponent(location.href),'_blank','noopener,noreferrer,width=720,height=520');};
+        document.getElementById('aivcopy').onclick=function(){var text=shareTitle+'\\n\\n'+res.j.verdict+'\\n\\n'+location.href;navigator.clipboard?navigator.clipboard.writeText(text):window.prompt('Copy this verdict',text);this.textContent='Copied';};
         btn.style.display='none';
       }).catch(function(e){
         out.innerHTML='<p style="font-size:13.5px;color:var(--ink3);margin:0">Something went wrong &mdash; please try again.</p>';
