@@ -5,6 +5,7 @@ Company: ____
 Ticker: ____
 Filing/source date: ____
 Content ID: `company-________-day__`
+Series label: `Day __/30 — building StockPortfolio.pro in public`
 
 ## Candidate score
 
@@ -52,7 +53,14 @@ Content ID: `company-________-day__`
 
 ## Publishing checklist
 
+- [ ] Opens with `Day X/30 — building StockPortfolio.pro in public`
+- [ ] Teaches one concrete company insight before mentioning the product
+- [ ] Contains at least three exact filing-backed discoveries
+- [ ] Raw Ask output checked against the filing and rewritten naturally
+- [ ] Names the exact StockPortfolio.pro workflow used
+- [ ] Invites the reader to repeat the workflow on a company they own
 - [ ] X thread (8–12 posts)
+- [ ] Or one substantial long-form X post using the same evidence standard
 - [ ] LinkedIn note (700–1,200 words)
 - [ ] StockPortfolio.pro research page
 - [ ] Tracked X link (`source=x`)

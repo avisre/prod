@@ -4,7 +4,7 @@ Status: ready for execution. This document adds one daily original-company deep 
 
 ## Operating rule
 
-For 30 consecutive publishing days, choose one company and answer one falsifiable research question. Publish the same research across:
+For 30 consecutive publishing days, choose one company and answer one falsifiable research question. Frame the series as **“Building StockPortfolio.pro in public — Day X/30”**: the founder demonstrates the product by using it on a real company, shares what the workflow uncovered, and explains why that discovery matters. Publish the same research across:
 
 1. A source-linked StockPortfolio.pro research page.
 2. An 8–12-post X thread.
@@ -12,6 +12,13 @@ For 30 consecutive publishing days, choose one company and answer one falsifiabl
 4. Four to six evidence-matching charts or screenshots.
 
 The commercial CTA appears only after the analysis has delivered value. Use `source=x` or `source=linkedin` and a stable `content_id`; never invent an AppSumo deadline.
+
+The building-in-public angle is not a generic founder diary. Every post must first teach the reader something concrete about the company. Founder context is limited to:
+
+- what question was tested;
+- what StockPortfolio.pro surfaced that an earnings headline missed;
+- how the reader can repeat the workflow on a company they own;
+- one honest product limitation or improvement when relevant.
 
 Continue separately with 15–20 useful, high-intent X replies per day. Replies may cover any company and should answer the question first; the daily deep-dive company controls original content only.
 
@@ -22,6 +29,10 @@ Do not publish until all checks pass:
 - Candidate scores at least 7/10: freshness 0–3, investor interest 0–3, research opportunity 0–4.
 - One central question is stated and is falsifiable.
 - At least three findings are non-obvious, material, and tied to a filing or first-party data.
+- The opening contains a specific tension or discrepancy, not “here is my analysis.”
+- The post includes enough exact figures and comparison periods that the reader can evaluate the claim without trusting the founder.
+- The product demonstration names the workflow used—Ask, financial statements, filing comparison, free tool, source links, or another real feature.
+- Raw AI output is never posted. Every Ask result is checked against the cited filing and rewritten in the founder's natural voice.
 - Five-year financial trend is checked where data is available.
 - Cash flow, capex, working capital, SBC/dilution, balance sheet, filing changes, and valuation are considered when relevant.
 - One next-quarter number to watch is named with a reason.
@@ -65,6 +76,16 @@ If three meaningful findings cannot be supported, change the company rather than
 12. Conclusion, source-linked StockPortfolio.pro workflow, tracked AppSumo CTA, and disclaimer.
 
 Use fewer posts when the evidence is complete. Do not add length for its own sake.
+
+For a single long-form X post, use this sequence inside one post:
+
+1. `Day X/30 — building StockPortfolio.pro in public.`
+2. One sharp company question or contradiction.
+3. Three to five exact, sourced discoveries.
+4. A short synthesis explaining what those numbers change.
+5. One sentence showing how StockPortfolio.pro produced or verified the result.
+6. A repeatable invitation: “Run this on a company you own.”
+7. Tracked product and AppSumo links after the evidence.
 
 ## LinkedIn structure
 
