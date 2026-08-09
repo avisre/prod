@@ -6,4 +6,25 @@ x-20260728-r3,x,2026-07-28,x,reply,https://www.stockportfolio.pro/appsumo?source
 linkedin-20260728-a,linkedin,2026-07-28,linkedin,post,https://www.stockportfolio.pro/appsumo?source=linkedin,published,https://www.linkedin.com/feed/update/urn:li:activity:7487842169169510401/,,,,,,,Repurposed verification post
 x-20260729-a,x,2026-07-29,x,post,https://www.stockportfolio.pro/appsumo?source=x,queued,,,,,,,,Period mismatch
 x-20260730-a,x,2026-07-30,x,post,https://www.stockportfolio.pro/appsumo?source=x,queued,,,,,,,,Screener definition
+x-20260729-shares-main,x,2026-07-29,x,post,https://www.stockportfolio.pro/appsumo?source=x&content_id=research-shares-outstanding,published,https://x.com/avisre/status/2082168180068528278,,,,,,,Shares outstanding research post
+x-20260729-shares-cta,x,2026-07-29,x,reply,https://www.stockportfolio.pro/appsumo?source=x&content_id=research-shares-outstanding,published,https://x.com/avisre/status/2082168610659999989,,,,,,,CTA reply to shares outstanding post
+x-20260729-reply-dilution,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082172427937980681,,,,,,,Reply to ValyeAI; screenshot; shares-outstanding research
+x-20260729-reply-cash,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082173154357813416,,,,,,,Reply to Vicky Roy on cash conversion
+x-20260729-reply-pe,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082173261287403950,,,,,,,Reply to Fundamental Signals on P/E definitions
+x-20260729-reply-filing,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082173282040836229,,,,,,,Reply to RoboSystems on filing quality
+x-20260729-reply-concentration,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082173304241336597,,,,,,,Reply to Meenakshi on portfolio concentration
+linkedin-20260729-shares,linkedin,2026-07-29,linkedin,post,https://www.stockportfolio.pro/appsumo?source=linkedin&content_id=research-shares-outstanding,published,https://www.linkedin.com/feed/update/urn:li:activity:7488183221281726465/,,,,,,,Shares-outstanding research post; research guide and downloadable dataset
+linkedin-20260729-shares-cta,linkedin,2026-07-29,linkedin,reply,https://www.stockportfolio.pro/appsumo?source=linkedin&content_id=research-shares-outstanding,published,https://www.linkedin.com/feed/update/urn:li:activity:7488183221281726465/,,,,,,,Tracked AppSumo CTA comment on shares-outstanding post
+x-20260729-reply2-meta-capex,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082428017612296638,,,,,,,Reply to Bitget TradFi; validated META Ask screenshot; filed capex versus free cash flow
+x-20260729-reply2-sofi-gaap,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082428752685133893,,,,,,,Reply to Wall St Engine; validated SOFI Ask screenshot; adjusted versus filed GAAP period caveat
+x-20260729-reply2-pg-cash,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082430515572019357,,,,,,,Reply to WOLF Financial; deterministic PG earnings-quality screenshot; rejected inconsistent Ask output
+x-20260729-reply2-zeta-quality,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082430669603631274,,,,,,,Reply to Bull Trade Finder; deterministic ZETA earnings-quality screenshot
+x-20260729-reply2-pe-definitions,x,2026-07-29,x,reply,,published,https://x.com/avisre/status/2082430822230213050,,,,,,,Reply to Ben Pouladian; filed-data P/E methodology screenshot
 x-20260731-a,x,2026-07-31,x,post,https://www.stockportfolio.pro/appsumo?source=x,queued,,,,,,,,Fund vs company evidence
+x-20260730-aapl-cfq,x,2026-07-30,x,post,https://www.stockportfolio.pro/tools/cash-flow-quality?source=x&content_id=tool-cash-flow-quality&click_id=x-20260730-aapl-cfq,ready,,,,,,,,Live AAPL cash-flow-quality evidence; production screenshot captured 2026-07-30
+linkedin-20260730-aapl-cfq,linkedin,2026-07-30,linkedin,post,https://www.stockportfolio.pro/tools/cash-flow-quality?source=linkedin&content_id=tool-cash-flow-quality&click_id=li-20260730-aapl-cfq,ready,,,,,,,,LinkedIn repurpose of live AAPL cash-flow-quality evidence
+x-20260801-cfq-main,x,2026-08-01,x,post,https://www.stockportfolio.pro/tools/cash-flow-quality?source=x&content_id=tool-cash-flow-quality&click_id=x-20260801-cfq-a,published,https://x.com/avisre/status/2083584800355737878,,,,,,,Cash-flow-quality insight with live AAPL checker screenshot
+x-20260801-cfq-cta,x,2026-08-01,x,reply,https://www.stockportfolio.pro/tools/cash-flow-quality?source=x&content_id=tool-cash-flow-quality&click_id=x-20260801-cfq-a,published,https://x.com/avisre/status/2083584969973395565,,,,,,,Tracked CTA reply; no-login and no-AI disclosure
+x-20260801-reply-eps,x,2026-08-01,x,reply,,published,https://x.com/avisre/status/2083584667719229576,,,,,,,Substantive reply to QInvestorNotes on conditional GAAP dilution
+x-20260801-reply-sofi,x,2026-08-01,x,reply,,published,https://x.com/avisre/status/2083585592810758207,,,,,,,Intent-led reply to SOFI valuation question
+x-20260801-reply-capex,x,2026-08-01,x,reply,,published,https://x.com/avisre/status/2083585797576704039,,,,,,,Evidence-led reply on AI capex and cash-flow verification

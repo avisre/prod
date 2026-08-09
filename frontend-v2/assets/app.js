@@ -5,6 +5,50 @@
 
     const API = `${window.location.origin}/api`;
     const token = () => /(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie) ? 'cookie' : '';
+    const UTM_COOKIE = 'sp_utm';
+    function readCookie(name) {
+        for (const part of String(document.cookie || '').split(';')) {
+            const index = part.indexOf('=');
+            if (index <= 0) continue;
+            if (part.slice(0, index).trim() !== name) continue;
+            try { return decodeURIComponent(part.slice(index + 1).trim()); } catch (_) { return ''; }
+        }
+        return '';
+    }
+    function cleanUtmValue(value, max) {
+        return String(value || '').trim().slice(0, max || 120);
+    }
+    function captureUtm() {
+        try {
+            const params = new URLSearchParams(location.search);
+            const utm = {
+                source: cleanUtmValue(params.get('utm_source'), 80),
+                medium: cleanUtmValue(params.get('utm_medium'), 80),
+                campaign: cleanUtmValue(params.get('utm_campaign'), 120),
+                content: cleanUtmValue(params.get('utm_content'), 120),
+                capturedAt: new Date().toISOString()
+            };
+            if (!utm.source && !utm.medium && !utm.campaign && !utm.content) return;
+            document.cookie = UTM_COOKIE + '=' + encodeURIComponent(JSON.stringify(utm)) + '; Max-Age=' + (30 * 24 * 60 * 60) + '; Path=/; SameSite=Lax';
+        } catch (_) { /* attribution is best-effort */ }
+    }
+    function getStoredUtm() {
+        try {
+            const raw = readCookie(UTM_COOKIE);
+            if (!raw) return null;
+            const parsed = JSON.parse(raw);
+            const utm = {
+                source: cleanUtmValue(parsed.source, 80),
+                medium: cleanUtmValue(parsed.medium, 80),
+                campaign: cleanUtmValue(parsed.campaign, 120),
+                content: cleanUtmValue(parsed.content, 120)
+            };
+            return (utm.source || utm.medium || utm.campaign || utm.content) ? utm : null;
+        } catch (_) {
+            return null;
+        }
+    }
+    captureUtm();
     const trackActivation = (job) => {
         if (!token() || !['ask', 'comparison', 'screener_company', 'portfolio'].includes(String(job))) return;
         fetch(`${API}/track/activation`, {
@@ -40,11 +84,31 @@
     // ---------- first-party page-view ping (anonymous, signed session) ----------
     if (!window.__spSkipAutoPageView) {
         try {
-            const pv = JSON.stringify({ path: location.pathname, referrer: document.referrer });
+            const pv = JSON.stringify({ path: location.pathname, referrer: document.referrer, utm: getStoredUtm() });
             const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/page_view', new Blob([pv], { type: 'application/json' }));
             if (!sent) fetch('/api/track/page_view', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: pv, keepalive: true }).catch(() => {});
         } catch (_) { /* never block the page */ }
     }
+
+    document.addEventListener('click', (event) => {
+        const link = event.target && event.target.closest && event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href') || '';
+        if (!/^(?:\/appsumo(?:[?#]|$)|\/go\/appsumo\/|https:\/\/appsumo\.com\/)/i.test(href)) return;
+        try {
+            const url = new URL(href, location.origin);
+            const payload = JSON.stringify({
+                path: location.pathname,
+                target: url.pathname,
+                contentId: url.searchParams.get('content_id') || link.dataset.contentId || null,
+                toolId: link.dataset.toolId || null,
+                referrer: document.referrer,
+                utm: getStoredUtm()
+            });
+            const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/cta_click', new Blob([payload], { type: 'application/json' }));
+            if (!sent) fetch('/api/track/cta_click', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
+        } catch (_) { /* never block navigation */ }
+    }, { capture: true });
 
     // ---------- formatters ----------
     function num(v) {
@@ -1168,5 +1232,5 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHScroll);
     else initHScroll();
 
-    window.V2 = { API, token, trackActivation, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
+    window.V2 = { API, token, trackActivation, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
 })();

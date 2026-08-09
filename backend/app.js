@@ -1597,6 +1597,16 @@ app.get('/api/free-tools/:tool', freeToolLimiter, async (req, res) => {
     try {
         const result = await freeTools.getToolResult(tool, req.query.symbol);
         res.set('Cache-Control', 'public, max-age=300').status(result.status).json(result.body);
+        if (result.status >= 200 && result.status < 300 && result.body && !result.body.error) {
+            const definition = freeTools.TOOL_DEFINITIONS[tool];
+            trackFunnel('free_tool_complete', null, null, {
+                toolId: definition && definition.id,
+                toolName: definition && definition.slug,
+                symbol: freeTools.normalizeSymbol(result.body.symbol || req.query.symbol),
+                path: `/api/free-tools/${tool}`,
+                ...trackingRequestFields(req, res)
+            });
+        }
     } catch (error) {
         console.error('[free-tools] request failed:', error && error.message);
         res.status(502).json({ error: 'Free-tool data is temporarily unavailable. Try again shortly.' });
@@ -1661,6 +1671,14 @@ const UserSchema = new mongoose.Schema({
     // opt-out is separate from digest/appsumo so each drip has independent control.
     trialEmailStage: { type: Number, default: 0 },
     trialEmailsOptOut: { type: Boolean, default: false },
+    trialInternalNotifiedAt: { type: Date, default: null },
+    signupUtm: {
+        source: { type: String, default: null },
+        medium: { type: String, default: null },
+        campaign: { type: String, default: null },
+        content: { type: String, default: null },
+        capturedAt: { type: Date, default: null }
+    },
     // Password reset via email. Stores only a SHA-256 hash of the emailed token
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
@@ -1689,6 +1707,44 @@ const CustomerLifecycleEventSchema = new mongoose.Schema({
     ownerNotifiedAt: { type: Date, default: null }
 }, { timestamps: true, versionKey: false, collection: 'customer_lifecycle_events' });
 const CustomerLifecycleEvent = mongoose.model('CustomerLifecycleEvent', CustomerLifecycleEventSchema);
+
+const FunnelEventSchema = new mongoose.Schema({
+    eventType: { type: String, required: true, index: true },
+    event: { type: String, required: true, index: true },
+    timestamp: { type: Date, default: () => new Date(), index: true },
+    at: { type: Date, default: () => new Date(), index: true },
+    sessionId: { type: String, default: null, index: true },
+    anonymousSessionId: { type: String, default: null, index: true },
+    userId: { type: String, default: null, index: true },
+    ticker: { type: String, default: null, index: true },
+    symbol: { type: String, default: null, index: true },
+    toolName: { type: String, default: null, index: true },
+    toolId: { type: String, default: null, index: true },
+    contentId: { type: String, default: null, index: true },
+    utm: {
+        source: { type: String, default: null },
+        medium: { type: String, default: null },
+        campaign: { type: String, default: null },
+        content: { type: String, default: null }
+    },
+    referrer: { type: String, default: null },
+    meta: { type: mongoose.Schema.Types.Mixed, default: {} }
+}, { strict: false, versionKey: false, collection: 'funnel_events' });
+const FunnelEvent = mongoose.model('FunnelEvent', FunnelEventSchema);
+
+const ScheduledEmailSchema = new mongoose.Schema({
+    emailKey: { type: String, required: true, unique: true, index: true },
+    template: { type: String, required: true, index: true },
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
+    to: { type: String, required: true, lowercase: true, trim: true },
+    dueAt: { type: Date, required: true, index: true },
+    status: { type: String, enum: ['scheduled', 'sent', 'skipped', 'failed'], default: 'scheduled', index: true },
+    sentAt: { type: Date, default: null },
+    skippedReason: { type: String, default: null },
+    lastError: { type: String, default: null },
+    meta: { type: mongoose.Schema.Types.Mixed, default: {} }
+}, { timestamps: true, versionKey: false, collection: 'scheduled_emails' });
+const ScheduledEmail = mongoose.model('ScheduledEmail', ScheduledEmailSchema);
 
 // Explicitly-created, unlisted research pages. There is deliberately no TTL:
 // social posts and newsletters need their cited report URL to remain durable.
@@ -1735,20 +1791,88 @@ function applyPlanToSubscription(user, planInput) {
     return planConfig;
 }
 
+function cleanShort(value, max = 120) {
+    const text = String(value || '').trim();
+    return text ? text.slice(0, max) : null;
+}
+
+function sanitizeUtm(input = {}) {
+    const raw = (input && typeof input === 'object') ? input : {};
+    const utm = {
+        source: cleanShort(raw.source || raw.utm_source, 80),
+        medium: cleanShort(raw.medium || raw.utm_medium, 80),
+        campaign: cleanShort(raw.campaign || raw.utm_campaign, 120),
+        content: cleanShort(raw.content || raw.utm_content, 120)
+    };
+    return Object.values(utm).some(Boolean) ? utm : null;
+}
+
+function requestUtm(req) {
+    return sanitizeUtm(req && req.body && req.body.utm);
+}
+
+function eventTypeFor(event, extra = {}) {
+    const name = String(event || '');
+    if (name === 'free_tool_view') return 'tool_view';
+    if (name === 'free_tool_complete') return 'tool_complete';
+    if (name === 'appsumo_outbound') return 'appsumo_click';
+    if (name === 'paid') return String(extra.source || '') === 'appsumo' ? 'appsumo_redemption' : 'stripe_subscribe';
+    return name;
+}
+
+function metaForFunnel(extra = {}) {
+    const blocked = new Set([
+        'event', 'eventType', 'timestamp', 'at', 'sessionId', 'anonymousSessionId',
+        'userId', 'ticker', 'symbol', 'toolName', 'toolId', 'contentId', 'utm', 'referrer'
+    ]);
+    const meta = {};
+    for (const [key, value] of Object.entries(extra || {})) {
+        if (blocked.has(key)) continue;
+        if (/licensekey|password|token|secret/i.test(key)) continue;
+        if (value === undefined || typeof value === 'function') continue;
+        meta[key] = value;
+    }
+    return meta;
+}
+
 // ---- Funnel event tracking (server-side, no third-party) ----
-// Events: page_view | free_tool_view | free_tool_complete | appsumo_outbound |
-// signup | trial_start | activation | paid | cancel
-// Stored in the 'funnel_events' Mongo collection with fire-and-forget writes.
-async function trackFunnel(event, userId, plan, extra) {
+// Stored in the existing 'funnel_events' Mongo collection. The newer fields
+// (eventType/timestamp/sessionId/utm/meta) sit beside the legacy dashboard
+// fields (event/at/anonymousSessionId/acquisitionSource) so old reports keep
+// working while the campaign trail becomes queryable.
+async function logFunnelEvent(event, userId, plan, extra) {
     try {
-        await mongoose.connection.collection('funnel_events').insertOne({
-            ...(extra || {}),
+        const now = new Date();
+        const data = extra || {};
+        const utm = sanitizeUtm(data.utm) || sanitizeUtm({
+            source: data.utmSource || data.acquisitionSource || data.source,
+            medium: data.utmMedium,
+            campaign: data.utmCampaign,
+            content: data.utmContent || data.contentId
+        });
+        await FunnelEvent.create({
+            ...data,
             event: String(event),
+            eventType: eventTypeFor(event, data),
             userId: userId ? String(userId) : null,
             plan: plan ? String(plan) : null,
-            at: new Date()
+            timestamp: now,
+            at: now,
+            sessionId: data.sessionId || data.anonymousSessionId || null,
+            anonymousSessionId: data.anonymousSessionId || data.sessionId || null,
+            ticker: data.ticker || data.symbol || null,
+            symbol: data.symbol || data.ticker || null,
+            toolName: data.toolName || data.toolId || null,
+            toolId: data.toolId || data.toolName || null,
+            utm: utm || undefined,
+            referrer: data.referrer || null,
+            meta: metaForFunnel(data)
         });
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
+}
+
+function trackFunnel(event, userId, plan, extra) {
+    return logFunnelEvent(event, userId, plan, extra);
 }
 
 // Keep campaign attribution consistent across every funnel event. The signed
@@ -1868,6 +1992,66 @@ async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier, d
         if (Object.keys(updates).length) await CustomerLifecycleEvent.updateOne({ _id: event._id }, { $set: updates });
     }
     return { created: true, eventId: event._id };
+}
+
+function trialSourceLabel(fields = {}) {
+    return cleanShort(fields.utm?.source || fields.acquisitionSource || fields.source || fields.referrerSource || 'unknown', 80);
+}
+
+async function notifyTrialStartedInternal(user, fields = {}) {
+    if (!user || !user._id || !user.email) return false;
+    const updated = await User.updateOne(
+        { _id: user._id, trialInternalNotifiedAt: null },
+        { $set: { trialInternalNotifiedAt: new Date() } }
+    );
+    if (!Number(updated.modifiedCount || updated.nModified || 0)) return false;
+    const source = trialSourceLabel(fields);
+    const plan = user.subscription && (user.subscription.planName || user.subscription.planId) || 'Pro trial';
+    const text = [
+        'New trial started',
+        `Email: ${user.email}`,
+        `Name: ${user.name || '(not provided)'}`,
+        `Plan: ${plan}`,
+        `UTM/source: ${source}`,
+        fields.utm?.campaign ? `UTM campaign: ${fields.utm.campaign}` : null,
+        fields.utm?.medium ? `UTM medium: ${fields.utm.medium}` : null,
+        fields.contentId ? `Content ID: ${fields.contentId}` : null,
+        fields.acquisitionClickId ? `Click ID: ${fields.acquisitionClickId}` : null,
+        `When: ${new Date().toISOString()}`
+    ].filter(Boolean).join('\n');
+    return mailer.sendMail({
+        to: process.env.TRIAL_NOTIFY_EMAIL || process.env.SUPPORT_INBOX_EMAIL || 'support@stockportfolio.pro',
+        subject: `New trial started: ${user.email}`,
+        text,
+        html: `<pre style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap">${escapeHtml(text)}</pre>`
+    });
+}
+
+async function scheduleAppSumoReviewRequest(user, { licenseKey, tier } = {}) {
+    if (!user || !user._id || !user.email) return false;
+    const redeemedAt = user.appsumoRedeemedAt ? new Date(user.appsumoRedeemedAt) : new Date();
+    const dueAt = new Date(redeemedAt.getTime() + 5 * 86400000);
+    try {
+        await ScheduledEmail.updateOne(
+            { emailKey: `appsumo-review-5d:${String(user._id)}` },
+            { $setOnInsert: {
+                emailKey: `appsumo-review-5d:${String(user._id)}`,
+                template: 'appsumo_review_5d',
+                userId: user._id,
+                to: String(user.email).trim().toLowerCase(),
+                dueAt,
+                status: 'scheduled',
+                meta: {
+                    licenseKey: licenseKey ? '[redacted]' : null,
+                    appsumoTier: Number(tier || user.appsumoTier) || null
+                }
+            } },
+            { upsert: true }
+        );
+        return true;
+    } catch (_) {
+        return false;
+    }
 }
 
 // Campaign-safe AppSumo redirect. Only named, allowlisted channels are accepted;
@@ -2387,6 +2571,7 @@ app.post('/api/subscribe', async (req, res) => {
     const { name, email, password } = req.body || {};
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
     const requestFields = trackingRequestFields(req, res);
+    const utm = requestUtm(req);
     // Honeypot: the register form ships a visually hidden "website" field that
     // humans never see or fill. A non-empty value is a form bot — swallow the
     // submission (no account, no email, no funnel event) but answer 200 so the
@@ -2470,6 +2655,7 @@ app.post('/api/subscribe', async (req, res) => {
             ? trimmedName
             : deriveNameFromEmail(normalizedEmail);
         const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
+        if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
 
         user.subscription = ensureSubscriptionShape(user);
         user.subscription.status = 'pending';
@@ -2501,6 +2687,7 @@ app.post('/api/subscribe', async (req, res) => {
         trackFunnel('signup', user._id, planConfig.planName, {
             authMethod: 'email',
             selectedPlan: planConfig.planId,
+            utm,
             ...acquisitionFunnelFields(acquisition),
             ...requestFields
         });
@@ -2522,9 +2709,17 @@ app.post('/api/subscribe', async (req, res) => {
             trackFunnel('trial_start', user._id, 'Pro', {
                 authMethod: 'email',
                 selectedPlan: planConfig.planId,
+                utm,
                 ...acquisitionFunnelFields(acquisition),
                 ...requestFields
             });
+            notifyTrialStartedInternal(user, {
+                authMethod: 'email',
+                selectedPlan: planConfig.planId,
+                utm,
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
+            }).catch((e) => console.error('[mailer] trial-start internal email error:', e && e.message));
             return res.status(200).json({
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
@@ -2763,14 +2958,20 @@ app.post('/api/auth/social', async (req, res) => {
         const planConfig = getPlanConfig(selectedPlan);
         const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
         const requestFields = trackingRequestFields(req, res);
+        const utm = requestUtm(req);
         const profile = await verifySocialIdentity(provider, req.body || {});
         const { user, created } = await findOrCreateSocialUser(profile);
         let normalized = ensureSubscriptionShape(user);
 
         if (created) {
+            if (utm) {
+                user.signupUtm = { ...utm, capturedAt: new Date() };
+                await user.save();
+            }
             trackFunnel('signup', user._id, planConfig.planName, {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
+                utm,
                 ...acquisitionFunnelFields(acquisition),
                 ...requestFields
             });
@@ -2811,9 +3012,17 @@ app.post('/api/auth/social', async (req, res) => {
             trackFunnel('trial_start', user._id, 'Pro', {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
+                utm,
                 ...acquisitionFunnelFields(acquisition),
                 ...requestFields
             });
+            notifyTrialStartedInternal(user, {
+                authMethod: provider,
+                selectedPlan: planConfig.planId,
+                utm,
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
+            }).catch((e) => console.error('[mailer] trial-start internal email error:', e && e.message));
             return res.status(200).json({
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
@@ -4488,11 +4697,16 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                                 ? new Date(payload.metadata.acquisitionClickedAt)
                                 : null
                         };
-                        if (newStatus === 'trialing') trackFunnel('trial_start', user._id, user.subscription.planName, {
-                            authMethod: user.googleId ? 'google' : user.facebookId ? 'facebook' : 'email',
-                            selectedPlan: user.subscription.planId,
-                            ...campaign
-                        });
+                        if (newStatus === 'trialing') {
+                            const trialFields = {
+                                authMethod: user.googleId ? 'google' : user.facebookId ? 'facebook' : 'email',
+                                selectedPlan: user.subscription.planId,
+                                ...campaign
+                            };
+                            trackFunnel('trial_start', user._id, user.subscription.planName, trialFields);
+                            notifyTrialStartedInternal(user, trialFields)
+                                .catch((e) => console.error('[mailer] trial-start internal email error:', e && e.message));
+                        }
                         else if (newStatus === 'active' && prevStatus !== 'active') {
                             trackFunnel('paid', user._id, user.subscription.planName, campaign);
                             await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
@@ -4651,6 +4865,8 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
             appsumoTier: Number(tier) || null,
             discoverySource: normalizedDiscoverySource
         });
+        scheduleAppSumoReviewRequest(user, { licenseKey, tier })
+            .catch((e) => console.error('[appsumo] review schedule error:', e && e.message));
     }
     trackFunnel('paid', user._id, cfg.planName, {
         source: 'appsumo',
@@ -4717,6 +4933,13 @@ async function appsumoHandleEvent(body) {
         if (lic && lic.userId) {
             const user = await User.findById(lic.userId);
             if (user) await grantAppSumoProAccess(user, { licenseKey, tier: lic.tier });
+        }
+        if (event === 'purchase') {
+            trackFunnel('appsumo_purchase', null, 'Pro — AppSumo', {
+                source: 'appsumo',
+                appsumoTier: tier,
+                appsumoStatus: 'inactive'
+            });
         }
     } else if (event === 'upgrade' || event === 'downgrade') {
         let lic = await AppSumoLicense.findOne({ licenseKey: prevKey });
@@ -5148,9 +5371,11 @@ app.post('/api/track/page_view', (req, res) => {
     const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
     const pageContentId = shareCopy.normalizeAcquisitionContentId(req.body && req.body.contentId);
     const requestFields = trackingRequestFields(req, res);
+    const utm = requestUtm(req);
     const acquisition = ensureTrackingAcquisition(req, res, requestFields, pageContentId);
     trackFunnel('page_view', null, null, {
         path: viewPath,
+        utm,
         ...acquisitionFunnelFields(acquisition),
         contentId: acquisition ? (acquisition.contentId || pageContentId) : pageContentId,
         trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
@@ -5167,9 +5392,11 @@ function freeToolId(value) {
 app.post('/api/track/free_tool_view', (req, res) => {
     const toolId = freeToolId(req.body && req.body.toolId);
     const requestFields = trackingRequestFields(req, res);
+    const utm = requestUtm(req);
     const acquisition = ensureTrackingAcquisition(req, res, requestFields, toolId);
     if (toolId) trackFunnel('free_tool_view', null, null, {
         toolId, path: String(req.body.path || '').slice(0, 120),
+        utm,
         ...acquisitionFunnelFields(acquisition),
         contentId: toolId,
         trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
@@ -5182,11 +5409,31 @@ app.post('/api/track/free_tool_complete', (req, res) => {
     const toolId = freeToolId(req.body && req.body.toolId);
     const symbol = freeTools.normalizeSymbol(req.body && req.body.symbol);
     const requestFields = trackingRequestFields(req, res);
+    const utm = requestUtm(req);
     const acquisition = ensureTrackingAcquisition(req, res, requestFields, toolId);
     if (toolId && symbol) trackFunnel('free_tool_complete', null, null, {
         toolId, symbol,
+        utm,
         ...acquisitionFunnelFields(acquisition),
         contentId: toolId,
+        trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
+        ...requestFields
+    });
+    res.status(204).end();
+});
+
+app.post('/api/track/cta_click', (req, res) => {
+    const contentId = shareCopy.normalizeAcquisitionContentId(req.body && (req.body.contentId || req.body.toolId));
+    const requestFields = trackingRequestFields(req, res);
+    const utm = requestUtm(req);
+    const acquisition = ensureTrackingAcquisition(req, res, requestFields, contentId);
+    trackFunnel('cta_click', null, null, {
+        contentId,
+        toolId: contentId && contentId.startsWith('tool-') ? contentId : null,
+        path: String(req.body && req.body.path || '').slice(0, 160),
+        target: String(req.body && req.body.target || '').slice(0, 160),
+        utm,
+        ...acquisitionFunnelFields(acquisition),
         trafficSource: acquisition ? acquisition.source : requestFields.referrerSource,
         ...requestFields
     });

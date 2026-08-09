@@ -9,7 +9,7 @@ const html = fs.readFileSync(PAGE_PATH, 'utf8');
 test('AppSumo landing page keeps every purchase CTA on the tracked bridge', () => {
   const ctas = [...html.matchAll(/<a\b[^>]*data-appsumo-cta="[^"]+"[^>]*>/g)];
   assert.ok(ctas.length >= 4, 'expected purchase CTAs across the landing page');
-  for (const [tag] of ctas) assert.match(tag, /href="\/go\/appsumo\/bridge"/);
+  for (const [tag] of ctas) assert.match(tag, /href="\/go\/appsumo\/bridge(?:\?[^"]*)?"/);
 });
 
 test('AppSumo landing page states the verified tier prices and monthly Ask limits', () => {

@@ -16,6 +16,13 @@ Daily cadence:
 - Attach a current StockPortfolio.pro evidence screenshot to every substantive
   X reply. The visible period, units, metric definition, and source trail must
   support the exact written claim; decorative product images do not qualify.
+- When one of the public free tools directly answers the conversation, use a
+  fresh screenshot of that tool's completed result as the evidence image. Run
+  it for the exact ticker(s) being discussed and show the ticker, result,
+  reporting period/date, units, refresh context, and source or methodology cue.
+  Do not attach a tool screenshot merely to advertise the product; when no tool
+  is relevant, use the underlying filing/research evidence or publish the
+  helpful text without an image.
 - Use Ask for company-specific replies when synthesis adds real value, then
   sanity-check its periods, calculations, and cited source against the filed or
   deterministic view before publishing. Reject inconsistent Ask output and use
@@ -47,6 +54,42 @@ When a link is useful, disclose that we built the tool and link to the exact fre
 tool or research page—not the homepage or a naked AppSumo pitch. Every link must
 carry `source`, an allowlisted `content_id`, and a unique `click_id`. The free
 result supplies the contextual AppSumo bridge.
+
+### Visual-proof workflow for X replies (30 July update)
+
+Use the free-tool library as proof only when the tool matches the question:
+
+| Conversation need | Preferred visual proof |
+|---|---|
+| Earnings versus cash generation | Earnings Quality or Cash-Flow Quality |
+| Share issuance, buybacks, or dilution | Dilution, Buybacks vs Dilution, or Portfolio Dilution |
+| Recent filing or insider activity | Filing Timeline, Filing Change, Insider Filings, or Filing Alerts |
+| Revenue, margin, FCF, working-capital, or debt trend | The matching deterministic trend/checker tool |
+| Dividend, interest, balance-sheet, goodwill, inventory, or receivables risk | The matching coverage/signal checker |
+| Two companies, peers, ETFs, or a portfolio | Company Comparison, Peer Cash Conversion, ETF, or portfolio tool |
+| Broad filing question requiring synthesis | Ask only when applicable and verified; otherwise use the closest deterministic tool |
+
+Before attaching an image:
+
+1. Open the production tool and run the exact ticker(s) in the post.
+2. Confirm the result is complete, current enough for the claim, and does not
+   show an unsupported-symbol, missing-data, or comparability warning that the
+   reply fails to explain.
+3. Capture the result panel at a readable size. Keep the tool identity, ticker,
+   period/date, units, material limitation, and source cue visible; crop browser
+   chrome and unrelated page sections.
+4. Write the reply so it remains useful without clicking. The screenshot proves
+   the statement; it does not replace the explanation.
+5. Add concise alt text describing the chart/result and its period. If a link is
+   warranted, use the exact tool URL with `source=x`, its `content_id`, and a
+   unique `click_id`, and disclose that we built it.
+6. Log the reply URL, target post, tool ID, ticker(s), screenshot filename,
+   capture time, and tracked URL in the campaign tracker.
+
+Never reuse a stale screenshot for a current-data claim, crop out a warning,
+show private portfolio/customer information, or use the same generic image
+across unrelated replies. Visual proof is a relevance and trust standard, not a
+requirement to force an image into every conversation.
 
 Score intent candidates before replying: explicit problem (0–2), product fit
 (0–2), evidence we can show (0–2), apparent genuine account (0–1), and recency

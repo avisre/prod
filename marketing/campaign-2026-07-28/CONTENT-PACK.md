@@ -18,6 +18,11 @@ below document already-published posts and must not be reused for new content.
 - Creator replies normally stand alone without a sales link. Let the screenshot
   and answer earn a profile visit; provide a tracked tool link when requested or
   clearly useful.
+- For every reply, first check whether a public free tool directly matches the
+  question. When it does, run the exact ticker(s) on production and attach a
+  fresh, mobile-readable result screenshot showing the ticker, period/date,
+  units, limitation, and source/methodology cue. When it does not, use the
+  primary evidence or post text-only; never force a generic product image.
 - Use one explicit AppSumo offer post per week. All other posts teach, prove, or
   answer.
 - Judge intent replies by tool completions and purchases; judge creator replies
@@ -74,9 +79,14 @@ Do not add a claim that the screenshot does not prove.
 ## Five useful replies for today
 
 Use these only under posts that genuinely raise the stated issue; personalize
-the first sentence with the author’s ticker or question.
+the first sentence with the author’s ticker or question. Before publishing,
+pair the reply with the closest relevant free-tool result (if one exists),
+verify that the image proves the claim, add descriptive alt text, and log the
+tool ID, ticker, capture time, screenshot filename, and reply URL.
 
 1. **Period mismatch**
+
+   Suggested proof: Filing Timeline or Filing Change Detector.
 
    > Before comparing those figures, check whether one is quarterly and the
    > other annual. The numbers can both be correct while the comparison is
@@ -84,11 +94,17 @@ the first sentence with the author’s ticker or question.
 
 2. **AI verification**
 
+   Suggested proof: Filing Evidence Checklist or Ask Question Builder; use Ask
+   output only after independently verifying its visible sources and periods.
+
    > A practical test for an AI stock answer: can you open the source, identify
    > the reporting period, and reproduce the calculation? If not, treat it as
    > a research lead rather than evidence.
 
 3. **Fund vs company data**
+
+   Suggested proof: ETF Holdings Overlap, ETF Sector Concentration, or Company
+   Comparison—whichever actually matches the discussion.
 
    > ETFs and operating companies need different evidence. Holdings, fees,
    > allocation, and reported performance are not the same thing as company
@@ -96,11 +112,16 @@ the first sentence with the author’s ticker or question.
 
 4. **Screening**
 
+   Suggested proof: the relevant deterministic checker or screener result with
+   its filter definition visible.
+
    > A screener is most useful when the filter definition is explicit. “Cheap”
    > can mean a low P/E, low EV/FCF, a temporary earnings dip, or something
    > else entirely.
 
 5. **Research workflow**
+
+   Suggested proof: Research Dossier Starter or Filing Evidence Checklist.
 
    > I prefer a repeatable loop: question → filed number → period → calculation
    > → source → limitation. It is slower than accepting a confident paragraph,

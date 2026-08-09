@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Submit the live sitemap's URLs to IndexNow (Bing, DuckDuckGo, Yandex, Seznam,
-// Naver — and the AI engines that read Bing's index). Run after each deploy:
+// Submit the live sitemap's URLs to the current IndexNow participants. Search
+// engines outside IndexNow (including DuckDuckGo) are reached through their
+// own crawlers or upstream indexes rather than this endpoint. Run after deploys:
 //   node scripts/indexnow-ping.js            # submit recently changed URLs
 //   node scripts/indexnow-ping.js --all      # submit every sitemap URL (rare)
 //   node scripts/indexnow-ping.js URL [URL]  # submit specific changed URLs

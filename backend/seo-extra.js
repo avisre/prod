@@ -602,8 +602,8 @@ function renderComparePage(pairSlug) {
     const incb = ((db.income || {}).annualReports || [])[0] || {};
 
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
-    const title = `${a} vs ${b} Stock: Which Is the Better Buy?`;
-    const description = `${ma.name} (${a}) vs ${mb.name} (${b}) — side-by-side revenue, margins, growth, P/E, ROE and dividends from SEC filings. Which fundamentals look stronger?`;
+    const title = `${a} vs ${b} Stock Comparison: Revenue, Margins, P/E and ROE`;
+    const description = `${ma.name} (${a}) vs ${mb.name} (${b}) with side-by-side SEC-filed revenue, margins, growth, P/E, ROE, dividends and red flags. Compare the fundamentals before buying.`;
 
     const fmtB = (v) => v === null ? '—' : `$${v >= 1000 ? (v / 1000).toFixed(2) + 'T' : v.toFixed(1) + 'B'}`;
     const fmtP = (v) => v === null ? '—' : `${v.toFixed(1)}%`;

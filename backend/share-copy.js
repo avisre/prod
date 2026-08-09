@@ -25,7 +25,7 @@ const APPSUMO_SOURCE_ALIASES = Object.freeze({ twitter: 'x', site: 'website' });
 const APPSUMO_SOURCES = new Set([
     'x', 'linkedin', 'reddit', 'facebook', 'instagram', 'whatsapp',
     'youtube', 'stocktwits', 'email', 'newsletter', 'website', 'app',
-    'report', 'creator', 'partner', 'direct', 'bridge',
+    'report', 'creator', 'partner', 'direct', 'bridge', 'hackernews',
     'google', 'bing', 'duckduckgo'
 ]);
 const ACQUISITION_CLICK_ID_RE = /^[A-Za-z0-9_-]{8,32}$/;

@@ -128,7 +128,7 @@
       mountId: 'google-btn',
       statusId: 'social-status',
       next: 'dashboard.html',
-      getExtraPayload: () => ({ plan })
+      getExtraPayload: () => ({ plan, utm: V2.getStoredUtm ? V2.getStoredUtm() : null })
     });
 
     (async function postCheckout() {
@@ -199,6 +199,7 @@
             password: document.getElementById('password').value,
             website: document.getElementById('hp-website').value, // honeypot — humans leave it empty
             plan,
+            utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
             next: 'dashboard.html' // checkout return lands back in v2
           })
         });

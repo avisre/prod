@@ -16,6 +16,7 @@ test('AppSumo campaign sources are allowlisted and aliases are canonicalized', (
     assert.equal(shareCopy.normalizeAppSumoSource('twitter'), 'x');
     assert.equal(shareCopy.normalizeAppSumoSource('bridge'), 'bridge');
     assert.equal(shareCopy.normalizeAppSumoSource('creator'), 'creator');
+    assert.equal(shareCopy.normalizeAppSumoSource('hackernews'), 'hackernews');
     assert.equal(shareCopy.normalizeAppSumoSource('google'), 'google');
     assert.equal(shareCopy.normalizeAppSumoSource('bing'), 'bing');
 
