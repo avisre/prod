@@ -121,6 +121,28 @@ const app = express();
 // run. The shared AI client uses this async context to attribute provider calls
 // to the authenticated user without recording prompts or response contents.
 app.use((req, res, next) => ollamaUsage.runRequest(req, next));
+// Render's Hobby request-log metrics do not expose route-level breakdowns.
+// Emit a bounded, query-free status sample so 4xx/5xx paths can be identified
+// from application logs without recording query strings, cookies, IPs or PII.
+const statusLogWindow = { startedAt: 0, count: 0 };
+app.use((req, res, next) => {
+    res.on('finish', () => {
+        if (res.statusCode < 400) return;
+        const now = Date.now();
+        if (now - statusLogWindow.startedAt >= 60 * 1000) {
+            statusLogWindow.startedAt = now;
+            statusLogWindow.count = 0;
+        }
+        if (statusLogWindow.count >= 100) return;
+        statusLogWindow.count++;
+        console.warn('[http-status]', JSON.stringify({
+            status: res.statusCode,
+            method: req.method,
+            path: req.path || '/'
+        }));
+    });
+    next();
+});
 // Render terminates the public connection before forwarding it to Express.
 // Trust that single platform hop in production so rate limits are keyed to
 // the visitor address instead of grouping every visitor under Render's proxy.

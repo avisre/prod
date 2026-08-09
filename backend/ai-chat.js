@@ -1347,4 +1347,8 @@ async function recordUse(userId) {
     } catch (_) { /* fail-open */ }
 }
 
-module.exports = { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData };
+// Keep the original exports object identity. `segments` loads `watchdog`, and
+// `watchdog` loads this module while it is initializing; replacing
+// `module.exports` here would leave watchdog holding a stale partial object and
+// emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData });
