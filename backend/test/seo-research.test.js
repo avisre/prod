@@ -7,6 +7,16 @@ const extra = require('../seo-extra');
 const seo = require('../seo-pages');
 const competitorComparisons = require('../comparison-pages');
 
+test('missing numeric fields never become fabricated zero values', () => {
+    for (const value of ['', '   ', null, undefined]) assert.equal(seo.num(value), null);
+    assert.equal(seo.num('0'), 0, 'a real reported zero remains valid');
+    const rows = extra.METRICS.eps.rows({ income: { annualReports: [
+        { fiscalDateEnding: '2025-12-31', dilutedEPS: '', eps: '' },
+        { fiscalDateEnding: '2024-12-31', dilutedEPS: '   ', eps: '' }
+    ] } });
+    assert.ok(rows.every((row) => row.value === null));
+});
+
 test('high-opportunity metric pages contain answer-first analysis, chart, sources and CSV', () => {
     for (const [symbol, metric] of [['AAPL', 'shares-outstanding'], ['MSFT', 'pe-ratio'], ['NVDA', 'dividend-history']]) {
         const html = extra.renderMetricPage(symbol, metric);

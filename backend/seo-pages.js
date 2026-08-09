@@ -113,7 +113,14 @@ function esc(s) {
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
-function num(v) { const n = Number(v); return Number.isFinite(n) ? n : null; }
+// Empty cache fields mean "not disclosed", not zero. Number('') is 0, so a
+// direct coercion created plausible-looking $0/EPS histories that Google quite
+// reasonably treated as duplicate or low-value pages.
+function num(v) {
+    if (v === null || v === undefined || (typeof v === 'string' && !v.trim())) return null;
+    const n = Number(v);
+    return Number.isFinite(n) ? n : null;
+}
 function money(v) {
     const n = num(v); if (n === null) return '—';
     const a = Math.abs(n);
