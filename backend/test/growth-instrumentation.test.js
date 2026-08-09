@@ -20,6 +20,11 @@ test('growth funnel events use the existing funnel_events collection with new qu
   assert.match(appSource, /meta: \{ type: mongoose\.Schema\.Types\.Mixed/);
 });
 
+test('CSP allows consented Clarity and Google sign-in assets', () => {
+  assert.match(appSource, /https:\/\/scripts\.clarity\.ms/);
+  assert.match(appSource, /styleSrc: \[\"'self'\", \"'unsafe-inline'\", 'https:\/\/fonts\.googleapis\.com', 'https:\/\/accounts\.google\.com'\]/);
+});
+
 test('funnel logging is fire-and-forget and failures cannot affect request handlers', () => {
   assert.match(appSource, /async function logFunnelEvent\(event, userId, plan, extra\)/);
   assert.match(appSource, /catch \(_\) \{ \/\* non-blocking/);

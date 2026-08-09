@@ -231,9 +231,10 @@ app.use(helmet({
         "'unsafe-inline'",
         'https://accounts.google.com',
         'https://www.googletagmanager.com',
-        'https://www.clarity.ms'
+        'https://www.clarity.ms',
+        'https://scripts.clarity.ms'
       ],
-      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+      styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://accounts.google.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
       connectSrc: ["'self'", 'https:'],
