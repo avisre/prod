@@ -1,6 +1,8 @@
 # Day 1/30 — NVIDIA
 
-Status: approved; publication blocked only by X authentication in the controlled browser profile.
+Status: published and publicly verified on X.
+
+Public URL: https://x.com/avisre/status/2086480985613619500
 
 Content ID: `research-nvda-q1-fy27`
 
