@@ -19,6 +19,7 @@ function config(now = new Date()) {
   const end = endAt ? new Date(endAt) : null;
   const current = now instanceof Date ? now : new Date(now);
   const expired = Boolean(end && current.getTime() >= end.getTime());
+  const publicBase = String(process.env.APP_PUBLIC_URL || 'https://www.stockportfolio.pro').replace(/\/$/, '');
   const daysRemaining = end && !expired
     ? Math.max(0, Math.ceil((end.getTime() - current.getTime()) / 86400000))
     : null;
@@ -45,8 +46,10 @@ function config(now = new Date()) {
     campaignStart: startAt,
     expiration: endAt,
     expirationTimezone: process.env.APPSUMO_DEAL_END_TIMEZONE || 'UTC',
-    salesVideoUrl: String(process.env.APPSUMO_SALES_VIDEO_URL || '').trim() || null,
-    onboardingVideoUrl: String(process.env.APPSUMO_ONBOARDING_VIDEO_URL || '').trim() || null,
+    // The generated public assets are safe defaults; Render env vars can
+    // override them later if a hosted replacement is approved.
+    salesVideoUrl: String(process.env.APPSUMO_SALES_VIDEO_URL || '').trim() || `${publicBase}/assets/appsumo-sales-demo.mp4`,
+    onboardingVideoUrl: String(process.env.APPSUMO_ONBOARDING_VIDEO_URL || '').trim() || `${publicBase}/assets/appsumo-onboarding.mp4`,
     countdownEnabled: process.env.APPSUMO_COUNTDOWN_ENABLED !== 'false',
     revenueTarget: 100000,
     daysRemaining,

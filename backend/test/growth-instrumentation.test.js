@@ -72,6 +72,13 @@ test('AppSumo redemption schedules one five-day review email record', () => {
   assert.match(runner, /appsumoReviewEmail\(user\.name, appUrl, 2/);
 });
 
+test('August growth reporting exposes aggregate lifecycle email observability only', () => {
+  assert.match(appSource, /emailObservability:/);
+  assert.match(appSource, /duplicatePreventedEmails/);
+  assert.match(appSource, /deliveryConfirmed: false/);
+  assert.doesNotMatch(appSource, /emailObservability:[\s\S]{0,500}user\.email/);
+});
+
 test('AppSumo landing has current common-question answers', () => {
   assert.match(appsumoHtml, /id="common-questions"/);
   assert.match(appsumoHtml, /Can I use the product for ETFs and mutual funds/);

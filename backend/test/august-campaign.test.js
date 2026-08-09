@@ -11,6 +11,8 @@ test('August campaign does not invent a deadline', () => {
   assert.equal(cfg.configured, false);
   assert.equal(cfg.expiration, null);
   assert.equal(cfg.deadlineLabel, 'Lifetime deal available now');
+  assert.equal(cfg.salesVideoUrl, 'https://www.stockportfolio.pro/assets/appsumo-sales-demo.mp4');
+  assert.equal(cfg.onboardingVideoUrl, 'https://www.stockportfolio.pro/assets/appsumo-onboarding.mp4');
   if (old === undefined) delete process.env.APPSUMO_DEAL_END_AT;
   else process.env.APPSUMO_DEAL_END_AT = old;
 });
