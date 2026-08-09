@@ -72,10 +72,10 @@ test('AppSumo redemption schedules one five-day review email record', () => {
   assert.match(runner, /appsumoReviewEmail\(user\.name, appUrl, 2/);
 });
 
-test('AppSumo landing has placeholder common-question scaffold only', () => {
+test('AppSumo landing has current common-question answers', () => {
   assert.match(appsumoHtml, /id="common-questions"/);
-  assert.match(appsumoHtml, /Placeholder objection 1/);
-  assert.match(appsumoHtml, /Replace with wording from a real buyer question/);
+  assert.match(appsumoHtml, /Can I use the product for ETFs and mutual funds/);
+  assert.doesNotMatch(appsumoHtml, /Placeholder objection/);
 });
 
 test('growth reporting scripts exist and are read-only where required', () => {
