@@ -5,13 +5,14 @@
 // Configured entirely via env (SMTP). If SMTP is not configured the module
 // safely no-ops (logs a warning) so signup never fails because of email.
 //
-// Gmail setup: enable 2-Step Verification, create a 16-char App Password, then:
-//   SMTP_HOST=smtp.gmail.com  SMTP_PORT=465  SMTP_SECURE=true
-//   SMTP_USER=you@gmail.com   SMTP_PASS=<app password>
+// SMTP setup: authorize the support mailbox (for example, Namecheap Private
+// Email) and store its app/mailbox password in Render secrets:
+//   SMTP_HOST=mail.privateemail.com  SMTP_PORT=465  SMTP_SECURE=true
+//   SMTP_USER=support@stockportfolio.pro  SMTP_PASS=<mailbox password>
 //   MAIL_FROM is intentionally ignored for customer-facing mail. All product
 //   messages use the verified support identity below so customers never receive
-//   lifecycle email from a founder's personal address.
-//   OWNER_NOTIFICATION_EMAIL=you@gmail.com
+//   lifecycle email from a founder's personal address. OWNER_NOTIFICATION_EMAIL
+//   may remain the founder's address for internal alerts only.
 
 const nodemailer = require('nodemailer');
 const SUPPORT_EMAIL = 'support@stockportfolio.pro';
@@ -35,7 +36,30 @@ function config() {
 
 function isMailerConfigured() {
   const c = config();
-  return Boolean(c.host && c.user && c.pass);
+  // Never treat a personal Gmail (or any other mailbox) as a valid sender for
+  // customer lifecycle mail. The SMTP credential must belong to the support
+  // mailbox whose identity is used in the From and Reply-To headers.
+  return Boolean(
+    c.host &&
+    c.user &&
+    c.pass &&
+    c.user.trim().toLowerCase() === SUPPORT_EMAIL
+  );
+}
+
+function smtpStatus() {
+  const c = config();
+  const user = c.user.trim().toLowerCase();
+  return {
+    configured: isMailerConfigured(),
+    hostPresent: Boolean(c.host),
+    port: c.port,
+    secure: c.secure,
+    user: c.user || null,
+    userIsSupport: user === SUPPORT_EMAIL,
+    from: c.from,
+    replyTo: c.support,
+  };
 }
 
 let cachedTransporter = null;
@@ -406,4 +430,4 @@ function trialExpiredEmail(name, appUrl, upgradeUrl, unsubUrl) {
   return { subject, html, text: textBody };
 }
 
-module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, sendPasswordResetEmail, appsumoReviewEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, sendMail, config, escapeHtml, SUPPORT_EMAIL };
+module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, sendPasswordResetEmail, appsumoReviewEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };

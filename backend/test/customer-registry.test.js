@@ -20,6 +20,47 @@ test('all customer-facing mail is pinned to the support mailbox', () => {
   }
 });
 
+test('mailer refuses personal SMTP credentials even when a password is present', () => {
+  const previous = {
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+  };
+  process.env.SMTP_HOST = 'smtp.gmail.com';
+  process.env.SMTP_USER = 'avinashsreekumar007@gmail.com';
+  process.env.SMTP_PASS = 'test-only';
+  try {
+    assert.equal(mailer.isMailerConfigured(), false);
+    assert.equal(mailer.smtpStatus().userIsSupport, false);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value == null) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
+test('mailer accepts only the support mailbox as its SMTP identity', () => {
+  const previous = {
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+  };
+  process.env.SMTP_HOST = 'mail.privateemail.com';
+  process.env.SMTP_USER = 'support@stockportfolio.pro';
+  process.env.SMTP_PASS = 'test-only';
+  try {
+    assert.equal(mailer.isMailerConfigured(), true);
+    assert.equal(mailer.smtpStatus().userIsSupport, true);
+    assert.equal(mailer.smtpStatus().from, 'StockPortfolio.pro Support <support@stockportfolio.pro>');
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value == null) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
 test('MongoDB customer events are unique and cover signup, Stripe, and AppSumo', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
   assert.match(source, /collection: 'customer_lifecycle_events'/);
