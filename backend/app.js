@@ -4785,18 +4785,33 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
         }
     } else if (event.type === 'invoice.paid') {
         try {
-            const result = await affiliateProgram.recordStripeInvoicePaid({
-                payload,
-                eventId: event.id,
-                userLookup: (id) => User.findById(id).lean()
-            });
-            if (result && result.recorded) {
-                trackFunnel('commission_created', null, 'Stripe', {
-                    affiliateCommissionId: String(result.commissionId || ''),
-                    amountMinor: result.amountMinor,
-                    sequence: result.sequence
+            // Stripe does not guarantee ordering between invoice.paid and
+            // checkout.session.completed. If the invoice arrives first, the
+            // checkout webhook creates the referral order shortly afterwards.
+            // Retry only that attributed-but-not-yet-created case; ordinary
+            // non-referral invoices must remain a single pass.
+            const recordWithRetry = async (attempt = 0) => {
+                const result = await affiliateProgram.recordStripeInvoicePaid({
+                    payload,
+                    eventId: event.id,
+                    userLookup: (id) => User.findById(id).lean()
                 });
-            }
+                if (result && result.recorded) {
+                    trackFunnel('commission_created', null, 'Stripe', {
+                        affiliateCommissionId: String(result.commissionId || ''),
+                        amountMinor: result.amountMinor,
+                        sequence: result.sequence
+                    });
+                    return;
+                }
+                if (result?.reason === 'no_attributed_order' && attempt < 4) {
+                    const delayMs = [250, 750, 2000, 5000][attempt];
+                    setTimeout(() => recordWithRetry(attempt + 1).catch((error) => {
+                        console.error('[affiliate] deferred Stripe invoice attribution error:', error && error.message);
+                    }), delayMs);
+                }
+            };
+            await recordWithRetry();
         } catch (err) {
             console.error('[affiliate] Stripe invoice attribution error:', err && err.message);
         }
