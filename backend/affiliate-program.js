@@ -408,11 +408,13 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
         if (error?.code === 11000) return { recorded: false, duplicate: true };
         return { recorded: false, reason: 'ledger_error' };
     }
-    if (userLookup && order.customerUserId) {
-        const customer = await userLookup(order.customerUserId).catch(() => null);
-        if (customer && customer.createdAt && order.createdAt && new Date(customer.createdAt) < new Date(order.createdAt)) {
-            order.status = 'ineligible_existing_customer'; await order.save(); return { recorded: false, reason: 'existing_customer' };
-        }
+    // New accounts are necessarily created before their first Checkout, so a
+    // `createdAt < order.createdAt` comparison cannot identify an existing
+    // customer. Existing-customer upgrades never receive affiliate metadata
+    // in buildCheckoutMetadata; retain this lookup only for an explicit
+    // snapshot recorded by a trusted checkout caller.
+    if (userLookup && order.customerUserId && order.metadata?.affiliateExistingCustomer === true) {
+        order.status = 'ineligible_existing_customer'; await order.save(); return { recorded: false, reason: 'existing_customer' };
     }
     const interval = order.billingInterval || metadata.billingInterval || 'month';
     const priorCount = await Commission.countDocuments({ referralOrderId: order._id, provider: 'stripe', status: { $ne: 'reversed' } });
@@ -449,12 +451,21 @@ async function reverseStripeCommission({ payload, reason = 'refund' } = {}) {
         ...(payload.customer ? [{ providerCustomerId: String(payload.customer) }] : [])
     ] }).sort({ createdAt: -1 });
     if (!order) return { reversed: false, reason: 'no_order' };
-    const amount = Math.max(0, Number(payload.amount_refunded || payload.amount || 0));
+    const eventAmount = Number(payload.amount_refunded);
+    const refundAmount = Number(payload.amount);
+    // Charge events expose a cumulative amount_refunded. Refund events expose
+    // only that refund's amount, so add it to the amount already reconciled.
+    // This keeps repeated partial refunds idempotent and lets a later complete
+    // refund reach the full commission reversal.
+    const amount = Number.isFinite(eventAmount) && eventAmount >= 0
+        ? eventAmount
+        : Math.max(0, Number(order.refundedMinor || 0) + (Number.isFinite(refundAmount) ? refundAmount : 0));
     const commissions = await Commission.find({ referralOrderId: order._id, status: { $in: ['pending', 'approved', 'paid'] } });
     for (const commission of commissions) {
-        const reversal = Math.min(commission.amountMinor, Math.floor(amount * commission.rateBps / 10000) || commission.amountMinor);
+        const reversal = Math.min(commission.amountMinor, Math.floor(amount * commission.rateBps / 10000));
         commission.reversalMinor = Math.max(commission.reversalMinor || 0, reversal);
-        commission.status = 'reversed'; commission.reason = String(reason).slice(0, 240); await commission.save();
+        if (reason === 'dispute' || commission.reversalMinor >= commission.amountMinor) commission.status = 'reversed';
+        commission.reason = String(reason).slice(0, 240); await commission.save();
     }
     order.refundedMinor = Math.max(order.refundedMinor || 0, amount); order.status = reason === 'dispute' ? 'disputed' : 'refunded'; order.refundedAt = new Date(); await order.save();
     return { reversed: true, commissions: commissions.length };
@@ -487,13 +498,24 @@ async function reconcileAppSumoCsv({ csv, dryRun = true, actor = 'admin', track,
         if (!order) { result.unmatched.push(row.providerOrderId); continue; }
         result.matched++;
         const refunded = row.refundedMinor > 0 || /refund|chargeback|deactivat/i.test(row.status);
-        order.grossCollectedMinor = row.grossMinor; order.eligibleBasisMinor = Math.max(0, row.netProceedsMinor - row.refundedMinor); order.refundedMinor = row.refundedMinor; order.status = refunded ? 'refunded' : 'paid'; await order.save();
+        // A refund row can still carry the original partner proceeds. Keep
+        // that original basis so the commission can be reversed rather than
+        // overwritten with a zero-value commission.
+        const originalBasis = Number(order.eligibleBasisMinor || 0);
+        const basis = refunded
+            ? Math.max(originalBasis, Number(row.netProceedsMinor || 0))
+            : Math.max(0, row.netProceedsMinor - row.refundedMinor);
+        order.grossCollectedMinor = row.grossMinor == null ? order.grossCollectedMinor : row.grossMinor;
+        order.eligibleBasisMinor = basis; order.refundedMinor = row.refundedMinor; order.status = refunded ? 'refunded' : 'paid'; await order.save();
         const calculation = calculateCommission({ eligibleBasisMinor: order.eligibleBasisMinor, appsumo: true });
+        const existing = await Commission.findOne({ referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}` }).lean();
+        const amountMinor = refunded && existing ? Number(existing.amountMinor || 0) : calculation.amountMinor;
         const commission = await Commission.findOneAndUpdate(
             { referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}` },
             { $set: {
                 affiliateProfileId: order.affiliateProfileId, referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}`, sequence: 1,
-                currency: row.currency, basisMinor: calculation.basisMinor, rateBps: calculation.rateBps, amountMinor: calculation.amountMinor,
+                currency: row.currency, basisMinor: calculation.basisMinor, rateBps: calculation.rateBps, amountMinor,
+                reversalMinor: refunded ? amountMinor : 0,
                 holdUntil: new Date(Date.now() + 60 * 86400000), status: refunded ? 'reversed' : 'pending', reason: refunded ? 'AppSumo refund/deactivation' : null
             } }, { upsert: true, new: true, setDefaultsOnInsert: true }
         );
