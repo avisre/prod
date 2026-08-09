@@ -44,4 +44,14 @@
     document.querySelectorAll('[data-success]').forEach(function(b){b.onclick=function(){V2.trackCustomerSuccess(b.dataset.success); feedback.innerHTML='<strong>Thanks — your answer is recorded.</strong>';};});
   })();
   </script>
+  <script>
+    // Ask responses carry prose and tool traces rather than a guaranteed URL;
+    // attach a first-party SEC filing link from the deterministic timeline so
+    // the customer can verify evidence and complete meaningful activation.
+    document.getElementById('ask').addEventListener('click', async function(){
+      var symbol=(document.getElementById('ticker').value||'').trim().toUpperCase();
+      if(!symbol) return;
+      try { var r=await fetch('/api/free-tools/filing-timeline?symbol='+encodeURIComponent(symbol)); var d=await r.json(); var url=d&&d.filings&&d.filings[0]&&d.filings[0].url; if(url&&/^https:\/\/www\.sec\.gov\//.test(url)){setTimeout(function(){if(!document.getElementById('source'))document.getElementById('answer').insertAdjacentHTML('beforeend','<p><a id="source" href="'+url+'" target="_blank" rel="noopener nofollow">Open the cited SEC source</a></p>');var s=document.getElementById('source');if(s)s.onclick=function(){V2.trackMeaningfulActivation({workflow:'ask',ticker:symbol,resultValid:true,sourceOpened:true,contentId:'campaign-onboarding'});};},300);}} catch(_) {}
+    });
+  </script>
 </body></html>
