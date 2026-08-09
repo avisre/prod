@@ -345,7 +345,10 @@ function renderStockPage(ticker) {
     let healthBlock = '';
     let healthChecks = [];
     try {
-        const hc = aiChat.runTool('get_health_checks', { symbol: sym });
+        // This renderer is synchronous. Do not call the async tool wrapper
+        // here: doing so starts an uncached network build for every crawler
+        // hit and the returned Promise can never contain `.checks`.
+        const hc = aiChat.healthChecksFromData(data, sym);
         if (hc && Array.isArray(hc.checks) && hc.checks.length) {
             healthChecks = hc.checks;
             const passed = hc.checks.filter((c) => c.pass).length;

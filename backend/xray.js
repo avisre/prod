@@ -67,7 +67,10 @@ function computeXray(holdings) {
         if (m.pe !== null && m.pe > 0) { agg.earningsYield += (1 / m.pe) * w; agg.eyWeight += w; }
 
         // Health roll-up: weight-average pass rate, plus per-holding score
-        const hc = aiChat.runTool('get_health_checks', { symbol: p.symbol });
+        // X-Ray is a synchronous deterministic roll-up. Read the bounded
+        // fundamentals cache directly instead of starting an async build that
+        // cannot be consumed by this loop.
+        const hc = aiChat.healthChecksFromData(aiChat.loadFund(p.symbol), p.symbol);
         if (hc && Array.isArray(hc.checks) && hc.checks.length) {
             const passed = hc.checks.filter((c) => c.pass).length;
             p.healthScore = `${passed}/${hc.checks.length}`;

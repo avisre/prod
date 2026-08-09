@@ -215,8 +215,7 @@ function cagr(first, last, years) {
     if (first === null || last === null || first <= 0 || last <= 0 || years < 1.5) return null;
     return (Math.pow(last / first, 1 / years) - 1) * 100;
 }
-async function toolGetHealthChecks({ symbol }) {
-    const data = await loadFundAny(symbol);
+function healthChecksFromData(data, symbol) {
     if (!data) return NO_DATA(symbol);
     const years = annualJoined(data).reverse(); // oldest first
     if (years.length < 2) return { error: `Not enough history for ${symbol}.` };
@@ -273,6 +272,10 @@ async function toolGetHealthChecks({ symbol }) {
         checks,
         source: 'Computed from SEC-filed annual statements (no AI judgement)'
     };
+}
+
+async function toolGetHealthChecks({ symbol }) {
+    return healthChecksFromData(await loadFundAny(symbol), symbol);
 }
 
 // ---- Tool: get_quote (latest cached snapshot, not live ticks) ----
@@ -1344,4 +1347,4 @@ async function recordUse(userId) {
     } catch (_) { /* fail-open */ }
 }
 
-module.exports = { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFundAny };
+module.exports = { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData };

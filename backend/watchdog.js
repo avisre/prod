@@ -159,7 +159,12 @@ async function scanSymbolFilings(symbol, holderIds) {
 }
 
 async function scanSymbolHealth(symbol, holderIds) {
-  const result = aiChat.runTool('get_health_checks', { symbol }, {});
+  // Watchdog runs in the background and must never trigger an uncached
+  // fundamentals build. The old call returned a Promise without awaiting it,
+  // launching one full build per holding while silently producing no checks.
+  // Use the synchronous on-disk cache instead; customer requests still use
+  // get_health_checks and can build missing symbols on demand.
+  const result = aiChat.healthChecksFromData(aiChat.loadFund(symbol), symbol);
   const checks = result && Array.isArray(result.checks) ? result.checks : null;
   if (!checks || !checks.length) return;
   const state = await WatchState.findOneAndUpdate(

@@ -247,11 +247,13 @@ app.use(helmet({
   // strict-origin-when-cross-origin is the modern browser default.
   referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
 }));
-// gzip the HTML/CSS/JS surfaces (Core Web Vitals / crawl speed). The API is
-// excluded so the AI chat's SSE stream is never buffered by the compressor.
+// gzip public HTML/CSS/JS and JSON API responses (Core Web Vitals / crawl
+// speed). Only streaming responses are excluded: compressing SSE can delay
+// heartbeats and make a long-lived Ask/usage stream appear stalled.
 app.use(compression({
   filter: (req, res) => {
-    if (req.path.startsWith('/api')) return false;
+    if (req.path === '/api/admin/ollama/usage/stream') return false;
+    if (req.path === '/api/ai/chat' && req.body && req.body.stream === true) return false;
     return compression.filter(req, res);
   }
 }));
