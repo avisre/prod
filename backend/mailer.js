@@ -271,6 +271,43 @@ function appsumoReviewEmail(name, appUrl, stage, reviewUrl, unsubUrl) {
   return { subject, html, text: textBody };
 }
 
+function campaignLink(appUrl, path) {
+  return `${String(appUrl || '').replace(/\/$/, '')}${path}`;
+}
+
+function appsumoOnboardingEmail(name, appUrl, onboardingVideoUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const link = campaignLink(appUrl, '/onboarding?source=email&content_id=appsumo-onboarding');
+  const video = onboardingVideoUrl ? `\nOptional walkthrough: ${onboardingVideoUrl}` : '';
+  const text = `Hi ${first},\n\nYour AppSumo access is active. The fastest first win is one cited research result: choose a ticker, ask one focused question, and open the filing source. Start here: ${link}${video}\n\nIf anything is unclear, reply to this email and support@stockportfolio.pro will help.\n— StockPortfolio.pro Support`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>Run your first cited result, ${escapeHtml(first)}</h1><p>Your AppSumo access is active. The fastest first win is one focused stock question with the filing source opened.</p><p><a href="${escapeHtml(link)}" style="background:#111827;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:700">Start the five-minute workflow</a></p>${onboardingVideoUrl ? `<p><a href="${escapeHtml(onboardingVideoUrl)}">Watch the optional walkthrough</a></p>` : ''}<p style="font-size:13px;color:#64748b">Need help? Reply to this message or write to ${SUPPORT_EMAIL}. ${unsubUrl ? `<a href="${escapeHtml(unsubUrl)}">Stop AppSumo emails</a>` : ''}</p></div>`;
+  return { subject: 'Run your first cited StockPortfolio.pro result', html, text };
+}
+
+function appsumoActivationNextEmail(name, appUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const link = campaignLink(appUrl, '/onboarding?source=email&content_id=appsumo-activation-next');
+  const text = `Hi ${first},\n\nTry one of these next: compare two companies, check whether earnings convert to cash, or inspect the latest filing timeline. Start here: ${link}\n\nReply if you want help with a ticker.\n— StockPortfolio.pro Support`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>Three useful questions to try next</h1><p>Compare two companies, check whether earnings convert to cash, or inspect the latest filing timeline.</p><p><a href="${escapeHtml(link)}">Continue the research workflow</a></p><p style="font-size:13px;color:#64748b">Reply for help with a ticker. ${unsubUrl ? `<a href="${escapeHtml(unsubUrl)}">Stop AppSumo emails</a>` : ''}</p></div>`;
+  return { subject: 'Three useful StockPortfolio.pro questions to try next', html, text };
+}
+
+function appsumoInactiveEmail(name, appUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const link = campaignLink(appUrl, '/onboarding?source=email&content_id=appsumo-inactive');
+  const text = `Hi ${first},\n\nIf you have not had a chance to try StockPortfolio.pro, enter one ticker and ask one question. The result includes its source trail: ${link}\n\nIf you need help, reply to this email.\n— StockPortfolio.pro Support`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>Try one ticker, ${escapeHtml(first)}</h1><p>Enter a ticker and ask one question. The result includes its source trail so you can verify it.</p><p><a href="${escapeHtml(link)}">Try the workflow</a></p><p style="font-size:13px;color:#64748b">Need help? Reply to this email. ${unsubUrl ? `<a href="${escapeHtml(unsubUrl)}">Stop AppSumo emails</a>` : ''}</p></div>`;
+  return { subject: 'Try StockPortfolio.pro with one ticker', html, text };
+}
+
+function appsumoReviewEligibleEmail(name, appUrl, reviewUrl, unsubUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const link = String(reviewUrl || 'https://appsumo.com/account/products/');
+  const text = `Hi ${first},\n\nYou have completed enough research to decide whether StockPortfolio.pro fits your workflow. If you choose to, please leave an honest review on AppSumo—positive, mixed, or critical. There is no reward or rating requested.\n\nReview: ${link}\n\nNeed help? Reply to support@stockportfolio.pro.\n— StockPortfolio.pro Support`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>Would you share an honest review?</h1><p>You have now had a chance to use the research workflow. If you choose to, please share an honest AppSumo review—positive, mixed, or critical. No rating or reward is requested.</p><p><a href="${escapeHtml(link)}">Leave an honest review</a></p><p style="font-size:13px;color:#64748b">Need help? Reply to support@stockportfolio.pro. ${unsubUrl ? `<a href="${escapeHtml(unsubUrl)}">Stop AppSumo emails</a>` : ''}</p></div>`;
+  return { subject: 'If StockPortfolio.pro helped, an honest review is welcome', html, text };
+}
+
 // Send a single password-reset email. Never throws; returns true only on a
 // successful send (false if SMTP isn't configured or the send fails).
 async function sendPasswordResetEmail({ to, name, resetUrl } = {}) {
@@ -430,4 +467,4 @@ function trialExpiredEmail(name, appUrl, upgradeUrl, unsubUrl) {
   return { subject, html, text: textBody };
 }
 
-module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, sendPasswordResetEmail, appsumoReviewEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };
+module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };

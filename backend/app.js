@@ -32,6 +32,7 @@ const reverseDcf = require('./reverse-dcf');
 const monitorFreeUsage = require('./monitor-free-usage');
 const ollamaUsage = require('./ollama-usage-tracker');
 const affiliateProgram = require('./affiliate-program');
+const augustCampaign = require('./august-campaign');
 require('dotenv').config();
 
 // Optional, first-party post-purchase attribution question. This is deliberately
@@ -1619,6 +1620,15 @@ app.get('/appsumo', async (req, res, next) => {
     }
 });
 
+// Public campaign configuration contains only copy-safe, env-derived values.
+// It deliberately never exposes SMTP, Stripe, AppSumo credentials, or user data.
+app.get('/api/campaign/config', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=300').json(augustCampaign.config());
+});
+app.get('/api/campaign/august-2026', (req, res) => {
+    res.set('Cache-Control', 'public, max-age=300').json(augustCampaign.config());
+});
+
 // Engineering-as-Marketing catalog: public deterministic utilities. Keep
 // these routes ahead of static serving so their canonical HTML is stable.
 app.get('/tools', (req, res) => {
@@ -1709,6 +1719,15 @@ const UserSchema = new mongoose.Schema({
     trialEmailStage: { type: Number, default: 0 },
     trialEmailsOptOut: { type: Boolean, default: false },
     trialInternalNotifiedAt: { type: Date, default: null },
+    // Campaign success/review signals are explicit and never inferred from a
+    // purchase alone. They are used for the August activation gate.
+    customerSuccessStatus: { type: String, enum: [null, 'yes', 'somewhat', 'not_yet'], default: null },
+    customerSuccessText: { type: String, default: null, maxlength: 1000 },
+    customerSuccessAt: { type: Date, default: null },
+    reviewEligibleAt: { type: Date, default: null },
+    reviewPromptShownAt: { type: Date, default: null },
+    reviewClickedAt: { type: Date, default: null },
+    reviewDismissedAt: { type: Date, default: null },
     signupUtm: {
         source: { type: String, default: null },
         medium: { type: String, default: null },
@@ -1758,6 +1777,11 @@ const FunnelEventSchema = new mongoose.Schema({
     toolName: { type: String, default: null, index: true },
     toolId: { type: String, default: null, index: true },
     contentId: { type: String, default: null, index: true },
+    campaignId: { type: String, default: null, index: true },
+    workflow: { type: String, default: null, index: true },
+    sourceOpened: { type: Boolean, default: false },
+    resultValid: { type: Boolean, default: false },
+    trafficCategory: { type: String, default: null, index: true },
     utm: {
         source: { type: String, default: null },
         medium: { type: String, default: null },
@@ -1795,6 +1819,19 @@ const PublicResearchShareSchema = new mongoose.Schema({
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
 }, { timestamps: true, versionKey: false, collection: 'public_research_shares' });
 const PublicResearchShare = mongoose.model('PublicResearchShare', PublicResearchShareSchema);
+
+const ManualGmvSnapshotSchema = new mongoose.Schema({
+    date: { type: Date, required: true, index: true },
+    grossOrders: { type: Number, min: 0, default: 0 },
+    grossSales: { type: Number, min: 0, default: 0 },
+    refunds: { type: Number, min: 0, default: 0 },
+    netOrders: { type: Number, min: 0, default: 0 },
+    payoutEstimate: { type: Number, min: 0, default: 0 },
+    notes: { type: String, maxlength: 1000, default: '' },
+    provenance: { type: String, default: 'Partner Portal manual snapshot' },
+    updatedBy: { type: String, default: null }
+}, { timestamps: true, versionKey: false, collection: 'manual_gmv_snapshots' });
+const ManualGmvSnapshot = mongoose.model('ManualGmvSnapshot', ManualGmvSnapshotSchema);
 
 async function getUserByToken(token) {
     if (!token) {
@@ -1891,6 +1928,7 @@ async function logFunnelEvent(event, userId, plan, extra) {
             ...data,
             event: String(event),
             eventType: eventTypeFor(event, data),
+            campaignId: data.campaignId || (data.contentId || data.acquisitionSource ? augustCampaign.config(now).campaignId : null),
             userId: userId ? String(userId) : null,
             plan: plan ? String(plan) : null,
             timestamp: now,
@@ -1938,6 +1976,62 @@ function acquisitionStripeMetadata(acquisition) {
 }
 
 const ACTIVATION_JOBS = new Set(['ask', 'comparison', 'screener_company', 'portfolio']);
+
+// August's customer-success gate is intentionally narrower than the legacy
+// activation jobs. It records a real, source-backed result and keeps internal
+// QA/owner activity out of the customer funnel.
+const MEANINGFUL_WORKFLOWS = new Set([
+    'ask', 'earnings-quality', 'dilution', 'filing-timeline', 'comparison',
+    'screener_company', 'portfolio', 'research'
+]);
+function campaignInternalUser(user) {
+    const email = normalizeEmail(user && user.email);
+    if (!email) return true;
+    const configured = String(process.env.MARKETING_INTERNAL_EMAILS || '')
+        .split(',').map(normalizeEmail).filter(Boolean);
+    const defaults = [normalizeEmail(process.env.OWNER_NOTIFICATION_EMAIL), 'support@stockportfolio.pro', 'rin@gmail.com'];
+    return [...configured, ...defaults].includes(email);
+}
+
+async function meaningfulActivationFor(user, payload = {}) {
+    if (!user || !user._id || campaignInternalUser(user) || mongoose.connection.readyState !== 1) return null;
+    const workflow = String(payload.workflow || '').trim().toLowerCase();
+    const ticker = normalizeTicker(payload.ticker || payload.symbol || '');
+    if (!MEANINGFUL_WORKFLOWS.has(workflow) || !isValidTicker(ticker)) return null;
+    if (payload.resultValid !== true || payload.sourceOpened !== true) return null;
+    const acquisition = payload.acquisition || null;
+    const now = new Date();
+    const event = {
+        event: 'meaningful_activation', userId: String(user._id), ticker, symbol: ticker,
+        workflow, resultValid: true, sourceOpened: true, campaignId: augustCampaign.config(now).campaignId,
+        contentId: cleanShort(payload.contentId || acquisition && acquisition.contentId || null, 120),
+        acquisitionSource: acquisition && acquisition.source || null,
+        acquisitionClickId: acquisition && acquisition.clickId || null,
+        at: now, timestamp: now, eventType: 'meaningful_activation',
+        trafficCategory: payload.trafficCategory || null,
+        meta: metaForFunnel({ workflow, resultValid: true, sourceOpened: true })
+    };
+    const result = await mongoose.connection.collection('funnel_events').updateOne(
+        { event: 'meaningful_activation', userId: String(user._id), workflow, ticker },
+        { $set: { sourceOpened: true, resultValid: true }, $setOnInsert: event }, { upsert: true }
+    );
+    const count = await mongoose.connection.collection('funnel_events').countDocuments({
+        event: 'meaningful_activation', userId: String(user._id), resultValid: true, sourceOpened: true
+    });
+    const sessionIds = await mongoose.connection.collection('funnel_events').distinct('sessionId', {
+        userId: String(user._id), sessionId: { $ne: null }, event: { $in: ['meaningful_activation', 'activation', 'ai_answer', 'page_view'] }
+    });
+    let reviewEligible = Boolean(user.reviewEligibleAt);
+    if (!reviewEligible && (count >= 2 || (count >= 1 && sessionIds.length >= 2) || sessionIds.length >= 3)) {
+        await User.updateOne({ _id: user._id, reviewEligibleAt: null }, { $set: { reviewEligibleAt: now } });
+        reviewEligible = true;
+        scheduleAppSumoReviewEligibility(user).catch(() => {});
+    }
+    if (result.upsertedCount || result.matchedCount) {
+        scheduleAppSumoActivationNext(user).catch(() => {});
+    }
+    return { reviewEligible, count };
+}
 
 // Activation is deliberately idempotent per user/job. The upsert key keeps a
 // retrying browser beacon from inflating the marketing funnel while preserving
@@ -2089,6 +2183,54 @@ async function scheduleAppSumoReviewRequest(user, { licenseKey, tier } = {}) {
     } catch (_) {
         return false;
     }
+}
+
+async function scheduleAppSumoOnboarding(user, { tier } = {}) {
+    if (!user || !user._id || !user.email) return false;
+    try {
+        await ScheduledEmail.updateOne(
+            { emailKey: `appsumo-onboarding:${String(user._id)}` },
+            { $setOnInsert: {
+                emailKey: `appsumo-onboarding:${String(user._id)}`,
+                template: 'appsumo_onboarding', userId: user._id,
+                to: normalizeEmail(user.email), dueAt: new Date(Date.now() + 5 * 60000), status: 'scheduled',
+                meta: { appsumoTier: Number(tier || user.appsumoTier) || null, campaignId: augustCampaign.config().campaignId }
+            } }, { upsert: true }
+        );
+        return true;
+    } catch (_) { return false; }
+}
+
+async function scheduleAppSumoActivationNext(user) {
+    if (!user || !user._id || !user.email || !user.appsumoRedeemedAt) return false;
+    try {
+        await ScheduledEmail.updateOne(
+            { emailKey: `appsumo-activation-next:${String(user._id)}` },
+            { $setOnInsert: {
+                emailKey: `appsumo-activation-next:${String(user._id)}`,
+                template: 'appsumo_activation_next', userId: user._id,
+                to: normalizeEmail(user.email), dueAt: new Date(Date.now() + 24 * 3600000), status: 'scheduled',
+                meta: { campaignId: augustCampaign.config().campaignId }
+            } }, { upsert: true }
+        );
+        return true;
+    } catch (_) { return false; }
+}
+
+async function scheduleAppSumoReviewEligibility(user) {
+    if (!user || !user._id || !user.email || !user.appsumoRedeemedAt) return false;
+    try {
+        await ScheduledEmail.updateOne(
+            { emailKey: `appsumo-review-eligible:${String(user._id)}` },
+            { $setOnInsert: {
+                emailKey: `appsumo-review-eligible:${String(user._id)}`,
+                template: 'appsumo_review_eligible', userId: user._id,
+                to: normalizeEmail(user.email), dueAt: new Date(), status: 'scheduled',
+                meta: { campaignId: augustCampaign.config().campaignId }
+            } }, { upsert: true }
+        );
+        return true;
+    } catch (_) { return false; }
 }
 
 // Campaign-safe AppSumo redirect. Only named, allowlisted channels are accepted;
@@ -4962,6 +5104,8 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
         });
         scheduleAppSumoReviewRequest(user, { licenseKey, tier })
             .catch((e) => console.error('[appsumo] review schedule error:', e && e.message));
+        scheduleAppSumoOnboarding(user, { tier })
+            .catch((e) => console.error('[appsumo] onboarding schedule error:', e && e.message));
     }
     trackFunnel('paid', user._id, cfg.planName, {
         source: 'appsumo',
@@ -5273,7 +5417,7 @@ go.onclick = async function(){
     if (!rr.ok) { show('err', (rj && rj.message) || 'Activation failed.'); go.disabled=false; alt.disabled=false; return; }
     try { localStorage.setItem('token', aj.token); } catch(e){}
     document.getElementById('form').style.display = 'none';
-    show('ok', '\\u2705 ' + ((rj && rj.message) || 'Pro unlocked.') + ' <a href="/">Go to your dashboard &rarr;</a>');
+    show('ok', '\\u2705 ' + ((rj && rj.message) || 'Pro unlocked.') + ' <a href="/onboarding">Run your first cited result &rarr;</a>');
   } catch (e) {
     show('err', 'Network error - please try again.'); go.disabled=false; alt.disabled=false;
   }
@@ -5562,6 +5706,58 @@ app.post('/api/track/activation', authMiddleware, async (req, res) => {
         ...trackingRequestFields(req, res)
     });
     return res.status(204).end();
+});
+
+// A meaningful activation requires an authenticated customer to finish a
+// valid result and open its source. This endpoint is deliberately idempotent
+// per user/workflow/ticker and rejects synthetic/incomplete client events.
+app.post('/api/track/meaningful-activation', authMiddleware, async (req, res) => {
+    const body = req.body || {};
+    const workflow = String(body.workflow || '').trim().toLowerCase();
+    const ticker = normalizeTicker(body.ticker || body.symbol || '');
+    if (!MEANINGFUL_WORKFLOWS.has(workflow) || !isValidTicker(ticker)) {
+        return res.status(400).json({ message: 'A supported workflow and ticker are required.' });
+    }
+    const resultValid = body.resultValid === true;
+    const sourceOpened = body.sourceOpened === true;
+    if (!resultValid || !sourceOpened) return res.status(400).json({ message: 'A valid result and opened source are required.' });
+    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const outcome = await meaningfulActivationFor(req.user, {
+        workflow, ticker, resultValid, sourceOpened,
+        contentId: shareCopy.normalizeAcquisitionContentId(body.contentId), acquisition,
+        trafficCategory: trackingRequestFields(req, res).trafficCategory
+    });
+    if (!outcome) return res.status(403).json({ message: 'This activation is not eligible for campaign reporting.' });
+    return res.json({ ok: true, meaningfulActivation: true, reviewEligible: outcome.reviewEligible, count: outcome.count });
+});
+
+app.get('/api/customer-success/status', authMiddleware, async (req, res) => {
+    res.set('Cache-Control', 'no-store').json({
+        status: req.user.customerSuccessStatus || null,
+        recordedAt: req.user.customerSuccessAt || null,
+        reviewEligible: Boolean(req.user.reviewEligibleAt)
+    });
+});
+
+app.post('/api/track/customer-success', authMiddleware, async (req, res) => {
+    const status = String(req.body && req.body.status || '').trim().toLowerCase();
+    if (!['yes', 'somewhat', 'not_yet'].includes(status)) return res.status(400).json({ message: 'Choose yes, somewhat, or not_yet.' });
+    const text = cleanShort(req.body && req.body.text, 1000);
+    const now = new Date();
+    await User.updateOne({ _id: req.userId }, { $set: { customerSuccessStatus: status, customerSuccessText: text, customerSuccessAt: now } });
+    trackFunnel('customer_success', req.userId, req.user.subscription && req.user.subscription.planName, {
+        campaignId: augustCampaign.config().campaignId, successStatus: status, text: text || null
+    });
+    return res.json({ ok: true, status, recordedAt: now.toISOString() });
+});
+
+app.post('/api/review/prompt', authMiddleware, async (req, res) => {
+    const action = String(req.body && req.body.action || '').trim().toLowerCase();
+    if (!['shown', 'clicked', 'dismissed'].includes(action)) return res.status(400).json({ message: 'Unknown review action.' });
+    const field = { shown: 'reviewPromptShownAt', clicked: 'reviewClickedAt', dismissed: 'reviewDismissedAt' }[action];
+    await User.updateOne({ _id: req.userId }, { $set: { [field]: new Date() } });
+    trackFunnel(`review_${action}`, req.userId, req.user.subscription && req.user.subscription.planName, { campaignId: augustCampaign.config().campaignId });
+    return res.json({ ok: true });
 });
 
 // ---- /api/admin/comp — grant complimentary access to a reviewer ----
@@ -6212,6 +6408,13 @@ async function runAppSumoReviewSweep() {
             const threshold = APPSUMO_REVIEW_STAGES[nextStage];
             if (!threshold) continue;
             if (now - new Date(u.appsumoRedeemedAt).getTime() < threshold) continue; // not due yet
+            // The campaign onboarding job is the first-touch message. Avoid
+            // sending the older 24-hour welcome a second time when both the
+            // in-process sweep and the scheduled-email worker are enabled.
+            if (nextStage === 1) {
+                const onboardingJob = await ScheduledEmail.findOne({ emailKey: `appsumo-onboarding:${String(u._id)}` }).lean();
+                if (onboardingJob && onboardingJob.status !== 'skipped') continue;
+            }
             // Stage 1 is onboarding. Stages 2/3 ask for a neutral, honest review,
             // so require actual product use first. This is usage-based only: no
             // rating, feedback verdict, or sentiment ever affects eligibility.
@@ -6451,6 +6654,84 @@ function marketingDashboardOnly(req, res, next) {
     if (email !== 'rin@gmail.com') return res.status(403).json({ message: 'Dashboard access denied' });
     return next();
 }
+
+async function collectAugustGrowthReport() {
+    const base = await collectMarketingDashboard();
+    const now = new Date();
+    const meaningful = await FunnelEvent.countDocuments({ event: 'meaningful_activation', resultValid: true, sourceOpened: true, reportable: { $ne: false } });
+    const successYes = await User.countDocuments({ customerSuccessStatus: 'yes' });
+    const reviewEligible = await User.countDocuments({ reviewEligibleAt: { $ne: null } });
+    const reviewClicks = await FunnelEvent.countDocuments({ event: 'review_clicked', reportable: { $ne: false } });
+    const gmvSnapshots = await ManualGmvSnapshot.find({}).sort({ date: -1 }).limit(90).lean();
+    const grossSales = gmvSnapshots.reduce((sum, row) => sum + Number(row.grossSales || 0), 0);
+    const refunds = gmvSnapshots.reduce((sum, row) => sum + Number(row.refunds || 0), 0);
+    const target = augustCampaign.config(now).revenueTarget;
+    return {
+        campaign: augustCampaign.config(now), targetRevenue: target,
+        gmv: { grossSales, refunds, netSales: Math.max(0, grossSales - refunds), snapshots: gmvSnapshots },
+        pacing: { daysElapsed: Math.max(0, Math.floor((now - new Date(augustCampaign.config(now).campaignStart)) / 86400000)), target, percent: target ? ((grossSales - refunds) / target) * 100 : 0 },
+        funnel: base,
+        customerSuccess: { meaningfulActivations: meaningful, yes: successYes, reviewEligible, reviewClicks },
+        warnings: [
+            !augustCampaign.config(now).configured ? 'APPSUMO_DEAL_END_AT is not configured; deadline urgency is intentionally disabled.' : null,
+            grossSales === 0 ? 'No manual GMV snapshot has been entered; Partner Portal remains the commercial source of truth.' : null,
+            successYes < 3 ? 'Affiliate gate remains closed until three real customers confirm a successful research outcome.' : null
+        ].filter(Boolean)
+    };
+}
+
+app.get('/api/admin/growth/august-2026', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    try { res.set('Cache-Control', 'no-store').json(await collectAugustGrowthReport()); }
+    catch (error) { console.error('[growth] report failed:', error && error.message); res.status(500).json({ message: 'Growth report unavailable' }); }
+});
+
+app.post('/api/admin/growth/gmv', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    const b = req.body || {};
+    const date = new Date(String(b.date || ''));
+    if (!Number.isFinite(date.getTime())) return res.status(400).json({ message: 'date is required' });
+    const n = (value) => Math.max(0, Number(value || 0));
+    try {
+        const row = await ManualGmvSnapshot.findOneAndUpdate(
+            { date },
+            { $set: { date, grossOrders: n(b.grossOrders), grossSales: n(b.grossSales), refunds: n(b.refunds), netOrders: n(b.netOrders), payoutEstimate: n(b.payoutEstimate), notes: cleanShort(b.notes, 1000), updatedBy: normalizeEmail(req.user.email) } },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        ).lean();
+        res.status(201).json({ ok: true, snapshot: row });
+    } catch (_) { res.status(500).json({ message: 'Could not save GMV snapshot' }); }
+});
+
+app.get('/api/admin/growth/gmv', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    try { res.set('Cache-Control', 'no-store').json({ snapshots: await ManualGmvSnapshot.find({}).sort({ date: -1 }).limit(90).lean() }); }
+    catch (_) { res.status(500).json({ message: 'Could not load GMV snapshots' }); }
+});
+
+app.get('/admin/growth/august-2026', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    try {
+        const data = await collectAugustGrowthReport();
+        const esc = escapeHtml;
+        const money = (v) => `$${Number(v || 0).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+        const c = data.customerSuccess;
+        res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>August AppSumo sprint — StockPortfolio.pro</title><style>body{font:15px/1.5 system-ui;margin:0;background:#f6f8fb;color:#172033}main{max-width:1100px;margin:auto;padding:28px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card,section{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:14px 0}.card strong{display:block;font-size:28px}.muted{color:#64748b}.warning{background:#fffbeb;border-color:#fde68a;color:#92400e}.row{display:flex;gap:8px;flex-wrap:wrap}input,button{padding:9px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}button{background:#172033;color:#fff;cursor:pointer}</style><main><p class="muted"><a href="/admin/marketing">Marketing dashboard</a></p><h1>August AppSumo sprint</h1><p>Goal: ${money(data.targetRevenue)} net revenue · <span class="muted">${esc(data.campaign.deadlineLabel)}</span></p><div class="grid"><div class="card"><span class="muted">Net manual GMV</span><strong>${money(data.gmv.netSales)}</strong></div><div class="card"><span class="muted">Meaningful activations</span><strong>${c.meaningfulActivations}</strong></div><div class="card"><span class="muted">Customers saying “yes”</span><strong>${c.yes}</strong></div><div class="card"><span class="muted">Review eligible</span><strong>${c.reviewEligible}</strong></div></div><section><h2>Warnings</h2>${data.warnings.length ? data.warnings.map((w) => `<p class="warning">${esc(w)}</p>`).join('') : '<p>No current warnings.</p>'}</section><section><h2>Enter a Partner Portal snapshot</h2><p class="muted">Manual only; no checkout or payout action is performed.</p><form id="gmv"><div class="row"><input name="date" type="date" required><input name="grossOrders" type="number" min="0" placeholder="Gross orders"><input name="grossSales" type="number" min="0" step="0.01" placeholder="Gross sales USD"><input name="refunds" type="number" min="0" step="0.01" placeholder="Refunds USD"><button>Save snapshot</button></div></form><p id="status" class="muted"></p></section><section><h2>Customer-success gate</h2><p>Three real customers selecting “Yes, clearly” are required before the affiliate program can be enabled. Current count: <strong>${c.yes}</strong>.</p></section><script>document.getElementById('gmv').addEventListener('submit',async function(e){e.preventDefault();const b=Object.fromEntries(new FormData(e.target));const r=await fetch('/api/admin/growth/gmv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});document.getElementById('status').textContent=r.ok?'Saved. Reload to refresh totals.':'Could not save snapshot.';});</script></main>`);
+    } catch (_) { res.status(500).send('Growth dashboard unavailable'); }
+});
+
+app.get('/api/admin/growth/content', authMiddleware, marketingDashboardOnly, async (req, res) => {
+    const ticker = normalizeTicker(req.query.ticker || '');
+    const tool = freeToolId(req.query.tool || 'earnings-quality') || 'earnings-quality';
+    const channel = shareCopy.normalizeAppSumoSource(req.query.channel || 'website') || 'website';
+    const contentId = shareCopy.normalizeAcquisitionContentId(req.query.contentId || `tool-${tool}`) || `tool-${tool}`;
+    if (!isValidTicker(ticker)) return res.status(400).json({ message: 'A valid ticker is required.' });
+    try {
+        const result = await freeTools.getToolResult(tool, ticker);
+        const pathName = `/tools/${tool}`;
+        const trackedUrl = `${PUBLIC_APP_URL}${augustCampaign.appsumoPath({ source: channel, contentId })}`;
+        res.set('Cache-Control', 'no-store').json({ campaignId: augustCampaign.config().campaignId, tool, ticker, contentId, channel, researchUrl: `${PUBLIC_APP_URL}${pathName}?symbol=${encodeURIComponent(ticker)}`, appsumoUrl: `${PUBLIC_APP_URL}${augustCampaign.appsumoPath({ source: channel, contentId })}`, result: result.body && !result.body.error ? result.body : null, status: result.status });
+    } catch (_) { res.status(502).json({ message: 'Could not generate a deterministic preview.' }); }
+});
+
+app.get('/admin/growth/content', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Content generator — StockPortfolio.pro</title><style>body{font:15px/1.5 system-ui;margin:0;background:#f6f8fb;color:#172033}main{max-width:840px;margin:auto;padding:28px 18px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin:14px 0}.row{display:flex;gap:8px;flex-wrap:wrap}input,select,button{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}button{background:#172033;color:#fff}.out{white-space:pre-wrap;word-break:break-word}</style><main><p><a href="/admin/growth/august-2026">← August dashboard</a></p><h1>Private content generator</h1><p>Generate a current deterministic result and tracked URLs. Nothing is published automatically.</p><div class="card"><form id="f"><div class="row"><input name="ticker" placeholder="AAPL" maxlength="10" required><select name="tool"><option value="earnings-quality">Earnings quality</option><option value="dilution">Dilution</option><option value="filing-timeline">Filing timeline</option></select><select name="channel"><option>website</option><option>x</option><option>linkedin</option><option>reddit</option><option>creator</option><option>newsletter</option></select><input name="contentId" placeholder="tool-earnings-quality"><button>Generate preview</button></div></form></div><div id="out" class="card out"></div><script>document.getElementById('f').addEventListener('submit',async function(e){e.preventDefault();const b=Object.fromEntries(new FormData(e.target));const q=new URLSearchParams(b);const r=await fetch('/api/admin/growth/content?'+q);document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);});</script></main>`);
+});
 
 // Owner-only, real-time Ollama attribution. This is deliberately separate from
 // the marketing funnel: it exposes authenticated customer identity only to the

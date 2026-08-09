@@ -56,6 +56,39 @@
             body: JSON.stringify({ job }), keepalive: true
         }).catch(() => {});
     };
+    const trackMeaningfulActivation = (payload = {}) => {
+        if (!token()) return Promise.resolve(null);
+        const body = { ...payload, resultValid: payload.resultValid === true, sourceOpened: payload.sourceOpened === true };
+        return fetch(`${API}/track/meaningful-activation`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+            body: JSON.stringify(body), keepalive: true
+        }).then((r) => r.ok ? r.json() : null).catch(() => null);
+    };
+    const trackCustomerSuccess = (status, text) => {
+        if (!token()) return Promise.resolve(null);
+        return fetch(`${API}/track/customer-success`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+            body: JSON.stringify({ status, text: String(text || '').slice(0, 1000) }), keepalive: true
+        }).then((r) => r.ok ? r.json() : null).catch(() => null);
+    };
+    async function mountCampaign() {
+        let cfg;
+        try { const r = await fetch('/api/campaign/config'); if (!r.ok) return null; cfg = await r.json(); } catch (_) { return null; }
+        document.querySelectorAll('[data-appsumo-deadline]').forEach((el) => { el.textContent = cfg.deadlineLabel || 'Lifetime deal available now'; });
+        document.querySelectorAll('[data-campaign-sales-video]').forEach((el) => {
+            if (!cfg.salesVideoUrl) { el.hidden = true; return; }
+            el.hidden = false; el.src = cfg.salesVideoUrl; el.load();
+        });
+        document.querySelectorAll('[data-campaign-onboarding-video]').forEach((el) => {
+            if (!cfg.onboardingVideoUrl) { el.hidden = true; return; }
+            el.hidden = false; el.src = cfg.onboardingVideoUrl; el.load();
+        });
+        document.querySelectorAll('[data-appsumo-campaign-link]').forEach((el) => {
+            const content = el.dataset.contentId || 'campaign-home';
+            el.href = `/go/appsumo/website?content_id=${encodeURIComponent(content)}`;
+        });
+        return cfg;
+    }
     try { localStorage.removeItem('token'); } catch (_) {}
 
     // ---------- funnel-event entry point (retargeting) ----------
@@ -1232,5 +1265,6 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHScroll);
     else initHScroll();
 
-    window.V2 = { API, token, trackActivation, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
+    mountCampaign();
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackCustomerSuccess, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
 })();
