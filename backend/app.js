@@ -4514,12 +4514,12 @@ app.delete('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
 // ----- Company extras (v2 page): SEC filings + ownership, public + cached -----
 const _filingsCache = new Map(); // SYM -> { at, payload }
 const COMPANY_EXTRA_TTL_MS = 24 * 60 * 60 * 1000;
-const DOC_FORMS = new Set(['10-K', '10-K/A', '10-Q', '10-Q/A', '8-K', '8-K/A', '4', 'DEF 14A']);
+const DOC_FORMS = new Set(['10-K', '10-K/A', '10-Q', '10-Q/A', '8-K', '8-K/A', '4', '4/A', 'DEF 14A']);
 const DOC_CATEGORY = (form) => {
     if (form.startsWith('10-K')) return 'annual';
     if (form.startsWith('10-Q')) return 'quarterly';
     if (form.startsWith('8-K')) return 'events';
-    if (form === '4') return 'insider';
+    if (form === '4' || form === '4/A') return 'insider';
     if (form === 'DEF 14A') return 'proxy';
     return 'other';
 };
@@ -4530,7 +4530,7 @@ app.get('/api/company/:symbol/filings', async (req, res) => {
         const cached = _filingsCache.get(symbol);
         if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) return res.json(cached.payload);
         const filings = await watchdog.fetchFilingsDeep(symbol, DOC_FORMS, {
-            '10-K': 7, '10-K/A': 2, '10-Q': 8, '10-Q/A': 2, '8-K': 8, '8-K/A': 2, '4': 10, 'DEF 14A': 5
+            '10-K': 7, '10-K/A': 2, '10-Q': 8, '10-Q/A': 2, '8-K': 8, '8-K/A': 2, '4': 10, '4/A': 2, 'DEF 14A': 5
         });
         if (filings === null) return res.status(404).json({ message: 'No SEC filings found for this symbol.' });
         const categories = { annual: [], quarterly: [], events: [], insider: [], proxy: [] };

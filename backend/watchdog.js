@@ -90,7 +90,11 @@ const FORM_LABEL = {
   '10-K/A': 'Annual report amendment (10-K/A)',
   '10-Q': 'Quarterly report (10-Q)',
   '10-Q/A': 'Quarterly report amendment (10-Q/A)',
-  '8-K': 'Material event (8-K)'
+  '8-K': 'Material event (8-K)',
+  '8-K/A': 'Material event amendment (8-K/A)',
+  '4': 'Form 4 (insider ownership)',
+  '4/A': 'Form 4 amendment (4/A)',
+  'DEF 14A': 'Proxy statement (DEF 14A)'
 };
 
 async function createAlerts(userIds, fields) {

@@ -54,7 +54,11 @@ function fmtEps(v, cur) {
 const FORM_LABEL = {
     '10-K': 'Annual report (10-K)',
     '10-Q': 'Quarterly report (10-Q)',
-    '8-K': 'Material event (8-K)'
+    '8-K': 'Material event (8-K)',
+    '8-K/A': 'Material event amendment (8-K/A)',
+    '4': 'Form 4 (insider ownership)',
+    '4/A': 'Form 4 amendment (4/A)',
+    'DEF 14A': 'Proxy statement (DEF 14A)'
 };
 
 // ---- 1. Financial deltas: latest reported quarter vs the year-ago quarter ----

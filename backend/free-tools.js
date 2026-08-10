@@ -38,8 +38,8 @@ const TOOL_DEFINITIONS = Object.freeze({
         id: 'tool-filing-timeline',
         slug: 'filing-timeline',
         path: '/tools/filing-timeline',
-        title: 'SEC Filing Timeline — 10-K, 10-Q, 8-K and Form 4 history',
-        description: 'Browse a company’s recent SEC filings with dates, form labels and direct EDGAR links.',
+        title: 'SEC Filing Timeline — 10-K, 10-Q, 8-K, Form 4 and proxy history',
+        description: 'Browse a company’s recent 10-K, 10-Q, 8-K, Form 4 and proxy filings with dates, form labels and direct EDGAR links.',
         heading: 'SEC filing timeline',
         intro: 'Find the filing, period and primary SEC document before comparing a financial claim.'
     },
@@ -304,9 +304,9 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
 }
 
 async function filingTimeline(symbol) {
-    const forms = new Set(['10-K', '10-K/A', '10-Q', '10-Q/A', '8-K', '8-K/A', '4', 'DEF 14A']);
+    const forms = new Set(['10-K', '10-K/A', '10-Q', '10-Q/A', '8-K', '8-K/A', '4', '4/A', 'DEF 14A']);
     const filings = await watchdog.fetchFilingsDeep(symbol, forms, {
-        '10-K': 5, '10-K/A': 2, '10-Q': 6, '10-Q/A': 2, '8-K': 8, '8-K/A': 2, '4': 8, 'DEF 14A': 4
+        '10-K': 5, '10-K/A': 2, '10-Q': 6, '10-Q/A': 2, '8-K': 8, '8-K/A': 2, '4': 8, '4/A': 2, 'DEF 14A': 4
     });
     if (!filings || !filings.length) return { tool: 'filing-timeline', symbol, error: `No SEC filings found for ${symbol}.` };
     const labels = watchdog.FORM_LABEL || {};
