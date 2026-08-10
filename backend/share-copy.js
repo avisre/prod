@@ -19,7 +19,8 @@ const ACQUISITION_CONTENT_IDS = new Set([
     'tool-portfolio-dilution', 'tool-etf-overlap', 'tool-etf-sector-concentration',
     'tool-company-comparison', 'tool-peer-cash-conversion', 'tool-ask-question-builder',
     'tool-filing-evidence-checklist', 'tool-research-dossier-starter',
-    'research-shares-outstanding', 'research-pe-ratio-history', 'research-dilution-scorecard'
+    'research-shares-outstanding', 'research-pe-ratio-history', 'research-dilution-scorecard',
+    'seo-eps-next-action', 'seo-revenue-next-action'
 ]);
 const APPSUMO_SOURCE_ALIASES = Object.freeze({ twitter: 'x', site: 'website' });
 const APPSUMO_SOURCES = new Set([

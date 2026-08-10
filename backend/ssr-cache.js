@@ -220,6 +220,11 @@ function middleware(opts) {
     if (req.method !== 'GET') return next();
     const path = req.path; // querystring-free; decoded by Express
     if (!isCacheablePath(path)) return next();
+    // The SEO activation module is organic-referrer gated. A shared HTML cache
+    // would otherwise let the first organic visitor's treatment leak to direct
+    // visitors (or hide it from later organic visitors), so keep metric pages
+    // request-aware while the pilot flag is enabled.
+    if (process.env.SEO_ACTIVATION_PILOT === 'true' && /^\/stocks\/[A-Za-z0-9.\-]+\/[a-z-]+$/.test(path)) return next();
     if (req.headers.authorization) return next(); // never touch credentialed requests
 
     const key = normalizeKey(path);

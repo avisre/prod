@@ -10,6 +10,7 @@ const fs = require('fs');
 const path = require('path');
 const aiChat = require('./ai-chat'); // health checks + per-symbol metrics
 const { pixelHeadSnippet } = require('./pixels'); // env-driven retargeting (no-op when unset)
+const { normalizeTicker } = require('./symbol-resolver');
 
 const FRONTEND = path.join(__dirname, '..', 'frontend');
 const DATA = path.join(FRONTEND, 'data');
@@ -77,6 +78,21 @@ function loadCompanies() {
 
 function symbolToFile(symbol) {
     return path.join(FUND_DIR, `${String(symbol || '').toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`);
+}
+
+// Return the symbol used by the company directory, not merely the normalized
+// input. This preserves class-share punctuation (BRK.B/BF.B) in canonicals
+// while allowing the resolver's existing dash/dot/slash/space equivalence.
+function resolveCanonicalSymbol(input) {
+    const normalized = normalizeTicker(input);
+    if (!normalized) return null;
+    const match = loadCompanies().find((company) => normalizeTicker(company.symbol) === normalized);
+    if (match) return match.symbol;
+    // Some supported securities are present in the fundamentals cache but not
+    // in the curated directory. The normalized spelling still maps to the same
+    // cache filename; use it only as a fallback and never create an alias.
+    if (fs.existsSync(symbolToFile(normalized))) return normalized;
+    return null;
 }
 
 const _fundCache = new Map();
@@ -204,6 +220,10 @@ function head(title, description, canonical, jsonld) {
   .seo-lock{border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;background:var(--surface);margin:18px 0}
   .seo-lock h3{margin:0 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
   .seo-lock p{margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:560px;margin-left:auto;margin-right:auto}
+  .seo-next-action{border:1px solid #c9d7f7;border-radius:10px;padding:22px 20px;background:#f4f7ff;margin:28px 0}
+  .seo-next-action-kicker{margin:0 0 5px;color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .seo-next-action h2{margin:0 0 7px;font-size:19px;font-weight:650;letter-spacing:-.01em}
+  .seo-next-action p:not(.seo-next-action-kicker){margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:680px}
   .seo-about{color:var(--ink);font-size:14.5px;line-height:1.75;max-width:74ch}
   .seo-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
   .seo-links a{font-size:12px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink2);background:var(--surface)}
@@ -236,7 +256,7 @@ function footer() {
 
 // ---- stock page ----
 function renderStockPage(ticker) {
-    const sym = String(ticker || '').toUpperCase();
+    const sym = resolveCanonicalSymbol(ticker) || String(ticker || '').toUpperCase();
     const company = loadCompanies().find((c) => c.symbol === sym);
     const data = loadFundamentals(sym);
     if (!company && !data) return null;
@@ -538,7 +558,7 @@ function renderStockPage(ticker) {
     try {
         const extra = require('./seo-extra');
         const links = extra.METRIC_SLUGS
-            .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(sym)} ${esc(extra.METRICS[s].label.toLowerCase())}</a>`).join('');
+            .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(extra.METRICS[s].label)}</a>`).join('');
         metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history by metric</h2><div class="seo-links">${links}<a href="/research/shares-outstanding">Shares outstanding research guide</a><a href="/research/pe-ratio-history">Historical P/E methodology</a><a href="/research/dilution-scorecard">US-company dilution scorecard</a></div></div>`;
     } catch (_) { /* seo-extra unavailable — page renders without the block */ }
 
@@ -765,7 +785,7 @@ function buildSitemap() {
 // the S&P 1500 list. Lazy-loaded once.
 let _usNames = null;
 function companyName(symbol) {
-    const sym = String(symbol || '').toUpperCase();
+    const sym = resolveCanonicalSymbol(symbol) || String(symbol || '').toUpperCase();
     const c = loadCompanies().find((x) => x.symbol === sym);
     if (c) return c.name;
     if (_usNames === null) {
@@ -782,7 +802,7 @@ function companyName(symbol) {
 
 // True when /stocks/SYM renders a real page (in the universe or cached on disk)
 function hasStockPage(symbol) {
-    const sym = String(symbol || '').toUpperCase();
+    const sym = resolveCanonicalSymbol(symbol);
     if (!sym) return false;
     if (loadCompanies().some((c) => c.symbol === sym)) return true;
     return fs.existsSync(symbolToFile(sym));
@@ -848,6 +868,7 @@ function renderEditorialPolicy() {
 
 module.exports = {
     renderStockPage, renderStockIndex, buildSitemap, buildSitemapShard, loadCompanies, companyName, hasStockPage,
+    resolveCanonicalSymbol,
     renderMethodology, renderEditorialPolicy,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
     loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer

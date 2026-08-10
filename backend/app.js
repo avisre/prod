@@ -33,6 +33,7 @@ const monitorFreeUsage = require('./monitor-free-usage');
 const ollamaUsage = require('./ollama-usage-tracker');
 const affiliateProgram = require('./affiliate-program');
 const augustCampaign = require('./august-campaign');
+const { safeUpper, isValidTicker, normalizeTicker } = require('./symbol-resolver');
 require('dotenv').config();
 
 // Optional, first-party post-purchase attribution question. This is deliberately
@@ -929,27 +930,6 @@ async function ensureStripeAccountPreflight() {
   return accountId;
 }
 
-function safeUpper(value = '') {
-  return String(value || '').trim().toUpperCase();
-}
-function isValidTicker(value = '') {
-  return /^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(String(value || '').trim().toUpperCase());
-}
-
-// Class shares are written a dozen ways by humans and data vendors:
-// Berkshire B is BRK.B (NYSE/CNBC/Morningstar), BRK-B (Yahoo), BRK/B
-// (Bloomberg/Fidelity), sometimes "BRK B". Yahoo — our upstream — only
-// resolves the dash form, so the dotted/slashed forms used to return degraded
-// data or a 502 blank page. Normalize any separator to '-' so every spelling
-// of the same security lands on the same full record. A plain ticker with no
-// separator is untouched.
-function normalizeTicker(value = '') {
-  return safeUpper(value)
-    .replace(/[.\/\s]+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-+|-+$/g, '');
-}
-
 function trimTrailingSlash(value = '') {
   return String(value || '').trim().replace(/\/+$/, '');
 }
@@ -1489,6 +1469,10 @@ app.get('/editorial-policy', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderEditorialPolicy());
 });
 app.get('/stocks/:ticker', (req, res) => {
+    const canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
+    if (canonicalSymbol && String(req.params.ticker) !== canonicalSymbol) {
+        return res.redirect(301, `/stocks/${encodeURIComponent(canonicalSymbol)}`);
+    }
     const html = seoPages.renderStockPage(req.params.ticker);
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
@@ -5690,6 +5674,70 @@ app.post('/api/track/cta_click', (req, res) => {
         ...requestFields
     });
     res.status(204).end();
+});
+
+// SEO activation pilot events deliberately accept page context only. The
+// server derives the organic channel from the signed acquisition cookie or
+// referrer; a caller cannot promote `?source=organic` into attribution.
+const SEO_EVENT_NAMES = new Set(['seo_next_action_click', 'ask_landing', 'ask_first_query_submitted', 'ask_response_completed', 'source_opened']);
+const SEO_PAGE_TYPES = new Set(['metric', 'comparison', 'stock', 'screen', 'research', 'tool']);
+const SEO_METRICS = new Set(['eps', 'net-income', 'revenue']);
+const SEO_DESTINATIONS = new Set(['ask', 'comparison', 'stock', 'screen', 'filing', 'tool']);
+const SEO_CONTENT_IDS = new Set(['seo-eps-next-action', 'seo-revenue-next-action']);
+function seoEventContext(body = {}) {
+    const raw = body && typeof body === 'object' ? body : {};
+    const contentId = shareCopy.normalizeAcquisitionContentId(raw.contentId);
+    if (!SEO_CONTENT_IDS.has(contentId)) return null;
+    const tickerRaw = safeUpper(raw.seoTicker || raw.ticker || raw.symbol);
+    const seoTicker = isValidTicker(tickerRaw) ? tickerRaw : null;
+    const metricRaw = String(raw.seoMetric || raw.metric || '').trim().toLowerCase();
+    const seoMetric = SEO_METRICS.has(metricRaw) ? metricRaw : null;
+    const pairRaw = String(raw.seoPair || raw.pair || '').trim().toUpperCase();
+    const seoPair = /^[A-Z0-9.]{1,10}-VS-[A-Z0-9.]{1,10}$/.test(pairRaw) ? pairRaw : null;
+    const pageType = String(raw.seoPageType || '').trim().toLowerCase();
+    const destinationKind = String(raw.destinationKind || '').trim().toLowerCase();
+    if (!SEO_PAGE_TYPES.has(pageType) || !SEO_DESTINATIONS.has(destinationKind)) return null;
+    return {
+        contentId, seoPageType: pageType, seoTicker, seoMetric, seoPair,
+        seoQueryCluster: ['earnings/profit', 'comparison', 'revenue'].includes(String(raw.seoQueryCluster || '')) ? String(raw.seoQueryCluster) : null,
+        seoExperiment: String(raw.seoExperiment || '') === 'seo-activation-pilot-v1' ? 'seo-activation-pilot-v1' : null,
+        seoVariant: String(raw.seoVariant || '') === 'treatment' ? 'treatment' : null,
+        destinationKind
+    };
+}
+function trackSeoEvent(req, res, eventName) {
+    const context = seoEventContext(req.body || {});
+    if (!context || !SEO_EVENT_NAMES.has(eventName)) return res.status(204).end();
+    const requestFields = trackingRequestFields(req, res);
+    const existing = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const headerReferrer = marketingAttribution.sanitizeReferrer(req.headers.referer || req.headers.referrer);
+    const headerSource = marketingAttribution.referrerSource(headerReferrer);
+    // Do not let a client-provided document.referrer or URL source claim make a
+    // non-organic event organic. A signed cookie may carry a prior verified
+    // search touch; otherwise only the actual request header qualifies.
+    const acquisition = existing || (['google', 'bing', 'duckduckgo'].includes(headerSource)
+        ? ensureTrackingAcquisition(req, res, { ...requestFields, referrerSource: headerSource }, context.contentId)
+        : null);
+    const source = acquisition ? acquisition.source : headerSource;
+    if (!['google', 'bing', 'duckduckgo'].includes(source)) return res.status(204).end();
+    const eventFields = {
+        ...context,
+        acquisitionSource: acquisition ? acquisition.source : source,
+        acquisitionClickId: acquisition ? acquisition.clickId : null,
+        acquisitionClickedAt: acquisition ? acquisition.clickedAt : null,
+        trafficSource: source,
+        path: String(req.body && req.body.path || '').slice(0, 200),
+        target: String(req.body && req.body.target || '').slice(0, 200),
+        ...requestFields,
+        ...(headerReferrer ? { referrer: headerReferrer, referrerSource: headerSource } : {})
+    };
+    trackFunnel(eventName, null, null, eventFields);
+    return res.status(204).end();
+}
+app.post('/api/track/seo_next_action_click', (req, res) => trackSeoEvent(req, res, 'seo_next_action_click'));
+app.post('/api/track/seo_event', (req, res) => {
+    const eventName = String(req.body && req.body.event || '').trim();
+    return trackSeoEvent(req, res, eventName);
 });
 
 // First-party activation beacon. It is authenticated, allowlisted, and
