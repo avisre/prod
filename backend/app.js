@@ -2130,8 +2130,8 @@ async function meaningfulActivationFor(user, payload = {}) {
     // One account-level activation is emitted on the first successful outcome;
     // the underlying research outcome remains available for cohort analysis.
     if (result.upsertedCount) {
-        trackFunnel('first_research_complete', user._id, user.subscription && user.subscription.planName, {
-            eventName: 'first_research_complete',
+        trackFunnel('first_research_completed', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'first_research_completed',
             dedupeKey: `first-research-complete:${String(user._id)}`,
             workflow, ticker, symbol: ticker, resultValid: true, sourceOpened: true,
             contentId: event.contentId, acquisitionSource: event.acquisitionSource,
@@ -2226,8 +2226,8 @@ async function trackActivation(userId, job, extra = {}) {
 function trackFirstAskSuccess(req, user, result) {
     if (!req || !user || !user._id || !result || result.source !== 'ai' || !result.answer) return;
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
-    trackFunnel('first_ask_success', user._id, user.subscription && user.subscription.planName, {
-        eventName: 'first_ask_success',
+    trackFunnel('first_ask_succeeded', user._id, user.subscription && user.subscription.planName, {
+        eventName: 'first_ask_succeeded',
         dedupeKey: `first-ask-success:${String(user._id)}`,
         featureType: 'ask',
         entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
@@ -3073,8 +3073,8 @@ app.post('/api/subscribe', async (req, res) => {
             ...acquisitionFunnelFields(acquisition),
             ...requestFields
         });
-        trackFunnel('signup_complete', user._id, planConfig.planName, {
-            eventName: 'signup_complete',
+        trackFunnel('signup_completed', user._id, planConfig.planName, {
+            eventName: 'signup_completed',
             dedupeKey: `signup-complete:${String(user._id)}`,
             authMethod: 'email', selectedPlan: planConfig.planId, utm,
             ...acquisitionFunnelFields(acquisition), ...requestFields
@@ -3366,8 +3366,8 @@ app.post('/api/auth/social', async (req, res) => {
                 ...acquisitionFunnelFields(acquisition),
                 ...requestFields
             });
-            trackFunnel('signup_complete', user._id, planConfig.planName, {
-                eventName: 'signup_complete',
+            trackFunnel('signup_completed', user._id, planConfig.planName, {
+                eventName: 'signup_completed',
                 dedupeKey: `signup-complete:${String(user._id)}`,
                 authMethod: provider, selectedPlan: planConfig.planId, utm,
                 ...acquisitionFunnelFields(acquisition), ...requestFields

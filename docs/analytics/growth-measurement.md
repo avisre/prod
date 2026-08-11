@@ -1,6 +1,8 @@
 # Growth Measurement V1
 
-Status: implemented on branch `feat/growth-measurement-v1`; not deployed.
+Status: deployed to production on 11 August 2026 (commit
+`732578786a4a0a9d167eeea5854440a5ae19bdac`; the canonical-event correction is
+the next instrumentation deployment).
 
 This is a privacy-safe first-party measurement contract. It separates intent
 (browser events) from business truth (server events) and keeps GA4/Clarity
@@ -44,6 +46,8 @@ and environment are retained. Paths are stored without query strings.
 |---|---|---|---|
 | `pricing_viewed`, `cta_clicked`, `appsumo_outbound_clicked`, `signup_started`, `checkout_started` | browser (consent required) | custom | Intent only; never a sale |
 | `signup_completed` | `/api/subscribe`, social auth | `sign_up` | Account created on the server |
+| `first_research_completed` | authenticated workflow | custom | First valid, source-opened research outcome |
+| `first_ask_succeeded` | authenticated Ask | custom | First successful sourced Ask result |
 | `research_outcome_completed` | authenticated workflow | custom | Valid result plus source opened |
 | `activation_completed` | server, once/account | custom | First qualified outcome |
 | `appsumo_redemption_started`, `appsumo_redemption_completed` | AppSumo lifecycle | custom | License lifecycle only |
@@ -58,6 +62,11 @@ user ID, attribution snapshots, page type/path, content/CTA ID, plan/billing,
 entitlement source, feature type, environment and internal/test/bot flags.
 `dedupeKey` is partial-unique when it is a real string; Stripe/AppSumo retries therefore do
 not create another business event.
+
+Historical aliases `signup_complete`, `first_research_complete` and
+`first_ask_success` normalize to the canonical names for reporting and replay
+compatibility. Current emitters write only the canonical names; old records are
+not rewritten.
 
 ## Metric definitions
 
@@ -113,6 +122,12 @@ node scripts/migrate-growth-measurement-indexes.js --apply=false
 The AppSumo command is dry-run by default and stores only a one-way row
 fingerprint plus aggregate fields when explicitly applied. It cannot reconcile
 the unresolved eighth local license without authoritative portal evidence.
+
+For the production reconciliation, place the export at
+`marketing/campaign-2026-08-appsumo-sprint/incoming/appsumo-sales-analytics-YYYY-MM-DD.csv`.
+Run the importer with `--output` first; only an explicitly approved
+`--apply=true` writes aggregate, one-way-fingerprint rows to MongoDB. Buyer
+names, email addresses, license codes and raw order IDs are never stored.
 
 The report keeps unique visitors, sessions and registered users separate;
 reports conversion by first and last non-direct touch; includes landing-page,

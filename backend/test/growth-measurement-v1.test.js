@@ -64,6 +64,31 @@ test('browser event allowlist excludes business truth claims', () => {
     assert.equal(growth.normalizeEventName('meaningful_activation'), 'research_outcome_completed');
 });
 
+test('canonical first-event names accept legacy aliases without adding PII', () => {
+    for (const [alias, canonical] of [
+        ['signup_complete', 'signup_completed'],
+        ['first_research_complete', 'first_research_completed'],
+        ['first_ask_success', 'first_ask_succeeded']
+    ]) {
+        assert.equal(growth.normalizeEventName(alias), canonical);
+        const payload = growth.canonicalEvent({
+            eventName: alias,
+            userId: 'user-123',
+            secret: SECRET,
+            data: {
+                dedupeKey: `canonical-alias:${canonical}`,
+                email: 'hidden@example.com',
+                question: 'hidden research text',
+                answer: 'hidden answer'
+            }
+        });
+        assert.equal(payload.eventName, canonical);
+        assert.equal(Object.prototype.hasOwnProperty.call(payload, 'email'), false);
+        assert.equal(Object.prototype.hasOwnProperty.call(payload, 'question'), false);
+        assert.equal(Object.prototype.hasOwnProperty.call(payload, 'answer'), false);
+    }
+});
+
 test('GA4 payload is privacy-safe and disabled by default', () => {
     const payload = ga4.buildPayload({ event: 'sign_up', clientId: 'anon-123', sessionId: 'session-123', opaqueUserId: 'opaque-123', params: { page_type: 'pricing', email: 'hidden@example.com', prompt: 'hidden' } });
     assert.equal(payload.events[0].params.page_type, 'pricing');

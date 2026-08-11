@@ -16,8 +16,8 @@ const EVENT_NAMES = Object.freeze(new Set([
     'subscription_cancel_scheduled', 'subscription_canceled', 'payment_refunded',
     'review_eligible', 'review_request_sent', 'review_received', 'support_outcome_confirmed',
     'page_view', 'tool_view', 'tool_complete', 'trial_started', 'meaningful_activation',
-    'appsumo_landing_view', 'appsumo_cta_click', 'appsumo_activation', 'signup_complete',
-    'first_research_complete', 'first_ask_success', 'seven_day_return',
+    'appsumo_landing_view', 'appsumo_cta_click', 'appsumo_activation',
+    'first_research_completed', 'first_ask_succeeded', 'seven_day_return',
     'activation', 'appsumo_click', 'appsumo_redemption', 'stripe_subscribe', 'paid', 'cancel',
     'customer_success', 'review_shown', 'review_clicked', 'review_dismissed'
 ]));
@@ -62,6 +62,12 @@ function normalizeSource(value) {
 function normalizeEventName(value, extra = {}) {
     const raw = String(value || '').trim().toLowerCase();
     if (raw === 'signup') return 'signup_completed';
+    // These aliases were emitted by the first production instrumentation
+    // build. Normalize them for reports and replayed requests, but never emit
+    // them again: the canonical contract uses the past-participle forms.
+    if (raw === 'signup_complete') return 'signup_completed';
+    if (raw === 'first_research_complete') return 'first_research_completed';
+    if (raw === 'first_ask_success') return 'first_ask_succeeded';
     if (raw === 'trial_start') return 'trial_started';
     if (raw === 'appsumo_outbound' || raw === 'appsumo_click' || raw === 'appsumo_outbound_clicked') return 'appsumo_outbound_clicked';
     if (raw === 'cta_click') return 'cta_clicked';

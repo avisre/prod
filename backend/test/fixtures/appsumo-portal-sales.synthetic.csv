@@ -1,0 +1,4 @@
+Order ID,Order Date,Status,Gross Sales,Partner Proceeds,Refund Amount,Refund Reason,Redemption Status,Activation Status,First Research,First Ask Success,Seven Day Return,Source,Campaign,Content ID
+synthetic-order-1,2026-08-01T10:00:00Z,paid,$79.00,$31.60,0,,redeemed,activated,yes,yes,no,x,appsumo_aug_2026,campaign-appsumo
+synthetic-order-2,2026-08-02T10:00:00Z,refunded,$39.00,$15.60,$39.00,duplicate purchase,redeemed,no,no,no,no,creator,creator_aug_2026,creator-example
+synthetic-order-3,2026-08-03T10:00:00Z,paid,$149.00,$59.60,0,,pending,no,no,no,no,,,
