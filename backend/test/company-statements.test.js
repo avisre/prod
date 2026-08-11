@@ -86,13 +86,17 @@ test('financial statement columns have year lanes and whole-column sizing', () =
   assert.match(systemCss, /#stmt-table tbody tr:nth-child\(even\)/);
   assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(n \+ 3\)/);
   assert.match(systemCss, /#stmt-table\.trend-hidden th:nth-child\(n \+ 2\)/);
-  assert.match(systemCss, /#stmt-table \.col-now/);
-  assert.match(systemCss, /content: "Latest"/);
+  assert.match(systemCss, /\.table-data \.row-head[\s\S]*position: sticky[\s\S]*left: 0/);
+  assert.doesNotMatch(systemCss, /#stmt-table \.col-now\s*\{[\s\S]*background:/);
+  assert.doesNotMatch(systemCss, /#stmt-table thead \.col-now::after/);
+  assert.doesNotMatch(systemCss, /#stmt-table tbody tr:hover \.col-now/);
+  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\)[\s\S]*left: 228px/);
+  assert.match(systemCss, /font-variant-numeric:\s*tabular-nums lining-nums/);
 });
 
 test('company page cache-busts the approved statement assets together', () => {
-  assert.match(companyHtml, /assets\/system\.css\?v=20260803-ai-on-demand1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260803-ai-on-demand1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20260811-statement-table8/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260811-statement-table8/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -103,17 +107,43 @@ test('financial statements use five-period mini bars instead of sparklines', () 
   assert.doesNotMatch(companySource, /sparkline\(sparkVals/);
   assert.match(systemCss, /\.stmt-mini-bars/);
   assert.match(systemCss, /\.stmt-mini-bar\.is-latest:not\(\.is-negative\) \{ background: var\(--accent\); \}/);
-  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*position: sticky;[\s\S]*left: 228px;/);
+  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*border-right: 2px solid/);
+  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*position: sticky;[\s\S]*left: 228px/);
+});
+
+test('latest statement period keeps its neutral label without special color styling', () => {
+  assert.match(companySource, /periodLabel\(r, basisState\)\}<\/th>/);
+  assert.doesNotMatch(companySource, /latest \? ' · Latest' : ''/);
+  assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th\.col-now,[\s\S]*width: 140px/);
+  assert.doesNotMatch(systemCss, /#stmt-table \.col-now\s*\{[\s\S]*background:/);
+});
+
+test('statement striping alternates complete visible rows rather than individual cells', () => {
+  assert.match(systemCss, /tr:nth-child\(odd of :not\(\[hidden\]\)\) td \{ background: #fff; \}/);
+  assert.match(systemCss, /tr:nth-child\(even of :not\(\[hidden\]\)\) td \{ background: #f8f7f3; \}/);
+  assert.doesNotMatch(systemCss, /td:not\(\.row-head\):nth-child\(2n/);
+  assert.doesNotMatch(systemCss, /td:nth-child\(2\)[\s\S]{0,240}background: #faf9f6/);
 });
 
 test('statement units remain single-line and compact screens can hide and restore trends', () => {
+  assert.match(companySource, /let showStatementTrend = true;/);
   assert.match(companyHtml, /id="stmt-trend-toggle"/);
+  assert.match(companyHtml, /id="stmt-trend-toggle"[^>]*aria-expanded="true"[^>]*aria-controls="stmt-table"[^>]*hidden/);
   assert.match(companySource, /function setStatementTrendVisible\(visible\)/);
-  assert.match(companySource, /class="stmt-trend-close"/);
+  assert.match(companySource, /class="stmt-trend-close"[^>]*aria-expanded="true"[^>]*aria-controls="stmt-table"/);
   assert.match(companySource, /table\.classList\.toggle\('trend-hidden'/);
+  assert.match(companySource, /setAttribute\('aria-expanded', String\(showStatementTrend\)\)/);
   assert.match(systemCss, /#seg-view[\s\S]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
   assert.match(systemCss, /#seg-view button[\s\S]*white-space: nowrap/);
-  assert.match(systemCss, /@media \(max-width: 1024px\)[\s\S]*\.stmt-trend-control \{ display: block; \}/);
+  assert.match(systemCss, /\.stmt-trend-close \{[\s\S]*display: inline-grid/);
+  assert.doesNotMatch(systemCss, /\.stmt-trend-control/);
+  assert.doesNotMatch(companySource, /compactTrendQuery/);
+  assert.doesNotMatch(companySource, /matchMedia\('\(max-width: 1024px\)'\)/);
+  assert.match(companySource, /function revealStatementTrendAtLatest\(\)/);
+  assert.match(companySource, /toggle\.hidden = showStatementTrend/);
+  assert.match(companySource, /wrap\.scrollLeft = latest/);
+  assert.match(companySource, /requestAnimationFrame\(\(\) => requestAnimationFrame\(apply\)\)/);
+  assert.match(companySource, /window\.addEventListener\('pageshow'/);
 });
 
 test('growth mini bars distinguish negative values below a zero baseline', () => {

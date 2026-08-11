@@ -962,11 +962,13 @@
             : Math.max(3, Math.floor(availableForYears / 108));
         table.style.setProperty('--stmt-year-width', `${availableForYears / completeYears}px`);
 
-        // Layout is synchronous for the width calculation. Preserve a reader's
-        // approximate history position on resize; initial renders remain pinned
-        // to the latest complete fiscal-year column.
+        // Layout is synchronous for the width calculation. The metric and trend
+        // columns stay pinned while the year area opens on the latest periods.
+        // Resizes preserve the reader's current position.
         const newMax = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
-        wrap.scrollLeft = !preservePosition || wasAtLatest ? newMax : oldProgress * newMax;
+        wrap.scrollLeft = preservePosition
+            ? (wasAtLatest ? newMax : oldProgress * newMax)
+            : newMax;
         const proxies = [$('stmt-scroll-top'), $('stmt-scroll-bottom')].filter(Boolean);
         for (const proxy of proxies) {
             if (!proxy.firstElementChild) continue;
@@ -1008,11 +1010,31 @@
         return `<span class="stmt-mini-bars${signedClass}" role="img" aria-label="${esc(basisState === 'annual' ? 'Five-year trend' : 'Five-quarter trend')}. ${esc(aria)}">${bars}</span>`;
     }
     function trendPeriodLabel() { return basisState === 'annual' ? '5Y' : '5Q'; }
+    function revealStatementTrendAtLatest() {
+        if (!showStatementTrend) return;
+        const apply = () => {
+            if (!showStatementTrend) return;
+            const wrap = $('stmt-wrap');
+            if (!wrap) return;
+            const latest = Math.max(0, wrap.scrollWidth - wrap.clientWidth);
+            wrap.scrollLeft = latest;
+            for (const proxy of [$('stmt-scroll-top'), $('stmt-scroll-bottom')]) {
+                if (proxy) proxy.scrollLeft = latest;
+            }
+        };
+        // Chromium may restore a nested scroller after synchronous rendering.
+        // Reassert the requested open position after layout and after restoration.
+        apply();
+        requestAnimationFrame(() => requestAnimationFrame(apply));
+        setTimeout(apply, 150);
+    }
     function syncStatementTrendControls() {
         const toggle = $('stmt-trend-toggle');
         if (!toggle) return;
-        toggle.textContent = `${showStatementTrend ? 'Hide' : 'Show'} ${trendPeriodLabel()} trend`;
-        toggle.setAttribute('aria-pressed', String(showStatementTrend));
+        toggle.hidden = showStatementTrend;
+        toggle.textContent = `Show ${trendPeriodLabel()} trend`;
+        toggle.setAttribute('aria-expanded', String(showStatementTrend));
+        toggle.setAttribute('aria-label', `Show ${trendPeriodLabel()} trend`);
     }
     function setStatementTrendVisible(visible) {
         showStatementTrend = Boolean(visible);
@@ -1031,9 +1053,15 @@
         let html = '<thead><tr><th class="row-head" style="text-align:left">' +
             (viewState === 'yoy' ? 'YoY growth' : viewState === 'ps' ? `Per filed share · ${reportCur}` : `${reportCur} · ${converted ? 'converted' : 'reported'}`) + '</th>';
         if (showStatementTrend) {
-            html += `<th class="stmt-trend-head" style="width:96px"><span>${trendPeriodLabel()} trend</span><button class="stmt-trend-close" type="button" aria-label="Hide ${trendPeriodLabel()} trend" title="Hide trend">×</button></th>`;
+            html += `<th class="stmt-trend-head" style="width:96px"><span>${trendPeriodLabel()} trend</span><button class="stmt-trend-close" type="button" aria-expanded="true" aria-controls="stmt-table" aria-label="Hide ${trendPeriodLabel()} trend" title="Hide ${trendPeriodLabel()} trend">×</button></th>`;
         }
-        rows.forEach((r, i) => { html += `<th${i === rows.length - 1 ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`; });
+        rows.forEach((r, i) => {
+            const latest = i === rows.length - 1;
+            // Keep the period header unambiguous: the fiscal year already
+            // identifies the latest column, so do not duplicate it with a
+            // second "Latest" label.
+            html += `<th${latest ? " class='col-now'" : ''}>${periodLabel(r, basisState)}</th>`;
+        });
         html += '</tr></thead><tbody>';
         let ri = 0;
         const defs = groupDefs(ROWS[stState], stState);
@@ -1110,6 +1138,7 @@
             proxy.firstElementChild.style.width = wrap.scrollWidth + 'px';
             proxy.scrollLeft = wrap.scrollLeft;
         }
+        if (showStatementTrend) revealStatementTrendAtLatest();
         // row-click charts deliberately off on statements (user call — later)
     }
     // A visible, draggable horizontal scrollbar for any wide .table-wrap. Native
@@ -1715,9 +1744,8 @@
             renderStatements();
         }));
     $('stmt-trend-toggle').addEventListener('click', () => setStatementTrendVisible(!showStatementTrend));
-    const compactTrendQuery = window.matchMedia('(max-width: 1024px)');
-    compactTrendQuery.addEventListener('change', (event) => {
-        if (!event.matches && !showStatementTrend) setStatementTrendVisible(true);
+    window.addEventListener('pageshow', () => {
+        if (payload && showStatementTrend) revealStatementTrendAtLatest();
     });
 
     // ---------- load ----------
