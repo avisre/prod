@@ -11,9 +11,15 @@ const crypto = require('crypto');
 
 const SESSION_COOKIE_NAME = 'sp_mkt_sid';
 const QA_COOKIE_NAME = 'sp_mkt_qa';
+const ATTRIBUTION_COOKIE_NAME = 'sp_growth_attr';
 const SESSION_MAX_AGE_SECONDS = 30 * 60;
 const QA_MAX_AGE_SECONDS = 365 * 24 * 60 * 60;
+const configuredAttributionDays = Number(process.env.ATTRIBUTION_MAX_AGE_DAYS || 90);
+const ATTRIBUTION_MAX_AGE_SECONDS = (Number.isFinite(configuredAttributionDays) ? Math.max(7, configuredAttributionDays) : 90) * 24 * 60 * 60;
 const SESSION_ID_RE = /^[A-Za-z0-9_-]{16}$/;
+const VALUE_RE = /^[A-Za-z0-9._:-]+$/;
+const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', site: 'website', web: 'website', hn: 'hackernews', 'hacker-news': 'hackernews' });
+const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo', 'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator', 'appsumo', 'website', 'facebook', 'instagram', 'referral']);
 
 function safeEqual(left, right) {
     const a = Buffer.from(String(left || ''));
@@ -26,6 +32,25 @@ function signature(payload, secret) {
         .update(payload)
         .digest('base64url')
         .slice(0, 22);
+}
+
+function shortValue(value, max = 120) {
+    const result = String(value == null ? '' : value).trim();
+    return result ? result.slice(0, max) : null;
+}
+
+function normalizeSource(value) {
+    const raw = String(value || '').trim().toLowerCase();
+    if (!raw) return null;
+    const source = SOURCE_ALIASES[raw] || raw;
+    return SOURCES.has(source) ? source : 'unknown';
+}
+
+function referrerHostname(value) {
+    try {
+        const host = new URL(String(value || '')).hostname.toLowerCase().replace(/^www\./, '');
+        return host ? host.slice(0, 160) : null;
+    } catch (_) { return null; }
 }
 
 function parseCookies(header) {
@@ -164,6 +189,88 @@ function referrerSource(value) {
     }
 }
 
+function attributionSignature(payload, secret) { return signature(`growth.${payload}`, secret); }
+
+function encodeAttribution(value, secret) {
+    if (!secret || !value || !value.anonymousId) return null;
+    const payload = Buffer.from(JSON.stringify(value), 'utf8').toString('base64url');
+    return `v1.${payload}.${attributionSignature(payload, secret)}`;
+}
+
+function decodeAttribution(value, { secret, now = Date.now() } = {}) {
+    if (!secret) return null;
+    const parts = String(value || '').split('.');
+    if (parts.length !== 3 || parts[0] !== 'v1') return null;
+    if (!safeEqual(parts[2], attributionSignature(parts[1], secret))) return null;
+    let parsed;
+    try { parsed = JSON.parse(Buffer.from(parts[1], 'base64url').toString('utf8')); } catch (_) { return null; }
+    if (!parsed || typeof parsed !== 'object' || !SESSION_ID_RE.test(String(parsed.anonymousId || ''))) return null;
+    if (!parsed.expiresAt || new Date(parsed.expiresAt).getTime() < Number(now)) return null;
+    return parsed;
+}
+
+function attributionTouch(req, { now = Date.now() } = {}) {
+    const query = req && req.query && typeof req.query === 'object' ? req.query : {};
+    const referrer = sanitizeReferrer(req && (req.headers.referer || req.headers.referrer));
+    const refHost = referrerHostname(referrer);
+    const refSource = referrerSource(referrer);
+    const allowQueryAttribution = Boolean(req && req.method === 'GET' && !String(req.path || '').startsWith('/api/'));
+    const querySource = allowQueryAttribution ? normalizeSource(query.utm_source || query.source) : null;
+    let source = querySource || refSource || 'direct';
+    if (source === 'internal' || (refHost && (refHost === 'stockportfolio.pro' || refHost.endsWith('.stockportfolio.pro')))) source = 'internal';
+    const touch = {
+        source,
+        medium: shortValue(query.utm_medium, 60),
+        campaign: shortValue(query.utm_campaign, 120),
+        term: shortValue(query.utm_term, 120),
+        contentId: shortValue(query.content_id || query.utm_content, 120),
+        clickId: shortValue(query.click_id || query.gclid || query.msclkid || query.fbclid || query.twclid || query.li_fat_id || query.dclid || query.gbraid || query.wbraid || query.ttclid, 80),
+        referrerHost: refHost,
+        landingPath: shortValue(req && req.path, 240) || '/',
+        ctaId: shortValue(query.cta_id, 100),
+        environment: shortValue(process.env.NODE_ENV || 'development', 20),
+        occurredAt: new Date(now).toISOString()
+    };
+    if (touch.contentId && !VALUE_RE.test(touch.contentId)) touch.contentId = null;
+    if (touch.clickId && !VALUE_RE.test(touch.clickId)) touch.clickId = null;
+    if (touch.ctaId && !VALUE_RE.test(touch.ctaId)) touch.ctaId = null;
+    return touch;
+}
+
+function captureAttribution(req, res, { secret, now = Date.now(), secure = process.env.NODE_ENV === 'production' } = {}) {
+    if (!secret) return null;
+    const cookies = parseCookies(req && req.headers && req.headers.cookie);
+    const existing = decodeAttribution(cookies.get(ATTRIBUTION_COOKIE_NAME), { secret, now });
+    const isPublicHtml = req && req.method === 'GET' && !String(req.path || '').startsWith('/api/');
+    const observedTouch = attributionTouch(req, { now });
+    // An API beacon's Referer is normally the current first-party page. It is
+    // not a new acquisition touch; initialize a direct journey until a public
+    // HTML request or a signed campaign cookie supplies one.
+    const touch = !isPublicHtml && !existing ? { ...observedTouch, source: 'direct', referrerHost: null } : observedTouch;
+    const anonymousId = existing && existing.anonymousId || crypto.randomBytes(12).toString('base64url');
+    const current = isPublicHtml ? touch : (existing && existing.currentSessionTouch || touch);
+    const previousFirst = existing && existing.firstTouch;
+    const firstTouch = previousFirst || touch;
+    const qualifies = touch.source && !['direct', 'internal', 'bot'].includes(touch.source);
+    const lastNonDirectTouch = qualifies ? touch : (existing && existing.lastNonDirectTouch || null);
+    const record = {
+        v: 1,
+        anonymousId,
+        firstTouch,
+        lastNonDirectTouch,
+        currentSessionTouch: current,
+        expiresAt: new Date(Number(now) + ATTRIBUTION_MAX_AGE_SECONDS * 1000).toISOString()
+    };
+    if (!existing || isPublicHtml && JSON.stringify(existing.currentSessionTouch) !== JSON.stringify(current)) {
+        const value = encodeAttribution(record, secret);
+        if (value) appendSetCookie(res, serializeCookie(ATTRIBUTION_COOKIE_NAME, value, {
+            maxAgeSeconds: ATTRIBUTION_MAX_AGE_SECONDS, secure,
+            domain: cookieDomain(req && req.hostname)
+        }));
+    }
+    return record;
+}
+
 function qaHeaderMatches(req, expectedToken) {
     if (!expectedToken) return false;
     return safeEqual(req && req.headers && req.headers['x-marketing-qa-token'], expectedToken);
@@ -195,6 +302,7 @@ function requestFields(req, res, {
     }
     const ua = classifyUserAgent(req && req.headers && req.headers['user-agent']);
     const referrer = sanitizeReferrer(req && (req.headers.referer || req.headers.referrer));
+    const attribution = captureAttribution(req, res, { secret, now, secure });
     const isQa = qaModeFromRequest(req, { secret, qaToken, now });
     const fields = {
         anonymousSessionId: session ? session.sessionId : null,
@@ -206,7 +314,9 @@ function requestFields(req, res, {
         isBot: ua.isBot,
         estimatedHuman: ua.estimatedHuman,
         isQa,
-        reportable: ua.estimatedHuman && !isQa
+        reportable: ua.estimatedHuman && !isQa,
+        referrerHostname: referrerHostname(referrer),
+        attribution
     };
     if (req) req._marketingRequestFields = fields;
     return fields;
@@ -231,9 +341,17 @@ module.exports = {
     QA_COOKIE_NAME,
     SESSION_MAX_AGE_SECONDS,
     QA_MAX_AGE_SECONDS,
+    ATTRIBUTION_COOKIE_NAME,
+    ATTRIBUTION_MAX_AGE_SECONDS,
     classifyUserAgent,
     sanitizeReferrer,
     referrerSource,
+    referrerHostname,
+    normalizeSource,
+    attributionTouch,
+    captureAttribution,
+    encodeAttribution,
+    decodeAttribution,
     createSessionValue,
     parseSessionValue,
     createQaValue,

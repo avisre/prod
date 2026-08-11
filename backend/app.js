@@ -26,6 +26,8 @@ const aiChat = require('./ai-chat');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
 const marketingAttribution = require('./marketing-attribution');
+const growthMeasurement = require('./growth-measurement');
+const ga4Server = require('./ga4-server');
 const xray = require('./xray');
 const watchdog = require('./watchdog');
 const reverseDcf = require('./reverse-dcf');
@@ -1712,13 +1714,24 @@ const UserSchema = new mongoose.Schema({
     reviewPromptShownAt: { type: Date, default: null },
     reviewClickedAt: { type: Date, default: null },
     reviewDismissedAt: { type: Date, default: null },
+    firstActivationAt: { type: Date, default: null },
+    successfulOutcomeCount: { type: Number, default: 0 },
+    lastSuccessfulOutcomeAt: { type: Date, default: null },
+    reviewRequestSentAt: { type: Date, default: null },
+    reviewReceivedAt: { type: Date, default: null },
     signupUtm: {
         source: { type: String, default: null },
         medium: { type: String, default: null },
         campaign: { type: String, default: null },
         content: { type: String, default: null },
+        term: { type: String, default: null },
         capturedAt: { type: Date, default: null }
     },
+    // Opaque, signed first-party journey join. These are attribution records,
+    // not identities; email/name are never copied into analytics.
+    analyticsAnonymousId: { type: String, default: null, index: true },
+    analyticsFirstTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    analyticsLastNonDirectTouch: { type: mongoose.Schema.Types.Mixed, default: null },
     // Password reset via email. Stores only a SHA-256 hash of the emailed token
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
@@ -1770,11 +1783,45 @@ const FunnelEventSchema = new mongoose.Schema({
         source: { type: String, default: null },
         medium: { type: String, default: null },
         campaign: { type: String, default: null },
-        content: { type: String, default: null }
+        content: { type: String, default: null },
+        term: { type: String, default: null }
     },
     referrer: { type: String, default: null },
+    // Growth Measurement V1 canonical fields. Legacy event/eventType fields
+    // remain intact so existing dashboards and exports continue to work.
+    eventId: { type: String, default: null, index: true },
+    eventName: { type: String, default: null, index: true },
+    schemaVersion: { type: String, default: null },
+    occurredAt: { type: Date, default: null, index: true },
+    anonymousId: { type: String, default: null, index: true },
+    opaqueUserId: { type: String, default: null, index: true },
+    firstTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    lastNonDirectTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    currentSessionTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    pageType: { type: String, default: null, index: true },
+    pagePath: { type: String, default: null },
+    ctaId: { type: String, default: null, index: true },
+    billingPeriod: { type: String, default: null },
+    entitlementSource: { type: String, default: null, index: true },
+    appsumoTier: { type: Number, default: null },
+    featureType: { type: String, default: null, index: true },
+    environment: { type: String, default: null, index: true },
+    internalFlag: { type: Boolean, default: false, index: true },
+    testFlag: { type: Boolean, default: false, index: true },
+    botFlag: { type: Boolean, default: false, index: true },
+    // Undefined keeps legacy rows out of the unique index; only authoritative
+    // events that supply a real key participate in retry deduplication.
+    dedupeKey: { type: String, default: undefined },
+    ga4EventName: { type: String, default: null },
     meta: { type: mongoose.Schema.Types.Mixed, default: {} }
 }, { strict: false, versionKey: false, collection: 'funnel_events' });
+// Only string keys participate. A partial unique index avoids the common
+// MongoDB pitfall where a default null would occupy the one unique slot.
+FunnelEventSchema.index({ dedupeKey: 1 }, {
+    unique: true,
+    partialFilterExpression: { dedupeKey: { $type: 'string' } },
+    name: 'funnel_dedupe_key_unique'
+});
 const FunnelEvent = mongoose.model('FunnelEvent', FunnelEventSchema);
 
 const ScheduledEmailSchema = new mongoose.Schema({
@@ -1860,13 +1907,22 @@ function sanitizeUtm(input = {}) {
         source: cleanShort(raw.source || raw.utm_source, 80),
         medium: cleanShort(raw.medium || raw.utm_medium, 80),
         campaign: cleanShort(raw.campaign || raw.utm_campaign, 120),
-        content: cleanShort(raw.content || raw.utm_content, 120)
+        content: cleanShort(raw.content || raw.utm_content, 120),
+        term: cleanShort(raw.term || raw.utm_term, 120)
     };
     return Object.values(utm).some(Boolean) ? utm : null;
 }
 
 function requestUtm(req) {
     return sanitizeUtm(req && req.body && req.body.utm);
+}
+
+function attachSignupAttribution(user, requestFields) {
+    const attribution = requestFields && requestFields.attribution;
+    if (!user || !attribution) return;
+    user.analyticsAnonymousId = String(attribution.anonymousId || '').slice(0, 80) || null;
+    user.analyticsFirstTouch = attribution.firstTouch || null;
+    user.analyticsLastNonDirectTouch = attribution.lastNonDirectTouch || null;
 }
 
 function eventTypeFor(event, extra = {}) {
@@ -1881,7 +1937,9 @@ function eventTypeFor(event, extra = {}) {
 function metaForFunnel(extra = {}) {
     const blocked = new Set([
         'event', 'eventType', 'timestamp', 'at', 'sessionId', 'anonymousSessionId',
-        'userId', 'ticker', 'symbol', 'toolName', 'toolId', 'contentId', 'utm', 'referrer'
+        'userId', 'ticker', 'symbol', 'toolName', 'toolId', 'contentId', 'utm', 'referrer',
+        'text', 'prompt', 'question', 'answer', 'response', 'holdings', 'portfolio', 'email',
+        'name', 'license', 'licenseKey', 'password', 'cookie', 'query', 'url'
     ]);
     const meta = {};
     for (const [key, value] of Object.entries(extra || {})) {
@@ -1902,6 +1960,41 @@ async function logFunnelEvent(event, userId, plan, extra) {
     try {
         const now = new Date();
         const data = extra || {};
+        const canonical = growthMeasurement.canonicalEvent({
+            eventName: data.eventName || event,
+            userId,
+            plan,
+            data: { ...data, anonymousId: data.anonymousId || data.anonymousSessionId, isBot: data.isBot, isQa: data.isQa },
+            attribution: data.attribution || {},
+            now,
+            secret: JWT_SECRET
+        });
+        const requestedDedupeKey = (canonical && canonical.dedupeKey)
+            || (data.dedupeKey && /^[A-Za-z0-9._:-]{8,220}$/.test(String(data.dedupeKey)) ? String(data.dedupeKey) : null);
+        if (requestedDedupeKey) {
+            const duplicate = await FunnelEvent.exists({ dedupeKey: requestedDedupeKey });
+            if (duplicate) return false;
+        }
+        const safeData = { ...data };
+        for (const key of Object.keys(safeData)) {
+            if (/email|name|password|license|prompt|question|answer|response|holding|cookie|secret|token/i.test(key)) delete safeData[key];
+        }
+        // Store only pathnames and referrer origins; raw query strings and
+        // arbitrary destinations are not measurement dimensions. Attribution
+        // touches are re-sanitized even when an internal caller supplies them.
+        if (Object.prototype.hasOwnProperty.call(safeData, 'path')) safeData.path = growthMeasurement.sanitizePath(safeData.path);
+        if (Object.prototype.hasOwnProperty.call(safeData, 'pagePath')) safeData.pagePath = growthMeasurement.sanitizePath(safeData.pagePath);
+        if (Object.prototype.hasOwnProperty.call(safeData, 'referrer')) safeData.referrer = marketingAttribution.sanitizeReferrer(safeData.referrer);
+        if (Object.prototype.hasOwnProperty.call(safeData, 'target')) delete safeData.target;
+        if (safeData.attribution && typeof safeData.attribution === 'object') {
+            const anonymousId = String(safeData.attribution.anonymousId || '');
+            safeData.attribution = {
+                anonymousId: /^[A-Za-z0-9_-]{16,80}$/.test(anonymousId) ? anonymousId : null,
+                firstTouch: growthMeasurement.sanitizeAttribution(safeData.attribution.firstTouch),
+                lastNonDirectTouch: growthMeasurement.sanitizeAttribution(safeData.attribution.lastNonDirectTouch),
+                currentSessionTouch: growthMeasurement.sanitizeAttribution(safeData.attribution.currentSessionTouch)
+            };
+        }
         const utm = sanitizeUtm(data.utm) || sanitizeUtm({
             source: data.utmSource || data.acquisitionSource || data.source,
             medium: data.utmMedium,
@@ -1909,7 +2002,7 @@ async function logFunnelEvent(event, userId, plan, extra) {
             content: data.utmContent || data.contentId
         });
         await FunnelEvent.create({
-            ...data,
+            ...safeData,
             event: String(event),
             eventType: eventTypeFor(event, data),
             campaignId: data.campaignId || (data.contentId || data.acquisitionSource ? augustCampaign.config(now).campaignId : null),
@@ -1925,8 +2018,27 @@ async function logFunnelEvent(event, userId, plan, extra) {
             toolId: data.toolId || data.toolName || null,
             utm: utm || undefined,
             referrer: data.referrer || null,
-            meta: metaForFunnel(data)
+            ...(canonical || {}),
+            campaignId: (canonical && canonical.campaignId) || data.campaignId || (data.contentId || data.acquisitionSource ? augustCampaign.config(now).campaignId : null),
+            // Do not duplicate sensitive customer-success text in analytics.
+            meta: metaForFunnel(safeData)
         });
+        if (canonical && data.consent === true && !canonical.internalFlag && !canonical.testFlag && !canonical.botFlag) {
+            ga4Server.sendServerEvent({
+                event: canonical.ga4EventName || canonical.eventName,
+                clientId: canonical.anonymousId,
+                sessionId: canonical.sessionId,
+                opaqueUserId: canonical.opaqueUserId,
+                consent: true,
+                params: {
+                    page_type: canonical.pageType,
+                    content_id: canonical.contentId,
+                    cta_id: canonical.ctaId,
+                    entitlement_source: canonical.entitlementSource,
+                    feature_type: canonical.featureType
+                }
+            }).catch(() => {});
+        }
     } catch (_) { /* non-blocking — funnel data loss is acceptable */ }
 }
 
@@ -1966,7 +2078,7 @@ const ACTIVATION_JOBS = new Set(['ask', 'comparison', 'screener_company', 'portf
 // QA/owner activity out of the customer funnel.
 const MEANINGFUL_WORKFLOWS = new Set([
     'ask', 'earnings-quality', 'dilution', 'filing-timeline', 'comparison',
-    'screener_company', 'portfolio', 'research'
+    'filing_monitor', 'screener_company', 'portfolio', 'research'
 ]);
 function campaignInternalUser(user) {
     const email = normalizeEmail(user && user.email);
@@ -1984,6 +2096,7 @@ async function meaningfulActivationFor(user, payload = {}) {
     if (!MEANINGFUL_WORKFLOWS.has(workflow) || !isValidTicker(ticker)) return null;
     if (payload.resultValid !== true || payload.sourceOpened !== true) return null;
     const acquisition = payload.acquisition || null;
+    const requestFields = payload.requestFields || {};
     const now = new Date();
     const event = {
         event: 'meaningful_activation', userId: String(user._id), ticker, symbol: ticker,
@@ -1992,13 +2105,56 @@ async function meaningfulActivationFor(user, payload = {}) {
         acquisitionSource: acquisition && acquisition.source || null,
         acquisitionClickId: acquisition && acquisition.clickId || null,
         at: now, timestamp: now, eventType: 'meaningful_activation',
-        trafficCategory: payload.trafficCategory || null,
+        trafficCategory: payload.trafficCategory || requestFields.referrerSource || requestFields.trafficClass || null,
+        anonymousId: requestFields.attribution && requestFields.attribution.anonymousId || requestFields.anonymousSessionId || null,
+        sessionId: requestFields.anonymousSessionId || null,
+        firstTouch: requestFields.attribution && requestFields.attribution.firstTouch || null,
+        lastNonDirectTouch: requestFields.attribution && requestFields.attribution.lastNonDirectTouch || null,
+        currentSessionTouch: requestFields.attribution && requestFields.attribution.currentSessionTouch || null,
+        opaqueUserId: growthMeasurement.opaqueUserId(String(user._id), JWT_SECRET),
+        eventName: 'research_outcome_completed', schemaVersion: growthMeasurement.SCHEMA_VERSION,
+        eventId: growthMeasurement.randomEventId(),
+        dedupeKey: `research_outcome_completed:${String(user._id)}:${workflow}:${ticker}`,
+        pageType: 'research', pagePath: '/',
+        entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
+        appsumoTier: Number(user.appsumoTier) || null,
+        environment: process.env.NODE_ENV || 'development',
+        internalFlag: false, testFlag: false, botFlag: false,
+        featureType: workflow === 'screener_company' ? 'screener' : (workflow === 'filing-timeline' ? 'filing_monitor' : workflow),
         meta: metaForFunnel({ workflow, resultValid: true, sourceOpened: true })
     };
     const result = await mongoose.connection.collection('funnel_events').updateOne(
         { event: 'meaningful_activation', userId: String(user._id), workflow, ticker },
         { $set: { sourceOpened: true, resultValid: true }, $setOnInsert: event }, { upsert: true }
     );
+    // One account-level activation is emitted on the first successful outcome;
+    // the underlying research outcome remains available for cohort analysis.
+    if (result.upsertedCount) {
+        const activationNow = new Date();
+        await mongoose.connection.collection('funnel_events').updateOne(
+            { eventName: 'activation_completed', userId: String(user._id) },
+            { $setOnInsert: {
+                event: 'activation', eventType: 'activation', eventName: 'activation_completed',
+                schemaVersion: growthMeasurement.SCHEMA_VERSION, eventId: growthMeasurement.randomEventId(),
+                dedupeKey: `activation_completed:${String(user._id)}`, userId: String(user._id),
+                anonymousId: event.anonymousId, sessionId: event.sessionId, opaqueUserId: event.opaqueUserId,
+                firstTouch: event.firstTouch, lastNonDirectTouch: event.lastNonDirectTouch,
+                currentSessionTouch: event.currentSessionTouch, pageType: event.pageType, pagePath: event.pagePath,
+                contentId: event.contentId, entitlementSource: event.entitlementSource,
+                appsumoTier: event.appsumoTier, environment: event.environment,
+                trafficCategory: event.trafficCategory,
+                featureType: event.featureType, workflow, ticker, symbol: ticker,
+                resultValid: true, sourceOpened: true, at: activationNow, timestamp: activationNow,
+                occurredAt: activationNow, internalFlag: false, testFlag: false, botFlag: false,
+                meta: metaForFunnel({ workflow, activation: true })
+            } }, { upsert: true }
+        );
+        await User.updateOne({ _id: user._id }, {
+            $set: { lastSuccessfulOutcomeAt: activationNow },
+            $inc: { successfulOutcomeCount: 1 }
+        });
+        await User.updateOne({ _id: user._id, firstActivationAt: null }, { $set: { firstActivationAt: activationNow } });
+    }
     const count = await mongoose.connection.collection('funnel_events').countDocuments({
         event: 'meaningful_activation', userId: String(user._id), resultValid: true, sourceOpened: true
     });
@@ -2009,6 +2165,10 @@ async function meaningfulActivationFor(user, payload = {}) {
     if (!reviewEligible && (count >= 2 || (count >= 1 && sessionIds.length >= 2) || sessionIds.length >= 3)) {
         await User.updateOne({ _id: user._id, reviewEligibleAt: null }, { $set: { reviewEligibleAt: now } });
         reviewEligible = true;
+        trackFunnel('review_eligible', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'review_eligible', dedupeKey: `review-eligible:${String(user._id)}`,
+            entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial')
+        });
         scheduleAppSumoReviewEligibility(user).catch(() => {});
     }
     if (result.upsertedCount || result.matchedCount) {
@@ -2029,7 +2189,10 @@ async function trackActivation(userId, job, extra = {}) {
             { event: 'activation', userId: String(userId), activationJob },
             { $setOnInsert: {
                 ...(extra || {}), event: 'activation', userId: String(userId),
-                activationJob, at: new Date()
+                activationJob, eventName: 'activation_completed', schemaVersion: growthMeasurement.SCHEMA_VERSION,
+                eventId: growthMeasurement.randomEventId(), dedupeKey: `activation-job:${String(userId)}:${activationJob}`,
+                featureType: activationJob === 'screener_company' ? 'screener' : activationJob,
+                occurredAt: new Date(), at: new Date()
             } },
             { upsert: true }
         );
@@ -2315,7 +2478,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         planId: planConfig.planId,
         ...returnContext
     });
-    return stripe.checkout.sessions.create({
+    const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
         customer_email: user.email,
@@ -2350,6 +2513,21 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
             ...metadata
         }
     });
+    const requestFields = extraMetadata.req ? trackingRequestFields(extraMetadata.req, null) : {};
+    trackFunnel('stripe_checkout_created', user._id, planConfig.planName, {
+        eventName: 'stripe_checkout_created',
+        dedupeKey: session && session.id ? `stripe_checkout_created:${session.id}` : null,
+        pageType: 'pricing',
+        billingPeriod: planConfig.billingInterval,
+        entitlementSource: 'stripe',
+        ...requestFields,
+        ...((extraMetadata.metadata && {
+            acquisitionSource: extraMetadata.metadata.acquisitionSource || null,
+            acquisitionClickId: extraMetadata.metadata.acquisitionClickId || null,
+            contentId: shareCopy.normalizeAcquisitionContentId(extraMetadata.metadata.contentId)
+        }) || {})
+    });
+    return session;
 }
 
 const SupportTicketSchema = new mongoose.Schema({
@@ -2820,6 +2998,7 @@ app.post('/api/subscribe', async (req, res) => {
             : deriveNameFromEmail(normalizedEmail);
         const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
         if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
+        attachSignupAttribution(user, requestFields);
 
         user.subscription = ensureSubscriptionShape(user);
         user.subscription.status = 'pending';
@@ -2851,6 +3030,7 @@ app.post('/api/subscribe', async (req, res) => {
         trackFunnel('signup', user._id, planConfig.planName, {
             authMethod: 'email',
             selectedPlan: planConfig.planId,
+            consent: req.body && req.body.analyticsConsent === true,
             utm,
             ...acquisitionFunnelFields(acquisition),
             ...requestFields
@@ -3129,6 +3309,7 @@ app.post('/api/auth/social', async (req, res) => {
         let normalized = ensureSubscriptionShape(user);
 
         if (created) {
+            attachSignupAttribution(user, requestFields);
             if (utm) {
                 user.signupUtm = { ...utm, capturedAt: new Date() };
                 await user.save();
@@ -3136,6 +3317,7 @@ app.post('/api/auth/social', async (req, res) => {
             trackFunnel('signup', user._id, planConfig.planName, {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
+                consent: req.body && req.body.analyticsConsent === true,
                 utm,
                 ...acquisitionFunnelFields(acquisition),
                 ...requestFields
@@ -4801,7 +4983,10 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         _xrayCache.delete(cacheKey);
         _attribCache.delete(cacheKey);
         const portfolioCount = await Stock.countDocuments({ user: portfolioOwnerId(req) });
-        if (portfolioCount >= 3) trackActivation(req.userId, 'portfolio');
+        if (portfolioCount >= 1) trackActivation(req.userId, 'portfolio', {
+            resultValid: true, sourceOpened: false, featureType: 'portfolio',
+            requestFields: trackingRequestFields(req, res)
+        });
         res.json(newStock);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -4849,6 +5034,16 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             if (userId) {
                 const user = await User.findById(userId);
                 if (user) {
+                    trackFunnel('stripe_checkout_completed', user._id, user.subscription && user.subscription.planName, {
+                        eventName: 'stripe_checkout_completed',
+                        dedupeKey: event.id ? `stripe_checkout_completed:${event.id}` : null,
+                        entitlementSource: 'stripe',
+                        testFlag: payload.livemode === false,
+                        billingPeriod: payload.metadata?.billingInterval || null,
+                        acquisitionSource: payload.metadata?.acquisitionSource || null,
+                        acquisitionClickId: payload.metadata?.acquisitionClickId || null,
+                        contentId: shareCopy.normalizeAcquisitionContentId(payload.metadata?.contentId)
+                    });
                     await affiliateProgram.recordStripeCheckout({ payload, user })
                         .catch((error) => console.error('[affiliate] Stripe checkout attribution error:', error && error.message));
                     const subscription = payload.subscription
@@ -4858,6 +5053,14 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         const prevStatus = user.subscription && user.subscription.status;
                         await syncSubscriptionFromStripe(user, subscription, payload.customer);
                         const newStatus = user.subscription && user.subscription.status;
+                        if (newStatus && newStatus !== 'pending' && prevStatus !== 'active' && prevStatus !== 'cancel_at_period_end') {
+                            trackFunnel('subscription_started', user._id, user.subscription.planName, {
+                                eventName: 'subscription_started',
+                                dedupeKey: subscription.id ? `stripe:subscription-started:${subscription.id}` : null,
+                                entitlementSource: 'stripe', testFlag: payload.livemode === false,
+                                billingPeriod: user.subscription.billingInterval
+                            });
+                        }
                         // A Stripe-side trial (card-trial flow) lands as 'trialing'
                         // → trial_start; converting later fires 'paid' below. Any
                         // checkout that lands 'active' took money now (annual, the
@@ -4876,6 +5079,8 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             const trialFields = {
                                 authMethod: user.googleId ? 'google' : user.facebookId ? 'facebook' : 'email',
                                 selectedPlan: user.subscription.planId,
+                                eventName: 'trial_started',
+                                dedupeKey: subscription.id ? `stripe:trial-started:${subscription.id}` : null,
                                 ...campaign
                             };
                             trackFunnel('trial_start', user._id, user.subscription.planName, trialFields);
@@ -4883,7 +5088,15 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                                 .catch((e) => console.error('[mailer] trial-start internal email error:', e && e.message));
                         }
                         else if (newStatus === 'active' && prevStatus !== 'active') {
-                            trackFunnel('paid', user._id, user.subscription.planName, campaign);
+                            // Keep the legacy `paid` row for existing dashboards,
+                            // but leave revenue truth to invoice.paid. The
+                            // explicit legacy event name prevents checkout from
+                            // being counted as a second invoice.
+                            trackFunnel('paid', user._id, user.subscription.planName, {
+                                ...campaign,
+                                eventName: 'legacy_paid',
+                                dedupeKey: subscription.id ? `stripe:legacy-paid:${subscription.id}` : null
+                            });
                             await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe' });
                         }
                     } else {
@@ -4894,7 +5107,15 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             stripeStatus: 'active',
                             stripePriceId: payload.metadata?.stripePriceId || null
                         });
+                        trackFunnel('subscription_started', user._id, user.subscription.planName, {
+                            eventName: 'subscription_started',
+                            dedupeKey: payload.subscription ? `stripe:subscription-started:${payload.subscription}` : null,
+                            entitlementSource: 'stripe', testFlag: payload.livemode === false,
+                            billingPeriod: user.subscription.billingInterval
+                        });
                         trackFunnel('paid', user._id, user.subscription.planName, {
+                            eventName: 'legacy_paid',
+                            dedupeKey: event.id ? `stripe:legacy-paid-checkout:${event.id}` : null,
                             acquisitionSource: payload.metadata?.acquisitionSource || null,
                             acquisitionClickId: payload.metadata?.acquisitionClickId || null,
                             contentId: shareCopy.normalizeAcquisitionContentId(payload.metadata?.contentId),
@@ -4911,6 +5132,16 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
         }
     } else if (event.type === 'invoice.paid') {
         try {
+            const invoiceUser = payload.subscription
+                ? await User.findOne({ stripeSubscriptionId: payload.subscription })
+                : (payload.customer ? await User.findOne({ stripeCustomerId: payload.customer }) : null);
+            if (invoiceUser) trackFunnel('invoice_paid', invoiceUser._id, invoiceUser.subscription && invoiceUser.subscription.planName, {
+                eventName: 'invoice_paid', dedupeKey: event.id ? `stripe:invoice:${event.id}` : null,
+                entitlementSource: 'stripe', testFlag: payload.livemode === false,
+                billingPeriod: invoiceUser.subscription && invoiceUser.subscription.billingInterval,
+                amountMinor: Number.isFinite(Number(payload.amount_paid)) ? Number(payload.amount_paid) : null,
+                currency: typeof payload.currency === 'string' ? payload.currency.toLowerCase().slice(0, 8) : null
+            });
             // Stripe does not guarantee ordering between invoice.paid and
             // checkout.session.completed. If the invoice arrives first, the
             // checkout webhook creates the referral order shortly afterwards.
@@ -4943,6 +5174,14 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
         }
     } else if (event.type === 'charge.refunded' || event.type === 'refund.created') {
         try {
+            const refundUser = payload.customer ? await User.findOne({ stripeCustomerId: payload.customer }) : null;
+            if (refundUser) trackFunnel('payment_refunded', refundUser._id, refundUser.subscription && refundUser.subscription.planName, {
+                eventName: 'payment_refunded', dedupeKey: event.id ? `stripe:refund:${event.id}` : null,
+                entitlementSource: 'stripe', testFlag: payload.livemode === false,
+                amountMinor: Number.isFinite(Number(payload.amount_refunded)) ? Number(payload.amount_refunded)
+                    : Number.isFinite(Number(payload.amount)) ? Number(payload.amount) : null,
+                currency: typeof payload.currency === 'string' ? payload.currency.toLowerCase().slice(0, 8) : null
+            });
             const result = await affiliateProgram.reverseStripeCommission({ payload, reason: 'refund' });
             if (result && result.reversed) trackFunnel('commission_reversed', null, 'Stripe', { reason: 'refund' });
         } catch (err) {
@@ -4963,9 +5202,15 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 const prevStatus = user.subscription && user.subscription.status;
                 await syncSubscriptionFromStripe(user, subscription, subscription.customer);
                 const newStatus = user.subscription && user.subscription.status;
+                if (subscription.cancel_at_period_end) trackFunnel('subscription_cancel_scheduled', user._id, user.subscription.planName, {
+                    eventName: 'subscription_cancel_scheduled', dedupeKey: event.id ? `stripe:cancel-scheduled:${event.id}` : null,
+                    entitlementSource: 'stripe', testFlag: subscription.livemode === false
+                });
                 // trialing → active = first real payment
                 if (prevStatus === 'trialing' && newStatus === 'active') {
                     trackFunnel('paid', user._id, user.subscription.planName, {
+                        eventName: 'legacy_paid',
+                        dedupeKey: event.id ? `stripe:legacy-paid-update:${event.id}` : null,
                         acquisitionSource: subscription.metadata?.acquisitionSource || null,
                         acquisitionClickId: subscription.metadata?.acquisitionClickId || null,
                         contentId: shareCopy.normalizeAcquisitionContentId(subscription.metadata?.contentId),
@@ -5061,6 +5306,15 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
     const cfg = appsumoTierConfig(tier);
     const now = new Date();
     const firstRedemption = !user.appsumoRedeemedAt;
+    const licenseFingerprint = licenseKey
+        ? crypto.createHash('sha256').update(String(licenseKey)).digest('hex').slice(0, 20)
+        : 'unknown';
+    if (firstRedemption) trackFunnel('appsumo_redemption_started', user._id, cfg.planName, {
+        eventName: 'appsumo_redemption_started',
+        dedupeKey: `appsumo:redemption-started:${String(user._id)}:${licenseFingerprint}`,
+        entitlementSource: 'appsumo', appsumoTier: Number(tier) || null,
+        ...(requestFields || {})
+    });
     applyPlanToSubscription(user, PRO_PLAN_ID); // reuse the Pro plan ladder
     user.subscription.planName = cfg.planName;
     user.subscription.price = 0;                 // already paid on AppSumo
@@ -5092,6 +5346,12 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
             .catch((e) => console.error('[appsumo] onboarding schedule error:', e && e.message));
     }
     trackFunnel('paid', user._id, cfg.planName, {
+        // The legacy `paid` event remains for existing dashboards. Its
+        // canonical name is explicit so an AppSumo redemption cannot be
+        // mistaken for a Stripe invoice, and the key makes webhook retries
+        // idempotent.
+        eventName: firstRedemption ? 'appsumo_redemption_completed' : 'legacy_paid',
+        dedupeKey: `appsumo:redemption-completed:${String(user._id)}:${licenseFingerprint}`,
         source: 'appsumo',
         appsumoLicenseKey: licenseKey || null,
         appsumoTier: Number(tier) || null,
@@ -5110,7 +5370,9 @@ async function revokeAppSumoAccess(user) {
     user.appsumoAiCap = null;
     user.markModified('subscription');
     await user.save().catch(() => {});
-    trackFunnel('cancel', user._id, 'Pro — AppSumo', { source: 'appsumo' });
+    trackFunnel('cancel', user._id, 'Pro — AppSumo', {
+        eventName: 'subscription_canceled', entitlementSource: 'appsumo', source: 'appsumo'
+    });
 }
 
 // HMAC-SHA256 of (timestamp + raw body) keyed by the AppSumo API key. Fails
@@ -5603,6 +5865,60 @@ app.get('/sitemap.xml', (req, res) => {
 });
 
 // ---- page-view beacon (first-party, anonymous session) — funnel top step ----
+function trackingPageType(requestPath) {
+    const pathname = String(requestPath || '').split('?')[0];
+    if (/^\/compare(?:\/|$)/.test(pathname)) return 'comparison';
+    if (/^\/stocks\//.test(pathname)) return 'stock';
+    if (/^\/tools\//.test(pathname)) return 'tool';
+    if (/^\/research\//.test(pathname)) return 'research';
+    if (/^\/pricing/.test(pathname)) return 'pricing';
+    return 'other';
+}
+
+function safeTrackingContext(body = {}, requestFields = {}) {
+    const pagePath = growthMeasurement.sanitizePath(body.path || body.pagePath || '/');
+    const pageType = String(body.pageType || trackingPageType(pagePath)).toLowerCase();
+    const contentId = shareCopy.normalizeAcquisitionContentId(body.contentId);
+    const ctaId = String(body.ctaId || body.cta || '').trim().slice(0, 100);
+    const featureType = String(body.featureType || '').trim().toLowerCase();
+    return {
+        pagePath,
+        pageType,
+        contentId,
+        campaignId: /^[A-Za-z0-9._:-]{1,120}$/.test(String(body.campaignId || '')) ? String(body.campaignId) : null,
+        ctaId: /^[A-Za-z0-9._:-]+$/.test(ctaId) ? ctaId : null,
+        featureType: /^[A-Za-z0-9_:-]{1,40}$/.test(featureType) ? featureType : null,
+        attribution: requestFields.attribution || null
+    };
+}
+
+// Canonical browser intent endpoint. Consent is explicit, context is an
+// allowlist, and server-side events remain the source of truth for business
+// outcomes. The older /cta_click endpoint below remains as a compatibility
+// route and emits the same canonical event name.
+app.post('/api/track/event', optionalAuth, (req, res) => {
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    const eventName = growthMeasurement.normalizeEventName(body.event);
+    if (!eventName || !growthMeasurement.BROWSER_EVENTS.has(eventName)) return res.status(204).end();
+    if (body.consent !== true) return res.status(204).end();
+    const requestFields = trackingRequestFields(req, res);
+    if (requestFields.isBot || requestFields.isQa) return res.status(204).end();
+    const context = safeTrackingContext(body, requestFields);
+    const clientEventId = String(body.eventId || '').trim();
+    const dedupeKey = /^[A-Za-z0-9._:-]{8,120}$/.test(clientEventId) ? `browser:${clientEventId}` : null;
+    const legacyEvent = eventName === 'appsumo_outbound_clicked' ? 'appsumo_outbound' : (eventName === 'cta_clicked' ? 'cta_click' : eventName);
+    trackFunnel(legacyEvent, req.user ? req.user._id : null, req.user && req.user.subscription && req.user.subscription.planName, {
+        ...context,
+        eventName,
+        eventId: clientEventId || null,
+        dedupeKey,
+        ctaId: context.ctaId,
+        trafficSource: requestFields.referrerSource,
+        ...requestFields
+    });
+    return res.status(204).end();
+});
+
 app.post('/api/track/page_view', (req, res) => {
     const viewPath = String((req.body && req.body.path) || '').slice(0, 200);
     const pageContentId = shareCopy.normalizeAcquisitionContentId(req.body && req.body.contentId);
@@ -5664,6 +5980,9 @@ app.post('/api/track/cta_click', (req, res) => {
     const utm = requestUtm(req);
     const acquisition = ensureTrackingAcquisition(req, res, requestFields, contentId);
     trackFunnel('cta_click', null, null, {
+        eventName: (String(req.body && req.body.target || '').toLowerCase().includes('appsumo') || String(req.body && req.body.target || '').startsWith('/go/appsumo'))
+            ? 'appsumo_outbound_clicked' : 'cta_clicked',
+        ctaId: String(req.body && (req.body.ctaId || req.body.cta) || '').slice(0, 100) || null,
         contentId,
         toolId: contentId && contentId.startsWith('tool-') ? contentId : null,
         path: String(req.body && req.body.path || '').slice(0, 160),
@@ -5770,10 +6089,12 @@ app.post('/api/track/meaningful-activation', authMiddleware, async (req, res) =>
     const sourceOpened = body.sourceOpened === true;
     if (!resultValid || !sourceOpened) return res.status(400).json({ message: 'A valid result and opened source are required.' });
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    const requestFields = trackingRequestFields(req, res);
     const outcome = await meaningfulActivationFor(req.user, {
         workflow, ticker, resultValid, sourceOpened,
         contentId: shareCopy.normalizeAcquisitionContentId(body.contentId), acquisition,
-        trafficCategory: trackingRequestFields(req, res).trafficCategory
+        trafficCategory: requestFields.referrerSource || requestFields.trafficClass,
+        requestFields
     });
     if (!outcome) return res.status(403).json({ message: 'This activation is not eligible for campaign reporting.' });
     return res.json({ ok: true, meaningfulActivation: true, reviewEligible: outcome.reviewEligible, count: outcome.count });
@@ -5794,7 +6115,9 @@ app.post('/api/track/customer-success', authMiddleware, async (req, res) => {
     const now = new Date();
     await User.updateOne({ _id: req.userId }, { $set: { customerSuccessStatus: status, customerSuccessText: text, customerSuccessAt: now } });
     trackFunnel('customer_success', req.userId, req.user.subscription && req.user.subscription.planName, {
-        campaignId: augustCampaign.config().campaignId, successStatus: status, text: text || null
+        eventName: 'support_outcome_confirmed', campaignId: augustCampaign.config().campaignId,
+        successStatus: status, outcomeRecorded: true,
+        dedupeKey: `support-outcome:${String(req.userId)}:${now.toISOString().slice(0, 10)}`
     });
     return res.json({ ok: true, status, recordedAt: now.toISOString() });
 });
@@ -6154,6 +6477,10 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), MONITOR_FAST_MS))]);
         if (winner && winner.error) return res.status(404).json(winner); // typo/invalid → no credit spent
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
+        if (req.user && winner && !winner.error) trackActivation(req.user._id, 'filing_monitor', {
+            resultValid: true, sourceOpened: false, featureType: 'filing_monitor',
+            requestFields: trackingRequestFields(req, res)
+        });
         return res.json({ report: winner });
     } catch (err) {
         console.error('[filings] report error:', err.message);
@@ -6472,6 +6799,14 @@ async function runAppSumoReviewSweep() {
             const mail = mailer.appsumoReviewEmail(u.name, appUrl, nextStage, reviewUrl, unsubUrl);
             if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {
                 u.appsumoReviewStage = nextStage; // bump only on successful send; retries next sweep otherwise
+                if (nextStage >= 2) {
+                    u.reviewRequestSentAt = new Date();
+                    trackFunnel('review_request_sent', u._id, u.subscription && u.subscription.planName, {
+                        eventName: 'review_request_sent',
+                        dedupeKey: `review-request-sent:${String(u._id)}:stage-${nextStage}`,
+                        entitlementSource: 'appsumo', appsumoTier: Number(u.appsumoTier) || null
+                    });
+                }
                 await u.save().catch(() => {});
                 sent++;
             }

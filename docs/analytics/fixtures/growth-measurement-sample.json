@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "growth-measurement-v1",
+  "window": { "days": 28, "since": "2026-07-14T00:00:00.000Z", "until": "2026-08-11T00:00:00.000Z" },
+  "funnel": {
+    "pricing_viewed": 0,
+    "cta_clicked": 0,
+    "appsumo_outbound_clicked": 0,
+    "signup_completed": 0,
+    "research_outcome_completed": 0,
+    "activation_completed": 0,
+    "appsumo_redemption_completed": 0,
+    "invoice_paid": 0
+  },
+  "traffic": { "unknown": 0, "direct": 0, "internal": 0, "bot": 0 },
+  "quality": { "eventsWithSource": 0, "eventsWithoutSource": 0, "excludedEvents": 0 },
+  "note": "Sanitized fixture only; no production values. AppSumo sales and Stripe recurring metrics come from their verified systems."
+}

@@ -26,9 +26,12 @@
                 medium: cleanUtmValue(params.get('utm_medium'), 80),
                 campaign: cleanUtmValue(params.get('utm_campaign'), 120),
                 content: cleanUtmValue(params.get('utm_content'), 120),
+                term: cleanUtmValue(params.get('utm_term'), 120),
+                contentId: cleanUtmValue(params.get('content_id'), 120),
+                clickId: cleanUtmValue(params.get('click_id') || params.get('gclid') || params.get('msclkid') || params.get('fbclid') || params.get('twclid') || params.get('li_fat_id') || params.get('ttclid'), 80),
                 capturedAt: new Date().toISOString()
             };
-            if (!utm.source && !utm.medium && !utm.campaign && !utm.content) return;
+            if (!utm.source && !utm.medium && !utm.campaign && !utm.content && !utm.term && !utm.contentId && !utm.clickId) return;
             document.cookie = UTM_COOKIE + '=' + encodeURIComponent(JSON.stringify(utm)) + '; Max-Age=' + (30 * 24 * 60 * 60) + '; Path=/; SameSite=Lax';
         } catch (_) { /* attribution is best-effort */ }
     }
@@ -41,13 +44,66 @@
                 source: cleanUtmValue(parsed.source, 80),
                 medium: cleanUtmValue(parsed.medium, 80),
                 campaign: cleanUtmValue(parsed.campaign, 120),
-                content: cleanUtmValue(parsed.content, 120)
+                content: cleanUtmValue(parsed.content, 120),
+                term: cleanUtmValue(parsed.term, 120),
+                contentId: cleanUtmValue(parsed.contentId, 120),
+                clickId: cleanUtmValue(parsed.clickId, 80)
             };
             return (utm.source || utm.medium || utm.campaign || utm.content) ? utm : null;
         } catch (_) {
             return null;
         }
     }
+    function analyticsConsentGranted() {
+        try { return localStorage.getItem('sp_analytics_consent_v1') === 'granted'; } catch (_) { return false; }
+    }
+    function trackGrowthEvent(eventName, context = {}) {
+        if (!analyticsConsentGranted()) return;
+        const eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+        const pagePath = location.pathname || '/';
+        const payload = {
+            event: String(eventName || ''), eventId, consent: true, path: pagePath,
+            pageType: context.pageType || (/^\/compare/.test(pagePath) ? 'comparison' : /^\/stocks\//.test(pagePath) ? 'stock' : /^\/tools\//.test(pagePath) ? 'tool' : /^\/pricing/.test(pagePath) ? 'pricing' : 'other'),
+            contentId: context.contentId || null, campaignId: context.campaignId || null, ctaId: context.ctaId || null,
+            featureType: context.featureType || null
+        };
+        const body = JSON.stringify(payload);
+        try {
+            const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/event', new Blob([body], { type: 'application/json' }));
+            if (!sent) fetch(`${API}/track/event`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body, keepalive: true }).catch(() => {});
+        } catch (_) { /* analytics never blocks the product */ }
+        try {
+            if (window.gtag) window.gtag('event', String(eventName || ''), {
+                page_type: payload.pageType, content_id: payload.contentId || undefined, cta_id: payload.ctaId || undefined
+            });
+        } catch (_) {}
+        try {
+            if (window.clarity) {
+                window.clarity('event', String(eventName || ''));
+                window.clarity('set', 'page_type', payload.pageType);
+                window.clarity('set', 'auth_state', token() ? 'authenticated' : 'anonymous');
+                if (payload.ctaId) window.clarity('set', 'cta_id', payload.ctaId);
+                if (context.entitlementSource) window.clarity('set', 'entitlement_source', String(context.entitlementSource).slice(0, 40));
+                if (context.planFamily) window.clarity('set', 'plan_family', String(context.planFamily).slice(0, 40));
+            }
+        } catch (_) {}
+    }
+    // Clarity is diagnostic only. Server-owned signup, activation and payment
+    // events remain the business truth; this helper never posts a conversion
+    // back to Mongo or GA4 and sends only low-cardinality context after consent.
+    function trackDiagnosticEvent(eventName, context = {}) {
+        if (!analyticsConsentGranted()) return;
+        try {
+            if (window.clarity) {
+                window.clarity('event', String(eventName || ''));
+                if (context.pageType) window.clarity('set', 'page_type', String(context.pageType).slice(0, 40));
+                if (context.entitlementSource) window.clarity('set', 'entitlement_source', String(context.entitlementSource).slice(0, 40));
+            }
+        } catch (_) {}
+    }
+    // Public for the small number of SSR forms that cannot import this module.
+    window.spGrowthTrack = trackGrowthEvent;
+    window.spGrowthDiagnostic = trackDiagnosticEvent;
     captureUtm();
     const trackActivation = (job) => {
         if (!token() || !['ask', 'comparison', 'screener_company', 'portfolio'].includes(String(job))) return;
@@ -62,7 +118,33 @@
         return fetch(`${API}/track/meaningful-activation`, {
             method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
             body: JSON.stringify(body), keepalive: true
-        }).then((r) => r.ok ? r.json() : null).catch(() => null);
+        }).then((r) => r.ok ? r.json() : null).then((result) => {
+            if (result && result.meaningfulActivation) trackDiagnosticEvent('activation_completed', { pageType: 'research' });
+            return result;
+        }).catch(() => null);
+    };
+    // SEO pilot telemetry is page context only. In particular, this helper
+    // never receives or serializes the user's Ask question or answer.
+    const trackSeoEvent = (event, context = {}, target = '') => {
+        const allowed = {
+            contentId: context.contentId || null,
+            seoPageType: context.seoPageType || null,
+            seoTicker: context.seoTicker || null,
+            seoMetric: context.seoMetric || null,
+            seoPair: context.seoPair || null,
+            seoQueryCluster: context.seoQueryCluster || null,
+            seoExperiment: context.seoExperiment || null,
+            seoVariant: context.seoVariant || null,
+            destinationKind: context.destinationKind || null,
+            path: location.pathname,
+            target: String(target || '').slice(0, 200),
+            referrer: document.referrer
+        };
+            const payload = JSON.stringify({ event: String(event || ''), ...allowed });
+        try {
+            const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/seo_event', new Blob([payload], { type: 'application/json' }));
+            if (!sent) fetch(`${API}/track/seo_event`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
+        } catch (_) { /* telemetry never blocks research */ }
     };
     const trackCustomerSuccess = (status, text) => {
         if (!token()) return Promise.resolve(null);
@@ -127,20 +209,39 @@
         const link = event.target && event.target.closest && event.target.closest('a[href]');
         if (!link) return;
         const href = link.getAttribute('href') || '';
+        if (link.dataset.seoAction) {
+            const context = {
+                contentId: link.dataset.contentId || null,
+                seoPageType: link.dataset.seoPageType || null,
+                seoTicker: link.dataset.seoTicker || null,
+                seoMetric: link.dataset.seoMetric || null,
+                seoPair: link.dataset.seoPair || null,
+                seoQueryCluster: link.dataset.seoQueryCluster || null,
+                seoExperiment: link.dataset.seoExperiment || null,
+                seoVariant: link.dataset.seoVariant || null,
+                destinationKind: link.dataset.destinationKind || null
+            };
+            trackSeoEvent('seo_next_action_click', context, href);
+            return;
+        }
         if (!/^(?:\/appsumo(?:[?#]|$)|\/go\/appsumo\/|https:\/\/appsumo\.com\/)/i.test(href)) return;
         try {
             const url = new URL(href, location.origin);
-            const payload = JSON.stringify({
-                path: location.pathname,
-                target: url.pathname,
+            trackGrowthEvent('appsumo_outbound_clicked', {
                 contentId: url.searchParams.get('content_id') || link.dataset.contentId || null,
-                toolId: link.dataset.toolId || null,
-                referrer: document.referrer,
-                utm: getStoredUtm()
+                ctaId: link.dataset.ctaId || link.dataset.cta || link.dataset.toolId || null
             });
-            const sent = navigator.sendBeacon && navigator.sendBeacon('/api/track/cta_click', new Blob([payload], { type: 'application/json' }));
-            if (!sent) fetch('/api/track/cta_click', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: payload, keepalive: true }).catch(() => {});
         } catch (_) { /* never block navigation */ }
+        // Compatibility: /api/track/cta_click remains available for older clients,
+        // but this runtime sends only the canonical event above.
+    }, { capture: true });
+
+    document.addEventListener('click', (event) => {
+        const link = event.target && event.target.closest && event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href') || '';
+        if (/register|signup/i.test(href)) trackGrowthEvent('signup_started', { ctaId: link.dataset.ctaId || 'signup' });
+        else if (/checkout|subscribe/i.test(href)) trackGrowthEvent('checkout_started', { ctaId: link.dataset.ctaId || 'checkout' });
     }, { capture: true });
 
     // ---------- formatters ----------
@@ -441,6 +542,7 @@
             const y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
         })(window, document, 'clarity', 'script', 'x0dsu053xa');
         loadPixels();
+        if (/^\/pricing(?:\/|$)/.test(location.pathname)) trackGrowthEvent('pricing_viewed', { pageType: 'pricing' });
     }
 
     // ---------- retargeting pixels, consent-gated (env-driven, no-op-safe) ----------
@@ -892,7 +994,7 @@
     // outline thumb (drawn for this design — no icon font)
     const THUMB = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5.5 7.5v6h-3v-6h3zm0 0 2.2-4.6a1.3 1.3 0 0 1 2.47.7L9.7 6h2.9a1.4 1.4 0 0 1 1.36 1.73l-1.1 4.7a1.4 1.4 0 0 1-1.36 1.07H5.5"/></svg>';
 
-    function askEngine(exchange, { onActivity } = {}) {
+    function askEngine(exchange, { onActivity, onComplete } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
@@ -984,7 +1086,10 @@
             const showFailure = async (message) => {
                 if (workingRow.isConnected) workingRow.remove();
                 renderTrace();
-                if (await deterministicRecovery(question, answerEl, traceEl)) return;
+                if (await deterministicRecovery(question, answerEl, traceEl)) {
+                    if (onComplete) onComplete({ deterministic: true });
+                    return;
+                }
                 answerEl.innerHTML = `<div class="notice">${esc(message || 'Ask is temporarily unavailable.')} <button type="button" class="btn btn-quiet btn-sm" data-ask-retry style="margin-top:10px">Retry this question</button><p class="small faint" style="margin-top:8px">Your question is preserved above. You can retry it without retyping.</p></div>`;
                 const retry = answerEl.querySelector('[data-ask-retry]');
                 if (retry) retry.addEventListener('click', () => { retry.disabled = true; send(question); });
@@ -1089,7 +1194,7 @@
                 if (finalData && finalData.answer && finalData.source !== 'error') finish(finalData);
                 else await showFailure('Ask is temporarily unavailable.');
 
-                function finish(data) {
+                    function finish(data) {
                     answerEl.classList.remove('ask-cursor');
                     if (workingRow.isConnected) workingRow.remove();
                     renderTrace();
@@ -1122,8 +1227,9 @@
                     const share = document.createElement('div');
                     mountShare(share, { title: `Ask: ${question}`, text: data.answer });
                     foot.appendChild(share);
-                    answerEl.appendChild(foot);
-                }
+                        answerEl.appendChild(foot);
+                        if (onComplete) onComplete(data || {});
+                    }
             } catch (err) {
                 if (err && err.name === 'AbortError') {
                     // user pulled the cord — keep whatever streamed, say so quietly
@@ -1266,5 +1372,5 @@
     else initHScroll();
 
     mountCampaign();
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackCustomerSuccess, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
 })();

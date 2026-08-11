@@ -128,7 +128,8 @@
       mountId: 'google-btn',
       statusId: 'social-status',
       next: 'dashboard.html',
-      getExtraPayload: () => ({ plan, utm: V2.getStoredUtm ? V2.getStoredUtm() : null })
+      getExtraPayload: () => ({ plan, utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
+        analyticsConsent: (() => { try { return localStorage.getItem('sp_analytics_consent_v1') === 'granted'; } catch (_) { return false; } })() })
     });
 
     (async function postCheckout() {
@@ -200,6 +201,7 @@
             website: document.getElementById('hp-website').value, // honeypot — humans leave it empty
             plan,
             utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
+            analyticsConsent: (() => { try { return localStorage.getItem('sp_analytics_consent_v1') === 'granted'; } catch (_) { return false; } })(),
             next: 'dashboard.html' // checkout return lands back in v2
           })
         });
@@ -214,6 +216,7 @@
               window.spTrack('signup');
               if (plan !== 'free') window.spTrack('trial_start', { plan });
             }
+            if (window.spGrowthDiagnostic) window.spGrowthDiagnostic('signup_completed', { pageType: 'other' });
           } catch (_) { /* pixels best-effort */ }
           location.href = '/dashboard.html';
         } else if (r.ok && data.url) {

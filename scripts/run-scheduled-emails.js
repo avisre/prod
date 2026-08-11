@@ -2,12 +2,25 @@
 'use strict';
 
 const path = require('node:path');
+const crypto = require('node:crypto');
 const jwt = require(path.join(__dirname, '../backend/node_modules/jsonwebtoken'));
 require(path.join(__dirname, '../backend/node_modules/dotenv')).config({ path: path.join(__dirname, '../backend/prod.env') });
 require(path.join(__dirname, '../backend/node_modules/dotenv')).config({ path: path.join(__dirname, '../backend/.env') });
 
 const mongoose = require(path.join(__dirname, '../backend/node_modules/mongoose'));
 const mailer = require('../backend/mailer');
+
+async function recordMeasurementEvent(db, user, eventName, dedupeKey, extra = {}) {
+  if (!db || !user || !user._id) return;
+  await db.collection('funnel_events').updateOne(
+    { dedupeKey },
+    { $setOnInsert: {
+      event: eventName, eventType: eventName, eventName, schemaVersion: 'growth-measurement-v1',
+      eventId: crypto.randomUUID(), dedupeKey, userId: String(user._id), occurredAt: new Date(), timestamp: new Date(), at: new Date(),
+      entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : 'unknown', ...extra
+    } }, { upsert: true }
+  );
+}
 
 function appsumoReviewUrl() {
   return process.env.APPSUMO_PRODUCT_SLUG
@@ -91,7 +104,12 @@ async function main() {
       if (job.template === 'appsumo_review_5d') updates.appsumoReviewStage = 2;
       if (job.template === 'appsumo_onboarding') updates.appsumoReviewStage = Math.max(Number(user.appsumoReviewStage || 0), 1);
       if (job.template === 'appsumo_review_eligible') updates.reviewPromptShownAt = new Date();
+      if (job.template === 'appsumo_review_5d' || job.template === 'appsumo_review_eligible') updates.reviewRequestSentAt = new Date();
       if (Object.keys(updates).length) await db.collection('users').updateOne({ _id: user._id }, { $set: updates });
+      if (job.template === 'appsumo_review_5d' || job.template === 'appsumo_review_eligible') {
+        const reviewStage = job.template === 'appsumo_review_5d' ? 2 : 3;
+        await recordMeasurementEvent(db, user, 'review_request_sent', `review-request-sent:${String(user._id)}:stage-${reviewStage}`);
+      }
       await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'sent', sentAt: new Date() } });
       sent++;
     } catch (error) {
