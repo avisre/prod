@@ -9,6 +9,8 @@ const DEFAULT_APPSUMO_DEAL_URL = 'https://appsumo.com/products/stockportfoliopro
 const ACQUISITION_COOKIE_NAME = 'sp_as_acq';
 const ACQUISITION_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
 const ACQUISITION_CONTENT_IDS = new Set([
+    'campaign-appsumo', 'campaign-appsumo-header', 'campaign-appsumo-hero',
+    'campaign-appsumo-demo', 'campaign-appsumo-tiers', 'campaign-appsumo-final',
     'tool-earnings-quality', 'tool-dilution', 'tool-filing-timeline', 'tool-filing-change',
     'tool-revenue-consistency', 'tool-profitability-trend', 'tool-cash-flow-quality',
     'tool-free-cash-flow-trend', 'tool-working-capital', 'tool-debt-snapshot',

@@ -16,12 +16,15 @@ const EVENT_NAMES = Object.freeze(new Set([
     'subscription_cancel_scheduled', 'subscription_canceled', 'payment_refunded',
     'review_eligible', 'review_request_sent', 'review_received', 'support_outcome_confirmed',
     'page_view', 'tool_view', 'tool_complete', 'trial_started', 'meaningful_activation',
+    'appsumo_landing_view', 'appsumo_cta_click', 'appsumo_activation', 'signup_complete',
+    'first_research_complete', 'first_ask_success', 'seven_day_return',
     'activation', 'appsumo_click', 'appsumo_redemption', 'stripe_subscribe', 'paid', 'cancel',
     'customer_success', 'review_shown', 'review_clicked', 'review_dismissed'
 ]));
 
 const BROWSER_EVENTS = Object.freeze(new Set([
-    'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started'
+    'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started',
+    'appsumo_landing_view', 'appsumo_cta_click'
 ]));
 
 const EVENT_TO_GA4 = Object.freeze({

@@ -2130,6 +2130,15 @@ async function meaningfulActivationFor(user, payload = {}) {
     // One account-level activation is emitted on the first successful outcome;
     // the underlying research outcome remains available for cohort analysis.
     if (result.upsertedCount) {
+        trackFunnel('first_research_complete', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'first_research_complete',
+            dedupeKey: `first-research-complete:${String(user._id)}`,
+            workflow, ticker, symbol: ticker, resultValid: true, sourceOpened: true,
+            contentId: event.contentId, acquisitionSource: event.acquisitionSource,
+            acquisitionClickId: event.acquisitionClickId,
+            entitlementSource: event.entitlementSource, appsumoTier: event.appsumoTier,
+            featureType: event.featureType
+        });
         const activationNow = new Date();
         await mongoose.connection.collection('funnel_events').updateOne(
             { eventName: 'activation_completed', userId: String(user._id) },
@@ -2196,10 +2205,37 @@ async function trackActivation(userId, job, extra = {}) {
             } },
             { upsert: true }
         );
+        // A return is only counted after a prior activation has aged seven
+        // days. The event is idempotent and contains no research text.
+        const user = await User.findById(userId).select({ firstActivationAt: 1, subscription: 1 }).lean();
+        const firstActivationAt = user && user.firstActivationAt ? new Date(user.firstActivationAt) : null;
+        if (firstActivationAt && Number.isFinite(firstActivationAt.getTime())
+            && Date.now() - firstActivationAt.getTime() >= 7 * 86400000) {
+            trackFunnel('seven_day_return', userId, user.subscription && user.subscription.planName, {
+                eventName: 'seven_day_return',
+                dedupeKey: `seven-day-return:${String(userId)}:${firstActivationAt.toISOString().slice(0, 10)}`,
+                featureType: 'other', ...extra
+            });
+        }
         return true;
     } catch (_) {
         return false;
     }
+}
+
+function trackFirstAskSuccess(req, user, result) {
+    if (!req || !user || !user._id || !result || result.source !== 'ai' || !result.answer) return;
+    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    trackFunnel('first_ask_success', user._id, user.subscription && user.subscription.planName, {
+        eventName: 'first_ask_success',
+        dedupeKey: `first-ask-success:${String(user._id)}`,
+        featureType: 'ask',
+        entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
+        appsumoTier: Number(user.appsumoTier) || null,
+        acquisitionSource: acquisition && acquisition.source || null,
+        acquisitionClickId: acquisition && acquisition.clickId || null,
+        contentId: acquisition && acquisition.contentId || null
+    });
 }
 
 function effectiveTrialStatus(user, now = Date.now()) {
@@ -2402,9 +2438,11 @@ app.get('/go/appsumo/:source', (req, res) => {
         ? shareCopy.parseAcquisitionCookieHeader(`${shareCopy.ACQUISITION_COOKIE_NAME}=${encodeURIComponent(value)}`, { secret: JWT_SECRET })
         : null;
     const reportId = shareCopy.isPublicShareId(req.query.rid) ? String(req.query.rid) : null;
+    const utm = sanitizeUtm(req.query);
     trackFunnel('appsumo_outbound', null, null, {
         source,
         contentId,
+        utm,
         acquisitionClickId: acquisition ? acquisition.clickId : null,
         reportId,
         ...marketingRequestFields(req, res)
@@ -3035,6 +3073,12 @@ app.post('/api/subscribe', async (req, res) => {
             ...acquisitionFunnelFields(acquisition),
             ...requestFields
         });
+        trackFunnel('signup_complete', user._id, planConfig.planName, {
+            eventName: 'signup_complete',
+            dedupeKey: `signup-complete:${String(user._id)}`,
+            authMethod: 'email', selectedPlan: planConfig.planId, utm,
+            ...acquisitionFunnelFields(acquisition), ...requestFields
+        });
 
         if (planConfig.planId === FREE_PLAN_ID) {
             return res.status(200).json({
@@ -3321,6 +3365,12 @@ app.post('/api/auth/social', async (req, res) => {
                 utm,
                 ...acquisitionFunnelFields(acquisition),
                 ...requestFields
+            });
+            trackFunnel('signup_complete', user._id, planConfig.planName, {
+                eventName: 'signup_complete',
+                dedupeKey: `signup-complete:${String(user._id)}`,
+                authMethod: provider, selectedPlan: planConfig.planId, utm,
+                ...acquisitionFunnelFields(acquisition), ...requestFields
             });
         }
 
@@ -4420,6 +4470,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const counted = result.source === 'ai' || result.source === 'blocked';
                 if (counted) await aiChat.recordUse(userId);
                 if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+                trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
                 const usedNow = counted ? used + 1 : used;
                 send('done', {
@@ -4439,6 +4490,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+        trackFirstAskSuccess(req, req.user, result);
         if (result.answer) trackActivation(userId, 'ask');
         const usedNow = counted ? used + 1 : used;
         res.json({
@@ -5360,6 +5412,16 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
         contentId: acquisition ? acquisition.contentId : null,
         acquisitionClickedAt: acquisition ? acquisition.clickedAt : null,
         discoverySource: normalizedDiscoverySource,
+        ...(requestFields || {})
+    });
+    if (firstRedemption) trackFunnel('appsumo_activation', user._id, cfg.planName, {
+        eventName: 'appsumo_activation',
+        dedupeKey: `appsumo:activation:${String(user._id)}:${licenseFingerprint}`,
+        entitlementSource: 'appsumo', source: 'appsumo',
+        appsumoTier: Number(tier) || null,
+        acquisitionSource: acquisition ? acquisition.source : null,
+        acquisitionClickId: acquisition ? acquisition.clickId : null,
+        contentId: acquisition ? acquisition.contentId : null,
         ...(requestFields || {})
     });
 }

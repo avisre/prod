@@ -167,7 +167,18 @@
         });
         document.querySelectorAll('[data-appsumo-campaign-link]').forEach((el) => {
             const content = el.dataset.contentId || 'campaign-home';
-            el.href = `/go/appsumo/website?content_id=${encodeURIComponent(content)}`;
+            const clickId = (window.crypto && crypto.randomUUID)
+                ? `as-${crypto.randomUUID().replace(/-/g, '').slice(0, 20)}`
+                : `as-${Date.now().toString(36)}${Math.random().toString(36).slice(2, 10)}`;
+            const query = new URLSearchParams({
+                content_id: content,
+                click_id: clickId,
+                utm_source: 'website',
+                utm_medium: 'referral',
+                utm_campaign: cfg.campaignId || 'appsumo_aug_2026',
+                utm_content: content
+            });
+            el.href = `/go/appsumo/website?${query.toString()}`;
         });
         return cfg;
     }
