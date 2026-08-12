@@ -56,7 +56,7 @@ test('Release-1 routes are feature-gated and do not expose a token-only customer
 
 test('existing pricing and AppSumo entitlement code remains present', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-  assert.match(source, /const PRO_PLAN_PRICE = parseFloat\(process\.env\.PRO_PLAN_PRICE \|\| '33\.00'\)/);
+  assert.match(source, /const PRO_PLAN_PRICE = parseFloat\(process\.env\.PRO_PLAN_PRICE \|\| '25\.00'\)/);
   assert.match(source, /user\.appsumoRedeemedAt = user\.appsumoRedeemedAt \|\| now/);
   assert.match(source, /user\.appsumoAiCap = cfg\.askCap/);
 });

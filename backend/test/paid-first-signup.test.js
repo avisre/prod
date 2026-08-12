@@ -15,6 +15,13 @@ test('new registrations use paid-first Stripe checkout with no Stripe trial', ()
   assert.match(appSource, /appsumoActivationSignup/);
 });
 
+test('self-serve checkout has a safe active-price fallback when Render lacks a Price ID', () => {
+  assert.match(appSource, /resolveStripeCheckoutPlan/);
+  assert.match(appSource, /active: true/);
+  assert.match(appSource, /productName === 'stockportfolio\.pro'/);
+  assert.match(appSource, /price\?\.recurring\?\.interval === planConfig\.billingInterval/);
+});
+
 test('seven-day refund state is recorded and protected by an authenticated route', () => {
   assert.match(appSource, /initialRefundUntil/);
   assert.match(appSource, /recordInitialStripePayment/);
@@ -29,5 +36,7 @@ test('signup surfaces describe payment and refund terms instead of a no-card tri
   assert.doesNotMatch(registerSource, /no card required/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
+  assert.match(registerSource, /£9 charged today/);
+  assert.match(registerSource, /£25 charged today/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
 });

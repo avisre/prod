@@ -436,12 +436,14 @@ const ANNUAL_PLAN_ID = 'annual';
 const PRO_PLAN_ID = 'pro';
 const PRO_ANNUAL_PLAN_ID = 'pro-annual';
 const FREE_PLAN_ID = 'free';
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '12.00');
-const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '118.00');
+// These defaults mirror the active self-serve Stripe prices. Environment
+// variables remain the source of truth when prices are intentionally changed.
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '9.00');
+const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'GBP';
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '90.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
-const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '33.00');
-const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '250.00');
+const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '190.00');
 // Premium annual tiers for the Filing Monitor launch — both unlock the full
 // Pro feature set; differ only by price/positioning/support. USD, billed yearly.
 const POWER_PLAN_ID = 'power';
@@ -476,6 +478,12 @@ const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
 const STRIPE_PRICE_ID_POWER = process.env.STRIPE_PRICE_ID_POWER || '';
 const STRIPE_PRICE_ID_POWER_MONTHLY = process.env.STRIPE_PRICE_ID_POWER_MONTHLY || '';
 const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
+// A missing Price ID must not turn a configured Stripe account into a broken
+// checkout. This is deliberately narrow: it can resolve only the four
+// self-serve GBP prices, by their exact amount and recurring interval, on this
+// application's Stripe product. Explicit environment Price IDs always win.
+const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
+const selfServePriceLookupCache = new Map();
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET || '';
@@ -860,6 +868,49 @@ function getPlanConfigByPriceId(priceId) {
     return getPlanConfig(MONTHLY_PLAN_ID);
   }
   return null;
+}
+
+function isSelfServeStripePlan(planConfig) {
+  return [MONTHLY_PLAN_ID, ANNUAL_PLAN_ID, PRO_PLAN_ID, PRO_ANNUAL_PLAN_ID].includes(planConfig?.planId)
+    && String(planConfig?.currency || '').toLowerCase() === 'gbp'
+    && Number.isFinite(Number(planConfig?.price))
+    && Number(planConfig.price) > 0;
+}
+
+async function resolveStripeCheckoutPlan(planConfig) {
+  if (planConfig?.stripePriceId || !isSelfServeStripePlan(planConfig) || !stripe?.prices?.list) {
+    return planConfig;
+  }
+
+  const cacheKey = `${planConfig.planId}:${planConfig.currency}:${planConfig.price}:${planConfig.billingInterval}`;
+  const cached = selfServePriceLookupCache.get(cacheKey);
+  if (cached && Date.now() - cached.cachedAt < SELF_SERVE_PRICE_LOOKUP_TTL_MS) {
+    return { ...planConfig, stripePriceId: cached.priceId };
+  }
+
+  const expectedAmount = Math.round(Number(planConfig.price) * 100);
+  const result = await stripe.prices.list({
+    active: true,
+    currency: String(planConfig.currency).toLowerCase(),
+    type: 'recurring',
+    limit: 100,
+    expand: ['data.product']
+  });
+  const matches = (result?.data || []).filter((price) => {
+    const product = price?.product;
+    const productName = typeof product === 'object' ? String(product.name || '').trim().toLowerCase() : '';
+    return Number(price?.unit_amount) === expectedAmount
+      && price?.recurring?.interval === planConfig.billingInterval
+      && productName === 'stockportfolio.pro';
+  });
+  if (matches.length !== 1) {
+    return planConfig;
+  }
+
+  const priceId = matches[0].id;
+  selfServePriceLookupCache.set(cacheKey, { priceId, cachedAt: Date.now() });
+  console.warn(`[stripe] Resolved missing ${planConfig.planName} Price ID from the active StockPortfolio.pro product.`);
+  return { ...planConfig, stripePriceId: priceId };
 }
 
 const ALPHA_CACHE_TTL_MS = Object.freeze({
@@ -2574,7 +2625,8 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         throw createHttpError(500, 'Stripe is not configured');
     }
     await ensureStripeAccountPreflight();
-    const planConfig = getPlanConfig(extraMetadata.planId || user?.subscription?.planId);
+    const configuredPlan = getPlanConfig(extraMetadata.planId || user?.subscription?.planId);
+    const planConfig = await resolveStripeCheckoutPlan(configuredPlan);
     if (!planConfig.stripePriceId) {
         throw createHttpError(500, `${planConfig.planName} Stripe price is not configured`);
     }
