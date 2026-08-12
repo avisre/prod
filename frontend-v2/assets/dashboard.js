@@ -174,10 +174,31 @@
             return { day: d, value: total };
         }).filter((p) => p.value > 0);
     }
+    function historyGaps(rows, seriesBySym) {
+        return rows
+            .filter((row) => !Array.isArray(seriesBySym[row.symbol]) || !seriesBySym[row.symbol].some((point) => Number.isFinite(point.close)))
+            .map((row) => row.symbol);
+    }
     function drawPerf(rows) {
         const data = (perfRange === '1Y' || perfRange === 'MAX') ? perfSeries.full : perfSeries.compact;
         if (!data) return;
         let series = aggregate(rows, data);
+        const missingSymbols = historyGaps(rows, data);
+        const currentTotal = rows.reduce((sum, row) => sum + (row.value || 0), 0);
+        // A failed historical request must not silently remove a position from
+        // the chart. Reconcile the final point to the same live total shown in
+        // the headline and disclose which symbols lack history.
+        if (series.length && currentTotal > 0) {
+            series = series.slice();
+            series[series.length - 1] = { ...series[series.length - 1], value: currentTotal };
+        }
+        const note = $('perf-note');
+        if (note) {
+            note.hidden = !missingSymbols.length;
+            note.textContent = missingSymbols.length
+                ? `Historical prices are unavailable for ${missingSymbols.join(', ')}. The latest chart point is reconciled to the current portfolio total; earlier points exclude those holdings.`
+                : '';
+        }
         const days = { '1M': 23, '3M': 64, '1Y': 253 }[perfRange];
         if (days && series.length > days) series = series.slice(-days);
         const hostEl = $('perf-chart');

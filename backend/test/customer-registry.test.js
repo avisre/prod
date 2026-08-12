@@ -160,3 +160,13 @@ test('portfolio value shows a complete-basis inception gain without overstating 
   assert.match(source, /since inception/);
   assert.match(source, /inceptionGain\.hidden = true/);
 });
+
+test('portfolio chart reconciles missing history and discloses excluded symbols', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'dashboard.js'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
+  assert.match(html, /id="perf-note" hidden/);
+  assert.match(source, /function historyGaps\(rows, seriesBySym\)/);
+  assert.match(source, /const currentTotal = rows\.reduce/);
+  assert.match(source, /latest chart point is reconciled to the current portfolio total/);
+  assert.match(source, /Historical prices are unavailable for/);
+});

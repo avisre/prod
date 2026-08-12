@@ -82,7 +82,19 @@ async function computeAttribution(holdings) {
 
     // headlines for the holdings that actually drove the day
     const drivers = movers.slice(0, 3).filter((p) => Math.abs(p.dayPct) >= 1);
-    await Promise.all(drivers.map(async (p) => { p.headlines = await headlinesFor(p.symbol); }));
+    // Search/RSS feeds can return the same generic item for multiple tickers.
+    // Keep each sourced headline on one driver only so a headline is not
+    // presented as evidence for unrelated holdings.
+    const seenHeadlineKeys = new Set();
+    for (const p of drivers) {
+        const headlines = await headlinesFor(p.symbol);
+        p.headlines = headlines.filter((headline) => {
+            const key = String(headline.url || headline.title || '').split('?')[0].trim().toLowerCase();
+            if (!key || seenHeadlineKeys.has(key)) return false;
+            seenHeadlineKeys.add(key);
+            return true;
+        });
+    }
 
     const round2 = (v) => (v === null || v === undefined ? null : Math.round(v * 100) / 100);
     const payload = {
