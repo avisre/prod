@@ -19,7 +19,7 @@ test('self-serve checkout has a safe active-price fallback when Render lacks a P
   assert.match(appSource, /resolveStripeCheckoutPlan/);
   assert.match(appSource, /active: true/);
   assert.match(appSource, /productName === 'stockportfolio\.pro'/);
-  assert.match(appSource, /price\?\.recurring\?\.interval === planConfig\.billingInterval/);
+  assert.match(appSource, /price\?\.recurring\?\.interval === spec\.interval/);
 });
 
 test('seven-day refund state is recorded and protected by an authenticated route', () => {
