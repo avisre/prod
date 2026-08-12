@@ -35,4 +35,6 @@ test('dashboard renders briefing facts as a structured mixed-portfolio readout',
   assert.match(dashboard, /Sector and fund-category labels are unavailable/);
   assert.match(html, /Company filing alerts/);
   assert.match(html, /This is not a price-move feed/);
+  assert.match(dashboard, /function safeAlertUrl\(raw\)/);
+  assert.match(dashboard, /View filing on SEC EDGAR/);
 });

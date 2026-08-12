@@ -543,11 +543,30 @@
                     : a.type === 'dividend-risk' ? 'notice-neg'
                     : '';
                 const when = a.createdAt ? new Date(a.createdAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
-                return `<div class="notice ${cls}"><strong>${esc(a.symbol)}</strong> — ${esc(a.title)} <span class="faint small" style="float:right">${when}</span></div>`;
+                const href = safeAlertUrl(a.url);
+                const filingLink = a.type === 'filing';
+                const cta = filingLink ? 'View filing on SEC EDGAR ↗' : a.type === 'filing-diff' ? 'View filing analysis →' : 'View details →';
+                const content = `<strong>${esc(a.symbol)}</strong> — ${esc(a.title)}${href ? `<span class="alert-link-meta small"><span>${esc(a.detail || '')}</span><span class="alert-link-cta">${cta}</span></span>` : `<span class="faint small" style="float:right">${when}</span>`}${href && when ? `<span class="faint small" style="display:block; margin-top:4px;">${when}</span>` : ''}`;
+                return href
+                    ? `<a class="notice alert-link ${cls}" href="${esc(href)}"${filingLink ? ' target="_blank" rel="noopener noreferrer"' : ''}>${content}</a>`
+                    : `<div class="notice ${cls}">${content}</div>`;
             }).join('');
             $('alerts-section').hidden = false;
             fetch(`${API}/alerts/seen`, { method: 'POST', headers: auth }).catch(() => {});
         } catch (_) { /* quiet */ }
+    }
+
+    // Alert URLs come from server-side SEC and first-party routes. Still
+    // validate before putting a database value into href, so an old or malformed
+    // alert can never turn the dashboard into an unsafe link.
+    function safeAlertUrl(raw) {
+        if (!raw) return '';
+        try {
+            const url = new URL(String(raw), location.origin);
+            const internal = url.origin === location.origin;
+            const sec = url.protocol === 'https:' && (url.hostname === 'www.sec.gov' || url.hostname === 'sec.gov');
+            return internal || sec ? url.href : '';
+        } catch (_) { return ''; }
     }
 
     // ---- alert rules (Pro): valuation thresholds checked on the sweep ----
