@@ -528,7 +528,7 @@
             <h3>That's your ${limit} Ask questions for this month.</h3>
             <p class="sub">Upgrade to keep going — comparisons, screens, portfolio Q&amp;A, with charts, tables and a source under every figure. The counter resets on the 1st either way.</p>
             <div class="ask-plans">${cards}</div>
-            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=pro">Start Pro free trial</a>
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=pro">Start Pro checkout</a>
           </div>
         </div>`;
     }
@@ -693,7 +693,7 @@
                     ? `<a class="btn btn-primary" href="/#pricing" id="v2-mobile-upgrade" hidden>Upgrade</a>
                        <a class="btn btn-ghost" href="#" id="v2-mobile-signout">Sign out</a>`
                     : `<a class="btn btn-ghost" href="/login.html">Log in</a>
-                       <a class="btn btn-primary" href="/register.html">Start free trial</a>`}
+                       <a class="btn btn-primary" href="/register.html">Choose a plan</a>`}
               </div>
             </div>`;
         document.body.appendChild(mob);

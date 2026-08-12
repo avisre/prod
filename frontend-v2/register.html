@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="7-day free trial on monthly plans, no card required. Monthly $12, Pro $33 · or pay annually: Annual $118, Pro Annual $250 with the AI analyst." />
+  <meta name="description" content="Secure Stripe checkout for StockPortfolio.pro. Monthly $12, Pro $33, or pay annually: Annual $118, Pro Annual $250 with the AI analyst. Request a refund within 7 days if the service is not right for you." />
   <meta name="robots" content="noindex, follow" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -34,7 +34,7 @@
   <main>
     <div class="container" style="max-width:480px; padding-top:72px;">
       <h1 class="title-1">Create your account</h1>
-      <p class="muted small" style="margin-top:6px;" id="plan-summary">7-day free trial, no card required — $12/month after, only if you stay.</p>
+      <p class="muted small" style="margin-top:6px;" id="plan-summary">$12 charged today through Stripe. Request a refund within 7 days if the service is not right for you.</p>
 
       <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
         <div class="plan-pick" role="group" aria-label="Choose your plan">
@@ -70,9 +70,9 @@
         <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
         <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="new-password" required minlength="8" /></label>
         <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
-        <button class="btn btn-primary" type="submit" id="submit">Start 7-day free trial</button>
+        <button class="btn btn-primary" type="submit" id="submit">Continue to secure checkout</button>
         <p class="small delta-neg" id="error" role="alert" hidden></p>
-        <p class="small faint" style="margin:0;"><span id="card-note">No card required — full access for 7 days, then choose a plan if you want to keep going.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+        <p class="small faint" style="margin:0;"><span id="card-note">Payment is collected securely by Stripe. You can request a refund within 7 days if the service is not right for you.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
       </form>
       <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
     </div>
@@ -82,9 +82,9 @@
   <script>
     V2.nav('register');
     const SUMMARY = {
-      monthly: ['7-day free trial, no card required — $12/month after, only if you stay.', 'Start 7-day free trial'],
+      monthly: ['$12 charged today through Stripe. Request a refund within 7 days if the service is not right for you.', 'Continue to secure checkout'],
       annual: ['$118 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
-      pro: ['7-day free trial, no card required — $33/month after, with the AI analyst.', 'Start Pro free trial'],
+      pro: ['$33 charged today through Stripe. Request a refund within 7 days if the service is not right for you, with the AI analyst included.', 'Continue to Pro checkout'],
       'pro-annual': ['$250 billed today, renews yearly — save $146 versus Pro monthly.', 'Continue to Pro Annual checkout'],
       power: ['$579 billed today, renews yearly — the full research desk + Filing Monitor for serious individuals.', 'Continue to Power checkout'],
       'power-monthly': ['$64 billed today, then monthly — the full research desk + Filing Monitor, no annual commitment. Cancel anytime.', 'Continue to Power checkout'],
@@ -109,8 +109,8 @@
       row.hidden = direct || cardPlan(plan) !== 'pro';
       document.getElementById('pro-annual-toggle').checked = plan === 'pro-annual';
       document.getElementById('card-note').textContent = direct
-        ? 'Billed today, securely via Stripe. Cancel anytime before renewal.'
-        : 'No card required — full access for 7 days, then choose a plan if you want to keep going.';
+        ? 'Billed today, securely via Stripe. Request a refund within 7 days if the service is not right for you; cancel anytime before renewal.'
+        : 'Billed today, securely via Stripe. Request a refund within 7 days if the service is not right for you.';
     }
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
@@ -165,7 +165,7 @@
             body: JSON.stringify(creds)
           });
           const data = await r.json().catch(() => ({}));
-          if (r.ok && data.token) {
+          if (r.ok && data.token && data.subscription && data.subscription.isActive) {
             sessionStorage.removeItem('pendingRegisterCredentials');
             // Funnel: payment confirmed on Stripe return (Purchase + Ads
             // subscribe), valued in the real charged currency (USD).
@@ -173,6 +173,9 @@
             location.href = '/' + next;
             return;
           }
+          // A pending paid-first account can receive a token plus a fresh
+          // checkout URL while the webhook is still settling. Do not grant
+          // app access until the subscription is active.
           if (r.status === 401) break; // bad credentials — retrying won't help
           // anything else (402 webhook lag, 429 rate-limit, 5xx) — retry
         } catch (_) { /* transient — retry */ }
@@ -207,10 +210,8 @@
         });
         const data = await r.json().catch(() => ({}));
         if (r.ok && data.token && !data.url) {
-          // No-card trial (or free): account is live now — store the token and
-          // go straight into the app, no Stripe checkout.
-          // Funnel: account created (CompleteRegistration + Ads signup); a
-          // non-free plan here is a no-card trial start (StartTrial).
+          // Rollback-only no-card trial path. Production paid-first signup
+          // always returns a Stripe URL instead of a live token here.
           try {
             if (window.spTrack) {
               window.spTrack('signup');

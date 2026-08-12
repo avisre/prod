@@ -17,6 +17,41 @@
     $('authed').hidden = false;
 
     const auth = DEMO ? {} : { Authorization: `Bearer ${token()}` };
+
+    async function mountInitialRefund() {
+        if (DEMO) return;
+        try {
+            const r = await fetch(`${API}/session`, { headers: auth });
+            const data = await r.json().catch(() => ({}));
+            const policy = data && data.initialRefund;
+            const section = $('billing-refund');
+            const copy = $('billing-refund-copy');
+            const button = $('billing-refund-button');
+            const status = $('billing-refund-status');
+            if (!section || !copy || !button || !policy || !policy.eligible) return;
+            const until = policy.eligibleUntil ? new Date(policy.eligibleUntil) : null;
+            const dateText = until && !Number.isNaN(until.getTime()) ? ` before ${until.toLocaleDateString()}` : '';
+            copy.textContent = `Your initial Stripe payment is eligible for a refund${dateText}. Requesting it cancels the subscription and removes paid access.`;
+            section.hidden = false;
+            button.addEventListener('click', async () => {
+                button.disabled = true;
+                status.hidden = false;
+                status.textContent = 'Processing your refund…';
+                try {
+                    const response = await fetch(`${API}/billing/refund`, { method: 'POST', headers: { ...auth, 'Content-Type': 'application/json' } });
+                    const result = await response.json().catch(() => ({}));
+                    if (!response.ok) throw new Error(result.message || 'The refund could not be completed.');
+                    status.textContent = result.message || 'Your payment was refunded.';
+                    button.hidden = true;
+                } catch (error) {
+                    status.textContent = error.message || 'The refund could not be completed.';
+                    button.disabled = false;
+                }
+            }, { once: true });
+        } catch (_) { /* billing panel is non-blocking */ }
+    }
+    mountInitialRefund();
+
     let lastRows = []; // for CSV export
     let portfolioActionBusy = false;
     let portfolioRefreshVersion = 0;
@@ -66,8 +101,8 @@
         $('add-form').outerHTML = `
           <div class="card card-pad" style="max-width:380px;">
             <p class="label" style="margin-bottom:6px;">Demo portfolio</p>
-            <p class="small muted" style="margin:0 0 12px;">A read-only sample. Start a free trial to build your own and unlock the look-through view, alerts and Ask.</p>
-            <a class="btn btn-primary" href="/register.html">Start 7-day free trial</a>
+            <p class="small muted" style="margin:0 0 12px;">A read-only sample. Choose a paid plan to build your own and unlock the look-through view, alerts and Ask.</p>
+            <a class="btn btn-primary" href="/register.html">Choose a plan</a>
           </div>`;
     }
 
@@ -194,8 +229,8 @@
         if (form) form.outerHTML = `
           <div class="card card-pad" style="max-width:420px;">
             <p class="label" style="margin-bottom:6px;">Free plan</p>
-            <p class="small muted" style="margin:0 0 12px;">You’re on the free plan — screener, a 10-company watchlist and 3 Ask questions a month. Start a 7-day trial to track a portfolio with X-Ray, alerts and the weekly briefing.</p>
-            <a class="btn btn-primary" href="/register.html?plan=monthly">Start 7-day free trial</a>
+            <p class="small muted" style="margin:0 0 12px;">Your account needs a paid plan to track a portfolio with X-Ray, alerts and the weekly briefing.</p>
+            <a class="btn btn-primary" href="/register.html?plan=monthly">Choose a plan</a>
           </div>`;
         $('pf-total').textContent = '—';
         $('pf-sub').textContent = 'Portfolio tracking is part of the paid plans.';
@@ -218,7 +253,7 @@
             body.innerHTML = '<div class="ask-a">' + markdown(data.briefing || '') + '</div>'
                 + '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">'
                 + '<p class="small muted" style="margin:0 0 8px"><strong>Sample briefing</strong> — 5-stock demo portfolio. Subscribe to get your own weekly briefing.</p>'
-                + '<a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Start 7-day free trial →</a>'
+                + '<a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Choose a plan →</a>'
                 + '</div>';
             const share = document.createElement('div');
             mountShare(share, { title: 'Sample weekly portfolio briefing', text: data.briefing || '', url: location.href });
@@ -661,9 +696,9 @@
             const saved = await r.json().catch(() => ({}));
             if (!r.ok) {
                 const message = r.status === 402
-                    ? 'Your subscription is not active. Restart your trial to add holdings.'
+                    ? 'Your subscription is not active. Choose a plan to add holdings.'
                     : (saved.message || `Couldn’t add ${symbol} — try again.`);
-                if (r.status === 402) note('Your subscription isn’t active — <a href="/register.html">restart your trial</a> to add holdings.');
+                if (r.status === 402) note('Your subscription isn’t active — <a href="/register.html">choose a plan</a> to add holdings.');
                 else note(esc(message));
                 finishPortfolioAction(message, { error: true, holdMs: 2200 });
                 return;

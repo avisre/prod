@@ -213,7 +213,7 @@
                 const panel = $('news-signedout');
                 panel.querySelector('h2').textContent = 'Market news is on the paid plans';
                 panel.querySelector('.signedout-actions').innerHTML =
-                    '<a class="btn btn-primary" href="/register.html">Start a free trial</a>';
+                    '<a class="btn btn-primary" href="/register.html">Choose a plan</a>';
                 panel.hidden = false;
                 $('news-feature-col').hidden = true;
                 $('news-latest-col').hidden = true;

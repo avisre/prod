@@ -118,7 +118,8 @@
       for (let attempt = 0; attempt < 6; attempt++) {
         try {
           const r = await fetch(`${V2.API}/session`, { headers: { Authorization: `Bearer ${token}` } });
-          if (r.ok) {
+          const data = await r.json().catch(() => ({}));
+          if (r.ok && data.subscription && data.subscription.isActive) {
             setStatus(status, 'Subscription active — redirecting…');
             location.href = '/' + next;
             return;

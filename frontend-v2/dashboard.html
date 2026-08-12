@@ -57,7 +57,7 @@
         <p class="muted" style="margin-top:8px; max-width:54ch;">Log in to see your holdings, performance, allocation and filing alerts.</p>
         <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
           <a class="btn btn-primary" href="/login.html">Log in</a>
-          <a class="btn btn-ghost" href="/register.html">Start free trial</a>
+          <a class="btn btn-ghost" href="/register.html">Choose a plan</a>
         </div>
       </div>
 
@@ -76,6 +76,13 @@
           </form>
           <p class="portfolio-action-status small" id="portfolio-action-status" role="status" aria-live="polite" hidden></p>
         </div>
+
+        <section class="card card-pad" id="billing-refund" hidden style="margin-top:18px; max-width:720px;">
+          <p class="label">Initial payment</p>
+          <p class="small muted" id="billing-refund-copy" style="margin:6px 0 12px;"></p>
+          <button class="btn btn-ghost" type="button" id="billing-refund-button">Request a refund</button>
+          <p class="small muted" id="billing-refund-status" role="status" aria-live="polite" hidden style="margin-top:10px;"></p>
+        </section>
 
         <!-- Performance + allocation -->
         <section class="section" id="charts-section" hidden>

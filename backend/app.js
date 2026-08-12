@@ -52,7 +52,7 @@ function normalizeAppSumoDiscoverySource(value) {
 }
 
 // Tier ladder: free < core < pro.
-//   free — no card: screener/SEO (public anyway), watchlist (capped), a taste of Ask.
+//   free — public research surfaces and any explicitly grandfathered account.
 //   core — any active paying plan (monthly/annual): portfolio, fundamentals, alerts, X-Ray.
 //   pro  — pro / pro-annual: full Ask quota + AI intelligence features.
 // AI_PRO_FOR_ALL=true lifts every active paying subscriber to pro (the legacy
@@ -78,7 +78,7 @@ function coreGate(req, res, next) {
     const tier = req.tier || userTier(req.user, req.subscription);
     if (tier === 'core' || tier === 'pro') return next();
     return res.status(402).json({
-        message: 'This feature needs a subscription. Start a free trial to unlock it.',
+        message: 'This feature needs a subscription. Choose a plan to unlock it.',
         code: 'SUBSCRIPTION_REQUIRED'
     });
 }
@@ -460,6 +460,12 @@ const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
 const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL || '';
+// New self-serve registrations are paid at checkout. Keep this as an
+// explicit escape hatch for a controlled rollback or local test environment;
+// production defaults to the paid-first policy when the variable is absent.
+const REQUIRE_INITIAL_STRIPE_PAYMENT = String(process.env.REQUIRE_INITIAL_STRIPE_PAYMENT ?? 'true').toLowerCase() !== 'false';
+const INITIAL_REFUND_DAYS = Math.max(1, Math.min(30, Number.parseInt(process.env.INITIAL_REFUND_DAYS || '7', 10) || 7));
+const INITIAL_REFUND_WINDOW_MS = INITIAL_REFUND_DAYS * 24 * 60 * 60 * 1000;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY || '';
 const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID || '';
@@ -1060,11 +1066,27 @@ function defaultTrialEndsAt() {
   return date;
 }
 
-// Plans charged today (no no-card trial): the annual commitments bill upfront,
-// and the premium desk plans are sold via direct outreach links. Only the
-// monthly tiers (monthly Core, monthly Pro) enter the no-card 7-day trial —
-// which keeps the register-page copy honest ("billed today" vs "free trial").
+// Legacy direct plans that have always charged at checkout. When
+// REQUIRE_INITIAL_STRIPE_PAYMENT is enabled, monthly and Pro join this set for
+// new self-serve registrations without changing existing entitlements.
 const NO_TRIAL_PLAN_IDS = ['annual', 'pro-annual', 'power', 'power-monthly', 'desk', 'enterprise'];
+
+function isAppSumoActivationSignup(req) {
+  const token = String(req && req.body && req.body.appsumoRedeemToken || '').trim();
+  if (!token) return false;
+  try {
+    const payload = jwt.verify(token, JWT_SECRET);
+    return Boolean(payload && payload.asRedeem && payload.asLicenseKey);
+  } catch (_) {
+    return false;
+  }
+}
+
+function initialPaymentRequiredForSignup(planId, appsumoActivation = false) {
+  return Boolean(REQUIRE_INITIAL_STRIPE_PAYMENT
+    && !appsumoActivation
+    && normalizePlanSelection(planId) !== FREE_PLAN_ID);
+}
 
 // No-card 7-day trial: grant full Pro access immediately with NO Stripe
 // subscription and NO card. ensureSubscriptionShape() self-expires it to
@@ -1748,6 +1770,17 @@ const UserSchema = new mongoose.Schema({
     analyticsAnonymousId: { type: String, default: null, index: true },
     analyticsFirstTouch: { type: mongoose.Schema.Types.Mixed, default: null },
     analyticsLastNonDirectTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    // New paid-first registrations receive a seven-day, first-payment refund
+    // window. These fields contain billing state only; no card data is stored.
+    paymentRequiredAt: { type: Date, default: null },
+    initialPaymentAt: { type: Date, default: null },
+    initialRefundUntil: { type: Date, default: null },
+    initialRefundStatus: { type: String, enum: ['not_eligible', 'eligible', 'requested', 'refunded'], default: 'not_eligible' },
+    initialRefundRequestedAt: { type: Date, default: null },
+    initialRefundedAt: { type: Date, default: null },
+    initialInvoiceId: { type: String, default: null },
+    initialPaymentIntentId: { type: String, default: null },
+    initialChargeId: { type: String, default: null },
     // Password reset via email. Stores only a SHA-256 hash of the emailed token
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
@@ -2507,6 +2540,31 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
     });
 }
 
+// A first paid invoice starts the explicit refund window. Only users marked by
+// the new registration flow are eligible, so legacy subscribers and lifetime
+// AppSumo/DealMirror entitlements are untouched.
+async function recordInitialStripePayment(user, invoice, fallbackAt = new Date()) {
+    if (!user || !invoice || !user.paymentRequiredAt || user.initialPaymentAt) return false;
+    const paidAtSeconds = Number(invoice.status_transitions && invoice.status_transitions.paid_at);
+    const paidAt = Number.isFinite(paidAtSeconds) && paidAtSeconds > 0
+        ? new Date(paidAtSeconds * 1000)
+        : new Date(fallbackAt);
+    const paymentIntent = typeof invoice.payment_intent === 'string'
+        ? invoice.payment_intent
+        : invoice.payment_intent && invoice.payment_intent.id;
+    const charge = typeof invoice.charge === 'string'
+        ? invoice.charge
+        : invoice.charge && invoice.charge.id;
+    user.initialPaymentAt = paidAt;
+    user.initialRefundUntil = new Date(paidAt.getTime() + INITIAL_REFUND_WINDOW_MS);
+    user.initialRefundStatus = 'eligible';
+    user.initialInvoiceId = invoice.id || user.initialInvoiceId || null;
+    user.initialPaymentIntentId = paymentIntent || user.initialPaymentIntentId || null;
+    user.initialChargeId = charge || user.initialChargeId || null;
+    await user.save();
+    return true;
+}
+
 function createUserToken(user) {
     return jwt.sign({ userId: user._id, v: Number(user.authVersion || 0) }, JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
 }
@@ -2545,9 +2603,11 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         cancel_url: cancelUrl,
         custom_text: {
             submit: {
-                message: planConfig.planId === ANNUAL_PLAN_ID
-                    ? 'Annual plan for long-term investors. Cancel anytime.'
-                    : 'Monthly plan, billed today. Cancel anytime before renewal.'
+                message: extraMetadata.initialSignup === true
+                    ? `Charged today. If the service is not right for you, request a full refund within ${INITIAL_REFUND_DAYS} days.`
+                    : (planConfig.planId === ANNUAL_PLAN_ID
+                        ? 'Annual plan for long-term investors. Cancel anytime.'
+                        : 'Monthly plan, billed today. Cancel anytime before renewal.')
             }
         },
         subscription_data: {
@@ -2968,6 +3028,7 @@ app.post('/api/subscribe', async (req, res) => {
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
     const requestFields = trackingRequestFields(req, res);
     const utm = requestUtm(req);
+    const appsumoActivationSignup = isAppSumoActivationSignup(req);
     // Honeypot: the register form ships a visually hidden "website" field that
     // humans never see or fill. A non-empty value is a form bot — swallow the
     // submission (no account, no email, no funnel event) but answer 200 so the
@@ -2977,6 +3038,13 @@ app.post('/api/subscribe', async (req, res) => {
     }
     const selectedPlan = normalizePlanSelection(req.body?.plan);
     const planConfig = getPlanConfig(selectedPlan);
+    const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
+    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
+        return sendApiError(
+            res,
+            createHttpError(402, 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.', 'PAID_PLAN_REQUIRED')
+        );
+    }
     const trimmedName = String(name || '').trim();
     const rawEmail = String(email || '').trim();
     const normalizedEmail = normalizeEmail(email);
@@ -3018,10 +3086,9 @@ app.post('/api/subscribe', async (req, res) => {
         );
     }
 
-    // Only the plans that actually hit Stripe checkout (annual + premium) need
-    // Stripe up front. Free and the no-card trial plans (monthly/pro) never
-    // touch Stripe at signup, so a Stripe outage must not block them.
-    if (!stripe && planConfig.planId !== FREE_PLAN_ID && NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
+    // New self-serve accounts cannot become active until Stripe confirms their
+    // first payment. AppSumo activation is the only signed, non-Stripe bypass.
+    if (!stripe && paymentRequired) {
         return sendApiError(
             res,
             createHttpError(
@@ -3063,12 +3130,16 @@ app.post('/api/subscribe', async (req, res) => {
         user.subscription.billingInterval = planConfig.billingInterval;
         user.subscription.stripePriceId = planConfig.stripePriceId || null;
         user.subscription.trialStartedAt = new Date();
-        user.subscription.trialEndsAt = planConfig.trialDays > 0 ? defaultTrialEndsAt() : null;
+        user.subscription.trialEndsAt = paymentRequired ? null : (planConfig.trialDays > 0 ? defaultTrialEndsAt() : null);
         user.subscription.activatedAt = null;
         user.subscription.renewedAt = null;
         user.subscription.lastPaymentAt = null;
-        // Free plan: no card, no checkout — the account is live immediately.
-        if (planConfig.planId === FREE_PLAN_ID) {
+        user.paymentRequiredAt = paymentRequired ? new Date() : null;
+        user.initialRefundStatus = 'not_eligible';
+        // Free accounts remain available only when the paid-first policy is
+        // explicitly disabled. AppSumo account creation is handled by the
+        // signed activation token and is granted after /api/appsumo/activate.
+        if (planConfig.planId === FREE_PLAN_ID && !REQUIRE_INITIAL_STRIPE_PAYMENT) {
             user.subscription.status = 'active';
             user.subscription.activatedAt = new Date();
             user.subscription.trialEndsAt = null;
@@ -3104,10 +3175,18 @@ app.post('/api/subscribe', async (req, res) => {
             });
         }
 
-        // Standard plans (monthly/annual/pro): start a no-card 7-day Pro trial
-        // and land straight in the app — no Stripe, no card. Only the direct
-        // outreach plans (power/desk) still go to paid checkout below.
-        if (!NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
+        if (appsumoActivationSignup) {
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalizeSubscription(user.subscription),
+                plan: planConfig.planId,
+                appsumoActivation: true
+            });
+        }
+
+        // Legacy rollback mode retains the old no-card trial behavior. The
+        // production default always follows the paid checkout path below.
+        if (!REQUIRE_INITIAL_STRIPE_PAYMENT && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
             startNoCardTrial(user);
             await user.save();
             trackFunnel('trial_start', user._id, 'Pro', {
@@ -3135,6 +3214,8 @@ app.post('/api/subscribe', async (req, res) => {
         const session = await createCheckoutSessionForUser(user, {
             req,
             planId: planConfig.planId,
+            skipTrial: paymentRequired || NO_TRIAL_PLAN_IDS.includes(planConfig.planId),
+            initialSignup: paymentRequired,
             affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
             returnContext: {
                 flow: 'register',
@@ -3361,6 +3442,13 @@ app.post('/api/auth/social', async (req, res) => {
         const flow = String(req.body?.flow || 'login').trim().toLowerCase();
         const selectedPlan = normalizePlanSelection(req.body?.plan);
         const planConfig = getPlanConfig(selectedPlan);
+        const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, false);
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT && planConfig.planId === FREE_PLAN_ID) {
+            return res.status(402).json({
+                message: 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.',
+                code: 'PAID_PLAN_REQUIRED'
+            });
+        }
         const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
         const requestFields = trackingRequestFields(req, res);
         const utm = requestUtm(req);
@@ -3369,11 +3457,23 @@ app.post('/api/auth/social', async (req, res) => {
         let normalized = ensureSubscriptionShape(user);
 
         if (created) {
+            if (paymentRequired) {
+                user.paymentRequiredAt = new Date();
+                user.initialRefundStatus = 'not_eligible';
+                user.subscription.planId = planConfig.planId;
+                user.subscription.planName = planConfig.planName;
+                user.subscription.price = planConfig.price;
+                user.subscription.currency = planConfig.currency;
+                user.subscription.billingInterval = planConfig.billingInterval;
+                user.subscription.stripePriceId = planConfig.stripePriceId || null;
+                user.subscription.status = 'pending';
+                user.subscription.trialEndsAt = null;
+            }
             attachSignupAttribution(user, requestFields);
             if (utm) {
                 user.signupUtm = { ...utm, capturedAt: new Date() };
-                await user.save();
             }
+            await user.save();
             trackFunnel('signup', user._id, planConfig.planName, {
                 authMethod: provider,
                 selectedPlan: planConfig.planId,
@@ -3399,8 +3499,8 @@ app.post('/api/auth/social', async (req, res) => {
             });
         }
 
-        // Free plan via social sign-in: activate immediately, no checkout.
-        if (planConfig.planId === FREE_PLAN_ID) {
+        // Free plan via social sign-in remains available only in rollback mode.
+        if (planConfig.planId === FREE_PLAN_ID && !REQUIRE_INITIAL_STRIPE_PAYMENT) {
             applyPlanToSubscription(user, FREE_PLAN_ID);
             user.subscription.status = 'active';
             user.subscription.activatedAt = new Date();
@@ -3415,11 +3515,9 @@ app.post('/api/auth/social', async (req, res) => {
             });
         }
 
-        // New Google sign-ups on a standard plan get the same no-card 7-day Pro
-        // trial as email sign-ups — straight into the app, no checkout. Only
-        // brand-new accounts (created) so a returning expired user can't loop
-        // the trial; direct outreach plans (power/desk) still go to checkout.
-        if (created && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
+        // Legacy rollback mode retains the former no-card trial for new social
+        // accounts. The production default takes the paid checkout path below.
+        if (!REQUIRE_INITIAL_STRIPE_PAYMENT && created && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
             startNoCardTrial(user);
             await user.save();
             trackFunnel('trial_start', user._id, 'Pro', {
@@ -3454,9 +3552,16 @@ app.post('/api/auth/social', async (req, res) => {
             });
         }
 
+        const resumeInitialPayment = Boolean(user.paymentRequiredAt && !subscriptionIsActive(user.subscription));
+        const checkoutPlanId = resumeInitialPayment && user.subscription && user.subscription.planId
+            ? user.subscription.planId
+            : planConfig.planId;
+        const checkoutPlanConfig = getPlanConfig(checkoutPlanId);
         const session = await createCheckoutSessionForUser(user, {
             req,
-            planId: planConfig.planId,
+            planId: checkoutPlanId,
+            skipTrial: (created && paymentRequired) || resumeInitialPayment || NO_TRIAL_PLAN_IDS.includes(checkoutPlanId),
+            initialSignup: (created && paymentRequired) || resumeInitialPayment,
             affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
             returnContext: {
                 flow,
@@ -3468,7 +3573,7 @@ app.post('/api/auth/social', async (req, res) => {
                 authFlow: flow,
                 checkoutType: 'social',
                 next: sanitizeRelativeAppPath(req.body?.next, 'news.html'),
-                billingInterval: planConfig.billingInterval,
+                billingInterval: checkoutPlanConfig.billingInterval,
                 ...acquisitionStripeMetadata(acquisition)
             }
         });
@@ -3573,6 +3678,35 @@ app.post('/api/login', async (req, res) => {
         // tier and coreGate'd routes prompt the upgrade.
         if (user.isModified('subscription')) {
             await user.save().catch(() => {});
+        }
+
+        // A new paid-first account may return here after cancelling checkout
+        // or before the webhook has activated it. Keep the account pending and
+        // resume the same Stripe checkout instead of granting free access.
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT
+            && user.paymentRequiredAt
+            && !subscriptionIsActive(user.subscription)
+            && !user.appsumoRedeemedAt) {
+            if (!stripe) {
+                return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
+            }
+            const session = await createCheckoutSessionForUser(user, {
+                req,
+                planId: user.subscription && user.subscription.planId,
+                skipTrial: true,
+                initialSignup: true,
+                affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
+                returnContext: { flow: 'login', next: req.body?.next },
+                metadata: {
+                    authFlow: 'login',
+                    checkoutType: 'initial_signup_resume',
+                    next: sanitizeRelativeAppPath(req.body?.next, 'dashboard.html'),
+                    ...acquisitionStripeMetadata(shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET }))
+                }
+            });
+            if (!session?.url) return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+            const token = createUserToken(user);
+            return res.status(200).json({ token, url: session.url, subscription: normalized, checkoutRequired: true });
         }
 
         // Create JWT
@@ -3709,6 +3843,70 @@ app.post('/api/password/reset', async (req, res) => {
     }
 });
 
+// Refund the first Stripe payment for a paid-first signup. This is an explicit
+// customer action, limited to the recorded seven-day window and never
+// available for AppSumo/DealMirror lifetime entitlements.
+app.post('/api/billing/refund', authMiddleware, async (req, res) => {
+    if (!stripe) return res.status(503).json({ message: 'Refunds are temporarily unavailable. Please contact support@stockportfolio.pro.', code: 'STRIPE_UNAVAILABLE' });
+    const user = req.user;
+    const now = Date.now();
+    if (user.appsumoRedeemedAt || user.dealMirrorRedeemedAt) {
+        return res.status(400).json({ message: 'Lifetime-deal access is not refunded through Stripe.', code: 'LIFETIME_ENTITLEMENT' });
+    }
+    if (!user.paymentRequiredAt || !user.initialPaymentAt || !user.initialRefundUntil) {
+        return res.status(400).json({ message: 'This account has no eligible initial payment refund.', code: 'REFUND_NOT_ELIGIBLE' });
+    }
+    if (new Date(user.initialRefundUntil).getTime() < now) {
+        return res.status(400).json({ message: `The ${INITIAL_REFUND_DAYS}-day refund window has ended. Please contact support@stockportfolio.pro if you need help.`, code: 'REFUND_WINDOW_CLOSED' });
+    }
+    if (user.initialRefundStatus === 'refunded') {
+        return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment has already been refunded.' });
+    }
+    const claimed = await User.findOneAndUpdate(
+        { _id: user._id, initialRefundStatus: 'eligible', initialRefundUntil: { $gte: new Date() } },
+        { $set: { initialRefundStatus: 'requested', initialRefundRequestedAt: new Date() } },
+        { new: true }
+    );
+    if (!claimed) {
+        const latest = await User.findById(user._id).select('initialRefundStatus').lean();
+        if (latest && latest.initialRefundStatus === 'refunded') return res.status(200).json({ ok: true, status: 'refunded' });
+        return res.status(409).json({ message: 'A refund request is already being processed.', code: 'REFUND_IN_PROGRESS' });
+    }
+    try {
+        let paymentIntentId = claimed.initialPaymentIntentId || null;
+        let chargeId = claimed.initialChargeId || null;
+        if ((!paymentIntentId || !chargeId) && claimed.initialInvoiceId) {
+            const invoice = await stripe.invoices.retrieve(claimed.initialInvoiceId);
+            paymentIntentId = paymentIntentId || (typeof invoice.payment_intent === 'string' ? invoice.payment_intent : invoice.payment_intent && invoice.payment_intent.id);
+            chargeId = chargeId || (typeof invoice.charge === 'string' ? invoice.charge : invoice.charge && invoice.charge.id);
+        }
+        if (!paymentIntentId && !chargeId) throw new Error('The initial Stripe payment reference is not available yet.');
+        const refund = await stripe.refunds.create({
+            ...(paymentIntentId ? { payment_intent: paymentIntentId } : { charge: chargeId }),
+            reason: 'requested_by_customer',
+            metadata: { userId: String(claimed._id), type: 'initial_seven_day_refund' }
+        });
+        if (claimed.stripeSubscriptionId) {
+            await stripe.subscriptions.cancel(claimed.stripeSubscriptionId).catch((cancelError) => {
+                console.error('Stripe subscription cancellation after refund failed:', cancelError && cancelError.message);
+            });
+        }
+        claimed.initialPaymentIntentId = paymentIntentId || claimed.initialPaymentIntentId || null;
+        claimed.initialChargeId = chargeId || claimed.initialChargeId || null;
+        claimed.initialRefundStatus = 'refunded';
+        claimed.initialRefundedAt = new Date();
+        claimed.subscription.status = 'cancelled';
+        claimed.subscription.trialEndsAt = null;
+        claimed.markModified('subscription');
+        await claimed.save();
+        return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment was refunded and the subscription was cancelled.' });
+    } catch (error) {
+        await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
+        console.error('Initial Stripe refund failed:', error && error.message);
+        return res.status(502).json({ message: 'We could not complete the refund automatically. Please contact support@stockportfolio.pro before the seven-day window ends.', code: 'REFUND_FAILED' });
+    }
+});
+
 app.post('/api/subscription/cancel', authMiddleware, async (req, res) => {
     if (!stripe) {
         return res.status(500).json({ message: 'Stripe is not configured' });
@@ -3742,6 +3940,13 @@ app.get('/api/session', authMiddleware, async (req, res) => {
             ok: true,
             profile,
             subscription,
+            initialRefund: {
+                status: user.initialRefundStatus || 'not_eligible',
+                eligibleUntil: user.initialRefundUntil || null,
+                eligible: user.initialRefundStatus === 'eligible'
+                    && user.initialRefundUntil
+                    && new Date(user.initialRefundUntil).getTime() >= Date.now()
+            },
             tier: req.tier
         });
     } catch (error) {
@@ -5118,6 +5323,18 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         ? await stripe.subscriptions.retrieve(payload.subscription)
                         : null;
                     if (subscription) {
+                        if (user.paymentRequiredAt && !user.initialPaymentAt && subscription.latest_invoice) {
+                            try {
+                                const initialInvoice = typeof subscription.latest_invoice === 'string'
+                                    ? await stripe.invoices.retrieve(subscription.latest_invoice)
+                                    : subscription.latest_invoice;
+                                if (initialInvoice && initialInvoice.status === 'paid') {
+                                    await recordInitialStripePayment(user, initialInvoice);
+                                }
+                            } catch (invoiceError) {
+                                console.error('Stripe initial invoice lookup failed:', invoiceError && invoiceError.message);
+                            }
+                        }
                         const prevStatus = user.subscription && user.subscription.status;
                         await syncSubscriptionFromStripe(user, subscription, payload.customer);
                         const newStatus = user.subscription && user.subscription.status;
@@ -5203,6 +5420,9 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             const invoiceUser = payload.subscription
                 ? await User.findOne({ stripeSubscriptionId: payload.subscription })
                 : (payload.customer ? await User.findOne({ stripeCustomerId: payload.customer }) : null);
+            if (invoiceUser && payload.billing_reason === 'subscription_create') {
+                await recordInitialStripePayment(invoiceUser, payload);
+            }
             if (invoiceUser) trackFunnel('invoice_paid', invoiceUser._id, invoiceUser.subscription && invoiceUser.subscription.planName, {
                 eventName: 'invoice_paid', dedupeKey: event.id ? `stripe:invoice:${event.id}` : null,
                 entitlementSource: 'stripe', testFlag: payload.livemode === false,
@@ -5824,7 +6044,7 @@ go.onclick = async function(){
   go.disabled = true; alt.disabled = true; show('', 'Working...');
   try {
     var authUrl = (mode === 'login') ? '/api/login' : '/api/subscribe';
-    var authBody = (mode === 'login') ? { email: email, password: password } : { email: email, password: password, plan: 'pro' };
+    var authBody = (mode === 'login') ? { email: email, password: password } : { email: email, password: password, plan: 'pro', appsumoRedeemToken: DATA.rt };
     var ar = await fetch(authUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(authBody) });
     var aj = await ar.json();
     if (!ar.ok || !aj.token) { show('err', (aj && aj.message) || 'Could not sign you in.'); go.disabled=false; alt.disabled=false; return; }

@@ -33,7 +33,7 @@
         </div>
         <p class="small delta-neg" id="error" role="alert" hidden></p>
       </form>
-      <p class="small muted" style="margin-top:16px;">New here? <a href="/register.html">Start a 7-day free trial</a>.</p>
+      <p class="small muted" style="margin-top:16px;">New here? <a href="/register.html">Choose a plan and continue to secure checkout</a>.</p>
     </div>
   </main>
   <script src="assets/app.js?v=20260803-ask-recovery1"></script>
@@ -65,6 +65,26 @@
       statusId: 'social-status',
       next: nextAfterLogin
     });
+    // A pending paid-first account can resume checkout from this page. After
+    // Stripe returns, wait for the webhook to activate access before redirect.
+    (async function confirmEmailCheckout() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('session') !== 'success' || params.get('checkout') === 'social') return;
+      const status = document.getElementById('error');
+      status.hidden = false;
+      status.classList.remove('delta-neg');
+      status.textContent = 'Payment received — activating your account…';
+      for (let attempt = 0; attempt < 6; attempt++) {
+        try {
+          const r = await fetch(`${V2.API}/session`);
+          const body = await r.json().catch(() => ({}));
+          if (r.ok && body.subscription && body.subscription.isActive) { location.href = '/' + nextAfterLogin; return; }
+        } catch (_) { /* transient */ }
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+      }
+      status.classList.add('delta-neg');
+      status.textContent = 'Payment completed, but activation is taking a moment. Please try logging in again shortly.';
+    })();
     document.getElementById('login-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const btn = document.getElementById('submit');
@@ -80,7 +100,9 @@
           })
         });
         const data = await r.json().catch(() => ({}));
-        if (r.ok && data.token) {
+        if (r.ok && data.url) {
+          location.href = data.url;
+        } else if (r.ok && data.token) {
           location.href = '/' + nextAfterLogin;
         } else {
           err.textContent = data.message || 'Invalid email or password.';
