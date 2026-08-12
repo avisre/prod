@@ -15,10 +15,11 @@ test('new registrations use paid-first Stripe checkout with no Stripe trial', ()
   assert.match(appSource, /appsumoActivationSignup/);
 });
 
-test('self-serve checkout has a safe active-price fallback when Render lacks a Price ID', () => {
+test('published checkout plans have a safe active-price fallback when Render lacks a Price ID', () => {
   assert.match(appSource, /resolveStripeCheckoutPlan/);
   assert.match(appSource, /active: true/);
-  assert.match(appSource, /productName === 'stockportfolio\.pro'/);
+  assert.match(appSource, /productName: 'power — stockportfolio\.pro'/);
+  assert.match(appSource, /productName: 'desk — stockportfolio\.pro'/);
   assert.match(appSource, /price\?\.recurring\?\.interval === spec\.interval/);
 });
 

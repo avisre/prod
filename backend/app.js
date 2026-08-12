@@ -478,16 +478,17 @@ const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
 const STRIPE_PRICE_ID_POWER = process.env.STRIPE_PRICE_ID_POWER || '';
 const STRIPE_PRICE_ID_POWER_MONTHLY = process.env.STRIPE_PRICE_ID_POWER_MONTHLY || '';
 const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
-// A missing Price ID must not turn a configured Stripe account into a broken
-// checkout. This is deliberately narrow: it can resolve only the four
-// approved self-serve GBP prices, by their exact amount and recurring interval,
-// on this application's Stripe product. Explicit environment Price IDs always
-// win; this fallback also neutralizes stale legacy USD display variables.
-const SELF_SERVE_STRIPE_PRICE_SPECS = Object.freeze({
-  [MONTHLY_PLAN_ID]: { amount: 9, currency: 'GBP', interval: 'month' },
-  [ANNUAL_PLAN_ID]: { amount: 90, currency: 'GBP', interval: 'year' },
-  [PRO_PLAN_ID]: { amount: 25, currency: 'GBP', interval: 'month' },
-  [PRO_ANNUAL_PLAN_ID]: { amount: 190, currency: 'GBP', interval: 'year' }
+// A missing or stale Price ID must not turn a configured Stripe account into a
+// broken checkout. This is deliberately narrow: it resolves only the published
+// direct-purchase plans by their exact product, amount and recurring interval.
+// It also neutralizes legacy display variables that no longer match Stripe.
+const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
+  [MONTHLY_PLAN_ID]: { amount: 9, currency: 'GBP', interval: 'month', productName: 'stockportfolio.pro' },
+  [ANNUAL_PLAN_ID]: { amount: 90, currency: 'GBP', interval: 'year', productName: 'stockportfolio.pro' },
+  [PRO_PLAN_ID]: { amount: 25, currency: 'GBP', interval: 'month', productName: 'stockportfolio.pro' },
+  [PRO_ANNUAL_PLAN_ID]: { amount: 190, currency: 'GBP', interval: 'year', productName: 'stockportfolio.pro' },
+  [POWER_PLAN_ID]: { amount: 579, currency: 'USD', interval: 'year', productName: 'power — stockportfolio.pro' },
+  [DESK_PLAN_ID]: { amount: 1961, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
 });
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
 const selfServePriceLookupCache = new Map();
@@ -877,16 +878,16 @@ function getPlanConfigByPriceId(priceId) {
   return null;
 }
 
-function isSelfServeStripePlan(planConfig) {
-  return Boolean(SELF_SERVE_STRIPE_PRICE_SPECS[planConfig?.planId]);
+function isPublishedStripePlan(planConfig) {
+  return Boolean(CHECKOUT_STRIPE_PRICE_SPECS[planConfig?.planId]);
 }
 
 async function resolveStripeCheckoutPlan(planConfig) {
-  if (planConfig?.stripePriceId || !isSelfServeStripePlan(planConfig) || !stripe?.prices?.list) {
+  if (!isPublishedStripePlan(planConfig) || !stripe?.prices?.list) {
     return planConfig;
   }
 
-  const spec = SELF_SERVE_STRIPE_PRICE_SPECS[planConfig.planId];
+  const spec = CHECKOUT_STRIPE_PRICE_SPECS[planConfig.planId];
   const cacheKey = `${planConfig.planId}:${spec.currency}:${spec.amount}:${spec.interval}`;
   const cached = selfServePriceLookupCache.get(cacheKey);
   if (cached && Date.now() - cached.cachedAt < SELF_SERVE_PRICE_LOOKUP_TTL_MS) {
@@ -894,6 +895,26 @@ async function resolveStripeCheckoutPlan(planConfig) {
   }
 
   const expectedAmount = Math.round(spec.amount * 100);
+  const isMatch = (price) => {
+    const product = price?.product;
+    const productName = typeof product === 'object' ? String(product.name || '').trim().toLowerCase() : '';
+    return price?.active === true
+      && Number(price?.unit_amount) === expectedAmount
+      && String(price?.currency || '').toLowerCase() === spec.currency.toLowerCase()
+      && price?.recurring?.interval === spec.interval
+      && productName === spec.productName;
+  };
+  // Validate an explicitly configured ID rather than trusting a stale/inactive
+  // value left in Render. The validated result is cached for five minutes.
+  if (planConfig.stripePriceId && stripe?.prices?.retrieve) {
+    try {
+      const configured = await stripe.prices.retrieve(planConfig.stripePriceId, { expand: ['product'] });
+      if (isMatch(configured)) {
+        selfServePriceLookupCache.set(cacheKey, { priceId: configured.id, cachedAt: Date.now() });
+        return { ...planConfig, stripePriceId: configured.id, price: spec.amount, currency: spec.currency, billingInterval: spec.interval };
+      }
+    } catch (_) { /* fall through to the exact active-price lookup */ }
+  }
   const result = await stripe.prices.list({
     active: true,
     currency: spec.currency.toLowerCase(),
@@ -901,20 +922,14 @@ async function resolveStripeCheckoutPlan(planConfig) {
     limit: 100,
     expand: ['data.product']
   });
-  const matches = (result?.data || []).filter((price) => {
-    const product = price?.product;
-    const productName = typeof product === 'object' ? String(product.name || '').trim().toLowerCase() : '';
-    return Number(price?.unit_amount) === expectedAmount
-      && price?.recurring?.interval === spec.interval
-      && productName === 'stockportfolio.pro';
-  });
+  const matches = (result?.data || []).filter(isMatch);
   if (matches.length !== 1) {
     return planConfig;
   }
 
   const priceId = matches[0].id;
   selfServePriceLookupCache.set(cacheKey, { priceId, cachedAt: Date.now() });
-  console.warn(`[stripe] Resolved missing ${planConfig.planName} Price ID from the active StockPortfolio.pro product.`);
+  console.warn(`[stripe] Resolved a missing or stale ${planConfig.planName} Price ID from its active Stripe product.`);
   return { ...planConfig, stripePriceId: priceId, price: spec.amount, currency: spec.currency, billingInterval: spec.interval };
 }
 
