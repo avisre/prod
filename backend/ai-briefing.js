@@ -43,6 +43,9 @@ function computePortfolioFacts(holdings) {
     rows.forEach((r) => { r.weight = totalValue > 0 ? (r.value / totalValue) * 100 : 0; });
     const byWeight = rows.slice().sort((a, b) => b.weight - a.weight);
     const byPerf = rows.slice().sort((a, b) => b.plPct - a.plPct);
+    const fundPositions = rows
+        .filter((r) => r.assetType === 'etf' || r.assetType === 'mutual_fund')
+        .sort((a, b) => b.weight - a.weight);
 
     const typeMap = {};
     rows.forEach((r) => { typeMap[r.assetType] = (typeMap[r.assetType] || 0) + r.value; });
@@ -71,6 +74,14 @@ function computePortfolioFacts(holdings) {
             symbol: r.symbol, name: r.name, assetType: r.assetType, category: r.category || null,
             weightPct: Number(r.weight.toFixed(1)), plPct: Number(r.plPct.toFixed(1))
         })),
+        // Funds are part of the mixed portfolio totals, but company filing
+        // metrics are never applied to them. Keep their contribution explicit
+        // so a briefing cannot appear to silently omit an ETF or mutual fund.
+        fundPositions: fundPositions.map((r) => ({
+            symbol: r.symbol, name: r.name, assetType: r.assetType,
+            value: Math.round(r.value), weightPct: Number(r.weight.toFixed(1)),
+            plPct: Number(r.plPct.toFixed(1))
+        })),
         assetMix,
         largestPosition: { symbol: largest.symbol, weightPct: Number(largest.weight.toFixed(1)) },
         concentrationFlag: largest.weight >= 25,
@@ -91,6 +102,12 @@ function buildTemplateBriefing(f) {
     lines.push(`Your strongest holding is ${f.bestPerformer.symbol} (${pct1(f.bestPerformer.plPct)}) and your weakest is ${f.worstPerformer.symbol} (${pct1(f.worstPerformer.plPct)}).`);
     const hasFunds = (f.assetMix || []).some((x) => x.assetType === 'etf' || x.assetType === 'mutual_fund');
     lines.push(`By ${hasFunds ? 'sector or fund category' : 'sector'} you are most exposed to ${f.topSector.sector} at ${f.topSector.weightPct}%${f.sectorConcentrationFlag ? ', a meaningful concentration' : ''}.`);
+    if (hasFunds) {
+        const fundText = (f.fundPositions || []).map((p) =>
+            `${p.symbol} (${p.assetType === 'etf' ? 'ETF' : 'mutual fund'}, ${p.weightPct}% of the portfolio, ${pct1(p.plPct)} since purchase)`
+        ).join('; ');
+        lines.push(`ETF and mutual-fund positions are included in this briefing's value, allocation and performance totals: ${fundText}. Company-only filing metrics are not applied to these funds.`);
+    }
     return lines.join(' ');
 }
 
