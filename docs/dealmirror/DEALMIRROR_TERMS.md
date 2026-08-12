@@ -1,0 +1,3 @@
+# DealMirror licence terms
+
+One named user; personal investment-research use only. No client-facing commercial use, account sharing, transfer, resale, sublicensing, API access, bulk export or redistribution. One DealMirror licence per account; no stacking. Fixed monthly AI and filing-monitor limits and standard support apply. Redeem within the stated redemption period. Refunded purchases lose DealMirror access and the code is never reissued. “Lifetime” means the lifetime of StockPortfolio.pro. Future team, professional, API, commercial, security and enterprise functionality is excluded unless expressly listed. This product provides research information, not personalized investment advice; outcomes are not guaranteed.

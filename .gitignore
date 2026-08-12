@@ -65,3 +65,4 @@ temp/
 
 # Local marketing kit — never push (repo goes public during deploy)
 marketing/
+dealmirror-exports/

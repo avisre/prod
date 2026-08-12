@@ -34,6 +34,7 @@ const reverseDcf = require('./reverse-dcf');
 const monitorFreeUsage = require('./monitor-free-usage');
 const ollamaUsage = require('./ollama-usage-tracker');
 const affiliateProgram = require('./affiliate-program');
+const dealMirror = require('./dealmirror');
 const augustCampaign = require('./august-campaign');
 const { safeUpper, isValidTicker, normalizeTicker } = require('./symbol-resolver');
 require('dotenv').config();
@@ -412,6 +413,14 @@ const subscribeLimiter = rateLimit({
   legacyHeaders: false
 });
 app.use('/api/subscribe', subscribeLimiter);
+
+// Code redemption is deliberately much tighter than the normal API limit.
+// A valid code still cannot be enumerated because all invalid states use the
+// same response and code material is hashed before database lookup.
+const dealMirrorRedeemLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, max: 8, standardHeaders: true, legacyHeaders: false,
+  keyGenerator: (req) => `${req.userId || 'anon'}:${crypto.createHash('sha256').update(String(req.ip || '')).digest('hex').slice(0, 20)}`
+});
 
 // Alpha Vantage is no longer used — all market data is served from
 // Yahoo Finance via backend/yahoo-source.js. The env var is kept here
@@ -1691,6 +1700,13 @@ const UserSchema = new mongoose.Schema({
     appsumoTier: { type: Number, default: null },
     appsumoAiCap: { type: Number, default: null },
     appsumoRedeemedAt: { type: Date, default: null },
+    // DealMirror is a separate, non-stackable LTD channel. These fields never
+    // replace or modify AppSumo records; entitlement precedence is enforced at
+    // redemption time and again during revocation.
+    dealMirrorLicenceId: { type: mongoose.Schema.Types.ObjectId, ref: 'DealMirrorLicence', default: null, index: true },
+    dealMirrorTier: { type: Number, default: null },
+    dealMirrorAiCap: { type: Number, default: null },
+    dealMirrorRedeemedAt: { type: Date, default: null },
     // Optional self-reported discovery source collected during AppSumo
     // activation. It complements (and never overwrites) signed attribution.
     discoverySource: { type: String, default: null, enum: [null, ...APPSUMO_DISCOVERY_SOURCES] },
@@ -5350,8 +5366,40 @@ function appsumoTierConfig(tier) {
 // on appsumoAiCap, so it is a no-op for every non-AppSumo user.
 function effectiveAskLimit(req) {
     const base = aiChat.limits(req.tier);
-    const cap = req.user && req.user.appsumoAiCap;
+    const cap = req.user && (req.user.appsumoAiCap || req.user.dealMirrorAiCap);
     return (Number.isFinite(cap) && cap > 0) ? Math.min(cap, base) : base;
+}
+
+function isActiveStripeSubscriber(user) {
+    const sub = user && user.subscription || {};
+    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(String(sub.status || ''));
+    const professionalPlan = ['firm', 'enterprise', 'power', 'power-monthly', 'desk'].includes(String(sub.planId || '').toLowerCase());
+    return Boolean(active && (user && (user.stripeCustomerId || user.stripeSubscriptionId) || professionalPlan));
+}
+
+async function grantDealMirrorAccess(user, licence) {
+    const details = dealMirror.TIERS[licence.tier];
+    if (!details) throw new Error('Unknown DealMirror tier');
+    // This guard makes the central grant fail closed as well as the route.
+    if (user.appsumoRedeemedAt || isActiveStripeSubscriber(user)) throw new Error('Existing entitlement cannot be replaced');
+    const now = new Date();
+    applyPlanToSubscription(user, PRO_PLAN_ID);
+    user.subscription.planName = `Pro — DealMirror (${licence.tier[0].toUpperCase()}${licence.tier.slice(1)})`;
+    user.subscription.price = 0; user.subscription.stripePriceId = null; user.subscription.status = 'active';
+    user.subscription.activatedAt = user.subscription.activatedAt || now; user.subscription.renewedAt = now;
+    user.subscription.lastPaymentAt = now; user.subscription.trialEndsAt = null;
+    user.dealMirrorLicenceId = licence._id; user.dealMirrorTier = details.tier; user.dealMirrorAiCap = details.askCap;
+    user.dealMirrorRedeemedAt = user.dealMirrorRedeemedAt || now; user.markModified('subscription');
+    await user.save();
+    trackFunnel('dealmirror_redemption', user._id, user.subscription.planName, { eventName: 'dealmirror_redemption', entitlementSource: 'dealmirror', dealMirrorTier: details.tier, dedupeKey: `dealmirror:redemption:${String(licence._id)}` });
+}
+
+async function revokeDealMirrorAccess(user) {
+    // Never downgrade a legitimate AppSumo or Stripe/professional entitlement.
+    if (user.appsumoRedeemedAt || isActiveStripeSubscriber(user)) return;
+    user.dealMirrorLicenceId = null; user.dealMirrorTier = null; user.dealMirrorAiCap = null; user.dealMirrorRedeemedAt = null;
+    user.subscription.status = 'cancelled'; user.subscription.trialEndsAt = null; user.markModified('subscription');
+    await user.save();
 }
 
 async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requestFields, discoverySource } = {}) {
@@ -5654,6 +5702,66 @@ app.post('/api/appsumo/activate', authMiddleware, async (req, res) => {
         console.error('AppSumo activate error:', err);
         return res.status(500).json({ message: 'Activation failed. Please try again.' });
     }
+});
+
+// DealMirror LTD pilot -------------------------------------------------------
+// Public copy is available for review, but redemption stays fail-closed until
+// the explicit production flag and commercial approval gates are satisfied.
+app.get('/dealmirror/redeem', (req, res) => res.sendFile(path.join(__dirname, '../frontend-v2/dealmirror-redeem.html')));
+app.post('/api/dealmirror/redeem', authMiddleware, dealMirrorRedeemLimiter, async (req, res) => {
+    const code = String(req.body && req.body.code || '');
+    if (code.length < 12 || code.length > 160) return res.status(400).json({ message: 'This code cannot be redeemed. Please check the code and contact support if you need help.' });
+    try {
+        const result = await dealMirror.redeem({
+            code, user: req.user, hasAppSumo: Boolean(req.user.appsumoRedeemedAt), hasStripe: isActiveStripeSubscriber(req.user),
+            actor: String(req.user._id), grant: (licence) => grantDealMirrorAccess(req.user, licence)
+        });
+        return res.status(result.status || 200).json(result.ok ? { ok: true, message: 'Your DealMirror lifetime access is active.' } : { message: result.message });
+    } catch (error) {
+        console.error('[dealmirror] redemption failed:', error && error.message);
+        return res.status(500).json({ message: 'Redemption could not be completed. Please contact support if the problem continues.' });
+    }
+});
+
+function dealMirrorAdminAuth(req, res, next) {
+    const token = process.env.ADMIN_TOKEN;
+    if (!token || !timingSafeStrEqual(req.headers['x-admin-token'], token)) return res.status(403).json({ message: 'Forbidden' });
+    return next();
+}
+app.get('/api/admin/dealmirror', dealMirrorAdminAuth, async (req, res) => {
+    try {
+        const { DealMirrorBatch, DealMirrorLicence } = dealMirror.models();
+        const [batches, totals] = await Promise.all([DealMirrorBatch.find({}).sort({ batchNumber: 1 }).lean(), DealMirrorLicence.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }])]);
+        const counts = Object.fromEntries(totals.map((r) => [r._id, r.count]));
+        res.set('Cache-Control', 'no-store').json({ config: { ...dealMirror.config(), pepperPresent: undefined }, batches, counts, issued: Object.values(counts).reduce((n, v) => n + v, 0), remainingAbsoluteInventory: Math.max(0, dealMirror.ABSOLUTE_CAP - Object.values(counts).reduce((n, v) => n + v, 0)) });
+    } catch (error) { res.status(503).json({ message: 'DealMirror administration is unavailable.' }); }
+});
+app.post('/api/admin/dealmirror/expire', dealMirrorAdminAuth, async (req, res) => {
+    try { const expired = await dealMirror.expireAvailable({ actor: String(req.headers['x-admin-actor'] || 'admin') }); res.json({ ok: true, expired }); }
+    catch (_) { res.status(503).json({ message: 'DealMirror expiry sweep is unavailable.' }); }
+});
+app.post('/api/admin/dealmirror/reconcile', dealMirrorAdminAuth, async (req, res) => {
+    try {
+        const dryRun = req.body && req.body.dryRun !== false;
+        const result = await dealMirror.reconcileCsv({ csv: req.body && req.body.csv, mapping: req.body && req.body.mapping, dryRun, actor: String(req.headers['x-admin-actor'] || 'admin') });
+        if (!dryRun && result.refundedLicenceIds && result.refundedLicenceIds.length) {
+            const { DealMirrorLicence } = dealMirror.models();
+            const licences = await DealMirrorLicence.find({ _id: { $in: result.refundedLicenceIds } });
+            for (const licence of licences) { const user = licence.userId && await User.findById(licence.userId); if (user) await revokeDealMirrorAccess(user); }
+        }
+        return res.json(result);
+    } catch (error) { return res.status(400).json({ message: error.message || 'DealMirror reconciliation failed.' }); }
+});
+app.post('/api/admin/dealmirror/:id/revoke', dealMirrorAdminAuth, async (req, res) => {
+    const reason = String(req.body && req.body.reason || '').trim().slice(0, 500);
+    if (!reason) return res.status(400).json({ message: 'A revocation reason is required.' });
+    try {
+        const { DealMirrorLicence } = dealMirror.models(); const licence = await DealMirrorLicence.findOneAndUpdate({ _id: req.params.id, status: 'redeemed' }, { $set: { status: 'revoked', revokedAt: new Date(), revocationReason: reason } }, { new: true });
+        if (!licence) return res.status(404).json({ message: 'Active DealMirror licence not found.' });
+        const user = licence.userId && await User.findById(licence.userId); if (user) await revokeDealMirrorAccess(user);
+        await dealMirror.audit('revoked', String(req.headers['x-admin-actor'] || 'admin'), { batchId: licence.batchId, licenceId: licence._id, reason });
+        return res.json({ ok: true });
+    } catch (_) { return res.status(503).json({ message: 'DealMirror revocation is unavailable.' }); }
 });
 
 // Self-contained activation page (no build step). Authenticates against
