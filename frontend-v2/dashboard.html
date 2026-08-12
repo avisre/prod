@@ -39,6 +39,9 @@
       border-radius: 50%; color: var(--surface); background: var(--pos); font-weight: 750; }
     .portfolio-action-overlay.is-error .portfolio-action-mark { background: var(--neg); }
     .holding-group + .holding-group { margin-top: 32px; }
+    .portfolio-value-line { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
+    .portfolio-value-line .display { margin:6px 0 0; }
+    .portfolio-inception-gain { margin:0; font-variant-numeric:tabular-nums; }
     /* Add-holding form: stack on small screens so the ticker input + its
        autocomplete dropdown get full width (and nothing overflows). */
     @media (max-width: 560px) {
@@ -65,7 +68,10 @@
         <div class="page-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;">
           <div>
             <p class="label">Portfolio</p>
-            <p class="display" id="pf-total" style="margin-top:6px; margin-bottom:0;">&nbsp;</p>
+            <div class="portfolio-value-line">
+              <p class="display" id="pf-total">&nbsp;</p>
+              <p class="small portfolio-inception-gain" id="pf-inception-gain" hidden></p>
+            </div>
             <p class="muted small" id="pf-sub">&nbsp;</p>
           </div>
           <form class="card card-pad" id="add-form" style="display:grid; grid-template-columns: 110px 90px 110px auto; gap:10px; align-items:end;">
@@ -255,6 +261,6 @@
     </div>
   </div>
   <script src="assets/app.js?v=20260803-ask-recovery1"></script>
-  <script src="assets/dashboard.js?v=20260728-holdings1"></script>
+  <script src="assets/dashboard.js?v=20260812-inception-gain1"></script>
 </body>
 </html>

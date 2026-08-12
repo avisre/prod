@@ -233,6 +233,7 @@
             <a class="btn btn-primary" href="/register.html?plan=monthly">Choose a plan</a>
           </div>`;
         $('pf-total').textContent = '—';
+        $('pf-inception-gain').hidden = true;
         $('pf-sub').textContent = 'Portfolio tracking is part of the paid plans.';
         ['holdings', 'charts-section', 'xray-section', 'alerts-section', 'rules-section', 'attrib-section', 'wash-section'].forEach((id) => {
             const el = $(id); if (el) el.hidden = true;
@@ -288,6 +289,22 @@
         renderAllocation(rows);
         const total = rows.reduce((sum, row) => sum + (row.value || 0), 0);
         $('pf-total').textContent = '$' + fixed(total, 2);
+        const inceptionGain = $('pf-inception-gain');
+        const hasCompleteCostBasis = rows.length > 0 && rows.every((row) =>
+            row.value !== null && row.paid !== null && row.paid > 0 && row.shares > 0);
+        if (hasCompleteCostBasis) {
+            const costBasis = rows.reduce((sum, row) => sum + row.paid * row.shares, 0);
+            const gainAmount = total - costBasis;
+            const gainPercent = costBasis > 0 ? (gainAmount / costBasis) * 100 : null;
+            const sign = gainAmount > 0 ? '+' : gainAmount < 0 ? '−' : '';
+            inceptionGain.textContent = `${sign}$${fixed(Math.abs(gainAmount), 2)}${gainPercent === null ? '' : ` (${sign}${fixed(Math.abs(gainPercent), 1)}%)`} since inception`;
+            inceptionGain.className = `small portfolio-inception-gain ${gainAmount > 0 ? 'delta-pos' : gainAmount < 0 ? 'delta-neg' : ''}`;
+            inceptionGain.hidden = false;
+        } else {
+            // A partial cost basis should never be presented as the portfolio's
+            // lifetime return. Users can add the missing price paid to enable it.
+            inceptionGain.hidden = true;
+        }
         $('pf-sub').textContent = DEMO
             ? `${rows.length} holdings · demo data, read-only`
             : `${rows.length} holdings · stored prices refresh through the day`;

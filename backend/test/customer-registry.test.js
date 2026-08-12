@@ -148,5 +148,15 @@ test('populated portfolios use the grouped holdings renderer', () => {
   const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
   assert.match(source, /const rows = \(Array\.isArray\(list\) \? list : \[\]\)\.map\(holdingToRow\);\s*renderHoldings\(rows\);/);
   assert.doesNotMatch(source, /\$\('holdings-body'\)/);
-  assert.match(html, /assets\/dashboard\.js\?v=20260728-holdings1/);
+  assert.match(html, /assets\/dashboard\.js\?v=20260812-inception-gain1/);
+});
+
+test('portfolio value shows a complete-basis inception gain without overstating partial data', () => {
+  const source = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'dashboard.js'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
+  assert.match(html, /id="pf-inception-gain" hidden/);
+  assert.match(source, /const hasCompleteCostBasis = rows\.length > 0/);
+  assert.match(source, /const costBasis = rows\.reduce/);
+  assert.match(source, /since inception/);
+  assert.match(source, /inceptionGain\.hidden = true/);
 });
