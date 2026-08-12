@@ -42,6 +42,30 @@
     .portfolio-value-line { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
     .portfolio-value-line .display { margin:6px 0 0; }
     .portfolio-inception-gain { margin:0; font-variant-numeric:tabular-nums; }
+    /* The weekly briefing is deliberately a compact readout, not a paragraph
+       of calculated facts. It uses the existing paper/ink card language. */
+    .briefing-wrap { display:grid; gap:18px; }
+    .briefing-overview { display:flex; align-items:flex-end; justify-content:space-between; gap:18px; flex-wrap:wrap; padding-bottom:17px; border-bottom:1px solid var(--line); }
+    .briefing-value { margin:4px 0 0; font-size:28px; line-height:1; letter-spacing:-.035em; font-weight:650; font-variant-numeric:tabular-nums lining-nums; }
+    .briefing-value small { font-size:var(--text-sm); letter-spacing:0; font-weight:400; color:var(--ink-2); }
+    .briefing-change { margin:0; font-variant-numeric:tabular-nums lining-nums; }
+    .briefing-change.is-pos { color:var(--pos); }
+    .briefing-change.is-neg { color:var(--neg); }
+    .briefing-highlights { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); border:1px solid var(--line); border-radius:var(--radius-sm); overflow:hidden; }
+    .briefing-highlight { min-width:0; padding:13px 14px; }
+    .briefing-highlight + .briefing-highlight { border-left:1px solid var(--line); }
+    .briefing-highlight strong { display:block; margin-top:4px; font-variant-numeric:tabular-nums lining-nums; }
+    .briefing-highlight .small { display:block; margin-top:2px; }
+    .briefing-funds { display:grid; gap:8px; }
+    .briefing-fund-row { display:grid; grid-template-columns:minmax(0, 1fr) auto auto; gap:14px; align-items:baseline; padding:10px 0; border-top:1px solid var(--line); font-variant-numeric:tabular-nums lining-nums; }
+    .briefing-fund-row:first-of-type { border-top:0; }
+    .briefing-context { margin:0; color:var(--ink-2); }
+    @media (max-width: 640px) {
+      .briefing-highlights { grid-template-columns:1fr; }
+      .briefing-highlight + .briefing-highlight { border-left:0; border-top:1px solid var(--line); }
+      .briefing-fund-row { grid-template-columns:minmax(0, 1fr) auto; }
+      .briefing-fund-row .briefing-fund-value { grid-column:1 / -1; }
+    }
     /* Add-holding form: stack on small screens so the ticker input + its
        autocomplete dropdown get full width (and nothing overflows). */
     @media (max-width: 560px) {
@@ -126,8 +150,8 @@
              briefing and fund workspace; they do not have comparable company
              10-K/10-Q filing events. -->
         <section class="section" id="alerts-section" hidden>
-          <div class="section-head"><h2 class="title-2">What changed in your company filings</h2><span class="small faint" id="alerts-sub"></span></div>
-          <p class="small faint" style="margin:0 0 10px;">New company SEC filings and monitored company alerts. ETF and mutual-fund positions are included in your portfolio briefing, but fund-specific changes are not represented as company 10-K/10-Q events.</p>
+          <div class="section-head"><h2 class="title-2">Company filing alerts</h2><span class="small faint" id="alerts-sub"></span></div>
+          <p class="small faint" style="margin:0 0 10px;">New 10-K, 10-Q and 8-K filings, plus monitored company signals such as dividend or health-check changes. This is not a price-move feed. ETFs and mutual funds remain in your portfolio totals but do not have comparable company filing alerts.</p>
           <div id="alerts-list" style="display:grid; gap:8px;"></div>
         </section>
 
@@ -241,7 +265,7 @@
             <h2 class="title-2">Weekly briefing</h2>
             <span class="small faint" id="brief-sub"></span>
           </div>
-          <div class="card card-pad prose" id="brief-body" style="max-width:none;"></div>
+          <div class="card card-pad" id="brief-body" style="max-width:none;"></div>
         </section>
 
         <!-- Ask -->
@@ -265,6 +289,6 @@
     </div>
   </div>
   <script src="assets/app.js?v=20260803-ask-recovery1"></script>
-  <script src="assets/dashboard.js?v=20260812-performance-reconcile1"></script>
+  <script src="assets/dashboard.js?v=20260812-briefing-layout1"></script>
 </body>
 </html>

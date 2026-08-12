@@ -1,5 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const { computePortfolioFacts, buildTemplateBriefing } = require('../ai-briefing');
 
 test('weekly briefing explicitly includes ETF positions in mixed portfolios', () => {
@@ -22,4 +24,15 @@ test('weekly briefing keeps fund positions out of company-only filing claims', (
   const text = buildTemplateBriefing(facts);
   assert.match(text, /mutual fund/);
   assert.doesNotMatch(text, /10-K|10-Q|filed/);
+});
+
+test('dashboard renders briefing facts as a structured mixed-portfolio readout', () => {
+  const root = path.resolve(__dirname, '..', '..');
+  const dashboard = fs.readFileSync(path.join(root, 'frontend-v2/assets/dashboard.js'), 'utf8');
+  const html = fs.readFileSync(path.join(root, 'frontend-v2/dashboard.html'), 'utf8');
+  assert.match(dashboard, /function renderBriefing\(data\)/);
+  assert.match(dashboard, /Funds in this portfolio/);
+  assert.match(dashboard, /Sector and fund-category labels are unavailable/);
+  assert.match(html, /Company filing alerts/);
+  assert.match(html, /This is not a price-move feed/);
 });

@@ -536,7 +536,7 @@
             const data = await r.json();
             const alerts = (data.alerts || []).slice(0, 8);
             if (!alerts.length) return;
-            $('alerts-sub').textContent = `${data.unseen || 0} new`;
+            $('alerts-sub').textContent = data.unseen ? `${data.unseen} unread` : 'up to date';
             $('alerts-list').innerHTML = alerts.map((a) => {
                 const cls = a.type === 'health-flip' ? (String(a.title || '').includes('PASS') ? 'notice-pos' : 'notice-neg')
                     : a.type === 'insider-cluster' ? 'notice-pos'
@@ -807,13 +807,64 @@
                 $('brief-sub').textContent = '';
                 return;
             }
-            $('brief-body').innerHTML = markdown(data.briefing);
+            renderBriefing(data);
             const share = document.createElement('div');
             mountShare(share, { title: 'My weekly portfolio briefing', text: data.briefing, url: location.href });
             $('brief-body').appendChild(share);
             $('brief-sub').textContent = data.cached ? 'from this week' : 'fresh';
             $('brief-section').hidden = false;
         } catch (_) { /* briefing is enrichment */ }
+    }
+
+    function briefingMoney(value) {
+        return value === null || value === undefined ? '—' : `$${money(value, 0)}`;
+    }
+
+    function signedPct(value) {
+        const n = Number(value);
+        return Number.isFinite(n) ? `${n >= 0 ? '+' : ''}${n.toFixed(1)}%` : '—';
+    }
+
+    function renderBriefing(data) {
+        const facts = data && data.facts;
+        const body = $('brief-body');
+        if (!facts || facts.empty) {
+            body.innerHTML = markdown(data.briefing || '');
+            return;
+        }
+        const pl = Number(facts.totalPL) || 0;
+        const largest = facts.largestPosition || {};
+        const best = facts.bestPerformer || {};
+        const worst = facts.worstPerformer || {};
+        const topSector = facts.topSector || {};
+        const funds = Array.isArray(facts.fundPositions) ? facts.fundPositions : [];
+        const allocationText = topSector.sector && topSector.sector !== 'Unknown'
+            ? `Largest sector / fund category: ${topSector.sector} · ${topSector.weightPct}%`
+            : 'Sector and fund-category labels are unavailable for part of this portfolio.';
+        const fundHtml = funds.length ? `
+          <div class="briefing-funds">
+            <span class="label">Funds in this portfolio</span>
+            ${funds.map((fund) => `<div class="briefing-fund-row">
+              <span><strong>${esc(fund.symbol)}</strong> <span class="small muted">${fund.assetType === 'etf' ? 'ETF' : 'Mutual fund'}</span></span>
+              <span class="small">${fixed(fund.weightPct, 1)}% of portfolio</span>
+              <span class="small briefing-fund-value">${briefingMoney(fund.value)} · ${signedPct(fund.plPct)} since purchase</span>
+            </div>`).join('')}
+            <p class="small briefing-context">Funds are included in value, allocation and performance. Company filing ratios are kept separate.</p>
+          </div>` : '';
+        body.innerHTML = `
+          <div class="briefing-wrap">
+            <div class="briefing-overview">
+              <div><span class="label">Portfolio snapshot</span><p class="briefing-value">${briefingMoney(facts.totalValue)} <small>across ${facts.holdingsCount} holding${facts.holdingsCount === 1 ? '' : 's'}</small></p></div>
+              <p class="briefing-change ${pl >= 0 ? 'is-pos' : 'is-neg'}"><strong>${pl >= 0 ? '+' : '−'}${briefingMoney(Math.abs(pl))} · ${signedPct(facts.totalPLPct)}</strong><br><span class="small muted">since purchase</span></p>
+            </div>
+            <div class="briefing-highlights">
+              <div class="briefing-highlight"><span class="label">Largest position</span><strong>${esc(largest.symbol || '—')} · ${fixed(largest.weightPct, 1)}%</strong><span class="small muted">of the portfolio</span></div>
+              <div class="briefing-highlight"><span class="label">Best since purchase</span><strong>${esc(best.symbol || '—')} · ${signedPct(best.plPct)}</strong><span class="small muted">holding return</span></div>
+              <div class="briefing-highlight"><span class="label">Weakest since purchase</span><strong>${esc(worst.symbol || '—')} · ${signedPct(worst.plPct)}</strong><span class="small muted">holding return</span></div>
+            </div>
+            <p class="small briefing-context">${esc(allocationText)}</p>
+            ${fundHtml}
+          </div>`;
     }
 
     $('pf-csv').addEventListener('click', () => {
