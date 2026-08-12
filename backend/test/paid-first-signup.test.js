@@ -37,7 +37,7 @@ test('signup surfaces describe payment and refund terms instead of a no-card tri
   assert.doesNotMatch(registerSource, /no card required/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
-  assert.match(registerSource, /£9 charged today/);
-  assert.match(registerSource, /£25 charged today/);
+  assert.match(registerSource, /\$12 charged today/);
+  assert.match(registerSource, /\$33 charged today/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
 });

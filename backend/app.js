@@ -438,21 +438,19 @@ const PRO_ANNUAL_PLAN_ID = 'pro-annual';
 const FREE_PLAN_ID = 'free';
 // These defaults mirror the active self-serve Stripe prices. Environment
 // variables remain the source of truth when prices are intentionally changed.
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '9.00');
-const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'GBP';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '90.00');
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '12.00');
+const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '118.00');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
-const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '25.00');
-const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '190.00');
-// Premium annual tiers for the Filing Monitor launch — both unlock the full
-// Pro feature set; differ only by price/positioning/support. USD, billed yearly.
+const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '33.00');
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '250.00');
+// Premium Filing Monitor tiers — both unlock the full Pro feature set; differ
+// only by price, positioning and support. USD, billed yearly.
 const POWER_PLAN_ID = 'power';
 const DESK_PLAN_ID = 'desk';
 const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '579.00');
 const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
-// Power, billed monthly — same access as annual Power, lower activation friction
-// for pros who won't commit $579 upfront. $64/mo ≈ $774/yr, so annual is a clear
-// 25% saving. Same Monitor unlock as annual Power.
+// Power, billed monthly — same access as annual Power, lower activation friction.
 const POWER_MONTHLY_PLAN_ID = 'power-monthly';
 const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '64.00');
 const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
@@ -483,11 +481,12 @@ const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
 // direct-purchase plans by their exact product, amount and recurring interval.
 // It also neutralizes legacy display variables that no longer match Stripe.
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
-  [MONTHLY_PLAN_ID]: { amount: 9, currency: 'GBP', interval: 'month', productName: 'stockportfolio.pro' },
-  [ANNUAL_PLAN_ID]: { amount: 90, currency: 'GBP', interval: 'year', productName: 'stockportfolio.pro' },
-  [PRO_PLAN_ID]: { amount: 25, currency: 'GBP', interval: 'month', productName: 'stockportfolio.pro' },
-  [PRO_ANNUAL_PLAN_ID]: { amount: 190, currency: 'GBP', interval: 'year', productName: 'stockportfolio.pro' },
+  [MONTHLY_PLAN_ID]: { amount: 12, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [ANNUAL_PLAN_ID]: { amount: 118, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [PRO_PLAN_ID]: { amount: 33, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [PRO_ANNUAL_PLAN_ID]: { amount: 250, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [POWER_PLAN_ID]: { amount: 579, currency: 'USD', interval: 'year', productName: 'power — stockportfolio.pro' },
+  [POWER_MONTHLY_PLAN_ID]: { amount: 64, currency: 'USD', interval: 'month', productName: 'power — stockportfolio.pro' },
   [DESK_PLAN_ID]: { amount: 1961, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
 });
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
