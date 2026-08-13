@@ -69,12 +69,14 @@ async function main() {
         skipped++;
         continue;
       }
-      const user = await db.collection('users').findOne({ _id: job.userId });
+      let user = await db.collection('users').findOne({ _id: job.userId });
       if (!user || user.appsumoEmailsOptOut || !user.appsumoRedeemedAt || user.subscription?.status !== 'active') {
         await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'skipped', skippedReason: 'not eligible at send time' } });
         skipped++;
         continue;
       }
+      const isReviewRequest = job.template === 'appsumo_review_5d' || job.template === 'appsumo_review_eligible';
+      let reviewClaimedAt = null;
       const unsubUrl = `${appUrl}/api/appsumo/unsubscribe?token=${appsumoUnsubToken(user._id)}`;
       let email;
       if (job.template === 'appsumo_review_5d') {
@@ -94,21 +96,39 @@ async function main() {
         if (!user.reviewEligibleAt) { await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'skipped', skippedReason: 'not review eligible' } }); skipped++; continue; }
         email = mailer.appsumoReviewEligibleEmail(user.name, appUrl, appsumoReviewUrl(), unsubUrl);
       }
+      // One persisted guard for every worker. Claim only after the job has
+      // passed all eligibility checks, but before sending, so two due jobs or
+      // workers cannot send two review requests.
+      if (isReviewRequest) {
+        reviewClaimedAt = new Date();
+        const claim = await db.collection('users').findOneAndUpdate(
+          { _id: user._id, reviewRequestSentAt: null, reviewRequestClaimedAt: null },
+          { $set: { reviewRequestClaimedAt: reviewClaimedAt } },
+          { returnDocument: 'after' }
+        );
+        if (!claim.value) {
+          await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'skipped', skippedReason: 'review request already sent or claimed' } });
+          skipped++;
+          continue;
+        }
+        user = claim.value;
+      }
       const ok = await mailer.sendMail({ to: user.email, subject: email.subject, html: email.html, text: email.text });
       if (!ok) {
+        if (isReviewRequest) await db.collection('users').updateOne({ _id: user._id, reviewRequestClaimedAt, reviewRequestSentAt: null }, { $unset: { reviewRequestClaimedAt: '' } });
         await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'failed', lastError: 'mailer returned false' } });
         failed++;
         continue;
       }
       const updates = {};
-      if (job.template === 'appsumo_review_5d') updates.appsumoReviewStage = 2;
+      if (isReviewRequest) updates.appsumoReviewStage = 3;
       if (job.template === 'appsumo_onboarding') updates.appsumoReviewStage = Math.max(Number(user.appsumoReviewStage || 0), 1);
       if (job.template === 'appsumo_review_eligible') updates.reviewPromptShownAt = new Date();
-      if (job.template === 'appsumo_review_5d' || job.template === 'appsumo_review_eligible') updates.reviewRequestSentAt = new Date();
+      if (isReviewRequest) updates.reviewRequestSentAt = new Date();
+      if (isReviewRequest) updates.reviewRequestClaimedAt = null;
       if (Object.keys(updates).length) await db.collection('users').updateOne({ _id: user._id }, { $set: updates });
-      if (job.template === 'appsumo_review_5d' || job.template === 'appsumo_review_eligible') {
-        const reviewStage = job.template === 'appsumo_review_5d' ? 2 : 3;
-        await recordMeasurementEvent(db, user, 'review_request_sent', `review-request-sent:${String(user._id)}:stage-${reviewStage}`);
+      if (isReviewRequest) {
+        await recordMeasurementEvent(db, user, 'review_request_sent', `review-request-sent:${String(user._id)}`);
       }
       await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'sent', sentAt: new Date() } });
       sent++;

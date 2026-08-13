@@ -1802,9 +1802,10 @@ const UserSchema = new mongoose.Schema({
     // Optional self-reported discovery source collected during AppSumo
     // activation. It complements (and never overwrites) signed attribution.
     discoverySource: { type: String, default: null, enum: [null, ...APPSUMO_DISCOVERY_SOURCES] },
-    // Post-redemption honest-review drip (AppSumo-sanctioned: 24h / day-3 / day-10).
-    // appsumoReviewStage = highest stage already emailed (0..3); opt-out is separate
-    // from the digest opt-out so unsubscribing one never mutes the other.
+    // Post-redemption onboarding and a single, usage-gated honest-review request.
+    // appsumoReviewStage is retained for legacy scheduled jobs, but a review may
+    // be sent only once. The claim field makes that invariant safe across the
+    // in-process sweep and the standalone scheduled-email worker.
     appsumoReviewStage: { type: Number, default: 0 },
     appsumoEmailsOptOut: { type: Boolean, default: false },
     // Trial lifecycle emails (no-card trial): drip at 2 days before expiry and on expiry.
@@ -1826,6 +1827,7 @@ const UserSchema = new mongoose.Schema({
     successfulOutcomeCount: { type: Number, default: 0 },
     lastSuccessfulOutcomeAt: { type: Date, default: null },
     reviewRequestSentAt: { type: Date, default: null },
+    reviewRequestClaimedAt: { type: Date, default: null },
     reviewReceivedAt: { type: Date, default: null },
     signupUtm: {
         source: { type: String, default: null },
@@ -7220,7 +7222,8 @@ app.get('/api/trial/unsubscribe', async (req, res) => {
     }
 });
 
-// Cumulative delays from redemption; array index == review stage being sent.
+// Legacy scheduling stages remain for onboarding compatibility. A review itself
+// is a one-time, usage-gated request; never use these stages for repeat asks.
 const APPSUMO_REVIEW_STAGES = [null, 24 * 3600 * 1000, 3 * 86400000, 10 * 86400000];
 
 async function runAppSumoReviewSweep() {
@@ -7234,6 +7237,8 @@ async function runAppSumoReviewSweep() {
     const users = await User.find({
         appsumoRedeemedAt: { $ne: null },
         appsumoEmailsOptOut: { $ne: true },
+        reviewRequestSentAt: null,
+        reviewRequestClaimedAt: null,
         appsumoReviewStage: { $lt: 3 },
         'subscription.status': 'active'
     }).limit(200);
@@ -7251,25 +7256,38 @@ async function runAppSumoReviewSweep() {
                 const onboardingJob = await ScheduledEmail.findOne({ emailKey: `appsumo-onboarding:${String(u._id)}` }).lean();
                 if (onboardingJob && onboardingJob.status !== 'skipped') continue;
             }
-            // Stage 1 is onboarding. Stages 2/3 ask for a neutral, honest review,
-            // so require actual product use first. This is usage-based only: no
-            // rating, feedback verdict, or sentiment ever affects eligibility.
+            // Stage 1 is onboarding. A review is usage-based only: no rating,
+            // feedback verdict, or sentiment ever affects eligibility.
             const hasAskUse = nextStage >= 2 ? await aiChat.hasEverUsed(u._id) : false;
             if (!shareCopy.shouldSendAppSumoReviewStage(nextStage, hasAskUse ? 1 : 0)) continue;
+            // Atomically reserve this customer before sending. Both production
+            // workers use the same persisted sent/claim fields, so a retry or a
+            // second process cannot generate another review request.
+            const claimedAt = new Date();
+            const claimed = await User.findOneAndUpdate(
+                { _id: u._id, reviewRequestSentAt: null, reviewRequestClaimedAt: null },
+                { $set: { reviewRequestClaimedAt: claimedAt } },
+                { new: true }
+            );
+            if (!claimed) continue;
             const unsubUrl = `${appUrl}/api/appsumo/unsubscribe?token=${appsumoUnsubToken(u._id)}`;
-            const mail = mailer.appsumoReviewEmail(u.name, appUrl, nextStage, reviewUrl, unsubUrl);
-            if (await mailer.sendMail({ to: u.email, subject: mail.subject, html: mail.html, text: mail.text })) {
-                u.appsumoReviewStage = nextStage; // bump only on successful send; retries next sweep otherwise
+            const mail = mailer.appsumoReviewEmail(claimed.name, appUrl, nextStage, reviewUrl, unsubUrl);
+            if (await mailer.sendMail({ to: claimed.email, subject: mail.subject, html: mail.html, text: mail.text })) {
+                const sentAt = new Date();
+                await User.updateOne(
+                    { _id: claimed._id, reviewRequestClaimedAt: claimedAt, reviewRequestSentAt: null },
+                    { $set: { appsumoReviewStage: 3, reviewRequestSentAt: sentAt }, $unset: { reviewRequestClaimedAt: '' } }
+                );
                 if (nextStage >= 2) {
-                    u.reviewRequestSentAt = new Date();
-                    trackFunnel('review_request_sent', u._id, u.subscription && u.subscription.planName, {
+                    trackFunnel('review_request_sent', claimed._id, claimed.subscription && claimed.subscription.planName, {
                         eventName: 'review_request_sent',
-                        dedupeKey: `review-request-sent:${String(u._id)}:stage-${nextStage}`,
-                        entitlementSource: 'appsumo', appsumoTier: Number(u.appsumoTier) || null
+                        dedupeKey: `review-request-sent:${String(claimed._id)}`,
+                        entitlementSource: 'appsumo', appsumoTier: Number(claimed.appsumoTier) || null
                     });
                 }
-                await u.save().catch(() => {});
                 sent++;
+            } else {
+                await User.updateOne({ _id: claimed._id, reviewRequestClaimedAt: claimedAt, reviewRequestSentAt: null }, { $unset: { reviewRequestClaimedAt: '' } });
             }
         } catch (_) { /* per-user fail-open */ }
     }
