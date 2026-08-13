@@ -33,8 +33,8 @@ function buildCampaignLink({ source, contentId, clickId, pathname, campaign, ter
     }
     if (!safeContentId) throw new Error('content-id is not allowlisted');
     if (!safeClickId) throw new Error('click-id must be 8-32 URL-safe characters');
-    if (!/^\/(?:tools\/[a-z0-9-]+|research\/[a-z0-9-]+|appsumo)$/.test(safePath)) {
-        throw new Error('path must be an approved tool, research page, or /appsumo');
+    if (!/^\/(?:tools\/[a-z0-9-]+|research\/[a-z0-9-]+|appsumo|monitor)$/.test(safePath)) {
+        throw new Error('path must be an approved tool, research page, /monitor, or /appsumo');
     }
     const url = new URL(safePath, 'https://www.stockportfolio.pro');
     url.searchParams.set('source', safeSource);
