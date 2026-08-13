@@ -53,7 +53,10 @@
           { "@type": "Offer", "name": "Monthly", "price": "12.00", "priceCurrency": "USD", "description": "$12 charged today; request a refund within 7 days if the service is not right for you." },
           { "@type": "Offer", "name": "Pro", "price": "33.00", "priceCurrency": "USD", "description": "$33 charged today; request a refund within 7 days if the service is not right for you — includes the AI analyst." },
           { "@type": "Offer", "name": "Pro Annual", "price": "250.00", "priceCurrency": "USD", "description": "$250 per year — the AI analyst tier, save $146 versus Pro monthly." },
-          { "@type": "Offer", "name": "Annual", "price": "118.00", "priceCurrency": "USD", "description": "$118 per year — two months free versus monthly." }
+          { "@type": "Offer", "name": "Annual", "price": "118.00", "priceCurrency": "USD", "description": "$118 per year — two months free versus monthly." },
+          { "@type": "Offer", "name": "Power monthly", "price": "64.00", "priceCurrency": "USD", "description": "$64 per month — the full research desk and Filing Change Monitor." },
+          { "@type": "Offer", "name": "Power", "price": "579.00", "priceCurrency": "USD", "description": "$579 per year — the full research desk and Filing Change Monitor." },
+          { "@type": "Offer", "name": "Desk", "price": "1961.00", "priceCurrency": "USD", "description": "$1,961 per year — Power for one named professional seat." }
         ],
         "featureList": [
           "Up to 19 years of SEC-filed financial statements for covered US-listed companies that report in USD, subject to filing and data availability",
@@ -331,14 +334,14 @@
         <p class="provenance">New accounts complete paid Stripe checkout before access. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. No first-year discount games — the price you see is the price it stays. The free screener covers 3,800+ US companies and the public library 1,500+; the application searches a broader US-listed directory, subject to supported filing and data availability. Foreign ADR coverage is limited. Not investment advice.</p>
       </section>
 
-      <!-- Professional tiers — Filing Monitor + research desk for analysts/RIAs/funds (USD, annual) -->
+      <!-- Professional tiers — Filing Monitor + research desk for analysts/RIAs/funds (USD; Power monthly or annual, Desk annual) -->
       <section class="section" id="pro-plans" style="margin-top:40px;">
-        <div class="section-head"><h2 class="title-1">For professionals</h2><span class="small faint">The Filing Change Monitor + the full research desk — for analysts, RIAs &amp; funds. Billed yearly.</span></div>
+        <div class="section-head"><h2 class="title-1">For professionals</h2><span class="small faint">The Filing Change Monitor + the full research desk — Power monthly or yearly; Desk yearly.</span></div>
         <div class="price-grid">
           <div class="card price-card">
             <span class="label">Power</span>
-            <div class="price-fig">$579<span>/year</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">The complete research desk + Filing Monitor, for one investor.</p>
+            <div class="price-fig">$64<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">The complete research desk + Filing Monitor, for one investor. Or <strong>$579/year</strong> — save 25%.</p>
             <ul class="price-list">
               <li><strong>Filing Change Monitor</strong> — a cited first pass over a supported company's latest available 10-K/10-Q/8-K, ranked by materiality</li>
               <li><strong>Watchlist filing feed</strong> — every holding's newest filing, read for you</li>
@@ -346,7 +349,10 @@
               <li>Everything in Pro: 300 Ask questions, smart alerts, daily attribution, segments, weekly briefing</li>
               <li>Up to 19 years of statements for covered US-listed companies that report in USD</li>
             </ul>
-            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=power">Get Power →</a>
+            <div style="margin-top:auto; display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+              <a class="btn btn-primary" href="/register.html?plan=power-monthly">Get Power monthly →</a>
+              <a class="btn btn-ghost" href="/register.html?plan=power">Get Power yearly</a>
+            </div>
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Desk</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One professional seat</span></div>
@@ -373,7 +379,7 @@
             <a class="btn btn-ghost" style="margin-top:auto;" href="mailto:support@stockportfolio.pro?subject=StockPortfolio.pro%20Enterprise%20enquiry">Contact sales →</a>
           </div>
         </div>
-        <p class="provenance">Power &amp; Desk are billed annually and include everything in Pro plus the Filing Change Monitor. Desk adds a limited commercial-use licence for one named user to incorporate verified outputs into customer-authored research and client communications; it does not include account sharing, raw-data redistribution, or any authorisation to provide regulated advice. Not investment advice.</p>
+        <p class="provenance">Power is available at $64/month or $579/year and includes everything in Pro plus the Filing Change Monitor. Desk is billed annually and adds a limited commercial-use licence for one named user to incorporate verified outputs into customer-authored research and client communications; it does not include account sharing, raw-data redistribution, or any authorisation to provide regulated advice. Not investment advice.</p>
       </section>
 
       <!-- crawlable entry to the public research library (server-rendered /stocks pages) -->
