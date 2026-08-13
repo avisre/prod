@@ -35,6 +35,7 @@ test('Power monthly is a complete, consistently priced published plan', () => {
   assert.match(registerSource, /power-monthly/);
   assert.match(registerSource, /\$64 billed today, then monthly/);
   assert.match(homepageSource, /\$64<span>\/month<\/span>/);
+  assert.match(homepageSource, /\$579<span>\/year<\/span>/);
   assert.match(homepageSource, /register\.html\?plan=power-monthly/);
   assert.match(homepageSource, /\$579\/year/);
   assert.match(dossierSource, /Start Power — \$64\/mo/);
