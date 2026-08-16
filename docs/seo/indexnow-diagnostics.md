@@ -1,7 +1,7 @@
 # IndexNow queue diagnostics
 
 Generated: **2026-08-16T13:13:28.378Z**
-- Queue file: `/tmp/indexnow-queue-gate.json`
+- Queue file: `/home/hardoker77/Downloads/new/prod-main/seo-data/indexnow-queue.json`
 - Counts: empty
 - Changed in last 24h: **0**
 
