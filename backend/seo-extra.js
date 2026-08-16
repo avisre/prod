@@ -292,9 +292,14 @@ function renderMetricPage(ticker, slug, options = {}) {
         .trim() || name;
     // A "$0"/"0" headline (e.g. a company that pays no dividend) reads as broken
     // and won't earn the click — use the plain range title in that case.
-    const title = (latestVal !== null && latestVal !== 0)
-        ? `${sym} ${titleHistory}: ${m.fmt(latestVal)} (${y1}) | ${titleName}`
-        : `${sym} ${titleHistory} ${y0}–${y1} | ${titleName}`;
+    // Keep the exact metric phrase/ticker at the front, but avoid pushing the
+    // semantic owner out of a search-result title with a long legal name or a
+    // volatile value. The latest value and period remain in the description,
+    // answer and evidence table.
+    const titleNameShort = titleName.length > 28
+        ? `${titleName.slice(0, 28).replace(/\s+\S*$/, '').trim()}…`
+        : titleName;
+    const title = `${sym} ${titleHistory} | ${titleNameShort}`;
     const description = `${name} (${sym}) annual ${m.noun} from ${y0} to ${y1}` +
         (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
         (oneYear !== null ? `, ${signedPct(oneYear)} year over year` : '') +
@@ -313,6 +318,17 @@ function renderMetricPage(ticker, slug, options = {}) {
     }).join('');
     const latestRow = usable[0] || {};
     const directMetric = !latestRow.derived && !['free-cash-flow', 'total-debt', 'pe-ratio'].includes(slug);
+    // Keep the opening answer deterministic and show the filed inputs behind
+    // derived metrics before the visitor reaches the chart/table.
+    const cashRows = ((data.cash || {}).annualReports || []);
+    const balanceRows = ((data.balance || {}).annualReports || []);
+    const latestCash = cashRows.find((row) => fyYear(row) === latestRow.year) || cashRows[0] || {};
+    const latestBalance = balanceRows.find((row) => fyYear(row) === latestRow.year) || balanceRows[0] || {};
+    const operatingCashflow = num(latestCash.operatingCashflow);
+    const rawCapitalExpenditures = num(latestCash.capitalExpenditures);
+    const capitalExpenditures = rawCapitalExpenditures === null ? null : Math.abs(rawCapitalExpenditures);
+    const cashBalance = num(latestBalance.cashAndCashEquivalentsAtCarryingValue) ?? num(latestBalance.cashAndShortTermInvestments);
+    const debtValue = totalDebtOf(latestBalance);
 
     const faqs = [];
     if (latestVal !== null) faqs.push({
@@ -376,9 +392,10 @@ function renderMetricPage(ticker, slug, options = {}) {
     } else if (slug === 'pe-ratio') {
         interpretation = `${name}'s fiscal-year-end P/E ratio is derived from the adjusted close divided by diluted EPS for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
     } else if (slug === 'free-cash-flow') {
-        interpretation = `${name}'s free cash flow is derived as operating cash flow minus capital expenditure for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
+        interpretation = `${name}'s free cash flow was calculated as operating cash flow ${money(operatingCashflow)} minus capital expenditures ${money(capitalExpenditures)} for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
     } else if (slug === 'total-debt') {
-        interpretation = `${name}'s total debt is derived by adding the available short- and long-term borrowing fields for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
+        const netDebt = debtValue !== null && cashBalance !== null ? debtValue - cashBalance : null;
+        interpretation = `${name}'s total debt is derived by adding the available short- and long-term borrowing fields for fiscal ${latestRow.year}: ${m.fmt(latestVal)}${netDebt !== null ? `; cash was ${money(cashBalance)}, implying derived net ${netDebt >= 0 ? 'debt' : 'cash'} of ${money(Math.abs(netDebt))}` : ''}.`;
     } else if (slug === 'gross-profit' && latestRow.derived) {
         interpretation = `${name}'s gross profit is derived as revenue minus cost of revenue for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
     } else if (directMetric) {
@@ -390,7 +407,13 @@ function renderMetricPage(ticker, slug, options = {}) {
     if (fiveYear !== null && fiveYearRow) interpretation += ` Compared with fiscal ${fiveYearRow.year}, the change was ${signedPct(fiveYear)}.`;
     if (slug === 'shares-outstanding') interpretation += oneYear > 0 ? ' A rising share count can dilute per-share ownership; the filings should be checked for issuance and stock-compensation details.' : oneYear < 0 ? ' A falling share count is consistent with net buybacks exceeding issuance over the period, though the filing should be checked for the components.' : ' The filed year-end share count was broadly unchanged.';
     if (slug === 'pe-ratio') interpretation += ' This is a fiscal-year-end price divided by diluted EPS—not a live valuation—and is omitted when annual EPS is not positive.';
-    const summaryCards = `<div class="seo-grid"><div class="seo-tile"${directMetric ? '' : ' aria-label="Latest filed value inputs support this calculated value"'}><div class="l">${directMetric ? 'Latest filed value' : 'Latest calculated value'}</div><div class="v">${esc(latestVal === null ? '—' : m.fmt(latestVal))}</div></div><div class="seo-tile"><div class="l">One-year change</div><div class="v">${esc(signedPct(oneYear))}</div></div><div class="seo-tile"><div class="l">Change since ${esc(fiveYearRow?.year || y0)}</div><div class="v">${esc(signedPct(fiveYear))}</div></div><div class="seo-tile"><div class="l">Latest period end</div><div class="v" style="font-size:16px">${esc(usable[0]?.period || usable[0]?.year || '—')}</div></div></div>`;
+    const baseSummaryCards = `<div class="seo-grid"><div class="seo-tile"${directMetric ? '' : ' aria-label="Latest filed value inputs support this calculated value"'}><div class="l">${directMetric ? 'Latest filed value' : 'Latest calculated value'}</div><div class="v">${esc(latestVal === null ? '—' : m.fmt(latestVal))}</div></div><div class="seo-tile"><div class="l">One-year change</div><div class="v">${esc(signedPct(oneYear))}</div></div><div class="seo-tile"><div class="l">Change since ${esc(fiveYearRow?.year || y0)}</div><div class="v">${esc(signedPct(fiveYear))}</div></div><div class="seo-tile"><div class="l">Latest period end</div><div class="v" style="font-size:16px">${esc(usable[0]?.period || usable[0]?.year || '—')}</div></div></div>`;
+    const inputSummary = slug === 'free-cash-flow'
+        ? `<div class="seo-grid"><div class="seo-tile"><div class="l">Operating cash flow</div><div class="v">${esc(money(operatingCashflow))}</div></div><div class="seo-tile"><div class="l">Capital expenditures</div><div class="v">${esc(money(capitalExpenditures))}</div></div><div class="seo-tile"><div class="l">Calculation</div><div class="v" style="font-size:16px">OCF − capex</div></div></div>`
+        : slug === 'total-debt'
+            ? `<div class="seo-grid"><div class="seo-tile"><div class="l">Total debt (derived)</div><div class="v">${esc(money(debtValue))}</div></div><div class="seo-tile"><div class="l">Cash balance</div><div class="v">${esc(money(cashBalance))}</div></div><div class="seo-tile"><div class="l">Net debt / (cash)</div><div class="v">${esc(debtValue !== null && cashBalance !== null ? money(debtValue - cashBalance) : '—')}</div></div></div>`
+            : '';
+    const summaryCards = baseSummaryCards + inputSummary;
     const historyHeading = `${name} ${m.label}${/history$/i.test(m.label) ? '' : ' history'} by fiscal year`;
     const methodology = m.methodology || `Figures are drawn from ${m.source}.`;
 
