@@ -5878,6 +5878,12 @@ async function appsumoHandleEvent(body) {
 
 // Webhook — raw body for HMAC. Always 200 + { event, success } per the spec; on
 // 'activate'/'deactivate' AppSumo applies the status change only after success.
+// Keep a side-effect-free GET response for partner-portal reachability checks.
+// Real lifecycle events are accepted only by the signed POST handler below.
+app.get('/appsumo/webhook', (_req, res) => {
+    return res.status(200).json({ success: true, status: 'ready' });
+});
+
 app.post('/appsumo/webhook', express.raw({ type: '*/*' }), async (req, res) => {
     const raw = Buffer.isBuffer(req.body) ? req.body : Buffer.from('');
     let body = {};
