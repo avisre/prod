@@ -329,13 +329,10 @@ function renderPublicResearchPage(share = {}, { publicBase } = {}) {
 }
 
 const PLATFORM_RULES = {
-    x: { label: 'X / Twitter', limit: 245, style: 'one compact post; leave room for the shared URL; at most two hashtags' },
-    instagram: { label: 'Instagram', limit: 1800, style: 'a readable caption with short paragraphs; at most four relevant hashtags' },
-    linkedin: { label: 'LinkedIn', limit: 2600, style: 'a professional post with a clear opening and compact paragraphs; at most three hashtags' },
-    facebook: { label: 'Facebook', limit: 1800, style: 'a clear conversational post with short paragraphs' },
-    whatsapp: { label: 'WhatsApp', limit: 1400, style: 'a concise message suitable for sending to a person or group' },
-    reddit: { label: 'Reddit', limit: 1800, style: 'a factual title-and-summary style post; no hashtags or promotional language' },
-    native: { label: 'social sharing', limit: 1400, style: 'a concise, neutral post that works across social apps' }
+    x: { label: 'X / Twitter', limit: 245, style: 'one compact post; leave room for the shared URL; at most two hashtags; keep numbers and source trail intact and structure the text with line breaks for readability, preserving any chart or visualization link if present' },
+    linkedin: { label: 'LinkedIn', limit: 2600, style: 'a professional post with a clear opening and compact structured paragraphs with headings; include key numbers and source links; at most three hashtags; keep any visualization reference as a linked chart' },
+    whatsapp: { label: 'WhatsApp', limit: 1400, style: 'a concise message suitable for sending to a person or group; structure the text with short paragraphs and bullet-like lines for readability' },
+    email: { label: 'Email', limit: 4000, style: 'an email with a clear subject line and structured body paragraphs with headings; include key numbers, source links, and note that charts/visualizations are viewable at the public report URL; no hashtags' }
 };
 
 const cache = new Map();

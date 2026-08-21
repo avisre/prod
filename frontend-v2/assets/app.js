@@ -247,6 +247,23 @@
         // but this runtime sends only the canonical event above.
     }, { capture: true });
 
+    // P0 proof-funnel: a user opening a filing/source link is `source_opened`.
+    // The Ask answer and deterministic recovery render SEC source links; track
+    // the click so the funnel can prove evidence was actually opened, not just
+    // shown. Scoped to known filing domains so generic outbound clicks are not
+    // counted as research sources.
+    document.addEventListener('click', (event) => {
+        const link = event.target && event.target.closest && event.target.closest('a[href]');
+        if (!link) return;
+        const href = link.getAttribute('href') || '';
+        if (/^https:\/\/(www\.)?sec\.gov/i.test(href)) {
+            trackGrowthEvent('source_opened', {
+                contentId: link.dataset.contentId || null,
+                ctaId: link.dataset.ctaId || 'source'
+            });
+        }
+    }, { capture: true });
+
     document.addEventListener('click', (event) => {
         const link = event.target && event.target.closest && event.target.closest('a[href]');
         if (!link) return;
@@ -882,13 +899,9 @@
         host.innerHTML = `
           <span class="share-label">Share</span>
           <button type="button" class="share-btn" data-share="x">X / Twitter</button>
-          <button type="button" class="share-btn" data-share="instagram">Instagram</button>
           <button type="button" class="share-btn" data-share="linkedin">LinkedIn</button>
-          <button type="button" class="share-btn" data-share="facebook">Facebook</button>
+          <button type="button" class="share-btn" data-share="email">Email</button>
           <button type="button" class="share-btn" data-share="whatsapp">WhatsApp</button>
-          <button type="button" class="share-btn" data-share="reddit">Reddit</button>
-          ${navigator.share ? '<button type="button" class="share-btn" data-share="native">More…</button>' : ''}
-          <button type="button" class="share-btn" data-share="copy">Copy</button>
           <span class="share-disclosure" style="flex-basis:100%;font-size:12px;color:var(--muted,#68717d);line-height:1.4">Clicking a share option creates an unlisted public copy. Anyone with its URL can view the shared research.</span>
           <span class="share-status" role="status" aria-live="polite"></span>`;
 
@@ -936,20 +949,9 @@
             const button = event.target.closest('[data-share]');
             if (!button) return;
             const platform = button.dataset.share;
-            if (platform === 'copy') {
-                const original = button.textContent;
-                button.disabled = true; button.textContent = 'Creating link…';
-                try {
-                    const report = await ensurePublicReport();
-                    const payload = [title, clean, report.url].filter(Boolean).join('\n\n');
-                    await copyText(payload);
-                    say(report.isPublicReport ? 'Research and its unlisted public link copied.' : 'Public link unavailable; copied this page instead.');
-                } finally {
-                    button.disabled = false; button.textContent = original;
-                }
-                return;
-            }
-            const popup = platform === 'native' ? null : window.open('about:blank', '_blank', 'width=760,height=640');
+            // Only the four approved platforms are handled; any other is ignored.
+            if (!['x', 'linkedin', 'email', 'whatsapp'].includes(platform)) return;
+            const popup = platform === 'email' ? null : window.open('about:blank', '_blank', 'width=760,height=640');
             if (popup) popup.opener = null;
             const openPrepared = (target) => {
                 if (popup) popup.location.href = target;
@@ -960,21 +962,19 @@
             try {
                 const [caption, report] = await Promise.all([prepare(platform), ensurePublicReport()]);
                 const shareUrl = report.url;
+                // caption is already platform-structured via /api/ai/share-copy (x: compact 245, linkedin: structured 2600, whatsapp: concise, email: structured 4000)
+                // Visualizations and charts are viewable at the public report URL, which is always appended.
                 if (platform === 'x') {
                     openPrepared(`https://twitter.com/intent/tweet?text=${encodeURIComponent(caption)}&url=${encodeURIComponent(shareUrl)}`);
                 } else if (platform === 'whatsapp') {
                     openPrepared(`https://wa.me/?text=${encodeURIComponent([caption, shareUrl].filter(Boolean).join('\n\n'))}`);
                 } else if (platform === 'linkedin') {
-                    await copyText(caption); openPrepared(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`); say('LinkedIn post copied — paste it into the share window.');
-                } else if (platform === 'facebook') {
-                    await copyText(caption); openPrepared(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`); say('Facebook post copied — paste it into the share window.');
-                } else if (platform === 'instagram') {
-                    await copyText([caption, shareUrl].filter(Boolean).join('\n\n')); openPrepared('https://www.instagram.com/'); say('Instagram caption and public report link copied — paste them into your post.');
-                } else if (platform === 'reddit') {
-                    const redditTitle = caption.length > 280 ? caption.slice(0, 277) + '…' : caption;
-                    openPrepared(`https://www.reddit.com/submit?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(redditTitle)}`);
-                } else if (platform === 'native' && navigator.share) {
-                    try { await navigator.share({ title, text: caption, url: shareUrl }); } catch (_) { /* cancelled */ }
+                    await copyText(caption); openPrepared(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`); say('LinkedIn post copied — paste it into the share window. The public report holds the charts.');
+                } else if (platform === 'email') {
+                    const subject = encodeURIComponent(String(title || 'StockPortfolio.pro research').slice(0, 180));
+                    const body = encodeURIComponent([caption, '', `View the full research with charts: ${shareUrl}`, '', '— Shared from StockPortfolio.pro'].filter(Boolean).join('\n\n'));
+                    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                    say('Email draft opened with structured research and report link.');
                 }
                 if (!report.isPublicReport) say('Public link unavailable; shared this page instead.');
             } finally {

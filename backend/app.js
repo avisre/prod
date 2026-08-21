@@ -2344,6 +2344,25 @@ async function trackActivation(userId, job, extra = {}) {
     }
 }
 
+// P0 proof-funnel: a returning buyer starts another research session after
+// activation. The Ask flow is the hook point: an already-activated user
+// (firstActivationAt set) completing another successful Ask counts as a second
+// session. No dedupe key so each returning Ask is counted; first ask success
+// keeps its own idempotent record.
+function trackSecondSession(req, user) {
+    if (!req || !user || !user._id || !user.firstActivationAt) return;
+    const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
+    trackFunnel('second_session', user._id, user.subscription && user.subscription.planName, {
+        eventName: 'second_session',
+        featureType: 'ask',
+        entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
+        appsumoTier: Number(user.appsumoTier) || null,
+        acquisitionSource: acquisition && acquisition.source || null,
+        acquisitionClickId: acquisition && acquisition.clickId || null,
+        contentId: acquisition && acquisition.contentId || null
+    });
+}
+
 function trackFirstAskSuccess(req, user, result) {
     if (!req || !user || !user._id || !result || result.source !== 'ai' || !result.answer) return;
     const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
@@ -4600,7 +4619,7 @@ app.post('/api/portfolio/ask', authMiddleware, proGate, async (req, res) => {
 // Everything off-switchable: ANON_ASK_LIMIT=0 restores signup-required Ask.
 const ANON_ASK_LIMIT = process.env.NODE_ENV === 'production' && process.env.ALLOW_ANON_AI !== 'true'
     ? 0
-    : Number(process.env.ANON_ASK_LIMIT ?? 0);                         // free queries per browser
+    : Number(process.env.ANON_ASK_LIMIT ?? 3);                         // free queries per browser (matches ask.html copy)
 const ANON_ASK_IP_DAY = Number(process.env.ANON_ASK_IP_DAY ?? 6);      // backstop: per IP / day
 const ANON_ASK_GLOBAL_DAY = Number(process.env.ANON_ASK_GLOBAL_DAY ?? 400); // hard daily cost ceiling
 const _anonAsk = { day: '', global: 0, ip: new Map() };
@@ -4764,6 +4783,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const counted = result.source === 'ai' || result.source === 'blocked';
                 if (counted) await aiChat.recordUse(userId);
                 if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+                trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
                 const usedNow = counted ? used + 1 : used;
@@ -4784,6 +4804,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+        trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);
         if (result.answer) trackActivation(userId, 'ask');
         const usedNow = counted ? used + 1 : used;
@@ -5543,14 +5564,24 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                     : Number.isFinite(Number(payload.amount)) ? Number(payload.amount) : null,
                 currency: typeof payload.currency === 'string' ? payload.currency.toLowerCase().slice(0, 8) : null
             });
-            const result = await affiliateProgram.reverseStripeCommission({ payload, reason: 'refund' });
+            const result = await affiliateProgram.reverseStripeCommission({
+                payload,
+                reason: 'refund',
+                eventId: event.id,
+                eventType: event.type
+            });
             if (result && result.reversed) trackFunnel('commission_reversed', null, 'Stripe', { reason: 'refund' });
         } catch (err) {
             console.error('[affiliate] Stripe refund attribution error:', err && err.message);
         }
     } else if (event.type === 'charge.dispute.created') {
         try {
-            const result = await affiliateProgram.reverseStripeCommission({ payload, reason: 'dispute' });
+            const result = await affiliateProgram.reverseStripeCommission({
+                payload,
+                reason: 'dispute',
+                eventId: event.id,
+                eventType: event.type
+            });
             if (result && result.reversed) trackFunnel('commission_reversed', null, 'Stripe', { reason: 'dispute' });
         } catch (err) {
             console.error('[affiliate] Stripe dispute attribution error:', err && err.message);
@@ -8020,6 +8051,13 @@ async function uniqueAffiliateSlug() {
     throw new Error('Unable to allocate a referral slug');
 }
 
+async function hasVerifiedAffiliatePurchase(user) {
+    if (!user) return false;
+    if (affiliateProgram.hasVerifiedStripeSubscription(user)) return true;
+    if (!user.appsumoRedeemedAt) return false;
+    return Boolean(await AppSumoLicense.exists({ userId: user._id, status: 'active' }));
+}
+
 function affiliateAdminAuth(req, res, next) {
     if (!affiliateProgram.isEnabled()) return res.status(404).json({ message: 'Referral program is not enabled.' });
     const token = process.env.ADMIN_TOKEN;
@@ -8080,7 +8118,12 @@ async function handleAffiliateReferral(req, res) {
     if (!/^[a-z0-9][a-z0-9-]{2,63}$/.test(slug)) return res.status(404).send('Referral link not found.');
     try {
         const { AffiliateProfile } = affiliateProgram.models();
-        const profile = await AffiliateProfile.findOne({ slug, status: 'active' }).lean();
+        const profile = await AffiliateProfile.findOne({
+            slug,
+            status: 'active',
+            invitedAt: { $ne: null },
+            termsAcceptedAt: { $ne: null }
+        }).lean();
         if (!profile) return res.status(404).send('Referral link not found.');
         const clickId = affiliateProgram.randomId(16);
         const destination = affiliateProgram.safeDestination(req.query.destination);
@@ -8109,23 +8152,53 @@ app.get('/api/affiliate/me', authMiddleware, async (req, res) => {
         ReferralOrder.find({ affiliateProfileId: profile._id }).sort({ purchasedAt: -1 }).limit(100).lean(),
         Commission.find({ affiliateProfileId: profile._id }).sort({ createdAt: -1 }).limit(100).lean()
     ]);
-    const totals = commissions.reduce((out, c) => {
-        const key = c.status === 'paid' ? 'paidMinor' : c.status === 'approved' ? 'approvedMinor' : c.status === 'pending' ? 'pendingMinor' : 'reversedMinor';
-        out[key] += Math.max(0, Number(c.amountMinor || 0) - Number(c.reversalMinor || 0)); return out;
-    }, { pendingMinor: 0, approvedMinor: 0, paidMinor: 0, reversedMinor: 0 });
-    res.set('Cache-Control', 'no-store').json({ eligible: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro'), clicks: await affiliateProgram.models().ReferralClick.countDocuments({ affiliateProfileId: profile._id }), purchases: orders.filter((o) => ['paid', 'pending_reconciliation'].includes(o.status)).length, totals, orders: orders.map((o) => ({ provider: o.provider, status: o.status, planId: o.planId, currency: o.currency, purchasedAt: o.purchasedAt })), disclosure: profile.disclosure });
+    const totalsByCurrency = affiliateProgram.summarizeCommissionsByCurrency(commissions);
+    const totals = affiliateProgram.combineCommissionCurrencyTotals(totalsByCurrency);
+    const commissionLedger = commissions.map((commission) => ({
+        provider: commission.provider,
+        currency: commission.currency,
+        basisMinor: commission.basisMinor,
+        rateBps: commission.rateBps,
+        amountMinor: commission.amountMinor,
+        reversalMinor: commission.reversalMinor,
+        holdUntil: commission.holdUntil,
+        status: commission.status,
+        reason: commission.reason || null,
+        createdAt: commission.createdAt
+    }));
+    res.set('Cache-Control', 'no-store').json({ eligible: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro'), clicks: await affiliateProgram.models().ReferralClick.countDocuments({ affiliateProfileId: profile._id }), purchases: orders.filter((o) => ['paid', 'pending_reconciliation'].includes(o.status)).length, totals, totalsByCurrency, commissions: commissionLedger, orders: orders.map((o) => ({ provider: o.provider, status: o.status, planId: o.planId, currency: o.currency, purchasedAt: o.purchasedAt })), disclosure: profile.disclosure });
 });
 
 app.post('/api/affiliate/accept', authMiddleware, affiliateMutationLimiter, async (req, res) => {
     if (!affiliateFeatureEnabled(res)) return;
     if (req.body?.acceptTerms !== true) return res.status(400).json({ message: 'You must accept the ambassador terms before activating the link.' });
+    // The original server-rendered Release-1 page posts only acceptTerms. A
+    // genuinely invited, verified customer using that same-origin page may be
+    // recorded against the first versioned terms without breaking the dark
+    // pilot. Any explicit/stale version still fails closed.
+    const acceptedTermsVersion = req.body?.termsVersion == null
+        ? affiliateProgram.CURRENT_TERMS_VERSION
+        : String(req.body.termsVersion);
+    if (acceptedTermsVersion !== affiliateProgram.CURRENT_TERMS_VERSION) {
+        return res.status(409).json({ message: 'The ambassador terms have changed. Review the current version before accepting.', currentTermsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
+    }
     const { AffiliateProfile } = affiliateProgram.models();
     const profile = await AffiliateProfile.findOne({ userId: req.userId });
     if (!profile) return res.status(404).json({ message: 'No ambassador invitation is available for this account.' });
     if (profile.status === 'suspended' || profile.status === 'declined') return res.status(409).json({ message: 'This invitation is not active.' });
-    profile.status = 'active'; profile.customerStatus = 'ambassador_active'; profile.termsAcceptedAt = new Date(); profile.activatedAt = profile.activatedAt || new Date(); await profile.save();
-    await affiliateProgram.writeAudit('ambassador_activated', String(req.user?.email || req.userId), { affiliateProfileId: profile._id });
-    trackFunnel('ambassador_activated', req.userId, req.user?.subscription?.planName, { affiliateProfileId: String(profile._id) });
+    const appSumoLicenseActive = Boolean(req.user?.appsumoRedeemedAt)
+        && Boolean(await AppSumoLicense.exists({ userId: req.userId, status: 'active' }));
+    const verifiedPurchase = appSumoLicenseActive || affiliateProgram.hasVerifiedStripeSubscription(req.user);
+    if (!verifiedPurchase) return res.status(409).json({ message: 'A verified active customer purchase is required before accepting an ambassador invitation.' });
+    const legacyActive = profile.status === 'active' && profile.invitedAt && profile.termsAcceptedAt;
+    if (!legacyActive && !affiliateProgram.canAcceptAmbassadorInvite({ profile, user: req.user, appSumoLicenseActive })) {
+        return res.status(409).json({ message: 'A current administrator invitation is required before this link can be activated.' });
+    }
+    const wasActive = profile.status === 'active';
+    profile.status = 'active'; profile.customerStatus = 'ambassador_active'; profile.termsAcceptedAt = new Date(); profile.activatedAt = profile.activatedAt || new Date(); profile.termsVersion = affiliateProgram.CURRENT_TERMS_VERSION;
+    await profile.save();
+    await affiliateProgram.writeAudit(wasActive ? 'ambassador_terms_accepted' : 'ambassador_activated', String(req.user?.email || req.userId), { affiliateProfileId: profile._id, termsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
+    if (!wasActive) trackFunnel('ambassador_activated', req.userId, req.user?.subscription?.planName, { affiliateProfileId: String(profile._id), termsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
     return res.json({ ok: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
 });
 
@@ -8135,8 +8208,9 @@ app.get('/affiliate', authMiddleware, async (req, res) => {
     const { AffiliateProfile } = affiliateProgram.models();
     const profile = await AffiliateProfile.findOne({ userId: req.userId }).lean();
     if (!profile) return res.status(404).send('No ambassador invitation is available for this account.');
-    const safe = JSON.stringify(affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro')).replace(/</g, '\\u003c');
-    res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Customer ambassador — StockPortfolio.pro</title><style>body{margin:0;background:#f7f8fa;color:#18202a;font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:720px;margin:40px auto;padding:0 20px}.card{background:#fff;border:1px solid #e1e5e9;border-radius:16px;padding:24px;margin:16px 0}h1{margin:0 0 8px}.muted{color:#66717d}.url{display:block;padding:12px;background:#f1f3f5;border-radius:10px;word-break:break-all}.btn{background:#e8412e;color:#fff;border:0;border-radius:9px;padding:11px 15px;font-weight:700;cursor:pointer}.btn[disabled]{opacity:.5;cursor:not-allowed}.fine{font-size:13px;color:#66717d}.error{color:#b3261e}</style></head><body><main class="wrap"><p class="muted">StockPortfolio.pro · Founding customer program</p><h1>Your referral link</h1><section class="card"><p>Share StockPortfolio.pro only with people who genuinely want source-backed investment research.</p><p class="url" id="url"></p><button class="btn" id="copy">Copy link</button><button class="btn" id="accept" style="margin-left:8px;display:none">Accept terms &amp; activate</button><p class="fine">Disclosure: I may earn a commission if you purchase through this link. No investment returns are promised, and this is not personal financial advice.</p><p id="terms" class="fine"></p><p id="error" class="error"></p></section><section class="card"><h2>Forwardable message</h2><p id="message"></p><p class="fine">Commissions are held until refunds/chargebacks clear and are approved manually. There are no automatic payouts.</p></section><script>const P=${safe};const terms=document.getElementById('terms');const accept=document.getElementById('accept');const copy=document.getElementById('copy');document.getElementById('url').textContent=P.referralUrl;document.getElementById('message').textContent='I use StockPortfolio.pro to research stocks, ETFs and portfolios against original sources. Try it here: '+P.referralUrl+' Disclosure: I may earn a commission if you purchase through this link.';if(P.status==='active'){terms.textContent='Your link is active.';}else{terms.textContent='Read the disclosure above, then activate your invitation when you are ready.';copy.disabled=true;accept.style.display='inline-block';accept.onclick=async()=>{accept.disabled=true;const r=await fetch('/api/affiliate/accept',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({acceptTerms:true})});if(r.ok)location.reload();else{document.getElementById('error').textContent='We could not activate the link yet. Please try again shortly.';accept.disabled=false;}};}copy.onclick=()=>{if(!copy.disabled&&navigator.clipboard)navigator.clipboard.writeText(P.referralUrl);};</script></main></body></html>`);
+    res.set('Cache-Control', 'private, no-store, max-age=0');
+    res.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    return res.sendFile(path.join(__dirname, 'affiliate-dashboard.html'));
 });
 
 app.get('/api/admin/affiliates/reconciliation', affiliateAdminAuth, async (req, res) => {
@@ -8154,8 +8228,9 @@ app.get('/api/admin/affiliates', affiliateAdminAuth, async (req, res) => {
                 ReferralOrder.find({ affiliateProfileId: profile._id }).lean(),
                 Commission.find({ affiliateProfileId: profile._id }).lean()
             ]);
-            const totals = commissions.reduce((out, c) => { const key = c.status === 'paid' ? 'paidMinor' : c.status === 'approved' ? 'approvedMinor' : c.status === 'pending' ? 'pendingMinor' : 'reversedMinor'; out[key] += Math.max(0, Number(c.amountMinor || 0) - Number(c.reversalMinor || 0)); return out; }, { pendingMinor: 0, approvedMinor: 0, paidMinor: 0, reversedMinor: 0 });
-            return { ...affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro'), userId: String(profile.userId), clicks, purchases: orders.filter((o) => ['paid', 'pending_reconciliation'].includes(o.status)).length, grossReferredRevenueMinor: orders.reduce((n, o) => n + Math.max(0, Number(o.grossCollectedMinor || 0)), 0), refundsMinor: orders.reduce((n, o) => n + Math.max(0, Number(o.refundedMinor || 0)), 0), ...totals };
+            const totalsByCurrency = affiliateProgram.summarizeCommissionsByCurrency(commissions);
+            const totals = affiliateProgram.combineCommissionCurrencyTotals(totalsByCurrency);
+            return { ...affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro'), userId: String(profile.userId), clicks, purchases: orders.filter((o) => ['paid', 'pending_reconciliation'].includes(o.status)).length, grossReferredRevenueMinor: orders.reduce((n, o) => n + Math.max(0, Number(o.grossCollectedMinor || 0)), 0), refundsMinor: orders.reduce((n, o) => n + Math.max(0, Number(o.refundedMinor || 0)), 0), totalsByCurrency, ...totals };
         }));
         res.set('Cache-Control', 'no-store').json({ generatedAt: new Date().toISOString(), ambassadors: rows });
     } catch (error) { console.error('[affiliate] admin list failed:', error && error.message); res.status(500).json({ message: 'Referral admin data unavailable' }); }
@@ -8179,7 +8254,7 @@ app.post('/api/admin/affiliates/invite', affiliateAdminAuth, affiliateMutationLi
     const email = String(req.body?.email || '').trim().toLowerCase();
     const user = req.body?.userId ? await User.findById(req.body.userId) : await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'Customer account not found.' });
-    const paid = Boolean(user.appsumoRedeemedAt) || (Boolean(user.stripeCustomerId || user.stripeSubscriptionId) && ['active', 'trialing', 'cancel_at_period_end'].includes(String(user.subscription?.status || '')));
+    const paid = await hasVerifiedAffiliatePurchase(user);
     if (!paid) return res.status(409).json({ message: 'Only verified paying customers can be invited.' });
     const { AffiliateProfile } = affiliateProgram.models();
     let profile = await AffiliateProfile.findOne({ userId: user._id });
@@ -8234,14 +8309,16 @@ app.post('/api/admin/affiliates/commissions/:id/approve', affiliateAdminAuth, af
 app.post('/api/admin/affiliates/payout-batches', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
     const { Commission, PayoutBatch } = affiliateProgram.models();
     const currency = String(req.body?.currency || 'usd').toLowerCase();
+    if (!/^[a-z]{3}$/.test(currency)) return res.status(400).json({ message: 'Provide a valid three-letter currency code.' });
     const min = Math.max(10000, Number(req.body?.minAmountMinor) || 10000);
     const commissions = await Commission.find({ currency, status: 'approved', holdUntil: { $lte: new Date() }, payoutBatchId: null }).sort({ createdAt: 1 }).lean();
-    const total = commissions.reduce((n, c) => n + Math.max(0, Number(c.amountMinor || 0) - Number(c.reversalMinor || 0)), 0);
-    if (total < min) return res.status(409).json({ message: 'No eligible commissions meet the minimum payout threshold.', totalMinor: total, minimumMinor: min });
-    const batch = await PayoutBatch.create({ currency, minAmountMinor: min, totalMinor: total, commissionIds: commissions.map((c) => c._id), status: 'draft' });
-    await Commission.updateMany({ _id: { $in: commissions.map((c) => c._id) } }, { $set: { payoutBatchId: batch._id } });
-    await affiliateProgram.writeAudit('payout_batch_created', String(req.headers['x-admin-actor'] || 'admin'), { targetId: String(batch._id), totalMinor: total });
-    res.status(201).json({ ok: true, batch: { id: String(batch._id), totalMinor: total, currency, status: batch.status, automaticPayout: false } });
+    const selection = affiliateProgram.selectPayoutEligibleCommissions(commissions, min);
+    if (!selection.eligibleCommissions.length) return res.status(409).json({ message: 'No individual ambassador meets the minimum payout threshold in this currency.', totalMinor: 0, minimumMinor: selection.minimumMinor, excludedProfiles: selection.excludedProfiles });
+    const commissionIds = selection.eligibleCommissions.map((commission) => commission._id);
+    const batch = await PayoutBatch.create({ currency, minAmountMinor: selection.minimumMinor, totalMinor: selection.totalMinor, commissionIds, status: 'draft' });
+    await Commission.updateMany({ _id: { $in: commissionIds }, status: 'approved', payoutBatchId: null }, { $set: { payoutBatchId: batch._id } });
+    await affiliateProgram.writeAudit('payout_batch_created', String(req.headers['x-admin-actor'] || 'admin'), { targetId: String(batch._id), totalMinor: selection.totalMinor, qualifyingProfiles: selection.qualifyingProfiles.length });
+    res.status(201).json({ ok: true, batch: { id: String(batch._id), totalMinor: selection.totalMinor, currency, status: batch.status, ambassadorCount: selection.qualifyingProfiles.length, automaticPayout: false } });
 });
 
 app.post('/api/admin/affiliates/payout-batches/:id/paid', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
@@ -8249,11 +8326,27 @@ app.post('/api/admin/affiliates/payout-batches/:id/paid', affiliateAdminAuth, af
     const batch = await PayoutBatch.findById(req.params.id);
     if (!batch) return res.status(404).json({ message: 'Payout batch not found.' });
     if (batch.status === 'paid') return res.json({ ok: true, alreadyPaid: true });
-    batch.status = 'paid'; batch.reference = String(req.body?.reference || '').slice(0, 160) || null; batch.paidAt = new Date(); await batch.save();
+    if (!['draft', 'exported'].includes(batch.status)) return res.status(409).json({ message: 'Only a draft or exported payout batch can be marked paid.' });
+    const reference = String(req.body?.reference || '').trim().slice(0, 160);
+    if (!reference) return res.status(400).json({ message: 'Record the external payment reference before marking this batch paid.' });
+    batch.status = 'paid'; batch.reference = reference; batch.paidAt = new Date(); await batch.save();
     await Commission.updateMany({ _id: { $in: batch.commissionIds }, status: 'approved' }, { $set: { status: 'paid', paidAt: batch.paidAt } });
     await affiliateProgram.writeAudit('payout_marked_paid', String(req.headers['x-admin-actor'] || 'admin'), { targetId: String(batch._id), reference: batch.reference });
     trackFunnel('payout_completed', null, 'affiliate', { payoutBatchId: String(batch._id) });
     res.json({ ok: true, status: batch.status, automaticPayout: false });
+});
+
+app.post('/api/admin/affiliates/payout-batches/:id/cancel', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
+    const { PayoutBatch, Commission } = affiliateProgram.models();
+    const batch = await PayoutBatch.findById(req.params.id);
+    if (!batch) return res.status(404).json({ message: 'Payout batch not found.' });
+    if (batch.status === 'cancelled') return res.json({ ok: true, alreadyCancelled: true });
+    if (!['draft', 'exported'].includes(batch.status)) return res.status(409).json({ message: 'A paid payout batch cannot be cancelled.' });
+    await Commission.updateMany({ _id: { $in: batch.commissionIds }, status: 'approved', payoutBatchId: batch._id }, { $set: { payoutBatchId: null } });
+    batch.status = 'cancelled';
+    await batch.save();
+    await affiliateProgram.writeAudit('payout_batch_cancelled', String(req.headers['x-admin-actor'] || 'admin'), { targetId: String(batch._id) });
+    return res.json({ ok: true, status: batch.status, automaticPayout: false });
 });
 
 app.get('/api/admin/affiliates/payout-batches/:id.csv', affiliateAdminAuth, async (req, res) => {
