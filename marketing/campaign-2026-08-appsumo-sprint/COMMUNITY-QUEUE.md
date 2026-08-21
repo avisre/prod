@@ -11,6 +11,15 @@ Reddit public post: https://www.reddit.com/r/SideProject/comments/1vjrhid/i_buil
 
 Hacker News account: `stockportfoliop`. HN rejected the initial Show HN submission through its temporary new-account restriction page. Do not evade that restriction by removing the `Show HN` label; participate genuinely first, then retry after the account has established normal community history.
 
+## 10 August execution note
+
+One genuinely useful reply was published on the Netflix value-investing discussion:
+https://www.reddit.com/r/ValueInvesting/comments/1vkid4q/comment/p2tot72/
+
+Two additional Reddit replies were held after Reddit returned `ratelimit-error` on
+the comment endpoint. No retry or workaround was used. The drafts remain in the
+working queue until the account is eligible to post again.
+
 ## Approved copy
 
 ### Reddit — answer first, link second

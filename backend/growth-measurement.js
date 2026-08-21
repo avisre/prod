@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const SCHEMA_VERSION = 'growth-measurement-v1';
 const EVENT_NAMES = Object.freeze(new Set([
     'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started',
+    'source_opened', 'proof_view', 'second_session',
     'signup_completed', 'appsumo_redemption_started', 'appsumo_redemption_completed',
     'research_outcome_completed', 'activation_completed', 'stripe_checkout_created',
     'stripe_checkout_completed', 'subscription_started', 'invoice_paid',
@@ -24,6 +25,7 @@ const EVENT_NAMES = Object.freeze(new Set([
 
 const BROWSER_EVENTS = Object.freeze(new Set([
     'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started',
+    'source_opened', 'proof_view', 'second_session',
     'appsumo_landing_view', 'appsumo_cta_click'
 ]));
 

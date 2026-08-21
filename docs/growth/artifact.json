@@ -1,0 +1,247 @@
+{
+  "surface": "report",
+  "manifest": {
+    "version": 1,
+    "title": "StockPortfolio.pro — How to Get From ~$180 to $1,000",
+    "description": "Read-only forensic growth, customer behavior, acquisition and revenue audit as of 21 August 2026.",
+    "surface": "report",
+    "generatedAt": "2026-08-21T03:00:00+05:30",
+    "sources": [
+      {
+        "id": "appsumo-portal",
+        "label": "Authenticated AppSumo Partner Portal",
+        "query": {
+          "description": "Read-only product sales and transaction aggregates through 20 August 2026.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES (9, 801.00, 88.58, 183.97, 0, 122, 0.0164)) AS t(orders, gross_gmv_usd, discounts_usd, partner_revenue_usd, refunds, latest_7d_visitors, latest_7d_conversion_rate)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "filters": ["StockPortfolio.pro v1.X", "real payable-code orders", "through 2026-08-20"],
+          "metric_definitions": ["Gross GMV is pre-discount listed order value.", "Partner revenue is the portal-displayed partner payout/revenue after discounts and marketplace economics."]
+        }
+      },
+      {
+        "id": "product-db",
+        "label": "StockPortfolio production database and provider-usage reconciliation",
+        "query": {
+          "description": "Privacy-safe aggregate reconciliation of real AppSumo licences, redeemed users, funnel events, usage events and stored alert records.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES ('CUSTOMER-01','Investor',13,3,'Active'),('CUSTOMER-02','Pro',0,0,'Unredeemed'),('CUSTOMER-03','Pro',2,3,'Active'),('CUSTOMER-04','Investor',3,2,'Light'),('CUSTOMER-05','Pro',54,5,'Active'),('CUSTOMER-06','Starter',0,2,'Light'),('CUSTOMER-07','Starter',2,3,'Active/light'),('CUSTOMER-08','Starter',2,1,'Light'),('CUSTOMER-09','Investor',0,0,'Unredeemed')) AS t(customer,tier,ask_calls,active_days,status)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "tables_used": ["appsumolicenses", "users", "funnel_events", "ollama_usage_events", "alerts"],
+          "filters": ["exclude AppSumo QA licence", "exclude owner/developer/internal/test/bot actors", "nonempty exact identifiers only"],
+          "metric_definitions": ["Redeemed buyers are real payable-code orders linked to an active product account.", "Ask adoption is buyers with at least one completed provider-recorded Ask call divided by seven redeemed buyers."]
+        }
+      },
+      {
+        "id": "stripe-api",
+        "label": "Stripe official API",
+        "query": {
+          "description": "Read-only complete-list aggregate of subscriptions, checkout sessions, invoices, charges, refunds and disputes.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES (88,87,1,7.00,7.00,0.00,0,1)) AS t(checkout_sessions,expired_unpaid_sessions,paid_sessions,gross_gbp,refunds_gbp,net_gbp,disputes,cancelled_subscriptions)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "filters": ["live account", "complete pages", "no writes"],
+          "metric_definitions": ["Retained direct revenue equals successful direct charges less refunds in the reviewed account."]
+        }
+      },
+      {
+        "id": "search-sources",
+        "label": "Google Search Console and Bing Webmaster",
+        "query": {
+          "description": "Read-only search performance aggregates and privacy-filtered query/page rows.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES ('Google full',19,10016,0.0019,13.85),('Google 28d',5,1513,0.0033,24.19),('Google 7d',2,376,0.0053,54.42),('Bing 67d',38,3929,NULL,NULL)) AS t(window,clicks,impressions,ctr,average_position)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "filters": ["Google through 2026-08-18", "Bing traffic through 2026-08-18", "exclude non-additive dimension totals from aggregate reconstruction"],
+          "metric_definitions": ["Search clicks are search-engine clicks, not attributed customers."]
+        }
+      },
+      {
+        "id": "x-export",
+        "label": "X native Content export and sanitized campaign tracker",
+        "query": {
+          "description": "Native three-month post metrics through 11 August plus a manually classified subset.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES ('all native rows',123,4196,324,37,24,3),('classified originals',2,115,25,8,1,NULL),('classified replies',37,686,30,2,8,NULL)) AS t(segment,rows,impressions,engagements,link_clicks,profile_visits,follows)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "filters": ["StockPortfolio-related account activity", "tracker types used only for classified subset"],
+          "metric_definitions": ["Link clicks are native platform clicks and do not imply unique visitors or purchases."]
+        }
+      },
+      {
+        "id": "revenue-model",
+        "label": "Revenue path model from reviewed portal and live-price inputs",
+        "query": {
+          "description": "Scenario arithmetic for additional buyers needed to pass $1,000 founder proceeds.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES ('New Pro (90%)',7,149,844.83,'conditional'),('Existing Pro',24,149,829.68,'observed payout average'),('Blended LTD',40,89,817.64,'observed blended payout'),('Power annual',2,579,1158.00,'unvalidated direct'),('Desk annual',1,1961,1961.00,'unvalidated professional')) AS t(path,buyers_required,offer_price,estimated_incremental_proceeds,evidence_status)",
+          "executed_at": "2026-08-21T03:00:00+05:30",
+          "filters": ["current partner revenue $183.97", "target $1,000", "no future refunds in point estimates"],
+          "metric_definitions": ["Buyers required is the ceiling of the founder-proceeds gap divided by assumed proceeds per purchase."]
+        }
+      },
+      {
+        "id": "buyer-feature-model",
+        "label": "Privacy-safe redeemed-buyer feature reconciliation",
+        "query": {
+          "description": "Observed feature/action adoption among seven real redeemed buyers.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES ('Completed Ask',6,76,'provider usage'),('Summary/briefing',5,7,'provider usage'),('Stored alerts',4,45,'stored documents'),('Free-tool completion',1,15,'canonical events'),('Research share',1,1,'canonical event')) AS t(feature,buyers,uses,coverage)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "filters": ["seven redeemed real buyers", "exclude QA/internal/test/bot", "post-purchase activity"],
+          "metric_definitions": ["Buyers is the count with at least one observed action; zero and missing telemetry remain distinct in the detailed matrices."]
+        }
+      },
+      {
+        "id": "channel-reconciliation",
+        "label": "Cross-source revenue attribution reconciliation",
+        "query": {
+          "description": "Verified buyers and revenue by channel, using finance systems for orders and behavioral systems only for traffic.",
+          "engine": "DuckDB",
+          "language": "sql",
+          "sql": "SELECT * FROM (VALUES ('AppSumo checkout',9,801.00,183.97),('X',0,0.00,0.00),('Google organic',0,0.00,0.00),('Bing organic',0,0.00,0.00),('Direct Stripe',0,0.00,0.00)) AS t(channel,verified_buyers,gross_usd,founder_revenue_usd)",
+          "executed_at": "2026-08-21T02:00:00+05:30",
+          "filters": ["orders require AppSumo Portal or retained Stripe payment evidence", "missing source remains unknown", "no assisted-channel guessing"],
+          "metric_definitions": ["Verified buyers require an order-level finance-system record and attributable channel evidence; zero attributable does not prove zero influence."]
+        }
+      }
+    ],
+    "cards": [
+      {
+        "id": "gross-card",
+        "dataset": "headline",
+        "metrics": [
+          {"label": "Gross GMV", "field": "gross_gmv", "format": "currency"},
+          {"label": "Gap to $1k", "field": "gross_gap", "format": "currency"}
+        ],
+        "sourceId": "appsumo-portal"
+      },
+      {
+        "id": "proceeds-card",
+        "dataset": "headline",
+        "metrics": [
+          {"label": "Partner revenue", "field": "partner_revenue", "format": "currency"},
+          {"label": "Gap to $1k", "field": "proceeds_gap", "format": "currency"}
+        ],
+        "sourceId": "appsumo-portal"
+      },
+      {
+        "id": "orders-card",
+        "dataset": "headline",
+        "metrics": [
+          {"label": "Orders", "field": "orders", "format": "number"},
+          {"label": "Refunds", "field": "refunds", "format": "number"}
+        ],
+        "sourceId": "appsumo-portal"
+      },
+      {
+        "id": "activation-card",
+        "dataset": "headline",
+        "metrics": [
+          {"label": "Redeemed", "field": "redeemed", "format": "number"},
+          {"label": "Of orders", "field": "redemption_rate", "format": "percent"}
+        ],
+        "sourceId": "product-db"
+      },
+      {
+        "id": "ask-card",
+        "dataset": "headline",
+        "metrics": [
+          {"label": "Ask adoption", "field": "ask_adoption", "format": "percent"},
+          {"label": "Completed calls", "field": "ask_calls", "format": "number"}
+        ],
+        "sourceId": "product-db"
+      }
+    ],
+    "charts": [
+      {
+        "id": "buyer-usage-chart",
+        "title": "Feature adoption",
+        "type": "bar",
+        "dataset": "buyer_features",
+        "encodings": {
+          "x": {"field": "feature", "type": "nominal", "title": "Feature"},
+          "y": {"field": "buyers", "type": "quantitative", "title": "Buyers observed"}
+        },
+        "options": {"orientation": "vertical", "showLegend": false, "showValues": true},
+        "sourceId": "buyer-feature-model"
+      }
+    ],
+    "tables": [],
+    "blocks": [
+      {"id": "title", "type": "markdown", "body": "# StockPortfolio.pro — How to Get From ~$180 to $1,000"},
+      {"id": "summary", "type": "markdown", "body": "## Executive Summary\nNine real AppSumo orders produced $801 gross GMV and $183.97 in partner revenue with zero recorded refunds through 20 August. Seven orders redeemed; six redeemed buyers used Ask. AppSumo is the only proven transaction channel, but original discovery is known for only one buyer. The shortest evidence-constrained founder-proceeds test is seven genuinely new-to-AppSumo Tier 3 buyers through the portal's advertised 90% partner link—validated on the first order. Two Tier 3 orders already close the separate $1,000 gross-GMV target."},
+      {"id": "headline-strip", "type": "metric-strip", "cardIds": ["gross-card", "proceeds-card", "orders-card", "activation-card", "ask-card"]},
+      {"id": "customer-heading", "type": "markdown", "body": "## What Current Buyers Actually Do\nCompleted Ask is the clearest observed post-purchase value action: six of seven redeemed buyers made 76 calls, but one Tier 3 buyer accounts for 54. Page telemetry is a lower bound because only four buyers have attributable page views. Only one buyer has an observable product journey before purchase, so the purchase aha moment remains unknown."},
+      {"id": "buyer-usage", "type": "chart", "chartId": "buyer-usage-chart"},
+      {"id": "channel-heading", "type": "markdown", "body": "## Acquisition and Leakage\nThe latest AppSumo card shows 122 unique visitors, two orders and 1.64% conversion. That visitor-to-order step is the largest measured leak. X, Google and Bing generate clicks but no attributable customers; missing attribution means they are unproven, not necessarily uninfluential."},
+      {"id": "revenue-heading", "type": "markdown", "body": "## Revenue Decision\nTwo more $149 Tier 3 orders take gross GMV from $801 to $1,099. Founder proceeds are harder: 24 more Tier 3 orders at the historical Tier 3 payout, 40 at the blended payout, or seven eligible new-to-AppSumo Tier 3 orders under an illustrative 10% discount and advertised 90% partner share. The first partner-link order is the economic gate."},
+      {"id": "recommendation", "type": "markdown", "body": "## Recommendation\nSell the existing Tier 3 offer with one repeatable source-backed workflow: ask a company question, show the period and filing evidence, open the source, and state the limitation. Target serious US-equity researchers who are new to AppSumo. Do not delay the test for API, MCP, TradingView integration, more tools, broad SEO pages or a new pricing tier. Re-model immediately if the first referred order does not receive the advertised new-customer economics."},
+      {"id": "caveats", "type": "markdown", "body": "## Caveats\nThe cohort is only nine orders and seven redeemed users. Eight buyer discovery sources are unknown. AppSumo LTD behavior may not transfer to subscribers. One heavy Ask user distorts averages. GA4 current API access is blocked, Clarity is observational, search impressions are not commercial intent, and the 90% partner route has not yet produced an order. Every recommendation is a bounded experiment with a kill criterion, not a forecast."}
+    ]
+  },
+  "snapshot": {
+    "version": 1,
+    "status": "partial",
+    "generatedAt": "2026-08-21T03:00:00+05:30",
+    "accessIssues": [
+      {
+        "source": "GA4 property 490788259",
+        "message": "Google Analytics Data API is disabled or has never been used in GCP project 697172610671, so current GA4 funnel validation is unavailable."
+      }
+    ],
+    "datasets": {
+      "headline": [
+        {"gross_gmv": 801, "gross_gap": 199, "partner_revenue": 183.97, "proceeds_gap": 816.03, "orders": 9, "refunds": 0, "redeemed": 7, "redemption_rate": 0.7777778, "ask_adoption": 0.8571429, "ask_calls": 76}
+      ],
+      "revenue_paths": [
+        {"path": "New Pro (90%)", "buyers_required": 7, "offer_price": 149, "estimated_incremental_proceeds": 844.83, "current_partner_revenue": 183.97, "target": 1000, "evidence_status": "conditional; validate first order"},
+        {"path": "Existing Pro", "buyers_required": 24, "offer_price": 149, "estimated_incremental_proceeds": 829.68, "current_partner_revenue": 183.97, "target": 1000, "evidence_status": "historical Tier 3 payout average"},
+        {"path": "Blended LTD", "buyers_required": 40, "offer_price": 89, "estimated_incremental_proceeds": 817.64, "current_partner_revenue": 183.97, "target": 1000, "evidence_status": "historical blended payout"},
+        {"path": "Power annual", "buyers_required": 2, "offer_price": 579, "estimated_incremental_proceeds": 1158, "current_partner_revenue": 183.97, "target": 1000, "evidence_status": "no retained direct-sale proof"},
+        {"path": "Desk annual", "buyers_required": 1, "offer_price": 1961, "estimated_incremental_proceeds": 1961, "current_partner_revenue": 183.97, "target": 1000, "evidence_status": "fastest arithmetic; unvalidated segment"}
+      ],
+      "buyer_features": [
+      {"feature": "Ask", "buyers": 6, "redeemed_buyers": 7, "uses": 76, "coverage": "provider usage", "repeat_note": "one buyer generated 54 calls"},
+      {"feature": "Summary", "buyers": 5, "redeemed_buyers": 7, "uses": 7, "coverage": "provider usage", "repeat_note": "low volume"},
+      {"feature": "Alerts", "buyers": 4, "redeemed_buyers": 7, "uses": 45, "coverage": "stored documents", "repeat_note": "does not prove opens"},
+      {"feature": "Free tools", "buyers": 1, "redeemed_buyers": 7, "uses": 15, "coverage": "canonical events", "repeat_note": "post-purchase only"},
+      {"feature": "Share", "buyers": 1, "redeemed_buyers": 7, "uses": 1, "coverage": "canonical event", "repeat_note": "too rare to infer"}
+      ],
+      "channels": [
+        {"channel": "AppSumo checkout", "verified_buyers": 9, "gross_usd": 801, "founder_revenue_usd": 183.97, "traffic_or_clicks": 122, "traffic_window": "latest 7-day visitor card", "conclusion": "only proven transaction channel"},
+        {"channel": "X", "verified_buyers": 0, "gross_usd": 0, "founder_revenue_usd": 0, "traffic_or_clicks": 37, "traffic_window": "native 3-month export through Aug 11", "conclusion": "clicks; no attributable buyer"},
+        {"channel": "Google organic", "verified_buyers": 0, "gross_usd": 0, "founder_revenue_usd": 0, "traffic_or_clicks": 19, "traffic_window": "May 11–Aug 18", "conclusion": "comparison clicks; no attributable buyer"},
+        {"channel": "Bing organic", "verified_buyers": 0, "gross_usd": 0, "founder_revenue_usd": 0, "traffic_or_clicks": 38, "traffic_window": "67 days through Aug 18", "conclusion": "real traffic; buyer outcome unknown"},
+        {"channel": "Direct Stripe", "verified_buyers": 0, "gross_usd": 0, "founder_revenue_usd": 0, "traffic_or_clicks": 88, "traffic_window": "all checkout sessions", "conclusion": "one GBP 7 payment fully refunded"}
+      ],
+      "customers": [
+        {"customer": "CUSTOMER-01", "tier": "Investor", "discovery": "Unknown", "ask_calls": 13, "active_days": 3, "status": "Active", "gross_usd": 79, "partner_revenue_usd": 16.35},
+        {"customer": "CUSTOMER-02", "tier": "Pro", "discovery": "Unknown", "ask_calls": 0, "active_days": 0, "status": "Unredeemed", "gross_usd": 149, "partner_revenue_usd": 31.52},
+        {"customer": "CUSTOMER-03", "tier": "Pro", "discovery": "Unknown", "ask_calls": 2, "active_days": 3, "status": "Active", "gross_usd": 149, "partner_revenue_usd": 36.24},
+        {"customer": "CUSTOMER-04", "tier": "Investor", "discovery": "Unknown", "ask_calls": 3, "active_days": 2, "status": "Light", "gross_usd": 79, "partner_revenue_usd": 17.34},
+        {"customer": "CUSTOMER-05", "tier": "Pro", "discovery": "AppSumo, high confidence", "ask_calls": 54, "active_days": 5, "status": "Active", "gross_usd": 149, "partner_revenue_usd": 35.95},
+        {"customer": "CUSTOMER-06", "tier": "Starter", "discovery": "Unknown", "ask_calls": 0, "active_days": 2, "status": "Light", "gross_usd": 39, "partner_revenue_usd": 9.43},
+        {"customer": "CUSTOMER-07", "tier": "Starter", "discovery": "Unknown", "ask_calls": 2, "active_days": 3, "status": "Active/light", "gross_usd": 39, "partner_revenue_usd": 8.87},
+        {"customer": "CUSTOMER-08", "tier": "Starter", "discovery": "Unknown/contaminated", "ask_calls": 2, "active_days": 1, "status": "Light", "gross_usd": 39, "partner_revenue_usd": 9.22},
+        {"customer": "CUSTOMER-09", "tier": "Investor", "discovery": "Unknown", "ask_calls": 0, "active_days": 0, "status": "Unredeemed, <1 day", "gross_usd": 79, "partner_revenue_usd": 19.05}
+      ]
+    }
+  },
+  "sources": [
+    {"id": "public-listing", "label": "StockPortfolio.pro AppSumo listing", "href": "https://appsumo.com/products/stockportfoliopro/"},
+    {"id": "appsumo-payment-policy", "label": "AppSumo partner payment policy", "href": "https://appsumo.com/partner-terms/payment-policy/"},
+    {"id": "production-site", "label": "StockPortfolio.pro", "href": "https://www.stockportfolio.pro/"}
+  ],
+  "package_info": {
+    "title": "StockPortfolio.pro forensic growth audit",
+    "generated_at": "2026-08-21T03:00:00+05:30"
+  }
+}

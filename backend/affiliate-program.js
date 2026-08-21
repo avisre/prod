@@ -12,6 +12,18 @@ const mongoose = require('mongoose');
 const COOKIE_NAME = 'sp_aff_ref';
 const DEFAULT_ATTRIBUTION_DAYS = 60;
 const DEFAULT_APP_SUMO_DESTINATION = 'appsumo';
+const CURRENT_TERMS_VERSION = 'customer-ambassador-v1-2026-08-13';
+const STRIPE_COMMISSION_RATE_BPS = Object.freeze({
+    monthly: 3000,
+    annual: 3000,
+    pro: 3000,
+    'pro-annual': 3000,
+    power: 3000,
+    'power-monthly': 3000,
+    desk: 2000,
+    firm: 1000,
+    enterprise: 1000
+});
 const STATUS_VALUES = [
     'needs_support', 'needs_onboarding', 'successful_user', 'ambassador_invited',
     'ambassador_active', 'declined', 'unresponsive'
@@ -123,7 +135,7 @@ function commissionRateBps(planId, { appsumo = false, desk = false, firm = false
     const plan = String(planId || '').toLowerCase();
     if (firm || plan === 'firm' || plan === 'enterprise') return 1000;
     if (desk || plan === 'desk') return 2000;
-    return 3000;
+    return STRIPE_COMMISSION_RATE_BPS[plan] || 0;
 }
 
 function calculateCommission({ eligibleBasisMinor, planId, billingInterval, appsumo = false, desk = false, firm = false } = {}) {
@@ -132,8 +144,88 @@ function calculateCommission({ eligibleBasisMinor, planId, billingInterval, apps
     return { basisMinor: basis, rateBps, amountMinor: Math.floor((basis * rateBps) / 10000) };
 }
 
+function summarizeCommissionsByCurrency(commissions = []) {
+    const totalsByCurrency = {};
+    for (const commission of commissions || []) {
+        const currency = String(commission?.currency || 'usd').toLowerCase().slice(0, 8) || 'usd';
+        const totals = totalsByCurrency[currency] || (totalsByCurrency[currency] = {
+            count: 0,
+            basisMinor: 0,
+            amountMinor: 0,
+            reversalMinor: 0,
+            netMinor: 0,
+            pendingMinor: 0,
+            approvedMinor: 0,
+            paidMinor: 0,
+            reversedMinor: 0
+        });
+        const amount = Math.max(0, Number(commission?.amountMinor || 0));
+        const reversal = Math.min(amount, Math.max(0, Number(commission?.reversalMinor || 0)));
+        const net = Math.max(0, amount - reversal);
+        totals.count++;
+        totals.basisMinor += Math.max(0, Number(commission?.basisMinor || 0));
+        totals.amountMinor += amount;
+        totals.reversalMinor += reversal;
+        totals.reversedMinor += reversal;
+        totals.netMinor += net;
+        if (commission?.status === 'pending') totals.pendingMinor += net;
+        else if (commission?.status === 'approved') totals.approvedMinor += net;
+        else if (commission?.status === 'paid') totals.paidMinor += net;
+    }
+    return totalsByCurrency;
+}
+
+function combineCommissionCurrencyTotals(totalsByCurrency = {}) {
+    return Object.values(totalsByCurrency).reduce((combined, totals) => {
+        for (const key of ['pendingMinor', 'approvedMinor', 'paidMinor', 'reversedMinor']) {
+            combined[key] += Math.max(0, Number(totals?.[key] || 0));
+        }
+        return combined;
+    }, { pendingMinor: 0, approvedMinor: 0, paidMinor: 0, reversedMinor: 0 });
+}
+
+function selectPayoutEligibleCommissions(commissions = [], minAmountMinor = 10000) {
+    const minimum = Math.max(10000, Math.floor(Number(minAmountMinor) || 10000));
+    const byProfile = new Map();
+    for (const commission of commissions || []) {
+        const profileId = String(commission?.affiliateProfileId || '');
+        if (!profileId) continue;
+        const netMinor = Math.max(0, Math.floor(Number(commission?.amountMinor || 0) - Number(commission?.reversalMinor || 0)));
+        const group = byProfile.get(profileId) || { profileId, totalMinor: 0, commissions: [] };
+        group.totalMinor += netMinor;
+        group.commissions.push(commission);
+        byProfile.set(profileId, group);
+    }
+    const qualifyingProfiles = [...byProfile.values()].filter((group) => group.totalMinor >= minimum);
+    const eligibleCommissions = qualifyingProfiles.flatMap((group) => group.commissions);
+    return {
+        minimumMinor: minimum,
+        eligibleCommissions,
+        qualifyingProfiles: qualifyingProfiles.map(({ profileId, totalMinor }) => ({ profileId, totalMinor })),
+        totalMinor: qualifyingProfiles.reduce((total, group) => total + group.totalMinor, 0),
+        excludedProfiles: byProfile.size - qualifyingProfiles.length
+    };
+}
+
 function isMonthlyEligible(sequence) { return Number(sequence) >= 1 && Number(sequence) <= 12; }
 function isAnnualEligible(sequence) { return Number(sequence) === 1; }
+
+function hasVerifiedStripeSubscription(user = {}) {
+    const status = String(user?.subscription?.status || '');
+    return Boolean(
+        (user.stripeCustomerId || user.stripeSubscriptionId)
+        && ['active', 'cancel_at_period_end'].includes(status)
+    );
+}
+
+function canAcceptAmbassadorInvite({ profile, user, appSumoLicenseActive = false } = {}) {
+    if (!profile || !user) return false;
+    const genuinelyInvited = profile.status === 'invited'
+        && profile.customerStatus === 'ambassador_invited'
+        && Boolean(profile.invitedAt);
+    const verifiedCustomer = Boolean(appSumoLicenseActive) || hasVerifiedStripeSubscription(user);
+    return genuinelyInvited && verifiedCustomer;
+}
 
 const AffiliateProfileSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true, index: true },
@@ -141,6 +233,7 @@ const AffiliateProfileSchema = new mongoose.Schema({
     customerStatus: { type: String, enum: STATUS_VALUES, default: 'ambassador_invited', index: true },
     status: { type: String, enum: PROFILE_STATUS_VALUES, default: 'invited', index: true },
     termsAcceptedAt: { type: Date, default: null },
+    termsVersion: { type: String, default: null, maxlength: 80 },
     invitedAt: { type: Date, default: null },
     activatedAt: { type: Date, default: null },
     suspendedAt: { type: Date, default: null },
@@ -189,6 +282,8 @@ const CommissionSchema = new mongoose.Schema({
     referralOrderId: { type: mongoose.Schema.Types.ObjectId, ref: 'ReferralOrder', required: true },
     provider: { type: String, enum: ['stripe', 'appsumo'], required: true },
     invoiceId: { type: String, default: null },
+    paymentIntentId: { type: String, default: null, index: true },
+    chargeId: { type: String, default: null, index: true },
     sequence: { type: Number, default: 1 },
     currency: { type: String, default: 'usd', lowercase: true },
     basisMinor: { type: Number, required: true, min: 0 },
@@ -197,6 +292,8 @@ const CommissionSchema = new mongoose.Schema({
     holdUntil: { type: Date, required: true, index: true },
     status: { type: String, enum: ['pending', 'approved', 'reversed', 'paid'], default: 'pending', index: true },
     reversalMinor: { type: Number, default: 0 },
+    refundedBasisMinor: { type: Number, default: 0, min: 0 },
+    reversalMetadata: { type: mongoose.Schema.Types.Mixed, default: {} },
     reason: { type: String, default: null, maxlength: 240 },
     paidAt: { type: Date, default: null },
     payoutBatchId: { type: mongoose.Schema.Types.ObjectId, ref: 'PayoutBatch', default: null }
@@ -253,6 +350,9 @@ function publicProfile(profile, baseUrl = '') {
         status: profile.status,
         customerStatus: profile.customerStatus,
         termsAcceptedAt: profile.termsAcceptedAt || null,
+        termsVersion: profile.termsVersion || null,
+        currentTermsVersion: CURRENT_TERMS_VERSION,
+        termsCurrent: profile.termsVersion === CURRENT_TERMS_VERSION,
         invitedAt: profile.invitedAt || null,
         activatedAt: profile.activatedAt || null,
         disclosure: profile.disclosure
@@ -284,7 +384,15 @@ function safeDestination(value) {
 async function findProfileForReferral(referral, { userId = null, now = new Date() } = {}) {
     if (!referral || mongoose.connection.readyState !== 1) return null;
     const { AffiliateProfile, ReferralClick } = models();
-    const profile = await AffiliateProfile.findOne({ slug: referral.slug, status: 'active' }).lean();
+    // `termsVersion` is intentionally not required here so genuinely invited
+    // ambassadors who accepted the original unversioned Release-1 terms keep
+    // working. New activations always record CURRENT_TERMS_VERSION.
+    const profile = await AffiliateProfile.findOne({
+        slug: referral.slug,
+        status: 'active',
+        invitedAt: { $ne: null },
+        termsAcceptedAt: { $ne: null }
+    }).lean();
     if (!profile || (userId && String(profile.userId) === String(userId))) return null;
     const click = await ReferralClick.findOne({
         clickId: referral.clickId,
@@ -363,6 +471,72 @@ function stripeMetadataFromObject(payload = {}) {
     return candidates.find((value) => value && typeof value === 'object' && (value.affiliateProfileId || value.referralClickId)) || {};
 }
 
+function stripeObjectId(value) {
+    if (typeof value === 'string') return value.trim() || null;
+    if (value && typeof value === 'object' && typeof value.id === 'string') return value.id.trim() || null;
+    return null;
+}
+
+function stripeReversalIdentifiers(payload = {}, eventType = '') {
+    const type = String(eventType || '');
+    const metadata = payload && typeof payload.metadata === 'object' ? payload.metadata : {};
+    const refundRows = Array.isArray(payload?.refunds?.data) ? payload.refunds.data : [];
+    return {
+        invoiceId: stripeObjectId(payload.invoice) || stripeObjectId(metadata.invoiceId),
+        paymentIntentId: stripeObjectId(payload.payment_intent || payload.paymentIntent) || stripeObjectId(metadata.paymentIntentId),
+        chargeId: type === 'charge.refunded'
+            ? stripeObjectId(payload.id)
+            : (stripeObjectId(payload.charge) || stripeObjectId(metadata.chargeId)),
+        checkoutSessionId: stripeObjectId(metadata.checkoutSessionId),
+        refundIds: refundRows.map((row) => stripeObjectId(row)).filter(Boolean)
+            .concat(type === 'refund.created' ? [stripeObjectId(payload.id)].filter(Boolean) : [])
+    };
+}
+
+async function findStripeOrderForReversal(payload, eventType) {
+    const { ReferralOrder, Commission } = models();
+    const ids = stripeReversalIdentifiers(payload, eventType);
+    const clauses = [];
+    if (ids.invoiceId) clauses.push({ 'metadata.invoiceId': ids.invoiceId });
+    if (ids.paymentIntentId) clauses.push({ 'metadata.paymentIntentId': ids.paymentIntentId });
+    if (ids.chargeId) clauses.push({ 'metadata.chargeId': ids.chargeId });
+    if (ids.checkoutSessionId) clauses.push({ providerOrderId: ids.checkoutSessionId });
+
+    const candidateIds = new Set();
+    if (clauses.length) {
+        const rows = await ReferralOrder.find({ provider: 'stripe', $or: clauses }, { _id: 1 }).limit(3).lean();
+        rows.forEach((row) => candidateIds.add(String(row._id)));
+    }
+    // Older attributed orders may predate the metadata fields. The commission
+    // invoice id remains an exact, non-customer fallback for those records.
+    if (ids.invoiceId) {
+        const rows = await Commission.find({ provider: 'stripe', invoiceId: ids.invoiceId }, { referralOrderId: 1 }).limit(3).lean();
+        rows.forEach((row) => candidateIds.add(String(row.referralOrderId)));
+    }
+    if (!candidateIds.size) return { order: null, ids, reason: 'no_order' };
+    if (candidateIds.size !== 1) return { order: null, ids, reason: 'ambiguous_order' };
+    const order = await ReferralOrder.findOne({ _id: [...candidateIds][0], provider: 'stripe' });
+    return order ? { order, ids, reason: null } : { order: null, ids, reason: 'no_order' };
+}
+
+async function findStripeCommissionForReversal(orderId, ids) {
+    const { Commission } = models();
+    const clauses = [];
+    if (ids.invoiceId) clauses.push({ invoiceId: ids.invoiceId });
+    if (ids.paymentIntentId) clauses.push({ paymentIntentId: ids.paymentIntentId });
+    if (ids.chargeId) clauses.push({ chargeId: ids.chargeId });
+    if (!clauses.length) return { commission: null, reason: 'no_commission_identifier' };
+    const rows = await Commission.find({
+        referralOrderId: orderId,
+        provider: 'stripe',
+        $or: clauses
+    }).limit(2);
+    if (rows.length !== 1) {
+        return { commission: null, reason: rows.length ? 'ambiguous_commission' : 'no_commission' };
+    }
+    return { commission: rows[0], reason: null };
+}
+
 async function recordStripeCheckout({ payload, user } = {}) {
     if (!isEnabled() || !payload || mongoose.connection.readyState !== 1) return { recorded: false, reason: 'disabled' };
     const metadata = stripeMetadataFromObject(payload);
@@ -375,10 +549,15 @@ async function recordStripeCheckout({ payload, user } = {}) {
         const order = await ReferralOrder.findOneAndUpdate(
             { provider: 'stripe', providerOrderId: String(payload.id) },
             { $set: {
-                providerCustomerId: payload.customer || null, subscriptionId: payload.subscription || null,
+                providerCustomerId: stripeObjectId(payload.customer), subscriptionId: stripeObjectId(payload.subscription),
                 affiliateProfileId: profile._id, referralClickId: click.clickId, customerUserId: user?._id || null,
                 planId: metadata.planId || null, billingInterval: metadata.billingInterval || null,
-                status: 'checkout_started', metadata: { checkoutSessionId: String(payload.id) }
+                status: 'checkout_started', metadata: {
+                    checkoutSessionId: String(payload.id),
+                    paymentIntentId: stripeObjectId(payload.payment_intent),
+                    invoiceId: stripeObjectId(payload.invoice),
+                    chargeId: stripeObjectId(payload.charge)
+                }
             } },
             { upsert: true, new: true, setDefaultsOnInsert: true }
         );
@@ -393,15 +572,17 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
     if (!id) return { recorded: false, reason: 'missing_event_id' };
     const metadata = stripeMetadataFromObject(payload);
     const subscriptionId = typeof payload.subscription === 'string' ? payload.subscription : payload.subscription?.id;
-    const order = await ReferralOrder.findOne({
-        provider: 'stripe',
-        $or: [
-            ...(subscriptionId ? [{ subscriptionId }] : []),
-            ...(payload.customer ? [{ providerCustomerId: String(payload.customer) }] : []),
-            ...(metadata.affiliateProfileId && metadata.referralClickId ? [{ affiliateProfileId: metadata.affiliateProfileId, referralClickId: metadata.referralClickId }] : [])
-        ]
-    }).sort({ createdAt: -1 });
-    if (!order || order.status === 'ineligible_existing_customer') return { recorded: false, reason: 'no_attributed_order' };
+    const exactOrderClauses = [
+        ...(subscriptionId ? [{ subscriptionId }] : []),
+        ...(metadata.affiliateProfileId && metadata.referralClickId
+            ? [{ affiliateProfileId: metadata.affiliateProfileId, referralClickId: metadata.referralClickId }]
+            : [])
+    ];
+    if (!exactOrderClauses.length) return { recorded: false, reason: 'no_attributed_order' };
+    const matchingOrders = await ReferralOrder.find({ provider: 'stripe', $or: exactOrderClauses }).sort({ createdAt: -1 }).limit(2);
+    if (matchingOrders.length !== 1) return { recorded: false, reason: matchingOrders.length ? 'ambiguous_attributed_order' : 'no_attributed_order' };
+    const order = matchingOrders[0];
+    if (order.status === 'ineligible_existing_customer') return { recorded: false, reason: 'no_attributed_order' };
     try {
         await ProcessedWebhookEvent.create({ provider: 'stripe', eventId: id, eventType: 'invoice.paid' });
     } catch (error) {
@@ -417,7 +598,7 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
         order.status = 'ineligible_existing_customer'; await order.save(); return { recorded: false, reason: 'existing_customer' };
     }
     const interval = order.billingInterval || metadata.billingInterval || 'month';
-    const priorCount = await Commission.countDocuments({ referralOrderId: order._id, provider: 'stripe', status: { $ne: 'reversed' } });
+    const priorCount = await Commission.countDocuments({ referralOrderId: order._id, provider: 'stripe' });
     const sequence = priorCount + 1;
     if (interval === 'year' ? !isAnnualEligible(sequence) : !isMonthlyEligible(sequence)) {
         order.status = 'paid'; order.purchasedAt = order.purchasedAt || new Date((payload.status_transitions?.paid_at || payload.created || Date.now()) * 1000); await order.save();
@@ -430,45 +611,119 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
         { referralOrderId: order._id, invoiceId: String(payload.id) },
         { $setOnInsert: {
             affiliateProfileId: order.affiliateProfileId, referralOrderId: order._id, provider: 'stripe', invoiceId: String(payload.id), sequence,
+            paymentIntentId: stripeObjectId(payload.payment_intent), chargeId: stripeObjectId(payload.charge),
             currency: String(payload.currency || order.currency || 'usd').toLowerCase(), basisMinor: calculation.basisMinor,
             rateBps: calculation.rateBps, amountMinor: calculation.amountMinor,
             holdUntil: new Date(Date.now() + 30 * 86400000), status: 'pending'
         } },
         { upsert: true, new: true, setDefaultsOnInsert: true }
     );
-    order.status = 'paid'; order.grossCollectedMinor = gross; order.eligibleBasisMinor = calculation.basisMinor; order.purchasedAt = order.purchasedAt || new Date(); await order.save();
+    order.status = 'paid'; order.grossCollectedMinor = gross; order.eligibleBasisMinor = calculation.basisMinor; order.purchasedAt = order.purchasedAt || new Date();
+    order.metadata = {
+        ...(order.metadata || {}),
+        invoiceId: String(payload.id),
+        paymentIntentId: stripeObjectId(payload.payment_intent) || order.metadata?.paymentIntentId || null,
+        chargeId: stripeObjectId(payload.charge) || order.metadata?.chargeId || null
+    };
+    order.markModified('metadata');
+    await order.save();
     await ReferralClick.updateOne({ clickId: order.referralClickId }, { $set: { convertedAt: order.purchasedAt } });
     return { recorded: true, commissionId: commission._id, amountMinor: calculation.amountMinor, sequence };
 }
 
-async function reverseStripeCommission({ payload, reason = 'refund' } = {}) {
+async function reverseStripeCommission({ payload, reason = 'refund', eventId, eventType } = {}) {
     if (!isEnabled() || !payload || mongoose.connection.readyState !== 1) return { reversed: false, reason: 'disabled' };
-    const { ReferralOrder, Commission } = models();
-    const paymentIntent = payload.payment_intent || payload.paymentIntent || null;
-    const order = await ReferralOrder.findOne({ provider: 'stripe', $or: [
-        ...(payload.invoice ? [{ providerOrderId: String(payload.invoice) }] : []),
-        ...(paymentIntent ? [{ 'metadata.paymentIntent': String(paymentIntent) }] : []),
-        ...(payload.customer ? [{ providerCustomerId: String(payload.customer) }] : [])
-    ] }).sort({ createdAt: -1 });
-    if (!order) return { reversed: false, reason: 'no_order' };
-    const eventAmount = Number(payload.amount_refunded);
-    const refundAmount = Number(payload.amount);
-    // Charge events expose a cumulative amount_refunded. Refund events expose
-    // only that refund's amount, so add it to the amount already reconciled.
-    // This keeps repeated partial refunds idempotent and lets a later complete
-    // refund reach the full commission reversal.
-    const amount = Number.isFinite(eventAmount) && eventAmount >= 0
-        ? eventAmount
-        : Math.max(0, Number(order.refundedMinor || 0) + (Number.isFinite(refundAmount) ? refundAmount : 0));
-    const commissions = await Commission.find({ referralOrderId: order._id, status: { $in: ['pending', 'approved', 'paid'] } });
-    for (const commission of commissions) {
-        const reversal = Math.min(commission.amountMinor, Math.floor(amount * commission.rateBps / 10000));
-        commission.reversalMinor = Math.max(commission.reversalMinor || 0, reversal);
-        if (reason === 'dispute' || commission.reversalMinor >= commission.amountMinor) commission.status = 'reversed';
-        commission.reason = String(reason).slice(0, 240); await commission.save();
+    const { ProcessedWebhookEvent } = models();
+    const id = String(eventId || '');
+    const type = String(eventType || (reason === 'dispute' ? 'charge.dispute.created' : 'refund.created'));
+    if (!id) return { reversed: false, reason: 'missing_event_id' };
+    const matched = await findStripeOrderForReversal(payload, type);
+    if (!matched.order) return { reversed: false, reason: matched.reason };
+    const order = matched.order;
+    const commissionMatch = await findStripeCommissionForReversal(order._id, matched.ids);
+    if (!commissionMatch.commission) return { reversed: false, reason: commissionMatch.reason };
+    const commission = commissionMatch.commission;
+
+    let ledger;
+    try {
+        ledger = await ProcessedWebhookEvent.create({ provider: 'stripe', eventId: id, eventType: type });
+    } catch (error) {
+        if (error?.code === 11000) return { reversed: false, duplicate: true };
+        return { reversed: false, reason: 'ledger_error' };
     }
-    order.refundedMinor = Math.max(order.refundedMinor || 0, amount); order.status = reason === 'dispute' ? 'disputed' : 'refunded'; order.refundedAt = new Date(); await order.save();
-    return { reversed: true, commissions: commissions.length };
+
+    try {
+        const metadata = { ...(commission.reversalMetadata || {}) };
+        const processedRefundIds = new Set(Array.isArray(metadata.processedRefundIds) ? metadata.processedRefundIds.map(String) : []);
+        const alreadyKnownRefund = matched.ids.refundIds.some((refundId) => processedRefundIds.has(refundId));
+        const cumulativeAmount = Number(payload.amount_refunded);
+        const incrementalAmount = Number(payload.amount);
+        const reconstructedRefundBasis = Number(commission.rateBps || 0) > 0
+            ? Math.ceil(Number(commission.reversalMinor || 0) * 10000 / Number(commission.rateBps))
+            : 0;
+        let refundTotal = Math.max(Number(commission.refundedBasisMinor || 0), reconstructedRefundBasis);
+
+        if (reason !== 'dispute') {
+            if (type === 'charge.refunded') {
+                if (!Number.isFinite(cumulativeAmount) || cumulativeAmount < 0) {
+                    ledger.result = 'invalid_refund_amount'; await ledger.save();
+                    return { reversed: false, reason: 'invalid_refund_amount' };
+                }
+                refundTotal = Math.max(refundTotal, Math.floor(cumulativeAmount));
+                metadata.stripeRefundMode = 'cumulative';
+            } else if (alreadyKnownRefund) {
+                ledger.result = 'duplicate_refund_object'; await ledger.save();
+                return { reversed: false, duplicate: true };
+            } else if (metadata.stripeRefundMode === 'cumulative') {
+                // A charge.refunded event has already supplied Stripe's
+                // authoritative cumulative amount. Do not add the same refund
+                // again when its refund.created companion arrives.
+                matched.ids.refundIds.forEach((refundId) => processedRefundIds.add(refundId));
+                metadata.processedRefundIds = [...processedRefundIds].slice(-100);
+                commission.reversalMetadata = metadata; commission.markModified('reversalMetadata'); await commission.save();
+                ledger.result = 'covered_by_cumulative_refund'; await ledger.save();
+                return { reversed: false, duplicate: true };
+            } else {
+                if (!Number.isFinite(incrementalAmount) || incrementalAmount < 0) {
+                    ledger.result = 'invalid_refund_amount'; await ledger.save();
+                    return { reversed: false, reason: 'invalid_refund_amount' };
+                }
+                refundTotal = Math.max(0, refundTotal + Math.floor(incrementalAmount));
+                metadata.stripeRefundMode = 'incremental';
+            }
+        }
+
+        matched.ids.refundIds.forEach((refundId) => processedRefundIds.add(refundId));
+        metadata.processedRefundIds = [...processedRefundIds].slice(-100);
+        const reversal = reason === 'dispute'
+            ? Number(commission.amountMinor || 0)
+            : Math.min(Number(commission.amountMinor || 0), Math.floor(refundTotal * Number(commission.rateBps || 0) / 10000));
+        const prior = Number(commission.reversalMinor || 0);
+        commission.reversalMinor = Math.max(prior, reversal);
+        commission.refundedBasisMinor = Math.max(Number(commission.refundedBasisMinor || 0), refundTotal);
+        commission.reversalMetadata = metadata;
+        commission.markModified('reversalMetadata');
+        if (reason === 'dispute' || commission.reversalMinor >= commission.amountMinor) commission.status = 'reversed';
+        commission.reason = String(reason).slice(0, 240);
+        const changed = commission.isModified() ? 1 : 0;
+        if (changed) await commission.save();
+        const aggregate = await models().Commission.aggregate([
+            { $match: { referralOrderId: order._id, provider: 'stripe' } },
+            { $group: { _id: null, total: { $sum: '$refundedBasisMinor' } } }
+        ]);
+        order.refundedMinor = Math.max(0, Number(aggregate[0]?.total || 0));
+        order.status = reason === 'dispute' ? 'disputed' : 'refunded';
+        order.refundedAt = new Date();
+        await order.save();
+        ledger.result = reason === 'dispute' ? 'disputed' : `refunded:${order.refundedMinor}`; await ledger.save();
+        return { reversed: changed > 0, commissions: 1, changed, refundedMinor: order.refundedMinor };
+    } catch (error) {
+        // Release the idempotency claim when storage failed so Stripe's retry
+        // can finish the operation. All monetary updates use max/cumulative
+        // semantics and are safe to repeat after a partial write.
+        if (ledger?._id) await ProcessedWebhookEvent.deleteOne({ _id: ledger._id }).catch(() => {});
+        throw error;
+    }
 }
 
 async function reverseAppSumoCommission({ licenseKey, reason = 'AppSumo refund/deactivation' } = {}) {
@@ -488,7 +743,7 @@ async function reverseAppSumoCommission({ licenseKey, reason = 'AppSumo refund/d
 async function reconcileAppSumoCsv({ csv, dryRun = true, actor = 'admin', track, mapping = {} } = {}) {
     const text = String(csv || '');
     const rows = parseCsv(text);
-    const result = { dryRun: Boolean(dryRun), rows: rows.length, matched: 0, updated: 0, commissions: 0, unmatched: [], errors: [] };
+    const result = { dryRun: Boolean(dryRun), rows: rows.length, matched: 0, updated: 0, unchanged: 0, commissions: 0, reversed: 0, unmatched: [], errors: [] };
     if (dryRun || mongoose.connection.readyState !== 1) return { ...result, preview: rows.slice(0, 100).map((row) => normalizeAppSumoRow(row, mapping)) };
     const { ReferralOrder, Commission } = models();
     for (const raw of rows) {
@@ -506,21 +761,49 @@ async function reconcileAppSumoCsv({ csv, dryRun = true, actor = 'admin', track,
             ? Math.max(originalBasis, Number(row.netProceedsMinor || 0))
             : Math.max(0, row.netProceedsMinor - row.refundedMinor);
         order.grossCollectedMinor = row.grossMinor == null ? order.grossCollectedMinor : row.grossMinor;
-        order.eligibleBasisMinor = basis; order.refundedMinor = row.refundedMinor; order.status = refunded ? 'refunded' : 'paid'; await order.save();
+        order.eligibleBasisMinor = basis; order.refundedMinor = row.refundedMinor; order.status = refunded ? 'refunded' : 'paid';
         const calculation = calculateCommission({ eligibleBasisMinor: order.eligibleBasisMinor, appsumo: true });
-        const existing = await Commission.findOne({ referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}` }).lean();
+        const existing = await Commission.findOne({ referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}` });
         const amountMinor = refunded && existing ? Number(existing.amountMinor || 0) : calculation.amountMinor;
-        const commission = await Commission.findOneAndUpdate(
-            { referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}` },
-            { $set: {
+        let commission = existing;
+        let created = false;
+        let reversedNow = false;
+        if (!commission) {
+            commission = await Commission.create({
                 affiliateProfileId: order.affiliateProfileId, referralOrderId: order._id, provider: 'appsumo', invoiceId: `appsumo:${row.providerOrderId}`, sequence: 1,
                 currency: row.currency, basisMinor: calculation.basisMinor, rateBps: calculation.rateBps, amountMinor,
                 reversalMinor: refunded ? amountMinor : 0,
                 holdUntil: new Date(Date.now() + 60 * 86400000), status: refunded ? 'reversed' : 'pending', reason: refunded ? 'AppSumo refund/deactivation' : null
-            } }, { upsert: true, new: true, setDefaultsOnInsert: true }
-        );
-        result.updated++; if (commission && !refunded) result.commissions++;
-        if (typeof track === 'function') track(refunded ? 'commission_reversed' : 'commission_created', null, 'AppSumo', { affiliateProfileId: String(order.affiliateProfileId), amountMinor: calculation.amountMinor });
+            });
+            created = true;
+            reversedNow = refunded;
+        } else {
+            const wasReversed = commission.status === 'reversed';
+            commission.currency = row.currency;
+            commission.basisMinor = calculation.basisMinor;
+            commission.rateBps = calculation.rateBps;
+            commission.amountMinor = amountMinor;
+            commission.reversalMinor = refunded ? amountMinor : 0;
+            if (refunded) {
+                commission.status = 'reversed'; commission.reason = 'AppSumo refund/deactivation';
+                reversedNow = !wasReversed;
+            } else {
+                // Re-importing the same paid row must not move an existing hold
+                // or downgrade an approved/paid commission back to pending.
+                if (wasReversed) commission.status = 'pending';
+                commission.reason = null;
+            }
+        }
+        const orderChanged = order.isModified();
+        const commissionChanged = !created && commission.isModified();
+        if (orderChanged) await order.save();
+        if (commissionChanged) await commission.save();
+        if (created) result.commissions++;
+        if (reversedNow) result.reversed++;
+        if (created || orderChanged || commissionChanged) result.updated++;
+        else result.unchanged++;
+        if (typeof track === 'function' && created) track(refunded ? 'commission_reversed' : 'commission_created', null, 'AppSumo', { affiliateProfileId: String(order.affiliateProfileId), amountMinor: calculation.amountMinor });
+        else if (typeof track === 'function' && reversedNow) track('commission_reversed', null, 'AppSumo', { affiliateProfileId: String(order.affiliateProfileId), amountMinor });
     }
     await writeAudit('appsumo_csv_reconciled', actor, { rows: result.rows, matched: result.matched, updated: result.updated, unmatched: result.unmatched.length });
     return result;
@@ -564,6 +847,8 @@ function normalizeAppSumoRow(raw = {}, mapping = {}) {
 
 module.exports = {
     COOKIE_NAME,
+    CURRENT_TERMS_VERSION,
+    STRIPE_COMMISSION_RATE_BPS,
     STATUS_VALUES,
     PROFILE_STATUS_VALUES,
     DEFAULT_ATTRIBUTION_DAYS,
@@ -581,8 +866,13 @@ module.exports = {
     serializeReferralCookie,
     commissionRateBps,
     calculateCommission,
+    summarizeCommissionsByCurrency,
+    combineCommissionCurrencyTotals,
+    selectPayoutEligibleCommissions,
     isMonthlyEligible,
     isAnnualEligible,
+    hasVerifiedStripeSubscription,
+    canAcceptAmbassadorInvite,
     models,
     publicProfile,
     writeAudit,
@@ -598,5 +888,9 @@ module.exports = {
     reconcileAppSumoCsv,
     parseCsv,
     normalizeAppSumoRow,
-    stripeMetadataFromObject
+    stripeMetadataFromObject,
+    stripeObjectId,
+    stripeReversalIdentifiers,
+    findStripeOrderForReversal,
+    findStripeCommissionForReversal
 };

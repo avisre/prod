@@ -114,8 +114,10 @@ function buildOverview(symbol, summary) {
         '50DayMovingAverage': n(sd.fiftyDayAverage),
         '200DayMovingAverage': n(sd.twoHundredDayAverage),
         SharesOutstanding: n(ks.sharesOutstanding),
-        DividendDate: '',
-        ExDividendDate: '',
+        // Next expected ex/pay dates from summaryDetail when Yahoo reports them;
+        // left blank when it does not (pay dates in particular are often absent).
+        DividendDate: isoDay(sd.dividendDate) || '',
+        ExDividendDate: isoDay(sd.exDividendDate) || '',
         DebtToEquity: n(fd.debtToEquity)
     };
 }
@@ -665,6 +667,27 @@ async function fetchMonthly(symbol) {
     return buildMonthlySeries(symbol, chart);
 }
 
+// Historical cash dividend ex-dates and amounts, oldest-first, via the chart
+// endpoint's dividend events. Returns [{ exDate: 'YYYY-MM-DD', amount: number }];
+// an empty array for non-payers. A 15-year window keeps the payload bounded.
+async function fetchDividendHistory(symbol) {
+    const ys = toYahooSymbol(symbol);
+    const now = Math.floor(Date.now() / 1000);
+    const chart = await yf.chart(ys, {
+        interval: '1mo',
+        events: 'div',
+        period1: now - 15 * 365 * 86400,
+        period2: now
+    });
+    return ((chart && chart.events && chart.events.dividends) || [])
+        .map((d) => {
+            const amount = typeof d.amount === 'number' ? d.amount : Number(d.amount);
+            return { exDate: isoDay(d.date), amount: Number.isFinite(amount) ? amount : null };
+        })
+        .filter((d) => d.exDate && d.amount !== null)
+        .sort((a, b) => a.exDate.localeCompare(b.exDate));
+}
+
 async function fetchIntraday(symbol, interval = '5min') {
     const ys = toYahooSymbol(symbol);
     const map = { '1min': '1m', '5min': '5m', '15min': '15m', '30min': '30m', '60min': '60m' };
@@ -925,6 +948,7 @@ module.exports = {
     fetchCashFlow,
     fetchDaily,
     fetchMonthly,
+    fetchDividendHistory,
     fetchIntraday,
     fetchSymbolSearch,
     fetchMovers,

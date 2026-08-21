@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>Customer ambassador dashboard — stockportfolio.pro</title>
+  <meta name="description" content="Private StockPortfolio.pro customer ambassador activity and commission dashboard." />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260728-tools1" />
+  <link rel="stylesheet" href="/assets/affiliate.css?v=20260813-r1" />
+</head>
+<body>
+  <main class="aff-page" id="affiliate-dashboard" aria-labelledby="aff-title">
+    <div class="container aff-shell">
+      <header class="aff-hero">
+        <div>
+          <p class="label">Founding customer ambassador</p>
+          <h1 class="title-1" id="aff-title">Your referrals</h1>
+          <p class="aff-intro">A private record of your link activity, attributed purchases, commissions and manual payouts.</p>
+        </div>
+        <div class="aff-program-state" aria-label="Program status">
+          <span class="label">Program status</span>
+          <span class="aff-status" id="aff-status-pill">Loading</span>
+        </div>
+      </header>
+
+      <p class="aff-live" id="aff-live" role="status" aria-live="polite" aria-atomic="true"></p>
+
+      <section class="aff-loading" id="aff-loading" aria-label="Loading ambassador dashboard">
+        <span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading your ambassador record…</span>
+      </section>
+
+      <section class="card card-pad aff-error" id="aff-error" hidden aria-labelledby="aff-error-title">
+        <h2 class="title-3" id="aff-error-title">We could not load this private dashboard</h2>
+        <p class="muted" id="aff-error-message">Please try again.</p>
+        <button class="btn btn-ghost" id="aff-retry" type="button">Try again</button>
+      </section>
+
+      <div id="aff-content" hidden>
+        <section class="card card-pad aff-state-card" id="aff-state-panel" aria-labelledby="aff-state-title">
+          <div class="aff-state-copy">
+            <p class="label" id="aff-state-label">Invitation</p>
+            <h2 class="title-2" id="aff-state-title">Review your invitation</h2>
+            <p class="muted" id="aff-state-message"></p>
+          </div>
+
+          <div class="aff-terms-action" id="aff-terms-action" hidden>
+            <label class="aff-check-row" for="aff-terms-checkbox">
+              <input id="aff-terms-checkbox" type="checkbox" />
+              <span>I have read and accept the <a href="/affiliate-terms.html" target="_blank" rel="noopener">Customer Ambassador Terms, version 2026-08-13</a>.</span>
+            </label>
+            <button class="btn btn-primary" id="aff-accept" type="button" disabled>Accept terms and activate</button>
+            <p class="small faint">Acceptance is recorded against this exact terms version. It does not change your product plan or customer access.</p>
+          </div>
+        </section>
+
+        <section class="section" id="aff-link-section" aria-labelledby="aff-link-title" hidden>
+          <div class="section-head">
+            <div>
+              <p class="label">Your link</p>
+              <h2 class="title-2" id="aff-link-title">Share only when it genuinely helps</h2>
+            </div>
+            <a class="small" href="/affiliate-terms.html" target="_blank" rel="noopener">Read the current terms</a>
+          </div>
+
+          <div class="card card-pad aff-link-card">
+            <label class="field" for="aff-referral-url">
+              <span>Referral link</span>
+              <span class="aff-control-row">
+                <input class="input aff-url-input" id="aff-referral-url" type="url" readonly aria-describedby="aff-link-explainer" />
+                <button class="btn btn-primary" id="aff-copy-link" type="button">Copy link</button>
+                <button class="btn btn-ghost" id="aff-test-link" type="button">Test link</button>
+              </span>
+            </label>
+            <p class="small faint" id="aff-link-explainer">The test checks the link format locally and does not create a referral click, cookie or commission.</p>
+
+            <div class="aff-share-block">
+              <label class="field" for="aff-share-copy">
+                <span>Default share message</span>
+                <textarea class="input aff-share-copy" id="aff-share-copy" rows="7" readonly></textarea>
+              </label>
+              <div class="aff-share-actions">
+                <button class="btn btn-ghost" id="aff-copy-share" type="button">Copy message</button>
+                <p class="small muted"><strong>Keep the first sentence.</strong> It is the conspicuous commission disclosure, not optional promotional text.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" aria-labelledby="aff-summary-title">
+          <div class="section-head">
+            <div>
+              <p class="label">Activity</p>
+              <h2 class="title-2" id="aff-summary-title">What has been recorded</h2>
+            </div>
+            <p class="small faint">Currencies are never combined.</p>
+          </div>
+
+          <div class="aff-volume-grid" id="aff-volume-grid"></div>
+          <div class="aff-currency-list" id="aff-currency-totals"></div>
+        </section>
+
+        <section class="section" aria-labelledby="aff-commissions-title">
+          <div class="section-head">
+            <div>
+              <p class="label">Commission ledger</p>
+              <h2 class="title-2" id="aff-commissions-title">How each amount is moving</h2>
+            </div>
+            <p class="small faint">Pending is not the same as payable.</p>
+          </div>
+          <div class="aff-table-wrap" id="aff-commissions-wrap">
+            <table class="aff-table" aria-describedby="aff-commission-note">
+              <thead>
+                <tr>
+                  <th scope="col">Recorded</th>
+                  <th scope="col">Provider</th>
+                  <th scope="col" class="num">Eligible basis</th>
+                  <th scope="col" class="num">Rate</th>
+                  <th scope="col" class="num">Net commission</th>
+                  <th scope="col">Earliest review</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="aff-commission-rows"></tbody>
+            </table>
+          </div>
+          <p class="aff-empty card card-pad muted" id="aff-commissions-empty" hidden>No commissions have been recorded yet.</p>
+          <p class="small faint aff-table-note" id="aff-commission-note">Stripe commissions have a 30-day hold. AppSumo commissions have a 60-day hold and depend on reconciled net partner proceeds. Every payout is reviewed and paid manually.</p>
+        </section>
+
+        <section class="section" aria-labelledby="aff-orders-title">
+          <div class="section-head">
+            <div>
+              <p class="label">Attributed purchases</p>
+              <h2 class="title-2" id="aff-orders-title">Order status without customer identity</h2>
+            </div>
+          </div>
+          <div class="aff-table-wrap" id="aff-orders-wrap">
+            <table class="aff-table">
+              <thead>
+                <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Provider</th>
+                  <th scope="col">Plan</th>
+                  <th scope="col">Currency</th>
+                  <th scope="col">Status</th>
+                </tr>
+              </thead>
+              <tbody id="aff-order-rows"></tbody>
+            </table>
+          </div>
+          <p class="aff-empty card card-pad muted" id="aff-orders-empty" hidden>No attributed purchases have been recorded yet.</p>
+        </section>
+
+        <section class="section aff-rules" aria-labelledby="aff-rules-title">
+          <div class="section-head">
+            <div>
+              <p class="label">Release 1 rules</p>
+              <h2 class="title-2" id="aff-rules-title">The terms behind the numbers</h2>
+            </div>
+          </div>
+          <div class="aff-rules-grid">
+            <article class="card card-pad">
+              <h3 class="title-3">Attribution</h3>
+              <p>The last eligible ambassador click within 60 days wins. A later eligible ambassador click can replace an earlier one; direct, organic and internal visits do not erase it. New customers only—self-referrals and existing-customer purchases are ineligible.</p>
+            </article>
+            <article class="card card-pad">
+              <h3 class="title-3">Stripe commission</h3>
+              <p>30% through Power, 20% for Desk and 10% for Firm/Enterprise. Monthly commission stops after 12 paid invoices; annual commission applies once, to the first eligible paid invoice.</p>
+            </article>
+            <article class="card card-pad">
+              <h3 class="title-3">AppSumo commission</h3>
+              <p>25% of actual net partner proceeds after discounts, fees, credits and refunds—not 25% of the displayed sale price. The Partner Portal reconciliation is authoritative.</p>
+            </article>
+            <article class="card card-pad">
+              <h3 class="title-3">Holds and payout</h3>
+              <p>30 days for Stripe and 60 days for AppSumo. Each ambassador must reach 100.00 in approved, unreversed commission in one currency. Payouts are reviewed and paid manually; no automatic transfer is promised.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="card card-pad aff-trust" aria-labelledby="aff-trust-title">
+          <div>
+            <p class="label">Financial trust</p>
+            <h2 class="title-2" id="aff-trust-title">Evidence first. No return claims.</h2>
+          </div>
+          <ul>
+            <li>Disclose the commission relationship with the recommendation itself.</li>
+            <li>Describe StockPortfolio.pro as research software, not personal investment advice.</li>
+            <li>Never promise returns, investment performance, data perfection or business longevity.</li>
+            <li>Check AI output against its cited filing before presenting it as fact.</li>
+            <li>No spam, self-referrals, impersonation, hidden incentives or unauthorized discounts.</li>
+            <li>Commissions are never offered for reviews. Reviews must remain honest and unincentivized.</li>
+          </ul>
+          <p class="small muted">Questions about a referral or payout? <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a></p>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <script src="/assets/app.js?v=20260803-ask-recovery1"></script>
+  <script src="/assets/affiliate.js?v=20260813-r1"></script>
+</body>
+</html>

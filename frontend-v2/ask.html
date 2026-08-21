@@ -125,41 +125,89 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260803-ask-recovery1"></script>
+  <script src="assets/app.js?v=20260810-seo-pilot1"></script>
   <script>
     (function () {
-      const { API, token, nav, footer, askEngine } = window.V2;
+      const { API, token, nav, footer, askEngine, trackSeoEvent } = window.V2;
       nav('ask');
       footer();
       const $ = (id) => document.getElementById(id);
       const ta = $('q');
       const go = document.querySelector('.composer .go');
+      const params = new URLSearchParams(location.search);
+      const safeSymbol = (value) => {
+        const candidate = String(value || '').trim().toUpperCase();
+        return /^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(candidate) ? candidate : '';
+      };
+      const safeMetric = (value) => ['eps', 'net-income', 'revenue'].includes(String(value || '').trim().toLowerCase()) ? String(value).trim().toLowerCase() : '';
+      const safeContent = (value) => ['seo-eps-next-action', 'seo-revenue-next-action'].includes(String(value || '').trim().toLowerCase()) ? String(value).trim().toLowerCase() : '';
+      const context = {
+        contentId: safeContent(params.get('content_id')),
+        seoPageType: 'metric',
+        seoTicker: safeSymbol(params.get('symbol')),
+        seoMetric: safeMetric(params.get('metric')),
+        seoPair: '',
+        seoQueryCluster: safeMetric(params.get('metric')) === 'revenue' ? 'revenue' : 'earnings/profit',
+        seoExperiment: 'seo-activation-pilot-v1',
+        seoVariant: 'treatment',
+        destinationKind: 'ask'
+      };
+      const hasContext = Boolean(context.contentId && context.seoTicker && context.seoMetric);
+      if (!hasContext) {
+        context.contentId = '';
+        context.seoTicker = '';
+        context.seoMetric = '';
+        context.seoQueryCluster = '';
+      }
+      if (hasContext) {
+        const metricLabel = context.seoMetric === 'eps' ? 'earnings per share' : context.seoMetric === 'revenue' ? 'revenue' : 'net income';
+        ta.placeholder = `Ask what changed in ${context.seoTicker}'s ${metricLabel}…`;
+        trackSeoEvent('ask_landing', context, location.pathname);
+      }
+      let firstSubmitted = false;
+      function recordFirstQuery() {
+        if (!hasContext || firstSubmitted) return;
+        firstSubmitted = true;
+        trackSeoEvent('ask_first_query_submitted', context, location.pathname);
+      }
       const engine = askEngine($('exchange'), {
         onActivity: () => {
           document.body.classList.add('in-conversation');
           $('thread').hidden = false;
-        }
+        },
+        onComplete: () => { if (hasContext) trackSeoEvent('ask_response_completed', context, location.pathname); }
       });
       function submit() {
         const q = ta.value.trim();
         if (!q) return;
+        recordFirstQuery();
         ta.value = '';
         go.disabled = true;
         engine.send(q);
       }
       $('composer').addEventListener('submit', (e) => { e.preventDefault(); submit(); });
+      $('exchange').addEventListener('click', (event) => {
+        const source = event.target && event.target.closest && event.target.closest('a[href]');
+        if (!source || !hasContext) return;
+        try {
+          const target = new URL(source.href, location.origin);
+          if (target.hostname === 'sec.gov' || target.hostname.endsWith('.sec.gov')) trackSeoEvent('source_opened', context, target.href);
+        } catch (_) { /* ignore malformed links */ }
+      }, { capture: true });
       ta.addEventListener('input', () => { go.disabled = !ta.value.trim(); });
       ta.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); submit(); }
       });
       document.querySelectorAll('.prompts button').forEach((b) =>
         b.addEventListener('click', () => {
+          recordFirstQuery();
           document.body.classList.add('in-conversation');
           $('thread').hidden = false;
           engine.send(b.textContent);
         }));
       const firstQuestion = $('appsumo-first-question');
       if (firstQuestion) firstQuestion.addEventListener('click', () => {
+        recordFirstQuery();
         ta.value = "Did NVIDIA's free cash flow keep up with capital expenditure over the last five fiscal years? Show the reported inputs, calculation, periods, and sources.";
         go.disabled = false;
         ta.focus();

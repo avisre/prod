@@ -310,4 +310,4 @@ async function main() {
 }
 if (require.main === module) main().catch(async (error) => { console.error(error.message); try { await mongoose.disconnect(); } catch (_) {} process.exit(1); });
 
-module.exports = { buildAudit, diagnosis, eventDate, eventName, reportable, sourceOf, channelBucket, channelBreakdown, funnel, weekly };
+module.exports = { buildAudit, diagnosis, eventDate, eventName, reportable, sourceOf, channelBucket, channelBreakdown, funnel, weekly, queryProduction };

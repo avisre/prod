@@ -56,7 +56,7 @@ function parseColumns(input) {
 function normalizeRecords(headers, rows) {
     const find = (names) => indexOf(headers, names);
     const orderIndex = find(['order_id', 'order', 'transaction_id', 'license_id', 'id']);
-    const dateIndex = find(['sale_date', 'created_at', 'date', 'order_date', 'order_timestamp']);
+    const dateIndex = find(['sale_date', 'created_at', 'created_date', 'date', 'order_date', 'order_timestamp']);
     const grossIndex = find(['gross_sales', 'gross', 'gmv', 'sale_amount', 'amount', 'gross_proceeds']);
     const payoutIndex = find(['partner_payout', 'partner_proceeds', 'payout', 'commission', 'net_payout', 'net_proceeds']);
     const refundIndex = find(['refund', 'refunded', 'refund_amount', 'refund_proceeds']);

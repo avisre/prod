@@ -24,7 +24,7 @@ test('sitemap root is a small index with valid, bounded child shards', () => {
   assert.ok(total > 18_000, 'crawl-prioritized public inventory remains discoverable');
   assert.match(seo.buildSitemapShard('core'), /<loc>https:\/\/www\.stockportfolio\.pro\/appsumo<\/loc>/);
   assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/tools\//g) || []).length, 30);
-  assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/research\//g) || []).length, 3);
+  assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/research\//g) || []).length, 7);
   assert.ok(dates.size > 1, 'lastmod must reflect real per-page/data freshness, not generation day');
   assert.equal(seo.buildSitemapShard('does-not-exist'), null);
 });

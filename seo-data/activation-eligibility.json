@@ -1,0 +1,443 @@
+{
+  "generatedAt": "2026-08-10T07:39:58.124298+00:00",
+  "featureFlag": "SEO_ACTIVATION_PILOT",
+  "selectedSecondFamily": "REVENUE_HISTORY",
+  "eligiblePages": [
+    {
+      "url": "https://www.stockportfolio.pro/stocks/GOOGL/net-income",
+      "path": "/stocks/GOOGL/net-income",
+      "symbol": "GOOGL",
+      "metric": "net-income",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 10.0,
+      "clicks": 0.0,
+      "queries": [
+        "alphabet net income 2024",
+        "google annual profit",
+        "google net earnings",
+        "google net income",
+        "google net income 2022",
+        "google net income 2023",
+        "google net profit",
+        "net income google"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/FTV/revenue",
+      "path": "/stocks/FTV/revenue",
+      "symbol": "FTV",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 6.0,
+      "clicks": 0.0,
+      "queries": [
+        "fortive 2023 annual report revenue",
+        "fortive 2023 annual revenue",
+        "fortive 2023 revenue",
+        "fortive full year 2023 revenue",
+        "fortive revenue 2023"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/NFLX/revenue",
+      "path": "/stocks/NFLX/revenue",
+      "symbol": "NFLX",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 5.0,
+      "clicks": 0.0,
+      "queries": [
+        "netflix annual revenue",
+        "netflix revenue per year",
+        "netflix yearly revenue",
+        "nflx revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/GOOG/net-income",
+      "path": "/stocks/GOOG/net-income",
+      "symbol": "GOOG",
+      "metric": "net-income",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 4.0,
+      "clicks": 0.0,
+      "queries": [
+        "alphabet net income 2024",
+        "google net profit 2025",
+        "net income google",
+        "net income of google"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/DIS/revenue",
+      "path": "/stocks/DIS/revenue",
+      "symbol": "DIS",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 4.0,
+      "clicks": 0.0,
+      "queries": [
+        "disney revenue",
+        "disney revenue breakdown",
+        "walt disney company revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/VZ/revenue",
+      "path": "/stocks/VZ/revenue",
+      "symbol": "VZ",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 4.0,
+      "clicks": 0.0,
+      "queries": [
+        "verizon annual revenue",
+        "verizon revenue",
+        "verizon revenue 2023",
+        "verizon wireless annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/CMCSA/revenue",
+      "path": "/stocks/CMCSA/revenue",
+      "symbol": "CMCSA",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 3.0,
+      "clicks": 0.0,
+      "queries": [
+        "comcast annual revenue",
+        "comcast revenue 2024",
+        "comcast yearly revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/GEHC/revenue",
+      "path": "/stocks/GEHC/revenue",
+      "symbol": "GEHC",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 3.0,
+      "clicks": 0.0,
+      "queries": [
+        "ge healthcare annual revenue",
+        "ge healthcare revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/NTNX/revenue",
+      "path": "/stocks/NTNX/revenue",
+      "symbol": "NTNX",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 3.0,
+      "clicks": 0.0,
+      "queries": [
+        "nutanix revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/RH/revenue",
+      "path": "/stocks/RH/revenue",
+      "symbol": "RH",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 3.0,
+      "clicks": 0.0,
+      "queries": [
+        "rh aero systems revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/VSTS/revenue",
+      "path": "/stocks/VSTS/revenue",
+      "symbol": "VSTS",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "$vsts vestis corporation $vsts earnings revenue financials"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/ACMR/eps",
+      "path": "/stocks/ACMR/eps",
+      "symbol": "ACMR",
+      "metric": "eps",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "acmr earnings"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/KO/revenue",
+      "path": "/stocks/KO/revenue",
+      "symbol": "KO",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "annual revenue coca cola",
+        "coca-cola revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/CNXC/revenue",
+      "path": "/stocks/CNXC/revenue",
+      "symbol": "CNXC",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "concentrix revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/IP/eps",
+      "path": "/stocks/IP/eps",
+      "symbol": "IP",
+      "metric": "eps",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "eps history",
+        "international paper earnings"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/GOOGL/eps",
+      "path": "/stocks/GOOGL/eps",
+      "symbol": "GOOGL",
+      "metric": "eps",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "google earnings per share",
+        "google eps"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/HSIC/revenue",
+      "path": "/stocks/HSIC/revenue",
+      "symbol": "HSIC",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "henry schein revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/SDGR/revenue",
+      "path": "/stocks/SDGR/revenue",
+      "symbol": "SDGR",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 2.0,
+      "clicks": 0.0,
+      "queries": [
+        "schrodinger revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/BA/eps",
+      "path": "/stocks/BA/eps",
+      "symbol": "BA",
+      "metric": "eps",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "boeing earnings per share"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/CAKE/revenue",
+      "path": "/stocks/CAKE/revenue",
+      "symbol": "CAKE",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "cheesecake factory annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/ENTG/revenue",
+      "path": "/stocks/ENTG/revenue",
+      "symbol": "ENTG",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "entegris revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/ETSY/eps",
+      "path": "/stocks/ETSY/eps",
+      "symbol": "ETSY",
+      "metric": "eps",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "etsy earnings"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/JBSS/revenue",
+      "path": "/stocks/JBSS/revenue",
+      "symbol": "JBSS",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "hss revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/KKR/revenue",
+      "path": "/stocks/KKR/revenue",
+      "symbol": "KKR",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "kkr annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/KLAC/revenue",
+      "path": "/stocks/KLAC/revenue",
+      "symbol": "KLAC",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "kla annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/LW/revenue",
+      "path": "/stocks/LW/revenue",
+      "symbol": "LW",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "lamb weston annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/LYFT/revenue",
+      "path": "/stocks/LYFT/revenue",
+      "symbol": "LYFT",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "lyft revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/MOH/eps",
+      "path": "/stocks/MOH/eps",
+      "symbol": "MOH",
+      "metric": "eps",
+      "queryCluster": "earnings/EPS/profit",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "moh stock earnings date"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/MSI/revenue",
+      "path": "/stocks/MSI/revenue",
+      "symbol": "MSI",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "motorola solutions annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/G/revenue",
+      "path": "/stocks/G/revenue",
+      "symbol": "G",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "revenue of genpact"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/TRIP/revenue",
+      "path": "/stocks/TRIP/revenue",
+      "symbol": "TRIP",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "tripadvisor revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/VEEV/revenue",
+      "path": "/stocks/VEEV/revenue",
+      "symbol": "VEEV",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "veeva annual revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/GWW/revenue",
+      "path": "/stocks/GWW/revenue",
+      "symbol": "GWW",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "w.w. grainger revenue"
+      ]
+    },
+    {
+      "url": "https://www.stockportfolio.pro/stocks/WBD/revenue",
+      "path": "/stocks/WBD/revenue",
+      "symbol": "WBD",
+      "metric": "revenue",
+      "queryCluster": "revenue",
+      "impressions": 1.0,
+      "clicks": 0.0,
+      "queries": [
+        "warner bros revenue"
+      ]
+    }
+  ]
+}

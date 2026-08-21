@@ -1,0 +1,46 @@
+{
+  "page": {
+    "timestamp": "2026-08-21T03:30:04.652Z",
+    "reviewCount": 1,
+    "tacosCounts": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 1
+    },
+    "qaCount": null,
+    "pageReachable": true
+  },
+  "db": {
+    "timestamp": "2026-08-21T03:30:08.349Z",
+    "licenses": {
+      "total": 7,
+      "redeemed": 0
+    },
+    "usersWithLicense": 8,
+    "funnelEvents": {
+      "activation": 18,
+      "appsumo_activation": 1,
+      "appsumo_cta_click": 1,
+      "appsumo_landing_view": 1,
+      "appsumo_outbound": 702,
+      "appsumo_purchase": 2,
+      "appsumo_redemption_started": 1,
+      "cta_click": 1,
+      "customer_success": 1,
+      "first_ask_succeeded": 5,
+      "free_tool_complete": 225,
+      "free_tool_view": 271,
+      "page_view": 15001,
+      "paid": 11,
+      "research_share_created": 4,
+      "review_request_sent": 7,
+      "signup": 50,
+      "signup_completed": 22,
+      "signup_started": 3,
+      "stripe_checkout_created": 13,
+      "trial_start": 18
+    }
+  }
+}

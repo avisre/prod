@@ -96,3 +96,30 @@ test('GA4 payload is privacy-safe and disabled by default', () => {
     assert.equal(Object.prototype.hasOwnProperty.call(payload.events[0].params, 'prompt'), false);
     assert.equal(ga4.enabled(), false);
 });
+
+test('P0 proof-funnel events are registered as browser events', () => {
+    for (const name of ['source_opened', 'proof_view', 'second_session']) {
+        assert.equal(growth.normalizeEventName(name), name);
+        assert.equal(growth.validateBrowserEvent(name), true, name);
+    }
+});
+
+// The second_session sender is the smallest complete hook for a returning
+// buyer starting another research session after activation. It guards on an
+// already-activated user (firstActivationAt set) and carries no dedupe key,
+// so each returning Ask is counted while first ask success keeps its own
+// idempotent record.
+// The second_session sender is the smallest complete hook for a returning
+// buyer starting another research session after activation. It guards on an
+// already-activated user (firstActivationAt set) and carries no dedupe key,
+// so each returning Ask is counted while first ask success keeps its own
+// idempotent record.
+test('second_session sender is wired into the Ask flow', () => {
+    const fs = require('node:fs');
+    const path = require('node:path');
+    const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+    assert.match(appSource, /function trackSecondSession\(req, user\) \{/);
+    assert.match(appSource, /trackFunnel\('second_session'/);
+    // Both Ask success sites call the sender before first ask success.
+    assert.equal((appSource.match(/trackSecondSession\(req, req\.user\);/g) || []).length >= 2, true);
+});

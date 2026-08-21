@@ -122,8 +122,10 @@ function buildOverview(symbol, summary) {
     '50DayMovingAverage': n(sd.fiftyDayAverage),
     '200DayMovingAverage': n(sd.twoHundredDayAverage),
     SharesOutstanding: n(ks.sharesOutstanding),
-    DividendDate: '',
-    ExDividendDate: '',
+    // Next expected ex/pay dates from summaryDetail when Yahoo reports them;
+    // left blank when it does not (pay dates in particular are often absent).
+    DividendDate: isoDate(sd.dividendDate) || '',
+    ExDividendDate: isoDate(sd.exDividendDate) || '',
     DebtToEquity: n(fd.debtToEquity)
   };
 }
@@ -295,6 +297,21 @@ function buildMonthlyTimeSeries(chart) {
   };
 }
 
+// Historical cash dividend ex-dates/amounts from the chart dividend events.
+// Oldest-first; an empty array for non-payers. Stored as plain numbers so the
+// dividend-history page never has to string-parse them.
+function buildDividendHistory(chart) {
+  return ((chart?.events?.dividends) || [])
+    .map((d) => {
+      const amount = typeof d.amount === 'number' ? d.amount : Number(d.amount);
+      const day = d.date instanceof Date ? d.date : new Date(d.date);
+      const date = Number.isNaN(day.getTime()) ? '' : day.toISOString().slice(0, 10);
+      return { exDate: date, amount: Number.isFinite(amount) ? amount : null };
+    })
+    .filter((d) => d.exDate && d.amount !== null)
+    .sort((a, b) => a.exDate.localeCompare(b.exDate));
+}
+
 // ---- Per-symbol fetch ----
 
 // Yahoo uses hyphens for class-share tickers (BRK-B, BF-B) where most
@@ -327,10 +344,12 @@ async function fetchSymbol(symbol) {
   ];
 
   try {
-    const [summary, dailyChart, monthlyChart] = await Promise.allSettled([
+    const nowSec = Math.floor(now.getTime() / 1000);
+    const [summary, dailyChart, monthlyChart, dividendChart] = await Promise.allSettled([
       yahooFinance.quoteSummary(yahooSymbol, { modules }),
       yahooFinance.chart(yahooSymbol, { period1: dailyStart, period2: now, interval: '1d' }),
-      yahooFinance.chart(yahooSymbol, { period1: monthlyStart, period2: now, interval: '1mo' })
+      yahooFinance.chart(yahooSymbol, { period1: monthlyStart, period2: now, interval: '1mo' }),
+      yahooFinance.chart(yahooSymbol, { period1: nowSec - 15 * 365 * 86400, period2: nowSec, interval: '1mo', events: 'div' })
     ]);
 
     if (summary.status === 'fulfilled' && summary.value) {
@@ -345,6 +364,10 @@ async function fetchSymbol(symbol) {
 
     if (monthlyChart.status === 'fulfilled' && monthlyChart.value) result.monthly = buildMonthlyTimeSeries(monthlyChart.value);
     else errors.push('chart-monthly');
+
+    if (dividendChart.status === 'fulfilled' && dividendChart.value) {
+      result.dividends = { history: buildDividendHistory(dividendChart.value) };
+    } else errors.push('chart-dividends');
   } catch (err) {
     errors.push('exception:' + (err.message || 'unknown'));
   }
@@ -434,6 +457,15 @@ async function main() {
     if (result.income) payload.income = result.income;
     if (result.balance) payload.balance = result.balance;
     if (result.cash) payload.cash = result.cash;
+    if (result.dividends) payload.dividends = result.dividends;
+    // The whole file is rewritten each pass; if the dividend fetch failed,
+    // keep the previously cached history rather than silently dropping it.
+    else if (fs.existsSync(file)) {
+      try {
+        const prev = JSON.parse(fs.readFileSync(file, 'utf8'));
+        if (prev && prev.dividends) payload.dividends = prev.dividends;
+      } catch (_) { /* unreadable previous file */ }
+    }
     if (SEC_EXTEND) {
       try {
         // backfillStatements also normalizes shares/per-share figures to the
@@ -466,4 +498,7 @@ async function main() {
   }
 }
 
-main().catch((e) => { console.error('fatal:', e); process.exit(1); });
+if (require.main === module) {
+  main().catch((e) => { console.error('fatal:', e); process.exit(1); });
+}
+module.exports = { buildDividendHistory };

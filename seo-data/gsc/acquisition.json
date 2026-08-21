@@ -1,0 +1,37 @@
+{
+  "property": "sc-domain:stockportfolio.pro",
+  "identity": "gsc-stockportfolio@praarthana-492014.iam.gserviceaccount.com",
+  "retrieved_at_utc": "2026-08-10T07:39:58.124298+00:00",
+  "datasets": {
+    "queries-3m": {
+      "rows": 632,
+      "start": "2026-05-10",
+      "end": "2026-08-07"
+    },
+    "pages-3m": {
+      "rows": 1697,
+      "start": "2026-05-10",
+      "end": "2026-08-07"
+    },
+    "query-page-3m": {
+      "rows": 981,
+      "start": "2026-05-10",
+      "end": "2026-08-07"
+    },
+    "queries-12m": {
+      "rows": 632,
+      "start": "2025-08-08",
+      "end": "2026-08-07"
+    },
+    "pages-12m": {
+      "rows": 1697,
+      "start": "2025-08-08",
+      "end": "2026-08-07"
+    },
+    "query-page-12m": {
+      "rows": 981,
+      "start": "2025-08-08",
+      "end": "2026-08-07"
+    }
+  }
+}

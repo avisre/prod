@@ -509,7 +509,35 @@ function buildScreenIndex() {
                 qtrNetIncomeYoYPct: qNiYoY,
                 qtrEpsYoYPct: qEpsYoY,
                 latestQuarterEnd: qEnd,
-                latestFiscalYearEnd: (inc[0] || {}).fiscalDateEnding || ''
+                latestFiscalYearEnd: (inc[0] || {}).fiscalDateEnding || '',
+                // Latest-FY raw values for sector-percentile and peer-table
+                // enrichment on the per-metric SEO pages.
+                latestRevenue: num((inc[0] || {}).totalRevenue),
+                latestNetIncome: num((inc[0] || {}).netIncome),
+                latestEps: num((inc[0] || {}).eps) !== null ? num((inc[0] || {}).eps) : num((inc[0] || {}).dilutedEPS),
+                latestGrossProfit: (() => {
+                    const r = num((inc[0] || {}).totalRevenue);
+                    let gp = num((inc[0] || {}).grossProfit); if (gp === 0) gp = null;
+                    let cor = num((inc[0] || {}).costOfRevenue); if (cor === 0) cor = null;
+                    if (gp === null && r !== null && cor !== null) gp = r - cor;
+                    return gp;
+                })(),
+                latestEbitda: num((inc[0] || {}).ebitda),
+                latestTotalDebt: (() => {
+                    const b0 = bal[0] || {};
+                    const ltd = num(b0.longTermDebt) !== null ? num(b0.longTermDebt) : num(b0.longTermDebtNoncurrent);
+                    const std = num(b0.shortTermDebt) !== null ? num(b0.shortTermDebt) : num(b0.currentDebt);
+                    if (ltd === null && std === null) return null;
+                    return (ltd || 0) + (std || 0);
+                })(),
+                latestSharesOutstanding: num((bal[0] || {}).commonStockSharesOutstanding),
+                // Cash-flow dividend payout is a negative outflow; store the
+                // magnitude so "pays more dividends" ranks higher.
+                latestDividendPayout: (() => {
+                    const v = num((cf[0] || {}).dividendPayoutCommonStock) !== null
+                        ? num((cf[0] || {}).dividendPayoutCommonStock) : num((cf[0] || {}).dividendPayout);
+                    return v === null ? null : Math.abs(v);
+                })()
             });
         } catch (_) { /* skip unreadable file */ }
     }
@@ -1351,4 +1379,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData });
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex });

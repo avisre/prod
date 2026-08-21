@@ -559,7 +559,7 @@ function renderStockPage(ticker) {
         const extra = require('./seo-extra');
         const links = extra.METRIC_SLUGS
             .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(extra.METRICS[s].label)}</a>`).join('');
-        metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history by metric</h2><div class="seo-links">${links}<a href="/research/shares-outstanding">Shares outstanding research guide</a><a href="/research/pe-ratio-history">Historical P/E methodology</a><a href="/research/dilution-scorecard">US-company dilution scorecard</a></div></div>`;
+        metricBlock = `<div class="seo-section"><h2>${esc(name)} financial history</h2><div class="seo-links">${links}<a href="/stocks/${esc(sym)}/price-history">Price history</a><a href="/research/shares-outstanding">Shares outstanding research guide</a><a href="/research/pe-ratio-history">Historical P/E methodology</a><a href="/research/dilution-scorecard">US-company dilution scorecard</a></div></div>`;
     } catch (_) { /* seo-extra unavailable — page renders without the block */ }
 
     // Head-to-head compare pages (seo-extra) — link the top same-sector peers so

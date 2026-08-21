@@ -75,7 +75,7 @@ const SSR_PATTERNS = [
   /^\/stocks$/,
   /^\/stocks\/[A-Za-z0-9.\-]+$/,
   /^\/stocks\/[A-Za-z0-9.\-]+\/[a-z-]+$/,
-  /^\/research\/(shares-outstanding|pe-ratio-history|dilution-scorecard)$/,
+  /^\/research\/(shares-outstanding|pe-ratio-history|dilution-scorecard|how-to-read-a-10-k|how-to-compare-two-stocks|what-is-free-cash-flow|how-to-find-undervalued-stocks)$/,
   /^\/compare$/,
   /^\/compare\/[A-Za-z0-9.\-]+-vs-[A-Za-z0-9.\-]+$/,
   /^\/screens\/[a-z0-9-]+$/,

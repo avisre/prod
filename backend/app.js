@@ -25,6 +25,7 @@ const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
+const verifyHeadline = require('./verify');
 const marketingAttribution = require('./marketing-attribution');
 const growthMeasurement = require('./growth-measurement');
 const ga4Server = require('./ga4-server');
@@ -1746,6 +1747,19 @@ app.get('/api/free-tools/:tool', freeToolLimiter, async (req, res) => {
         res.status(502).json({ error: 'Free-tool data is temporarily unavailable. Try again shortly.' });
     }
 });
+
+async function handleVerify(req, res) {
+    try {
+        const { prText, ticker, metric } = req.body || {};
+        const result = await verifyHeadline.detectLie({ prText, ticker, metric });
+        trackFunnel('verify_headline', null, null, { ticker: result.ticker, period: result.period, ...trackingRequestFields(req, res) });
+        res.json(result);
+    } catch (error) {
+        res.status(Number(error.status) || 500).json({ error: error.message || 'Verify failed' });
+    }
+}
+app.post('/api/verify', freeToolLimiter, handleVerify);
+app.post('/api/lie', freeToolLimiter, handleVerify); // alias for older links
 
 app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
 app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));

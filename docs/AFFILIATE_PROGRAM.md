@@ -29,7 +29,9 @@ private support conversations never create commission eligibility.
   refunds. The AppSumo CSV reconciliation workflow is authoritative for the
   proceeds amount.
 * Refunds and disputes reverse or suspend commissions. Stripe has a 30-day hold;
-  AppSumo has a 60-day hold. The minimum payout is $100 (10,000 minor units).
+  AppSumo has a 60-day hold. The minimum payout is 100.00 (10,000 minor
+  units) per ambassador in one currency; balances from different ambassadors
+  or currencies are not combined to reach it.
 * Release 1 never sends an invitation automatically, creates a payout
   automatically, or calls a payout provider. An administrator approves and marks
   a manually paid batch with a reference.
@@ -52,7 +54,9 @@ passwords, tokens, license keys or service credentials.
 * `GET /api/admin/affiliates/payout-batches/:id.csv` — export a manual payout
   file for the draft/approved batch.
 * `POST /api/admin/affiliates/payout-batches/:id/paid` — manually record an
-  external payment reference.
+  external payment reference; the reference is required.
+* `POST /api/admin/affiliates/payout-batches/:id/cancel` — cancel an unpaid
+  draft/exported batch and release its approved commissions for later review.
 * `POST /api/admin/affiliates/appsumo/reconcile` — JSON body `{csv, dryRun,
   mapping}`; dry-run is the default and returns a normalized preview. A mapping
   such as `{ "net_proceeds": "partner payout" }` can be supplied when the
@@ -64,9 +68,14 @@ passwords, tokens, license keys or service credentials.
 
 * `GET /api/affiliate/me` — the logged-in invited customer's link, clicks,
   orders and commission totals.
-* `POST /api/affiliate/accept` with `{ "acceptTerms": true }` — activate the
-  link after reading the disclosure.
-* `GET /affiliate` — the logged-in customer page with a forwardable message.
+* `POST /api/affiliate/accept` with `{ "acceptTerms": true,
+  "termsVersion": "customer-ambassador-v1-2026-08-13" }` — accept the exact
+  current terms and activate a genuinely invited, verified-customer link.
+* `GET /affiliate` — the logged-in private dashboard with a forwardable
+  disclosed message, privacy-safe order status and currency-separated
+  commission ledger.
+* `GET /affiliate-terms.html` — the noindex, versioned customer ambassador
+  terms referenced by the acceptance control.
 
 ## Security and operations
 

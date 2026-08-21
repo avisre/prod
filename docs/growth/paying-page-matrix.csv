@@ -1,0 +1,10 @@
+customer_id,home,company_overview,EPS,revenue,FCF,shares,debt,cash,margins,net_income,dividends,filings,Ask,screener,compare,portfolio,watchlist,guru,fund_ETF,pricing,AppSumo_outbound,research_share,tools,markets_news,dossier,other,coverage_note
+CUSTOMER-01,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1,NA,1,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Page identity unavailable; activation events only"
+CUSTOMER-02,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Unredeemed"
+CUSTOMER-03,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,"Page identity unavailable"
+CUSTOMER-04,3,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0,0,0,5,0,1,0,0,0,0,1,1,0,1,"15 attributable post-purchase page views"
+CUSTOMER-05,1,9,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,2,1,1,0,0,0,0,0,0,0,1,1,0,0,"Post-purchase only; five pre-purchase home/dossier views excluded"
+CUSTOMER-06,9,4,NA,NA,NA,NA,NA,NA,NA,NA,NA,1,0,1,0,4,0,2,1,0,0,0,2,1,1,1,"27 attributable post-purchase page views"
+CUSTOMER-07,3,2,NA,NA,NA,NA,NA,NA,NA,NA,NA,0,0,1,0,2,0,2,0,0,0,1,1,0,1,0,"12 attributable post-purchase page views"
+CUSTOMER-08,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1,1,1,NA,NA,NA,NA,NA,NA,15,NA,NA,NA,"Free-tool and activation events only; acquisition page telemetry contaminated"
+CUSTOMER-09,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"Unredeemed"

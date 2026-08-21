@@ -101,6 +101,118 @@ function closeAtFiscalEnd(data, fiscalDateEnding) {
     const last = months[months.length - 1];
     return last ? num(ts[last]['5. adjusted close']) : null;
 }
+// Monthly adjusted-close series (split- and dividend-adjusted) for return math.
+function monthlySeries(data) {
+    const ts = data?.monthly?.['Monthly Adjusted Time Series'];
+    if (!ts) return [];
+    return Object.keys(ts)
+        .map((d) => ({ date: d, close: num(ts[d]['5. adjusted close']) }))
+        .filter((p) => p.close !== null)
+        .sort((a, b) => a.date.localeCompare(b.date));
+}
+// Total return over `years` from the monthly adjusted-close series; null when
+// the series is too short to cover the window.
+function totalReturn(series, years) {
+    if (!series || series.length < 2) return null;
+    const latest = series[series.length - 1];
+    const target = new Date(latest.date);
+    target.setUTCFullYear(target.getUTCFullYear() - years);
+    const targetStr = target.toISOString().slice(0, 10);
+    let i = series.length - 1;
+    while (i >= 0 && series[i].date > targetStr) i--;
+    if (i < 0) return null;
+    const base = series[i].close;
+    if (!base) return null;
+    return (latest.close / base - 1) * 100;
+}
+
+// Year-to-date return: latest close vs the last point before the current year.
+function ytdReturn(series) {
+    if (!series || series.length < 2) return null;
+    const latest = series[series.length - 1];
+    const currentYear = latest.date.slice(0, 4);
+    let i = series.length - 1;
+    while (i >= 0 && series[i].date.slice(0, 4) >= currentYear) i--;
+    if (i < 0) return null;
+    const base = series[i].close;
+    if (!base) return null;
+    return (latest.close / base - 1) * 100;
+}
+// Trailing-12-month high/low from the same monthly series shown on the page.
+function range52w(series) {
+    if (!series || series.length < 2) return null;
+    const latest = series[series.length - 1];
+    const cutoff = new Date(latest.date);
+    cutoff.setUTCFullYear(cutoff.getUTCFullYear() - 1);
+    const cutoffStr = cutoff.toISOString().slice(0, 10);
+    const win = series.filter((p) => p.date >= cutoffStr);
+    if (win.length < 2) return null;
+    return { low: Math.min(...win.map((p) => p.close)), high: Math.max(...win.map((p) => p.close)) };
+}
+// Monthly adjusted-close line chart; a dated sibling of trendSvg (which labels
+// fiscal years). Monthly points carry their calendar month in the hover title.
+function monthlyTrendSvg(rows, label, caption) {
+    if (!rows || rows.length < 2) return '';
+    const min = Math.min(...rows.map((p) => p.close));
+    const max = Math.max(...rows.map((p) => p.close));
+    const span = max - min || 1; const width = 760; const height = 220; const pad = 28;
+    const points = rows.map((p, i) => {
+        const x = pad + i * ((width - pad * 2) / Math.max(rows.length - 1, 1));
+        const y = height - pad - ((p.close - min) / span) * (height - pad * 2);
+        return `${x.toFixed(1)},${y.toFixed(1)}`;
+    }).join(' ');
+    return `<figure style="margin:20px 0"><svg role="img" aria-labelledby="metric-chart-title" viewBox="0 0 ${width} ${height}" style="display:block;width:100%;height:auto;background:var(--surface);border:1px solid var(--line);border-radius:10px"><title id="metric-chart-title">${esc(label)}</title><line x1="${pad}" y1="${height - pad}" x2="${width - pad}" y2="${height - pad}" stroke="var(--line2)"/><polyline fill="none" stroke="var(--accent)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" points="${points}"/>${rows.map((p, i) => { const [x, y] = points.split(' ')[i].split(','); return `<circle cx="${x}" cy="${y}" r="4" fill="var(--surface)" stroke="var(--accent)" stroke-width="3"><title>${esc(p.date)}: ${esc(price(p.close))}</title></circle>`; }).join('')}</svg><figcaption style="font-size:12px;color:var(--ink3);margin-top:7px">${esc(caption)}</figcaption></figure>`;
+}
+
+// ---------- sector percentile + peer enrichment ----------
+// Cross-company context for the per-metric SEO pages, drawn from the same
+// cached screen index that powers the Screener. Values are latest-FY raw
+// figures; a metric page only shows a percentile when its sector has enough
+// peers, so a thin sector never fabricates a ranking.
+const METRIC_INDEX_FIELD = {
+    'revenue': 'latestRevenue',
+    'net-income': 'latestNetIncome',
+    'eps': 'latestEps',
+    'ebitda': 'latestEbitda',
+    'total-debt': 'latestTotalDebt',
+    'shares-outstanding': 'latestSharesOutstanding',
+    'dividend-history': 'latestDividendPayout',
+    'gross-profit': 'latestGrossProfit',
+    'free-cash-flow': 'fcfAbs',
+    'pe-ratio': 'pe'
+};
+function ordinal(n) {
+    const last = n % 10, tens = n % 100;
+    if (tens >= 11 && tens <= 13) return `${n}th`;
+    if (last === 1) return `${n}st`;
+    if (last === 2) return `${n}nd`;
+    if (last === 3) return `${n}rd`;
+    return `${n}th`;
+}
+// Percentile (0–100) of the ticker's latest-FY value within its sector; null
+// when the sector is missing or has fewer than 5 comparable peers.
+function sectorPercentile(symbol, field) {
+    const rows = aiChat.buildScreenIndex();
+    const self = rows.find((r) => r.symbol === symbol);
+    if (!self || !self.sector) return null;
+    const peers = rows.filter((r) => r.sector === self.sector && r[field] !== null && r[field] !== undefined);
+    if (peers.length < 5) return null;
+    const sorted = peers.map((r) => r[field]).sort((a, b) => a - b);
+    const rank = sorted.filter((v) => v < self[field]).length;
+    return Math.round((rank / (sorted.length - 1)) * 100);
+}
+// Top same-sector peers by the field (highest first), for the "related stocks"
+// table on each metric page.
+function sectorPeers(symbol, field, n = 5) {
+    const rows = aiChat.buildScreenIndex();
+    const self = rows.find((r) => r.symbol === symbol);
+    if (!self || !self.sector) return [];
+    return rows
+        .filter((r) => r.sector === self.sector && r.symbol !== symbol && r[field] !== null && r[field] !== undefined)
+        .sort((a, b) => b[field] - a[field])
+        .slice(0, n)
+        .map((r) => ({ symbol: r.symbol, name: r.name, value: r[field] }));
+}
 
 // ---------- metric registry ----------
 // rows(data) -> [{year, value, aux}] newest-first; null value rows are dropped.
@@ -192,13 +304,18 @@ const METRICS = {
     }
 };
 const METRIC_SLUGS = Object.keys(METRICS);
-const RESEARCH_ROUTES = ['/research/shares-outstanding', '/research/pe-ratio-history', '/research/dilution-scorecard'];
+const RESEARCH_ROUTES = ['/research/shares-outstanding', '/research/pe-ratio-history', '/research/dilution-scorecard', '/research/how-to-read-a-10-k', '/research/how-to-compare-two-stocks', '/research/what-is-free-cash-flow', '/research/how-to-find-undervalued-stocks'];
 
 function pctChange(current, prior) {
     return current !== null && prior !== null && prior !== 0 ? ((current - prior) / Math.abs(prior)) * 100 : null;
 }
 function signedPct(value) {
     return value === null ? '—' : `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+}
+function asDate(iso) {
+    if (!iso || !/^\d{4}-\d{2}-\d{2}/.test(iso)) return iso || '';
+    const d = new Date(`${iso.slice(0, 10)}T00:00:00Z`);
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
 }
 function secCompanyUrl(symbol, form = '10-K') {
     return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(symbol)}&type=${encodeURIComponent(form)}&owner=exclude&count=40`;
@@ -246,6 +363,9 @@ function availability() {
                 const usable = m.rows(d).filter((r) => r.value !== null).length;
                 flags[slug] = m.allowEmpty ? m.rows(d).length >= 2 : usable >= 2;
             }
+            // Price-history pages need >=2 monthly adjusted closes to render.
+            const monthly = (d.monthly || {})['Monthly Adjusted Time Series'] || {};
+            flags.priceHistory = Object.keys(monthly).filter((k) => num(monthly[k]['5. adjusted close']) !== null).length >= 2;
             _avail.set(c.symbol, flags);
         } catch (_) { /* unreadable file — no metric pages for it */ }
     }
@@ -273,6 +393,13 @@ function renderMetricPage(ticker, slug, options = {}) {
     const oneYear = usable.length > 1 ? pctChange(usable[0].value, usable[1].value) : null;
     const fiveYearRow = usable.find((row) => Number(row.year) <= Number(usable[0]?.year) - 5) || usable[usable.length - 1];
     const fiveYear = fiveYearRow && fiveYearRow !== usable[0] ? pctChange(usable[0].value, fiveYearRow.value) : null;
+
+    // Sector context: percentile sentence + peer table, only when the cached
+    // screen index has a sector with enough comparable peers.
+    const indexField = METRIC_INDEX_FIELD[slug];
+    const sectorName = indexField ? (aiChat.buildScreenIndex().find((r) => r.symbol === sym) || {}).sector : null;
+    const percentile = indexField ? sectorPercentile(sym, indexField) : null;
+    const peers = indexField ? sectorPeers(sym, indexField, 5) : [];
 
     const canonical = `${SITE}/stocks/${sym}/${slug}`;
     const fundFile = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals', `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
@@ -417,11 +544,38 @@ function renderMetricPage(ticker, slug, options = {}) {
     const historyHeading = `${name} ${m.label}${/history$/i.test(m.label) ? '' : ' history'} by fiscal year`;
     const methodology = m.methodology || `Figures are drawn from ${m.source}.`;
 
+    // Dividend ex-date enrichment for the dividend-history page, only when the
+    // cache carries Yahoo dividend history (populated by the refresh flow). The
+    // fiscal-year cash-flow table above stays the source of record; these are
+    // complementary declared per-share dividends and are labelled as such.
+    let dividendExtras = '';
+    if (slug === 'dividend-history') {
+        const divHist = ((data.dividends || {}).history || [])
+            .filter((d) => d.exDate && d.amount !== null && d.amount !== undefined);
+        if (divHist.length) {
+            const nextEx = (data.overview || {}).ExDividendDate || '';
+            const exRows = divHist.slice(-24).reverse()
+                .map((d) => `<tr><td>${esc(asDate(d.exDate))}</td><td>$${Number(d.amount).toFixed(2)}</td></tr>`).join('');
+            const qMap = new Map();
+            divHist.forEach((d) => {
+                const q = `${d.exDate.slice(0, 4)} Q${Math.floor((Number(d.exDate.slice(5, 7)) - 1) / 3) + 1}`;
+                qMap.set(q, (qMap.get(q) || 0) + Number(d.amount));
+            });
+            const qRows = [...qMap.entries()].slice(-8).reverse()
+                .map(([q, v]) => `<tr><td>${esc(q)}</td><td>$${v.toFixed(2)}</td></tr>`).join('');
+            const nextHtml = nextEx
+                ? `<p class="seo-about" style="margin:0 0 12px"><strong>Next expected ex-dividend date:</strong> ${esc(asDate(nextEx))}. Per Yahoo summary data — the company declares it; this is not a site projection.</p>`
+                : '';
+            dividendExtras = `<div class="seo-section"><h2>${esc(name)} dividend ex-dates and quarterly payouts</h2>${nextHtml}<div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Ex-dividend date</th><th>Dividend per share</th></tr></thead><tbody>${exRows}</tbody></table></div>${qRows ? `<div style="overflow-x:auto;margin-top:14px"><table class="seo-table"><thead><tr><th>Quarter</th><th>Total paid per share</th></tr></thead><tbody>${qRows}</tbody></table></div>` : ''}<p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Ex-dates and per-share amounts from Yahoo Finance dividend history, refreshed nightly; per-share figures are the declared cash dividends. The fiscal-year table above comes from the 10-K cash flow statement and remains the source of record.</p></div>`;
+        }
+    }
+
     return head(title, description, canonical, jsonld) + nav('company') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / ${esc(m.label)}</div>
   <h1 class="seo-h1">${esc(name)} ${esc(m.label)} <span style="color:var(--ink3);font-weight:600">${esc(y0)}–${esc(y1)}</span></h1>
   <p class="seo-sub">${esc(interpretation)}</p>
+  ${percentile !== null && sectorName ? `<p class="seo-sub" style="margin-top:6px">${esc(name)}'s ${esc(m.label)} is in the ${ordinal(percentile)} percentile of the ${esc(sectorName)} sector — ${percentile >= 50 ? 'above' : 'below'} the sector median.</p>` : ''}
   ${summaryCards}
   <div class="seo-section"><h2>${esc(historyHeading)}</h2>${trendSvg(all, historyHeading, directMetric ? 'Annual filed history. Hover chart points for raw values; the accessible table below is the source of record.' : 'Annual calculated history from filed inputs. Hover chart points for raw values; the accessible table below is the source of record.')}</div>
   <div class="seo-section">
@@ -429,8 +583,16 @@ function renderMetricPage(ticker, slug, options = {}) {
       <thead><tr><th>Fiscal year</th><th>${esc(m.label)}</th>${m.auxLabel ? `<th>${esc(m.auxLabel)}</th>` : ''}<th>Change (YoY)</th></tr></thead>
       <tbody>${trs}</tbody>
     </table></div>
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. ${esc(methodology)}${all.some((row) => row.derived) ? ' Rows marked * are derived from filed inputs.' : ''} Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="${esc(sourceUrl)}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} 10-K filings at SEC EDGAR</a> · <a href="/methodology" style="color:var(--ink3)">Methodology</a> · <a href="/stocks/${esc(sym)}/${esc(slug)}.csv">Download CSV</a>.</p>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. ${esc(methodology)}${all.some((row) => row.derived) ? ' Rows marked * are derived from filed inputs.' : ''} Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. Update frequency: quarterly (on each new SEC filing). <a href="${esc(sourceUrl)}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} 10-K filings at SEC EDGAR</a> · <a href="/methodology" style="color:var(--ink3)">Methodology</a> · <a href="/stocks/${esc(sym)}/${esc(slug)}.csv">Download CSV</a>.</p>
   </div>
+  ${dividendExtras}
+  ${peers.length ? `<div class="seo-section"><h2>${esc(name)} ${esc(m.label)} vs. ${esc(sectorName)} sector peers</h2>
+    <div style="overflow-x:auto"><table class="seo-table">
+      <thead><tr><th>Company</th><th>${esc(m.label)}</th></tr></thead>
+      <tbody>${peers.map((p) => `<tr><td><a href="/stocks/${esc(p.symbol)}/${esc(slug)}">${esc(p.symbol)}</a> — ${esc(p.name)}</td><td>${esc(m.fmt(p.value))}</td></tr>`).join('')}</tbody>
+    </table></div>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Latest fiscal-year figures from SEC filings, ${esc(sectorName)} sector. Peers are the same-sector companies with the highest ${esc(m.noun)}; values are not estimates.</p>
+  </div>` : ''}
   <div class="seo-section"><h2>${esc(m.label)} methodology and context</h2><p class="seo-about">${esc(methodology)} ${esc(interpretation)} Values remain missing when the cached filing does not disclose a comparable line item; they are never estimated. Stock splits, reorganizations and fiscal-calendar changes can reduce comparability.</p><p style="font-size:13px;color:var(--ink3)">Prepared and reviewed by the stockportfolio.pro research desk. Corrections: <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div>
   ${nextAction}
   <div class="seo-lock">
@@ -442,6 +604,148 @@ function renderMetricPage(ticker, slug, options = {}) {
   <div class="seo-section"><h2>More ${esc(sym)} financial history</h2>
     <div class="seo-links">${siblings}</div>
     <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="${metricTool}">Analyze ${esc(m.noun)} with a free tool &rarr;</a>${metricHub ? ` &middot; <a href="${metricHub}">Research guide &amp; leaders &rarr;</a>` : ''} &middot; <a href="/stocks">All 1,500+ companies &rarr;</a></p>
+  </div>
+</main>` + footer();
+}
+
+// ---------- price-history page ----------
+// A per-ticker long-tail page: 20-year monthly adjusted-close chart, computed
+// total returns, 52-week range and trend indicators. Every number on the page
+// is derived from the same cached monthly series, so nothing is estimated.
+function renderPriceHistoryPage(ticker, options = {}) {
+    const sym = resolveCanonicalSymbol(ticker) || normalizeTicker(ticker);
+    const company = loadCompanies().find((c) => c.symbol === sym);
+    const data = loadFundamentals(sym);
+    if (!company || !data) return null;
+    const series = monthlySeries(data);
+    if (series.length < 2) return null;
+
+    const name = (data.overview || {}).Name || company.name || sym;
+    const ov = data.overview || {};
+    const firstDate = series[0].date;
+    const lastDate = series[series.length - 1].date;
+    const firstYear = firstDate.slice(0, 4);
+    const current = series[series.length - 1].close;
+    // Current close from the daily feed when present; the monthly series is the
+    // fallback so the page never fabricates a fresher quote.
+    const daily = (data.daily || {})['Time Series (Daily)'];
+    let currentPrice = current;
+    if (daily) {
+        const dDates = Object.keys(daily).sort();
+        const lastDaily = dDates.length ? num(daily[dDates[dDates.length - 1]]['4. close']) : null;
+        if (lastDaily !== null) currentPrice = lastDaily;
+    }
+    const ytd = ytdReturn(series);
+    const r1 = totalReturn(series, 1);
+    const r3 = totalReturn(series, 3);
+    const r5 = totalReturn(series, 5);
+    const r10 = totalReturn(series, 10);
+    // 52-week range from the market overview (realistic daily high/low, the same
+    // source the compare pages use); fall back to the monthly series only when
+    // the overview lacks the fields.
+    const rng = (num(ov['52WeekLow']) !== null && num(ov['52WeekHigh']) !== null)
+        ? { low: num(ov['52WeekLow']), high: num(ov['52WeekHigh']) }
+        : (range52w(series) || { low: null, high: null });
+    const ma50 = num(ov['50DayMovingAverage']);
+    const ma200 = num(ov['200DayMovingAverage']);
+    const beta = num(ov.Beta);
+    const rangePct = (rng.low !== null && rng.high !== null && rng.high > rng.low && currentPrice !== null)
+        ? Math.max(0, Math.min(100, ((currentPrice - rng.low) / (rng.high - rng.low)) * 100)) : null;
+
+    const canonical = `${SITE}/stocks/${sym}/price-history`;
+    const fundFile = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals', `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
+    let mtimeISO = null, freshness = '';
+    try { const mt = fs.statSync(fundFile).mtime; mtimeISO = mt.toISOString(); freshness = mt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (_) { /* no mtime */ }
+    const titleName = name.replace(/^The\s+/i, '')
+        .replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
+        .trim() || name;
+    const titleNameShort = titleName.length > 28
+        ? `${titleName.slice(0, 28).replace(/\s+\S*$/, '').trim()}…` : titleName;
+    const title = `${sym} (${titleNameShort}) Stock Price History | Monthly since ${firstYear}`;
+    const description = `${name} (${sym}) adjusted-close history since ${firstYear}` +
+        (currentPrice !== null ? ` — latest ${price(currentPrice)}` : '') +
+        (rng.low !== null && rng.high !== null ? `, 52-week range ${price(rng.low)}–${price(rng.high)}` : '') +
+        `. Split- and dividend-adjusted monthly chart, YTD/1/3/5/10-year returns.`;
+
+    const faqs = [];
+    if (currentPrice !== null) faqs.push({
+        q: `What is ${name}'s current stock price?`,
+        a: `${name} (${sym}) last closed at ${price(currentPrice)} on ${esc(lastDate)} (split- and dividend-adjusted). The 52-week range is ${price(rng.low)}–${price(rng.high)}.`
+    });
+    if (r1 !== null) faqs.push({
+        q: `How has ${sym} performed over the last year?`,
+        a: `Over the past year, ${sym}'s adjusted close ${r1 >= 0 ? 'rose' : 'fell'} ${Math.abs(r1).toFixed(1)}%. It has traded between ${price(rng.low)} and ${price(rng.high)} over that window.`
+    });
+    if (r5 !== null) faqs.push({
+        q: `What is ${sym}'s 5-year return?`,
+        a: `Over the last five years, ${sym}'s split- and dividend-adjusted close returned ${r5 >= 0 ? '+' : ''}${r5.toFixed(1)}% total.`
+    });
+    faqs.push({
+        q: 'Where does this price data come from?',
+        a: `Prices are split- and dividend-adjusted monthly closes from the site's cached market-data feed, refreshed nightly from the last market session. Not investment advice.`
+    });
+
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    { '@type': 'ListItem', position: 1, name: 'Stocks', item: `${SITE}/stocks` },
+                    { '@type': 'ListItem', position: 2, name: `${name} (${sym})`, item: `${SITE}/stocks/${sym}` },
+                    { '@type': 'ListItem', position: 3, name: 'Stock price history', item: canonical }
+                ]
+            },
+            {
+                '@type': 'FAQPage',
+                mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
+            },
+            {
+                '@type': 'WebPage', '@id': canonical, url: canonical, name: title,
+                ...(mtimeISO ? { dateModified: mtimeISO } : {}),
+                isBasedOn: 'https://www.sec.gov/edgar',
+                publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` }
+            }
+        ]
+    });
+
+    const metricLinks = METRIC_SLUGS
+        .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(METRICS[s].label)}</a>`).join('');
+    const faqHtml = faqs.map((f) =>
+        `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
+    const returnRows = [
+        ['Year to date', ytd], ['1 year', r1], ['3 years', r3], ['5 years', r5], ['10 years', r10]
+    ].map(([label, value]) =>
+        `<tr><td>${esc(label)}</td><td>${esc(signedPct(value))}</td></tr>`).join('');
+    const rangeBar = (rng.low !== null && rng.high !== null && rangePct !== null)
+        ? `<div style="display:flex;align-items:center;gap:10px;margin:10px 0 4px"><span style="min-width:64px;font-size:13px;color:var(--ink2)">${esc(price(rng.low))}</span><div style="position:relative;flex:1;height:8px;background:var(--line);border-radius:4px"><div style="position:absolute;left:calc(${rangePct.toFixed(1)}% - 7px);top:-3px;width:14px;height:14px;border-radius:50%;background:var(--accent)"></div></div><span style="min-width:64px;font-size:13px;color:var(--ink2)">${esc(price(rng.high))}</span></div>`
+        : '';
+    const trendTiles = (ma50 !== null || ma200 !== null || beta !== null) ? `<div class="seo-grid">${ma50 !== null ? `<div class="seo-tile"><div class="l">50-day moving average</div><div class="v">${esc(price(ma50))}</div></div>` : ''}${ma200 !== null ? `<div class="seo-tile"><div class="l">200-day moving average</div><div class="v">${esc(price(ma200))}</div></div>` : ''}${beta !== null ? `<div class="seo-tile"><div class="l">Beta</div><div class="v">${esc(String(beta))}</div></div>` : ''}</div>` : '';
+
+    return head(title, description, canonical, jsonld) + nav('company') + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / Price history</div>
+  <h1 class="seo-h1">${esc(name)} stock price history <span style="color:var(--ink3);font-weight:600">${esc(firstYear)}–${esc(lastDate.slice(0, 4))}</span></h1>
+  <p class="seo-sub">As of ${esc(asDate(lastDate))}, ${esc(name)} (${esc(sym)}) last closed at <strong>${esc(price(currentPrice))}</strong> — ${esc(signedPct(ytd))} year to date, ${esc(signedPct(r1))} over one year and ${esc(signedPct(r5))} over five. The 52-week range is ${esc(price(rng.low))}–${esc(price(rng.high))}.</p>
+  <div class="seo-section"><h2>${esc(sym)} adjusted monthly close since ${esc(firstYear)}</h2>${monthlyTrendSvg(series, `${sym} adjusted monthly close ${firstDate} to ${lastDate}`, 'Split- and dividend-adjusted monthly closes. Hover chart points for the raw value; the table below is the source of record.')}</div>
+  <div class="seo-section">
+    <div style="overflow-x:auto"><table class="seo-table">
+      <thead><tr><th>Period</th><th>Total return (adjusted close)</th></tr></thead>
+      <tbody>${returnRows}</tbody>
+    </table></div>
+    ${rangePct !== null ? `<p style="font-size:13px;color:var(--ink3);margin:6px 0 0">Position of the current price within the 52-week range${rangeBar}.</p>` : ''}
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} split- and dividend-adjusted monthly closes, ${esc(firstDate)} to ${esc(lastDate)}. Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="${esc(secCompanyUrl(sym))}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} filings at SEC EDGAR</a> &middot; <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
+  </div>
+  ${trendTiles}
+  <div class="seo-lock">
+    <h3>See the full picture for ${esc(name)}</h3>
+    <p>Complete income statement, balance sheet and cash flow with trend on every row, 48 quarters, ratios, health checks, and Ask — the SEC-grounded research assistant.</p>
+    <a class="seo-cta-btn" href="/company?symbol=${esc(sym)}">Open the interactive view — free</a>
+  </div>
+  <div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>${faqHtml}</div>
+  <div class="seo-section"><h2>More ${esc(sym)} financial history</h2>
+    <div class="seo-links">${metricLinks}</div>
+    <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a></p>
   </div>
 </main>` + footer();
 }
@@ -550,7 +854,7 @@ function renderSharesResearch() {
   <div class="seo-section"><h2>Largest latest-year share-count increases</h2><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Company</th><th>Latest period</th><th>Shares</th><th>1-year</th><th>Long-run context</th></tr></thead><tbody>${table(rising)}</tbody></table></div></div>
   <div class="seo-section"><h2>Largest latest-year share-count reductions</h2><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Company</th><th>Latest period</th><th>Shares</th><th>1-year</th><th>Long-run context</th></tr></thead><tbody>${table(falling)}</tbody></table></div></div>
   <div class="seo-lock"><h3>Check any company for dilution</h3><p>Enter a ticker for the exact filed counts, dates, change and split-comparability warning.</p><a class="seo-cta-btn" href="/tools/dilution">Open the free dilution calculator</a></div>
-  <div class="seo-section"><h2>Continue the research</h2><div class="seo-links"><a href="/research/dilution-scorecard">Download the US-company dilution scorecard</a>${RESEARCH_SYMBOLS.slice(0, 8).map((symbol) => `<a href="/stocks/${symbol}/shares-outstanding">${symbol} shares outstanding history</a>`).join('')}</div></div>
+  <div class="seo-section"><h2>Continue the research</h2><div class="seo-links"><a href="/research/dilution-scorecard">Download the US-company dilution scorecard</a><a href="/research/how-to-read-a-10-k">How to read a 10-K</a><a href="/research/what-is-free-cash-flow">What is free cash flow?</a>${RESEARCH_SYMBOLS.slice(0, 8).map((symbol) => `<a href="/stocks/${symbol}/shares-outstanding">${symbol} shares outstanding history</a>`).join('')}</div></div>
   <div class="seo-section"><h2>Method and limitations</h2><div class="seo-about"><p>Latest and comparison values use <code>commonStockSharesOutstanding</code> from cached annual balance sheets dated 2024 or later. A one-year change of 65% or more, or a five-year change of 200% or more, is labelled not directly comparable and left out of rankings because it may reflect a split, merger, spin-off, pre-listing base or reporting discontinuity. This is a screening signal, not proof of economic dilution and not investment advice.</p><p>Primary source: <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. See the <a href="/methodology">full methodology</a> or report a correction to <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div></div>`;
     return researchScaffold({
         slug: 'shares-outstanding', title: 'Shares Outstanding History: Dilution & Buyback Research',
@@ -568,7 +872,7 @@ function renderPeResearch() {
   <div class="seo-grid"><div class="seo-tile"><div class="l">Calculation</div><div class="v" style="font-size:16px">FY-end price ÷ EPS</div></div><div class="seo-tile"><div class="l">Earnings basis</div><div class="v" style="font-size:16px">Diluted annual EPS</div></div><div class="seo-tile"><div class="l">Refresh</div><div class="v" style="font-size:16px">Nightly</div></div></div>
   <div class="seo-section"><h2>What historical P/E can—and cannot—tell you</h2><div class="seo-about"><p>A P/E ratio relates a stock price to earnings per share. Comparing the same company across fiscal year ends can show how much investors paid for each dollar of annual earnings at different points in time. It does not explain why the multiple changed, and comparisons across sectors can be misleading.</p><p>Our historical series uses the adjusted monthly close at or immediately before each fiscal year end divided by positive diluted EPS from that annual filing. It is not a live P/E, forward estimate or recommendation. Years with zero or negative EPS are deliberately omitted rather than presented as a meaningful multiple.</p></div></div>
   <div class="seo-section"><h2>Frequently researched P/E histories</h2><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Company</th><th>Fiscal period</th><th>Historical P/E</th><th>Change vs prior FY</th></tr></thead><tbody>${trs}</tbody></table></div></div>
-  <div class="seo-section"><h2>Go deeper</h2><div class="seo-links">${RESEARCH_SYMBOLS.map((symbol) => `<a href="/stocks/${symbol}/pe-ratio">${symbol} P/E ratio history</a>`).join('')}<a href="/screens/low-pe-stocks">Low P/E stock screen</a><a href="/compare">Compare two companies</a></div></div>
+  <div class="seo-section"><h2>Go deeper</h2><div class="seo-links">${RESEARCH_SYMBOLS.map((symbol) => `<a href="/stocks/${symbol}/pe-ratio">${symbol} P/E ratio history</a>`).join('')}<a href="/screens/low-pe-stocks">Low P/E stock screen</a><a href="/compare">Compare two companies</a><a href="/research/how-to-find-undervalued-stocks">How to find undervalued stocks</a><a href="/research/how-to-compare-two-stocks">How to compare two stocks</a></div></div>
   <div class="seo-lock"><h3>Compare valuation with business quality</h3><p>A lower multiple is not automatically cheaper. Put margins, growth, returns and filed risks beside the valuation.</p><a class="seo-cta-btn" href="/compare">Compare two stocks free</a></div>
   <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Annual EPS comes from company 10-K income statements and fiscal-year-end prices from the adjusted monthly series in the local fundamentals cache. Corporate actions and unusual earnings can impair comparability. Verify the primary filing at <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>; see <a href="/methodology">methodology</a>. Corrections: <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div>`;
     return researchScaffold({
@@ -576,6 +880,144 @@ function renderPeResearch() {
         description: 'Research historical P/E ratios using fiscal-year-end prices and diluted annual EPS, with transparent methodology and direct links to company histories.',
         h1: 'Historical P/E ratios, explained with filed data', intro: 'Use consistent fiscal-year snapshots to understand how a company’s earnings multiple changed—without confusing historical P/E with today’s valuation.', body,
         jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Historical P/E ratios', url: canonical, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` } }
+    });
+}
+
+// ---- Educational /research/* guides (SEO gap #5) ----
+// Informational entry points in the Wisesheets model: plain-English
+// explanations, SEC source links, a worked example computed from the live
+// fundamentals cache at render time, an FAQ block, and the seo-lock CTA that
+// researchScaffold already appends.
+
+function guideFaq(faqs) {
+    return faqs.map((f) =>
+        `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
+}
+
+function guideJsonLd(canonical, title, faqs) {
+    const graph = [
+        { '@type': 'Article', '@id': canonical, url: canonical, name: title, headline: title, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` } },
+        { '@type': 'WebPage', '@id': canonical, url: canonical, name: title, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` } }
+    ];
+    if (faqs.length) graph.splice(1, 0, { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
+    return graph;
+}
+
+function renderRead10KGuide() {
+    const canonical = `${SITE}/research/how-to-read-a-10-k`;
+    const data = loadFundamentals('AAPL') || {};
+    const inc = (data.income || {}).annualReports?.[0] || {};
+    const cash = (data.cash || {}).annualReports?.[0] || {};
+    const fy = (inc.fiscalDateEnding || '').slice(0, 4) || 'latest';
+    const rev = num(inc.totalRevenue), ni = num(inc.netIncome), eps = num(inc.dilutedEPS);
+    const ocf = num(cash.operatingCashflow), capexRaw = num(cash.capitalExpenditures);
+    const capex = capexRaw === null ? null : Math.abs(capexRaw);
+    const fmt = (v) => v === null ? '—' : money(v);
+    const name = (data.overview || {}).Name || 'Apple';
+    const faqs = [
+        { q: 'Where do I find a company’s 10-K?', a: 'Every US public company files its annual report (the 10-K) with the SEC. The fastest route is SEC EDGAR: search the company, open the filing index and pick the most recent 10-K. Companies must file within 60–90 days of fiscal year end depending on size.' },
+        { q: 'What is the difference between a 10-K and a 10-Q?', a: 'The 10-K is the annual report: audited full-year financial statements plus Management’s Discussion & Analysis and risk factors. The 10-Q is the lighter, unaudited quarterly report. Both are required filings, but the 10-K is where the audited numbers and the full narrative live.' },
+        { q: 'Which parts should a beginner read first?', a: 'Start with the three audited statements: income, balance sheet and cash flow. Then read Management’s Discussion & Analysis (MD&A), where the company itself explains the drivers, and skim the risk factors for what could go wrong.' }
+    ];
+    const body = `
+  <div class="seo-section"><h2>What a 10-K is and why investors read it</h2><div class="seo-about"><p>A 10-K is the annual report every US public company files with the SEC. It contains audited financial statements, a management discussion, and a candid section on the risks the company believes it faces. The numbers in a 10-K are the ones the company is legally responsible for — which is why serious research starts here rather than on a price chart.</p><p>The primary source is <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>, where every filing is public, searchable and free.</p></div></div>
+  <div class="seo-section"><h2>The financial statements at a glance</h2><div class="seo-about"><p><strong>Income statement</strong> — revenue, costs and the profit (or loss) for the year. <strong>Balance sheet</strong> — what the company owns and owes at year end. <strong>Cash flow statement</strong> — where cash actually came from and went, including what was reinvested and what was returned to shareholders. <strong>Statement of equity</strong> — how retained earnings and share counts moved. Most investors read the first three and go back for the fourth when they need it.</p></div></div>
+  <div class="seo-section"><h2>Worked example: ${esc(name)}’s fiscal ${esc(fy)} 10-K</h2><div class="seo-about"><p>The latest filed annual income statement shows revenue of ${esc(fmt(rev))} and net income of ${esc(fmt(ni))}, or diluted EPS of ${esc(eps === null ? '—' : eps.toFixed(2))}. Operating cash flow was ${esc(fmt(ocf))} while capital expenditures were ${esc(fmt(capex))} — the difference is the cash the business produced before reinvestment. Every figure is available here with its filed history and source links: <a href="/stocks/AAPL/revenue">AAPL revenue history</a> · <a href="/stocks/AAPL/net-income">AAPL net income history</a> · <a href="/stocks/AAPL/free-cash-flow">AAPL free cash flow history</a>.</p><p>Open the primary documents at <a href="${esc(secCompanyUrl('AAPL'))}" rel="noopener nofollow" target="_blank">Apple’s 10-K filings on SEC EDGAR</a>.</p></div></div>
+  <div class="seo-section"><h2>Read MD&A and the risk factors, not just the numbers</h2><div class="seo-about"><p>The statements answer “how much.” Management’s Discussion and Analysis answers “why” — the company’s own explanation of what moved revenue, margins and cash, and what it expects next. The risk factors are the formal list of things that could hurt the business. Reading all three together is what turns a 10-K into research instead of a data dump.</p></div></div>
+  <div class="seo-section"><h2>Frequently asked questions</h2>${guideFaq(faqs)}</div>
+  <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/research/what-is-free-cash-flow">What is free cash flow?</a><a href="/research/how-to-compare-two-stocks">How to compare two stocks</a><a href="/research/how-to-find-undervalued-stocks">How to find undervalued stocks</a><a href="/methodology">Full methodology</a></div></div>
+  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Figures shown are from the local fundamentals cache, which originates in company SEC filings; they are a convenience summary, not a substitute for reading the primary 10-K at <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. See <a href="/methodology">methodology</a>. Not investment advice.</p></div>`;
+    return researchScaffold({
+        slug: 'how-to-read-a-10-k', title: 'How to Read a 10-K: A Plain-English Walkthrough',
+        description: 'Learn how to read a 10-K with a worked example from real filings — the financial statements, MD&A, risk factors and where to find them on SEC EDGAR.',
+        h1: 'How to read a 10-K', intro: 'A plain-English walkthrough of the annual report — what each section is for, what to read first and how to pull the filed numbers yourself.', body,
+        jsonld: guideJsonLd(canonical, 'How to read a 10-K', faqs)
+    });
+}
+
+function renderCompareGuide() {
+    const canonical = `${SITE}/research/how-to-compare-two-stocks`;
+    const a = loadFundamentals('AAPL') || {}; const b = loadFundamentals('MSFT') || {};
+    const sA = monthlySeries(a), sB = monthlySeries(b);
+    const r = (series, years) => totalReturn(series, years);
+    const pct = (v) => v === null ? '—' : signedPct(v);
+    const nameA = (a.overview || {}).Name || 'Apple', nameB = (b.overview || {}).Name || 'Microsoft';
+    const peA = num((a.overview || {}).TrailingPE), peB = num((b.overview || {}).TrailingPE);
+    const peFmt = (v) => v === null ? '—' : `${v.toFixed(1)}×`;
+    const faqs = [
+        { q: 'What should I compare first — the stock or the business?', a: 'The business. Revenue growth, margins, returns on capital and debt describe how the company actually performs; the price multiple tells you what the market currently charges for that performance. Comparing price before business is how superficially similar charts hide very different companies.' },
+        { q: 'Why is it misleading to compare P/E ratios across sectors?', a: 'Different sectors carry different typical margins, growth and capital intensity, so a 25× multiple in one sector can be ordinary while the same number is expensive in another. Compare a company against its own history and its same-sector peers first.' },
+        { q: 'Where do the numbers in this example come from?', a: 'Returns come from monthly adjusted closes (split- and dividend-adjusted) in the fundamentals cache; P/E uses trailing annual EPS from the latest filed income statement. Every underlying series links to its filed source.' }
+    ];
+    const body = `
+  <div class="seo-grid"><div class="seo-tile"><div class="l">1-year</div><div class="v">${esc(pct(r(sA, 1)))} vs ${esc(pct(r(sB, 1)))}</div></div><div class="seo-tile"><div class="l">5-year</div><div class="v">${esc(pct(r(sA, 5)))} vs ${esc(pct(r(sB, 5)))}</div></div><div class="seo-tile"><div class="l">Trailing P/E</div><div class="v" style="font-size:16px">${esc(peFmt(peA))} vs ${esc(peFmt(peB))}</div></div></div>
+  <div class="seo-section"><h2>Compare the business first, the stock second</h2><div class="seo-about"><p>A comparison is only useful when it matches the right questions. Start with the business: Is revenue growing and at what pace? Are margins stable, expanding or eroding? How much of the result is cash rather than accounting profit? How much debt is on the balance sheet? Then — and only then — ask what the market charges for it.</p></div></div>
+  <div class="seo-section"><h2>Worked example: ${esc(nameA)} vs ${esc(nameB)}</h2><div class="seo-about"><p>Over the past year ${esc(nameA)} returned ${esc(pct(r(sA, 1)))} on an adjusted basis while ${esc(nameB)} returned ${esc(pct(r(sB, 1)))}; over five years the figures are ${esc(pct(r(sA, 5)))} and ${esc(pct(r(sB, 5)))}. On trailing filed earnings ${esc(nameA)} trades near ${esc(peFmt(peA))} and ${esc(nameB)} near ${esc(peFmt(peB))} — but the multiple only means something once you have checked margins, growth and the balance sheet behind it. The full head-to-head, with the verdict, is at <a href="/compare/AAPL-vs-MSFT">Apple vs Microsoft</a>.</p></div></div>
+  <div class="seo-section"><h2>Watch the base you compare on</h2><div class="seo-about"><p>A price-to-earnings multiple changes with the price, the fiscal year end, and whether earnings are trailing or forward. Returns change with the start date and whether dividends are counted. Two sources showing “different” numbers are often just using different bases — the honest comparison states the period and the formula.</p></div></div>
+  <div class="seo-section"><h2>Frequently asked questions</h2>${guideFaq(faqs)}</div>
+  <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/compare">Compare any two stocks</a><a href="/research/how-to-find-undervalued-stocks">How to find undervalued stocks</a><a href="/research/pe-ratio-history">Historical P/E research</a><a href="/methodology">Full methodology</a></div></div>
+  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Returns are computed from the split- and dividend-adjusted monthly close series in the fundamentals cache; P/E is trailing fiscal-year-end price divided by positive diluted annual EPS. All figures refresh nightly and originate in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. See <a href="/methodology">methodology</a>. Not investment advice.</p></div>`;
+    return researchScaffold({
+        slug: 'how-to-compare-two-stocks', title: 'How to Compare Two Stocks Without Fooling Yourself',
+        description: 'Compare two stocks fairly: business fundamentals before valuation, same-sector peers, adjusted returns and a real Apple vs Microsoft worked example.',
+        h1: 'How to compare two stocks', intro: 'A method for comparing companies fairly — business first, valuation second, always on the same basis, with a real filed-data example.', body,
+        jsonld: guideJsonLd(canonical, 'How to compare two stocks', faqs)
+    });
+}
+
+function renderFreeCashFlowGuide() {
+    const canonical = `${SITE}/research/what-is-free-cash-flow`;
+    const data = loadFundamentals('AAPL') || {};
+    const cash = (data.cash || {}).annualReports?.[0] || {};
+    const fy = (cash.fiscalDateEnding || '').slice(0, 4) || 'latest';
+    const ocf = num(cash.operatingCashflow), capexRaw = num(cash.capitalExpenditures);
+    const capex = capexRaw === null ? null : Math.abs(capexRaw);
+    const fcf = ocf !== null && capex !== null ? ocf - capex : null;
+    const fmt = (v) => v === null ? '—' : money(v);
+    const name = (data.overview || {}).Name || 'Apple';
+    const faqs = [
+        { q: 'Is free cash flow the same as net income?', a: 'No. Net income is accounting profit and can include non-cash items such as depreciation. Free cash flow is the cash left after operating cash flow pays for the capital expenditures needed to run the business. The two often differ materially.' },
+        { q: 'Can free cash flow be negative for a healthy company?', a: 'Yes. Young or fast-growing companies routinely invest more in plant, inventory and equipment than current operations generate, producing negative FCF for years. The number is diagnostic, not a verdict — read it alongside growth and debt.' },
+        { q: 'Where do the operating and capital figures come from?', a: 'They are the company’s filed cash flow statement at SEC EDGAR. This site computes free cash flow deterministically as operating cash flow minus capital expenditures and shows the full history on each company’s free cash flow page.' }
+    ];
+    const body = `
+  <div class="seo-section"><h2>The one-line definition</h2><div class="seo-about"><p>Free cash flow (FCF) = operating cash flow − capital expenditures. It is the cash a business produces in a period after paying for the investments required to keep it running. It matters because it is the cash a company can repay debt with, buy back shares with, pay dividends with, or reinvest — and because it is much harder to inflate with accounting than net income.</p></div></div>
+  <div class="seo-section"><h2>Worked example: ${esc(name)} fiscal ${esc(fy)}</h2><div class="seo-about"><p>From the filed cash flow statement: operating cash flow of ${esc(fmt(ocf))} minus capital expenditures of ${esc(fmt(capex))} gives free cash flow of ${esc(fmt(fcf))} for the fiscal year. The full filed series — with every year’s operating cash flow, capital expenditures and the derived FCF — is on the <a href="/stocks/AAPL/free-cash-flow">Apple free cash flow history page</a>, which links back to the primary filing.</p></div></div>
+  <div class="seo-section"><h2>Why analysts watch it more than earnings</h2><div class="seo-about"><p>Net income can be moved by non-cash charges, inventory timing and one-off items. Free cash flow asks a simpler question: after keeping the lights on and the plants running, how much cash did the company generate? Steady, growing FCF is how a company funds returns to shareholders without borrowing. When FCF keeps falling while profits keep rising, the accounting deserves a second look.</p></div></div>
+  <div class="seo-section"><h2>Frequently asked questions</h2>${guideFaq(faqs)}</div>
+  <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/research/how-to-read-a-10-k">How to read a 10-K</a><a href="/research/how-to-compare-two-stocks">How to compare two stocks</a><a href="/methodology">Full methodology</a></div></div>
+  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">FCF is computed deterministically as operating cash flow minus capital expenditures from the local cache of filed cash flow statements, which originates in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. Different sources define FCF differently (for example, subtracting acquisitions), so state the definition when you cite it. See <a href="/methodology">methodology</a>. Not investment advice.</p></div>`;
+    return researchScaffold({
+        slug: 'what-is-free-cash-flow', title: 'What Is Free Cash Flow? Definition with a Filed Example',
+        description: 'Free cash flow explained with a real worked example — operating cash flow minus capital expenditures, why it matters and where to find the filed numbers.',
+        h1: 'What is free cash flow?', intro: 'The definition, a real filed example, and why analysts watch this number more closely than net income.', body,
+        jsonld: guideJsonLd(canonical, 'What is free cash flow?', faqs)
+    });
+}
+
+function renderFindUndervaluedGuide() {
+    const canonical = `${SITE}/research/how-to-find-undervalued-stocks`;
+    const a = loadFundamentals('AAPL') || {}; const b = loadFundamentals('MSFT') || {};
+    const peA = num((a.overview || {}).TrailingPE), peB = num((b.overview || {}).TrailingPE);
+    const peFmt = (v) => v === null ? '—' : `${v.toFixed(1)}×`;
+    const nameA = (a.overview || {}).Name || 'Apple', nameB = (b.overview || {}).Name || 'Microsoft';
+    const faqs = [
+        { q: 'Is “cheap” the same as “undervalued”?', a: 'No. Cheap means a low multiple relative to a reference — an industry, the market or the company’s own history. Undervalued means the market is systematically understating the cash the business can return. A low P/E on a falling business is cheap for a reason.' },
+        { q: 'What should I check after a screen flags a stock?', a: 'The filings: is revenue growing, are margins stable or eroding, is cash flow backing up the earnings, how much debt is there, and what does management say about the future? A shortlist from a screen is an agenda for reading, not a conclusion.' },
+        { q: 'Does a low P/E mean the stock will go up?', a: 'No. Multiple levels reflect consensus about growth, risk and quality, and a stock can stay cheap while it re-rates or while the business keeps disappointing. Valuation signals help you choose a research priority, not predict a price.' }
+    ];
+    const body = `
+  <div class="seo-section"><h2>Cheap is a fact, undervalued is a conclusion</h2><div class="seo-about"><p>Every tool that “finds undervalued stocks” actually finds one thing: a price that is low relative to some reference — a sector, the market, the company’s own history. Whether that low price is an opportunity or a warning is a question about the business, not the ratio. This page turns that the other way: the screen narrows the field, and the filings decide.</p></div></div>
+  <div class="seo-section"><h2>Worked example: two very different “multiples”</h2><div class="seo-about"><p>As of the latest filed data, ${esc(nameA)} trades near ${esc(peFmt(peA))} trailing earnings while ${esc(nameB)} trades near ${esc(peFmt(peB))} — so ${esc(peA !== null && peB !== null && peA > peB ? 'AAPL' : 'MSFT')} “costs more” per unit of trailing earnings. The question is whether that gap reflects a difference in growth, margins, balance sheet risk, or an opportunity. That is exactly the comparison the <a href="/research/how-to-compare-two-stocks">compare guide</a> and the <a href="/compare">live compare tool</a> are built to help you make.</p></div></div>
+  <div class="seo-section"><h2>Start from a screen, verify in the filings</h2><div class="seo-about"><p>The <a href="/screens/low-pe-stocks">low P/E stock screen</a> is a legitimate starting point: it ranks companies by price relative to earnings. Treat the output as a shortlist. For each name, the research loop is the same — growth, margins, cash flow, debt, dividend safety — then a decision about why the market is charging what it does. The same discipline applies to <a href="/research/pe-ratio-history">historical P/E research</a>.</p></div></div>
+  <div class="seo-section"><h2>Frequently asked questions</h2>${guideFaq(faqs)}</div>
+  <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/research/how-to-compare-two-stocks">How to compare two stocks</a><a href="/research/what-is-free-cash-flow">What is free cash flow?</a><a href="/research/how-to-read-a-10-k">How to read a 10-K</a><a href="/research/pe-ratio-history">Historical P/E research</a></div></div>
+  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Trailing P/E figures come from the fundamentals cache, which originates in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. A multiple is a research signal, not a recommendation; a low P/E never guarantees a gain. See <a href="/methodology">methodology</a>. Not investment advice.</p></div>`;
+    return researchScaffold({
+        slug: 'how-to-find-undervalued-stocks', title: 'How to Find Undervalued Stocks: A Source-Backed Method',
+        description: 'A disciplined, source-backed method for finding undervalued stocks — cheap is a fact, undervalued is a conclusion — with a real worked example.',
+        h1: 'How to find undervalued stocks', intro: 'Cheap is a fact, undervalued is a conclusion. A method for turning screens into research — and research into a decision.', body,
+        jsonld: guideJsonLd(canonical, 'How to find undervalued stocks', faqs)
     });
 }
 
@@ -728,13 +1170,19 @@ function renderComparePage(pairSlug) {
     const inca = ((da.income || {}).annualReports || [])[0] || {};
     const incb = ((db.income || {}).annualReports || [])[0] || {};
 
+    // Performance from the monthly adjusted-close series (no new data source).
+    const perfA = { r1: totalReturn(monthlySeries(da), 1), r3: totalReturn(monthlySeries(da), 3), r5: totalReturn(monthlySeries(da), 5), r10: totalReturn(monthlySeries(da), 10) };
+    const perfB = { r1: totalReturn(monthlySeries(db), 1), r3: totalReturn(monthlySeries(db), 3), r5: totalReturn(monthlySeries(db), 5), r10: totalReturn(monthlySeries(db), 10) };
+    const rangeA = { high: num(da.overview?.['52WeekHigh']), low: num(da.overview?.['52WeekLow']) };
+    const rangeB = { high: num(db.overview?.['52WeekHigh']), low: num(db.overview?.['52WeekLow']) };
+
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
     const shortCompany = (value) => String(value || '').replace(/^The\s+/i, '').replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '').trim();
     // GSC comparison queries commonly contain company names rather than
     // tickers (for example, “Playtika Ltd. Yelp”). Put both names and tickers
     // in the title/H1 so the canonical comparison page is an obvious match.
     const title = `${shortCompany(ma.name)} (${a}) vs ${shortCompany(mb.name)} (${b}) | SEC-filed comparison`;
-    const description = `${ma.name} (${a}) vs ${mb.name} (${b}) with side-by-side SEC-filed revenue, margins, growth, P/E, ROE, dividends and red flags. Compare the fundamentals before buying.`;
+    const description = `${ma.name} (${a}) vs ${mb.name} (${b}) with side-by-side SEC-filed revenue, margins, growth, P/E, ROE, dividends, red flags and 1/3/5/10-year performance. Compare the fundamentals before buying.`;
 
     const fmtB = (v) => v === null ? '—' : `$${v >= 1000 ? (v / 1000).toFixed(2) + 'T' : v.toFixed(1) + 'B'}`;
     const fmtP = (v) => v === null ? '—' : `${v.toFixed(1)}%`;
@@ -763,6 +1211,29 @@ function renderComparePage(pairSlug) {
         `<tr><td>${esc(r.l)}</td>` +
         `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
         `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
+
+    // ---- performance rows (returns from monthly adjusted closes) ----
+    const rangeFmt = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}&ndash;$${r.high.toFixed(2)}` : '—';
+    const perfRows = [
+        { l: '1-year return', a: fmtP(perfA.r1), b: fmtP(perfB.r1), w: hi(perfA.r1, perfB.r1) },
+        { l: '3-year return', a: fmtP(perfA.r3), b: fmtP(perfB.r3), w: hi(perfA.r3, perfB.r3) },
+        { l: '5-year return', a: fmtP(perfA.r5), b: fmtP(perfB.r5), w: hi(perfA.r5, perfB.r5) },
+        { l: '10-year return', a: fmtP(perfA.r10), b: fmtP(perfB.r10), w: hi(perfA.r10, perfB.r10) },
+        { l: '52-week range', a: rangeFmt(rangeA), b: rangeFmt(rangeB), w: -1 }
+    ];
+    const perfTrs = perfRows.map((r) =>
+        `<tr><td>${esc(r.l)}</td>` +
+        `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
+        `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
+    const perfHtml = `
+  <div class="seo-section">
+    <h2>Performance &mdash; ${esc(a)} vs ${esc(b)}</h2>
+    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Total returns from monthly split- and dividend-adjusted closes; 52-week range from the latest quote. Past performance is not a prediction.</p>
+    <div style="overflow-x:auto"><table class="seo-table cmp-table">
+      <thead><tr><th>&nbsp;</th><th>${esc(ma.name)} (${esc(a)})</th><th>${esc(mb.name)} (${esc(b)})</th></tr></thead>
+      <tbody>${perfTrs}</tbody>
+    </table></div>
+  </div>`;
 
     const faqs = [
         {
@@ -813,6 +1284,10 @@ function renderComparePage(pairSlug) {
     const vSent = [];
     if (sizeBit) vSent.push(sizeBit + '.');
     if (vbits.length) vSent.push('On the fundamentals, ' + vbits.join('; ') + '.');
+    if (perfA.r5 != null && perfB.r5 != null && perfA.r5 !== perfB.r5) {
+        const aWins = perfA.r5 > perfB.r5;
+        vSent.push(`Over the last five years, <strong>${esc(aWins ? a : b)}</strong> returned ${fmtP(aWins ? perfA.r5 : perfB.r5)} vs ${fmtP(aWins ? perfB.r5 : perfA.r5)}.`);
+    }
     // Red-flag tally per side — the "what could hurt me" signal no free numbers
     // table surfaces. Computed from each company's filed statements.
     const rfa = aiChat.redFlagsFor(a), rfb = aiChat.redFlagsFor(b);
@@ -939,6 +1414,7 @@ function renderComparePage(pairSlug) {
       <tbody>${trs}</tbody>
     </table></div>
   </div>
+  ${perfHtml}
   <div class="seo-section"><h2>Verify the comparison</h2><div class="seo-links"><a href="/tools/earnings-quality">Check earnings versus cash flow &rarr;</a><a href="/tools/dilution">Compare filed share counts &rarr;</a><a href="/tools/filing-timeline">Open the latest SEC filing timeline &rarr;</a><a href="/tools/company-comparison">Run another company comparison &rarr;</a></div><p style="margin-top:10px;font-size:13px;color:var(--ink3)">Use the filing period and source shown by each tool before treating two figures as comparable.</p></div>
   ${swapHtml}
   <div class="seo-lock">
@@ -1243,9 +1719,21 @@ router.get('/stocks/:ticker/:metric', (req, res, next) => {
     if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(canonical || normalizeTicker(req.params.ticker))}`);
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
+router.get('/stocks/:ticker/price-history', (req, res, next) => {
+    // Not a METRICS slug, so the :metric route above falls through to here.
+    const canonical = resolveCanonicalSymbol(req.params.ticker);
+    if (canonical && String(req.params.ticker) !== canonical) return res.redirect(301, canonicalMetricPath(req, canonical, 'price-history'));
+    const html = renderPriceHistoryPage(canonical || req.params.ticker, { req });
+    if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(canonical || normalizeTicker(req.params.ticker))}`);
+    res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+});
 router.get('/research/shares-outstanding', (_req, res) => res.type('html').send(renderSharesResearch()));
 router.get('/research/pe-ratio-history', (_req, res) => res.type('html').send(renderPeResearch()));
 router.get('/research/dilution-scorecard', (_req, res) => res.type('html').send(renderDilutionScorecard()));
+router.get('/research/how-to-read-a-10-k', (_req, res) => res.type('html').send(renderRead10KGuide()));
+router.get('/research/how-to-compare-two-stocks', (_req, res) => res.type('html').send(renderCompareGuide()));
+router.get('/research/what-is-free-cash-flow', (_req, res) => res.type('html').send(renderFreeCashFlowGuide()));
+router.get('/research/how-to-find-undervalued-stocks', (_req, res) => res.type('html').send(renderFindUndervaluedGuide()));
 router.get('/research/dilution-scorecard.csv', (_req, res) => {
     res.set({ 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': 'attachment; filename="stockportfolio-dilution-scorecard.csv"', 'Cache-Control': 'public, max-age=21600' }).send(dilutionCsv());
 });
@@ -1270,6 +1758,7 @@ function sitemapUrls() {
     const avail = availability();
     for (const [sym, flags] of avail) {
         for (const slug of METRIC_SLUGS) if (flags[slug]) urls.push({ loc: `/stocks/${sym}/${slug}`, pri: '0.5' });
+        if (flags.priceHistory) urls.push({ loc: `/stocks/${sym}/price-history`, pri: '0.5' });
     }
     comparePairs().forEach((p) => urls.push({ loc: `/compare/${p}`, pri: '0.4' }));
     Object.keys(SCREENS).forEach((s) => urls.push({ loc: `/screens/${s}`, pri: '0.7' }));
@@ -1281,5 +1770,8 @@ module.exports = {
     router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS,
     renderMetricPage, renderComparePage, renderCompareIndex, metricCsv, dilutionRows, dilutionCsv,
     pilotEnabled, organicRequest, pilotEligibility, pilotAction,
-    renderSharesResearch, renderPeResearch, renderDilutionScorecard
+    renderSharesResearch, renderPeResearch, renderDilutionScorecard,
+    renderRead10KGuide, renderCompareGuide, renderFreeCashFlowGuide, renderFindUndervaluedGuide,
+    monthlySeries, totalReturn, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
+    renderPriceHistoryPage
 };
