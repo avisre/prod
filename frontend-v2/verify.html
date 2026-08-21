@@ -142,6 +142,7 @@
         <strong>This is one check. Make it continuous.</strong>
         <a href="/monitor.html?symbol=${encodeURIComponent(j.ticker)}">Watch ${j.ticker} — get this check every time the filing changes &rarr;</a>
         <a href="/ask.html?q=${encodeURIComponent('What does this verify result mean for ' + j.ticker + '? Explain the numbers in plain words.')}">Ask what this means for ${j.ticker} in plain words &rarr;</a>
+        <a href="/verify-ledger">See every claim checked against the filings &rarr;</a>
       </div>
     `;
     $('status').textContent = '';
