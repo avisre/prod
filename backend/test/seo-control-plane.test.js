@@ -26,6 +26,16 @@ test('ordinary SEO render exposes answer, evidence and source without AI calls',
   }
 });
 
+test('stock page carries the claim-check widget pre-filled with the ticker', () => {
+  const html = seo.renderStockPage('AAP');
+  assert.match(html, /See a claim about/);
+  assert.match(html, /Check it against the filing/);
+  assert.match(html, /id="cc-ticker"[^>]*value="AAP"/);
+  assert.match(html, /id="cc-go"/);
+  assert.match(html, /\/api\/verify/);
+  assert.match(html, /vf-bars/); // plain-language bar comparison, not a bare delta
+});
+
 test('AAP FCF opening answer identifies derived inputs before the history', () => {
   const html = extra.renderMetricPage('AAP', 'free-cash-flow');
   const h1 = html.indexOf('<h1');

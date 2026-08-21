@@ -898,6 +898,11 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-next:hover { border-color: var(--accent); }
 .ask-next:disabled { opacity: 0.5; cursor: default; }
 .ask-quote { border-left: 2px solid var(--line-strong); padding-left: 12px; color: var(--ink-2); }
+/* the source receipt — the cited source is the headline of every answer */
+.ask-receipt { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 16px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); font-size: var(--text-sm); }
+.ask-receipt-label { text-transform: uppercase; letter-spacing: 0.06em; font-size: 10.5px; color: var(--ink-3); }
+.ask-receipt a { color: var(--accent-ink); font-weight: 600; text-decoration: none; }
+.ask-receipt a:hover { text-decoration: underline; }
 .ask-cursor::after { content: '▍'; color: var(--accent); animation: askBlink 1s steps(1) infinite; }
 @keyframes askBlink { 50% { opacity: 0; } }
 .ask-quota { font-size: var(--text-xs); color: var(--ink-3); }
@@ -1357,3 +1362,40 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   .share-btn { min-height:34px; padding:7px 10px; }
   .share-status { width:100%; }
 }
+
+/* Headline-vs-filing claim checker — shared by /verify.html and the
+   /stocks/{ticker} claim-check widget. Plain-language verdict + bar
+   comparison, no bare deltas. */
+.vf-form { display:grid; grid-template-columns:210px minmax(0,1fr); gap:14px; align-items:start; }
+@media (max-width:720px) { .vf-form { grid-template-columns:1fr; } }
+.vf-label { display:block; font-size:13px; font-weight:600; color:var(--ink-2); margin-bottom:7px; }
+.vf-ticker.input { height:58px; font-size:17px; padding:0 14px; }
+.vf-claim.input { height:auto; min-height:118px; padding:14px 16px; font-size:17px; line-height:1.55; resize:vertical; }
+.vf-btn { height:46px; padding:0 24px; font-size:15px; }
+.vf-status { margin-top:10px; color:var(--ink-3); min-height:20px; }
+
+.vf-verdict { margin-top:22px; padding:18px 20px; border-radius:var(--radius); }
+.vf-title { font-size:18px; font-weight:700; margin:0 0 8px; line-height:1.3; }
+.vf-ok { background:#eef6ee; border:1px solid #cfe3cf; }
+.vf-ok .vf-title { color:#1c6b2f; }
+.vf-flag { background:#fef1f1; border:1px solid #f2c9c9; }
+.vf-flag .vf-title { color:#b3261e; }
+.vf-warn { background:#fdf6e9; border:1px solid #ecd9b0; }
+.vf-warn .vf-title { color:#8a5a13; }
+.vf-verdict p { margin:6px 0 0; color:var(--ink); font-size:15px; line-height:1.55; }
+
+.vf-bars { display:grid; gap:10px; margin:16px 0 4px; }
+.vf-bar-row { display:grid; grid-template-columns:130px 1fr 130px; gap:10px; align-items:center; font-size:13px; }
+@media (max-width:620px) { .vf-bar-row { grid-template-columns:90px 1fr; } .vf-bar-val { grid-column:2; text-align:left; } }
+.vf-bar-label { color:var(--ink-2); font-weight:600; }
+.vf-bar-track { height:13px; border-radius:7px; background:var(--paper); border:1px solid var(--line); overflow:hidden; }
+.vf-bar { height:100%; border-radius:7px; transition:width .4s ease; }
+.vf-bar.pr { background:var(--ink-3); }
+.vf-bar.filed { background:var(--accent); }
+.vf-bar-val { color:var(--ink-2); font-weight:600; text-align:right; }
+
+.vf-table { width:100%; border-collapse:collapse; margin-top:18px; font-size:14px; }
+.vf-table th, .vf-table td { padding:11px 12px; border:1px solid var(--line); text-align:left; vertical-align:top; }
+.vf-table th { background:var(--paper); color:var(--ink-3); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
+.vf-note { margin-top:14px; padding:12px 14px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:8px; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
+.vf-note strong { color:var(--ink); }

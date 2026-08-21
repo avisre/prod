@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260728-tools1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260822-receipt1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -156,6 +156,61 @@
           <p class="small" style="margin:0;"><span style="border:1px solid var(--line-strong); border-radius:999px; padding:5px 12px; color:var(--accent-ink);">How do their R&amp;D budgets compare? →</span></p>
           <p class="provenance" style="margin-top:14px;">A real Ask answer — filed statements + live web, charts included. 25 questions/month on Monthly, 300 on Pro.</p>
         </div>
+      </section>
+
+      <section class="section" id="verify-headline">
+        <div class="section-head">
+          <div><span class="label">Free · no account</span><h2 class="title-1" style="margin-top:7px;">Verify a headline against the filing</h2></div>
+          <span class="small faint"><a href="/verify.html">Open the full tool →</a></span>
+        </div>
+        <p style="max-width:60ch; color:var(--ink-2); margin-top:8px;">Paste a financial claim — a press-release number, a tweet, another tool's figure — and see the filed SEC number side-by-side with its source. No estimates.</p>
+        <div class="card card-pad" style="margin-top:18px;">
+          <div style="display:grid; gap:12px;">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <input id="cc-ticker" class="input" style="max-width:150px;" placeholder="Ticker or company (e.g. AAPL)" aria-label="Ticker" data-ticker-ac />
+              <input id="cc-claim" class="input" style="flex:1; min-width:240px;" placeholder='Paste a claim — "Q2 revenue $23.5B beat estimates" or a headline number' aria-label="Financial claim" />
+              <button id="cc-go" class="btn btn-primary" type="button">Check against filing</button>
+            </div>
+            <div id="cc-status" class="small faint"></div>
+            <div id="cc-out"></div>
+          </div>
+        </div>
+        <script>
+        (function () {
+          const $ = (s) => document.getElementById(s);
+          const esc = (window.V2 && window.V2.esc) || ((s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'));
+          const fmt = (n) => {
+            if (n == null) return '—';
+            const abs = Math.abs(n);
+            if (abs >= 1e9) return '$' + (n / 1e9).toFixed(1) + 'B';
+            if (abs >= 1e6) return '$' + (n / 1e6).toFixed(1) + 'M';
+            return String(n);
+          };
+          const go = async () => {
+            const ticker = $('cc-ticker').value.trim();
+            const claim = $('cc-claim').value.trim();
+            if (!claim) { $('cc-status').textContent = 'Paste a headline number like $12.1B'; return; }
+            $('cc-status').textContent = 'Checking the filing…';
+            $('cc-out').innerHTML = '';
+            try {
+              const r = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ticker, prText: claim }) });
+              const j = await r.json();
+              if (!r.ok) throw new Error(j.error || 'Verification failed');
+              const pct = j.diffPct == null ? '' : ((j.diffPct > 0 ? '+' : '') + j.diffPct.toFixed(2) + '%');
+              $('cc-status').textContent = '';
+              const flagged = j.verdict && String(j.verdict).toUpperCase().includes('FLAG');
+              $('cc-out').innerHTML = `
+                <div class="notice" style="${flagged ? 'background:#fef1f1;border:1px solid #f2c9c9;' : 'background:#eef6ee;border:1px solid #cfe3cf;'}">
+                  <strong>${esc(j.verdict)}</strong>${pct ? ' &nbsp; Δ ' + fmt(j.diff) + ' (' + pct + ')' : ''}
+                  <p class="small" style="margin:8px 0 0;">Press release: <strong>${esc(j.pr.raw)}</strong> &nbsp;·&nbsp; SEC filing: <strong>${fmt(j.filed.value)}</strong> (${esc(j.period || 'latest filed')})<br>
+                  <a href="${esc(j.filed.sourceUrl)}" target="_blank" rel="noopener nofollow">Open the SEC source</a> · <a href="/verify.html">full head-to-head</a></p>
+                </div>`;
+            } catch (e) { $('cc-status').textContent = e.message; }
+          };
+          $('cc-go').addEventListener('click', go);
+          $('cc-claim').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
+        })();
+        </script>
       </section>
 
       <section class="section asset-launch" id="stocks-etfs-funds">
@@ -437,7 +492,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20260803-ask-recovery1"></script>
+  <script src="assets/app.js?v=20260822-ticker1"></script>
   <script>
     V2.nav('home');
     V2.footer();

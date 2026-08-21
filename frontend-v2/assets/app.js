@@ -430,12 +430,31 @@
         return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}${svg}${legend}</figure>`;
     }
 
+    // A completed answer leads with its source receipt: the first SEC link the
+    // model cited, pulled from the already-rendered answer. The receipt is the
+    // proof-of-value line ("source is the headline") and its link is the same
+    // sec.gov anchor the source_opened funnel already tracks.
+    function mountReceipt(el) {
+        const secLink = el && el.querySelector ? el.querySelector('a[href*="sec.gov"]') : null;
+        if (!secLink) return;
+        const rec = document.createElement('div');
+        rec.className = 'ask-receipt';
+        const label = secLink.textContent.trim().slice(0, 120) || 'SEC filing';
+        rec.innerHTML = `<span class="ask-receipt-label">Source</span> <a href="${esc(secLink.getAttribute('href'))}" target="_blank" rel="noopener nofollow" data-cta-id="source">${esc(label)}</a>`;
+        el.prepend(rec);
+    }
+
     // ---------- minimal markdown (Ask answers) ----------
+    // Links are rendered LAST (after bold/italic) so a citation label can carry
+    // inline emphasis. Only http(s) destinations become anchors — the string is
+    // already HTML-escaped by the caller, so a `"` in a URL arrives as &quot;
+    // and cannot break out of the attribute.
     function inlineMd(s) {
         return s
             .replace(/`([^`]+)`/g, '<code>$1</code>')
             .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-            .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+            .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+            .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener nofollow">$1</a>');
     }
     function markdown(text) {
         // lift ```viz blocks out before escaping; render them as charts.
@@ -546,6 +565,7 @@
             <p class="sub">Upgrade to keep going — comparisons, screens, portfolio Q&amp;A, with charts, tables and a source under every figure. The counter resets on the 1st either way.</p>
             <div class="ask-plans">${cards}</div>
             <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=pro">Start Pro checkout</a>
+            <p class="small faint" style="margin-top:14px;">Not ready to pay? <a href="/verify.html">Verify one headline against the filing — free, no account.</a></p>
           </div>
         </div>`;
     }
@@ -873,6 +893,48 @@
         document.addEventListener('click', (e) => { if (!results.contains(e.target) && e.target !== input) results.hidden = true; });
     }
 
+    // Ticker autocomplete for the claim-check inputs — same company list the nav
+    // search uses; typing a company name suggests the symbol, picking fills it.
+    function mountTickerAutocomplete(input) {
+        if (!input) return;
+        const parent = input.parentElement;
+        if (!parent) return;
+        parent.style.position = 'relative';
+        const box = document.createElement('div');
+        box.className = 'sym-ac';
+        box.hidden = true;
+        parent.appendChild(box);
+        let items = [], active = -1;
+        const render = () => {
+            if (!items.length) { box.hidden = true; return; }
+            box.innerHTML = items.map((c, i) =>
+                `<button type="button" data-sym="${esc(c.symbol)}" class="${i === active ? 'is-active' : ''}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name || '')}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></button>`).join('');
+            box.hidden = false;
+        };
+        const pick = (sym) => { input.value = sym; box.hidden = true; items = []; };
+        input.addEventListener('input', async () => {
+            const q = input.value.trim().toUpperCase();
+            if (q.length < 1) { box.hidden = true; return; }
+            items = await searchAssets(q, { limit: 8 }); active = -1; render();
+        });
+        input.addEventListener('keydown', (e) => {
+            if (box.hidden) return;
+            if (e.key === 'ArrowDown') { e.preventDefault(); active = Math.min(active + 1, items.length - 1); render(); }
+            else if (e.key === 'ArrowUp') { e.preventDefault(); active = Math.max(active - 1, 0); render(); }
+            else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(items[active].symbol); }
+            else if (e.key === 'Escape') { box.hidden = true; }
+        });
+        box.addEventListener('click', (e) => { const btn = e.target.closest('button[data-sym]'); if (btn) pick(btn.dataset.sym); });
+        document.addEventListener('click', (e) => { if (e.target !== input && !box.contains(e.target)) box.hidden = true; });
+    }
+    function scanTickerAc() {
+        document.querySelectorAll('[data-ticker-ac]').forEach((input) => {
+            if (input.__tickerAc) return;
+            input.__tickerAc = true;
+            mountTickerAutocomplete(input);
+        });
+    }
+
     function footer() {
         const el = document.createElement('footer');
         el.className = 'footer';
@@ -1142,7 +1204,7 @@
                         answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
                     } else if (r.status === 429) {
                         answerEl.innerHTML = data && data.trial
-                            ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/login.html">Log in</a> or <a href="/register.html?plan=free">create a free account &rarr;</a></div>`
+                            ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/login.html">Log in</a> or <a href="/register.html?plan=free">create a free account &rarr;</a> · or <a href="/verify.html">verify one headline against the filing, free</a></div>`
                             : quotaWall(data);
                     } else if (data.answer && data.source !== 'error') {
                         finish(data);
@@ -1212,6 +1274,9 @@
                     answerEl.innerHTML = markdown(data.answer);
                     answerEl.querySelectorAll('.ask-next').forEach((b) =>
                         b.addEventListener('click', () => { b.disabled = true; send(b.dataset.q); }));
+                    // The receipt leads the answer: the cited source is the first
+                    // thing read, and it is the same sec.gov link source_opened tracks.
+                    mountReceipt(answerEl);
                     history.push({ role: 'user', content: question }, { role: 'assistant', content: data.answer });
                     // one quiet footer line: feedback · quota (the trace
                     // disclosure above already holds the sources)
@@ -1374,8 +1439,9 @@
     function scanHScroll() { document.querySelectorAll('.table-wrap').forEach(attachHScroll); }
     function initHScroll() {
         scanHScroll();
+        scanTickerAc();
         let t = null;
-        new MutationObserver(() => { clearTimeout(t); t = setTimeout(scanHScroll, 120); })
+        new MutationObserver(() => { clearTimeout(t); t = setTimeout(() => { scanHScroll(); scanTickerAc(); }, 120); })
             .observe(document.body, { childList: true, subtree: true });
         window.addEventListener('resize', () => document.querySelectorAll('.table-wrap').forEach((w) => w.__hbar && updateHbar(w)));
     }
@@ -1383,5 +1449,5 @@
     else initHScroll();
 
     mountCampaign();
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountShare, spinner, attachHScroll };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll };
 })();

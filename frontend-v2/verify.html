@@ -6,76 +6,166 @@
 <title>Headline vs Filing — Verify the Headline | stockportfolio.pro</title>
 <meta name="description" content="Paste a headline number and see the filed SEC number side-by-side with source. Verify the headline." />
 <link rel="icon" href="/Media/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260803-ask-recovery1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260822-receipt1" />
 <style>
-.wrap{max-width:820px;margin:0 auto;padding:28px 20px 60px}
-.card{background:#fff;border:1px solid #dfe4e8;border-radius:16px;padding:22px}
-.input{width:100%;padding:12px 14px;border:1px solid #dfe4e8;border-radius:10px;font:inherit}
-.btn{padding:10px 16px;border-radius:10px;border:0;background:#e8412e;color:#fff;font-weight:700;cursor:pointer}
-.verdict{margin-top:16px;padding:14px;border-radius:12px}
-.verdict.ok{background:#eef6ee;border:1px solid #cfe3cf}
-.verdict.flag{background:#fef1f1;border:1px solid #f2c9c9}
-.table{width:100%;border-collapse:collapse;margin-top:12px}
-.table th,.table td{padding:10px 12px;border:1px solid #eef1f3;text-align:left}
-.table th{background:#f7f9fa}
+  .vf-wrap { max-width: 900px; }
+  .vf-head { padding: 56px 0 8px; }
+  .vf-intro { color: var(--ink-2); max-width: 62ch; margin: 14px 0 0; }
+  .vf-form { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-start; }
+  .vf-ticker.input { width: 170px; }
+  .vf-claim.input { flex: 1; min-width: 260px; height: auto; min-height: 42px; padding: 10px 12px; line-height: 1.5; resize: vertical; }
+  .vf-btn { height: 42px; padding: 0 20px; }
+  .vf-status { margin-top: 10px; color: var(--ink-3); min-height: 20px; }
+
+  .vf-verdict { margin-top: 22px; padding: 18px 20px; border-radius: var(--radius); }
+  .vf-title { font-size: 18px; font-weight: 700; margin: 0 0 8px; line-height: 1.3; }
+  .vf-ok { background: #eef6ee; border: 1px solid #cfe3cf; }
+  .vf-ok .vf-title { color: #1c6b2f; }
+  .vf-flag { background: #fef1f1; border: 1px solid #f2c9c9; }
+  .vf-flag .vf-title { color: #b3261e; }
+  .vf-warn { background: #fdf6e9; border: 1px solid #ecd9b0; }
+  .vf-warn .vf-title { color: #8a5a13; }
+  .vf-verdict p { margin: 6px 0 0; color: var(--ink); font-size: 15px; line-height: 1.55; }
+
+  .vf-bars { display: grid; gap: 10px; margin: 16px 0 4px; }
+  .vf-bar-row { display: grid; grid-template-columns: 130px 1fr 130px; gap: 10px; align-items: center; font-size: 13px; }
+  @media (max-width: 620px) { .vf-bar-row { grid-template-columns: 90px 1fr; } .vf-bar-val { grid-column: 2; text-align: left; } }
+  .vf-bar-label { color: var(--ink-2); font-weight: 600; }
+  .vf-bar-track { height: 13px; border-radius: 7px; background: var(--paper); border: 1px solid var(--line); overflow: hidden; }
+  .vf-bar { height: 100%; border-radius: 7px; transition: width .4s ease; }
+  .vf-bar.pr { background: var(--ink-3); }
+  .vf-bar.filed { background: var(--accent); }
+  .vf-bar-val { color: var(--ink-2); font-weight: 600; text-align: right; }
+
+  .vf-table { width: 100%; border-collapse: collapse; margin-top: 18px; font-size: 14px; }
+  .vf-table th, .vf-table td { padding: 11px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .vf-table th { background: var(--paper); color: var(--ink-3); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .vf-note { margin-top: 14px; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--accent-tint); border-radius: 8px; font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+  .vf-note strong { color: var(--ink); }
+  .vf-bridge { margin-top: 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--accent-tint); }
+  .vf-bridge strong { display: block; margin-bottom: 4px; }
+  .vf-bridge a { display: block; margin-top: 6px; font-weight: 600; }
+  .vf-foot { margin-top: 18px; font-size: 13px; }
 </style>
 </head>
 <body>
-<div class="wrap">
-<h1 style="font-size:28px">Headline vs Filing</h1>
-<p style="color:#66717d">Paste a headline number. Verify the headline — we show the filed SEC number side-by-side, period-locked, with the <code>sec.gov</code> link. No estimates.</p>
+<main class="container vf-wrap">
+  <div class="vf-head">
+    <p class="label">Free · no account</p>
+    <h1 class="title-1" style="margin-top:10px;">Headline vs Filing</h1>
+    <p class="vf-intro">Paste a headline number you saw about a stock. We check it against the company&rsquo;s own SEC filings and tell you &mdash; in plain words &mdash; whether it holds up. No estimates, no opinion: the filed figure wins.</p>
+  </div>
 
-<div class="card">
-<label>Ticker (or $TICKER in headline)<br><input id="ticker" class="input" placeholder="AAPL or $NVDA" /></label>
-<br><br>
-<label>Press-release headline<br><textarea id="pr" class="input" rows="3" placeholder="Apple Q2 Revenue $23.5B beat estimates"></textarea></label>
-<br><br>
-<button id="go" class="btn">Check against filing</button>
-<div id="status" style="margin-top:10px;color:#66717d"></div>
-<div id="out"></div>
-<div id="share"></div>
-</div>
+  <div class="card card-pad" style="margin-top:24px">
+    <div class="vf-form">
+      <input id="ticker" class="input vf-ticker" placeholder="AAPL or Apple" aria-label="Ticker" data-ticker-ac />
+      <textarea id="pr" class="input vf-claim" placeholder='Paste a headline — e.g. "Walmart profit hit $155 billion, driving inflation"' aria-label="Financial claim"></textarea>
+      <button id="go" class="btn btn-primary vf-btn" type="button">Check against the filing</button>
+    </div>
+    <div id="status" class="vf-status"></div>
+    <div id="out"></div>
+    <div id="share" style="margin-top:14px"></div>
+  </div>
 
-<p style="margin-top:18px;color:#66717d;font-size:13px">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed, verify in filing. Not investment advice.</p>
-</div>
+  <p class="vf-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
+</main>
 
-<script src="/assets/app.js?v=20260803-ask-recovery1"></script>
+<script src="/assets/app.js?v=20260822-ticker1"></script>
 <script>
-const $ = s => document.getElementById(s);
-const fmt = n => {
-  if(n==null) return '—';
-  const abs=Math.abs(n);
-  if(abs>=1e9) return '$'+(n/1e9).toFixed(1)+'B';
-  if(abs>=1e6) return '$'+(n/1e6).toFixed(1)+'M';
-  return String(n);
-};
-$('go').onclick = async () => {
-  const ticker=$('ticker').value.trim();
-  const prText=$('pr').value.trim();
-  if(!prText){ $('status').textContent='Paste a headline number like $12.1B'; return; }
-  $('status').textContent='Checking filing…';
-  $('out').innerHTML='';
-  $('share').innerHTML='';
-  try{
-    const r=await fetch('/api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ticker, prText})});
-    const j=await r.json();
-    if(!r.ok) throw new Error(j.error||'Failed');
-    const pct=j.diffPct==null?'':(j.diffPct>0?'+':'')+j.diffPct.toFixed(2)+'%';
-    $('status').textContent='';
-    $('out').innerHTML=`
-      <div class="verdict ${j.verdict.startsWith('FLAGGED')?'flag':'ok'}"><strong>${j.verdict}</strong><br>${pct?`Δ ${fmt(j.diff)} (${pct})`:''}</div>
-      <table class="table">
+(function () {
+  window.V2.nav(''); window.V2.footer();
+  const $ = s => document.getElementById(s);
+  const money = (n) => {
+    if (n == null) return '—';
+    const abs = Math.abs(n);
+    const one = (v) => { const x = v.toFixed(abs >= 100 ? 0 : 1); return x.replace(/\.0$/, ''); };
+    if (abs >= 1e9) return '$' + one(n / 1e9) + ' billion';
+    if (abs >= 1e6) return '$' + one(n / 1e6) + ' million';
+    if (abs >= 1e3) return '$' + one(n / 1e3) + ' thousand';
+    return '$' + one(n);
+  };
+  const mult = (r) => { const x = Math.round(r * 10) / 10; return x >= 10 ? String(Math.round(x)) : String(x); };
+
+  // Plain-language explanation: what the headline says vs what the filing shows,
+  // and how far apart they are — no "Δ", no jargon.
+  function explain(j) {
+    const c = j.pr && j.pr.value, f = j.filed && j.filed.value;
+    if (c == null || f == null) return '';
+    const what = (j.pr && j.pr.label) || 'revenue';
+    const cw = money(c), fw = money(f);
+    if (Math.abs(j.diffPct || 0) <= 2) return `Your headline says ${cw} in ${what}. The filing shows ${fw} in ${what} — those match, within rounding.`;
+    const ratio = c / f;
+    const dir = ratio > 1 ? `about ${mult(ratio)}× higher` : `about ${mult(1 / ratio)}× lower`;
+    const pct = Math.abs(j.diffPct).toFixed(0);
+    return `Your headline says ${cw} in ${what}. The filing shows ${fw} — your number is ${dir} than what&rsquo;s actually filed, a difference of ${pct}%.`;
+  }
+
+  function bars(j) {
+    const c = j.pr && j.pr.value, f = j.filed && j.filed.value;
+    if (c == null || f == null) return '';
+    const max = Math.max(c, f, 1);
+    const cw = Math.max(3, Math.round(c / max * 100));
+    const fw = Math.max(3, Math.round(f / max * 100));
+    return `<div class="vf-bars">
+      <div class="vf-bar-row"><span class="vf-bar-label">Your headline</span><div class="vf-bar-track"><div class="vf-bar pr" style="width:${cw}%"></div></div><span class="vf-bar-val">${money(c)}</span></div>
+      <div class="vf-bar-row"><span class="vf-bar-label">SEC filing</span><div class="vf-bar-track"><div class="vf-bar filed" style="width:${fw}%"></div></div><span class="vf-bar-val">${money(f)}</span></div>
+    </div>`;
+  }
+
+  function render(j) {
+    const flag = String(j.verdict).startsWith('FLAGGED');
+    const warn = String(j.verdict).includes('different periods');
+    const cls = flag ? 'vf-flag' : warn ? 'vf-warn' : 'vf-ok';
+    const title = flag
+      ? 'The number in your headline doesn’t match the filing.'
+      : warn
+        ? 'The periods don’t line up — the headline looks quarterly, the filed figure is annual.'
+        : 'The number in your headline matches the SEC filing.';
+    const source = j.filed && j.filed.sourceUrl;
+    const period = j.period || 'latest filed';
+    $('out').innerHTML = `
+      <div class="vf-verdict ${cls}">
+        <div class="vf-title">${title}</div>
+        <p>${explain(j)}</p>
+        ${bars(j)}
+      </div>
+      <table class="vf-table">
         <tr><th>Source</th><th>Number</th><th>Period</th></tr>
-        <tr><td>Press release</td><td><strong>${j.pr.raw}</strong></td><td>—</td></tr>
-        <tr><td>SEC filing</td><td><strong>${fmt(j.filed.value)}</strong></td><td>${j.period||'latest filed'} · <a href="${j.filed.sourceUrl}" target="_blank" rel="noopener">sec.gov</a></td></tr>
+        <tr><td>Headline</td><td><strong>${j.pr ? (j.pr.raw || '—') : '—'}</strong></td><td>&mdash;</td></tr>
+        <tr><td>SEC filing</td><td><strong>${money(j.filed && j.filed.value)}</strong></td><td>${period} · <a href="${source}" target="_blank" rel="noopener nofollow">sec.gov</a></td></tr>
       </table>
-      <p style="margin-top:10px;color:#66717d;font-size:13px">Source: ${j.filed.source} · ${j.filed.updatedAt?new Date(j.filed.updatedAt).toLocaleDateString():''} · <a href="${j.filed.sourceUrl}" target="_blank" rel="noopener">Open SEC source</a> · ${j.warnings.join(' ')}</p>
+      ${(j.warnings && j.warnings.length) ? `<div class="vf-note"><strong>What to watch:</strong> ${j.warnings.map(esc).join(' ')}</div>` : ''}
+      <div class="vf-bridge">
+        <strong>This is one check. Make it continuous.</strong>
+        <a href="/monitor.html?symbol=${encodeURIComponent(j.ticker)}">Watch ${j.ticker} — get this check every time the filing changes &rarr;</a>
+        <a href="/ask.html?q=${encodeURIComponent('What does this verify result mean for ' + j.ticker + '? Explain the numbers in plain words.')}">Ask what this means for ${j.ticker} in plain words &rarr;</a>
+      </div>
     `;
-    const txt = `Lie check: ${j.ticker} ${j.pr.raw} (PR) vs ${fmt(j.filed.value)} filed (${j.period}) — ${j.verdict}. Source: ${j.filed.sourceUrl}`;
-    window.V2.mountShare(document.getElementById('share'), {title: `${j.ticker} Lie Check: ${j.pr.raw} vs filing`, text: txt});
-  }catch(e){ $('status').textContent=e.message; }
-};
+    $('status').textContent = '';
+    const txt = `Lie check: ${j.ticker} ${j.pr && j.pr.raw} (headline) vs ${money(j.filed && j.filed.value)} filed (${period}) — ${j.verdict}. Source: ${source}`;
+    window.V2.mountShare($('share'), { title: `${j.ticker} Lie Check: ${j.pr && j.pr.raw} vs filing`, text: txt });
+  }
+
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+
+  $('go').onclick = async () => {
+    const ticker = $('ticker').value.trim();
+    const prText = $('pr').value.trim();
+    if (!prText) { $('status').textContent = 'Paste a headline number — e.g. "Walmart profit $155B".'; return; }
+    $('status').textContent = 'Checking the filing…';
+    $('out').innerHTML = '';
+    $('share').innerHTML = '';
+    try {
+      const r = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ticker, prText }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || 'Failed');
+      render(j);
+    } catch (e) { $('status').textContent = e.message; }
+  };
+})();
 </script>
 </body>
 </html>

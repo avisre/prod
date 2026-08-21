@@ -182,7 +182,7 @@ function head(title, description, canonical, jsonld) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260730-ssrnav1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260822-verify1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -242,7 +242,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260730-ssrnav1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260822-ticker1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -624,6 +624,107 @@ function renderStockPage(ticker) {
         }
     } catch (_) { /* page renders without the take */ }
 
+    // Claim-check widget — the warm-visitor conversion moment: a reader who
+    // doubts a headline about this company is one click from the free verify
+    // tool (and the paywall). Same plain-language verdict + bar comparison as
+    // /verify.html, ticker pre-filled. Free, no account.
+    const verifyBlock = `<div class="seo-section" style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+    <h2 style="margin:0">See a claim about ${esc(name)}? Check it against the filing</h2>
+    <span style="font-size:12.5px;color:var(--ink3)"><a href="/verify.html" style="color:var(--accent)">Open the full tool &rarr;</a></span>
+  </div>
+  <p style="margin:8px 0 16px;color:var(--ink2);font-size:14px;max-width:74ch">Paste a headline number you saw about ${esc(sym)} &mdash; a press-release figure, a tweet, another tool&rsquo;s number &mdash; and see the filed SEC number side-by-side with its source. Free, no account.</p>
+  <div class="vf-form">
+    <div>
+      <label class="vf-label" for="cc-ticker">Ticker</label>
+      <input id="cc-ticker" class="input vf-ticker" value="${esc(sym)}" aria-label="Ticker" data-ticker-ac />
+    </div>
+    <div>
+      <label class="vf-label" for="cc-claim">Headline or claim</label>
+      <textarea id="cc-claim" class="input vf-claim" placeholder='Paste a headline &mdash; e.g. "Q2 revenue $23.5B beat estimates"' aria-label="Financial claim"></textarea>
+    </div>
+  </div>
+  <button id="cc-go" class="btn btn-accent vf-btn" type="button">Check against the filing</button>
+  <div id="cc-status" class="vf-status"></div>
+  <div id="cc-out"></div>
+</div>
+<script>
+(function () {
+  const $ = (s) => document.getElementById(s);
+  const esc = (s) => String(s == null ? '' : s).replace(/[&<>"]/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+  const money = (n) => {
+    if (n == null) return '—';
+    const abs = Math.abs(n);
+    const one = (v) => { const x = v.toFixed(abs >= 100 ? 0 : 1); return x.replace(/\\.0$/, ''); };
+    if (abs >= 1e9) return '$' + one(n / 1e9) + ' billion';
+    if (abs >= 1e6) return '$' + one(n / 1e6) + ' million';
+    if (abs >= 1e3) return '$' + one(n / 1e3) + ' thousand';
+    return '$' + one(n);
+  };
+  const mult = (r) => { const x = Math.round(r * 10) / 10; return x >= 10 ? String(Math.round(x)) : String(x); };
+  function explain(j) {
+    const c = j.pr && j.pr.value, f = j.filed && j.filed.value;
+    if (c == null || f == null) return '';
+    const what = (j.pr && j.pr.label) || 'revenue';
+    const cw = money(c), fw = money(f);
+    if (Math.abs(j.diffPct || 0) <= 2) return 'Your headline says ' + cw + ' in ' + what + '. The filing shows ' + fw + ' in ' + what + ' — those match, within rounding.';
+    const ratio = c / f;
+    const dir = ratio > 1 ? 'about ' + mult(ratio) + '× higher' : 'about ' + mult(1 / ratio) + '× lower';
+    const pct = Math.abs(j.diffPct).toFixed(0);
+    return 'Your headline says ' + cw + ' in ' + what + '. The filing shows ' + fw + ' — your number is ' + dir + ' than what’s actually filed, a difference of ' + pct + '%.';
+  }
+  function bars(j) {
+    const c = j.pr && j.pr.value, f = j.filed && j.filed.value;
+    if (c == null || f == null) return '';
+    const max = Math.max(c, f, 1);
+    const cw = Math.max(3, Math.round(c / max * 100));
+    const fw = Math.max(3, Math.round(f / max * 100));
+    return '<div class="vf-bars">'
+      + '<div class="vf-bar-row"><span class="vf-bar-label">Your headline</span><div class="vf-bar-track"><div class="vf-bar pr" style="width:' + cw + '%"></div></div><span class="vf-bar-val">' + money(c) + '</span></div>'
+      + '<div class="vf-bar-row"><span class="vf-bar-label">SEC filing</span><div class="vf-bar-track"><div class="vf-bar filed" style="width:' + fw + '%"></div></div><span class="vf-bar-val">' + money(f) + '</span></div>'
+      + '</div>';
+  }
+  function render(j) {
+    const flag = String(j.verdict).startsWith('FLAGGED');
+    const warn = String(j.verdict).includes('different periods');
+    const cls = flag ? 'vf-flag' : warn ? 'vf-warn' : 'vf-ok';
+    const title = flag
+      ? 'The number in your headline doesn’t match the filing.'
+      : warn
+        ? 'The periods don’t line up — the headline looks quarterly, the filed figure is annual.'
+        : 'The number in your headline matches the SEC filing.';
+    const source = j.filed && j.filed.sourceUrl;
+    const period = j.period || 'latest filed';
+    $('cc-out').innerHTML = '<div class="vf-verdict ' + cls + '">'
+      + '<div class="vf-title">' + title + '</div>'
+      + '<p>' + explain(j) + '</p>'
+      + bars(j)
+      + '</div>'
+      + '<table class="vf-table"><tr><th>Source</th><th>Number</th><th>Period</th></tr>'
+      + '<tr><td>Headline</td><td><strong>' + (j.pr ? (j.pr.raw || '—') : '—') + '</strong></td><td>—</td></tr>'
+      + '<tr><td>SEC filing</td><td><strong>' + money(j.filed && j.filed.value) + '</strong></td><td>' + period + ' · <a href="' + esc(source) + '" target="_blank" rel="noopener nofollow">sec.gov</a></td></tr>'
+      + '</table>'
+      + ((j.warnings && j.warnings.length) ? '<div class="vf-note"><strong>What to watch:</strong> ' + j.warnings.map(esc).join(' ') + '</div>' : '');
+    $('cc-status').textContent = '';
+  }
+  const go = async () => {
+    const ticker = $('cc-ticker').value.trim();
+    const claim = $('cc-claim').value.trim();
+    if (!claim) { $('cc-status').textContent = 'Paste a headline number — e.g. "Walmart profit $155B".'; return; }
+    $('cc-status').textContent = 'Checking the filing…';
+    $('cc-out').innerHTML = '';
+    try {
+      const r = await fetch('/api/verify', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ticker, prText: claim }) });
+      const j = await r.json();
+      if (!r.ok) throw new Error(j.error || 'Verification failed');
+      render(j);
+    } catch (e) { $('cc-status').textContent = e.message; }
+  };
+  $('cc-go').addEventListener('click', go);
+  $('cc-claim').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
+})();
+</script>`;
+
     return head(title, description, canonical, jsonld) + faqLdTag + nav('company') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
@@ -633,6 +734,7 @@ function renderStockPage(ticker) {
   ${freshHtml}
   <div class="seo-grid">${tiles}</div>
   ${analystBlock}
+  ${verifyBlock}
   ${teaserTable}
   ${healthBlock}
   ${redFlagBlock}

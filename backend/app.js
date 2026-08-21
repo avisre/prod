@@ -1753,6 +1753,22 @@ async function handleVerify(req, res) {
         const { prText, ticker, metric } = req.body || {};
         const result = await verifyHeadline.detectLie({ prText, ticker, metric });
         trackFunnel('verify_headline', null, null, { ticker: result.ticker, period: result.period, ...trackingRequestFields(req, res) });
+        // Public claim ledger: persist a sanitized row for every check that
+        // produced a filed figure + source. Fire-and-forget — never block the
+        // response on the write.
+        if (result && result.filed && result.filed.value != null && result.filed.sourceUrl && mongoose.connection.readyState === 1) {
+            const claim = String(prText || '').replace(/\s+/g, ' ').trim().slice(0, 200);
+            VerifyCheck.create({
+                ticker: String(result.ticker || '').toUpperCase().slice(0, 10),
+                claim,
+                filedValue: result.filed.value,
+                period: String(result.period || '').slice(0, 40),
+                sourceUrl: String(result.filed.sourceUrl).slice(0, 500),
+                verdict: String(result.verdict || '').slice(0, 120),
+                diffPct: Number.isFinite(result.diffPct) ? result.diffPct : null,
+                flagged: /numbers differ|different periods/i.test(String(result.verdict || ''))
+            }).catch((err) => { console.error('[verify-ledger] save failed:', err && err.message); });
+        }
         res.json(result);
     } catch (error) {
         res.status(Number(error.status) || 500).json({ error: error.message || 'Verify failed' });
@@ -1760,6 +1776,176 @@ async function handleVerify(req, res) {
 }
 app.post('/api/verify', freeToolLimiter, handleVerify);
 app.post('/api/lie', freeToolLimiter, handleVerify); // alias for older links
+
+// Public claim ledger: the last checks run through /api/verify, newest first.
+// A live proof artifact — real headlines checked against real filings, with
+// the filed figure and SEC source on every row. Registered before static so it
+// wins the path.
+app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8');
+    let rows = [];
+    if (mongoose.connection.readyState === 1) {
+        try { rows = await VerifyCheck.find({}).sort({ createdAt: -1 }).limit(50).lean(); } catch (_) { rows = []; }
+    }
+    const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const money = (n) => {
+        if (n == null) return '—';
+        const abs = Math.abs(n);
+        const one = (v) => { const x = v.toFixed(abs >= 100 ? 0 : 1); return x.replace(/\.0$/, ''); };
+        if (abs >= 1e9) return '$' + one(n / 1e9) + ' billion';
+        if (abs >= 1e6) return '$' + one(n / 1e6) + ' million';
+        if (abs >= 1e3) return '$' + one(n / 1e3) + ' thousand';
+        return '$' + one(n);
+    };
+    const rowHtml = rows.map((r) => {
+        const flagged = Boolean(r.flagged);
+        const verdict = flagged ? '<span style="color:#b3261e;font-weight:700">' + esc(r.verdict) + '</span>' : '<span style="color:#1c6b2f;font-weight:700">' + esc(r.verdict) + '</span>';
+        const source = r.sourceUrl ? `<a href="${esc(r.sourceUrl)}" target="_blank" rel="noopener nofollow">sec.gov</a>` : '—';
+        return `<tr${flagged ? ' class="ledger-flag"' : ''}><td><strong>${esc(r.ticker)}</strong></td><td>${esc(r.claim) || '—'}</td><td>${money(r.filedValue)}</td><td>${esc(r.period)}</td><td>${verdict}</td><td>${source}</td></tr>`;
+    }).join('');
+    const empty = rows.length ? '' : '<tr><td colspan="6" style="text-align:center;color:var(--ink-3)">No checks yet — be the first.</td></tr>';
+    const html = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Claim Ledger — real headlines checked against SEC filings | stockportfolio.pro</title>
+<meta name="description" content="Every row is a headline someone pasted into the free lie-checker, checked against the company's own SEC filing. The filed figure wins." />
+<link rel="canonical" href="https://www.stockportfolio.pro/verify-ledger" />
+<link rel="icon" href="/Media/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+<link rel="stylesheet" href="/assets/system.css?v=20260822-receipt1" />
+<style>
+  .ledger-wrap { max-width: 980px; }
+  .ledger-head { padding: 56px 0 8px; }
+  .ledger-intro { color: var(--ink-2); max-width: 62ch; margin: 14px 0 0; }
+  .ledger-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 14px; }
+  .ledger-table th, .ledger-table td { padding: 11px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .ledger-table th { background: var(--paper); color: var(--ink-3); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .ledger-table tr.ledger-flag td { background: #fef1f1; }
+  .ledger-cta { margin-top: 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--accent-tint); }
+  .ledger-cta a { font-weight: 700; }
+  .ledger-foot { margin-top: 18px; font-size: 13px; }
+</style>
+</head><body>
+<main class="container ledger-wrap">
+  <div class="ledger-head">
+    <p class="label">Free · no account</p>
+    <h1 class="title-1" style="margin-top:10px;">Claim Ledger</h1>
+    <p class="ledger-intro">Every row is a headline someone pasted into the free lie-checker, checked against the company&rsquo;s own SEC filing. No estimates, no opinion &mdash; the filed figure wins. Red rows are headlines that did not match the filing.</p>
+  </div>
+  <div class="card card-pad" style="margin-top:24px;overflow-x:auto">
+    <table class="ledger-table">
+      <thead><tr><th>Ticker</th><th>Headline claim</th><th>Filed figure</th><th>Period</th><th>Verdict</th><th>Source</th></tr></thead>
+      <tbody>${rowHtml}${empty}</tbody>
+    </table>
+  </div>
+  <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
+  <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
+</main>
+<script src="/assets/app.js?v=20260822-ticker1"></script>
+<script>window.V2.nav(''); window.V2.footer();</script>
+</body></html>`;
+    res.send(html);
+});
+
+app.get('/api/verify-ledger', async (req, res) => {
+    if (mongoose.connection.readyState !== 1) return res.json({ checks: [] });
+    const limit = Math.min(Number(req.query.limit) || 50, 200);
+    try {
+        const rows = await VerifyCheck.find({}).sort({ createdAt: -1 }).limit(limit).lean();
+        res.json({ checks: rows.map((r) => ({
+            ticker: r.ticker, claim: r.claim, filedValue: r.filedValue, period: r.period,
+            sourceUrl: r.sourceUrl, verdict: r.verdict, diffPct: r.diffPct, flagged: r.flagged, createdAt: r.createdAt
+        })) });
+    } catch (_) { res.json({ checks: [] }); }
+});
+
+// Public filing-change artifact: the latest Filing Change Monitor reports,
+// surfaced from the cached filing_reports collection. Zero incremental cost —
+// these are reports the monitor already built. Each row shows the filing, the
+// deterministic materiality score and the top year-over-year deltas, with the
+// SEC source. The AI narrative stays behind the Power/Desk paywall; the
+// numbers are the public proof.
+app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8');
+    let reports = [];
+    if (mongoose.connection.readyState === 1) {
+        try {
+            reports = await mongoose.connection.collection('filing_reports')
+                .find({}, { projection: { symbol: 1, filedDate: 1, materiality: 1, payload: 1 } })
+                .sort({ at: -1 }).limit(80).toArray();
+        } catch (_) { reports = []; }
+    }
+    // Dedupe by symbol — keep the newest report per company.
+    const seen = new Set();
+    const rows = [];
+    for (const r of reports) {
+        const sym = String(r.symbol || '').toUpperCase();
+        if (!sym || seen.has(sym)) continue;
+        seen.add(sym);
+        rows.push(r);
+        if (rows.length >= 30) break;
+    }
+    const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const bucketLabel = (b) => b === 'high' ? 'High' : b === 'medium' ? 'Medium' : 'Low';
+    const bucketColor = (b) => b === 'high' ? '#b3261e' : b === 'medium' ? '#8a5a13' : '#1c6b2f';
+    const rowHtml = rows.map((r) => {
+        const p = r.payload || {};
+        const filing = p.latestFiling || {};
+        const deltas = (p.deltas || []).slice(0, 4).map((d) => {
+            const dir = d.direction === 'up' ? '▲' : d.direction === 'down' ? '▼' : '—';
+            const color = d.direction === 'up' ? '#1c6b2f' : d.direction === 'down' ? '#b3261e' : 'var(--ink-3)';
+            return `<span style="color:${color}">${dir} ${esc(d.label)}: ${esc(d.latest)} (${esc(d.change)})</span>`;
+        }).join('<br>');
+        const bucket = p.materialityBucket || (r.materiality >= 60 ? 'high' : r.materiality >= 30 ? 'medium' : 'low');
+        const source = filing.url ? `<a href="${esc(filing.url)}" target="_blank" rel="noopener nofollow">${esc(filing.label || filing.form || 'filing')} · ${esc(filing.date || '')}</a>` : '—';
+        return `<tr><td><strong><a href="/stocks/${esc(r.symbol)}">${esc(r.symbol)}</a></strong></td><td>${source}</td><td><span style="color:${bucketColor(bucket)};font-weight:700">${bucketLabel(bucket)} ${esc(r.materiality)}</span></td><td>${deltas || '—'}</td></tr>`;
+    }).join('');
+    const empty = rows.length ? '' : '<tr><td colspan="4" style="text-align:center;color:var(--ink-3)">No filing-change reports yet — run the free monitor trial to build the first ones.</td></tr>';
+    const html = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Filing Changes — what materially changed in recent SEC filings | stockportfolio.pro</title>
+<meta name="description" content="The latest material changes in recent SEC filings, computed from the filings themselves: year-over-year deltas, materiality scores and the primary source for every figure." />
+<link rel="canonical" href="https://www.stockportfolio.pro/filing-changes" />
+<link rel="icon" href="/Media/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+<link rel="stylesheet" href="/assets/system.css?v=20260822-receipt1" />
+<style>
+  .fc-wrap { max-width: 980px; }
+  .fc-head { padding: 56px 0 8px; }
+  .fc-intro { color: var(--ink-2); max-width: 62ch; margin: 14px 0 0; }
+  .fc-table { width: 100%; border-collapse: collapse; margin-top: 24px; font-size: 14px; }
+  .fc-table th, .fc-table td { padding: 11px 12px; border: 1px solid var(--line); text-align: left; vertical-align: top; }
+  .fc-table th { background: var(--paper); color: var(--ink-3); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+  .fc-cta { margin-top: 24px; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--accent-tint); }
+  .fc-cta a { font-weight: 700; }
+  .fc-foot { margin-top: 18px; font-size: 13px; }
+</style>
+</head><body>
+<main class="container fc-wrap">
+  <div class="fc-head">
+    <p class="label">Free · no account</p>
+    <h1 class="title-1" style="margin-top:10px;">Filing Changes</h1>
+    <p class="fc-intro">What materially changed in recent SEC filings &mdash; computed from the filings themselves. Every row is a real 10-K / 10-Q / 8-K read by the Filing Change Monitor: the year-over-year deltas, a deterministic materiality score, and the primary source. The AI-written narrative stays behind the Power/Desk paywall; the numbers are public.</p>
+  </div>
+  <div class="card card-pad" style="margin-top:24px;overflow-x:auto">
+    <table class="fc-table">
+      <thead><tr><th>Company</th><th>Latest filing</th><th>Materiality</th><th>Top deltas</th></tr></thead>
+      <tbody>${rowHtml}${empty}</tbody>
+    </table>
+  </div>
+  <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
+  <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
+</main>
+<script src="/assets/app.js?v=20260822-ticker1"></script>
+<script>window.V2.nav(''); window.V2.footer();</script>
+</body></html>`;
+    res.send(html);
+});
 
 app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
 app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));
@@ -1985,6 +2171,23 @@ const PublicResearchShareSchema = new mongoose.Schema({
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
 }, { timestamps: true, versionKey: false, collection: 'public_research_shares' });
 const PublicResearchShare = mongoose.model('PublicResearchShare', PublicResearchShareSchema);
+
+// Public claim ledger: one row per successful /api/verify check. The claim is
+// the user's own pasted headline (truncated); the filed figure and source are
+// the proof. Rows render on the public /verify-ledger page as a live proof
+// artifact — real checks against real filings, no estimates.
+const VerifyCheckSchema = new mongoose.Schema({
+    ticker: { type: String, required: true, index: true },
+    claim: { type: String, maxlength: 200, default: '' },
+    filedValue: { type: Number, default: null },
+    period: { type: String, default: null },
+    sourceUrl: { type: String, default: null },
+    verdict: { type: String, default: null },
+    diffPct: { type: Number, default: null },
+    flagged: { type: Boolean, default: false }
+}, { timestamps: true, versionKey: false, collection: 'verify_checks' });
+VerifyCheckSchema.index({ createdAt: -1 });
+const VerifyCheck = mongoose.model('VerifyCheck', VerifyCheckSchema);
 
 const ManualGmvSnapshotSchema = new mongoose.Schema({
     date: { type: Date, required: true, index: true },
