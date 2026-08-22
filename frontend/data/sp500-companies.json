@@ -265,11 +265,6 @@
     "sector": "Consumer Discretionary"
   },
   {
-    "symbol": "AVB",
-    "name": "AvalonBay Communities",
-    "sector": "Real Estate"
-  },
-  {
     "symbol": "AVY",
     "name": "Avery Dennison",
     "sector": "Materials"
@@ -872,11 +867,6 @@
   {
     "symbol": "EQIX",
     "name": "Equinix",
-    "sector": "Real Estate"
-  },
-  {
-    "symbol": "EQR",
-    "name": "Equity Residential",
     "sector": "Real Estate"
   },
   {
@@ -1940,6 +1930,11 @@
     "sector": "Financials"
   },
   {
+    "symbol": "RDDT",
+    "name": "Reddit",
+    "sector": "Communication Services"
+  },
+  {
     "symbol": "RTX",
     "name": "RTX Corporation",
     "sector": "Industrials"
@@ -2383,6 +2378,11 @@
     "symbol": "VST",
     "name": "Vistra Corp.",
     "sector": "Utilities"
+  },
+  {
+    "symbol": "VMRK",
+    "name": "Vivmark Residential",
+    "sector": "Real Estate"
   },
   {
     "symbol": "VMC",
