@@ -845,13 +845,18 @@ function buildSitemapInventory() {
     const stocks = loadCompanies()
         .filter((c) => resolveCanonicalSymbol(c.symbol) === c.symbol)
         .map((c) => ({ loc: `${SITE}/stocks/${c.symbol}`, lastmod: tickerMtime(c.symbol) }));
-    const metrics = [], compares = [], screens = [];
+    const compares = [], screens = [];
     try {
         require('./seo-extra').sitemapUrls().forEach((u) => {
             const route = u.loc;
-            let m = route.match(/^\/stocks\/([^/]+)\//);
-            if (m) return metrics.push({ loc: SITE + route, lastmod: tickerMtime(m[1]) });
-            m = route.match(/^\/compare\/([A-Z0-9.\-]+)-vs-([A-Z0-9.\-]+)$/i);
+            // Per-metric history pages (/stocks/:sym/:metric) are deliberately left
+            // out of the sitemap: they're the least-unique, highest-volume tier
+            // (~14K near-identical templated URLs) and are still fully reachable by
+            // crawlers via the "financial history" links on every ticker page
+            // (renderStockPage). Google's own crawl-budget guidance is to sitemap
+            // only the most valuable pages and let the rest be found by crawl links.
+            if (/^\/stocks\/[^/]+\//.test(route)) return;
+            const m = route.match(/^\/compare\/([A-Z0-9.\-]+)-vs-([A-Z0-9.\-]+)$/i);
             if (m) return compares.push({ loc: SITE + route, lastmod: maxDate(tickerMtime(m[1]), tickerMtime(m[2])) });
             screens.push({ loc: SITE + route, lastmod: staticPageMtime(route) });
         });
@@ -863,7 +868,6 @@ function buildSitemapInventory() {
     };
     shards.core = core;
     addChunks('stocks', stocks);
-    addChunks('metrics', metrics);
     addChunks('comparisons', compares);
     _sitemapInventoryCache = { at: Date.now(), shards };
     return shards;
