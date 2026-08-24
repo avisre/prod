@@ -842,7 +842,9 @@ function buildSitemapInventory() {
         if (!mtimes.has(key)) mtimes.set(key, isoDataMtime(symbolToFile(key)));
         return mtimes.get(key);
     };
-    const stocks = loadCompanies().map((c) => ({ loc: `${SITE}/stocks/${c.symbol}`, lastmod: tickerMtime(c.symbol) }));
+    const stocks = loadCompanies()
+        .filter((c) => resolveCanonicalSymbol(c.symbol) === c.symbol)
+        .map((c) => ({ loc: `${SITE}/stocks/${c.symbol}`, lastmod: tickerMtime(c.symbol) }));
     const metrics = [], compares = [], screens = [];
     try {
         require('./seo-extra').sitemapUrls().forEach((u) => {

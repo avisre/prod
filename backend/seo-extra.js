@@ -352,9 +352,11 @@ function availability() {
     if (_avail) return _avail;
     _avail = new Map();
     for (const c of loadCompanies()) {
+        const canonical = resolveCanonicalSymbol(c.symbol);
+        if (!canonical) continue;
         try {
             const f = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals',
-                `${c.symbol.replace(/[^A-Z0-9]/g, '_')}.json`);
+                `${canonical.replace(/[^A-Z0-9]/g, '_')}.json`);
             if (!fs.existsSync(f)) continue;
             const d = JSON.parse(fs.readFileSync(f, 'utf8'));
             const flags = {};
@@ -366,7 +368,7 @@ function availability() {
             // Price-history pages need >=2 monthly adjusted closes to render.
             const monthly = (d.monthly || {})['Monthly Adjusted Time Series'] || {};
             flags.priceHistory = Object.keys(monthly).filter((k) => num(monthly[k]['5. adjusted close']) !== null).length >= 2;
-            _avail.set(c.symbol, flags);
+            _avail.set(canonical, flags);
         } catch (_) { /* unreadable file — no metric pages for it */ }
     }
     return _avail;
@@ -1064,8 +1066,11 @@ function comparePairs() {
     rows.forEach((r) => { (bySector[r.sector] = bySector[r.sector] || []).push(r); });
     const set = new Set();
     POPULAR_COMPARISONS.forEach(([x, y]) => {
-        if (!aiChat.metricsFor(x) || !aiChat.metricsFor(y)) return;
-        const [a, b] = [x, y].sort();
+        const ca = resolveCanonicalSymbol(x);
+        const cb = resolveCanonicalSymbol(y);
+        if (!ca || !cb) return;
+        if (!aiChat.metricsFor(ca) || !aiChat.metricsFor(cb)) return;
+        const [a, b] = [ca, cb].sort();
         set.add(`${a}-vs-${b}`);
     });
     Object.values(bySector).forEach((list) => {
