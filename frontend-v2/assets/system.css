@@ -1301,6 +1301,10 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 }
 .nav-mobile-auth .btn { display: flex; align-items: center; justify-content: center; height: 44px; }
 
+/* Signed-in account control. The small red count is intentionally attached to
+   the profile icon so a new message is visible from every app page. */
+.nav-profile{position:relative;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:var(--ink);text-decoration:none}.nav-profile:hover,.nav-profile:focus-visible{background:var(--accent-tint);color:var(--accent-ink);outline:0}.nav-message-badge{position:absolute;right:-4px;top:-4px;min-width:16px;height:16px;padding:0 3px;border:2px solid var(--surface);border-radius:999px;background:#c63d32;color:#fff;font-size:10px;line-height:12px;text-align:center;font-weight:750}
+
 /* ---------- Tablet layout (900px) ---------- */
 @media (max-width: 900px) {
   :root { --gutter: 22px; }

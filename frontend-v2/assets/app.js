@@ -686,6 +686,9 @@
             </div>
             ${authed
                 ? `<a class="btn btn-primary btn-sm" href="/#pricing" id="v2-upgrade" hidden>Upgrade</a>
+                   <a class="nav-profile" href="/inbox.html" aria-label="Messages and account" title="Messages">
+                     <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V20h15v-1.3C19.5 16.1 16.1 14 12 14Z" fill="currentColor"/></svg><span class="nav-message-badge" id="v2-message-badge" hidden>0</span>
+                   </a>
                    <a class="btn btn-quiet" href="#" id="v2-signout">Sign out</a>`
                 : `<a class="btn btn-quiet" href="/login.html">Log in</a>
                    <a class="btn btn-primary btn-sm" href="/register.html">Sign up free</a>`}
@@ -723,6 +726,7 @@
                 <a href="/monitor.html" class="nav-mobile-sub" ${cur('monitor')}>Filing Monitor</a>
                 <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
+                ${authed ? '<a href="/inbox.html">Messages</a>' : ''}
                 <a href="/#pricing" ${cur('pricing')}>Pricing</a>
               </nav>
               <div class="nav-mobile-auth">
@@ -762,6 +766,21 @@
         if (mobileOut) mobileOut.addEventListener('click', async (e) => { e.preventDefault(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
 
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
+        const messageBadge = el.querySelector('#v2-message-badge');
+        if (messageBadge) {
+            const refreshMessageBadge = () => fetch(`${API}/messages/unread-count`, { headers: { Authorization: `Bearer ${token()}` } })
+                .then((r) => r.ok ? r.json() : null).then((data) => {
+                    const unread = Math.max(0, Number(data && data.unread || 0));
+                    messageBadge.hidden = !unread;
+                    messageBadge.textContent = unread > 99 ? '99+' : String(unread);
+                    if (unread) messageBadge.parentElement.setAttribute('aria-label', `${unread} unread message${unread === 1 ? '' : 's'} — open messages and account`);
+                }).catch(() => {});
+            refreshMessageBadge();
+            // New replies become visible without requiring the customer to
+            // refresh the page, while keeping this lightweight (one tiny,
+            // authenticated count request per minute).
+            window.setInterval(refreshMessageBadge, 60000);
+        }
         mountConsent();
         trialBanner();
     }

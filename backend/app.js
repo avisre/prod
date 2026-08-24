@@ -261,13 +261,14 @@ app.use(helmet({
         'https://accounts.google.com',
         'https://www.googletagmanager.com',
         'https://www.clarity.ms',
-        'https://scripts.clarity.ms'
+        'https://scripts.clarity.ms',
+        'https://js.stripe.com'
       ],
       styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://accounts.google.com'],
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
       connectSrc: ["'self'", 'https:'],
-      frameSrc: ["'self'", 'https://accounts.google.com', 'https://www.youtube.com', 'https://www.youtube-nocookie.com'],
+      frameSrc: ["'self'", 'https://accounts.google.com', 'https://www.youtube.com', 'https://www.youtube-nocookie.com', 'https://js.stripe.com', 'https://checkout.stripe.com'],
       objectSrc: ["'none'"], baseUri: ["'self'"], formAction: ["'self'"], frameAncestors: ["'self'"]
     }
   },
@@ -2057,10 +2058,57 @@ const UserSchema = new mongoose.Schema({
     // (never the raw token) plus its expiry; both are cleared on a successful
     // reset so the link is single-use. See /api/password/forgot + /reset.
     resetPasswordToken: { type: String, default: null, index: true },
-    resetPasswordExpires: { type: Date, default: null }
+    resetPasswordExpires: { type: Date, default: null },
+    // Applies only to administrator-initiated customer-message emails. It
+    // never hides in-app messages or essential account/security email.
+    customerMessageEmailsOptOut: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
+
+// One private conversation per customer. Keeping the participant ID on the
+// thread (rather than trusting a client-provided recipient) makes it impossible
+// for a signed-in customer to read or write another customer's messages.
+const CustomerMessageThreadSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, unique: true, index: true },
+    lastMessageAt: { type: Date, default: () => new Date(), index: true },
+    userUnread: { type: Number, default: 0, min: 0 },
+    adminUnread: { type: Number, default: 0, min: 0 }
+}, { timestamps: true, versionKey: false, collection: 'customer_message_threads' });
+const CustomerMessageThread = mongoose.model('CustomerMessageThread', CustomerMessageThreadSchema);
+
+const CustomerMessageSchema = new mongoose.Schema({
+    threadId: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerMessageThread', required: true, index: true },
+    sender: { type: String, enum: ['admin', 'customer'], required: true, index: true },
+    body: { type: String, required: true, maxlength: 4000 },
+    editedAt: { type: Date, default: null },
+    broadcastId: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerMessageBroadcast', default: null, index: true }
+}, { timestamps: true, versionKey: false, collection: 'customer_messages' });
+CustomerMessageSchema.index({ threadId: 1, createdAt: 1 });
+const CustomerMessage = mongoose.model('CustomerMessage', CustomerMessageSchema);
+
+// A broadcast is intentionally capped by the route to a modest batch size.
+// Persisting the recipient-level state lets the operator audit sends and makes
+// a retried browser request resume rather than create a second campaign.
+const CustomerMessageBroadcastSchema = new mongoose.Schema({
+    idempotencyKey: { type: String, required: true, unique: true, index: true },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    subject: { type: String, default: '', maxlength: 180 },
+    body: { type: String, required: true, maxlength: 4000 },
+    sendInApp: { type: Boolean, default: true },
+    sendEmail: { type: Boolean, default: false },
+    recipients: [{
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+        email: { type: String, required: true },
+        inAppSentAt: { type: Date, default: null },
+        emailStatus: { type: String, enum: ['not_requested', 'pending', 'sent', 'suppressed', 'failed'], default: 'not_requested' },
+        emailSentAt: { type: Date, default: null },
+        emailError: { type: String, default: null }
+    }],
+    status: { type: String, enum: ['sending', 'completed', 'completed_with_errors'], default: 'sending', index: true },
+    completedAt: { type: Date, default: null }
+}, { timestamps: true, versionKey: false, collection: 'customer_message_broadcasts' });
+const CustomerMessageBroadcast = mongoose.model('CustomerMessageBroadcast', CustomerMessageBroadcastSchema);
 
 // Append-only, MongoDB-backed customer registry. The unique event key makes
 // Stripe/AppSumo webhook retries idempotent while keeping a durable audit trail
@@ -2889,16 +2937,28 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
     }
     const metadata = { ...(extraMetadata.metadata || {}), ...(extraMetadata.affiliateMetadata || {}) };
     const returnContext = extraMetadata.returnContext || {};
-    const successUrl = extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
-        session: 'success',
-        planId: planConfig.planId,
-        ...returnContext
-    });
-    const cancelUrl = extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
-        session: 'cancel',
-        planId: planConfig.planId,
-        ...returnContext
-    });
+    const embedded = extraMetadata.uiMode === 'embedded';
+    const urlParams = embedded
+        ? {
+            ui_mode: 'embedded',
+            return_url: extraMetadata.returnUrl || buildStripeReturnUrl(extraMetadata.req, {
+                session: 'success',
+                planId: planConfig.planId,
+                ...returnContext
+            })
+        }
+        : {
+            success_url: extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
+                session: 'success',
+                planId: planConfig.planId,
+                ...returnContext
+            }),
+            cancel_url: extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
+                session: 'cancel',
+                planId: planConfig.planId,
+                ...returnContext
+            })
+        };
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
@@ -2908,15 +2968,12 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
             quantity: 1
         }],
         client_reference_id: user._id.toString(),
-        success_url: successUrl,
-        cancel_url: cancelUrl,
+        ...urlParams,
         custom_text: {
             submit: {
                 message: extraMetadata.initialSignup === true
                     ? `Charged today. If the service is not right for you, request a full refund within ${INITIAL_REFUND_DAYS} days.`
-                    : (planConfig.planId === ANNUAL_PLAN_ID
-                        ? 'Annual plan for long-term investors. Cancel anytime.'
-                        : 'Monthly plan, billed today. Cancel anytime before renewal.')
+                    : 'Charged today for this upgrade. Cancel anytime before renewal.'
             }
         },
         subscription_data: {
@@ -3525,11 +3582,14 @@ app.post('/api/subscribe', async (req, res) => {
             planId: planConfig.planId,
             skipTrial: paymentRequired || NO_TRIAL_PLAN_IDS.includes(planConfig.planId),
             initialSignup: paymentRequired,
-            affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
-            returnContext: {
+            uiMode: 'embedded',
+            returnUrl: buildStripeReturnUrl(req, {
+                session: 'success',
+                planId: planConfig.planId,
                 flow: 'register',
                 next: req.body?.next
-            },
+            }),
+            affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
             metadata: {
                 authFlow: 'register',
                 checkoutType: 'email',
@@ -3538,7 +3598,7 @@ app.post('/api/subscribe', async (req, res) => {
                 ...acquisitionStripeMetadata(acquisition)
             }
         });
-        if (!session?.url) {
+        if (!session?.client_secret) {
             throw createHttpError(
                 502,
                 'Checkout session could not be created. Please try again.',
@@ -3546,7 +3606,7 @@ app.post('/api/subscribe', async (req, res) => {
                 { retryable: true }
             );
         }
-        res.status(200).json({ url: session.url });
+        res.status(200).json({ clientSecret: session.client_secret });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
             return sendApiError(
@@ -4267,6 +4327,356 @@ app.get('/api/session', authMiddleware, async (req, res) => {
 app.post('/api/logout', (req, res) => {
     clearAuthCookie(res, req);
     res.status(204).end();
+});
+
+// ---- Private customer messaging ------------------------------------------------
+// rin@gmail.com is deliberately checked from the authenticated account, never
+// from a browser-supplied role or email field.
+const CUSTOMER_MESSAGES_ADMIN_EMAIL = 'rin@gmail.com';
+const customerMessageLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 80, standardHeaders: true, legacyHeaders: false, message: { message: 'Too many messages sent. Please try again shortly.' } });
+function customerMessagesAdminOnly(req, res, next) {
+    if (String(req.user && req.user.email || '').trim().toLowerCase() !== CUSTOMER_MESSAGES_ADMIN_EMAIL) {
+        return res.status(403).json({ message: 'Administrator access required.' });
+    }
+    return next();
+}
+function cleanCustomerMessage(value) {
+    const body = String(value || '').trim();
+    return body && body.length <= 4000 ? body : null;
+}
+function cleanCustomerMessageSubject(value) {
+    const subject = String(value || '').trim().replace(/\s+/g, ' ');
+    return subject && subject.length <= 180 ? subject : null;
+}
+function customerMessageEmailUnsubToken(userId) {
+    return jwt.sign({ userId: String(userId), p: 'customer-message-email' }, JWT_SECRET, { expiresIn: '365d' });
+}
+function customerMessageMailFor(user, subject, body) {
+    const appUrl = String(process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
+    const inboxUrl = `${appUrl}/inbox.html`;
+    const unsubscribeUrl = `${appUrl}/api/messages/unsubscribe?token=${encodeURIComponent(customerMessageEmailUnsubToken(user._id))}`;
+    const first = String(user.name || '').trim().split(/\s+/)[0] || 'there';
+    const safeBody = escapeHtml(body).replace(/\n/g, '<br>');
+    return {
+        subject,
+        text: `Hi ${first},\n\n${body}\n\nReply in your private StockPortfolio.pro inbox: ${inboxUrl}\n\nTo stop these customer-message emails: ${unsubscribeUrl}\n\n— StockPortfolio.pro Support`,
+        html: `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#172033"><p>Hi ${escapeHtml(first)},</p><div style="white-space:normal;line-height:1.6">${safeBody}</div><p style="margin:22px 0"><a href="${escapeHtml(inboxUrl)}" style="background:#201f1d;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;display:inline-block">Reply in your private inbox</a></p><p style="font-size:12px;color:#64748b;line-height:1.55">This is a customer message from StockPortfolio.pro. <a href="${escapeHtml(unsubscribeUrl)}" style="color:#64748b">Stop customer-message emails</a>. In-app messages remain available in your account.</p></div>`
+    };
+}
+async function sendCustomerMessageEmail(user, subject, body) {
+    if (user.customerMessageEmailsOptOut) return { status: 'suppressed' };
+    const email = customerMessageMailFor(user, subject, body);
+    const sent = await mailer.sendMail({ to: user.email, subject: email.subject, html: email.html, text: email.text });
+    return { status: sent ? 'sent' : 'failed' };
+}
+async function getCustomerThread(userId) {
+    let thread = await CustomerMessageThread.findOne({ userId });
+    if (!thread) {
+        try { thread = await CustomerMessageThread.create({ userId }); }
+        catch (error) {
+            if (error && error.code === 11000) thread = await CustomerMessageThread.findOne({ userId });
+            else throw error;
+        }
+    }
+    return thread;
+}
+function messageDto(message) {
+    return { id: String(message._id), sender: message.sender, body: message.body, createdAt: message.createdAt, editedAt: message.editedAt || null };
+}
+
+app.get('/api/messages/unsubscribe', async (req, res) => {
+    const page = (title, copy) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><main style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:520px;margin:54px auto;padding:0 20px;color:#172033;line-height:1.6"><h1>${title}</h1><p>${copy}</p></main>`;
+    try {
+        const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
+        if (decoded.p !== 'customer-message-email') throw new Error('Wrong token purpose');
+        await User.updateOne({ _id: decoded.userId }, { $set: { customerMessageEmailsOptOut: true } });
+        res.type('html').send(page('Email messages turned off', 'You will no longer receive administrator customer-message emails. Your private in-app messages remain available whenever you sign in.'));
+    } catch (_) {
+        res.status(400).type('html').send(page('Invalid link', 'Please use the unsubscribe link from a recent StockPortfolio.pro email.'));
+    }
+});
+
+app.get('/api/messages/unread-count', authMiddleware, async (req, res) => {
+    try {
+        const thread = await CustomerMessageThread.findOne({ userId: req.userId }).lean();
+        res.set('Cache-Control', 'no-store').json({ unread: thread ? Number(thread.userUnread || 0) : 0 });
+    } catch (error) {
+        console.error('[messages] unread count failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to check messages.' });
+    }
+});
+
+app.get('/api/messages/thread', authMiddleware, async (req, res) => {
+    try {
+        const thread = await getCustomerThread(req.userId);
+        const messages = await CustomerMessage.find({ threadId: thread._id }).sort({ createdAt: 1 }).limit(500).lean();
+        await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { userUnread: 0 } });
+        res.set('Cache-Control', 'no-store').json({ messages: messages.map(messageDto) });
+    } catch (error) {
+        console.error('[messages] customer thread failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load messages.' });
+    }
+});
+
+app.post('/api/messages/thread', authMiddleware, customerMessageLimiter, async (req, res) => {
+    const body = cleanCustomerMessage(req.body && req.body.body);
+    if (!body) return res.status(400).json({ message: 'Write a message of up to 4,000 characters.' });
+    try {
+        const thread = await getCustomerThread(req.userId);
+        const message = await CustomerMessage.create({ threadId: thread._id, sender: 'customer', body });
+        await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { lastMessageAt: message.createdAt }, $inc: { adminUnread: 1 } });
+        res.status(201).json({ message: messageDto(message) });
+    } catch (error) {
+        console.error('[messages] customer send failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to send your message.' });
+    }
+});
+
+// Edit/delete rules (both roles): sender of the message owns it; verify the thread
+// belongs to the participant making the request. Only 'own' messages can be touched.
+async function loadOwnedMessage(req, res, participantId, sender) {
+    const id = String(req.params.messageId || '');
+    if (!mongoose.Types.ObjectId.isValid(id)) { res.status(400).json({ message: 'Invalid message.' }); return null; }
+    const message = await CustomerMessage.findById(id);
+    if (!message || message.sender !== sender) { res.status(404).json({ message: 'Message not found.' }); return null; }
+    const thread = await CustomerMessageThread.findById(message.threadId).lean();
+    if (!thread || String(thread.userId) !== String(participantId)) { res.status(404).json({ message: 'Message not found.' }); return null; }
+    return message;
+}
+app.patch('/api/messages/thread/:messageId', authMiddleware, customerMessageLimiter, async (req, res) => {
+    const body = cleanCustomerMessage(req.body && req.body.body);
+    if (!body) return res.status(400).json({ message: 'Write a message of up to 4,000 characters.' });
+    try {
+        const message = await loadOwnedMessage(req, res, req.userId, 'customer');
+        if (!message) return;
+        message.body = body; message.editedAt = new Date();
+        await message.save();
+        res.json({ message: messageDto(message) });
+    } catch (error) {
+        console.error('[messages] customer edit failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to edit your message.' });
+    }
+});
+app.delete('/api/messages/thread/:messageId', authMiddleware, customerMessageLimiter, async (req, res) => {
+    try {
+        const message = await loadOwnedMessage(req, res, req.userId, 'customer');
+        if (!message) return;
+        await CustomerMessage.deleteOne({ _id: message._id });
+        // Keep the directory's lastMessageAt honest if the deleted message was the newest.
+        const last = await CustomerMessage.findOne({ threadId: message.threadId }).sort({ createdAt: -1 }).lean();
+        if (last) await CustomerMessageThread.updateOne({ _id: message.threadId }, { $set: { lastMessageAt: last.createdAt } });
+        res.json({ deleted: true });
+    } catch (error) {
+        console.error('[messages] customer delete failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to delete your message.' });
+    }
+});
+
+// Customer directory for the message console. This is intentionally separate
+// from the conversation list: a founder must be able to contact a customer who
+// has never written first. Results are paginated and exclude the admin account.
+app.get('/api/admin/messages/customers', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
+    try {
+        const query = String(req.query.q || '').trim().slice(0, 120);
+        const audience = String(req.query.audience || 'all').trim().toLowerCase();
+        const page = Math.max(0, Math.min(Number.parseInt(req.query.page, 10) || 0, 10000));
+        const limit = Math.max(1, Math.min(Number.parseInt(req.query.limit, 10) || 50, 100));
+        if (!['all', 'paid', 'appsumo', 'free'].includes(audience)) return res.status(400).json({ message: 'Invalid audience.' });
+        const filter = { email: { $ne: CUSTOMER_MESSAGES_ADMIN_EMAIL } };
+        if (query) {
+            const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            filter.$and = [{ $or: [{ email: new RegExp(escaped, 'i') }, { name: new RegExp(escaped, 'i') }] }];
+        }
+        if (audience === 'appsumo') filter.appsumoRedeemedAt = { $ne: null };
+        if (audience === 'paid') {
+            filter.appsumoRedeemedAt = null;
+            filter['subscription.status'] = { $in: ['active', 'trialing', 'cancel_at_period_end'] };
+            filter['subscription.planId'] = { $ne: 'free' };
+        }
+        if (audience === 'free') {
+            filter.$and = [...(filter.$and || []), { $or: [{ 'subscription.planId': 'free' }, { 'subscription.status': { $in: ['pending', 'cancelled'] } }] }];
+        }
+        const [total, users] = await Promise.all([
+            User.countDocuments(filter),
+            User.find(filter, { name: 1, email: 1, subscription: 1, appsumoRedeemedAt: 1, customerMessageEmailsOptOut: 1, createdAt: 1 })
+                .sort({ createdAt: -1, _id: -1 }).skip(page * limit).limit(limit).lean()
+        ]);
+        const ids = users.map((user) => user._id);
+        const threads = ids.length ? await CustomerMessageThread.find({ userId: { $in: ids } }, { userId: 1, lastMessageAt: 1, adminUnread: 1 }).lean() : [];
+        const threadByUser = new Map(threads.map((thread) => [String(thread.userId), thread]));
+        res.set('Cache-Control', 'no-store').json({
+            customers: users.map((user) => {
+                const thread = threadByUser.get(String(user._id));
+                return {
+                    userId: String(user._id), name: user.name || '', email: user.email,
+                    audience: user.appsumoRedeemedAt ? 'appsumo' : (user.subscription && user.subscription.planId !== 'free' ? 'paid' : 'free'),
+                    plan: user.subscription && user.subscription.planName || 'Free',
+                    emailOptedOut: !!user.customerMessageEmailsOptOut,
+                    lastMessageAt: thread && thread.lastMessageAt || null, unread: thread ? Number(thread.adminUnread || 0) : 0
+                };
+            }),
+            page, limit, total, hasMore: (page + 1) * limit < total
+        });
+    } catch (error) {
+        console.error('[messages] customer directory failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load customers.' });
+    }
+});
+
+app.get('/api/admin/messages/threads', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
+    try {
+        const query = String(req.query.q || '').trim().slice(0, 120);
+        const userFilter = query ? { $or: [{ email: new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }, { name: new RegExp(query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }] } : {};
+        const users = await User.find(userFilter, { name: 1, email: 1 }).limit(100).lean();
+        const ids = users.map((user) => user._id);
+        const threads = ids.length ? await CustomerMessageThread.find({ userId: { $in: ids } }).lean() : [];
+        const byUser = new Map(threads.map((thread) => [String(thread.userId), thread]));
+        const rows = users.map((user) => {
+            const thread = byUser.get(String(user._id));
+            return { userId: String(user._id), name: user.name || '', email: user.email, lastMessageAt: thread && thread.lastMessageAt || null, unread: thread ? Number(thread.adminUnread || 0) : 0, hasConversation: !!thread };
+        }).filter((row) => query || row.hasConversation).sort((a, b) => Number(b.unread) - Number(a.unread) || new Date(b.lastMessageAt || 0) - new Date(a.lastMessageAt || 0));
+        res.set('Cache-Control', 'no-store').json({ threads: rows });
+    } catch (error) {
+        console.error('[messages] admin list failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load customer conversations.' });
+    }
+});
+
+app.get('/api/admin/messages/threads/:userId', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) return res.status(400).json({ message: 'Invalid customer.' });
+    try {
+        const user = await User.findById(req.params.userId, { name: 1, email: 1 }).lean();
+        if (!user) return res.status(404).json({ message: 'Customer not found.' });
+        const thread = await getCustomerThread(user._id);
+        const messages = await CustomerMessage.find({ threadId: thread._id }).sort({ createdAt: 1 }).limit(500).lean();
+        await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { adminUnread: 0 } });
+        res.set('Cache-Control', 'no-store').json({ customer: { id: String(user._id), name: user.name || '', email: user.email }, messages: messages.map(messageDto) });
+    } catch (error) {
+        console.error('[messages] admin thread failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load this conversation.' });
+    }
+});
+
+app.post('/api/admin/messages/threads/:userId', authMiddleware, customerMessagesAdminOnly, customerMessageLimiter, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) return res.status(400).json({ message: 'Invalid customer.' });
+    const body = cleanCustomerMessage(req.body && req.body.body);
+    if (!body) return res.status(400).json({ message: 'Write a message of up to 4,000 characters.' });
+    try {
+        const user = await User.findById(req.params.userId, { _id: 1, name: 1, email: 1, customerMessageEmailsOptOut: 1 }).lean();
+        if (!user) return res.status(404).json({ message: 'Customer not found.' });
+        const thread = await getCustomerThread(user._id);
+        const message = await CustomerMessage.create({ threadId: thread._id, sender: 'admin', body });
+        await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { lastMessageAt: message.createdAt }, $inc: { userUnread: 1 } });
+        let emailStatus = 'not_requested';
+        if (req.body && req.body.sendEmail === true) {
+            const subject = cleanCustomerMessageSubject(req.body.subject) || 'New message from StockPortfolio.pro';
+            emailStatus = (await sendCustomerMessageEmail(user, subject, body)).status;
+        }
+        res.status(201).json({ message: messageDto(message), emailStatus });
+    } catch (error) {
+        console.error('[messages] admin send failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to send the message.' });
+    }
+});
+app.patch('/api/admin/messages/threads/:userId/:messageId', authMiddleware, customerMessagesAdminOnly, customerMessageLimiter, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) return res.status(400).json({ message: 'Invalid customer.' });
+    const body = cleanCustomerMessage(req.body && req.body.body);
+    if (!body) return res.status(400).json({ message: 'Write a message of up to 4,000 characters.' });
+    try {
+        const message = await loadOwnedMessage(req, res, req.params.userId, 'admin');
+        if (!message) return;
+        message.body = body; message.editedAt = new Date();
+        await message.save();
+        res.json({ message: messageDto(message) });
+    } catch (error) {
+        console.error('[messages] admin edit failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to edit the message.' });
+    }
+});
+app.delete('/api/admin/messages/threads/:userId/:messageId', authMiddleware, customerMessagesAdminOnly, customerMessageLimiter, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.userId)) return res.status(400).json({ message: 'Invalid customer.' });
+    try {
+        const message = await loadOwnedMessage(req, res, req.params.userId, 'admin');
+        if (!message) return;
+        await CustomerMessage.deleteOne({ _id: message._id });
+        const last = await CustomerMessage.findOne({ threadId: message.threadId }).sort({ createdAt: -1 }).lean();
+        if (last) await CustomerMessageThread.updateOne({ _id: message.threadId }, { $set: { lastMessageAt: last.createdAt } });
+        res.json({ deleted: true });
+    } catch (error) {
+        console.error('[messages] admin delete failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to delete the message.' });
+    }
+});
+
+app.post('/api/admin/messages/broadcasts', authMiddleware, customerMessagesAdminOnly, customerMessageLimiter, async (req, res) => {
+    const body = cleanCustomerMessage(req.body && req.body.body);
+    const sendInApp = req.body && req.body.sendInApp !== false;
+    const sendEmail = !!(req.body && req.body.sendEmail);
+    const subject = sendEmail ? cleanCustomerMessageSubject(req.body && req.body.subject) : (cleanCustomerMessageSubject(req.body && req.body.subject) || 'New message from StockPortfolio.pro');
+    const idempotencyKey = String(req.body && req.body.idempotencyKey || '').trim();
+    const rawIds = Array.isArray(req.body && req.body.userIds) ? req.body.userIds : [];
+    const userIds = [...new Set(rawIds.map(String))];
+    if (!body) return res.status(400).json({ message: 'Write a message of up to 4,000 characters.' });
+    if (!sendInApp && !sendEmail) return res.status(400).json({ message: 'Choose in-app delivery, email delivery, or both.' });
+    if (sendEmail && !subject) return res.status(400).json({ message: 'An email subject of up to 180 characters is required.' });
+    if (!userIds.length || userIds.length > 100 || userIds.some((id) => !mongoose.Types.ObjectId.isValid(id))) return res.status(400).json({ message: 'Select between 1 and 100 valid customers.' });
+    if (!/^[A-Za-z0-9_-]{16,160}$/.test(idempotencyKey)) return res.status(400).json({ message: 'Invalid send request. Refresh the page and try again.' });
+    try {
+        let broadcast = await CustomerMessageBroadcast.findOne({ idempotencyKey });
+        if (!broadcast) {
+            const users = await User.find({ _id: { $in: userIds }, email: { $ne: CUSTOMER_MESSAGES_ADMIN_EMAIL } }, { _id: 1, email: 1, customerMessageEmailsOptOut: 1 }).lean();
+            if (!users.length) return res.status(404).json({ message: 'No selected customers were found.' });
+            // Typed confirmation is only worth the friction for a real batch.
+            if (users.length > 1 && String(req.body && req.body.confirmation || '') !== `SEND ${users.length}`) {
+                return res.status(400).json({ message: `Type SEND ${users.length} to confirm this delivery.` });
+            }
+            try {
+                broadcast = await CustomerMessageBroadcast.create({
+                    idempotencyKey, createdBy: req.userId, subject, body, sendInApp, sendEmail,
+                    recipients: users.map((user) => ({ userId: user._id, email: user.email, emailStatus: sendEmail ? (user.customerMessageEmailsOptOut ? 'suppressed' : 'pending') : 'not_requested' }))
+                });
+            } catch (error) {
+                if (error && error.code === 11000) broadcast = await CustomerMessageBroadcast.findOne({ idempotencyKey });
+                else throw error;
+            }
+        }
+        for (const recipient of broadcast.recipients) {
+            if (broadcast.sendInApp && !recipient.inAppSentAt) {
+                const thread = await getCustomerThread(recipient.userId);
+                const prior = await CustomerMessage.findOne({ threadId: thread._id, broadcastId: broadcast._id }).lean();
+                if (!prior) {
+                    const message = await CustomerMessage.create({ threadId: thread._id, sender: 'admin', body: broadcast.body, broadcastId: broadcast._id });
+                    await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { lastMessageAt: message.createdAt }, $inc: { userUnread: 1 } });
+                }
+                recipient.inAppSentAt = new Date();
+            }
+            if (broadcast.sendEmail && recipient.emailStatus === 'pending') {
+                const user = await User.findById(recipient.userId, { _id: 1, name: 1, email: 1, customerMessageEmailsOptOut: 1 }).lean();
+                const result = user ? await sendCustomerMessageEmail(user, broadcast.subject, broadcast.body) : { status: 'failed' };
+                recipient.emailStatus = result.status;
+                recipient.emailSentAt = result.status === 'sent' ? new Date() : null;
+                recipient.emailError = result.status === 'failed' ? 'SMTP delivery was not accepted.' : null;
+            }
+            await broadcast.save();
+        }
+        const counts = broadcast.recipients.reduce((out, recipient) => {
+            out.total++; if (recipient.inAppSentAt) out.inApp++; out[recipient.emailStatus] = (out[recipient.emailStatus] || 0) + 1; return out;
+        }, { total: 0, inApp: 0 });
+        broadcast.status = counts.failed ? 'completed_with_errors' : 'completed';
+        broadcast.completedAt = new Date();
+        await broadcast.save();
+        res.status(201).json({ broadcastId: String(broadcast._id), status: broadcast.status, counts });
+    } catch (error) {
+        console.error('[messages] broadcast failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to complete this customer delivery. It is safe to retry from the same page.' });
+    }
+});
+
+// Keep the operator URL protected as well as the underlying API. The static
+// file is intentionally still harmless if guessed: it cannot fetch data unless
+// the authenticated account is rin@gmail.com.
+app.get('/admin/messages', authMiddleware, customerMessagesAdminOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/admin-messages.html'));
 });
 
 // Existing-user upgrade: turn a logged-in trial/free account into a paid

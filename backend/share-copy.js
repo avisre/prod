@@ -5,7 +5,10 @@
 const crypto = require('crypto');
 const aiClient = require('./ai-client');
 
-const DEFAULT_APPSUMO_DEAL_URL = 'https://appsumo.com/products/stockportfoliopro/';
+// Verified AppSumo partner URL (partner-255732). Used as the /go redirect
+// fallback so tracked links carry partner attribution even when
+// APPSUMO_ATTRIBUTED_URL is not set in the deployment environment.
+const DEFAULT_APPSUMO_DEAL_URL = 'https://appsumo.com/products/stockportfoliopro?utm_source=partner-link&utm_medium=referral&utm_campaign=partner-255732';
 const ACQUISITION_COOKIE_NAME = 'sp_as_acq';
 const ACQUISITION_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
 const ACQUISITION_CONTENT_IDS = new Set([

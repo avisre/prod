@@ -28,6 +28,14 @@ const insiders = require('./insiders');
 const axios = require('axios');
 
 const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
+// Compact screen-index snapshot. buildScreenIndex() walks ~1GB of fundamentals
+// JSON (~6s cold on the 0.5-CPU Starter box), which is far too slow to sit on
+// a request path. We persist the built row set to frontend/data/screen-index.json
+// and load that (a few MB) in tens of ms on later boots; the nightly refresh
+// script regenerates it from fresh data. Any read/write failure falls back to
+// the in-process build (the previous behavior), so this is strictly additive.
+const SCREEN_INDEX_FILE = path.join(FUND_DIR, '..', 'screen-index.json');
+const SCREEN_INDEX_VERSION = 1; // bump to invalidate persisted index on format change
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
 const MAX_TOOLCALLS_PER_ROUND = 12;
 const QUESTION_MAX_CHARS = 8000;
@@ -453,8 +461,53 @@ async function toolGetInsiders({ symbol }) {
 
 // ---- Tool: screen_universe (real screener over the ~500-ticker cache) ----
 let _screenIndex = null;
-function buildScreenIndex() {
-    if (_screenIndex) return _screenIndex;
+// Best-effort async write (tmp + rename so a boot never reads a half file).
+function persistScreenIndex(rows) {
+    try {
+        const payload = JSON.stringify({ v: SCREEN_INDEX_VERSION, generatedAt: new Date().toISOString(), count: rows.length, rows });
+        const tmp = SCREEN_INDEX_FILE + '.' + process.pid + '.tmp';
+        fs.writeFile(tmp, payload, (err) => {
+            if (err) return;
+            try { fs.renameSync(tmp, SCREEN_INDEX_FILE); } catch (_) {}
+        });
+    } catch (_) { /* best effort; disk may be read-only on some hosts */ }
+}
+
+// Load the persisted snapshot if present, current version, and not ancient.
+function loadScreenIndex() {
+    try {
+        const raw = fs.readFileSync(SCREEN_INDEX_FILE, 'utf8');
+        const parsed = JSON.parse(raw);
+        if (!parsed || parsed.v !== SCREEN_INDEX_VERSION || !Array.isArray(parsed.rows)) return null;
+        if (parsed.generatedAt) {
+            const ageMs = Date.now() - new Date(parsed.generatedAt).getTime();
+            if (!Number.isFinite(ageMs) || ageMs > 31 * 24 * 60 * 60 * 1000) return null;
+        }
+        return parsed.rows;
+    } catch (_) { return null; }
+}
+
+// Single-symbol 5-year revenue CAGR from an already-loaded fundamentals payload
+// — the fast path renderStockPage uses instead of building the whole-universe
+// index. Mirrors the revCagr5Pct row computation in buildScreenIndex() exactly
+// (same num()/cagr() helpers, same base-year clamp), so values are identical.
+function revCagrFromData(data) {
+    if (!data) return null;
+    const inc = ((data.income || {}).annualReports) || [];
+    if (!inc.length) return null;
+    const rev = (i) => num((inc[i] || {}).totalRevenue);
+    const b5 = inc.length > 5 ? 5 : inc.length - 1;
+    if (b5 < 2) return null;
+    return cagr(rev(b5), rev(0), b5);
+}
+
+function buildScreenIndex(opts) {
+    const force = !!(opts && opts.force);
+    if (_screenIndex && !force) return _screenIndex;
+    if (!force) {
+        const persisted = loadScreenIndex();
+        if (persisted) { _screenIndex = persisted; return persisted; }
+    }
     const out = [];
     let files = [];
     try { files = fs.readdirSync(FUND_DIR).filter((f) => f.endsWith('.json') && f !== 'index.json'); } catch (_) { files = []; }
@@ -542,6 +595,7 @@ function buildScreenIndex() {
         } catch (_) { /* skip unreadable file */ }
     }
     _screenIndex = out;
+    persistScreenIndex(out);
     return out;
 }
 
@@ -1379,4 +1433,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex });
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData });

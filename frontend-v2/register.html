@@ -10,106 +10,248 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260728-tools1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260824-messaging1" />
   <style>
-    .plan-pick { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
-    .plan-card {
-      border: 1px solid var(--line-strong);
-      border-radius: var(--radius-sm);
-      background: var(--surface);
-      padding: 14px;
-      text-align: left;
-      cursor: pointer;
-      display: grid;
-      gap: 2px;
+    /* Checkout is a two-column object: what you're buying (left, sticky) and
+       what you do next (right). The left column is identical across both
+       steps, so the price never leaves the screen while a card is entered. */
+    .reg-shell { max-width: 920px; padding-top: 56px; padding-bottom: 80px; }
+    .reg-grid { display: grid; grid-template-columns: 320px 480px; gap: 48px; justify-content: center; align-items: start; }
+    @media (max-width: 900px) { .reg-grid { grid-template-columns: minmax(0, 480px); gap: 26px; } .reg-shell { padding-top: 32px; } }
+
+    .summary { position: sticky; top: 24px; display: grid; gap: 18px; }
+    @media (max-width: 900px) {
+      .summary { position: static; }
+      /* The form must stay reachable: details collapse behind one tap. */
+      .sum-more > summary { display: flex; align-items: center; justify-content: space-between;
+        list-style: none; cursor: pointer; font-size: var(--text-sm); font-weight: 600;
+        border: 1px solid var(--line-strong); border-radius: var(--radius-sm);
+        background: var(--surface); padding: 10px 13px; }
+      .sum-more > summary::-webkit-details-marker { display: none; }
+      .sum-more > summary::after { content: ''; width: 7px; height: 7px; flex: none;
+        border-right: 1.6px solid var(--ink-3); border-bottom: 1.6px solid var(--ink-3);
+        transform: translateY(-2px) rotate(45deg); transition: transform .15s; }
+      .sum-more[open] > summary::after { transform: translateY(1px) rotate(-135deg); }
+      .sum-more[open] > .sum-list { margin-top: 14px; }
     }
-    .plan-card[aria-pressed='true'] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
-    .plan-name { font-size: 13px; font-weight: 650; }
-    .plan-price { font-size: 17px; font-weight: 650; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
-    .plan-tag { font-size: 11px; color: var(--ink-3); }
-    @media (max-width: 560px) { .plan-pick { grid-template-columns: 1fr; } }
+
+    .sum-label { font-size: var(--text-xs); font-weight: 650; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); }
+    .sum-price { display: flex; align-items: baseline; gap: 8px; margin-top: 4px; }
+    .sum-amount { font-size: 40px; font-weight: 680; letter-spacing: -0.032em; line-height: 1; font-variant-numeric: tabular-nums; }
+    .sum-cadence { font-size: var(--text-sm); color: var(--ink-2); }
+    .sum-note { font-size: var(--text-sm); color: var(--ink-2); margin-top: 8px; line-height: 1.5; }
+
+    .seg { display: flex; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); overflow: hidden; background: var(--surface); }
+    .seg button { flex: 1; height: 34px; border: 0; border-right: 1px solid var(--line); background: transparent; font-size: var(--text-xs); font-weight: 600; color: var(--ink-2); cursor: pointer; }
+    .seg button:last-child { border-right: 0; }
+    .seg button:hover { color: var(--ink); }
+    .seg button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+
+    @media (min-width: 901px) { .sum-more > summary { display: none; } }
+    .sum-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 9px; }
+    .sum-list li { position: relative; padding-left: 21px; font-size: var(--text-sm); line-height: 1.45; color: var(--ink-2); }
+    .sum-list li::before { content: ''; position: absolute; left: 2px; top: 5px; width: 9px; height: 5px; border-left: 1.7px solid var(--pos); border-bottom: 1.7px solid var(--pos); transform: rotate(-45deg); }
+
+    .guarantee { border: 1px solid #cfe3d7; background: var(--pos-tint); border-radius: var(--radius-sm); padding: 13px 15px; display: grid; gap: 3px; }
+    .guarantee strong { font-size: var(--text-sm); font-weight: 650; color: #14603a; }
+    .guarantee span { font-size: var(--text-xs); line-height: 1.5; color: #2e6a4b; }
+
+    .steps { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+    .step { display: flex; align-items: center; gap: 8px; font-size: var(--text-xs); font-weight: 600; color: var(--ink-3); white-space: nowrap; }
+    .step-n { width: 20px; height: 20px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; font-size: 10.5px; line-height: 1; }
+    .step[data-state='on'] { color: var(--ink); }
+    .step[data-state='on'] .step-n { background: var(--ink); border-color: var(--ink); color: var(--paper); }
+    .step[data-state='done'] { color: var(--ink-2); }
+    .step[data-state='done'] .step-n { background: var(--pos); border-color: var(--pos); color: #fff; }
+    .step-bar { width: 56px; height: 1px; background: var(--line-strong); }
+
+    .trust { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 16px; }
+    .trust span { display: flex; align-items: center; gap: 5px; font-size: var(--text-xs); color: var(--ink-3); }
+    .trust svg { width: 11px; height: 11px; flex: none; }
+
+    .pay-frame { border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
+    .done-row { display: flex; align-items: center; gap: 8px; font-size: var(--text-sm); color: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 10px 13px; margin-bottom: 16px; }
+    .done-row b { font-weight: 600; color: var(--ink); }
   </style>
 </head>
 <body>
   <main>
-    <div class="container" style="max-width:480px; padding-top:72px;">
-      <h1 class="title-1">Create your account</h1>
-      <p class="muted small" style="margin-top:6px;" id="plan-summary">$12 charged today through Stripe. Request a refund within 7 days if the service is not right for you.</p>
+    <div class="container reg-shell">
+      <div class="reg-grid">
 
-      <form id="reg-form" class="card card-pad" style="display:grid; gap:16px; margin-top:24px;">
-        <div class="plan-pick" role="group" aria-label="Choose your plan">
-          <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">
-            <span class="plan-name">Monthly</span><span class="plan-price">$12/mo</span><span class="plan-tag">Cancel anytime</span>
-          </button>
-          <button type="button" class="plan-card" data-plan="annual" aria-pressed="false">
-            <span class="plan-name">Annual</span><span class="plan-price">$118/yr</span><span class="plan-tag">Save $26</span>
-          </button>
-          <button type="button" class="plan-card" data-plan="pro" aria-pressed="false">
-            <span class="plan-name">Pro</span><span class="plan-price">$33/mo</span><span class="plan-tag">AI analyst · $250/yr</span>
-          </button>
-        </div>
-        <p class="small muted" id="pro-annual-row" hidden style="margin:-8px 0 0;">
-          <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
-            <input type="checkbox" id="pro-annual-toggle" style="accent-color:var(--ink);" />
-            <span>Bill Pro yearly — <strong>$250/yr</strong> (save $146 vs monthly)</span>
-          </label>
-        </p>
-        <div id="social-shell" hidden style="display:grid; gap:10px;">
-          <div id="google-btn"></div>
-          <p class="small muted" id="social-status" role="status" aria-live="polite" hidden></p>
-          <div style="display:flex; align-items:center; gap:10px;">
-            <span style="flex:1; height:1px; background:var(--line-strong);"></span>
-            <span class="small faint">or sign up with email</span>
-            <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+        <!-- What you're buying — sticky through both steps -->
+        <aside class="summary">
+          <div>
+            <h1 class="title-1" style="font-size:22px;">Create your account</h1>
+            <p class="small muted" style="margin-top:4px;">Two steps. About a minute.</p>
           </div>
+
+          <div class="seg" role="group" aria-label="Choose your plan" id="plan-pick">
+            <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">Monthly</button>
+            <button type="button" class="plan-card" data-plan="annual" aria-pressed="false">Annual</button>
+            <button type="button" class="plan-card" data-plan="pro" aria-pressed="false">Pro</button>
+          </div>
+          <p class="small muted" id="pro-annual-row" hidden style="margin:-8px 0 0;">
+            <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
+              <input type="checkbox" id="pro-annual-toggle" style="accent-color:var(--ink);" />
+              <span>Bill Pro yearly — <strong>$250/yr</strong>, save $146</span>
+            </label>
+          </p>
+
+          <div>
+            <span class="sum-label" id="sum-plan-name">Monthly</span>
+            <div class="sum-price">
+              <span class="sum-amount" id="sum-amount">$12</span>
+              <span class="sum-cadence" id="sum-cadence">per month</span>
+            </div>
+            <p class="sum-note" id="plan-summary">Charged today through Stripe. Cancel anytime.</p>
+          </div>
+
+          <hr class="section-rule" style="margin:2px 0;" />
+
+          <details class="sum-more" open>
+            <summary>What's included</summary>
+            <ul class="sum-list" id="sum-features"></ul>
+          </details>
+
+          <div class="guarantee">
+            <strong>7-day money-back guarantee</strong>
+            <span>Not right for you? Request a full refund from your dashboard in one click — no email, no questions.</span>
+          </div>
+        </aside>
+
+        <!-- What you do next -->
+        <div>
+          <div class="steps" aria-label="Progress">
+            <span class="step" id="step-1" data-state="on"><span class="step-n">1</span>Account</span>
+            <span class="step-bar"></span>
+            <span class="step" id="step-2"><span class="step-n">2</span>Payment</span>
+          </div>
+
+          <form id="reg-form" class="card card-pad" style="display:grid; gap:16px;">
+            <div id="social-shell" hidden style="display:grid; gap:10px;">
+              <div id="google-btn"></div>
+              <p class="small muted" id="social-status" role="status" aria-live="polite" hidden></p>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+                <span class="small faint">or sign up with email</span>
+                <span style="flex:1; height:1px; background:var(--line-strong);"></span>
+              </div>
+            </div>
+            <!-- Honeypot: off-screen, never shown to humans; bots that fill it are dropped server-side. -->
+            <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+              <label>Website<input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off" /></label>
+            </div>
+            <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
+            <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="new-password" required minlength="8" /></label>
+            <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
+            <button class="btn btn-primary" type="submit" id="submit">Continue to secure checkout</button>
+            <p class="small delta-neg" id="error" role="alert" hidden></p>
+            <p class="small faint" style="margin:0;"><span id="card-note">Billed today, securely via Stripe.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
+          </form>
+
+          <div id="checkout-shell" hidden>
+            <div class="done-row"><b>Account</b> <span id="done-email"></span></div>
+            <div class="pay-frame"><div id="checkout-mount"></div></div>
+          </div>
+
+          <div class="trust">
+            <span><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M3 5V3.5a3 3 0 0 1 6 0V5" stroke="currentColor" stroke-width="1.2"/><rect x="2" y="5" width="8" height="6" rx="1.2" stroke="currentColor" stroke-width="1.2"/></svg>Secured by Stripe</span>
+            <span><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M6 1l4 1.8v3.1c0 2.3-1.6 4.3-4 5.1-2.4-.8-4-2.8-4-5.1V2.8L6 1z" stroke="currentColor" stroke-width="1.1"/></svg>We never see your card</span>
+            <span><svg viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2.5 6.3l2.2 2.2L9.5 3.7" stroke="currentColor" stroke-width="1.4"/></svg>Cancel anytime</span>
+          </div>
+
+          <p class="small muted" id="login-link" style="margin-top:18px;">Already have an account? <a href="/login.html">Log in</a>.</p>
         </div>
-        <!-- Honeypot: off-screen, never shown to humans; bots that fill it are dropped server-side. -->
-        <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
-          <label>Website<input type="text" id="hp-website" name="website" tabindex="-1" autocomplete="off" /></label>
-        </div>
-        <label class="field"><span>Email</span><input class="input" id="email" type="email" autocomplete="email" required /></label>
-        <label class="field"><span>Password</span><input class="input" id="password" type="password" autocomplete="new-password" required minlength="8" /></label>
-        <p class="small faint" style="margin:-6px 0 0;">At least 8 characters, with upper and lower case and a number.</p>
-        <button class="btn btn-primary" type="submit" id="submit">Continue to secure checkout</button>
-        <p class="small delta-neg" id="error" role="alert" hidden></p>
-        <p class="small faint" style="margin:0;"><span id="card-note">Payment is collected securely by Stripe. You can request a refund within 7 days if the service is not right for you.</span> By continuing you accept the <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a>.</p>
-      </form>
-      <p class="small muted" style="margin-top:16px;">Already have an account? <a href="/login.html">Log in</a>.</p>
+
+      </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260803-ask-recovery1"></script>
+  <script src="https://js.stripe.com/v3/"></script>
+  <script src="assets/app.js?v=20260824-messaging1"></script>
   <script src="assets/social.js?v=20260612-1"></script>
   <script>
     V2.nav('register');
-    const SUMMARY = {
-      monthly: ['$12 charged today through Stripe. Request a refund within 7 days if the service is not right for you.', 'Continue to secure checkout'],
-      annual: ['$118 billed today, renews yearly. Two months free versus monthly.', 'Continue to annual checkout'],
-      pro: ['$33 charged today through Stripe. Request a refund within 7 days if the service is not right for you, with the AI analyst included.', 'Continue to Pro checkout'],
-      'pro-annual': ['$250 billed today, renews yearly — save $146 versus Pro monthly.', 'Continue to Pro Annual checkout'],
-      power: ['$579 billed today, renews yearly — the full research desk + Filing Monitor for serious individuals.', 'Continue to Power checkout'],
-      'power-monthly': ['$64 billed today, then monthly — the full research desk + Filing Monitor, no annual commitment. Cancel anytime.', 'Continue to Power checkout'],
-      desk: ['$1,961 billed today, renews yearly — full coverage + Filing Monitor for RIAs, analysts and small funds.', 'Continue to Desk checkout']
+    // One record per plan drives the whole summary column: price, cadence,
+    // the line under it, the feature list and the submit label.
+    const PLANS = {
+      monthly: {
+        name: 'Monthly', amount: '$12', cadence: 'per month',
+        note: 'Charged today through Stripe. Cancel anytime.',
+        cta: 'Continue to secure checkout',
+        features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '25 Ask questions a month, every answer sourced', 'CSV export of any table']
+      },
+      annual: {
+        name: 'Annual', amount: '$118', cadence: 'per year',
+        note: 'Billed today, renews yearly. Two months free versus monthly.',
+        cta: 'Continue to annual checkout',
+        features: ['Everything in the Monthly plan', 'Two months free — $9.83/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
+      },
+      pro: {
+        name: 'Pro · the analyst tier', amount: '$33', cadence: 'per month',
+        note: 'Charged today through Stripe. Everything in Monthly, plus the AI analyst.',
+        cta: 'Continue to Pro checkout',
+        features: ['300 Ask questions a month, with charts and tables in every answer', 'Filing Diff — what changed in each new 10-K/10-Q, per holding', 'Smart alerts — insider clusters, dividend-risk flags, your own thresholds', 'Daily attribution — why your portfolio moved today, quantified', 'Business segments extracted from the 10-K', 'Weekly portfolio briefing, every Monday']
+      },
+      'pro-annual': {
+        name: 'Pro Annual', amount: '$250', cadence: 'per year',
+        note: 'Billed today, renews yearly — save $146 versus Pro monthly.',
+        cta: 'Continue to Pro Annual checkout',
+        features: ['Everything in Pro, billed once a year', '300 Ask questions a month, with charts and tables', 'Filing Diff, smart alerts and daily attribution', 'Business segments and the weekly Monday briefing', 'Save $146 versus paying monthly']
+      },
+      power: {
+        name: 'Power annual', amount: '$579', cadence: 'per year',
+        note: 'Billed today, renews yearly — the full research desk plus Filing Monitor.',
+        cta: 'Continue to Power checkout',
+        features: ['Filing Change Monitor — a cited first pass over the latest 10-K/10-Q/8-K, ranked by materiality', 'Watchlist filing feed — every holding’s newest filing, read for you', 'Wash-sale guard across accounts and brokers', 'Everything in Pro: 300 Ask questions, alerts, attribution, briefing', 'Save 25% versus monthly billing']
+      },
+      'power-monthly': {
+        name: 'Power monthly', amount: '$64', cadence: 'per month',
+        note: 'Charged today, then monthly. The full research desk plus Filing Monitor. Cancel anytime.',
+        cta: 'Continue to Power checkout',
+        features: ['Filing Change Monitor — a cited first pass over the latest 10-K/10-Q/8-K, ranked by materiality', 'Watchlist filing feed — every holding’s newest filing, read for you', 'Wash-sale guard across accounts and brokers', 'Everything in Pro: 300 Ask questions, alerts, attribution, briefing', 'No annual commitment']
+      },
+      desk: {
+        name: 'Desk · one professional seat', amount: '$1,961', cadence: 'per year',
+        note: 'Billed today, renews yearly — for RIAs, analysts and small funds.',
+        cta: 'Continue to Desk checkout',
+        features: ['Everything in Power, with a licence to use verified outputs in client-facing research', 'Priority support and a personal onboarding call', 'Built for RIAs, equity analysts and small funds', 'First to get new coverage as it ships']
+      }
     };
     // Purchase values are reported in the actual charged currency: USD.
     const PLAN_VALUE = { free: 0, monthly: 12, annual: 118, pro: 33, 'pro-annual': 250, power: 579, 'power-monthly': 64, desk: 1961 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk']);
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
-    if (!SUMMARY[plan]) plan = 'monthly';
+    if (!PLANS[plan]) plan = 'monthly';
     const cardPlan = (p) => (p === 'pro-annual' ? 'pro' : p); // annual Pro highlights the Pro card
     function syncPlan() {
       const direct = DIRECT_PLANS.has(plan);
-      const picker = document.querySelector('.plan-pick');
+      const meta = PLANS[plan];
+      const picker = document.getElementById('plan-pick');
       if (picker) picker.style.display = direct ? 'none' : ''; // direct links = clean single-plan checkout
       document.querySelectorAll('.plan-card').forEach((b) => b.setAttribute('aria-pressed', b.dataset.plan === cardPlan(plan)));
-      document.getElementById('plan-summary').textContent = SUMMARY[plan][0];
-      document.getElementById('submit').textContent = SUMMARY[plan][1];
+      document.getElementById('sum-plan-name').textContent = meta.name;
+      document.getElementById('sum-amount').textContent = meta.amount;
+      document.getElementById('sum-cadence').textContent = meta.cadence;
+      document.getElementById('plan-summary').textContent = meta.note;
+      document.getElementById('sum-features').replaceChildren(...meta.features.map((f) => {
+        const li = document.createElement('li'); li.textContent = f; return li;
+      }));
+      document.getElementById('submit').textContent = meta.cta;
       const row = document.getElementById('pro-annual-row');
       row.hidden = direct || cardPlan(plan) !== 'pro';
       document.getElementById('pro-annual-toggle').checked = plan === 'pro-annual';
       document.getElementById('card-note').textContent = direct
-        ? 'Billed today, securely via Stripe. Request a refund within 7 days if the service is not right for you; cancel anytime before renewal.'
-        : 'Billed today, securely via Stripe. Request a refund within 7 days if the service is not right for you.';
+        ? 'Billed today, securely via Stripe. Cancel anytime before renewal.'
+        : 'Billed today, securely via Stripe.';
+    }
+    // Moves the page between step 1 (account) and step 2 (payment).
+    function showStep(n) {
+      document.getElementById('step-1').dataset.state = n === 2 ? 'done' : 'on';
+      document.getElementById('step-2').dataset.state = n === 2 ? 'on' : '';
+      document.getElementById('reg-form').hidden = n === 2;
+      document.getElementById('checkout-shell').hidden = n !== 2;
     }
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
@@ -117,6 +259,13 @@
       plan = e.target.checked ? 'pro-annual' : 'pro'; syncPlan();
     });
     syncPlan();
+    // Mobile stacks the summary above the form, so collapse the feature list
+    // to keep the first input near the top of the page.
+    try {
+      if (window.matchMedia('(max-width: 900px)').matches) {
+        document.querySelector('.sum-more').open = false;
+      }
+    } catch (_) { /* no matchMedia — leave it open */ }
 
     // Post-checkout return (works pre- and post-cutover): Stripe sends the
     // user back with ?session=success — log in with the held credentials,
@@ -219,16 +368,41 @@
             if (window.spGrowthDiagnostic) window.spGrowthDiagnostic('signup_completed', { pageType: 'other' });
           } catch (_) { /* pixels best-effort */ }
           location.href = '/dashboard.html';
-        } else if (r.ok && data.url) {
-          // Direct paid plans (power/desk) still route through Stripe checkout.
-          // Same handoff key v1 uses — whichever register page Stripe returns
-          // to can auto-login once the webhook activates the subscription.
+        } else if (r.ok && data.clientSecret) {
+          // Card-required plans mount Stripe's embedded checkout inline, on
+          // this same branded page, instead of redirecting to
+          // checkout.stripe.com. Same handoff key v1 uses — whichever
+          // register page Stripe returns to can auto-login once the webhook
+          // activates the subscription.
+          const email = document.getElementById('email').value.trim();
           sessionStorage.setItem('pendingRegisterCredentials', JSON.stringify({
-            email: document.getElementById('email').value.trim(),
+            email,
             password: document.getElementById('password').value
           }));
           try { if (window.spTrack) window.spTrack('initiate_checkout', { plan }); } catch (_) { /* best-effort */ }
-          location.href = data.url; // Stripe checkout
+          const cfg = await fetch('/stripe/config').then((r2) => r2.json()).catch(() => ({}));
+          if (!cfg.publishableKey || !window.Stripe) {
+            err.textContent = 'Checkout is temporarily unavailable — please try again shortly.';
+            err.hidden = false;
+            btn.disabled = false;
+            syncPlan();
+            return;
+          }
+          document.getElementById('done-email').textContent = email;
+          document.getElementById('login-link').hidden = true;
+          showStep(2);
+          try {
+            const stripeClient = window.Stripe(cfg.publishableKey);
+            const checkout = await stripeClient.initEmbeddedCheckout({ clientSecret: data.clientSecret });
+            checkout.mount('#checkout-mount');
+          } catch (_) {
+            showStep(1);
+            document.getElementById('login-link').hidden = false;
+            err.textContent = 'Checkout could not load — please try again.';
+            err.hidden = false;
+            btn.disabled = false;
+            syncPlan();
+          }
         } else {
           err.textContent = data.message || 'Could not create the account — please try again.';
           err.hidden = false;

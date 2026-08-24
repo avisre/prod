@@ -417,7 +417,7 @@ function renderStockPage(ticker) {
     } catch (_) { /* page renders without red flags */ }
 
     // FAQ block + FAQPage JSON-LD (the featured-snippet play).
-    const metrics = aiChat.metricsFor(sym) || {};
+    const revCagr5Pct = aiChat.revCagrFromData(data);
     const latestInc = income[0] || {};
     const latestFY = String(latestInc.fiscalDateEnding || '').slice(0, 4);
     const revN = num(latestInc.totalRevenue); const niN = num(latestInc.netIncome);
@@ -440,8 +440,8 @@ function renderStockPage(ticker) {
         });
     }
     if (num(pe) !== null) faqs.push({ q: `What is ${sym}'s P/E ratio?`, a: `${name} trades at a price-to-earnings ratio of about ${num(pe).toFixed(1)} based on the latest data in our nightly-refreshed cache.` });
-    if (metrics.revCagr5Pct !== null && metrics.revCagr5Pct !== undefined) {
-        faqs.push({ q: `How fast is ${name} growing?`, a: `${sym}'s revenue grew at roughly ${metrics.revCagr5Pct.toFixed(1)}% per year over the last five fiscal years (compound annual growth rate), computed from SEC-filed statements.` });
+    if (revCagr5Pct !== null && revCagr5Pct !== undefined) {
+        faqs.push({ q: `How fast is ${name} growing?`, a: `${sym}'s revenue grew at roughly ${revCagr5Pct.toFixed(1)}% per year over the last five fiscal years (compound annual growth rate), computed from SEC-filed statements.` });
     }
     const divCheck = healthChecks.find((c) => c.label === 'Pays a dividend');
     if (divCheck) {
@@ -546,7 +546,7 @@ function renderStockPage(ticker) {
     if (revN !== null) leadBits.push(`posted ${money(revN)} in revenue for fiscal ${latestFY}` + (leadGrowth !== null ? ` (${leadGrowth >= 0 ? 'up' : 'down'} ${Math.abs(leadGrowth).toFixed(1)}% year over year)` : ''));
     if (niN !== null && revN && niN >= 0) leadBits.push(`at a ${((niN / revN) * 100).toFixed(1)}% net margin`);
     else if (niN !== null && niN < 0) leadBits.push(`with a net loss of ${money(Math.abs(niN))}`);
-    if (metrics.revCagr5Pct !== null && metrics.revCagr5Pct !== undefined) leadBits.push(`and has compounded revenue about ${metrics.revCagr5Pct.toFixed(1)}%/yr over five years`);
+    if (revCagr5Pct !== null && revCagr5Pct !== undefined) leadBits.push(`and has compounded revenue about ${revCagr5Pct.toFixed(1)}%/yr over five years`);
     const leadSentence = leadBits.length ? `${name} (${sym}) ${leadBits.join(', ')}, per its SEC filings.` : '';
     const leadHtml = leadSentence ? `<p class="seo-about" style="margin:8px 0 4px">${esc(leadSentence)}</p>` : '';
     const freshHtml = freshness ? `<p style="font-size:12px;color:var(--ink3);margin:2px 0 16px">Data last refreshed ${esc(freshness)} from SEC filings &middot; <a href="/methodology" style="color:var(--ink3)">how we compute this</a></p>` : '';
@@ -599,7 +599,7 @@ function renderStockPage(ticker) {
             sym, name, sector,
             latestFY, revLatest: money(revN), revFirst: money(num(revFirstR.totalRevenue)), yearsCount,
             revYoYPct: (leadGrowth !== null && leadGrowth !== undefined) ? Number(leadGrowth.toFixed(1)) : null,
-            revCagr5Pct: (metrics.revCagr5Pct != null ? Number(Number(metrics.revCagr5Pct).toFixed(1)) : null),
+            revCagr5Pct: (revCagr5Pct != null ? Number(Number(revCagr5Pct).toFixed(1)) : null),
             netMarginPct: nm, netMarginChangePts: (nm !== null && pnm !== null) ? Number((nm - pnm).toFixed(1)) : null,
             grossMarginPct: gm,
             fcfMarginPct: null,
@@ -825,7 +825,7 @@ function staticPageMtime(route) {
     return isoMtime(__filename);
 }
 function videoMarkup(route) {
-    if (route === '/tour') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and filed fundamentals.</video:description>\n      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n      <video:duration>53</video:duration>\n    </video:video>`;
+    if (route === '/tour') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/tour-poster.jpg</video:thumbnail_loc>\n      <video:title>stockportfolio.pro — 60-second product tour</video:title>\n      <video:description>A one-minute tour of stockportfolio.pro: the SEC-grounded AI analyst, the free stock screener, and filed fundamentals.</video:description>\n      <video:content_loc>${SITE}/assets/tour-1080p.mp4</video:content_loc>\n      <video:duration>53</video:duration>\n    </video:video>\n    <video:video>\n      <video:thumbnail_loc>https://i.ytimg.com/vi/-3V_IaCOQUo/hqdefault.jpg</video:thumbnail_loc>\n      <video:title>I asked an AI 3 hard finance questions. Every answer came from the SEC filing.</video:title>\n      <video:description>Three hard finance questions answered by stockportfolio.pro's Ask analyst — every answer grounded in the company's actual SEC filing, with the source linked.</video:description>\n      <video:content_loc>https://www.youtube.com/watch?v=-3V_IaCOQUo</video:content_loc>\n      <video:player_loc allow_embed="yes">https://www.youtube.com/embed/-3V_IaCOQUo</video:player_loc>\n    </video:video>`;
     if (route === '/monitor-demo') return `\n    <video:video>\n      <video:thumbnail_loc>${SITE}/assets/monitor-poster.jpg</video:thumbnail_loc>\n      <video:title>Filing Change Monitor — reading NVIDIA's latest 10-Q</video:title>\n      <video:description>The Filing Change Monitor reads what changed in a company's newest filing and links the evidence.</video:description>\n      <video:content_loc>${SITE}/assets/monitor-1080p.mp4</video:content_loc>\n      <video:duration>18</video:duration>\n    </video:video>`;
     return '';
 }
