@@ -92,7 +92,6 @@ Disallow: /api/
 Disallow: /dashboard.html
 Disallow: /fundamentals.html
 Disallow: /login.html
-Disallow: /register.html
 
 User-agent: ChatGPT-User
 Allow: /
