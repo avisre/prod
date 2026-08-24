@@ -813,7 +813,7 @@ function isoDataMtime(file) {
 function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-07-19'; }
 function staticPageMtime(route) {
     const names = {
-        '/': 'index.html', '/appsumo': 'appsumo.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
+        '/': 'index.html', '/register': 'register.html', '/appsumo': 'appsumo.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
         '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
         '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html'
     };
@@ -832,7 +832,7 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
+    const coreRoutes = ['/', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
     try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
     const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
