@@ -65,24 +65,18 @@ function htmlToText(html) {
         .replace(/\s+/g, ' ');
 }
 
-// Take windows of text around segment-related anchors. The segment note and
-// the business-section breakdown are what we're after.
-function segmentWindows(text) {
-    // Most specific anchors first — banks (JPM/BAC/WFC) never say
-    // "reportable segment"; they say "segment results" / "business segment".
-    const anchors = [
-        /segment results/gi, /reportable segments?/gi, /segment information/gi,
-        /operating segments?/gi, /business segments?/gi, /line of business/gi
-    ];
+// Take windows of text around a list of anchor patterns, merging overlaps —
+// shared by segmentWindows() below and unit-economics.js's own anchor set.
+function anchorWindows(text, anchors, { before = 1500, after = 6500, maxSpans = 14, maxChars = MAX_EXTRACT_CHARS } = {}) {
     const spans = [];
     for (const re of anchors) {
         let m;
-        while ((m = re.exec(text)) !== null && spans.length < 14) {
-            spans.push([Math.max(0, m.index - 1500), Math.min(text.length, m.index + 6500)]);
+        while ((m = re.exec(text)) !== null && spans.length < maxSpans) {
+            spans.push([Math.max(0, m.index - before), Math.min(text.length, m.index + after)]);
         }
-        if (spans.length >= 14) break;
+        if (spans.length >= maxSpans) break;
     }
-    if (!spans.length) return text.slice(0, MAX_EXTRACT_CHARS);
+    if (!spans.length) return text.slice(0, maxChars);
     spans.sort((a, b) => a[0] - b[0]);
     // merge overlaps
     const merged = [spans[0]];
@@ -93,10 +87,22 @@ function segmentWindows(text) {
     }
     let out = '';
     for (const [s, e] of merged) {
-        if (out.length >= MAX_EXTRACT_CHARS) break;
+        if (out.length >= maxChars) break;
         out += text.slice(s, e) + '\n…\n';
     }
-    return out.slice(0, MAX_EXTRACT_CHARS);
+    return out.slice(0, maxChars);
+}
+
+// Take windows of text around segment-related anchors. The segment note and
+// the business-section breakdown are what we're after.
+function segmentWindows(text) {
+    // Most specific anchors first — banks (JPM/BAC/WFC) never say
+    // "reportable segment"; they say "segment results" / "business segment".
+    const anchors = [
+        /segment results/gi, /reportable segments?/gi, /segment information/gi,
+        /operating segments?/gi, /business segments?/gi, /line of business/gi
+    ];
+    return anchorWindows(text, anchors);
 }
 
 const EXTRACT_SYSTEM = [
@@ -172,4 +178,4 @@ async function extractSegments(symbol) {
     return payload;
 }
 
-module.exports = { extractSegments };
+module.exports = { extractSegments, latestTenK, htmlToText, anchorWindows, filedRevenue };

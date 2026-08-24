@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260728-tools1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260824-plainmode4" />
   <style>
     .mon-hero { max-width: 860px; margin: 18px auto 0; text-align: left; padding:42px 0 18px; }
     .mon-hero .label { display: inline-block; }
@@ -31,6 +31,7 @@
     #mon-report { max-width:1120px; margin:0 auto; }
     .mon-card { border:0; border-top:1px solid var(--line); border-radius:0; padding:34px 0 0; }
     .mon-card-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; }
+    .mon-mode-toggle { display:flex; gap:6px; }
     .mon-score { display:flex; align-items:center; gap:10px; padding-left:22px; border-left:1px solid var(--line); }
     .mon-score strong { font-size:34px; line-height:1; letter-spacing:-.04em; font-variant-numeric:tabular-nums; }
     .mon-score span { color:var(--ink-3); font-size:10px; line-height:1.35; text-transform:uppercase; letter-spacing:.06em; }
@@ -116,6 +117,8 @@
     .mon-score-ring strong, .mon-score-ring span { position:relative; z-index:1; display:block; text-align:center; }
     .mon-score-ring strong { font-size:30px; line-height:1; letter-spacing:-.04em; }
     .mon-score-ring span { margin-top:4px; font-size:9px; color:var(--ink-3); text-transform:uppercase; letter-spacing:.06em; }
+    .mon-score-ring.is-label { width:124px; height:124px; }
+    .mon-score-ring.is-label strong { font-size:15px; line-height:1.2; letter-spacing:-.01em; white-space:normal; padding:0 10px; font-weight:700; }
     .mon-score-breakdown { display:grid; gap:11px; }
     .mon-score-line { display:grid; grid-template-columns:68px 1fr 25px; gap:9px; align-items:center; font-size:11px; }
     .mon-score-line b { font-variant-numeric:tabular-nums; text-align:right; }
@@ -163,6 +166,8 @@
       .mon-score-ring { width:92px; height:92px; }
       .mon-score-ring::before { inset:8px; }
       .mon-score-ring strong { font-size:25px; }
+      .mon-score-ring.is-label { width:106px; height:106px; }
+      .mon-score-ring.is-label strong { font-size:13px; padding:0 8px; }
       .mon-quote-pair { grid-template-columns:1fr; }
       .mon-quote-sep { transform:rotate(90deg); min-height:16px; }
       .mon-evidence-title { align-items:flex-start; flex-direction:column; gap:6px; }
@@ -230,7 +235,7 @@
           <input class="input" id="mon-input" placeholder="Company ticker — e.g. NVDA" autocomplete="off" aria-label="Company ticker symbol" />
           <button class="btn btn-primary" type="submit">Build change brief</button>
         </form>
-        <p class="small faint" style="margin-top:10px;"><strong>Free for 3 companies, no login</strong> · ETFs and mutual funds belong in <a href="/ask.html">Ask</a> or the <a href="/company.html?symbol=SPY">fund workspace</a> · not investment advice</p>
+        <p class="small faint" id="mon-free-note" style="margin-top:10px;"><strong>Free for 3 companies, no login</strong> · ETFs and mutual funds belong in <a href="/ask.html">Ask</a> or the <a href="/company.html?symbol=SPY">fund workspace</a> · not investment advice</p>
       </section>
 
       <section style="margin-top:28px;">
@@ -247,11 +252,12 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20260803-ask-recovery1"></script>
+  <script src="assets/app.js?v=20260824-plainmode4"></script>
+  <script src="assets/plainviz.js?v=20260824-plainmode1"></script>
   <script>
     V2.nav('monitor');
     V2.footer();
   </script>
-  <script src="assets/monitor.js?v=20260801-free3"></script>
+  <script src="assets/monitor.js?v=20260824-plainmode4"></script>
 </body>
 </html>

@@ -25,7 +25,18 @@ const fundRanking = require('./fund-ranking');
 const secSource = require('./sec-source');
 const segments = require('./segments');
 const insiders = require('./insiders');
+const unitEconomics = require('./unit-economics');
+const governance = require('./governance');
+const esg = require('./esg');
+const keypoints = require('./keypoints');
+const filingDiff = require('./filing-diff');
+const gurus = require('./gurus');
 const axios = require('axios');
+// NOT required at top level — reverse-dcf.js, industry.js, dossier-analysis.js
+// and xray.js each require('./ai-chat') themselves, so requiring them here
+// would create a cycle. They are require()'d lazily inside their own tool
+// handler below instead (same trick unit-economics.js already avoided by not
+// needing ai-chat at all).
 
 const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 // Compact screen-index snapshot. buildScreenIndex() walks ~1GB of fundamentals
@@ -110,7 +121,9 @@ const FIELDS = {
         'longTermDebt', 'totalShareholderEquity', 'retainedEarnings', 'commonStockSharesOutstanding'],
     cash: ['operatingCashflow', 'capitalExpenditures', 'depreciationDepletionAndAmortization',
         'cashflowFromInvestment', 'cashflowFromFinancing', 'dividendPayout',
-        'paymentsForRepurchaseOfCommonStock', 'changeInCashAndCashEquivalents', 'netIncome']
+        'paymentsForRepurchaseOfCommonStock', 'changeInCashAndCashEquivalents', 'netIncome',
+        'deferredRevenue', 'changeInReceivables', 'changeInInventory',
+        'proceedsFromIssuanceOfCommonStock', 'dividendPayoutCommonStock', 'shareBasedCompensation']
 };
 const PER_SHARE = new Set(['dilutedEPS']);
 const SHARE_COUNT = new Set(['commonStockSharesOutstanding']);
@@ -800,6 +813,127 @@ function toolCalculator({ expression }) {
     return results.length === 1 ? results[0] : { results };
 }
 
+// ---- Tool: get_unit_economics (per-unit revenue/cost/profit, e.g. per car) ----
+async function toolGetUnitEconomics({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        const r = await unitEconomics.extract(key);
+        if (r.error) return r;
+        return { ...r, source: `Volume from the FY 10-K filed ${(r.filing || {}).date || 'recently'} (SEC EDGAR); per-unit figures are filed revenue/cost divided by that volume, computed here, never estimated.` };
+    } catch (e) {
+        return { error: 'Unit-economics extraction failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_red_flags (the deterministic scanner already used on stock pages) ----
+function toolGetRedFlags({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    const r = redFlagsFor(key);
+    if (!r) return NO_DATA(key);
+    return r;
+}
+
+// ---- Tool: get_reverse_dcf (what growth rate today's price implies) ----
+async function toolGetReverseDcf({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        const reverseDcf = require('./reverse-dcf'); // lazy — see note at top of file
+        return await reverseDcf.computeReverseDcf(key);
+    } catch (e) {
+        return { error: 'Reverse-DCF failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_peer_context (industry drivers + peer-multiples positioning) ----
+async function toolGetPeerContext({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    const data = await loadFundAny(key);
+    if (!data) return NO_DATA(key);
+    const overview = data.overview || {};
+    try {
+        const dossierAnalysis = require('./dossier-analysis'); // lazy — see note at top of file
+        const industry = require('./industry'); // lazy — see note at top of file
+        const peers = dossierAnalysis.peerAnalysis(key, overview);
+        const ind = await industry.buildIndustry(key, { overview, peers });
+        return { symbol: key, sector: overview.Sector || '', peerPositioning: peers, industry: ind };
+    } catch (e) {
+        return { error: 'Peer/industry context failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_key_points (customers, products, revenue breakup — from the 10-K) ----
+async function toolGetKeyPoints({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        return await keypoints.extractKeyPoints(key);
+    } catch (e) {
+        return { error: 'Key-points extraction failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_governance (board, pay, insider trend, tracked 13F ownership) ----
+async function toolGetGovernance({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        const data = await loadFundAny(key);
+        const name = (data && data.overview && data.overview.Name) || null;
+        return await governance.buildGovernance(key, { name });
+    } catch (e) {
+        return { error: 'Governance extraction failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_esg (filings-grounded disclosure completeness, not a paid rating) ----
+async function toolGetEsg({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        return await esg.buildESG(key);
+    } catch (e) {
+        return { error: 'ESG extraction failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_filing_diff (what changed vs the prior 10-K/10-Q) ----
+async function toolGetFilingDiff({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        return await filingDiff.computeFilingDiff(key);
+    } catch (e) {
+        return { error: 'Filing diff failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_guru_ownership (which tracked 13F superinvestors hold it) ----
+async function toolGetGuruOwnership({ symbol }) {
+    const key = String(symbol || '').toUpperCase().trim();
+    if (!key) return { error: 'No symbol given.' };
+    try {
+        return await gurus.holdersOf(key);
+    } catch (e) {
+        return { error: 'Guru ownership lookup failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// ---- Tool: get_portfolio_xray (look-through fundamentals of the whole portfolio) ----
+function toolGetPortfolioXray(ctx) {
+    const holdings = (ctx && ctx.holdings) || [];
+    if (!holdings.length) return { holdings: [], note: 'The user has no holdings saved yet.' };
+    try {
+        const xray = require('./xray'); // lazy — see note at top of file
+        return xray.computeXray(holdings);
+    } catch (e) {
+        return { error: 'Portfolio X-Ray failed: ' + (e.message || 'unknown') };
+    }
+}
+
 // ---- Tool schemas (OpenAI function-calling format) ----
 const TOOLS = [
     {
@@ -977,6 +1111,86 @@ const TOOLS = [
                 },
                 required: ['url']
             }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_unit_economics',
+            description: 'Per-unit revenue, cost and gross profit — e.g. revenue/profit PER VEHICLE for an automaker, per subscriber, per room-night, per barrel. Extracted from the latest 10-K\'s operating volume (deliveries, ARPU, same-store sales, RevPAR, GMV, AUM…) and divided into filed revenue/cost deterministically. Use this for "is it making money on each X it sells/serves" questions. Returns empty metrics if the company has no natural per-unit measure (e.g. a bank).',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_red_flags',
+            description: 'Conservative, deterministic red-flag scan of the filed statements: receivables/inventory outrunning sales, earnings running ahead of cash, share dilution, heavy leverage, margin compression. No AI judgement — every flag cites the numbers behind it. Use for "anything concerning/dodgy about this company" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_reverse_dcf',
+            description: 'Reverse discounted-cash-flow: solves for the free-cash-flow growth rate today\'s market cap implies, set against the company\'s actual filed FCF record. Use for "how much growth is priced in" / "is the stock expensive" valuation questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_peer_context',
+            description: 'Competitive/industry positioning: sector peer-multiples valuation (P/E vs peer median, growth and margin percentile among sector peers) plus industry drivers extracted from the 10-K\'s Business and Risk Factors, each tagged positive/negative/mixed FOR THIS COMPANY. Use for "how does it compare to competitors/its sector" and "is it cheap vs peers" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_key_points',
+            description: 'Company dossier extracted from the latest 10-K: customers, products/platforms, revenue breakup, recent developments — whatever sections the filing actually discusses. Use for "who are its customers / what does it actually sell / what\'s new" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_governance',
+            description: 'Board and executive-pay facts from the latest proxy (DEF 14A) — board size/independence, CEO duality, dual-class shares, say-on-pay approval, CEO pay ratio — plus rolling insider Form-4 buy/sell sentiment and which of our ~27 tracked 13F "superinvestors" currently hold the stock. Use for "who runs it / who owns it / is governance healthy" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_esg',
+            description: 'Filings-grounded ESG read: measures DISCLOSURE COMPLETENESS (not a paid third-party score) across governance, voluntary environmental disclosure (targets, emissions) and mandated human-capital disclosure (headcount, DEI, safety, training), each sourced to the 10-K/proxy. Use for ESG/sustainability-disclosure questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_filing_diff',
+            description: 'Redline between the company\'s newest 10-K/10-Q and its previous filing of the same form: guidance/outlook language changes, risk-factor changes, demand/margin commentary, liquidity — quoted from both documents. Use for "what changed since last quarter/year" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_guru_ownership',
+            description: 'Which of our ~27 tracked famous investors (13F "superinvestors" — Buffett, Ackman, Burry, etc.) currently hold this stock, with position value, weight and recent activity from their latest 13F-HR. A labelled subsample, not total institutional ownership. Use for "do any well-known investors own this" questions.',
+            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'get_portfolio_xray',
+            description: 'Look-through fundamentals of the user\'s OWN saved portfolio treated as one business: weighted revenue growth, margins, ROE, valuation, plus concentration and health roll-up. No arguments — always reads the user\'s current holdings. Use for "how is my portfolio built / how healthy is it as a whole" questions.',
+            parameters: { type: 'object', properties: {}, required: [] }
         }
     }
 ];
@@ -1177,6 +1391,16 @@ function runTool(name, args, ctx) {
         case 'search_web': return toolSearchWeb(args || {});
         case 'search_filings': return toolSearchFilings(args || {});
         case 'fetch_page': return toolFetchPage(args || {});
+        case 'get_unit_economics': return toolGetUnitEconomics(args || {});
+        case 'get_red_flags': return toolGetRedFlags(args || {});
+        case 'get_reverse_dcf': return toolGetReverseDcf(args || {});
+        case 'get_peer_context': return toolGetPeerContext(args || {});
+        case 'get_key_points': return toolGetKeyPoints(args || {});
+        case 'get_governance': return toolGetGovernance(args || {});
+        case 'get_esg': return toolGetEsg(args || {});
+        case 'get_filing_diff': return toolGetFilingDiff(args || {});
+        case 'get_guru_ownership': return toolGetGuruOwnership(args || {});
+        case 'get_portfolio_xray': return toolGetPortfolioXray(ctx);
         default: return { error: `Unknown tool ${name}` };
     }
 }
@@ -1192,6 +1416,7 @@ const ASK_SYSTEM = [
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
+    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year" → get_filing_diff. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
     'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
@@ -1210,6 +1435,17 @@ const ASK_SYSTEM = [
     'THE READ: end any answer that involved several figures with a paragraph starting "**The read** — " that connects the numbers into the one thing they say together (still descriptive, no advice).',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
     'STYLE: British English. Concise but complete — short paragraphs, markdown tables for multi-period numbers. No preamble, no sign-off.'
+].join('\n');
+
+// Injected in front of ASK_SYSTEM when the user has selected plain-English
+// ("Normal") mode instead of the default analyst-style writing.
+const PLAIN_ASK_ADDENDUM = [
+    'WRITING STYLE OVERRIDE: write for a smart reader with no finance background. If you use a financial term or acronym (e.g. margin, YoY, FCF, P/E, basis points), briefly explain it in plain words the first time it appears. This is the SAME underlying analysis as analyst mode, shown more simply — never drop or hedge away a figure, just present it more visually and plainly.',
+    'OPENER: start with one line, formatted exactly "> **In one line** — <the single most important takeaway>".',
+    'VISUALS OVER TABLES: whenever you state two or more related figures, put them in a ```viz``` block (per the rules above) instead of prose or a table. For a head-to-head of one metric across a few companies/periods (e.g. "compare margins" or "priced-in growth vs actual growth"), use a ```bars``` fenced block instead of a markdown table: {"title":str,"unit":"$"|"%"|"x","rows":[[label, value, note?]]} — numbers only from tool results, 2–8 rows, unscaled values.',
+    'PLAIN RATIOS: every ratio or margin you state must be restated in brackets in everyday terms, e.g. "operating margin 24% (keeps about 24¢ of every $1 it sells after running the business)".',
+    'UNIT ECONOMICS: whenever the company sells a countable thing — cars, subscriptions, stores, barrels, rooms, ad impressions — and the question is about performance, profitability or "is it a good business", call get_unit_economics and report profit per unit alongside the company-wide figures, even if not explicitly asked. For carmakers (Tesla and peers) this means dollars earned per vehicle, not just total revenue.',
+    'Keep every figure, table and chart exactly as the base rules require — nothing is dropped, only made easier to read.'
 ].join('\n');
 
 // Injected on the final (tool-free) round and at the safety-net synthesis: the
@@ -1262,13 +1498,14 @@ function makeRoundStreamer(emit) {
 //   {type:'rollback'}              meaning "discard streamed text so far".
 // The resolved return value stays identical to the non-streaming path and is
 // authoritative — callers should render result.answer over streamed text.
-async function ask({ question, history, ctx, onEvent }) {
+async function ask({ question, history, ctx, mode, onEvent }) {
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty' };
     if (!aiClient.isConfigured()) return { answer: 'Ask is not available right now — the AI service is not configured.', toolsUsed: [], source: 'unconfigured' };
     const emit = (e) => { if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep computing the answer */ } } };
 
-    const messages = [{ role: 'system', content: ASK_SYSTEM + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.` }];
+    const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '') + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.`;
+    const messages = [{ role: 'system', content: systemContent }];
     for (const h of (Array.isArray(history) ? history.slice(-8) : [])) {
         if (h && (h.role === 'user' || h.role === 'assistant') && typeof h.content === 'string') {
             messages.push({ role: h.role, content: h.content.slice(0, QUESTION_MAX_CHARS) });
@@ -1280,8 +1517,19 @@ async function ask({ question, history, ctx, onEvent }) {
     let totalTokens = 0;
     // mechanical per-question budgets for the web tools — prompts bend under
     // failure pressure, counters don't
-    const WEB_BUDGET = { search_web: 3, fetch_page: 4, search_filings: 3 };
-    const webUsed = { search_web: 0, fetch_page: 0, search_filings: 0 };
+    // Same mechanism extended to the LLM-extraction research tools (each is a
+    // 10-K/proxy read — expensive and cached, not something to call twice in
+    // one question). Deterministic tools (get_red_flags, get_reverse_dcf,
+    // get_peer_context, get_guru_ownership, get_portfolio_xray) are cheap and
+    // stay uncapped.
+    const WEB_BUDGET = {
+        search_web: 3, fetch_page: 4, search_filings: 3,
+        get_unit_economics: 1, get_key_points: 1, get_governance: 1, get_esg: 1, get_filing_diff: 1
+    };
+    const webUsed = {
+        search_web: 0, fetch_page: 0, search_filings: 0,
+        get_unit_economics: 0, get_key_points: 0, get_governance: 0, get_esg: 0, get_filing_diff: 0
+    };
     try {
         for (let iter = 0; iter < MAX_ITERS; iter++) {
             const lastRound = iter === MAX_ITERS - 1;

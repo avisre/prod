@@ -48,6 +48,11 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
         temperature,
         max_tokens: Math.max(Number(maxTokens) || 256, 3000)
     };
+    // 'summary' calls are one-shot prose/JSON over precomputed facts — no
+    // reasoning needed. Without this, a thinking-capable model (e.g. Ollama
+    // Cloud's glm-5.1) can burn its entire max_tokens budget on internal
+    // reasoning before emitting any visible content, leaving `content` empty.
+    if (purpose === 'summary') body.reasoning_effort = 'none';
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
     // Hard timeout: Node's fetch has none, so a provider that accepts the
@@ -104,6 +109,7 @@ async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, pu
         stream: true,
         stream_options: { include_usage: true }
     };
+    if (purpose === 'summary') body.reasoning_effort = 'none';
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
     // Idle timeout (not total): a long answer that keeps streaming is fine, but

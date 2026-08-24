@@ -14,11 +14,13 @@ const mongoose = require('mongoose');
 const crypto = require('crypto');
 const aiClient = require('./ai-client');
 const aiChat = require('./ai-chat');
+const { plainSummary, plainJsonArray, plainBullBear } = require('./plain-language');
 const insights = require('./insights');
 const segments = require('./segments');
+const unitEconomics = require('./unit-economics');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
-const DOSSIER_SCHEMA_VERSION = 3;
+const DOSSIER_SCHEMA_VERSION = 5; // bumped: added unitEconomics
 const analysis = require('./dossier-analysis');
 const governance = require('./governance');
 const esgMod = require('./esg');
@@ -62,7 +64,7 @@ async function acquireDossierLease(col, sym, fyEnd, onStage) {
 
 // Compact, grounded fact digest the synthesis models write over. ONLY finished
 // numbers go in — the models never compute, only narrate.
-function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg }) {
+function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue }) {
     const lines = [];
     if (overview) {
         lines.push(`Company: ${overview.Name || ''} (${overview.Symbol || ''}), ${overview.Sector || 'n/a'} / ${overview.Industry || 'n/a'}.`);
@@ -82,6 +84,10 @@ function buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers
     }
     if (segs && segs.segments && segs.segments.length) {
         lines.push('Segments: ' + segs.segments.slice(0, 6).map((s) => `${s.name}${s.revenuePct != null ? ` (${s.revenuePct}%)` : ''}`).join(', ') + '.');
+    }
+    if (ue && ue.derived && ue.derived.revenuePerUnit != null) {
+        const d = ue.derived;
+        lines.push(`Unit economics (${d.period}): ${d.volume.toLocaleString()} ${d.unitLabel}${d.unitLabel.endsWith('s') ? '' : 's'}, revenue/unit $${Math.round(d.revenuePerUnit).toLocaleString()}${d.grossProfitPerUnit != null ? `, gross profit/unit $${Math.round(d.grossProfitPerUnit).toLocaleString()}` : ''}.`);
     }
     if (insightItems && insightItems.length) {
         lines.push('Analyst observations: ' + insightItems.map((i) => i.title).join('; ') + '.');
@@ -266,12 +272,13 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         }
 
         onStage('gathering'); // pulling the grounded surfaces (the slow part)
-        const [rdcfR, checksR, insightsR, segsR, monitorR] = await Promise.allSettled([
+        const [rdcfR, checksR, insightsR, segsR, monitorR, ueR] = await Promise.allSettled([
             reverseDcf.computeReverseDcf(sym),
             Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
             insights.generateInsights(sym),
             segments.extractSegments(sym),
-            filingMonitor.buildReport(sym).catch(() => null)
+            filingMonitor.buildReport(sym).catch(() => null),
+            unitEconomics.extract(sym)
         ]);
     const ok = (r) => (r.status === 'fulfilled' && r.value && !r.value.error ? r.value : null);
     const rdcf = ok(rdcfR);
@@ -279,6 +286,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     const insightItems = (ok(insightsR) || {}).insights || [];
     const segs = ok(segsR);
     const monitor = ok(monitorR);
+    const ue = ok(ueR);
     const deltas = monitor && monitor.deltas ? monitor.deltas : [];
 
     // deterministic layers (cheap, in-memory): peer/competitive + forensic edge
@@ -304,10 +312,13 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     try { esg = await esgMod.buildESG(sym, { governance: gov }); } catch (_) { esg = null; }
     if (esg && esg.error && !esg.governance && !esg.environmental && !esg.humanCapital) esg = null;
 
-    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg });
+    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue });
     onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
     const [summary, bb, risks, edge] = await Promise.all([
         execSummary(digest), bullBear(digest), riskSection(digest), edgeSection(forensic)
+    ]);
+    const [summaryPlain, bbPlain, risksPlain, edgePlain] = await Promise.all([
+        plainSummary(summary), plainBullBear(bb ? bb.bull : [], bb ? bb.bear : []), plainJsonArray(risks || []), plainJsonArray(edge || [])
     ]);
 
     const mc = num(overview.MarketCapitalization);
@@ -328,9 +339,18 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
             description: String(overview.Description || '').slice(0, 600)
         },
         executiveSummary: summary,
+        executiveSummaryPlain: summaryPlain,
         keyFigures: pack ? pack.lines : null,
         industry: industryData || null,
         segments: segs ? { fiscalYear: segs.fiscalYear, items: segs.segments, note: segs.note || null } : null,
+        unitEconomics: ue && (ue.derived || (ue.metrics && ue.metrics.length)) ? {
+            unitLabel: ue.unitLabel || (ue.derived && ue.derived.unitLabel) || null,
+            fiscalYear: ue.fiscalYear || null,
+            metrics: ue.metrics || [],
+            derived: ue.derived && ue.derived.revenuePerUnit != null ? ue.derived : null,
+            note: (ue.derived && ue.derived.note) || ue.note || null,
+            filing: ue.filing || null
+        } : null,
         valuation: rdcf ? {
             impliedGrowthPct: rdcf.impliedGrowthPct,
             assumptions: rdcf.assumptions,
@@ -345,9 +365,13 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         financials,
         analystRead: insightItems,
         edge: edge || [],
+        edgePlain: edgePlain || [],
         bull: bb ? bb.bull : [],
         bear: bb ? bb.bear : [],
+        bullPlain: bbPlain ? bbPlain.bull : [],
+        bearPlain: bbPlain ? bbPlain.bear : [],
         risks: risks || [],
+        risksPlain: risksPlain || [],
         competitive: peers,
         forensicSignals: forensic,
         healthChecks: checks.map((c) => ({ label: c.label, pass: !!c.pass, detail: c.detail || '' })),

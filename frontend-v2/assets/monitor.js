@@ -2,9 +2,11 @@
 // filing" report for any ticker, plus a materiality-ranked feed across the
 // user's holdings + watchlist. Pro feature: a 402 swaps in the upgrade card.
 (function () {
-  const { API, token, esc, markdown, spinner, searchAssets, mountShare } = window.V2;
+  const { API, token, esc, markdown, spinner, searchAssets, mountShare, money } = window.V2;
   const auth = () => (token() ? { Authorization: 'Bearer ' + token() } : {});
   const $ = (id) => document.getElementById(id);
+  const MODE_KEY = 'sp_monitor_mode_v1';
+  let RAW_REPORT = null;
 
   function renderFundRedirect(rep) {
     const out = $('mon-report');
@@ -170,6 +172,14 @@
 
   function renderReport(rep) {
     if (rep && rep.isFund) { renderFundRedirect(rep); return; }
+    RAW_REPORT = rep;
+    const mode = window.PV.getMode(MODE_KEY);
+    if (mode === 'normal') { renderNormal(rep); return; }
+    renderAnalyst(rep, mode);
+  }
+
+  // Today's report render, unchanged — Analyst mode stays byte-identical.
+  function renderAnalyst(rep, mode) {
     const out = $('mon-report');
     const filing = rep.periodic || rep.latestFiling || {};
     const latest = rep.latestFiling || {};
@@ -180,6 +190,14 @@
       : `${filing.form || 'filing'} filed ${filing.date || ''}`;
     const hasSeparateEvent = latest.url && filing.url && (latest.form !== filing.form || latest.date !== filing.date);
 
+    const ueRep = rep.unitEconomics;
+    const unitEconHtml = ueRep && Array.isArray(ueRep.metrics) && ueRep.metrics.length ? `
+      <div class="mon-evidence-block">
+        <div class="mon-evidence-title"><div><span class="mon-section-label">Unit economics</span><h3>${esc(ueRep.unitLabel || 'Unit')} · fiscal ${esc(ueRep.fiscalYear || '')}</h3></div></div>
+        <div class="mon-delta-list">${ueRep.metrics.map((m) => `<div class="mon-delta-row"><div class="mon-delta-head"><strong>${esc(m.name || 'Metric')}</strong><span>${m.value != null ? money(m.value) + (m.unit && !/^(count|units?|#)$/i.test(String(m.unit).trim()) ? ' ' + esc(m.unit) : '') : '—'}</span></div>${m.period ? `<p class="small faint" style="margin:2px 0 0;">${esc(m.period)}</p>` : ''}</div>`).join('')}</div>
+        ${(ueRep.derived && ueRep.derived.note) || ueRep.note ? `<p class="small faint" style="margin-top:6px;">${esc((ueRep.derived && ueRep.derived.note) || ueRep.note)}</p>` : ''}
+      </div>` : '';
+
     out.innerHTML = `
       <div class="card card-pad mon-card mon-card-v2">
         <div class="mon-card-hd">
@@ -188,6 +206,7 @@
             <h2 class="title-2" style="margin:5px 0 0;">What changed in the ${esc(filing.label || filing.form || 'latest comparable filing')}</h2>
             <div class="mon-report-meta"><span class="mon-comparison-badge">Comparing ${esc(comparisonText)}</span><span>Figures: ${esc(rep.reportedPeriod || 'latest period')} vs ${esc(rep.priorPeriod || 'comparable prior period')}</span></div>
           </div>
+          <div class="mon-mode-toggle">${window.PV.modeChips('mon', mode)}</div>
           ${filing.url ? `<a class="btn btn-ghost btn-sm" href="${esc(filing.url)}" target="_blank" rel="noopener">Open comparison filing ↗</a>` : ''}
         </div>
 
@@ -203,6 +222,7 @@
             <section><span class="mon-section-label">What moved most</span><ol class="mon-reading-list">${numericReadings(deltas)}</ol></section>
           </div>
         </div>` : ''}
+        ${unitEconHtml}
 
         ${narr ? filingEvidenceHtml(narr) : rep.narrativeNote ? `<div class="mon-section"><p class="small faint">${esc(rep.narrativeNote)}</p></div>` : ''}
         ${hasSeparateEvent ? `<div class="mon-event-strip"><div><strong>Newer event filing kept separate</strong><p>${esc(latest.label || latest.form)} filed ${esc(latest.date)} is newer than the periodic comparison above; it is not being presented as the same analysis.</p></div><a class="btn btn-ghost btn-sm" href="${esc(latest.url)}" target="_blank" rel="noopener">Open ${esc(latest.form)} ↗</a></div>` : ''}
@@ -220,6 +240,102 @@
     mountShare(share, { title: `${rep.symbol} filing change brief`, text: [rep.summary, narr && narr.headline].filter(Boolean).join('\n\n') });
     const card = out.querySelector('.mon-card');
     if (card) card.appendChild(share);
+    $('mon-mode-normal').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'normal'); renderReport(RAW_REPORT); });
+    $('mon-mode-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); renderReport(RAW_REPORT); });
+    const track = $('mon-track');
+    if (track) track.addEventListener('click', async () => {
+      if (!token()) { location.href = `/login.html?next=${encodeURIComponent(location.pathname + location.search)}`; return; }
+      track.disabled = true; track.textContent = 'Adding to watchlist…';
+      try {
+        const r = await fetch(`${API}/watchlist/${encodeURIComponent(rep.symbol)}`, { method: 'POST', headers: auth() });
+        track.textContent = r.ok ? `✓ Tracking ${rep.symbol}` : 'Could not add — try again';
+      } catch (_) { track.textContent = 'Could not add — try again'; }
+      finally { track.disabled = false; }
+    });
+    out.hidden = false;
+  }
+
+  // Normal mode — same materiality score and deltas, read visually: a gauge
+  // relabelled in plain terms, delta cards (unit-economics delta first, since
+  // filing-monitor.js already unshifts it), and was/now narrative cards. All
+  // from fields the Analyst render already uses — nothing recomputed here.
+  function renderNormal(rep) {
+    const PV = window.PV;
+    const out = $('mon-report');
+    const filing = rep.periodic || rep.latestFiling || {};
+    const deltas = rep.deltas || [];
+    const narr = rep.narrative;
+    const bucket = rep.materialityBucket;
+    const gaugeLabel = bucket === 'high' ? 'Big change' : bucket === 'medium' ? 'Some change' : 'Routine';
+
+    const deltaCards = deltas.map((d) => {
+      const dir = d.direction === 'up' ? 'mon-up' : d.direction === 'down' ? 'mon-down' : 'mon-flat';
+      return `<div class="pv-card">
+        <div class="mon-delta-head"><strong>${esc(d.label)}</strong><span class="${dir}">${esc(d.change)}</span></div>
+        ${metricBars(d)}
+      </div>`;
+    }).join('');
+
+    const changes = (narr && narr.changes) || [];
+    const narrCards = changes.map((c) => {
+      const paired = c.evidenceVerified && c.priorQuote && c.newQuote;
+      return `<div class="pv-card">
+        <strong>${esc(c.area)}</strong>
+        <p>${esc(c.what)}</p>
+        ${paired ? `<div class="mon-quote-pair"><div class="mon-quote-side"><b>Was</b><q>${esc(c.priorQuote)}</q></div><span class="mon-quote-sep" aria-hidden="true">→</span><div class="mon-quote-side"><b>Now</b><q>${esc(c.newQuote)}</q></div></div>` : ''}
+      </div>`;
+    }).join('');
+
+    const ue = rep.unitEconomics;
+    const unitFallbackHtml = (!rep.unitDeltaIncluded && ue && Array.isArray(ue.metrics) && ue.metrics.length) ? `
+      <div class="pv-card">
+        <h2>Its ${esc(ue.unitLabel || 'units')} this filing</h2>
+        <ul style="padding-left:18px; margin:0;">${ue.metrics.slice(0, 4).map((m) => {
+      const val = m.value != null ? money(m.value) : '—';
+      const unitSuffix = m.unit && !/^(count|units?|#)$/i.test(String(m.unit).trim()) ? ' ' + esc(m.unit) : '';
+      return `<li><b>${esc(m.name || 'Metric')}</b>: ${val}${unitSuffix}${m.period ? ` <span class="small faint">(${esc(m.period)})</span>` : ''}</li>`;
+    }).join('')}</ul>
+        <p class="small faint" style="margin-top:8px;">${esc((ue.derived && ue.derived.note) || ue.note || 'This filing did not state a prior-year figure to compare against.')}</p>
+      </div>` : '';
+
+    out.innerHTML = `
+      <div class="card card-pad mon-card mon-card-v2">
+        <div class="mon-card-hd">
+          <div>
+            <span class="label">${esc(rep.symbol)} · Filing Change Monitor</span>
+            <h2 class="title-2" style="margin:5px 0 0;">What changed in the ${esc(filing.label || filing.form || 'latest comparable filing')}</h2>
+          </div>
+          <div class="mon-mode-toggle">${PV.modeChips('mon', 'normal')}</div>
+        </div>
+
+        <div class="pv-card">
+          <h2>Does this filing matter? <span class="small faint">${esc(gaugeLabel)}</span></h2>
+          <div class="mon-decision-grid" style="margin-top:8px;">
+            <div class="mon-score-ring is-label" style="--score:${Math.max(0, Math.min(100, Number(rep.materiality || 0)))}"><div><strong>${esc(gaugeLabel)}</strong></div></div>
+            <div class="prose mon-brief-copy">${researchProse(rep.summaryPlain || rep.summary || '')}</div>
+          </div>
+        </div>
+
+        ${deltaCards ? `<h2 style="margin:22px 0 4px;">Before → after</h2>${deltaCards}` : ''}
+        ${unitFallbackHtml}
+        ${narrCards ? `<h2 style="margin:22px 0 4px;">What the words changed</h2>${narrCards}` : ''}
+
+        <div class="mon-next-actions" style="margin-top:20px;">
+          <button class="btn btn-primary btn-sm" type="button" id="mon-track">Track ${esc(rep.symbol)}</button>
+          <a class="btn btn-ghost btn-sm" href="/dossier.html?symbol=${encodeURIComponent(rep.symbol)}#dos-thesis">Build &amp; grade my thesis</a>
+        </div>
+
+        <details class="dos-module" style="margin-top:16px;"><summary><span><strong>Show the analyst brief</strong><small>Full evidence, workflow and filed-numbers detail</small></span><span class="dos-module-action">View</span></summary>
+          <div class="dos-module-body"><button class="btn btn-ghost btn-sm" id="mon-show-analyst">Switch to Analyst mode →</button></div>
+        </details>
+      </div>`;
+    const share = document.createElement('div');
+    mountShare(share, { title: `${rep.symbol} filing change brief`, text: [rep.summaryPlain || rep.summary, narr && narr.headline].filter(Boolean).join('\n\n') });
+    const card = out.querySelector('.mon-card');
+    if (card) card.appendChild(share);
+    $('mon-mode-normal').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'normal'); renderReport(RAW_REPORT); });
+    $('mon-mode-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); renderReport(RAW_REPORT); });
+    $('mon-show-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); renderReport(RAW_REPORT); });
     const track = $('mon-track');
     if (track) track.addEventListener('click', async () => {
       if (!token()) { location.href = `/login.html?next=${encodeURIComponent(location.pathname + location.search)}`; return; }
@@ -488,6 +604,12 @@
   document.addEventListener('DOMContentLoaded', () => {
     const form = $('mon-form');
     if (form) form.addEventListener('submit', (e) => { e.preventDefault(); analyze($('mon-input').value); });
+    // "Free for 3 companies, no login" is a pitch for anonymous visitors —
+    // once a user is signed in it no longer applies, so hide it.
+    if (/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie)) {
+      const note = $('mon-free-note');
+      if (note) note.hidden = true;
+    }
     wireAutocomplete();
     const sym = new URLSearchParams(window.location.search).get('symbol');
     if (sym) { $('mon-input').value = sym.toUpperCase(); analyze(sym); }

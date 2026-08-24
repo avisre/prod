@@ -22,10 +22,12 @@ const watchdog = require('./watchdog');
 const filingDiff = require('./filing-diff');
 const aiChat = require('./ai-chat');
 const aiClient = require('./ai-client');
+const unitEconomics = require('./unit-economics');
+const { plainSummary } = require('./plain-language');
 
 const MONITOR_FORMS = new Set(['10-K', '10-Q', '8-K']);
 const PERIODIC = new Set(['10-K', '10-Q']);
-const REPORT_SCHEMA_VERSION = 3;
+const REPORT_SCHEMA_VERSION = 5; // bumped: leading unit-economics delta card
 
 const num = (v) => { const x = Number(v); return Number.isFinite(x) ? x : null; };
 const round1 = (v) => (v === null ? null : Math.round(v * 10) / 10);
@@ -152,6 +154,10 @@ function scoreMateriality(deltas, narrative) {
     }
     const nm = find('Net margin');
     if (nm && nm.delta !== null) numbers += Math.min(16, Math.abs(nm.delta) * 2.2);
+    // A delivery/subscriber/same-store swing is material on its own — revenue
+    // can hold steady while price or mix masks a real volume problem.
+    const unit = deltas.find((d) => d.kind === 'unit');
+    if (unit && unit.delta !== null) numbers += Math.min(24, Math.abs(unit.delta) * 1.2);
     if (narrative && !narrative.error) {
         if (narrative.tone === 'deteriorating') language += 16;
         else if (narrative.tone === 'improving') language += 10;
@@ -239,6 +245,8 @@ function buildTemplateSummary(facts) {
     const opm = d.find((x) => x.metric === 'Operating margin');
     const ni = d.find((x) => x.metric === 'Net income');
     const fcf = d.find((x) => x.metric === 'Free cash flow');
+    const unit = d.find((x) => x.kind === 'unit');
+    if (unit) bits.push(`${unit.metric} moved from ${unit.yearAgo} to ${unit.latest} (${unit.change}).`);
     if (rev || eps || nm) {
         const nums = [];
         if (rev) nums.push(`revenue ${rev.latest} (${rev.change} YoY)`);
@@ -325,6 +333,27 @@ async function buildReport(symbol, { force = false, onStage = () => {} } = {}) {
     const data = await aiChat.loadFundAny(sym).catch(() => null);
     const deltasObj = data ? computeDeltas(data, keyFiling.form) : { deltas: [], period: null, priorPeriod: null, currency: null };
 
+    // Unit economics: the snapshot always comes from the latest 10-K (its own
+    // MD&A, own period label — safe to show alongside any comparison). The
+    // YoY DELTA only gets unshifted into deltas[] when the filing being
+    // diffed IS that same 10-K — a 10-Q's other deltas are quarterly, so
+    // pairing them with the 10-K's annual unit move would compare mismatched
+    // periods. Cached per accession, so this is free after the first read.
+    let unitEcon = null;
+    let unitDeltaIncluded = false;
+    try {
+        const ue = await unitEconomics.extract(sym);
+        if (ue && !ue.error) {
+            if (keyFiling.form === '10-K') {
+                const unitDelta = unitEconomics.computeUnitDelta(ue);
+                if (unitDelta) { deltasObj.deltas = [unitDelta, ...deltasObj.deltas]; unitDeltaIncluded = true; }
+            }
+            if (Array.isArray(ue.metrics) && ue.metrics.length) {
+                unitEcon = { unitLabel: ue.unitLabel, fiscalYear: ue.fiscalYear, metrics: ue.metrics, note: ue.note, derived: ue.derived };
+            }
+        }
+    } catch (_) { /* best-effort — never blocks the rest of the report */ }
+
     // Narrative (reuses filing-diff.js — itself cached per filing pair).
     // A THROW here is a transient failure (AI/SEC timeout or network) — distinct
     // from a returned {error} (e.g. "only one filing", a permanent fact). We
@@ -343,11 +372,13 @@ async function buildReport(symbol, { force = false, onStage = () => {} } = {}) {
     const facts = summaryFacts(sym, keyFiling, deltasObj, narrative);
     onStage('summarizing'); // writing the what-changed brief
     const summary = await execSummary(facts);
+    const summaryPlain = await plainSummary(summary.text);
 
     const payload = {
         schemaVersion: REPORT_SCHEMA_VERSION,
         symbol: sym,
         summary: summary.text,
+        summaryPlain: summaryPlain || summary.text,
         summarySource: summary.source,
         materiality,
         materialityBreakdown: materialityResult.breakdown,
@@ -357,6 +388,8 @@ async function buildReport(symbol, { force = false, onStage = () => {} } = {}) {
         reportedPeriod: deltasObj.period,
         priorPeriod: deltasObj.priorPeriod,
         currency: deltasObj.currency,
+        unitEconomics: unitEcon,
+        unitDeltaIncluded,
         deltas: deltasObj.deltas.map((d) => ({
             label: d.label,
             latest: d.fmtLatest,

@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260822-receipt1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260824-plainmode4" />
   <style>
     /* the canvas: one centred column, generous air */
     .canvas { max-width: 800px; margin: 0 auto; min-height: calc(100vh - 220px); display: flex; flex-direction: column; }
@@ -53,6 +53,7 @@
     }
     .composer .go:disabled { opacity: 0.25; cursor: default; }
     .composer-foot { margin-top: 10px; text-align: center; font-size: 11.5px; color: var(--ink-3); }
+    .ask-mode-toggle { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
 
     .prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
     .prompts button {
@@ -110,6 +111,10 @@
               <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3m0 0L3.5 7.5M8 3l4.5 4.5"/></svg>
             </button>
           </form>
+          <div class="ask-mode-toggle">
+            <button type="button" class="chip" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
+            <button type="button" class="chip" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+          </div>
           <p class="composer-foot" id="quota-line">Describes and explains — never buy/sell advice. Sources under every answer.</p>
         </div>
 
@@ -125,7 +130,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260822-receipt1"></script>
+  <script src="assets/app.js?v=20260824-plainmode4"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent } = window.V2;
@@ -141,6 +146,21 @@
         const candidate = String(value || '').trim().toUpperCase();
         return /^[A-Z0-9][A-Z0-9.\-]{0,9}$/.test(candidate) ? candidate : '';
       };
+      (function setupAskMode() {
+        const KEY = 'sp_ask_mode_v1';
+        const btnNormal = $('ask-mode-normal');
+        const btnAnalyst = $('ask-mode-analyst');
+        const paint = () => {
+          const mode = localStorage.getItem(KEY) === 'analyst' ? 'analyst' : 'normal';
+          btnNormal.classList.toggle('chip-accent', mode === 'normal');
+          btnNormal.setAttribute('aria-pressed', String(mode === 'normal'));
+          btnAnalyst.classList.toggle('chip-accent', mode === 'analyst');
+          btnAnalyst.setAttribute('aria-pressed', String(mode === 'analyst'));
+        };
+        btnNormal.addEventListener('click', () => { localStorage.setItem(KEY, 'normal'); paint(); });
+        btnAnalyst.addEventListener('click', () => { localStorage.setItem(KEY, 'analyst'); paint(); });
+        paint();
+      })();
       const safeMetric = (value) => ['eps', 'net-income', 'revenue'].includes(String(value || '').trim().toLowerCase()) ? String(value).trim().toLowerCase() : '';
       const safeContent = (value) => ['seo-eps-next-action', 'seo-revenue-next-action'].includes(String(value || '').trim().toLowerCase()) ? String(value).trim().toLowerCase() : '';
       const context = {

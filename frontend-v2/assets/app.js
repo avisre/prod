@@ -430,6 +430,44 @@
         return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}${svg}${legend}</figure>`;
     }
 
+    // ---------- Ask bars blocks (```bars {json}```) → horizontal compare bars ----------
+    // {"title":str,"unit":"$"|"%"|"x","rows":[[label, value, note?]]} — the
+    // Normal-mode alternative to a wide markdown table for a multi-metric or
+    // multi-company comparison. Reuses PV.pairBars-style styling via a simple
+    // one-bar-per-row track so it needs no extra CSS beyond .pv-scale-*.
+    function barsBlock(json) {
+        let spec;
+        try { spec = JSON.parse(json); } catch (_) {
+            let depth = []; let inStr = false; let escp = false;
+            for (const ch of json) {
+                if (escp) { escp = false; continue; }
+                if (ch === '\\') { escp = true; continue; }
+                if (ch === '"') { inStr = !inStr; continue; }
+                if (inStr) continue;
+                if (ch === '{' || ch === '[') depth.push(ch);
+                else if (ch === '}' || ch === ']') depth.pop();
+            }
+            const closers = depth.reverse().map((c) => (c === '{' ? '}' : ']')).join('');
+            try { spec = JSON.parse(json + closers); } catch (_2) { return ''; }
+        }
+        const rows = (Array.isArray(spec.rows) ? spec.rows : [])
+            .filter((r) => Array.isArray(r) && r.length >= 2 && Number.isFinite(Number(r[1])))
+            .slice(0, 8);
+        if (!rows.length) return '';
+        const fmt = vizFmt(spec.unit);
+        const max = Math.max(...rows.map((r) => Math.abs(Number(r[1]))), 1);
+        const rowHtml = rows.map((r) => {
+            const [label, value, note] = r;
+            const pct = Math.max(2, Math.min(100, Math.abs(Number(value)) / max * 100));
+            return `<div class="pv-scale-row">
+        <span class="pv-scale-label">${esc(String(label))}${note ? ` <span class="small faint">${esc(String(note))}</span>` : ''}</span>
+        <span class="pv-scale-track"><i class="pv-scale-fill" style="width:${pct.toFixed(1)}%"></i></span>
+        <b class="pv-scale-val">${esc(fmt(Number(value)))}</b>
+      </div>`;
+        }).join('');
+        return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="pv-card" style="margin-top:0;">${rowHtml}</div></figure>`;
+    }
+
     // A completed answer leads with its source receipt: the first SEC link the
     // model cited, pulled from the already-rendered answer. The receipt is the
     // proof-of-value line ("source is the headline") and its link is the same
@@ -464,7 +502,12 @@
             vizzes.push(vizBlock(body.trim()));
             return `\nVIZBLOCK${vizzes.length - 1}END\n`;
         });
+        src = src.replace(/```bars\s*\n([\s\S]*?)```/g, (m, body) => {
+            vizzes.push(barsBlock(body.trim()));
+            return `\nVIZBLOCK${vizzes.length - 1}END\n`;
+        });
         src = src.replace(/```viz[\s\S]*$/, '');
+        src = src.replace(/```bars[\s\S]*$/, '');
         src = src.replace(/```[a-z]*\n?([\s\S]*?)```/g, '$1');
         const lines = esc(src).split('\n');
         const out = [];
@@ -1080,7 +1123,17 @@
         calculator: () => 'Calculator',
         search_web: (a) => `Searched the web: ${String(a.query || '').slice(0, 40)}`,
         search_filings: (a) => `Searched SEC filings: ${String(a.query || '').slice(0, 40)}`,
-        fetch_page: (a) => { try { return 'Read ' + new URL(a.url).hostname.replace('www.', ''); } catch (_) { return 'Read a page'; } }
+        fetch_page: (a) => { try { return 'Read ' + new URL(a.url).hostname.replace('www.', ''); } catch (_) { return 'Read a page'; } },
+        get_unit_economics: (a) => `${(a.symbol || '').toUpperCase()} unit economics`,
+        get_red_flags: (a) => `${(a.symbol || '').toUpperCase()} red-flag scan`,
+        get_reverse_dcf: (a) => `${(a.symbol || '').toUpperCase()} reverse DCF`,
+        get_peer_context: (a) => `${(a.symbol || '').toUpperCase()} peer & industry context`,
+        get_key_points: (a) => `${(a.symbol || '').toUpperCase()} key points (10-K)`,
+        get_governance: (a) => `${(a.symbol || '').toUpperCase()} governance & ownership`,
+        get_esg: (a) => `${(a.symbol || '').toUpperCase()} ESG disclosure`,
+        get_filing_diff: (a) => `${(a.symbol || '').toUpperCase()} filing diff`,
+        get_guru_ownership: (a) => `${(a.symbol || '').toUpperCase()} guru ownership`,
+        get_portfolio_xray: () => 'Portfolio X-Ray'
     };
 
     // outline thumb (drawn for this design — no icon font)
@@ -1161,10 +1214,12 @@
             // the working state is ONE quiet line: the model's plan (or the
             // current step) with a stop affordance — no growing checklist.
             // The full trail collapses in behind a disclosure when done.
+            const blockAskMode = localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? 'analyst' : 'normal';
             block.innerHTML = `
               <div class="ask-q">${esc(question)}</div>
               <div class="ask-trace"></div>
-              <div class="ask-a"></div>
+              ${blockAskMode === 'normal' ? '<div class="ask-mode-badge">Quick read</div>' : ''}
+              <div class="ask-a${blockAskMode === 'normal' ? ' is-normal' : ''}"></div>
               <div class="ask-working-row">
                 <span class="ask-working">Reading the filings…</span>
                 <button type="button" class="ask-stop" aria-label="Stop">stop</button>
@@ -1202,10 +1257,11 @@
                 let r;
                 for (let attempt = 0; attempt < 2; attempt++) {
                     try {
+                        const askMode = localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? 'analyst' : 'normal';
                         r = await fetch(`${API}/ai/chat`, {
                             method: 'POST',
                             headers: _askHeaders,
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -1377,7 +1433,7 @@
         const sheet = document.createElement('div');
         sheet.className = 'ask-sheet';
         sheet.hidden = true;
-        sheet.innerHTML = '<div class="ask-exchange"></div>';
+        sheet.innerHTML = '<button type="button" class="ask-sheet-close" aria-label="Close">&times;</button><div class="ask-exchange"></div>';
         const bar = document.createElement('div');
         bar.className = 'ask-floor';
         bar.innerHTML = `
@@ -1390,6 +1446,7 @@
         document.body.appendChild(bar);
         const input = bar.querySelector('input');
         const exchange = sheet.querySelector('.ask-exchange');
+        sheet.querySelector('.ask-sheet-close').addEventListener('click', () => { sheet.hidden = true; });
         const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; } });
         bar.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();

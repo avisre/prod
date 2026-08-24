@@ -384,7 +384,8 @@ const CASH_MAP = {
     proceedsFromRepurchaseOfEquity: ['ProceedsFromRepurchaseOfEquity'],
     proceedsFromSaleOfTreasuryStock: ['ProceedsFromSaleOfTreasuryStock'],
     changeInCashAndCashEquivalents: ['CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsPeriodIncreaseDecreaseIncludingExchangeRateEffect'],
-    changeInExchangeRate: ['EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents']
+    changeInExchangeRate: ['EffectOfExchangeRateOnCashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents'],
+    shareBasedCompensation: ['ShareBasedCompensation']
 };
 
 // XBRL reports these as positive outflows; the Alpha/Yahoo shape carries

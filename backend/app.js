@@ -5282,6 +5282,7 @@ function askAuth(req, res, next) {
 }
 async function anonAskHandler(req, res) {
     const question = String((req.body && req.body.question) || '').trim();
+    const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     if (ANON_ASK_LIMIT <= 0) {
         return res.status(401).json({ message: 'Ask needs an account', code: 'ASK_AUTH' });
@@ -5321,7 +5322,7 @@ async function anonAskHandler(req, res) {
             };
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
-                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, onEvent: (e) => send(e.type, e) });
+                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, mode, onEvent: (e) => send(e.type, e) });
                 send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
             } catch (error) {
@@ -5332,7 +5333,7 @@ async function anonAskHandler(req, res) {
             }
             return;
         }
-        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] } });
+        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, mode });
         res.setHeader('Set-Cookie', _anonAskCookie(newVisitor));
         res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
             trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
@@ -5344,6 +5345,7 @@ async function anonAskHandler(req, res) {
 app.post('/api/ai/chat', askAuth, async (req, res) => {
     if (req.anon) return anonAskHandler(req, res);
     const question = String((req.body && req.body.question) || '').trim();
+    const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
     try {
         const userId = portfolioOwnerId(req);
@@ -5404,7 +5406,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
                 const result = await aiChat.ask({
-                    question, history, ctx: { holdings },
+                    question, history, ctx: { holdings }, mode,
                     onEvent: (e) => send(e.type, e)
                 });
                 const counted = result.source === 'ai' || result.source === 'blocked';
@@ -5427,7 +5429,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             return;
         }
 
-        const result = await aiChat.ask({ question, history, ctx: { holdings } });
+        const result = await aiChat.ask({ question, history, ctx: { holdings }, mode });
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);

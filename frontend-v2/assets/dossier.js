@@ -7,6 +7,8 @@
   const { API, token, esc, money, num, spinner, nav, searchAssets, mountShare, markdown } = window.V2;
   const $ = (id) => document.getElementById(id);
   const auth = () => (token() ? { Authorization: `Bearer ${token()}` } : {});
+  const MODE_KEY = 'sp_dossier_mode_v1';
+  let RAW_DOSSIER = null, RAW_SYM = null;
 
   // "Key figures" arrives as machine-readable lines ("REVENUE: latest $716.9B…")
   // meant for the model. Turn each "LABEL: value" into a clean card; the leading
@@ -213,6 +215,26 @@
 
   function render(out, d, sym) {
     if (d && d.isFund) { renderFundRedirect(out, d, sym); return; }
+    RAW_DOSSIER = d; RAW_SYM = sym;
+    const mode = window.PV.getMode(MODE_KEY);
+    if (mode === 'normal') { renderNormal(out, d, sym); return; }
+    renderAnalyst(out, d, sym, mode);
+  }
+
+  // Today's dossier render, unchanged — Analyst mode stays byte-identical.
+  // `mode` is always 'analyst' here; kept as a parameter (rather than a local
+  // const) only so this function no longer re-derives it itself.
+  function renderAnalyst(out, d, sym, mode) {
+    if (mode === 'normal') {
+      d = {
+        ...d,
+        executiveSummary: d.executiveSummaryPlain || d.executiveSummary,
+        risks: (d.risksPlain && d.risksPlain.length) ? d.risksPlain : d.risks,
+        edge: (d.edgePlain && d.edgePlain.length) ? d.edgePlain : d.edge,
+        bull: (d.bullPlain && d.bullPlain.length) ? d.bullPlain : d.bull,
+        bear: (d.bearPlain && d.bearPlain.length) ? d.bearPlain : d.bear
+      };
+    }
     const s = d.snapshot || {};
     const briefText = String(d.executiveSummary || '').trim() || deterministicBrief(d);
     const history = d.financials || [];
@@ -240,6 +262,21 @@
           <tbody>${d.segments.items.map((x) => `<tr><td>${esc(x.name)}${x.description ? `<br /><span class="small faint">${esc(x.description)}</span>` : ''}</td><td>${x.revenuePct != null ? x.revenuePct + '%' : '—'}</td></tr>`).join('')}</tbody>
         </table></div>
         ${d.segments.note ? `<p class="small faint" style="margin-top:6px;">${esc(d.segments.note)}</p>` : ''}
+      </div>` : '';
+
+    const ueA = d.unitEconomics;
+    const unitEcon = ueA && Array.isArray(ueA.metrics) && ueA.metrics.length ? `
+      <div class="dos-sec">
+        <h2>Unit economics <span class="small faint">${esc(ueA.unitLabel || '')} · fiscal ${esc(ueA.fiscalYear || '')}</span></h2>
+        <div class="table-wrap"><table class="table-data">
+          <thead><tr><th>Metric</th><th>Value</th><th>Period</th><th>Basis</th></tr></thead>
+          <tbody>${ueA.metrics.map((m) => `<tr><td>${esc(m.name || '—')}</td><td>${m.value != null ? money(m.value) + (m.unit && !/^(count|units?|#)$/i.test(String(m.unit).trim()) ? ' ' + esc(m.unit) : '') : '—'}</td><td>${esc(m.period || '—')}</td><td class="small faint">${esc(m.basis || '—')}</td></tr>`).join('')}
+          ${ueA.derived && ueA.derived.revenuePerUnit != null ? `
+            <tr><td>Revenue per ${esc(ueA.unitLabel || 'unit')}</td><td>$${money(ueA.derived.revenuePerUnit)}</td><td>${esc(ueA.derived.period || ueA.fiscalYear || '—')}</td><td class="small faint">Derived: revenue ÷ volume</td></tr>
+            ${ueA.derived.costPerUnit != null ? `<tr><td>Cost per ${esc(ueA.unitLabel || 'unit')}</td><td>$${money(ueA.derived.costPerUnit)}</td><td>${esc(ueA.derived.period || ueA.fiscalYear || '—')}</td><td class="small faint">Derived: COGS ÷ volume</td></tr>` : ''}
+            ${ueA.derived.grossProfitPerUnit != null ? `<tr><td>Gross profit per ${esc(ueA.unitLabel || 'unit')}</td><td>$${money(ueA.derived.grossProfitPerUnit)}</td><td>${esc(ueA.derived.period || ueA.fiscalYear || '—')}</td><td class="small faint">Derived: gross profit ÷ volume</td></tr>` : ''}` : ''}</tbody>
+        </table></div>
+        ${(ueA.derived && ueA.derived.note) || ueA.note ? `<p class="small faint" style="margin-top:6px;">${esc((ueA.derived && ueA.derived.note) || ueA.note)}</p>` : ''}
       </div>` : '';
 
     const read = (d.analystRead || []).length ? `
@@ -466,6 +503,7 @@
           <p class="small faint" style="margin:4px 0 0;">${esc([d.sector, d.industry].filter(Boolean).join(' · ') || 'US-listed equity')} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
         </div>
         <div class="dos-actions">
+          ${window.PV.modeChips('dos', mode)}
           <button class="btn btn-ghost btn-sm" id="dos-print">Print / Save PDF</button>
           <button class="btn btn-quiet btn-sm" id="dos-refresh" title="Rebuild from the latest filings">Refresh</button>
         </div>
@@ -485,7 +523,7 @@
       <section id="dos-deep" class="dos-deep">
         <div class="dos-section-head"><div><span class="dos-kicker">Deep research</span><h2>Open only the evidence you need</h2></div><span class="small faint">The detail is preserved, not dumped on the page.</span></div>
         <div class="dos-modules">
-          ${module('Business & segments', 'How the company makes money', `${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch;line-height:1.7;">${esc(s.description)}</p></div>` : ''}${segs}`)}
+          ${module('Business & segments', 'How the company makes money', `${s.description ? `<div class="dos-sec"><h2>The business</h2><p style="max-width:74ch;line-height:1.7;">${esc(s.description)}</p></div>` : ''}${unitEcon}${segs}`)}
           ${module('Forensic signals', 'Non-obvious earnings and capital-allocation evidence', `${edge}${read}`)}
           ${module('Industry & peers', 'Competitive position and comparable-company context', `${industryHtml}${competitive}`)}
           ${module('Valuation', 'Expectations, scenarios and DCF assumptions', `${valuationHtml}${scenarioHtml}${forwardDcfHtml}`)}
@@ -502,6 +540,195 @@
 
     $('dos-print').addEventListener('click', () => window.print());
     $('dos-refresh').addEventListener('click', () => run(sym, true));
+    $('dos-mode-normal').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'normal'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-mode-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
+    loadThesis(sym);
+  }
+
+  // Normal mode — same underlying analysis as Analyst mode, read visually:
+  // score dots, split/pair/share bars and plain captions instead of tables.
+  // Nothing here recomputes a figure; everything reads a field the payload
+  // already has. "Show the analyst numbers" below switches straight into
+  // renderAnalyst so no number is ever a second, possibly-drifted copy.
+  function renderNormal(out, d, sym) {
+    const PV = window.PV;
+    const s = d.snapshot || {};
+    const history = d.financials || [];
+    const last = history[history.length - 1] || {};
+    const prev = history[history.length - 2] || {};
+    const briefText = String(d.executiveSummaryPlain || d.executiveSummary || '').trim() || deterministicBrief(d);
+    const firstSentence = (briefText.split(/(?<=[.!?])\s+/)[0] || briefText).trim();
+
+    // Verdict score: revenue direction + margin move + FCF-positive years + risk mix.
+    let score = 2.5;
+    if (history.length >= 2) {
+      if ((last.revenue || 0) > (prev.revenue || 0)) score += 0.5; else if (last.revenue != null) score -= 0.5;
+      if ((last.opMarginPct || 0) > (prev.opMarginPct || 0)) score += 0.5; else if (last.opMarginPct != null) score -= 0.5;
+    }
+    const fcfPosYears = history.filter((r) => (r.fcf || 0) > 0).length;
+    if (history.length) score += (fcfPosYears / history.length - 0.5);
+    const risks = d.risksPlain && d.risksPlain.length ? d.risksPlain : (d.risks || []);
+    const highRisks = risks.filter((r) => r.severity === 'high').length;
+    score -= Math.min(1.5, highRisks * 0.5);
+    score = Math.max(0, Math.min(5, score));
+
+    const verdictHtml = `
+      <div class="pv-card">
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+          ${PV.ratingDots(score, 5)}
+          <strong style="font-size:15px;">${esc(d.name || sym)} (${esc(sym)})</strong>
+        </div>
+        <p style="max-width:74ch; margin-top:10px;">${esc(firstSentence)}</p>
+      </div>`;
+
+    // What it earns per unit — straight off the Part B payload field.
+    const ue = d.unitEconomics;
+    let unitHtml = '';
+    if (ue && ue.derived && ue.derived.revenuePerUnit != null) {
+      const parts = [
+        { label: 'Cost to make one', value: Math.max(0, ue.derived.revenuePerUnit - (ue.derived.grossProfitPerUnit || 0)), color: 'var(--neg)', shown: ue.derived.costPerUnit != null ? '$' + money(ue.derived.costPerUnit) : undefined },
+        { label: 'Profit kept', value: Math.max(0, ue.derived.grossProfitPerUnit || 0), color: 'var(--pos)', shown: ue.derived.grossProfitPerUnit != null ? '$' + money(ue.derived.grossProfitPerUnit) : undefined }
+      ];
+      unitHtml = `
+        <div class="pv-card">
+          <h2>What it earns per ${esc(ue.unitLabel || 'unit')}</h2>
+          <p class="small faint" style="margin:0 0 10px;">Fiscal ${esc(ue.fiscalYear || '')} · price paid ~$${money(ue.derived.revenuePerUnit)}</p>
+          ${PV.splitBar(parts)}
+          ${ue.note ? `<p class="small faint" style="margin-top:8px;">${esc(ue.note)}</p>` : ''}
+        </div>`;
+    } else if (ue && Array.isArray(ue.metrics) && ue.metrics.length) {
+      const rows = ue.metrics.slice(0, 4).map((m) => {
+        const val = m.value != null ? money(m.value) : '—';
+        const unitSuffix = m.unit && !/^(count|units?|#)$/i.test(String(m.unit).trim()) ? ' ' + esc(m.unit) : '';
+        return `<li><b>${esc(m.name || 'Metric')}</b>: ${val}${unitSuffix}${m.period ? ` <span class="small faint">(${esc(m.period)})</span>` : ''}</li>`;
+      }).join('');
+      const note = (ue.derived && ue.derived.note) || ue.note;
+      unitHtml = `
+        <div class="pv-card">
+          <h2>What we know about its ${esc(ue.unitLabel || 'units')}</h2>
+          <ul style="padding-left:18px; margin:0;">${rows}</ul>
+          ${note ? `<p class="small faint" style="margin-top:8px;">${esc(note)}</p>` : ''}
+        </div>`;
+    }
+
+    // Where the money goes — split of the latest year's revenue.
+    let moneyHtml = '';
+    if (last.revenue) {
+      const cost = Math.max(0, (last.revenue || 0) - (last.grossProfit != null ? last.grossProfit : (last.revenue || 0) - (last.costOfRevenue || 0)));
+      const profit = Math.max(0, last.netIncome || 0);
+      const other = Math.max(0, (last.revenue || 0) - cost - profit);
+      moneyHtml = `
+        <div class="pv-card">
+          <h2>Where the money goes</h2>
+          <p class="small faint" style="margin:0 0 10px;">Every $1 of ${esc(last.fy || 'latest year')} sales</p>
+          ${PV.splitBar([
+        { label: 'Cost of what it sells', value: cost, color: 'var(--neg)', shown: PV.perDollar(cost / last.revenue * 100) },
+        { label: 'Everything else (opex, tax, interest)', value: other, color: 'var(--ink-3)', shown: PV.perDollar(other / last.revenue * 100) },
+        { label: 'Kept as profit', value: profit, color: 'var(--pos)', shown: PV.perDollar(profit / last.revenue * 100) }
+      ])}
+        </div>`;
+    }
+
+    // Trend strip — reuse the existing chart helpers, just plainer captions.
+    const trendHtml = history.length >= 2 ? `
+      <div class="pv-card">
+        <h2>The trend</h2>
+        <div class="dos-visual-stack">
+          <div class="dos-visual-panel"><h3>Revenue</h3><p>${last.revenue > prev.revenue ? 'Growing' : 'Shrinking'} year over year</p>${chartBars(history, 'revenue', bn, C.ink)}</div>
+          <div class="dos-visual-panel"><h3>Profit</h3><p>Net income, ${last.netIncome > prev.netIncome ? 'improving' : 'declining'}</p>${miniBars(history, 'netIncome', C.pos)}</div>
+        </div>
+      </div>` : '';
+
+    // What it sells — segment share-of-revenue.
+    const segItems = d.segments && d.segments.items && d.segments.items.length ? d.segments.items : null;
+    const sellsHtml = segItems ? `
+      <div class="pv-card">
+        <h2>What it sells</h2>
+        ${PV.share(segItems.map((x) => ({ label: x.name, pct: x.revenuePct, note: x.description })))}
+      </div>` : '';
+
+    // Bull / bear cards.
+    const bullArr = d.bullPlain && d.bullPlain.length ? d.bullPlain : (d.bull || []);
+    const bearArr = d.bearPlain && d.bearPlain.length ? d.bearPlain : (d.bear || []);
+    const caseList = (arr) => arr.map((x) => `<li>${esc(x.point)}${x.basis ? `<br /><span class="basis">${esc(x.basis)}</span>` : ''}</li>`).join('');
+    const bullbearHtml = (bullArr.length || bearArr.length) ? `
+      <div class="pv-card">
+        <h2>What's working / what could go wrong</h2>
+        <div class="dos-bullbear">
+          <div class="dos-case bull"><h3>Working</h3><ul style="padding-left:18px; margin:0;">${caseList(bullArr) || '<li class="faint">—</li>'}</ul></div>
+          <div class="dos-case bear"><h3>Could go wrong</h3><ul style="padding-left:18px; margin:0;">${caseList(bearArr) || '<li class="faint">—</li>'}</ul></div>
+        </div>
+      </div>` : '';
+
+    // Risks with a plain severity meter.
+    const risksHtml = risks.length ? `
+      <div class="pv-card">
+        <h2>Risks</h2>
+        <div style="display:grid; gap:10px;">${risks.map((r) => {
+        const step = r.severity === 'high' ? 3 : r.severity === 'low' ? 1 : 2;
+        return `<div>
+            <div style="display:flex; justify-content:space-between; gap:10px; align-items:baseline;"><strong>${esc(r.risk)}</strong><span class="small faint">${esc(PV.plainSeverity(r.severity))}</span></div>
+            <div class="pv-meter">${[1, 2, 3].map((i) => `<i class="${i <= step ? `is-on ${step === 3 ? 'high' : step === 2 ? 'mid' : 'low'}` : ''}"></i>`).join('')}</div>
+            <div class="small" style="margin-top:4px;">${esc(r.trigger || r.impact || '')}</div>
+          </div>`;
+      }).join('')}</div>
+      </div>` : '';
+
+    // What the price assumes vs what actually happened.
+    const v = d.valuation;
+    const rec = v && v.record ? v.record : {};
+    const priceHtml = v && v.impliedGrowthPct != null ? `
+      <div class="pv-card">
+        <h2>What the price assumes</h2>
+        <p class="small faint" style="margin:0 0 10px;">Growth priced in vs. actual 5-year growth</p>
+        ${PV.pairBars('Priced in', v.impliedGrowthPct, 'Actually delivered', rec.fcfCagr5Pct || 0, (x) => x + '%/yr')}
+      </div>` : '';
+
+    // Versus rivals.
+    const cp = d.competitive;
+    const rivalsHtml = cp && cp.company && cp.medians ? `
+      <div class="pv-card">
+        <h2>Versus rivals</h2>
+        <p class="small faint" style="margin:0 0 10px;">${esc(sym)} vs the ${esc(cp.sector || '')} peer median</p>
+        ${cp.company.revCagr5Pct != null ? PV.pairBars(esc(sym) + ' revenue growth', cp.company.revCagr5Pct, 'Peer median', cp.medians.revCagr5Pct, (x) => x + '%/yr') : ''}
+        ${cp.company.netMarginPct != null ? PV.pairBars(esc(sym) + ' net margin', cp.company.netMarginPct, 'Peer median', cp.medians.netMarginPct, (x) => x + '%') : ''}
+      </div>` : '';
+
+    out.innerHTML = `
+      <div class="dos-head">
+        <div>
+          <h1 class="title-1" style="margin:0;">${esc(d.name || sym)} <span class="faint" style="font-weight:600;">(${esc(sym)})</span><span class="beta-badge">Beta</span></h1>
+          <p class="small faint" style="margin:4px 0 0;">${esc([d.sector, d.industry].filter(Boolean).join(' · ') || 'US-listed equity')} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
+        </div>
+        <div class="dos-actions">
+          ${PV.modeChips('dos', 'normal')}
+          <button class="btn btn-ghost btn-sm" id="dos-print">Print / Save PDF</button>
+          <button class="btn btn-quiet btn-sm" id="dos-refresh" title="Rebuild from the latest filings">Refresh</button>
+        </div>
+      </div>
+      ${verdictHtml}
+      ${unitHtml}
+      ${moneyHtml}
+      ${trendHtml}
+      ${sellsHtml}
+      ${bullbearHtml}
+      ${risksHtml}
+      ${priceHtml}
+      ${rivalsHtml}
+      <details class="dos-module"><summary><span><strong>Show the analyst numbers</strong><small>Every table, chart and figure Analyst mode shows</small></span><span class="dos-module-action">View</span></summary>
+        <div class="dos-module-body"><button class="btn btn-ghost btn-sm" id="dos-show-analyst" style="margin-bottom:10px;">Switch to Analyst mode →</button></div>
+      </details>
+      <div id="dos-thesis"></div>`;
+    const share = document.createElement('div');
+    mountShare(share, { title: `${d.name || sym} (${sym}) research dossier`, text: firstSentence });
+    out.appendChild(share);
+    out.hidden = false;
+
+    $('dos-print').addEventListener('click', () => window.print());
+    $('dos-refresh').addEventListener('click', () => run(sym, true));
+    $('dos-mode-normal').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'normal'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-mode-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-show-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
     loadThesis(sym);
   }
 

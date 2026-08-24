@@ -191,16 +191,18 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   font-size: var(--text-sm);
   font-weight: 500;
 }
-.nav-links a { color: var(--ink-2); padding: 6px 4px; }
-.nav-links a:hover, .nav-links a[aria-current='page'] { color: var(--ink); }
+.nav-links a { color: var(--ink-2); padding: 6px 4px; border-bottom: 2px solid transparent; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links a[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
 
 /* Ask AI dropdown — consolidates the AI features (Ask / Dossier / Monitor)
    under one nav item. Pure CSS (hover + focus-within); the desktop nav only
    shows >1180px, where hover works, so no JS is needed. The trigger still
    links to /ask.html, so a click goes straight to Ask. */
 .nav-dd { position: relative; display: inline-flex; align-items: center; }
-.nav-dd-trigger { color: var(--ink-2); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; }
-.nav-dd-trigger:hover, .nav-dd-trigger[aria-current='page'] { color: var(--ink); }
+.nav-dd-trigger { color: var(--ink-2); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; border-bottom: 2px solid transparent; }
+.nav-dd-trigger:hover { color: var(--ink); }
+.nav-dd-trigger[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
 .nav-dd-caret { font-size: 9px; line-height: 1; transition: transform .15s ease; }
 .nav-dd:hover .nav-dd-caret, .nav-dd:focus-within .nav-dd-caret { transform: rotate(180deg); }
 /* invisible bridge so the menu stays open while the cursor crosses the gap */
@@ -874,6 +876,9 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-a p { margin: 0 0 14px; }
 .ask-a ul, .ask-a ol { margin: 6px 0 14px; padding-left: 20px; }
 .ask-a li { margin-bottom: 6px; }
+.ask-a.is-normal { font-size: 15.5px; line-height: 1.8; }
+.ask-a.is-normal .ask-quote { font-size: 16px; font-weight: 600; color: var(--ink); border-left: 3px solid var(--accent); padding-left: 12px; margin-bottom: 18px; }
+.ask-mode-badge { display: inline-block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-ink); background: var(--accent-soft, var(--surface)); border: 1px solid var(--accent); border-radius: 999px; padding: 3px 10px; margin-bottom: 12px; }
 /* the closing synthesis — a rule, then the read */
 .ask-read { border-top: 1px solid var(--line-strong); margin-top: 22px; padding-top: 18px; }
 /* answer footer: feedback · sources · quota, one quiet line */
@@ -1072,7 +1077,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 main { min-height: 60vh; padding-bottom: var(--s7); }
 
 /* ---------- Masthead (no boxes — name, price, chart on the paper) ---------- */
-.mast { padding-top: 20px; }
+.mast { padding-top: 36px; }
 .mast-top { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--s4); flex-wrap: wrap; }
 .mast-price { font-size: 30px; font-weight: 650; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; line-height: 1.1; text-align: right; }
 .mast-chart { margin-top: 14px; }
@@ -1152,6 +1157,13 @@ main { min-height: 60vh; padding-bottom: var(--s7); }
   background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
   box-shadow: 0 24px 64px rgba(28, 27, 24, 0.16); padding: 36px 44px;
 }
+.ask-sheet-close {
+  position: sticky; top: 0; float: right; margin: -12px -24px 0 0;
+  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+  color: var(--ink-2); font-size: 20px; line-height: 1; cursor: pointer; z-index: 1;
+}
+.ask-sheet-close:hover { color: var(--ink); background: var(--paper); }
 body.has-ask-floor main { padding-bottom: 110px; }
 body.has-ask-floor .footer { padding-bottom: 90px; }
 
@@ -1403,3 +1415,54 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .vf-table th { background:var(--paper); color:var(--ink-3); font-size:12px; text-transform:uppercase; letter-spacing:0.05em; }
 .vf-note { margin-top:14px; padding:12px 14px; border-left:3px solid var(--accent); background:var(--accent-tint); border-radius:8px; font-size:13.5px; color:var(--ink-2); line-height:1.5; }
 .vf-note strong { color:var(--ink); }
+
+/* ---- plainviz.js: shared Normal-mode visual primitives (Ask/Dossier/Monitor) ----
+   Deliberately simpler than the analyst grids above: single-column cards,
+   big type, one idea per row — built for a reader with no finance background. */
+.pv-card { background:var(--paper); border:1px solid var(--line); border-radius:var(--radius); padding:20px 22px; margin-top:16px; }
+.pv-card h3 { margin:0 0 10px; font-size:15px; letter-spacing:-.01em; }
+.pv-card > p:first-child { margin-top:0; }
+.pv-card p { font-size:14.5px; line-height:1.65; color:var(--ink-2); margin:8px 0 0; }
+
+.pv-dots { display:inline-flex; gap:4px; vertical-align:middle; }
+.pv-dot { width:11px; height:11px; border-radius:50%; background:var(--line-strong); display:inline-block; }
+.pv-dot.is-on { background:var(--accent); }
+
+.pv-scale-row { display:grid; grid-template-columns:minmax(0,1fr) minmax(90px,2fr) auto; gap:12px; align-items:center; padding:9px 0; }
+.pv-scale-label { font-size:13px; color:var(--ink-2); }
+.pv-scale-track { height:10px; border-radius:6px; background:var(--surface); border:1px solid var(--line); overflow:hidden; }
+.pv-scale-fill { display:block; height:100%; background:var(--ink-3); border-radius:6px; }
+.pv-scale-fill.pos { background:var(--pos); }
+.pv-scale-fill.neg { background:var(--neg); }
+.pv-scale-val { font-size:13px; font-weight:650; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+.pv-split { margin-top:10px; }
+.pv-split-track { display:flex; height:26px; border-radius:6px; overflow:hidden; border:1px solid var(--line); }
+.pv-split-track i { display:block; height:100%; }
+.pv-split-legend { display:flex; flex-wrap:wrap; gap:14px; margin-top:10px; }
+.pv-split-legend-item { font-size:12.5px; color:var(--ink-2); display:inline-flex; align-items:center; gap:6px; }
+.pv-split-legend-item i { width:9px; height:9px; border-radius:2px; display:inline-block; }
+.pv-split-legend-item b { color:var(--ink); }
+
+.pv-pair { display:grid; gap:10px; margin-top:8px; }
+.pv-pair-row { display:grid; grid-template-columns:120px minmax(80px,1fr) auto; gap:10px; align-items:center; font-size:13px; }
+.pv-pair-track { height:12px; border-radius:6px; background:var(--surface); border:1px solid var(--line); overflow:hidden; }
+.pv-pair-fill { display:block; height:100%; border-radius:6px; }
+.pv-pair-fill.a { background:var(--ink-3); }
+.pv-pair-fill.b { background:var(--accent); }
+.pv-pair-row b { font-variant-numeric:tabular-nums; }
+@media (max-width:520px) { .pv-pair-row { grid-template-columns:80px 1fr; } .pv-pair-row b { grid-column:1 / -1; text-align:left; } }
+
+.pv-share { display:grid; gap:0; border-top:1px solid var(--line); margin-top:10px; }
+.pv-share-row { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(70px,1fr) 50px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); }
+.pv-share-label { font-size:13px; color:var(--ink-2); }
+.pv-share-track { height:9px; border-radius:5px; background:var(--surface); border:1px solid var(--line); overflow:hidden; }
+.pv-share-track i { display:block; height:100%; background:var(--accent); border-radius:5px; }
+.pv-share-val { text-align:right; font-size:13px; font-weight:650; font-variant-numeric:tabular-nums; }
+@media (max-width:520px) { .pv-share-row { grid-template-columns:1fr; gap:6px; } .pv-share-val { text-align:left; } }
+
+.pv-meter { display:flex; gap:4px; margin:10px 0 6px; }
+.pv-meter i { flex:1; height:8px; border-radius:4px; background:var(--line-strong); }
+.pv-meter i.is-on.low { background:var(--pos); }
+.pv-meter i.is-on.mid { background:#c98a1f; }
+.pv-meter i.is-on.high { background:var(--neg); }
