@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StockPortfolio.pro — 基于美股 SEC 文件的研究、AI 问答与投资组合追踪</title>
+  <meta name="description" content="基于 SEC 公开文件研究美股、ETF 与共同基金：AI 问答、免费选股器、公司对比与投资组合追踪。支持支付宝 / 微信支付。" />
+  <link rel="canonical" href="https://www.stockportfolio.pro/zh/" />
+  <link rel="alternate" hreflang="en" href="https://www.stockportfolio.pro/" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.stockportfolio.pro/zh/" />
+  <link rel="alternate" hreflang="x-default" href="https://www.stockportfolio.pro/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="stockportfolio.pro" />
+  <meta property="og:title" content="StockPortfolio.pro — 美股 SEC 文件研究与投资组合追踪" />
+  <meta property="og:description" content="AI 问答、公司对比、投资组合追踪，基于 SEC 公开文件。支持支付宝 / 微信支付。" />
+  <meta property="og:url" content="https://www.stockportfolio.pro/zh/" />
+  <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260825-zh1" />
+  <style>
+    .zh-hero { padding: 64px 0 32px; }
+    .zh-hero h1 { font-size: clamp(28px, 4.4vw, 44px); line-height: 1.18; max-width: 20ch; }
+    .zh-nav { display:flex; align-items:center; justify-content:space-between; padding:16px 0; }
+    .zh-nav a.wordmark { display:flex; align-items:center; gap:8px; font-weight:650; }
+    .zh-nav a.wordmark img { width:22px; height:22px; }
+    .zh-langswitch { font-size: 13px; opacity:.7; }
+    .zh-note { max-width: 62ch; }
+  </style>
+</head>
+<body>
+  <header class="zh-nav container">
+    <a class="wordmark" href="/zh/" aria-label="StockPortfolio.pro 首页">
+      <img src="/Media/icon.png" width="22" height="22" alt="" aria-hidden="true" />
+      <span>stockportfolio<span>.pro</span></span>
+    </a>
+    <nav aria-label="主导航" style="display:flex; gap:18px; align-items:center;">
+      <a href="/screener.html">选股器</a>
+      <a href="/company.html?symbol=AAPL">个股 &amp; 基金</a>
+      <a href="/compare">对比</a>
+      <a href="/login.html">登录</a>
+      <a class="zh-langswitch" href="/">English</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="zh-hero">
+      <h1>用 SEC 公开文件研究美股，AI 帮你读懂财报</h1>
+      <p class="small muted" style="max-width:56ch; margin-top:12px;">
+        覆盖 3,800+ 美股上市公司，最长 19 年财务报表与 48 个季度数据（视数据可得性而定）。
+        AI 问答、同行对比、内部人交易记录、投资组合追踪 —— 一站式完成美股研究。
+      </p>
+      <p class="small muted" style="max-width:56ch; margin-top:8px;">
+        面向中国用户：结账支持支付宝与微信支付。
+      </p>
+    </section>
+
+    <section class="section" id="pricing">
+      <div class="section-head"><h2 class="title-1">价格</h2><span class="small faint">按年付费 · 首次付款 7 天内可退款 · 随时可取消</span></div>
+      <div class="price-grid">
+        <div class="card price-card" style="border-color: var(--ink);">
+          <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Pro 年付</span><span class="small" style="color:var(--accent-ink); font-weight:650;">推荐档位</span></div>
+          <div class="price-fig">¥1788<span>/年</span></div>
+          <p class="small muted" style="margin:4px 0 14px;">完整研究功能 + AI 分析师，按年付费。</p>
+          <ul class="price-list">
+            <li><strong>每月 300 次 AI 问答</strong> —— 公司对比、选股筛选、投资组合问答，附图表与数据表</li>
+            <li><strong>Filing Diff</strong> —— 最新 10-K/10-Q 与上一期相比的变化，逐项列出</li>
+            <li><strong>智能提醒</strong> —— 内部人集中买入、股息风险提示、自定义估值阈值</li>
+            <li><strong>每日归因分析</strong> —— 量化今天投资组合涨跌的原因</li>
+            <li><strong>公司洞察</strong> —— 基于 19 年公开文件提炼的业务特点</li>
+            <li><strong>业务分部</strong> —— 从 10-K 提取的分产品线营收拆分</li>
+            <li><strong>每周投资组合简报</strong> —— 每周一汇总持仓公司的最新文件变化</li>
+            <li>覆盖的美股上市公司最长 19 年财务报表（视数据可得性而定）</li>
+          </ul>
+          <button class="btn btn-primary" style="margin-top:auto;" id="zh-checkout-btn" type="button">开始安全结账（支付宝 / 微信支付）</button>
+          <p class="small muted" id="zh-checkout-status" style="margin-top:10px;" hidden></p>
+        </div>
+      </div>
+      <p class="provenance zh-note">新账户需完成付费结账后使用完整功能。首次付款可在 7 天内申请退款；订阅可随时取消。免费选股器覆盖 3,800+ 美股公司，公开资料库覆盖 1,500+；具体覆盖范围取决于可获得的申报数据。不构成投资建议。</p>
+    </section>
+  </main>
+
+  <footer class="container" style="padding:40px 0; opacity:.75; font-size:13px;">
+    <p>© stockportfolio.pro · <a href="/">English site</a> · <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a></p>
+  </footer>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('zh-checkout-btn');
+      var status = document.getElementById('zh-checkout-status');
+      function showStatus(text) {
+        status.textContent = text;
+        status.hidden = false;
+      }
+      function isLoggedIn() {
+        return /(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie);
+      }
+      btn.addEventListener('click', function () {
+        if (!isLoggedIn()) {
+          window.location.href = '/login.html?next=' + encodeURIComponent('/zh/');
+          return;
+        }
+        btn.disabled = true;
+        btn.textContent = '正在跳转到结账…';
+        fetch('/api/checkout/china', {
+          method: 'POST',
+          credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ next: '/zh/' })
+        }).then(function (res) {
+          if (res.status === 503) {
+            showStatus('支付宝 / 微信支付结账即将开放，请通过 support@stockportfolio.pro 联系我们获取通知。');
+            btn.disabled = false;
+            btn.textContent = '开始安全结账（支付宝 / 微信支付）';
+            return null;
+          }
+          return res.json().then(function (data) {
+            if (res.ok && data && data.url) {
+              window.location.href = data.url;
+            } else {
+              showStatus((data && data.message) || '暂时无法开始结账，请稍后重试。');
+              btn.disabled = false;
+              btn.textContent = '开始安全结账（支付宝 / 微信支付）';
+            }
+          });
+        }).catch(function () {
+          showStatus('网络错误，请稍后重试。');
+          btn.disabled = false;
+          btn.textContent = '开始安全结账（支付宝 / 微信支付）';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

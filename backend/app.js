@@ -492,6 +492,37 @@ const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [DESK_PLAN_ID]: { amount: 1961, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
 });
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
+
+// China wallet checkout (Alipay / WeChat Pay). Both are structurally
+// incompatible with Stripe Checkout's `mode: 'subscription'` (Stripe: "Not
+// supported when using Checkout in subscription mode or setup mode" for
+// both), and true Stripe-managed recurring billing for either is a Stripe
+// private-preview feature this account has not been granted (confirmed via
+// a live, read-only `stripe.accounts.retrieve()` capability check — neither
+// `alipay_payments` nor `wechat_pay_payments` appears in `capabilities` at
+// all, meaning the payment method isn't even Dashboard-enabled yet, let
+// alone recurring-beta-approved). So this is a one-time `mode: 'payment'`
+// annual pass, not a Stripe Subscription — `chinaAnnualExpiresAt` below is
+// what actually enforces the year, since `activateSubscription`'s 'active'
+// status alone never expires on its own.
+// UnionPay needs no equivalent: internationally-issued UnionPay cards are
+// just `card` payment method type once UnionPay is toggled on in the
+// Stripe Dashboard (Settings → Payment methods) — no code path here.
+const CHINA_ANNUAL_PASS_PLAN_ID = PRO_ANNUAL_PLAN_ID;
+const CHINA_ANNUAL_PASS_CNY_AMOUNT = parseFloat(process.env.CHINA_ANNUAL_PASS_CNY_AMOUNT || '1788.00');
+const CHINA_ANNUAL_PASS_DAYS = 365;
+// Off by default: this account's Stripe capabilities don't include these
+// payment methods yet (verified above), so a live checkout attempt would
+// fail at Stripe. Flip on only after enabling the method in the Stripe
+// Dashboard for this account.
+const STRIPE_ENABLE_ALIPAY = String(process.env.STRIPE_ENABLE_ALIPAY || '').toLowerCase() === 'true';
+const STRIPE_ENABLE_WECHAT_PAY = String(process.env.STRIPE_ENABLE_WECHAT_PAY || '').toLowerCase() === 'true';
+function chinaCheckoutPaymentMethods() {
+  const methods = [];
+  if (STRIPE_ENABLE_ALIPAY) methods.push('alipay');
+  if (STRIPE_ENABLE_WECHAT_PAY) methods.push('wechat_pay');
+  return methods;
+}
 const selfServePriceLookupCache = new Map();
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID || '';
@@ -1969,7 +2000,13 @@ const SubscriptionSchema = new mongoose.Schema({
     expiredAt: { type: Date, default: null },
     activatedAt: { type: Date, default: null },
     renewedAt: { type: Date, default: null },
-    lastPaymentAt: { type: Date, default: null }
+    lastPaymentAt: { type: Date, default: null },
+    // One-time China wallet (Alipay/WeChat Pay) annual pass only — see
+    // chinaCheckoutPaymentMethods(). Never set for real Stripe subscriptions
+    // (those are governed by Stripe's own webhooks instead); the expiry
+    // sweep only ever touches rows where this is set and stripeSubscriptionId
+    // is null, so it can never mistakenly downgrade a genuine subscriber.
+    chinaAnnualExpiresAt: { type: Date, default: null }
 }, { _id: false });
 
 const UserSchema = new mongoose.Schema({
@@ -2894,6 +2931,131 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
         trialEndsAt,
         stripePriceId
     });
+}
+
+// Grants Pro access for CHINA_ANNUAL_PASS_DAYS from a one-time Alipay/WeChat
+// Pay payment. Deliberately does not call activateSubscription()/set
+// stripeSubscriptionId — there is no Stripe Subscription object behind this,
+// and setting a fake one would make expireChinaAnnualPasses() (which
+// requires stripeSubscriptionId to be null, precisely to never touch a real
+// subscriber) unable to ever expire it.
+async function grantChinaAnnualPass(user, { customerId, amount, currency } = {}) {
+    const now = new Date();
+    const planConfig = applyPlanToSubscription(user, CHINA_ANNUAL_PASS_PLAN_ID);
+    user.subscription.status = 'active';
+    user.subscription.billingInterval = 'year';
+    user.subscription.activatedAt = user.subscription.activatedAt || now;
+    user.subscription.renewedAt = now;
+    user.subscription.trialStartedAt = user.subscription.trialStartedAt || now;
+    user.subscription.trialEndsAt = null;
+    user.subscription.lastPaymentAt = now;
+    user.subscription.chinaAnnualExpiresAt = new Date(now.getTime() + CHINA_ANNUAL_PASS_DAYS * 24 * 3600 * 1000);
+    // Record what was actually charged (CNY), not the USD reference price
+    // applyPlanToSubscription() just set from the pro-annual plan config.
+    if (Number.isFinite(amount)) user.subscription.price = amount;
+    if (currency) user.subscription.currency = String(currency).toUpperCase();
+    if (customerId) user.stripeCustomerId = customerId;
+    user.markModified('subscription');
+    await user.save().catch(() => {});
+    return planConfig;
+}
+
+// Expires China annual passes whose year is up. Scoped tightly —
+// stripeSubscriptionId: null is the same invariant expireNoCardTrials()
+// relies on, so this can never touch a real Stripe-managed subscription.
+async function expireChinaAnnualPasses() {
+    if (mongoose.connection.readyState !== 1) return { matchedCount: 0, modifiedCount: 0 };
+    const result = await User.updateMany({
+        'subscription.chinaAnnualExpiresAt': { $ne: null, $lte: new Date() },
+        stripeSubscriptionId: null
+    }, { $set: { 'subscription.status': 'cancelled', 'subscription.expiredAt': new Date() } });
+    return {
+        matchedCount: Number(result.matchedCount || result.n || 0),
+        modifiedCount: Number(result.modifiedCount || result.nModified || 0)
+    };
+}
+
+async function createChinaAnnualCheckoutSession(user, extraMetadata = {}) {
+    if (!stripe) {
+        throw createHttpError(500, 'Stripe is not configured');
+    }
+    const methods = chinaCheckoutPaymentMethods();
+    if (!methods.length) {
+        throw createHttpError(503, 'Alipay/WeChat Pay checkout is not yet enabled on this account.');
+    }
+    await ensureStripeAccountPreflight();
+    const returnContext = extraMetadata.returnContext || {};
+    const amount = CHINA_ANNUAL_PASS_CNY_AMOUNT;
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: methods,
+        mode: 'payment',
+        customer_email: user.email,
+        line_items: [{
+            price_data: {
+                currency: 'cny',
+                unit_amount: Math.round(amount * 100),
+                product_data: {
+                    name: 'stockportfolio.pro — Pro, 1 year'
+                }
+            },
+            quantity: 1
+        }],
+        client_reference_id: user._id.toString(),
+        success_url: extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
+            session: 'success',
+            planId: CHINA_ANNUAL_PASS_PLAN_ID,
+            ...returnContext
+        }),
+        cancel_url: extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
+            session: 'cancel',
+            planId: CHINA_ANNUAL_PASS_PLAN_ID,
+            ...returnContext
+        }),
+        // wechat_pay requires an explicit client even when it's the only or
+        // one of several payment_method_types on a hosted Checkout page.
+        ...(methods.includes('wechat_pay') ? { payment_method_options: { wechat_pay: { client: 'web' } } } : {}),
+        metadata: {
+            userId: user._id.toString(),
+            planId: CHINA_ANNUAL_PASS_PLAN_ID,
+            checkoutType: 'china_annual_pass',
+            amountCny: String(amount)
+        }
+    });
+    const requestFields = extraMetadata.req ? trackingRequestFields(extraMetadata.req, null) : {};
+    trackFunnel('stripe_checkout_created', user._id, 'China annual pass', {
+        eventName: 'stripe_checkout_created',
+        dedupeKey: session && session.id ? `stripe_checkout_created:${session.id}` : null,
+        pageType: 'pricing',
+        billingPeriod: 'year',
+        entitlementSource: 'stripe_china_annual',
+        ...requestFields
+    });
+    return session;
+}
+
+// Shared by the checkout.session.completed (synchronous methods) and
+// checkout.session.async_payment_succeeded (Alipay/WeChat Pay's normal path)
+// webhook handlers — either can be the one that actually confirms payment.
+async function handleChinaAnnualPassPaid(user, payload, event) {
+    const wasActive = user.subscription && user.subscription.status === 'active';
+    await grantChinaAnnualPass(user, {
+        customerId: payload.customer,
+        amount: Number(payload.amount_total) / 100,
+        currency: payload.currency
+    });
+    trackFunnel('subscription_started', user._id, 'China annual pass', {
+        eventName: 'subscription_started',
+        dedupeKey: event.id ? `stripe:china-annual-started:${event.id}` : null,
+        entitlementSource: 'stripe_china_annual', testFlag: payload.livemode === false,
+        billingPeriod: 'year'
+    });
+    if (!wasActive) {
+        trackFunnel('paid', user._id, 'China annual pass', {
+            eventName: 'legacy_paid',
+            dedupeKey: event.id ? `stripe:china-annual-paid:${event.id}` : null
+        });
+        await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe_china_annual' });
+    }
 }
 
 // A first paid invoice starts the explicit refund window. Only users marked by
@@ -4712,6 +4874,33 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
     }
 });
 
+// Whether the Alipay/WeChat Pay one-time annual pass can actually be started
+// right now — gates the CN payment button in the /zh pricing UI so it never
+// offers a checkout Stripe will reject (see chinaCheckoutPaymentMethods()).
+app.get('/api/checkout/china/availability', (req, res) => {
+    const methods = chinaCheckoutPaymentMethods();
+    res.json({ available: methods.length > 0, methods, amountCny: CHINA_ANNUAL_PASS_CNY_AMOUNT });
+});
+
+app.post('/api/checkout/china', authMiddleware, async (req, res) => {
+    try {
+        const session = await createChinaAnnualCheckoutSession(req.user, {
+            req,
+            returnContext: { flow: 'china_annual', next: req.body?.next }
+        });
+        if (!session?.url) {
+            return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+        }
+        res.json({ url: session.url });
+    } catch (error) {
+        if (error && error.status === 503) {
+            return res.status(503).json({ message: error.message, code: 'CHINA_CHECKOUT_UNAVAILABLE' });
+        }
+        console.error('/api/checkout/china error:', error);
+        res.status(500).json({ message: 'Unable to start checkout right now.' });
+    }
+});
+
 app.get('/api/companies/top100', authMiddleware, (req, res) => {
     res.json({ companies: topCompanies });
 });
@@ -6042,6 +6231,19 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                     });
                     await affiliateProgram.recordStripeCheckout({ payload, user })
                         .catch((error) => console.error('[affiliate] Stripe checkout attribution error:', error && error.message));
+                    if (payload.metadata?.checkoutType === 'china_annual_pass') {
+                        // One-time payment, not a Stripe Subscription — payload.subscription
+                        // is always null here, so this must be handled before (and instead
+                        // of) the subscription/no-subscription branches below, otherwise it
+                        // would fall into the `else` branch and get a non-expiring
+                        // activateSubscription() grant. Alipay/WeChat Pay confirm async, so
+                        // payment_status may still be 'unpaid' here — async_payment_succeeded
+                        // picks it up in that case.
+                        if (payload.payment_status === 'paid') {
+                            await handleChinaAnnualPassPaid(user, payload, event);
+                        }
+                        return res.status(200).send({ received: true });
+                    }
                     const subscription = payload.subscription
                         ? await stripe.subscriptions.retrieve(payload.subscription)
                         : null;
@@ -6137,6 +6339,32 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             }
         } catch (err) {
             console.error('Stripe webhook processing error:', err);
+        }
+    } else if (event.type === 'checkout.session.async_payment_succeeded') {
+        // Alipay/WeChat Pay's normal confirmation path — payment_status was
+        // still 'unpaid' at checkout.session.completed time for these.
+        try {
+            if (payload.metadata?.checkoutType === 'china_annual_pass') {
+                const userId = payload.metadata?.userId || payload.client_reference_id;
+                const user = userId ? await User.findById(userId) : null;
+                if (user) await handleChinaAnnualPassPaid(user, payload, event);
+            }
+        } catch (err) {
+            console.error('Stripe webhook async_payment_succeeded error:', err);
+        }
+    } else if (event.type === 'checkout.session.async_payment_failed') {
+        try {
+            if (payload.metadata?.checkoutType === 'china_annual_pass') {
+                const userId = payload.metadata?.userId || payload.client_reference_id;
+                const user = userId ? await User.findById(userId) : null;
+                if (user) trackFunnel('checkout_payment_failed', user._id, 'China annual pass', {
+                    eventName: 'checkout_payment_failed',
+                    dedupeKey: event.id ? `stripe:china-annual-failed:${event.id}` : null,
+                    entitlementSource: 'stripe_china_annual'
+                });
+            }
+        } catch (err) {
+            console.error('Stripe webhook async_payment_failed error:', err);
         }
     } else if (event.type === 'invoice.paid') {
         try {
@@ -8024,7 +8252,7 @@ async function collectMarketingDashboard() {
         col.find(withMatch({ event: 'trial_start', userId: { $ne: null } }), { projection: { userId: 1, acquisitionSource: 1, acquisitionClickId: 1, contentId: 1 } }).toArray(),
         col.find(withMatch({ event: 'activation', userId: { $ne: null } }), { projection: { userId: 1, activationJob: 1, contentId: 1 } }).toArray(),
         col.find({ event: { $in: anonymousEvents }, reportable: true }, {
-            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1 }
+            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1, referrer: 1, country: 1 }
         }).toArray(),
         col.find({ event: { $in: anonymousEvents }, reportable: true, at: { $gte: since30 } }, {
             projection: { event: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1 }
@@ -8133,8 +8361,21 @@ async function collectMarketingDashboard() {
     const trafficMap = new Map();
     const trafficSeen = new Set();
     const uniqueReportableSessions = new Set();
+    const countryMap = new Map();
+    const countrySeen = new Set();
+    // Historic events were classified before dev/self-referrers (localhost,
+    // 127.0.0.1, the raw onrender.com host) were folded into 'internal', so
+    // re-derive from the stored referrer rather than trusting old trafficSource.
+    const INTERNAL_REFERRER_HOSTS = new Set(['prod-gpln.onrender.com', 'localhost', '127.0.0.1']);
     trafficEvents.forEach((event) => {
-        const source = String(event.acquisitionSource || event.trafficSource || 'direct');
+        const referralHost = event.trafficSource === 'referral' ? marketingAttribution.referrerHostname(event.referrer) : null;
+        // 'referral' collapses every unrecognized referrer (directories, AI
+        // assistants, social sites without a dedicated bucket) into one opaque
+        // row. Break those out by actual hostname so they're identifiable.
+        const source = String(event.acquisitionSource
+            || (referralHost && INTERNAL_REFERRER_HOSTS.has(referralHost) ? 'internal' : referralHost)
+            || event.trafficSource
+            || 'direct');
         if (!trafficMap.has(source)) trafficMap.set(source, { source, sessions: 0, pageViews: 0, toolCompletions: 0, appsumoClicks: 0 });
         const row = trafficMap.get(source);
         if (event.event === 'page_view') row.pageViews++;
@@ -8146,6 +8387,15 @@ async function collectMarketingDashboard() {
             row.sessions++;
         }
         if (event.anonymousSessionId) uniqueReportableSessions.add(event.anonymousSessionId);
+        const country = String(event.country || 'unknown');
+        if (!countryMap.has(country)) countryMap.set(country, { country, sessions: 0, pageViews: 0 });
+        const countryRow = countryMap.get(country);
+        if (event.event === 'page_view') countryRow.pageViews++;
+        const countryKey = `${country}:${event.anonymousSessionId || ''}`;
+        if (event.anonymousSessionId && !countrySeen.has(countryKey)) {
+            countrySeen.add(countryKey);
+            countryRow.sessions++;
+        }
     });
     const appsumoLicenses = await AppSumoLicense.countDocuments({ status: { $ne: 'deactivated' } });
     const appsumoLastEvent = await AppSumoLicense.findOne({}, { updatedAt: 1, lastEventAt: 1 }).sort({ updatedAt: -1 }).lean();
@@ -8168,6 +8418,7 @@ async function collectMarketingDashboard() {
         rawLast30,
         excluded30,
         trafficRows: [...trafficMap.values()].sort((a, b) => b.sessions - a.sessions || a.source.localeCompare(b.source)),
+        countryRows: [...countryMap.values()].sort((a, b) => b.sessions - a.sessions || a.country.localeCompare(b.country)),
         appsumoSync: { lastEventAt: appsumoLastEvent ? (appsumoLastEvent.lastEventAt || appsumoLastEvent.updatedAt || null) : null },
         sourceRows,
         toolRows,
@@ -8384,6 +8635,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const toolRows = data.toolRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.completions)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
         const researchRows = data.researchRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
         const trafficRows = data.trafficRows.length ? data.trafficRows.map((row) => `<tr><td>${e(row.source)}</td><td>${n(row.sessions)}</td><td>${n(row.pageViews)}</td><td>${n(row.toolCompletions)}</td><td>${n(row.appsumoClicks)}</td></tr>`).join('') : '<tr><td colspan="5">No reportable campaign/search sessions yet</td></tr>';
+        const countryRows = data.countryRows.length ? data.countryRows.map((row) => `<tr><td>${e(row.country)}</td><td>${n(row.sessions)}</td><td>${n(row.pageViews)}</td></tr>`).join('') : '<tr><td colspan="3">No reportable sessions yet</td></tr>';
         const maxTrend = Math.max(1, ...data.trend.map((row) => Math.max(row.signup, row.trial_start, row.paid, row.activation)));
         const trendRows = data.trend.map((row) => {
             const bar = (value, color) => `<span class="bar" style="width:${Math.round((value / maxTrend) * 100)}%;background:${color}"></span>`;
@@ -8394,8 +8646,9 @@ body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-sy
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;
+        const countryPanel = `<section class="panel" style="margin-top:16px"><h2>Traffic by country · all reportable</h2><table><tr><th>Country</th><th>Human sessions</th><th>Page views</th></tr>${countryRows}</table><div class="legend">IP-based GeoIP lookup (no external calls); "unknown" covers local/reserved IPs and lookup misses. Independent of GA4, which is blocked in mainland China without a VPN.</div></section>`;
         const auditPanel = `<section class="panel" style="margin-top:16px"><h2>Measurement audit · 30 days</h2><table><tr><th>Raw page views</th><th>Reportable page views</th><th>QA events excluded</th><th>Bot/automation events excluded</th><th>Unclassified events excluded</th></tr><tr><td>${n(data.rawLast30.page_view)}</td><td>${n(w.page_view)}</td><td>${n(data.excluded30.qa)}</td><td>${n(data.excluded30.bot)}</td><td>${n(data.excluded30.unclassified)}</td></tr></table><div class="legend">AppSumo webhook/license collection last changed: ${e(data.appsumoSync.lastEventAt ? new Date(data.appsumoSync.lastEventAt).toISOString() : 'no event recorded')}. The AppSumo Partner Portal remains definitive for purchases that have not reached the webhook.</div></section>`;
-        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${trafficPanel}${toolPanel}${researchPanel}${auditPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
+        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${trafficPanel}${countryPanel}${toolPanel}${researchPanel}${auditPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
         res.set('Cache-Control', 'no-store').type('html').send(renderedHtml);
     } catch (error) {
         console.error('[marketing] dashboard render failed:', error && error.message);
@@ -8568,8 +8821,9 @@ async function runTrialLifecycleSweep() {
     // Expiry is a data-integrity operation, not an email side effect. Always
     // run it so admin reports and access gates do not depend on SMTP.
     const expiry = await expireNoCardTrials();
-    if (!mailer.isMailerConfigured()) return { expired: expiry.modifiedCount, skipped: 'no smtp' };
-    if (String(process.env.TRIAL_LIFECYCLE_EMAILS || '1') === '0') return { expired: expiry.modifiedCount, skipped: 'disabled' };
+    const chinaExpiry = await expireChinaAnnualPasses();
+    if (!mailer.isMailerConfigured()) return { expired: expiry.modifiedCount, chinaExpired: chinaExpiry.modifiedCount, skipped: 'no smtp' };
+    if (String(process.env.TRIAL_LIFECYCLE_EMAILS || '1') === '0') return { expired: expiry.modifiedCount, chinaExpired: chinaExpiry.modifiedCount, skipped: 'disabled' };
     const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
     const dashUrl = `${appUrl}/dashboard.html`;
     const ownerEmail = mailer.config().owner || 'avinashsreekumar007@gmail.com';
@@ -8616,7 +8870,7 @@ async function runTrialLifecycleSweep() {
             }
         } catch (_) { /* per-user fail-open */ }
     }
-    return { eligible: users.length, sent, expired: expiry.modifiedCount };
+    return { eligible: users.length, sent, expired: expiry.modifiedCount, chinaExpired: chinaExpiry.modifiedCount };
 }
 
 function startAppSumoJobs() {

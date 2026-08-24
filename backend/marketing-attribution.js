@@ -8,6 +8,7 @@
 // admin route in app.js (or by the optional secret header used by smoke tests).
 
 const crypto = require('crypto');
+const geoip = require('geoip-country');
 
 const SESSION_COOKIE_NAME = 'sp_mkt_sid';
 const QA_COOKIE_NAME = 'sp_mkt_qa';
@@ -50,6 +51,13 @@ function referrerHostname(value) {
     try {
         const host = new URL(String(value || '')).hostname.toLowerCase().replace(/^www\./, '');
         return host ? host.slice(0, 160) : null;
+    } catch (_) { return null; }
+}
+
+function resolveCountry(ip) {
+    try {
+        const result = geoip.lookup(String(ip || '').replace(/^::ffff:/, ''));
+        return result && result.country ? result.country : null;
     } catch (_) { return null; }
 }
 
@@ -183,6 +191,7 @@ function referrerSource(value) {
         if (host === 'linkedin.com' || host.endsWith('.linkedin.com')) return 'linkedin';
         if (host === 'reddit.com' || host.endsWith('.reddit.com')) return 'reddit';
         if (host === 'stockportfolio.pro' || host.endsWith('.stockportfolio.pro')) return 'internal';
+        if (host === 'prod-gpln.onrender.com' || host === 'localhost' || host === '127.0.0.1') return 'internal';
         return host ? 'referral' : 'direct';
     } catch (_) {
         return 'direct';
@@ -316,6 +325,7 @@ function requestFields(req, res, {
         isQa,
         reportable: ua.estimatedHuman && !isQa,
         referrerHostname: referrerHostname(referrer),
+        country: resolveCountry(req && req.ip),
         attribution
     };
     if (req) req._marketingRequestFields = fields;
@@ -347,6 +357,7 @@ module.exports = {
     sanitizeReferrer,
     referrerSource,
     referrerHostname,
+    resolveCountry,
     normalizeSource,
     attributionTouch,
     captureAttribution,
