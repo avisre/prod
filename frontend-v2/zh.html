@@ -5,15 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StockPortfolio.pro — 基于美股 SEC 文件的研究、AI 问答与投资组合追踪</title>
   <meta name="description" content="基于 SEC 公开文件研究美股、ETF 与共同基金：AI 问答、免费选股器、公司对比与投资组合追踪。支持支付宝 / 微信支付。" />
-  <link rel="canonical" href="https://www.stockportfolio.pro/zh/" />
+  <link rel="canonical" href="https://www.stockportfolio.pro/zh" />
   <link rel="alternate" hreflang="en" href="https://www.stockportfolio.pro/" />
-  <link rel="alternate" hreflang="zh-Hans" href="https://www.stockportfolio.pro/zh/" />
+  <link rel="alternate" hreflang="zh-Hans" href="https://www.stockportfolio.pro/zh" />
   <link rel="alternate" hreflang="x-default" href="https://www.stockportfolio.pro/" />
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="stockportfolio.pro" />
   <meta property="og:title" content="StockPortfolio.pro — 美股 SEC 文件研究与投资组合追踪" />
   <meta property="og:description" content="AI 问答、公司对比、投资组合追踪，基于 SEC 公开文件。支持支付宝 / 微信支付。" />
-  <meta property="og:url" content="https://www.stockportfolio.pro/zh/" />
+  <meta property="og:url" content="https://www.stockportfolio.pro/zh" />
   <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -32,7 +32,7 @@
 </head>
 <body>
   <header class="zh-nav container">
-    <a class="wordmark" href="/zh/" aria-label="StockPortfolio.pro 首页">
+    <a class="wordmark" href="/zh" aria-label="StockPortfolio.pro 首页">
       <img src="/Media/icon.png" width="22" height="22" alt="" aria-hidden="true" />
       <span>stockportfolio<span>.pro</span></span>
     </a>
@@ -99,7 +99,7 @@
       }
       btn.addEventListener('click', function () {
         if (!isLoggedIn()) {
-          window.location.href = '/login.html?next=' + encodeURIComponent('/zh/');
+          window.location.href = '/login.html?next=' + encodeURIComponent('/zh');
           return;
         }
         btn.disabled = true;
@@ -108,7 +108,7 @@
           method: 'POST',
           credentials: 'include',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ next: '/zh/' })
+          body: JSON.stringify({ next: '/zh' })
         }).then(function (res) {
           if (res.status === 503) {
             showStatus('支付宝 / 微信支付结账即将开放，请通过 support@stockportfolio.pro 联系我们获取通知。');
