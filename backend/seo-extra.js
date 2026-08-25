@@ -1698,6 +1698,160 @@ function renderScreenPage(slug) {
 </main>` + footer();
 }
 
+// ---- /compare/vs-<vendor>: honest head-to-head against another product ----
+// Rules for this surface, deliberately narrow: only feature facts we can point
+// at on the vendor's own public product, never a price we have not re-checked,
+// and a real "buy them instead" section. Anything we could not verify is left
+// as an inline UNVERIFIED comment rather than written as if it were fact — a
+// comparison page that overstates is worth less than no comparison page.
+const VENDOR_COMPARISONS = {
+    'vs-koyfin': {
+        vendor: 'Koyfin',
+        vendorUrl: 'https://www.koyfin.com/',
+        vsSlug: 'koyfin',
+        status: 'full',
+        title: 'StockPortfolio.pro vs Koyfin — An Honest Comparison',
+        description: 'A deliberately honest comparison: what Koyfin does better, who should buy Koyfin instead, and the two things StockPortfolio.pro does that Koyfin does not — citation-grounded Ask and filing diffs.',
+        h1: 'StockPortfolio.pro vs Koyfin',
+        sub: 'Written by us, about our own competitor, so read it with that in mind &mdash; but we have tried to make it the version we would want to read. Short answer: these are different tools, and for a lot of people Koyfin is the right purchase.',
+        verdict: 'Koyfin is a broad market-data and charting terminal. StockPortfolio.pro is a filing-reading tool. If your day is spent watching markets, macro series and non-US names across dashboards, buy Koyfin. If your day is spent reading 10-Ks and 10-Qs and needing to know what changed since the last one &mdash; with a source link on every number &mdash; that is what we built.',
+        // Only claims we can point at on Koyfin's own public product surface.
+        theirStrengths: [
+            ['Breadth of coverage', 'Koyfin covers global equities, ETFs, funds, FX and macro/economic series. Our coverage is US-listed companies that report in USD to the SEC. That is a real gap, not a positioning choice &mdash; if you need non-US names, we do not have them.'],
+            ['Charting and dashboards', 'Koyfin&rsquo;s charting, multi-metric overlays and configurable dashboards are the core of the product and are considerably deeper than ours. We do not try to be a charting terminal.'],
+            ['Watchlists and market monitoring', 'Koyfin is built to be left open all day across watchlists and market views. We are built to be opened when a filing lands.'],
+            ['Analyst estimates and forward data', 'Koyfin surfaces analyst estimate data alongside reported figures. We deliberately publish only filed, reported numbers &mdash; we carry no forward estimates at all.'],
+            ['Maturity', 'Koyfin is a far more established product with a much larger user base, a longer track record and more people testing it every day than we have.']
+        ],
+        buyThemInstead: [
+            'You want a market terminal open all day &mdash; quotes, charts, watchlists, macro dashboards.',
+            'You invest outside the US, or in non-USD reporters. We will not cover those names.',
+            'You need analyst estimates, consensus or forward multiples in your workflow.',
+            'Charting depth is the thing you would actually use most days.',
+            'You want a mature product with a long track record rather than a small one.'
+        ],
+        ourStrengths: [
+            ['Citation-grounded Ask', 'Ask a question in English about a covered US company and the answer comes back with the SEC filing it was drawn from, linked, so you can open the primary document and check it. When we cannot ground a figure in a filing, the answer says so instead of estimating. This is the whole product thesis: an answer you cannot check is not an answer.'],
+            ['Filing diffs', 'We read the newest 10-K/10-Q/8-K against the previous one and show what changed &mdash; risk-factor edits, language changes and the numbers that moved &mdash; ranked by materiality, each linked back to the filed document. That first manual pass through a new filing is the job we automate.'],
+            ['Filed-only discipline', 'Every figure on the site keeps its fiscal period and its source. Missing data stays missing. No estimated fills, no blended periods.'],
+            ['Free, crawlable research pages', 'The per-company, per-metric and head-to-head pages are server-rendered and free to read without an account.']
+        ],
+        ourWeaknesses: [
+            'US-only coverage, USD reporters only.',
+            'No real-time quotes and no trading-grade charting.',
+            'No analyst estimates or consensus data, by choice.',
+            'A much smaller product with a much shorter track record.'
+        ],
+        faqs: [
+            {
+                q: 'Is StockPortfolio.pro as good as Koyfin?',
+                a: 'No &mdash; not at the job Koyfin is built for. Koyfin is a broader, more mature market-data and charting platform with global coverage. If you want a terminal, buy Koyfin. StockPortfolio.pro does one narrower job: reading SEC filings for US-listed companies and answering questions about them with the filing linked on every figure.'
+            },
+            {
+                q: 'Can I use both?',
+                a: 'That is the honest recommendation for a lot of people. Koyfin for market monitoring, charts and non-US coverage; StockPortfolio.pro when a 10-K or 10-Q lands and you need to know what changed and where the number came from.'
+            },
+            {
+                q: 'What does Koyfin cost?',
+                a: 'Check Koyfin&rsquo;s own pricing page &mdash; we do not restate a competitor&rsquo;s prices here, because they change and a stale number on our site would be worse than no number.'
+            },
+            {
+                q: 'Why does the citation matter so much to you?',
+                a: 'Because a financial answer you cannot trace to a primary document is a claim, not a fact. Every figure we show keeps its fiscal period and a link to the SEC filing it came from, so the check takes one click rather than a search.'
+            }
+        ]
+    },
+    'vs-seeking-alpha': {
+        vendor: 'Seeking Alpha',
+        vendorUrl: 'https://seekingalpha.com/',
+        vsSlug: 'seeking-alpha',
+        status: 'stub',
+        title: 'StockPortfolio.pro vs Seeking Alpha — Honest Comparison (In Progress)',
+        description: 'An honest comparison of StockPortfolio.pro and Seeking Alpha. This page is deliberately short until we have verified every feature claim we want to make.',
+        h1: 'StockPortfolio.pro vs Seeking Alpha',
+        sub: 'This comparison is not finished. Rather than publish feature claims about another company that we have not verified, here is the short, honest version.',
+        verdict: 'Seeking Alpha is a research-and-opinion publisher with a very large contributor community, plus quantitative ratings on top. StockPortfolio.pro publishes no opinion and no ratings at all &mdash; it reads SEC filings and answers questions about them with the filing linked. If what you want is other people&rsquo;s investment theses and a rating to react to, that is Seeking Alpha, not us.',
+        buyThemInstead: [
+            'You want to read other investors&rsquo; written theses on a company.',
+            'You want a quantitative rating or a summarised bull/bear case to react to.',
+            'You want earnings-call coverage and news commentary in one subscription.'
+        ],
+        ourStrengths: [
+            ['Citation-grounded Ask', 'Questions about a covered US company are answered from the filed document, with the SEC filing linked on every figure. Nothing is inferred from an article.'],
+            ['Filing diffs', 'What actually changed between the newest 10-K/10-Q/8-K and the previous one, ranked by materiality, each item linked to the filing.'],
+            ['No opinion layer', 'We do not publish theses, ratings or recommendations. The output is what the company filed.']
+        ]
+    }
+};
+
+function vendorComparePath(slug) { return `/compare/${slug}`; }
+
+function renderVendorComparePage(slugRaw) {
+    const slug = String(slugRaw || '').toLowerCase();
+    const v = VENDOR_COMPARISONS[slug];
+    if (!v) return null;
+    const canonical = `${SITE}${vendorComparePath(slug)}`;
+    const faqs = v.faqs || [];
+    // schema.org has no "ComparisonPage" type, so the closest valid markup is a
+    // WebPage that declares both products as its subject, plus FAQPage where we
+    // have real Q&A. Emitting an invented type would just be ignored.
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'WebPage', name: v.title, url: canonical, description: v.description,
+                publisher: { '@id': `${SITE}/#org` },
+                about: [
+                    { '@type': 'SoftwareApplication', name: 'StockPortfolio.pro', applicationCategory: 'FinanceApplication', operatingSystem: 'Web', url: SITE },
+                    { '@type': 'SoftwareApplication', name: v.vendor, applicationCategory: 'FinanceApplication', operatingSystem: 'Web', url: v.vendorUrl }
+                ]
+            },
+            ...(faqs.length ? [{ '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }] : [])
+        ]
+    });
+    const list = (rows) => rows.map(([h, body]) =>
+        `<h3 style="font-size:15.5px;margin:18px 0 6px">${h}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch;color:var(--ink2)">${body}</p>`).join('');
+    const bullets = (rows) => `<ul style="margin:6px 0 0;padding-left:20px;font-size:14px;line-height:1.75;color:var(--ink2);max-width:74ch">${rows.map((r) => `<li>${r}</li>`).join('')}</ul>`;
+    const faqHtml = faqs.map((f) =>
+        `<h3 style="font-size:15.5px;margin:18px 0 6px">${f.q}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch;color:var(--ink2)">${f.a}</p>`).join('');
+    const otherSlugs = Object.keys(VENDOR_COMPARISONS).filter((k) => k !== slug);
+
+    return head(v.title, v.description, canonical, jsonld) + nav('compare') + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/compare">Compare</a> / vs ${esc(v.vendor)}</div>
+  <h1 class="seo-h1">${esc(v.h1)}</h1>
+  <p class="seo-sub">${v.sub}</p>
+  <div class="seo-section" style="border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px">
+    <h2 style="margin-top:0">The short answer</h2>
+    <p style="margin:0;font-size:15px;line-height:1.75;max-width:74ch">${v.verdict}</p>
+  </div>
+  ${v.theirStrengths ? `<div class="seo-section"><h2>What ${esc(v.vendor)} does better</h2>${list(v.theirStrengths)}</div>` : ''}
+  ${v.buyThemInstead ? `<div class="seo-section"><h2>Buy ${esc(v.vendor)} instead if&hellip;</h2>${bullets(v.buyThemInstead)}<p style="margin:14px 0 0;font-size:14px"><a href="${esc(v.vendorUrl)}" rel="nofollow noopener" target="_blank">Go and look at ${esc(v.vendor)} &rarr;</a></p></div>` : ''}
+  ${v.ourStrengths ? `<div class="seo-section"><h2>What StockPortfolio.pro does that ${esc(v.vendor)} does not</h2>${list(v.ourStrengths)}</div>` : ''}
+  ${v.ourWeaknesses ? `<div class="seo-section"><h2>Where we are weaker, plainly</h2>${bullets(v.ourWeaknesses)}</div>` : ''}
+  ${v.status === 'stub' ? `<div class="seo-section"><h2>Why this page is short</h2><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch;color:var(--ink2)">We would rather publish three claims we have checked than twenty we have not. This page will be extended once each additional claim about ${esc(v.vendor)} has been verified against their live product.</p></div>` : ''}
+  ${faqHtml ? `<div class="seo-section"><h2>Questions</h2>${faqHtml}</div>` : ''}
+  <div class="seo-lock"><h3>See the citation for yourself</h3><p>Ask a question about a covered US company and open the SEC filing the answer came from. Free, no account for the public research pages.</p><a class="seo-cta-btn" href="/ask">Try a filing-grounded question</a></div>
+  <div class="seo-section"><h2>More comparisons</h2><div class="seo-links">${v.vsSlug ? `<a href="/vs/${esc(v.vsSlug)}">Feature-by-feature table: ${esc(v.vendor)}</a>` : ''}${otherSlugs.map((k) => `<a href="${vendorComparePath(k)}">StockPortfolio.pro vs ${esc(VENDOR_COMPARISONS[k].vendor)}</a>`).join('')}<a href="/compare">Compare any two US stocks</a><a href="/features">All features</a><a href="/methodology">Full methodology</a></div></div>
+</main>` + footer();
+}
+
+// UNVERIFIED: Koyfin's current plan names, tiers and prices are deliberately not
+//   stated anywhere on /compare/vs-koyfin. They were not re-checked against
+//   koyfin.com when this page was written, so it sends the reader to Koyfin's own
+//   pricing page instead. Do not fill these in from memory.
+// UNVERIFIED: exact Koyfin coverage counts (exchanges, securities, macro series)
+//   and any per-tier feature gating. The page only makes the directional claim
+//   that Koyfin's coverage is global and broader than ours.
+// UNVERIFIED: whether Koyfin offers any SEC-filing-diff feature. The page does not
+//   claim it does not; it only claims what we do.
+// UNVERIFIED: Seeking Alpha's plan names, prices, contributor counts and the
+//   mechanics of its Quant rating. The vs-seeking-alpha page is intentionally a
+//   stub for exactly this reason.
+// UNVERIFIED: the older /vs/:competitor pages in comparison-pages.js DO carry
+//   competitor prices ("Plus ~$39/mo", "~$299/year") that were not re-checked
+//   when these pages were written. They are cross-linked, not restated here.
+
 // ---------- router ----------
 const router = express.Router();
 function canonicalMetricPath(req, symbol, slug) {
@@ -1745,6 +1899,13 @@ router.get('/research/dilution-scorecard.csv', (_req, res) => {
 router.get('/compare', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(renderCompareIndex());
 });
+// Must be registered before /compare/:pair — a vendor slug is not a ticker pair
+// and would otherwise fall through to the 302 back to /stocks.
+router.get('/compare/:vendor(vs-[a-z0-9-]+)', (req, res, next) => {
+    const html = renderVendorComparePage(req.params.vendor);
+    if (!html) return next();
+    res.set('Content-Type', 'text/html; charset=utf-8').send(html);
+});
 router.get('/compare/:pair', (req, res) => {
     const out = renderComparePage(req.params.pair);
     if (!out) return res.redirect(302, '/stocks');
@@ -1766,6 +1927,7 @@ function sitemapUrls() {
         if (flags.priceHistory) urls.push({ loc: `/stocks/${sym}/price-history`, pri: '0.5' });
     }
     comparePairs().forEach((p) => urls.push({ loc: `/compare/${p}`, pri: '0.4' }));
+    Object.keys(VENDOR_COMPARISONS).forEach((slug) => urls.push({ loc: vendorComparePath(slug), pri: '0.7' }));
     Object.keys(SCREENS).forEach((s) => urls.push({ loc: `/screens/${s}`, pri: '0.7' }));
     RESEARCH_ROUTES.forEach((route) => urls.push({ loc: route, pri: '0.8' }));
     return urls;
@@ -1774,6 +1936,7 @@ function sitemapUrls() {
 module.exports = {
     router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS,
     renderMetricPage, renderComparePage, renderCompareIndex, metricCsv, dilutionRows, dilutionCsv,
+    VENDOR_COMPARISONS, renderVendorComparePage,
     pilotEnabled, organicRequest, pilotEligibility, pilotAction,
     renderSharesResearch, renderPeResearch, renderDilutionScorecard,
     renderRead10KGuide, renderCompareGuide, renderFreeCashFlowGuide, renderFindUndervaluedGuide,
