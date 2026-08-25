@@ -9,6 +9,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
+import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
@@ -16,6 +17,8 @@ import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const backendRoot = path.resolve(__dirname, "../../backend");
+const SERVER_VERSION = "0.2.0";
+const STARTED_AT = Date.now();
 
 // Load existing deterministic tools (no AI, no net in the hot path beyond cache/Yahoo)
 const freeTools = require(path.join(backendRoot, "free-tools.js"));
@@ -25,6 +28,7 @@ const assetProfile = require(path.join(backendRoot, "asset-profile.js"));
 const MCP_API_KEY = process.env.MCP_API_KEY || process.env.STOCKPORTFOLIO_MCP_KEY || "";
 const WINDOW_MS = 60_000;
 const MAX_PER_WINDOW = Number(process.env.MCP_RATE_LIMIT || "30");
+const MONTHLY_QUOTA = Number(process.env.MCP_MONTHLY_QUOTA || "2000");
 const hits = new Map(); // key -> { count, resetAt }
 function checkRate(key) {
   const now = Date.now();
@@ -37,19 +41,134 @@ function checkRate(key) {
   rec.count++;
   return true;
 }
+
+// ---- monthly quota, persisted ----
+// A per-minute window alone does not bound what one key costs over a month, and
+// this process is restarted often (stdio: one spawn per client). The counter
+// therefore lives on disk in data/quota.json — { key: { month, count } } — and
+// is the same shape the file already used. Writes are debounced and atomic
+// (tmp + rename) so a kill mid-write cannot leave a truncated JSON file.
+const QUOTA_FILE = process.env.MCP_QUOTA_FILE
+  ? path.resolve(process.env.MCP_QUOTA_FILE)
+  : path.resolve(__dirname, "../data/quota.json");
+const QUOTA_DIR = path.dirname(QUOTA_FILE);
+const QUOTA_FLUSH_MS = 2_000;
+function currentMonth() { return new Date().toISOString().slice(0, 7); }
+
+let quota = {};
+try {
+  quota = JSON.parse(fs.readFileSync(QUOTA_FILE, "utf8"));
+  if (!quota || typeof quota !== "object" || Array.isArray(quota)) quota = {};
+} catch (_) { quota = {}; } // absent or corrupt file simply starts a fresh month
+
+let flushTimer = null;
+let flushPending = false;
+function flushQuota() {
+  flushPending = false;
+  try {
+    fs.mkdirSync(QUOTA_DIR, { recursive: true });
+    const tmp = `${QUOTA_FILE}.${process.pid}.tmp`;
+    fs.writeFileSync(tmp, JSON.stringify(quota));
+    fs.renameSync(tmp, QUOTA_FILE);
+  } catch (err) {
+    // Never fail a tool call because the quota file is unwritable — but say so
+    // once on stderr so a read-only deploy is visible instead of silent.
+    console.error("[mcp] quota persist failed:", err.message);
+  }
+}
+function scheduleFlush() {
+  if (flushPending) return;
+  flushPending = true;
+  flushTimer = setTimeout(flushQuota, QUOTA_FLUSH_MS);
+  if (flushTimer.unref) flushTimer.unref();
+}
+function quotaState(key) {
+  const month = currentMonth();
+  const rec = quota[key];
+  const used = rec && rec.month === month ? Number(rec.count) || 0 : 0;
+  return { month, used, limit: MONTHLY_QUOTA, remaining: Math.max(0, MONTHLY_QUOTA - used) };
+}
+function consumeQuota(key) {
+  const month = currentMonth();
+  const rec = quota[key];
+  // A new month replaces the record rather than accumulating — this is the
+  // rollover, and it is why the month is stored alongside the count.
+  const used = rec && rec.month === month ? Number(rec.count) || 0 : 0;
+  if (used >= MONTHLY_QUOTA) return false;
+  quota[key] = { month, count: used + 1 };
+  scheduleFlush();
+  return true;
+}
+
+// Unkeyed local dev still needs a bucket so the quota path is exercised in
+// development rather than only in production.
+function bucketFor(provided) {
+  return MCP_API_KEY ? String(provided || "").trim() : "__dev__";
+}
+
 function requireKey(provided) {
-  if (!MCP_API_KEY) return; // open in dev if no key is set — prod must set MCP_API_KEY
-  const k = String(provided || "").trim();
-  if (!k || k !== MCP_API_KEY) {
-    const e = new Error("Invalid or missing apiKey. Set MCP_API_KEY env and pass apiKey per tool call.");
-    e.code = "UNAUTHORIZED";
+  const bucket = bucketFor(provided);
+  if (MCP_API_KEY) {
+    const k = String(provided || "").trim();
+    if (!k || k !== MCP_API_KEY) {
+      const e = new Error("Invalid or missing apiKey. Set MCP_API_KEY env and pass apiKey per tool call.");
+      e.code = "UNAUTHORIZED";
+      throw e;
+    }
+    if (!checkRate(k)) {
+      const e = new Error(`Rate limit exceeded (${MAX_PER_WINDOW}/min). Try again shortly.`);
+      e.code = "RATE_LIMITED";
+      throw e;
+    }
+  }
+  if (!consumeQuota(bucket)) {
+    const s = quotaState(bucket);
+    const e = new Error(`Monthly quota exhausted (${s.used}/${s.limit} for ${s.month}). Raise MCP_MONTHLY_QUOTA or upgrade at ${ATTRIBUTED_SITE}.`);
+    e.code = "QUOTA_EXCEEDED";
     throw e;
   }
-  if (!checkRate(k)) {
-    const e = new Error(`Rate limit exceeded (${MAX_PER_WINDOW}/min). Try again shortly.`);
-    e.code = "RATE_LIMITED";
-    throw e;
-  }
+  return bucket;
+}
+
+// ---- attribution: every response carries a backlink ----
+// This server is a distribution channel, so each tool return ships a visible
+// citation line naming the filing it drew from and linking back to the site.
+// It is deliberately part of the text content, not only the JSON, because most
+// MCP clients surface the text to the reader and drop unrecognised JSON fields.
+const SITE = "https://www.stockportfolio.pro";
+const UTM = "utm_source=mcp&utm_medium=integration&utm_campaign=stockportfolio-mcp";
+const ATTRIBUTED_SITE = `${SITE}/?${UTM}`;
+function siteLink(pathname = "/") {
+  return `${SITE}${pathname}${pathname.includes("?") ? "&" : "?"}${UTM}`;
+}
+function attribution(symbol, sourceUrl, period) {
+  const where = symbol ? `/stocks/${encodeURIComponent(symbol)}` : "/";
+  return {
+    filingSource: sourceUrl || null,
+    period: period || null,
+    verifyAt: siteLink(where),
+    poweredBy: "StockPortfolio.pro — filing-grounded US company data",
+  };
+}
+function citationLine(symbol, sourceUrl, period) {
+  const bits = [];
+  if (sourceUrl) bits.push(`Filing source: ${sourceUrl}`);
+  else bits.push("Filing source: not available for this field — treat the value as unsourced.");
+  if (period) bits.push(`Period: ${period}`);
+  bits.push(`Verify / full history: ${siteLink(symbol ? `/stocks/${encodeURIComponent(symbol)}` : "/")}`);
+  bits.push("Data via StockPortfolio.pro. Informational research only, not investment advice.");
+  return `— ${bits.join(" · ")}`;
+}
+// Every successful tool return goes through here, so no path can ship without
+// its citation block and backlink.
+function toolText(payload, { symbol = null, sourceUrl = null, period = null } = {}) {
+  const withCitation = { ...payload, citation: attribution(symbol, sourceUrl, period) };
+  return {
+    content: [
+      { type: "text", text: JSON.stringify(withCitation, null, 2) },
+      { type: "text", text: citationLine(symbol, sourceUrl, period) },
+    ],
+  };
 }
 
 // ---- helpers: source envelope ----
@@ -70,6 +189,11 @@ function envelope(tool, symbol, result) {
     },
     warnings: result.warnings || [],
   };
+}
+// Envelope + citation in one step, so a tool cannot return the envelope alone.
+function envelopeText(tool, symbol, result) {
+  const payload = envelope(tool, symbol, result);
+  return toolText(payload, { symbol: payload.symbol, sourceUrl: payload.source.url, period: payload.source.period });
 }
 
 // ---- tool definitions ----
@@ -153,7 +277,44 @@ const TOOL_DEFS = [
       required: ["question"],
     },
   },
+  {
+    name: "sp_health",
+    title: "Health check",
+    description: "Liveness/readiness probe: server version, uptime, whether the backend data modules loaded, and this key's remaining monthly quota. Safe to call before any other tool; does not consume quota.",
+    inputSchema: {
+      type: "object",
+      properties: { apiKey: { type: "string", description: "MCP_API_KEY if server is key-gated" } },
+      required: [],
+    },
+  },
 ];
+
+// Health is checked without touching the data path so a probe can distinguish
+// "server up, data missing" from "server down".
+function healthReport(bucket) {
+  const checks = {};
+  try { checks.freeTools = typeof freeTools.getToolResult === "function"; } catch (_) { checks.freeTools = false; }
+  try { checks.assetProfile = typeof assetProfile.fetchAssetProfile === "function"; } catch (_) { checks.assetProfile = false; }
+  try { checks.toolCatalog = Object.keys(freeTools.TOOL_DEFINITIONS || {}).length; } catch (_) { checks.toolCatalog = 0; }
+  try {
+    fs.mkdirSync(QUOTA_DIR, { recursive: true });
+    fs.accessSync(QUOTA_DIR, fs.constants.W_OK);
+    checks.quotaWritable = true;
+  } catch (_) { checks.quotaWritable = false; }
+  const ok = checks.freeTools && checks.assetProfile && checks.toolCatalog > 0;
+  return {
+    tool: "health",
+    status: ok ? "ok" : "degraded",
+    version: SERVER_VERSION,
+    uptimeSeconds: Math.round((Date.now() - STARTED_AT) / 1000),
+    toolCount: TOOL_DEFS.length,
+    keyGated: Boolean(MCP_API_KEY),
+    checks,
+    quota: quotaState(bucket),
+    rateLimit: { perMinute: MAX_PER_WINDOW },
+    generatedAt: new Date().toISOString(),
+  };
+}
 
 const server = new Server({ name: "stockportfolio-mcp", version: "0.1.0" }, { capabilities: { tools: {} } });
 
@@ -162,8 +323,13 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOL_DEFS
 server.setRequestHandler(CallToolRequestSchema, async (req) => {
   const { name, arguments: args = {} } = req.params;
   try {
-    if ("apiKey" in args) requireKey(args.apiKey);
-    else requireKey(undefined);
+    // Health must answer even when the key is wrong or the quota is spent —
+    // otherwise a probe cannot tell an exhausted key from a dead server.
+    if (name === "sp_health") {
+      return toolText(healthReport(bucketFor(args.apiKey)));
+    }
+
+    requireKey("apiKey" in args ? args.apiKey : undefined);
 
     if (name === "sp_financials") {
       const ticker = freeTools.normalizeSymbol(args.ticker);
@@ -173,8 +339,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       const slug = slugs.has(tool) ? tool : "earnings-quality";
       const result = await freeTools.getToolResult(slug, ticker);
       if (result.error) return { content: [{ type: "text", text: JSON.stringify({ error: result.error }, null, 2) }], isError: true };
-      const payload = envelope(slug, ticker, result.body || result);
-      return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+      return envelopeText(slug, ticker, result.body || result);
     }
 
     if (name === "sp_filing") {
@@ -182,8 +347,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       if (!ticker) throw new Error("Invalid ticker.");
       const result = await freeTools.getToolResult("filing-timeline", ticker);
       if (result.error) return { content: [{ type: "text", text: JSON.stringify({ error: result.error }, null, 2) }], isError: true };
-      const payload = envelope("filing-timeline", ticker, result.body || result);
-      return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+      return envelopeText("filing-timeline", ticker, result.body || result);
     }
 
     if (name === "sp_compare") {
@@ -195,8 +359,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       // Fallback to computeMultiTool if needed
       let body = result.body || result;
       if (body && body.error) body = await freeTools.computeMultiTool ? await freeTools.computeMultiTool("company-comparison", symbols) : body;
-      const payload = envelope("company-comparison", symbols.join(","), body);
-      return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+      return envelopeText("company-comparison", symbols.join(","), body);
     }
 
     if (name === "sp_fund") {
@@ -212,7 +375,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         profile,
         source: { type: "fund-data", url: profile.source || null, note: "Fund data via Yahoo fund profiles — not company SEC 10-K/10-Q." },
       };
-      return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+      return toolText(payload, { symbol, sourceUrl: profile.source || null });
     }
 
     if (name === "sp_screen") {
@@ -221,14 +384,11 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       // or a hint to call sp_financials per ticker when no list is supplied.
       const raw = String(args.tickers || "").trim();
       if (!raw) {
-        return {
-          content: [{ type: "text", text: JSON.stringify({ tool: "screen", note: "Pass tickers='AAPL,MSFT,NVDA' (max 10) to rank by filed revenue growth; or use sp_financials per ticker.", source: { type: "filed" } }, null, 2) }],
-        };
+        return toolText({ tool: "screen", note: "Pass tickers='AAPL,MSFT,NVDA' (max 10) to rank by filed revenue growth; or use sp_financials per ticker.", source: { type: "filed" } });
       }
       const symbols = raw.split(",").map((s) => freeTools.normalizeSymbol(s)).filter(Boolean).slice(0, 10);
       const result = await freeTools.getToolResult("portfolio-revenue", symbols.join(","));
-      const payload = envelope("portfolio-revenue", symbols.join(","), result.body || result);
-      return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+      return envelopeText("portfolio-revenue", symbols.join(","), result.body || result);
     }
 
     if (name === "sp_ask") {
@@ -247,22 +407,35 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
         generatedAt: new Date().toISOString(),
         source: { type: result.sourceClass || result.source || "filed", note: "Verify figures in the cited SEC filing before acting. Not investment advice." },
       };
-      return { content: [{ type: "text", text: JSON.stringify(payload, null, 2) }] };
+      return toolText(payload, { sourceUrl: result.sourceUrl || null });
     }
 
     throw new Error(`Unknown tool: ${name}`);
   } catch (err) {
     const msg = String(err.message || err);
-    const isAuth = err.code === "UNAUTHORIZED" || err.code === "RATE_LIMITED";
-    return { content: [{ type: "text", text: JSON.stringify({ error: msg, code: err.code || "ERROR" }, null, 2) }], isError: !isAuth };
+    const isAuth = err.code === "UNAUTHORIZED" || err.code === "RATE_LIMITED" || err.code === "QUOTA_EXCEEDED";
+    // Errors carry the backlink too — a rejected call is still a place the
+    // reader learns where the data would have come from.
+    return {
+      content: [
+        { type: "text", text: JSON.stringify({ error: msg, code: err.code || "ERROR", moreAt: ATTRIBUTED_SITE }, null, 2) },
+        { type: "text", text: `— StockPortfolio.pro (${ATTRIBUTED_SITE})` },
+      ],
+      isError: !isAuth,
+    };
   }
 });
 
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("[mcp] stockportfolio-mcp 0.1.0 listening on stdio (6 tools, source on every return)");
+  console.error(`[mcp] stockportfolio-mcp ${SERVER_VERSION} listening on stdio (${TOOL_DEFS.length} tools, citation + backlink on every return)`);
 }
+for (const sig of ["SIGINT", "SIGTERM"]) {
+  process.on(sig, () => { if (flushPending) flushQuota(); process.exit(0); });
+}
+process.on("exit", () => { if (flushPending) flushQuota(); });
+
 main().catch((e) => {
   console.error("[mcp] fatal", e);
   process.exit(1);

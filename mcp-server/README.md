@@ -1,10 +1,10 @@
-# Verified Financial Data MCP Server (Phase 1)
+# Verified Financial Data MCP Server
 
 > Wire **verified, filing-grounded** stock numbers into your own agents — every value ships with its SEC source.
 
 Thin wrapper over `backend/free-tools.js` + `asset-profile.js` + `ai-chat.js`. Numbers come from the same cache as the web app; nothing is re-estimated.
 
-## Tools (6, small + rock-solid)
+## Tools (7, small + rock-solid)
 
 | tool | what | source |
 |------|------|--------|
@@ -14,8 +14,25 @@ Thin wrapper over `backend/free-tools.js` + `asset-profile.js` + `ai-chat.js`. N
 | `sp_screen(tickers="AAPL,MSFT…")` | ranking for a watchlist (max 10) | filed |
 | `sp_fund(symbol)` | ETF/MF costs/holdings/allocation | fund-data |
 | `sp_ask(question)` | filing-grounded answer + source class | `filed / fund-data / live-web` |
+| `sp_health()` | liveness/readiness: version, uptime, module checks, remaining quota | n/a |
 
 Every return includes `source: { type, url, period, note }` and `warnings` where the filing is incomplete. Missing data stays `null`.
+
+### Citation on every return
+
+Every tool response — success **or** error — ships two content blocks: the JSON
+payload (now with a `citation: { filingSource, period, verifyAt, poweredBy }`
+object) and a plain-text citation line naming the specific filing the values came
+from plus a UTM-tagged link back to stockportfolio.pro. Both come from a single
+helper (`toolText`), so no code path can return data without its backlink. When a
+field has no filing URL the line says so explicitly rather than omitting it.
+
+### Health check
+
+`sp_health` is the probe. It answers even when the key is wrong or the monthly
+quota is spent — otherwise a probe cannot tell an exhausted key from a dead
+server — and it does not consume quota. `status` is `ok` only when the backend
+data modules loaded and the free-tool catalogue is non-empty.
 
 ## Run
 
@@ -44,7 +61,16 @@ Test in an agent: "Use sp_financials for NVDA with tool buybacks-vs-dilution and
 
 - Key gate: set `MCP_API_KEY` in env; every tool call checks `apiKey` arg (when the var is set). Leave unset for local dev.
 - Rate limit: `MCP_RATE_LIMIT` per minute per key (default 30). Returns `RATE_LIMITED`.
-- Hard cap: keep a higher tier (Founding Integrator) with bounded calls/month; this STDIO server is the thin layer — the HTTP API (Phase 2) will enforce per-key quotas.
+- Monthly quota: `MCP_MONTHLY_QUOTA` calls per key per calendar month (default
+  2000). Returns `QUOTA_EXCEEDED`. The counter is **persisted** to
+  `data/quota.json` as `{ key: { month, count } }`, because a stdio server is
+  spawned fresh per client and an in-memory counter would reset on every launch.
+  Writes are debounced and atomic (tmp + rename), flushed on `SIGINT`/`SIGTERM`/
+  exit. The month is stored beside the count and a new month replaces the record
+  — that is the rollover. Override the path with `MCP_QUOTA_FILE` (the test suite
+  does this so it never touches real counters). An unwritable file logs once to
+  stderr and never fails a call.
+- `data/quota.json` is per-deploy runtime state and is gitignored.
 
 ## What this is not (Phase 2/3)
 

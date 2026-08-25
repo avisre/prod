@@ -3,9 +3,17 @@ import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
 import path from "path";
 
-function callMcp(method, params = {}) {
+import os from "node:os";
+import fs from "node:fs";
+
+// Each spawn gets its own quota file so tests never touch the real counters.
+function callMcp(method, params = {}, env = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn("node", ["src/server.js"], { cwd: path.resolve(import.meta.dirname, "..") });
+    const quotaFile = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "mcp-quota-")), "quota.json");
+    const child = spawn("node", ["src/server.js"], {
+      cwd: path.resolve(import.meta.dirname, ".."),
+      env: { ...process.env, MCP_QUOTA_FILE: quotaFile, ...env },
+    });
     let out = "";
     child.stdout.on("data", (d) => (out += d.toString()));
     const payloads = [
@@ -26,10 +34,46 @@ function callMcp(method, params = {}) {
   });
 }
 
-test("tools/list exposes 6 tools", async () => {
+test("tools/list exposes 7 tools including sp_health", async () => {
   const res = await callMcp("tools/list", {});
-  assert.ok(res.result.tools.length === 6, "expected 6 tools");
+  assert.ok(res.result.tools.length === 7, "expected 7 tools");
   assert.ok(res.result.tools.some((t) => t.name === "sp_financials"));
+  assert.ok(res.result.tools.some((t) => t.name === "sp_health"));
+});
+
+// Offline-safe: health must not touch the data path.
+test("sp_health reports ok, quota and a backlink", async () => {
+  const res = await callMcp("tools/call", { name: "sp_health", arguments: {} });
+  const payload = JSON.parse(res.result.content[0].text);
+  assert.equal(payload.status, "ok");
+  assert.equal(payload.toolCount, 7);
+  assert.ok(payload.quota.limit > 0);
+  assert.ok(Number.isInteger(payload.quota.used));
+  assert.match(payload.citation.verifyAt, /stockportfolio\.pro/);
+  assert.match(res.result.content[1].text, /stockportfolio\.pro/);
+});
+
+test("every successful tool return carries a visible citation line", async () => {
+  const res = await callMcp("tools/call", { name: "sp_screen", arguments: {} });
+  assert.equal(res.result.content.length, 2);
+  const line = res.result.content[1].text;
+  assert.match(line, /Verify \/ full history: https:\/\/www\.stockportfolio\.pro/);
+  assert.match(line, /utm_source=mcp/);
+  assert.match(line, /not investment advice/i);
+});
+
+test("monthly quota is enforced and rejects once exhausted", async () => {
+  const res = await callMcp("tools/call", { name: "sp_screen", arguments: {} }, { MCP_MONTHLY_QUOTA: "0" });
+  const payload = JSON.parse(res.result.content[0].text);
+  assert.equal(payload.code, "QUOTA_EXCEEDED");
+  assert.match(payload.moreAt, /stockportfolio\.pro/);
+});
+
+test("health still answers when the quota is exhausted", async () => {
+  const res = await callMcp("tools/call", { name: "sp_health", arguments: {} }, { MCP_MONTHLY_QUOTA: "0" });
+  const payload = JSON.parse(res.result.content[0].text);
+  assert.equal(payload.quota.limit, 0);
+  assert.equal(payload.status, "ok");
 });
 
 test("sp_financials dilution returns source", async () => {

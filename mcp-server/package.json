@@ -1,6 +1,6 @@
 {
   "name": "stockportfolio-mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Verified Financial Data MCP Server — thin wrapper over StockPortfolio.pro filing-grounded tools, every value ships with its SEC source.",
   "type": "module",
   "main": "src/server.js",

@@ -66,3 +66,7 @@ temp/
 # Local marketing kit — never push (repo goes public during deploy)
 marketing/
 dealmirror-exports/
+
+# MCP server runtime quota counters (per-deploy state, never shared)
+mcp-server/data/quota.json
+mcp-server/data/*.tmp
