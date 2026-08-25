@@ -564,6 +564,13 @@ if (missingAppSumoConfig.length) {
 function appsumoReviewUrl() {
     return APPSUMO_PRODUCT_SLUG ? `https://appsumo.com/products/${APPSUMO_PRODUCT_SLUG}/#reviews` : APPSUMO_ACCOUNT_URL;
 }
+// In-app review prompt target. Unlike the email review URL above, this one goes
+// through the validated attributed deal URL (APPSUMO_ATTRIBUTED_URL, falling
+// back to share-copy's DEFAULT_APPSUMO_DEAL_URL) so an in-app click keeps
+// partner attribution, then anchors to the reviews section on arrival.
+function appsumoReviewPromptUrl() {
+    return `${APPSUMO_OUTBOUND_URL}#reviews`;
+}
 // Per-license upgrade URL comes from AppSumo (license_change_plan_url) when present;
 // otherwise the buyer manages/upgrades tiers from their AppSumo purchases page.
 function appsumoUpgradeUrl(lic) {
@@ -2085,6 +2092,11 @@ const UserSchema = new mongoose.Schema({
     customerSuccessText: { type: String, default: null, maxlength: 1000 },
     customerSuccessAt: { type: Date, default: null },
     reviewEligibleAt: { type: Date, default: null },
+    // Distinct UTC days (YYYY-MM-DD) on which this user completed a successful
+    // Ask. Days rather than a count, so ten questions in one sitting is still
+    // one day — the review prompt is meant to follow a returning user, not a
+    // busy one. Capped, because only the first two entries are ever read.
+    askSuccessDays: { type: [String], default: [] },
     reviewPromptShownAt: { type: Date, default: null },
     reviewClickedAt: { type: Date, default: null },
     reviewDismissedAt: { type: Date, default: null },
@@ -2690,6 +2702,39 @@ function trackSecondSession(req, user) {
         acquisitionClickId: acquisition && acquisition.clickId || null,
         contentId: acquisition && acquisition.contentId || null
     });
+}
+
+// ---- one-time AppSumo review prompt after the second distinct Ask day ----
+// Deliberately not a count of answers: someone who asks eight questions in one
+// session has not yet come back, and the prompt is asking a returning user for
+// a review. `reviewPromptShownAt` is the already-existing "already shown" flag
+// (set by POST /api/review/prompt with action 'shown'), so once the client has
+// displayed the modal once it can never fire again for that user.
+async function askReviewPrompt(user, result) {
+    if (!user || !user._id) return null;
+    if (!result || result.source !== 'ai' || !result.answer) return null;
+    if (user.reviewPromptShownAt) return null;
+    const today = new Date().toISOString().slice(0, 10);
+    const days = Array.isArray(user.askSuccessDays) ? user.askSuccessDays : [];
+    if (!days.includes(today)) {
+        // The $ne in the filter makes this atomic: two concurrent asks on the
+        // same day cannot both push, which matters because $slice would then
+        // evict the genuine earlier day. $slice caps the array at the two
+        // entries this check ever reads.
+        await User.updateOne(
+            { _id: user._id, askSuccessDays: { $ne: today } },
+            { $push: { askSuccessDays: { $each: [today], $slice: -2 } } }
+        );
+        days.push(today);
+    }
+    if (new Set(days).size < 2) return null;
+    return {
+        reason: 'second_ask_day',
+        headline: 'Two days of filing-grounded answers — worth a review?',
+        body: 'If StockPortfolio.pro has been useful, a short review on AppSumo genuinely helps other buyers decide. It takes a minute, and an honest one is more use to us than a kind one.',
+        cta: 'Leave a review on AppSumo',
+        url: appsumoReviewPromptUrl()
+    };
 }
 
 function trackFirstAskSuccess(req, user, result) {
@@ -5646,9 +5691,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
                 const usedNow = counted ? used + 1 : used;
+                const reviewPrompt = await askReviewPrompt(req.user, result).catch(() => null);
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-                    quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) }
+                    quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
+                    ...(reviewPrompt ? { reviewPrompt } : {})
                 });
             } catch (error) {
                 send('error', { message: publicErrorMessage(error, 'Ask failed') });
@@ -5667,9 +5714,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         trackFirstAskSuccess(req, req.user, result);
         if (result.answer) trackActivation(userId, 'ask');
         const usedNow = counted ? used + 1 : used;
+        const reviewPrompt = await askReviewPrompt(req.user, result).catch(() => null);
         res.json({
             answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-            quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) }
+            quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
+            ...(reviewPrompt ? { reviewPrompt } : {})
         });
     } catch (error) {
         if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
@@ -8106,6 +8155,35 @@ app.get('/api/digest/unsubscribe', async (req, res) => {
     }
 });
 
+// RFC 8058 one-click unsubscribe. Mail clients POST to the List-Unsubscribe=One-Click
+// URL with no session and no confirmation step, so this must succeed on the
+// token alone — never behind a login, never behind a "click here to confirm"
+// page. Same signed token as the GET link; it carries the user, so nothing is
+// read from the request body.
+app.post('/api/digest/unsubscribe', express.urlencoded({ extended: false }), async (req, res) => {
+    try {
+        const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
+        if (decoded.p !== 'digest') throw new Error('wrong token purpose');
+        await User.updateOne({ _id: decoded.userId }, { $set: { digestOptOut: true } });
+        res.status(200).type('text/plain').send('Unsubscribed');
+    } catch (_) {
+        res.status(400).type('text/plain').send('Invalid unsubscribe token');
+    }
+});
+
+// Headers every digest must carry so the one-click path actually works.
+function digestUnsubHeaders(userId) {
+    const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
+    const url = `${appUrl}/api/digest/unsubscribe?token=${digestUnsubToken(userId)}`;
+    return {
+        url,
+        headers: {
+            'List-Unsubscribe': `<${url}>, <mailto:${mailer.SUPPORT_EMAIL}?subject=unsubscribe>`,
+            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click'
+        }
+    };
+}
+
 async function runDigestSweep() {
     if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
     if (!mailer.isMailerConfigured()) return { skipped: 'no smtp' };
@@ -8127,9 +8205,9 @@ async function runDigestSweep() {
             ]);
             const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];
             if (symbols.length) {
-                const unsubUrl = `${appUrl}/api/digest/unsubscribe?token=${digestUnsubToken(u._id)}`;
-                const digest = await monitorDigest.buildUserDigest(u, { appUrl, unsubUrl, symbols });
-                if (digest && await mailer.sendMail({ to: u.email, subject: digest.subject, html: digest.html, text: digest.text })) sent++;
+                const unsub = digestUnsubHeaders(u._id);
+                const digest = await monitorDigest.buildUserDigest(u, { appUrl, unsubUrl: unsub.url, symbols });
+                if (digest && await mailer.sendMail({ to: u.email, subject: digest.subject, html: digest.html, text: digest.text, headers: unsub.headers })) sent++;
             }
             u.lastDigestAt = new Date();
             await u.save().catch(() => {});
