@@ -87,13 +87,22 @@ function proGate(req, res, next) {
     if (isProUser(req)) return next();
     return res.status(402).json({ message: 'This is a Pro feature. Upgrade to Pro to use the AI assistant.', code: 'PRO_REQUIRED' });
 }
+// Pre-grant: give first, invoice second. An admin can hand an account a
+// time-boxed feature grant with no billing attached (scripts/grant-trial.js);
+// it opens the gate until expiresAt and not one minute longer — expiry is read
+// straight off the record here, so a missed cron run can never silently extend
+// access.
+const { hasActiveTrialGrant } = require('../lib/trial-grant');
+const trialExpiryCheck = require('../jobs/trial-expiry-check');
+
 // The Filing Change Monitor is the Power/Desk differentiator — NOT included in
 // the $33 Pro tier (which keeps per-holding Filing Diff). Plan-based, so it
 // doesn't disturb the free<core<pro ladder every other gate relies on.
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    return active && ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId);
+    if (active && ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId)) return true;
+    return hasActiveTrialGrant(req.user, 'monitor');
 }
 function monitorGate(req, res, next) {
     if (hasMonitor(req)) return next();
@@ -2023,6 +2032,24 @@ const UserSchema = new mongoose.Schema({
     // Weekly Filing Monitor digest (Power/Desk): opt-out + last-sent for cadence.
     digestOptOut: { type: Boolean, default: false },
     lastDigestAt: { type: Date, default: null },
+    // Pre-granted feature trials — access handed over before any invoice, with
+    // a hard expiry. Carries no billing state of its own: a grant never creates,
+    // changes or cancels a subscription, so revoking one can only ever remove
+    // the grant. See hasActiveTrialGrant(), scripts/grant-trial.js and
+    // jobs/trial-expiry-check.js.
+    trialGrant: {
+        type: [new mongoose.Schema({
+            feature: { type: String, required: true },
+            grantedAt: { type: Date, default: () => new Date() },
+            expiresAt: { type: Date, required: true },
+            source: { type: String, default: 'admin' },
+            // Set by the expiry job once the "your trial ends tomorrow" mail is
+            // queued, so a daily sweep can't queue it twice.
+            expiryEmailQueuedAt: { type: Date, default: null },
+            revokedAt: { type: Date, default: null }
+        }, { _id: false })],
+        default: []
+    },
     // AppSumo lifetime-deal redemption. appsumoLicenseKey links the account to a
     // single AppSumo license; appsumoTier (1/2/3) sets appsumoAiCap (30/100/300)
     // — the per-tier monthly Ask quota that protects margin on a one-time payment.
@@ -8889,6 +8916,11 @@ function startTrialLifecycleJobs() {
     // Daily tick; trialEmailStage enforces the drip cadence and survives restarts.
     const tick = () => {
         runTrialLifecycleSweep().then((r) => console.log('[trial] lifecycle sweep', JSON.stringify(r))).catch(() => {});
+        // Monitor pre-grants: queue the expiry email and revoke lapsed grants.
+        // Queue only — it never sends, so it is safe on the same daily tick.
+        trialExpiryCheck.runTrialExpiryCheck()
+            .then((r) => console.log('[trial-grant] expiry check', JSON.stringify(r)))
+            .catch((e) => console.warn('[trial-grant] expiry check failed:', e.message));
     };
     setTimeout(tick, 160 * 1000);
     setInterval(tick, 24 * 3600 * 1000);
