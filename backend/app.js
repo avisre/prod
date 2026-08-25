@@ -36,6 +36,7 @@ const monitorFreeUsage = require('./monitor-free-usage');
 const ollamaUsage = require('./ollama-usage-tracker');
 const affiliateProgram = require('./affiliate-program');
 const dealMirror = require('./dealmirror');
+const directLtd = require('./direct-ltd');
 const augustCampaign = require('./august-campaign');
 const { safeUpper, isValidTicker, normalizeTicker } = require('./symbol-resolver');
 require('dotenv').config();
@@ -1733,6 +1734,17 @@ const staticCacheHeaders = (res, filePath) => {
     res.setHeader('Cache-Control', 'public, max-age=3600');
 };
 // Explicit campaign route. Keep this ahead of extension-based static serving so
+// /lifetime — the same lifetime deal sold direct. Explicit route (like
+// /appsumo below) so the path is stable regardless of static-middleware
+// resolution rules. Prices are rendered client-side from /api/lifetime/config
+// so the page can never drift from the tier definitions in direct-ltd.js.
+app.get('/lifetime', (req, res, next) => {
+    res.setHeader('Cache-Control', 'no-cache');
+    res.sendFile(path.join(__dirname, '../frontend-v2/lifetime.html'), (error) => {
+        if (error && !res.headersSent) next(error);
+    });
+});
+
 // /appsumo is stable even if the static middleware's resolution rules change.
 app.get('/appsumo', async (req, res, next) => {
     const acquisition = req.campaignAcquisition || campaignAcquisitionForRequest(req);
@@ -2064,6 +2076,17 @@ const UserSchema = new mongoose.Schema({
     appsumoTier: { type: Number, default: null },
     appsumoAiCap: { type: Number, default: null },
     appsumoRedeemedAt: { type: Date, default: null },
+    // Which channel that lifetime entitlement was actually bought through:
+    // 'appsumo' (marketplace) or 'direct-ltd' (bought here, #9). The grant
+    // itself is deliberately shared — same tier ladder, same Ask cap, same
+    // AppSumoLicense row — so this field is the ONLY thing that separates the
+    // two for revenue reporting, and it is indexed for exactly that query.
+    // Null on pre-existing AppSumo accounts; entitlementSourceFor() treats a
+    // null as 'appsumo', which is correct because direct LTD did not exist
+    // when those rows were written.
+    ltdChannel: { type: String, default: null, enum: [null, 'appsumo', 'direct-ltd'], index: true },
+    directLtdStripeSessionId: { type: String, default: null, index: true },
+    directLtdPaidUsd: { type: Number, default: null },
     // DealMirror is a separate, non-stackable LTD channel. These fields never
     // replace or modify AppSumo records; entitlement precedence is enforced at
     // redemption time and again during revocation.
@@ -2194,8 +2217,12 @@ const CustomerLifecycleEventSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true, index: true },
     email: { type: String, required: true, lowercase: true, trim: true, index: true },
     name: { type: String, default: null },
-    type: { type: String, enum: ['signup', 'stripe_paid', 'appsumo_redeemed'], required: true, index: true },
-    source: { type: String, enum: ['direct', 'social', 'stripe', 'appsumo'], required: true, index: true },
+    // 'direct_ltd_redeemed' / 'direct-ltd' are the same lifetime deal sold from
+    // our own site rather than through AppSumo. They are separate enum values,
+    // not a reuse of 'appsumo', specifically so revenue reporting can never sum
+    // the two channels into one figure.
+    type: { type: String, enum: ['signup', 'stripe_paid', 'appsumo_redeemed', 'direct_ltd_redeemed'], required: true, index: true },
+    source: { type: String, enum: ['direct', 'social', 'stripe', 'appsumo', 'direct-ltd'], required: true, index: true },
     planId: { type: String, default: null },
     planName: { type: String, default: null },
     subscriptionStatus: { type: String, default: null },
@@ -2205,6 +2232,23 @@ const CustomerLifecycleEventSchema = new mongoose.Schema({
     ownerNotifiedAt: { type: Date, default: null }
 }, { timestamps: true, versionKey: false, collection: 'customer_lifecycle_events' });
 const CustomerLifecycleEvent = mongoose.model('CustomerLifecycleEvent', CustomerLifecycleEventSchema);
+
+// Single definition of "where did this account's entitlement come from?".
+// Previously this ternary was inlined in four analytics call sites. Direct LTD
+// makes that unsafe: a direct buyer has appsumoRedeemedAt set (it reuses the
+// AppSumo grant), so every one of those sites would have reported them as
+// AppSumo revenue. Channel is read from ltdChannel, with the license-key prefix
+// as a fallback for any row written before the field existed.
+function entitlementSourceFor(user) {
+    if (!user) return 'trial';
+    if (user.appsumoRedeemedAt) {
+        if (user.ltdChannel === directLtd.CHANNEL) return directLtd.CHANNEL;
+        if (!user.ltdChannel && directLtd.isDirectLicenseKey(user.appsumoLicenseKey)) return directLtd.CHANNEL;
+        return 'appsumo';
+    }
+    if (user.dealMirrorRedeemedAt) return 'dealmirror';
+    return user.stripeSubscriptionId ? 'stripe' : 'trial';
+}
 
 const FunnelEventSchema = new mongoose.Schema({
     eventType: { type: String, required: true, index: true },
@@ -2578,7 +2622,7 @@ async function meaningfulActivationFor(user, payload = {}) {
         eventId: growthMeasurement.randomEventId(),
         dedupeKey: `research_outcome_completed:${String(user._id)}:${workflow}:${ticker}`,
         pageType: 'research', pagePath: '/',
-        entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
+        entitlementSource: entitlementSourceFor(user),
         appsumoTier: Number(user.appsumoTier) || null,
         environment: process.env.NODE_ENV || 'development',
         internalFlag: false, testFlag: false, botFlag: false,
@@ -2638,7 +2682,7 @@ async function meaningfulActivationFor(user, payload = {}) {
         reviewEligible = true;
         trackFunnel('review_eligible', user._id, user.subscription && user.subscription.planName, {
             eventName: 'review_eligible', dedupeKey: `review-eligible:${String(user._id)}`,
-            entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial')
+            entitlementSource: entitlementSourceFor(user)
         });
         scheduleAppSumoReviewEligibility(user).catch(() => {});
     }
@@ -2696,7 +2740,7 @@ function trackSecondSession(req, user) {
     trackFunnel('second_session', user._id, user.subscription && user.subscription.planName, {
         eventName: 'second_session',
         featureType: 'ask',
-        entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
+        entitlementSource: entitlementSourceFor(user),
         appsumoTier: Number(user.appsumoTier) || null,
         acquisitionSource: acquisition && acquisition.source || null,
         acquisitionClickId: acquisition && acquisition.clickId || null,
@@ -2744,7 +2788,7 @@ function trackFirstAskSuccess(req, user, result) {
         eventName: 'first_ask_succeeded',
         dedupeKey: `first-ask-success:${String(user._id)}`,
         featureType: 'ask',
-        entitlementSource: user.appsumoRedeemedAt ? 'appsumo' : (user.stripeSubscriptionId ? 'stripe' : 'trial'),
+        entitlementSource: entitlementSourceFor(user),
         appsumoTier: Number(user.appsumoTier) || null,
         acquisitionSource: acquisition && acquisition.source || null,
         acquisitionClickId: acquisition && acquisition.clickId || null,
@@ -3128,6 +3172,176 @@ async function handleChinaAnnualPassPaid(user, payload, event) {
         });
         await recordCustomerLifecycleEvent(user, 'stripe_paid', { source: 'stripe_china_annual' });
     }
+}
+
+// ============================================================
+// Direct lifetime deal (#9) — the AppSumo LTD sold from our own site.
+// One-time Stripe payment -> we mint a license key -> the EXISTING AppSumo
+// grant + onboarding email path runs. See backend/direct-ltd.js for the tier
+// ladder and the exclusivity price-floor guard.
+// ============================================================
+
+// Boot-path check. Never throws: a misconfigured price must disable direct
+// lifetime sales, not refuse to start a server that also serves everything else.
+const directLtdBootReport = directLtd.assertAllPriceFloors(process.env, { context: 'boot' });
+if (directLtd.enabled() && !directLtdBootReport.ok) {
+    console.error('[direct-ltd] Direct lifetime checkout will refuse every request until the AppSumo price floor is satisfied.');
+}
+
+/**
+ * Resolve the configured Stripe Price for a tier and re-run the exclusivity
+ * guard against the amount STRIPE actually holds — not the constant in our
+ * code. This is the case the guard exists for: someone edits the Price in the
+ * Stripe dashboard, or swaps the Price ID, and nothing in this repo changes.
+ * Fails closed; the caller turns a violation into a 503, never a sale.
+ */
+async function resolveDirectLtdPrice(tier) {
+    const cfg = directLtd.tierConfig(tier);
+    if (!cfg) throw createHttpError(400, 'Unknown lifetime tier');
+    const priceId = directLtd.priceIdFor(tier);
+    if (!priceId) throw createHttpError(503, 'This lifetime tier is not available for purchase yet.');
+
+    const price = await stripe.prices.retrieve(priceId);
+    if (!price || price.active === false) {
+        throw createHttpError(503, 'This lifetime tier is not available for purchase yet.');
+    }
+    // A recurring price here would silently turn a "lifetime" purchase into a
+    // subscription, so it is rejected rather than coerced.
+    if (price.recurring) {
+        console.error(`[direct-ltd] GUARD: Price ${priceId} (tier ${tier}) is recurring; a lifetime deal must be one-time.`);
+        throw createHttpError(503, 'This lifetime tier is misconfigured and cannot be sold right now.');
+    }
+    if (String(price.currency || '').toLowerCase() !== directLtd.USD) {
+        // The floor is denominated in USD against AppSumo's USD listing; we
+        // cannot compare a non-USD amount to it, so we refuse instead of guessing.
+        console.error(`[direct-ltd] GUARD: Price ${priceId} (tier ${tier}) is in ${price.currency}, but the AppSumo floor is USD. Cannot verify exclusivity.`);
+        throw createHttpError(503, 'This lifetime tier is misconfigured and cannot be sold right now.');
+    }
+
+    const actualUsd = Number(price.unit_amount) / 100;
+    // Throws PriceFloorViolation (loudly logged) if Stripe's amount is at or
+    // below the matching AppSumo tier price.
+    directLtd.assertPriceFloor({ tier, directUsd: actualUsd, context: `stripe-price:${priceId}` });
+
+    if (actualUsd !== cfg.directUsd) {
+        // Above the floor but not what /lifetime advertises. Allowed (it is
+        // still exclusivity-safe) but loud, because the page is now wrong.
+        console.warn(`[direct-ltd] Stripe Price ${priceId} is $${actualUsd.toFixed(2)} but tier ${tier} advertises $${cfg.directUsd.toFixed(2)}. Update the landing page.`);
+    }
+    return { priceId, amountUsd: actualUsd };
+}
+
+async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
+    if (!stripe) throw createHttpError(500, 'Stripe is not configured');
+    if (!directLtd.enabled()) throw createHttpError(503, 'Direct lifetime purchase is not enabled.');
+    const cfg = directLtd.tierConfig(tier);
+    if (!cfg) throw createHttpError(400, 'Unknown lifetime tier');
+
+    // Non-stackable, exactly like the AppSumo and DealMirror channels: someone
+    // who already holds a lifetime entitlement must not be able to buy a second.
+    if (user.appsumoRedeemedAt || user.dealMirrorRedeemedAt) {
+        throw createHttpError(409, 'This account already has a lifetime plan.');
+    }
+
+    await ensureStripeAccountPreflight();
+    const { priceId, amountUsd } = await resolveDirectLtdPrice(tier);
+
+    const returnContext = extraMetadata.returnContext || {};
+    const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        mode: 'payment',                       // one-time; never a subscription
+        customer_email: user.email,
+        line_items: [{ price: priceId, quantity: 1 }],
+        client_reference_id: user._id.toString(),
+        success_url: extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
+            session: 'success', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
+        }),
+        cancel_url: extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
+            session: 'cancel', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
+        }),
+        custom_text: {
+            submit: { message: `One payment. Lifetime access to the ${cfg.label} tier — no renewal.` }
+        },
+        metadata: {
+            userId: user._id.toString(),
+            planId: PRO_PLAN_ID,
+            checkoutType: directLtd.CHECKOUT_TYPE,
+            ltdChannel: directLtd.CHANNEL,
+            ltdTier: String(cfg.tier),
+            stripePriceId: priceId,
+            amountUsd: String(amountUsd)
+        }
+    });
+
+    const requestFields = extraMetadata.req ? trackingRequestFields(extraMetadata.req, null) : {};
+    trackFunnel('stripe_checkout_created', user._id, cfg.planName, {
+        eventName: 'stripe_checkout_created',
+        dedupeKey: session && session.id ? `stripe_checkout_created:${session.id}` : null,
+        pageType: 'lifetime',
+        billingPeriod: 'lifetime',
+        entitlementSource: directLtd.CHANNEL,
+        appsumoTier: cfg.tier,
+        ...requestFields
+    });
+    return session;
+}
+
+/**
+ * Payment confirmed. Mint a license key, record it in the SAME AppSumoLicense
+ * collection the marketplace uses, then run the existing grant — which also
+ * sends the existing redemption/onboarding email. Nothing here is a duplicate
+ * of the AppSumo flow; it is the same flow entered with a key we issued.
+ */
+async function handleDirectLtdPaid(user, payload, event) {
+    const tier = directLtd.normalizeTier(payload.metadata?.ltdTier)
+        || directLtd.tierFromPriceId(payload.metadata?.stripePriceId);
+    if (!tier) {
+        console.error(`[direct-ltd] Paid session ${payload.id} has no resolvable tier; entitlement NOT granted. Manual review required.`);
+        return;
+    }
+    // Idempotency: Stripe retries webhooks, and the buyer may also land on the
+    // success URL. One paid session must produce exactly one license.
+    const existing = await AppSumoLicense.findOne({ 'raw.stripeSessionId': payload.id }).lean();
+    if (existing) return;
+    if (user.appsumoRedeemedAt) {
+        console.warn(`[direct-ltd] User ${user._id} already holds a lifetime entitlement; session ${payload.id} needs a manual refund decision.`);
+        return;
+    }
+
+    const amountUsd = Number.isFinite(Number(payload.amount_total))
+        ? Number(payload.amount_total) / 100
+        : directLtd.tierConfig(tier).directUsd;
+
+    const licenseKey = directLtd.mintLicenseKey(tier);
+    await AppSumoLicense.create({
+        licenseKey,
+        status: 'active',
+        tier,
+        partnerPlanName: directLtd.tierConfig(tier).planName,
+        userId: user._id,
+        redeemedAt: new Date(),
+        lastEvent: 'direct_purchase',
+        lastEventAt: new Date(),
+        // Channel and payment provenance live in `raw` so the shared schema is
+        // not forked for one channel; stripeSessionId is the idempotency key.
+        raw: {
+            channel: directLtd.CHANNEL,
+            stripeSessionId: payload.id,
+            stripeEventId: event && event.id,
+            amountUsd,
+            currency: payload.currency || directLtd.USD,
+            livemode: payload.livemode === true
+        }
+    });
+
+    // Auto-redeem: reuse of the existing grant + confirmation email path.
+    await grantAppSumoProAccess(user, {
+        licenseKey,
+        tier,
+        channel: directLtd.CHANNEL,
+        paidUsd: amountUsd,
+        stripeSessionId: payload.id
+    });
 }
 
 // A first paid invoice starts the explicit refund window. Only users marked by
@@ -4973,6 +5187,49 @@ app.post('/api/checkout/china', authMiddleware, async (req, res) => {
     }
 });
 
+// Public tier/price list for the /lifetime page. Copy-safe only: prices and
+// Ask caps, never Price IDs or Stripe state.
+app.get('/api/lifetime/config', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    res.json({
+        enabled: directLtd.enabled() && directLtd.priceFloorsOk(),
+        currency: directLtd.USD,
+        tiers: directLtd.publicTiers()
+    });
+});
+
+app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
+    const tier = directLtd.normalizeTier(req.body?.tier);
+    if (!tier) {
+        return res.status(400).json({ message: 'Choose a lifetime tier.', code: 'LIFETIME_TIER_INVALID' });
+    }
+    try {
+        const session = await createDirectLtdCheckoutSession(req.user, tier, {
+            req,
+            returnContext: { flow: 'direct_ltd', next: req.body?.next }
+        });
+        if (!session?.url) {
+            return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+        }
+        res.json({ url: session.url });
+    } catch (error) {
+        // An exclusivity-floor violation must never degrade into a sale. It
+        // surfaces as "unavailable" to the buyer and as a loud error in logs.
+        if (error instanceof directLtd.PriceFloorViolation) {
+            console.error('[direct-ltd] Refusing checkout:', error.message);
+            return res.status(503).json({ message: 'Lifetime purchase is temporarily unavailable.', code: 'LIFETIME_UNAVAILABLE' });
+        }
+        if (error && error.status === 409) {
+            return res.status(409).json({ message: error.message, code: 'LIFETIME_ALREADY_OWNED' });
+        }
+        if (error && (error.status === 503 || error.status === 400)) {
+            return res.status(error.status).json({ message: error.message, code: 'LIFETIME_UNAVAILABLE' });
+        }
+        console.error('/api/checkout/lifetime error:', error);
+        res.status(500).json({ message: 'Unable to start checkout right now.' });
+    }
+});
+
 app.get('/api/companies/top100', authMiddleware, (req, res) => {
     res.json({ companies: topCompanies });
 });
@@ -6335,7 +6592,18 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                     });
                     await affiliateProgram.recordStripeCheckout({ payload, user })
                         .catch((error) => console.error('[affiliate] Stripe checkout attribution error:', error && error.message));
-                    if (payload.metadata?.checkoutType === 'china_annual_pass') {
+                    if (payload.metadata?.checkoutType === directLtd.CHECKOUT_TYPE) {
+                        // Direct lifetime deal (#9). Like the China pass this is a
+                        // one-time payment with payload.subscription === null, so it
+                        // must be handled before the subscription branches below or it
+                        // would fall through to activateSubscription(). Card-only, so
+                        // payment_status is settled here and there is no async path.
+                        if (payload.payment_status === 'paid') {
+                            await handleDirectLtdPaid(user, payload, event);
+                        } else {
+                            console.warn(`[direct-ltd] Session ${payload.id} completed with payment_status=${payload.payment_status}; no entitlement granted.`);
+                        }
+                    } else if (payload.metadata?.checkoutType === 'china_annual_pass') {
                         // One-time payment, not a Stripe Subscription — payload.subscription
                         // is always null here, so this must be handled before (and instead
                         // of) the subscription/no-subscription branches below, otherwise it
@@ -6692,22 +6960,32 @@ async function revokeDealMirrorAccess(user) {
     await user.save();
 }
 
-async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requestFields, discoverySource } = {}) {
-    const cfg = appsumoTierConfig(tier);
+// Grants the lifetime Pro entitlement. Shared by BOTH lifetime channels:
+// AppSumo (marketplace-issued license key) and direct LTD (#9, key minted by
+// backend/direct-ltd.js after a Stripe payment). The entitlement is identical
+// by design — same tier ladder, same Ask cap, same AppSumoLicense row — so
+// `channel` is what keeps the two apart in reporting and in outbound email.
+// It defaults to 'appsumo', leaving every existing caller unchanged.
+async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requestFields, discoverySource, channel = 'appsumo', paidUsd = null, stripeSessionId = null } = {}) {
+    const isDirect = channel === directLtd.CHANNEL;
+    const directCfg = isDirect ? directLtd.tierConfig(tier) : null;
+    // Fall back to the AppSumo ladder if a direct tier is somehow unknown, so a
+    // paying customer is never left ungranted.
+    const cfg = directCfg ? { planName: directCfg.planName, askCap: directCfg.askCap } : appsumoTierConfig(tier);
     const now = new Date();
     const firstRedemption = !user.appsumoRedeemedAt;
     const licenseFingerprint = licenseKey
         ? crypto.createHash('sha256').update(String(licenseKey)).digest('hex').slice(0, 20)
         : 'unknown';
-    if (firstRedemption) trackFunnel('appsumo_redemption_started', user._id, cfg.planName, {
-        eventName: 'appsumo_redemption_started',
-        dedupeKey: `appsumo:redemption-started:${String(user._id)}:${licenseFingerprint}`,
-        entitlementSource: 'appsumo', appsumoTier: Number(tier) || null,
+    if (firstRedemption) trackFunnel(isDirect ? 'direct_ltd_redemption_started' : 'appsumo_redemption_started', user._id, cfg.planName, {
+        eventName: isDirect ? 'direct_ltd_redemption_started' : 'appsumo_redemption_started',
+        dedupeKey: `${channel}:redemption-started:${String(user._id)}:${licenseFingerprint}`,
+        entitlementSource: channel, appsumoTier: Number(tier) || null,
         ...(requestFields || {})
     });
     applyPlanToSubscription(user, PRO_PLAN_ID); // reuse the Pro plan ladder
     user.subscription.planName = cfg.planName;
-    user.subscription.price = 0;                 // already paid on AppSumo
+    user.subscription.price = 0;                 // already paid (AppSumo, or direct at checkout)
     user.subscription.stripePriceId = null;
     user.subscription.status = 'active';         // active + planId 'pro' => 'pro' tier
     user.subscription.activatedAt = user.subscription.activatedAt || now;
@@ -6722,27 +7000,42 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
     const normalizedDiscoverySource = normalizeAppSumoDiscoverySource(discoverySource || user.discoverySource);
     if (normalizedDiscoverySource) user.discoverySource = normalizedDiscoverySource;
     user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
+    user.ltdChannel = user.ltdChannel || channel;
+    if (isDirect) {
+        if (stripeSessionId) user.directLtdStripeSessionId = stripeSessionId;
+        if (Number.isFinite(Number(paidUsd))) user.directLtdPaidUsd = Number(paidUsd);
+    }
     user.markModified('subscription');
     await user.save();
     if (firstRedemption) {
-        await recordCustomerLifecycleEvent(user, 'appsumo_redeemed', {
-            source: 'appsumo',
+        await recordCustomerLifecycleEvent(user, isDirect ? 'direct_ltd_redeemed' : 'appsumo_redeemed', {
+            source: channel,
             appsumoTier: Number(tier) || null,
             discoverySource: normalizedDiscoverySource
         });
-        scheduleAppSumoReviewRequest(user, { licenseKey, tier })
-            .catch((e) => console.error('[appsumo] review schedule error:', e && e.message));
+        // A direct buyer never gets the AppSumo review request: they did not buy
+        // on AppSumo and cannot leave a review there, so the ask would be both
+        // useless and confusing. Onboarding is channel-neutral and is reused.
+        if (!isDirect) {
+            scheduleAppSumoReviewRequest(user, { licenseKey, tier })
+                .catch((e) => console.error('[appsumo] review schedule error:', e && e.message));
+        }
         scheduleAppSumoOnboarding(user, { tier })
-            .catch((e) => console.error('[appsumo] onboarding schedule error:', e && e.message));
+            .catch((e) => console.error(`[${channel}] onboarding schedule error:`, e && e.message));
     }
     trackFunnel('paid', user._id, cfg.planName, {
         // The legacy `paid` event remains for existing dashboards. Its
         // canonical name is explicit so an AppSumo redemption cannot be
         // mistaken for a Stripe invoice, and the key makes webhook retries
         // idempotent.
-        eventName: firstRedemption ? 'appsumo_redemption_completed' : 'legacy_paid',
-        dedupeKey: `appsumo:redemption-completed:${String(user._id)}:${licenseFingerprint}`,
-        source: 'appsumo',
+        eventName: firstRedemption ? (isDirect ? 'direct_ltd_redemption_completed' : 'appsumo_redemption_completed') : 'legacy_paid',
+        dedupeKey: `${channel}:redemption-completed:${String(user._id)}:${licenseFingerprint}`,
+        source: channel,
+        entitlementSource: channel,
+        // Revenue: an AppSumo redemption is $0 to us at this moment (AppSumo
+        // collected it), a direct one is the Stripe charge. Keeping them in
+        // separate channels is what stops the two being added together.
+        amountUsd: isDirect ? paidUsd : null,
         appsumoLicenseKey: licenseKey || null,
         appsumoTier: Number(tier) || null,
         acquisitionSource: acquisition ? acquisition.source : null,
@@ -6752,10 +7045,10 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
         discoverySource: normalizedDiscoverySource,
         ...(requestFields || {})
     });
-    if (firstRedemption) trackFunnel('appsumo_activation', user._id, cfg.planName, {
-        eventName: 'appsumo_activation',
-        dedupeKey: `appsumo:activation:${String(user._id)}:${licenseFingerprint}`,
-        entitlementSource: 'appsumo', source: 'appsumo',
+    if (firstRedemption) trackFunnel(isDirect ? 'direct_ltd_activation' : 'appsumo_activation', user._id, cfg.planName, {
+        eventName: isDirect ? 'direct_ltd_activation' : 'appsumo_activation',
+        dedupeKey: `${channel}:activation:${String(user._id)}:${licenseFingerprint}`,
+        entitlementSource: channel, source: channel,
         appsumoTier: Number(tier) || null,
         acquisitionSource: acquisition ? acquisition.source : null,
         acquisitionClickId: acquisition ? acquisition.clickId : null,
