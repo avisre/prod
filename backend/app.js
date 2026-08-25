@@ -5140,6 +5140,20 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // company's actual XBRL filings. US-only, but free + no API key.
         const payload = { quote, overview, daily, monthly, income, balance, cash };
         await secSource.backfillStatements(symbol, payload).catch(() => {});
+        // Tier meter v2 — history depth. Inert unless ENABLE_TIER_V2_LIMITS=true
+        // and this account redeemed on/after TIER_V2_EFFECTIVE_FROM; every
+        // existing redeemer always comes back unlimited. See lib/tier-limits.js.
+        if (tierLimits.enabled()) {
+            const years = tierLimits.limitsFor(req.user).historyYearsLimit;
+            if (Number.isFinite(years)) {
+                for (const st of ['income', 'balance', 'cash']) {
+                    const s = payload[st];
+                    if (s && Array.isArray(s.annualReports)) s.annualReports = s.annualReports.slice(0, years);
+                    if (s && Array.isArray(s.quarterlyReports)) s.quarterlyReports = s.quarterlyReports.slice(0, years * 4);
+                }
+                payload.historyYearsLimit = years;
+            }
+        }
         res.json(await presentFundamentalsCurrency(payload, req.query.presentationCurrency));
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });
@@ -5864,6 +5878,20 @@ app.post('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
                 });
             }
         }
+        // Tier meter v2 — inert unless ENABLE_TIER_V2_LIMITS=true and this
+        // account redeemed on/after TIER_V2_EFFECTIVE_FROM. See lib/tier-limits.
+        if (tierLimits.enabled()) {
+            const existing = await Watchlist.findOne({ user: portfolioOwnerId(req) }).lean();
+            const symbols = (existing && existing.symbols) || [];
+            if (!symbols.includes(symbol) && tierLimits.wouldExceedMonitored(req.user, symbols.length)) {
+                const { maxMonitoredCompanies } = tierLimits.limitsFor(req.user);
+                return res.status(402).json({
+                    message: `Your plan monitors up to ${maxMonitoredCompanies} companies. Upgrade your tier to add more.`,
+                    code: 'MONITORED_COMPANY_LIMIT',
+                    limit: maxMonitoredCompanies
+                });
+            }
+        }
         const doc = await Watchlist.findOneAndUpdate(
             { user: portfolioOwnerId(req) },
             { $addToSet: { symbols: symbol } },
@@ -6572,6 +6600,11 @@ function appsumoTierConfig(tier) {
 // Effective monthly Ask limit: AppSumo redeemers are capped at their tier's quota
 // (never above the Pro quota); everyone else uses the normal tier limit. Guarded
 // on appsumoAiCap, so it is a no-op for every non-AppSumo user.
+// Second gating dimension (monitored companies + history depth), shipped dark.
+// Ask count meters cost; these meter value. Both flags off => no behaviour
+// change anywhere. See lib/tier-limits.js and the tier-v2 proposal doc.
+const tierLimits = require('../lib/tier-limits');
+
 function effectiveAskLimit(req) {
     const base = aiChat.limits(req.tier);
     const cap = req.user && (req.user.appsumoAiCap || req.user.dealMirrorAiCap);
