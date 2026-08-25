@@ -197,6 +197,50 @@ function tierFromPriceId(priceId, env = process.env) {
 }
 
 /**
+ * Validate a Stripe Price object for a tier and return the amount to charge.
+ *
+ * This is the enforcement point for everything that could quietly turn a
+ * compliant configuration into a non-compliant one: an inactive price, a
+ * recurring price (which would make a "lifetime" deal a subscription), a
+ * non-USD price (which cannot be compared to AppSumo's USD floor), or an
+ * amount at/below the AppSumo tier price. It lives here, not in the route, so
+ * it is testable without a Stripe key.
+ *
+ * Throws PriceFloorViolation for a floor breach, and a plain Error tagged with
+ * `.reason` for the structural problems.
+ */
+function validateStripePrice(price, tier, env = process.env) {
+  const cfg = tierConfig(tier);
+  if (!cfg) throw new Error(`Unknown direct LTD tier: ${tier}`);
+
+  const fail = (reason, message) => {
+    console.error(`[direct-ltd] GUARD: ${message}`);
+    const error = new Error(message);
+    error.reason = reason;
+    throw error;
+  };
+
+  if (!price) fail('missing', `No Stripe Price found for tier ${tier}.`);
+  if (price.active === false) fail('inactive', `Stripe Price ${price.id} (tier ${tier}) is inactive.`);
+  if (price.recurring) fail('recurring', `Stripe Price ${price.id} (tier ${tier}) is recurring; a lifetime deal must be one-time.`);
+  if (String(price.currency || '').toLowerCase() !== USD) {
+    fail('currency', `Stripe Price ${price.id} (tier ${tier}) is in ${price.currency}, but the AppSumo floor is USD. Cannot verify exclusivity.`);
+  }
+
+  const amountUsd = Number(price.unit_amount) / 100;
+  // Throws PriceFloorViolation, loudly logged, if at or below the AppSumo tier.
+  assertPriceFloor({ tier, directUsd: amountUsd, env, context: `stripe-price:${price.id}` });
+
+  // Above the floor but not what /lifetime advertises: exclusivity-safe, so it
+  // is allowed, but the landing page is now wrong and that must be visible.
+  const drift = amountUsd !== cfg.directUsd;
+  if (drift) {
+    console.warn(`[direct-ltd] Stripe Price ${price.id} is $${amountUsd.toFixed(2)} but tier ${tier} advertises $${cfg.directUsd.toFixed(2)}. Update the landing page.`);
+  }
+  return { amountUsd, drift };
+}
+
+/**
  * Mint a license key for a direct buyer. The `DIRECT-` segment makes the
  * channel obvious in the AppSumoLicense collection and in support tooling, so
  * a direct license can never be mistaken for an AppSumo-issued one even
@@ -241,6 +285,6 @@ module.exports = {
   PriceFloorViolation,
   enabled, tierConfig, normalizeTier,
   appsumoReferenceUsd, assertPriceFloor, assertAllPriceFloors, priceFloorsOk,
-  priceIdFor, tierFromPriceId,
+  priceIdFor, tierFromPriceId, validateStripePrice,
   mintLicenseKey, isDirectLicenseKey, unitAmountFor, publicTiers
 };

@@ -67,7 +67,11 @@ test('MongoDB customer events are unique and cover signup, Stripe, and AppSumo',
   assert.match(source, /eventKey: \{ type: String, required: true, unique: true/);
   assert.match(source, /recordCustomerLifecycleEvent\(user, 'signup'/);
   assert.match(source, /recordCustomerLifecycleEvent\(user, 'stripe_paid'/);
-  assert.match(source, /recordCustomerLifecycleEvent\(user, 'appsumo_redeemed'/);
+  // The lifetime grant is shared by the AppSumo and direct-LTD channels, so
+  // the event type is selected per channel. Both values must still be emitted
+  // from that one call site, and they must stay distinct so revenue reporting
+  // never sums the two channels.
+  assert.match(source, /recordCustomerLifecycleEvent\(user, isDirect \? 'direct_ltd_redeemed' : 'appsumo_redeemed'/);
 });
 
 test('funnel events preserve signed campaign attribution from visit through conversion', () => {

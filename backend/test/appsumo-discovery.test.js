@@ -15,5 +15,9 @@ test('AppSumo activation collects bounded self-reported discovery attribution', 
 
 test('discovery attribution is persisted on AppSumo paid and lifecycle events', () => {
   assert.match(appSource, /discoverySource: normalizedDiscoverySource/);
-  assert.match(appSource, /recordCustomerLifecycleEvent\(user, 'appsumo_redeemed', \{[\s\S]*discoverySource: normalizedDiscoverySource/);
+  // The event type became channel-dependent when direct LTD started reusing
+  // this grant ('direct_ltd_redeemed' vs 'appsumo_redeemed'); what this test
+  // guards — that discovery attribution is carried onto the lifecycle event —
+  // is unchanged.
+  assert.match(appSource, /recordCustomerLifecycleEvent\(user, isDirect \? 'direct_ltd_redeemed' : 'appsumo_redeemed', \{[\s\S]*?discoverySource: normalizedDiscoverySource/);
 });

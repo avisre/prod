@@ -3202,33 +3202,17 @@ async function resolveDirectLtdPrice(tier) {
     if (!priceId) throw createHttpError(503, 'This lifetime tier is not available for purchase yet.');
 
     const price = await stripe.prices.retrieve(priceId);
-    if (!price || price.active === false) {
-        throw createHttpError(503, 'This lifetime tier is not available for purchase yet.');
-    }
-    // A recurring price here would silently turn a "lifetime" purchase into a
-    // subscription, so it is rejected rather than coerced.
-    if (price.recurring) {
-        console.error(`[direct-ltd] GUARD: Price ${priceId} (tier ${tier}) is recurring; a lifetime deal must be one-time.`);
+    try {
+        // All structural + exclusivity checks live in direct-ltd.js so they are
+        // testable without a Stripe key. A PriceFloorViolation propagates (the
+        // route turns it into a 503 and logs it); the structural failures are
+        // translated here.
+        const { amountUsd } = directLtd.validateStripePrice(price, tier);
+        return { priceId, amountUsd };
+    } catch (error) {
+        if (error instanceof directLtd.PriceFloorViolation) throw error;
         throw createHttpError(503, 'This lifetime tier is misconfigured and cannot be sold right now.');
     }
-    if (String(price.currency || '').toLowerCase() !== directLtd.USD) {
-        // The floor is denominated in USD against AppSumo's USD listing; we
-        // cannot compare a non-USD amount to it, so we refuse instead of guessing.
-        console.error(`[direct-ltd] GUARD: Price ${priceId} (tier ${tier}) is in ${price.currency}, but the AppSumo floor is USD. Cannot verify exclusivity.`);
-        throw createHttpError(503, 'This lifetime tier is misconfigured and cannot be sold right now.');
-    }
-
-    const actualUsd = Number(price.unit_amount) / 100;
-    // Throws PriceFloorViolation (loudly logged) if Stripe's amount is at or
-    // below the matching AppSumo tier price.
-    directLtd.assertPriceFloor({ tier, directUsd: actualUsd, context: `stripe-price:${priceId}` });
-
-    if (actualUsd !== cfg.directUsd) {
-        // Above the floor but not what /lifetime advertises. Allowed (it is
-        // still exclusivity-safe) but loud, because the page is now wrong.
-        console.warn(`[direct-ltd] Stripe Price ${priceId} is $${actualUsd.toFixed(2)} but tier ${tier} advertises $${cfg.directUsd.toFixed(2)}. Update the landing page.`);
-    }
-    return { priceId, amountUsd: actualUsd };
 }
 
 async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
