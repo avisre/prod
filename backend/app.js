@@ -2098,6 +2098,11 @@ const UserSchema = new mongoose.Schema({
     ltdChannel: { type: String, default: null, enum: [null, 'appsumo', 'direct-ltd'], index: true },
     directLtdStripeSessionId: { type: String, default: null, index: true },
     directLtdPaidUsd: { type: Number, default: null },
+    // Set only by /api/lifetime/signup, cleared once the lifetime entitlement
+    // is granted. Lets /api/login's pending-checkout resume tell a one-time
+    // LTD purchase apart from a subscription plan, so it resumes the correct
+    // Stripe session type instead of defaulting to the subscription ladder.
+    pendingDirectLtdTier: { type: Number, default: null },
     // DealMirror is a separate, non-stackable LTD channel. These fields never
     // replace or modify AppSumo records; entitlement precedence is enforced at
     // redemption time and again during revocation.
@@ -3248,18 +3253,32 @@ async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
     const { priceId, amountUsd } = await resolveDirectLtdPrice(tier);
 
     const returnContext = extraMetadata.returnContext || {};
+    // Embedded mirrors the subscription checkout's ui_mode so the LTD buy
+    // flow can mount inline on our own page instead of redirecting to
+    // checkout.stripe.com — same mechanism createCheckoutSessionForUser uses.
+    const embedded = extraMetadata.uiMode === 'embedded';
+    const urlParams = embedded
+        ? {
+            ui_mode: 'embedded',
+            return_url: extraMetadata.returnUrl || buildStripeReturnUrl(extraMetadata.req, {
+                session: 'success', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
+            })
+        }
+        : {
+            success_url: extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
+                session: 'success', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
+            }),
+            cancel_url: extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
+                session: 'cancel', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
+            })
+        };
     const session = await directLtdStripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',                       // one-time; never a subscription
         customer_email: user.email,
         line_items: [{ price: priceId, quantity: 1 }],
         client_reference_id: user._id.toString(),
-        success_url: extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
-            session: 'success', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
-        }),
-        cancel_url: extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
-            session: 'cancel', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
-        }),
+        ...urlParams,
         custom_text: {
             submit: { message: `One payment. Lifetime access to the ${cfg.label} tier — no renewal. ${directLtd.refundDays()}-day refund window, direct from us.` }
         },
@@ -4507,6 +4526,32 @@ app.post('/api/login', async (req, res) => {
             && user.paymentRequiredAt
             && !subscriptionIsActive(user.subscription)
             && !user.appsumoRedeemedAt) {
+            // A pending LTD signup (via /api/lifetime/signup) is a one-time
+            // purchase, not a subscription plan — resuming it through
+            // createCheckoutSessionForUser would start (or mis-price) a
+            // subscription instead of the lifetime tier the buyer chose.
+            if (user.pendingDirectLtdTier) {
+                if (!directLtdStripe) {
+                    return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
+                }
+                try {
+                    const session = await createDirectLtdCheckoutSession(user, user.pendingDirectLtdTier, {
+                        req,
+                        returnContext: { flow: 'login_resume_lifetime', next: req.body?.next }
+                    });
+                    if (!session?.url) return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+                    const token = createUserToken(user);
+                    return res.status(200).json({ token, url: session.url, subscription: normalized, checkoutRequired: true });
+                } catch (ltdError) {
+                    if (ltdError instanceof directLtd.PriceFloorViolation) {
+                        return res.status(503).json({ message: 'Lifetime purchase is temporarily unavailable.', code: 'LIFETIME_UNAVAILABLE' });
+                    }
+                    if (ltdError && ltdError.status) {
+                        return res.status(ltdError.status).json({ message: ltdError.message, code: 'LIFETIME_UNAVAILABLE' });
+                    }
+                    throw ltdError;
+                }
+            }
             if (!stripe) {
                 return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
             }
@@ -5224,11 +5269,19 @@ app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
     }
     try {
         const experimentTag = req.body?.experiment === pricingExperiment.CHANNEL_TAG ? pricingExperiment.CHANNEL_TAG : null;
+        const uiMode = req.body?.uiMode === 'embedded' ? 'embedded' : undefined;
         const session = await createDirectLtdCheckoutSession(req.user, tier, {
             req,
+            uiMode,
             returnContext: { flow: 'direct_ltd', next: req.body?.next },
             experimentTag
         });
+        if (uiMode === 'embedded') {
+            if (!session?.client_secret) {
+                return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+            }
+            return res.json({ clientSecret: session.client_secret });
+        }
         if (!session?.url) {
             return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
         }
@@ -5248,6 +5301,96 @@ app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
         }
         console.error('/api/checkout/lifetime error:', error);
         res.status(500).json({ message: 'Unable to start checkout right now.' });
+    }
+});
+
+// Account creation for a logged-out LTD buyer, mirroring /api/subscribe's
+// signup step (same validation, same embedded-checkout handoff) but kept as
+// its own route so the shared subscription-signup path is never touched by
+// LTD-specific logic. Returns a clientSecret for Stripe's embedded checkout,
+// exactly like /api/subscribe does for card-required subscription plans.
+app.post('/api/lifetime/signup', subscribeLimiter, async (req, res) => {
+    const { email, password } = req.body || {};
+    if (String(req.body?.website || '').trim()) {
+        return res.status(200).json({ ok: true });
+    }
+    const tier = directLtd.normalizeTier(req.body?.tier);
+    if (!tier) {
+        return sendApiError(res, createHttpError(400, 'Choose a lifetime tier.', 'LIFETIME_TIER_INVALID'));
+    }
+    const rawEmail = String(email || '').trim();
+    const normalizedEmail = normalizeEmail(email);
+    if (!rawEmail) {
+        return sendApiError(res, createHttpError(400, 'Please enter your email address.', 'EMAIL_REQUIRED', { field: 'email' }));
+    }
+    if (!emailLooksValid(rawEmail)) {
+        return sendApiError(res, createHttpError(400, 'Please enter a valid email address.', 'EMAIL_INVALID', { field: 'email' }));
+    }
+    if (SMS_GATEWAY_DOMAINS.has(normalizedEmail.split('@')[1] || '')) {
+        return sendApiError(res, createHttpError(400, 'Please sign up with a regular email address.', 'EMAIL_INVALID', { field: 'email' }));
+    }
+    if (typeof password !== 'string' || !password) {
+        return sendApiError(res, createHttpError(400, 'Please create a password before continuing.', 'PASSWORD_REQUIRED', { field: 'password' }));
+    }
+    if (!passwordMeetsPolicy(password)) {
+        return sendApiError(res, createHttpError(400, 'Password must be at least 8 characters and include uppercase, lowercase, and a number.', 'PASSWORD_POLICY_FAILED', { field: 'password' }));
+    }
+    if (!directLtdStripe) {
+        return sendApiError(res, createHttpError(503, 'Checkout is temporarily unavailable. Please try again shortly.', 'CHECKOUT_UNAVAILABLE', { retryable: true }));
+    }
+    try {
+        const existingUser = await User.findOne({ email: normalizedEmail }).select('_id');
+        if (existingUser) {
+            return sendApiError(res, createHttpError(409, 'This email is already registered. Use a different email address or sign in with the existing account.', 'EMAIL_ALREADY_REGISTERED', { field: 'email' }));
+        }
+
+        const requestFields = trackingRequestFields(req, res);
+        const utm = requestUtm(req);
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const displayName = deriveNameFromEmail(normalizedEmail);
+        const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
+        if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
+        attachSignupAttribution(user, requestFields);
+
+        user.subscription = ensureSubscriptionShape(user);
+        user.subscription.status = 'pending';
+        user.subscription.planId = PRO_PLAN_ID;
+        user.subscription.planName = 'Pro';
+        user.paymentRequiredAt = new Date();
+        user.initialRefundStatus = 'not_eligible';
+        user.pendingDirectLtdTier = tier;
+        user.markModified('subscription');
+        await user.save();
+
+        recordCustomerLifecycleEvent(user, 'signup', { source: 'direct' })
+            .catch((e) => console.error('[customers] signup registry error:', e && e.message));
+        sendNewUserEmails({ name: displayName, email: normalizedEmail, plan: 'Pro (lifetime)' })
+            .catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+        trackFunnel('signup', user._id, 'Pro', {
+            authMethod: 'email', selectedPlan: 'lifetime', pageType: 'lifetime', utm, ...requestFields
+        });
+
+        const experimentTag = req.body?.experiment === pricingExperiment.CHANNEL_TAG ? pricingExperiment.CHANNEL_TAG : null;
+        const session = await createDirectLtdCheckoutSession(user, tier, {
+            req,
+            uiMode: 'embedded',
+            returnContext: { flow: 'lifetime_signup', next: req.body?.next },
+            experimentTag
+        });
+        if (!session?.client_secret) {
+            throw createHttpError(502, 'Checkout session could not be created. Please try again.', 'CHECKOUT_URL_MISSING', { retryable: true });
+        }
+        res.status(200).json({ clientSecret: session.client_secret });
+    } catch (error) {
+        if (error instanceof directLtd.PriceFloorViolation) {
+            console.error('[direct-ltd] Refusing checkout:', error.message);
+            return sendApiError(res, createHttpError(503, 'Lifetime purchase is temporarily unavailable.', 'LIFETIME_UNAVAILABLE'));
+        }
+        if (error && error.status) {
+            return sendApiError(res, error);
+        }
+        console.error('/api/lifetime/signup error:', error);
+        sendApiError(res, createHttpError(500, 'Unable to start checkout right now.'));
     }
 });
 
@@ -7036,6 +7179,7 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
     if (normalizedDiscoverySource) user.discoverySource = normalizedDiscoverySource;
     user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
     user.ltdChannel = user.ltdChannel || channel;
+    user.pendingDirectLtdTier = null;
     if (isDirect) {
         if (stripeSessionId) user.directLtdStripeSessionId = stripeSessionId;
         if (Number.isFinite(Number(paidUsd))) user.directLtdPaidUsd = Number(paidUsd);

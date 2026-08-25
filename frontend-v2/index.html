@@ -456,34 +456,14 @@
                 + '</div>';
             }).join('');
 
+            // Same procedure and pages as the professional tiers and the
+            // /lifetime page: a direct link to the dedicated checkout page,
+            // which creates the account and mounts Stripe's embedded
+            // checkout inline — no bespoke fetch + off-site redirect here.
             grid.addEventListener('click', function (event) {
               var button = event.target.closest('button[data-tier]');
               if (!button) return;
-              button.disabled = true;
-              status.textContent = 'Starting checkout…';
-              status.removeAttribute('data-tone');
-              fetch('/api/checkout/lifetime', {
-                method: 'POST',
-                credentials: 'same-origin',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ tier: button.getAttribute('data-tier'), experiment: 'pricing_experiment_ltd_only' })
-              })
-                .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
-                .then(function (res) {
-                  if (res.status === 401) {
-                    window.location.href = '/register.html?next=' + encodeURIComponent('/pricing');
-                    return;
-                  }
-                  if (res.data && res.data.url) { window.location.href = res.data.url; return; }
-                  button.disabled = false;
-                  status.textContent = (res.data && res.data.message) || 'Could not start checkout. Please try again.';
-                  status.setAttribute('data-tone', 'error');
-                })
-                .catch(function () {
-                  button.disabled = false;
-                  status.textContent = 'Could not start checkout. Please try again.';
-                  status.setAttribute('data-tone', 'error');
-                });
+              window.location.href = '/lifetime-checkout.html?tier=' + encodeURIComponent(button.getAttribute('data-tier')) + '&px=1';
             });
           })
           .catch(function () { /* experiment endpoint unreachable: leave subscription pricing showing */ });

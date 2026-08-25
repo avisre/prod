@@ -149,32 +149,14 @@
         grid.innerHTML = '<p class="muted">Could not load lifetime tiers. Please refresh.</p>';
       });
 
+    // Same procedure and pages as the professional tiers: a direct link to a
+    // dedicated checkout page (register.html for Power/Desk; lifetime-checkout.html
+    // here) that creates the account and mounts Stripe's embedded checkout
+    // inline, rather than a bespoke buy-button fetch + off-site redirect.
     grid.addEventListener('click', function (event) {
       var button = event.target.closest('button[data-tier]');
       if (!button) return;
-      button.disabled = true;
-      say('Starting checkout…');
-      fetch('/api/checkout/lifetime', {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier: button.getAttribute('data-tier') })
-      })
-        .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
-        .then(function (res) {
-          if (res.status === 401) {
-            // Signing in is required before we can attach the entitlement.
-            window.location.href = '/register?next=' + encodeURIComponent('/lifetime');
-            return;
-          }
-          if (res.data && res.data.url) { window.location.href = res.data.url; return; }
-          button.disabled = false;
-          say((res.data && res.data.message) || 'Could not start checkout. Please try again.', 'error');
-        })
-        .catch(function () {
-          button.disabled = false;
-          say('Could not start checkout. Please try again.', 'error');
-        });
+      window.location.href = '/lifetime-checkout.html?tier=' + encodeURIComponent(button.getAttribute('data-tier'));
     });
   })();
   </script>
