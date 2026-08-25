@@ -1139,6 +1139,55 @@
     // outline thumb (drawn for this design — no icon font)
     const THUMB = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5.5 7.5v6h-3v-6h3zm0 0 2.2-4.6a1.3 1.3 0 0 1 2.47.7L9.7 6h2.9a1.4 1.4 0 0 1 1.36 1.73l-1.1 4.7a1.4 1.4 0 0 1-1.36 1.07H5.5"/></svg>';
 
+    // One-time AppSumo review prompt. Eligibility lives entirely on the server
+    // (second distinct day of successful Asks), and 'shown' is recorded the
+    // moment it opens, so a reload or a second answer in the same session can
+    // never bring it back. A local guard stops a double-fire within one page.
+    let reviewPromptOpen = false;
+    function showReviewPrompt(prompt) {
+        if (reviewPromptOpen || !prompt || !prompt.url || !token()) return;
+        reviewPromptOpen = true;
+        const mark = (action) => fetch(`${API}/review/prompt`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+            body: JSON.stringify({ action })
+        }).catch(() => { /* best-effort; the prompt is not worth an error */ });
+
+        const back = document.createElement('div');
+        back.setAttribute('role', 'dialog');
+        back.setAttribute('aria-modal', 'true');
+        back.setAttribute('aria-label', 'Review request');
+        back.style.cssText = 'position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(28,27,24,.42)';
+        back.innerHTML = `
+          <div style="max-width:420px;width:100%;background:var(--surface,#fff);border:1px solid var(--line,#e8e6e0);border-radius:14px;padding:22px;box-shadow:0 18px 48px rgba(0,0,0,.18)">
+            <h2 style="margin:0 0 8px;font-size:18px;line-height:1.35">${esc(prompt.headline || 'Worth a review?')}</h2>
+            <p style="margin:0 0 18px;font-size:14px;line-height:1.65;color:var(--ink2,#5f5c55)">${esc(prompt.body || '')}</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap">
+              <a data-act="go" target="_blank" rel="noopener" style="flex:1;min-width:170px;text-align:center;padding:11px 16px;border-radius:9px;background:var(--accent,#1a4fd6);color:#fff;font-size:14.5px;font-weight:650">${esc(prompt.cta || 'Leave a review')}</a>
+              <button type="button" data-act="no" style="padding:11px 16px;border:1px solid var(--line,#e8e6e0);border-radius:9px;background:transparent;color:var(--ink2,#5f5c55);font:inherit;font-size:14px;cursor:pointer">Not now</button>
+            </div>
+          </div>`;
+
+        // href is set as a property, not interpolated into the markup — the URL
+        // is server-supplied and already validated, but never hand-build an href.
+        back.querySelector('[data-act="go"]').href = prompt.url;
+        const close = () => { back.remove(); document.removeEventListener('keydown', onKey); };
+        const onKey = (e) => { if (e.key === 'Escape') { mark('dismissed'); close(); } };
+        back.addEventListener('click', (e) => {
+            const act = e.target.closest('[data-act]');
+            if (!act) { if (e.target === back) { mark('dismissed'); close(); } return; }
+            mark(act.dataset.act === 'go' ? 'clicked' : 'dismissed');
+            if (act.dataset.act === 'no') close();
+        });
+        document.addEventListener('keydown', onKey);
+        document.body.appendChild(back);
+        // Recorded on open, not on click — "we already asked this person" is the
+        // fact worth remembering, whichever way they answered.
+        mark('shown');
+        const first = back.querySelector('[data-act="go"]');
+        if (first) first.focus();
+    }
+
     function askEngine(exchange, { onActivity, onComplete } = {}) {
         const history = [];
         let busy = false;
@@ -1379,6 +1428,10 @@
                     mountShare(share, { title: `Ask: ${question}`, text: data.answer });
                     foot.appendChild(share);
                         answerEl.appendChild(foot);
+                        // Fires at most once per account: the server only sends
+                        // reviewPrompt after a second distinct day of successful
+                        // Asks and never again once 'shown' is recorded.
+                        if (data.reviewPrompt) showReviewPrompt(data.reviewPrompt);
                         if (onComplete) onComplete(data || {});
                     }
             } catch (err) {
