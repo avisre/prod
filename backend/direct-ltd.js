@@ -44,6 +44,7 @@ const TIERS = Object.freeze({
     appsumoUsd: 39,
     directUsd: 39.99,
     priceEnvVar: 'STRIPE_PRICE_ID_LTD_STARTER',
+    testPriceEnvVar: 'STRIPE_PRICE_ID_LTD_TEST_STARTER',
     appsumoPriceEnvVar: 'APPSUMO_TIER1_PRICE_USD'
   }),
   2: Object.freeze({
@@ -55,6 +56,7 @@ const TIERS = Object.freeze({
     appsumoUsd: 79,
     directUsd: 79.99,
     priceEnvVar: 'STRIPE_PRICE_ID_LTD_INVESTOR',
+    testPriceEnvVar: 'STRIPE_PRICE_ID_LTD_TEST_INVESTOR',
     appsumoPriceEnvVar: 'APPSUMO_TIER2_PRICE_USD'
   }),
   3: Object.freeze({
@@ -66,6 +68,7 @@ const TIERS = Object.freeze({
     appsumoUsd: 149,
     directUsd: 149.99,
     priceEnvVar: 'STRIPE_PRICE_ID_LTD_PRO',
+    testPriceEnvVar: 'STRIPE_PRICE_ID_LTD_TEST_PRO',
     appsumoPriceEnvVar: 'APPSUMO_TIER3_PRICE_USD'
   })
 });
@@ -79,6 +82,29 @@ const CHECKOUT_TYPE = 'direct_ltd';
 
 function enabled(env = process.env) {
   return String(env.DIRECT_LTD_ENABLED || 'false').toLowerCase() === 'true';
+}
+
+/**
+ * Test mode routes direct-LTD checkout at Stripe's TEST account/keys instead
+ * of the live sk_live path, so a real end-to-end purchase can be exercised
+ * with a 4242 test card before DIRECT_LTD_ENABLED ever goes live. Nothing
+ * else in the app (subscriptions, the main webhook secret, etc.) is affected
+ * by this flag — it is read only by the direct-ltd checkout/webhook code.
+ */
+function testModeEnabled(env = process.env) {
+  return String(env.NODE_ENV || '').toLowerCase() === 'test'
+    || String(env.DIRECT_LTD_TEST_MODE || 'false').toLowerCase() === 'true';
+}
+
+/**
+ * Refund window, in days, for a direct purchase. Deliberately separate from
+ * AppSumo's own 60-day refund policy — that one is AppSumo's to run, this one
+ * is ours, and the two must never be conflated in copy or in code.
+ */
+function refundDays(env = process.env) {
+  const raw = env.DIRECT_LTD_REFUND_DAYS;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : 30;
 }
 
 function tierConfig(tier) {
@@ -182,11 +208,17 @@ function priceFloorsOk(env = process.env) {
   return assertAllPriceFloors(env, { context: 'preflight' }).ok;
 }
 
-/** Stripe Price ID configured for a tier, or null when unset. */
+/**
+ * Stripe Price ID configured for a tier, or null when unset. In test mode
+ * this resolves the tier's `testPriceEnvVar` instead of its live one, so a
+ * misconfigured/absent test Price cannot silently fall through to a live
+ * Price ID (or vice versa) — the two are never mixed.
+ */
 function priceIdFor(tier, env = process.env) {
   const cfg = tierConfig(tier);
   if (!cfg) return null;
-  return String(env[cfg.priceEnvVar] || '').trim() || null;
+  const varName = testModeEnabled(env) ? cfg.testPriceEnvVar : cfg.priceEnvVar;
+  return String(env[varName] || '').trim() || null;
 }
 
 /** Reverse lookup used by the webhook to recover the tier from a Price ID. */
@@ -283,7 +315,7 @@ function publicTiers(env = process.env) {
 module.exports = {
   TIERS, TIER_NUMBERS, CHANNEL, CHECKOUT_TYPE, USD,
   PriceFloorViolation,
-  enabled, tierConfig, normalizeTier,
+  enabled, refundDays, testModeEnabled, tierConfig, normalizeTier,
   appsumoReferenceUsd, assertPriceFloor, assertAllPriceFloors, priceFloorsOk,
   priceIdFor, tierFromPriceId, validateStripePrice,
   mintLicenseKey, isDirectLicenseKey, unitAmountFor, publicTiers

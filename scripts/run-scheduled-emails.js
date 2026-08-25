@@ -85,7 +85,7 @@ async function main() {
         }
         email = mailer.appsumoReviewEmail(user.name, appUrl, 2, appsumoReviewUrl(), unsubUrl);
       } else if (job.template === 'appsumo_onboarding') {
-        email = mailer.appsumoOnboardingEmail(user.name, appUrl, process.env.APPSUMO_ONBOARDING_VIDEO_URL || '', unsubUrl);
+        email = mailer.appsumoOnboardingEmail(user.name, appUrl, process.env.APPSUMO_ONBOARDING_VIDEO_URL || '', unsubUrl, user.ltdChannel);
       } else if (job.template === 'appsumo_activation_next') {
         email = mailer.appsumoActivationNextEmail(user.name, appUrl, unsubUrl);
       } else if (job.template === 'appsumo_inactive_48h') {

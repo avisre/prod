@@ -37,6 +37,7 @@ const ollamaUsage = require('./ollama-usage-tracker');
 const affiliateProgram = require('./affiliate-program');
 const dealMirror = require('./dealmirror');
 const directLtd = require('./direct-ltd');
+const pricingExperiment = require('./pricing-experiment');
 const augustCampaign = require('./august-campaign');
 const { safeUpper, isValidTicker, normalizeTicker } = require('./symbol-resolver');
 require('dotenv').config();
@@ -578,6 +579,16 @@ function appsumoUpgradeUrl(lic) {
     return (lic && lic.changePlanUrl) || APPSUMO_ACCOUNT_URL;
 }
 const stripe = stripeSecretKey ? Stripe(stripeSecretKey, { apiVersion: '2022-11-15' }) : null;
+// Direct-LTD test mode (DIRECT_LTD_TEST_MODE=true / NODE_ENV=test) routes ONLY
+// the direct-LTD checkout+webhook path at a separate Stripe TEST account/keys,
+// so a real end-to-end test-card purchase can be exercised before
+// DIRECT_LTD_ENABLED ever goes live. `stripe` above (used by every other
+// checkout/webhook path) is never touched by this.
+const stripeTestSecretKey = process.env.STRIPE_TEST_SECRET_KEY;
+const directLtdStripe = directLtd.testModeEnabled()
+    ? (stripeTestSecretKey ? Stripe(stripeTestSecretKey, { apiVersion: '2022-11-15' }) : null)
+    : stripe;
+const STRIPE_TEST_WEBHOOK_SECRET = process.env.STRIPE_TEST_WEBHOOK_SECRET || '';
 const googleOauthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 const REQUIRE_ACTIVE_SUBSCRIPTION = process.env.REQUIRE_ACTIVE_SUBSCRIPTION === 'true';
 const stripeAccountPreflight = {
@@ -3188,6 +3199,11 @@ if (directLtd.enabled() && !directLtdBootReport.ok) {
     console.error('[direct-ltd] Direct lifetime checkout will refuse every request until the AppSumo price floor is satisfied.');
 }
 
+// Auto-revert timer for the pricing-swap experiment. See pricing-experiment.js
+// for the full safety model; this just starts the interval that checks
+// PRICING_EXPERIMENT_MODE against its activation timestamp every 60s.
+pricingExperiment.install();
+
 /**
  * Resolve the configured Stripe Price for a tier and re-run the exclusivity
  * guard against the amount STRIPE actually holds — not the constant in our
@@ -3200,8 +3216,9 @@ async function resolveDirectLtdPrice(tier) {
     if (!cfg) throw createHttpError(400, 'Unknown lifetime tier');
     const priceId = directLtd.priceIdFor(tier);
     if (!priceId) throw createHttpError(503, 'This lifetime tier is not available for purchase yet.');
+    if (!directLtdStripe) throw createHttpError(503, 'Direct lifetime checkout is not configured.');
 
-    const price = await stripe.prices.retrieve(priceId);
+    const price = await directLtdStripe.prices.retrieve(priceId);
     try {
         // All structural + exclusivity checks live in direct-ltd.js so they are
         // testable without a Stripe key. A PriceFloorViolation propagates (the
@@ -3216,7 +3233,7 @@ async function resolveDirectLtdPrice(tier) {
 }
 
 async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
-    if (!stripe) throw createHttpError(500, 'Stripe is not configured');
+    if (!directLtdStripe) throw createHttpError(500, 'Stripe is not configured');
     if (!directLtd.enabled()) throw createHttpError(503, 'Direct lifetime purchase is not enabled.');
     const cfg = directLtd.tierConfig(tier);
     if (!cfg) throw createHttpError(400, 'Unknown lifetime tier');
@@ -3231,7 +3248,7 @@ async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
     const { priceId, amountUsd } = await resolveDirectLtdPrice(tier);
 
     const returnContext = extraMetadata.returnContext || {};
-    const session = await stripe.checkout.sessions.create({
+    const session = await directLtdStripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'payment',                       // one-time; never a subscription
         customer_email: user.email,
@@ -3244,7 +3261,7 @@ async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
             session: 'cancel', planId: PRO_PLAN_ID, lifetime: cfg.slug, ...returnContext
         }),
         custom_text: {
-            submit: { message: `One payment. Lifetime access to the ${cfg.label} tier — no renewal.` }
+            submit: { message: `One payment. Lifetime access to the ${cfg.label} tier — no renewal. ${directLtd.refundDays()}-day refund window, direct from us.` }
         },
         metadata: {
             userId: user._id.toString(),
@@ -3253,7 +3270,8 @@ async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
             ltdChannel: directLtd.CHANNEL,
             ltdTier: String(cfg.tier),
             stripePriceId: priceId,
-            amountUsd: String(amountUsd)
+            amountUsd: String(amountUsd),
+            ...(extraMetadata.experimentTag ? { experimentTag: extraMetadata.experimentTag } : {})
         }
     });
 
@@ -3265,6 +3283,7 @@ async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
         billingPeriod: 'lifetime',
         entitlementSource: directLtd.CHANNEL,
         appsumoTier: cfg.tier,
+        experimentTag: extraMetadata.experimentTag || null,
         ...requestFields
     });
     return session;
@@ -5178,7 +5197,23 @@ app.get('/api/lifetime/config', (req, res) => {
     res.json({
         enabled: directLtd.enabled() && directLtd.priceFloorsOk(),
         currency: directLtd.USD,
-        tiers: directLtd.publicTiers()
+        tiers: directLtd.publicTiers(),
+        refundDays: directLtd.refundDays()
+    });
+});
+
+// Pricing-experiment config for /pricing. Purely read-only: this endpoint
+// never mutates the mode, only reports it (and pricing-experiment.js
+// re-validates the activation timestamp on every call, so a stale/expired
+// mode can never be reported as 'ltd_only').
+app.get('/api/pricing/experiment', (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    const mode = pricingExperiment.mode();
+    res.json({
+        mode,
+        revertsAt: pricingExperiment.revertsAt(),
+        tiers: mode === 'ltd_only' ? directLtd.publicTiers() : [],
+        refundDays: directLtd.refundDays()
     });
 });
 
@@ -5188,9 +5223,11 @@ app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
         return res.status(400).json({ message: 'Choose a lifetime tier.', code: 'LIFETIME_TIER_INVALID' });
     }
     try {
+        const experimentTag = req.body?.experiment === pricingExperiment.CHANNEL_TAG ? pricingExperiment.CHANNEL_TAG : null;
         const session = await createDirectLtdCheckoutSession(req.user, tier, {
             req,
-            returnContext: { flow: 'direct_ltd', next: req.body?.next }
+            returnContext: { flow: 'direct_ltd', next: req.body?.next },
+            experimentTag
         });
         if (!session?.url) {
             return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
@@ -6552,9 +6589,23 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
     let event;
     try {
         event = stripe.webhooks.constructEvent(req.body, sig, STRIPE_WEBHOOK_SECRET);
-    } catch (error) {
-        console.error('Stripe webhook signature error:', error);
-        return res.status(400).send('Webhook signature invalid');
+    } catch (liveError) {
+        // Direct-LTD test mode: a test-account event fails live-secret
+        // verification above (expected — different signing secret). Retry
+        // against the test secret ONLY if one is configured; this never runs,
+        // and never weakens verification, when STRIPE_TEST_WEBHOOK_SECRET is
+        // unset (the normal production state).
+        if (directLtdStripe && STRIPE_TEST_WEBHOOK_SECRET) {
+            try {
+                event = directLtdStripe.webhooks.constructEvent(req.body, sig, STRIPE_TEST_WEBHOOK_SECRET);
+            } catch (testError) {
+                console.error('Stripe webhook signature error (live + test):', liveError, testError);
+                return res.status(400).send('Webhook signature invalid');
+            }
+        } else {
+            console.error('Stripe webhook signature error:', liveError);
+            return res.status(400).send('Webhook signature invalid');
+        }
     }
 
     const payload = event.data.object;

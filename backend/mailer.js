@@ -15,6 +15,7 @@
 //   may remain the founder's address for internal alerts only.
 
 const nodemailer = require('nodemailer');
+const directLtd = require('./direct-ltd');
 const SUPPORT_EMAIL = 'support@stockportfolio.pro';
 const SUPPORT_FROM = `StockPortfolio.pro Support <${SUPPORT_EMAIL}>`;
 
@@ -275,12 +276,21 @@ function campaignLink(appUrl, path) {
   return `${String(appUrl || '').replace(/\/$/, '')}${path}`;
 }
 
-function appsumoOnboardingEmail(name, appUrl, onboardingVideoUrl, unsubUrl) {
+function appsumoOnboardingEmail(name, appUrl, onboardingVideoUrl, unsubUrl, channel) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
   const link = campaignLink(appUrl, '/onboarding?source=email&content_id=appsumo-onboarding');
   const video = onboardingVideoUrl ? `\nOptional walkthrough: ${onboardingVideoUrl}` : '';
-  const text = `Hi ${first},\n\nYour AppSumo access is active. The fastest first win is one cited research result: choose a ticker, ask one focused question, and open the filing source. Start here: ${link}${video}\n\nIf anything is unclear, reply to this email and support@stockportfolio.pro will help.\n— StockPortfolio.pro Support`;
-  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>Run your first cited result, ${escapeHtml(first)}</h1><p>Your AppSumo access is active. The fastest first win is one focused stock question with the filing source opened.</p><p><a href="${escapeHtml(link)}" style="background:#111827;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:700">Start the five-minute workflow</a></p>${onboardingVideoUrl ? `<p><a href="${escapeHtml(onboardingVideoUrl)}">Watch the optional walkthrough</a></p>` : ''}<p style="font-size:13px;color:#64748b">Need help? Reply to this message or write to ${SUPPORT_EMAIL}. ${unsubUrl ? `<a href="${escapeHtml(unsubUrl)}">Stop AppSumo emails</a>` : ''}</p></div>`;
+  const isDirect = channel === 'direct-ltd';
+  const accessLine = isDirect ? 'Your lifetime access is active.' : 'Your AppSumo access is active.';
+  const refundDaysNum = directLtd.refundDays();
+  const refundTextLine = isDirect
+    ? `\n\nRefunds: this purchase was made directly with us, so it carries our own ${refundDaysNum}-day refund window (not AppSumo's separate 60-day policy). To request a refund within that window, reply to this email or contact support@stockportfolio.pro.`
+    : `\n\nRefunds: this purchase was made through AppSumo, so refunds go through AppSumo's own 60-day refund process, not us directly.`;
+  const refundHtmlLine = isDirect
+    ? `<p style="font-size:13px;color:#64748b">Refunds: bought direct, so it carries our own ${refundDaysNum}-day refund window (not AppSumo's separate 60-day policy). Reply to this email or write to ${SUPPORT_EMAIL} within that window to request one.</p>`
+    : `<p style="font-size:13px;color:#64748b">Refunds: bought via AppSumo, so refunds go through AppSumo's own 60-day refund process, not us directly.</p>`;
+  const text = `Hi ${first},\n\n${accessLine} The fastest first win is one cited research result: choose a ticker, ask one focused question, and open the filing source. Start here: ${link}${video}${refundTextLine}\n\nIf anything is unclear, reply to this email and support@stockportfolio.pro will help.\n— StockPortfolio.pro Support`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>Run your first cited result, ${escapeHtml(first)}</h1><p>${accessLine} The fastest first win is one focused stock question with the filing source opened.</p><p><a href="${escapeHtml(link)}" style="background:#111827;color:#fff;padding:12px 18px;border-radius:8px;text-decoration:none;font-weight:700">Start the five-minute workflow</a></p>${onboardingVideoUrl ? `<p><a href="${escapeHtml(onboardingVideoUrl)}">Watch the optional walkthrough</a></p>` : ''}${refundHtmlLine}<p style="font-size:13px;color:#64748b">Need help? Reply to this message or write to ${SUPPORT_EMAIL}. ${unsubUrl ? `<a href="${escapeHtml(unsubUrl)}">Stop AppSumo emails</a>` : ''}</p></div>`;
   return { subject: 'Run your first cited StockPortfolio.pro result', html, text };
 }
 

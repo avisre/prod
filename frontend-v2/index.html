@@ -108,6 +108,8 @@
     .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
+    .lt-status { min-height: 1.4rem; font-size: 0.9rem; margin-top: 0.75rem; }
+    .lt-status[data-tone="error"] { color: #a3341f; }
     .ask-demo { border-left: 2px solid var(--line-strong); padding-left: 28px; }
     .asset-launch { padding:34px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(135deg,var(--accent-tint),var(--surface) 70%); }
     .asset-launch-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:18px; }
@@ -342,9 +344,9 @@
       </section>
 
       <section class="section" id="pricing">
-        <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint">Paid checkout for every new account · 7-day initial-payment refund window · cancel anytime</span></div>
-        <p class="provenance" style="margin:6px 0 18px; max-width:62ch;"><strong>Founding offer:</strong> the first 20 subscribers lock the $12/month plan for life, even when prices rise later.</p>
-        <div class="price-grid">
+        <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint" id="pricing-subhead">Paid checkout for every new account · 7-day initial-payment refund window · cancel anytime</span></div>
+        <p class="provenance" id="pricing-founding-offer" style="margin:6px 0 18px; max-width:62ch;"><strong>Founding offer:</strong> the first 20 subscribers lock the $12/month plan for life, even when prices rise later.</p>
+        <div class="price-grid" id="pricing-subscription-grid">
           <div class="card price-card">
             <span class="label">Monthly</span>
             <div class="price-fig">$12<span>/month</span></div>
@@ -390,8 +392,95 @@
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=annual">Continue to annual</a>
           </div>
         </div>
-        <p class="provenance">New accounts complete paid Stripe checkout before access. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. No first-year discount games — the price you see is the price it stays. The free screener covers 3,800+ US companies and the public library 1,500+; the application searches a broader US-listed directory, subject to supported filing and data availability. Foreign ADR coverage is limited. Not investment advice.</p>
+        <p class="provenance" id="pricing-subscription-note">New accounts complete paid Stripe checkout before access. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. No first-year discount games — the price you see is the price it stays. The free screener covers 3,800+ US companies and the public library 1,500+; the application searches a broader US-listed directory, subject to supported filing and data availability. Foreign ADR coverage is limited. Not investment advice.</p>
+
+        <!-- Pricing-swap experiment (PRICING_EXPERIMENT_MODE=ltd_only): hidden
+             unless the backend reports the experiment active; see
+             backend/pricing-experiment.js. Reuses the /api/lifetime/config
+             tier data and the /api/checkout/lifetime flow verbatim — nothing
+             about subscription checkout is touched. -->
+        <div id="pricing-experiment-block" hidden>
+          <p class="small faint" style="margin:4px 0 14px;">One payment. Lifetime access, no renewal.</p>
+          <div class="price-grid" id="pricing-experiment-grid"><p class="muted">Loading…</p></div>
+          <p class="lt-status" id="pricing-experiment-status" role="status"></p>
+          <p class="provenance">Purchases here carry a <span id="pricing-experiment-refund-days">30</span>-day refund window. Prefer a subscription instead? <a href="/pricing?px=off">See subscription pricing</a>.</p>
+        </div>
       </section>
+
+      <script>
+      (function () {
+        // Pricing-swap experiment: server-gated (PRICING_EXPERIMENT_MODE) and
+        // auto-reverting (pricing-experiment.js). This block only decides what
+        // to SHOW; every buy button below calls the existing, already-tested
+        // /api/checkout/lifetime route — no new checkout path.
+        if (/[?&]px=off\b/.test(window.location.search)) return;
+
+        function esc(value) {
+          return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        }
+
+        fetch('/api/pricing/experiment', { credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (cfg) {
+            if (!cfg || cfg.mode !== 'ltd_only' || !cfg.tiers || !cfg.tiers.length) return;
+
+            document.getElementById('pricing-subscription-grid').hidden = true;
+            document.getElementById('pricing-founding-offer').hidden = true;
+            document.getElementById('pricing-subscription-note').hidden = true;
+            var subhead = document.getElementById('pricing-subhead');
+            if (subhead) subhead.textContent = 'One payment · no renewal · limited-time pricing';
+
+            var block = document.getElementById('pricing-experiment-block');
+            var grid = document.getElementById('pricing-experiment-grid');
+            var status = document.getElementById('pricing-experiment-status');
+            block.hidden = false;
+            if (cfg.refundDays) document.getElementById('pricing-experiment-refund-days').textContent = cfg.refundDays;
+
+            grid.innerHTML = cfg.tiers.map(function (t) {
+              return '<div class="card price-card">'
+                + '<span class="label">' + esc(t.label) + '</span>'
+                + '<div class="price-fig">' + esc(t.priceDisplay) + '</div>'
+                + '<p class="small muted" style="margin:4px 0 14px;">One payment &middot; lifetime</p>'
+                + '<ul class="price-list"><li>Full Pro access, for life</li><li>' + esc(t.askCap) + ' AI Asks per month</li><li>All fundamentals, screeners and monitors</li></ul>'
+                + '<button class="btn btn-primary" style="margin-top:auto;" type="button" data-tier="' + esc(t.slug) + '">Buy ' + esc(t.label) + '</button>'
+                + '</div>';
+            }).join('');
+
+            grid.addEventListener('click', function (event) {
+              var button = event.target.closest('button[data-tier]');
+              if (!button) return;
+              button.disabled = true;
+              status.textContent = 'Starting checkout…';
+              status.removeAttribute('data-tone');
+              fetch('/api/checkout/lifetime', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tier: button.getAttribute('data-tier'), experiment: 'pricing_experiment_ltd_only' })
+              })
+                .then(function (r) { return r.json().then(function (d) { return { status: r.status, data: d }; }); })
+                .then(function (res) {
+                  if (res.status === 401) {
+                    window.location.href = '/register.html?next=' + encodeURIComponent('/pricing');
+                    return;
+                  }
+                  if (res.data && res.data.url) { window.location.href = res.data.url; return; }
+                  button.disabled = false;
+                  status.textContent = (res.data && res.data.message) || 'Could not start checkout. Please try again.';
+                  status.setAttribute('data-tone', 'error');
+                })
+                .catch(function () {
+                  button.disabled = false;
+                  status.textContent = 'Could not start checkout. Please try again.';
+                  status.setAttribute('data-tone', 'error');
+                });
+            });
+          })
+          .catch(function () { /* experiment endpoint unreachable: leave subscription pricing showing */ });
+      })();
+      </script>
 
       <!-- Professional tiers — Filing Monitor + research desk for analysts/RIAs/funds (USD; Power monthly or annual, Desk annual) -->
       <section class="section" id="pro-plans" style="margin-top:40px;">

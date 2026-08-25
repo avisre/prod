@@ -86,6 +86,8 @@
     </div>
 
     <p class="note">Payments are processed by Stripe. You will need a StockPortfolio.pro account to complete a purchase; your lifetime access is applied to that account automatically as soon as the payment clears, and we email you a confirmation.</p>
+
+    <p class="note" id="lt-refund-note">Purchases made here, direct from us, carry a <span id="lt-refund-days">30</span>-day refund window — separate from AppSumo's own 60-day refund policy. If you bought this deal on AppSumo, refunds go through AppSumo's process, not ours.</p>
   </main>
 
   <script>
@@ -136,6 +138,7 @@
             + esc(t.askCap) + '</td><td>Pro (lifetime)</td></tr>';
         }).join('');
 
+        if (cfg.refundDays) { document.getElementById('lt-refund-days').textContent = cfg.refundDays; }
         if (!cfg.enabled) { say('Direct lifetime purchase is not open at the moment.'); }
       })
       .catch(function () {
