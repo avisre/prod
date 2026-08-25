@@ -1,0 +1,246 @@
+'use strict';
+
+// ============================================================
+// Direct lifetime deal (#9) — the same LTD sold from our own site.
+//
+// WHY THIS MODULE EXISTS SEPARATELY
+// The AppSumo integration does not generate redemption codes: AppSumo issues
+// the license key and we consume it (POST /appsumo/webhook, GET /appsumo/redeem).
+// There is therefore no "AppSumo code generator" to reuse. What IS reused, and
+// what this module deliberately does not duplicate, is everything downstream of
+// the key: the AppSumoLicense collection, grantAppSumoProAccess(), the tier ->
+// Ask-cap ladder, and the onboarding/confirmation email. This module only mints
+// a key of our own so that a direct buyer enters that identical path.
+//
+// EXCLUSIVITY / MFN
+// The partner agreement requires AppSumo to remain the cheapest place to buy
+// this deal. It does not prohibit selling direct. Every direct tier is
+// therefore priced strictly ABOVE its AppSumo counterpart, and that is not
+// left to a one-time manual check — assertPriceFloor() is a runtime guard on
+// the boot path AND on every checkout-session creation, and it re-checks the
+// amount Stripe actually reports, not just the constant in this file.
+//
+// PAYMENT MODE
+// This module never selects a Stripe mode/key. It is live-mode-agnostic by
+// construction: it only maps tiers to Price IDs supplied by the environment.
+// ============================================================
+
+const crypto = require('crypto');
+
+const USD = 'usd';
+
+// Direct tiers mirror APPSUMO_TIER_CONFIG in app.js exactly — same numeric
+// tier, same Ask cap, same Pro grant. Only the price and the channel differ.
+// `appsumoUsd` is the reference price the floor guard compares against; it is
+// env-overridable precisely so that an AppSumo price change is expressible
+// without a deploy, and the guard then fires on the next boot/checkout.
+const TIERS = Object.freeze({
+  1: Object.freeze({
+    tier: 1,
+    slug: 'starter',
+    label: 'Starter',
+    planName: 'Pro — Lifetime (Starter)',
+    askCap: 30,
+    appsumoUsd: 39,
+    directUsd: 39.99,
+    priceEnvVar: 'STRIPE_PRICE_ID_LTD_STARTER',
+    appsumoPriceEnvVar: 'APPSUMO_TIER1_PRICE_USD'
+  }),
+  2: Object.freeze({
+    tier: 2,
+    slug: 'investor',
+    label: 'Investor',
+    planName: 'Pro — Lifetime (Investor)',
+    askCap: 100,
+    appsumoUsd: 79,
+    directUsd: 79.99,
+    priceEnvVar: 'STRIPE_PRICE_ID_LTD_INVESTOR',
+    appsumoPriceEnvVar: 'APPSUMO_TIER2_PRICE_USD'
+  }),
+  3: Object.freeze({
+    tier: 3,
+    slug: 'pro',
+    label: 'Pro',
+    planName: 'Pro — Lifetime (Pro)',
+    askCap: 300,
+    appsumoUsd: 149,
+    directUsd: 149.99,
+    priceEnvVar: 'STRIPE_PRICE_ID_LTD_PRO',
+    appsumoPriceEnvVar: 'APPSUMO_TIER3_PRICE_USD'
+  })
+});
+
+const TIER_NUMBERS = Object.freeze([1, 2, 3]);
+
+// Channel tag. Kept distinct from 'appsumo' everywhere it is written so that
+// revenue reporting can never sum the two channels into one number.
+const CHANNEL = 'direct-ltd';
+const CHECKOUT_TYPE = 'direct_ltd';
+
+function enabled(env = process.env) {
+  return String(env.DIRECT_LTD_ENABLED || 'false').toLowerCase() === 'true';
+}
+
+function tierConfig(tier) {
+  return TIERS[Number(tier)] || null;
+}
+
+/** Normalize a user-supplied tier ("2", "investor", 2) to 1|2|3, or null. */
+function normalizeTier(value) {
+  const n = Number(value);
+  if (TIER_NUMBERS.includes(n)) return n;
+  const slug = String(value || '').trim().toLowerCase();
+  const match = TIER_NUMBERS.find((t) => TIERS[t].slug === slug);
+  return match || null;
+}
+
+/**
+ * The AppSumo price this tier must stay above. Env override exists so the
+ * guard keeps working after an AppSumo price change; a malformed or negative
+ * override falls back to the hard-coded listing price rather than being
+ * silently treated as 0, which would disable the floor.
+ */
+function appsumoReferenceUsd(tier, env = process.env) {
+  const cfg = tierConfig(tier);
+  if (!cfg) throw new Error(`Unknown direct LTD tier: ${tier}`);
+  const raw = env[cfg.appsumoPriceEnvVar];
+  if (raw === undefined || raw === null || String(raw).trim() === '') return cfg.appsumoUsd;
+  const parsed = Number(raw);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    console.error(`[direct-ltd] GUARD: ${cfg.appsumoPriceEnvVar}="${raw}" is not a valid price; falling back to the listing price $${cfg.appsumoUsd}.`);
+    return cfg.appsumoUsd;
+  }
+  return parsed;
+}
+
+class PriceFloorViolation extends Error {
+  constructor(message, details) {
+    super(message);
+    this.name = 'PriceFloorViolation';
+    this.code = 'DIRECT_LTD_PRICE_FLOOR';
+    this.details = details;
+  }
+}
+
+/**
+ * THE GUARD. Throws (loudly) unless the direct price for `tier` is strictly
+ * greater than the matching AppSumo tier price.
+ *
+ * Deliberately strict `<=`, not `<`: matching AppSumo's price is already a
+ * breach of "AppSumo is the cheapest", so equality must fail too.
+ *
+ * `directUsd` is a parameter rather than being read from TIERS so the caller
+ * can pass the amount STRIPE actually reports for the configured Price. That
+ * is the case this guard exists for — someone editing the Price in the Stripe
+ * dashboard, where nothing in this repo would otherwise notice.
+ */
+function assertPriceFloor({ tier, directUsd, env = process.env, context = 'unspecified' } = {}) {
+  const cfg = tierConfig(tier);
+  if (!cfg) throw new Error(`Unknown direct LTD tier: ${tier}`);
+  const amount = Number(directUsd);
+  const floor = appsumoReferenceUsd(tier, env);
+
+  if (!Number.isFinite(amount)) {
+    const msg = `[direct-ltd] GUARD FAILED (${context}): tier ${tier} direct price is not a number (${directUsd}). Refusing to sell.`;
+    console.error(msg);
+    throw new PriceFloorViolation(msg, { tier, directUsd, floor, context });
+  }
+  if (amount <= floor) {
+    const msg =
+      `[direct-ltd] EXCLUSIVITY GUARD FAILED (${context}): tier ${tier} (${cfg.label}) direct price $${amount.toFixed(2)} ` +
+      `is not above the AppSumo price $${Number(floor).toFixed(2)}. AppSumo must remain strictly the cheapest ` +
+      `channel for this deal. Direct lifetime checkout is BLOCKED for this tier until the price is raised ` +
+      `(or ${cfg.appsumoPriceEnvVar} is corrected).`;
+    console.error(msg);
+    throw new PriceFloorViolation(msg, { tier, directUsd: amount, floor, context });
+  }
+  return true;
+}
+
+/**
+ * Boot-path check across all three tiers. Returns a report instead of throwing
+ * so a misconfiguration takes down direct LTD sales only — never the whole
+ * app, which serves plenty of traffic that has nothing to do with this.
+ */
+function assertAllPriceFloors(env = process.env, { context = 'boot' } = {}) {
+  const violations = [];
+  for (const tier of TIER_NUMBERS) {
+    try {
+      assertPriceFloor({ tier, directUsd: TIERS[tier].directUsd, env, context });
+    } catch (error) {
+      violations.push({ tier, message: error.message });
+    }
+  }
+  if (violations.length) {
+    console.error(`[direct-ltd] ${violations.length} tier(s) violate the AppSumo price floor. Direct lifetime checkout is disabled.`);
+  }
+  return { ok: violations.length === 0, violations };
+}
+
+/** True only when every tier clears the floor. Callers gate checkout on this. */
+function priceFloorsOk(env = process.env) {
+  return assertAllPriceFloors(env, { context: 'preflight' }).ok;
+}
+
+/** Stripe Price ID configured for a tier, or null when unset. */
+function priceIdFor(tier, env = process.env) {
+  const cfg = tierConfig(tier);
+  if (!cfg) return null;
+  return String(env[cfg.priceEnvVar] || '').trim() || null;
+}
+
+/** Reverse lookup used by the webhook to recover the tier from a Price ID. */
+function tierFromPriceId(priceId, env = process.env) {
+  const wanted = String(priceId || '').trim();
+  if (!wanted) return null;
+  return TIER_NUMBERS.find((t) => priceIdFor(t, env) === wanted) || null;
+}
+
+/**
+ * Mint a license key for a direct buyer. The `DIRECT-` segment makes the
+ * channel obvious in the AppSumoLicense collection and in support tooling, so
+ * a direct license can never be mistaken for an AppSumo-issued one even
+ * though both live in the same collection and grant the same entitlement.
+ */
+function mintLicenseKey(tier) {
+  const cfg = tierConfig(tier);
+  if (!cfg) throw new Error(`Unknown direct LTD tier: ${tier}`);
+  return `SPP-DIRECT-T${cfg.tier}-${crypto.randomBytes(16).toString('base64url').toUpperCase()}`;
+}
+
+function isDirectLicenseKey(licenseKey) {
+  return /^SPP-DIRECT-T[123]-/.test(String(licenseKey || ''));
+}
+
+/** Amount in the smallest currency unit, for Stripe comparisons. */
+function unitAmountFor(tier) {
+  const cfg = tierConfig(tier);
+  if (!cfg) throw new Error(`Unknown direct LTD tier: ${tier}`);
+  return Math.round(cfg.directUsd * 100);
+}
+
+/** Copy-safe tier list for the /lifetime page and the public config endpoint. */
+function publicTiers(env = process.env) {
+  return TIER_NUMBERS.map((t) => {
+    const cfg = TIERS[t];
+    return {
+      tier: cfg.tier,
+      slug: cfg.slug,
+      label: cfg.label,
+      priceUsd: cfg.directUsd,
+      priceDisplay: `$${cfg.directUsd.toFixed(2)}`,
+      askCap: cfg.askCap,
+      currency: USD,
+      available: Boolean(priceIdFor(t, env))
+    };
+  });
+}
+
+module.exports = {
+  TIERS, TIER_NUMBERS, CHANNEL, CHECKOUT_TYPE, USD,
+  PriceFloorViolation,
+  enabled, tierConfig, normalizeTier,
+  appsumoReferenceUsd, assertPriceFloor, assertAllPriceFloors, priceFloorsOk,
+  priceIdFor, tierFromPriceId,
+  mintLicenseKey, isDirectLicenseKey, unitAmountFor, publicTiers
+};
