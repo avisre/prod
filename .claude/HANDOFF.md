@@ -73,32 +73,34 @@ Changed: `backend/app.js`, `backend/affiliate-program.js`, `backend/direct-ltd.j
 - Prod after deploy: `/api/admin/affiliates` 403 (was 404); `/r/amb-nope` 404
   not 503; config exposes 99-cent gaps on all 3 tiers; old copy gone.
 
-## Phase B — campaign: 2 sent, 6 pending manual submission
+## Phase B — campaign: ALL 10 TARGETS CONTACTED 2026-08-26
 
-Kit in `marketing/ltd-partners/` (gitignored, local only): `targets.md`,
-`emails.md`, `partner-terms.md`, `SENT.md`.
+Kit in `marketing/ltd-partners/` (gitignored): `targets.md`, `emails.md`,
+`partner-terms.md`, `SENT.md`. **`SENT.md` has the full log** — addresses,
+Message-IDs, per-form confirmation text, route changes and traps.
 
-**Sent 2026-08-26 from support@stockportfolio.pro** (mail.privateemail.com:465,
-terms attached as `StockPortfolio-partner-terms.txt`): AffinityAlly
-(bdasraf22@gmail.com) and BloggingJoy (contact@bloggingjoy.com). Message-IDs in
-`SENT.md`. Bodies were parsed programmatically from `emails.md` to avoid
-transcription drift. No referral code in either — they say "say the word and
-I'll set up your tracking link".
+7 by email from support@stockportfolio.pro (AffinityAlly, BloggingJoy, Alston
+Antony, SaasTrac, 99signals, imisofts, + one correction), 4 by web form driven
+with Selenium/Firefox (Lifetime Deal Tech, Blogging Den, FutureToolLab,
+BestLifetimeDeals), each confirmed by on-page success text except Lifetime Deal
+Tech, where CF7 cleared the form (its `mail_sent`-only behaviour) but the
+confirmation string was not captured.
 
-Only 2 of 8 verified targets publish a usable email. The other 6 (Lifetime Deal
-Tech, Alston Antony, SaasTrac, Blogging Den, 99signals, FutureToolLab) are
-contact forms or DM-only; drafts in `emails.md` are written to paste as-is.
-Dropped thewpgorilla.com (domain expired); "affigrab"/"stackgist" don't resolve.
-bestlifetimedeals.com and imisofts.com still need a contact-route check.
+**Systemic error found and corrected mid-run:** every draft's personalised hook
+claimed the target already lists StockPortfolio.pro. Checked all of them —
+**none do** (the AppSumo listing is only ~7 weeks old). Drafts 6 and 7 were
+rewritten before sending; draft 1 had already gone out with the claim in its
+subject line, so a threaded correction (#1b) followed. `targets.md` also
+carried an invented "~$7.45 (5%)" AppSumo rate — corrected to the published
+0-15% band. Verify claims about a publisher's content against their page.
 
-Do **not** attach `appsumo-verification.png` — it is a marketing banner, not a
-listing screenshot. Emails cite `appsumo.com/products/stockportfoliopro/`
-(HTTP 200) instead.
+**Do not work around anti-bot controls.** SaasTrac's form is reCAPTCHA v2;
+it was left alone and the published `admin@saastrac.com` used instead.
 
 ## Next bounded task
 
-Owner submits the 6 form/DM drafts. On any reply: create the account, then
+Watch support@stockportfolio.pro for replies. On any reply: create the account,
 `POST /api/admin/affiliates/invite` with `{ userId, partner: true,
-payoutMethod, payoutHandle, payoutCurrency }`, and send them
+payoutMethod, payoutHandle, payoutCurrency }`, then send
 `stockportfolio.pro/r/<slug>?destination=lifetime`. An invited-but-not-accepted
 profile returns 404, not a redirect — they must accept terms first.
