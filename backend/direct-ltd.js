@@ -305,6 +305,13 @@ function publicTiers(env = process.env) {
       label: cfg.label,
       priceUsd: cfg.directUsd,
       priceDisplay: `$${cfg.directUsd.toFixed(2)}`,
+      // The AppSumo reference price, so the page can state the real per-tier
+      // difference instead of a vague "from $39". Resolved through
+      // appsumoReferenceUsd so an APPSUMO_TIER*_PRICE_USD override is reflected
+      // without a deploy — copy that hard-coded the gap would silently start
+      // misstating it the moment that override fired.
+      appsumoPriceUsd: appsumoReferenceUsd(t, env),
+      appsumoPriceDisplay: `$${appsumoReferenceUsd(t, env).toFixed(2)}`,
       askCap: cfg.askCap,
       currency: USD,
       available: Boolean(priceIdFor(t, env))

@@ -116,6 +116,23 @@ test('publicTiers exposes all three prices and marks unconfigured tiers unavaila
   assert.equal(ltd.publicTiers({}).every((t) => t.available === false), true);
 });
 
+test('publicTiers exposes the AppSumo reference price so the page can state the real gap', () => {
+  const tiers = ltd.publicTiers(env);
+  assert.deepEqual(tiers.map((t) => t.appsumoPriceUsd), [39, 79, 149]);
+  assert.deepEqual(tiers.map((t) => t.appsumoPriceDisplay), ['$39.00', '$79.00', '$149.00']);
+  // The floor guarantee the copy relies on: direct is always strictly above.
+  assert.equal(tiers.every((t) => t.priceUsd > t.appsumoPriceUsd), true);
+});
+
+test('publicTiers follows an AppSumo price override rather than the listing constant', () => {
+  // The whole reason the page must not hard-code the gap: this override moves
+  // the AppSumo price without a deploy, and stale copy would then misstate it.
+  const tiers = ltd.publicTiers({ ...env, APPSUMO_TIER1_PRICE_USD: '45' });
+  assert.equal(tiers[0].appsumoPriceUsd, 45);
+  assert.equal(tiers[0].appsumoPriceDisplay, '$45.00');
+  assert.equal(tiers[1].appsumoPriceUsd, 79);
+});
+
 test('direct LTD is off unless explicitly enabled', () => {
   assert.equal(ltd.enabled({}), false);
   assert.equal(ltd.enabled({ DIRECT_LTD_ENABLED: 'false' }), false);

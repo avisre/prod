@@ -189,3 +189,21 @@ test('the /lifetime page never disparages AppSumo and points buyers there on pri
   assert.match(page, /buy it on AppSumo/);
   assert.match(page, /lowest price this deal is offered at anywhere/);
 });
+
+test('the /lifetime page states the real per-tier gap instead of pushing buyers out', () => {
+  // The old copy read "priced from $39" directly beneath a $149.99 card, which
+  // invites the reader to infer a ~$110 saving over a gap that is 99 cents.
+  assert.equal(/priced from \$\d/.test(page), false, 'gap must not be hard-coded copy');
+  assert.equal(/\$39\b(?![.]99)/.test(page.replace(/"[^"]*"/g, '')), false, 'no bare AppSumo price in body copy');
+
+  // It comes from the same server payload as the prices themselves, so an
+  // APPSUMO_TIER*_PRICE_USD override cannot leave the page misstating the gap.
+  assert.match(page, /id="lt-gap"/);
+  assert.match(page, /function renderAppsumoGap/);
+  assert.match(page, /t\.appsumoPriceUsd/);
+  assert.match(page, /renderAppsumoGap\(tiers\)/);
+
+  // Disclosure stays; the instruction to leave does not.
+  assert.equal(/buy it on AppSumo<\/a> instead/.test(page), false);
+  assert.equal(/if price is the deciding factor/i.test(page), false);
+});

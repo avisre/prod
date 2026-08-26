@@ -79,15 +79,15 @@
     </div>
     <p class="note">Every tier grants full Pro access for life. The tiers differ in the monthly AI Ask allowance — the questions answered against SEC-filed source data. Everything else (fundamentals, screeners, comparison, portfolio tracking) is included at every tier.</p>
 
-    <div class="lt-note">
-      <h2 class="title-3">Also available on AppSumo</h2>
-      <p>The same deal is listed on AppSumo, where it is priced from $39 — that is the lowest price this deal is offered at anywhere, and it will stay that way. If price is the deciding factor for you, <a href="/appsumo">buy it on AppSumo</a> instead; it is a perfectly good route to the same product and the same entitlement.</p>
-      <p>Whichever route you choose, you get the identical tier, the identical features and the identical lifetime terms. You only ever need one — the tiers do not stack, so please do not buy in both places.</p>
-    </div>
-
     <p class="note">Payments are processed by Stripe. You will need a StockPortfolio.pro account to complete a purchase; your lifetime access is applied to that account automatically as soon as the payment clears, and we email you a confirmation.</p>
 
     <p class="note" id="lt-refund-note">Purchases made here, direct from us, carry a <span id="lt-refund-days">30</span>-day refund window — separate from AppSumo's own 60-day refund policy. If you bought this deal on AppSumo, refunds go through AppSumo's process, not ours.</p>
+
+    <div class="lt-note">
+      <h2 class="title-3">Also available on AppSumo</h2>
+      <p>The same deal is listed on AppSumo, and that is the lowest price this deal is offered at anywhere — it will stay that way. <span id="lt-gap-sentence" hidden>The difference is <span id="lt-gap"></span> a tier.</span> If you would rather buy it on AppSumo, <a href="/appsumo">the listing is here</a> — same product, same entitlement, same lifetime terms.</p>
+      <p>You only ever need one — the tiers do not stack, so please do not buy in both places.</p>
+    </div>
   </main>
 
   <script>
@@ -105,6 +105,33 @@
       return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
       });
+    }
+
+    // The real per-tier difference against AppSumo, computed from the same
+    // server payload as the prices themselves. Stated plainly because the vague
+    // alternative ("from $39", rendered beside a $149.99 card) reads as a far
+    // larger discount than the 99 cents it actually is.
+    function renderAppsumoGap(tiers) {
+      var slot = document.getElementById('lt-gap');
+      if (!slot) return;
+      var gaps = tiers.map(function (t) {
+        if (typeof t.priceUsd !== 'number' || typeof t.appsumoPriceUsd !== 'number') return null;
+        return Math.round((t.priceUsd - t.appsumoPriceUsd) * 100);
+      }).filter(function (c) { return typeof c === 'number' && c > 0; });
+      // Every tier must report a real, positive gap before the page will claim
+      // one. If an APPSUMO_TIER*_PRICE_USD override ever inverts a tier (which
+      // also trips assertPriceFloor and blocks the sale), the sentence stays
+      // hidden rather than asserting a stale number.
+      if (gaps.length !== tiers.length) return;
+
+      function money(cents) {
+        return cents < 100 ? cents + ' cents' : '$' + (cents / 100).toFixed(2);
+      }
+      var low = Math.min.apply(null, gaps);
+      var high = Math.max.apply(null, gaps);
+      slot.textContent = low === high ? money(low) : money(low) + '\u2013' + money(high);
+      var sentence = document.getElementById('lt-gap-sentence');
+      if (sentence) sentence.hidden = false;
     }
 
     // Prices come from the server so this page can never advertise a number
@@ -143,6 +170,7 @@
         }).join('');
 
         if (cfg.refundDays) { document.getElementById('lt-refund-days').textContent = cfg.refundDays; }
+        renderAppsumoGap(tiers);
         if (!cfg.enabled) { say('Direct lifetime purchase is not open at the moment.'); }
       })
       .catch(function () {

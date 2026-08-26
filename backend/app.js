@@ -3365,7 +3365,11 @@ async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
             ltdTier: String(cfg.tier),
             stripePriceId: priceId,
             amountUsd: String(amountUsd),
-            ...(extraMetadata.experimentTag ? { experimentTag: extraMetadata.experimentTag } : {})
+            ...(extraMetadata.experimentTag ? { experimentTag: extraMetadata.experimentTag } : {}),
+            // Referral attribution, same shape every other checkout builder
+            // attaches. Empty object when the program is off or the buyer is
+            // not referral-attributable, so the session is unchanged.
+            ...(extraMetadata.affiliateMetadata || {})
         }
     });
 
@@ -4612,6 +4616,7 @@ app.post('/api/login', async (req, res) => {
                 try {
                     const session = await createDirectLtdCheckoutSession(user, user.pendingDirectLtdTier, {
                         req,
+                        affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
                         returnContext: { flow: 'login_resume_lifetime', next: req.body?.next }
                     });
                     if (!session?.url) return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
@@ -5349,6 +5354,7 @@ app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
         const session = await createDirectLtdCheckoutSession(req.user, tier, {
             req,
             uiMode,
+            affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user: req.user }),
             returnContext: { flow: 'direct_ltd', next: req.body?.next },
             experimentTag
         });
@@ -5450,6 +5456,7 @@ app.post('/api/lifetime/signup', subscribeLimiter, async (req, res) => {
         const session = await createDirectLtdCheckoutSession(user, tier, {
             req,
             uiMode: 'embedded',
+            affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
             returnContext: { flow: 'lifetime_signup', next: req.body?.next },
             experimentTag
         });
@@ -6856,6 +6863,13 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         // payment_status is settled here and there is no async path.
                         if (payload.payment_status === 'paid') {
                             await handleDirectLtdPaid(user, payload, event);
+                            // Entitlement first, commission second: a partner
+                            // ledger failure must never cost the buyer access.
+                            await affiliateProgram.recordStripeOneTimePaid({
+                                payload,
+                                eventId: event.id,
+                                holdDays: directLtd.refundDays()
+                            }).catch((error) => console.error('[affiliate] direct-LTD commission error:', error && error.message));
                         } else {
                             console.warn(`[direct-ltd] Session ${payload.id} completed with payment_status=${payload.payment_status}; no entitlement granted.`);
                         }
@@ -9755,7 +9769,9 @@ async function handleAffiliateReferral(req, res) {
         });
         if (cookie) res.setHeader('Set-Cookie', cookie);
         trackFunnel('affiliate_click', null, null, { affiliateSlug: slug, referralClickId: clickId, destination, ...marketingRequestFields(req, res) });
-        const target = destination === 'appsumo' ? affiliateProgram.appSumoUrl() : destination === 'pricing' ? '/#pricing' : '/';
+        const target = destination === 'appsumo' ? affiliateProgram.appSumoUrl()
+            : destination === 'lifetime' ? '/lifetime'
+            : destination === 'pricing' ? '/#pricing' : '/';
         return res.redirect(302, target);
     } catch (error) {
         console.error('[affiliate] redirect failed:', error && error.message);
@@ -9874,16 +9890,71 @@ app.post('/api/admin/affiliates/invite', affiliateAdminAuth, affiliateMutationLi
     const email = String(req.body?.email || '').trim().toLowerCase();
     const user = req.body?.userId ? await User.findById(req.body.userId) : await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'Customer account not found.' });
-    const paid = await hasVerifiedAffiliatePurchase(user);
-    if (!paid) return res.status(409).json({ message: 'Only verified paying customers can be invited.' });
+    // Partner enrollment (external deal/review publishers) is a deliberate,
+    // explicit admin act. Partners are not customers and are never expected to
+    // buy, so the customer-purchase gate cannot apply to them. It still guards
+    // the default ambassador path, which is unchanged.
+    const partner = req.body?.partner === true;
+    if (!partner) {
+        const paid = await hasVerifiedAffiliatePurchase(user);
+        if (!paid) return res.status(409).json({ message: 'Only verified paying customers can be invited.' });
+    }
     const { AffiliateProfile } = affiliateProgram.models();
     let profile = await AffiliateProfile.findOne({ userId: user._id });
-    if (profile && profile.customerStatus !== 'successful_user') return res.status(409).json({ message: 'Mark this customer as successful_user after onboarding before inviting them.' });
-    if (!profile) profile = await AffiliateProfile.create({ userId: user._id, slug: await uniqueAffiliateSlug(), customerStatus: 'successful_user' });
+    if (profile && !partner && profile.customerStatus !== 'successful_user') return res.status(409).json({ message: 'Mark this customer as successful_user after onboarding before inviting them.' });
+    if (profile && partner && profile.kind !== 'partner') return res.status(409).json({ message: 'This account already has a customer ambassador profile.' });
+    if (!profile) profile = await AffiliateProfile.create({ userId: user._id, slug: await uniqueAffiliateSlug(), customerStatus: 'successful_user', kind: partner ? 'partner' : 'ambassador' });
     profile.status = 'invited'; profile.customerStatus = 'ambassador_invited'; profile.invitedAt = new Date(); await profile.save();
-    await affiliateProgram.writeAudit('ambassador_invited', String(req.headers['x-admin-actor'] || 'admin'), { affiliateProfileId: profile._id, targetId: String(user._id) });
+    await affiliateProgram.writeAudit(partner ? 'partner_invited' : 'ambassador_invited', String(req.headers['x-admin-actor'] || 'admin'), { affiliateProfileId: profile._id, targetId: String(user._id), kind: profile.kind });
     trackFunnel('ambassador_invited', user._id, user.subscription?.planName, { affiliateProfileId: String(profile._id) });
+    try {
+        if (applyPayoutDetails(profile, req.body)) await profile.save();
+    } catch (error) {
+        if (error instanceof PayoutDetailError) return res.status(400).json({ message: error.message });
+        throw error;
+    }
     return res.json({ ok: true, sentEmail: false, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
+});
+
+// Where a partner actually gets paid. Payouts are manual, so without this the
+// destination lived only in free-text notes; a batch CSV that names the amount
+// but not the account is not a worksheet you can act on.
+function applyPayoutDetails(profile, body) {
+    let changed = false;
+    if (body?.payoutMethod !== undefined) {
+        const method = body.payoutMethod === null || body.payoutMethod === '' ? null : String(body.payoutMethod).trim().toLowerCase();
+        if (method !== null && !affiliateProgram.PAYOUT_METHOD_VALUES.includes(method)) throw new PayoutDetailError(`payoutMethod must be one of: ${affiliateProgram.PAYOUT_METHOD_VALUES.join(', ')}`);
+        profile.payoutMethod = method; changed = true;
+    }
+    if (body?.payoutHandle !== undefined) {
+        const handle = body.payoutHandle === null || body.payoutHandle === '' ? null : String(body.payoutHandle).trim().slice(0, 200);
+        // Not a place for raw bank numbers: an account email or invoice
+        // reference is enough to send a manual payment against.
+        if (handle && /\d{9,}/.test(handle.replace(/[\s-]/g, ''))) throw new PayoutDetailError('payoutHandle looks like a raw account number; store an account email or reference instead.');
+        profile.payoutHandle = handle; changed = true;
+    }
+    if (body?.payoutCurrency !== undefined) {
+        const currency = body.payoutCurrency === null || body.payoutCurrency === '' ? null : String(body.payoutCurrency).trim().toLowerCase();
+        if (currency !== null && !/^[a-z]{3}$/.test(currency)) throw new PayoutDetailError('payoutCurrency must be a 3-letter code.');
+        profile.payoutCurrency = currency; changed = true;
+    }
+    return changed;
+}
+
+class PayoutDetailError extends Error {}
+
+app.post('/api/admin/affiliates/:id/payout-method', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
+    const { AffiliateProfile } = affiliateProgram.models();
+    const profile = await AffiliateProfile.findById(req.params.id);
+    if (!profile) return res.status(404).json({ message: 'Ambassador not found.' });
+    try {
+        if (applyPayoutDetails(profile, req.body)) await profile.save();
+    } catch (error) {
+        if (error instanceof PayoutDetailError) return res.status(400).json({ message: error.message });
+        throw error;
+    }
+    await affiliateProgram.writeAudit('payout_method_set', String(req.headers['x-admin-actor'] || 'admin'), { affiliateProfileId: profile._id, details: { payoutMethod: profile.payoutMethod } });
+    res.json({ ok: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
 });
 
 app.post('/api/admin/affiliates/:id/suspend', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
@@ -9930,7 +10001,10 @@ app.post('/api/admin/affiliates/payout-batches', affiliateAdminAuth, affiliateMu
     const { Commission, PayoutBatch } = affiliateProgram.models();
     const currency = String(req.body?.currency || 'usd').toLowerCase();
     if (!/^[a-z]{3}$/.test(currency)) return res.status(400).json({ message: 'Provide a valid three-letter currency code.' });
-    const min = Math.max(10000, Number(req.body?.minAmountMinor) || 10000);
+    const min = Math.max(
+        affiliateProgram.ABSOLUTE_PAYOUT_MINIMUM_MINOR,
+        Number(req.body?.minAmountMinor) || affiliateProgram.DEFAULT_PAYOUT_MINIMUM_MINOR
+    );
     const commissions = await Commission.find({ currency, status: 'approved', holdUntil: { $lte: new Date() }, payoutBatchId: null }).sort({ createdAt: 1 }).lean();
     const selection = affiliateProgram.selectPayoutEligibleCommissions(commissions, min);
     if (!selection.eligibleCommissions.length) return res.status(409).json({ message: 'No individual ambassador meets the minimum payout threshold in this currency.', totalMinor: 0, minimumMinor: selection.minimumMinor, excludedProfiles: selection.excludedProfiles });
@@ -9974,15 +10048,15 @@ app.get('/api/admin/affiliates/payout-batches/:id.csv', affiliateAdminAuth, asyn
     const batch = await PayoutBatch.findById(req.params.id).lean();
     if (!batch) return res.status(404).json({ message: 'Payout batch not found.' });
     const commissions = await Commission.find({ _id: { $in: batch.commissionIds || [] } }).lean();
-    const profiles = await AffiliateProfile.find({ _id: { $in: commissions.map((c) => c.affiliateProfileId) } }, { slug: 1, userId: 1 }).lean();
+    const profiles = await AffiliateProfile.find({ _id: { $in: commissions.map((c) => c.affiliateProfileId) } }, { slug: 1, userId: 1, payoutMethod: 1, payoutHandle: 1, payoutCurrency: 1 }).lean();
     const byProfile = new Map(profiles.map((p) => [String(p._id), p]));
     const users = await User.find({ _id: { $in: profiles.map((p) => p.userId) } }, { email: 1 }).lean();
     const byUser = new Map(users.map((u) => [String(u._id), u]));
     const cell = (value) => `"${String(value == null ? '' : value).replace(/"/g, '""')}"`;
     const lines = [
-        ['batch_id', 'affiliate_slug', 'affiliate_email', 'profile_id', 'commission_id', 'provider', 'currency', 'amount_minor', 'status'].map(cell).join(',')
+        ['batch_id', 'affiliate_slug', 'affiliate_email', 'payout_method', 'payout_handle', 'payout_currency', 'profile_id', 'commission_id', 'provider', 'currency', 'amount_minor', 'status'].map(cell).join(',')
     ];
-    commissions.forEach((c) => { const p = byProfile.get(String(c.affiliateProfileId)); const u = p && byUser.get(String(p.userId)); lines.push([String(batch._id), p?.slug || '', u?.email || '', String(c.affiliateProfileId), String(c._id), c.provider, c.currency, Math.max(0, Number(c.amountMinor || 0) - Number(c.reversalMinor || 0)), c.status].map(cell).join(',')); });
+    commissions.forEach((c) => { const p = byProfile.get(String(c.affiliateProfileId)); const u = p && byUser.get(String(p.userId)); lines.push([String(batch._id), p?.slug || '', u?.email || '', p?.payoutMethod || '', p?.payoutHandle || '', p?.payoutCurrency || '', String(c.affiliateProfileId), String(c._id), c.provider, c.currency, Math.max(0, Number(c.amountMinor || 0) - Number(c.reversalMinor || 0)), c.status].map(cell).join(',')); });
     res.set('Cache-Control', 'no-store').type('text/csv').set('Content-Disposition', `attachment; filename="affiliate-payout-${String(batch._id)}.csv"`).send(`${lines.join('\n')}\n`);
 });
 

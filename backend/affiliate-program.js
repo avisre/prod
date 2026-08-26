@@ -29,6 +29,13 @@ const STATUS_VALUES = [
     'ambassador_active', 'declined', 'unresponsive'
 ];
 const PROFILE_STATUS_VALUES = ['invited', 'active', 'suspended', 'declined'];
+// 'ambassador' is a customer who advocates; 'partner' is an external
+// publisher (deal/review site) enrolled to earn on referred sales.
+const PROFILE_KIND_VALUES = ['ambassador', 'partner'];
+// How a partner is actually paid. Deliberately a method plus a low-sensitivity
+// handle (a PayPal/Wise account email, an invoice reference) — never raw bank
+// numbers, which have no business sitting in this collection.
+const PAYOUT_METHOD_VALUES = ['paypal', 'wise', 'bank_transfer', 'other'];
 
 function isEnabled(env = process.env) {
     return String(env.AFFILIATE_PROGRAM_ENABLED || '').toLowerCase() === 'true';
@@ -184,8 +191,17 @@ function combineCommissionCurrencyTotals(totalsByCurrency = {}) {
     }, { pendingMinor: 0, approvedMinor: 0, paidMinor: 0, reversedMinor: 0 });
 }
 
-function selectPayoutEligibleCommissions(commissions = [], minAmountMinor = 10000) {
-    const minimum = Math.max(10000, Math.floor(Number(minAmountMinor) || 10000));
+// The default payout threshold stays $100. The absolute clamp is lower so an
+// admin can explicitly run a partner batch at a threshold a single lifetime
+// sale can actually reach: tier-3 pays $44.99 commission, so a $100 — or even
+// a $50 — floor would make a partner wait for a second sale before any money
+// moved. Passing a lower minimum is deliberate; the default is not affected.
+const DEFAULT_PAYOUT_MINIMUM_MINOR = 10000;
+const ABSOLUTE_PAYOUT_MINIMUM_MINOR = 4000;
+
+function selectPayoutEligibleCommissions(commissions = [], minAmountMinor = DEFAULT_PAYOUT_MINIMUM_MINOR) {
+    const requested = Math.floor(Number(minAmountMinor) || DEFAULT_PAYOUT_MINIMUM_MINOR);
+    const minimum = Math.max(ABSOLUTE_PAYOUT_MINIMUM_MINOR, requested);
     const byProfile = new Map();
     for (const commission of commissions || []) {
         const profileId = String(commission?.affiliateProfileId || '');
@@ -223,7 +239,13 @@ function canAcceptAmbassadorInvite({ profile, user, appSumoLicenseActive = false
     const genuinelyInvited = profile.status === 'invited'
         && profile.customerStatus === 'ambassador_invited'
         && Boolean(profile.invitedAt);
-    const verifiedCustomer = Boolean(appSumoLicenseActive) || hasVerifiedStripeSubscription(user);
+    // Partners are external publishers enrolled deliberately by an admin. They
+    // are not customers and are never expected to buy, so their eligibility
+    // comes from that enrollment rather than from a purchase. The customer
+    // gate is untouched for everyone else.
+    const verifiedCustomer = String(profile.kind) === 'partner'
+        || Boolean(appSumoLicenseActive)
+        || hasVerifiedStripeSubscription(user);
     return genuinelyInvited && verifiedCustomer;
 }
 
@@ -232,20 +254,24 @@ const AffiliateProfileSchema = new mongoose.Schema({
     slug: { type: String, required: true, unique: true, index: true, lowercase: true, trim: true },
     customerStatus: { type: String, enum: STATUS_VALUES, default: 'ambassador_invited', index: true },
     status: { type: String, enum: PROFILE_STATUS_VALUES, default: 'invited', index: true },
+    kind: { type: String, enum: PROFILE_KIND_VALUES, default: 'ambassador', index: true },
     termsAcceptedAt: { type: Date, default: null },
     termsVersion: { type: String, default: null, maxlength: 80 },
     invitedAt: { type: Date, default: null },
     activatedAt: { type: Date, default: null },
     suspendedAt: { type: Date, default: null },
     notes: { type: String, default: null, maxlength: 2000 },
-    disclosure: { type: String, default: 'I may earn a commission if you purchase through this link.' }
+    disclosure: { type: String, default: 'I may earn a commission if you purchase through this link.' },
+    payoutMethod: { type: String, enum: [...PAYOUT_METHOD_VALUES, null], default: null },
+    payoutHandle: { type: String, default: null, maxlength: 200, trim: true },
+    payoutCurrency: { type: String, default: null, lowercase: true, trim: true, maxlength: 3 }
 }, { timestamps: true, versionKey: false, collection: 'affiliate_profiles' });
 
 const ReferralClickSchema = new mongoose.Schema({
     clickId: { type: String, required: true, unique: true, index: true },
     affiliateProfileId: { type: mongoose.Schema.Types.ObjectId, ref: 'AffiliateProfile', required: true, index: true },
     slug: { type: String, required: true, index: true },
-    destination: { type: String, enum: ['appsumo', 'pricing', 'home'], default: 'appsumo' },
+    destination: { type: String, enum: ['appsumo', 'pricing', 'home', 'lifetime'], default: 'appsumo' },
     landingPath: { type: String, default: null, maxlength: 240 },
     referrerDomain: { type: String, default: null, maxlength: 120 },
     ipHash: { type: String, default: null, maxlength: 128 },
@@ -355,6 +381,9 @@ function publicProfile(profile, baseUrl = '') {
         termsCurrent: profile.termsVersion === CURRENT_TERMS_VERSION,
         invitedAt: profile.invitedAt || null,
         activatedAt: profile.activatedAt || null,
+        payoutMethod: profile.payoutMethod || null,
+        payoutHandle: profile.payoutHandle || null,
+        payoutCurrency: profile.payoutCurrency || null,
         disclosure: profile.disclosure
     };
 }
@@ -378,7 +407,7 @@ function hashRequestPart(value, secret = cookieSecret()) {
 
 function safeDestination(value) {
     const target = String(value || DEFAULT_APP_SUMO_DESTINATION).toLowerCase();
-    return ['appsumo', 'pricing', 'home'].includes(target) ? target : DEFAULT_APP_SUMO_DESTINATION;
+    return ['appsumo', 'pricing', 'home', 'lifetime'].includes(target) ? target : DEFAULT_APP_SUMO_DESTINATION;
 }
 
 async function findProfileForReferral(referral, { userId = null, now = new Date() } = {}) {
@@ -631,6 +660,58 @@ async function recordStripeInvoicePaid({ payload, eventId, userLookup } = {}) {
     return { recorded: true, commissionId: commission._id, amountMinor: calculation.amountMinor, sequence };
 }
 
+// One-time (mode: 'payment') Checkout purchases — the direct lifetime deal.
+// These never produce an invoice, so recordStripeInvoicePaid never fires for
+// them and a referred LTD sale would otherwise earn no commission at all.
+// The order is looked up by checkout session id, which recordStripeCheckout
+// upserts on, so attribution here is exact rather than inferred.
+async function recordStripeOneTimePaid({ payload, eventId, holdDays = 30 } = {}) {
+    if (!isEnabled() || !payload || mongoose.connection.readyState !== 1) return { recorded: false, reason: 'disabled' };
+    const { ProcessedWebhookEvent, ReferralOrder, Commission, ReferralClick } = models();
+    const id = String(eventId || payload.id || '');
+    if (!id) return { recorded: false, reason: 'missing_event_id' };
+    const order = await ReferralOrder.findOne({ provider: 'stripe', providerOrderId: String(payload.id) });
+    if (!order) return { recorded: false, reason: 'no_attributed_order' };
+    if (order.status === 'ineligible_existing_customer') return { recorded: false, reason: 'no_attributed_order' };
+    try {
+        await ProcessedWebhookEvent.create({ provider: 'stripe', eventId: id, eventType: 'checkout.session.completed' });
+    } catch (error) {
+        if (error?.code === 11000) return { recorded: false, duplicate: true };
+        return { recorded: false, reason: 'ledger_error' };
+    }
+    const metadata = stripeMetadataFromObject(payload);
+    // Subtotal, not total: tax collected on our behalf is not partner-earned
+    // revenue, mirroring the invoice path's preference for total_excluding_tax.
+    const gross = Number(payload.amount_subtotal ?? payload.amount_total ?? 0);
+    const calculation = calculateCommission({ eligibleBasisMinor: gross, planId: order.planId || metadata.planId });
+    if (calculation.amountMinor <= 0) return { recorded: false, reason: 'zero_amount' };
+    const paymentIntentId = stripeObjectId(payload.payment_intent);
+    const commission = await Commission.findOneAndUpdate(
+        { referralOrderId: order._id, invoiceId: `cs:${payload.id}` },
+        { $setOnInsert: {
+            affiliateProfileId: order.affiliateProfileId, referralOrderId: order._id, provider: 'stripe',
+            invoiceId: `cs:${payload.id}`, sequence: 1,
+            paymentIntentId, chargeId: stripeObjectId(payload.charge),
+            currency: String(payload.currency || order.currency || 'usd').toLowerCase(),
+            basisMinor: calculation.basisMinor, rateBps: calculation.rateBps, amountMinor: calculation.amountMinor,
+            // Held for the direct refund window, not the subscription default,
+            // so a commission can never be paid out before it can be clawed back.
+            holdUntil: new Date(Date.now() + Math.max(1, Number(holdDays) || 30) * 86400000), status: 'pending'
+        } },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+    order.status = 'paid'; order.grossCollectedMinor = gross; order.eligibleBasisMinor = calculation.basisMinor;
+    order.purchasedAt = order.purchasedAt || new Date();
+    order.metadata = {
+        ...(order.metadata || {}),
+        checkoutSessionId: String(payload.id),
+        paymentIntentId: paymentIntentId || order.metadata?.paymentIntentId || null
+    };
+    order.markModified('metadata');
+    await order.save();
+    await ReferralClick.updateOne({ clickId: order.referralClickId }, { $set: { convertedAt: order.purchasedAt } });
+    return { recorded: true, commissionId: commission._id, amountMinor: calculation.amountMinor, sequence: 1 };
+}
 async function reverseStripeCommission({ payload, reason = 'refund', eventId, eventType } = {}) {
     if (!isEnabled() || !payload || mongoose.connection.readyState !== 1) return { reversed: false, reason: 'disabled' };
     const { ProcessedWebhookEvent } = models();
@@ -849,6 +930,10 @@ module.exports = {
     COOKIE_NAME,
     CURRENT_TERMS_VERSION,
     STRIPE_COMMISSION_RATE_BPS,
+    PROFILE_KIND_VALUES,
+    PAYOUT_METHOD_VALUES,
+    DEFAULT_PAYOUT_MINIMUM_MINOR,
+    ABSOLUTE_PAYOUT_MINIMUM_MINOR,
     STATUS_VALUES,
     PROFILE_STATUS_VALUES,
     DEFAULT_ATTRIBUTION_DAYS,
@@ -883,6 +968,7 @@ module.exports = {
     recordAppSumoActivation,
     recordStripeCheckout,
     recordStripeInvoicePaid,
+    recordStripeOneTimePaid,
     reverseStripeCommission,
     reverseAppSumoCommission,
     reconcileAppSumoCsv,

@@ -12,6 +12,36 @@ uses the admin invite action. The customer must accept the terms on the logged-i
 `/affiliate` page before the public link becomes active. Public reviews and
 private support conversations never create commission eligibility.
 
+## External partners (Release 2, owner override recorded 2026-08-26)
+
+The staged plan in `AFFILIATE_PROGRAM_DESIGN_RESEARCH_2026-08-13.md` holds
+external affiliates until three customer ambassadors are active and five
+attributable purchases exist, "unless the owner records an explicit override".
+**The owner has taken that override** in order to recruit AppSumo deal-review
+publishers onto the direct lifetime deal, where a referred sale returns roughly
+$105 against roughly $45 through the AppSumo listing.
+
+What that adds, and its limits:
+
+* An `AffiliateProfile.kind` of `partner` marks an external publisher. Partners
+  are enrolled only by an explicit `partner: true` on the admin invite action;
+  the customer-purchase gate is unchanged for everyone else.
+* Partners are not customers and are never expected to buy, so their
+  eligibility comes from that deliberate enrollment rather than a purchase.
+* Referral links may target `destination=lifetime` (`/lifetime`). Without it a
+  partner link defaults to the AppSumo listing, which would hand the sale back
+  to the marketplace at the lower share.
+* Direct lifetime deals are one-time `mode: 'payment'` Checkout sessions and
+  produce no invoice, so they earn through `recordStripeOneTimePaid` rather
+  than `recordStripeInvoicePaid`. Commission is held for the direct refund
+  window (30 days) and is clawed back on refund or dispute via `payment_intent`.
+* Payout still requires manual approval and a manual batch. The default
+  threshold remains $100; a partner batch may be run at an explicit lower
+  minimum (clamped at $40) so a single tier-3 sale can actually be paid.
+
+There is still no public application, no automatic invitation, and no automatic
+payout. Open enrollment remains a separate, later decision.
+
 ## Referral and commission rules
 
 * `/r/:slug` records a first-party click and sets an HttpOnly, Secure,
