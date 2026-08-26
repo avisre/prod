@@ -825,7 +825,8 @@
             window.setInterval(refreshMessageBadge, 60000);
         }
         mountConsent();
-        trialBanner();
+        // One /api/session read serves both: the banner resolves with the payload.
+        trialBanner().then(onboarding).catch(() => {});
     }
 
     // ---------- trial banner ----------
@@ -848,15 +849,17 @@
         location.href = '/register.html?plan=pro';
     }
 
+    // Returns the /api/session payload (or null) so the caller can reuse it —
+    // onboarding needs the same response and must not fetch it a second time.
     async function trialBanner() {
         const t = token();
-        if (!t) return;
+        if (!t) return null;
         let s;
         try {
             const r = await fetch(`${V2.API}/session`, { headers: { Authorization: `Bearer ${t}` } });
-            if (!r.ok) return;
+            if (!r.ok) return null;
             s = await r.json();
-        } catch (_) { return; }
+        } catch (_) { return null; }
         const sub = s && s.subscription;
         // Upgrade chip in the nav: visible for every signed-in user except the
         // top paid tiers (they have nothing to upgrade to in the pricing grid).
@@ -866,12 +869,12 @@
             const chip = document.getElementById(id);
             if (chip) chip.hidden = topTier;
         });
-        if (!sub) return;
+        if (!sub) return s;
         const ends = sub.trialEndsAt ? new Date(sub.trialEndsAt) : null;
         let html = '';
         let dismissible = false;
         if (sub.status === 'trialing' && ends) {
-            if (sessionStorage.getItem('trialBannerDismissed') === '1') return;
+            if (sessionStorage.getItem('trialBannerDismissed') === '1') return s;
             const days = Math.max(0, Math.ceil((ends.getTime() - Date.now()) / 86400000));
             const label = days <= 1 ? 'Last day of your Pro trial' : `${days} days left in your Pro trial`;
             html = `<span>${label} — the full AI analyst is unlocked.</span> <a href="#" data-upgrade>Keep Pro →</a>`;
@@ -879,7 +882,7 @@
         } else if (s.tier === 'free' && sub.status === 'cancelled' && !sub.activatedAt && ends && ends.getTime() < Date.now()) {
             html = `<span>Your free Pro trial has ended.</span> <a href="#" data-upgrade>Upgrade to keep the AI analyst →</a>`;
         } else {
-            return;
+            return s;
         }
         const bar = document.createElement('div');
         bar.className = 'trial-banner';
@@ -889,6 +892,128 @@
         if (up) up.addEventListener('click', startUpgrade);
         const x = bar.querySelector('.trial-x');
         if (x) x.addEventListener('click', () => { try { sessionStorage.setItem('trialBannerDismissed', '1'); } catch (_) {} bar.remove(); });
+        return s;
+    }
+
+    // ---------- first-run onboarding ----------
+    // Three steps, ordered by the intent the customer declares once in the
+    // welcome dialog. Progress lives on the server (/api/session -> onboarding)
+    // and every step is ticked by the backend handler that observes the real
+    // action, so the card can never claim work that did not happen. Only
+    // accounts created after the ship date are eligible.
+    const ONBOARD_STEPS = {
+        ask: { label: 'Ask one question about a company’s filings', href: '/onboarding' },
+        hold: { label: 'Add a holding you own', href: '/dashboard.html#add-form' },
+        watch: { label: 'Watch one company for changes', href: '/dashboard.html#rules-section' }
+    };
+    const ONBOARD_PATHS = {
+        research: {
+            title: 'Understand one company deeply',
+            blurb: 'Ask its filings a question and read the cited source.',
+            order: ['ask', 'hold', 'watch'], start: '/onboarding?path=research'
+        },
+        portfolio: {
+            title: 'Track a portfolio I already own',
+            blurb: 'Add your holdings, then see what moved them and why.',
+            order: ['hold', 'ask', 'watch'], start: '/dashboard.html#add-form'
+        },
+        ideas: {
+            title: 'Find new ideas to research',
+            blurb: 'Screen the whole US market on real fundamentals.',
+            order: ['ask', 'hold', 'watch'], start: '/screener.html'
+        }
+    };
+
+    function saveOnboarding(body) {
+        return fetch(`${API}/onboarding`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
+            body: JSON.stringify(body)
+        }).catch(() => { /* best-effort; onboarding is never worth an error */ });
+    }
+
+    function onboardingWelcome(name) {
+        let chosen = 'research';
+        const choices = Object.keys(ONBOARD_PATHS).map((id) => `
+          <button type="button" class="onboard-choice${id === chosen ? ' is-on' : ''}" data-path="${id}" aria-pressed="${id === chosen}">
+            <strong>${esc(ONBOARD_PATHS[id].title)}</strong>
+            <span>${esc(ONBOARD_PATHS[id].blurb)}</span>
+          </button>`).join('');
+        const dlg = modal({
+            label: 'Welcome',
+            title: name ? `Welcome, ${name}.` : 'Welcome.',
+            body: 'What do you want to do first? Pick one — the rest keeps for later.',
+            bodyHtml: `<div class="onboard-choices">${choices}</div>`,
+            actions: [
+                {
+                    label: 'Start', primary: true,
+                    // Awaited, not fired-and-forgotten: the navigation on the next
+                    // line would otherwise cancel the request that records the choice.
+                    onClick: async () => { await saveOnboarding({ path: chosen }); location.href = ONBOARD_PATHS[chosen].start; }
+                },
+                { label: 'Skip for now', onClick: () => saveOnboarding({ dismissed: true }) }
+            ],
+            onDismiss: () => saveOnboarding({ dismissed: true })
+        });
+        const buttons = dlg.el.querySelectorAll('[data-path]');
+        buttons.forEach((b) => b.addEventListener('click', () => {
+            chosen = b.dataset.path;
+            buttons.forEach((x) => {
+                const on = x === b;
+                x.classList.toggle('is-on', on);
+                x.setAttribute('aria-pressed', String(on));
+            });
+        }));
+    }
+
+    function onboardingCard(state) {
+        const order = (ONBOARD_PATHS[state.path] || ONBOARD_PATHS.research).order;
+        const done = new Set(state.steps || []);
+        const card = document.createElement('aside');
+        card.className = 'onboard-card';
+        card.setAttribute('aria-label', 'Getting started');
+        card.innerHTML = `
+          <div class="onboard-head">
+            <button type="button" class="onboard-toggle" aria-expanded="true" aria-controls="onboard-list">
+              <span>Getting started · ${done.size} of ${order.length}</span>
+              <span class="onboard-caret" aria-hidden="true">▾</span>
+            </button>
+            <button type="button" class="onboard-x" aria-label="Dismiss getting started">&times;</button>
+          </div>
+          <ul class="onboard-list" id="onboard-list">
+            ${order.map((id) => `
+              <li class="${done.has(id) ? 'is-done' : ''}">
+                <span class="onboard-mark" aria-hidden="true">${done.has(id) ? '✓' : ''}</span>
+                <a href="${ONBOARD_STEPS[id].href}">${esc(ONBOARD_STEPS[id].label)}</a>
+              </li>`).join('')}
+          </ul>`;
+        document.body.appendChild(card);
+
+        // Collapsed/expanded is a per-browser convenience, not account state —
+        // the dismissal is the decision worth recording on the server.
+        const toggle = card.querySelector('.onboard-toggle');
+        const setCollapsed = (on) => {
+            card.classList.toggle('is-collapsed', on);
+            toggle.setAttribute('aria-expanded', String(!on));
+            try { localStorage.setItem('sp_onboard_collapsed', on ? '1' : '0'); } catch (_) { /* private mode */ }
+        };
+        try { if (localStorage.getItem('sp_onboard_collapsed') === '1') setCollapsed(true); } catch (_) { /* private mode */ }
+        toggle.addEventListener('click', () => setCollapsed(!card.classList.contains('is-collapsed')));
+        card.querySelector('.onboard-x').addEventListener('click', () => { saveOnboarding({ dismissed: true }); card.remove(); });
+    }
+
+    function onboarding(session) {
+        const state = session && session.onboarding;
+        if (!state || !state.eligible || state.dismissed || state.completed) return;
+        // The wizard page is already the checklist; a floating copy of it there
+        // would just cover the step the customer is working through.
+        if (/^\/onboarding(\.html)?$/.test(location.pathname)) return;
+        if (!state.path && /^\/dashboard(\.html)?$/.test(location.pathname)) {
+            const first = String(session.profile && session.profile.name || '').trim().split(/\s+/)[0];
+            onboardingWelcome(first || '');
+            return;
+        }
+        onboardingCard(state);
     }
 
     // company search over the full US-listed directory (static, cached)
@@ -1139,6 +1264,57 @@
     // outline thumb (drawn for this design — no icon font)
     const THUMB = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5.5 7.5v6h-3v-6h3zm0 0 2.2-4.6a1.3 1.3 0 0 1 2.47.7L9.7 6h2.9a1.4 1.4 0 0 1 1.36 1.73l-1.1 4.7a1.4 1.4 0 0 1-1.36 1.07H5.5"/></svg>';
 
+    // ---------- shared dialog ----------
+    // One centered modal for the whole app. Extracted from the AppSumo review
+    // prompt so the onboarding welcome step reuses the same scrim, Escape and
+    // backdrop-dismiss behaviour instead of a second hand-rolled overlay.
+    // Actions: { label, href, newTab, primary, close, onClick(close) }. `close`
+    // defaults to true for buttons; pass close:false for a link that should
+    // leave the dialog standing while a new tab opens.
+    function modal({ label, title, body, bodyHtml, actions = [], onDismiss } = {}) {
+        const back = document.createElement('div');
+        back.className = 'v2-modal';
+        back.setAttribute('role', 'dialog');
+        back.setAttribute('aria-modal', 'true');
+        if (label) back.setAttribute('aria-label', label);
+        back.innerHTML = `
+          <div class="v2-modal-card">
+            ${title ? `<h2 class="v2-modal-title">${esc(title)}</h2>` : ''}
+            ${body ? `<p class="v2-modal-body">${esc(body)}</p>` : ''}
+            ${bodyHtml || ''}
+            <div class="v2-modal-actions"></div>
+          </div>`;
+
+        const onKey = (e) => { if (e.key === 'Escape') { if (onDismiss) onDismiss(); close(); } };
+        function close() { back.remove(); document.removeEventListener('keydown', onKey); }
+
+        const row = back.querySelector('.v2-modal-actions');
+        actions.forEach((a) => {
+            const el = document.createElement(a.href ? 'a' : 'button');
+            el.className = 'v2-modal-btn' + (a.primary ? ' v2-modal-btn-primary' : '');
+            el.textContent = a.label;
+            if (a.href) {
+                // href is set as a property, never interpolated into markup.
+                el.href = a.href;
+                if (a.newTab) { el.target = '_blank'; el.rel = 'noopener'; }
+            } else {
+                el.type = 'button';
+            }
+            el.addEventListener('click', () => {
+                if (a.onClick) a.onClick(close);
+                if (a.close !== false && !a.href) close();
+            });
+            row.appendChild(el);
+        });
+
+        back.addEventListener('click', (e) => { if (e.target === back) { if (onDismiss) onDismiss(); close(); } });
+        document.addEventListener('keydown', onKey);
+        document.body.appendChild(back);
+        const first = row.querySelector('.v2-modal-btn');
+        if (first) first.focus();
+        return { el: back, close };
+    }
+
     // One-time AppSumo review prompt. Eligibility lives entirely on the server
     // (second distinct day of successful Asks), and 'shown' is recorded the
     // moment it opens, so a reload or a second answer in the same session can
@@ -1153,39 +1329,21 @@
             body: JSON.stringify({ action })
         }).catch(() => { /* best-effort; the prompt is not worth an error */ });
 
-        const back = document.createElement('div');
-        back.setAttribute('role', 'dialog');
-        back.setAttribute('aria-modal', 'true');
-        back.setAttribute('aria-label', 'Review request');
-        back.style.cssText = 'position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(28,27,24,.42)';
-        back.innerHTML = `
-          <div style="max-width:420px;width:100%;background:var(--surface,#fff);border:1px solid var(--line,#e8e6e0);border-radius:14px;padding:22px;box-shadow:0 18px 48px rgba(0,0,0,.18)">
-            <h2 style="margin:0 0 8px;font-size:18px;line-height:1.35">${esc(prompt.headline || 'Worth a review?')}</h2>
-            <p style="margin:0 0 18px;font-size:14px;line-height:1.65;color:var(--ink2,#5f5c55)">${esc(prompt.body || '')}</p>
-            <div style="display:flex;gap:10px;flex-wrap:wrap">
-              <a data-act="go" target="_blank" rel="noopener" style="flex:1;min-width:170px;text-align:center;padding:11px 16px;border-radius:9px;background:var(--accent,#1a4fd6);color:#fff;font-size:14.5px;font-weight:650">${esc(prompt.cta || 'Leave a review')}</a>
-              <button type="button" data-act="no" style="padding:11px 16px;border:1px solid var(--line,#e8e6e0);border-radius:9px;background:transparent;color:var(--ink2,#5f5c55);font:inherit;font-size:14px;cursor:pointer">Not now</button>
-            </div>
-          </div>`;
-
-        // href is set as a property, not interpolated into the markup — the URL
-        // is server-supplied and already validated, but never hand-build an href.
-        back.querySelector('[data-act="go"]').href = prompt.url;
-        const close = () => { back.remove(); document.removeEventListener('keydown', onKey); };
-        const onKey = (e) => { if (e.key === 'Escape') { mark('dismissed'); close(); } };
-        back.addEventListener('click', (e) => {
-            const act = e.target.closest('[data-act]');
-            if (!act) { if (e.target === back) { mark('dismissed'); close(); } return; }
-            mark(act.dataset.act === 'go' ? 'clicked' : 'dismissed');
-            if (act.dataset.act === 'no') close();
+        modal({
+            label: 'Review request',
+            title: prompt.headline || 'Worth a review?',
+            body: prompt.body || '',
+            // The review link opens a new tab; the dialog stays put so the
+            // customer can come back to it rather than losing their place.
+            actions: [
+                { label: prompt.cta || 'Leave a review', href: prompt.url, newTab: true, primary: true, close: false, onClick: () => mark('clicked') },
+                { label: 'Not now', onClick: () => mark('dismissed') }
+            ],
+            onDismiss: () => mark('dismissed')
         });
-        document.addEventListener('keydown', onKey);
-        document.body.appendChild(back);
         // Recorded on open, not on click — "we already asked this person" is the
         // fact worth remembering, whichever way they answered.
         mark('shown');
-        const first = back.querySelector('[data-act="go"]');
-        if (first) first.focus();
     }
 
     function askEngine(exchange, { onActivity, onComplete } = {}) {
@@ -1578,5 +1736,5 @@
     else initHScroll();
 
     mountCampaign();
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll };
 })();

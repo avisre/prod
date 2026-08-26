@@ -285,4 +285,4 @@ function computeUnitDelta(ue) {
     };
 }
 
-module.exports = { extract, extractRaw, computeUnitDelta };
+module.exports = { extract, extractRaw, computeUnitDelta, NOT_A_SALEABLE_UNIT };

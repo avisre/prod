@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260824-plainmode4" />
+  <link rel="stylesheet" href="assets/system.css?v=20260826-askchip1" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -210,8 +210,14 @@
           <div class="section-head"><h2 class="title-2">Holdings</h2><span class="small faint">grouped by asset type · weights use your complete portfolio</span></div>
           <div id="holdings-loading" style="padding:36px; text-align:center;"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading holdings…</span></div>
           <div class="card card-pad" id="holdings-empty" hidden>
-            <p style="margin:0;">No holdings yet — add a stock, ETF or mutual fund above (try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>).</p>
-            <p class="small faint" style="margin:8px 0 0;">Then see what changed in the <a href="/monitor.html">Filing Monitor</a>, or <a href="/ask.html">ask the AI analyst</a> about it.</p>
+            <p style="margin:0;"><strong>No holdings yet.</strong> Add a stock, ETF or mutual fund above — try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>.</p>
+            <!-- The same three first-run actions the getting-started card tracks,
+                 so an empty portfolio is a starting point rather than a dead end. -->
+            <ul class="small" style="margin:12px 0 0; padding-left:18px; display:grid; gap:6px;">
+              <li><a href="/onboarding">Ask one question about a company's filings</a> — a cited answer in about a minute.</li>
+              <li><a href="#add-form">Add a holding you own</a> — then see what moved it, and why.</li>
+              <li><a href="#rules-section">Watch one company for changes</a> — get told when a filing moves a number.</li>
+            </ul>
           </div>
 
           <div class="holding-group" id="stock-holdings-group" hidden>
@@ -292,7 +298,7 @@
       <p class="small muted" id="portfolio-action-detail">Please wait…</p>
     </div>
   </div>
-  <script src="assets/app.js?v=20260825-reviewprompt1"></script>
+  <script src="assets/app.js?v=20260826-onboarding1"></script>
   <script src="assets/dashboard.js?v=20260812-alert-links1"></script>
 </body>
 </html>

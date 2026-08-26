@@ -20,7 +20,8 @@ const EVENT_NAMES = Object.freeze(new Set([
     'appsumo_landing_view', 'appsumo_cta_click', 'appsumo_activation',
     'first_research_completed', 'first_ask_succeeded', 'seven_day_return',
     'activation', 'appsumo_click', 'appsumo_redemption', 'stripe_subscribe', 'paid', 'cancel',
-    'customer_success', 'review_shown', 'review_clicked', 'review_dismissed'
+    'customer_success', 'review_shown', 'review_clicked', 'review_dismissed',
+    'onboarding_started', 'onboarding_step_completed', 'onboarding_completed', 'onboarding_skipped'
 ]));
 
 const BROWSER_EVENTS = Object.freeze(new Set([

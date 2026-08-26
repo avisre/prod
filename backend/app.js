@@ -1885,7 +1885,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260822-receipt1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260826-askchip1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -1914,7 +1914,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260822-ticker1"></script>
+<script src="/assets/app.js?v=20260826-onboarding1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -1984,7 +1984,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260822-receipt1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260826-askchip1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2012,7 +2012,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260822-ticker1"></script>
+<script src="/assets/app.js?v=20260826-onboarding1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2145,6 +2145,15 @@ const UserSchema = new mongoose.Schema({
     reviewRequestSentAt: { type: Date, default: null },
     reviewRequestClaimedAt: { type: Date, default: null },
     reviewReceivedAt: { type: Date, default: null },
+    // First-run onboarding. onboardingPath is the customer's self-declared
+    // intent (chosen once, in the welcome dialog); onboardingSteps records the
+    // three first-run actions and is written ONLY from the server handlers that
+    // observe the real action, never from the browser claiming a step is done.
+    onboardingPath: { type: String, enum: [null, 'research', 'portfolio', 'ideas'], default: null },
+    onboardingSteps: { type: [String], default: [] },
+    onboardingStartedAt: { type: Date, default: null },
+    onboardingCompletedAt: { type: Date, default: null },
+    onboardingDismissedAt: { type: Date, default: null },
     signupUtm: {
         source: { type: String, default: null },
         medium: { type: String, default: null },
@@ -2764,6 +2773,71 @@ function trackSecondSession(req, user) {
     });
 }
 
+// ---- first-run onboarding progress -------------------------------------------
+// Only accounts created on or after the ship date see the flow, so existing
+// customers are never handed a "getting started" card for work they finished
+// months ago. Kept as a Date so the cutoff is auditable rather than a migration.
+const ONBOARDING_SINCE = new Date('2026-08-26T00:00:00.000Z');
+const ONBOARDING_STEPS = ['ask', 'hold', 'watch'];
+
+function onboardingEligible(user) {
+    return !!(user && user.createdAt && new Date(user.createdAt).getTime() >= ONBOARDING_SINCE.getTime());
+}
+
+function onboardingState(user) {
+    const steps = Array.isArray(user && user.onboardingSteps)
+        ? user.onboardingSteps.filter((s) => ONBOARDING_STEPS.includes(s)) : [];
+    return {
+        eligible: onboardingEligible(user),
+        path: (user && user.onboardingPath) || null,
+        steps,
+        total: ONBOARDING_STEPS.length,
+        dismissed: !!(user && user.onboardingDismissedAt),
+        completed: !!(user && user.onboardingCompletedAt)
+    };
+}
+
+// Called from the handlers that observe the real action (a successful Ask, a
+// first holding, a first alert rule). $addToSet keeps it idempotent, and the
+// updated document tells us whether THIS call completed the set, so the
+// completion event fires exactly once without a second read.
+async function markOnboardingStep(user, step) {
+    try {
+        if (!user || !user._id || !ONBOARDING_STEPS.includes(step)) return;
+        if (!onboardingEligible(user) || user.onboardingCompletedAt) return;
+        const updated = await User.findOneAndUpdate(
+            { _id: user._id, onboardingSteps: { $ne: step } },
+            { $addToSet: { onboardingSteps: step } },
+            { new: true, projection: { onboardingSteps: 1, onboardingCompletedAt: 1, subscription: 1 } }
+        );
+        if (!updated) return;
+        const plan = updated.subscription && updated.subscription.planName;
+        trackFunnel('onboarding_step_completed', user._id, plan, {
+            eventName: 'onboarding_step_completed',
+            dedupeKey: `onboarding-step:${String(user._id)}:${step}`,
+            featureType: step === 'ask' ? 'ask' : null,
+            entitlementSource: entitlementSourceFor(user),
+            onboardingStep: step
+        });
+        const done = new Set(updated.onboardingSteps || []);
+        if (!updated.onboardingCompletedAt && ONBOARDING_STEPS.every((s) => done.has(s))) {
+            await User.updateOne(
+                { _id: user._id, onboardingCompletedAt: null },
+                { $set: { onboardingCompletedAt: new Date() } }
+            );
+            trackFunnel('onboarding_completed', user._id, plan, {
+                eventName: 'onboarding_completed',
+                dedupeKey: `onboarding-completed:${String(user._id)}`,
+                entitlementSource: entitlementSourceFor(user)
+            });
+        }
+    } catch (error) {
+        // Onboarding progress is a convenience, never a reason to fail the
+        // request that actually did the work.
+        console.error('markOnboardingStep error:', error.message);
+    }
+}
+
 // ---- one-time AppSumo review prompt after the second distinct Ask day ----
 // Deliberately not a count of answers: someone who asks eight questions in one
 // session has not yet come back, and the prompt is asking a returning user for
@@ -2810,6 +2884,7 @@ function trackFirstAskSuccess(req, user, result) {
         acquisitionClickId: acquisition && acquisition.clickId || null,
         contentId: acquisition && acquisition.contentId || null
     });
+    markOnboardingStep(user, 'ask');
 }
 
 function effectiveTrialStatus(user, now = Date.now()) {
@@ -4812,6 +4887,7 @@ app.get('/api/session', authMiddleware, async (req, res) => {
                     && user.initialRefundUntil
                     && new Date(user.initialRefundUntil).getTime() >= Date.now()
             },
+            onboarding: onboardingState(user),
             tier: req.tier
         });
     } catch (error) {
@@ -6275,6 +6351,7 @@ app.get('/api/alert-rules', authMiddleware, proGate, async (req, res) => {
 app.post('/api/alert-rules', authMiddleware, proGate, async (req, res) => {
     try {
         const rule = await smartAlerts.createRule(portfolioOwnerId(req), req.body || {});
+        markOnboardingStep(req.user, 'watch');
         res.status(201).json({ rule });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
@@ -6697,6 +6774,7 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             resultValid: true, sourceOpened: false, featureType: 'portfolio',
             requestFields: trackingRequestFields(req, res)
         });
+        markOnboardingStep(req.user, 'hold');
         res.json(newStock);
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -8067,6 +8145,50 @@ app.post('/api/review/prompt', authMiddleware, async (req, res) => {
     await User.updateOne({ _id: req.userId }, { $set: { [field]: new Date() } });
     trackFunnel(`review_${action}`, req.userId, req.user.subscription && req.user.subscription.planName, { campaignId: augustCampaign.config().campaignId });
     return res.json({ ok: true });
+});
+
+// ---- POST /api/onboarding — declared intent, and dismissal ----
+// The browser may record which of the three first-run paths the customer chose,
+// and it may dismiss the flow. It may NOT mark a step complete: steps are
+// written only by the handlers that observe the real action (markOnboardingStep),
+// so the checklist can never claim work the customer did not actually do.
+app.post('/api/onboarding', authMiddleware, async (req, res) => {
+    try {
+        const user = req.user;
+        const plan = user.subscription && user.subscription.planName;
+        if (req.body && req.body.dismissed === true) {
+            if (!user.onboardingDismissedAt) {
+                user.onboardingDismissedAt = new Date();
+                await User.updateOne({ _id: user._id }, { $set: { onboardingDismissedAt: user.onboardingDismissedAt } });
+                trackFunnel('onboarding_skipped', user._id, plan, {
+                    eventName: 'onboarding_skipped',
+                    dedupeKey: `onboarding-skipped:${String(user._id)}`,
+                    entitlementSource: entitlementSourceFor(user)
+                });
+            }
+            return res.json({ ok: true, onboarding: onboardingState(user) });
+        }
+        const path = String(req.body && req.body.path || '').trim().toLowerCase();
+        if (!['research', 'portfolio', 'ideas'].includes(path)) {
+            return res.status(400).json({ message: 'Unknown onboarding path.' });
+        }
+        // First choice wins: re-opening the dialog must not restart the funnel.
+        if (!user.onboardingPath) {
+            user.onboardingPath = path;
+            user.onboardingStartedAt = new Date();
+            await User.updateOne({ _id: user._id }, { $set: { onboardingPath: path, onboardingStartedAt: user.onboardingStartedAt } });
+            trackFunnel('onboarding_started', user._id, plan, {
+                eventName: 'onboarding_started',
+                dedupeKey: `onboarding-started:${String(user._id)}`,
+                entitlementSource: entitlementSourceFor(user),
+                onboardingPath: path
+            });
+        }
+        return res.json({ ok: true, onboarding: onboardingState(user) });
+    } catch (error) {
+        console.error('/api/onboarding error:', error);
+        return res.status(500).json({ message: 'Unable to save onboarding progress.' });
+    }
 });
 
 // ---- /api/admin/comp — grant complimentary access to a reviewer ----

@@ -791,7 +791,10 @@ function toolGetPortfolio(ctx) {
 }
 
 // ---- Tool: calculator (deterministic arithmetic, no AI mental maths) ----
-function toolCalculator({ expression }) {
+function toolCalculator({ expression, denominator_label }) {
+    if (denominator_label && unitEconomics.NOT_A_SALEABLE_UNIT.test(String(denominator_label))) {
+        return { error: `Refusing: "${denominator_label}" is not a saleable unit — it cannot be used as a per-unit denominator. Say the company does not disclose a comparable per-unit figure instead.` };
+    }
     // accepts a batch: expressions separated by ';' or newlines, ≤24 per call
     const list = String(expression || '').split(/[;\n]/).map((s) => s.trim()).filter(Boolean).slice(0, 24);
     if (!list.length) return { error: 'No expression given.' };
@@ -1037,7 +1040,10 @@ const TOOLS = [
         function: {
             name: 'calculator',
             description: 'Evaluate plain arithmetic exactly (e.g. CAGR, percentages). Use this instead of doing maths in your head. BATCH all the sums you need into ONE call — separate expressions with ";".',
-            parameters: { type: 'object', properties: { expression: { type: 'string', description: "one or many, ';'-separated, e.g. '(98800/52900)^(1/5)-1; 416000/365800-1'" } }, required: ['expression'] }
+            parameters: { type: 'object', properties: {
+                expression: { type: 'string', description: "one or many, ';'-separated, e.g. '(98800/52900)^(1/5)-1; 416000/365800-1'" },
+                denominator_label: { type: 'string', description: "If this computes a per-unit or per-something figure, name what you're dividing by (e.g. 'vehicles delivered', 'shares outstanding'). Leave blank otherwise." }
+            }, required: ['expression'] }
         }
     },
     {
@@ -1416,11 +1422,12 @@ const ASK_SYSTEM = [
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
-    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year" → get_filing_diff. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
+    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year" → get_filing_diff. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
     'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
-    'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios you derive yourself).',
+    'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios, per-segment margins) — but only ever combine figures from the SAME tool result or the SAME reporting scope (e.g. a segment\'s revenue from get_segments divided by that same segment\'s volume). Never build a "per X" figure by dividing company-wide revenue by a count that is not literally the thing sold (shares outstanding, employees/headcount, assets under management, or any count narrower in scope than the revenue figure) — that produces a fabricated number.',
+    'SCOPE MATCHING: before dividing any revenue or cost figure by a volume or count, check the count\'s scope. If it is segment/division/region-limited (e.g. wireless-only subscribers, upstream-only barrels, US-only units) while the revenue figure is company-wide, do NOT divide them together — pull that same segment\'s revenue via get_segments first and divide within the segment. If no matching segment breakout exists, say the per-unit figure cannot be computed at that scope rather than dividing mismatched numbers.',
     'EFFICIENCY: you have a hard budget of a few tool rounds. Batch aggressively — request EVERY company\'s data in the same round (parallel tool calls), and put ALL your arithmetic into ONE calculator call with ";"-separated expressions.',
     'STOP DIGGING: a few well-chosen tool calls are enough. If a filing search or page fetch fails or comes back with nothing useful, do NOT keep retrying it with reworded queries or alternate URLs — drop that thread and answer with what you already have. A clear, reasoned answer in three or four rounds beats an exhaustively-sourced one that never arrives. The moment you have enough to explain the mechanism and quantify the main effect, write the answer.',
     'NO ADVICE: never give buy/sell/hold recommendations, price targets, allocations or "you should". Describe and explain; let the user decide. Add no disclaimers beyond that behaviour.',
@@ -1444,7 +1451,7 @@ const PLAIN_ASK_ADDENDUM = [
     'OPENER: start with one line, formatted exactly "> **In one line** — <the single most important takeaway>".',
     'VISUALS OVER TABLES: whenever you state two or more related figures, put them in a ```viz``` block (per the rules above) instead of prose or a table. For a head-to-head of one metric across a few companies/periods (e.g. "compare margins" or "priced-in growth vs actual growth"), use a ```bars``` fenced block instead of a markdown table: {"title":str,"unit":"$"|"%"|"x","rows":[[label, value, note?]]} — numbers only from tool results, 2–8 rows, unscaled values.',
     'PLAIN RATIOS: every ratio or margin you state must be restated in brackets in everyday terms, e.g. "operating margin 24% (keeps about 24¢ of every $1 it sells after running the business)".',
-    'UNIT ECONOMICS: whenever the company sells a countable thing — cars, subscriptions, stores, barrels, rooms, ad impressions — and the question is about performance, profitability or "is it a good business", call get_unit_economics and report profit per unit alongside the company-wide figures, even if not explicitly asked. For carmakers (Tesla and peers) this means dollars earned per vehicle, not just total revenue.',
+    'UNIT ECONOMICS: whenever the company sells a countable thing — cars, subscriptions, stores, barrels, rooms, ad impressions — and the question is about performance, profitability or "is it a good business", call get_unit_economics and report profit per unit alongside the company-wide figures, even if not explicitly asked. For carmakers (Tesla and peers) this means dollars earned per vehicle, not just total revenue. If it returns null or no derived figure, say plainly the company does not disclose a comparable per-unit figure — never invent one from shares outstanding, employee count or any other stand-in.',
     'Keep every figure, table and chart exactly as the base rules require — nothing is dropped, only made easier to read.'
 ].join('\n');
 
@@ -1611,8 +1618,14 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         } catch (e) { console.error('[ai-chat] final synthesis', e.message); }
         return { answer: "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.", toolsUsed, source: 'partial' };
     } catch (e) {
-        console.error('[ai-chat]', e.message);
-        return { answer: 'Ask is unavailable right now. Please try again shortly.', toolsUsed, source: 'error' };
+        console.error('[ai-chat] ask() failed', { message: e.message, stack: e.stack, toolsUsed: toolsUsed.map((t) => t.tool) });
+        return {
+            answer: toolsUsed.length
+                ? `Ask hit a problem writing up the final answer — the research (${toolsUsed.length} data pulls) completed, but synthesis failed. Please try again.`
+                : 'Ask is unavailable right now. Please try again shortly.',
+            toolsUsed,
+            source: 'error'
+        };
     }
 }
 

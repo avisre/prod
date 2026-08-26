@@ -390,6 +390,81 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .consent-actions a { margin-left: auto; font-size: var(--text-xs); }
 @media (max-width: 480px) { .consent { left: 12px; right: 12px; bottom: 12px; max-width: none; } }
 
+/* ---------- Shared dialog ---------- */
+/* One centered modal for the whole app (V2.modal). z-index sits below the
+   mobile nav drawer (64) and the consent card (80) on purpose. */
+.v2-modal {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; background: rgba(28, 27, 24, 0.42);
+}
+.v2-modal-card {
+  max-width: 460px; width: 100%;
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px; padding: 22px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.18);
+  max-height: calc(100vh - 40px); overflow-y: auto;
+}
+.v2-modal-title { margin: 0 0 8px; font-size: 18px; line-height: 1.35; }
+.v2-modal-body { margin: 0 0 18px; font-size: 14px; line-height: 1.65; color: var(--ink-2); }
+.v2-modal-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.v2-modal-btn {
+  padding: 11px 16px; border: 1px solid var(--line); border-radius: 9px;
+  background: transparent; color: var(--ink-2);
+  font: inherit; font-size: 14px; text-align: center; cursor: pointer;
+}
+.v2-modal-btn-primary {
+  flex: 1; min-width: 170px;
+  border-color: transparent; background: var(--accent); color: #fff;
+  font-size: 14.5px; font-weight: 650;
+}
+
+/* ---------- First-run onboarding ---------- */
+.onboard-choices { display: grid; gap: 8px; margin: 0 0 18px; }
+.onboard-choice {
+  display: grid; gap: 2px; text-align: left;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+  background: transparent; font: inherit; cursor: pointer;
+}
+.onboard-choice strong { font-size: 14.5px; color: var(--ink); }
+.onboard-choice span { font-size: var(--text-sm); color: var(--ink-2); }
+.onboard-choice.is-on { border-color: var(--accent); background: var(--accent-tint); }
+
+/* Docked bottom-right, not a top bar: the strip above the nav already belongs
+   to .trial-banner, and a new trialist would otherwise get both at once. */
+.onboard-card {
+  position: fixed; right: 20px; bottom: 20px; z-index: 40;
+  width: 300px; max-width: calc(100vw - 40px);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 14px;
+  box-shadow: 0 16px 48px rgba(28, 27, 24, 0.12);
+  font-size: var(--text-sm);
+}
+.onboard-head { display: flex; align-items: center; padding: 4px 6px 4px 4px; }
+.onboard-toggle {
+  flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 10px 8px 10px 12px; border: 0; background: transparent;
+  font: inherit; font-weight: 650; color: var(--ink); cursor: pointer;
+}
+.onboard-caret { transition: transform 0.15s ease; }
+.onboard-card.is-collapsed .onboard-caret { transform: rotate(-90deg); }
+.onboard-card.is-collapsed .onboard-list { display: none; }
+.onboard-x {
+  border: 0; background: none; color: var(--ink-3);
+  font-size: 18px; line-height: 1; padding: 6px 10px; cursor: pointer; opacity: 0.6;
+}
+.onboard-x:hover { opacity: 1; }
+.onboard-list { list-style: none; margin: 0; padding: 0 14px 14px; display: grid; gap: 10px; }
+.onboard-list li { display: flex; align-items: baseline; gap: 9px; }
+.onboard-mark {
+  flex: none; width: 15px; height: 15px; border-radius: 50%;
+  border: 1px solid var(--line-strong); align-self: center;
+  font-size: 10px; line-height: 13px; text-align: center; color: var(--accent);
+}
+.onboard-list li.is-done .onboard-mark { border-color: var(--accent); }
+.onboard-list li.is-done a { color: var(--ink-3); text-decoration: line-through; }
+@media (max-width: 480px) { .onboard-card { left: 12px; right: 12px; bottom: 12px; width: auto; } }
+
 /* ---------- Cards / sections ---------- */
 .card {
   background: var(--surface);
@@ -889,6 +964,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-fb button.is-picked { color: var(--accent-ink); }
 .ask-fb button:disabled:not(.is-picked) { opacity: 0.35; cursor: default; }
 .ask-sources { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
+.chip.ask-suggest { white-space: normal; text-align: left; max-width: 100%; }
 .ask-working { font-size: var(--text-sm); color: var(--ink-3); font-style: italic; }
 /* charts inside an answer */
 .ask-viz { margin: 22px 0 26px; padding: 20px 24px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
