@@ -77,3 +77,5 @@ Open:
 ## License
 
 Private snapshot for internal use.
+
+<!-- deploy connectivity test: 2026-08-28T15:43:04Z -->
