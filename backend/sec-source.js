@@ -526,4 +526,50 @@ async function cikFor(symbol) {
     return map[key] || map[key.replace(/\./g, '-')] || map[key.replace(/-/g, '.')] || null;
 }
 
-module.exports = { backfillStatements, fetchCompanyFacts, cikFor, SEC_HEADERS };
+// company_tickers.json occasionally maps a ticker to a co-registrant or
+// shell CIK that shares the ticker but doesn't carry the company's own 10-K
+// history — e.g. XOM maps to CIK 2115436 "ExxonMobil Holdings Corp", a
+// filer of S-8/8-K only, while the real annual reports are under CIK 34088
+// "Exxon Mobil Corp". EDGAR's own company-search-by-ticker endpoint is a
+// separately-maintained index that resolves the ticker correctly, so when
+// the mapped CIK is missing a form a caller needs, this is the fallback.
+// Cached (including negative results — real ETFs/foreign filers that
+// simply have no 10-K) so a symbol only costs one extra request per day,
+// not per call.
+const CIK_OVERRIDE_TTL_MS = 24 * 60 * 60 * 1000; // 24h
+const _cikOverrideCache = new Map(); // symbol -> { cik: string|null, at: number }
+function cikOverrideCol() { try { return mongoose.connection.collection('sec_cik_overrides'); } catch (_) { return null; } }
+
+async function resolveWorkingCik(symbol, mappedCik, form = '10-K') {
+    const key = String(symbol || '').toUpperCase();
+    const mem = _cikOverrideCache.get(key);
+    if (mem && Date.now() - mem.at < CIK_OVERRIDE_TTL_MS) return mem.cik;
+
+    try {
+        const col = cikOverrideCol();
+        if (col) {
+            const doc = await col.findOne({ _id: key });
+            if (doc && Date.now() - new Date(doc.at || 0).getTime() < CIK_OVERRIDE_TTL_MS) {
+                _cikOverrideCache.set(key, { cik: doc.cik, at: Date.now() });
+                return doc.cik;
+            }
+        }
+    } catch (_) { /* best-effort */ }
+
+    let found = null;
+    try {
+        const r = await axios.get('https://www.sec.gov/cgi-bin/browse-edgar', {
+            headers: { ...SEC_HEADERS, Accept: 'application/atom+xml, text/xml, */*' },
+            timeout: 15000,
+            params: { action: 'getcompany', CIK: key, type: form, output: 'atom', count: 1 }
+        });
+        const m = String(r.data || '').match(/<cik>(\d+)<\/cik>/);
+        if (m && m[1] && m[1].padStart(10, '0') !== String(mappedCik || '')) found = m[1].padStart(10, '0');
+    } catch (_) { /* SEC unavailable, or the ticker genuinely has no filer for this form */ }
+
+    _cikOverrideCache.set(key, { cik: found, at: Date.now() });
+    try { const col = cikOverrideCol(); if (col) await col.updateOne({ _id: key }, { $set: { cik: found, at: new Date() } }, { upsert: true }); } catch (_) { /* best-effort */ }
+    return found;
+}
+
+module.exports = { backfillStatements, fetchCompanyFacts, cikFor, resolveWorkingCik, SEC_HEADERS };

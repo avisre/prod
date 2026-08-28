@@ -59,13 +59,30 @@ const WatchState = mongoose.models.WatchState || mongoose.model('WatchState', Wa
 
 // ---- SEC submissions ----
 async function fetchRecentFilings(symbol, forms = WATCH_FORMS, cap = 40) {
-  const cik = await secSource.cikFor(symbol);
+  let cik = await secSource.cikFor(symbol);
   if (!cik) return null;
-  const r = await axios.get(`https://data.sec.gov/submissions/CIK${cik}.json`, {
+  let r = await axios.get(`https://data.sec.gov/submissions/CIK${cik}.json`, {
     headers: secSource.SEC_HEADERS,
     timeout: 20000
   });
-  const recent = r.data?.filings?.recent;
+  let recent = r.data?.filings?.recent;
+
+  // The ticker's mapped CIK sometimes turns out to be a shell/co-registrant
+  // that never files the form callers actually asked for (see
+  // secSource.resolveWorkingCik — XOM is the case that surfaced this). Try
+  // the corrected CIK once and re-fetch before giving up.
+  if (forms.has('10-K') && !(recent?.form || []).includes('10-K')) {
+    const altCik = await secSource.resolveWorkingCik(symbol, cik, '10-K');
+    if (altCik && altCik !== cik) {
+      cik = altCik;
+      r = await axios.get(`https://data.sec.gov/submissions/CIK${cik}.json`, {
+        headers: secSource.SEC_HEADERS,
+        timeout: 20000
+      });
+      recent = r.data?.filings?.recent;
+    }
+  }
+
   if (!recent || !Array.isArray(recent.accessionNumber)) return [];
   const out = [];
   for (let i = 0; i < recent.accessionNumber.length && out.length < cap; i++) {
