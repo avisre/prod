@@ -4946,6 +4946,20 @@ async function sendCustomerMessageEmail(user, subject, body) {
     const sent = await mailer.sendMail({ to: user.email, subject: email.subject, html: email.html, text: email.text });
     return { status: sent ? 'sent' : 'failed' };
 }
+// Every inbound customer message pings the support inbox so a new thread
+// never sits unread in admin-messages.html until someone happens to check it.
+async function notifyAdminOfNewCustomerMessage(user, body) {
+    const to = process.env.SUPPORT_INBOX_EMAIL || 'support@stockportfolio.pro';
+    const text = [`From: ${user.email}`, user.name ? `Name: ${user.name}` : null, `When: ${new Date().toISOString()}`, '', body]
+        .filter(Boolean).join('\n');
+    await mailer.sendMail({
+        to,
+        subject: `New customer message — ${user.email}`,
+        text,
+        html: `<pre style="font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap">${escapeHtml(text)}</pre>`,
+        replyTo: user.email
+    });
+}
 async function getCustomerThread(userId) {
     let thread = await CustomerMessageThread.findOne({ userId });
     if (!thread) {
@@ -5003,6 +5017,8 @@ app.post('/api/messages/thread', authMiddleware, customerMessageLimiter, async (
         const message = await CustomerMessage.create({ threadId: thread._id, sender: 'customer', body });
         await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { lastMessageAt: message.createdAt }, $inc: { adminUnread: 1 } });
         res.status(201).json({ message: messageDto(message) });
+        notifyAdminOfNewCustomerMessage(req.user, body)
+            .catch((error) => console.error('[messages] admin notify failed:', error && error.message));
     } catch (error) {
         console.error('[messages] customer send failed:', error && error.message);
         res.status(500).json({ message: 'Unable to send your message.' });
@@ -8617,7 +8633,7 @@ app.get('/api/compare/:pair/verdict', optionalAuth, async (req, res) => {
     }
 });
 
-// ---- Research Dossier (Power/Desk) — the on-demand initiation report ----
+// ---- Research Dossier (Pro/Power/Desk) — the on-demand initiation report ----
 // The Monitor says "what changed in a name I follow"; the dossier answers
 // "should I own this at all" — a from-scratch, source-linked write-up on ANY
 // ticker. It composes several slow grounded surfaces, so (like the Monitor) we
@@ -8628,7 +8644,7 @@ const _dossierInflight = new Map();
 const _dossierProgress = new Map();
 const DOSSIER_FAST_MS = 9000;
 
-app.get('/api/dossier/:symbol', authMiddleware, monitorGate, async (req, res) => {
+app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
         if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return res.status(400).json({ message: 'Invalid ticker.' });

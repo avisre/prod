@@ -47,14 +47,13 @@
   function upsell(out) {
     out.innerHTML = `
       <div class="card card-pad">
-        <span class="label">Research Dossier — on Power &amp; Desk</span>
+        <span class="label">Research Dossier — on Pro, Power &amp; Desk</span>
         <h2 class="title-2" style="margin:12px 0 8px;">The analyst’s write-up, on demand</h2>
-        <p class="muted" style="max-width:64ch;">A from-scratch, source-linked dossier on any US-listed company — business, segments, ten-year figures, what’s priced in, the bull and bear case, and what just changed in the latest filing — plus a thesis tracker that grades your own reasons against every new filing. The work an analyst bills 20–40 hours for, or that a research seat costs five figures a year. Yours unlimited on Power.</p>
+        <p class="muted" style="max-width:64ch;">A from-scratch, source-linked dossier on any US-listed company — business, segments, ten-year figures, what’s priced in, the bull and bear case, and what just changed in the latest filing. The work an analyst bills 20–40 hours for, or that a research seat costs five figures a year. Yours unlimited on Pro.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $64/mo</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Or $579/yr — save 25%</a>
+          <a class="btn btn-primary" href="/register.html?plan=pro">Start Pro checkout</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,961/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Want the Filing Change Monitor and thesis tracker too? Power — <a href="/register.html?plan=power">$579/yr →</a> · Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,961/yr →</a></p>
       </div>`;
     out.hidden = false;
   }
