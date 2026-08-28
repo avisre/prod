@@ -15,14 +15,10 @@ const aiClient = require('./ai-client');
 
 const MAX_DOC_CHARS = 20000; // per document, keeps both inside the context
 
-function htmlToText(html) {
-    return String(html)
-        .replace(/<(script|style)[\s\S]*?<\/\1>/gi, ' ')
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/&nbsp;|&#160;/g, ' ')
-        .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
-        .replace(/\s+/g, ' ');
-}
+// Shared with keypoints.js. The local copy replaced EVERY tag with a space,
+// which fuses words split across inline/styling tags ("risk factors" arriving
+// as "ris k factors") and silently defeated the anchors below.
+const { htmlToText } = require('./filing-sections');
 
 // Windows around the sections where quarter-over-quarter narrative changes
 // actually live: outlook/guidance, risk factors, MD&A trend language.
