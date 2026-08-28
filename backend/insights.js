@@ -10,6 +10,7 @@
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
+const { KEYPOINTS_VERSION } = require('./keypoints');
 const aiClient = require('./ai-client');
 const aiChat = require('./ai-chat');
 
@@ -151,8 +152,15 @@ async function businessContext(symbol) {
         }
     } catch (_) { /* optional */ }
     try {
+        // Deterministically the Standard extraction, current version — never
+        // "whichever was written most recently." Once a Deep dossier exists for
+        // this symbol, a plain recency sort would flip between the two payloads
+        // (same accession, different depth) depending on unrelated user actions,
+        // silently changing what this fixed-cost surface feeds the model. It
+        // also skips stale pre-fix payloads the version check exists to catch.
         const kp = await mongoose.connection.collection('company_keypoints')
-            .find({ symbol }).sort({ at: -1 }).limit(1).next();
+            .find({ symbol, 'payload.version': KEYPOINTS_VERSION, 'payload.depth': 'standard' })
+            .sort({ at: -1 }).limit(1).next();
         const sections = (((kp || {}).payload) || {}).sections || [];
         if (sections.length) {
             out.shown = sections.map((s) => s.heading);

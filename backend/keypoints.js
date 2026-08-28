@@ -53,21 +53,40 @@ const EXTRACT_SYSTEM = [
     'Max 8 points per section. Plain factual register — no marketing language, no advice.'
 ].join('\n');
 
-async function extractKeyPoints(symbol, { allowAi = true } = {}) {
-    const filings = await watchdog.fetchRecentFilings(symbol);
-    if (!filings) return { error: 'No SEC filings found for this company.' };
-    const tenK = filings.find((f) => f.form === '10-K');
-    if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No 10-K found for this company.' };
+// Compares a company against its OWN prior filings. A newly added risk factor,
+// or a quietly dropped one, is a leading indicator an annual snapshot cannot
+// show — this is the reason Deep exists, not merely "more text".
+const TREND_SYSTEM = [
+    'You compare one company’s own disclosures across three consecutive annual reports (10-K). Reply with ONLY a JSON object, no prose, no markdown fences.',
+    'Schema: {"sections": [{"heading": str, "points": [str]}]}',
+    'Use headings drawn from what the material supports, e.g. "Newly disclosed risks", "Risks no longer disclosed", "Shift in strategy", "Changed segment reporting", "Changing emphasis".',
+    'Report only DIFFERENCES between the years, never a restatement of the latest year. Attribute each point to its year(s), e.g. "First disclosed in FY2025:".',
+    'STRICT GROUNDING: compare only what appears in the supplied per-year summaries. Never infer a change from absence of detail in a summary, and never recall from memory.',
+    'Max 6 points per section, one tight sentence each. If the years look materially the same, say so in a single point and return nothing else.'
+].join('\n');
 
-    const col = mongoose.connection.collection('company_keypoints');
-    try {
-        const hit = await col.findOne({ symbol, accession: tenK.accession });
-        // A payload from an older extractor is treated as a miss, so the
-        // richer extraction reaches users without waiting a filing cycle.
-        if (hit && hit.payload && Number(hit.payload.version) === KEYPOINTS_VERSION) {
-            return { ...hit.payload, cached: true };
-        }
-    } catch (_) { /* cache is best-effort */ }
+const cacheCol = () => mongoose.connection.collection('company_keypoints');
+
+function readCache(query) {
+    return cacheCol().findOne(query)
+        .then((hit) => (hit && hit.payload && Number(hit.payload.version) === KEYPOINTS_VERSION
+            ? { ...hit.payload, cached: true }
+            : null))
+        .catch(() => null); // cache is best-effort
+}
+
+function writeCache(query, payload) {
+    return cacheCol()
+        .updateOne(query, { $set: { payload, at: new Date() } }, { upsert: true })
+        .catch(() => {}); // cache is best-effort
+}
+
+// Extract one filing. Keyed on the accession alone, so a Deep run reuses any
+// year already extracted — and next year's Deep run reuses two of three.
+async function extractOneFiling(symbol, tenK, { allowAi = true } = {}) {
+    const key = { symbol, accession: tenK.accession, depth: 'standard' };
+    const cached = await readCache(key);
+    if (cached) return cached;
 
     if (!allowAi || !aiClient.isConfigured()) {
         return { error: 'Key points are available to signed-in paid users after generation.' };
@@ -119,6 +138,7 @@ async function extractKeyPoints(symbol, { allowAi = true } = {}) {
     const payload = {
         symbol,
         version: KEYPOINTS_VERSION,
+        depth: 'standard',
         sections: sections.slice(0, 12),
         filing: { form: '10-K', date: tenK.date, url: tenK.url },
         coverage: {
@@ -128,10 +148,79 @@ async function extractKeyPoints(symbol, { allowAi = true } = {}) {
         extractedAt: new Date().toISOString()
     };
     if (!payload.sections.length) return { error: 'Nothing extractable from this filing.' };
-    try {
-        await col.updateOne({ symbol, accession: tenK.accession }, { $set: { payload, at: new Date() } }, { upsert: true });
-    } catch (_) { /* cache is best-effort */ }
+    await writeCache(key, payload);
     return payload;
 }
 
-module.exports = { extractKeyPoints };
+// Three years of the company's own filings, plus what changed between them.
+async function extractDeep(symbol, tenKs, { allowAi = true } = {}) {
+    const latest = tenKs[0];
+    const key = { symbol, accession: latest.accession, depth: 'deep' };
+    const cached = await readCache(key);
+    if (cached) return cached;
+
+    if (!allowAi || !aiClient.isConfigured()) {
+        return { error: 'Key points are available to signed-in paid users after generation.' };
+    }
+
+    // Sequential, not concurrent: each year is itself three model calls, and a
+    // Deep request should not fan nine of them at a provider at once.
+    const years = [];
+    for (const filing of tenKs) {
+        const one = await extractOneFiling(symbol, filing, { allowAi }).catch(() => null);
+        if (one && !one.error) years.push(one);
+    }
+    if (!years.length) return { error: 'Could not read this company’s filings.' };
+    // Only the latest year resolved — nothing to compare against, so this is a
+    // standard dossier and must not be cached or billed as a deep one.
+    if (years.length < 2) return years[0];
+
+    const digest = years.map((y) => [
+        `### Fiscal year ending ${(y.filing || {}).date || 'unknown'}`,
+        ...y.sections.map((s) => `${s.heading}: ${s.points.join(' ')}`)
+    ].join('\n')).join('\n\n');
+
+    let trends = [];
+    try {
+        const msg = await aiClient.chatRaw([
+            { role: 'system', content: TREND_SYSTEM },
+            { role: 'user', content: `Company: ${symbol}. Newest year first.\n\n${digest}` }
+        ], { purpose: 'summary', temperature: 0, maxTokens: 3000 });
+        const raw = String(msg.content || '').replace(/```json|```/g, '').trim();
+        const parsed = JSON.parse(raw.slice(raw.indexOf('{'), raw.lastIndexOf('}') + 1));
+        trends = Array.isArray(parsed.sections) ? parsed.sections : [];
+    } catch (_) { trends = []; } // a failed comparison still leaves three good years
+
+    const trendSections = trends.map((s) => ({
+        heading: String(s.heading || '').slice(0, 60).trim(),
+        points: (Array.isArray(s.points) ? s.points : [])
+            .slice(0, 6).map((p) => String(p).slice(0, 320)).filter(Boolean)
+    })).filter((s) => s.heading && s.points.length);
+
+    const payload = {
+        symbol,
+        version: KEYPOINTS_VERSION,
+        depth: 'deep',
+        // Year-over-year change leads: it is what the extra years bought.
+        sections: [...trendSections, ...years[0].sections].slice(0, 16),
+        filing: years[0].filing,
+        history: years.map((y) => y.filing),
+        coverage: years[0].coverage,
+        extractedAt: new Date().toISOString()
+    };
+    await writeCache(key, payload);
+    return payload;
+}
+
+async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard' } = {}) {
+    const filings = await watchdog.fetchRecentFilings(symbol);
+    if (!filings) return { error: 'No SEC filings found for this company.' };
+    const tenKs = filings.filter((f) => f.form === '10-K' && f.url && /\.htm/i.test(f.url));
+    if (!tenKs.length) return { error: 'No 10-K found for this company.' };
+
+    return depth === 'deep'
+        ? extractDeep(symbol, tenKs.slice(0, 3), { allowAi })
+        : extractOneFiling(symbol, tenKs[0], { allowAi });
+}
+
+module.exports = { extractKeyPoints, DEPTHS: ['standard', 'deep'], KEYPOINTS_VERSION };

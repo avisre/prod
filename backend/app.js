@@ -6639,7 +6639,13 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
         // Ordinary page loads may read an existing cache but can never create
         // provider usage. Generation requires the explicit Insights Pro click,
         // which sends generate=1 from company.js.
-        const result = await keypoints.extractKeyPoints(symbol, { allowAi: generate && isProUser(req) });
+        // Deep reads three years of 10-Ks and compares them; it costs roughly
+        // three times a standard build, so it is opt-in per request.
+        const depth = String(req.query.depth || '') === 'deep' ? 'deep' : 'standard';
+        const result = await keypoints.extractKeyPoints(symbol, {
+            allowAi: generate && isProUser(req),
+            depth
+        });
         if (result.error) return res.status(404).json({ message: result.error });
         res.json(result);
     } catch (error) {
