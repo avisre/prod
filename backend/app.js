@@ -23,6 +23,7 @@ const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
+const credits = require('./credits');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
 const verifyHeadline = require('./verify');
@@ -6228,6 +6229,12 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 });
                 const counted = result.source === 'ai' || result.source === 'blocked';
                 if (counted) await aiChat.recordUse(userId);
+                // Additive only: still gated by the Ask-specific limit above,
+                // unchanged. This makes the shared pool accurate for Dossier
+                // (which draws from it for real) without touching Ask's own
+                // gate, response shape, or upgrade-prompt logic that the
+                // frontend already depends on.
+                if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
                 if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
@@ -6251,6 +6258,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const result = await aiChat.ask({ question, history, ctx: { holdings }, mode });
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
+        if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);
@@ -6756,6 +6764,18 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
         res.json(out);
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Quota check failed') });
+    }
+});
+
+// The shared Ask+Dossier credit pool. Separate from /api/ai/chat/quota above
+// on purpose: that endpoint's shape is already load-bearing for the existing
+// Ask UI, and this is new, additive surface — not a replacement for it.
+app.get('/api/credits', authMiddleware, async (req, res) => {
+    try {
+        const bal = await credits.balance(req.userId, effectiveAskLimit(req));
+        res.json({ ...bal, cost: credits.COST });
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
     }
 });
 
@@ -8719,6 +8739,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         }
 
         // Poll path: build-free, returns the dossier once cached else {building}.
+        // Never charges — it cannot trigger new work, only observe it.
         if (req.query.poll === '1') {
             if (_dossierInflight.has(inflightKey)) return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
             const cached = await dossier.peekDossier(sym, depth).catch(() => null);
@@ -8729,14 +8750,59 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
             return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
         }
 
+        // Same free-cache-read the poll path just did, done here too: without
+        // this, a request for an already-cached dossier reaching the non-poll
+        // branch would fall through to the credit check below and get charged
+        // for work buildDossier was about to skip anyway (it does its own
+        // cache check first). Skipped on a force refresh, which explicitly
+        // wants to ignore the cache.
+        if (!force) {
+            const preCached = await dossier.peekDossier(sym, depth).catch(() => null);
+            if (preCached) {
+                recordDossierView(req.userId, sym, preCached.name);
+                return res.json({ dossier: preCached });
+            }
+        }
+
         let build = (!force && _dossierInflight.get(inflightKey)) || null;
         if (!build) {
-            build = dossier.buildDossier(sym, { force, depth, onStage: (stage) => _dossierProgress.set(inflightKey, stage) })
+            // Reaching here means this request is originating a NEW build, not
+            // joining one already running (that case takes the branch above,
+            // via _dossierInflight). The credit check+spend happens INSIDE
+            // this async wrapper, not before it, so the wrapper's promise can
+            // be registered in _dossierInflight synchronously — with no
+            // `await` between "no one else is building this" and "I've
+            // claimed the slot". Two requests for the same brand-new
+            // symbol+depth arriving back to back would otherwise both read
+            // _dossierInflight as empty, both pass the credit check, and both
+            // spend — the credit check/spend must ride inside the same
+            // atomic claim the de-dup itself relies on. Concurrent requests
+            // that find this build already in flight ride it for free: the
+            // work was already paid for by whoever started it. force is
+            // exempt — an ops action gated by ADMIN_TOKEN above, not a
+            // purchase.
+            build = (async () => {
+                if (!force) {
+                    const costKey = depth === 'deep' ? 'dossier_deep' : 'dossier_standard';
+                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req));
+                    if (!gate.ok) return { creditsError: gate };
+                    await credits.spend(req.userId, costKey, 'dossier', `${sym}:${depth}`);
+                }
+                return dossier.buildDossier(sym, { force, depth, onStage: (stage) => _dossierProgress.set(inflightKey, stage) });
+            })()
                 .catch((err) => { console.error('[dossier] build error:', err && err.message); return { error: 'Couldn’t build the dossier right now — please try again in a moment.' }; })
                 .finally(() => { _dossierInflight.delete(inflightKey); _dossierProgress.delete(inflightKey); });
             _dossierInflight.set(inflightKey, build);
         }
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), DOSSIER_FAST_MS))]);
+        if (winner && winner.creditsError) {
+            const gate = winner.creditsError;
+            return res.status(402).json({
+                message: `A ${depth === 'deep' ? 'Deep ' : ''}Dossier costs ${gate.cost} credits — you have ${gate.remaining} left this month.`,
+                code: 'CREDITS_REQUIRED',
+                credits: { used: gate.used, allowance: gate.allowance, remaining: gate.remaining, needed: gate.cost }
+            });
+        }
         if (winner && winner.error) return res.status(404).json(winner);
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
         if (winner && winner.status === 'building') return res.status(202).json(winner);
