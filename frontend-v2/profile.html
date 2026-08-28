@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Profile — stockportfolio.pro</title>
+  <meta name="description" content="Your plan, credit usage, and messages on stockportfolio.pro." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20260826-askchip1" />
+  <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
+  <style>
+    .credits-bar-track { position: relative; width: 100%; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .credits-bar-fill { height: 100%; border-radius: 999px; background: var(--ink); transition: width .3s ease; }
+    .credits-bar-fill.is-high { background: var(--neg); }
+    .credits-split-row { display: grid; grid-template-columns: 68px 1fr 74px; align-items: center; gap: 10px; margin-top: 8px; }
+    .credits-split-track { position: relative; height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .credits-split-fill { height: 100%; border-radius: 999px; background: var(--ink-3); }
+    .credits-activity-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 7px; }
+    .credits-activity-list li { display: flex; justify-content: space-between; gap: 12px; font-size: var(--text-sm); color: var(--ink-2); }
+    .credits-activity-list .amt { font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+    .credits-activity-list .when { color: var(--ink-3); white-space: nowrap; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <div class="page-head" id="locked" hidden>
+        <h1 class="title-1">Profile</h1>
+        <p class="muted" style="margin-top:8px; max-width:54ch;">Log in to see your plan, credit usage, and messages.</p>
+        <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+          <a class="btn btn-primary" href="/login.html?next=%2Fprofile.html">Log in</a>
+          <a class="btn btn-ghost" href="/register.html">Choose a plan</a>
+        </div>
+      </div>
+
+      <div id="authed" hidden>
+        <div class="page-head">
+          <p class="label">Account</p>
+          <h1 class="title-1">Profile</h1>
+        </div>
+
+        <section class="card card-pad" id="plan-status" hidden style="margin-top:18px; max-width:720px;">
+          <p class="label">Your plan</p>
+          <p class="title-3" id="plan-name" style="margin:6px 0 4px;">&nbsp;</p>
+          <p class="small muted" id="plan-quota" style="margin:0 0 10px;"></p>
+          <p class="small muted" id="plan-includes" style="margin:0;"></p>
+          <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
+
+          <div id="credits-section" hidden style="margin-top:18px; padding-top:16px; border-top:1px solid var(--line);">
+            <p class="label">Credits this month</p>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; gap:12px;">
+              <span class="small" id="credits-used-label" style="font-weight:650;"></span>
+              <span class="small muted" id="credits-remaining-label"></span>
+            </div>
+            <div class="credits-bar-track" style="margin-top:6px;">
+              <div class="credits-bar-fill" id="credits-bar-fill" style="width:0%;"></div>
+            </div>
+
+            <div id="credits-breakdown" hidden style="margin-top:16px;"></div>
+
+            <div id="credits-activity-wrap" hidden style="margin-top:16px;">
+              <p class="small muted" style="margin:0 0 4px;">Recent activity</p>
+              <ul class="credits-activity-list" id="credits-activity-list"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="message-card" aria-label="Conversation with StockPortfolio.pro" style="margin-top:18px;">
+          <div class="message-card-head"><div><strong>StockPortfolio.pro</strong><p class="small muted">We&rsquo;ll reply here when we can help.</p></div><span id="message-status" class="small muted" role="status"></span></div>
+          <div id="message-list" class="message-list" aria-live="polite"></div>
+          <form id="message-form" class="message-compose"><label class="sr-only" for="message-body">Your message</label><textarea id="message-body" class="input" maxlength="4000" rows="3" placeholder="Write a message&hellip;" required></textarea><button class="btn btn-primary" type="submit">Send</button></form>
+        </section>
+
+      </div>
+    </div>
+  </main>
+  <script src="assets/app.js?v=20260826-onboarding1"></script>
+  <script src="assets/profile.js?v=20260829-profile1"></script>
+  <script src="assets/messages.js?v=20260824-msgedit1"></script>
+</body>
+</html>

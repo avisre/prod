@@ -79,4 +79,19 @@ async function check(userId, cost, effectiveAskLimit) {
     return { ok: bal.remaining >= amount, cost: amount, ...bal };
 }
 
-module.exports = { COST, monthKey, used, allowance, balance, spend, check };
+// Display-only: the last few ledger rows for this user's current month, for
+// an itemized "what did I spend it on" view. Not used by check()/spend() —
+// those stay a single cheap aggregate on the hot gating path; this is a
+// separate, capped read for a profile page.
+async function recentActivity(userId, limit = 8) {
+    try {
+        return await ledgerCol()
+            .find({ userId: String(userId), month: monthKey() })
+            .sort({ at: -1 })
+            .limit(limit)
+            .project({ _id: 0, reason: 1, refId: 1, delta: 1, at: 1 })
+            .toArray();
+    } catch (_) { return []; }
+}
+
+module.exports = { COST, monthKey, used, allowance, balance, spend, check, recentActivity };

@@ -6772,8 +6772,11 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
 // Ask UI, and this is new, additive surface — not a replacement for it.
 app.get('/api/credits', authMiddleware, async (req, res) => {
     try {
-        const bal = await credits.balance(req.userId, effectiveAskLimit(req));
-        res.json({ ...bal, cost: credits.COST });
+        const [bal, recent] = await Promise.all([
+            credits.balance(req.userId, effectiveAskLimit(req)),
+            credits.recentActivity(req.userId)
+        ]);
+        res.json({ ...bal, cost: credits.COST, recent });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
     }

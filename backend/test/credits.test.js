@@ -66,6 +66,22 @@ test('credit ledger: allowance, spend, balance, and month isolation', { timeout:
     });
     bal = await credits.balance(user, 300);
     assert.equal(bal.used, 42, 'a stale month must not bleed into the current balance');
+
+    // recentActivity(): newest-first, scoped to this user+month, capped at
+    // `limit`. Excludes the stale 2020-01 row just inserted above and the
+    // 'user-2'/'user-poor' rows from other users.
+    const recent = await credits.recentActivity(user, 8);
+    assert.equal(recent.length, 3, 'the 3 spends for this user this month, not the stale/other-user rows');
+    assert.deepEqual(recent.map((r) => r.reason), ['dossier', 'dossier', 'ask'], 'newest first');
+    assert.deepEqual(recent.map((r) => r.refId), ['AAPL:deep', 'AAPL:standard', 'q1']);
+    assert.deepEqual(recent.map((r) => r.delta), [-30, -10, -2]);
+    assert.ok(recent.every((r) => r.at instanceof Date), 'each row carries its own timestamp');
+
+    const capped = await credits.recentActivity(user, 2);
+    assert.equal(capped.length, 2, 'limit is respected');
+
+    const empty = await credits.recentActivity('user-nobody', 8);
+    assert.deepEqual(empty, [], 'a user with no ledger rows gets an empty list, not an error');
 });
 
 test('spend() never throws, even with a broken connection', { timeout: 10000 }, async () => {
@@ -79,4 +95,10 @@ test('spend() never throws, even with a broken connection', { timeout: 10000 }, 
 
 test('a zero or unknown cost key is a no-op, not a crash', async () => {
     await assert.doesNotReject(credits.spend('user-x', 'not_a_real_key', 'ask'));
+});
+
+test('recentActivity() never throws, even with a broken connection', { timeout: 10000 }, async () => {
+    const result = await credits.recentActivity('user-x', 8).catch(() => 'THREW');
+    assert.notEqual(result, 'THREW');
+    assert.deepEqual(result, []);
 });

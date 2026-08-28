@@ -693,6 +693,11 @@
 
     // ---------- nav ----------
     function nav(current) {
+        // Idempotent: profile.html loads both profile.js and the bundled
+        // messages.js, and messages.js calls nav('') itself (same as it does
+        // on inbox.html) — without this guard, whichever runs second would
+        // prepend a second <header class="nav">.
+        if (document.querySelector('header.nav')) return;
         const authed = !!token();
         const cur = (page) => current === page ? "aria-current='page'" : '';
         const el = document.createElement('header');
@@ -718,6 +723,7 @@
                 </div>
               </div>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
+              <a href="/profile.html" ${cur('profile')}>Profile</a>
               <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
               <a href="/#pricing" ${cur('pricing')}>Pricing</a>
             </nav>
