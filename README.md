@@ -79,3 +79,4 @@ Open:
 Private snapshot for internal use.
 
 <!-- deploy connectivity test: 2026-08-28T15:43:04Z -->
+<!-- auto-deploy test 2: 2026-08-28T15:50:31Z -->
