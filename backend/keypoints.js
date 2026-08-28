@@ -203,6 +203,10 @@ async function extractDeep(symbol, tenKs, { allowAi = true } = {}) {
         depth: 'deep',
         // Year-over-year change leads: it is what the extra years bought.
         sections: [...trendSections, ...years[0].sections].slice(0, 16),
+        // Same content as the trend-tagged entries above, kept separately so a
+        // caller that wants ONLY the change signal (not latest-year facts it
+        // may already have from elsewhere) doesn't have to guess by position.
+        yearOverYear: trendSections,
         filing: years[0].filing,
         history: years.map((y) => y.filing),
         coverage: years[0].coverage,

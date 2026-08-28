@@ -8676,6 +8676,11 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
         if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return res.status(400).json({ message: 'Invalid ticker.' });
+        // Deep reads the last 3 10-Ks and compares them; a Standard and a Deep
+        // request for the same symbol are different work and must not share an
+        // in-flight slot or one requester could receive the other's depth.
+        const depth = req.query.depth === 'deep' ? 'deep' : 'standard';
+        const inflightKey = `${sym}:${depth}`;
         const force = req.query.refresh === '1';
         if (force) {
             const adminToken = process.env.ADMIN_TOKEN;
@@ -8715,25 +8720,25 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
 
         // Poll path: build-free, returns the dossier once cached else {building}.
         if (req.query.poll === '1') {
-            if (_dossierInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
-            const cached = await dossier.peekDossier(sym).catch(() => null);
+            if (_dossierInflight.has(inflightKey)) return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
+            const cached = await dossier.peekDossier(sym, depth).catch(() => null);
             if (cached) {
                 recordDossierView(req.userId, sym, cached.name);
                 return res.json({ dossier: cached });
             }
-            return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
+            return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
         }
 
-        let build = (!force && _dossierInflight.get(sym)) || null;
+        let build = (!force && _dossierInflight.get(inflightKey)) || null;
         if (!build) {
-            build = dossier.buildDossier(sym, { force, onStage: (stage) => _dossierProgress.set(sym, stage) })
+            build = dossier.buildDossier(sym, { force, depth, onStage: (stage) => _dossierProgress.set(inflightKey, stage) })
                 .catch((err) => { console.error('[dossier] build error:', err && err.message); return { error: 'Couldn’t build the dossier right now — please try again in a moment.' }; })
-                .finally(() => { _dossierInflight.delete(sym); _dossierProgress.delete(sym); });
-            _dossierInflight.set(sym, build);
+                .finally(() => { _dossierInflight.delete(inflightKey); _dossierProgress.delete(inflightKey); });
+            _dossierInflight.set(inflightKey, build);
         }
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), DOSSIER_FAST_MS))]);
         if (winner && winner.error) return res.status(404).json(winner);
-        if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
+        if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
         if (winner && winner.status === 'building') return res.status(202).json(winner);
         recordDossierView(req.userId, sym, winner && winner.name);
         return res.json({ dossier: winner });

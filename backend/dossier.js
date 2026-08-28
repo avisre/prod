@@ -27,6 +27,7 @@ const esgMod = require('./esg');
 const industry = require('./industry');
 const valuationDcf = require('./valuation-dcf');
 const dossierBuildLock = require('./dossier-build-lock');
+const keypoints = require('./keypoints');
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 function dossierCol() { return mongoose.connection.collection('company_dossiers'); }
@@ -36,15 +37,24 @@ const DOSSIER_BUILD_WAIT_MS = 6 * 60 * 1000;
 
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
 
-async function cachedDossier(col, sym, fyEnd) {
-    const hit = await col.findOne({ symbol: sym, fyEnd }, { projection: { _id: 0 } });
+// depth is not a schema-version bump: an existing Standard dossier is not
+// wrong, it is just missing this field. So a Standard request matches any
+// document that isn't explicitly 'deep' (covers every dossier cached before
+// this field existed) — nothing already built gets silently invalidated. A
+// Deep request matches only an explicit 'deep' document, which by definition
+// cannot exist yet, so it always builds fresh the first time.
+async function cachedDossier(col, sym, fyEnd, depth = 'standard') {
+    const query = depth === 'deep'
+        ? { symbol: sym, fyEnd, depth: 'deep' }
+        : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
+    const hit = await col.findOne(query, { projection: { _id: 0 } });
     return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION
         ? { ...hit.payload, cached: true }
         : null;
 }
 
-async function acquireDossierLease(col, sym, fyEnd, onStage) {
-    const key = `${sym}:${fyEnd}:v${DOSSIER_SCHEMA_VERSION}`;
+async function acquireDossierLease(col, sym, fyEnd, depth, onStage) {
+    const key = `${sym}:${fyEnd}:${depth}:v${DOSSIER_SCHEMA_VERSION}`;
     const owner = crypto.randomUUID();
     const deadline = Date.now() + DOSSIER_BUILD_WAIT_MS;
 
@@ -55,7 +65,7 @@ async function acquireDossierLease(col, sym, fyEnd, onStage) {
         if (lease.acquired) return { key, owner };
 
         onStage('queued');
-        const cached = await cachedDossier(col, sym, fyEnd);
+        const cached = await cachedDossier(col, sym, fyEnd, depth);
         if (cached) return { cached };
         if (Date.now() >= deadline) return { busy: true };
         await sleep(1000);
@@ -231,9 +241,10 @@ async function bullBear(digest) {
 
 // Orchestrate. The expensive grounded pieces are independent module calls, each
 // itself cached — run them concurrently, tolerate any single failure.
-async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) {
+async function buildDossier(symbol, { force = false, onStage = () => {}, depth = 'standard' } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return { error: 'Invalid ticker.' };
+    depth = depth === 'deep' ? 'deep' : 'standard';
 
     const data = await aiChat.loadFundAny(sym).catch(() => null);
     if (!data) return { error: `No data for ${sym}. We cover US exchange-listed SEC filers reporting in USD.` };
@@ -244,7 +255,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     const col = dossierCol();
     if (!force) {
         try {
-            const hit = await cachedDossier(col, sym, fyEnd);
+            const hit = await cachedDossier(col, sym, fyEnd, depth);
             if (hit) return hit;
         } catch (_) { /* cache best-effort */ }
     }
@@ -252,7 +263,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     let buildLease = null;
     try {
         try {
-            const lease = await acquireDossierLease(col, sym, fyEnd, onStage);
+            const lease = await acquireDossierLease(col, sym, fyEnd, depth, onStage);
             if (lease.cached) return lease.cached;
             if (lease.busy) return { status: 'building', symbol: sym, stage: 'queued' };
             buildLease = lease;
@@ -260,7 +271,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
             // Another worker may have completed between our first cache read
             // and this lease acquisition. Re-check before spending any AI.
             if (!force) {
-                const hit = await cachedDossier(col, sym, fyEnd);
+                const hit = await cachedDossier(col, sym, fyEnd, depth);
                 if (hit) return hit;
             }
         } catch (error) {
@@ -272,13 +283,19 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         }
 
         onStage('gathering'); // pulling the grounded surfaces (the slow part)
-        const [rdcfR, checksR, insightsR, segsR, monitorR, ueR] = await Promise.allSettled([
+        // Deep does NOT re-run governance/ESG/segments/unit-economics across
+        // three years — those are current-state facts, not historical ones, and
+        // tripling them would be expensive and mostly redundant. Its value is
+        // the year-over-year keypoints comparison: newly disclosed risks,
+        // dropped risks, strategy drift — reused here rather than rebuilt.
+        const [rdcfR, checksR, insightsR, segsR, monitorR, ueR, trendR] = await Promise.allSettled([
             reverseDcf.computeReverseDcf(sym),
             Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
             insights.generateInsights(sym),
             segments.extractSegments(sym),
             filingMonitor.buildReport(sym).catch(() => null),
-            unitEconomics.extract(sym)
+            unitEconomics.extract(sym),
+            depth === 'deep' ? keypoints.extractKeyPoints(sym, { depth: 'deep', allowAi: true }) : Promise.resolve(null)
         ]);
     const ok = (r) => (r.status === 'fulfilled' && r.value && !r.value.error ? r.value : null);
     const rdcf = ok(rdcfR);
@@ -288,6 +305,9 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     const monitor = ok(monitorR);
     const ue = ok(ueR);
     const deltas = monitor && monitor.deltas ? monitor.deltas : [];
+    const trendResult = ok(trendR);
+    const yearOverYear = (trendResult && trendResult.depth === 'deep' && Array.isArray(trendResult.yearOverYear))
+        ? trendResult.yearOverYear : [];
 
     // deterministic layers (cheap, in-memory): peer/competitive + forensic edge
     let peers = null;
@@ -312,7 +332,15 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     try { esg = await esgMod.buildESG(sym, { governance: gov }); } catch (_) { esg = null; }
     if (esg && esg.error && !esg.governance && !esg.environmental && !esg.humanCapital) esg = null;
 
-    const digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue });
+    let digest = buildDigest({ overview, rdcf, deltas, checks, insightItems, segs, peers, forensic, valuation, gov, industryData, esg, ue });
+    if (yearOverYear.length) {
+        // Appended, not threaded through buildDigest's signature: this keeps
+        // the single-year digest shape unchanged for every other caller and
+        // for Standard dossiers, and lets the writers reference what changed
+        // without a second, parallel "grounding" concept to reason about.
+        digest += '\n\nYear-over-year changes (from the last 3 filed 10-Ks):\n' +
+            yearOverYear.map((s) => `${s.heading}: ${s.points.join(' ')}`).join('\n');
+    }
     onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
     const [summary, bb, risks, edge] = await Promise.all([
         execSummary(digest), bullBear(digest), riskSection(digest), edgeSection(forensic)
@@ -329,6 +357,9 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
         sector: overview.Sector || '',
         industry: overview.Industry || '',
         fyEnd,
+        depth,
+        yearOverYear,
+        filingHistory: (trendResult && trendResult.history) || null,
         snapshot: {
             marketCap: mc,
             pe: overview.PERatio || null,
@@ -400,7 +431,16 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
     };
 
         try {
-            await col.updateOne({ symbol: sym, fyEnd }, { $set: { symbol: sym, fyEnd, payload, at: new Date() } }, { upsert: true });
+            // Filter shape mirrors cachedDossier's read exactly. Deep must match
+            // ONLY an explicit deep doc (else it would overwrite the Standard
+            // one at the same {symbol, fyEnd}); Standard must match ANY non-deep
+            // doc, including one cached before this field existed — otherwise a
+            // force-refresh of a legacy dossier would fail to match and insert
+            // an orphaned duplicate instead of updating it in place.
+            const filter = depth === 'deep'
+                ? { symbol: sym, fyEnd, depth: 'deep' }
+                : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
+            await col.updateOne(filter, { $set: { symbol: sym, fyEnd, depth, payload, at: new Date() } }, { upsert: true });
         } catch (_) { /* cache best-effort */ }
         return payload;
     } finally {
@@ -413,15 +453,15 @@ async function buildDossier(symbol, { force = false, onStage = () => {} } = {}) 
 }
 
 // Build-free cache peek for the decoupled poll path.
-async function peekDossier(symbol) {
+async function peekDossier(symbol, depth = 'standard') {
     const sym = String(symbol || '').toUpperCase().trim();
     try {
         const data = await aiChat.loadFundAny(sym).catch(() => null);
         if (!data) return null;
         const pack = insights.buildFactPack(sym);
         const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
-        return cachedDossier(dossierCol(), sym, fyEnd);
+        return cachedDossier(dossierCol(), sym, fyEnd, depth === 'deep' ? 'deep' : 'standard');
     } catch (_) { return null; }
 }
 
-module.exports = { buildDossier, peekDossier, buildDigest };
+module.exports = { buildDossier, peekDossier, buildDigest, cachedDossier };
