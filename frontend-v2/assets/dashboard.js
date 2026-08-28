@@ -52,6 +52,65 @@
     }
     mountInitialRefund();
 
+    // "Your plan" card — answers "what am I on" and "what's included" right on
+    // login instead of only surfacing at an upgrade wall or quota-exhausted error.
+    async function mountPlanStatus() {
+        if (DEMO) return;
+        try {
+            const [sessionR, quotaR] = await Promise.all([
+                fetch(`${API}/session`, { headers: auth }),
+                fetch(`${API}/ai/chat/quota`, { headers: auth })
+            ]);
+            const session = await sessionR.json().catch(() => ({}));
+            const quota = await quotaR.json().catch(() => ({}));
+            const section = $('plan-status');
+            const nameEl = $('plan-name');
+            const quotaEl = $('plan-quota');
+            const includesEl = $('plan-includes');
+            const upgradeEl = $('plan-upgrade');
+            if (!section || !session.subscription) return;
+            nameEl.textContent = session.subscription.planName || (session.tier === 'free' ? 'Free' : session.tier === 'core' ? 'Core' : 'Pro');
+            quotaEl.textContent = Number.isFinite(quota.limit)
+                ? `${quota.used || 0} / ${quota.limit} Ask questions used this month`
+                : '';
+            includesEl.textContent = session.tier === 'pro'
+                ? 'Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, and unlimited portfolio tracking. The Filing Change Monitor, Thesis Tracker and tax tools are on Power/Desk — not included on Pro or any AppSumo tier.'
+                : session.tier === 'core'
+                    ? 'Includes screener, comparison and portfolio tracking. Upgrade to Pro for Ask, Dossier and filing key points.'
+                    : 'Upgrade for Ask, Dossier, screener and portfolio tracking.';
+            if (quota.appsumo && quota.appsumo.isAppSumo) {
+                upgradeEl.innerHTML = `Need more Ask questions? <a href="${esc(quota.appsumo.upgradeUrl)}">Upgrade your AppSumo license →</a>`;
+                upgradeEl.hidden = false;
+            } else {
+                upgradeEl.hidden = true;
+            }
+            section.hidden = false;
+        } catch (_) { /* plan card is non-blocking */ }
+    }
+    mountPlanStatus();
+
+    // Recent research — Dossier is cached per company and never re-billed, but
+    // that cache is invisible unless we surface it: list what this user has
+    // already generated so they don't need to remember tickers to reopen for free.
+    async function mountRecentResearch() {
+        if (DEMO) return;
+        try {
+            const r = await fetch(`${API}/dossier-history/recent`, { headers: auth });
+            if (!r.ok) return;
+            const data = await r.json().catch(() => ({}));
+            const recent = Array.isArray(data.recent) ? data.recent : [];
+            if (!recent.length) return;
+            const section = $('recent-research-section');
+            const list = $('recent-research-list');
+            list.innerHTML = recent.map((item) => `
+              <a class="chip" href="/dossier.html?symbol=${encodeURIComponent(item.symbol)}">
+                ${esc(item.symbol)}${item.name ? ` — ${esc(item.name)}` : ''}
+              </a>`).join('');
+            section.hidden = false;
+        } catch (_) { /* recent research is non-blocking */ }
+    }
+    mountRecentResearch();
+
     let lastRows = []; // for CSV export
     let portfolioActionBusy = false;
     let portfolioRefreshVersion = 0;

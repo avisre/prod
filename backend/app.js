@@ -2234,6 +2234,28 @@ const CustomerMessageBroadcastSchema = new mongoose.Schema({
 }, { timestamps: true, versionKey: false, collection: 'customer_message_broadcasts' });
 const CustomerMessageBroadcast = mongoose.model('CustomerMessageBroadcast', CustomerMessageBroadcastSchema);
 
+// One row per (user, symbol) the user has opened a Dossier for — lets the
+// dashboard show "recent research" without the user needing to remember
+// which tickers they've already run. Upserted, not appended: repeat views
+// just bump lastViewedAt.
+const DossierViewSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    symbol: { type: String, required: true },
+    name: { type: String, default: null },
+    lastViewedAt: { type: Date, default: () => new Date() }
+}, { versionKey: false, collection: 'dossier_views' });
+DossierViewSchema.index({ userId: 1, symbol: 1 }, { unique: true });
+DossierViewSchema.index({ userId: 1, lastViewedAt: -1 });
+const DossierView = mongoose.model('DossierView', DossierViewSchema);
+function recordDossierView(userId, symbol, name) {
+    if (!userId) return;
+    DossierView.updateOne(
+        { userId, symbol },
+        { $set: { lastViewedAt: new Date(), ...(name ? { name } : {}) } },
+        { upsert: true }
+    ).catch((error) => console.error('[dossier] view tracking failed:', error && error.message));
+}
+
 // Append-only, MongoDB-backed customer registry. The unique event key makes
 // Stripe/AppSumo webhook retries idempotent while keeping a durable audit trail
 // of the email address and plan observed at signup or first paid activation.
@@ -8659,6 +8681,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         const instrument = await assetProfile.fetchAssetProfile(sym).catch(() => null);
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
             const summary = await aiFeatures.summarizeFinancials(sym);
+            recordDossierView(req.userId, sym, instrument.name);
             return res.json({ dossier: {
                 symbol: sym,
                 name: instrument.name || sym,
@@ -8688,7 +8711,10 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (req.query.poll === '1') {
             if (_dossierInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
             const cached = await dossier.peekDossier(sym).catch(() => null);
-            if (cached) return res.json({ dossier: cached });
+            if (cached) {
+                recordDossierView(req.userId, sym, cached.name);
+                return res.json({ dossier: cached });
+            }
             return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
         }
 
@@ -8703,10 +8729,20 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (winner && winner.error) return res.status(404).json(winner);
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(sym) || null });
         if (winner && winner.status === 'building') return res.status(202).json(winner);
+        recordDossierView(req.userId, sym, winner && winner.name);
         return res.json({ dossier: winner });
     } catch (err) {
         console.error('[dossier] route error:', err.message);
         res.status(500).json({ message: 'Failed to build the dossier.' });
+    }
+});
+
+app.get('/api/dossier-history/recent', authMiddleware, async (req, res) => {
+    try {
+        const views = await DossierView.find({ userId: req.userId }).sort({ lastViewedAt: -1 }).limit(12).lean();
+        res.json({ recent: views.map((v) => ({ symbol: v.symbol, name: v.name || null, lastViewedAt: v.lastViewedAt })) });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load recent research.' });
     }
 });
 
