@@ -21,6 +21,7 @@
 
     function activityLabel(reason, refId) {
         if (reason === 'ask') return 'Ask question';
+        if (reason === 'monitor') return refId ? `Monitor report: ${refId}` : 'Monitor report';
         if (reason === 'dossier') {
             const [symbol, depth] = String(refId || '').split(':');
             const kind = depth === 'deep' ? 'Deep Dossier' : 'Standard Dossier';
@@ -29,12 +30,25 @@
         return 'Credit use';
     }
 
+    // "1 Sep" / "1 Sep · in 3 days" — matches the activity list's own date
+    // format (toLocaleDateString('en-GB', {day, month})) for consistency.
+    function formatReset(iso) {
+        const reset = iso ? new Date(iso) : null;
+        if (!reset || Number.isNaN(reset.getTime())) return '';
+        const dateStr = reset.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+        const days = Math.ceil((reset.getTime() - Date.now()) / 86400000);
+        if (days <= 0) return `Resets ${dateStr}`;
+        return `Resets ${dateStr} · in ${days} day${days === 1 ? '' : 's'}`;
+    }
+
     function mountCredits(credits) {
         const wrap = $('credits-section');
         const allowance = Number(credits.allowance) || 0;
         const used = Number(credits.used) || 0;
         const remaining = Number.isFinite(credits.remaining) ? credits.remaining : Math.max(0, allowance - used);
         const recent = Array.isArray(credits.recent) ? credits.recent : [];
+        const hasMonitor = !!credits.hasMonitor;
+        const cost = credits.cost || {};
 
         // Nothing to show yet (fresh account, or the fetch came back empty)
         // — leave the whole sub-section hidden rather than render a
@@ -43,36 +57,54 @@
 
         $('credits-used-label').textContent = `${used} / ${allowance} credits used`;
         $('credits-remaining-label').textContent = `${Math.max(0, remaining)} left`;
+        const resetEl = $('credits-reset');
+        if (resetEl) resetEl.textContent = formatReset(credits.resetsAt);
         const fill = $('credits-bar-fill');
         const pctUsed = allowance > 0 ? Math.min(100, (used / allowance) * 100) : 0;
         fill.style.width = `${pctUsed}%`;
         fill.classList.toggle('is-high', pctUsed >= 85);
 
-        // Ask/Dossier split, derived from the same `recent` rows the
+        // Ask/Monitor/Dossier split, derived from the same `recent` rows the
         // activity list renders below — one source of truth, no extra
         // request. recentActivity() is capped server-side, so on a very
         // heavy month those rows may not cover the full `used` total; only
         // show the split when they plausibly do, rather than render a
         // partial breakdown that looks complete but isn't.
-        let ask = 0, dossier = 0, covered = 0;
+        let ask = 0, monitor = 0, dossier = 0, covered = 0;
         for (const row of recent) {
             const amt = Math.max(0, -Number(row.delta) || 0);
             covered += amt;
             if (row.reason === 'ask') ask += amt;
+            else if (row.reason === 'monitor') monitor += amt;
             else if (row.reason === 'dossier') dossier += amt;
         }
         const breakdownEl = $('credits-breakdown');
         if (recent.length && covered >= used) {
-            const max = Math.max(ask, dossier, 1);
-            breakdownEl.innerHTML = [['Ask', ask], ['Dossier', dossier]].map(([label, amt]) => `
+            // Monitor is Power/Desk-only — a user who can't reach the feature
+            // gets a one-line upsell in its place instead of a usage row for
+            // something they've never been able to use.
+            const rows = [['Ask', ask]];
+            if (hasMonitor) rows.push(['Monitor', monitor]);
+            rows.push(['Dossier', dossier]);
+            const max = Math.max(...rows.map(([, amt]) => amt), 1);
+            breakdownEl.innerHTML = rows.map(([label, amt]) => `
                 <div class="credits-split-row">
                   <span class="small muted">${label}</span>
                   <div class="credits-split-track"><div class="credits-split-fill" style="width:${(amt / max) * 100}%;"></div></div>
                   <span class="small" style="text-align:right;">${amt} credits</span>
-                </div>`).join('');
+                </div>`).join('')
+                + (hasMonitor ? '' : '<p class="small muted" style="margin:8px 0 0;">The Filing Change Monitor is on Power and Desk.</p>');
             breakdownEl.hidden = false;
         } else {
             breakdownEl.hidden = true;
+        }
+
+        const costEl = $('credits-cost-line');
+        if (costEl) {
+            const parts = [`Ask a question ${cost.ask ?? 2}`];
+            if (hasMonitor) parts.push(`Monitor report ${cost.monitor ?? 5}`);
+            parts.push(`Dossier ${cost.dossier_standard ?? 10}`, `Deep Dossier (3-year) ${cost.dossier_deep ?? 30}`);
+            costEl.textContent = parts.join(' · ') + '. Re-opening anything you’ve already run is free.';
         }
 
         const activityWrap = $('credits-activity-wrap');

@@ -723,7 +723,6 @@
                 </div>
               </div>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
-              <a href="/profile.html" ${cur('profile')}>Profile</a>
               <a href="/gurus.html" ${cur('gurus')}>Gurus</a>
               <a href="/#pricing" ${cur('pricing')}>Pricing</a>
             </nav>
@@ -735,7 +734,7 @@
             </div>
             ${authed
                 ? `<a class="btn btn-primary btn-sm" href="/#pricing" id="v2-upgrade" hidden>Upgrade</a>
-                   <a class="nav-profile" href="/inbox.html" aria-label="Messages and account" title="Messages">
+                   <a class="nav-profile" href="/profile.html" aria-label="Profile and messages" title="Profile">
                      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V20h15v-1.3C19.5 16.1 16.1 14 12 14Z" fill="currentColor"/></svg><span class="nav-message-badge" id="v2-message-badge" hidden>0</span>
                    </a>
                    <a class="btn btn-quiet" href="#" id="v2-signout">Sign out</a>`
@@ -775,7 +774,7 @@
                 <a href="/monitor.html" class="nav-mobile-sub" ${cur('monitor')}>Filing Monitor</a>
                 <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
-                ${authed ? '<a href="/inbox.html">Messages</a>' : ''}
+                ${authed ? `<a href="/profile.html" ${cur('profile')}>Profile</a>` : ''}
                 <a href="/#pricing" ${cur('pricing')}>Pricing</a>
               </nav>
               <div class="nav-mobile-auth">

@@ -2019,6 +2019,16 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
     res.send(html);
 });
 
+// Messages moved onto the consolidated Profile page (nav's person icon now
+// points at /profile.html, which embeds the same message thread). This MUST
+// be registered before express.static below: inbox.html still exists as a
+// physical file, and static-serving would otherwise send it directly for any
+// request matching that literal path, before a route registered after it
+// ever got a chance to run. customerMessageMailFor() builds a "reply in your
+// private inbox" link to /inbox.html into the email a customer gets when
+// support replies, so this stays a redirect rather than a 404.
+app.get(/^\/inbox(\.html)?\/?$/, (req, res) => res.redirect(301, '/profile.html'));
+
 app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
 app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));
 // transition window: old surface stays reachable at /v1; /v2 links keep working
@@ -6772,11 +6782,16 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
 // Ask UI, and this is new, additive surface — not a replacement for it.
 app.get('/api/credits', authMiddleware, async (req, res) => {
     try {
+        const planId = req.subscription && req.subscription.planId;
         const [bal, recent] = await Promise.all([
-            credits.balance(req.userId, effectiveAskLimit(req)),
+            credits.balance(req.userId, effectiveAskLimit(req), planId),
             credits.recentActivity(req.userId)
         ]);
-        res.json({ ...bal, cost: credits.COST, recent });
+        // hasMonitor: Monitor is Power/Desk-only and not part of the LTD/AppSumo
+        // entitlement — the profile page needs this to decide between showing a
+        // Monitor breakdown row and a one-line upsell, since a user who can't
+        // reach the feature shouldn't see a usage row for it.
+        res.json({ ...bal, cost: credits.COST, recent, hasMonitor: hasMonitor(req) });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
     }
@@ -8604,7 +8619,26 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const force = req.query.refresh === '1' && hasMonitor(req);
         let build = (!force && _monitorInflight.get(sym)) || null;
         if (!build) {
-            build = filingMonitor.buildReport(sym, { force, onStage: (stage) => _monitorProgress.set(sym, stage) })
+            // Credit charge lives INSIDE this wrapper, after buildReport resolves,
+            // rather than after the Promise.race below. A cold build routinely
+            // outlives MONITOR_FAST_MS (9s) — this route then returns PENDING to
+            // its original caller, and the finished result is only ever observed
+            // later via ?poll=1, which never charges (it's a pure cache read).
+            // Charging only after `winner` resolves would mean any build slow
+            // enough to hit that path is never charged at all — the same
+            // poll-path/fast-path gap fixed for Dossier at the credits.check/
+            // spend call above. Wrapping it here also keeps this atomic with
+            // registering the promise in _monitorInflight (no `await` in
+            // between), so two concurrent requests for the same brand-new
+            // symbol can't both slip through uncharged the way the Dossier race
+            // did before that fix.
+            build = (async () => {
+                const result = await filingMonitor.buildReport(sym, { force, onStage: (stage) => _monitorProgress.set(sym, stage) });
+                if (paid && req.userId && result && !result.error && result.cached !== true) {
+                    await credits.spend(req.userId, 'monitor', 'monitor', sym);
+                }
+                return result;
+            })()
                 .catch((err) => { console.error('[filings] build error:', err && err.message); return { error: 'Couldn’t analyse that filing right now — please try again in a moment.' }; })
                 .finally(() => { _monitorInflight.delete(sym); _monitorProgress.delete(sym); });
             _monitorInflight.set(sym, build);
@@ -8787,7 +8821,8 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
             build = (async () => {
                 if (!force) {
                     const costKey = depth === 'deep' ? 'dossier_deep' : 'dossier_standard';
-                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req));
+                    const planId = req.subscription && req.subscription.planId;
+                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req), planId);
                     if (!gate.ok) return { creditsError: gate };
                     await credits.spend(req.userId, costKey, 'dossier', `${sym}:${depth}`);
                 }

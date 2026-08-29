@@ -52,7 +52,10 @@
           <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
 
           <div id="credits-section" hidden style="margin-top:18px; padding-top:16px; border-top:1px solid var(--line);">
-            <p class="label">Credits this month</p>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;">
+              <p class="label" style="margin:0;">Credits this month</p>
+              <span class="small muted" id="credits-reset"></span>
+            </div>
             <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; gap:12px;">
               <span class="small" id="credits-used-label" style="font-weight:650;"></span>
               <span class="small muted" id="credits-remaining-label"></span>
@@ -62,6 +65,8 @@
             </div>
 
             <div id="credits-breakdown" hidden style="margin-top:16px;"></div>
+
+            <p class="small muted" id="credits-cost-line" style="margin:14px 0 0;"></p>
 
             <div id="credits-activity-wrap" hidden style="margin-top:16px;">
               <p class="small muted" style="margin:0 0 4px;">Recent activity</p>

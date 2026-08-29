@@ -23,9 +23,27 @@
 
 const mongoose = require('mongoose');
 
-const COST = { ask: 2, dossier_standard: 10, dossier_deep: 30 };
+// Weights are calibrated from measured input volume, not guessed. Running the
+// real extractors over 25 tickers (5 sectors, mega->micro cap) gave, per cold
+// build: Monitor ~18K input tokens across 4-6 calls, Dossier standard ~75K
+// across ~11-13, Deep ~150K. Normalised against Dossier standard = 10, Monitor
+// lands at ~2.4; it is priced at 5 to leave headroom for its two 40MB SEC
+// downloads and minutes of wall-clock, while staying legibly below Dossier.
+// Monitor's input is cap-bound (filing-diff pins at 2x20K, unit-economics at
+// 28K), so it does NOT scale with company size.
+const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
+
+// First instant of next month, UTC — the moment monthKey() rolls over and this
+// month's spend stops counting. Derived rather than stored: the reset is
+// implicit in the month key, and Date.UTC normalises a December rollover into
+// the next year on its own.
+function resetsAt() {
+    const now = new Date();
+    return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
+}
+
 function ledgerCol() { return mongoose.connection.collection('credit_ledger'); }
 
 // A used amount of 0 on any error, matching aiChat.getUsage's fail-open
@@ -40,20 +58,33 @@ async function used(userId) {
     } catch (_) { return 0; }
 }
 
-// One wallet shared with Ask, sized off the Ask limit the user already has
-// (effectiveAskLimit — tier, AppSumo cap, env overrides all already resolved
-// there) rather than a second, parallel tier table that could drift from it.
-// ×2 preserves exactly the Ask capacity already sold: every existing user can
-// still ask precisely as many questions as before, with Dossier layered on
-// top of the same budget, not carved out of it.
-function allowance(effectiveAskLimit) {
-    return Math.max(0, Number(effectiveAskLimit) || 0) * 2;
+// One wallet shared with Ask, Monitor and Dossier, sized off the Ask limit the
+// user already has (effectiveAskLimit — tier, AppSumo cap, env overrides all
+// already resolved there) rather than a second, parallel tier table that could
+// drift from it. ×2 preserves exactly the Ask capacity already sold: every
+// existing user can still ask precisely as many questions as before, with the
+// other features layered on top of the same budget, not carved out of it.
+//
+// Power/Desk get a materially larger ceiling instead of the bare ×2. Reason:
+// userTier() (app.js) deliberately collapses power/power-monthly/desk to the
+// same 'pro' gate tier, so effectiveAskLimit — and a bare ×2 off it — would
+// give a $540 Desk customer the identical 600-credit wallet as a $33 Pro
+// customer, while Monitor (Power/Desk-only, previously unmetered) is now
+// drawing from that same pool. Keyed on the *uncollapsed* planId so it must be
+// read from req.subscription.planId, not req.tier. Every other plan keeps the
+// plain ×2 — no current user's capacity shrinks.
+const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000 };
+
+function allowance(effectiveAskLimit, planId) {
+    const floor = PLAN_ALLOWANCE_FLOOR[String(planId || '').toLowerCase()];
+    const base = Math.max(0, Number(effectiveAskLimit) || 0) * 2;
+    return floor ? Math.max(floor, base) : base;
 }
 
-async function balance(userId, effectiveAskLimit) {
+async function balance(userId, effectiveAskLimit, planId) {
     const spent = await used(userId);
-    const limit = allowance(effectiveAskLimit);
-    return { used: spent, allowance: limit, remaining: Math.max(0, limit - spent), month: monthKey() };
+    const limit = allowance(effectiveAskLimit, planId);
+    return { used: spent, allowance: limit, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
 }
 
 // Never throws: a failed ledger write must not undo an answer already shown
@@ -73,17 +104,20 @@ async function spend(userId, cost, reason, refId) {
 
 // Read-only check a route can act on BEFORE doing expensive work — does not
 // itself spend anything.
-async function check(userId, cost, effectiveAskLimit) {
+async function check(userId, cost, effectiveAskLimit, planId) {
     const amount = Number(COST[cost] ?? cost);
-    const bal = await balance(userId, effectiveAskLimit);
+    const bal = await balance(userId, effectiveAskLimit, planId);
     return { ok: bal.remaining >= amount, cost: amount, ...bal };
 }
 
 // Display-only: the last few ledger rows for this user's current month, for
 // an itemized "what did I spend it on" view. Not used by check()/spend() —
 // those stay a single cheap aggregate on the hot gating path; this is a
-// separate, capped read for a profile page.
-async function recentActivity(userId, limit = 8) {
+// separate, capped read for a profile page. Default raised from 8 to 12 so a
+// three-feature (Ask/Monitor/Dossier) breakdown more often has enough rows to
+// account for the full month's spend — see the `covered >= used` guard in
+// profile.js, which hides the breakdown rather than show a partial one.
+async function recentActivity(userId, limit = 12) {
     try {
         return await ledgerCol()
             .find({ userId: String(userId), month: monthKey() })
@@ -94,4 +128,4 @@ async function recentActivity(userId, limit = 8) {
     } catch (_) { return []; }
 }
 
-module.exports = { COST, monthKey, used, allowance, balance, spend, check, recentActivity };
+module.exports = { COST, monthKey, resetsAt, used, allowance, balance, spend, check, recentActivity };

@@ -60,7 +60,19 @@ const WatchState = mongoose.models.WatchState || mongoose.model('WatchState', Wa
 // ---- SEC submissions ----
 async function fetchRecentFilings(symbol, forms = WATCH_FORMS, cap = 40) {
   let cik = await secSource.cikFor(symbol);
-  if (!cik) return null;
+  if (!cik) {
+    // Not every filer is in the static company_tickers.json (2 of a 25-ticker
+    // measurement sample, e.g. EXAS, were missing entirely) — the same
+    // resolveWorkingCik fallback used below for a wrong CIK also covers a
+    // missing one, since it queries EDGAR's own ticker search independently
+    // of that file. Only worth trying when a 10-K is wanted; a null result
+    // here is cached (see resolveWorkingCik), so a ticker with genuinely no
+    // EDGAR filer only pays this extra request once.
+    if (!forms.has('10-K')) return null;
+    const found = await secSource.resolveWorkingCik(symbol, null, '10-K');
+    if (!found) return null;
+    cik = found;
+  }
   let r = await axios.get(`https://data.sec.gov/submissions/CIK${cik}.json`, {
     headers: secSource.SEC_HEADERS,
     timeout: 20000

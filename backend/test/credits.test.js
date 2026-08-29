@@ -82,6 +82,59 @@ test('credit ledger: allowance, spend, balance, and month isolation', { timeout:
 
     const empty = await credits.recentActivity('user-nobody', 8);
     assert.deepEqual(empty, [], 'a user with no ledger rows gets an empty list, not an error');
+
+    // Monitor cost, on a fresh user so it doesn't disturb the exact
+    // recentActivity ordering/count asserted above for `user`.
+    const monUser = 'user-monitor';
+    await credits.spend(monUser, 'monitor', 'monitor', 'NVDA');
+    const monBal = await credits.balance(monUser, 300);
+    assert.equal(monBal.used, 5, 'a Monitor report costs 5');
+    const monRecent = await credits.recentActivity(monUser);
+    assert.equal(monRecent.length, 1);
+    assert.equal(monRecent[0].reason, 'monitor');
+    assert.equal(monRecent[0].refId, 'NVDA');
+});
+
+test('allowance() gives Power/Desk a real ceiling instead of inheriting Pro\'s ×2', () => {
+    // Power/Desk collapse to the same 'pro' *gate* tier (userTier() in
+    // app.js), so effectiveAskLimit alone can't tell them apart — the floor
+    // must be keyed on the uncollapsed planId.
+    assert.equal(credits.allowance(300, 'power'), 2000, 'Power floor wins over 300×2=600');
+    assert.equal(credits.allowance(300, 'power-monthly'), 2000);
+    assert.equal(credits.allowance(300, 'desk'), 10000);
+
+    // A plan with a genuinely larger Ask limit than the floor keeps its own
+    // ×2 — the floor is a minimum, never a cap that shrinks anyone.
+    assert.equal(credits.allowance(6000, 'desk'), 12000, '6000×2=12000 > the 10000 floor');
+
+    // Every other plan (including no planId at all) is untouched: same ×2 as
+    // before this change, so no existing user's capacity shrinks.
+    assert.equal(credits.allowance(300, 'pro'), 600);
+    assert.equal(credits.allowance(300), 600, 'planId omitted entirely');
+    assert.equal(credits.allowance(30, 'free'), 60);
+
+    // planId is matched case-insensitively against the exact stored values —
+    // never accidentally matches a substring or unrelated plan.
+    assert.equal(credits.allowance(300, 'POWER'), 2000);
+    assert.equal(credits.allowance(300, 'power-annual'), 600, 'not a recognized Power planId — falls through to ×2');
+});
+
+test('resetsAt() is the 1st of next UTC month, including a December -> January rollover', (t) => {
+    const RealDate = Date;
+    function mockDate(iso) {
+        class MockDate extends RealDate {
+            constructor(...args) { return args.length ? new RealDate(...args) : new RealDate(iso); }
+            static now() { return new RealDate(iso).getTime(); }
+        }
+        global.Date = MockDate;
+    }
+    t.after(() => { global.Date = RealDate; });
+
+    mockDate('2026-08-29T12:00:00Z');
+    assert.equal(credits.resetsAt(), '2026-09-01T00:00:00.000Z');
+
+    mockDate('2026-12-15T23:59:00Z');
+    assert.equal(credits.resetsAt(), '2027-01-01T00:00:00.000Z', 'December rolls into next year, not month 13');
 });
 
 test('spend() never throws, even with a broken connection', { timeout: 10000 }, async () => {
