@@ -1,6 +1,6 @@
 name: Refresh fundamentals cache
 
-# Pulls fresh fundamentals from Alpha Vantage for every symbol in
+# Pulls fresh fundamentals from Yahoo Finance + SEC filings for every symbol in
 # frontend/data/sp500-companies.json (or top-100-companies.json if that
 # isn't present yet) and force-pushes the result to a dedicated branch.
 # Force-pushing keeps git history flat so the data churn doesn't bloat
@@ -52,10 +52,19 @@ jobs:
 
       - name: Refresh fundamentals JSON files
         env:
-          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
-          ALPHA_MIN_INTERVAL_MS: '400'
           MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
         run: node scripts/refresh-fundamentals.js frontend/data/sp500-companies.json
+
+      # refresh-fundamentals.js queues the pages whose *filed* statements changed.
+      # The queue lives outside frontend/data/ and is never committed, so it must
+      # be sent in the same job or it is discarded with the runner. Bing consumes
+      # IndexNow; Google does not. Non-blocking: a failed submission must never
+      # fail the data refresh.
+      - name: Submit changed pages to IndexNow
+        continue-on-error: true
+        run: |
+          node scripts/seo/indexnow-queue.js status || true
+          node scripts/indexnow-ping.js --queue || true
 
       - name: Configure git
         run: |
