@@ -1401,6 +1401,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 /* tablets are touch too — hold the 40px chip floor past the phone breakpoint */
 @media (max-width: 900px) {
   .chip { min-height: 40px; display: inline-flex; align-items: center; }
+  input[type='checkbox'] { width: 20px; height: 20px; flex: none; }
 }
 @media (max-width: 640px) {
   .nav-inner .nav-search { display: none; }

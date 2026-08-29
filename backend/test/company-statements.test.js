@@ -99,8 +99,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // markup and its styles have to ship together or the page renders broken.
   // Stamp bumped 2026-08-29 with the nav/account-dropdown change, which edits
   // system.css site-wide; company.js follows so the pair stays in lockstep.
-  assert.match(companyHtml, /assets\/system\.css\?v=20260830-mob5/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260830-mob5/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20260830-mob6/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260830-mob6/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {

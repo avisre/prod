@@ -57,7 +57,7 @@ test('the crushed header search moves into the drawer on phones', () => {
 test('phone touch floors: checkboxes, dense tables, chips past 760px too', () => {
     assert.match(css, /@media \(max-width: 760px\) \{[\s\S]*?input\[type='checkbox'\] \{ width: 20px; height: 20px;[\s\S]*?\.table-data \{ font-size: 12\.5px; \}/);
     // tablets measured 26px chips — the 40px floor now holds to 900px
-    assert.match(css, /@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*\}/);
+    assert.match(css, /@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*input\[type='checkbox'\] \{ width: 20px; height: 20px; flex: none; \}\s*\}/);
 });
 
 test('tools-index "Open tool →" links are a tap target, not a 21px sliver', () => {
@@ -146,7 +146,7 @@ test('404 recovery links, screener tool links, comparison foot links and monitor
     const cmpPages = read('backend', 'comparison-pages.js');
     assert.match(cmpPages, /\.seo-foot a\{color:var\(--muted\);display:inline-block;padding:8px 3px\}/);
     const monHtml = read('frontend-v2', 'monitor.html');
-    assert.match(monHtml, /<a style="display:inline-block; padding:8px 2px;" href="\/ask\.html">Ask<\/a>/);
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/ask\.html">Ask<\/a>/);
 });
 
 // ── Pass 6: sitewide prose-link tap rule + the last stragglers ──
@@ -167,4 +167,32 @@ test('ask quota line, gurus provenance, appsumo wordmark/badge and tools-index t
 
 test('seo nav links clear the tablet breakpoint', () => {
     assert.match(seoPages, /@media\(max-width:900px\)\{\.seo-nav\{[\s\S]*?\.seo-nav-links a\{display:inline-block;padding:11px 2px\}\}/);
+});
+
+// ── Pass 6b: the final live-measured stragglers (land ▸ glyph, monitor
+// 27px-wide Ask link, tablet screener checkbox, lifetime AppSumo link,
+// tablet seo breadcrumb, land monitor-feature card prose link) ──
+
+test('screener checkboxes are 20px on tablets too, not just phones', () => {
+    const block = css.match(/@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*input\[type='checkbox'\] \{ width: 20px; height: 20px; flex: none; \}\s*\}/);
+    assert.ok(block, 'checkbox floor present in the 900px block');
+});
+
+test('monitor free-note links clear 28px wide, not just tall', () => {
+    const monHtml = read('frontend-v2', 'monitor.html');
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/ask\.html">Ask<\/a>/);
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/company\.html\?symbol=SPY">/);
+});
+
+test('lifetime AppSumo note link is a tap target', () => {
+    assert.match(lifetimeHtml, /\.lt-note p a \{ display: inline-block; padding: 6px 3px; \}/);
+});
+
+test('seo crumbs are padded tap targets in the base rule, past 760px too', () => {
+    assert.match(seoPages, /\.seo-crumbs a\{color:var\(--ink3\);display:inline-block;padding:9px 2px\}/);
+});
+
+test('landing card prose links and the 9px caret glyph clear the floors', () => {
+    assert.match(indexHtml, /\.card-pad p a \{ display: inline-block; padding: 6px 4px; \}/);
+    assert.ok(!indexHtml.includes('font-size:9px;'), 'no 9px inline font sizes left on the landing page');
 });

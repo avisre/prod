@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260830-mob5" />
+  <link rel="stylesheet" href="assets/system.css?v=20260830-mob6" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -101,6 +101,7 @@
     @media (max-width: 980px) { .hero { grid-template-columns: 1fr; gap: 40px; } }
     /* Prose-level links are tap targets too on touch screens */
     .hero-note a, .provenance a, p.small a, span.small a, a.small { display: inline-block; padding: 6px 4px; }
+    .card-pad p a { display: inline-block; padding: 6px 4px; }
     .principle { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 32px; padding: 36px 0; border-top: 1px solid var(--line); }
     .principle h3 { font-size: 21px; font-weight: 650; letter-spacing: -0.015em; line-height: 1.25; }
     .principle p { color: var(--ink-2); max-width: 58ch; }
@@ -150,7 +151,7 @@
         <!-- what an answer actually looks like -->
         <div class="card card-pad" style="font-size:13.5px;">
           <div class="ask-q" style="margin-bottom:14px; max-width:88%;">Compare NVIDIA, AMD and Intel over 10 years — who's structurally winning?</div>
-          <p class="small faint" style="margin:0 0 10px;">✓ Researched 9 sources <span style="font-size:9px;">▸</span></p>
+          <p class="small faint" style="margin:0 0 10px;">✓ Researched 9 sources <span style="font-size:11.5px;">▸</span></p>
           <table style="width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:12.5px; margin-bottom:12px;">
             <thead><tr style="color:var(--ink-3); font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em;">
               <th style="text-align:left; padding:4px 0;">Metric</th><th style="text-align:right;">NVDA</th><th style="text-align:right;">AMD</th><th style="text-align:right;">INTC</th></tr></thead>
@@ -575,7 +576,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20260830-mob5"></script>
+  <script src="assets/app.js?v=20260830-mob6"></script>
   <script>
     V2.nav('home');
     V2.footer();
