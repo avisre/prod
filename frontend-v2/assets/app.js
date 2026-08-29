@@ -1425,7 +1425,8 @@
         get_esg: (a) => `${(a.symbol || '').toUpperCase()} ESG disclosure`,
         get_filing_diff: (a) => `${(a.symbol || '').toUpperCase()} filing diff`,
         get_guru_ownership: (a) => `${(a.symbol || '').toUpperCase()} guru ownership`,
-        get_portfolio_xray: () => 'Portfolio X-Ray'
+        get_portfolio_xray: () => 'Portfolio X-Ray',
+        remember: (a) => `Remembered: ${String(a.fact || '').slice(0, 60)}`
     };
 
     // outline thumb (drawn for this design — no icon font)
@@ -1579,7 +1580,7 @@
             return true;
         }
 
-        async function send(question) {
+        async function send(question, opts = {}) {
             if (busy) return;
             busy = true;
             if (onActivity) onActivity();
@@ -1613,7 +1614,7 @@
                 }
                 answerEl.innerHTML = `<div class="notice">${esc(message || 'Ask is temporarily unavailable.')} <button type="button" class="btn btn-quiet btn-sm" data-ask-retry style="margin-top:10px">Retry this question</button><p class="small faint" style="margin-top:8px">Your question is preserved above. You can retry it without retyping.</p></div>`;
                 const retry = answerEl.querySelector('[data-ask-retry]');
-                if (retry) retry.addEventListener('click', () => { retry.disabled = true; send(question); });
+                if (retry) retry.addEventListener('click', () => { retry.disabled = true; send(question, opts); });
             };
             block.querySelector('.ask-stop').addEventListener('click', () => { if (aborter) aborter.abort(); });
             const renderTrace = () => {
@@ -1635,7 +1636,9 @@
                         r = await fetch(`${API}/ai/chat`, {
                             method: 'POST',
                             headers: _askHeaders,
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode }),
+                            // the server owns per-thread context when a threadId
+                            // is present; callers without one behave exactly as before
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(opts && opts.threadId ? { threadId: opts.threadId } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -1722,7 +1725,7 @@
                     renderTrace();
                     answerEl.innerHTML = markdown(data.answer);
                     answerEl.querySelectorAll('.ask-next').forEach((b) =>
-                        b.addEventListener('click', () => { b.disabled = true; send(b.dataset.q); }));
+                        b.addEventListener('click', () => { b.disabled = true; send(b.dataset.q, opts); }));
                     // The receipt leads the answer: the cited source is the first
                     // thing read, and it is the same sec.gov link source_opened tracks.
                     mountReceipt(answerEl);

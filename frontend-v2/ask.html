@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260829-profilemenu1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260829-askthreads1" />
   <style>
     /* the canvas: one centred column, generous air */
     .canvas { max-width: 800px; margin: 0 auto; min-height: calc(100vh - 220px); display: flex; flex-direction: column; }
@@ -83,6 +83,52 @@
     .thread { flex: 1; padding: 40px 0 40px; }
     .composer-dock { position: sticky; bottom: 0; padding: 12px 0 22px; background: linear-gradient(transparent, var(--paper) 30%); }
     body:not(.in-conversation) .composer-dock { position: static; background: none; padding: 0; }
+
+    /* chat-history sidebar (Ask only, logged-in only) */
+    .ask-shell { display: flex; gap: 26px; align-items: flex-start; }
+    .side { flex: none; width: 248px; position: sticky; top: 86px; max-height: calc(100vh - 104px); overflow-y: auto; padding: 4px 0 24px; }
+    .side .new-chat { width: 100%; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--line-strong); background: none; border-radius: 12px; padding: 9px 12px; font: inherit; font-size: 13px; font-weight: 600; color: var(--ink); cursor: pointer; }
+    .side .new-chat:hover { border-color: var(--ink-3); }
+    .chat-list { margin-top: 10px; display: flex; flex-direction: column; gap: 2px; }
+    .chat-item { display: flex; align-items: center; gap: 6px; border: 0; background: none; border-radius: 10px; padding: 7px 8px 7px 10px; cursor: pointer; color: var(--ink-2); font: inherit; font-size: 13px; text-align: left; width: 100%; }
+    .chat-item:hover { background: var(--surface); color: var(--ink); }
+    .chat-item.active { background: var(--surface); color: var(--ink); font-weight: 600; }
+    .chat-item .t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .chat-item .when { flex: none; font-size: 10.5px; color: var(--ink-3); }
+    .chat-item .acts { flex: none; display: none; gap: 0; }
+    .chat-item:hover .acts, .chat-item.active .acts { display: inline-flex; }
+    .chat-item:hover .when, .chat-item.active .when { display: none; }
+    .acts button { border: 0; background: none; padding: 2px 4px; cursor: pointer; color: var(--ink-3); font-size: 11.5px; line-height: 1; }
+    .acts button:hover { color: var(--ink); }
+    .side-sec { margin-top: 20px; border-top: 1px solid var(--line-strong); padding-top: 12px; }
+    .side-sec .sec-head { display: flex; align-items: center; gap: 8px; }
+    .side-sec .sec-head span { font-size: 11px; font-weight: 650; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-3); }
+    .mem-note { margin: 7px 0 0; font-size: 11px; line-height: 1.45; color: var(--ink-3); }
+    #mem-panel { margin-top: 10px; }
+    .mem-row { display: flex; align-items: flex-start; gap: 6px; padding: 5px 0; font-size: 12.5px; line-height: 1.4; color: var(--ink-2); }
+    .mem-row .mem-txt { flex: 1; min-width: 0; }
+    .mem-row button { flex: none; border: 0; background: none; padding: 0 2px; cursor: pointer; color: var(--ink-3); font-size: 11px; line-height: 1.4; }
+    .mem-row button:hover { color: var(--ink); }
+    .mem-add { display: flex; gap: 6px; margin-top: 8px; }
+    .mem-add input { flex: 1; min-width: 0; font: inherit; font-size: 12.5px; padding: 7px 10px; border: 1px solid var(--line-strong); border-radius: 10px; background: var(--surface); color: var(--ink); outline: none; }
+    .mem-add input:focus { border-color: var(--ink-3); }
+    .mem-add button { flex: none; border: 1px solid var(--line-strong); background: none; border-radius: 10px; padding: 6px 10px; font: inherit; font-size: 12px; color: var(--ink); cursor: pointer; }
+    .mem-add button:hover { border-color: var(--ink-3); }
+    .mem-clear { margin-top: 8px; border: 0; background: none; padding: 0; font: inherit; font-size: 11.5px; color: var(--ink-3); cursor: pointer; text-decoration: underline; }
+    .mem-clear:hover { color: var(--ink); }
+    #side-open { display: none; margin-bottom: 12px; }
+    body.side-off #side-open { display: none !important; }
+
+    /* saved-message blocks match the live engine's markup so a restored
+       transcript is visually identical to a live one */
+    .side-empty { margin: 8px 2px 0; font-size: 12px; color: var(--ink-3); }
+
+    @media (max-width: 900px) {
+      .ask-shell { display: block; }
+      .side { display: none; position: fixed; z-index: 90; top: 0; left: 0; bottom: 0; width: min(320px, 86vw); max-height: none; background: var(--paper); padding: 22px 16px; box-shadow: 0 12px 48px rgba(28, 27, 24, 0.22); overflow-y: auto; }
+      .side.open { display: block; }
+      #side-open { display: inline-flex; }
+    }
   </style>
 </head>
 <body>
@@ -96,7 +142,28 @@
   </div>
   <main>
     <div class="container">
+      <div class="ask-shell">
+      <aside class="side" id="side" hidden aria-label="Your chats and memory">
+        <button type="button" class="new-chat" id="new-chat">＋ New chat</button>
+        <nav class="chat-list" id="chat-list" aria-label="Previous chats"></nav>
+        <div class="side-sec" id="mem-sec">
+          <div class="sec-head">
+            <input type="checkbox" id="mem-toggle" aria-describedby="mem-note" />
+            <span>Memory</span>
+          </div>
+          <p class="mem-note" id="mem-note">Ask remembers key facts you choose to save, across all your chats. You can view and delete them anytime — and nothing is stored until you switch this on.</p>
+          <div id="mem-panel" hidden>
+            <div id="mem-list"></div>
+            <div class="mem-add">
+              <input id="mem-input" maxlength="500" placeholder="Add a fact to remember…" aria-label="Add a memory" />
+              <button type="button" id="mem-add">Add</button>
+            </div>
+            <button type="button" class="mem-clear" id="mem-clear">Clear all</button>
+          </div>
+        </div>
+      </aside>
       <div class="canvas">
+        <button type="button" class="chip" id="side-open" aria-label="Show your chats">☰ Chats</button>
         <div class="hello">
           <h1>Ask anything about stocks and funds.</h1>
           <p>Company figures come from SEC filings; ETF and mutual-fund figures come from fund data.</p>
@@ -128,12 +195,13 @@
           <button>Is my portfolio concentrated, and which holding is fundamentally weakest?</button>
         </div>
       </div>
+      </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260829-profilemenu1"></script>
+  <script src="assets/app.js?v=20260829-askthreads1"></script>
   <script>
     (function () {
-      const { API, token, nav, footer, askEngine, trackSeoEvent } = window.V2;
+      const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
       nav('ask');
       footer();
       const $ = (id) => document.getElementById(id);
@@ -192,20 +260,273 @@
         firstSubmitted = true;
         trackSeoEvent('ask_first_query_submitted', context, location.pathname);
       }
-      const engine = askEngine($('exchange'), {
-        onActivity: () => {
+      // ---- Threads: ChatGPT-style saved chats (logged-in only) ----
+      const THREAD_ID_RE = /^[0-9a-fA-F]{24}$/;
+      const params0 = new URLSearchParams(location.search);
+      let currentThreadId = (params0.get('t') || '').trim();
+      if (!THREAD_ID_RE.test(currentThreadId)) currentThreadId = '';
+      let threadList = [];
+
+      function makeEngine() {
+        return askEngine($('exchange'), {
+          onActivity: () => {
+            document.body.classList.add('in-conversation');
+            $('thread').hidden = false;
+          },
+          onComplete: handleComplete
+        });
+      }
+      let engine = makeEngine();
+
+      function relDate(ts) {
+        const d = new Date(ts);
+        if (isNaN(d)) return '';
+        const diff = (Date.now() - d.getTime()) / 1000;
+        if (diff < 60) return 'now';
+        if (diff < 3600) return `${Math.floor(diff / 60)}m`;
+        if (diff < 86400) return `${Math.floor(diff / 3600)}h`;
+        if (diff < 86400 * 7) return `${Math.floor(diff / 86400)}d`;
+        return d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' });
+      }
+      function renderThreads() {
+        const el = $('chat-list');
+        if (!threadList.length) {
+          el.innerHTML = '<p class="side-empty">Your saved chats will appear here.</p>';
+          return;
+        }
+        el.innerHTML = threadList.map((t) => `
+          <div class="chat-item${t.id === currentThreadId ? ' active' : ''}" data-id="${t.id}" role="button" tabindex="0">
+            <span class="t">${esc(t.title || 'New chat')}</span>
+            <span class="acts">
+              <button type="button" data-act="rename" title="Rename chat" aria-label="Rename chat">✎</button>
+              <button type="button" data-act="delete" title="Delete chat" aria-label="Delete chat">✕</button>
+            </span>
+            <span class="when">${relDate(t.updatedAt)}</span>
+          </div>`).join('');
+      }
+      async function loadThreads() {
+        try {
+          const r = await fetch(`${API}/ask/threads`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (r.status === 401) return hideSide();
+          if (!r.ok) return;
+          const data = await r.json();
+          threadList = Array.isArray(data.threads) ? data.threads : [];
+          renderThreads();
+        } catch (_) { /* sidebar is best-effort */ }
+      }
+      function adoptThread(id) {
+        if (!id || id === currentThreadId) return;
+        currentThreadId = id;
+        try { window.history.replaceState(null, '', `/ask?t=${id}`); } catch (_) {}
+      }
+      function handleComplete(data) {
+        if (hasContext) trackSeoEvent('ask_response_completed', context, location.pathname);
+        const tid = data && data.threadId;
+        if (typeof tid === 'string' && THREAD_ID_RE.test(tid)) adoptThread(tid);
+        if (token()) loadThreads();
+      }
+      function renderSavedMessage(role, content) {
+        const block = document.createElement('div');
+        block.innerHTML = role === 'user'
+          ? `<div class="ask-q">${esc(String(content || ''))}</div>`
+          : `<div class="ask-a${(localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? '' : ' is-normal')}">${markdown(String(content || ''))}</div>`;
+        while (block.firstChild) $('exchange').appendChild(block.firstChild);
+      }
+      async function openThread(id) {
+        if (!token()) return;
+        try {
+          const r = await fetch(`${API}/ask/threads/${id}`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (r.status === 401) return hideSide();
+          if (!r.ok) {
+            threadList = threadList.filter((t) => t.id !== id);
+            if (id === currentThreadId) newChat();
+            renderThreads();
+            return;
+          }
+          const data = await r.json();
+          const t = data && data.thread;
+          if (!t) return;
+          currentThreadId = String(t.id || id);
+          try { window.history.replaceState(null, '', `/ask?t=${currentThreadId}`); } catch (_) {}
+          $('exchange').innerHTML = '';
+          (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
           document.body.classList.add('in-conversation');
           $('thread').hidden = false;
-        },
-        onComplete: () => { if (hasContext) trackSeoEvent('ask_response_completed', context, location.pathname); }
+          renderThreads();
+          closeSidePanel();
+          window.scrollTo({ top: document.body.scrollHeight });
+        } catch (_) { /* sidebar is best-effort */ }
+      }
+      function renameThread(id) {
+        const t = threadList.find((x) => x.id === id);
+        if (!t) return;
+        const dlg = modal({
+          label: 'Rename chat',
+          title: 'Rename chat',
+          bodyHtml: `<input class="input" id="rename-input" maxlength="160" value="${esc(t.title || '')}" aria-label="Chat name" />`,
+          actions: [
+            { label: 'Save', primary: true, close: false, onClick: async (close) => {
+                const v = document.getElementById('rename-input').value.trim().slice(0, 160);
+                if (!v) return;
+                try {
+                  const r = await fetch(`${API}/ask/threads/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify({ title: v }) });
+                  if (r.ok) { t.title = v; renderThreads(); close(); }
+                } catch (_) { /* keep dialog open */ }
+              } },
+            { label: 'Cancel' }
+          ]
+        });
+        const input = dlg.el.querySelector('#rename-input');
+        if (input) { input.focus(); input.select(); }
+      }
+      function deleteThread(id) {
+        modal({
+          label: 'Delete chat',
+          title: 'Delete this chat?',
+          body: 'The whole conversation, including its saved transcript, is removed. This cannot be undone.',
+          actions: [
+            { label: 'Delete', primary: true, close: false, onClick: async (close) => {
+                try {
+                  const r = await fetch(`${API}/ask/threads/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token()}` } });
+                  if (r.ok || r.status === 404) {
+                    threadList = threadList.filter((t) => t.id !== id);
+                    renderThreads();
+                    if (id === currentThreadId) newChat();
+                    close();
+                  }
+                } catch (_) { /* keep dialog open */ }
+              } },
+            { label: 'Cancel' }
+          ]
+        });
+      }
+      $('chat-list').addEventListener('click', (e) => {
+        const item = e.target.closest('.chat-item');
+        if (!item) return;
+        const actBtn = e.target.closest('button[data-act]');
+        if (actBtn) {
+          if (actBtn.dataset.act === 'rename') renameThread(item.dataset.id);
+          else deleteThread(item.dataset.id);
+          return;
+        }
+        openThread(item.dataset.id);
       });
+      $('new-chat').addEventListener('click', () => { newChat(); closeSidePanel(); });
+      function newChat() {
+        currentThreadId = '';
+        try { window.history.replaceState(null, '', '/ask'); } catch (_) {}
+        $('exchange').innerHTML = '';
+        document.body.classList.remove('in-conversation');
+        $('thread').hidden = true;
+        engine = makeEngine(); // also drops the client-side fallback history
+        renderThreads();
+        ta.focus();
+      }
+      function hideSide() {
+        document.body.classList.add('side-off');
+        $('side').hidden = true;
+      }
+      function closeSidePanel() { $('side').classList.remove('open'); }
+      $('side-open').addEventListener('click', (e) => {
+        e.stopPropagation();
+        $('side').classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if (!$('side').classList.contains('open')) return;
+        if ($('side').contains(e.target) || e.target.closest('#side-open')) return;
+        closeSidePanel();
+      });
+      // ---- Memory (consent-gated) ----
+      let memoryState = { enabled: false, memories: [] };
+      async function loadMemory() {
+        try {
+          const r = await fetch(`${API}/ask/memory`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (r.status === 401) return hideSide();
+          if (!r.ok) return;
+          memoryState = await r.json();
+          if (!Array.isArray(memoryState.memories)) memoryState.memories = [];
+          $('mem-toggle').checked = !!memoryState.enabled;
+          $('mem-panel').hidden = !memoryState.enabled;
+          renderMemories();
+        } catch (_) { /* best-effort */ }
+      }
+      function renderMemories() {
+        const el = $('mem-list');
+        const ms = memoryState.memories || [];
+        el.innerHTML = ms.length
+          ? ms.map((m) => `
+              <div class="mem-row">
+                <span class="mem-txt">${esc(m.content)}</span>
+                <button type="button" data-id="${m.id}" title="Delete memory" aria-label="Delete memory">✕</button>
+              </div>`).join('')
+          : '<p class="mem-note">Nothing saved yet — tell Ask something worth remembering, or add it yourself.</p>';
+      }
+      $('mem-toggle').addEventListener('change', async () => {
+        const enabled = $('mem-toggle').checked;
+        try {
+          const r = await fetch(`${API}/ask/memory/consent`, { method: 'PUT', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify({ enabled }) });
+          if (!r.ok) { $('mem-toggle').checked = !enabled; return; }
+          memoryState.enabled = enabled;
+          $('mem-panel').hidden = !enabled;
+          if (enabled) loadMemory();
+        } catch (_) { $('mem-toggle').checked = !enabled; }
+      });
+      async function addMemory() {
+        const input = $('mem-input');
+        const content = input.value.trim();
+        if (!content) return;
+        try {
+          const r = await fetch(`${API}/ask/memory`, { method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify({ content }) });
+          if (!r.ok) return;
+          const data = await r.json();
+          if (data && data.memory) { memoryState.memories.unshift(data.memory); renderMemories(); }
+          input.value = '';
+        } catch (_) { /* best-effort */ }
+      }
+      $('mem-add').addEventListener('click', addMemory);
+      $('mem-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addMemory(); } });
+      $('mem-list').addEventListener('click', async (e) => {
+        const btn = e.target.closest('button[data-id]');
+        if (!btn) return;
+        try {
+          const r = await fetch(`${API}/ask/memory/${btn.dataset.id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token()}` } });
+          if (r.ok) {
+            memoryState.memories = memoryState.memories.filter((m) => String(m.id) !== String(btn.dataset.id));
+            renderMemories();
+          }
+        } catch (_) { /* best-effort */ }
+      });
+      $('mem-clear').addEventListener('click', () => {
+        modal({
+          label: 'Clear memory',
+          title: 'Clear all memories?',
+          body: 'Every stored fact is deleted. You can start saving again anytime.',
+          actions: [
+            { label: 'Clear all', primary: true, close: false, onClick: async (close) => {
+                try {
+                  const r = await fetch(`${API}/ask/memory`, { method: 'DELETE', headers: { Authorization: `Bearer ${token()}` } });
+                  if (r.ok) { memoryState.memories = []; renderMemories(); close(); }
+                } catch (_) { /* keep dialog open */ }
+              } },
+            { label: 'Cancel' }
+          ]
+        });
+      });
+      async function initSidebar() {
+        if (!token()) return hideSide();
+        $('side').hidden = false;
+        await Promise.all([loadThreads(), loadMemory()]);
+        if (currentThreadId) openThread(currentThreadId);
+      }
       function submit() {
         const q = ta.value.trim();
         if (!q) return;
         recordFirstQuery();
         ta.value = '';
         go.disabled = true;
-        engine.send(q);
+        // threadId present → the server rebuilds context from THAT chat's own
+        // stored transcript; without one the engine behaves exactly as before
+        engine.send(q, token() && currentThreadId ? { threadId: currentThreadId } : {});
       }
       $('composer').addEventListener('submit', (e) => { e.preventDefault(); submit(); });
       $('exchange').addEventListener('click', (event) => {
@@ -225,7 +546,7 @@
           recordFirstQuery();
           document.body.classList.add('in-conversation');
           $('thread').hidden = false;
-          engine.send(b.textContent);
+          engine.send(b.textContent, token() && currentThreadId ? { threadId: currentThreadId } : {});
         }));
       const firstQuestion = $('appsumo-first-question');
       if (firstQuestion) firstQuestion.addEventListener('click', () => {
@@ -236,6 +557,7 @@
         ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
       ta.focus();
+      initSidebar();
       // quota line — replaces the static note once known
       // logged-out visitors get a couple of free preview questions (no signup);
       // hide the portfolio-only prompt since there are no holdings yet

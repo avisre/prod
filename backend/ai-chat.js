@@ -1198,6 +1198,14 @@ const TOOLS = [
             description: 'Look-through fundamentals of the user\'s OWN saved portfolio treated as one business: weighted revenue growth, margins, ROE, valuation, plus concentration and health roll-up. No arguments — always reads the user\'s current holdings. Use for "how is my portfolio built / how healthy is it as a whole" questions.',
             parameters: { type: 'object', properties: {}, required: [] }
         }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'remember',
+            description: "Save ONE short durable fact about THIS user for future conversations — their stated investing goals, holdings context, constraints, or accomplishments (e.g. 'planning to add REITs next year', 'already holds AAPL bought at 182'). Only when the user clearly states something lasting or explicitly asks you to remember it. Never store credentials, addresses, phone numbers or account numbers. One fact per call, under 500 characters.",
+            parameters: { type: 'object', properties: { fact: { type: 'string', description: "The fact to remember, phrased concisely in the user's own terms." } }, required: ['fact'] }
+        }
     }
 ];
 
@@ -1380,8 +1388,37 @@ async function toolFetchPage({ url, find }, depth = 0) {
     }
 }
 
+// Ask memory write — consent-gated. Off (or signed out) it must REFUSE, not
+// quietly succeed: the model treats the error as "do not retry".
+// Deterministic like the other cheap tools — no web budget, no external call.
+const MEMORY_NORM_RE = /[^a-z0-9]+/g;
+async function toolRemember(args, ctx) {
+    const fact = String((args && args.fact) || '').trim().slice(0, 500);
+    if (!fact) return { error: 'Nothing to remember — provide the fact.' };
+    if (!ctx || !ctx.memoryConsent) return { error: 'Memory is off for this user. Answer as usual and do not mention memory again.' };
+    const uid = toObjectIdSafe(ctx.userId);
+    if (!uid) return { error: 'Memory requires a signed-in account.' };
+    try {
+        const col = mongoose.connection.collection('ask_memories');
+        const norm = fact.toLowerCase().replace(MEMORY_NORM_RE, ' ').trim();
+        const existing = await col.find({ userId: uid }, { projection: { content: 1, createdAt: 1 } }).limit(50).toArray();
+        if (existing.some((m) => String(m.content || '').toLowerCase().replace(MEMORY_NORM_RE, ' ').trim() === norm)) {
+            return { ok: true, note: 'Already remembered — unchanged.' };
+        }
+        await col.insertOne({ userId: uid, content: fact, createdAt: new Date() });
+        // cap 50 per user — drop the oldest beyond it (same spirit as the
+        // ask_reports / ask_threads prunes in app.js)
+        const stale = existing.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)).slice(49);
+        if (stale.length) await col.deleteMany({ _id: { $in: stale.map((m) => m._id) } });
+        return { ok: true, note: 'Saved to memory. It is visible to the user and they can delete it anytime.' };
+    } catch (_) {
+        return { error: 'Could not save to memory right now.' };
+    }
+}
+
 function runTool(name, args, ctx) {
     switch (name) {
+        case 'remember': return toolRemember(args || {}, ctx);
         case 'get_fund_profile': return toolGetFundProfile(args || {});
         case 'rank_funds': return toolRankFunds(args || {});
         case 'get_financials': return toolGetFinancials(args || {});
@@ -1441,6 +1478,7 @@ const ASK_SYSTEM = [
     'TABLES: for multi-metric comparisons use a markdown table, metrics as rows. Add a final "Context" column with a short interpretation of each number against history or peers (e.g. "below its 10-yr average of 24x") whenever the tools give you the comparison; leave it out rather than inventing one.',
     'THE READ: end any answer that involved several figures with a paragraph starting "**The read** — " that connects the numbers into the one thing they say together (still descriptive, no advice).',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
+    'MEMORY: a "remember" tool is available for saving durable facts about the user (their goals, holdings context, constraints, stated accomplishments) — but ONLY while the user has memory switched on; the tool refuses otherwise. Use it sparingly: when the user clearly states something lasting or asks you to remember it, call remember with ONE concise fact, then carry on. If the tool returns an error, never mention memory again and never retry. Never store credentials, addresses or account numbers. A system message may list what the user already asked you to remember — treat it as context, and never invent entries.',
     'STYLE: British English. Concise but complete — short paragraphs, markdown tables for multi-period numbers. No preamble, no sign-off.'
 ].join('\n');
 
@@ -1513,6 +1551,17 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 
     const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '') + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.`;
     const messages = [{ role: 'system', content: systemContent }];
+    // Memory context — only when the user consented (ctx.memoryConsent).
+    // Loaded fresh per question so an edit or delete takes effect immediately.
+    if (ctx && ctx.memoryConsent && ctx.userId) {
+        const memories = await loadMemories(ctx.userId);
+        if (memories.length) {
+            messages.push({
+                role: 'system',
+                content: `THINGS THE USER ASKED YOU TO REMEMBER across past conversations (they can see and delete these in their Ask sidebar — never claim they said something that is not listed):\n${memories.map((m) => `- ${m}`).join('\n')}`
+            });
+        }
+    }
     for (const h of (Array.isArray(history) ? history.slice(-8) : [])) {
         if (h && (h.role === 'user' || h.role === 'assistant') && typeof h.content === 'string') {
             messages.push({ role: h.role, content: h.content.slice(0, QUESTION_MAX_CHARS) });
@@ -1679,6 +1728,56 @@ async function recentHistory(userId, n = 3) {
     } catch (_) { return []; }
 }
 
+// ---- Conversation threads + memory (Ask only) ----
+// ask_threads / ask_memories are defined with schemas in app.js; this module
+// reads them through raw collections so requiring app.js (a cycle) stays
+// unnecessary. Both are owner-scoped by construction: the userId is part of
+// every query, so a foreign or malformed id simply returns [] / fails silent.
+
+// Per-thread history from the stored transcript. A thread follow-up answers
+// with THIS conversation's context — no re-explaining, no cross-topic bleed.
+function toObjectIdSafe(v) {
+    try {
+        if (v instanceof mongoose.Types.ObjectId) return v;
+        const s = String(v || '');
+        return /^[0-9a-fA-F]{24}$/.test(s) ? new mongoose.Types.ObjectId(s) : null;
+    } catch (_) { return null; }
+}
+async function threadHistory(userId, threadId, n = 16) {
+    try {
+        const uid = toObjectIdSafe(userId);
+        const tid = toObjectIdSafe(threadId);
+        if (!uid || !tid) return [];
+        const col = mongoose.connection.collection('ask_threads');
+        const doc = await col.findOne({ _id: tid, userId: uid }, { projection: { messages: { $slice: -n } } });
+        return ((doc && doc.messages) || [])
+            .filter((m) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
+            .map((m) => ({ role: m.role, content: m.content }));
+    } catch (_) { return []; }
+}
+
+// Memories the user consented to — loaded as extra system context so the
+// assistant already knows the durable facts ("planning to add REITs").
+async function loadMemories(userId) {
+    try {
+        const uid = toObjectIdSafe(userId);
+        if (!uid) return [];
+        const col = mongoose.connection.collection('ask_memories');
+        const rows = await col.find({ userId: uid }, { projection: { content: 1 } })
+            .sort({ createdAt: -1 }).limit(20).toArray();
+        const out = [];
+        let total = 0;
+        for (const r of rows) {
+            const c = String(r.content || '').trim();
+            if (!c) continue;
+            if (total + c.length > 2000) break;
+            out.push(c);
+            total += c.length;
+        }
+        return out.reverse(); // oldest first, in the order they were saved
+    } catch (_) { return []; }
+}
+
 async function recordUse(userId) {
     try {
         const col = mongoose.connection.collection('ai_chat_usage');
@@ -1694,4 +1793,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData });
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData });

@@ -1886,7 +1886,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260829-profilemenu1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260829-askthreads1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -1915,7 +1915,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260829-profilemenu1"></script>
+<script src="/assets/app.js?v=20260829-askthreads1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -1985,7 +1985,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260829-profilemenu1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260829-askthreads1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2013,7 +2013,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260829-profilemenu1"></script>
+<script src="/assets/app.js?v=20260829-askthreads1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2196,7 +2196,11 @@ const UserSchema = new mongoose.Schema({
     resetPasswordExpires: { type: Date, default: null },
     // Applies only to administrator-initiated customer-message emails. It
     // never hides in-app messages or essential account/security email.
-    customerMessageEmailsOptOut: { type: Boolean, default: false }
+    customerMessageEmailsOptOut: { type: Boolean, default: false },
+    // Ask memory consent — nothing is ever stored about a user's chats or
+    // accomplishments until they explicitly turn this on (default OFF).
+    // Toggling it off stops both reads and writes; it deletes nothing.
+    askMemoryEnabled: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
@@ -2293,6 +2297,93 @@ function saveAskReport(userId, question, answer, mode, toolsUsed) {
             return null;
         })
         .catch((error) => console.error('[ask] report save failed:', error && error.message));
+}
+
+// Ask conversation threads — ChatGPT-style saved chats, Ask only. A thread
+// owns its own message transcript: when the frontend passes a threadId the
+// server rebuilds context from THAT thread's messages, so a follow-up never
+// has to re-explain and topics from other chats never bleed in (the old
+// one-global ai_chat_log feed stays as the non-thread fallback). Reading a
+// thread is free — credits are only ever spent on generating a new answer.
+const THREAD_ID_RE = /^[0-9a-fA-F]{24}$/;
+const ASK_THREAD_KEEP = 100; // threads per user
+const ASK_THREAD_MSG_KEEP = 80; // messages per thread
+const AskThreadSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    title: { type: String, default: '', maxlength: 160 },
+    mode: { type: String, enum: ['normal', 'analyst'], default: 'normal' },
+    messages: [new mongoose.Schema({
+        role: { type: String, enum: ['user', 'assistant'], required: true },
+        content: { type: String, default: '' },
+        toolsUsed: { type: [String], default: [] },
+        at: { type: Date, default: () => new Date() }
+    }, { _id: false })],
+    createdAt: { type: Date, default: () => new Date() },
+    updatedAt: { type: Date, default: () => new Date() }
+}, { versionKey: false, collection: 'ask_threads' });
+AskThreadSchema.index({ userId: 1, updatedAt: -1 });
+const AskThread = mongoose.model('AskThread', AskThreadSchema);
+
+async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed) {
+    try {
+        if (!userId || !question || !answer) return null;
+        const tools = Array.isArray(toolsUsed)
+            ? toolsUsed.map((t) => t && t.tool).filter(Boolean).slice(0, 20)
+            : [];
+        const cap = (s) => String(s).slice(0, 8000);
+        const turn = () => [
+            { role: 'user', content: cap(question) },
+            { role: 'assistant', content: cap(answer), toolsUsed: tools }
+        ];
+        let doc;
+        if (typeof threadId === 'string' && THREAD_ID_RE.test(threadId)) {
+            // Append to an existing thread — owner-checked, so a foreign or
+            // deleted id simply starts a fresh one rather than erroring.
+            doc = await AskThread.findOneAndUpdate(
+                { _id: threadId, userId },
+                {
+                    $push: { messages: { $each: turn(), $slice: -ASK_THREAD_MSG_KEEP } },
+                    $set: { updatedAt: new Date(), mode: mode === 'analyst' ? 'analyst' : 'normal' }
+                },
+                { new: true, projection: { _id: 1 } }
+            );
+        }
+        if (!doc) {
+            doc = await AskThread.create({
+                userId,
+                title: String(question).slice(0, 80),
+                mode: mode === 'analyst' ? 'analyst' : 'normal',
+                messages: turn(),
+                updatedAt: new Date()
+            });
+        }
+        // keep only the most recent ASK_THREAD_KEEP threads per user
+        const stale = await AskThread.find({ userId: doc.userId }, { _id: 1 }).sort({ updatedAt: -1 }).skip(ASK_THREAD_KEEP).lean();
+        if (stale.length) await AskThread.deleteMany({ _id: { $in: stale.map((d) => d._id) } });
+        return String(doc._id);
+    } catch (error) {
+        console.error('[ask] thread save failed:', error && error.message);
+        return null;
+    }
+}
+
+// Ask memory — short durable facts the assistant saves about the user's
+// investing life (goals, holdings context, accomplishments), ONLY while the
+// user has consented (User.askMemoryEnabled, default false). Disabling stops
+// reads and writes; it deletes nothing — the user can clear the store by hand.
+const ASK_MEMORY_MAX = 500;
+const ASK_MEMORY_KEEP = 50;
+const AskMemorySchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    content: { type: String, required: true, maxlength: ASK_MEMORY_MAX },
+    createdAt: { type: Date, default: () => new Date() }
+}, { versionKey: false, collection: 'ask_memories' });
+AskMemorySchema.index({ userId: 1, createdAt: -1 });
+const AskMemory = mongoose.model('AskMemory', AskMemorySchema);
+
+async function pruneMemories(userId) {
+    const stale = await AskMemory.find({ userId }, { _id: 1 }).sort({ createdAt: -1 }).skip(ASK_MEMORY_KEEP).lean();
+    if (stale.length) await AskMemory.deleteMany({ _id: { $in: stale.map((d) => d._id) } });
 }
 
 // Append-only, MongoDB-backed customer registry. The unique event key makes
@@ -6236,9 +6327,21 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         let holdings = [];
         try { holdings = (await Stock.find({ user: userId })).map((s) => s.toObject()); } catch (_) { holdings = []; }
         const clientHistory = Array.isArray(req.body && req.body.history) ? req.body.history : [];
+        // A threadId makes the SERVER the context authority: history is rebuilt
+        // from that thread's own stored messages, so follow-ups carry the
+        // conversation and other topics never bleed in. Without one (⌘K floor,
+        // dashboard widget, anon) the old fallbacks apply unchanged.
+        const threadIdRaw = typeof (req.body && req.body.threadId) === 'string' ? req.body.threadId.trim() : '';
+        const hasThread = typeof threadIdRaw === 'string' && THREAD_ID_RE.test(threadIdRaw);
+        const memoryConsent = !!(req.user && req.user.askMemoryEnabled);
         // a fresh page sends no history — pick the thread back up from the
         // user's last few stored exchanges (cross-session memory)
-        const history = clientHistory.length ? clientHistory : await aiChat.recentHistory(userId);
+        const history = hasThread
+            ? await aiChat.threadHistory(userId, threadIdRaw)
+            : (clientHistory.length ? clientHistory : await aiChat.recentHistory(userId));
+        // Set on whichever success branch runs; returned to the client so the
+        // frontend can adopt the (possibly newly created) thread id.
+        let threadIdSaved = null;
 
         // Streaming mode (stream:true in the body): answer over SSE so the
         // user sees tool progress and the answer typing out instead of a
@@ -6262,7 +6365,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
                 const result = await aiChat.ask({
-                    question, history, ctx: { holdings }, mode,
+                    question, history, ctx: { holdings, userId, memoryConsent }, mode,
                     onEvent: (e) => send(e.type, e)
                 });
                 const counted = result.source === 'ai' || result.source === 'blocked';
@@ -6275,6 +6378,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
                 if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
                 if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
+                if (result.source === 'ai') threadIdSaved = await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
@@ -6283,6 +6387,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 send('done', {
                     answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
+                    threadId: threadIdSaved,
                     ...(reviewPrompt ? { reviewPrompt } : {})
                 });
             } catch (error) {
@@ -6294,12 +6399,15 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             return;
         }
 
-        const result = await aiChat.ask({ question, history, ctx: { holdings }, mode });
+        const result = await aiChat.ask({ question, history, ctx: { holdings, userId, memoryConsent }, mode });
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
         if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
+        threadIdSaved = result.source === 'ai'
+            ? await saveThreadExchange(userId, threadIdRaw, question, result.answer, mode, result.toolsUsed)
+            : null;
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);
         if (result.answer) trackActivation(userId, 'ask');
@@ -6308,6 +6416,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         res.json({
             answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
             quota: { used: usedNow, limit, remaining: Math.max(0, limit - usedNow) },
+            threadId: threadIdSaved,
             ...(reviewPrompt ? { reviewPrompt } : {})
         });
     } catch (error) {
@@ -8918,6 +9027,130 @@ app.get('/api/ask-history/:id', authMiddleware, async (req, res) => {
         res.json({ report: { question: report.question, answer: report.answer, mode: report.mode, toolsUsed: report.toolsUsed || [], createdAt: report.createdAt } });
     } catch (error) {
         res.status(500).json({ message: 'Unable to load the saved answer.' });
+    }
+});
+
+// Ask conversation threads — list / read / rename / delete. Reading never
+// touches credits (the same promise as saved answers); a follow-up question
+// inside a thread charges like any new Ask.
+app.get('/api/ask/threads', authMiddleware, async (req, res) => {
+    try {
+        const rows = await AskThread.aggregate([
+            { $match: { userId: new mongoose.Types.ObjectId(req.userId) } },
+            { $sort: { updatedAt: -1 } },
+            { $limit: ASK_THREAD_KEEP },
+            { $project: { title: 1, mode: 1, createdAt: 1, updatedAt: 1, messageCount: { $size: '$messages' } } }
+        ]);
+        res.json({
+            threads: rows.map((t) => ({
+                id: t._id, title: t.title || 'New chat', mode: t.mode,
+                messageCount: t.messageCount, updatedAt: t.updatedAt, createdAt: t.createdAt
+            }))
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load your chats.' });
+    }
+});
+
+app.get('/api/ask/threads/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Thread not found.' });
+        const thread = await AskThread.findOne({ _id: req.params.id, userId: req.userId }).lean();
+        if (!thread) return res.status(404).json({ message: 'Thread not found.' });
+        res.json({
+            thread: {
+                id: thread._id, title: thread.title || 'New chat', mode: thread.mode,
+                messages: (thread.messages || []).map((m) => ({ role: m.role, content: m.content, toolsUsed: m.toolsUsed || [], at: m.at })),
+                createdAt: thread.createdAt, updatedAt: thread.updatedAt
+            }
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load that chat.' });
+    }
+});
+
+app.patch('/api/ask/threads/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Thread not found.' });
+        const title = String((req.body && req.body.title) || '').trim().slice(0, 160);
+        if (!title) return res.status(400).json({ message: 'Give the chat a name.' });
+        const thread = await AskThread.findOneAndUpdate(
+            { _id: req.params.id, userId: req.userId },
+            { $set: { title } },
+            { new: true, projection: { _id: 1, title: 1 } }
+        );
+        if (!thread) return res.status(404).json({ message: 'Thread not found.' });
+        res.json({ thread: { id: thread._id, title: thread.title } });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to rename that chat.' });
+    }
+});
+
+app.delete('/api/ask/threads/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Thread not found.' });
+        const out = await AskThread.deleteOne({ _id: req.params.id, userId: req.userId });
+        if (!out.deletedCount) return res.status(404).json({ message: 'Thread not found.' });
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to delete that chat.' });
+    }
+});
+
+// Ask memory — consent-gated. Everything here is owner-scoped and free;
+// the consent flag on the User row gates the assistant's own reads/writes.
+app.get('/api/ask/memory', authMiddleware, async (req, res) => {
+    try {
+        const memories = await AskMemory.find({ userId: req.userId }).sort({ createdAt: -1 }).limit(ASK_MEMORY_KEEP).lean();
+        res.json({
+            enabled: !!(req.user && req.user.askMemoryEnabled),
+            memories: memories.map((m) => ({ id: m._id, content: m.content, createdAt: m.createdAt }))
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load memory.' });
+    }
+});
+
+app.put('/api/ask/memory/consent', authMiddleware, async (req, res) => {
+    try {
+        const enabled = !!(req.body && req.body.enabled);
+        await User.updateOne({ _id: req.userId }, { $set: { askMemoryEnabled: enabled } });
+        res.json({ enabled });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to update the memory setting.' });
+    }
+});
+
+app.post('/api/ask/memory', authMiddleware, async (req, res) => {
+    try {
+        const content = String((req.body && req.body.content) || '').trim().slice(0, ASK_MEMORY_MAX);
+        if (!content) return res.status(400).json({ message: 'Write the fact to remember.' });
+        const mem = await AskMemory.create({ userId: req.userId, content });
+        await pruneMemories(req.userId);
+        res.json({ memory: { id: mem._id, content: mem.content, createdAt: mem.createdAt } });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to save that memory.' });
+    }
+});
+
+app.delete('/api/ask/memory/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Memory not found.' });
+        const out = await AskMemory.deleteOne({ _id: req.params.id, userId: req.userId });
+        if (!out.deletedCount) return res.status(404).json({ message: 'Memory not found.' });
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to delete that memory.' });
+    }
+});
+
+// Bulk clear ("Clear all" in the memory panel).
+app.delete('/api/ask/memory', authMiddleware, async (req, res) => {
+    try {
+        await AskMemory.deleteMany({ userId: req.userId });
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to clear memory.' });
     }
 });
 
