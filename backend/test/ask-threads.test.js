@@ -9,25 +9,30 @@ const root = path.join(__dirname, '..', '..');
 
 const appSource = fs.readFileSync(path.join(root, 'backend', 'app.js'), 'utf8');
 const chatSource = fs.readFileSync(path.join(root, 'backend', 'ai-chat.js'), 'utf8');
+const clientSource = fs.readFileSync(path.join(root, 'backend', 'ai-client.js'), 'utf8');
+const pmSource = fs.readFileSync(path.join(root, 'backend', 'personal-memory.js'), 'utf8');
 const bundleSource = fs.readFileSync(path.join(root, 'frontend-v2', 'assets', 'app.js'), 'utf8');
 const askHtml = fs.readFileSync(path.join(root, 'frontend-v2', 'ask.html'), 'utf8');
+const profileHtml = fs.readFileSync(path.join(root, 'frontend-v2', 'profile.html'), 'utf8');
+const profileSource = fs.readFileSync(path.join(root, 'frontend-v2', 'assets', 'profile.js'), 'utf8');
 
 // ---- Threads (Ask only) ----
 
-test('threads get their own collection with per-user and per-thread caps', () => {
-    assert.match(appSource, /collection: 'ask_threads'/);
+test('threads get their own collection with caps and a pinned field', () => {
     const schema = appSource.match(/const AskThreadSchema = new mongoose\.Schema\(\{[\s\S]*?\}\);/);
     assert.ok(schema, 'AskThreadSchema is declared');
     assert.match(schema[0], /userId: \{ type: mongoose\.Schema\.Types\.ObjectId, ref: 'User', required: true \}/);
-    assert.match(appSource, /ASK_THREAD_KEEP = 100/);
+    assert.match(schema[0], /pinned: \{ type: Boolean, default: false \}/);
+    assert.match(appSource, /ASK_THREAD_KEEP = 50/, 'chat limit is 50 per user');
     assert.match(appSource, /ASK_THREAD_MSG_KEEP = 80/);
     assert.match(appSource, /AskThreadSchema\.index\(\{ userId: 1, updatedAt: -1 \}\)/);
+    // sidebar 🔍 searches titles AND chat text
+    assert.match(appSource, /\{ title: 'text', 'messages\.content': 'text' \}/);
 });
 
 test('the chat route uses server-side thread history when a threadId is present', () => {
     assert.match(appSource, /const hasThread = typeof threadIdRaw === 'string' && THREAD_ID_RE\.test\(threadIdRaw\)/);
     assert.match(appSource, /const history = hasThread\s*\? await aiChat\.threadHistory\(userId, threadIdRaw\)/);
-    // ai-chat: owner-checked, flattened to {role, content}, empty on a bad/foreign id
     assert.match(chatSource, /async function threadHistory\(userId, threadId, n = 16\)/);
     assert.match(chatSource, /findOne\(\{ _id: tid, userId: uid \}, \{ projection: \{ messages: \{ \$slice: -n \} \} \}\)/);
 });
@@ -35,10 +40,8 @@ test('the chat route uses server-side thread history when a threadId is present'
 test('both /api/ai/chat success branches save the thread and return its id', () => {
     const hooks = appSource.match(/await saveThreadExchange\(userId, threadIdRaw, question, result\.answer, mode, result\.toolsUsed\)/g) || [];
     assert.equal(hooks.length, 2, 'streaming and non-streaming branches both save');
-    // the streaming 'done' payload and the JSON response both carry threadId
     assert.match(appSource, /threadId: threadIdSaved/);
     assert.equal((appSource.match(/threadId: threadIdSaved/g) || []).length, 2);
-    // best-effort: a thread save failure must never take down the response
     assert.match(appSource, /\[ask\] thread save failed:/);
 });
 
@@ -50,89 +53,176 @@ test('thread routes are owner-scoped and never touch credits', () => {
     assert.match(appSource, /AskThread\.findOne\(\{ _id: req\.params\.id, userId: req\.userId \}\)/);
     assert.match(appSource, /AskThread\.deleteOne\(\{ _id: req\.params\.id, userId: req\.userId \}\)/);
     assert.match(appSource, /Thread not found\./);
-    const routes = appSource.match(/app\.(get|patch|delete)\('\/api\/ask\/threads[^]+?(?=\/\/ Ask memory|app\.(get|post|patch|delete))|app\.(get|patch|delete)\('\/api\/ask\/threads[\s\S]*?(?=\/\/ Ask memory)/g) || [];
-    const threadBlock = routes.join('');
+    const threadBlock = appSource.slice(
+        appSource.indexOf("app.get('/api/ask/threads'"),
+        appSource.indexOf("app.get('/api/ask/memory'")
+    );
     assert.ok(threadBlock.includes("'/api/ask/threads"), 'thread routes located');
     assert.doesNotMatch(threadBlock, /credits\.spend/, 'reading or managing a thread must be free');
 });
 
-test('ask page renders a chat sidebar and sends threadId with asks', () => {
-    assert.match(askHtml, /id="new-chat"/);
-    assert.match(askHtml, /id="chat-list"/);
-    assert.match(askHtml, /id="side-open"/);
-    assert.match(askHtml, /\/ask\/threads\//);
-    assert.match(askHtml, /async function openThread\(id\)/);
-    assert.match(askHtml, /renderSavedMessage\(m\.role, m\.content\)/);
-    // the engine call is the one place threadId enters the request body
-    assert.match(askHtml, /engine\.send\(q, token\(\) && currentThreadId \? \{ threadId: currentThreadId \} : \{\}\)/);
-    // a saved transcript uses the same esc/markdown path as a live answer
-    assert.match(askHtml, /\$\{esc\(t\.title \|\| 'New chat'\)\}/);
+test('thread search honours ?q= and pinned sorts first', () => {
+    assert.match(appSource, /const q = String\(\(req\.query && req\.query\.q\) \|\| ''\)/);
+    assert.match(appSource, /\$text: \{ \$search: q \}/);
+    assert.match(appSource, /'messages\.content': new RegExp/);
+    assert.match(appSource, /\$sort: \{ pinned: -1, updatedAt: -1 \}/);
 });
 
-test('the shared engine merges an optional threadId into the chat POST', () => {
-    assert.match(bundleSource, /async function send\(question, opts = \{\}\)/);
-    assert.match(bundleSource, /\.\.\.\(opts && opts\.threadId \? \{ threadId: opts\.threadId \} : \{\}\)/);
-    assert.match(bundleSource, /remember: \(a\) => `Remembered/);
+test('PATCH accepts a pinned toggle alongside rename', () => {
+    assert.match(appSource, /Object\.prototype\.hasOwnProperty\.call\(body, 'pinned'\)/);
+    assert.match(appSource, /patch\.pinned = !!body\.pinned/);
 });
 
-// ---- Memory (consent-gated) ----
+// ---- Attachments (Ask) ----
 
-test('memories get their own collection with a 500-char cap and 50-per-user prune', () => {
-    assert.match(appSource, /collection: 'ask_memories'/);
-    assert.match(appSource, /ASK_MEMORY_MAX = 500/);
-    assert.match(appSource, /ASK_MEMORY_KEEP = 50/);
-    assert.match(appSource, /async function pruneMemories\(userId\)/);
-    // ai-chat's remember tool writes through the same cap
-    assert.match(chatSource, /const fact = String\(\(args && args\.fact\) \|\| ''\)\.trim\(\)\.slice\(0, 500\)/);
+test('attachments ride the chat body only — validated, capped, never stored', () => {
+    const fn = appSource.slice(appSource.indexOf('function normalizeAskAttachments'), appSource.indexOf('function normalizeAskAttachments') + 1600);
+    assert.ok(fn.startsWith('function normalizeAskAttachments'), 'normalizer located');
+    assert.match(appSource, /ASK_ATTACHMENT_MAX_COUNT = 3/);
+    assert.match(appSource, /ASK_ATTACHMENT_MAX_BYTES = 10 \* 1024 \* 1024/);
+    assert.match(appSource, /ASK_ATTACHMENT_TEXT_CAP = 8000/);
+    // the route only — the global parser stays small
+    assert.match(appSource, /const askChatParser = express\.json\(\{ limit: '16mb' \}\)/);
+    assert.match(appSource, /req\.path === ASK_CHAT_PATH/);
+    // both ask() call sites pass attachments through ctx
+    assert.equal((appSource.match(/ctx: \{ holdings, userId, memoryConsent, attachments \}/g) || []).length, 2);
 });
 
-test('memory consent is an explicit per-user flag that defaults to OFF', () => {
+test('the AI gets attachment tools: view_image (vision relay) and read_document', () => {
+    assert.match(chatSource, /name: 'view_image'/);
+    assert.match(chatSource, /name: 'read_document'/);
+    // relay: transcription text enters the conversation — chat brain never sees pixels
+    assert.match(chatSource, /aiClient\.chatVision\(/);
+    assert.match(chatSource, /async function toolViewImage\(args, ctx\)/);
+    assert.match(chatSource, /async function toolReadDocument\(args, ctx\)/);
+    assert.match(chatSource, /case 'view_image': return toolViewImage/);
+    assert.match(chatSource, /case 'read_document': return toolReadDocument/);
+    // honest degradation — no silent guessing when the relay fails
+    assert.match(chatSource, /This image could not be read yet/);
+});
+
+test('the vision purpose exists in the shared client with a measured default', () => {
+    assert.match(clientSource, /AI_MODEL_VISION/);
+    assert.match(clientSource, /vision: process\.env\.AI_MODEL_VISION \|\| \(useOllama \? 'gemma4:31b' : fallback\)/);
+    assert.match(clientSource, /async function chatVision\(messages/);
+    assert.match(clientSource, /\{ chat, chatRaw, chatRawStream, chatVision, isConfigured, leaksIdentity \}/);
+});
+
+test('document extracts are injected as context; images are named for the relay', () => {
+    assert.match(chatSource, /USER ATTACHMENTS \(this message\)/);
+    assert.match(chatSource, /call view_image/);
+    // scanned-PDF honesty: "no text found" never becomes a guess
+    assert.match(chatSource, /may be scanned pages/);
+});
+
+test('ask.html lets users attach pics and docs with per-chip 🧠', () => {
+    assert.match(askHtml, /id="att-input"/);
+    assert.match(askHtml, /accept="image\/png,image\/jpeg,image\/webp,\.pdf,\.csv,\.txt,\.md,\.json"/);
+    assert.match(askHtml, /att-chips/);
+    assert.match(askHtml, /🧠/);
+    assert.match(askHtml, /imageToDataUri/);
+    assert.match(askHtml, /pdfExtract/);
+    assert.match(askHtml, /opts\.attachments = attachments\.map/);
+});
+
+// ---- Personal memory (ChatGPT-style, default ON) ----
+
+test('personal memory is one embedded doc per user, shared by routes and the tool', () => {
+    assert.match(appSource, /const pm = require\('\.\/personal-memory'\)/);
+    assert.match(chatSource, /const pm = require\('\.\/personal-memory'\)/);
+    assert.match(pmSource, /const COLLECTION = 'personal_memory'/);
+    assert.match(pmSource, /const PM_KEEP = 50/);
+    assert.match(pmSource, /const PM_MAX = 500/);
+    // dedupe so tool writes and imports can never drift apart
+    assert.match(pmSource, /async function addFact\(userId, fact, opts = \{\}\)/);
+    assert.match(pmSource, /function normFact/);
+});
+
+test('the remember tool refuses only when the user switched memory off', () => {
+    assert.match(chatSource, /if \(!ctx \|\| ctx\.memoryConsent === false\) return \{ error: 'Memory is off for this user\.[^']*' \}/);
+    assert.doesNotMatch(chatSource, /Memory is off for this user\. Answer as usual and do not mention memory again\.' \};\s*\}[\s\S]{0,400}ask_memories/);
+    // the card the user sees needs "saved" back from the tool
+    assert.match(chatSource, /const out = await pm\.addFact\(ctx\.userId, fact, \{ existingFacts \}\)/);
+    assert.match(chatSource, /\{ ok: true, saved: out\.saved \|\| fact/);
+});
+
+test('memory defaults ON, and a one-shot boot migration flips legacy opt-outs', () => {
     const flag = appSource.match(/askMemoryEnabled: \{[^}]*\}/);
     assert.ok(flag, 'User schema carries askMemoryEnabled');
-    assert.match(flag[0], /default: false/);
-    // the assistant only reads/writes on consent
-    assert.match(chatSource, /if \(ctx && ctx\.memoryConsent && ctx\.userId\)/);
-    assert.match(chatSource, /if \(!ctx \|\| !ctx\.memoryConsent\) return \{ error: 'Memory is off for this user\.[^']*' \}/);
-    // the chat route derives consent from the user row
-    assert.match(appSource, /const memoryConsent = !!\(req\.user && req\.user\.askMemoryEnabled\)/);
+    assert.match(flag[0], /default: true/);
+    assert.match(appSource, /pm\.bootMigrate\(\)/);
+    assert.match(pmSource, /askMemoryEnabled: false \}, \{ \$set: \{ askMemoryEnabled: true \} \}/);
+    // marker-guarded so a later user opt-out survives restarts
+    assert.match(pmSource, /BOOT_MARKER/);
+    assert.match(pmSource, /if \(marker\) return/);
+    // legacy ask_memories rows are carried over and the collection dropped
+    assert.match(pmSource, /collection\('ask_memories'\)/);
+    assert.match(pmSource, /ask_memories'\)\.drop/);
 });
 
-test('consented memory reaches the prompt as system context, and only then', () => {
+test('saved memories reach the prompt as system context', () => {
     assert.match(chatSource, /async function loadMemories\(userId\)/);
-    assert.match(chatSource, /THINGS THE USER ASKED YOU TO REMEMBER/);
-    assert.match(chatSource, /role: 'system',\s*\n\s*content: `THINGS THE USER ASKED YOU TO REMEMBER/);
-    // bounded context: at most 20 memories / ~2k chars
-    assert.match(chatSource, /\.limit\(20\)\.toArray\(\)/);
+    assert.match(chatSource, /MEMORY — durable facts this user told you across past conversations/);
     assert.match(chatSource, /total \+ c\.length > 2000/);
+    assert.match(chatSource, /await pm\.readFacts\(uid, 50\)/);
 });
 
-test('memory routes are owner-scoped, free, and honour the 500-char cap', () => {
-    assert.match(appSource, /app\.get\('\/api\/ask\/memory', authMiddleware/);
-    assert.match(appSource, /app\.put\('\/api\/ask\/memory\/consent', authMiddleware/);
-    assert.match(appSource, /app\.post\('\/api\/ask\/memory', authMiddleware/);
-    assert.match(appSource, /app\.delete\('\/api\/ask\/memory\/:id', authMiddleware/);
-    assert.match(appSource, /app\.delete\('\/api\/ask\/memory', authMiddleware/);
-    assert.match(appSource, /AskMemory\.deleteOne\(\{ _id: req\.params\.id, userId: req\.userId \}\)/);
-    assert.match(appSource, /AskMemory\.deleteMany\(\{ userId: req\.userId \}\)/);
-    assert.match(appSource, /String\(\(req\.body && req\.body\.content\) \|\| ''\)\.trim\(\)\.slice\(0, ASK_MEMORY_MAX\)/);
-    const memoryRoutes = appSource.match(/app\.get\('\/api\/ask\/memory', authMiddleware[\s\S]*?app\.delete\('\/api\/ask\/memory', authMiddleware[\s\S]*?\n    \}\);/);
-    assert.ok(memoryRoutes, 'memory route block located');
-    assert.doesNotMatch(memoryRoutes[0], /credits\.spend/, 'memory must never touch credits');
+test('memory routes are owner-scoped and free, import included', () => {
+    [
+        /app\.get\('\/api\/ask\/memory', authMiddleware/,
+        /app\.put\('\/api\/ask\/memory\/consent', authMiddleware/,
+        /app\.post\('\/api\/ask\/memory', authMiddleware/,
+        /app\.post\('\/api\/ask\/memory\/import', authMiddleware/,
+        /app\.post\('\/api\/ask\/memory\/extract', authMiddleware/,
+        /app\.delete\('\/api\/ask\/memory\/:id', authMiddleware/,
+        /app\.delete\('\/api\/ask\/memory', authMiddleware/
+    ].forEach((re) => assert.match(appSource, re, `route present: ${re}`));
+    const memoryBlock = appSource.slice(
+        appSource.indexOf("app.get('/api/ask/memory'"),
+        appSource.indexOf('// ---- Thesis Tracker')
+    );
+    assert.ok(memoryBlock.length > 0, 'memory route block located');
+    assert.doesNotMatch(memoryBlock, /credits\.spend/, 'memory must never touch credits');
 });
 
-test('memory is surfaced in the sidebar with toggle, list, delete and clear-all', () => {
-    assert.match(askHtml, /id="mem-toggle"/);
-    assert.match(askHtml, /id="mem-panel"/);
-    assert.match(askHtml, /id="mem-clear"/);
-    assert.match(askHtml, /\/ask\/memory\/consent/);
-    assert.match(askHtml, /async function loadMemory\(\)/);
-    assert.match(askHtml, /method: 'DELETE', headers: \{ Authorization: `Bearer \$\{token\(\)\}` \} \}/);
+test('memory lives in Profile → Settings, not the Ask sidebar', () => {
+    assert.match(profileHtml, /id="settings-card"/);
+    assert.match(profileHtml, /id="mem-toggle"/);
+    assert.match(profileHtml, /📥 Import from another assistant/);
+    assert.match(profileHtml, /id="import-file"/);
+    assert.match(profileSource, /\/ask\/memory\/consent/);
+    assert.match(profileSource, /\/ask\/memory\/extract/);
+    assert.match(profileSource, /\/ask\/memory\/import/);
+    // the sidebar has NO memory section
+    assert.doesNotMatch(askHtml, /id="mem-toggle"/);
+    assert.doesNotMatch(askHtml, /loadMemory/);
+});
+
+test('the chat shows ChatGPT-style "Added to memory" cards with instant delete', () => {
+    assert.match(bundleSource, /🧠 Added to memory/);
+    assert.match(bundleSource, /ask-memcard/);
+    assert.match(bundleSource, /\/ask\/memory\/\$\{encodeURIComponent\(t\.args\.fact\)\}/);
+});
+
+// ---- Sidebar (search / pin / resize / collapse) ----
+
+test('the sidebar searches, pins, resizes and collapses', () => {
+    assert.match(askHtml, /id="chat-search"/);
+    assert.match(askHtml, /data-act="pin"/);
+    assert.match(askHtml, /async function pinThread\(id\)/);
+    assert.match(askHtml, /pinned: !t\.pinned/);
+    assert.match(askHtml, /id="side-grip"/);
+    assert.match(askHtml, /sp_ask_side_w_v1/);
+    assert.match(askHtml, /sp_ask_side_collapsed_v1/);
+    assert.match(askHtml, /id="side-collapse"/);
+    assert.match(askHtml, /📌 Pinned/);
 });
 
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260829-askthreads1/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260829-askthreads1/);
-    [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-profilemenu1/));
+    assert.match(askHtml, /assets\/app\.js\?v=20260829-askmem2/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260829-askmem2/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260829-askmem2/);
+    [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

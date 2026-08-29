@@ -1426,7 +1426,9 @@
         get_filing_diff: (a) => `${(a.symbol || '').toUpperCase()} filing diff`,
         get_guru_ownership: (a) => `${(a.symbol || '').toUpperCase()} guru ownership`,
         get_portfolio_xray: () => 'Portfolio X-Ray',
-        remember: (a) => `Remembered: ${String(a.fact || '').slice(0, 60)}`
+        view_image: (a) => `🔍 Reading ${String(a.attachment || 'image').slice(0, 40)}…`,
+        read_document: (a) => `📄 Reading ${String(a.attachment || 'document').slice(0, 40)}…`,
+        remember: (a) => `🧠 Added to memory: ${String(a.fact || '').slice(0, 60)}`
     };
 
     // outline thumb (drawn for this design — no icon font)
@@ -1638,7 +1640,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(opts && opts.threadId ? { threadId: opts.threadId } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -1729,6 +1731,26 @@
                     // The receipt leads the answer: the cited source is the first
                     // thing read, and it is the same sec.gov link source_opened tracks.
                     mountReceipt(answerEl);
+                    // ChatGPT-style "Added to memory" card: every fact the
+                    // remember tool saved during THIS answer surfaces under it,
+                    // ✕ deletes it on the spot.
+                    (Array.isArray(data.toolsUsed) ? data.toolsUsed : [])
+                        .filter((t) => t && t.tool === 'remember' && t.args && t.args.fact)
+                        .slice(-3)
+                        .forEach((t) => {
+                            const card = document.createElement('div');
+                            card.className = 'ask-memcard';
+                            card.setAttribute('style', 'display:flex;align-items:flex-start;gap:8px;margin:10px 0 0;padding:8px 12px;border:1px dashed var(--line-strong);border-radius:12px;font-size:12.5px;color:var(--ink-2);background:var(--surface);');
+                            card.innerHTML = `<span>🧠 Added to memory — <em>${esc(String(t.args.fact).slice(0, 300))}</em></span><button type="button" data-mem-del title="Remove from memory" aria-label="Remove from memory" style="margin-left:auto;border:0;background:none;padding:0 2px;cursor:pointer;color:var(--ink-3);font-size:12px;line-height:1.4;">✕</button>`;
+                            card.querySelector('[data-mem-del]').addEventListener('click', () => {
+                                card.remove();
+                                fetch(`${API}/ask/memory/${encodeURIComponent(t.args.fact)}`, {
+                                    method: 'DELETE',
+                                    headers: { Authorization: `Bearer ${token()}` }
+                                }).catch(() => { /* best-effort */ });
+                            });
+                            answerEl.appendChild(card);
+                        });
                     history.push({ role: 'user', content: question }, { role: 'assistant', content: data.answer });
                     // one quiet footer line: feedback · quota (the trace
                     // disclosure above already holds the sources)

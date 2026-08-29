@@ -97,6 +97,188 @@
         wrap.hidden = false;
     }
 
+    // ---- Settings card: Ask memory (saved facts) + import from another
+    // provider's export. All routes are owner-scoped; the toggle only gates
+    // the assistant's automatic saves, the list is editable regardless. ----
+    let memoryFacts = [];
+    function renderFacts() {
+        const list = $('mem-list');
+        list.innerHTML = (memoryFacts || []).map((f) => `
+            <li data-id="${esc(String(f.id))}">
+              <span>${esc(f.fact)}</span>
+              <button type="button" data-mem-del title="Delete this fact" aria-label="Delete this fact">✕</button>
+            </li>`).join('');
+        $('mem-empty').hidden = !!(memoryFacts && memoryFacts.length);
+        $('mem-list-wrap').hidden = !(memoryFacts && memoryFacts.length);
+    }
+    async function mountSettings() {
+        try {
+            const r = await fetch(`${API}/ask/memory`, { headers: auth });
+            if (!r.ok) return; // card stays hidden if the store is unreachable
+            const data = await r.json();
+            memoryFacts = Array.isArray(data.facts) ? data.facts : [];
+            $('mem-toggle').checked = !!data.enabled;
+            $('mem-panel').style.opacity = data.enabled ? '1' : '0.8';
+            renderFacts();
+            $('settings-card').hidden = false;
+        } catch (_) { /* settings card is non-blocking */ }
+    }
+    $('mem-toggle').addEventListener('change', async () => {
+        const enabled = $('mem-toggle').checked;
+        try {
+            const r = await fetch(`${API}/ask/memory/consent`, {
+                method: 'PUT', headers: { 'Content-Type': 'application/json', ...auth },
+                body: JSON.stringify({ enabled })
+            });
+            if (!r.ok) { $('mem-toggle').checked = !enabled; return; }
+            $('mem-panel').classList.toggle('paused', !enabled);
+            $('mem-panel').style.opacity = enabled ? '1' : '0.8';
+        } catch (_) { $('mem-toggle').checked = !enabled; }
+    });
+    async function addManualFact() {
+        const v = $('mem-input').value.trim();
+        if (!v) return;
+        try {
+            const r = await fetch(`${API}/ask/memory`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json', ...auth },
+                body: JSON.stringify({ fact: v })
+            });
+            if (!r.ok) return;
+            const data = await r.json();
+            if (Array.isArray(data.facts)) { memoryFacts = data.facts; renderFacts(); }
+            $('mem-input').value = '';
+        } catch (_) { /* best-effort */ }
+    }
+    $('mem-add').addEventListener('click', addManualFact);
+    $('mem-input').addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); addManualFact(); } });
+    $('mem-list').addEventListener('click', async (e) => {
+        const btn = e.target.closest('button[data-mem-del]');
+        if (!btn) return;
+        const li = btn.closest('li[data-id]');
+        try {
+            const r = await fetch(`${API}/ask/memory/${encodeURIComponent(li.dataset.id)}`, {
+                method: 'DELETE', headers: auth
+            });
+            if (r.ok) {
+                memoryFacts = memoryFacts.filter((f) => String(f.id) !== String(li.dataset.id));
+                renderFacts();
+            }
+        } catch (_) { /* best-effort */ }
+    });
+    $('mem-clear').addEventListener('click', () => {
+        window.V2.modal({
+            label: 'Clear memory',
+            title: 'Clear all saved memories?',
+            body: 'Every stored fact is deleted from Ask. This cannot be undone.',
+            actions: [
+                { label: 'Clear all', primary: true, close: false, onClick: async (close) => {
+                    try {
+                        const r = await fetch(`${API}/ask/memory`, { method: 'DELETE', headers: auth });
+                        if (r.ok) { memoryFacts = []; renderFacts(); close(); }
+                    } catch (_) { /* keep dialog open */ }
+                } },
+                { label: 'Cancel' }
+            ]
+        });
+    });
+
+    // ---- Import: client-side digest of the user's own export → AI distils
+    // durable facts → checkbox preview → only ticked facts are stored. ----
+    let importCandidates = [];
+    function renderPreview() {
+        const wrap = $('import-preview');
+        wrap.hidden = !importCandidates.length;
+        $('import-items').innerHTML = importCandidates.map((f, i) => `
+            <label class="small" style="display:flex; gap:8px; align-items:flex-start;">
+              <input type="checkbox" data-i="${i}" checked style="margin-top:2px;" />
+              <span>${esc(f)}</span>
+            </label>`).join('');
+    }
+    $('import-open').addEventListener('click', () => $('import-file').click());
+    $('import-cancel').addEventListener('click', () => {
+        importCandidates = [];
+        renderPreview();
+        $('import-status').textContent = '';
+        $('import-file').value = '';
+    });
+    $('import-confirm').addEventListener('click', async () => {
+        const picked = Array.from($('import-items').querySelectorAll('input[data-i]:checked'))
+            .map((c) => importCandidates[Number(c.dataset.i)]).filter(Boolean);
+        if (!picked.length) return;
+        $('import-status').textContent = `Importing ${picked.length}…`;
+        try {
+            const r = await fetch(`${API}/ask/memory/import`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json', ...auth },
+                body: JSON.stringify({ facts: picked })
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) { $('import-status').textContent = data.message || 'Import failed.'; return; }
+            importCandidates = [];
+            renderPreview();
+            if (Array.isArray(data.facts)) { memoryFacts = data.facts; renderFacts(); }
+            $('import-status').textContent = `Imported ${data.imported ?? picked.length} facts.`;
+        } catch (_) { $('import-status').textContent = 'Import failed — try again.'; }
+    });
+    // Walk any data export and collect the strings a memory extractor can use:
+    // conversational content, `content`/`text`/`memory`-style fields, plain
+    // line-based text. Capped hard so a 500 MB export can't wedge the tab.
+    function digestExport(obj, out, depth) {
+        if (out.length >= 4000 || depth > 12) return;
+        if (obj == null) return;
+        if (typeof obj === 'string') { out.push(obj); return; }
+        if (Array.isArray(obj)) { for (const v of obj) digestExport(v, out, depth + 1); return; }
+        if (typeof obj === 'object') {
+            for (const key of ['content', 'text', 'memory', 'message', 'prompt', 'q', 'value', 'title']) {
+                if (obj[key] != null) digestExport(obj[key], out, depth + 1);
+            }
+        }
+    }
+    $('import-file').addEventListener('change', async () => {
+        const f = ($('import-file').files || [])[0];
+        if (!f) return;
+        $('import-status').textContent = 'Reading…';
+        const facts = new Set();
+        try {
+            if (/\.(txt|md)$/i.test(f.name)) {
+                (await f.text()).split(/\n{2,}/).forEach((p) => facts.add(p.replace(/\s+/g, ' ').trim()));
+            } else {
+                const parsed = JSON.parse(await f.text());
+                const strings = [];
+                digestExport(parsed, strings, 0);
+                strings.forEach((s) => {
+                    String(s).split(/(?<=[.!?])\s+|\n+/).forEach((piece) => facts.add(piece.replace(/\s+/g, ' ').trim()));
+                });
+            }
+        } catch (_) {
+            $('import-status').textContent = 'Could not read that file — JSON, TXT or MD only.';
+            return;
+        }
+        const candidates = [...facts]
+            .filter((s) => s.length >= 8 && s.length <= 400)
+            .slice(0, 1200)
+            .join('\n').slice(0, 50000);
+        if (!candidates.trim()) {
+            $('import-status').textContent = 'No usable text found in that export.';
+            return;
+        }
+        $('import-status').textContent = 'Distilling facts… (this reads your export on our AI, nothing is stored)';
+        try {
+            const r = await fetch(`${API}/ask/memory/extract`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json', ...auth },
+                body: JSON.stringify({ digest: candidates })
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) { $('import-status').textContent = data.message || 'Extraction failed.'; return; }
+            importCandidates = (data.facts || []).slice(0, 50);
+            renderPreview();
+            $('import-status').textContent = `${importCandidates.length} candidate facts — untick anything you don't want.`;
+            if (!importCandidates.length) $('import-status').textContent = 'Nothing durable enough to import was found in that export.';
+        } catch (_) {
+            $('import-status').textContent = 'Extraction failed — try again.';
+        }
+    });
+    mountSettings();
+
     async function mountProfile() {
         try {
             const [sessionR, quotaR, creditsR] = await Promise.all([

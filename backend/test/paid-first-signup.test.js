@@ -33,13 +33,14 @@ test('Power monthly is a complete, consistently priced published plan', () => {
   assert.match(appSource, /STRIPE_PRICE_ID_POWER_MONTHLY/);
   assert.match(envExampleSource, /^STRIPE_PRICE_ID_POWER_MONTHLY=/m);
   assert.match(registerSource, /power-monthly/);
-  assert.match(registerSource, /\$64 billed today, then monthly/);
+  assert.match(registerSource, /amount: '\$64', cadence: 'per month'/);
+  assert.match(registerSource, /Charged today, then monthly/);
   assert.match(homepageSource, /\$64<span>\/month<\/span>/);
   assert.match(homepageSource, /\$579<span>\/year<\/span>/);
   assert.match(homepageSource, /register\.html\?plan=power-monthly/);
   assert.match(homepageSource, /\$579\/year/);
-  assert.match(dossierSource, /Start Power — \$64\/mo/);
-  assert.match(dossierSource, /\$579\/yr — save 25%/);
+  assert.match(dossierSource, /register\.html\?plan=power"\>\$579\/yr/);
+  assert.match(dossierSource, /plan=desk"\>\$1,961\/yr/);
   assert.match(termsSource, /\$64\/month or \$579\/year \(Power\)/);
   assert.match(termsSource, /\$1,961\/year \(Desk\)/);
 });
@@ -58,7 +59,7 @@ test('signup surfaces describe payment and refund terms instead of a no-card tri
   assert.doesNotMatch(registerSource, /no card required/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
-  assert.match(registerSource, /\$12 charged today/);
-  assert.match(registerSource, /\$33 charged today/);
+  assert.match(registerSource, /amount: '\$12', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
+  assert.match(registerSource, /amount: '\$33', cadence: 'per month'[\s\S]{0,200}Charged today through Stripe/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
 });

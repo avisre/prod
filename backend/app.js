@@ -223,6 +223,14 @@ app.use((req, res, next) => {
   next();
 });
 const jsonParser = express.json();
+// Ask carries attachments (pics up to ~1.3MB base64 + doc extracts) in the
+// chat POST body — far past the 100kb default. That route parses itself with a
+// dedicated limit; the two must stay in sync or the global parser 413s first.
+const ASK_CHAT_PATH = '/api/ai/chat';
+const askChatParser = express.json({ limit: '16mb' });
+const ASK_ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024; // per attachment
+const ASK_ATTACHMENT_MAX_COUNT = 3;
+const ASK_ATTACHMENT_TEXT_CAP = 8000; // extracted chars kept per document
 function isRawBodyWebhookPath(requestPath) {
   // Express routes accept a trailing slash by default. Keep the body-parser
   // bypass in sync with that behaviour or `/appsumo/webhook/` gets parsed as
@@ -237,6 +245,11 @@ app.use((req, res, next) => {
   // the request body is parsed.
   if (isRawBodyWebhookPath(req.path)) {
     next();
+  } else if (req.path === ASK_CHAT_PATH) {
+    askChatParser(req, res, (err) => {
+      if (err) return res.status(413).json({ message: 'That request is too large — try smaller attachments.' });
+      next();
+    });
   } else {
     jsonParser(req, res, (err) => {
       if (err) {
@@ -767,6 +780,10 @@ async function connectMongoWithFallback(uri) {
     try {
       await mongoose.connect(uri, options);
       console.log(`MongoDB connected (${redactMongoUri(uri)})`);
+      // One-shot: carry legacy ask_memories rows into personal_memory and flip
+      // pre-default opt-outs back ON (marker-guarded — user opt-outs made after
+      // this boot are permanent). Best-effort; failure retries next boot.
+      pm.bootMigrate();
       // Keep activation beacons idempotent even when several tabs retry at once.
       await mongoose.connection.collection('funnel_events').createIndex(
         { event: 1, userId: 1, activationJob: 1 },
@@ -779,6 +796,7 @@ async function connectMongoWithFallback(uri) {
           const directUri = await expandMongoSrvUri(uri);
           await mongoose.connect(directUri, options);
           console.log(`MongoDB connected via SRV fallback (${redactMongoUri(directUri)})`);
+          pm.bootMigrate();
           await mongoose.connection.collection('funnel_events').createIndex(
             { event: 1, userId: 1, activationJob: 1 },
             { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
@@ -1886,7 +1904,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260829-askthreads1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260829-askmem2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -1915,7 +1933,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260829-askthreads1"></script>
+<script src="/assets/app.js?v=20260829-askmem2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -1985,7 +2003,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260829-askthreads1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260829-askmem2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2013,7 +2031,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260829-askthreads1"></script>
+<script src="/assets/app.js?v=20260829-askmem2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2197,10 +2215,11 @@ const UserSchema = new mongoose.Schema({
     // Applies only to administrator-initiated customer-message emails. It
     // never hides in-app messages or essential account/security email.
     customerMessageEmailsOptOut: { type: Boolean, default: false },
-    // Ask memory consent — nothing is ever stored about a user's chats or
-    // accomplishments until they explicitly turn this on (default OFF).
-    // Toggling it off stops both reads and writes; it deletes nothing.
-    askMemoryEnabled: { type: Boolean, default: false }
+    // Ask memory — ChatGPT-style: the assistant saves short durable facts
+    // unprompted (surfaced to the user inline) and reads them back for context.
+    // ON by default, like ChatGPT; the Profile → Settings toggle stops both
+    // writes and reads without deleting anything (the user can Clear all there).
+    askMemoryEnabled: { type: Boolean, default: true }
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
@@ -2306,11 +2325,12 @@ function saveAskReport(userId, question, answer, mode, toolsUsed) {
 // one-global ai_chat_log feed stays as the non-thread fallback). Reading a
 // thread is free — credits are only ever spent on generating a new answer.
 const THREAD_ID_RE = /^[0-9a-fA-F]{24}$/;
-const ASK_THREAD_KEEP = 100; // threads per user
+const ASK_THREAD_KEEP = 50; // threads per user (ChatGPT-parity cap; oldest pruned)
 const ASK_THREAD_MSG_KEEP = 80; // messages per thread
 const AskThreadSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     title: { type: String, default: '', maxlength: 160 },
+    pinned: { type: Boolean, default: false },
     mode: { type: String, enum: ['normal', 'analyst'], default: 'normal' },
     messages: [new mongoose.Schema({
         role: { type: String, enum: ['user', 'assistant'], required: true },
@@ -2322,6 +2342,8 @@ const AskThreadSchema = new mongoose.Schema({
     updatedAt: { type: Date, default: () => new Date() }
 }, { versionKey: false, collection: 'ask_threads' });
 AskThreadSchema.index({ userId: 1, updatedAt: -1 });
+// sidebar 🔍 searches titles AND chat text (pinned still sort ahead in memory)
+AskThreadSchema.index({ title: 'text', 'messages.content': 'text' }, { default_language: 'none', name: 'ask_thread_text' });
 const AskThread = mongoose.model('AskThread', AskThreadSchema);
 
 async function saveThreadExchange(userId, threadId, question, answer, mode, toolsUsed) {
@@ -2367,24 +2389,15 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
     }
 }
 
-// Ask memory — short durable facts the assistant saves about the user's
-// investing life (goals, holdings context, accomplishments), ONLY while the
-// user has consented (User.askMemoryEnabled, default false). Disabling stops
-// reads and writes; it deletes nothing — the user can clear the store by hand.
-const ASK_MEMORY_MAX = 500;
-const ASK_MEMORY_KEEP = 50;
-const AskMemorySchema = new mongoose.Schema({
-    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    content: { type: String, required: true, maxlength: ASK_MEMORY_MAX },
-    createdAt: { type: Date, default: () => new Date() }
-}, { versionKey: false, collection: 'ask_memories' });
-AskMemorySchema.index({ userId: 1, createdAt: -1 });
-const AskMemory = mongoose.model('AskMemory', AskMemorySchema);
-
-async function pruneMemories(userId) {
-    const stale = await AskMemory.find({ userId }, { _id: 1 }).sort({ createdAt: -1 }).skip(ASK_MEMORY_KEEP).lean();
-    if (stale.length) await AskMemory.deleteMany({ _id: { $in: stale.map((d) => d._id) } });
-}
+// Ask memory — ChatGPT-style saved memories. Per-user doc in `personal_memory`
+// (one doc, ≤50 embedded facts), shared with the remember tool through
+// backend/personal-memory.js (raw collections — no app.js require cycle).
+// Legacy `ask_memories` rows and pre-default opt-outs are migrated once at
+// boot (pm.bootMigrate()). The toggle gates the assistant's writes/reads;
+// Profile → Settings always manages the list.
+const pm = require('./personal-memory');
+const ASK_MEMORY_MAX = pm.PM_MAX;
+const ASK_MEMORY_KEEP = pm.PM_KEEP;
 
 // Append-only, MongoDB-backed customer registry. The unique event key makes
 // Stripe/AppSumo webhook retries idempotent while keeping a durable audit trail
@@ -6294,6 +6307,9 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
+    // 📎 attachments survive the request only — images for the vision relay,
+    // documents as client-extracted text. Never written to disk or the DB.
+    const attachments = normalizeAskAttachments(req.body && req.body.attachments);
     try {
         const userId = portfolioOwnerId(req);
         const limit = effectiveAskLimit(req);
@@ -6365,7 +6381,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
                 const result = await aiChat.ask({
-                    question, history, ctx: { holdings, userId, memoryConsent }, mode,
+                    question, history, ctx: { holdings, userId, memoryConsent, attachments }, mode,
                     onEvent: (e) => send(e.type, e)
                 });
                 const counted = result.source === 'ai' || result.source === 'blocked';
@@ -6399,7 +6415,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             return;
         }
 
-        const result = await aiChat.ask({ question, history, ctx: { holdings, userId, memoryConsent }, mode });
+        const result = await aiChat.ask({ question, history, ctx: { holdings, userId, memoryConsent, attachments }, mode });
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
@@ -6423,6 +6439,29 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
     }
 });
+
+// Attachments for Ask — validated server-side and NEVER persisted: the image
+// data-URI lives only in the request body and the current chat turn's ctx (the
+// vision relay needs the pixels; documents' extracted text is all that matters).
+// Shape from the client: { id, name, kind: 'image'|'doc', mime, text?, dataUri? }
+function normalizeAskAttachments(raw) {
+    if (!Array.isArray(raw)) return [];
+    return raw
+        .filter((a) => a && typeof a === 'object')
+        .slice(0, ASK_ATTACHMENT_MAX_COUNT)
+        .map((a) => {
+            const name = String(a.name || 'attachment').slice(0, 120);
+            const kind = a.kind === 'image' ? 'image' : (a.kind === 'doc' ? 'doc' : null);
+            if (!kind) return null;
+            const text = kind === 'doc' ? String(a.text || '').slice(0, ASK_ATTACHMENT_TEXT_CAP) : '';
+            const dataUri = kind === 'image' ? String(a.dataUri || '') : '';
+            if (kind === 'image' && !/^data:image\//.test(dataUri.slice(0, 15))) return null;
+            if (kind === 'image' && dataUri.length > Math.ceil(ASK_ATTACHMENT_MAX_BYTES * 1.4)) return null;
+            if (kind === 'doc' && !text) return { id: String(a.id || ''), name, kind, mime: String(a.mime || '').slice(0, 60), text: '', note: 'no text found' };
+            return { id: String(a.id || ''), name, kind, mime: String(a.mime || '').slice(0, 60), text, dataUri };
+        })
+        .filter(Boolean);
+}
 
 // ----- Portfolio X-Ray: look-through fundamentals of the whole portfolio -----
 const _xrayCache = new Map(); // userId -> { at, payload }
@@ -9030,20 +9069,43 @@ app.get('/api/ask-history/:id', authMiddleware, async (req, res) => {
     }
 });
 
-// Ask conversation threads — list / read / rename / delete. Reading never
-// touches credits (the same promise as saved answers); a follow-up question
-// inside a thread charges like any new Ask.
+// Ask conversation threads — list (optionally full-text ?q= search) / read /
+// rename / pin / delete. Reading never touches credits (the same promise as
+// saved answers); a follow-up question inside a thread charges like any new Ask.
 app.get('/api/ask/threads', authMiddleware, async (req, res) => {
     try {
+        const uid = new mongoose.Types.ObjectId(req.userId);
+        const q = String((req.query && req.query.q) || '').trim().slice(0, 120);
+        // 🔍 searches titles AND chat text. $text over the compound index, with
+        // a case-insensitive regex fallback while the index builds on a fresh deploy.
+        const matchStage = { userId: uid };
+        if (q) {
+            try {
+                const textHit = await AskThread.findOne(
+                    { $text: { $search: q }, userId: uid },
+                    { projection: { _id: 1 } }
+                ).lean();
+                if (textHit) matchStage.$text = { $search: q };
+                else matchStage.$or = [
+                    { title: new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') },
+                    { 'messages.content': new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }
+                ];
+            } catch (_) {
+                matchStage.$or = [
+                    { title: new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') },
+                    { 'messages.content': new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'i') }
+                ];
+            }
+        }
         const rows = await AskThread.aggregate([
-            { $match: { userId: new mongoose.Types.ObjectId(req.userId) } },
-            { $sort: { updatedAt: -1 } },
+            { $match: matchStage },
+            { $sort: { pinned: -1, updatedAt: -1 } },
             { $limit: ASK_THREAD_KEEP },
-            { $project: { title: 1, mode: 1, createdAt: 1, updatedAt: 1, messageCount: { $size: '$messages' } } }
+            { $project: { title: 1, pinned: 1, mode: 1, createdAt: 1, updatedAt: 1, messageCount: { $size: '$messages' } } }
         ]);
         res.json({
             threads: rows.map((t) => ({
-                id: t._id, title: t.title || 'New chat', mode: t.mode,
+                id: t._id, title: t.title || 'New chat', pinned: !!t.pinned, mode: t.mode,
                 messageCount: t.messageCount, updatedAt: t.updatedAt, createdAt: t.createdAt
             }))
         });
@@ -9059,7 +9121,7 @@ app.get('/api/ask/threads/:id', authMiddleware, async (req, res) => {
         if (!thread) return res.status(404).json({ message: 'Thread not found.' });
         res.json({
             thread: {
-                id: thread._id, title: thread.title || 'New chat', mode: thread.mode,
+                id: thread._id, title: thread.title || 'New chat', pinned: !!thread.pinned, mode: thread.mode,
                 messages: (thread.messages || []).map((m) => ({ role: m.role, content: m.content, toolsUsed: m.toolsUsed || [], at: m.at })),
                 createdAt: thread.createdAt, updatedAt: thread.updatedAt
             }
@@ -9069,20 +9131,28 @@ app.get('/api/ask/threads/:id', authMiddleware, async (req, res) => {
     }
 });
 
+// Rename and/or 📌 pin/unpin — both are metadata-only, owner-scoped, free.
 app.patch('/api/ask/threads/:id', authMiddleware, async (req, res) => {
     try {
         if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Thread not found.' });
-        const title = String((req.body && req.body.title) || '').trim().slice(0, 160);
-        if (!title) return res.status(400).json({ message: 'Give the chat a name.' });
+        const body = req.body || {};
+        const patch = {};
+        if (Object.prototype.hasOwnProperty.call(body, 'title')) {
+            const title = String(body.title || '').trim().slice(0, 160);
+            if (!title) return res.status(400).json({ message: 'Give the chat a name.' });
+            patch.title = title;
+        }
+        if (Object.prototype.hasOwnProperty.call(body, 'pinned')) patch.pinned = !!body.pinned;
+        if (!Object.keys(patch).length) return res.status(400).json({ message: 'Nothing to update.' });
         const thread = await AskThread.findOneAndUpdate(
             { _id: req.params.id, userId: req.userId },
-            { $set: { title } },
-            { new: true, projection: { _id: 1, title: 1 } }
+            { $set: patch },
+            { new: true, projection: { _id: 1, title: 1, pinned: 1 } }
         );
         if (!thread) return res.status(404).json({ message: 'Thread not found.' });
-        res.json({ thread: { id: thread._id, title: thread.title } });
+        res.json({ thread: { id: thread._id, title: thread.title, pinned: !!thread.pinned } });
     } catch (error) {
-        res.status(500).json({ message: 'Unable to rename that chat.' });
+        res.status(500).json({ message: 'Unable to update that chat.' });
     }
 });
 
@@ -9097,14 +9167,16 @@ app.delete('/api/ask/threads/:id', authMiddleware, async (req, res) => {
     }
 });
 
-// Ask memory — consent-gated. Everything here is owner-scoped and free;
-// the consent flag on the User row gates the assistant's own reads/writes.
+// Ask personal memory — ChatGPT-style saved memories. All owner-scoped and
+// free; every key of the store is the user's own document, so no cross-user
+// leak is possible by construction. The toggle only gates the assistant's
+// writes/reads in the chat loop — the Profile UI manages the list regardless.
 app.get('/api/ask/memory', authMiddleware, async (req, res) => {
     try {
-        const memories = await AskMemory.find({ userId: req.userId }).sort({ createdAt: -1 }).limit(ASK_MEMORY_KEEP).lean();
+        const facts = await pm.readFacts(req.userId);
         res.json({
             enabled: !!(req.user && req.user.askMemoryEnabled),
-            memories: memories.map((m) => ({ id: m._id, content: m.content, createdAt: m.createdAt }))
+            facts: facts.map((f) => ({ id: f.id, fact: f.fact, at: f.at }))
         });
     } catch (error) {
         res.status(500).json({ message: 'Unable to load memory.' });
@@ -9123,31 +9195,79 @@ app.put('/api/ask/memory/consent', authMiddleware, async (req, res) => {
 
 app.post('/api/ask/memory', authMiddleware, async (req, res) => {
     try {
-        const content = String((req.body && req.body.content) || '').trim().slice(0, ASK_MEMORY_MAX);
-        if (!content) return res.status(400).json({ message: 'Write the fact to remember.' });
-        const mem = await AskMemory.create({ userId: req.userId, content });
-        await pruneMemories(req.userId);
-        res.json({ memory: { id: mem._id, content: mem.content, createdAt: mem.createdAt } });
+        const out = await pm.addFact(req.userId, (req.body && req.body.fact) || (req.body && req.body.content) || '');
+        if (!out.ok) return res.status(400).json({ message: out.note });
+        const facts = await pm.readFacts(req.userId);
+        res.json({
+            saved: out.saved || null,
+            facts: facts.map((f) => ({ id: f.id, fact: f.fact, at: f.at }))
+        });
     } catch (error) {
         res.status(500).json({ message: 'Unable to save that memory.' });
     }
 });
 
+// Import — Profile → Settings pastes/uploads selected facts distilled from
+// another provider's export (ChatGPT, Claude, Grok). Batch, deduped, capped.
+app.post('/api/ask/memory/import', authMiddleware, async (req, res) => {
+    try {
+        const out = await pm.importFacts(req.userId, req.body && req.body.facts);
+        if (!out.ok) return res.status(400).json({ message: out.note });
+        const facts = await pm.readFacts(req.userId);
+        res.json({ imported: out.imported, facts: facts.map((f) => ({ id: f.id, fact: f.fact, at: f.at })) });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to import those facts.' });
+    }
+});
+
+// Import step 1 — distill durable facts from a digest of the user's own data
+// export (ChatGPT/Claude/Grok). Cheap one-shot prose call, no tools; the user
+// previews and ticks before anything is stored (POST /import does that).
+app.post('/api/ask/memory/extract', authMiddleware, async (req, res) => {
+    try {
+        const digest = String((req.body && req.body.digest) || '').slice(0, 50000);
+        if (!digest.trim()) return res.status(400).json({ message: 'No export text to read.' });
+        const aiClient = require('./ai-client');
+        if (!aiClient.isConfigured()) return res.status(503).json({ message: 'Extraction is not available right now.' });
+        const text = await aiClient.chat([
+            {
+                role: 'user',
+                content: 'The following is text the user extracted from their own data export from another AI assistant (ChatGPT, Claude or Grok). Extract up to 20 DURABLE FACTS ABOUT THE USER THEMSELF as those conversations reveal them: investing goals, holdings, time horizons, risk preferences, constraints, life milestones relevant to finances. Only durable, stable facts — not opinions about stocks, not conversation mechanics, not anything that looks like a credential, address, phone number, account number or email. Each fact: one concise sentence under 120 characters, phrased as remembered about the user (e.g. "Plans to add REITs next year"). Ignore chat questions unless they reveal something personal and lasting. Reply with ONLY a JSON object: {"facts":["…","…"]} — empty array if nothing qualifies.\n\nEXPORT:\n' + digest
+            }
+        ], { purpose: 'summary', maxTokens: 900, temperature: 0.1 });
+        let facts = [];
+        const m = text.match(/\{[\s\S]*\}/);
+        if (m) {
+            try { facts = (JSON.parse(m[0]).facts) || []; } catch (_) { /* fall through to [] */ }
+        }
+        if (!Array.isArray(facts)) facts = [];
+        res.json({
+            facts: facts
+                .map((f) => String(f || '').replace(/\s+/g, ' ').trim().slice(0, 300))
+                .filter((f) => f.length >= 8 && f.length <= 300)
+                .slice(0, 25)
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Extraction failed — try again.' });
+    }
+});
+
+// Delete one fact — by the fact id the list API handed out, or its text.
 app.delete('/api/ask/memory/:id', authMiddleware, async (req, res) => {
     try {
-        if (!THREAD_ID_RE.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Memory not found.' });
-        const out = await AskMemory.deleteOne({ _id: req.params.id, userId: req.userId });
-        if (!out.deletedCount) return res.status(404).json({ message: 'Memory not found.' });
+        const key = String(req.params.id || '');
+        const removed = await pm.removeFact(req.userId, key);
+        if (!removed) return res.status(404).json({ message: 'Memory not found.' });
         res.json({ ok: true });
     } catch (error) {
         res.status(500).json({ message: 'Unable to delete that memory.' });
     }
 });
 
-// Bulk clear ("Clear all" in the memory panel).
+// Bulk clear ("🧹 Clear all" in Profile → Settings).
 app.delete('/api/ask/memory', authMiddleware, async (req, res) => {
     try {
-        await AskMemory.deleteMany({ userId: req.userId });
+        await pm.clearFacts(req.userId);
         res.json({ ok: true });
     } catch (error) {
         res.status(500).json({ message: 'Unable to clear memory.' });

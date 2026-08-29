@@ -1203,8 +1203,24 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'remember',
-            description: "Save ONE short durable fact about THIS user for future conversations — their stated investing goals, holdings context, constraints, or accomplishments (e.g. 'planning to add REITs next year', 'already holds AAPL bought at 182'). Only when the user clearly states something lasting or explicitly asks you to remember it. Never store credentials, addresses, phone numbers or account numbers. One fact per call, under 500 characters.",
+            description: "Save ONE short durable fact about THIS user for future conversations — their stated investing goals, holdings context, constraints, or accomplishments (e.g. 'planning to add REITs next year', 'already holds AAPL bought at 182'). The user can see and delete saved facts in Settings. Never store credentials, addresses, phone numbers or account numbers. One fact per call, under 500 characters.",
             parameters: { type: 'object', properties: { fact: { type: 'string', description: "The fact to remember, phrased concisely in the user's own terms." } }, required: ['fact'] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'view_image',
+            description: "Transcribe an image the user attached to THIS message (photo, screenshot or chart). Returns a detailed transcription — visible text, chart axes/values, tables. Use it whenever the question touches an attached image; quote what you see, do not guess.",
+            parameters: { type: 'object', properties: { attachment: { type: 'string', description: 'Which attached image to read — its name or id; omit to read the only attached image.' } }, required: [] }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'read_document',
+            description: "Read the full extracted text of a document the user attached to THIS message (csv, txt, md, json, pdf). Use when the summarized context in the attachment note is not enough — e.g. to quote a specific row or section.",
+            parameters: { type: 'object', properties: { attachment: { type: 'string', description: 'Which attached document to read — its name or id; omit to read the only attached document.' } }, required: [] }
         }
     }
 ];
@@ -1388,37 +1404,72 @@ async function toolFetchPage({ url, find }, depth = 0) {
     }
 }
 
-// Ask memory write — consent-gated. Off (or signed out) it must REFUSE, not
-// quietly succeed: the model treats the error as "do not retry".
+// Ask memory write — ChatGPT-style saved memories, shared with the routes via
+// personal-memory.js (dedupe + 50-fact cap live there, so tool writes and
+// imports can never drift apart).
+// When the user has memory switched off it must REFUSE, not quietly succeed:
+// the model treats the error as "do not retry".
 // Deterministic like the other cheap tools — no web budget, no external call.
-const MEMORY_NORM_RE = /[^a-z0-9]+/g;
+const pm = require('./personal-memory');
 async function toolRemember(args, ctx) {
     const fact = String((args && args.fact) || '').trim().slice(0, 500);
     if (!fact) return { error: 'Nothing to remember — provide the fact.' };
-    if (!ctx || !ctx.memoryConsent) return { error: 'Memory is off for this user. Answer as usual and do not mention memory again.' };
-    const uid = toObjectIdSafe(ctx.userId);
-    if (!uid) return { error: 'Memory requires a signed-in account.' };
+    if (!ctx || ctx.memoryConsent === false) return { error: 'Memory is off for this user. Answer as usual and do not mention memory again.' };
     try {
-        const col = mongoose.connection.collection('ask_memories');
-        const norm = fact.toLowerCase().replace(MEMORY_NORM_RE, ' ').trim();
-        const existing = await col.find({ userId: uid }, { projection: { content: 1, createdAt: 1 } }).limit(50).toArray();
-        if (existing.some((m) => String(m.content || '').toLowerCase().replace(MEMORY_NORM_RE, ' ').trim() === norm)) {
-            return { ok: true, note: 'Already remembered — unchanged.' };
-        }
-        await col.insertOne({ userId: uid, content: fact, createdAt: new Date() });
-        // cap 50 per user — drop the oldest beyond it (same spirit as the
-        // ask_reports / ask_threads prunes in app.js)
-        const stale = existing.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0)).slice(49);
-        if (stale.length) await col.deleteMany({ _id: { $in: stale.map((m) => m._id) } });
-        return { ok: true, note: 'Saved to memory. It is visible to the user and they can delete it anytime.' };
+        const existingFacts = ctx.userId ? await pm.readFacts(ctx.userId) : [];
+        const out = await pm.addFact(ctx.userId, fact, { existingFacts });
+        if (!out.ok) return { error: out.note };
+        return { ok: true, saved: out.saved || fact, note: out.note || 'Saved to memory. It is visible to the user and they can delete it anytime.' };
     } catch (_) {
         return { error: 'Could not save to memory right now.' };
     }
 }
 
+// ---- Tools: the user's 📎 attachments (pics + docs) ----
+function findAttachment(ctx, wanted, kinds) {
+    const list = (ctx && Array.isArray(ctx.attachments)) ? ctx.attachments : [];
+    const candidates = list.filter((a) => kinds.includes(a.kind));
+    if (!candidates.length) return null;
+    if (wanted == null || wanted === '') return candidates[0];
+    const w = String(wanted).trim().toLowerCase();
+    return candidates.find((a) => String(a.name || '').toLowerCase() === w)
+        || candidates.find((a) => String(a.name || '').toLowerCase().includes(w))
+        || candidates.find((a) => String(a.id || '').toLowerCase() === w)
+        || (candidates.length === 1 && candidates[0]) || null;
+}
+// One-shot vision relay: a vision-capable model transcribes the picture; that
+// TEXT enters the conversation (the chat brain itself cannot see images).
+// The data-URI exists only inside ctx for this turn — never stored anywhere.
+async function toolViewImage(args, ctx) {
+    const img = findAttachment(ctx, args && args.attachment, ['image']);
+    if (!img) return { error: 'No image attachment found in this conversation.' };
+    if (!img.dataUri) return { error: 'That image could not be opened. Ask the user to re-attach it.' };
+    try {
+        const transcription = await aiClient.chatVision([
+            { role: 'user', content: [
+                { type: 'text', text: 'Transcribe this image in full detail for a finance research assistant: transcribe ALL visible text verbatim, then describe the chart or picture — chart type, axis labels and scales, every readable data value, dates, legends, trends, and anything notable. Be exact; never invent values.' },
+                { type: 'image_url', image_url: { url: img.dataUri } }
+            ] }
+        ]);
+        if (aiClient.leaksIdentity(transcription)) return { error: 'The image could not be read right now.' };
+        return { attachment: img.name, transcription };
+    } catch (e) {
+        return { error: 'This image could not be read yet — tell the user plainly that reading images is not working right now, and answer the rest of the question without it.' };
+    }
+}
+// Documents arrive as client-extracted text on the attachment itself.
+async function toolReadDocument(args, ctx) {
+    const doc = findAttachment(ctx, args && args.attachment, ['doc']);
+    if (!doc) return { error: 'No document attachment found in this conversation.' };
+    if (!doc.text) return { error: doc.note && doc.note === 'no text found' ? `No text could be extracted from "${doc.name}" — it may be scans. Ask the user to re-attach as images.` : `"${doc.name}" has no readable text.` };
+    return { attachment: doc.name, text: doc.text, note: `Extracted text of "${doc.name}" (${doc.text.length} chars kept).` };
+}
+
 function runTool(name, args, ctx) {
     switch (name) {
         case 'remember': return toolRemember(args || {}, ctx);
+        case 'view_image': return toolViewImage(args || {}, ctx);
+        case 'read_document': return toolReadDocument(args || {}, ctx);
         case 'get_fund_profile': return toolGetFundProfile(args || {});
         case 'rank_funds': return toolRankFunds(args || {});
         case 'get_financials': return toolGetFinancials(args || {});
@@ -1478,7 +1529,7 @@ const ASK_SYSTEM = [
     'TABLES: for multi-metric comparisons use a markdown table, metrics as rows. Add a final "Context" column with a short interpretation of each number against history or peers (e.g. "below its 10-yr average of 24x") whenever the tools give you the comparison; leave it out rather than inventing one.',
     'THE READ: end any answer that involved several figures with a paragraph starting "**The read** — " that connects the numbers into the one thing they say together (still descriptive, no advice).',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
-    'MEMORY: a "remember" tool is available for saving durable facts about the user (their goals, holdings context, constraints, stated accomplishments) — but ONLY while the user has memory switched on; the tool refuses otherwise. Use it sparingly: when the user clearly states something lasting or asks you to remember it, call remember with ONE concise fact, then carry on. If the tool returns an error, never mention memory again and never retry. Never store credentials, addresses or account numbers. A system message may list what the user already asked you to remember — treat it as context, and never invent entries.',
+    'MEMORY: memory is ON for this user unless a later message says it errored — save durable facts about them automatically, WITHOUT being asked: their stated investing goals, holdings context, time horizons, constraints, milestones and accomplishments (e.g. "planning to add REITs next year", "already holds AAPL bought at 182", "selling out in 2028 to buy a house"). When the user states something lasting, call remember with ONE concise fact in their own words and carry on — no need to announce it; the app shows them the card. Skip ephemeral things (chat small talk, this session\'s questions). If the tool ever returns an error for memory, memory is switched off: never mention memory again and never retry. Never store credentials, addresses, phone numbers or account numbers. A system message may list facts already saved — treat it as context, never invent entries; when asked "what do you remember about me", read back THOSE saved facts as a friendly list, in plain language, and say they can delete any of them in Settings → Memory.',
     'STYLE: British English. Concise but complete — short paragraphs, markdown tables for multi-period numbers. No preamble, no sign-off.'
 ].join('\n');
 
@@ -1551,16 +1602,40 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 
     const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '') + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.`;
     const messages = [{ role: 'system', content: systemContent }];
-    // Memory context — only when the user consented (ctx.memoryConsent).
-    // Loaded fresh per question so an edit or delete takes effect immediately.
-    if (ctx && ctx.memoryConsent && ctx.userId) {
+    // Memory context — ChatGPT-style saved memories (default ON; the user's
+    // Profile → Settings toggle is the off switch). Loaded fresh per question
+    // so an edit or delete takes effect immediately.
+    if (ctx && ctx.userId && ctx.memoryConsent !== false) {
         const memories = await loadMemories(ctx.userId);
         if (memories.length) {
             messages.push({
                 role: 'system',
-                content: `THINGS THE USER ASKED YOU TO REMEMBER across past conversations (they can see and delete these in their Ask sidebar — never claim they said something that is not listed):\n${memories.map((m) => `- ${m}`).join('\n')}`
+                content: `MEMORY — durable facts this user told you across past conversations (they can see and delete these in Settings → Memory — never claim they said something that is not listed):\n${memories.map((m) => `- ${m}`).join('\n')}`
             });
         }
+    }
+    // 📎 attachments on THIS message: documents' extracted text is injected as
+    // context (quotes/analysis work straight away); images are read through the
+    // view_image tool — tell the model what is attached.
+    const att = (ctx && Array.isArray(ctx.attachments)) ? ctx.attachments : [];
+    const docTexts = [];
+    const imgNames = [];
+    for (const a of att) {
+        if (a.kind === 'image') imgNames.push(a.name);
+        else if (a.kind === 'doc') docTexts.push({ name: a.name, text: a.text, note: a.note });
+    }
+    if (att.length) {
+        const lines = [];
+        for (const d of docTexts) {
+            lines.push(`--- Attached document: ${d.name} ---`);
+            lines.push(d.text ? d.text : (d.note && d.note === 'no text found' ? '[No text could be extracted — it may be scanned pages. Use read_document to confirm, or ask the user to re-attach as an image.]' : '[No readable text]'));
+        }
+        if (imgNames.length) {
+            lines.push(`--- Attached image${imgNames.length > 1 ? 's' : ''}: ${imgNames.join(', ')} ---`);
+            lines.push(`You cannot see image${imgNames.length > 1 ? 's' : ''} directly — call view_image with the attachment name for a full transcription (visible text, chart axes and every value), then answer from that.`);
+        }
+        lines.push('Answer using the attachments where they matter to the question.');
+        messages.push({ role: 'system', content: `USER ATTACHMENTS (this message):\n${lines.join('\n')}` });
     }
     for (const h of (Array.isArray(history) ? history.slice(-8) : [])) {
         if (h && (h.role === 'user' || h.role === 'assistant') && typeof h.content === 'string') {
@@ -1729,7 +1804,7 @@ async function recentHistory(userId, n = 3) {
 }
 
 // ---- Conversation threads + memory (Ask only) ----
-// ask_threads / ask_memories are defined with schemas in app.js; this module
+// ask_threads is defined with a schema in app.js; this module
 // reads them through raw collections so requiring app.js (a cycle) stays
 // unnecessary. Both are owner-scoped by construction: the userId is part of
 // every query, so a foreign or malformed id simply returns [] / fails silent.
@@ -1756,25 +1831,24 @@ async function threadHistory(userId, threadId, n = 16) {
     } catch (_) { return []; }
 }
 
-// Memories the user consented to — loaded as extra system context so the
-// assistant already knows the durable facts ("planning to add REITs").
+// Saved memories (personal_memory, shared with the routes) — loaded as extra
+// system context so the assistant already knows the durable facts
+// ("planning to add REITs"). Newest click of the cap wins; 2k chars max.
 async function loadMemories(userId) {
     try {
         const uid = toObjectIdSafe(userId);
         if (!uid) return [];
-        const col = mongoose.connection.collection('ask_memories');
-        const rows = await col.find({ userId: uid }, { projection: { content: 1 } })
-            .sort({ createdAt: -1 }).limit(20).toArray();
+        const rows = await pm.readFacts(uid, 50);
         const out = [];
         let total = 0;
         for (const r of rows) {
-            const c = String(r.content || '').trim();
+            const c = String(r.fact || '').trim();
             if (!c) continue;
             if (total + c.length > 2000) break;
             out.push(c);
             total += c.length;
         }
-        return out.reverse(); // oldest first, in the order they were saved
+        return out; // oldest first, in the order they were saved
     } catch (_) { return []; }
 }
 
@@ -1793,4 +1867,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData });
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData });

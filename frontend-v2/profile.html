@@ -10,9 +10,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260829-askthreads1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260829-askmem2" />
   <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
   <style>
+    .settings-fact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
+    .settings-fact-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px; }
+    .settings-fact-list li span { flex: 1; min-width: 0; }
+    .settings-fact-list li button { flex: none; border: 0; background: none; padding: 0 2px; cursor: pointer; color: var(--ink-3); font-size: 12px; line-height: 1.4; }
+    .settings-fact-list li button:hover { color: var(--ink); }
+    .settings-fact-list li.paused { opacity: 0.45; }
     .credits-bar-track { position: relative; width: 100%; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
     .credits-bar-fill { height: 100%; border-radius: 999px; background: var(--ink); transition: width .3s ease; }
     .credits-bar-fill.is-high { background: var(--neg); }
@@ -75,6 +81,43 @@
           </div>
         </section>
 
+        <section class="card card-pad" id="settings-card" hidden style="margin-top:18px; max-width:720px;" aria-label="Settings">
+          <p class="label">Settings</p>
+
+          <div style="display:flex; align-items:flex-start; gap:10px; margin-top:12px; flex-wrap:wrap;">
+            <input type="checkbox" id="mem-toggle" style="margin-top:2px;" aria-describedby="mem-hint" />
+            <label for="mem-toggle" class="small" style="font-weight:650;">Memory</label>
+            <span class="small muted" id="mem-hint" style="flex:1; min-width:220px;">Ask saves short durable facts about you as you chat — your goals, holdings, time horizons — like ChatGPT does. It uses them to answer better; every saved fact is shown in the chat and you can delete any of them here.</span>
+          </div>
+
+          <div id="mem-panel" style="margin-top:14px;">
+            <div id="mem-list-wrap">
+              <ul class="settings-fact-list" id="mem-list"></ul>
+            </div>
+            <p class="small muted" id="mem-empty" style="margin:6px 0 0;">Nothing saved yet. Tell Ask something worth remembering in a chat.</p>
+            <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
+              <input id="mem-input" class="input" maxlength="500" style="flex:1; min-width:200px;" placeholder="Add a fact to remember…" aria-label="Add a memory" />
+              <button class="btn btn-quiet" type="button" id="mem-add">Add</button>
+              <button class="btn btn-quiet" type="button" id="mem-clear" style="color:var(--ink-3);">🧹 Clear all</button>
+            </div>
+
+            <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line);">
+              <p class="small" style="margin:0; font-weight:650;">📥 Import from another assistant</p>
+              <p class="small muted" style="margin:4px 0 8px;">Bring your saved memories from ChatGPT, Claude or Grok: request your data export from that service, then upload it here. Facts are distilled, previewed and only imported once you tick them.</p>
+              <input type="file" id="import-file" accept=".json,.txt,.md" hidden />
+              <button class="btn btn-quiet" type="button" id="import-open">Choose an export file…</button>
+              <span class="small muted" id="import-status" style="margin-left:8px;" role="status"></span>
+              <div id="import-preview" style="margin-top:10px;" hidden>
+                <div id="import-items" style="display:grid; gap:4px;"></div>
+                <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                  <button class="btn btn-primary" type="button" id="import-confirm">Import selected</button>
+                  <button class="btn btn-quiet" type="button" id="import-cancel">Cancel</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section class="message-card" aria-label="Conversation with StockPortfolio.pro" style="margin-top:18px;">
           <div class="message-card-head"><div><strong>StockPortfolio.pro</strong><p class="small muted">We&rsquo;ll reply here when we can help.</p></div><span id="message-status" class="small muted" role="status"></span></div>
           <div id="message-list" class="message-list" aria-live="polite"></div>
@@ -84,8 +127,8 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260829-askthreads1"></script>
-  <script src="assets/profile.js?v=20260829-askthreads1"></script>
+  <script src="assets/app.js?v=20260829-askmem2"></script>
+  <script src="assets/profile.js?v=20260829-askmem2"></script>
   <script src="assets/messages.js?v=20260829-lockedstate1"></script>
 </body>
 </html>

@@ -21,7 +21,12 @@ function cfg(purpose) {
     const byPurpose = {
         summary: process.env.AI_MODEL_SUMMARY || fallback,
         chat: process.env.AI_MODEL_CHAT || fallback,
-        briefing: process.env.AI_MODEL_BRIEFING || fallback
+        briefing: process.env.AI_MODEL_BRIEFING || fallback,
+        // Ask's chat brain cannot see images, so attachments are relayed: a
+        // vision-capable model one-shot-transcribes the picture and the text
+        // enters the conversation. Measured on Ollama Cloud (2026-08-29):
+        // glm-5.1/5.3 reject image input; this model accepts it.
+        vision: process.env.AI_MODEL_VISION || (useOllama ? 'gemma4:31b' : fallback)
     };
     return {
         key: useOllama
@@ -207,6 +212,17 @@ async function chat(messages, { temperature = 0.4, maxTokens = 320, purpose = 'b
     return text;
 }
 
+// One-shot image transcription relay for Ask attachments. messages must carry
+// OpenAI content parts — image_url entries hold data: URIs (images are never
+// uploaded anywhere; they pass through the request only). Returns the plain
+// transcription text. Vision failures throw; the caller degrades honestly.
+async function chatVision(messages, { maxTokens = 1200, timeoutMs = 90000 } = {}) {
+    const msg = await chatRaw(messages, { temperature: 0.2, maxTokens, purpose: 'vision', timeoutMs });
+    const text = msg.content && msg.content.trim();
+    if (!text) throw new Error('vision model returned no content');
+    return text;
+}
+
 // Self-revelatory phrasing — blocked regardless of subject. Bare AI company
 // and model names are NOT here: they are legitimate finance subjects (OpenAI
 // partnerships, a DeepSeek-driven selloff…) and live in the contextual list.
@@ -234,5 +250,5 @@ function leaksIdentity(text) {
         || IDENTITY_SELF_PATTERNS.some((re) => re.test(text));
 }
 
-module.exports = { chat, chatRaw, chatRawStream, isConfigured, leaksIdentity };
+module.exports = { chat, chatRaw, chatRawStream, chatVision, isConfigured, leaksIdentity };
 Object.defineProperty(module.exports, 'AI_CONFIGURED', { get: isConfigured });
