@@ -205,3 +205,26 @@ test('credit formatting is shared between the profile page and the dropdown, not
     assert.match(frontendAppSource, /markdown, nav, footer, formatReset, activityLabel, creditSplit,/,
         'the helpers must be exported on window.V2');
 });
+
+test('admin-messages.js binds its reply-form submit handler exactly once', () => {
+    // A send-1-message-get-2 bug shipped here: the identical submit listener
+    // was pasted twice, so every admin reply POSTed twice from one click. The
+    // backend has no dedupe on this endpoint (only broadcasts carry an
+    // idempotency key), so the guard has to live on the client bundle.
+    const path = require('node:path');
+    const source = fs.readFileSync(path.join(FRONTEND, 'assets/admin-messages.js'), 'utf8');
+    const bound = source.matchAll(/\$\('admin-reply-form'\)\.addEventListener\('submit'/g);
+    assert.equal([...bound].length, 1,
+        'admin-reply-form must have exactly ONE submit listener — two listeners double-send every reply');
+});
+
+test('admin-messages.js carries a fresh cache stamp (not the pre-fix one)', () => {
+    // Same immutable-cache trap as app.js: the duplicate-listener fix is
+    // worthless while browsers still run the old bundle for a year.
+    const path = require('node:path');
+    const html = fs.readFileSync(path.join(FRONTEND, 'admin-messages.html'), 'utf8');
+    const m = html.match(/assets\/admin-messages\.js\?v=([\w.-]+)/);
+    assert.ok(m, 'admin-messages.html should load admin-messages.js');
+    assert.notEqual(m[1], '20260824-msgreply2',
+        'admin-messages.html still points at the pre-fix duplicate-listener bundle');
+});

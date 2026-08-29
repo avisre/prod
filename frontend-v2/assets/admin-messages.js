@@ -97,23 +97,6 @@
     } catch (error) { $('admin-status').textContent = error.message || 'Could not send this message.'; }
     finally { button.disabled = false; }
   });
-  $('admin-reply-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
-    const field = $('admin-reply-body');
-    const body = field.value.trim();
-    if (!body || !state.active) return;
-    const button = event.target.querySelector('button');
-    button.disabled = true;
-    try {
-      const response = await fetch(`/api/admin/messages/threads/${encodeURIComponent(state.active)}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ body, sendEmail: false }) });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.message);
-      field.value = '';
-      await openThread(state.active);
-      $('admin-status').textContent = 'Sent.';
-    } catch (error) { $('admin-status').textContent = error.message || 'Could not send this message.'; }
-    finally { button.disabled = false; }
-  });
   $('admin-message-list').addEventListener('click', async (event) => {
     const target = event.target;
     const editId = target.dataset && target.dataset.msgEdit;
