@@ -191,8 +191,11 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   font-size: var(--text-sm);
   font-weight: 500;
 }
-.nav-links a { color: var(--ink-2); padding: 6px 4px; border-bottom: 2px solid transparent; }
-.nav-links a:hover { color: var(--ink); }
+/* Nav links read at full ink by default — the muted --ink-2 made every
+   destination look secondary until it was the current page. The active page
+   is still distinguished, by weight + underline rather than by colour. */
+.nav-links a { color: var(--ink); padding: 6px 4px; border-bottom: 2px solid transparent; }
+.nav-links a:hover { color: var(--accent); }
 .nav-links a[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
 
 /* Ask AI dropdown — consolidates the AI features (Ask / Dossier / Monitor)
@@ -200,8 +203,8 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
    shows >1180px, where hover works, so no JS is needed. The trigger still
    links to /ask.html, so a click goes straight to Ask. */
 .nav-dd { position: relative; display: inline-flex; align-items: center; }
-.nav-dd-trigger { color: var(--ink-2); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; border-bottom: 2px solid transparent; }
-.nav-dd-trigger:hover { color: var(--ink); }
+.nav-dd-trigger { color: var(--ink); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; border-bottom: 2px solid transparent; }
+.nav-dd-trigger:hover { color: var(--accent); }
 .nav-dd-trigger[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
 .nav-dd-caret { font-size: 9px; line-height: 1; transition: transform .15s ease; }
 .nav-dd:hover .nav-dd-caret, .nav-dd:focus-within .nav-dd-caret { transform: rotate(180deg); }
@@ -1392,6 +1395,48 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 /* Signed-in account control. The small red count is intentionally attached to
    the profile icon so a new message is visible from every app page. */
 .nav-profile{position:relative;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:var(--ink);text-decoration:none}.nav-profile:hover,.nav-profile:focus-visible{background:var(--accent-tint);color:var(--accent-ink);outline:0}.nav-message-badge{position:absolute;right:-4px;top:-4px;min-width:16px;height:16px;padding:0 3px;border:2px solid var(--surface);border-radius:999px;background:#c63d32;color:#fff;font-size:10px;line-height:12px;text-align:center;font-weight:750}
+
+/* Account dropdown: credit usage above a messages preview, opened by clicking
+   the profile icon. Anchored right because the icon sits at the nav's edge.
+   The menu is a SIBLING of the <a>, not a child — an anchor cannot legally
+   contain the links this panel holds. Follows .nav-dd-menu's visual language. */
+.nav-account { position: relative; display: inline-flex; }
+.nav-account-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 296px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.13);
+  padding: 14px 14px 6px;
+  display: none;
+  z-index: 70;
+  text-align: left;
+}
+.nav-account-menu[data-open='1'] { display: block; }
+.nav-account-plan { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.nav-account-plan strong { font-size: var(--text-sm); font-weight: 650; color: var(--ink); }
+.nav-account-plan span { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
+.nav-account-total { margin: 9px 0 5px; font-size: 12px; color: var(--ink-2); }
+.nav-account-track { height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.nav-account-fill { height: 100%; border-radius: 999px; background: var(--ink); }
+.nav-account-fill.is-high { background: var(--neg); }
+.nav-account-split { display: grid; grid-template-columns: 54px 1fr 30px; align-items: center; gap: 8px; margin-top: 7px; font-size: 12px; color: var(--ink-2); }
+.nav-account-split-track { height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; }
+.nav-account-split-fill { height: 100%; border-radius: 999px; background: var(--ink-3); }
+.nav-account-split .amt { text-align: right; color: var(--ink); font-variant-numeric: tabular-nums; }
+.nav-account-note { margin: 9px 0 0; font-size: 12px; color: var(--ink-3); }
+.nav-account-sep { margin: 12px -14px; border-top: 1px solid var(--line); }
+.nav-account-msg-head { display: flex; justify-content: space-between; align-items: baseline; }
+.nav-account-msg-head .label { margin: 0; }
+.nav-account-msg-head .count { font-size: 11px; font-weight: 750; color: #fff; background: #c63d32; border-radius: 999px; padding: 1px 6px; }
+.nav-account-msgs { list-style: none; margin: 7px 0 0; padding: 0; display: grid; gap: 5px; }
+.nav-account-msgs li { font-size: 12px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nav-account-menu .nav-account-links { margin-top: 4px; display: flex; flex-direction: column; }
+.nav-account-menu .nav-account-links a { display: block; padding: 9px 10px; margin: 0 -10px; border-radius: 7px; font-size: var(--text-sm); color: var(--ink); }
+.nav-account-menu .nav-account-links a:hover { background: var(--accent-tint); color: var(--accent-ink); }
 
 /* ---------- Tablet layout (900px) ---------- */
 @media (max-width: 900px) {

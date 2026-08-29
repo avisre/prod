@@ -95,8 +95,12 @@ test('financial statement columns have year lanes and whole-column sizing', () =
 });
 
 test('company page cache-busts the approved statement assets together', () => {
-  assert.match(companyHtml, /assets\/system\.css\?v=20260811-statement-table8/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260811-statement-table8/);
+  // system.css and company.js are approved as a pair — the statement table's
+  // markup and its styles have to ship together or the page renders broken.
+  // Stamp bumped 2026-08-29 with the nav/account-dropdown change, which edits
+  // system.css site-wide; company.js follows so the pair stays in lockstep.
+  assert.match(companyHtml, /assets\/system\.css\?v=20260829-profilemenu1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260829-profilemenu1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {

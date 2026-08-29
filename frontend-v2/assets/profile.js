@@ -6,7 +6,10 @@
 // credits card.
 (function () {
     'use strict';
-    const { API, token, esc, nav, footer } = window.V2;
+    // formatReset / activityLabel / creditSplit are shared with the nav account
+    // dropdown and live in app.js — the same numbers are rendered in both
+    // places, so they must not have two implementations that can drift.
+    const { API, token, esc, nav, footer, formatReset, activityLabel, creditSplit } = window.V2;
     nav('profile');
     footer();
 
@@ -18,28 +21,6 @@
     $('authed').hidden = false;
 
     const auth = { Authorization: `Bearer ${token()}` };
-
-    function activityLabel(reason, refId) {
-        if (reason === 'ask') return 'Ask question';
-        if (reason === 'monitor') return refId ? `Monitor report: ${refId}` : 'Monitor report';
-        if (reason === 'dossier') {
-            const [symbol, depth] = String(refId || '').split(':');
-            const kind = depth === 'deep' ? 'Deep Dossier' : 'Standard Dossier';
-            return symbol ? `${kind}: ${symbol}` : kind;
-        }
-        return 'Credit use';
-    }
-
-    // "1 Sep" / "1 Sep · in 3 days" — matches the activity list's own date
-    // format (toLocaleDateString('en-GB', {day, month})) for consistency.
-    function formatReset(iso) {
-        const reset = iso ? new Date(iso) : null;
-        if (!reset || Number.isNaN(reset.getTime())) return '';
-        const dateStr = reset.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-        const days = Math.ceil((reset.getTime() - Date.now()) / 86400000);
-        if (days <= 0) return `Resets ${dateStr}`;
-        return `Resets ${dateStr} · in ${days} day${days === 1 ? '' : 's'}`;
-    }
 
     function mountCredits(credits) {
         const wrap = $('credits-section');
@@ -70,14 +51,7 @@
         // heavy month those rows may not cover the full `used` total; only
         // show the split when they plausibly do, rather than render a
         // partial breakdown that looks complete but isn't.
-        let ask = 0, monitor = 0, dossier = 0, covered = 0;
-        for (const row of recent) {
-            const amt = Math.max(0, -Number(row.delta) || 0);
-            covered += amt;
-            if (row.reason === 'ask') ask += amt;
-            else if (row.reason === 'monitor') monitor += amt;
-            else if (row.reason === 'dossier') dossier += amt;
-        }
+        const { ask, monitor, dossier, covered } = creditSplit(recent);
         const breakdownEl = $('credits-breakdown');
         if (recent.length && covered >= used) {
             // Monitor is Power/Desk-only — a user who can't reach the feature

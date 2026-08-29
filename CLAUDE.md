@@ -1,59 +1,85 @@
-# Local Claude Code workflow (Qwen / LM Studio)
+# Claude Code working rules for StockPortfolio.pro
 
-This project uses a local Qwen model through LM Studio. The usable Claude Code
- working window is 262k tokens, with auto-compact targeted at 220k. Treat that
- as a hard budget: tool output and file
-contents are part of the budget.
+Context and tool rules for this repo. Every line here is loaded into context on
+every turn, so it stays short and only says things that are true on this machine.
 
-## Task source
+## Environment facts (verified — these caused real failures)
 
-The requested StockPortfolio.pro work is defined by
-`/home/hardoker77/Downloads/stockportfolio-main-implementation-plan.md`.
-Treat that document as the implementation specification, but inspect it by
-headings and bounded ranges only. Do not paste or read the complete document
-into the conversation.
+Run `bash scripts/dev-doctor.sh` once at the start of a session. It prints all
+of the below in one call, which is cheaper than rediscovering it by trial.
 
-## Context-safe rules (mandatory)
+- **`node` on PATH is v18.20.4, which is too old for parts of this repo.**
+  Node **v22.22.0** is installed at `~/.nvm/versions/node/v22.22.0/bin/node`.
+  Use it for Playwright (needs >=20), `yahoo-finance2` (needs >=22), and the
+  test suite. Under v18 you get hard failures, not warnings.
+- **Backend dependencies live in `backend/node_modules` (196 packages), not the
+  repo root (26).** Run node/tests from `backend/`, or `require` fails with
+  "Cannot find module 'mongoose'".
+- **`rg` is NOT installed.** Use `grep -rn`. There is also no Grep or Glob tool
+  exposed in this harness, so searching via Bash is correct here, not a fallback.
+- Tests: `cd backend && ~/.nvm/versions/node/v22.22.0/bin/node --test test/<file>.test.js`
+  (48 test files; `npm test` runs all of them).
+- There is no local `.git`. Pushing means cloning `avisre/prod` into the
+  scratchpad, copying files in, and committing there.
 
-1. Work in one implementation phase at a time. Do not continue into a new phase
-   until the current phase is implemented, tested, and recorded in
-   `.claude/HANDOFF.md`.
-2. Never read an entire large file, implementation plan, lockfile, log, test
-   report, build folder, or generated file in a single tool call.
-3. Before reading a new large file, inspect its size and headings first. Read at
-   most 120 lines or 12 KB per command. Use targeted searches rather than broad
-   recursive output.
-4. Cap command output. Prefer `rg -n PATTERN path | head -n 80`, focused file
-   ranges, and one directory level at a time. Never run unrestricted `find`,
-   `git diff`, `cat`, test output, or log output when it could be large.
-   For JavaScript helper searches, use a bounded command such as
-   `timeout 10s rg -n 'trackGrowthEvent|getStoredUtm' frontend-v2/assets --glob '*.js' | head -n 40 || true`.
-   Never pass an escaped wildcard such as `frontend-v2/assets/\*.js` to Bash or
-   `--glob '\*.js'` to `rg`; single quotes should protect `*.js` without adding
-   a backslash. Never use an unbounded `grep` over the asset directory.
-5. Summarize findings in 10 bullets or fewer. Do not paste raw large output into
-   the chat, even when a tool produced it.
-6. If the conversation has compacted once during a phase, reduce reads to 80
-   lines. If it compacts again or reports rapid refill, stop immediately: update
-   `.claude/HANDOFF.md`, run `/clear`, then start a fresh session from that
-   handoff. Do not retry the same broad read.
-7. For the stock-portfolio implementation plan, first make a short phase brief
-   from only the relevant headings. Never read the complete plan in one request.
-   The P0 engineering queue is around lines 796-815. Lines 190-230 are the
-   detailed proof-funnel section, not the P0 queue; label them correctly if
-   they are needed for event-field details.
+## Editing frontend assets — bump the cache stamp
 
-## Required phase lifecycle
+`backend/app.js` serves every `.js`/`.css` with
+`Cache-Control: public, max-age=31536000, immutable`. The **only** invalidation
+is the `?v=` stamp in the URL. So **any edit to `frontend-v2/assets/*.js` or
+`system.css` must be accompanied by a new stamp**, applied everywhere at once:
 
-1. Read `.claude/HANDOFF.md` and identify exactly one next phase.
-2. Inspect only the files directly required for that phase using bounded reads.
-3. Implement the smallest complete change.
-4. Run focused tests or a focused smoke check; cap test output.
-5. Update `.claude/HANDOFF.md` with changed files, verification, decisions, and
-   the next bounded task.
-6. Stop and report. A later session can continue from the handoff.
+- all `frontend-v2/*.html`, **and**
+- the server-rendered pages, which are easy to miss because they aren't files
+  in `frontend-v2/`: `backend/free-tools.js`, `comparison-pages.js`,
+  `seo-pages.js`, `app.js`, `affiliate-dashboard.html`.
 
-## Handoff file limits
+Several tests pin the current stamp (`company-statements`, `ask-recovery`,
+`free-tools`, `seo-research`) and `profile-consolidation` asserts that every
+page carries the *same* one — update those literals in the same change.
 
-Keep `.claude/HANDOFF.md` under 160 lines and under 12 KB. Replace completed
-detail with a compact summary; it is durable working memory, not a transcript.
+Skipping this ships a silent bug: the code is correct in the repo and correct
+in review, but browsers keep running the old bundle for up to a year. It has
+already happened once (the nav duplicated because the idempotency guard never
+reached users).
+
+## Tool rules
+
+1. **Batch independent tool calls into one message.** Context replay is the
+   dominant cost — roughly 260K tokens are re-sent every turn, so an extra
+   round-trip costs far more than an extra tool call. Before sending a call,
+   ask whether the next one depends on its result; if not, send them together.
+   Typical batches: `node -c` across changed files, syntax check + test run,
+   reading several files before an edit, independent grep probes.
+2. **Prefer Read over `cat`/`head`/`tail`/`sed`/`awk` in Bash.** Read has not
+   failed once here; those Bash forms are also explicitly discouraged by the
+   harness. `grep`/`find` in Bash are fine (see above — no tool alternative).
+3. **Never `sleep N; <cmd>`** — the harness blocks it. Use a background Bash
+   command with an `until` loop, or Monitor.
+4. **Never drive interactive auth (`gh auth login`, OAuth device flows) through
+   Bash.** It needs a TTY and always times out. Stop after the first failure and
+   give the owner the exact command to run themselves.
+5. Cap output. `grep -rn PATTERN path | head -n 80`, bounded file ranges, one
+   directory level at a time. Never unbounded `find`, `git diff`, or log dumps.
+6. Don't re-read a file you just edited to verify — Edit errors if it failed.
+
+## Model routing
+
+Switch deliberately; leaving the expensive model on through mechanical work is
+the main avoidable cost (measured ~5x per-turn difference).
+
+- **Sonnet** for: file edits, running tests, `node -c`, git clone/copy/push,
+  screenshot harnesses, dependency installs, reading logs. Most work is this.
+- **Opus** for: billing/credit correctness, concurrency and race analysis,
+  pricing calibration, reviewing a plan before it ships, and deciding whether to
+  deviate from an approved plan. Switch back afterwards.
+
+## Working style the owner expects
+
+- **Measure, don't estimate.** Pricing and cost questions get answered by running
+  the real extractors against real tickers, not by picking a plausible number.
+  A confirmed guess still gets overturned by measurement.
+- Work one phase at a time; record it in `.claude/HANDOFF.md` (keep that file
+  under 160 lines — it is durable working memory, not a transcript).
+- The AI provider (Ollama Cloud, `glm-5.1`) is a trade secret. `ai-client.js`
+  has `leaksIdentity()` regex backstops; don't surface model identity to users.
