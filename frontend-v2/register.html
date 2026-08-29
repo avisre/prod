@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260830-mob1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260830-mob2" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -71,6 +71,8 @@
     .pay-frame { border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); overflow: hidden; }
     .done-row { display: flex; align-items: center; gap: 8px; font-size: var(--text-sm); color: var(--ink-2); border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); padding: 10px 13px; margin-bottom: 16px; }
     .done-row b { font-weight: 600; color: var(--ink); }
+      /* inline trust-copy links are tap targets on touch screens */
+    p.small.faint a, p.small.muted a { display: inline-block; padding: 7px 2px; }
   </style>
 </head>
 <body>
@@ -167,7 +169,7 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20260830-mob1"></script>
+  <script src="assets/app.js?v=20260830-mob2"></script>
   <script src="assets/social.js?v=20260612-1"></script>
   <script>
     V2.nav('register');

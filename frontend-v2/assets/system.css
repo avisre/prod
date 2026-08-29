@@ -168,6 +168,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  padding: 4px 0;
   font-size: 16px;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -390,7 +391,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .consent p { margin: 0 0 12px; color: var(--ink-2); }
 .consent strong { color: var(--ink); }
 .consent-actions { display: flex; gap: 8px; align-items: center; }
-.consent-actions a { margin-left: auto; font-size: var(--text-xs); }
+.consent-actions a { margin-left: auto; font-size: var(--text-xs); display: inline-block; padding: 7px 2px; }
 @media (max-width: 480px) { .consent { left: 12px; right: 12px; bottom: 12px; max-width: none; } }
 
 /* ---------- Shared dialog ---------- */
@@ -1137,7 +1138,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
   color: var(--ink-3);
 }
 .footer-inner { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s6); justify-content: space-between; }
-.footer a { color: var(--ink-2); display: inline-block; padding: 6px 0; }
+.footer a { color: var(--ink-2); display: inline-block; padding: 6px 2px; }
 .footer a:hover { color: var(--ink); }
 
 /* ---------- Skeleton ---------- */
