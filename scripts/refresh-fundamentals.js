@@ -35,9 +35,14 @@ const path = require('path');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance();
 const secSource = require(path.join(__dirname, '..', 'backend', 'sec-source'));
+const indexNowChanges = require(path.join(__dirname, 'seo', 'indexnow-changes'));
+const indexNowQueue = require(path.join(__dirname, 'seo', 'indexnow-queue'));
 
 const SEC_EXTEND = String(process.env.SEC_EXTEND || '1') !== '0';
 const WRITE_INDEX = String(process.env.WRITE_INDEX || '1') !== '0';
+// Enqueue only. Writing the local queue touches nothing external; the send is a
+// separate, deliberate step (scripts/indexnow-ping.js --queue).
+const INDEXNOW_ENQUEUE = String(process.env.INDEXNOW_ENQUEUE || '1') !== '0';
 
 const ROOT = path.resolve(__dirname, '..');
 const FRONTEND_DATA = path.join(ROOT, 'frontend', 'data');
@@ -424,6 +429,7 @@ async function main() {
   let wrote = 0;
   let skipped = 0;
   const errorList = [];
+  const indexNowUrls = [];
   const start = Date.now();
 
   await runWithConcurrency(items, async (entry, i) => {
@@ -475,6 +481,19 @@ async function main() {
         errors.push('sec:' + (err.message || 'unknown'));
       }
     }
+    // Compare against what is on disk *before* overwriting it: only a change in
+    // filed statements is worth announcing to Bing. Never let this block a write.
+    if (INDEXNOW_ENQUEUE) {
+      try {
+        let previous = null;
+        if (fs.existsSync(file)) {
+          try { previous = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (_) { previous = null; }
+        }
+        indexNowUrls.push(...indexNowChanges.changedUrls(symbol, payload, previous));
+      } catch (err) {
+        errors.push('indexnow:' + (err.message || 'unknown'));
+      }
+    }
     fs.writeFileSync(file, JSON.stringify(payload));
     wrote++;
     indexFiles.push({ symbol, file: `data/fundamentals/${path.basename(file)}` });
@@ -488,6 +507,20 @@ async function main() {
       source: 'yahoo-finance2',
       files: indexFiles
     }, null, 2));
+  }
+
+  if (INDEXNOW_ENQUEUE && indexNowUrls.length) {
+    try {
+      const result = indexNowQueue.enqueue(indexNowUrls, {
+        reason: 'filed-statement-change',
+        dataVersion: new Date().toISOString().slice(0, 10)
+      });
+      console.log(`IndexNow queue: +${result.added} new, ${result.requeued} requeued, ${result.queued} awaiting send.`);
+      console.log('Send with: node scripts/indexnow-ping.js --queue');
+    } catch (err) {
+      // Queueing is best-effort and must never fail the refresh.
+      console.log(`IndexNow queue skipped: ${err.message || 'unknown error'}`);
+    }
   }
 
   const secs = ((Date.now() - start) / 1000).toFixed(1);

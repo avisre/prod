@@ -307,7 +307,28 @@ function renderComparison(slug) {
     const canonical = `${SITE}/vs/${c.slug}`;
     const title = `stockportfolio.pro vs ${c.name}: Pricing & Features (2026)`;
     const description = `${c.name} alternative? Compare stockportfolio.pro and ${c.name} on price, fundamentals, portfolio tracking and ease of use. $12/mo with a 7-day free trial.`;
-    const jsonld = JSON.stringify({ '@context': 'https://schema.org', '@type': 'WebPage', name: title, url: canonical });
+    // Was a bare WebPage node. Naming both products as entities and adding
+    // breadcrumbs brings these vendor pages up to the same structure the stock
+    // comparison and metric pages already use.
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'WebPage', '@id': canonical, url: canonical, name: title, description,
+                about: [
+                    { '@type': 'SoftwareApplication', name: 'stockportfolio.pro', applicationCategory: 'FinanceApplication', url: SITE },
+                    { '@type': 'SoftwareApplication', name: c.name, applicationCategory: 'FinanceApplication' }
+                ]
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    { '@type': 'ListItem', position: 1, name: 'Compare', item: `${SITE}/compare` },
+                    { '@type': 'ListItem', position: 2, name: `vs ${c.name}`, item: canonical }
+                ]
+            }
+        ]
+    });
     const rows = c.rows.map((r) => `<tr><td>${esc(r[0])}</td><td class="us">${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join('');
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
