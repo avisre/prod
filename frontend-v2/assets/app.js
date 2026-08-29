@@ -1129,6 +1129,9 @@
     }
 
     function footer() {
+        // Idempotent for the same reason as nav() above: profile.js and the
+        // bundled messages.js both call footer() on profile.html.
+        if (document.querySelector('footer.footer')) return;
         const el = document.createElement('footer');
         el.className = 'footer';
         el.innerHTML = `
