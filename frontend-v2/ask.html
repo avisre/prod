@@ -83,6 +83,22 @@
     .thread { flex: 1; padding: 40px 0 40px; }
     .composer-dock { position: sticky; bottom: 0; padding: 12px 0 22px; background: linear-gradient(transparent, var(--paper) 30%); }
     body:not(.in-conversation) .composer-dock { position: static; background: none; padding: 0; }
+    /* reading mode — vertical space is what you read with, so once a
+       conversation is open the chrome collapses to a floating ☰ and a
+       one-line dock (ChatGPT-style); the sticky nav stays for navigation */
+    body.in-conversation .trial-banner { display: none; }
+    body.in-conversation .thread { padding: 14px 0 24px; }
+    body.in-conversation .side-tools { position: fixed; top: 72px; z-index: 35; margin: 0; }
+    body.in-conversation:not(.side-collapsed) .side-tools { left: max(calc(50vw - 386px), calc(var(--side-w, 248px) + 18px)); }
+    body.in-conversation.side-collapsed .side-tools { left: max(calc(50vw - 386px), var(--gutter, 20px)); }
+    body.in-conversation .composer-dock { padding: 10px 0 14px; }
+    body.in-conversation .composer textarea { min-height: 54px; padding: 12px 64px 12px 22px; }
+    body.in-conversation .ask-mode-toggle { margin-top: 6px; }
+    body.in-conversation .ask-mode-toggle .chip { padding: 4px 10px; font-size: 11.5px; }
+    body.in-conversation .composer-foot { display: none; }
+    /* the footnote is hidden while reading; its quota readout shrinks into the chips row */
+    .quota-mini { display: none; }
+    body.in-conversation .quota-mini { display: inline; font-size: 11px; color: var(--ink-3); align-self: center; margin-left: 4px; white-space: nowrap; }
 
     /* chat-history sidebar (Ask only, logged-in only) — drag-resizable +
        collapsible, ChatGPT-style; memory lives in Profile → Settings */
@@ -143,6 +159,8 @@
       .side { display: none; position: fixed; z-index: 90; top: 0; left: 0; bottom: 0; width: min(320px, 86vw); max-height: none; background: var(--paper); padding: 22px 16px; box-shadow: 0 12px 48px rgba(28, 27, 24, 0.22); overflow-y: auto; }
       .side.open { display: block; }
       #side-open { display: inline-flex; }
+      /* the floating ☰'s left math assumes the desktop sidebar column */
+      body.in-conversation .side-tools { left: 12px; }
     }
   </style>
 </head>
@@ -192,6 +210,7 @@
           <div class="ask-mode-toggle">
             <button type="button" class="chip" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
             <button type="button" class="chip" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+            <span class="quota-mini" id="quota-mini"></span>
           </div>
           <p class="composer-foot" id="quota-line">Describes and explains — never buy/sell advice. Sources under every answer.</p>
         </div>
@@ -481,6 +500,9 @@
         try { w = Math.min(420, Math.max(180, Number(localStorage.getItem(SIDE_W_KEY)) || 248)); } catch (_) {}
         $('side').style.setProperty('--side-w', `${w}px`);
         $('side').style.width = `${w}px`;
+        // the floating ☰ (reading mode) derives its left offset from --side-w
+        // on :root, so publish it there too
+        document.documentElement.style.setProperty('--side-w', `${w}px`);
       }
       $('side-grip').addEventListener('pointerdown', (e) => {
         e.preventDefault();
@@ -712,8 +734,10 @@
       }
       (async () => {
         const el = $('quota-line');
+        const mini = $('quota-mini');
         if (!token()) {
           el.innerHTML = '3 free questions, no signup. <a href="/login.html">Log in</a> or <a href="/register.html">create a free account</a> for more.';
+          mini.textContent = '3 free · log in for more';
           return;
         }
         try {
@@ -721,6 +745,7 @@
           if (r.ok) {
             const q2 = await r.json();
             el.textContent = `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} questions left this month${q2.pro ? ' · Pro' : ''} · never buy/sell advice`;
+            mini.textContent = `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} left${q2.pro ? ' · Pro' : ''}`;
             if (q2.appsumo && q2.appsumo.isAppSumo && Number(q2.used) === 0) {
               $('appsumo-activation').hidden = false;
             }
