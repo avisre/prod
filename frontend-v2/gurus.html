@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260830-mob4" />
+  <link rel="stylesheet" href="assets/system.css?v=20260830-mob5" />
   <style>
     /* ─── Two-panel shell ─── */
     .gurus-shell {
@@ -305,6 +305,9 @@
     .co-link { color: var(--ink); text-decoration: none; display: inline-block; padding: 6px 0; }
     .co-link:hover { color: var(--accent); }
 
+    /* provenance inline links are tap targets too */
+    .provenance a { display: inline-block; padding: 6px 3px; }
+
     /* State placeholders */
     .guru-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 52vh; gap: 12px; color: var(--ink-3); text-align: center; padding: 24px; }
     .guru-placeholder svg { opacity: 0.3; }
@@ -393,7 +396,7 @@
     </div>
   </main>
 
-  <script src="assets/app.js?v=20260830-mob4"></script>
+  <script src="assets/app.js?v=20260830-mob5"></script>
   <script>
     V2.nav('gurus');
     V2.footer();

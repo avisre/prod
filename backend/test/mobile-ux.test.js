@@ -109,5 +109,62 @@ test('appsumo: evidence, footer, demo and FAQ taps all clear the floor', () => {
 });
 
 test('landing page: prose-level links are padded tap targets', () => {
-    assert.match(indexHtml, /\.hero-note a, \.provenance a, p\.small a, span\.small a \{ display: inline-block; padding: 6px 0; \}/);
+    assert.match(indexHtml, /\.hero-note a, \.provenance a, p\.small a, span\.small a, a\.small \{ display: inline-block; padding: 6px 4px; \}/);
+});
+// ── Pass 3+4: the sitewide furniture (measured live after pass 2 — land 6/5,
+// register 3/5, research 4/27: wordmark, consent, footer, seo prose links;
+// pass 4 clears the last decorative glyphs — nav caret, register step dots) ──
+
+test('sitewide: wordmark and consent links are full-height tap targets', () => {
+    assert.match(css, /\.wordmark \{[\s\S]*?padding: 4px 0;/);
+    assert.match(css, /\.consent-actions a \{ margin-left: auto; font-size: var\(--text-xs\); display: inline-block; padding: 7px 2px; \}/);
+    assert.match(css, /\.footer a \{ color: var\(--ink-2\); display: inline-block; padding: 6px 3px; \}/);
+    assert.match(css, /\.footer a \{ padding: 12px 6px; \}/);
+});
+
+test('landing page: comparison-table headers and narrow prose links clear the floors', () => {
+    assert.match(indexHtml, /font-size:11\.5px; text-transform:uppercase; letter-spacing:0\.05em;/);
+    assert.match(indexHtml, /\.hero-note a, \.provenance a, p\.small a, span\.small a, a\.small \{ display: inline-block; padding: 6px 4px; \}/);
+});
+
+test('register page: trust-copy links are padded tap targets', () => {
+    const regHtml = read('frontend-v2', 'register.html');
+    assert.match(regHtml, /p\.small\.faint a, p\.small\.muted a \{ display: inline-block; padding: 7px 2px; \}/);
+});
+
+test('seo pages: tile labels hit the 11.5px text floor and prose/footer links are padded', () => {
+    assert.match(seoPages, /\.seo-tile \.l\{font-size:11\.5px;/);
+    assert.match(seoPages, /\.seo-foot a,\.seo-about a,\.seo-section p a\{display:inline-block;padding:6px 2px\}/);
+});
+
+// ── Pass 5: the last borderline taps (measured live after pass 4) ──
+
+test('404 recovery links, screener tool links, comparison foot links and monitor note links are tap-sized', () => {
+    const p404 = read('frontend-v2', '404.html');
+    assert.match(p404, /font-weight:600; display:inline-block; padding:8px 3px;/);
+    assert.match(screenerHtml, /<a style="display:inline-block; padding:8px 3px;" href="\/tools\/dilution">/);
+    const cmpPages = read('backend', 'comparison-pages.js');
+    assert.match(cmpPages, /\.seo-foot a\{color:var\(--muted\);display:inline-block;padding:8px 3px\}/);
+    const monHtml = read('frontend-v2', 'monitor.html');
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 2px;" href="\/ask\.html">Ask<\/a>/);
+});
+
+// ── Pass 6: sitewide prose-link tap rule + the last stragglers ──
+
+test('system.css: prose-paragraph links sitewide and mobile footer links are tap-sized', () => {
+    assert.match(css, /p\.small a, p\.muted a, p\.small\.muted a, p\.small\.faint a \{ display: inline-block; padding: 6px 3px; \}/);
+    assert.match(css, /\.footer a \{ padding: 12px 6px; \}/);
+});
+
+test('ask quota line, gurus provenance, appsumo wordmark/badge and tools-index trailing link are tap-sized', () => {
+    const askHtml = read('frontend-v2', 'ask.html');
+    assert.match(askHtml, /\.composer-foot a \{ display: inline-block; padding: 5px 2px; \}/);
+    assert.match(gurusHtml, /\.provenance a \{ display: inline-block; padding: 6px 3px; \}/);
+    assert.match(appsumoHtml, /\.as-wordmark \{[^}]*padding: 4px 0;[^}]*\}/);
+    assert.match(appsumoHtml, /\.as-plan-badge \{[^}]*font-size: 11\.5px;/);
+    assert.match(freeTools, /\.tools-index p a\{display:inline-block;padding:8px 2px\}/);
+});
+
+test('seo nav links clear the tablet breakpoint', () => {
+    assert.match(seoPages, /@media\(max-width:900px\)\{\.seo-nav\{[\s\S]*?\.seo-nav-links a\{display:inline-block;padding:11px 2px\}\}/);
 });

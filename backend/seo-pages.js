@@ -182,7 +182,7 @@ function head(title, description, canonical, jsonld) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260830-mob4" />
+<link rel="stylesheet" href="/assets/system.css?v=20260830-mob5" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -232,7 +232,7 @@ function head(title, description, canonical, jsonld) {
   .seo-foot{max-width:1000px;margin:48px auto 0;padding:24px 16px 40px;border-top:1px solid var(--line);color:var(--ink3);font-size:12px}
   .seo-foot a{color:var(--ink2)}.seo-foot a,.seo-about a,.seo-section p a{display:inline-block;padding:6px 2px}
   .seo-disc{font-size:11.5px;color:var(--ink3);margin-top:18px;line-height:1.6}
-  @media(max-width:760px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-links{gap:10px!important}.seo-nav-hide-mobile{display:none}.seo-cta-btn{padding:8px 11px}.seo-wrap{padding:12px}.seo-table th,.seo-table td{padding:8px 10px}.seo-section{margin:30px 0}.seo-nav-links a{display:inline-block;padding:11px 2px}.seo-crumbs a{display:inline-block;padding:9px 2px}}
+  @media(max-width:900px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-links{gap:10px!important}.seo-nav-links a{display:inline-block;padding:11px 2px}}@media(max-width:760px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-hide-mobile{display:none}.seo-cta-btn{padding:8px 11px}.seo-wrap{padding:12px}.seo-table th,.seo-table td{padding:8px 10px}.seo-section{margin:30px 0}.seo-crumbs a{display:inline-block;padding:9px 2px}}
 </style>
 </head><body>`;
 }
@@ -243,7 +243,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260830-mob4"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260830-mob5"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {

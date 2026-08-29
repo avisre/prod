@@ -1139,6 +1139,8 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 }
 .footer-inner { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s6); justify-content: space-between; }
 .footer a { color: var(--ink-2); display: inline-block; padding: 6px 3px; }
+/* links inside muted/small prose paragraphs are tap targets on touch screens */
+p.small a, p.muted a, p.small.muted a, p.small.faint a { display: inline-block; padding: 6px 3px; }
 .footer a:hover { color: var(--ink); }
 
 /* ---------- Skeleton ---------- */
@@ -1309,7 +1311,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   input[type='checkbox'] { width: 20px; height: 20px; flex: none; }
   /* dense SEC tables never reflow on phones; hold them above microtext */
   .table-data { font-size: 12.5px; }
-  .footer a { padding: 12px 4px; }
+  .footer a { padding: 12px 6px; }
   .nav-links a { padding: 11px 4px; }
 }
 
