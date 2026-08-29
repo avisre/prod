@@ -240,6 +240,9 @@ test('over-cap imports tell the user what was dropped, before and after', () => 
     // profile warns in the preview (before anything lands) and names it after
     assert.match(profileSource, /would drop your \$\{over\} oldest/);
     assert.match(profileSource, /oldest \$\{data\.dropped === 1 \? 'fact was' : 'facts were'\} dropped to fit/);
+    // the audit trap: profile.js is shipped by copy, and an asset never
+    // carries the stamp string — pin its actual content, not just the stamp
+    assert.match(profileSource, /const MEM_CAP = 50/);
 });
 
 test('multiple rejected attachments each get their error line', () => {
@@ -250,8 +253,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260829-zenfix1/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260829-zenfix1/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260829-zenfix1/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260830-mob1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260830-mob1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260830-mob1/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

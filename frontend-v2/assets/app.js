@@ -468,6 +468,89 @@
         return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="pv-card" style="margin-top:0;">${rowHtml}</div></figure>`;
     }
 
+    // ---------- Ask flow blocks (```flow {json}```) → financial Sankey ----------
+    // {"title":str,"unit":"$","nodes":[{"id","name","col":0-5,"v","kind":"in"|"out"}],
+    //  "links":[{"s","t","v","kind"}]} — a column-per-stage Sankey of a P&L:
+    // revenue → cost/opex lines → operating income → below-the-line → net
+    // income. Hubs (total revenue, income before taxes) balance inflows
+    // against outflows; "in" money is kept (blue), "out" money leaves (red).
+    function flowBlock(json) {
+        let spec;
+        try { spec = JSON.parse(json); } catch (_) {
+            let depth = []; let inStr = false; let escp = false;
+            for (const ch of json) {
+                if (escp) { escp = false; continue; }
+                if (ch === '\\') { escp = true; continue; }
+                if (ch === '"') { inStr = !inStr; continue; }
+                if (inStr) continue;
+                if (ch === '{' || ch === '[') depth.push(ch);
+                else if (ch === '}' || ch === ']') depth.pop();
+            }
+            const closers = depth.reverse().map((c) => (c === '{' ? '}' : ']')).join('');
+            try { spec = JSON.parse(json + closers); } catch (_2) { return ''; }
+        }
+        const nodes = (Array.isArray(spec.nodes) ? spec.nodes : [])
+            .filter((n) => n && typeof n.id === 'string' && typeof n.name === 'string'
+                && Number.isFinite(Number(n.v)) && Number(n.v) >= 0
+                && Number.isInteger(Number(n.col)))
+            .slice(0, 18);
+        if (nodes.length < 3) return '';
+        const byId = new Map(nodes.map((n) => [String(n.id), { id: String(n.id), name: String(n.name), col: Number(n.col), v: Number(n.v), kind: n.kind === 'out' ? 'out' : 'in' }]));
+        const links = (Array.isArray(spec.links) ? spec.links : [])
+            .map((l) => {
+                const s = byId.get(l && l.s), t = byId.get(l && l.t);
+                if (!s || !t || !Number.isFinite(Number(l.v)) || Number(l.v) <= 0 || t.col <= s.col) return null;
+                return { s, t, v: Number(l.v), kind: (l.kind === 'out' || s.kind === 'out') ? 'out' : 'in' };
+            })
+            .filter(Boolean)
+            .slice(0, 30);
+        if (links.length < 2) return '';
+
+        // Layout: every column gets the same height budget; the column with
+        // the most total value (plus its gaps) sets the scale for all of them.
+        const W = 960, TOP = 26, PLOT = 300, NW = 11, GAP = 26, FLOOR = 2.5;
+        const nCols = Math.max(...nodes.map((n) => n.col)) + 1;
+        const cols = Array.from({ length: nCols }, () => []);
+        for (const n of byId.values()) cols[n.col].push(n);
+        for (const list of cols) {
+            if (!list.length) return '';
+            list.sort((a, b) => byId.get(a.id).v - byId.get(b.id).v
+                || String(a.id).localeCompare(String(b.id)));
+        }
+        const S = Math.min(...cols.map((list, c) => (PLOT - (list.length - 1) * GAP) / list.reduce((a, n) => a + n.v, 0)));
+        if (!Number.isFinite(S) || S <= 0) return '';
+        const colX = (c) => Math.round((W - 210) * (c / (nCols - 1))) + 105;
+        const nh = (n) => Math.max(FLOOR, n.v * S);
+        for (const list of cols) {
+            let y = TOP + (PLOT - (list.reduce((a, n) => a + nh(n), 0) + (list.length - 1) * GAP)) / 2;
+            for (const n of list) { n.x = colX(n.col); n.y = y; n.h = nh(n); y += n.h + GAP; }
+        }
+        // Ribbon endpoints stack in link order down each node's side.
+        for (const l of links) { l.s.outOff = l.s.outOff ?? 0; l.t.inOff = l.t.inOff ?? 0; }
+        const fmt = vizFmt(spec.unit === '%' || spec.unit === 'x' ? spec.unit : '$');
+        const esc2 = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+        const g = [];
+        for (const l of links) {
+            const x1 = l.s.x + NW, x2 = l.t.x, vh = Math.max(FLOOR, l.v * S);
+            const y1 = l.s.y + l.s.outOff, y2 = l.t.y + l.t.inOff;
+            l.s.outOff += vh; l.t.inOff += vh;
+            const cx = (x1 + x2) / 2;
+            const col = l.kind === 'out' ? 'var(--neg)' : 'var(--accent)';
+            g.push(`<path d="M${x1},${y1}C${cx},${y1} ${cx},${y2} ${x2},${y2}" fill="${col}" fill-opacity="0.22" stroke="none"><title>${esc2(l.s.name)} → ${esc2(l.t.name)}: ${esc2(fmt(l.v))}</title></path>`);
+        }
+        for (const n of byId.values()) {
+            const col = (n.kind === 'out' && n.col > 0) ? 'var(--neg)' : (n.col === 0 || n.col === nCols - 1 ? 'var(--accent)' : 'var(--ink)');
+            g.push(`<rect x="${n.x}" y="${n.y}" width="${NW}" height="${n.h.toFixed(1)}" rx="2.5" fill="${col}"><title>${esc2(n.name)}: ${esc2(fmt(n.v))}</title></rect>`);
+            const label = `${n.name} · ${fmt(n.v)}`;
+            const ly = n.y + n.h / 2 + 3;
+            if (n.col === 0 && n.x > 190) g.push(`<text x="${n.x - 7}" y="${ly}" text-anchor="end" font-size="10.5" fill="var(--ink-2)">${esc2(label)}</text>`);
+            else if (n.col === nCols - 1 && W - n.x > 200) g.push(`<text x="${n.x + NW + 7}" y="${ly}" font-size="10.5" fill="var(--ink-2)">${esc2(label)}</text>`);
+            else g.push(`<text x="${n.x + NW / 2}" y="${n.y - 5}" text-anchor="middle" font-size="10.5" fill="var(--ink-2)">${esc2(label)}</text>`);
+        }
+        return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''
+            }<svg viewBox="0 0 ${W} ${TOP * 2 + PLOT}" style="width:100%;height:auto;display:block;" role="img" aria-label="${esc2(String(spec.title || 'Financial flow diagram'))}">${g.join('')}</svg></figure>`;
+    }
+
     // A completed answer leads with its source receipt: the first SEC link the
     // model cited, pulled from the already-rendered answer. The receipt is the
     // proof-of-value line ("source is the headline") and its link is the same
@@ -506,8 +589,13 @@
             vizzes.push(barsBlock(body.trim()));
             return `\nVIZBLOCK${vizzes.length - 1}END\n`;
         });
+        src = src.replace(/```flow\s*\n([\s\S]*?)```/g, (m, body) => {
+            vizzes.push(flowBlock(body.trim()));
+            return `\nVIZBLOCK${vizzes.length - 1}END\n`;
+        });
         src = src.replace(/```viz[\s\S]*$/, '');
         src = src.replace(/```bars[\s\S]*$/, '');
+        src = src.replace(/```flow[\s\S]*$/, '');
         src = src.replace(/```[a-z]*\n?([\s\S]*?)```/g, '$1');
         const lines = esc(src).split('\n');
         const out = [];
@@ -918,6 +1006,11 @@
               <button class="nav-mobile-close" id="v2-mobile-close" aria-label="Close menu" type="button">
                 <svg width="10.5" height="10.5" viewBox="0 0 15 15" aria-hidden="true"><path d="M1 1l13 13M14 1L1 14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
               </button>
+              <div class="nav-search">
+                <input type="search" id="v2-mobile-search" placeholder="Search stocks, ETFs, funds…" autocomplete="off"
+                       aria-label="Search stocks, ETFs and funds" enterkeyhint="search" />
+                <div class="nav-search-results" id="v2-mobile-search-results" hidden></div>
+              </div>
               <nav>
                 <a href="/screener.html" ${cur('screener')}>Screener</a>
                 <a href="/tools" ${cur('tools')}>Tools</a>
@@ -969,6 +1062,8 @@
         if (mobileOut) mobileOut.addEventListener('click', async (e) => { e.preventDefault(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
 
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
+        // phones get the search in the drawer — the header input is crushed at 390px
+        wireSearch(mob.querySelector('#v2-mobile-search'), mob.querySelector('#v2-mobile-search-results'));
         const messageBadge = el.querySelector('#v2-message-badge');
         if (messageBadge) {
             const refreshMessageBadge = () => fetch(`${API}/messages/unread-count`, { headers: { Authorization: `Bearer ${token()}` } })

@@ -1304,6 +1304,10 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   .nav-search input { height: 44px; }
   .seg button { min-height: 40px; }
   .chip { min-height: 40px; display: inline-flex; align-items: center; }
+  /* checkboxes are 13px by default — unreadable thumbs on phones */
+  input[type='checkbox'] { width: 20px; height: 20px; flex: none; }
+  /* dense SEC tables never reflow on phones; hold them above microtext */
+  .table-data { font-size: 12.5px; }
   .footer a { padding: 12px 0; }
   .nav-links a { padding: 11px 4px; }
 }
@@ -1370,9 +1374,9 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   border-bottom: 1px solid var(--line);
 }
 .nav-mobile-close {
-  position: absolute; top: 24px; right: 14px; z-index: 2;
+  position: absolute; top: 16px; right: 6px; z-index: 2;
   border: 0; background: none; line-height: 0;
-  color: var(--ink-3); cursor: pointer; padding: 5px; border-radius: 6px;
+  color: var(--ink-3); cursor: pointer; padding: 12px; border-radius: 6px;
   display: inline-flex;
 }
 .nav-mobile-close:hover { color: var(--ink); background: var(--paper); }
@@ -1384,6 +1388,20 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 }
 .nav-mobile-panel nav a:last-child { border-bottom: 0; }
 .nav-mobile-panel nav a[aria-current='page'] { color: var(--accent); font-weight: 650; }
+/* the ticker search rides in the drawer on phones, where the header input
+   gets crushed between the wordmark and the ☰ */
+.nav-mobile-panel .nav-search {
+  width: auto;
+  padding: 12px 20px 4px;
+  border-bottom: 1px solid var(--line);
+}
+/* tablets are touch too — hold the 40px chip floor past the phone breakpoint */
+@media (max-width: 900px) {
+  .chip { min-height: 40px; display: inline-flex; align-items: center; }
+}
+@media (max-width: 640px) {
+  .nav-inner .nav-search { display: none; }
+}
 .nav-mobile-auth {
   padding: 16px 20px;
   border-top: 1px solid var(--line);
