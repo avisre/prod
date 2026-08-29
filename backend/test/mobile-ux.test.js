@@ -55,9 +55,9 @@ test('the crushed header search moves into the drawer on phones', () => {
 });
 
 test('phone touch floors: checkboxes, dense tables, chips past 760px too', () => {
-    assert.match(css, /@media \(max-width: 760px\) \{[\s\S]*?input\[type='checkbox'\] \{ width: 20px; height: 20px;[\s\S]*?\.table-data \{ font-size: 12\.5px; \}/);
+    assert.match(css, /@media \(max-width: 760px\) \{[\s\S]*?input\[type='checkbox'\] \{ width: 28px; height: 28px;[\s\S]*?\.table-data \{ font-size: 12\.5px; \}/);
     // tablets measured 26px chips — the 40px floor now holds to 900px
-    assert.match(css, /@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*input\[type='checkbox'\] \{ width: 20px; height: 20px; flex: none; \}\s*\}/);
+    assert.match(css, /@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*input\[type='checkbox'\] \{ width: 28px; height: 28px; flex: none; \}\s*\}/);
 });
 
 test('tools-index "Open tool →" links are a tap target, not a 21px sliver', () => {
@@ -173,8 +173,8 @@ test('seo nav links clear the tablet breakpoint', () => {
 // 27px-wide Ask link, tablet screener checkbox, lifetime AppSumo link,
 // tablet seo breadcrumb, land monitor-feature card prose link) ──
 
-test('screener checkboxes are 20px on tablets too, not just phones', () => {
-    const block = css.match(/@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*input\[type='checkbox'\] \{ width: 20px; height: 20px; flex: none; \}\s*\}/);
+test('screener checkboxes are 28px on tablets too, not just phones', () => {
+    const block = css.match(/@media \(max-width: 900px\) \{\s*\.chip \{ min-height: 40px; display: inline-flex; align-items: center; \}\s*input\[type='checkbox'\] \{ width: 28px; height: 28px; flex: none; \}\s*\}/);
     assert.ok(block, 'checkbox floor present in the 900px block');
 });
 
