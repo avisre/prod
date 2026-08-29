@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260829-askmem2" />
+  <link rel="stylesheet" href="assets/system.css?v=20260829-flow1" />
   <style>
     /* the canvas: one centred column, generous air */
     .canvas { max-width: 800px; margin: 0 auto; min-height: calc(100vh - 220px); display: flex; flex-direction: column; }
@@ -87,6 +87,24 @@
        conversation is open the chrome collapses to a floating ☰ and a
        one-line dock (ChatGPT-style); the sticky nav stays for navigation */
     body.in-conversation .trial-banner { display: none; }
+    /* focus/zen — the reading state goes all the way: EVERYTHING with
+       vertical presence (nav, sidebar, dock, banners, footer) disappears,
+       leaving only the answer and one auto-fading chip (or Esc / F11) to
+       bring it all back */
+    body.in-conversation #side-collapse { display: none; } /* ⤢ replaces it while chatting */
+    body.in-conversation .appsumo-activation { display: none; }
+    body.zen header.nav, body.zen .nav-mobile, body.zen .side, body.zen .side-grip,
+    body.zen .composer-dock, body.zen .trial-banner,
+    body.zen .appsumo-activation, body.zen footer
+      { display: none !important; }
+    /* the floating row survives zen, but only the toggle chip in it: same
+       fixed slot, parked where the nav used to be */
+    body.zen .side-tools > :not(.zen-chip) { display: none !important; }
+    body.in-conversation.zen .side-tools { top: 14px; }
+    body.zen .thread { padding: 8px 0 24px; }
+    .zen-chip { transition: opacity 0.3s ease; }
+    .zen-chip.zen-dim { opacity: 0.12; }
+    .zen-chip:hover { opacity: 1; }
     body.in-conversation .thread { padding: 14px 0 24px; }
     body.in-conversation .side-tools { position: fixed; top: 72px; z-index: 35; margin: 0; }
     body.in-conversation:not(.side-collapsed) .side-tools { left: max(calc(50vw - 386px), calc(var(--side-w, 248px) + 18px)); }
@@ -185,6 +203,7 @@
       <div class="canvas">
         <div class="side-tools" id="side-tools" hidden>
           <button type="button" class="chip" id="side-collapse" aria-label="Hide your chats" title="Hide the chat list">☰</button>
+          <button type="button" class="chip zen-chip" id="zen-chip" aria-label="Hide everything but the answer" title="Hide everything but the answer">⤢</button>
           <button type="button" class="chip" id="side-open" aria-label="Show your chats">☰ Chats</button>
         </div>
         <div class="hello">
@@ -228,7 +247,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260829-askmem2"></script>
+  <script src="assets/app.js?v=20260829-flow1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -301,6 +320,7 @@
         return askEngine($('exchange'), {
           onActivity: () => {
             document.body.classList.add('in-conversation');
+            setZen(true);
             $('thread').hidden = false;
           },
           onComplete: handleComplete
@@ -395,6 +415,7 @@
           $('exchange').innerHTML = '';
           (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
           document.body.classList.add('in-conversation');
+          setZen(true);
           $('thread').hidden = false;
           renderThreads();
           closeSidePanel();
@@ -470,6 +491,7 @@
         try { window.history.replaceState(null, '', '/ask'); } catch (_) {}
         $('exchange').innerHTML = '';
         document.body.classList.remove('in-conversation');
+        setZen(false);
         $('thread').hidden = true;
         engine = makeEngine(); // also drops the client-side fallback history
         renderThreads();
@@ -546,6 +568,43 @@
         document.body.classList.remove('side-collapsed');
         try { localStorage.removeItem(SIDE_COLLAPSE_KEY); } catch (_) {}
       }
+      // ---- Zen (focus) mode — a conversation owns the whole screen ----
+      // Entering one hides ALL chrome: nav, sidebar, composer dock, banners,
+      // footer. Only the answer + one auto-fading chip remain; the chip, Esc
+      // or F11 bring everything back.
+      function paintZenChip() {
+        const b = $('zen-chip');
+        const z = document.body.classList.contains('zen');
+        b.textContent = z ? '☰' : '⤢';
+        const t = z ? 'Bring everything back' : 'Hide everything but the answer';
+        b.title = t;
+        b.setAttribute('aria-label', t);
+      }
+      function setZen(on) {
+        document.body.classList.toggle('zen', !!on);
+        $('zen-chip').classList.remove('zen-dim');
+        if (on) armZenFade();
+        paintZenChip();
+      }
+      function zen() { return document.body.classList.contains('zen'); }
+      let zenFade = 0;
+      function armZenFade() {
+        clearTimeout(zenFade);
+        zenFade = setTimeout(() => { if (zen()) $('zen-chip').classList.add('zen-dim'); }, 2600);
+      }
+      ['mousemove', 'touchstart', 'scroll'].forEach((ev) =>
+        document.addEventListener(ev, () => { if (zen()) { $('zen-chip').classList.remove('zen-dim'); armZenFade(); } }, { passive: true }));
+      $('zen-chip').addEventListener('click', () => setZen(!zen()));
+      document.addEventListener('keydown', (e) => {
+        if (!document.body.classList.contains('in-conversation')) return;
+        if (e.key === 'F11') { e.preventDefault(); setZen(!zen()); return; } // F11 = toggle, like immersive fullscreen
+        if (e.key !== 'Escape') return;
+        if (document.querySelector('.v2-modal')) return; // a confirm/rename dialog owns Esc first
+        setZen(!zen());
+      });
+      document.addEventListener('keydown', () => {
+        if (zen()) { $('zen-chip').classList.remove('zen-dim'); armZenFade(); }
+      }, { passive: true });
       async function initSidebar() {
         if (!token()) return hideSide();
         $('side').hidden = false;
@@ -711,6 +770,7 @@
         b.addEventListener('click', () => {
           recordFirstQuery();
           document.body.classList.add('in-conversation');
+          setZen(true);
           $('thread').hidden = false;
           engine.send(b.textContent, token() && currentThreadId ? { threadId: currentThreadId } : {});
         }));
