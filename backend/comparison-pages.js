@@ -267,7 +267,7 @@ function head(title, description, canonical, jsonld) {
 <meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="stylesheet" href="/styles.css?v=20260610-1" />
-<link rel="stylesheet" href="/assets/system.css?v=20260830-mob3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260830-mob4" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -288,13 +288,13 @@ function head(title, description, canonical, jsonld) {
   .cmp-table .us{color:var(--text);font-weight:600}
   .seo-cta{text-align:center;border:1px solid var(--border);border-radius:12px;padding:24px;margin:24px 0;background:linear-gradient(180deg,rgba(59,130,246,.06),transparent)}
   .seo-foot{max-width:880px;margin:30px auto;padding:18px 16px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
-  .seo-foot a{color:var(--muted)}
+  .seo-foot a{color:var(--muted);display:inline-block;padding:8px 3px}
   .seo-disc{font-size:11.5px;color:var(--muted);margin-top:16px;line-height:1.6}
 </style></head><body class="glass">`;
 }
 
 function nav() {
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260830-mob3"></script><script>V2.nav('compare');</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260830-mob4"></script><script>V2.nav('compare');</script>`;
 }
 function footer() {
     return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo">Live demo</a> &middot; <a href="/register.html?plan=monthly">Free trial</a></p>

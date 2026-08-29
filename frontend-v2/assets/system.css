@@ -1309,7 +1309,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   input[type='checkbox'] { width: 20px; height: 20px; flex: none; }
   /* dense SEC tables never reflow on phones; hold them above microtext */
   .table-data { font-size: 12.5px; }
-  .footer a { padding: 12px 0; }
+  .footer a { padding: 12px 4px; }
   .nav-links a { padding: 11px 4px; }
 }
 
