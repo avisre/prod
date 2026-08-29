@@ -18,6 +18,9 @@ test('successful Ask exchanges are saved as full-text reports in their own colle
     assert.ok(schema, 'AskReportSchema is declared');
     assert.doesNotMatch(schema[0], /maxlength/);
     assert.match(appSource, /function saveAskReport\(userId, question, answer, mode, toolsUsed\)/);
+    // engine hands over [{tool,args,ok}] objects; the [String] schema needs names
+    assert.match(appSource, /toolsUsed\.map\(\(t\) => \(typeof t === 'string' \? t : t && t\.tool\)\)\.filter\(Boolean\)/,
+        'saveAskReport normalizes tool objects to names (Cast to [string] regression)');
     // best-effort: a save failure must never take down the Ask response path
     assert.match(appSource, /\[ask\] report save failed:/);
 });

@@ -1,3 +1,5 @@
+// Strips reasoning models' <think> blocks from message content.
+const THINK_RE = new RegExp('</?\\s*' + 'th' + 'ink\\s*>[\\s\\S]*?</\\s*think\\s*>', 'g');
 // "Ask" — the tool-grounded financial chatbot (the GR-1 competitor).
 //
 // Design rules (agreed):
@@ -1718,6 +1720,15 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 
             // Final answer. Strip any leaked think tags, then identity-screen.
             let text = String(msg.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+            if (!text) {
+                // Reasoning models occasionally spend the whole token budget
+                // inside their reasoning channel and return empty content. One
+                // retry gives the write-up a fresh budget.
+                if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                msg = await attempt();
+                if (msg._usage && num(msg._usage.total_tokens) !== null) totalTokens += msg._usage.total_tokens;
+                text = String(msg.content || '').replace(THINK_RE, '').trim();
+            }
             if (!text) throw new Error('empty answer');
             if ((streamer && streamer.blocked) || aiClient.leaksIdentity(text)) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });

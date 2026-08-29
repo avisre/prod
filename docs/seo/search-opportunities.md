@@ -1,9 +1,9 @@
 # Search opportunity report
 
-Generated: **2026-08-16T12:57:55.237Z**
+Generated: **2026-08-29T04:51:25.416Z**
 
-- Google input: `/home/hardoker77/Downloads/new/prod-main/seo-data/gsc/pages-3m.csv` (1697 rows).
-- Bing input: **not available**; no Bing opportunity is inferred.
+- Google input: `/home/hardroker-7/Downloads/prod-main(1)/prod-main/seo-data/gsc/pages-3m.csv` (1697 rows).
+- Bing input: `/home/hardroker-7/Downloads/prod-main(1)/prod-main/seo-data/bing/pages.csv` (92 rows)
 
 > Score = impressions × position weight × expected CTR gap × conservative page-family confidence. It prioritises positions 4–10 with high impressions and low CTR; it is not a forecast.
 
@@ -36,10 +36,29 @@ Generated: **2026-08-16T12:57:55.237Z**
 
 | Page | Family | Imp. | Clicks | CTR | Position | Bucket | Priority |
 |---|---|---:|---:|---:|---:|---|---|
-| — | — | — | — | — | — | — | No export rows |
+| `/stocks/AAP/free-cash-flow` | free-cash-flow | 158 | 0 | 0.00% | 6.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/NBIX/free-cash-flow` | free-cash-flow | 7 | 0 | 0.00% | 1.00 | 1-3 | P1_REVIEW |
+| `/stocks/AAPL/shares-outstanding` | shares-outstanding | 26 | 0 | 0.00% | 7.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/screens/most-profitable-stocks` | screen | 12 | 0 | 0.00% | 4.00 | 4-5 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/MRNA/shares-outstanding` | shares-outstanding | 12 | 0 | 0.00% | 5.00 | 4-5 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/NVDA/shares-outstanding` | shares-outstanding | 19 | 0 | 0.00% | 8.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/ABT/revenue` | revenue | 18 | 0 | 0.00% | 8.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/TSLA/shares-outstanding` | shares-outstanding | 15 | 0 | 0.00% | 6.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/MASI/revenue` | revenue | 5 | 0 | 0.00% | 4.00 | 4-5 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/INTC/dividend-history` | dividend-history | 5 | 0 | 0.00% | 4.00 | 4-5 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/MSFT/shares-outstanding` | shares-outstanding | 9 | 0 | 0.00% | 8.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/screens/stocks-below-book-value` | screen | 4 | 0 | 0.00% | 4.00 | 4-5 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/ZTS` | other | 9 | 0 | 0.00% | 9.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/AAPL/dividend-history` | dividend-history | 5 | 0 | 0.00% | 7.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/AAPL/free-cash-flow` | free-cash-flow | 5 | 0 | 0.00% | 6.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/TMHC/pe-ratio` | pe-ratio | 5 | 0 | 0.00% | 6.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/AVGO/shares-outstanding` | shares-outstanding | 5 | 0 | 0.00% | 7.00 | 6-10 | P0_POSITION_4_10_LOW_CTR |
+| `/stocks/DXCM/free-cash-flow` | free-cash-flow | 2 | 0 | 0.00% | 3.00 | 1-3 | P1_REVIEW |
+| `/stocks/LECO/revenue` | revenue | 2 | 0 | 0.00% | 2.00 | 1-3 | P1_REVIEW |
+| `/stocks/HCC/shares-outstanding` | shares-outstanding | 2 | 0 | 0.00% | 3.00 | 1-3 | P1_REVIEW |
 
 Machine-readable files:
-- `/home/hardoker77/Downloads/new/prod-main/docs/seo/google-opportunities.csv`
-- `/home/hardoker77/Downloads/new/prod-main/docs/seo/bing-opportunities.csv`
+- `/home/hardroker-7/Downloads/prod-main(1)/prod-main/docs/seo/google-opportunities.csv`
+- `/home/hardroker-7/Downloads/prod-main(1)/prod-main/docs/seo/bing-opportunities.csv`
 
 Missing exports are data gaps. AAP free-cash-flow is expected to rank highly only when the supplied Bing page export contains its observed 425-impression row; no row is fabricated here.

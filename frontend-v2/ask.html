@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260830-mob7" />
+  <link rel="stylesheet" href="assets/system.css?v=20260830-noflow1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -87,10 +87,19 @@
     .thread { flex: 1; padding: 40px 0 40px; }
     /* one measure for the whole answer: prose, charts (```viz```/```bars```/
        ```flow```) and everything else share the same centred column, so the
-       answer reads as a single layout instead of two competing widths */
+       answer reads as a single layout instead of two competing widths.
+       Everything in a turn is centred on that column: the question bubble
+       sits mid-column (not hugging the right edge), and the trace, mode
+       badge and feedback foot follow the same axis. */
     .thread .ask-a { max-width: none; }
     .thread .ask-a > * { max-width: 74ch; margin-left: auto; margin-right: auto; }
-    .thread .ask-q { max-width: min(76%, 620px); margin-left: auto; }
+    .thread .ask-q { max-width: min(76%, 620px); margin-left: auto; margin-right: auto; justify-self: center; }
+    .thread .ask-trace summary { display: flex; width: max-content; max-width: 100%; margin-left: auto; margin-right: auto; }
+    .thread .ask-trace details > div { justify-content: center; }
+    .thread .ask-mode-badge { display: block; width: max-content; max-width: 74ch; margin-left: auto; margin-right: auto; }
+    .thread .ask-working-row { justify-content: center; }
+    .thread .ask-foot { justify-content: center; }
+    .thread .ask-foot .share-actions { margin: 0; }
     .composer-dock { width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; position: sticky; bottom: 0; padding: 12px 0 22px; }
     body:not(.in-conversation) .composer-dock { position: static; background: none; padding: 0; }
     /* reading mode — vertical space is what you read with, so once a
@@ -269,7 +278,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260830-mob7"></script>
+  <script src="assets/app.js?v=20260830-noflow1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -720,39 +729,52 @@
           img.src = url;
         });
       }
-      // Minimal PDF text layer reader: inflates FlateDecode content streams
-      // (via the browser's DecompressionStream) and keeps Tj/TJ string runs.
-      // Scanned pages have no text layer — the caller surfaces "no text".
+      // PDF text layer via the vendored pdf.js: it handles every real
+      // generator shape (Identity-H hex runs, ToUnicode CMaps, object
+      // streams, embedded fonts) that naive Tj-parsing cannot. Text items
+      // are joined with a newline when they step down a line so tables and
+      // statements stay readable. Scanned pages have no text layer — the
+      // caller surfaces "no text". The library is only fetched if the user
+      // actually attaches a PDF.
+      let pdfjsLibPromise = null;
+      function loadPdfJs() {
+        if (!pdfjsLibPromise) {
+          pdfjsLibPromise = new Promise((resolve, reject) => {
+            const lib = document.createElement('script');
+            lib.src = 'assets/vendor/pdf.min.js?v=20260831-pdf1';
+            lib.onload = () => {
+              window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'assets/vendor/pdf.worker.min.js?v=20260831-pdf1';
+              resolve(window.pdfjsLib);
+            };
+            lib.onerror = () => { pdfjsLibPromise = null; reject(new Error('pdf library failed to load')); };
+            document.head.appendChild(lib);
+          });
+        }
+        return pdfjsLibPromise;
+      }
       async function pdfExtract(file) {
-        const bytes = new Uint8Array(await file.arrayBuffer());
-        const latin = Array.from(bytes, (b) => String.fromCharCode(b)).join('');
-        const chunks = [];
-        const re = /stream\r?\n/g;
-        let m;
-        while ((m = re.exec(latin)) !== null) {
-          const start = m.index + m[0].length;
-          const end = latin.indexOf('endstream', start);
-          if (end === -1) break;
-          if (/\/FlateDecode/.test(latin.slice(Math.max(0, m.index - 400), m.index))) {
-            const bin = bytes.slice(start, end);
-            try {
-              const ds = new DecompressionStream('deflate');
-              const resp = new Response(new Blob([bin]).stream().pipeThrough(ds));
-              chunks.push(await resp.text());
-            } catch (_) { /* one unrecoverable stream is fine */ }
-          }
-          re.lastIndex = end;
-        }
+        const pdfjsLib = await loadPdfJs();
+        const doc = await pdfjsLib.getDocument({ data: await file.arrayBuffer() }).promise;
         const out = [];
-        for (const c of chunks) {
-          for (const mm of c.matchAll(/\((?:\\.|[^\\)])*\)\s*(?:Tj|TJ)|\[(?:[^\]\\]|\\.)\]\s*TJ/g)) {
-            const s = (mm[0].match(/\((?:\\.|[^\\)])*\)/g) || [])
-              .map((p) => p.slice(1, -1).replace(/\\([()\\])/g, '$1').replace(/\\n/g, '\n'))
-              .join('');
-            if (s.trim()) out.push(s);
+        try {
+          let lastY = null;
+          for (let p = 1; p <= doc.numPages; p++) {
+            const page = await doc.getPage(p);
+            const tc = await page.getTextContent();
+            for (const item of tc.items) {
+              if (!item.str) continue;
+              const y = item.transform && item.transform[5];
+              if (lastY !== null && y !== undefined && Math.abs(y - lastY) > 2) out.push('\n');
+              out.push(item.str);
+              if (item.hasEOL) out.push('\n');
+              if (y !== undefined) lastY = y;
+            }
+            out.push('\n');
           }
+        } finally {
+          doc.destroy().catch(() => {});
         }
-        return out.join(' ').replace(/\s+/g, ' ').trim().slice(0, TEXT_CAP);
+        return out.join('').replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n').trim().slice(0, TEXT_CAP);
       }
       function submit() {
         const q = ta.value.trim();
