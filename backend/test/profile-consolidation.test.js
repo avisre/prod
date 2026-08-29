@@ -44,6 +44,35 @@ test('the customer-message reply email still links to /inbox.html (so the redire
     assert.match(appSource, /const inboxUrl = `\$\{appUrl\}\/inbox\.html`/);
 });
 
+test('messages.js does not yank a signed-out visitor off a page that renders its own locked state', () => {
+    // profile.html shows a "#locked" panel (Log in to see your plan…) for
+    // signed-out visitors. messages.js is loaded on the SAME page and used to
+    // hard-redirect to /login.html on its 401, which fired first and made that
+    // panel unreachable — and it pointed at the retired /inbox.html.
+    const messagesSource = fs.readFileSync(path.join(FRONTEND, 'assets/messages.js'), 'utf8');
+    assert.doesNotMatch(messagesSource, /next=%2Finbox\.html/,
+        'must not hardcode the retired /inbox.html as the post-login destination');
+    assert.match(messagesSource, /getElementById\('locked'\)/,
+        'must defer to the host page when that page renders its own signed-out state');
+    assert.match(messagesSource, /encodeURIComponent\(location\.pathname\)/,
+        'when it does redirect, it must come back to the page the visitor was actually on');
+
+    const profileHtml = fs.readFileSync(path.join(FRONTEND, 'profile.html'), 'utf8');
+    assert.match(profileHtml, /id="locked"/, 'profile.html must still carry the locked panel this relies on');
+});
+
+test('messages.js got a fresh cache stamp when its behaviour changed', () => {
+    // Same immutable-cache trap as app.js: changing the file without changing
+    // the URL means nobody gets the fix.
+    for (const page of ['profile.html', 'inbox.html']) {
+        const html = fs.readFileSync(path.join(FRONTEND, page), 'utf8');
+        const m = html.match(/assets\/messages\.js\?v=([\w.-]+)/);
+        assert.ok(m, `${page} should load messages.js`);
+        assert.notEqual(m[1], '20260824-msgedit1',
+            `${page} still points at the pre-fix messages.js bundle`);
+    }
+});
+
 test('nav: the person icon points at /profile.html, and the standalone desktop text link is gone', () => {
     assert.match(frontendAppSource, /class="nav-profile" href="\/profile\.html"/, 'the account icon must open the consolidated page');
 
