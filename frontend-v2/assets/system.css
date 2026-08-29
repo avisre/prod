@@ -207,7 +207,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .nav-dd-trigger { color: var(--ink); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; border-bottom: 2px solid transparent; }
 .nav-dd-trigger:hover { color: var(--accent); }
 .nav-dd-trigger[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
-.nav-dd-caret { font-size: 9px; line-height: 1; transition: transform .15s ease; }
+.nav-dd-caret { font-size: 11.5px; line-height: 1; transition: transform .15s ease; }
 .nav-dd:hover .nav-dd-caret, .nav-dd:focus-within .nav-dd-caret { transform: rotate(180deg); }
 /* invisible bridge so the menu stays open while the cursor crosses the gap */
 .nav-dd::after { content: ''; position: absolute; top: 100%; left: 0; right: 0; height: 10px; }
@@ -1138,7 +1138,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
   color: var(--ink-3);
 }
 .footer-inner { display: flex; flex-wrap: wrap; gap: var(--s4) var(--s6); justify-content: space-between; }
-.footer a { color: var(--ink-2); display: inline-block; padding: 6px 2px; }
+.footer a { color: var(--ink-2); display: inline-block; padding: 6px 3px; }
 .footer a:hover { color: var(--ink); }
 
 /* ---------- Skeleton ---------- */
