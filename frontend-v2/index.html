@@ -99,6 +99,8 @@
     .live-card { margin: 0; }
     .live-card .kpi-row { display: grid; grid-template-columns: 1fr 1fr; }
     @media (max-width: 980px) { .hero { grid-template-columns: 1fr; gap: 40px; } }
+    /* Prose-level links are tap targets too on touch screens */
+    .hero-note a, .provenance a, p.small a, span.small a { display: inline-block; padding: 6px 0; }
     .principle { display: grid; grid-template-columns: 220px minmax(0,1fr); gap: 32px; padding: 36px 0; border-top: 1px solid var(--line); }
     .principle h3 { font-size: 21px; font-weight: 650; letter-spacing: -0.015em; line-height: 1.25; }
     .principle p { color: var(--ink-2); max-width: 58ch; }

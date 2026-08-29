@@ -217,6 +217,7 @@ function head(title, description, canonical, jsonld) {
   .seo-table th:first-child,.seo-table td:first-child{text-align:left}
   .seo-table tbody tr:last-child td{border-bottom:0}
   .seo-table thead th{color:var(--ink3);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+  .seo-table td a{display:inline-block;padding:6px 0;color:var(--ink)}
   .seo-lock{border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;background:var(--surface);margin:18px 0}
   .seo-lock h3{margin:0 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
   .seo-lock p{margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:560px;margin-left:auto;margin-right:auto}
@@ -226,12 +227,12 @@ function head(title, description, canonical, jsonld) {
   .seo-next-action p:not(.seo-next-action-kicker){margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:680px}
   .seo-about{color:var(--ink);font-size:14.5px;line-height:1.75;max-width:74ch}
   .seo-links{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-  .seo-links a{font-size:12px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;color:var(--ink2);background:var(--surface)}
+  .seo-links a{font-size:12px;padding:10px 12px;border:1px solid var(--line);border-radius:999px;color:var(--ink2);background:var(--surface)}
   .seo-links a:hover{border-color:var(--ink3);color:var(--ink)}
   .seo-foot{max-width:1000px;margin:48px auto 0;padding:24px 16px 40px;border-top:1px solid var(--line);color:var(--ink3);font-size:12px}
   .seo-foot a{color:var(--ink2)}
   .seo-disc{font-size:11.5px;color:var(--ink3);margin-top:18px;line-height:1.6}
-  @media(max-width:760px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-links{gap:10px!important}.seo-nav-hide-mobile{display:none}.seo-cta-btn{padding:8px 11px}.seo-wrap{padding:12px}.seo-table th,.seo-table td{padding:8px 10px}.seo-section{margin:30px 0}}
+  @media(max-width:760px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-links{gap:10px!important}.seo-nav-hide-mobile{display:none}.seo-cta-btn{padding:8px 11px}.seo-wrap{padding:12px}.seo-table th,.seo-table td{padding:8px 10px}.seo-section{margin:30px 0}.seo-nav-links a{display:inline-block;padding:11px 2px}.seo-crumbs a{display:inline-block;padding:9px 2px}}
 </style>
 </head><body>`;
 }
