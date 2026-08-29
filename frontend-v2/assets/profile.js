@@ -185,9 +185,22 @@
     // ---- Import: client-side digest of the user's own export → AI distils
     // durable facts → checkbox preview → only ticked facts are stored. ----
     let importCandidates = [];
+    const MEM_CAP = 50; // keep in step with backend PM_KEEP
     function renderPreview() {
         const wrap = $('import-preview');
         wrap.hidden = !importCandidates.length;
+        // warn before the fact (not after): at 50 stored, everything older than
+        // the newest 50 is evicted by the import — the caller can untick some
+        const over = memoryFacts.length + importCandidates.length - MEM_CAP;
+        $('import-preview-note')?.remove();
+        if (over > 0 && wrap.parentElement) {
+            const note = document.createElement('p');
+            note.id = 'import-preview-note';
+            note.className = 'small';
+            note.style = 'margin:0 0 6px; color:#b45309;';
+            note.textContent = `Memory holds ${MEM_CAP} facts — importing all ${importCandidates.length} would drop your ${over} oldest. Untick anything you can live without.`;
+            wrap.insertBefore(note, $('import-items'));
+        }
         $('import-items').innerHTML = importCandidates.map((f, i) => `
             <label class="small" style="display:flex; gap:8px; align-items:flex-start;">
               <input type="checkbox" data-i="${i}" checked style="margin-top:2px;" />
@@ -216,7 +229,9 @@
             importCandidates = [];
             renderPreview();
             if (Array.isArray(data.facts)) { memoryFacts = data.facts; renderFacts(); }
-            $('import-status').textContent = `Imported ${data.imported ?? picked.length} facts.`;
+            $('import-status').textContent = Number(data.dropped) > 0
+                ? `Imported ${data.imported ?? picked.length} facts. Memory holds ${MEM_CAP} — ${data.dropped} of your oldest ${data.dropped === 1 ? 'fact was' : 'facts were'} dropped to fit.`
+                : `Imported ${data.imported ?? picked.length} facts.`;
         } catch (_) { $('import-status').textContent = 'Import failed — try again.'; }
     });
     // Walk any data export and collect the strings a memory extractor can use:
