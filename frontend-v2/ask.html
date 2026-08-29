@@ -465,6 +465,7 @@
       function closeSidePanel() { $('side').classList.remove('open'); }
       $('side-open').addEventListener('click', (e) => {
         e.stopPropagation();
+        if (document.body.classList.contains('side-collapsed')) uncollapseSide(); // drawer CSS loses to .side-collapsed otherwise
         $('side').classList.toggle('open');
       });
       document.addEventListener('click', (e) => {
@@ -505,9 +506,20 @@
         paintSideWidth();
       });
       $('side-collapse').addEventListener('click', () => {
-        document.body.classList.add('side-collapsed');
-        try { localStorage.setItem(SIDE_COLLAPSE_KEY, '1'); } catch (_) {}
+        if (document.body.classList.contains('side-collapsed')) uncollapseSide();
+        else {
+          document.body.classList.add('side-collapsed');
+          try { localStorage.setItem(SIDE_COLLAPSE_KEY, '1'); } catch (_) {}
+        }
+        paintCollapseBtn();
       });
+      // tooltip follows state so the ☰ reads as the way back while collapsed
+      function paintCollapseBtn() {
+        const b = $('side-collapse');
+        const c = document.body.classList.contains('side-collapsed');
+        b.title = c ? 'Show the chat list' : 'Hide the chat list';
+        b.setAttribute('aria-label', c ? 'Show your chats' : 'Hide your chats');
+      }
       function uncollapseSide() {
         document.body.classList.remove('side-collapsed');
         try { localStorage.removeItem(SIDE_COLLAPSE_KEY); } catch (_) {}
@@ -523,6 +535,7 @@
         // if the page lands mid-conversation, don't start collapsed
         if (collapsed && !currentThreadId) document.body.classList.add('side-collapsed');
         else uncollapseSide();
+        paintCollapseBtn();
         await loadThreads();
         if (currentThreadId) openThread(currentThreadId);
       }
