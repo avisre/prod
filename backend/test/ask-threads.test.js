@@ -218,11 +218,40 @@ test('the sidebar searches, pins, resizes and collapses', () => {
     assert.match(askHtml, /📌 Pinned/);
 });
 
+// ---- Audit fixes (2026-08-29): zen signed-out, consent over zen,
+// ---- over-cap import drop, stacked attachment errors ----
+
+test('the zen chip survives side-off, so signed-out mobile users can leave zen', () => {
+    assert.match(askHtml, /body\.side-off\.in-conversation \.side-tools \{ display: flex !important; \}/);
+    assert.match(askHtml, /body\.side-off \.side-tools > :not\(\.zen-chip\) \{ display: none !important; \}/);
+    // hideSide must NOT hide the row wholesale — CSS decides, not JS
+    assert.match(askHtml, /function hideSide\(\) \{\s*[^}]*\$\('side'\)\.hidden = true;\s*\$\('side-grip'\)\.hidden = true;\s*\}/);
+    assert.doesNotMatch(askHtml, /hideSide[\s\S]{0,200}\$\('side-tools'\)\.hidden = true/);
+});
+
+test('the cookie-consent card yields to zen', () => {
+    assert.match(askHtml, /body\.zen \.consent/);
+});
+
+test('over-cap imports tell the user what was dropped, before and after', () => {
+    // server computes the eviction count (the cap keeps the newest 50)
+    assert.match(pmSource, /const dropped = Math\.max\(0, existing\.length \+ fresh\.length - PM_KEEP\)/);
+    assert.match(appSource, /dropped: out\.dropped \|\| 0/);
+    // profile warns in the preview (before anything lands) and names it after
+    assert.match(profileSource, /would drop your \$\{over\} oldest/);
+    assert.match(profileSource, /oldest \$\{data\.dropped === 1 \? 'fact was' : 'facts were'\} dropped to fit/);
+});
+
+test('multiple rejected attachments each get their error line', () => {
+    assert.match(askHtml, /const errs = \[\]; \/\/ every rejected file gets its line, not last-wins/);
+    assert.match(askHtml, /setErr\(errs\.join\(' '\)\)/);
+});
+
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260829-askmem2/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260829-askmem2/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260829-askmem2/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260829-zenfix1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260829-zenfix1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260829-zenfix1/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

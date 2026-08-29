@@ -110,12 +110,15 @@ async function importFacts(userId, facts) {
         fresh.push(mkFact(f));
     }
     const merged = [...existing, ...fresh].slice(-PM_KEEP);
+    // the cap keeps the NEWEST facts, so an over-cap import silently evicts
+    // the oldest saved ones — say so instead of pretending it all landed
+    const dropped = Math.max(0, existing.length + fresh.length - PM_KEEP);
     await require('mongoose').connection.collection(COLLECTION).updateOne(
         { userId: uid },
         { $set: { facts: merged, updatedAt: new Date() } },
         { upsert: true }
     );
-    return { ok: true, imported: fresh.length };
+    return { ok: true, imported: fresh.length, dropped };
 }
 
 // Boot-time, one-shot: (b) migrate legacy `ask_memories` rows (one row per

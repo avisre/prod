@@ -21,13 +21,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260829-flow1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260829-zenfix1" />
   <style>
-    /* the canvas: one centred column, generous air */
-    .canvas { max-width: 800px; margin: 0 auto; min-height: calc(100vh - 220px); display: flex; flex-direction: column; }
+    /* the canvas: one centred column, generous air. On wide screens the
+       column opens up so charts (the financial sankey especially) get the
+       whole workspace; prose keeps its own reading measure below. */
+    .canvas { flex: 1 1 auto; width: 100%; max-width: 1280px; margin: 0 auto; min-height: calc(100vh - 220px); display: flex; flex-direction: column; }
 
-    /* empty state — a greeting, the composer mid-screen, quiet prompts */
-    .hello { text-align: center; margin: 18vh 0 36px; }
+    /* empty state — a greeting, the composer mid-screen, quiet prompts
+       (these stay at the cosier reading width even on a wide canvas) */
+    .hello { max-width: 800px; margin: 18vh auto 36px; text-align: center; }
     .hello h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 650; letter-spacing: -0.025em; }
     .hello p { margin-top: 10px; color: var(--ink-3); font-size: 14px; }
 
@@ -81,7 +84,12 @@
     /* conversation state */
     body.in-conversation .hello, body.in-conversation .prompts { display: none; }
     .thread { flex: 1; padding: 40px 0 40px; }
-    .composer-dock { position: sticky; bottom: 0; padding: 12px 0 22px; background: linear-gradient(transparent, var(--paper) 30%); }
+    /* prose reads at one measure, centred; charts (```viz```, ```bars```,
+       ```flow```) break out and use the whole wide canvas */
+    .thread .ask-a { max-width: none; }
+    .thread .ask-a > :not(.ask-viz) { max-width: 74ch; margin-left: auto; margin-right: auto; }
+    .thread .ask-q { max-width: min(76%, 620px); margin-left: auto; }
+    .composer-dock { max-width: 800px; margin-left: auto; margin-right: auto; position: sticky; bottom: 0; padding: 12px 0 22px; background: linear-gradient(transparent, var(--paper) 30%); }
     body:not(.in-conversation) .composer-dock { position: static; background: none; padding: 0; }
     /* reading mode — vertical space is what you read with, so once a
        conversation is open the chrome collapses to a floating ☰ and a
@@ -95,7 +103,7 @@
     body.in-conversation .appsumo-activation { display: none; }
     body.zen header.nav, body.zen .nav-mobile, body.zen .side, body.zen .side-grip,
     body.zen .composer-dock, body.zen .trial-banner,
-    body.zen .appsumo-activation, body.zen footer
+    body.zen .appsumo-activation, body.zen .consent, body.zen footer
       { display: none !important; }
     /* the floating row survives zen, but only the toggle chip in it: same
        fixed slot, parked where the nav used to be */
@@ -107,8 +115,9 @@
     .zen-chip:hover { opacity: 1; }
     body.in-conversation .thread { padding: 14px 0 24px; }
     body.in-conversation .side-tools { position: fixed; top: 72px; z-index: 35; margin: 0; }
-    body.in-conversation:not(.side-collapsed) .side-tools { left: max(calc(50vw - 386px), calc(var(--side-w, 248px) + 18px)); }
-    body.in-conversation.side-collapsed .side-tools { left: max(calc(50vw - 386px), var(--gutter, 20px)); }
+    /* the left math hugs the wide canvas's edge (half of 1280, minus padding) */
+    body.in-conversation:not(.side-collapsed) .side-tools { left: max(calc(50vw - 626px), calc(var(--side-w, 248px) + 18px)); }
+    body.in-conversation.side-collapsed .side-tools { left: max(calc(50vw - 626px), var(--gutter, 20px)); }
     body.in-conversation .composer-dock { padding: 10px 0 14px; }
     body.in-conversation .composer textarea { min-height: 54px; padding: 12px 64px 12px 22px; }
     body.in-conversation .ask-mode-toggle { margin-top: 6px; }
@@ -148,6 +157,10 @@
     #side-open { display: none; }
     #side-collapse { display: inline-flex; }
     body.side-off .side-tools { display: none !important; }
+    /* signed-out visitors are dropped into zen from their very first prompt
+       and get no Esc hint on mobile — keep the zen chip within reach there */
+    body.side-off.in-conversation .side-tools { display: flex !important; }
+    body.side-off .side-tools > :not(.zen-chip) { display: none !important; }
 
     /* 📎 attachments */
     .att-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
@@ -247,7 +260,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260829-flow1"></script>
+  <script src="assets/app.js?v=20260829-zenfix1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -498,10 +511,11 @@
         ta.focus();
       }
       function hideSide() {
+        // side-tools stays in the DOM: CSS hides it signed-out on the landing
+        // page but keeps the zen chip alive once a conversation opens
         document.body.classList.add('side-off');
         $('side').hidden = true;
         $('side-grip').hidden = true;
-        $('side-tools').hidden = true;
       }
       function closeSidePanel() { $('side').classList.remove('open'); }
       $('side-open').addEventListener('click', (e) => {
@@ -655,23 +669,25 @@
       $('att-input').addEventListener('change', async () => {
         const files = Array.from($('att-input').files || []);
         $('att-input').value = '';
+        const errs = []; // every rejected file gets its line, not last-wins
         for (const f of files) {
-          if (attachments.length >= ATT_MAX) { setErr(`Up to ${ATT_MAX} attachments per question.`); break; }
-          if (f.size > ATT_MAX_BYTES) { setErr(`"${f.name}" is over 10 MB.`); continue; }
+          if (attachments.length >= ATT_MAX) { errs.push(`Up to ${ATT_MAX} attachments per question.`); break; }
+          if (f.size > ATT_MAX_BYTES) { errs.push(`"${f.name}" is over 10 MB.`); continue; }
           try {
             if (/^image\//.test(f.type)) {
-              if (!/image\/(png|jpeg|webp)/.test(f.type)) { setErr(`"${f.name}": use PNG, JPG or WebP.`); continue; }
+              if (!/image\/(png|jpeg|webp)/.test(f.type)) { errs.push(`"${f.name}": use PNG, JPG or WebP.`); continue; }
               attachments.push({ id: aid(), name: f.name, kind: 'image', mime: f.type, dataUri: await imageToDataUri(f), remember: false });
             } else {
               const kind = /\.(pdf)$/i.test(f.name) ? 'pdf' : /\.(csv|txt|md|json)$/i.test(f.name) ? 'text' : null;
-              if (!kind) { setErr(`"${f.name}": pics (PNG/JPG/WebP) or docs (PDF/CSV/TXT/MD/JSON) only.`); continue; }
+              if (!kind) { errs.push(`"${f.name}": pics (PNG/JPG/WebP) or docs (PDF/CSV/TXT/MD/JSON) only.`); continue; }
               const text = kind === 'text' ? (await f.text()).slice(0, TEXT_CAP) : (await pdfExtract(f).catch(() => ''));
               attachments.push({ id: aid(), name: f.name, kind: 'doc', mime: f.type || 'application/pdf', text, remember: false });
-              if (!text) setErr(`"${f.name}" has no extractable text — if it's a scan, export the pages as images.`);
+              if (!text) errs.push(`"${f.name}" has no extractable text — if it's a scan, export the pages as images.`);
             }
             renderChips();
-          } catch (_) { setErr(`Could not read "${f.name}".`); }
+          } catch (_) { errs.push(`Could not read "${f.name}".`); }
         }
+        setErr(errs.join(' '));
         renderChips();
       });
       const aid = () => 'a' + Math.random().toString(36).slice(2, 10);
