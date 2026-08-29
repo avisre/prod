@@ -2267,6 +2267,34 @@ function recordDossierView(userId, symbol, name) {
     ).catch((error) => console.error('[dossier] view tracking failed:', error && error.message));
 }
 
+// One row per successful Ask exchange. Same "your research is saved and
+// reopening it is free" promise Dossiers make: the full answer is stored
+// (ai_chat_log truncates at 8000 chars, which is not enough for long
+// reports) and re-reading it never touches credits.
+const AskReportSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    question: { type: String, required: true },
+    answer: { type: String, required: true },
+    mode: { type: String, enum: ['normal', 'analyst'], default: 'normal' },
+    toolsUsed: { type: [String], default: [] },
+    createdAt: { type: Date, default: () => new Date() }
+}, { versionKey: false, collection: 'ask_reports' });
+AskReportSchema.index({ userId: 1, createdAt: -1 });
+const AskReport = mongoose.model('AskReport', AskReportSchema);
+const ASK_REPORT_KEEP = 30;
+const ASK_REPORT_LIST_BLURB = 160;
+function saveAskReport(userId, question, answer, mode, toolsUsed) {
+    if (!userId || !question || !answer) return;
+    AskReport.create({ userId, question: question.slice(0, 8000), answer, mode: mode === 'analyst' ? 'analyst' : 'normal', toolsUsed: Array.isArray(toolsUsed) ? toolsUsed.slice(0, 20) : [] })
+        // keep only the most recent ASK_REPORT_KEEP per user
+        .then((doc) => AskReport.find({ userId: doc.userId }, { _id: 1 }).sort({ createdAt: -1 }).skip(ASK_REPORT_KEEP).lean())
+        .then((stale) => {
+            if (stale.length) return AskReport.deleteMany({ _id: { $in: stale.map((d) => d._id) } });
+            return null;
+        })
+        .catch((error) => console.error('[ask] report save failed:', error && error.message));
+}
+
 // Append-only, MongoDB-backed customer registry. The unique event key makes
 // Stripe/AppSumo webhook retries idempotent while keeping a durable audit trail
 // of the email address and plan observed at signup or first paid activation.
@@ -6246,6 +6274,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // frontend already depends on.
                 if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
                 if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+                if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
                 trackSecondSession(req, req.user);
                 trackFirstAskSuccess(req, req.user, result);
                 if (result.answer) trackActivation(userId, 'ask');
@@ -6270,6 +6299,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
         if (result.source === 'ai') aiChat.saveExchange(userId, question, result.answer);
+        if (result.source === 'ai') saveAskReport(userId, question, result.answer, mode, result.toolsUsed);
         trackSecondSession(req, req.user);
         trackFirstAskSuccess(req, req.user, result);
         if (result.answer) trackActivation(userId, 'ask');
@@ -8858,6 +8888,36 @@ app.get('/api/dossier-history/recent', authMiddleware, async (req, res) => {
         res.json({ recent: views.map((v) => ({ symbol: v.symbol, name: v.name || null, lastViewedAt: v.lastViewedAt })) });
     } catch (error) {
         res.status(500).json({ message: 'Unable to load recent research.' });
+    }
+});
+
+// Saved Ask answers — read-only, free to open (credits are only spent when a
+// new answer is generated, never when re-reading a stored one).
+app.get('/api/ask-history/recent', authMiddleware, async (req, res) => {
+    try {
+        const reports = await AskReport.find({ userId: req.userId }).sort({ createdAt: -1 }).limit(12).lean();
+        res.json({
+            recent: reports.map((r) => ({
+                id: r._id,
+                question: String(r.question || '').slice(0, ASK_REPORT_LIST_BLURB),
+                mode: r.mode,
+                toolsUsed: r.toolsUsed || [],
+                createdAt: r.createdAt
+            }))
+        });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load recent answers.' });
+    }
+});
+
+app.get('/api/ask-history/:id', authMiddleware, async (req, res) => {
+    try {
+        if (!/^[0-9a-fA-F]{24}$/.test(String(req.params.id || ''))) return res.status(404).json({ message: 'Report not found.' });
+        const report = await AskReport.findOne({ _id: req.params.id, userId: req.userId }).lean();
+        if (!report) return res.status(404).json({ message: 'Report not found.' });
+        res.json({ report: { question: report.question, answer: report.answer, mode: report.mode, toolsUsed: report.toolsUsed || [], createdAt: report.createdAt } });
+    } catch (error) {
+        res.status(500).json({ message: 'Unable to load the saved answer.' });
     }
 });
 
