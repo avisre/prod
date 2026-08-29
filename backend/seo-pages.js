@@ -785,6 +785,11 @@ function renderStockIndex() {
 // Bing uses lastmod to schedule crawls, so that fake freshness wasted crawl
 // capacity. Shard by page type and use the actual page/data modification date.
 const SITEMAP_CHUNK = 5000;
+// Metric history pages were excluded from the sitemap on Google crawl-budget
+// grounds. Bing data since then says they are the pages that actually earn
+// Bing traffic and Copilot citations, and Bing has no other lastmod signal for
+// them. Set SITEMAP_INCLUDE_METRICS=0 to restore the old behaviour.
+const SITEMAP_INCLUDE_METRICS = String(process.env.SITEMAP_INCLUDE_METRICS || '1') !== '0';
 const SITEMAP_TTL_MS = 30 * 60 * 1000;
 // Git checkouts stamp every bundled data file with the deploy time. Treat files
 // created during the checkout window as the known snapshot date; later nightly
@@ -845,17 +850,25 @@ function buildSitemapInventory() {
     const stocks = loadCompanies()
         .filter((c) => resolveCanonicalSymbol(c.symbol) === c.symbol)
         .map((c) => ({ loc: `${SITE}/stocks/${c.symbol}`, lastmod: tickerMtime(c.symbol) }));
-    const compares = [], screens = [];
+    const compares = [], screens = [], metrics = [];
     try {
         require('./seo-extra').sitemapUrls().forEach((u) => {
             const route = u.loc;
-            // Per-metric history pages (/stocks/:sym/:metric) are deliberately left
-            // out of the sitemap: they're the least-unique, highest-volume tier
-            // (~14K near-identical templated URLs) and are still fully reachable by
-            // crawlers via the "financial history" links on every ticker page
-            // (renderStockPage). Google's own crawl-budget guidance is to sitemap
-            // only the most valuable pages and let the rest be found by crawl links.
-            if (/^\/stocks\/[^/]+\//.test(route)) return;
+            // Per-metric history pages (/stocks/:sym/:metric) are the least-unique,
+            // highest-volume tier (~14K templated URLs). They were held out of the
+            // sitemap on Google's crawl-budget guidance, since crawlers still reach
+            // them via the "financial history" links on every ticker page.
+            // Bing changed that calculus: these are the pages earning Bing clicks
+            // and Copilot citations, and with no sitemap entry Bing gets no lastmod
+            // for them at all. They are shipped in their own `metrics-*` shards so
+            // the split stays visible and revertible.
+            const metricMatch = route.match(/^\/stocks\/([^/]+)\//);
+            if (metricMatch) {
+                if (SITEMAP_INCLUDE_METRICS) {
+                    metrics.push({ loc: SITE + route, lastmod: tickerMtime(metricMatch[1]) });
+                }
+                return;
+            }
             const m = route.match(/^\/compare\/([A-Z0-9.\-]+)-vs-([A-Z0-9.\-]+)$/i);
             if (m) return compares.push({ loc: SITE + route, lastmod: maxDate(tickerMtime(m[1]), tickerMtime(m[2])) });
             screens.push({ loc: SITE + route, lastmod: staticPageMtime(route) });
@@ -869,6 +882,7 @@ function buildSitemapInventory() {
     shards.core = core;
     addChunks('stocks', stocks);
     addChunks('comparisons', compares);
+    addChunks('metrics', metrics);
     _sitemapInventoryCache = { at: Date.now(), shards };
     return shards;
 }

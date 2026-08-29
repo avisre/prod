@@ -1255,10 +1255,32 @@ function renderComparePage(pairSlug) {
         },
         { q: 'Where does this data come from?', a: 'All figures are computed from official SEC filings (10-K), refreshed nightly. This is a data comparison, not investment advice.' }
     ];
+    // Naming both sides as ticker-bearing entities lets Bing and Copilot resolve
+    // the comparison to the right companies rather than to the words alone, and
+    // isBasedOn states where the figures come from. Breadcrumbs mirror the
+    // metric pages so the whole site exposes one consistent hierarchy.
+    const companyNode = (sym, name, data) => {
+        const node = { '@type': 'Corporation', name, tickerSymbol: sym, url: `${SITE}/stocks/${sym}` };
+        const sector = data.overview?.Sector;
+        if (sector) node.industry = sector;
+        return node;
+    };
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org',
         '@graph': [
-            { '@type': 'WebPage', name: title, url: canonical },
+            {
+                '@type': 'WebPage', '@id': canonical, url: canonical, name: title, description,
+                about: [companyNode(a, ma.name, da), companyNode(b, mb.name, db)],
+                isBasedOn: { '@type': 'CreativeWork', name: 'SEC filings (10-K)', url: 'https://www.sec.gov/edgar/searchedgar/companysearch' }
+            },
+            {
+                '@type': 'BreadcrumbList',
+                itemListElement: [
+                    { '@type': 'ListItem', position: 1, name: 'Stocks', item: `${SITE}/stocks` },
+                    { '@type': 'ListItem', position: 2, name: 'Compare', item: `${SITE}/compare` },
+                    { '@type': 'ListItem', position: 3, name: `${a} vs ${b}`, item: canonical }
+                ]
+            },
             { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }
         ]
     });
