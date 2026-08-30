@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260831-askui2" />
+  <link rel="stylesheet" href="assets/system.css?v=20260831-uiaudit1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -156,7 +156,6 @@
        way to ask the next question; Esc was the only way back.
        ZEN is the deliberate one, on ⤢ / F11 only, and is remembered. */
     body.in-conversation .trial-banner { display: none; }
-    body.in-conversation #side-collapse { display: none; } /* ⤢ replaces it while chatting */
     body.in-conversation .appsumo-activation { display: none; }
     body.focus .side, body.focus .side-grip,
     body.focus .trial-banner, body.focus .appsumo-activation, body.focus footer
@@ -180,7 +179,6 @@
     body.in-conversation.side-collapsed .side-tools,
     body.focus .side-tools { left: max(calc(50vw - 626px), var(--gutter, 20px)); }
     /* focus hides the rail, so ☰ Chats is the way back to it */
-    body.focus #side-open { display: inline-flex; }
     /* the docked composer sits on an opaque plinth — no transparent fade, so
        answer text scrolling past reads as cleanly behind a deliberate bar,
        never smeared under the input. The plinth is now the full canvas width,
@@ -221,11 +219,29 @@
     .chat-item:hover .acts, .chat-item.active .acts, .chat-item:focus-within .acts { opacity: 1; }
     .acts button { border: 0; background: none; padding: 2px 4px; cursor: pointer; color: var(--ink-3); font-size: 11.5px; line-height: 1; }
     .acts button:hover { color: var(--ink); }
+    /* row menu: anchored beside the row, not a centred dialog. Lives on <body>
+       and is fixed-positioned because .side is an overflow-y:auto column and
+       would clip it at the scroll edge. */
+    .chat-menu {
+      position: fixed; z-index: 120; display: flex; gap: 2px;
+      padding: 5px; border: 1px solid var(--line-strong); border-radius: 11px;
+      background: var(--surface); box-shadow: 0 8px 28px rgba(28, 27, 24, 0.14);
+    }
+    .chat-menu button {
+      border: 0; background: none; cursor: pointer; font: inherit; font-size: 15px;
+      line-height: 1; padding: 7px 9px; border-radius: 8px;
+    }
+    .chat-menu button:hover, .chat-menu button:focus-visible { background: var(--paper); }
+    /* renaming happens in the row itself */
+    .chat-rename {
+      flex: 1; min-width: 0; font: inherit; font-size: 13px;
+      padding: 2px 6px; border: 1px solid var(--ink-3); border-radius: 7px;
+      background: var(--surface); color: var(--ink); outline: none;
+    }
     /* collapse affordance sits in the page head next to the chats chip */
     .side-tools { display: flex; gap: 6px; margin-bottom: 12px; }
     .side-tools .chip { cursor: pointer; }
-    #side-open { display: none; }
-    #side-collapse { display: inline-flex; }
+    #rail-toggle { display: inline-flex; }
     body.side-off .side-tools { display: none !important; }
     /* signed-out visitors are dropped into zen from their very first prompt
        and get no Esc hint on mobile — keep the zen chip within reach there */
@@ -235,7 +251,6 @@
     /* reading mode — the rail and the composer leave together; the answer
        owns the screen; the ☰ chip / Esc / ⤢ bring the chat state back */
     body.in-conversation.side-collapsed .composer-dock { display: none !important; }
-    body.in-conversation.side-collapsed #side-open { display: inline-flex; }
 
     /* 📎 attachments */
     .att-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 2px 0; }
@@ -257,7 +272,6 @@
       .ask-shell { display: block; }
       .side { display: none; position: fixed; z-index: 90; top: 0; left: 0; bottom: 0; width: min(320px, 86vw); max-height: none; background: var(--paper); padding: 22px 16px; box-shadow: 0 12px 48px rgba(28, 27, 24, 0.22); overflow-y: auto; }
       .side.open { display: block; }
-      #side-open { display: inline-flex; }
       /* the floating ☰'s left math assumes the desktop sidebar column */
       body.in-conversation .side-tools { left: 12px; }
     }
@@ -283,9 +297,8 @@
       <div class="side-grip" id="side-grip" hidden title="Drag to resize · double-tap to reset"></div>
       <div class="canvas">
         <div class="side-tools" id="side-tools" hidden>
-          <button type="button" class="chip" id="side-collapse" aria-label="Hide your chats" title="Hide the chat list">☰</button>
+          <button type="button" class="chip" id="rail-toggle" aria-label="Hide your chats" aria-expanded="true" title="Hide the chat list">☰</button>
           <button type="button" class="chip zen-chip" id="zen-chip" aria-label="Hide everything but the answer" title="Hide everything but the answer">⤢</button>
-          <button type="button" class="chip" id="side-open" aria-label="Show your chats">☰ Chats</button>
         </div>
         <div class="hello">
           <h1>Ask anything about stocks and funds.</h1>
@@ -333,7 +346,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260831-askui2"></script>
+  <script src="assets/app.js?v=20260831-uiaudit1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -463,21 +476,87 @@
         }
         el.innerHTML = html;
       }
-      // one ⋯ menu instead of three 11px glyphs that swallowed the timestamp
-      function threadMenu(id) {
+      // ⋯ opens a small popover anchored to the row, the way ChatGPT does it,
+      // holding three icons rather than three words. Renaming used to cost two
+      // centred dialogs; it now happens in the row itself.
+      // The popover is appended to <body> and fixed-positioned: the rail is an
+      // overflow-y:auto column, so anything absolutely positioned inside it is
+      // clipped at the scroll edge.
+      let openMenu = null;
+      function closeMenu() {
+        if (openMenu) { openMenu.remove(); openMenu = null; }
+      }
+      function threadMenu(id, anchor) {
         const t = threadList.find((x) => x.id === id);
         if (!t) return;
-        modal({
-          label: 'Chat options',
-          title: t.title || 'New chat', // modal() escapes this itself
-          body: 'What would you like to do with this chat?',
-          actions: [
-            { label: 'Rename', close: true, onClick: () => setTimeout(() => renameThread(id), 0) },
-            { label: t.pinned ? 'Unpin' : 'Pin', close: true, onClick: () => pinThread(id) },
-            { label: 'Delete', close: true, onClick: () => setTimeout(() => deleteThread(id), 0) },
-            { label: 'Cancel' }
-          ]
+        closeMenu();
+        const el = document.createElement('div');
+        el.className = 'chat-menu';
+        el.setAttribute('role', 'menu');
+        el.setAttribute('aria-label', 'Chat options');
+        // words are gone, so title + aria-label are the ONLY thing naming these
+        el.innerHTML = `
+          <button type="button" role="menuitem" data-do="rename" title="Rename chat" aria-label="Rename chat">✏️</button>
+          <button type="button" role="menuitem" data-do="pin" title="${t.pinned ? 'Unpin chat' : 'Pin chat'}" aria-label="${t.pinned ? 'Unpin chat' : 'Pin chat'}">📌</button>
+          <button type="button" role="menuitem" data-do="delete" title="Delete chat" aria-label="Delete chat">🗑️</button>`;
+        document.body.appendChild(el);
+        const r = anchor.getBoundingClientRect();
+        const w = el.offsetWidth || 132;
+        el.style.top = `${Math.min(window.innerHeight - el.offsetHeight - 8, r.bottom + 6)}px`;
+        el.style.left = `${Math.max(8, Math.min(window.innerWidth - w - 8, r.right - w))}px`;
+        openMenu = el;
+        el.querySelector('button').focus();
+        el.addEventListener('click', (e) => {
+          const b = e.target.closest('button[data-do]');
+          if (!b) return;
+          const act = b.dataset.do;
+          closeMenu();
+          if (act === 'rename') startRename(id);
+          else if (act === 'pin') pinThread(id);
+          else deleteThread(id);
         });
+      }
+      document.addEventListener('click', (e) => {
+        if (openMenu && !openMenu.contains(e.target) && !e.target.closest('button[data-act="menu"]')) closeMenu();
+      });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && openMenu) closeMenu(); });
+      window.addEventListener('resize', closeMenu);
+
+      // rename happens IN the row — no dialog at all
+      function startRename(id) {
+        const row = $('chat-list').querySelector(`.chat-item[data-id="${id}"]`);
+        const t = threadList.find((x) => x.id === id);
+        if (!row || !t) return;
+        const label = row.querySelector('.t');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'chat-rename';
+        input.maxLength = 160;
+        input.value = t.title || '';
+        input.setAttribute('aria-label', 'Chat name');
+        label.replaceWith(input);
+        input.focus();
+        input.select();
+        let settled = false;
+        const cancel = () => { if (!settled) { settled = true; renderThreads(); } };
+        const commit = async () => {
+          if (settled) return;
+          settled = true;
+          const v = input.value.trim().slice(0, 160);
+          if (!v || v === t.title) return renderThreads();
+          const prev = t.title;
+          t.title = v;          // optimistic: the row updates at once
+          renderThreads();
+          try {
+            const r = await fetch(`${API}/ask/threads/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify({ title: v }) });
+            if (!r.ok) throw new Error('rename failed');
+          } catch (_) { t.title = prev; renderThreads(); } // put it back if the server refused
+        };
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); e.stopPropagation(); commit(); }
+          else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); cancel(); }
+        });
+        input.addEventListener('blur', commit);
       }
       let searchQuery = '';
       let searchTimer = null;
@@ -541,28 +620,6 @@
           window.scrollTo({ top: document.body.scrollHeight });
         } catch (_) { /* sidebar is best-effort */ }
       }
-      function renameThread(id) {
-        const t = threadList.find((x) => x.id === id);
-        if (!t) return;
-        const dlg = modal({
-          label: 'Rename chat',
-          title: 'Rename chat',
-          bodyHtml: `<input class="input" id="rename-input" maxlength="160" value="${esc(t.title || '')}" aria-label="Chat name" />`,
-          actions: [
-            { label: 'Save', primary: true, close: false, onClick: async (close) => {
-                const v = document.getElementById('rename-input').value.trim().slice(0, 160);
-                if (!v) return;
-                try {
-                  const r = await fetch(`${API}/ask/threads/${id}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` }, body: JSON.stringify({ title: v }) });
-                  if (r.ok) { t.title = v; renderThreads(); close(); }
-                } catch (_) { /* keep dialog open */ }
-              } },
-            { label: 'Cancel' }
-          ]
-        });
-        const input = dlg.el.querySelector('#rename-input');
-        if (input) { input.focus(); input.select(); }
-      }
       function deleteThread(id) {
         modal({
           label: 'Delete chat',
@@ -596,7 +653,7 @@
         const item = e.target.closest('.chat-item');
         if (!item) return;
         const actBtn = e.target.closest('button[data-act]');
-        if (actBtn) { threadMenu(item.dataset.id); return; }
+        if (actBtn) { e.stopPropagation(); threadMenu(item.dataset.id, actBtn); return; }
         openThread(item.dataset.id);
       });
       $('new-chat').addEventListener('click', () => { newChat(); closeSidePanel(); });
@@ -619,15 +676,42 @@
         $('side-grip').hidden = true;
       }
       function closeSidePanel() { $('side').classList.remove('open'); }
-      $('side-open').addEventListener('click', (e) => {
+      // ONE control owns the rail. There used to be two buttons drawn with the
+      // same ☰ glyph doing inverse jobs (#side-collapse hid it, #side-open
+      // showed it) and which one you got depended on the chrome state.
+      // railOpen() is the single source of truth: the rail is showing when it
+      // is neither collapsed nor hidden by focus.
+      function railOpen() {
+        return !document.body.classList.contains('side-collapsed')
+            && !document.body.classList.contains('focus');
+      }
+      function showRail() {
+        uncollapseSide();
+        setFocus(false);              // focus hides the rail too
+        $('side').classList.add('open');   // mobile drawer
+        paintRailToggle();
+      }
+      function hideRail() {
+        document.body.classList.add('side-collapsed');
+        try { localStorage.setItem(SIDE_COLLAPSE_KEY, '1'); } catch (_) {}
+        $('side').classList.remove('open');
+        paintRailToggle();
+      }
+      function paintRailToggle() {
+        const b = $('rail-toggle');
+        const open = railOpen();
+        b.setAttribute('aria-expanded', String(open));
+        const t = open ? 'Hide the chat list' : 'Show the chat list';
+        b.title = t;
+        b.setAttribute('aria-label', open ? 'Hide your chats' : 'Show your chats');
+      }
+      $('rail-toggle').addEventListener('click', (e) => {
         e.stopPropagation();
-        if (document.body.classList.contains('side-collapsed')) uncollapseSide(); // drawer CSS loses to .side-collapsed otherwise
-        setFocus(false); // focus hides the rail too — asking for it means leaving focus
-        $('side').classList.toggle('open');
+        railOpen() ? hideRail() : showRail();
       });
       document.addEventListener('click', (e) => {
         if (!$('side').classList.contains('open')) return;
-        if ($('side').contains(e.target) || e.target.closest('#side-open')) return;
+        if ($('side').contains(e.target) || e.target.closest('#rail-toggle')) return;
         closeSidePanel();
       });
       // ---- Sidebar resize ↔ + ☰ collapse (persisted, desktop only) ----
@@ -665,21 +749,6 @@
         try { localStorage.removeItem(SIDE_W_KEY); } catch (_) {}
         paintSideWidth();
       });
-      $('side-collapse').addEventListener('click', () => {
-        if (document.body.classList.contains('side-collapsed')) uncollapseSide();
-        else {
-          document.body.classList.add('side-collapsed');
-          try { localStorage.setItem(SIDE_COLLAPSE_KEY, '1'); } catch (_) {}
-        }
-        paintCollapseBtn();
-      });
-      // tooltip follows state so the ☰ reads as the way back while collapsed
-      function paintCollapseBtn() {
-        const b = $('side-collapse');
-        const c = document.body.classList.contains('side-collapsed');
-        b.title = c ? 'Show the chat list' : 'Hide the chat list';
-        b.setAttribute('aria-label', c ? 'Show your chats' : 'Hide your chats');
-      }
       function uncollapseSide() {
         document.body.classList.remove('side-collapsed');
         try { localStorage.removeItem(SIDE_COLLAPSE_KEY); } catch (_) {}
@@ -705,6 +774,7 @@
         document.body.classList.toggle('focus', !!on);
         if (!on) document.body.classList.remove('zen');
         paintZenChip();
+        paintRailToggle(); // focus hides the rail, so the ☰ flips meaning with it
       }
       function setZen(on) {
         document.body.classList.toggle('zen', !!on);
@@ -728,7 +798,12 @@
         if (!document.body.classList.contains('in-conversation')) return;
         if (e.key === 'F11') { e.preventDefault(); setZen(!zen()); return; } // F11 = toggle, like immersive fullscreen
         if (e.key !== 'Escape') return;
-        if (document.querySelector('.v2-modal')) return; // a confirm/rename dialog owns Esc first
+        if (document.querySelector('.v2-modal')) return; // a confirm dialog owns Esc first
+        if (openMenu) return;                            // so does an open row menu
+        // NB: the rename field stops Esc itself rather than being excluded by
+        // tag here — the composer textarea holds focus after every send, so a
+        // blanket "ignore Esc in fields" rule would make Esc do nothing at all
+        // in the one state the user is actually in.
         // Esc peels back one layer at a time: zen → focus → full chrome
         if (zen()) setZen(false);
         else setFocus(!document.body.classList.contains('focus'));
@@ -747,7 +822,7 @@
         // if the page lands mid-conversation, don't start collapsed
         if (collapsed && !currentThreadId) document.body.classList.add('side-collapsed');
         else uncollapseSide();
-        paintCollapseBtn();
+        paintRailToggle();
         await loadThreads();
         if (currentThreadId) openThread(currentThreadId);
       }

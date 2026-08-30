@@ -375,7 +375,7 @@
                 g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">${esc(String(labels[i]))}</text>`;
             }
         }
-        const colors = { ink: 'var(--ink)', accent: 'var(--accent)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };
+        const colors = { ink: 'var(--ink)', accent: 'var(--series-2)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };
         for (const s of series) {
             const vs = s.values;
             let d = ''; let started = false;
@@ -1657,10 +1657,10 @@
             block.innerHTML = `
               <div class="ask-q">${esc(question)}</div>
               <div class="ask-trace"></div>
-              <div class="ask-progress" role="status" aria-live="polite">
+              <div class="ask-progress">
                 <div class="ask-progress-head">
                   <span class="ask-ring" aria-hidden="true"></span>
-                  <span class="ask-working">Reading the filings…</span>
+                  <span class="ask-working" role="status" aria-live="polite">Reading the filings…</span>
                   <span class="ask-elapsed" aria-hidden="true">0:00</span>
                   <button type="button" class="ask-stop" aria-label="Stop">Stop</button>
                 </div>
@@ -1669,10 +1669,10 @@
               </div>
               <div class="ask-a${blockAskMode === 'normal' ? ' is-normal' : ''}"></div>
               <div class="ask-skel" aria-hidden="true">
-                <span class="skeleton"></span>
-                <span class="skeleton" style="width:72%"></span>
-                <span class="skeleton" style="width:88%"></span>
-                <span class="skeleton" style="width:54%"></span>
+                <span></span>
+                <span style="width:72%"></span>
+                <span style="width:88%"></span>
+                <span style="width:54%"></span>
               </div>`;
             exchange.appendChild(block);
             const traceEl = block.querySelector('.ask-trace');
@@ -1706,9 +1706,11 @@
             // first token: the skeleton has served its purpose and the card
             // steps aside — but it is only HIDDEN, because a `rollback` can
             // send us back to the tool phase and it has to come back.
-            const pauseProgress = () => {
+            const enterWriting = () => {
                 if (skelEl.isConnected) skelEl.remove();
-                workingRow.hidden = true;
+                workingRow.hidden = false;
+                workingRow.classList.add('is-writing');
+                workingEl.textContent = 'Writing the answer…';
             };
             // terminal: answered, failed, or stopped
             const closeProgress = () => {
@@ -1807,10 +1809,9 @@
                     } else if (ev === 'delta') {
                         text += d.text || '';
                         answerEl.innerHTML = markdown(text);
-                        answerEl.classList.add('ask-cursor');
                         const open = traceSteps[traceSteps.length - 1];
                         if (open && open.ms == null) open.ms = Date.now() - stepStartedAt;
-                        pauseProgress(); // the answer itself is now the progress
+                        enterWriting(); // Stop and the timer stay reachable
                         renderTrace();
                         // follow the text only if the reader is already at the
                         // bottom — never yank someone who has scrolled back up
@@ -1819,7 +1820,7 @@
                         // the model discarded its draft and went back to work
                         text = '';
                         answerEl.innerHTML = '';
-                        answerEl.classList.remove('ask-cursor');
+                        workingRow.classList.remove('is-writing');
                         workingEl.textContent = 'Rechecking the figures…';
                         stepStartedAt = Date.now();
                         workingRow.hidden = false;
@@ -1845,15 +1846,13 @@
                         try { handle(ev, JSON.parse(dataStr)); } catch (_) { /* skip bad frame */ }
                     }
                 }
-                answerEl.classList.remove('ask-cursor');
                 closeProgress();
                 renderTrace();
                 if (finalData && finalData.answer && finalData.source !== 'error') finish(finalData);
                 else await showFailure('Ask is temporarily unavailable.');
 
                     function finish(data) {
-                    answerEl.classList.remove('ask-cursor');
-                    closeProgress();
+                        closeProgress();
                     renderTrace();
                     answerEl.innerHTML = markdown(data.answer);
                     answerEl.querySelectorAll('.ask-next').forEach((b) =>
@@ -1941,8 +1940,7 @@
                     // user pulled the cord — keep whatever streamed, say so quietly
                     closeProgress();
                     renderTrace();
-                    answerEl.classList.remove('ask-cursor');
-                    answerEl.insertAdjacentHTML('beforeend', '<p class="small faint" style="margin-top:8px;">Stopped.</p>');
+                        answerEl.insertAdjacentHTML('beforeend', '<p class="small faint" style="margin-top:8px;">Stopped.</p>');
                 } else {
                     await showFailure('Network problem while reaching Ask.');
                 }

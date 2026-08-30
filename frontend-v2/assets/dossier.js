@@ -113,7 +113,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   }
 
   // ---- compact inline SVG charts (print-friendly, dependency-free) ----
-  const C = { ink: '#1c1b18', accent: '#1a4fd6', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
+  const C = { ink: '#1c1b18', accent: '#8a8681', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
   function chartBars(rows, key, fmt, color) {
     const pts = rows.map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
     if (pts.length < 2) return '';

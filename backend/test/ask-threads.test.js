@@ -12,6 +12,7 @@ const chatSource = fs.readFileSync(path.join(root, 'backend', 'ai-chat.js'), 'ut
 const clientSource = fs.readFileSync(path.join(root, 'backend', 'ai-client.js'), 'utf8');
 const pmSource = fs.readFileSync(path.join(root, 'backend', 'personal-memory.js'), 'utf8');
 const bundleSource = fs.readFileSync(path.join(root, 'frontend-v2', 'assets', 'app.js'), 'utf8');
+const cssSource = fs.readFileSync(path.join(root, 'frontend-v2', 'assets', 'system.css'), 'utf8');
 const askHtml = fs.readFileSync(path.join(root, 'frontend-v2', 'ask.html'), 'utf8');
 const profileHtml = fs.readFileSync(path.join(root, 'frontend-v2', 'profile.html'), 'utf8');
 const profileSource = fs.readFileSync(path.join(root, 'frontend-v2', 'assets', 'profile.js'), 'utf8');
@@ -208,17 +209,14 @@ test('the chat shows ChatGPT-style "Added to memory" cards with instant delete',
 
 test('the sidebar searches, pins, resizes and collapses', () => {
     assert.match(askHtml, /id="chat-search"/);
-    // rename/pin/delete moved behind one ⋯ menu: three 11px glyphs used to
-    // replace the timestamp on hover, exactly when you wanted to read it
     assert.match(askHtml, /data-act="menu"/);
-    assert.match(askHtml, /function threadMenu\(id\)/);
+    assert.match(askHtml, /function threadMenu\(id, anchor\)/);
     assert.doesNotMatch(askHtml, /data-act="pin"/);
     assert.match(askHtml, /async function pinThread\(id\)/);
     assert.match(askHtml, /pinned: !t\.pinned/);
     assert.match(askHtml, /id="side-grip"/);
     assert.match(askHtml, /sp_ask_side_w_v1/);
     assert.match(askHtml, /sp_ask_side_collapsed_v1/);
-    assert.match(askHtml, /id="side-collapse"/);
     assert.match(askHtml, /📌 Pinned/);
 });
 
@@ -240,6 +238,25 @@ test('sending enters the soft focus state, not full zen', () => {
     // zen is deliberate and remembered
     assert.match(askHtml, /sp_ask_zen_v1/);
     assert.match(askHtml, /function prefersZen\(\)/);
+});
+
+test('one loading indicator, alive from send to last token', () => {
+    // the feature carried TWO idioms for the same operation: a spinning ring
+    // during the tool phase and a legacy blinking accent bar while writing,
+    // plus a pulsing step dot and a shimmer running alongside the ring
+    assert.doesNotMatch(cssSource, /\.ask-cursor::after/);
+    assert.doesNotMatch(cssSource, /@keyframes askBlink/);
+    assert.doesNotMatch(cssSource, /@keyframes askPulse/);
+    assert.doesNotMatch(bundleSource, /ask-cursor/);
+    assert.doesNotMatch(bundleSource, /class="skeleton"/);
+    // the ring is the survivor, and it keeps running while the answer writes
+    assert.match(cssSource, /\.ask-ring \{[^}]*animation: spin/);
+    assert.match(bundleSource, /const enterWriting = \(\) => \{/);
+    assert.match(cssSource, /\.ask-progress\.is-writing \.ask-note, \.ask-progress\.is-writing \.ask-steps \{ display: none; \}/);
+    // Nielsen #3: Stop must outlive the first token AND a long scroll
+    assert.match(cssSource, /\.ask-progress\.is-writing \{[\s\S]{0,120}position: sticky/);
+    // Nielsen #1: aria-live belongs on the status line, not the re-rendering card
+    assert.match(bundleSource, /<span class="ask-working" role="status" aria-live="polite">/);
 });
 
 test('the composer is one compact box that does not change on send', () => {
@@ -291,8 +308,42 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260831-askui2/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260831-askui2/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260831-askui2/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260831-uiaudit1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260831-uiaudit1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260831-uiaudit1/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
+});
+// ---- chrome collapsed from three buttons to two (2026-08-30) ----
+
+test('one control owns the chat rail, not two buttons drawn the same', () => {
+    // #side-collapse (hide) and #side-open (show) were inverse jobs behind the
+    // same ☰ glyph, and which one you got depended on the chrome state
+    assert.doesNotMatch(askHtml, /id="side-collapse"/);
+    assert.doesNotMatch(askHtml, /id="side-open"/);
+    assert.match(askHtml, /id="rail-toggle"/);
+    assert.match(askHtml, /function railOpen\(\)/);
+    assert.match(askHtml, /function paintRailToggle\(\)/);
+    // one glyph for two states is only unambiguous if it reports the state
+    assert.match(askHtml, /aria-expanded/);
+});
+
+test('chat CRUD is an anchored icon popover, not a stack of dialogs', () => {
+    // rename cost two centred modals; it now happens in the row
+    assert.match(askHtml, /function startRename\(id\)/);
+    assert.match(askHtml, /input\.className = 'chat-rename'/);
+    assert.doesNotMatch(askHtml, /function renameThread\(id\)/);
+    assert.doesNotMatch(askHtml, /id="rename-input"/);
+    // icons carry the actions, so the accessible names are all that name them
+    for (const label of ['Rename chat', 'Delete chat']) {
+        assert.match(askHtml, new RegExp(`aria-label="${label}"`));
+    }
+    assert.match(askHtml, /data-do="rename"/);
+    assert.match(askHtml, /data-do="delete"/);
+    // the popover must escape .side's overflow-y:auto clip
+    assert.match(askHtml, /\.chat-menu \{[\s\S]{0,80}position: fixed/);
+    // Esc in the rename field must not also rearrange the page
+    assert.match(askHtml, /e\.preventDefault\(\); e\.stopPropagation\(\); cancel\(\);/);
+    // delete stays behind one confirm
+    assert.match(askHtml, /function deleteThread\(id\)/);
+    assert.match(askHtml, /title: 'Delete this chat\?'/);
 });

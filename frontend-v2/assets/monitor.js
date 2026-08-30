@@ -109,26 +109,45 @@
   function filingEvidenceHtml(narr) {
     const changes = (narr && narr.changes) || [];
     if (!changes.length) return '';
+    // Three states, not two. A point is only quotable on both sides when both
+    // filings actually say it; often only the new filing does, and showing that
+    // one verified passage beats printing an apology. Every quote here has been
+    // matched character-for-character against the filing it is attributed to.
+    const withEvidence = changes.filter((c) => c.newQuote || (c.evidenceVerified && c.priorQuote));
     const quotes = changes.map((c) => {
-      const paired = c.evidenceVerified && c.priorQuote && c.newQuote;
-      return `<div class="mon-language-item">
-        <div class="mon-language-area"><strong>${esc(c.area)}</strong>${paired ? '<span class="mon-verified">Verified passages</span>' : ''}</div>
-        ${paired ? `<div class="mon-quote-pair">
+      const paired = !!(c.evidenceVerified && c.priorQuote && c.newQuote);
+      const newOnly = !paired && !!c.newQuote;
+      let bodyHtml;
+      if (paired) {
+        bodyHtml = `<div class="mon-quote-pair">
           <div class="mon-quote-side"><b>Prior filing</b><q>${esc(c.priorQuote)}</q></div>
           <span class="mon-quote-sep" aria-hidden="true">→</span>
           <div class="mon-quote-side"><b>New filing</b><q>${esc(c.newQuote)}</q></div>
-        </div>` : '<div class="mon-no-quote">No verified before-and-after passage is available for this item. The difference summary is shown without a quotation.</div>'}
+        </div>`;
+      } else if (newOnly) {
+        bodyHtml = `<div class="mon-quote-single">
+          <div class="mon-quote-side"><b>New filing</b><q>${esc(c.newQuote)}</q></div>
+        </div>`;
+      } else {
+        bodyHtml = '<div class="mon-no-quote">Neither filing states this point in a single quotable passage — see the summary alongside.</div>';
+      }
+      const tag = paired ? 'Verified passages' : newOnly ? 'Verified passage' : '';
+      return `<div class="mon-language-item">
+        <div class="mon-language-area"><strong>${esc(c.area)}</strong>${tag ? `<span class="mon-verified">${tag}</span>` : ''}</div>
+        ${bodyHtml}
       </div>`;
     }).join('');
     const explanations = changes.map((c) => `<div class="mon-explain-item"><strong>${esc(c.area)}</strong><p>${esc(c.what)}</p></div>`).join('');
     return `<div class="mon-evidence-block">
       <div class="mon-evidence-title"><div><span class="mon-section-label">Narrative evidence</span><h3>What management changed in the filing</h3></div>${TONE[narr.tone] ? `<span class="mon-tone ${TONE[narr.tone][1]}">${TONE[narr.tone][0]}</span>` : ''}</div>
       ${narr.headline ? `<p class="mon-headline">${esc(narr.headline)}</p>` : ''}
-      <div class="mon-evidence-grid">
-        <section><span class="mon-section-label">Before → after · SEC text</span><div class="mon-language-list">${quotes}</div></section>
+      ${withEvidence.length ? `<div class="mon-evidence-grid">
+        <section><span class="mon-section-label">${changes.some((c) => c.evidenceVerified) ? 'Before → after · SEC text' : 'Quoted SEC text'}</span><div class="mon-language-list">${quotes}</div></section>
         <section><span class="mon-section-label">What the difference means</span><div class="mon-change-explain">${explanations}</div></section>
-      </div>
-      ${narr.latest && narr.prev ? `<p class="small faint" style="margin-top:12px;">Compared <a href="${esc(narr.latest.url)}" target="_blank" rel="noopener">new ${esc(narr.latest.form)} (${esc(narr.latest.date)})</a> against <a href="${esc(narr.prev.url)}" target="_blank" rel="noopener">prior ${esc(narr.prev.form)} (${esc(narr.prev.date)})</a>. Only source-verified quotation pairs are displayed.</p>` : ''}
+      </div>` : `<div class="mon-evidence-grid is-single">
+        <section><span class="mon-section-label">What the difference means</span><div class="mon-change-explain">${explanations}</div></section>
+      </div>`}
+      ${narr.latest && narr.prev ? `<p class="small faint" style="margin-top:12px;">Compared <a href="${esc(narr.latest.url)}" target="_blank" rel="noopener">new ${esc(narr.latest.form)} (${esc(narr.latest.date)})</a> against <a href="${esc(narr.prev.url)}" target="_blank" rel="noopener">prior ${esc(narr.prev.form)} (${esc(narr.prev.date)})</a>. Every quotation shown was matched character-for-character against the filing it is attributed to.</p>` : ''}
     </div>`;
   }
 

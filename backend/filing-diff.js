@@ -63,10 +63,14 @@ async function latestPair(symbol) {
     return { latest, prev };
 }
 
+// Bumped whenever the payload shape changes, so stale rows re-extract
+const DIFF_SCHEMA_V = 2;
+
 const DIFF_SYSTEM = [
     'You compare two SEC filings from the SAME company: the NEW one and the PRIOR one of the same form. Reply with ONLY a JSON object, no prose, no markdown fences.',
-    'Schema: {"headline": str, "changes": [{"area": str, "what": str, "quote": str|null}], "tone": "improving"|"stable"|"deteriorating"|null}',
-    '"headline" is one sentence: the single most decision-relevant change (or "Little changed" if true). Each "changes" item: "area" is a short label (Guidance, Risk factors, Demand, Margins, Liquidity, Legal, Segments...), "what" is 1-2 factual sentences on what changed NEW vs PRIOR, "quote" is a short verbatim phrase from the NEW filing when one exists.',
+    'Schema: {"headline": str, "changes": [{"area": str, "what": str, "priorQuote": str|null, "newQuote": str|null}], "tone": "improving"|"stable"|"deteriorating"|null}',
+    '"headline" is one sentence: the single most decision-relevant change (or "Little changed" if true). Each "changes" item: "area" is a short label (Guidance, Risk factors, Demand, Margins, Liquidity, Legal, Segments...), "what" is 1-2 factual sentences on what changed NEW vs PRIOR.',
+    'QUOTES ARE A MATCHED PAIR showing the same point before and after: "priorQuote" is copied WORD FOR WORD from the PRIOR FILING excerpt, "newQuote" WORD FOR WORD from the NEW FILING excerpt. Copy characters exactly — do not paraphrase, tidy, shorten mid-phrase, join separated sentences, or fix typos. Keep each under 40 words. If the same point is not stated in BOTH documents, set the side you cannot copy to null. Every quote is checked against the source text and silently dropped if it is not found there, so a paraphrase is worse than a null.',
     'STRICT GROUNDING: only report differences observable between the two supplied texts. Both are excerpts — if something is absent from the excerpts, do not speculate about it. Never use outside knowledge, never estimate numbers not present. 3-7 changes; fewer if little changed.',
     'Each "what" is a finished statement only — never show your working, scratch arithmetic, or self-correction (no "Wait", "let me recalculate", "actually the calculation…"). Do not recompute figures; report only what the two texts state.',
     'No investment advice, no buy/sell language — describe, never recommend.'
@@ -85,6 +89,28 @@ function cleanWhat(s) {
     return what;
 }
 
+// The model is asked for verbatim quotes; this is what makes "verified" mean
+// something. Each side is checked as a normalised substring of the document it
+// claims to come from — the same excerpt text the model was shown. A paraphrase
+// simply fails and the pair is dropped. Nothing sets a "verified" flag by hand.
+// Normalisation absorbs the differences that survive an honest copy: collapsed
+// whitespace, smart quotes/dashes from the filing's HTML, and case.
+function normalizeQuote(s) {
+    return String(s || '')
+        .replace(/[\u2018\u2019\u201a\u201b]/g, "'")
+        .replace(/[\u201c\u201d\u201e\u201f]/g, '"')
+        .replace(/[\u2010-\u2015\u2212]/g, '-')
+        .replace(/\u00a0/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .toLowerCase();
+}
+function quoteIsInSource(quote, sourceText) {
+    const q = normalizeQuote(quote);
+    if (q.length < 12) return false; // too short to be evidence of anything
+    return normalizeQuote(sourceText).includes(q);
+}
+
 async function computeFilingDiff(symbol) {
     const sym = String(symbol || '').toUpperCase().trim();
     const pair = await latestPair(sym);
@@ -97,7 +123,10 @@ async function computeFilingDiff(symbol) {
     const col = mongoose.connection.collection('filing_diffs');
     try {
         const hit = await col.findOne({ symbol: sym, accession: latest.accession, prevAccession: prev.accession });
-        if (hit) return { ...hit.payload, cached: true };
+        // Rows cached before paired quotes existed have no verified evidence and
+        // never will — they must re-extract, or the panel stays blank until the
+        // company's next filing. Treat a pre-v2 payload as a miss.
+        if (hit && hit.payload && hit.payload.v === DIFF_SCHEMA_V) return { ...hit.payload, cached: true };
     } catch (_) { /* cache is best-effort */ }
 
     const get = (url) => axios.get(url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 40e6 });
@@ -131,14 +160,23 @@ async function computeFilingDiff(symbol) {
         symbol: sym,
         headline: String(parsed.headline || '').slice(0, 300),
         tone: ['improving', 'stable', 'deteriorating'].includes(parsed.tone) ? parsed.tone : null,
-        changes: parsed.changes.slice(0, 8).map((c) => ({
-            area: String(c.area || '').slice(0, 60),
-            what: cleanWhat(c.what).slice(0, 500),
-            quote: c.quote ? String(c.quote).slice(0, 280) : null
-        })).filter((c) => c.area && c.what && c.what.length >= 12),
+        changes: parsed.changes.slice(0, 8).map((c) => {
+            // a quote survives only if it is really in the document it cites
+            const priorQuote = quoteIsInSource(c.priorQuote, oldDoc) ? String(c.priorQuote).trim().slice(0, 420) : null;
+            const newQuote = quoteIsInSource(c.newQuote || c.quote, newDoc) ? String(c.newQuote || c.quote).trim().slice(0, 420) : null;
+            return {
+                area: String(c.area || '').slice(0, 60),
+                what: cleanWhat(c.what).slice(0, 500),
+                priorQuote,
+                newQuote,
+                evidenceVerified: !!(priorQuote && newQuote),
+                quote: newQuote // the company page and alerts read `quote`
+            };
+        }).filter((c) => c.area && c.what && c.what.length >= 12),
         latest: { form: latest.form, date: latest.date, url: latest.url },
         prev: { form: prev.form, date: prev.date, url: prev.url },
-        note: 'Compared from narrative excerpts (outlook, risks, MD&A) of both filings — quotes are verbatim from the new filing. Not advice.',
+        note: 'Compared from narrative excerpts (outlook, risks, MD&A) of both filings. Every quotation shown was checked character-for-character against the filing it is attributed to. Not advice.',
+        v: DIFF_SCHEMA_V,
         extractedAt: new Date().toISOString()
     };
     try {
@@ -151,4 +189,4 @@ async function computeFilingDiff(symbol) {
     return payload;
 }
 
-module.exports = { computeFilingDiff };
+module.exports = { computeFilingDiff, normalizeQuote, quoteIsInSource, DIFF_SCHEMA_V };
