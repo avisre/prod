@@ -375,7 +375,7 @@
                 g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">${esc(String(labels[i]))}</text>`;
             }
         }
-        const colors = { ink: 'var(--ink)', accent: 'var(--series-2)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };
+        const colors = { ink: 'var(--ink)', accent: 'var(--accent)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };
         for (const s of series) {
             const vs = s.values;
             let d = ''; let started = false;

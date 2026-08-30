@@ -31,17 +31,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
   --line-strong: #d8d5cd;
 
   /* meaning */
-  /* Interactive tone. Was #1a4fd6; #5f5c55 is its tonal twin — 6.33:1 on paper
-     against the blue's 6.37:1, and 2.58:1 against --ink against 2.57:1 — so the
-     hierarchy the design was built on survives the loss of hue. */
-  --accent: #5f5c55;
-  --accent-ink: #4a4842;
-  --accent-tint: #f2f0eb;
-  /* --accent used to do two incompatible jobs: interactive tone AND the second
-     chart series. Greyscaled, a series at --accent sits 2.58:1 from --ink and
-     the two lines stop being tellable apart, so series colour is its own token
-     now — 4.76:1 from --ink, comfortably above the 3:1 non-text floor. */
-  --series-2: #8a8681;
+  --accent: #1a4fd6;
+  --accent-ink: #15409f;
+  --accent-tint: #eef2fd;
   --pos: #1b7a4b;
   --pos-tint: #ecf5ef;
   --neg: #b3261e;
@@ -79,18 +71,6 @@ body {
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { color: var(--accent-ink); }
-/* Colour alone no longer distinguishes a link from its sentence, so links in
-   running text are underlined. Navigation, chips and buttons are excluded —
-   they are already marked out by position, fill and hover, and underlining
-   them turns the header into a ruled page. */
-p a, li a, td a, dd a, figcaption a, blockquote a,
-.ask-a a, .ask-receipt a, .notice a, .small a, .faint a, .composer-foot a {
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
-}
-.nav-links a, .nav-dd-menu a, .nav-mobile-panel a, .nav-account-links a,
-.footer a, .btn, .chip, .ask-next { text-decoration: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 ::selection { background: var(--accent-tint); }
 
@@ -754,7 +734,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
   border-radius: 3px 3px 1px 1px;
   background: #bbb9b2;
 }
-.stmt-mini-bar.is-latest:not(.is-negative) { background: var(--series-2); }
+.stmt-mini-bar.is-latest:not(.is-negative) { background: var(--accent); }
 .stmt-mini-bars.is-signed {
   position: relative;
   align-items: stretch;
@@ -1042,7 +1022,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-viz-legend { display: flex; gap: 18px; justify-content: center; margin-top: 6px; font-size: var(--text-xs); color: var(--ink-2); }
 .ask-viz-legend .lg { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 .ask-viz-legend .lg-ink { background: var(--ink); }
-.ask-viz-legend .lg-accent { background: var(--series-2); }
+.ask-viz-legend .lg-accent { background: var(--accent); }
 .ask-viz-legend .lg-pos { background: var(--pos); }
 /* the suggested follow-up */
 .ask-next { border: 1px solid var(--line-strong); background: none; border-radius: 999px; padding: 7px 14px; font-size: var(--text-sm); color: var(--accent-ink); cursor: pointer; font-family: inherit; }
@@ -1102,7 +1082,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .tour-q-menu li { margin: 0; }
 .tour-q-menu button { width: 100%; text-align: left; background: none; border: 0; color: #fff; padding: 6px 10px; border-radius: 5px; cursor: pointer; font: inherit; }
 .tour-q-menu button:hover { background: rgba(255, 255, 255, 0.15); }
-.tour-q-menu button[aria-current="true"] { color: #cfcbc4; font-weight: 600; }
+.tour-q-menu button[aria-current="true"] { color: #5b9bff; font-weight: 600; }
 
 /* ---------- Alerts / notices ---------- */
 .notice {
@@ -1581,7 +1561,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .fund-cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; margin-top:28px; }
 .fund-bar { display:grid; grid-template-columns:minmax(90px,1fr) 3fr 54px; align-items:center; gap:8px; margin:8px 0; font-size:12.5px; }
 .fund-bar-track { height:7px; background:var(--line); border-radius:999px; overflow:hidden; }
-.fund-bar-fill { height:100%; background:var(--series-2); border-radius:inherit; }
+.fund-bar-fill { height:100%; background:var(--accent); border-radius:inherit; }
 @media (max-width:600px) {
   .ask-foot .share-actions { width:100%; margin-left:0; }
   .share-actions { gap:7px; }
@@ -1617,7 +1597,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .vf-bar-track { height:13px; border-radius:7px; background:var(--paper); border:1px solid var(--line); overflow:hidden; }
 .vf-bar { height:100%; border-radius:7px; transition:width .4s ease; }
 .vf-bar.pr { background:var(--ink-3); }
-.vf-bar.filed { background:var(--series-2); }
+.vf-bar.filed { background:var(--accent); }
 .vf-bar-val { color:var(--ink-2); font-weight:600; text-align:right; }
 
 .vf-table { width:100%; border-collapse:collapse; margin-top:18px; font-size:14px; }
@@ -1659,7 +1639,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .pv-pair-track { height:12px; border-radius:6px; background:var(--surface); border:1px solid var(--line); overflow:hidden; }
 .pv-pair-fill { display:block; height:100%; border-radius:6px; }
 .pv-pair-fill.a { background:var(--ink-3); }
-.pv-pair-fill.b { background:var(--series-2); }
+.pv-pair-fill.b { background:var(--accent); }
 .pv-pair-row b { font-variant-numeric:tabular-nums; }
 @media (max-width:520px) { .pv-pair-row { grid-template-columns:80px 1fr; } .pv-pair-row b { grid-column:1 / -1; text-align:left; } }
 
@@ -1667,7 +1647,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .pv-share-row { display:grid; grid-template-columns:minmax(0,1.4fr) minmax(70px,1fr) 50px; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--line); }
 .pv-share-label { font-size:13px; color:var(--ink-2); }
 .pv-share-track { height:9px; border-radius:5px; background:var(--surface); border:1px solid var(--line); overflow:hidden; }
-.pv-share-track i { display:block; height:100%; background:var(--series-2); border-radius:5px; }
+.pv-share-track i { display:block; height:100%; background:var(--accent); border-radius:5px; }
 .pv-share-val { text-align:right; font-size:13px; font-weight:650; font-variant-numeric:tabular-nums; }
 @media (max-width:520px) { .pv-share-row { grid-template-columns:1fr; gap:6px; } .pv-share-val { text-align:left; } }
 

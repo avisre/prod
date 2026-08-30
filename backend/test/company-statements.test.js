@@ -99,8 +99,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // markup and its styles have to ship together or the page renders broken.
   // Stamp bumped 2026-08-29 with the nav/account-dropdown change, which edits
   // system.css site-wide; company.js follows so the pair stays in lockstep.
-  assert.match(companyHtml, /assets\/system\.css\?v=20260831-uiaudit1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20260831-uiaudit1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20260831-blue1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20260831-blue1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -110,10 +110,7 @@ test('financial statements use five-period mini bars instead of sparklines', () 
   assert.match(companySource, /statementMiniBars\(vals, lastRender\.periods, fmt\)/);
   assert.doesNotMatch(companySource, /sparkline\(sparkVals/);
   assert.match(systemCss, /\.stmt-mini-bars/);
-  // the latest bar is a data series, so it reads from --series-2, not the
-  // interactive tone: greyscaled, an --accent series sits 2.58:1 from --ink and
-  // stops being tellable apart from the ink-coloured bars beside it
-  assert.match(systemCss, /\.stmt-mini-bar\.is-latest:not\(\.is-negative\) \{ background: var\(--series-2\); \}/);
+  assert.match(systemCss, /\.stmt-mini-bar\.is-latest:not\(\.is-negative\) \{ background: var\(--accent\); \}/);
   assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*border-right: 2px solid/);
   assert.match(systemCss, /#stmt-table:not\(\.trend-hidden\) th:nth-child\(2\),[\s\S]*position: sticky;[\s\S]*left: 228px/);
 });

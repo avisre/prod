@@ -182,7 +182,7 @@ function head(title, description, canonical, jsonld) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260831-uiaudit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260831-blue1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -190,11 +190,11 @@ function head(title, description, canonical, jsonld) {
 <script type="application/ld+json">${SOFTWARE_LD}</script>${jsonld ? `<script type="application/ld+json">${jsonld}</script>` : ''}${pixelHeadSnippet()}
 <style>
   /* v2 design system, self-contained (paper/ink; color = meaning only) */
-  :root{--paper:#faf9f6;--surface:#fff;--ink:#1c1b18;--ink2:#5f5c55;--ink3:#8f8b82;--line:#e8e6e0;--line2:#d8d5cd;--accent:#5f5c55;--pos:#1b7a4b;--neg:#b3261e}
+  :root{--paper:#faf9f6;--surface:#fff;--ink:#1c1b18;--ink2:#5f5c55;--ink3:#8f8b82;--line:#e8e6e0;--line2:#d8d5cd;--accent:#1a4fd6;--pos:#1b7a4b;--neg:#b3261e}
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,'Segoe UI',sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased;font-optical-sizing:auto}
   a{color:var(--accent);text-decoration:none}
-  a:hover{color:#4a4842}
+  a:hover{color:#15409f}
   .seo-wrap{max-width:1000px;margin:0 auto;padding:16px}
   .seo-nav{position:sticky;top:0;z-index:9;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 24px;height:60px;background:color-mix(in srgb,var(--paper) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .seo-nav .brand{display:flex;align-items:center;gap:8px;font-weight:700;letter-spacing:-.025em;color:var(--ink);font-size:16px}
@@ -221,7 +221,7 @@ function head(title, description, canonical, jsonld) {
   .seo-lock{border:1px solid var(--line);border-radius:10px;padding:28px 18px;text-align:center;background:var(--surface);margin:18px 0}
   .seo-lock h3{margin:0 0 6px;font-size:17px;font-weight:600;letter-spacing:-.01em}
   .seo-lock p{margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:560px;margin-left:auto;margin-right:auto}
-  .seo-next-action{border:1px solid #d8d5cd;border-radius:10px;padding:22px 20px;background:#f2f0eb;margin:28px 0}
+  .seo-next-action{border:1px solid #c9d7f7;border-radius:10px;padding:22px 20px;background:#f4f7ff;margin:28px 0}
   .seo-next-action-kicker{margin:0 0 5px;color:var(--accent);font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
   .seo-next-action h2{margin:0 0 7px;font-size:19px;font-weight:650;letter-spacing:-.01em}
   .seo-next-action p:not(.seo-next-action-kicker){margin:0 0 14px;color:var(--ink2);font-size:14px;max-width:680px}
@@ -243,7 +243,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260831-uiaudit1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260831-blue1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
