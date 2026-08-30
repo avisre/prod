@@ -4,7 +4,24 @@ App: StockPortfolio.pro — Node/Express + Mongoose backend, vanilla-JS frontend
 in `frontend-v2/`. Prod = Render service `srv-d4kc6schg0os73al6t10`, repo
 `avisre/prod` (PRIVATE). Live site: stockportfolio.pro.
 
-## Latest build — nav tray + tier upgrades + credit recharge + D1–D7 (2026-08-30, stamp `20260830-navtray1`, UNPUSHED)
+## Latest build — nav tray + tier upgrades + credit recharge + D1–D7 (2026-08-30, SHIPPED)
+
+Deployed `588e819` (59 files) via deploy `dep-daa0ig5g…`, plus hotfix `f3dc82d`
+via `dep-daa0kf942hec7395val0`. Repo back to PRIVATE. Live sweep green: all 15
+pages carry `20260830-navtray1`, app.js tray code + 641px breakpoint live,
+chip → /upgrade.html, old tray CSS classes absent, /upgrade + /recharge 302
+logged-out users to `/login.html?next=…` (trailing-slash variants normalize
+first, chain verified), POST /api/credits/topup 401 logged-out, /api/health ok.
+Copy the f3dc82d app.js back into the local tree (done in the same edit).
+
+**LANDMINE (cost a deploy)**: any new extensionless page route must be
+registered ABOVE `express.static(..., { extensions: ['html'] })`
+(backend/app.js ~line 2059) — below it, static serves `upgrade.html` for
+`/upgrade` to everyone and the auth redirect is dead code. Same reason
+/lifetime and /appsumo are explicit early routes. Also: `optionalAuth` sets
+`req.user` (NOT `req.userId`) — guard page routes on `req.user`.
+
+Details of what shipped (tray/upgrade/recharge/D1–D7, stamps, tests):
 
 Owner-approved plan (Nielsen-10 audited, one pass, one push). All verified
 locally: full backend suite 355/355; Playwright mock pass 21/21 (tray 1400px
