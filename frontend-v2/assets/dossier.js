@@ -214,7 +214,9 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       const peak = Math.max(...fcfVals), trough = Math.min(...fcfVals);
       lines.push(`Free cash flow finished at <strong>${bn(latest.fcf)}</strong> versus <strong>${bn(first.fcf)}</strong> at the start, but ranged from ${bn(trough)} to ${bn(peak)}; the bar pattern matters more than a single end-point growth rate.`);
     }
-    if (Number.isFinite(Number(latest.netIncome)) && Number.isFinite(Number(latest.fcf)) && Number(latest.netIncome) !== 0) {
+    // The conversion ratio is only meaningful when net income is positive â€”
+    // negative/negative lands on a huge "percentage" that reads as sanity (INTC: "1854% of net income").
+    if (Number(latest.netIncome) > 0 && Number(latest.fcf) !== 0) {
       const conversion = Number(latest.fcf) / Number(latest.netIncome) * 100;
       lines.push(`Latest free cash flow equalled approximately <strong>${conversion.toFixed(0)}%</strong> of net income (${bn(latest.fcf)} versus ${bn(latest.netIncome)}), a check on earnings-to-cash conversion rather than a quality verdict by itself.`);
     }
