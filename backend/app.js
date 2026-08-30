@@ -2351,6 +2351,7 @@ const DossierViewSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     symbol: { type: String, required: true },
     name: { type: String, default: null },
+    views: { type: Number, default: 0 },
     lastViewedAt: { type: Date, default: () => new Date() }
 }, { versionKey: false, collection: 'dossier_views' });
 DossierViewSchema.index({ userId: 1, symbol: 1 }, { unique: true });
@@ -2360,9 +2361,35 @@ function recordDossierView(userId, symbol, name) {
     if (!userId) return;
     DossierView.updateOne(
         { userId, symbol },
-        { $set: { lastViewedAt: new Date(), ...(name ? { name } : {}) } },
+        { $set: { lastViewedAt: new Date(), ...(name ? { name } : {}) }, $inc: { views: 1 } },
         { upsert: true }
     ).catch((error) => console.error('[dossier] view tracking failed:', error && error.message));
+}
+
+// Same shape as DossierView, for the Filing Monitor. Until this existed there
+// was NO per-user record of Monitor use anywhere: filing_reports is keyed by
+// (symbol, accession) with no userId, credit_ledger only sees uncached reads by
+// a paying user, and trackActivation records a first touch once and never again.
+// So "who actually uses Monitor" was unanswerable — the one question a decision
+// about which plan Monitor belongs to turns on. `views` counts every serve,
+// cached ones included, because a cached read is still someone reading a report.
+const MonitorViewSchema = new mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    symbol: { type: String, required: true },
+    name: { type: String, default: null },
+    views: { type: Number, default: 0 },
+    lastViewedAt: { type: Date, default: () => new Date() }
+}, { versionKey: false, collection: 'monitor_views' });
+MonitorViewSchema.index({ userId: 1, symbol: 1 }, { unique: true });
+MonitorViewSchema.index({ userId: 1, lastViewedAt: -1 });
+const MonitorView = mongoose.model('MonitorView', MonitorViewSchema);
+function recordMonitorView(userId, symbol, name) {
+    if (!userId || !symbol) return;   // logged-out free-tier reads have no user
+    MonitorView.updateOne(
+        { userId, symbol },
+        { $set: { lastViewedAt: new Date(), ...(name ? { name } : {}) }, $inc: { views: 1 } },
+        { upsert: true }
+    ).catch((error) => console.error('[monitor] view tracking failed:', error && error.message));
 }
 
 // One row per successful Ask exchange. Same "your research is saved and
@@ -2847,7 +2874,10 @@ function acquisitionStripeMetadata(acquisition) {
     return metadata;
 }
 
-const ACTIVATION_JOBS = new Set(['ask', 'comparison', 'screener_company', 'portfolio']);
+// 'filing_monitor' and 'dossier' were being passed to trackActivation() by their
+// routes but were absent here, so the guard in trackActivation() rejected them
+// and neither ever recorded a single row. Adding them makes those calls live.
+const ACTIVATION_JOBS = new Set(['ask', 'comparison', 'screener_company', 'portfolio', 'filing_monitor', 'dossier']);
 
 // August's customer-success gate is intentionally narrower than the legacy
 // activation jobs. It records a real, source-backed result and keeps internal
@@ -9358,7 +9388,10 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
             }
             if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
             const cached = await filingMonitor.peekReport(sym).catch(() => null);
-            if (cached) return res.json({ report: cached });
+            if (cached) {
+                recordMonitorView(req.userId, normSym, cached.name);
+                return res.json({ report: cached });
+            }
             return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
         }
 
@@ -9371,6 +9404,7 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
                 });
             }
             const summary = await aiFeatures.summarizeFinancials(sym);
+            recordMonitorView(req.userId, normSym, instrument.name);
             return res.json({ report: {
                 symbol: sym,
                 name: instrument.name || sym,
@@ -9463,6 +9497,7 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
             resultValid: true, sourceOpened: false, featureType: 'filing_monitor',
             requestFields: trackingRequestFields(req, res)
         });
+        recordMonitorView(req.userId, normSym, winner && winner.name);
         return res.json({ report: winner });
     } catch (err) {
         console.error('[filings] report error:', err.message);
@@ -9652,6 +9687,10 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
         if (winner && winner.status === 'building') return res.status(202).json(winner);
         recordDossierView(req.userId, sym, winner && winner.name);
+        if (req.userId && winner && !winner.error) trackActivation(req.userId, 'dossier', {
+            resultValid: true, sourceOpened: false, featureType: 'dossier',
+            requestFields: trackingRequestFields(req, res)
+        });
         return res.json({ dossier: winner });
     } catch (err) {
         console.error('[dossier] route error:', err.message);

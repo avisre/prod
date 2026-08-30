@@ -4,11 +4,15 @@
 // it and returns {status:'building', stage} fast; we poll until it lands.
 (function () {
   'use strict';
-  const { API, token, esc, money, num, spinner, nav, searchAssets, mountShare, markdown } = window.V2;
+  const { API, token, esc, money, num, spinner, nav, searchAssets, mountShare, markdown, mountAskFloor } = window.V2;
   const $ = (id) => document.getElementById(id);
   const auth = () => (token() ? { Authorization: `Bearer ${token()}` } : {});
   const MODE_KEY = 'sp_dossier_mode_v1';
   let RAW_DOSSIER = null, RAW_SYM = null;
+  // mountAskFloor appends to document.body unconditionally, and render() runs
+  // again on every poll -> build -> rerender cycle and on each mode toggle, so
+  // without this guard the page would stack a bar per render.
+  let askMounted = false;
 
   // "Key figures" arrives as machine-readable lines ("REVENUE: latest $716.9B…")
   // meant for the model. Turn each "LABEL: value" into a clean card; the leading
@@ -252,6 +256,16 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
   }
 
   function render(out, d, sym) {
+    // Mounted before the fund branch, and with the fund wording, so an ETF or
+    // mutual fund gets the bar too — the fund view's own copy sends people to
+    // Ask, so it is the one state that most needs a way to ask. Same split as
+    // company.js.
+    if (!askMounted && mountAskFloor) {
+      askMounted = true;
+      mountAskFloor({ placeholder: d && d.isFund
+        ? `Ask about ${sym} — fees, holdings, allocation, performance and risk…  (⌘K)`
+        : `Ask about ${sym} — answers come from its SEC filings…  (⌘K)` });
+    }
     if (d && d.isFund) { renderFundRedirect(out, d, sym); return; }
     RAW_DOSSIER = d; RAW_SYM = sym;
     const mode = window.PV.getMode(MODE_KEY);

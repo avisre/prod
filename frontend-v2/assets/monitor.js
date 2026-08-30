@@ -2,11 +2,14 @@
 // filing" report for any ticker, plus a materiality-ranked feed across the
 // user's holdings + watchlist. Pro feature: a 402 swaps in the upgrade card.
 (function () {
-  const { API, token, esc, markdown, spinner, searchAssets, mountShare, money } = window.V2;
+  const { API, token, esc, markdown, spinner, searchAssets, mountShare, money, mountAskFloor } = window.V2;
   const auth = () => (token() ? { Authorization: 'Bearer ' + token() } : {});
   const $ = (id) => document.getElementById(id);
   const MODE_KEY = 'sp_monitor_mode_v1';
   let RAW_REPORT = null;
+  // See dossier.js: mountAskFloor appends to document.body, and renderReport()
+  // re-runs on every poll -> build -> rerender cycle, so guard the mount.
+  let askMounted = false;
 
   function renderFundRedirect(rep) {
     const out = $('mon-report');
@@ -190,6 +193,15 @@
   }
 
   function renderReport(rep) {
+    // See dossier.js: mounted before the fund branch so funds get the bar, with
+    // the fund wording — renderFundRedirect's own copy tells people ETFs and
+    // mutual funds belong in Ask, so that state needs the bar most of all.
+    if (!askMounted && mountAskFloor && rep && rep.symbol) {
+      askMounted = true;
+      mountAskFloor({ placeholder: rep.isFund
+        ? `Ask about ${rep.symbol} — fees, holdings, allocation, performance and risk…  (⌘K)`
+        : `Ask about what changed in ${rep.symbol}'s latest filing…  (⌘K)` });
+    }
     if (rep && rep.isFund) { renderFundRedirect(rep); return; }
     RAW_REPORT = rep;
     const mode = window.PV.getMode(MODE_KEY);
