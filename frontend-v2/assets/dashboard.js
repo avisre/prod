@@ -74,63 +74,6 @@
     }
     mountRecentResearch();
 
-    // Recent answers — every successful Ask generates a saved report; list the
-    // last 12 so a reload (or a lost tab) never means a lost answer. Reopening
-    // one is free: credits were only spent when it was generated.
-    async function mountRecentAnswers() {
-        if (DEMO) return;
-        try {
-            const r = await fetch(`${API}/ask-history/recent`, { headers: auth });
-            if (!r.ok) return;
-            const data = await r.json().catch(() => ({}));
-            const recent = Array.isArray(data.recent) ? data.recent : [];
-            if (!recent.length) return;
-            const section = $('recent-answers-section');
-            const list = $('recent-answers-list');
-            const fmt = (at) => { const d = new Date(at); return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }); };
-            list.innerHTML = recent.map((item) => `
-              <button type="button" class="chip" data-report="${esc(item.id)}" title="${esc(item.question)}">
-                ${esc(item.question.length >= 140 ? item.question + '…' : item.question)}
-                <span class="faint"> · ${fmt(item.createdAt)}</span>
-              </button>`).join('');
-            list.addEventListener('click', async (e) => {
-                const btn = e.target.closest('button[data-report]');
-                if (!btn || btn.dataset.loading) return;
-                btn.dataset.loading = '1';
-                try {
-                    const rr = await fetch(`${API}/ask-history/${encodeURIComponent(btn.dataset.report)}`, { headers: auth });
-                    if (!rr.ok) throw new Error();
-                    const out = await rr.json().catch(() => ({}));
-                    if (out.report) openAnswerViewer(out.report);
-                } catch (_) { /* non-blocking */ } finally { delete btn.dataset.loading; }
-            }, { once: false });
-            section.hidden = false;
-        } catch (_) { /* recent answers is non-blocking */ }
-    }
-    function openAnswerViewer(report) {
-        let overlay = $('answer-viewer');
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.id = 'answer-viewer';
-            overlay.style.cssText = 'position:fixed; inset:0; z-index:60; background:rgba(10,12,16,.55); display:flex; align-items:center; justify-content:center; padding:20px;';
-            overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.hidden = true; });
-            document.body.appendChild(overlay);
-        }
-        const when = report.createdAt ? new Date(report.createdAt).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
-        overlay.innerHTML = `<div role="dialog" aria-modal="true" style="background:var(--card,#fff); color:inherit; border-radius:14px; max-width:760px; width:100%; max-height:85vh; overflow-y:auto; padding:22px; box-shadow:0 20px 60px rgba(0,0,0,.3);">
-          <div style="display:flex; justify-content:space-between; gap:12px; align-items:baseline;">
-            <span class="small faint">${esc(when)}${report.mode === 'analyst' ? ' · analyst' : ''}</span>
-            <button type="button" class="chip" id="answer-viewer-close">Close</button>
-          </div>
-          <p class="small" style="margin:10px 0 0; font-weight:650;">${esc(report.question)}</p>
-          <div class="prose" style="margin-top:12px; font-size:var(--text-sm,14px); line-height:1.6;">${markdown(report.answer || '')}</div>
-          <p class="small faint" style="margin:14px 0 0;">Saved answer — reopening is free, no credits used.</p>
-        </div>`;
-        overlay.hidden = false;
-        $('answer-viewer-close').addEventListener('click', () => { overlay.hidden = true; });
-    }
-    mountRecentAnswers();
-
     let lastRows = []; // for CSV export
     let portfolioActionBusy = false;
     let portfolioRefreshVersion = 0;

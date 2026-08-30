@@ -41,12 +41,11 @@ test('ask-history routes are owner-scoped and never touch credits', () => {
     assert.doesNotMatch(historyBlock, /credits\.spend/, 'reopening a saved answer must be free');
 });
 
-test('dashboard surfaces recent answers with the current dashboard.js stamp', () => {
-    assert.match(dashboardHtml, /id="recent-answers-section"/);
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260830-dconfirm1/);
-    assert.match(dashboardSource, /\$\{API\}\/ask-history\/recent/);
-    assert.match(dashboardHtml, /Saved Ask reports/);
-    assert.match(dashboardSource, /reopening is free/);
-    // answers render through the shared markdown/esc helpers, never raw innerHTML of the body
-    assert.match(dashboardSource, /markdown\(report\.answer/);
+test('dashboard does not duplicate Ask history — saved answers live in /ask only', () => {
+    // Owner decision 2026-08-30: the "Recent answers" section is gone from
+    // the portfolio page; /ask's sidebar is the single home for saved chats.
+    // The API routes stay (tested above: reopening is always free).
+    assert.doesNotMatch(dashboardHtml, /recent-answers-section|recent-answers-list|Saved Ask reports/);
+    assert.doesNotMatch(dashboardSource, /ask-history\/recent|openAnswerViewer|answer-viewer/);
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260830-dnoans1/);
 });
