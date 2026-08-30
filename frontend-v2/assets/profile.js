@@ -345,8 +345,15 @@
             quotaEl.textContent = Number.isFinite(quota.limit)
                 ? `${quota.used || 0} / ${quota.limit} Ask questions used this month`
                 : '';
+            // Lifetime tiers now include the Filing Change Monitor, capped to a
+            // company count by tier; a monthly Pro subscription still does not.
+            // Keep this in step with LTD_MONITOR_CAP in lib/tier-limits.js.
+            const ltd = quota.appsumo && quota.appsumo.isAppSumo;
+            const monitorCap = { 1: '10 companies', 2: '40 companies', 3: 'unlimited companies' }[Number(quota.appsumo && quota.appsumo.tier)] || 'unlimited companies';
             includesEl.textContent = session.tier === 'pro'
-                ? 'Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, and unlimited portfolio tracking. The Filing Change Monitor, Thesis Tracker and tax tools are on Power/Desk — not included on Pro or any AppSumo tier.'
+                ? (ltd
+                    ? `Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, unlimited portfolio tracking, and the Filing Change Monitor across ${monitorCap} — with a weekly email when one of them files something that matters. Thesis Tracker and tax tools remain on Power/Desk.`
+                    : 'Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, and unlimited portfolio tracking. The Filing Change Monitor, Thesis Tracker and tax tools are on Power/Desk.')
                 : session.tier === 'core'
                     ? 'Includes screener, comparison and portfolio tracking. Upgrade to Pro for Ask, Dossier and filing key points.'
                     : 'Upgrade for Ask, Dossier, screener and portfolio tracking.';

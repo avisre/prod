@@ -1103,25 +1103,26 @@
     // action, so the card can never claim work that did not happen. Only
     // accounts created after the ship date are eligible.
     const ONBOARD_STEPS = {
+        dossier: { label: 'Read a Dossier on one company', href: '/dossier.html' },
         ask: { label: 'Ask one question about a company’s filings', href: '/onboarding' },
         hold: { label: 'Add a holding you own', href: '/dashboard.html#add-form' },
-        watch: { label: 'Watch one company for changes', href: '/dashboard.html#rules-section' }
+        watch: { label: 'Watch companies so we can tell you when they file', href: '/dashboard.html#add-form' }
     };
     const ONBOARD_PATHS = {
         research: {
             title: 'Understand one company deeply',
-            blurb: 'Ask its filings a question and read the cited source.',
-            order: ['ask', 'hold', 'watch'], start: '/onboarding?path=research'
+            blurb: 'Name a company; get the whole picture from its filings.',
+            order: ['dossier', 'ask', 'hold', 'watch'], start: '/dossier.html'
         },
         portfolio: {
             title: 'Track a portfolio I already own',
             blurb: 'Add your holdings, then see what moved them and why.',
-            order: ['hold', 'ask', 'watch'], start: '/dashboard.html#add-form'
+            order: ['hold', 'dossier', 'watch', 'ask'], start: '/dashboard.html#add-form'
         },
         ideas: {
             title: 'Find new ideas to research',
             blurb: 'Screen the whole US market on real fundamentals.',
-            order: ['ask', 'hold', 'watch'], start: '/screener.html'
+            order: ['dossier', 'ask', 'hold', 'watch'], start: '/screener.html'
         }
     };
 
@@ -1152,9 +1153,13 @@
                     // line would otherwise cancel the request that records the choice.
                     onClick: async () => { await saveOnboarding({ path: chosen }); location.href = ONBOARD_PATHS[chosen].start; }
                 },
-                { label: 'Skip for now', onClick: () => saveOnboarding({ dismissed: true }) }
+                // No "skip" here on purpose. Every path is two clicks and the
+                // choice is what the whole guided run keys off; dismissing it
+                // left people on a blank Ask box, which is where they stopped.
+                // Closing the dialog still records nothing permanent, so it
+                // reappears next visit rather than being silently lost.
             ],
-            onDismiss: () => saveOnboarding({ dismissed: true })
+            onDismiss: () => {}
         });
         const buttons = dlg.el.querySelectorAll('[data-path]');
         buttons.forEach((b) => b.addEventListener('click', () => {

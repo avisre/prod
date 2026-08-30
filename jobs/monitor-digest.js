@@ -29,6 +29,7 @@ const jwt = require(path.join(BACKEND, 'node_modules/jsonwebtoken'));
 const outputDelivery = require(path.join(__dirname, '..', 'lib', 'output-delivery'));
 const digestDelivery = require(path.join(__dirname, '..', 'lib', 'digest-delivery'));
 const { queueEmail } = require(path.join(__dirname, '..', 'lib', 'prepared-email'));
+const tierLimits = require(path.join(__dirname, '..', 'lib', 'tier-limits'));
 
 const MONITOR_PLANS = ['power', 'power-monthly', 'desk', 'enterprise'];
 const ACTIVE = ['active', 'trialing', 'cancel_at_period_end'];
@@ -53,30 +54,44 @@ function unsubscribe(userId, secret) {
     };
 }
 
-// Anyone whose Monitor access is live right now: a paid Monitor plan, or an
-// unexpired pre-grant. Opt-outs are excluded at the query, not after rendering.
+// Anyone whose Monitor access is live right now: a paid Monitor plan, a
+// lifetime purchase, or an unexpired pre-grant. Opt-outs are excluded at the
+// query, not after rendering.
+//
+// Lifetime buyers are included because the digest is the only thing in the
+// product that reaches out on its own. Without it a lifetime buyer has no
+// recurring reason to return, which is what the usage data showed: a median of
+// one AI call per buyer and then nothing. Their coverage is capped per tier by
+// tierLimits.capSymbols below; Power/Desk stay uncapped.
 async function monitorUsers(db) {
     return db.collection('users').find({
         digestOptOut: { $ne: true },
         $or: [
             { 'subscription.planId': { $in: MONITOR_PLANS }, 'subscription.status': { $in: ACTIVE } },
+            { appsumoRedeemedAt: { $ne: null } },
+            { dealMirrorRedeemedAt: { $ne: null } },
             { trialGrant: { $elemMatch: { feature: 'monitor', expiresAt: { $gt: new Date() }, revokedAt: null } } }
         ]
-    }, { projection: { email: 1, name: 1, subscription: 1, trialGrant: 1 } }).limit(MAX_USERS).toArray();
+    }, { projection: {
+        email: 1, name: 1, subscription: 1, trialGrant: 1,
+        appsumoRedeemedAt: 1, appsumoTier: 1, dealMirrorRedeemedAt: 1, dealMirrorTier: 1
+    } }).limit(MAX_USERS).toArray();
 }
 
 // The companies this user actually asked the Monitor to watch.
-async function trackedSymbols(db, userId) {
+async function trackedSymbols(db, userId, user) {
     const [rules, watchlist, holdings] = await Promise.all([
         db.collection('alertrules').find({ user: userId }, { projection: { symbol: 1 } }).limit(60).toArray(),
         db.collection('watchlists').findOne({ user: userId }, { projection: { symbols: 1 } }),
         db.collection('stocks').find({ user: userId, assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } }, { projection: { symbol: 1 } }).limit(60).toArray()
     ]);
-    return outputDelivery.normalizeSymbols([
+    // capSymbols trims a lifetime buyer to their tier's company count and is a
+    // no-op for everyone else; MAX_SYMBOLS still bounds the email for all.
+    return tierLimits.capSymbols(user, outputDelivery.normalizeSymbols([
         ...rules.map((r) => r.symbol),
         ...((watchlist && watchlist.symbols) || []),
         ...holdings.map((h) => h.symbol)
-    ]).slice(0, MAX_SYMBOLS);
+    ])).slice(0, MAX_SYMBOLS);
 }
 
 function renderDigest(user, block, unsub) {
@@ -100,7 +115,7 @@ function renderDigest(user, block, unsub) {
 }
 
 async function prepareForUser(db, user, secret, { dryRun }) {
-    const symbols = await trackedSymbols(db, user._id);
+    const symbols = await trackedSymbols(db, user._id, user);
     if (!symbols.length) return { status: 'no-symbols' };
 
     // cachedOnly: a digest mails work already done. It must never fan out into

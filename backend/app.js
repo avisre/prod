@@ -96,15 +96,23 @@ function proGate(req, res, next) {
 // straight off the record here, so a missed cron run can never silently extend
 // access.
 const { hasActiveTrialGrant } = require('../lib/trial-grant');
+// Needed by hasMonitor() below — declared here rather than further down the
+// file so the reference is unambiguously initialised before any call.
+const tierLimits = require('../lib/tier-limits');
 const trialExpiryCheck = require('../jobs/trial-expiry-check');
 
-// The Filing Change Monitor is the Power/Desk differentiator — NOT included in
-// the $33 Pro tier (which keeps per-holding Filing Diff). Plan-based, so it
-// doesn't disturb the free<core<pro ladder every other gate relies on.
+// The Filing Change Monitor. Power/Desk get it uncapped; lifetime buyers get
+// it capped to their tier's company count (lib/tier-limits.js). It stopped
+// being the Power/Desk differentiator once the numbers were in: reports are
+// cached per (symbol, accession) and shared by every reader, so an additional
+// Monitor user costs nothing on a company already built, and the paid tier it
+// was protecting was one account that had never opened it. Plan-based, so it
+// still doesn't disturb the free<core<pro ladder every other gate relies on.
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
     if (active && ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId)) return true;
+    if (tierLimits.isLifetimeBuyer(req.user)) return true;
     return hasActiveTrialGrant(req.user, 'monitor');
 }
 function monitorGate(req, res, next) {
@@ -3053,10 +3061,19 @@ function trackSecondSession(req, user) {
 // customers are never handed a "getting started" card for work they finished
 // months ago. Kept as a Date so the cutoff is auditable rather than a migration.
 const ONBOARDING_SINCE = new Date('2026-08-26T00:00:00.000Z');
-const ONBOARDING_STEPS = ['ask', 'hold', 'watch'];
+// 'dossier' leads because a blank Ask box asks the customer to already know
+// what to ask, and the usage data says most never come back after one try. A
+// Dossier needs only a ticker, and the two most engaged accounts on the product
+// both reached for it first.
+const ONBOARDING_STEPS = ['dossier', 'ask', 'hold', 'watch'];
 
 function onboardingEligible(user) {
-    return !!(user && user.createdAt && new Date(user.createdAt).getTime() >= ONBOARDING_SINCE.getTime());
+    if (!user) return false;
+    // Lifetime buyers are always eligible. The ship-date cutoff below had
+    // excluded every AppSumo account that redeemed before 26 Aug — which was
+    // most of them — so the guided path never ran for the cohort that needed it.
+    if (tierLimits.isLifetimeBuyer(user)) return true;
+    return !!(user.createdAt && new Date(user.createdAt).getTime() >= ONBOARDING_SINCE.getTime());
 }
 
 function onboardingState(user) {
@@ -7236,6 +7253,10 @@ app.post('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
             { $addToSet: { symbols: symbol } },
             { upsert: true, new: true }
         );
+        // The 'watch' step used to be ticked only by creating an alert rule, so
+        // watching a company the obvious way never counted — and the Monitor
+        // digest reads the watchlist, so an empty one means nothing to send.
+        markOnboardingStep(req.user, 'watch');
         res.json({ symbols: doc.symbols });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Watchlist update failed') });
@@ -8040,7 +8061,8 @@ function appsumoTierConfig(tier) {
 // Second gating dimension (monitored companies + history depth), shipped dark.
 // Ask count meters cost; these meter value. Both flags off => no behaviour
 // change anywhere. See lib/tier-limits.js and the tier-v2 proposal doc.
-const tierLimits = require('../lib/tier-limits');
+// (tierLimits itself is required at the top, beside trial-grant, because
+// hasMonitor() needs it and is defined long before this point.)
 
 function effectiveAskLimit(req) {
     const base = aiChat.limits(req.tier);
@@ -9311,7 +9333,9 @@ app.get('/api/filings/feed', authMiddleware, monitorGate, async (req, res) => {
             Stock.find({ user: req.userId, assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } }, { symbol: 1 }).lean(),
             Watchlist.findOne({ user: req.userId }, { symbols: 1 }).lean()
         ]);
-        const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];
+        // Lifetime tiers are coverage-capped rather than gated out entirely;
+        // Power/Desk pass through untouched (capSymbols is a no-op for them).
+        const symbols = tierLimits.capSymbols(req.user, [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])]);
         res.json(await filingMonitor.feedFor(symbols));
     } catch (err) {
         console.error('[filings] feed error:', err.message);
@@ -9691,6 +9715,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
             resultValid: true, sourceOpened: false, featureType: 'dossier',
             requestFields: trackingRequestFields(req, res)
         });
+        if (winner && !winner.error) markOnboardingStep(req.user, 'dossier');
         return res.json({ dossier: winner });
     } catch (err) {
         console.error('[dossier] route error:', err.message);
