@@ -1807,6 +1807,25 @@ app.get('/appsumo', async (req, res, next) => {
     }
 });
 
+// Credit refill — a paid account's own purchase surface, never useful logged
+// out. optionalAuth + a redirect (rather than authMiddleware's JSON 401): a
+// visitor without a session is walked to login with a return path, which is
+// what a browser follows; a stale token still 401s from the API surface.
+// These routes MUST sit ahead of express.static — its `extensions: ['html']`
+// rule would serve upgrade.html/recharge.html to everyone, and the login
+// walk would never fire (that's why /lifetime and /appsumo are explicit too).
+app.get(/^\/recharge\/?$/, optionalAuth, (req, res) => {
+    if (!req.user) return res.redirect('/login.html?next=' + encodeURIComponent('/recharge.html'));
+    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/recharge.html'));
+});
+
+// In-app tier upgrade — same reasoning: /register.html is the new-account
+// funnel; existing users must never land on it to change plans.
+app.get(/^\/upgrade\/?$/, optionalAuth, (req, res) => {
+    if (!req.user) return res.redirect('/login.html?next=' + encodeURIComponent('/upgrade.html'));
+    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/upgrade.html'));
+});
+
 // Public campaign configuration contains only copy-safe, env-derived values.
 // It deliberately never exposes SMTP, Stripe, AppSumo credentials, or user data.
 app.get('/api/campaign/config', (req, res) => {
@@ -8179,22 +8198,6 @@ app.get(/^\/login\/?$/, (req, res) => {
 
 app.get(/^\/register\/?$/, (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend-v2/register.html'));
-});
-
-// Credit refill — a paid account's own purchase surface, never useful logged
-// out. optionalAuth + a redirect (rather than authMiddleware's JSON 401): a
-// visitor without a session is walked to login with a return path, which is
-// what a browser follows; a stale token still 401s from the API surface.
-app.get(/^\/recharge\/?$/, optionalAuth, (req, res) => {
-    if (!req.userId) return res.redirect('/login.html?next=' + encodeURIComponent('/recharge.html'));
-    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/recharge.html'));
-});
-
-// In-app tier upgrade — same reasoning: /register.html is the new-account
-// funnel; existing users must never land on it to change plans.
-app.get(/^\/upgrade\/?$/, optionalAuth, (req, res) => {
-    if (!req.userId) return res.redirect('/login.html?next=' + encodeURIComponent('/upgrade.html'));
-    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/upgrade.html'));
 });
 
 app.get(/^\/founding\/?$/, (req, res) => {
