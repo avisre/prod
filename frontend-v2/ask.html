@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260830-askui1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260831-askui2" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -34,32 +34,62 @@
     .hello h1 { font-size: clamp(28px, 4vw, 40px); font-weight: 650; letter-spacing: -0.025em; }
     .hello p { margin-top: 10px; color: var(--ink-3); font-size: 14px; }
 
-    /* the composer — one soft instrument, centred; docks to the floor in conversation */
-    .composer { position: relative; width: 100%; }
-    .composer textarea {
-      width: 100%; resize: none; display: block;
-      min-height: 96px; padding: 18px 64px 18px 22px;
-      font: inherit; font-size: 16.5px; line-height: 1.5; color: var(--ink);
+    /* the composer — ONE compact instrument, a single row tall.
+       The border and background live on the form, not the textarea, so there
+       is exactly one box: nesting a white textarea inside a paper-coloured
+       dock produced two rectangles 2% apart in tone that read as an artifact.
+       📎 and ⬆ are inline items on the text's own row rather than absolutely
+       positioned circles floating in 128px of reserved padding, so nothing is
+       gutter and the placeholder can use the full width. */
+    .composer {
+      display: flex; flex-direction: column; gap: 6px; width: 100%;
+      padding: 6px 8px;
       background: var(--surface);
-      border: 1px solid var(--line); border-radius: 18px;
-      outline: none;
+      border: 1px solid var(--line); border-radius: 14px;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
-    .composer textarea:focus { border-color: var(--ink-3); box-shadow: 0 2px 24px rgba(28, 27, 24, 0.06); }
-    .composer textarea::placeholder { color: var(--ink-3); }
-    .composer .go {
-      position: absolute; right: 14px; bottom: 14px;
-      width: 38px; height: 38px; border-radius: 50%; border: 0;
-      background: var(--ink); color: var(--paper); cursor: pointer;
-      display: inline-flex; align-items: center; justify-content: center;
-      transition: opacity 0.15s ease;
+    .composer:focus-within { border-color: var(--ink-3); box-shadow: 0 2px 20px rgba(28, 27, 24, 0.06); }
+    .composer-row { display: flex; align-items: flex-end; gap: 8px; }
+    .composer textarea {
+      flex: 1; min-width: 0; resize: none; display: block;
+      height: 35px; max-height: 158px; /* 1 row (24.75 + 10 pad), grows to 6 */
+      padding: 5px 4px;
+      font: inherit; font-size: 16.5px; line-height: 1.5; color: var(--ink);
+      background: none; border: 0; outline: none;
     }
+    .composer textarea::placeholder { color: var(--ink-3); }
+    .composer .go, .composer .paperclip {
+      flex: none; width: 30px; height: 30px; border-radius: 50%; border: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: opacity 0.15s ease, color 0.15s ease;
+    }
+    .composer .go { background: var(--ink); color: var(--paper); }
     .composer .go:disabled { opacity: 0.25; cursor: default; }
-    .composer-foot { margin-top: 10px; text-align: center; font-size: 11.5px; color: var(--ink-3); }
-  .composer-foot a { display: inline-block; padding: 5px 2px; }
-    .ask-mode-toggle { display: flex; justify-content: center; gap: 6px; margin-top: 10px; }
+    .composer .paperclip { background: none; color: var(--ink-3); }
+    .composer .paperclip:hover { color: var(--ink); }
+    /* the meta line lives OUTSIDE the box, dim — and is identical in both
+       states, so asking a question no longer reflows it */
+    .composer-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-top: 7px; padding: 0 4px;
+      font-size: 11.5px; color: var(--ink-3);
+    }
+    .composer-meta .quota-mini { margin-left: auto; white-space: nowrap; }
+    .composer-foot { margin-top: 6px; padding: 0 4px; font-size: 11.5px; color: var(--ink-3); }
+    .composer-foot a { display: inline-block; padding: 5px 2px; }
+    /* mode as inked/faint text toggles, not two accent pills */
+    .ask-mode-toggle { display: inline-flex; align-items: center; gap: 4px; }
+    .ask-mode-toggle button {
+      border: 0; background: none; padding: 2px 3px; font: inherit; font-size: 11.5px;
+      color: var(--ink-3); cursor: pointer; border-radius: 5px;
+    }
+    .ask-mode-toggle button:hover { color: var(--ink-2); }
+    .ask-mode-toggle button[aria-pressed="true"] { color: var(--ink); font-weight: 650; }
+    .ask-mode-toggle .sep { color: var(--line-strong); }
 
-    .prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
+    /* the landing is ONE column: greeting, composer and prompts all share a
+       width instead of being 800 / 617 / full-canvas */
+    .prompts { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 28px auto 0; max-width: var(--ask-col, 800px); }
     .prompts button {
       text-align: left; border: 1px solid var(--line); background: none; border-radius: 12px;
       padding: 13px 16px; font-size: 13.5px; color: var(--ink-2); cursor: pointer; font-family: inherit;
@@ -88,16 +118,21 @@
     /* one measure for the whole answer: prose, charts (```viz```/```bars```/
        ```flow```) and everything else share the same centred column, so the
        answer reads as a single layout instead of two competing widths.
-       Everything in a turn is centred on that column: the question bubble
-       sits mid-column (not hugging the right edge), and the trace, mode
-       badge and feedback foot follow the same axis. */
+       Everything in a turn shares that column. The question is the one
+       exception: it hugs its own text on the RIGHT, where its tail points —
+       centring it meant a three-letter ticker painted a 620px empty card. */
     .thread .ask-a { max-width: none; }
     .thread .ask-a > * { max-width: 74ch; margin-left: auto; margin-right: auto; }
-    .thread .ask-q { max-width: min(76%, 620px); margin-left: auto; margin-right: auto; justify-self: center; }
+    .thread .ask-progress, .thread .ask-skel { max-width: 74ch; margin-left: auto; margin-right: auto; }
+    /* right edge of the bubble lines up with the right edge of the prose
+       column, so the turn still reads on one axis while the bubble hugs text */
+    .thread .ask-q {
+      max-width: min(74ch, 76%);
+      margin-left: auto;
+      margin-right: max(0px, calc((100% - 74ch) / 2));
+    }
     .thread .ask-trace summary { display: flex; width: max-content; max-width: 100%; margin-left: auto; margin-right: auto; }
     .thread .ask-trace details > div { justify-content: center; }
-    .thread .ask-mode-badge { display: block; width: max-content; max-width: 74ch; margin-left: auto; margin-right: auto; }
-    .thread .ask-working-row { justify-content: center; }
     .thread .ask-foot { justify-content: center; }
     .thread .ask-foot .share-actions { margin: 0; }
     .thread .ask-a table { width: 100%; }
@@ -107,18 +142,25 @@
     body.zen .thread .ask-a table { max-width: 960px; }
     body.in-conversation.side-collapsed .thread .ask-a .ask-viz,
     body.zen .thread .ask-a .ask-viz { max-width: 960px; }
-    .composer-dock { width: 100%; max-width: 800px; margin-left: auto; margin-right: auto; position: sticky; bottom: 0; padding: 12px 0 22px; }
+    /* the dock spans the WHOLE canvas so its border-top is a rule that reaches
+       both edges; the composer itself keeps one width in every state. Nothing
+       about the box changes on send — the dock only slides to the floor. */
+    .composer-dock { width: 100%; position: sticky; bottom: 0; padding: 12px 0 22px; }
+    .composer-dock > * { max-width: var(--ask-col, 800px); margin-left: auto; margin-right: auto; }
     body:not(.in-conversation) .composer-dock { position: static; background: none; padding: 0; }
-    /* reading mode — vertical space is what you read with, so once a
-       conversation is open the chrome collapses to a floating ☰ and a
-       one-line dock (ChatGPT-style); the sticky nav stays for navigation */
+    /* TWO reading states, not one.
+       FOCUS is automatic on send: the rail, banners and footer step out so the
+       answer gets the height, but the NAV and the COMPOSER stay — you can read
+       where you are and type a follow-up without pressing anything. Sending
+       used to drop straight into full zen, which hid everything including the
+       way to ask the next question; Esc was the only way back.
+       ZEN is the deliberate one, on ⤢ / F11 only, and is remembered. */
     body.in-conversation .trial-banner { display: none; }
-    /* focus/zen — the reading state goes all the way: EVERYTHING with
-       vertical presence (nav, sidebar, dock, banners, footer) disappears,
-       leaving only the answer and one auto-fading chip (or Esc / F11) to
-       bring it all back */
     body.in-conversation #side-collapse { display: none; } /* ⤢ replaces it while chatting */
     body.in-conversation .appsumo-activation { display: none; }
+    body.focus .side, body.focus .side-grip,
+    body.focus .trial-banner, body.focus .appsumo-activation, body.focus footer
+      { display: none !important; }
     body.zen header.nav, body.zen .nav-mobile, body.zen .side, body.zen .side-grip,
     body.zen .composer-dock, body.zen .trial-banner,
     body.zen .appsumo-activation, body.zen .consent, body.zen footer
@@ -135,24 +177,24 @@
     body.in-conversation .side-tools { position: fixed; top: 72px; z-index: 35; margin: 0; }
     /* the left math hugs the wide canvas's edge (half of 1280, minus padding) */
     body.in-conversation:not(.side-collapsed) .side-tools { left: max(calc(50vw - 626px), calc(var(--side-w, 248px) + 18px)); }
-    body.in-conversation.side-collapsed .side-tools { left: max(calc(50vw - 626px), var(--gutter, 20px)); }
-    /* the docked composer sits on an opaque plinth the width of the prose
-       column — no transparent fade, so answer text scrolling past reads as
-       cleanly behind a deliberate bar, never smeared under the input */
+    body.in-conversation.side-collapsed .side-tools,
+    body.focus .side-tools { left: max(calc(50vw - 626px), var(--gutter, 20px)); }
+    /* focus hides the rail, so ☰ Chats is the way back to it */
+    body.focus #side-open { display: inline-flex; }
+    /* the docked composer sits on an opaque plinth — no transparent fade, so
+       answer text scrolling past reads as cleanly behind a deliberate bar,
+       never smeared under the input. The plinth is now the full canvas width,
+       which is what lets the border-top read as a rule instead of a 620px
+       hairline ending in mid-air; the old box-shadow only existed to
+       compensate for that narrowness and haloed out both sides, so it's gone. */
     body.in-conversation .composer-dock {
-      max-width: 74ch; padding: 12px 0 14px;
+      padding: 12px 0 16px;
       background: var(--paper); border-top: 1px solid var(--line);
-      box-shadow: 0 -14px 32px rgba(28, 27, 24, 0.08);
     }
-    body.in-conversation .composer textarea { min-height: 80px; padding: 14px 64px 14px 22px; }
-    body.in-conversation .ask-mode-toggle { margin-top: 6px; }
-    body.in-conversation .ask-mode-toggle .chip { padding: 4px 10px; font-size: 11.5px; }
-    /* the scope line rides the ANSWER foot in every chrome state — it used to
-       vanish on send (the dock hid it and nothing replaced it) */
-    body.in-conversation .composer-foot { display: none; }
-    /* the footnote is hidden while reading; its quota readout shrinks into the chips row */
-    .quota-mini { display: none; }
-    body.in-conversation .quota-mini { display: inline; font-size: 11px; color: var(--ink-3); align-self: center; margin-left: 4px; white-space: nowrap; }
+    /* the scope line rides the composer in EVERY state — it used to vanish on
+       send, swapping the line's content and height mid-move. The quota lives
+       only in the meta row now, so the two never say the same thing twice. */
+    .quota-mini { color: var(--ink-3); }
 
     /* chat-history sidebar (Ask only, logged-in only) — drag-resizable +
        collapsible, ChatGPT-style; memory lives in Profile → Settings */
@@ -173,9 +215,10 @@
     .chat-item.active { background: var(--surface); color: var(--ink); font-weight: 600; }
     .chat-item .t { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .chat-item .when { flex: none; font-size: 10.5px; color: var(--ink-3); }
-    .chat-item .acts { flex: none; display: none; gap: 0; }
-    .chat-item:hover .acts, .chat-item.active .acts { display: inline-flex; }
-    .chat-item:hover .when, .chat-item.active .when { display: none; }
+    /* the timestamp STAYS — it used to be swapped out for three glyph buttons
+       the moment you hovered, which is exactly when you were trying to read it */
+    .chat-item .acts { flex: none; display: inline-flex; opacity: 0; transition: opacity 0.12s ease; }
+    .chat-item:hover .acts, .chat-item.active .acts, .chat-item:focus-within .acts { opacity: 1; }
     .acts button { border: 0; background: none; padding: 2px 4px; cursor: pointer; color: var(--ink-3); font-size: 11.5px; line-height: 1; }
     .acts button:hover { color: var(--ink); }
     /* collapse affordance sits in the page head next to the chats chip */
@@ -195,7 +238,7 @@
     body.in-conversation.side-collapsed #side-open { display: inline-flex; }
 
     /* 📎 attachments */
-    .att-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+    .att-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 2px 2px 0; }
     .att-chips:empty { display: none; }
     .att-chip { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line-strong); background: var(--surface); border-radius: 999px; padding: 4px 6px 4px 10px; font-size: 12px; color: var(--ink-2); max-width: 320px; }
     .att-chip .n { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -203,13 +246,6 @@
     .att-chip button:hover { color: var(--ink); }
     .att-chip .onbrain { opacity: 1; }
     .att-chip button.mem-on { color: var(--ink); font-weight: 700; }
-    .composer .paperclip {
-      position: absolute; left: 14px; bottom: 14px;
-      width: 38px; height: 38px; border-radius: 50%; border: 0;
-      background: none; cursor: pointer; color: var(--ink-3);
-      display: inline-flex; align-items: center; justify-content: center;
-    }
-    .composer textarea { padding-left: 64px; }
     .att-error { margin-top: 8px; font-size: 11.5px; color: var(--neg, '#b91c1c'); }
     .att-error:empty { display: none; }
 
@@ -259,21 +295,26 @@
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
 
         <div class="composer-dock">
-          <div class="att-chips" id="att-chips" aria-live="polite"></div>
           <p class="att-error" id="att-error" role="alert"></p>
           <form class="composer" id="composer">
             <input type="file" id="att-input" multiple accept="image/png,image/jpeg,image/webp,.pdf,.csv,.txt,.md,.json" hidden />
+            <div class="att-chips" id="att-chips" aria-live="polite"></div>
+            <div class="composer-row">
             <button class="paperclip" type="button" id="att-open" aria-label="Attach an image or document" title="Attach an image or document">
               <svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 7.6 8 12.8a3.6 3.6 0 0 1-5-5.1l5.5-5.4a2.4 2.4 0 0 1 3.4 3.4L6.4 11a1.2 1.2 0 0 1-1.7-1.7l4.9-4.8"/></svg>
             </button>
-            <textarea id="q" rows="2" maxlength="8000" placeholder="Ask about any stock, ETF, mutual fund, comparison, screen, or your portfolio…" aria-label="Ask a question"></textarea>
+            <textarea id="q" rows="1" maxlength="8000" placeholder="Ask about any stock, ETF, fund, or your portfolio…" aria-label="Ask a question"></textarea>
             <button class="go" type="submit" aria-label="Ask" disabled>
               <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 13V3m0 0L3.5 7.5M8 3l4.5 4.5"/></svg>
             </button>
+            </div>
           </form>
-          <div class="ask-mode-toggle">
-            <button type="button" class="chip" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
-            <button type="button" class="chip" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+          <div class="composer-meta">
+            <span class="ask-mode-toggle">
+              <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
+              <span class="sep" aria-hidden="true">·</span>
+              <button type="button" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+            </span>
             <span class="quota-mini" id="quota-mini"></span>
           </div>
           <p class="composer-foot" id="quota-line">Describes and explains — never buy/sell advice. Sources under every answer.</p>
@@ -292,7 +333,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260830-askui1"></script>
+  <script src="assets/app.js?v=20260831-askui2"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -314,9 +355,7 @@
         const btnAnalyst = $('ask-mode-analyst');
         const paint = () => {
           const mode = localStorage.getItem(KEY) === 'analyst' ? 'analyst' : 'normal';
-          btnNormal.classList.toggle('chip-accent', mode === 'normal');
           btnNormal.setAttribute('aria-pressed', String(mode === 'normal'));
-          btnAnalyst.classList.toggle('chip-accent', mode === 'analyst');
           btnAnalyst.setAttribute('aria-pressed', String(mode === 'analyst'));
         };
         btnNormal.addEventListener('click', () => { localStorage.setItem(KEY, 'normal'); paint(); });
@@ -365,7 +404,8 @@
         return askEngine($('exchange'), {
           onActivity: () => {
             document.body.classList.add('in-conversation');
-            setZen(true);
+            setFocus(true);
+            if (prefersZen()) setZen(true);
             $('thread').hidden = false;
           },
           onComplete: handleComplete
@@ -387,13 +427,24 @@
         return `
           <div class="chat-item${t.id === currentThreadId ? ' active' : ''}" data-id="${t.id}" role="button" tabindex="0">
             <span class="t">${t.pinned ? '📌 ' : ''}${esc(t.title || 'New chat')}</span>
-            <span class="acts">
-              <button type="button" data-act="rename" title="Rename chat" aria-label="Rename chat">✎</button>
-              <button type="button" data-act="pin" title="${t.pinned ? 'Unpin chat' : 'Pin chat'}" aria-label="${t.pinned ? 'Unpin chat' : 'Pin chat'}">📌</button>
-              <button type="button" data-act="delete" title="Delete chat" aria-label="Delete chat">✕</button>
-            </span>
             <span class="when">${relDate(t.updatedAt)}</span>
+            <span class="acts">
+              <button type="button" data-act="menu" title="Chat options" aria-label="Chat options">⋯</button>
+            </span>
           </div>`;
+      }
+      // Chats get grouped by when they were last touched. Without this, two
+      // chats both auto-titled "amd" were indistinguishable in the rail.
+      function dayBucket(ts) {
+        const d = new Date(ts);
+        if (isNaN(d)) return 'Older';
+        const midnight = new Date(); midnight.setHours(0, 0, 0, 0);
+        const days = Math.floor((midnight.getTime() - d.getTime()) / 86400000);
+        if (days < 0) return 'Today';
+        if (days === 0) return 'Yesterday';
+        if (days < 7) return 'Previous 7 days';
+        if (days < 30) return 'Previous 30 days';
+        return 'Older';
       }
       function renderThreads() {
         const el = $('chat-list');
@@ -403,8 +454,30 @@
         }
         const pinned = threadList.filter((t) => t.pinned);
         const rest = threadList.filter((t) => !t.pinned);
-        el.innerHTML = (pinned.length ? `<div class="pin-head">📌 Pinned</div>${pinned.map(itemHtml).join('')}` : '')
-          + (rest.length ? `${pinned.length ? '<div class="pin-head">Chats</div>' : ''}${rest.map(itemHtml).join('')}` : '');
+        let html = pinned.length ? `<div class="pin-head">📌 Pinned</div>${pinned.map(itemHtml).join('')}` : '';
+        let lastBucket = '';
+        for (const t of rest) {
+          const bucket = dayBucket(t.updatedAt);
+          if (bucket !== lastBucket) { html += `<div class="pin-head">${bucket}</div>`; lastBucket = bucket; }
+          html += itemHtml(t);
+        }
+        el.innerHTML = html;
+      }
+      // one ⋯ menu instead of three 11px glyphs that swallowed the timestamp
+      function threadMenu(id) {
+        const t = threadList.find((x) => x.id === id);
+        if (!t) return;
+        modal({
+          label: 'Chat options',
+          title: t.title || 'New chat', // modal() escapes this itself
+          body: 'What would you like to do with this chat?',
+          actions: [
+            { label: 'Rename', close: true, onClick: () => setTimeout(() => renameThread(id), 0) },
+            { label: t.pinned ? 'Unpin' : 'Pin', close: true, onClick: () => pinThread(id) },
+            { label: 'Delete', close: true, onClick: () => setTimeout(() => deleteThread(id), 0) },
+            { label: 'Cancel' }
+          ]
+        });
       }
       let searchQuery = '';
       let searchTimer = null;
@@ -460,7 +533,8 @@
           $('exchange').innerHTML = '';
           (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
           document.body.classList.add('in-conversation');
-          setZen(true);
+          setFocus(true);
+          if (prefersZen()) setZen(true);
           $('thread').hidden = false;
           renderThreads();
           closeSidePanel();
@@ -522,12 +596,7 @@
         const item = e.target.closest('.chat-item');
         if (!item) return;
         const actBtn = e.target.closest('button[data-act]');
-        if (actBtn) {
-          if (actBtn.dataset.act === 'rename') renameThread(item.dataset.id);
-          else if (actBtn.dataset.act === 'pin') pinThread(item.dataset.id);
-          else deleteThread(item.dataset.id);
-          return;
-        }
+        if (actBtn) { threadMenu(item.dataset.id); return; }
         openThread(item.dataset.id);
       });
       $('new-chat').addEventListener('click', () => { newChat(); closeSidePanel(); });
@@ -536,7 +605,7 @@
         try { window.history.replaceState(null, '', '/ask'); } catch (_) {}
         $('exchange').innerHTML = '';
         document.body.classList.remove('in-conversation');
-        setZen(false);
+        setFocus(false);
         $('thread').hidden = true;
         engine = makeEngine(); // also drops the client-side fallback history
         renderThreads();
@@ -553,6 +622,7 @@
       $('side-open').addEventListener('click', (e) => {
         e.stopPropagation();
         if (document.body.classList.contains('side-collapsed')) uncollapseSide(); // drawer CSS loses to .side-collapsed otherwise
+        setFocus(false); // focus hides the rail too — asking for it means leaving focus
         $('side').classList.toggle('open');
       });
       document.addEventListener('click', (e) => {
@@ -614,10 +684,14 @@
         document.body.classList.remove('side-collapsed');
         try { localStorage.removeItem(SIDE_COLLAPSE_KEY); } catch (_) {}
       }
-      // ---- Zen (focus) mode — a conversation owns the whole screen ----
-      // Entering one hides ALL chrome: nav, sidebar, composer dock, banners,
-      // footer. Only the answer + one auto-fading chip remain; the chip, Esc
-      // or F11 bring everything back.
+      // ---- Focus and zen: two reading states ----
+      // FOCUS is what a conversation enters automatically: the rail, banners
+      // and footer step out so the answer gets the height, but the nav and the
+      // composer stay, so you can read where you are and ask the next question
+      // without touching anything. Sending used to enter full ZEN, which hid
+      // the composer too and left Esc as the only way back.
+      // ZEN is deliberate — ⤢ or F11 — and is remembered across visits.
+      const ZEN_KEY = 'sp_ask_zen_v1';
       function paintZenChip() {
         const b = $('zen-chip');
         const z = document.body.classList.contains('zen');
@@ -626,13 +700,22 @@
         b.title = t;
         b.setAttribute('aria-label', t);
       }
+      // the soft state, entered on send
+      function setFocus(on) {
+        document.body.classList.toggle('focus', !!on);
+        if (!on) document.body.classList.remove('zen');
+        paintZenChip();
+      }
       function setZen(on) {
         document.body.classList.toggle('zen', !!on);
+        if (on) document.body.classList.add('focus');
+        try { on ? localStorage.setItem(ZEN_KEY, '1') : localStorage.removeItem(ZEN_KEY); } catch (_) {}
         $('zen-chip').classList.remove('zen-dim');
         if (on) armZenFade();
         paintZenChip();
       }
       function zen() { return document.body.classList.contains('zen'); }
+      function prefersZen() { try { return localStorage.getItem(ZEN_KEY) === '1'; } catch (_) { return false; } }
       let zenFade = 0;
       function armZenFade() {
         clearTimeout(zenFade);
@@ -646,7 +729,9 @@
         if (e.key === 'F11') { e.preventDefault(); setZen(!zen()); return; } // F11 = toggle, like immersive fullscreen
         if (e.key !== 'Escape') return;
         if (document.querySelector('.v2-modal')) return; // a confirm/rename dialog owns Esc first
-        setZen(!zen());
+        // Esc peels back one layer at a time: zen → focus → full chrome
+        if (zen()) setZen(false);
+        else setFocus(!document.body.classList.contains('focus'));
       });
       document.addEventListener('keydown', () => {
         if (zen()) { $('zen-chip').classList.remove('zen-dim'); armZenFade(); }
@@ -687,7 +772,18 @@
       }
       function paintGo() { go.disabled = !ta.value.trim() && !attachments.length; }
       $('att-open').addEventListener('click', () => $('att-input').click());
-      ta.addEventListener('input', () => { go.disabled = !ta.value.trim() && !attachments.length; });
+      // one row at rest, growing to six — the field used to be a fixed 96px
+      // (80px mid-conversation) slab whatever you had typed in it
+      const TA_MIN = 35, TA_MAX = 158;
+      function autoGrow() {
+        // an EMPTY textarea is pinned to one row: Chromium lays the placeholder
+        // out inside the field, so scrollHeight reports however many lines the
+        // placeholder wraps to and the box opens at two rows before you type
+        if (!ta.value) { ta.style.height = `${TA_MIN}px`; return; }
+        ta.style.height = 'auto';
+        ta.style.height = `${Math.min(TA_MAX, Math.max(TA_MIN, ta.scrollHeight))}px`;
+      }
+      ta.addEventListener('input', () => { paintGo(); autoGrow(); });
       $('att-chips').addEventListener('click', (e) => {
         const btn = e.target.closest('button[data-ac]');
         if (!btn) return;
@@ -808,6 +904,7 @@
         }
         const sentQ = q + (opts.questionHint ? `\n\n${opts.questionHint}` : '');
         ta.value = '';
+        autoGrow();
         attachments = [];
         renderChips();
         go.disabled = true;
@@ -831,7 +928,8 @@
         b.addEventListener('click', () => {
           recordFirstQuery();
           document.body.classList.add('in-conversation');
-          setZen(true);
+          setFocus(true);
+          if (prefersZen()) setZen(true);
           $('thread').hidden = false;
           engine.send(b.textContent, token() && currentThreadId ? { threadId: currentThreadId } : {});
         }));
@@ -840,9 +938,11 @@
         recordFirstQuery();
         ta.value = "Did NVIDIA's free cash flow keep up with capital expenditure over the last five fiscal years? Show the reported inputs, calculation, periods, and sources.";
         go.disabled = false;
+        autoGrow();
         ta.focus();
         ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
+      autoGrow();
       ta.focus();
       initSidebar();
       // quota line — replaces the static note once known
@@ -856,16 +956,18 @@
       (async () => {
         const el = $('quota-line');
         const mini = $('quota-mini');
+        // the count lives in the meta row, the scope disclaimer in the foot —
+        // both are present in every chrome state, so neither line reflows on
+        // send and the two never say the same thing twice
         if (!token()) {
-          el.innerHTML = '3 free questions, no signup. <a href="/login.html">Log in</a> or <a href="/register.html">create a free account</a> for more.';
-          mini.textContent = '3 free · log in for more';
+          el.innerHTML = 'Describes and explains — never buy/sell advice. <a href="/login.html">Log in</a> or <a href="/register.html">create a free account</a> for more.';
+          mini.textContent = '3 free questions';
           return;
         }
         try {
           const r = await fetch(`${API}/ai/chat/quota`, { headers: { Authorization: `Bearer ${token()}` } });
           if (r.ok) {
             const q2 = await r.json();
-            el.textContent = `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} questions left this month${q2.pro ? ' · Pro' : ''} · never buy/sell advice`;
             mini.textContent = `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} left${q2.pro ? ' · Pro' : ''}`;
             if (q2.appsumo && q2.appsumo.isAppSumo && Number(q2.used) === 0) {
               $('appsumo-activation').hidden = false;

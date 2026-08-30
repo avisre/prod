@@ -1580,6 +1580,7 @@
         let aborter = null;
 
         const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+        const atBottom = () => (document.documentElement.scrollHeight - window.scrollY - window.innerHeight) < 160;
         const recoveryTool = (question) => {
             const q = String(question || '').toLowerCase();
             if (/dilut|share count|shares outstanding|buyback|repurchase/.test(q)) return 'dilution';
@@ -1646,27 +1647,77 @@
             if (onActivity) onActivity();
             aborter = new AbortController();
             const block = document.createElement('div');
-            // the working state is ONE quiet line: the model's plan (or the
-            // current step) with a stop affordance — no growing checklist.
-            // The full trail collapses in behind a disclosure when done.
+            // The working state shows EVERYTHING the stream has told us so far:
+            // the model's own plan (`note`), every finished step with its
+            // duration, the step running now, a live timer, and a skeleton
+            // where the answer will land. Previously all of this was collected
+            // into traceSteps but never rendered until the answer arrived — the
+            // user watched one grey italic line for the whole tool phase.
             const blockAskMode = localStorage.getItem('sp_ask_mode_v1') === 'analyst' ? 'analyst' : 'normal';
             block.innerHTML = `
               <div class="ask-q">${esc(question)}</div>
               <div class="ask-trace"></div>
-              ${blockAskMode === 'normal' ? '<div class="ask-mode-badge">Quick read</div>' : ''}
+              <div class="ask-progress" role="status" aria-live="polite">
+                <div class="ask-progress-head">
+                  <span class="ask-ring" aria-hidden="true"></span>
+                  <span class="ask-working">Reading the filings…</span>
+                  <span class="ask-elapsed" aria-hidden="true">0:00</span>
+                  <button type="button" class="ask-stop" aria-label="Stop">Stop</button>
+                </div>
+                <p class="ask-note" hidden></p>
+                <div class="ask-steps"></div>
+              </div>
               <div class="ask-a${blockAskMode === 'normal' ? ' is-normal' : ''}"></div>
-              <div class="ask-working-row">
-                <span class="ask-working">Reading the filings…</span>
-                <button type="button" class="ask-stop" aria-label="Stop">stop</button>
+              <div class="ask-skel" aria-hidden="true">
+                <span class="skeleton"></span>
+                <span class="skeleton" style="width:72%"></span>
+                <span class="skeleton" style="width:88%"></span>
+                <span class="skeleton" style="width:54%"></span>
               </div>`;
             exchange.appendChild(block);
             const traceEl = block.querySelector('.ask-trace');
             const answerEl = block.querySelector('.ask-a');
-            const workingRow = block.querySelector('.ask-working-row');
+            const workingRow = block.querySelector('.ask-progress');
             const workingEl = block.querySelector('.ask-working');
+            const noteEl = block.querySelector('.ask-note');
+            const stepsEl = block.querySelector('.ask-steps');
+            const skelEl = block.querySelector('.ask-skel');
             const traceSteps = [];
-            const showFailure = async (message) => {
+            // one timer drives both the head readout and each step's duration
+            const startedAt = Date.now();
+            let stepStartedAt = startedAt;
+            const secs = (ms) => `${Math.floor(ms / 60000)}:${String(Math.floor(ms / 1000) % 60).padStart(2, '0')}`;
+            const elapsedEl = block.querySelector('.ask-elapsed');
+            const ticker = setInterval(() => {
+                if (!elapsedEl.isConnected) return clearInterval(ticker);
+                elapsedEl.textContent = secs(Date.now() - startedAt);
+            }, 1000);
+            // every step stays on screen, newest last, with what it cost
+            const renderSteps = () => {
+                stepsEl.innerHTML = traceSteps.map((s, i) => {
+                    const running = i === traceSteps.length - 1 && s.ms == null;
+                    return `<div class="row${s.miss ? ' miss' : ''}${running ? ' now' : ''}">`
+                        + `<span class="mk">${running ? '●' : s.miss ? '✕' : '✓'}</span>`
+                        + `<span class="lb">${esc(s.label)}</span>`
+                        + `<span class="dur">${s.ms == null ? '' : `${(s.ms / 1000).toFixed(1)}s`}</span>`
+                        + '</div>';
+                }).join('');
+            };
+            // first token: the skeleton has served its purpose and the card
+            // steps aside — but it is only HIDDEN, because a `rollback` can
+            // send us back to the tool phase and it has to come back.
+            const pauseProgress = () => {
+                if (skelEl.isConnected) skelEl.remove();
+                workingRow.hidden = true;
+            };
+            // terminal: answered, failed, or stopped
+            const closeProgress = () => {
+                clearInterval(ticker);
+                if (skelEl.isConnected) skelEl.remove();
                 if (workingRow.isConnected) workingRow.remove();
+            };
+            const showFailure = async (message) => {
+                closeProgress();
                 renderTrace();
                 if (await deterministicRecovery(question, answerEl, traceEl)) {
                     if (onComplete) onComplete({ deterministic: true });
@@ -1679,13 +1730,17 @@
             block.querySelector('.ask-stop').addEventListener('click', () => { if (aborter) aborter.abort(); });
             const renderTrace = () => {
                 if (!traceSteps.length) { traceEl.innerHTML = ''; return; }
+                const took = (Date.now() - startedAt) / 1000;
                 traceEl.innerHTML = `
                   <details>
-                    <summary>Researched ${traceSteps.length} source${traceSteps.length > 1 ? 's' : ''}</summary>
+                    <summary>Researched ${traceSteps.length} source${traceSteps.length > 1 ? 's' : ''} · ${took.toFixed(1)}s</summary>
                     <div>${traceSteps.map((s) => `<span class="ask-step${s.miss ? ' ask-step-miss' : ''}">${esc(s.label)}</span>`).join('')}</div>
                   </details>`;
             };
-            block.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            // 'nearest' frequently resolved to "do nothing" against the sticky
+            // dock, leaving a new turn parked underneath it. Put the question at
+            // the top of the viewport instead (scroll-margin-top clears the nav).
+            block.scrollIntoView({ behavior: 'smooth', block: 'start' });
             try {
                 const _askHeaders = { 'Content-Type': 'application/json' };
                 if (token()) _askHeaders.Authorization = `Bearer ${token()}`;
@@ -1711,7 +1766,7 @@
                 const ct = r.headers.get('content-type') || '';
                 if (!ct.includes('text/event-stream')) {
                     const data = await r.json().catch(() => ({}));
-                    workingRow.remove();
+                    closeProgress();
                     if (r.status === 401) {
                         answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
                     } else if (r.status === 429) {
@@ -1734,24 +1789,41 @@
                     if (ev === 'tool') {
                         const fn = TOOL_LABELS[d.tool];
                         const label = fn ? fn(d.args || {}) : d.tool;
+                        // close out whatever was running, then open this step
+                        const open = traceSteps[traceSteps.length - 1];
+                        if (open && open.ms == null) open.ms = Date.now() - stepStartedAt;
+                        stepStartedAt = Date.now();
                         if (!traceSteps.some((s) => s.label === label)) traceSteps.push({ label, miss: d.ok === false });
-                        // the live line shows only what's happening NOW
                         workingEl.textContent = label + '…';
                         workingRow.hidden = false;
+                        renderSteps();
                     } else if (ev === 'note') {
-                        // the model's plan line — shown while tools run
-                        workingEl.textContent = d.text || 'Reading the filings…';
+                        // the model's own plan, in its own words — kept on screen
+                        // beside the steps rather than overwriting the status line
+                        const t = String(d.text || '').trim();
+                        if (t) { noteEl.textContent = t; noteEl.hidden = false; }
+                        workingEl.textContent = 'Working on it';
                         workingRow.hidden = false;
                     } else if (ev === 'delta') {
                         text += d.text || '';
                         answerEl.innerHTML = markdown(text);
                         answerEl.classList.add('ask-cursor');
-                        workingEl.textContent = 'Writing…'; // stop stays reachable
+                        const open = traceSteps[traceSteps.length - 1];
+                        if (open && open.ms == null) open.ms = Date.now() - stepStartedAt;
+                        pauseProgress(); // the answer itself is now the progress
                         renderTrace();
+                        // follow the text only if the reader is already at the
+                        // bottom — never yank someone who has scrolled back up
+                        if (atBottom()) window.scrollTo({ top: document.documentElement.scrollHeight });
                     } else if (ev === 'rollback') {
+                        // the model discarded its draft and went back to work
                         text = '';
                         answerEl.innerHTML = '';
+                        answerEl.classList.remove('ask-cursor');
+                        workingEl.textContent = 'Rechecking the figures…';
+                        stepStartedAt = Date.now();
                         workingRow.hidden = false;
+                        renderSteps();
                     } else if (ev === 'done') {
                         finalData = d;
                     }
@@ -1774,14 +1846,14 @@
                     }
                 }
                 answerEl.classList.remove('ask-cursor');
-                workingRow.remove();
+                closeProgress();
                 renderTrace();
                 if (finalData && finalData.answer && finalData.source !== 'error') finish(finalData);
                 else await showFailure('Ask is temporarily unavailable.');
 
                     function finish(data) {
                     answerEl.classList.remove('ask-cursor');
-                    if (workingRow.isConnected) workingRow.remove();
+                    closeProgress();
                     renderTrace();
                     answerEl.innerHTML = markdown(data.answer);
                     answerEl.querySelectorAll('.ask-next').forEach((b) =>
@@ -1867,7 +1939,7 @@
             } catch (err) {
                 if (err && err.name === 'AbortError') {
                     // user pulled the cord — keep whatever streamed, say so quietly
-                    if (workingRow.isConnected) workingRow.remove();
+                    closeProgress();
                     renderTrace();
                     answerEl.classList.remove('ask-cursor');
                     answerEl.insertAdjacentHTML('beforeend', '<p class="small faint" style="margin-top:8px;">Stopped.</p>');

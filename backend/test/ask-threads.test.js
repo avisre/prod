@@ -208,7 +208,11 @@ test('the chat shows ChatGPT-style "Added to memory" cards with instant delete',
 
 test('the sidebar searches, pins, resizes and collapses', () => {
     assert.match(askHtml, /id="chat-search"/);
-    assert.match(askHtml, /data-act="pin"/);
+    // rename/pin/delete moved behind one ⋯ menu: three 11px glyphs used to
+    // replace the timestamp on hover, exactly when you wanted to read it
+    assert.match(askHtml, /data-act="menu"/);
+    assert.match(askHtml, /function threadMenu\(id\)/);
+    assert.doesNotMatch(askHtml, /data-act="pin"/);
     assert.match(askHtml, /async function pinThread\(id\)/);
     assert.match(askHtml, /pinned: !t\.pinned/);
     assert.match(askHtml, /id="side-grip"/);
@@ -216,6 +220,40 @@ test('the sidebar searches, pins, resizes and collapses', () => {
     assert.match(askHtml, /sp_ask_side_collapsed_v1/);
     assert.match(askHtml, /id="side-collapse"/);
     assert.match(askHtml, /📌 Pinned/);
+});
+
+test('the chat rail groups by day, so same-titled chats are tellable apart', () => {
+    assert.match(askHtml, /function dayBucket\(ts\)/);
+    for (const bucket of ['Today', 'Yesterday', 'Previous 7 days', 'Previous 30 days', 'Older']) {
+        assert.match(askHtml, new RegExp(`'${bucket}'`));
+    }
+    // the timestamp must survive hover — it used to be display:none'd for the glyphs
+    assert.doesNotMatch(askHtml, /\.chat-item:hover \.when/);
+});
+
+test('sending enters the soft focus state, not full zen', () => {
+    // focus keeps the nav AND the composer; only zen takes everything
+    assert.match(askHtml, /function setFocus\(on\)/);
+    assert.match(askHtml, /body\.focus \.side, body\.focus \.side-grip,/);
+    assert.doesNotMatch(askHtml, /body\.focus header\.nav/);
+    assert.doesNotMatch(askHtml, /body\.focus \.composer-dock/);
+    // zen is deliberate and remembered
+    assert.match(askHtml, /sp_ask_zen_v1/);
+    assert.match(askHtml, /function prefersZen\(\)/);
+});
+
+test('the composer is one compact box that does not change on send', () => {
+    // border and background on the wrapper, not the textarea: a white field
+    // nested in a paper dock was two rectangles 2% apart in tone
+    assert.match(askHtml, /\.composer textarea \{[^}]*background: none; border: 0;/);
+    // no phantom gutter reserved for absolutely-positioned buttons
+    assert.doesNotMatch(askHtml, /\.composer textarea \{ padding-left: 64px; \}/);
+    assert.doesNotMatch(askHtml, /\.composer \.paperclip \{\s*position: absolute/);
+    // the plinth spans the canvas, so no shadow is needed to fake the lift
+    assert.doesNotMatch(askHtml, /box-shadow: 0 -14px 32px/);
+    // one row at rest, six at most, and the placeholder must not set the height
+    assert.match(askHtml, /const TA_MIN = 35, TA_MAX = 158;/);
+    assert.match(askHtml, /if \(!ta\.value\) \{ ta\.style\.height = `\$\{TA_MIN\}px`; return; \}/);
 });
 
 // ---- Audit fixes (2026-08-29): zen signed-out, consent over zen,
@@ -253,8 +291,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260830-askui1/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260830-askui1/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260830-askui1/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260831-askui2/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260831-askui2/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260831-askui2/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

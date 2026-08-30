@@ -904,9 +904,15 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 /* the conversation: question as a soft bubble on the right, answer as a
    document on the left — generous air between turns */
 .ask-exchange { display: grid; gap: 44px; }
+/* a new turn scrolls to the top of the viewport; clear the sticky nav */
+.ask-exchange > * { scroll-margin-top: 88px; }
+/* the question hugs its own text and sits on the right, where its tail
+   points. As a plain block it painted its full max-width whatever the
+   content, so a three-letter ticker became a 620px empty card. */
 .ask-q {
-  justify-self: end;
-  max-width: 76%;
+  width: fit-content;
+  max-width: min(76%, 620px);
+  margin-left: auto;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px 16px 4px 16px;
@@ -914,19 +920,51 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
   font-size: 14.5px;
   font-weight: 500;
   margin-bottom: 18px;
+  overflow-wrap: anywhere;
 }
-/* the trace: while working, one quiet line with a breathing dot + stop;
-   when done, a single disclosure line holding the whole trail */
-.ask-working-row { display: flex; align-items: center; gap: 12px; }
-.ask-working-row .ask-working::before {
-  content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
-  background: var(--accent); margin-right: 9px; vertical-align: 1px;
-  animation: askPulse 1.4s ease-in-out infinite;
+/* the progress card: while working, EVERYTHING the stream has told us stays
+   on screen — the model's own plan (the `note` event), every finished step
+   with how long it took, the step running now, and a live timer. It used to
+   be one grey italic line showing only the newest step, with the rest of the
+   trail collected invisibly and revealed only once the answer arrived.
+   On the first token this collapses into the .ask-trace disclosure below. */
+.ask-progress {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
 }
+.ask-progress-head { display: flex; align-items: center; gap: 10px; }
+.ask-progress-head .ask-working { flex: 1; min-width: 0; }
+.ask-ring {
+  flex: none; width: 15px; height: 15px; border-radius: 50%;
+  border: 2px solid var(--line-strong); border-top-color: var(--accent);
+  animation: spin 0.75s linear infinite;
+}
+.ask-elapsed { flex: none; font-size: var(--text-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
+/* the model's stated plan, in its own words */
+.ask-note { margin: 11px 0 0; font-size: 13px; line-height: 1.6; color: var(--ink-2); }
+.ask-steps { margin: 11px 0 0; display: flex; flex-direction: column; gap: 5px; }
+.ask-steps .row { display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; color: var(--ink-2); }
+.ask-steps .row .mk { flex: none; width: 12px; text-align: center; color: var(--pos); }
+.ask-steps .row .lb { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.ask-steps .row .dur { flex: none; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+.ask-steps .row.miss .mk { color: var(--ink-3); }
+.ask-steps .row.now { color: var(--ink); }
+.ask-steps .row.now .mk { color: var(--accent); animation: askPulse 1.4s ease-in-out infinite; }
 @keyframes askPulse { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+/* where the answer is about to land — same shimmer as the rest of the app */
+.ask-skel { display: flex; flex-direction: column; gap: 12px; margin: 4px 0 0; }
+.ask-skel span { display: block; height: 11px; }
+@media (prefers-reduced-motion: reduce) {
+  .ask-ring { animation: none; border-top-color: var(--line-strong); }
+  .ask-steps .row.now .mk, .ask-skel span { animation: none; }
+}
 .ask-stop {
-  border: 1px solid var(--line-strong); background: none; border-radius: 999px;
-  font-size: 11px; color: var(--ink-2); padding: 3px 12px; cursor: pointer; font-family: inherit;
+  flex: none;
+  border: 1px solid var(--line-strong); background: var(--paper); border-radius: 999px;
+  font-size: 12px; color: var(--ink-2); padding: 5px 14px; cursor: pointer; font-family: inherit;
 }
 .ask-stop:hover { border-color: var(--ink-3); color: var(--ink); }
 .ask-trace { margin: 0 0 14px; }
@@ -969,7 +1007,9 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-fb button:disabled:not(.is-picked) { opacity: 0.35; cursor: default; }
 .ask-sources { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; margin-top: 6px; }
 .chip.ask-suggest { white-space: normal; text-align: left; max-width: 100%; }
-.ask-working { font-size: var(--text-sm); color: var(--ink-3); font-style: italic; }
+/* the live status line — plain ink, not grey italic: it is the headline of
+   the progress card, not an aside */
+.ask-working { font-size: var(--text-sm); color: var(--ink); font-weight: 600; }
 /* charts inside an answer */
 .ask-viz { margin: 22px 0 26px; padding: 20px 24px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .ask-viz figcaption { margin-bottom: 12px; }
