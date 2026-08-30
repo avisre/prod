@@ -4,95 +4,96 @@ App: StockPortfolio.pro — Node/Express + Mongoose backend, vanilla-JS frontend
 in `frontend-v2/`. Prod = Render service `srv-d4kc6schg0os73al6t10`, repo
 `avisre/prod` (PRIVATE). Live site: stockportfolio.pro.
 
-## Latest build — nav tray + tier upgrades + credit recharge + D1–D7 (2026-08-30, SHIPPED)
+## Latest build — Ask UI overhaul (2026-08-30, SHIPPED)
 
-Deployed `588e819` (59 files) via deploy `dep-daa0ig5g…`, plus hotfix `f3dc82d`
-via `dep-daa0kf942hec7395val0`. Repo back to PRIVATE. Live sweep green: all 15
-pages carry `20260830-navtray1`, app.js tray code + 641px breakpoint live,
-chip → /upgrade.html, old tray CSS classes absent, /upgrade + /recharge 302
-logged-out users to `/login.html?next=…` (trailing-slash variants normalize
-first, chain verified), POST /api/credits/topup 401 logged-out, /api/health ok.
-Copy the f3dc82d app.js back into the local tree (done in the same edit).
+Deployed `986348d` (45 files) via `dep-daa4snhsrm7s73dva9fg`, live in 110s.
+First trigger `dep-daa4s6hsrm7s73dv8c30` hit the usual no-error `build_failed`
+at ~50s; the straight retrigger worked, as always. Repo back to PRIVATE.
+Live sweep green: stamp `20260831-askui2` on the page AND the served bundles
+carry the code (`setFocus`, `dayBucket`, `TA_MIN = 35`, `ask-progress`,
+`pauseProgress`, `.ask-skel`, `width: fit-content`), old markers absent
+(`padding-left: 64px`, `box-shadow: 0 -14px 32px`, `ask-working-row`,
+`Quick read`). Bytes match local exactly (app.js 125448, system.css 71711).
 
-**LANDMINE (cost a deploy)**: any new extensionless page route must be
-registered ABOVE `express.static(..., { extensions: ['html'] })`
-(backend/app.js ~line 2059) — below it, static serves `upgrade.html` for
-`/upgrade` to everyone and the auth redirect is dead code. Same reason
-/lifetime and /appsumo are explicit early routes. Also: `optionalAuth` sets
-`req.user` (NOT `req.userId`) — guard page routes on `req.user`.
+Owner's complaint was the /ask UI mid-question. Fixed:
 
-Details of what shipped (tray/upgrade/recharge/D1–D7, stamps, tests):
+- **The waiting state was one grey italic line + ~400px of white.** Everything
+  needed was ALREADY on the wire and discarded: `ai-chat.js:1703` emits the
+  model's plan as `note`, and every tool call arrives with args + ok — but
+  `renderTrace()` only ran on `delta`/finish, so `traceSteps` accumulated
+  invisibly and only the newest step showed. `askEngine` now renders an
+  `.ask-progress` card: the plan in the model's words, every finished step
+  with its duration, the running step, a live timer, a real Stop, and a
+  `.skeleton` shimmer where the answer lands. First token → skeleton removed,
+  card **hidden not removed** (a `rollback` must bring it back), `.ask-trace`
+  collapses carrying the total. No backend change.
+- **Sending entered full zen** (nav+rail+dock+footer gone, Esc the only way
+  back). Split: `body.focus` is automatic on send — rail, banners, footer go,
+  **nav and composer stay**; `body.zen` stays deliberate (⤢/F11) and is now
+  remembered in `sp_ask_zen_v1`. Esc peels back one layer at a time.
+- **`.ask-q` was a block** at `max-width:min(76%,620px)`, so "amd" painted a
+  620px empty card. Now `width:fit-content`, right-aligned to the prose
+  column's right edge. NOTE: 74ch resolves against the bubble's 14.5px and the
+  prose's 15.5px, so the edges sit ~20px apart — harness allows 26px.
+- **The composer, the owner's specific complaint.** It was two nested
+  rectangles 2% apart in tone (#ffffff textarea on a #faf9f6 dock), 128px of
+  phantom gutter for two absolutely-positioned buttons that only sat on the
+  bottom row, a 620px `border-top` ending in mid-air and a shadow bleeding out
+  both sides — and it shrank 22% and teleported on send. Now ONE box: border
+  and background on the `.composer` wrapper (`:focus-within` for the ring),
+  textarea transparent/borderless, 📎+mode+quota+send on one row, dock spans
+  the canvas so the rule reaches both edges, shadow deleted. **800×49px
+  identical on the landing and mid-chat** (was 116/110px).
+  **Gotcha that cost a debugging pass**: Chromium lays the placeholder out
+  inside a textarea, so `scrollHeight` on an EMPTY field returns however many
+  lines the placeholder wraps to — autoGrow opened at 2 rows until it was
+  pinned to `TA_MIN` when `!ta.value`.
+- **Rail** groups by Today/Yesterday/Previous 7/30/Older (two chats both
+  auto-titled "amd" were indistinguishable); the timestamp no longer vanishes
+  on hover behind ✎📌✕, which became one `⋯` → `V2.modal`.
+- Landing was three widths (hello 800 / composer 617 / prompts full canvas);
+  all three now share `--ask-col`.
+- New turns `scrollIntoView({block:'start'})` + `scroll-margin-top:88px`;
+  `'nearest'` often resolved to nothing and parked a turn under the dock.
+  Streaming follows text only when the reader is already at the bottom.
 
-Owner-approved plan (Nielsen-10 audited, one pass, one push). All verified
-locally: full backend suite 355/355; Playwright mock pass 21/21 (tray 1400px
-& 1000px, hover-open/no-hover-close/Esc/outside-close, badge copy, owner-only
-Admin, top-tier gating, profile low/out states, upgrade masking); node -c on
-every touched asset. NOT yet pushed or deployed.
+Verification: `ask-ui-verify/shoot.js` **rewritten from the auto-zen contract
+to the focus contract** (its header and every `expectZen:true` encoded the old
+behaviour) + new assertions measuring the composer BEFORE and AFTER send and
+asserting they match. `server.js` gained `/_ctl/tool3` and mixed-age duplicate-
+titled thread fixtures. ALL CHECKS PASSED. Suite **358/358** (+3 contract
+tests in `ask-threads.test.js`, which pinned the now-deleted `data-act="pin"`).
 
-- **A. Nav account tray** (app.js `accountMenuHtml`/`mountAccountMenu` +
-  system.css): 148px tray, hover or click on avatar, NEVER navigates; status
-  line "Plan · N left" (reuses sessionPromise, zero fetch on open; 1 fetch to
-  /api/credits per page). Rows Usage/Settings/Messages(+unread badge)/
-  Admin(owner)/Recharge(≤20% left)/Upgrade(non-top-tier)/Full profile.
-  Sign out intentionally NOT in the tray (owner likes the nav button).
-  isDesktop() now 641px (was 1181px — laptop-narrow windows navigated; fixed).
-  No hover-close; dismiss = outside click/Esc/avatar click only. role=menu,
-  arrow-key rows, avatar gets hover treatment while open.
-- **B. /upgrade.html + `/upgrade` route** (optionalAuth → login redirect):
-  `.price-card` grid of ONLY tiers above the user's plan (ladder
-  monthly→annual→pro→pro-annual→power-monthly→power→desk; [Choose] →
-  POST /api/checkout {plan, next:'profile.html'} → Stripe). AppSumo accounts
-  see their upgradeUrl instead. NOTE: nav-chip top-tier rule does NOT mask
-  the ladder (Desk is a real upgrade for Power) — caught by the harness.
-- **C. /recharge.html + `POST /api/credits/topup`**: $9 one-time pack of 150
-  credits ($0.06/cr — above Pro's bundled $0.055, 4× below Monthly's $0.24).
-  Route validates the Stripe price (active, $900, usd) then creates a
-  `mode:'payment'` checkout; webhook `checkoutType:'credit_topup'` grants via
-  `credits.grant(userId, 150, 'topup', sessionId)` — idempotent on session id
-  (pinned in credits.test.js: retry never double-grants, +750 stacks).
-  `granted()` sums positive rows for the month; `balance()` = allowance +
-  granted; expiry is free (month key). `CREDITS_REQUIRED` 402 payload now
-  includes `resetsAt`. ⚠️ Owner must create the $9 price in Stripe + set
-  `STRIPE_PRICE_ID_CREDITS_TOPUP` in Render env before live use.
-- **D1** dossier.js/monitor.js switch on 402 `code`: `CREDITS_REQUIRED` →
-  "Out of credits" card ($9 Recharge + usage link + reset date); other codes →
-  existing upsell. Monitor never emits CREDITS_REQUIRED (charges post-build,
-  app.js:8919) — its wall branch is defensive. **D2** app.js quotaWall Pro
-  branch gets Recharge + upgrade links. **D3** dashboard.js holding ✕ →
-  V2.modal confirm. **D4** logged-in upsell links /register.html →
-  /upgrade.html (dashboard 837/333/357, company 107/1516/1621). **D5**
-  messages.js/admin-messages.js/screener.js/app.js dialogs migrated to
-  V2.modal (bulk-send keeps its type-SEND-n safety inside the modal;
-  window.confirm/prompt retained as fallbacks). **D6** news.js paywall lines
-  got plan links. **D7** screener error row is a Retry button.
-- **profile.js** Usage bar: #credits-low line — "out of credits" (0) or
-  "running low" (≤20%) with recharge/upgrade links.
-- **Stamps**: shared bump → `20260830-navtray1` (41 files + 5 pinned tests);
-  messages.js/admin-messages.js → `20260830-msgmodal1`; dossier → `dwall1`,
-  monitor → `mgate1`, dashboard → `dconfirm1` (+2 tests), news → `nlinks1`,
-  screener → `sretry1`. profile-consolidation's 1181px assertion updated to
-  641px. Old tray CSS classes (.nav-account-plan/-total/-track/-fill/-split*/
-/-msgs/-msg-head/-note) deleted from system.css (unreferenced).
-- Deploy needed the Render public-repo flip dance (see below).
+⚠️ `affiliate-program.test.js` fails intermittently in the parallel full-suite
+run (`:228`, Stripe reversal idempotency) and passes 3/3 alone. Pre-existing
+ordering flake, NOT from this change — worth a look sometime.
+
+⚠️ Local tree LAGS main on `README.md` (deploy-test comments) and
+`.github/workflows/refresh-fundamentals.yml` (prod moved Alpha Vantage →
+Yahoo+SEC and added IndexNow). The `diff -rq` before copying caught it again;
+504 `frontend/data/fundamentals/*.json` also differ (bot commits ahead).
+Do NOT copy those back.
+
+## Prior build — nav tray + tiers + recharge + D1–D7 (2026-08-30, SHIPPED)
+
+`588e819` + hotfix `f3dc82d`, stamp `20260830-navtray1`. Nav account tray
+(hover/click avatar, never navigates; isDesktop now 641px), `/upgrade.html`
+ladder above current plan, `/recharge.html` + `POST /api/credits/topup` ($9 /
+150 credits, idempotent on Stripe session id), 402 `CREDITS_REQUIRED` walls in
+dossier/monitor/app/profile, dialogs migrated to `V2.modal`.
+⚠️ Owner must still create the $9 Stripe price and set
+`STRIPE_PRICE_ID_CREDITS_TOPUP` in Render env before topup is usable.
 
 ## Prior ships, compressed (2026-08-30)
 
-- **`0dfe71f` (Ask flow removal + centering + PDF fix, `20260830-noflow1`)**
-  Sankey/```flow``` removed everywhere (app.js renderer, ai-chat prompt rule,
-  segments back to annual-only 10-K). Ask keeps: server-side empty-answer
-  retry (recovers ~2/3), turn elements centred on the 74ch column, PDF
-  attachments via vendored pdf.js `20260831-pdf1` (old Tj reader returned
-  empty text on real PDFs), AskReport toolsUsed CastError fix. Suite 354/354.
-  Direct-ltd-affiliate test flakes ~1/3 under parallel load (Mongo) — re-run
-  in isolation. Local `AI_MODEL_VISION=glm-5.3-flash:cloud`.
-- **`f49157f`→`2408edb` (mobile/tablet passes 1–7, stamps mob1→flow2)**
-  Measured: overflowPx 0, sub-11.5px text 0, sub-28px taps 0 on 20 pages ×
-  390/768. Copy-list gotcha: wrong path prefix in a `git status` comparison
-  looks like a full mismatch — strip one prefix consistently.
-- **2026-08-29 Ask ships**: 74ch dock/answer column, 4 Ask audit fixes,
-  admin double-send fix, zen mode (auto `body.zen`, `#zen-chip`, `setZen`
-  not global), ChatGPT-parity attachments/memory/sidebar (322/322).
-- Standing lesson: never reuse ANY previously served stamp.
+`ad35863`/`20655ae` dossier viz polish (grouped Profit bars, `bn()` shows
+−$129M site-wide, earnings-to-cash bullet suppressed when netIncome ≤ 0,
+planline hidden for top tiers); `fad5ec4` removed the portfolio "Recent
+answers" section (owner decision); `0dfe71f` Ask flow removal + centering +
+PDF fix; `f49157f`→`2408edb` mobile/tablet passes 1–7.
+Reusable harnesses: `/tmp/dosviz/prodshots.js` + `audit.js` (gotcha: the
+Analyst toggle persists `sp_dossier_mode_v1` — init-script it back per load),
+and `ask-ui-verify/` for /ask.
 
 ## RENDER + PRIVATE REPO — known landmine
 
@@ -150,17 +151,3 @@ body; `/deploys/{id}/logs` doesn't exist.
 Owner E2E check on /ask (above), fix anything it finds, then the affiliate
 watch: support@ replies → partner invite flow (see `marketing/ltd-partners/SENT.md`
 log; Phase A rail + Phase B campaign fully done, 10 targets contacted 2026-08-26).
-## 2026-08-30 — profile collapse + owner Admin row (shipped, unpushed
-
-- profile.html rebuilt as one hairline card of native `<details>` sections
-  (Usage / Settings / Messages / Admin) with ▸→▾ caret + live summary meta
-  (`#usage-meta`, `#settings-meta`); activity list is a 6-row scroll window
-  (thin scrollbar + `.table-wrap`-style scroll shadow; backend cap still 12).
-- Owner-only surfaces for rin@gmail.com: profile Admin row (4 dashboard links),
-  "→ Customer messages dashboard" inside Messages, "Admin tools" in the account
-  dropdown (app.js `accountMenuHtml`). Reveal is client-side from
-  `/api/session` profile.email; every /admin/* route still server-gated.
-- Stamp bumped 20260830-noflow1 → 20260830-profsec1 across 41 files. Deep link:
-  /profile.html#admin-section opens the section (`:target` in profile.js).
-- Verified: full backend suite 354/354 + Playwright mock-fetch run (owner sees
-  Admin, non-owner doesn't, 6-row window scrolls, zero pageerrors).
