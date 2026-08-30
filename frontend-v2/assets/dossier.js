@@ -152,25 +152,31 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Grouped annual bar chart from ${esc(usable[0].fy)} to ${esc(usable[usable.length - 1].fy)}" style="width:100%;height:170px;display:block"><line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" stroke="${C.faint}"/>${bars}${labels}</svg>`;
   }
   function legend(items) { return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:4px;">${items.map((i) => `<span class="small" style="color:var(--ink-3)"><span style="display:inline-block;width:9px;height:9px;background:${i.color};border-radius:2px;margin-right:4px;vertical-align:middle"></span>${esc(i.label)}</span>`).join('')}</div>`; }
-  const bn = (v) => (v == null ? '—' : Math.abs(v) >= 1e12 ? '$' + (v / 1e12).toFixed(2) + 'T' : Math.abs(v) >= 1e9 ? '$' + (v / 1e9).toFixed(1) + 'B' : '$' + (v / 1e6).toFixed(0) + 'M');
+  const bn = (v) => {
+    if (v == null) return '—';
+    const sign = v < 0 ? '−' : '';
+    const a = Math.abs(v);
+    return sign + (a >= 1e12 ? '$' + (a / 1e12).toFixed(2) + 'T' : a >= 1e9 ? '$' + (a / 1e9).toFixed(1) + 'B' : '$' + (a / 1e6).toFixed(0) + 'M');
+  };
 
-  function miniBars(rows, key, color) {
+  function miniBars(rows, key, color, fmt) {
     const pts = (rows || []).map((r) => Number(r[key])).filter(Number.isFinite);
     if (pts.length < 2) return '';
     const max = Math.max(...pts.map((v) => Math.abs(v)), 1);
-    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((v, i) => `<i style="height:${Math.max(8, Math.abs(v) / max * 100).toFixed(1)}%;background:${v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}" title="${esc(String(v))}"></i>`).join('')}</span>`;
+    const show = fmt || ((v) => String(v));
+    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((v, i) => `<i style="height:${Math.max(8, Math.abs(v) / max * 100).toFixed(1)}%;background:${v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}" title="${esc(show(v))}"></i>`).join('')}</span>`;
   }
 
   function decisionTrends(fin) {
     if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
     const latest = fin[fin.length - 1] || {};
     const rows = [
-      ['Revenue', 'revenue', bn(latest.revenue), C.ink],
-      ['Operating margin', 'opMarginPct', latest.opMarginPct == null ? '—' : latest.opMarginPct + '%', C.grey],
-      ['Free cash flow', 'fcf', bn(latest.fcf), C.pos],
-      ['ROIC', 'roicPct', latest.roicPct == null ? '—' : latest.roicPct + '%', C.ink]
+      ['Revenue', 'revenue', bn(latest.revenue), C.ink, bn],
+      ['Operating margin', 'opMarginPct', latest.opMarginPct == null ? '—' : latest.opMarginPct + '%', C.grey, (v) => v + '%'],
+      ['Free cash flow', 'fcf', bn(latest.fcf), C.pos, bn],
+      ['ROIC', 'roicPct', latest.roicPct == null ? '—' : latest.roicPct + '%', C.ink, (v) => v + '%']
     ];
-    return `<div class="dos-trends">${rows.map(([label, key, value, color]) => `<div class="dos-trend-row"><span>${label}</span>${miniBars(fin, key, color)}<b>${esc(value)}</b></div>`).join('')}</div>`;
+    return `<div class="dos-trends">${rows.map(([label, key, value, color, fmt]) => `<div class="dos-trend-row"><span>${label}</span>${miniBars(fin, key, color, fmt)}<b>${esc(value)}</b></div>`).join('')}</div>`;
   }
 
   function displayNumber(value) {
@@ -665,7 +671,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         <h2>The trend</h2>
         <div class="dos-visual-stack">
           <div class="dos-visual-panel"><h3>Revenue</h3><p>${last.revenue > prev.revenue ? 'Growing' : 'Shrinking'} year over year</p>${chartBars(history, 'revenue', bn, C.ink)}</div>
-          <div class="dos-visual-panel"><h3>Profit</h3><p>Net income, ${last.netIncome > prev.netIncome ? 'improving' : 'declining'}</p>${miniBars(history, 'netIncome', C.pos)}</div>
+          <div class="dos-visual-panel"><h3>Profit</h3><p>Net income, ${last.netIncome > prev.netIncome ? 'improving' : 'declining'}</p>${chartGroupedBars(history, [{ key: 'netIncome', label: 'Net income', color: C.pos, fmt: bn }])}</div>
         </div>
       </div>` : '';
 
@@ -913,6 +919,20 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     });
     box.addEventListener('click', (e) => { const btn = e.target.closest('button[data-sym]'); if (btn) choose(btn.dataset.sym); });
     document.addEventListener('click', (e) => { if (e.target !== input && !box.contains(e.target)) box.hidden = true; });
+  })();
+
+  // The pricing line under the Build dossier form is a pitch: hide it from
+  // accounts that have nothing left to buy (same top-tier rule as the nav chip).
+  (async () => {
+    const line = document.getElementById('dos-planline');
+    if (!line || !token()) return; // logged-out visitors ARE the audience here
+    try {
+      const r = await fetch(`${API}/session`, { headers: auth() });
+      if (!r.ok) return;
+      const s = await r.json();
+      const planId = (s && s.subscription && s.subscription.planId) || '';
+      if (['power', 'power-monthly', 'desk', 'enterprise'].includes(planId)) line.hidden = true;
+    } catch (_) { /* leave the line up on any session hiccup */ }
   })();
 
   const initial = new URLSearchParams(location.search).get('symbol');
