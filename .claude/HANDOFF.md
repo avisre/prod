@@ -73,8 +73,7 @@ every touched asset. NOT yet pushed or deployed.
   screener → `sretry1`. profile-consolidation's 1181px assertion updated to
   641px. Old tray CSS classes (.nav-account-plan/-total/-track/-fill/-split*/
 /-msgs/-msg-head/-note) deleted from system.css (unreferenced).
-- Push = the clone-copy-commit dance (no local .git; copy ONLY changed files).
-  Deploy needs the Render public-repo flip dance (see below).
+- Deploy needed the Render public-repo flip dance (see below).
 
 ## Prior ships, compressed (2026-08-30)
 
