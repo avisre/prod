@@ -441,6 +441,17 @@ const subscribeLimiter = rateLimit({
 });
 app.use('/api/subscribe', subscribeLimiter);
 
+// Post-checkout claim. Looser than signup because a paying customer may retry
+// the return (refresh, flaky network, a second tab) and must not be locked out
+// of the account they just paid for; still bounded, because the endpoint mints
+// a session from a checkout session id.
+const checkoutClaimLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000,
+  max: 30,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
 // Code redemption is deliberately much tighter than the normal API limit.
 // A valid code still cannot be enumerated because all invalid states use the
 // same response and code material is hashed before database lookup.
@@ -2252,6 +2263,42 @@ const UserSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', UserSchema);
 
+// Paid-first signup holding pen. A self-serve registration creates NO User
+// document: the submitted identity waits here, keyed to its Stripe Checkout
+// Session, and only becomes a real account once Stripe confirms the money
+// (checkout.session.completed, or the /api/checkout/claim return, which
+// re-reads the same session from Stripe). An abandoned checkout therefore
+// leaves nothing behind at all — no account, no welcome email, no "new
+// signup" notification, and no squatted email address blocking a retry —
+// because the TTL index deletes the row once the Stripe session is dead.
+// AppSumo/DealMirror activation and the rollback no-card trial never come
+// through here; they create accounts by their own signed, non-Stripe paths.
+const PENDING_SIGNUP_TTL_MS = 24 * 60 * 60 * 1000;
+const PendingSignupSchema = new mongoose.Schema({
+    email: { type: String, required: true, index: true },
+    name: { type: String, default: null },
+    // bcrypt hash of the password typed at registration (email flow only).
+    // Social signups have no password and authenticate by provider id.
+    passwordHash: { type: String, default: null },
+    provider: { type: String, default: null, enum: [null, 'google', 'facebook'] },
+    providerUserId: { type: String, default: null, index: true },
+    avatarUrl: { type: String, default: null },
+    planId: { type: String, required: true },
+    stripeSessionId: { type: String, default: null, index: true },
+    signupUtm: { type: mongoose.Schema.Types.Mixed, default: null },
+    attribution: { type: mongoose.Schema.Types.Mixed, default: null },
+    // Set once the payment lands and the account is created. Also the
+    // idempotency marker: a redelivered webhook finds the user here instead
+    // of creating a second one.
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+    consumedAt: { type: Date, default: null },
+    // Single-use guard for /api/checkout/claim, so a leaked checkout URL
+    // cannot be replayed into a session after the buyer has used it.
+    claimedAt: { type: Date, default: null },
+    expiresAt: { type: Date, default: () => new Date(Date.now() + PENDING_SIGNUP_TTL_MS), expires: 0 }
+}, { timestamps: true });
+const PendingSignup = mongoose.model('PendingSignup', PendingSignupSchema);
+
 // One private conversation per customer. Keeping the participant ID on the
 // thread (rather than trusting a client-provided recipient) makes it impossible
 // for a signed-in customer to read or write another customer's messages.
@@ -3672,11 +3719,173 @@ function createUserToken(user) {
     return jwt.sign({ userId: user._id, v: Number(user.authVersion || 0) }, JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN || '7d' });
 }
 
+// Records a self-serve registration that has not been paid for yet. Re-using
+// the row for the same identity keeps a visitor who abandons checkout and
+// comes back from accumulating rows, and keeps the latest password/plan.
+async function createPendingSignup({ email, name, passwordHash, provider, providerUserId, avatarUrl, planId, utm, requestFields }) {
+    const normalizedEmail = normalizeEmail(email);
+    const query = provider && providerUserId
+        ? { provider, providerUserId }
+        : { email: normalizedEmail, provider: null };
+    const attribution = (requestFields && requestFields.attribution) || null;
+    return PendingSignup.findOneAndUpdate(
+        query,
+        {
+            $set: {
+                email: normalizedEmail,
+                name: name || null,
+                passwordHash: passwordHash || null,
+                provider: provider || null,
+                providerUserId: providerUserId || null,
+                avatarUrl: avatarUrl || null,
+                planId: getPlanConfig(planId).planId,
+                signupUtm: utm ? { ...utm, capturedAt: new Date() } : null,
+                attribution,
+                expiresAt: new Date(Date.now() + PENDING_SIGNUP_TTL_MS)
+            }
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+    );
+}
+
+// The only place a paid-first account is born. Refuses outright unless Stripe
+// says the session was actually paid, so "signed in" can never run ahead of
+// "paid". Idempotent: a webhook redelivery, or the browser's /api/checkout/claim
+// racing the webhook, both land on the same single user.
+async function materializePendingSignup(pendingSignupId, session = {}) {
+    if (!pendingSignupId) return null;
+    let pending = null;
+    try {
+        pending = await PendingSignup.findById(pendingSignupId);
+    } catch (_) {
+        return null;
+    }
+    if (!pending) {
+        console.warn(`[signup] pending signup ${pendingSignupId} is gone (expired before the payment landed)`);
+        return null;
+    }
+    if (pending.userId) {
+        const already = await User.findById(pending.userId);
+        if (already) return already;
+    }
+    if (String(session.payment_status || '') !== 'paid') {
+        console.warn(`[signup] pending signup ${pendingSignupId} not materialised: payment_status=${session.payment_status || 'unknown'}`);
+        return null;
+    }
+
+    const planConfig = getPlanConfig(pending.planId);
+    let user = await User.findOne({ email: pending.email });
+    let created = false;
+    if (!user) {
+        user = new User({
+            name: pending.name || deriveNameFromEmail(pending.email),
+            email: pending.email,
+            password: pending.passwordHash || null
+        });
+        created = true;
+    }
+    if (pending.provider === 'google' && !user.googleId) user.googleId = pending.providerUserId;
+    if (pending.provider === 'facebook' && !user.facebookId) user.facebookId = pending.providerUserId;
+    if (pending.avatarUrl && !user.avatarUrl) user.avatarUrl = pending.avatarUrl;
+    if (created) {
+        user.subscription = ensureSubscriptionShape(user);
+        user.subscription.planId = planConfig.planId;
+        user.subscription.planName = planConfig.planName;
+        user.subscription.price = planConfig.price;
+        user.subscription.currency = planConfig.currency;
+        user.subscription.billingInterval = planConfig.billingInterval;
+        user.subscription.stripePriceId = planConfig.stripePriceId || null;
+        user.subscription.status = 'pending';
+        user.subscription.trialStartedAt = new Date();
+        user.subscription.trialEndsAt = null;
+        user.subscription.activatedAt = null;
+        user.subscription.renewedAt = null;
+        user.subscription.lastPaymentAt = null;
+        // The refund window opens on the first paid invoice; this only marks
+        // the account as one that paid to exist. See recordInitialStripePayment().
+        user.paymentRequiredAt = new Date();
+        user.initialRefundStatus = 'not_eligible';
+        if (pending.signupUtm) user.signupUtm = pending.signupUtm;
+        if (pending.attribution) attachSignupAttribution(user, { attribution: pending.attribution });
+        user.markModified('subscription');
+    }
+    if (typeof session.customer === 'string' && session.customer) user.stripeCustomerId = session.customer;
+    try {
+        await user.save();
+    } catch (error) {
+        // Two deliveries raced us to the same email. The unique index is the
+        // real guard; take whichever document won.
+        if (error && error.code === 11000) {
+            const winner = await User.findOne({ email: pending.email });
+            if (!winner) throw error;
+            user = winner;
+            created = false;
+        } else {
+            throw error;
+        }
+    }
+
+    pending.userId = user._id;
+    pending.consumedAt = pending.consumedAt || new Date();
+    if (session.id) pending.stripeSessionId = session.id;
+    await pending.save().catch((error) => console.error('[signup] pending signup close-out failed:', error && error.message));
+
+    if (created) {
+        // Everything that used to fire at form-submit time now fires here, on
+        // the far side of the payment: the owner notification and the welcome
+        // email describe a customer who actually paid.
+        const source = pending.provider ? 'social' : 'direct';
+        recordCustomerLifecycleEvent(user, 'signup', { source })
+            .catch((e) => console.error('[customers] paid signup registry error:', e && e.message));
+        sendNewUserEmails({
+            name: user.name,
+            email: user.email,
+            plan: pending.provider ? `social (${pending.provider})` : planConfig.planName
+        }).catch((e) => console.error('[mailer] new-user email error:', e && e.message));
+        trackFunnel('signup', user._id, planConfig.planName, {
+            authMethod: pending.provider || 'email',
+            selectedPlan: planConfig.planId,
+            utm: pending.signupUtm || null,
+            entitlementSource: 'stripe'
+        });
+        trackFunnel('signup_completed', user._id, planConfig.planName, {
+            eventName: 'signup_completed',
+            dedupeKey: `signup-complete:${String(user._id)}`,
+            authMethod: pending.provider || 'email',
+            selectedPlan: planConfig.planId,
+            utm: pending.signupUtm || null,
+            entitlementSource: 'stripe'
+        });
+    }
+    return user;
+}
+
+// Stripe replaces this template with the real session id on the success /
+// return URL, which is what lets /api/checkout/claim finish a paid-first
+// signup without waiting for webhook delivery.
+function withCheckoutSessionIdParam(url) {
+    const raw = String(url || '');
+    if (!raw || raw.includes('{CHECKOUT_SESSION_ID}')) return raw;
+    return `${raw}${raw.includes('?') ? '&' : '?'}session_id={CHECKOUT_SESSION_ID}`;
+}
+
 async function createCheckoutSessionForUser(user, extraMetadata = {}) {
     if (!stripe) {
         throw createHttpError(500, 'Stripe is not configured');
     }
     await ensureStripeAccountPreflight();
+    // Paid-first signups have no account yet, so the checkout is keyed to a
+    // PendingSignup row instead of a userId. Every other caller still passes
+    // a real user and is unaffected.
+    const pendingSignup = extraMetadata.pendingSignup || null;
+    if (!user && !pendingSignup) {
+        throw createHttpError(500, 'Checkout requires either a user or a pending signup');
+    }
+    const subjectEmail = user ? user.email : pendingSignup.email;
+    const subjectRef = user ? user._id.toString() : `pending:${pendingSignup._id.toString()}`;
+    const identityMetadata = user
+        ? { userId: user._id.toString() }
+        : { pendingSignupId: pendingSignup._id.toString() };
     const configuredPlan = getPlanConfig(extraMetadata.planId || user?.subscription?.planId);
     const planConfig = await resolveStripeCheckoutPlan(configuredPlan);
     if (!planConfig.stripePriceId) {
@@ -3688,18 +3897,18 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
     const urlParams = embedded
         ? {
             ui_mode: 'embedded',
-            return_url: extraMetadata.returnUrl || buildStripeReturnUrl(extraMetadata.req, {
+            return_url: withCheckoutSessionIdParam(extraMetadata.returnUrl || buildStripeReturnUrl(extraMetadata.req, {
                 session: 'success',
                 planId: planConfig.planId,
                 ...returnContext
-            })
+            }))
         }
         : {
-            success_url: extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
+            success_url: withCheckoutSessionIdParam(extraMetadata.successUrl || buildStripeReturnUrl(extraMetadata.req, {
                 session: 'success',
                 planId: planConfig.planId,
                 ...returnContext
-            }),
+            })),
             cancel_url: extraMetadata.cancelUrl || buildStripeReturnUrl(extraMetadata.req, {
                 session: 'cancel',
                 planId: planConfig.planId,
@@ -3709,12 +3918,12 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
-        customer_email: user.email,
+        customer_email: subjectEmail,
         line_items: [{
             price: planConfig.stripePriceId,
             quantity: 1
         }],
-        client_reference_id: user._id.toString(),
+        client_reference_id: subjectRef,
         ...urlParams,
         custom_text: {
             submit: {
@@ -3725,7 +3934,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         },
         subscription_data: {
             metadata: {
-                userId: user._id.toString(),
+                ...identityMetadata,
                 planId: planConfig.planId,
                 billingInterval: planConfig.billingInterval,
                 ...Object.fromEntries(Object.entries(extraMetadata.affiliateMetadata || {}).map(([key, value]) => [key, String(value)]))
@@ -3733,15 +3942,19 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
             ...((planConfig.trialDays > 0 && !extraMetadata.skipTrial) ? { trial_period_days: planConfig.trialDays } : {})
         },
         metadata: {
-            userId: user._id.toString(),
+            ...identityMetadata,
             planId: planConfig.planId,
             billingInterval: planConfig.billingInterval,
             stripePriceId: planConfig.stripePriceId,
             ...metadata
         }
     });
+    if (pendingSignup && session && session.id) {
+        pendingSignup.stripeSessionId = session.id;
+        await pendingSignup.save().catch((error) => console.error('[signup] pending session id save failed:', error && error.message));
+    }
     const requestFields = extraMetadata.req ? trackingRequestFields(extraMetadata.req, null) : {};
-    trackFunnel('stripe_checkout_created', user._id, planConfig.planName, {
+    trackFunnel('stripe_checkout_created', user ? user._id : null, planConfig.planName, {
         eventName: 'stripe_checkout_created',
         dedupeKey: session && session.id ? `stripe_checkout_created:${session.id}` : null,
         pageType: 'pricing',
@@ -4008,7 +4221,10 @@ async function verifySocialIdentity(provider, payload = {}) {
     throw createHttpError(400, 'Unsupported social login provider');
 }
 
-async function findOrCreateSocialUser(profile) {
+// createIfMissing:false is the paid-first path — an unrecognised social
+// identity must not become an account until Stripe has taken the money, so the
+// caller gets { user: null } and routes the visitor to checkout instead.
+async function findOrCreateSocialUser(profile, { createIfMissing = true } = {}) {
     const providerField = profile.provider === 'google' ? 'googleId' : 'facebookId';
     const lookup = [{ [providerField]: profile.providerUserId }];
     if (profile.email) {
@@ -4018,6 +4234,7 @@ async function findOrCreateSocialUser(profile) {
     let user = await User.findOne({ $or: lookup });
     const created = !user;
     if (!user) {
+        if (!createIfMissing) return { user: null, created: false };
         user = new User({
             name: profile.name,
             email: profile.email,
@@ -4230,6 +4447,63 @@ app.post('/api/subscribe', async (req, res) => {
         const displayName = trimmedName.length >= 2
             ? trimmedName
             : deriveNameFromEmail(normalizedEmail);
+
+        // Paid-first: create no account. The identity waits in PendingSignup
+        // until Stripe confirms the payment (webhook, or the claim call the
+        // browser makes on return), which is what materialises the User.
+        // Walking away from this checkout leaves no account, no welcome mail,
+        // no owner notification, and no email address held hostage.
+        if (paymentRequired) {
+            const pending = await createPendingSignup({
+                email: normalizedEmail,
+                name: displayName,
+                passwordHash: hashedPassword,
+                planId: planConfig.planId,
+                utm,
+                requestFields
+            });
+            const session = await createCheckoutSessionForUser(null, {
+                req,
+                pendingSignup: pending,
+                planId: planConfig.planId,
+                skipTrial: true,
+                initialSignup: true,
+                uiMode: 'embedded',
+                returnUrl: buildStripeReturnUrl(req, {
+                    session: 'success',
+                    planId: planConfig.planId,
+                    flow: 'register',
+                    next: req.body?.next
+                }),
+                affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, newAccount: true }),
+                metadata: {
+                    authFlow: 'register',
+                    checkoutType: 'email',
+                    next: sanitizeRelativeAppPath(req.body?.next, 'news.html'),
+                    billingInterval: planConfig.billingInterval,
+                    ...acquisitionStripeMetadata(acquisition)
+                }
+            });
+            if (!session?.client_secret) {
+                throw createHttpError(
+                    502,
+                    'Checkout session could not be created. Please try again.',
+                    'CHECKOUT_URL_MISSING',
+                    { retryable: true }
+                );
+            }
+            trackFunnel('signup_started', null, planConfig.planName, {
+                eventName: 'signup_started',
+                authMethod: 'email',
+                selectedPlan: planConfig.planId,
+                consent: req.body && req.body.analyticsConsent === true,
+                utm,
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
+            });
+            return res.status(200).json({ clientSecret: session.client_secret });
+        }
+
         const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
         if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
         attachSignupAttribution(user, requestFields);
@@ -4393,6 +4667,79 @@ app.post('/api/subscribe', async (req, res) => {
         );
     }
   });
+
+// Paid-first return path. Stripe sends the buyer back with the checkout
+// session id; we re-read that session from Stripe (never trusting the
+// browser's claim), create the account if the webhook has not landed yet, and
+// hand back a token. This is what makes "account only after payment" invisible
+// to the customer — they are signed in the moment they return, without the
+// site ever having created an account for an unpaid visitor.
+//
+// Single-use and pending-signup-only: it can never mint a session for a
+// pre-existing account, and a leaked return URL cannot be replayed once the
+// buyer's own browser has used it.
+app.post('/api/checkout/claim', checkoutClaimLimiter, async (req, res) => {
+    const sessionId = String((req.body && (req.body.sessionId || req.body.session_id)) || '').trim();
+    if (!/^cs_[A-Za-z0-9_]+$/.test(sessionId)) {
+        return res.status(400).json({ message: 'A Stripe checkout session id is required.', code: 'SESSION_ID_REQUIRED' });
+    }
+    if (!stripe) {
+        return res.status(503).json({ message: 'Checkout is temporarily unavailable.', code: 'CHECKOUT_UNAVAILABLE' });
+    }
+    try {
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+        const pendingSignupId = session && session.metadata && session.metadata.pendingSignupId;
+        if (!pendingSignupId) {
+            return res.status(404).json({ message: 'This checkout cannot be claimed.', code: 'NOT_CLAIMABLE' });
+        }
+        if (session.payment_status !== 'paid') {
+            return res.status(402).json({
+                message: 'This checkout has not been paid yet.',
+                code: 'PAYMENT_NOT_COMPLETED'
+            });
+        }
+        const pending = await PendingSignup.findById(pendingSignupId).catch(() => null);
+        if (pending && pending.claimedAt) {
+            return res.status(409).json({ message: 'This checkout was already used. Please sign in.', code: 'ALREADY_CLAIMED' });
+        }
+        const user = await materializePendingSignup(pendingSignupId, session);
+        if (!user) {
+            return res.status(404).json({ message: 'This checkout is no longer claimable. Please sign in.', code: 'SIGNUP_NOT_FOUND' });
+        }
+        await PendingSignup.updateOne({ _id: pendingSignupId }, { $set: { claimedAt: new Date() } }).catch(() => {});
+        // Activate from Stripe directly so access does not wait on webhook
+        // delivery. Both paths are idempotent, so whichever runs second is a
+        // no-op rather than a double grant.
+        if (session.subscription) {
+            try {
+                const subscription = await stripe.subscriptions.retrieve(session.subscription);
+                if (user.paymentRequiredAt && !user.initialPaymentAt && subscription.latest_invoice) {
+                    const initialInvoice = typeof subscription.latest_invoice === 'string'
+                        ? await stripe.invoices.retrieve(subscription.latest_invoice)
+                        : subscription.latest_invoice;
+                    if (initialInvoice && initialInvoice.status === 'paid') {
+                        await recordInitialStripePayment(user, initialInvoice);
+                    }
+                }
+                await syncSubscriptionFromStripe(user, subscription, session.customer);
+            } catch (error) {
+                // The webhook is still the authority; a failure here only
+                // means the customer waits for it.
+                console.error('[stripe] claim-time activation failed:', error && error.message);
+            }
+        }
+        return res.status(200).json({
+            token: createUserToken(user),
+            subscription: normalizeSubscription(user.subscription)
+        });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) {
+            return res.status(503).json({ message: 'Database unavailable. Please try again shortly.', code: 'DATABASE_UNAVAILABLE' });
+        }
+        console.error('Checkout claim error:', error);
+        return res.status(500).json({ message: 'Could not finish signing you in. Please try logging in.', code: 'CLAIM_FAILED' });
+    }
+});
 
 // Build + send the support-inbox notification for a ticket. Independent of the
 // DB so a ticket is never lost during an outage. Never throws; resolves to a
@@ -4558,8 +4905,13 @@ app.post('/api/auth/social', async (req, res) => {
         const flow = String(req.body?.flow || 'login').trim().toLowerCase();
         const selectedPlan = normalizePlanSelection(req.body?.plan);
         const planConfig = getPlanConfig(selectedPlan);
-        const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, false);
-        if (REQUIRE_INITIAL_STRIPE_PAYMENT && planConfig.planId === FREE_PLAN_ID) {
+        // An AppSumo buyer redeeming with Google has already paid AppSumo.
+        // Without this the paid-first policy would send them to Stripe and
+        // charge them a second time for what they own for life. Same signed,
+        // non-Stripe bypass /api/subscribe uses.
+        const appsumoActivationSignup = isAppSumoActivationSignup(req);
+        const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
             return res.status(402).json({
                 message: 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.',
                 code: 'PAID_PLAN_REQUIRED'
@@ -4569,8 +4921,95 @@ app.post('/api/auth/social', async (req, res) => {
         const requestFields = trackingRequestFields(req, res);
         const utm = requestUtm(req);
         const profile = await verifySocialIdentity(provider, req.body || {});
-        const { user, created } = await findOrCreateSocialUser(profile);
+        const { user, created } = await findOrCreateSocialUser(profile, { createIfMissing: !paymentRequired });
+
+        // Paid-first: a Google/Facebook identity we have never seen gets a
+        // checkout, not an account and not a session cookie. The account is
+        // created by the Stripe payment, not by the social login.
+        if (!user) {
+            if (!stripe) {
+                return res.status(503).json({
+                    message: 'Checkout is temporarily unavailable. Please try again shortly.',
+                    code: 'CHECKOUT_UNAVAILABLE'
+                });
+            }
+            const pending = await createPendingSignup({
+                email: profile.email,
+                name: profile.name,
+                provider,
+                providerUserId: profile.providerUserId,
+                avatarUrl: profile.avatarUrl,
+                planId: planConfig.planId,
+                utm,
+                requestFields
+            });
+            const session = await createCheckoutSessionForUser(null, {
+                req,
+                pendingSignup: pending,
+                planId: planConfig.planId,
+                skipTrial: true,
+                initialSignup: true,
+                affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, newAccount: true }),
+                returnContext: { flow, provider, next: req.body?.next },
+                metadata: {
+                    authProvider: provider,
+                    authFlow: flow,
+                    checkoutType: 'social',
+                    next: sanitizeRelativeAppPath(req.body?.next, 'news.html'),
+                    billingInterval: planConfig.billingInterval,
+                    ...acquisitionStripeMetadata(acquisition)
+                }
+            });
+            trackFunnel('signup_started', null, planConfig.planName, {
+                eventName: 'signup_started',
+                authMethod: provider,
+                selectedPlan: planConfig.planId,
+                consent: req.body && req.body.analyticsConsent === true,
+                utm,
+                ...acquisitionFunnelFields(acquisition),
+                ...requestFields
+            });
+            return res.status(200).json({
+                url: session.url,
+                created: false,
+                provider,
+                checkoutRequired: true,
+                pendingSignup: true
+            });
+        }
+
         let normalized = ensureSubscriptionShape(user);
+
+        if (created && appsumoActivationSignup) {
+            attachSignupAttribution(user, requestFields);
+            if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
+            await user.save();
+            recordCustomerLifecycleEvent(user, 'signup', { source: 'social' })
+                .catch((e) => console.error('[customers] appsumo social signup registry error:', e && e.message));
+            trackFunnel('signup', user._id, planConfig.planName, {
+                authMethod: provider, selectedPlan: planConfig.planId, entitlementSource: 'appsumo',
+                utm, ...acquisitionFunnelFields(acquisition), ...requestFields
+            });
+            trackFunnel('signup_completed', user._id, planConfig.planName, {
+                eventName: 'signup_completed',
+                dedupeKey: `signup-complete:${String(user._id)}`,
+                authMethod: provider, selectedPlan: planConfig.planId, entitlementSource: 'appsumo',
+                utm, ...acquisitionFunnelFields(acquisition), ...requestFields
+            });
+        }
+
+        // The lifetime grant itself is applied by /api/appsumo/activate, which
+        // the redeem page calls next with this token. Returning here keeps the
+        // buyer away from every Stripe branch below.
+        if (appsumoActivationSignup) {
+            return res.status(200).json({
+                token: createUserToken(user),
+                subscription: normalizeSubscription(user.subscription),
+                created,
+                provider,
+                appsumoActivation: true
+            });
+        }
 
         if (created) {
             if (paymentRequired) {
@@ -7181,7 +7620,22 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
     const payload = event.data.object;
     if (event.type === 'checkout.session.completed') {
         try {
-            const userId = payload.metadata?.userId || payload.client_reference_id;
+            // Paid-first signup: this is where the account is actually born.
+            // materializePendingSignup() refuses unless Stripe reports the
+            // session paid, so no payment means no user — full stop.
+            const pendingSignupId = payload.metadata?.pendingSignupId || null;
+            const materialized = pendingSignupId
+                ? await materializePendingSignup(pendingSignupId, payload)
+                : null;
+            const clientRef = typeof payload.client_reference_id === 'string' && payload.client_reference_id.startsWith('pending:')
+                ? null
+                : payload.client_reference_id;
+            const userId = payload.metadata?.userId
+                || (materialized ? materialized._id.toString() : null)
+                || clientRef;
+            if (pendingSignupId && !materialized) {
+                console.warn(`[stripe] session ${payload.id} carried pending signup ${pendingSignupId} but no account was created (payment_status=${payload.payment_status}).`);
+            }
             if (userId) {
                 const user = await User.findById(userId);
                 if (user) {
@@ -7871,7 +8325,9 @@ app.get('/appsumo/redeem', async (req, res) => {
         }
         const known = await AppSumoLicense.findOne({ licenseKey });
         const tier = known ? known.tier : 1;
-        const rt = jwt.sign({ asLicenseKey: licenseKey, asTier: tier, asRedeem: true }, JWT_SECRET, { expiresIn: '30m' });
+        // 60 minutes: long enough that stepping away mid-activation doesn't
+        // send the buyer back to AppSumo to start over.
+        const rt = jwt.sign({ asLicenseKey: licenseKey, asTier: tier, asRedeem: true }, JWT_SECRET, { expiresIn: '60m' });
         return res.status(200).send(appsumoRedeemPage({ error: '', rt, status }));
     } catch (err) {
         console.error('AppSumo redeem error:', err && err.message);
@@ -8011,37 +8467,107 @@ input,select{width:100%;padding:11px 12px;border:1px solid #cfd4da;border-radius
 button{width:100%;margin-top:18px;padding:12px;border:0;border-radius:10px;background:var(--red);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
 button.alt{background:#fff;color:#15181c;border:1px solid #cfd4da;margin-top:10px}
 button[disabled]{opacity:.6;cursor:default}
+.hint{font-size:12px;color:#5b6470;margin:6px 0 0}
+.or{display:flex;align-items:center;gap:10px;color:#8a929c;font-size:13px;margin:18px 0 4px}
+.or:before,.or:after{content:"";flex:1;height:1px;background:#e6e8eb}
+#gshell{margin-top:4px}
+#gbtn{display:flex;justify-content:center;min-height:44px}
 .msg{margin-top:14px;padding:11px 12px;border-radius:10px;font-size:14px}
 .msg.err{background:#fdecea;color:#b3261e}.msg.ok{background:#e8f5ed;color:#1a7f43}
 .bull{font-size:34px}
 </style></head><body><div class="wrap"><div class="card">
 <div class="bull">&#128002;</div>
 <h1>Activate your lifetime Pro</h1>
-<p class="sub">Log in or create your StockPortfolio.pro account to attach your AppSumo purchase. It's yours for life.</p>
+<p class="sub">Attach your AppSumo purchase to a StockPortfolio.pro account. It's yours for life.</p>
 <div id="form">
+<div id="gshell" hidden><div id="gbtn"></div><div class="or">or</div></div>
 <label for="email">Email</label><input id="email" type="email" autocomplete="email" placeholder="you@email.com">
-<label for="password">Password</label><input id="password" type="password" autocomplete="current-password" placeholder="Your password">
+<label for="password">Password</label><input id="password" type="password" autocomplete="new-password" placeholder="Create a password">
+<p class="hint" id="pwhint">At least 8 characters, with one capital letter, one lowercase letter and one number.</p>
 <label for="discovery">Where did you first discover StockPortfolio.pro? <span style="font-weight:400;color:#5b6470">(optional)</span></label>
 <select id="discovery"><option value="">Choose one</option><option value="appsumo">AppSumo marketplace</option><option value="x">X / Twitter</option><option value="linkedin">LinkedIn</option><option value="youtube">YouTube</option><option value="google">Google</option><option value="newsletter">Newsletter</option><option value="friend">Friend or colleague</option><option value="other">Other</option></select>
-<button id="go">Log in &amp; activate</button>
-<button id="alt" class="alt">Create a new account instead</button>
+<button id="go">Create account &amp; activate</button>
+<button id="alt" class="alt">I already have an account</button>
 </div>
 <div id="out"></div>
 </div></div>
 <script>
 var DATA = ${data};
-var mode = 'login';
+// Signup is the default because almost everyone landing here came straight
+// from AppSumo's Redeem button and has never had an account. Logging in is
+// the exception, not the rule.
+var mode = 'signup';
 var out = document.getElementById('out');
 var go = document.getElementById('go');
 var alt = document.getElementById('alt');
+var pwhint = document.getElementById('pwhint');
+var blocked = false;
 function show(cls, html){ out.innerHTML = '<div class="msg '+cls+'">'+html+'</div>'; }
-if (DATA.error) { show('err', DATA.error); go.disabled = true; alt.disabled = true; }
-else if (!DATA.rt) { show('err', 'Open this page from your AppSumo "Redeem" button to activate.'); go.disabled = true; alt.disabled = true; }
+function lock(){ blocked = true; go.disabled = true; alt.disabled = true; }
+if (DATA.error) { show('err', DATA.error); lock(); }
+else if (!DATA.rt) { show('err', 'Open this page from your AppSumo "Redeem" button to activate.'); lock(); }
 alt.onclick = function(){
-  mode = (mode === 'login') ? 'signup' : 'login';
-  go.textContent = (mode === 'login') ? 'Log in & activate' : 'Create account & activate';
-  alt.textContent = (mode === 'login') ? 'Create a new account instead' : 'I already have an account';
+  mode = (mode === 'signup') ? 'login' : 'signup';
+  go.textContent = (mode === 'signup') ? 'Create account & activate' : 'Log in & activate';
+  alt.textContent = (mode === 'signup') ? 'I already have an account' : 'Create a new account instead';
+  document.getElementById('password').setAttribute('autocomplete', mode === 'signup' ? 'new-password' : 'current-password');
+  document.getElementById('password').placeholder = (mode === 'signup') ? 'Create a password' : 'Your password';
+  pwhint.hidden = (mode !== 'signup');
 };
+
+// One-click path: Google verifies the email, so the buyer types nothing.
+// Self-contained on purpose — this page deliberately loads none of the v2
+// bundle. Silently stays hidden if Google sign-in is not enabled on this host.
+function finishActivation(token){
+  var discoverySource = document.getElementById('discovery').value;
+  return fetch('/api/appsumo/activate', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+    body: JSON.stringify({ rt: DATA.rt, discoverySource: discoverySource || undefined })
+  }).then(function(rr){ return rr.json().then(function(rj){ return { ok: rr.ok, body: rj }; }); });
+}
+function activated(token, rj){
+  try { localStorage.setItem('token', token); } catch(e){}
+  document.getElementById('form').style.display = 'none';
+  show('ok', '\u2705 ' + ((rj && rj.message) || 'Pro unlocked.') + ' <a href="/onboarding">Run your first cited result &rarr;</a>');
+}
+(async function initGoogle(){
+  if (blocked) return;
+  try {
+    var cfg = await fetch('/api/auth/providers').then(function(r){ return r.ok ? r.json() : null; });
+    if (!cfg || !cfg.google || !cfg.google.enabled || !cfg.google.clientId) return;
+    await new Promise(function(resolve, reject){
+      var sc = document.createElement('script');
+      sc.src = 'https://accounts.google.com/gsi/client'; sc.async = true; sc.defer = true;
+      sc.onload = resolve; sc.onerror = reject; document.head.appendChild(sc);
+    });
+    if (!(window.google && window.google.accounts && window.google.accounts.id)) return;
+    window.google.accounts.id.initialize({
+      client_id: cfg.google.clientId,
+      callback: async function(response){
+        go.disabled = true; alt.disabled = true; show('', 'Activating...');
+        try {
+          var ar = await fetch('/api/auth/social', {
+            method:'POST', headers:{'Content-Type':'application/json'},
+            body: JSON.stringify({ provider:'google', flow:'register', plan:'pro', credential: response.credential, appsumoRedeemToken: DATA.rt })
+          });
+          var aj = await ar.json();
+          if (!ar.ok || !aj.token) { show('err', (aj && aj.message) || 'Could not sign you in with Google.'); go.disabled=false; alt.disabled=false; return; }
+          var done = await finishActivation(aj.token);
+          if (!done.ok) { show('err', (done.body && done.body.message) || 'Activation failed.'); go.disabled=false; alt.disabled=false; return; }
+          activated(aj.token, done.body);
+        } catch (e) {
+          show('err', 'Network error - please try again.'); go.disabled=false; alt.disabled=false;
+        }
+      }
+    });
+    var shell = document.getElementById('gshell');
+    var mount = document.getElementById('gbtn');
+    var width = Math.max(200, Math.round(mount.getBoundingClientRect().width || 380));
+    window.google.accounts.id.renderButton(mount, { theme:'outline', size:'large', shape:'rectangular', text:'continue_with', width: width, logo_alignment:'left' });
+    shell.hidden = false;
+  } catch (e) { /* Google unavailable - the email form below still works */ }
+})();
 go.onclick = async function(){
   var email = document.getElementById('email').value.trim();
   var password = document.getElementById('password').value;
@@ -8054,12 +8580,9 @@ go.onclick = async function(){
     var ar = await fetch(authUrl, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(authBody) });
     var aj = await ar.json();
     if (!ar.ok || !aj.token) { show('err', (aj && aj.message) || 'Could not sign you in.'); go.disabled=false; alt.disabled=false; return; }
-    var rr = await fetch('/api/appsumo/activate', { method:'POST', headers:{'Content-Type':'application/json','Authorization':'Bearer '+aj.token}, body: JSON.stringify({ rt: DATA.rt, discoverySource: discoverySource || undefined }) });
-    var rj = await rr.json();
-    if (!rr.ok) { show('err', (rj && rj.message) || 'Activation failed.'); go.disabled=false; alt.disabled=false; return; }
-    try { localStorage.setItem('token', aj.token); } catch(e){}
-    document.getElementById('form').style.display = 'none';
-    show('ok', '\\u2705 ' + ((rj && rj.message) || 'Pro unlocked.') + ' <a href="/onboarding">Run your first cited result &rarr;</a>');
+    var done = await finishActivation(aj.token);
+    if (!done.ok) { show('err', (done.body && done.body.message) || 'Activation failed.'); go.disabled=false; alt.disabled=false; return; }
+    activated(aj.token, done.body);
   } catch (e) {
     show('err', 'Network error - please try again.'); go.disabled=false; alt.disabled=false;
   }

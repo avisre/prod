@@ -98,9 +98,12 @@
     }
   }
 
-  // Stripe return for social checkouts (?session=success&checkout=social):
-  // the token was stored before redirecting to Stripe — poll /api/session
-  // until the webhook activates the subscription, then continue.
+  // Stripe return for social checkouts (?session=success&checkout=social).
+  // A new social signup has NO account and NO session until the payment
+  // lands, so the first move is to claim the checkout session — the server
+  // re-reads it from Stripe, creates the account, and sets the cookie. Only a
+  // returning customer who already had a session falls through to polling
+  // /api/session while the webhook settles.
   // Returns true when it handled the return (caller should skip its own flow).
   function confirmCheckout(opts) {
     const params = new URLSearchParams(location.search);
@@ -108,13 +111,37 @@
     const status = opts && opts.statusId ? document.getElementById(opts.statusId) : null;
     const nextRaw = params.get('next') || 'dashboard.html';
     const next = /^[a-z][a-z0-9+.-]*:|^\/\//i.test(nextRaw) ? 'dashboard.html' : nextRaw.replace(/^\/+/, '');
-    const token = typeof V2.token === 'function' ? V2.token() : '';
-    if (!token) {
-      setStatus(status, 'Payment completed, but your session is missing — please sign in with Google again.', true);
-      return true;
-    }
+    const sessionId = params.get('session_id') || '';
     if (status) status.hidden = false;
     (async () => {
+      if (sessionId) {
+        setStatus(status, 'Payment received — setting up your account…');
+        for (let attempt = 0; attempt < 4; attempt++) {
+          try {
+            const r = await fetch(`${V2.API}/checkout/claim`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ sessionId })
+            });
+            const data = await r.json().catch(() => ({}));
+            if (r.ok && data.token) {
+              setStatus(status, 'Account ready — redirecting…');
+              location.href = '/' + next;
+              return;
+            }
+            // 409 already claimed (a duplicate return) — the account exists,
+            // so fall through to the session poll below.
+            if (r.status === 409 || r.status === 404) break;
+            if (r.status === 400) break;
+          } catch (_) { /* transient — retry */ }
+          await new Promise((res) => setTimeout(res, 2500));
+        }
+      }
+      const token = typeof V2.token === 'function' ? V2.token() : '';
+      if (!token) {
+        setStatus(status, 'Payment completed, but we could not finish signing you in — please sign in with Google again.', true);
+        return;
+      }
       for (let attempt = 0; attempt < 6; attempt++) {
         try {
           const r = await fetch(`${V2.API}/session`, { headers: { Authorization: `Bearer ${token}` } });

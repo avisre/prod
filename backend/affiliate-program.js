@@ -431,14 +431,18 @@ async function findProfileForReferral(referral, { userId = null, now = new Date(
     return click ? { profile, click } : null;
 }
 
-async function buildCheckoutMetadata({ req, user } = {}) {
-    if (!isEnabled() || !req || !user) return {};
+// newAccount:true is the paid-first signup case — there is no User document
+// yet because the account is created by the payment, and a signup that has
+// never existed cannot be an existing customer.
+async function buildCheckoutMetadata({ req, user, newAccount = false } = {}) {
+    if (!isEnabled() || !req) return {};
+    if (!user && !newAccount) return {};
     // A referral may create a new account, but it must never turn an existing
     // customer’s upgrade or second purchase into a new-customer commission.
-    if (user.appsumoRedeemedAt || user.stripeCustomerId || user.stripeSubscriptionId) return {};
+    if (user && (user.appsumoRedeemedAt || user.stripeCustomerId || user.stripeSubscriptionId)) return {};
     try {
         const referral = referralFromRequest(req);
-        const matched = await findProfileForReferral(referral, { userId: user._id });
+        const matched = await findProfileForReferral(referral, { userId: user ? user._id : null });
         if (!matched) return {};
         return {
             affiliateProfileId: String(matched.profile._id),
