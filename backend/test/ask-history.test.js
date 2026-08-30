@@ -43,7 +43,7 @@ test('ask-history routes are owner-scoped and never touch credits', () => {
 
 test('dashboard surfaces recent answers with the current dashboard.js stamp', () => {
     assert.match(dashboardHtml, /id="recent-answers-section"/);
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260829-dashrecent1/);
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260830-dconfirm1/);
     assert.match(dashboardSource, /\$\{API\}\/ask-history\/recent/);
     assert.match(dashboardHtml, /Saved Ask reports/);
     assert.match(dashboardSource, /reopening is free/);

@@ -51,7 +51,11 @@
             }
             render();
         } catch (_) {
-            $('results-body').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">Couldn’t load — try again.</td></tr>';
+            // A dead-looking error row is a dead end (D7) — make it the retry
+            // control itself so recovery is one click in place.
+            const body = $('results-body');
+            body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">Couldn’t load the screen. <button type="button" class="btn btn-ghost btn-sm" id="screen-retry">Retry</button></td></tr>';
+            body.querySelector('#screen-retry').addEventListener('click', run);
         }
     }
 
@@ -130,12 +134,36 @@
     $('save-btn').addEventListener('click', () => {
         const f = currentFilters();
         if (!Object.keys(f).length) return;
-        const name = (window.prompt('Name this screen:') || '').trim().slice(0, 30);
-        if (!name) return;
-        const list = savedScreens().filter((s) => s.name !== name);
-        list.push({ name, filters: f });
-        localStorage.setItem(SAVED_KEY, JSON.stringify(list.slice(-8)));
-        renderSaved();
+        const saveWith = (name) => {
+            const list = savedScreens().filter((s) => s.name !== name);
+            list.push({ name, filters: f });
+            localStorage.setItem(SAVED_KEY, JSON.stringify(list.slice(-8)));
+            renderSaved();
+        };
+        // Naming uses the shared dialog (D5); window.prompt stays as the
+        // fallback for the unlikely case app.js didn't mount this page.
+        if (!window.V2 || !V2.modal) {
+            const name = (window.prompt('Name this screen:') || '').trim().slice(0, 30);
+            if (name) saveWith(name);
+            return;
+        }
+        const m = V2.modal({
+            label: 'Name this screen',
+            title: 'Name this screen',
+            bodyHtml: '<input class="input" id="screen-name" maxlength="30" placeholder="e.g. Cash-rich small caps" style="width:100%;">',
+            actions: [
+                { label: 'Save screen', primary: true, onClick: (close) => {
+                    const name = m.el.querySelector('#screen-name').value.trim().slice(0, 30);
+                    if (!name) return;
+                    close();
+                    saveWith(name);
+                } },
+                { label: 'Cancel' }
+            ]
+        });
+        const field = m.el.querySelector('#screen-name');
+        field.focus();
+        field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
     });
     renderSaved();
 

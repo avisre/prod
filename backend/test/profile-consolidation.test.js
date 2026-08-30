@@ -172,10 +172,12 @@ test('account dropdown: markup, and the icon still degrades to a plain link', ()
 });
 
 test('account dropdown only intercepts the click on desktop', () => {
-    // .nav-links hides at 1180px; below that the mobile drawer owns navigation
-    // and carries its own Profile entry, so the icon must keep navigating.
+    // The tray owns the icon from 641px up (laptop-narrow windows included —
+    // the old 1181px cutoff made those navigate instead of opening the tray).
+    // Below 641px the mobile drawer owns navigation and carries its own
+    // Profile entry, so the icon must keep navigating.
     const body = frontendAppSource.slice(frontendAppSource.indexOf('function mountAccountMenu'));
-    assert.match(body, /matchMedia\('\(min-width: 1181px\)'\)/);
+    assert.match(body, /matchMedia\('\(min-width: 641px\)'\)/);
     const guardIdx = body.indexOf('if (!isDesktop()) return;');
     const preventIdx = body.indexOf('e.preventDefault();');
     assert.ok(guardIdx !== -1 && preventIdx !== -1);

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Upgrade your plan — stockportfolio.pro</title>
+  <meta name="description" content="Upgrade from your current plan to Pro, Power or Desk. Charged today, prorated — cancel anytime." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260830-navtray1" />
+</head>
+<body>
+  <main>
+    <div class="container" style="max-width:1100px;">
+
+      <div class="page-head" style="margin-top:44px;">
+        <p class="label">Account</p>
+        <h1 class="title-1">Upgrade your plan</h1>
+        <p class="muted" style="margin-top:6px;" id="upgrade-sub">Charged today, prorated against your current plan — cancel anytime before renewal.</p>
+      </div>
+
+      <div class="price-grid" id="upgrade-grid">
+        <p class="muted">Loading your plan…</p>
+      </div>
+
+      <p class="provenance" id="upgrade-note" hidden>Only the tiers above your current plan are shown, so the plan you're on can't be re-purchased. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. Not investment advice.</p>
+
+      <p class="provenance" id="upgrade-appsumo" hidden>AppSumo licenses are upgraded through AppSumo's own account page, so entitlements stay in one place — <a id="upgrade-appsumo-link" href="#" target="_blank" rel="noopener">Upgrade your AppSumo license →</a>.</p>
+
+    </div>
+  </main>
+  <script src="/assets/app.js?v=20260830-navtray1"></script>
+  <script>
+    (function () {
+      'use strict';
+      if (!window.V2 || !window.V2.token) return;
+      const API = window.V2.API;
+      window.V2.nav('');
+      window.V2.footer();
+
+      function esc(value) {
+        return String(value == null ? '' : value).replace(/[&<>"']/g, (c) => (
+          { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
+        ));
+      }
+
+      // The tier ladder in sell order. A signed-in user only ever sees the
+      // rungs strictly above their current planId — the card for the plan
+      // they hold, and everything below it, is never rendered, so the plan
+      // they pay for today can't be re-purchased by a stray click.
+      const LADDER = [
+        { planId: 'monthly', label: 'Monthly', fig: '$12', per: '/month', lines: [
+          'Everything in Monthly: full research library, portfolio tracker, 25 Ask questions' ] },
+        { planId: 'annual', label: 'Annual', fig: '$118', per: '/year', lines: [
+          'Monthly, paid once a year — two months free versus monthly billing' ] },
+        { planId: 'pro', label: 'Pro', featured: true, fig: '$33', per: '/month', lines: [
+          '300 Ask questions a month with charts & tables in every answer',
+          'Dossier, Filing Diff, smart alerts, daily attribution, insights & segments',
+          'Weekly portfolio briefing — what changed in your holdings, every Monday' ] },
+        { planId: 'pro-annual', label: 'Pro Annual', fig: '$250', per: '/year', lines: [
+          'Pro, billed yearly — save $146 versus monthly',
+          'Same 600-credit wallet, fewer renewals' ] },
+        { planId: 'power-monthly', label: 'Power monthly', fig: '$64', per: '/month', lines: [
+          'Everything in Pro plus the Filing Change Monitor across your whole watchlist',
+          'Wash-sale guard — cross-broker tax-lot intelligence', '2000-credit wallet' ] },
+        { planId: 'power', label: 'Power annual', fig: '$579', per: '/year', lines: [
+          'Everything in Power monthly, paid once yearly — save 25%',
+          'About $50 per covered name per year on a twelve-name watchlist' ] },
+        { planId: 'desk', label: 'Desk', featured: true, fig: '$1,961', per: '/year', lines: [
+          'Power for one named professional, with a limited client-facing licence',
+          'Priority support and a personal onboarding call' ] }
+      ];
+
+      const grid = document.getElementById('upgrade-grid');
+      const note = document.getElementById('upgrade-note');
+      const sub = document.getElementById('upgrade-sub');
+
+      // The nav-chip top-tier rule does NOT drive this page: Desk is a real
+      // upgrade for Power, so the ladder masks what's already owned and shows
+      // what's above (see myRank below). AppSumo lifetime accounts are the
+      // exception — their entitlements live in AppSumo's billing.
+
+      function planName(session) {
+        const sub = session && session.subscription;
+        if (sub && sub.planName) return sub.planName;
+        if (session && session.tier === 'free') return 'Free';
+        if (session && session.tier === 'core') return 'Monthly';
+        return 'Pro';
+      }
+
+      async function currentPlan() {
+        const t = window.V2.token();
+        try {
+          const r = await fetch(`${API}/session`, { headers: { Authorization: `Bearer ${t}` } });
+          return await r.json().catch(() => ({}));
+        } catch (_) { return {}; }
+      }
+
+      async function choose(planId, btn) {
+        btn.disabled = true;
+        btn.textContent = 'Opening Stripe…';
+        try {
+          const r = await fetch(`${API}/checkout`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${window.V2.token()}` },
+            body: JSON.stringify({ plan: planId, next: 'profile.html' })
+          });
+          const d = await r.json().catch(() => ({}));
+          if (r.ok && d.url) { window.location.href = d.url; return; }
+          btn.textContent = d.message || 'Could not start checkout — try again.';
+          setTimeout(() => { btn.disabled = false; btn.textContent = 'Choose'; }, 4000);
+        } catch (_) {
+          btn.textContent = 'Network problem — try again.';
+          setTimeout(() => { btn.disabled = false; btn.textContent = 'Choose'; }, 4000);
+        }
+      }
+
+      // /upgrade.html?upgrade=success is the Stripe return path for plan
+      // upgrades: the webhook settles server-side, so this is only a receipt.
+      if (/[?&]upgrade=success\b/.test(window.location.search)) {
+        sub.textContent = 'Upgraded — your new plan is active. Welcome aboard.';
+      }
+
+      (async () => {
+        const session = await currentPlan();
+        const sub = session && session.subscription || {};
+        const status = sub.status || (session && session.tier === 'free' ? 'free' : 'active');
+
+        // AppSumo accounts can't move up this ladder — entitlements live in
+        // AppSumo's billing. Show that path instead of a second purchase.
+        const as = session && session.appsumo;
+        if (as && as.isAppSumo && as.upgradeUrl) {
+          grid.innerHTML = '<p class="muted">Your plan is an AppSumo lifetime license — upgrades are handled by AppSumo.</p>';
+          const link = document.getElementById('upgrade-appsumo-link');
+          link.href = as.upgradeUrl;
+          document.getElementById('upgrade-appsumo').hidden = false;
+          return;
+        }
+
+        const planId = String(sub.planId || (session && session.tier === 'free' ? 'free' : (session && session.tier === 'pro' ? 'pro' : 'monthly'))).toLowerCase();
+        const rank = (id) => { const i = LADDER.findIndex((p) => p.planId === id); return i === -1 ? -1 : i; };
+        // Mask everything at or below the current plan (error prevention: a
+        // double purchase of something already owned). The nav chip's top-tier
+        // rule doesn't apply here — Desk is a real upgrade for Power — so
+        // only enterprise, which has nothing above, ranks past the ladder.
+        const myRank = planId === 'enterprise' ? LADDER.length : rank(planId);
+
+        // Unrecognized plan state (historical planId) shows the full ladder —
+        // never an empty page; the Stripe checkout itself remains authoritative.
+        const options = LADDER.filter((p, i) => myRank === -1 ? true : i > myRank);
+        if (!options.length) {
+          grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest tier — nothing to upgrade to. You can top up your credit wallet instead: <a href="/recharge.html">Recharge credits →</a>.</p>';
+          note.hidden = false;
+          return;
+        }
+
+        sub.textContent = `You're on ${esc(planName(session))}. Charged today, prorated — cancel anytime before renewal.`;
+        grid.innerHTML = options.map((p) => `
+          <div class="card price-card"${p.featured ? ' style="border-color: var(--ink);"' : ''}>
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">${esc(p.label)}</span>${p.featured ? '<span class="small" style="color:var(--accent-ink); font-weight:650;">Most picked</span>' : ''}</div>
+            <div class="price-fig">${esc(p.fig)}<span>${esc(p.per)}</span></div>
+            <ul class="price-list">${p.lines.map((l) => `<li>${l}</li>`).join('')}</ul>
+            <button class="btn ${p.featured ? 'btn-primary' : 'btn-ghost'}" style="margin-top:auto;" type="button" data-plan="${esc(p.planId)}">Choose ${esc(p.label)}</button>
+          </div>`).join('');
+        note.hidden = false;
+      })();
+
+      grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('button[data-plan]');
+        if (!btn) return;
+        choose(btn.getAttribute('data-plan'), btn);
+      });
+    })();
+  </script>
+</body>
+</html>

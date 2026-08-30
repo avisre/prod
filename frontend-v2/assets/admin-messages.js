@@ -97,6 +97,45 @@
     } catch (error) { $('admin-status').textContent = error.message || 'Could not send this message.'; }
     finally { button.disabled = false; }
   });
+  // Shared-dialog replacements for window.confirm/prompt (D5): the raw
+  // browser chrome reads as a different app and isn't keyboard-consistent
+  // with the rest of the admin tooling. Falls back to the natives if app.js
+  // didn't mount.
+  function confirmModal(title, body) {
+    return new Promise((resolve) => {
+      if (!window.V2 || !V2.modal) { resolve(window.confirm(body)); return; }
+      V2.modal({
+        label: title,
+        title,
+        body,
+        actions: [
+          { label: 'Delete', primary: true, onClick: () => resolve(true) },
+          { label: 'Cancel', onClick: () => resolve(false) }
+        ],
+        onDismiss: () => resolve(false)
+      });
+    });
+  }
+  function promptModal(title, { label, placeholder = '', value = '', maxLength }) {
+    return new Promise((resolve) => {
+      if (!window.V2 || !V2.modal) { resolve(window.prompt(title, value)); return; }
+      const m = V2.modal({
+        label: title,
+        title,
+        bodyHtml: `<input class="input" id="admin-modal-input" ${maxLength ? `maxlength="${maxLength}" ` : ''}placeholder="${placeholder}" style="width:100%;">`,
+        actions: [
+          { label: label || 'Save', primary: true, onClick: (close) => { const v = document.getElementById('admin-modal-input').value; close(); resolve(v); } },
+          { label: 'Cancel', onClick: () => resolve(null) }
+        ],
+        onDismiss: () => resolve(null)
+      });
+      const field = m.el.querySelector('#admin-modal-input');
+      field.value = value;
+      field.focus();
+      field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
+    });
+  }
+
   $('admin-message-list').addEventListener('click', async (event) => {
     const target = event.target;
     const editId = target.dataset && target.dataset.msgEdit;
@@ -106,7 +145,7 @@
     try {
       let done = '';
       if (deleteId) {
-        if (!window.confirm('Delete this message? This cannot be undone.')) return;
+        if (!await confirmModal('Delete message', 'Delete this message? This cannot be undone.')) return;
         const response = await fetch(`/api/admin/messages/threads/${encodeURIComponent(state.active)}/${encodeURIComponent(deleteId)}`, { method: 'DELETE' });
         const data = await response.json();
         if (!response.ok) throw new Error(data.message);
@@ -114,7 +153,7 @@
       } else {
         const bubble = $('admin-message-list').querySelector(`[data-id="${editId}"]`);
         const current = bubble ? bubble.childNodes[0].textContent.trim() : '';
-        const next = window.prompt('Edit your message:', current);
+        const next = await promptModal('Edit your message', { label: 'Save', value: current, maxLength: 4000 });
         if (next === null) return;
         const trimmed = next.trim();
         if (!trimmed || trimmed === current) return;
@@ -147,8 +186,11 @@
     if (sendEmail && !subject) { status.textContent = 'Enter an email subject.'; return; }
     let confirmation = `SEND ${ids.length}`;
     if (ids.length > 1) {
-      confirmation = window.prompt(`This will send to ${ids.length} selected customers. Type SEND ${ids.length} to confirm.`);
-      if (confirmation !== `SEND ${ids.length}`) { status.textContent = 'Send cancelled.'; return; }
+      // Typed confirmation kept (error prevention), but inside the shared
+      // dialog so the batch size is stated in-app, not in browser chrome.
+      const expected = `SEND ${ids.length}`;
+      confirmation = await promptModal(`This will send to ${ids.length} selected customers`, { label: `Type ${expected} to send`, placeholder: expected });
+      if (confirmation !== expected) { status.textContent = 'Send cancelled.'; return; }
     }
     const button = $('bulk-send'); button.disabled = true; status.textContent = 'Sending…';
     try {

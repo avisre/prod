@@ -253,8 +253,8 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260830-noflow1/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260830-noflow1/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260830-noflow1/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260830-navtray1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260830-navtray1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260830-navtray1/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });

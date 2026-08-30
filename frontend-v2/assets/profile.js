@@ -45,6 +45,22 @@
         fill.style.width = `${pctUsed}%`;
         fill.classList.toggle('is-high', pctUsed >= 85);
 
+        // Wallet states the bar can't say in numbers alone: out of credits
+        // means "recharge now", running low means "recharge or upgrade" —
+        // with the action one click away rather than a dead status line.
+        const lowEl = $('credits-low');
+        if (lowEl) {
+            if (remaining <= 0 && allowance > 0) {
+                lowEl.innerHTML = `You're out of credits this month. <a href="/recharge.html">Recharge 150 credits — $9</a> to keep using Ask, Dossier and Monitor now.`;
+                lowEl.hidden = false;
+            } else if (allowance > 0 && remaining / allowance <= 0.2) {
+                lowEl.innerHTML = `Running low — <a href="/recharge.html">recharge 150 credits for $9</a>, or <a href="/upgrade.html">upgrade</a> for a bigger monthly wallet.`;
+                lowEl.hidden = false;
+            } else {
+                lowEl.hidden = true;
+            }
+        }
+
         // Ask/Monitor/Dossier split, derived from the same `recent` rows the
         // activity list renders below — one source of truth, no extra
         // request. recentActivity() is capped server-side, so on a very
@@ -94,6 +110,13 @@
             activityWrap.hidden = true;
         }
 
+        // Collapsed summary meta on the Usage row — the same figures the
+        // expanded section shows underneath, so the header works on its own.
+        const usageMeta = $('usage-meta');
+        if (usageMeta && $('plan-name').textContent) {
+            usageMeta.textContent = `${$('plan-name').textContent} · ${Math.max(0, remaining)} credits left`;
+        }
+
         wrap.hidden = false;
     }
 
@@ -103,6 +126,12 @@
     let memoryFacts = [];
     function renderFacts() {
         const list = $('mem-list');
+        const settingsMeta = $('settings-meta');
+        if (settingsMeta) {
+            settingsMeta.textContent = (memoryFacts && memoryFacts.length)
+                ? `${memoryFacts.length} fact${memoryFacts.length === 1 ? '' : 's'} saved`
+                : 'No facts yet';
+        }
         list.innerHTML = (memoryFacts || []).map((f) => `
             <li data-id="${esc(String(f.id))}">
               <span>${esc(f.fact)}</span>
@@ -329,8 +358,35 @@
             }
             section.hidden = false;
 
+            // Owner-only surfaces (Admin row, customer-messages shortcut).
+            // The markup ships hidden and is revealed strictly from the
+            // authenticated session's email; every /admin/* page behind the
+            // links re-checks the account server-side (customerMessagesAdminOnly
+            // / marketingDashboardOnly in backend/app.js).
+            const isOwner = String(((session.profile || {}).email) || '').trim().toLowerCase() === 'rin@gmail.com';
+            const adminSection = $('admin-section');
+            if (adminSection) adminSection.hidden = !isOwner;
+            const msgAdminLink = $('messages-admin-link');
+            if (msgAdminLink) msgAdminLink.hidden = !isOwner;
+
             mountCredits(credits);
         } catch (_) { /* profile card is non-blocking */ }
     }
+    // messages.js writes into the thread while the section is collapsed
+    // (scrollTop on a zero-height element is a no-op), so re-seat the newest
+    // bubble once the section actually paints.
+    const messagesDetails = $('messages-details');
+    if (messagesDetails) {
+        messagesDetails.addEventListener('toggle', () => {
+            if (!messagesDetails.open) return;
+            const msgList = $('message-list');
+            if (msgList) msgList.scrollTop = msgList.scrollHeight;
+        });
+    }
+    // /profile.html#admin-section and friends: a hash pointing at a section
+    // opens it (:target needs no parsing, so a bogus hash just misses).
+    const targetDetail = document.querySelector(':target');
+    if (targetDetail && targetDetail.matches('details')) targetDetail.open = true;
+
     mountProfile();
 })();

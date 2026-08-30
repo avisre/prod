@@ -503,6 +503,15 @@ const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
 const STRIPE_PRICE_ID_POWER = process.env.STRIPE_PRICE_ID_POWER || '';
 const STRIPE_PRICE_ID_POWER_MONTHLY = process.env.STRIPE_PRICE_ID_POWER_MONTHLY || '';
 const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
+// Credit top-up: a one-time payment that adds CREDIT_TOPUP_CREDITS to the
+// buyer's current-month wallet (credits.grant()). Priced above the Pro plan's
+// bundled per-credit rate on purpose so packs can't under undercut plans; the
+// /recharge page states the maths. STRIPE_PRICE_ID_CREDITS_TOPUP must point at
+// an ACTIVE one-time price charging exactly CREDIT_TOPUP_PRICE — a stale or
+// mispriced price refuses to sell rather than charging the wrong amount.
+const CREDIT_TOPUP_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '9.00');
+const CREDIT_TOPUP_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
+const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP || '';
 // A missing or stale Price ID must not turn a configured Stripe account into a
 // broken checkout. This is deliberately narrow: it resolves only the published
 // direct-purchase plans by their exact product, amount and recurring interval.
@@ -1904,7 +1913,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260830-noflow1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260830-navtray1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -1933,7 +1942,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260830-noflow1"></script>
+<script src="/assets/app.js?v=20260830-navtray1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2003,7 +2012,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260830-noflow1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260830-navtray1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2031,7 +2040,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260830-noflow1"></script>
+<script src="/assets/app.js?v=20260830-navtray1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -5475,6 +5484,55 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
     }
 });
 
+// One-time credit refill. Unlike the subscription checkout this charges a
+// fixed USD amount today and grants nothing until the webhook's
+// checkout.session.completed sees payment_status 'paid' — the same shape as
+// the china pass / direct-LTD one-time paths, for the same reasons.
+app.post('/api/credits/topup', authMiddleware, async (req, res) => {
+    try {
+        if (!stripe || !stripeSecretKey) {
+            return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
+        }
+        if (!STRIPE_PRICE_ID_CREDITS_TOPUP) {
+            return res.status(503).json({ message: 'Credit refills are not available yet.', code: 'TOPUP_UNAVAILABLE' });
+        }
+        const price = await stripe.prices.retrieve(STRIPE_PRICE_ID_CREDITS_TOPUP, { expand: ['product'] });
+        const expectedAmount = Math.round(CREDIT_TOPUP_PRICE * 100);
+        const product = price?.product;
+        const isActive = price?.active === true
+            && Number(price?.unit_amount) === expectedAmount
+            && String(price?.currency || '').toLowerCase() === 'usd';
+        if (!isActive) {
+            console.error(`[credits] topup price ${STRIPE_PRICE_ID_CREDITS_TOPUP} is misconfigured (active=${price?.active}, amount=${price?.unit_amount}, currency=${price?.currency}); refusing to sell.`);
+            return res.status(503).json({ message: 'Credit refills are not available right now. Please try again shortly.', code: 'TOPUP_UNAVAILABLE' });
+        }
+        const productName = typeof product === 'object' ? (product?.name || 'Credit refill') : 'Credit refill';
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            customer_email: req.user.email,
+            line_items: [{ price: price.id, quantity: 1 }],
+            client_reference_id: req.userId,
+            success_url: `${getRequestOrigin(req)}/profile.html?recharge=success#usage-details`,
+            cancel_url: `${getRequestOrigin(req)}/recharge.html?recharge=cancelled`,
+            custom_text: { submit: { message: `Adds ${CREDIT_TOPUP_CREDITS} credits to this month's wallet. Final-month credits don't roll over.` } },
+            metadata: {
+                userId: String(req.userId),
+                checkoutType: 'credit_topup',
+                credits: String(CREDIT_TOPUP_CREDITS),
+                product: productName
+            }
+        });
+        if (!session?.url) {
+            return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+        }
+        res.json({ url: session.url });
+    } catch (error) {
+        console.error('/api/credits/topup error:', error && error.message);
+        res.status(500).json({ message: 'Unable to start checkout right now.' });
+    }
+});
+
 // Whether the Alipay/WeChat Pay one-time annual pass can actually be started
 // right now — gates the CN payment button in the /zh pricing UI so it never
 // offers a checkout Stripe will reject (see chinaCheckoutPaymentMethods()).
@@ -7150,6 +7208,30 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                             await handleChinaAnnualPassPaid(user, payload, event);
                         }
                         return res.status(200).send({ received: true });
+                    } else if (payload.metadata?.checkoutType === 'credit_topup') {
+                        // One-time credit refill (payment mode, payload.subscription
+                        // always null) — handled before the subscription branches, same
+                        // reason as the china pass. grant() is idempotent on the session
+                        // id, so Stripe webhook redelivery never double-credits.
+                        if (payload.payment_status === 'paid') {
+                            const inserted = await credits.grant(
+                                userId,
+                                Number(payload.metadata?.credits) || CREDIT_TOPUP_CREDITS,
+                                'topup',
+                                payload.id
+                            );
+                            if (inserted) {
+                                trackFunnel('credit_topup_paid', user._id, user.subscription && user.subscription.planName, {
+                                    eventName: 'credit_topup_paid',
+                                    dedupeKey: `credit_topup:${payload.id}`,
+                                    entitlementSource: 'stripe',
+                                    testFlag: payload.livemode === false
+                                });
+                            }
+                        } else {
+                            console.warn(`[credits] topup session ${payload.id} completed with payment_status=${payload.payment_status}; no credits granted.`);
+                        }
+                        return res.status(200).send({ received: true });
                     }
                     const subscription = payload.subscription
                         ? await stripe.subscriptions.retrieve(payload.subscription)
@@ -8099,6 +8181,22 @@ app.get(/^\/register\/?$/, (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend-v2/register.html'));
 });
 
+// Credit refill — a paid account's own purchase surface, never useful logged
+// out. optionalAuth + a redirect (rather than authMiddleware's JSON 401): a
+// visitor without a session is walked to login with a return path, which is
+// what a browser follows; a stale token still 401s from the API surface.
+app.get(/^\/recharge\/?$/, optionalAuth, (req, res) => {
+    if (!req.userId) return res.redirect('/login.html?next=' + encodeURIComponent('/recharge.html'));
+    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/recharge.html'));
+});
+
+// In-app tier upgrade — same reasoning: /register.html is the new-account
+// funnel; existing users must never land on it to change plans.
+app.get(/^\/upgrade\/?$/, optionalAuth, (req, res) => {
+    if (!req.userId) return res.redirect('/login.html?next=' + encodeURIComponent('/upgrade.html'));
+    res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/upgrade.html'));
+});
+
 app.get(/^\/founding\/?$/, (req, res) => {
     // Legacy founding page showed stale $118/$12 pricing — canonical funnel is v2 at /.
     res.redirect(301, '/');
@@ -9021,7 +9119,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
             return res.status(402).json({
                 message: `A ${depth === 'deep' ? 'Deep ' : ''}Dossier costs ${gate.cost} credits — you have ${gate.remaining} left this month.`,
                 code: 'CREDITS_REQUIRED',
-                credits: { used: gate.used, allowance: gate.allowance, remaining: gate.remaining, needed: gate.cost }
+                credits: { used: gate.used, allowance: gate.allowance, remaining: gate.remaining, needed: gate.cost, resetsAt: gate.resetsAt }
             });
         }
         if (winner && winner.error) return res.status(404).json(winner);

@@ -218,7 +218,7 @@
                 $('news-feature-col').hidden = true;
                 $('news-latest-col').hidden = true;
                 $('news-stream-col').hidden = true;
-                $('trending-list').innerHTML = '<li class="side-empty">On the paid plans.</li>';
+                $('trending-list').innerHTML = '<li class="side-empty">On the paid plans — <a href="/register.html">choose a plan →</a>.</li>';
                 return;
             }
             if (!r.ok) throw new Error('news ' + r.status);
@@ -249,7 +249,7 @@
         if (!token()) { setMsg('Sign in to see movers.'); return; }
         try {
             const r = await fetch(`${API}/alpha/movers`, { headers: { Authorization: `Bearer ${token()}` } });
-            if (!r.ok) { setMsg(r.status === 402 ? 'On the paid plans.' : r.status === 401 ? 'Sign in to see movers.' : 'Movers unavailable right now.'); return; }
+            if (!r.ok) { setMsg(r.status === 402 ? 'On the paid plans — <a href="/upgrade.html">upgrade →</a>.' : r.status === 401 ? 'Sign in to see movers.' : 'Movers unavailable right now.'); return; }
             const data = await r.json();
             if (!Array.isArray(data.top_gainers) || !data.top_gainers.length) { setMsg('Movers throttled by data provider.'); return; }
             const paint = (id, rows) => {

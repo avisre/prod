@@ -155,3 +155,48 @@ test('recentActivity() never throws, even with a broken connection', { timeout: 
     assert.notEqual(result, 'THREW');
     assert.deepEqual(result, []);
 });
+
+test('purchased top-ups raise the current month only, and a webhook retry never double-grants', { timeout: 60000 }, async (t) => {
+    const server = await MongoMemoryServer.create();
+    await mongoose.connect(server.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
+
+    const user = 'user-topup';
+
+    const fresh = await credits.balance(user, 300);        // Pro: 600 base
+    assert.equal(fresh.allowance, 600, 'no grants yet — plain plan allowance');
+
+    // First webhook delivery: exactly one +150 row, allowance +150, and the
+    // grant is visible in the same month key the spend rows use.
+    const first = await credits.grant(user, 150, 'topup', 'cs_test_1');
+    assert.equal(first, true, 'first delivery inserts the grant');
+    const granted = await credits.balance(user, 300);
+    assert.equal(granted.allowance, 750, '600 plan + 150 purchased');
+    assert.equal(granted.remaining, 750);
+
+    // Spend against the enlarged wallet to prove both pools draw together.
+    await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard'); // -10
+    const afterSpend = await credits.balance(user, 300);
+    assert.equal(afterSpend.used, 10);
+    assert.equal(afterSpend.remaining, 740);
+
+    // Stripe redelivers checkout.session.completed on ack failure: the same
+    // refId must be refused, not inserted twice.
+    const retry = await credits.grant(user, 150, 'topup', 'cs_test_1');
+    assert.equal(retry, false, 'redelivery of the same Stripe session is idempotent');
+    const afterRetry = await credits.balance(user, 300);
+    assert.equal(afterRetry.allowance, 750, 'balance unchanged by the retry');
+    assert.equal(afterRetry.remaining, 740);
+
+    // A genuinely new session (a second purchase later in the month) stacks.
+    await credits.grant(user, 150, 'topup', 'cs_test_2');
+    const twoFills = await credits.balance(user, 300);
+    assert.equal(twoFills.allowance, 900, '600 + 150 + 150');
+
+    // Guard rails: a malformed grant is a no-op, never a crash or a wrong row.
+    assert.equal(await credits.grant(user, 0, 'topup', 'cs_test_3'), false);
+    assert.equal(await credits.grant(user, -5, 'topup', 'cs_test_4'), false);
+    assert.equal(await credits.grant(user, 'NaN', 'topup', 'cs_test_5'), false);
+    const guarded = await credits.balance(user, 300);
+    assert.equal(guarded.allowance, 900, 'rejected grants changed nothing');
+});

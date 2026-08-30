@@ -431,6 +431,26 @@
     out.innerHTML = `<div class="card card-pad">${spinner(base)}<p class="small faint" style="margin:10px 0 0;">${esc(hint)}</p></div>`;
   }
 
+  // The wallet wall, distinct from the tier upsell: the server's 402 carries
+  // code CREDITS_REQUIRED when a Power/Desk user's monthly balance is spent
+  // (the tier they hold is right; the wallet is what's empty). Pitching the
+  // plan they already own would be the wrong diagnosis.
+  function creditsWall(out, d) {
+    const c = (d && d.credits) || {};
+    const needed = Number(c.needed) || 5;
+    const remaining = Number(c.remaining) || 0;
+    const reset = (window.V2 && window.V2.formatReset) ? window.V2.formatReset(c.resetsAt) : '';
+    out.innerHTML = `<div class="card card-pad">
+      <span class="label">Out of credits</span>
+      <h3 class="title-3" style="margin:12px 0 8px;">Your wallet is empty this month</h3>
+      <p class="small faint" style="max-width:64ch; margin:0 0 4px;">A Monitor report costs ${needed} credits — you have ${remaining} left this month.${reset ? ` ${esc(reset)} — your plan's allowance comes back on its own.` : ''}</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:14px;">
+        <a class="btn btn-primary" href="/recharge.html">Recharge 150 credits — $9</a>
+        <a class="btn btn-ghost" href="/profile.html#usage-details">See this month's usage →</a>
+      </div>
+    </div>`;
+  }
+
   // Detailed, specific failure cards so the user always knows what happened and
   // what to do next — never a bare "could not analyze".
   function monFail(out, sym, kind, detail) {
@@ -498,7 +518,13 @@
         continue;
       }
       if (r.status === 429) { trialWall(out); return; } // free stocks spent for the day
-      if (r.status === 402) { upsell(out); return; }    // logged-in, needs Power/Desk
+      if (r.status === 402) {
+        // The server code says which 402 this is: MONITOR_REQUIRED = tier
+        // gate (the upgrade card is right); CREDITS_REQUIRED = wallet empty.
+        const d = await r.json().catch(() => ({}));
+        if (d && d.code === 'CREDITS_REQUIRED') { creditsWall(out, d); return; }
+        upsell(out); return;                              // logged-in, needs Power/Desk
+      }
       if (first) countedResp = r;                        // the counted (non-poll) response
       let d = null;
       try { d = await r.json(); } catch (_) { d = null; }

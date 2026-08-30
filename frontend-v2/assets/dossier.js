@@ -64,6 +64,37 @@
     out.hidden = false;
   }
 
+  // The wallet wall, distinct from the tier upsell: the server's 402 carries
+  // code CREDITS_REQUIRED for balance exhaustion (a Pro/Power user, not a
+  // tier problem). Selling them "unlimited on Pro" here would be wrong twice
+  // — wrong diagnosis, and they already hold the card being sold.
+  function creditsWall(out, d) {
+    const c = (d && d.credits) || {};
+    const needed = Number(c.needed) || 10;
+    const remaining = Number(c.remaining) || 0;
+    const deep = needed > 10;
+    const reset = (window.V2 && window.V2.formatReset) ? window.V2.formatReset(c.resetsAt) : '';
+    out.innerHTML = `<div class="card card-pad">
+      <span class="label">Out of credits</span>
+      <h2 class="title-2" style="margin:12px 0 8px;">Your wallet is empty this month</h2>
+      <p class="muted" style="max-width:62ch;">A ${deep ? 'Deep ' : ''}Dossier costs ${needed} credits — you have ${remaining} left this month. Recharge to run it now${reset ? `, or wait for the regular wallet: ${esc(reset).toLowerCase()}` : '.'}</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
+        <a class="btn btn-primary" href="/recharge.html">Recharge 150 credits — $9</a>
+        <a class="btn btn-ghost" href="/profile.html#usage-details">See this month's usage →</a>
+      </div>
+${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} — your plan's allowance comes back on its own.</p>` : ''}
+    </div>`;
+    out.hidden = false;
+  }
+
+  // One 402 handler for the build request: the server distinguishes
+  // PRO_REQUIRED (tier gate — the upsell is right) from CREDITS_REQUIRED
+  // (wallet empty — the wall above is right).
+  function handleDossier402(out, body) {
+    if (body && body.code === 'CREDITS_REQUIRED') creditsWall(out, body);
+    else upsell(out);
+  }
+
   // ---- rendering ----
   const TONE = { improving: 'pos', deteriorating: 'neg', stable: '' };
   function snapRow(k, v) { return v == null || v === '' || v === 'None' ? '' : `<div><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`; }
@@ -826,7 +857,7 @@
         try { r = await fetch(`${API}/dossier/${encodeURIComponent(sym)}${q}`, { headers: auth() }); }
         catch (_) { await wait(POLL_MS); continue; }
         if (r.status === 401) { upsell(out); break; }
-        if (r.status === 402) { upsell(out); break; }
+        if (r.status === 402) { const d = await r.json().catch(() => ({})); handleDossier402(out, d); break; }
         if (r.status === 404 || r.status === 422) { const e = await r.json().catch(() => ({})); fail(out, e.message || `Couldn’t build a dossier for ${sym}.`); break; }
         if (r.status === 202) { const d = await r.json().catch(() => ({})); setBuilding(out, sym, d.stage, Date.now() - started); await wait(POLL_MS); continue; }
         if (!r.ok) { fail(out, 'Something went wrong building the dossier.'); break; }

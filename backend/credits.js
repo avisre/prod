@@ -58,6 +58,40 @@ async function used(userId) {
     } catch (_) { return 0; }
 }
 
+// Purchased top-ups land in the same ledger as positive rows (delta > 0,
+// reason 'topup'), so a grant is as auditable as a spend and expires with the
+// month key by construction — no cron, no second expiry field. used() only
+// sums negatives, so the two never contaminate each other.
+async function granted(userId) {
+    try {
+        const rows = await ledgerCol().aggregate([
+            { $match: { userId: String(userId), month: monthKey(), delta: { $gt: 0 } } },
+            { $group: { _id: null, total: { $sum: '$delta' } } }
+        ]).toArray();
+        return rows.length ? rows[0].total : 0;
+    } catch (_) { return 0; }
+}
+
+// Idempotent on refId (the Stripe checkout session id): the webhook fires
+// checkout.session.completed once but redelivers on ack failure, and a retry
+// must never double-charge the ledger. Returns true only when a row was
+// actually inserted this call.
+async function grant(userId, amount, reason, refId) {
+    const amountN = Math.floor(Number(amount) || 0);
+    if (!Number.isFinite(amountN) || amountN <= 0) return false;
+    try {
+        if (refId) {
+            const existing = await ledgerCol().countDocuments({ userId: String(userId), refId, delta: { $gt: 0 } });
+            if (existing) return false;
+        }
+        await ledgerCol().insertOne({
+            userId: String(userId), month: monthKey(), delta: amountN,
+            reason, refId: refId || null, at: new Date()
+        });
+        return true;
+    } catch (error) { console.error('[credits] grant failed:', error && error.message); return false; }
+}
+
 // One wallet shared with Ask, Monitor and Dossier, sized off the Ask limit the
 // user already has (effectiveAskLimit — tier, AppSumo cap, env overrides all
 // already resolved there) rather than a second, parallel tier table that could
@@ -83,7 +117,8 @@ function allowance(effectiveAskLimit, planId) {
 
 async function balance(userId, effectiveAskLimit, planId) {
     const spent = await used(userId);
-    const limit = allowance(effectiveAskLimit, planId);
+    // Plan allowance plus any purchased top-ups still inside this month.
+    const limit = allowance(effectiveAskLimit, planId) + await granted(userId);
     return { used: spent, allowance: limit, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
 }
 
@@ -128,4 +163,4 @@ async function recentActivity(userId, limit = 12) {
     } catch (_) { return []; }
 }
 
-module.exports = { COST, monthKey, resetsAt, used, allowance, balance, spend, check, recentActivity };
+module.exports = { COST, monthKey, resetsAt, used, granted, grant, allowance, balance, spend, check, recentActivity };

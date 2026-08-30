@@ -104,7 +104,7 @@
                 const r = await fetch(`${API}/stocks/${encodeURIComponent(symbol)}/ai-summary`, { headers: { Authorization: `Bearer ${token()}` } });
                 const result = await r.json().catch(() => ({}));
                 if (!r.ok) {
-                    body.innerHTML = r.status === 402 ? 'This summary is available on Pro. <a href="/register.html">View plans →</a>' : esc(result.message || 'Could not generate the summary.');
+                    body.innerHTML = r.status === 402 ? 'This summary is available on Pro. <a href="/upgrade.html">View plans →</a>' : esc(result.message || 'Could not generate the summary.');
                     body.hidden = false; return;
                 }
                 body.innerHTML = markdown(result.summary || '');
@@ -1513,7 +1513,7 @@
         $('insider-hist-table').innerHTML = html + '</tbody>';
         attachHScroll($('insider-hist-table').closest('.table-wrap'));
         $('insider-hist-prov').innerHTML = (lock
-            ? '🔒 The most recent period is part of Pro — <a href="/register.html?plan=pro">upgrade</a> to see what insiders did latest. '
+            ? '🔒 The most recent period is part of Pro — <a href="/upgrade.html">upgrade</a> to see what insiders did latest. '
             : '') + esc(form4Meta || 'Aggregated from Form 4 filings, as far back as the transactions feed reaches.');
     }
 
@@ -1618,7 +1618,7 @@
         insightsLoaded = true;
         const segBody = $('seg-body');
         const insBody = $('insights-body');
-        const teaser = (what) => `${what} is a Pro feature — <a href="/register.html?plan=pro">upgrade</a> or <a href="/login.html">log in</a>.`;
+        const teaser = (what) => `${what} is a Pro feature — <a href="/upgrade.html">upgrade</a> or <a href="/login.html">log in</a>.`;
         if (!token()) {
             segBody.innerHTML = `<p class="small muted">${teaser('Business segments from the 10-K')}</p>`;
             insBody.innerHTML = `<p class="small muted">${teaser('Insights — the analyst’s reading of 19 years of filings, the valuation record and sector position')}</p>`;

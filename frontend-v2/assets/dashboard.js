@@ -330,7 +330,7 @@
           <div class="card card-pad" style="max-width:420px;">
             <p class="label" style="margin-bottom:6px;">Free plan</p>
             <p class="small muted" style="margin:0 0 12px;">Your account needs a paid plan to track a portfolio with X-Ray, alerts and the weekly briefing.</p>
-            <a class="btn btn-primary" href="/register.html?plan=monthly">Choose a plan</a>
+            <a class="btn btn-primary" href="/upgrade.html">Choose a plan</a>
           </div>`;
         $('pf-total').textContent = '—';
         $('pf-inception-gain').hidden = true;
@@ -354,7 +354,7 @@
             body.innerHTML = '<div class="ask-a">' + markdown(data.briefing || '') + '</div>'
                 + '<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line)">'
                 + '<p class="small muted" style="margin:0 0 8px"><strong>Sample briefing</strong> — 5-stock demo portfolio. Subscribe to get your own weekly briefing.</p>'
-                + '<a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Choose a plan →</a>'
+                + '<a class="btn btn-primary btn-sm" href="/upgrade.html">Choose a plan →</a>'
                 + '</div>';
             const share = document.createElement('div');
             mountShare(share, { title: 'Sample weekly portfolio briefing', text: data.briefing || '', url: location.href });
@@ -476,11 +476,31 @@
         }
     }
 
+    // Deleting a holding is irreversible and used to fire on a single click
+    // (D3). Confirm in the shared dialog first — window.confirm is the
+    // fallback when app.js hasn't mounted for any reason.
+    function confirmRemoveHolding(symbol) {
+        if (!window.V2 || !V2.modal) return Promise.resolve(window.confirm(`Remove ${symbol} from your portfolio? This cannot be undone.`));
+        return new Promise((resolve) => {
+            V2.modal({
+                label: 'Remove holding',
+                title: `Remove ${symbol}?`,
+                body: `${symbol} will be removed from your portfolio. This cannot be undone.`,
+                actions: [
+                    { label: 'Remove', primary: true, onClick: () => resolve(true) },
+                    { label: 'Keep', onClick: () => resolve(false) }
+                ],
+                onDismiss: () => resolve(false)
+            });
+        });
+    }
+
     async function removeHolding(button) {
         if (portfolioActionBusy) return;
         const id = button.dataset.del;
         const savedRow = lastRows.find((row) => String(row.id) === String(id));
         const symbol = savedRow ? savedRow.symbol : 'Holding';
+        if (!await confirmRemoveHolding(symbol)) return;
         showPortfolioAction(`Removing ${symbol}`, 'Updating your saved holdings…');
         try {
             const response = await fetch(`${API}/portfolio/${id}`, { method: 'DELETE', headers: auth });
@@ -834,7 +854,7 @@
                 const message = r.status === 402
                     ? 'Your subscription is not active. Choose a plan to add holdings.'
                     : (saved.message || `Couldn’t add ${symbol} — try again.`);
-                if (r.status === 402) note('Your subscription isn’t active — <a href="/register.html">choose a plan</a> to add holdings.');
+                if (r.status === 402) note('Your subscription isn’t active — <a href="/upgrade.html">choose a plan</a> to add holdings.');
                 else note(esc(message));
                 finishPortfolioAction(message, { error: true, holdMs: 2200 });
                 return;

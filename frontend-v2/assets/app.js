@@ -577,12 +577,15 @@
             : (limit >= 300 ? 'pro' : limit >= 25 ? 'core' : 'free');
         if (tier === 'pro') {
             const msg = esc((data && data.message) || "You've used all your Ask questions this month — the counter resets on the 1st.");
-            // AppSumo tier 1/2 buyers can lift their cap by upgrading their license.
+            // A Pro wall is a dead end unless it offers a way forward: the
+            // credit refill buys Asks today, the reset date says when the
+            // regular wallet returns, and AppSumo buyers lift their cap by
+            // upgrading their license.
             const as = data && data.appsumo;
             if (as && as.isAppSumo && as.upgradeUrl) {
                 return `<div class="notice">${msg}<br><a class="btn btn-primary" style="margin-top:12px" href="${esc(as.upgradeUrl)}" target="_blank" rel="noopener">Upgrade your AppSumo license →</a></div>`;
             }
-            return `<div class="notice">${msg}</div>`;
+            return `<div class="notice">${msg}<br><a class="btn btn-primary" style="margin-top:12px" href="/recharge.html">Recharge 150 credits — $9</a> <span class="small" style="margin-left:6px;">or <a href="/upgrade.html">upgrade your plan →</a></span></div>`;
         }
         const cards = ['free', 'core', 'pro'].map((k) => {
             const p = ASK_PLANS[k];
@@ -735,57 +738,45 @@
     }
 
     // ---------- account dropdown ----------
+    // A small tray, not a dashboard: one status line (from data the nav
+    // already holds — opening costs no request), one row per profile section
+    // (deep links land with that section already open), an admin row for the
+    // owner, and Upgrade/Recharge when they apply. Sign out deliberately
+    // stays OUT of the tray — the nav's standalone button is the only one, so
+    // the irrevocable action keeps its distance from the menu rows.
     function accountMenuHtml(session, credits, messages, unread) {
         const sub = (session && session.subscription) || {};
         const planName = sub.planName || (session && session.tier === 'core' ? 'Core' : session && session.tier === 'pro' ? 'Pro' : 'Free');
         const allowance = Number(credits.allowance) || 0;
         const used = Number(credits.used) || 0;
         const remaining = Number.isFinite(credits.remaining) ? credits.remaining : Math.max(0, allowance - used);
-        const recent = Array.isArray(credits.recent) ? credits.recent : [];
-        const hasMonitor = !!credits.hasMonitor;
-        const pctUsed = allowance > 0 ? Math.min(100, (used / allowance) * 100) : 0;
-
-        let usage;
-        if (allowance || used || recent.length) {
-            const split = creditSplit(recent);
-            let rows = '';
-            if (recent.length && split.covered >= used) {
-                const items = [['Ask', split.ask]];
-                if (hasMonitor) items.push(['Monitor', split.monitor]);
-                items.push(['Dossier', split.dossier]);
-                const max = Math.max(...items.map(([, amt]) => amt), 1);
-                rows = items.map(([label, amt]) => `
-                  <div class="nav-account-split"><span>${label}</span>
-                    <div class="nav-account-split-track"><div class="nav-account-split-fill" style="width:${(amt / max) * 100}%;"></div></div>
-                    <span class="amt">${amt}</span></div>`).join('');
-            }
-            usage = `
-              <div class="nav-account-plan"><strong>${esc(planName)}</strong><span>${esc(formatReset(credits.resetsAt))}</span></div>
-              <p class="nav-account-total">${used} / ${allowance} credits used &middot; ${Math.max(0, remaining)} left</p>
-              <div class="nav-account-track"><div class="nav-account-fill${pctUsed >= 85 ? ' is-high' : ''}" style="width:${pctUsed}%;"></div></div>
-              ${rows}
-              ${hasMonitor ? '' : '<p class="nav-account-note">The Filing Change Monitor is on Power and Desk.</p>'}`;
-        } else {
-            usage = `<div class="nav-account-plan"><strong>${esc(planName)}</strong></div>
-                     <p class="nav-account-note">No credit use yet this month.</p>`;
+        const hasBalance = allowance > 0 || used > 0;
+        const isOwner = String(((session && session.profile) || {}).email || '').trim().toLowerCase() === 'rin@gmail.com';
+        // Same top-tier rule as the nav Upgrade chip — nothing to upgrade to.
+        const topTier = ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId);
+        const as = session && session.appsumo;
+        const rechargeEligible = hasBalance && remaining / Math.max(1, allowance) <= 0.2;
+        const row = (href, label) => `<a href="${href}" role="menuitem">${esc(label)}</a>`;
+        let html = `
+        <p class="nav-account-status">${esc(planName)}${hasBalance ? ` · ${Math.max(0, remaining)} left` : ''}</p>
+        <div class="nav-account-sep"></div>
+        <div class="nav-account-links" role="none">
+          ${row('/profile.html#usage-details', 'Usage')}
+          ${row('/profile.html#settings-section', 'Settings')}
+          ${row('/profile.html#messages-details', `Messages${unread ? ` <span class="nav-account-unread">${esc(unread)}</span>` : ''}`)}
+          ${isOwner ? row('/profile.html#admin-section', 'Admin') : ''}
+        </div>`;
+        if (as && as.isAppSumo && as.upgradeUrl) {
+            html += `<a class="nav-account-cta" role="menuitem" href="${esc(as.upgradeUrl)}" target="_blank" rel="noopener">Upgrade license &rarr;</a>`;
+        } else if (!topTier) {
+            html += `<a class="nav-account-cta" role="menuitem" href="/upgrade.html">Upgrade plan</a>`;
         }
-
-        // Newest first, capped at two — this is a preview, the full thread is
-        // one click away on the profile page.
-        const preview = (Array.isArray(messages) ? messages : []).slice(-2).reverse();
-        const msgs = `
-          <div class="nav-account-sep"></div>
-          <div class="nav-account-msg-head"><p class="label">Messages</p>${unread ? `<span class="count">${unread}</span>` : ''}</div>
-          ${preview.length
-            ? `<ul class="nav-account-msgs">${preview.map((m) => `<li>${m.sender === 'admin' ? '' : 'You: '}${esc(m.body)}</li>`).join('')}</ul>`
-            : '<p class="nav-account-note">No messages yet.</p>'}`;
-
-        return `${usage}${msgs}
-          <div class="nav-account-sep"></div>
-          <div class="nav-account-links">
-            <a href="/profile.html">Full profile &rarr;</a>
-            <a href="#" data-account-signout>Sign out</a>
-          </div>`;
+        if (rechargeEligible) {
+            html += `<a class="nav-account-cta nav-account-cta-quiet" role="menuitem" href="/recharge.html">Recharge credits</a>`;
+        }
+        html += `<div class="nav-account-sep"></div>
+        <div class="nav-account-links"><a href="/profile.html">Full profile &rarr;</a></div>`;
+        return html;
     }
 
     function mountAccountMenu(trigger, menu, sessionPromise) {
@@ -793,53 +784,74 @@
         menu.dataset.wired = '1';   // nav() is already idempotent; belt and braces
         let loaded = false;
 
-        // Below the desktop breakpoint (.nav-links hides at 1180px) the icon
-        // keeps plain-link behaviour — the mobile drawer already has its own
-        // Profile entry, and a 296px panel doesn't belong on a phone.
-        const isDesktop = () => window.matchMedia('(min-width: 1181px)').matches;
+        // Below 641px the icon keeps plain-link behaviour — the mobile drawer
+        // already has its own Profile entry, and a tray doesn't belong on a
+        // phone-sized canvas. (The old 1181px threshold made laptop-narrow
+        // windows navigate instead of opening the tray — that was the bug.)
+        const isDesktop = () => window.matchMedia('(min-width: 641px)').matches;
         const isOpen = () => menu.dataset.open === '1';
         const close = () => { menu.dataset.open = '0'; trigger.setAttribute('aria-expanded', 'false'); };
 
         async function load() {
-            menu.innerHTML = '<p class="nav-account-note" style="margin:0;">Loading&hellip;</p>';
-            const headers = { Authorization: `Bearer ${token()}` };
             const badge = document.getElementById('v2-message-badge');
             const unread = badge && !badge.hidden ? badge.textContent : '';
+            let session = null;
+            let credits = {};
             try {
-                const [session, credits, thread] = await Promise.all([
-                    // Reuses the /api/session response the trial banner already
-                    // fetched — no second request for the plan name.
-                    sessionPromise.catch(() => null),
-                    fetch(`${API}/credits`, { headers }).then((r) => r.ok ? r.json() : {}).catch(() => ({})),
-                    fetch(`${API}/messages/thread`, { headers }).then((r) => r.ok ? r.json() : {}).catch(() => ({}))
-                ]);
-                menu.innerHTML = accountMenuHtml(session, credits || {}, (thread && thread.messages) || [], unread);
-            } catch (_) {
-                menu.innerHTML = `<p class="nav-account-note" style="margin:0;">Couldn’t load your usage.</p>
-                  <div class="nav-account-sep"></div>
-                  <div class="nav-account-links"><a href="/profile.html">Full profile &rarr;</a></div>`;
-            }
+                // Reuses the /api/session response the trial banner already
+                // fetched; the one extra call prices the tray's credit line.
+                // The message-thread preview is gone from the tray, so that
+                // fetch went with it — opening is cheap, always.
+                const sessionData = await sessionPromise.catch(() => null);
+                session = sessionData;
+                const r = await fetch(`${API}/credits`, { headers: { Authorization: `Bearer ${token()}` } });
+                credits = r.ok ? await r.json() : {};
+            } catch (_) { /* the fallback below still opens */ }
+            menu.innerHTML = accountMenuHtml(session, credits || {}, [], unread);
         }
+
+        const open = () => {
+            menu.dataset.open = '1';
+            trigger.setAttribute('aria-expanded', 'true');
+            if (!loaded) { loaded = true; load(); }
+        };
 
         trigger.addEventListener('click', (e) => {
             if (!isDesktop()) return;      // let the href do its job
             e.preventDefault();
             if (isOpen()) { close(); return; }
+            open();
+        });
+
+        // Hover OPEN only. There is deliberately no hover-close: a tray that
+        // vanishes when the mouse wanders is flicker-prone; the deliberate
+        // dismissals (outside click, Esc, re-click) are the only exits.
+        trigger.addEventListener('mouseenter', () => {
+            if (!isDesktop()) return;
+            if (isOpen()) return;
             menu.dataset.open = '1';
             trigger.setAttribute('aria-expanded', 'true');
             if (!loaded) { loaded = true; load(); }
         });
-        menu.addEventListener('click', (e) => {
-            const out = e.target.closest('[data-account-signout]');
-            if (!out) return;
-            e.preventDefault();
-            fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}).then(() => location.reload());
-        });
+
         document.addEventListener('click', (e) => {
             if (isOpen() && !menu.contains(e.target) && !trigger.contains(e.target)) close();
         });
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && isOpen()) { close(); trigger.focus(); }
+        });
+        // role=menu contract: arrows walk the rows. Small and forgiving — it
+        // complements, never replaces, plain Tab order.
+        menu.addEventListener('keydown', (e) => {
+            if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+            const items = Array.from(menu.querySelectorAll('a'));
+            if (!items.length) return;
+            e.preventDefault();
+            const idx = items.indexOf(document.activeElement);
+            const target = e.key === 'ArrowDown'
+                ? items[Math.min(items.length - 1, idx + 1)]
+                : items[Math.max(0, idx - 1)];
+            if (target) target.focus();
         });
     }
 
@@ -885,7 +897,7 @@
               <div class="nav-search-results" id="v2-search-results" hidden></div>
             </div>
             ${authed
-                ? `<a class="btn btn-primary btn-sm" href="/#pricing" id="v2-upgrade" hidden>Upgrade</a>
+                ? `<a class="btn btn-primary btn-sm" href="/upgrade.html" id="v2-upgrade" hidden>Upgrade</a>
                    <div class="nav-account">
                      <a class="nav-profile" href="/profile.html" id="v2-account-trigger" aria-label="Profile and messages" title="Profile" aria-haspopup="menu" aria-expanded="false" aria-controls="v2-account-menu">
                        <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm0 2c-4.1 0-7.5 2.1-7.5 4.7V20h15v-1.3C19.5 16.1 16.1 14 12 14Z" fill="currentColor"/></svg><span class="nav-message-badge" id="v2-message-badge" hidden>0</span>
@@ -939,7 +951,7 @@
               </nav>
               <div class="nav-mobile-auth">
                 ${authed
-                    ? `<a class="btn btn-primary" href="/#pricing" id="v2-mobile-upgrade" hidden>Upgrade</a>
+                    ? `<a class="btn btn-primary" href="/upgrade.html" id="v2-mobile-upgrade" hidden>Upgrade</a>
                        <a class="btn btn-ghost" href="#" id="v2-mobile-signout">Sign out</a>`
                     : `<a class="btn btn-ghost" href="/login.html">Log in</a>
                        <a class="btn btn-primary" href="/register.html">Choose a plan</a>`}
@@ -1332,7 +1344,26 @@
         const say = (message) => { status.textContent = message; clearTimeout(status.__timer); status.__timer = setTimeout(() => { status.textContent = ''; }, 5500); };
         const copyText = async (value) => {
             try { await navigator.clipboard.writeText(value); return true; }
-            catch (_) { window.prompt('Copy this post', value); return false; }
+            catch (_) {
+                // Clipboard can be blocked (permissions policy, insecure origin)
+                // — don't dead-end: show the link in the shared modal so it can
+                // still be copied by hand. window.prompt stays as the fallback
+                // if app.js's dialog itself is somehow unavailable.
+                if (window.V2 && V2.modal) {
+                    const m = V2.modal({
+                        label: 'Copy link',
+                        title: 'Copy this link',
+                        body: 'Your browser blocked automatic copying — select the link below and copy it manually.',
+                        bodyHtml: `<textarea class="input" readonly rows="2" style="width:100%;resize:vertical;">${esc(value)}</textarea>`,
+                        actions: [{ label: 'Done', primary: true }]
+                    });
+                    const ta = m.el.querySelector('textarea');
+                    ta.addEventListener('focus', () => ta.select());
+                } else {
+                    window.prompt('Copy this post', value);
+                }
+                return false;
+            }
         };
         const prepare = (platform) => {
             if (!prepared.has(platform)) prepared.set(platform, fetch(`${API}/ai/share-copy`, {

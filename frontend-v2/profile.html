@@ -10,9 +10,24 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260830-noflow1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260830-navtray1" />
   <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
   <style>
+    .pcard { margin-top: 18px; max-width: 720px; }
+    .psec + .psec { border-top: 1px solid var(--line); }
+    .psec summary {
+      display: flex; align-items: baseline; gap: 10px;
+      padding: 15px 24px; cursor: pointer; list-style: none; user-select: none;
+    }
+    .psec summary:hover { background: var(--paper); }
+    .psec summary::-webkit-details-marker { display: none; }
+    .psec summary::after { content: '▸'; margin-left: auto; padding-left: 12px; font-size: 10px; color: var(--ink-3); transition: transform 0.12s ease; }
+    .psec[open] summary::after { transform: rotate(90deg); }
+    .psec-meta { margin-left: auto; padding-left: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 62%; font-variant-numeric: tabular-nums; }
+    .psec-meta:empty { display: none; }
+    .psec-body { padding: 0 24px 24px; border-top: 1px solid var(--line); }
+    .psec-body.flush { padding: 0; }
+    .psec-foot { border-top: 1px solid var(--line); padding: 12px 20px; }
     .settings-fact-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 5px; }
     .settings-fact-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 13px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 10px; padding: 7px 10px; }
     .settings-fact-list li span { flex: 1; min-width: 0; }
@@ -22,13 +37,49 @@
     .credits-bar-track { position: relative; width: 100%; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
     .credits-bar-fill { height: 100%; border-radius: 999px; background: var(--ink); transition: width .3s ease; }
     .credits-bar-fill.is-high { background: var(--neg); }
+    .credits-low { margin: 10px 0 0; color: var(--ink-2); }
+    .credits-low a { color: var(--accent-ink); font-weight: 600; }
     .credits-split-row { display: grid; grid-template-columns: 68px 1fr 74px; align-items: center; gap: 10px; margin-top: 8px; }
     .credits-split-track { position: relative; height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
     .credits-split-fill { height: 100%; border-radius: 999px; background: var(--ink-3); }
-    .credits-activity-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 7px; }
-    .credits-activity-list li { display: flex; justify-content: space-between; gap: 12px; font-size: var(--text-sm); color: var(--ink-2); }
+    /* Recent activity: a fixed window showing the ~6 newest rows; older rows
+       (the server still sends up to 12) are reached by scrolling inside the
+       list. Shadow layers only "wake" on the scrolling edge, so the card reads
+       "more below" instead of looking cut off — same trick as .table-wrap. */
+    .credits-activity-list {
+      list-style: none; margin: 10px 0 0; padding: 0;
+      max-height: 234px; overflow-y: auto; overscroll-behavior: contain;
+      border: 1px solid var(--line); border-radius: var(--radius-sm);
+      scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent;
+      background:
+        linear-gradient(var(--surface) 30%, rgba(255, 255, 255, 0)) top center,
+        linear-gradient(rgba(255, 255, 255, 0), var(--surface) 30px) bottom center,
+        radial-gradient(farthest-side at 50% 0, rgba(28, 27, 24, 0.10), rgba(28, 27, 24, 0)) top center,
+        radial-gradient(farthest-side at 50% 100%, rgba(28, 27, 24, 0.10), rgba(28, 27, 24, 0)) bottom center;
+      background-color: var(--surface);
+      background-repeat: no-repeat;
+      background-size: 100% 34px, 100% 34px, 100% 12px, 100% 12px;
+      background-attachment: local, local, scroll, scroll;
+    }
+    .credits-activity-list::-webkit-scrollbar { width: 8px; }
+    .credits-activity-list::-webkit-scrollbar-track { background: transparent; }
+    .credits-activity-list::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; border: 2px solid var(--surface); }
+    .credits-activity-list::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+    .credits-activity-list li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; font-size: var(--text-sm); color: var(--ink-2); border-bottom: 1px solid var(--line); }
+    .credits-activity-list li:last-child { border-bottom: 0; }
     .credits-activity-list .amt { font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
     .credits-activity-list .when { color: var(--ink-3); white-space: nowrap; }
+    .admin-links { list-style: none; margin: 0; padding: 0; }
+    .admin-links li a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 2px; border-bottom: 1px solid var(--line); color: inherit; }
+    .admin-links li:last-child a { border-bottom: 0; }
+    .admin-links li a strong { font-weight: 650; font-size: var(--text-sm); }
+    .admin-links li a span { font-size: var(--text-xs); color: var(--ink-3); text-align: right; }
+    .admin-links li a:hover strong { color: var(--accent-ink); }
+    @media (max-width: 640px) {
+      .psec summary { padding: 13px 16px; }
+      .psec-meta { max-width: 55%; }
+      .psec-body { padding: 0 16px 16px; }
+    }
   </style>
 </head>
 <body>
@@ -50,85 +101,130 @@
           <h1 class="title-1">Profile</h1>
         </div>
 
-        <section class="card card-pad" id="plan-status" hidden style="margin-top:18px; max-width:720px;">
-          <p class="label">Your plan</p>
-          <p class="title-3" id="plan-name" style="margin:6px 0 4px;">&nbsp;</p>
-          <p class="small muted" id="plan-quota" style="margin:0 0 10px;"></p>
-          <p class="small muted" id="plan-includes" style="margin:0;"></p>
-          <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
+        <div class="card pcard">
 
-          <div id="credits-section" hidden style="margin-top:18px; padding-top:16px; border-top:1px solid var(--line);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;">
-              <p class="label" style="margin:0;">Credits this month</p>
-              <span class="small muted" id="credits-reset"></span>
-            </div>
-            <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; gap:12px;">
-              <span class="small" id="credits-used-label" style="font-weight:650;"></span>
-              <span class="small muted" id="credits-remaining-label"></span>
-            </div>
-            <div class="credits-bar-track" style="margin-top:6px;">
-              <div class="credits-bar-fill" id="credits-bar-fill" style="width:0%;"></div>
-            </div>
+          <!-- USAGE: plan + credits ledger. Collapsed by default; the summary
+               meta is filled by profile.js once the session/credits load. -->
+          <details class="psec" id="usage-details">
+            <summary>
+              <span class="label">Usage</span>
+              <span class="psec-meta small muted" id="usage-meta"></span>
+            </summary>
+            <div id="plan-status" class="psec-body" hidden>
+              <p class="label" style="padding-top:18px;">Your plan</p>
+              <p class="title-3" id="plan-name" style="margin:6px 0 4px;">&nbsp;</p>
+              <p class="small muted" id="plan-quota" style="margin:0 0 10px;"></p>
+              <p class="small muted" id="plan-includes" style="margin:0;"></p>
+              <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
 
-            <div id="credits-breakdown" hidden style="margin-top:16px;"></div>
+              <div id="credits-section" hidden style="margin-top:18px; padding-top:16px; border-top:1px solid var(--line);">
+                <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;">
+                  <p class="label" style="margin:0;">Credits this month</p>
+                  <span class="small muted" id="credits-reset"></span>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; gap:12px;">
+                  <span class="small" id="credits-used-label" style="font-weight:650;"></span>
+                  <span class="small muted" id="credits-remaining-label"></span>
+                </div>
+                <div class="credits-bar-track" style="margin-top:6px;">
+                  <div class="credits-bar-fill" id="credits-bar-fill" style="width:0%;"></div>
+                </div>
+                <p class="small credits-low" id="credits-low" hidden></p>
 
-            <p class="small muted" id="credits-cost-line" style="margin:14px 0 0;"></p>
+                <div id="credits-breakdown" hidden style="margin-top:16px;"></div>
 
-            <div id="credits-activity-wrap" hidden style="margin-top:16px;">
-              <p class="small muted" style="margin:0 0 4px;">Recent activity</p>
-              <ul class="credits-activity-list" id="credits-activity-list"></ul>
-            </div>
-          </div>
-        </section>
+                <p class="small muted" id="credits-cost-line" style="margin:14px 0 0;"></p>
 
-        <section class="card card-pad" id="settings-card" hidden style="margin-top:18px; max-width:720px;" aria-label="Settings">
-          <p class="label">Settings</p>
-
-          <div style="display:flex; align-items:flex-start; gap:10px; margin-top:12px; flex-wrap:wrap;">
-            <input type="checkbox" id="mem-toggle" style="margin-top:2px;" aria-describedby="mem-hint" />
-            <label for="mem-toggle" class="small" style="font-weight:650;">Memory</label>
-            <span class="small muted" id="mem-hint" style="flex:1; min-width:220px;">Ask saves short durable facts about you as you chat — your goals, holdings, time horizons — like ChatGPT does. It uses them to answer better; every saved fact is shown in the chat and you can delete any of them here.</span>
-          </div>
-
-          <div id="mem-panel" style="margin-top:14px;">
-            <div id="mem-list-wrap">
-              <ul class="settings-fact-list" id="mem-list"></ul>
-            </div>
-            <p class="small muted" id="mem-empty" style="margin:6px 0 0;">Nothing saved yet. Tell Ask something worth remembering in a chat.</p>
-            <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
-              <input id="mem-input" class="input" maxlength="500" style="flex:1; min-width:200px;" placeholder="Add a fact to remember…" aria-label="Add a memory" />
-              <button class="btn btn-quiet" type="button" id="mem-add">Add</button>
-              <button class="btn btn-quiet" type="button" id="mem-clear" style="color:var(--ink-3);">🧹 Clear all</button>
-            </div>
-
-            <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line);">
-              <p class="small" style="margin:0; font-weight:650;">📥 Import from another assistant</p>
-              <p class="small muted" style="margin:4px 0 8px;">Bring your saved memories from ChatGPT, Claude or Grok: request your data export from that service, then upload it here. Facts are distilled, previewed and only imported once you tick them.</p>
-              <input type="file" id="import-file" accept=".json,.txt,.md" hidden />
-              <button class="btn btn-quiet" type="button" id="import-open">Choose an export file…</button>
-              <span class="small muted" id="import-status" style="margin-left:8px;" role="status"></span>
-              <div id="import-preview" style="margin-top:10px;" hidden>
-                <div id="import-items" style="display:grid; gap:4px;"></div>
-                <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
-                  <button class="btn btn-primary" type="button" id="import-confirm">Import selected</button>
-                  <button class="btn btn-quiet" type="button" id="import-cancel">Cancel</button>
+                <div id="credits-activity-wrap" hidden style="margin-top:16px;">
+                  <p class="label" style="margin:0 0 0;">Recent activity</p>
+                  <ul class="credits-activity-list" id="credits-activity-list"></ul>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </details>
 
-        <section class="message-card" aria-label="Conversation with StockPortfolio.pro" style="margin-top:18px;">
-          <div class="message-card-head"><div><strong>StockPortfolio.pro</strong><p class="small muted">We&rsquo;ll reply here when we can help.</p></div><span id="message-status" class="small muted" role="status"></span></div>
-          <div id="message-list" class="message-list" aria-live="polite"></div>
-          <form id="message-form" class="message-compose"><label class="sr-only" for="message-body">Your message</label><textarea id="message-body" class="input" maxlength="4000" rows="3" placeholder="Write a message&hellip;" required></textarea><button class="btn btn-primary" type="submit">Send</button></form>
-        </section>
+          <!-- SETTINGS: Ask memory. -->
+          <details class="psec" id="settings-section">
+            <summary>
+              <span class="label">Settings</span>
+              <span class="psec-meta small muted" id="settings-meta"></span>
+            </summary>
+            <div id="settings-card" class="psec-body" hidden aria-label="Settings">
+              <div style="display:flex; align-items:flex-start; gap:10px; margin-top:0; flex-wrap:wrap;">
+                <input type="checkbox" id="mem-toggle" style="margin-top:2px;" aria-describedby="mem-hint" />
+                <label for="mem-toggle" class="small" style="font-weight:650;">Memory</label>
+                <span class="small muted" id="mem-hint" style="flex:1; min-width:220px;">Ask saves short durable facts about you as you chat — your goals, holdings, time horizons — like ChatGPT does. It uses them to answer better; every saved fact is shown in the chat and you can delete any of them here.</span>
+              </div>
+
+              <div id="mem-panel" style="margin-top:14px;">
+                <div id="mem-list-wrap">
+                  <ul class="settings-fact-list" id="mem-list"></ul>
+                </div>
+                <p class="small muted" id="mem-empty" style="margin:6px 0 0;">Nothing saved yet. Tell Ask something worth remembering in a chat.</p>
+                <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
+                  <input id="mem-input" class="input" maxlength="500" style="flex:1; min-width:200px;" placeholder="Add a fact to remember…" aria-label="Add a memory" />
+                  <button class="btn btn-quiet" type="button" id="mem-add">Add</button>
+                  <button class="btn btn-quiet" type="button" id="mem-clear" style="color:var(--ink-3);">🧹 Clear all</button>
+                </div>
+
+                <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line);">
+                  <p class="small" style="margin:0; font-weight:650;">📥 Import from another assistant</p>
+                  <p class="small muted" style="margin:4px 0 8px;">Bring your saved memories from ChatGPT, Claude or Grok: request your data export from that service, then upload it here. Facts are distilled, previewed and only imported once you tick them.</p>
+                  <input type="file" id="import-file" accept=".json,.txt,.md" hidden />
+                  <button class="btn btn-quiet" type="button" id="import-open">Choose an export file…</button>
+                  <span class="small muted" id="import-status" style="margin-left:8px;" role="status"></span>
+                  <div id="import-preview" style="margin-top:10px;" hidden>
+                    <div id="import-items" style="display:grid; gap:4px;"></div>
+                    <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap;">
+                      <button class="btn btn-primary" type="button" id="import-confirm">Import selected</button>
+                      <button class="btn btn-quiet" type="button" id="import-cancel">Cancel</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </details>
+
+          <!-- MESSAGES: the support thread (driven by messages.js). -->
+          <details class="psec" id="messages-details">
+            <summary>
+              <span class="label">Messages</span>
+              <span class="psec-meta small muted" id="message-status" role="status"></span>
+            </summary>
+            <div class="psec-body flush">
+              <div class="message-card-head"><div><strong>StockPortfolio.pro</strong><p class="small muted">We&rsquo;ll reply here when we can help.</p></div><span class="small muted"></span></div>
+              <div id="message-list" class="message-list" aria-live="polite"></div>
+              <form id="message-form" class="message-compose"><label class="sr-only" for="message-body">Your message</label><textarea id="message-body" class="input" maxlength="4000" rows="3" placeholder="Write a message&hellip;" required></textarea><button class="btn btn-primary" type="submit">Send</button></form>
+              <p class="psec-foot" id="messages-admin-link" hidden><a href="/admin/messages">→ Customer messages dashboard</a></p>
+            </div>
+          </details>
+
+          <!-- ADMIN: owner-only entry points. Markup ships hidden and only
+               profile.js reveals it for rin@gmail.com; every target page
+               re-checks the authenticated account server-side. -->
+          <details class="psec" id="admin-section" hidden>
+            <summary>
+              <span class="label">Admin</span>
+              <span class="psec-meta small muted">Owner tools</span>
+            </summary>
+            <div class="psec-body">
+              <p class="small muted" style="margin:14px 0 10px;">Only this account sees this row — each page re-checks the signed-in account server-side.</p>
+              <ul class="admin-links" style="margin:0 0 8px;">
+                <li><a href="/admin/messages"><strong>✉ Customer messages</strong><span>Unread replies · broadcast tool</span></a></li>
+                <li><a href="/admin/marketing"><strong>▲ Marketing dashboard</strong><span>Traffic · funnel · tool usage · trends</span></a></li>
+                <li><a href="/admin/ollama"><strong>◆ AI usage</strong><span>Live provider spend and call stream</span></a></li>
+                <li><a href="/admin/growth/august-2026"><strong>★ August growth sprint</strong><span>GMV · activations · lifecycle email</span></a></li>
+              </ul>
+            </div>
+          </details>
+
+        </div>
 
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260830-noflow1"></script>
-  <script src="assets/profile.js?v=20260830-noflow1"></script>
-  <script src="assets/messages.js?v=20260829-lockedstate1"></script>
+  <script src="assets/app.js?v=20260830-navtray1"></script>
+  <script src="assets/profile.js?v=20260830-navtray1"></script>
+  <script src="assets/messages.js?v=20260830-msgmodal1"></script>
 </body>
 </html>
