@@ -1,35 +1,35 @@
 {
-  "generatedAt": "2026-08-22T22:47:45.135Z",
+  "generatedAt": "2026-08-30T00:31:34.847Z",
   "count": 503,
   "source": "yahoo-finance2",
   "files": [
     {
-      "symbol": "MMM",
-      "file": "data/fundamentals/MMM.json"
-    },
-    {
-      "symbol": "ACN",
-      "file": "data/fundamentals/ACN.json"
-    },
-    {
       "symbol": "ABT",
       "file": "data/fundamentals/ABT.json"
-    },
-    {
-      "symbol": "AOS",
-      "file": "data/fundamentals/AOS.json"
     },
     {
       "symbol": "ABBV",
       "file": "data/fundamentals/ABBV.json"
     },
     {
-      "symbol": "A",
-      "file": "data/fundamentals/A.json"
+      "symbol": "ACN",
+      "file": "data/fundamentals/ACN.json"
+    },
+    {
+      "symbol": "AOS",
+      "file": "data/fundamentals/AOS.json"
     },
     {
       "symbol": "ADBE",
       "file": "data/fundamentals/ADBE.json"
+    },
+    {
+      "symbol": "MMM",
+      "file": "data/fundamentals/MMM.json"
+    },
+    {
+      "symbol": "AMD",
+      "file": "data/fundamentals/AMD.json"
     },
     {
       "symbol": "AES",
@@ -40,12 +40,16 @@
       "file": "data/fundamentals/AFL.json"
     },
     {
-      "symbol": "AMD",
-      "file": "data/fundamentals/AMD.json"
+      "symbol": "A",
+      "file": "data/fundamentals/A.json"
     },
     {
       "symbol": "ABNB",
       "file": "data/fundamentals/ABNB.json"
+    },
+    {
+      "symbol": "ALGN",
+      "file": "data/fundamentals/ALGN.json"
     },
     {
       "symbol": "AKAM",
@@ -56,10 +60,6 @@
       "file": "data/fundamentals/APD.json"
     },
     {
-      "symbol": "ALGN",
-      "file": "data/fundamentals/ALGN.json"
-    },
-    {
       "symbol": "ALB",
       "file": "data/fundamentals/ALB.json"
     },
@@ -68,112 +68,104 @@
       "file": "data/fundamentals/ARE.json"
     },
     {
-      "symbol": "ALLE",
-      "file": "data/fundamentals/ALLE.json"
-    },
-    {
-      "symbol": "ALL",
-      "file": "data/fundamentals/ALL.json"
-    },
-    {
-      "symbol": "GOOGL",
-      "file": "data/fundamentals/GOOGL.json"
-    },
-    {
-      "symbol": "MO",
-      "file": "data/fundamentals/MO.json"
+      "symbol": "LNT",
+      "file": "data/fundamentals/LNT.json"
     },
     {
       "symbol": "GOOG",
       "file": "data/fundamentals/GOOG.json"
     },
     {
-      "symbol": "LNT",
-      "file": "data/fundamentals/LNT.json"
+      "symbol": "ALLE",
+      "file": "data/fundamentals/ALLE.json"
     },
     {
-      "symbol": "AMCR",
-      "file": "data/fundamentals/AMCR.json"
+      "symbol": "GOOGL",
+      "file": "data/fundamentals/GOOGL.json"
     },
     {
-      "symbol": "AEP",
-      "file": "data/fundamentals/AEP.json"
+      "symbol": "ALL",
+      "file": "data/fundamentals/ALL.json"
     },
     {
       "symbol": "AMZN",
       "file": "data/fundamentals/AMZN.json"
     },
     {
+      "symbol": "AMCR",
+      "file": "data/fundamentals/AMCR.json"
+    },
+    {
       "symbol": "AEE",
       "file": "data/fundamentals/AEE.json"
     },
     {
-      "symbol": "AXP",
-      "file": "data/fundamentals/AXP.json"
+      "symbol": "MO",
+      "file": "data/fundamentals/MO.json"
     },
     {
-      "symbol": "AMT",
-      "file": "data/fundamentals/AMT.json"
-    },
-    {
-      "symbol": "AMP",
-      "file": "data/fundamentals/AMP.json"
+      "symbol": "AEP",
+      "file": "data/fundamentals/AEP.json"
     },
     {
       "symbol": "AIG",
       "file": "data/fundamentals/AIG.json"
     },
     {
+      "symbol": "AMT",
+      "file": "data/fundamentals/AMT.json"
+    },
+    {
+      "symbol": "AXP",
+      "file": "data/fundamentals/AXP.json"
+    },
+    {
       "symbol": "AWK",
       "file": "data/fundamentals/AWK.json"
+    },
+    {
+      "symbol": "AMP",
+      "file": "data/fundamentals/AMP.json"
     },
     {
       "symbol": "AME",
       "file": "data/fundamentals/AME.json"
     },
     {
-      "symbol": "AMGN",
-      "file": "data/fundamentals/AMGN.json"
-    },
-    {
       "symbol": "APH",
       "file": "data/fundamentals/APH.json"
     },
     {
-      "symbol": "APO",
-      "file": "data/fundamentals/APO.json"
-    },
-    {
-      "symbol": "APA",
-      "file": "data/fundamentals/APA.json"
+      "symbol": "AMGN",
+      "file": "data/fundamentals/AMGN.json"
     },
     {
       "symbol": "ADI",
       "file": "data/fundamentals/ADI.json"
     },
     {
-      "symbol": "AON",
-      "file": "data/fundamentals/AON.json"
+      "symbol": "APA",
+      "file": "data/fundamentals/APA.json"
     },
     {
       "symbol": "AAPL",
       "file": "data/fundamentals/AAPL.json"
     },
     {
-      "symbol": "APTV",
-      "file": "data/fundamentals/APTV.json"
-    },
-    {
-      "symbol": "APP",
-      "file": "data/fundamentals/APP.json"
-    },
-    {
       "symbol": "AMAT",
       "file": "data/fundamentals/AMAT.json"
     },
     {
-      "symbol": "ARES",
-      "file": "data/fundamentals/ARES.json"
+      "symbol": "APO",
+      "file": "data/fundamentals/APO.json"
+    },
+    {
+      "symbol": "AON",
+      "file": "data/fundamentals/AON.json"
+    },
+    {
+      "symbol": "APP",
+      "file": "data/fundamentals/APP.json"
     },
     {
       "symbol": "ACGL",
@@ -184,20 +176,20 @@
       "file": "data/fundamentals/ADM.json"
     },
     {
-      "symbol": "ANET",
-      "file": "data/fundamentals/ANET.json"
+      "symbol": "APTV",
+      "file": "data/fundamentals/APTV.json"
     },
     {
-      "symbol": "ADSK",
-      "file": "data/fundamentals/ADSK.json"
+      "symbol": "ANET",
+      "file": "data/fundamentals/ANET.json"
     },
     {
       "symbol": "AIZ",
       "file": "data/fundamentals/AIZ.json"
     },
     {
-      "symbol": "T",
-      "file": "data/fundamentals/T.json"
+      "symbol": "ARES",
+      "file": "data/fundamentals/ARES.json"
     },
     {
       "symbol": "AJG",
@@ -208,8 +200,12 @@
       "file": "data/fundamentals/ATO.json"
     },
     {
-      "symbol": "AVY",
-      "file": "data/fundamentals/AVY.json"
+      "symbol": "ADSK",
+      "file": "data/fundamentals/ADSK.json"
+    },
+    {
+      "symbol": "T",
+      "file": "data/fundamentals/T.json"
     },
     {
       "symbol": "AZO",
@@ -220,28 +216,28 @@
       "file": "data/fundamentals/ADP.json"
     },
     {
-      "symbol": "AXON",
-      "file": "data/fundamentals/AXON.json"
+      "symbol": "AVY",
+      "file": "data/fundamentals/AVY.json"
     },
     {
       "symbol": "BKR",
       "file": "data/fundamentals/BKR.json"
     },
     {
-      "symbol": "BAC",
-      "file": "data/fundamentals/BAC.json"
+      "symbol": "BAX",
+      "file": "data/fundamentals/BAX.json"
     },
     {
       "symbol": "BRK.B",
       "file": "data/fundamentals/BRK_B.json"
     },
     {
-      "symbol": "BALL",
-      "file": "data/fundamentals/BALL.json"
+      "symbol": "AXON",
+      "file": "data/fundamentals/AXON.json"
     },
     {
-      "symbol": "BAX",
-      "file": "data/fundamentals/BAX.json"
+      "symbol": "BAC",
+      "file": "data/fundamentals/BAC.json"
     },
     {
       "symbol": "BDX",
@@ -256,16 +252,20 @@
       "file": "data/fundamentals/BLK.json"
     },
     {
-      "symbol": "BBY",
-      "file": "data/fundamentals/BBY.json"
-    },
-    {
       "symbol": "TECH",
       "file": "data/fundamentals/TECH.json"
     },
     {
+      "symbol": "BBY",
+      "file": "data/fundamentals/BBY.json"
+    },
+    {
       "symbol": "XYZ",
       "file": "data/fundamentals/XYZ.json"
+    },
+    {
+      "symbol": "BALL",
+      "file": "data/fundamentals/BALL.json"
     },
     {
       "symbol": "BNY",
@@ -276,10 +276,6 @@
       "file": "data/fundamentals/BX.json"
     },
     {
-      "symbol": "BA",
-      "file": "data/fundamentals/BA.json"
-    },
-    {
       "symbol": "BKNG",
       "file": "data/fundamentals/BKNG.json"
     },
@@ -288,20 +284,24 @@
       "file": "data/fundamentals/BSX.json"
     },
     {
-      "symbol": "BF.B",
-      "file": "data/fundamentals/BF_B.json"
-    },
-    {
       "symbol": "AVGO",
       "file": "data/fundamentals/AVGO.json"
     },
     {
-      "symbol": "BR",
-      "file": "data/fundamentals/BR.json"
+      "symbol": "BA",
+      "file": "data/fundamentals/BA.json"
+    },
+    {
+      "symbol": "BF.B",
+      "file": "data/fundamentals/BF_B.json"
     },
     {
       "symbol": "BMY",
       "file": "data/fundamentals/BMY.json"
+    },
+    {
+      "symbol": "BR",
+      "file": "data/fundamentals/BR.json"
     },
     {
       "symbol": "BG",
@@ -312,16 +312,12 @@
       "file": "data/fundamentals/BRO.json"
     },
     {
-      "symbol": "CHRW",
-      "file": "data/fundamentals/CHRW.json"
-    },
-    {
       "symbol": "BLDR",
       "file": "data/fundamentals/BLDR.json"
     },
     {
-      "symbol": "CPT",
-      "file": "data/fundamentals/CPT.json"
+      "symbol": "CHRW",
+      "file": "data/fundamentals/CHRW.json"
     },
     {
       "symbol": "CDNS",
@@ -332,32 +328,44 @@
       "file": "data/fundamentals/BXP.json"
     },
     {
-      "symbol": "COF",
-      "file": "data/fundamentals/COF.json"
+      "symbol": "CPT",
+      "file": "data/fundamentals/CPT.json"
     },
     {
-      "symbol": "CARR",
-      "file": "data/fundamentals/CARR.json"
+      "symbol": "COF",
+      "file": "data/fundamentals/COF.json"
     },
     {
       "symbol": "CAH",
       "file": "data/fundamentals/CAH.json"
     },
     {
-      "symbol": "CCL",
-      "file": "data/fundamentals/CCL.json"
-    },
-    {
       "symbol": "CVNA",
       "file": "data/fundamentals/CVNA.json"
+    },
+    {
+      "symbol": "CARR",
+      "file": "data/fundamentals/CARR.json"
+    },
+    {
+      "symbol": "CCL",
+      "file": "data/fundamentals/CCL.json"
     },
     {
       "symbol": "CASY",
       "file": "data/fundamentals/CASY.json"
     },
     {
+      "symbol": "CDW",
+      "file": "data/fundamentals/CDW.json"
+    },
+    {
       "symbol": "CBRE",
       "file": "data/fundamentals/CBRE.json"
+    },
+    {
+      "symbol": "CBOE",
+      "file": "data/fundamentals/CBOE.json"
     },
     {
       "symbol": "CAT",
@@ -372,32 +380,8 @@
       "file": "data/fundamentals/CNC.json"
     },
     {
-      "symbol": "CBOE",
-      "file": "data/fundamentals/CBOE.json"
-    },
-    {
       "symbol": "CNP",
       "file": "data/fundamentals/CNP.json"
-    },
-    {
-      "symbol": "CF",
-      "file": "data/fundamentals/CF.json"
-    },
-    {
-      "symbol": "CDW",
-      "file": "data/fundamentals/CDW.json"
-    },
-    {
-      "symbol": "CHTR",
-      "file": "data/fundamentals/CHTR.json"
-    },
-    {
-      "symbol": "CVX",
-      "file": "data/fundamentals/CVX.json"
-    },
-    {
-      "symbol": "CMG",
-      "file": "data/fundamentals/CMG.json"
     },
     {
       "symbol": "CRL",
@@ -408,8 +392,24 @@
       "file": "data/fundamentals/SCHW.json"
     },
     {
+      "symbol": "CF",
+      "file": "data/fundamentals/CF.json"
+    },
+    {
+      "symbol": "CMG",
+      "file": "data/fundamentals/CMG.json"
+    },
+    {
       "symbol": "CB",
       "file": "data/fundamentals/CB.json"
+    },
+    {
+      "symbol": "CHTR",
+      "file": "data/fundamentals/CHTR.json"
+    },
+    {
+      "symbol": "CVX",
+      "file": "data/fundamentals/CVX.json"
     },
     {
       "symbol": "CHD",
@@ -424,6 +424,14 @@
       "file": "data/fundamentals/CI.json"
     },
     {
+      "symbol": "CTAS",
+      "file": "data/fundamentals/CTAS.json"
+    },
+    {
+      "symbol": "CSCO",
+      "file": "data/fundamentals/CSCO.json"
+    },
+    {
       "symbol": "CINF",
       "file": "data/fundamentals/CINF.json"
     },
@@ -432,84 +440,76 @@
       "file": "data/fundamentals/C.json"
     },
     {
-      "symbol": "CSCO",
-      "file": "data/fundamentals/CSCO.json"
+      "symbol": "CMS",
+      "file": "data/fundamentals/CMS.json"
     },
     {
       "symbol": "CLX",
       "file": "data/fundamentals/CLX.json"
     },
     {
-      "symbol": "CTAS",
-      "file": "data/fundamentals/CTAS.json"
-    },
-    {
-      "symbol": "CFG",
-      "file": "data/fundamentals/CFG.json"
-    },
-    {
       "symbol": "CME",
       "file": "data/fundamentals/CME.json"
-    },
-    {
-      "symbol": "CMS",
-      "file": "data/fundamentals/CMS.json"
-    },
-    {
-      "symbol": "COIN",
-      "file": "data/fundamentals/COIN.json"
     },
     {
       "symbol": "KO",
       "file": "data/fundamentals/KO.json"
     },
     {
-      "symbol": "CL",
-      "file": "data/fundamentals/CL.json"
+      "symbol": "CTSH",
+      "file": "data/fundamentals/CTSH.json"
     },
     {
-      "symbol": "CMCSA",
-      "file": "data/fundamentals/CMCSA.json"
+      "symbol": "CFG",
+      "file": "data/fundamentals/CFG.json"
     },
     {
       "symbol": "COHR",
       "file": "data/fundamentals/COHR.json"
     },
     {
-      "symbol": "CTSH",
-      "file": "data/fundamentals/CTSH.json"
+      "symbol": "COIN",
+      "file": "data/fundamentals/COIN.json"
     },
     {
-      "symbol": "CEG",
-      "file": "data/fundamentals/CEG.json"
+      "symbol": "FIX",
+      "file": "data/fundamentals/FIX.json"
     },
     {
-      "symbol": "ED",
-      "file": "data/fundamentals/ED.json"
-    },
-    {
-      "symbol": "CPRT",
-      "file": "data/fundamentals/CPRT.json"
+      "symbol": "CL",
+      "file": "data/fundamentals/CL.json"
     },
     {
       "symbol": "COP",
       "file": "data/fundamentals/COP.json"
     },
     {
+      "symbol": "CMCSA",
+      "file": "data/fundamentals/CMCSA.json"
+    },
+    {
+      "symbol": "ED",
+      "file": "data/fundamentals/ED.json"
+    },
+    {
       "symbol": "STZ",
       "file": "data/fundamentals/STZ.json"
+    },
+    {
+      "symbol": "CEG",
+      "file": "data/fundamentals/CEG.json"
     },
     {
       "symbol": "COO",
       "file": "data/fundamentals/COO.json"
     },
     {
-      "symbol": "GLW",
-      "file": "data/fundamentals/GLW.json"
+      "symbol": "CPRT",
+      "file": "data/fundamentals/CPRT.json"
     },
     {
-      "symbol": "FIX",
-      "file": "data/fundamentals/FIX.json"
+      "symbol": "GLW",
+      "file": "data/fundamentals/GLW.json"
     },
     {
       "symbol": "CPAY",
@@ -518,10 +518,6 @@
     {
       "symbol": "CTVA",
       "file": "data/fundamentals/CTVA.json"
-    },
-    {
-      "symbol": "CRWD",
-      "file": "data/fundamentals/CRWD.json"
     },
     {
       "symbol": "CSGP",
@@ -536,44 +532,48 @@
       "file": "data/fundamentals/CRH.json"
     },
     {
-      "symbol": "CCI",
-      "file": "data/fundamentals/CCI.json"
+      "symbol": "CRWD",
+      "file": "data/fundamentals/CRWD.json"
     },
     {
-      "symbol": "CMI",
-      "file": "data/fundamentals/CMI.json"
+      "symbol": "CCI",
+      "file": "data/fundamentals/CCI.json"
     },
     {
       "symbol": "CSX",
       "file": "data/fundamentals/CSX.json"
     },
     {
-      "symbol": "DVA",
-      "file": "data/fundamentals/DVA.json"
-    },
-    {
-      "symbol": "DDOG",
-      "file": "data/fundamentals/DDOG.json"
-    },
-    {
-      "symbol": "DHR",
-      "file": "data/fundamentals/DHR.json"
+      "symbol": "CMI",
+      "file": "data/fundamentals/CMI.json"
     },
     {
       "symbol": "CVS",
       "file": "data/fundamentals/CVS.json"
     },
     {
+      "symbol": "DHR",
+      "file": "data/fundamentals/DHR.json"
+    },
+    {
+      "symbol": "DDOG",
+      "file": "data/fundamentals/DDOG.json"
+    },
+    {
       "symbol": "DRI",
       "file": "data/fundamentals/DRI.json"
     },
     {
-      "symbol": "DELL",
-      "file": "data/fundamentals/DELL.json"
+      "symbol": "DVA",
+      "file": "data/fundamentals/DVA.json"
     },
     {
       "symbol": "DE",
       "file": "data/fundamentals/DE.json"
+    },
+    {
+      "symbol": "DELL",
+      "file": "data/fundamentals/DELL.json"
     },
     {
       "symbol": "DECK",
@@ -584,28 +584,28 @@
       "file": "data/fundamentals/DAL.json"
     },
     {
-      "symbol": "DLR",
-      "file": "data/fundamentals/DLR.json"
-    },
-    {
       "symbol": "DVN",
       "file": "data/fundamentals/DVN.json"
-    },
-    {
-      "symbol": "FANG",
-      "file": "data/fundamentals/FANG.json"
     },
     {
       "symbol": "DXCM",
       "file": "data/fundamentals/DXCM.json"
     },
     {
-      "symbol": "DLTR",
-      "file": "data/fundamentals/DLTR.json"
+      "symbol": "FANG",
+      "file": "data/fundamentals/FANG.json"
+    },
+    {
+      "symbol": "DLR",
+      "file": "data/fundamentals/DLR.json"
     },
     {
       "symbol": "DG",
       "file": "data/fundamentals/DG.json"
+    },
+    {
+      "symbol": "DLTR",
+      "file": "data/fundamentals/DLTR.json"
     },
     {
       "symbol": "D",
@@ -616,36 +616,36 @@
       "file": "data/fundamentals/DPZ.json"
     },
     {
-      "symbol": "DOW",
-      "file": "data/fundamentals/DOW.json"
-    },
-    {
       "symbol": "DASH",
       "file": "data/fundamentals/DASH.json"
+    },
+    {
+      "symbol": "DOW",
+      "file": "data/fundamentals/DOW.json"
     },
     {
       "symbol": "DOV",
       "file": "data/fundamentals/DOV.json"
     },
     {
-      "symbol": "DUK",
-      "file": "data/fundamentals/DUK.json"
-    },
-    {
       "symbol": "DHI",
       "file": "data/fundamentals/DHI.json"
     },
     {
-      "symbol": "ETN",
-      "file": "data/fundamentals/ETN.json"
+      "symbol": "DTE",
+      "file": "data/fundamentals/DTE.json"
+    },
+    {
+      "symbol": "DUK",
+      "file": "data/fundamentals/DUK.json"
     },
     {
       "symbol": "DD",
       "file": "data/fundamentals/DD.json"
     },
     {
-      "symbol": "DTE",
-      "file": "data/fundamentals/DTE.json"
+      "symbol": "ETN",
+      "file": "data/fundamentals/ETN.json"
     },
     {
       "symbol": "EBAY",
@@ -664,8 +664,16 @@
       "file": "data/fundamentals/EIX.json"
     },
     {
+      "symbol": "EW",
+      "file": "data/fundamentals/EW.json"
+    },
+    {
       "symbol": "ELV",
       "file": "data/fundamentals/ELV.json"
+    },
+    {
+      "symbol": "EME",
+      "file": "data/fundamentals/EME.json"
     },
     {
       "symbol": "EMR",
@@ -676,48 +684,40 @@
       "file": "data/fundamentals/ETR.json"
     },
     {
-      "symbol": "EME",
-      "file": "data/fundamentals/EME.json"
-    },
-    {
       "symbol": "EOG",
       "file": "data/fundamentals/EOG.json"
-    },
-    {
-      "symbol": "EFX",
-      "file": "data/fundamentals/EFX.json"
-    },
-    {
-      "symbol": "EW",
-      "file": "data/fundamentals/EW.json"
     },
     {
       "symbol": "EQT",
       "file": "data/fundamentals/EQT.json"
     },
     {
-      "symbol": "EQIX",
-      "file": "data/fundamentals/EQIX.json"
-    },
-    {
-      "symbol": "ESS",
-      "file": "data/fundamentals/ESS.json"
+      "symbol": "EFX",
+      "file": "data/fundamentals/EFX.json"
     },
     {
       "symbol": "ERIE",
       "file": "data/fundamentals/ERIE.json"
     },
     {
-      "symbol": "EVRG",
-      "file": "data/fundamentals/EVRG.json"
+      "symbol": "ESS",
+      "file": "data/fundamentals/ESS.json"
+    },
+    {
+      "symbol": "EL",
+      "file": "data/fundamentals/EL.json"
     },
     {
       "symbol": "EG",
       "file": "data/fundamentals/EG.json"
     },
     {
-      "symbol": "EL",
-      "file": "data/fundamentals/EL.json"
+      "symbol": "EVRG",
+      "file": "data/fundamentals/EVRG.json"
+    },
+    {
+      "symbol": "ES",
+      "file": "data/fundamentals/ES.json"
     },
     {
       "symbol": "EXC",
@@ -728,60 +728,72 @@
       "file": "data/fundamentals/EXE.json"
     },
     {
-      "symbol": "ES",
-      "file": "data/fundamentals/ES.json"
-    },
-    {
-      "symbol": "EXR",
-      "file": "data/fundamentals/EXR.json"
-    },
-    {
-      "symbol": "XOM",
-      "file": "data/fundamentals/XOM.json"
-    },
-    {
-      "symbol": "FICO",
-      "file": "data/fundamentals/FICO.json"
-    },
-    {
-      "symbol": "FDS",
-      "file": "data/fundamentals/FDS.json"
-    },
-    {
       "symbol": "EXPE",
       "file": "data/fundamentals/EXPE.json"
+    },
+    {
+      "symbol": "EQIX",
+      "file": "data/fundamentals/EQIX.json"
     },
     {
       "symbol": "EXPD",
       "file": "data/fundamentals/EXPD.json"
     },
     {
+      "symbol": "XOM",
+      "file": "data/fundamentals/XOM.json"
+    },
+    {
+      "symbol": "FDS",
+      "file": "data/fundamentals/FDS.json"
+    },
+    {
       "symbol": "FFIV",
       "file": "data/fundamentals/FFIV.json"
     },
     {
-      "symbol": "FAST",
-      "file": "data/fundamentals/FAST.json"
+      "symbol": "EXR",
+      "file": "data/fundamentals/EXR.json"
     },
     {
-      "symbol": "FERG",
-      "file": "data/fundamentals/FERG.json"
+      "symbol": "FICO",
+      "file": "data/fundamentals/FICO.json"
+    },
+    {
+      "symbol": "FRT",
+      "file": "data/fundamentals/FRT.json"
     },
     {
       "symbol": "FDX",
       "file": "data/fundamentals/FDX.json"
     },
     {
-      "symbol": "FIS",
-      "file": "data/fundamentals/FIS.json"
+      "symbol": "FAST",
+      "file": "data/fundamentals/FAST.json"
     },
     {
       "symbol": "FDXF",
       "file": "data/fundamentals/FDXF.json"
     },
     {
-      "symbol": "FRT",
-      "file": "data/fundamentals/FRT.json"
+      "symbol": "FERG",
+      "file": "data/fundamentals/FERG.json"
+    },
+    {
+      "symbol": "FIS",
+      "file": "data/fundamentals/FIS.json"
+    },
+    {
+      "symbol": "FLEX",
+      "file": "data/fundamentals/FLEX.json"
+    },
+    {
+      "symbol": "FE",
+      "file": "data/fundamentals/FE.json"
+    },
+    {
+      "symbol": "FISV",
+      "file": "data/fundamentals/FISV.json"
     },
     {
       "symbol": "FSLR",
@@ -796,16 +808,12 @@
       "file": "data/fundamentals/FTNT.json"
     },
     {
-      "symbol": "FISV",
-      "file": "data/fundamentals/FISV.json"
+      "symbol": "F",
+      "file": "data/fundamentals/F.json"
     },
     {
       "symbol": "FTV",
       "file": "data/fundamentals/FTV.json"
-    },
-    {
-      "symbol": "F",
-      "file": "data/fundamentals/F.json"
     },
     {
       "symbol": "FOXA",
@@ -820,20 +828,20 @@
       "file": "data/fundamentals/BEN.json"
     },
     {
-      "symbol": "FLEX",
-      "file": "data/fundamentals/FLEX.json"
-    },
-    {
-      "symbol": "GRMN",
-      "file": "data/fundamentals/GRMN.json"
+      "symbol": "IT",
+      "file": "data/fundamentals/IT.json"
     },
     {
       "symbol": "FCX",
       "file": "data/fundamentals/FCX.json"
     },
     {
-      "symbol": "IT",
-      "file": "data/fundamentals/IT.json"
+      "symbol": "GRMN",
+      "file": "data/fundamentals/GRMN.json"
+    },
+    {
+      "symbol": "GEHC",
+      "file": "data/fundamentals/GEHC.json"
     },
     {
       "symbol": "GEV",
@@ -848,28 +856,24 @@
       "file": "data/fundamentals/GNRC.json"
     },
     {
+      "symbol": "GM",
+      "file": "data/fundamentals/GM.json"
+    },
+    {
       "symbol": "GIS",
       "file": "data/fundamentals/GIS.json"
+    },
+    {
+      "symbol": "GEN",
+      "file": "data/fundamentals/GEN.json"
     },
     {
       "symbol": "GD",
       "file": "data/fundamentals/GD.json"
     },
     {
-      "symbol": "FE",
-      "file": "data/fundamentals/FE.json"
-    },
-    {
-      "symbol": "GEHC",
-      "file": "data/fundamentals/GEHC.json"
-    },
-    {
-      "symbol": "GM",
-      "file": "data/fundamentals/GM.json"
-    },
-    {
-      "symbol": "GEN",
-      "file": "data/fundamentals/GEN.json"
+      "symbol": "GL",
+      "file": "data/fundamentals/GL.json"
     },
     {
       "symbol": "GPC",
@@ -880,16 +884,12 @@
       "file": "data/fundamentals/GILD.json"
     },
     {
-      "symbol": "GPN",
-      "file": "data/fundamentals/GPN.json"
-    },
-    {
       "symbol": "GDDY",
       "file": "data/fundamentals/GDDY.json"
     },
     {
-      "symbol": "GL",
-      "file": "data/fundamentals/GL.json"
+      "symbol": "GPN",
+      "file": "data/fundamentals/GPN.json"
     },
     {
       "symbol": "GS",
@@ -900,20 +900,16 @@
       "file": "data/fundamentals/HAL.json"
     },
     {
-      "symbol": "HAS",
-      "file": "data/fundamentals/HAS.json"
-    },
-    {
       "symbol": "HIG",
       "file": "data/fundamentals/HIG.json"
     },
     {
-      "symbol": "DOC",
-      "file": "data/fundamentals/DOC.json"
-    },
-    {
       "symbol": "HCA",
       "file": "data/fundamentals/HCA.json"
+    },
+    {
+      "symbol": "HAS",
+      "file": "data/fundamentals/HAS.json"
     },
     {
       "symbol": "HSIC",
@@ -924,100 +920,100 @@
       "file": "data/fundamentals/HPE.json"
     },
     {
-      "symbol": "HSY",
-      "file": "data/fundamentals/HSY.json"
+      "symbol": "DOC",
+      "file": "data/fundamentals/DOC.json"
     },
     {
       "symbol": "HONA",
       "file": "data/fundamentals/HONA.json"
     },
     {
-      "symbol": "HD",
-      "file": "data/fundamentals/HD.json"
-    },
-    {
-      "symbol": "HST",
-      "file": "data/fundamentals/HST.json"
-    },
-    {
-      "symbol": "HRL",
-      "file": "data/fundamentals/HRL.json"
-    },
-    {
-      "symbol": "HON",
-      "file": "data/fundamentals/HON.json"
-    },
-    {
-      "symbol": "HWM",
-      "file": "data/fundamentals/HWM.json"
-    },
-    {
-      "symbol": "HPQ",
-      "file": "data/fundamentals/HPQ.json"
-    },
-    {
-      "symbol": "HUBB",
-      "file": "data/fundamentals/HUBB.json"
+      "symbol": "HSY",
+      "file": "data/fundamentals/HSY.json"
     },
     {
       "symbol": "HLT",
       "file": "data/fundamentals/HLT.json"
     },
     {
-      "symbol": "HUM",
-      "file": "data/fundamentals/HUM.json"
+      "symbol": "HD",
+      "file": "data/fundamentals/HD.json"
+    },
+    {
+      "symbol": "HON",
+      "file": "data/fundamentals/HON.json"
+    },
+    {
+      "symbol": "HRL",
+      "file": "data/fundamentals/HRL.json"
+    },
+    {
+      "symbol": "HWM",
+      "file": "data/fundamentals/HWM.json"
+    },
+    {
+      "symbol": "HST",
+      "file": "data/fundamentals/HST.json"
+    },
+    {
+      "symbol": "HUBB",
+      "file": "data/fundamentals/HUBB.json"
     },
     {
       "symbol": "HII",
       "file": "data/fundamentals/HII.json"
     },
     {
-      "symbol": "IEX",
-      "file": "data/fundamentals/IEX.json"
+      "symbol": "HPQ",
+      "file": "data/fundamentals/HPQ.json"
     },
     {
-      "symbol": "HBAN",
-      "file": "data/fundamentals/HBAN.json"
-    },
-    {
-      "symbol": "IDXX",
-      "file": "data/fundamentals/IDXX.json"
+      "symbol": "HUM",
+      "file": "data/fundamentals/HUM.json"
     },
     {
       "symbol": "IBM",
       "file": "data/fundamentals/IBM.json"
     },
     {
-      "symbol": "INCY",
-      "file": "data/fundamentals/INCY.json"
-    },
-    {
-      "symbol": "IR",
-      "file": "data/fundamentals/IR.json"
+      "symbol": "HBAN",
+      "file": "data/fundamentals/HBAN.json"
     },
     {
       "symbol": "ITW",
       "file": "data/fundamentals/ITW.json"
     },
     {
-      "symbol": "IBKR",
-      "file": "data/fundamentals/IBKR.json"
+      "symbol": "IEX",
+      "file": "data/fundamentals/IEX.json"
     },
     {
-      "symbol": "ICE",
-      "file": "data/fundamentals/ICE.json"
+      "symbol": "IR",
+      "file": "data/fundamentals/IR.json"
     },
     {
-      "symbol": "INTC",
-      "file": "data/fundamentals/INTC.json"
+      "symbol": "IDXX",
+      "file": "data/fundamentals/IDXX.json"
     },
     {
       "symbol": "PODD",
       "file": "data/fundamentals/PODD.json"
     },
     {
-      "symbol": "IVZ",
-      "file": "data/fundamentals/IVZ.json"
+      "symbol": "INCY",
+      "file": "data/fundamentals/INCY.json"
+    },
+    {
+      "symbol": "INTC",
+      "file": "data/fundamentals/INTC.json"
+    },
+    {
+      "symbol": "ICE",
+      "file": "data/fundamentals/ICE.json"
+    },
+    {
+      "symbol": "IBKR",
+      "file": "data/fundamentals/IBKR.json"
     },
     {
       "symbol": "IFF",
@@ -1032,20 +1028,24 @@
       "file": "data/fundamentals/ISRG.json"
     },
     {
-      "symbol": "IQV",
-      "file": "data/fundamentals/IQV.json"
+      "symbol": "IP",
+      "file": "data/fundamentals/IP.json"
     },
     {
       "symbol": "INVH",
       "file": "data/fundamentals/INVH.json"
     },
     {
-      "symbol": "JBHT",
-      "file": "data/fundamentals/JBHT.json"
+      "symbol": "IVZ",
+      "file": "data/fundamentals/IVZ.json"
     },
     {
-      "symbol": "IP",
-      "file": "data/fundamentals/IP.json"
+      "symbol": "IQV",
+      "file": "data/fundamentals/IQV.json"
+    },
+    {
+      "symbol": "JBHT",
+      "file": "data/fundamentals/JBHT.json"
     },
     {
       "symbol": "JBL",
@@ -1056,12 +1056,12 @@
       "file": "data/fundamentals/JKHY.json"
     },
     {
-      "symbol": "IRM",
-      "file": "data/fundamentals/IRM.json"
-    },
-    {
       "symbol": "J",
       "file": "data/fundamentals/J.json"
+    },
+    {
+      "symbol": "IRM",
+      "file": "data/fundamentals/IRM.json"
     },
     {
       "symbol": "JNJ",
@@ -1072,32 +1072,40 @@
       "file": "data/fundamentals/KVUE.json"
     },
     {
-      "symbol": "JCI",
-      "file": "data/fundamentals/JCI.json"
-    },
-    {
-      "symbol": "KEYS",
-      "file": "data/fundamentals/KEYS.json"
-    },
-    {
       "symbol": "JPM",
       "file": "data/fundamentals/JPM.json"
+    },
+    {
+      "symbol": "JCI",
+      "file": "data/fundamentals/JCI.json"
     },
     {
       "symbol": "KDP",
       "file": "data/fundamentals/KDP.json"
     },
     {
-      "symbol": "KMB",
-      "file": "data/fundamentals/KMB.json"
+      "symbol": "KEYS",
+      "file": "data/fundamentals/KEYS.json"
+    },
+    {
+      "symbol": "KIM",
+      "file": "data/fundamentals/KIM.json"
+    },
+    {
+      "symbol": "KMI",
+      "file": "data/fundamentals/KMI.json"
     },
     {
       "symbol": "KEY",
       "file": "data/fundamentals/KEY.json"
     },
     {
-      "symbol": "KMI",
-      "file": "data/fundamentals/KMI.json"
+      "symbol": "KMB",
+      "file": "data/fundamentals/KMB.json"
+    },
+    {
+      "symbol": "KLAC",
+      "file": "data/fundamentals/KLAC.json"
     },
     {
       "symbol": "KKR",
@@ -1108,36 +1116,36 @@
       "file": "data/fundamentals/KHC.json"
     },
     {
-      "symbol": "KIM",
-      "file": "data/fundamentals/KIM.json"
-    },
-    {
-      "symbol": "KLAC",
-      "file": "data/fundamentals/KLAC.json"
-    },
-    {
       "symbol": "KR",
       "file": "data/fundamentals/KR.json"
-    },
-    {
-      "symbol": "LHX",
-      "file": "data/fundamentals/LHX.json"
-    },
-    {
-      "symbol": "LH",
-      "file": "data/fundamentals/LH.json"
-    },
-    {
-      "symbol": "LVS",
-      "file": "data/fundamentals/LVS.json"
     },
     {
       "symbol": "LRCX",
       "file": "data/fundamentals/LRCX.json"
     },
     {
+      "symbol": "LHX",
+      "file": "data/fundamentals/LHX.json"
+    },
+    {
+      "symbol": "LVS",
+      "file": "data/fundamentals/LVS.json"
+    },
+    {
+      "symbol": "LH",
+      "file": "data/fundamentals/LH.json"
+    },
+    {
+      "symbol": "LDOS",
+      "file": "data/fundamentals/LDOS.json"
+    },
+    {
       "symbol": "LEN",
       "file": "data/fundamentals/LEN.json"
+    },
+    {
+      "symbol": "LLY",
+      "file": "data/fundamentals/LLY.json"
     },
     {
       "symbol": "LIN",
@@ -1146,14 +1154,6 @@
     {
       "symbol": "LII",
       "file": "data/fundamentals/LII.json"
-    },
-    {
-      "symbol": "LLY",
-      "file": "data/fundamentals/LLY.json"
-    },
-    {
-      "symbol": "LDOS",
-      "file": "data/fundamentals/LDOS.json"
     },
     {
       "symbol": "LMT",
@@ -1168,14 +1168,6 @@
       "file": "data/fundamentals/L.json"
     },
     {
-      "symbol": "LULU",
-      "file": "data/fundamentals/LULU.json"
-    },
-    {
-      "symbol": "LYB",
-      "file": "data/fundamentals/LYB.json"
-    },
-    {
       "symbol": "LOW",
       "file": "data/fundamentals/LOW.json"
     },
@@ -1184,16 +1176,24 @@
       "file": "data/fundamentals/LITE.json"
     },
     {
+      "symbol": "LULU",
+      "file": "data/fundamentals/LULU.json"
+    },
+    {
+      "symbol": "MPC",
+      "file": "data/fundamentals/MPC.json"
+    },
+    {
+      "symbol": "LYB",
+      "file": "data/fundamentals/LYB.json"
+    },
+    {
       "symbol": "MAR",
       "file": "data/fundamentals/MAR.json"
     },
     {
       "symbol": "MTB",
       "file": "data/fundamentals/MTB.json"
-    },
-    {
-      "symbol": "MPC",
-      "file": "data/fundamentals/MPC.json"
     },
     {
       "symbol": "MLM",
@@ -1208,84 +1208,76 @@
       "file": "data/fundamentals/MRSH.json"
     },
     {
-      "symbol": "MAS",
-      "file": "data/fundamentals/MAS.json"
-    },
-    {
-      "symbol": "MKC",
-      "file": "data/fundamentals/MKC.json"
-    },
-    {
       "symbol": "MA",
       "file": "data/fundamentals/MA.json"
     },
     {
-      "symbol": "MCK",
-      "file": "data/fundamentals/MCK.json"
-    },
-    {
-      "symbol": "MDT",
-      "file": "data/fundamentals/MDT.json"
+      "symbol": "MAS",
+      "file": "data/fundamentals/MAS.json"
     },
     {
       "symbol": "MCD",
       "file": "data/fundamentals/MCD.json"
     },
     {
-      "symbol": "META",
-      "file": "data/fundamentals/META.json"
+      "symbol": "MKC",
+      "file": "data/fundamentals/MKC.json"
+    },
+    {
+      "symbol": "MCK",
+      "file": "data/fundamentals/MCK.json"
     },
     {
       "symbol": "MRK",
       "file": "data/fundamentals/MRK.json"
     },
     {
-      "symbol": "MTD",
-      "file": "data/fundamentals/MTD.json"
+      "symbol": "MDT",
+      "file": "data/fundamentals/MDT.json"
     },
     {
-      "symbol": "MGM",
-      "file": "data/fundamentals/MGM.json"
+      "symbol": "META",
+      "file": "data/fundamentals/META.json"
+    },
+    {
+      "symbol": "MTD",
+      "file": "data/fundamentals/MTD.json"
     },
     {
       "symbol": "MET",
       "file": "data/fundamentals/MET.json"
     },
     {
-      "symbol": "MRNA",
-      "file": "data/fundamentals/MRNA.json"
+      "symbol": "MU",
+      "file": "data/fundamentals/MU.json"
+    },
+    {
+      "symbol": "MGM",
+      "file": "data/fundamentals/MGM.json"
     },
     {
       "symbol": "MCHP",
       "file": "data/fundamentals/MCHP.json"
     },
     {
-      "symbol": "MU",
-      "file": "data/fundamentals/MU.json"
-    },
-    {
       "symbol": "MSFT",
       "file": "data/fundamentals/MSFT.json"
     },
     {
-      "symbol": "TAP",
-      "file": "data/fundamentals/TAP.json"
+      "symbol": "MRNA",
+      "file": "data/fundamentals/MRNA.json"
     },
     {
       "symbol": "MAA",
       "file": "data/fundamentals/MAA.json"
     },
     {
+      "symbol": "TAP",
+      "file": "data/fundamentals/TAP.json"
+    },
+    {
       "symbol": "MPWR",
       "file": "data/fundamentals/MPWR.json"
-    },
-    {
-      "symbol": "MNST",
-      "file": "data/fundamentals/MNST.json"
-    },
-    {
-      "symbol": "MCO",
-      "file": "data/fundamentals/MCO.json"
     },
     {
       "symbol": "MDLZ",
@@ -1296,20 +1288,20 @@
       "file": "data/fundamentals/MS.json"
     },
     {
-      "symbol": "MOS",
-      "file": "data/fundamentals/MOS.json"
+      "symbol": "MCO",
+      "file": "data/fundamentals/MCO.json"
     },
     {
-      "symbol": "MSI",
-      "file": "data/fundamentals/MSI.json"
+      "symbol": "MNST",
+      "file": "data/fundamentals/MNST.json"
     },
     {
       "symbol": "MSCI",
       "file": "data/fundamentals/MSCI.json"
     },
     {
-      "symbol": "NDAQ",
-      "file": "data/fundamentals/NDAQ.json"
+      "symbol": "MOS",
+      "file": "data/fundamentals/MOS.json"
     },
     {
       "symbol": "NFLX",
@@ -1320,24 +1312,28 @@
       "file": "data/fundamentals/NTAP.json"
     },
     {
-      "symbol": "NEM",
-      "file": "data/fundamentals/NEM.json"
-    },
-    {
-      "symbol": "NWS",
-      "file": "data/fundamentals/NWS.json"
+      "symbol": "NDAQ",
+      "file": "data/fundamentals/NDAQ.json"
     },
     {
       "symbol": "NWSA",
       "file": "data/fundamentals/NWSA.json"
     },
     {
-      "symbol": "NI",
-      "file": "data/fundamentals/NI.json"
+      "symbol": "NWS",
+      "file": "data/fundamentals/NWS.json"
+    },
+    {
+      "symbol": "MSI",
+      "file": "data/fundamentals/MSI.json"
     },
     {
       "symbol": "NEE",
       "file": "data/fundamentals/NEE.json"
+    },
+    {
+      "symbol": "NEM",
+      "file": "data/fundamentals/NEM.json"
     },
     {
       "symbol": "NKE",
@@ -1348,8 +1344,16 @@
       "file": "data/fundamentals/NDSN.json"
     },
     {
+      "symbol": "NI",
+      "file": "data/fundamentals/NI.json"
+    },
+    {
       "symbol": "NSC",
       "file": "data/fundamentals/NSC.json"
+    },
+    {
+      "symbol": "NCLH",
+      "file": "data/fundamentals/NCLH.json"
     },
     {
       "symbol": "NOC",
@@ -1360,36 +1364,36 @@
       "file": "data/fundamentals/NTRS.json"
     },
     {
-      "symbol": "NCLH",
-      "file": "data/fundamentals/NCLH.json"
+      "symbol": "NVDA",
+      "file": "data/fundamentals/NVDA.json"
     },
     {
       "symbol": "NRG",
       "file": "data/fundamentals/NRG.json"
     },
     {
-      "symbol": "NVDA",
-      "file": "data/fundamentals/NVDA.json"
-    },
-    {
       "symbol": "NVR",
       "file": "data/fundamentals/NVR.json"
-    },
-    {
-      "symbol": "NXPI",
-      "file": "data/fundamentals/NXPI.json"
-    },
-    {
-      "symbol": "ORLY",
-      "file": "data/fundamentals/ORLY.json"
     },
     {
       "symbol": "NUE",
       "file": "data/fundamentals/NUE.json"
     },
     {
+      "symbol": "NXPI",
+      "file": "data/fundamentals/NXPI.json"
+    },
+    {
       "symbol": "ODFL",
       "file": "data/fundamentals/ODFL.json"
+    },
+    {
+      "symbol": "ORLY",
+      "file": "data/fundamentals/ORLY.json"
+    },
+    {
+      "symbol": "ON",
+      "file": "data/fundamentals/ON.json"
     },
     {
       "symbol": "OXY",
@@ -1400,28 +1404,20 @@
       "file": "data/fundamentals/OMC.json"
     },
     {
-      "symbol": "ORCL",
-      "file": "data/fundamentals/ORCL.json"
+      "symbol": "OKE",
+      "file": "data/fundamentals/OKE.json"
     },
     {
-      "symbol": "ON",
-      "file": "data/fundamentals/ON.json"
+      "symbol": "ORCL",
+      "file": "data/fundamentals/ORCL.json"
     },
     {
       "symbol": "OTIS",
       "file": "data/fundamentals/OTIS.json"
     },
     {
-      "symbol": "OKE",
-      "file": "data/fundamentals/OKE.json"
-    },
-    {
       "symbol": "PCAR",
       "file": "data/fundamentals/PCAR.json"
-    },
-    {
-      "symbol": "PLTR",
-      "file": "data/fundamentals/PLTR.json"
     },
     {
       "symbol": "PKG",
@@ -1432,44 +1428,48 @@
       "file": "data/fundamentals/PSKY.json"
     },
     {
-      "symbol": "PANW",
-      "file": "data/fundamentals/PANW.json"
+      "symbol": "PLTR",
+      "file": "data/fundamentals/PLTR.json"
     },
     {
-      "symbol": "PYPL",
-      "file": "data/fundamentals/PYPL.json"
+      "symbol": "PANW",
+      "file": "data/fundamentals/PANW.json"
     },
     {
       "symbol": "PAYX",
       "file": "data/fundamentals/PAYX.json"
     },
     {
-      "symbol": "PH",
-      "file": "data/fundamentals/PH.json"
+      "symbol": "PYPL",
+      "file": "data/fundamentals/PYPL.json"
     },
     {
-      "symbol": "PEP",
-      "file": "data/fundamentals/PEP.json"
+      "symbol": "PH",
+      "file": "data/fundamentals/PH.json"
     },
     {
       "symbol": "PNR",
       "file": "data/fundamentals/PNR.json"
     },
     {
-      "symbol": "PCG",
-      "file": "data/fundamentals/PCG.json"
+      "symbol": "PEP",
+      "file": "data/fundamentals/PEP.json"
     },
     {
       "symbol": "PFE",
       "file": "data/fundamentals/PFE.json"
     },
     {
-      "symbol": "PSX",
-      "file": "data/fundamentals/PSX.json"
+      "symbol": "PCG",
+      "file": "data/fundamentals/PCG.json"
     },
     {
       "symbol": "PM",
       "file": "data/fundamentals/PM.json"
+    },
+    {
+      "symbol": "PSX",
+      "file": "data/fundamentals/PSX.json"
     },
     {
       "symbol": "PNW",
@@ -1480,48 +1480,56 @@
       "file": "data/fundamentals/PPG.json"
     },
     {
-      "symbol": "PG",
-      "file": "data/fundamentals/PG.json"
+      "symbol": "PNC",
+      "file": "data/fundamentals/PNC.json"
     },
     {
       "symbol": "PPL",
       "file": "data/fundamentals/PPL.json"
     },
     {
-      "symbol": "PNC",
-      "file": "data/fundamentals/PNC.json"
+      "symbol": "PG",
+      "file": "data/fundamentals/PG.json"
     },
     {
       "symbol": "PFG",
       "file": "data/fundamentals/PFG.json"
     },
     {
-      "symbol": "PLD",
-      "file": "data/fundamentals/PLD.json"
-    },
-    {
       "symbol": "PGR",
       "file": "data/fundamentals/PGR.json"
-    },
-    {
-      "symbol": "PTC",
-      "file": "data/fundamentals/PTC.json"
-    },
-    {
-      "symbol": "PSA",
-      "file": "data/fundamentals/PSA.json"
     },
     {
       "symbol": "PRU",
       "file": "data/fundamentals/PRU.json"
     },
     {
+      "symbol": "PLD",
+      "file": "data/fundamentals/PLD.json"
+    },
+    {
+      "symbol": "PSA",
+      "file": "data/fundamentals/PSA.json"
+    },
+    {
       "symbol": "PEG",
       "file": "data/fundamentals/PEG.json"
     },
     {
+      "symbol": "PWR",
+      "file": "data/fundamentals/PWR.json"
+    },
+    {
+      "symbol": "PTC",
+      "file": "data/fundamentals/PTC.json"
+    },
+    {
       "symbol": "PHM",
       "file": "data/fundamentals/PHM.json"
+    },
+    {
+      "symbol": "QCOM",
+      "file": "data/fundamentals/QCOM.json"
     },
     {
       "symbol": "Q",
@@ -1532,52 +1540,36 @@
       "file": "data/fundamentals/DGX.json"
     },
     {
-      "symbol": "PWR",
-      "file": "data/fundamentals/PWR.json"
-    },
-    {
-      "symbol": "QCOM",
-      "file": "data/fundamentals/QCOM.json"
-    },
-    {
       "symbol": "RDDT",
       "file": "data/fundamentals/RDDT.json"
-    },
-    {
-      "symbol": "RJF",
-      "file": "data/fundamentals/RJF.json"
-    },
-    {
-      "symbol": "REG",
-      "file": "data/fundamentals/REG.json"
     },
     {
       "symbol": "RTX",
       "file": "data/fundamentals/RTX.json"
     },
     {
-      "symbol": "O",
-      "file": "data/fundamentals/O.json"
+      "symbol": "RJF",
+      "file": "data/fundamentals/RJF.json"
     },
     {
       "symbol": "RL",
       "file": "data/fundamentals/RL.json"
     },
     {
-      "symbol": "RF",
-      "file": "data/fundamentals/RF.json"
+      "symbol": "O",
+      "file": "data/fundamentals/O.json"
     },
     {
       "symbol": "REGN",
       "file": "data/fundamentals/REGN.json"
     },
     {
-      "symbol": "RMD",
-      "file": "data/fundamentals/RMD.json"
+      "symbol": "REG",
+      "file": "data/fundamentals/REG.json"
     },
     {
-      "symbol": "HOOD",
-      "file": "data/fundamentals/HOOD.json"
+      "symbol": "RF",
+      "file": "data/fundamentals/RF.json"
     },
     {
       "symbol": "RSG",
@@ -1588,8 +1580,12 @@
       "file": "data/fundamentals/RVTY.json"
     },
     {
-      "symbol": "ROST",
-      "file": "data/fundamentals/ROST.json"
+      "symbol": "RMD",
+      "file": "data/fundamentals/RMD.json"
+    },
+    {
+      "symbol": "HOOD",
+      "file": "data/fundamentals/HOOD.json"
     },
     {
       "symbol": "ROK",
@@ -1600,12 +1596,20 @@
       "file": "data/fundamentals/ROL.json"
     },
     {
+      "symbol": "ROST",
+      "file": "data/fundamentals/ROST.json"
+    },
+    {
       "symbol": "ROP",
       "file": "data/fundamentals/ROP.json"
     },
     {
       "symbol": "RCL",
       "file": "data/fundamentals/RCL.json"
+    },
+    {
+      "symbol": "SPGI",
+      "file": "data/fundamentals/SPGI.json"
     },
     {
       "symbol": "CRM",
@@ -1616,72 +1620,64 @@
       "file": "data/fundamentals/SNDK.json"
     },
     {
-      "symbol": "SPGI",
-      "file": "data/fundamentals/SPGI.json"
-    },
-    {
-      "symbol": "STX",
-      "file": "data/fundamentals/STX.json"
-    },
-    {
-      "symbol": "SRE",
-      "file": "data/fundamentals/SRE.json"
+      "symbol": "SBAC",
+      "file": "data/fundamentals/SBAC.json"
     },
     {
       "symbol": "SLB",
       "file": "data/fundamentals/SLB.json"
     },
     {
+      "symbol": "SRE",
+      "file": "data/fundamentals/SRE.json"
+    },
+    {
       "symbol": "NOW",
       "file": "data/fundamentals/NOW.json"
-    },
-    {
-      "symbol": "SPG",
-      "file": "data/fundamentals/SPG.json"
-    },
-    {
-      "symbol": "SBAC",
-      "file": "data/fundamentals/SBAC.json"
-    },
-    {
-      "symbol": "SW",
-      "file": "data/fundamentals/SW.json"
-    },
-    {
-      "symbol": "SWKS",
-      "file": "data/fundamentals/SWKS.json"
-    },
-    {
-      "symbol": "SJM",
-      "file": "data/fundamentals/SJM.json"
     },
     {
       "symbol": "SHW",
       "file": "data/fundamentals/SHW.json"
     },
     {
-      "symbol": "SNA",
-      "file": "data/fundamentals/SNA.json"
+      "symbol": "STX",
+      "file": "data/fundamentals/STX.json"
+    },
+    {
+      "symbol": "SWKS",
+      "file": "data/fundamentals/SWKS.json"
+    },
+    {
+      "symbol": "SPG",
+      "file": "data/fundamentals/SPG.json"
+    },
+    {
+      "symbol": "SW",
+      "file": "data/fundamentals/SW.json"
     },
     {
       "symbol": "SOLV",
       "file": "data/fundamentals/SOLV.json"
     },
     {
-      "symbol": "SWK",
-      "file": "data/fundamentals/SWK.json"
-    },
-    {
       "symbol": "SO",
       "file": "data/fundamentals/SO.json"
     },
     {
-      "symbol": "STT",
-      "file": "data/fundamentals/STT.json"
-    },
-    {
       "symbol": "LUV",
       "file": "data/fundamentals/LUV.json"
+    },
+    {
+      "symbol": "SJM",
+      "file": "data/fundamentals/SJM.json"
+    },
+    {
+      "symbol": "SBUX",
+      "file": "data/fundamentals/SBUX.json"
+    },
+    {
+      "symbol": "SNA",
+      "file": "data/fundamentals/SNA.json"
     },
     {
       "symbol": "STLD",
@@ -1692,40 +1688,44 @@
       "file": "data/fundamentals/STE.json"
     },
     {
-      "symbol": "SBUX",
-      "file": "data/fundamentals/SBUX.json"
+      "symbol": "STT",
+      "file": "data/fundamentals/STT.json"
     },
     {
-      "symbol": "SYK",
-      "file": "data/fundamentals/SYK.json"
+      "symbol": "SWK",
+      "file": "data/fundamentals/SWK.json"
     },
     {
       "symbol": "SMCI",
       "file": "data/fundamentals/SMCI.json"
     },
     {
+      "symbol": "SYK",
+      "file": "data/fundamentals/SYK.json"
+    },
+    {
       "symbol": "SNPS",
       "file": "data/fundamentals/SNPS.json"
     },
     {
-      "symbol": "TROW",
-      "file": "data/fundamentals/TROW.json"
+      "symbol": "TMUS",
+      "file": "data/fundamentals/TMUS.json"
     },
     {
       "symbol": "SYF",
       "file": "data/fundamentals/SYF.json"
     },
     {
-      "symbol": "TTWO",
-      "file": "data/fundamentals/TTWO.json"
-    },
-    {
       "symbol": "SYY",
       "file": "data/fundamentals/SYY.json"
     },
     {
-      "symbol": "TMUS",
-      "file": "data/fundamentals/TMUS.json"
+      "symbol": "TROW",
+      "file": "data/fundamentals/TROW.json"
+    },
+    {
+      "symbol": "TTWO",
+      "file": "data/fundamentals/TTWO.json"
     },
     {
       "symbol": "TPR",
@@ -1740,16 +1740,12 @@
       "file": "data/fundamentals/TDY.json"
     },
     {
-      "symbol": "TSLA",
-      "file": "data/fundamentals/TSLA.json"
-    },
-    {
       "symbol": "TGT",
       "file": "data/fundamentals/TGT.json"
     },
     {
-      "symbol": "TEL",
-      "file": "data/fundamentals/TEL.json"
+      "symbol": "TSLA",
+      "file": "data/fundamentals/TSLA.json"
     },
     {
       "symbol": "TXN",
@@ -1764,6 +1760,14 @@
       "file": "data/fundamentals/TER.json"
     },
     {
+      "symbol": "TMO",
+      "file": "data/fundamentals/TMO.json"
+    },
+    {
+      "symbol": "TEL",
+      "file": "data/fundamentals/TEL.json"
+    },
+    {
       "symbol": "TXT",
       "file": "data/fundamentals/TXT.json"
     },
@@ -1776,32 +1780,16 @@
       "file": "data/fundamentals/TKO.json"
     },
     {
-      "symbol": "TMO",
-      "file": "data/fundamentals/TMO.json"
+      "symbol": "TSCO",
+      "file": "data/fundamentals/TSCO.json"
     },
     {
       "symbol": "TJX",
       "file": "data/fundamentals/TJX.json"
     },
     {
-      "symbol": "TT",
-      "file": "data/fundamentals/TT.json"
-    },
-    {
-      "symbol": "TSCO",
-      "file": "data/fundamentals/TSCO.json"
-    },
-    {
       "symbol": "TDG",
       "file": "data/fundamentals/TDG.json"
-    },
-    {
-      "symbol": "TYL",
-      "file": "data/fundamentals/TYL.json"
-    },
-    {
-      "symbol": "TSN",
-      "file": "data/fundamentals/TSN.json"
     },
     {
       "symbol": "TRV",
@@ -1812,28 +1800,44 @@
       "file": "data/fundamentals/TRMB.json"
     },
     {
-      "symbol": "TFC",
-      "file": "data/fundamentals/TFC.json"
+      "symbol": "TT",
+      "file": "data/fundamentals/TT.json"
     },
     {
-      "symbol": "USB",
-      "file": "data/fundamentals/USB.json"
-    },
-    {
-      "symbol": "ULTA",
-      "file": "data/fundamentals/ULTA.json"
-    },
-    {
-      "symbol": "UDR",
-      "file": "data/fundamentals/UDR.json"
+      "symbol": "TYL",
+      "file": "data/fundamentals/TYL.json"
     },
     {
       "symbol": "UBER",
       "file": "data/fundamentals/UBER.json"
     },
     {
+      "symbol": "TSN",
+      "file": "data/fundamentals/TSN.json"
+    },
+    {
+      "symbol": "USB",
+      "file": "data/fundamentals/USB.json"
+    },
+    {
+      "symbol": "UDR",
+      "file": "data/fundamentals/UDR.json"
+    },
+    {
+      "symbol": "ULTA",
+      "file": "data/fundamentals/ULTA.json"
+    },
+    {
       "symbol": "UAL",
       "file": "data/fundamentals/UAL.json"
+    },
+    {
+      "symbol": "UNP",
+      "file": "data/fundamentals/UNP.json"
+    },
+    {
+      "symbol": "TFC",
+      "file": "data/fundamentals/TFC.json"
     },
     {
       "symbol": "URI",
@@ -1844,10 +1848,6 @@
       "file": "data/fundamentals/UPS.json"
     },
     {
-      "symbol": "UNP",
-      "file": "data/fundamentals/UNP.json"
-    },
-    {
       "symbol": "UHS",
       "file": "data/fundamentals/UHS.json"
     },
@@ -1856,20 +1856,16 @@
       "file": "data/fundamentals/UNH.json"
     },
     {
-      "symbol": "VTR",
-      "file": "data/fundamentals/VTR.json"
-    },
-    {
-      "symbol": "VLTO",
-      "file": "data/fundamentals/VLTO.json"
+      "symbol": "VEEV",
+      "file": "data/fundamentals/VEEV.json"
     },
     {
       "symbol": "VLO",
       "file": "data/fundamentals/VLO.json"
     },
     {
-      "symbol": "VEEV",
-      "file": "data/fundamentals/VEEV.json"
+      "symbol": "VLTO",
+      "file": "data/fundamentals/VLTO.json"
     },
     {
       "symbol": "VZ",
@@ -1880,12 +1876,16 @@
       "file": "data/fundamentals/VRSN.json"
     },
     {
-      "symbol": "VRT",
-      "file": "data/fundamentals/VRT.json"
+      "symbol": "VRTX",
+      "file": "data/fundamentals/VRTX.json"
     },
     {
-      "symbol": "VTRS",
-      "file": "data/fundamentals/VTRS.json"
+      "symbol": "VTR",
+      "file": "data/fundamentals/VTR.json"
+    },
+    {
+      "symbol": "VRT",
+      "file": "data/fundamentals/VRT.json"
     },
     {
       "symbol": "VRSK",
@@ -1896,28 +1896,32 @@
       "file": "data/fundamentals/VICI.json"
     },
     {
-      "symbol": "VRTX",
-      "file": "data/fundamentals/VRTX.json"
+      "symbol": "V",
+      "file": "data/fundamentals/V.json"
     },
     {
-      "symbol": "VMRK",
-      "file": "data/fundamentals/VMRK.json"
+      "symbol": "VTRS",
+      "file": "data/fundamentals/VTRS.json"
     },
     {
       "symbol": "VST",
       "file": "data/fundamentals/VST.json"
     },
     {
-      "symbol": "WRB",
-      "file": "data/fundamentals/WRB.json"
+      "symbol": "VMRK",
+      "file": "data/fundamentals/VMRK.json"
     },
     {
-      "symbol": "V",
-      "file": "data/fundamentals/V.json"
+      "symbol": "VMC",
+      "file": "data/fundamentals/VMC.json"
     },
     {
       "symbol": "GWW",
       "file": "data/fundamentals/GWW.json"
+    },
+    {
+      "symbol": "WRB",
+      "file": "data/fundamentals/WRB.json"
     },
     {
       "symbol": "WAB",
@@ -1928,20 +1932,16 @@
       "file": "data/fundamentals/WMT.json"
     },
     {
-      "symbol": "VMC",
-      "file": "data/fundamentals/VMC.json"
-    },
-    {
-      "symbol": "WBD",
-      "file": "data/fundamentals/WBD.json"
-    },
-    {
       "symbol": "DIS",
       "file": "data/fundamentals/DIS.json"
     },
     {
       "symbol": "WM",
       "file": "data/fundamentals/WM.json"
+    },
+    {
+      "symbol": "WBD",
+      "file": "data/fundamentals/WBD.json"
     },
     {
       "symbol": "WAT",
@@ -1952,32 +1952,28 @@
       "file": "data/fundamentals/WEC.json"
     },
     {
-      "symbol": "WFC",
-      "file": "data/fundamentals/WFC.json"
+      "symbol": "WDC",
+      "file": "data/fundamentals/WDC.json"
     },
     {
       "symbol": "WELL",
       "file": "data/fundamentals/WELL.json"
     },
     {
-      "symbol": "WDC",
-      "file": "data/fundamentals/WDC.json"
-    },
-    {
-      "symbol": "WMB",
-      "file": "data/fundamentals/WMB.json"
-    },
-    {
       "symbol": "WST",
       "file": "data/fundamentals/WST.json"
     },
     {
-      "symbol": "WY",
-      "file": "data/fundamentals/WY.json"
+      "symbol": "WFC",
+      "file": "data/fundamentals/WFC.json"
     },
     {
       "symbol": "WSM",
       "file": "data/fundamentals/WSM.json"
+    },
+    {
+      "symbol": "WMB",
+      "file": "data/fundamentals/WMB.json"
     },
     {
       "symbol": "WTW",
@@ -1988,8 +1984,8 @@
       "file": "data/fundamentals/WDAY.json"
     },
     {
-      "symbol": "XYL",
-      "file": "data/fundamentals/XYL.json"
+      "symbol": "WY",
+      "file": "data/fundamentals/WY.json"
     },
     {
       "symbol": "WYNN",
@@ -2004,16 +2000,20 @@
       "file": "data/fundamentals/XEL.json"
     },
     {
-      "symbol": "ZBRA",
-      "file": "data/fundamentals/ZBRA.json"
+      "symbol": "ZTS",
+      "file": "data/fundamentals/ZTS.json"
     },
     {
       "symbol": "ZBH",
       "file": "data/fundamentals/ZBH.json"
     },
     {
-      "symbol": "ZTS",
-      "file": "data/fundamentals/ZTS.json"
+      "symbol": "ZBRA",
+      "file": "data/fundamentals/ZBRA.json"
+    },
+    {
+      "symbol": "XYL",
+      "file": "data/fundamentals/XYL.json"
     }
   ]
 }
