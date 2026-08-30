@@ -338,13 +338,31 @@
         min -= span * 0.04; max += span * 0.04;
         const x = (i, n) => padL + (n < 2 ? 0 : (i / (n - 1)) * (W - padL - padR));
         const y = (v) => padT + (1 - (v - min) / (max - min)) * (H - padT - padB);
-        // 4 clean y ticks
+        // nice y grid: step snapped to 1/2/2.5/5 × 10^k, gridlines at step
+        // multiples — raw data extremes (36.00/23.37/10.73/−1.90) never appear
         const ticks = [];
-        for (let i = 0; i <= 3; i++) ticks.push(min + ((max - min) * i) / 3);
+        let gridStep = 0;
+        if (max > min) {
+            const target = (max - min) / 4;
+            const mag = Math.pow(10, Math.floor(Math.log10(target)));
+            const norm = target / mag;
+            gridStep = (norm < 1.5 ? 1 : norm < 3.5 ? 2 : norm < 7.5 ? 5 : 10) * mag;
+            for (let t = Math.ceil(min / gridStep) * gridStep; t <= max + gridStep * 1e-6; t += gridStep) {
+                ticks.push(Math.round(t / gridStep) * gridStep);
+            }
+        }
+        // grid labels carry the step's own precision — 0/10/20/30, never 10.00,
+        // and never a -0 artifact at the baseline
+        const tickFmt = (t) => {
+            if (!Number.isFinite(t)) return '';
+            const v = Object.is(t, -0) ? 0 : t;
+            const dec = gridStep >= 1 ? 0 : gridStep >= 0.1 ? 1 : gridStep >= 0.01 ? 2 : 3;
+            return v.toLocaleString('en-US', { maximumFractionDigits: dec });
+        };
         let g = '';
         for (const t of ticks) {
             g += `<line x1="${padL}" y1="${y(t).toFixed(1)}" x2="${W - padR}" y2="${y(t).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
-            g += `<text x="${padL - 8}" y="${(y(t) + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(fmt(t))}</text>`;
+            g += `<text x="${padL - 8}" y="${(y(t) + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(tickFmt(t))}</text>`;
         }
         if (min < 0 && max > 0) {
             g += `<line x1="${padL}" y1="${y(0).toFixed(1)}" x2="${W - padR}" y2="${y(0).toFixed(1)}" stroke="var(--line-strong)" stroke-width="1"/>`;
@@ -1471,6 +1489,8 @@
 
     // outline thumb (drawn for this design — no icon font)
     const THUMB = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"><path d="M5.5 7.5v6h-3v-6h3zm0 0 2.2-4.6a1.3 1.3 0 0 1 2.47.7L9.7 6h2.9a1.4 1.4 0 0 1 1.36 1.73l-1.1 4.7a1.4 1.4 0 0 1-1.36 1.07H5.5"/></svg>';
+    const ICON_COPY = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><rect x="5.5" y="5.5" width="8" height="8" rx="1.5"/><path d="M10.5 3.5H4a1.5 1.5 0 0 0-1.5 1.5v6.5"/></svg>';
+    const ICON_RERUN = '<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><path d="M13.2 8A5.2 5.2 0 1 1 10.9 3.7"/><path d="M11 1.2v2.8h2.8L11 1.2z"/></svg>';
 
     // ---------- shared dialog ----------
     // One centered modal for the whole app. Extracted from the AppSumo review
@@ -1790,22 +1810,44 @@
                             answerEl.appendChild(card);
                         });
                     history.push({ role: 'user', content: question }, { role: 'assistant', content: data.answer });
-                    // one quiet footer line: feedback · quota (the trace
-                    // disclosure above already holds the sources)
+                    // one quiet footer line: copy/rerun · feedback · quota
+                    // (the trace disclosure above already holds the sources)
                     const foot = document.createElement('div');
                     foot.className = 'ask-foot';
                     const quotaTxt = (data.quota && Number.isFinite(data.quota.limit))
                         ? `${Math.max(0, data.quota.limit - data.quota.used)} of ${data.quota.limit} left`
                         : '';
                     foot.innerHTML = `
+                      <span class="ask-fb" role="group" aria-label="Answer actions">
+                        <button type="button" data-act="copy" title="Copy answer" aria-label="Copy answer">${ICON_COPY}</button>
+                        <button type="button" data-act="rerun" title="Ask this again" aria-label="Ask this again">${ICON_RERUN}</button>
+                      </span>
                       <span class="ask-fb" role="group" aria-label="Was this helpful?">
                         <button type="button" data-v="up" title="Helpful" aria-label="Helpful">${THUMB}</button>
                         <button type="button" data-v="down" title="Not helpful" aria-label="Not helpful" style="transform:scaleY(-1);">${THUMB}</button>
                       </span>
-                      ${quotaTxt ? `<span>${quotaTxt}</span>` : ''}`;
-                    foot.querySelectorAll('.ask-fb button').forEach((b) =>
+                      ${quotaTxt ? `<span>${quotaTxt}</span>` : ''}
+                      <span class="scope">Never buy/sell advice — figures from SEC filings and fund data.</span>`;
+                    foot.querySelector('[data-act="rerun"]').addEventListener('click', () => send(question, opts));
+                    foot.querySelector('[data-act="copy"]').addEventListener('click', async (e) => {
+                        const btn = e.currentTarget;
+                        try {
+                            await navigator.clipboard.writeText(String(data.answer));
+                            btn.classList.add('is-picked');
+                            btn.title = 'Copied';
+                            setTimeout(() => { btn.classList.remove('is-picked'); btn.title = 'Copy answer'; }, 1600);
+                        } catch (_) {
+                            modal({
+                                label: 'Copy answer',
+                                title: 'Copy this answer',
+                                body: 'Your browser blocked automatic copying — select the text below and copy it manually.',
+                                bodyHtml: `<textarea class="input" rows="10" aria-label="Answer text" style="width:100%">${esc(String(data.answer))}</textarea>`
+                            });
+                        }
+                    });
+                    foot.querySelectorAll('button[data-v]').forEach((b) =>
                         b.addEventListener('click', () => {
-                            foot.querySelectorAll('.ask-fb button').forEach((x) => { x.disabled = true; x.classList.toggle('is-picked', x === b); });
+                            foot.querySelectorAll('button[data-v]').forEach((x) => { x.disabled = true; x.classList.toggle('is-picked', x === b); });
                             fetch(`${API}/ai/chat/feedback`, {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
