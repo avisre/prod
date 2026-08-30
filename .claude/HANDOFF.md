@@ -76,88 +76,24 @@ every touched asset. NOT yet pushed or deployed.
 - Push = the clone-copy-commit dance (no local .git; copy ONLY changed files).
   Deploy needs the Render public-repo flip dance (see below).
 
-## Prior ship — Ask flow removal + centering + PDF fix (2026-08-30, `0dfe71f`, deploy `dep-da9mqv142hec738btb5g`)
+## Prior ships, compressed (2026-08-30)
 
-Owner approved push after local testing ("if its fixed push to prod and then
-redeploy"). Commit `0dfe71f` on avisre/prod, 52 files. Contents:
-
-### Sankey removal (owner tested locally, feature REMOVED)
-
-- `frontend-v2/assets/app.js`: the entire `flowBlock` renderer deleted; the
-  two ```flow``` handling lines removed from `markdown()`. Remaining viz
-  blocks: ```viz``` and ```bars``` as before.
-- `backend/ai-chat.js`: FLOW DIAGRAM prompt rule deleted (viz-rules line now
-  precedes TABLES); `get_segments` schema + `toolGetSegments` reverted to the
-  annual-only 10-K form.
-- `backend/segments.js`: `extractSegments(symbol)` back to annual-only —
-  `QUARTERLY_EXTRACT_SYSTEM`, `latestTenQ`, `periodEnd` and the `basis`
-  plumbing removed; `filedRevenue(symbol)` / `repairUnits(segments, symbol)`
-  single-form again.
-### Empty-answer retry (KEPT, server-only)
-  ai-chat.js — one retry with fresh budget when synthesis returns empty
-  content (reasoning-model budget burn), plus module-level THINK_RE strip
-  regex. Recovered ~2/3 of empties in the sweep. ask-recovery/ask-threads
-  27/27 after it.
-- Stamp `20260830-flowsub1` → **`20260830-noflow1`** on all 41 files.
-  ⚠️ Standing lesson: never reuse ANY previously served stamp — flow2 was
-  already deployed, and flowsub1 was served to the owner's own browser.
-- **Owner follow-up, same tree**: every turn element in /ask is now CENTRED
-  on the 74ch column (ask.html inline styles only, no stamp): question
-  bubble `justify-self:center`, trace summary `display:flex; width:max-content`
-  with auto margins (it was inline-flex → shrink-wrapped left), trace chips,
-  QUICK READ badge, working row and feedback foot all centred; share-actions
-  right-push removed inside .thread. Verified with a headless-Chrome geometry
-  probe (all deltas 0px vs column mid) + screenshot; 354/354. NOTE:
-  direct-ltd-affiliate.test.js flakes ~1/3 runs under parallel suite load
-  (Mongo timing) — passes in isolation; re-run before believing a failure.
-- **Attachments verified end-to-end (unpushed fix)**: images (PNG→dataUri→
-  `view_image` vision relay) PASS — every figure on a test card transcribed.
-  PDFs were BROKEN: the old hand-rolled Tj-only reader returned EMPTY text
-  for real generators (Chrome-print PDFs use Identity-H hex runs; literal-Tj
-  assumptions fail + "stream" markers inside binary fool naive scanning) —
-  earlier "success" was history fallback quoting prior turns. FIXED by
-  vendoring pdf.js 3.11.174 UMD into `frontend-v2/assets/vendor/` (new stamp
-  `20260831-pdf1`, referenced only from ask.html) + rewrote `pdfExtract` in
-  ask.html to `getTextContent()` with line-aware joining, lazy-loaded only
-  when a PDF is attached. Re-tested: Chrome-print PDF ✓, reportlab PDF ✓,
-  image+PDF together ✓ (fresh-number fixtures so history can't mask it).
-- **AskReport toolsUsed CastError FIXED before push**: saveAskReport now
-  maps `[{tool,args,ok}]` → tool names (same as saveThreadExchange);
-  regression-pinned in ask-history.test.js. 354/354.
-- Shipped; repo flipped public for the clone, back to PRIVATE after.
-  Post-ship prod sweep (2026-08-30): 15 pages × 2 viewports all PASS (stamps
-  noflow1, overflow 0, no severe console errors; appsumo has no app.js ref —
-  correct), /api/health + filings + keypoints + verify + ask-guard all
-  healthy, NVDA company page renders live quote/16 charts. Logged-in prod Ask
-  attach still owner-E2E (register requires Stripe payment — no test acct).
-- **Local-vision env note**: `AI_MODEL_VISION` must be
-  `glm-5.3-flash:cloud` here (default `gemma4:31b` doesn't exist on the
-  local proxy) — prod sets its own env value.
-- Verified: full suite 354/354; live NVDA ask probe → prose + ```viz```
-  figures, no flow block. If the feature is ever wanted again, the build is
-  in this session's transcript.
-
-## Prior ship — Mobile/tablet UX passes 1–7 (2026-08-30, `f49157f`→`2408edb`)
-
-Seven passes, each live-measured with `/tmp/mob2.js` (20 pages × 390/768) +
-element probes, pinned in `mobile-ux.test.js`. Final measured state: document
-overflowPx 0, sub-11.5px text 0, sub-28px taps 0 — no exceptions. Stamps
-`mob1`→`mob6`→`flow2` on 41 files each; all deployed first-attempt; repo back
-to PRIVATE. Copy-list gotcha: comparing `git status` against the copy list
-with the WRONG path prefix (SRC vs DST) looks like a full mismatch — strip
-one prefix consistently.
-
-## Older Ask ships, compressed (2026-08-29)
-
-- Composer/answer layout: dock + answer children share a 74ch column; ask.html
-  inline styles only (no stamp ritual). 4 Ask audit fixes; admin double-send.
-- **Zen mode**: opening a conversation auto-adds `body.zen` (everything hides
-  via `!important` except answer + `#zen-chip`; chip in floating .side-tools,
-  needs `body.in-conversation.zen` specificity; Esc/F11; auto-dim 2600 ms).
-  All inside ask.html's IIFE — `setZen` NOT global; tests must click the chip.
-- ChatGPT-parity: attachments ≤3×10MB (client-side extraction); vision via
-  `view_image`; personal memory ON by default; sidebar search/pins/cap 50.
-  Suite was 322/322.
+- **`0dfe71f` (Ask flow removal + centering + PDF fix, `20260830-noflow1`)**
+  Sankey/```flow``` removed everywhere (app.js renderer, ai-chat prompt rule,
+  segments back to annual-only 10-K). Ask keeps: server-side empty-answer
+  retry (recovers ~2/3), turn elements centred on the 74ch column, PDF
+  attachments via vendored pdf.js `20260831-pdf1` (old Tj reader returned
+  empty text on real PDFs), AskReport toolsUsed CastError fix. Suite 354/354.
+  Direct-ltd-affiliate test flakes ~1/3 under parallel load (Mongo) — re-run
+  in isolation. Local `AI_MODEL_VISION=glm-5.3-flash:cloud`.
+- **`f49157f`→`2408edb` (mobile/tablet passes 1–7, stamps mob1→flow2)**
+  Measured: overflowPx 0, sub-11.5px text 0, sub-28px taps 0 on 20 pages ×
+  390/768. Copy-list gotcha: wrong path prefix in a `git status` comparison
+  looks like a full mismatch — strip one prefix consistently.
+- **2026-08-29 Ask ships**: 74ch dock/answer column, 4 Ask audit fixes,
+  admin double-send fix, zen mode (auto `body.zen`, `#zen-chip`, `setZen`
+  not global), ChatGPT-parity attachments/memory/sidebar (322/322).
+- Standing lesson: never reuse ANY previously served stamp.
 
 ## RENDER + PRIVATE REPO — known landmine
 
