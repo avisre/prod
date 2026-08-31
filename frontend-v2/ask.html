@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260831-blue1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260831-ladder1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -301,8 +301,8 @@
           <button type="button" class="chip zen-chip" id="zen-chip" aria-label="Hide everything but the answer" title="Hide everything but the answer">⤢</button>
         </div>
         <div class="hello">
-          <h1>Ask anything about stocks and funds.</h1>
-          <p>Company figures come from SEC filings; ETF and mutual-fund figures come from fund data.</p>
+          <h1>AI that has read every SEC filing for you.</h1>
+          <p>Ask anything about any US-listed stock, ETF or fund — company figures come from SEC filings, fund figures from fund data, sources under every answer. No card needed; answers aren't saved until you sign up.</p>
         </div>
 
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
@@ -334,8 +334,9 @@
         </div>
 
         <div class="prompts" id="prompts">
+          <button>Why did NVDA's gross margin compress last quarter? Walk me through the drivers from the filings.</button>
+          <button>What does TSLA's latest 10-K flag as risk factors, and what changed from last year's?</button>
           <button>Walk me through NVDA's last 10 years — growth, margins, and what changed.</button>
-          <button>Compare COST and WMT on growth, margins and returns over 10 years.</button>
           <button>Run the health checks on TSLA and explain every failure.</button>
           <button>Which of V and MA converts more revenue into free cash flow?</button>
           <button>Find companies that grew revenue 10%+ a year with net margins above 20%.</button>
@@ -346,7 +347,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260831-blue1"></script>
+  <script src="assets/app.js?v=20260831-ladder1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -1035,7 +1036,7 @@
         // both are present in every chrome state, so neither line reflows on
         // send and the two never say the same thing twice
         if (!token()) {
-          el.innerHTML = 'Describes and explains — never buy/sell advice. <a href="/login.html">Log in</a> or <a href="/register.html">create a free account</a> for more.';
+          el.innerHTML = 'Never buy/sell advice; sources under every answer. <a href="/register.html">Create a free account</a> to keep this thread and its follow-ups, or <a href="/login.html">log in</a>.';
           mini.textContent = '3 free questions';
           return;
         }

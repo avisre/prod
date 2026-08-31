@@ -387,8 +387,8 @@
         <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Power &amp; Desk</h2>
         <p class="muted" style="max-width:62ch;">Get a cited first pass over material changes in a supported company's latest available 10-K, 10-Q or 8-K — including available year-over-year figures and changes in guidance, risk and demand language — plus a ranked feed across your watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — $1,961/yr</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Power — $579/yr</a>
+          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — $2,999.99/yr</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Power — $1,499.99/yr</a>
         </div>
       </div>`;
     out.hidden = false;
@@ -418,7 +418,7 @@
     banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
     banner.innerHTML = `<div class="small" style="max-width:58ch; margin:0;">${msg}</div>
       <div style="flex-shrink:0;">
-        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Get Power — $64/mo</a>
+        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Get Power — $149.99/mo</a>
       </div>`;
     const out = $('mon-report');
     out.insertBefore(banner, out.firstChild);
@@ -432,10 +432,10 @@
         <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
         <p class="muted" style="max-width:62ch;">Power gives you a cited first pass over material changes in supported 10-K, 10-Q and 8-K filings, with available numerical and narrative changes ranked by materiality and an updating feed across your watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $64/mo</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Or $579/yr — save 25%</a>
+          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $149.99/mo</a>
+          <a class="btn btn-ghost" href="/register.html?plan=power">Or $1,499.99/yr — save $300</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,961/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$2,999.99/yr →</a></p>
       </div>`;
     out.hidden = false;
   }
@@ -476,7 +476,7 @@
       <h3 class="title-3" style="margin:12px 0 8px;">Your wallet is empty this month</h3>
       <p class="small faint" style="max-width:64ch; margin:0 0 4px;">A Monitor report costs ${needed} credits — you have ${remaining} left this month.${reset ? ` ${esc(reset)} — your plan's allowance comes back on its own.` : ''}</p>
       <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:14px;">
-        <a class="btn btn-primary" href="/recharge.html">Recharge 150 credits — $9</a>
+        <a class="btn btn-primary" href="/recharge.html">Recharge 150 credits — $14.99</a>
         <a class="btn btn-ghost" href="/profile.html#usage-details">See this month's usage →</a>
       </div>
     </div>`;

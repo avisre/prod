@@ -57,7 +57,7 @@
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
           <a class="btn btn-primary" href="/register.html?plan=pro">Start Pro checkout</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Want the Filing Change Monitor and thesis tracker too? Power — <a href="/register.html?plan=power">$579/yr →</a> · Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,961/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Want the Filing Change Monitor and thesis tracker too? Power — <a href="/register.html?plan=power">$1,499.99/yr →</a> · Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$2,999.99/yr →</a></p>
       </div>`;
     out.hidden = false;
   }
@@ -83,7 +83,7 @@
       <h2 class="title-2" style="margin:12px 0 8px;">Your wallet is empty this month</h2>
       <p class="muted" style="max-width:62ch;">A ${deep ? 'Deep ' : ''}Dossier costs ${needed} credits — you have ${remaining} left this month. Recharge to run it now${reset ? `, or wait for the regular wallet: ${esc(reset).toLowerCase()}` : '.'}</p>
       <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-        <a class="btn btn-primary" href="/recharge.html">Recharge 150 credits — $9</a>
+        <a class="btn btn-primary" href="/recharge.html">Recharge 150 credits — $14.99</a>
         <a class="btn btn-ghost" href="/profile.html#usage-details">See this month's usage →</a>
       </div>
 ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} — your plan's allowance comes back on its own.</p>` : ''}

@@ -102,7 +102,7 @@ async function grant(userId, amount, reason, refId) {
 // Power/Desk get a materially larger ceiling instead of the bare ×2. Reason:
 // userTier() (app.js) deliberately collapses power/power-monthly/desk to the
 // same 'pro' gate tier, so effectiveAskLimit — and a bare ×2 off it — would
-// give a $540 Desk customer the identical 600-credit wallet as a $33 Pro
+// give a $540 Desk customer the identical 600-credit wallet as a $79.99 Pro
 // customer, while Monitor (Power/Desk-only, previously unmetered) is now
 // drawing from that same pool. Keyed on the *uncollapsed* planId so it must be
 // read from req.subscription.planId, not req.tier. Every other plan keeps the

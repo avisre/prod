@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Secure Stripe checkout for StockPortfolio.pro. Monthly $12, Pro $33, or pay annually: Annual $118, Pro Annual $250 with the AI analyst. Request a refund within 7 days if the service is not right for you." />
+  <meta name="description" content="Secure Stripe checkout for StockPortfolio.pro. Monthly $39.99, Pro $79.99, or pay annually: Annual $399.99, Pro Annual $799.99 with the AI analyst. Request a refund within 7 days if the service is not right for you." />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260831-blue1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260831-ladder1" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -95,14 +95,14 @@
           <p class="small muted" id="pro-annual-row" hidden style="margin:-8px 0 0;">
             <label style="display:flex; align-items:center; gap:8px; cursor:pointer;">
               <input type="checkbox" id="pro-annual-toggle" style="accent-color:var(--ink);" />
-              <span>Bill Pro yearly — <strong>$250/yr</strong>, save $146</span>
+              <span>Bill Pro yearly — <strong>$799.99/yr</strong>, save $160</span>
             </label>
           </p>
 
           <div>
             <span class="sum-label" id="sum-plan-name">Monthly</span>
             <div class="sum-price">
-              <span class="sum-amount" id="sum-amount">$12</span>
+              <span class="sum-amount" id="sum-amount">$39.99</span>
               <span class="sum-cadence" id="sum-cadence">per month</span>
             </div>
             <p class="sum-note" id="plan-summary">Charged today through Stripe. Cancel anytime.</p>
@@ -169,7 +169,7 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20260831-blue1"></script>
+  <script src="assets/app.js?v=20260831-ladder1"></script>
   <script src="assets/social.js?v=20260831-paidfirst1"></script>
   <script>
     V2.nav('register');
@@ -177,50 +177,50 @@
     // the line under it, the feature list and the submit label.
     const PLANS = {
       monthly: {
-        name: 'Monthly', amount: '$12', cadence: 'per month',
+        name: 'Monthly', amount: '$39.99', cadence: 'per month',
         note: 'Charged today through Stripe. Cancel anytime.',
         cta: 'Continue to secure checkout',
         features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '25 Ask questions a month, every answer sourced', 'CSV export of any table']
       },
       annual: {
-        name: 'Annual', amount: '$118', cadence: 'per year',
+        name: 'Annual', amount: '$399.99', cadence: 'per year',
         note: 'Billed today, renews yearly. Two months free versus monthly.',
         cta: 'Continue to annual checkout',
-        features: ['Everything in the Monthly plan', 'Two months free — $9.83/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
+        features: ['Everything in the Monthly plan', 'Two months free — $33.33/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
       },
       pro: {
-        name: 'Pro · the analyst tier', amount: '$33', cadence: 'per month',
+        name: 'Pro · the analyst tier', amount: '$79.99', cadence: 'per month',
         note: 'Charged today through Stripe. Everything in Monthly, plus the AI analyst.',
         cta: 'Continue to Pro checkout',
         features: ['300 Ask questions a month, with charts and tables in every answer', 'Filing Diff — what changed in each new 10-K/10-Q, per holding', 'Smart alerts — insider clusters, dividend-risk flags, your own thresholds', 'Daily attribution — why your portfolio moved today, quantified', 'Business segments extracted from the 10-K', 'Weekly portfolio briefing, every Monday']
       },
       'pro-annual': {
-        name: 'Pro Annual', amount: '$250', cadence: 'per year',
-        note: 'Billed today, renews yearly — save $146 versus Pro monthly.',
+        name: 'Pro Annual', amount: '$799.99', cadence: 'per year',
+        note: 'Billed today, renews yearly — save $160 versus Pro monthly.',
         cta: 'Continue to Pro Annual checkout',
-        features: ['Everything in Pro, billed once a year', '300 Ask questions a month, with charts and tables', 'Filing Diff, smart alerts and daily attribution', 'Business segments and the weekly Monday briefing', 'Save $146 versus paying monthly']
+        features: ['Everything in Pro, billed once a year', '300 Ask questions a month, with charts and tables', 'Filing Diff, smart alerts and daily attribution', 'Business segments and the weekly Monday briefing', 'Save $160 versus paying monthly']
       },
       power: {
-        name: 'Power annual', amount: '$579', cadence: 'per year',
-        note: 'Billed today, renews yearly — the full research desk plus Filing Monitor. About $50 per covered name per year across a twelve-name watchlist.',
+        name: 'Power annual', amount: '$1,499.99', cadence: 'per year',
+        note: 'Billed today, renews yearly — the full research desk plus Filing Monitor. About $125 per covered name per year across a twelve-name watchlist.',
         cta: 'Continue to Power checkout',
-        features: ['Filing Change Monitor — a cited first pass over the latest 10-K/10-Q/8-K, ranked by materiality', 'Watchlist filing feed — every holding’s newest filing, read for you', 'Wash-sale guard across accounts and brokers', 'Everything in Pro: 300 Ask questions, alerts, attribution, briefing', 'Save 25% versus monthly billing']
+        features: ['Filing Change Monitor — a cited first pass over the latest 10-K/10-Q/8-K, ranked by materiality', 'Watchlist filing feed — every holding’s newest filing, read for you', 'Wash-sale guard across accounts and brokers', 'Everything in Pro: 300 Ask questions, alerts, attribution, briefing', 'Save $300 versus monthly billing']
       },
       'power-monthly': {
-        name: 'Power monthly', amount: '$64', cadence: 'per month',
+        name: 'Power monthly', amount: '$149.99', cadence: 'per month',
         note: 'Charged today, then monthly. The full research desk plus Filing Monitor. Cancel anytime.',
         cta: 'Continue to Power checkout',
         features: ['Filing Change Monitor — a cited first pass over the latest 10-K/10-Q/8-K, ranked by materiality', 'Watchlist filing feed — every holding’s newest filing, read for you', 'Wash-sale guard across accounts and brokers', 'Everything in Pro: 300 Ask questions, alerts, attribution, briefing', 'No annual commitment']
       },
       desk: {
-        name: 'Desk · one professional seat', amount: '$1,961', cadence: 'per year',
+        name: 'Desk · one professional seat', amount: '$2,999.99', cadence: 'per year',
         note: 'Billed today, renews yearly — for RIAs, analysts and small funds.',
         cta: 'Continue to Desk checkout',
         features: ['Everything in Power, with a licence to use verified outputs in client-facing research', 'Priority support and a personal onboarding call', 'Built for RIAs, equity analysts and small funds', 'First to get new coverage as it ships']
       }
     };
     // Purchase values are reported in the actual charged currency: USD.
-    const PLAN_VALUE = { free: 0, monthly: 12, annual: 118, pro: 33, 'pro-annual': 250, power: 579, 'power-monthly': 64, desk: 1961 };
+    const PLAN_VALUE = { free: 0, monthly: 39.99, annual: 399.99, pro: 79.99, 'pro-annual': 799.99, power: 1499.99, 'power-monthly': 149.99, desk: 2999.99 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk']);
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();

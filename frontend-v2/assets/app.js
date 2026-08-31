@@ -582,8 +582,8 @@
     // ladder and a single CTA. Pro users just get a reset note, no upsell.
     const ASK_PLANS = {
         free: { name: 'Free', price: '$0', per: '/forever', q: 3 },
-        core: { name: 'Core', price: '$12', per: '/mo', q: 25 },
-        pro: { name: 'Pro', price: '$33', per: '/mo', q: 300 }
+        core: { name: 'Core', price: '$39.99', per: '/mo', q: 25 },
+        pro: { name: 'Pro', price: '$79.99', per: '/mo', q: 300 }
     };
     function quotaWall(data) {
         const limit = (data && data.quota && Number(data.quota.limit)) || 3;
@@ -603,7 +603,7 @@
             if (as && as.isAppSumo && as.upgradeUrl) {
                 return `<div class="notice">${msg}<br><a class="btn btn-primary" style="margin-top:12px" href="${esc(as.upgradeUrl)}" target="_blank" rel="noopener">Upgrade your AppSumo license →</a></div>`;
             }
-            return `<div class="notice">${msg}<br><a class="btn btn-primary" style="margin-top:12px" href="/recharge.html">Recharge 150 credits — $9</a> <span class="small" style="margin-left:6px;">or <a href="/upgrade.html">upgrade your plan →</a></span></div>`;
+            return `<div class="notice">${msg}<br><a class="btn btn-primary" style="margin-top:12px" href="/recharge.html">Recharge 150 credits — $14.99</a> <span class="small" style="margin-left:6px;">or <a href="/upgrade.html">upgrade your plan →</a></span></div>`;
         }
         const cards = ['free', 'core', 'pro'].map((k) => {
             const p = ASK_PLANS[k];

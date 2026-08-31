@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20260831-blue1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
 </head>
 <body>
   <main>
@@ -32,7 +32,7 @@
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20260831-blue1"></script>
+  <script src="/assets/app.js?v=20260831-ladder1"></script>
   <script>
     (function () {
       'use strict';
@@ -51,26 +51,33 @@
       // rungs strictly above their current planId — the card for the plan
       // they hold, and everything below it, is never rendered, so the plan
       // they pay for today can't be re-purchased by a stray click.
+      // Cards are grouped good/better/best; the monthly and annual billing
+      // variants of one group share a card, with the annual option as its
+      // own button. planIds are unchanged — they are the checkout keys.
       const LADDER = [
-        { planId: 'monthly', label: 'Monthly', fig: '$12', per: '/month', lines: [
-          'Everything in Monthly: full research library, portfolio tracker, 25 Ask questions' ] },
-        { planId: 'annual', label: 'Annual', fig: '$118', per: '/year', lines: [
-          'Monthly, paid once a year — two months free versus monthly billing' ] },
-        { planId: 'pro', label: 'Pro', featured: true, fig: '$33', per: '/month', lines: [
+        { planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '$39.99', per: '/month', lines: [
+          'The full research library: up to 19 years of filed statements, ratios and health checks',
+          'Portfolio tracker, peer comparison, watchlist + SEC filing alerts',
+          '25 Ask questions a month — filing, fund-data or web sources identified' ] },
+        { planId: 'annual', label: 'Good — annual', group: 'core', fig: '$399.99', per: '/year', lines: [
+          'Good, paid once a year — two months free versus monthly billing',
+          'One renewal a year; upgrade to Pro anytime, prorated' ] },
+        { planId: 'pro', label: 'Better', group: 'pro', featured: true, caption: 'Everything in Good, plus the AI analyst', fig: '$79.99', per: '/month', lines: [
           '300 Ask questions a month with charts & tables in every answer',
           'Dossier, Filing Diff, smart alerts, daily attribution, insights & segments',
           'Weekly portfolio briefing — what changed in your holdings, every Monday' ] },
-        { planId: 'pro-annual', label: 'Pro Annual', fig: '$250', per: '/year', lines: [
-          'Pro, billed yearly — save $146 versus monthly',
+        { planId: 'pro-annual', label: 'Better — annual', group: 'pro', fig: '$799.99', per: '/year', lines: [
+          'Pro, billed yearly — save $160 versus monthly',
           'Same 600-credit wallet, fewer renewals' ] },
-        { planId: 'power-monthly', label: 'Power monthly', fig: '$64', per: '/month', lines: [
-          'Everything in Pro plus the Filing Change Monitor across your whole watchlist',
-          'Wash-sale guard — cross-broker tax-lot intelligence', '2000-credit wallet' ] },
-        { planId: 'power', label: 'Power annual', fig: '$579', per: '/year', lines: [
-          'Everything in Power monthly, paid once yearly — save 25%',
-          'About $50 per covered name per year on a twelve-name watchlist' ] },
-        { planId: 'desk', label: 'Desk', featured: true, fig: '$1,961', per: '/year', lines: [
-          'Power for one named professional, with a limited client-facing licence',
+        { planId: 'power-monthly', label: 'Best', group: 'power', caption: 'The complete research desk + the Filing Change Monitor', fig: '$149.99', per: '/month', lines: [
+          'Filing Change Monitor across your whole watchlist — every new 10-K/10-Q/8-K read for you',
+          'Wash-sale guard — cross-broker tax-lot intelligence',
+          'Everything in Pro, with a 2000-credit wallet' ] },
+        { planId: 'power', label: 'Best — annual', group: 'power', fig: '$1,499.99', per: '/year', lines: [
+          'Best, paid once yearly — save $300 versus monthly billing',
+          'About $125 per covered name per year on a twelve-name watchlist' ] },
+        { planId: 'desk', label: 'Desk', group: 'desk', featured: true, caption: 'Power for one named professional, with a limited client-facing licence', fig: '$2,999.99', per: '/year', lines: [
+          'Everything in Power, plus permission to use verified outputs in your own client-facing research',
           'Priority support and a personal onboarding call' ] }
       ];
 
@@ -158,13 +165,32 @@
         }
 
         sub.textContent = `You're on ${esc(planName(session))}. Charged today, prorated — cancel anytime before renewal.`;
-        grid.innerHTML = options.map((p) => `
-          <div class="card price-card"${p.featured ? ' style="border-color: var(--ink);"' : ''}>
-            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">${esc(p.label)}</span>${p.featured ? '<span class="small" style="color:var(--accent-ink); font-weight:650;">Most picked</span>' : ''}</div>
-            <div class="price-fig">${esc(p.fig)}<span>${esc(p.per)}</span></div>
-            <ul class="price-list">${p.lines.map((l) => `<li>${l}</li>`).join('')}</ul>
-            <button class="btn ${p.featured ? 'btn-primary' : 'btn-ghost'}" style="margin-top:auto;" type="button" data-plan="${esc(p.planId)}">Choose ${esc(p.label)}</button>
-          </div>`).join('');
+        // Group the visible rungs good/better/best so the billing variants
+        // (monthly vs annual) share one card. Within a group, the first
+        // remaining variant is the monthly button; the annual one renders as
+        // a secondary ghost button on the same card.
+        const groups = [];
+        options.forEach((p) => {
+          const g = groups.find((x) => x.key === p.group);
+          if (g) g.variants.push(p); else groups.push({ key: p.group, featured: p.featured, caption: p.caption, variants: [p] });
+        });
+        grid.innerHTML = groups.map((g) => {
+          const first = g.variants[0];
+          const annual = g.variants.length > 1 ? g.variants[1] : null;
+          return `
+          <div class="card price-card"${g.featured ? ' style="border-color: var(--ink);"' : ''}>
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">${esc(first.label)}</span>${g.featured ? '<span class="small" style="color:var(--accent-ink); font-weight:650;">Most picked</span>' : ''}</div>
+            ${g.caption ? `<p class="small muted" style="margin:4px 0 10px;">${esc(g.caption)}</p>` : ''}
+            <div class="price-fig">${esc(first.fig)}<span>${esc(first.per)}</span></div>
+            <ul class="price-list">${first.lines.map((l) => `<li>${l}</li>`).join('')}</ul>
+            <button class="btn ${g.featured ? 'btn-primary' : 'btn-ghost'}" style="margin-top:auto;" type="button" data-plan="${esc(first.planId)}">Choose ${esc(first.label)}</button>
+            ${annual ? `
+            <div style="margin:10px 0 0; border-top:1px solid var(--line); padding-top:12px;">
+              <div style="display:flex; justify-content:space-between; align-items:baseline;"><strong class="small">${esc(annual.fig)}<span style="color:var(--ink-3); font-weight:500;">${esc(annual.per)}</span></strong></div>
+              <ul class="price-list" style="margin-top:8px;">${annual.lines.map((l) => `<li>${l}</li>`).join('')}</ul>
+              <button class="btn btn-ghost" style="margin-top:6px;" type="button" data-plan="${esc(annual.planId)}">Choose annual</button>
+            </div>` : ''}
+          </div>`}).join('');
         note.hidden = false;
       })();
 

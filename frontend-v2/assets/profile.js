@@ -51,10 +51,10 @@
         const lowEl = $('credits-low');
         if (lowEl) {
             if (remaining <= 0 && allowance > 0) {
-                lowEl.innerHTML = `You're out of credits this month. <a href="/recharge.html">Recharge 150 credits — $9</a> to keep using Ask, Dossier and Monitor now.`;
+                lowEl.innerHTML = `You're out of credits this month. <a href="/recharge.html">Recharge 150 credits — $14.99</a> to keep using Ask, Dossier and Monitor now.`;
                 lowEl.hidden = false;
             } else if (allowance > 0 && remaining / allowance <= 0.2) {
-                lowEl.innerHTML = `Running low — <a href="/recharge.html">recharge 150 credits for $9</a>, or <a href="/upgrade.html">upgrade</a> for a bigger monthly wallet.`;
+                lowEl.innerHTML = `Running low — <a href="/recharge.html">recharge 150 credits for $14.99</a>, or <a href="/upgrade.html">upgrade</a> for a bigger monthly wallet.`;
                 lowEl.hidden = false;
             } else {
                 lowEl.hidden = true;

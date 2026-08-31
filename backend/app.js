@@ -484,23 +484,28 @@ const PRO_ANNUAL_PLAN_ID = 'pro-annual';
 const FREE_PLAN_ID = 'free';
 // These defaults mirror the active self-serve Stripe prices. Environment
 // variables remain the source of truth when prices are intentionally changed.
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '12.00');
+// 2026-08-31 reprice: ladder moved to $39.99 / $79.99 / $149.99 / $2,999.99.
+// DEPLOY GATE: the matching active Stripe prices (same product, amount and
+// interval) must exist and STRIPE_PRICE_ID_* must point at them before this
+// ships — resolveStripeCheckoutPlan refuses to sell a plan whose Stripe price
+// doesn't match, so an early deploy fails safe but sells nothing.
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '39.99');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '118.00');
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '399.99');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
-const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '33.00');
-const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '250.00');
+const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '79.99');
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '799.99');
 // Premium Filing Monitor tiers — both unlock the full Pro feature set; differ
 // only by price, positioning and support. USD, billed yearly.
 const POWER_PLAN_ID = 'power';
 const DESK_PLAN_ID = 'desk';
-const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '579.00');
+const POWER_PLAN_PRICE = parseFloat(process.env.POWER_PLAN_PRICE || '1499.99');
 const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
 // Power, billed monthly — same access as annual Power, lower activation friction.
 const POWER_MONTHLY_PLAN_ID = 'power-monthly';
-const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '64.00');
+const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '149.99');
 const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
-const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1961.00');
+const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '2999.99');
 const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -528,7 +533,7 @@ const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
 // /recharge page states the maths. STRIPE_PRICE_ID_CREDITS_TOPUP must point at
 // an ACTIVE one-time price charging exactly CREDIT_TOPUP_PRICE — a stale or
 // mispriced price refuses to sell rather than charging the wrong amount.
-const CREDIT_TOPUP_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '9.00');
+const CREDIT_TOPUP_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '14.99');
 const CREDIT_TOPUP_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
 const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP || '';
 // A missing or stale Price ID must not turn a configured Stripe account into a
@@ -536,13 +541,29 @@ const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP 
 // direct-purchase plans by their exact product, amount and recurring interval.
 // It also neutralizes legacy display variables that no longer match Stripe.
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
-  [MONTHLY_PLAN_ID]: { amount: 12, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [ANNUAL_PLAN_ID]: { amount: 118, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
-  [PRO_PLAN_ID]: { amount: 33, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [PRO_ANNUAL_PLAN_ID]: { amount: 250, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
-  [POWER_PLAN_ID]: { amount: 579, currency: 'USD', interval: 'year', productName: 'power — stockportfolio.pro' },
-  [POWER_MONTHLY_PLAN_ID]: { amount: 64, currency: 'USD', interval: 'month', productName: 'power — stockportfolio.pro' },
-  [DESK_PLAN_ID]: { amount: 1961, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
+  [MONTHLY_PLAN_ID]: { amount: 39.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [ANNUAL_PLAN_ID]: { amount: 399.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [PRO_PLAN_ID]: { amount: 79.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [PRO_ANNUAL_PLAN_ID]: { amount: 799.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [POWER_PLAN_ID]: { amount: 1499.99, currency: 'USD', interval: 'year', productName: 'power — stockportfolio.pro' },
+  [POWER_MONTHLY_PLAN_ID]: { amount: 149.99, currency: 'USD', interval: 'month', productName: 'power — stockportfolio.pro' },
+  [DESK_PLAN_ID]: { amount: 2999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
+});
+// Grandfathered subscribers keep their pre-reprice Stripe price until they
+// move to a new one. Webhook re-syncs resolve a renewal by the price id the
+// subscription actually carries; these optional env vars keep that lookup
+// (and the stored price display) pointing at the OLD amount instead of
+// silently rewriting legacy subscribers to the new price. The owner sets
+// each to the previous Stripe Price ID when the new ones go live; a plan
+// without a legacy id simply resolves from the subscriber's stored planId.
+const LEGACY_PLAN_PRICE_SPECS = Object.freeze({
+  [MONTHLY_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_MONTHLY || process.env.STRIPE_PRICE_ID || '', price: 12.00, currency: 'USD', interval: 'month' },
+  [ANNUAL_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_ANNUAL || '', price: 118.00, currency: 'USD', interval: 'year' },
+  [PRO_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_PRO || '', price: 33.00, currency: 'USD', interval: 'month' },
+  [PRO_ANNUAL_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_PRO_ANNUAL || '', price: 250.00, currency: 'USD', interval: 'year' },
+  [POWER_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_POWER || '', price: 579.00, currency: 'USD', interval: 'year' },
+  [POWER_MONTHLY_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_POWER_MONTHLY || '', price: 64.00, currency: 'USD', interval: 'month' },
+  [DESK_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_DESK || '', price: 1961.00, currency: 'USD', interval: 'year' }
 });
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
 
@@ -961,6 +982,16 @@ function getPlanConfig(value) {
 }
 
 function getPlanConfigByPriceId(priceId) {
+  // Grandfathered price ids resolve to their plan at the OLD price, so a
+  // legacy subscriber's stored amount keeps matching what Stripe charges.
+  if (priceId) {
+    for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
+      if (legacy.priceId && priceId === legacy.priceId) {
+        const planConfig = getPlanConfig(planId);
+        return { ...planConfig, stripePriceId: legacy.priceId, price: legacy.price, currency: legacy.currency, billingInterval: legacy.interval };
+      }
+    }
+  }
   if (priceId && priceId === STRIPE_PRICE_ID_DESK) {
     return getPlanConfig(DESK_PLAN_ID);
   }
@@ -1951,7 +1982,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260831-blue1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -1980,7 +2011,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260831-blue1"></script>
+<script src="/assets/app.js?v=20260831-ladder1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2050,7 +2081,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260831-blue1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2078,7 +2109,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260831-blue1"></script>
+<script src="/assets/app.js?v=20260831-ladder1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2695,8 +2726,13 @@ async function getUserByToken(token) {
     return user;
 }
 
-function applyPlanToSubscription(user, planInput) {
-    const planConfig = getPlanConfig(planInput || user?.subscription?.planId);
+function applyPlanToSubscription(user, planInput, resolvedPlanConfig = null) {
+    // A webhook may hand us an already-resolved config (e.g. a grandfathered
+    // legacy Stripe price mapping to the plan at its OLD price). Trust it only
+    // when it names the same plan; otherwise fall back to the lookup.
+    const planConfig = resolvedPlanConfig && resolvedPlanConfig.planId === normalizePlanSelection(planInput || user?.subscription?.planId)
+        ? resolvedPlanConfig
+        : getPlanConfig(planInput || user?.subscription?.planId);
     user.subscription = ensureSubscriptionShape(user);
     user.subscription.planId = planConfig.planId;
     user.subscription.planName = planConfig.planName;
@@ -3391,9 +3427,9 @@ app.get('/go/appsumo/:source', (req, res) => {
     return res.redirect(302, APPSUMO_OUTBOUND_URL);
 });
 
-async function activateSubscription(user, { subscriptionId, customerId, planId, stripeStatus, trialEndsAt, stripePriceId } = {}) {
+async function activateSubscription(user, { subscriptionId, customerId, planId, stripeStatus, trialEndsAt, stripePriceId, resolvedPlanConfig = null } = {}) {
     const now = new Date();
-    const planConfig = applyPlanToSubscription(user, planId);
+    const planConfig = applyPlanToSubscription(user, planId, resolvedPlanConfig);
     user.subscription.status = stripeStatus === 'trialing' ? 'trialing' : 'active';
     user.subscription.activatedAt = user.subscription.activatedAt || now;
     user.subscription.renewedAt = now;
@@ -3428,7 +3464,8 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
         planId: planConfig.planId,
         stripeStatus,
         trialEndsAt,
-        stripePriceId
+        stripePriceId,
+        resolvedPlanConfig: planConfig
     });
 }
 

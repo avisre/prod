@@ -245,7 +245,7 @@ test('Stripe reversals and AppSumo reconciliation are durable and idempotent', {
 
 test('existing pricing and AppSumo entitlement code remains present', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
-  assert.match(source, /const PRO_PLAN_PRICE = parseFloat\(process\.env\.PRO_PLAN_PRICE \|\| '33\.00'\)/);
+  assert.match(source, /const PRO_PLAN_PRICE = parseFloat\(process\.env\.PRO_PLAN_PRICE \|\| '79\.99'\)/);
   assert.match(source, /user\.appsumoRedeemedAt = user\.appsumoRedeemedAt \|\| now/);
   assert.match(source, /user\.appsumoAiCap = cfg\.askCap/);
 });
