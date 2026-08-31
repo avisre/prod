@@ -12,10 +12,15 @@ test('AppSumo landing page keeps every purchase CTA on the tracked bridge', () =
   for (const [tag] of ctas) assert.match(tag, /href="\/go\/appsumo\/bridge(?:\?[^"]*)?"/);
 });
 
-test('AppSumo landing page states the verified tier prices and monthly Ask limits', () => {
+test('AppSumo landing page states the verified tier prices, Monitor caps and Ask limits', () => {
   for (const price of ['$39', '$79', '$149']) assert.ok(html.includes(price), `missing ${price}`);
+  // Listing v2 leads with the Monitor cap (mirrors LTD_MONITOR_CAP in
+  // lib/tier-limits.js); Ask stays a listed allowance per tier.
+  for (const cap of ['12', '40', 'Unlimited']) {
+    assert.match(html, new RegExp(`<strong>${cap}</strong>\\s*companies watched by the Filing Monitor`));
+  }
   for (const limit of ['30', '100', '300']) {
-    assert.match(html, new RegExp(`<strong>${limit}</strong>\\s*Ask questions / month`));
+    assert.match(html, new RegExp(`${limit} Ask questions / month`));
   }
   assert.match(html, /AppSumo[^<]{0,80}live listing[^<]{0,120}final (authority|deal terms)/i);
 });

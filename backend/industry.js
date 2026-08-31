@@ -14,6 +14,19 @@
 
 const aiChat = require('./ai-chat');
 const filing = require('./filing-fetcher');
+const mongoose = require('mongoose');
+
+// The industry build's cost is the driver EXTRACTOR — a filed-text model call
+// inside get_peer_context that measured 34-65s, the single biggest Ask
+// latency item. Drivers derive from the filing itself and 10-Ks are annual,
+// so the extraction is cached in Mongo per (symbol, accession) and bumped by
+// INDUSTRY_VERSION when the prompt/schema changes. sectorContext and the
+// company-vs-peer facts stay live (in-memory math); the cached drivers' texts
+// and narratives are filing-immutable. Concurrent builds for the same filing
+// are coalesced so parallel Asks share one extraction.
+const INDUSTRY_VERSION = 1;
+function col() { return mongoose.connection.collection('industry_context'); }
+const _inflight = new Map(); // 'SYM:accession:v' -> Promise
 
 const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
 const r1 = (v) => (v === null || v === undefined ? null : Math.round(v * 10) / 10);
@@ -62,7 +75,20 @@ async function buildIndustry(symbol, { overview, peers = null, financials = null
 
     const got = await filing.getFilingText(sym, '10-K', { maxChars: 420000 });
     if (!got || got.error) return { error: (got && got.error) || 'No 10-K found.', sectorContext: ctx };
-    const text = filing.windows(got.text, [
+
+    const cacheKey = { symbol: sym, accession: got.accession, v: INDUSTRY_VERSION };
+    let inflightKey = null;
+    if (got.accession && mongoose.connection.readyState === 1) {
+        try {
+            const hit = await col().findOne(cacheKey);
+            if (hit && hit.payload) return { ...hit.payload, sectorContext: ctx, cached: true };
+        } catch (_) { /* cache best-effort */ }
+        inflightKey = `${sym}:${got.accession}:${INDUSTRY_VERSION}`;
+        if (_inflight.has(inflightKey)) return _inflight.get(inflightKey);
+    }
+
+    const build = (async () => {
+        const text = filing.windows(got.text, [
         /\bitem\s*1\b\.?\s*business|^business$|our business|the company|principal products|competition/i,
         /competit|industry|market for|barriers to entry/i,
         /\bitem\s*1a\b|risk factors|risks (relating|related) to/i
@@ -103,16 +129,26 @@ async function buildIndustry(symbol, { overview, peers = null, financials = null
     drivers.sort((a, b) => (b.grounded === a.grounded ? 0 : b.grounded ? 1 : -1));
     const kept = drivers.slice(0, 7);
 
-    return {
-        sector,
-        industry: (overview && overview.Industry) || null,
-        sectorContext: ctx,
-        sectorNarrative: String(ext.sectorNarrative || '').slice(0, 600),
-        drivers: kept,
-        groundedCount: kept.filter((d) => d.grounded).length,
-        filing: { date: got.date, url: got.url, accession: got.accession },
-        honesty: `Drivers are extracted from ${sym}'s own 10-K (Item 1 & Item 1A); each evidence quote is verified as verbatim filing text. Direction tags reflect this company's position versus ${ctx ? ctx.peerCount : 'its'} sector peers as of the filing date — descriptive, not advice.`
-    };
+        const result = {
+            sector,
+            industry: (overview && overview.Industry) || null,
+            sectorContext: ctx,
+            sectorNarrative: String(ext.sectorNarrative || '').slice(0, 600),
+            drivers: kept,
+            groundedCount: kept.filter((d) => d.grounded).length,
+            filing: { date: got.date, url: got.url, accession: got.accession },
+            honesty: `Drivers are extracted from ${sym}'s own 10-K (Item 1 & Item 1A); each evidence quote is verified as verbatim filing text. Direction tags reflect this company's position versus ${ctx ? ctx.peerCount : 'its'} sector peers as of the filing date — descriptive, not advice.`
+        };
+        if (mongoose.connection.readyState === 1) {
+            try { await col().updateOne(cacheKey, { $set: { payload: result } }, { upsert: true }); } catch (_) { /* cache best-effort */ }
+        }
+        return result;
+    })();
+    if (inflightKey) {
+        _inflight.set(inflightKey, build);
+        build.finally(() => _inflight.delete(inflightKey)).catch(() => {});
+    }
+    return build;
 }
 
 module.exports = { buildIndustry, sectorContext };

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Compare Dossiers — side-by-side SEC research | stockportfolio.pro</title>
+  <meta name="description" content="Put two or three Research Dossiers side by side — same sections, same structure, every figure cited to its filing. 5 credits." />
+  <link rel="canonical" href="https://www.stockportfolio.pro/compare-dossiers" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Compare Dossiers — same sections, every company" />
+  <meta property="og:description" content="The comparability feature the dossiers were built for: aligned metrics, briefs and risks for 2–3 companies at once." />
+  <meta property="og:url" content="https://www.stockportfolio.pro/compare-dossiers" />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20260901-askfix1" />
+  <style>
+    .cmp-hero { max-width: 660px; margin: 8vh auto 0; text-align: center; }
+    .cmp-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 22px auto 0; }
+    .cmp-form .input { width: 150px; text-transform: uppercase; }
+    @media (max-width: 480px) {
+      .cmp-hero { margin-top: 36px; }
+      .cmp-form .input { width: 100%; min-height: 44px; }
+      .cmp-form .btn { width: 100%; min-height: 44px; }
+    }
+    .cmp-doc { max-width: 1160px; margin: 32px auto 0; }
+    /* ---- full-depth compare (20260901-cmp3): the dossier's own section
+       components, mirrored per column, plus comparison-native visuals. The
+       dos-* rules below are ported from dossier.html so the compare page can
+       draw the same panels; pv-* primitives come from plainviz.js + system.css. */
+    .cmp-row { display: block; margin-top: 30px; }
+    .cmp-row > .cmp-sec-label:first-child + .cmp-grid { margin-top: 0; }
+    .cmp-row .cmp-grid { margin-top: 12px; }
+    .cmp-topline { margin-top: 22px; scroll-margin-top: 130px; }
+    #cmp-report { scroll-margin-top: 24px; }
+    .cmp-tag { display: inline-block; font-size: 10.5px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 8px; }
+    .cmp-col-tight { padding: 16px 18px; }
+    .cmp-desc { font-size: 12.5px; color: var(--ink-2); line-height: 1.55; margin: 12px 0 0; }
+    .cmp-sec-note { font-size: 10.5px; font-weight: 600; letter-spacing: .04em; text-transform: none; color: var(--ink-3); }
+    .cmp-verdict .cmp-verdict-line { font-size: 15px; line-height: 1.6; max-width: 80ch; }
+    .cmp-verdict .cmp-col strong { font-size: 15px; }
+    /* ---- verdict banner (20260901-cmp4): one anchor box, uniform columns.
+       Every company takes the same slot in every row, so two or three
+       columns always carry the same shape of information. ---- */
+    .cmp-toolbar { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-top: 34px; }
+    .cmp-banner { margin-top: 18px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--surface); padding: 20px 26px 18px; }
+    .cmp-banner-head { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+    .cmp-vs-vals { display: grid; gap: 10px; align-items: center; }
+    .cmp-banner-cols { margin-top: 14px; }
+    .cmp-banner-co { text-align: center; }
+    .cmp-banner-co .pv-dot { width: 14px; height: 14px; }
+    .cmp-banner-co .pv-dots { gap: 6px; }
+    .cmp-banner-score { font-size: 30px; font-weight: 750; letter-spacing: -.02em; line-height: 1.15; margin-top: 8px; font-variant-numeric: tabular-nums; }
+    .cmp-banner-score .of { font-size: 14px; font-weight: 600; color: var(--ink-3); letter-spacing: 0; }
+    .cmp-banner-name { font-size: 14.5px; font-weight: 700; margin-top: 5px; }
+    .cmp-banner-sym { font-size: 10.5px; font-weight: 750; letter-spacing: .12em; color: var(--ink-3); margin-top: 2px; }
+    .cmp-vs-mid { display: grid; place-items: center; font-style: normal; font-size: 11px; font-weight: 750; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-3); }
+    .cmp-vs-mid-tall { align-self: center; }
+    .cmp-vs-label { margin: 18px 0 2px; font-size: 11px; font-weight: 750; letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); text-align: center; }
+    .cmp-vs-label + .cmp-vs-vals { margin-top: 0; }
+    .cmp-vs-val { font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; text-align: center; color: var(--ink-2); }
+    .cmp-vs-val.win { color: var(--pos); font-weight: 750; }
+    .cmp-vs-val.win::after { content: ' ●'; font-size: 9px; vertical-align: super; }
+    @media (max-width: 640px) {
+      .cmp-banner { padding: 18px; }
+      .cmp-banner-score { font-size: 24px; }
+      .cmp-vs-val { font-size: 15px; }
+    }
+    .cmp-win { font-weight: 700; color: var(--ink); }
+    td.cmp-win::after { content: ' ●'; font-size: 8px; vertical-align: super; color: var(--pos); }
+    .cmp-overlay { padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .company-heads { margin-top: 26px; }
+    /* health-check grid */
+    .cmp-health th, .cmp-health td { text-align: center; }
+    .cmp-health th:first-child, .cmp-health td:first-child { text-align: left; }
+    .cmp-check-pass { color: var(--pos); font-weight: 750; }
+    .cmp-check-fail { color: var(--neg); font-weight: 750; }
+    .cmp-faint-cell { color: var(--ink-3); }
+    /* scenario bands */
+    .cmp-scen-row { display: grid; grid-template-columns: 90px 1fr; gap: 14px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); }
+    .cmp-scen-k { font-size: 12px; font-weight: 700; text-transform: capitalize; padding-top: 6px; }
+    .cmp-scen-cols { display: grid; min-width: 0; }
+    .cmp-scen-cell { padding: 6px 0; }
+    /* risk items */
+    .cmp-risk-item { padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.55; }
+    .cmp-risk-item:first-child { border-top: 0; }
+    .cmp-risk-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+    /* filing-change panel */
+    .cmp-change-list { margin: 12px 0 0; padding-left: 18px; }
+    .cmp-change-list li { margin: 0 0 10px; font-size: 13px; line-height: 1.55; }
+    .cmp-change-list li span { display: block; color: var(--ink-2); }
+    .cmp-event-note { margin-top: 10px; padding: 10px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-sm); font-size: 12.5px; line-height: 1.5; }
+    .cmp-link { font-size: 12px; margin-top: 12px; }
+    /* deep research details */
+    .cmp-deep { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .cmp-deep > summary { cursor: pointer; padding: 14px 18px; list-style: none; display: flex; }
+    .cmp-deep > summary::-webkit-details-marker { display: none; }
+    .cmp-deep > summary small { display: block; color: var(--ink-3); font-size: 12px; }
+    .cmp-deep-body { border-top: 1px solid var(--line); padding: 6px 18px 18px; }
+    .cmp-deep-body .dos-sec { margin: 0; padding: 16px 0; }
+    .cmp-deep-body .dos-sec + .dos-sec { border-top: 1px solid var(--line); }
+    .cmp-deep-body h3 { margin: 0 0 8px; font-size: 14px; }
+    .cmp-deep-list { padding-left: 18px; margin: 0; }
+    .cmp-deep-list li { margin: 0 0 10px; font-size: 13px; line-height: 1.6; }
+    .cmp-gov-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 6px 0 10px; }
+    .cmp-gov-grid .k { color: var(--ink-3); font-size: 11px; }
+    .cmp-gov-grid .v { font-weight: 650; font-size: 13px; }
+    /* panels ported from dossier.html so the same components draw here */
+    .dos-visual-stack { display: grid; gap: 20px; }
+    .dos-visual-panel { min-width: 0; }
+    .dos-visual-panel + .dos-visual-panel { padding-top: 18px; border-top: 1px solid var(--line); }
+    .dos-visual-panel h3 { margin: 0; font-size: 13px; }
+    .dos-visual-panel p { margin: 3px 0 0; color: var(--ink-3); font-size: 12px; }
+    .dos-materiality { display: flex; align-items: center; gap: 12px; margin: 12px 0; padding: 12px; border-radius: var(--radius-sm); background: var(--paper); }
+    .dos-materiality > strong { font-size: 22px; line-height: 1; font-variant-numeric: tabular-nums; }
+    .dos-materiality-bars { flex: 1; display: grid; gap: 5px; }
+    .dos-materiality-row { display: grid; grid-template-columns: 58px 1fr 22px; gap: 7px; align-items: center; font-size: 11.5px; }
+    .dos-materiality-row i { display: block; height: 4px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .dos-materiality-row i b { display: block; height: 100%; background: var(--ink-2); }
+    .dos-delta-list { border-top: 1px solid var(--line); }
+    .dos-delta-row { padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .dos-delta-row-head { display: flex; justify-content: space-between; gap: 12px; font-size: 12px; }
+    .dos-delta-row-head b { font-variant-numeric: tabular-nums; }
+    .dos-bar-pair { display: grid; gap: 8px; margin-top: 10px; }
+    .dos-bar-line { display: grid; grid-template-columns: 46px minmax(80px, 1fr) 80px; gap: 9px; align-items: center; }
+    .dos-bar-line > span:first-child { color: var(--ink-3); font-size: 11.5px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }
+    .dos-bar-line > b { text-align: right; font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
+    .dos-bar-track { height: 8px; background: var(--paper); border-radius: 999px; overflow: hidden; }
+    .dos-bar-fill { display: block; height: 100%; min-width: 3px; border-radius: inherit; background: var(--ink-3); }
+    .dos-bar-line.is-latest .dos-bar-fill { background: var(--ink); }
+    .dos-bar-line.is-negative .dos-bar-fill { background: var(--neg); }
+    .dos-quote-pair { display: grid; grid-template-columns: 1fr 20px 1fr; gap: 8px; margin-top: 10px; }
+    .dos-quote-side { padding: 11px; background: var(--paper); min-width: 0; border-radius: var(--radius-sm); }
+    .dos-quote-side b { display: block; font-size: 11px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .065em; margin-bottom: 5px; }
+    .dos-quote-side q { display: block; font-size: 12px; line-height: 1.45; overflow-wrap: anywhere; }
+    .dos-quote-pair > i { display: grid; place-items: center; color: var(--ink-3); font-style: normal; }
+    .th-badge { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 4px 9px; border-radius: 999px; text-align: center; }
+    .th-holding { background: var(--pos-tint); color: var(--pos); }
+    .th-weakening { background: var(--paper); color: var(--ink-2); border: 1px solid var(--line-strong); }
+    .th-broken { background: var(--neg-tint); color: var(--neg); }
+    @media (max-width: 640px) {
+      .dos-bar-line { grid-template-columns: 40px minmax(65px, 1fr) 70px; gap: 7px; }
+      .dos-quote-pair { grid-template-columns: 1fr; }
+      .dos-quote-pair > i { transform: rotate(90deg); min-height: 14px; }
+      .cmp-scen-row { grid-template-columns: 1fr; gap: 4px; }
+    }
+    .cmp-missing { margin-top: 26px; display: grid; gap: 12px; }
+    .cmp-missing-card { padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .cmp-missing-card strong { font-size: 16px; letter-spacing: -.01em; }
+    .cmp-grid { display: grid; gap: 14px; margin-top: 26px; align-items: start; }
+    .cmp-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .cmp-grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .cmp-col { min-width: 0; padding: 22px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .cmp-col h2 { margin: 0; font-size: 21px; letter-spacing: -.025em; line-height: 1.25; }
+    .cmp-col .sub { color: var(--ink-3); font-size: 12px; margin: 4px 0 0; }
+    .cmp-metric-table { margin-top: 22px; }
+    .cmp-metric-table th, .cmp-metric-table td { text-align: right; font-variant-numeric: tabular-nums; }
+    .cmp-metric-table th:first-child, .cmp-metric-table td:first-child { text-align: left; font-variant-numeric: normal; }
+    .cmp-sec-label { margin: 26px 0 10px; color: var(--ink-3); font-size: 10.5px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; }
+    .cmp-list { margin: 0; padding: 0; list-style: none; }
+    .cmp-list li { padding: 9px 0; border-top: 1px solid var(--line); font-size: 13.5px; line-height: 1.55; }
+    .cmp-basis { display: block; margin-top: 2px; color: var(--ink-2); font-size: 12.5px; line-height: 1.5; }
+    .cmp-brief p { margin: 0 0 10px; font-size: 13.5px; line-height: 1.65; }
+    .cmp-none { color: var(--ink-3); font-size: 13px; }
+    .cmp-link { font-size: 12px; }
+    @media (max-width: 820px) {
+      .cmp-grid.two, .cmp-grid.three { grid-template-columns: 1fr; }
+      .cmp-grid > .cmp-col { padding: 18px; }
+      .cmp-metric-table th:not(:first-child), .cmp-metric-table td:not(:first-child) { font-size: 12px; }
+    }
+    .beta-badge { display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; background: var(--paper); color: var(--ink-2); border: 1px solid var(--line); vertical-align: middle; margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container" style="padding-top:40px;">
+      <div class="cmp-hero">
+        <span class="label">Compare · SEC filings · Source-linked</span>
+        <h1 class="title-1" style="margin-top:10px;">Same sections, side by side <span class="beta-badge">Beta</span></h1>
+        <p class="muted" style="max-width:54ch; margin:12px auto 0;">Pick two or three companies. Their full reports sit side by side — every figure straight from SEC filings. 5 credits per comparison.</p>
+      </div>
+      <form class="cmp-form" id="cmp-form">
+        <input class="input" id="cmp-sym-1" placeholder="e.g. AAPL" autocomplete="off" maxlength="10" aria-label="First ticker" />
+        <input class="input" id="cmp-sym-2" placeholder="e.g. MSFT" autocomplete="off" maxlength="10" aria-label="Second ticker" />
+        <input class="input" id="cmp-sym-3" placeholder="optional third" autocomplete="off" maxlength="10" aria-label="Third ticker (optional)" />
+        <button class="btn btn-primary" type="submit">Compare</button>
+      </form>
+      <p class="small faint" style="text-align:center; margin:12px auto 0;">Compares dossiers already built on this tier — a missing one reports back instead of silently building. <a href="/dossier.html">Build a dossier →</a></p>
+      <div id="cmp-report" class="cmp-doc" hidden></div>
+    </div>
+  </main>
+  <script src="assets/app.js?v=20260901-askfix1"></script>
+  <script src="assets/plainviz.js?v=20260824-plainmode1"></script>
+  <script src="assets/compare-dossiers.js?v=20260901-cmp4"></script>
+  <script>V2.nav('dossier'); V2.footer();</script>
+</body>
+</html>

@@ -1,0 +1,1228 @@
+{
+  "site": "https://www.stockportfolio.pro/",
+  "week_ending": "2026-08-21",
+  "week_start": "2026-08-15",
+  "previous_week_ending": "2026-08-14",
+  "totals": {
+    "clicks": 8,
+    "impressions": 425,
+    "ctr": 0.018824
+  },
+  "previous_totals": {
+    "clicks": 11,
+    "impressions": 806,
+    "ctr": 0.013648
+  },
+  "daily": [
+    {
+      "date": "2026-08-15",
+      "clicks": 0,
+      "impressions": 70
+    },
+    {
+      "date": "2026-08-16",
+      "clicks": 1,
+      "impressions": 90
+    },
+    {
+      "date": "2026-08-17",
+      "clicks": 0,
+      "impressions": 192
+    },
+    {
+      "date": "2026-08-18",
+      "clicks": 1,
+      "impressions": 175
+    },
+    {
+      "date": "2026-08-19",
+      "clicks": 2,
+      "impressions": 140
+    },
+    {
+      "date": "2026-08-20",
+      "clicks": 3,
+      "impressions": 152
+    },
+    {
+      "date": "2026-08-21",
+      "clicks": 1,
+      "impressions": 104
+    }
+  ],
+  "pages": {
+    "https://www.stockportfolio.pro/stocks/ONTO/revenue": {
+      "impressions": 2,
+      "clicks": 1,
+      "position": 6.0,
+      "ctr": 0.5
+    },
+    "https://www.stockportfolio.pro/stocks/LGIH/revenue": {
+      "impressions": 2,
+      "clicks": 1,
+      "position": 3.0,
+      "ctr": 0.5
+    },
+    "https://www.stockportfolio.pro/stocks/XPEL/revenue": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 1.0,
+      "ctr": 1.0
+    },
+    "https://www.stockportfolio.pro/stocks/CBOE/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 5.0,
+      "ctr": 1.0
+    },
+    "https://www.stockportfolio.pro/stocks/INVH/total-debt": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 4.0,
+      "ctr": 1.0
+    },
+    "https://www.stockportfolio.pro/compare/AMKR-vs-SMCI": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 1.0,
+      "ctr": 1.0
+    },
+    "https://www.stockportfolio.pro/compare/MRK-vs-UNH": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 7.0,
+      "ctr": 1.0
+    },
+    "https://www.stockportfolio.pro/compare/CPT-vs-KREF": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 1.0,
+      "ctr": 1.0
+    },
+    "https://www.stockportfolio.pro/stocks/AAP/free-cash-flow": {
+      "impressions": 158,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AAPL/shares-outstanding": {
+      "impressions": 26,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NVDA/shares-outstanding": {
+      "impressions": 19,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ABT/revenue": {
+      "impressions": 18,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/TSLA/shares-outstanding": {
+      "impressions": 15,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/screens/most-profitable-stocks": {
+      "impressions": 12,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MRNA/shares-outstanding": {
+      "impressions": 12,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ZTS": {
+      "impressions": 9,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MSFT/shares-outstanding": {
+      "impressions": 9,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NBIX/free-cash-flow": {
+      "impressions": 7,
+      "clicks": 0,
+      "position": 1.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AAPL/dividend-history": {
+      "impressions": 5,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AAPL/free-cash-flow": {
+      "impressions": 5,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MASI/revenue": {
+      "impressions": 5,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/INTC/dividend-history": {
+      "impressions": 5,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/TMHC/pe-ratio": {
+      "impressions": 5,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AVGO/shares-outstanding": {
+      "impressions": 5,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NVDA/pe-ratio": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/LUMN/dividend-history": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/INTC/shares-outstanding": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/screens/stocks-below-book-value": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/TSLA/pe-ratio": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NEE/shares-outstanding": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AMZN/dividend-history": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/screens/quality-compounders": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 24.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MSFT/pe-ratio": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NFLX/pe-ratio": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/COHR": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/DXCM/free-cash-flow": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NVDA/free-cash-flow": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ADBE/shares-outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/INSW/shares-outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/LECO/revenue": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 2.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ARES/shares-outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/compare/AMD-vs-SMCI": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/HCC/shares-outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/FLG/revenue": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AMKR": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/SWK": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NVDA/total-debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MDLZ": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MSFT/total-debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/CRH/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AGCO/pe-ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ACN/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/VZ/pe-ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/QCOM/shares-outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/compare/MSFT-vs-MU": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/CI/shares-outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NVDA/revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AAPL/net-income": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/JPM/pe-ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/UCTT": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 1.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ADM/revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/CDNS/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/VCYT": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/HASI/revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/WTS/gross-profit": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 2.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/SMG/revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/JNJ/total-debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AVT": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/screens/profitable-small-cap-stocks": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AAT": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/compare/DELL-vs-IBM": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/compare/DVN-vs-FANG": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/EW/revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/TMDX/shares-outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/COST/shares-outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/WLY/shares-outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/SNDK/total-debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/MSFT/gross-profit": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 2.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/VNT": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ZTS/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/HTZ": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/WLY/pe-ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/DHR/pe-ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/VSH/pe-ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/NKE/shares-outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ORCL/total-debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ADBE/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/ADBE/gross-profit": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/compare/CIEN-vs-LITE": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/VSXY/revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/SMG/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "https://www.stockportfolio.pro/stocks/AMZN/free-cash-flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    }
+  },
+  "queries": {
+    "outstanding debt invh": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 4.0,
+      "ctr": 1.0
+    },
+    "camden homes v kkr": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 1.0,
+      "ctr": 1.0
+    },
+    "onto innovation revenue 2021 2022 2023 million annual macrotrends": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 8.0,
+      "ctr": 1.0
+    },
+    "mrk or unh": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 7.0,
+      "ctr": 1.0
+    },
+    "smci or amkr": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 1.0,
+      "ctr": 1.0
+    },
+    "xpel reported revenue annually 2022 to 2025?": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 1.0,
+      "ctr": 1.0
+    },
+    "lgi homes + annual revenue + zoominfo": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 3.0,
+      "ctr": 1.0
+    },
+    "how much free cash flow does cboe have": {
+      "impressions": 1,
+      "clicks": 1,
+      "position": 5.0,
+      "ctr": 1.0
+    },
+    "aap 2024 free cash flow guided flat strategic costs": {
+      "impressions": 158,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "taylor morrison eps pe ratio": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "top 5 debt-free stocks with strong order book and cash flow": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "private sector large cap stocks below book value": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "nike outstanding shares 20 years history": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "stocks with strong earnings quality high roe": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "yes, show me a top 20 table sorted by operating cash flow": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 2.0,
+      "ctr": 0.0
+    },
+    "tmdx free cash flow 2025 2024 2023": {
+      "impressions": 4,
+      "clicks": 0,
+      "position": 1.0,
+      "ctr": 0.0
+    },
+    "hgv shares outstandig": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "lumen technologies stock dividend": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "sec filing abbott laboratories abt 10-k \"2007-02-23\"": {
+      "impressions": 3,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "mrna shares outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "what is msci revenue - is it in 3b to 10 b usd?": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "adobe how many stocks outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "how many outstanding sahres does apple have": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "bank ozk + revenue + rocketreach": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "smci market cap vs amd market cap": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "fastest growing us stock": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "dell shares outstranding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "amgen eps earnings per share chart 2023 2024": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "insw stock shares outstanding": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "free cash flow de la empresa dexcom , annual report": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "sec filing zoetis inc. zts 10-q \"2019-05-02\"": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "sec filing zoetis inc. zts 10-q \"2013-08-14\"": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "akamai technologies, inc., us relation with dell": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "federated hermes  + revenue size + rocketreach": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "shares outstanding nee": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "outstanding shares warrior met coal": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "amg eps": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "cxt portfolio": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "trupanion annual revenue": {
+      "impressions": 2,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "msft outstanding shares": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "zoetis free cash flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "nvidia free cash flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "free cash flow amazon": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "tesla shares hiatory outsranding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "wly shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "mdlz stock net profit": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "broadcom shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "cien vs lite": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "broadcom revenue chart": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "leco corporation annual revenue 2025 in dollars": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 2.0,
+      "ctr": 0.0
+    },
+    "nee shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "hl john wiley and sons pe ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "nvidia nvda stock price market cap shares outstanding 2026": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "expand energy exe stock business segments products customers end markets": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "what was apples (appl) dividend per share in 2011": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "the trade desk revenue 2020 2021 2022 2023 2024 annual billion": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "edwards revenue 2025": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "amzn dividend 2025": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "regn free cash flow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "microsoft total debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "keysight technologies free cashflow": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "coherent cohr 2025\u5e74 revenue net income market cap ebitda fiscal year": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "total shares outstanding nike": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "what is the average cost of debt for nvidia": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "merck & co annual revenue net income 2005 2006 2007 2008 2009 2010 schering-plough merger": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 9.0,
+      "ctr": 0.0
+    },
+    "uber company debt": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "wts gross borther": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 2.0,
+      "ctr": 0.0
+    },
+    "cigna shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "wbd total shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "verizon communications stock pe ratios": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "netflix pricing earnings ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "microsoft ttm eps fy2026 price earnings ratio may 2026": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "ayam penyet near me": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "adm archer daniels midland 2025 annual revenue net income market cap": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "dvn fang company": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "best free cash flow stock analysis": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    },
+    "costco shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "number of microsoft shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "amkor 2025 annual revenue net income market capitalization august 2026": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "anual free cashflow aapl": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "cdns dividend sustainability free cash flow payout ratio credit rating debt 2025 2026": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "qualiy compounders stock website": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 56.0,
+      "ctr": 0.0
+    },
+    "leco corporation annual revenue 2025": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "sec filing zoetis inc. zts 10-q \"2015-05-07\"": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "stanley black decker swk 2025 revenue profit margin pe": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "taylor morison pe ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "veracyte vcyt stock market cap pe revenue 2025 stockanalysis": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "does moderna pay dividends?": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "occidental petroleum 2025 total debt dec 31 2025 long-term debt maturity schedule interest expense": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "oracle total debt 2025 fiscal year long-term debt borrowings": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 3.0,
+      "ctr": 0.0
+    },
+    "dell vs ibm stocks to buy": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "abbott turnover per annum": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "apple common shares outstanding": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 7.0,
+      "ctr": 0.0
+    },
+    "abbott annual revenue": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "mu vs msft stock": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "netflix price earnings ratio": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 10.0,
+      "ctr": 0.0
+    },
+    "top 10 quality holdings - compounding quality \"2. \"": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 8.0,
+      "ctr": 0.0
+    },
+    "what is the free cash flow of accenture and how does it benchmark?": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 6.0,
+      "ctr": 0.0
+    },
+    "zoetis stock fair value": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 5.0,
+      "ctr": 0.0
+    },
+    "macrotrends onto innovation revenue 2020 2021 2022 2023 2024 2025": {
+      "impressions": 1,
+      "clicks": 0,
+      "position": 4.0,
+      "ctr": 0.0
+    }
+  },
+  "crawl_latest": {
+    "Date": "/Date(1787814000000-0700)/",
+    "InIndex": 19479,
+    "CrawledPages": 2122,
+    "CrawlErrors": 3,
+    "BlockedByRobotsTxt": 3,
+    "Code4xx": 3,
+    "Code5xx": 5,
+    "InLinks": 804
+  },
+  "issues_count": 0,
+  "blocked_count": 0,
+  "issues": [],
+  "blocked": [],
+  "sitemap": {
+    "status": "Success",
+    "urls": 11599,
+    "last_crawled": "2026-08-26"
+  }
+}

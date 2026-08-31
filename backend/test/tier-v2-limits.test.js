@@ -30,7 +30,7 @@ test('a missing or unparseable cutover meters nobody (fail-closed on the downgra
 });
 
 test('post-cutover buyers get their tier config', () => {
-  assert.deepEqual(tl.limitsFor(NEW_BUYER, ON), { maxMonitoredCompanies: 10, historyYearsLimit: 5, metered: true });
+  assert.deepEqual(tl.limitsFor(NEW_BUYER, ON), { maxMonitoredCompanies: 12, historyYearsLimit: 5, metered: true });
   assert.equal(tl.limitsFor({ ...NEW_BUYER, appsumoTier: 2 }, ON).maxMonitoredCompanies, 40);
   assert.equal(tl.limitsFor({ ...NEW_BUYER, appsumoTier: 3 }, ON).maxMonitoredCompanies, tl.UNLIMITED);
   // unknown tier resolves UP, matching appsumoTierConfig()
@@ -43,8 +43,8 @@ test('non-LTD accounts are untouched — plan gates govern them, not these', () 
 });
 
 test('the meters themselves behave at the boundary', () => {
-  assert.equal(tl.wouldExceedMonitored(NEW_BUYER, 9, ON), false);
-  assert.equal(tl.wouldExceedMonitored(NEW_BUYER, 10, ON), true);
+  assert.equal(tl.wouldExceedMonitored(NEW_BUYER, 11, ON), false);
+  assert.equal(tl.wouldExceedMonitored(NEW_BUYER, 12, ON), true);
   assert.equal(tl.clampHistoryYears(NEW_BUYER, 20, ON), 5);
   assert.equal(tl.clampHistoryYears(NEW_BUYER, 3, ON), 3);
 });

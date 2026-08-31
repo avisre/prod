@@ -24,6 +24,14 @@ function htmlToText(html) {
 
 function col() { return mongoose.connection.collection('filing_text'); }
 
+// The filings-metadata lookup hits EDGAR on every getFilingText call even when
+// the filing text is already Mongo-cached — that round-trip sat in the Ask hot
+// path (get_peer_context, get_key_points) on every tool call. Memoize the
+// metadata briefly; a filing published inside the TTL window is picked up on
+// the next boot or after expiry. In-memory only, so restarts re-check EDGAR.
+const _metaMemo = new Map(); // 'SYM|FORM' -> { filings, at }
+const META_TTL_MS = 6 * 3600 * 1000;
+
 // Retry with backoff — SEC EDGAR occasionally 503s or throttles; one transient
 // failure shouldn't blank a whole dossier section. Retries on throw OR null.
 async function retry(fn, tries = 3, baseMs = 700) {
@@ -42,7 +50,14 @@ async function getFilingText(symbol, form, { maxChars = 220000 } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return null;
     let filings = null;
-    try { filings = await retry(async () => { const r = await watchdog.fetchFilingsDeep(sym, new Set([form]), { [form]: 1 }); return (r && r.length) ? r : null; }); } catch (_) { filings = null; }
+    const metaKey = `${sym}|${form}`;
+    const memo = _metaMemo.get(metaKey);
+    if (memo && Date.now() - memo.at < META_TTL_MS) filings = memo.filings;
+    if (!filings) {
+        try { filings = await retry(async () => { const r = await watchdog.fetchFilingsDeep(sym, new Set([form]), { [form]: 1 }); return (r && r.length) ? r : null; }); } catch (_) { filings = null; }
+        // never memoize an empty result: a first-pass null can be transient
+        if (filings) _metaMemo.set(metaKey, { filings, at: Date.now() });
+    }
     if (!filings || !filings.length) {
         // some forms (DEF 14A) aren't in the recent window fetchRecentFilings scans;
         // fetchFilingsDeep covers the archive, so a null here means truly none.

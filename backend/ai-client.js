@@ -58,6 +58,14 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
     // Cloud's glm-5.1) can burn its entire max_tokens budget on internal
     // reasoning before emitting any visible content, leaving `content` empty.
     if (purpose === 'summary') body.reasoning_effort = 'none';
+    // Ask/chat calls: the hidden thinking channel dominated measured latency
+    // (A/B on the chat model: effort 'none' answered in 12s vs 31–53s at
+    // provider-default, with the SAME visible answer length, and tool
+    // selection came back identical). Effort is env-tunable so prod can dial
+    // it without a code push — unset means provider default.
+    else if (purpose === 'chat' && process.env.AI_CHAT_REASONING_EFFORT) {
+        body.reasoning_effort = process.env.AI_CHAT_REASONING_EFFORT;
+    }
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
     // Hard timeout: Node's fetch has none, so a provider that accepts the
@@ -115,6 +123,9 @@ async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, pu
         stream_options: { include_usage: true }
     };
     if (purpose === 'summary') body.reasoning_effort = 'none';
+    else if (purpose === 'chat' && process.env.AI_CHAT_REASONING_EFFORT) {
+        body.reasoning_effort = process.env.AI_CHAT_REASONING_EFFORT;
+    }
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
     // Idle timeout (not total): a long answer that keeps streaming is fine, but

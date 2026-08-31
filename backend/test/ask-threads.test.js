@@ -308,9 +308,9 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260831-ladder1/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260831-ladder1/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260831-ladder1/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260901-askfix1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260901-askfix1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260901-cmp1/);
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });
 // ---- chrome collapsed from three buttons to two (2026-08-30) ----

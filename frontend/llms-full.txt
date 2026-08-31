@@ -9,7 +9,7 @@ stockportfolio.pro is an AI-first equity research tool for US-listed stocks,
 grounded entirely in SEC filings: up to 19 years of filed financials per
 company, a free screener over the S&P 1500, free public fundamentals pages for
 1,500+ companies, and an AI analyst that answers only from filings. From
-$39.99/month after a 7-day free trial; the screener and stock pages are free.
+$24.99/month; the screener and stock pages are free.
 
 ## Canonical URLs
 
@@ -59,13 +59,12 @@ $39.99/month after a 7-day free trial; the screener and stock pages are free.
 ## Pricing
 
 - Free: the screener, all /stocks pages, and the demo — no account required.
-- Monthly: $39.99/month after a 7-day free trial — full research library, portfolio tracker, 25 Ask questions a month.
-- Annual: $399.99/year — two months free versus monthly billing.
-- Pro: $79.99/month or $799.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, smart alerts, weekly portfolio briefing.
-- Power: $149.99/month or $1,499.99/year — Pro plus the Filing Change Monitor across your whole watchlist, wash-sale guard, 2000-credit wallet.
-- Desk: $2,999.99/year — Power for one named professional with a limited client-facing licence, priority support, personal onboarding.
+- Monthly: $24.99/month — full research library, portfolio tracker, 25 Ask questions a month.
+- Annual: $199.99/year — $16.67/month effective, save $100 versus monthly billing.
+- Pro: $499.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
+- Desk: $1,999.99/year — Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Credit top-ups: $14.99 for 150 credits.
-- Card added at signup; nothing charged during the trial. Cancel anytime.
+- Card added at signup; the initial payment can be refunded within 7 days. Cancel anytime.
 
 ## Data sourcing and honesty rules
 
@@ -80,7 +79,7 @@ $39.99/month after a 7-day free trial; the screener and stock pages are free.
 - Frontend: vanilla JavaScript, HTML, CSS (no framework).
 - Backend: Node.js + Express on Render; MongoDB Atlas.
 - Auth: JWT with Google sign-in.
-- Payments: Stripe (subscription billing, 7-day free trial).
+- Payments: Stripe (subscription billing, paid at signup; the initial payment is refundable within 7 days).
 - Analytics: consent-gated; denied by default.
 - Security: helmet middleware, rate limiting on /api routes.
 
@@ -118,10 +117,11 @@ web source, and sources are shown. If it cannot ground an answer, it declines.
 Q: Do I need to connect a broker account?
 A: No. Positions are added manually.
 
-Q: What happens after the 7-day trial?
-A: The chosen plan starts ($39.99 monthly, $399.99 annual, $79.99 Pro,
-$149.99 Power, or $2,999.99 Desk) unless cancelled before the trial ends.
-Cancel anytime from account settings.
+Q: Can I get my money back?
+A: Yes — the initial payment is refundable within 7 days if the service is
+not right for you. The chosen plan starts immediately on signup ($24.99
+monthly, $199.99 annual, $499.99 Pro, or $1,999.99 Desk). Cancel anytime
+from account settings.
 
 ## Contact
 

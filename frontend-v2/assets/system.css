@@ -906,6 +906,17 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-exchange { display: grid; gap: 44px; }
 /* a new turn scrolls to the top of the viewport; clear the sticky nav */
 .ask-exchange > * { scroll-margin-top: 88px; }
+/* An EMBEDDED ask box (landing-hero card, any page hosting the composer)
+   must not reflow its host page: a 5k-char answer used to stretch the card
+   and shove every section below. The answer is capped and reads inside its
+   own scrolling box — the page keeps its shape. The dedicated /ask chat
+   reads in page flow (sticky composer, zen mode), so it is exempt. */
+.ask-panel .ask-a {
+  max-height: min(58vh, 520px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;
+}
 /* the question hugs its own text and sits on the right, where its tail
    points. As a plain block it painted its full max-width whatever the
    content, so a three-letter ticker became a 620px empty card. */

@@ -10,7 +10,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
+  <style>
+    /* Same price components the homepage ladder uses (index.html) — the $14.99
+       figure gets the featured treatment here too. */
+    .price-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; }
+    .price-fig { font-size: 34px; font-weight: 650; letter-spacing: -0.03em; }
+    .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
+    .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
+    .price-list li::before { content: '—  '; color: var(--ink-3); }
+  </style>
 </head>
 <body>
   <main>
@@ -35,12 +44,12 @@
         </ul>
         <button class="btn btn-primary" style="margin-top:auto;" type="button" id="recharge-btn">Recharge 150 credits — $14.99</button>
         <p class="small" id="recharge-status" role="status" style="margin:12px 0 0; min-height:1.4em;"></p>
-        <p class="provenance" style="margin:10px 0 0;">Payments are handled by Stripe — we never see your card. Running out often costs 4× less on a plan: <strong>Pro includes 600 credits a month for $79.99</strong> — <a href="/upgrade.html">see upgrade options →</a>.</p>
+        <p class="provenance" style="margin:10px 0 0;">Payments are handled by Stripe — we never see your card. Running out often costs 4× less on a plan: <strong>Pro includes 600 credits a month for $499.99/yr</strong> — <a href="/upgrade.html">see upgrade options →</a>.</p>
       </div>
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20260831-ladder1"></script>
+  <script src="/assets/app.js?v=20260901-askfix1"></script>
   <script>
     (function () {
       'use strict';

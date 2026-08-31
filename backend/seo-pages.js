@@ -46,17 +46,14 @@ const SOFTWARE_LD = JSON.stringify({
     description: 'AI stock analyst grounded in SEC filings (10-K/10-Q): company fundamentals, screening, side-by-side comparisons and portfolio tracking for US stocks.',
     publisher: { '@id': `${SITE}/#org` },
     offers: {
-        '@type': 'AggregateOffer', priceCurrency: 'USD', lowPrice: '0', highPrice: '2999.99',
-        offerCount: 8,
+        '@type': 'AggregateOffer', priceCurrency: 'USD', lowPrice: '0', highPrice: '1999.99',
+        offerCount: 5,
         offers: [
             { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Monthly', price: '39.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Annual', price: '399.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Pro', price: '79.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Pro Annual', price: '799.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Power', price: '1499.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Power Monthly', price: '149.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Desk', price: '2999.99', priceCurrency: 'USD' }
+            { '@type': 'Offer', name: 'Monthly', price: '24.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '199.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro', price: '499.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Desk', price: '1999.99', priceCurrency: 'USD' }
         ]
     }
 });
@@ -161,7 +158,10 @@ function latestClose(data) {
 }
 
 // ---- shared head/nav/footer ----
-function head(title, description, canonical, jsonld) {
+// `ask` ({ placeholder }) opts a server-rendered surface into the ask floor:
+// the shared runtime mounts its ⌘K bar on <body data-ask-floor="1"> so every
+// page this traffic lands on keeps Ask one keystroke away.
+function head(title, description, canonical, jsonld, ask) {
     return `<!DOCTYPE html><html lang="en"><head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -185,7 +185,7 @@ function head(title, description, canonical, jsonld) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -237,7 +237,7 @@ function head(title, description, canonical, jsonld) {
   .seo-disc{font-size:11.5px;color:var(--ink3);margin-top:18px;line-height:1.6}
   @media(max-width:900px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-links{gap:10px!important}.seo-nav-links a{display:inline-block;padding:11px 2px}}@media(max-width:760px){.seo-nav{height:auto;min-height:58px;padding:10px 14px}.seo-nav-hide-mobile{display:none}.seo-cta-btn{padding:8px 11px}.seo-wrap{padding:12px}.seo-table th,.seo-table td{padding:8px 10px}.seo-section{margin:30px 0}.seo-crumbs a{display:inline-block;padding:9px 2px}}
 </style>
-</head><body>`;
+</head><body${ask && ask.placeholder ? ` data-ask-floor="1" data-ask-placeholder="${esc(ask.placeholder)}"` : ''}>`;
 }
 
 function nav(current = '') {
@@ -246,7 +246,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260831-ladder1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260901-askfix1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -729,7 +729,7 @@ function renderStockPage(ticker) {
 })();
 </script>`;
 
-    return head(title, description, canonical, jsonld) + faqLdTag + nav('company') + `
+    return head(title, description, canonical, jsonld, { placeholder: `Ask about ${sym} — answered from its SEC filings…` }) + faqLdTag + nav('company') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(sym)}</div>
   <h1 class="seo-h1">${esc(name)} <span style="color:var(--muted);font-weight:600">(${esc(sym)})</span> Stock Analysis</h1>
@@ -747,7 +747,7 @@ function renderStockPage(ticker) {
     <h3>Explore ${esc(String(income.length))} years of ${esc(name)} financials — interactive</h3>
     <p>Full income statement, balance sheet and cash flow with CAGR and trend on every row, 48 quarters, valuation ratios, plain-English health checks, and Ask — our SEC-grounded research assistant.</p>
     <a class="seo-cta-btn" href="/company?symbol=${esc(sym)}">Open the interactive view — free</a>
-    <p style="margin-top:10px"><a href="/register?plan=monthly" style="font-size:13px">Or start a 7-day free trial to track ${esc(sym)} in your portfolio &rarr;</a></p>
+    <p style="margin-top:10px"><a href="/register?plan=monthly" style="font-size:13px">Or start a $24.99/month plan to track ${esc(sym)} in your portfolio &rarr;</a></p>
   </div>
   ${metricBlock}
   ${compareBlock}
@@ -776,7 +776,7 @@ function renderStockIndex() {
         const links = bySector[sec].map((c) => `<a href="/stocks/${esc(c.symbol)}" title="${esc(c.name)}">${esc(c.symbol)} <span style="color:var(--muted)">${esc(c.name)}</span></a>`).join('');
         return `<div class="seo-section"><h2>${esc(sec)}</h2><div class="seo-links">${links}</div></div>`;
     }).join('');
-    return head(title, description, canonical, jsonld) + nav('company') + `
+    return head(title, description, canonical, jsonld, { placeholder: 'Ask about any company — answered from its SEC filings…' }) + nav('company') + `
 <main class="seo-wrap">
   <h1 class="seo-h1">Stock fundamentals directory</h1>
   <p class="seo-sub">Revenue, earnings, valuation and financial statements for 1,500+ US-listed companies. Pick a ticker to see its snapshot, or start a free trial for full statements and portfolio tracking.</p>
@@ -887,6 +887,17 @@ function buildSitemapInventory() {
     addChunks('stocks', stocks);
     addChunks('comparisons', compares);
     addChunks('metrics', metrics);
+    // Authenticated users' published research reports (/r/:id) — the public
+    // research library. Written by the share endpoint into a small JSON
+    // snapshot beside this file (see noteIndexableShare in app.js) so the
+    // sitemap build stays synchronous.
+    try {
+        const shareRows = JSON.parse(fs.readFileSync(path.join(__dirname, 'indexable-shares.json'), 'utf8'));
+        if (Array.isArray(shareRows) && shareRows.length) {
+            shards.shares = shareRows.filter((e) => e && e.id)
+                .map((e) => ({ loc: `${SITE}/r/${encodeURIComponent(e.id)}`, lastmod: String(e.at || '2026-08-31').slice(0, 10) }));
+        }
+    } catch (_) {}
     _sitemapInventoryCache = { at: Date.now(), shards };
     return shards;
 }

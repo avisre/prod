@@ -581,10 +581,62 @@
     // (the value is seen, not described) above one upgrade panel with the plan
     // ladder and a single CTA. Pro users just get a reset note, no upsell.
     const ASK_PLANS = {
-        free: { name: 'Free', price: '$0', per: '/forever', q: 3 },
-        core: { name: 'Core', price: '$39.99', per: '/mo', q: 25 },
-        pro: { name: 'Pro', price: '$79.99', per: '/mo', q: 300 }
+        core: { name: 'Monthly', price: '$24.99', per: '/mo', q: 25 },
+        pro: { name: 'Pro', price: '$499.99', per: '/yr', q: 300 }
     };
+    // Anon preview wall: the free questions are spent. The next rung is an
+    // email for +2 more verified questions (one POST, no account — see
+    // /api/ask-trial/email), then the paid plan. Copy leads with checkout
+    // because signup is paid-first: there is no "free account" to offer.
+    function askTrialWall(data) {
+        const msg = (data && data.message) ? esc(data.message) : 'That was the free preview — every answer grounded in the actual SEC filings.';
+        return `<div class="ask-wall">
+          <div class="ask-wall-ghost" aria-hidden="true">
+            <div class="g h"></div>
+            <div class="g s"></div><div class="g m"></div><div class="g t"></div>
+            <div class="g-row"><div class="g"></div><div class="g"></div><div class="g"></div>
+              <div class="g"></div><div class="g"></div><div class="g"></div></div>
+            <div class="g s"></div><div class="g m"></div>
+          </div>
+          <div class="ask-wall-panel">
+            <h3>Get 2 more questions — leave your email.</h3>
+            <p class="sub">We email a one-click link; verifying unlocks 2 more free questions. Or start the full plan now — 25 questions a month with the filing, period and source under every figure.</p>
+            <form class="ask-trial-email" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+              <input class="input" type="email" required autocomplete="email" maxlength="254" placeholder="you@example.com" style="flex:1; min-width:200px;" aria-label="Email address">
+              <button class="btn btn-primary" type="submit">Send 2 more →</button>
+            </form>
+            <p class="small faint ask-trial-msg" style="margin:8px 0 0;" role="status"></p>
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start secure checkout — $24.99/month</a>
+            <p class="small faint" style="margin-top:12px;">Paid-first signup · the initial payment is refundable within 7 days. Already have an account? <a href="/login.html">Log in</a>.
+            Or <a href="/verify.html">verify one headline against the filing — free, no account</a>.</p>
+          </div>
+        </div>`;
+    }
+    function wireAskTrialEmail(host, data) {
+        const form = host.querySelector('.ask-trial-email');
+        if (!form) return;
+        const status = host.querySelector('.ask-trial-msg');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = form.querySelector('input').value.trim();
+            if (!email) return;
+            const btn = form.querySelector('button[type=submit]');
+            if (btn) btn.disabled = true;
+            const say = (t) => { if (status) status.textContent = t; };
+            try {
+                const rr = await fetch(`${API}/ask-trial/email`, {
+                    method: 'POST', credentials: 'same-origin',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, visitor: (data && data.quota && data.quota.used) || undefined })
+                });
+                const out = await rr.json().catch(() => ({}));
+                say(rr.ok ? 'Sent — open the link in that inbox to unlock 2 more questions.' : (out.message || 'Could not send right now — the full plan is one checkout away.'));
+            } catch (_) {
+                say('Could not send right now.');
+                if (btn) btn.disabled = false;
+            }
+        });
+    }
     function quotaWall(data) {
         const limit = (data && data.quota && Number(data.quota.limit)) || 3;
         // trust the server's tier when it sends one (survives AI_CHAT_*_LIMIT env
@@ -605,7 +657,7 @@
             }
             return `<div class="notice">${msg}<br><a class="btn btn-primary" style="margin-top:12px" href="/recharge.html">Recharge 150 credits — $14.99</a> <span class="small" style="margin-left:6px;">or <a href="/upgrade.html">upgrade your plan →</a></span></div>`;
         }
-        const cards = ['free', 'core', 'pro'].map((k) => {
+        const cards = ['core', 'pro'].map((k) => {
             const p = ASK_PLANS[k];
             const current = k === tier;
             const pick = k === 'pro' && tier !== 'pro';
@@ -1682,6 +1734,14 @@
             exchange.appendChild(block);
             const traceEl = block.querySelector('.ask-trace');
             const answerEl = block.querySelector('.ask-a');
+            // Capped boxes (system.css: .ask-panel .ask-a) scroll internally:
+            // follow the stream inside the box until the reader scrolls up to
+            // read, then hand control back. A no-op wherever the box doesn't
+            // scroll (the /ask conversation keeps page-flow reading).
+            let stickInner = true;
+            answerEl.addEventListener('scroll', () => {
+                stickInner = answerEl.scrollHeight - answerEl.scrollTop - answerEl.clientHeight < 80;
+            }, { passive: true });
             const workingRow = block.querySelector('.ask-progress');
             const workingEl = block.querySelector('.ask-working');
             const noteEl = block.querySelector('.ask-note');
@@ -1775,11 +1835,14 @@
                     const data = await r.json().catch(() => ({}));
                     closeProgress();
                     if (r.status === 401) {
-                        answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html?plan=free">create a free account</a>.`;
+                        answerEl.innerHTML = `Ask needs an account — <a href="/login.html">log in</a> or <a href="/register.html">start secure checkout</a>.`;
                     } else if (r.status === 429) {
-                        answerEl.innerHTML = data && data.trial
-                            ? `<div class="notice">${esc((data && data.message) || 'That was the free preview.')} <a href="/login.html">Log in</a> or <a href="/register.html?plan=free">create a free account &rarr;</a> · or <a href="/verify.html">verify one headline against the filing, free</a></div>`
-                            : quotaWall(data);
+                        if (data && data.trial) {
+                            answerEl.innerHTML = askTrialWall(data);
+                            wireAskTrialEmail(answerEl, data);
+                        } else {
+                            answerEl.innerHTML = quotaWall(data);
+                        }
                     } else if (data.answer && data.source !== 'error') {
                         finish(data);
                     } else {
@@ -1818,13 +1881,17 @@
                         if (open && open.ms == null) open.ms = Date.now() - stepStartedAt;
                         enterWriting(); // Stop and the timer stay reachable
                         renderTrace();
-                        // follow the text only if the reader is already at the
-                        // bottom — never yank someone who has scrolled back up
+                        // follow the text inside a capped box while the reader
+                        // hasn't scrolled up, and follow the page only if the
+                        // reader is already at the bottom — never yank someone
+                        // who has scrolled back up
+                        if (stickInner && answerEl.scrollHeight > answerEl.clientHeight) answerEl.scrollTop = answerEl.scrollHeight;
                         if (atBottom()) window.scrollTo({ top: document.documentElement.scrollHeight });
                     } else if (ev === 'rollback') {
                         // the model discarded its draft and went back to work
                         text = '';
                         answerEl.innerHTML = '';
+                        stickInner = true;
                         workingRow.classList.remove('is-writing');
                         workingEl.textContent = 'Rechecking the figures…';
                         stepStartedAt = Date.now();
@@ -2084,4 +2151,13 @@
 
     mountCampaign();
     window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll };
+
+    // Server-rendered SEO surfaces opt into the ask floor with a body
+    // attribute (see /stocks/:ticker and the free-tool pages): every page
+    // that traffic lands on keeps Ask one keystroke away. Pages that mount
+    // it themselves (company, dossier) simply don't carry the attribute, and
+    // the guard keeps any double-mount impossible.
+    if (document.body && document.body.dataset && document.body.dataset.askFloor === '1' && !document.querySelector('.ask-floor')) {
+        mountAskFloor({ placeholder: document.body.dataset.askPlaceholder || undefined });
+    }
 })();

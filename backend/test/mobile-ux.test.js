@@ -123,7 +123,9 @@ test('sitewide: wordmark and consent links are full-height tap targets', () => {
 });
 
 test('landing page: comparison-table headers and narrow prose links clear the floors', () => {
-    assert.match(indexHtml, /font-size:11\.5px; text-transform:uppercase; letter-spacing:0\.05em;/);
+    // the sample table with the 11.5px uppercase header left the homepage hero
+    // when Ask was demoted — the comparison table now lives on compare-dossiers
+    assert.match(read('frontend-v2', 'compare-dossiers.html'), /\.cmp-metric-table th:not\(:first-child\), \.cmp-metric-table td:not\(:first-child\) \{ font-size: 12px; \}/);
     assert.match(indexHtml, /\.hero-note a, \.provenance a, p\.small a, span\.small a, a\.small \{ display: inline-block; padding: 6px 4px; \}/);
 });
 

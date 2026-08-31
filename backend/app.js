@@ -111,7 +111,7 @@ const trialExpiryCheck = require('../jobs/trial-expiry-check');
 function hasMonitor(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    if (active && ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId)) return true;
+    if (active && ['power', 'power-monthly', 'desk', 'enterprise', 'pro-annual'].includes(sub.planId)) return true;
     if (tierLimits.isLifetimeBuyer(req.user)) return true;
     return hasActiveTrialGrant(req.user, 'monitor');
 }
@@ -484,17 +484,20 @@ const PRO_ANNUAL_PLAN_ID = 'pro-annual';
 const FREE_PLAN_ID = 'free';
 // These defaults mirror the active self-serve Stripe prices. Environment
 // variables remain the source of truth when prices are intentionally changed.
-// 2026-08-31 reprice: ladder moved to $39.99 / $79.99 / $149.99 / $2,999.99.
+// 2026-08-31 Jobs cut: four prices a visitor can buy —
+// $24.99/mo · $199.99/yr · Pro $499.99/yr · Desk $1,999.99/yr. The Pro and
+// Power rungs are retired from the menus (legacy subscribers keep their
+// legacy price ids at the old amounts via LEGACY_PLAN_PRICE_SPECS below).
 // DEPLOY GATE: the matching active Stripe prices (same product, amount and
 // interval) must exist and STRIPE_PRICE_ID_* must point at them before this
 // ships — resolveStripeCheckoutPlan refuses to sell a plan whose Stripe price
 // doesn't match, so an early deploy fails safe but sells nothing.
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '39.99');
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '24.99');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '399.99');
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '199.99');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
-const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '79.99');
-const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '799.99');
+const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '79.99'); // retired rung — legacy only
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '499.99');
 // Premium Filing Monitor tiers — both unlock the full Pro feature set; differ
 // only by price, positioning and support. USD, billed yearly.
 const POWER_PLAN_ID = 'power';
@@ -505,7 +508,7 @@ const POWER_PLAN_CURRENCY = process.env.POWER_PLAN_CURRENCY || 'USD';
 const POWER_MONTHLY_PLAN_ID = 'power-monthly';
 const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE || '149.99');
 const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
-const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '2999.99');
+const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1999.99');
 const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -540,14 +543,16 @@ const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP 
 // broken checkout. This is deliberately narrow: it resolves only the published
 // direct-purchase plans by their exact product, amount and recurring interval.
 // It also neutralizes legacy display variables that no longer match Stripe.
+// New-sale checkout specs: the four surviving rungs only. Pro (monthly) and
+// both Power variants are intentionally ABSENT — a plan absent here cannot be
+// freshly purchased (resolveStripeCheckoutPlan refuses), while grand-fathered
+// subscribers never hit this map (their price ids resolve through
+// LEGACY_PLAN_PRICE_SPECS first).
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
-  [MONTHLY_PLAN_ID]: { amount: 39.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [ANNUAL_PLAN_ID]: { amount: 399.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
-  [PRO_PLAN_ID]: { amount: 79.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [PRO_ANNUAL_PLAN_ID]: { amount: 799.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
-  [POWER_PLAN_ID]: { amount: 1499.99, currency: 'USD', interval: 'year', productName: 'power — stockportfolio.pro' },
-  [POWER_MONTHLY_PLAN_ID]: { amount: 149.99, currency: 'USD', interval: 'month', productName: 'power — stockportfolio.pro' },
-  [DESK_PLAN_ID]: { amount: 2999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
+  [MONTHLY_PLAN_ID]: { amount: 24.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [ANNUAL_PLAN_ID]: { amount: 199.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [PRO_ANNUAL_PLAN_ID]: { amount: 499.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
 });
 // Grandfathered subscribers keep their pre-reprice Stripe price until they
 // move to a new one. Webhook re-syncs resolve a renewal by the price id the
@@ -1982,7 +1987,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2011,7 +2016,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260831-ladder1"></script>
+<script src="/assets/app.js?v=20260901-askfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2081,7 +2086,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2109,7 +2114,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260831-ladder1"></script>
+<script src="/assets/app.js?v=20260901-askfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2675,6 +2680,19 @@ const PublicResearchShareSchema = new mongoose.Schema({
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null }
 }, { timestamps: true, versionKey: false, collection: 'public_research_shares' });
 const PublicResearchShare = mongoose.model('PublicResearchShare', PublicResearchShareSchema);
+
+// Ask email rung: a cold visitor who spent their free preview trades an
+// address for +2 verified questions (30-day signed cookie, no account).
+// One row per email; verification is datestamped so capture→verify→paid is
+// measurable in the funnel.
+const AskTrialLeadSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true, index: true, lowercase: true, trim: true, maxlength: 254 },
+    verifiedAt: { type: Date, default: null },
+    visitorClaim: { type: String, default: null },
+    ip: { type: String, default: null },
+    source: { type: String, default: 'ask-wall' }
+}, { timestamps: true, versionKey: false, collection: 'ask_trial_leads' });
+const AskTrialLead = mongoose.model('AskTrialLead', AskTrialLeadSchema);
 
 // Public claim ledger: one row per successful /api/verify check. The claim is
 // the user's own pasted headline (truncated); the filed figure and source are
@@ -6732,6 +6750,22 @@ async function persistPublicResearchShare(payload, createdBy) {
     throw Object.assign(new Error('Could not allocate a public report ID.'), { status: 503 });
 }
 
+// Indexable share ledger: reports a signed-in user publishes are appended to
+// a small JSON snapshot (newest 500) that the sitemap builder reads
+// synchronously — the sitemap stays sync with no DB in the hot build, and
+// nothing breaks if this file is missing or unwritable.
+const INDEXABLE_SHARES_FILE = path.join(__dirname, 'indexable-shares.json');
+const INDEXABLE_SHARES_MAX = 500;
+function noteIndexableShare(publicId) {
+    try {
+        let list = [];
+        try { list = JSON.parse(fs.readFileSync(INDEXABLE_SHARES_FILE, 'utf8')); } catch (_) { /* first entry */ }
+        const entry = { id: String(publicId), at: new Date().toISOString().slice(0, 10) };
+        const next = list.filter((e) => e && e.id !== entry.id).concat([entry]).slice(-INDEXABLE_SHARES_MAX);
+        fs.writeFileSync(INDEXABLE_SHARES_FILE, JSON.stringify(next));
+    } catch (_) { /* sharing works without sitemap inclusion */ }
+}
+
 // Explicit-on-click creation of an immutable, unlisted public research page.
 // Optional auth lets public samples be shared, while retaining a private owner
 // reference for abuse response. The public document never exposes that owner.
@@ -6739,6 +6773,7 @@ app.post('/api/research-shares', optionalAuth, async (req, res) => {
     try {
         const payload = shareCopy.normalizePublicResearchShare(req.body || {}, { publicBase: PUBLIC_APP_URL });
         const report = await persistPublicResearchShare(payload, req.user && req.user._id);
+        if (report.createdBy) noteIndexableShare(report.publicId);
         const publicUrl = `${PUBLIC_APP_URL}/r/${report.publicId}`;
         res.setHeader('Cache-Control', 'no-store');
         trackFunnel('research_share_created', req.user && req.user._id, null, {
@@ -6771,10 +6806,15 @@ app.get('/r/:id', affiliateReferralLimiter, async (req, res) => {
     try {
         const report = await PublicResearchShare.findOne({ publicId }).lean();
         if (!report) return res.status(404).send('Research report not found.');
-        res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
+        // Reports a signed-in user deliberately published are the public
+        // research library: indexable, canonical, with JSON-LD (distribution
+        // nodes, not dead ends). Anonymous-created reports and amb- affiliate
+        // slugs stay noindex — spam control, unauthenticated free faucet.
+        const indexable = Boolean(report.createdBy);
+        if (!indexable) res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
         res.setHeader('Cache-Control', 'public, max-age=600, stale-while-revalidate=86400');
         res.setHeader('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'");
-        return res.type('html').send(shareCopy.renderPublicResearchPage(report, { publicBase: PUBLIC_APP_URL }));
+        return res.type('html').send(shareCopy.renderPublicResearchPage(report, { publicBase: PUBLIC_APP_URL, indexable }));
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).send('Research sharing is temporarily unavailable.');
         return res.status(500).send('Could not load this research report.');
@@ -6837,6 +6877,22 @@ function _anonAskCookie(n) {
     const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
     return `sp_ask_trial=${encodeURIComponent(v)}; Max-Age=${30 * 24 * 3600}; Path=/; HttpOnly; SameSite=Lax${secure}`;
 }
+// Email rung: verification mints a signed, cookie-only +2 bonus for 30 days.
+// Same pattern as sp_ask_trial — no DB reads in the hot ask path, HttpOnly,
+// and the +2 is enforced server-side from the cookie on every request.
+const ASK_TRIAL_BONUS = Number(process.env.ASK_TRIAL_BONUS ?? 2);   // questions the verified email adds
+const _askBonusRead = (req) => {
+    const raw = (req.headers.cookie || '').split(';').map((s) => s.trim())
+        .find((s) => s.startsWith('sp_ask_bonus='));
+    if (!raw) return false;
+    try { return jwt.verify(decodeURIComponent(raw.slice('sp_ask_bonus='.length)), JWT_SECRET).k === 'ask_bonus'; }
+    catch (_) { return false; }
+};
+function _askBonusCookie() {
+    const v = jwt.sign({ k: 'ask_bonus' }, JWT_SECRET, { expiresIn: '30d' });
+    const secure = process.env.NODE_ENV === 'production' ? '; Secure' : '';
+    return `sp_ask_bonus=${encodeURIComponent(v)}; Max-Age=${30 * 24 * 3600}; Path=/; HttpOnly; SameSite=Lax${secure}`;
+}
 // Auth shim for Ask: a real bearer token → full authed path; logged-out (or a
 // junk "null"/"undefined" header) → anonymous teaser path, never a 401.
 function askAuth(req, res, next) {
@@ -6854,22 +6910,32 @@ async function anonAskHandler(req, res) {
     }
     _anonAskRoll();
     const ip = _anonAskIp(req);
+    const bonusUsed = _askBonusRead(req);
+    const limit = Math.max(0, ANON_ASK_LIMIT) + (bonusUsed ? ASK_TRIAL_BONUS : 0);
     const visitorUsed = _anonAskReadCount(req);
     const ipUsed = _anonAsk.ip.get(ip) || 0;
-    const wall = (msg) => ({ message: msg, code: 'ASK_TRIAL', trial: true,
-        quota: { used: ANON_ASK_LIMIT, limit: ANON_ASK_LIMIT, remaining: 0 } });
-    if (visitorUsed >= ANON_ASK_LIMIT) {
-        return res.status(429).json(wall(`That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'}. Log in or create a free account to keep asking.`));
+    const wall = (msg) => {
+        trackFunnel('anon_wall_shown', null, null, { bonus: bonusUsed, reason: 'limit', limit });
+        return { message: msg, code: 'ASK_TRIAL', trial: true, next: { kind: bonusUsed ? 'paid' : 'email', bonus: ASK_TRIAL_BONUS },
+            quota: { used: limit, limit, remaining: 0 } };
+    };
+    if (visitorUsed >= limit) {
+        return res.status(429).json(wall(bonusUsed
+            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 25 a month from $24.99.`
+            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan from $24.99/month.`));
     }
     if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
-        return res.status(429).json(wall('The free preview is busy right now. Log in or create a free account to keep asking.'));
+        trackFunnel('anon_wall_shown', null, null, { bonus: bonusUsed, reason: 'busy', limit });
+        return res.status(429).json({ message: 'The free preview is busy right now — try again later, or start the full plan from $24.99/month.', code: 'ASK_TRIAL', trial: true,
+            quota: { used: limit, limit, remaining: 0 } });
     }
     // cost is incurred on the call → count the IP/global attempt now; the
     // per-browser counter only advances on a delivered answer (cookie below).
     _anonAsk.ip.set(ip, ipUsed + 1);
     _anonAsk.global += 1;
     const newVisitor = visitorUsed + 1;
-    const remaining = Math.max(0, ANON_ASK_LIMIT - newVisitor);
+    const remaining = Math.max(0, limit - newVisitor);
+    trackFunnel('anon_ask_started', null, null, { mode, bonus: bonusUsed, perBrowserLimit: limit });
     try {
         if ((req.body && req.body.stream) === true) {
             res.writeHead(200, {
@@ -6889,7 +6955,8 @@ async function anonAskHandler(req, res) {
             try {
                 const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, mode, onEvent: (e) => send(e.type, e) });
                 send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-                    trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
+                    trial: true, quota: { used: newVisitor, limit, remaining } });
+                trackFunnel('anon_ask_done', null, null, { mode, bonus: bonusUsed, streamed: true });
             } catch (error) {
                 send('error', { message: publicErrorMessage(error, 'Ask failed') });
             } finally {
@@ -6901,11 +6968,88 @@ async function anonAskHandler(req, res) {
         const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, mode });
         res.setHeader('Set-Cookie', _anonAskCookie(newVisitor));
         res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
-            trial: true, quota: { used: newVisitor, limit: ANON_ASK_LIMIT, remaining } });
+            trial: true, quota: { used: newVisitor, limit, remaining } });
+        trackFunnel('anon_ask_done', null, null, { mode, bonus: bonusUsed, streamed: false });
     } catch (error) {
         if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
     }
 }
+
+// ----- Ask email rung: capture → verify → +2 bonus questions (30d cookie).
+// A spent free preview trades an email address for ASK_TRIAL_BONUS more
+// questions. Rate-limited and disposable-domain-blocked: this is a free
+// faucet, so every input is a cost surface. No account is created.
+const askTrialEmailLimiter = rateLimit({ windowMs: 60 * 60 * 1000, max: 8, standardHeaders: true, legacyHeaders: false });
+const ASK_TRIAL_EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+const ASK_TRIAL_DISPOSABLE_DOMAINS = new Set(['mailinator.com', 'guerrillamail.com', '10minutemail.com', 'throwawaymail.com', 'dispostable.com', 'temp-mail.org', 'yopmail.com', 'trashmail.com', 'sharklasers.com', 'getnada.com', 'maildrop.cc', '1secmail.com', 'emailondeck.com', 'fakeinbox.com', 'spamgourmet.com', 'tempmail.plus', 'tempr.email']);
+function askTrialVerifyToken(email) {
+    return jwt.sign({ k: 'ask_email_verify', e: email }, JWT_SECRET, { expiresIn: '3d' });
+}
+app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
+    const email = String((req.body && req.body.email) || '').trim().toLowerCase().slice(0, 254);
+    if (!ASK_TRIAL_EMAIL_RE.test(email)) return res.status(400).json({ message: 'Enter a valid email address.' });
+    if (ASK_TRIAL_DISPOSABLE_DOMAINS.has(email.split('@')[1] || '')) {
+        return res.status(400).json({ message: 'Disposable email addresses cannot receive the bonus questions.' });
+    }
+    if (_askBonusRead(req)) {
+        return res.json({ ok: true, alreadyVerified: true, message: `Bonus already active — ${ASK_TRIAL_BONUS} more questions are unlocked on this browser.` });
+    }
+    try {
+        const visitorUsed = _anonAskReadCount(req);
+        let lead;
+        try {
+            lead = await AskTrialLead.findOneAndUpdate(
+                { email },
+                { $setOnInsert: { email }, $set: { visitorClaim: visitorUsed ? `used-${visitorUsed}-of-${ANON_ASK_LIMIT}` : null, ip: _anonAskIp(req), source: 'ask-wall' } },
+                { new: true, upsert: true, runValidators: true }
+            );
+        } catch (error) {
+            if (error && error.code === 11000) lead = await AskTrialLead.findOne({ email });
+            else throw error;
+        }
+        if (lead && lead.verifiedAt) {
+            return res.json({ ok: true, alreadyVerified: true, message: 'Email already verified — the bonus applies to the browser that clicked it. Log in for your full plan quota.' });
+        }
+        const { sendMail, escapeHtml, isMailerConfigured } = require('./mailer');
+        if (isMailerConfigured()) {
+            const verifyUrl = `${PUBLIC_APP_URL}/api/ask-trial/verify?token=${encodeURIComponent(askTrialVerifyToken(email))}`;
+            await sendMail({
+                to: email,
+                subject: 'Your 2 more Ask questions — verify in one click',
+                text: `Confirm this address and ${ASK_TRIAL_BONUS} more free Ask questions unlock in your browser, grounded in the actual SEC filings:\n\n${verifyUrl}\n\nThis link works for 3 days. No account is created; you can start the full paid plan anytime at ${PUBLIC_APP_URL}/register.html.\n\nStockPortfolio.pro — support@stockportfolio.pro`,
+                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#66717d;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $24.99/month with 25 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
+            });
+        }
+        trackFunnel('anon_email_captured', null, null, { leadId: lead ? String(lead._id) : null, hadClaim: Boolean(visitorUsed), mailer: isMailerConfigured() ? 'smtp' : 'skipped' });
+        return res.json({ ok: true, message: `Sent — open the link in ${email} to unlock ${ASK_TRIAL_BONUS} more questions.` });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Signup is temporarily unavailable.' });
+        res.status(500).json({ message: 'Could not send the verification email.' });
+    }
+});
+
+app.get('/api/ask-trial/verify', async (req, res) => {
+    let email = '';
+    try { email = String(jwt.verify(String((req.query && req.query.token) || ''), JWT_SECRET).e || ''); } catch (_) { email = ''; }
+    if (!ASK_TRIAL_EMAIL_RE.test(email)) {
+        return res.status(400).send('That verification link is invalid or expired. Reload the site and enter your email again.');
+    }
+    try {
+        const lead = await AskTrialLead.findOne({ email });
+        if (!lead) return res.status(404).send('No signup found for that link — reload the site and enter your email again.');
+        if (!lead.verifiedAt) {
+            lead.verifiedAt = new Date();
+            await lead.save();
+            trackFunnel('anon_email_verified', null, null, { leadId: String(lead._id) });
+        }
+        res.setHeader('Set-Cookie', _askBonusCookie());
+        res.setHeader('Cache-Control', 'no-store');
+        return res.redirect(`${PUBLIC_APP_URL}/?ask=verified`);
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).send('Signup is temporarily unavailable.');
+        return res.status(500).send('Verification failed — reload the site and try again.');
+    }
+});
 
 app.post('/api/ai/chat', askAuth, async (req, res) => {
     if (req.anon) return anonAskHandler(req, res);
@@ -9632,6 +9776,54 @@ const _dossierInflight = new Map();
 const _dossierProgress = new Map();
 const DOSSIER_FAST_MS = 9000;
 
+// Dossier Compare — the same structured sections for 2–3 companies, side by
+// side. Comparability is the product's stated differentiator (customer
+// interviews, 2026-08): every Dossier already shares one section schema, so a
+// compare surface is read-only over work already paid for. peekDossier is
+// build-free: this route NEVER triggers a build — a missing report is
+// reported back and the client builds it through the paid single-symbol path.
+// Must stay registered BEFORE /api/dossier/:symbol, or this path is captured
+// as a ticker and 400s on the first request.
+app.get('/api/dossier/compare', authMiddleware, proGate, async (req, res) => {
+    try {
+        const syms = [...new Set(String(req.query.symbols || '')
+            .split(',').map((s) => s.trim().toUpperCase()).filter(Boolean))];
+        if (syms.length < 2) return res.status(400).json({ message: 'Compare 2 or 3 companies.', code: 'COMPARE_SYMBOL_COUNT' });
+        if (syms.length > 3) return res.status(400).json({ message: 'Compare up to 3 companies at a time.', code: 'COMPARE_SYMBOL_COUNT' });
+        if (syms.some((s) => !/^[A-Z0-9.\-]{1,10}$/.test(s))) return res.status(400).json({ message: 'Invalid ticker.' });
+
+        const ready = [];
+        const missing = [];
+        for (const sym of syms) {
+            const cached = await dossier.peekDossier(sym).catch(() => null);
+            if (cached && !cached.error && cached.schemaVersion) ready.push(cached); else missing.push(sym);
+        }
+        if (missing.length) {
+            return res.json({ missing, readyCount: ready.length, buildCost: credits.COST.dossier_standard, message: `${missing.join(', ')} ${missing.length === 1 ? "doesn't" : "don't"} have a Dossier yet. Build the Standard Dossier first.` });
+        }
+
+        const planId = req.subscription && req.subscription.planId;
+        const affordability = await credits.check(req.userId, 'dossier_compare', effectiveAskLimit(req), planId);
+        if (!affordability.ok) {
+            return res.status(402).json({
+                message: `A comparison costs ${credits.COST.dossier_compare} credits — you have ${affordability.remaining} left this month.`,
+                code: 'INSUFFICIENT_CREDITS', cost: affordability.cost, remaining: affordability.remaining
+            });
+        }
+        await credits.spend(req.userId, 'dossier_compare', 'dossier-compare', syms.join(':'));
+        trackFunnel('dossier_compare_rendered', req.userId, planId, {
+            eventName: 'dossier_compare_rendered',
+            dedupeKey: `dossier-compare:${String(req.userId)}:${syms.join(':')}`,
+            entitlementSource: req.user && req.user.appsumoRedeemedAt ? 'appsumo' : 'unknown',
+            appsumoTier: Number(req.user && req.user.appsumoTier) || null
+        });
+        return res.json({ comparison: ready, symbols: syms, cost: credits.COST.dossier_compare });
+    } catch (error) {
+        console.error('[dossier-compare] route error:', error && error.message);
+        res.status(500).json({ message: 'Failed to compare the dossiers.' });
+    }
+});
+
 app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
     try {
         const sym = String(req.params.symbol || '').toUpperCase().trim();
@@ -10108,11 +10300,22 @@ async function runDigestSweep() {
     const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
     const ACTIVE = ['active', 'trialing', 'cancel_at_period_end'];
     const dueBefore = new Date(Date.now() - 6.5 * 86400000); // per-user ~weekly cadence
+    // Lifetime buyers (AppSumo/DealMirror) get the digest too — their Monitor
+    // entitlement is capped per tier (lib/tier-limits.js), and the digest is
+    // the retention half of that entitlement. appsumoEmailsOptOut is honoured
+    // for them; it is false-by-default for everyone else, so a single filter
+    // covers both channels.
     const users = await User.find({
-        'subscription.planId': { $in: ['power', 'power-monthly', 'desk', 'enterprise'] },
-        'subscription.status': { $in: ACTIVE },
         digestOptOut: { $ne: true },
-        $or: [{ lastDigestAt: null }, { lastDigestAt: { $lt: dueBefore } }]
+        appsumoEmailsOptOut: { $ne: true },
+        $or: [{ lastDigestAt: null }, { lastDigestAt: { $lt: dueBefore } }],
+        $and: [{
+            $or: [
+                { 'subscription.planId': { $in: ['power', 'power-monthly', 'desk', 'enterprise'] }, 'subscription.status': { $in: ACTIVE } },
+                { appsumoRedeemedAt: { $ne: null } },
+                { dealMirrorRedeemedAt: { $ne: null } }
+            ]
+        }]
     }).limit(200);
     let sent = 0;
     for (const u of users) {
@@ -10121,7 +10324,11 @@ async function runDigestSweep() {
                 Stock.find({ user: u._id, assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } }, { symbol: 1 }).lean(),
                 Watchlist.findOne({ user: u._id }, { symbols: 1 }).lean()
             ]);
-            const symbols = [...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])];
+            // Dedupe across holdings+watchlist, then trim to what this account
+            // is entitled to watch — collectItems BUILDS missing reports (a
+            // real token cost), so an uncapped lifetime watchlist here would
+            // silently mint spend. capSymbols is a no-op for non-LTD plans.
+            const symbols = tierLimits.capSymbols(u, [...new Set([...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])])]);
             if (symbols.length) {
                 const unsub = digestUnsubHeaders(u._id);
                 const digest = await monitorDigest.buildUserDigest(u, { appUrl, unsubUrl: unsub.url, symbols });
@@ -10206,6 +10413,15 @@ async function runAppSumoReviewSweep() {
                 const onboardingJob = await ScheduledEmail.findOne({ emailKey: `appsumo-onboarding:${String(u._id)}` }).lean();
                 if (onboardingJob && onboardingJob.status !== 'skipped') continue;
             }
+            // The scheduled-email worker has its own stage-2 review ask
+            // (appsumo-review-5d:<id>). If that job has already queued or sent,
+            // this sweep must not send its own stage-2 copy — the two paths
+            // produce the SAME email, and only the user-level claim below (not
+            // a shared queue) dedupes them once the sweep moves past stage 1.
+            if (nextStage >= 2) {
+                const reviewJob = await ScheduledEmail.findOne({ emailKey: `appsumo-review-5d:${String(u._id)}`, status: { $in: ['scheduled', 'sent'] } }).lean();
+                if (reviewJob) continue;
+            }
             // Stage 1 is onboarding. A review is usage-based only: no rating,
             // feedback verdict, or sentiment ever affects eligibility.
             const hasAskUse = nextStage >= 2 ? await aiChat.hasEverUsed(u._id) : false;
@@ -10223,11 +10439,17 @@ async function runAppSumoReviewSweep() {
             const unsubUrl = `${appUrl}/api/appsumo/unsubscribe?token=${appsumoUnsubToken(u._id)}`;
             const mail = mailer.appsumoReviewEmail(claimed.name, appUrl, nextStage, reviewUrl, unsubUrl);
             if (await mailer.sendMail({ to: claimed.email, subject: mail.subject, html: mail.html, text: mail.text })) {
+                // Unconditional (we hold the claim): a guarded success write
+                // that loses its race leaves the email sent with the claim
+                // still standing — the user is then stranded (never asked
+                // again) or, after a manual claim reset, asked a second time.
+                // If the claim was somehow lost, stage 3 + sentAt is the safe
+                // direction: it suppresses, never enables, another ask.
                 const sentAt = new Date();
                 await User.updateOne(
-                    { _id: claimed._id, reviewRequestClaimedAt: claimedAt, reviewRequestSentAt: null },
+                    { _id: claimed._id },
                     { $set: { appsumoReviewStage: 3, reviewRequestSentAt: sentAt }, $unset: { reviewRequestClaimedAt: '' } }
-                );
+                ).catch(() => {});
                 if (nextStage >= 2) {
                     trackFunnel('review_request_sent', claimed._id, claimed.subscription && claimed.subscription.planName, {
                         eventName: 'review_request_sent',
@@ -11408,9 +11630,17 @@ server.keepAliveTimeout = Number(process.env.HTTP_KEEPALIVE_TIMEOUT_MS || 5000);
 try { ssrCache.warmSitemap(ssrCacheMw, () => seoPages.buildSitemap()); } catch (e) { console.log('[ssr-cache] sitemap warm skipped:', e && e.message); }
 watchdog.start();
 gurus.start();
-startDigest();
-startAppSumoJobs();
-startTrialLifecycleJobs();
+// Background jobs touch REAL users' inboxes and Stripe subscriptions (digest
+// mail, AppSumo review drip + reconcile, trial lifecycle). A local boot with
+// production env must never run them: set DISABLE_BACKGROUND_JOBS=1 and the
+// loops don't schedule at all. Never set this on the deployed service.
+if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
+    console.log('[jobs] DISABLE_BACKGROUND_JOBS=1 — digest, appsumo and trial sweeps not scheduled (local boot)');
+} else {
+    startDigest();
+    startAppSumoJobs();
+    startTrialLifecycleJobs();
+}
 // Dossier pre-warming is expensive because each dossier composes several AI
 // sections. Keep it off in every environment unless an operator explicitly
 // opts in; customer-requested dossiers continue to build on demand and persist
@@ -11425,3 +11655,13 @@ try {
 } catch (e) { console.log('[prewarm] not started:', e && e.message); }
 // Optional: nightly SEC bulk companyfacts (inert unless SEC_BULK_DIR is set).
 try { require('./companyfacts-bulk').start(); } catch (e) { console.log('[companyfacts-bulk] not started:', e && e.message); }
+// Warm the filings-grounded peer/industry cache for the tickers the free Ask
+// demo uses, so the first landing-page visitor skips the 34-65s cold build.
+// Deferred past the health-check critical path; no-op unless the operator
+// sets ASK_WARM_TICKERS (comma list, e.g. "NVDA,AMD,INTC,AAPL,TSLA,V,MA").
+try {
+    const warmList = String(process.env.ASK_WARM_TICKERS || '').split(',').map((s) => s.trim()).filter(Boolean);
+    if (warmList.length) {
+        setTimeout(() => { require('./ai-chat').warmPeerContext(warmList).catch(() => {}); }, 15000);
+    }
+} catch (e) { console.log('[ask-warm] not started:', e && e.message); }

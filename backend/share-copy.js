@@ -290,7 +290,11 @@ function renderPlainResearch(value) {
     ).join('\n');
 }
 
-function renderPublicResearchPage(share = {}, { publicBase } = {}) {
+// `indexable` (set only for reports a signed-in user published) removes the
+// robots noindex and adds Article JSON-LD — these are distribution nodes.
+// Anonymous-created reports stay noindex (spam control); the route mirrors
+// this with the X-Robots-Tag header.
+function renderPublicResearchPage(share = {}, { publicBase, indexable = false } = {}) {
     const id = isPublicShareId(share.publicId) ? String(share.publicId) : 'invalid-share-id';
     const base = normalizePublicBaseUrl(publicBase);
     const title = sanitizePublicShareTitle(share.title) || 'StockPortfolio.pro research';
@@ -304,10 +308,19 @@ function renderPublicResearchPage(share = {}, { publicBase } = {}) {
     const sourceLink = sourceUrl
         ? `<a class="source" href="${escapeHtml(sourceUrl)}" rel="nofollow">Open the original research surface</a>`
         : '';
+    const articleLd = indexable
+        ? `<script type="application/ld+json">${JSON.stringify({
+            '@context': 'https://schema.org', '@type': 'Article',
+            headline: title, datePublished: created, dateModified: created,
+            mainEntityOfPage: reportUrl,
+            author: { '@type': 'Organization', name: 'StockPortfolio.pro' },
+            publisher: { '@type': 'Organization', name: 'StockPortfolio.pro' }
+        })}</script>`
+        : '';
     return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow,noarchive">
+${indexable ? '<meta name="robots" content="index, follow, max-image-preview:large">' : '<meta name="robots" content="noindex,nofollow,noarchive">'}
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; img-src 'self' data: https:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'">
 <title>${escapeHtml(title)} — StockPortfolio.pro</title>
 <meta name="description" content="${escapeHtml(description)}">
@@ -321,13 +334,13 @@ function renderPublicResearchPage(share = {}, { publicBase } = {}) {
 <meta name="twitter:title" content="${escapeHtml(title)}">
 <meta name="twitter:description" content="${escapeHtml(description)}">
 <link rel="canonical" href="${escapeHtml(reportUrl)}">
-<style>:root{color-scheme:light;--ink:#17202a;--muted:#66717d;--line:#dfe4e8;--brand:#e8412e}*{box-sizing:border-box}body{margin:0;background:#f5f7f8;color:var(--ink);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:820px;margin:0 auto;padding:42px 20px 70px}.brand{color:var(--ink);font-weight:800;text-decoration:none}.eyebrow{margin:28px 0 8px;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(28px,5vw,46px);line-height:1.12;margin:0 0 22px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(22px,5vw,42px);box-shadow:0 10px 35px rgba(20,30,40,.06)}.research p{margin:0 0 1.15em;overflow-wrap:anywhere}.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.source{color:#285f9d}.cta{margin-top:24px;padding:22px;border-radius:16px;background:#17202a;color:#fff}.cta strong{display:block;font-size:20px}.cta p{margin:5px 0 14px;color:#d8dde2}.btn{display:inline-block;padding:11px 16px;border-radius:10px;background:var(--brand);color:#fff;text-decoration:none;font-weight:750}.fine{margin-top:18px;color:var(--muted);font-size:13px}</style></head>
+<style>:root{color-scheme:light;--ink:#17202a;--muted:#66717d;--line:#dfe4e8;--brand:#e8412e}*{box-sizing:border-box}body{margin:0;background:#f5f7f8;color:var(--ink);font:16px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wrap{max-width:820px;margin:0 auto;padding:42px 20px 70px}.brand{color:var(--ink);font-weight:800;text-decoration:none}.eyebrow{margin:28px 0 8px;color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}h1{font-size:clamp(28px,5vw,46px);line-height:1.12;margin:0 0 22px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:clamp(22px,5vw,42px);box-shadow:0 10px 35px rgba(20,30,40,.06)}.research p{margin:0 0 1.15em;overflow-wrap:anywhere}.meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}.source{color:#285f9d}.cta{margin-top:24px;padding:22px;border-radius:16px;background:#17202a;color:#fff}.cta strong{display:block;font-size:20px}.cta p{margin:5px 0 14px;color:#d8dde2}.btn{display:inline-block;padding:11px 16px;border-radius:10px;background:var(--brand);color:#fff;text-decoration:none;font-weight:750}.fine{margin-top:18px;color:var(--muted);font-size:13px}</style>${articleLd ? '\n' + articleLd : ''}</head>
 <body><main class="wrap"><a class="brand" href="${escapeHtml(base)}/">StockPortfolio.pro</a>
-<div class="eyebrow">Unlisted public research</div><h1>${escapeHtml(title)}</h1>
+<div class="eyebrow">${indexable ? 'Public research' : 'Unlisted public research'}</div><h1>${escapeHtml(title)}</h1>
 <article class="card"><div class="research">${renderPlainResearch(content)}</div>
 <div class="meta"><span>Shared ${escapeHtml(created.slice(0, 10))}</span>${sourceLink}</div></article>
 <aside class="cta"><strong>Research the numbers behind your portfolio.</strong><p>Explore source-backed stock and fund research with the StockPortfolio.pro lifetime deal.</p><a class="btn" href="/go/appsumo/report?rid=${encodeURIComponent(id)}" rel="nofollow">View the AppSumo lifetime deal</a></aside>
-<p class="fine">Anyone with this unlisted URL can view this report. Figures and sources reflect the research when it was shared. Verify material facts against the cited filing or source. Research only — not investment advice.</p>
+<p class="fine">${indexable ? 'This report is public and may appear in search engines; anyone with the URL can view it. Figures and sources reflect the research when it was shared. Verify material facts against the cited filing or source. Research only — not investment advice.' : 'Anyone with this unlisted URL can view this report. Figures and sources reflect the research when it was shared. Verify material facts against the cited filing or source. Research only — not investment advice.'}</p>
 </main></body></html>`;
 }
 

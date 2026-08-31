@@ -349,7 +349,7 @@
             // company count by tier; a monthly Pro subscription still does not.
             // Keep this in step with LTD_MONITOR_CAP in lib/tier-limits.js.
             const ltd = quota.appsumo && quota.appsumo.isAppSumo;
-            const monitorCap = { 1: '10 companies', 2: '40 companies', 3: 'unlimited companies' }[Number(quota.appsumo && quota.appsumo.tier)] || 'unlimited companies';
+            const monitorCap = { 1: '12 companies', 2: '40 companies', 3: 'unlimited companies' }[Number(quota.appsumo && quota.appsumo.tier)] || 'unlimited companies';
             includesEl.textContent = session.tier === 'pro'
                 ? (ltd
                     ? `Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, unlimited portfolio tracking, and the Filing Change Monitor across ${monitorCap} — with a weekly email when one of them files something that matters. Thesis Tracker and tax tools remain on Power/Desk.`

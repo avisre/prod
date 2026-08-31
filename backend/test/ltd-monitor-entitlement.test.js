@@ -24,7 +24,7 @@ test('lifetime buyers are recognised on either channel', () => {
 });
 
 test('each lifetime tier gets its own company cap', () => {
-    assert.equal(tierLimits.monitorCapFor(appsumo(1)), 10);
+    assert.equal(tierLimits.monitorCapFor(appsumo(1)), 12);
     assert.equal(tierLimits.monitorCapFor(appsumo(2)), 40);
     assert.equal(tierLimits.monitorCapFor(appsumo(3)), tierLimits.UNLIMITED);
 });
@@ -44,7 +44,7 @@ test('non-lifetime accounts return null, meaning "does not apply"', () => {
 });
 
 test('capSymbols trims lifetime buyers to their tier', () => {
-    assert.equal(tierLimits.capSymbols(appsumo(1), syms(25)).length, 10);
+    assert.equal(tierLimits.capSymbols(appsumo(1), syms(25)).length, 12);
     assert.equal(tierLimits.capSymbols(appsumo(2), syms(25)).length, 25); // under the cap, untouched
     assert.equal(tierLimits.capSymbols(appsumo(2), syms(60)).length, 40);
     assert.equal(tierLimits.capSymbols(appsumo(3), syms(500)).length, 500);
@@ -68,7 +68,7 @@ test('the lifetime cap does not depend on the tier-v2 flag', () => {
     const before = process.env.ENABLE_TIER_V2_LIMITS;
     try {
         delete process.env.ENABLE_TIER_V2_LIMITS;
-        assert.equal(tierLimits.monitorCapFor(appsumo(1)), 10);
+        assert.equal(tierLimits.monitorCapFor(appsumo(1)), 12);
         assert.equal(tierLimits.limitsFor(appsumo(1)).metered, false);
     } finally {
         if (before === undefined) delete process.env.ENABLE_TIER_V2_LIMITS;

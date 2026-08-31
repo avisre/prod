@@ -51,6 +51,7 @@ const SCREEN_INDEX_FILE = path.join(FUND_DIR, '..', 'screen-index.json');
 const SCREEN_INDEX_VERSION = 1; // bump to invalidate persisted index on format change
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
 const MAX_TOOLCALLS_PER_ROUND = 12;
+const ASK_TOOL_CONCURRENCY = 6; // tools per round run in parallel, 6 at a time — most are cache reads; web tools share this pool too
 const QUESTION_MAX_CHARS = 8000;
 
 // '' / null / undefined mean "not disclosed" in the cache — never coerce them
@@ -867,6 +868,29 @@ async function toolGetPeerContext({ symbol }) {
         return { symbol: key, sector: overview.Sector || '', peerPositioning: peers, industry: ind };
     } catch (e) {
         return { error: 'Peer/industry context failed: ' + (e.message || 'unknown') };
+    }
+}
+
+// Boot-time warm for the free-demo tickers: runs the exact get_peer_context
+// path (fund data → peer positioning → industry build) so the Mongo-cached
+// industry extraction is in place before the first landing-page visitor asks.
+// The cached build measured 34-65s cold. Best-effort by design — a failure
+// just means the next Ask builds it on demand.
+async function warmPeerContext(symbols) {
+    for (const raw of symbols) {
+        const key = String(raw || '').toUpperCase().trim();
+        if (!key) continue;
+        try {
+            const data = await loadFundAny(key);
+            if (!data) { console.log(`[ask-warm] ${key}: no data, skipping`); continue; }
+            const dossierAnalysis = require('./dossier-analysis'); // lazy — see note at top of file
+            const industry = require('./industry'); // lazy — see note at top of file
+            const peers = dossierAnalysis.peerAnalysis(key, data.overview || {});
+            await industry.buildIndustry(key, { overview: data.overview || {}, peers });
+            console.log(`[ask-warm] ${key} peer context ready`);
+        } catch (e) {
+            console.log(`[ask-warm] ${key} skipped: ${e && e.message}`);
+        }
     }
 }
 
@@ -1702,17 +1726,37 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 const note = String(msg.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
                 if (note && !aiClient.leaksIdentity(note)) emit({ type: 'note', text: note.slice(0, 280) });
                 messages.push({ role: 'assistant', content: msg.content || '', tool_calls: msg.tool_calls });
-                for (const tc of msg.tool_calls.slice(0, MAX_TOOLCALLS_PER_ROUND)) {
+                const roundCalls = msg.tool_calls.slice(0, MAX_TOOLCALLS_PER_ROUND);
+                // Run the round's tools concurrently — round 1 of a compare
+                // question fires 9–12 independent calls that were costing ~7s
+                // serial. Measured wall = slowest tool, not the sum. Budget
+                // check + increment sits before any await, so it stays atomic
+                // in the event loop. Results are re-serialized in call order
+                // below because the provider matches tool results by id.
+                const runOne = async (tc) => {
                     let args = {};
                     try { args = JSON.parse(tc.function.arguments || '{}'); } catch (_) { /* bad JSON from model */ }
                     let result;
+                    const t0 = Date.now();
                     if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
                         result = { error: `Web budget exhausted for ${tc.function.name} — answer now with what you already have.` };
                     } else {
                         result = await runTool(tc.function.name, args, ctx);
                     }
-                    toolsUsed.push({ tool: tc.function.name, args, ok: !result.error });
-                    emit({ type: 'tool', tool: tc.function.name, args, ok: !result.error });
+                    return { tc, args, result, ms: Date.now() - t0 };
+                };
+                const roundResults = [];
+                let cursor = 0;
+                const workers = Array.from({ length: Math.min(ASK_TOOL_CONCURRENCY, roundCalls.length) }, async () => {
+                    while (cursor < roundCalls.length) {
+                        const i = cursor++;
+                        roundResults[i] = await runOne(roundCalls[i]);
+                    }
+                });
+                await Promise.all(workers);
+                for (const { tc, args, result, ms } of roundResults) {
+                    toolsUsed.push({ tool: tc.function.name, args, ok: !result.error, ms });
+                    emit({ type: 'tool', tool: tc.function.name, args, ok: !result.error, ms });
                     messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify(result) });
                 }
                 continue;
@@ -1878,4 +1922,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData });
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext });

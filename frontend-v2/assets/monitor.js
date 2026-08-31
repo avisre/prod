@@ -382,15 +382,19 @@
 
   function upsell(out) {
     out.innerHTML = `
+  function upsell(out) {
+    out.innerHTML = `
       <div class="card card-pad mon-upsell">
-        <span class="mon-summary-badge">Power &amp; Desk feature</span>
-        <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Power &amp; Desk</h2>
+        <span class="mon-summary-badge">Pro &amp; Desk feature</span>
+        <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Pro &amp; Desk</h2>
         <p class="muted" style="max-width:62ch;">Get a cited first pass over material changes in a supported company's latest available 10-K, 10-Q or 8-K — including available year-over-year figures and changes in guidance, risk and demand language — plus a ranked feed across your watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=desk">Get Desk — $2,999.99/yr</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Power — $1,499.99/yr</a>
+          <a class="btn btn-primary" href="/register.html?plan=pro-annual">Get Pro — $499.99/yr</a>
+          <a class="btn btn-ghost" href="/register.html?plan=desk">Desk — $1,999.99/yr</a>
         </div>
       </div>`;
+    out.hidden = false;
+  }
     out.hidden = false;
   }
 
@@ -411,14 +415,14 @@
     // the large global one, the user is entitled (trial skipped); show nothing.
     if (limit > 10) return;
     const msg = remaining > 0
-      ? `<strong>${remaining} of ${limit} free stock${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Re-runs of a stock you’ve already opened stay free. Power removes the free per-stock trial counter and adds the watchlist workflow.</span>`
-      : `<strong>That’s your ${limit} free stocks for today.</strong> <span class="faint">Power removes the free per-stock trial counter and adds filing-change research across your watchlist.</span>`;
+      ? `<strong>${remaining} of ${limit} free stock${remaining === 1 ? '' : 's'} left today.</strong> <span class="faint">Re-runs of a stock you’ve already opened stay free. Pro removes the free per-stock trial counter and adds the watchlist workflow.</span>`
+      : `<strong>That’s your ${limit} free stocks for today.</strong> <span class="faint">Pro removes the free per-stock trial counter and adds filing-change research across your watchlist.</span>`;
     const banner = document.createElement('div');
     banner.className = 'card card-pad mon-trial-note';
     banner.style.cssText = 'margin-bottom:14px; display:flex; flex-wrap:wrap; align-items:center; gap:10px 16px; justify-content:space-between;';
     banner.innerHTML = `<div class="small" style="max-width:58ch; margin:0;">${msg}</div>
       <div style="flex-shrink:0;">
-        <a class="btn btn-primary btn-sm" href="/register.html?plan=power-monthly">Get Power — $149.99/mo</a>
+        <a class="btn btn-primary btn-sm" href="/register.html?plan=pro-annual">Get Pro — $499.99/yr</a>
       </div>`;
     const out = $('mon-report');
     out.insertBefore(banner, out.firstChild);
@@ -428,14 +432,13 @@
   function trialWall(out) {
     out.innerHTML = `
       <div class="card card-pad mon-upsell">
-        <span class="mon-summary-badge">The Filing Monitor — Power &amp; Desk</span>
+        <span class="mon-summary-badge">The Filing Monitor — Pro &amp; Desk</span>
         <h2 class="title-2" style="margin:12px 0 8px;">You’ve used today’s 3 free stocks</h2>
-        <p class="muted" style="max-width:62ch;">Power gives you a cited first pass over material changes in supported 10-K, 10-Q and 8-K filings, with available numerical and narrative changes ranked by materiality and an updating feed across your watchlist.</p>
+        <p class="muted" style="max-width:62ch;">Pro gives you a cited first pass over material changes in supported 10-K, 10-Q and 8-K filings, with available numerical and narrative changes ranked by materiality and an updating feed across your watchlist.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=power-monthly">Start Power — $149.99/mo</a>
-          <a class="btn btn-ghost" href="/register.html?plan=power">Or $1,499.99/yr — save $300</a>
+          <a class="btn btn-primary" href="/register.html?plan=pro-annual">Start Pro — $499.99/yr</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Founding rate — locked for as long as you stay subscribed. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$2,999.99/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Billed once a year. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,999.99/yr →</a></p>
       </div>`;
     out.hidden = false;
   }

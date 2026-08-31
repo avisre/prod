@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>StockPortfolio.pro — SEC filing stock research, AI answers and portfolio tracking</title>
-  <meta name="description" content="Research US stocks, ETFs and mutual funds with SEC-filed financials, sourced AI answers, free screeners, side-by-side comparisons and portfolio tracking." />
+  <meta name="description" content="Initiation-grade Research Dossiers on US stocks — same structure for every company, every figure cited to its filing — plus sourced AI answers, free screeners and portfolio tracking." />
   <link rel="canonical" href="https://www.stockportfolio.pro/" />
   <link rel="alternate" hreflang="en" href="https://www.stockportfolio.pro/" />
   <link rel="alternate" hreflang="zh-Hans" href="https://www.stockportfolio.pro/zh" />
@@ -12,18 +12,18 @@
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="stockportfolio.pro" />
   <meta property="og:title" content="StockPortfolio.pro — SEC filing stock research and portfolio tracking" />
-  <meta property="og:description" content="Research stocks and funds with filed financials, sourced AI answers, screeners, comparisons and portfolio tracking." />
+  <meta property="og:description" content="Research-grade dossiers on any covered company, filed financials, sourced AI answers, screeners and portfolio tracking." />
   <meta property="og:url" content="https://www.stockportfolio.pro/" />
   <meta property="og:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="StockPortfolio.pro — SEC filing stock research" />
-  <meta name="twitter:description" content="Filed financials, sourced AI answers, stock comparison and portfolio tracking." />
+  <meta name="twitter:description" content="The report, not a chat — initiation-grade dossiers, filed financials, sourced AI answers." />
   <meta name="twitter:image" content="https://www.stockportfolio.pro/Media/performance-1080p.png" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260831-ladder1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260901-askfix1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -50,16 +50,13 @@
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "Web",
         "url": "https://www.stockportfolio.pro/",
-        "description": "Research US stocks, ETFs and mutual funds with SEC-filed financials, sourced AI answers, free screeners, side-by-side comparisons and portfolio tracking.",
+        "description": "Initiation-grade Research Dossiers on US stocks, SEC-filed financials, sourced AI answers, free screeners, side-by-side comparisons and portfolio tracking.",
         "offers": [
           { "@type": "Offer", "name": "Free screener", "price": "0", "priceCurrency": "USD", "description": "Screen 3,800+ US companies by filed fundamentals — no account needed." },
-          { "@type": "Offer", "name": "Monthly", "price": "39.99", "priceCurrency": "USD", "description": "$39.99 charged today; request a refund within 7 days if the service is not right for you." },
-          { "@type": "Offer", "name": "Pro", "price": "79.99", "priceCurrency": "USD", "description": "$79.99 charged today; request a refund within 7 days if the service is not right for you — includes the AI analyst." },
-          { "@type": "Offer", "name": "Pro Annual", "price": "799.99", "priceCurrency": "USD", "description": "$799.99 per year — the AI analyst tier, save $160 versus Pro monthly." },
-          { "@type": "Offer", "name": "Annual", "price": "399.99", "priceCurrency": "USD", "description": "$399.99 per year — two months free versus monthly." },
-          { "@type": "Offer", "name": "Power monthly", "price": "149.99", "priceCurrency": "USD", "description": "$149.99 per month — the full research desk and Filing Change Monitor." },
-          { "@type": "Offer", "name": "Power", "price": "1499.99", "priceCurrency": "USD", "description": "$1,499.99 per year — the full research desk and Filing Change Monitor. About $125 per covered name per year across a twelve-name watchlist." },
-          { "@type": "Offer", "name": "Desk", "price": "2999.99", "priceCurrency": "USD", "description": "$2,999.99 per year — Power for one named professional seat." }
+          { "@type": "Offer", "name": "Monthly", "price": "24.99", "priceCurrency": "USD", "description": "$24.99 charged today; request a refund within 7 days if the service is not right for you." },
+          { "@type": "Offer", "name": "Annual", "price": "199.99", "priceCurrency": "USD", "description": "$199.99 per year ($16.67/month effective) — save $100 versus the $24.99 monthly plan." },
+          { "@type": "Offer", "name": "Pro", "price": "499.99", "priceCurrency": "USD", "description": "$499.99 per year — the AI analyst tier with the Filing Change Monitor, billed annually." },
+          { "@type": "Offer", "name": "Desk", "price": "1999.99", "priceCurrency": "USD", "description": "$1,999.99 per year — Pro for one named professional seat, with a client-facing licence." }
         ],
         "featureList": [
           "Up to 19 years of SEC-filed financial statements for covered US-listed companies that report in USD, subject to filing and data availability",
@@ -91,11 +88,50 @@
   </script>
   <style>
     /* landing-only refinements, derived from the system */
-    .hero { padding: 80px 0 64px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+    /* Hero bottom padding is cut to ~28px on purpose: the demo card ends the
+       section flush, and the Verify headline follows after a hairline — no
+       dead space between the two (owner requirement, 2026-09-01). */
+    .hero { padding: 64px 0 10px; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 52px; align-items: stretch; }
     .hero .display { max-width: 22ch; }
     .hero-sub { max-width: 54ch; margin-top: 20px; font-size: 17px; color: var(--ink-2); }
-    .hero-actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
+    .hero-actions { display: flex; gap: 12px; margin-top: 28px; flex-wrap: wrap; }
     .hero-note { margin-top: 14px; font-size: 12.5px; color: var(--ink-3); }
+    /* left column stretches to the demo card's height; the air distributes
+       evenly between blocks so there's no hollow under the CTAs */
+    .hero-left { display: flex; flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 26px; }
+    .hero-actions { margin-top: 0; }
+    .hero-free { padding-top: 18px; border-top: 1px solid var(--line); width: 100%; }
+    .hero-free-label { font-size: 10.5px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+    .hero-free-list { list-style: none; margin: 10px 0 0; padding: 0; display: grid; gap: 7px; font-size: 13.5px; color: var(--ink-2); }
+    .hero-free-list li::before { content: '✓  '; color: var(--pos); font-weight: 750; }
+    /* ---- the live demo card (TRY IT · 3 questions free) ---- */
+    .try-card { padding: 22px 24px 18px; display: flex; flex-direction: column; border-color: var(--line-strong); }
+    .try-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .try-head .label { color: var(--accent-ink); margin: 0; }
+    .try-card .ask-bar { margin-top: 16px; }
+    .try-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    /* the proof stack: specimen + monitor sample on load, live answers append
+       below, the whole box scrolls internally. FIXED height (not a cap) so the
+       card's total height is identical before and after an answer — the page
+       below the hero never reflows */
+    .try-stack { margin-top: 14px; height: 360px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--paper); padding: 16px 18px; scroll-behavior: smooth; }
+    /* pull Verify up to the demo card: the dead space the owner rejected */
+    #verify-headline { margin-top: 12px; }
+    .try-stack .ask-exchange { gap: 30px; margin-top: 18px; }
+    .try-proof + .try-proof { border-top: 1px solid var(--line); margin-top: 14px; padding-top: 12px; }
+    .try-dots { display: flex; align-items: center; gap: 5px; margin-top: 8px; }
+    .try-dots i { width: 11px; height: 11px; border-radius: 50%; background: var(--line-strong); }
+    .try-dots i.on { background: var(--accent); }
+    .try-dots .try-score { margin-left: 8px; font-size: 13px; font-weight: 750; font-variant-numeric: tabular-nums; }
+    .try-kpis { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 10px; margin-top: 12px; }
+    .try-kpis > div { border-top: 1px solid var(--line); padding-top: 8px; }
+    .try-kpis small { font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); }
+    .try-kpis strong { display: block; font-size: 15px; font-variant-numeric: tabular-nums; margin-top: 2px; }
+    .try-bar { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+    .try-bar i { flex: 1; max-width: 190px; height: 6px; border-radius: 999px; background: var(--line); overflow: hidden; display: block; }
+    .try-bar i b { display: block; height: 100%; width: 62%; background: var(--ink-2); border-radius: inherit; }
+    .try-foot { margin-top: 12px; font-size: 12px; color: var(--ink-3); text-align: center; }
+    .try-foot b { color: var(--pos); letter-spacing: 2px; }
     .live-card { margin: 0; }
     .live-card .kpi-row { display: grid; grid-template-columns: 1fr 1fr; }
     @media (max-width: 980px) { .hero { grid-template-columns: 1fr; gap: 40px; } }
@@ -111,9 +147,14 @@
     .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
+    /* Ladder layout (2026-09-01): line 1 = Good $24.99 · Pro $499.99 ·
+       Good — annual $199.99 (actual monthly price struck through);
+       Desk and Enterprise share the next line (grid auto-places them at
+       columns 1–2 of the second row). */
+    #pricing-subscription-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .price-was { font-size: 17px; font-weight: 550; color: var(--ink-3); text-decoration: line-through; margin-left: 8px; }
     .lt-status { min-height: 1.4rem; font-size: 0.9rem; margin-top: 0.75rem; }
     .lt-status[data-tone="error"] { color: #a3341f; }
-    .ask-demo { border-left: 2px solid var(--line-strong); padding-left: 28px; }
     .asset-launch { padding:34px; border:1px solid var(--line); border-radius:var(--radius); background:linear-gradient(135deg,var(--accent-tint),var(--surface) 70%); }
     .asset-launch-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:18px; }
     .asset-launch-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius); padding:18px; }
@@ -121,10 +162,14 @@
     .asset-launch-card p { color:var(--ink-2); font-size:13.5px; margin:0; }
     .asset-launch-foot { display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap; margin-top:18px; }
     @media (max-width: 760px) {
-      .hero { padding: 48px 0 28px; gap:0; }
-      .hero > .card { display:none; }
+      .hero { padding: 48px 0 8px; gap:30px; }
+      /* the demo card IS the product proof — it stays on phones */
+      .hero > .card { display:block; }
+      .try-card { padding: 18px 16px 14px; }
+      .try-stack { height: 330px; padding: 14px; }
       .principle { grid-template-columns: 1fr; gap: 8px; padding: 28px 0; }
       .asset-launch { padding:22px 18px; }
+      #pricing-subscription-grid { grid-template-columns: 1fr; }
       .asset-launch-grid { grid-template-columns:1fr; }
       .asset-launch-card { padding:16px; }
       .asset-launch-foot .btn { width:100%; }
@@ -136,33 +181,66 @@
     <div class="container">
 
       <section class="hero">
-        <div>
+        <div class="hero-left">
           <p class="label" style="margin-bottom:14px; color:var(--accent-ink);">Stocks · ETFs · mutual funds</p>
-          <h1 class="display">AI that has read every SEC filing for you.</h1>
-          <p class="hero-sub">Ask it anything about US companies, ETFs and mutual funds. Company answers keep the filing, period and source trail attached; fund answers use labelled costs, holdings, allocation, risk and performance data.</p>
+          <h1 class="display">The report, not a chat.</h1>
+          <p class="hero-sub">Research dossiers on any covered US company — every figure cited to its SEC filing — and a <strong>Filing Change Monitor</strong> that reads each new filing on your watchlist and tells you what changed, in plain English.</p>
           <div class="hero-actions">
-            <a class="btn btn-primary" href="/ask.html">Try the AI analyst — free</a>
-            <a class="btn btn-ghost" href="/register.html">Start a 7-day trial</a>
-            <a class="btn btn-ghost" data-appsumo-campaign-link data-content-id="campaign-home" href="/go/appsumo/website?content_id=campaign-home">Lifetime access on AppSumo</a>
+            <a class="btn btn-primary" href="#home-try">Try 3 questions free</a>
+            <a class="btn btn-ghost" href="/dossier.html">Build a dossier →</a>
           </div>
-          <p class="hero-note"><span data-appsumo-deadline>Lifetime deal available now</span> · the <a href="/ask.html">AI analyst answers your first questions free</a> and the screener is <a href="/screener.html">free for everyone</a>. Or <a href="/dashboard.html?demo=1">see a demo portfolio</a>.</p>
+          <!-- the checklist fills the column to the demo card's exact height,
+               so both columns end on the same line — no dead space -->
+          <div class="hero-free">
+            <p class="hero-free-label">Free entry points</p>
+            <ul class="hero-free-list">
+              <li>Screener — 3,800+ companies, <a href="/screener.html">free for everyone</a></li>
+              <li>Ask with citations — 3 free, no account</li>
+              <li>Full dossiers from $24.99/mo — <a href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
+            </ul>
+            <p class="hero-note">The <a href="/monitor">Filing Change Monitor</a> reads each new 10-K, 10-Q and 8-K on your watchlist for you.</p>
+          </div>
         </div>
 
-        <!-- what an answer actually looks like -->
-        <div class="card card-pad" style="font-size:13.5px;">
-          <div class="ask-q" style="margin-bottom:14px; max-width:88%;">Compare NVIDIA, AMD and Intel over 10 years — who's structurally winning?</div>
-          <p class="small faint" style="margin:0 0 10px;">✓ Researched 9 sources <span style="font-size:11.5px;">▸</span></p>
-          <table style="width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; font-size:12.5px; margin-bottom:12px;">
-            <thead><tr style="color:var(--ink-3); font-size:11.5px; text-transform:uppercase; letter-spacing:0.05em;">
-              <th style="text-align:left; padding:4px 0;">Metric</th><th style="text-align:right;">NVDA</th><th style="text-align:right;">AMD</th><th style="text-align:right;">INTC</th></tr></thead>
-            <tbody>
-              <tr><td style="padding:5px 0; border-top:1px solid var(--line);">9-yr revenue CAGR</td><td style="text-align:right; border-top:1px solid var(--line);" class="delta-pos">+46.6%</td><td style="text-align:right; border-top:1px solid var(--line);" class="delta-pos">+26.0%</td><td style="text-align:right; border-top:1px solid var(--line);" class="delta-neg">−1.3%</td></tr>
-              <tr><td style="padding:5px 0; border-top:1px solid var(--line);">Gross margin now</td><td style="text-align:right; border-top:1px solid var(--line);">71.1%</td><td style="text-align:right; border-top:1px solid var(--line);">49.5%</td><td style="text-align:right; border-top:1px solid var(--line);">34.8%</td></tr>
-            </tbody>
-          </table>
-          <p class="small" style="color:var(--ink-2); margin:0 0 10px; border-top:1px solid var(--line-strong); padding-top:10px;"><strong>The read</strong> — three divergent paths: NVIDIA's AI-mix margins surged to 71%, AMD climbed steadily upmarket, Intel's collapsed under manufacturing cost pressure…</p>
-          <p class="small" style="margin:0;"><span style="border:1px solid var(--line-strong); border-radius:999px; padding:5px 12px; color:var(--accent-ink);">How do their R&amp;D budgets compare? →</span></p>
-          <p class="provenance" style="margin-top:14px;">A real Ask answer — filed statements + live web, charts included. 25 questions/month on Monthly, 300 on Pro.</p>
+        <!-- the live demo card. Static-proof on purpose: the specimen and the
+             monitor sample render for no-JS visitors and crawlers, and the
+             same stack carries the live answers (capped, inner scroll — the
+             page below never moves). -->
+        <div class="card try-card" id="home-try">
+          <div class="try-head">
+            <span class="label">Try it · 3 questions free</span>
+            <span class="small faint">no account needed</span>
+          </div>
+          <form class="ask-bar" id="try-form">
+            <input id="try-input" class="input" type="text" maxlength="8000" placeholder="Ask anything — filings answer…" aria-label="Ask a question" />
+            <button class="btn btn-primary" type="submit">Ask</button>
+          </form>
+          <div class="try-chips">
+            <button type="button" class="chip try-chip" data-q="What did NVIDIA disclose in its most recent filing?">What did NVDA just file?</button>
+            <button type="button" class="chip try-chip" data-q="Is Apple still growing, from its filed numbers?">Is AAPL still growing?</button>
+          </div>
+          <div class="try-stack" id="try-stack">
+            <div class="try-proof">
+              <p class="small" style="font-weight:650; margin:0;">Apple Inc. (AAPL) <span class="faint">· Technology · fiscal 2025-09-27</span></p>
+              <div class="try-dots" role="img" aria-label="Dossier score 3.5 out of 5">
+                <i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i>
+                <span class="try-score">3.5 / 5</span>
+              </div>
+              <p class="small" style="color:var(--ink-2); margin:8px 0 0;">Apple's filed revenue rose from $274.5B in FY2020 to $391.0B in FY2025, a 7.3% annualised increase. Operating margin expanded from 24.1% to 31.8% over the same record.</p>
+              <div class="try-kpis">
+                <div><small>Market cap</small><strong>$3.4T</strong></div>
+                <div><small>P/E</small><strong>35.2×</strong></div>
+                <div><small>TTM margin</small><strong>24.0%</strong></div>
+              </div>
+            </div>
+            <div class="try-proof">
+              <p class="small" style="font-weight:650; margin:0;">Filing Monitor <span class="faint">· latest 10-Q</span></p>
+              <p class="small" style="color:var(--ink-2); margin:6px 0 0;">Services accelerated; hardware margins eased.</p>
+              <div class="try-bar"><i><b></b></i><span class="small faint">moderate</span></div>
+            </div>
+            <div class="ask-exchange" id="try-exchange"></div>
+          </div>
+          <p class="try-foot"><b>● ● ●</b>&nbsp; 3 free left → then a free account — dossiers keep everything cited.</p>
         </div>
       </section>
 
@@ -268,26 +346,16 @@
         </div>
       </section>
 
-      <!-- Ask AI feature -->
-      <section class="section" id="ask-feature">
-        <div class="section-head"><h2 class="title-1">Ask the AI analyst</h2><span class="small faint">Your questions, answered with the source class shown.</span></div>
+      <!-- Research Dossier — the differentiator (leads the feature column per
+           customer feedback: reports are the unique thing, chat is a commodity) -->
+      <section class="section" id="dossier-feature">
+        <div class="section-head"><h2 class="title-1">The report, not a chat</h2><span class="small faint">An initiation-grade dossier, structured the same way for every company.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>Ask about companies, ETFs or mutual funds — compare stock fundamentals, inspect a fund's costs and holdings, or rank eligible funds over 3 months, 1 year and 3 years. Company figures come from filings; fund figures come from fund market data.</p>
-          <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
-            <p class="small muted" style="margin:0;">25 questions/month on Monthly · 300 on Pro</p>
-            <a class="btn btn-primary btn-sm" href="/ask.html">Try Ask →</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Portfolio dashboard AI feature -->
-      <section class="section" id="dashboard-feature">
-        <div class="section-head"><h2 class="title-1">Your portfolio, read by AI</h2><span class="small faint">A calm dashboard that does the reading for you.</span></div>
-        <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>Track stocks, ETFs and mutual funds together. The AI understands the difference: company fundamentals stay company-only, while fund positions contribute to value, allocation and concentration using fund-specific facts. Weekly briefings and portfolio Q&amp;A cover the complete mixed portfolio.</p>
-          <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
-            <p class="small muted" style="margin:0;">Weekly briefing · X-Ray · daily attribution · smart alerts</p>
-            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro">Start Pro checkout →</a>
+          <p>Open the <a href="/dossier.html">Research Dossier</a> on any covered US company and get the write-up in twelve minutes: decision brief, the filed trajectory, segments, valuation tension, the bull and the bear case, and what just changed in the latest filing. No prompting — you type the ticker, the questions are already asked.</p>
+          <p style="margin-top:12px;">Because every dossier follows the same structure, companies are <strong>comparable</strong>: side-by-side metrics and briefs with <a href="/compare-dossiers.html">Compare</a>, five credits. Standard 10 credits, Deep 30.</p>
+          <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
+            <a class="btn btn-primary btn-sm" href="/dossier.html">Build a dossier →</a>
+            <a class="btn btn-ghost btn-sm" href="/compare-dossiers.html">Compare two companies →</a>
           </div>
         </div>
       </section>
@@ -299,21 +367,33 @@
           <div class="ask-a" id="brief-sample-body"><p class="small faint">Loading a sample briefing…</p></div>
           <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
             <p class="small muted" style="margin:0; max-width:46ch;"><strong>Sample</strong> — demo portfolio. Paid plans generate this for <em>your</em> holdings every Monday.</p>
-            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro">Start Pro checkout →</a>
+            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro-annual">Start Pro checkout →</a>
           </div>
         </div>
       </section>
 
-      <!-- Filing Change Monitor — Power/Desk marquee feature (crawlable link to /monitor) -->
+      <!-- Filing Change Monitor — the digestion half (crawlable link to /monitor) -->
       <section class="section" id="monitor-feature">
         <div class="section-head"><h2 class="title-1">Know what changed in a supported filing</h2><span class="small faint">A cited first pass for your research workflow.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
           <p>When a supported company files, the <a href="/monitor">Filing Change Monitor</a> reads its latest <strong>10-K, 10-Q or 8-K</strong> and produces a first-pass view of material changes — including available year-over-year figures and cited guidance, risk-factor and demand language — ranked by materiality.</p>
-          <p style="margin-top:12px;">It turns a manual first pass through new filings into a watchlist workflow. Financial comparisons are computed from available filing data; the AI summarizes the cited evidence rather than substituting model memory. On <strong>Power</strong> and <strong>Desk</strong>.</p>
+          <p style="margin-top:12px;">It turns a manual first pass through new filings into a watchlist workflow. Financial comparisons are computed from available filing data; the AI summarizes the cited evidence rather than substituting model memory. On <strong>Pro</strong> and <strong>Desk</strong> — and every lifetime plan watches up to 12 companies.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
             <a class="btn btn-primary btn-sm" href="/monitor">Try the Filing Monitor →</a>
             <a class="btn btn-ghost btn-sm" href="/filing-changes">See the latest filing changes →</a>
             <a class="btn btn-ghost btn-sm" href="#pro-plans">See professional plans →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Portfolio dashboard AI feature -->
+      <section class="section" id="dashboard-feature">
+        <div class="section-head"><h2 class="title-1">Your portfolio, read by AI</h2><span class="small faint">A calm dashboard that does the reading for you.</span></div>
+        <div class="card card-pad" style="max-width:680px; margin:0 auto;">
+          <p>Track stocks, ETFs and mutual funds together. The AI understands the difference: company fundamentals stay company-only, while fund positions contribute to value, allocation and concentration using fund-specific facts. Weekly briefings and portfolio Q&amp;A cover the complete mixed portfolio.</p>
+          <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
+            <p class="small muted" style="margin:0;">Weekly briefing · X-Ray · daily attribution · smart alerts</p>
+            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro-annual">Start Pro checkout →</a>
           </div>
         </div>
       </section>
@@ -332,7 +412,7 @@
       </section>
 
       <section class="section" id="tour">
-        <div class="section-head"><h2 class="title-1">See it in 60 seconds</h2><span class="small faint">Ask, the screener and 19-year fundamentals — one minute, real product.</span></div>
+        <div class="section-head"><h2 class="title-1">See it in 60 seconds</h2><span class="small faint">Dossiers, the screener and 19-year fundamentals — one minute, real product.</span></div>
         <!-- self-hosted tour: poster facade until click, then the <video> mounts
              (nothing loads on page view). Quality menu: Auto / 1080p / 720p. -->
         <div id="tour-stage" style="position:relative; width:100%; max-width:960px; margin:0 auto; border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; background:#000; aspect-ratio:16/9;">
@@ -348,12 +428,11 @@
 
       <section class="section" id="pricing">
         <div class="section-head"><h2 class="title-1">Pricing</h2><span class="small faint" id="pricing-subhead">Paid checkout for every new account · 7-day initial-payment refund window · cancel anytime</span></div>
-        <p class="provenance" id="pricing-founding-offer" style="margin:6px 0 18px; max-width:62ch;"><strong>Founding rate:</strong> the first 20 subscribers lock the founding $12/month rate for life, even as plans move to $39.99.</p>
         <div class="price-grid" id="pricing-subscription-grid">
           <div class="card price-card">
-            <span class="label">Monthly</span>
-            <div class="price-fig">$39.99<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">The full research library, for one investor.</p>
+            <span class="label">Good</span>
+            <div class="price-fig">$24.99<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">Core research desk. Same plan yearly is <strong>$199.99 — $16.67/month, save $100</strong>.</p>
             <ul class="price-list">
               <li>Covered US-listed companies that file in USD — up to 19 years of statements and 48 quarters, subject to data availability</li>
               <li>Ratios, health checks &amp; growth records computed for you</li>
@@ -369,32 +448,58 @@
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Pro</span><span class="small" style="color:var(--accent-ink); font-weight:650;">The analyst tier</span></div>
-            <div class="price-fig">$79.99<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">Everything in Monthly, plus the AI analyst. <strong>$799.99/yr</strong> billed annually — save $160.</p>
+            <div class="price-fig">$499.99<span>/year</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">AI analyst + Filing Change Monitor — everything in Good, billed yearly.</p>
             <ul class="price-list">
               <li><strong>300 Ask questions a month</strong> — comparisons, screens, portfolio Q&amp;A, with charts &amp; tables in every answer</li>
+              <li><strong>Filing Change Monitor</strong> — every new 10-K/10-Q/8-K on your watchlist, read for you</li>
+              <li><strong>Wash-sale guard</strong> — cross-account, cross-broker tax-lot intelligence your brokers can't see</li>
               <li><strong>Filing Diff</strong> — what changed in each new 10-K/10-Q versus the last one, per holding</li>
               <li><strong>Smart alerts</strong> — insider cluster buys, dividend-risk flags, your own valuation thresholds</li>
               <li><strong>Daily attribution</strong> — why your portfolio moved today, quantified</li>
-              <li><strong>Insights</strong> — what makes each business unique, read from 19 years of its filings</li>
-              <li><strong>Business segments</strong> — revenue split by product line, extracted from the 10-K</li>
+              <li><strong>Insights &amp; segments</strong> — what each business earns and why it wins, read from 19 years of filings</li>
               <li><strong>Weekly portfolio briefing</strong> — what changed in your holdings' filings, every Monday</li>
             </ul>
-            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=pro">Start Pro checkout</a>
+            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=pro-annual">Start Pro checkout</a>
           </div>
           <div class="card price-card">
-            <span class="label">Annual</span>
-            <div class="price-fig">$399.99<span>/year</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">Monthly, paid once a year.</p>
+            <span class="label">Good — annual</span>
+            <div class="price-fig">$199.99<span>/year</span><s class="price-was">$299.88</s></div>
+            <p class="small muted" style="margin:4px 0 14px;">Same Good, priced once a year — <strong>$16.67/month effective</strong>.</p>
             <ul class="price-list">
-              <li>Everything in the Monthly plan</li>
-              <li>Two months free versus monthly billing ($33.33/month effective)</li>
+              <li>Everything in the Good plan</li>
+              <li><strong>Save $100 a year</strong> — $16.67/month effective, two months free versus $24.99 monthly</li>
               <li>One renewal a year — nothing else to think about</li>
               <li>Upgrade to Pro anytime, prorated</li>
             </ul>
             <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=annual">Continue to annual</a>
           </div>
+          <div class="card price-card" style="border-color: var(--ink);">
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Desk</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One professional seat</span></div>
+            <div class="price-fig">$1,999.99<span>/year</span></div>
+            <p class="small muted" style="margin:4px 0 14px;">Pro + client-facing licence, one named professional.</p>
+            <ul class="price-list">
+              <li><strong>Everything in Pro</strong>, with permission to incorporate verified outputs into your own commercial research and client communications</li>
+              <li><strong>Priority support</strong> + a personal onboarding call</li>
+              <li>Built for RIAs, equity analysts and small funds</li>
+              <li>First to get new coverage as it ships</li>
+            </ul>
+            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=desk">Get Desk →</a>
+          </div>
+          <div class="card price-card">
+            <span class="label">Enterprise</span>
+            <div class="price-fig" style="font-size:30px;">Let’s talk</div>
+            <p class="small muted" style="margin:4px 0 14px;">For teams &amp; multiple seats.</p>
+            <ul class="price-list">
+              <li>Multiple seats with central billing</li>
+              <li>Custom coverage &amp; data needs</li>
+              <li>Security review &amp; procurement support</li>
+              <li>A dedicated point of contact</li>
+            </ul>
+            <a class="btn btn-ghost" style="margin-top:auto;" href="mailto:support@stockportfolio.pro?subject=StockPortfolio.pro%20Enterprise%20enquiry">Contact sales →</a>
+          </div>
         </div>
+        <p class="small faint" style="margin:10px 0 0;">Prefer to pay once? See the <a href="/appsumo">lifetime option →</a></p>
         <p class="provenance" id="pricing-subscription-note">New accounts complete paid Stripe checkout before access. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. No first-year discount games — the price you see is the price it stays. The free screener covers 3,800+ US companies and the public library 1,500+; the application searches a broader US-listed directory, subject to supported filing and data availability. Foreign ADR coverage is limited. Not investment advice.</p>
 
         <!-- Pricing-swap experiment (PRICING_EXPERIMENT_MODE=ltd_only): hidden
@@ -430,7 +535,6 @@
             if (!cfg || cfg.mode !== 'ltd_only' || !cfg.tiers || !cfg.tiers.length) return;
 
             document.getElementById('pricing-subscription-grid').hidden = true;
-            document.getElementById('pricing-founding-offer').hidden = true;
             document.getElementById('pricing-subscription-note').hidden = true;
             var subhead = document.getElementById('pricing-subhead');
             if (subhead) subhead.textContent = 'One payment · no renewal · limited-time pricing';
@@ -473,62 +577,11 @@
       })();
       </script>
 
-      <!-- Professional tiers — Filing Monitor + research desk for analysts/RIAs/funds (USD; Power monthly or annual, Desk annual) -->
+      <!-- Professional tier — Desk's licence terms live here (the Desk card
+           itself sits in the main pricing grid above). Enterprise also lives in
+           that grid — one Enterprise card, one place. -->
       <section class="section" id="pro-plans" style="margin-top:40px;">
-        <div class="section-head"><h2 class="title-1">For professionals</h2><span class="small faint">The Filing Change Monitor + the full research desk — Power monthly or yearly; Desk yearly.</span></div>
-        <div class="price-grid">
-          <div class="card price-card">
-            <span class="label">Power monthly</span>
-            <div class="price-fig">$149.99<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">The complete research desk + Filing Monitor, for one investor. No annual commitment.</p>
-            <ul class="price-list">
-              <li><strong>Filing Change Monitor</strong> — a cited first pass over a supported company's latest available 10-K/10-Q/8-K, ranked by materiality</li>
-              <li><strong>Watchlist filing feed</strong> — every holding's newest filing, read for you</li>
-              <li><strong>Wash-sale guard</strong> — cross-account, cross-broker tax-lot intelligence your brokers can't see</li>
-              <li>Everything in Pro: 300 Ask questions, smart alerts, daily attribution, segments, weekly briefing</li>
-              <li>Up to 19 years of statements for covered US-listed companies that report in USD</li>
-            </ul>
-            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=power-monthly">Get Power monthly →</a>
-          </div>
-          <div class="card price-card">
-            <span class="label">Power annual</span>
-            <div class="price-fig">$1,499.99<span>/year</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">The complete research desk + Filing Monitor, paid once yearly. Save $300 versus monthly billing. Across a twelve-name watchlist that is about <strong>$125 per covered name per year</strong> &mdash; every filing that name makes, read for you.</p>
-            <ul class="price-list">
-              <li><strong>Filing Change Monitor</strong> — a cited first pass over a supported company's latest available 10-K/10-Q/8-K, ranked by materiality</li>
-              <li><strong>Watchlist filing feed</strong> — every holding's newest filing, read for you</li>
-              <li><strong>Wash-sale guard</strong> — cross-account, cross-broker tax-lot intelligence your brokers can't see</li>
-              <li>Everything in Pro: 300 Ask questions, smart alerts, daily attribution, segments, weekly briefing</li>
-              <li>Up to 19 years of statements for covered US-listed companies that report in USD</li>
-            </ul>
-            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=power">Get Power annual →</a>
-          </div>
-          <div class="card price-card" style="border-color: var(--ink);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Desk</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One professional seat</span></div>
-            <div class="price-fig">$2,999.99<span>/year</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">Power for one named user, with a limited licence for client-facing research.</p>
-            <ul class="price-list">
-              <li><strong>Everything in Power</strong>, with permission to incorporate verified outputs into your own commercial research and client communications</li>
-              <li><strong>Priority support</strong> + a personal onboarding call</li>
-              <li>Built for RIAs, equity analysts and small funds</li>
-              <li>First to get new coverage as it ships</li>
-            </ul>
-            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=desk">Get Desk →</a>
-          </div>
-          <div class="card price-card">
-            <span class="label">Enterprise</span>
-            <div class="price-fig" style="font-size:30px;">Let's talk</div>
-            <p class="small muted" style="margin:4px 0 14px;">For teams &amp; multiple seats.</p>
-            <ul class="price-list">
-              <li>Multiple seats with central billing</li>
-              <li>Custom coverage &amp; data needs</li>
-              <li>Security review &amp; procurement support</li>
-              <li>A dedicated point of contact</li>
-            </ul>
-            <a class="btn btn-ghost" style="margin-top:auto;" href="mailto:support@stockportfolio.pro?subject=StockPortfolio.pro%20Enterprise%20enquiry">Contact sales →</a>
-          </div>
-        </div>
-        <p class="provenance">Power is available at $149.99/month or $1,499.99/year and includes everything in Pro plus the Filing Change Monitor. The &ldquo;about $125 per covered name per year&rdquo; figure is $1,499.99 divided across a twelve-name watchlist; it is a way of sizing the cost against the names you actually follow, not a per-name price &mdash; coverage is not metered and there is no per-name charge. Desk is billed annually and adds a limited commercial-use licence for one named user to incorporate verified outputs into customer-authored research and client communications; it does not include account sharing, raw-data redistribution, or any authorisation to provide regulated advice. Not investment advice.</p>
+        <p class="provenance">Pro is billed yearly and includes everything in the research desk plus the Filing Change Monitor; the &ldquo;about $42 per month&rdquo; framing is $499.99 divided by twelve — Desk is billed annually and adds a limited commercial-use licence for one named user to incorporate verified outputs into customer-authored research and client communications; it does not include account sharing, raw-data redistribution, or any authorisation to provide regulated advice. Not investment advice.</p>
       </section>
 
       <!-- crawlable entry to the public research library (server-rendered /stocks pages) -->
@@ -546,9 +599,6 @@
       <section class="section" style="margin-top:48px; text-align:center;">
         <p class="label" style="color:var(--ink-3); margin-bottom:20px;">Featured on</p>
         <div style="display:flex; flex-wrap:wrap; gap:24px 36px; align-items:center; justify-content:center;">
-          <a href="/go/appsumo/website?utm_source=website&utm_medium=homepage_badge&utm_campaign=appsumo-activation" target="_blank" rel="noopener" aria-label="StockPortfolio.pro lifetime deal on AppSumo">
-            <img src="https://appsumo2ppnuxt.b-cdn.net/img/as-badge-featured.2433f63.png" alt="Featured on AppSumo — StockPortfolio.pro lifetime deal" width="220" height="60" loading="lazy" decoding="async" style="display:block;" />
-          </a>
           <a href="https://saasbrowser.com/en/saas/1430591/stockportfolio" target="_blank" rel="noopener" aria-label="stockportfolio on SaaS Browser">
             <img src="https://files.saasbrowser.com/fmw6c6if7570r0v82i48df42c6xr" alt="stockportfolio — SaaS directory verified badge" width="200" height="133" loading="lazy" decoding="async" style="display:block;" />
           </a>
@@ -576,7 +626,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20260831-ladder1"></script>
+  <script src="assets/app.js?v=20260901-askfix1"></script>
   <script>
     V2.nav('home');
     V2.footer();
@@ -673,6 +723,14 @@
         document.getElementById('live-prov').textContent = 'Live data unavailable right now.';
       }
     })();
+    // The email-rung verify link lands back here: ?ask=verified.
+    (function () {
+      const q = new URLSearchParams(window.location.search);
+      if (q.get('ask') === 'verified' && window.V2 && V2.modal) {
+        try { history.replaceState(null, '', '/'); } catch (_) {}
+        V2.modal({ label: 'Verified', title: '2 more questions unlocked', body: 'Your email checks out — two more free Ask questions are on your counter. Paid plans start at 25 a month.' });
+      }
+    })();
     // Sample weekly briefing — the stickiest paid feature, visible pre-signup.
     (async () => {
       const el = document.getElementById('brief-sample-body');
@@ -690,6 +748,39 @@
         const sec = document.getElementById('briefing-sample');
         if (sec) sec.hidden = true;
       }
+    })();
+    // The hero demo card: a working Ask on the landing page — 3 free questions,
+    // no account (the anon flow), then the wall offers the email rung and paid
+    // checkout. Answers stream into the SAME capped stack that holds the AAPL
+    // specimen: the card's height never changes, so nothing below the hero
+    // reflows while they use it.
+    (function () {
+      const stack = document.getElementById('try-stack');
+      const exchange = document.getElementById('try-exchange');
+      const form = document.getElementById('try-form');
+      const input = document.getElementById('try-input');
+      if (!stack || !exchange || !form || !input || !window.V2 || !V2.askEngine) return;
+      const engine = V2.askEngine(exchange);
+      // Stream-follow, at stack level: the engine's own stickInner follows the
+      // inner .ask-a box, but here the whole stack is the scroll box — so
+      // follow the newest text the same way, and hand control back the moment
+      // the reader scrolls up to read (same behaviour as /ask).
+      let pinned = true;
+      stack.addEventListener('scroll', () => {
+        pinned = stack.scrollHeight - stack.scrollTop - stack.clientHeight < 80;
+      }, { passive: true });
+      new MutationObserver(() => {
+        if (pinned) stack.scrollTop = stack.scrollHeight;
+      }).observe(exchange, { childList: true, subtree: true, characterData: true });
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const q = input.value.trim();
+        if (!q) return;
+        input.value = '';
+        engine.send(q);
+      });
+      document.querySelectorAll('.try-chip').forEach((b) =>
+        b.addEventListener('click', () => { input.value = b.dataset.q || b.textContent; form.requestSubmit(); }));
     })();
   </script>
 </body>

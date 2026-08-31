@@ -21,28 +21,40 @@ test('new registrations use paid-first Stripe checkout with no Stripe trial', ()
 test('published checkout plans have a safe active-price fallback when Render lacks a Price ID', () => {
   assert.match(appSource, /resolveStripeCheckoutPlan/);
   assert.match(appSource, /active: true/);
-  assert.match(appSource, /productName: 'power — stockportfolio\.pro'/);
+  // 2026-08-31 Jobs cut: Pro-monthly and Power are retired from new sales —
+  // they are absent from CHECKOUT_STRIPE_PRICE_SPECS but resolve through
+  // LEGACY_PLAN_PRICE_SPECS for grandfathered subscribers.
   assert.match(appSource, /productName: 'desk — stockportfolio\.pro'/);
+  assert.doesNotMatch(appSource, /productName: 'power — stockportfolio\.pro', \}\s*\n\s*\}/);
   assert.match(appSource, /price\?\.recurring\?\.interval === spec\.interval/);
 });
 
-test('Power monthly is a complete, consistently priced published plan', () => {
-  assert.match(appSource, /POWER_MONTHLY_PLAN_ID = 'power-monthly'/);
-  assert.match(appSource, /POWER_MONTHLY_PLAN_PRICE = parseFloat\(process\.env\.POWER_MONTHLY_PLAN_PRICE \|\| '149\.99'\)/);
-  assert.match(appSource, /\[POWER_MONTHLY_PLAN_ID\]: \{ amount: 149\.99, currency: 'USD', interval: 'month'/);
-  assert.match(appSource, /STRIPE_PRICE_ID_POWER_MONTHLY/);
-  assert.match(envExampleSource, /^STRIPE_PRICE_ID_POWER_MONTHLY=/m);
-  assert.match(registerSource, /power-monthly/);
-  assert.match(registerSource, /amount: '\$149\.99', cadence: 'per month'/);
-  assert.match(registerSource, /Charged today, then monthly/);
-  assert.match(homepageSource, /\$149\.99<span>\/month<\/span>/);
-  assert.match(homepageSource, /\$1,499\.99<span>\/year<\/span>/);
-  assert.match(homepageSource, /register\.html\?plan=power-monthly/);
-  assert.match(homepageSource, /\$1,499\.99\/year/);
-  assert.match(dossierSource, /register\.html\?plan=power"\>\$1,499\.99\/yr/);
-  assert.match(dossierSource, /plan=desk"\>\$2,999\.99\/yr/);
-  assert.match(termsSource, /\$149\.99\/month or \$1,499\.99\/year \(Power\)/);
-  assert.match(termsSource, /\$2,999\.99\/year \(Desk\)/);
+test('retired rungs keep legacy pricing but cannot be freshly purchased', () => {
+  // The Pro-monthly and Power rungs stay resolvable for legacy subscribers
+  // (LEGACY_PLAN_PRICE_SPECS at the old amounts) but are unsellable: they are
+  // absent from the new-sale checkout spec map entirely.
+  assert.match(appSource, /LEGACY_PLAN_PRICE_SPECS/);
+  assert.doesNotMatch(appSource, /\[PRO_ANNUAL_PLAN_ID\]: \{ amount: 799\.99/);
+  assert.doesNotMatch(appSource, /\[POWER_PLAN_ID\]: \{ amount: 1499\.99/);
+  assert.match(appSource, /LEGACY_STRIPE_PRICE_ID_POWER_MONTHLY/);
+});
+
+test('the four-rung menu prices hold across homepage, register, upgrade, dossier and terms', () => {
+  assert.match(registerSource, /amount: '\$24\.99', cadence: 'per month'/);
+  assert.match(registerSource, /amount: '\$199\.99', cadence: 'per year'/);
+  assert.match(registerSource, /'pro-annual': \{\s*\n\s*name: 'Pro', amount: '\$499\.99', cadence: 'per year'/);
+  assert.match(registerSource, /\$1,999\.99', cadence: 'per year'/);
+  assert.doesNotMatch(registerSource, /amount: '\$39\.99'/);
+  assert.match(homepageSource, /\$24\.99<span>\/month<\/span>/);
+  assert.match(homepageSource, /\$199\.99<span>\/year<\/span>/);
+  assert.match(homepageSource, /\$499\.99<span>\/year<\/span>/);
+  assert.match(homepageSource, /\$1,999\.99<span>\/year<\/span>/);
+  assert.match(homepageSource, /register\.html\?plan=pro-annual/);
+  assert.doesNotMatch(homepageSource, /register\.html\?plan=power-monthly/);
+  assert.match(dossierSource, /plan=pro-annual"\>Start Pro checkout/);
+  assert.match(dossierSource, /plan=desk"\>\$1,999\.99\/yr/);
+  assert.match(termsSource, /\$24\.99\/month \(Monthly\), \$199\.99\/year \(Annual\), \$499\.99\/year \(Pro/);
+  assert.match(termsSource, /\$1,999\.99\/year \(Desk\)/);
 });
 
 test('seven-day refund state is recorded and protected by an authenticated route', () => {
@@ -57,10 +69,12 @@ test('signup surfaces describe payment and refund terms instead of a no-card tri
   assert.match(registerSource, /Continue to secure checkout/);
   assert.match(registerSource, /refund within 7 days/);
   assert.doesNotMatch(registerSource, /no card required/);
+  assert.match(registerSource, /Continue to secure checkout/);
+  assert.match(registerSource, /refund within 7 days/);
+  assert.doesNotMatch(registerSource, /no card required/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
-  assert.match(registerSource, /amount: '\$39\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
-  assert.match(registerSource, /amount: '\$79\.99', cadence: 'per month'[\s\S]{0,200}Charged today through Stripe/);
+  assert.match(registerSource, /amount: '\$24\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
 });
 

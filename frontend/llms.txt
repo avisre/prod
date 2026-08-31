@@ -1,6 +1,6 @@
 # stockportfolio.pro
 
-> The AI analyst grounded in SEC filings. Research every US-listed stock with up to 19 years of filed financials, a free screener over the S&P 1500, free server-rendered fundamentals pages for 1,500+ companies, and an AI assistant that answers only from SEC filings — never from model memory. From $39.99/month after a 7-day free trial; the screener and stock pages are free with no account.
+> The AI analyst grounded in SEC filings. Research every US-listed stock with up to 19 years of filed financials, a free screener over the S&P 1500, free server-rendered fundamentals pages for 1,500+ companies, and an AI assistant that answers only from SEC filings — never from model memory. From $24.99/month; the screener and stock pages are free with no account.
 
 stockportfolio.pro is a web-based equity research and portfolio tool for long-term retail investors. Every figure shown is computed from official SEC filings (10-K and 10-Q), refreshed nightly. Holdings are added manually, so no broker credentials are required. The product is owned and built by Avinash Sreekumar.
 
@@ -16,16 +16,15 @@ stockportfolio.pro is a web-based equity research and portfolio tool for long-te
 - [Landing page](https://www.stockportfolio.pro/): product overview and pricing.
 - [Ask — the AI analyst](https://www.stockportfolio.pro/ask): ask anything about any US-listed company; every figure in the answer comes from SEC filings with sources shown (Pro plan).
 - [Company workspace](https://www.stockportfolio.pro/company?symbol=AAPL): interactive view — up to 19 years of income statement, balance sheet and cash flow, 48 quarters, ratios, ownership, business segments from 10-Ks.
-- [Register](https://www.stockportfolio.pro/register): 7-day free trial.
+- [Register](https://www.stockportfolio.pro/register): pricing and signup.
 
 ## Pricing
 
 - Free: screener, /stocks pages, and demo — no account.
-- Monthly: $39.99/month after a 7-day free trial — full research library, portfolio tracker, 25 Ask questions a month.
-- Annual: $399.99/year (two months free vs monthly).
-- Pro: $79.99/month or $799.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, smart alerts, weekly portfolio briefing.
-- Power: $149.99/month or $1,499.99/year — Pro plus the Filing Change Monitor across your whole watchlist, wash-sale guard, 2000-credit wallet.
-- Desk: $2,999.99/year — Power for one named professional with a limited client-facing licence, priority support, personal onboarding.
+- Monthly: $24.99/month — full research library, portfolio tracker, 25 Ask questions a month.
+- Annual: $199.99/year (two months free vs monthly).
+- Pro: $499.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
+- Desk: $1,999.99/year — Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Credit top-ups: $14.99 for 150 credits.
 - Cancel anytime.
 

@@ -10,7 +10,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20260831-ladder1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
+  <style>
+    /* Same price components the homepage ladder uses (index.html) — the
+       classes live page-locally in this tree, so each pricing surface
+       carries its own copy. */
+    .price-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; }
+    .price-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; }
+    .price-fig { font-size: 34px; font-weight: 650; letter-spacing: -0.03em; }
+    .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
+    .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
+    .price-list li::before { content: '—  '; color: var(--ink-3); }
+  </style>
 </head>
 <body>
   <main>
@@ -32,7 +43,7 @@
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20260831-ladder1"></script>
+  <script src="/assets/app.js?v=20260901-askfix1"></script>
   <script>
     (function () {
       'use strict';
@@ -51,34 +62,42 @@
       // rungs strictly above their current planId — the card for the plan
       // they hold, and everything below it, is never rendered, so the plan
       // they pay for today can't be re-purchased by a stray click.
-      // Cards are grouped good/better/best; the monthly and annual billing
-      // variants of one group share a card, with the annual option as its
-      // own button. planIds are unchanged — they are the checkout keys.
+      // 2026-08-31 Jobs cut: four prices a visitor can buy — Monthly
+      // $24.99, Annual $199.99, Pro (annual-only) $499.99, Desk $1,999.99.
+      // The retired rungs (pro monthly, power ×2) stay in the list as
+      // `retired` entries purely so a legacy subscriber's planId still ranks
+      // in the mask below — they never render and can't be freshly bought.
       const LADDER = [
-        { planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '$39.99', per: '/month', lines: [
+        { planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '$24.99', per: '/month', lines: [
           'The full research library: up to 19 years of filed statements, ratios and health checks',
           'Portfolio tracker, peer comparison, watchlist + SEC filing alerts',
-          '25 Ask questions a month — filing, fund-data or web sources identified' ] },
-        { planId: 'annual', label: 'Good — annual', group: 'core', fig: '$399.99', per: '/year', lines: [
-          'Good, paid once a year — two months free versus monthly billing',
+          '25 Ask questions a month — filing, fund-data or web sources identified',
+          'Same plan yearly is <strong>$199.99 — $16.67/month, save $100</strong>' ] },
+        { planId: 'annual', label: 'Good — annual', group: 'core', fig: '$199.99', per: '/year', lines: [
+          'Good, paid once a year — <strong>save $100</strong>: $16.67/month effective, two months free versus $24.99 monthly',
           'One renewal a year; upgrade to Pro anytime, prorated' ] },
-        { planId: 'pro', label: 'Better', group: 'pro', featured: true, caption: 'Everything in Good, plus the AI analyst', fig: '$79.99', per: '/month', lines: [
+        { planId: 'pro', label: 'Pro — retired', group: 'pro', retired: true, fig: '$79.99', per: '/month', lines: [] },
+        { planId: 'pro-annual', label: 'Pro', group: 'pro', featured: true, caption: 'Everything in Good, plus the AI analyst and the Filing Change Monitor', fig: '$499.99', per: '/year', lines: [
           '300 Ask questions a month with charts & tables in every answer',
+          '<strong>Filing Change Monitor</strong> — every new 10-K/10-Q/8-K on your watchlist, read for you',
+          '<strong>Wash-sale guard</strong> — cross-broker tax-lot intelligence your broker can&rsquo;t see',
           'Dossier, Filing Diff, smart alerts, daily attribution, insights & segments',
           'Weekly portfolio briefing — what changed in your holdings, every Monday' ] },
-        { planId: 'pro-annual', label: 'Better — annual', group: 'pro', fig: '$799.99', per: '/year', lines: [
-          'Pro, billed yearly — save $160 versus monthly',
-          'Same 600-credit wallet, fewer renewals' ] },
-        { planId: 'power-monthly', label: 'Best', group: 'power', caption: 'The complete research desk + the Filing Change Monitor', fig: '$149.99', per: '/month', lines: [
-          'Filing Change Monitor across your whole watchlist — every new 10-K/10-Q/8-K read for you',
-          'Wash-sale guard — cross-broker tax-lot intelligence',
-          'Everything in Pro, with a 2000-credit wallet' ] },
-        { planId: 'power', label: 'Best — annual', group: 'power', fig: '$1,499.99', per: '/year', lines: [
-          'Best, paid once yearly — save $300 versus monthly billing',
-          'About $125 per covered name per year on a twelve-name watchlist' ] },
-        { planId: 'desk', label: 'Desk', group: 'desk', featured: true, caption: 'Power for one named professional, with a limited client-facing licence', fig: '$2,999.99', per: '/year', lines: [
-          'Everything in Power, plus permission to use verified outputs in your own client-facing research',
-          'Priority support and a personal onboarding call' ] }
+        { planId: 'power-monthly', label: 'Best — retired', group: 'power', retired: true, fig: '$149.99', per: '/month', lines: [] },
+        { planId: 'power', label: 'Best — annual (retired)', group: 'power', retired: true, fig: '$1,499.99', per: '/year', lines: [] },
+        { planId: 'desk', label: 'Desk', group: 'desk', featured: true, caption: 'Pro for one named professional, with a limited client-facing licence', fig: '$1,999.99', per: '/year', lines: [
+          'Everything in Pro, plus permission to use verified outputs in your own client-facing research',
+          'Priority support and a personal onboarding call' ] },
+        // Enterprise is the contact-sales rung: never a Stripe checkout (the
+        // backend has no sellable enterprise price — contact handoff only).
+        // It renders as the last card for everyone above Desk so no rung
+        // dead-ends; enterprise holders themselves rank past the whole ladder
+        // (myRank = LADDER.length) and see the top-up fallback instead.
+        { planId: 'enterprise', label: 'Enterprise', group: 'enterprise', contact: true, caption: 'For teams & multiple seats', fig: 'Let’s talk', per: '', lines: [
+          'Multiple seats with central billing',
+          'Custom coverage &amp; data needs',
+          'Security review &amp; procurement support',
+          'A dedicated point of contact' ] }
       ];
 
       const grid = document.getElementById('upgrade-grid');
@@ -133,8 +152,12 @@
 
       (async () => {
         const session = await currentPlan();
-        const sub = session && session.subscription || {};
-        const status = sub.status || (session && session.tier === 'free' ? 'free' : 'active');
+        // `owned`, NOT `sub` — that name is the DOM sub-line element at module
+        // scope, and shadowing it here silently no-ops the "You're on …" line
+        // at planName/sub.textContent below (found by ladder verification
+        // 2026-09-01: users always saw the static prorate copy).
+        const owned = session && session.subscription || {};
+        const status = owned.status || (session && session.tier === 'free' ? 'free' : 'active');
 
         // AppSumo accounts can't move up this ladder — entitlements live in
         // AppSumo's billing. Show that path instead of a second purchase.
@@ -147,7 +170,7 @@
           return;
         }
 
-        const planId = String(sub.planId || (session && session.tier === 'free' ? 'free' : (session && session.tier === 'pro' ? 'pro' : 'monthly'))).toLowerCase();
+        const planId = String(owned.planId || (session && session.tier === 'free' ? 'free' : (session && session.tier === 'pro' ? 'pro' : 'monthly'))).toLowerCase();
         const rank = (id) => { const i = LADDER.findIndex((p) => p.planId === id); return i === -1 ? -1 : i; };
         // Mask everything at or below the current plan (error prevention: a
         // double purchase of something already owned). The nav chip's top-tier
@@ -157,7 +180,8 @@
 
         // Unrecognized plan state (historical planId) shows the full ladder —
         // never an empty page; the Stripe checkout itself remains authoritative.
-        const options = LADDER.filter((p, i) => myRank === -1 ? true : i > myRank);
+        // Retired rungs rank for masking but never render.
+        const options = LADDER.filter((p, i) => (myRank === -1 ? true : i > myRank) && !p.retired);
         if (!options.length) {
           grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest tier — nothing to upgrade to. You can top up your credit wallet instead: <a href="/recharge.html">Recharge credits →</a>.</p>';
           note.hidden = false;
@@ -172,18 +196,21 @@
         const groups = [];
         options.forEach((p) => {
           const g = groups.find((x) => x.key === p.group);
-          if (g) g.variants.push(p); else groups.push({ key: p.group, featured: p.featured, caption: p.caption, variants: [p] });
+          if (g) g.variants.push(p); else groups.push({ key: p.group, featured: p.featured, caption: p.caption, contact: p.contact, variants: [p] });
         });
         grid.innerHTML = groups.map((g) => {
           const first = g.variants[0];
           const annual = g.variants.length > 1 ? g.variants[1] : null;
+          const cta = g.contact
+            ? `<a class="btn btn-ghost" style="margin-top:auto;" href="mailto:support@stockportfolio.pro?subject=StockPortfolio.pro%20Enterprise%20enquiry">Contact sales →</a>`
+            : `<button class="btn ${g.featured ? 'btn-primary' : 'btn-ghost'}" style="margin-top:auto;" type="button" data-plan="${esc(first.planId)}">Choose ${esc(first.label)}</button>`;
           return `
           <div class="card price-card"${g.featured ? ' style="border-color: var(--ink);"' : ''}>
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">${esc(first.label)}</span>${g.featured ? '<span class="small" style="color:var(--accent-ink); font-weight:650;">Most picked</span>' : ''}</div>
             ${g.caption ? `<p class="small muted" style="margin:4px 0 10px;">${esc(g.caption)}</p>` : ''}
             <div class="price-fig">${esc(first.fig)}<span>${esc(first.per)}</span></div>
             <ul class="price-list">${first.lines.map((l) => `<li>${l}</li>`).join('')}</ul>
-            <button class="btn ${g.featured ? 'btn-primary' : 'btn-ghost'}" style="margin-top:auto;" type="button" data-plan="${esc(first.planId)}">Choose ${esc(first.label)}</button>
+            ${cta}
             ${annual ? `
             <div style="margin:10px 0 0; border-top:1px solid var(--line); padding-top:12px;">
               <div style="display:flex; justify-content:space-between; align-items:baseline;"><strong class="small">${esc(annual.fig)}<span style="color:var(--ink-3); font-weight:500;">${esc(annual.per)}</span></strong></div>

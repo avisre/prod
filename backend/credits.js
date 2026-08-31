@@ -31,7 +31,12 @@ const mongoose = require('mongoose');
 // downloads and minutes of wall-clock, while staying legibly below Dossier.
 // Monitor's input is cap-bound (filing-diff pins at 2x20K, unit-economics at
 // 28K), so it does NOT scale with company size.
-const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30 };
+// dossier_compare (added 2026-08-31): side-by-side rendering of ALREADY-CACHED
+// dossiers — peekDossier only, the compare route never builds. No AI spend
+// happens at compare time; the underlying reports were each paid for once at
+// build. Priced at 5 (half a standard Dossier): paid, but visibly cheaper
+// than running the reports it reads.
+const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 

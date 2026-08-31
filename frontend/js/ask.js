@@ -150,15 +150,19 @@
             <button type="button" class="ask-close" id="askw-close" aria-label="Close">×</button>
           </div>
         </div>
-        <div class="ask-msgs" id="askw-msgs">
+        <div class="ask-msgs" id="askw-msgs" role="log" aria-live="polite" aria-label="Conversation">
           <div class="ask-msg ask-msg-ai">
             <div class="ask-bubble">Ask me about US-listed companies, ETFs, ticker-addressable US mutual funds, or your own portfolio. Company figures come from filed data; fund answers cover costs, holdings, allocation, returns and risk. Every number comes from a retrieved source, never AI memory.</div>
           </div>
-          <div class="ask-suggestions" id="askw-suggestions"></div>
         </div>
+        <details class="ask-help" id="askw-help" open>
+          <summary>What can I ask?</summary>
+          <div class="ask-suggestions" id="askw-suggestions"></div>
+          <p class="ask-help-hint">Ask reads filed financials, ratio history, health checks, fund data and your own portfolio — then shows you which of those it opened. Shift+Enter for a new line.</p>
+        </details>
         <form class="ask-inputrow" id="askw-form">
           <textarea id="askw-input" rows="1" maxlength="8000" placeholder="Ask a financial question…"></textarea>
-          <button type="submit" id="askw-send" aria-label="Send">➤</button>
+          <button type="submit" id="askw-send" aria-label="Send" title="Send">➤</button>
         </form>
       </div>`;
     document.body.appendChild(root);
@@ -169,7 +173,20 @@
     const input = $('askw-input');
     const quotaEl = $('askw-quota');
     const history = [];
+    const TRACE_PREF = 'ask_trace_open';
     let busy = false;
+    let controller = null;   // aborts the in-flight turn when the user hits Stop
+
+    // The send button doubles as the stop button: an agentic turn can run for
+    // several seconds, so there is always a visible way out of it.
+    function setBusy(state) {
+        busy = state;
+        const btn = $('askw-send');
+        btn.classList.toggle('ask-send-stop', state);
+        btn.textContent = state ? '◼' : '➤';
+        btn.setAttribute('aria-label', state ? 'Stop generating' : 'Send');
+        btn.title = state ? 'Stop generating' : 'Send';
+    }
 
     SUGGESTIONS.forEach((s) => {
         const b = document.createElement('button');
@@ -225,46 +242,133 @@
         }
     }
 
-    function finishAnswer(question, data) {
-        const wrap = addMsg('ai', renderMarkdown(data.answer));
-        addChips(wrap, data.toolsUsed);
+    // Renders the finished answer into the bubble that has been streaming all
+    // along instead of tearing it down and adding a new one, so the reader
+    // never sees a flash or a scroll jump at the moment the answer lands.
+    function finishAnswer(question, data, wrap) {
+        const target = wrap || addMsg('ai', '<div class="ask-stream"></div>');
+        const status = target.querySelector('.ask-status');
+        if (status) status.remove();
+        target.querySelector('.ask-stream').innerHTML = renderMarkdown(data.answer);
+        addChips(target, data.toolsUsed);
         const share = document.createElement('div');
         share.className = 'ai-share-slot';
-        wrap.querySelector('.ask-bubble').appendChild(share);
+        target.querySelector('.ask-bubble').appendChild(share);
         window.AIShare.mount(share, { title: `Ask: ${question}`, text: data.answer });
         history.push({ role: 'user', content: question }, { role: 'assistant', content: data.answer });
         if (data.quota) setQuota(data.quota);
     }
 
+    // Every dead end names its cause and offers one click back, so a failed or
+    // stopped turn never costs the user the question they typed.
+    function addFailure(wrap, message, question, soft) {
+        const target = wrap || addMsg('ai', '');
+        const status = target.querySelector('.ask-status');
+        if (status) status.remove();
+        const box = document.createElement('div');
+        box.className = 'ask-failure' + (soft ? ' ask-failure-soft' : '');
+        const text = document.createElement('span');
+        text.textContent = message;
+        box.appendChild(text);
+        const retry = document.createElement('button');
+        retry.type = 'button';
+        retry.className = 'ask-retry';
+        retry.textContent = '↻ Retry';
+        retry.addEventListener('click', () => {
+            const spent = box.closest('.ask-msg');
+            box.remove();
+            // Drop the spent bubble unless it still holds partial text worth keeping.
+            const partial = spent && spent.querySelector('.ask-stream');
+            if (spent && (!partial || !partial.textContent.trim())) spent.remove();
+            send(question);
+        });
+        box.appendChild(retry);
+        target.querySelector('.ask-bubble').appendChild(box);
+        msgs.scrollTop = msgs.scrollHeight;
+    }
+
     async function send(question) {
         if (busy) return;
-        const sug = $('askw-suggestions');
-        if (sug) sug.remove();
+        const help = $('askw-help');
+        if (help) help.open = false;
         addMsg('user', esc(question).replace(/\n/g, '<br>'));
-        // Live bubble: tool-progress lines on top, streamed answer below,
-        // typing dots while we wait. Replaced by the final render on 'done'.
+
+        // One live bubble for the whole turn. The research trace is open while
+        // the model works, folds into a summary row the moment the first token
+        // lands, and stays there afterwards as provenance the reader can reopen.
         const live = addMsg('ai',
-            '<div class="ask-steps"></div><div class="ask-stream"></div>' +
-            '<div class="ask-working"><span class="ask-typing"><span></span><span></span><span></span></span> Researching…</div>');
-        const steps = live.querySelector('.ask-steps');
+            '<div class="ask-trace" hidden>' +
+              '<button type="button" class="ask-trace-toggle" aria-expanded="true">' +
+                '<span class="ask-trace-caret" aria-hidden="true">▾</span>' +
+                '<span class="ask-typing ask-trace-dots" aria-hidden="true"><span></span><span></span><span></span></span>' +
+                '<span class="ask-trace-label">Researching…</span>' +
+              '</button>' +
+              '<div class="ask-trace-steps"></div>' +
+            '</div>' +
+            '<div class="ask-status" role="status" aria-live="polite">' +
+              '<span class="ask-typing" aria-hidden="true"><span></span><span></span><span></span></span>' +
+              '<span class="ask-status-text">Researching…</span>' +
+            '</div>' +
+            '<div class="ask-stream"></div>');
+        const trace = live.querySelector('.ask-trace');
+        const traceToggle = live.querySelector('.ask-trace-toggle');
+        const traceLabel = live.querySelector('.ask-trace-label');
+        const traceCaret = live.querySelector('.ask-trace-caret');
+        const steps = live.querySelector('.ask-trace-steps');
         const streamEl = live.querySelector('.ask-stream');
-        const workingEl = live.querySelector('.ask-working');
-        busy = true;
-        $('askw-send').disabled = true;
+        const statusEl = live.querySelector('.ask-status');
+        const statusText = live.querySelector('.ask-status-text');
+
+        const setTraceOpen = (open) => {
+            trace.dataset.open = open ? 'true' : 'false';
+            traceToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+            traceCaret.textContent = open ? '▾' : '▸';
+        };
+        setTraceOpen(true);
+        const setWorking = (on) => { trace.dataset.working = on ? 'true' : 'false'; };
+        setWorking(true);
+        traceToggle.addEventListener('click', () => {
+            const open = trace.dataset.open !== 'true';
+            setTraceOpen(open);
+            try { localStorage.setItem(TRACE_PREF, open ? '1' : '0'); } catch (_) { /* private mode */ }
+        });
+
+        const t0 = Date.now();
+        let stepCount = 0;
+        let folded = false;
+        // Readers who last left the trace open get it back open; everyone else
+        // gets the calm one-line summary.
+        const foldTrace = () => {
+            if (folded) return;
+            folded = true;
+            if (!stepCount) { trace.hidden = true; return; }
+            const secs = Math.max(1, Math.round((Date.now() - t0) / 1000));
+            setWorking(false);
+            traceLabel.textContent = `Checked ${stepCount} source${stepCount === 1 ? '' : 's'} · ${secs}s`;
+            let pref = '0';
+            try { pref = localStorage.getItem(TRACE_PREF) || '0'; } catch (_) { /* private mode */ }
+            setTraceOpen(pref === '1');
+        };
+
+        setBusy(true);
+        controller = new AbortController();
+        let streamText = '';
         try {
             const r = await fetch(`${API_URL}/ai/chat`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token()}` },
-                body: JSON.stringify({ question, history: history.slice(-8), stream: true })
+                body: JSON.stringify({ question, history: history.slice(-8), stream: true }),
+                signal: controller.signal
             });
             const ct = r.headers.get('content-type') || '';
             if (!ct.includes('text/event-stream')) {
                 // Auth/quota/legacy errors come back as plain JSON.
                 const data = await r.json().catch(() => ({}));
-                live.remove();
                 if (r.status === 401) {
+                    live.remove();
                     addMsg('ai', 'Please <a href="login.html">log in</a> to use Ask.');
                 } else if (r.status === 429) {
+                    live.remove();
                     if (data.quota) setQuota(data.quota);
                     const isPro = data.quota && data.quota.limit >= 300;
                     const nudgeHtml = `<div class="ask-limit-nudge">
@@ -281,14 +385,17 @@ ${isPro ? `<p style="color:var(--ask-muted);font-size:12px">Your Pro quota reset
 </div>`;
                     addMsg('ai', nudgeHtml);
                 } else if (!r.ok || !data.answer) {
-                    addMsg('ai', 'Something went wrong — please try again.');
+                    addFailure(live, r.status >= 500
+                        ? 'Ask’s server had a problem answering that.'
+                        : r.status === 408 || r.status === 504
+                            ? 'That question took too long and timed out.'
+                            : 'That request didn’t go through.', question);
                 } else {
-                    finishAnswer(question, data);
+                    finishAnswer(question, data, live);
                 }
                 return;
             }
 
-            let streamText = '';
             let finalData = null;
             const handle = (event, data) => {
                 if (event === 'tool') {
@@ -299,15 +406,31 @@ ${isPro ? `<p style="color:var(--ask-muted);font-size:12px">Your Pro quota reset
                         d.className = 'ask-step' + (data.ok === false ? ' ask-step-miss' : '');
                         d.textContent = label;
                         steps.appendChild(d);
+                        stepCount += 1;
+                        trace.hidden = false;
+                        steps.scrollTop = steps.scrollHeight;
+                        // The trace row now carries the working signal itself.
+                        statusEl.hidden = true;
                     }
                 } else if (event === 'delta') {
                     streamText += data.text || '';
                     streamEl.innerHTML = renderMarkdown(streamText);
-                    workingEl.style.display = 'none';
+                    statusEl.hidden = true;
+                    foldTrace();
                 } else if (event === 'rollback') {
+                    // Text disappearing is the most alarming thing a chat UI can
+                    // do, so say why rather than blanking the bubble.
                     streamText = '';
                     streamEl.innerHTML = '';
-                    workingEl.style.display = '';
+                    folded = false;
+                    setWorking(true);
+                    if (trace.hidden) {
+                        statusEl.hidden = false;
+                        statusText.textContent = 'Rechecking the numbers…';
+                    } else {
+                        traceLabel.textContent = 'Rechecking the numbers…';
+                        setTraceOpen(true);
+                    }
                 } else if (event === 'done') {
                     finalData = data;
                 }
@@ -335,18 +458,25 @@ ${isPro ? `<p style="color:var(--ask-muted);font-size:12px">Your Pro quota reset
                     handle(ev, parsed);
                 }
             }
-            live.remove();
+            foldTrace();
             if (finalData && finalData.answer) {
-                finishAnswer(question, finalData);
+                finishAnswer(question, finalData, live);
             } else {
-                addMsg('ai', 'Something went wrong — please try again.');
+                addFailure(live, 'The answer was cut off before it finished.', question);
             }
-        } catch (_) {
-            live.remove();
-            addMsg('ai', 'Network problem — please try again.');
+        } catch (e) {
+            foldTrace();
+            if (e && e.name === 'AbortError') {
+                // Stopping is a choice, not a failure: keep what arrived.
+                addFailure(live, streamText
+                    ? 'Stopped — the answer above is incomplete.'
+                    : 'Stopped before the answer started.', question, true);
+            } else {
+                addFailure(live, 'Couldn’t reach the server — check your connection.', question);
+            }
         } finally {
-            busy = false;
-            $('askw-send').disabled = false;
+            setBusy(false);
+            controller = null;
             msgs.scrollTop = msgs.scrollHeight;
         }
     }
@@ -364,6 +494,8 @@ ${isPro ? `<p style="color:var(--ask-muted);font-size:12px">Your Pro quota reset
     });
     $('askw-form').addEventListener('submit', (e) => {
         e.preventDefault();
+        // While a turn is running the same button is the emergency exit.
+        if (busy) { if (controller) controller.abort(); return; }
         const q = input.value.trim();
         if (!q) return;
         if (!token()) {

@@ -32,6 +32,15 @@
     return intro + (cards ? `<div class="dos-kf-grid">${cards}</div>` : '');
   }
 
+  // The payload's `industry` field is the INDUSTRY-DRIVERS OBJECT (used at
+  // d.industry.drivers below), not the industry name string. A header that
+  // joins [d.sector, d.industry] printed '[object Object]' on every dossier
+  // whose industry build succeeded. Read the name off the object instead.
+  function metaLine(d) {
+    const ind = d.industry && typeof d.industry === 'object' ? d.industry.sector : d.industry;
+    return [d.sector, ind].filter(Boolean).join(' · ') || 'US-listed equity';
+  }
+
   const POLL_MS = 6000;
   const MAX_WAIT_MS = 300000; // 5 min — a dossier touches several filings + the model
   const STAGE_LABEL = {
@@ -55,9 +64,9 @@
         <h2 class="title-2" style="margin:12px 0 8px;">The analyst’s write-up, on demand</h2>
         <p class="muted" style="max-width:64ch;">A from-scratch, source-linked dossier on any US-listed company — business, segments, ten-year figures, what’s priced in, the bull and bear case, and what just changed in the latest filing. The work an analyst bills 20–40 hours for, or that a research seat costs five figures a year. Yours unlimited on Pro.</p>
         <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:16px;">
-          <a class="btn btn-primary" href="/register.html?plan=pro">Start Pro checkout</a>
+          <a class="btn btn-primary" href="/register.html?plan=pro-annual">Start Pro checkout</a>
         </div>
-        <p class="small faint" style="margin:12px 0 0;">Want the Filing Change Monitor and thesis tracker too? Power — <a href="/register.html?plan=power">$1,499.99/yr →</a> · Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$2,999.99/yr →</a></p>
+        <p class="small faint" style="margin:12px 0 0;">Pro already includes the Filing Change Monitor and thesis tracker. Desk for RIAs &amp; funds — <a href="/register.html?plan=desk">$1,999.99/yr →</a></p>
       </div>`;
     out.hidden = false;
   }
@@ -552,10 +561,11 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       <div class="dos-head">
         <div>
           <h1 class="title-1" style="margin:0;">${esc(d.name || sym)} <span class="faint" style="font-weight:600;">(${esc(sym)})</span><span class="beta-badge">Beta</span></h1>
-          <p class="small faint" style="margin:4px 0 0;">${esc([d.sector, d.industry].filter(Boolean).join(' · ') || 'US-listed equity')} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
+          <p class="small faint" style="margin:4px 0 0;">${esc(metaLine(d))} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
         </div>
         <div class="dos-actions">
           ${window.PV.modeChips('dos', mode)}
+          <a class="btn btn-ghost btn-sm" href="./compare-dossiers.html?symbols=${encodeURIComponent(sym)}" title="Put this company side by side with up to two others">Compare ↔ <span class="beta-badge">Beta</span></a>
           <button class="btn btn-ghost btn-sm" id="dos-print">Print / Save PDF</button>
           <button class="btn btn-quiet btn-sm" id="dos-refresh" title="Rebuild from the latest filings">Refresh</button>
         </div>
@@ -750,10 +760,11 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       <div class="dos-head">
         <div>
           <h1 class="title-1" style="margin:0;">${esc(d.name || sym)} <span class="faint" style="font-weight:600;">(${esc(sym)})</span><span class="beta-badge">Beta</span></h1>
-          <p class="small faint" style="margin:4px 0 0;">${esc([d.sector, d.industry].filter(Boolean).join(' · ') || 'US-listed equity')} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
+          <p class="small faint" style="margin:4px 0 0;">${esc(metaLine(d))} · dossier as of fiscal ${esc(d.fyEnd || '')}${d.cached ? '' : ' · freshly built'}</p>
         </div>
         <div class="dos-actions">
           ${PV.modeChips('dos', 'normal')}
+          <a class="btn btn-ghost btn-sm" href="./compare-dossiers.html?symbols=${encodeURIComponent(sym)}" title="Put this company side by side with up to two others">Compare ↔ <span class="beta-badge">Beta</span></a>
           <button class="btn btn-ghost btn-sm" id="dos-print">Print / Save PDF</button>
           <button class="btn btn-quiet btn-sm" id="dos-refresh" title="Rebuild from the latest filings">Refresh</button>
         </div>

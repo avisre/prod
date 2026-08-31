@@ -134,7 +134,7 @@ function ownerEmail({ name, email, plan }) {
   return { html, text };
 }
 
-function customerLifecycleEmail({ name, type, plan, appUrl }) {
+function customerLifecycleEmail({ name, type, plan, tier, appUrl }) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
   const safeFirst = escapeHtml(first);
   const dashboard = `${String(appUrl || '').replace(/\/$/, '')}/dashboard.html`;
@@ -149,14 +149,30 @@ function customerLifecycleEmail({ name, type, plan, appUrl }) {
   const textDetail = isAppSumo
     ? `Your AppSumo lifetime plan${plan ? ` (${plan})` : ''} is now linked to this account.`
     : `Your paid subscription${plan ? ` (${plan})` : ''} is now active.`;
+  // Inventory what the redeemed tier actually opens. Buyer activation emails
+  // used to name no surfaces at all, and a customer who bought via AppSumo ran
+  // the product for two months without discovering the Filing Change Monitor
+  // he had already paid for. The cap must mirror LTD_MONITOR_CAP in
+  // lib/tier-limits.js — read it from there rather than re-stating it.
+  const tierNum = Number(tier);
+  const monitorCapText = tierNum === 1 ? 'up to 12 companies' : tierNum === 2 ? 'up to 40 companies' : 'unlimited companies';
+  const includesItems = [
+    'Research Dossiers — an initiation-grade report on any of 6,000+ US stocks, in plain English, no prompting',
+    `Filing Change Monitor — watch ${monitorCapText} and get a plain-English summary of each new filing`,
+    'Every number cited to the filing it came from — never guessed'
+  ];
+  const includesHtml = isAppSumo ? `
+    <p style="font-size:15px;line-height:1.6;color:#334155;margin:18px 0 6px"><strong>Your plan includes:</strong></p>
+    <ul style="font-size:14px;line-height:1.7;color:#334155;margin:0;padding-left:20px">${includesItems.map((i) => `<li>${escapeHtml(i)}</li>`).join('')}</ul>` : '';
   const html = `
   <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
     <h1 style="font-size:22px;margin:0 0 12px">Access confirmed, ${safeFirst}</h1>
-    <p style="font-size:15px;line-height:1.6;color:#334155">${detail}</p>
+    <p style="font-size:15px;line-height:1.6;color:#334155">${detail}</p>${includesHtml}
     <p style="margin:22px 0"><a href="${safeDashboard}" style="background:#6d5cff;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">Open your dashboard</a></p>
     <p style="font-size:13px;color:#64748b;line-height:1.6">Need help? Reply to this email or write to ${SUPPORT_EMAIL}.<br/>— StockPortfolio.pro Support</p>
   </div>`;
-  const text = `Access confirmed, ${first}\n\n${textDetail}\n\nOpen your dashboard: ${dashboard}\n\nNeed help? Reply to this email or write to ${SUPPORT_EMAIL}.\n— StockPortfolio.pro Support`;
+  const includesText = isAppSumo ? `\n\nYour plan includes:\n${includesItems.map((i) => `- ${i}`).join('\n')}` : '';
+  const text = `Access confirmed, ${first}\n\n${textDetail}${includesText}\n\nOpen your dashboard: ${dashboard}\n\nNeed help? Reply to this email or write to ${SUPPORT_EMAIL}.\n— StockPortfolio.pro Support`;
   return { subject, html, text };
 }
 
@@ -376,7 +392,7 @@ async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occu
   const result = { customerSent: false, ownerSent: false };
   const jobs = [];
   if (email) {
-    const customer = customerLifecycleEmail({ name, type, plan, appUrl: c.appUrl });
+    const customer = customerLifecycleEmail({ name, type, plan, tier, appUrl: c.appUrl });
     jobs.push(transporter.sendMail({
       from: c.from, to: email, replyTo: c.support,
       subject: customer.subject, html: customer.html, text: customer.text,
@@ -479,4 +495,4 @@ function trialExpiredEmail(name, appUrl, upgradeUrl, unsubUrl) {
   return { subject, html, text: textBody };
 }
 
-module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };
+module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };
