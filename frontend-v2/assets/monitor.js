@@ -382,8 +382,6 @@
 
   function upsell(out) {
     out.innerHTML = `
-  function upsell(out) {
-    out.innerHTML = `
       <div class="card card-pad mon-upsell">
         <span class="mon-summary-badge">Pro &amp; Desk feature</span>
         <h2 class="title-2" style="margin:12px 0 8px;">The Filing Monitor is on Pro &amp; Desk</h2>
@@ -393,8 +391,6 @@
           <a class="btn btn-ghost" href="/register.html?plan=desk">Desk — $1,999.99/yr</a>
         </div>
       </div>`;
-    out.hidden = false;
-  }
     out.hidden = false;
   }
 
