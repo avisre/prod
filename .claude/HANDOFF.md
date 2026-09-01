@@ -91,25 +91,12 @@ behind: pushed as `7ee7dbf` (6 notes docs + HANDOFF + package-lock.json
 with yahoo-finance2 correctly out of devDependencies — prevents the next
 Render build from repeating the 8/31 boot crash). Remaining for owner:
 E2E on :4001 + trigger the deploy (env changes from #7 activate at it).
-The build list below is kept only as a ship log:
-
-- **Four-rung ladder** (Good $24.99/mo, Good-annual $199.99/yr, Pro
-  $499.99/yr, Desk $1,999.99/yr; Enterprise contact rung; sell-order mask).
-  Tests: `pricing-ladder.test.js` + `/tmp/ladder-check/check.js` (24/24).
-  Stamp `20260831-ladder1`→`20260831-menu4`.
-- **$14.99 topup wired** (price exists). RENDER LACKS IT: per-key PUT
-  `STRIPE_PRICE_ID_CREDITS_TOPUP=price_1UAUOtAUeKapY1OPUcSIaloi`.
-- **Front door**: anon gate on, email rung (`AskTrialLead`,
-  /api/ask-trial/*, sp_ask_bonus +2), ask floor on SEO surfaces. Stamp
-  `20260901-sales1`. Tests `anon-ask-trial.test.js` (7). Baseline
-  `notes/2026-09-sales-funnel-baseline.md`.
-- **Landing hero rebuild** (`#home-try` 3-free demo card), Compare Beta chip
-  (stamp `20260901-beta1`), ask-latency caches (peer_context 35.2s→2.4s;
-  `ASK_WARM_TICKERS` suggested `NVDA,AMD,INTC,AAPL,TSLA,V,MA`), landing ask
-  box no-reflow (`20260901-askfix1`).
-- **Six feedback decisions (8/31)** in `docs/product-principles.md`;
-  `docs/appsumo-listing-v3.md` draft ready — WATCH caps 1/2/6 vs shipped
-  grant 12/40/∞, owner must reconcile.
+The build list below is kept only as a ship log: ladder (menu4, 24/24
+tests) · $14.99 topup wired · front door anon gate (sales1, 7 tests,
+baseline `notes/2026-09-sales-funnel-baseline.md`) · hero rebuild +
+Compare Beta chip + ask caches (askfix1) · six feedback decisions in
+`docs/product-principles.md`; `docs/appsumo-listing-v3.md` draft ready —
+WATCH caps 1/2/6 vs shipped grant 12/40/∞, owner must reconcile.
 
 ## Owner actions pending
 
