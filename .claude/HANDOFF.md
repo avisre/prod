@@ -33,25 +33,18 @@ AppSumo attribution ticket. Kill criteria + 14-day re-forecast protocol
 
 **WEEK-1 FORENSICS DONE (2026-09-01, ownerless) —
 `notes/2026-09-01-week1-checkout-forensics.md`:**
-- **Abandonment explained**: Aug leads hit FOUR price generations — 3 leads
-  got a **404 price** (`price_1U7kok…`, GBP £9/mo, not on current account),
-  2 more were shown GBP £7/£9, rest hit June-USD prices. The 8/31 re-pricing
-  already fixed the pipe; live session + hosted Stripe page verified healthy
-  (US$24.99, Apple Pay + card, 0 console errors).
-- **Warm pool is 25 pending leads, not 12** (10+2 monthly, 5 pro, 1+4
-  pro-annual, 1 annual, 1 power, 1 desk) — all signed up in August. Rung
-  mapping in the readout; desk lead = founder-led close.
-- **Referral bucket resolved**: 74% is owner-local testing (localhost/
-  127.0.0.1); real external ≈ 60–70 sessions/mo (appsumo.com 41, t.co 16,
-  yahoo 10, github 7, copilot 6, betalist 5, checkout.stripe.com 5). No
-  hidden channel.
+- **Abandonment explained**: FOUR price generations — a 404'd GBP price,
+  live GBP prices shown to US buyers, June-USD prices; 8/31 re-pricing
+  fixed the pipe; hosted page verified healthy (US$24.99, 0 errors).
+- **Warm pool 25 leads, not 12** (→ ~6 REAL humans; rest owner-test
+  signups — see reply-wave note). Rung mapping in the readout; desk =
+  founder-led close.
+- **Referral bucket**: 74% owner-local; real external ≈60–70 sessions/mo
+  (appsumo.com 41, t.co 16, yahoo 10, github 7). No hidden channel.
 - `STRIPE_PRICE_ID_*` env keys ABSENT from env backup → DONE 9/1, see #7.
-- Email drafts: `notes/2026-09-01-week1-email-drafts.md` (25-lead recovery +
-  8-buyer review ask; owner approves, support@ only, after live payment-link
-  test).
+- Drafts: `notes/2026-09-01-week1-email-drafts.md` (SENT 38/38).
 - Filing Diff kit: `notes/2026-09-01-week1-filing-diff-demand-kit.md`
-  (TSLA/UPS/FDX exemplar briefs, early-access copy, B2B sample template,
-  verification checklist; public exemplar = TSLA).
+  (TSLA/UPS/FDX briefs, early-access copy, B2B template; exemplar = TSLA).
 
 ## CEO state-of-business — COMPLETE (2026-09-01)
 
