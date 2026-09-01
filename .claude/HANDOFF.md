@@ -94,7 +94,9 @@ shipped grant 12/40/∞, owner must reconcile.
 1. Owner logged in to gh 9/1; docs+lockfile pushed as `7ee7dbf`. **Owner:
    trigger the Render deploy** (flip avisre/prod public → deploy → flip
    back). All env PUTs (#7) activate at this deploy. Auto-deploy on push is
-   broken — deploy must be triggered manually.
+   broken — deploy must be triggered manually. **Deploy again for `3bf46b0`
+   (9/2): screener one-toggle market-cap bands — built on owner directive
+   after gattomorto77's request; verified 411/411 + live API bands.**
 2. Owner E2E locally on :4001 (upgrade ladder, compare beta, front door).
 3. **Strategy Week-1 owner gates — REMAINING:** (a) live payment-link
    purchase+refund (links created 9/1: Good-mo/Good-annual/Pro, verified
