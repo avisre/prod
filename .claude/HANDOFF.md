@@ -45,8 +45,7 @@ AppSumo attribution ticket. Kill criteria + 14-day re-forecast protocol
   127.0.0.1); real external ≈ 60–70 sessions/mo (appsumo.com 41, t.co 16,
   yahoo 10, github 7, copilot 6, betalist 5, checkout.stripe.com 5). No
   hidden channel.
-- `STRIPE_PRICE_ID_*` env keys ABSENT from env backup — add all 5 to the
-  per-key PUT list at next deploy.
+- `STRIPE_PRICE_ID_*` env keys ABSENT from env backup → DONE 9/1, see #7.
 - Email drafts: `notes/2026-09-01-week1-email-drafts.md` (25-lead recovery +
   8-buyer review ask; owner approves, support@ only, after live payment-link
   test).
@@ -92,11 +91,10 @@ with yahoo-finance2 correctly out of devDependencies — prevents the next
 Render build from repeating the 8/31 boot crash). Remaining for owner:
 E2E on :4001 + trigger the deploy (env changes from #7 activate at it).
 The build list below is kept only as a ship log: ladder (menu4, 24/24
-tests) · $14.99 topup wired · front door anon gate (sales1, 7 tests,
-baseline `notes/2026-09-sales-funnel-baseline.md`) · hero rebuild +
-Compare Beta chip + ask caches (askfix1) · six feedback decisions in
-`docs/product-principles.md`; `docs/appsumo-listing-v3.md` draft ready —
-WATCH caps 1/2/6 vs shipped grant 12/40/∞, owner must reconcile.
+tests) · topup wired · front door anon gate (sales1; baseline
+`notes/2026-09-sales-funnel-baseline.md`) · hero + Beta chip + ask caches
+(askfix1) · `docs/appsumo-listing-v3.md` draft ready — WATCH caps 1/2/6 vs
+shipped grant 12/40/∞, owner must reconcile.
 
 ## Owner actions pending
 
