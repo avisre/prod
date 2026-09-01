@@ -81,7 +81,17 @@ ladder cards, /upgrade /recharge /monitor 200). Boot-crash root cause:
 in-review check + v3 heads-up). Nothing submitted to the portal — owner's
 call.
 
-## LOCAL-ONLY builds awaiting owner test + one combined push
+## LOCAL-ONLY builds — RESOLVED 9/1: all already on origin/main
+
+Diff of the local tree vs origin/main (9/1) proved the ladder, topup wiring,
+front door, hero rebuild and ask caches were ALL in the 8/31 pushes
+(`2cd178c1`+`74a7fdab`) and are live. Earlier "awaiting one combined push"
+framing was stale — no code was ever unpushed. Only docs/lockfile were
+behind: pushed as `7ee7dbf` (6 notes docs + HANDOFF + package-lock.json
+with yahoo-finance2 correctly out of devDependencies — prevents the next
+Render build from repeating the 8/31 boot crash). Remaining for owner:
+E2E on :4001 + trigger the deploy (env changes from #7 activate at it).
+The build list below is kept only as a ship log:
 
 - **Four-rung ladder** (Good $24.99/mo, Good-annual $199.99/yr, Pro
   $499.99/yr, Desk $1,999.99/yr; Enterprise contact rung; sell-order mask).
@@ -103,8 +113,10 @@ call.
 
 ## Owner actions pending
 
-1. `gh auth login -h github.com` (PAT revoked) → deploy both builds. All env
-   PUTs are DONE (see #7) but apply only at next deploy — this one.
+1. Owner logged in to gh 9/1; docs+lockfile pushed as `7ee7dbf`. **Owner:
+   trigger the Render deploy** (flip avisre/prod public → deploy → flip
+   back). All env PUTs (#7) activate at this deploy. Auto-deploy on push is
+   broken — deploy must be triggered manually.
 2. Owner E2E locally on :4001 (upgrade ladder, compare beta, front door).
 3. **Strategy Week-1 owner gates — REMAINING:** (a) live payment-link
    purchase+refund (links created 9/1: Good-mo/Good-annual/Pro, verified
