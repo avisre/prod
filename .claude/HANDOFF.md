@@ -114,7 +114,9 @@ WATCH caps 1/2/6 vs shipped grant 12/40/∞, owner must reconcile.
    preview; watch replies in /admin/messages.**
 4. Revoke old PAT; rotate Bing key (`~/.local/share/secrets/bing_webmaster.txt`).
 5. AppSumo listing v3 submission owner's call; review harvest to 6–10
-   (review-ask emails WENT OUT 9/1 to all 12 buyers).
+   (**review 1 in**: gattomorto77 replied 9/1 + got the Intelligence
+   founding offer — see `notes/2026-09-02-reply-wave-1.md`; owner pastes
+   other Gmail replies, I can't read the mailbox).
 6. Strategy gate at day 14 (≈2026-09-15): re-forecast per Appendix C of v3.
 7. **Render env PUTs DONE 9/1** (owner provided API key; per-key PUT only).
    Audited all 65 live keys against the code: all five STRIPE_PRICE_ID_* were
@@ -126,6 +128,13 @@ WATCH caps 1/2/6 vs shipped grant 12/40/∞, owner must reconcile.
    and APPSUMO_REVIEW_EMAILS=0 (owner's 8/31 decision; manual asks already
    sent to all 12 buyers — leaving it on would double-ask).
    DESK/PRO_ANNUAL_PLAN_PRICE already live. Changes apply at NEXT deploy.
+   DEPLOY DONE 9/1 by owner: live `dep-dabcorgu01pc73eqnta0` @ `481fc04`
+   (first build failed, retrigger OK) — env changes now active.
+   **Intelligence founding SKU live 9/1**: $149/yr product
+   `prod_VBJ9tuIAexvOf8` / price `price_1UAwXPAUeKapY1OPhzEkQNNA` /
+   link https://buy.stripe.com/9B6eVcbh2fmwgXNb0q4sE06 (verified
+   US$149.00). Offered to first engaged reply (gattomorto77). TODO: manual
+   entitlement grant on purchase (webhook doesn't map this SKU yet).
 8. **Rotate secrets exposed in chat 9/1** (env snapshot pasted into the
    session): STRIPE_SECRET_KEY, SMTP_PASS, JWT_SECRET, GOOGLE_CLIENT_SECRET,
    AI keys — at the next deploy window, snapshot first.
