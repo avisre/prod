@@ -50,7 +50,15 @@
           <label class="field"><span>Min ROE (%)</span><input class="input" id="f-roe" type="number" step="1" placeholder="e.g. 15" /></label>
           <label class="field"><span>Max P/E</span><input class="input" id="f-pe" type="number" step="1" placeholder="e.g. 25" /></label>
           <label class="field"><span>Min dividend yield (%)</span><input class="input" id="f-div" type="number" step="0.1" placeholder="e.g. 2" /></label>
-          <label class="field"><span>Min market cap ($B)</span><input class="input" id="f-mcap" type="number" step="1" placeholder="e.g. 10" /></label>
+          <label class="field"><span>Market cap</span><select class="select" id="f-mcap">
+            <option value="">Any size</option>
+            <option value="mega">Mega · over $200B</option>
+            <option value="large">Large · $10B–$200B</option>
+            <option value="mid">Mid · $2B–$10B</option>
+            <option value="small">Small · $300M–$2B</option>
+            <option value="micro">Micro · $50M–$300M</option>
+            <option value="penny">Penny · under $50M</option>
+          </select></label>
           <label class="field"><span>Min qtr earnings growth (%)</span><input class="input" id="f-qtr" type="number" step="5" placeholder="e.g. 25" /></label>
         </div>
         <div style="display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:18px; flex-wrap:wrap;">
@@ -104,6 +112,6 @@
     <p style="margin:0 0 10px;color:#64748b">Go deeper than a screen with deterministic, SEC-grounded checks:</p>
     <p style="margin:0"><a style="display:inline-block; padding:8px 3px;" href="/tools/earnings-quality">Earnings quality checker</a> · <a style="display:inline-block; padding:8px 3px;" href="/tools/dilution">Share dilution calculator</a> · <a style="display:inline-block; padding:8px 3px;" href="/tools/filing-timeline">SEC filing timeline</a></p>
   </section>
-  <script src="assets/screener.js?v=20260830-sretry1"></script>
+  <script src="assets/screener.js?v=20260902-mcapband1"></script>
 </body>
 </html>

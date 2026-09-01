@@ -20,8 +20,30 @@
         clear: {}
     };
 
+    // One toggle for size — the band select maps to min/max cap bounds.
+    // Saved screens from before 9/2 stored a plain min-$B number in f-mcap;
+    // bandFor() migrates those to the closest band instead of dropping them.
+    const BANDS = {
+        mega: { min: 200 },
+        large: { min: 10, max: 200 },
+        mid: { min: 2, max: 10 },
+        small: { min: 0.3, max: 2 },
+        micro: { min: 0.05, max: 0.3 },
+        penny: { max: 0.05 }
+    };
+    function bandFor(minB) {
+        if (minB >= 200) return 'mega';
+        if (minB >= 10) return 'large';
+        if (minB >= 2) return 'mid';
+        if (minB >= 0.3) return 'small';
+        if (minB >= 0.05) return 'micro';
+        return 'penny';
+    }
+
     function setFilters(p) {
-        ['f-cagr', 'f-margin', 'f-roe', 'f-pe', 'f-div', 'f-mcap', 'f-qtr'].forEach((id) => { $(id).value = p[id] ?? ''; });
+        ['f-cagr', 'f-margin', 'f-roe', 'f-pe', 'f-div', 'f-qtr'].forEach((id) => { $(id).value = p[id] ?? ''; });
+        const mv = p['f-mcap'];
+        $('f-mcap').value = (mv !== undefined && mv !== '' && !Number.isNaN(Number(mv))) ? bandFor(Number(mv)) : (mv || '');
         $('f-fcf').checked = !!p['f-fcf'];
         $('f-sector').value = '';
     }
@@ -35,7 +57,11 @@
         set('minRoe', $('f-roe').value);
         set('maxPe', $('f-pe').value);
         set('minDivYield', $('f-div').value);
-        set('minMarketCapB', $('f-mcap').value);
+        const band = BANDS[$('f-mcap').value];
+        if (band) {
+            if (band.min !== undefined) set('minMarketCapB', band.min);
+            if (band.max !== undefined) set('maxMarketCapB', band.max);
+        }
         set('minQtrEarningsGrowth', $('f-qtr').value);
         if ($('f-fcf').checked) set('fcfPositive', '1');
         set('sortBy', sortKey === 'symbol' || sortKey === 'sector' ? 'marketCapB' : sortKey);
@@ -175,7 +201,7 @@
             run();
         }));
     $('run-btn').addEventListener('click', run);
-    ['f-sector'].forEach((id) => $(id).addEventListener('change', run));
+    ['f-sector', 'f-mcap'].forEach((id) => $(id).addEventListener('change', run));
     // typing applies live — no hunting for the Run button; a manual edit also
     // releases the active preset highlight (you're off-script now)
     let debounce = null;

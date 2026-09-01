@@ -7369,6 +7369,7 @@ app.get('/api/screener', (req, res) => {
             min_roe_pct: q.minRoe,
             min_dividend_yield_pct: q.minDivYield,
             min_market_cap_billions: q.minMarketCapB,
+            max_market_cap_billions: q.maxMarketCapB,
             min_profitable_years_of_last_10: q.minProfitableYears,
             min_latest_qtr_earnings_growth_yoy_pct: q.minQtrEarningsGrowth,
             max_pe: q.maxPe,
