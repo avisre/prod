@@ -1812,7 +1812,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 // Accepts a tier string ('free' | 'core' | 'pro') or the legacy boolean isPro.
 function limits(tier) {
     if (tier === true || tier === 'pro') return Number(process.env.AI_CHAT_PRO_LIMIT || 300);
-    if (tier === 'core') return Number(process.env.AI_CHAT_CORE_LIMIT || 25);
+    if (tier === 'core') return Number(process.env.AI_CHAT_CORE_LIMIT || 50);
     return Number(process.env.AI_CHAT_FREE_LIMIT || 3);
 }
 function monthKey() { return new Date().toISOString().slice(0, 7); }

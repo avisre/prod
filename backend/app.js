@@ -4054,6 +4054,10 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
             quantity: 1
         }],
         client_reference_id: subjectRef,
+        // Referral codes (GATTOMORTO et al.) are entered on this screen — the
+        // coupon takes $24.99 off the first invoice, once. The one-off CNY and
+        // credit-recharge sessions deliberately don't allow codes.
+        allow_promotion_codes: true,
         ...urlParams,
         custom_text: {
             submit: {
