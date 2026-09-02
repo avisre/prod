@@ -1,5 +1,48 @@
 # Handoff
 
+## Customer-thread bug pass (2026-09-02) — local, rides the next deploy
+
+From the gattomorto77 website-interaction thread. Stamp → `20260902-navfix1`
+(all pages + server-rendered + pinning tests). Ships at the owner's next
+deploy trigger (same one pending for `3bf46b0` screener bands).
+
+- **AppSumo tier-3 (Pro) = top tier → only the $14 AI-credit recharge.**
+  Root cause was deeper than the frontend: `/api/session` never returned
+  `appsumo`, so EVERY AppSumo branch in nav/upgrade.html was dead code and
+  tier-3 buyers fell through to the full ladder. Session now mirrors the
+  quota payload `{isAppSumo, tier, upgradeUrl}`; upgrade.html + nav tray
+  gate tier 3 to the highest-tier/Recharge copy. Tiers 1/2 keep the AppSumo
+  upgrade link (now actually live — 429 Ask wall already excluded tier 3).
+- **Nav Messages badge** no longer renders as literal `<span>` text
+  (row() escaped the whole label; badge is now a raw-suffix param).
+- **Unread badge vanished on profile load**: messages.js fetched the thread
+  on page load, which zeroes `userUnread` server-side before the section is
+  opened. Fetch now deferred to first open of #messages-details (inbox.html
+  unchanged; the #messages-details deep link still works via the toggle
+  event).
+- **Perf (slow profile + slow admin thread click)**: boot-time
+  `ensureMeteringIndexes()` — credit_ledger {userId,month,at:-1} (was 3
+  COLLSCANs per /api/credits, a nav hot path), ai_chat_usage {userId,month},
+  personal_memory {userId}. Admin thread click updates the clicked row in
+  place instead of re-running the full customer-directory scan.
+- Diagnosed but NOT shipped (bigger surgery, deferred): authMiddleware
+  fetches the full ~140-field User doc (and may save it) on every authed
+  request (~7× per profile page load); no User.createdAt index for the
+  admin directory sort.
+- After deploy: reply to gattomorto77 from support@ via /api/admin/messages.
+
+## Monitor cap v2 (1/4/8) SHIPPED DARK (2026-09-02)
+
+`MONITOR_CAP_V2_EFFECTIVE_FROM` is **blank** — code is inert, everyone still
+gets 12/40/∞. Setting it starts 1/4/8 for redemptions from that moment; earlier
+buyers are grandfathered permanently by redemption date. Cap + label + watchlist
+gate all resolve from `lib/tier-limits.js` (`monitorCapLabel`,
+`wouldExceedMonitorCap`); the redemption email and profile page no longer
+hardcode the ladder — that drift would have promised "unlimited" to a capped
+buyer. Cache stamp → `20260902-monitorcap1`. Full suite 434/434
+(`direct-ltd-affiliate` is order-flaky, passes in isolation). No AppSumo
+approval needed: nothing is taken from an existing buyer.
+
 ## STRATEGY v3 APPROVED — the operating plan (2026-09-01)
 
 `notes/2026-09-01-stripe-2000-strategy-v3.md` (supersedes v2 —
@@ -73,21 +116,14 @@ ladder cards, /upgrade /recharge /monitor 200). Boot-crash root cause:
 in-review check + v3 heads-up). Nothing submitted to the portal — owner's
 call.
 
-## LOCAL-ONLY builds — RESOLVED 9/1: all already on origin/main
+## LOCAL-ONLY builds — RESOLVED 9/1 (historical)
 
-Diff of the local tree vs origin/main (9/1) proved the ladder, topup wiring,
-front door, hero rebuild and ask caches were ALL in the 8/31 pushes
-(`2cd178c1`+`74a7fdab`) and are live. Earlier "awaiting one combined push"
-framing was stale — no code was ever unpushed. Only docs/lockfile were
-behind: pushed as `7ee7dbf` (6 notes docs + HANDOFF + package-lock.json
-with yahoo-finance2 correctly out of devDependencies — prevents the next
-Render build from repeating the 8/31 boot crash). Remaining for owner:
-E2E on :4001 + trigger the deploy (env changes from #7 activate at it).
-The build list below is kept only as a ship log: ladder (menu4, 24/24
-tests) · topup wired · front door anon gate (sales1; baseline
-`notes/2026-09-sales-funnel-baseline.md`) · hero + Beta chip + ask caches
-(askfix1) · `docs/appsumo-listing-v3.md` draft ready — WATCH caps 1/2/6 vs
-shipped grant 12/40/∞, owner must reconcile.
+9/1 diff vs origin/main proved ladder/topup/front door/hero/ask caches were
+all in the 8/31 pushes (`2cd178c1`+`74a7fdab`, live); only docs+lockfile
+lagged → pushed as `7ee7dbf` (yahoo-finance2 moved out of devDependencies —
+prevents a repeat of the 8/31 boot crash). Ship log: ladder (menu4) · topup
+wired · front door anon gate (sales1) · hero + Beta chip + ask caches
+(askfix1) · `docs/appsumo-listing-v3.md`.
 
 ## Owner actions pending
 
@@ -99,35 +135,24 @@ shipped grant 12/40/∞, owner must reconcile.
    after gattomorto77's request; verified 411/411 + live API bands.**
 2. Owner E2E locally on :4001 (upgrade ladder, compare beta, front door).
 3. **Strategy Week-1 owner gates — REMAINING:** (a) live payment-link
-   purchase+refund (links created 9/1: Good-mo/Good-annual/Pro, verified
-   rendering; preview email sent to the admin account); (b) live $24.99
-   checkout+refund (last unverified link in the pipe).
-   **Sends are DONE (9/1, owner-approved): 38/38 accepted via
-   /api/admin/messages — 25 lead recoveries + 12 buyer review asks + 1
-   preview; watch replies in /admin/messages.**
+   purchase+refund (links created 9/1, verified rendering); (b) live $24.99
+   checkout+refund. Sends DONE 9/1: 38/38 via /api/admin/messages (25 leads
+   + 12 review asks + 1 preview); watch replies in /admin/messages.
 4. Revoke old PAT; rotate Bing key (`~/.local/share/secrets/bing_webmaster.txt`).
 5. AppSumo listing v3 submission owner's call; review harvest to 6–10
-   (**review 1 in**: gattomorto77 replied 9/1 + got the Intelligence
-   founding offer — see `notes/2026-09-02-reply-wave-1.md`; owner pastes
-   other Gmail replies, I can't read the mailbox).
+   (review 1 in: gattomorto77 — see `notes/2026-09-02-reply-wave-1.md`;
+   owner pastes other Gmail replies, I can't read the mailbox).
 6. Strategy gate at day 14 (≈2026-09-15): re-forecast per Appendix C of v3.
-7. **Render env PUTs DONE 9/1** (owner provided API key; per-key PUT only).
-   Audited all 65 live keys against the code: all five STRIPE_PRICE_ID_* were
-   ALREADY CORRECT — incl. PRO=`…KtXHogz4` ($79.99/mo): `pro` is the RETIRED
-   rung (app.js:499, upgrade.html:79); featured Pro $499.99/yr = planId
-   `pro-annual` → PRO_ANNUAL key. (This list previously said PUT
-   PRO=dN21eUjX — WRONG, would have broken the retired rung.) PUT this
-   session, both re-GET-verified: ASK_WARM_TICKERS=NVDA,AMD,INTC,AAPL,TSLA,V,MA
-   and APPSUMO_REVIEW_EMAILS=0 (owner's 8/31 decision; manual asks already
-   sent to all 12 buyers — leaving it on would double-ask).
-   DESK/PRO_ANNUAL_PLAN_PRICE already live. Changes apply at NEXT deploy.
-   DEPLOY DONE 9/1 by owner: live `dep-dabcorgu01pc73eqnta0` @ `481fc04`
-   (first build failed, retrigger OK) — env changes now active.
-   **Intelligence founding SKU live 9/1**: $149/yr product
-   `prod_VBJ9tuIAexvOf8` / price `price_1UAwXPAUeKapY1OPhzEkQNNA` /
-   link https://buy.stripe.com/9B6eVcbh2fmwgXNb0q4sE06 (verified
-   US$149.00). Offered to first engaged reply (gattomorto77). TODO: manual
-   entitlement grant on purchase (webhook doesn't map this SKU yet).
+7. **Render env PUTs DONE 9/1, deploy DONE** (live `dep-dabcorgu01pc73eqnta0`
+   @ `481fc04`; env changes active). All five STRIPE_PRICE_ID_* audited
+   CORRECT as-is — featured Pro $499.99/yr = planId `pro-annual` →
+   PRO_ANNUAL key (`pro` is the retired rung). PUT this session:
+   ASK_WARM_TICKERS=NVDA,AMD,INTC,AAPL,TSLA,V,MA and APPSUMO_REVIEW_EMAILS=0
+   (both re-GET-verified). **Intelligence founding SKU live 9/1**: $149/yr
+   product `prod_VBJ9tuIAexvOf8` / price `price_1UAwXPAUeKapY1OPhzEkQNNA` /
+   link https://buy.stripe.com/9B6eVcbh2fmwgXNb0q4sE06 (verified US$149.00).
+   Offered to gattomorto77. TODO: manual entitlement grant on purchase
+   (webhook doesn't map this SKU yet).
 8. **Rotate secrets exposed in chat 9/1** (env snapshot pasted into the
    session): STRIPE_SECRET_KEY, SMTP_PASS, JWT_SECRET, GOOGLE_CLIENT_SECRET,
    AI keys — at the next deploy window, snapshot first.

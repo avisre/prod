@@ -14,10 +14,15 @@ test('AppSumo landing page keeps every purchase CTA on the tracked bridge', () =
 
 test('AppSumo landing page states the verified tier prices, Monitor caps and Ask limits', () => {
   for (const price of ['$39', '$79', '$149']) assert.ok(html.includes(price), `missing ${price}`);
-  // Listing v2 leads with the Monitor cap (mirrors LTD_MONITOR_CAP in
-  // lib/tier-limits.js); Ask stays a listed allowance per tier.
-  for (const cap of ['12', '40', 'Unlimited']) {
-    assert.match(html, new RegExp(`<strong>${cap}</strong>\\s*companies watched by the Filing Monitor`));
+  // Listing v4 leads with the Monitor cap, now 1/4/8 — LTD_MONITOR_CAP_V2 in
+  // lib/tier-limits.js. The page may legitimately differ from what the product
+  // currently grants: buyers who redeemed before MONITOR_CAP_V2_EFFECTIVE_FROM
+  // are grandfathered at 12/40/unlimited, and while that cutover is unset the
+  // code over-delivers against this copy. Over-delivery is the safe direction;
+  // the reverse (promising more than the tier gives) is what must never ship.
+  // Ask stays a listed allowance per tier.
+  for (const cap of ['1 company', '4 companies', '8 companies']) {
+    assert.match(html, new RegExp(`<strong>${cap}</strong>\\s*watched by the Filing Monitor`));
   }
   for (const limit of ['30', '100', '300']) {
     assert.match(html, new RegExp(`${limit} Ask questions / month`));

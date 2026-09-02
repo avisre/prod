@@ -826,22 +826,28 @@
         const topTier = ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId);
         const as = session && session.appsumo;
         const rechargeEligible = hasBalance && remaining / Math.max(1, allowance) <= 0.2;
-        const row = (href, label) => `<a href="${href}" role="menuitem">${esc(label)}</a>`;
+        // rawSuffix is trusted HTML appended after the escaped label (used for
+        // the unread badge, whose count is escaped at the call site).
+        const row = (href, label, rawSuffix = '') => `<a href="${href}" role="menuitem">${esc(label)}${rawSuffix}</a>`;
         let html = `
         <p class="nav-account-status">${esc(planName)}${hasBalance ? ` · ${Math.max(0, remaining)} left` : ''}</p>
         <div class="nav-account-sep"></div>
         <div class="nav-account-links" role="none">
           ${row('/profile.html#usage-details', 'Usage')}
           ${row('/profile.html#settings-section', 'Settings')}
-          ${row('/profile.html#messages-details', `Messages${unread ? ` <span class="nav-account-unread">${esc(unread)}</span>` : ''}`)}
+          ${row('/profile.html#messages-details', 'Messages', unread ? ` <span class="nav-account-unread">${esc(unread)}</span>` : '')}
           ${isOwner ? row('/profile.html#admin-section', 'Admin') : ''}
         </div>`;
-        if (as && as.isAppSumo && as.upgradeUrl) {
+        // Tier 3 (Pro) is the top AppSumo tier — nothing to upgrade to there,
+        // so it never gets the AppSumo link; the AI-credit recharge below is
+        // its only upgrade path.
+        const appsumoTop = as && as.isAppSumo && Number(as.tier) === 3;
+        if (as && as.isAppSumo && !appsumoTop && as.upgradeUrl) {
             html += `<a class="nav-account-cta" role="menuitem" href="${esc(as.upgradeUrl)}" target="_blank" rel="noopener">Upgrade license &rarr;</a>`;
-        } else if (!topTier) {
+        } else if (!topTier && !appsumoTop) {
             html += `<a class="nav-account-cta" role="menuitem" href="/upgrade.html">Upgrade plan</a>`;
         }
-        if (rechargeEligible) {
+        if (rechargeEligible || appsumoTop) {
             html += `<a class="nav-account-cta nav-account-cta-quiet" role="menuitem" href="/recharge.html">Recharge credits</a>`;
         }
         html += `<div class="nav-account-sep"></div>

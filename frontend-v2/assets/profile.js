@@ -347,12 +347,18 @@
                 : '';
             // Lifetime tiers now include the Filing Change Monitor, capped to a
             // company count by tier; a monthly Pro subscription still does not.
-            // Keep this in step with LTD_MONITOR_CAP in lib/tier-limits.js.
+            // The cap is resolved SERVER-side (lib/tier-limits.js monitorCapLabel)
+            // and is cohort-aware, so a grandfathered buyer keeps their original
+            // number. Do not recompute the ladder here: this line used to hardcode
+            // 12/40/unlimited, which would have promised a post-cutover buyer more
+            // than the product gives them. If an older deploy omits the label, say
+            // nothing about the count rather than assert one that may be wrong.
             const ltd = quota.appsumo && quota.appsumo.isAppSumo;
-            const monitorCap = { 1: '12 companies', 2: '40 companies', 3: 'unlimited companies' }[Number(quota.appsumo && quota.appsumo.tier)] || 'unlimited companies';
+            const monitorCap = (quota.appsumo && quota.appsumo.monitorCapLabel) || '';
+            const monitorPhrase = monitorCap ? ` across ${monitorCap}` : '';
             includesEl.textContent = session.tier === 'pro'
                 ? (ltd
-                    ? `Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, unlimited portfolio tracking, and the Filing Change Monitor across ${monitorCap} — with a weekly email when one of them files something that matters. Thesis Tracker and tax tools remain on Power/Desk.`
+                    ? `Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, unlimited portfolio tracking, and the Filing Change Monitor${monitorPhrase} — with a weekly email when one of them files something that matters. Thesis Tracker and tax tools remain on Power/Desk.`
                     : 'Includes Dossier, filing key points, reverse-DCF, screener & AI verdict, and unlimited portfolio tracking. The Filing Change Monitor, Thesis Tracker and tax tools are on Power/Desk.')
                 : session.tier === 'core'
                     ? 'Includes screener, comparison and portfolio tracking. Upgrade to Pro for Ask, Dossier and filing key points.'

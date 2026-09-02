@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260901-askfix1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260902-navfix1" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -75,8 +75,21 @@
     @media (max-width: 560px) {
       #add-form { grid-template-columns: 1fr 1fr !important; }
       #add-form > label:first-child { grid-column: 1 / -1; }
-      #add-form > button[type=submit] { grid-column: 1 / -1; }
+      #add-form > button[type=submit], #add-form > button[type=button] { grid-column: 1 / -1; }
     }
+    /* Multiple portfolios: switcher row under the Portfolio label. Only
+       "+ New" is visible before a second portfolio exists, so users who
+       never adopt the feature keep today's screen. */
+    .pf-switcher { display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin:8px 0 2px; }
+    .pf-switcher .input { height:36px; width:auto; padding:0 30px 0 12px; font-size:var(--text-sm); }
+    /* Allocation legend: every holding gets a slice and a legend row, so a
+       wide portfolio scrolls instead of stretching the card. */
+    #alloc-legend.is-scroll { max-height:216px; overflow-y:auto; padding-right:6px; }
+    /* Gain cells flip between % and $ on click; the column header flips all. */
+    th.gain-th { cursor:pointer; }
+    td.gain-cell { cursor:pointer; }
+    /* CSV import preview lives inside the shared modal — scroll, don't grow. */
+    .pf-import-preview .table-wrap { max-height:320px; overflow-y:auto; }
   </style>
 </head>
 <body>
@@ -96,17 +109,27 @@
         <div class="page-head" style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap;">
           <div>
             <p class="label">Portfolio</p>
+            <div class="pf-switcher" id="pf-switcher">
+              <select class="input" id="pf-select" aria-label="Portfolio" hidden></select>
+              <button class="btn btn-ghost btn-sm" type="button" id="pf-new">+ New</button>
+              <button class="btn btn-ghost btn-sm" type="button" id="pf-del" hidden aria-label="Delete this portfolio">–</button>
+            </div>
             <div class="portfolio-value-line">
               <p class="display" id="pf-total">&nbsp;</p>
               <p class="small portfolio-inception-gain" id="pf-inception-gain" hidden></p>
             </div>
             <p class="muted small" id="pf-sub">&nbsp;</p>
           </div>
-          <form class="card card-pad" id="add-form" style="display:grid; grid-template-columns: 110px 90px 110px auto; gap:10px; align-items:end;">
-            <label class="field"><span>Stock / ETF / fund</span><input class="input" id="add-sym" placeholder="AAPL, SPY, VTSAX" required style="text-transform:uppercase;" /></label>
+          <form class="card card-pad" id="add-form" style="display:grid; grid-template-columns: 150px 80px 100px 130px auto auto; gap:10px; align-items:end;">
+            <label class="field"><span>Ticker(s)</span><input class="input" id="add-sym" placeholder="AAPL, MSFT, V" required style="text-transform:uppercase;" autocomplete="off" /></label>
             <label class="field"><span>Units</span><input class="input" id="add-shares" type="number" min="0" step="any" required /></label>
             <label class="field"><span>Price paid</span><input class="input" id="add-price" type="number" min="0" step="any" placeholder="optional" /></label>
+            <label class="field"><span>Purchased</span><input class="input" id="add-date" type="date" /></label>
             <button class="btn btn-primary" type="submit">Add</button>
+            <span style="display:flex; gap:8px; align-items:center;">
+              <button class="btn btn-ghost" type="button" id="pf-import">Import CSV</button>
+              <span class="small faint" id="pf-add-target" hidden></span>
+            </span>
           </form>
           <p class="portfolio-action-status small" id="portfolio-action-status" role="status" aria-live="polite" hidden></p>
         </div>
@@ -215,7 +238,7 @@
           <div class="section-head"><h2 class="title-2">Holdings</h2><span class="small faint">grouped by asset type · weights use your complete portfolio</span></div>
           <div id="holdings-loading" style="padding:36px; text-align:center;"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading holdings…</span></div>
           <div class="card card-pad" id="holdings-empty" hidden>
-            <p style="margin:0;"><strong>No holdings yet.</strong> Add a stock, ETF or mutual fund above — try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>.</p>
+            <p style="margin:0;" id="holdings-empty-copy"><strong>No holdings yet.</strong> Add a stock, ETF or mutual fund above — try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>.</p>
             <!-- The same three first-run actions the getting-started card tracks,
                  so an empty portfolio is a starting point rather than a dead end. -->
             <ul class="small" style="margin:12px 0 0; padding-left:18px; display:grid; gap:6px;">
@@ -228,7 +251,7 @@
           <div class="holding-group" id="stock-holdings-group" hidden>
             <div class="section-head" style="margin-bottom:8px;"><h3 class="title-3">Stocks</h3><span class="small faint" id="stock-holdings-count"></span></div>
             <div class="table-wrap"><table class="table-data" id="stock-holdings-table">
-              <thead><tr><th class="row-head" style="text-align:left;">Stock</th><th>Units</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th>Gain</th><th></th></tr></thead>
+              <thead><tr><th class="row-head" style="text-align:left;">Stock</th><th>Units</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th class="gain-th" title="Toggle between % and $">Gain</th><th></th></tr></thead>
               <tbody id="stock-holdings-body"></tbody>
             </table></div>
           </div>
@@ -236,7 +259,7 @@
           <div class="holding-group" id="etf-holdings-group" hidden>
             <div class="section-head" style="margin-bottom:8px;"><h3 class="title-3">ETFs</h3><span class="small faint" id="etf-holdings-count"></span></div>
             <div class="table-wrap"><table class="table-data" id="etf-holdings-table">
-              <thead><tr><th class="row-head" style="text-align:left;">ETF</th><th>Units</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th>Gain</th><th></th></tr></thead>
+              <thead><tr><th class="row-head" style="text-align:left;">ETF</th><th>Units</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th class="gain-th" title="Toggle between % and $">Gain</th><th></th></tr></thead>
               <tbody id="etf-holdings-body"></tbody>
             </table></div>
           </div>
@@ -244,7 +267,7 @@
           <div class="holding-group" id="mutual-holdings-group" hidden>
             <div class="section-head" style="margin-bottom:8px;"><h3 class="title-3">Mutual funds</h3><span class="small faint" id="mutual-holdings-count"></span></div>
             <div class="table-wrap"><table class="table-data" id="mutual-holdings-table">
-              <thead><tr><th class="row-head" style="text-align:left;">Mutual fund</th><th>Units</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th>Gain</th><th></th></tr></thead>
+              <thead><tr><th class="row-head" style="text-align:left;">Mutual fund</th><th>Units</th><th>Paid</th><th>Price</th><th>Value</th><th>Weight</th><th class="gain-th" title="Toggle between % and $">Gain</th><th></th></tr></thead>
               <tbody id="mutual-holdings-body"></tbody>
             </table></div>
           </div>
@@ -303,7 +326,7 @@
       <p class="small muted" id="portfolio-action-detail">Please wait…</p>
     </div>
   </div>
-  <script src="assets/app.js?v=20260901-askfix1"></script>
-  <script src="assets/dashboard.js?v=20260830-dnoans1"></script>
+  <script src="assets/app.js?v=20260902-navfix1"></script>
+  <script src="assets/dashboard.js?v=20260902-ports1"></script>
 </body>
 </html>

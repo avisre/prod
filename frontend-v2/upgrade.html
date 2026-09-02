@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260902-navfix1" />
   <style>
     /* Same price components the homepage ladder uses (index.html) — the
        classes live page-locally in this tree, so each pricing surface
@@ -43,7 +43,7 @@
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20260901-askfix1"></script>
+  <script src="/assets/app.js?v=20260902-navfix1"></script>
   <script>
     (function () {
       'use strict';
@@ -160,8 +160,14 @@
         const status = owned.status || (session && session.tier === 'free' ? 'free' : 'active');
 
         // AppSumo accounts can't move up this ladder — entitlements live in
-        // AppSumo's billing. Show that path instead of a second purchase.
+        // AppSumo's billing. Tier 3 (Pro) is the top AppSumo tier, so there is
+        // nothing to upgrade to — only the AI-credit recharge remains.
         const as = session && session.appsumo;
+        if (as && as.isAppSumo && Number(as.tier) === 3) {
+          grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest AppSumo tier — nothing to upgrade to. You can top up your credit wallet instead: <a href="/recharge.html">Recharge credits →</a>.</p>';
+          note.hidden = false;
+          return;
+        }
         if (as && as.isAppSumo && as.upgradeUrl) {
           grid.innerHTML = '<p class="muted">Your plan is an AppSumo lifetime license — upgrades are handled by AppSumo.</p>';
           const link = document.getElementById('upgrade-appsumo-link');

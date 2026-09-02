@@ -16,6 +16,7 @@
 
 const nodemailer = require('nodemailer');
 const directLtd = require('./direct-ltd');
+const tierLimits = require('../lib/tier-limits');
 const SUPPORT_EMAIL = 'support@stockportfolio.pro';
 const SUPPORT_FROM = `StockPortfolio.pro Support <${SUPPORT_EMAIL}>`;
 
@@ -134,7 +135,7 @@ function ownerEmail({ name, email, plan }) {
   return { html, text };
 }
 
-function customerLifecycleEmail({ name, type, plan, tier, appUrl }) {
+function customerLifecycleEmail({ name, type, plan, tier, appUrl, redeemedAt }) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
   const safeFirst = escapeHtml(first);
   const dashboard = `${String(appUrl || '').replace(/\/$/, '')}/dashboard.html`;
@@ -152,10 +153,18 @@ function customerLifecycleEmail({ name, type, plan, tier, appUrl }) {
   // Inventory what the redeemed tier actually opens. Buyer activation emails
   // used to name no surfaces at all, and a customer who bought via AppSumo ran
   // the product for two months without discovering the Filing Change Monitor
-  // he had already paid for. The cap must mirror LTD_MONITOR_CAP in
-  // lib/tier-limits.js — read it from there rather than re-stating it.
-  const tierNum = Number(tier);
-  const monitorCapText = tierNum === 1 ? 'up to 12 companies' : tierNum === 2 ? 'up to 40 companies' : 'unlimited companies';
+  // he had already paid for.
+  //
+  // The cap is RESOLVED by lib/tier-limits.js, never restated here. This line
+  // used to hardcode 12/40/unlimited, so once the V2 caps go live a buyer capped
+  // at 8 would have been emailed a promise of "unlimited companies" on the day
+  // they paid. redeemedAt selects the cohort, so a grandfathered buyer still
+  // reads their original number; falling back to now is correct because this
+  // email IS the redemption event.
+  const monitorCapText = tierLimits.monitorCapLabel({
+    appsumoRedeemedAt: redeemedAt || new Date(),
+    appsumoTier: Number(tier) || null
+  }) || 'unlimited companies';
   const includesItems = [
     'Research Dossiers — an initiation-grade report on any of 6,000+ US stocks, in plain English, no prompting',
     `Filing Change Monitor — watch ${monitorCapText} and get a plain-English summary of each new filing`,
@@ -382,7 +391,7 @@ async function sendNewUserEmails({ name, email, plan } = {}) {
 // Customer + internal notification for a first paid activation. The caller
 // owns idempotency in MongoDB and invokes this only after inserting a unique
 // lifecycle event.
-async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occurredAt } = {}) {
+async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occurredAt, redeemedAt } = {}) {
   const transporter = getTransporter();
   const c = config();
   if (!transporter) {
@@ -392,7 +401,7 @@ async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occu
   const result = { customerSent: false, ownerSent: false };
   const jobs = [];
   if (email) {
-    const customer = customerLifecycleEmail({ name, type, plan, tier, appUrl: c.appUrl });
+    const customer = customerLifecycleEmail({ name, type, plan, tier, appUrl: c.appUrl, redeemedAt });
     jobs.push(transporter.sendMail({
       from: c.from, to: email, replyTo: c.support,
       subject: customer.subject, html: customer.html, text: customer.text,

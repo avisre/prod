@@ -30,7 +30,7 @@ test('a missing or unparseable cutover meters nobody (fail-closed on the downgra
 });
 
 test('post-cutover buyers get their tier config', () => {
-  assert.deepEqual(tl.limitsFor(NEW_BUYER, ON), { maxMonitoredCompanies: 12, historyYearsLimit: 5, metered: true });
+  assert.deepEqual(tl.limitsFor(NEW_BUYER, ON), { maxMonitoredCompanies: 12, historyYearsLimit: 5, maxPortfolios: 1, metered: true });
   assert.equal(tl.limitsFor({ ...NEW_BUYER, appsumoTier: 2 }, ON).maxMonitoredCompanies, 40);
   assert.equal(tl.limitsFor({ ...NEW_BUYER, appsumoTier: 3 }, ON).maxMonitoredCompanies, tl.UNLIMITED);
   // unknown tier resolves UP, matching appsumoTierConfig()
@@ -47,4 +47,24 @@ test('the meters themselves behave at the boundary', () => {
   assert.equal(tl.wouldExceedMonitored(NEW_BUYER, 12, ON), true);
   assert.equal(tl.clampHistoryYears(NEW_BUYER, 20, ON), 5);
   assert.equal(tl.clampHistoryYears(NEW_BUYER, 3, ON), 3);
+});
+
+test('portfolio cap: tier 1 is the pre-feature product, and Main counts toward it', () => {
+  // tier 1 = 1 total portfolio = the implicit Main only, i.e. exactly what
+  // shipped before multi-portfolio existed. Nothing is taken away.
+  assert.equal(tl.limitsFor(NEW_BUYER, ON).maxPortfolios, 1);
+  assert.equal(tl.wouldExceedPortfolios(NEW_BUYER, 1, ON), true);   // has Main, wants a 2nd
+  assert.equal(tl.limitsFor({ ...NEW_BUYER, appsumoTier: 2 }, ON).maxPortfolios, 5);
+  assert.equal(tl.wouldExceedPortfolios({ ...NEW_BUYER, appsumoTier: 2 }, 4, ON), false);
+  assert.equal(tl.wouldExceedPortfolios({ ...NEW_BUYER, appsumoTier: 2 }, 5, ON), true);
+  assert.equal(tl.limitsFor({ ...NEW_BUYER, appsumoTier: 3 }, ON).maxPortfolios, tl.UNLIMITED);
+  assert.equal(tl.wouldExceedPortfolios({ ...NEW_BUYER, appsumoTier: 3 }, 500, ON), false);
+});
+
+test('portfolio cap never applies to existing redeemers or with the flag off', () => {
+  // the load-bearing guarantee: a lifetime buyer who already redeemed keeps
+  // unlimited portfolios forever, flag on or off.
+  assert.equal(tl.wouldExceedPortfolios(OLD_BUYER, 999, ON), false);
+  assert.equal(tl.wouldExceedPortfolios(NEW_BUYER, 999, {}), false);
+  assert.equal(tl.wouldExceedPortfolios({}, 999, ON), false); // non-LTD account
 });

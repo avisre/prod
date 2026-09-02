@@ -19,7 +19,7 @@ import urllib.parse
 
 import requests
 
-DEFAULT_KEY = "/home/hardoker77/.local/share/secrets/gsc_service_account.json"
+DEFAULT_KEY = os.path.expanduser("~/.local/share/secrets/gsc_service_account.json")
 # Use the verified domain property as the single reporting surface.  The
 # historical URL-prefix property may still exist in an owner's Search Console
 # switcher, but reports should not split traffic between the two properties.

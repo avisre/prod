@@ -78,9 +78,34 @@
     let portfolioActionBusy = false;
     let portfolioRefreshVersion = 0;
 
+    // ---- multiple portfolios: switcher state ----
+    // The selection is a UI preference ('all' | 'main' | portfolio id), not
+    // data. Adds and imports always need a real target — "All" isn't one —
+    // so they land in Main, with a visible hint, while the merged view is on.
+    const PF_STORE_KEY = 'sp_pf_selection_v1';
+    let pfList = [];
+    let pfSelection = (() => { try { return localStorage.getItem(PF_STORE_KEY) || 'all'; } catch (_) { return 'all'; } })();
+    const pfPersist = (v) => {
+        pfSelection = v;
+        try { localStorage.setItem(PF_STORE_KEY, v); } catch (_) { /* private mode */ }
+    };
+    const pfAdopted = () => pfList.length > 1; // Main + at least one created portfolio
+    const pfCurrent = () => pfList.find((p) => String(p.id) === String(pfSelection));
+    const pfScopeQuery = () => (DEMO || pfSelection === 'all') ? '' : `?portfolioId=${encodeURIComponent(pfSelection)}`;
+    const pfTargetId = () => (pfSelection === 'all' ? 'main' : pfSelection);
+
+    // ---- gain cells: % by default, $ on click ----
+    const GAIN_FMT_KEY = 'sp_gain_fmt_v1';
+    let gainFmt = (() => { try { return localStorage.getItem(GAIN_FMT_KEY) === 'usd' ? 'usd' : 'pct'; } catch (_) { return 'pct'; } })();
+    const setGainFmt = (v) => {
+        gainFmt = v;
+        try { localStorage.setItem(GAIN_FMT_KEY, v); } catch (_) { /* private mode */ }
+    };
+
     function setPortfolioControlsBusy(busy) {
         const form = $('add-form');
         if (form) form.querySelectorAll('input, button, select').forEach((control) => { control.disabled = busy; });
+        ['pf-select', 'pf-new', 'pf-del'].forEach((id) => { const el = $(id); if (el) el.disabled = busy; });
         document.querySelectorAll('[data-del]').forEach((button) => { button.disabled = busy; });
     }
 
@@ -120,6 +145,7 @@
 
     if (DEMO) {
         // Read-only sample: hide mutation UI, label clearly, sell quietly.
+        $('pf-switcher').hidden = true;
         $('add-form').outerHTML = `
           <div class="card card-pad" style="max-width:380px;">
             <p class="label" style="margin-bottom:6px;">Demo portfolio</p>
@@ -130,22 +156,37 @@
 
     // ---------- allocation doughnut + portfolio value line (the v1 charts,
     // reset into the paper/ink system: muted tonal palette, hairlines) ----
-    const ALLOC_COLORS = ['#1c1b18', '#1a4fd6', '#1b7a4b', '#8a877e', '#6b86c8', '#b3a16e', '#5e5c55', '#9db8a0', '#c4b9a4', '#444239'];
+    const ALLOC_COLORS = ['#1c1b18', '#1a4fd6', '#1b7a4b', '#8a877e', '#6b86c8', '#b3a16e', '#5e5c55', '#9db8a0', '#c4b9a4', '#444239',
+        '#3d6fd8', '#2c6b4f', '#7d7a70', '#8fa3d6', '#c8b98d', '#78766d', '#b1c6b5', '#a99e83', '#2e2d29', '#57806b'];
     function renderAllocation(rows) {
         const host = $('alloc-chart');
         const legend = $('alloc-legend');
-        const positive = rows.filter((r) => (r.value || 0) > 0).slice().sort((a, b) => b.value - a.value);
-        const total = positive.reduce((a, r) => a + r.value, 0);
-        if (!positive.length || total <= 0) { $('charts-section').hidden = true; return; }
+        // Every holding gets its own slice — nothing is folded into an
+        // "Other" bucket. The same ticker held in two portfolios merges into
+        // one slice (sum of values) so the ring stays legible.
+        const bySymbol = new Map();
+        rows.filter((r) => (r.value || 0) > 0).forEach((r) => {
+            bySymbol.set(r.symbol, (bySymbol.get(r.symbol) || 0) + r.value);
+        });
+        const slices = [...bySymbol.entries()].map(([symbol, value]) => ({ symbol, value })).sort((a, b) => b.value - a.value);
+        const total = slices.reduce((a, s) => a + s.value, 0);
+        // Clear the ring too: switching to an empty portfolio must not leave
+        // the previous one's slices painted behind a hidden section.
+        if (!slices.length || total <= 0) {
+            host.innerHTML = '';
+            legend.innerHTML = '';
+            $('charts-section').hidden = true;
+            return;
+        }
         $('charts-section').hidden = false;
-        // group the tail beyond 8 slices into "Other" so the ring stays legible
-        const slices = positive.slice(0, 8);
-        const rest = positive.slice(8).reduce((a, r) => a + r.value, 0);
-        if (rest > 0) slices.push({ symbol: 'Other', value: rest });
         const W = 220, R = 95, IR = 60, CX = W / 2, CY = W / 2;
+        // Floor each fraction so a tiny slice still paints a visible arc,
+        // then renormalise so the ring closes exactly.
+        const fracs = slices.map((s) => Math.max(s.value / total, 0.006));
+        const fracSum = fracs.reduce((a, f) => a + f, 0);
         let a0 = -Math.PI / 2;
         const arcs = slices.map((s, i) => {
-            const frac = Math.min(0.9999, s.value / total);
+            const frac = Math.min(0.9999, fracs[i] / fracSum);
             const a1 = a0 + frac * Math.PI * 2;
             const big = a1 - a0 > Math.PI ? 1 : 0;
             const p = (r, a) => `${(CX + r * Math.cos(a)).toFixed(2)} ${(CY + r * Math.sin(a)).toFixed(2)}`;
@@ -158,6 +199,7 @@
             <text x="${CX}" y="${CY - 4}" text-anchor="middle" font-size="10" fill="var(--ink-3)" font-weight="650" letter-spacing="0.08em">TOTAL</text>
             <text x="${CX}" y="${CY + 16}" text-anchor="middle" font-size="17" fill="var(--ink)" font-weight="650" style="font-variant-numeric:tabular-nums">$${money(total)}</text>
           </svg>`;
+        legend.classList.toggle('is-scroll', slices.length > 12);
         legend.innerHTML = slices.map((s, i) => `
           <span style="display:flex; align-items:center; gap:8px; white-space:nowrap;">
             <i style="width:10px; height:10px; border-radius:3px; background:${ALLOC_COLORS[i % ALLOC_COLORS.length]}; display:inline-block;"></i>
@@ -278,6 +320,10 @@
         $('pf-total').textContent = '—';
         $('pf-inception-gain').hidden = true;
         $('pf-sub').textContent = 'Portfolio tracking is part of the paid plans.';
+        // The switcher creates and deletes portfolios; on a lapsed plan every
+        // one of those calls 402s, so offering them reads as a broken page.
+        const switcher = $('pf-switcher');
+        if (switcher) switcher.hidden = true;
         ['holdings', 'charts-section', 'xray-section', 'alerts-section', 'rules-section', 'attrib-section', 'wash-section'].forEach((id) => {
             const el = $(id); if (el) el.hidden = true;
         });
@@ -314,6 +360,7 @@
         const price = current !== null ? current : purchase;
         const value = price !== null ? shares * price : null;
         const gain = (price !== null && purchase !== null && purchase > 0) ? (price / purchase - 1) * 100 : null;
+        const gainUsd = (gain === null || value === null) ? null : value - purchase * shares;
         return {
             id: h._id || h.id,
             symbol: (h.symbol || '').toUpperCase(),
@@ -323,8 +370,19 @@
             paid: purchase,
             price,
             value,
-            gain
+            gain,
+            gainUsd
         };
+    }
+
+    // Both formats are precomputed at render; the toggle is a text swap, so
+    // flipping a cell (or the whole column) never refetches anything.
+    function gainCellHtml(row) {
+        if (row.gain === null) return '<td>—</td>';
+        const pctText = `${row.gain >= 0 ? '+' : ''}${row.gain.toFixed(1)}%`;
+        const usdText = `${row.gainUsd >= 0 ? '+' : '−'}$${fixed(Math.abs(row.gainUsd), 2)}`;
+        const cls = row.gain > 0 ? 'delta-pos' : row.gain < 0 ? 'delta-neg' : '';
+        return `<td class="gain-cell ${cls}" data-pct="${esc(pctText)}" data-usd="${esc(usdText)}" data-on="${gainFmt}" title="Toggle between % and $">${gainFmt === 'usd' ? usdText : pctText}</td>`;
     }
 
     function renderHoldings(rows) {
@@ -350,11 +408,18 @@
         }
         $('pf-sub').textContent = DEMO
             ? `${rows.length} holdings · demo data, read-only`
-            : `${rows.length} holdings · stored prices refresh through the day`;
+            : pfAdopted()
+                ? (pfSelection === 'all'
+                    ? `${rows.length} holdings · ${pfList.length} portfolios`
+                    : `${rows.length} holdings · ${(pfCurrent() || {}).name || 'portfolio'}`)
+                : `${rows.length} holdings · stored prices refresh through the day`;
         $('holdings-loading').hidden = true;
 
         if (!rows.length) {
             $('holdings-empty').hidden = false;
+            $('holdings-empty-copy').innerHTML = (!DEMO && pfAdopted() && pfSelection !== 'all')
+                ? `<strong>${esc((pfCurrent() || {}).name || 'This portfolio')} is empty.</strong> Add a holding with the form above, or import a CSV.`
+                : `<strong>No holdings yet.</strong> Add a stock, ETF or mutual fund above — try <strong>AAPL</strong>, <strong>SPY</strong> or <strong>VTSAX</strong>.`;
             ['stock', 'etf', 'mutual'].forEach((key) => { $(`${key}-holdings-group`).hidden = true; });
             return;
         }
@@ -368,7 +433,7 @@
             <td>${row.price === null ? '—' : '$' + fixed(row.price, 2)}</td>
             <td>${row.value === null ? '—' : '$' + fixed(row.value, 2)}</td>
             <td>${total > 0 && row.value !== null ? pct(row.value / total * 100) : '—'}</td>
-            <td class="${row.gain > 0 ? 'delta-pos' : row.gain < 0 ? 'delta-neg' : ''}">${row.gain === null ? '—' : (row.gain >= 0 ? '+' : '') + row.gain.toFixed(1) + '%'}</td>
+            ${gainCellHtml(row)}
             <td>${DEMO ? '' : `<button class="btn btn-quiet btn-sm" data-del="${esc(row.id)}" aria-label="Remove ${esc(row.symbol)}">Remove</button>`}</td>
           </tr>`;
         const groups = {
@@ -387,17 +452,20 @@
         setPortfolioControlsBusy(portfolioActionBusy);
     }
 
-    async function refreshPerformanceForMutation(symbol, removed) {
+    async function refreshPerformanceForMutation(symbols, removed) {
+        const list = Array.isArray(symbols) ? symbols : [symbols];
         if (removed) {
-            if (perfSeries.compact) delete perfSeries.compact[symbol];
-            if (perfSeries.full) delete perfSeries.full[symbol];
+            list.forEach((symbol) => {
+                if (perfSeries.compact) delete perfSeries.compact[symbol];
+                if (perfSeries.full) delete perfSeries.full[symbol];
+            });
             if (lastRows.length) drawPerf(lastRows);
             return;
         }
-        const compact = await fetchDaily([symbol], 'compact');
+        const compact = await fetchDaily(list, 'compact');
         perfSeries.compact = perfSeries.compact || {};
         Object.assign(perfSeries.compact, compact);
-        if (perfSeries.full) Object.assign(perfSeries.full, await fetchDaily([symbol], 'full'));
+        if (perfSeries.full) Object.assign(perfSeries.full, await fetchDaily(list, 'full'));
         drawPerf(lastRows);
     }
 
@@ -453,6 +521,9 @@
             }
             renderHoldings(lastRows.filter((row) => String(row.id) !== String(id)));
             finishPortfolioAction(`${symbol} was removed. Charts and analysis will finish refreshing in the background.`);
+            // Counts feed the switcher labels and the delete modal's "and its N
+            // holdings" line, which must never quote a stale number.
+            void loadPortfolios();
             void refreshPortfolioInBackground(symbol, { removed: true });
         } catch (error) {
             finishPortfolioAction(error.message || `${symbol} could not be removed. Please try again.`, { error: true, holdMs: 2200 });
@@ -461,7 +532,7 @@
 
     async function refreshLiveHoldingPrices(version) {
         try {
-            const response = await fetch(`${API}/portfolio`, { headers: auth });
+            const response = await fetch(`${API}/portfolio${pfScopeQuery()}`, { headers: auth });
             if (!response.ok) return;
             const list = await response.json();
             // Do not let a response started before a mutation overwrite the
@@ -471,11 +542,318 @@
         } catch (_) { /* stored prices remain usable */ }
     }
 
+    // ---- multiple portfolios: switcher, create, delete ----
+    async function loadPortfolios() {
+        if (DEMO) return;
+        try {
+            const r = await fetch(`${API}/portfolios`, { headers: auth });
+            if (!r.ok) return;
+            const data = await r.json();
+            pfList = Array.isArray(data.portfolios) ? data.portfolios : [];
+            renderPortfolios();
+        } catch (_) { /* the page works without the switcher */ }
+    }
+
+    function renderPortfolios() {
+        const select = $('pf-select');
+        if (!select) return;
+        // Before adoption only "+ New" shows — users who never touch the
+        // feature keep today's screen (spec: zero visible change).
+        const adopted = pfAdopted();
+        select.hidden = !adopted;
+        if (!['all', ...pfList.map((p) => String(p.id))].includes(String(pfSelection))) pfPersist('all');
+        const totalHoldings = pfList.reduce((a, p) => a + (p.holdingsCount || 0), 0);
+        select.innerHTML = [
+            `<option value="all">All portfolios${adopted ? ` · ${totalHoldings}` : ''}</option>`,
+            ...pfList.map((p) => `<option value="${esc(String(p.id))}">${esc(p.name)} · ${p.holdingsCount || 0}</option>`)
+        ].join('');
+        select.value = String(pfSelection);
+        const del = $('pf-del');
+        if (del) {
+            del.hidden = pfSelection === 'all';
+            del.setAttribute('aria-label', `Delete ${(pfCurrent() || {}).name || 'portfolio'}`);
+        }
+        // "All" isn't a portfolio — adds land in Main, and the hint says so.
+        const hint = $('pf-add-target');
+        if (hint) {
+            hint.hidden = !(adopted && pfSelection === 'all');
+            hint.textContent = '→ Main';
+        }
+    }
+
+    // Every switch (and every scope-affecting mutation) funnels through here:
+    // scoped holdings + scoped analysis. Alerts, rules, wash-sale, watchlist
+    // and Ask stay whole-account on purpose — safety features watch
+    // everything you own.
+    async function applyScope() {
+        // Refresh the list first: if the selected portfolio was deleted in
+        // another tab, renderPortfolios() resets the selection to All, and the
+        // fetches below then scope correctly instead of querying a dead id and
+        // rendering a permanently empty dashboard.
+        if (!DEMO) await loadPortfolios();
+        else renderPortfolios();
+        loadHoldings();
+        if (!DEMO) { loadXray(); loadAttribution(); loadBriefing(); }
+    }
+
+    function promptNewPortfolio() {
+        const dialog = V2.modal({
+            label: 'New portfolio',
+            title: 'New portfolio',
+            bodyHtml: `
+              <div style="text-align:left; display:grid; gap:8px;">
+                <label class="field" style="text-align:left;"><span>Name</span>
+                  <input class="input" id="pf-new-name" maxlength="40" placeholder="e.g. Robinhood fun money" /></label>
+                <p class="small muted" style="margin:0; text-align:left;">1–40 characters. It starts empty and becomes your active portfolio.</p>
+                <p class="small" id="pf-new-msg" role="status" style="margin:0; text-align:left; color:var(--neg);"></p>
+              </div>`,
+            actions: [
+                { label: 'Cancel' },
+                { label: 'Create', primary: true, close: false, onClick: (close) => { void guardModalAction(() => createPortfolio(close)); } }
+            ]
+        });
+        const input = dialog.el.querySelector('#pf-new-name');
+        if (input) input.focus();
+    }
+
+    // Modal action buttons live outside #add-form, so setPortfolioControlsBusy
+    // cannot reach them. Without this, a slow create/delete/import stays
+    // clickable and a second click repeats the whole mutation.
+    let pfModalBusy = false;
+    async function guardModalAction(fn) {
+        if (pfModalBusy) return;
+        pfModalBusy = true;
+        try { await fn(); } finally { pfModalBusy = false; }
+    }
+
+    async function createPortfolio(close) {
+        const name = $('pf-new-name').value.trim();
+        const msg = $('pf-new-msg');
+        if (!name || name.length > 40) { msg.textContent = 'Name must be 1–40 characters.'; return; }
+        msg.textContent = '';
+        try {
+            const r = await fetch(`${API}/portfolios`, {
+                method: 'POST',
+                headers: { ...auth, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name })
+            });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) {
+                // A plan limit is actionable, unlike the other failures here —
+                // give it the same upgrade link the add form uses on 402.
+                if (r.status === 402) msg.innerHTML = `${esc(data.message || 'Your plan does not include more portfolios.')} <a href="/upgrade.html">See plans</a>`;
+                else msg.textContent = data.message || 'Could not create the portfolio.';
+                return;
+            }
+            close();
+            pfPersist(data.portfolio.id);
+            await applyScope(); // refreshes the list itself
+
+        } catch (_) { msg.textContent = 'Network problem — try again.'; }
+    }
+
+    function promptDeletePortfolio() {
+        const p = pfCurrent();
+        if (!p || String(p.id) === 'main') return;
+        V2.modal({
+            label: 'Delete portfolio',
+            title: `Delete ${p.name}?`,
+            body: `Delete '${p.name}' and its ${p.holdingsCount} holding${p.holdingsCount === 1 ? '' : 's'}? This cannot be undone.`,
+            actions: [
+                { label: 'Keep' },
+                { label: 'Delete', primary: true, close: false, onClick: (close) => { void guardModalAction(() => deletePortfolio(p, close)); } }
+            ]
+        });
+    }
+
+    async function deletePortfolio(p, close) {
+        showPortfolioAction(`Deleting ${p.name}`, 'Removing the portfolio and its holdings…');
+        try {
+            const r = await fetch(`${API}/portfolios/${encodeURIComponent(p.id)}`, { method: 'DELETE', headers: auth });
+            const data = await r.json().catch(() => ({}));
+            if (!r.ok) throw new Error(data.message || `Couldn’t delete ${p.name}.`);
+            close();
+            pfPersist('all');
+            // Chart history is scoped to whatever holdings exist now; a fresh
+            // fetch is cheaper than pruning the deleted portfolio's symbols.
+            perfSeries.compact = null; perfSeries.full = null;
+            await Promise.allSettled([loadPortfolios(), loadHoldings()]);
+            loadXray(); loadAttribution(); loadBriefing();
+            const removed = data.removedHoldings ?? p.holdingsCount;
+            finishPortfolioAction(`${p.name} and its ${removed} holding${removed === 1 ? '' : 's'} were deleted. Holdings in other portfolios are untouched.`);
+        } catch (error) {
+            close();
+            finishPortfolioAction(error.message || `Couldn’t delete ${p.name}.`, { error: true, holdMs: 2400 });
+        }
+    }
+
+    function wirePortfolioSwitcher() {
+        const select = $('pf-select');
+        const newBtn = $('pf-new');
+        const delBtn = $('pf-del');
+        if (!select || !newBtn || !delBtn) return;
+        select.addEventListener('change', () => { pfPersist(select.value); applyScope(); });
+        newBtn.addEventListener('click', promptNewPortfolio);
+        delBtn.addEventListener('click', promptDeletePortfolio);
+    }
+
+    // ---- CSV import: file → server parses → preview → commit ----
+    // Nothing is written until the preview is confirmed; the commit re-parses
+    // the same text so what lands is authoritative even if holdings changed
+    // between the two steps.
+    function wireCsvImport() {
+        const btn = $('pf-import');
+        if (!btn || DEMO) return;
+        btn.addEventListener('click', openCsvImport);
+    }
+
+    function openCsvImport() {
+        let csvText = '';
+        let targetId = pfTargetId();
+        const targetName = () => (pfList.find((p) => String(p.id) === String(targetId)) || {}).name || 'portfolio';
+
+        V2.modal({
+            label: 'Import CSV',
+            title: 'Import holdings from a CSV',
+            bodyHtml: `
+              <div style="text-align:left; display:grid; gap:12px;">
+                <label class="field"><span>Import into</span>
+                  <select class="input" id="pf-import-target">${pfList.map((p) =>
+                    `<option value="${esc(String(p.id))}"${String(p.id) === String(targetId) ? ' selected' : ''}>${esc(p.name)} (${p.holdingsCount || 0})</option>`).join('')}</select>
+                </label>
+                <label class="field"><span>CSV file</span>
+                  <input class="input" type="file" id="pf-import-file" accept=".csv,text/csv" /></label>
+                <p class="small muted" style="margin:0;">Expected columns: ticker, quantity, purchase price, purchase date — broker export names are recognised. Repeated tickers merge into one holding. Nothing is saved until you confirm the preview.</p>
+                <p class="small" id="pf-import-msg" role="status" style="margin:0; color:var(--neg);"></p>
+              </div>`,
+            actions: [
+                { label: 'Cancel' },
+                { label: 'Preview', primary: true, close: false, onClick: (close) => { void guardModalAction(() => previewStep(close)); } }
+            ]
+        });
+
+        async function previewStep(close) {
+            const msg = $('pf-import-msg');
+            const fileInput = $('pf-import-file');
+            const file = fileInput && fileInput.files[0];
+            if (!file) { msg.textContent = 'Choose a CSV file first.'; return; }
+            if (file.size > 4 * 1024 * 1024) { msg.textContent = 'CSV too large (4MB max).'; return; }
+            targetId = $('pf-import-target').value;
+            msg.textContent = 'Parsing…';
+            try {
+                csvText = await file.text();
+                const r = await fetch(`${API}/portfolio/import/preview`, {
+                    method: 'POST',
+                    headers: { ...auth, 'Content-Type': 'application/json' },
+                    // The target decides which rows say "merges with existing";
+                    // omitting it silently previews against Main instead.
+                    body: JSON.stringify({ csv: csvText, portfolioId: targetId })
+                });
+                const data = await r.json().catch(() => ({}));
+                if (!r.ok) { msg.textContent = data.message || 'Could not read that CSV.'; return; }
+                if (!data.rows || !data.rows.length) {
+                    msg.textContent = 'No importable rows found.' + (data.skipped && data.skipped.length ? ` ${data.skipped.length} row${data.skipped.length === 1 ? '' : 's'} would be skipped.` : '');
+                    return;
+                }
+                close();
+                showImportPreview(data);
+            } catch (_) { msg.textContent = 'Network problem — try again.'; }
+        }
+
+        function showImportPreview(data) {
+            const rows = data.rows || [];
+            const skipped = data.skipped || [];
+            const bodyRows = rows.map((r) => `
+              <tr>
+                <td class="row-head" style="text-align:left;"><strong>${esc(r.symbol)}</strong>${r.merges ? ' <span class="chip">merges with existing</span>' : ''}</td>
+                <td>${fixed(r.shares, r.shares % 1 ? 2 : 0)}</td>
+                <td>${r.price > 0 ? '$' + fixed(r.price, 2) : '—'}</td>
+                <td>${r.purchaseDate ? esc(r.purchaseDate) : 'today'}</td>
+              </tr>`).join('');
+            const skipHtml = skipped.length
+                ? `<div class="notice notice-neg" style="margin:12px 0 0;">${skipped.map((s) => `! Row ${s.line} — ${esc(s.reason)} → skipped`).join('<br>')}</div>`
+                : '';
+            const mergeNote = data.mergeNote ? `<p class="small muted" style="margin:10px 0 0;">${esc(data.mergeNote)}</p>` : '';
+            V2.modal({
+                label: 'Import CSV preview',
+                title: `Import ${rows.length} holding${rows.length === 1 ? '' : 's'} into ${targetName()}`,
+                bodyHtml: `
+                  <div class="pf-import-preview" style="text-align:left;">
+                    <div class="table-wrap"><table class="table-data">
+                      <thead><tr><th class="row-head" style="text-align:left;">Symbol</th><th>Units</th><th>Price paid</th><th>Purchased</th></tr></thead>
+                      <tbody>${bodyRows}</tbody>
+                    </table></div>
+                    ${skipHtml}
+                    ${mergeNote}
+                  </div>`,
+                actions: [
+                    { label: 'Cancel' },
+                    { label: `Import ${rows.length} holding${rows.length === 1 ? '' : 's'}`, primary: true, close: false, onClick: (close) => { void guardModalAction(() => commitImport(close)); } }
+                ]
+            });
+        }
+
+        async function commitImport(close) {
+            showPortfolioAction('Importing holdings', 'Saving the parsed rows…');
+            try {
+                const r = await fetch(`${API}/portfolio/import/commit`, {
+                    method: 'POST',
+                    headers: { ...auth, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ csv: csvText, portfolioId: targetId })
+                });
+                const data = await r.json().catch(() => ({}));
+                if (!r.ok) throw new Error(data.message || 'Import failed — nothing was saved.');
+                close();
+                perfSeries.compact = null; perfSeries.full = null;
+                await Promise.allSettled([loadPortfolios(), loadHoldings()]);
+                loadXray(); loadAttribution(); loadBriefing();
+                const bits = [`${data.imported} imported`];
+                if (data.merged) bits.push(`${data.merged} merged with existing`);
+                if (data.skipped) bits.push(`${data.skipped} skipped`);
+                const unknown = data.unknownSymbols || [];
+                if (unknown.length) bits.push(`unknown ticker${unknown.length === 1 ? '' : 's'}: ${unknown.join(', ')}`);
+                finishPortfolioAction(`${bits.join(' · ')}. Charts and analysis will finish refreshing in the background.`);
+            } catch (error) {
+                close();
+                finishPortfolioAction(error.message || 'Import failed — nothing was saved.', { error: true, holdMs: 2600 });
+            }
+        }
+    }
+
+    // ---- gain toggle wiring (once: the cells are re-rendered per row, but
+    // the containers and column headers they live in are not) ----
+    function wireGainToggles() {
+        ['stock', 'etf', 'mutual'].forEach((key) => {
+            const body = $(`${key}-holdings-body`);
+            if (!body) return;
+            body.addEventListener('click', (e) => {
+                const cell = e.target.closest('td.gain-cell');
+                if (!cell) return;
+                const to = cell.dataset.on === 'usd' ? 'pct' : 'usd';
+                cell.dataset.on = to;
+                cell.textContent = to === 'usd' ? cell.dataset.usd : cell.dataset.pct;
+            });
+        });
+        document.querySelectorAll('th.gain-th').forEach((th) =>
+            th.addEventListener('click', () => {
+                setGainFmt(gainFmt === 'usd' ? 'pct' : 'usd');
+                if (lastRows.length) renderHoldings(lastRows);
+            }));
+    }
+
     async function loadHoldings() {
         try {
-            const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio`, { headers: auth });
+            const r = await fetch(DEMO ? `${API}/demo/portfolio` : `${API}/portfolio${pfScopeQuery()}`, { headers: auth });
             if (!DEMO && r.status === 401) { await fetch('/api/logout', { method: 'POST' }).catch(() => {}); location.reload(); return; }
             if (!DEMO && r.status === 402) { freeMode(); return; }
+            // A malformed scope is rejected outright; a deleted-but-well-formed
+            // id instead matches nothing and returns 200 with an empty list, so
+            // that case self-heals in renderPortfolios() rather than here.
+            if (!DEMO && r.status === 400 && pfSelection !== 'all') {
+                pfPersist('all');
+                await loadPortfolios();
+                return loadHoldings();
+            }
             if (!r.ok) {
                 const data = await r.json().catch(() => ({}));
                 throw new Error(data.message || 'Unable to load the portfolio right now.');
@@ -496,7 +874,7 @@
 
     async function loadXray() {
         try {
-            const r = await fetch(`${API}/portfolio/xray`, { headers: auth });
+            const r = await fetch(`${API}/portfolio/xray${pfScopeQuery()}`, { headers: auth });
             if (!r.ok) return;
             const x = await r.json();
             if (!x || !x.lookThrough) {
@@ -537,7 +915,7 @@
     // ---- why it moved today: per-holding contribution + headlines (Pro) ----
     async function loadAttribution() {
         try {
-            const r = await fetch(`${API}/portfolio/attribution`, { headers: auth });
+            const r = await fetch(`${API}/portfolio/attribution${pfScopeQuery()}`, { headers: auth });
             if (!r.ok) return; // 402 (not Pro) or transient — section stays hidden
             const d = await r.json();
             if (d.empty || d.portfolioDayPct === null || d.portfolioDayPct === undefined) {
@@ -763,55 +1141,114 @@
     }
     wireTickerAutocomplete();
 
+    // failures must be SEEN — a quiet form that eats errors reads as broken
+    function noteAddError(msg, tone) {
+        let el = $('add-error');
+        if (!el) {
+            el = document.createElement('p');
+            el.id = 'add-error';
+            el.className = 'small';
+            el.style.cssText = 'grid-column: 1 / -1; margin:6px 0 0;';
+            $('add-form').appendChild(el);
+        }
+        el.style.color = tone === 'pos' ? 'var(--pos)' : tone === 'mixed' ? 'var(--ink-2)' : 'var(--neg)';
+        el.innerHTML = msg;
+        el.hidden = !msg;
+    }
+
+    function clearAddInputs() {
+        $('add-sym').value = ''; $('add-shares').value = ''; $('add-price').value = '';
+        if ($('add-date')) $('add-date').value = '';
+    }
+
+    async function saveOneHolding(symbol, shared) {
+        const r = await fetch(`${API}/portfolio`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', ...auth },
+            body: JSON.stringify({ ...shared, symbol })
+        });
+        const saved = await r.json().catch(() => ({}));
+        return { ok: r.ok, status: r.status, saved };
+    }
+
     if (!DEMO) $('add-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         if (portfolioActionBusy) return;
-        const symbol = $('add-sym').value.trim().toUpperCase();
+        const symbols = $('add-sym').value.split(',').map((s) => s.trim().toUpperCase()).filter(Boolean);
         const shares = Number($('add-shares').value);
-        if (!symbol || !shares) return;
-        const body = { symbol, shares };
+        if (!symbols.length || !shares) return;
+        const shared = { shares, portfolioId: pfTargetId() };
         const price = Number($('add-price').value);
-        if (price > 0) { body.purchasePrice = price; body.purchaseDate = new Date().toISOString().slice(0, 10); }
-        // failures must be SEEN — a quiet form that eats errors reads as broken
-        const note = (msg) => {
-            let el = $('add-error');
-            if (!el) {
-                el = document.createElement('p');
-                el.id = 'add-error';
-                el.className = 'small';
-                el.style.cssText = 'grid-column: 1 / -1; margin:6px 0 0; color: var(--neg);';
-                $('add-form').appendChild(el);
-            }
-            el.innerHTML = msg;
-            el.hidden = !msg;
-        };
-        showPortfolioAction(`Adding ${symbol}`, 'Checking the ticker and saving the holding…');
-        try {
-            const r = await fetch(`${API}/portfolio`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', ...auth },
-                body: JSON.stringify(body)
-            });
-            const saved = await r.json().catch(() => ({}));
-            if (!r.ok) {
-                const message = r.status === 402
-                    ? 'Your subscription is not active. Choose a plan to add holdings.'
-                    : (saved.message || `Couldn’t add ${symbol} — try again.`);
-                if (r.status === 402) note('Your subscription isn’t active — <a href="/upgrade.html">choose a plan</a> to add holdings.');
-                else note(esc(message));
+        if (price > 0) shared.purchasePrice = price;
+        shared.purchaseDate = ($('add-date') && $('add-date').value) || new Date().toISOString().slice(0, 10);
+
+        if (symbols.length === 1) {
+            const symbol = symbols[0];
+            showPortfolioAction(`Adding ${symbol}`, 'Checking the ticker and saving the holding…');
+            try {
+                const { ok, status, saved } = await saveOneHolding(symbol, shared);
+                if (!ok) {
+                    const message = status === 402
+                        ? 'Your subscription is not active. Choose a plan to add holdings.'
+                        : (saved.message || `Couldn’t add ${symbol} — try again.`);
+                    if (status === 402) noteAddError('Your subscription isn’t active — <a href="/upgrade.html">choose a plan</a> to add holdings.');
+                    else noteAddError(esc(message));
+                    finishPortfolioAction(message, { error: true, holdMs: 2200 });
+                    return;
+                }
+                noteAddError('');
+                clearAddInputs();
+                if (saved && saved._id) renderHoldings([...lastRows, holdingToRow(saved)]);
+                else if (!await loadHoldings()) throw new Error(`${symbol} was added, but the refreshed portfolio could not be loaded. Reload the page.`);
+                finishPortfolioAction(`${symbol} was added. Charts and analysis will finish refreshing in the background.`);
+                void loadPortfolios();
+                void refreshPortfolioInBackground(symbol);
+            } catch (error) {
+                const message = error.message || 'Network problem — the holding wasn’t added.';
+                noteAddError(esc(message));
                 finishPortfolioAction(message, { error: true, holdMs: 2200 });
-                return;
             }
-            note('');
-            $('add-sym').value = ''; $('add-shares').value = ''; $('add-price').value = '';
-            if (saved && saved._id) renderHoldings([...lastRows, holdingToRow(saved)]);
-            else if (!await loadHoldings()) throw new Error(`${symbol} was added, but the refreshed portfolio could not be loaded. Reload the page.`);
-            finishPortfolioAction(`${symbol} was added. Charts and analysis will finish refreshing in the background.`);
-            void refreshPortfolioInBackground(symbol);
-        } catch (error) {
-            const message = error.message || 'Network problem — the holding wasn’t added.';
-            note(esc(message));
-            finishPortfolioAction(message, { error: true, holdMs: 2200 });
+            return;
+        }
+
+        // Multi-ticker: sequential (not parallel) so status is progressive and
+        // one bad symbol never fans out into a burst of concurrent Yahoo calls.
+        showPortfolioAction(`Adding ${symbols.length} tickers`, `Adding ${symbols[0]} (1 of ${symbols.length})…`);
+        const results = [];
+        const addedSymbols = [];
+        let stoppedEarly = false;
+        for (let i = 0; i < symbols.length; i++) {
+            const symbol = symbols[i];
+            $('portfolio-action-detail').textContent = `Adding ${symbol} (${i + 1} of ${symbols.length})…`;
+            try {
+                const { ok, status, saved } = await saveOneHolding(symbol, shared);
+                if (!ok) {
+                    if (status === 402) { results.push(`<strong>${esc(symbol)}</strong> failed — subscription not active`); stoppedEarly = true; break; }
+                    results.push(`<strong>${esc(symbol)}</strong> failed — ${esc(saved.message || 'unknown ticker')}`);
+                    continue;
+                }
+                results.push(`<strong>${esc(symbol)}</strong> added`);
+                addedSymbols.push(symbol);
+            } catch (_) {
+                results.push(`<strong>${esc(symbol)}</strong> failed — network problem`);
+            }
+        }
+        const failed = results.length - addedSymbols.length;
+        const tone = failed === 0 ? 'pos' : addedSymbols.length === 0 ? 'neg' : 'mixed';
+        noteAddError(results.join(' · '), tone);
+        if (addedSymbols.length) {
+            clearAddInputs();
+            await loadHoldings();
+            finishPortfolioAction(
+                stoppedEarly
+                    ? `${addedSymbols.length} of ${symbols.length} added before your subscription check stopped the rest.`
+                    : `${addedSymbols.length} of ${symbols.length} tickers added. Charts and analysis will finish refreshing in the background.`,
+                { error: failed > 0, holdMs: failed > 0 ? 2600 : 550 }
+            );
+            void loadPortfolios();
+            void refreshPortfolioInBackground(addedSymbols);
+        } else {
+            finishPortfolioAction('No tickers were added.', { error: true, holdMs: 2600 });
         }
     });
 
@@ -859,7 +1296,7 @@
 
     async function loadBriefing() {
         try {
-            const r = await fetch(`${API}/portfolio/briefing`, { headers: auth });
+            const r = await fetch(`${API}/portfolio/briefing${pfScopeQuery()}`, { headers: auth });
             if (!r.ok) return;
             const data = await r.json();
             if (!data.briefing) {
@@ -941,14 +1378,20 @@
         URL.revokeObjectURL(a.href);
     });
 
-    loadHoldings();
-    if (!DEMO) {
-        loadXray();
-        loadAttribution();
-        loadAlerts();
-        loadRules();
-        loadWash();
-        loadBriefing();
-        loadWatchlist();
-    }
+    wirePortfolioSwitcher();
+    wireCsvImport();
+    wireGainToggles();
+    (async () => {
+        if (!DEMO) await loadPortfolios(); // validates the persisted selection before scoping any fetch
+        loadHoldings();
+        if (!DEMO) {
+            loadXray();
+            loadAttribution();
+            loadAlerts();
+            loadRules();
+            loadWash();
+            loadBriefing();
+            loadWatchlist();
+        }
+    })();
 })();

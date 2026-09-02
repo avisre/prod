@@ -28,6 +28,35 @@ test('tier 2 inventories its own cap; unknown/unset tier resolves UP to unlimite
   assert.doesNotMatch(unlimited, /up to 12/);
 });
 
+test('the Monitor cap in the email follows the buyer cohort, not a hardcoded ladder', () => {
+  // This line used to restate 12/40/unlimited by hand. Once the v2 caps are
+  // live that would email "unlimited companies" to a buyer capped at 8 — a
+  // written promise, sent automatically, on the day they paid. The cap is now
+  // resolved from lib/tier-limits.js, so the two cohorts must read differently.
+  // process.env is mutated and restored here because customerLifecycleEmail
+  // reads the cutover from it; same pattern as ltd-monitor-entitlement.test.js.
+  const prior = process.env.MONITOR_CAP_V2_EFFECTIVE_FROM;
+  try {
+    const cutover = '2026-09-10T00:00:00.000Z';
+    process.env.MONITOR_CAP_V2_EFFECTIVE_FROM = cutover;
+    const ms = Date.parse(cutover);
+    const grandfathered = customerLifecycleEmail({ ...APPSUMO, tier: 3, redeemedAt: new Date(ms - 86400000) }).html;
+    const newBuyer = customerLifecycleEmail({ ...APPSUMO, tier: 3, redeemedAt: new Date(ms + 86400000) }).html;
+
+    assert.match(grandfathered, /unlimited companies/);
+    assert.match(newBuyer, /up to 8 companies/);
+    // The failure that matters: the new buyer must NOT be promised unlimited.
+    assert.doesNotMatch(newBuyer, /unlimited companies/);
+
+    // Tier 1 post-cutover reads singular, not "up to 1 companies".
+    const tier1 = customerLifecycleEmail({ ...APPSUMO, tier: 1, redeemedAt: new Date(ms + 86400000) }).html;
+    assert.match(tier1, /up to 1 company\b/);
+  } finally {
+    if (prior === undefined) delete process.env.MONITOR_CAP_V2_EFFECTIVE_FROM;
+    else process.env.MONITOR_CAP_V2_EFFECTIVE_FROM = prior;
+  }
+});
+
 test('Stripe lifecycle mail stays as it was — no inventory block, no Monitor promise', () => {
   const mail = customerLifecycleEmail({ name: 'Priya', type: 'stripe_paid', plan: 'Pro', appUrl: 'https://www.stockportfolio.pro' });
   assert.match(mail.subject, /subscription is active/);

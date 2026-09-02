@@ -37,7 +37,7 @@ test('Ask runtime cache-busts all pages after recovery changes', () => {
         }
     }
     const askPage = fs.readFileSync(path.join(root, 'frontend-v2', 'ask.html'), 'utf8');
-    assert.match(askPage, /app\.js\?v=20260901-askfix1/);
+    assert.match(askPage, /app\.js\?v=20260902-navfix1/);
 });
 
 test('AppSumo FAQ explains recurring website Pro versus lifetime tiers and fund coverage', () => {

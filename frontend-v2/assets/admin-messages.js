@@ -77,7 +77,17 @@
       $('admin-message-list').innerHTML = (data.messages || []).map(renderAdminBubble).join('') || '<p class="muted">No messages yet.</p>';
       $('admin-message-list').scrollTop = $('admin-message-list').scrollHeight;
       $('admin-status').textContent = '';
-      loadCustomers(true);
+      // The whole-directory reload after every click was the lag: the read is
+      // already recorded server-side, so update just this row — drop its
+      // unread badge, mark it active — instead of re-running the scan.
+      const row = list.querySelector(`[data-open-user="${CSS.escape(String(userId))}"]`);
+      if (row) {
+        const badge = row.querySelector('.thread-unread');
+        if (badge) badge.remove();
+        list.querySelectorAll('.thread-row.is-selected').forEach((el) => el.classList.remove('is-selected'));
+        const rowWrap = row.closest('.thread-row');
+        if (rowWrap) rowWrap.classList.add('is-selected');
+      }
     } catch (error) { $('admin-status').textContent = error.message; }
   }
   $('admin-reply-form').addEventListener('submit', async (event) => {

@@ -236,6 +236,9 @@ const jsonParser = express.json();
 // dedicated limit; the two must stay in sync or the global parser 413s first.
 const ASK_CHAT_PATH = '/api/ai/chat';
 const askChatParser = express.json({ limit: '16mb' });
+// Broker CSV exports run to a few hundred KB — past the 100kb default.
+const CSV_IMPORT_PATHS = new Set(['/api/portfolio/import/preview', '/api/portfolio/import/commit']);
+const csvImportParser = express.json({ limit: '5mb' });
 const ASK_ATTACHMENT_MAX_BYTES = 10 * 1024 * 1024; // per attachment
 const ASK_ATTACHMENT_MAX_COUNT = 3;
 const ASK_ATTACHMENT_TEXT_CAP = 8000; // extracted chars kept per document
@@ -253,6 +256,11 @@ app.use((req, res, next) => {
   // the request body is parsed.
   if (isRawBodyWebhookPath(req.path)) {
     next();
+  } else if (CSV_IMPORT_PATHS.has(req.path)) {
+    csvImportParser(req, res, (err) => {
+      if (err) return res.status(413).json({ message: 'That CSV is too large — split it into smaller files.' });
+      next();
+    });
   } else if (req.path === ASK_CHAT_PATH) {
     askChatParser(req, res, (err) => {
       if (err) return res.status(413).json({ message: 'That request is too large — try smaller attachments.' });
@@ -821,6 +829,21 @@ async function expandMongoSrvUri(uri) {
   return `mongodb://${authSegment}${hosts.join(',')}/${database}${queryString ? `?${queryString}` : ''}`;
 }
 
+// Hot-path metering collections are raw mongoose.connection.collection() access
+// with no schema, so nothing ever builds indexes for them — every /api/credits
+// call COLLSCANs credit_ledger three times, /api/ai/chat/quota COLLSCANs
+// ai_chat_usage, and /api/ask/memory COLLSCANs personal_memory. All grow
+// linearly with total usage, so these indexes are boot-critical. Idempotent:
+// Mongo returns the existing index when the spec matches.
+async function ensureMeteringIndexes() {
+  const col = mongoose.connection.collection.bind(mongoose.connection);
+  await Promise.all([
+    col('credit_ledger').createIndex({ userId: 1, month: 1, at: -1 }, { name: 'credit_ledger_user_month' }),
+    col('ai_chat_usage').createIndex({ userId: 1, month: 1 }, { name: 'ai_chat_usage_user_month' }),
+    col('personal_memory').createIndex({ userId: 1 }, { name: 'personal_memory_user' })
+  ]).catch((indexError) => console.warn('[metering] index creation unavailable:', indexError && indexError.message));
+}
+
 async function connectMongoWithFallback(uri) {
   const options = {
     serverSelectionTimeoutMS: 10000,
@@ -843,6 +866,7 @@ async function connectMongoWithFallback(uri) {
         { event: 1, userId: 1, activationJob: 1 },
         { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
       ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
+      await ensureMeteringIndexes();
       return;
     } catch (error) {
       if (String(uri || '').startsWith('mongodb+srv://') && isMongoSrvResolutionError(error)) {
@@ -855,6 +879,7 @@ async function connectMongoWithFallback(uri) {
             { event: 1, userId: 1, activationJob: 1 },
             { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
           ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
+          await ensureMeteringIndexes();
           return;
         } catch (fallbackError) {
           console.error('MongoDB SRV fallback error:', fallbackError);
@@ -1987,7 +2012,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260902-navfix1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2016,7 +2041,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260901-askfix1"></script>
+<script src="/assets/app.js?v=20260902-navfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2086,7 +2111,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260901-askfix1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260902-navfix1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2114,7 +2139,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260901-askfix1"></script>
+<script src="/assets/app.js?v=20260902-navfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3293,7 +3318,10 @@ async function recordCustomerLifecycleEvent(user, type, { source, appsumoTier, d
             type: normalizedType,
             plan: user.subscription && user.subscription.planName,
             tier: Number(appsumoTier || user.appsumoTier) || null,
-            occurredAt: event.createdAt
+            occurredAt: event.createdAt,
+            // Selects the Monitor cap cohort for the email copy. A grandfathered
+            // buyer must read their original number, not the current ladder.
+            redeemedAt: user.appsumoRedeemedAt || null
         });
         const updates = {};
         if (sent.customerSent) updates.customerEmailedAt = new Date();
@@ -4094,9 +4122,22 @@ const StockSchema = new mongoose.Schema({
     purchasePrice: { type: Number },
     purchaseDate: { type: Date },
     currentPrice: { type: Number },
+    // Which portfolio this holding belongs to. null/absent = the implicit
+    // "Main" portfolio, so existing documents need no migration.
+    portfolioId: { type: mongoose.Schema.Types.ObjectId, ref: 'Portfolio', default: null },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
 });
 const Stock = mongoose.model('Stock', StockSchema);
+
+// User-created portfolios. "Main" is implicit (Stock.portfolioId null) and
+// never gets a document here. Names are unique per user, case-insensitive;
+// the routes enforce it and this index is defense-in-depth.
+const PortfolioSchema = new mongoose.Schema({
+    name: { type: String, required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+}, { timestamps: true });
+PortfolioSchema.index({ user: 1, name: 1 }, { unique: true });
+const Portfolio = mongoose.model('Portfolio', PortfolioSchema);
 
 // One watchlist per user — a flat set of tickers to keep an eye on.
 const WatchlistSchema = new mongoose.Schema({
@@ -5620,10 +5661,24 @@ app.get('/api/session', authMiddleware, async (req, res) => {
             name: user.name,
             email: user.email
         };
+        // Lifetime-deal buyers (AppSumo + direct LTD share appsumoLicenseKey):
+        // mirror the quota endpoint's appsumo payload so the nav tray and
+        // /upgrade.html can route them correctly — tier 3 is the top tier and
+        // only the AI-credit recharge applies to it.
+        let appsumoPayload = null;
+        if (user.appsumoLicenseKey) {
+            let upgradeUrl = APPSUMO_ACCOUNT_URL;
+            try {
+                const lic = await AppSumoLicense.findOne({ licenseKey: user.appsumoLicenseKey }, { changePlanUrl: 1 }).lean();
+                upgradeUrl = appsumoUpgradeUrl(lic);
+            } catch (_) { /* fall back to account page */ }
+            appsumoPayload = { isAppSumo: true, tier: Number(user.appsumoTier) || null, upgradeUrl };
+        }
         res.json({
             ok: true,
             profile,
             subscription,
+            ...(appsumoPayload ? { appsumo: appsumoPayload } : {}),
             initialRefund: {
                 status: user.initialRefundStatus || 'not_eligible',
                 eligibleUntil: user.initialRefundUntil || null,
@@ -6595,11 +6650,42 @@ function portfolioOwnerId(req) {
     return req.userId;
 }
 
+// Cache-key half of the scope: 'all' | 'main' | the portfolio id verbatim.
+function portfolioScopeKey(rawScope) {
+    const scope = String(rawScope || '').trim();
+    return scope === '' ? 'all' : scope;
+}
+
+// Resolves the switcher's ?portfolioId= param ('all' | 'main' | ObjectId)
+// into a Mongo filter on Stock. Returns null for the whole account and
+// false when the value is neither (caller should 400).
+function portfolioScopeFilter(rawScope) {
+    const scope = String(rawScope || '').trim();
+    if (scope === '' || scope === 'all') return null;
+    if (scope === 'main') return { portfolioId: null };
+    if (!/^[0-9a-f]{24}$/i.test(scope)) return false;
+    return { portfolioId: scope };
+}
+
+// The analysis caches are keyed `${userId}|${scope}`. Any holding mutation
+// can affect every scope, so invalidation sweeps all of a user's variants.
+function invalidatePortfolioCaches(userId) {
+    const id = String(userId);
+    const prefix = `${id}|`;
+    for (const cache of [_briefingCache, _xrayCache, _attribCache]) {
+        for (const key of [...cache.keys()]) {
+            if (key === id || key.startsWith(prefix)) cache.delete(key);
+        }
+    }
+}
+
 app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
         const storedOnly = String(req.query.prices || '').toLowerCase() === 'stored';
-        const portfolio = await Stock.find({ user: ownerId });
+        const scopeFilter = portfolioScopeFilter(req.query.portfolioId);
+        if (scopeFilter === false) return res.status(400).json({ message: 'Unknown portfolio.' });
+        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
         const enriched = await Promise.all(portfolio.map(async (stock) => {
             const ticker = safeUpper(stock.symbol);
             const payload = stock.toObject();
@@ -6623,6 +6709,67 @@ app.get('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     }
 });
 
+// ----- Multiple portfolios -----
+// "Main" is implicit (holdings with portfolioId null) and is synthesized
+// here with the sentinel id 'main'; user-created portfolios follow.
+app.get('/api/portfolios', authMiddleware, coreGate, async (req, res) => {
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const [mainCount, list] = await Promise.all([
+            Stock.countDocuments({ user: ownerId, portfolioId: null }),
+            Portfolio.find({ user: ownerId }).sort({ name: 1 }).lean()
+        ]);
+        const counts = await Promise.all(list.map((p) =>
+            Stock.countDocuments({ user: ownerId, portfolioId: p._id })));
+        const portfolios = [
+            { id: 'main', name: 'Main', holdingsCount: mainCount },
+            ...list.map((p, i) => ({ id: String(p._id), name: p.name, holdingsCount: counts[i] }))
+        ];
+        res.json({ portfolios });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: 'Unable to load portfolios right now.' });
+    }
+});
+
+app.post('/api/portfolios', authMiddleware, coreGate, async (req, res) => {
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const name = String((req.body || {}).name || '').trim();
+        if (name.length < 1 || name.length > 40) {
+            return res.status(400).json({ message: 'Portfolio name must be 1-40 characters.' });
+        }
+        const existing = await Portfolio.find({ user: ownerId }).select('name').lean();
+        const lower = name.toLowerCase();
+        if (lower === 'main' || existing.some((p) => String(p.name).toLowerCase() === lower)) {
+            return res.status(409).json({ message: `You already have a portfolio named "${name}".` });
+        }
+        // Tier cap counts the implicit "Main" too, so tier 1 (=1) is exactly the
+        // single-portfolio product that shipped before this feature. No-ops
+        // entirely while ENABLE_TIER_V2_LIMITS is off, and never applies to an
+        // account that redeemed before TIER_V2_EFFECTIVE_FROM.
+        if (tierLimits.wouldExceedPortfolios(req.user, existing.length + 1)) {
+            const { maxPortfolios } = tierLimits.limitsFor(req.user);
+            return res.status(402).json({
+                message: maxPortfolios === 1
+                    ? 'Your plan includes a single portfolio. Upgrade to keep separate portfolios.'
+                    : `Your plan includes ${maxPortfolios} portfolios. Upgrade to add more.`,
+                code: 'PORTFOLIO_LIMIT'
+            });
+        }
+        // Abuse guard, independent of tier: unbounded portfolio creation is a
+        // cheap way to fill the collection.
+        if (existing.length >= 25) {
+            return res.status(400).json({ message: 'Portfolio limit reached (25).' });
+        }
+        const created = await Portfolio.create({ name, user: ownerId });
+        res.status(201).json({ portfolio: { id: String(created._id), name: created.name } });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: 'Unable to create that portfolio right now.' });
+    }
+});
+
 // Deterministic weekly portfolio briefing. It performs no model call, so
 // repeated or automated dashboard loads cannot consume provider usage.
 const _briefingCache = new Map(); // userId -> { at, payload }
@@ -6630,14 +6777,17 @@ const BRIEFING_TTL_MS = 12 * 60 * 60 * 1000;
 app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
-        const cacheKey = String(ownerId);
+        const scope = portfolioScopeKey(req.query.portfolioId);
+        const scopeFilter = portfolioScopeFilter(scope);
+        if (scopeFilter === false) return res.status(400).json({ message: 'Unknown portfolio.' });
+        const cacheKey = `${ownerId}|${scope}`;
         const force = String(req.query.refresh || '') === '1';
         const cached = _briefingCache.get(cacheKey);
         if (!force && cached && Date.now() - cached.at < BRIEFING_TTL_MS) {
             return res.json({ ...cached.payload, cached: true });
         }
 
-        const portfolio = await Stock.find({ user: ownerId });
+        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
         const enriched = await Promise.all(portfolio.map(async (stock) => {
             const ticker = safeUpper(stock.symbol);
             const obj = stock.toObject();
@@ -7218,13 +7368,16 @@ const XRAY_TTL_MS = 60 * 60 * 1000;
 app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
-        const key = String(ownerId);
+        const scope = portfolioScopeKey(req.query.portfolioId);
+        const scopeFilter = portfolioScopeFilter(scope);
+        if (scopeFilter === false) return res.status(400).json({ message: 'Unknown portfolio.' });
+        const key = `${ownerId}|${scope}`;
         const force = String(req.query.refresh || '') === '1';
         const cached = _xrayCache.get(key);
         if (!force && cached && Date.now() - cached.at < XRAY_TTL_MS) {
             return res.json({ ...cached.payload, cached: true });
         }
-        const portfolio = await Stock.find({ user: ownerId });
+        const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
         const enriched = await Promise.all(portfolio.map(async (stock) => {
             const obj = stock.toObject();
             obj.symbol = safeUpper(stock.symbol);
@@ -7243,6 +7396,7 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
 
 // ----- Wash-sale guard: cross-account tax-lot intelligence (Pro) -----
 const washSale = require('./wash-sale');
+const portfolioCsv = require('./portfolio-csv');
 app.post('/api/tax/import', authMiddleware, monitorGate, async (req, res) => {
     try {
         const result = await washSale.importCsv(portfolioOwnerId(req), req.body || {});
@@ -7293,11 +7447,15 @@ const ATTRIB_TTL_MS = 20 * 60 * 1000;
 app.get('/api/portfolio/attribution', authMiddleware, proGate, async (req, res) => {
     try {
         const userId = String(portfolioOwnerId(req));
-        const hit = _attribCache.get(userId);
+        const scope = portfolioScopeKey(req.query.portfolioId);
+        const scopeFilter = portfolioScopeFilter(scope);
+        if (scopeFilter === false) return res.status(400).json({ message: 'Unknown portfolio.' });
+        const cacheKey = `${userId}|${scope}`;
+        const hit = _attribCache.get(cacheKey);
         if (hit && Date.now() - hit.at < ATTRIB_TTL_MS) return res.json(hit.payload);
-        const holdings = (await Stock.find({ user: userId })).map((s) => s.toObject());
+        const holdings = (await Stock.find({ user: userId, ...(scopeFilter || {}) })).map((s) => s.toObject());
         const payload = await attribution.computeAttribution(holdings);
-        _attribCache.set(userId, { at: Date.now(), payload });
+        _attribCache.set(cacheKey, { at: Date.now(), payload });
         if (_attribCache.size > 500) _attribCache.delete(_attribCache.keys().next().value);
         res.json(payload);
     } catch (error) {
@@ -7413,6 +7571,25 @@ app.post('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
                 return res.status(402).json({
                     message: `The free plan tracks up to ${FREE_WATCHLIST_CAP} companies. Upgrade to keep adding.`,
                     code: 'SUBSCRIPTION_REQUIRED'
+                });
+            }
+        }
+        // Monitor cap v2 (1/4/8) — gates the watchlist for lifetime buyers who
+        // redeemed on/after MONITOR_CAP_V2_EFFECTIVE_FROM. Grandfathered buyers
+        // and every other plan pass through untouched: their watchlist is not a
+        // Monitor entitlement and must not retroactively become one. Guarded on
+        // the pure cohort test so nobody else pays for the extra read. Kept
+        // outside tierLimits.enabled() on purpose — that flag also meters
+        // history depth, which this must not switch on as a side effect.
+        if (tierLimits.isMonitorCapV2Cohort(req.user)) {
+            const existing = await Watchlist.findOne({ user: portfolioOwnerId(req) }).lean();
+            const symbols = (existing && existing.symbols) || [];
+            if (!symbols.includes(symbol) && tierLimits.wouldExceedMonitorCap(req.user, symbols.length)) {
+                const cap = tierLimits.monitorCapFor(req.user);
+                return res.status(402).json({
+                    message: `Your plan monitors up to ${cap} ${cap === 1 ? 'company' : 'companies'}. Upgrade your tier to add more.`,
+                    code: 'MONITORED_COMPANY_LIMIT',
+                    limit: cap
                 });
             }
         }
@@ -7701,7 +7878,11 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
                 const lic = await AppSumoLicense.findOne({ licenseKey: req.user.appsumoLicenseKey }, { changePlanUrl: 1 }).lean();
                 upgradeUrl = appsumoUpgradeUrl(lic);
             } catch (_) { /* fall back to account page */ }
-            out.appsumo = { isAppSumo: true, tier: req.user.appsumoTier || null, cap: req.user.appsumoAiCap || null, upgradeUrl };
+            // monitorCapLabel is resolved server-side (and is cohort-aware, so a
+            // grandfathered buyer keeps their old number) because Infinity does
+            // not survive JSON and because the client must never recompute the
+            // ladder — see lib/tier-limits.js.
+            out.appsumo = { isAppSumo: true, tier: req.user.appsumoTier || null, cap: req.user.appsumoAiCap || null, upgradeUrl, monitorCapLabel: tierLimits.monitorCapLabel(req.user) };
         }
         res.json(out);
     } catch (error) {
@@ -7740,6 +7921,18 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         if (!Number.isFinite(qty) || qty <= 0) {
             return res.status(400).json({ message: 'Shares must be a positive number' });
         }
+        // Target portfolio: absent or 'main' → the implicit Main portfolio
+        // (old clients keep working); an ObjectId must belong to the caller.
+        let targetPortfolioId = null;
+        const rawPortfolioId = String((req.body || {}).portfolioId || '').trim();
+        if (rawPortfolioId && rawPortfolioId !== 'main') {
+            if (!/^[0-9a-f]{24}$/i.test(rawPortfolioId)) {
+                return res.status(400).json({ message: 'Unknown portfolio.' });
+            }
+            const owned = await Portfolio.findOne({ _id: rawPortfolioId, user: portfolioOwnerId(req) }).lean();
+            if (!owned) return res.status(400).json({ message: 'Unknown portfolio.' });
+            targetPortfolioId = owned._id;
+        }
         // One lightweight quote supplies identity, asset type and price. The
         // old path made a price request and then a second profile request in
         // sequence (plus a large fund-summary request for ETFs/funds).
@@ -7760,6 +7953,15 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
         if (!livePrice) {
             try { livePrice = await getStockPrice(ticker); }
             catch (priceError) { console.warn(`Price lookup failed for ${ticker}: ${priceError.message}`); }
+        }
+        // A symbol that resolves to neither a name nor a price does not exist
+        // as far as any source we have is concerned. Saving it anyway creates a
+        // holding stuck at $0 that the user has to hunt down and delete, so
+        // refuse it and say why. A transient outage fails the same way, but
+        // that is recoverable by retrying — a junk holding is not.
+        const resolvedIdentity = profile && profile.name && String(profile.name).toUpperCase() !== ticker;
+        if (!livePrice && !resolvedIdentity) {
+            return res.status(400).json({ message: 'unknown ticker', code: 'UNKNOWN_SYMBOL' });
         }
 
         const buyPrice = Number.isFinite(Number(purchasePrice)) && Number(purchasePrice) > 0
@@ -7783,13 +7985,11 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             purchasePrice: buyPrice,
             purchaseDate: purchase,
             currentPrice: livePrice,
+            portfolioId: targetPortfolioId,
             user: portfolioOwnerId(req)
         });
         await newStock.save();
-        const cacheKey = String(portfolioOwnerId(req));
-        _briefingCache.delete(cacheKey);
-        _xrayCache.delete(cacheKey);
-        _attribCache.delete(cacheKey);
+        invalidatePortfolioCaches(portfolioOwnerId(req));
         const portfolioCount = await Stock.countDocuments({ user: portfolioOwnerId(req) });
         if (portfolioCount >= 1) trackActivation(req.userId, 'portfolio', {
             resultValid: true, sourceOpened: false, featureType: 'portfolio',
@@ -7810,10 +8010,7 @@ app.delete('/api/portfolio/:id', authMiddleware, coreGate, async (req, res) => {
         const ownerId = portfolioOwnerId(req);
         const stock = await Stock.findOneAndDelete({ _id: req.params.id, user: ownerId });
         if (!stock) return res.status(404).json({ message: 'Holding not found or unauthorized' });
-        const cacheKey = String(ownerId);
-        _briefingCache.delete(cacheKey);
-        _xrayCache.delete(cacheKey);
-        _attribCache.delete(cacheKey);
+        invalidatePortfolioCaches(ownerId);
         res.status(200).json({ message: 'Holding removed successfully' });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -7822,6 +8019,195 @@ app.delete('/api/portfolio/:id', authMiddleware, coreGate, async (req, res) => {
         res.status(500).json({ message: 'Unable to delete that holding right now.' });
     }
 });
+
+// Deleting a portfolio deletes its holdings with it; other portfolios are
+// untouched. Main (the implicit portfolio) cannot be deleted.
+app.delete('/api/portfolios/:id', authMiddleware, coreGate, async (req, res) => {
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const id = String(req.params.id || '');
+        if (id === 'main') return res.status(400).json({ message: 'Main portfolio cannot be deleted.' });
+        if (!/^[0-9a-f]{24}$/i.test(id)) return res.status(404).json({ message: 'Portfolio not found.' });
+        // Verify ownership first, then delete HOLDINGS BEFORE the portfolio.
+        // These two writes are not a transaction, so order decides the failure
+        // mode: dropping the portfolio first would leave any holdings whose
+        // delete failed orphaned — matched by no scope ('main' requires a null
+        // portfolioId, the portfolio's own id no longer resolves) yet still
+        // counted and valued in the All view, with no way to reach or remove
+        // them. This order fails the other way: the portfolio survives with
+        // its holdings, still visible and still deletable by retrying.
+        const target = await Portfolio.findOne({ _id: id, user: ownerId });
+        if (!target) return res.status(404).json({ message: 'Portfolio not found.' });
+        const removedHoldings = await Stock.deleteMany({ user: ownerId, portfolioId: target._id });
+        const removed = await Portfolio.findOneAndDelete({ _id: target._id, user: ownerId });
+        if (!removed) return res.status(404).json({ message: 'Portfolio not found.' });
+        invalidatePortfolioCaches(ownerId);
+        res.status(200).json({ ok: true, removedHoldings: removedHoldings.deletedCount || 0 });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: 'Unable to delete that portfolio right now.' });
+    }
+});
+
+// ---- CSV import ----------------------------------------------------------
+// Two stateless steps. Preview parses and reports; commit re-parses the same
+// text and is authoritative, so a holding added between the steps still merges
+// correctly instead of acting on a stale plan.
+const CSV_IMPORT_MAX_HOLDINGS = 100;
+
+async function resolveImportTarget(req, rawPortfolioId) {
+    const raw = String(rawPortfolioId || '').trim();
+    if (!raw || raw === 'main' || raw === 'all') return { ok: true, portfolioId: null };
+    if (!/^[0-9a-f]{24}$/i.test(raw)) return { ok: false };
+    const owned = await Portfolio.findOne({ _id: raw, user: portfolioOwnerId(req) }).lean();
+    return owned ? { ok: true, portfolioId: owned._id } : { ok: false };
+}
+
+app.post('/api/portfolio/import/preview', authMiddleware, coreGate, async (req, res) => {
+    try {
+        const parsed = portfolioCsv.parseHoldingsCsv((req.body || {}).csv);
+        if (parsed.error) return res.status(400).json({ message: parsed.error });
+        const target = await resolveImportTarget(req, (req.body || {}).portfolioId);
+        if (!target.ok) return res.status(400).json({ message: 'Unknown portfolio.' });
+
+        const rows = portfolioCsv.consolidateRows(parsed.rows);
+        const existing = await Stock.find({ user: portfolioOwnerId(req), portfolioId: target.portfolioId })
+            .select('symbol').lean();
+        const existingSymbols = new Set(existing.map((s) => String(s.symbol).toUpperCase()));
+        const marked = rows.map((r) => ({ ...r, merges: existingSymbols.has(r.symbol) }));
+        const mergedCount = marked.filter((r) => r.merges).length;
+        const collapsed = parsed.rows.length - rows.length;
+
+        const notes = [];
+        if (collapsed > 0) notes.push(`${collapsed} repeated ticker row${collapsed === 1 ? '' : 's'} combined into one holding each (units summed, price weighted-averaged, earliest date kept).`);
+        if (mergedCount > 0) notes.push(`${mergedCount} ticker${mergedCount === 1 ? '' : 's'} already in this portfolio will be merged, not duplicated.`);
+
+        res.json({
+            rows: marked,
+            skipped: parsed.skipped,
+            mergeNote: notes.join(' ') || '',
+            total: existingSymbols.size + marked.filter((r) => !r.merges).length,
+            max: CSV_IMPORT_MAX_HOLDINGS
+        });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: 'Unable to read that CSV right now.' });
+    }
+});
+
+app.post('/api/portfolio/import/commit', authMiddleware, coreGate, async (req, res) => {
+    try {
+        const ownerId = portfolioOwnerId(req);
+        const parsed = portfolioCsv.parseHoldingsCsv((req.body || {}).csv);
+        if (parsed.error) return res.status(400).json({ message: parsed.error });
+        const target = await resolveImportTarget(req, (req.body || {}).portfolioId);
+        if (!target.ok) return res.status(400).json({ message: 'Unknown portfolio.' });
+
+        const rows = portfolioCsv.consolidateRows(parsed.rows);
+        if (!rows.length) return res.status(400).json({ message: 'No importable rows found in that CSV.' });
+
+        const existing = await Stock.find({ user: ownerId, portfolioId: target.portfolioId }).lean();
+        const bySymbol = new Map(existing.map((s) => [String(s.symbol).toUpperCase(), s]));
+        const newSymbols = rows.filter((r) => !bySymbol.has(r.symbol)).length;
+        const resulting = bySymbol.size + newSymbols;
+        // Reject whole-file rather than importing half of it — a partially
+        // applied import is worse than none, because it is hard to undo.
+        if (resulting > CSV_IMPORT_MAX_HOLDINGS) {
+            return res.status(400).json({
+                message: `That import would leave ${resulting} holdings in this portfolio; the limit is ${CSV_IMPORT_MAX_HOLDINGS}. Nothing was imported.`
+            });
+        }
+
+        // One profile lookup per distinct symbol, best effort: a failed lookup
+        // stores price 0 and fills in on the next dashboard load, exactly like
+        // a single add whose quote lookup failed.
+        const profiles = new Map();
+        for (const row of rows) {
+            if (bySymbol.has(row.symbol)) continue;
+            let profile = {};
+            let livePrice = 0;
+            try {
+                profile = await assetProfile.fetchAssetProfile(row.symbol, { fundDetails: false }) || {};
+                const quoted = Number(profile.price);
+                if (Number.isFinite(quoted) && quoted > 0) { livePrice = quoted; cacheSet(priceCache, row.symbol, livePrice); }
+            } catch (_) { /* unknown ticker or quote outage — reported below */ }
+            if (!livePrice) {
+                try { livePrice = await getStockPrice(row.symbol); } catch (_) { /* price fills in later */ }
+            }
+            profiles.set(row.symbol, { profile, livePrice });
+        }
+
+        // A symbol that resolves to neither a name nor a price does not exist:
+        // importing it would create a holding stuck at $0. Report it with the
+        // other skips rather than silently filling the portfolio with junk.
+        const unresolved = rows.filter((row) => {
+            if (bySymbol.has(row.symbol)) return false;
+            const got = profiles.get(row.symbol) || {};
+            const named = got.profile && got.profile.name && String(got.profile.name).toUpperCase() !== row.symbol;
+            return !got.livePrice && !named;
+        }).map((row) => row.symbol);
+        const unresolvedSet = new Set(unresolved);
+
+        let imported = 0;
+        let merged = 0;
+        for (const row of rows) {
+            if (unresolvedSet.has(row.symbol)) continue;
+            const current = bySymbol.get(row.symbol);
+            if (current) {
+                // Weighted average across both lots, ignoring unpriced units so
+                // a price-less CSV row cannot drag the cost basis toward zero.
+                const curShares = Number(current.shares) || 0;
+                const curPrice = Number(current.purchasePrice) || 0;
+                const pricedShares = (curPrice > 0 ? curShares : 0) + (row.price > 0 ? row.shares : 0);
+                const pricedTotal = (curPrice > 0 ? curShares * curPrice : 0) + (row.price > 0 ? row.shares * row.price : 0);
+                const update = {
+                    shares: curShares + row.shares,
+                    purchasePrice: pricedShares > 0 ? pricedTotal / pricedShares : 0
+                };
+                const rowDate = row.purchaseDate ? new Date(`${row.purchaseDate}T00:00:00Z`) : null;
+                if (rowDate && (!current.purchaseDate || rowDate < new Date(current.purchaseDate))) update.purchaseDate = rowDate;
+                await Stock.updateOne({ _id: current._id, user: ownerId }, { $set: update });
+                merged++;
+                continue;
+            }
+            const { profile, livePrice } = profiles.get(row.symbol) || { profile: {}, livePrice: 0 };
+            await new Stock({
+                symbol: row.symbol,
+                name: profile.name || row.symbol,
+                sector: profile.sector || profile.category || '',
+                assetType: profile.assetType || (isCryptoSymbol(row.symbol) ? 'crypto' : 'stock'),
+                quoteType: profile.quoteType || '',
+                category: profile.category || '',
+                shares: row.shares,
+                purchasePrice: row.price > 0 ? row.price : livePrice,
+                purchaseDate: row.purchaseDate ? new Date(`${row.purchaseDate}T00:00:00Z`) : new Date(),
+                currentPrice: livePrice,
+                portfolioId: target.portfolioId,
+                user: ownerId
+            }).save();
+            imported++;
+        }
+
+        invalidatePortfolioCaches(ownerId);
+        if (imported + merged > 0) {
+            trackActivation(req.userId, 'portfolio', {
+                resultValid: true, sourceOpened: false, featureType: 'portfolio',
+                requestFields: trackingRequestFields(req, res)
+            });
+            markOnboardingStep(req.user, 'hold');
+        }
+        res.status(200).json({
+            imported,
+            merged,
+            skipped: parsed.skipped.length + unresolved.length,
+            unknownSymbols: unresolved
+        });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ message: 'Database unavailable.' });
+        res.status(500).json({ message: 'Unable to import that CSV right now.' });
+    }
+});
+
 
 app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
     if (!stripe || !STRIPE_WEBHOOK_SECRET) {
