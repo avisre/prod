@@ -47,5 +47,5 @@ test('dashboard does not duplicate Ask history — saved answers live in /ask on
     // The API routes stay (tested above: reopening is always free).
     assert.doesNotMatch(dashboardHtml, /recent-answers-section|recent-answers-list|Saved Ask reports/);
     assert.doesNotMatch(dashboardSource, /ask-history\/recent|openAnswerViewer|answer-viewer/);
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260902-ports1/);
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260902-ports2/);
 });

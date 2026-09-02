@@ -161,7 +161,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .nav-inner {
   display: flex;
   align-items: center;
-  gap: var(--s5);
+  gap: 20px;
   height: 60px;
 }
 .wordmark {
@@ -187,15 +187,18 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .wordmark:hover { color: var(--ink); }
 .nav-links {
   display: flex;
-  gap: var(--s4);
+  gap: 16px;
   align-items: center;
   font-size: var(--text-sm);
   font-weight: 500;
+  /* Never let the link row itself compress — tight widths squeeze the search
+     box (flex-shrink below) instead, so labels stay on one line. */
+  flex: none;
 }
 /* Nav links read at full ink by default — the muted --ink-2 made every
    destination look secondary until it was the current page. The active page
    is still distinguished, by weight + underline rather than by colour. */
-.nav-links a { color: var(--ink); padding: 6px 4px; border-bottom: 2px solid transparent; }
+.nav-links a { color: var(--ink); padding: 6px 4px; border-bottom: 2px solid transparent; white-space: nowrap; }
 .nav-links a:hover { color: var(--accent); }
 .nav-links a[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
 
@@ -204,7 +207,7 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
    shows >1180px, where hover works, so no JS is needed. The trigger still
    links to /ask.html, so a click goes straight to Ask. */
 .nav-dd { position: relative; display: inline-flex; align-items: center; }
-.nav-dd-trigger { color: var(--ink); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; border-bottom: 2px solid transparent; }
+.nav-dd-trigger { color: var(--ink); padding: 6px 4px; display: inline-flex; align-items: center; gap: 3px; cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; }
 .nav-dd-trigger:hover { color: var(--accent); }
 .nav-dd-trigger[aria-current='page'] { color: var(--ink); font-weight: 650; border-bottom-color: var(--ink); }
 .nav-dd-caret { font-size: 11.5px; line-height: 1; transition: transform .15s ease; }
@@ -241,6 +244,10 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .nav-search {
   position: relative;
   width: 230px;
+  /* First thing to give when the nav row is tight: the box shrinks (labels
+     never do) down to the min-width, instead of pushing links to wrap. */
+  flex: 0 1 auto;
+  min-width: 150px;
 }
 .nav-search input {
   width: 100%;
@@ -1335,7 +1342,10 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 /* ---------- Responsive ---------- */
 /* The tools catalog adds another primary destination. Collapse before the
    desktop links can crowd the search/auth controls on small laptops. */
-@media (max-width: 1180px) {
+/* The desktop nav with search + auth buttons genuinely needs ~1350px; below
+   that the links used to wrap onto two lines, so switch to the hamburger
+   drawer a little earlier instead. */
+@media (max-width: 1360px) {
   .nav-links { display: none; }
   .nav-search { flex: 1; max-width: 280px; }
   .nav-inner { gap: 10px; }
@@ -1386,7 +1396,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
   border-radius: 8px;
 }
 .nav-ham:hover { background: var(--accent-tint); }
-@media (max-width: 1180px) {
+@media (max-width: 1360px) {
   .nav-ham { display: flex; align-items: center; }
 }
 

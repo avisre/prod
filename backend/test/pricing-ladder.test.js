@@ -45,7 +45,7 @@ test('Enterprise is the contact-sales rung, on the ladder and the homepage grid'
   assert.match(homepageSource, /href="mailto:support@stockportfolio\.pro\?subject=StockPortfolio\.pro%20Enterprise%20enquiry">Contact sales →<\/a>/);
 });
 
-test('the homepage grid reads as the ladder table: Good, Good — annual, Pro (featured), Desk (featured)', () => {
+test('the homepage grid reads as the ladder table: Good, Good — annual (featured), Pro (featured), Desk (featured)', () => {
   // 2026-09-01: the owner re-pinned the ladder table with "this and lets
   // talk" — the grid must carry the table's names, order and featured flags,
   // with Desk promoted out of the collapsed details and enterprise last.
@@ -55,8 +55,9 @@ test('the homepage grid reads as the ladder table: Good, Good — annual, Pro (f
   );
   const labels = [...grid.matchAll(/<span class="label">([^<]+)<\/span>/g)].map((m) => m[1]);
   assert.deepEqual(labels, ['Good', 'Pro', 'Good — annual', 'Desk', 'Enterprise']);
-  // Pro and Desk carry the featured ink border; the others don't.
-  assert.equal((grid.match(/card price-card" style="border-color: var\(--ink\);"/g) || []).length, 2);
+  // Pro, Desk and Good — annual carry the featured ink border; the others
+  // don't. (2026-09-02: annual joined the featured set — best-value tag.)
+  assert.equal((grid.match(/card price-card" style="border-color: var\(--ink\);"/g) || []).length, 3);
   // The annual card shows the actual monthly-billed price with a cross
   // through it next to the discounted annual figure.
   assert.match(grid, /\$199\.99<span>\/year<\/span><s class="price-was">\$299\.88<\/s>/);

@@ -600,7 +600,7 @@
           </div>
           <div class="ask-wall-panel">
             <h3>Get 2 more questions — leave your email.</h3>
-            <p class="sub">We email a one-click link; verifying unlocks 2 more free questions. Or start the full plan now — 25 questions a month with the filing, period and source under every figure.</p>
+            <p class="sub">We email a one-click link; verifying unlocks 2 more free questions. Or start the full plan now — 50 questions a month with the filing, period and source under every figure.</p>
             <form class="ask-trial-email" style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
               <input class="input" type="email" required autocomplete="email" maxlength="254" placeholder="you@example.com" style="flex:1; min-width:200px;" aria-label="Email address">
               <button class="btn btn-primary" type="submit">Send 2 more →</button>

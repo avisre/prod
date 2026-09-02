@@ -100,7 +100,14 @@
     const setGainFmt = (v) => {
         gainFmt = v;
         try { localStorage.setItem(GAIN_FMT_KEY, v); } catch (_) { /* private mode */ }
+        syncGainMode();
     };
+    // The % / $ chips in the GAIN header show the active mode at all times,
+    // so the toggle is visible without hovering or guessing.
+    function syncGainMode() {
+        document.querySelectorAll('[data-gfmt]').forEach((btn) =>
+            btn.setAttribute('aria-pressed', String(btn.dataset.gfmt === gainFmt)));
+    }
 
     function setPortfolioControlsBusy(busy) {
         const form = $('add-form');
@@ -839,6 +846,15 @@
                 setGainFmt(gainFmt === 'usd' ? 'pct' : 'usd');
                 if (lastRows.length) renderHoldings(lastRows);
             }));
+        // The explicit % / $ chips: click the format you want (and don't let
+        // the click bubble into the whole-header toggle on top of it).
+        document.querySelectorAll('[data-gfmt]').forEach((btn) =>
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                setGainFmt(btn.dataset.gfmt);
+                if (lastRows.length) renderHoldings(lastRows);
+            }));
+        syncGainMode();
     }
 
     async function loadHoldings() {

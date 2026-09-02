@@ -2012,7 +2012,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260902-navfix1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260902-mrr1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2041,7 +2041,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260902-navfix1"></script>
+<script src="/assets/app.js?v=20260902-mrr1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2111,7 +2111,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260902-navfix1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260902-mrr1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2139,7 +2139,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260902-navfix1"></script>
+<script src="/assets/app.js?v=20260902-mrr1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -7071,8 +7071,8 @@ async function anonAskHandler(req, res) {
     };
     if (visitorUsed >= limit) {
         return res.status(429).json(wall(bonusUsed
-            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 25 a month from $24.99.`
-            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan from $24.99/month.`));
+            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $24.99, or $199.99 a year with two months free.`
+            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $24.99, or $199.99 a year with two months free.`));
     }
     if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
         trackFunnel('anon_wall_shown', null, null, { bonus: bonusUsed, reason: 'busy', limit });
@@ -7167,7 +7167,7 @@ app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
                 to: email,
                 subject: 'Your 2 more Ask questions — verify in one click',
                 text: `Confirm this address and ${ASK_TRIAL_BONUS} more free Ask questions unlock in your browser, grounded in the actual SEC filings:\n\n${verifyUrl}\n\nThis link works for 3 days. No account is created; you can start the full paid plan anytime at ${PUBLIC_APP_URL}/register.html.\n\nStockPortfolio.pro — support@stockportfolio.pro`,
-                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#66717d;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $24.99/month with 25 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
+                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#66717d;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $24.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
             });
         }
         trackFunnel('anon_email_captured', null, null, { leadId: lead ? String(lead._id) : null, hadClaim: Boolean(visitorUsed), mailer: isMailerConfigured() ? 'smtp' : 'skipped' });
