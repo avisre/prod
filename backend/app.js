@@ -1349,6 +1349,33 @@ function startNoCardTrial(user) {
   user.markModified('subscription');
 }
 
+// 3-day signup trial: a Core-tier no-card trial offered on the free plan card
+// at registration, gated behind SIGNUP_TRIAL_DAYS (default 0 = off, preserving
+// today's paid-first behaviour). Unlike startNoCardTrial (Pro, 7 days, legacy
+// rollback), this always grants Core and is short by design. Same self-expiry
+// mechanism: no stripeSubscriptionId means ensureSubscriptionShape() drops it
+// to 'cancelled' at trialEndsAt with nothing charged.
+const SIGNUP_TRIAL_DAYS = parseInt(process.env.SIGNUP_TRIAL_DAYS || '0', 10);
+function startSignupTrial(user) {
+    const s = user.subscription || {};
+    s.status = 'trialing';
+    s.planId = MONTHLY_PLAN_ID;
+    s.planName = 'Core trial';
+    s.price = 0;
+    s.currency = 'USD';
+    s.billingInterval = 'month';
+    s.stripePriceId = null;
+    s.trialStartedAt = new Date();
+    s.trialEndsAt = new Date(Date.now() + SIGNUP_TRIAL_DAYS * 24 * 60 * 60 * 1000);
+    s.expiredAt = null;
+    s.activatedAt = null;
+    s.renewedAt = null;
+    s.lastPaymentAt = null;
+    user.subscription = s;
+    user.signupTrialAt = new Date();
+    user.markModified('subscription');
+}
+
 function createDefaultSubscription(plan = MONTHLY_PLAN_ID) {
   const planConfig = getPlanConfig(plan);
   return {
@@ -2012,7 +2039,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260902-aiorder1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260903-paywall1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2041,7 +2068,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260902-aiorder1"></script>
+<script src="/assets/app.js?v=20260903-paywall1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2111,7 +2138,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260902-aiorder1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260903-paywall1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2139,7 +2166,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260902-aiorder1"></script>
+<script src="/assets/app.js?v=20260903-paywall1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2262,6 +2289,10 @@ const UserSchema = new mongoose.Schema({
     trialEmailStage: { type: Number, default: 0 },
     trialEmailsOptOut: { type: Boolean, default: false },
     trialInternalNotifiedAt: { type: Date, default: null },
+    // Set once a free (no-card) signup trial has been granted, so an expired
+    // trial account cannot re-trial by re-registering. Distinct from the Pro
+    // no-card trial's own trialGrant machinery above.
+    signupTrialAt: { type: Date, default: null },
     // Campaign success/review signals are explicit and never inferred from a
     // purchase alone. They are used for the August activation gate.
     customerSuccessStatus: { type: String, enum: [null, 'yes', 'somewhat', 'not_yet'], default: null },
@@ -4516,7 +4547,7 @@ app.post('/api/subscribe', async (req, res) => {
     const selectedPlan = normalizePlanSelection(req.body?.plan);
     const planConfig = getPlanConfig(selectedPlan);
     const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
+    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0) {
         return sendApiError(
             res,
             createHttpError(402, 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.', 'PAID_PLAN_REQUIRED')
@@ -4678,6 +4709,13 @@ app.post('/api/subscribe', async (req, res) => {
             user.subscription.activatedAt = new Date();
             user.subscription.trialEndsAt = null;
         }
+        // Signup trial: a brand-new account choosing the free plan card gets a
+        // short no-card Core trial instead of a bare free account, when enabled.
+        let grantedSignupTrial = false;
+        if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && SIGNUP_TRIAL_DAYS > 0 && !user.signupTrialAt) {
+            startSignupTrial(user);
+            grantedSignupTrial = true;
+        }
         user.markModified('subscription');
         await user.save();
 
@@ -4705,7 +4743,8 @@ app.post('/api/subscribe', async (req, res) => {
             return res.status(200).json({
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
-                plan: FREE_PLAN_ID
+                plan: FREE_PLAN_ID,
+                trial: grantedSignupTrial
             });
         }
 
@@ -5017,7 +5056,8 @@ app.get('/stripe/config', (req, res) => {
     res.json({
         publishableKey: STRIPE_PUBLISHABLE_KEY,
         successUrl: buildStripeReturnUrl(req, { session: 'success', flow: 'register' }),
-        cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' })
+        cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' }),
+        signupTrialDays: SIGNUP_TRIAL_DAYS
     });
 });
 
@@ -5058,7 +5098,7 @@ app.post('/api/auth/social', async (req, res) => {
         // non-Stripe bypass /api/subscribe uses.
         const appsumoActivationSignup = isAppSumoActivationSignup(req);
         const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0) {
             return res.status(402).json({
                 message: 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.',
                 code: 'PAID_PLAN_REQUIRED'
@@ -5170,6 +5210,8 @@ app.post('/api/auth/social', async (req, res) => {
                 user.subscription.stripePriceId = planConfig.stripePriceId || null;
                 user.subscription.status = 'pending';
                 user.subscription.trialEndsAt = null;
+            } else if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && SIGNUP_TRIAL_DAYS > 0 && !user.signupTrialAt) {
+                startSignupTrial(user);
             }
             attachSignupAttribution(user, requestFields);
             if (utm) {
@@ -7685,18 +7727,18 @@ app.get('/api/company/:symbol/filings', async (req, res) => {
 });
 
 // Insider history — the real Form 4 trail (3 years), parsed from EDGAR.
-// Public; first request per company kicks off a background build (~1-2 min)
-// and the response says so.
+// Free tier: teaser (withholds the newest quarter + transaction list server-side).
+// Core/pro: full data. First request per company kicks off a background build (~1-2 min).
 const insiders = require('./insiders');
 const gurus = require('./gurus');
 const filingMonitor = require('./filing-monitor');
 const monitorDigest = require('./monitor-digest');
-app.get('/api/company/:symbol/insider-history', async (req, res) => {
+app.get('/api/company/:symbol/insider-history', optionalAuth, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
         const result = await insiders.history(symbol);
-        res.json(result);
+        res.json(req.tier === 'free' ? lockInsiderHistory(result) : result);
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Insider history failed') });
     }
@@ -7750,9 +7792,23 @@ app.get('/api/company/:symbol/insights', authMiddleware, proGate, async (req, re
 });
 
 // Key Points — the AI-extracted company dossier from the latest 10-K.
-// Public: one extraction per filing, cached forever in Mongo, so the spend
-// is bounded the same way the segments cache is.
+// Extraction itself is Pro-gated and cached forever per filing, so cost is
+// already bounded; the free-tier cap below is a pure conversion lever: 5
+// DISTINCT stocks per calendar month, then Core is required for more. Viewing
+// a stock already counted this month, or one nobody has generated yet, is free.
 const keypoints = require('./keypoints');
+const keypointFreeUsage = require('./keypoint-free-usage');
+const configuredKeypointsFreeStocks = Number.parseInt(process.env.KEYPOINTS_FREE_STOCKS || '5', 10);
+const KEYPOINTS_FREE_STOCKS = Number.isFinite(configuredKeypointsFreeStocks) ? Math.max(0, Math.min(50, configuredKeypointsFreeStocks)) : 5;
+const KeypointFreeUsage = keypointFreeUsage.createModel(mongoose);
+
+function keypointFreeContext(req, now = new Date()) {
+    const monthKey = now.toISOString().slice(0, 7);
+    const expiresAt = new Date(now.getFullYear(), now.getMonth() + 2, 1); // clears ~35 days after month start
+    const clientKey = req.user ? `u:${req.user._id}` : `ip:${crypto.createHmac('sha256', process.env.MONITOR_FREE_IP_SALT || JWT_SECRET).update(String(req.ip || 'unknown')).digest('hex')}`;
+    return { clientKey, monthKey, expiresAt };
+}
+
 app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
@@ -7766,6 +7822,19 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
                 code: 'ASSET_FEATURE_UNAVAILABLE', assetType: instrument.assetType,
                 message: `${instrument.assetTypeLabel}s do not publish company 10-K business dossiers. Use the fund profile or Ask for holdings, costs, allocation, returns and risk.`
             });
+        }
+        // Free-tier monthly cap on distinct stocks. core/pro/trialing bypass.
+        if (req.tier === 'free' && KEYPOINTS_FREE_STOCKS > 0) {
+            const claim = await keypointFreeUsage.claim(KeypointFreeUsage, keypointFreeContext(req), symbol, KEYPOINTS_FREE_STOCKS);
+            res.setHeader('RateLimit-Limit', String(KEYPOINTS_FREE_STOCKS));
+            res.setHeader('RateLimit-Remaining', String(claim.remaining));
+            if (!claim.allowed) {
+                return res.status(429).json({
+                    code: 'KEYPOINTS_QUOTA',
+                    message: `That's your ${KEYPOINTS_FREE_STOCKS} free stocks with key points this month. Upgrade to Core for unlimited stocks.`,
+                    quota: { used: KEYPOINTS_FREE_STOCKS, limit: KEYPOINTS_FREE_STOCKS, remaining: 0 }
+                });
+            }
         }
         // Ordinary page loads may read an existing cache but can never create
         // provider usage. Generation requires the explicit Insights Pro click,
@@ -7785,16 +7854,28 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
 });
 
 const _ownershipCache = new Map(); // SYM -> { at, payload }
-app.get('/api/company/:symbol/ownership', async (req, res) => {
+app.get('/api/company/:symbol/ownership', optionalAuth, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
         const cached = _ownershipCache.get(symbol);
-        if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) return res.json(cached.payload);
+        if (cached && Date.now() - cached.at < COMPANY_EXTRA_TTL_MS) {
+            // Cache is tier-blind — shape on the way out only, never store the stripped version
+            const payload = cached.payload;
+            if (req.tier === 'free') {
+                const { insiderTransactions, insiderNet, ...rest } = payload;
+                return res.json({ ...rest, insiderLocked: true });
+            }
+            return res.json(payload);
+        }
         const data = await yahooSource.fetchOwnership(symbol);
         const payload = { symbol, ...data, source: 'Yahoo Finance (13F-derived)' };
         _ownershipCache.set(symbol, { at: Date.now(), payload });
         if (_ownershipCache.size > 500) _ownershipCache.delete(_ownershipCache.keys().next().value);
+        if (req.tier === 'free') {
+            const { insiderTransactions, insiderNet, ...rest } = payload;
+            return res.json({ ...rest, insiderLocked: true });
+        }
         res.json(payload);
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Ownership load failed') });
@@ -9848,10 +9929,24 @@ app.get('/admin/funnel', async (req, res) => {
 // Paid fields are stripped server-side for lower tiers and flagged so the page
 // renders an upgrade teaser in their place.
 function lockGuruData(data) {
-    const holdings = Array.isArray(data.holdings)
-        ? data.holdings.map(({ activity, shareChangePct, prevShares, ...keep }) => keep)
-        : data.holdings;
-    return { ...data, holdings, sells: [], performance: null, hasActivity: false, analysis: null, locked: true, analysisLocked: true };
+    const rows = Array.isArray(data.holdings) ? data.holdings : [];
+    const holdings = rows.slice(0, 5).map(({ activity, shareChangePct, prevShares, ...keep }) => keep);
+    return {
+        ...data, holdings, sells: [], performance: null, hasActivity: false, analysis: null,
+        holdingsTotal: data.holdingsTotal ?? rows.length, holdingsShown: holdings.length,
+        locked: true, teaser: true, analysisLocked: true
+    };
+}
+// Core: the Form-4 trail. Free keeps the shape (so the company page renders and
+// the teaser stays honest) but not the values: no per-transaction list, and the
+// newest quarter — the one that says what insiders did *most recently* — is
+// withheld server-side instead of blurred client-side.
+function lockInsiderHistory(result) {
+    const quarters = Array.isArray(result.quarters) ? result.quarters.slice(0, -1) : result.quarters;
+    return {
+        ...result, quarters, recent: [], recentTotal: Array.isArray(result.recent) ? result.recent.length : 0,
+        latestQuarterLocked: true, locked: true, source: result.source
+    };
 }
 // Core: keep perf + activity, no analysis (analysis is Pro). free uses lockGuruData.
 function stripGuruAnalysis(data) {

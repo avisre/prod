@@ -686,6 +686,18 @@
         </div>`;
     }
 
+    // Shared upgrade strip: what a free/anonymous visitor is missing, with one
+    // CTA. Logged-in free -> /upgrade.html; anonymous -> the trial signup page.
+    // Callers set innerHTML on a fixed id, so re-renders cannot duplicate it.
+    function upgradeStrip(opts) {
+        const items = (opts && opts.items) || [];
+        const cta = token() ? '/upgrade.html' : '/register.html?plan=free';
+        return `<div class="upgrade-strip" role="note">
+          <div class="upgrade-strip-copy"><strong>${esc((opts && opts.title) || 'You are seeing the free preview.')}</strong>
+          <ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>
+          <a class="btn btn-primary btn-sm" href="${cta}">${token() ? 'Unlock with Core →' : 'Start the 3-day free trial →'}</a></div>`;
+    }
+
     // ---------- analytics, consent-gated (prod hostname only) ----------
     // Nothing loads until the user says yes; the choice is remembered and
     // shared with v1 (same key). Decline = the scripts never exist.
@@ -2156,7 +2168,7 @@
     else initHScroll();
 
     mountCampaign();
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip };
 
     // Server-rendered SEO surfaces opt into the ask floor with a body
     // attribute (see /stocks/:ticker and the free-tool pages): every page

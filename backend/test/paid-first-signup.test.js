@@ -68,14 +68,15 @@ test('seven-day refund state is recorded and protected by an authenticated route
 test('signup surfaces describe payment and refund terms instead of a no-card trial', () => {
   assert.match(registerSource, /Continue to secure checkout/);
   assert.match(registerSource, /refund within 7 days/);
-  assert.doesNotMatch(registerSource, /no card required/);
-  assert.match(registerSource, /Continue to secure checkout/);
-  assert.match(registerSource, /refund within 7 days/);
-  assert.doesNotMatch(registerSource, /no card required/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
   assert.match(registerSource, /amount: '\$24\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
+  // The paid plan cards (monthly/annual/pro-annual/desk) must still describe
+  // payment terms, not a trial — "no card required" is scoped to the
+  // flag-gated free-trial card only (SIGNUP_TRIAL_DAYS, default 0 = hidden).
+  assert.match(registerSource, /free-trial-card.*hidden/);
+  assert.match(appSource, /SIGNUP_TRIAL_DAYS = parseInt\(process\.env\.SIGNUP_TRIAL_DAYS \|\| '0', 10\)/);
 });
 
 // --- account creation is gated on the payment, not on the form submit -------
@@ -135,7 +136,9 @@ test('the buyer is signed in by claiming the paid checkout, not by pre-issuing a
 test('an AppSumo redemption is exempt from paid-first checkout on both signup routes', () => {
   // Social sign-in reads the same signed activation token /api/subscribe uses.
   assert.match(appSource, /const appsumoActivationSignup = isAppSumoActivationSignup\(req\);\s*\n\s*const paymentRequired = initialPaymentRequiredForSignup\(planConfig\.planId, appsumoActivationSignup\);/);
-  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID\)/);
+  // The free-plan 402 stays intact; it is only bypassed by the flag-gated
+  // signup trial (SIGNUP_TRIAL_DAYS, default 0 = off — see signup-trial.test.js).
+  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0\)/);
   // And returns a real session before any Stripe branch can be reached.
   assert.match(appSource, /if \(appsumoActivationSignup\) \{[\s\S]{0,400}appsumoActivation: true/);
 });

@@ -83,9 +83,10 @@ Conventions: **Auth** = None | Optional | Required (authMiddleware). **Plan gate
 | Filing diff (Pro) | `GET /api/company/:symbol/filing-diff` | Line-by-line filed financial diff (latest two annual periods) — the Pro differentiator | Required | **proGate** |
 | Filing timeline tool | `/tools/filing-timeline` | Public timeline explorer (deterministic, paginated, split-aware) | None | free |
 | Filing change detector | `/tools/filing-change` | Compares key filed line items across two annuals | None | free |
-| Insider filings explorer | `/tools/insider-filings` + `GET /api/company/:symbol/insider-history` | Form 4 browsing with SEC links | None / API None | free |
+| Insider filings explorer (tool page) | `/tools/insider-filings` | 6 most recent Form 4s, SEC links — genuine free SEO surface | None | free |
+| Insider history (full trail) | `GET /api/company/:symbol/insider-history` | 3-year Form 4 buy/sell trail, quarterly buckets | `optionalAuth` | **free = teaser** (newest quarter + transaction list withheld server-side); core/pro = full |
 | Institutional filings timeline | `/tools/institutional-filings` | Recent 13F filings for an entity (EDGAR) | None | free |
-| Ownership (13F-derived) | `GET /api/company/:symbol/ownership` | Institutional ownership snapshot (Yahoo-derived label) | None | free |
+| Ownership (13F-derived) | `GET /api/company/:symbol/ownership` | Institutional ownership snapshot (Yahoo-derived label); insider transactions/net | `optionalAuth` | **free = insider fields stripped** (`insiderLocked:true`); institutions data stays free; core/pro = full |
 | Segments (Pro) | `GET /api/company/:symbol/segments` | Revenue by segment (when filed) | Required | **proGate** |
 | Insights (Pro) | `GET /api/company/:symbol/insights` | AI-generated insights (Pro, filing-grounded) | Required | **proGate** |
 | AI summary (Pro) | `GET /api/stocks/:symbol/ai-summary` | One-shot AI company summary | Required | **proGate** |
@@ -140,8 +141,10 @@ Additional filing-grounded single-ticker free tools (all **None/free**, determin
 | Feature | Route / Page | Description | Auth | Plan Gate |
 |---|---|---|---|---|
 | Guru directory | `/gurus.html`, `/gurus` | 27+ famous investors (Buffett, Ackman, Burry, Klarman…) — delayed 13F disclosures, not live signals | None | free |
-| Guru holdings list | `GET /api/gurus`, `GET /api/gurus/:id` (+ `backend/gurus.js`) | List + per-guru holdings: positions, weights, adds/increases/decreases/removals vs prior quarter; source EDGAR 13F-HR | List None; holdings `optionalAuth` | **Free for perf+activity; analysis gated** |
+| Guru holdings list | `GET /api/gurus`, `GET /api/gurus/:id` (+ `backend/gurus.js`) | List + per-guru holdings: positions, weights, adds/increases/decreases/removals vs prior quarter; source EDGAR 13F-HR | List None; holdings `optionalAuth` | **free = top-5 holdings teaser** (`teaser:true`, no perf/activity); core = full holdings + perf + activity, no analysis; pro = + analysis |
 | Guru AI analysis | `GET /api/gurus/:id/analysis` | On-demand AI analysis of guru portfolio | Required | **proGate** (tier-aware response: `pro` = full, `core` = strip analysis, `free` = extra gating) |
+| Key points free quota | `GET /api/company/:symbol/keypoints` | Distinct-stock monthly cap for free tier (`KEYPOINTS_FREE_STOCKS`, default 5) | `optionalAuth` | free = 5 distinct stocks/month then `429 KEYPOINTS_QUOTA`; core/pro = unlimited |
+| Signup trial | `POST /api/subscribe`, `POST /api/auth/social` (plan=free) | 3-day no-card Core trial (`SIGNUP_TRIAL_DAYS`, default 0 = off) | None | free plan card → `trialing`/Core for 3 days, then free |
 
 ## 11. ETF / MUTUAL FUNDS
 

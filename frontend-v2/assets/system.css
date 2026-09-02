@@ -1113,6 +1113,19 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .notice-neg { border-left-color: var(--neg); }
 .notice-pos { border-left-color: var(--pos); }
 
+/* ---------- Upgrade strip (free/anon paywall banner) ---------- */
+.upgrade-strip {
+  display: flex; align-items: center; justify-content: space-between; gap: var(--s4);
+  border: 1px solid var(--line); border-radius: var(--radius-sm);
+  background: var(--accent-tint); padding: var(--s3) var(--s4);
+  margin-bottom: var(--s4); flex-wrap: wrap;
+}
+.upgrade-strip-copy { font-size: var(--text-sm); }
+.upgrade-strip-copy strong { display: block; }
+.upgrade-strip-copy ul { margin: 4px 0 0; padding-left: 18px; }
+.upgrade-strip-copy li { margin: 2px 0; }
+.upgrade-strip .btn { white-space: nowrap; }
+
 /* ---------- Document filing links ---------- */
 .docs-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
 .doc-chips { display: flex; flex-wrap: wrap; gap: 8px; }

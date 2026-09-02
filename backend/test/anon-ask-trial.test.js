@@ -51,7 +51,11 @@ test('Frontend trial wall renders the inline email capture, not a dead-end notic
     const src = appSource();
     assert.match(src, /function askTrialWall\(data\)/);
     assert.match(src, /wireAskTrialEmail/);
-    assert.doesNotMatch(src, /register\.html\?plan=free/, 'no /register.html?plan=free links remain');
+    // Scoped to askTrialWall's own body: the Ask wall must route to the email
+    // rung + paid checkout, never the (separate, later-added) signup-trial
+    // upgradeStrip helper, which does link to /register.html?plan=free.
+    const askTrialWallBody = src.match(/function askTrialWall\(data\) \{[\s\S]*?\n    \}/)[0];
+    assert.doesNotMatch(askTrialWallBody, /register\.html\?plan=free/, 'no /register.html?plan=free links remain in the ask wall');
     assert.match(src, /api\/ask-trial\/email/);
     assert.match(src, /refundable within 7 days/);
     assert.match(src, /Start secure checkout — \$24\.99\/month/);

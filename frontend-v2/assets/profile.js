@@ -342,6 +342,14 @@
             if (!section || !session.subscription) return;
 
             nameEl.textContent = session.subscription.planName || (session.tier === 'free' ? 'Free' : session.tier === 'core' ? 'Core' : 'Pro');
+            if (session.subscription.status === 'trialing' && session.subscription.trialEndsAt) {
+                const daysLeft = Math.max(0, Math.ceil((new Date(session.subscription.trialEndsAt) - Date.now()) / 86400000));
+                nameEl.textContent = `${nameEl.textContent} · ${daysLeft} day${daysLeft === 1 ? '' : 's'} left`;
+                if (upgradeEl) {
+                    upgradeEl.innerHTML = `Trial ends soon — <a href="/upgrade.html">choose a plan to keep Core →</a>`;
+                    upgradeEl.hidden = false;
+                }
+            }
             quotaEl.textContent = Number.isFinite(quota.limit)
                 ? `${quota.used || 0} / ${quota.limit} Ask questions used this month`
                 : '';

@@ -12,7 +12,7 @@ Derived from: full codebase feature audit (36 features), live competitor pricing
 
 | Bucket | Job | Features | Marginal cost |
 |---|---|---|---|
-| A. Acquire (free, SEO) | Get found, prove credibility | Screener (1,500), /stocks/:ticker SEO pages, filings list, insider history, demo | ~0 |
+| A. Acquire (free, SEO) | Get found, prove credibility | Screener (1,500), /stocks/:ticker SEO pages, filings list, insider filings tool page (6 most recent Form 4s), guru top-5 teaser, demo | ~0 |
 | B. Track | "Is my money OK?" | Portfolio, watchlist, dashboard charts, CSV export | ~0 |
 | C. Monitor (retention engine) | "Tell me when something changes" | Filing watchdog, health-flip alerts, weekly briefing, X-Ray | ~0 + tiny AI |
 | D. Research depth | "Should I buy/hold this?" | 19-yr fundamentals, health checks, peers, key points, segments, insights | ~0 (cached) |

@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260902-aiorder1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260903-paywall1" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -88,6 +88,7 @@
           </div>
 
           <div class="seg" role="group" aria-label="Choose your plan" id="plan-pick">
+            <button type="button" class="plan-card" data-plan="free" aria-pressed="false" id="free-trial-card" hidden>Free trial</button>
             <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">Monthly</button>
             <button type="button" class="plan-card" data-plan="annual" aria-pressed="false">Annual</button>
             <button type="button" class="plan-card" data-plan="pro-annual" aria-pressed="false">Pro</button>
@@ -163,13 +164,19 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20260902-aiorder1"></script>
+  <script src="assets/app.js?v=20260903-paywall1"></script>
   <script src="assets/social.js?v=20260831-paidfirst1"></script>
   <script>
     V2.nav('register');
     // One record per plan drives the whole summary column: price, cadence,
     // the line under it, the feature list and the submit label.
     const PLANS = {
+      free: {
+        name: 'Free trial', amount: '$0.00', cadence: '3 days, no card',
+        note: 'No card required. After 3 days you keep a free account with the public research surfaces — upgrade anytime to keep Core.',
+        cta: 'Start my free trial',
+        features: ['3 days of everything in Monthly, no card required', 'Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Portfolio tracker, watchlist and SEC filing alerts', 'Upgrade anytime during or after the trial to keep Core']
+      },
       monthly: {
         name: 'Monthly', amount: '$24.99', cadence: 'per month',
         note: 'Charged today through Stripe. Cancel anytime.',
@@ -244,6 +251,12 @@
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
     syncPlan();
+    // Free-trial card only appears when the server has the trial switched on;
+    // a stale ?plan=free URL falls back to Monthly via the !PLANS guard above
+    // if the fetch fails or the flag is off.
+    fetch('/stripe/config').then((r) => r.json()).then((cfg) => {
+      if (cfg.signupTrialDays > 0) document.getElementById('free-trial-card').hidden = false;
+    }).catch(() => {});
     // Mobile stacks the summary above the form, so collapse the feature list
     // to keep the first input near the top of the page.
     try {

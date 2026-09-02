@@ -7,7 +7,7 @@
 // Insights drawer; Ask is the page's voice — a bar pinned to the floor.
 (function () {
     'use strict';
-    const { API, token, trackActivation, num, money, pct, fixed, esc, sparkline, chart, markdown, nav, footer, mountAskFloor, companies, mountShare } = window.V2;
+    const { API, token, trackActivation, num, money, pct, fixed, esc, sparkline, chart, markdown, nav, footer, mountAskFloor, companies, mountShare, upgradeStrip } = window.V2;
 
     const params = new URLSearchParams(location.search);
     const symbol = (params.get('symbol') || 'AAPL').toUpperCase().replace(/[^A-Z0-9.\-]/g, '');
@@ -568,6 +568,15 @@
             const headers = generate && token() ? { Authorization: `Bearer ${token()}` } : {};
             const suffix = generate ? '?generate=1' : '';
             const r = await fetch(`/api/company/${encodeURIComponent(symbol)}/keypoints${suffix}`, { headers });
+            if (r.status === 429) {
+                const q = await r.json().catch(() => ({}));
+                const limit = (q.quota || {}).limit || 5;
+                body.innerHTML = upgradeStrip({
+                    title: `You've used your ${limit} free stocks with key points this month.`,
+                    items: [`${symbol} key points — business, risks, performance from the latest 10-K — need Core (unlimited stocks)`]
+                });
+                return;
+            }
             if (!r.ok) {
                 body.innerHTML = generate
                     ? '<p class="small muted">Key points unavailable for this company.</p>'
@@ -1413,21 +1422,11 @@
     // the differentiator and sits behind Pro.
     let histPeriod = 'quarterly';
     let histTx = [];
-    let isPro = null;
-    async function proStatus() {
-        if (isPro !== null) return isPro;
-        if (!token()) { isPro = false; return false; }
-        try {
-            const r = await fetch(`${API}/ai/chat/quota`, { headers: { Authorization: `Bearer ${token()}` } });
-            isPro = r.ok ? !!(await r.json()).pro : false;
-        } catch (_) { isPro = false; }
-        return isPro;
-    }
     let form4Quarters = null; // parsed-from-EDGAR history once built
     let form4Meta = '';
+    let form4Locked = false; // server says free tier — newest quarter withheld
     async function renderInsiderHistory(o) {
         histTx = (o.insiderTransactions || []).filter((t) => t.date);
-        await proStatus();
         if (histTx.length >= 3) {
             paintInsiderHistory();
             $('insider-hist-block').hidden = false;
@@ -1445,13 +1444,15 @@
             const r = await fetch(`/api/company/${encodeURIComponent(symbol)}/insider-history`);
             if (!r.ok) return;
             const d = await r.json();
+            form4Locked = !!d.locked;
+            if (form4Locked) showPaywallStrip();
             if ((d.quarters || []).length) {
                 form4Quarters = d.quarters;
                 form4Meta = `${d.filingsParsed} Form 4 filings parsed directly from EDGAR` + (d.building ? ' — still building…' : '');
                 paintInsiderHistory();
                 $('insider-hist-block').hidden = false;
-                // the parsed feed also upgrades the transactions table (3yr deep)
-                if ((d.recent || []).length) {
+                // the parsed feed also upgrades the transactions table (3yr deep) — only when unlocked
+                if (!d.locked && (d.recent || []).length) {
                     insiderData = d.recent.map((t) => ({
                         name: t.owner, relation: t.relation, side: t.side,
                         date: t.date, shares: t.shares, value: t.value
@@ -1485,11 +1486,15 @@
             }
         }
         const keys = [...buckets.keys()].sort();
-        const shown = keys.slice(-12); // everything the feed reaches — up to 3 years
+        // The server withholds the newest quarter entirely for free users, so
+        // the last real column here is already one quarter behind. Render an
+        // extra locked placeholder column so the wall stays visible, not just implied.
+        const shown = keys.slice(-12);
+        const lock = form4Locked;
+        const cols = lock ? [...shown, '__locked__'] : shown;
         const latest = shown[shown.length - 1];
-        const lock = !isPro;
-        const cell = (k, v) => (lock && k === latest)
-            ? '<span title="The latest period is a Pro feature" style="filter:blur(5px); user-select:none;">●●●</span>'
+        const cell = (k, v) => k === '__locked__'
+            ? '<span title="The latest period is a Core feature" style="filter:blur(5px); user-select:none;">●●●</span>'
             : v;
         const rows = [
             ['Buys', (b) => String(b.buys)],
@@ -1501,25 +1506,43 @@
             }]
         ];
         let html = '<thead><tr><th class="row-head" style="text-align:left;">Insiders</th>' +
-            shown.map((k) => `<th${k === latest ? " class='col-now'" : ''}>${esc(k)}${lock && k === latest ? ' 🔒' : ''}</th>`).join('') + '</tr></thead><tbody>';
+            cols.map((k) => `<th${k === '__locked__' || k === latest ? " class='col-now'" : ''}>${k === '__locked__' ? '🔒' : esc(k)}</th>`).join('') + '</tr></thead><tbody>';
         for (const [label, fn] of rows) {
             html += `<tr><td class="row-head">${label}</td>` +
-                shown.map((k) => {
-                    const v = fn(buckets.get(k));
-                    const cls = label === 'Net shares' && !(lock && k === latest) ? (v.startsWith('+') ? 'delta-pos' : v.startsWith('−') ? 'delta-neg' : '') : '';
-                    return `<td class="${cls}${k === latest ? ' col-now' : ''}">${cell(k, v)}</td>`;
+                cols.map((k) => {
+                    const v = k === '__locked__' ? '' : fn(buckets.get(k));
+                    const cls = label === 'Net shares' && k !== '__locked__' ? (v.startsWith('+') ? 'delta-pos' : v.startsWith('−') ? 'delta-neg' : '') : '';
+                    return `<td class="${cls}${k === '__locked__' || k === latest ? ' col-now' : ''}">${cell(k, v)}</td>`;
                 }).join('') + '</tr>';
         }
         $('insider-hist-table').innerHTML = html + '</tbody>';
         attachHScroll($('insider-hist-table').closest('.table-wrap'));
         $('insider-hist-prov').innerHTML = (lock
-            ? '🔒 The most recent period is part of Pro — <a href="/upgrade.html">upgrade</a> to see what insiders did latest. '
+            ? '🔒 The most recent period is part of Core — <a href="/upgrade.html">upgrade</a> to see what insiders did latest. '
             : '') + esc(form4Meta || 'Aggregated from Form 4 filings, as far back as the transactions feed reaches.');
+    }
+
+    let paywallStripShown = false;
+    function showPaywallStrip() {
+        if (paywallStripShown) return;
+        paywallStripShown = true;
+        const el = $('paywall-strip');
+        if (!el) return;
+        el.innerHTML = upgradeStrip({
+            items: ['The full 3-year Form 4 insider trail — every buy and sell', 'Guru quarterly buy/sell activity and 3M–15Y performance', 'AI analysis of any portfolio']
+        });
+        el.hidden = false;
     }
 
     let insiderSide = 'all';
     let insiderData = [];
     function renderInsiders(o) {
+        if (o.insiderLocked) {
+            showPaywallStrip();
+            $('insider-block').hidden = false;
+            $('insider-table').innerHTML = '<tbody><tr><td style="text-align:center; padding:20px;">🔒 The full 3-year Form 4 trail — every buy and sell, insider names, net shares per quarter — is on Core. <a href="/upgrade.html">Unlock with Core →</a></td></tr></tbody>';
+            return;
+        }
         insiderData = o.insiderTransactions || [];
         if (!insiderData.length) return;
         const net = o.insiderNet || {};
