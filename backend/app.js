@@ -6438,7 +6438,17 @@ app.get('/api/assets/search', async (req, res) => {
         assetType: 'stock', assetTypeLabel: 'Stock', quoteType: 'EQUITY'
     }));
     try {
-        const remote = (await alphaClient.searchSymbols(query)).filter((row) => !/\.[A-Z]{2,4}$/.test(row.symbol));
+        const remote = (await alphaClient.searchSymbols(query))
+            .filter((row) => {
+                const sym = row.symbol || '';
+                // Filter out country-suffixed symbols (.TO, .L, etc.)
+                if (/\.[A-Z]{2,4}$/.test(sym)) return false;
+                // Filter out ISIN codes: 8+ chars starting with digit
+                if (sym.length >= 8 && /^[0-9]/.test(sym)) return false;
+                // Filter out very long symbols with digits (likely ISINs or foreign codes)
+                if (sym.length > 7 && /[0-9]/.test(sym)) return false;
+                return true;
+            });
         const seen = new Set();
         const out = local.concat(remote.map((row) => ({
             ...row, assetTypeLabel: assetProfile.assetTypeLabel(row.assetType)
