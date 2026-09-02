@@ -957,9 +957,9 @@
               <div class="nav-dd">
                 <a href="/ask.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">Ask&nbsp;AI <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
                 <div class="nav-dd-menu" role="menu">
-                  <a href="/ask.html" role="menuitem" ${cur('ask')}><strong>Ask</strong><span>Question any company's filings</span></a>
                   <a href="/dossier.html" role="menuitem" ${cur('dossier')}><strong>Research Dossier</strong><span>Full auto-generated report</span></a>
                   <a href="/monitor.html" role="menuitem" ${cur('monitor')}><strong>Filing Monitor</strong><span>What changed in the latest filing</span></a>
+                  <a href="/ask.html" role="menuitem" ${cur('ask')}><strong>Ask</strong><span>Question any company's filings</span></a>
                 </div>
               </div>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
