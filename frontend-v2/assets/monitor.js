@@ -309,11 +309,21 @@
 
     const changes = (narr && narr.changes) || [];
     const narrCards = changes.map((c) => {
+      // Same evidence rules as Analyst mode: a quote shows only when it was
+      // matched character-for-character against the filing it cites. Pairs get
+      // the Was → Now treatment; a verified single passage (new filing only)
+      // still proves the words — Normal mode hides it no longer.
       const paired = c.evidenceVerified && c.priorQuote && c.newQuote;
+      const newOnly = !paired && !!c.newQuote;
+      const quoteHtml = paired
+        ? `<div class="mon-quote-pair"><div class="mon-quote-side"><b>Was</b><q>${esc(c.priorQuote)}</q></div><span class="mon-quote-sep" aria-hidden="true">→</span><div class="mon-quote-side"><b>Now</b><q>${esc(c.newQuote)}</q></div></div>`
+        : newOnly
+          ? `<div class="mon-quote-single"><div class="mon-quote-side"><b>New filing</b><q>${esc(c.newQuote)}</q></div></div>`
+          : '';
       return `<div class="pv-card">
         <strong>${esc(c.area)}</strong>
         <p>${esc(c.what)}</p>
-        ${paired ? `<div class="mon-quote-pair"><div class="mon-quote-side"><b>Was</b><q>${esc(c.priorQuote)}</q></div><span class="mon-quote-sep" aria-hidden="true">→</span><div class="mon-quote-side"><b>Now</b><q>${esc(c.newQuote)}</q></div></div>` : ''}
+        ${quoteHtml}
       </div>`;
     }).join('');
 
