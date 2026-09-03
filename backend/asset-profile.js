@@ -76,6 +76,9 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     let quote;
     try { quote = await yahoo.quote(key); }
     catch (error) { throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404, cause: error }); }
+    // An unknown ticker resolves rather than throwing, so without this the next
+    // line reads quoteType off undefined and surfaces a TypeError as a 500.
+    if (!quote) throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404 });
 
     const assetType = normalizeAssetType(quote.quoteType || quote.typeDisp);
     let summary = {};
@@ -93,6 +96,15 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     const th = summary.topHoldings || {};
     const overview = fp.performanceOverview || {};
     const trailing = fp.trailingReturns || {};
+    // Yahoo's performanceOverview no longer carries numYearsUp/numYearsDown or
+    // the best/worst year, but it does return the full calendar-year series —
+    // which is strictly better, since the counts can be derived from it exactly
+    // and the years themselves can be shown to the user.
+    const annualReturns = (((fp.annualTotalReturns || {}).returns) || [])
+        .map((row) => ({ year: number(row.year), value: number(row.annualValue) }))
+        .filter((row) => row.year !== null && row.value !== null)
+        .sort((a, b) => b.year - a.year);
+    const annualValues = annualReturns.map((row) => row.value);
     const currentPrice = number(quote.regularMarketPrice ?? summary.price?.regularMarketPrice);
     const previousClose = number(quote.regularMarketPreviousClose ?? sd.previousClose);
     const changePercent = number(quote.regularMarketChangePercent) ??
@@ -130,11 +142,12 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
             tenYear: number(trailing.tenYear)
         },
         performance: {
-            yearsUp: number(overview.numYearsUp),
-            yearsDown: number(overview.numYearsDown),
-            bestOneYear: number(overview.bestOneYrTotalReturn),
-            worstOneYear: number(overview.worstOneYrTotalReturn)
+            yearsUp: number(overview.numYearsUp) ?? (annualValues.length ? annualValues.filter((v) => v > 0).length : null),
+            yearsDown: number(overview.numYearsDown) ?? (annualValues.length ? annualValues.filter((v) => v <= 0).length : null),
+            bestOneYear: number(overview.bestOneYrTotalReturn) ?? (annualValues.length ? Math.max(...annualValues) : null),
+            worstOneYear: number(overview.worstOneYrTotalReturn) ?? (annualValues.length ? Math.min(...annualValues) : null)
         },
+        annualReturns,
         allocations: {
             cash: number(th.cashPosition),
             stock: number(th.stockPosition),

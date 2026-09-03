@@ -76,6 +76,13 @@ async function fetchScreen(assetType, period) {
     return { rows: result.quotes || [], universe: n(result.total) };
 }
 
+// "Short <index>" is how the plain -1x products are named (ProShares Short
+// S&P500, Short QQQ, Short Dow30, Short Russell2000) alongside the more
+// obviously-marked 2x/3x/ultra/leveraged/inverse/bear/bull funds. The
+// lookahead keeps ordinary short-duration bond funds ("Short-Term Treasury",
+// "Short Duration Bond") from being misflagged as inverse products.
+const LEVERAGED_RE = /(?:\b[23]x\b|\b1\.5x\b|\b1\.75x\b|ultra|leveraged|inverse|bear\b|bull\s+[123](?:\.\d+)?x|\bshort\b(?![\s-]*(?:term|duration|maturity|bond)))/i;
+
 function rankedRow(row, assetType, period, returnPct, profile) {
     const name = (profile && profile.name) || row.longName || row.shortName || row.symbol;
     return {
@@ -85,7 +92,7 @@ function rankedRow(row, assetType, period, returnPct, profile) {
         assetTypeLabel: assetType === 'etf' ? 'ETF' : 'Mutual fund',
         returnPct: n(returnPct),
         period,
-        leveragedOrInverse: /(?:\b[23]x\b|\b1\.5x\b|\b1\.75x\b|ultra|leveraged|inverse|bear\b|bull\s+[123](?:\.\d+)?x)/i.test(name)
+        leveragedOrInverse: LEVERAGED_RE.test(name)
     };
 }
 
