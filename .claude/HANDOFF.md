@@ -1,6 +1,29 @@
 # Handoff
 
-## CEO decision set + B2B kit + two shipped fixes — LOCAL ONLY, NOT DEPLOYED (9/3)
+## CEO decision set + B2B kit + fixes — PUSHED AND **DEPLOYED LIVE** (9/3)
+
+**DEPLOYED**: `8936689` live via two deploys (`dep-dacf3l8ae00c73f3qj2g`, then
+`dep-dacfa9bm8hqs73aotc5g` for the sitemap fix). Repo verified back to private.
+Commits: `e66479c` fund-data fixes, `5712ec8` filing-change pages + affiliate,
+`8936689` sitemap cache race. All 6 verification checks green on prod:
+
+- **Live prod bug FIXED** — `/api/assets/SCHD/profile` `performance` was
+  `{null,null,null,null}` with no `annualReturns` (Ask answered every ETF
+  question on that); now `{yearsUp:11,yearsDown:3,best:0.329,worst:-0.056}` +
+  14 years of returns. Unknown ticker returns 404, not a 500.
+- `/filing-changes/AAPL|NVDA` 200 with verbatim Was→Now quotes; AI headline and
+  prose confirmed absent (only the gated CTA panel shows). `/filing-changes/ZZZZ`
+  → hub 200. Sitemap `diffs-1.xml` 200 with **353 URLs**, listed in the index.
+- **Bug found only by verifying, worth knowing**: the diffs shard was invisible
+  in the sitemap index for **90 min after every restart**. Two caches populate
+  before the boot+20s snapshot — `buildSitemapInventory()`'s 30-min memo and
+  ssr-cache's dedicated `/sitemap.xml` slot (90-min TTL, warmed at
+  `app.js:12283`). First deploy shipped with this; shard served 353 URLs while
+  the index omitted it, so nothing would have discovered the pages. Now the
+  snapshot invalidates the memo AND re-warms the ssr-cache slot. Reproduced the
+  race locally before and after to confirm.
+
+## (superseded header, kept for context) — LOCAL ONLY, NOT DEPLOYED (9/3)
 
 Full context: `notes/2026-09-02-ceo-decisions` is not a file — the actual plan lives
 in the session's plan artifact; the durable summary is here and in
