@@ -898,6 +898,16 @@ function buildSitemapInventory() {
                 .map((e) => ({ loc: `${SITE}/r/${encodeURIComponent(e.id)}`, lastmod: String(e.at || '2026-08-31').slice(0, 10) }));
         }
     } catch (_) {}
+    // Per-company filing-change pages (/filing-changes/:symbol). Same snapshot
+    // contract as shares above: app.js writes filing-diff-symbols.json on boot
+    // so this build stays synchronous and works if the file is missing.
+    try {
+        const diffRows = JSON.parse(fs.readFileSync(path.join(__dirname, 'filing-diff-symbols.json'), 'utf8'));
+        if (Array.isArray(diffRows) && diffRows.length) {
+            addChunks('diffs', diffRows.filter((e) => e && e.s)
+                .map((e) => ({ loc: `${SITE}/filing-changes/${encodeURIComponent(e.s)}`, lastmod: String(e.at || SITEMAP_DATA_SNAPSHOT).slice(0, 10) })));
+        }
+    } catch (_) {}
     _sitemapInventoryCache = { at: Date.now(), shards };
     return shards;
 }

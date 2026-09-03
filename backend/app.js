@@ -2115,6 +2115,17 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
     const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     const bucketLabel = (b) => b === 'high' ? 'High' : b === 'medium' ? 'Medium' : 'Low';
     const bucketColor = (b) => b === 'high' ? '#b3261e' : b === 'medium' ? '#8a5a13' : '#1c6b2f';
+    // This index reads `filing_reports`; the per-company pages read
+    // `filing_diffs`. They are different collections with different coverage,
+    // so only link a symbol that actually has a diff page — a row pointing at
+    // a redirect is a dead internal link.
+    let diffSymbols = new Set();
+    if (mongoose.connection.readyState === 1 && rows.length) {
+        try {
+            diffSymbols = new Set(await mongoose.connection.collection('filing_diffs')
+                .distinct('symbol', { symbol: { $in: rows.map((r) => String(r.symbol || '').toUpperCase()) } }));
+        } catch (_) { diffSymbols = new Set(); }
+    }
     const rowHtml = rows.map((r) => {
         const p = r.payload || {};
         const filing = p.latestFiling || {};
@@ -2125,7 +2136,10 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
         }).join('<br>');
         const bucket = p.materialityBucket || (r.materiality >= 60 ? 'high' : r.materiality >= 30 ? 'medium' : 'low');
         const source = filing.url ? `<a href="${esc(filing.url)}" target="_blank" rel="noopener nofollow">${esc(filing.label || filing.form || 'filing')} · ${esc(filing.date || '')}</a>` : '—';
-        return `<tr><td><strong><a href="/stocks/${esc(r.symbol)}">${esc(r.symbol)}</a></strong></td><td>${source}</td><td><span style="color:${bucketColor(bucket)};font-weight:700">${bucketLabel(bucket)} ${esc(r.materiality)}</span></td><td>${deltas || '—'}</td></tr>`;
+        const sym = String(r.symbol || '').toUpperCase();
+        const href = diffSymbols.has(sym) ? `/filing-changes/${esc(sym)}` : `/stocks/${esc(r.symbol)}`;
+        const quoted = diffSymbols.has(sym) ? '<br><span style="font-size:12px;color:var(--ink-3)">quoted passages &rarr;</span>' : '';
+        return `<tr><td><strong><a href="${href}">${esc(r.symbol)}</a></strong>${quoted}</td><td>${source}</td><td><span style="color:${bucketColor(bucket)};font-weight:700">${bucketLabel(bucket)} ${esc(r.materiality)}</span></td><td>${deltas || '—'}</td></tr>`;
     }).join('');
     const empty = rows.length ? '' : '<tr><td colspan="4" style="text-align:center;color:var(--ink-3)">No filing-change reports yet — run the free monitor trial to build the first ones.</td></tr>';
     const html = `<!DOCTYPE html>
@@ -2165,6 +2179,140 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   </div>
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
+</main>
+<script src="/assets/app.js?v=20260903-paywall1"></script>
+<script>window.V2.nav(''); window.V2.footer();</script>
+</body></html>`;
+    res.send(html);
+});
+
+// ---- per-company filing-change pages -------------------------------------
+// Public surface over the cached `filing_diffs` corpus. The split is
+// deliberate and matches what /filing-changes already promises: the FILING'S
+// OWN WORDS are public (verbatim `quote`/`priorQuote`/`newQuote` plus the
+// EDGAR source), while the AI-written reading (`headline`, `tone`, and each
+// change's `what`) stays behind the Power/Desk paywall. We publish what the
+// company said; we sell what we make of it.
+const FILING_DIFF_SYMBOLS_FILE = path.join(__dirname, 'filing-diff-symbols.json');
+
+async function refreshFilingDiffSitemapSnapshot() {
+    // Written to disk so the sitemap builder stays synchronous (same contract
+    // as indexable-shares.json). Never throws: the pages work without it, they
+    // just would not be listed in the sitemap.
+    try {
+        if (mongoose.connection.readyState !== 1) return 0;
+        const rows = await mongoose.connection.collection('filing_diffs').aggregate([
+            { $sort: { at: -1 } },
+            { $group: { _id: '$symbol', at: { $first: '$at' } } }
+        ]).toArray();
+        const list = rows
+            .filter((r) => r && r._id && /^[A-Z][A-Z0-9.\-]{0,9}$/.test(String(r._id).toUpperCase()))
+            .map((r) => ({ s: String(r._id).toUpperCase(), at: new Date(r.at || Date.now()).toISOString().slice(0, 10) }));
+        fs.writeFileSync(FILING_DIFF_SYMBOLS_FILE, JSON.stringify(list));
+        return list.length;
+    } catch (error) {
+        console.error('[filing-changes] sitemap snapshot failed:', error && error.message);
+        return 0;
+    }
+}
+
+app.get('/filing-changes/:symbol', async (req, res) => {
+    // Must look like a real ticker (leading letter). A permissive strip would
+    // turn "..%2Fetc" into "..ETC" and redirect to a junk path.
+    const symbol = String(req.params.symbol || '').toUpperCase();
+    if (!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(symbol)) return res.redirect(302, '/filing-changes');
+    res.set('Content-Type', 'text/html; charset=utf-8');
+    let doc = null;
+    if (mongoose.connection.readyState === 1) {
+        try {
+            doc = await mongoose.connection.collection('filing_diffs')
+                .find({ symbol }).sort({ at: -1 }).limit(1).next();
+        } catch (_) { doc = null; }
+    }
+    // No diff for this ticker yet: go to the hub, not /stocks/:symbol — that
+    // page 404s for any uncovered ticker, and a 302 into a 404 is exactly the
+    // soft-404 chain that costs indexing on the pages we do want crawled.
+    if (!doc || !doc.payload) return res.redirect(302, '/filing-changes');
+
+    const esc = (s) => String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    const p = doc.payload || {};
+    const latest = p.latest || {};
+    const prev = p.prev || {};
+    const form = esc(latest.form || 'filing');
+    const filedDate = esc(latest.date || String(doc.at || '').slice(0, 10));
+    // Only changes carrying verbatim filing text are public. A change whose
+    // only content is our prose stays behind the wall entirely.
+    const quoted = (p.changes || []).filter((c) => c && (c.quote || c.newQuote || c.priorQuote));
+    const gatedCount = Math.max(0, (p.changes || []).length - quoted.length);
+
+    const blocks = quoted.map((c) => {
+        const verified = c.evidenceVerified ? '<span class="fd-ok" title="Quote matched character-for-character against the filing">verified</span>' : '';
+        const pq = c.priorQuote ? `<div class="fd-side"><span class="fd-lab">Prior filing</span><blockquote class="fd-q fd-prev">${esc(c.priorQuote)}</blockquote></div>` : '';
+        const nq = (c.newQuote || c.quote) ? `<div class="fd-side"><span class="fd-lab">This filing</span><blockquote class="fd-q">${esc(c.newQuote || c.quote)}</blockquote></div>` : '';
+        return `<section class="fd-change"><h2 class="fd-area">${esc(c.area || 'Change')} ${verified}</h2><div class="fd-pair">${pq}${nq}</div></section>`;
+    }).join('');
+
+    const srcLatest = latest.url ? `<a href="${esc(latest.url)}" target="_blank" rel="noopener nofollow">${form} filed ${filedDate}</a>` : `${form} filed ${filedDate}`;
+    const srcPrev = prev.url ? ` &middot; compared against <a href="${esc(prev.url)}" target="_blank" rel="noopener nofollow">${esc(prev.form || 'prior filing')} ${esc(prev.date || '')}</a>` : '';
+    const desc = `Verbatim passages that changed in ${symbol}'s ${latest.form || 'latest SEC filing'}${latest.date ? ` filed ${latest.date}` : ''} — quoted directly from the filing, with the primary source for every passage.`;
+    const canonical = `https://www.stockportfolio.pro/filing-changes/${encodeURIComponent(symbol)}`;
+    // Machine-legible for the AI-assistant citation channel, which already
+    // refers traffic unbidden. Only public (verbatim) content is described.
+    const jsonLd = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: `What changed in ${symbol}'s ${latest.form || 'latest SEC filing'}`,
+        description: desc,
+        datePublished: latest.date || undefined,
+        isAccessibleForFree: true,
+        citation: latest.url || undefined,
+        about: { '@type': 'Corporation', tickerSymbol: symbol },
+        publisher: { '@type': 'Organization', name: 'stockportfolio.pro' },
+        mainEntityOfPage: canonical
+    });
+
+    const html = `<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>What changed in ${esc(symbol)}'s ${form} (${filedDate}) | stockportfolio.pro</title>
+<meta name="description" content="${esc(desc)}" />
+<link rel="canonical" href="${esc(canonical)}" />
+<link rel="icon" href="/Media/icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+<link rel="stylesheet" href="/assets/system.css?v=20260903-paywall1" />
+<script type="application/ld+json">${jsonLd}</script>
+<style>
+  .fd-wrap { max-width: 820px; }
+  .fd-head { padding: 56px 0 8px; }
+  .fd-src { color: var(--ink-2); font-size: 14px; margin: 12px 0 0; }
+  .fd-change { margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .fd-area { font-size: 15px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); margin: 0 0 12px; }
+  .fd-ok { font-size: 11px; text-transform: none; letter-spacing: 0; color: #1c6b2f; border: 1px solid #1c6b2f; border-radius: 999px; padding: 1px 7px; margin-left: 6px; }
+  .fd-pair { display: grid; gap: 12px; }
+  @media (min-width: 720px) { .fd-pair { grid-template-columns: 1fr 1fr; } }
+  .fd-lab { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); margin-bottom: 5px; }
+  .fd-q { margin: 0; padding: 12px 14px; border-left: 3px solid var(--accent, #1a4fd6); background: var(--paper); font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+  .fd-prev { border-left-color: var(--line); color: var(--ink-2); }
+  .fd-lock { margin-top: 32px; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--accent-tint); }
+  .fd-foot { margin-top: 26px; font-size: 13px; }
+</style>
+</head><body data-ask-floor="1" data-ask-placeholder="Ask what this change means — answered from the filing…">
+<main class="container fd-wrap">
+  <div class="fd-head">
+    <div class="crumb"><a href="/">Home</a> / <a href="/filing-changes">Filing changes</a> / ${esc(symbol)}</div>
+    <p class="label">Free &middot; no account &middot; quoted from the filing</p>
+    <h1 class="title-1" style="margin-top:10px;">What changed in ${esc(symbol)}'s ${form}</h1>
+    <p class="fd-src">Source: ${srcLatest}${srcPrev}. Every passage below is quoted verbatim from the filing itself.</p>
+  </div>
+  ${blocks || '<p class="muted" style="margin-top:24px">No verbatim passages are published for this filing yet.</p>'}
+  <div class="fd-lock">
+    <strong>What it means &mdash; the analyst reading</strong>
+    <p style="margin:8px 0 12px">The passages above are the company's own words. The plain-English reading of them&nbsp;&mdash;&nbsp;what changed, why it matters, and the direction of travel${gatedCount ? `, plus ${gatedCount} further change${gatedCount === 1 ? '' : 's'} without a quotable passage` : ''}&nbsp;&mdash;&nbsp;is part of the Filing Change Monitor.</p>
+    <a class="btn btn-primary" href="/monitor.html">See the Filing Change Monitor &rarr;</a>
+  </div>
+  <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
 <script src="/assets/app.js?v=20260903-paywall1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
@@ -11852,7 +12000,13 @@ app.post('/api/affiliate/accept', authMiddleware, affiliateMutationLimiter, asyn
     if (profile.status === 'suspended' || profile.status === 'declined') return res.status(409).json({ message: 'This invitation is not active.' });
     const appSumoLicenseActive = Boolean(req.user?.appsumoRedeemedAt)
         && Boolean(await AppSumoLicense.exists({ userId: req.userId, status: 'active' }));
-    const verifiedPurchase = appSumoLicenseActive || affiliateProgram.hasVerifiedStripeSubscription(req.user);
+    // Partner profiles are external publishers (deal/review sites) enrolled by an
+    // admin. They are never expected to buy, so the customer-purchase gate must not
+    // apply to them — same exemption canAcceptAmbassadorInvite() makes below. Without
+    // this, every partner 409s here and can never activate their link.
+    const verifiedPurchase = String(profile.kind) === 'partner'
+        || appSumoLicenseActive
+        || affiliateProgram.hasVerifiedStripeSubscription(req.user);
     if (!verifiedPurchase) return res.status(409).json({ message: 'A verified active customer purchase is required before accepting an ambassador invitation.' });
     const legacyActive = profile.status === 'active' && profile.invitedAt && profile.termsAcceptedAt;
     if (!legacyActive && !affiliateProgram.canAcceptAmbassadorInvite({ profile, user: req.user, appSumoLicenseActive })) {
@@ -12161,3 +12315,13 @@ try {
         setTimeout(() => { require('./ai-chat').warmPeerContext(warmList).catch(() => {}); }, 15000);
     }
 } catch (e) { console.log('[ask-warm] not started:', e && e.message); }
+// Refresh the /filing-changes/:symbol sitemap snapshot once the DB is up.
+// Deferred past the health-check critical path; the pages serve fine without
+// it, they just would not be listed in the sitemap until the next boot.
+try {
+    setTimeout(() => {
+        refreshFilingDiffSitemapSnapshot()
+            .then((n) => { if (n) console.log(`[filing-changes] sitemap snapshot: ${n} symbols`); })
+            .catch(() => {});
+    }, 20000);
+} catch (e) { console.log('[filing-changes] snapshot not scheduled:', e && e.message); }
