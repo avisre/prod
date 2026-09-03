@@ -1013,9 +1013,18 @@ function renderEditorialPolicy() {
 </main>` + footer();
 }
 
+// The filing-diff snapshot is written ~20s after boot (app.js), but the
+// inventory above caches for 30 minutes on first call. Any request landing in
+// that window — a crawler, a health check — would otherwise pin a diffs-less
+// sitemap for half an hour after every restart. app.js calls this once the
+// snapshot exists so the next build picks it up.
+function invalidateSitemapInventory() {
+    _sitemapInventoryCache = null;
+}
+
 module.exports = {
     renderStockPage, renderStockIndex, buildSitemap, buildSitemapShard, loadCompanies, companyName, hasStockPage,
-    resolveCanonicalSymbol,
+    resolveCanonicalSymbol, invalidateSitemapInventory,
     renderMethodology, renderEditorialPolicy,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
     loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer

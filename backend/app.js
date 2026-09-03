@@ -2209,6 +2209,9 @@ async function refreshFilingDiffSitemapSnapshot() {
             .filter((r) => r && r._id && /^[A-Z][A-Z0-9.\-]{0,9}$/.test(String(r._id).toUpperCase()))
             .map((r) => ({ s: String(r._id).toUpperCase(), at: new Date(r.at || Date.now()).toISOString().slice(0, 10) }));
         fs.writeFileSync(FILING_DIFF_SYMBOLS_FILE, JSON.stringify(list));
+        // Drop the 30-minute sitemap cache so the diffs shard appears on the
+        // next build rather than after the TTL expires.
+        try { require('./seo-pages').invalidateSitemapInventory(); } catch (_) {}
         return list.length;
     } catch (error) {
         console.error('[filing-changes] sitemap snapshot failed:', error && error.message);
@@ -12321,7 +12324,15 @@ try {
 try {
     setTimeout(() => {
         refreshFilingDiffSitemapSnapshot()
-            .then((n) => { if (n) console.log(`[filing-changes] sitemap snapshot: ${n} symbols`); })
+            .then((n) => {
+                if (!n) return;
+                console.log(`[filing-changes] sitemap snapshot: ${n} symbols`);
+                // The boot warm above already cached a diffs-less /sitemap.xml in
+                // ssr-cache's dedicated slot (90-minute TTL), because the snapshot
+                // did not exist yet. Re-warm now that it does, or the diffs shard
+                // stays invisible to crawlers until that TTL expires.
+                try { ssrCache.warmSitemap(ssrCacheMw, () => seoPages.buildSitemap()); } catch (_) {}
+            })
             .catch(() => {});
     }, 20000);
 } catch (e) { console.log('[filing-changes] snapshot not scheduled:', e && e.message); }
