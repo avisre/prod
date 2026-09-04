@@ -1,5 +1,56 @@
 # Handoff
 
+## Ask bug: `search_filings` could serve a stale 10-K as "the latest" — FIXED LOCALLY, NOT DEPLOYED (9/4)
+
+Root cause of a real AppSumo refund. Traced from AppSumo's 9/4 refund-summary
+email (2 refunds, no names/reasons given) → matched by tier+timestamp to the
+two `appsumolicenses` deactivations in Mongo → one buyer (Khaled Aziz,
+khaledaziz130@gmail.com) had redeemed, asked Ask one NVDA question, and
+canceled 39 min later. His AppSumo exit-survey reason ("Old data, not
+fresh") checked out: his Ask session got NVIDIA's **FY2025 10-K** (filed
+2025-02-26) when the real latest was the **FY2026 10-K** (filed 2026-02-25,
+already sitting in our own `filing_text` cache).
+
+- **Cause**: `toolSearchFilings` (`ai-chat.js`, tool `search_filings`) queries
+  `efts.sec.gov/LATEST/search-index` with no sort param — EDGAR ranks by
+  relevance, not recency. Reproduced live: a plain "risk factors" / forms=10-K
+  query for NVDA returned 2023→2024→2025→2026 in that order, so the 2025
+  filing (position 3) looked as good as the 2026 one (position 4) to the
+  model, which picked it and called it "the latest."
+- **Scope check**: `grep -rl efts.sec.gov backend/` — `search_filings` is the
+  **only** place in the backend that hits EDGAR's relevance search. Every
+  other filing-dependent tool (`get_segments`, `get_key_points`,
+  `get_governance`, `get_esg`, `get_unit_economics`, `get_filing_diff`,
+  `get_red_flags`, `get_peer_context`, Filing Monitor, the dossier builder)
+  already routes through `watchdog.fetchRecentFilings` →
+  `data.sec.gov/submissions/CIK{cik}.json`, SEC's own chronological feed —
+  not affected by this bug.
+- **Fix** (`ai-chat.js`, `toolSearchFilings`): when a query names one ticker
+  and restricts to periodic forms (10-K/10-Q) with no date range — the "what
+  does the latest filing say" shape — cross-check against
+  `watchdog.fetchRecentFilings` (same reliable source the rest of the product
+  uses) and merge those in as `confirmedLatest: true`. All returned results
+  are now sorted newest-first regardless, so recency is never something the
+  model has to infer from list order.
+- **Verified live against real EDGAR, 15 tickers across 15 GICS sectors**
+  (NVDA, MSFT, JPM, XOM, JNJ, WMT, DIS, CAT, NEE, PLD, LIN, TSLA, UNH, KO,
+  BA): 15/15 now return the actual latest 10-K as the top result, each
+  flagged `confirmedLatest`. XOM needed its documented CIK-override fallback
+  (shell/co-registrant CIK issue, already handled by `watchdog`) to confirm
+  ground truth — matched exactly once resolved.
+- Full suite: 441/442 (`social-compose.test.js` fails on missing
+  `selenium-webdriver`, pre-existing, unrelated to this change).
+- **Not yet deployed** — needs the usual Render trigger dance + cache-stamp
+  check (this change touches no frontend assets, so no `?v=` bump needed).
+- Reply to Khaled not sent — his refund already processed; a courtesy note
+  once this ships would be a fair reason to re-engage.
+- The other 9/2 refund ("Product's functionality was too limited" /
+  "Lacking Depth") traced to a license that was **never redeemed** — no site
+  activity at all in the purchase window, so that complaint reflects the
+  AppSumo listing page or a reflexive refund-flow click, not product use.
+  Not actionable, no identity recoverable from our DB (AppSumo's webhook
+  carries no buyer email).
+
 ## CEO decision set + B2B kit + fixes — PUSHED AND **DEPLOYED LIVE** (9/3)
 
 **DEPLOYED**: `8936689` live via two deploys (`dep-dacf3l8ae00c73f3qj2g`, then

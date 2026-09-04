@@ -1302,6 +1302,20 @@ async function toolSearchWeb({ query }) {
 }
 
 // ---- Tool: search_filings (SEC EDGAR full-text search, every filing since 2001) ----
+// EDGAR's full-text search ranks by relevance, not recency, so a query for
+// e.g. "risk factors" in a company's 10-Ks can put an older annual report
+// ahead of the current one — the model then has no way to know it isn't
+// looking at the latest filing (confirmed root cause of a live customer
+// refund citing stale data, 2026-09; see .claude/HANDOFF.md). When the
+// caller is asking about one company's periodic reports (10-K/10-Q) with no
+// date restriction — the "what does the latest filing say" shape — cross-
+// check against watchdog.fetchRecentFilings, which reads SEC's own
+// chronological submissions feed and is what the rest of the product
+// (Filing Monitor, get_filing_diff, get_segments, etc.) already relies on
+// for "latest" to be correct. Those confirmed-latest entries are merged in
+// and the combined list is always returned newest-first, so the model never
+// has to infer recency from relevance-ranked order.
+const PERIODIC_FILING_FORMS = new Set(['10-K', '10-Q']);
 async function toolSearchFilings({ query, ticker, forms, start_date, end_date, limit }) {
     const q = String(query || '').trim();
     if (!q) return { error: 'No query given.' };
@@ -1316,8 +1330,9 @@ async function toolSearchFilings({ query, ticker, forms, start_date, end_date, l
             if (sd) params.set('startdt', sd);
             if (ed) params.set('enddt', ed);
         }
-        if (ticker) {
-            const cik = await secSource.cikFor(String(ticker).toUpperCase().trim());
+        const sym = ticker ? String(ticker).toUpperCase().trim() : null;
+        if (sym) {
+            const cik = await secSource.cikFor(sym);
             if (cik) params.set('ciks', cik);
         }
         const r = await axios.get(`https://efts.sec.gov/LATEST/search-index?${params}`, {
@@ -1338,11 +1353,31 @@ async function toolSearchFilings({ query, ticker, forms, start_date, end_date, l
                 url: (cik && adsh && file) ? `https://www.sec.gov/Archives/edgar/data/${cik}/${adsh.replace(/-/g, '')}/${file}` : null
             };
         });
+
+        let confirmedLatest = [];
+        if (sym && !sd && !ed) {
+            const periodicRequested = f ? f.split(',').filter((x) => PERIODIC_FILING_FORMS.has(x)) : [];
+            if (periodicRequested.length) {
+                try {
+                    const watchdog = require('./watchdog'); // lazy: watchdog requires ai-chat, would cycle at top level
+                    const recent = await watchdog.fetchRecentFilings(sym, new Set(periodicRequested), 5);
+                    confirmedLatest = (recent || []).map((rf) => ({
+                        company: null, form: rf.form, filed: rf.date, periodEnding: null, url: rf.url, confirmedLatest: true
+                    }));
+                } catch (_) { /* best-effort cross-check only — relevance results below still stand */ }
+            }
+        }
+
+        const seenUrls = new Set(confirmedLatest.map((r) => r.url));
+        const merged = [...confirmedLatest, ...results.filter((r) => !seenUrls.has(r.url))]
+            .sort((a, b) => String(b.filed || '').localeCompare(String(a.filed || '')))
+            .slice(0, cap);
+
         return {
             query: q,
             totalMatches: total,
-            results,
-            note: 'Full-text search over SEC filings (2001-present). These are primary-source documents — use fetch_page on a url to read one. Phrase queries: wrap in double quotes.'
+            results: merged,
+            note: 'Full-text search over SEC filings (2001-present), returned newest-first. Entries marked confirmedLatest are cross-checked against SEC EDGAR\'s submissions feed, not just search relevance — treat those as the true latest filing. Use fetch_page on a url to read one. Phrase queries: wrap in double quotes.'
         };
     } catch (e) {
         return { error: 'Filing search failed: ' + ((e.response && e.response.status) || e.message || 'unknown') };
