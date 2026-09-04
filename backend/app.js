@@ -2039,7 +2039,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260903-paywall1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-relist1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2068,7 +2068,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260903-paywall1"></script>
+<script src="/assets/app.js?v=20260905-relist1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2152,7 +2152,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260903-paywall1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-relist1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2180,7 +2180,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260903-paywall1"></script>
+<script src="/assets/app.js?v=20260905-relist1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2284,7 +2284,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260903-paywall1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-relist1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2317,7 +2317,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260903-paywall1"></script>
+<script src="/assets/app.js?v=20260905-relist1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8143,7 +8143,7 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
     try {
         const planId = req.subscription && req.subscription.planId;
         const [bal, recent] = await Promise.all([
-            credits.balance(req.userId, effectiveAskLimit(req), planId),
+            credits.balance(req.userId, effectiveAskLimit(req), planId, req.user && req.user.appsumoTier),
             credits.recentActivity(req.userId)
         ]);
         // hasMonitor: Monitor is Power/Desk-only and not part of the LTD/AppSumo
@@ -10450,7 +10450,7 @@ app.get('/api/dossier/compare', authMiddleware, proGate, async (req, res) => {
         }
 
         const planId = req.subscription && req.subscription.planId;
-        const affordability = await credits.check(req.userId, 'dossier_compare', effectiveAskLimit(req), planId);
+        const affordability = await credits.check(req.userId, 'dossier_compare', effectiveAskLimit(req), planId, req.user && req.user.appsumoTier);
         if (!affordability.ok) {
             return res.status(402).json({
                 message: `A comparison costs ${credits.COST.dossier_compare} credits — you have ${affordability.remaining} left this month.`,
@@ -10564,7 +10564,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
                 if (!force) {
                     const costKey = depth === 'deep' ? 'dossier_deep' : 'dossier_standard';
                     const planId = req.subscription && req.subscription.planId;
-                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req), planId);
+                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req), planId, req.user && req.user.appsumoTier);
                     if (!gate.ok) return { creditsError: gate };
                     await credits.spend(req.userId, costKey, 'dossier', `${sym}:${depth}`);
                 }
@@ -10996,6 +10996,32 @@ function startDigest() {
     console.log('[digest] scheduled daily (per-user weekly cadence)');
 }
 
+// The scheduled-email queue (AppSumo onboarding, review asks, inactivity nudges)
+// had no runner at all: rows were written by the redemption path and read by
+// nothing, so 12 jobs sat `scheduled` for up to three weeks while every buyer
+// went un-onboarded and unasked for a review. scripts/run-scheduled-emails.js
+// was complete the whole time — it simply was never invoked.
+//
+// It is spawned as a CHILD PROCESS on purpose. The script owns its mongoose
+// lifecycle and calls mongoose.disconnect() when it finishes; require()ing it
+// here would tear down the connection this server is using to serve requests.
+// A separate process gets its own connection and takes the teardown with it.
+function startScheduledEmails() {
+    if (String(process.env.SCHEDULED_EMAILS || '1') === '0') { console.log('[sched-email] disabled via SCHEDULED_EMAILS=0'); return; }
+    const { execFile } = require('node:child_process');
+    const script = path.join(__dirname, '../scripts/run-scheduled-emails.js');
+    const run = () => {
+        execFile(process.execPath, [script], { timeout: 10 * 60 * 1000 }, (error, stdout, stderr) => {
+            if (error) return console.error('[sched-email] run failed:', error.message, String(stderr || '').slice(0, 300));
+            console.log('[sched-email]', String(stdout || '').replace(/\s+/g, ' ').trim().slice(0, 300));
+        });
+    };
+    // Staggered past the digest's 120s so a cold boot isn't doing both at once.
+    setTimeout(run, 180 * 1000);
+    setInterval(run, 24 * 3600 * 1000);
+    console.log('[sched-email] scheduled daily');
+}
+
 // ---- AppSumo post-redemption honest-review drip + refund reconciliation ----
 function appsumoUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'as-review' }, JWT_SECRET, { expiresIn: '180d' }); }
 
@@ -11177,7 +11203,7 @@ async function collectMarketingDashboard() {
         col.find(withMatch({ event: 'trial_start', userId: { $ne: null } }), { projection: { userId: 1, acquisitionSource: 1, acquisitionClickId: 1, contentId: 1 } }).toArray(),
         col.find(withMatch({ event: 'activation', userId: { $ne: null } }), { projection: { userId: 1, activationJob: 1, contentId: 1 } }).toArray(),
         col.find({ event: { $in: anonymousEvents }, reportable: true }, {
-            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1, referrer: 1, country: 1 }
+            projection: { event: 1, toolId: 1, contentId: 1, userId: 1, path: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1, referrer: 1, country: 1, userAgent: 1 }
         }).toArray(),
         col.find({ event: { $in: anonymousEvents }, reportable: true, at: { $gte: since30 } }, {
             projection: { event: 1, anonymousSessionId: 1, acquisitionSource: 1, trafficSource: 1 }
@@ -11292,6 +11318,12 @@ async function collectMarketingDashboard() {
     // 127.0.0.1, the raw onrender.com host) were folded into 'internal', so
     // re-derive from the stored referrer rather than trusting old trafficSource.
     const INTERNAL_REFERRER_HOSTS = new Set(['prod-gpln.onrender.com', 'localhost', '127.0.0.1']);
+    // GA4 buckets any request that arrived with zero Referer header as
+    // "(direct)/(none)", with no way to see what's actually inside from the GA
+    // UI. Every one of those page views still passed through here with its raw
+    // user agent intact, so break the bucket open by UA + landing page instead
+    // of leaving it opaque.
+    const directUaMap = new Map();
     trafficEvents.forEach((event) => {
         const referralHost = event.trafficSource === 'referral' ? marketingAttribution.referrerHostname(event.referrer) : null;
         // 'referral' collapses every unrecognized referrer (directories, AI
@@ -11304,6 +11336,13 @@ async function collectMarketingDashboard() {
         if (!trafficMap.has(source)) trafficMap.set(source, { source, sessions: 0, pageViews: 0, toolCompletions: 0, appsumoClicks: 0 });
         const row = trafficMap.get(source);
         if (event.event === 'page_view') row.pageViews++;
+        if (source === 'direct' && event.event === 'page_view') {
+            const ua = String(event.userAgent || '(no user agent)').slice(0, 140);
+            const path = String(event.path || '/');
+            const key = `${ua}::${path}`;
+            if (!directUaMap.has(key)) directUaMap.set(key, { userAgent: ua, path, count: 0 });
+            directUaMap.get(key).count++;
+        }
         if (event.event === 'free_tool_complete') row.toolCompletions++;
         if (event.event === 'appsumo_outbound') row.appsumoClicks++;
         const sessionKey = `${source}:${event.anonymousSessionId || ''}`;
@@ -11343,6 +11382,7 @@ async function collectMarketingDashboard() {
         rawLast30,
         excluded30,
         trafficRows: [...trafficMap.values()].sort((a, b) => b.sessions - a.sessions || a.source.localeCompare(b.source)),
+        directBreakdownRows: [...directUaMap.values()].sort((a, b) => b.count - a.count).slice(0, 25),
         countryRows: [...countryMap.values()].sort((a, b) => b.sessions - a.sessions || a.country.localeCompare(b.country)),
         appsumoSync: { lastEventAt: appsumoLastEvent ? (appsumoLastEvent.lastEventAt || appsumoLastEvent.updatedAt || null) : null },
         sourceRows,
@@ -11560,6 +11600,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const toolRows = data.toolRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.completions)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
         const researchRows = data.researchRows.map((row) => `<tr><td>${e(row.slug)}</td><td>${n(row.views)}</td><td>${n(row.ctaClicks)}</td><td>${n(row.trials)}</td><td>${n(row.activated)}</td><td>${n(row.converted)}</td></tr>`).join('');
         const trafficRows = data.trafficRows.length ? data.trafficRows.map((row) => `<tr><td>${e(row.source)}</td><td>${n(row.sessions)}</td><td>${n(row.pageViews)}</td><td>${n(row.toolCompletions)}</td><td>${n(row.appsumoClicks)}</td></tr>`).join('') : '<tr><td colspan="5">No reportable campaign/search sessions yet</td></tr>';
+        const directBreakdownRows = data.directBreakdownRows.length ? data.directBreakdownRows.map((row) => `<tr><td>${e(row.userAgent)}</td><td>${e(row.path)}</td><td>${n(row.count)}</td></tr>`).join('') : '<tr><td colspan="3">No direct page views recorded yet</td></tr>';
         const countryRows = data.countryRows.length ? data.countryRows.map((row) => `<tr><td>${e(row.country)}</td><td>${n(row.sessions)}</td><td>${n(row.pageViews)}</td></tr>`).join('') : '<tr><td colspan="3">No reportable sessions yet</td></tr>';
         const maxTrend = Math.max(1, ...data.trend.map((row) => Math.max(row.signup, row.trial_start, row.paid, row.activation)));
         const trendRows = data.trend.map((row) => {
@@ -11571,9 +11612,10 @@ body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-sy
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;
+        const directBreakdownPanel = `<section class="panel" style="margin-top:16px"><h2>Direct traffic breakdown · 30 days</h2><table><tr><th>User agent</th><th>Landing page</th><th>Page views</th></tr>${directBreakdownRows}</table><div class="legend">This is what GA4 flattens into "(direct)/(none)" — no Referer header arrived at all, so this is every signal we still have. Look for repeated landing pages tied to an unfamiliar user agent; that's usually an AI assistant opening a link on a user's behalf rather than someone typing the URL. Known AI-assistant fetch signatures are already excluded from "human" counts elsewhere on this page.</div></section>`;
         const countryPanel = `<section class="panel" style="margin-top:16px"><h2>Traffic by country · all reportable</h2><table><tr><th>Country</th><th>Human sessions</th><th>Page views</th></tr>${countryRows}</table><div class="legend">IP-based GeoIP lookup (no external calls); "unknown" covers local/reserved IPs and lookup misses. Independent of GA4, which is blocked in mainland China without a VPN.</div></section>`;
         const auditPanel = `<section class="panel" style="margin-top:16px"><h2>Measurement audit · 30 days</h2><table><tr><th>Raw page views</th><th>Reportable page views</th><th>QA events excluded</th><th>Bot/automation events excluded</th><th>Unclassified events excluded</th></tr><tr><td>${n(data.rawLast30.page_view)}</td><td>${n(w.page_view)}</td><td>${n(data.excluded30.qa)}</td><td>${n(data.excluded30.bot)}</td><td>${n(data.excluded30.unclassified)}</td></tr></table><div class="legend">AppSumo webhook/license collection last changed: ${e(data.appsumoSync.lastEventAt ? new Date(data.appsumoSync.lastEventAt).toISOString() : 'no event recorded')}. The AppSumo Partner Portal remains definitive for purchases that have not reached the webhook.</div></section>`;
-        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${trafficPanel}${countryPanel}${toolPanel}${researchPanel}${auditPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
+        const renderedHtml = html.replace('<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>', `${trafficPanel}${directBreakdownPanel}${countryPanel}${toolPanel}${researchPanel}${auditPanel}<section class="panel" style="margin-top:16px"><h2>Activation jobs</h2>`);
         res.set('Cache-Control', 'no-store').type('html').send(renderedHtml);
     } catch (error) {
         console.error('[marketing] dashboard render failed:', error && error.message);
@@ -12291,6 +12333,7 @@ if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
     console.log('[jobs] DISABLE_BACKGROUND_JOBS=1 — digest, appsumo and trial sweeps not scheduled (local boot)');
 } else {
     startDigest();
+    startScheduledEmails();
     startAppSumoJobs();
     startTrialLifecycleJobs();
 }

@@ -114,16 +114,44 @@ async function grant(userId, amount, reason, refId) {
 // plain ×2 — no current user's capacity shrinks.
 const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000 };
 
-function allowance(effectiveAskLimit, planId) {
+// Explicit per-tier wallet for AppSumo/DealMirror lifetime buyers, replacing the
+// derived x2 for those accounts. The derived form made the listing a second,
+// drifting source of truth: the marketplace page advertised a number nothing in
+// the code actually held. These literals ARE the advertised numbers.
+//
+// Every value is above the old derived allowance (60/200/600), so no existing
+// buyer's capacity shrinks. That is deliberate and load-bearing: widening needs
+// no grandfather clause and no AppSumo downgrade approval, where narrowing a
+// lifetime entitlement needs both.
+const LTD_CREDIT_ALLOWANCE = { 1: 100, 2: 300, 3: 800 };
+
+// 0 means "not a lifetime buyer" — callers must fall through to the derived
+// allowance rather than treat it as a zero grant. An unknown but truthy tier
+// resolves UP to tier 3, matching appsumoTierConfig() and monitorCapFor(): a
+// paying customer is never under-served because of a data gap.
+function ltdAllowance(appsumoTier) {
+    const tier = Number(appsumoTier);
+    if (!Number.isFinite(tier) || tier <= 0) return 0;
+    return LTD_CREDIT_ALLOWANCE[tier] || LTD_CREDIT_ALLOWANCE[3];
+}
+
+function allowance(effectiveAskLimit, planId, appsumoTier) {
     const floor = PLAN_ALLOWANCE_FLOOR[String(planId || '').toLowerCase()];
+    const ltd = ltdAllowance(appsumoTier);
+    // An LTD tier is an explicit grant, not a floor over the derived base:
+    // reading it as max(ltd, base) would re-admit the derived number as a
+    // competing source of truth, which is the drift this table exists to end.
+    // A plan floor still wins if it is larger, so an LTD holder who also runs a
+    // Desk subscription keeps the Desk ceiling.
+    if (ltd) return Math.max(ltd, floor || 0);
     const base = Math.max(0, Number(effectiveAskLimit) || 0) * 2;
     return floor ? Math.max(floor, base) : base;
 }
 
-async function balance(userId, effectiveAskLimit, planId) {
+async function balance(userId, effectiveAskLimit, planId, appsumoTier) {
     const spent = await used(userId);
     // Plan allowance plus any purchased top-ups still inside this month.
-    const limit = allowance(effectiveAskLimit, planId) + await granted(userId);
+    const limit = allowance(effectiveAskLimit, planId, appsumoTier) + await granted(userId);
     return { used: spent, allowance: limit, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
 }
 
@@ -144,9 +172,9 @@ async function spend(userId, cost, reason, refId) {
 
 // Read-only check a route can act on BEFORE doing expensive work — does not
 // itself spend anything.
-async function check(userId, cost, effectiveAskLimit, planId) {
+async function check(userId, cost, effectiveAskLimit, planId, appsumoTier) {
     const amount = Number(COST[cost] ?? cost);
-    const bal = await balance(userId, effectiveAskLimit, planId);
+    const bal = await balance(userId, effectiveAskLimit, planId, appsumoTier);
     return { ok: bal.remaining >= amount, cost: amount, ...bal };
 }
 
@@ -168,4 +196,4 @@ async function recentActivity(userId, limit = 12) {
     } catch (_) { return []; }
 }
 
-module.exports = { COST, monthKey, resetsAt, used, granted, grant, allowance, balance, spend, check, recentActivity };
+module.exports = { COST, LTD_CREDIT_ALLOWANCE, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity };

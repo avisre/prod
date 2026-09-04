@@ -10,7 +10,7 @@ const THINK_RE = new RegExp('</?\\s*' + 'th' + 'ink\\s*>[\\s\\S]*?</\\s*think\\s
 //     answer cites them and the API returns the tool trace for UI chips.
 //   - Finance-only + identity trade secret (same rules as ai-features.js).
 //   - Metered: free users get AI_CHAT_FREE_LIMIT queries/month (default 3),
-//     core gets AI_CHAT_CORE_LIMIT (default 25), pro AI_CHAT_PRO_LIMIT (default 300).
+//     core gets AI_CHAT_CORE_LIMIT (default 50), pro AI_CHAT_PRO_LIMIT (default 300).
 //     Counters live in Mongo.
 //
 // The agentic loop speaks OpenAI-style tool calls via aiClient.chatRaw with
@@ -1957,4 +1957,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext });
+Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });

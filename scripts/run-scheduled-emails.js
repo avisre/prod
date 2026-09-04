@@ -45,6 +45,32 @@ async function main() {
   }, { projection: { _id: 1, email: 1, appsumoRedeemedAt: 1 } }).limit(200).toArray();
   const activationUsers = await db.collection('funnel_events').distinct('userId', { event: 'meaningful_activation' });
   const activeSet = new Set(activationUsers.map(String));
+  // Second, independent proof of activation: demonstrable product usage.
+  //
+  // `meaningful_activation` is emitted by instrumentation that is not currently
+  // firing — the event count is zero for every account, including customers who
+  // have run dozens of Asks and Dossiers. Trusting it alone therefore classifies
+  // ALL paying customers as "never got started", and this job then mails each of
+  // them a nudge saying so. On a daily cron that repeats forever, and the people
+  // it insults first are the most engaged ones.
+  //
+  // So treat a real spend, a real Dossier view, or a real Ask as activation too.
+  // These are ledgers of things the customer actually did, not analytics events
+  // that can silently stop being written. Either signal is sufficient; the
+  // funnel event stays authoritative for everything else that reads it.
+  // AI-feature usage keys on `userId`; portfolio-side usage keys on `user`.
+  // Both count: a customer who has built a 17-stock portfolio and set 22 filing
+  // alerts has plainly got started, even if they have never opened Ask. Nudging
+  // them to "get started" reads as the product not knowing who they are.
+  const usageSignals = [
+    ['credit_ledger', 'userId'], ['dossier_views', 'userId'], ['ask_reports', 'userId'],
+    ['stocks', 'user'], ['alerts', 'user'], ['watchlists', 'user'], ['portfolios', 'user']
+  ];
+  for (const [col, field] of usageSignals) {
+    for (const id of await db.collection(col).distinct(field)) {
+      if (id !== null && id !== undefined) activeSet.add(String(id));
+    }
+  }
   for (const user of inactiveUsers) {
     if (Date.now() - new Date(user.appsumoRedeemedAt).getTime() < 48 * 3600000 || activeSet.has(String(user._id))) continue;
     await db.collection('scheduled_emails').updateOne(
@@ -101,10 +127,18 @@ async function main() {
       // workers cannot send two review requests.
       if (isReviewRequest) {
         reviewClaimedAt = new Date();
+        // includeResultMetadata is load-bearing, not decoration. The raw driver
+        // returned `{ value: doc }` up to v4 and the bare document from v5 on;
+        // this file is on v6 and reads `claim.value`, so without the option the
+        // read is always undefined, every claim looks like a loss, and NO review
+        // request is ever sent — while the $set above has already landed, which
+        // permanently blocks that user from ever being asked. Silent, and it cost
+        // every review request this product has never received. The option pins
+        // the `{ value }` shape on v5+ and is ignored (already correct) on v4.
         const claim = await db.collection('users').findOneAndUpdate(
           { _id: user._id, reviewRequestSentAt: null, reviewRequestClaimedAt: null },
           { $set: { reviewRequestClaimedAt: reviewClaimedAt } },
-          { returnDocument: 'after' }
+          { returnDocument: 'after', includeResultMetadata: true }
         );
         if (!claim.value) {
           await db.collection('scheduled_emails').updateOne({ _id: job._id }, { $set: { status: 'skipped', skippedReason: 'review request already sent or claimed' } });

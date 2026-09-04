@@ -21,7 +21,7 @@ stockportfolio.pro is a web-based equity research and portfolio tool for long-te
 ## Pricing
 
 - Free: screener, /stocks pages, and demo — no account.
-- Monthly: $24.99/month — full research library, portfolio tracker, 25 Ask questions a month.
+- Monthly: $24.99/month — full research library, portfolio tracker, 50 Ask questions a month.
 - Annual: $199.99/year (two months free vs monthly).
 - Pro: $499.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
 - Desk: $1,999.99/year — Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.

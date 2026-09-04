@@ -1,6 +1,60 @@
 # Handoff
 
-## Ask bug: `search_filings` could serve a stale 10-K as "the latest" — FIXED LOCALLY, NOT DEPLOYED (9/4)
+## AppSumo relist on a credit meter + the email queue that had never run (9/5)
+
+**The find:** `scheduled_emails` held 12 jobs (onboarding + review asks, one pair per
+buyer since 8/14), all `status:scheduled`, 11 overdue, `lastError` empty — never
+attempted. `scripts/run-scheduled-emails.js` was complete but wired to no cron;
+nothing read `dueAt`. Fixed and drained: **13 emails sent, 0 failed.**
+
+**Two real bugs found while draining, both silent:**
+1. `run-scheduled-emails.js` used raw-driver `findOneAndUpdate(...).value`. Driver is
+   **6.20.0**, which returns the bare document — `.value` is always `undefined`, so
+   every review claim read as a loss and was skipped, *after* the `$set` had already
+   landed and permanently blocked that user. Fixed with `includeResultMetadata: true`.
+   Four users were poisoned by the first run; claims cleared, jobs reopened, all four
+   sent on the re-run. Only raw-driver call in the repo; Mongoose calls are unaffected.
+2. The inactive-48h pass keyed solely on `meaningful_activation` funnel events, which
+   are **zero for every account** — so it would have mailed all 13 customers "you
+   haven't got started", including Kris and pkotynski, *daily* once crontab'd. Now also
+   counts real usage (credit_ledger/dossier_views/ask_reports + stocks/alerts/
+   watchlists/portfolios). Nudges dropped 13 → 3, and the 3 are genuinely dormant
+   (ian.sterk99 T3, thunderconlive T3, analyzewithzen).
+
+**Credit meter (the relist):** `credits.js` now has explicit `LTD_CREDIT_ALLOWANCE =
+{1:100, 2:300, 3:800}`, replacing derived `askLimit x2` (60/200/600) for LTD accounts.
+**Every tier goes UP** — verified against all 13 live buyers, zero downgrades — so no
+grandfather clause and no AppSumo downgrade approval needed. `ENABLE_TIER_V2_LIMITS`
+and `MONITOR_CAP_V2_EFFECTIVE_FROM` stay OFF: one meter only, companies/portfolios/
+history stay unlimited, 19yr history on every tier. Test added, 448 tests, 447 pass
+(only pre-existing `social-compose` selenium failure).
+
+**Listing v4 drafted, NOT submitted:** `docs/growth/appsumo-listing-v4-credit-model.md`.
+Report-first (Dossier + Monitor lead, Ask last) on Kris's and Alex's direct feedback;
+supersedes the Ask-first v3. Owner must email William for the "Uses AI: No" flag and
+the tier spec — never the portal (version mapping bug).
+
+**Data fixes:** Khaled was on a Desk *trial* (10,000 credits, 4 Oct cliff, invisible to
+email since `trialing` != `active`) instead of the intended Investor — set to tier 2 /
+cap 100 / active / no trial end (snapshot in scratchpad). gattomorto marked
+`appsumoReviewStage:2` so the queue stops asking a customer who already reviewed 9/1.
+
+**Also:** nav is report-first (dropdown renamed Ask AI -> Research, Dossier+Monitor lead;
+mobile promoted to peers). Ask limit 25-vs-50 contradiction fixed in `llms.txt`,
+`index.html:731`, `ai-chat.js:13` (code is 50). Cache stamp `20260904-recharge1` ->
+`20260905-relist1`, 91 occurrences, 44 files.
+
+**Credit top-ups — half done.** A matching LIVE price already existed and had simply
+never been wired: `price_1UAUOtAUeKapY1OPUcSIaloi` ("Credit refill — stockportfolio.pro",
+$14.99 one-time USD, active). Set in `backend/.env` and validated against the route's
+own checks (active + unit_amount 1499 + usd) — local would sell.
+**OWNER: set the same var on Render** — no RENDER_API_KEY or CLI on this machine, so
+prod still returns `TOPUP_UNAVAILABLE` and the listing's "$14.99 for 150 credits" line
+stays a promise prod cannot keep until it is set. Also: `ai_chat_feedback` has 0
+rows because no frontend calls the thumbs endpoint; `trendbm` has never had a review
+ask; this file is 441 lines against the 160-line cap in CLAUDE.md and needs trimming.
+
+## Ask bug: `search_filings` could serve a stale 10-K as "the latest" — FIXED AND DEPLOYED (9/4, confirmed by owner 9/5)
 
 Root cause of a real AppSumo refund. Traced from AppSumo's 9/4 refund-summary
 email (2 refunds, no names/reasons given) → matched by tier+timestamp to the

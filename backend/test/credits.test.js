@@ -119,6 +119,44 @@ test('allowance() gives Power/Desk a real ceiling instead of inheriting Pro\'s �
     assert.equal(credits.allowance(300, 'power-annual'), 600, 'not a recognized Power planId — falls through to ×2');
 });
 
+test('LTD tiers get an explicit wallet, and the relist never shrinks an existing buyer', () => {
+    // The listing advertises these literals. Before, the wallet was derived as
+    // askLimit×2, so the marketplace page and the code were two sources of
+    // truth that could drift apart. These ARE the advertised numbers.
+    assert.equal(credits.allowance(30, null, 1), 100, 'Tier 1');
+    assert.equal(credits.allowance(100, null, 2), 300, 'Tier 2');
+    assert.equal(credits.allowance(300, null, 3), 800, 'Tier 3');
+
+    // Load-bearing: every tier is strictly ABOVE the old derived allowance
+    // (60/200/600). Widening a lifetime entitlement needs no grandfather clause
+    // and no AppSumo downgrade approval; narrowing one needs both. If a future
+    // edit drops any of these below the old ×2, that is a downgrade shipped to
+    // people who already paid, and this assertion is the thing that catches it.
+    for (const [askCap, tier] of [[30, 1], [100, 2], [300, 3]]) {
+        assert.ok(
+            credits.allowance(askCap, null, tier) > askCap * 2,
+            `tier ${tier} must not shrink below the pre-relist ${askCap * 2}`
+        );
+    }
+
+    // An unknown but truthy tier resolves UP to Tier 3, matching
+    // appsumoTierConfig() and monitorCapFor(): a paying customer is never
+    // under-served because of a data gap.
+    assert.equal(credits.allowance(300, null, 9), 800, 'unknown tier resolves up');
+
+    // 0/null/undefined mean "not a lifetime buyer" — these must fall through to
+    // the derived allowance, not be read as a zero grant that locks everyone out.
+    assert.equal(credits.allowance(50, null, 0), 100, 'tier 0 is not an LTD buyer');
+    assert.equal(credits.allowance(50, null, null), 100);
+    assert.equal(credits.allowance(50), 100, 'tier omitted entirely');
+    assert.equal(credits.allowance(300, 'pro-annual', null), 600, 'plain subscriber untouched');
+
+    // A plan floor still wins when it is larger: an LTD holder who also runs a
+    // Desk subscription keeps the Desk ceiling rather than being cut to 100.
+    assert.equal(credits.allowance(30, 'desk', 1), 10000, 'Desk floor beats the Tier 1 wallet');
+    assert.equal(credits.allowance(30, 'pro', 1), 100, 'a non-floor plan does not reduce it');
+});
+
 test('resetsAt() is the 1st of next UTC month, including a December -> January rollover', (t) => {
     const RealDate = Date;
     function mockDate(iso) {

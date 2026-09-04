@@ -837,7 +837,6 @@
         // Same top-tier rule as the nav Upgrade chip — nothing to upgrade to.
         const topTier = ['power', 'power-monthly', 'desk', 'enterprise'].includes(sub.planId);
         const as = session && session.appsumo;
-        const rechargeEligible = hasBalance && remaining / Math.max(1, allowance) <= 0.2;
         // rawSuffix is trusted HTML appended after the escaped label (used for
         // the unread badge, whose count is escaped at the call site).
         const row = (href, label, rawSuffix = '') => `<a href="${href}" role="menuitem">${esc(label)}${rawSuffix}</a>`;
@@ -859,7 +858,7 @@
         } else if (!topTier && !appsumoTop) {
             html += `<a class="nav-account-cta" role="menuitem" href="/upgrade.html">Upgrade plan</a>`;
         }
-        if (rechargeEligible || appsumoTop) {
+        if (hasBalance) {
             html += `<a class="nav-account-cta nav-account-cta-quiet" role="menuitem" href="/recharge.html">Recharge credits</a>`;
         }
         html += `<div class="nav-account-sep"></div>
@@ -967,11 +966,11 @@
               <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
               <a href="/news.html" ${cur('news')}>Markets</a>
               <div class="nav-dd">
-                <a href="/ask.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">Ask&nbsp;AI <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
+                <a href="/dossier.html" class="nav-dd-trigger" ${cur('ask') || cur('dossier') || cur('monitor')} aria-haspopup="true">Research <span class="nav-dd-caret" aria-hidden="true">▾</span></a>
                 <div class="nav-dd-menu" role="menu">
                   <a href="/dossier.html" role="menuitem" ${cur('dossier')}><strong>Research Dossier</strong><span>Full auto-generated report</span></a>
                   <a href="/monitor.html" role="menuitem" ${cur('monitor')}><strong>Filing Monitor</strong><span>What changed in the latest filing</span></a>
-                  <a href="/ask.html" role="menuitem" ${cur('ask')}><strong>Ask</strong><span>Question any company's filings</span></a>
+                  <a href="/ask.html" role="menuitem" ${cur('ask')}><strong>Ask</strong><span>Follow-up questions on any filing</span></a>
                 </div>
               </div>
               <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
@@ -1029,9 +1028,9 @@
                 <a href="/compare" ${cur('compare')}>Compare</a>
                 <a href="/company.html?symbol=AAPL" ${cur('company')}>Stocks &amp; funds</a>
                 <a href="/news.html" ${cur('news')}>Markets</a>
+                <a href="/dossier.html" ${cur('dossier')}>Research Dossier</a>
+                <a href="/monitor.html" ${cur('monitor')}>Filing Monitor</a>
                 <a href="/ask.html" ${cur('ask')}>Ask&nbsp;AI</a>
-                <a href="/dossier.html" class="nav-mobile-sub" ${cur('dossier')}>Research Dossier</a>
-                <a href="/monitor.html" class="nav-mobile-sub" ${cur('monitor')}>Filing Monitor</a>
                 <a href="/dashboard.html" ${cur('dashboard')}>Portfolio</a>
                 <a href="/gurus.html" ${cur('gurus')}>Guru Portfolios</a>
                 ${authed ? `<a href="/profile.html" ${cur('profile')}>Profile</a>` : ''}

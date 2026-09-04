@@ -158,6 +158,13 @@ function classifyUserAgent(value) {
     if (/headless|lighthouse|selenium|playwright|puppeteer|phantomjs|pagespeed|curl\b|wget\b|postmanruntime/i.test(userAgent)) {
         return { userAgent, trafficClass: 'automation', isBot: true, estimatedHuman: false };
     }
+    // Live-browsing fetchers AI assistants use to open a link "for" a chat user.
+    // These usually carry no Referer at all (the classic GA4 "(direct)/(none)"
+    // bucket), so without this check they read as anonymous human browser
+    // traffic instead of the AI-assistant clickthroughs they actually are.
+    if (/chatgpt-user|claude-user|perplexity-user|google-extended|anthropic-ai|meta-externalagent|cohere-ai|oai-searchbot/i.test(userAgent)) {
+        return { userAgent, trafficClass: 'ai_agent', isBot: true, estimatedHuman: false };
+    }
     if (/bot\b|crawl|spider|slurp|facebookexternalhit|preview|googlebot|bingbot|duckduckbot|baiduspider|yandexbot|twitterbot|linkedinbot|discordbot|whatsapp/i.test(userAgent)) {
         return { userAgent, trafficClass: 'crawler', isBot: true, estimatedHuman: false };
     }
