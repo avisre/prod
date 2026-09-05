@@ -1,0 +1,67 @@
+name: Set a Render env var
+
+# Manual only. The Render API key lives as a repo secret (write-only), so this
+# workflow is the only way to reach Render's API from a session that does not
+# hold the key. It sets ONE environment variable on the prod service.
+#
+# Render applies env-var changes by starting a new deploy. While the service's
+# GitHub connection is broken (see deploy-render.yml — Render answers
+# `not found: https://api.github.com/repositories/1105594471`), that deploy will
+# fail and the currently-live build keeps serving. The variable is still stored,
+# so it takes effect on the next successful deploy.
+
+on:
+  workflow_dispatch:
+    inputs:
+      key:
+        description: Environment variable name
+        required: true
+      value:
+        description: Value to set
+        required: true
+
+concurrency:
+  group: render-env
+  cancel-in-progress: false
+
+jobs:
+  set:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RENDER_SERVICE: srv-d4kc6schg0os73al6t10
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      KEY: ${{ inputs.key }}
+      VALUE: ${{ inputs.value }}
+    steps:
+      - name: Set the variable
+        run: |
+          set -euo pipefail
+
+          if [ -z "${RENDER_API_KEY:-}" ]; then
+            echo "::error::RENDER_API_KEY secret is not set"; exit 1
+          fi
+
+          # Confirm the key can see the service before writing anything —
+          # Render answers 404 for both "no such service" and "not yours".
+          code=$(curl -sS -o /tmp/svc.json -w '%{http_code}' \
+            -H "Authorization: Bearer $RENDER_API_KEY" -H "Accept: application/json" \
+            "https://api.render.com/v1/services/$RENDER_SERVICE")
+          if [ "$code" != "200" ]; then
+            echo "::error::cannot read $RENDER_SERVICE (HTTP $code)"; head -c 300 /tmp/svc.json; exit 1
+          fi
+          echo "service: $(jq -r '.name // .service.name' /tmp/svc.json)"
+
+          body=$(jq -n --arg v "$VALUE" '{value: $v}')
+          code=$(curl -sS -o /tmp/env.json -w '%{http_code}' -X PUT \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" -H "Accept: application/json" \
+            -d "$body" \
+            "https://api.render.com/v1/services/$RENDER_SERVICE/env-vars/$KEY")
+
+          if [ "$code" != "200" ] && [ "$code" != "201" ]; then
+            echo "::error::setting $KEY returned HTTP $code"; head -c 400 /tmp/env.json; exit 1
+          fi
+
+          # Never echo the value — this log is readable by anyone with repo access.
+          echo "set $KEY (HTTP $code), ${#VALUE} characters"
