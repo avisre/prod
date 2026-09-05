@@ -42,10 +42,26 @@ everywhere else (Monitor 1/4/8) is invisible here.
 4. **Where does the data come from?** — Straight from SEC EDGAR - the same 10-K and 10-Q filings companies are required to publish. It refreshes as new filings come in.
 5. **Is this investment advice?** — No. It surfaces real reported numbers and lets you analyze them; it doesn't tell you what to buy. Always do your own due diligence.
 
-## Media currently on the page
-- Hero: `appsumo2-cdn.appsumo.com/media/deals/images/appsumo-hero-16x9.jpg`
-- 4 overview images under `media/selfsubmissions/images/`:
-  `f028e56e-…png`, `8403e1e4-…png`, `a7e641bc-…png`, `55423dd3-…png`
+## Media currently on the page — opened and identified 2026-09-06
+
+**Banner/hero is a SEPARATE field from the product images.** `media_url` and
+`featured_image_url` both point at AppSumo's generic `appsumo-hero-16x9.jpg`, and
+`banner_details` is empty — there is no custom banner to lose. `product_logo` is our own
+PNG. Replacing the product images below touches neither.
+
+The four product images, all 1920x1080, all screenshots — **three of the four show the
+free logged-out pages, not the paid product**:
+
+| # | File | What it actually shows |
+|---|---|---|
+| 1 | `f028e56e…` | **Ask AI answer** — "NVIDIA ($NVDA) — Is Free Cash Flow Keeping Up with Capex?" Signed-in product, but it is the chat, i.e. the exact framing v5 moves away from |
+| 2 | `8403e1e4…` | Public screener page, "Stocks With the Highest Free Cash Flow (2026)" — **free, no account** |
+| 3 | `a7e641bc…` | Public stock page, "NVIDIA Corporation (NVDA) Stock Analysis" — **free, no account** |
+| 4 | `55423dd3…` | Public comparison page, "AAPL vs MSFT: Which Stock Is the Better Buy?" — **free, no account** |
+
+So a buyer evaluating the deal sees one chat answer and three pages they can already use
+without paying. Neither the Research Dossier nor the Filing Change Monitor — the two
+things the tiers are actually sold on — appears anywhere in the image set.
 
 ## Other live state (not editable content, do not lose sight of it)
 - **18 purchases**, 2 reviews at 5.0, 5 product-update posts, 60-day refundable, Radar/Labs.
