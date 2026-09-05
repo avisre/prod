@@ -1,5 +1,19 @@
 # Handoff
 
+## Bots: server-side block built then reverted same day (9/5)
+
+Built `backend/bot-blocker.js` (403 all bots except Google/Bing, 4-layer
+verification) plus a rewritten `frontend/robots.txt` and two test files.
+**Owner reverted it the same day** — code deleted, `robots.txt` restored to the
+prior allow-all version, no trace left in `app.js`. Full rationale, traffic
+measurements (68% of traffic was bots, Meta alone 53%) and the design that was
+reverted are preserved in `docs/growth/bot-crawler-situation-2026-09-05.md` if
+this gets revisited.
+
+Also confirmed: `~/.nvm/.../v22.22.0/bin/node` **does not exist on this
+machine**; the working binary is `/opt/homebrew/bin/node` (v26.4.0). CLAUDE.md
+is stale on this.
+
 ## AppSumo relist on a credit meter + the email queue that had never run (9/5)
 
 **The find:** `scheduled_emails` held 12 jobs (onboarding + review asks, one pair per
