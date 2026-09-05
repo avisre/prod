@@ -1,0 +1,82 @@
+name: Deploy to Render
+
+# Render's auto-deploy listens for a GitHub webhook, and this repo has none
+# (verified 2026-09-05: `gh api repos/avisre/prod/hooks` returns empty). That is
+# why deploys had to be triggered by hand — autoDeploy was on the whole time,
+# waiting for a notification that never arrived. This calls Render's API
+# directly instead, so a push to main deploys on its own.
+#
+# Commits whose message contains [skip ci] never reach this workflow: GitHub
+# skips workflow runs for them. That is load-bearing, not incidental — the
+# weekly fundamentals refresh commits ~500 JSON files to main with [skip ci],
+# and redeploying for a data commit would restart production and throw away
+# every warm cache (asset profiles, 12h fundamentals) for no benefit.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: render-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      RENDER_SERVICE: srv-d4kc6schg0os73al6t10
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+    steps:
+      - name: Trigger deploy and wait for it to go live
+        run: |
+          set -euo pipefail
+
+          if [ -z "${RENDER_API_KEY:-}" ]; then
+            echo "::error::RENDER_API_KEY secret is not set — add it in repo Settings > Secrets"
+            exit 1
+          fi
+
+          trigger() {
+            curl -fsS -X POST \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Content-Type: application/json" \
+              -d '{"clearCache":"do_not_clear"}' \
+              "https://api.render.com/v1/services/$RENDER_SERVICE/deploys" \
+              | jq -r '.id // .deploy.id'
+          }
+
+          poll() {
+            id="$1"
+            for _ in $(seq 1 100); do
+              sleep 10
+              status=$(curl -fsS \
+                -H "Authorization: Bearer $RENDER_API_KEY" \
+                "https://api.render.com/v1/services/$RENDER_SERVICE/deploys/$id" \
+                | jq -r '.status // .deploy.status // empty')
+              echo "  $id -> ${status:-unknown}"
+              case "$status" in
+                live) return 0 ;;
+                build_failed|update_failed|pre_deploy_failed|canceled) return 1 ;;
+              esac
+            done
+            echo "::error::timed out after ~17 minutes waiting on $id"
+            return 1
+          }
+
+          id="$(trigger)"
+          echo "triggered deploy $id for ${GITHUB_SHA::8}"
+          if poll "$id"; then
+            echo "deployed $id"
+            exit 0
+          fi
+
+          # Render's first build after a push intermittently reports build_failed
+          # in ~50s with no error in the log. One retry clears it; a second
+          # failure is a real one and should stop the run.
+          echo "::warning::first attempt failed — retrying once (known Render flake)"
+          id="$(trigger)"
+          echo "retry deploy $id"
+          poll "$id"
+          echo "deployed $id on retry"
