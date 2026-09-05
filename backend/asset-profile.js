@@ -4,16 +4,29 @@
 // separate from the legacy company-fundamentals path so existing stock pages
 // continue to use their SEC-backed data without behavioural changes.
 const YahooFinance = require('yahoo-finance2').default;
+const stored = require('./stored-fundamentals');
 
 const noop = () => {};
+// Yahoo is the single upstream behind this whole page, and its failures used to
+// be invisible: every error channel was silenced, so the 2026-09-05 outage
+// logged nine hours of bare "404" with no upstream reason. Schema-validation
+// noise stays off (it floods); real errors are surfaced and greppable as [yahoo].
+function logYahooError(where, error) {
+    const status = (error && (error.response?.status ?? error.status ?? error.code)) || 'n/a';
+    console.error(`[yahoo] ${where} failed: ${(error && error.name) || 'Error'} status=${status} ${String((error && error.message) || '').slice(0, 200)}`);
+}
 const yahoo = new YahooFinance({
     suppressNotices: ['yahooSurvey', 'ripHistorical'],
-    logger: { info: noop, warn: noop, error: noop, debug: noop, dir: noop },
+    logger: { info: noop, warn: noop, error: (...args) => console.error('[yahoo]', ...args), debug: noop, dir: noop },
     validation: { logErrors: false, logOptionsErrors: false }
 });
 
 const cache = new Map();
 const TTL_MS = 30 * 60 * 1000;
+// A stale fallback is cached only briefly: long enough to stop every request
+// re-hitting an upstream that is already refusing us (which is what gets an IP
+// rate-limited in the first place), short enough to pick Yahoo back up quickly.
+const STALE_TTL_MS = 60 * 1000;
 
 function symbolKey(value) {
     return String(value || '').toUpperCase().trim().replace(/\./g, '-');
@@ -63,6 +76,55 @@ function normalizeWeights(value) {
     })).filter((row) => row.name && row.weight !== null);
 }
 
+// Yahoo is the only live source behind this page, so when it refuses we serve
+// the nightly store rather than a blank page. Marked `stale` with the trading
+// day it came from so the UI can say "as of" instead of implying a live quote —
+// showing a week-old price as current would be worse than showing nothing.
+// Returns null for funds and for placeholder rows, leaving the 404 intact.
+function profileFromStore(symbol, key) {
+    const data = stored.load(key);
+    if (!stored.usable(data)) return null;
+    const daily = stored.dailyCloses(data);
+    if (!daily || daily.close === null) return null;
+
+    const overview = data.overview || {};
+    const changePercent = daily.previousClose
+        ? (daily.close / daily.previousClose - 1) * 100
+        : null;
+
+    return {
+        symbol: String(symbol || '').toUpperCase().trim(),
+        name: overview.Name || key,
+        assetType: 'stock',
+        assetTypeLabel: assetTypeLabel('stock'),
+        quoteType: 'EQUITY',
+        exchange: overview.Exchange || '',
+        currency: overview.Currency || 'USD',
+        price: daily.close,
+        previousClose: daily.previousClose,
+        changePercent,
+        asOf: daily.date,
+        stale: true,
+        staleAsOf: daily.date,
+        category: '', fundFamily: '',
+        totalAssets: null, expenseRatio: null, yield: null, ytdReturn: null,
+        beta3Year: number(overview.Beta), inceptionDate: null, rating: null,
+        riskRating: null, turnover: null,
+        returns: { oneMonth: null, threeMonth: null, oneYear: null, threeYear: null, fiveYear: null, tenYear: null },
+        performance: { yearsUp: null, yearsDown: null, bestOneYear: null, worstOneYear: null },
+        annualReturns: [],
+        allocations: { cash: null, stock: null, bond: null, other: null, sectors: [], bondRatings: [] },
+        topHoldings: [],
+        risk: [],
+        supports: {
+            portfolio: true, quote: true, priceHistory: true, news: true, ask: true,
+            fundProfile: false,
+            financialStatements: true, filings: true, reverseDcf: true, insiders: true
+        },
+        source: 'Cached snapshot'
+    };
+}
+
 async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     const key = symbolKey(symbol);
     if (!key || !/^[A-Z0-9\-^=]{1,20}$/.test(key)) throw Object.assign(new Error('Invalid symbol'), { status: 400 });
@@ -71,14 +133,31 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
     // adding an ETF/fund does not wait for Yahoo's larger quoteSummary call.
     const cacheKey = `${key}:${fundDetails ? 'full' : 'basic'}`;
     const hit = cache.get(cacheKey);
-    if (hit && Date.now() - hit.at < TTL_MS) return hit.value;
+    if (hit && Date.now() - hit.at < (hit.value && hit.value.stale ? STALE_TTL_MS : TTL_MS)) return hit.value;
+
+    const serveStored = (error) => {
+        const fallback = profileFromStore(symbol, key);
+        if (!fallback) return null;
+        cache.set(cacheKey, { at: Date.now(), value: fallback });
+        console.warn(`[yahoo] serving cached ${key} as of ${fallback.asOf}${error ? '' : ' (empty quote)'}`);
+        return fallback;
+    };
 
     let quote;
     try { quote = await yahoo.quote(key); }
-    catch (error) { throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404, cause: error }); }
+    catch (error) {
+        logYahooError(`quote(${key})`, error);
+        const fallback = serveStored(error);
+        if (fallback) return fallback;
+        throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404, cause: error });
+    }
     // An unknown ticker resolves rather than throwing, so without this the next
     // line reads quoteType off undefined and surfaces a TypeError as a 500.
-    if (!quote) throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404 });
+    if (!quote) {
+        const fallback = serveStored(null);
+        if (fallback) return fallback;
+        throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404 });
+    }
 
     const assetType = normalizeAssetType(quote.quoteType || quote.typeDisp);
     let summary = {};

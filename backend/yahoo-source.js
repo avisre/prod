@@ -17,7 +17,7 @@ const YahooFinance = require('yahoo-finance2').default;
 const noop = () => {};
 const yf = new YahooFinance({
     suppressNotices: ['yahooSurvey', 'ripHistorical'],
-    logger: { info: noop, warn: noop, error: noop, debug: noop, dir: noop },
+    logger: { info: noop, warn: noop, error: (...args) => console.error('[yahoo]', ...args), debug: noop, dir: noop },
     validation: { logErrors: false, logOptionsErrors: false }
 });
 const axios = require('axios');

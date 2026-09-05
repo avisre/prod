@@ -19,6 +19,7 @@ const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHis
 const yahooSource = require('./yahoo-source');
 const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
+const storedFundamentals = require('./stored-fundamentals');
 const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
@@ -1549,6 +1550,24 @@ async function acquireAlphaSlot() {
 // objects the routes + frontend already consume. The slot gate is kept
 // as a polite outbound throttle; Yahoo doesn't enforce a 5 req/sec cap
 // like Alpha did, but the gate prevents accidental flood loops.
+// Maps a dispatcher function name onto the equivalent blob in the nightly
+// store. Equities only — funds have no stored copy and fall through to the
+// existing error.
+function storedAlphaFallback(functionName, symbol) {
+    const data = storedFundamentals.load(symbol);
+    if (!storedFundamentals.usable(data)) return null;
+    switch (functionName) {
+        case 'GLOBAL_QUOTE': return storedFundamentals.globalQuote(symbol, data);
+        case 'OVERVIEW': return data.overview || null;
+        case 'INCOME_STATEMENT': return data.income || null;
+        case 'BALANCE_SHEET': return data.balance || null;
+        case 'CASH_FLOW': return data.cash || null;
+        case 'TIME_SERIES_DAILY_ADJUSTED': return data.daily || null;
+        case 'TIME_SERIES_MONTHLY_ADJUSTED': return data.monthly || null;
+        default: return null;
+    }
+}
+
 async function fetchAlpha(functionName, params = {}) {
     await acquireAlphaSlot();
     // Cold (uncached) first loads pull live from Yahoo; a transient hiccup or
@@ -1563,6 +1582,17 @@ async function fetchAlpha(functionName, params = {}) {
             lastError = error;
             if (attempt === 0) await new Promise((resolve) => setTimeout(resolve, 400));
         }
+    }
+    // Both retries are gone. Surface why — this path produced 74 silent 502s
+    // during the 2026-09-05 outage with no upstream reason recorded anywhere.
+    const status = lastError?.response?.status ?? lastError?.status ?? 'n/a';
+    console.error(`[yahoo] ${functionName}(${params.symbol || ''}) failed after 2 attempts: ${lastError?.name || 'Error'} status=${status} ${String(lastError?.message || '').slice(0, 200)}`);
+    // The nightly store holds these same blobs in this same shape, so a Yahoo
+    // outage should cost freshness, not the whole page.
+    const fallback = storedAlphaFallback(functionName, params.symbol);
+    if (fallback) {
+        console.warn(`[yahoo] serving cached ${functionName}(${params.symbol || ''})`);
+        return fallback;
     }
     const err = new Error(lastError?.message || 'Upstream data source failed');
     err.status = lastError?.status || 502;
@@ -2039,7 +2069,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-relist1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2068,7 +2098,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-relist1"></script>
+<script src="/assets/app.js?v=20260905-fallback2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2152,7 +2182,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-relist1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2180,7 +2210,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-relist1"></script>
+<script src="/assets/app.js?v=20260905-fallback2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2284,7 +2314,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-relist1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2317,7 +2347,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-relist1"></script>
+<script src="/assets/app.js?v=20260905-fallback2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -12315,6 +12345,15 @@ app.get('*', (req, res) => {
 // Start the server
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Yahoo rate-limits by origin IP, so "did our egress IP change on this deploy?"
+// is the first question in any upstream outage — and it was unanswerable during
+// the 2026-09-05 incident. Fire-and-forget; never let it affect boot.
+(async () => {
+    try {
+        const r = await fetch('https://api.ipify.org?format=json', { signal: AbortSignal.timeout(5000) });
+        console.log(`[egress-ip] ${(await r.json()).ip}`);
+    } catch (e) { console.log('[egress-ip] lookup failed:', e && e.message); }
+})();
 server.requestTimeout = Number(process.env.HTTP_REQUEST_TIMEOUT_MS || 130000);
 server.headersTimeout = Number(process.env.HTTP_HEADERS_TIMEOUT_MS || 15000);
 server.keepAliveTimeout = Number(process.env.HTTP_KEEPALIVE_TIMEOUT_MS || 5000);

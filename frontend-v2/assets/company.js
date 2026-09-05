@@ -308,6 +308,25 @@
     }
 
     // ---------- ① masthead ----------
+    // Set when the API served a stored snapshot because Yahoo was unavailable.
+    // Holds the trading day the figures are from, so the page can say so rather
+    // than presenting a days-old close as a live quote.
+    let staleAsOf = null;
+
+    function formatAsOf(iso) {
+        const d = new Date(`${String(iso).slice(0, 10)}T00:00:00Z`);
+        if (Number.isNaN(d.getTime())) return String(iso);
+        return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' });
+    }
+
+    function renderStaleNotice() {
+        const el = $('co-stale');
+        if (!el) return;
+        if (!staleAsOf) { el.hidden = true; return; }
+        el.textContent = `Data as of ${formatAsOf(staleAsOf)}`;
+        el.hidden = false;
+    }
+
     function renderMasthead() {
         const ov = payload.overview || {};
         const q = (payload.quote || {})['Global Quote'] || {};
@@ -321,9 +340,12 @@
         $('co-price').textContent = price !== null ? currencyAmount(price, quoteCurrency(), { compact: false }) : '';
         const chEl = $('co-change');
         if (chPct !== null) {
-            chEl.textContent = (chPct >= 0 ? '+' : '') + chPct.toFixed(2) + '% today';
+            // "today" would be a lie on a stored snapshot — name the day instead.
+            const when = staleAsOf ? `% on ${formatAsOf(staleAsOf)}` : '% today';
+            chEl.textContent = (chPct >= 0 ? '+' : '') + chPct.toFixed(2) + when;
             chEl.className = 'small num ' + (chPct >= 0 ? 'delta-pos' : 'delta-neg');
         }
+        renderStaleNotice();
     }
 
     // ---------- the dual-axis chart (price right, market cap left) ----------
@@ -1776,6 +1798,9 @@
         try {
             const assetRes = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/profile?history=1`);
             const assetData = assetRes.ok ? await assetRes.json() : null;
+            if (assetData && assetData.profile && assetData.profile.stale) {
+                staleAsOf = assetData.profile.staleAsOf || assetData.profile.asOf || null;
+            }
             if (assetData && ['etf', 'mutual_fund'].includes(assetData.profile && assetData.profile.assetType)) {
                 renderFundProfile(assetData);
                 mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
