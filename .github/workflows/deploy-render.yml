@@ -41,13 +41,44 @@ jobs:
             exit 1
           fi
 
+          # Render answers 404 both for "no such service" and "this key cannot see
+          # that service", and `curl -f` throws the body away — so a failing deploy
+          # used to report nothing but "curl: (22) ... 404". Ask the key what it can
+          # actually reach before trying to deploy, and print Render's own message.
+          preflight() {
+            code=$(curl -sS -o /tmp/render-services.json -w '%{http_code}' \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Accept: application/json" \
+              "https://api.render.com/v1/services?limit=50" || echo 000)
+            echo "GET /v1/services -> $code"
+            if [ "$code" != "200" ]; then
+              echo "::error::Render rejected RENDER_API_KEY (HTTP $code). Create an account-level key at https://dashboard.render.com/u/settings#api-keys and re-set it with: gh secret set RENDER_API_KEY"
+              head -c 400 /tmp/render-services.json || true
+              return 1
+            fi
+            echo "services this key can see:"
+            jq -r '.[] | (.service // .) | "  \(.id)  \(.name)"' /tmp/render-services.json || true
+            if ! grep -q "$RENDER_SERVICE" /tmp/render-services.json; then
+              echo "::error::The key is valid but cannot see $RENDER_SERVICE — it belongs to a different Render workspace, or the service id in this workflow is stale. Pick the right id from the list above."
+              return 1
+            fi
+          }
+
           trigger() {
-            curl -fsS -X POST \
+            body=$(mktemp)
+            code=$(curl -sS -o "$body" -w '%{http_code}' -X POST \
               -H "Authorization: Bearer $RENDER_API_KEY" \
               -H "Content-Type: application/json" \
               -d '{"clearCache":"do_not_clear"}' \
-              "https://api.render.com/v1/services/$RENDER_SERVICE/deploys" \
-              | jq -r '.id // .deploy.id'
+              "https://api.render.com/v1/services/$RENDER_SERVICE/deploys" || echo 000)
+            # stdout is captured by the caller as the deploy id, so diagnostics go to stderr.
+            if [ "$code" != "200" ] && [ "$code" != "201" ]; then
+              echo "::error::deploy trigger returned HTTP $code" >&2
+              head -c 400 "$body" >&2 || true
+              echo >&2
+              return 1
+            fi
+            jq -r '.id // .deploy.id' "$body"
           }
 
           poll() {
@@ -67,6 +98,8 @@ jobs:
             echo "::error::timed out after ~17 minutes waiting on $id"
             return 1
           }
+
+          preflight
 
           id="$(trigger)"
           echo "triggered deploy $id for ${GITHUB_SHA::8}"
