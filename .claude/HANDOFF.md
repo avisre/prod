@@ -23,8 +23,11 @@ than the floor, so the OR-gate floor governs and no buyer loses questions.
 Published everywhere: listing v5 doc, `frontend-v2/appsumo.html`, the portal draft.
 `credit-meter-truth.test.js` gained a cohort test; 453/454 (social-compose pre-existing).
 
-**OWNER:** set `CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` on Render to the date the listing goes
-live, or new buyers keep the larger V1 wallet. Also: `ollama-usage-tracker.js` reads
+**`CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` = `2026-09-06T00:00:00Z` is SET on Render** (9/6, via
+the new `set-render-env.yml` dispatch workflow — the API key is a write-only repo secret, so
+that workflow is the only path to it from a local session). Latest redemption before the line
+was 9/5 17:46 UTC, so all 18 buyers are grandfathered. **It stays inert until `c5d7decc` is
+deployed** — Render still cannot fetch the repo. Also: `ollama-usage-tracker.js` reads
 `prompt_tokens`/`completion_tokens` at :148-149 but persists only `totalTokens` — storing
 the split turns the ±20% blended-rate estimate into an exact margin figure.
 

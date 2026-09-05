@@ -220,9 +220,10 @@ comparisons we win on sourcing.
       Ask questions, the per-action cost table, Monitor 1 / 4 / 8. **Send only once the Ask
       OR-gate is deployed**, or the email claims something the running code refuses.
 - [ ] Approve the copy above.
-- [ ] **Set `CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` on Render** to the date this listing goes
-      live. Until it is set, every new buyer keeps the larger V1 wallet — the code
-      over-delivers against the page, which is the safe direction but not the intent.
+- [x] **`CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` is set on Render** to `2026-09-06T00:00:00Z`
+      (2026-09-06, via the `set-render-env` workflow — the API key is a repo secret). All 18
+      existing buyers redeemed before that line, so they keep V1. **Inert until the code
+      that reads it is deployed.**
 - [ ] Confirm the numbers against production: `backend/credits.js` `LTD_CREDIT_ALLOWANCE_V2`
       is `{ 1: 50, 2: 150, 3: 400 }` and `COST` is
       `{ ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5 }`.
