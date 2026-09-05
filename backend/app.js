@@ -7461,7 +7461,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         // outage widens this gate, it never locks a paying user out.
         const [used, gate] = await Promise.all([
             aiChat.getUsage(userId),
-            credits.check(userId, 'ask', limit, planId, req.user && req.user.appsumoTier)
+            credits.check(userId, 'ask', limit, planId, req.user)
         ]);
         if (!gate.ok && used >= limit) {
             const resp = {
@@ -8170,7 +8170,7 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
             const bal = await credits.balance(
                 portfolioOwnerId(req), limit,
                 req.subscription && req.subscription.planId,
-                req.user && req.user.appsumoTier
+                req.user
             );
             out.credits = { used: bal.used, allowance: bal.allowance, remaining: bal.remaining, resetsAt: bal.resetsAt };
             out.cost = credits.COST;
@@ -8202,7 +8202,7 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
     try {
         const planId = req.subscription && req.subscription.planId;
         const [bal, recent] = await Promise.all([
-            credits.balance(req.userId, effectiveAskLimit(req), planId, req.user && req.user.appsumoTier),
+            credits.balance(req.userId, effectiveAskLimit(req), planId, req.user),
             credits.recentActivity(req.userId)
         ]);
         // hasMonitor: Monitor is Power/Desk-only and not part of the LTD/AppSumo
@@ -10509,7 +10509,7 @@ app.get('/api/dossier/compare', authMiddleware, proGate, async (req, res) => {
         }
 
         const planId = req.subscription && req.subscription.planId;
-        const affordability = await credits.check(req.userId, 'dossier_compare', effectiveAskLimit(req), planId, req.user && req.user.appsumoTier);
+        const affordability = await credits.check(req.userId, 'dossier_compare', effectiveAskLimit(req), planId, req.user);
         if (!affordability.ok) {
             return res.status(402).json({
                 message: `A comparison costs ${credits.COST.dossier_compare} credits — you have ${affordability.remaining} left this month.`,
@@ -10623,7 +10623,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
                 if (!force) {
                     const costKey = depth === 'deep' ? 'dossier_deep' : 'dossier_standard';
                     const planId = req.subscription && req.subscription.planId;
-                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req), planId, req.user && req.user.appsumoTier);
+                    const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req), planId, req.user);
                     if (!gate.ok) return { creditsError: gate };
                     await credits.spend(req.userId, costKey, 'dossier', `${sym}:${depth}`);
                 }

@@ -1,10 +1,12 @@
-# AppSumo portal draft — exact values entered 2026-09-06
+# AppSumo portal draft — exact values entered 2026-09-06 (V2 wallet)
 
 Typed into `partners.appsumo.com/self-submission/226804/build` over a Chrome DevTools
-session the owner logged into. **The builder does not autosave.** No API write happens on
-edit, on blur, or on step navigation — only the three image uploads reached AppSumo's
-servers (`/api/selfsubmissionimages/`). Everything below lives in the browser tab until
-someone clicks **Submit for review**, so this is the recovery copy.
+session the owner logged into. **The builder does not autosave** — no API write happens on
+edit, blur or step navigation; only the three image uploads reached AppSumo's servers.
+Everything below lives in the browser tab until someone clicks **Submit for review**.
+
+Publishes the **V2 wallet (50/150/400)** — what a buyer redeeming after
+`CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` receives. The 18 existing buyers keep 100/300/800.
 
 Review-page advisories still open: only 3 screenshots (AppSumo suggests 4–6), no
 integrations listed, 0 of 4 social links.
@@ -101,7 +103,7 @@ integrations listed, 0 of 4 social links.
 
 **Bullet 2 — use **text** to bold**
 
-> Starter is **100 credits a month** — 10 dossiers or 20 filing reports. Investor 300, Pro 800.
+> Starter is **50 credits a month** — 5 dossiers or 10 filing reports. Investor 150, Pro 400.
 
 **Bullet 3 — use **text** to bold**
 
@@ -151,15 +153,15 @@ integrations listed, 0 of 4 social links.
 
 **e.g. 10 GB**
 
-> 100/mo
+> 50/mo
 
 **e.g. 10 GB**
 
-> 300/mo
+> 150/mo
 
 **e.g. 10 GB**
 
-> 800/mo
+> 400/mo
 
 **e.g. Team seats, Storage, Priority support**
 
@@ -255,7 +257,7 @@ integrations listed, 0 of 4 social links.
 
 **FAQ 3 answer**
 
-> Every tier includes every feature; tiers differ by how many reports you run each month. A Research Dossier costs 10 credits, a Filing Monitor report 5, a comparison 5, and a follow-up question 2. Starter's 100 credits is 10 dossiers or 20 filing reports a month; Investor gets 300 and Pro 800. Credits reset on the 1st.
+> Every tier includes every feature; tiers differ by how many reports you run each month. A Research Dossier costs 10 credits, a Filing Monitor report 5, a comparison 5, and a follow-up question 2. Starter’s 50 credits is 5 dossiers or 10 filing reports a month; Investor gets 150 and Pro 400. Credits reset on the 1st.
 
 **FAQ 4 question**
 
@@ -279,7 +281,7 @@ integrations listed, 0 of 4 social links.
 
 **FAQ 6 answer**
 
-> Normally this is a subscription. With this deal you pay once and keep it forever — no renewals. The tiers differ by monthly AI credits: 100 (Starter), 300 (Investor), 800 (Pro), and by how many companies the Filing Change Monitor watches: 1, 4 or 8. Everything else — Research Dossiers, deep-dive pages, screeners, comparison, portfolio tracking and up to 19 years of filed statements — is included on all three tiers.
+> Normally this is a subscription. With this deal you pay once and keep it forever — no renewals. The tiers differ by monthly AI credits: 50 (Starter), 150 (Investor), 400 (Pro), and by how many companies the Filing Change Monitor watches: 1, 4 or 8. Everything else — Research Dossiers, deep-dive pages, screeners, comparison, portfolio tracking and up to 19 years of filed statements — is included on all three tiers.
 
 **FAQ 7 question**
 

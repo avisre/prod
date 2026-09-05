@@ -107,9 +107,9 @@ Fallback if length-limited:
 >
 > | | Starter — $39 | Investor — $79 | Pro — $149 |
 > |---|---|---|---|
-> | **AI credits per month** | **100** | **300** | **800** |
-> | Research Dossiers, if you spent it all there | 10 | 30 | 80 |
-> | or Filing Monitor reports | 20 | 60 | 160 |
+> | **AI credits per month** | **50** | **150** | **400** |
+> | Research Dossiers, if you spent it all there | 5 | 15 | 40 |
+> | or Filing Monitor reports | 10 | 30 | 80 |
 > | Companies watched by the Monitor | 1 | 4 | 8 |
 >
 > **What each thing costs, so there are no surprises:**
@@ -121,8 +121,8 @@ Fallback if length-limited:
 > | Compare two dossiers | 5 |
 > | Ask a follow-up question | 2 |
 >
-> Mix them however you like. A typical Investor month is 15 dossiers, 20 monitor reports
-> and 25 follow-up questions — that's 300. Credits reset on the 1st of each month.
+> Mix them however you like. A typical Investor month is 8 dossiers, 10 monitor reports
+> and 10 follow-up questions — that's 150. Credits reset on the 1st of each month.
 
 **Top-up line — hold until the Render price ID is set.** If and only if
 `STRIPE_PRICE_ID_CREDITS_TOPUP` is live in production, append:
@@ -220,8 +220,11 @@ comparisons we win on sourcing.
       Ask questions, the per-action cost table, Monitor 1 / 4 / 8. **Send only once the Ask
       OR-gate is deployed**, or the email claims something the running code refuses.
 - [ ] Approve the copy above.
-- [ ] Confirm the numbers against production: `backend/credits.js` `LTD_CREDIT_ALLOWANCE`
-      is `{ 1: 100, 2: 300, 3: 800 }` and `COST` is
+- [ ] **Set `CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` on Render** to the date this listing goes
+      live. Until it is set, every new buyer keeps the larger V1 wallet — the code
+      over-delivers against the page, which is the safe direction but not the intent.
+- [ ] Confirm the numbers against production: `backend/credits.js` `LTD_CREDIT_ALLOWANCE_V2`
+      is `{ 1: 50, 2: 150, 3: 400 }` and `COST` is
       `{ ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5 }`.
 - [ ] Set `STRIPE_PRICE_ID_CREDITS_TOPUP` on Render (`price_1UAUOtAUeKapY1OPUcSIaloi`), or
       leave the top-up line out. The route refuses to sell without it.
@@ -239,6 +242,14 @@ comparisons we win on sourcing.
 | Deep Dossier | 30-credit row | removed — unreachable in the UI |
 | Top-up | stated unconditionally | conditional on the Render price ID being set |
 
-**No existing buyer is narrowed by v5.** Wallets went 60/200/600 → 100/300/800 (every tier
-up), the Monitor numbers published here are the ones already on the live listing, and the
-Ask OR-gate adds capacity without removing the floor any buyer has today.
+**No existing buyer is narrowed by v5.** The published wallet (50/150/400) applies only to
+redemptions on or after `CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM`. All 18 buyers who redeemed
+before it keep 100/300/800 permanently — `credits.js` `isCreditAllowanceV2Cohort()` fails
+closed, so an account that cannot be classified keeps the larger wallet. The Monitor numbers
+published here are the ones already on the live listing, and the Ask OR-gate keeps every
+tier's 30/100/300 question floor regardless of wallet size.
+
+**Why the wallet halved.** Measured provider cost: ~82,000 tokens per charged credit, so a
+tier-3 buyer spending a full 800 would cost more in a month than the entire AI plan budget.
+The heaviest real customer month on record is 118 credits, so this bites nobody today — it
+caps the tail.

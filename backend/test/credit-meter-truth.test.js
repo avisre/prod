@@ -22,14 +22,45 @@ const read = (rel) => fs.readFileSync(path.join(ROOT, rel), 'utf8');
 // at backend/app.js (User schema) and applied by effectiveAskLimit().
 const ASK_FLOOR = { 1: 30, 2: 100, 3: 300 };
 
-test('an LTD buyer can actually spend their whole advertised wallet on Asks', () => {
+test('every tier keeps its Ask floor, whichever wallet it holds', () => {
+    // Under the OR-gate, reachable Asks = max(per-tier floor, wallet / cost).
+    // V1 wallets exceed the floor; V2 wallets are deliberately smaller than it,
+    // which is exactly why the floor has to stay: halving the wallet must not
+    // quietly halve the questions a buyer was sold.
     for (const tier of [1, 2, 3]) {
-        const wallet = credits.LTD_CREDIT_ALLOWANCE[tier];
-        const advertised = Math.floor(wallet / credits.COST.ask);
-        assert.ok(
-            advertised >= ASK_FLOOR[tier],
-            `tier ${tier}: the listing implies ${advertised} Asks but the floor is ${ASK_FLOOR[tier]}`
-        );
+        for (const [label, table] of [['V1', credits.LTD_CREDIT_ALLOWANCE], ['V2', credits.LTD_CREDIT_ALLOWANCE_V2]]) {
+            const reachable = Math.max(ASK_FLOOR[tier], Math.floor(table[tier] / credits.COST.ask));
+            assert.ok(
+                reachable >= ASK_FLOOR[tier],
+                `${label} tier ${tier}: only ${reachable} Asks reachable, floor is ${ASK_FLOOR[tier]}`
+            );
+        }
+    }
+});
+
+test('halving the wallet reaches new buyers only', () => {
+    const CUTOVER = '2026-09-10T00:00:00Z';
+    const before = { appsumoTier: 3, appsumoRedeemedAt: '2026-08-20T00:00:00Z' };
+    const after = { appsumoTier: 3, appsumoRedeemedAt: '2026-09-20T00:00:00Z' };
+    const envOn = { CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM: CUTOVER };
+
+    // Cutover unset: nobody is on V2, however recently they redeemed.
+    assert.equal(credits.ltdAllowance(after, {}), credits.LTD_CREDIT_ALLOWANCE[3]);
+
+    // Cutover set: the grandfather line holds in both directions.
+    assert.equal(credits.ltdAllowance(before, envOn), credits.LTD_CREDIT_ALLOWANCE[3], 'pre-cutover buyer keeps V1');
+    assert.equal(credits.ltdAllowance(after, envOn), credits.LTD_CREDIT_ALLOWANCE_V2[3], 'post-cutover buyer gets V2');
+
+    // A bare tier carries no redemption date, so it can never be classified into
+    // the smaller wallet — an unclassifiable account keeps the larger one.
+    assert.equal(credits.ltdAllowance(3, envOn), credits.LTD_CREDIT_ALLOWANCE[3], 'bare tier fails closed to V1');
+
+    // An unparseable cutover meters nobody.
+    assert.equal(credits.ltdAllowance(after, { CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM: 'soon' }), credits.LTD_CREDIT_ALLOWANCE[3]);
+
+    // And V2 really is half of V1, which is the whole point of the round.
+    for (const tier of [1, 2, 3]) {
+        assert.equal(credits.LTD_CREDIT_ALLOWANCE_V2[tier] * 2, credits.LTD_CREDIT_ALLOWANCE[tier], `tier ${tier} is half`);
     }
 });
 
@@ -38,29 +69,29 @@ test('the Ask route gates on the wallet OR the floor, never the floor alone', ()
 
     // The OR-gate itself. `used >= limit` on its own is the pre-relist behaviour that
     // made the credit table a lie; if someone restores it, this fails.
-    assert.match(
-        src,
-        /if \(!gate\.ok && used >= limit\) \{/,
+    // assert.ok, not assert.match: a failing match on a 700KB source file dumps
+    // the whole thing into the test output.
+    assert.ok(
+        /if \(!gate\.ok && used >= limit\) \{/.test(src),
         'Ask must refuse only when the wallet cannot pay AND the per-tier floor is spent'
     );
-    assert.match(
-        src,
-        /credits\.check\(userId, 'ask', limit, planId, req\.user && req\.user\.appsumoTier\)/,
-        'the Ask gate must consult the credit wallet'
+    assert.ok(
+        /credits\.check\(userId, 'ask', limit, planId, req\.user\)/.test(src),
+        'the Ask gate must consult the credit wallet, passing the user so the cohort is readable'
     );
 
     // The floor must survive. Deleting effectiveAskLimit would narrow a lifetime
     // entitlement: a buyer who spends the wallet on Dossiers keeps their Asks.
-    assert.match(src, /const limit = effectiveAskLimit\(req\);/);
+    assert.ok(/const limit = effectiveAskLimit\(req\);/.test(src));
 
     // The AppSumo upgrade link on the 429 is load-bearing revenue surface — it is the
     // path a Tier 1 buyer took to Tier 2 on 4 Sep. It must not be refactored away.
-    assert.match(src, /resp\.appsumo = \{ isAppSumo: true, tier: asTier, upgradeUrl \};/);
+    assert.ok(/resp\.appsumo = \{ isAppSumo: true, tier: asTier, upgradeUrl \};/.test(src));
 });
 
 test('the published listing matches credits.js exactly', () => {
     const listing = read('docs/growth/appsumo-listing-v5.md');
-    const { COST, LTD_CREDIT_ALLOWANCE: WALLET } = credits;
+    const { COST, LTD_CREDIT_ALLOWANCE_V2: WALLET } = credits;
 
     // The wallet row.
     const walletRow = `| **AI credits per month** | **${WALLET[1]}** | **${WALLET[2]}** | **${WALLET[3]}** |`;
@@ -93,7 +124,7 @@ test('the published listing matches credits.js exactly', () => {
     }
 
     // The worked example has to add up, or it teaches the buyer the wrong arithmetic.
-    const worked = 15 * COST.dossier_standard + 20 * COST.monitor + 25 * COST.ask;
+    const worked = 8 * COST.dossier_standard + 10 * COST.monitor + 10 * COST.ask;
     assert.equal(worked, WALLET[2], 'the "typical Investor month" must total the Investor wallet');
 });
 

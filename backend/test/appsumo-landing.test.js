@@ -26,8 +26,9 @@ test('AppSumo landing page states the verified tier prices, Monitor caps and Ask
   // The meter is AI credits, not Ask counts (listing v5 — customers could not tell
   // what an Ask-count tier actually bought them). These allowances are
   // LTD_CREDIT_ALLOWANCE in backend/credits.js; credit-meter-truth.test.js is what
-  // keeps them in step with the published listing and with what Ask will serve.
-  for (const allowance of ['100', '300', '800']) {
+  // keeps them in step with the published listing. These are the V2 wallet (new
+  // redemptions); buyers from before the cutover keep the larger V1 numbers.
+  for (const allowance of ['50', '150', '400']) {
     assert.match(html, new RegExp(`${allowance} AI credits / month`));
   }
   assert.match(html, /AppSumo[^<]{0,80}live listing[^<]{0,120}final (authority|deal terms)/i);

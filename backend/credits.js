@@ -125,19 +125,67 @@ const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000 }
 // lifetime entitlement needs both.
 const LTD_CREDIT_ALLOWANCE = { 1: 100, 2: 300, 3: 800 };
 
+// V2 (cost round, 2026-09-06): half of V1. Measured provider cost is what forced
+// this — at ~82k tokens per charged credit, a single tier-3 buyer spending the
+// full 800 would cost more per month than the entire AI plan. Nobody has ever
+// come close (heaviest recorded month: 118 credits), so this is tail protection,
+// not a change anyone should feel.
+//
+// It is a NARROWING, so it applies only to redemptions on or after
+// CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM. Every buyer who redeemed before it keeps
+// V1 permanently. Same shape, and the same reasoning, as LTD_MONITOR_CAP_V2 in
+// lib/tier-limits.js — read that file's note on retroactive metering first.
+const LTD_CREDIT_ALLOWANCE_V2 = { 1: 50, 2: 150, 3: 400 };
+
+/**
+ * Cutover for the V2 wallet. No default: unset or unparseable means "no cohort
+ * is on V2 yet", so everyone keeps V1. Fail-closed on the downgrade, never on
+ * access — the same rule monitorCapV2EffectiveFrom() follows.
+ */
+function creditAllowanceV2EffectiveFrom(env = process.env) {
+    const raw = String(env.CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM || '').trim();
+    if (!raw) return null;
+    const t = Date.parse(raw);
+    return Number.isFinite(t) ? t : null;
+}
+
+/**
+ * True only for lifetime buyers who redeemed ON OR AFTER the cutover.
+ * A bare tier number carries no redemption date, so it can never be classified
+ * into V2 — that is deliberate: an unclassifiable account keeps the larger
+ * wallet rather than silently losing half of it.
+ */
+function isCreditAllowanceV2Cohort(user, env = process.env) {
+    if (!user || typeof user !== 'object') return false;
+    const redeemedRaw = user.appsumoRedeemedAt || user.dealMirrorRedeemedAt;
+    if (!redeemedRaw) return false;
+    const v2From = creditAllowanceV2EffectiveFrom(env);
+    if (v2From === null) return false;
+    const redeemed = new Date(redeemedRaw).getTime();
+    return Number.isFinite(redeemed) && redeemed >= v2From;
+}
+
 // 0 means "not a lifetime buyer" — callers must fall through to the derived
 // allowance rather than treat it as a zero grant. An unknown but truthy tier
 // resolves UP to tier 3, matching appsumoTierConfig() and monitorCapFor(): a
 // paying customer is never under-served because of a data gap.
-function ltdAllowance(appsumoTier) {
-    const tier = Number(appsumoTier);
+//
+// Accepts either a bare tier (legacy callers, and every non-LTD path) or the
+// user document. Only the document carries a redemption date, so only the
+// document can be placed in the V2 cohort.
+function ltdAllowance(tierOrUser, env = process.env) {
+    const isUser = tierOrUser && typeof tierOrUser === 'object';
+    const tier = Number(isUser ? (tierOrUser.appsumoTier || tierOrUser.dealMirrorTier) : tierOrUser);
     if (!Number.isFinite(tier) || tier <= 0) return 0;
-    return LTD_CREDIT_ALLOWANCE[tier] || LTD_CREDIT_ALLOWANCE[3];
+    const map = (isUser && isCreditAllowanceV2Cohort(tierOrUser, env))
+        ? LTD_CREDIT_ALLOWANCE_V2
+        : LTD_CREDIT_ALLOWANCE;
+    return map[tier] || map[3];
 }
 
-function allowance(effectiveAskLimit, planId, appsumoTier) {
+function allowance(effectiveAskLimit, planId, appsumoTierOrUser) {
     const floor = PLAN_ALLOWANCE_FLOOR[String(planId || '').toLowerCase()];
-    const ltd = ltdAllowance(appsumoTier);
+    const ltd = ltdAllowance(appsumoTierOrUser);
     // An LTD tier is an explicit grant, not a floor over the derived base:
     // reading it as max(ltd, base) would re-admit the derived number as a
     // competing source of truth, which is the drift this table exists to end.
@@ -148,10 +196,10 @@ function allowance(effectiveAskLimit, planId, appsumoTier) {
     return floor ? Math.max(floor, base) : base;
 }
 
-async function balance(userId, effectiveAskLimit, planId, appsumoTier) {
+async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser) {
     const spent = await used(userId);
     // Plan allowance plus any purchased top-ups still inside this month.
-    const limit = allowance(effectiveAskLimit, planId, appsumoTier) + await granted(userId);
+    const limit = allowance(effectiveAskLimit, planId, appsumoTierOrUser) + await granted(userId);
     return { used: spent, allowance: limit, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
 }
 
@@ -172,9 +220,9 @@ async function spend(userId, cost, reason, refId) {
 
 // Read-only check a route can act on BEFORE doing expensive work — does not
 // itself spend anything.
-async function check(userId, cost, effectiveAskLimit, planId, appsumoTier) {
+async function check(userId, cost, effectiveAskLimit, planId, appsumoTierOrUser) {
     const amount = Number(COST[cost] ?? cost);
-    const bal = await balance(userId, effectiveAskLimit, planId, appsumoTier);
+    const bal = await balance(userId, effectiveAskLimit, planId, appsumoTierOrUser);
     return { ok: bal.remaining >= amount, cost: amount, ...bal };
 }
 
@@ -196,4 +244,4 @@ async function recentActivity(userId, limit = 12) {
     } catch (_) { return []; }
 }
 
-module.exports = { COST, LTD_CREDIT_ALLOWANCE, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity };
+module.exports = { COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, isCreditAllowanceV2Cohort, creditAllowanceV2EffectiveFrom, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity };

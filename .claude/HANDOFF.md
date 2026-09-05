@@ -1,5 +1,33 @@
 # Handoff
 
+## Credit wallet halved for NEW buyers only — LOCAL, NOT DEPLOYED (9/6)
+
+`LTD_CREDIT_ALLOWANCE_V2 = {1:50, 2:150, 3:400}` in `credits.js`, gated on
+`CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` (unset = nobody on V2). Mirrors the
+`LTD_MONITOR_CAP_V2` / `isMonitorCapV2Cohort` pattern in `lib/tier-limits.js`:
+**all 18 existing buyers keep 100/300/800 permanently**, and an account that cannot be
+classified (bare tier, no redemption date) fails closed to V1 — it never loses half its
+wallet by accident. The five `credits.balance/check` call sites in `app.js` now pass
+`req.user` instead of the bare tier so the cohort is readable.
+
+**Why: measured, not guessed.** `ollama_usage_events`, 30 days: 24.47M tokens, 2,270 calls,
+**~82k tokens per charged credit**. Ollama Pro is $20/mo = **$60 of usage credits**;
+glm-5.1 is $1.00/M in, $3.20/M out (~$1.20/M blended here) → current spend **~$30/mo, half
+the allowance**. One tier-3 buyer spending a full 800 = 65.9M tokens ≈ **$80/mo, more than
+the whole plan**. Heaviest real customer month ever: **118 credits**. One account (almost
+certainly the owner's testing) is **18.76M tokens = 77% of everything**.
+
+The Ask floor (30/100/300) is what protects the halved tiers: V2 wallets buy fewer Asks
+than the floor, so the OR-gate floor governs and no buyer loses questions.
+
+Published everywhere: listing v5 doc, `frontend-v2/appsumo.html`, the portal draft.
+`credit-meter-truth.test.js` gained a cohort test; 453/454 (social-compose pre-existing).
+
+**OWNER:** set `CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM` on Render to the date the listing goes
+live, or new buyers keep the larger V1 wallet. Also: `ollama-usage-tracker.js` reads
+`prompt_tokens`/`completion_tokens` at :148-149 but persists only `totalTokens` — storing
+the split turns the ±20% blended-rate estimate into an exact margin figure.
+
 ## Listing v5: PRODUCT deployed, **AppSumo listing still UNCHANGED** (9/6)
 
 **Read this first:** the code and stockportfolio.pro are live with the credit meter. The
