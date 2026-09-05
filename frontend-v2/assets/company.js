@@ -313,6 +313,25 @@
     // than presenting a days-old close as a live quote.
     let staleAsOf = null;
 
+    // Past this, the stored close is too old to show as a price at all. The
+    // weekly refresh keeps S&P 500 names within 7 days; everything outside that
+    // list is frozen months back, and a quarter-old number in the masthead's
+    // largest type reads as current however carefully it is labelled. The rest
+    // of the page — SEC statements, ratios, the chart — stays, because filed
+    // figures don't rot the way a quote does.
+    const PRICE_MAX_AGE_DAYS = 30;
+
+    function staleDays() {
+        if (!staleAsOf) return 0;
+        const then = new Date(`${String(staleAsOf).slice(0, 10)}T00:00:00Z`);
+        if (Number.isNaN(then.getTime())) return 0;
+        return Math.floor((Date.now() - then.getTime()) / 86400000);
+    }
+
+    function priceTooOld() {
+        return staleDays() > PRICE_MAX_AGE_DAYS;
+    }
+
     function formatAsOf(iso) {
         const d = new Date(`${String(iso).slice(0, 10)}T00:00:00Z`);
         if (Number.isNaN(d.getTime())) return String(iso);
@@ -323,7 +342,9 @@
         const el = $('co-stale');
         if (!el) return;
         if (!staleAsOf) { el.hidden = true; return; }
-        el.textContent = `Data as of ${formatAsOf(staleAsOf)}`;
+        el.textContent = priceTooOld()
+            ? `Current price unavailable. Financials and chart shown as of ${formatAsOf(staleAsOf)}`
+            : `Data as of ${formatAsOf(staleAsOf)}`;
         el.hidden = false;
     }
 
@@ -337,9 +358,15 @@
         document.title = `${ov.Name || symbol} (${symbol}) — 19 years of financials | stockportfolio.pro`;
         const price = num(q['05. price']);
         const chPct = num(String(q['10. change percent'] || '').replace('%', ''));
-        $('co-price').textContent = price !== null ? currencyAmount(price, quoteCurrency(), { compact: false }) : '';
+        const hidePrice = priceTooOld();
+        $('co-price').textContent = (!hidePrice && price !== null)
+            ? currencyAmount(price, quoteCurrency(), { compact: false })
+            : '';
         const chEl = $('co-change');
-        if (chPct !== null) {
+        if (hidePrice) {
+            chEl.textContent = '';
+            chEl.className = 'small num';
+        } else if (chPct !== null) {
             // "today" would be a lie on a stored snapshot — name the day instead.
             const when = staleAsOf ? `% on ${formatAsOf(staleAsOf)}` : '% today';
             chEl.textContent = (chPct >= 0 ? '+' : '') + chPct.toFixed(2) + when;

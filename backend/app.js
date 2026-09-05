@@ -2069,7 +2069,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback3" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2098,7 +2098,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-fallback2"></script>
+<script src="/assets/app.js?v=20260905-fallback3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2182,7 +2182,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback3" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2210,7 +2210,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-fallback2"></script>
+<script src="/assets/app.js?v=20260905-fallback3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2314,7 +2314,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback3" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2347,7 +2347,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-fallback2"></script>
+<script src="/assets/app.js?v=20260905-fallback3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
