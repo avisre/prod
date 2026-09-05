@@ -6,11 +6,14 @@ name: Deploy to Render
 # waiting for a notification that never arrived. This calls Render's API
 # directly instead, so a push to main deploys on its own.
 #
-# Commits whose message contains [skip ci] never reach this workflow: GitHub
-# skips workflow runs for them. That is load-bearing, not incidental — the
-# weekly fundamentals refresh commits ~500 JSON files to main with [skip ci],
-# and redeploying for a data commit would restart production and throw away
-# every warm cache (asset profiles, 12h fundamentals) for no benefit.
+# The weekly fundamentals refresh MUST deploy, which is why its commit no longer
+# carries [skip ci] (GitHub skips workflow runs for those). The store under
+# frontend/data/fundamentals/ is read from the deployed filesystem, so refreshed
+# data reaches production only by shipping a new build — without this the site
+# would serve whatever numbers were current at the last manual deploy.
+#
+# The restart that comes with it clears the in-memory caches, which is a real
+# cost, but it lands ~00:30 UTC Sunday when traffic is lowest.
 
 on:
   push:

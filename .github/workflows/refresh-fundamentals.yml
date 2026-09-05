@@ -83,5 +83,9 @@ jobs:
       - name: Commit + push to main
         if: env.no_changes != 'true'
         run: |
-          git commit -m "data: refresh fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ)) [skip ci]"
+          # No [skip ci] here on purpose. The fundamentals store is served from
+          # the deployed filesystem, so refreshed data only reaches production
+          # via a deploy — skipping CI would leave the site on last week's
+          # numbers indefinitely. This push is what triggers deploy-render.yml.
+          git commit -m "data: refresh fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ))"
           git push origin main
