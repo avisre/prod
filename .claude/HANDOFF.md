@@ -1,6 +1,6 @@
 # Handoff
 
-## Listing v5: one meter, and the code now backs it — LOCAL, NOT DEPLOYED (9/6)
+## Listing v5: one meter, and the code now backs it — **DEPLOYED LIVE** (9/6)
 
 `docs/growth/appsumo-listing-v5.md` (v4 marked superseded). Dossier and Monitor get a
 section each; **credits are priced in reports** (100/300/800 = 10/30/80 dossiers or
@@ -35,13 +35,28 @@ unbuyable promises: Deep Dossier pricing and the `$14.99/150 credits` top-up lin
 Stamp `20260905-fallback3` → **`20260906-credits1`**, 91 occurrences, 44 files.
 Suite **452/453** (`social-compose` selenium import, pre-existing).
 
-**OWNER, in this order:** (1) deploy — `.github/workflows/deploy-render.yml` still 404s on
-`POST /v1/services/srv-d4kc6schg0os73al6t10/deploys`, so it's manual; (2) *then* email
-William the tier spec (credits 100/300/800 + cost table + Monitor 1/4/8) — sending before
-the deploy claims what prod refuses; the "Uses AI: No" flag email is independent, send now;
-(3) set `STRIPE_PRICE_ID_CREDITS_TOPUP` to re-enable the top-up line. Replies still owed to
-Kris (Monitor) and Gattomorto (his three asks — market-cap filter, multi-portfolio, CSV
-import with date/qty/price — are all already shipped).
+**Deployed** as `b716edaf` + `e46e6613` (owner triggered it manually in Render; verified on
+prod — stamp `20260906-credits1`, `/appsumo` shows 100/300/800 credits and 1/4/8, the new
+tagline and `llms.txt` are live). **The tier-spec email to William is now unblocked.**
+
+**The auto-deploy is still broken, and now we know why.** The workflow's `curl -f` was
+hiding the body; it now prints it. The key is fine and can see `srv-…6t10 prod` — Render's
+own reply is `{"message":"not found: https://api.github.com/repositories/1105594471"}`,
+i.e. **Render cannot reach the GitHub repo** for API-triggered deploys (1105594471 =
+`avisre/prod`). Fix is in Render/GitHub, not in code: reconnect the repo on the service
+(Settings → Build & Deploy → Repository) or grant Render's GitHub App access at
+github.com/settings/installations. Owner-only — interactive OAuth.
+
+**`avisre/prod` is PUBLIC** (`gh api repos/avisre/prod --jq .private` → `false`), against
+HANDOFF's 9/3 "repo verified back to private". `backend/ai-client.js`,
+`ollama-usage-tracker.js` and `CLAUDE.md` are tracked and name the provider, so the trade
+secret CLAUDE.md protects is world-readable while this stands. Not changed by me — flipping
+repo visibility is the owner's call.
+
+**Still owner-only:** the two William emails (the "Uses AI: No" flag one is independent),
+`STRIPE_PRICE_ID_CREDITS_TOPUP` on Render to re-enable the top-up line, and replies to Kris
+(Monitor) and Gattomorto (his three asks — market-cap filter, multi-portfolio, CSV import
+with date/qty/price — are all already shipped).
 
 **This file is 540+ lines against CLAUDE.md's 160 cap and needs a trim.**
 
