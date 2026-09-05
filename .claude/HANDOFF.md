@@ -1,5 +1,50 @@
 # Handoff
 
+## Listing v5: one meter, and the code now backs it — LOCAL, NOT DEPLOYED (9/6)
+
+`docs/growth/appsumo-listing-v5.md` (v4 marked superseded). Dossier and Monitor get a
+section each; **credits are priced in reports** (100/300/800 = 10/30/80 dossiers or
+20/60/160 monitor reports) because "100 credits" told a buyer nothing. Driven by Alex
+(T1→T2, 9/4: "clarify the credits on the AppSumo website, rather than the questions
+limit"; "report first, then chat") and Kris (8/30: "the true value lies in the dossier and
+filing monitor reports").
+
+**The bug the listing would have shipped:** Ask was metered twice. `credits.spend` debited
+the wallet at `app.js:7530/:7557` while `effectiveAskLimit` hard-stopped Ask at 30/100/300
+— so v4's "100 credits, Ask costs 2" overstated Starter by 67%. Now an **OR-gate**
+(`app.js:7452`): allowed when `credits.check().ok` **or** the counter is under cap. Every
+tier widens (T1 30→up to 50 Asks), nobody loses the floor they own, and non-LTD plans are
+unaffected because their wallet is exactly 2× their Ask limit.
+**Also caught: v4 line 99 said "unlimited companies"** — no tier grants that
+(`lib/tier-limits.js` = 12/40/unlimited, live page = 1/4/8). v5 publishes 1/4/8.
+
+**`backend/test/credit-meter-truth.test.js` (new, 5 tests)** is the guard: it asserts the
+OR-gate is still in `app.js`, that the listing document's tables equal `credits.js`
+(wallet, derived report counts, per-action costs, and that the worked example sums to 300),
+that "unlimited companies" never returns, and that the listing never prices Deep Dossier
+while `dossier.js` can't request it. It failed on my own first draft of the copy.
+
+**Site aligned:** `appsumo.html` (credits + 1/4/8 kept), `index.html` pricing cards carry
+each plan's allowance, tagline → "Detailed research reports on stocks, built from real SEC
+data." (Alex's words; 6 sites + `anon-ask-trial` pin), `llms.txt` report-first,
+`ask.html`/`profile.js` show credits — killing the "0 / 30 Ask questions used this month"
+line Alex named. `/api/ai/chat/quota` gained an additive `credits` + `cost` block.
+Pre-spend cost now shows on dossier and monitor **before** the click. Removed two
+unbuyable promises: Deep Dossier pricing and the `$14.99/150 credits` top-up link
+(prod returns `TOPUP_UNAVAILABLE` until the Render env var is set).
+Stamp `20260905-fallback3` → **`20260906-credits1`**, 91 occurrences, 44 files.
+Suite **452/453** (`social-compose` selenium import, pre-existing).
+
+**OWNER, in this order:** (1) deploy — `.github/workflows/deploy-render.yml` still 404s on
+`POST /v1/services/srv-d4kc6schg0os73al6t10/deploys`, so it's manual; (2) *then* email
+William the tier spec (credits 100/300/800 + cost table + Monitor 1/4/8) — sending before
+the deploy claims what prod refuses; the "Uses AI: No" flag email is independent, send now;
+(3) set `STRIPE_PRICE_ID_CREDITS_TOPUP` to re-enable the top-up line. Replies still owed to
+Kris (Monitor) and Gattomorto (his three asks — market-cap filter, multi-portfolio, CSV
+import with date/qty/price — are all already shipped).
+
+**This file is 540+ lines against CLAUDE.md's 160 cap and needs a trim.**
+
 ## Bots: server-side block built then reverted same day (9/5)
 
 Built `backend/bot-blocker.js` (403 all bots except Google/Bing, 4-layer

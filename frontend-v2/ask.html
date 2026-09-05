@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260905-fallback3" />
+  <link rel="stylesheet" href="assets/system.css?v=20260906-credits1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -347,7 +347,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260905-fallback3"></script>
+  <script src="assets/app.js?v=20260906-credits1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -1044,7 +1044,9 @@
           const r = await fetch(`${API}/ai/chat/quota`, { headers: { Authorization: `Bearer ${token()}` } });
           if (r.ok) {
             const q2 = await r.json();
-            mini.textContent = `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} left${q2.pro ? ' · Pro' : ''}`;
+            mini.textContent = (q2.credits && q2.cost)
+              ? `${q2.credits.remaining} of ${q2.credits.allowance} AI credits left · a question costs ${q2.cost.ask}${q2.pro ? ' · Pro' : ''}`
+              : `${Math.max(0, q2.limit - q2.used)} of ${q2.limit} left${q2.pro ? ' · Pro' : ''}`;
             if (q2.appsumo && q2.appsumo.isAppSumo && Number(q2.used) === 0) {
               $('appsumo-activation').hidden = false;
             }

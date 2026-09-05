@@ -20,12 +20,15 @@ test('AppSumo landing page states the verified tier prices, Monitor caps and Ask
   // are grandfathered at 12/40/unlimited, and while that cutover is unset the
   // code over-delivers against this copy. Over-delivery is the safe direction;
   // the reverse (promising more than the tier gives) is what must never ship.
-  // Ask stays a listed allowance per tier.
   for (const cap of ['1 company', '4 companies', '8 companies']) {
     assert.match(html, new RegExp(`<strong>${cap}</strong>\\s*watched by the Filing Monitor`));
   }
-  for (const limit of ['30', '100', '300']) {
-    assert.match(html, new RegExp(`${limit} Ask questions / month`));
+  // The meter is AI credits, not Ask counts (listing v5 — customers could not tell
+  // what an Ask-count tier actually bought them). These allowances are
+  // LTD_CREDIT_ALLOWANCE in backend/credits.js; credit-meter-truth.test.js is what
+  // keeps them in step with the published listing and with what Ask will serve.
+  for (const allowance of ['100', '300', '800']) {
+    assert.match(html, new RegExp(`${allowance} AI credits / month`));
   }
   assert.match(html, /AppSumo[^<]{0,80}live listing[^<]{0,120}final (authority|deal terms)/i);
 });

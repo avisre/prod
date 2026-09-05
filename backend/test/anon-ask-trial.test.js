@@ -74,7 +74,7 @@ test('Homepage leads with Dossier + Monitor — Ask is NOT the primary marketing
     assert.ok(!/hero-actions[\s\S]{0,600}?href="\/ask\.html/.test(html), 'no Ask CTA in the hero');
     // the hero leads with the dossier CTA and the monitor CTA
     const hero = html.match(/<section class="hero">[\s\S]*?<\/section>/)[0];
-    assert.match(hero, /<h1 class="display">The report, not a chat\.<\/h1>/);
+    assert.match(hero, /<h1 class="display">Detailed research reports on stocks, built from real SEC data\.<\/h1>/);
     assert.match(hero, /href="\/dossier\.html"/);
     assert.match(hero, /href="\/monitor"/);
     // the email-rung verify link still lands here and is still handled

@@ -675,6 +675,20 @@
     if (/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie)) {
       const note = $('mon-free-note');
       if (note) note.hidden = true;
+      // Replace the anonymous pitch with what the next report actually costs.
+      (async () => {
+        const el = $('mon-credit-line');
+        if (!el) return;
+        try {
+          const r = await fetch(`${API}/credits`, { headers: auth() });
+          if (!r.ok) return;
+          const c = await r.json();
+          const cost = (c.cost && c.cost.monitor) || 5;
+          if (!Number.isFinite(c.remaining)) return;
+          el.textContent = `A change brief costs ${cost} credits — you have ${c.remaining} left.`;
+          el.hidden = false;
+        } catch (_) { /* silence beats a wrong number */ }
+      })();
     }
     wireAutocomplete();
     const sym = new URLSearchParams(window.location.search).get('symbol');

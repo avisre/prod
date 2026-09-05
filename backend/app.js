@@ -2069,7 +2069,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260906-credits1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2098,7 +2098,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-fallback3"></script>
+<script src="/assets/app.js?v=20260906-credits1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2182,7 +2182,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260906-credits1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2210,7 +2210,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-fallback3"></script>
+<script src="/assets/app.js?v=20260906-credits1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2314,7 +2314,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260905-fallback3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260906-credits1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2347,7 +2347,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260905-fallback3"></script>
+<script src="/assets/app.js?v=20260906-credits1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -7449,15 +7449,31 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
     try {
         const userId = portfolioOwnerId(req);
         const limit = effectiveAskLimit(req);
-        const used = await aiChat.getUsage(userId);
-        if (used >= limit) {
+        const planId = req.subscription && req.subscription.planId;
+        // Two meters, one door. The AppSumo listing sells AI credits, so the wallet has to
+        // be able to buy an Ask; the per-tier Ask counter stays underneath as a floor, so a
+        // buyer who spends their credits on Dossiers never loses questions they already
+        // own. For every non-LTD plan the wallet is exactly 2x the Ask limit (see
+        // credits.allowance), so this is a no-op for them — it only unlocks the lifetime
+        // wallets the listing advertises.
+        //
+        // Both reads fail open (0 on a DB blip). That is deliberate and symmetric: an
+        // outage widens this gate, it never locks a paying user out.
+        const [used, gate] = await Promise.all([
+            aiChat.getUsage(userId),
+            credits.check(userId, 'ask', limit, planId, req.user && req.user.appsumoTier)
+        ]);
+        if (!gate.ok && used >= limit) {
             const resp = {
                 message: isProUser(req)
-                    ? `You've used all ${limit} Ask queries this month — the counter resets on the 1st.`
+                    ? `You've used all ${gate.allowance} AI credits this month — they reset on the 1st.`
                     : `You've used your ${limit} Ask queries this month. Upgrade for ${aiChat.limits(req.tier === 'free' ? 'core' : 'pro')} a month.`,
                 // tier lets the client render the right upgrade ladder even when
                 // AI_CHAT_*_LIMIT env overrides make limit→tier inference ambiguous
-                code: 'ASK_QUOTA', tier: req.tier === true ? 'pro' : req.tier, quota: { used, limit, remaining: 0 }
+                code: 'ASK_QUOTA', tier: req.tier === true ? 'pro' : req.tier, quota: { used, limit, remaining: 0 },
+                // The wallet is what actually ran out here — give the client the numbers
+                // it needs to say so without a second round-trip to /api/credits.
+                credits: { used: gate.used, allowance: gate.allowance, remaining: gate.remaining, needed: gate.cost, resetsAt: gate.resetsAt }
             };
             // AppSumo tier 1/2 buyers aren't stuck at the cap — they can raise their
             // monthly Ask limit by upgrading their license. Surface a real link so
@@ -7470,7 +7486,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                     upgradeUrl = appsumoUpgradeUrl(lic);
                 } catch (_) { /* fall back to account page */ }
                 resp.appsumo = { isAppSumo: true, tier: asTier, upgradeUrl };
-                resp.message = `You've used all ${limit} Ask questions this month on your AppSumo plan. Upgrade your AppSumo license for a higher monthly limit — or wait for the reset on the 1st.`;
+                resp.message = `You've used all ${gate.allowance} AI credits this month on your AppSumo plan. Upgrade your AppSumo license for more credits each month — or wait for the reset on the 1st.`;
             }
             return res.status(429).json(resp);
         }
@@ -8146,6 +8162,19 @@ app.get('/api/ai/chat/quota', authMiddleware, async (req, res) => {
         const limit = effectiveAskLimit(req);
         const used = await aiChat.getUsage(portfolioOwnerId(req));
         const out = { used, limit, remaining: Math.max(0, limit - used), pro: isProUser(req), tier: req.tier };
+        // The listing meters in AI credits, so the Ask UI has to be able to show the
+        // meter the buyer was actually sold — a customer told us in writing that the
+        // "0 / 30 Ask questions" counter was what confused him. Additive only: used,
+        // limit and remaining keep their shape for clients still on a cached bundle.
+        try {
+            const bal = await credits.balance(
+                portfolioOwnerId(req), limit,
+                req.subscription && req.subscription.planId,
+                req.user && req.user.appsumoTier
+            );
+            out.credits = { used: bal.used, allowance: bal.allowance, remaining: bal.remaining, resetsAt: bal.resetsAt };
+            out.cost = credits.COST;
+        } catch (_) { /* the Ask counter above is enough to render the page */ }
         // AppSumo lifetime buyers: expose tier + a real upgrade link so the UI can
         // offer "Upgrade your AppSumo license" at the cap instead of a dead end.
         if (req.user && req.user.appsumoLicenseKey) {

@@ -1,6 +1,11 @@
 # AppSumo listing v4 — report-first, credit-metered
 
-> **STATUS: DRAFT. NOTHING SUBMITTED.** Owner reviews and approves before a single
+> **STATUS: SUPERSEDED by `appsumo-listing-v5.md` (2026-09-06).** Kept for the customer
+> quotes and the v3→v4 rationale. v5 gives Dossier and Monitor a section each, prices the
+> credits in reports, fixes the "unlimited companies" claim (tiers cap at 1/4/8) and drops
+> the unreachable Deep Dossier row. **Nothing submitted from either version.**
+>
+> Original status: DRAFT. NOTHING SUBMITTED. Owner reviews and approves before a single
 > field is changed. Supersedes `appsumo-listing-ai-tool-reframe.md` (v3), whose
 > feature order put Ask first — written before we had customer evidence saying the
 > opposite.

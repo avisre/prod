@@ -14,18 +14,20 @@ stockportfolio.pro is a web-based equity research and portfolio tool for long-te
 ## Paid product
 
 - [Landing page](https://www.stockportfolio.pro/): product overview and pricing.
-- [Ask — the AI analyst](https://www.stockportfolio.pro/ask): ask anything about any US-listed company; every figure in the answer comes from SEC filings with sources shown (Pro plan).
+- [Research Dossier](https://www.stockportfolio.pro/dossier.html): the full report on any covered US-listed company — decision brief, filed trajectory, segments, valuation including a reverse-DCF, bull and bear case, risks. Same twelve sections for every company, every figure cited to its SEC filing.
+- [Filing Change Monitor](https://www.stockportfolio.pro/monitor): when a new 10-K, 10-Q or 8-K lands, what changed against the previous filing of the same form — risk-factor edits, guidance language, the numbers that moved — quoted verbatim with EDGAR links, ranked by materiality.
+- [Ask — follow-up questions](https://www.stockportfolio.pro/ask): ask anything about any US-listed company; every figure in the answer comes from SEC filings with sources shown. The follow-up to a report, not the main product.
 - [Company workspace](https://www.stockportfolio.pro/company?symbol=AAPL): interactive view — up to 19 years of income statement, balance sheet and cash flow, 48 quarters, ratios, ownership, business segments from 10-Ks.
 - [Register](https://www.stockportfolio.pro/register): pricing and signup.
 
 ## Pricing
 
 - Free: screener, /stocks pages, and demo — no account.
-- Monthly: $24.99/month — full research library, portfolio tracker, 50 Ask questions a month.
-- Annual: $199.99/year (two months free vs monthly).
-- Pro: $499.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
-- Desk: $1,999.99/year — Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
-- Credit top-ups: $14.99 for 150 credits.
+- One meter: AI credits. A Research Dossier costs 10, a Filing Monitor report 5, a comparison 5, a follow-up question 2.
+- Monthly: $24.99/month — full research library, portfolio tracker, 100 AI credits a month (10 Dossiers or 20 Filing Monitor reports, or 50 Ask questions).
+- Annual: $199.99/year (two months free vs monthly), same 100 AI credits a month.
+- Pro: $499.99/year — 600 AI credits a month, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
+- Desk: $1,999.99/year — 10,000 AI credits a month; Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Cancel anytime.
 
 ## Key features

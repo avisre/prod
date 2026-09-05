@@ -93,7 +93,7 @@
         if (costEl) {
             const parts = [`Ask a question ${cost.ask ?? 2}`];
             if (hasMonitor) parts.push(`Monitor report ${cost.monitor ?? 5}`);
-            parts.push(`Dossier ${cost.dossier_standard ?? 10}`, `Deep Dossier (3-year) ${cost.dossier_deep ?? 30}`);
+            parts.push(`Dossier ${cost.dossier_standard ?? 10}`, `Compare ${cost.dossier_compare ?? 5}`);
             costEl.textContent = parts.join(' · ') + '. Re-opening anything you’ve already run is free.';
         }
 
@@ -350,9 +350,15 @@
                     upgradeEl.hidden = false;
                 }
             }
-            quotaEl.textContent = Number.isFinite(quota.limit)
-                ? `${quota.used || 0} / ${quota.limit} Ask questions used this month`
-                : '';
+            // One meter, and it is the one the listing sells. A Tier 1 buyer wrote in
+            // on 4 Sep — "on the profile usage page, it still says 0 / 30 Ask questions
+            // used this month, which is why I was confused" — while his plan had just
+            // moved to a 100-credit wallet. Fall back to the Ask counter only when an
+            // older server doesn't return the credit block.
+            const wallet = quota.credits;
+            quotaEl.textContent = (wallet && Number.isFinite(wallet.allowance) && wallet.allowance > 0)
+                ? `${wallet.used} / ${wallet.allowance} AI credits used this month`
+                : (Number.isFinite(quota.limit) ? `${quota.used || 0} / ${quota.limit} Ask questions used this month` : '');
             // Lifetime tiers now include the Filing Change Monitor, capped to a
             // company count by tier; a monthly Pro subscription still does not.
             // The cap is resolved SERVER-side (lib/tier-limits.js monitorCapLabel)
@@ -372,7 +378,7 @@
                     ? 'Includes screener, comparison and portfolio tracking. Upgrade to Pro for Ask, Dossier and filing key points.'
                     : 'Upgrade for Ask, Dossier, screener and portfolio tracking.';
             if (quota.appsumo && quota.appsumo.isAppSumo) {
-                upgradeEl.innerHTML = `Need more Ask questions? <a href="${esc(quota.appsumo.upgradeUrl)}">Upgrade your AppSumo license →</a>`;
+                upgradeEl.innerHTML = `Need more credits each month? <a href="${esc(quota.appsumo.upgradeUrl)}">Upgrade your AppSumo license →</a>`;
                 upgradeEl.hidden = false;
             } else {
                 upgradeEl.hidden = true;

@@ -962,6 +962,20 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     } catch (_) { /* leave the line up on any session hiccup */ }
   })();
 
+  // What this click will cost, BEFORE it is clicked. Until now the only credit
+  // signal on this page was the 402 wall after the spend had already failed.
+  (async () => {
+    const el = document.getElementById('dos-credit-line');
+    if (!el || !token()) return;
+    try {
+      const r = await fetch(`${API}/credits`, { headers: auth() });
+      if (!r.ok) return;
+      const c = await r.json();
+      if (!Number.isFinite(c.remaining)) return;
+      el.textContent = `You have ${c.remaining} left. `;
+    } catch (_) { /* the static costs above are still true */ }
+  })();
+
   const initial = new URLSearchParams(location.search).get('symbol');
   if (initial) { $('dos-sym').value = initial.toUpperCase(); run(initial, false); }
 })();
