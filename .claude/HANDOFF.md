@@ -1,6 +1,12 @@
 # Handoff
 
-## Listing v5: one meter, and the code now backs it — **DEPLOYED LIVE** (9/6)
+## Listing v5: PRODUCT deployed, **AppSumo listing still UNCHANGED** (9/6)
+
+**Read this first:** the code and stockportfolio.pro are live with the credit meter. The
+**AppSumo listing itself has not been touched** — same Ask-count tiers, same 4 original
+1920x1080 images, same "Best for: Small businesses", same "Uses AI: No". Changing it means
+editing the portal draft and submitting it, which only the owner can do. Do not assume any
+listing change has shipped.
 
 `docs/growth/appsumo-listing-v5.md` (v4 marked superseded). Dossier and Monitor get a
 section each; **credits are priced in reports** (100/300/800 = 10/30/80 dossiers or
