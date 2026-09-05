@@ -5,7 +5,9 @@
       "Bash(git grep *)",
       "mcp__claude_ai_Gmail__search_threads",
       "mcp__claude_ai_Gmail__get_thread",
-      "Bash(git -C /Users/drasharaghavan/prod log --oneline -6)"
+      "Bash(git -C /Users/drasharaghavan/prod log --oneline -6)",
+      "Bash(gh secret set:*)",
+      "Bash(gh secret set *)"
     ]
   }
 }
