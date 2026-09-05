@@ -1,4 +1,12 @@
-# Draft email to William (AppSumo partner team) — NOT SENT
+# Draft email to William (AppSumo partner team) — SUPERSEDED, DO NOT SEND
+
+> **Superseded 2026-09-06 by `appsumo-william-listing-v5-email.md`.** This draft asks
+> AppSumo to approve a **feature reduction** (Monitor watchlist narrowed to 1/4/8 with
+> grandfathering) and notes that such a request "may require ending the current listing
+> and creating a replacement." That reduction was never made: the code still grants
+> 12/40/unlimited and the listing publishes the 1/4/8 already shown on the live page, so
+> there is nothing to downgrade. Sending this would put the listing at risk for no gain.
+
 
 **Status: DRAFT. Do not send until (1) the v4 listing copy is ready to paste,
 (2) the code changes to enforce 1/4/8 with grandfathering are deployed, and (3)

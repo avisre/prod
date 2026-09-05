@@ -153,7 +153,27 @@ Fallback if length-limited:
 > expense-ratio data had a 100× error we couldn't reliably detect. If we can't verify it,
 > we don't ship it.
 
-## Category and tags
+## Classification — who this is for, and what it is compared against
+
+The live listing currently classifies the product as **Best for: Small businesses ·
+Solopreneurs · Businesses** and **Alternative to: Bloomberg Terminal · Koyfin ·
+SeekingAlpha**. Both are wrong in ways that cost money.
+
+**Best for.** Every buyer so far is an individual doing their own due diligence — one
+LLC among sixteen sales. "Small businesses" and "Businesses" put the listing in front of
+an audience with no use for a 10-K diff, and set up the "too limited" refund reason.
+Keep **Solopreneurs**; add **Consultants** if the taxonomy offers it (RIAs and independent
+analysts are the one professional shape that fits); drop the other two. Pick from the
+portal's own dropdown — do not invent values.
+
+**Alternative to.** Drop **Bloomberg Terminal.** It contradicts our own Limits paragraph
+five screens below it — *"If you want a market terminal, this isn't one"* — and it invites
+exactly the expectation behind the 2 Sep refund ("Product's functionality was too limited /
+Lacking Depth") from a licence that was never even redeemed. Keep **Koyfin** and
+**SeekingAlpha**: research tools individual investors genuinely compare against, and both
+comparisons we win on sourcing.
+
+**Category and tags.**
 
 - Primary category **AI** if the taxonomy allows; Finance secondary.
 - Add: `research`, `sec-filings`, `due-diligence`, `ai`, `ai-assistant`
