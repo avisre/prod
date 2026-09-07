@@ -52,7 +52,7 @@ jobs:
               "https://api.render.com/v1/logs?limit=100&direction=backward&ownerId=${OWNER}&resource=$RENDER_SERVICE&startTime=${start}&endTime=${end}" || echo 000)
             echo "page $page ($start..$end) -> $code"
             if [ "$code" != "200" ]; then head -c 400 /tmp/logs.json || true; break; fi
-            jq -r '.logs[].message' /tmp/logs.json >> /tmp/all.log 2>/dev/null || true
+            jq -r '.logs[] | "\(.timestamp) \(.message)"' /tmp/logs.json >> /tmp/all.log 2>/dev/null || true
             more=$(jq -r '.hasMore // false' /tmp/logs.json)
             next=$(jq -r '.nextEndTime // empty' /tmp/logs.json)
             echo "  hasMore=$more nextEndTime=$next"
@@ -60,7 +60,7 @@ jobs:
             end=$next
           done
           echo "--- total collected lines: $(wc -l < /tmp/all.log)"
-          echo "--- lines mentioning credits/topup/recharge/checkout:"
-          grep -i -E "topup|recharge|misconfigured|credits" /tmp/all.log | head -60 || echo "(none)"
+          echo "--- lines mentioning credits/topup/recharge/checkout (with timestamps):"
+          grep -i -E "topup|recharge|misconfigured" /tmp/all.log | head -60 || echo "(none)"
           echo "--- non-2xx http-status lines:"
           grep -E "http-status.*(4[0-9][0-9]|5[0-9][0-9])" /tmp/all.log | sort | uniq -c | sort -rn | head -25 || echo "(none)"
