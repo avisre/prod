@@ -124,6 +124,20 @@
         const holdingRow = (h) => `<tr><td class="row-head">${esc(h.name)}</td><td class="num">${fundPct(h.weight, 2)}</td></tr>`;
         const holdings = (p.topHoldings || []).map(holdingRow).join('');
         const sectors = (p.allocations && p.allocations.sectors || []).map((s) => [s.name, s.weight]);
+        // A bond fund has no sectors, so its left column collapsed to four
+        // allocation bars and left a tall gap beside the holdings pane. The
+        // filling for it was already in the payload and simply never rendered:
+        // credit quality is to a bond fund what sector exposure is to an equity
+        // one, and BND reports six rating buckets.
+        // ...but the provider's buckets are NOT a partition: BND's sum to 151.8%
+        // because a US Treasury is counted both as "US Government" and as its
+        // letter grade. Drawn as competing bars they would imply a breakdown
+        // that does not exist. The letter grades alone DO partition (99.8%), so
+        // they carry the bars and the government share is stated as the
+        // cross-cutting figure it actually is.
+        const allRatings = (p.allocations && p.allocations.bondRatings || []);
+        const govRating = allRatings.find((r) => /government/i.test(r.name));
+        const bondRatings = allRatings.filter((r) => r !== govRating).map((r) => [r.name, r.weight]);
         // Price history at four ranges, the same segmented control the equity
         // chart uses. A month needs the daily series — monthly closes give one
         // point — so 1M reads `daily` and everything longer reads `monthly`.
@@ -174,7 +188,7 @@
             <div id="fund-chart">${chartHtml}</div>
           </div>` : ''}
           <div class="fund-cols">
-            <div id="fund-left"><h3 class="title-3">Asset allocation</h3>${bars(allocation)}${sectors.length ? `<h3 class="title-3" style="margin-top:24px;">Sector exposure</h3>${bars(sectors.slice(0, 12))}` : ''}</div>
+            <div id="fund-left"><h3 class="title-3">Asset allocation</h3>${bars(allocation)}${sectors.length ? `<h3 class="title-3" style="margin-top:24px;">Sector exposure</h3>${bars(sectors.slice(0, 12))}` : ''}${bondRatings.length ? `<h3 class="title-3" style="margin-top:24px;">Credit quality</h3>${bars(bondRatings.slice(0, 12))}<p class="small faint" style="margin-top:8px;">Share of the bond holdings by issuer credit rating.${govRating ? ` Separately, ${fundPct(govRating.weight, 1)} is US government issued — that cuts across the ratings above rather than adding to them.` : ''}</p>` : ''}</div>
             <div id="fund-holdings" class="fund-holdings">
               <div id="fund-holdings-head">
                 <h3 class="title-3" id="fund-holdings-title">Top holdings</h3>

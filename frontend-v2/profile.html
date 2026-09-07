@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260907-blue1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260907-credit1" />
   <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
   <style>
     .pcard { margin-top: 18px; max-width: 720px; }
@@ -34,14 +34,39 @@
     .settings-fact-list li button { flex: none; border: 0; background: none; padding: 0 2px; cursor: pointer; color: var(--ink-3); font-size: 12px; line-height: 1.4; }
     .settings-fact-list li button:hover { color: var(--ink); }
     .settings-fact-list li.paused { opacity: 0.45; }
-    .credits-bar-track { position: relative; width: 100%; height: 10px; border-radius: 999px; background: var(--line); overflow: hidden; }
-    .credits-bar-fill { height: 100%; border-radius: 999px; background: var(--ink); transition: width .3s ease; }
-    .credits-bar-fill.is-high { background: var(--neg); }
+    .credits-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    /* Remaining is the headline because it is the number a decision is made on;
+       used is the subtotal underneath it. The panel this replaces showed used in
+       the bar, left beside it, left again in the collapsed summary and used
+       again in the plan line above — four readings of one wallet. */
+    .credits-headline { margin: 12px 0 9px; font-size: 27px; font-weight: 680; line-height: 1.1; letter-spacing: -0.015em; font-variant-numeric: tabular-nums; color: var(--ink); }
+    .credits-headline .unit { font-size: var(--text-sm); font-weight: 500; letter-spacing: 0; color: var(--ink-2); }
+    .credits-headline.is-low { color: var(--neg); }
+    /* ONE stacked bar: every feature's share of the whole wallet, unspent
+       credits as the tail. The bar it replaces was used-only, and the
+       per-feature bars beneath it were normalised to the largest row — so 24
+       and 20 credits out of 300 drew as a full bar next to an 83% one. */
+    .credits-bar-track { position: relative; display: flex; width: 100%; height: 12px; border-radius: 999px; background: var(--line); overflow: hidden; }
+    .credits-seg { height: 100%; min-width: 2px; transition: width .3s ease; }
+    .credits-seg + .credits-seg { box-shadow: inset 1px 0 0 var(--surface); }
+    .credits-seg-ask { background: var(--ink); }
+    .credits-seg-dossier { background: var(--accent); }
+    .credits-seg-monitor { background: var(--ink-3); }
+    .credits-seg-other { background: var(--line-strong); }
     .credits-low { margin: 10px 0 0; color: var(--ink-2); }
     .credits-low a { color: var(--accent-ink); font-weight: 600; }
-    .credits-split-row { display: grid; grid-template-columns: 68px 1fr 74px; align-items: center; gap: 10px; margin-top: 8px; }
-    .credits-split-track { position: relative; height: 8px; border-radius: 999px; background: var(--line); overflow: hidden; }
-    .credits-split-fill { height: 100%; border-radius: 999px; background: var(--ink-3); }
+    .credits-wallet, .credits-pace { margin: 10px 0 0; color: var(--ink-2); }
+    .credits-wallet a { color: var(--accent-ink); font-weight: 600; }
+    /* Breakdown: credits AND the same spend counted in the units people think
+       in ("12 questions"), because a credit is an invented currency. */
+    .credits-breakdown { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .credits-breakdown td { padding: 5px 0; font-size: var(--text-sm); color: var(--ink-2); vertical-align: baseline; }
+    .credits-breakdown .k { display: flex; align-items: center; gap: 8px; color: var(--ink); }
+    .credits-breakdown .dot { width: 9px; height: 9px; border-radius: 3px; flex: none; }
+    .credits-breakdown .amt { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; padding-left: 16px; }
+    .credits-breakdown .unit { text-align: right; color: var(--ink-3); white-space: nowrap; padding-left: 14px; }
+    .credits-breakdown tr.total td { border-top: 1px solid var(--line); padding-top: 8px; color: var(--ink); font-weight: 650; }
+    .credits-breakdown tr.upsell td { color: var(--ink-3); }
     /* Recent activity: a fixed window showing the ~6 newest rows; older rows
        (the server still sends up to 12) are reached by scrolling inside the
        list. Shadow layers only "wake" on the scrolling edge, so the card reads
@@ -65,10 +90,21 @@
     .credits-activity-list::-webkit-scrollbar-track { background: transparent; }
     .credits-activity-list::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; border: 2px solid var(--surface); }
     .credits-activity-list::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
-    .credits-activity-list li { display: flex; justify-content: space-between; gap: 12px; padding: 9px 12px; font-size: var(--text-sm); color: var(--ink-2); border-bottom: 1px solid var(--line); }
+    /* A ledger, not a list: date, what, the movement, and the balance it left.
+       The running balance is what makes a month auditable without the reader
+       doing the arithmetic. */
+    .credits-activity-list li { display: grid; grid-template-columns: 54px minmax(0, 1fr) 62px 54px; align-items: baseline; gap: 10px; padding: 9px 12px; font-size: var(--text-sm); color: var(--ink-2); border-bottom: 1px solid var(--line); }
     .credits-activity-list li:last-child { border-bottom: 0; }
-    .credits-activity-list .amt { font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+    .credits-activity-list .what { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .credits-activity-list .amt { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink); white-space: nowrap; }
+    .credits-activity-list .amt.is-add { color: var(--pos); font-weight: 650; }
+    .credits-activity-list .bal { text-align: right; font-variant-numeric: tabular-nums; color: var(--ink-3); white-space: nowrap; }
     .credits-activity-list .when { color: var(--ink-3); white-space: nowrap; }
+    .credits-activity-head { margin-top: 18px; }
+    @media (max-width: 560px) {
+      .credits-activity-list li { grid-template-columns: 46px minmax(0, 1fr) 54px; }
+      .credits-activity-list .bal { display: none; }
+    }
     .admin-links { list-style: none; margin: 0; padding: 0; }
     .admin-links li a { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 11px 2px; border-bottom: 1px solid var(--line); color: inherit; }
     .admin-links li:last-child a { border-bottom: 0; }
@@ -118,29 +154,33 @@
               <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
 
               <div id="credits-section" hidden style="margin-top:18px; padding-top:16px; border-top:1px solid var(--line);">
-                <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap;">
-                  <p class="label" style="margin:0;">Credits this month</p>
-                  <span style="display:flex; align-items:baseline; gap:10px;">
-                    <a class="small" href="/recharge.html">Recharge &rarr;</a>
-                    <span class="small muted" id="credits-reset"></span>
-                  </span>
+                <div class="credits-head">
+                  <p class="label" style="margin:0;">AI credits</p>
+                  <span class="small muted" id="credits-reset"></span>
                 </div>
-                <div style="display:flex; justify-content:space-between; align-items:baseline; margin-top:8px; gap:12px;">
-                  <span class="small" id="credits-used-label" style="font-weight:650;"></span>
-                  <span class="small muted" id="credits-remaining-label"></span>
-                </div>
-                <div class="credits-bar-track" style="margin-top:6px;">
-                  <div class="credits-bar-fill" id="credits-bar-fill" style="width:0%;"></div>
-                </div>
+
+                <p class="credits-headline" id="credits-headline"></p>
+
+                <!-- Segments are written by profile.js from the server-side
+                     breakdown, so the bar IS the split rather than a second
+                     chart that can disagree with it. -->
+                <div class="credits-bar-track" id="credits-bar"></div>
+
                 <p class="small credits-low" id="credits-low" hidden></p>
 
-                <div id="credits-breakdown" hidden style="margin-top:16px;"></div>
+                <table class="credits-breakdown" id="credits-breakdown" hidden></table>
 
-                <p class="small muted" id="credits-cost-line" style="margin:14px 0 0;"></p>
+                <p class="small credits-wallet" id="credits-wallet"></p>
+                <p class="small credits-pace" id="credits-pace" hidden></p>
+                <p class="small muted" id="credits-cost-line" style="margin:12px 0 0;"></p>
 
-                <div id="credits-activity-wrap" hidden style="margin-top:16px;">
-                  <p class="label" style="margin:0 0 0;">Recent activity</p>
+                <div id="credits-activity-wrap" hidden>
+                  <div class="credits-head credits-activity-head">
+                    <p class="label" style="margin:0;">Activity</p>
+                    <span class="small muted" id="credits-activity-meta"></span>
+                  </div>
                   <ul class="credits-activity-list" id="credits-activity-list"></ul>
+                  <button type="button" class="btn btn-ghost btn-sm" id="credits-activity-more" hidden style="margin-top:10px;">Show the whole month</button>
                 </div>
               </div>
             </div>
@@ -226,7 +266,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260907-blue1"></script>
+  <script src="assets/app.js?v=20260907-credit1"></script>
   <script src="assets/profile.js?v=20260901-cmp1"></script>
   <script src="assets/messages.js?v=20260830-msgmodal1"></script>
 </body>

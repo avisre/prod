@@ -294,3 +294,19 @@ test('a mutual fund is identified by its family, not by a tradeable venue', () =
     assert.equal(source.includes("[symbol, p.assetTypeLabel, p.category, p.exchange]"), false);
 });
 
+
+test('a bond fund renders credit quality where an equity fund renders sectors', () => {
+    const source = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'assets', 'company.js'), 'utf8');
+    // BND reports 0 sectors and 6 rating buckets. The ratings were computed in
+    // asset-profile and thrown away by the page, so the left column collapsed to
+    // four allocation bars and left a tall gap beside the holdings pane.
+    assert.ok(source.includes('p.allocations.bondRatings'));
+    assert.ok(source.includes('Credit quality'));
+    // The provider's buckets are not a partition — BND's sum to 151.8% because a
+    // US Treasury counts as both "US Government" and its letter grade. Only the
+    // letter grades (99.8%) may be drawn as bars.
+    assert.ok(source.includes("const govRating = allRatings.find((r) => /government/i.test(r.name));"));
+    assert.ok(source.includes('cuts across the ratings above rather than adding to them'));
+    const profile = fs.readFileSync(path.join(__dirname, '..', 'asset-profile.js'), 'utf8');
+    assert.ok(profile.includes('bondRatings: normalizeWeights(th.bondRatings)'));
+});

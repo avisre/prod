@@ -198,9 +198,15 @@ function allowance(effectiveAskLimit, planId, appsumoTierOrUser) {
 
 async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser) {
     const spent = await used(userId);
-    // Plan allowance plus any purchased top-ups still inside this month.
-    const limit = allowance(effectiveAskLimit, planId, appsumoTierOrUser) + await granted(userId);
-    return { used: spent, allowance: limit, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
+    // Plan allowance plus any purchased top-ups still inside this month. The
+    // two halves are returned as well as their sum: a recharge silently
+    // inflating `allowance` left the profile meter unable to say that 150 of
+    // the wallet was bought rather than granted by the plan, so a $14.99
+    // purchase had no visible receipt anywhere in the product.
+    const plan = allowance(effectiveAskLimit, planId, appsumoTierOrUser);
+    const purchased = await granted(userId);
+    const limit = plan + purchased;
+    return { used: spent, allowance: limit, plan, purchased, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
 }
 
 // Never throws: a failed ledger write must not undo an answer already shown
@@ -244,4 +250,24 @@ async function recentActivity(userId, limit = 12) {
     } catch (_) { return []; }
 }
 
-module.exports = { COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, isCreditAllowanceV2Cohort, creditAllowanceV2EffectiveFrom, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity };
+// Complete per-feature totals for the current month, in one aggregate over the
+// whole ledger. The profile page used to derive this client-side by summing
+// recentActivity()'s capped rows, which meant the breakdown VANISHED for anyone
+// past the cap - precisely the users with a month worth breaking down. This has
+// no cap, so the split is always complete and always adds up to used().
+//
+// Positive rows (top-ups) are included rather than filtered: the caller renders
+// those as credits added, and a reason whose delta is > 0 is never usage.
+async function monthBreakdown(userId) {
+    try {
+        const rows = await ledgerCol().aggregate([
+            { $match: { userId: String(userId), month: monthKey() } },
+            { $group: { _id: '$reason', delta: { $sum: '$delta' }, count: { $sum: 1 } } }
+        ]).toArray();
+        const out = {};
+        for (const r of rows) out[String(r._id || 'other')] = { delta: r.delta, count: r.count };
+        return out;
+    } catch (_) { return {}; }   // same fail-open as used(): a DB blip hides the split, not the page
+}
+
+module.exports = { COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, isCreditAllowanceV2Cohort, creditAllowanceV2EffectiveFrom, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };

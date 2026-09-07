@@ -819,6 +819,11 @@
 
     function activityLabel(reason, refId) {
         if (reason === 'ask') return 'Ask question';
+        // Top-ups are positive ledger rows. With no case here they fell through
+        // to 'Credit use' and rendered as "−0 credits" — a $14.99 recharge
+        // showing up in the ledger as a zero-credit debit. refId is the Stripe
+        // session id, so it is deliberately not surfaced.
+        if (reason === 'topup') return 'Recharge — credits added';
         if (reason === 'monitor') return refId ? `Monitor report: ${refId}` : 'Monitor report';
         if (reason === 'dossier') {
             const [symbol, depth] = String(refId || '').split(':');
