@@ -1287,7 +1287,8 @@
     // buy-once-never-change: there is no trade UI anywhere, by design.
     let aiPaperBeta = null;    // probe result { state, gurus }; null = feature off
     let aiPaperView = false;   // the switcher is showing the experiment view
-    let aiPaperPoll = null;    // 5s detail poll while status === 'building'
+    let aiPaperPoll = null;    // 2.5s detail poll while status === 'building'
+    let aiPaperFeedSeen = 0;   // buildLog lines already rendered (poll dedupe)
 
     async function probeAiPaper() {
         if (DEMO) return;
@@ -1348,28 +1349,44 @@
         if (detail.portfolio.status === 'building') startAiPaperPoll();
     }
 
-    // Poll every 5s only while a build is in flight; the first response that
-    // leaves 'building' renders the outcome and stops the clock.
+    // Poll every 2.5s only while a build is in flight; each response appends
+    // only the buildLog lines not shown yet (dedupe by index), and the first
+    // response that leaves 'building' renders the outcome and stops the clock.
     function startAiPaperPoll() {
         if (aiPaperPoll) return;
         aiPaperPoll = setInterval(async () => {
             const detail = await fetchAiPaperDetail();
             if (!detail) return;
-            if (!detail.exists || detail.portfolio.status !== 'building') {
+            const p = detail.portfolio || {};
+            if (!detail.exists || (p.status !== 'building')) {
                 stopAiPaperPoll();
                 renderAiPaperDetail(detail);
-            } else if (!$('ai-pf-progress')) {
+                return;
+            }
+            if (!$('ai-pf-progress')) {
                 renderAiPaperDetail(detail); // first frame: lay out the building state
             }
-        }, 5000);
+            const log = Array.isArray(p.buildLog) ? p.buildLog : [];
+            const box = $('ai-pf-progress');
+            if (box) {
+                for (let i = aiPaperFeedSeen; i < log.length; i++) {
+                    const line = document.createElement('div');
+                    line.textContent = log[i];
+                    box.appendChild(line);
+                }
+                aiPaperFeedSeen = log.length;
+            }
+        }, 2500);
     }
 
     function stopAiPaperPoll() {
         if (aiPaperPoll) { clearInterval(aiPaperPoll); aiPaperPoll = null; }
+        aiPaperFeedSeen = 0;
     }
 
     function aiPaperBadge(p) {
         if (p.status === 'building') return '<span class="ai-badge">Building…</span>';
+        if (p.status === 'paused') return '<span class="ai-badge">Paused — nothing was bought</span>';
         if (p.status === 'failed') return '<span class="ai-badge is-neg">Build failed</span>';
         if (p.status === 'committed') return `<span class="ai-badge">Review ${Math.min(p.dayCount + 1, 2)} of 2 — nightly, advisory only, no trades</span>`;
         return '<span class="ai-badge is-ok">Tracking — portfolio fixed; reviews done</span>';
@@ -1383,11 +1400,30 @@
         if (sub) sub.textContent = `since ${new Date(p.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
 
         if (p.status === 'building') {
-            // never re-render over progress lines that are already streaming
+            // never re-render over feed lines that are already streaming
             if ($('ai-pf-progress')) return;
             body.innerHTML = `
-              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">about two minutes — the page keeps working while it builds</span></div>
-              <div class="ai-progress" id="ai-pf-progress" role="status" aria-live="polite"></div>`;
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">about two minutes — the feed below shows every research step</span></div>
+              <div class="ai-progress" id="ai-pf-progress" role="status" aria-live="polite"></div>
+              <button type="button" class="btn btn-quiet btn-sm ai-pf-pause">⏸ Pause the research</button>`;
+            const btn = body.querySelector('.ai-pf-pause');
+            if (btn) btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                btn.textContent = 'Pausing…';
+                try { await fetch(`${API}/ai-paper-portfolio/stop`, { method: 'POST', headers: auth }); } catch (_) { /* the poll picks up the pause */ }
+            });
+            return;
+        }
+
+        if (p.status === 'paused') {
+            const setup = p.setup || {};
+            const setupBits = [setup.guruId ? `guru: ${setup.guruId}` : 'two data minds', ...(Array.isArray(setup.constraints) && setup.constraints.length ? setup.constraints : [])];
+            body.innerHTML = `
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">the research stopped cleanly — nothing was bought</span></div>
+              <div class="notice"><strong>Paused by you.</strong>
+                <p>Setup was: ${esc(setupBits.join(' · '))}</p>
+                <p style="margin:10px 0 0;">Edit the setup and run it again in <a href="/ask.html?aiPaper=1&amp;q=Change%20the%20setup%20and%20run%20my%20AI%20Paper%20Portfolio%20again">Ask AI</a> — a different guru, or constraints like “avoid financials”. Nothing carries over except what you confirm.</p>
+              </div>`;
             return;
         }
 
@@ -1448,6 +1484,7 @@
                 construct: 'Construction — the one buying decision',
                 review: `Nightly review ${d.day} — advisory only`,
                 end_reviews: 'Reviews ended — tracking only from here',
+                steering: 'Owner steering — explicit change you asked for',
                 build_failed: 'Failed build'
             };
             const would = Array.isArray(d.wouldChange) && d.wouldChange.length
