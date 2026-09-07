@@ -49,6 +49,18 @@
         const n = num(value);
         return n === null ? '—' : `${(n * 100).toFixed(dp)}%`;
     }
+    // Two decimals is wrong for the one number people choose funds on. FXAIX
+    // files 0.015% and rendered as "0.01%"; FZROX files 0.00% and every cheap
+    // index fund collapsed toward the same figure. Precision follows magnitude,
+    // and trailing zeros are trimmed so 0.03% does not become "0.030%".
+    function feePct(value) {
+        const n = num(value);
+        if (n === null) return '—';
+        const p = n * 100;
+        if (p === 0) return '0.00%';
+        const dp = p >= 1 ? 2 : p >= 0.01 ? 3 : 4;
+        return `${p.toFixed(dp).replace(/(\.\d*?)0+$/, '$1').replace(/\.$/, '')}%`;
+    }
     function renderFundProfile(data) {
         const p = data.profile || {};
         const section = $('fund-section');
@@ -59,13 +71,41 @@
         });
         section.hidden = false;
         $('co-name').textContent = p.name || symbol;
-        $('co-crumb').textContent = [symbol, p.assetTypeLabel, p.category, p.exchange].filter(Boolean).join(' · ');
+        // A mutual fund is not traded on an exchange. Yahoo reports a listing
+        // venue for one anyway (FXAIX: "Nasdaq"), but you cannot buy it there —
+        // an order fills at the next NAV strike. Printing a venue beside a price
+        // implies intraday trading that does not exist, so a fund is identified
+        // by the house that runs it instead.
+        const isMutualFund = p.assetType === 'mutual_fund';
+        const venue = isMutualFund ? p.fundFamily : p.exchange;
+        $('co-crumb').textContent = [symbol, p.assetTypeLabel, p.category, venue].filter(Boolean).join(' · ');
         $('co-price').textContent = currencyAmount(p.price, p.currency, { compact: false });
-        $('co-change').textContent = p.changePercent === null ? '—' : `${p.changePercent >= 0 ? '+' : ''}${fixed(p.changePercent, 2)}% today`;
+        // ...and "today" was a lie on both kinds. A mutual fund strikes one NAV a
+        // day, so its price is ALWAYS at least a session old — FXAIX was showing
+        // a 5 September move as today's on the 7th. An ETF is no better over a
+        // weekend. Name the day unless the quote really is from today.
+        const priceDay = String(p.asOf || '').slice(0, 10);
+        const isToday = !!priceDay && priceDay === new Date().toISOString().slice(0, 10);
+        const when = isMutualFund
+            ? (isToday ? "at today's NAV" : (priceDay ? `at the ${formatAsOf(priceDay)} NAV` : 'at the last NAV'))
+            : (isToday ? 'today' : (priceDay ? `on ${formatAsOf(priceDay)}` : ''));
+        $('co-change').textContent = p.changePercent === null ? '—'
+            : `${p.changePercent >= 0 ? '+' : ''}${fixed(p.changePercent, 2)}% ${when}`.trim();
         $('co-change').className = `small num ${p.changePercent >= 0 ? 'delta-pos' : 'delta-neg'}`;
+        // The expense ratio carries its provenance because the two sources are
+        // not equally trustworthy: the filed prospectus fee table is exact,
+        // while the provider figure has been measured wrong by as much as 60x
+        // on cheap index funds. A fund with neither shows nothing.
+        const expenseNote = (profile) => {
+            if (profile.expenseRatio === null || profile.expenseRatio === undefined) return 'No filed figure available';
+            if (!profile.expenseRatioSource) return '';
+            return /^SEC/.test(profile.expenseRatioSource)
+                ? `As filed ${profile.expenseRatioAsOf || ''}`.trim()
+                : 'Provider figure';
+        };
         const stats = [
             ['Net assets', currencyAmount(p.totalAssets, p.currency)],
-            ['Expense ratio', fundPct(p.expenseRatio)], ['Yield', fundPct(p.yield)],
+            ['Expense ratio', feePct(p.expenseRatio), 'fund-expense'], ['Yield', fundPct(p.yield)],
             ['YTD return', fundPct(p.ytdReturn)], ['3-year return', fundPct(p.returns && p.returns.threeYear)],
             ['5-year return', fundPct(p.returns && p.returns.fiveYear)],
             ['3-year beta', p.beta3Year === null ? '—' : fixed(p.beta3Year, 2)],
@@ -76,21 +116,78 @@
             ['Cash', p.allocations && p.allocations.cash], ['Other', p.allocations && p.allocations.other]
         ].filter((row) => num(row[1]) !== null);
         const bars = (rows) => rows.map(([name, weight]) => `<div class="fund-bar"><span>${esc(name)}</span><span class="fund-bar-track"><span class="fund-bar-fill" style="display:block;width:${Math.max(0, Math.min(100, Number(weight) * 100))}%"></span></span><span class="num">${fundPct(weight, 1)}</span></div>`).join('');
-        const holdings = (p.topHoldings || []).map((h) => `<tr><td class="row-head">${esc(h.symbol || '—')}</td><td>${esc(h.name)}</td><td class="num">${fundPct(h.weight, 2)}</td></tr>`).join('');
+        // Name, not ticker. Form N-PORT identifies holdings by CUSIP/ISIN and
+        // carries no exchange symbol, so the ticker column could only ever be
+        // filled from the ten rows Yahoo returns — 8 of VOO's 520, measured —
+        // and the other 512 were a sticky, bold, empty column sitting in front
+        // of the name you were actually reading. The name is the row head now.
+        const holdingRow = (h) => `<tr><td class="row-head">${esc(h.name)}</td><td class="num">${fundPct(h.weight, 2)}</td></tr>`;
+        const holdings = (p.topHoldings || []).map(holdingRow).join('');
         const sectors = (p.allocations && p.allocations.sectors || []).map((s) => [s.name, s.weight]);
+        // Price history at four ranges, the same segmented control the equity
+        // chart uses. A month needs the daily series — monthly closes give one
+        // point — so 1M reads `daily` and everything longer reads `monthly`.
         const monthly = (data.monthly && data.monthly['Monthly Adjusted Time Series']) || {};
-        const points = Object.keys(monthly).sort().slice(-120).map((d) => [d, num(monthly[d]['5. adjusted close'] || monthly[d]['4. close'])]).filter((x) => x[1] !== null);
-        const chartHtml = points.length > 1 ? chart([{ values: points.map((x) => x[1]), cls: 'accent' }], points.map((x) => x[0].slice(0, 7)), { fmt: (v) => currencyAmount(v, p.currency, { compact: false, decimals: 0 }), height: 230 }) : '';
+        const daily = (data.daily && data.daily['Time Series (Daily)']) || {};
+        const seriesFor = (months) => {
+            const src = months <= 1 ? daily : monthly;
+            const keys = Object.keys(src).sort();
+            const take = months <= 1 ? 23 : (months >= 999 ? keys.length : months);
+            return keys.slice(-take)
+                .map((d) => [d, num(src[d]['5. adjusted close'] || src[d]['4. close'])])
+                .filter((row) => row[1] !== null);
+        };
+        const RANGES = [['1M', 1], ['1Y', 12], ['5Y', 60], ['Max', 999]];
+        // Time labels in the equity chart's convention: a period name written
+        // ONCE, at the point where the period turns over, rather than a raw
+        // "2021-11" stamped on every Nth index. The period itself follows the
+        // range — days inside a month, months inside a year, years beyond that —
+        // because a year label deduped across a one-year window is a single tick.
+        const axisLabels = (rows, months) => {
+            const raw = rows.map((r) => {
+                if (months <= 1) return new Date(`${r[0]}T12:00`).toLocaleString('en-US', { day: 'numeric', month: 'short' });
+                if (months <= 12) return new Date(`${r[0].slice(0, 7)}-15`).toLocaleString('en-US', { month: 'short' });
+                return r[0].slice(0, 4);
+            });
+            let seen = '';
+            return raw.map((value) => { if (value === seen) return ''; seen = value; return value; });
+        };
+        const drawChart = (months) => {
+            const rows = seriesFor(months);
+            if (rows.length < 2) return '<p class="muted">Not enough price history for this range.</p>';
+            return chart([{ values: rows.map((r) => r[1]), cls: 'accent' }],
+                axisLabels(rows, months),
+                { fmt: (v) => currencyAmount(v, p.currency, { compact: false, decimals: 0 }), height: 230 });
+        };
+        const points = seriesFor(999);
+        const chartHtml = points.length > 1 ? drawChart(60) : '';
         section.innerHTML = `
           <div class="section-head"><div><span class="label">${esc(p.assetTypeLabel || 'Fund')} research</span><h2 class="title-2" style="margin-top:5px;">Costs, composition and performance</h2></div><span class="small faint">${esc(p.fundFamily || '')}</span></div>
-          <div class="fund-grid">${stats.map(([k, v]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`).join('')}</div>
-          ${chartHtml ? `<div style="margin-top:28px;"><p class="label">Adjusted monthly price · last 10 years</p>${chartHtml}</div>` : ''}
+          <div class="fund-grid">${stats.map(([k, v, id]) => `<div class="fund-stat"><div class="k">${esc(k)}</div><div class="v"${id ? ` id="${id}"` : ''}>${esc(v)}</div>${id === 'fund-expense' ? `<div class="small faint" id="fund-expense-note" style="margin-top:3px;">${esc(expenseNote(p))}</div>` : ''}</div>`).join('')}</div>
+          ${chartHtml ? `<div style="margin-top:28px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+              <p class="label" style="margin:0;" id="fund-chart-label">Adjusted price · last 5 years</p>
+              <div class="seg" id="fund-seg-range" role="group" aria-label="Chart range">
+                ${RANGES.map(([name, months]) => `<button type="button" aria-pressed="${months === 60}" data-m="${months}">${name}</button>`).join('')}
+              </div>
+            </div>
+            <div id="fund-chart">${chartHtml}</div>
+          </div>` : ''}
           <div class="fund-cols">
-            <div><h3 class="title-3">Asset allocation</h3>${bars(allocation)}${sectors.length ? `<h3 class="title-3" style="margin-top:24px;">Sector exposure</h3>${bars(sectors.slice(0, 12))}` : ''}</div>
-            <div><h3 class="title-3">Top holdings</h3>${holdings ? `<div class="table-wrap"><table class="table-data"><thead><tr><th>Symbol</th><th>Holding</th><th>Weight</th></tr></thead><tbody>${holdings}</tbody></table></div>` : '<p class="muted">Holdings are not available from the data source for this fund.</p>'}</div>
+            <div id="fund-left"><h3 class="title-3">Asset allocation</h3>${bars(allocation)}${sectors.length ? `<h3 class="title-3" style="margin-top:24px;">Sector exposure</h3>${bars(sectors.slice(0, 12))}` : ''}</div>
+            <div id="fund-holdings" class="fund-holdings">
+              <div id="fund-holdings-head">
+                <h3 class="title-3" id="fund-holdings-title">Top holdings</h3>
+                <p class="small faint" id="fund-holdings-meta" hidden></p>
+              </div>
+              <div class="table-wrap holdings-scroll" id="fund-holdings-table" data-hbar="off"${holdings ? '' : ' hidden'}><table class="table-data"><thead><tr><th>Holding</th><th>Weight</th></tr></thead><tbody id="fund-holdings-body">${holdings}</tbody></table></div>
+              <p class="muted" id="fund-holdings-empty"${holdings ? ' hidden' : ''}>Holdings are not available from the data source for this fund.</p>
+              <p class="small faint" id="fund-holdings-count" hidden style="margin-top:8px;"></p>
+            </div>
           </div>
           <div class="card card-pad" style="margin-top:24px;" id="fund-ai-card">
             <div class="section-head"><div><span class="label">AI fund summary</span><h3 class="title-3" style="margin-top:5px;">Costs, composition, performance and risk</h3></div><button class="btn btn-primary btn-sm" id="fund-ai-btn" type="button">Generate summary</button></div>
+            <div id="fund-ai-viz" hidden></div>
             <div class="prose" id="fund-ai-body" hidden></div>
             <div id="fund-ai-share"></div>
           </div>
@@ -104,9 +201,17 @@
                 const r = await fetch(`${API}/stocks/${encodeURIComponent(symbol)}/ai-summary`, { headers: { Authorization: `Bearer ${token()}` } });
                 const result = await r.json().catch(() => ({}));
                 if (!r.ok) {
-                    body.innerHTML = r.status === 402 ? 'This summary is available on Pro. <a href="/upgrade.html">View plans →</a>' : esc(result.message || 'Could not generate the summary.');
+                    // A signed-out or expired session used to surface the raw
+                    // "Invalid token" from the API, which tells a reader nothing
+                    // and offers no way out. Send them somewhere useful instead.
+                    body.innerHTML = r.status === 402
+                        ? 'This summary is available on Pro. <a href="/upgrade.html">View plans →</a>'
+                        : (r.status === 401 || r.status === 403)
+                            ? `Your session has expired. <a href="/login.html?next=${encodeURIComponent(location.pathname + location.search)}">Sign in again →</a>`
+                            : esc(result.message || 'Could not generate the summary.');
                     body.hidden = false; return;
                 }
+                renderFundViz(result.facts);
                 body.innerHTML = markdown(result.summary || '');
                 body.hidden = false;
                 mountShare($('fund-ai-share'), { title: `${p.name || symbol} (${symbol}) fund research`, text: result.summary || '', url: location.href });
@@ -115,6 +220,181 @@
                 body.textContent = 'Network problem — please try again.'; body.hidden = false;
             } finally { button.disabled = false; if (!button.hidden) button.textContent = 'Try again'; }
         });
+        // The summary used to be one grey paragraph restating the tiles above it.
+        // These three panels answer the questions the numbers are FOR — what the
+        // fee actually costs, how the returns compare with each other, and
+        // whether "520 holdings" means the fund is really diversified — and the
+        // prose then has something to explain rather than repeat.
+        function renderFundViz(f) {
+            const host = $('fund-ai-viz');
+            if (!host || !f) return;
+            const blocks = [];
+
+            if (f.annualCostPer10k !== null && f.annualCostPer10k !== undefined) {
+                const filed = /^SEC/.test(f.expenseRatioSource || '');
+                blocks.push(`<div class="viz-block">
+                  <p class="label">What the fee costs you</p>
+                  <p class="viz-hero">${esc(money10k(f.annualCostPer10k))}<span class="viz-hero-unit"> a year per $10,000 invested</span></p>
+                  <p class="small faint">${esc(f.expenseRatioPct)}% of assets, deducted from returns rather than billed${filed ? `, as filed ${esc(f.expenseRatioAsOf || '')}` : ''}.</p>
+                </div>`);
+            }
+
+            const returns = [['YTD', f.ytdReturnPct], ['1 year', f.returnsPct && f.returnsPct.oneYear],
+                ['3 years', f.returnsPct && f.returnsPct.threeYear], ['5 years', f.returnsPct && f.returnsPct.fiveYear],
+                ['10 years', f.returnsPct && f.returnsPct.tenYear]].filter((row) => num(row[1]) !== null);
+            if (returns.length) {
+                // Bars are scaled to the largest magnitude in the set and share a
+                // zero baseline, so a negative period reads as negative instead of
+                // as a short positive bar.
+                const peak = Math.max(...returns.map((row) => Math.abs(Number(row[1]))), 1);
+                blocks.push(`<div class="viz-block">
+                  <p class="label">Reported returns · annualised beyond one year</p>
+                  ${returns.map(([name, value]) => {
+                      const v = Number(value);
+                      return `<div class="fund-bar"><span>${esc(name)}</span><span class="fund-bar-track"><span class="fund-bar-fill${v < 0 ? ' is-neg' : ''}" style="display:block;width:${(Math.abs(v) / peak * 100).toFixed(1)}%"></span></span><span class="num">${v >= 0 ? '+' : ''}${v.toFixed(2)}%</span></div>`;
+                  }).join('')}
+                  <p class="small faint">A record of what happened, not a forecast.</p>
+                </div>`);
+            }
+
+            if (f.holdingCount && num(f.top10WeightPct) !== null) {
+                const top = Number(f.top10WeightPct);
+                const rest = Math.max(0, 100 - top);
+                blocks.push(`<div class="viz-block">
+                  <p class="label">How concentrated it is</p>
+                  <div class="viz-split">
+                    <span class="viz-split-a" style="width:${top.toFixed(1)}%"></span>
+                    <span class="viz-split-b" style="width:${rest.toFixed(1)}%"></span>
+                  </div>
+                  <p class="small"><strong>${top.toFixed(1)}%</strong> in the 10 largest holdings · <strong>${rest.toFixed(1)}%</strong> spread across the other ${(f.holdingCount - 10).toLocaleString()}</p>
+                  ${f.holdingsToHalfAssets ? `<p class="small faint">Half the fund sits in its ${f.holdingsToHalfAssets} largest positions.</p>` : ''}
+                </div>`);
+            }
+
+            if (!blocks.length) return;
+            host.innerHTML = `<div class="viz-grid">${blocks.join('')}</div>`;
+            host.hidden = false;
+        }
+
+        function money10k(value) {
+            return value >= 10 ? `$${Math.round(value).toLocaleString()}` : `$${Number(value).toFixed(2).replace(/\.00$/, '')}`;
+        }
+
+        const rangeButtons = document.querySelectorAll('#fund-seg-range button');
+        rangeButtons.forEach((button) => button.addEventListener('click', () => {
+            const months = Number(button.dataset.m);
+            rangeButtons.forEach((other) => other.setAttribute('aria-pressed', other === button));
+            $('fund-chart').innerHTML = drawChart(months);
+            $('fund-chart-label').textContent = months <= 1
+                ? 'Adjusted price · last month (daily)'
+                : `Adjusted price · ${months >= 999 ? 'full history' : `last ${months / 12} years`}`;
+        }));
+
+        // A cold prospectus lookup runs past the profile route's 2.5s budget, so
+        // the number above can still be the provider's on a first visit. Asking
+        // for it again here corrects the tile on this page load instead of
+        // leaving it to the next one.
+        (async () => {
+            const cell = $('fund-expense'), note = $('fund-expense-note');
+            if (!cell || /^SEC/.test(p.expenseRatioSource || '')) return;
+            try {
+                const r = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/fees`);
+                if (!r.ok) return;
+                const filed = await r.json();
+                if (!filed || filed.expenseRatio === null || filed.expenseRatio === undefined) return;
+                cell.textContent = feePct(filed.expenseRatio);
+                if (note) {
+                    note.innerHTML = filed.sourceUrl
+                        ? `As filed ${esc(filed.filedAt || '')} · <a href="${esc(filed.sourceUrl)}" target="_blank" rel="noopener nofollow">prospectus</a>`
+                        : `As filed ${esc(filed.filedAt || '')}`;
+                }
+            } catch (_) { /* the tile keeps whatever the profile gave it */ }
+        })();
+
+        // The ten rows above are all Yahoo's topHoldings module ever returns —
+        // for every fund, not just the big ones. The complete portfolio comes
+        // from the fund's latest SEC Form N-PORT and replaces them in place as
+        // soon as it arrives, so the page is useful immediately and correct a
+        // moment later.
+        //
+        // It scrolls inside its own pane rather than growing the page to 520
+        // rows (17,409 for BND), and the pane is sized to the allocation column
+        // beside it so neither column ends in dead space. Rows load as the pane
+        // is scrolled, so the payload stays small on the huge bond funds.
+        (async () => {
+            const PAGE = 250;
+            const title = $('fund-holdings-title'), meta = $('fund-holdings-meta');
+            const body = $('fund-holdings-body'), pane = $('fund-holdings-table');
+            const empty = $('fund-holdings-empty'), footer = $('fund-holdings-count');
+            if (!body || !pane) return;
+
+            // Match the pane to the column beside it. Below the breakpoint the
+            // grid is a single column, so there is nothing to line up with and
+            // the CSS viewport cap takes over instead.
+            const fitPane = () => {
+                const left = $('fund-left'), head = $('fund-holdings-head');
+                if (!left) return;
+                if (window.matchMedia('(max-width: 700px)').matches) { pane.style.maxHeight = ''; return; }
+                const available = left.getBoundingClientRect().height -
+                    (head ? head.getBoundingClientRect().height : 0) - 30;
+                pane.style.maxHeight = `${Math.max(320, Math.round(available))}px`;
+            };
+            fitPane();
+            let resizeTimer = null;
+            window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(fitPane, 150); });
+
+            const page = async (offset) => {
+                const r = await fetch(`${API}/assets/${encodeURIComponent(symbol)}/holdings?limit=${PAGE}&offset=${offset}`);
+                return r.ok ? r.json() : null;
+            };
+            let first = null;
+            try { first = await page(0); } catch (_) { return; }
+            if (!first || !Array.isArray(first.holdings) || !first.holdings.length) return;
+
+            let total = Number(first.count) || first.holdings.length;
+            let loaded = first.holdings.length;
+            let loading = false;
+            body.innerHTML = first.holdings.map(holdingRow).join('');
+            pane.hidden = false; empty.hidden = true;
+            title.textContent = first.complete ? `All ${total.toLocaleString()} holdings` : 'Top holdings';
+            const filedNote = first.filedAt ? `, filed ${esc(first.filedAt)}` : '';
+            const link = first.sourceUrl ? `<a href="${esc(first.sourceUrl)}" target="_blank" rel="noopener nofollow">Form N-PORT</a>` : 'Form N-PORT';
+            meta.innerHTML = first.complete
+                ? `Complete portfolio as reported on ${link} for ${esc(first.asOf || 'the latest reporting period')}${filedNote}. N-PORT becomes public around 60 days after the reporting date, so trades made since are not reflected.`
+                : 'Largest positions reported by the data provider. This fund files no N-PORT, so a complete portfolio is not available.';
+            meta.hidden = false;
+            fitPane();
+
+            const sync = () => {
+                footer.hidden = false;
+                footer.textContent = loaded >= total
+                    ? `All ${total.toLocaleString()} holdings shown`
+                    : `Showing ${loaded.toLocaleString()} of ${total.toLocaleString()} — scroll for more`;
+            };
+            const loadMore = async () => {
+                if (loading || loaded >= total) return;
+                loading = true;
+                try {
+                    const next = await page(loaded);
+                    if (next && Array.isArray(next.holdings) && next.holdings.length) {
+                        body.insertAdjacentHTML('beforeend', next.holdings.map(holdingRow).join(''));
+                        loaded += next.holdings.length;
+                    } else {
+                        total = loaded; // upstream ran out earlier than the count promised
+                    }
+                } catch (_) { /* leave the footer as it was; scrolling retries */ }
+                loading = false;
+                sync();
+                // A pane taller than the rows it holds never fires a scroll
+                // event, so it would stall short of the full list.
+                if (pane.scrollHeight <= pane.clientHeight && loaded < total) loadMore();
+            };
+            sync();
+            pane.addEventListener('scroll', () => {
+                if (pane.scrollTop + pane.clientHeight >= pane.scrollHeight - 240) loadMore();
+            });
+            if (pane.scrollHeight <= pane.clientHeight && loaded < total) loadMore();
+        })();
         document.title = `${symbol} ${p.assetTypeLabel || 'fund'} — holdings, fees and returns | stockportfolio.pro`;
     }
 

@@ -594,6 +594,55 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .table-data .row-rule td { border-bottom: 1px solid var(--line-strong); }
 .table-clickable tbody tr { cursor: pointer; }
 
+/* ---------- Fund holdings pane ----------
+   A complete portfolio runs to hundreds of rows (520 for VOO, 17,409 for BND),
+   so it scrolls inside its own pane rather than stretching the page. JS sizes
+   the pane to the allocation column beside it, which is also what stops that
+   column from ending in a tall block of dead space. */
+.fund-holdings { display: flex; flex-direction: column; min-width: 0; }
+.holdings-scroll { overflow-y: auto; overscroll-behavior: contain; }
+/* NOT `scrollbar-width` here. Chrome supports that standard property now, and
+   setting it makes Chrome ignore the ::-webkit-scrollbar rules below entirely —
+   measured 2026-09-07, `thin` reserved a 2px gutter and there was nothing to
+   grab. The standard properties are therefore scoped to engines that have no
+   ::-webkit-scrollbar support (Firefox), and Chrome/Safari get the pseudo
+   elements, which is also what opts macOS out of disappearing overlay bars. */
+@supports not selector(::-webkit-scrollbar) {
+  .holdings-scroll { scrollbar-width: thin; scrollbar-color: var(--ink-3) var(--line); }
+}
+/* This pane opts out of the custom horizontal bar (data-hbar="off"): it has two
+   columns and never scrolls sideways. That matters beyond tidiness — attaching
+   one adds .has-hbar, whose `scrollbar-width: none` is a STANDARD property and
+   therefore beats every ::-webkit-scrollbar rule below, which is what left the
+   pane with a 2px hairline instead of a bar (measured on the live page). */
+/* macOS hides overlay scrollbars until something is actively scrolling, so the
+   pane read as having none and there was nothing to grab. Styling
+   ::-webkit-scrollbar opts out of overlay behaviour: the bar stays on screen
+   and can be clicked and dragged. */
+.holdings-scroll::-webkit-scrollbar { width: 12px; height: 12px; }
+.holdings-scroll::-webkit-scrollbar-track { background: var(--line); border-radius: 999px; }
+.holdings-scroll::-webkit-scrollbar-thumb {
+  background: var(--ink-3);
+  border-radius: 999px;
+  border: 3px solid var(--surface);                        /* inset, so the thumb reads as a pill */
+}
+.holdings-scroll::-webkit-scrollbar-thumb:hover { background: var(--ink-2); }
+.holdings-scroll::-webkit-scrollbar-corner { background: var(--line); }
+/* .row-head is sticky at z-index 2 for the horizontal scroll; the column
+   headers have to sit above it, not under it, once the pane scrolls too. */
+.holdings-scroll .table-data thead th { z-index: 3; }
+/* The name is the row head here, not a ticker, and it is one of only two
+   columns — so it gets real width. The shared 230px cap is sized for the
+   statement tables, where the label column competes with a dozen fiscal years;
+   applied here it would clip holding names that comfortably fit (VOO's longest
+   is 47 characters, 95% are under 16). */
+.holdings-scroll .table-data .row-head { max-width: 420px; }
+/* .table-data right-aligns every cell by default and only .row-head (a td
+   class) opts out, so the header over the name column has to be told too —
+   otherwise "HOLDING" floats right above left-aligned names. */
+.holdings-scroll .table-data thead th:first-child { text-align: left; }
+@media (max-width: 700px) { .holdings-scroll { max-height: 70vh; } }
+
 /* ---------- Financial-statement readability ----------
    Keep the product's compact hierarchy while making each fiscal year a clear
    visual lane. JavaScript chooses --stmt-year-width so the sticky metric label
@@ -1596,6 +1645,21 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .fund-bar { display:grid; grid-template-columns:minmax(90px,1fr) 3fr 54px; align-items:center; gap:8px; margin:8px 0; font-size:12.5px; }
 .fund-bar-track { height:7px; background:var(--line); border-radius:999px; overflow:hidden; }
 .fund-bar-fill { height:100%; background:var(--accent); border-radius:inherit; }
+.fund-bar-fill.is-neg { background:var(--neg); }
+
+/* ---------- Fund summary visuals ----------
+   The AI summary card leads with three panels rather than a paragraph: the fee
+   as money, the return record as bars on a shared scale, and the top-ten split.
+   The prose then explains them instead of restating the tiles further up. */
+.viz-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:22px; margin:18px 0 22px; }
+.viz-block { border:1px solid var(--line); border-radius:var(--radius-sm); padding:15px 16px; }
+.viz-block .label { margin:0 0 10px; }
+.viz-block .small { margin:8px 0 0; }
+.viz-hero { font-size:30px; font-weight:650; line-height:1.1; margin:0; font-variant-numeric:tabular-nums; }
+.viz-hero-unit { font-size:13px; font-weight:450; color:var(--ink-2); display:block; margin-top:5px; }
+.viz-split { display:flex; height:11px; border-radius:999px; overflow:hidden; background:var(--line); margin-top:4px; }
+.viz-split-a { background:var(--accent); }
+.viz-split-b { background:var(--line-strong); }
 @media (max-width:600px) {
   .ask-foot .share-actions { width:100%; margin-left:0; }
   .share-actions { gap:7px; }

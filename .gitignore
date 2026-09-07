@@ -70,3 +70,12 @@ dealmirror-exports/
 # MCP server runtime quota counters (per-deploy state, never shared)
 mcp-server/data/quota.json
 mcp-server/data/*.tmp
+
+# --- Customer data: never commit ---
+# Outreach recipient lists and send ledgers carry paying customers' email
+# addresses and private notes on what each person said. Git history is
+# effectively permanent, so these stay on disk only. The .example files show
+# the shape and ARE committed.
+scripts/.sent-*.json
+scripts/.recipients-*.json
+!scripts/.recipients-*.json.example

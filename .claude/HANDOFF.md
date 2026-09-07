@@ -1,5 +1,105 @@
 # Handoff
 
+## Expense ratios now come from the filed prospectus — LOCAL, NOT DEPLOYED (9/7)
+
+Follow-on to the holdings work below; owner called expense ratio one of the most
+important metrics for choosing a fund. Stamp is now `20260907-fees1` (44 files).
+483 tests, 482 pass (`social-compose` = missing `selenium-webdriver`, pre-existing).
+
+**Measured first.** Yahoo is accurate for ETFs and unreliable for mutual funds:
+
+| | Yahoo | filed | |
+|---|---|---|---|
+| SWPPX | 1.24% | 0.02% | 62x |
+| FZROX | 0.99% | 0.00% | — |
+| FXAIX | 0.69% | 0.015% | 46x |
+| FSKAX | 0.66% | 0.015% | 44x |
+| VWELX | 0.99% | 0.24% | 4x |
+| DODGX | 0.00% | 0.51% | zero |
+| VTSAX | 0.08% | 0.04% | 2x |
+| VOO SPY GLD TLT SCHD ARKK XLK QQQ SGOV VNQ BND JEPI | correct | correct | ✓ |
+
+The wrong values track the fund's Morningstar **category average**, so the
+cheapest index funds are the worst hit — the exact funds people pick on cost.
+This is the same class of error (FXAIX 1.53%) that pulled the ETF grade on 9/3.
+
+**Source: the prospectus fee table, per share class.** Every '40 Act fund tags
+it in XBRL on Form 485BPOS (`oef:ExpensesOverAssets`, `oef:NetExpensesOverAssets`,
+management/12b-1/other/acquired-fund legs). New `backend/fund-fees.js`;
+`sec-fund-index.js` holds the EDGAR plumbing now shared with `fund-holdings.js`
+(ticker→series/class map, filing lookup, instance fetch). Verified against 24
+funds: every mutual fund now matches its prospectus, and IVV/IWM/SOXX/EFA/AGG/HYG
+resolve too.
+
+**Two things to know:**
+- A class-context match is mandatory — one prospectus covers the whole trust, so
+  reading the first fee fact in the document returns a *sibling fund's* fee.
+  Guarded by test.
+- Some filings ship the fee table only as inline XBRL inside a 40MB HTML doc
+  with no extracted instance (iShares' 2026-07-27 485BPOS for IVV). The module
+  walks back up to 3 recent 485BPOS + 2 recent 497s and takes the first that
+  parses, so IVV resolves from the 2025-07-22 filing. **The filing date always
+  travels with the number** and is shown on the tile.
+
+**Wiring:** `fetchAssetProfile` races the lookup against `FEE_TIMEOUT_MS = 2500`
+(cold 2-8s, cached 30 days in Mongo + memory) and leaves the pending fetch
+running so it warms the cache. Fallback order: filed → Yahoo **for ETFs only** →
+null. A mutual fund with no filed table shows nothing, deliberately. New
+`GET /api/assets/:symbol/fees` lets the page correct the tile on the same visit
+instead of waiting out the 30-minute profile cache. `profile.fees` also carries
+the gross/net/management/12b-1/other/acquired-fund breakdown, unused so far.
+
+Not done: nothing else on the fund page is cross-checked against a filed source
+— net assets, yield and the trailing returns are all still Yahoo's.
+
+## Fund holdings: complete portfolios from N-PORT + 3 measured bugs — LOCAL, NOT DEPLOYED (9/7)
+
+Owner asked why ETFs/funds don't show all holdings and why not all ETFs are
+findable. Four causes, all measured, all fixed. Stamp `20260907-holdings1`
+(44 files). 466 tests, 465 pass (`social-compose` fails on a missing
+`selenium-webdriver` — pre-existing).
+
+1. **Yahoo's `topHoldings` module returns exactly 10 rows for every fund** —
+   verified across SPY/VOO/QQQ/VTI/ARKK/VFIAX/JEPI/SCHD/IWM/VXUS. The
+   `.slice(0, 15)` was never the constraint. New `backend/fund-holdings.js`
+   pulls the complete portfolio from the fund's latest **SEC Form N-PORT**
+   (VOO 520, VTSAX 3,546, BND 17,409, IVV 508). New paged route
+   `GET /api/assets/:symbol/holdings`; the fund page renders Yahoo's ten first
+   and swaps in the full list with its as-of date and a link to the filing.
+   **Issuer files are NOT usable**: iShares' and Vanguard's holdings endpoints
+   both answer 200 with an Akamai HTML shell, not data (measured 9/7 — my own
+   first pass mis-read those as working because I checked status+size, not
+   content). GLD/IBIT correctly return nothing: grantor trusts file no N-PORT.
+   Lag is real and labelled — N-PORT is public ~60 days after the period end.
+   Consistent with the 9/3 "if we can't verify it we won't have it" call: this
+   is the primary filing with its date shown, not a derived figure.
+2. **Sector exposure was empty on every fund page, and the public
+   `etf-sector-concentration` tool returned zero rows.** Yahoo sends
+   `sectorWeightings`/`bondRatings` as `[{realestate: 0.018}]`, and
+   `normalizeWeights` read `.name`/`.weight` off that and filtered everything
+   out. Fixed; SPY now shows 11 sectors, BND 6 rating buckets.
+3. **ETF-overlap tool** intersected two ten-row lists and called it portfolio
+   overlap. Now full N-PORT portfolios: VOO vs VTI = 517 shared securities,
+   **88.4%** overlap (was "10 shared holdings").
+4. **Search couldn't reach most ETFs.** `local.concat(remote).slice(0, limit)`
+   put the 99-company directory ahead of everything, so "v"/"s"/"i"/"a" each
+   filled all 8 slots with equities and zero funds. Now both sources are ranked
+   on one relevance scale with a floor of `limit/2` for funds. Yahoo *itself*
+   returns no funds for 1–2 letter queries, so `scripts/build-fund-directory.js`
+   generates `frontend/data/top-funds.json` (205 funds, every name and AUM from
+   a live quote, nothing typed from memory). Also: `.L` suffixes slipped the
+   old `{2,4}` filter (SPYY.L was offered for "SPY" and would 404).
+   **Still excluded by design:** non-US listings (IWDA.AS, ARKK.L) — enabling
+   them needs `symbolKey`'s dot→dash rule reworked, since it would turn
+   `IWDA.AS` into `IWDA-AS` and 404.
+
+Rebuild the directory with `node scripts/build-fund-directory.js` (run from
+`backend/`, it needs `yahoo-finance2`). Not yet checked: whether Yahoo's 100×
+expense-ratio error (FXAIX, found 9/3) still stands — the fund page still shows
+that number.
+
+**This file is 600+ lines against a 160-line budget; it needs a trim pass.**
+
 ## Credit wallet halved for NEW buyers only — LOCAL, NOT DEPLOYED (9/6)
 
 `LTD_CREDIT_ALLOWANCE_V2 = {1:50, 2:150, 3:400}` in `credits.js`, gated on

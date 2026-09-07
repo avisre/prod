@@ -504,4 +504,88 @@ function trialExpiredEmail(name, appUrl, upgradeUrl, unsubUrl) {
   return { subject, html, text: textBody };
 }
 
-module.exports = { sendNewUserEmails, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };
+// --- Research Briefing (paid newsletter, sold separately from every app plan) ---
+//
+// Deliberately plain about what was and was not bought. The briefing is sold
+// to people who may already hold a lifetime app deal, so the single most
+// likely support ticket is "did I just pay twice for the same thing?" — both
+// emails below answer that before it is asked.
+
+function briefingWelcomeEmail({ name, priceUsd, companiesPerMonth, appUrl } = {}) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const perMonth = Number(companiesPerMonth) || 2;
+  const amount = Number(priceUsd) || 149;
+  const text = `Hi ${first},
+
+You're in — thank you. Here's exactly what you've bought, so there are no surprises later.
+
+What arrives: ${perMonth} companies a month, written up by hand. What the business does, what the numbers say in plain language, every figure traceable back to an SEC filing, and the case against the company set out as clearly as the case for it. No buy signals and no price targets.
+
+When: the first issue reaches you within two weeks, then twice monthly.
+
+What it is not: it is not app access, and it does not change any plan or lifetime deal you already hold — those stay exactly as they are. It is also research, not personalised investment advice. I don't know your circumstances and nothing in it is a recommendation to buy or sell.
+
+Billing: $${amount.toFixed(2)} a year, cancel any time by replying to this email. If the first two issues aren't useful to you, reply and I'll refund you in full.
+
+Reply to this message any time — it reaches me directly, and if there's a company you want examined I'd like to hear it.
+
+— Avinash
+StockPortfolio.pro`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h1>You're in, ${escapeHtml(first)}</h1><p>Thank you. Here is exactly what you have bought, so there are no surprises later.</p><p><strong>What arrives:</strong> ${perMonth} companies a month, written up by hand — what the business does, what the numbers say in plain language, every figure traceable back to an SEC filing, and the case against the company set out as clearly as the case for it. No buy signals, no price targets.</p><p><strong>When:</strong> the first issue reaches you within two weeks, then twice monthly.</p><p><strong>What it is not:</strong> it is not app access, and it changes nothing about any plan or lifetime deal you already hold. It is research, not personalised investment advice — I do not know your circumstances, and nothing in it is a recommendation to buy or sell.</p><p><strong>Billing:</strong> $${amount.toFixed(2)} a year, cancel any time by replying to this email. If the first two issues are not useful to you, reply and I will refund you in full.</p><p>Reply to this message any time — it reaches me directly. If there is a company you want examined, I would like to hear it.</p><p style="font-size:13px;color:#64748b">— Avinash, StockPortfolio.pro · ${SUPPORT_EMAIL}</p></div>`;
+  return { subject: `You're subscribed to the Research Briefing`, html, text };
+}
+
+function briefingOwnerEmail({ email, name, priceUsd, alreadyACustomer } = {}) {
+  const amount = Number(priceUsd) || 149;
+  const who = `${name ? `${name} · ` : ''}${email || 'unknown'}`;
+  const overlap = alreadyACustomer
+    ? 'ALSO holds an app account — check their existing plan before replying so you do not sell them something they have.'
+    : 'No app account on this email — cold briefing buyer.';
+  const text = `Briefing sale: ${who}\n$${amount.toFixed(2)}/yr\n${overlap}\n\nDo now: add to the send list and reply personally within 24h.`;
+  const html = `<div style="font-family:-apple-system,Segoe UI,Arial;max-width:560px;color:#0f172a"><h2>Briefing sale</h2><p><strong>${escapeHtml(who)}</strong><br>$${amount.toFixed(2)}/yr</p><p>${escapeHtml(overlap)}</p><p>Do now: add to the send list and reply personally within 24h.</p></div>`;
+  return { subject: `Briefing sale: ${email || 'unknown'}`, html, text };
+}
+
+/**
+ * Buyer confirmation + owner alert for a paid briefing subscription. The
+ * caller owns idempotency (briefingSubscription.record() returns true only on
+ * a genuine first insert), so a webhook redelivery never re-sends either mail.
+ *
+ * Failures are logged and swallowed per-message: the buyer's receipt must not
+ * depend on the owner alert succeeding, and neither must return a rejection
+ * into a Stripe webhook handler that has to answer 200.
+ */
+async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth, alreadyACustomer } = {}) {
+  const transporter = getTransporter();
+  const c = config();
+  if (!transporter) {
+    console.warn(`[mailer] SMTP not configured — skipping briefing emails for ${email || '(no email)'}`);
+    return { customerSent: false, ownerSent: false };
+  }
+  const jobs = [];
+  if (email) {
+    const w = briefingWelcomeEmail({ name, priceUsd, companiesPerMonth, appUrl: c.appUrl });
+    jobs.push(['customer', transporter.sendMail({
+      from: c.from, to: email, replyTo: c.support,
+      subject: w.subject, html: w.html, text: w.text
+    })]);
+  }
+  if (c.owner) {
+    const o = briefingOwnerEmail({ email, name, priceUsd, alreadyACustomer });
+    jobs.push(['owner', transporter.sendMail({
+      from: c.from, to: c.owner, replyTo: c.support,
+      subject: o.subject, html: o.html, text: o.text
+    })]);
+  }
+  const results = await Promise.allSettled(jobs.map(([, p]) => p));
+  const out = { customerSent: false, ownerSent: false };
+  results.forEach((r, i) => {
+    const kind = jobs[i][0];
+    if (r.status === 'rejected') console.error(`[mailer] briefing ${kind} send failed:`, r.reason && r.reason.message);
+    else if (kind === 'customer') out.customerSent = true;
+    else out.ownerSent = true;
+  });
+  return out;
+}
+
+module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };

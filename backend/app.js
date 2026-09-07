@@ -19,6 +19,8 @@ const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHis
 const yahooSource = require('./yahoo-source');
 const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
+const fundHoldings = require('./fund-holdings');
+const fundFees = require('./fund-fees');
 const storedFundamentals = require('./stored-fundamentals');
 const secSource = require('./sec-source');
 const aiBriefing = require('./ai-briefing');
@@ -39,6 +41,7 @@ const ollamaUsage = require('./ollama-usage-tracker');
 const affiliateProgram = require('./affiliate-program');
 const dealMirror = require('./dealmirror');
 const directLtd = require('./direct-ltd');
+const briefingSubscription = require('./briefing-subscription');
 const pricingExperiment = require('./pricing-experiment');
 const augustCampaign = require('./august-campaign');
 const { safeUpper, isValidTicker, normalizeTicker } = require('./symbol-resolver');
@@ -1278,6 +1281,34 @@ try {
 
 const topCompaniesBySymbol = new Map(topCompanies.map((item) => [item.symbol, item]));
 
+// Local ETF and index-fund directory (scripts/build-fund-directory.js).
+// Yahoo's symbol search returns no funds at all for a one- or two-letter query
+// — measured 2026-09-07, "v" answers V/HWGV/TRUM and "s" answers S/SI=F/SOL-USD
+// — so without a local list there is nothing to rank and VOO cannot be reached
+// by typing "vo". Yahoo still covers the long tail from three characters on.
+const FUND_DIRECTORY_PATHS = [
+  path.join(__dirname, 'data', 'top-funds.json'),
+  path.join(__dirname, '../frontend/data/top-funds.json')
+];
+let topFunds = [];
+try {
+  for (const candidatePath of FUND_DIRECTORY_PATHS) {
+    if (!fs.existsSync(candidatePath)) continue;
+    const parsed = JSON.parse(fs.readFileSync(candidatePath, 'utf8'));
+    const list = Array.isArray(parsed) ? parsed : (parsed.funds || []);
+    topFunds = list.map((item) => ({
+      symbol: safeUpper(item.symbol),
+      name: String(item.name || '').trim(),
+      assetType: item.assetType === 'mutual_fund' ? 'mutual_fund' : 'etf',
+      netAssets: Number(item.netAssets) || null
+    })).filter((item) => item.symbol && item.name);
+    if (topFunds.length) break;
+  }
+} catch (error) {
+  console.warn('Unable to load fund directory:', error.message);
+  topFunds = [];
+}
+
 function searchTopCompanies(query, limit = 10) {
   const q = String(query || '').trim().toLowerCase();
   if (!q) return [];
@@ -1298,6 +1329,39 @@ function searchTopCompanies(query, limit = 10) {
     .sort((a, b) => b.score - a.score || (b.marketCap || 0) - (a.marketCap || 0))
     .slice(0, Math.max(1, Math.min(limit, 25)))
     .map(({ score, ...company }) => company);
+}
+
+// The same relevance ladder searchTopCompanies uses internally, exposed so the
+// asset search can rank local-directory rows and Yahoo rows on one scale
+// instead of trusting whichever list happened to be concatenated first.
+function assetMatchScore(query, symbol, name) {
+    const q = String(query || '').trim().toLowerCase();
+    if (!q) return -1;
+    const sym = String(symbol || '').toLowerCase();
+    const nm = String(name || '').toLowerCase();
+    if (sym === q) return 100;
+    if (nm === q) return 95;
+    if (sym.startsWith(q)) return 90;
+    if (nm.startsWith(q)) return 80;
+    if (nm.includes(q)) return 70;
+    if (sym.includes(q)) return 60;
+    return -1;
+}
+
+function searchFundDirectory(query, limit = 10) {
+    const scored = [];
+    for (const fund of topFunds) {
+        const score = assetMatchScore(query, fund.symbol, fund.name);
+        if (score >= 0) scored.push({ fund, score });
+    }
+    return scored
+        .sort((a, b) => b.score - a.score || (b.fund.netAssets || 0) - (a.fund.netAssets || 0))
+        .slice(0, Math.max(1, Math.min(limit, 25)))
+        .map(({ fund }) => ({
+            symbol: fund.symbol, name: fund.name, sector: '',
+            assetType: fund.assetType, assetTypeLabel: assetProfile.assetTypeLabel(fund.assetType),
+            quoteType: fund.assetType === 'etf' ? 'ETF' : 'MUTUALFUND'
+        }));
 }
 
 function defaultTrialEndsAt() {
@@ -2069,7 +2133,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260906-credits1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-blue1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2098,7 +2162,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260906-credits1"></script>
+<script src="/assets/app.js?v=20260907-blue1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2182,7 +2246,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260906-credits1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-blue1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2210,7 +2274,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260906-credits1"></script>
+<script src="/assets/app.js?v=20260907-blue1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2314,7 +2378,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260906-credits1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-blue1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2347,7 +2411,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260906-credits1"></script>
+<script src="/assets/app.js?v=20260907-blue1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -6618,12 +6682,16 @@ app.get('/api/assets/search', async (req, res) => {
         symbol: row.symbol, name: row.name, sector: row.sector || '',
         assetType: 'stock', assetTypeLabel: 'Stock', quoteType: 'EQUITY'
     }));
+    const directory = searchFundDirectory(query, limit);
     try {
         const remote = (await alphaClient.searchSymbols(query))
             .filter((row) => {
                 const sym = row.symbol || '';
-                // Filter out country-suffixed symbols (.TO, .L, etc.)
-                if (/\.[A-Z]{2,4}$/.test(sym)) return false;
+                // Filter out country-suffixed symbols (.TO, .L, etc.). {1,4},
+                // not {2,4}: London's one-letter suffix slipped the old bound,
+                // so SPYY.L was offered for "SPY" and would 404 on the profile
+                // route, which normalizes dots to dashes for US class shares.
+                if (/\.[A-Z]{1,4}$/.test(sym)) return false;
                 // Filter out ISIN codes: 8+ chars starting with digit
                 if (sym.length >= 8 && /^[0-9]/.test(sym)) return false;
                 // Filter out very long symbols with digits (likely ISINs or foreign codes)
@@ -6631,12 +6699,48 @@ app.get('/api/assets/search', async (req, res) => {
                 return true;
             });
         const seen = new Set();
-        const out = local.concat(remote.map((row) => ({
+        const take = (row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol);
+        // Local first in the dedupe only: its rows carry sector data the Yahoo
+        // rows lack, so a symbol in both keeps the richer copy.
+        const localRows = local.filter(take);
+        const directoryRows = directory.filter(take);
+        const remoteRows = remote.map((row) => ({
             ...row, assetTypeLabel: assetProfile.assetTypeLabel(row.assetType)
-        }))).filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol));
+        })).filter(take);
+
+        // Ranking, not concatenation. The old code put all of `local` ahead of
+        // every Yahoo row and truncated to `limit`, so any query that prefix-
+        // matched several of the 99 directory companies filled the page with
+        // equities and no fund could appear at all: measured 2026-09-07, "v",
+        // "s", "i" and "a" each returned 8 local stocks and zero ETFs, which is
+        // why VOO and VTI were unreachable by typing "v".
+        const rank = (rows) => rows
+            .map((row, i) => ({ row, i, score: assetMatchScore(query, row.symbol, row.name) }))
+            .sort((a, b) => b.score - a.score || a.i - b.i)
+            .map((entry) => entry.row);
+
+        let out = rank(localRows.concat(directoryRows, remoteRows)).slice(0, limit);
+        // ...and a floor for funds, so a directory full of near-ties can never
+        // shut them out again. Reserving rather than sorting alone keeps an
+        // exact ticker match first: the quota is zero when nothing matches.
+        // Funds only. Anything-but-stock would also reserve slots for futures
+        // (SI=F), indices (^VIX) and coins (SHIB-USD), which is how the quota
+        // first behaved — it promoted those over real matches.
+        const funds = directoryRows.concat(remoteRows).filter((row) => row.assetType === 'etf' || row.assetType === 'mutual_fund');
+        const quota = Math.min(funds.length, Math.floor(limit / 2));
+        const shown = out.filter((row) => row.assetType === 'etf' || row.assetType === 'mutual_fund').length;
+        if (shown < quota) {
+            const missing = funds.filter((row) => !out.includes(row)).slice(0, quota - shown);
+            out = rank(out.slice(0, Math.max(0, limit - missing.length)).concat(missing));
+        }
         return res.json(out.slice(0, limit));
     } catch (_) {
-        return res.json(local.slice(0, limit));
+        // Yahoo unreachable: the two local directories are still a useful answer.
+        const seen = new Set();
+        return res.json(local.concat(directory)
+            .filter((row) => row.symbol && !seen.has(row.symbol) && seen.add(row.symbol))
+            .sort((a, b) => assetMatchScore(query, b.symbol, b.name) - assetMatchScore(query, a.symbol, a.name))
+            .slice(0, limit));
     }
 });
 
@@ -6657,6 +6761,61 @@ app.get('/api/assets/:symbol/profile', async (req, res) => {
         return res.json({ profile, ...(daily ? { daily } : {}), ...(monthly ? { monthly } : {}) });
     } catch (error) {
         return res.status(error.status || 502).json({ message: error.message || 'Asset profile unavailable' });
+    }
+});
+
+// Every position a fund holds, from its latest SEC Form N-PORT. Yahoo's
+// topHoldings module is capped at ten rows for every fund on earth, so it can
+// only ever answer "the top ten"; N-PORT answers "all 508". Paged, because the
+// long tail is real — VTSAX files 3,546 positions and BND files 17,409.
+app.get('/api/assets/:symbol/holdings', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    const limit = Math.min(Math.max(Number(req.query.limit) || 100, 1), 1000);
+    const offset = Math.max(Number(req.query.offset) || 0, 0);
+    try {
+        const profile = await assetProfile.fetchAssetProfile(symbol);
+        if (!assetProfile.isFundAsset(profile.assetType)) {
+            return res.status(400).json({ message: `${symbol} is not an ETF or mutual fund.` });
+        }
+        const full = await fundHoldings.fetchFundHoldings(symbol);
+        if (!full) {
+            // Commodity and crypto grantor trusts (GLD, IBIT) hold bullion or
+            // coin rather than securities and file no N-PORT, and a fund that
+            // has just launched has not filed one yet. Yahoo's short list is
+            // then all there is, and `complete: false` says so.
+            const rows = profile.topHoldings || [];
+            return res.json({
+                symbol, complete: false, source: profile.source, sourceUrl: null,
+                asOf: null, filedAt: null, count: rows.length, offset: 0,
+                holdings: rows.slice(offset, offset + limit)
+            });
+        }
+        const page = fundHoldings.mergeSymbols(full.holdings.slice(offset, offset + limit), profile.topHoldings);
+        return res.json({
+            symbol, complete: true, source: full.source, sourceUrl: full.sourceUrl,
+            asOf: full.asOf, filedAt: full.filedAt, count: full.count, offset,
+            holdings: page
+        });
+    } catch (error) {
+        return res.status(error.status || 502).json({ message: error.message || 'Fund holdings are unavailable' });
+    }
+});
+
+// The fee table as filed in the fund's prospectus. Separate from the profile
+// route because a cold lookup runs to several seconds and the profile races it
+// against a 2.5s budget: the page calls this afterwards so a fund whose filing
+// had not been fetched yet still shows the filed figure on this visit rather
+// than waiting out the 30-minute profile cache.
+app.get('/api/assets/:symbol/fees', async (req, res) => {
+    const symbol = safeUpper(req.params.symbol);
+    if (!symbol) return res.status(400).json({ message: 'symbol is required' });
+    try {
+        const fees = await fundFees.fetchFundFees(symbol);
+        if (!fees) return res.status(404).json({ message: `No filed fee table for ${symbol}.` });
+        return res.json(fees);
+    } catch (error) {
+        return res.status(error.status || 502).json({ message: error.message || 'Fund fees are unavailable' });
     }
 });
 
@@ -7094,7 +7253,9 @@ app.get('/api/stocks/:symbol/ai-summary', authMiddleware, proGate, async (req, r
         }
         const result = await aiFeatures.summarizeFinancials(symbol);
         if (!result.summary) return res.status(404).json({ message: 'No financial data available for this symbol.' });
-        const payload = { symbol, assetType: result.assetType || 'stock', summary: result.summary, source: result.source, generatedAt: new Date().toISOString() };
+        // Funds also return their facts: the page charts them rather than making
+        // the reader parse the same numbers out of prose.
+        const payload = { symbol, assetType: result.assetType || 'stock', summary: result.summary, source: result.source, generatedAt: new Date().toISOString(), ...(result.assetType && result.assetType !== 'stock' ? { facts: result.facts } : {}) };
         _aiSummaryCache.set(symbol, { at: Date.now(), payload });
         if (_aiSummaryCache.size > 500) _aiSummaryCache.delete(_aiSummaryCache.keys().next().value);
         res.json({ ...payload, cached: false });
@@ -8547,6 +8708,64 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             // Paid-first signup: this is where the account is actually born.
             // materializePendingSignup() refuses unless Stripe reports the
             // session paid, so no payment means no user — full stop.
+            // The paid research briefing is settled BEFORE the userId gate
+            // below, because it is the one product here that a complete
+            // stranger can buy: the Stripe payment link grants no app access,
+            // so there is no account to look up and none to create. A buyer
+            // with no userId would otherwise fall past every branch and pay
+            // for silence — the exact failure the Intelligence SKU already
+            // has (HANDOFF item 7: "purchase takes money, delivers nothing").
+            //
+            // It is also a genuine recurring Stripe subscription, so
+            // payload.subscription is set and it MUST return here rather than
+            // reach the subscription branches, where syncSubscriptionFromStripe
+            // would try to resolve it to an app plan it must never grant.
+            if (briefingSubscription.enabled()) {
+                // Only pay for the extra Stripe round trip when the session
+                // declares no checkoutType of its own. Every other paid path
+                // here sets one, so this costs nothing on app checkouts and
+                // still catches a dashboard payment link built without the
+                // metadata field filled in.
+                let briefingPriceIds = [];
+                if (!payload.metadata?.checkoutType && stripe) {
+                    try {
+                        const items = await stripe.checkout.sessions.listLineItems(payload.id, { limit: 10 });
+                        briefingPriceIds = (items && items.data ? items.data : []).map((li) => li.price && li.price.id);
+                    } catch (lineItemError) {
+                        console.error('[briefing] line item lookup failed:', lineItemError && lineItemError.message);
+                    }
+                }
+                if (briefingSubscription.matches(payload, briefingPriceIds)) {
+                    if (payload.payment_status === 'paid') {
+                        // record() is idempotent on the session id and returns
+                        // true only on a real first insert, so a webhook
+                        // redelivery can never send a second welcome email.
+                        const inserted = await briefingSubscription.record({ payload, eventId: event.id });
+                        if (inserted) {
+                            const email = briefingSubscription.buyerEmail(payload);
+                            // Informational only: it decides one line of the
+                            // owner alert. A briefing sale never reads from or
+                            // writes to the app account, even when one exists.
+                            let alreadyACustomer = false;
+                            try {
+                                alreadyACustomer = email ? Boolean(await User.findOne({ email }).select('_id').lean()) : false;
+                            } catch (lookupError) {
+                                console.error('[briefing] account overlap lookup failed:', lookupError && lookupError.message);
+                            }
+                            await mailer.sendBriefingPaidEmails({
+                                name: briefingSubscription.buyerName(payload),
+                                email,
+                                priceUsd: briefingSubscription.priceUsd(),
+                                companiesPerMonth: briefingSubscription.COMPANIES_PER_MONTH,
+                                alreadyACustomer
+                            }).catch((mailError) => console.error('[briefing] paid mail failed:', mailError && mailError.message));
+                        }
+                    } else {
+                        console.warn(`[briefing] session ${payload.id} completed with payment_status=${payload.payment_status}; no subscriber recorded.`);
+                    }
+                    return res.status(200).send({ received: true });
+                }
+            }
             const pendingSignupId = payload.metadata?.pendingSignupId || null;
             const materialized = pendingSignupId
                 ? await materializePendingSignup(pendingSignupId, payload)
@@ -8862,6 +9081,10 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
     } else if (event.type === 'customer.subscription.deleted') {
         try {
             const subscription = payload;
+            // A cancelled briefing has no app user attached, so it is marked
+            // on its own collection and never falls through to the User
+            // lookup below (which would find nothing and silently no-op).
+            await briefingSubscription.deactivate(subscription.id);
             const user = await User.findOne({ stripeSubscriptionId: subscription.id });
             if (user) {
                 const plan = user.subscription && user.subscription.planName;

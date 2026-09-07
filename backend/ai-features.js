@@ -12,6 +12,10 @@ const path = require('path');
 const aiClient = require('./ai-client');
 const { computePortfolioFacts } = require('./ai-briefing');
 const assetProfile = require('./asset-profile');
+const fundHoldings = require('./fund-holdings');
+
+// Budget for the filed portfolio inside a summary request; see its use below.
+const HOLDINGS_TIMEOUT_MS = 4000;
 const fundRanking = require('./fund-ranking');
 
 const QUESTION_MAX_CHARS = 8000;
@@ -109,10 +113,34 @@ function templateFinancialSummary(f) {
     return parts.join(' ');
 }
 
-function computeFundFacts(profile) {
+// `holdings` is the complete N-PORT portfolio when we have it. Passing it in
+// matters for more than the extra fields: the summary used to quote Yahoo's
+// top-ten weights (NVDA 7.55%) while the table beside it showed the filed ones
+// (7.51%), and two different numbers for the same holding on one page is worse
+// than either.
+function computeFundFacts(profile, holdings) {
     if (!profile || !assetProfile.isFundAsset(profile.assetType)) return null;
     const allocations = profile.allocations || {};
+    const rows = (holdings && holdings.length) ? holdings : (profile.topHoldings || []);
+    const weights = rows.map((row) => num(row.weight)).filter((w) => w !== null && w > 0);
+    const top10 = weights.slice(0, 10).reduce((sum, w) => sum + w, 0);
+    // How many positions it takes to reach half the fund — the plainest measure
+    // of whether "500 holdings" means 500 holdings.
+    let running = 0, toHalf = null;
+    for (let i = 0; i < weights.length; i++) {
+        running += weights[i];
+        if (running >= 0.5) { toHalf = i + 1; break; }
+    }
     return {
+        holdingCount: (holdings && holdings.length) ? holdings.length : null,
+        top10WeightPct: weights.length ? pct(top10) : null,
+        holdingsToHalfAssets: toHalf,
+        // An expense ratio is unreadable as a percentage and obvious as money.
+        // Pure arithmetic on the filed figure — nothing estimated.
+        annualCostPer10k: profile.expenseRatio === null || profile.expenseRatio === undefined
+            ? null : Math.round(profile.expenseRatio * 10000 * 100) / 100,
+        expenseRatioSource: profile.expenseRatioSource || null,
+        expenseRatioAsOf: profile.expenseRatioAsOf || null,
         symbol: profile.symbol,
         name: profile.name,
         assetType: profile.assetType,
@@ -122,7 +150,11 @@ function computeFundFacts(profile) {
         currency: profile.currency || null,
         price: num(profile.price),
         totalAssets: money(profile.totalAssets),
-        expenseRatioPct: pct(profile.expenseRatio),
+        // Four digits, not the default two. FXAIX files 0.015% and pct() rounded
+        // it to 0.02 — a 33% overstatement of the one number people choose index
+        // funds on, and every sub-basis-point fund collapsed toward the same
+        // value. Number() drops the trailing zeros, so 0.75% stays "0.75".
+        expenseRatioPct: pct(profile.expenseRatio, 4),
         yieldPct: pct(profile.yield),
         ytdReturnPct: pct(profile.ytdReturn),
         turnoverPct: pct(profile.turnover),
@@ -136,30 +168,60 @@ function computeFundFacts(profile) {
         sectors: (allocations.sectors || []).slice(0, 8).map((row) => ({
             name: row.name, weightPct: pct(row.weight)
         })),
-        topHoldings: (profile.topHoldings || []).slice(0, 10).map((row) => ({
+        topHoldings: rows.slice(0, 10).map((row) => ({
             symbol: row.symbol || null, name: row.name, weightPct: pct(row.weight)
         })),
         source: profile.source || 'Yahoo Finance'
     };
 }
 
+// The template is not a stub: it is what ships whenever the model is
+// unreachable, so it gets the same structure the prompt asks for. It also used
+// to read "is a Large Blend etf" — lower-casing the label mangled the acronym.
 function templateFundSummary(f) {
-    const kind = f.assetTypeLabel || 'Fund';
-    const parts = [`${f.name} (${f.symbol}) is a ${f.category ? `${f.category} ` : ''}${kind.toLowerCase()}${f.fundFamily ? ` from ${f.fundFamily}` : ''}.`];
-    const costs = [];
-    if (f.expenseRatioPct !== null) costs.push(`an expense ratio of ${f.expenseRatioPct}%`);
-    if (f.totalAssets) costs.push(`${f.totalAssets} in assets`);
-    if (f.yieldPct !== null) costs.push(`a ${f.yieldPct}% yield`);
-    if (costs.length) parts.push(`It reports ${costs.join(', ')}.`);
-    const returns = [];
-    if (f.ytdReturnPct !== null) returns.push(`${f.ytdReturnPct}% year to date`);
-    if (f.returnsPct.oneYear !== null) returns.push(`${f.returnsPct.oneYear}% over one year`);
-    if (f.returnsPct.fiveYear !== null) returns.push(`${f.returnsPct.fiveYear}% annualised over five years`);
-    if (returns.length) parts.push(`Reported returns are ${returns.join(' and ')}.`);
-    if (f.topHoldings.length) {
-        parts.push(`Its largest reported holdings include ${f.topHoldings.slice(0, 3).map((h) => `${h.symbol || h.name}${h.weightPct !== null ? ` (${h.weightPct}%)` : ''}`).join(', ')}.`);
+    const kind = f.assetTypeLabel === 'ETF' ? 'ETF' : (f.assetTypeLabel || 'fund').toLowerCase();
+    const out = [];
+
+    // The article belongs to whatever word actually comes next — "a Large Blend
+    // ETF" but "an ETF" — so it is chosen from the assembled phrase, not from
+    // the kind, which is often not the first word.
+    const lead = `${f.category ? `${f.category} ` : ''}${kind}`;
+    out.push(`**What it is.** ${f.name} (${f.symbol}) is ${/^[aeiou]/i.test(lead) ? 'an' : 'a'} ${lead}${f.fundFamily ? ` run by ${f.fundFamily}` : ''}${f.totalAssets ? `, holding ${f.totalAssets} of investor money` : ''}.`);
+
+    if (f.expenseRatioPct !== null) {
+        const filed = /^SEC/.test(f.expenseRatioSource || '') ? ' as filed in its prospectus' : '';
+        const cost = f.annualCostPer10k === null ? ''
+            : ` That is **${money10k(f.annualCostPer10k)} a year on a £10,000 holding**, taken out of returns rather than billed to you.`.replace('£', '$');
+        out.push(`**What it costs.** ${f.expenseRatioPct}% a year${filed}.${cost}`);
     }
-    return parts.join(' ');
+
+    const returns = [];
+    if (f.ytdReturnPct !== null) returns.push(`${f.ytdReturnPct}% so far this year`);
+    if (f.returnsPct.oneYear !== null) returns.push(`${f.returnsPct.oneYear}% over one year`);
+    if (f.returnsPct.fiveYear !== null) returns.push(`${f.returnsPct.fiveYear}% a year over five years`);
+    if (returns.length) out.push(`**How it has performed.** ${returns.join(', ')}. Past returns are a record, not a forecast.`);
+
+    if (f.holdingCount && f.top10WeightPct !== null) {
+        const half = f.holdingsToHalfAssets ? `, and half of it sits in just ${f.holdingsToHalfAssets}` : '';
+        out.push(`**How concentrated it is.** ${f.holdingCount.toLocaleString('en-US')} holdings, but the ten largest are ${f.top10WeightPct}% of the fund${half}.`);
+    } else if (f.topHoldings.length) {
+        out.push(`**Largest holdings.** ${f.topHoldings.slice(0, 3).map((h) => `${h.name}${h.weightPct !== null ? ` (${h.weightPct}%)` : ''}`).join(', ')}.`);
+    }
+
+    const sectors = (f.sectors || []).slice(0, 2);
+    if (sectors.length) {
+        // One decimal, matching the sector bars on the page. Two decimals here
+        // against 37.4% there reads as two different figures.
+        out.push(`**Where the money is.** Mostly ${sectors.map((row) => `${row.name} (${Number(row.weightPct).toFixed(1)}%)`).join(' and ')}.`);
+    }
+    return out.join('\n\n');
+}
+
+function money10k(value) {
+    if (value === null || value === undefined) return null;
+    return value >= 10
+        ? `$${Math.round(value).toLocaleString('en-US')}`
+        : `$${value.toFixed(2).replace(/\.00$/, '')}`;
 }
 
 const FIN_SYSTEM = [
@@ -173,7 +235,12 @@ const FIN_SYSTEM = [
 
 const FUND_SYSTEM = [
     'You are the stockportfolio.pro assistant summarising an ETF or mutual fund for a long-term investor.',
-    'Write 3-5 concise sentences covering what the fund is, costs, allocation/holdings, reported returns and material concentration or risk characteristics when supplied.',
+    // The old prompt asked for "3-5 concise sentences" and got one grey block
+    // that restated the tiles above it. Labelled sections are scannable, and
+    // each one answers a question the reader actually has.
+    'Answer these in order, each as its own short paragraph opening with the bold label given: "**What it is.**", "**What it costs.**", "**How it has performed.**", "**How concentrated it is.**", "**What to watch.**".',
+    'Keep each paragraph to one or two sentences. Skip any section the facts do not support rather than padding it.',
+    'Explain what a figure MEANS, do not just restate it — the reader can already see the numbers on the page. For cost, give the annual cost per $10,000 from annualCostPer10k. For concentration, say plainly whether a fund with many holdings actually behaves like a concentrated one.',
     'Use ONLY the numbers in the provided fund facts JSON; never invent, recompute or annualise a figure.',
     'Do not describe a fund as an operating company and do not discuss company revenue, profit, margins, insiders, SEC company filings or a corporate valuation.',
     'Be descriptive and educational. Do NOT give a buy/sell/hold view, price target, allocation recommendation or prediction.',
@@ -182,7 +249,20 @@ const FUND_SYSTEM = [
 
 async function summarizeFinancials(symbol) {
     const profile = await assetProfile.fetchAssetProfile(symbol).catch(() => null);
-    const fundFacts = computeFundFacts(profile);
+    // The filed portfolio, so the summary's holding weights are the same ones
+    // the table on the page shows. Cached, and optional — a fund with no N-PORT
+    // still gets a summary from the provider's top ten.
+    // Time-boxed. A cold fund costs 2-8s at EDGAR, and this sits inside a
+    // user-facing AI request that already spends time at the model — an
+    // unbounded await here would let a slow filing hang the whole summary. The
+    // fetch keeps running and warms the cache for the next caller.
+    const holdings = (profile && assetProfile.isFundAsset(profile.assetType))
+        ? await Promise.race([
+            fundHoldings.fetchFundHoldings(symbol).then((h) => (h ? h.holdings : null)).catch(() => null),
+            new Promise((resolve) => setTimeout(() => resolve(null), HOLDINGS_TIMEOUT_MS))
+        ])
+        : null;
+    const fundFacts = computeFundFacts(profile, holdings);
     if (fundFacts) {
         const fallback = templateFundSummary(fundFacts);
         if (!aiClient.isConfigured()) return { summary: fallback, facts: fundFacts, assetType: fundFacts.assetType, source: 'template' };

@@ -1,0 +1,7 @@
+[
+  {
+    "email": "someone@example.com",
+    "name": "First name or empty string",
+    "opener": "One sentence referring to something this person actually said."
+  }
+]
