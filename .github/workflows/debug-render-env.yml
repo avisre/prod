@@ -36,21 +36,31 @@ jobs:
 
       - name: Recent service logs (credits-relevant lines)
         run: |
-          end=$(date -u +%Y-%m-%dT%H:%M:%SZ)
-          start=$(date -u -d '3 days ago' +%Y-%m-%dT%H:%M:%SZ)
           OWNER=$(curl -sS \
             -H "Authorization: Bearer $RENDER_API_KEY" -H "Accept: application/json" \
             "https://api.render.com/v1/services/$RENDER_SERVICE" | jq -r '.ownerId // empty')
           echo "ownerId: $OWNER"
-          code=$(curl -sS -o /tmp/logs.json -w '%{http_code}' \
-            -H "Authorization: Bearer $RENDER_API_KEY" \
-            -H "Accept: application/json" \
-            "https://api.render.com/v1/logs?limit=100&direction=backward&ownerId=${OWNER}&resource=$RENDER_SERVICE&startTime=${start}&endTime=${end}" || echo 000)
-          echo "GET /v1/logs -> $code"
-          if [ "$code" != "200" ]; then head -c 400 /tmp/logs.json || true; exit 0; fi
-          echo "--- lines mentioning credits/topup/recharge/stripe config:"
-          jq -r '.logs[].message' /tmp/logs.json 2>/dev/null \
-            | grep -i -E "credit|topup|recharge|misconfigured" | head -60 || echo "(none in the returned window)"
-          echo "--- last 25 http-status lines:"
-          jq -r '.logs[].message' /tmp/logs.json 2>/dev/null \
-            | grep -E "http-status" | tail -25 || echo "(none)"
+          # walk backward through the owner's 9/7 evening session (17:00-19:20Z)
+          # and the last day, collecting up to 400 log lines
+          end=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          start=$(date -u -d '36 hours ago' +%Y-%m-%dT%H:%M:%SZ)
+          : > /tmp/all.log
+          for page in 1 2 3 4; do
+            code=$(curl -sS -o /tmp/logs.json -w '%{http_code}' \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Accept: application/json" \
+              "https://api.render.com/v1/logs?limit=100&direction=backward&ownerId=${OWNER}&resource=$RENDER_SERVICE&startTime=${start}&endTime=${end}" || echo 000)
+            echo "page $page ($start..$end) -> $code"
+            if [ "$code" != "200" ]; then head -c 400 /tmp/logs.json || true; break; fi
+            jq -r '.logs[].message' /tmp/logs.json >> /tmp/all.log 2>/dev/null || true
+            more=$(jq -r '.hasMore // false' /tmp/logs.json)
+            next=$(jq -r '.nextEndTime // empty' /tmp/logs.json)
+            echo "  hasMore=$more nextEndTime=$next"
+            if [ "$more" != "true" ] || [ -z "$next" ]; then break; fi
+            end=$next
+          done
+          echo "--- total collected lines: $(wc -l < /tmp/all.log)"
+          echo "--- lines mentioning credits/topup/recharge/checkout:"
+          grep -i -E "topup|recharge|misconfigured|credits" /tmp/all.log | head -60 || echo "(none)"
+          echo "--- non-2xx http-status lines:"
+          grep -E "http-status.*(4[0-9][0-9]|5[0-9][0-9])" /tmp/all.log | sort | uniq -c | sort -rn | head -25 || echo "(none)"
