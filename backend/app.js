@@ -7817,6 +7817,11 @@ async function buildAiPaperChatCtx(userId) {
         'Hard rules: the positions are immutable; you can explain, report and discuss, NEVER buy, sell, reweigh or change anything; nightly reviews are advisory-only notes in the log.',
         state && state.exists
             ? `Current experiment state (authoritative — never invent numbers): ${JSON.stringify(state)}`
+                + (state.status === 'failed'
+                    ? '\nThe failed run is fully discarded. When the user wants to try again, call ai_portfolio_setup — with NO arguments (the pure-data default) unless they explicitly name an investor in their own words. Never carry the failed run\'s guru over to a retry, and never claim a build is running unless you just called the tool.'
+                    : state.status === 'building'
+                        ? '\nA build is already in progress. Do not call ai_portfolio_setup again; report progress from this state.'
+                        : '')
             : 'No portfolio exists yet. If the user wants to start the experiment, call ai_portfolio_setup — by default with NO arguments (both minds are independent pure-data analysts). If they name an investor — living or deceased (e.g. Buffett, Charlie Munger, Peter Lynch) — pass that name as guru.'
     ].join('\n');
     return {
