@@ -1,9 +1,9 @@
-// Profile: tier + Ask quota (same content dashboard's old plan card showed),
-// plus the shared Ask+Dossier credit ledger with a used/allowance bar, an
-// Ask-vs-Dossier split, and an itemized recent-activity list. Messages (the
-// support thread) live on this same page too, but are driven entirely by
-// the existing bundled assets/messages.js — this file only owns the plan +
-// credits card.
+// Profile: tier + plan card, plus the shared Ask/Dossier/Monitor credit meter —
+// remaining as the headline, one stacked bar carrying the per-feature split,
+// where the wallet came from (plan vs purchased), the month's burn rate, and a
+// running-balance ledger. Messages (the support thread) live on this same page
+// too, but are driven entirely by the existing bundled assets/messages.js —
+// this file only owns the plan + credits card.
 (function () {
     'use strict';
     // formatReset / activityLabel / creditSplit are shared with the nav account
@@ -22,6 +22,56 @@
 
     const auth = { Authorization: `Bearer ${token()}` };
 
+    // The recharge SKU, named once. Three call sites used to spell out
+    // "150 credits — $14.99" independently (here, the low-balance line, and
+    // app.js's out-of-credits notice), which is three places to miss when the
+    // pack changes.
+    const RECHARGE = { credits: 150, price: '$14.99' };
+
+    // Billable features, in wallet order. `reason` is the ledger's reason field
+    // (backend/credits.js), `unit` names the thing a credit bought — a credit is
+    // an invented currency and nobody budgets in one. Adding a billable feature
+    // means adding a row here and nothing else.
+    const FEATURES = [
+        { reason: 'ask', label: 'Ask', seg: 'credits-seg-ask', unit: ['question', 'questions'] },
+        { reason: 'dossier', label: 'Dossier', seg: 'credits-seg-dossier', unit: ['report', 'reports'] },
+        { reason: 'monitor', label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] }
+    ];
+
+    const plural = (n, [one, many]) => `${n} ${n === 1 ? one : many}`;
+
+    // Server-side breakdown when the deploy has it (complete for the month by
+    // construction), else the old client-side sum over the capped `recent` rows.
+    // creditSplit carries the covered >= used guard; here it only decides
+    // whether the FALLBACK is trustworthy, instead of deciding whether the user
+    // sees a breakdown at all — the old behaviour hid the split from exactly the
+    // people whose month was worth splitting.
+    function featureSpend(credits, used, recent) {
+        const bd = credits && credits.breakdown;
+        if (bd && typeof bd === 'object') {
+            const out = {};
+            let named = 0;
+            for (const f of FEATURES) {
+                const row = bd[f.reason] || {};
+                const spent = Math.max(0, -(Number(row.delta) || 0));
+                out[f.reason] = { credits: spent, count: Number(row.count) || 0 };
+                named += spent;
+            }
+            // Anything billable under a reason this build doesn't know about
+            // still has to appear, or the rows won't add up to `used`.
+            out.other = { credits: Math.max(0, used - named), count: 0 };
+            return out;
+        }
+        const s = creditSplit(recent);
+        if (!recent.length || s.covered < used) return null;
+        return {
+            ask: { credits: s.ask, count: 0 },
+            dossier: { credits: s.dossier, count: 0 },
+            monitor: { credits: s.monitor, count: 0 },
+            other: { credits: Math.max(0, used - s.ask - s.dossier - s.monitor), count: 0 }
+        };
+    }
+
     function mountCredits(credits) {
         const wrap = $('credits-section');
         const allowance = Number(credits.allowance) || 0;
@@ -30,91 +80,207 @@
         const recent = Array.isArray(credits.recent) ? credits.recent : [];
         const hasMonitor = !!credits.hasMonitor;
         const cost = credits.cost || {};
+        // plan/purchased ship with the breakdown; an older server returns
+        // neither, so the wallet line falls back to describing the total rather
+        // than asserting a split it cannot know.
+        const purchased = Number(credits.purchased) || 0;
+        const planCredits = Number.isFinite(credits.plan) ? Number(credits.plan) : Math.max(0, allowance - purchased);
 
         // Nothing to show yet (fresh account, or the fetch came back empty)
         // — leave the whole sub-section hidden rather than render a
         // misleading "0 of 0" bar.
         if (!allowance && !used && !recent.length) return;
 
-        $('credits-used-label').textContent = `${used} / ${allowance} credits used`;
-        $('credits-remaining-label').textContent = `${Math.max(0, remaining)} left`;
+        const left = Math.max(0, remaining);
+        const headline = $('credits-headline');
+        headline.innerHTML = `${left} <span class="unit">of ${allowance} credits left</span>`;
+        headline.classList.toggle('is-low', allowance > 0 && left / allowance <= 0.15);
         const resetEl = $('credits-reset');
         if (resetEl) resetEl.textContent = formatReset(credits.resetsAt);
-        const fill = $('credits-bar-fill');
-        const pctUsed = allowance > 0 ? Math.min(100, (used / allowance) * 100) : 0;
-        fill.style.width = `${pctUsed}%`;
-        fill.classList.toggle('is-high', pctUsed >= 85);
 
-        // Wallet states the bar can't say in numbers alone: out of credits
-        // means "recharge now", running low means "recharge or upgrade" —
-        // with the action one click away rather than a dead status line.
+        const spend = featureSpend(credits, used, recent);
+
+        // ---- one stacked bar, drawn against the whole wallet ----
+        const bar = $('credits-bar');
+        const segments = [];
+        if (allowance > 0 && spend) {
+            for (const f of FEATURES) {
+                const amt = (spend[f.reason] || {}).credits || 0;
+                if (amt > 0) segments.push([f.seg, amt, `${f.label} ${amt}`]);
+            }
+            const other = (spend.other || {}).credits || 0;
+            if (other > 0) segments.push(['credits-seg-other', other, `Other ${other}`]);
+        } else if (allowance > 0 && used > 0) {
+            segments.push(['credits-seg-ask', used, `${used} used`]);   // no split available
+        }
+        bar.innerHTML = segments.map(([cls, amt, title]) =>
+            `<div class="credits-seg ${cls}" style="width:${Math.min(100, (amt / allowance) * 100)}%;" title="${esc(title)}"></div>`).join('');
+
+        // ---- breakdown table: credits, and the same spend in real units ----
+        const breakdownEl = $('credits-breakdown');
+        if (spend) {
+            const rows = FEATURES
+                .filter((f) => f.reason !== 'monitor' || hasMonitor || (spend.monitor || {}).credits > 0)
+                .map((f) => {
+                    const amt = (spend[f.reason] || {}).credits || 0;
+                    const n = (spend[f.reason] || {}).count || 0;
+                    const unit = n > 0 ? plural(n, f.unit) : (amt === 0 ? '—' : '');
+                    return `<tr>
+                      <td><span class="k"><span class="dot ${f.seg}"></span>${f.label}</span></td>
+                      <td class="amt">${amt}</td>
+                      <td class="unit">${esc(unit)}</td>
+                    </tr>`;
+                });
+            const other = (spend.other || {}).credits || 0;
+            if (other > 0) {
+                rows.push(`<tr>
+                  <td><span class="k"><span class="dot credits-seg-other"></span>Other</span></td>
+                  <td class="amt">${other}</td><td class="unit"></td></tr>`);
+            }
+            if (!hasMonitor) {
+                rows.push(`<tr class="upsell"><td colspan="3">Monitor is on Power and Desk — <a href="/upgrade.html">compare plans &rarr;</a></td></tr>`);
+            }
+            rows.push(`<tr class="total">
+              <td>Used this month</td><td class="amt">${used}</td>
+              <td class="unit">of ${allowance}</td></tr>`);
+            breakdownEl.innerHTML = rows.join('');
+            breakdownEl.hidden = false;
+        } else {
+            breakdownEl.hidden = true;
+        }
+
+        // Wallet states the meter can't say in numbers alone. "Out" and
+        // "running low" both get the action one click away; the middle case is
+        // affordability, which the meter never used to mention — a wallet under
+        // the price of a Dossier reads as healthy right up until the refusal.
         const lowEl = $('credits-low');
+        const dossierCost = Number(cost.dossier_standard ?? 10);
         if (lowEl) {
             if (remaining <= 0 && allowance > 0) {
-                lowEl.innerHTML = `You're out of credits this month. <a href="/recharge.html">Recharge 150 credits — $14.99</a> to keep using Ask, Dossier and Monitor now.`;
+                lowEl.innerHTML = `You're out of credits this month. <a href="/recharge.html">Recharge ${RECHARGE.credits} credits — ${RECHARGE.price}</a> to keep using Ask, Dossier and Monitor now.`;
                 lowEl.hidden = false;
             } else if (allowance > 0 && remaining / allowance <= 0.2) {
-                lowEl.innerHTML = `Running low — <a href="/recharge.html">recharge 150 credits for $14.99</a>, or <a href="/upgrade.html">upgrade</a> for a bigger monthly wallet.`;
+                lowEl.innerHTML = `Running low — <a href="/recharge.html">recharge ${RECHARGE.credits} credits for ${RECHARGE.price}</a>, or <a href="/upgrade.html">upgrade</a> for a bigger monthly wallet.`;
+                lowEl.hidden = false;
+            } else if (allowance > 0 && remaining < dossierCost) {
+                lowEl.innerHTML = `Enough for ${plural(Math.floor(remaining / Number(cost.ask ?? 2)), ['Ask question', 'Ask questions'])}, but not a Dossier (${dossierCost}) — <a href="/recharge.html">recharge ${RECHARGE.credits} credits for ${RECHARGE.price}</a>.`;
                 lowEl.hidden = false;
             } else {
                 lowEl.hidden = true;
             }
         }
 
-        // Ask/Monitor/Dossier split, derived from the same `recent` rows the
-        // activity list renders below — one source of truth, no extra
-        // request. recentActivity() is capped server-side, so on a very
-        // heavy month those rows may not cover the full `used` total; only
-        // show the split when they plausibly do, rather than render a
-        // partial breakdown that looks complete but isn't.
-        const { ask, monitor, dossier, covered } = creditSplit(recent);
-        const breakdownEl = $('credits-breakdown');
-        if (recent.length && covered >= used) {
-            // Monitor is Power/Desk-only — a user who can't reach the feature
-            // gets a one-line upsell in its place instead of a usage row for
-            // something they've never been able to use.
-            const rows = [['Ask', ask]];
-            if (hasMonitor) rows.push(['Monitor', monitor]);
-            rows.push(['Dossier', dossier]);
-            const max = Math.max(...rows.map(([, amt]) => amt), 1);
-            breakdownEl.innerHTML = rows.map(([label, amt]) => `
-                <div class="credits-split-row">
-                  <span class="small muted">${label}</span>
-                  <div class="credits-split-track"><div class="credits-split-fill" style="width:${(amt / max) * 100}%;"></div></div>
-                  <span class="small" style="text-align:right;">${amt} credits</span>
-                </div>`).join('')
-                + (hasMonitor ? '' : '<p class="small muted" style="margin:8px 0 0;">The Filing Change Monitor is on Power and Desk.</p>');
-            breakdownEl.hidden = false;
-        } else {
-            breakdownEl.hidden = true;
+        // ---- where the wallet came from ----
+        const walletEl = $('credits-wallet');
+        if (walletEl) {
+            const source = purchased > 0
+                ? `<strong>${planCredits}</strong> from your plan + <strong>${purchased}</strong> purchased this month`
+                : `<strong>${planCredits}</strong> credits a month on your plan`;
+            walletEl.innerHTML = `Wallet: ${source}. <a href="/recharge.html">Recharge ${RECHARGE.credits} — ${RECHARGE.price}</a>`;
+        }
+
+        // ---- pace, from the month's own clock (no extra request) ----
+        // Only once enough of the month is behind us for an average to mean
+        // anything. This is the line that sells a recharge honestly: it says
+        // "you are fine" as readily as it says "you will run out".
+        const paceEl = $('credits-pace');
+        if (paceEl) {
+            const now = new Date();
+            const monthStart = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1);
+            const resetMs = Date.parse(credits.resetsAt || '');
+            const daysElapsed = (Date.now() - monthStart) / 86400000;
+            const daysTotal = Number.isFinite(resetMs) ? (resetMs - monthStart) / 86400000 : 30;
+            const perDay = daysElapsed > 0 ? used / daysElapsed : 0;
+            if (used > 0 && allowance > 0 && daysElapsed >= 3 && perDay > 0) {
+                const projected = Math.round(perDay * daysTotal);
+                const daysToEmpty = remaining / perDay;
+                if (daysToEmpty < daysTotal - daysElapsed) {
+                    const emptyOn = new Date(Date.now() + daysToEmpty * 86400000)
+                        .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                    paceEl.innerHTML = `Pace: about ${perDay.toFixed(1)} credits a day — at this rate you run out around <strong>${emptyOn}</strong>, before the month resets.`;
+                } else {
+                    paceEl.textContent = `Pace: about ${perDay.toFixed(1)} credits a day — roughly ${projected} of ${allowance} by the reset. Comfortable.`;
+                }
+                paceEl.hidden = false;
+            } else {
+                paceEl.hidden = true;
+            }
         }
 
         const costEl = $('credits-cost-line');
         if (costEl) {
-            const parts = [`Ask a question ${cost.ask ?? 2}`];
+            // Deep Dossier costs 30 and appears in the ledger, but was missing
+            // from this line entirely — the one price a user could be surprised by.
+            const parts = [`Ask ${cost.ask ?? 2}`];
             if (hasMonitor) parts.push(`Monitor report ${cost.monitor ?? 5}`);
-            parts.push(`Dossier ${cost.dossier_standard ?? 10}`, `Compare ${cost.dossier_compare ?? 5}`);
-            costEl.textContent = parts.join(' · ') + '. Re-opening anything you’ve already run is free.';
+            parts.push(`Compare ${cost.dossier_compare ?? 5}`, `Dossier ${cost.dossier_standard ?? 10}`, `Deep Dossier ${cost.dossier_deep ?? 30}`);
+            costEl.textContent = `What things cost — ${parts.join(' · ')}. Re-opening anything you've already run is free.`;
         }
 
+        // ---- activity ledger, with a running balance ----
         const activityWrap = $('credits-activity-wrap');
         const list = $('credits-activity-list');
-        if (recent.length) {
-            list.innerHTML = recent.map((row) => {
-                const amt = Math.max(0, -Number(row.delta) || 0);
+        const moreBtn = $('credits-activity-more');
+        const metaEl = $('credits-activity-meta');
+        const total = Number(credits.activityTotal) || 0;
+
+        function renderActivity(rows) {
+            // Walk newest -> oldest from the current balance: the balance after
+            // the newest row IS `remaining`, and each older row's balance is the
+            // newer one's minus its delta. Exact for the rows shown, whatever
+            // page of the ledger they came from.
+            let running = Math.max(0, remaining);
+            list.innerHTML = rows.map((row) => {
+                const delta = Number(row.delta) || 0;
+                const after = running;
+                running = after - delta;
                 const when = row.at ? new Date(row.at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '';
-                return `<li><span>${esc(activityLabel(row.reason, row.refId))}</span><span class="amt">&minus;${amt} credits <span class="when">&middot; ${esc(when)}</span></span></li>`;
+                return `<li>
+                  <span class="when">${esc(when)}</span>
+                  <span class="what">${esc(activityLabel(row.reason, row.refId))}</span>
+                  <span class="amt${delta > 0 ? ' is-add' : ''}">${delta > 0 ? '+' : '&minus;'}${Math.abs(delta)}</span>
+                  <span class="bal">${after}</span>
+                </li>`;
             }).join('');
+            if (metaEl) metaEl.textContent = total > rows.length ? `${rows.length} of ${total} this month` : `${plural(rows.length, ['entry', 'entries'])} this month`;
+            if (moreBtn) moreBtn.hidden = total <= rows.length;
+        }
+
+        if (recent.length) {
+            renderActivity(recent);
             activityWrap.hidden = false;
         } else {
             activityWrap.hidden = true;
         }
 
-        // Collapsed summary meta on the Usage row — the same figures the
-        // expanded section shows underneath, so the header works on its own.
+        if (moreBtn && !moreBtn.dataset.wired) {
+            moreBtn.dataset.wired = '1';
+            moreBtn.addEventListener('click', async () => {
+                moreBtn.disabled = true;
+                try {
+                    const r = await fetch(`${API}/credits?activityLimit=200`, { headers: auth });
+                    if (r.ok) {
+                        const all = await r.json();
+                        if (Array.isArray(all.recent)) renderActivity(all.recent);
+                    }
+                } catch (_) { /* the short list stays — nothing is lost */ }
+                moreBtn.disabled = false;
+            });
+        }
+
+        // The plan line above says the same thing in the used frame; with a
+        // live meter directly beneath it, it is duplication that disagrees with
+        // itself. It stays in the markup as the fallback for when /api/credits
+        // is the request that failed (the incident it was written for: a Tier 1
+        // buyer reading a stale Ask counter while his wallet had already moved).
+        const quotaLine = $('plan-quota');
+        if (quotaLine) quotaLine.hidden = true;
+
+        // Collapsed summary meta on the Usage row — the same frame the headline
+        // uses, so the header and the panel can't be read as different numbers.
         const usageMeta = $('usage-meta');
         if (usageMeta && $('plan-name').textContent) {
-            usageMeta.textContent = `${$('plan-name').textContent} · ${Math.max(0, remaining)} credits left`;
+            usageMeta.textContent = `${$('plan-name').textContent} · ${left} of ${allowance} credits left`;
         }
 
         wrap.hidden = false;

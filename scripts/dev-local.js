@@ -13,6 +13,11 @@
  * dependency — nothing to install) and can never reach Atlas. It also seeds one
  * signed-in Pro account so the gated features render.
  *
+ * NOTE: stop this before running `npm test`. The suite spins up its own
+ * mongodb-memory-server instances, and leaving this one running makes several
+ * database-backed tests fail spuriously (measured: 4 failures that all pass
+ * individually and disappear once this process is stopped).
+ *
  * Usage:  node scripts/dev-local.js          (defaults to port 5055)
  *         PORT=3000 node scripts/dev-local.js
  */

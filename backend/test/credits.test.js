@@ -238,3 +238,52 @@ test('purchased top-ups raise the current month only, and a webhook retry never 
     const guarded = await credits.balance(user, 300);
     assert.equal(guarded.allowance, 900, 'rejected grants changed nothing');
 });
+
+test('monthBreakdown() is complete for the month, whatever the activity cap', { timeout: 60000 }, async (t) => {
+    // The profile meter used to derive its per-feature split by summing
+    // recentActivity()'s capped rows, and hid the split entirely when they
+    // didn't add up to used() — so the breakdown disappeared for exactly the
+    // heavy months worth breaking down. This aggregate has no cap; the guard
+    // it replaces is what this test pins.
+    const server = await MongoMemoryServer.create();
+    await mongoose.connect(server.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
+
+    const user = 'user-breakdown';
+    for (let i = 0; i < 20; i++) await credits.spend(user, 'ask', 'ask', `q${i}`);   // 40
+    await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard');       // 10
+    await credits.spend(user, 'dossier_deep', 'dossier', 'AAPL:deep');               // 30
+    await credits.spend(user, 'monitor', 'monitor', 'NVDA');                         //  5
+    await credits.grant(user, 150, 'topup', 'cs_bd_1');                              // +150
+
+    const bd = await credits.monthBreakdown(user);
+    assert.equal(bd.ask.delta, -40);
+    assert.equal(bd.ask.count, 20);
+    assert.equal(bd.dossier.delta, -40, 'standard + deep share one reason');
+    assert.equal(bd.dossier.count, 2);
+    assert.equal(bd.monitor.delta, -5);
+    assert.equal(bd.topup.delta, 150, 'a purchase is a positive row, not usage');
+
+    // The whole point: the totals reconcile with used() even though the
+    // activity list only ever shows a page of the rows.
+    const bal = await credits.balance(user, 300);
+    const spent = Object.values(bd).reduce((n, r) => n + Math.max(0, -r.delta), 0);
+    assert.equal(spent, bal.used, 'the split must add up to the meter');
+    assert.equal((await credits.recentActivity(user, 12)).length, 12, 'the list is still capped');
+
+    // balance() reports the wallet's two halves, so the page can say which
+    // credits were bought rather than presenting one inflated allowance.
+    assert.equal(bal.plan, 600);
+    assert.equal(bal.purchased, 150);
+    assert.equal(bal.allowance, 750);
+    assert.equal(bal.plan + bal.purchased, bal.allowance);
+
+    const none = await credits.monthBreakdown('user-nobody');
+    assert.deepEqual(none, {}, 'a user with no rows gets an empty map, not an error');
+});
+
+test('monthBreakdown() never throws, even with a broken connection', { timeout: 10000 }, async () => {
+    const result = await credits.monthBreakdown('user-x').catch(() => 'THREW');
+    assert.notEqual(result, 'THREW');
+    assert.deepEqual(result, {});
+});
