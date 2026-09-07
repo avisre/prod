@@ -2138,7 +2138,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2167,7 +2167,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper2"></script>
+<script src="/assets/app.js?v=20260907-aipaper3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2251,7 +2251,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2279,7 +2279,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper2"></script>
+<script src="/assets/app.js?v=20260907-aipaper3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2383,7 +2383,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2416,7 +2416,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper2"></script>
+<script src="/assets/app.js?v=20260907-aipaper3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -7813,16 +7813,21 @@ async function buildAiPaperChatCtx(userId) {
     let state = null;
     try { state = await aiPaper.statusFor(userId); } catch (_) { state = null; }
     const context = [
-        'AI PAPER PORTFOLIO MODE — the user is running the AI Paper Portfolio experiment (two AI minds, each picking ONE stock; ONE buying decision at creation; buy-once-never-change).',
-        'Hard rules: the positions are immutable; you can explain, report and discuss, NEVER buy, sell, reweigh or change anything; nightly reviews are advisory-only notes in the log.',
+        'AI PAPER PORTFOLIO MODE — the user is running the AI Paper Portfolio experiment (two AI minds, each picking ONE stock; ONE buying decision at creation). The owner of the experiment can steer it; the AI can never trade on its own.',
+        'Hard rules: positions change ONLY through an explicit ai_portfolio_steer command the owner just gave (allocation change, a pick swap, or standing rules) — everything else you say is advisory and never executed. Nightly reviews are advisory-only notes in the log.',
         state && state.exists
             ? `Current experiment state (authoritative — never invent numbers): ${JSON.stringify(state)}`
                 + (state.status === 'failed'
                     ? '\nThe failed run is fully discarded. When the user wants to try again, call ai_portfolio_setup — with NO arguments (the pure-data default) unless they explicitly name an investor in their own words. Never carry the failed run\'s guru over to a retry, and never claim a build is running unless you just called the tool.'
                     : state.status === 'building'
-                        ? '\nA build is already in progress. Do not call ai_portfolio_setup again; report progress from this state.'
-                        : '')
-            : 'No portfolio exists yet. If the user wants to start the experiment, call ai_portfolio_setup — by default with NO arguments (both minds are independent pure-data analysts). If they name an investor — living or deceased (e.g. Buffett, Charlie Munger, Peter Lynch) — pass that name as guru.'
+                        ? '\nA build is already in progress. Do not call ai_portfolio_setup again; report progress from the state (the buildLog lines are the live research feed — narrate the latest steps). The owner can pause the run from the dashboard; once paused, ai_portfolio_setup (with the edited guru/constraints) re-runs the research.'
+                        : state.status === 'paused'
+                            ? '\nThe build was PAUSED by the owner and the research stopped cleanly — nothing was bought. The setup that was running is in state.setup (guru + constraints). Ask what they want to change (a different guru, extra constraints like "avoid financials"), then call ai_portfolio_setup once with the FULL edited setup to re-run the research from scratch. Nothing carries over except what they confirm.'
+                            : '')
+                + (Array.isArray(state.steeringRules) && state.steeringRules.length
+                    ? `\nOwner's standing rules for reviews: ${state.steeringRules.join(' | ')}`
+                    : '')
+            : 'No portfolio exists yet. If the user wants to start the experiment, call ai_portfolio_setup — by default with NO arguments (both minds are independent pure-data analysts). If they name an investor — living or deceased (e.g. Buffett, Charlie Munger, Peter Lynch) — pass that name as guru. If they state hard requirements for the research (e.g. "avoid financials"), pass each as a constraints entry.'
     ].join('\n');
     return {
         aiPaperTools: aiPaper.CHAT_TOOLS,
@@ -7839,7 +7844,12 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
             // minds). A free-text investor name resolves against the living
             // managers + deceased legends; ambiguous names come back as
             // candidates so the assistant can ask instead of guessing.
+            // Constraints are the owner's hard requirements, passed through
+            // verbatim (the module clamps count/length).
             const wanted = String((args && (args.guru || args.guruId)) || '').trim();
+            const constraints = Array.isArray(args && args.constraints)
+                ? args.constraints.map((c) => String(c || '').trim()).filter(Boolean).slice(0, 5)
+                : [];
             let guruId = '';
             if (wanted) {
                 const { matched } = aiPaper.resolveGuru(wanted);
@@ -7852,20 +7862,40 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
                 guruId = matched[0].id;
             }
             const existing = await aiPaper.statusFor(userId);
-            if (existing.exists && existing.status === 'building') return { error: 'A build is already in progress — give it about two to three minutes.' };
+            if (existing.exists && existing.status === 'building') return { error: 'A build is already in progress — give it about two to three minutes (or they can pause it from the dashboard).' };
             if (existing.exists && (existing.status === 'committed' || existing.status === 'tracking')) {
                 return { error: 'An AI Paper Portfolio already exists for this account (one per account, buy-once-never-change). Only ai_portfolio_reset — with the user\'s explicit confirmation — clears it for a fresh run.' };
             }
+            const resuming = existing.exists && existing.status === 'paused';
             if (!require('./ai-client').isConfigured()) return { error: 'The AI research service is not configured right now — try again shortly.' };
             // Fire-and-forget: the build runs in the background, disconnect-
             // tolerant; progress streams as ai_paper SSE events while this
-            // connection lives. A failure lands as buildError in the next
-            // status call — never a silent skip.
+            // connection lives AND persists into the doc's buildLog, which the
+            // dashboard polls — so the feed survives a closed connection. A
+            // failure lands as buildError in the next status call — never a
+            // silent skip. A paused run's doc is deleted by create() and the
+            // research starts over with the edited setup.
             aiPaper.create({
-                user: { id: userId }, guruId,
+                user: { id: userId }, guruId, constraints,
                 onEvent: (e) => { const p = ctx && ctx.aiPaperProgress; if (p) { try { p(e); } catch (_) { /* client gone — keep building */ } } }
             }).catch((e) => console.error('[ai-paper] background build failed:', e && e.message));
-            return { started: true, message: 'Setup is underway in the background — about two to three minutes. The build progress streams into this conversation, and the finished portfolio is visible on their dashboard. They can ask how it went at any time.' };
+            return {
+                started: true,
+                message: (resuming ? 'Resuming with the edited setup — ' : 'Setup is underway in the background — ')
+                    + 'about two to three minutes. The live research feed streams into this conversation and onto their dashboard; the owner can pause the run at any time.'
+            };
+        }
+        if (name === 'ai_portfolio_steer') {
+            // Explicit owner commands only — the model must never invent an
+            // allocation or ticker on its own. applySteering guardrails
+            // (10-70% per slot, cash cap, verified symbols, official closes)
+            // are enforced in the module.
+            const out = await aiPaper.applySteering(userId, args && args.action, args || {});
+            if (!out.ok) return { error: out.reason };
+            return {
+                steered: args.action,
+                message: 'Applied the owner\'s change exactly as instructed (guardrails verified in code) and logged it in the decision log as an owner action. Report the new state; positions may take a moment to refresh.'
+            };
         }
         if (name === 'ai_portfolio_reset') {
             const out = await aiPaper.resetRun(userId);
@@ -7901,6 +7931,8 @@ app.get('/api/ai-paper-portfolio', authMiddleware, aiPaper.betaGate, async (req,
 // detail for the outcome).
 app.post('/api/ai-paper-portfolio/create', authMiddleware, aiPaper.betaGate, async (req, res) => {
     const guruId = String((req.body && req.body.guruId) || '').trim();
+    // Raw pass-through only — create() cleans (stripThink, trim, ≤5 × ≤140).
+    const rawConstraints = (req.body && Array.isArray(req.body.constraints)) ? req.body.constraints : [];
     res.writeHead(200, {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache, no-transform',
@@ -7916,16 +7948,31 @@ app.post('/api/ai-paper-portfolio/create', authMiddleware, aiPaper.betaGate, asy
     const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
     try {
         const result = await aiPaper.create({
-            user: { id: portfolioOwnerId(req) }, guruId,
+            user: { id: portfolioOwnerId(req) }, guruId, constraints: rawConstraints,
             onEvent: (e) => send(e.type || 'status', e)
         });
         // create() emits done/error itself via onEvent; this covers a throw.
-        if (!result.ok) send('error', { message: result.error || 'The build failed.' });
+        // A paused build is not an error — the SSE 'paused' frame tells the
+        // frontend to show the paused card instead of a failure.
+        if (result && result.paused) send('paused', {});
+        else if (!result.ok) send('error', { message: result.error || 'The build failed.' });
     } catch (error) {
         send('error', { message: publicErrorMessage(error, 'The build failed.') });
     } finally {
         clearInterval(ping);
         if (!res.writableEnded) res.end();
+    }
+});
+
+// Owner pause: stops the running research within one LLM round / tool call
+// and keeps the setup (guru + constraints) on the paused doc so it can be
+// edited in chat and re-run. Not a delete, not a failure — a controlled stop.
+app.post('/api/ai-paper-portfolio/stop', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    try {
+        const out = await aiPaper.stopBuild(portfolioOwnerId(req));
+        res.json(out);
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Could not stop the build.') });
     }
 });
 

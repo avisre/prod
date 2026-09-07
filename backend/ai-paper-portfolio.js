@@ -1,17 +1,30 @@
 // AI Paper Portfolio — beta experiment, gated to AI_PORTFOLIO_BETA_EMAILS.
 //
-// Two minds, one stock each, $100k of paper money, bought ONCE and never
-// changed again: a guru persona (researches the famous investor's documented
-// PHILOSOPHY — never their trades; works for dead gurus) and a pure-data AI
-// persona (no investor reference at all) each pick exactly one stock, then a
-// tool-less allocator call decides the dollar split. Code, not the model,
-// enforces every guardrail: exactly 2 positions (one per persona), max 70% in
-// a single position, max 20% cash, stocks-only, $100k budget. After the two
-// nightly advisory reviews the AI never runs again — snapshots and the SPY
-// benchmark continue forever.
+// Two minds, one stock each, $100k of paper money: a guru persona (researches
+// the famous investor's documented PHILOSOPHY — never their trades; works for
+// dead gurus) and a pure-data AI persona (no investor reference at all) each
+// pick exactly one stock, then a tool-less allocator call decides the dollar
+// split. Code, not the model, enforces every guardrail: exactly 2 positions
+// (one per persona), max 70% in a single position, max 20% cash, stocks-only,
+// $100k budget. After the two nightly advisory reviews the AI never runs again
+// — snapshots and the SPY benchmark continue forever.
+//
+// The OWNER may steer the experiment after construction (applySteering):
+// reallocate dollars between the two slots, swap one slot's stock, and set
+// standing rules the nightly review must reflect — every steering action is
+// an explicit owner command, priced at official closes, guardrail-checked in
+// code, and logged as a 'steering' decision. The model can still never trade
+// silently: chat reaches steering only through the explicit tool the owner's
+// request triggers.
+//
+// A running build is pausable: create() registers the run, the persona loops
+// check an abort flag between rounds and tool calls, and a paused build keeps
+// its setup (guru + owner constraints) so the owner can edit the plan and run
+// it again — a fresh run, never a half-built ledger.
 //
 // Hard invariants (structural, tested in test/ai-paper-gating.test.js):
-//   * Nothing outside create() ever writes `positions` — no trade path exists.
+//   * `positions` are written by exactly TWO code paths: the construction
+//     commit and the owner-steering trade helper — nothing else, ever.
 //   * Decisions are append-only: the module never updates or deletes one.
 //   * Separate Mongo collections — real Stock/Portfolio docs are never read
 //     or written here.
@@ -194,8 +207,13 @@ const PortfolioSchema = new mongoose.Schema({
         personaId: String,
         openedAt: Date
     }],
-    status: { type: String, enum: ['building', 'committed', 'tracking', 'failed'], default: 'building' },
+    status: { type: String, enum: ['building', 'paused', 'committed', 'tracking', 'failed'], default: 'building' },
     buildPhase: { type: String, default: '' },   // progress label while building
+    buildLog: { type: [String], default: [] },   // capped live research feed (last 120 lines)
+    // The setup intent, kept through a pause so the owner can edit it and run
+    // it again: guru (optional) + free-text owner constraints for both minds.
+    setup: mongoose.Schema.Types.Mixed,          // { guruId, constraints: [String] }
+    steeringRules: { type: [String], default: [] }, // standing owner rules for the nightly review
     guruId: String,               // retry can prefill the same guru
     dayCount: { type: Number, default: 0 },
     lastTickDay: { type: String, default: '' },   // UTC 'YYYY-MM-DD' idempotency lock
@@ -209,7 +227,7 @@ const DecisionSchema = new mongoose.Schema({
     portfolioId: { type: mongoose.Schema.Types.ObjectId, index: true },
     seq: Number,                  // 1-based within a portfolio run
     day: Number,                  // 0 = construction
-    type: { type: String, enum: ['construct', 'review', 'end_reviews', 'build_failed'] },
+    type: { type: String, enum: ['construct', 'review', 'end_reviews', 'build_failed', 'steering'] },
     persona: String,              // 'guru' | 'ai' | 'allocator' | 'system'
     rationale: String,
     newsFactors: [String],        // headline digests consumed (audit trail)
@@ -669,11 +687,14 @@ const JSON_CONTRACT = [
     'Pick exactly ONE stock. Never more than one. Never an ETF, index fund, mutual fund, ADR or foreign listing — a US common stock only.'
 ].join('\n');
 
-async function runPersonaLoop(personaId, systemPrompt, { usage, deadline, maxToolCalls = PERSONA_MAX_TOOL_CALLS }) {
+async function runPersonaLoop(personaId, systemPrompt, { usage, deadline, maxToolCalls = PERSONA_MAX_TOOL_CALLS, check = null, onLine = null }) {
     const tools = personaTools();
     const messages = [{ role: 'system', content: systemPrompt }];
     let toolCalls = 0;
     for (let round = 0; round < PERSONA_MAX_ROUNDS; round++) {
+        // A pause wins over everything: checked at the top of every round so
+        // a stop lands within one LLM call's latency at most.
+        if (check) check();
         const remaining = deadline - Date.now();
         const finalRound = round === PERSONA_MAX_ROUNDS - 1 || remaining < 15000;
         if (finalRound) {
@@ -694,14 +715,19 @@ async function runPersonaLoop(personaId, systemPrompt, { usage, deadline, maxToo
                 if (toolCalls >= maxToolCalls) {
                     result = { error: 'Tool budget exhausted — make your final pick now with what you have.' };
                 } else {
+                    // Pause check between tool calls too: a stop never waits
+                    // for the full tool budget to drain.
+                    if (check) check();
                     toolCalls++;
                     let args = {};
                     try { args = JSON.parse(tc.function.arguments || '{}'); } catch (_) { args = {}; }
+                    if (onLine) { try { onLine(toolLine(tc.function.name, args, null)); } catch (_) { /* feed is best-effort */ } }
                     try {
                         result = await aiChat.runTool(tc.function.name, args, {});
                     } catch (e) {
                         result = { error: `Tool failed: ${String(e && e.message || 'unknown').slice(0, 120)}` };
                     }
+                    if (onLine) { try { onLine('  ↳ ' + toolLine(tc.function.name, args, result)); } catch (_) { /* feed is best-effort */ } }
                 }
                 messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify(result).slice(0, 20000) });
             }
@@ -747,7 +773,16 @@ function marketDigestBlock(digest) {
     return lines.length ? `MARKET DIGEST (pre-fetched for you — do not re-search for general market state):\n${lines.join('\n')}\n` : '';
 }
 
-function guruPersonaPrompt(guru, holdings, digest, style) {
+// Owner constraints are HARD requirements injected into every mind's prompt:
+// the pick must satisfy each one, and the rationale must say how. Written
+// once here so the guru persona and the data minds carry the same rules.
+function constraintsBlock(constraints) {
+    const rows = (Array.isArray(constraints) ? constraints : []).map((c) => String(c || '').trim()).filter(Boolean);
+    if (!rows.length) return '';
+    return `OWNER'S HARD REQUIREMENTS (satisfy ALL of them — a pick that violates any one is rejected):\n${rows.map((c) => `- ${c}`).join('\n')}\n`;
+}
+
+function guruPersonaPrompt(guru, holdings, digest, style, constraints = []) {
     const refBlock = Array.isArray(holdings) && holdings.length
         ? `OPTIONAL REFERENCE ONLY — ${guru.name}'s latest 13F holdings (quarterly, up to 45 days stale): ${holdings.slice(0, 10).map((h) => `${h.ticker || h.name} (${h.weight ? h.weight + '%' : ''})`).join(', ')}.\nThe PHILOSOPHY is authoritative. Your pick does NOT need to match these holdings — a mismatch is fine; abandoning the philosophy is not.\n`
         : '';
@@ -760,6 +795,7 @@ function guruPersonaPrompt(guru, holdings, digest, style) {
         refBlock,
         marketDigestBlock(digest),
         `STYLE SEATBELT: your pick must not be an egregious mismatch for a "${style}" approach (e.g. no extreme-P/E story stock for a value philosophy).`,
+        constraintsBlock(constraints),
         JSON_CONTRACT,
         `Remember: never name or hint at any AI model or provider. Output JSON only when committing your pick.`
     ].filter(Boolean).join('\n');
@@ -770,7 +806,7 @@ function guruPersonaPrompt(guru, holdings, digest, style) {
 // data-only minds with different mandates (growth/momentum vs quality/value),
 // so the two passes don't converge on the same thesis. Neither names an
 // investor — there is no investor to reference.
-function dataMindPrompt(digest, slot = 2) {
+function dataMindPrompt(digest, slot = 2, constraints = []) {
     const mandate = slot === 1
         ? `YOUR MANDATE: find the strongest GROWTH story the data can defend — accelerating revenue and latest-quarter earnings growth, expanding margins, and price momentum that confirms the fundamentals (read momentum from get_price_history).`
         : `YOUR MANDATE: find the strongest QUALITY-AT-A-PRICE story the data can defend — high ROE, durable margins, positive FCF, and a valuation you can justify against the growth you found.`;
@@ -784,6 +820,7 @@ function dataMindPrompt(digest, slot = 2) {
         mandate,
         `3. PICK EXACTLY ONE STOCK whose rationale cites the specific data factors that made it the winner.`,
         marketDigestBlock(digest),
+        constraintsBlock(constraints),
         JSON_CONTRACT,
         `Remember: never name or hint at any AI model or provider. Output JSON only when committing your pick.`
     ].filter(Boolean).join('\n');
@@ -867,11 +904,109 @@ async function failBuild(doc, message, usage) {
     } catch (_) { /* logging is best-effort; the failure state above is authoritative */ }
 }
 
-async function create({ user, guruId, onEvent }) {
+// A paused build is NOT a failed build: the setup intent (guru + constraints)
+// is kept on the doc so the owner can edit the plan and run it again. A fresh
+// run deletes the paused doc — never a half-built ledger.
+async function pauseBuild(doc) {
+    doc.status = 'paused';
+    doc.buildPhase = '';
+    await AIPaperPortfolio().updateOne(
+        { _id: doc._id },
+        {
+            $set: { status: 'paused', buildPhase: '', updatedAt: new Date() },
+            $push: { buildLog: { $each: [logStamp('⏸ Paused — the research stopped cleanly. Edit the setup and run it again to resume.')], $slice: -BUILD_LOG_CAP } }
+        }
+    );
+}
+
+// Owner pressed stop on a running build. In-memory flag first (the live run
+// sees it within one LLM round / tool call); when no run is registered (a
+// process restart orphaned the doc) the doc is paused directly. Repeated or
+// late calls are no-ops — pausing is idempotent and safe.
+async function stopBuild(userId) {
+    const key = String(userId);
+    const handle = activeBuilds.get(key);
+    if (handle) { handle.aborted = true; return { ok: true, stopping: true }; }
+    const doc = await AIPaperPortfolio().findOne({ user: key, status: 'building' });
+    if (!doc) return { ok: false, reason: 'No build is running right now.' };
+    await pauseBuild(doc);
+    return { ok: true, paused: true };
+}
+
+// Live run registry: userId -> { aborted }. create() registers itself; the
+// persona loops and every stage boundary check the flag, so a pause lands
+// within one LLM round / tool call. A process restart loses the registry —
+// stopBuild() then pauses the doc directly (the orphaned 'building' doc would
+// otherwise wait for the stale reaper).
+const activeBuilds = new Map();
+class PauseError extends Error {
+    constructor() { super('PAUSED_BY_OWNER'); this.paused = true; }
+}
+function assertLive(handle) {
+    if (handle && handle.aborted) throw new PauseError();
+}
+
+// ---- Live research feed (buildLog) ----------------------------------------
+// Capped on-doc feed the frontend polls while a build runs — it survives
+// disconnects and tab switches (the chat SSE stream dies with the answer).
+// Every event (phase, per-tool-call research line, pick, pause, done, error)
+// becomes one prefixed line. Server-side timestamps keep the feed honest.
+
+const BUILD_LOG_CAP = 120;
+function logStamp(text) {
+    const t = new Date();
+    const mmss = `${String(t.getUTCMinutes()).padStart(2, '0')}:${String(t.getUTCSeconds()).padStart(2, '0')}`;
+    return `${mmss} ${String(text || '').slice(0, 240)}`;
+}
+
+// Compact one-line summaries for the research feed — never the raw payload
+// (a screen_universe result can be 25 rows of fundamentals).
+function toolLine(name, args, result) {
+    const clean = (v) => stripThink(String(v === undefined || v === null ? '' : v));
+    const argStr = Object.entries(args || {})
+        .filter(([, v]) => clean(v) !== '' && !(Array.isArray(v) && !v.length))
+        .slice(0, 2)
+        .map(([k, v]) => `${k}=${clean(typeof v === 'object' ? JSON.stringify(v) : v).slice(0, 40)}`)
+        .join(', ');
+    let out;
+    if (result && result.error) out = `⚠ ${clean(result.error).slice(0, 80)}`;
+    else if (Array.isArray(result)) out = `${result.length} row${result.length === 1 ? '' : 's'}`;
+    else if (result && typeof result === 'object') {
+        const keys = Object.keys(result);
+        const rows = Array.isArray(result.rows) ? `${result.rows.length} rows` : null;
+        const head = clean(result.symbol || result.ticker || result.title || result.companyName || '');
+        out = rows || (keys.length ? (head ? `${head}` : `${keys.slice(0, 3).join('/')}`) : 'ok');
+    } else out = clean(result).slice(0, 60) || 'ok';
+    return `${name}(${argStr}) → ${out}`.slice(0, 200);
+}
+
+async function create({ user, guruId, constraints, onEvent }) {
     const userId = String((user && user.id) || user || '');
-    const emit = (e) => { if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep building */ } } };
     const usage = newUsage();
-    emit({ type: 'status', phase: 'validating' });
+    // Every event goes two places: the SSE connection (instant, dies with the
+    // answer) and the doc's capped buildLog (polled, survives disconnects).
+    // Events fired before the doc exists (guru-resolution errors) only go to
+    // the SSE connection.
+    let runDocId = null;
+    const emit = (e) => {
+        if (runDocId) {
+            // Research lines carry the mind label so the polled feed reads
+            // "🧠 Buffett mind: screen_universe(…) → 241 rows" without context.
+            const line = e.type === 'research' && e.label ? `${e.label}: ${e.text || ''}` : (e.text || '');
+            try {
+                AIPaperPortfolio().updateOne(
+                    { _id: runDocId },
+                    { $push: { buildLog: { $each: [logStamp(line)], $slice: -BUILD_LOG_CAP } }, $set: { updatedAt: new Date() } }
+                ).catch(() => {});
+            } catch (_) { /* feed is best-effort */ }
+        }
+        if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep building */ } }
+    };
+
+    // Owner constraints are hard requirements for BOTH minds, validated here
+    // so the prompts and the doc always carry the same cleaned list.
+    const cleanedConstraints = (Array.isArray(constraints) ? constraints : [])
+        .map((c) => stripThink(c).trim().slice(0, 140)).filter(Boolean).slice(0, 5);
 
     // Guru is OPTIONAL: absent/empty ⇒ the pure-AI default (two independent
     // data minds, no investor persona anywhere). Free text resolves through
@@ -885,34 +1020,48 @@ async function create({ user, guruId, onEvent }) {
             ? `did you mean ${resolved.matched.map((g) => g.name).join(' or ')}?`
             : 'name an investor (e.g. Buffett, Charlie Munger, Peter Lynch) or leave the guru unset for the pure-data default.';
         const err = `Unknown or ambiguous investor "${rawGuru}" — ${hint}`;
-        emit({ type: 'error', message: err });
+        emit({ type: 'error', text: err, message: err });
         return { ok: false, error: err };
     }
 
-    // One portfolio per user. A failed run self-clears: the retry IS the
-    // recovery path, and it starts a new logged run (the old decisions remain
-    // as append-only history under the old portfolio id).
+    // One portfolio per user. A failed (or paused) run self-clears: the retry
+    // IS the recovery path, and it starts a new logged run (the old decisions
+    // remain as append-only history under the old portfolio id).
     const Portfolio = AIPaperPortfolio();
     const live = await Portfolio.findOne({ user: userId, status: { $in: ['building', 'committed', 'tracking'] } });
     if (live) {
-        emit({ type: 'error', message: 'An AI Paper Portfolio already exists for this account.' });
+        emit({ type: 'error', text: 'An AI Paper Portfolio already exists for this account.', message: 'An AI Paper Portfolio already exists for this account.' });
         return { ok: false, error: 'An AI Paper Portfolio already exists for this account.' };
     }
-    await Portfolio.deleteMany({ user: userId, status: 'failed' });
+    await Portfolio.deleteMany({ user: userId, status: { $in: ['failed', 'paused'] } });
 
     const doc = await Portfolio.create({
         user: userId, name: 'AI Paper Portfolio', startingCapital: STARTING_CAPITAL,
         cash: 0, positions: [], personas: [], status: 'building', buildPhase: 'starting',
+        buildLog: [], setup: { guruId: hasGuru ? guru.id : '', constraints: cleanedConstraints },
         guruId: hasGuru ? guru.id : '', dayCount: 0, lastTickDay: '', spyBaseline: null, buildError: ''
     });
+    const docId = doc._id;
+    runDocId = doc._id;
+    const ownerConstraints = cleanedConstraints; // cleaned list, injected into both minds
+    const handle = { aborted: false };
+    activeBuilds.set(userId, handle);
 
     try {
         if (!aiClient.isConfigured()) throw new Error('The AI service is not configured, so the build cannot run.');
-        emit({ type: 'status', phase: 'digest' });
+        assertLive(handle);
+        emit({
+            type: 'status', phase: 'starting',
+            text: hasGuru
+                ? `Setup: ${guru.name} mind + the data mind${ownerConstraints.length ? ` · your constraints: ${ownerConstraints.join(' · ')}` : ''}`
+                : `Setup: two independent data minds${ownerConstraints.length ? ` · your constraints: ${ownerConstraints.join(' · ')}` : ''}`
+        });
+        emit({ type: 'status', phase: 'digest', text: 'Building the market digest (index levels, rates, breadth)…' });
         await setPhase(doc, 'fetching market digest');
         const digest = await buildDigest();
 
-        emit({ type: 'status', phase: 'personas' });
+        assertLive(handle);
+        emit({ type: 'status', phase: 'personas', text: 'Two independent minds begin their research…' });
         await setPhase(doc, 'researching both minds');
         const style = hasGuru ? (GURU_STYLES[guru.id] || 'value') : null;
         const holdingsDoc = hasGuru ? await gurus.holdings(guru.id).catch(() => null) : null;
@@ -921,9 +1070,12 @@ async function create({ user, guruId, onEvent }) {
         // Mind 1 ('guru' slot): investor-philosophy persona when a guru was
         // chosen, otherwise an independent data mind with a growth mandate.
         // Mind 2 ('ai' slot): the classic pure-data analyst (quality mandate).
+        // Owner constraints ride into EVERY mind's prompt as hard requirements.
         const promptFor = (personaId) => personaId === 'guru'
-            ? (hasGuru ? guruPersonaPrompt(guru, holdings, digest, style) : dataMindPrompt(digest, 1))
-            : dataMindPrompt(digest, 2);
+            ? (hasGuru
+                ? guruPersonaPrompt(guru, holdings, digest, style, ownerConstraints)
+                : dataMindPrompt(digest, 1, ownerConstraints))
+            : dataMindPrompt(digest, 2, ownerConstraints);
         // The guru mind pays a research tax for the live philosophy download;
         // data minds keep the standard budget.
         const budgetFor = (personaId) => (hasGuru && personaId === 'guru')
@@ -935,9 +1087,12 @@ async function create({ user, guruId, onEvent }) {
 
         const runMind = async (personaId) => {
             const b = budgetFor(personaId);
-            const pick = await runPersonaLoop(personaId, promptFor(personaId),
-                { usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls });
-            emit({ type: 'persona', persona: personaId, label: labelFor(personaId), phase: 'picked', symbol: pick.symbol });
+            const pick = await runPersonaLoop(personaId, promptFor(personaId), {
+                usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls,
+                check: () => handle.aborted,
+                onLine: (t) => emit({ type: 'research', persona: personaId, label: labelFor(personaId), text: t })
+            });
+            emit({ type: 'persona', persona: personaId, label: labelFor(personaId), phase: 'picked', symbol: pick.symbol, text: `${labelFor(personaId)} picked ${pick.symbol}` });
             await setPhase(doc, `${personaId} picked ${pick.symbol}`);
             return pick;
         };
@@ -950,16 +1105,22 @@ async function create({ user, guruId, onEvent }) {
             if (r.status === 'fulfilled') picks[personaId] = r.value;
             else errors[personaId] = String(r.reason && r.reason.message || r.reason).slice(0, 300);
         }
+        assertLive(handle);
         // One retry per persona, run serially only for the one that failed
         // (the successful mind's work is kept, not re-rolled).
         for (const personaId of ['guru', 'ai']) {
             if (picks[personaId] || !errors[personaId]) continue;
-            emit({ type: 'persona', persona: personaId, phase: 'retry' });
+            assertLive(handle);
+            emit({ type: 'persona', persona: personaId, phase: 'retry', text: `${labelFor(personaId)} hit a snag — running its research again…` });
             try {
                 const b = budgetFor(personaId);
-                picks[personaId] = await runPersonaLoop(personaId, promptFor(personaId),
-                    { usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls });
+                picks[personaId] = await runPersonaLoop(personaId, promptFor(personaId), {
+                    usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls,
+                    check: () => handle.aborted,
+                    onLine: (t) => emit({ type: 'research', persona: personaId, label: labelFor(personaId), text: t })
+                });
             } catch (e) {
+                if (e && e.paused) throw e;
                 errors[personaId] = String(e && e.message || e).slice(0, 300);
             }
         }
@@ -971,23 +1132,29 @@ async function create({ user, guruId, onEvent }) {
         // Two minds converging on the same stock defeats the two-mind design:
         // re-roll mind 2 once with the collision made explicit.
         if (picks.guru.symbol === picks.ai.symbol) {
-            emit({ type: 'persona', persona: 'ai', phase: 'retry' });
+            assertLive(handle);
+            emit({ type: 'persona', persona: 'ai', phase: 'retry', text: `Both minds landed on ${picks.guru.symbol} — re-rolling mind 2 so the two slots stay independent…` });
             picks.ai = await runPersonaLoop('ai', promptFor('ai')
-                + `\nIMPORTANT: the first mind already committed to ${picks.guru.symbol}. Your pick must be a DIFFERENT stock — choose the next-best candidate that stands on its own data.`,
-                { usage, deadline: Date.now() + PERSONA_WALL_MS });
+                + `\nIMPORTANT: the first mind already committed to ${picks.guru.symbol}. Your pick must be a DIFFERENT stock — choose the next-best candidate that stands on its own data.`, {
+                usage, deadline: Date.now() + PERSONA_WALL_MS,
+                check: () => handle.aborted,
+                onLine: (t) => emit({ type: 'research', persona: 'ai', label: labelFor('ai'), text: t })
+            });
         }
 
         // Philosophy seatbelt on the guru pick (egregious mismatches only) —
         // a data mind has no philosophy to violate, so it never runs for
         // pure-AI builds.
         if (hasGuru) {
+            assertLive(handle);
             const screen = await philosophyScreen(style, picks.guru.symbol);
             if (!screen.pass) {
                 throw new Error(`The guru pick (${picks.guru.symbol}) failed the philosophy seatbelt: ${screen.flags.join('; ')}. Nothing was bought; press retry for a fresh run.`);
             }
         }
 
-        emit({ type: 'status', phase: 'allocator' });
+        assertLive(handle);
+        emit({ type: 'status', phase: 'allocator', text: `Deciding the dollar split between ${picks.guru.symbol} and ${picks.ai.symbol}…` });
         await setPhase(doc, 'deciding the dollar split');
         let alloc = null;
         try {
@@ -1007,7 +1174,8 @@ async function create({ user, guruId, onEvent }) {
             } catch (_) { alloc = null; }
         }
 
-        emit({ type: 'status', phase: 'validating' });
+        assertLive(handle);
+        emit({ type: 'status', phase: 'validating', text: 'Verifying both picks against real quote data…' });
         await setPhase(doc, 'verifying picks and prices');
         let sanitized = await sanitizeAllocation(alloc, picks, STARTING_CAPITAL);
         if (!sanitized.ok) {
@@ -1015,18 +1183,23 @@ async function create({ user, guruId, onEvent }) {
             // with the rejection reason, then the sanitizer runs again.
             const persona = sanitized.persona;
             if (persona === 'guru' || persona === 'ai') {
-                emit({ type: 'persona', persona, phase: 'retry' });
+                assertLive(handle);
+                emit({ type: 'persona', persona, phase: 'retry', text: `${labelFor(persona)}'s pick was rejected (${sanitized.reason}) — picking again…` });
                 const retryPrompt = promptFor(persona)
                     + `\nIMPORTANT: your previous pick was rejected by verification: ${sanitized.reason} Pick a different stock that passes.`;
                 const b = budgetFor(persona);
-                picks[persona] = await runPersonaLoop(persona, retryPrompt,
-                    { usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls });
+                picks[persona] = await runPersonaLoop(persona, retryPrompt, {
+                    usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls,
+                    check: () => handle.aborted,
+                    onLine: (t) => emit({ type: 'research', persona, label: labelFor(persona), text: t })
+                });
                 sanitized = await sanitizeAllocation(alloc, picks, STARTING_CAPITAL);
             }
         }
         if (!sanitized.ok) throw new Error(`${sanitized.reason} Nothing was bought; press retry for a fresh run.`);
 
-        emit({ type: 'status', phase: 'committing' });
+        assertLive(handle);
+        emit({ type: 'status', phase: 'committing', text: 'Writing the positions and the construction decision…' });
         await setPhase(doc, 'committing positions');
         const spy = await spySeries();
         const spyDates = dailyDates(spy, 1);
@@ -1094,12 +1267,22 @@ async function create({ user, guruId, onEvent }) {
         });
         await credits.spend(userId, 'ai_paper_build', 'ai-paper build', String(doc._id));
 
-        emit({ type: 'done', portfolioId: String(doc._id) });
+        emit({ type: 'done', portfolioId: String(doc._id), text: '✅ Portfolio built — positions are live on the dashboard.' });
         return { ok: true, portfolioId: String(doc._id) };
     } catch (e) {
+        // A pause is NOT a failure: the doc keeps its setup (guru + owner
+        // constraints) so the owner can edit it and run it again. The registry
+        // handle is the truth even when the throw came from somewhere that
+        // swallowed the PauseError type.
+        if (handle.aborted || (e && e.paused)) {
+            await pauseBuild(doc);
+            return { ok: false, paused: true };
+        }
         await failBuild(doc, e && e.message, usage);
-        emit({ type: 'error', message: doc.buildError });
+        emit({ type: 'error', text: doc.buildError, message: doc.buildError });
         return { ok: false, error: doc.buildError };
+    } finally {
+        activeBuilds.delete(userId);
     }
 }
 
@@ -1108,7 +1291,7 @@ async function create({ user, guruId, onEvent }) {
 // ---------------------------------------------------------------------------
 
 async function findFor(userId) {
-    return AIPaperPortfolio().findOne({ user: String(userId), status: { $in: ['building', 'committed', 'tracking', 'failed'] } });
+    return AIPaperPortfolio().findOne({ user: String(userId), status: { $in: ['building', 'paused', 'committed', 'tracking', 'failed'] } });
 }
 
 async function detailFor(userId) {
@@ -1120,7 +1303,10 @@ async function detailFor(userId) {
         id: String(p._id), name: p.name, status: p.status, buildPhase: p.buildPhase,
         buildError: p.buildError, guruId: p.guruId, dayCount: p.dayCount,
         startingCapital: p.startingCapital, cash: p.cash, spyBaseline: p.spyBaseline,
-        createdAt: p.createdAt, personas: p.personas, positions: p.positions
+        createdAt: p.createdAt, personas: p.personas, positions: p.positions,
+        buildLog: Array.isArray(p.buildLog) ? p.buildLog : [],
+        setup: p.setup && typeof p.setup === 'object' ? p.setup : {},
+        steeringRules: Array.isArray(p.steeringRules) ? p.steeringRules : []
     };
     if (p.status === 'committed' || p.status === 'tracking') {
         // Live quotes for the 2 positions + SPY only (60s cache inside deps).
@@ -1154,13 +1340,16 @@ async function statusFor(userId) {
     if (!doc) return { exists: false };
     const base = {
         exists: true, status: doc.status, buildPhase: doc.buildPhase, buildError: doc.buildError,
-        guru: doc.guruId, dayCount: doc.dayCount, reviewDays: REVIEW_DAYS
+        guru: doc.guruId, dayCount: doc.dayCount, reviewDays: REVIEW_DAYS,
+        buildLog: Array.isArray(doc.buildLog) ? doc.buildLog.slice(-12) : [],
+        setup: doc.setup && typeof doc.setup === 'object' ? doc.setup : {}
     };
     if (doc.status !== 'committed' && doc.status !== 'tracking') return base;
     const snaps = await AIPaperSnapshot().find({ portfolioId: doc._id }).sort({ date: -1 }).limit(1);
     const last = snaps[0];
     return {
         ...base,
+        steeringRules: Array.isArray(doc.steeringRules) ? doc.steeringRules : [],
         personas: doc.personas.map((x) => ({
             id: x.id, kind: x.kind, name: x.name, weight: x.weight, philosophy: (x.philosophy || '').slice(0, 600)
         })),
@@ -1218,7 +1407,7 @@ async function newsDigest(positions) {
 }
 
 const REVIEW_RULES = [
-    'This portfolio is BUY-ONCE-NEVER-CHANGE: the two positions are immutable and nothing you say will ever be executed. Your job is an advisory review only.',
+    'Positions change ONLY by an explicit logged owner command (steering) — nothing a review says is ever executed. Your job is an advisory review only.',
     'Never claim to have bought, sold or changed anything. You are recording what you WOULD change and why, for the experiment log.',
     'Base everything on the numbers given here (today\'s official closes, P&L, SPY benchmark) and the headlines below. Attribute headline claims to their source. If a material claim appears in only one outlet and cannot be checked against a filing, call it out as unverified context.',
     `Output ONLY JSON: {"rationale":"<3-6 sentences: how the two picks did and what the news means for each>","newsFactors":["<specific headline, source + date>"],"wouldChange":[{"symbol":"<ticker>","action":"buy_more|trim|exit|hold","rationale":"<advisory note — never executed>"}]}`,
@@ -1280,6 +1469,9 @@ async function tickPortfolioOnce(p, { dryRun = false } = {}) {
                 positionLines,
                 factors.length ? `LAST 24H NEWS DIGEST:\n${factors.map((f) => `- ${f}`).join('\n')}` : 'No material news found in the last 24h.',
                 `FULL PRIOR DECISION LOG (learn from it — this is the iteration substrate):\n${priorLog || '(none — this is the first review)'}`,
+                ...(Array.isArray(fresh.steeringRules) && fresh.steeringRules.length
+                    ? [`OWNER'S STANDING RULES (set explicitly by the owner of this experiment — honor them in the review and in anything you say):\n${fresh.steeringRules.map((r) => `- ${String(r).slice(0, 160)}`).join('\n')}`]
+                    : []),
                 REVIEW_RULES
             ].join('\n\n');
             const msg = await llmCallRetry(
@@ -1379,19 +1571,147 @@ function start() {
 async function resetRun(userId) {
     const doc = await findFor(userId);
     if (!doc) return { ok: false, reason: 'No AI Paper Portfolio exists for this account.' };
-    if (doc.status === 'building') return { ok: false, reason: 'A build is still in progress — wait for it to finish before resetting.' };
+    if (doc.status === 'building') return { ok: false, reason: 'A build is still in progress — pause or stop it first before resetting.' };
     await AIPaperPortfolio().deleteOne({ _id: doc._id });
     console.log(`[ai-paper] reset by user ${String(userId).slice(0, 8)}… (old run ${doc._id} kept in the decision history)`);
     return { ok: true };
 }
 
 // ---------------------------------------------------------------------------
+// Owner steering — the ONLY code path besides the construction commit that
+// writes positions, and only on an explicit owner command from chat, gated to
+// committed/tracking. Guardrails are the same ones construction answers to:
+// ≥10% and ≤70% per slot, ≤20% cash, official closes (never intraday marks),
+// stocks-only verified symbols. Every action is logged as a 'steering'
+// decision under persona 'owner' — the decision log stays the full story.
+// ---------------------------------------------------------------------------
+
+async function applySteering(userId, action, params = {}) {
+    const Portfolio = AIPaperPortfolio();
+    const doc = await findFor(userId);
+    if (!doc) return { ok: false, reason: 'No AI Paper Portfolio exists for this account.' };
+    if (doc.status === 'building' || doc.status === 'paused') {
+        return { ok: false, reason: 'Steering needs a built portfolio — wait for (or finish) the build first.' };
+    }
+    if (doc.status !== 'committed' && doc.status !== 'tracking') {
+        return { ok: false, reason: 'Steering needs a built portfolio.' };
+    }
+    const act = String(action || '').trim().toLowerCase();
+
+    // ---- rules: standing instructions the nightly review must honor --------
+    if (act === 'rules') {
+        const rules = (Array.isArray(params.rules) ? params.rules : [params.rule])
+            .map((r) => stripThink(String(r || '')).trim().slice(0, 160)).filter(Boolean).slice(0, 5);
+        await Portfolio.updateOne({ _id: doc._id }, { $set: { steeringRules: rules, updatedAt: new Date() } });
+        await appendDecision(doc, {
+            day: doc.dayCount, type: 'steering', persona: 'owner',
+            rationale: rules.length
+                ? `Owner set standing rules for future reviews:\n${rules.map((r) => `- ${r}`).join('\n')}`
+                : 'Owner cleared all standing rules for future reviews.',
+            resultingPositions: doc.positions
+        });
+        return { ok: true, steeringRules: rules };
+    }
+
+    // ---- allocate: move dollars between the two slots at official closes ---
+    // The invested total never changes, so cash stays put; each slot is
+    // re-sized to its target share of invested dollars. A slot that grows
+    // buys the delta at today's official close (weighted-average cost basis);
+    // a slot that shrinks sells the delta at the same close.
+    // Positions read back from a mongoose doc are subdocuments — spreading one
+    // copies its internal _doc state and the $set then writes stale values.
+    // Every steering write starts from a PLAIN object.
+    const plainPos = (p) => (p && typeof p.toObject === 'function'
+        ? p.toObject()
+        : { symbol: p.symbol, name: p.name, shares: p.shares, avgPrice: p.avgPrice, personaId: p.personaId, openedAt: p.openedAt });
+
+    if (act === 'allocate') {
+        const gPct = Number(params.guruPct);
+        const aPct = Number(params.aiPct);
+        if (!Number.isFinite(gPct) || !Number.isFinite(aPct) || gPct < 0 || aPct < 0 || gPct + aPct > 100.5) {
+            return { ok: false, reason: 'Give the split as guruPct and aiPct percentages of the portfolio (they must sum to 100 or less; the rest stays cash).' };
+        }
+        // Same weight guardrails as construction, in code: each slot 10-70%,
+        // idle cash capped at 20% (under-allocation is invested back up to
+        // that floor). Weights are shares of TOTAL capital, like construction.
+        const { g, a } = fixWeights(gPct / 100, aPct / 100);
+        const guruPos = doc.positions.find((p) => p.personaId === 'guru');
+        const aiPos = doc.positions.find((p) => p.personaId === 'ai');
+        if (!guruPos || !aiPos) return { ok: false, reason: 'The portfolio is missing a position — steering cannot proceed.' };
+        const prices = {};
+        for (const p of [guruPos, aiPos]) {
+            const row = quoteRow(await deps.quote(p.symbol, { bypassCache: true }));
+            if (!row || !Number.isFinite(row.price) || row.price <= 0) {
+                return { ok: false, reason: `No usable price quote for ${p.symbol} right now — try again shortly.` };
+            }
+            prices[p.personaId] = row.price;
+        }
+        const mk = (pos, weight, price) => {
+            const base = plainPos(pos);
+            const targetDollars = weight * doc.startingCapital;
+            const newShares = Math.max(Math.round((targetDollars / price) * 10000) / 10000, 0.0001);
+            const delta = newShares - base.shares;
+            const avgPrice = delta >= 0
+                ? Math.round(((base.shares * base.avgPrice + delta * price) / newShares) * 10000) / 10000
+                : base.avgPrice;
+            return { ...base, shares: newShares, avgPrice };
+        };
+        const positions = [mk(guruPos, g, prices.guru), mk(aiPos, a, prices.ai)];
+        const newInvested = positions.reduce((s, p) => s + p.shares * p.avgPrice, 0);
+        const cash = Math.round((doc.startingCapital - newInvested) * 100) / 100;
+        if (cash < 0 || cash > MAX_CASH_PCT * doc.startingCapital + 1) {
+            return { ok: false, reason: 'The requested allocation failed the cash guardrail in code — nothing changed.' };
+        }
+        await Portfolio.updateOne({ _id: doc._id }, { $set: { positions, cash, updatedAt: new Date() } });
+        await appendDecision(doc, {
+            day: doc.dayCount, type: 'steering', persona: 'owner',
+            rationale: `Owner reallocated the split to ${Math.round(g * 100)}% ${positions[0].symbol} / ${Math.round(a * 100)}% ${positions[1].symbol}, priced at official closes (guardrails applied in code).`,
+            resultingPositions: positions
+        });
+        return { ok: true, positions, cash };
+    }
+
+    // ---- override: swap one slot's stock for another, priced at the close --
+    if (act === 'override') {
+        const slot = String(params.slot || '').trim().toLowerCase();
+        if (slot !== 'guru' && slot !== 'ai') {
+            return { ok: false, reason: 'Say which slot to override: guru or ai (the two portfolio slots).' };
+        }
+        const other = doc.positions.find((p) => p.personaId !== slot);
+        const target = doc.positions.find((p) => p.personaId === slot);
+        if (!other || !target) return { ok: false, reason: 'The portfolio is missing a position — steering cannot proceed.' };
+        const check = await validateSymbol(params.symbol);
+        if (!check.ok) return { ok: false, reason: check.reason };
+        if (check.symbol === other.symbol) {
+            return { ok: false, reason: `${check.symbol} is already the other slot's stock — the two slots must stay different.` };
+        }
+        const dollars = target.shares * target.avgPrice;
+        const shares = Math.max(Math.round((dollars / check.price) * 10000) / 10000, 0.0001);
+        const positions = doc.positions.map((p) => p.personaId === slot
+            ? { ...plainPos(p), symbol: check.symbol, name: check.name, shares, avgPrice: check.price, openedAt: new Date() }
+            : plainPos(p));
+        await Portfolio.updateOne({ _id: doc._id }, { $set: { positions, updatedAt: new Date() } });
+        await appendDecision(doc, {
+            day: doc.dayCount, type: 'steering', persona: 'owner',
+            rationale: `Owner override: the ${slot} slot's pick was replaced ${target.symbol} → ${check.symbol} at $${check.price} (${shares} shares). Reason: ${stripThink(String(params.reason || 'owner request')).slice(0, 400)}`,
+            resultingPositions: positions
+        });
+        return { ok: true, positions };
+    }
+
+    return { ok: false, reason: 'Unknown steering action — use allocate (move dollars between slots), override (swap one slot for a different stock) or rules (set standing review rules).' };
+}
+
+// ---------------------------------------------------------------------------
 // Ask AI chat tools — exposed ONLY when the requesting user is a beta user
 // AND aiPaperMode is on (app.js enforces that gate and injects these per
-// request via ctx.aiPaperTools). The tool set itself is the guarantee that
-// chat can never touch positions: nothing here buys, sells, reweighs or
-// edits — status is a zero-AI read, setup kicks the one construction build,
-// reset only deletes the portfolio doc so a fresh run can be logged.
+// request via ctx.aiPaperTools). status is a zero-AI read; setup kicks the
+// one construction build (paused runs re-run with edited constraints);
+// reset only deletes the portfolio doc; steer applies an EXPLICIT owner
+// command to an already-built portfolio (reallocation / pick swap / standing
+// rules) through the guardrailed applySteering path. The model itself can
+// still never trade on its own: every steering call must carry the owner's
+// instruction verbatim from the conversation.
 // ---------------------------------------------------------------------------
 
 const CHAT_TOOLS = [
@@ -1399,7 +1719,7 @@ const CHAT_TOOLS = [
         type: 'function',
         function: {
             name: 'ai_portfolio_status',
-            description: "Current state of the user's AI Paper Portfolio experiment: build status, both persona picks with weights and P&L, cash, the vs-SPY benchmark, the latest snapshot and recent decision-log entries. Use for any question about how the experiment is doing, why a persona picked its stock, or what a nightly review said. Deterministic read — narrate from this data, never invent numbers.",
+            description: "Current state of the user's AI Paper Portfolio experiment: build status, both persona picks with weights and P&L, cash, the vs-SPY benchmark, the latest snapshot, recent decision-log entries and (while building/paused) the live research feed tail. Use for any question about how the experiment is doing, why a persona picked its stock, or what a nightly review said. Deterministic read — narrate from this data, never invent numbers.",
             parameters: { type: 'object', properties: {} }
         }
     },
@@ -1407,10 +1727,33 @@ const CHAT_TOOLS = [
         type: 'function',
         function: {
             name: 'ai_portfolio_setup',
-            description: "Start (or retry after a failed build) the AI Paper Portfolio. DEFAULT: call with NO arguments — both minds are independent pure-data analysts. If the user names an investor — living (e.g. Buffett, Ackman, Burry, Druckenmiller) or deceased (e.g. Charlie Munger, Benjamin Graham, Peter Lynch) — pass that name as guru and one mind applies that philosophy, researched live. The build runs in the background (2-3 minutes) and its progress streams into this conversation. Reply that setup is underway; never call it twice or wait for it.",
+            description: "Start (or retry after a failed/paused build) the AI Paper Portfolio. DEFAULT: call with NO arguments — both minds are independent pure-data analysts. If the user names an investor — living (e.g. Buffett, Ackman, Burry, Druckenmiller) or deceased (e.g. Charlie Munger, Benjamin Graham, Peter Lynch) — pass that name as guru and one mind applies that philosophy, researched live. If the user states requirements for the research (e.g. 'avoid financials', 'focus on healthcare', 'only dividend payers'), pass each as a separate entry in constraints. After a pause, confirm the edited setup (guru and/or constraints) with the user, then call this once to run the research again. The build runs in the background (2-3 minutes) and its progress streams into this conversation. Reply that setup is underway; never call it twice or wait for it.",
             parameters: {
                 type: 'object',
-                properties: { guru: { type: 'string', description: "The investor the user asked for, verbatim — a name ('Charlie Munger', 'T. Rowe Price') or id ('berkshire'). Omit entirely for the pure-data default." } }
+                properties: {
+                    guru: { type: 'string', description: "The investor the user asked for, verbatim — a name ('Charlie Munger', 'T. Rowe Price') or id ('berkshire'). Omit entirely for the pure-data default." },
+                    constraints: { type: 'array', items: { type: 'string' }, description: "The user's hard requirements for the research, one short clause each (max 5, e.g. 'avoid financial sector', 'market cap above $10B'). Omit when the user gave none." }
+                }
+            }
+        }
+    },
+    {
+        type: 'function',
+        function: {
+            name: 'ai_portfolio_steer',
+            description: "Apply an EXPLICIT instruction the owner just gave about their already-built AI Paper Portfolio. Three actions: 'allocate' (rebalance the two slots — pass guruPct and aiPct as percentages of the portfolio, e.g. 60/30), 'override' (replace one slot's stock — pass slot 'guru'|'ai', the new ticker symbol, and the owner's reason), 'rules' (set standing rules the nightly review must honor — pass the rules array). Only call when the owner clearly asked for this specific change; confirm the change and its result in your reply. Never call it to speculate, and never invent a ticker the owner did not give.",
+            parameters: {
+                type: 'object',
+                properties: {
+                    action: { type: 'string', enum: ['allocate', 'override', 'rules'] },
+                    guruPct: { type: 'number', description: "allocate: the guru slot's percentage of the portfolio (0-100)." },
+                    aiPct: { type: 'number', description: "allocate: the data-mind slot's percentage of the portfolio (0-100)." },
+                    slot: { type: 'string', enum: ['guru', 'ai'], description: 'override: which slot to replace.' },
+                    symbol: { type: 'string', description: 'override: the new US-listed stock ticker the owner asked for.' },
+                    reason: { type: 'string', description: 'override: the owner’s reason, in their words.' },
+                    rules: { type: 'array', items: { type: 'string' }, description: 'rules: the standing rules, one short clause each (max 5). Pass the full final list — it replaces the previous rules. Pass an empty list to clear all rules.' }
+                },
+                required: ['action']
             }
         }
     },
@@ -1437,6 +1780,7 @@ async function ensureIndexes() {
 module.exports = {
     betaEnabled, betaGate, isBetaUser,
     create, detailFor, statusFor, start, sweep, tickPortfolioOnce, resetRun,
+    stopBuild, applySteering,
     sanitizeAllocation, parseModelJson, computeSnapshot, nextTickDue,
     ensureIndexes, fixWeights, latestSession, markStaleBuilding, CHAT_TOOLS,
     resolveGuru, LEGACY_GURUS,

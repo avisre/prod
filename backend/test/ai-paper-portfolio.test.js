@@ -669,3 +669,210 @@ test('create: a persona that never produces a pick fails the build cleanly', { t
         }
     });
 });
+// ---- Pause & resume ---------------------------------------------------------
+
+function pickJsonFor(symbol, persona) {
+    return JSON.stringify({
+        symbol,
+        name: `${symbol} Corp`,
+        rationale: `A detailed ${persona} rationale that quotes fetched numbers: ROE 21.4%, net margin 18.2%, 5y revenue CAGR 12.1%, P/E 16.4 — all from tool results in this conversation, well above the 120 character minimum for a defensible pick.`,
+        philosophy: 'Quality at a reasonable price: high ROE, positive FCF, latest-quarter growth accelerating.',
+        keyFactors: [{ metric: 'ROE', value: '21.4%', why: 'moat evidence' }, { metric: 'P/E', value: '16.4', why: 'reasonable price' }],
+        confidence: 'medium'
+    });
+}
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+test('stopBuild pauses a running build; the setup is kept, nothing is bought, then it resumes', { timeout: 60000 }, async () => {
+    await withMongo(async () => {
+        betaEnvOn();
+        // The guru mind's first LLM round blocks until the test has pressed
+        // stop; the pause must land at the next round/stage boundary — and
+        // the doc must end up 'paused', not 'failed'.
+        let release;
+        const gate = new Promise((resolve) => { release = resolve; });
+        const gatedLlm = async (messages) => {
+            const system = messages[0] && messages[0].content || '';
+            if (/allocator/i.test(system.slice(0, 120)) || /dollar split/i.test(system)) {
+                return { content: '{"guruWeight":0.5,"aiWeight":0.5}', _usage: null };
+            }
+            if (/pure quantitative/i.test(system)) return { content: pickJsonFor('BBBB', 'ai'), _usage: null };
+            await gate; // the guru mind waits here
+            return { content: pickJsonFor('AAAA', 'guru'), _usage: null };
+        };
+        paper.__setDeps({ ...makeDeps(), llm: gatedLlm });
+        try {
+            const build = paper.create({ user: USER, guruId: 'berkshire', constraints: ['avoid financials'], onEvent: () => {} });
+            // Wait for the run registry to carry this build…
+            let stopping = false;
+            for (let i = 0; i < 200 && !stopping; i++) {
+                const s = await paper.stopBuild('u-123');
+                if (s.stopping) stopping = true;
+                else await sleep(15);
+            }
+            assert.ok(stopping, 'the running build registered itself');
+            // …then stop it and let the blocked LLM call finish.
+            await release();
+            const res = await build;
+            assert.equal(res.paused, true, 'the build reports paused, not a generic failure');
+
+            const Portfolio = mongoose.model('AIPaperPortfolio');
+            const doc = await Portfolio.findOne({ user: 'u-123' });
+            assert.equal(doc.status, 'paused', 'a pause is its own status');
+            assert.equal(doc.buildError, '', 'a pause is never recorded as a failure');
+            assert.deepEqual(doc.setup, { guruId: 'berkshire', constraints: ['avoid financials'] }, 'the setup intent survives');
+            assert.ok(doc.buildLog.length >= 2, 'the live feed captured the run');
+            assert.match(doc.buildLog[doc.buildLog.length - 1], /Paused/, 'the pause lands in the feed');
+
+            const Decision = mongoose.model('AIPaperDecision');
+            assert.equal((await Decision.find({ type: 'construct' })).length, 0, 'nothing was bought');
+            assert.equal((await Decision.find({ type: 'build_failed' })).length, 0, 'a pause is not a failure record');
+
+            // Registry cleanup: a second stop has nothing to stop.
+            const again = await paper.stopBuild('u-123');
+            assert.equal(again.ok, false, 'the finished (paused) run is no longer registered');
+
+            // RESUME: the owner confirms the edited setup; the paused doc is
+            // deleted and the research runs again from scratch.
+            const resumed = await paper.create({ user: USER, guruId: 'berkshire', constraints: ['prefer dividend payers'] });
+            assert.equal(resumed.ok, true, 'a paused run re-runs with the edited setup');
+            const fresh = await Portfolio.findOne({ user: 'u-123' });
+            assert.equal(fresh.status, 'committed', 'the resumed run commits');
+            assert.deepEqual(fresh.setup, { guruId: 'berkshire', constraints: ['prefer dividend payers'] }, 'the edited setup is what ran');
+            assert.equal(await Portfolio.countDocuments({ user: 'u-123' }), 1, 'the paused doc was cleared, not stacked');
+        } finally {
+            paper.__resetDeps();
+            betaEnvOff();
+        }
+    });
+});
+
+test('constraints: injected into every mind, cleaned and persisted', { timeout: 60000 }, async () => {
+    await withMongo(async () => {
+        betaEnvOn();
+        const systems = [];
+        const captureLlm = async (messages, opts) => {
+            const system = messages[0] && messages[0].content || '';
+            systems.push(system);
+            if (/allocator/i.test(system.slice(0, 120)) || /dollar split/i.test(system)) {
+                return { content: '{"guruWeight":0.5,"aiWeight":0.5}', _usage: null };
+            }
+            if (/pure quantitative/i.test(system)) return { content: pickJsonFor('BBBB', 'ai'), _usage: null };
+            return { content: pickJsonFor('AAAA', 'guru'), _usage: null };
+        };
+        paper.__setDeps({ ...makeDeps(), llm: captureLlm });
+        try {
+            // 7 entries with an empty one: cleaned to 5 non-empty clauses.
+            const res = await paper.create({
+                user: USER,
+                constraints: ['avoid financial sector', '', 'only dividend payers', 'market cap above $10B', 'no tobacco', 'us-listed only', 'low debt']
+            });
+            assert.equal(res.ok, true);
+            const doc = await mongoose.model('AIPaperPortfolio').findOne({ user: 'u-123' });
+            assert.equal(doc.setup.constraints.length, 5, 'capped at 5');
+            assert.ok(doc.setup.constraints.every((c) => c.length > 0), 'empty clauses dropped');
+
+            const withRules = systems.filter((s) => /OWNER'S HARD REQUIREMENTS/.test(s));
+            assert.equal(withRules.length, 2, 'both minds got the constraints');
+            for (const s of withRules) {
+                assert.match(s, /avoid financial sector/);
+                assert.match(s, /only dividend payers/);
+                assert.ok(!/low debt/.test(s), 'the 7th clause was dropped');
+            }
+        } finally {
+            paper.__resetDeps();
+            betaEnvOff();
+        }
+    });
+});
+
+// ---- Owner steering ---------------------------------------------------------
+
+function seedCommitted({ status = 'committed' } = {}) {
+    const now = new Date();
+    return {
+        user: 'u-123', name: 'AI Paper Portfolio', startingCapital: 100000, cash: 0,
+        positions: [
+            { symbol: 'AAAA', name: 'AAAA Corp', shares: 1200, avgPrice: 50, personaId: 'guru', openedAt: now },
+            { symbol: 'BBBB', name: 'BBBB Corp', shares: 400, avgPrice: 100, personaId: 'ai', openedAt: now }
+        ],
+        personas: [
+            { id: 'guru', kind: 'ai', name: 'Data mind I', fund: 'independent', weight: 0.6 },
+            { id: 'ai', kind: 'ai', name: 'Pure-data AI', fund: 'independent', weight: 0.4 }
+        ],
+        status, guruId: '', dayCount: 0, lastTickDay: '', spyBaseline: 550, buildError: ''
+    };
+}
+
+test('steering: rules, allocation guardrails, override — every action logged as owner', { timeout: 60000 }, async () => {
+    await withMongo(async () => {
+        betaEnvOn();
+        paper.__setDeps(makeDeps({ quotePrices: {
+            AAAA: { price: 50, quoteDay: SESSION }, BBBB: { price: 100, quoteDay: SESSION },
+            CCCC: { price: 80, quoteDay: SESSION }, SPY: { price: 560, quoteDay: SESSION }
+        } }));
+        try {
+            await paper.statusFor('u-123'); // registers the models
+            const Portfolio = mongoose.model('AIPaperPortfolio');
+            const Decision = mongoose.model('AIPaperDecision');
+
+            // Gate: a building doc cannot be steered.
+            await Portfolio.create(seedCommitted({ status: 'building' }));
+            assert.equal((await paper.applySteering('u-123', 'rules', { rules: ['x'] })).ok, false, 'no steering during a build');
+            await Portfolio.deleteMany({});
+            await Portfolio.create(seedCommitted());
+
+            // rules: standing owner instructions, persisted + logged
+            const rules = await paper.applySteering('u-123', 'rules', { rules: ['prefer dividend payers', ''] });
+            assert.equal(rules.ok, true);
+            assert.deepEqual(rules.steeringRules, ['prefer dividend payers'], 'blank clauses dropped');
+            assert.ok((await Decision.find({ type: 'steering', persona: 'owner' })).length === 1);
+
+            // allocate 70/10: both slots resized at official closes, cash cap kept
+            const alloc = await paper.applySteering('u-123', 'allocate', { guruPct: 70, aiPct: 10 });
+            assert.equal(alloc.ok, true);
+            const [g, a] = alloc.positions;
+            assert.equal(g.shares, 1400, 'guru resized to 70% of capital');   // 70000 / 50
+            assert.equal(a.shares, 100, 'ai resized to 10% of capital');      // 10000 / 100
+            assert.equal(g.avgPrice, 50, 'growth keeps the weighted cost basis');
+            assert.equal(alloc.cash, 20000, 'cash lands exactly at the 20% cap');
+
+            // junk allocation refused, nothing changed
+            const before = (await Portfolio.findOne({ user: 'u-123' })).positions;
+            const junk = await paper.applySteering('u-123', 'allocate', { guruPct: 250, aiPct: 250 });
+            assert.equal(junk.ok, false);
+            assert.equal(JSON.stringify((await Portfolio.findOne({ user: 'u-123' })).positions), JSON.stringify(before));
+
+            // override the guru slot for CCCC at the fresh official close
+            const swap = await paper.applySteering('u-123', 'override', { slot: 'guru', symbol: 'CCCC', reason: 'owner prefers CCCC' });
+            assert.equal(swap.ok, true);
+            const swapped = swap.positions.find((p) => p.personaId === 'guru');
+            assert.equal(swapped.symbol, 'CCCC');
+            assert.equal(swapped.avgPrice, 80, 'override prices at the official close');
+            assert.equal(swapped.shares, 875, 'same dollars, new price'); // 70000 / 80
+
+            // the two slots must stay different stocks
+            const same = await paper.applySteering('u-123', 'override', { slot: 'ai', symbol: 'CCCC' });
+            assert.equal(same.ok, false);
+            assert.match(same.reason, /already the other slot/);
+
+            // unverifiable symbols are refused, exactly like construction
+            const bad = await paper.applySteering('u-123', 'override', { slot: 'ai', symbol: 'nope!!' });
+            assert.equal(bad.ok, false);
+
+            // every SUCCESSFUL steering action is one owner decision; refused
+            // requests are never logged (nothing changed)
+            const ownerDecisions = await Decision.find({ type: 'steering', persona: 'owner' }).sort({ seq: 1 });
+            assert.equal(ownerDecisions.length, 3, 'rules + allocate + override logged; refusals are not');
+
+            // statusFor surfaces the standing rules + the feed tail
+            const st = await paper.statusFor('u-123');
+            assert.deepEqual(st.steeringRules, ['prefer dividend payers']);
+            assert.ok(Array.isArray(st.buildLog));
+        } finally {
+            paper.__resetDeps();
+            betaEnvOff();
+        }
+    });
+});
