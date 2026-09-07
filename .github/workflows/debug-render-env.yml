@@ -38,19 +38,15 @@ jobs:
         run: |
           end=$(date -u +%Y-%m-%dT%H:%M:%SZ)
           start=$(date -u -d '7 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          OWNER=$(curl -sS \
+            -H "Authorization: Bearer $RENDER_API_KEY" -H "Accept: application/json" \
+            "https://api.render.com/v1/services/$RENDER_SERVICE" | jq -r '.ownerId // empty')
+          echo "ownerId: $OWNER"
           code=$(curl -sS -o /tmp/logs.json -w '%{http_code}' \
             -H "Authorization: Bearer $RENDER_API_KEY" \
             -H "Accept: application/json" \
-            "https://api.render.com/v1/logs?limit=400&startTime=${start}&endTime=${end}&source=runtime" || echo 000)
-          echo "GET /v1/logs source=runtime -> $code"
-          if [ "$code" != "200" ]; then
-            head -c 300 /tmp/logs.json || true
-            code=$(curl -sS -o /tmp/logs.json -w '%{http_code}' \
-              -H "Authorization: Bearer $RENDER_API_KEY" \
-              -H "Accept: application/json" \
-              "https://api.render.com/v1/logs?limit=400&startTime=${start}&endTime=${end}" || echo 000)
-            echo "GET /v1/logs bare -> $code"
-          fi
+            "https://api.render.com/v1/logs?limit=400&ownerId=${OWNER}&name=stockportfolio&startTime=${start}&endTime=${end}" || echo 000)
+          echo "GET /v1/logs -> $code"
           if [ "$code" != "200" ]; then head -c 400 /tmp/logs.json || true; exit 0; fi
           echo "--- lines mentioning credits/topup/recharge/stripe config:"
           jq -r '.[] | (.log // .message // empty)' /tmp/logs.json 2>/dev/null \
