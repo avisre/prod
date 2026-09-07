@@ -367,12 +367,37 @@
         if (min < 0 && max > 0) {
             g += `<line x1="${padL}" y1="${y(0).toFixed(1)}" x2="${W - padR}" y2="${y(0).toFixed(1)}" stroke="var(--line-strong)" stroke-width="1"/>`;
         }
-        // x labels: up to 7
+        // x labels: up to 7 — or, when the caller passes DEDUPED labels (an empty
+        // string at every point that repeats the previous period, the convention
+        // the equity chart uses), only at the points that carry one, so ticks
+        // land on period boundaries instead of arbitrary indices.
         const n = Math.max(...series.map((s) => s.values.length));
-        const step = Math.max(1, Math.ceil(n / 7));
-        for (let i = 0; i < n; i += step) {
-            if (labels && labels[i] !== undefined) {
-                g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">${esc(String(labels[i]))}</text>`;
+        const labelIdx = (labels || []).map((l, i) => (l ? i : -1)).filter((i) => i >= 0);
+        const drawLabel = (i) => {
+            g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">${esc(String(labels[i]))}</text>`;
+        };
+        if (labels && labels.some((l) => l === '') && labelIdx.length) {
+            const lstep = Math.max(1, Math.ceil(labelIdx.length / 8));
+            const picked = [];
+            for (let j = 0; j < labelIdx.length; j += lstep) picked.push(labelIdx[j]);
+            // A window that opens mid-period puts its first two boundaries a
+            // couple of points apart — a 5-year range starting in November drew
+            // "2021" and "2022" on top of each other. Enforce a minimum gap; and
+            // when the crowding is that leading partial period, keep the later
+            // boundary instead, so the remaining ticks stay evenly spaced.
+            const kept = [];
+            for (const i of picked) {
+                if (kept.length && x(i, n) - x(kept[kept.length - 1], n) < 52) {
+                    if (kept.length === 1 && kept[0] === labelIdx[0]) kept[0] = i;
+                    continue;
+                }
+                kept.push(i);
+            }
+            kept.forEach(drawLabel);
+        } else {
+            const step = Math.max(1, Math.ceil(n / 7));
+            for (let i = 0; i < n; i += step) {
+                if (labels && labels[i] !== undefined) drawLabel(i);
             }
         }
         const colors = { ink: 'var(--ink)', accent: 'var(--accent)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };

@@ -1,0 +1,1237 @@
+{
+  "generatedAt": "2026-09-06T19:16:57.044Z",
+  "source": "Yahoo Finance quotes for a seed ticker list",
+  "count": 205,
+  "funds": [
+    {
+      "symbol": "VTI",
+      "name": "Vanguard Morningstar Total Stock Market ETF",
+      "assetType": "etf",
+      "netAssets": 2314978460000
+    },
+    {
+      "symbol": "VTSAX",
+      "name": "Vanguard MStar Total Stk Mkt Idx Admiral",
+      "assetType": "mutual_fund",
+      "netAssets": 2314978460000
+    },
+    {
+      "symbol": "VFIAX",
+      "name": "Vanguard 500 Index Admiral",
+      "assetType": "mutual_fund",
+      "netAssets": 1741139870000
+    },
+    {
+      "symbol": "VOO",
+      "name": "Vanguard S&P 500 ETF",
+      "assetType": "etf",
+      "netAssets": 1741139870000
+    },
+    {
+      "symbol": "IVV",
+      "name": "iShares Core S&P 500 ETF",
+      "assetType": "etf",
+      "netAssets": 883985420000
+    },
+    {
+      "symbol": "FXAIX",
+      "name": "Fidelity 500 Index",
+      "assetType": "mutual_fund",
+      "netAssets": 859163130000
+    },
+    {
+      "symbol": "SPY",
+      "name": "State Street SPDR S&P 500 ETF Trust",
+      "assetType": "etf",
+      "netAssets": 811937040000
+    },
+    {
+      "symbol": "VTIAX",
+      "name": "Vanguard Total Intl Stock Index Admiral",
+      "assetType": "mutual_fund",
+      "netAssets": 653027180000
+    },
+    {
+      "symbol": "VXUS",
+      "name": "Vanguard Total International Stock Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 653027180000
+    },
+    {
+      "symbol": "QQQ",
+      "name": "Invesco QQQ Trust",
+      "assetType": "etf",
+      "netAssets": 488981004000
+    },
+    {
+      "symbol": "BND",
+      "name": "Vanguard Total Bond Market Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 399067513000
+    },
+    {
+      "symbol": "VBTLX",
+      "name": "Vanguard Total Bond Market Index Adm",
+      "assetType": "mutual_fund",
+      "netAssets": 399067513000
+    },
+    {
+      "symbol": "VIGAX",
+      "name": "Vanguard MStar Growth Index Admiral",
+      "assetType": "mutual_fund",
+      "netAssets": 379416805000
+    },
+    {
+      "symbol": "VUG",
+      "name": "Vanguard Morningstar Growth ETF",
+      "assetType": "etf",
+      "netAssets": 379416805000
+    },
+    {
+      "symbol": "AGTHX",
+      "name": "American Funds Growth Fd of Amer A",
+      "assetType": "mutual_fund",
+      "netAssets": 342418850000
+    },
+    {
+      "symbol": "VEA",
+      "name": "Vanguard FTSE Developed Markets Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 322773549000
+    },
+    {
+      "symbol": "VTV",
+      "name": "Vanguard Morningstar Value ETF",
+      "assetType": "etf",
+      "netAssets": 260857823000
+    },
+    {
+      "symbol": "VO",
+      "name": "Vanguard Morningstar Mid-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 225422508000
+    },
+    {
+      "symbol": "IEFA",
+      "name": "iShares Core MSCI EAFE ETF",
+      "assetType": "etf",
+      "netAssets": 194385543000
+    },
+    {
+      "symbol": "AIVSX",
+      "name": "American Funds Invmt Co of Amer A",
+      "assetType": "mutual_fund",
+      "netAssets": 185642697000
+    },
+    {
+      "symbol": "VB",
+      "name": "Vanguard Morningstar Small-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 184375820000
+    },
+    {
+      "symbol": "VSMAX",
+      "name": "Vanguard MStar Small Cap Index Admiral",
+      "assetType": "mutual_fund",
+      "netAssets": 184375820000
+    },
+    {
+      "symbol": "ANCFX",
+      "name": "American Funds Fundamental Invs A",
+      "assetType": "mutual_fund",
+      "netAssets": 178115363000
+    },
+    {
+      "symbol": "FCNTX",
+      "name": "Fidelity Contrafund",
+      "assetType": "mutual_fund",
+      "netAssets": 177322279000
+    },
+    {
+      "symbol": "VGT",
+      "name": "Vanguard Information Technology Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 169378480000
+    },
+    {
+      "symbol": "VWO",
+      "name": "Vanguard FTSE Emerging Markets Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 167548715000
+    },
+    {
+      "symbol": "IEMG",
+      "name": "iShares Core MSCI Emerging Markets ETF",
+      "assetType": "etf",
+      "netAssets": 160899023000
+    },
+    {
+      "symbol": "GLD",
+      "name": "SPDR Gold Shares",
+      "assetType": "etf",
+      "netAssets": 152861196000
+    },
+    {
+      "symbol": "SWPPX",
+      "name": "Schwab S&P 500 Index",
+      "assetType": "mutual_fund",
+      "netAssets": 148723974000
+    },
+    {
+      "symbol": "FSKAX",
+      "name": "Fidelity Total Market Index",
+      "assetType": "mutual_fund",
+      "netAssets": 142222557000
+    },
+    {
+      "symbol": "AGG",
+      "name": "iShares Core U.S. Aggregate Bond ETF",
+      "assetType": "etf",
+      "netAssets": 138317873000
+    },
+    {
+      "symbol": "VIG",
+      "name": "Vanguard Dividend Appreciation Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 132306813000
+    },
+    {
+      "symbol": "VTTHX",
+      "name": "Vanguard Target Retirement 2035 Fund",
+      "assetType": "mutual_fund",
+      "netAssets": 127288328000
+    },
+    {
+      "symbol": "IWF",
+      "name": "iShares Russell 1000 Growth ETF",
+      "assetType": "etf",
+      "netAssets": 125535298000
+    },
+    {
+      "symbol": "IJH",
+      "name": "iShares Core S&P Mid-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 124935078000
+    },
+    {
+      "symbol": "BNDX",
+      "name": "Vanguard Total International Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 123300798000
+    },
+    {
+      "symbol": "DODGX",
+      "name": "Dodge & Cox Stock I",
+      "assetType": "mutual_fund",
+      "netAssets": 122946322000
+    },
+    {
+      "symbol": "XLK",
+      "name": "State Street Technology Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 121437733000
+    },
+    {
+      "symbol": "VWELX",
+      "name": "Vanguard Wellington Inv",
+      "assetType": "mutual_fund",
+      "netAssets": 121425502000
+    },
+    {
+      "symbol": "SCHD",
+      "name": "Schwab U.S. Dividend Equity ETF",
+      "assetType": "etf",
+      "netAssets": 112337240000
+    },
+    {
+      "symbol": "IJR",
+      "name": "iShares Core S&P Small-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 109249667000
+    },
+    {
+      "symbol": "VFIFX",
+      "name": "Vanguard Target Retirement 2050 Fund",
+      "assetType": "mutual_fund",
+      "netAssets": 106897768000
+    },
+    {
+      "symbol": "SGOV",
+      "name": "iShares 0-3 Month Treasury Bond ETF",
+      "assetType": "etf",
+      "netAssets": 105976480000
+    },
+    {
+      "symbol": "QQQM",
+      "name": "Invesco NASDAQ 100 ETF",
+      "assetType": "etf",
+      "netAssets": 104376492000
+    },
+    {
+      "symbol": "VT",
+      "name": "Vanguard Total World Stock Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 101083611000
+    },
+    {
+      "symbol": "VYM",
+      "name": "Vanguard High Dividend Yield Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 100683768000
+    },
+    {
+      "symbol": "VEU",
+      "name": "Vanguard FTSE All-World ex-US Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 97803846000
+    },
+    {
+      "symbol": "SPLG",
+      "name": "State Street SPDR Portfolio S&P 500 ETF",
+      "assetType": "etf",
+      "netAssets": 97328325000
+    },
+    {
+      "symbol": "ITOT",
+      "name": "iShares Core S&P Total U.S. Stock Market ETF",
+      "assetType": "etf",
+      "netAssets": 97117684000
+    },
+    {
+      "symbol": "VXF",
+      "name": "Vanguard Extended Market Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 94499111000
+    },
+    {
+      "symbol": "VPMAX",
+      "name": "Vanguard PRIMECAP Adm",
+      "assetType": "mutual_fund",
+      "netAssets": 88724275000
+    },
+    {
+      "symbol": "FSPSX",
+      "name": "Fidelity International Index",
+      "assetType": "mutual_fund",
+      "netAssets": 88454144000
+    },
+    {
+      "symbol": "IWD",
+      "name": "iShares Russell 1000 Value ETF",
+      "assetType": "etf",
+      "netAssets": 83947946000
+    },
+    {
+      "symbol": "IWM",
+      "name": "iShares Russell 2000 ETF",
+      "assetType": "etf",
+      "netAssets": 80460997000
+    },
+    {
+      "symbol": "EFA",
+      "name": "iShares MSCI EAFE ETF",
+      "assetType": "etf",
+      "netAssets": 79317098000
+    },
+    {
+      "symbol": "VV",
+      "name": "Vanguard Morningstar Large-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 75712954000
+    },
+    {
+      "symbol": "SCHX",
+      "name": "Schwab U.S. Large-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 74172948000
+    },
+    {
+      "symbol": "VCIT",
+      "name": "Vanguard Intermediate-Term Corporate Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 72046887000
+    },
+    {
+      "symbol": "VGSLX",
+      "name": "Vanguard Real Estate Index Admiral",
+      "assetType": "mutual_fund",
+      "netAssets": 71970390000
+    },
+    {
+      "symbol": "VNQ",
+      "name": "Vanguard Real Estate Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 71970390000
+    },
+    {
+      "symbol": "VTIP",
+      "name": "Vanguard Short-Term Inflation-Protected Securities Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 71934624000
+    },
+    {
+      "symbol": "BSV",
+      "name": "Vanguard Short-Term Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 71516045000
+    },
+    {
+      "symbol": "PRWCX",
+      "name": "T. Rowe Price Capital Appreciation",
+      "assetType": "mutual_fund",
+      "netAssets": 71496843000
+    },
+    {
+      "symbol": "SCHF",
+      "name": "Schwab International Equity ETF",
+      "assetType": "etf",
+      "netAssets": 69683954000
+    },
+    {
+      "symbol": "FXNAX",
+      "name": "Fidelity U.S. Bond Index",
+      "assetType": "mutual_fund",
+      "netAssets": 69497307000
+    },
+    {
+      "symbol": "SMH",
+      "name": "VanEck Semiconductor ETF",
+      "assetType": "etf",
+      "netAssets": 67787031000
+    },
+    {
+      "symbol": "DODFX",
+      "name": "Dodge & Cox International Stock I",
+      "assetType": "mutual_fund",
+      "netAssets": 67768234000
+    },
+    {
+      "symbol": "IAU",
+      "name": "iShares Gold Trust",
+      "assetType": "etf",
+      "netAssets": 67539091000
+    },
+    {
+      "symbol": "SCHG",
+      "name": "Schwab U.S. Large-Cap Growth ETF",
+      "assetType": "etf",
+      "netAssets": 63028015000
+    },
+    {
+      "symbol": "IBIT",
+      "name": "iShares Bitcoin Trust ETF",
+      "assetType": "etf",
+      "netAssets": 61435101000
+    },
+    {
+      "symbol": "IXUS",
+      "name": "iShares Core MSCI Total International Stock ETF",
+      "assetType": "etf",
+      "netAssets": 60637172000
+    },
+    {
+      "symbol": "XLF",
+      "name": "State Street Financial Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 54592369000
+    },
+    {
+      "symbol": "BIV",
+      "name": "Vanguard Intermediate-Term Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 52102283000
+    },
+    {
+      "symbol": "VCSH",
+      "name": "Vanguard Short-Term Corporate Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 51679511000
+    },
+    {
+      "symbol": "PRGFX",
+      "name": "T. Rowe Price Growth Stock",
+      "assetType": "mutual_fund",
+      "netAssets": 49377378000
+    },
+    {
+      "symbol": "VTEB",
+      "name": "Vanguard Tax-Exempt Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 49086013000
+    },
+    {
+      "symbol": "IWB",
+      "name": "iShares Russell 1000 ETF",
+      "assetType": "etf",
+      "netAssets": 48816013000
+    },
+    {
+      "symbol": "QUAL",
+      "name": "iShares MSCI USA Quality Factor ETF",
+      "assetType": "etf",
+      "netAssets": 47691346000
+    },
+    {
+      "symbol": "VWINX",
+      "name": "Vanguard Wellesley Income Inv",
+      "assetType": "mutual_fund",
+      "netAssets": 47058473000
+    },
+    {
+      "symbol": "TLT",
+      "name": "iShares 20+ Year Treasury Bond ETF",
+      "assetType": "etf",
+      "netAssets": 47046328000
+    },
+    {
+      "symbol": "BIL",
+      "name": "State Street SPDR Bloomberg 1-3 Month T-Bill ETF",
+      "assetType": "etf",
+      "netAssets": 46752961000
+    },
+    {
+      "symbol": "JEPI",
+      "name": "JPMorgan Equity Premium Income ETF",
+      "assetType": "etf",
+      "netAssets": 46155608000
+    },
+    {
+      "symbol": "MUB",
+      "name": "iShares National Muni Bond ETF",
+      "assetType": "etf",
+      "netAssets": 45378339000
+    },
+    {
+      "symbol": "SWTSX",
+      "name": "Schwab Total Stock Market Index",
+      "assetType": "mutual_fund",
+      "netAssets": 45242466000
+    },
+    {
+      "symbol": "SCHB",
+      "name": "Schwab U.S. Broad Market ETF",
+      "assetType": "etf",
+      "netAssets": 44611326000
+    },
+    {
+      "symbol": "XLV",
+      "name": "State Street Health Care Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 43909784000
+    },
+    {
+      "symbol": "DGRO",
+      "name": "iShares Core Dividend Growth ETF",
+      "assetType": "etf",
+      "netAssets": 43460891000
+    },
+    {
+      "symbol": "VWUSX",
+      "name": "Vanguard US Growth Investor",
+      "assetType": "mutual_fund",
+      "netAssets": 43316466000
+    },
+    {
+      "symbol": "JEPQ",
+      "name": "JPMorgan Nasdaq Equity Premium Income ETF",
+      "assetType": "etf",
+      "netAssets": 42209616000
+    },
+    {
+      "symbol": "IEF",
+      "name": "iShares 7-10 Year Treasury Bond ETF",
+      "assetType": "etf",
+      "netAssets": 41824055000
+    },
+    {
+      "symbol": "GOVT",
+      "name": "iShares U.S. Treasury Bond ETF",
+      "assetType": "etf",
+      "netAssets": 41821909000
+    },
+    {
+      "symbol": "SOXX",
+      "name": "iShares Semiconductor ETF",
+      "assetType": "etf",
+      "netAssets": 41810907000
+    },
+    {
+      "symbol": "XLE",
+      "name": "State Street Energy Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 41438106000
+    },
+    {
+      "symbol": "FZROX",
+      "name": "Fidelity ZERO Total Market Index",
+      "assetType": "mutual_fund",
+      "netAssets": 41046761000
+    },
+    {
+      "symbol": "VGK",
+      "name": "Vanguard FTSE Europe ETF",
+      "assetType": "etf",
+      "netAssets": 39032136000
+    },
+    {
+      "symbol": "TQQQ",
+      "name": "ProShares UltraPro QQQ",
+      "assetType": "etf",
+      "netAssets": 36114248000
+    },
+    {
+      "symbol": "SLV",
+      "name": "iShares Silver Trust",
+      "assetType": "etf",
+      "netAssets": 34683150000
+    },
+    {
+      "symbol": "MGK",
+      "name": "Vanguard Morningstar Mega Cap Growth ETF",
+      "assetType": "etf",
+      "netAssets": 33687396400
+    },
+    {
+      "symbol": "VTWNX",
+      "name": "Vanguard Target Retirement 2020 Fund",
+      "assetType": "mutual_fund",
+      "netAssets": 33418209300
+    },
+    {
+      "symbol": "ACWI",
+      "name": "iShares MSCI ACWI ETF",
+      "assetType": "etf",
+      "netAssets": 33208487900
+    },
+    {
+      "symbol": "GLDM",
+      "name": "SPDR Gold MiniShares",
+      "assetType": "etf",
+      "netAssets": 32785807400
+    },
+    {
+      "symbol": "LQD",
+      "name": "iShares iBoxx $ Investment Grade Corporate Bond ETF",
+      "assetType": "etf",
+      "netAssets": 32042811400
+    },
+    {
+      "symbol": "XLI",
+      "name": "State Street Industrial Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 31947403300
+    },
+    {
+      "symbol": "EEM",
+      "name": "iShares MSCI Emerging Markets ETF",
+      "assetType": "etf",
+      "netAssets": 31207041000
+    },
+    {
+      "symbol": "AVUV",
+      "name": "Avantis US Small Cap Value ETF",
+      "assetType": "etf",
+      "netAssets": 31173472300
+    },
+    {
+      "symbol": "EWY",
+      "name": "iShares MSCI South Korea ETF",
+      "assetType": "etf",
+      "netAssets": 27722782700
+    },
+    {
+      "symbol": "VOOG",
+      "name": "Vanguard S&P 500 Growth Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 27121268700
+    },
+    {
+      "symbol": "FTIHX",
+      "name": "Fidelity Total International Index",
+      "assetType": "mutual_fund",
+      "netAssets": 26554798100
+    },
+    {
+      "symbol": "MDY",
+      "name": "State Street SPDR S&P MIDCAP 400 ETF Trust",
+      "assetType": "etf",
+      "netAssets": 26251735000
+    },
+    {
+      "symbol": "SHY",
+      "name": "iShares 1-3 Year Treasury Bond ETF",
+      "assetType": "etf",
+      "netAssets": 25913065500
+    },
+    {
+      "symbol": "RDVY",
+      "name": "First Trust Rising Dividend Achievers ETF",
+      "assetType": "etf",
+      "netAssets": 25443401700
+    },
+    {
+      "symbol": "MTUM",
+      "name": "iShares MSCI USA Momentum Factor ETF",
+      "assetType": "etf",
+      "netAssets": 24230012900
+    },
+    {
+      "symbol": "USMV",
+      "name": "iShares MSCI USA Min Vol Factor ETF",
+      "assetType": "etf",
+      "netAssets": 24225730600
+    },
+    {
+      "symbol": "DVY",
+      "name": "iShares Select Dividend ETF",
+      "assetType": "etf",
+      "netAssets": 23607969800
+    },
+    {
+      "symbol": "XLY",
+      "name": "State Street Consumer Discretionary Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 22749814800
+    },
+    {
+      "symbol": "EWJ",
+      "name": "iShares MSCI Japan ETF",
+      "assetType": "etf",
+      "netAssets": 22687311900
+    },
+    {
+      "symbol": "SCHA",
+      "name": "Schwab U.S. Small-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 22646165500
+    },
+    {
+      "symbol": "XLC",
+      "name": "State Street Communication Services Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 22430177300
+    },
+    {
+      "symbol": "VHT",
+      "name": "Vanguard Health Care Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 21929510900
+    },
+    {
+      "symbol": "XLU",
+      "name": "State Street Utilities Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 21836873700
+    },
+    {
+      "symbol": "SHV",
+      "name": "iShares 0–1 Year Treasury Bond ETF",
+      "assetType": "etf",
+      "netAssets": 20974225400
+    },
+    {
+      "symbol": "SOXL",
+      "name": "Direxion Daily Semiconductor Bull 3X Shares",
+      "assetType": "etf",
+      "netAssets": 19311783900
+    },
+    {
+      "symbol": "USFR",
+      "name": "WisdomTree Floating Rate Treasury Fund",
+      "assetType": "etf",
+      "netAssets": 18762037200
+    },
+    {
+      "symbol": "HYG",
+      "name": "iShares iBoxx $ High Yield Corporate Bond ETF",
+      "assetType": "etf",
+      "netAssets": 16186192900
+    },
+    {
+      "symbol": "CIBR",
+      "name": "First Trust NASDAQ Cybersecurity ETF",
+      "assetType": "etf",
+      "netAssets": 16119134200
+    },
+    {
+      "symbol": "SCHV",
+      "name": "Schwab U.S. Large-Cap Value ETF",
+      "assetType": "etf",
+      "netAssets": 15666246700
+    },
+    {
+      "symbol": "HDV",
+      "name": "iShares Core High Dividend ETF",
+      "assetType": "etf",
+      "netAssets": 15491693600
+    },
+    {
+      "symbol": "SWISX",
+      "name": "Schwab International Index",
+      "assetType": "mutual_fund",
+      "netAssets": 15067694100
+    },
+    {
+      "symbol": "TIP",
+      "name": "iShares TIPS Bond ETF",
+      "assetType": "etf",
+      "netAssets": 15010082800
+    },
+    {
+      "symbol": "EMB",
+      "name": "iShares J.P. Morgan USD Emerging Markets Bond ETF",
+      "assetType": "etf",
+      "netAssets": 14916531200
+    },
+    {
+      "symbol": "IWO",
+      "name": "iShares Russell 2000 Growth ETF",
+      "assetType": "etf",
+      "netAssets": 14874080300
+    },
+    {
+      "symbol": "SCHM",
+      "name": "Schwab U.S. Mid-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 14861568000
+    },
+    {
+      "symbol": "VFH",
+      "name": "Vanguard Financials Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 14766520300
+    },
+    {
+      "symbol": "XLP",
+      "name": "State Street Consumer Staples Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 14524716000
+    },
+    {
+      "symbol": "IWN",
+      "name": "iShares Russell 2000 Value ETF",
+      "assetType": "etf",
+      "netAssets": 14440142800
+    },
+    {
+      "symbol": "SPTM",
+      "name": "State Street SPDR Portfolio S&P 1500 Composite Stock Market ETF",
+      "assetType": "etf",
+      "netAssets": 14169304100
+    },
+    {
+      "symbol": "FBTC",
+      "name": "Fidelity Wise Origin Bitcoin Fund",
+      "assetType": "etf",
+      "netAssets": 13866148900
+    },
+    {
+      "symbol": "VDE",
+      "name": "Vanguard Energy Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 13102832600
+    },
+    {
+      "symbol": "SCHE",
+      "name": "Schwab Emerging Markets Equity ETF",
+      "assetType": "etf",
+      "netAssets": 13002555400
+    },
+    {
+      "symbol": "MOAT",
+      "name": "VanEck Morningstar Wide Moat ETF",
+      "assetType": "etf",
+      "netAssets": 12384709600
+    },
+    {
+      "symbol": "NOBL",
+      "name": "ProShares S&P 500 Dividend Aristocrats ETF",
+      "assetType": "etf",
+      "netAssets": 11801154600
+    },
+    {
+      "symbol": "EWT",
+      "name": "iShares MSCI Taiwan ETF",
+      "assetType": "etf",
+      "netAssets": 11758742500
+    },
+    {
+      "symbol": "XBI",
+      "name": "State Street SPDR S&P Biotech ETF",
+      "assetType": "etf",
+      "netAssets": 11404576800
+    },
+    {
+      "symbol": "SCHH",
+      "name": "Schwab U.S. REIT ETF",
+      "assetType": "etf",
+      "netAssets": 11197114400
+    },
+    {
+      "symbol": "SCHZ",
+      "name": "Schwab U.S. Aggregate Bond ETF",
+      "assetType": "etf",
+      "netAssets": 10672532500
+    },
+    {
+      "symbol": "IBB",
+      "name": "iShares Biotechnology ETF",
+      "assetType": "etf",
+      "netAssets": 10474939400
+    },
+    {
+      "symbol": "VPU",
+      "name": "Vanguard Utilities Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 10175297500
+    },
+    {
+      "symbol": "VLUE",
+      "name": "iShares MSCI USA Value Factor ETF",
+      "assetType": "etf",
+      "netAssets": 9699077100
+    },
+    {
+      "symbol": "VCLT",
+      "name": "Vanguard Long-Term Corporate Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 9554556900
+    },
+    {
+      "symbol": "VDC",
+      "name": "Vanguard Consumer Staples Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 9265631200
+    },
+    {
+      "symbol": "XLB",
+      "name": "State Street Materials Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 8752943100
+    },
+    {
+      "symbol": "ETHA",
+      "name": "iShares Ethereum Trust ETF",
+      "assetType": "etf",
+      "netAssets": 8625501200
+    },
+    {
+      "symbol": "VIS",
+      "name": "Vanguard Industrials Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 8587358700
+    },
+    {
+      "symbol": "BLV",
+      "name": "Vanguard Long-Term Bond Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 8339098600
+    },
+    {
+      "symbol": "QYLD",
+      "name": "Global X NASDAQ 100 Covered Call ETF",
+      "assetType": "etf",
+      "netAssets": 8324322300
+    },
+    {
+      "symbol": "SWAGX",
+      "name": "Schwab US Aggregate Bond Index",
+      "assetType": "mutual_fund",
+      "netAssets": 8320999900
+    },
+    {
+      "symbol": "XLRE",
+      "name": "State Street Real Estate Select Sector SPDR ETF",
+      "assetType": "etf",
+      "netAssets": 8312176100
+    },
+    {
+      "symbol": "EWZ",
+      "name": "iShares MSCI Brazil ETF",
+      "assetType": "etf",
+      "netAssets": 8173754400
+    },
+    {
+      "symbol": "SPYD",
+      "name": "State Street SPDR Portfolio S&P 500 High Dividend ETF",
+      "assetType": "etf",
+      "netAssets": 7653382700
+    },
+    {
+      "symbol": "PDBC",
+      "name": "Invesco Optimum Yield Diversified Commodity Strategy No K-1 ETF",
+      "assetType": "etf",
+      "netAssets": 7286278100
+    },
+    {
+      "symbol": "SPLV",
+      "name": "Invesco S&P 500 Low Volatility ETF",
+      "assetType": "etf",
+      "netAssets": 7086068700
+    },
+    {
+      "symbol": "VOOV",
+      "name": "Vanguard S&P 500 Value Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 6998908400
+    },
+    {
+      "symbol": "JNK",
+      "name": "State Street SPDR Bloomberg High Yield Bond ETF",
+      "assetType": "etf",
+      "netAssets": 6970858500
+    },
+    {
+      "symbol": "INDA",
+      "name": "iShares MSCI India ETF",
+      "assetType": "etf",
+      "netAssets": 6747315700
+    },
+    {
+      "symbol": "TFLO",
+      "name": "iShares Treasury Floating Rate Bond ETF",
+      "assetType": "etf",
+      "netAssets": 6665964000
+    },
+    {
+      "symbol": "VCR",
+      "name": "Vanguard Consumer Discretionary Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 6643268600
+    },
+    {
+      "symbol": "ARKK",
+      "name": "ARK Innovation ETF",
+      "assetType": "etf",
+      "netAssets": 6437586400
+    },
+    {
+      "symbol": "MCHI",
+      "name": "iShares MSCI China ETF",
+      "assetType": "etf",
+      "netAssets": 6326371300
+    },
+    {
+      "symbol": "VOX",
+      "name": "Vanguard Communication Services Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 5951590400
+    },
+    {
+      "symbol": "UPRO",
+      "name": "ProShares UltraPro S&P500",
+      "assetType": "etf",
+      "netAssets": 5447582700
+    },
+    {
+      "symbol": "FDN",
+      "name": "First Trust Dow Jones Internet Index Fund",
+      "assetType": "etf",
+      "netAssets": 5410252800
+    },
+    {
+      "symbol": "KWEB",
+      "name": "KraneShares CSI China Internet ETF",
+      "assetType": "etf",
+      "netAssets": 5103524900
+    },
+    {
+      "symbol": "VAW",
+      "name": "Vanguard Materials Index Fund ETF Shares",
+      "assetType": "etf",
+      "netAssets": 4481057800
+    },
+    {
+      "symbol": "IYR",
+      "name": "iShares U.S. Real Estate ETF",
+      "assetType": "etf",
+      "netAssets": 4394973200
+    },
+    {
+      "symbol": "FXI",
+      "name": "iShares China Large-Cap ETF",
+      "assetType": "etf",
+      "netAssets": 4230866940
+    },
+    {
+      "symbol": "KRE",
+      "name": "State Street SPDR S&P Regional Banking ETF",
+      "assetType": "etf",
+      "netAssets": 4010872830
+    },
+    {
+      "symbol": "XOP",
+      "name": "State Street SPDR S&P Oil & Gas Exploration & Production ETF",
+      "assetType": "etf",
+      "netAssets": 3986409220
+    },
+    {
+      "symbol": "AOR",
+      "name": "iShares Core 60/40 Balanced Allocation ETF",
+      "assetType": "etf",
+      "netAssets": 3756711680
+    },
+    {
+      "symbol": "BOTZ",
+      "name": "Global X Robotics & Artificial Intelligence ETF",
+      "assetType": "etf",
+      "netAssets": 3438523900
+    },
+    {
+      "symbol": "SPHD",
+      "name": "Invesco S&P 500 High Dividend Low Volatility ETF",
+      "assetType": "etf",
+      "netAssets": 3412700420
+    },
+    {
+      "symbol": "SKYY",
+      "name": "First Trust Cloud Computing ETF",
+      "assetType": "etf",
+      "netAssets": 3388826880
+    },
+    {
+      "symbol": "AOA",
+      "name": "iShares Core 80/20 Aggressive Allocation ETF",
+      "assetType": "etf",
+      "netAssets": 3291867390
+    },
+    {
+      "symbol": "HACK",
+      "name": "Amplify Cybersecurity ETF",
+      "assetType": "etf",
+      "netAssets": 3038403840
+    },
+    {
+      "symbol": "ITB",
+      "name": "iShares U.S. Home Construction ETF",
+      "assetType": "etf",
+      "netAssets": 2360223740
+    },
+    {
+      "symbol": "TMF",
+      "name": "Direxion Daily 20+ Year Treasury Bull 3X Shares",
+      "assetType": "etf",
+      "netAssets": 2191778300
+    },
+    {
+      "symbol": "ICLN",
+      "name": "iShares Global Clean Energy ETF",
+      "assetType": "etf",
+      "netAssets": 2181427460
+    },
+    {
+      "symbol": "ROBO",
+      "name": "Robo Global Robotics and Automation Index ETF",
+      "assetType": "etf",
+      "netAssets": 2062910850
+    },
+    {
+      "symbol": "ARKG",
+      "name": "ARK Genomic Revolution ETF",
+      "assetType": "etf",
+      "netAssets": 2020345090
+    },
+    {
+      "symbol": "OIH",
+      "name": "VanEck Oil Services ETF",
+      "assetType": "etf",
+      "netAssets": 2016612480
+    },
+    {
+      "symbol": "SQQQ",
+      "name": "ProShares UltraPro Short QQQ",
+      "assetType": "etf",
+      "netAssets": 1935680000
+    },
+    {
+      "symbol": "USO",
+      "name": "United States Oil Fund, LP",
+      "assetType": "etf",
+      "netAssets": 1897174660
+    },
+    {
+      "symbol": "BNDW",
+      "name": "Vanguard Total World Bond ETF",
+      "assetType": "etf",
+      "netAssets": 1890626430
+    },
+    {
+      "symbol": "ARKW",
+      "name": "ARK Next Generation Internet ETF",
+      "assetType": "etf",
+      "netAssets": 1840587650
+    },
+    {
+      "symbol": "AOM",
+      "name": "iShares Core 40/60 Moderate Allocation ETF",
+      "assetType": "etf",
+      "netAssets": 1799852420
+    },
+    {
+      "symbol": "DBC",
+      "name": "Invesco DB Commodity Index Tracking Fund",
+      "assetType": "etf",
+      "netAssets": 1798552320
+    },
+    {
+      "symbol": "BITO",
+      "name": "ProShares Bitcoin ETF",
+      "assetType": "etf",
+      "netAssets": 1657628030
+    },
+    {
+      "symbol": "LIT",
+      "name": "Global X Lithium & Battery Tech ETF",
+      "assetType": "etf",
+      "netAssets": 1643735300
+    },
+    {
+      "symbol": "SOXS",
+      "name": "Direxion Daily Semiconductor Bear 3X Shares",
+      "assetType": "etf",
+      "netAssets": 1403304960
+    },
+    {
+      "symbol": "TNA",
+      "name": "Direxion Daily Small Cap Bull 3X Shares",
+      "assetType": "etf",
+      "netAssets": 1208858620
+    },
+    {
+      "symbol": "TAN",
+      "name": "Invesco Solar ETF",
+      "assetType": "etf",
+      "netAssets": 1054457340
+    },
+    {
+      "symbol": "AOK",
+      "name": "iShares Core 30/70 Conservative Allocation ETF",
+      "assetType": "etf",
+      "netAssets": 798585090
+    },
+    {
+      "symbol": "UNG",
+      "name": "United States Natural Gas Fund, LP",
+      "assetType": "etf",
+      "netAssets": 579413120
+    },
+    {
+      "symbol": "SPXU",
+      "name": "ProShares UltraPro Short S&P500",
+      "assetType": "etf",
+      "netAssets": 380513408
+    },
+    {
+      "symbol": "UVXY",
+      "name": "ProShares Ultra VIX Short-Term Futures ETF",
+      "assetType": "etf",
+      "netAssets": 291475136
+    },
+    {
+      "symbol": "SVXY",
+      "name": "ProShares Short VIX Short-Term Futures ETF",
+      "assetType": "etf",
+      "netAssets": 256671664
+    }
+  ]
+}

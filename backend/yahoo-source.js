@@ -703,7 +703,10 @@ async function fetchSymbolSearch(keywords) {
     // silently discard ETF/MUTUALFUND rows after upstream schema changes (seen
     // on Render while quote/profile still worked), leaving autocomplete empty.
     const response = await axios.get('https://query2.finance.yahoo.com/v1/finance/search', {
-        params: { q: keywords, quotesCount: 10, newsCount: 0, region: 'US', lang: 'en-US' },
+        // 20, not 10: crypto tokens matching the same prefix (LDZ-USD on "VOO",
+    // two on "TQQQ") used to consume slots that funds needed, and the caller
+    // ranks and trims anyway.
+    params: { q: keywords, quotesCount: 20, newsCount: 0, region: 'US', lang: 'en-US' },
         headers: { 'User-Agent': 'Mozilla/5.0 stockportfolio.pro asset search' },
         timeout: 12000
     });
