@@ -623,7 +623,15 @@ function logCall(usage, task, round, msg, latencyMs, outcome) {
 
 async function llmCall(messages, usage, { task, round, tools = null, timeoutMs = 120000, maxTokens = 8000 }) {
     const t0 = Date.now();
-    const msg = await deps.llm(messages, {
+    // The provider returns an instantly-empty completion (zero usage) for a
+    // system-only message list — and the persona loops, allocator and nightly
+    // review all prompt exactly that way, which is why every live build died
+    // with "no valid pick produced within the round budget" in seconds.
+    // Guarantee a user turn; trailing system nudges are fine once one exists.
+    const msgs = messages.some((m) => m && m.role === 'user')
+        ? messages
+        : [...messages, { role: 'user', content: 'Begin now.' }];
+    const msg = await deps.llm(msgs, {
         purpose: 'chat', temperature: 0.3, maxTokens,
         tools: tools && tools.length ? tools : null,
         timeoutMs: Math.max(timeoutMs, 5000)
