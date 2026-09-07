@@ -267,7 +267,7 @@ function head(title, description, canonical, jsonld) {
 <meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="stylesheet" href="/styles.css?v=20260610-1" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -294,7 +294,7 @@ function head(title, description, canonical, jsonld) {
 }
 
 function nav() {
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260907-aipaper1"></script><script>V2.nav('compare');</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260907-aipaper2"></script><script>V2.nav('compare');</script>`;
 }
 function footer() {
     return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo">Live demo</a> &middot; <a href="/register.html?plan=monthly">Free trial</a></p>

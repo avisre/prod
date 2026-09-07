@@ -319,6 +319,35 @@ test('nextTickDue: hour boundary, creation boundary, lock consumption', () => {
     assert.equal(paper.nextTickDue(fresh, at(1, 59)), false);
 });
 
+// ---- resolveGuru: free-text investor matching -------------------------------
+
+test('resolveGuru: exact id/name, partial names, ambiguity, dead legends', () => {
+    // exact legacy id and full name (dead legends resolve like anyone else)
+    const munger = paper.resolveGuru('munger');
+    assert.equal(munger.matched.length, 1);
+    assert.equal(munger.matched[0].id, 'munger');
+    assert.equal(paper.resolveGuru('Charlie Munger').matched[0].name, 'Charlie Munger');
+    const lynch = paper.resolveGuru('peter lynch');
+    assert.equal(lynch.matched.length, 1);
+    assert.equal(lynch.matched[0].fund, 'Fidelity Magellan Fund');
+    assert.equal(paper.resolveGuru('graham').matched[0].name, 'Benjamin Graham');
+    // partial name against a LIVING manager
+    const buff = paper.resolveGuru('buffett');
+    assert.equal(buff.matched.length, 1);
+    assert.equal(buff.matched[0].id, 'berkshire');
+    // "john" is deliberately ambiguous: living John Rogers + dead John
+    // Templeton and John Neff — the surface must come back so the assistant
+    // can ask instead of guessing.
+    const johns = paper.resolveGuru('john');
+    assert.ok(johns.matched.length >= 2, 'ambiguous first name yields candidates');
+    assert.ok(johns.matched.some((g) => g.id === 'templeton'));
+    assert.ok(johns.matched.some((g) => g.id === 'ariel'));
+    // nothing matches: empty, too-short, and nonsense queries
+    assert.equal(paper.resolveGuru('').matched.length, 0);
+    assert.equal(paper.resolveGuru('ab').matched.length, 0);
+    assert.equal(paper.resolveGuru('zzzz-not-an-investor').matched.length, 0);
+});
+
 // ---- create + tick end-to-end (scripted deps) ------------------------------
 
 test('create: two minds, one buy, immutable commit, day-0 snapshot, logged decision', { timeout: 60000 }, async () => {
@@ -391,9 +420,79 @@ test('create: a bad guru id fails clean; nothing committed', { timeout: 60000 },
         try {
             const res = await paper.create({ user: USER, guruId: 'not-a-guru' });
             assert.equal(res.ok, false);
-            assert.match(res.error, /unknown guru/i);
+            assert.match(res.error, /unknown or ambiguous investor/i);
             const Portfolio = mongoose.model('AIPaperPortfolio');
             assert.equal(await Portfolio.countDocuments({}), 0, 'no doc left behind');
+        } finally {
+            paper.__resetDeps();
+            betaEnvOff();
+        }
+    });
+});
+
+test('create: pure-AI default (no guru) — two data minds, no investor persona anywhere', { timeout: 60000 }, async () => {
+    await withMongo(async () => {
+        betaEnvOn();
+        process.env.AI_PAPER_PORTFOLIO = '1';
+        // Slot 1's prompt opens "independent quantitative" and slot 2's opens
+        // "pure quantitative", so the fake returns guruPick for slot 1 and
+        // aiPick for slot 2 — two distinct picks with no re-roll.
+        const scripted = makeLlm({ guruPick: 'AAAA', aiPick: 'BBBB', alloc: { guruWeight: 0.55, aiWeight: 0.45, rationale: 'Growth case is stronger.', newsFactors: [] } });
+        paper.__setDeps({ ...makeDeps(), llm: scripted.llm });
+        try {
+            const events = [];
+            const res = await paper.create({ user: USER, onEvent: (e) => events.push(e) });
+            assert.equal(res.ok, true, res.error || 'pure-AI build should succeed');
+
+            const Portfolio = mongoose.model('AIPaperPortfolio');
+            const doc = await Portfolio.findOne({ user: 'u-123' });
+            assert.equal(doc.status, 'committed');
+            assert.equal(doc.guruId, '', 'no investor stored');
+            assert.deepEqual(doc.positions.map((p) => p.symbol).sort(), ['AAAA', 'BBBB']);
+            // both slots are data minds; the ids stay 'guru'/'ai' (internal shape)
+            assert.equal(doc.personas.length, 2);
+            const slotOne = doc.personas.find((x) => x.id === 'guru');
+            const slotTwo = doc.personas.find((x) => x.id === 'ai');
+            assert.equal(slotOne.kind, 'ai');
+            assert.equal(slotTwo.kind, 'ai');
+            assert.equal(slotOne.name, 'Data mind I');
+            assert.equal(slotTwo.name, 'Data mind II');
+            assert.ok(!JSON.stringify(doc).match(/buffett|investor's documented philosophy/i), 'no guru persona leaked into the run');
+
+            const Decision = mongoose.model('AIPaperDecision');
+            const d = await Decision.findOne({ type: 'construct' });
+            assert.ok(d, 'construct decision logged');
+            assert.equal(d.personaWeights.guru, 0.55);
+            assert.ok(d.rationale.includes('MIND 1') && d.rationale.includes('MIND 2'), 'mind-agnostic rationale lines');
+            assert.ok(!d.rationale.match(/glm|ollama/i), 'no identity leak');
+        } finally {
+            paper.__resetDeps();
+            betaEnvOff();
+        }
+    });
+});
+
+test('create: a dead legend (Munger) builds a guru-flavored run with no 13F block', { timeout: 60000 }, async () => {
+    await withMongo(async () => {
+        betaEnvOn();
+        process.env.AI_PAPER_PORTFOLIO = '1';
+        const scripted = makeLlm({ guruPick: 'AAAA', aiPick: 'BBBB', alloc: { guruWeight: 0.7, aiWeight: 0.3, rationale: 'Munger case is stronger.', newsFactors: [] } });
+        paper.__setDeps({ ...makeDeps(), llm: scripted.llm });
+        try {
+            // free text, not a 13F id — resolveGuru inside create() maps it
+            const res = await paper.create({ user: USER, guruId: 'Charlie Munger' });
+            assert.equal(res.ok, true, res.error || 'legacy-guru build should succeed');
+
+            const Portfolio = mongoose.model('AIPaperPortfolio');
+            const doc = await Portfolio.findOne({ user: 'u-123' });
+            assert.equal(doc.status, 'committed');
+            assert.equal(doc.guruId, 'munger');
+            const slotOne = doc.personas.find((x) => x.id === 'guru');
+            assert.equal(slotOne.kind, 'guru');
+            assert.equal(slotOne.name, 'Charlie Munger');
+            assert.equal(slotOne.fund, 'Daily Journal Corporation');
+            assert.equal(doc.personas.find((x) => x.id === 'ai').kind, 'ai');
+            assert.equal(doc.positions.length, 2);
         } finally {
             paper.__resetDeps();
             betaEnvOff();

@@ -230,3 +230,66 @@ test('admin-messages.js carries a fresh cache stamp (not the pre-fix one)', () =
     assert.notEqual(m[1], '20260824-msgreply2',
         'admin-messages.html still points at the pre-fix duplicate-listener bundle');
 });
+
+// ---------------------------------------------------------------------------
+// The credit meter. Three shipped defects are pinned here: a recharge rendering
+// as a zero-credit debit, the per-feature split vanishing above the activity
+// cap, and Deep Dossier (30 credits, the priciest action) missing from the
+// price list the panel shows.
+
+test('a purchased top-up is labelled as a recharge, not a zero-credit debit', () => {
+    // Top-ups are positive ledger rows. Without a case in activityLabel they
+    // fell through to 'Credit use', and the row renderer's Math.max(0, -delta)
+    // printed them as "-0 credits" — a $14.99 purchase with no visible receipt.
+    assert.match(frontendAppSource, /if \(reason === 'topup'\) return 'Recharge/,
+        "activityLabel must name 'topup' rows");
+    const profileSource = fs.readFileSync(path.join(FRONTEND, 'assets/profile.js'), 'utf8');
+    assert.doesNotMatch(profileSource, /Math\.max\(0, -Number\(row\.delta\) \|\| 0\)/,
+        'the ledger row must render the signed delta, not clamp a credit to zero');
+    assert.match(profileSource, /delta > 0 \? '\+' : '&minus;'/,
+        'a positive row has to read as an addition');
+});
+
+test('the per-feature split comes from the server and survives a heavy month', () => {
+    // It used to be summed from recentActivity()'s capped rows and hidden
+    // whenever they fell short of used() — so the breakdown disappeared for
+    // exactly the users whose month was worth breaking down. The complete
+    // aggregate is credits.monthBreakdown(); creditSplit stays only as the
+    // fallback for an older server payload.
+    const profileSource = fs.readFileSync(path.join(FRONTEND, 'assets/profile.js'), 'utf8');
+    assert.match(profileSource, /credits && credits\.breakdown/,
+        'profile.js must prefer the server-side breakdown');
+    const creditsSource = fs.readFileSync(path.join(__dirname, '..', 'credits.js'), 'utf8');
+    assert.match(creditsSource, /async function monthBreakdown\(userId\)/);
+    assert.doesNotMatch(creditsSource.slice(creditsSource.indexOf('async function monthBreakdown')), /\.limit\(/,
+        'the breakdown aggregate must not be capped — that cap is the bug');
+    const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+    assert.match(appSource, /credits\.monthBreakdown\(req\.userId\)/, '/api/credits must send it');
+});
+
+test('the bar is one stacked meter drawn against the whole wallet', () => {
+    // The old panel drew a used-only bar and, beneath it, per-feature bars
+    // normalised to the LARGEST row — so 24 and 20 credits out of 300 rendered
+    // as a full bar beside an 83% one, reading as a nearly spent wallet.
+    const profileSource = fs.readFileSync(path.join(FRONTEND, 'assets/profile.js'), 'utf8');
+    assert.match(profileSource, /width:\$\{Math\.min\(100, \(amt \/ allowance\) \* 100\)\}%/,
+        'every segment must be a share of the allowance');
+    assert.doesNotMatch(profileSource, /\(amt \/ max\) \* 100/, 'no bar may be normalised to the largest row');
+});
+
+test('the price list names every billable action, Deep Dossier included', () => {
+    const profileSource = fs.readFileSync(path.join(FRONTEND, 'assets/profile.js'), 'utf8');
+    const credits = require('../credits');
+    for (const key of Object.keys(credits.COST)) {
+        assert.match(profileSource, new RegExp(`cost\\.${key}`),
+            `${key} is charged (${credits.COST[key]} credits) but is not in the panel's price list`);
+    }
+});
+
+test('profile.js is off the pre-meter cache stamp', () => {
+    const html = fs.readFileSync(path.join(FRONTEND, 'profile.html'), 'utf8');
+    const m = html.match(/assets\/profile\.js\?v=([\w.-]+)/);
+    assert.ok(m, 'profile.html should load profile.js');
+    assert.notEqual(m[1], '20260901-cmp1',
+        'profile.html still points at the pre-meter bundle — the rewrite would never reach a returning user');
+});

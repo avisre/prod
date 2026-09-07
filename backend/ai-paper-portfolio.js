@@ -44,6 +44,13 @@ const REVIEW_DAYS = 2;           // nightly advisory reviews, then tracking
 const PERSONA_MAX_ROUNDS = 6;    // LLM rounds per persona research loop
 const PERSONA_MAX_TOOL_CALLS = 10;
 const PERSONA_WALL_MS = 90 * 1000;       // hard cap per persona (parallel)
+// The guru mind ALSO downloads the investor's philosophy from the live web
+// before it may pick — a research tax the data mind doesn't pay. Its budget is
+// wider so philosophy research can't starve the pick: the first live build
+// (duquesne) spent its whole 10-call/90s budget and was discarded with no
+// valid pick, exactly the starvation this headroom prevents.
+const GURU_MAX_TOOL_CALLS = 12;
+const GURU_WALL_MS = 120 * 1000;
 const ALLOCATOR_TIMEOUT_MS = 25 * 1000;
 const BUILD_PHASE_STALE_MS = 15 * 60 * 1000; // building older than this => failed
 const SWEEP_MS = 10 * 60 * 1000;         // hourly-ish sweep cadence
@@ -55,8 +62,10 @@ const TICK_UTC_HOUR_DEFAULT = 2;         // 02:00 UTC = after the 4pm ET close
 // profitable years / latest-qtr earnings growth / sector / market cap),
 // verified 2026-09-07 — but it has NO price-momentum factors, so the AI
 // persona card tells it to read momentum from get_price_history instead.
+// fetch_page lets the guru mind OPEN the letters/interviews it finds with
+// search_web — snippets alone are a thin basis for "documented philosophy".
 const PERSONA_TOOL_NAMES = [
-    'search_web', 'get_quote', 'get_financials', 'get_price_history',
+    'search_web', 'fetch_page', 'get_quote', 'get_financials', 'get_price_history',
     'screen_universe', 'calculator', 'get_ratios_history', 'get_health_checks',
     'get_reverse_dcf', 'search_filings'
 ];
@@ -528,8 +537,45 @@ const GURU_STYLES = {
     davis: 'value', renaissance: 'quant', bridgewater: 'macro', thirdpoint: 'activist',
     appaloosa: 'macro', greenlight: 'value', tci: 'quality', valueact: 'quality',
     cooperman: 'value', viking: 'growth', tigerglob: 'growth', lonepine: 'growth',
-    maverick: 'growth', durable: 'growth', ariel: 'value'
+    maverick: 'growth', durable: 'growth', ariel: 'value',
+    // deceased legends — no 13F exists, so the holdings reference block is
+    // simply omitted; only the (still documented, still researchable)
+    // philosophy drives the pick.
+    graham: 'value', munger: 'quality', lynch: 'growth', fisher: 'growth',
+    templeton: 'value', schloss: 'value', neff: 'value', troweprice: 'growth'
 };
+
+// Deceased legends selectable by natural language alongside the living 13F
+// managers. Their philosophies are documented (letters, books, interviews) —
+// the guru mind researches them live exactly as it does for living gurus.
+const LEGACY_GURUS = [
+    { id: 'graham',     name: 'Benjamin Graham', fund: 'Graham-Newman Corporation' },
+    { id: 'munger',     name: 'Charlie Munger',  fund: 'Daily Journal Corporation' },
+    { id: 'lynch',      name: 'Peter Lynch',     fund: 'Fidelity Magellan Fund' },
+    { id: 'fisher',     name: 'Philip Fisher',   fund: 'Fisher & Company' },
+    { id: 'templeton',  name: 'John Templeton',  fund: 'Templeton Growth Fund' },
+    { id: 'schloss',    name: 'Walter Schloss',  fund: 'Walter & J. Schloss Associates' },
+    { id: 'neff',       name: 'John Neff',       fund: 'Windsor Fund (Vanguard)' },
+    { id: 'troweprice', name: 'T. Rowe Price',   fund: 'T. Rowe Price Associates' }
+];
+
+// Natural-language guru resolution over living managers + legacy legends.
+// "buffett", "Charlie Munger", "T. Rowe Price", "berkshire" all resolve to
+// exactly one mind; ambiguous or unknown queries come back with the candidate
+// list so the assistant can ask "did you mean X?" instead of guessing.
+function resolveGuru(query) {
+    const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const q = norm(query);
+    if (!q) return { matched: [] };
+    const all = [...gurus.GURU_LIST, ...LEGACY_GURUS];
+    const exact = all.find((g) => norm(g.name) === q || g.id === q.replace(/\s+/g, ''));
+    if (exact) return { matched: [exact] };
+    if (q.length < 3) return { matched: [] };
+    return { matched: all.filter((g) => {
+        const n = norm(g.name);
+        return n.includes(q) || q.includes(n);
+    }) };
+}
 
 // Seatbelt, NOT validator: catches only egregious mismatches between the pick
 // and the persona's style (a 300x P/E meme stock as a "value" pick). The
@@ -615,7 +661,7 @@ const JSON_CONTRACT = [
     'Pick exactly ONE stock. Never more than one. Never an ETF, index fund, mutual fund, ADR or foreign listing — a US common stock only.'
 ].join('\n');
 
-async function runPersonaLoop(personaId, systemPrompt, { usage, deadline, onPhase }) {
+async function runPersonaLoop(personaId, systemPrompt, { usage, deadline, maxToolCalls = PERSONA_MAX_TOOL_CALLS }) {
     const tools = personaTools();
     const messages = [{ role: 'system', content: systemPrompt }];
     let toolCalls = 0;
@@ -637,7 +683,7 @@ async function runPersonaLoop(personaId, systemPrompt, { usage, deadline, onPhas
             messages.push({ role: 'assistant', content: msg.content || '', tool_calls: msg.tool_calls });
             for (const tc of msg.tool_calls) {
                 let result;
-                if (toolCalls >= PERSONA_MAX_TOOL_CALLS) {
+                if (toolCalls >= maxToolCalls) {
                     result = { error: 'Tool budget exhausted — make your final pick now with what you have.' };
                 } else {
                     toolCalls++;
@@ -711,12 +757,23 @@ function guruPersonaPrompt(guru, holdings, digest, style) {
     ].filter(Boolean).join('\n');
 }
 
-function aiPersonaPrompt(digest) {
+// Data-mind prompt, two slots. In a guru build only slot 2 runs (the classic
+// pure-data analyst). In the pure-AI default BOTH slots run as independent
+// data-only minds with different mandates (growth/momentum vs quality/value),
+// so the two passes don't converge on the same thesis. Neither names an
+// investor — there is no investor to reference.
+function dataMindPrompt(digest, slot = 2) {
+    const mandate = slot === 1
+        ? `YOUR MANDATE: find the strongest GROWTH story the data can defend — accelerating revenue and latest-quarter earnings growth, expanding margins, and price momentum that confirms the fundamentals (read momentum from get_price_history).`
+        : `YOUR MANDATE: find the strongest QUALITY-AT-A-PRICE story the data can defend — high ROE, durable margins, positive FCF, and a valuation you can justify against the growth you found.`;
     return [
-        `You are a pure quantitative research analyst choosing ONE stock for a paper portfolio. You follow NO investor, NO philosophy, NO style — only what the data says today. This is a paper-trading experiment; no real money is involved.`,
+        slot === 1
+            ? `You are an independent quantitative research analyst choosing ONE stock for a paper portfolio. You follow NO investor, NO philosophy, NO style — only what the data says today. A second data mind is independently picking one other stock; reach your own conclusion, not a safe consensus. This is a paper-trading experiment; no real money is involved.`
+            : `You are a pure quantitative research analyst choosing ONE stock for a paper portfolio. You follow NO investor, NO philosophy, NO style — only what the data says today. This is a paper-trading experiment; no real money is involved.`,
         `YOUR PROCESS (in order):`,
-        `1. SCREEN THE DATA: use screen_universe (real factor screens over ~1,500 US companies: ROE, net margin, revenue CAGR, P/E, P/B, FCF, profitable years, latest-quarter earnings growth, sector, market-cap bands — combine factors freely, up to 25 rows per call) to build your candidate set from quality, valuation and growth factors. NOTE: screen_universe has NO momentum factors — read momentum from get_price_history for your shortlist. Use search_web only for today's market regime if the digest below is not enough.`,
+        `1. SCREEN THE DATA: use screen_universe (real factor screens over ~1,500 US companies: ROE, net margin, revenue CAGR, P/E, P/B, FCF, profitable years, latest-quarter earnings growth, sector, market-cap bands — combine factors freely, up to 25 rows per call) to build your candidate set. NOTE: screen_universe has NO momentum factors — read momentum from get_price_history for your shortlist. Use search_web only for today's market regime if the digest below is not enough.`,
         `2. ANALYZE: compare your finalists on the numbers that matter to your thesis — get_financials, get_ratios_history, get_health_checks, get_quote. Every number you rely on must come from a tool result in this conversation — never from memory.`,
+        mandate,
         `3. PICK EXACTLY ONE STOCK whose rationale cites the specific data factors that made it the winner.`,
         marketDigestBlock(digest),
         JSON_CONTRACT,
@@ -724,18 +781,20 @@ function aiPersonaPrompt(digest) {
     ].filter(Boolean).join('\n');
 }
 
-function allocatorPrompt(guruPick, aiPick, digest) {
+function allocatorPrompt(mindOne, mindTwo, digest, hasGuru) {
     const pick = (label, p) => `${label}: ${JSON.stringify({
         symbol: p.symbol, name: p.name, rationale: p.rationale, keyFactors: p.keyFactors
     })}`;
     return [
-        `You are the portfolio allocator for a two-stock paper-trading experiment with $100,000. One stock was picked by a persona applying ${guruPick.name ? 'a famous investor' : 'the guru'}'s documented philosophy; the other by a pure-data analyst with no investor reference. Decide the dollar split between them.`,
+        `You are the portfolio allocator for a two-stock paper-trading experiment with $100,000. ${hasGuru
+            ? `One stock was picked by a persona applying a famous investor's documented philosophy; the other by a pure-data analyst with no investor reference.`
+            : `Both stocks were picked by independent pure-data analysts with different mandates and no investor reference.`} Decide the dollar split between them.`,
         `Judge COHERENCE: read both rationales and their cited numbers. Tilt weight away from a pick whose reasoning does not hold up against its own data, and toward the pick with the stronger, better-evidenced case. You are not allowed to add, remove or swap stocks — only to split the $100,000 between these two.`,
         `HARD RULES (enforced by code regardless of what you output — follow them anyway): each position gets at least 10% and at most 70% of the capital; at least 80% of the capital must be invested (cash cap 20%).`,
-        pick('GURU PICK', guruPick),
-        pick('DATA PICK', aiPick),
+        pick('MIND 1 PICK', mindOne),
+        pick('MIND 2 PICK', mindTwo),
         marketDigestBlock(digest),
-        `Output ONLY this JSON: {"guruWeight":<0-1>,"aiWeight":<0-1>,"rationale":"<why this split, 2-4 sentences>","newsFactors":["<any current headline/market fact that should tilt the split, with source and date>"]}`,
+        `Output ONLY this JSON: {"guruWeight":<0-1 — the dollar share for MIND 1>,"aiWeight":<0-1 — the dollar share for MIND 2>,"rationale":"<why this split, 2-4 sentences>","newsFactors":["<any current headline/market fact that should tilt the split, with source and date>"]}`,
         `Never name or hint at any AI model or provider.`
     ].filter(Boolean).join('\n');
 }
@@ -806,10 +865,20 @@ async function create({ user, guruId, onEvent }) {
     const usage = newUsage();
     emit({ type: 'status', phase: 'validating' });
 
-    const guru = gurus.GURU_LIST.find((g) => g.id === guruId);
-    if (!guru) {
-        emit({ type: 'error', message: `Unknown guru "${guruId}" — pick one from the guru list.` });
-        return { ok: false, error: `Unknown guru "${guruId}" — pick one from the guru list.` };
+    // Guru is OPTIONAL: absent/empty ⇒ the pure-AI default (two independent
+    // data minds, no investor persona anywhere). Free text resolves through
+    // the living managers + deceased legends.
+    const rawGuru = String(guruId || '').trim();
+    const resolved = rawGuru ? resolveGuru(rawGuru) : { matched: [] };
+    const guru = resolved.matched.length === 1 ? resolved.matched[0] : null;
+    const hasGuru = !!guru;
+    if (rawGuru && !hasGuru) {
+        const hint = resolved.matched.length
+            ? `did you mean ${resolved.matched.map((g) => g.name).join(' or ')}?`
+            : 'name an investor (e.g. Buffett, Charlie Munger, Peter Lynch) or leave the guru unset for the pure-data default.';
+        const err = `Unknown or ambiguous investor "${rawGuru}" — ${hint}`;
+        emit({ type: 'error', message: err });
+        return { ok: false, error: err };
     }
 
     // One portfolio per user. A failed run self-clears: the retry IS the
@@ -826,7 +895,7 @@ async function create({ user, guruId, onEvent }) {
     const doc = await Portfolio.create({
         user: userId, name: 'AI Paper Portfolio', startingCapital: STARTING_CAPITAL,
         cash: 0, positions: [], personas: [], status: 'building', buildPhase: 'starting',
-        guruId: guru.id, dayCount: 0, lastTickDay: '', spyBaseline: null, buildError: ''
+        guruId: hasGuru ? guru.id : '', dayCount: 0, lastTickDay: '', spyBaseline: null, buildError: ''
     });
 
     try {
@@ -837,17 +906,30 @@ async function create({ user, guruId, onEvent }) {
 
         emit({ type: 'status', phase: 'personas' });
         await setPhase(doc, 'researching both minds');
-        const style = GURU_STYLES[guru.id] || 'value';
-        const holdingsDoc = await gurus.holdings(guru.id).catch(() => null);
+        const style = hasGuru ? (GURU_STYLES[guru.id] || 'value') : null;
+        const holdingsDoc = hasGuru ? await gurus.holdings(guru.id).catch(() => null) : null;
         const holdings = (holdingsDoc && holdingsDoc.holdings) || [];
 
+        // Mind 1 ('guru' slot): investor-philosophy persona when a guru was
+        // chosen, otherwise an independent data mind with a growth mandate.
+        // Mind 2 ('ai' slot): the classic pure-data analyst (quality mandate).
+        const promptFor = (personaId) => personaId === 'guru'
+            ? (hasGuru ? guruPersonaPrompt(guru, holdings, digest, style) : dataMindPrompt(digest, 1))
+            : dataMindPrompt(digest, 2);
+        // The guru mind pays a research tax for the live philosophy download;
+        // data minds keep the standard budget.
+        const budgetFor = (personaId) => (hasGuru && personaId === 'guru')
+            ? { maxToolCalls: GURU_MAX_TOOL_CALLS, wallMs: GURU_WALL_MS }
+            : { maxToolCalls: PERSONA_MAX_TOOL_CALLS, wallMs: PERSONA_WALL_MS };
+        const labelFor = (personaId) => personaId === 'guru'
+            ? (hasGuru ? `🧠 ${guru.name} mind` : '📊 Data mind I')
+            : (hasGuru ? '📊 Data mind' : '📊 Data mind II');
+
         const runMind = async (personaId) => {
-            const prompt = personaId === 'guru'
-                ? guruPersonaPrompt(guru, holdings, digest, style)
-                : aiPersonaPrompt(digest);
-            const deadline = Date.now() + PERSONA_WALL_MS;
-            const pick = await runPersonaLoop(personaId, prompt, { usage, deadline });
-            emit({ type: 'persona', persona: personaId, phase: 'picked', symbol: pick.symbol });
+            const b = budgetFor(personaId);
+            const pick = await runPersonaLoop(personaId, promptFor(personaId),
+                { usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls });
+            emit({ type: 'persona', persona: personaId, label: labelFor(personaId), phase: 'picked', symbol: pick.symbol });
             await setPhase(doc, `${personaId} picked ${pick.symbol}`);
             return pick;
         };
@@ -866,22 +948,35 @@ async function create({ user, guruId, onEvent }) {
             if (picks[personaId] || !errors[personaId]) continue;
             emit({ type: 'persona', persona: personaId, phase: 'retry' });
             try {
-                picks[personaId] = await runPersonaLoop(personaId,
-                    personaId === 'guru' ? guruPersonaPrompt(guru, holdings, digest, style) : aiPersonaPrompt(digest),
-                    { usage, deadline: Date.now() + PERSONA_WALL_MS });
+                const b = budgetFor(personaId);
+                picks[personaId] = await runPersonaLoop(personaId, promptFor(personaId),
+                    { usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls });
             } catch (e) {
                 errors[personaId] = String(e && e.message || e).slice(0, 300);
             }
         }
         if (!picks.guru || !picks.ai) {
-            const who = !picks.guru ? 'The guru persona' : 'The data persona';
+            const who = !picks.guru ? (hasGuru ? 'The guru persona' : 'The first data mind') : 'The data persona';
             throw new Error(`${who} could not produce a valid pick (${(!picks.guru ? errors.guru : errors.ai) || 'no pick'}). Nothing was bought — the whole run is discarded; press retry to start a fresh one.`);
         }
 
-        // Philosophy seatbelt on the guru pick (egregious mismatches only).
-        const screen = await philosophyScreen(style, picks.guru.symbol);
-        if (!screen.pass) {
-            throw new Error(`The guru pick (${picks.guru.symbol}) failed the philosophy seatbelt: ${screen.flags.join('; ')}. Nothing was bought; press retry for a fresh run.`);
+        // Two minds converging on the same stock defeats the two-mind design:
+        // re-roll mind 2 once with the collision made explicit.
+        if (picks.guru.symbol === picks.ai.symbol) {
+            emit({ type: 'persona', persona: 'ai', phase: 'retry' });
+            picks.ai = await runPersonaLoop('ai', promptFor('ai')
+                + `\nIMPORTANT: the first mind already committed to ${picks.guru.symbol}. Your pick must be a DIFFERENT stock — choose the next-best candidate that stands on its own data.`,
+                { usage, deadline: Date.now() + PERSONA_WALL_MS });
+        }
+
+        // Philosophy seatbelt on the guru pick (egregious mismatches only) —
+        // a data mind has no philosophy to violate, so it never runs for
+        // pure-AI builds.
+        if (hasGuru) {
+            const screen = await philosophyScreen(style, picks.guru.symbol);
+            if (!screen.pass) {
+                throw new Error(`The guru pick (${picks.guru.symbol}) failed the philosophy seatbelt: ${screen.flags.join('; ')}. Nothing was bought; press retry for a fresh run.`);
+            }
         }
 
         emit({ type: 'status', phase: 'allocator' });
@@ -889,7 +984,7 @@ async function create({ user, guruId, onEvent }) {
         let alloc = null;
         try {
             const allocMsg = await llmCallRetry(
-                [{ role: 'system', content: allocatorPrompt(picks.guru, picks.ai, digest) }],
+                [{ role: 'system', content: allocatorPrompt(picks.guru, picks.ai, digest, hasGuru) }],
                 usage, { task: 'allocator', round: 0, timeoutMs: ALLOCATOR_TIMEOUT_MS, maxTokens: 3000 }
             );
             alloc = parseModelJson(allocMsg.content);
@@ -897,7 +992,7 @@ async function create({ user, guruId, onEvent }) {
         if (!alloc) { // one format retry, then the deterministic 50/50 inside sanitize
             try {
                 const retryMsg = await llmCallRetry(
-                    [{ role: 'system', content: allocatorPrompt(picks.guru, picks.ai, digest) + '\nOutput ONLY valid JSON.' }],
+                    [{ role: 'system', content: allocatorPrompt(picks.guru, picks.ai, digest, hasGuru) + '\nOutput ONLY valid JSON.' }],
                     usage, { task: 'allocator', round: 1, timeoutMs: ALLOCATOR_TIMEOUT_MS, maxTokens: 3000 }
                 );
                 alloc = parseModelJson(retryMsg.content);
@@ -913,9 +1008,11 @@ async function create({ user, guruId, onEvent }) {
             const persona = sanitized.persona;
             if (persona === 'guru' || persona === 'ai') {
                 emit({ type: 'persona', persona, phase: 'retry' });
-                const retryPrompt = (persona === 'guru' ? guruPersonaPrompt(guru, holdings, digest, style) : aiPersonaPrompt(digest))
+                const retryPrompt = promptFor(persona)
                     + `\nIMPORTANT: your previous pick was rejected by verification: ${sanitized.reason} Pick a different stock that passes.`;
-                picks[persona] = await runPersonaLoop(persona, retryPrompt, { usage, deadline: Date.now() + PERSONA_WALL_MS });
+                const b = budgetFor(persona);
+                picks[persona] = await runPersonaLoop(persona, retryPrompt,
+                    { usage, deadline: Date.now() + b.wallMs, maxToolCalls: b.maxToolCalls });
                 sanitized = await sanitizeAllocation(alloc, picks, STARTING_CAPITAL);
             }
         }
@@ -930,13 +1027,22 @@ async function create({ user, guruId, onEvent }) {
 
         const now = new Date();
         const personas = [
+            hasGuru
+                ? {
+                    id: 'guru', kind: 'guru', name: guru.name, fund: guru.fund,
+                    weight: sanitized.weights.guru, philosophy: picks.guru.philosophy || '',
+                    cardVersion: CARD_VERSION
+                }
+                : {
+                    id: 'guru', kind: 'ai', name: 'Data mind I', fund: 'No fund — independent data-only research (growth mandate)',
+                    weight: sanitized.weights.guru, philosophy: picks.guru.philosophy || '',
+                    cardVersion: CARD_VERSION
+                },
             {
-                id: 'guru', kind: 'guru', name: guru.name, fund: guru.fund,
-                weight: sanitized.weights.guru, philosophy: picks.guru.philosophy || '',
-                cardVersion: CARD_VERSION
-            },
-            {
-                id: 'ai', kind: 'ai', name: 'Pure-data AI', fund: 'No fund — screens the market on data alone',
+                id: 'ai', kind: 'ai', name: hasGuru ? 'Pure-data AI' : 'Data mind II',
+                fund: hasGuru
+                    ? 'No fund — screens the market on data alone'
+                    : 'No fund — independent data-only research (quality mandate)',
                 weight: sanitized.weights.ai, philosophy: picks.ai.philosophy || '',
                 cardVersion: CARD_VERSION
             }
@@ -962,8 +1068,12 @@ async function create({ user, guruId, onEvent }) {
         await appendDecision(doc, {
             day: 0, type: 'construct', persona: 'allocator',
             rationale: [
-                `GURU PICK (${guru.name}, ${style} philosophy): ${picks.guru.symbol} — ${picks.guru.rationale}`,
-                `DATA PICK (no investor reference): ${picks.ai.symbol} — ${picks.ai.rationale}`,
+                hasGuru
+                    ? `MIND 1 (${guru.name}, ${style} philosophy): ${picks.guru.symbol} — ${picks.guru.rationale}`
+                    : `MIND 1 (data-only, growth mandate, no investor reference): ${picks.guru.symbol} — ${picks.guru.rationale}`,
+                hasGuru
+                    ? `MIND 2 (pure data, no investor reference): ${picks.ai.symbol} — ${picks.ai.rationale}`
+                    : `MIND 2 (data-only, quality mandate, no investor reference): ${picks.ai.symbol} — ${picks.ai.rationale}`,
                 sanitized.fellBack
                     ? `SPLIT: deterministic 50/50 fallback (the allocator call failed; guardrails in code chose equal weight).`
                     : `SPLIT: ${Math.round(sanitized.weights.guru * 100)}% ${picks.guru.symbol} / ${Math.round(sanitized.weights.ai * 100)}% ${picks.ai.symbol} — ${sanitized.rationale}`
@@ -1289,11 +1399,10 @@ const CHAT_TOOLS = [
         type: 'function',
         function: {
             name: 'ai_portfolio_setup',
-            description: "Start (or retry after a failed build) the AI Paper Portfolio with ONE famous investor as the guru mind. Pass the guru id the user chose from the picker list. The build runs in the background (about 2 minutes) — reply that setup is underway; never call it twice or wait for it.",
+            description: "Start (or retry after a failed build) the AI Paper Portfolio. DEFAULT: call with NO arguments — both minds are independent pure-data analysts. If the user names an investor — living (e.g. Buffett, Ackman, Burry, Druckenmiller) or deceased (e.g. Charlie Munger, Benjamin Graham, Peter Lynch) — pass that name as guru and one mind applies that philosophy, researched live. The build runs in the background (2-3 minutes) and its progress streams into this conversation. Reply that setup is underway; never call it twice or wait for it.",
             parameters: {
                 type: 'object',
-                properties: { guruId: { type: 'string', description: 'Guru id from the picker list, e.g. "berkshire"' } },
-                required: ['guruId']
+                properties: { guru: { type: 'string', description: "The investor the user asked for, verbatim — a name ('Charlie Munger', 'T. Rowe Price') or id ('berkshire'). Omit entirely for the pure-data default." } }
             }
         }
     },
@@ -1322,6 +1431,7 @@ module.exports = {
     create, detailFor, statusFor, start, sweep, tickPortfolioOnce, resetRun,
     sanitizeAllocation, parseModelJson, computeSnapshot, nextTickDue,
     ensureIndexes, fixWeights, latestSession, markStaleBuilding, CHAT_TOOLS,
+    resolveGuru, LEGACY_GURUS,
     PERSONA_TOOL_NAMES, LOG_SCHEMA_VERSION, CARD_VERSION, REVIEW_DAYS,
     __setDeps, __resetDeps
 };

@@ -2138,7 +2138,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2167,7 +2167,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper1"></script>
+<script src="/assets/app.js?v=20260907-aipaper2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2251,7 +2251,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2279,7 +2279,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper1"></script>
+<script src="/assets/app.js?v=20260907-aipaper2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2383,7 +2383,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2416,7 +2416,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper1"></script>
+<script src="/assets/app.js?v=20260907-aipaper2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -7817,7 +7817,7 @@ async function buildAiPaperChatCtx(userId) {
         'Hard rules: the positions are immutable; you can explain, report and discuss, NEVER buy, sell, reweigh or change anything; nightly reviews are advisory-only notes in the log.',
         state && state.exists
             ? `Current experiment state (authoritative — never invent numbers): ${JSON.stringify(state)}`
-            : 'No portfolio exists yet. If the user wants to start the experiment, ask them to pick ONE famous investor, then call ai_portfolio_setup.'
+            : 'No portfolio exists yet. If the user wants to start the experiment, call ai_portfolio_setup — by default with NO arguments (both minds are independent pure-data analysts). If they name an investor — living or deceased (e.g. Buffett, Charlie Munger, Peter Lynch) — pass that name as guru.'
     ].join('\n');
     return {
         aiPaperTools: aiPaper.CHAT_TOOLS,
@@ -7830,11 +7830,24 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
     try {
         if (name === 'ai_portfolio_status') return await aiPaper.statusFor(userId);
         if (name === 'ai_portfolio_setup') {
-            const guruId = String((args && args.guruId) || '').trim();
-            if (!guruId) return { error: 'Pass a guruId from the picker list.' };
-            if (!gurus.list().some((g) => g.id === guruId)) return { error: `Unknown guru "${guruId}" — pick one from the guru list.` };
+            // Guru is OPTIONAL: no arguments = pure-AI default (two data
+            // minds). A free-text investor name resolves against the living
+            // managers + deceased legends; ambiguous names come back as
+            // candidates so the assistant can ask instead of guessing.
+            const wanted = String((args && (args.guru || args.guruId)) || '').trim();
+            let guruId = '';
+            if (wanted) {
+                const { matched } = aiPaper.resolveGuru(wanted);
+                if (matched.length === 0) {
+                    return { error: `No investor matching "${wanted}". Ask the user to name a famous investor (living or deceased — e.g. Buffett, Charlie Munger, Peter Lynch), or go with the pure-data default (no guru).` };
+                }
+                if (matched.length > 1) {
+                    return { error: `"${wanted}" is ambiguous — ask which one they mean: ${matched.map((g) => g.name).join(', ')}.` };
+                }
+                guruId = matched[0].id;
+            }
             const existing = await aiPaper.statusFor(userId);
-            if (existing.exists && existing.status === 'building') return { error: 'A build is already in progress — give it about two minutes.' };
+            if (existing.exists && existing.status === 'building') return { error: 'A build is already in progress — give it about two to three minutes.' };
             if (existing.exists && (existing.status === 'committed' || existing.status === 'tracking')) {
                 return { error: 'An AI Paper Portfolio already exists for this account (one per account, buy-once-never-change). Only ai_portfolio_reset — with the user\'s explicit confirmation — clears it for a fresh run.' };
             }
@@ -7847,12 +7860,12 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
                 user: { id: userId }, guruId,
                 onEvent: (e) => { const p = ctx && ctx.aiPaperProgress; if (p) { try { p(e); } catch (_) { /* client gone — keep building */ } } }
             }).catch((e) => console.error('[ai-paper] background build failed:', e && e.message));
-            return { started: true, message: 'Setup is underway in the background — about two minutes. Tell the user the dashboard section shows live progress, and they can ask how it went at any time.' };
+            return { started: true, message: 'Setup is underway in the background — about two to three minutes. The build progress streams into this conversation, and the finished portfolio is visible on their dashboard. They can ask how it went at any time.' };
         }
         if (name === 'ai_portfolio_reset') {
             const out = await aiPaper.resetRun(userId);
             return out.ok
-                ? { reset: true, message: 'Old run deleted (its decision log stays as history; nothing was traded). Call ai_portfolio_setup with the new guruId when the user is ready.' }
+                ? { reset: true, message: 'Old run deleted (its decision log stays as history; nothing was traded). Call ai_portfolio_setup when the user is ready — a guru is optional; the default is two pure-data minds.' }
                 : { error: out.reason };
         }
         return { error: `Unknown tool ${name}` };
@@ -7867,7 +7880,12 @@ async function runAiPaperChatTool(name, args, userId, ctx) {
 app.get('/api/ai-paper-portfolio', authMiddleware, aiPaper.betaGate, async (req, res) => {
     try {
         const state = await aiPaper.statusFor(portfolioOwnerId(req));
-        res.json({ enabled: true, state, gurus: gurus.list() });
+        res.json({
+            enabled: true, state,
+            // Living 13F managers + deceased legends: the chips and the
+            // natural-language path draw from the same list.
+            gurus: [...gurus.list(), ...aiPaper.LEGACY_GURUS.map(({ id, name, fund }) => ({ id, name, fund }))]
+        });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Unavailable right now.') });
     }

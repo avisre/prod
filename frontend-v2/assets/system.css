@@ -1755,17 +1755,9 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .pv-meter i.is-on.mid { background:#c98a1f; }
 .pv-meter i.is-on.high { background:var(--neg); }
 
-/* 🧪 AI Paper Portfolio (beta) — dashboard section + Ask panel mode toggle.
-   Reuses .panel/.chip/.btn tokens; only the experiment-specific layout lives
-   here. Invisible for non-beta accounts (nothing renders at all). */
-.ai-ask-head { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:10px; }
-.ai-ask-title { font-size:13px; font-weight:650; color:var(--ink-2); }
-.ai-ask-pill { border:1px solid var(--line-strong); background:var(--surface); color:var(--ink-2); border-radius:999px; padding:4px 12px; font-size:12.5px; cursor:pointer; }
-.ai-ask-pill:hover { border-color:var(--accent); color:var(--accent); }
-.ai-ask-pill.on { background:var(--accent-tint); border-color:var(--accent); color:var(--accent-ink); font-weight:650; }
-.ai-ask-note { flex-basis:100%; }
-.ai-paper-mode form.ask-bar { border-color:var(--accent); }
-.ai-ask-suggest { margin-top:10px; }
+/* 🧪 AI Paper Portfolio (beta) — the dashboard display section (setup lives
+   in Ask AI). Reuses .panel/.chip/.btn tokens; only the experiment-specific
+   layout lives here. Invisible for non-beta accounts (nothing renders at all). */
 
 .ai-badge { display:inline-block; font-size:12px; font-weight:650; color:var(--accent-ink); background:var(--accent-tint); border:1px solid var(--accent); border-radius:999px; padding:3px 11px; }
 .ai-badge.is-ok { color:var(--pos); background:var(--pos-tint); border-color:var(--pos); }

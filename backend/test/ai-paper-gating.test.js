@@ -157,7 +157,7 @@ test('the chat tool handler can only read, kick a build, or reset', () => {
     const handler = appSource.slice(hi, appSource.indexOf('// Probe + state:', hi));
     const refs = [...handler.matchAll(/aiPaper\.(\w+)/g)].map((m) => m[1]);
     assert.ok(refs.length >= 3, 'handler found and calls the module');
-    assert.deepEqual([...new Set(refs)].sort(), ['create', 'resetRun', 'statusFor'], 'no other module surface is reachable from chat');
+    assert.deepEqual([...new Set(refs)].sort(), ['create', 'resetRun', 'resolveGuru', 'statusFor'], 'no other module surface is reachable from chat');
 });
 
 // ---- Daily loop + credits ----

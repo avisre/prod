@@ -574,8 +574,10 @@
             `<option value="all">All portfolios${adopted ? ` · ${totalHoldings}` : ''}</option>`,
             ...pfList.map((p) => `<option value="${esc(String(p.id))}">${esc(p.name)} · ${p.holdingsCount || 0}</option>`),
             // 🧪 beta-only entry; 'ai-portfolio' is a view, not a portfolio id
-            // — the change handler routes it to the experiment section.
-            ...(aiPaperBeta ? [`<option value="ai-portfolio">🧪 AI Paper Portfolio ★</option>`] : [])
+            // — the change handler routes it to the experiment section. The
+            // option exists only once the portfolio does: display-only, no
+            // setup entry point on the dashboard.
+            ...(aiPaperBeta && aiPaperBeta.state.exists ? [`<option value="ai-portfolio">🧪 AI Paper Portfolio ★</option>`] : [])
         ].join('');
         select.value = aiPaperView ? 'ai-portfolio' : String(pfSelection);
         const del = $('pf-del');
@@ -1277,32 +1279,15 @@
         }
     });
 
-    // ---- 🧪 AI Paper Portfolio (beta) ----
-    // Invisible unless the probe returns 200 for this account (the env +
-    // email gate lives on the server). The Ask AI panel is the control
-    // surface — the 🧪 toggle switches chat into experiment mode; this
-    // section is only the visualization. The portfolio is buy-once-never-
-    // change: there is no trade UI anywhere, by design.
+    // ---- 🧪 AI Paper Portfolio (beta, display-only) ----
+    // The dashboard never sets this experiment up — setup lives in Ask AI
+    // (the 🧪 toggle on ask.html). This section is only the visualization,
+    // reached through the portfolio dropdown: the ★ option appears once a
+    // portfolio exists, and nothing renders before that. The portfolio is
+    // buy-once-never-change: there is no trade UI anywhere, by design.
     let aiPaperBeta = null;    // probe result { state, gurus }; null = feature off
-    let aiPaperMode = false;   // 🧪 toggle state in the Ask panel
     let aiPaperView = false;   // the switcher is showing the experiment view
     let aiPaperPoll = null;    // 5s detail poll while status === 'building'
-
-    const AI_PAPER_PHASES = {
-        validating: 'Validating the guru and live market data…',
-        digest: 'Reading the market…',
-        personas: 'Two minds researching in parallel — the guru’s documented philosophy vs pure data…',
-        allocator: 'Deciding the dollar split…',
-        committing: 'Committing the one buying decision…'
-    };
-
-    function aiPaperAskInput() { return $('pf-ask').querySelector('form.ask-bar input'); }
-
-    function aiPaperAskSubmit(text) {
-        const form = $('pf-ask').querySelector('form.ask-bar');
-        const input = aiPaperAskInput();
-        if (form && input) { input.value = text; form.requestSubmit(); }
-    }
 
     async function probeAiPaper() {
         if (DEMO) return;
@@ -1312,96 +1297,13 @@
             const data = await r.json();
             if (!data || data.enabled !== true) return;
             aiPaperBeta = { state: data.state || { exists: false }, gurus: Array.isArray(data.gurus) ? data.gurus : [] };
-            mountAiPaperEntries();
-            if (aiPaperBeta.state.exists && aiPaperBeta.state.status === 'building') { showAiPaperView(); startAiPaperPoll(); }
+            if (aiPaperBeta.state.exists) {
+                renderPortfolios(); // the ★ option exists only because the portfolio does
+                // a build started on the Ask page (or in flight from a prior
+                // load) still needs its poll so this tab shows the outcome
+                if (aiPaperBeta.state.status === 'building') startAiPaperPoll();
+            }
         } catch (_) { /* any error leaves the feature invisible */ }
-    }
-
-    function mountAiPaperEntries() {
-        // Ghost entry by "+ New": opens the Ask panel in 🧪 mode with the
-        // opening message pre-filled. Always shown for the beta account —
-        // it is also the entry point when the switcher is still hidden
-        // (pre-adoption) or no portfolio exists yet.
-        const ghost = $('ai-pf-new');
-        if (ghost) {
-            ghost.hidden = false;
-            ghost.addEventListener('click', () => {
-                setAiPaperMode(true);
-                const input = aiPaperAskInput();
-                if (input) { input.value = 'Set up my AI Paper Portfolio'; input.focus(); }
-                $('pf-ask').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            });
-        }
-        // 🧪 toggle pill in the Ask panel header + the mode note.
-        if (!$('ai-ask-toggle')) {
-            const head = document.createElement('div');
-            head.className = 'ai-ask-head';
-            head.innerHTML = `
-              <span class="ai-ask-title">💬 Ask AI</span>
-              <button type="button" id="ai-ask-toggle" class="ai-ask-pill" aria-pressed="false" title="AI Portfolio mode — drive the experiment conversationally">🧪 AI Portfolio</button>
-              <span class="small faint ai-ask-note" id="ai-ask-note" hidden>🧪 AI Portfolio mode — this portfolio is buy-once-never-change. I can explain it, never trade it.</span>`;
-            $('pf-ask').prepend(head);
-            $('ai-ask-toggle').addEventListener('click', () => setAiPaperMode(!aiPaperMode));
-        }
-        renderAiPaperSuggests();
-    }
-
-    function setAiPaperMode(on) {
-        aiPaperMode = !!on;
-        const pill = $('ai-ask-toggle');
-        const note = $('ai-ask-note');
-        if (pill) { pill.setAttribute('aria-pressed', String(aiPaperMode)); pill.classList.toggle('on', aiPaperMode); }
-        if (note) note.hidden = !aiPaperMode;
-        $('pf-ask').classList.toggle('ai-paper-mode', aiPaperMode);
-        renderAiPaperSuggests();
-    }
-
-    // Suggested replies in 🧪 mode: the setup opening line + guru chips from
-    // the probe (the assistant asks which guru; these answer it in one tap),
-    // or progress questions once the experiment is running.
-    function renderAiPaperSuggests() {
-        let row = $('ai-ask-suggest');
-        if (!aiPaperMode || !aiPaperBeta) { if (row) row.remove(); return; }
-        if (!row) {
-            row = document.createElement('div');
-            row.id = 'ai-ask-suggest';
-            row.className = 'ask-sources ai-ask-suggest';
-            $('pf-ask').querySelector('form.ask-bar').after(row);
-        }
-        const exists = aiPaperBeta.state && aiPaperBeta.state.exists;
-        const chips = exists
-            ? ['How is my experiment doing?', 'Why did each mind pick its stock?', 'What did last night’s review say?']
-            : ['Set up my AI Paper Portfolio', ...(aiPaperBeta.gurus || []).slice(0, 6).map((g) => `Set up my AI Paper Portfolio with ${g.name}`)];
-        row.innerHTML = chips.map((c) => `<button type="button" class="chip ask-suggest">${esc(c)}</button>`).join('');
-        row.querySelectorAll('.ask-suggest').forEach((b) =>
-            b.addEventListener('click', () => aiPaperAskSubmit(b.textContent)));
-    }
-
-    // ai_paper SSE frames from the background build: progress lines stream
-    // into the section, which auto-opens on the first frame.
-    function handleAiPaperEvent(e) {
-        if (!e || !aiPaperBeta) return;
-        showAiPaperView();
-        if (e.type === 'persona' && e.phase === 'picked') {
-            aiPaperProgress(`${e.persona === 'guru' ? '🧠 Guru mind' : '📊 Data mind'} picked ${e.symbol}`);
-        } else if (e.type === 'status' && AI_PAPER_PHASES[e.phase]) {
-            aiPaperProgress(AI_PAPER_PHASES[e.phase]);
-        } else if (e.type === 'done') {
-            aiPaperProgress('✅ Portfolio built — loading the results…');
-            startAiPaperPoll();
-        } else if (e.type === 'error') {
-            aiPaperProgress(`⚠️ ${e.message || 'The build failed.'}`);
-            startAiPaperPoll();
-        }
-    }
-
-    function aiPaperProgress(text) {
-        const el = $('ai-pf-progress');
-        if (!el) return;
-        el.hidden = false;
-        const line = document.createElement('div');
-        line.textContent = text;
-        el.appendChild(line);
     }
 
     function showAiPaperView() {
@@ -1433,7 +1335,15 @@
 
     async function loadAiPaperSection() {
         const detail = await fetchAiPaperDetail();
-        if (!detail || !detail.exists) { renderAiPaperEmpty(); return; }
+        if (!detail || !detail.exists) {
+            // The cached probe was stale — no portfolio: hide the section and
+            // drop the dropdown option. There is no empty-state pitch here;
+            // setup lives in Ask AI.
+            aiPaperBeta.state = { exists: false };
+            hideAiPaperView();
+            renderPortfolios();
+            return;
+        }
         renderAiPaperDetail(detail);
         if (detail.portfolio.status === 'building') startAiPaperPoll();
     }
@@ -1456,14 +1366,6 @@
 
     function stopAiPaperPoll() {
         if (aiPaperPoll) { clearInterval(aiPaperPoll); aiPaperPoll = null; }
-    }
-
-    function renderAiPaperEmpty() {
-        const body = $('ai-pf-body');
-        if (!body) return;
-        body.innerHTML = `
-          <p style="margin:0;">Two AI minds, one buying decision: pick a famous investor, and its persona researches that guru’s documented philosophy while a pure-data mind screens the market. Each picks exactly ONE stock, $100k paper budget, bought once — never changed again.</p>
-          <p class="small muted" style="margin:10px 0 0;">Open the 🧪 toggle in the Ask panel above to set it up conversationally.</p>`;
     }
 
     function aiPaperBadge(p) {
@@ -1494,15 +1396,8 @@
               <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">nothing was bought — no half-built portfolio exists</span></div>
               <div class="notice"><strong>The build didn’t finish.</strong>
                 <p>${esc(p.buildError || 'Something went wrong during construction.')}</p>
-                <button class="btn btn-primary btn-sm" id="ai-pf-retry" type="button">Retry build</button>
+                <p style="margin:10px 0 0;">Setup and retry live in <a href="/ask.html?aiPaper=1&amp;q=Retry%20the%20setup%20for%20my%20AI%20Paper%20Portfolio">Ask AI</a> — nothing here ever trades.</p>
               </div>`;
-            const retry = $('ai-pf-retry');
-            if (retry) retry.addEventListener('click', () => {
-                setAiPaperMode(true);
-                const input = aiPaperAskInput();
-                if (input) { input.value = 'Retry the setup for my AI Paper Portfolio'; input.focus(); }
-                $('pf-ask').scrollIntoView({ behavior: 'smooth', block: 'center' });
-            });
             return;
         }
 
@@ -1538,8 +1433,8 @@
             return `
               <div class="ai-persona">
                 <div class="ai-persona-head">
-                  <span class="ai-persona-kind">${isGuru ? '🧠 Guru mind' : '📊 Data mind'}</span>
-                  <span class="small muted">${isGuru ? esc(x.name) : 'no investor reference — pure data'}</span>
+                  <span class="ai-persona-kind">${isGuru ? `🧠 Guru mind — ${esc(x.name)}` : `📊 ${esc(x.name)}`}</span>
+                  <span class="small muted">${isGuru ? esc(x.fund || '') : 'no investor reference — pure data'}</span>
                 </div>
                 <p class="ai-persona-pick"><strong><a href="/company.html?symbol=${esc(pos.symbol || '')}">${esc(pos.symbol || '—')}</a></strong> <span class="small muted">${esc(pos.name || '')}</span></p>
                 <p class="small" style="margin:6px 0;">${fixed(x.weight * 100, 0)}% of the book · ${money(pos.shares * pos.avgPrice)} at $${fixed(pos.avgPrice, 2)}</p>
@@ -1591,13 +1486,8 @@
             'Which of my holdings has the weakest balance sheet?',
             'How would my portfolio fare if margins compress?',
             'What are the top 3 ETFs and mutual funds over 3 months, 1 year and 3 years?'
-        ],
-        onPaperEvent: handleAiPaperEvent
+        ]
     });
-    // 🧪 rides every send while the toggle is on; the server re-checks the
-    // beta gate on every request, so the flag alone is inert elsewhere.
-    const aiAskSend = aiAskEngine.send.bind(aiAskEngine);
-    aiAskEngine.send = (q, opts) => aiAskSend(q, { ...(opts || {}), ...(aiPaperMode ? { aiPaperMode: true } : {}) });
 
     async function loadWatchlist() {
         try {
