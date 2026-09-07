@@ -22,6 +22,12 @@
 
     const auth = { Authorization: `Bearer ${token()}` };
 
+    // 🧪 AI Paper Portfolio beta: priced in the cost line only when the
+    // server says this account is in the experiment. The probe 403s for
+    // everyone else, so the feature stays invisible — and the price line
+    // stays exactly as it always was for them.
+    let aiPaperBeta = false;
+
     // The recharge SKU, named once. Three call sites used to spell out
     // "150 credits — $14.99" independently (here, the low-balance line, and
     // app.js's out-of-credits notice), which is three places to miss when the
@@ -32,10 +38,16 @@
     // (backend/credits.js), `unit` names the thing a credit bought — a credit is
     // an invented currency and nobody budgets in one. Adding a billable feature
     // means adding a row here and nothing else.
+    // `reasons` are the ledger's reason strings (the credits.spend call sites in
+    // backend/app.js). Dossier owns two of them: a comparison spends under
+    // 'dossier-compare', a reason the old client-side split knew nothing about —
+    // so compares were dropped from the breakdown while still counting toward
+    // its covered-vs-used check, quietly under-reporting Dossier spend on a
+    // split that looked complete.
     const FEATURES = [
-        { reason: 'ask', label: 'Ask', seg: 'credits-seg-ask', unit: ['question', 'questions'] },
-        { reason: 'dossier', label: 'Dossier', seg: 'credits-seg-dossier', unit: ['report', 'reports'] },
-        { reason: 'monitor', label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] }
+        { key: 'ask', reasons: ['ask'], label: 'Ask', seg: 'credits-seg-ask', unit: ['question', 'questions'] },
+        { key: 'dossier', reasons: ['dossier', 'dossier-compare'], label: 'Dossier', seg: 'credits-seg-dossier', unit: ['report', 'reports'] },
+        { key: 'monitor', reasons: ['monitor'], label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] }
     ];
 
     const plural = (n, [one, many]) => `${n} ${n === 1 ? one : many}`;
@@ -52,9 +64,14 @@
             const out = {};
             let named = 0;
             for (const f of FEATURES) {
-                const row = bd[f.reason] || {};
-                const spent = Math.max(0, -(Number(row.delta) || 0));
-                out[f.reason] = { credits: spent, count: Number(row.count) || 0 };
+                let spent = 0;
+                let count = 0;
+                for (const reason of f.reasons) {
+                    const row = bd[reason] || {};
+                    spent += Math.max(0, -(Number(row.delta) || 0));
+                    count += Number(row.count) || 0;
+                }
+                out[f.key] = { credits: spent, count };
                 named += spent;
             }
             // Anything billable under a reason this build doesn't know about
@@ -105,7 +122,7 @@
         const segments = [];
         if (allowance > 0 && spend) {
             for (const f of FEATURES) {
-                const amt = (spend[f.reason] || {}).credits || 0;
+                const amt = (spend[f.key] || {}).credits || 0;
                 if (amt > 0) segments.push([f.seg, amt, `${f.label} ${amt}`]);
             }
             const other = (spend.other || {}).credits || 0;
@@ -120,10 +137,10 @@
         const breakdownEl = $('credits-breakdown');
         if (spend) {
             const rows = FEATURES
-                .filter((f) => f.reason !== 'monitor' || hasMonitor || (spend.monitor || {}).credits > 0)
+                .filter((f) => f.key !== 'monitor' || hasMonitor || (spend.monitor || {}).credits > 0)
                 .map((f) => {
-                    const amt = (spend[f.reason] || {}).credits || 0;
-                    const n = (spend[f.reason] || {}).count || 0;
+                    const amt = (spend[f.key] || {}).credits || 0;
+                    const n = (spend[f.key] || {}).count || 0;
                     const unit = n > 0 ? plural(n, f.unit) : (amt === 0 ? '—' : '');
                     return `<tr>
                       <td><span class="k"><span class="dot ${f.seg}"></span>${f.label}</span></td>
@@ -194,10 +211,21 @@
             if (used > 0 && allowance > 0 && daysElapsed >= 3 && perDay > 0) {
                 const projected = Math.round(perDay * daysTotal);
                 const daysToEmpty = remaining / perDay;
-                if (daysToEmpty < daysTotal - daysElapsed) {
+                // A margin, not a bare comparison: running out on the 30th of a
+                // month that resets on the 1st is not news, and warning about it
+                // trains people to ignore the line that matters.
+                const daysLeftInMonth = daysTotal - daysElapsed;
+                if (daysToEmpty < daysLeftInMonth - 2) {
                     const emptyOn = new Date(Date.now() + daysToEmpty * 86400000)
                         .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                    paceEl.innerHTML = `Pace: about ${perDay.toFixed(1)} credits a day — at this rate you run out around <strong>${emptyOn}</strong>, before the month resets.`;
+                    const short = Math.max(1, Math.round(daysLeftInMonth - daysToEmpty));
+                    paceEl.innerHTML = `Pace: about ${perDay.toFixed(1)} credits a day — at this rate you run out around <strong>${emptyOn}</strong>, ${plural(short, ['day', 'days'])} before the reset.`;
+                } else if (projected > allowance * 0.95) {
+                    // Between the two: not running dry early enough to warn
+                    // about a date, but not comfortable either. Calling a
+                    // projection of 455 against a 450 wallet "comfortable" is
+                    // how a meter loses the reader's trust.
+                    paceEl.textContent = `Pace: about ${perDay.toFixed(1)} credits a day — roughly ${projected} of ${allowance} by the reset, so you finish the month close to empty.`;
                 } else {
                     paceEl.textContent = `Pace: about ${perDay.toFixed(1)} credits a day — roughly ${projected} of ${allowance} by the reset. Comfortable.`;
                 }
@@ -214,6 +242,7 @@
             const parts = [`Ask ${cost.ask ?? 2}`];
             if (hasMonitor) parts.push(`Monitor report ${cost.monitor ?? 5}`);
             parts.push(`Compare ${cost.dossier_compare ?? 5}`, `Dossier ${cost.dossier_standard ?? 10}`, `Deep Dossier ${cost.dossier_deep ?? 30}`);
+            if (aiPaperBeta) parts.push(`AI Paper build ${cost.ai_paper_build ?? 10}`, `AI Paper nightly review ${cost.ai_paper_daily ?? 4}`);
             costEl.textContent = `What things cost — ${parts.join(' · ')}. Re-opening anything you've already run is free.`;
         }
 
@@ -491,14 +520,19 @@
 
     async function mountProfile() {
         try {
-            const [sessionR, quotaR, creditsR] = await Promise.all([
+            const [sessionR, quotaR, creditsR, aiPaperR] = await Promise.all([
                 fetch(`${API}/session`, { headers: auth }),
                 fetch(`${API}/ai/chat/quota`, { headers: auth }),
-                fetch(`${API}/credits`, { headers: auth })
+                fetch(`${API}/credits`, { headers: auth }),
+                // 403 for everyone else — one cheap JSON round-trip keeps the
+                // beta's price line server-gated, not shipped-then-hidden.
+                fetch(`${API}/ai-paper-portfolio`, { headers: auth })
             ]);
             const session = await sessionR.json().catch(() => ({}));
             const quota = await quotaR.json().catch(() => ({}));
             const credits = await creditsR.json().catch(() => ({}));
+            const aiPaper = await aiPaperR.json().catch(() => ({}));
+            aiPaperBeta = aiPaper.enabled === true;
 
             const section = $('plan-status');
             const nameEl = $('plan-name');

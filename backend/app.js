@@ -27,6 +27,7 @@ const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const credits = require('./credits');
+const aiPaper = require('./ai-paper-portfolio');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
 const verifyHeadline = require('./verify');
@@ -871,6 +872,9 @@ async function connectMongoWithFallback(uri) {
         { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
       ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
       await ensureMeteringIndexes();
+      // 🧪 AI Paper Portfolio beta collections — only when the beta env is
+      // armed (unset = feature fully off, no collections touched).
+      if (aiPaper.betaEnabled()) aiPaper.ensureIndexes();
       return;
     } catch (error) {
       if (String(uri || '').startsWith('mongodb+srv://') && isMongoSrvResolutionError(error)) {
@@ -884,6 +888,7 @@ async function connectMongoWithFallback(uri) {
             { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
           ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
           await ensureMeteringIndexes();
+          if (aiPaper.betaEnabled()) aiPaper.ensureIndexes();
           return;
         } catch (fallbackError) {
           console.error('MongoDB SRV fallback error:', fallbackError);
@@ -2133,7 +2138,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2162,7 +2167,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-credit1"></script>
+<script src="/assets/app.js?v=20260907-aipaper1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2246,7 +2251,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2274,7 +2279,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-credit1"></script>
+<script src="/assets/app.js?v=20260907-aipaper1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2378,7 +2383,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2411,7 +2416,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-credit1"></script>
+<script src="/assets/app.js?v=20260907-aipaper1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -7611,6 +7616,13 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const userId = portfolioOwnerId(req);
         const limit = effectiveAskLimit(req);
         const planId = req.subscription && req.subscription.planId;
+        // 🧪 AI Portfolio mode — honored ONLY for beta users (server-side gate
+        // on the account email). Anyone else sending the flag gets plain chat:
+        // no ai-paper tools in the loop, no experiment data in the prompt.
+        let aiPaperCtx = null;
+        if ((req.body && req.body.aiPaperMode) === true && aiPaper.isBetaUser(req.user)) {
+            aiPaperCtx = await buildAiPaperChatCtx(userId);
+        }
         // Two meters, one door. The AppSumo listing sells AI credits, so the wallet has to
         // be able to buy an Ask; the per-tier Ask counter stays underneath as a floor, so a
         // buyer who spends their credits on Dossiers never loses questions they already
@@ -7694,7 +7706,14 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
                 const result = await aiChat.ask({
-                    question, history, ctx: { holdings, userId, memoryConsent, attachments }, mode,
+                    question, history,
+                    ctx: {
+                        holdings, userId, memoryConsent, attachments,
+                        // ai_paper events stream the background build's
+                        // progress lines while this connection lives.
+                        ...(aiPaperCtx ? { ...aiPaperCtx, aiPaperProgress: (e) => send('ai_paper', e) } : {})
+                    },
+                    mode,
                     onEvent: (e) => send(e.type, e)
                 });
                 const counted = result.source === 'ai' || result.source === 'blocked';
@@ -7728,7 +7747,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             return;
         }
 
-        const result = await aiChat.ask({ question, history, ctx: { holdings, userId, memoryConsent, attachments }, mode });
+        const result = await aiChat.ask({
+            question, history,
+            ctx: { holdings, userId, memoryConsent, attachments, ...(aiPaperCtx || {}) },
+            mode
+        });
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
@@ -7775,6 +7798,124 @@ function normalizeAskAttachments(raw) {
         })
         .filter(Boolean);
 }
+
+// ----- 🧪 AI Paper Portfolio (beta) -----
+// AI_PORTFOLIO_BETA_EMAILS is the entire gate: unset env = 403 everywhere and
+// the feature is invisible. Zero AI on the read paths — detail/status are
+// Mongo reads + cached quotes; the only build path is POST /create, and no
+// route anywhere trades (positions are immutable after construction).
+
+// Chat-mode context + tool handlers, built per request ONLY for beta users
+// with aiPaperMode on. The 3 ai-paper tools ride in ctx (aiChat.concat's
+// them into that request's tool list), so they never appear for anyone else
+// or in normal mode.
+async function buildAiPaperChatCtx(userId) {
+    let state = null;
+    try { state = await aiPaper.statusFor(userId); } catch (_) { state = null; }
+    const context = [
+        'AI PAPER PORTFOLIO MODE — the user is running the AI Paper Portfolio experiment (two AI minds, each picking ONE stock; ONE buying decision at creation; buy-once-never-change).',
+        'Hard rules: the positions are immutable; you can explain, report and discuss, NEVER buy, sell, reweigh or change anything; nightly reviews are advisory-only notes in the log.',
+        state && state.exists
+            ? `Current experiment state (authoritative — never invent numbers): ${JSON.stringify(state)}`
+            : 'No portfolio exists yet. If the user wants to start the experiment, ask them to pick ONE famous investor, then call ai_portfolio_setup.'
+    ].join('\n');
+    return {
+        aiPaperTools: aiPaper.CHAT_TOOLS,
+        aiPaperContext: context,
+        aiPaperRunTool: (name, args, ctx) => runAiPaperChatTool(name, args, userId, ctx)
+    };
+}
+
+async function runAiPaperChatTool(name, args, userId, ctx) {
+    try {
+        if (name === 'ai_portfolio_status') return await aiPaper.statusFor(userId);
+        if (name === 'ai_portfolio_setup') {
+            const guruId = String((args && args.guruId) || '').trim();
+            if (!guruId) return { error: 'Pass a guruId from the picker list.' };
+            if (!gurus.list().some((g) => g.id === guruId)) return { error: `Unknown guru "${guruId}" — pick one from the guru list.` };
+            const existing = await aiPaper.statusFor(userId);
+            if (existing.exists && existing.status === 'building') return { error: 'A build is already in progress — give it about two minutes.' };
+            if (existing.exists && (existing.status === 'committed' || existing.status === 'tracking')) {
+                return { error: 'An AI Paper Portfolio already exists for this account (one per account, buy-once-never-change). Only ai_portfolio_reset — with the user\'s explicit confirmation — clears it for a fresh run.' };
+            }
+            if (!require('./ai-client').isConfigured()) return { error: 'The AI research service is not configured right now — try again shortly.' };
+            // Fire-and-forget: the build runs in the background, disconnect-
+            // tolerant; progress streams as ai_paper SSE events while this
+            // connection lives. A failure lands as buildError in the next
+            // status call — never a silent skip.
+            aiPaper.create({
+                user: { id: userId }, guruId,
+                onEvent: (e) => { const p = ctx && ctx.aiPaperProgress; if (p) { try { p(e); } catch (_) { /* client gone — keep building */ } } }
+            }).catch((e) => console.error('[ai-paper] background build failed:', e && e.message));
+            return { started: true, message: 'Setup is underway in the background — about two minutes. Tell the user the dashboard section shows live progress, and they can ask how it went at any time.' };
+        }
+        if (name === 'ai_portfolio_reset') {
+            const out = await aiPaper.resetRun(userId);
+            return out.ok
+                ? { reset: true, message: 'Old run deleted (its decision log stays as history; nothing was traded). Call ai_portfolio_setup with the new guruId when the user is ready.' }
+                : { error: out.reason };
+        }
+        return { error: `Unknown tool ${name}` };
+    } catch (error) {
+        console.error('[ai-paper] chat tool failed:', error && error.message);
+        return { error: 'That AI Paper Portfolio action failed — try again.' };
+    }
+}
+
+// Probe + state: the dashboard's sole gate signal (403 when the env is unset
+// or the account isn't on the beta list — the frontend renders nothing).
+app.get('/api/ai-paper-portfolio', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    try {
+        const state = await aiPaper.statusFor(portfolioOwnerId(req));
+        res.json({ enabled: true, state, gurus: gurus.list() });
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Unavailable right now.') });
+    }
+});
+
+// The ONE build path. SSE: status/persona/done/error frames + 10s pings;
+// disconnect-tolerant (the build continues server-side, the dashboard polls
+// detail for the outcome).
+app.post('/api/ai-paper-portfolio/create', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    const guruId = String((req.body && req.body.guruId) || '').trim();
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+        'X-Accel-Buffering': 'no'
+    });
+    let closed = false;
+    req.on('close', () => { closed = true; });
+    const send = (event, data) => {
+        if (closed || res.writableEnded) return;
+        res.write(`event: ${event}\ndata: ${JSON.stringify(data || {})}\n\n`);
+    };
+    const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
+    try {
+        const result = await aiPaper.create({
+            user: { id: portfolioOwnerId(req) }, guruId,
+            onEvent: (e) => send(e.type || 'status', e)
+        });
+        // create() emits done/error itself via onEvent; this covers a throw.
+        if (!result.ok) send('error', { message: result.error || 'The build failed.' });
+    } catch (error) {
+        send('error', { message: publicErrorMessage(error, 'The build failed.') });
+    } finally {
+        clearInterval(ping);
+        if (!res.writableEnded) res.end();
+    }
+});
+
+// Full read model for the dashboard section: personas + picks + weights +
+// P&L, live prices, snapshot series, last decisions, totals incl. vs-SPY.
+// No AI calls on this path.
+app.get('/api/ai-paper-portfolio/detail', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    try {
+        res.json(await aiPaper.detailFor(portfolioOwnerId(req)));
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Unavailable right now.') });
+    }
+});
 
 // ----- Portfolio X-Ray: look-through fundamentals of the whole portfolio -----
 const _xrayCache = new Map(); // userId -> { at, payload }
@@ -12637,6 +12778,8 @@ if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
     startScheduledEmails();
     startAppSumoJobs();
     startTrialLifecycleJobs();
+    // 🧪 AI Paper Portfolio daily sweep (no-ops unless the beta env is armed).
+    aiPaper.start();
 }
 // Dossier pre-warming is expensive because each dossier composes several AI
 // sections. Keep it off in every environment unless an operator explicitly

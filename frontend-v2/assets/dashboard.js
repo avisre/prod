@@ -572,9 +572,12 @@
         const totalHoldings = pfList.reduce((a, p) => a + (p.holdingsCount || 0), 0);
         select.innerHTML = [
             `<option value="all">All portfolios${adopted ? ` · ${totalHoldings}` : ''}</option>`,
-            ...pfList.map((p) => `<option value="${esc(String(p.id))}">${esc(p.name)} · ${p.holdingsCount || 0}</option>`)
+            ...pfList.map((p) => `<option value="${esc(String(p.id))}">${esc(p.name)} · ${p.holdingsCount || 0}</option>`),
+            // 🧪 beta-only entry; 'ai-portfolio' is a view, not a portfolio id
+            // — the change handler routes it to the experiment section.
+            ...(aiPaperBeta ? [`<option value="ai-portfolio">🧪 AI Paper Portfolio ★</option>`] : [])
         ].join('');
-        select.value = String(pfSelection);
+        select.value = aiPaperView ? 'ai-portfolio' : String(pfSelection);
         const del = $('pf-del');
         if (del) {
             del.hidden = pfSelection === 'all';
@@ -699,7 +702,13 @@
         const newBtn = $('pf-new');
         const delBtn = $('pf-del');
         if (!select || !newBtn || !delBtn) return;
-        select.addEventListener('change', () => { pfPersist(select.value); applyScope(); });
+        select.addEventListener('change', () => {
+            // 🧪 the experiment view is transient: never persisted as a scope
+            // (it owns no holdings), and leaving it restores the real scope.
+            if (select.value === 'ai-portfolio') { showAiPaperView(); return; }
+            hideAiPaperView();
+            pfPersist(select.value); applyScope();
+        });
         newBtn.addEventListener('click', promptNewPortfolio);
         delBtn.addEventListener('click', promptDeletePortfolio);
     }
@@ -1268,15 +1277,327 @@
         }
     });
 
-    mountAsk($('pf-ask'), {
+    // ---- 🧪 AI Paper Portfolio (beta) ----
+    // Invisible unless the probe returns 200 for this account (the env +
+    // email gate lives on the server). The Ask AI panel is the control
+    // surface — the 🧪 toggle switches chat into experiment mode; this
+    // section is only the visualization. The portfolio is buy-once-never-
+    // change: there is no trade UI anywhere, by design.
+    let aiPaperBeta = null;    // probe result { state, gurus }; null = feature off
+    let aiPaperMode = false;   // 🧪 toggle state in the Ask panel
+    let aiPaperView = false;   // the switcher is showing the experiment view
+    let aiPaperPoll = null;    // 5s detail poll while status === 'building'
+
+    const AI_PAPER_PHASES = {
+        validating: 'Validating the guru and live market data…',
+        digest: 'Reading the market…',
+        personas: 'Two minds researching in parallel — the guru’s documented philosophy vs pure data…',
+        allocator: 'Deciding the dollar split…',
+        committing: 'Committing the one buying decision…'
+    };
+
+    function aiPaperAskInput() { return $('pf-ask').querySelector('form.ask-bar input'); }
+
+    function aiPaperAskSubmit(text) {
+        const form = $('pf-ask').querySelector('form.ask-bar');
+        const input = aiPaperAskInput();
+        if (form && input) { input.value = text; form.requestSubmit(); }
+    }
+
+    async function probeAiPaper() {
+        if (DEMO) return;
+        try {
+            const r = await fetch(`${API}/ai-paper-portfolio`, { headers: auth });
+            if (!r.ok) return; // 403 = not this account's beta: render nothing at all
+            const data = await r.json();
+            if (!data || data.enabled !== true) return;
+            aiPaperBeta = { state: data.state || { exists: false }, gurus: Array.isArray(data.gurus) ? data.gurus : [] };
+            mountAiPaperEntries();
+            if (aiPaperBeta.state.exists && aiPaperBeta.state.status === 'building') { showAiPaperView(); startAiPaperPoll(); }
+        } catch (_) { /* any error leaves the feature invisible */ }
+    }
+
+    function mountAiPaperEntries() {
+        // Ghost entry by "+ New": opens the Ask panel in 🧪 mode with the
+        // opening message pre-filled. Always shown for the beta account —
+        // it is also the entry point when the switcher is still hidden
+        // (pre-adoption) or no portfolio exists yet.
+        const ghost = $('ai-pf-new');
+        if (ghost) {
+            ghost.hidden = false;
+            ghost.addEventListener('click', () => {
+                setAiPaperMode(true);
+                const input = aiPaperAskInput();
+                if (input) { input.value = 'Set up my AI Paper Portfolio'; input.focus(); }
+                $('pf-ask').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        }
+        // 🧪 toggle pill in the Ask panel header + the mode note.
+        if (!$('ai-ask-toggle')) {
+            const head = document.createElement('div');
+            head.className = 'ai-ask-head';
+            head.innerHTML = `
+              <span class="ai-ask-title">💬 Ask AI</span>
+              <button type="button" id="ai-ask-toggle" class="ai-ask-pill" aria-pressed="false" title="AI Portfolio mode — drive the experiment conversationally">🧪 AI Portfolio</button>
+              <span class="small faint ai-ask-note" id="ai-ask-note" hidden>🧪 AI Portfolio mode — this portfolio is buy-once-never-change. I can explain it, never trade it.</span>`;
+            $('pf-ask').prepend(head);
+            $('ai-ask-toggle').addEventListener('click', () => setAiPaperMode(!aiPaperMode));
+        }
+        renderAiPaperSuggests();
+    }
+
+    function setAiPaperMode(on) {
+        aiPaperMode = !!on;
+        const pill = $('ai-ask-toggle');
+        const note = $('ai-ask-note');
+        if (pill) { pill.setAttribute('aria-pressed', String(aiPaperMode)); pill.classList.toggle('on', aiPaperMode); }
+        if (note) note.hidden = !aiPaperMode;
+        $('pf-ask').classList.toggle('ai-paper-mode', aiPaperMode);
+        renderAiPaperSuggests();
+    }
+
+    // Suggested replies in 🧪 mode: the setup opening line + guru chips from
+    // the probe (the assistant asks which guru; these answer it in one tap),
+    // or progress questions once the experiment is running.
+    function renderAiPaperSuggests() {
+        let row = $('ai-ask-suggest');
+        if (!aiPaperMode || !aiPaperBeta) { if (row) row.remove(); return; }
+        if (!row) {
+            row = document.createElement('div');
+            row.id = 'ai-ask-suggest';
+            row.className = 'ask-sources ai-ask-suggest';
+            $('pf-ask').querySelector('form.ask-bar').after(row);
+        }
+        const exists = aiPaperBeta.state && aiPaperBeta.state.exists;
+        const chips = exists
+            ? ['How is my experiment doing?', 'Why did each mind pick its stock?', 'What did last night’s review say?']
+            : ['Set up my AI Paper Portfolio', ...(aiPaperBeta.gurus || []).slice(0, 6).map((g) => `Set up my AI Paper Portfolio with ${g.name}`)];
+        row.innerHTML = chips.map((c) => `<button type="button" class="chip ask-suggest">${esc(c)}</button>`).join('');
+        row.querySelectorAll('.ask-suggest').forEach((b) =>
+            b.addEventListener('click', () => aiPaperAskSubmit(b.textContent)));
+    }
+
+    // ai_paper SSE frames from the background build: progress lines stream
+    // into the section, which auto-opens on the first frame.
+    function handleAiPaperEvent(e) {
+        if (!e || !aiPaperBeta) return;
+        showAiPaperView();
+        if (e.type === 'persona' && e.phase === 'picked') {
+            aiPaperProgress(`${e.persona === 'guru' ? '🧠 Guru mind' : '📊 Data mind'} picked ${e.symbol}`);
+        } else if (e.type === 'status' && AI_PAPER_PHASES[e.phase]) {
+            aiPaperProgress(AI_PAPER_PHASES[e.phase]);
+        } else if (e.type === 'done') {
+            aiPaperProgress('✅ Portfolio built — loading the results…');
+            startAiPaperPoll();
+        } else if (e.type === 'error') {
+            aiPaperProgress(`⚠️ ${e.message || 'The build failed.'}`);
+            startAiPaperPoll();
+        }
+    }
+
+    function aiPaperProgress(text) {
+        const el = $('ai-pf-progress');
+        if (!el) return;
+        el.hidden = false;
+        const line = document.createElement('div');
+        line.textContent = text;
+        el.appendChild(line);
+    }
+
+    function showAiPaperView() {
+        aiPaperView = true;
+        const section = $('ai-pf-section');
+        if (!section) return;
+        if (section.hidden) {
+            section.hidden = false;
+            loadAiPaperSection();
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        renderPortfolios(); // keep the switcher in step with the view
+    }
+
+    function hideAiPaperView() {
+        aiPaperView = false;
+        const section = $('ai-pf-section');
+        if (section) section.hidden = true;
+        stopAiPaperPoll();
+    }
+
+    async function fetchAiPaperDetail() {
+        try {
+            const r = await fetch(`${API}/ai-paper-portfolio/detail`, { headers: auth });
+            if (!r.ok) return null;
+            return await r.json();
+        } catch (_) { return null; }
+    }
+
+    async function loadAiPaperSection() {
+        const detail = await fetchAiPaperDetail();
+        if (!detail || !detail.exists) { renderAiPaperEmpty(); return; }
+        renderAiPaperDetail(detail);
+        if (detail.portfolio.status === 'building') startAiPaperPoll();
+    }
+
+    // Poll every 5s only while a build is in flight; the first response that
+    // leaves 'building' renders the outcome and stops the clock.
+    function startAiPaperPoll() {
+        if (aiPaperPoll) return;
+        aiPaperPoll = setInterval(async () => {
+            const detail = await fetchAiPaperDetail();
+            if (!detail) return;
+            if (!detail.exists || detail.portfolio.status !== 'building') {
+                stopAiPaperPoll();
+                renderAiPaperDetail(detail);
+            } else if (!$('ai-pf-progress')) {
+                renderAiPaperDetail(detail); // first frame: lay out the building state
+            }
+        }, 5000);
+    }
+
+    function stopAiPaperPoll() {
+        if (aiPaperPoll) { clearInterval(aiPaperPoll); aiPaperPoll = null; }
+    }
+
+    function renderAiPaperEmpty() {
+        const body = $('ai-pf-body');
+        if (!body) return;
+        body.innerHTML = `
+          <p style="margin:0;">Two AI minds, one buying decision: pick a famous investor, and its persona researches that guru’s documented philosophy while a pure-data mind screens the market. Each picks exactly ONE stock, $100k paper budget, bought once — never changed again.</p>
+          <p class="small muted" style="margin:10px 0 0;">Open the 🧪 toggle in the Ask panel above to set it up conversationally.</p>`;
+    }
+
+    function aiPaperBadge(p) {
+        if (p.status === 'building') return '<span class="ai-badge">Building…</span>';
+        if (p.status === 'failed') return '<span class="ai-badge is-neg">Build failed</span>';
+        if (p.status === 'committed') return `<span class="ai-badge">Review ${Math.min(p.dayCount + 1, 2)} of 2 — nightly, advisory only, no trades</span>`;
+        return '<span class="ai-badge is-ok">Tracking — portfolio fixed; reviews done</span>';
+    }
+
+    function renderAiPaperDetail(detail) {
+        const body = $('ai-pf-body');
+        const sub = $('ai-pf-sub');
+        if (!body) return;
+        const p = detail.portfolio;
+        if (sub) sub.textContent = `since ${new Date(p.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+
+        if (p.status === 'building') {
+            // never re-render over progress lines that are already streaming
+            if ($('ai-pf-progress')) return;
+            body.innerHTML = `
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">about two minutes — the page keeps working while it builds</span></div>
+              <div class="ai-progress" id="ai-pf-progress" role="status" aria-live="polite"></div>`;
+            return;
+        }
+
+        if (p.status === 'failed') {
+            body.innerHTML = `
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">nothing was bought — no half-built portfolio exists</span></div>
+              <div class="notice"><strong>The build didn’t finish.</strong>
+                <p>${esc(p.buildError || 'Something went wrong during construction.')}</p>
+                <button class="btn btn-primary btn-sm" id="ai-pf-retry" type="button">Retry build</button>
+              </div>`;
+            const retry = $('ai-pf-retry');
+            if (retry) retry.addEventListener('click', () => {
+                setAiPaperMode(true);
+                const input = aiPaperAskInput();
+                if (input) { input.value = 'Retry the setup for my AI Paper Portfolio'; input.focus(); }
+                $('pf-ask').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+            return;
+        }
+
+        const t = detail.totals || {};
+        const snaps = Array.isArray(detail.snapshots) ? detail.snapshots : [];
+        const latest = snaps.length ? snaps[snaps.length - 1] : null;
+        const per = latest && Array.isArray(latest.perPersona) ? latest.perPersona : [];
+        const vsSpy = (t.portfolioReturnPct ?? 0) - (t.spyReturnPct ?? 0);
+        const cash = Number(p.cash) || 0;
+
+        // Benchmark chart: portfolio return % vs SPY return %, both from the
+        // same snapshot series. Days 0–2 are sparse by design — the copy says
+        // so rather than pretending a smooth line.
+        const n = snaps.length;
+        const chartHtml = n >= 2
+            ? chart(
+                [
+                    { values: snaps.map((s) => s.portfolioReturnPct), cls: 'accent' },
+                    { values: snaps.map((s) => s.spyReturnPct), cls: 'faint' }
+                ],
+                snaps.map((s, i) => (i % Math.max(1, Math.ceil(n / 6)) === 0 ? String(s.date).slice(5) : '')),
+                { fmt: (v) => `${Number(v).toFixed(1)}%` }
+            )
+            : '<p class="small muted" style="margin:8px 0 0;">The benchmark chart fills in as daily closes land.</p>';
+        const gapNote = n >= 2 && (new Date(snaps[n - 1].date) - new Date(snaps[0].date)) / 86400000 > n + 3
+            ? '<p class="small faint" style="margin:8px 0 0;">Some days are missing — the server was likely asleep (free-tier sleep pauses the nightly tick).</p>'
+            : '';
+
+        const personaCard = (x) => {
+            const pos = (p.positions || []).find((q) => q.personaId === x.id) || {};
+            const mine = per.find((q) => q.id === x.id) || {};
+            const isGuru = x.kind === 'guru';
+            return `
+              <div class="ai-persona">
+                <div class="ai-persona-head">
+                  <span class="ai-persona-kind">${isGuru ? '🧠 Guru mind' : '📊 Data mind'}</span>
+                  <span class="small muted">${isGuru ? esc(x.name) : 'no investor reference — pure data'}</span>
+                </div>
+                <p class="ai-persona-pick"><strong><a href="/company.html?symbol=${esc(pos.symbol || '')}">${esc(pos.symbol || '—')}</a></strong> <span class="small muted">${esc(pos.name || '')}</span></p>
+                <p class="small" style="margin:6px 0;">${fixed(x.weight * 100, 0)}% of the book · ${money(pos.shares * pos.avgPrice)} at $${fixed(pos.avgPrice, 2)}</p>
+                <p class="small ${mine.plPct >= 0 ? 'delta-pos' : 'delta-neg'}" style="margin:6px 0;"><strong>${mine.plPct === undefined ? '—' : (mine.plPct >= 0 ? '+' : '') + fixed(mine.plPct, 2) + '%'}</strong> since purchase</p>
+                ${x.philosophy ? `<details class="ai-persona-phil"><summary>The ${isGuru ? 'philosophy' : 'data factors'} it cited</summary><p class="small muted" style="margin:8px 0 0;">${esc(x.philosophy)}</p></details>` : ''}
+              </div>`;
+        };
+
+        const decisionRows = (detail.decisions || []).map((d) => {
+            const titles = {
+                construct: 'Construction — the one buying decision',
+                review: `Nightly review ${d.day} — advisory only`,
+                end_reviews: 'Reviews ended — tracking only from here',
+                build_failed: 'Failed build'
+            };
+            const would = Array.isArray(d.wouldChange) && d.wouldChange.length
+                ? `<div class="ai-would">${d.wouldChange.map((w) => `<span class="chip ai-would-chip">would ${esc(w.action || 'hold')} ${esc(w.symbol || '')} — not executed</span>`).join('')}</div>`
+                : '';
+            const news = Array.isArray(d.newsFactors) && d.newsFactors.length
+                ? `<div class="ai-news">${d.newsFactors.map((f) => `<span class="chip">${esc(String(f).slice(0, 140))}</span>`).join('')}</div>`
+                : '';
+            return `
+              <details class="ai-decision">
+                <summary>${esc(titles[d.type] || d.type)} <span class="small faint">day ${d.day} · ${new Date(d.at).toLocaleString('en-US', { month: 'short', day: 'numeric' })}</span></summary>
+                <p class="small" style="white-space:pre-wrap; margin:10px 0 0;">${esc(d.rationale || '')}</p>
+                ${news}${would}
+              </details>`;
+        }).join('');
+
+        body.innerHTML = `
+          <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">two stocks by design — deliberately concentrated, SPY is the benchmark</span></div>
+          <div class="ai-tiles">
+            <div class="ai-tile"><span class="label">Value</span><strong class="ai-tile-v">$${money(t.totalValue)}</strong><span class="small muted">of $${money(p.startingCapital)} paper</span></div>
+            <div class="ai-tile"><span class="label">Return</span><strong class="ai-tile-v ${(t.portfolioReturnPct ?? 0) >= 0 ? 'delta-pos' : 'delta-neg'}">${(t.portfolioReturnPct ?? 0) >= 0 ? '+' : ''}${fixed(t.portfolioReturnPct ?? 0, 2)}%</strong><span class="small muted">at official closes</span></div>
+            <div class="ai-tile"><span class="label">SPY benchmark</span><strong class="ai-tile-v">${t.spyReturnPct === null || t.spyReturnPct === undefined ? '—' : (t.spyReturnPct >= 0 ? '+' : '') + fixed(t.spyReturnPct, 2) + '%'}</strong><span class="small muted ${vsSpy >= 0 ? 'delta-pos' : 'delta-neg'}">${vsSpy >= 0 ? 'ahead' : 'behind'} by ${fixed(Math.abs(vsSpy), 2)}%</span></div>
+            <div class="ai-tile"><span class="label">Cash</span><strong class="ai-tile-v">$${money(cash)}</strong><span class="small muted">cap 20% by rule</span></div>
+          </div>
+          <div class="ai-chart">${chartHtml}${gapNote}</div>
+          <div class="ai-showdown">
+            ${(p.personas || []).map(personaCard).join('<div class="ai-vs" aria-hidden="true">vs</div>')}
+          </div>
+          ${decisionRows ? `<h3 class="title-3" style="margin:22px 0 8px;">Decision log — append-only, newest first</h3><div class="ai-log">${decisionRows}</div>` : ''}`;
+    }
+
+    const aiAskEngine = mountAsk($('pf-ask'), {
         placeholder: 'Ask about your portfolio — concentration, quality, what changed…',
         suggestions: [
             'Is my portfolio concentrated in one sector?',
             'Which of my holdings has the weakest balance sheet?',
             'How would my portfolio fare if margins compress?',
             'What are the top 3 ETFs and mutual funds over 3 months, 1 year and 3 years?'
-        ]
+        ],
+        onPaperEvent: handleAiPaperEvent
     });
+    // 🧪 rides every send while the toggle is on; the server re-checks the
+    // beta gate on every request, so the flag alone is inert elsewhere.
+    const aiAskSend = aiAskEngine.send.bind(aiAskEngine);
+    aiAskEngine.send = (q, opts) => aiAskSend(q, { ...(opts || {}), ...(aiPaperMode ? { aiPaperMode: true } : {}) });
 
     async function loadWatchlist() {
         try {
@@ -1408,6 +1729,7 @@
             loadWash();
             loadBriefing();
             loadWatchlist();
+            probeAiPaper(); // 🧪 403 for everyone else — nothing renders
         }
     })();
 })();

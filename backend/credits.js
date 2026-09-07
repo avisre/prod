@@ -36,7 +36,7 @@ const mongoose = require('mongoose');
 // happens at compare time; the underlying reports were each paid for once at
 // build. Priced at 5 (half a standard Dossier): paid, but visibly cheaper
 // than running the reports it reads.
-const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5 };
+const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 

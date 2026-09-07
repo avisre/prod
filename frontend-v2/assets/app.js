@@ -830,6 +830,13 @@
             const kind = depth === 'deep' ? 'Deep Dossier' : 'Standard Dossier';
             return symbol ? `${kind}: ${symbol}` : kind;
         }
+        // A comparison spends under its own reason ('dossier-compare', refId is
+        // the joined tickers). It had no case here either, so every compare a
+        // user ran showed up in their ledger as an unexplained 'Credit use'.
+        if (reason === 'dossier-compare') {
+            const syms = String(refId || '').split(':').filter(Boolean);
+            return syms.length > 1 ? `Compare: ${syms.join(' vs ')}` : 'Dossier comparison';
+        }
         return 'Credit use';
     }
 
@@ -844,7 +851,7 @@
             out.covered += amt;
             if (row.reason === 'ask') out.ask += amt;
             else if (row.reason === 'monitor') out.monitor += amt;
-            else if (row.reason === 'dossier') out.dossier += amt;
+            else if (row.reason === 'dossier' || row.reason === 'dossier-compare') out.dossier += amt;
         }
         return out;
     }
@@ -1678,7 +1685,7 @@
         mark('shown');
     }
 
-    function askEngine(exchange, { onActivity, onComplete } = {}) {
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
@@ -1867,7 +1874,7 @@
                             headers: _askHeaders,
                             // the server owns per-thread context when a threadId
                             // is present; callers without one behave exactly as before
-                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
+                            body: JSON.stringify({ question, history: history.slice(-8), stream: true, mode: askMode, ...(opts && opts.threadId ? { threadId: opts.threadId } : {}), ...(opts && opts.aiPaperMode ? { aiPaperMode: true } : {}), ...(opts && Array.isArray(opts.attachments) && opts.attachments.length ? { attachments: opts.attachments } : {}) }),
                             signal: aborter.signal
                         });
                         if (r.status < 500 || attempt === 1) break;
@@ -1934,6 +1941,11 @@
                         // who has scrolled back up
                         if (stickInner && answerEl.scrollHeight > answerEl.clientHeight) answerEl.scrollTop = answerEl.scrollHeight;
                         if (atBottom()) window.scrollTo({ top: document.documentElement.scrollHeight });
+                    } else if (ev === 'ai_paper') {
+                        // 🧪 build progress from the background AI Paper
+                        // Portfolio construction (status/persona/done frames);
+                        // only the beta dashboard passes onPaperEvent.
+                        if (onPaperEvent) onPaperEvent(d);
                     } else if (ev === 'rollback') {
                         // the model discarded its draft and went back to work
                         text = '';
@@ -2073,7 +2085,7 @@
     }
 
     // In-flow shell: bar + panel inside a page section.
-    function mountAsk(el, { placeholder, suggestions = [] } = {}) {
+    function mountAsk(el, { placeholder, suggestions = [], onPaperEvent } = {}) {
         el.innerHTML = `
           <form class="ask-bar">
             <input class="input" type="text" maxlength="8000" placeholder="${esc(placeholder || 'Ask about any company, ETF or mutual fund…')}" aria-label="Ask a question" />
@@ -2084,7 +2096,7 @@
         const form = el.querySelector('form');
         const input = el.querySelector('input');
         const panel = el.querySelector('.ask-panel');
-        const engine = askEngine(el.querySelector('.ask-exchange'), { onActivity: () => { panel.hidden = false; } });
+        const engine = askEngine(el.querySelector('.ask-exchange'), { onActivity: () => { panel.hidden = false; }, ...(onPaperEvent ? { onPaperEvent } : {}) });
         el.querySelectorAll('.ask-suggest').forEach((b) =>
             b.addEventListener('click', () => { input.value = b.textContent; form.requestSubmit(); }));
         form.addEventListener('submit', (e) => {

@@ -1556,7 +1556,14 @@ function runTool(name, args, ctx) {
         case 'get_filing_diff': return toolGetFilingDiff(args || {});
         case 'get_guru_ownership': return toolGetGuruOwnership(args || {});
         case 'get_portfolio_xray': return toolGetPortfolioXray(ctx);
-        default: return { error: `Unknown tool ${name}` };
+        default:
+            // 🧪 AI Portfolio mode: the 3 beta-only tools execute through the
+            // per-request handler app.js injected (never registered globally,
+            // so non-beta users can't reach this branch).
+            if (ctx && typeof ctx.aiPaperRunTool === 'function' && String(name || '').startsWith('ai_portfolio_')) {
+                return ctx.aiPaperRunTool(name, args || {}, ctx);
+            }
+            return { error: `Unknown tool ${name}` };
     }
 }
 
@@ -1663,6 +1670,12 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 
     const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '') + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.`;
     const messages = [{ role: 'system', content: systemContent }];
+    // 🧪 AI Portfolio mode: a beta-only experiment context app.js injects after
+    // a server-side gate. Absent for everyone else and in normal chat mode —
+    // the feature's data never enters a plain prompt.
+    if (ctx && ctx.aiPaperContext) {
+        messages.push({ role: 'system', content: ctx.aiPaperContext });
+    }
     // Memory context — ChatGPT-style saved memories (default ON; the user's
     // Profile → Settings toggle is the off switch). Loaded fresh per question
     // so an edit or delete takes effect immediately.
@@ -1707,6 +1720,12 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 
     const toolsUsed = [];
     let totalTokens = 0;
+    // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by
+    // app.js after a server-side gate — they are absent for everyone else,
+    // so the model never even sees them.
+    const activeTools = (ctx && Array.isArray(ctx.aiPaperTools) && ctx.aiPaperTools.length)
+        ? TOOLS.concat(ctx.aiPaperTools)
+        : TOOLS;
     // mechanical per-question budgets for the web tools — prompts bend under
     // failure pressure, counters don't
     // Same mechanism extended to the LLM-extraction research tools (each is a
@@ -1730,7 +1749,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (lastRound) messages.push({ role: 'system', content: SYNTHESIS_DIRECTIVE });
             const opts = {
                 purpose: 'chat', temperature: 0.3, maxTokens: 8000,
-                tools: lastRound ? null : TOOLS
+                tools: lastRound ? null : activeTools
             };
             let msg;
             let streamer = null;

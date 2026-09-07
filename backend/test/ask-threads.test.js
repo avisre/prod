@@ -85,8 +85,9 @@ test('attachments ride the chat body only — validated, capped, never stored', 
     // the route only — the global parser stays small
     assert.match(appSource, /const askChatParser = express\.json\(\{ limit: '16mb' \}\)/);
     assert.match(appSource, /req\.path === ASK_CHAT_PATH/);
-    // both ask() call sites pass attachments through ctx
-    assert.equal((appSource.match(/ctx: \{ holdings, userId, memoryConsent, attachments \}/g) || []).length, 2);
+    // both ask() call sites pass attachments through ctx (each may also spread
+    // the beta-only aiPaperMode extensions — attachments always ride along)
+    assert.equal((appSource.match(/holdings, userId, memoryConsent, attachments/g) || []).length, 2);
 });
 
 test('the AI gets attachment tools: view_image (vision relay) and read_document', () => {
@@ -308,9 +309,9 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20260907-credit1/);
-    assert.match(askHtml, /assets\/system\.css\?v=20260907-credit1/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260901-cmp1/);
+    assert.match(askHtml, /assets\/app\.js\?v=20260907-aipaper1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20260907-aipaper1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260907-aipaper1/);   // the credit-meter rewrite
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });
 // ---- chrome collapsed from three buttons to two (2026-08-30) ----

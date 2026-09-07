@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260907-credit1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260907-aipaper1" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -142,6 +142,7 @@
               <select class="input" id="pf-select" aria-label="Portfolio" hidden></select>
               <button class="btn btn-ghost btn-sm" type="button" id="pf-new">+ New</button>
               <button class="btn btn-ghost btn-sm" type="button" id="pf-del" hidden aria-label="Delete this portfolio">–</button>
+              <button class="btn btn-ghost btn-sm ai-pf-entry" type="button" id="ai-pf-new" hidden title="Start the beta experiment: two AI minds, one buying decision">🧪 AI Paper Portfolio</button>
             </div>
             <div class="portfolio-value-line">
               <p class="display" id="pf-total">&nbsp;</p>
@@ -298,6 +299,16 @@
           <div id="pf-ask"></div>
         </section>
 
+        <!-- 🧪 AI Paper Portfolio (beta — the section only renders for beta
+             accounts once the probe endpoint says 200) -->
+        <section class="section" id="ai-pf-section" hidden>
+          <div class="section-head">
+            <h2 class="title-2">🧪 AI Paper Portfolio <span class="small faint">beta</span></h2>
+            <span class="small faint" id="ai-pf-sub"></span>
+          </div>
+          <div class="card card-pad" id="ai-pf-body"></div>
+        </section>
+
         <!-- Alert rules: your own valuation thresholds, checked on the sweep.
              Deliberately below the holdings — the portfolio is the first read. -->
         <section class="section" id="rules-section" hidden>
@@ -356,7 +367,7 @@
       <p class="small muted" id="portfolio-action-detail">Please wait…</p>
     </div>
   </div>
-  <script src="assets/app.js?v=20260907-credit1"></script>
-  <script src="assets/dashboard.js?v=20260902-ports2"></script>
+  <script src="assets/app.js?v=20260907-aipaper1"></script>
+  <script src="assets/dashboard.js?v=20260907-aipaper1"></script>
 </body>
 </html>
