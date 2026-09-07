@@ -311,7 +311,7 @@ test('multiple rejected attachments each get their error line', () => {
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
     assert.match(askHtml, /assets\/app\.js\?v=20260907-aipaper3/);
     assert.match(askHtml, /assets\/system\.css\?v=20260907-aipaper3/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260907-aipaper3/);   // the credit-meter rewrite
+    assert.match(profileHtml, /assets\/profile\.js\?v=20260908-cmpcredit1/);   // the AI Paper credit row
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });
 // ---- chrome collapsed from three buttons to two (2026-08-30) ----

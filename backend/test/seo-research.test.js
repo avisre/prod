@@ -63,6 +63,52 @@ test('stock comparison pages use the shared authenticated navbar', () => {
     assert.doesNotMatch(competitorPage, /<header class="seo-nav"/);
 });
 
+test('paid compare variant renders the expanded design; free page stays untouched', () => {
+    const page = extra.renderComparePagePro('LB-vs-MUR');
+    assert.ok(page && page.html);
+    assert.match(page.html, /cmp-grp/, 'grouped section headers');
+    assert.match(page.html, /Red flags in the filings/);
+    assert.match(page.html, /AI VERDICT/);
+    assert.match(page.html, /assets\/system\.css\?v=20260907-aipaper3/);
+    assert.match(page.html, /noindex/);
+    assert.ok(Buffer.byteLength(page.html) < 100_000, 'pro pair page must stay under 100 KB');
+    // No em-dashes in prose: strip the intentional missing-data cell placeholder
+    // and the shared swap-widget helper (whose "SYM — Name" format the extractor
+    // parses) before asserting.
+    const body = page.html
+        .replace(/<td[^>]*>—<\/td>/g, '')
+        .replace(/' — '/g, '')
+        .replace(/<p class="seo-disc">[\s\S]*?<\/p>/g, '');
+    assert.doesNotMatch(body, /—/);
+    const inlineScripts = [...page.html.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)]
+        .filter((match) => !/application\/ld\+json|\bsrc=/i.test(match[1]))
+        .map((match) => match[2]).filter(Boolean);
+    inlineScripts.forEach((source) => assert.doesNotThrow(() => new vm.Script(source)));
+});
+
+test('compare pair route without auth plumbing serves the free page even for ?sp=2', async () => {
+    const app = express();
+    app.use(extra.router);
+    const server = app.listen(0);
+    const base = `http://127.0.0.1:${server.address().port}`;
+    const get = (path) => new Promise((resolve) => {
+        const req = http.get(base + path, (res) => {
+            let body = '';
+            res.on('data', (c) => { body += c; });
+            res.on('end', () => resolve({ status: res.statusCode, body }));
+        });
+        req.on('error', () => resolve({ status: -1, body: '' }));
+    });
+    try {
+        const bare = await get('/compare/LB-vs-MUR');
+        assert.equal(bare.status, 200);
+        const pro = await get('/compare/LB-vs-MUR?sp=2');
+        assert.equal(pro.status, 200);
+        assert.equal(pro.body, bare.body, '?sp=2 without an authenticated paid session must render the free page');
+        assert.doesNotMatch(pro.body, /AI VERDICT/);
+    } finally { server.close(); }
+});
+
 test('advertised comparison URLs are canonical, renderable primary listings', () => {
     const pairs = extra.comparePairs();
     assert.ok(pairs.length >= 5_000 && pairs.length < 7_000, `crawl-prioritized pair count was ${pairs.length}`);

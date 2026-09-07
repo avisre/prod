@@ -47,7 +47,11 @@
     const FEATURES = [
         { key: 'ask', reasons: ['ask'], label: 'Ask', seg: 'credits-seg-ask', unit: ['question', 'questions'] },
         { key: 'dossier', reasons: ['dossier', 'dossier-compare'], label: 'Dossier', seg: 'credits-seg-dossier', unit: ['report', 'reports'] },
-        { key: 'monitor', reasons: ['monitor'], label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] }
+        { key: 'monitor', reasons: ['monitor'], label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] },
+        // AI Paper builds spend under one reason; the nightly review spends
+        // under a per-day reason ('ai-paper review day N'), so prefix-match
+        // those and count the days separately from the builds.
+        { key: 'aiPaper', reasons: ['ai-paper build'], prefixes: ['ai-paper review day '], label: 'AI Paper', seg: 'credits-seg-aipaper', unit: ['build', 'builds'] }
     ];
 
     const plural = (n, [one, many]) => `${n} ${n === 1 ? one : many}`;
@@ -71,7 +75,18 @@
                     spent += Math.max(0, -(Number(row.delta) || 0));
                     count += Number(row.count) || 0;
                 }
-                out[f.key] = { credits: spent, count };
+                // Per-day reasons prefix-match; their event counts surface as
+                // review days next to the build count, not as one lump.
+                let extraCount = 0;
+                for (const prefix of f.prefixes || []) {
+                    for (const reason of Object.keys(bd)) {
+                        if (!reason.startsWith(prefix)) continue;
+                        const row = bd[reason] || {};
+                        spent += Math.max(0, -(Number(row.delta) || 0));
+                        extraCount += Number(row.count) || 0;
+                    }
+                }
+                out[f.key] = { credits: spent, count, extraCount };
                 named += spent;
             }
             // Anything billable under a reason this build doesn't know about
@@ -85,6 +100,7 @@
             ask: { credits: s.ask, count: 0 },
             dossier: { credits: s.dossier, count: 0 },
             monitor: { credits: s.monitor, count: 0 },
+            aiPaper: { credits: 0, count: 0, extraCount: 0 },
             other: { credits: Math.max(0, used - s.ask - s.dossier - s.monitor), count: 0 }
         };
     }
@@ -138,10 +154,17 @@
         if (spend) {
             const rows = FEATURES
                 .filter((f) => f.key !== 'monitor' || hasMonitor || (spend.monitor || {}).credits > 0)
+                // The beta stays invisible to accounts that never opted in: a row
+                // only appears for beta accounts, or where credits were actually
+                // spent (the money is real even after a beta leaves).
+                .filter((f) => f.key !== 'aiPaper' || aiPaperBeta || (spend.aiPaper || {}).credits > 0)
                 .map((f) => {
                     const amt = (spend[f.key] || {}).credits || 0;
                     const n = (spend[f.key] || {}).count || 0;
-                    const unit = n > 0 ? plural(n, f.unit) : (amt === 0 ? '—' : '');
+                    const extra = (spend[f.key] || {}).extraCount || 0;
+                    const unit = extra > 0
+                        ? (n > 0 ? plural(n, f.unit) + ' + ' : '') + plural(extra, ['review', 'reviews'])
+                        : (n > 0 ? plural(n, f.unit) : (amt === 0 ? '—' : ''));
                     return `<tr>
                       <td><span class="k"><span class="dot ${f.seg}"></span>${f.label}</span></td>
                       <td class="amt">${amt}</td>

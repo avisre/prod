@@ -1882,7 +1882,11 @@ app.get('/vs/:competitor', (req, res) => {
 });
 // Metric histories (/stocks/SYM/revenue), X-vs-Y comparisons (/compare/A-vs-B),
 // and screen landing pages (/screens/dividend-stocks) — see backend/seo-extra.js
-app.use(require('./seo-extra').router);
+// optionalAuth + isProUser are app.js internals; the compare router needs them
+// for the paid variant of /compare/:pair (?sp=2).
+const seoExtra = require('./seo-extra');
+seoExtra.setCompareAuth({ optionalAuth });
+app.use(seoExtra.router);
 
 // The Localyze model proxy is intentionally not mounted here. It must use a
 // separate service, credential, authentication boundary, and quota.
