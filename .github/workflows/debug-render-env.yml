@@ -1,0 +1,49 @@
+name: Debug read-only Render env + logs
+
+# TEMPORARY diagnostic workflow, removed after this one-shot run. Reads the
+# service's env-var NAMES (values redacted except non-secret pricing config)
+# plus recent service logs, to diagnose why /api/credits/topup refuses on prod.
+# Dispatch-only; never runs on push.
+
+on:
+  workflow_dispatch:
+
+jobs:
+  read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RENDER_SERVICE: srv-d4kc6schg0os73al6t10
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+    steps:
+      - name: Env var names + topup config (values redacted)
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -o /tmp/env.json -w '%{http_code}' \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Accept: application/json" \
+            "https://api.render.com/v1/services/$RENDER_SERVICE/env-vars" || echo 000)
+          echo "GET env-vars -> $code"
+          if [ "$code" != "200" ]; then head -c 400 /tmp/env.json; exit 1; fi
+          echo "--- env var NAMES configured on the service:"
+          jq -r '.[].envVar.key' /tmp/env.json | sort
+          echo "--- topup-related values (non-secret):"
+          jq -r '.[].envVar | select(.key=="STRIPE_PRICE_ID_CREDITS_TOPUP" or .key=="CREDIT_TOPUP_PRICE" or .key=="CREDIT_TOPUP_CREDITS") | "\(.key) = \(.value)"' /tmp/env.json
+          echo "--- presence-only for secret keys:"
+          for k in STRIPE_SECRET_KEY STRIPE_WEBHOOK_SECRET STRIPE_PUBLISHABLE_KEY; do
+            if grep -q "\"key\": *\"$k\"" /tmp/env.json; then echo "$k: SET"; else echo "$k: MISSING"; fi
+          done
+
+      - name: Recent service logs (credits-relevant lines)
+        run: |
+          end=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          start=$(date -u -d '7 days ago' +%Y-%m-%dT%H:%M:%SZ)
+          code=$(curl -sS -o /tmp/logs.json -w '%{http_code}' \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Accept: application/json" \
+            "https://api.render.com/v1/logs?limit=400&startTime=${start}&endTime=${end}&service=$RENDER_SERVICE" || echo 000)
+          echo "GET logs -> $code"
+          if [ "$code" != "200" ]; then head -c 400 /tmp/logs.json || true; exit 0; fi
+          echo "--- lines mentioning credits/topup/recharge/stripe config:"
+          jq -r '.[] | (.log // .message // empty)' /tmp/logs.json 2>/dev/null \
+            | grep -i -E "credit|topup|recharge|misconfigured" | head -60 || echo "(none in the returned window)"
