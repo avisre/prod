@@ -878,6 +878,25 @@ function buildSitemapInventory() {
             screens.push({ loc: SITE + route, lastmod: staticPageMtime(route) });
         });
     } catch (_) {}
+    // Pairs discovered live (see noteDiscoveredCompare in seo-extra.js): any
+    // /compare/A-vs-B with metrics for both sides renders indexable, but only
+    // the algorithmic set above used to reach the sitemap. Merge the bounded
+    // discovered snapshot in so externally-found pairs keep a lastmod signal
+    // (Bing: "important new pages missing from your sitemaps"). Same snapshot
+    // contract as shares/diffs below: best-effort read, works if missing.
+    try {
+        const seenPairs = new Set(compares.map((c) => c.loc));
+        JSON.parse(fs.readFileSync(path.join(__dirname, 'discovered-compares.json'), 'utf8'))
+            .filter((e) => e && /^[A-Z0-9.]+-vs-[A-Z0-9.]+$/.test(e.p))
+            .slice(-1000)
+            .forEach((e) => {
+                const loc = `${SITE}/compare/${e.p}`;
+                if (seenPairs.has(loc)) return;
+                seenPairs.add(loc);
+                const [x, y] = e.p.split('-vs-');
+                compares.push({ loc, lastmod: maxDate(String(e.at || ''), maxDate(tickerMtime(x), tickerMtime(y))) });
+            });
+    } catch (_) {}
     core.push(...screens);
     const shards = {};
     const addChunks = (prefix, entries) => {

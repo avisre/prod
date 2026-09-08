@@ -1163,6 +1163,50 @@ function renderCompareIndex() {
 </script>` + footer();
 }
 
+// ---- Discovered compare pairs -> sitemap ----
+// /compare renders ANY pair that has metrics for both sides, but comparePairs()
+// only emits the algorithmic set (sector adjacency + POPULAR_COMPARISONS). A
+// pair that arrives via an external link (Bing found PANW-vs-SNDK that way)
+// renders 200 + indexable yet never had a sitemap entry — Bing flags this as
+// "important new pages missing from your sitemaps". Record each newly-served
+// pair into a bounded snapshot (same contract as indexable-shares.json /
+// filing-diff-symbols.json); seo-pages.buildSitemapInventory merges it in.
+// Best-effort: comparison works with the file missing or unwritable.
+const DISCOVERED_COMPARES_FILE = path.join(__dirname, 'discovered-compares.json');
+const DISCOVERED_COMPARES_MAX = 1000;
+const _discoveredSeen = new Set();
+let _discoveredLoaded = false;
+let _discoveredFlushTimer = null;
+let _discoveredPending = [];
+function noteDiscoveredCompare(a, b) {
+    try {
+        a = String(a || '').toUpperCase(); b = String(b || '').toUpperCase();
+        if (!/^[A-Z0-9.]+$/.test(a) || !/^[A-Z0-9.]+$/.test(b) || a === b) return;
+        if (!_discoveredLoaded) {
+            _discoveredLoaded = true;
+            try { JSON.parse(fs.readFileSync(DISCOVERED_COMPARES_FILE, 'utf8')).forEach((e) => { if (e && e.p) _discoveredSeen.add(e.p); }); } catch (_) { /* first entry */ }
+        }
+        const slug = [a, b].sort().join('-vs-');
+        if (_discoveredSeen.has(slug)) return;
+        _discoveredSeen.add(slug);
+        _discoveredPending.push({ p: slug, at: new Date().toISOString().slice(0, 10) });
+        if (_discoveredFlushTimer) return;
+        // Write-behind: one flush per burst so a crawler sweeping pair URLs
+        // costs one write, not one per render.
+        _discoveredFlushTimer = setTimeout(() => {
+            _discoveredFlushTimer = null;
+            try {
+                let list = [];
+                try { list = JSON.parse(fs.readFileSync(DISCOVERED_COMPARES_FILE, 'utf8')); } catch (_) { /* first entry */ }
+                const merged = new Map();
+                list.concat(_discoveredPending).forEach((e) => { if (e && e.p) merged.set(e.p, e); });
+                fs.writeFileSync(DISCOVERED_COMPARES_FILE, JSON.stringify([...merged.values()].slice(-DISCOVERED_COMPARES_MAX)));
+                _discoveredPending = [];
+            } catch (_) { /* kept in _discoveredPending; next new pair re-arms */ }
+        }, 5000).unref();
+    } catch (_) { /* best-effort */ }
+}
+
 // ---- paid/free pair-page split ----
 // app.js hands in its optionalAuth (an app.js internal) at mount time so the
 // /compare/:pair route can resolve the visitor's tier. Unset (unit tests mount
@@ -1465,6 +1509,9 @@ function compareData(pairSlug) {
 function renderComparePage(pairSlug) {
     const d = compareData(pairSlug);
     if (!d || d.redirect) return d;
+    // This pair is about to render with real metrics on both sides. If it came
+    // from outside comparePairs(), the sitemap would never learn it existed.
+    noteDiscoveredCompare(d.a, d.b);
     const { a, b, ma, mb, canonical, title, description, jsonld, verdictHtml, verdictAi, trs, perfHtml, swapHtml, relatedHtml, faqHtml, screensHtml } = d;
     return { html: head(title, description, canonical, jsonld) + nav('compare') + `
 <main class="seo-wrap">
@@ -2250,7 +2297,7 @@ function sitemapUrls() {
 }
 
 module.exports = {
-    router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS,
+    router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS, noteDiscoveredCompare,
     renderMetricPage, renderComparePage, renderComparePagePro, renderCompareIndex, metricCsv, dilutionRows, dilutionCsv,
     setCompareAuth,
     VENDOR_COMPARISONS, renderVendorComparePage,
