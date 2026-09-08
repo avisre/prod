@@ -1545,8 +1545,11 @@ function renderComparePage(pairSlug) {
 </main>
 <script>
 (function(){
-  if(/(^|[?&])sp=2/.test(location.search))return;
-  var k='sp2up';try{if(sessionStorage.getItem(k)){sessionStorage.removeItem(k);return;}}catch(e){}
+  var k='sp2up';
+  // Consume the one-shot flag on the ?sp=2 load itself, not on the next free
+  // visit — otherwise the visit right after an upgrade does nothing.
+  if(/(^|[?&])sp=2/.test(location.search)){try{sessionStorage.removeItem(k);}catch(e){}return;}
+  try{if(sessionStorage.getItem(k)){sessionStorage.removeItem(k);return;}}catch(e){}
   // The app's auth is cookie-based (HttpOnly sp_auth + sp_logged_in marker);
   // login never stores a localStorage token. Gate on the marker cookie, and
   // let the same-origin fetch carry sp_auth to /api/session.
@@ -1682,11 +1685,25 @@ function renderComparePagePro(pairSlug) {
         { l: '10-year return', a: fmtP(perfA.r10), b: fmtP(perfB.r10), w: hi(perfA.r10, perfB.r10) },
         { l: '52-week range', a: rangeFmtP(rangeA), b: rangeFmtP(rangeB), w: -1 }
     ];
-    const proTrs = rowsPro.map((r) => r.g
-        ? `<tr class="cmp-grp"><td colspan="3">${esc(r.g)}</td></tr>`
-        : `<tr><td>${esc(r.l)}</td>` +
-          `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
-          `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
+    // Collapsible groups: one tbody per group; the first ("Size and latest FY")
+    // starts open, the rest collapsed. Clicking the group row toggles it.
+    const groupsPro = [];
+    rowsPro.forEach((r) => {
+        if (r.g) groupsPro.push({ title: r.g, rows: [] });
+        else groupsPro[groupsPro.length - 1].rows.push(r);
+    });
+    const proTrs = groupsPro.map((g, gi) => {
+        const open = gi === 0;
+        // Collapsed groups keep their FIRST metric row visible as a teaser;
+        // expanding reveals the rest.
+        const body = g.rows.map((r, ri) =>
+            `<tr${gi > 0 && ri === 0 ? ' class="cmp-prev"' : ''}><td>${esc(r.l)}</td>` +
+            `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
+            `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
+        return `<tbody class="cmp-sec${open ? ' cmp-open' : ''}">` +
+            `<tr class="cmp-grp" role="button" tabindex="0" aria-expanded="${open}" aria-label="${esc(g.title)}: toggle section"><td colspan="3">${esc(g.title)}<span class="cmp-n">${g.rows.length} metrics</span></td></tr>` +
+            body + `</tbody>`;
+    }).join('');
 
     // ---- red flags, spelled out per company (counts alone hide the detail) ----
     const flagCard = (sym, name, rf) => {
@@ -1757,7 +1774,7 @@ function renderComparePagePro(pairSlug) {
 
     return { html: head(title, description, canonical, proJsonld).replace('</title>', '</title><meta name="robots" content="noindex">') + nav('compare') + `
 <main class="seo-wrap">
-  <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}.cmp-grp td{padding:14px 7px 6px;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);border-top:1px solid var(--line)}@keyframes aivpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,79,214,.40)}55%{box-shadow:0 0 0 9px rgba(26,79,214,0)}}#aivbtn{animation:aivpulse 2.4s infinite}</style>
+  <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}.cmp-grp td{padding:14px 7px 6px;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);border-top:1px solid var(--line)}.cmp-grp{cursor:pointer;-webkit-user-select:none;user-select:none}.cmp-grp:focus-visible td{outline:2px solid var(--accent);outline-offset:-2px}.cmp-grp td::before{content:'▾ ';color:var(--ink3)}.cmp-sec:not(.cmp-open) .cmp-grp td::before{content:'▸ '}.cmp-sec:not(.cmp-open) tr:not(.cmp-grp):not(.cmp-prev){display:none}.cmp-n{float:right;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--ink3)}@keyframes aivpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,79,214,.40)}55%{box-shadow:0 0 0 9px rgba(26,79,214,0)}}#aivbtn{animation:aivpulse 2.4s infinite}</style>
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
   <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
   <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side: fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
@@ -1768,8 +1785,18 @@ function renderComparePagePro(pairSlug) {
     <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Every figure is computed from SEC-filed statements, refreshed nightly. Returns are total returns from monthly split- and dividend-adjusted closes; past performance is not a prediction. The stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>; raw size rows stay untinted because bigger is not automatically better.</p>
     <div style="overflow-x:auto"><table class="seo-table cmp-table">
       <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
-      <tbody>${proTrs}</tbody>
+      ${proTrs}
     </table></div>
+    <script>
+    (function(){
+      var t=document.querySelector('.cmp-table');if(!t)return;
+      Array.prototype.forEach.call(t.querySelectorAll('.cmp-grp'),function(tr){
+        var tg=function(){var sec=tr.closest('tbody');if(!sec)return;var open=sec.classList.toggle('cmp-open');tr.setAttribute('aria-expanded',open?'true':'false');};
+        tr.addEventListener('click',tg);
+        tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}});
+      });
+    })();
+    </script>
   </div>
   ${flagsHtml}
   <div class="seo-section"><h2>Verify the comparison</h2><div class="seo-links"><a href="/tools/earnings-quality">Check earnings versus cash flow &rarr;</a><a href="/tools/dilution">Compare filed share counts &rarr;</a><a href="/tools/filing-timeline">Open the latest SEC filing timeline &rarr;</a><a href="/tools/company-comparison">Run another company comparison &rarr;</a></div><p style="margin-top:10px;font-size:13px;color:var(--ink3)">Use the filing period and source shown by each tool before treating two figures as comparable.</p></div>

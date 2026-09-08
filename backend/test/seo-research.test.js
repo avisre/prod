@@ -73,6 +73,9 @@ test('paid compare variant renders the expanded design; free page stays untouche
     const page = extra.renderComparePagePro('LB-vs-MUR');
     assert.ok(page && page.html);
     assert.match(page.html, /cmp-grp/, 'grouped section headers');
+    assert.match(page.html, /cmp-sec cmp-open/, 'first group starts expanded');
+    assert.ok((page.html.match(/class="cmp-sec/g) || []).length === 7, 'seven collapsible groups');
+    assert.ok((page.html.match(/class="cmp-prev"/g) || []).length === 6, 'each collapsed group keeps one teaser row');
     assert.match(page.html, /Red flags in the filings/);
     assert.match(page.html, /AI VERDICT/);
     assert.match(page.html, /assets\/system\.css\?v=20260907-aipaper3/);
