@@ -1315,7 +1315,10 @@ function compareData(pairSlug) {
         `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
 
     // ---- performance rows (returns from monthly adjusted closes) ----
-    const rangeFmt = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}&ndash;$${r.high.toFixed(2)}` : '—';
+    // The en-dash must be a literal character, not an entity: cell values pass
+    // through esc(), which would turn &ndash; into &amp;ndash; and render the
+    // entity as visible text (9/8: every free compare page showed "$x&ndash;$y").
+    const rangeFmt = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}–$${r.high.toFixed(2)}` : '—';
     const perfRows = [
         { l: '1-year return', a: fmtRet(perfA.r1, listedA), b: fmtRet(perfB.r1, listedB), w: hi(perfA.r1, perfB.r1) },
         { l: '3-year return', a: fmtRet(perfA.r3, listedA), b: fmtRet(perfB.r3, listedB), w: hi(perfA.r3, perfB.r3) },

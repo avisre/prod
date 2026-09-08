@@ -187,6 +187,11 @@ test('comparison pages include a performance section with real returns', () => {
     assert.match(page.html, /52-week range/);
     // Large caps with ~20y of monthly data must produce real numbers, not em-dashes.
     assert.doesNotMatch(page.html, /1-year return<\/td><td[^>]*>&mdash;<\/td>/);
+    // The range separator is a literal en-dash. Cell values pass through esc(),
+    // so an entity here double-escapes and renders as visible "&ndash;" text
+    // (9/8: every free compare page showed "$x&ndash;$y" in this row).
+    assert.doesNotMatch(page.html, /&amp;ndash;/);
+    assert.match(page.html, /52-week range<\/td><td[^>]*>\$\d+\.\d{2}–\$\d+\.\d{2}<\/td>/);
     assert.match(page.html, /Over the last five years/);
     assert.match(page.html, /1\/3\/5\/10-year performance/);
 });
