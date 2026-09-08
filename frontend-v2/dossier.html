@@ -197,12 +197,17 @@
     .dos-decision-copy { margin-top:var(--s4); font-size:14.5px; line-height:1.68; }
     .dos-decision-copy p + p { margin-top:10px; }
     #dos-brief, #dos-financials, #dos-latest-change, #dos-cases, #dos-deep, #dos-thesis { scroll-margin-top:128px; }
-    .dos-trends { border:0; margin-top:var(--s4); gap:10px; }
-    .dos-trend-row { grid-template-columns:112px minmax(110px,1fr) 86px; padding:8px 0; border:0; }
-    .dos-mini-bars { height:34px; display:flex; align-items:flex-end; gap:3px; padding:2px 0; }
+    /* Both brief cards are flex columns so the shorter card's content distributes
+       to the taller one's height — whichever column wins, no card shows a dead band. */
+    .dos-decision-grid > section { display:flex; flex-direction:column; }
+    .dos-trends { border:0; margin-top:var(--s4); gap:10px; flex:1; align-content:space-evenly; }
+    .dos-trend-row { grid-template-columns:126px minmax(110px,1fr) 86px; padding:12px 0; border:0; }
+    .dos-trend-change { display:block; margin-top:2px; color:var(--ink-3); font-size:9.5px; font-weight:600; letter-spacing:.03em; }
+    .dos-mini-bars { height:56px; display:flex; align-items:flex-end; gap:3px; padding:2px 0; }
     .dos-mini-bars i { flex:1; min-width:3px; border-radius:3px 3px 1px 1px; background:var(--ink-3); }
     .dos-mini-bars i:last-child { background:var(--ink); }
-    .dos-key-strip { gap:var(--s3); }
+    .dos-decision-copy { flex:1; display:flex; flex-direction:column; justify-content:space-evenly; }
+    .dos-key-strip { gap:var(--s3); margin-top:auto; }
     .dos-key-strip div { padding:10px 12px; border:0; border-radius:var(--radius-sm); background:var(--paper); }
     .dos-financials, .dos-recent-v2, .dos-priority, .dos-deep { margin-top:var(--s8); padding-top:0; border-top:0; }
     .dos-financial-evidence { margin-top:var(--s4); }
@@ -244,10 +249,17 @@
       .dos-decision-grid, .dos-financial-evidence, .dos-filing-grid { gap:var(--s3); }
       .dos-decision-grid > section, .dos-financial-evidence > section, .dos-filing-grid > section,
       .dos-decision-grid > section + section, .dos-financial-evidence > section + section, .dos-filing-grid > section + section { padding:20px; border:1px solid var(--line); }
+      /* Single column: cards size to their own content again — no stretch distribution. */
+      .dos-decision-grid > section { display:block; }
+      .dos-trends, .dos-decision-copy { flex:initial; }
+      .dos-decision-copy { display:block; justify-content:initial; }
+      .dos-key-strip { margin-top:var(--s4); }
+      .dos-trends { margin-bottom:var(--s4); }
     }
     @media (max-width:520px) {
       .dos-head .title-1 { font-size:28px; }
       .dos-trend-row { grid-template-columns:90px minmax(80px,1fr) 70px; gap:8px; }
+      .dos-mini-bars { height:40px; }
       .dos-bar-line { grid-template-columns:40px minmax(65px,1fr) 70px; gap:7px; }
     }
   </style>
@@ -272,7 +284,7 @@
   </main>
   <script src="assets/app.js?v=20260907-aipaper3"></script>
   <script src="assets/plainviz.js?v=20260824-plainmode1"></script>
-  <script src="assets/dossier.js?v=20260901-beta1"></script>
+  <script src="assets/dossier.js?v=20260908-dostrend1"></script>
   <script>V2.nav('dossier'); V2.footer();</script>
 </body>
 </html>
