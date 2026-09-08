@@ -6427,7 +6427,7 @@ app.post('/api/credits/topup', authMiddleware, async (req, res) => {
             mode: 'payment',
             customer_email: req.user.email,
             line_items: [{ price: price.id, quantity: 1 }],
-            client_reference_id: req.userId,
+            client_reference_id: req.userId.toString(),
             success_url: `${getRequestOrigin(req)}/profile.html?recharge=success#usage-details`,
             cancel_url: `${getRequestOrigin(req)}/recharge.html?recharge=cancelled`,
             custom_text: { submit: { message: `Adds ${CREDIT_TOPUP_CREDITS} credits to this month's wallet. Final-month credits don't roll over.` } },

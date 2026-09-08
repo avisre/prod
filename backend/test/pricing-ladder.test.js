@@ -113,4 +113,11 @@ test('the topup route sells a verified one-time price and nothing else', () => {
   // Grant happens only on the webhook, only when paid, idempotently.
   assert.match(appSource, /payload\.metadata\?\.checkoutType === 'credit_topup'/);
   assert.match(appSource, /credits\.grant\(\s*\n\s*userId,\s*\n\s*Number\(payload\.metadata\?\.credits\) \|\| CREDIT_TOPUP_CREDITS,\s*\n\s*'topup',/);
+  // authMiddleware puts a raw mongoose ObjectId in req.userId; Stripe's SDK
+  // serializes it as client_reference_id[buffer]=<binary> (rejected as an
+  // unknown param -> 500 "Unable to start checkout"), so every client_reference_id
+  // must be stringified first. This shipped defect made recharge impossible for
+  // everyone until 2026-09-08.
+  assert.match(appSource, /client_reference_id: req\.userId\.toString\(\),/);
+  assert.doesNotMatch(appSource, /client_reference_id: req\.userId,/, 'raw ObjectId must not reach Stripe params');
 });
