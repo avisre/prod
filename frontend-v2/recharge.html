@@ -25,13 +25,22 @@
   <main>
     <div class="container" style="max-width:720px;">
 
-      <div class="page-head" style="margin-top:44px;">
+      <div class="page-head" id="recharge-locked" hidden>
+        <h1 class="title-1">Credit refill</h1>
+        <p class="muted" style="margin-top:8px; max-width:54ch;">Log in to recharge your credit wallet.</p>
+        <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+          <a class="btn btn-primary" id="recharge-login-link" href="/login.html?next=%2Frecharge.html">Log in to recharge</a>
+          <a class="btn btn-ghost" href="/upgrade.html">Browse plans</a>
+        </div>
+      </div>
+
+      <div class="page-head" style="margin-top:44px;" id="recharge-head">
         <p class="label">Account</p>
         <h1 class="title-1">Credit refill</h1>
         <p class="muted" style="margin-top:6px;" id="recharge-sub">Your plan's monthly wallet, topped up in one payment.</p>
       </div>
 
-      <div class="card price-card" style="max-width:720px; border-color: var(--ink);">
+      <div class="card price-card" id="recharge-card" style="max-width:720px; border-color: var(--ink);" hidden>
         <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Credit refill</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One payment, no subscription</span></div>
         <div class="price-fig">$14.99<span> one-time</span></div>
         <p class="small muted" style="margin:4px 0 14px;">150 credits land in <strong>this month's wallet</strong> — the same pool your plan draws from.</p>
@@ -60,6 +69,19 @@
       const API = window.V2.API;
       const btn = document.getElementById('recharge-btn');
       const status = document.getElementById('recharge-status');
+      const locked = document.getElementById('recharge-locked');
+      const head = document.getElementById('recharge-head');
+      const card = document.getElementById('recharge-card');
+
+      // Logged out: the marker cookie is missing, so show the gate and touch
+      // nothing else — no probe, no wiring, no live-looking button.
+      if (!window.V2.token()) {
+        locked.hidden = false;
+        head.hidden = true;
+        return;
+      }
+      head.hidden = true;
+      card.hidden = false;
       if (btn.dataset.wired === '1') return;
       btn.dataset.wired = '1';
 
@@ -89,6 +111,14 @@
           });
           const d = await r.json().catch(() => ({}));
           if (r.ok && d.url) { window.location.href = d.url; return; }
+          if (r.status === 401) {
+            // Stale session: the marker cookie said logged-in but the server
+            // rejected the token — send them back through login.
+            status.textContent = 'Your session expired — please log in again.';
+            const link = document.getElementById('recharge-login-link');
+            btn.replaceWith(link);
+            return;
+          }
           status.textContent = d.message || 'Could not start checkout — please try again.';
           btn.disabled = false;
         } catch (_) {
