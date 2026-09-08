@@ -1547,9 +1547,11 @@ function renderComparePage(pairSlug) {
 (function(){
   if(/(^|[?&])sp=2/.test(location.search))return;
   var k='sp2up';try{if(sessionStorage.getItem(k)){sessionStorage.removeItem(k);return;}}catch(e){}
-  var tok=null;try{tok=localStorage.getItem('token');}catch(e){}
-  if(!tok)return;
-  fetch('/api/session',{headers:{Authorization:'Bearer '+tok}}).then(function(r){return r.ok?r.json():null;}).then(function(j){
+  // The app's auth is cookie-based (HttpOnly sp_auth + sp_logged_in marker);
+  // login never stores a localStorage token. Gate on the marker cookie, and
+  // let the same-origin fetch carry sp_auth to /api/session.
+  if(!/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie||''))return;
+  fetch('/api/session').then(function(r){return r.ok?r.json():null;}).then(function(j){
     var t=j&&j.tier;
     if(t==='core'||t==='pro'){try{sessionStorage.setItem(k,'1');}catch(e){}location.replace(location.pathname+'?sp=2');}
   }).catch(function(){});

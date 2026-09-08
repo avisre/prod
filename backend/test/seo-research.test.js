@@ -56,6 +56,12 @@ test('stock comparison pages use the shared authenticated navbar', () => {
     inlineScripts.forEach((source) => assert.doesNotThrow(() => new vm.Script(source)));
     assert.match(page.html, /window\.__spSkipAutoPageView=true/);
     assert.doesNotMatch(page.html, /id="seoNavCta"|<header class="seo-nav"/);
+    // The upgrade probe must gate on the sp_logged_in cookie marker: the app's
+    // auth is cookie-based and login never writes a localStorage token, so a
+    // localStorage hard gate silently upgrades nobody (regression, 9/8). The
+    // verdict sections' tok?{...}:{} fallback form is fine — cookies flow.
+    assert.match(page.html, /sp_logged_in=1/, 'probe gates on the cookie marker');
+    assert.doesNotMatch(page.html, /localStorage\.getItem\('token'\)[\s\S]{0,80}if\(!tok\)return;/);
 
     const competitorPage = competitorComparisons.renderComparison(competitorComparisons.competitors[0]);
     assert.match(competitorPage, /assets\/system\.css\?v=20260907-aipaper3/);
