@@ -110,6 +110,28 @@ function monthlySeries(data) {
         .filter((p) => p.close !== null)
         .sort((a, b) => a.date.localeCompare(b.date));
 }
+// 52-week high/low. The quote summary's 52WeekHigh/52WeekLow is the source of
+// truth, but a handful of cached tickers come back without them (9/8: AMVD,
+// BIOA, ENLT, IAC, IIIV, IINNW, JACS.UN, TTAM) and rendered a bare em-dash.
+// Fall back to the unadjusted monthly bars — real (not adjusted) prices at
+// monthly granularity, requiring all 12 months so a 6-month-old listing never
+// gets a fabricated "52-week" range.
+function fiftyTwoWeekRange(data) {
+    const q = { high: num(data?.overview?.['52WeekHigh']), low: num(data?.overview?.['52WeekLow']) };
+    if (q.high != null && q.low != null) return q;
+    const ts = data?.monthly?.['Monthly Adjusted Time Series'];
+    const pts = ts ? Object.keys(ts).sort((x, y) => x.localeCompare(y)).slice(-12) : [];
+    if (pts.length === 12) {
+        let hi = null; let lo = null;
+        for (const d of pts) {
+            const h = num(ts[d]['2. high']); const l = num(ts[d]['3. low']);
+            if (h !== null && (hi === null || h > hi)) hi = h;
+            if (l !== null && (lo === null || l < lo)) lo = l;
+        }
+        if (hi !== null && lo !== null) return { high: hi, low: lo };
+    }
+    return q;
+}
 // Total return over `years` from the monthly adjusted-close series; null when
 // the series is too short to cover the window.
 function totalReturn(series, years) {
@@ -1246,8 +1268,15 @@ function compareData(pairSlug) {
     // Performance from the monthly adjusted-close series (no new data source).
     const perfA = { r1: totalReturn(monthlySeries(da), 1), r3: totalReturn(monthlySeries(da), 3), r5: totalReturn(monthlySeries(da), 5), r10: totalReturn(monthlySeries(da), 10) };
     const perfB = { r1: totalReturn(monthlySeries(db), 1), r3: totalReturn(monthlySeries(db), 3), r5: totalReturn(monthlySeries(db), 5), r10: totalReturn(monthlySeries(db), 10) };
-    const rangeA = { high: num(da.overview?.['52WeekHigh']), low: num(da.overview?.['52WeekLow']) };
-    const rangeB = { high: num(db.overview?.['52WeekHigh']), low: num(db.overview?.['52WeekLow']) };
+    const rangeA = fiftyTwoWeekRange(da);
+    const rangeB = fiftyTwoWeekRange(db);
+    // First monthly close = a proxy for the listing year. A return window the
+    // series can't cover is a recent listing, not missing data — the cell says
+    // "Listed YYYY" instead of a bare em-dash that reads as broken (owner
+    // report, 9/8: LB's 3/5/10-year cells all dashed because it listed in 2024).
+    const listedYear = (d) => { const s = monthlySeries(d); return s.length ? s[0].date.slice(0, 4) : null; };
+    const listedA = listedYear(da); const listedB = listedYear(db);
+    const fmtRet = (v, listed) => v !== null ? `${v.toFixed(1)}%` : (listed ? `Listed ${listed}` : '—');
 
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
     const shortCompany = (value) => String(value || '').replace(/^The\s+/i, '').replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '').trim();
@@ -1288,10 +1317,10 @@ function compareData(pairSlug) {
     // ---- performance rows (returns from monthly adjusted closes) ----
     const rangeFmt = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}&ndash;$${r.high.toFixed(2)}` : '—';
     const perfRows = [
-        { l: '1-year return', a: fmtP(perfA.r1), b: fmtP(perfB.r1), w: hi(perfA.r1, perfB.r1) },
-        { l: '3-year return', a: fmtP(perfA.r3), b: fmtP(perfB.r3), w: hi(perfA.r3, perfB.r3) },
-        { l: '5-year return', a: fmtP(perfA.r5), b: fmtP(perfB.r5), w: hi(perfA.r5, perfB.r5) },
-        { l: '10-year return', a: fmtP(perfA.r10), b: fmtP(perfB.r10), w: hi(perfA.r10, perfB.r10) },
+        { l: '1-year return', a: fmtRet(perfA.r1, listedA), b: fmtRet(perfB.r1, listedB), w: hi(perfA.r1, perfB.r1) },
+        { l: '3-year return', a: fmtRet(perfA.r3, listedA), b: fmtRet(perfB.r3, listedB), w: hi(perfA.r3, perfB.r3) },
+        { l: '5-year return', a: fmtRet(perfA.r5, listedA), b: fmtRet(perfB.r5, listedB), w: hi(perfA.r5, perfB.r5) },
+        { l: '10-year return', a: fmtRet(perfA.r10, listedA), b: fmtRet(perfB.r10, listedB), w: hi(perfA.r10, perfB.r10) },
         { l: '52-week range', a: rangeFmt(rangeA), b: rangeFmt(rangeB), w: -1 }
     ];
     const perfTrs = perfRows.map((r) =>
@@ -1497,7 +1526,7 @@ function compareData(pairSlug) {
 
     return {
         a, b, ma, mb, da, db, inca, incb, inca1, incb1, bala, balb, casha, cashb,
-        perfA, perfB, rangeA, rangeB, rangeFmt, fmtB, fmtP, peFmt, yesNo,
+        perfA, perfB, rangeA, rangeB, listedA, listedB, fmtRet, rangeFmt, fmtB, fmtP, peFmt, yesNo,
         hi, loPos, boolWin, winCell, canonical, title, description, jsonld,
         faqs, faqHtml, verdictHtml, rfa, rfb, relatedHtml, swapHtml, screensHtml, pair, verdictAi,
         trs, perfHtml
@@ -1572,7 +1601,7 @@ function renderComparePagePro(pairSlug) {
     const d = compareData(pairSlug);
     if (!d || d.redirect) return d;
     const { a, b, ma, mb, da, db, inca, inca1, incb, incb1, bala, balb, casha, cashb,
-        perfA, perfB, rangeA, rangeB, fmtB, fmtP, peFmt, yesNo, hi, loPos, boolWin, winCell,
+        perfA, perfB, rangeA, rangeB, listedA, listedB, fmtRet, fmtB, fmtP, peFmt, yesNo, hi, loPos, boolWin, winCell,
         canonical, title, description, jsonld, faqs, verdictHtml, rfa, rfb, relatedHtml, swapHtml, screensHtml, pair } = d;
 
     const xFmt = (v) => (v === null || v === undefined) ? '—' : `${v.toFixed(2)}×`;
@@ -1679,10 +1708,10 @@ function renderComparePagePro(pairSlug) {
         { l: 'Dividend yield', a: sa.dy.f, b: sb.dy.f, w: wA('dy') },
         { l: 'Payout ratio', a: sa.payout.f, b: sb.payout.f, w: -1 },
         { g: 'Performance' },
-        { l: '1-year return', a: fmtP(perfA.r1), b: fmtP(perfB.r1), w: hi(perfA.r1, perfB.r1) },
-        { l: '3-year return', a: fmtP(perfA.r3), b: fmtP(perfB.r3), w: hi(perfA.r3, perfB.r3) },
-        { l: '5-year return', a: fmtP(perfA.r5), b: fmtP(perfB.r5), w: hi(perfA.r5, perfB.r5) },
-        { l: '10-year return', a: fmtP(perfA.r10), b: fmtP(perfB.r10), w: hi(perfA.r10, perfB.r10) },
+        { l: '1-year return', a: fmtRet(perfA.r1, listedA), b: fmtRet(perfB.r1, listedB), w: hi(perfA.r1, perfB.r1) },
+        { l: '3-year return', a: fmtRet(perfA.r3, listedA), b: fmtRet(perfB.r3, listedB), w: hi(perfA.r3, perfB.r3) },
+        { l: '5-year return', a: fmtRet(perfA.r5, listedA), b: fmtRet(perfB.r5, listedB), w: hi(perfA.r5, perfB.r5) },
+        { l: '10-year return', a: fmtRet(perfA.r10, listedA), b: fmtRet(perfB.r10, listedB), w: hi(perfA.r10, perfB.r10) },
         { l: '52-week range', a: rangeFmtP(rangeA), b: rangeFmtP(rangeB), w: -1 }
     ];
     // Collapsible groups: one tbody per group; the first ("Size and latest FY")
@@ -2333,6 +2362,6 @@ module.exports = {
     pilotEnabled, organicRequest, pilotEligibility, pilotAction,
     renderSharesResearch, renderPeResearch, renderDilutionScorecard,
     renderRead10KGuide, renderCompareGuide, renderFreeCashFlowGuide, renderFindUndervaluedGuide,
-    monthlySeries, totalReturn, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
+    monthlySeries, totalReturn, fiftyTwoWeekRange, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
     renderPriceHistoryPage
 };

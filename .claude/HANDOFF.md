@@ -1,5 +1,228 @@
 # Handoff
 
+## Compare pages: "Listed YYYY" cells + 52-week fallback — 9/8 ship
+
+Owner report ("free version shows em-dash in the performance area", LB-vs-MUR):
+LB listed 2024, so its 3/5/10-year return cells rendered bare `—` — honest but
+reads as broken. `seo-extra.js`:
+- `compareData` now computes `listedA/listedB` (first monthly-close year) and
+  `fmtRet()`; uncovered return windows render `Listed 2024` instead of `—`, on
+  BOTH the free and pro pages (shared via the return object + pro destructure).
+- New `fiftyTwoWeekRange(data)`: quote `52WeekHigh/Low` wins; when missing,
+  fall back to the last 12 unadjusted monthly bars' `2. high`/`3. low` (real
+  prices, monthly granularity, <12 months = no fabricated range). Belt-and-
+  suspenders: a 9/8 census via the app's own `loadFundamentals` found ZERO
+  renderable (screen-index) tickers missing the quote — an earlier "2,023
+  missing" count was my own filename-mapping artifact (`symbolToFile` maps
+  `[^A-Z0-9]`→`_`, not dot→underscore). Dead tickers already 302 at
+  `metricsFor`, so no route guard was needed.
+- Pinned in `seo-research.test.js`: "Listed YYYY" test (3 pins free + 3 pro)
+  and `fiftyTwoWeekRange` unit test (quote wins / monthly fallback / <12mo
+  nulls). Suite: seo-research 25/25, then full suite.
+
+## Dossier Analyst cards: true-scale bars + dead-space kill — DEPLOYED (9/8)
+
+Owner reported (Agilent dossier, Analyst mode): flat/compressed bars in
+"Visual evidence" + dead space in both decision-grid cards. Fix is
+frontend-only, dossier page only:
+
+- `frontend-v2/assets/dossier.js` — `miniBars()` floor 8→3 (true scale);
+  new `trendChangeLine()` (first→latest: `+N.N pts` for pct metrics,
+  `×N.N total`/`±N% total` for dollars, '' when endpoints missing);
+  `decisionTrends()` renders a `2019→2026 · <change>` sub-line under each
+  row label. Rows: Revenue / opMarginPct / fcf / roicPct.
+- `frontend-v2/dossier.html` — v3 CSS block: grid sections are flex
+  columns; `.dos-trends { flex:1; align-content:space-evenly }`; rows
+  `126px minmax(110px,1fr) 86px`, 56px `.dos-mini-bars`;
+  `.dos-decision-copy { flex:1; justify-content:space-evenly }`;
+  `.dos-key-strip { margin-top:auto }` (tiles bottom-anchored). ≤820px
+  stacks naturally; ≤520px bars 40px. Stamp →
+  `assets/dossier.js?v=20260908-dostrend1` (dossier.html only; the shared
+  `20260907-aipaper3` app.js/system.css stamp is pinned by
+  profile-consolidation and untouched).
+- Verified via `/tmp/dosstub/server.js` stub (port 5077, serves
+  frontend-v2 + Agilent fixture + injects `sp_dossier_mode_v1=analyst`):
+  desktop 1440px + mobile 400px screenshots, DOM has 4 dos-trend-rows with
+  change sub-lines and no empty-state string. NOTE: the API's `fy` values
+  are 4-digit year strings (`fiscalDateEnding.slice(0,4)`,
+  dossier-analysis.js:196) — a `FY19`-style fixture makes
+  `financialReadings` print "NaN% a year" (`Number('FY19')` is NaN);
+  fixture must use `2019` etc. 400px headless window clips the page edge
+  page-wide (nav included) — pre-existing headless quirk, not from this
+  change. Deployed 9/8: commit 8cafb07 via the flip-public → push → workflow
+  success → flip-private ritual; live HTML serves ?v=20260908-dostrend1 and the
+  bundle contains trendChangeLine. No tests pin dossier.js.
+
+## Compare pro page: collapsible metric groups — DEPLOYED (9/8, commit `2d197d3b`)
+
+Follow-up to the probe fix below. `renderComparePagePro` now renders one
+`<tbody class="cmp-sec">` per group (7 groups; first "Size and latest FY"
+fully open, the rest collapsed with ONE teaser row visible — `cmp-prev` —
+and the remaining rows hidden). Group rows are click/Enter toggles
+(`role=button`, `aria-expanded`); chevron `▾/▸` and an "N metrics" count
+badge in the header. Also fixed the free-page probe's one-shot flag: the
+`sp2up` sessionStorage flag is now consumed on the `?sp=2` load itself
+(before: the visit right after an upgrade silently did nothing — likely
+part of "Firefox still shows the old page"). Pins in `seo-research.test.js`
+(cmp-sec cmp-open, exactly 7 groups, exactly 6 cmp-prev teaser rows).
+Shipped per the standing sequence (deploy 34179227473 green, repo back
+private); live free page verified (probe present, no pro leakage). Owner
+click test pending: logged-in core/pro visit to any /compare page should
+auto-upgrade and show the collapsible layout.
+
+## Compare paid-upgrade probe fixed (cookie gate) — DEPLOYED (9/8, commit `6db2adfd`)
+
+The 9/8 compare-split ship (`9a067766`) never upgraded anyone: the in-page
+probe gated on `localStorage.getItem('token')`, but auth is 100% cookie-based
+(`sp_auth` HttpOnly + `sp_logged_in=1` marker; login never writes localStorage)
+→ probe exited early for every real user. Owner confirmed: logged in on prod,
+still the free page. Fix in `backend/seo-extra.js` (free-page probe): gate on
+the `sp_logged_in=1` cookie marker regex (same one V2.token uses), plain
+`fetch('/api/session')` with no Authorization header — same-origin fetch
+carries `sp_auth`, which authTokenFromRequest accepts. The verdict sections'
+`tok?{headers}:{}` fallback was already correct. Regression pin added in
+`seo-research.test.js` (probe must match `sp_logged_in=1`; the localStorage
+hard-gate `…getItem('token')…if(!tok)return;` sequence is banned). Shipped
+per the standing sequence (deploy 34177438338 green, repo back private);
+live free page verified: probe gate present, no pro-design leakage
+(`AI VERDICT`/`cmp-grp` absent). NOTE: the local working tree's
+`backend/seo-extra.js` is MISSING commit `bcc62b01`'s discovered-compares
+block (removed the local file wholesale from the clone would have reverted
+it) — the fix was applied onto the clone's file instead; the local tree is
+behind the repo for seo-extra.js. Owner: a logged-in core/pro visit to any
+`/compare/...` now auto-upgrades; `?sp=2` stays as the manual path; if that
+still shows the free page, the account tier isn't core/pro — check
+`/api/session` `"tier"`.
+
+## Credit recharge — phase 2: Stripe serialization bug (the real one) — DEPLOYED & OWNER-CONFIRMED (9/8, commit `d5de8475`)
+
+Phase 1 (auth gate, `6334cdb6`) got the owner's click past 401 — and surfaced the
+actual defect: 500 "Unable to start checkout right now." on every logged-in
+click. Root cause: authMiddleware sets `req.userId = user._id` (raw mongoose
+ObjectId, app.js:4733); the topup route was the ONLY checkout call site passing
+it raw to Stripe (`client_reference_id: req.userId`, app.js:6430). Proven by
+localhost interception (no Stripe contact): stripe-node SDK serializes a
+non-string object param by walking its properties → request body carried
+`client_reference_id[buffer]=<binary>` → Stripe rejects the unknown bracketed
+param → create throws → 500. This is why ZERO `credit_topup` sessions were ever
+creatable. All other call sites already used `user._id.toString()`.
+
+- Fix: `client_reference_id: req.userId.toString()` (one line, backend/app.js).
+- Pins: pricing-ladder bans the raw form; NEW hermetic
+  `backend/test/stripe-param-encoding.test.js` intercepts the SDK's actual
+  request encoding on localhost (http server + `{host,port,protocol}` client
+  config, zero Stripe contact) — asserts plain string encoding, reproduces the
+  bracketed `[buffer]` bug as the control case. Suite 540/541 (social-compose
+  pre-existing).
+- Shipped `d5de8475` (fast-forwarded the owner's sitemap commit `bcc62b01`),
+  deploy run 34176378243 green, repo private again.
+- **Owner live-tested: checkout opens — recharge fixed end-to-end.** Remaining
+  unobserved hop: if they paid, the webhook +150 grant (idempotent) should show
+  as "Recharge — credits added" in profile → Usage.
+
+## Bing recs: IndexNow key hosted + sitemap picks up externally-discovered compare pairs — DEPLOYED (9/8, commit bcc62b01)
+
+Bing recs 105/106 shared one root cause: `/compare/*` renders ANY pair live but
+the sitemap only emitted algorithmic pairs (sector-adjacency + POPULAR). Fix in
+an isolated worktree off origin/main (uncommitted owner work untouched):
+
+- `seo-extra.js`: `noteDiscoveredCompare(a,b)` — records pairs that actually
+  render with metrics on both sides to `backend/discovered-compares.json`
+  (deduped, bounded 1000, 5s write-behind; same snapshot contract as
+  indexable-shares/filing-diff-symbols). Fired from free `renderComparePage`.
+- `seo-pages.js`: `buildSitemapInventory()` merges that snapshot into the
+  comparisons shards (deduped vs `comparePairs()`, tickerMtime lastmod).
+- `frontend-v2/1668f45a03ea53cf94c51b61c43163d4.txt`: IndexNow key file.
+
+Verified live: key file 200; PANW-vs-SNDK 200 + recorded on first post-deploy
+render; URL submitted via BWT API (quota 99/day left); sitemap resubmitted via
+BWT API (GetFeeds Success, 25,831 URLs); IndexNow POST → 202. Pair lands in the
+live sitemap within the 30-min inventory TTL after a render. Recs clear on
+Bing's next scan. Recs 107 (noindex /login+/news — intentional) and 108
+(backlinks) left alone. BWT API key inline/temp only (never stored in repo).
+
+## Credit recharge fixed (auth gate + expired-session recovery) — DEPLOYED (9/8, commit 6334cdb6)
+
+Diagnosis first (all read-only): Stripe has **zero** `credit_topup` sessions ever
+created and Atlas **zero** `topup` ledger rows — recharge never worked. The only
+logged attempt (owner 9/7 19:11Z) was `POST /api/credits/topup` → **401**. Server
+side always fine (price active $14.99, env set, route + idempotent webhook
+sound). The defect was recharge.html having no logged-out state and no 401
+recovery — a dead button showing the raw API error.
+
+- Fix (frontend-only, `frontend-v2/recharge.html`, mirror of profile.html's
+  `#locked`): `#recharge-locked` gate shown when `!window.V2.token()` (price
+  card stays hidden, nothing wired); on 401 from the topup call → "Your session
+  expired — please log in again." + button swaps to `/login.html?next=%2Frecharge.html`.
+- Pins in `pricing-ladder.test.js` (`recharge.html gates on auth…`). No stamp
+  bump — recharge.html references shared assets only, isn't a stamped asset.
+- Local-verified via headless CDP against a static serve: logged-out shows the
+  gate; logged-in shows the card + wired button; stubbed-401 click shows the
+  recovery message and the login link. Suite 539/540 (social-compose pre-existing).
+- Shipped: clone → commit `6334cdb6` → public → push (one transient 403 on
+  push, retry worked) → deploy run 34175621999 green → private again. Live
+  markup verified via curl.
+- **Owner's one live test remains** (live Stripe writes are hard-blocked): while
+  logged in, click "Recharge 150 credits — $14.99" — Stripe checkout opening
+  proves the fix; paying also proves the webhook grant (+150, reason
+  "Recharge — credits added").
+
+## AI Paper beta: live research feed + pause & edit + owner steering — DEPLOYED (9/7, commit 618ada51)
+
+Stamp now `20260907-aipaper3` (45 files). 537 tests, 536 pass (social-compose =
+missing selenium-webdriver, pre-existing). ai-paper suites: 33/33.
+
+- **Live feed**: every tool call/result is emitted and persisted as a capped
+  (120) `buildLog: String[]` on the doc (`logStamp` mm:ss UTC lines, mind label
+  baked into research lines at the emit layer). Chat-SSE `ai_paper` frames stay
+  instant; ask.html + dashboard poll /detail (2.5s) and append new lines by
+  index (dedupe counters `paperFeedSeen` / `aiPaperFeedSeen`).
+- **Pause**: `activeBuilds` registry + `assertLive()` checks at every round top,
+  between tool calls, and every create() stage boundary → `PauseError` →
+  `pauseBuild` sets status `'paused'` (keeps `setup {guruId, constraints}` +
+  feed; NOT a failure). `POST /stop` → `stopBuild` (registry flag; falls back to
+  pausing a building doc after a restart). Resume = `ai_portfolio_setup` with
+  the FULL edited setup; constraints (≤5 × ≤140 chars) injected into BOTH minds
+  as "OWNER'S HARD REQUIREMENTS".
+- **Steering** `applySteering(userId, action, params)`: only committed/tracking,
+  zero AI; `rules` (≤5 × ≤160 → `steeringRules` + injected into nightly review
+  prompt), `allocate` (guruPct/aiPct % of TOTAL, fixWeights, official closes,
+  weighted-avg basis on the growing slot), `override` (same dollars at new
+  close). Each success logs a decision type `'steering'`, persona `'owner'`.
+- **REAL BUG fixed**: spreading a mongoose subdoc (`{...pos}`) into `$set`
+  copies `$__`/`_doc` internals → cast wrote STALE positions (allocate looked
+  successful but doc kept originals + new cash = inconsistent). Fixed with
+  `plainPos(p)` = `p.toObject()` in both steering writers. Positions still
+  written by exactly two paths (construction commit + steering) — pinned.
+- Shipped 9/7: 49 files, commit `618ada51`, Render deploy green, repo private
+  again; live stamp `20260907-aipaper3` verified on /ask, /stop 401-gated.
+  Owner-tested against the local in-memory server (rin seeded, pw 'devlocal').
+  Also: HANDOFF.md is 730 lines vs the 160-line guideline — trim next session.
+
+## Credit meter rewritten on profile → Usage — LOCAL, NOT DEPLOYED (9/7)
+
+Stamp `20260907-creditmeter1` (44 files + profile.js). 504 tests, 503 pass
+(`social-compose` = missing `selenium-webdriver`, pre-existing).
+
+Three shipped defects, all visible in one seeded month (screenshots taken via
+`scripts/dev-local.js`-style in-memory boot; harness in the session scratchpad):
+
+1. **A recharge rendered as `Credit use −0 credits`.** `topup` rows are positive
+   deltas; `activityLabel` had no case for them and the row renderer clamped
+   with `Math.max(0, -delta)`. A $14.99 purchase had no receipt anywhere.
+2. **The per-feature split vanished above the activity cap.** It was summed
+   client-side from the 12–20 capped `recent` rows and hidden when they fell
+   short of `used()`. Now `credits.monthBreakdown()` — one uncapped aggregate —
+   so the split always adds up; `creditSplit()` stays as the legacy fallback.
+3. **`dossier-compare` was in no bucket.** It counted toward the covered≥used
+   check but no feature row, silently under-reporting Dossier spend, and showed
+   in the ledger as an unexplained "Credit use".
+
+Also: `balance()` now returns `plan`/`purchased` (wallet composition was
+invisible), Deep Dossier (30) reached the price list, `/api/credits` takes
+`activityLimit` (clamped 1–200) for "show the whole month", and the panel leads
+with remaining + a running-balance ledger + a pace line.
+
 ## Expense ratios now come from the filed prospectus — LOCAL, NOT DEPLOYED (9/7)
 
 Follow-on to the holdings work below; owner called expense ratio one of the most

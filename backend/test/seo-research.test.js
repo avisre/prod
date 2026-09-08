@@ -150,6 +150,32 @@ test('totalReturn computes split/dividend-adjusted returns and degrades on short
     assert.equal(extra.totalReturn(null, 1), null, 'null series returns null');
 });
 
+test('return windows a young listing cannot cover say "Listed YYYY", never a bare dash', () => {
+    // LB listed in 2024: its 3/5/10-year cells must explain themselves instead
+    // of reading as missing data (owner report, 9/8). MUR's real returns stay.
+    const free = extra.renderComparePage('LB-vs-MUR');
+    assert.ok((free.html.match(/Listed 2024/g) || []).length === 3, 'free page explains all three uncovered windows');
+    assert.match(free.html, /3-year return<\/td><td[^>]*>Listed 2024<\/td>/);
+    assert.match(free.html, /10-year return<\/td><td[^>]*>Listed 2024<\/td><td[^>]*>80\.0%/);
+    const pro = extra.renderComparePagePro('LB-vs-MUR');
+    assert.ok((pro.html.match(/Listed 2024/g) || []).length === 3, 'pro page explains all three uncovered windows');
+});
+
+test('fiftyTwoWeekRange prefers the quote and falls back to unadjusted monthly bars', () => {
+    // Quote present: it wins outright.
+    assert.deepEqual(extra.fiftyTwoWeekRange({ overview: { '52WeekHigh': 99, '52WeekLow': 50 } }), { high: 99, low: 50 });
+    // Quote missing: the last 12 monthly bars' real (unadjusted) high/low.
+    const bars = Object.fromEntries(Array.from({ length: 14 }, (_, i) => {
+        const y = 2025 - (13 - i);
+        return [`${y}-01-01`, { '2. high': 10 + i, '3. low': 5 + i, '5. adjusted close': String(8 + i) }];
+    }));
+    const fb = extra.fiftyTwoWeekRange({ overview: {}, monthly: { 'Monthly Adjusted Time Series': bars } });
+    assert.deepEqual(fb, { high: 23, low: 7 }, '12-month high/low from the raw bars, not adjusted closes');
+    // Fewer than 12 months: no fabricated range — the nulls stand.
+    const short = extra.fiftyTwoWeekRange({ overview: {}, monthly: { 'Monthly Adjusted Time Series': { '2026-01-01': { '2. high': 10, '3. low': 5 } } } });
+    assert.deepEqual(short, { high: null, low: null });
+});
+
 test('comparison pages include a performance section with real returns', () => {
     const page = extra.renderComparePage('AAPL-vs-MSFT');
     assert.ok(page && page.html);
