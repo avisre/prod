@@ -1054,18 +1054,47 @@ function renderApiLanding() {
         offers: { '@type': 'Offer', price: '19.99', priceCurrency: 'USD', description: 'Dev plan — 200 API/MCP credits per month' }
     });
     const S = (h, body) => `<div class="seo-section"><h2>${h}</h2><div class="seo-about">${body}</div></div>`;
-    // The MCP config block. `stockportfolio-mcp` is the published npm package
-    // (mcp-server/) — the same name the registry listings carry, so a developer
-    // who arrives from any direction sees one install command.
+    // Two MCP configs, because the two clients need different things and a
+    // snippet that does not work is worse than no snippet — the reader blames
+    // the product. Both point at the hosted /mcp endpoint, which is what the
+    // key actually pays for and needs no install.
+    //
+    // The npm package (mcp-server/, name `stockportfolio-mcp`) is built and
+    // publish-ready but NOT on the registry, so it is deliberately absent here:
+    // for months this page handed every visitor `npx -y stockportfolio-mcp`,
+    // which 404s. mcp-server/README.md keeps its npx line — that file ships
+    // inside the package, so it is true the moment it is published. Re-add a
+    // one-line install path here then, not before.
+    //
+    // `url` + `headers` is the native hosted shape; Cursor and every other
+    // client that reads a `url` infers Streamable HTTP from it.
     const mcpConfig = `{
   "mcpServers": {
     "stockportfolio": {
-      "command": "npx",
-      "args": ["-y", "stockportfolio-mcp"],
-      "env": { "STOCKPORTFOLIO_API_KEY": "your-key-here" }
+      "url": "https://www.stockportfolio.pro/mcp",
+      "headers": { "Authorization": "Bearer your-key-here" }
     }
   }
 }`;
+    // Claude Desktop reads claude_desktop_config.json as stdio only — a `url`
+    // entry is dropped silently, and takes its neighbours with it — so it goes
+    // through the published `mcp-remote` bridge. Two details are load-bearing:
+    // mcp-remote expands ${VAR} from the environment (the `env` block supplies
+    // it), and the header carries no space in `args`, because Windows clients
+    // do not escape spaces inside args and a `"Authorization: Bearer x"` value
+    // arrives split in two. The whole value rides in the variable instead.
+    const desktopConfig = `{
+  "mcpServers": {
+    "stockportfolio": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://www.stockportfolio.pro/mcp", "--header", "Authorization:\${STOCKPORTFOLIO_API_KEY}"],
+      "env": { "STOCKPORTFOLIO_API_KEY": "Bearer your-key-here" }
+    }
+  }
+}`;
+    const claudeCodeCmd = `claude mcp add --transport http stockportfolio \\
+  https://www.stockportfolio.pro/mcp \\
+  --header "Authorization: Bearer sp_live_..."`;
     const curlExample = `curl -H "X-Api-Key: sp_live_..." \\
   "https://www.stockportfolio.pro/api/v1/financials/NVDA?tool=earnings-quality"`;
     const jsonExample = `{
@@ -1125,9 +1154,13 @@ function renderApiLanding() {
   </table>
   <p style="margin-top:12px">The MCP surface is deliberately the cheaper on-ramp — the REST API costs exactly 2&times; MCP. Rate limit: 60 requests/minute per key. <code>sp_health</code> is a free liveness probe, safe to call before anything else.</p>`)}
 
-  ${S('Add it to Claude Desktop or Cursor', `<p>Publish once, use everywhere: the MCP server is a single command, and the key is the only configuration.</p>
+  ${S('Point your client at the hosted server', `<p>The server is hosted, so there is nothing to install: your key is the only configuration. Cursor and any other client that takes a <code>url</code>:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(mcpConfig)}</pre>
-    <p>Drop that into your client's MCP config file and the seven tools appear in the tool list. See the <a href="/licensing#mcp-api">licensing page</a> for the full tool reference.</p>`)}
+    <p>Claude Desktop's config is stdio-only, so it goes through the <code>mcp-remote</code> bridge — the key sits in <code>env</code> and is expanded into the header:</p>
+    <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(desktopConfig)}</pre>
+    <p>Claude Code takes one command:</p>
+    <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(claudeCodeCmd)}</pre>
+    <p>Either way the seven tools appear in the tool list, served from <code>https://www.stockportfolio.pro/mcp</code> — note the <code>www</code>, since the apex redirect drops the <code>Authorization</code> header. See the <a href="/licensing#mcp-api">licensing page</a> for the full tool reference.</p>`)}
 
   ${S('Free embeds, no key', `<p>Not ready for an API key? Two of these widgets drop onto any site as a single <code>&lt;iframe&gt;</code> — a filing-grounded earnings-quality card and an SEC filing timeline, rendered server-side, no JavaScript and no key. They are free to embed and carry a link back to the full filing trail.</p>
     <p><a href="/tools/earnings-quality#embed">Get the embed snippet &rarr;</a></p>`)}

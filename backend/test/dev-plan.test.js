@@ -262,7 +262,14 @@ test('the API landing page renders, prices the Dev plan, and carries the real ex
     // not the raw one, or this assertion passes on a page that renders broken.
     assert.match(html, /&quot;mcpServers&quot;/, 'includes the MCP client config snippet');
     assert.match(html, /&quot;STOCKPORTFOLIO_API_KEY&quot;/, 'shows where the key goes');
-    assert.match(html, /stockportfolio-mcp/, 'names the npm package');
+    // The configs must point at the HOSTED endpoint. The page spent months
+    // handing out `npx -y stockportfolio-mcp`, which 404s on the registry —
+    // and a snippet that does not work costs more than the conversion it was
+    // meant to win. This assertion is deliberately inverted; flip it back to
+    // matching /stockportfolio-mcp/ only once the package is actually published.
+    assert.match(html, /https:\/\/www\.stockportfolio\.pro\/mcp/, 'configs point at the hosted /mcp endpoint');
+    assert.ok(!/stockportfolio-mcp/.test(html), 'does not advertise the unpublished npm package');
+    assert.match(html, /mcp-remote/, 'gives Claude Desktop the stdio bridge it needs');
     // The metering table must match credits.js COST. It silently kept the
     // pre-reprice ask prices (2/4) after the 2x-frontier change, on the one page
     // whose whole job is telling a developer what a call costs — so pin it.

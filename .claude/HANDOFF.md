@@ -77,12 +77,19 @@ When the workflow's trigger 404s, the code may still have shipped — **check th
 live site, not the run's conclusion.** Owner fix: reconnect the repo in Render
 (service `srv-d4kc6schg0os73al6t10`, Settings → Build & Deploy → Repository).
 
-**The live `/api` page currently points at an npm package that does not exist.**
-It hands visitors `"command": "npx", "args": ["-y", "stockportfolio-mcp"]` and
-promises the seven tools appear — `registry.npmjs.org/stockportfolio-mcp` is
-**404**. `npm publish --dry-run` is clean (3 files, prepack = build + leak gate,
-name still free), so this is one `npm login` + `npm publish` away from being
-true. Until then the highest-traffic page promises a broken command.
+**FIXED (9/12): the `/api` page pointed at an npm package that does not exist.**
+It handed visitors `"command": "npx", "args": ["-y", "stockportfolio-mcp"]` and
+promised the seven tools appear — `registry.npmjs.org/stockportfolio-mcp` is
+**404**. Root finding: the npm package was never the gate. The hosted
+`POST /mcp` is reachable from every major client with no install at all, so
+`renderApiLanding` now ships three keyless-install configs instead — Cursor's
+native `url` + `headers`, Claude Desktop via the `mcp-remote` bridge (its
+config is stdio-only; a `url` entry is silently dropped and takes its
+neighbours with it), and the one-line `claude mcp add --transport http` for
+Claude Code. `stockportfolio-mcp` is gone from the live page until published;
+`mcp-server/README.md` keeps its npx line, which is true once the package
+ships. `dev-plan.test.js` pins the hosted URL and asserts the npm name is
+**absent** — flip that one assertion back after `npm publish`.
 
 **Still unproven: the purchase path.** No public endpoint exposes the resolved
 price, `POST /api/checkout` is behind `authMiddleware` (401 before price
