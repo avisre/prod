@@ -38,7 +38,30 @@ const DossierBuildLock = dossierBuildLock.createModel(mongoose);
 const DOSSIER_BUILD_LEASE_MS = 15 * 60 * 1000;
 const DOSSIER_BUILD_WAIT_MS = 6 * 60 * 1000;
 
+// A build publishes a "partial" dossier (every data section, narrative empty)
+// the moment gathering finishes, then overwrites it with the full payload when
+// the writing round completes. Fresh partials are served to polls so users see
+// the data sections ~20s in instead of ~90s+; but if the builder dies between
+// the two writes, a partial left older than this is abandoned — reads treat it
+// as a miss so the next non-poll request rebuilds from scratch.
+const DOSSIER_PARTIAL_STALE_MS = 10 * 60 * 1000;
+
 function sleep(ms) { return new Promise((resolve) => setTimeout(resolve, ms)); }
+
+// Upsert the dossier doc. Used twice per build: once for the published partial
+// and once for the finished payload that overwrites it.
+async function writeDossierDoc(col, sym, fyEnd, depth, payload) {
+    // Filter shape mirrors cachedDossier's read exactly. Deep must match
+    // ONLY an explicit deep doc (else it would overwrite the Standard
+    // one at the same {symbol, fyEnd}); Standard must match ANY non-deep
+    // doc, including one cached before this field existed — otherwise a
+    // force-refresh of a legacy dossier would fail to match and insert
+    // an orphaned duplicate instead of updating it in place.
+    const filter = depth === 'deep'
+        ? { symbol: sym, fyEnd, depth: 'deep' }
+        : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
+    await col.updateOne(filter, { $set: { symbol: sym, fyEnd, depth, payload, at: new Date() } }, { upsert: true });
+}
 
 // depth is not a schema-version bump: an existing Standard dossier is not
 // wrong, it is just missing this field. So a Standard request matches any
@@ -51,7 +74,12 @@ async function cachedDossier(col, sym, fyEnd, depth = 'standard') {
         ? { symbol: sym, fyEnd, depth: 'deep' }
         : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
     const hit = await col.findOne(query, { projection: { _id: 0 } });
-    return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION
+    // Partials are excluded here deliberately: this read is what the lease
+    // re-checks and the build-time cache checks use, and treating a draft as
+    // done would (a) return a narrative-less dossier as final to a concurrent
+    // requester who then stops polling, and (b) skip the spend that funds the
+    // build still in flight. Only peekDossier serves partials.
+    return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION && !hit.payload.partial
         ? { ...hit.payload, cached: true }
         : null;
 }
@@ -344,15 +372,12 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         digest += '\n\nYear-over-year changes (from the last 3 filed 10-Ks):\n' +
             yearOverYear.map((s) => `${s.heading}: ${s.points.join(' ')}`).join('\n');
     }
-    onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
-    const [summary, bb, risks, edge] = await Promise.all([
-        execSummary(digest), bullBear(digest), riskSection(digest), edgeSection(forensic)
-    ]);
-    const [summaryPlain, bbPlain, risksPlain, edgePlain] = await Promise.all([
-        plainSummary(summary), plainBullBear(bb ? bb.bull : [], bb ? bb.bear : []), plainJsonArray(risks || []), plainJsonArray(edge || [])
-    ]);
-
     const mc = num(overview.MarketCapitalization);
+    // Publish the payload with the narrative sections still empty: the poll
+    // route serves this partial the moment it lands, so users watch the data
+    // sections fill in at ~20s instead of waiting blind for the whole build.
+    // The writing round then merges the narrative in over these draft values
+    // and the same doc is overwritten with the finished payload.
     const payload = {
         schemaVersion: DOSSIER_SCHEMA_VERSION,
         symbol: sym,
@@ -372,8 +397,9 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
             dividendYield: overview.DividendYield || null,
             description: String(overview.Description || '').slice(0, 600)
         },
-        executiveSummary: summary,
-        executiveSummaryPlain: summaryPlain,
+        executiveSummary: null,
+        executiveSummaryPlain: null,
+        partial: true,
         keyFigures: pack ? pack.lines : null,
         industry: industryData || null,
         segments: segs ? { fiscalYear: segs.fiscalYear, items: segs.segments, note: segs.note || null } : null,
@@ -398,14 +424,14 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         esg: esg || null,
         financials,
         analystRead: insightItems,
-        edge: edge || [],
-        edgePlain: edgePlain || [],
-        bull: bb ? bb.bull : [],
-        bear: bb ? bb.bear : [],
-        bullPlain: bbPlain ? bbPlain.bull : [],
-        bearPlain: bbPlain ? bbPlain.bear : [],
-        risks: risks || [],
-        risksPlain: risksPlain || [],
+        edge: [],
+        edgePlain: [],
+        bull: [],
+        bear: [],
+        bullPlain: [],
+        bearPlain: [],
+        risks: [],
+        risksPlain: [],
         competitive: peers,
         forensicSignals: forensic,
         healthChecks: checks.map((c) => ({ label: c.label, pass: !!c.pass, detail: c.detail || '' })),
@@ -434,16 +460,33 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     };
 
         try {
-            // Filter shape mirrors cachedDossier's read exactly. Deep must match
-            // ONLY an explicit deep doc (else it would overwrite the Standard
-            // one at the same {symbol, fyEnd}); Standard must match ANY non-deep
-            // doc, including one cached before this field existed — otherwise a
-            // force-refresh of a legacy dossier would fail to match and insert
-            // an orphaned duplicate instead of updating it in place.
-            const filter = depth === 'deep'
-                ? { symbol: sym, fyEnd, depth: 'deep' }
-                : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
-            await col.updateOne(filter, { $set: { symbol: sym, fyEnd, depth, payload, at: new Date() } }, { upsert: true });
+            await writeDossierDoc(col, sym, fyEnd, depth, payload);
+        } catch (_) { /* cache best-effort */ }
+
+        onStage('writing'); // executive summary + bull/bear + risk + edge synthesis
+        const [summary, bb, risks, edge] = await Promise.all([
+            execSummary(digest), bullBear(digest), riskSection(digest), edgeSection(forensic)
+        ]);
+        const [summaryPlain, bbPlain, risksPlain, edgePlain] = await Promise.all([
+            plainSummary(summary), plainBullBear(bb ? bb.bull : [], bb ? bb.bear : []), plainJsonArray(risks || []), plainJsonArray(edge || [])
+        ]);
+
+        delete payload.partial;
+        Object.assign(payload, {
+            executiveSummary: summary,
+            executiveSummaryPlain: summaryPlain,
+            edge: edge || [],
+            edgePlain: edgePlain || [],
+            bull: bb ? bb.bull : [],
+            bear: bb ? bb.bear : [],
+            bullPlain: bbPlain ? bbPlain.bull : [],
+            bearPlain: bbPlain ? bbPlain.bear : [],
+            risks: risks || [],
+            risksPlain: risksPlain || []
+        });
+
+        try {
+            await writeDossierDoc(col, sym, fyEnd, depth, payload);
         } catch (_) { /* cache best-effort */ }
         return payload;
     } finally {
@@ -456,6 +499,10 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
 }
 
 // Build-free cache peek for the decoupled poll path.
+// The poll/pre-cache read. Unlike cachedDossier, a FRESH partial is a valid
+// hit: it carries every data section and a `partial: true` marker the frontend
+// uses to keep polling for the narrative. A stale one (builder died mid-write)
+// is a miss, so a non-poll request falls through and rebuilds.
 async function peekDossier(symbol, depth = 'standard') {
     const sym = String(symbol || '').toUpperCase().trim();
     try {
@@ -463,7 +510,17 @@ async function peekDossier(symbol, depth = 'standard') {
         if (!data) return null;
         const pack = insights.buildFactPack(sym);
         const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
-        return cachedDossier(dossierCol(), sym, fyEnd, depth === 'deep' ? 'deep' : 'standard');
+        const d = depth === 'deep' ? 'deep' : 'standard';
+        const query = d === 'deep'
+            ? { symbol: sym, fyEnd, depth: 'deep' }
+            : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
+        const hit = await dossierCol().findOne(query, { projection: { _id: 0 } });
+        if (!hit || !hit.payload || hit.payload.schemaVersion !== DOSSIER_SCHEMA_VERSION) return null;
+        if (hit.payload.partial) {
+            const age = hit.at ? Date.now() - new Date(hit.at).getTime() : Infinity;
+            return age <= DOSSIER_PARTIAL_STALE_MS ? { ...hit.payload, partial: true } : null;
+        }
+        return { ...hit.payload, cached: true };
     } catch (_) { return null; }
 }
 

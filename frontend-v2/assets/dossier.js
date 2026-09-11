@@ -919,7 +919,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
         if (r.status === 202) { const d = await r.json().catch(() => ({})); setBuilding(out, sym, d.stage, Date.now() - started); await wait(POLL_MS); continue; }
         if (!r.ok) { fail(out, 'Something went wrong building the dossier.'); break; }
         const d = await r.json().catch(() => ({}));
-        if (d && d.dossier) { render(out, d.dossier, sym); break; }
+        if (d && d.dossier) {
+          render(out, d.dossier, sym);
+          // A partial carries every data section with the narrative still being
+          // written â€” show it now and keep polling; the full payload re-renders
+          // over it when the writing round finishes.
+          if (d.dossier.partial) { partialNote(out); await wait(POLL_MS); continue; }
+          break;
+        }
         await wait(POLL_MS);
       }
       if (Date.now() - started >= MAX_WAIT_MS && out.querySelector('.loading-line')) {
@@ -928,6 +935,19 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     } finally { running = false; }
   }
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
+
+  // Slim status line placed above a partially-rendered dossier. Re-rendering
+  // on the next poll replaces it along with the rest of `out`, so it needs no
+  // cleanup of its own.
+  function partialNote(out) {
+    if (out.querySelector('[data-partial]')) return;
+    const bar = document.createElement('div');
+    bar.className = 'card card-pad';
+    bar.dataset.partial = '1';
+    bar.style.marginBottom = '12px';
+    bar.innerHTML = '<p style="margin:0;" class="faint">All data sections below are live. The written analysis â€” executive summary, bull/bear, risks â€” is still being drafted and will replace this note when ready.</p>';
+    out.insertBefore(bar, out.firstChild);
+  }
 
   $('dos-form').addEventListener('submit', (e) => { e.preventDefault(); run($('dos-sym').value, false); });
 
