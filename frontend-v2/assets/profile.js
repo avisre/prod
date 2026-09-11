@@ -22,6 +22,12 @@
 
     const auth = { Authorization: `Bearer ${token()}` };
 
+    // 🧪 AI Paper Portfolio beta: priced in the cost line only when the
+    // server says this account is in the experiment. The probe 403s for
+    // everyone else, so the feature stays invisible — and the price line
+    // stays exactly as it always was for them.
+    let aiPaperBeta = false;
+
     // The recharge SKU, named once. Three call sites used to spell out
     // "150 credits — $14.99" independently (here, the low-balance line, and
     // app.js's out-of-credits notice), which is three places to miss when the
@@ -32,10 +38,20 @@
     // (backend/credits.js), `unit` names the thing a credit bought — a credit is
     // an invented currency and nobody budgets in one. Adding a billable feature
     // means adding a row here and nothing else.
+    // `reasons` are the ledger's reason strings (the credits.spend call sites in
+    // backend/app.js). Dossier owns two of them: a comparison spends under
+    // 'dossier-compare', a reason the old client-side split knew nothing about —
+    // so compares were dropped from the breakdown while still counting toward
+    // its covered-vs-used check, quietly under-reporting Dossier spend on a
+    // split that looked complete.
     const FEATURES = [
-        { reason: 'ask', label: 'Ask', seg: 'credits-seg-ask', unit: ['question', 'questions'] },
-        { reason: 'dossier', label: 'Dossier', seg: 'credits-seg-dossier', unit: ['report', 'reports'] },
-        { reason: 'monitor', label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] }
+        { key: 'ask', reasons: ['ask'], label: 'Ask', seg: 'credits-seg-ask', unit: ['question', 'questions'] },
+        { key: 'dossier', reasons: ['dossier', 'dossier-compare'], label: 'Dossier', seg: 'credits-seg-dossier', unit: ['report', 'reports'] },
+        { key: 'monitor', reasons: ['monitor'], label: 'Monitor', seg: 'credits-seg-monitor', unit: ['report', 'reports'] },
+        // AI Paper builds spend under one reason; the nightly review spends
+        // under a per-day reason ('ai-paper review day N'), so prefix-match
+        // those and count the days separately from the builds.
+        { key: 'aiPaper', reasons: ['ai-paper build'], prefixes: ['ai-paper review day '], label: 'AI Paper', seg: 'credits-seg-aipaper', unit: ['build', 'builds'] }
     ];
 
     const plural = (n, [one, many]) => `${n} ${n === 1 ? one : many}`;
@@ -52,9 +68,25 @@
             const out = {};
             let named = 0;
             for (const f of FEATURES) {
-                const row = bd[f.reason] || {};
-                const spent = Math.max(0, -(Number(row.delta) || 0));
-                out[f.reason] = { credits: spent, count: Number(row.count) || 0 };
+                let spent = 0;
+                let count = 0;
+                for (const reason of f.reasons) {
+                    const row = bd[reason] || {};
+                    spent += Math.max(0, -(Number(row.delta) || 0));
+                    count += Number(row.count) || 0;
+                }
+                // Per-day reasons prefix-match; their event counts surface as
+                // review days next to the build count, not as one lump.
+                let extraCount = 0;
+                for (const prefix of f.prefixes || []) {
+                    for (const reason of Object.keys(bd)) {
+                        if (!reason.startsWith(prefix)) continue;
+                        const row = bd[reason] || {};
+                        spent += Math.max(0, -(Number(row.delta) || 0));
+                        extraCount += Number(row.count) || 0;
+                    }
+                }
+                out[f.key] = { credits: spent, count, extraCount };
                 named += spent;
             }
             // Anything billable under a reason this build doesn't know about
@@ -68,6 +100,7 @@
             ask: { credits: s.ask, count: 0 },
             dossier: { credits: s.dossier, count: 0 },
             monitor: { credits: s.monitor, count: 0 },
+            aiPaper: { credits: 0, count: 0, extraCount: 0 },
             other: { credits: Math.max(0, used - s.ask - s.dossier - s.monitor), count: 0 }
         };
     }
@@ -79,6 +112,7 @@
         const remaining = Number.isFinite(credits.remaining) ? credits.remaining : Math.max(0, allowance - used);
         const recent = Array.isArray(credits.recent) ? credits.recent : [];
         const hasMonitor = !!credits.hasMonitor;
+        const hasApiAccess = !!credits.hasApiAccess;
         const cost = credits.cost || {};
         // plan/purchased ship with the breakdown; an older server returns
         // neither, so the wallet line falls back to describing the total rather
@@ -105,7 +139,7 @@
         const segments = [];
         if (allowance > 0 && spend) {
             for (const f of FEATURES) {
-                const amt = (spend[f.reason] || {}).credits || 0;
+                const amt = (spend[f.key] || {}).credits || 0;
                 if (amt > 0) segments.push([f.seg, amt, `${f.label} ${amt}`]);
             }
             const other = (spend.other || {}).credits || 0;
@@ -120,11 +154,18 @@
         const breakdownEl = $('credits-breakdown');
         if (spend) {
             const rows = FEATURES
-                .filter((f) => f.reason !== 'monitor' || hasMonitor || (spend.monitor || {}).credits > 0)
+                .filter((f) => f.key !== 'monitor' || hasMonitor || (spend.monitor || {}).credits > 0)
+                // The beta stays invisible to accounts that never opted in: a row
+                // only appears for beta accounts, or where credits were actually
+                // spent (the money is real even after a beta leaves).
+                .filter((f) => f.key !== 'aiPaper' || aiPaperBeta || (spend.aiPaper || {}).credits > 0)
                 .map((f) => {
-                    const amt = (spend[f.reason] || {}).credits || 0;
-                    const n = (spend[f.reason] || {}).count || 0;
-                    const unit = n > 0 ? plural(n, f.unit) : (amt === 0 ? '—' : '');
+                    const amt = (spend[f.key] || {}).credits || 0;
+                    const n = (spend[f.key] || {}).count || 0;
+                    const extra = (spend[f.key] || {}).extraCount || 0;
+                    const unit = extra > 0
+                        ? (n > 0 ? plural(n, f.unit) + ' + ' : '') + plural(extra, ['review', 'reviews'])
+                        : (n > 0 ? plural(n, f.unit) : (amt === 0 ? '—' : ''));
                     return `<tr>
                       <td><span class="k"><span class="dot ${f.seg}"></span>${f.label}</span></td>
                       <td class="amt">${amt}</td>
@@ -194,10 +235,21 @@
             if (used > 0 && allowance > 0 && daysElapsed >= 3 && perDay > 0) {
                 const projected = Math.round(perDay * daysTotal);
                 const daysToEmpty = remaining / perDay;
-                if (daysToEmpty < daysTotal - daysElapsed) {
+                // A margin, not a bare comparison: running out on the 30th of a
+                // month that resets on the 1st is not news, and warning about it
+                // trains people to ignore the line that matters.
+                const daysLeftInMonth = daysTotal - daysElapsed;
+                if (daysToEmpty < daysLeftInMonth - 2) {
                     const emptyOn = new Date(Date.now() + daysToEmpty * 86400000)
                         .toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                    paceEl.innerHTML = `Pace: about ${perDay.toFixed(1)} credits a day — at this rate you run out around <strong>${emptyOn}</strong>, before the month resets.`;
+                    const short = Math.max(1, Math.round(daysLeftInMonth - daysToEmpty));
+                    paceEl.innerHTML = `Pace: about ${perDay.toFixed(1)} credits a day — at this rate you run out around <strong>${emptyOn}</strong>, ${plural(short, ['day', 'days'])} before the reset.`;
+                } else if (projected > allowance * 0.95) {
+                    // Between the two: not running dry early enough to warn
+                    // about a date, but not comfortable either. Calling a
+                    // projection of 455 against a 450 wallet "comfortable" is
+                    // how a meter loses the reader's trust.
+                    paceEl.textContent = `Pace: about ${perDay.toFixed(1)} credits a day — roughly ${projected} of ${allowance} by the reset, so you finish the month close to empty.`;
                 } else {
                     paceEl.textContent = `Pace: about ${perDay.toFixed(1)} credits a day — roughly ${projected} of ${allowance} by the reset. Comfortable.`;
                 }
@@ -214,6 +266,15 @@
             const parts = [`Ask ${cost.ask ?? 2}`];
             if (hasMonitor) parts.push(`Monitor report ${cost.monitor ?? 5}`);
             parts.push(`Compare ${cost.dossier_compare ?? 5}`, `Dossier ${cost.dossier_standard ?? 10}`, `Deep Dossier ${cost.dossier_deep ?? 30}`);
+            if (aiPaperBeta) parts.push(`AI Paper build ${cost.ai_paper_build ?? 10}`, `AI Paper nightly review ${cost.ai_paper_daily ?? 4}`);
+            // API/MCP calls spend from this same wallet (backend/api-keys.js).
+            // Gated on hasApiAccess (Power/Desk + top AppSumo/DealMirror tier
+            // only — see app.js's apiAccessGate) the same way the Monitor and
+            // AI Paper rows are gated: shown only to accounts that can actually
+            // use it, so nobody sees a price for a feature their plan can't reach.
+            // REST is priced at exactly 2x MCP — a stated rule, not two
+            // independent numbers, so both are shown together for comparison.
+            if (hasApiAccess) parts.push(`MCP lookup ${cost.mcp_lookup ?? 1}`, `MCP ask ${cost.mcp_ask ?? 2}`, `API lookup ${cost.api_lookup ?? 2}`, `API ask ${cost.api_ask ?? 4}`);
             costEl.textContent = `What things cost — ${parts.join(' · ')}. Re-opening anything you've already run is free.`;
         }
 
@@ -284,6 +345,89 @@
         }
 
         wrap.hidden = false;
+    }
+
+    // ---- Developer access: API/MCP keys. Section ships hidden; only
+    // revealed (and only then does this do any work) for accounts
+    // hasApiAccess passed through — Power/Desk or the top AppSumo/
+    // DealMirror tier, checked server-side (app.js's apiAccessGate) on
+    // every actual API/MCP call, not just here. ----
+    async function mountApiKeys(hasAccess) {
+        const section = $('apikeys-section');
+        if (!section) return;
+        section.hidden = !hasAccess;
+        if (!hasAccess) return;
+
+        const listEl = $('apikeys-list');
+        const emptyEl = $('apikeys-empty');
+        const metaEl = $('apikeys-meta');
+        const statusEl = $('apikeys-status');
+        const say = (msg) => { if (statusEl) statusEl.textContent = msg; };
+
+        async function refresh() {
+            try {
+                const r = await fetch(`${API}/account/api-keys`, { headers: auth });
+                const data = await r.json().catch(() => ({}));
+                const keys = Array.isArray(data.keys) ? data.keys : [];
+                if (metaEl) metaEl.textContent = keys.length ? `${keys.length} key${keys.length === 1 ? '' : 's'}` : '';
+                if (emptyEl) emptyEl.hidden = keys.length > 0;
+                listEl.innerHTML = keys.map((k) => {
+                    const used = k.lastUsedAt ? `last used ${new Date(k.lastUsedAt).toLocaleDateString()}` : 'never used';
+                    const revoked = k.revokedAt ? ' — revoked' : '';
+                    return `<li${k.revokedAt ? ' class="paused"' : ''}>
+                      <span>${esc(k.label)} — <code>${esc(k.keyPrefix)}…</code>${revoked} · ${used}</span>
+                      ${k.revokedAt ? '' : `<button type="button" data-revoke="${esc(k.id)}" aria-label="Revoke ${esc(k.label)}">Revoke</button>`}
+                    </li>`;
+                }).join('');
+            } catch (_) { /* the section stays as it was — nothing destructive on a fetch blip */ }
+        }
+
+        if (!listEl.dataset.wired) {
+            listEl.dataset.wired = '1';
+            listEl.addEventListener('click', async (e) => {
+                const id = e.target && e.target.getAttribute && e.target.getAttribute('data-revoke');
+                if (!id) return;
+                if (!window.confirm('Revoke this key? Anything using it will stop working immediately.')) return;
+                try {
+                    const r = await fetch(`${API}/account/api-keys/${encodeURIComponent(id)}`, { method: 'DELETE', headers: auth });
+                    say(r.ok ? 'Key revoked.' : 'Could not revoke that key.');
+                    if (r.ok) refresh();
+                } catch (_) { say('Could not revoke that key.'); }
+            });
+        }
+
+        const createBtn = $('apikey-create');
+        if (createBtn && !createBtn.dataset.wired) {
+            createBtn.dataset.wired = '1';
+            createBtn.addEventListener('click', async () => {
+                const labelInput = $('apikey-label');
+                say('');
+                try {
+                    const r = await fetch(`${API}/account/api-keys`, {
+                        method: 'POST', headers: { ...auth, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ label: (labelInput.value || '').trim() })
+                    });
+                    const data = await r.json().catch(() => ({}));
+                    if (!r.ok) { say(data.message || 'Could not create a key.'); return; }
+                    $('apikey-new-value').textContent = data.key;
+                    $('apikey-new').hidden = false;
+                    labelInput.value = '';
+                    refresh();
+                } catch (_) { say('Could not create a key.'); }
+            });
+        }
+
+        const copyBtn = $('apikey-copy');
+        if (copyBtn && !copyBtn.dataset.wired) {
+            copyBtn.dataset.wired = '1';
+            copyBtn.addEventListener('click', async () => {
+                const value = $('apikey-new-value').textContent;
+                try { await navigator.clipboard.writeText(value); say('Copied.'); }
+                catch (_) { say('Copy failed — select the text and copy it manually.'); }
+            });
+        }
+
+        refresh();
     }
 
     // ---- Settings card: Ask memory (saved facts) + import from another
@@ -491,14 +635,19 @@
 
     async function mountProfile() {
         try {
-            const [sessionR, quotaR, creditsR] = await Promise.all([
+            const [sessionR, quotaR, creditsR, aiPaperR] = await Promise.all([
                 fetch(`${API}/session`, { headers: auth }),
                 fetch(`${API}/ai/chat/quota`, { headers: auth }),
-                fetch(`${API}/credits`, { headers: auth })
+                fetch(`${API}/credits`, { headers: auth }),
+                // 403 for everyone else — one cheap JSON round-trip keeps the
+                // beta's price line server-gated, not shipped-then-hidden.
+                fetch(`${API}/ai-paper-portfolio`, { headers: auth })
             ]);
             const session = await sessionR.json().catch(() => ({}));
             const quota = await quotaR.json().catch(() => ({}));
             const credits = await creditsR.json().catch(() => ({}));
+            const aiPaper = await aiPaperR.json().catch(() => ({}));
+            aiPaperBeta = aiPaper.enabled === true;
 
             const section = $('plan-status');
             const nameEl = $('plan-name');
@@ -563,6 +712,7 @@
             if (msgAdminLink) msgAdminLink.hidden = !isOwner;
 
             mountCredits(credits);
+            mountApiKeys(credits.hasApiAccess);
         } catch (_) { /* profile card is non-blocking */ }
     }
     // messages.js writes into the thread while the section is collapsed

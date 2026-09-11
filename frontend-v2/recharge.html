@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
   <style>
     /* Same price components the homepage ladder uses (index.html) — the $14.99
        figure gets the featured treatment here too. */
@@ -25,13 +25,22 @@
   <main>
     <div class="container" style="max-width:720px;">
 
-      <div class="page-head" style="margin-top:44px;">
+      <div class="page-head" id="recharge-locked" hidden>
+        <h1 class="title-1">Credit refill</h1>
+        <p class="muted" style="margin-top:8px; max-width:54ch;">Log in to recharge your credit wallet.</p>
+        <div style="display:flex; gap:12px; margin-top:20px; flex-wrap:wrap;">
+          <a class="btn btn-primary" id="recharge-login-link" href="/login.html?next=%2Frecharge.html">Log in to recharge</a>
+          <a class="btn btn-ghost" href="/upgrade.html">Browse plans</a>
+        </div>
+      </div>
+
+      <div class="page-head" style="margin-top:44px;" id="recharge-head">
         <p class="label">Account</p>
         <h1 class="title-1">Credit refill</h1>
         <p class="muted" style="margin-top:6px;" id="recharge-sub">Your plan's monthly wallet, topped up in one payment.</p>
       </div>
 
-      <div class="card price-card" style="max-width:720px; border-color: var(--ink);">
+      <div class="card price-card" id="recharge-card" style="max-width:720px; border-color: var(--ink);" hidden>
         <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Credit refill</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One payment, no subscription</span></div>
         <div class="price-fig">$14.99<span> one-time</span></div>
         <p class="small muted" style="margin:4px 0 14px;">150 credits land in <strong>this month's wallet</strong> — the same pool your plan draws from.</p>
@@ -39,6 +48,7 @@
           <li>Each <strong>Ask question</strong> costs 2 credits — 150 buys about <strong>75 questions</strong></li>
           <li>Each <strong>Filing Monitor report</strong> costs 5 — about <strong>30 reports</strong></li>
           <li>Each <strong>Standard Dossier</strong> costs 10 — about <strong>15 dossiers</strong>; a <strong>Deep Dossier</strong> costs 30 — about <strong>5</strong></li>
+          <li id="aipaper-price" hidden>Each <strong>AI Paper Portfolio</strong> build costs 10 — about <strong>15 builds</strong>; the nightly review adds 4/day while it tracks</li>
           <li>Credits work the instant the payment settles — no restart, no refresh</li>
           <li>They expire at your next monthly reset (the counter resets on the 1st) and don't roll over — the page states this before you pay</li>
         </ul>
@@ -49,7 +59,7 @@
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20260907-credit1"></script>
+  <script src="/assets/app.js?v=20260907-aipaper3"></script>
   <script>
     (function () {
       'use strict';
@@ -59,12 +69,37 @@
       const API = window.V2.API;
       const btn = document.getElementById('recharge-btn');
       const status = document.getElementById('recharge-status');
+      const locked = document.getElementById('recharge-locked');
+      const head = document.getElementById('recharge-head');
+      const card = document.getElementById('recharge-card');
+
+      // Logged out: the marker cookie is missing, so show the gate and touch
+      // nothing else — no probe, no wiring, no live-looking button.
+      if (!window.V2.token()) {
+        locked.hidden = false;
+        head.hidden = true;
+        return;
+      }
+      head.hidden = true;
+      card.hidden = false;
       if (btn.dataset.wired === '1') return;
       btn.dataset.wired = '1';
 
       if (/[?&]recharge=cancelled\b/.test(window.location.search)) {
         status.textContent = 'Payment cancelled — nothing was charged and no credits were added.';
       }
+
+      // The AI Paper price line is server-gated: the endpoint 403s everyone
+      // outside the beta, so the row simply never appears for them.
+      try {
+        fetch(`${API}/ai-paper-portfolio`, { headers: { Authorization: `Bearer ${window.V2.token()}` } })
+          .then((r) => r.json())
+          .then((d) => {
+            const li = document.getElementById('aipaper-price');
+            if (li && d && d.enabled === true) li.hidden = false;
+          })
+          .catch(() => {});
+      } catch (_) {}
 
       btn.addEventListener('click', async () => {
         btn.disabled = true;
@@ -76,6 +111,14 @@
           });
           const d = await r.json().catch(() => ({}));
           if (r.ok && d.url) { window.location.href = d.url; return; }
+          if (r.status === 401) {
+            // Stale session: the marker cookie said logged-in but the server
+            // rejected the token — send them back through login.
+            status.textContent = 'Your session expired — please log in again.';
+            const link = document.getElementById('recharge-login-link');
+            btn.replaceWith(link);
+            return;
+          }
           status.textContent = d.message || 'Could not start checkout — please try again.';
           btn.disabled = false;
         } catch (_) {

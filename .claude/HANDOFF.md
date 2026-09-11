@@ -1,5 +1,424 @@
 # Handoff
 
+## Public API + hosted MCP endpoint shipped, NOT deployed (9/11)
+
+Owner overrode `next-feature-ranking.md`'s "do not build" (3-buyer/rights-
+verification gate) and explicitly chose to include `sp_fund` despite the
+Yahoo redistribution-rights conflict in `corpus-license-terms.md` — both
+called out and accepted before building, not missed.
+
+**New**: `backend/api-keys.js` (hashed `sp_live_...` keys, `api_keys`
+collection), `backend/public-api.js` (`/api/v1/*`: financials/filing/
+compare/screen/fund/ask + health), `backend/mcp-endpoint.js` (`/mcp`,
+Streamable HTTP, stateless — SDK confirmed v1.30.0 by installing it, not
+guessed), `backend/api-response.js` (shared envelope/citation), self-serve
+`/api/account/api-keys` CRUD behind existing `authMiddleware`. Docs:
+`backend/public-api.md`.
+
+**The identity bridge `credits.js`'s header called out as missing is now
+closed**: a new `apiKeyAuth` middleware in `app.js` resolves a key to its
+owner and populates `req.userId/user/subscription/tier` exactly like
+`authMiddleware` does — so `effectiveAskLimit()` and every existing
+`credits.check/spend` call site work unmodified, and an API/MCP caller
+spends from the SAME wallet as their web account.
+
+**Pricing (revised same session, per owner direction) and access, both now
+live-gated, not just at key issuance:**
+- `credits.js` COST: `mcp_lookup: 1`, `mcp_ask: 2`, `api_lookup: 2`,
+  `api_ask: 4` — REST API is exactly 2x MCP by owner instruction, not an
+  independent guess. `mcp_ask` (the only cost with real inference behind
+  it — lookups are cache/SEC/Yahoo, zero LLM) is anchored to measured
+  frontier pricing: Claude Fable 5.1 AND GPT-6 Astra both $10/$50 per M
+  input/output tokens as of 2026-09 (cross-checked via the claude-api skill
+  and a live web search — they independently match), and this product's
+  measured ~10,779 tokens/call blended average prices out to ≈1.7 credits
+  at the existing $0.10/credit rate. The 85/15 input/output split used to
+  get there is an assumption, not a measurement — `ollama-usage-tracker.js`
+  only ever stored the combined total (a gap already flagged below), so the
+  split itself still isn't recoverable from stored data.
+- Access is now `app.js`'s new `hasApiAccess`/`apiAccessGate`: **Power/Desk
+  or AppSumo/DealMirror tier 3 only** — deliberately narrower than Monitor's
+  `isLifetimeBuyer()` (any LTD tier). DealMirror tier 3 was included by
+  inference (owner said "AppSumo" specifically; the codebase treats AppSumo
+  and DealMirror as parallel everywhere else in `credits.js`/`tier-limits.js`)
+  — flag to the owner if that wasn't intended. Checked live on every call
+  (key creation AND each API/MCP request), so a downgrade takes effect
+  immediately; listing/revoking existing keys stays ungated so a downgraded
+  account can still manage what it already has. `/api/credits` now also
+  returns `hasApiAccess` so `profile.js`'s price line can gate on it, same
+  as the existing `hasMonitor`/`aiPaperBeta` rows.
+- New `backend/test/api-access-gating.test.js` pins both the 2x pricing
+  relationship and the gate's exact tier list (source-text asserted, same
+  pattern as `ai-paper-gating.test.js`) so either can't silently drift.
+
+**Verified live against a real local boot** (`scripts/dev-local.js`), not
+just unit tests: logged in as the seeded dev user, created a real key,
+hit `/api/v1/financials/AAPL` (real SEC data back), drove `/mcp` with the
+actual MCP SDK client (`tools/list` + `sp_financials` MSFT), then confirmed
+`/api/credits` showed BOTH spends (`api:earnings-quality` AAPL,
+`mcp:earnings-quality` MSFT) on the one web account's ledger — proves the
+bridge, not just that routes return 200.
+
+The existing stdio `mcp-server/` package (local dev / Claude Desktop) is
+untouched and not the public launch surface.
+
+**Regression caught and fixed**: adding the `COST` keys tripped
+`profile-consolidation.test.js`'s "price list names every billable action"
+guard — correctly, since a user could otherwise be surprised by an
+undisclosed charge. `profile.js`'s price list now shows all four
+(`MCP lookup/ask`, `API lookup/ask`), gated behind `hasApiAccess` so it's
+invisible to accounts that can't reach the feature. Two `frontend-v2/
+assets/*.js` edits this session → **two** stamp bumps on `profile.js`'s own
+independent stamp (separate from the shared app.js/system.css one):
+`20260908-cmpcredit1` → `20260911-apicost1` → `20260911-apicost2`, kept in
+sync in `profile.html` and the pin in `ask-threads.test.js:314`. Full suite:
+569/570 (`social-compose` pre-existing, missing `selenium-webdriver`,
+unrelated). Both the tier gate (blocks a plain-Pro seeded account, opens
+after promoting it to Desk in Mongo) and the 2x pricing (1 vs 2 credits for
+the same lookup on MCP vs REST) were verified live against
+`scripts/dev-local.js`, not just asserted in tests.
+
+**Owner action before this reaches real external users**: nothing code-side
+is blocking — it's live on a local boot only. Before a real launch:
+(1) decide whether `sp_fund` really ships given the rights exposure just
+waived, not just accepted in the abstract; (2) `avisre/prod` is still
+flagged public elsewhere in this file — a public API surface makes that
+more consequential, not less; (3) confirm DealMirror tier 3 belongs in the
+access gate alongside AppSumo tier 3 (inferred, not explicitly stated);
+(4) `PUBLIC_API_RATE_LIMIT` (default 60/min) is still a first guess, not
+measured against real external traffic — the credit costs, at least, are
+now anchored to something real.
+
+**Follow-on, same session: public page reconciled + a real key-management UI
+built (owner asked "where will pricing/docs live" — the honest answer was
+"nowhere public yet").**
+- Found `/licensing` (`backend/seo-pages.js` `renderLicensing()`) already
+  live-advertised MCP access under a DIFFERENT, stale model: per-seat,
+  bundled with the $5–15K/yr bulk corpus licence, sold via an email quote,
+  "monthly quota" (the old stdio server's local `quota.json`, not this
+  session's credit ledger). Owner chose **replace**, not run both. Rewrote
+  the section (new `#mcp-api` block) to state the real system: self-serve,
+  Power/Desk/AppSumo-DealMirror-tier-3 only, credit-metered 1/2/2/4, no
+  quote needed — kept the bulk-corpus pricing block untouched since that
+  product is real and unrelated. No test pinned the old copy, so this was a
+  pure content swap, no test churn.
+- Backend key routes had **no UI** — a qualifying customer would have had
+  to `curl` `/api/account/api-keys` themselves. Owner chose to build it now.
+  New "Developer access" `<details class="psec">` section on `profile.html`
+  (after Usage, ships `hidden`), `mountApiKeys()` in `profile.js` (generate
+  → show raw key once + copy button, list by prefix/label/last-used, revoke
+  with a confirm), gated on the new `hasApiAccess` field `/api/credits` now
+  returns — same reveal pattern as `admin-section`. Third `profile.js` edit
+  this session → third stamp bump, `20260911-apicost2` → `20260911-apikeyui1`,
+  synced in `profile.html` + `ask-threads.test.js:314`. Full suite still
+  569/570.
+- **Verified in an actual browser, not just curl** — real headless Chrome
+  driven over raw CDP (Node's built-in `WebSocket`, no Playwright/Puppeteer
+  in this repo): logged in via a same-origin `fetch` (sets the real
+  `sp_auth` cookie), navigated to `/profile.html`, and drove the full
+  generate → list → revoke cycle through actual DOM clicks — new key
+  appeared with its live prefix, revoke fired the confirm dialog and
+  flipped the row to "revoked". Also confirmed the section is genuinely
+  `hidden` (not just failing to load) for a demoted-back-to-Pro account.
+  **Found and worked around, but didn't fix**: this machine's Chrome
+  152 still sends "HeadlessChrome" in `navigator.userAgent` even under
+  `--headless=new`, which `bot-blocker.js` correctly 403s (it's doing its
+  job) — the verification run used `BOT_BLOCK_ENABLED=false` on
+  `dev-local.js` only, nothing prod-facing touched.
+
+## The 403 turned into an inbound licensing channel (9/11, after the block)
+
+The block below creates the channel every earlier licensing idea lacked: a
+refused crawler's operator reads 403s, so the refusal now carries the offer.
+Three surfaces a blocked agent can still fetch were all misconfigured for it —
+each pointed at the owner's personal Gmail, and `llms.txt` (the file AI
+companies read deliberately) said nothing about licensing at all.
+
+**Shipped:** `bot-blocker.js` FORBIDDEN_BODY now names `support@stockportfolio.pro`
++ the `/licensing` URL; `/licensing` added to `EXEMPT_PATH_PATTERNS` (a denial
+pointing at a blocked page is useless) with a test asserting it; `robots.txt`
+contact + a "denied ≠ unavailable" note; licensing sections in `llms.txt` and
+`llms-full.txt`; new `seoPages.renderLicensing()` + `/licensing` route + sitemap
+`coreRoutes`. Full suite 563/564 — the one failure (`social-compose.test.js`,
+missing `selenium-webdriver`) is pre-existing and unrelated.
+
+**Outreach (not sent):** `docs/growth/mcp-api-lab-outreach.md` — long-form MCP/API
+pitch + 3-wave send sequence. Two constraints found while writing it:
+(1) `sp_fund` is Yahoo-derived (`asset-profile.js:6`), so the sellable surface is
+SEC-only — selling the full MCP contradicts `corpus-license-terms.md`;
+(2) `next-feature-ranking.md` already ruled MCP/API "do not build now" pending
+**three buyers committing to a price**, so Wave 1 is a demand test, not a build.
+`mcp-directory-listings.md` already has finished registry copy — submit, don't rewrite.
+
+NOTE: this file is 690+ lines against CLAUDE.md's 160-line cap. Needs a trim pass.
+
+## Bot-blocker re-deployed after a Render bandwidth alert (9/11)
+
+Render emailed 9/10: Hobby-plan workspace (5GB/mo bandwidth) at 70%+ usage 10
+days into the month. Root cause matches the 9/5 analysis below almost
+exactly — 68% of traffic is bots, Meta's AI crawler alone was 53% of ALL
+traffic, and the fix built that day was reverted before shipping. The
+bandwidth cost that made the 9/5 revert decision uncertain ("never measured")
+is now measured and is the new evidence to act on.
+
+**Re-implemented and shipped**, per owner decision to accept the same
+tradeoffs as 9/5 (social-preview cards break; the small chatgpt.com/
+copilot.microsoft.com human referral trickle stops):
+- `backend/bot-blocker.js` (new) — 4-layer defense: UA denylist, IP
+  verification (reverse+forward DNS) for anything claiming Googlebot/Bingbot,
+  browser-header consistency check, per-IP nav rate limit. Fails open on an
+  unseen IP; a DNS failure never becomes "impostor". `stats()` exposed at
+  `GET /api/admin/bot-blocker/stats`.
+- `frontend/robots.txt` rewritten: default `Disallow: /`, explicit `Allow: /`
+  only for Googlebot/Googlebot-Image/Google-InspectionTool/Storebot-Google/
+  Bingbot/BingPreview. `Google-Extended` gets its own explicit refusal.
+- Mounted in `app.js` right after `compression()`, ahead of every rate
+  limiter, `ssrCacheMw`, and `express.static`. Reuses the existing
+  `isRawBodyWebhookPath` helper (passed in, not re-derived) so `/stripe/
+  webhook` and `/appsumo/webhook` can never drift out of sync with the
+  exemption list — the spec's own "most dangerous edge."
+- Tests: `backend/test/bot-blocker.test.js` (new, 13 tests, mocks
+  `dns.promises` via `node:test`'s built-in mock) and
+  `backend/test/robots-policy.test.js` (new, 7 tests — the load-bearing one
+  asserts robots.txt's Allow-listed agents exactly match
+  `bot-blocker.js`'s `ALLOWED_UAS`, so the two files can't silently drift).
+- Env switches documented in `backend/prod.env.example`:
+  `BOT_BLOCK_ENABLED` (kill switch), `BOT_BLOCK_DRY_RUN` (canary — log/count
+  without blocking), `BOT_BLOCK_BYPASS_TOKEN`, `BOT_BLOCK_NAV_MAX`.
+
+**Owner action before this does anything in prod**: set
+`BOT_BLOCK_DRY_RUN=true` on Render via `gh workflow run set-render-env.yml
+-f key=BOT_BLOCK_DRY_RUN -f value=true` BEFORE this merges, so the first
+deploy ships in canary mode. After ~24h, check `stats()` (impostor count
+near 0, forged-browser/rate-limit counts near 0, verified count growing) and
+Search Console/Bing Webmaster crawl stats haven't dropped, then flip
+`BOT_BLOCK_DRY_RUN=false` via the same workflow. Real success signal: the
+Render billing dashboard trending down over the following days
+(https://dashboard.render.com/w/tea-cspuc9pu0jms7384ahsg/billing).
+
+## Compare pages: "Listed YYYY" cells + 52-week fallback — 9/8 ship
+
+Owner report ("free version shows em-dash in the performance area", LB-vs-MUR):
+LB listed 2024, so its 3/5/10-year return cells rendered bare `—` — honest but
+reads as broken. `seo-extra.js`:
+- `compareData` now computes `listedA/listedB` (first monthly-close year) and
+  `fmtRet()`; uncovered return windows render `Listed 2024` instead of `—`, on
+  BOTH the free and pro pages (shared via the return object + pro destructure).
+- New `fiftyTwoWeekRange(data)`: quote `52WeekHigh/Low` wins; when missing,
+  fall back to the last 12 unadjusted monthly bars' `2. high`/`3. low` (real
+  prices, monthly granularity, <12 months = no fabricated range). Belt-and-
+  suspenders: a 9/8 census via the app's own `loadFundamentals` found ZERO
+  renderable (screen-index) tickers missing the quote — an earlier "2,023
+  missing" count was my own filename-mapping artifact (`symbolToFile` maps
+  `[^A-Z0-9]`→`_`, not dot→underscore). Dead tickers already 302 at
+  `metricsFor`, so no route guard was needed.
+- Pinned in `seo-research.test.js`: "Listed YYYY" test (3 pins free + 3 pro)
+  and `fiftyTwoWeekRange` unit test (quote wins / monthly fallback / <12mo
+  nulls). Suite: seo-research 25/25, then full suite.
+
+## Dossier Analyst cards: true-scale bars + dead-space kill — DEPLOYED (9/8)
+
+Owner reported (Agilent dossier, Analyst mode): flat/compressed bars in
+"Visual evidence" + dead space in both decision-grid cards. Fix is
+frontend-only, dossier page only:
+
+- `frontend-v2/assets/dossier.js` — `miniBars()` floor 8→3 (true scale);
+  new `trendChangeLine()` (first→latest: `+N.N pts` for pct metrics,
+  `×N.N total`/`±N% total` for dollars, '' when endpoints missing);
+  `decisionTrends()` renders a `2019→2026 · <change>` sub-line under each
+  row label. Rows: Revenue / opMarginPct / fcf / roicPct.
+- `frontend-v2/dossier.html` — v3 CSS block: grid sections are flex
+  columns; `.dos-trends { flex:1; align-content:space-evenly }`; rows
+  `126px minmax(110px,1fr) 86px`, 56px `.dos-mini-bars`;
+  `.dos-decision-copy { flex:1; justify-content:space-evenly }`;
+  `.dos-key-strip { margin-top:auto }` (tiles bottom-anchored). ≤820px
+  stacks naturally; ≤520px bars 40px. Stamp →
+  `assets/dossier.js?v=20260908-dostrend1` (dossier.html only; the shared
+  `20260907-aipaper3` app.js/system.css stamp is pinned by
+  profile-consolidation and untouched).
+- Verified via `/tmp/dosstub/server.js` stub (port 5077, serves
+  frontend-v2 + Agilent fixture + injects `sp_dossier_mode_v1=analyst`):
+  desktop 1440px + mobile 400px screenshots, DOM has 4 dos-trend-rows with
+  change sub-lines and no empty-state string. NOTE: the API's `fy` values
+  are 4-digit year strings (`fiscalDateEnding.slice(0,4)`,
+  dossier-analysis.js:196) — a `FY19`-style fixture makes
+  `financialReadings` print "NaN% a year" (`Number('FY19')` is NaN);
+  fixture must use `2019` etc. 400px headless window clips the page edge
+  page-wide (nav included) — pre-existing headless quirk, not from this
+  change. Deployed 9/8: commit 8cafb07 via the flip-public → push → workflow
+  success → flip-private ritual; live HTML serves ?v=20260908-dostrend1 and the
+  bundle contains trendChangeLine. No tests pin dossier.js.
+
+## Compare pro page: collapsible metric groups — DEPLOYED (9/8, commit `2d197d3b`)
+
+Follow-up to the probe fix below. `renderComparePagePro` now renders one
+`<tbody class="cmp-sec">` per group (7 groups; first "Size and latest FY"
+fully open, the rest collapsed with ONE teaser row visible — `cmp-prev` —
+and the remaining rows hidden). Group rows are click/Enter toggles
+(`role=button`, `aria-expanded`); chevron `▾/▸` and an "N metrics" count
+badge in the header. Also fixed the free-page probe's one-shot flag: the
+`sp2up` sessionStorage flag is now consumed on the `?sp=2` load itself
+(before: the visit right after an upgrade silently did nothing — likely
+part of "Firefox still shows the old page"). Pins in `seo-research.test.js`
+(cmp-sec cmp-open, exactly 7 groups, exactly 6 cmp-prev teaser rows).
+Shipped per the standing sequence (deploy 34179227473 green, repo back
+private); live free page verified (probe present, no pro leakage). Owner
+click test pending: logged-in core/pro visit to any /compare page should
+auto-upgrade and show the collapsible layout.
+
+## Compare paid-upgrade probe fixed (cookie gate) — DEPLOYED (9/8, commit `6db2adfd`)
+
+The 9/8 compare-split ship (`9a067766`) never upgraded anyone: the in-page
+probe gated on `localStorage.getItem('token')`, but auth is 100% cookie-based
+(`sp_auth` HttpOnly + `sp_logged_in=1` marker; login never writes localStorage)
+→ probe exited early for every real user. Owner confirmed: logged in on prod,
+still the free page. Fix in `backend/seo-extra.js` (free-page probe): gate on
+the `sp_logged_in=1` cookie marker regex (same one V2.token uses), plain
+`fetch('/api/session')` with no Authorization header — same-origin fetch
+carries `sp_auth`, which authTokenFromRequest accepts. The verdict sections'
+`tok?{headers}:{}` fallback was already correct. Regression pin added in
+`seo-research.test.js` (probe must match `sp_logged_in=1`; the localStorage
+hard-gate `…getItem('token')…if(!tok)return;` sequence is banned). Shipped
+per the standing sequence (deploy 34177438338 green, repo back private);
+live free page verified: probe gate present, no pro-design leakage
+(`AI VERDICT`/`cmp-grp` absent). NOTE: the local working tree's
+`backend/seo-extra.js` is MISSING commit `bcc62b01`'s discovered-compares
+block (removed the local file wholesale from the clone would have reverted
+it) — the fix was applied onto the clone's file instead; the local tree is
+behind the repo for seo-extra.js. Owner: a logged-in core/pro visit to any
+`/compare/...` now auto-upgrades; `?sp=2` stays as the manual path; if that
+still shows the free page, the account tier isn't core/pro — check
+`/api/session` `"tier"`.
+
+## Credit recharge — phase 2: Stripe serialization bug (the real one) — DEPLOYED & OWNER-CONFIRMED (9/8, commit `d5de8475`)
+
+Phase 1 (auth gate, `6334cdb6`) got the owner's click past 401 — and surfaced the
+actual defect: 500 "Unable to start checkout right now." on every logged-in
+click. Root cause: authMiddleware sets `req.userId = user._id` (raw mongoose
+ObjectId, app.js:4733); the topup route was the ONLY checkout call site passing
+it raw to Stripe (`client_reference_id: req.userId`, app.js:6430). Proven by
+localhost interception (no Stripe contact): stripe-node SDK serializes a
+non-string object param by walking its properties → request body carried
+`client_reference_id[buffer]=<binary>` → Stripe rejects the unknown bracketed
+param → create throws → 500. This is why ZERO `credit_topup` sessions were ever
+creatable. All other call sites already used `user._id.toString()`.
+
+- Fix: `client_reference_id: req.userId.toString()` (one line, backend/app.js).
+- Pins: pricing-ladder bans the raw form; NEW hermetic
+  `backend/test/stripe-param-encoding.test.js` intercepts the SDK's actual
+  request encoding on localhost (http server + `{host,port,protocol}` client
+  config, zero Stripe contact) — asserts plain string encoding, reproduces the
+  bracketed `[buffer]` bug as the control case. Suite 540/541 (social-compose
+  pre-existing).
+- Shipped `d5de8475` (fast-forwarded the owner's sitemap commit `bcc62b01`),
+  deploy run 34176378243 green, repo private again.
+- **Owner live-tested: checkout opens — recharge fixed end-to-end.** Remaining
+  unobserved hop: if they paid, the webhook +150 grant (idempotent) should show
+  as "Recharge — credits added" in profile → Usage.
+
+## Bing recs: IndexNow key hosted + sitemap picks up externally-discovered compare pairs — DEPLOYED (9/8, commit bcc62b01)
+
+Bing recs 105/106 shared one root cause: `/compare/*` renders ANY pair live but
+the sitemap only emitted algorithmic pairs (sector-adjacency + POPULAR). Fix in
+an isolated worktree off origin/main (uncommitted owner work untouched):
+
+- `seo-extra.js`: `noteDiscoveredCompare(a,b)` — records pairs that actually
+  render with metrics on both sides to `backend/discovered-compares.json`
+  (deduped, bounded 1000, 5s write-behind; same snapshot contract as
+  indexable-shares/filing-diff-symbols). Fired from free `renderComparePage`.
+- `seo-pages.js`: `buildSitemapInventory()` merges that snapshot into the
+  comparisons shards (deduped vs `comparePairs()`, tickerMtime lastmod).
+- `frontend-v2/1668f45a03ea53cf94c51b61c43163d4.txt`: IndexNow key file.
+
+Verified live: key file 200; PANW-vs-SNDK 200 + recorded on first post-deploy
+render; URL submitted via BWT API (quota 99/day left); sitemap resubmitted via
+BWT API (GetFeeds Success, 25,831 URLs); IndexNow POST → 202. Pair lands in the
+live sitemap within the 30-min inventory TTL after a render. Recs clear on
+Bing's next scan. Recs 107 (noindex /login+/news — intentional) and 108
+(backlinks) left alone. BWT API key inline/temp only (never stored in repo).
+
+## Credit recharge fixed (auth gate + expired-session recovery) — DEPLOYED (9/8, commit 6334cdb6)
+
+Diagnosis first (all read-only): Stripe has **zero** `credit_topup` sessions ever
+created and Atlas **zero** `topup` ledger rows — recharge never worked. The only
+logged attempt (owner 9/7 19:11Z) was `POST /api/credits/topup` → **401**. Server
+side always fine (price active $14.99, env set, route + idempotent webhook
+sound). The defect was recharge.html having no logged-out state and no 401
+recovery — a dead button showing the raw API error.
+
+- Fix (frontend-only, `frontend-v2/recharge.html`, mirror of profile.html's
+  `#locked`): `#recharge-locked` gate shown when `!window.V2.token()` (price
+  card stays hidden, nothing wired); on 401 from the topup call → "Your session
+  expired — please log in again." + button swaps to `/login.html?next=%2Frecharge.html`.
+- Pins in `pricing-ladder.test.js` (`recharge.html gates on auth…`). No stamp
+  bump — recharge.html references shared assets only, isn't a stamped asset.
+- Local-verified via headless CDP against a static serve: logged-out shows the
+  gate; logged-in shows the card + wired button; stubbed-401 click shows the
+  recovery message and the login link. Suite 539/540 (social-compose pre-existing).
+- Shipped: clone → commit `6334cdb6` → public → push (one transient 403 on
+  push, retry worked) → deploy run 34175621999 green → private again. Live
+  markup verified via curl.
+- **Owner's one live test remains** (live Stripe writes are hard-blocked): while
+  logged in, click "Recharge 150 credits — $14.99" — Stripe checkout opening
+  proves the fix; paying also proves the webhook grant (+150, reason
+  "Recharge — credits added").
+
+## AI Paper beta: live research feed + pause & edit + owner steering — DEPLOYED (9/7, commit 618ada51)
+
+Stamp now `20260907-aipaper3` (45 files). 537 tests, 536 pass (social-compose =
+missing selenium-webdriver, pre-existing). ai-paper suites: 33/33.
+
+- **Live feed**: every tool call/result is emitted and persisted as a capped
+  (120) `buildLog: String[]` on the doc (`logStamp` mm:ss UTC lines, mind label
+  baked into research lines at the emit layer). Chat-SSE `ai_paper` frames stay
+  instant; ask.html + dashboard poll /detail (2.5s) and append new lines by
+  index (dedupe counters `paperFeedSeen` / `aiPaperFeedSeen`).
+- **Pause**: `activeBuilds` registry + `assertLive()` checks at every round top,
+  between tool calls, and every create() stage boundary → `PauseError` →
+  `pauseBuild` sets status `'paused'` (keeps `setup {guruId, constraints}` +
+  feed; NOT a failure). `POST /stop` → `stopBuild` (registry flag; falls back to
+  pausing a building doc after a restart). Resume = `ai_portfolio_setup` with
+  the FULL edited setup; constraints (≤5 × ≤140 chars) injected into BOTH minds
+  as "OWNER'S HARD REQUIREMENTS".
+- **Steering** `applySteering(userId, action, params)`: only committed/tracking,
+  zero AI; `rules` (≤5 × ≤160 → `steeringRules` + injected into nightly review
+  prompt), `allocate` (guruPct/aiPct % of TOTAL, fixWeights, official closes,
+  weighted-avg basis on the growing slot), `override` (same dollars at new
+  close). Each success logs a decision type `'steering'`, persona `'owner'`.
+- **REAL BUG fixed**: spreading a mongoose subdoc (`{...pos}`) into `$set`
+  copies `$__`/`_doc` internals → cast wrote STALE positions (allocate looked
+  successful but doc kept originals + new cash = inconsistent). Fixed with
+  `plainPos(p)` = `p.toObject()` in both steering writers. Positions still
+  written by exactly two paths (construction commit + steering) — pinned.
+- Shipped 9/7: 49 files, commit `618ada51`, Render deploy green, repo private
+  again; live stamp `20260907-aipaper3` verified on /ask, /stop 401-gated.
+  Owner-tested against the local in-memory server (rin seeded, pw 'devlocal').
+  Also: HANDOFF.md is 730 lines vs the 160-line guideline — trim next session.
+
+## Credit meter rewritten on profile → Usage — LOCAL, NOT DEPLOYED (9/7)
+
+Stamp `20260907-creditmeter1` (44 files + profile.js). 504 tests, 503 pass
+(`social-compose` = missing `selenium-webdriver`, pre-existing).
+
+Three shipped defects, all visible in one seeded month (screenshots taken via
+`scripts/dev-local.js`-style in-memory boot; harness in the session scratchpad):
+
+1. **A recharge rendered as `Credit use −0 credits`.** `topup` rows are positive
+   deltas; `activityLabel` had no case for them and the row renderer clamped
+   with `Math.max(0, -delta)`. A $14.99 purchase had no receipt anywhere.
+2. **The per-feature split vanished above the activity cap.** It was summed
+   client-side from the 12–20 capped `recent` rows and hidden when they fell
+   short of `used()`. Now `credits.monthBreakdown()` — one uncapped aggregate —
+   so the split always adds up; `creditSplit()` stays as the legacy fallback.
+3. **`dossier-compare` was in no bucket.** It counted toward the covered≥used
+   check but no feature row, silently under-reporting Dossier spend, and showed
+   in the ledger as an unexplained "Credit use".
+
+Also: `balance()` now returns `plan`/`purchased` (wallet composition was
+invisible), Deep Dossier (30) reached the price list, `/api/credits` takes
+`activityLimit` (clamped 1–200) for "show the whole month", and the panel leads
+with remaining + a running-balance ledger + a pace line.
+
 ## Expense ratios now come from the filed prospectus — LOCAL, NOT DEPLOYED (9/7)
 
 Follow-on to the holdings work below; owner called expense ratio one of the most
@@ -316,359 +735,72 @@ already sitting in our own `filing_text` cache).
   Not actionable, no identity recoverable from our DB (AppSumo's webhook
   carries no buyer email).
 
-## CEO decision set + B2B kit + fixes — PUSHED AND **DEPLOYED LIVE** (9/3)
+## Earlier sessions, 9/1–9/3 — all shipped, condensed (was ~320 lines)
 
-**DEPLOYED**: `8936689` live via two deploys (`dep-dacf3l8ae00c73f3qj2g`, then
-`dep-dacfa9bm8hqs73aotc5g` for the sitemap fix). Repo verified back to private.
-Commits: `e66479c` fund-data fixes, `5712ec8` filing-change pages + affiliate,
-`8936689` sitemap cache race. All 6 verification checks green on prod:
+- **9/3 CEO decisions, deployed (`8936689`)**: fixed `/api/assets/:symbol/profile`
+  returning null performance for every ETF (Yahoo dropped the fields Ask relied
+  on); new public `/filing-changes/:symbol` pages (verbatim Was→Now quotes,
+  AI narrative stays gated); fixed affiliate `/accept` 409-ing every partner
+  profile; 18-lead B2B outreach kit built (nothing sent — owner-gated).
+  Sitemap diffs-shard cache-invalidation race found and fixed (shard served
+  353 URLs while the index omitted it for 90 min post-restart).
+- **ETF A–E grading — built, tested, then stripped same day, owner's call.**
+  Yahoo reports FXAIX's expense ratio as 1.53% (real 0.015%, a 100× error)
+  with no reliable way to detect a bad figure from a good one. Owner: "if we
+  can't verify it we won't have it." **Don't re-propose without a fix for the
+  underlying data-verification gap.** Three unrelated bug fixes from that
+  session were kept (ETF performance nulls, unknown-ticker 500, leveraged-ETF
+  regex).
+- **9/2 shipped and live**: Monitor Normal-mode verified-quote cards; AI menu
+  reorder (Dossier → Monitor → Ask); MRR ladder + GATTOMORTO referral code;
+  Monitor cap v2 (1/4/8) wired but shipped dark (`MONITOR_CAP_V2_EFFECTIVE_FROM`
+  blank — inert until set); customer-thread bug pass (AppSumo tier-3 session
+  bug, nav badge escaping, unread-badge-vanishes bug, boot-time index fixes).
+- **Graphite rebrand — tried and fully reverted same day.** Owner picked it
+  from a preview, hated it live, full revert via the push-clone (NOT the
+  "pre-change backup" tar, which was taken after the edit and was worthless).
+  **Lesson kept**: next color change restores from git/push-clone, never an
+  ad-hoc tar snapshot.
+- **9/1 strategy + shipped state**: Strategy v3 approved (warm humans + founder
+  B2B + $149/yr Intelligence founding SKU), honest bound $2,000/mo recurring
+  conditional on B2B converting. Direct checkout channel measured at $0 MRR
+  ever; AppSumo is the only paying channel. New pricing ladder shipped live
+  (`2cd178c1`+`74a7fdab`), boot-crash root cause fixed (yahoo-finance2 moved
+  from devDependencies).
 
-- **Live prod bug FIXED** — `/api/assets/SCHD/profile` `performance` was
-  `{null,null,null,null}` with no `annualReturns` (Ask answered every ETF
-  question on that); now `{yearsUp:11,yearsDown:3,best:0.329,worst:-0.056}` +
-  14 years of returns. Unknown ticker returns 404, not a 500.
-- `/filing-changes/AAPL|NVDA` 200 with verbatim Was→Now quotes; AI headline and
-  prose confirmed absent (only the gated CTA panel shows). `/filing-changes/ZZZZ`
-  → hub 200. Sitemap `diffs-1.xml` 200 with **353 URLs**, listed in the index.
-- **Bug found only by verifying, worth knowing**: the diffs shard was invisible
-  in the sitemap index for **90 min after every restart**. Two caches populate
-  before the boot+20s snapshot — `buildSitemapInventory()`'s 30-min memo and
-  ssr-cache's dedicated `/sitemap.xml` slot (90-min TTL, warmed at
-  `app.js:12283`). First deploy shipped with this; shard served 353 URLs while
-  the index omitted it, so nothing would have discovered the pages. Now the
-  snapshot invalidates the memo AND re-warms the ssr-cache slot. Reproduced the
-  race locally before and after to confirm.
-
-## (superseded header, kept for context) — LOCAL ONLY, NOT DEPLOYED (9/3)
-
-Full context: `notes/2026-09-02-ceo-decisions` is not a file — the actual plan lives
-in the session's plan artifact; the durable summary is here and in
-`notes/2026-09-02-b2b-25-list-kit.md`. Strategy v3's $2,000/mo target got a 36-hour
-measured check (Stripe/Mongo/prod HTTP, all $0 direct revenue, AppSumo net flat, 0
-real checkout starts in 14d) and a "first $1,000" decision set. Pricing untouched
-throughout — owner explicitly rejected surfacing the `/lifetime` SKU on the
-storefront even at unchanged prices.
-
-- **Shipped locally, suite green (444/444) after reconciling with concurrent
-  ETF-grading edits below**: three stale GBP Stripe payment links deactivated live
-  (`aFa14m84QgqA5f5ecC4sE00`, `3cI3cu4SEgqAePF8Si4sE01`, `fZu4gybh21vGfTJ0lM4sE02` —
-  unreferenced in code, £49/yr and £149 one-time on a retired product, verified
-  `active:false`, reversible).
-- **Affiliate `/api/affiliate/accept` bug fixed**: the route recomputed eligibility
-  inline (`appSumoLicenseActive || hasVerifiedStripeSubscription`), ignoring
-  `kind: 'partner'` — every external publisher 409'd forever even though
-  `affiliateProgram.canAcceptAmbassadorInvite()` two lines below already handled
-  partners correctly. One-line fix at `app.js` (search
-  "Partner profiles are external publishers"). 14/14 affiliate tests pass.
-- **New public surface: `GET /filing-changes/:symbol`** (`app.js:2219`), rendering
-  verbatim Was→Now quotes + EDGAR links from the 397-doc `filing_diffs` cache. AI
-  narrative (headline/tone/what) stays gated — matches the existing
-  `/filing-changes` page's stated promise. Sitemap gained a `diffs` shard, **353
-  URLs**, via `refreshFilingDiffSitemapSnapshot()` (boot +20s) writing
-  `backend/filing-diff-symbols.json` (same pattern as `indexable-shares.json`).
-  Index rows at `/filing-changes` now link to the new pages only where a diff
-  actually exists (checked against `filing_diffs.distinct('symbol')`) — no dead
-  links. Edge cases fixed during testing: symbol regex now requires a leading
-  letter (blocks path-traversal strings), and no-diff tickers redirect to the hub
-  `/filing-changes`, not `/stocks/:symbol` (which itself 404s for uncovered
-  tickers — was a soft-404 chain).
-- **B2B outreach kit built**: `notes/2026-09-02-b2b-25-list-kit.md` — 18 real,
-  web-verified newsletter-writer leads matched to our best diffs (TSLA/NVDA/PLTR/
-  CAT/AMD/INTC/MSTR/NOW/UPS/FDX), 3 fully drafted personalized sends, and an honest
-  note that the RIA leg (public Form ADV/IAPD) needs an interactive/Playwright
-  session — IAPD is a JS search app, not fetchable statically, and no RIA names
-  were fabricated to pad the count. **Nothing sent** — sends stay owner-gated,
-  founder-personal-channel-only, never support@.
-- **Decision 3 (env `APPSUMO_REVIEW_EMAILS=0→1`) investigated and deliberately
-  NOT done**: the in-app review prompt isn't gated by that var at all (already
-  live, 2 shown / 0 clicked / 2 dismissed) — the var gates an *email* sweep, and
-  flipping it would immediately mail 6 real customers, 5 of them a stage-1
-  onboarding message days after they already got the 9/1 wave. Left at 0.
-- **Concurrency note**: mid-session, a different/concurrent process ran the ETF
-  grading build-then-strip below (stamps flipped `fundgrade1`→`paywall1` under me).
-  Verified both new routes above survived the revert with correct current stamps;
-  re-ran full suite after to confirm (this also explains an earlier
-  466→444-passing-tests scare that had nothing to do with my edits).
-- **Not started**: Decision 2 (free filing-change email alerts, no account — builds
-  on the new pages), Decision 5 (Bing/GSC zero-click query CTR rewrite), Decision
-  6b (publisher recruiting now that 6a unblocks it). Two owner gates still open
-  from v3: live $24.99 purchase+refund, and the AppSumo portal check on two 9/2
-  tier-1 deactivations (same-day, might be refunds — portal is the only source).
-
-## ETF A–E grading — BUILT, TESTED, THEN STRIPPED PER OWNER CALL (9/3)
-
-- Prompted by Sandra (`Fruitfulfinancellc`, AppSumo) asking for an A–E ETF
-  ranking to lever a buy-borrow-die strategy against. Built `fund-grade.js`
-  (neutral quality grade, cost/consistency/tenure/size/risk-adjusted, published
-  rubric at `/etf-grading`, badge on the fund page), wired into
-  `fetchAssetProfile`/`rank_funds`/Ask, 22 tests, 466/466 suite, verified
-  against 30 live tickers.
-- Hardening pass found real bugs along the way: inverse funds mislabelled
-  Income (T-bill collateral yield), the leveraged detector missing plain
-  `ProShares Short <index>` names, an A possible with cost+size both unknown,
-  an unknown ticker throwing a 500. All fixed and verified.
-- Then found Yahoo reports **FXAIX's expense ratio as 1.53%** (real: 0.015%,
-  a 100× source error) in every field, with no way to detect a bad figure from
-  a real one without inventing data. Owner's call: **"if we can't verify it we
-  won't have it."** Correct call for a number customers borrow against.
-- **Stripped 9/3, same session**: `backend/fund-grade.js` and its test file
-  deleted, `/etf-grading` route removed from `app.js`, the badge/details block
-  removed from `frontend-v2/assets/company.js`, grade-related tool
-  descriptions reverted in `ai-chat.js`, `fund-ranking.js`'s ranked rows and
-  methodology string reverted. Stamp back to `20260903-paywall1` everywhere in
-  the live tree (93 occurrences, 44 files — `.push-clone`/`prod-push` never
-  had the fund-grade stamp, confirmed clean). Suite green after strip (see
-  count below — this repo has no local git, so "revert" here means these
-  literal edits, not a checkout).
-- **3 fixes KEPT — verified independently, nothing to do with the grade:**
-  1. `asset-profile.js`: Yahoo no longer returns
-     `numYearsUp`/`numYearsDown`/`best|worstOneYrTotalReturn` —
-     `profile.performance` was `{null,null,null,null}` **live on prod**
-     (confirmed via `GET /api/assets/SCHD/profile`, 9/3). `get_fund_profile`
-     spreads the whole profile to the model (`ai-chat.js`), so Ask has been
-     answering every ETF question with zero calendar-year record. Now derived
-     from `fundPerformance.annualTotalReturns.returns`, also exposed as
-     `profile.annualReturns` (14 yrs for SCHD).
-  2. `asset-profile.js`: unknown ticker (`yahoo.quote()` resolves `undefined`
-     instead of throwing) crashed with a TypeError → now a clean 404.
-  3. `fund-ranking.js`: `leveragedOrInverse` regex now catches plain
-     `ProShares Short <index>` names (SH/PSQ/DOG/RWM — no "3x"/"ultra"/
-     "inverse" in the name), with a lookahead so `Short-Term`/`Short Duration`
-     bond funds (SHY, VGSH, BSV) are never misflagged.
-- Reply to Sandra not sent. Should tell her plainly the grading tool isn't
-  shippable yet — Yahoo's fund data has a confirmed 100× error on at least one
-  fund and nothing catches it reliably — rather than ship something unverified
-  against a leverage decision. Point her at `get_fund_profile`/`rank_funds`,
-  which already cover most of what she asked for.
-
-## Monitor Normal mode shows verified quotes — LIVE `f19ec71` (deploy dep-dac6cjvavr4c738og690, 9/2)
-
-- Normal mode's "What the words changed" cards now render single-source
-  verified passages (`mon-quote-single`, "New filing"), not just Was→Now
-  pairs — same character-for-character evidence rule as Analyst mode. NVDA's
-  live 10-Q report: 0 quoted cards in Normal before → 6 after (measured in
-  headless Chrome on prod).
-- monitor.js stamp `20260902-normquote1` (monitor.html is its only carrier;
-  app.js/system.css untouched, still `20260903-paywall1`). Tests: 28/28
-  (filing-evidence, monitor-free-usage, monitor-credits, profile-consolidation).
-- Same session: ₹1000 X-ad package finished in `notes/x ad campaign/` —
-  promote variant E (263 counted chars) → `/tour?utm_source=x&utm_campaign=sep1000`;
-  creative `x-ad-1000-card-real.png` is a REAL capture of the NVDA redline
-  (via `scripts/generate-x-ad-screenshot-2026-09-02.js`, anonymous cached
-  report, zero credits). Organic milestone post ($1,000 sales) goes first —
-  never say MRR/ARR. Kill rule: CTR <0.5% AND 0 signups → no re-up.
-
-## AI menu reorder — LIVE `730af27` (deploy dep-dac2v98jo6nc739duqm0, 9/2)
-
-- Dropdown now Research Dossier → Filing Monitor → Ask (trigger label + click
-  target still "Ask AI" → /ask.html). Mobile subs were already Dossier-first —
-  untouched. Stamp `20260902-aiorder1` (45 files, 89/89 diff lines). 434/434.
-- Verified LIVE: page stamp aiorder1 + served bundle carries Dossier →
-  Monitor → Ask order. Deploy ran via `../trigger-deploy.sh` with the owner's
-  Render API key (pasted inline 9/2; export RENDER_API_KEY to re-run — the key
-  is NOT stored in any file). Repo flipped back to private (verified).
-
-## MRR ladder + referral kit (2026-09-02) — LIVE + SENT, nothing pending
-
-- Prod serves `2b698ea` (measured: live checkout session has
-  `allow_promotion_codes: true`), so the Good 50/mo code default is live too —
-  the `AI_CHAT_CORE_LIMIT` env key is now redundant (still fine if added).
-- **GATTOMORTO promo code is live**: Stripe coupon `referral-25-off`
-  ($24.99 off first invoice, once, ≤50 redemptions) + code `GATTOMORTO`
-  (`promo_1UBETZAUeKapY1OPgKtdxJS9`). Clover-API gotcha: promo codes now need
-  `promotion[type]=coupon&promotion[coupon]=<couponId>` (flat `coupon=` is gone).
-- **+1 AI month applied**: gattomorto77's 2026-09 `ai_chat_usage` counter
-  deleted (was 1 → 0). Per-referral renewals later = `appsumoAiCap` +30, revert
-  by SETTING back to 30/100/300 — never `$unset`.
-- **Email sent 9/2** via POST /api/admin/messages/threads (HTTP 201, sender is
-  structurally support@): features live + GATTOMORTO code + +1 AI month per
-  friend who stays. His `customerMessageEmailsOptOut` is false, same pipe
-  delivered 9/1 (he replied to it). Admin-token recipe that worked:
-  mint JWT `{userId, v: authVersion}` for rin@gmail.com from the env-backup
-  JWT_SECRET → `Cookie: sp_auth=` → **www.stockportfolio.pro** (apex 301 drops
-  the cookie). One probe checkout session (cs_live_b1G5…) sits open; expires
-  in 24h. One-offs: /tmp/spdev/{send-gatto,probe-promo,reset-gatto}.js.
-- Ask wall anchors annual; homepage Good-annual featured ("Best value —
-  $16.67/month"); stamp `20260902-mrr1` live. 434/434.
-- 7-day no-card trial exists (`startNoCardTrial`) but is legacy-rollback-only
-  (`REQUIRE_INITIAL_STRIPE_PAYMENT` gates it off) — surfacing it is an owner
-  billing decision, deferred.
-
-## Graphite rebrand TRIED AND REVERTED (2026-09-02) — tree back at `c05049c`
-
-Owner hated the blue accent, picked graphite from a browser preview, it was
-applied tree-wide (both themes, emails, charts, admin, SVG/PNG/WebP art,
-stamp `20260902-graphite`) — then owner saw it live and rejected it as
-hideous. Full revert done same day: rsync of frontend/, frontend-v2/, lib/,
-backend/ from clean `.push-clone` @ `c05049c` (diff vs clone: byte-identical),
-suite 434/434, stamps back at `20260902-navfix1`. Blue `#1a4fd6`/`#3b82f6`
-are the live accents again. LESSON: the "pre-change backup"
-(/tmp/pre-desat-backup.tar.gz) was actually taken AFTER the token edit and is
-worthless — the push clone was the real baseline. No blue-change is pending;
-next color change should restore from `.push-clone`/git, not ad-hoc tars.
-Nothing was ever pushed for the rebrand.
-
-## Customer-thread bug pass (2026-09-02) — PUSHED `c05049c`, rides next deploy
-
-From the gattomorto77 website-interaction thread. Stamp → `20260902-navfix1`
-(all pages + server-rendered + pinning tests). Pushed to origin/main as
-`c05049c` — which also carried previously-unpushed local work (monitor-cap
-v2 + multi-portfolio switcher/CSV) that origin lacked; verified 434/434 in
-the push clone before pushing. Ships at the owner's next deploy trigger
-(same one pending for `3bf46b0` screener bands).
-
-- **AppSumo tier-3 (Pro) = top tier → only the $14 AI-credit recharge.**
-  Root cause was deeper than the frontend: `/api/session` never returned
-  `appsumo`, so EVERY AppSumo branch in nav/upgrade.html was dead code and
-  tier-3 buyers fell through to the full ladder. Session now mirrors the
-  quota payload `{isAppSumo, tier, upgradeUrl}`; upgrade.html + nav tray
-  gate tier 3 to the highest-tier/Recharge copy. Tiers 1/2 keep the AppSumo
-  upgrade link (now actually live — 429 Ask wall already excluded tier 3).
-- **Nav Messages badge** no longer renders as literal `<span>` text
-  (row() escaped the whole label; badge is now a raw-suffix param).
-- **Unread badge vanished on profile load**: messages.js fetched the thread
-  on page load, which zeroes `userUnread` server-side before the section is
-  opened. Fetch now deferred to first open of #messages-details (inbox.html
-  unchanged; the #messages-details deep link still works via the toggle
-  event).
-- **Perf (slow profile + slow admin thread click)**: boot-time
-  `ensureMeteringIndexes()` — credit_ledger {userId,month,at:-1} (was 3
-  COLLSCANs per /api/credits, a nav hot path), ai_chat_usage {userId,month},
-  personal_memory {userId}. Admin thread click updates the clicked row in
-  place instead of re-running the full customer-directory scan.
-- Diagnosed but NOT shipped (bigger surgery, deferred): authMiddleware
-  fetches the full ~140-field User doc (and may save it) on every authed
-  request (~7× per profile page load); no User.createdAt index for the
-  admin directory sort.
-- After deploy: reply to gattomorto77 from support@ via /api/admin/messages.
-
-## Monitor cap v2 (1/4/8) SHIPPED DARK (2026-09-02)
-
-`MONITOR_CAP_V2_EFFECTIVE_FROM` is **blank** — code is inert, everyone still
-gets 12/40/∞. Setting it starts 1/4/8 for redemptions from that moment; earlier
-buyers are grandfathered permanently by redemption date. Cap + label + watchlist
-gate all resolve from `lib/tier-limits.js` (`monitorCapLabel`,
-`wouldExceedMonitorCap`); the redemption email and profile page no longer
-hardcode the ladder — that drift would have promised "unlimited" to a capped
-buyer. Cache stamp → `20260902-monitorcap1`. Full suite 434/434
-(`direct-ltd-affiliate` is order-flaky, passes in isolation). No AppSumo
-approval needed: nothing is taken from an existing buyer.
-
-## STRATEGY v3 APPROVED — the operating plan (2026-09-01)
-
-`notes/2026-09-01-stripe-2000-strategy-v3.md` (supersedes v2 —
-`notes/2026-09-01-stripe-2000-strategy-v2.md` kept for checkout mechanics).
-Three engines: **warm humans** (payment links, sent IN PARALLEL with checkout
-diagnosis) · **founder-led B2B** at Pro/Desk (sample-first: cached filing
-briefs as demos) · **Intelligence founding $149/yr** attach on the AppSumo
-pool (manual SKU week 1: price + payment link + `scripts/grant-trial.js`
-grant; feature subset = Filing Diff + segments + briefing, never
-proGate-everything). Consumer $24.99 rung = life support only ($300–700/mo
-ceiling). Honest bound: $2,000/mo recurring 9–15 mo, conditional on B2B
-converting; 90-day realistic $300–700/mo net. Full-time founder hours only
-if the gate trips (checkout verified converting + B2B reply rate real);
-any sprint framed as running through Black Friday (Nov 24–30).
-
-Key measured facts: Filing Diff **already built** (397 cached redlines,
-endpoint `backend/app.js:7649` behind proGate); AppSumo engine **85%
-marketplace-organic** (776/914 Aug clicks source=website) so reviews + v3 are
-the levers, not founder hours. Affiliate blocker: `POST
-/api/affiliate/accept` unconditional verifiedPurchase 409 blocks
-partner-kind profiles.
-
-Week-1 (diagnosis + unblocking only): local test-mode checkout
-(`DIRECT_LTD_TEST_MODE`, app.js:650) → owner live purchase; Stripe config
-audit (GBP residue, old-account price `price_1ShhUd…`, payment methods);
-GA4 key events (verify event names fire first — also likely fixes LCP 3.8s /
-CLS 0.36); topup per-key PUT; referral query; two support@ sends (12 pending
-leads + 8-buyer review ask) after ONE live payment-link purchase+refund;
-AppSumo attribution ticket. Kill criteria + 14-day re-forecast protocol
-(2026-09-15) in the doc's Appendices.
-
-**WEEK-1 FORENSICS DONE (2026-09-01, ownerless) —
-`notes/2026-09-01-week1-checkout-forensics.md`:**
-- **Abandonment explained**: FOUR price generations — a 404'd GBP price,
-  live GBP prices shown to US buyers, June-USD prices; 8/31 re-pricing
-  fixed the pipe; hosted page verified healthy (US$24.99, 0 errors).
-- **Warm pool 25 leads, not 12** (→ ~6 REAL humans; rest owner-test
-  signups — see reply-wave note). Rung mapping in the readout; desk =
-  founder-led close.
-- **Referral bucket**: 74% owner-local; real external ≈60–70 sessions/mo
-  (appsumo.com 41, t.co 16, yahoo 10, github 7). No hidden channel.
-- `STRIPE_PRICE_ID_*` env keys ABSENT from env backup → DONE 9/1, see #7.
-- Drafts: `notes/2026-09-01-week1-email-drafts.md` (SENT 38/38).
-- Filing Diff kit: `notes/2026-09-01-week1-filing-diff-demand-kit.md`
-  (TSLA/UPS/FDX briefs, early-access copy, B2B template; exemplar = TSLA).
-
-## CEO state-of-business — COMPLETE (2026-09-01)
-
-Brief: `notes/2026-09-01-ceo-state-of-business.md` — every number measured,
-sources named. Headline: **direct channel never converted ($0 MRR ever,
-0 payouts, 100% checkout abandonment on n=3); AppSumo only paying channel**
-(13 codes, net $22–30/code, next payout $152.86; listing v3 still in review).
-GA4 0 key events; Google ~5 clicks/mo vs Bing ~10/wk; Clarity LCP 3.8s /
-CLS 0.36; funnel 850 sessions → 3 checkouts → 0 paid; 12 warm leads in
-`subscription.status: pending`.
-
-**Headed-browser session recipe**: real snap Brave against profile clone
-`/tmp/ceo-collect/brave-clone/Brave-Browser` (rsync of
-`~/snap/brave/current/.config/BraveSoftware/Brave-Browser`, caches excluded),
-`--remote-debugging-port=9333`, DISPLAY=:0. Owner logs in themselves (2SV).
-Raw dumps: `/tmp/ceo-collect/*.txt`. AppSumo portal subpages 404 at guessed
-URLs — nav is JS-rendered; click through.
-
-## SHIPPED — production live on the new ladder (2026-09-01)
-
-`2cd178c1` + `74a7fdab` on `avisre/prod` main; Render deploy
-`dep-daav5ecs728c73e8udsg` live, verified (stamp `20260901-askfix1`, all 5
-ladder cards, /upgrade /recharge /monitor 200). Boot-crash root cause:
-`yahoo-finance2` devDep required unconditionally at app.js:17 — moved to
-`dependencies`. Suite 411/411. Emailed William (review-eligibility +
-in-review check + v3 heads-up). Nothing submitted to the portal — owner's
-call.
-
-## LOCAL-ONLY builds — RESOLVED 9/1 (historical)
-
-9/1 diff vs origin/main proved ladder/topup/front door/hero/ask caches were
-all in the 8/31 pushes (`2cd178c1`+`74a7fdab`, live); only docs+lockfile
-lagged → pushed as `7ee7dbf` (yahoo-finance2 moved out of devDependencies —
-prevents a repeat of the 8/31 boot crash). Ship log: ladder (menu4) · topup
-wired · front door anon gate (sales1) · hero + Beta chip + ask caches
-(askfix1) · `docs/appsumo-listing-v3.md`.
+Full detail on any of the above (exact commits, verification steps, dollar
+figures) is in git history and `notes/2026-09-0{1,2,3}-*.md` if it's ever
+needed again — not repeated here since none of it has an open action item.
 
 ## Owner actions pending
 
-1. Owner logged in to gh 9/1; docs+lockfile pushed as `7ee7dbf`. **Owner:
-   trigger the Render deploy** (flip avisre/prod public → deploy → flip
-   back). All env PUTs (#7) activate at this deploy. Auto-deploy on push is
-   broken — deploy must be triggered manually. **One trigger now ships
-   `3bf46b0` (9/2, screener market-cap bands — owner directive after
-   gattomorto77's request; verified 411/411 + live API bands) AND
-   `c05049c` (customer-thread fixes + monitor-cap v2 + multi-portfolio,
-   434/434).**
-2. Owner E2E locally on :4001 (upgrade ladder, compare beta, front door).
-3. **Strategy Week-1 owner gates — REMAINING:** (a) live payment-link
-   purchase+refund (links created 9/1, verified rendering); (b) live $24.99
-   checkout+refund. Sends DONE 9/1: 38/38 via /api/admin/messages (25 leads
-   + 12 review asks + 1 preview); watch replies in /admin/messages.
-4. Revoke old PAT; rotate Bing key (`~/.local/share/secrets/bing_webmaster.txt`).
-5. AppSumo listing v3 submission owner's call; review harvest to 6–10
-   (review 1 in: gattomorto77 — see `notes/2026-09-02-reply-wave-1.md`;
-   owner pastes other Gmail replies, I can't read the mailbox).
-6. Strategy gate at day 14 (≈2026-09-15): re-forecast per Appendix C of v3.
-7. **Render env PUTs DONE 9/1, deploy DONE** (live `dep-dabcorgu01pc73eqnta0`
-   @ `481fc04`; env changes active). All five STRIPE_PRICE_ID_* audited
-   CORRECT as-is — featured Pro $499.99/yr = planId `pro-annual` →
-   PRO_ANNUAL key (`pro` is the retired rung). PUT this session:
-   ASK_WARM_TICKERS=NVDA,AMD,INTC,AAPL,TSLA,V,MA and APPSUMO_REVIEW_EMAILS=0
-   (both re-GET-verified). **Intelligence founding SKU live 9/1**: $149/yr
-   product `prod_VBJ9tuIAexvOf8` / price `price_1UAwXPAUeKapY1OPhzEkQNNA` /
-   link https://buy.stripe.com/9B6eVcbh2fmwgXNb0q4sE06 (verified US$149.00).
-   Offered to gattomorto77. TODO: manual entitlement grant on purchase
-   (webhook doesn't map this SKU yet).
-8. **Rotate secrets exposed in chat 9/1** (env snapshot pasted into the
-   session): STRIPE_SECRET_KEY, SMTP_PASS, JWT_SECRET, GOOGLE_CLIENT_SECRET,
-   AI keys — at the next deploy window, snapshot first.
+This list was fully rewritten 9/11 — the previous version dated to 9/1–9/2
+and referenced deploys/gates long since resolved by later sessions (see git
+log for what actually shipped since). If a topic below has a more detailed
+section elsewhere in this file dated later than the item, that section is
+the current source of truth.
+
+1. **Bot-blocker canary → enforce** (this session, see top entry): set
+   `BOT_BLOCK_DRY_RUN=true` on Render before merge, check `stats()` after
+   ~24h, then flip to `false`.
+2. **Secrets exposed in local transcripts, never rotated as of 9/5**
+   (`docs/growth/SESSION-HANDOFF-2026-09-05.md` §8): `STRIPE_SECRET_KEY`
+   (live), `STRIPE_WEBHOOK_SECRET`, `JWT_SECRET`, `SMTP_PASS`,
+   `GOOGLE_CLIENT_SECRET`, `OLLAMA_API_KEY` — rotate at source AND on Render
+   back-to-back per key (checkout/webhooks break if they're out of sync
+   mid-rotation). Also revoke the old GitHub PAT. **Status since 9/5 unknown
+   from this file — verify before assuming either way.**
+3. **`STRIPE_PRICE_ID_CREDITS_TOPUP` on Render** — repeatedly flagged (9/5
+   through 9/8) as set locally but not on Render, so prod returns
+   `TOPUP_UNAVAILABLE`. Check current status before re-flagging.
+4. **AppSumo listing v5 + William emails** — `docs/growth/appsumo-listing-v5.md`
+   is the current copy; check the latest `Listing v5:` -prefixed commits for
+   whether the William reply/portal update actually went out.
+5. **Monthly Ollama Cloud bill** — the one input needed to state AI margin in
+   dollars (formula: cost per credit = bill ÷ credits consumed). Owner-only.
+6. **`avisre/prod` repo visibility** — flagged public as of 9/6, which
+   exposes `ai-client.js`/`ollama-usage-tracker.js` naming the AI provider
+   (a stated trade secret). Owner's call whether/when to flip back private.
 
 ## Render / deploy mechanics
 
@@ -692,9 +824,10 @@ wired · front door anon gate (sales1) · hero + Beta chip + ask caches
 
 ## Working rules
 
-- Node v22: `~/.nvm/versions/node/v22.22.0/bin/node` (PATH node is v18);
-  tests from `backend/`; deps in `backend/node_modules`; no `rg`;
-  subagents/workflows WORK here now (env-facts memory corrected 9/1).
+- Node: PATH node is v26.4.0 at `/opt/homebrew/bin/node` — use it for
+  everything. The old nvm v22.22.0 path in earlier entries above no longer
+  exists on this machine (corrected 9/5, confirmed still true 9/11); tests
+  from `backend/`; deps in `backend/node_modules`; no `rg`.
 - Measure, don't estimate. No `sleep N`; no interactive auth via Bash.
 - AI provider identity is a trade secret — never surface. Never store keys;
   inline/temp only. No anti-bot workarounds. Customer email only from

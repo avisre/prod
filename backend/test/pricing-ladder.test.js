@@ -91,6 +91,19 @@ test('the pricing pages carry the same price components as the homepage', () => 
   assert.match(rechargeSource, /\/credits\/topup/);
 });
 
+test('recharge.html gates on auth instead of showing a dead button', () => {
+  // Logged-out gate: same pattern as profile.html's #locked block.
+  assert.match(rechargeSource, /id="recharge-locked"/);
+  assert.match(rechargeSource, /href="\/login\.html\?next=%2Frecharge\.html"/);
+  // The script checks the token before wiring anything, and the card starts
+  // hidden so a failed gate never shows a live-looking button.
+  assert.match(rechargeSource, /if \(!window\.V2\.token\(\)\)/);
+  assert.match(rechargeSource, /id="recharge-card"[^>]*hidden/);
+  // Expired-session recovery on the one error a stale cookie can produce.
+  assert.match(rechargeSource, /r\.status === 401/);
+  assert.match(rechargeSource, /Your session expired — please log in again\./);
+});
+
 test('the topup route sells a verified one-time price and nothing else', () => {
   assert.match(appSource, /const STRIPE_PRICE_ID_CREDITS_TOPUP = process\.env\.STRIPE_PRICE_ID_CREDITS_TOPUP \|\| '';/);
   assert.match(appSource, /const expectedAmount = Math\.round\(CREDIT_TOPUP_PRICE \* 100\);/);
@@ -100,4 +113,11 @@ test('the topup route sells a verified one-time price and nothing else', () => {
   // Grant happens only on the webhook, only when paid, idempotently.
   assert.match(appSource, /payload\.metadata\?\.checkoutType === 'credit_topup'/);
   assert.match(appSource, /credits\.grant\(\s*\n\s*userId,\s*\n\s*Number\(payload\.metadata\?\.credits\) \|\| CREDIT_TOPUP_CREDITS,\s*\n\s*'topup',/);
+  // authMiddleware puts a raw mongoose ObjectId in req.userId; Stripe's SDK
+  // serializes it as client_reference_id[buffer]=<binary> (rejected as an
+  // unknown param -> 500 "Unable to start checkout"), so every client_reference_id
+  // must be stringified first. This shipped defect made recharge impossible for
+  // everyone until 2026-09-08.
+  assert.match(appSource, /client_reference_id: req\.userId\.toString\(\),/);
+  assert.doesNotMatch(appSource, /client_reference_id: req\.userId,/, 'raw ObjectId must not reach Stripe params');
 });

@@ -572,9 +572,14 @@
         const totalHoldings = pfList.reduce((a, p) => a + (p.holdingsCount || 0), 0);
         select.innerHTML = [
             `<option value="all">All portfolios${adopted ? ` · ${totalHoldings}` : ''}</option>`,
-            ...pfList.map((p) => `<option value="${esc(String(p.id))}">${esc(p.name)} · ${p.holdingsCount || 0}</option>`)
+            ...pfList.map((p) => `<option value="${esc(String(p.id))}">${esc(p.name)} · ${p.holdingsCount || 0}</option>`),
+            // 🧪 beta-only entry; 'ai-portfolio' is a view, not a portfolio id
+            // — the change handler routes it to the experiment section. The
+            // option exists only once the portfolio does: display-only, no
+            // setup entry point on the dashboard.
+            ...(aiPaperBeta && aiPaperBeta.state.exists ? [`<option value="ai-portfolio">🧪 AI Paper Portfolio ★</option>`] : [])
         ].join('');
-        select.value = String(pfSelection);
+        select.value = aiPaperView ? 'ai-portfolio' : String(pfSelection);
         const del = $('pf-del');
         if (del) {
             del.hidden = pfSelection === 'all';
@@ -699,7 +704,13 @@
         const newBtn = $('pf-new');
         const delBtn = $('pf-del');
         if (!select || !newBtn || !delBtn) return;
-        select.addEventListener('change', () => { pfPersist(select.value); applyScope(); });
+        select.addEventListener('change', () => {
+            // 🧪 the experiment view is transient: never persisted as a scope
+            // (it owns no holdings), and leaving it restores the real scope.
+            if (select.value === 'ai-portfolio') { showAiPaperView(); return; }
+            hideAiPaperView();
+            pfPersist(select.value); applyScope();
+        });
         newBtn.addEventListener('click', promptNewPortfolio);
         delBtn.addEventListener('click', promptDeletePortfolio);
     }
@@ -1268,7 +1279,244 @@
         }
     });
 
-    mountAsk($('pf-ask'), {
+    // ---- 🧪 AI Paper Portfolio (beta, display-only) ----
+    // The dashboard never sets this experiment up — setup lives in Ask AI
+    // (the 🧪 toggle on ask.html). This section is only the visualization,
+    // reached through the portfolio dropdown: the ★ option appears once a
+    // portfolio exists, and nothing renders before that. The portfolio is
+    // buy-once-never-change: there is no trade UI anywhere, by design.
+    let aiPaperBeta = null;    // probe result { state, gurus }; null = feature off
+    let aiPaperView = false;   // the switcher is showing the experiment view
+    let aiPaperPoll = null;    // 2.5s detail poll while status === 'building'
+    let aiPaperFeedSeen = 0;   // buildLog lines already rendered (poll dedupe)
+
+    async function probeAiPaper() {
+        if (DEMO) return;
+        try {
+            const r = await fetch(`${API}/ai-paper-portfolio`, { headers: auth });
+            if (!r.ok) return; // 403 = not this account's beta: render nothing at all
+            const data = await r.json();
+            if (!data || data.enabled !== true) return;
+            aiPaperBeta = { state: data.state || { exists: false }, gurus: Array.isArray(data.gurus) ? data.gurus : [] };
+            if (aiPaperBeta.state.exists) {
+                renderPortfolios(); // the ★ option exists only because the portfolio does
+                // a build started on the Ask page (or in flight from a prior
+                // load) still needs its poll so this tab shows the outcome
+                if (aiPaperBeta.state.status === 'building') startAiPaperPoll();
+            }
+        } catch (_) { /* any error leaves the feature invisible */ }
+    }
+
+    function showAiPaperView() {
+        aiPaperView = true;
+        const section = $('ai-pf-section');
+        if (!section) return;
+        if (section.hidden) {
+            section.hidden = false;
+            loadAiPaperSection();
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        renderPortfolios(); // keep the switcher in step with the view
+    }
+
+    function hideAiPaperView() {
+        aiPaperView = false;
+        const section = $('ai-pf-section');
+        if (section) section.hidden = true;
+        stopAiPaperPoll();
+    }
+
+    async function fetchAiPaperDetail() {
+        try {
+            const r = await fetch(`${API}/ai-paper-portfolio/detail`, { headers: auth });
+            if (!r.ok) return null;
+            return await r.json();
+        } catch (_) { return null; }
+    }
+
+    async function loadAiPaperSection() {
+        const detail = await fetchAiPaperDetail();
+        if (!detail || !detail.exists) {
+            // The cached probe was stale — no portfolio: hide the section and
+            // drop the dropdown option. There is no empty-state pitch here;
+            // setup lives in Ask AI.
+            aiPaperBeta.state = { exists: false };
+            hideAiPaperView();
+            renderPortfolios();
+            return;
+        }
+        renderAiPaperDetail(detail);
+        if (detail.portfolio.status === 'building') startAiPaperPoll();
+    }
+
+    // Poll every 2.5s only while a build is in flight; each response appends
+    // only the buildLog lines not shown yet (dedupe by index), and the first
+    // response that leaves 'building' renders the outcome and stops the clock.
+    function startAiPaperPoll() {
+        if (aiPaperPoll) return;
+        aiPaperPoll = setInterval(async () => {
+            const detail = await fetchAiPaperDetail();
+            if (!detail) return;
+            const p = detail.portfolio || {};
+            if (!detail.exists || (p.status !== 'building')) {
+                stopAiPaperPoll();
+                renderAiPaperDetail(detail);
+                return;
+            }
+            if (!$('ai-pf-progress')) {
+                renderAiPaperDetail(detail); // first frame: lay out the building state
+            }
+            const log = Array.isArray(p.buildLog) ? p.buildLog : [];
+            const box = $('ai-pf-progress');
+            if (box) {
+                for (let i = aiPaperFeedSeen; i < log.length; i++) {
+                    const line = document.createElement('div');
+                    line.textContent = log[i];
+                    box.appendChild(line);
+                }
+                aiPaperFeedSeen = log.length;
+            }
+        }, 2500);
+    }
+
+    function stopAiPaperPoll() {
+        if (aiPaperPoll) { clearInterval(aiPaperPoll); aiPaperPoll = null; }
+        aiPaperFeedSeen = 0;
+    }
+
+    function aiPaperBadge(p) {
+        if (p.status === 'building') return '<span class="ai-badge">Building…</span>';
+        if (p.status === 'paused') return '<span class="ai-badge">Paused — nothing was bought</span>';
+        if (p.status === 'failed') return '<span class="ai-badge is-neg">Build failed</span>';
+        if (p.status === 'committed') return `<span class="ai-badge">Review ${Math.min(p.dayCount + 1, 2)} of 2 — nightly, advisory only, no trades</span>`;
+        return '<span class="ai-badge is-ok">Tracking — portfolio fixed; reviews done</span>';
+    }
+
+    function renderAiPaperDetail(detail) {
+        const body = $('ai-pf-body');
+        const sub = $('ai-pf-sub');
+        if (!body) return;
+        const p = detail.portfolio;
+        if (sub) sub.textContent = `since ${new Date(p.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+
+        if (p.status === 'building') {
+            // never re-render over feed lines that are already streaming
+            if ($('ai-pf-progress')) return;
+            body.innerHTML = `
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">about two minutes — the feed below shows every research step</span></div>
+              <div class="ai-progress" id="ai-pf-progress" role="status" aria-live="polite"></div>
+              <button type="button" class="btn btn-quiet btn-sm ai-pf-pause">⏸ Pause the research</button>`;
+            const btn = body.querySelector('.ai-pf-pause');
+            if (btn) btn.addEventListener('click', async () => {
+                btn.disabled = true;
+                btn.textContent = 'Pausing…';
+                try { await fetch(`${API}/ai-paper-portfolio/stop`, { method: 'POST', headers: auth }); } catch (_) { /* the poll picks up the pause */ }
+            });
+            return;
+        }
+
+        if (p.status === 'paused') {
+            const setup = p.setup || {};
+            const setupBits = [setup.guruId ? `guru: ${setup.guruId}` : 'two data minds', ...(Array.isArray(setup.constraints) && setup.constraints.length ? setup.constraints : [])];
+            body.innerHTML = `
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">the research stopped cleanly — nothing was bought</span></div>
+              <div class="notice"><strong>Paused by you.</strong>
+                <p>Setup was: ${esc(setupBits.join(' · '))}</p>
+                <p style="margin:10px 0 0;">Edit the setup and run it again in <a href="/ask.html?aiPaper=1&amp;q=Change%20the%20setup%20and%20run%20my%20AI%20Paper%20Portfolio%20again">Ask AI</a> — a different guru, or constraints like “avoid financials”. Nothing carries over except what you confirm.</p>
+              </div>`;
+            return;
+        }
+
+        if (p.status === 'failed') {
+            body.innerHTML = `
+              <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">nothing was bought — no half-built portfolio exists</span></div>
+              <div class="notice"><strong>The build didn’t finish.</strong>
+                <p>${esc(p.buildError || 'Something went wrong during construction.')}</p>
+                <p style="margin:10px 0 0;">Setup and retry live in <a href="/ask.html?aiPaper=1&amp;q=Retry%20the%20setup%20for%20my%20AI%20Paper%20Portfolio">Ask AI</a> — nothing here ever trades.</p>
+              </div>`;
+            return;
+        }
+
+        const t = detail.totals || {};
+        const snaps = Array.isArray(detail.snapshots) ? detail.snapshots : [];
+        const latest = snaps.length ? snaps[snaps.length - 1] : null;
+        const per = latest && Array.isArray(latest.perPersona) ? latest.perPersona : [];
+        const vsSpy = (t.portfolioReturnPct ?? 0) - (t.spyReturnPct ?? 0);
+        const cash = Number(p.cash) || 0;
+
+        // Benchmark chart: portfolio return % vs SPY return %, both from the
+        // same snapshot series. Days 0–2 are sparse by design — the copy says
+        // so rather than pretending a smooth line.
+        const n = snaps.length;
+        const chartHtml = n >= 2
+            ? chart(
+                [
+                    { values: snaps.map((s) => s.portfolioReturnPct), cls: 'accent' },
+                    { values: snaps.map((s) => s.spyReturnPct), cls: 'faint' }
+                ],
+                snaps.map((s, i) => (i % Math.max(1, Math.ceil(n / 6)) === 0 ? String(s.date).slice(5) : '')),
+                { fmt: (v) => `${Number(v).toFixed(1)}%` }
+            )
+            : '<p class="small muted" style="margin:8px 0 0;">The benchmark chart fills in as daily closes land.</p>';
+        const gapNote = n >= 2 && (new Date(snaps[n - 1].date) - new Date(snaps[0].date)) / 86400000 > n + 3
+            ? '<p class="small faint" style="margin:8px 0 0;">Some days are missing — the server was likely asleep (free-tier sleep pauses the nightly tick).</p>'
+            : '';
+
+        const personaCard = (x) => {
+            const pos = (p.positions || []).find((q) => q.personaId === x.id) || {};
+            const mine = per.find((q) => q.id === x.id) || {};
+            const isGuru = x.kind === 'guru';
+            return `
+              <div class="ai-persona">
+                <div class="ai-persona-head">
+                  <span class="ai-persona-kind">${isGuru ? `🧠 Guru mind — ${esc(x.name)}` : `📊 ${esc(x.name)}`}</span>
+                  <span class="small muted">${isGuru ? esc(x.fund || '') : 'no investor reference — pure data'}</span>
+                </div>
+                <p class="ai-persona-pick"><strong><a href="/company.html?symbol=${esc(pos.symbol || '')}">${esc(pos.symbol || '—')}</a></strong> <span class="small muted">${esc(pos.name || '')}</span></p>
+                <p class="small" style="margin:6px 0;">${fixed(x.weight * 100, 0)}% of the book · ${money(pos.shares * pos.avgPrice)} at $${fixed(pos.avgPrice, 2)}</p>
+                <p class="small ${mine.plPct >= 0 ? 'delta-pos' : 'delta-neg'}" style="margin:6px 0;"><strong>${mine.plPct === undefined ? '—' : (mine.plPct >= 0 ? '+' : '') + fixed(mine.plPct, 2) + '%'}</strong> since purchase</p>
+                ${x.philosophy ? `<details class="ai-persona-phil"><summary>The ${isGuru ? 'philosophy' : 'data factors'} it cited</summary><p class="small muted" style="margin:8px 0 0;">${esc(x.philosophy)}</p></details>` : ''}
+              </div>`;
+        };
+
+        const decisionRows = (detail.decisions || []).map((d) => {
+            const titles = {
+                construct: 'Construction — the one buying decision',
+                review: `Nightly review ${d.day} — advisory only`,
+                end_reviews: 'Reviews ended — tracking only from here',
+                steering: 'Owner steering — explicit change you asked for',
+                build_failed: 'Failed build'
+            };
+            const would = Array.isArray(d.wouldChange) && d.wouldChange.length
+                ? `<div class="ai-would">${d.wouldChange.map((w) => `<span class="chip ai-would-chip">would ${esc(w.action || 'hold')} ${esc(w.symbol || '')} — not executed</span>`).join('')}</div>`
+                : '';
+            const news = Array.isArray(d.newsFactors) && d.newsFactors.length
+                ? `<div class="ai-news">${d.newsFactors.map((f) => `<span class="chip">${esc(String(f).slice(0, 140))}</span>`).join('')}</div>`
+                : '';
+            return `
+              <details class="ai-decision">
+                <summary>${esc(titles[d.type] || d.type)} <span class="small faint">day ${d.day} · ${new Date(d.at).toLocaleString('en-US', { month: 'short', day: 'numeric' })}</span></summary>
+                <p class="small" style="white-space:pre-wrap; margin:10px 0 0;">${esc(d.rationale || '')}</p>
+                ${news}${would}
+              </details>`;
+        }).join('');
+
+        body.innerHTML = `
+          <div class="ai-head">${aiPaperBadge(p)}<span class="small muted">two stocks by design — deliberately concentrated, SPY is the benchmark</span></div>
+          <div class="ai-tiles">
+            <div class="ai-tile"><span class="label">Value</span><strong class="ai-tile-v">$${money(t.totalValue)}</strong><span class="small muted">of $${money(p.startingCapital)} paper</span></div>
+            <div class="ai-tile"><span class="label">Return</span><strong class="ai-tile-v ${(t.portfolioReturnPct ?? 0) >= 0 ? 'delta-pos' : 'delta-neg'}">${(t.portfolioReturnPct ?? 0) >= 0 ? '+' : ''}${fixed(t.portfolioReturnPct ?? 0, 2)}%</strong><span class="small muted">at official closes</span></div>
+            <div class="ai-tile"><span class="label">SPY benchmark</span><strong class="ai-tile-v">${t.spyReturnPct === null || t.spyReturnPct === undefined ? '—' : (t.spyReturnPct >= 0 ? '+' : '') + fixed(t.spyReturnPct, 2) + '%'}</strong><span class="small muted ${vsSpy >= 0 ? 'delta-pos' : 'delta-neg'}">${vsSpy >= 0 ? 'ahead' : 'behind'} by ${fixed(Math.abs(vsSpy), 2)}%</span></div>
+            <div class="ai-tile"><span class="label">Cash</span><strong class="ai-tile-v">$${money(cash)}</strong><span class="small muted">cap 20% by rule</span></div>
+          </div>
+          <div class="ai-chart">${chartHtml}${gapNote}</div>
+          <div class="ai-showdown">
+            ${(p.personas || []).map(personaCard).join('<div class="ai-vs" aria-hidden="true">vs</div>')}
+          </div>
+          ${decisionRows ? `<h3 class="title-3" style="margin:22px 0 8px;">Decision log — append-only, newest first</h3><div class="ai-log">${decisionRows}</div>` : ''}`;
+    }
+
+    const aiAskEngine = mountAsk($('pf-ask'), {
         placeholder: 'Ask about your portfolio — concentration, quality, what changed…',
         suggestions: [
             'Is my portfolio concentrated in one sector?',
@@ -1408,6 +1656,7 @@
             loadWash();
             loadBriefing();
             loadWatchlist();
+            probeAiPaper(); // 🧪 403 for everyone else — nothing renders
         }
     })();
 })();

@@ -8,16 +8,18 @@ every turn, so it stays short and only says things that are true on this machine
 Run `bash scripts/dev-doctor.sh` once at the start of a session. It prints all
 of the below in one call, which is cheaper than rediscovering it by trial.
 
-- **`node` on PATH is v18.20.4, which is too old for parts of this repo.**
-  Node **v22.22.0** is installed at `~/.nvm/versions/node/v22.22.0/bin/node`.
-  Use it for Playwright (needs >=20), `yahoo-finance2` (needs >=22), and the
-  test suite. Under v18 you get hard failures, not warnings.
+- **`node` on PATH is v26.4.0 at `/opt/homebrew/bin/node` — use it for
+  everything (tests, Playwright, yahoo-finance2).** The old `~/.nvm` v18/v22
+  installs are GONE (the nvm dir no longer exists); the documented v22.22.0
+  path now fails with exit 127. PATH node v18 is also gone — `node` is just
+  v26 and satisfies all of this repo's needs (verified 9/7: full suite passes
+  on it).
 - **Backend dependencies live in `backend/node_modules` (196 packages), not the
   repo root (26).** Run node/tests from `backend/`, or `require` fails with
   "Cannot find module 'mongoose'".
 - **`rg` is NOT installed.** Use `grep -rn`. There is also no Grep or Glob tool
   exposed in this harness, so searching via Bash is correct here, not a fallback.
-- Tests: `cd backend && ~/.nvm/versions/node/v22.22.0/bin/node --test test/<file>.test.js`
+- Tests: `cd backend && node --test test/<file>.test.js`
   (48 test files; `npm test` runs all of them).
 - There is no local `.git`. Pushing means cloning `avisre/prod` into the
   scratchpad, copying files in, and committing there.

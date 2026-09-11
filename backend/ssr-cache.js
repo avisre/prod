@@ -226,6 +226,10 @@ function middleware(opts) {
     // request-aware while the pilot flag is enabled.
     if (process.env.SEO_ACTIVATION_PILOT === 'true' && /^\/stocks\/[A-Za-z0-9.\-]+\/[a-z-]+$/.test(path)) return next();
     if (req.headers.authorization) return next(); // never touch credentialed requests
+    // The paid variant of /compare/:pair (?sp=2) branches per-user in the
+    // route: never serve the cached free page for it, and never store its
+    // per-user render into the shared cache.
+    if (req.query && req.query.sp === '2') return next();
 
     const key = normalizeKey(path);
 

@@ -27,6 +27,11 @@ const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const credits = require('./credits');
+const apiKeys = require('./api-keys');
+const publicApi = require('./public-api');
+const mcpEndpoint = require('./mcp-endpoint');
+const aiPaper = require('./ai-paper-portfolio');
+const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
 const verifyHeadline = require('./verify');
@@ -122,6 +127,26 @@ function hasMonitor(req) {
 function monitorGate(req, res, next) {
     if (hasMonitor(req)) return next();
     return res.status(402).json({ message: 'The Filing Change Monitor is on the Power and Desk plans.', code: 'MONITOR_REQUIRED' });
+}
+
+// API/MCP access, like Monitor, is a top-tier developer feature: Power/Desk
+// recurring subscribers, or the HIGHEST lifetime tier only (AppSumo/
+// DealMirror tier 3) — not every LTD buyer the way isLifetimeBuyer() reads
+// for Monitor. Checked live on every gated request (key creation AND every
+// authenticated API/MCP call), not just at key-issuance time, so a
+// downgrade takes effect immediately — same pattern as monitorGate/
+// coreGate/proGate, all of which re-check current status rather than a
+// grant-time snapshot.
+function hasApiAccess(req) {
+    const sub = req.subscription || (req.user && req.user.subscription) || {};
+    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    if (active && ['power', 'power-monthly', 'desk'].includes(sub.planId)) return true;
+    const user = req.user;
+    return Boolean(user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3));
+}
+function apiAccessGate(req, res, next) {
+    if (hasApiAccess(req)) return next();
+    return res.status(402).json({ message: 'API/MCP access is available on the Power and Desk plans, and the top AppSumo/DealMirror tier.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -332,6 +357,12 @@ app.use(compression({
     return compression.filter(req, res);
   }
 }));
+
+// Crawler policy, enforced server-side ahead of every rate limiter, the SSR
+// cache, and static serving — a refused crawler should cost one regex, not
+// an SSR render. See backend/bot-blocker.js and
+// docs/growth/bot-crawler-situation-2026-09-05.md for the full rationale.
+app.use(botBlocker.middleware({ isRawBodyWebhookPath }));
 
 // The public, unauthenticated page-view beacon gets its own tight per-IP cap
 // so a flood can't spend the shared /api budget or pile unbounded writes into
@@ -871,6 +902,9 @@ async function connectMongoWithFallback(uri) {
         { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
       ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
       await ensureMeteringIndexes();
+      // 🧪 AI Paper Portfolio beta collections — only when the beta env is
+      // armed (unset = feature fully off, no collections touched).
+      if (aiPaper.betaEnabled()) aiPaper.ensureIndexes();
       return;
     } catch (error) {
       if (String(uri || '').startsWith('mongodb+srv://') && isMongoSrvResolutionError(error)) {
@@ -884,6 +918,7 @@ async function connectMongoWithFallback(uri) {
             { name: 'activation_once_per_job', unique: true, partialFilterExpression: { event: 'activation' } }
           ).catch((indexError) => console.warn('[funnel] activation index unavailable:', indexError && indexError.message));
           await ensureMeteringIndexes();
+          if (aiPaper.betaEnabled()) aiPaper.ensureIndexes();
           return;
         } catch (fallbackError) {
           console.error('MongoDB SRV fallback error:', fallbackError);
@@ -1861,6 +1896,12 @@ app.get('/methodology', (req, res) => {
 app.get('/editorial-policy', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderEditorialPolicy());
 });
+// Where bot-blocker's 403 body sends a refused crawler, so it is exempt from the
+// block there (EXEMPT_PATH_PATTERNS) — a denial that points at an unreachable
+// page is just a denial.
+app.get('/licensing', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderLicensing());
+});
 app.get('/stocks/:ticker', (req, res) => {
     const canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
     if (canonicalSymbol && String(req.params.ticker) !== canonicalSymbol) {
@@ -1877,7 +1918,11 @@ app.get('/vs/:competitor', (req, res) => {
 });
 // Metric histories (/stocks/SYM/revenue), X-vs-Y comparisons (/compare/A-vs-B),
 // and screen landing pages (/screens/dividend-stocks) — see backend/seo-extra.js
-app.use(require('./seo-extra').router);
+// optionalAuth + isProUser are app.js internals; the compare router needs them
+// for the paid variant of /compare/:pair (?sp=2).
+const seoExtra = require('./seo-extra');
+seoExtra.setCompareAuth({ optionalAuth });
+app.use(seoExtra.router);
 
 // The Localyze model proxy is intentionally not mounted here. It must use a
 // separate service, credential, authentication boundary, and quota.
@@ -2133,7 +2178,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2162,7 +2207,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-credit1"></script>
+<script src="/assets/app.js?v=20260907-aipaper3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2246,7 +2291,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2274,7 +2319,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-credit1"></script>
+<script src="/assets/app.js?v=20260907-aipaper3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2378,7 +2423,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2411,7 +2456,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-credit1"></script>
+<script src="/assets/app.js?v=20260907-aipaper3"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -4763,6 +4808,103 @@ async function optionalAuth(req, res, next) {
     next();
 }
 
+// API-key auth for the public REST API (/api/v1) and the hosted MCP endpoint
+// (/mcp). Resolves an Authorization: Bearer <key> or X-Api-Key header via
+// api-keys.js to its owning website account, then populates req.userId/
+// req.user/req.subscription/req.tier EXACTLY like authMiddleware above —
+// this is the identity bridge credits.js's header comment calls out as
+// missing: every existing credits.check/spend call site and
+// effectiveAskLimit() reads only these four fields, so an API-key caller
+// spends from the same wallet as the web account with no other code change.
+async function apiKeyAuth(req, res, next) {
+    const header = String(req.get('authorization') || '');
+    const bearer = /^Bearer\s+(.+)$/i.exec(header.trim());
+    const rawKey = bearer ? bearer[1].trim() : String(req.get('x-api-key') || '').trim();
+    if (!rawKey) return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
+    try {
+        const resolved = await apiKeys.resolveKey(rawKey);
+        if (!resolved) return res.status(401).json({ error: 'Invalid or revoked API key.' });
+        const user = await User.findById(resolved.userId);
+        if (!user) return res.status(401).json({ error: 'API key owner not found.' });
+        const normalized = ensureSubscriptionShape(user);
+        req.userId = user._id;
+        req.user = user;
+        req.subscription = normalized;
+        req.tier = userTier(user, normalized);
+        req.apiKeyId = resolved.keyId;
+        next();
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'Database unavailable.' });
+        console.error('apiKeyAuth error:', error && error.message);
+        return res.status(500).json({ error: 'Authentication failed.' });
+    }
+}
+
+// Rate-limits public API/MCP callers per key rather than per IP — a fair
+// key-holder isn't penalized for sharing an egress IP with other traffic,
+// and a leaked key is throttled regardless of where it's used from.
+const apiKeyRateLimit = rateLimit({
+    windowMs: 60 * 1000,
+    max: Number(process.env.PUBLIC_API_RATE_LIMIT || 60),
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.apiKeyId || req.ip,
+    handler: (req, res) => res.status(429).json({ error: 'Rate limit exceeded. Try again shortly.' }),
+});
+
+// Self-serve API-key management for logged-in website accounts — gated by
+// the existing cookie/JWT authMiddleware, not apiKeyAuth (a key is created
+// FROM a web session, then used to authenticate WITHOUT one).
+app.post('/api/account/api-keys', authMiddleware, apiAccessGate, jsonParser, async (req, res) => {
+    try {
+        const created = await apiKeys.createKey(req.userId, req.body && req.body.label);
+        res.json({ key: created.rawKey, keyPrefix: created.keyPrefix, label: created.label, createdAt: created.createdAt, note: 'Store this key now — it will not be shown again.' });
+    } catch (error) {
+        console.error('[api-keys] create failed:', error && error.message);
+        res.status(500).json({ message: 'Could not create API key.' });
+    }
+});
+
+app.get('/api/account/api-keys', authMiddleware, async (req, res) => {
+    try {
+        res.json({ keys: await apiKeys.listKeys(req.userId) });
+    } catch (error) {
+        res.status(500).json({ message: 'Could not list API keys.' });
+    }
+});
+
+app.delete('/api/account/api-keys/:id', authMiddleware, async (req, res) => {
+    try {
+        const ok = await apiKeys.revokeKey(req.userId, req.params.id);
+        if (!ok) return res.status(404).json({ message: 'Key not found.' });
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Could not revoke API key.' });
+    }
+});
+
+// Public REST API — see backend/public-api.js. Deterministic tools reuse
+// free-tools.js/asset-profile.js exactly as the web app does; sp_ask/ /ask
+// route to ai-chat.js. Every call spends from the caller's own credit
+// ledger wallet via apiKeyAuth's identity bridge.
+app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser }));
+
+// Hosted MCP endpoint — see backend/mcp-endpoint.js. Stateless Streamable
+// HTTP: no session id, no server-initiated SSE, since every tool call is a
+// single request/response. GET/DELETE are part of the MCP HTTP spec for
+// server-push and session teardown, neither of which this stateless server
+// implements.
+app.post('/mcp', jsonParser, apiKeyAuth, apiAccessGate, apiKeyRateLimit, async (req, res) => {
+    try {
+        await mcpEndpoint.handleMcpRequest(req, res, { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription }, { credits, effectiveAskLimit, aiChat });
+    } catch (error) {
+        console.error('[mcp] request failed:', error && error.message);
+        if (!res.headersSent) res.status(500).json({ error: 'MCP request failed.' });
+    }
+});
+app.get('/mcp', apiKeyAuth, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
+app.delete('/mcp', apiKeyAuth, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
+
 // Email-to-SMS gateways (phone-number@carrier). Signup bots use these to text
 // strangers' phones via our welcome email — no human signs up with one.
 const SMS_GATEWAY_DOMAINS = new Set([
@@ -6418,7 +6560,7 @@ app.post('/api/credits/topup', authMiddleware, async (req, res) => {
             mode: 'payment',
             customer_email: req.user.email,
             line_items: [{ price: price.id, quantity: 1 }],
-            client_reference_id: req.userId,
+            client_reference_id: req.userId.toString(),
             success_url: `${getRequestOrigin(req)}/profile.html?recharge=success#usage-details`,
             cancel_url: `${getRequestOrigin(req)}/recharge.html?recharge=cancelled`,
             custom_text: { submit: { message: `Adds ${CREDIT_TOPUP_CREDITS} credits to this month's wallet. Final-month credits don't roll over.` } },
@@ -7611,6 +7753,13 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const userId = portfolioOwnerId(req);
         const limit = effectiveAskLimit(req);
         const planId = req.subscription && req.subscription.planId;
+        // 🧪 AI Portfolio mode — honored ONLY for beta users (server-side gate
+        // on the account email). Anyone else sending the flag gets plain chat:
+        // no ai-paper tools in the loop, no experiment data in the prompt.
+        let aiPaperCtx = null;
+        if ((req.body && req.body.aiPaperMode) === true && aiPaper.isBetaUser(req.user)) {
+            aiPaperCtx = await buildAiPaperChatCtx(userId);
+        }
         // Two meters, one door. The AppSumo listing sells AI credits, so the wallet has to
         // be able to buy an Ask; the per-tier Ask counter stays underneath as a floor, so a
         // buyer who spends their credits on Dossiers never loses questions they already
@@ -7694,7 +7843,14 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
                 const result = await aiChat.ask({
-                    question, history, ctx: { holdings, userId, memoryConsent, attachments }, mode,
+                    question, history,
+                    ctx: {
+                        holdings, userId, memoryConsent, attachments,
+                        // ai_paper events stream the background build's
+                        // progress lines while this connection lives.
+                        ...(aiPaperCtx ? { ...aiPaperCtx, aiPaperProgress: (e) => send('ai_paper', e) } : {})
+                    },
+                    mode,
                     onEvent: (e) => send(e.type, e)
                 });
                 const counted = result.source === 'ai' || result.source === 'blocked';
@@ -7728,7 +7884,11 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             return;
         }
 
-        const result = await aiChat.ask({ question, history, ctx: { holdings, userId, memoryConsent, attachments }, mode });
+        const result = await aiChat.ask({
+            question, history,
+            ctx: { holdings, userId, memoryConsent, attachments, ...(aiPaperCtx || {}) },
+            mode
+        });
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
@@ -7775,6 +7935,194 @@ function normalizeAskAttachments(raw) {
         })
         .filter(Boolean);
 }
+
+// ----- 🧪 AI Paper Portfolio (beta) -----
+// AI_PORTFOLIO_BETA_EMAILS is the entire gate: unset env = 403 everywhere and
+// the feature is invisible. Zero AI on the read paths — detail/status are
+// Mongo reads + cached quotes; the only build path is POST /create, and no
+// route anywhere trades (positions are immutable after construction).
+
+// Chat-mode context + tool handlers, built per request ONLY for beta users
+// with aiPaperMode on. The 3 ai-paper tools ride in ctx (aiChat.concat's
+// them into that request's tool list), so they never appear for anyone else
+// or in normal mode.
+async function buildAiPaperChatCtx(userId) {
+    let state = null;
+    try { state = await aiPaper.statusFor(userId); } catch (_) { state = null; }
+    const context = [
+        'AI PAPER PORTFOLIO MODE — the user is running the AI Paper Portfolio experiment (two AI minds, each picking ONE stock; ONE buying decision at creation). The owner of the experiment can steer it; the AI can never trade on its own.',
+        'Hard rules: positions change ONLY through an explicit ai_portfolio_steer command the owner just gave (allocation change, a pick swap, or standing rules) — everything else you say is advisory and never executed. Nightly reviews are advisory-only notes in the log.',
+        state && state.exists
+            ? `Current experiment state (authoritative — never invent numbers): ${JSON.stringify(state)}`
+                + (state.status === 'failed'
+                    ? '\nThe failed run is fully discarded. When the user wants to try again, call ai_portfolio_setup — with NO arguments (the pure-data default) unless they explicitly name an investor in their own words. Never carry the failed run\'s guru over to a retry, and never claim a build is running unless you just called the tool.'
+                    : state.status === 'building'
+                        ? '\nA build is already in progress. Do not call ai_portfolio_setup again; report progress from the state (the buildLog lines are the live research feed — narrate the latest steps). The owner can pause the run from the dashboard; once paused, ai_portfolio_setup (with the edited guru/constraints) re-runs the research.'
+                        : state.status === 'paused'
+                            ? '\nThe build was PAUSED by the owner and the research stopped cleanly — nothing was bought. The setup that was running is in state.setup (guru + constraints). Ask what they want to change (a different guru, extra constraints like "avoid financials"), then call ai_portfolio_setup once with the FULL edited setup to re-run the research from scratch. Nothing carries over except what they confirm.'
+                            : '')
+                + (Array.isArray(state.steeringRules) && state.steeringRules.length
+                    ? `\nOwner's standing rules for reviews: ${state.steeringRules.join(' | ')}`
+                    : '')
+            : 'No portfolio exists yet. If the user wants to start the experiment, call ai_portfolio_setup — by default with NO arguments (both minds are independent pure-data analysts). If they name an investor — living or deceased (e.g. Buffett, Charlie Munger, Peter Lynch) — pass that name as guru. If they state hard requirements for the research (e.g. "avoid financials"), pass each as a constraints entry.'
+    ].join('\n');
+    return {
+        aiPaperTools: aiPaper.CHAT_TOOLS,
+        aiPaperContext: context,
+        aiPaperRunTool: (name, args, ctx) => runAiPaperChatTool(name, args, userId, ctx)
+    };
+}
+
+async function runAiPaperChatTool(name, args, userId, ctx) {
+    try {
+        if (name === 'ai_portfolio_status') return await aiPaper.statusFor(userId);
+        if (name === 'ai_portfolio_setup') {
+            // Guru is OPTIONAL: no arguments = pure-AI default (two data
+            // minds). A free-text investor name resolves against the living
+            // managers + deceased legends; ambiguous names come back as
+            // candidates so the assistant can ask instead of guessing.
+            // Constraints are the owner's hard requirements, passed through
+            // verbatim (the module clamps count/length).
+            const wanted = String((args && (args.guru || args.guruId)) || '').trim();
+            const constraints = Array.isArray(args && args.constraints)
+                ? args.constraints.map((c) => String(c || '').trim()).filter(Boolean).slice(0, 5)
+                : [];
+            let guruId = '';
+            if (wanted) {
+                const { matched } = aiPaper.resolveGuru(wanted);
+                if (matched.length === 0) {
+                    return { error: `No investor matching "${wanted}". Ask the user to name a famous investor (living or deceased — e.g. Buffett, Charlie Munger, Peter Lynch), or go with the pure-data default (no guru).` };
+                }
+                if (matched.length > 1) {
+                    return { error: `"${wanted}" is ambiguous — ask which one they mean: ${matched.map((g) => g.name).join(', ')}.` };
+                }
+                guruId = matched[0].id;
+            }
+            const existing = await aiPaper.statusFor(userId);
+            if (existing.exists && existing.status === 'building') return { error: 'A build is already in progress — give it about two to three minutes (or they can pause it from the dashboard).' };
+            if (existing.exists && (existing.status === 'committed' || existing.status === 'tracking')) {
+                return { error: 'An AI Paper Portfolio already exists for this account (one per account, buy-once-never-change). Only ai_portfolio_reset — with the user\'s explicit confirmation — clears it for a fresh run.' };
+            }
+            const resuming = existing.exists && existing.status === 'paused';
+            if (!require('./ai-client').isConfigured()) return { error: 'The AI research service is not configured right now — try again shortly.' };
+            // Fire-and-forget: the build runs in the background, disconnect-
+            // tolerant; progress streams as ai_paper SSE events while this
+            // connection lives AND persists into the doc's buildLog, which the
+            // dashboard polls — so the feed survives a closed connection. A
+            // failure lands as buildError in the next status call — never a
+            // silent skip. A paused run's doc is deleted by create() and the
+            // research starts over with the edited setup.
+            aiPaper.create({
+                user: { id: userId }, guruId, constraints,
+                onEvent: (e) => { const p = ctx && ctx.aiPaperProgress; if (p) { try { p(e); } catch (_) { /* client gone — keep building */ } } }
+            }).catch((e) => console.error('[ai-paper] background build failed:', e && e.message));
+            return {
+                started: true,
+                message: (resuming ? 'Resuming with the edited setup — ' : 'Setup is underway in the background — ')
+                    + 'about two to three minutes. The live research feed streams into this conversation and onto their dashboard; the owner can pause the run at any time.'
+            };
+        }
+        if (name === 'ai_portfolio_steer') {
+            // Explicit owner commands only — the model must never invent an
+            // allocation or ticker on its own. applySteering guardrails
+            // (10-70% per slot, cash cap, verified symbols, official closes)
+            // are enforced in the module.
+            const out = await aiPaper.applySteering(userId, args && args.action, args || {});
+            if (!out.ok) return { error: out.reason };
+            return {
+                steered: args.action,
+                message: 'Applied the owner\'s change exactly as instructed (guardrails verified in code) and logged it in the decision log as an owner action. Report the new state; positions may take a moment to refresh.'
+            };
+        }
+        if (name === 'ai_portfolio_reset') {
+            const out = await aiPaper.resetRun(userId);
+            return out.ok
+                ? { reset: true, message: 'Old run deleted (its decision log stays as history; nothing was traded). Call ai_portfolio_setup when the user is ready — a guru is optional; the default is two pure-data minds.' }
+                : { error: out.reason };
+        }
+        return { error: `Unknown tool ${name}` };
+    } catch (error) {
+        console.error('[ai-paper] chat tool failed:', error && error.message);
+        return { error: 'That AI Paper Portfolio action failed — try again.' };
+    }
+}
+
+// Probe + state: the dashboard's sole gate signal (403 when the env is unset
+// or the account isn't on the beta list — the frontend renders nothing).
+app.get('/api/ai-paper-portfolio', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    try {
+        const state = await aiPaper.statusFor(portfolioOwnerId(req));
+        res.json({
+            enabled: true, state,
+            // Living 13F managers + deceased legends: the chips and the
+            // natural-language path draw from the same list.
+            gurus: [...gurus.list(), ...aiPaper.LEGACY_GURUS.map(({ id, name, fund }) => ({ id, name, fund }))]
+        });
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Unavailable right now.') });
+    }
+});
+
+// The ONE build path. SSE: status/persona/done/error frames + 10s pings;
+// disconnect-tolerant (the build continues server-side, the dashboard polls
+// detail for the outcome).
+app.post('/api/ai-paper-portfolio/create', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    const guruId = String((req.body && req.body.guruId) || '').trim();
+    // Raw pass-through only — create() cleans (stripThink, trim, ≤5 × ≤140).
+    const rawConstraints = (req.body && Array.isArray(req.body.constraints)) ? req.body.constraints : [];
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache, no-transform',
+        Connection: 'keep-alive',
+        'X-Accel-Buffering': 'no'
+    });
+    let closed = false;
+    req.on('close', () => { closed = true; });
+    const send = (event, data) => {
+        if (closed || res.writableEnded) return;
+        res.write(`event: ${event}\ndata: ${JSON.stringify(data || {})}\n\n`);
+    };
+    const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
+    try {
+        const result = await aiPaper.create({
+            user: { id: portfolioOwnerId(req) }, guruId, constraints: rawConstraints,
+            onEvent: (e) => send(e.type || 'status', e)
+        });
+        // create() emits done/error itself via onEvent; this covers a throw.
+        // A paused build is not an error — the SSE 'paused' frame tells the
+        // frontend to show the paused card instead of a failure.
+        if (result && result.paused) send('paused', {});
+        else if (!result.ok) send('error', { message: result.error || 'The build failed.' });
+    } catch (error) {
+        send('error', { message: publicErrorMessage(error, 'The build failed.') });
+    } finally {
+        clearInterval(ping);
+        if (!res.writableEnded) res.end();
+    }
+});
+
+// Owner pause: stops the running research within one LLM round / tool call
+// and keeps the setup (guru + constraints) on the paused doc so it can be
+// edited in chat and re-run. Not a delete, not a failure — a controlled stop.
+app.post('/api/ai-paper-portfolio/stop', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    try {
+        const out = await aiPaper.stopBuild(portfolioOwnerId(req));
+        res.json(out);
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Could not stop the build.') });
+    }
+});
+
+// Full read model for the dashboard section: personas + picks + weights +
+// P&L, live prices, snapshot series, last decisions, totals incl. vs-SPY.
+// No AI calls on this path.
+app.get('/api/ai-paper-portfolio/detail', authMiddleware, aiPaper.betaGate, async (req, res) => {
+    try {
+        res.json(await aiPaper.detailFor(portfolioOwnerId(req)));
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Unavailable right now.') });
+    }
+});
 
 // ----- Portfolio X-Ray: look-through fundamentals of the whole portfolio -----
 const _xrayCache = new Map(); // userId -> { at, payload }
@@ -8380,7 +8728,7 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
         // entitlement — the profile page needs this to decide between showing a
         // Monitor breakdown row and a one-line upsell, since a user who can't
         // reach the feature shouldn't see a usage row for it.
-        res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req) });
+        res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req), hasApiAccess: hasApiAccess(req) });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
     }
@@ -11741,6 +12089,10 @@ app.get('/api/admin/growth/august-2026', authMiddleware, marketingDashboardOnly,
     catch (error) { console.error('[growth] report failed:', error && error.message); res.status(500).json({ message: 'Growth report unavailable' }); }
 });
 
+app.get('/api/admin/bot-blocker/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').json(botBlocker.stats());
+});
+
 app.post('/api/admin/growth/gmv', authMiddleware, marketingDashboardOnly, async (req, res) => {
     const b = req.body || {};
     const date = new Date(String(b.date || ''));
@@ -12637,6 +12989,8 @@ if (String(process.env.DISABLE_BACKGROUND_JOBS || '') === '1') {
     startScheduledEmails();
     startAppSumoJobs();
     startTrialLifecycleJobs();
+    // 🧪 AI Paper Portfolio daily sweep (no-ops unless the beta env is armed).
+    aiPaper.start();
 }
 // Dossier pre-warming is expensive because each dossier composes several AI
 // sections. Keep it off in every environment unless an operator explicitly

@@ -152,7 +152,7 @@ test('populated portfolios use the grouped holdings renderer', () => {
   const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dashboard.html'), 'utf8');
   assert.match(source, /const rows = \(Array\.isArray\(list\) \? list : \[\]\)\.map\(holdingToRow\);\s*renderHoldings\(rows\);/);
   assert.doesNotMatch(source, /\$\('holdings-body'\)/);
-  assert.match(html, /assets\/dashboard\.js\?v=20260902-ports2/);
+  assert.match(html, /assets\/dashboard\.js\?v=20260907-aipaper3/);
 });
 
 test('portfolio value shows a complete-basis inception gain without overstating partial data', () => {

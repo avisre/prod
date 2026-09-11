@@ -177,19 +177,43 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     if (pts.length < 2) return '';
     const max = Math.max(...pts.map((v) => Math.abs(v)), 1);
     const show = fmt || ((v) => String(v));
-    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((v, i) => `<i style="height:${Math.max(8, Math.abs(v) / max * 100).toFixed(1)}%;background:${v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}" title="${esc(show(v))}"></i>`).join('')}</span>`;
+    return `<span class="dos-mini-bars" aria-hidden="true">${pts.map((v, i) => `<i style="height:${Math.max(3, Math.abs(v) / max * 100).toFixed(1)}%;background:${v < 0 ? C.neg : i === pts.length - 1 ? C.ink : color}" title="${esc(show(v))}"></i>`).join('')}</span>`;
+  }
+
+  // First→latest change per trend row, purely from the filed history. Dollar
+  // metrics read as a total change, percentage metrics as points. Null when
+  // either endpoint is missing so nothing is implied.
+  function trendChangeLine(fin, key, pctMetric) {
+    const vals = (fin || []).map((r) => Number(r[key])).filter(Number.isFinite);
+    if (vals.length < 2) return '';
+    const first = vals[0], last = vals[vals.length - 1];
+    if (pctMetric) {
+      const pts = last - first;
+      if (!Number.isFinite(pts) || Math.abs(pts) < 0.05) return '';
+      return (pts > 0 ? '+' : '−') + Math.abs(pts).toFixed(1) + ' pts';
+    }
+    if (first <= 0 || last <= 0) return '';
+    const ratio = last / first;
+    if (ratio >= 1.15) return '×' + ratio.toFixed(1) + ' total';
+    const pct = Math.round((ratio - 1) * 100);
+    if (pct === 0) return '';
+    return (pct > 0 ? '+' : '−') + Math.abs(pct) + '% total';
   }
 
   function decisionTrends(fin) {
     if (!fin || fin.length < 2) return '<p class="small faint">No multi-year filed history is available.</p>';
     const latest = fin[fin.length - 1] || {};
+    const span = `${esc(fin[0].fy)}→${esc(latest.fy)}`;
     const rows = [
-      ['Revenue', 'revenue', bn(latest.revenue), C.ink, bn],
-      ['Operating margin', 'opMarginPct', latest.opMarginPct == null ? '—' : latest.opMarginPct + '%', C.grey, (v) => v + '%'],
-      ['Free cash flow', 'fcf', bn(latest.fcf), C.pos, bn],
-      ['ROIC', 'roicPct', latest.roicPct == null ? '—' : latest.roicPct + '%', C.ink, (v) => v + '%']
+      ['Revenue', 'revenue', bn(latest.revenue), C.ink, bn, false],
+      ['Operating margin', 'opMarginPct', latest.opMarginPct == null ? '—' : latest.opMarginPct + '%', C.grey, (v) => v + '%', true],
+      ['Free cash flow', 'fcf', bn(latest.fcf), C.pos, bn, false],
+      ['ROIC', 'roicPct', latest.roicPct == null ? '—' : latest.roicPct + '%', C.ink, (v) => v + '%', true]
     ];
-    return `<div class="dos-trends">${rows.map(([label, key, value, color, fmt]) => `<div class="dos-trend-row"><span>${label}</span>${miniBars(fin, key, color, fmt)}<b>${esc(value)}</b></div>`).join('')}</div>`;
+    return `<div class="dos-trends">${rows.map(([label, key, value, color, fmt, pctMetric]) => {
+      const change = trendChangeLine(fin, key, pctMetric);
+      return `<div class="dos-trend-row"><span>${label}<small class="dos-trend-change">${span}${change ? ' · ' + esc(change) : ''}</small></span>${miniBars(fin, key, color, fmt)}<b>${esc(value)}</b></div>`;
+    }).join('')}</div>`;
   }
 
   function displayNumber(value) {

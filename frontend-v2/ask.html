@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260907-credit1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260907-aipaper3" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -97,6 +97,18 @@
     }
     .prompts button:hover { border-color: var(--ink-3); color: var(--ink); }
     @media (max-width: 640px) { .prompts { grid-template-columns: 1fr; } }
+    /* .prompts is display:grid, which overrides the hidden attribute — same for
+       the progress strip — so both need the explicit rule. */
+    .prompts[hidden], .paper-progress[hidden] { display: none; }
+    .paper-progress { display: grid; gap: 3px; font-size: 12.5px; color: var(--ink-2); }
+    .paper-card { border: 1px solid var(--line-strong); border-radius: 12px; padding: 11px 14px; margin: 0 auto 16px; max-width: var(--ask-col, 800px); background: var(--paper); }
+    .paper-card summary { cursor: pointer; font-weight: 600; font-size: 14px; list-style: none; }
+    .paper-card summary::-webkit-details-marker { display: none; }
+    .paper-card[open] summary { margin-bottom: 6px; }
+    .pc-row { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line-strong); font-size: 13px; }
+    .pc-pause { margin-top: 10px; border: 1px solid var(--line-strong); border-radius: 999px; background: transparent; color: var(--ink-2); font: inherit; font-size: 12.5px; padding: 6px 12px; cursor: pointer; }
+    .pc-pause:hover { border-color: var(--ink-3); color: var(--ink); }
+    .pc-pause[disabled] { opacity: .55; cursor: default; }
 
     .appsumo-activation {
       background: #fff7ed; border-bottom: 1px solid #fed7aa; color: #7c2d12;
@@ -308,6 +320,7 @@
         <div class="thread" id="thread" hidden><div class="ask-exchange" id="exchange"></div></div>
 
         <div class="composer-dock">
+          <div class="paper-progress" id="paper-progress" role="status" aria-live="polite" hidden></div>
           <p class="att-error" id="att-error" role="alert"></p>
           <form class="composer" id="composer">
             <input type="file" id="att-input" multiple accept="image/png,image/jpeg,image/webp,.pdf,.csv,.txt,.md,.json" hidden />
@@ -327,6 +340,8 @@
               <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
               <span class="sep" aria-hidden="true">·</span>
               <button type="button" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+              <span class="sep" id="paper-sep" aria-hidden="true" hidden>·</span>
+              <button type="button" id="ask-mode-paper" aria-pressed="false" title="AI Paper Portfolio mode — drive the experiment conversationally" hidden>🧪 AI Portfolio</button>
             </span>
             <span class="quota-mini" id="quota-mini"></span>
           </div>
@@ -343,11 +358,12 @@
           <button>What are the top 3 ETFs and mutual funds over 3 months, 1 year and 3 years?</button>
           <button>Is my portfolio concentrated, and which holding is fundamentally weakest?</button>
         </div>
+        <div class="prompts" id="paper-prompts" hidden></div>
       </div>
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260907-credit1"></script>
+  <script src="assets/app.js?v=20260907-aipaper3"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -422,7 +438,8 @@
             if (prefersZen()) setZen(true);
             $('thread').hidden = false;
           },
-          onComplete: handleComplete
+          onComplete: handleComplete,
+          onPaperEvent: handlePaperEvent
         });
       }
       let engine = makeEngine();
@@ -969,6 +986,7 @@
         recordFirstQuery();
         const opts = {};
         if (token() && currentThreadId) opts.threadId = currentThreadId;
+        if (paperMode) opts.aiPaperMode = true; // server re-checks the beta gate per request
         if (attachments.length) {
           // 🧠 on a chip = the assistant should also take durable notes from it
           const memHint = attachments.filter((a) => a.remember).map((a) => a.name);
@@ -1018,6 +1036,215 @@
         ta.focus();
         ta.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
+      // ---- 🧪 AI Paper Portfolio (beta) ----
+      // Invisible unless the probe returns 200 for this account (the env +
+      // email gate lives on the server). The 🧪 toggle next to Normal·Analyst
+      // routes the chat into experiment mode; the dashboard is display-only.
+      let paperMode = false;    // 🧪 toggle state — never persisted (it's request routing, not a writing style)
+      let paperBeta = null;     // probe result { state, gurus }; null = feature off
+      let paperFeedSeen = 0;    // buildLog lines already rendered (poll dedupe)
+      let paperPollTimer = null;
+
+      const AI_PAPER_PHASES = {
+          validating: 'Validating the setup and live market data…',
+          digest: 'Reading the market…',
+          personas: 'Two minds researching in parallel — each picks exactly one stock…',
+          allocator: 'Deciding the dollar split…',
+          committing: 'Committing the one buying decision…'
+      };
+
+      function paperProgress(text) {
+        const strip = $('paper-progress');
+        if (!strip || !text) return;
+        strip.hidden = false;
+        const line = document.createElement('div');
+        line.textContent = text;
+        strip.appendChild(line);
+      }
+
+      function paperProgressReset() {
+        const strip = $('paper-progress');
+        if (strip) { strip.innerHTML = ''; strip.hidden = true; }
+        paperFeedSeen = 0;
+      }
+
+      // Live research feed: while a build runs, poll /detail every 2.5s and
+      // render only the buildLog lines not shown yet. This survives tab
+      // switches and reloads — the SSE stream dies with the answer, this
+      // doesn't. Final states (committed/failed/paused) stop the poll and
+      // refresh the card once.
+      function paperFeedStop() {
+        if (paperPollTimer) { clearInterval(paperPollTimer); paperPollTimer = null; }
+        paperFeedSeen = 0;
+      }
+
+      function paperFeedStart() {
+        if (paperPollTimer || !paperBeta) return;
+        paperPollTimer = setInterval(async () => {
+          try {
+            const r = await fetch(`${API}/ai-paper-portfolio/detail`, { headers: { Authorization: `Bearer ${token()}` } });
+            if (!r.ok) return;
+            const detail = await r.json();
+            const p = detail && detail.portfolio;
+            if (!detail || !detail.exists || !p) return;
+            if (p.status !== 'building') {
+              paperFeedStop();
+              loadPaperCard();
+              return;
+            }
+            const log = Array.isArray(p.buildLog) ? p.buildLog : [];
+            for (let i = paperFeedSeen; i < log.length; i++) paperProgress(log[i]);
+            paperFeedSeen = log.length;
+          } catch (_) { /* transient poll error — keep going */ }
+        }, 2500);
+      }
+
+      // ai_paper SSE frames from the background build stream into the dock
+      // strip, so progress stays visible while the answer types out above.
+      function handlePaperEvent(e) {
+        if (!e || !paperBeta) return;
+        if (e.type === 'research' && e.text) {
+          paperProgress(e.text);
+        } else if (e.type === 'persona' && e.phase === 'picked') {
+          paperProgress(e.text || `${e.label || (e.persona === 'guru' ? '🧠 Mind 1' : '📊 Mind 2')} picked ${e.symbol}`);
+        } else if (e.type === 'status') {
+          if (e.phase === 'starting') { paperProgressReset(); paperFeedStart(); }
+          paperProgress(e.text || AI_PAPER_PHASES[e.phase] || '');
+        } else if (e.type === 'done') {
+          paperProgress('✅ Portfolio built — the full visualization is on your dashboard.');
+          paperFeedStop();
+          probePaper().then(loadPaperCard);
+        } else if (e.type === 'paused') {
+          paperProgress('⏸ Paused — nothing was bought. Edit the setup in the chat, then run it again.');
+          paperFeedStop();
+          probePaper().then(loadPaperCard);
+        } else if (e.type === 'error') {
+          paperProgress(`⚠️ ${e.text || e.message || 'The build failed.'}`);
+          paperFeedStop();
+        }
+      }
+
+      function setPaperMode(on) {
+        if (on && !paperBeta) return; // can't arm before the probe passes
+        paperMode = !!on;
+        $('ask-mode-paper').setAttribute('aria-pressed', String(paperMode));
+        $('prompts').hidden = paperMode;
+        $('paper-prompts').hidden = !paperMode;
+        if (paperMode) { renderPaperChips(); loadPaperCard(); }
+        else { hidePaperCard(); paperFeedStop(); }
+      }
+      $('ask-mode-paper').addEventListener('click', () => setPaperMode(!paperMode));
+
+      // Chips in 🧪 mode: the pure-data default setup + optional guru variants
+      // (living or deceased — the backend resolves free text), or the three
+      // status questions once the experiment exists. A paused run offers the
+      // edit-and-rerun path.
+      function renderPaperChips() {
+        const box = $('paper-prompts');
+        if (!box || !paperBeta) return;
+        const st = paperBeta.state && paperBeta.state.status;
+        const chips = st === 'paused'
+          ? ['Run it again with the same setup', 'Change the setup: avoid financials', 'Change the setup: focus on healthcare']
+          : (paperBeta.state && paperBeta.state.exists)
+            ? ['How is my experiment doing?', 'Why did each mind pick its stock?', 'What did last night’s review say?']
+            : ['Set up my AI Paper Portfolio', ...(paperBeta.gurus || []).slice(0, 5).map((g) => `Set up my AI Paper Portfolio with ${g.name}`)];
+        box.innerHTML = chips.map((c) => `<button type="button">${esc(c)}</button>`).join('');
+        box.querySelectorAll('button').forEach((b) =>
+          b.addEventListener('click', () => { ta.value = b.textContent; submit(); }));
+      }
+
+      // Collapsible portfolio card pinned at the top of the exchange while 🧪
+      // mode is on and a portfolio exists — the same /detail data the
+      // dashboard renders, in a compact form.
+      function hidePaperCard() {
+        const card = $('paper-card');
+        if (card) card.remove();
+      }
+
+      async function loadPaperCard() {
+        if (!paperMode || !paperBeta) { hidePaperCard(); return; }
+        try {
+          const r = await fetch(`${API}/ai-paper-portfolio/detail`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (!r.ok) { hidePaperCard(); return; }
+          const detail = await r.json();
+          if (!detail || !detail.exists) { hidePaperCard(); return; }
+          renderPaperCard(detail);
+        } catch (_) { hidePaperCard(); }
+      }
+
+      function renderPaperCard(detail) {
+        const p = detail.portfolio;
+        const t = detail.totals || {};
+        const money = (v) => `$${Number(v || 0).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
+        const pct = (v) => `${Number(v ?? 0) >= 0 ? '+' : ''}${Number(v ?? 0).toFixed(2)}%`;
+        const old = $('paper-card');
+        if (old) old.remove();
+        const card = document.createElement('details');
+        card.className = 'paper-card';
+        card.id = 'paper-card';
+        if (p.status === 'building') {
+          card.innerHTML = `<summary>🧪 AI Paper Portfolio — building…</summary>
+            <p class="small muted" style="margin:8px 0 0;">Two minds are picking their stocks — the live research feed streams below the composer.</p>
+            <button type="button" class="pc-pause">⏸ Pause the research</button>`;
+          card.querySelector('.pc-pause').addEventListener('click', async (ev) => {
+            const btn = ev.currentTarget;
+            btn.disabled = true;
+            btn.textContent = 'Pausing…';
+            try { await fetch(`${API}/ai-paper-portfolio/stop`, { method: 'POST', headers: { Authorization: `Bearer ${token()}` } }); } catch (_) { /* poll picks up the pause */ }
+          });
+          paperFeedStart();
+        } else if (p.status === 'paused') {
+          const setup = p.setup || {};
+          const setupBits = [setup.guruId ? `guru: ${setup.guruId}` : 'two data minds', ...(Array.isArray(setup.constraints) && setup.constraints.length ? setup.constraints : [])];
+          card.innerHTML = `<summary>🧪 AI Paper Portfolio — paused</summary>
+            <p class="small muted" style="margin:8px 0 0;">Research stopped cleanly — nothing was bought.</p>
+            <p class="small muted" style="margin:4px 0 0;">Setup was: ${esc(setupBits.join(' · '))}</p>
+            <p class="small muted" style="margin:4px 0 0;">Tell the assistant what to change — a different guru, or constraints like “avoid financials” — then say “run it again”.</p>`;
+          paperFeedStop();
+        } else if (p.status === 'failed') {
+          card.innerHTML = `<summary>🧪 AI Paper Portfolio — last build failed</summary>
+            <p class="small muted" style="margin:8px 0 0;">${esc(p.buildError || 'Something went wrong during construction.')} Nothing was bought. Say “retry the setup for my AI Paper Portfolio”.</p>`;
+          paperFeedStop();
+        } else {
+          const vsSpy = (t.portfolioReturnPct ?? 0) - (t.spyReturnPct ?? 0);
+          const snaps = Array.isArray(detail.snapshots) ? detail.snapshots : [];
+          const latest = snaps.length ? snaps[snaps.length - 1] : null;
+          const per = latest && Array.isArray(latest.perPersona) ? latest.perPersona : [];
+          const rows = (p.positions || []).map((pos) => {
+            const persona = (p.personas || []).find((x) => x.id === pos.personaId) || {};
+            const mine = per.find((q) => q.id === pos.personaId) || {};
+            const pl = mine.plPct;
+            return `<div class="pc-row">
+              <span>${persona.kind === 'guru' ? '🧠' : '📊'} <strong><a href="/company.html?symbol=${esc(pos.symbol || '')}">${esc(pos.symbol || '—')}</a></strong> <span class="small muted">${esc(pos.name || '')}</span></span>
+              <span>${money(pos.shares * pos.avgPrice)} · <span class="${pl === undefined ? '' : (pl >= 0 ? 'delta-pos' : 'delta-neg')}">${pl === undefined ? '—' : pct(pl)}</span></span>
+            </div>`;
+          }).join('');
+          card.innerHTML = `<summary>🧪 AI Paper Portfolio · ${money(t.totalValue)} · ${pct(t.portfolioReturnPct)} vs SPY ${pct(t.spyReturnPct)}</summary>
+            ${rows}
+            <div class="pc-row"><span class="small muted">cash</span><span>${money(p.cash)}</span></div>
+            <p class="small muted" style="margin:10px 0 0;">Full showdown and decision log on your <a href="/dashboard.html">dashboard</a>.</p>`;
+        }
+        const exchange = $('exchange');
+        exchange.insertBefore(card, exchange.firstChild); // pinned at the top, above every message
+      }
+
+      async function probePaper() {
+        try {
+          const r = await fetch(`${API}/ai-paper-portfolio`, { headers: { Authorization: `Bearer ${token()}` } });
+          if (!r.ok) return; // 403/401 = not this account's beta: render nothing at all
+          const data = await r.json();
+          if (!data || data.enabled !== true) return;
+          paperBeta = { state: data.state || { exists: false }, gurus: Array.isArray(data.gurus) ? data.gurus : [] };
+          $('ask-mode-paper').hidden = false;
+          $('paper-sep').hidden = false;
+          if (params.get('aiPaper') === '1') {
+            setPaperMode(true);
+            if (prefill && ta.value.trim() === prefill) submit(); // entry/retry links: ?aiPaper=1&q=…
+          }
+        } catch (_) { /* any error leaves the feature invisible */ }
+      }
+      if (token()) probePaper();
+
       autoGrow();
       ta.focus();
       initSidebar();

@@ -110,6 +110,28 @@ function monthlySeries(data) {
         .filter((p) => p.close !== null)
         .sort((a, b) => a.date.localeCompare(b.date));
 }
+// 52-week high/low. The quote summary's 52WeekHigh/52WeekLow is the source of
+// truth, but a handful of cached tickers come back without them (9/8: AMVD,
+// BIOA, ENLT, IAC, IIIV, IINNW, JACS.UN, TTAM) and rendered a bare em-dash.
+// Fall back to the unadjusted monthly bars — real (not adjusted) prices at
+// monthly granularity, requiring all 12 months so a 6-month-old listing never
+// gets a fabricated "52-week" range.
+function fiftyTwoWeekRange(data) {
+    const q = { high: num(data?.overview?.['52WeekHigh']), low: num(data?.overview?.['52WeekLow']) };
+    if (q.high != null && q.low != null) return q;
+    const ts = data?.monthly?.['Monthly Adjusted Time Series'];
+    const pts = ts ? Object.keys(ts).sort((x, y) => x.localeCompare(y)).slice(-12) : [];
+    if (pts.length === 12) {
+        let hi = null; let lo = null;
+        for (const d of pts) {
+            const h = num(ts[d]['2. high']); const l = num(ts[d]['3. low']);
+            if (h !== null && (hi === null || h > hi)) hi = h;
+            if (l !== null && (lo === null || l < lo)) lo = l;
+        }
+        if (hi !== null && lo !== null) return { high: hi, low: lo };
+    }
+    return q;
+}
 // Total return over `years` from the monthly adjusted-close series; null when
 // the series is too short to cover the window.
 function totalReturn(series, years) {
@@ -1163,7 +1185,67 @@ function renderCompareIndex() {
 </script>` + footer();
 }
 
-function renderComparePage(pairSlug) {
+// ---- Discovered compare pairs -> sitemap ----
+// /compare renders ANY pair that has metrics for both sides, but comparePairs()
+// only emits the algorithmic set (sector adjacency + POPULAR_COMPARISONS). A
+// pair that arrives via an external link (Bing found PANW-vs-SNDK that way)
+// renders 200 + indexable yet never had a sitemap entry — Bing flags this as
+// "important new pages missing from your sitemaps". Record each newly-served
+// pair into a bounded snapshot (same contract as indexable-shares.json /
+// filing-diff-symbols.json); seo-pages.buildSitemapInventory merges it in.
+// Best-effort: comparison works with the file missing or unwritable.
+const DISCOVERED_COMPARES_FILE = path.join(__dirname, 'discovered-compares.json');
+const DISCOVERED_COMPARES_MAX = 1000;
+const _discoveredSeen = new Set();
+let _discoveredLoaded = false;
+let _discoveredFlushTimer = null;
+let _discoveredPending = [];
+function noteDiscoveredCompare(a, b) {
+    try {
+        a = String(a || '').toUpperCase(); b = String(b || '').toUpperCase();
+        if (!/^[A-Z0-9.]+$/.test(a) || !/^[A-Z0-9.]+$/.test(b) || a === b) return;
+        if (!_discoveredLoaded) {
+            _discoveredLoaded = true;
+            try { JSON.parse(fs.readFileSync(DISCOVERED_COMPARES_FILE, 'utf8')).forEach((e) => { if (e && e.p) _discoveredSeen.add(e.p); }); } catch (_) { /* first entry */ }
+        }
+        const slug = [a, b].sort().join('-vs-');
+        if (_discoveredSeen.has(slug)) return;
+        _discoveredSeen.add(slug);
+        _discoveredPending.push({ p: slug, at: new Date().toISOString().slice(0, 10) });
+        if (_discoveredFlushTimer) return;
+        // Write-behind: one flush per burst so a crawler sweeping pair URLs
+        // costs one write, not one per render.
+        _discoveredFlushTimer = setTimeout(() => {
+            _discoveredFlushTimer = null;
+            try {
+                let list = [];
+                try { list = JSON.parse(fs.readFileSync(DISCOVERED_COMPARES_FILE, 'utf8')); } catch (_) { /* first entry */ }
+                const merged = new Map();
+                list.concat(_discoveredPending).forEach((e) => { if (e && e.p) merged.set(e.p, e); });
+                fs.writeFileSync(DISCOVERED_COMPARES_FILE, JSON.stringify([...merged.values()].slice(-DISCOVERED_COMPARES_MAX)));
+                _discoveredPending = [];
+            } catch (_) { /* kept in _discoveredPending; next new pair re-arms */ }
+        }, 5000).unref();
+    } catch (_) { /* best-effort */ }
+}
+
+// ---- paid/free pair-page split ----
+// app.js hands in its optionalAuth (an app.js internal) at mount time so the
+// /compare/:pair route can resolve the visitor's tier. Unset (unit tests mount
+// the bare router) = every visitor renders the free page.
+let cmpAuth = null;
+function setCompareAuth(x) { cmpAuth = x || null; }
+// Em-dashes are a house-style call on page copy: prose on the paid variant
+// reads with commas and colons instead. The missing-data cell placeholder in
+// tables stays an em-dash on purpose — that is a table glyph, not prose.
+function dedash(s) {
+    return String(s == null ? '' : s).replace(/\s*—\s*/g, ', ').replace(/\s{2,}/g, ' ').trim();
+}
+
+// Shared data assembly for the pair page. Both renderers (renderComparePage =
+// the free/SEO surface, renderComparePagePro = the paid variant) consume this
+// so the two pages can never disagree about the underlying numbers.
+function compareData(pairSlug) {
     const mm = String(pairSlug || '').toUpperCase().match(/^([A-Z0-9.]+)-VS-([A-Z0-9.]+)$/);
     if (!mm) return null;
     let [a, b] = [mm[1], mm[2]];
@@ -1174,12 +1256,27 @@ function renderComparePage(pairSlug) {
     const da = loadFundamentals(a) || {}; const db = loadFundamentals(b) || {};
     const inca = ((da.income || {}).annualReports || [])[0] || {};
     const incb = ((db.income || {}).annualReports || [])[0] || {};
+    // Extra statements the pro variant's expanded table draws on (pure adds —
+    // the free render never reads these).
+    const inca1 = ((da.income || {}).annualReports || [])[1] || {};
+    const incb1 = ((db.income || {}).annualReports || [])[1] || {};
+    const bala = ((da.balance || {}).annualReports || [])[0] || {};
+    const balb = ((db.balance || {}).annualReports || [])[0] || {};
+    const casha = ((da.cash || {}).annualReports || [])[0] || {};
+    const cashb = ((db.cash || {}).annualReports || [])[0] || {};
 
     // Performance from the monthly adjusted-close series (no new data source).
     const perfA = { r1: totalReturn(monthlySeries(da), 1), r3: totalReturn(monthlySeries(da), 3), r5: totalReturn(monthlySeries(da), 5), r10: totalReturn(monthlySeries(da), 10) };
     const perfB = { r1: totalReturn(monthlySeries(db), 1), r3: totalReturn(monthlySeries(db), 3), r5: totalReturn(monthlySeries(db), 5), r10: totalReturn(monthlySeries(db), 10) };
-    const rangeA = { high: num(da.overview?.['52WeekHigh']), low: num(da.overview?.['52WeekLow']) };
-    const rangeB = { high: num(db.overview?.['52WeekHigh']), low: num(db.overview?.['52WeekLow']) };
+    const rangeA = fiftyTwoWeekRange(da);
+    const rangeB = fiftyTwoWeekRange(db);
+    // First monthly close = a proxy for the listing year. A return window the
+    // series can't cover is a recent listing, not missing data — the cell says
+    // "Listed YYYY" instead of a bare em-dash that reads as broken (owner
+    // report, 9/8: LB's 3/5/10-year cells all dashed because it listed in 2024).
+    const listedYear = (d) => { const s = monthlySeries(d); return s.length ? s[0].date.slice(0, 4) : null; };
+    const listedA = listedYear(da); const listedB = listedYear(db);
+    const fmtRet = (v, listed) => v !== null ? `${v.toFixed(1)}%` : (listed ? `Listed ${listed}` : '—');
 
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
     const shortCompany = (value) => String(value || '').replace(/^The\s+/i, '').replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '').trim();
@@ -1218,12 +1315,15 @@ function renderComparePage(pairSlug) {
         `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
 
     // ---- performance rows (returns from monthly adjusted closes) ----
-    const rangeFmt = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}&ndash;$${r.high.toFixed(2)}` : '—';
+    // The en-dash must be a literal character, not an entity: cell values pass
+    // through esc(), which would turn &ndash; into &amp;ndash; and render the
+    // entity as visible text (9/8: every free compare page showed "$x&ndash;$y").
+    const rangeFmt = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}–$${r.high.toFixed(2)}` : '—';
     const perfRows = [
-        { l: '1-year return', a: fmtP(perfA.r1), b: fmtP(perfB.r1), w: hi(perfA.r1, perfB.r1) },
-        { l: '3-year return', a: fmtP(perfA.r3), b: fmtP(perfB.r3), w: hi(perfA.r3, perfB.r3) },
-        { l: '5-year return', a: fmtP(perfA.r5), b: fmtP(perfB.r5), w: hi(perfA.r5, perfB.r5) },
-        { l: '10-year return', a: fmtP(perfA.r10), b: fmtP(perfB.r10), w: hi(perfA.r10, perfB.r10) },
+        { l: '1-year return', a: fmtRet(perfA.r1, listedA), b: fmtRet(perfB.r1, listedB), w: hi(perfA.r1, perfB.r1) },
+        { l: '3-year return', a: fmtRet(perfA.r3, listedA), b: fmtRet(perfB.r3, listedB), w: hi(perfA.r3, perfB.r3) },
+        { l: '5-year return', a: fmtRet(perfA.r5, listedA), b: fmtRet(perfB.r5, listedB), w: hi(perfA.r5, perfB.r5) },
+        { l: '10-year return', a: fmtRet(perfA.r10, listedA), b: fmtRet(perfB.r10, listedB), w: hi(perfA.r10, perfB.r10) },
         { l: '52-week range', a: rangeFmt(rangeA), b: rangeFmt(rangeB), w: -1 }
     ];
     const perfTrs = perfRows.map((r) =>
@@ -1427,6 +1527,24 @@ function renderComparePage(pairSlug) {
   })();
   </script>`;
 
+    return {
+        a, b, ma, mb, da, db, inca, incb, inca1, incb1, bala, balb, casha, cashb,
+        perfA, perfB, rangeA, rangeB, listedA, listedB, fmtRet, rangeFmt, fmtB, fmtP, peFmt, yesNo,
+        hi, loPos, boolWin, winCell, canonical, title, description, jsonld,
+        faqs, faqHtml, verdictHtml, rfa, rfb, relatedHtml, swapHtml, screensHtml, pair, verdictAi,
+        trs, perfHtml
+    };
+}
+
+// The free / SEO surface of the pair page: byte-for-byte the markup that ships
+// today. Paid subscribers see renderComparePagePro instead (via ?sp=2).
+function renderComparePage(pairSlug) {
+    const d = compareData(pairSlug);
+    if (!d || d.redirect) return d;
+    // This pair is about to render with real metrics on both sides. If it came
+    // from outside comparePairs(), the sitemap would never learn it existed.
+    noteDiscoveredCompare(d.a, d.b);
+    const { a, b, ma, mb, canonical, title, description, jsonld, verdictHtml, verdictAi, trs, perfHtml, swapHtml, relatedHtml, faqHtml, screensHtml } = d;
     return { html: head(title, description, canonical, jsonld) + nav('compare') + `
 <main class="seo-wrap">
   <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}</style>
@@ -1452,6 +1570,277 @@ function renderComparePage(pairSlug) {
   </div>
   ${relatedHtml ? `<div class="seo-section"><h2>More comparisons</h2><div class="seo-links">${relatedHtml}</div></div>` : ''}
   <div class="seo-section"><h2>Frequently asked questions</h2>${faqHtml}</div>
+  <div class="seo-section"><h2>Keep exploring</h2>
+    <div class="seo-links">${screensHtml}</div>
+    <p style="margin-top:10px"><a href="/stocks/${esc(a)}">${esc(a)} fundamentals &rarr;</a> &middot; <a href="/stocks/${esc(b)}">${esc(b)} fundamentals &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p>
+  </div>
+</main>
+<script>
+(function(){
+  var k='sp2up';
+  // Consume the one-shot flag on the ?sp=2 load itself, not on the next free
+  // visit — otherwise the visit right after an upgrade does nothing.
+  if(/(^|[?&])sp=2/.test(location.search)){try{sessionStorage.removeItem(k);}catch(e){}return;}
+  try{if(sessionStorage.getItem(k)){sessionStorage.removeItem(k);return;}}catch(e){}
+  // The app's auth is cookie-based (HttpOnly sp_auth + sp_logged_in marker);
+  // login never stores a localStorage token. Gate on the marker cookie, and
+  // let the same-origin fetch carry sp_auth to /api/session.
+  if(!/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie||''))return;
+  fetch('/api/session').then(function(r){return r.ok?r.json():null;}).then(function(j){
+    var t=j&&j.tier;
+    if(t==='core'||t==='pro'){try{sessionStorage.setItem(k,'1');}catch(e){}location.replace(location.pathname+'?sp=2');}
+  }).catch(function(){});
+})();
+</script>` + footer() };
+}
+
+// ---- the paid variant: the full expanded head-to-head ----
+// Grouped ratio table (performance merged in), a red-flags section, a dark
+// AI-verdict hero, and no em-dashes in the prose. Same head/nav/FAQ skeleton
+// as the free page; reached only through /compare/PAIR?sp=2 by paying
+// subscribers, and always sent Cache-Control: private so it never enters the
+// shared SSR cache or a browser/CDN cache.
+function renderComparePagePro(pairSlug) {
+    const d = compareData(pairSlug);
+    if (!d || d.redirect) return d;
+    const { a, b, ma, mb, da, db, inca, inca1, incb, incb1, bala, balb, casha, cashb,
+        perfA, perfB, rangeA, rangeB, listedA, listedB, fmtRet, fmtB, fmtP, peFmt, yesNo, hi, loPos, boolWin, winCell,
+        canonical, title, description, jsonld, faqs, verdictHtml, rfa, rfb, relatedHtml, swapHtml, screensHtml, pair } = d;
+
+    const xFmt = (v) => (v === null || v === undefined) ? '—' : `${v.toFixed(2)}×`;
+    const rangeFmtP = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}–$${r.high.toFixed(2)}` : '—';
+    const pctOf = (n, dn) => (n != null && dn != null && dn !== 0) ? (n / dn) * 100 : null;
+    const yoy = (cur, prev) => (cur != null && prev != null && prev > 0) ? ((cur / prev) - 1) * 100 : null;
+    const shOut = (d2, i) => num((((d2.balance || {}).annualReports || [])[i] || {}).commonStockSharesOutstanding);
+    const shares5y = (d2) => yoy(shOut(d2, 0), shOut(d2, 4));
+    const debtOf = (bl) => totalDebtOf(bl);
+    const cashOf = (bl) => { const c = num(bl.cashAndCashEquivalentsAtCarryingValue); return c !== null ? c : num(bl.cashAndShortTermInvestments); };
+    const deOf = (bl) => { const eq = num(bl.totalShareholderEquity), dt = totalDebtOf(bl); return (eq !== null && eq > 0 && dt !== null) ? dt / eq : null; };
+    const fcfMargin = (m, rev) => (m.fcfAbs != null && rev != null && rev > 0) ? ((m.fcfPositive ? m.fcfAbs : -m.fcfAbs) / rev) * 100 : null;
+    const payoutOf = (csh, inc) => {
+        const dv = num(csh.dividendPayoutCommonStock) !== null ? num(csh.dividendPayoutCommonStock) : num(csh.dividendPayout);
+        const ni = num(inc.netIncome);
+        return (dv !== null && ni !== null && ni > 0) ? (Math.abs(dv) / ni) * 100 : null;
+    };
+
+    // One side's expanded-table values, formatted strings plus the raw numbers
+    // the winner logic needs.
+    const sideOf = (m, d2, inc, inc1, bal, csh, rf) => {
+        const rev = num(inc.totalRevenue), gp = grossProfitOf(inc), op = num(inc.operatingIncome),
+            ni = num(inc.netIncome), rev1 = num(inc1.totalRevenue);
+        // EBITDA as filed, else derived: operating income + the same FY's filed
+        // D&A (positive add-back). Missing stays missing — never a guess.
+        let eb = num(inc.ebitda);
+        if (eb === null && op !== null) {
+            const dna = num(csh.depreciationDepletionAndAmortization);
+            if (dna !== null && dna > 0) eb = op + dna;
+        }
+        const ndE = (() => {
+            const dt = totalDebtOf(bal), cshv = cashOf(bal);
+            return (eb !== null && eb > 0 && dt !== null && cshv !== null) ? (dt - cshv) / eb : null;
+        })();
+        return {
+            cap: { v: m.marketCapB, f: fmtB(m.marketCapB) },
+            rev: { v: rev, f: money(rev) },
+            gp: { v: gp, f: money(gp) },
+            op: { v: op, f: money(op) },
+            ni: { v: ni, f: money(ni) },
+            eb: { v: eb, f: money(eb) },
+            eps: { v: num(inc.dilutedEPS), f: (v => v === null ? '—' : `$${v.toFixed(2)}`)(num(inc.dilutedEPS)) },
+            revYoY: { v: yoy(rev, rev1), f: fmtP(yoy(rev, rev1)) },
+            revCagr: { v: m.revCagr5Pct, f: fmtP(m.revCagr5Pct) },
+            qtrYoY: { v: m.qtrNetIncomeYoYPct, f: fmtP(m.qtrNetIncomeYoYPct) },
+            sh5y: { v: shares5y(d2), f: fmtP(shares5y(d2)) },
+            gm: { v: pctOf(gp, rev), f: fmtP(pctOf(gp, rev)) },
+            om: { v: pctOf(op, rev), f: fmtP(pctOf(op, rev)) },
+            nm: { v: m.netMarginPct, f: fmtP(m.netMarginPct) },
+            em: { v: pctOf(eb, rev), f: fmtP(pctOf(eb, rev)) },
+            roe: { v: m.roePct, f: fmtP(m.roePct) },
+            prof: { v: m.profitableYears10, f: (m.profitableYears10 == null ? '—' : String(m.profitableYears10)) },
+            fcf: { v: m.fcfPositive, f: yesNo(m.fcfPositive) },
+            fcfm: { v: fcfMargin(m, rev), f: fmtP(fcfMargin(m, rev)) },
+            flags: { v: rf ? rf.flagCount : null, f: (rf && rf.flagCount != null) ? String(rf.flagCount) : '—' },
+            de: { v: deOf(bal), f: xFmt(deOf(bal)) },
+            ndE: { v: ndE, f: xFmt(ndE) },
+            pe: { v: m.pe, f: peFmt(m.pe) },
+            peg: { v: m.pegRatio, f: peFmt(m.pegRatio) },
+            pb: { v: m.priceToBook, f: peFmt(m.priceToBook) },
+            dy: { v: m.divYieldPct, f: fmtP(m.divYieldPct) },
+            payout: { v: payoutOf(csh, inc), f: fmtP(payoutOf(csh, inc)) }
+        };
+    };
+    const sa = sideOf(ma, da, inca, inca1, bala, casha, rfa);
+    const sb = sideOf(mb, db, incb, incb1, balb, cashb, rfb);
+    const wA = (x) => hi(sa[x].v, sb[x].v);
+    const wL = (x) => loPos(sa[x].v, sb[x].v);
+    const fa = rfa ? rfa.flagCount : null, fb = rfb ? rfb.flagCount : null;
+    const flagWin = (fa !== null && fb !== null && fa !== fb) ? (fa < fb ? 0 : 1) : -1;
+
+    const rowsPro = [
+        { g: 'Size and latest FY' },
+        { l: 'Market cap', a: sa.cap.f, b: sb.cap.f, w: -1 },
+        { l: 'Revenue (latest FY)', a: sa.rev.f, b: sb.rev.f, w: -1 },
+        { l: 'Gross profit', a: sa.gp.f, b: sb.gp.f, w: -1 },
+        { l: 'Operating income', a: sa.op.f, b: sb.op.f, w: -1 },
+        { l: 'Net income', a: sa.ni.f, b: sb.ni.f, w: -1 },
+        { l: 'EBITDA', a: sa.eb.f, b: sb.eb.f, w: -1 },
+        { l: 'EPS (diluted)', a: sa.eps.f, b: sb.eps.f, w: -1 },
+        { g: 'Growth' },
+        { l: 'Revenue growth (latest FY)', a: sa.revYoY.f, b: sb.revYoY.f, w: wA('revYoY') },
+        { l: 'Revenue growth (5y CAGR)', a: sa.revCagr.f, b: sb.revCagr.f, w: wA('revCagr') },
+        { l: 'Latest-quarter earnings YoY', a: sa.qtrYoY.f, b: sb.qtrYoY.f, w: wA('qtrYoY') },
+        { l: 'Share count (5y change)', a: sa.sh5y.f, b: sb.sh5y.f, w: wL('sh5y') },
+        { g: 'Margins' },
+        { l: 'Gross margin', a: sa.gm.f, b: sb.gm.f, w: wA('gm') },
+        { l: 'Operating margin', a: sa.om.f, b: sb.om.f, w: wA('om') },
+        { l: 'Net margin', a: sa.nm.f, b: sb.nm.f, w: wA('nm') },
+        { l: 'EBITDA margin', a: sa.em.f, b: sb.em.f, w: wA('em') },
+        { g: 'Returns and quality' },
+        { l: 'Return on equity', a: sa.roe.f, b: sb.roe.f, w: wA('roe') },
+        { l: 'Profitable years (of last 10)', a: sa.prof.f, b: sb.prof.f, w: wA('prof') },
+        { l: 'Positive free cash flow', a: sa.fcf.f, b: sb.fcf.f, w: boolWin(sa.fcf.v, sb.fcf.v) },
+        { l: 'FCF margin', a: sa.fcfm.f, b: sb.fcfm.f, w: wA('fcfm') },
+        { l: 'Red flags in filings', a: sa.flags.f, b: sb.flags.f, w: flagWin },
+        { g: 'Balance sheet (ratios)' },
+        { l: 'Debt to equity', a: sa.de.f, b: sb.de.f, w: wL('de') },
+        { l: 'Net debt to EBITDA', a: sa.ndE.f, b: sb.ndE.f, w: wL('ndE') },
+        { g: 'Valuation and dividends' },
+        { l: 'P/E ratio', a: sa.pe.f, b: sb.pe.f, w: wL('pe') },
+        { l: 'PEG ratio', a: sa.peg.f, b: sb.peg.f, w: wL('peg') },
+        { l: 'Price to book', a: sa.pb.f, b: sb.pb.f, w: wL('pb') },
+        { l: 'Dividend yield', a: sa.dy.f, b: sb.dy.f, w: wA('dy') },
+        { l: 'Payout ratio', a: sa.payout.f, b: sb.payout.f, w: -1 },
+        { g: 'Performance' },
+        { l: '1-year return', a: fmtRet(perfA.r1, listedA), b: fmtRet(perfB.r1, listedB), w: hi(perfA.r1, perfB.r1) },
+        { l: '3-year return', a: fmtRet(perfA.r3, listedA), b: fmtRet(perfB.r3, listedB), w: hi(perfA.r3, perfB.r3) },
+        { l: '5-year return', a: fmtRet(perfA.r5, listedA), b: fmtRet(perfB.r5, listedB), w: hi(perfA.r5, perfB.r5) },
+        { l: '10-year return', a: fmtRet(perfA.r10, listedA), b: fmtRet(perfB.r10, listedB), w: hi(perfA.r10, perfB.r10) },
+        { l: '52-week range', a: rangeFmtP(rangeA), b: rangeFmtP(rangeB), w: -1 }
+    ];
+    // Collapsible groups: one tbody per group; the first ("Size and latest FY")
+    // starts open, the rest collapsed. Clicking the group row toggles it.
+    const groupsPro = [];
+    rowsPro.forEach((r) => {
+        if (r.g) groupsPro.push({ title: r.g, rows: [] });
+        else groupsPro[groupsPro.length - 1].rows.push(r);
+    });
+    const proTrs = groupsPro.map((g, gi) => {
+        const open = gi === 0;
+        // Collapsed groups keep their FIRST metric row visible as a teaser;
+        // expanding reveals the rest.
+        const body = g.rows.map((r, ri) =>
+            `<tr${gi > 0 && ri === 0 ? ' class="cmp-prev"' : ''}><td>${esc(r.l)}</td>` +
+            `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
+            `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
+        return `<tbody class="cmp-sec${open ? ' cmp-open' : ''}">` +
+            `<tr class="cmp-grp" role="button" tabindex="0" aria-expanded="${open}" aria-label="${esc(g.title)}: toggle section"><td colspan="3">${esc(g.title)}<span class="cmp-n">${g.rows.length} metrics</span></td></tr>` +
+            body + `</tbody>`;
+    }).join('');
+
+    // ---- red flags, spelled out per company (counts alone hide the detail) ----
+    const flagCard = (sym, name, rf) => {
+        const items = (rf && Array.isArray(rf.flags) ? rf.flags : []).slice(0, 6).map((f) =>
+            `<li style="margin:0 0 9px"><span style="font-weight:650">${esc(dedash(f.title))}</span> <span style="font-size:11.5px;color:var(--ink3)">(${esc(f.severity)})</span><br><span style="font-size:13px;color:var(--ink2)">${esc(dedash(f.detail))}</span></li>`).join('');
+        const empty = !rf
+            ? 'No filed history to scan yet.'
+            : (rf.flagCount === 0 ? 'No red flags found in the filed statements.' : dedash(rf.source || ''));
+        return `<div style="border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px">
+      <h3 style="margin:0 0 8px;font-size:14.5px">${esc(name)} (${esc(sym)})</h3>
+      ${items ? `<ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.5">${items}</ul>` : `<p style="margin:0;font-size:13.5px;color:var(--ink3)">${esc(empty)}</p>`}
+    </div>`;
+    };
+    const flagsHtml = `
+  <div class="seo-section">
+    <h2>Red flags in the filings</h2>
+    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Computed from each company's filed statements: every flag cites the numbers behind it. A flag is a question to check, not a verdict.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">${flagCard(a, ma.name, rfa)}${flagCard(b, mb.name, rfb)}</div>
+  </div>`;
+
+    // ---- dark-hero AI verdict: same endpoint, same gating, same behavior ----
+    const verdictAiPro = `
+  <div id="aiv" style="border-radius:14px;background:var(--ink);color:var(--paper);padding:20px 20px 18px;margin:14px 0 4px">
+    <div style="font-size:11px;font-weight:700;letter-spacing:.16em;color:rgba(250,249,246,.62)">AI VERDICT</div>
+    <h2 style="margin:6px 0 0;font-size:19px;line-height:1.3;color:var(--paper)">Is ${esc(a)} or ${esc(b)} the stronger business?</h2>
+    <p style="margin:8px 0 14px;font-size:13px;line-height:1.6;color:rgba(250,249,246,.75);max-width:72ch">The stronger business, the cheaper stock, and the risks: synthesised from both companies&rsquo; SEC filings, every figure computed not guessed. Not investment advice.</p>
+    <button type="button" id="aivbtn" style="min-height:46px;padding:0 22px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-size:14.5px;font-weight:650;cursor:pointer;white-space:nowrap">Generate the verdict &rarr;</button>
+    <div id="aivout"></div>
+  </div>
+  <script>
+  (function(){
+    var btn=document.getElementById('aivbtn'),out=document.getElementById('aivout');
+    if(!btn)return;
+    btn.addEventListener('click',function(){
+      btn.disabled=true;var orig=btn.textContent;btn.textContent='Reading the filings…';
+      out.style.marginTop='14px';
+      out.innerHTML='<p style="font-size:13px;color:rgba(250,249,246,.7);margin:0">Computing the head-to-head from both companies&rsquo; filings…</p>';
+      var tok=null;try{tok=localStorage.getItem('token');}catch(e){}
+      fetch('/api/compare/${esc(pair)}/verdict',{headers:tok?{Authorization:'Bearer '+tok}:{}}).then(function(r){
+        return r.json().then(function(j){return {status:r.status,j:j};});
+      }).then(function(res){
+        if(res.status===429){
+          out.innerHTML='<div style="border:1px solid rgba(250,249,246,.28);border-radius:10px;padding:14px 16px;margin-top:14px;background:rgba(250,249,246,.06)"><p style="margin:0 0 12px;font-size:14px;color:var(--paper)">'+(res.j.message||'Free limit reached for today.')+'</p><a class="seo-cta-btn" href="/register.html">Create a free account &rarr;</a></div>';
+          btn.style.display='none';return;
+        }
+        if(res.status!==200||!res.j.verdict){
+          out.innerHTML='<p style="font-size:13px;color:rgba(250,249,246,.7);margin:14px 0 0">Could not generate the verdict right now. Please try again in a moment.</p>';
+          btn.disabled=false;btn.textContent='Try again';return;
+        }
+        var safe=res.j.verdict.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        out.innerHTML='<div style="background:var(--surface);border-radius:10px;padding:14px 16px;margin-top:14px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--ink3)">VERDICT</div><div style="white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--ink);margin-top:6px">'+safe+'</div><p style="margin:10px 0 0;font-size:11.5px;color:var(--ink3)">Computed from SEC-filed statements; the model writes the synthesis, never the numbers. Not investment advice.</p></div><div style="display:flex;gap:7px;align-items:center;margin-top:10px"><span style="font-size:11.5px;color:rgba(250,249,246,.65)">Share</span><button type="button" id="aivx" class="seo-cta-btn" style="cursor:pointer">X / Twitter</button><button type="button" id="aivcopy" class="seo-cta-btn" style="cursor:pointer">Copy</button></div>';
+        var excerpt=res.j.verdict.replace(/\\s+/g,' ').slice(0,220),shareTitle='${esc(a)} vs ${esc(b)} AI verdict';
+        document.getElementById('aivx').onclick=function(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTitle+'\\n\\n'+excerpt)+'&url='+encodeURIComponent(location.href),'_blank','noopener,noreferrer,width=720,height=520');};
+        document.getElementById('aivcopy').onclick=function(){var text=shareTitle+'\\n\\n'+res.j.verdict+'\\n\\n'+location.href;navigator.clipboard?navigator.clipboard.writeText(text):window.prompt('Copy this verdict',text);this.textContent='Copied';};
+        btn.style.display='none';
+      }).catch(function(e){
+        out.innerHTML='<p style="font-size:13px;color:rgba(250,249,246,.7);margin:14px 0 0">Something went wrong. Please try again.</p>';
+        btn.disabled=false;btn.textContent=orig;
+      });
+    });
+  })();
+  </script>`;
+
+    // Em-dash-free FAQ text for the paid page; the free page keeps its copy.
+    const proFaqHtml = faqs.map((f) =>
+        `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(dedash(f.a))}</p>`).join('');
+    const proJsonld = dedash(jsonld);
+
+    return { html: head(title, description, canonical, proJsonld).replace('</title>', '</title><meta name="robots" content="noindex">') + nav('compare') + `
+<main class="seo-wrap">
+  <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}.cmp-grp td{padding:14px 7px 6px;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);border-top:1px solid var(--line)}.cmp-grp{cursor:pointer;-webkit-user-select:none;user-select:none}.cmp-grp:focus-visible td{outline:2px solid var(--accent);outline-offset:-2px}.cmp-grp td::before{content:'▾ ';color:var(--ink3)}.cmp-sec:not(.cmp-open) .cmp-grp td::before{content:'▸ '}.cmp-sec:not(.cmp-open) tr:not(.cmp-grp):not(.cmp-prev){display:none}.cmp-n{float:right;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--ink3)}@keyframes aivpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,79,214,.40)}55%{box-shadow:0 0 0 9px rgba(26,79,214,0)}}#aivbtn{animation:aivpulse 2.4s infinite}</style>
+  <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
+  <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
+  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side: fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
+  ${dedash(verdictHtml)}
+  ${verdictAiPro}
+  <div class="seo-section">
+    <h2>The full numbers, head to head</h2>
+    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Every figure is computed from SEC-filed statements, refreshed nightly. Returns are total returns from monthly split- and dividend-adjusted closes; past performance is not a prediction. The stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>; raw size rows stay untinted because bigger is not automatically better.</p>
+    <div style="overflow-x:auto"><table class="seo-table cmp-table">
+      <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
+      ${proTrs}
+    </table></div>
+    <script>
+    (function(){
+      var t=document.querySelector('.cmp-table');if(!t)return;
+      Array.prototype.forEach.call(t.querySelectorAll('.cmp-grp'),function(tr){
+        var tg=function(){var sec=tr.closest('tbody');if(!sec)return;var open=sec.classList.toggle('cmp-open');tr.setAttribute('aria-expanded',open?'true':'false');};
+        tr.addEventListener('click',tg);
+        tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}});
+      });
+    })();
+    </script>
+  </div>
+  ${flagsHtml}
+  <div class="seo-section"><h2>Verify the comparison</h2><div class="seo-links"><a href="/tools/earnings-quality">Check earnings versus cash flow &rarr;</a><a href="/tools/dilution">Compare filed share counts &rarr;</a><a href="/tools/filing-timeline">Open the latest SEC filing timeline &rarr;</a><a href="/tools/company-comparison">Run another company comparison &rarr;</a></div><p style="margin-top:10px;font-size:13px;color:var(--ink3)">Use the filing period and source shown by each tool before treating two figures as comparable.</p></div>
+  ${swapHtml}
+  <div class="seo-lock">
+    <h3>See the full ${esc(a)} vs ${esc(b)} breakdown</h3>
+    <p>Both companies across 19 years of income statement, balance sheet and cash flow: ratios, health checks and Ask, the SEC-grounded research assistant. Free, no account needed.</p>
+    <a class="seo-cta-btn" href="/company?symbol=${esc(a)}">Open ${esc(a)}'s full financials &rarr;</a>
+    &nbsp; <a class="seo-cta-btn" href="/company?symbol=${esc(b)}">Open ${esc(b)}'s full financials &rarr;</a>
+  </div>
+  ${relatedHtml ? `<div class="seo-section"><h2>More comparisons</h2><div class="seo-links">${relatedHtml}</div></div>` : ''}
+  <div class="seo-section"><h2>Frequently asked questions</h2>${proFaqHtml}</div>
   <div class="seo-section"><h2>Keep exploring</h2>
     <div class="seo-links">${screensHtml}</div>
     <p style="margin-top:10px"><a href="/stocks/${esc(a)}">${esc(a)} fundamentals &rarr;</a> &middot; <a href="/stocks/${esc(b)}">${esc(b)} fundamentals &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p>
@@ -1928,10 +2317,23 @@ router.get('/compare/:vendor(vs-[a-z0-9-]+)', (req, res, next) => {
     if (!html) return next();
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
-router.get('/compare/:pair', (req, res) => {
+router.get('/compare/:pair', (req, res, next) => (cmpAuth && cmpAuth.optionalAuth ? cmpAuth.optionalAuth(req, res, next) : next()), (req, res) => {
     const out = renderComparePage(req.params.pair);
     if (!out) return res.redirect(302, '/stocks');
     if (out.redirect) return res.redirect(301, out.redirect);
+    // Paid variant: /compare/PAIR?sp=2 (the in-page upgrade probe sends paid
+    // users here) renders the full expanded design for subscribers. Everyone
+    // else — free users, logged-out visitors, crawlers, anyone carrying the
+    // param without an active subscription — gets the free page unchanged.
+    // Cache-Control: private plus the ssr-cache ?sp=2 skip keeps this per-user
+    // render out of every shared cache.
+    if (req.query && req.query.sp === '2' && cmpAuth && (req.tier === 'core' || req.tier === 'pro')) {
+        const pro = renderComparePagePro(req.params.pair);
+        if (pro && pro.html && !pro.redirect) {
+            res.set('Cache-Control', 'private, no-cache');
+            return res.set('Content-Type', 'text/html; charset=utf-8').send(pro.html);
+        }
+    }
     res.set('Content-Type', 'text/html; charset=utf-8').send(out.html);
 });
 router.get('/screens/:slug', (req, res) => {
@@ -1956,12 +2358,13 @@ function sitemapUrls() {
 }
 
 module.exports = {
-    router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS,
-    renderMetricPage, renderComparePage, renderCompareIndex, metricCsv, dilutionRows, dilutionCsv,
+    router, METRICS, METRIC_SLUGS, RESEARCH_ROUTES, sitemapUrls, comparePairs, SCREENS, noteDiscoveredCompare,
+    renderMetricPage, renderComparePage, renderComparePagePro, renderCompareIndex, metricCsv, dilutionRows, dilutionCsv,
+    setCompareAuth,
     VENDOR_COMPARISONS, renderVendorComparePage,
     pilotEnabled, organicRequest, pilotEligibility, pilotAction,
     renderSharesResearch, renderPeResearch, renderDilutionScorecard,
     renderRead10KGuide, renderCompareGuide, renderFreeCashFlowGuide, renderFindUndervaluedGuide,
-    monthlySeries, totalReturn, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
+    monthlySeries, totalReturn, fiftyTwoWeekRange, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
     renderPriceHistoryPage
 };

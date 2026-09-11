@@ -36,7 +36,27 @@ const mongoose = require('mongoose');
 // happens at compare time; the underlying reports were each paid for once at
 // build. Priced at 5 (half a standard Dossier): paid, but visibly cheaper
 // than running the reports it reads.
-const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5 };
+// mcp_*/api_* (added for the hosted MCP endpoint and the public REST API,
+// mcp-endpoint.js/public-api.js): MCP is the base tier, REST API is priced
+// at exactly 2x MCP — a deliberate choice, not a rounding artifact, to make
+// the MCP surface the cheaper on-ramp.
+// *_lookup covers the deterministic tools (cache/SEC/Yahoo, no AI spend) —
+// priced low, mainly abuse prevention rather than cost recovery, since no
+// inference happens.
+// *_ask is the only AI-backed action on either surface, so it's the only
+// one with a real per-call cost to anchor. Measured 9/11: current-generation
+// frontier pricing (Claude Fable 5.1 AND GPT-6 Astra, independently — they
+// happen to match) is $10/$50 per M input/output tokens. This product's
+// measured blended average is ~10,779 tokens/call (24.47M tokens / 2,270
+// calls, the 9/6 credit-wallet analysis below) — the input/output SPLIT
+// itself isn't measured (ollama-usage-tracker.js stores only the total,
+// a gap noted there), so an 85/15 split (typical for tool-augmented Q&A)
+// is assumed for this calculation only. That works out to ~$0.17/call at
+// frontier pricing, which at this product's existing $0.10/credit rate
+// ($14.99 / 150 recharge pack) is ~1.7 credits — mcp_ask: 2 sits right at
+// that anchor (and matches the existing web `ask` weight, since it's the
+// same underlying AI call). api_ask is 2x that by the same rule as lookup.
+const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 2, api_lookup: 2, api_ask: 4 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 

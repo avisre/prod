@@ -66,6 +66,18 @@ $24.99/month; the screener and stock pages are free.
 - Credit top-ups: $14.99 for 150 credits.
 - Card added at signup; the initial payment can be refunded within 7 days. Cancel anytime.
 
+## Data licensing and API access
+
+For AI companies, data teams and agent builders, as distinct from the consumer subscription above.
+
+- Crawling is denied in robots.txt and enforced server-side (HTTP 403). The reason is cost, not secrecy: bot traffic was consuming most of a 5GB/month bandwidth allowance. Licensed access is the supported path and returns structured data rather than scraped HTML.
+- Terms and tiers: https://www.stockportfolio.pro/licensing
+- Bulk corpus: SEC as-filed fundamentals (income statement, balance sheet, cash flow — up to 19 fiscal years and 48 quarters per company) plus a filing-change table carrying period-over-period deltas with a materiality score. Every row includes a sourceUrl to the originating EDGAR filing. Delivered as CSV and JSON.
+- Annual licence $5,000-$15,000/year by scope (company universe, history depth, inclusion of the filing-change table), refreshed quarterly. One-off snapshot exports start at $500.
+- MCP server: seven filing-grounded tools behind an API key, with per-key rate limiting and a monthly quota; each response cites the filing it drew from.
+- Excluded: market data (price series, market caps, P/E and other quote-derived figures) because we do not hold redistribution rights, and any user or personal data.
+- Licensing contact: support@stockportfolio.pro
+
 ## Data sourcing and honesty rules
 
 - All financial-statement figures come from official SEC filings (10-K, 10-Q),

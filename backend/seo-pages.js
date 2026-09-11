@@ -185,7 +185,7 @@ function head(title, description, canonical, jsonld, ask) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-credit1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -246,7 +246,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260907-credit1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260907-aipaper3"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -841,7 +841,7 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
+    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
     try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
     const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
@@ -1013,6 +1013,57 @@ function renderEditorialPolicy() {
 </main>` + footer();
 }
 
+// ---- Data licensing (AI companies / agent builders) ----
+// backend/bot-blocker.js refuses automated access and its 403 body points here,
+// so this is where a crawler operator lands after being blocked. It therefore
+// leads with why the block exists and states the exclusions up front — the
+// audience arrived from an error, not from a marketing page.
+function renderLicensing() {
+    const canonical = `${SITE}/licensing`;
+    const title = 'Data Licensing & API Access — stockportfolio.pro';
+    const description = 'Licensed bulk SEC fundamentals and filing-change data, plus MCP and API access for agent builders. What the corpus contains, what it excludes, and what it costs.';
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'AboutPage', name: 'Data Licensing & API Access', url: canonical,
+        publisher: { '@id': `${SITE}/#org` }, isBasedOn: 'https://www.sec.gov/edgar'
+    });
+    const S = (h, body) => `<div class="seo-section"><h2>${h}</h2><div class="seo-about">${body}</div></div>`;
+    return head(title, description, canonical, jsonld) + nav() + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/">Home</a> / Licensing</div>
+  <h1 class="seo-h1">Data licensing &amp; API access</h1>
+  <p class="seo-sub">If your crawler was refused a moment ago, this is the supported way in. Structured, filing-sourced data under licence — cleaner than anything scraping these pages would give you.</p>
+  ${S('Why automated access is blocked', `<p>The reason is bandwidth cost, not secrecy. Bots were 68% of all traffic to this site and were consuming most of a 5GB/month allowance, so <a href="/robots.txt">robots.txt</a> denies crawling by default and the policy is enforced server-side rather than merely requested. Googlebot and Bingbot remain allowed. Everything the crawler was after is available under licence, already normalised.</p>`)}
+  ${S('What the corpus contains', `<ul>
+      <li><strong>Fundamentals panel</strong> — income statement, balance sheet and cash flow <em>as filed</em>, one row per company per fiscal period: up to 19 fiscal years and 48 quarters where filings exist.</li>
+      <li><strong>Filing-change table</strong> — period-over-period deltas drawn from our filing-change reports: the metric, both periods&#39; values, direction, and a materiality score. This is the part you cannot get by re-parsing EDGAR yourself without building the diff layer.</li>
+      <li><strong>Company identity</strong> — ticker, CIK, exchange, reporting currency, sector, industry.</li>
+      <li>Every row carries a <code>sourceUrl</code> to the filer&#39;s own EDGAR record, so any figure is verifiable against the primary document. Delivered as CSV <em>and</em> JSON with a manifest.</li>
+    </ul>`)}
+  ${S('What it excludes, and why', `<ul>
+      <li><strong>No market data.</strong> Price series, market caps, P/E, analyst targets and other quote-derived figures come from a third-party feed we don&#39;t hold redistribution rights to. Be suspicious of anyone including those at this price.</li>
+      <li><strong>No user or personal data of any kind</strong> — no accounts, usage, or email addresses. The export process never reads a collection containing a user reference.</li>
+      <li><strong>No written analysis.</strong> Report narratives, headlines and pulled quotes stay ours. You&#39;re licensing filed facts and the deterministic differences between them.</li>
+    </ul>`)}
+  ${S('Pricing', `<ul>
+      <li><strong>Annual licence — $5,000 to $15,000/year</strong>, by scope: company universe, history depth, and whether the filing-change table is included. Refreshed quarterly for the term.</li>
+      <li><strong>One-off snapshot — $500 to $2,000</strong>, same scope dimensions, delivered once with no refreshes.</li>
+      <li>No recurring fee on the one-off, and no seat count on the corpus itself. Ask with your intended scope and you&#39;ll get a fixed number.</li>
+    </ul>`)}
+  <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
+    <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
+    <p><strong>Who has access:</strong> included with a Power or Desk subscription, or the top AppSumo/DealMirror lifetime tier — not sold separately. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
+    <ul>
+      <li><strong>MCP</strong> — 1 credit per lookup, 2 credits per AI-backed ask. The cheaper, agent-native on-ramp.</li>
+      <li><strong>REST API</strong> — 2 credits per lookup, 4 credits per ask (exactly 2x MCP).</li>
+      <li>Both spend from the same monthly AI-credit wallet your plan already includes — no separate quota to track.</li>
+      <li>Fund data (<code>sp_fund</code> / <code>/api/v1/fund/:symbol</code>) is Yahoo-derived, not SEC-filed, and is for your own research — not for redistribution.</li>
+    </ul>
+  </div></div>
+  ${S('How to start', `<p>Email <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a> with the scope you want — how many companies, how far back, and whether you need the filing-change table — and you&#39;ll get a quote and a sample. Figures are drawn from public SEC filings and provided as-is; verify anything material against the <code>sourceUrl</code> on the row.</p>`)}
+  <div class="seo-section"><p style="font-size:13px"><a href="/methodology">How we compute our data &rarr;</a> &middot; <a href="/editorial-policy">Editorial policy &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a></p></div>
+</main>` + footer();
+}
+
 // The filing-diff snapshot is written ~20s after boot (app.js), but the
 // inventory above caches for 30 minutes on first call. Any request landing in
 // that window — a crawler, a health check — would otherwise pin a diffs-less
@@ -1025,7 +1076,7 @@ function invalidateSitemapInventory() {
 module.exports = {
     renderStockPage, renderStockIndex, buildSitemap, buildSitemapShard, loadCompanies, companyName, hasStockPage,
     resolveCanonicalSymbol, invalidateSitemapInventory,
-    renderMethodology, renderEditorialPolicy,
+    renderMethodology, renderEditorialPolicy, renderLicensing,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
     loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer
 };
