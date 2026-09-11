@@ -27,6 +27,9 @@ const aiBriefing = require('./ai-briefing');
 const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const credits = require('./credits');
+const apiKeys = require('./api-keys');
+const publicApi = require('./public-api');
+const mcpEndpoint = require('./mcp-endpoint');
 const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
@@ -124,6 +127,26 @@ function hasMonitor(req) {
 function monitorGate(req, res, next) {
     if (hasMonitor(req)) return next();
     return res.status(402).json({ message: 'The Filing Change Monitor is on the Power and Desk plans.', code: 'MONITOR_REQUIRED' });
+}
+
+// API/MCP access, like Monitor, is a top-tier developer feature: Power/Desk
+// recurring subscribers, or the HIGHEST lifetime tier only (AppSumo/
+// DealMirror tier 3) — not every LTD buyer the way isLifetimeBuyer() reads
+// for Monitor. Checked live on every gated request (key creation AND every
+// authenticated API/MCP call), not just at key-issuance time, so a
+// downgrade takes effect immediately — same pattern as monitorGate/
+// coreGate/proGate, all of which re-check current status rather than a
+// grant-time snapshot.
+function hasApiAccess(req) {
+    const sub = req.subscription || (req.user && req.user.subscription) || {};
+    const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    if (active && ['power', 'power-monthly', 'desk'].includes(sub.planId)) return true;
+    const user = req.user;
+    return Boolean(user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3));
+}
+function apiAccessGate(req, res, next) {
+    if (hasApiAccess(req)) return next();
+    return res.status(402).json({ message: 'API/MCP access is available on the Power and Desk plans, and the top AppSumo/DealMirror tier.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -1872,6 +1895,12 @@ app.get('/methodology', (req, res) => {
 });
 app.get('/editorial-policy', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderEditorialPolicy());
+});
+// Where bot-blocker's 403 body sends a refused crawler, so it is exempt from the
+// block there (EXEMPT_PATH_PATTERNS) — a denial that points at an unreachable
+// page is just a denial.
+app.get('/licensing', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderLicensing());
 });
 app.get('/stocks/:ticker', (req, res) => {
     const canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
@@ -4778,6 +4807,103 @@ async function optionalAuth(req, res, next) {
     } catch (_) { /* invalid / expired token → treat as logged-out (free) */ }
     next();
 }
+
+// API-key auth for the public REST API (/api/v1) and the hosted MCP endpoint
+// (/mcp). Resolves an Authorization: Bearer <key> or X-Api-Key header via
+// api-keys.js to its owning website account, then populates req.userId/
+// req.user/req.subscription/req.tier EXACTLY like authMiddleware above —
+// this is the identity bridge credits.js's header comment calls out as
+// missing: every existing credits.check/spend call site and
+// effectiveAskLimit() reads only these four fields, so an API-key caller
+// spends from the same wallet as the web account with no other code change.
+async function apiKeyAuth(req, res, next) {
+    const header = String(req.get('authorization') || '');
+    const bearer = /^Bearer\s+(.+)$/i.exec(header.trim());
+    const rawKey = bearer ? bearer[1].trim() : String(req.get('x-api-key') || '').trim();
+    if (!rawKey) return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
+    try {
+        const resolved = await apiKeys.resolveKey(rawKey);
+        if (!resolved) return res.status(401).json({ error: 'Invalid or revoked API key.' });
+        const user = await User.findById(resolved.userId);
+        if (!user) return res.status(401).json({ error: 'API key owner not found.' });
+        const normalized = ensureSubscriptionShape(user);
+        req.userId = user._id;
+        req.user = user;
+        req.subscription = normalized;
+        req.tier = userTier(user, normalized);
+        req.apiKeyId = resolved.keyId;
+        next();
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'Database unavailable.' });
+        console.error('apiKeyAuth error:', error && error.message);
+        return res.status(500).json({ error: 'Authentication failed.' });
+    }
+}
+
+// Rate-limits public API/MCP callers per key rather than per IP — a fair
+// key-holder isn't penalized for sharing an egress IP with other traffic,
+// and a leaked key is throttled regardless of where it's used from.
+const apiKeyRateLimit = rateLimit({
+    windowMs: 60 * 1000,
+    max: Number(process.env.PUBLIC_API_RATE_LIMIT || 60),
+    standardHeaders: true,
+    legacyHeaders: false,
+    keyGenerator: (req) => req.apiKeyId || req.ip,
+    handler: (req, res) => res.status(429).json({ error: 'Rate limit exceeded. Try again shortly.' }),
+});
+
+// Self-serve API-key management for logged-in website accounts — gated by
+// the existing cookie/JWT authMiddleware, not apiKeyAuth (a key is created
+// FROM a web session, then used to authenticate WITHOUT one).
+app.post('/api/account/api-keys', authMiddleware, apiAccessGate, jsonParser, async (req, res) => {
+    try {
+        const created = await apiKeys.createKey(req.userId, req.body && req.body.label);
+        res.json({ key: created.rawKey, keyPrefix: created.keyPrefix, label: created.label, createdAt: created.createdAt, note: 'Store this key now — it will not be shown again.' });
+    } catch (error) {
+        console.error('[api-keys] create failed:', error && error.message);
+        res.status(500).json({ message: 'Could not create API key.' });
+    }
+});
+
+app.get('/api/account/api-keys', authMiddleware, async (req, res) => {
+    try {
+        res.json({ keys: await apiKeys.listKeys(req.userId) });
+    } catch (error) {
+        res.status(500).json({ message: 'Could not list API keys.' });
+    }
+});
+
+app.delete('/api/account/api-keys/:id', authMiddleware, async (req, res) => {
+    try {
+        const ok = await apiKeys.revokeKey(req.userId, req.params.id);
+        if (!ok) return res.status(404).json({ message: 'Key not found.' });
+        res.json({ ok: true });
+    } catch (error) {
+        res.status(500).json({ message: 'Could not revoke API key.' });
+    }
+});
+
+// Public REST API — see backend/public-api.js. Deterministic tools reuse
+// free-tools.js/asset-profile.js exactly as the web app does; sp_ask/ /ask
+// route to ai-chat.js. Every call spends from the caller's own credit
+// ledger wallet via apiKeyAuth's identity bridge.
+app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser }));
+
+// Hosted MCP endpoint — see backend/mcp-endpoint.js. Stateless Streamable
+// HTTP: no session id, no server-initiated SSE, since every tool call is a
+// single request/response. GET/DELETE are part of the MCP HTTP spec for
+// server-push and session teardown, neither of which this stateless server
+// implements.
+app.post('/mcp', jsonParser, apiKeyAuth, apiAccessGate, apiKeyRateLimit, async (req, res) => {
+    try {
+        await mcpEndpoint.handleMcpRequest(req, res, { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription }, { credits, effectiveAskLimit, aiChat });
+    } catch (error) {
+        console.error('[mcp] request failed:', error && error.message);
+        if (!res.headersSent) res.status(500).json({ error: 'MCP request failed.' });
+    }
+});
+app.get('/mcp', apiKeyAuth, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
+app.delete('/mcp', apiKeyAuth, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
 
 // Email-to-SMS gateways (phone-number@carrier). Signup bots use these to text
 // strangers' phones via our welcome email — no human signs up with one.
@@ -8602,7 +8728,7 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
         // entitlement — the profile page needs this to decide between showing a
         // Monitor breakdown row and a one-line upsell, since a user who can't
         // reach the feature shouldn't see a usage row for it.
-        res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req) });
+        res.json({ ...bal, cost: credits.COST, recent, breakdown, activityTotal, hasMonitor: hasMonitor(req), hasApiAccess: hasApiAccess(req) });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Credit balance check failed') });
     }

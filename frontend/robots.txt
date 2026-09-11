@@ -1,7 +1,7 @@
 # Stock Portfolio Pro - robots.txt
 # Site:    https://stockportfolio.pro
 # Updated: 2026-09-11
-# Contact: avinashsreekumar007@gmail.com
+# Contact: support@stockportfolio.pro
 #
 # Policy change 2026-09-11: default flipped from allow-all to deny-all. Only
 # Google and Bing are crawlable now. Render's Hobby-plan bandwidth (5GB/mo)
@@ -12,6 +12,12 @@
 # to ignore. The two files must agree agent-by-agent — drift is caught by
 # backend/test/robots-policy.test.js. Full rationale in
 # docs/growth/bot-crawler-situation-2026-09-05.md.
+#
+# Denied here does not mean unavailable. Licensed bulk data (SEC as-filed
+# fundamentals plus filing-change deltas, every row carrying a sourceUrl back
+# to EDGAR) and MCP/API access for agent builders are offered at
+# https://stockportfolio.pro/licensing. That page, /llms.txt and this file stay
+# fetchable for every agent, allowed or denied.
 #
 # /login and /news carry <meta robots noindex> and are deliberately left
 # crawlable for Google/Bing below so the noindex itself can be read and

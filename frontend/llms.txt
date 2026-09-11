@@ -30,6 +30,17 @@ stockportfolio.pro is a web-based equity research and portfolio tool for long-te
 - Desk: $1,999.99/year — 10,000 AI credits a month; Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Cancel anytime.
 
+## Data licensing & API access (for AI companies and agent builders)
+
+Crawling this site is denied in robots.txt and enforced server-side, because bot traffic was consuming most of a 5GB/month bandwidth allowance. Licensed access is the supported path, and it returns cleaner data than crawling the HTML would.
+
+- [Licensing terms and tiers](https://www.stockportfolio.pro/licensing): what the corpus contains, what it excludes, and current pricing.
+- Bulk corpus licence: SEC as-filed fundamentals (income statement, balance sheet, cash flow — up to 19 fiscal years and 48 quarters per company) plus a filing-change table (period-over-period deltas with a materiality score). Every row carries a `sourceUrl` to the original EDGAR filing. Delivered as CSV and JSON.
+- Annual licence $5,000–$15,000/year depending on scope — company universe, history depth, and whether the filing-change table is included — with quarterly refreshes. One-off snapshot exports start at $500.
+- MCP server: seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) behind an API key, with per-key rate limits and a monthly quota. Every response carries the filing it drew from.
+- Not included: market data (price series, market caps, P/E — we don't hold redistribution rights), and no user or personal data of any kind.
+- Contact: support@stockportfolio.pro
+
 ## Key features
 
 - Up to 19 years of SEC-filed financial statements for every US-listed company (~10,400 searchable).

@@ -16,8 +16,11 @@ const rateLimit = require('express-rate-limit');
 
 const INTERNAL_UA_MARKER = 'stockportfolio-internal';
 
+// A refusal is also the only channel a blocked crawler's operator reliably
+// reads, so it carries the offer rather than just the denial.
 const FORBIDDEN_BODY = 'Automated access is not permitted for this user agent. '
-    + 'For API or licensing access, contact avinashsreekumar007@gmail.com.';
+    + 'Licensed bulk data (SEC fundamentals + filing-change deltas) and MCP/API access '
+    + 'are available: https://www.stockportfolio.pro/licensing or support@stockportfolio.pro.';
 
 // Allowed straight through, subject to IP verification (Layer 2) below.
 const ALLOWED_UAS = ['googlebot', 'googlebot-image', 'google-inspectiontool', 'storebot-google', 'bingbot', 'bingpreview'];
@@ -36,7 +39,9 @@ const DENY_PATTERNS = [
     /curl\//i, /wget\//i, /python-requests/i, /python-urllib/i, /scrapy/i, /go-http-client/i, /okhttp/i, /postmanruntime/i, /libwww-perl/i, /^java\//i
 ];
 
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//];
+// /licensing is exempt for the same reason robots.txt is: an agent refused above
+// is pointed at that page by FORBIDDEN_BODY, so it has to be fetchable to be read.
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
 
 const STATIC_ASSET_RE = /\.(js|css|png|jpe?g|gif|svg|webp|woff2?|ttf|ico|mp4|json|xml|txt)$/i;
 

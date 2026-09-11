@@ -1,5 +1,157 @@
 # Handoff
 
+## Public API + hosted MCP endpoint shipped, NOT deployed (9/11)
+
+Owner overrode `next-feature-ranking.md`'s "do not build" (3-buyer/rights-
+verification gate) and explicitly chose to include `sp_fund` despite the
+Yahoo redistribution-rights conflict in `corpus-license-terms.md` — both
+called out and accepted before building, not missed.
+
+**New**: `backend/api-keys.js` (hashed `sp_live_...` keys, `api_keys`
+collection), `backend/public-api.js` (`/api/v1/*`: financials/filing/
+compare/screen/fund/ask + health), `backend/mcp-endpoint.js` (`/mcp`,
+Streamable HTTP, stateless — SDK confirmed v1.30.0 by installing it, not
+guessed), `backend/api-response.js` (shared envelope/citation), self-serve
+`/api/account/api-keys` CRUD behind existing `authMiddleware`. Docs:
+`backend/public-api.md`.
+
+**The identity bridge `credits.js`'s header called out as missing is now
+closed**: a new `apiKeyAuth` middleware in `app.js` resolves a key to its
+owner and populates `req.userId/user/subscription/tier` exactly like
+`authMiddleware` does — so `effectiveAskLimit()` and every existing
+`credits.check/spend` call site work unmodified, and an API/MCP caller
+spends from the SAME wallet as their web account.
+
+**Pricing (revised same session, per owner direction) and access, both now
+live-gated, not just at key issuance:**
+- `credits.js` COST: `mcp_lookup: 1`, `mcp_ask: 2`, `api_lookup: 2`,
+  `api_ask: 4` — REST API is exactly 2x MCP by owner instruction, not an
+  independent guess. `mcp_ask` (the only cost with real inference behind
+  it — lookups are cache/SEC/Yahoo, zero LLM) is anchored to measured
+  frontier pricing: Claude Fable 5.1 AND GPT-6 Astra both $10/$50 per M
+  input/output tokens as of 2026-09 (cross-checked via the claude-api skill
+  and a live web search — they independently match), and this product's
+  measured ~10,779 tokens/call blended average prices out to ≈1.7 credits
+  at the existing $0.10/credit rate. The 85/15 input/output split used to
+  get there is an assumption, not a measurement — `ollama-usage-tracker.js`
+  only ever stored the combined total (a gap already flagged below), so the
+  split itself still isn't recoverable from stored data.
+- Access is now `app.js`'s new `hasApiAccess`/`apiAccessGate`: **Power/Desk
+  or AppSumo/DealMirror tier 3 only** — deliberately narrower than Monitor's
+  `isLifetimeBuyer()` (any LTD tier). DealMirror tier 3 was included by
+  inference (owner said "AppSumo" specifically; the codebase treats AppSumo
+  and DealMirror as parallel everywhere else in `credits.js`/`tier-limits.js`)
+  — flag to the owner if that wasn't intended. Checked live on every call
+  (key creation AND each API/MCP request), so a downgrade takes effect
+  immediately; listing/revoking existing keys stays ungated so a downgraded
+  account can still manage what it already has. `/api/credits` now also
+  returns `hasApiAccess` so `profile.js`'s price line can gate on it, same
+  as the existing `hasMonitor`/`aiPaperBeta` rows.
+- New `backend/test/api-access-gating.test.js` pins both the 2x pricing
+  relationship and the gate's exact tier list (source-text asserted, same
+  pattern as `ai-paper-gating.test.js`) so either can't silently drift.
+
+**Verified live against a real local boot** (`scripts/dev-local.js`), not
+just unit tests: logged in as the seeded dev user, created a real key,
+hit `/api/v1/financials/AAPL` (real SEC data back), drove `/mcp` with the
+actual MCP SDK client (`tools/list` + `sp_financials` MSFT), then confirmed
+`/api/credits` showed BOTH spends (`api:earnings-quality` AAPL,
+`mcp:earnings-quality` MSFT) on the one web account's ledger — proves the
+bridge, not just that routes return 200.
+
+The existing stdio `mcp-server/` package (local dev / Claude Desktop) is
+untouched and not the public launch surface.
+
+**Regression caught and fixed**: adding the `COST` keys tripped
+`profile-consolidation.test.js`'s "price list names every billable action"
+guard — correctly, since a user could otherwise be surprised by an
+undisclosed charge. `profile.js`'s price list now shows all four
+(`MCP lookup/ask`, `API lookup/ask`), gated behind `hasApiAccess` so it's
+invisible to accounts that can't reach the feature. Two `frontend-v2/
+assets/*.js` edits this session → **two** stamp bumps on `profile.js`'s own
+independent stamp (separate from the shared app.js/system.css one):
+`20260908-cmpcredit1` → `20260911-apicost1` → `20260911-apicost2`, kept in
+sync in `profile.html` and the pin in `ask-threads.test.js:314`. Full suite:
+569/570 (`social-compose` pre-existing, missing `selenium-webdriver`,
+unrelated). Both the tier gate (blocks a plain-Pro seeded account, opens
+after promoting it to Desk in Mongo) and the 2x pricing (1 vs 2 credits for
+the same lookup on MCP vs REST) were verified live against
+`scripts/dev-local.js`, not just asserted in tests.
+
+**Owner action before this reaches real external users**: nothing code-side
+is blocking — it's live on a local boot only. Before a real launch:
+(1) decide whether `sp_fund` really ships given the rights exposure just
+waived, not just accepted in the abstract; (2) `avisre/prod` is still
+flagged public elsewhere in this file — a public API surface makes that
+more consequential, not less; (3) confirm DealMirror tier 3 belongs in the
+access gate alongside AppSumo tier 3 (inferred, not explicitly stated);
+(4) `PUBLIC_API_RATE_LIMIT` (default 60/min) is still a first guess, not
+measured against real external traffic — the credit costs, at least, are
+now anchored to something real.
+
+**Follow-on, same session: public page reconciled + a real key-management UI
+built (owner asked "where will pricing/docs live" — the honest answer was
+"nowhere public yet").**
+- Found `/licensing` (`backend/seo-pages.js` `renderLicensing()`) already
+  live-advertised MCP access under a DIFFERENT, stale model: per-seat,
+  bundled with the $5–15K/yr bulk corpus licence, sold via an email quote,
+  "monthly quota" (the old stdio server's local `quota.json`, not this
+  session's credit ledger). Owner chose **replace**, not run both. Rewrote
+  the section (new `#mcp-api` block) to state the real system: self-serve,
+  Power/Desk/AppSumo-DealMirror-tier-3 only, credit-metered 1/2/2/4, no
+  quote needed — kept the bulk-corpus pricing block untouched since that
+  product is real and unrelated. No test pinned the old copy, so this was a
+  pure content swap, no test churn.
+- Backend key routes had **no UI** — a qualifying customer would have had
+  to `curl` `/api/account/api-keys` themselves. Owner chose to build it now.
+  New "Developer access" `<details class="psec">` section on `profile.html`
+  (after Usage, ships `hidden`), `mountApiKeys()` in `profile.js` (generate
+  → show raw key once + copy button, list by prefix/label/last-used, revoke
+  with a confirm), gated on the new `hasApiAccess` field `/api/credits` now
+  returns — same reveal pattern as `admin-section`. Third `profile.js` edit
+  this session → third stamp bump, `20260911-apicost2` → `20260911-apikeyui1`,
+  synced in `profile.html` + `ask-threads.test.js:314`. Full suite still
+  569/570.
+- **Verified in an actual browser, not just curl** — real headless Chrome
+  driven over raw CDP (Node's built-in `WebSocket`, no Playwright/Puppeteer
+  in this repo): logged in via a same-origin `fetch` (sets the real
+  `sp_auth` cookie), navigated to `/profile.html`, and drove the full
+  generate → list → revoke cycle through actual DOM clicks — new key
+  appeared with its live prefix, revoke fired the confirm dialog and
+  flipped the row to "revoked". Also confirmed the section is genuinely
+  `hidden` (not just failing to load) for a demoted-back-to-Pro account.
+  **Found and worked around, but didn't fix**: this machine's Chrome
+  152 still sends "HeadlessChrome" in `navigator.userAgent` even under
+  `--headless=new`, which `bot-blocker.js` correctly 403s (it's doing its
+  job) — the verification run used `BOT_BLOCK_ENABLED=false` on
+  `dev-local.js` only, nothing prod-facing touched.
+
+## The 403 turned into an inbound licensing channel (9/11, after the block)
+
+The block below creates the channel every earlier licensing idea lacked: a
+refused crawler's operator reads 403s, so the refusal now carries the offer.
+Three surfaces a blocked agent can still fetch were all misconfigured for it —
+each pointed at the owner's personal Gmail, and `llms.txt` (the file AI
+companies read deliberately) said nothing about licensing at all.
+
+**Shipped:** `bot-blocker.js` FORBIDDEN_BODY now names `support@stockportfolio.pro`
++ the `/licensing` URL; `/licensing` added to `EXEMPT_PATH_PATTERNS` (a denial
+pointing at a blocked page is useless) with a test asserting it; `robots.txt`
+contact + a "denied ≠ unavailable" note; licensing sections in `llms.txt` and
+`llms-full.txt`; new `seoPages.renderLicensing()` + `/licensing` route + sitemap
+`coreRoutes`. Full suite 563/564 — the one failure (`social-compose.test.js`,
+missing `selenium-webdriver`) is pre-existing and unrelated.
+
+**Outreach (not sent):** `docs/growth/mcp-api-lab-outreach.md` — long-form MCP/API
+pitch + 3-wave send sequence. Two constraints found while writing it:
+(1) `sp_fund` is Yahoo-derived (`asset-profile.js:6`), so the sellable surface is
+SEC-only — selling the full MCP contradicts `corpus-license-terms.md`;
+(2) `next-feature-ranking.md` already ruled MCP/API "do not build now" pending
+**three buyers committing to a price**, so Wave 1 is a demand test, not a build.
+`mcp-directory-listings.md` already has finished registry copy — submit, don't rewrite.
+
+NOTE: this file is 840+ lines against CLAUDE.md's 160-line cap. Needs a trim pass.
+
 ## Bot-blocker re-deployed after a Render bandwidth alert (9/11)
 
 Render emailed 9/10: Hobby-plan workspace (5GB/mo bandwidth) at 70%+ usage 10

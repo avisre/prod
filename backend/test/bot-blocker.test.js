@@ -78,6 +78,14 @@ test('webhook paths are exempt even for a hostile user agent', () => {
     assert.equal(botBlocker.isExemptPath('/stocks/AAPL', isRawBodyWebhookPath), false);
 });
 
+// The 403 body sends a refused crawler to /licensing, so that page must be
+// reachable by the same user agent that was just blocked — otherwise the
+// refusal names a destination the recipient cannot open.
+test('/licensing is exempt so a blocked crawler can read the offer it was handed', () => {
+    assert.equal(botBlocker.isExemptPath('/licensing', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/licensing/extra', isRawBodyWebhookPath), false);
+});
+
 test('impostor detection: PTR does not belong to the claimed vendor', async (t) => {
     t.mock.method(dns, 'reverse', async () => ['evil-host.example.com']);
     const verdict = await botBlocker.resolveCrawlerIp('9.9.9.9', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');

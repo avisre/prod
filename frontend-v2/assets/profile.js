@@ -112,6 +112,7 @@
         const remaining = Number.isFinite(credits.remaining) ? credits.remaining : Math.max(0, allowance - used);
         const recent = Array.isArray(credits.recent) ? credits.recent : [];
         const hasMonitor = !!credits.hasMonitor;
+        const hasApiAccess = !!credits.hasApiAccess;
         const cost = credits.cost || {};
         // plan/purchased ship with the breakdown; an older server returns
         // neither, so the wallet line falls back to describing the total rather
@@ -266,6 +267,14 @@
             if (hasMonitor) parts.push(`Monitor report ${cost.monitor ?? 5}`);
             parts.push(`Compare ${cost.dossier_compare ?? 5}`, `Dossier ${cost.dossier_standard ?? 10}`, `Deep Dossier ${cost.dossier_deep ?? 30}`);
             if (aiPaperBeta) parts.push(`AI Paper build ${cost.ai_paper_build ?? 10}`, `AI Paper nightly review ${cost.ai_paper_daily ?? 4}`);
+            // API/MCP calls spend from this same wallet (backend/api-keys.js).
+            // Gated on hasApiAccess (Power/Desk + top AppSumo/DealMirror tier
+            // only — see app.js's apiAccessGate) the same way the Monitor and
+            // AI Paper rows are gated: shown only to accounts that can actually
+            // use it, so nobody sees a price for a feature their plan can't reach.
+            // REST is priced at exactly 2x MCP — a stated rule, not two
+            // independent numbers, so both are shown together for comparison.
+            if (hasApiAccess) parts.push(`MCP lookup ${cost.mcp_lookup ?? 1}`, `MCP ask ${cost.mcp_ask ?? 2}`, `API lookup ${cost.api_lookup ?? 2}`, `API ask ${cost.api_ask ?? 4}`);
             costEl.textContent = `What things cost — ${parts.join(' · ')}. Re-opening anything you've already run is free.`;
         }
 
@@ -336,6 +345,89 @@
         }
 
         wrap.hidden = false;
+    }
+
+    // ---- Developer access: API/MCP keys. Section ships hidden; only
+    // revealed (and only then does this do any work) for accounts
+    // hasApiAccess passed through — Power/Desk or the top AppSumo/
+    // DealMirror tier, checked server-side (app.js's apiAccessGate) on
+    // every actual API/MCP call, not just here. ----
+    async function mountApiKeys(hasAccess) {
+        const section = $('apikeys-section');
+        if (!section) return;
+        section.hidden = !hasAccess;
+        if (!hasAccess) return;
+
+        const listEl = $('apikeys-list');
+        const emptyEl = $('apikeys-empty');
+        const metaEl = $('apikeys-meta');
+        const statusEl = $('apikeys-status');
+        const say = (msg) => { if (statusEl) statusEl.textContent = msg; };
+
+        async function refresh() {
+            try {
+                const r = await fetch(`${API}/account/api-keys`, { headers: auth });
+                const data = await r.json().catch(() => ({}));
+                const keys = Array.isArray(data.keys) ? data.keys : [];
+                if (metaEl) metaEl.textContent = keys.length ? `${keys.length} key${keys.length === 1 ? '' : 's'}` : '';
+                if (emptyEl) emptyEl.hidden = keys.length > 0;
+                listEl.innerHTML = keys.map((k) => {
+                    const used = k.lastUsedAt ? `last used ${new Date(k.lastUsedAt).toLocaleDateString()}` : 'never used';
+                    const revoked = k.revokedAt ? ' — revoked' : '';
+                    return `<li${k.revokedAt ? ' class="paused"' : ''}>
+                      <span>${esc(k.label)} — <code>${esc(k.keyPrefix)}…</code>${revoked} · ${used}</span>
+                      ${k.revokedAt ? '' : `<button type="button" data-revoke="${esc(k.id)}" aria-label="Revoke ${esc(k.label)}">Revoke</button>`}
+                    </li>`;
+                }).join('');
+            } catch (_) { /* the section stays as it was — nothing destructive on a fetch blip */ }
+        }
+
+        if (!listEl.dataset.wired) {
+            listEl.dataset.wired = '1';
+            listEl.addEventListener('click', async (e) => {
+                const id = e.target && e.target.getAttribute && e.target.getAttribute('data-revoke');
+                if (!id) return;
+                if (!window.confirm('Revoke this key? Anything using it will stop working immediately.')) return;
+                try {
+                    const r = await fetch(`${API}/account/api-keys/${encodeURIComponent(id)}`, { method: 'DELETE', headers: auth });
+                    say(r.ok ? 'Key revoked.' : 'Could not revoke that key.');
+                    if (r.ok) refresh();
+                } catch (_) { say('Could not revoke that key.'); }
+            });
+        }
+
+        const createBtn = $('apikey-create');
+        if (createBtn && !createBtn.dataset.wired) {
+            createBtn.dataset.wired = '1';
+            createBtn.addEventListener('click', async () => {
+                const labelInput = $('apikey-label');
+                say('');
+                try {
+                    const r = await fetch(`${API}/account/api-keys`, {
+                        method: 'POST', headers: { ...auth, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ label: (labelInput.value || '').trim() })
+                    });
+                    const data = await r.json().catch(() => ({}));
+                    if (!r.ok) { say(data.message || 'Could not create a key.'); return; }
+                    $('apikey-new-value').textContent = data.key;
+                    $('apikey-new').hidden = false;
+                    labelInput.value = '';
+                    refresh();
+                } catch (_) { say('Could not create a key.'); }
+            });
+        }
+
+        const copyBtn = $('apikey-copy');
+        if (copyBtn && !copyBtn.dataset.wired) {
+            copyBtn.dataset.wired = '1';
+            copyBtn.addEventListener('click', async () => {
+                const value = $('apikey-new-value').textContent;
+                try { await navigator.clipboard.writeText(value); say('Copied.'); }
+                catch (_) { say('Copy failed — select the text and copy it manually.'); }
+            });
+        }
+
+        refresh();
     }
 
     // ---- Settings card: Ask memory (saved facts) + import from another
@@ -620,6 +712,7 @@
             if (msgAdminLink) msgAdminLink.hidden = !isOwner;
 
             mountCredits(credits);
+            mountApiKeys(credits.hasApiAccess);
         } catch (_) { /* profile card is non-blocking */ }
     }
     // messages.js writes into the thread while the section is collapsed
