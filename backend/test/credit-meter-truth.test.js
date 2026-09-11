@@ -165,6 +165,25 @@ test('the listing publishes the Monitor caps the landing page already advertises
     );
 });
 
+test('the paste-ready .txt is in sync with the listing markdown', () => {
+    // The .txt is what actually gets pasted into the portal, but only the .md is
+    // guarded by the price checks above. If it is allowed to go stale, the copy
+    // that reaches a buyer can quote prices production no longer charges — the
+    // whole failure this file exists to prevent, one file further downstream.
+    const { execFileSync } = require('child_process');
+    const script = path.join(ROOT, 'scripts/render-appsumo-listing.js');
+    const fresh = execFileSync(process.execPath, [script, '--stdout'], { encoding: 'utf8' });
+    const onDisk = read('docs/growth/appsumo-listing-v6.txt');
+
+    // The generated header carries today's date; everything else must match.
+    const undated = (s) => s.replace(/^Generated from .* on \d{4}-\d{2}-\d{2}\.$/m, 'Generated.');
+    assert.equal(
+        undated(onDisk),
+        undated(fresh),
+        'docs/growth/appsumo-listing-v6.txt is stale — re-run: node scripts/render-appsumo-listing.js'
+    );
+});
+
 test('the listing never advertises a fund endpoint', () => {
     // Only the copy is policed. The rationale below the marker names these routes on
     // purpose, to explain why they are withheld.
