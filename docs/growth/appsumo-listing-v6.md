@@ -7,9 +7,9 @@
 ⚠️ Do **not** edit listing *versions* in the Partner Portal — known mapping bug.
 Email William for version and tier-spec changes. This document is listing text only.
 
-⚠️ **Section 3 (API + MCP) is on hold.** `/api/v1` and `/mcp` are built and tested but live
-on a local boot only. Do not send Section 3 to William until both answer on production. See
-"Before this is submitted".
+✅ **Section 3 (API + MCP) is cleared to send.** Verified live on production 2026-09-11:
+`GET /api/v1/health` returns `200 {"ok":true,"version":"v1"}` and `/mcp` returns a `401`
+auth challenge rather than a 404, so the routes and the key gate are both deployed.
 
 ---
 
@@ -205,16 +205,27 @@ headings as much as anything: they are allowed to be blunt, not lurid.
 
 ## Before this is submitted
 
-### Section 3 is gated on a deploy
+### Section 3's deploy gate — CLEARED 2026-09-11
 
-`backend/public-api.js`, `backend/mcp-endpoint.js` and `backend/api-keys.js` are complete,
-tested, and verified against a real local boot — a real key, a real `/api/v1/financials/AAPL`
-call returning real SEC data, a real MCP client driving `tools/list` and `sp_financials`, and
-both spends landing on the same web wallet. **None of that is on production.** Until `/api/v1`
-and `/mcp` answer on the live host, Section 3 describes something a buyer cannot use, which is
-the precise failure `backend/test/credit-meter-truth.test.js` exists to prevent.
+This section was drafted on hold. HANDOFF recorded the API/MCP surface as *"shipped, NOT
+deployed… live on a local boot only"*, and selling a surface a buyer cannot reach is the
+precise failure `backend/test/credit-meter-truth.test.js` exists to prevent.
 
-Send Sections 1, 2 and 4 to William now if you want to move; hold Section 3 for the deploy.
+**That note was stale.** Measured against production on 2026-09-11:
+
+```
+GET /api/v1/health  ->  200  {"ok":true,"version":"v1","generatedAt":"2026-09-11T08:43:42Z"}
+GET /mcp            ->  401  {"error":"Missing API key. Pass Authorization: Bearer <key>..."}
+```
+
+The 401 rather than a 404 is the load-bearing part: the route and its key gate are both
+deployed. **Section 3 goes to William with the rest.**
+
+One caveat, stated plainly because it was not verified: the endpoints are live and
+authenticating, but whether every advertised tool returns correctly under a real key was not
+checked — that needs minting a key, which is a write to a production account. Worth one pass
+through `financials`, `filing`, `compare`, `screen` and `ask` before the listing sends buyers
+at them.
 
 ### Why the fund endpoints are not advertised
 
@@ -258,7 +269,8 @@ Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
 - [ ] **Email William: correct the "Uses AI: No" flag.** Do this first — every word here is
       undercut while the marketplace formally declares this is not an AI tool. Independent of
       everything else; send any time.
-- [ ] **Deploy `/api/v1` + `/mcp`**, then release Section 3.
+- [x] **Deploy `/api/v1` + `/mcp`** — confirmed live on production 2026-09-11, so Section 3
+      ships with the rest. Still worth one authenticated pass over the advertised tools.
 - [ ] Approve the copy above.
 - [ ] Set `STRIPE_PRICE_ID_CREDITS_TOPUP` on Render (`price_1UAUOtAUeKapY1OPUcSIaloi`), or
       leave the top-up line out. The route refuses to sell without it.
