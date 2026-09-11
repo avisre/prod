@@ -40,9 +40,25 @@ stay out of the `?v=` cache-stamp cascade — `test/embed-widgets.test.js` pins
 that. The tool pages and the renderer share `embed-config`, and a test asserts
 the published snippet's `src` resolves on the mounted route.
 
-**Next**: owner Stripe price → `STRIPE_PRICE_ID_DEV` → push `api-mcp-dev-tier`
-→ `deploy-render.yml` → live checks → directory listings + `npm publish` →
-customer announcement copy (Step 6, not written yet).
+**Stripe step DONE (9/12)** — the blocker is cleared, no longer owner-only.
+Live price `price_1UEZfSAUeKapY1OP2RG9UZVb` created on product
+`prod_UC7quLwRatRazA` (`stockportfolio.pro`), verified active / 1999 usd / month
+/ nickname `Dev — API/MCP` before anything was pointed at it.
+`STRIPE_PRICE_ID_DEV` set on Render (HTTP 200, 30 chars). Two bugs in
+`create-dev-stripe-price.sh` had to be fixed first — **it could not have run on
+this machine as written**: `mapfile` and `${var^^}` are bash 4+, and stock macOS
+bash is 3.2.57 (both replaced; read loops + `tr a-z A-Z`). Worse, `jsonlines`
+printed a blank line for an empty match, so the clash check's `-s` test was
+**always true** and the script reported a phantom "another active price already
+uses this amount" on every clean run — it now prints nothing for an empty list.
+Verified by running a `/tmp` copy against the live API with the create call
+neutralized before running it for real. The only Stripe key on this machine is
+the **live** one (`backend/.env`), so there was no test-mode rehearsal path: no
+`sk_test_` key exists locally.
+
+**Next**: push `api-mcp-dev-tier` → `deploy-render.yml` → live checks →
+directory listings + `npm publish` → customer announcement copy (Step 6, not
+written yet).
 
 ## Viral growth plan for the MCP + API — Phase 1 shipped (9/11, committed as 2ad99eae)
 

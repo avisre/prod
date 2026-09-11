@@ -49,7 +49,7 @@ case "$STRIPE_SECRET_KEY" in
 esac
 
 echo "Using ${mode} Stripe key (${STRIPE_SECRET_KEY:0:8}…)"
-echo "Target: \$$(printf '%d.%02d' $((P_AMOUNT / 100)) $((P_AMOUNT % 100)))/${P_INTERVAL} ${P_CURRENCY^^} on product '${P_NAME}'"
+echo "Target: \$$(printf '%d.%02d' $((P_AMOUNT / 100)) $((P_AMOUNT % 100)))/${P_INTERVAL} $(printf %s "$P_CURRENCY" | tr a-z A-Z) on product '${P_NAME}'"
 
 if [ "$mode" = "LIVE" ]; then
   read -r -p "This is a LIVE key. Create the price for real? [y/N] " ok
@@ -65,19 +65,37 @@ api() { curl -sf "https://api.stripe.com/v1/$1" -u "${STRIPE_SECRET_KEY}:" "${@:
 # eval'd (so it can be passed as a bare argv string, no nested quoting) and must
 # evaluate to a list of strings, printed one per line. Filter values come in via
 # the exported P_* variables.
+#
+# An empty match prints NOTHING, not a blank line. That is load-bearing: the
+# clash check below tests its output with `-s` (non-empty file), so a stray "\n"
+# would read as "another price already uses this amount" on every clean run and
+# block the price from ever being created — measured on 9/12 against the live
+# account, where the match list was genuinely empty.
 jsonlines() {
   python3 -c '
 import os, sys, json
 d = json.load(sys.stdin)
 value = eval(sys.argv[1])
-print("\n".join(str(v) for v in value))
+if value:
+    print("\n".join(str(v) for v in value))
 ' "$1"
 }
+
+# NOTE: the two id lists below are filled with a read loop, not mapfile — this
+# must run on macOS's stock bash 3.2, which has neither mapfile/readarray nor
+# ${var^^} (see the target line above). jsonlines emits one blank line when it
+# matches nothing, so blanks are skipped instead of stored. The `if` is not
+# cosmetic: `[ -n "$l" ] && arr+=("$l")` leans on how set -e treats a
+# short-circuited AND-list, and this file has enough at stake not to.
+
 
 echo
 echo "Looking for product '${P_NAME}'…"
 products=$(api "products?limit=100&active=true")
-mapfile -t product_ids < <(printf '%s' "$products" | jsonlines '
+product_ids=()
+while IFS= read -r line; do
+  if [ -n "$line" ]; then product_ids+=("$line"); fi
+done < <(printf '%s' "$products" | jsonlines '
 [p["id"] for p in d["data"]
  if (p.get("name") or "").strip().lower() == os.environ["P_NAME"].lower()]
 ')
@@ -100,7 +118,10 @@ echo "  product: ${PRODUCT_ID}"
 
 echo "Checking no active price on it already matches the target…"
 prices=$(api "prices?limit=100&active=true&product=${PRODUCT_ID}")
-mapfile -t existing < <(printf '%s' "$prices" | jsonlines '
+existing=()
+while IFS= read -r line; do
+  if [ -n "$line" ]; then existing+=("$line"); fi
+done < <(printf '%s' "$prices" | jsonlines '
 [p["id"] for p in d["data"]
  if p.get("unit_amount") == int(os.environ["P_AMOUNT"])
  and (p.get("currency") or "").lower() == os.environ["P_CURRENCY"].lower()
