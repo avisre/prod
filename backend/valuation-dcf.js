@@ -132,7 +132,15 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     const horizon = DEFAULTS.horizonYears;
 
     const netDebt = totalDebt - latestCash(bal0);
-    const shares = num(bal0.commonStockSharesOutstanding) || num(ov.SharesOutstanding);
+    // The share count MUST be on the same basis as marketCap and the quoted
+    // price. ov.SharesOutstanding is Yahoo's quote-basis count (marketCap /
+    // price); for an ADR that is the ADS count, while the balance sheet reports
+    // ORDINARY shares — ~5x larger for NTES, ~7.5x for BABA. Preferring the
+    // balance sheet put fair-value-per-share on a different scale from the price
+    // it is compared against. It is also marginally more accurate for domestic
+    // filers, where the balance-sheet count is a fiscal-year-end snapshot that
+    // buybacks have already moved.
+    const shares = num(ov.SharesOutstanding) || num(bal0.commonStockSharesOutstanding);
     const currentPrice = shares && shares > 0 ? marketCap / shares : null;
 
     // Project + discount one scenario; also return the year-by-year breakdown.

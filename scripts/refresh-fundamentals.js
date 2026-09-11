@@ -135,11 +135,11 @@ function buildOverview(symbol, summary) {
   };
 }
 
-function buildIncomeReports(history) {
+function buildIncomeReports(history, currency = 'USD') {
   const list = history?.incomeStatementHistory || [];
   return list.map((r) => ({
     fiscalDateEnding: isoDate(r.endDate) || '',
-    reportedCurrency: 'USD',
+    reportedCurrency: currency,
     grossProfit: n(r.grossProfit),
     totalRevenue: n(r.totalRevenue),
     costOfRevenue: n(r.costOfRevenue),
@@ -169,11 +169,11 @@ function buildIncomeReports(history) {
   }));
 }
 
-function buildBalanceReports(history) {
+function buildBalanceReports(history, currency = 'USD') {
   const list = history?.balanceSheetStatements || [];
   return list.map((r) => ({
     fiscalDateEnding: isoDate(r.endDate) || '',
-    reportedCurrency: 'USD',
+    reportedCurrency: currency,
     totalAssets: n(r.totalAssets),
     totalCurrentAssets: n(r.totalCurrentAssets),
     cashAndCashEquivalentsAtCarryingValue: n(r.cash),
@@ -213,11 +213,11 @@ function buildBalanceReports(history) {
   }));
 }
 
-function buildCashReports(history) {
+function buildCashReports(history, currency = 'USD') {
   const list = history?.cashflowStatements || [];
   return list.map((r) => ({
     fiscalDateEnding: isoDate(r.endDate) || '',
-    reportedCurrency: 'USD',
+    reportedCurrency: currency,
     operatingCashflow: n(r.totalCashFromOperatingActivities),
     paymentsForOperatingActivities: '',
     proceedsFromOperatingActivities: '',
@@ -359,9 +359,12 @@ async function fetchSymbol(symbol) {
 
     if (summary.status === 'fulfilled' && summary.value) {
       result.overview = buildOverview(symbol, summary.value);
-      result.income = { annualReports: buildIncomeReports(summary.value.incomeStatementHistory), quarterlyReports: [] };
-      result.balance = { annualReports: buildBalanceReports(summary.value.balanceSheetHistory), quarterlyReports: [] };
-      result.cash = { annualReports: buildCashReports(summary.value.cashflowStatementHistory), quarterlyReports: [] };
+      // The filer's own reporting currency, not the quote currency — an ADR
+      // trades in USD while reporting in CNY/EUR/JPY.
+      const reportCcy = String(summary.value?.financialData?.financialCurrency || 'USD').toUpperCase();
+      result.income = { annualReports: buildIncomeReports(summary.value.incomeStatementHistory, reportCcy), quarterlyReports: [] };
+      result.balance = { annualReports: buildBalanceReports(summary.value.balanceSheetHistory, reportCcy), quarterlyReports: [] };
+      result.cash = { annualReports: buildCashReports(summary.value.cashflowStatementHistory, reportCcy), quarterlyReports: [] };
     } else errors.push('quoteSummary');
 
     if (dailyChart.status === 'fulfilled' && dailyChart.value) result.daily = buildDailyTimeSeries(dailyChart.value);

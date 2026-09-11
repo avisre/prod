@@ -25,8 +25,16 @@ const aiClient = require('./ai-client');
 const unitEconomics = require('./unit-economics');
 const { plainSummary } = require('./plain-language');
 
-const MONITOR_FORMS = new Set(['10-K', '10-Q', '8-K']);
-const PERIODIC = new Set(['10-K', '10-Q']);
+// A foreign private issuer files no 10-K/10-Q/8-K at all — its annual report is
+// the 20-F (40-F under the Canadian MJDS) and its interim disclosures are
+// furnished on 6-K. Monitoring only the domestic trio returned "No SEC filings
+// found" for every ADR.
+const MONITOR_FORMS = new Set(['10-K', '10-Q', '8-K', '20-F', '40-F', '6-K']);
+// PERIODIC drives period-over-period comparison, so it holds only the forms that
+// carry full financial statements. 6-K is excluded deliberately: it is a
+// furnished wrapper whose contents vary (a press release, an exhibit, sometimes
+// nothing comparable), so it cannot anchor a like-for-like delta.
+const PERIODIC = new Set(['10-K', '10-Q', '20-F', '40-F']);
 const REPORT_SCHEMA_VERSION = 5; // bumped: leading unit-economics delta card
 
 const num = (v) => { const x = Number(v); return Number.isFinite(x) ? x : null; };

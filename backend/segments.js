@@ -30,28 +30,50 @@ function filedRevenue(symbol) {
 // Models sometimes return millions/thousands despite instructions. Compare
 // the segment sum against the company's filed revenue and rescale when the
 // ratio matches a unit error almost exactly. Deterministic — no AI judgement.
+// The USD rate the cached statements were converted at, or null for a filer
+// that already reports in USD. Segment figures are read out of the filing text,
+// which for a 20-F is denominated in the issuer's own currency — so the same
+// filed-revenue anchor that repairs a millions/thousands slip also repairs a
+// currency slip, using a rate this pipeline already recorded rather than a
+// fresh FX lookup or a judgement call by the model.
+function usdRate(symbol) {
+    try {
+        const f = path.join(FUND_DIR, `${String(symbol).toUpperCase().replace(/[^A-Z0-9]/g, '_')}.json`);
+        const d = JSON.parse(fs.readFileSync(f, 'utf8'));
+        const row = (((d.income || {}).annualReports || [])[0] || {});
+        const rate = Number(row.fxRateToUSD);
+        return Number.isFinite(rate) && rate > 0 && rate !== 1 ? rate : null;
+    } catch (_) { return null; }
+}
+
 function repairUnits(segments, symbol) {
     const total = segments.reduce((a, s) => a + (s.revenueUsd || 0), 0);
     const filed = filedRevenue(symbol);
     if (!total || !filed) return segments;
-    for (const scale of [1e6, 1e3]) {
-        const ratio = filed / (total * scale);
-        if (ratio > 0.5 && ratio < 2) {
-            return segments.map((s) => ({
-                ...s,
-                revenueUsd: s.revenueUsd === null ? null : s.revenueUsd * scale
-            }));
-        }
+    const matches = (scale) => { const r = filed / (total * scale); return r > 0.5 && r < 2; };
+    if (matches(1)) return segments;   // already full-unit USD — nothing to repair
+
+    const rate = usdRate(symbol);
+    const scales = [1e6, 1e3];
+    if (rate) scales.push(rate, 1e6 * rate, 1e3 * rate);
+    for (const scale of scales) {
+        if (!matches(scale)) continue;
+        return segments.map((s) => ({
+            ...s,
+            revenueUsd: s.revenueUsd === null ? null : s.revenueUsd * scale
+        }));
     }
     return segments;
 }
 
 const MAX_EXTRACT_CHARS = 28000; // keep the prompt well inside context
 
+// The latest annual report, whichever form the filer uses — a foreign private
+// issuer files 20-F (40-F under the Canadian MJDS) and never a 10-K.
 async function latestTenK(symbol) {
     const filings = await watchdog.fetchRecentFilings(symbol);
     if (!filings) return null;
-    return filings.find((f) => f.form === '10-K') || null;
+    return filings.find((f) => secSource.ANNUAL_FORMS.includes(f.form)) || null;
 }
 
 // Strip tags/entities crudely but effectively — 10-K HTML is enormous and we
@@ -106,16 +128,16 @@ function segmentWindows(text) {
 }
 
 const EXTRACT_SYSTEM = [
-    'You extract business-segment data from SEC 10-K text. Reply with ONLY a JSON object, no prose, no markdown fences.',
+    'You extract business-segment data from the text of an SEC annual report (Form 10-K, or Form 20-F for a foreign private issuer). Reply with ONLY a JSON object, no prose, no markdown fences.',
     'Schema: {"fiscalYear": "FY2025", "segments": [{"name": str, "revenueUsd": number|null, "revenuePct": number|null, "description": str}], "basis": str}',
-    '"revenueUsd" is the segment\'s annual revenue in plain US dollars (convert from millions/thousands as stated). "revenuePct" is its share of total revenue (0-100). "description" is one factual sentence from the text.',
+    '"revenueUsd" is the segment\'s annual revenue EXACTLY AS PRINTED in the filing. Do NOT convert currencies and do NOT rescale units — if the statement is in millions, or in RMB/EUR/JPY rather than dollars, report the printed figure anyway. Units and currency are normalised afterwards against the company\'s filed total revenue. Inventing a conversion is the one thing that cannot be undone downstream. "revenuePct" is its share of total revenue (0-100). "description" is one factual sentence from the text.',
     'STRICT GROUNDING: only use numbers that appear in the supplied text. If a number is not stated, use null. If the company reports one segment or no segment data is present, return {"segments": []}.',
     'Never invent, estimate or recall figures from memory. "basis" briefly states where the numbers came from (e.g. "segment note, FY2025 10-K").'
 ].join('\n');
 
 async function extractSegments(symbol) {
     const tenK = await latestTenK(symbol);
-    if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No 10-K found for this company.' };
+    if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No annual report (10-K or 20-F) found for this company.' };
 
     // cache check (per filing — a new 10-K invalidates naturally)
     const col = mongoose.connection.collection('company_segments');
@@ -158,7 +180,7 @@ async function extractSegments(symbol) {
             revenuePct: Number.isFinite(s.revenuePct) ? Math.round(s.revenuePct * 10) / 10 : null,
             description: String(s.description || '').slice(0, 240)
         })).filter((s) => s.name), symbol),
-        filing: { form: '10-K', date: tenK.date, url: tenK.url },
+        filing: { form: tenK.form || '10-K', date: tenK.date, url: tenK.url },
         extractedAt: new Date().toISOString()
     };
     // Honesty check: if the extracted segments cover well under the filed

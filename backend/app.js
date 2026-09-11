@@ -11063,6 +11063,29 @@ const _dossierInflight = new Map();
 const _dossierProgress = new Map();
 const DOSSIER_FAST_MS = 9000;
 
+// Credits committed to dossier builds that are still running, per user.
+//
+// The charge now happens AFTER the build rather than before it, which stretches
+// the gap between "can this user afford it" and "take the credits" from one Mongo
+// round trip to the length of a whole build (30s, minutes under lease
+// contention). credits.spend is an unconditional insert that never re-reads the
+// balance, and only same-symbol requests coalesce — so without this a user with
+// 10 credits could open N tabs on N different tickers, pass every check against
+// the same stale balance, and overdraft by (N-1) x cost.
+//
+// In-process only, matching _dossierInflight's own scope.
+const _dossierReserved = new Map(); // userId -> credits held by in-flight builds
+function reservedCredits(userId) { return _dossierReserved.get(String(userId)) || 0; }
+function reserveCredits(userId, amount) {
+    const key = String(userId);
+    _dossierReserved.set(key, reservedCredits(key) + amount);
+}
+function releaseCredits(userId, amount) {
+    const key = String(userId);
+    const next = reservedCredits(key) - amount;
+    if (next > 0) _dossierReserved.set(key, next); else _dossierReserved.delete(key);
+}
+
 // Dossier Compare — the same structured sections for 2–3 companies, side by
 // side. Comparability is the product's stated differentiator (customer
 // interviews, 2026-08): every Dossier already shares one section schema, so a
@@ -11187,28 +11210,61 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (!build) {
             // Reaching here means this request is originating a NEW build, not
             // joining one already running (that case takes the branch above,
-            // via _dossierInflight). The credit check+spend happens INSIDE
-            // this async wrapper, not before it, so the wrapper's promise can
-            // be registered in _dossierInflight synchronously — with no
-            // `await` between "no one else is building this" and "I've
-            // claimed the slot". Two requests for the same brand-new
+            // via _dossierInflight). Everything to do with credits happens
+            // INSIDE this async wrapper, not before it, so the wrapper's
+            // promise can be registered in _dossierInflight synchronously —
+            // with no `await` between "no one else is building this" and
+            // "I've claimed the slot". Two requests for the same brand-new
             // symbol+depth arriving back to back would otherwise both read
             // _dossierInflight as empty, both pass the credit check, and both
-            // spend — the credit check/spend must ride inside the same
-            // atomic claim the de-dup itself relies on. Concurrent requests
-            // that find this build already in flight ride it for free: the
-            // work was already paid for by whoever started it. force is
-            // exempt — an ops action gated by ADMIN_TOKEN above, not a
-            // purchase.
+            // spend. Concurrent requests that find this build already in
+            // flight ride it for free: the work was already paid for by
+            // whoever started it. force is exempt — an ops action gated by
+            // ADMIN_TOKEN above, not a purchase.
+            //
+            // The SPEND follows the build rather than preceding it. Charging
+            // first billed 10 credits (30 for Deep) for every failure — an
+            // unsupported ticker, a timeout, a thrown error — which is what a
+            // customer hit on NTES. Keeping the CHECK in front still refuses
+            // an unaffordable request before any expensive work happens.
+            // Putting the spend inside this wrapper rather than after the
+            // Promise.race below is what makes it survive the fast path: a
+            // cold build routinely outlives DOSSIER_FAST_MS, and the result is
+            // then only ever observed via ?poll=1, which never charges.
+            const costKey = depth === 'deep' ? 'dossier_deep' : 'dossier_standard';
+            const planId = req.subscription && req.subscription.planId;
             build = (async () => {
+                let held = 0;
                 if (!force) {
-                    const costKey = depth === 'deep' ? 'dossier_deep' : 'dossier_standard';
-                    const planId = req.subscription && req.subscription.planId;
                     const gate = await credits.check(req.userId, costKey, effectiveAskLimit(req), planId, req.user);
-                    if (!gate.ok) return { creditsError: gate };
-                    await credits.spend(req.userId, costKey, 'dossier', `${sym}:${depth}`);
+                    // Subtract credits already committed to this user's other
+                    // in-flight builds, so N concurrent builds can't each pass
+                    // against the same pre-spend balance.
+                    const available = gate.remaining - reservedCredits(req.userId);
+                    if (!gate.ok || available < gate.cost) {
+                        return { creditsError: { ...gate, remaining: Math.max(0, available) } };
+                    }
+                    reserveCredits(req.userId, gate.cost);
+                    held = gate.cost;
                 }
-                return dossier.buildDossier(sym, { force, depth, onStage: (stage) => _dossierProgress.set(inflightKey, stage) });
+                try {
+                    const result = await dossier.buildDossier(sym, { force, depth, onStage: (stage) => _dossierProgress.set(inflightKey, stage) });
+                    // Charge only for a dossier this build actually delivered.
+                    // An error produced nothing; a cache hit was paid for once
+                    // already; 'building' means another worker holds the
+                    // cross-process lease and will be the one to pay, while
+                    // this caller gets a 202 and polls for free.
+                    if (held && result && !result.error && result.cached !== true && result.status !== 'building') {
+                        await credits.spend(req.userId, costKey, 'dossier', `${sym}:${depth}`);
+                    }
+                    return result;
+                } finally {
+                    // Released only after the spend resolves. The other order
+                    // lets a concurrent request see the reservation gone while
+                    // the ledger row does not yet exist — reopening the very
+                    // overdraft window the reservation exists to close.
+                    if (held) releaseCredits(req.userId, held);
+                }
             })()
                 .catch((err) => { console.error('[dossier] build error:', err && err.message); return { error: 'Couldn’t build the dossier right now — please try again in a moment.' }; })
                 .finally(() => { _dossierInflight.delete(inflightKey); _dossierProgress.delete(inflightKey); });

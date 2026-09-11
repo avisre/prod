@@ -46,7 +46,25 @@ async function retry(fn, tries = 3, baseMs = 700) {
 
 // Fetch the latest filing of `form` (e.g. '10-K', 'DEF 14A'), return plain text.
 // Cached in Mongo per (symbol, accession). `form` accepts the EDGAR form label.
-async function getFilingText(symbol, form, { maxChars = 220000 } = {}) {
+//
+// A caller asking for '10-K' means "this company's annual report". A foreign
+// private issuer files 20-F — or 40-F under the Canadian MJDS — and never a
+// 10-K at all (NetEase: 25 20-Fs, zero 10-Ks), so asking literally returned
+// "No 10-K found" for every ADR and took ESG, industry and governance down with
+// it. Resolve across the annual-report family instead, and report back the form
+// actually read so callers cite the right document.
+async function getFilingText(symbol, form, opts = {}) {
+    const candidates = form === '10-K' ? secSource.ANNUAL_FORMS : [form];
+    let last = null;
+    for (const candidate of candidates) {
+        const got = await getFilingTextForForm(symbol, candidate, opts);
+        if (got && !got.error) return got;
+        last = last || got;
+    }
+    return last;
+}
+
+async function getFilingTextForForm(symbol, form, { maxChars = 220000 } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) return null;
     let filings = null;
