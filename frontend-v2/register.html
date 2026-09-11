@@ -214,12 +214,27 @@
         note: 'Billed today, renews yearly — for RIAs, analysts and small funds.',
         cta: 'Continue to Desk checkout',
         features: ['Everything in Pro, with a licence to use verified outputs in client-facing research', 'Priority support and a personal onboarding call', 'Built for RIAs, equity analysts and small funds', 'First to get new coverage as it ships']
+      },
+      // The API/MCP rung. Deliberately NOT a card in the picker above — it is
+      // sold from /api to developers, and it grants no website features (the
+      // server reads it as the free tier; see userTier() in backend/app.js).
+      // Showing it beside Monthly would invite a retail visitor to buy the
+      // wrong product, so it is reachable only by direct link. Adding it here
+      // is what stops ?plan=dev from silently falling back to Monthly via the
+      // !PLANS guard below — the wrong plan at the wrong price, with no error.
+      dev: {
+        name: 'Developer · API & MCP', amount: '$19.99', cadence: 'per month',
+        note: 'Charged today, then monthly. API and MCP access with 200 credits a month. Cancel anytime.',
+        cta: 'Continue to developer checkout',
+        features: ['REST API at /api/v1 and a hosted MCP server at /mcp — one key for both', '200 credits a month, shared across both surfaces', 'Seven filing-grounded tools; every response cites its SEC filing', 'Rate limit 60 requests/minute per key', 'Not a website subscription — no web-app features are included']
       }
     };
     // Purchase values are reported in the actual charged currency: USD.
-    const PLAN_VALUE = { free: 0, monthly: 24.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99 };
+    const PLAN_VALUE = { free: 0, monthly: 24.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
-    const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk']);
+    // Dev joins them: it is reached from /api, and a developer who arrived to
+    // buy API access should see that checkout and nothing else.
+    const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk', 'dev']);
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
     if (!PLANS[plan]) plan = 'monthly';
     const cardPlan = (p) => p; // Pro is sold as pro-annual only (2026-08-31 cut)

@@ -134,7 +134,7 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         res = await fetch(`${base}/fund/AAPL`, { headers: { 'x-test-user': 'u4' } });
         assert.equal(res.status, 404);
 
-        // /ask spends api_ask (4 — 2x the mcp_ask tier), not api_lookup.
+        // /ask spends api_ask (8 — 2x the mcp_ask tier), not api_lookup.
         aiChat.ask = async ({ question }) => ({ answer: `Answer to: ${question}`, source: 'filed' });
         before = await credits.balance('u5', effectiveAskLimit());
         res = await fetch(`${base}/ask`, {
@@ -145,6 +145,6 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         const askBody = await res.json();
         assert.match(askBody.answer, /What was NVDA revenue/);
         after = await credits.balance('u5', effectiveAskLimit());
-        assert.equal(after.used, before.used + 4, '/ask spends api_ask (4)');
+        assert.equal(after.used, before.used + 8, '/ask spends api_ask (8)');
     });
 });

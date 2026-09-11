@@ -82,6 +82,10 @@ function publicEvent(event) {
         completedAt: event.completedAt || null,
         durationMs: event.durationMs == null ? null : event.durationMs,
         totalTokens: event.totalTokens == null ? null : event.totalTokens,
+        // The input/output split. Same privacy shape as totalTokens: counts
+        // only, never prompt or completion text.
+        promptTokens: event.promptTokens == null ? null : event.promptTokens,
+        completionTokens: event.completionTokens == null ? null : event.completionTokens,
         errorCode: event.errorCode || null
     };
 }
@@ -151,6 +155,14 @@ function finish(event, { status = 'completed', usage = null, error = null } = {}
         ? reportedTotal
         : (Number.isFinite(prompt) && Number.isFinite(completion) ? prompt + completion : null);
     current.totalTokens = Number.isFinite(total) ? total : null;
+    // The split is kept alongside the total (added 2026-09-11). It used to be
+    // read right here and then dropped, which left the input/output ratio — the
+    // one number the mcp_ask/api_ask price anchor in credits.js has to ASSUME
+    // (an 85/15 split) — unmeasurable in principle rather than merely
+    // unmeasured. Both fields flow through publicEvent() → persistFinish(), so
+    // after a few weeks the assumption can be replaced by a measurement.
+    current.promptTokens = Number.isFinite(prompt) ? prompt : null;
+    current.completionTokens = Number.isFinite(completion) ? completion : null;
     current.errorCode = error ? classifyError(error) : null;
     active.delete(current.callId);
     addRecent(current);

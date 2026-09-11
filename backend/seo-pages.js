@@ -841,7 +841,7 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
+    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
     try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
     const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
@@ -1032,6 +1032,113 @@ function renderEditorialPolicy() {
 </main>` + footer();
 }
 
+// ---- API & MCP landing (/api) ----
+// The page every developer-facing funnel lands on: the npm package README, the
+// MCP directory listings, the embeddable widgets and the programmatic SEO
+// pages all point here. Its job is to answer "what does it cost and can I make
+// one call in the next two minutes" without a sales conversation, so the
+// example payload and the copy-paste MCP config are the load-bearing parts —
+// not the prose.
+//
+// The example below is a REAL response captured from the live extractor for
+// NVDA (2026-09-11), not an illustrative mock-up. Same rule as everywhere else
+// on this site: a number on the page is a number the product actually returns.
+function renderApiLanding() {
+    const canonical = `${SITE}/api`;
+    const title = 'Stock Data API & MCP Server — SEC filing data for developers';
+    const description = 'A REST API and hosted MCP server over US SEC filings. Every value carries the filing it came from. $19.99/mo for 200 credits, no sales call.';
+    const jsonld = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'stockportfolio.pro API & MCP server', url: canonical,
+        applicationCategory: 'DeveloperApplication', operatingSystem: 'Any',
+        publisher: { '@id': `${SITE}/#org` }, isBasedOn: 'https://www.sec.gov/edgar',
+        offers: { '@type': 'Offer', price: '19.99', priceCurrency: 'USD', description: 'Dev plan — 200 API/MCP credits per month' }
+    });
+    const S = (h, body) => `<div class="seo-section"><h2>${h}</h2><div class="seo-about">${body}</div></div>`;
+    // The MCP config block. `stockportfolio-mcp` is the published npm package
+    // (mcp-server/) — the same name the registry listings carry, so a developer
+    // who arrives from any direction sees one install command.
+    const mcpConfig = `{
+  "mcpServers": {
+    "stockportfolio": {
+      "command": "npx",
+      "args": ["-y", "stockportfolio-mcp"],
+      "env": { "SP_API_KEY": "sp_live_..." }
+    }
+  }
+}`;
+    const curlExample = `curl -H "X-Api-Key: sp_live_..." \\
+  "https://www.stockportfolio.pro/api/v1/financials/NVDA?tool=earnings-quality"`;
+    const jsonExample = `{
+  "tool": "earnings-quality",
+  "symbol": "NVDA",
+  "period": "2026-01-31",
+  "data": {
+    "revenue": 215938000000,
+    "netIncome": 120067000000,
+    "operatingCashFlow": 102718000000,
+    "freeCashFlow": 96676000000,
+    "cashConversionRatio": 0.855505675997568,
+    "warnings": []
+  },
+  "source": {
+    "type": "filed",
+    "url": "https://www.sec.gov/edgar/search/#/q=NVDA",
+    "period": "2026-01-31"
+  },
+  "citation": {
+    "filingSource": "https://www.sec.gov/edgar/search/#/q=NVDA",
+    "period": "2026-01-31",
+    "verifyAt": "https://www.stockportfolio.pro/stocks/NVDA?...",
+    "poweredBy": "StockPortfolio.pro — filing-grounded US company data"
+  }
+}`;
+    return head(title, description, canonical, jsonld) + nav() + `
+<main class="seo-wrap">
+  <div class="seo-crumbs"><a href="/">Home</a> / API</div>
+  <h1 class="seo-h1">Stock data your agent can cite</h1>
+  <p class="seo-sub">A REST API and a hosted MCP server over US SEC filings. Every value carries the filing it came from — <code>null</code> when the filing is silent, never interpolated. No sales call, no minimum contract: $19.99/mo.</p>
+
+  <div class="seo-next-action">
+    <p class="seo-next-action-kicker">Dev plan</p>
+    <h2>$19.99/month — 200 credits, all seven tools</h2>
+    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs 1 credit, an AI answer 4. Credits reset monthly. Cancel any time.</p>
+    <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
+    <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html">Profile page</a>.</p>
+  </div>
+
+  ${S('Make a call in two minutes', `<p>One key, one header. This is the actual response for <code>NVDA</code>, captured from the live extractor:</p>
+    <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(curlExample)}</pre>
+    <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(jsonExample)}</pre>
+    <p>Every response — including every error — carries that <code>citation</code> block. It is what makes the data usable in an agent: the model can point at the filing rather than assert a number.</p>`)}
+
+  ${S('The tools', `<table class="seo-table">
+    <thead><tr><th>MCP tool</th><th>REST endpoint</th><th>Credits (MCP / REST)</th></tr></thead>
+    <tbody>
+      <tr><td><code>sp_financials</code></td><td><code>GET /api/v1/financials/:ticker</code></td><td>1 / 2</td></tr>
+      <tr><td><code>sp_filing</code></td><td><code>GET /api/v1/filing/:ticker</code></td><td>1 / 2</td></tr>
+      <tr><td><code>sp_compare</code></td><td><code>GET /api/v1/compare?tickers=</code></td><td>1 / 2</td></tr>
+      <tr><td><code>sp_screen</code></td><td><code>GET /api/v1/screen?tickers=</code></td><td>1 / 2</td></tr>
+      <tr><td><code>sp_fund</code></td><td><code>GET /api/v1/fund/:symbol</code></td><td>1 / 2</td></tr>
+      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>2 / 4</td></tr>
+      <tr><td><code>sp_health</code></td><td><code>GET /api/v1/health</code></td><td>free</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px">The MCP surface is deliberately the cheaper on-ramp — the REST API costs exactly 2&times; MCP. Rate limit: 60 requests/minute per key. <code>sp_health</code> is a free liveness probe, safe to call before anything else.</p>`)}
+
+  ${S('Add it to Claude Desktop or Cursor', `<p>Publish once, use everywhere: the MCP server is a single command, and the key is the only configuration.</p>
+    <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(mcpConfig)}</pre>
+    <p>Drop that into your client's MCP config file and the seven tools appear in the tool list. See the <a href="/licensing#mcp-api">licensing page</a> for the full tool reference.</p>`)}
+
+  ${S('What it is, and what it is not', `<ul>
+      <li><strong>Filed, not estimated.</strong> Figures are computed deterministically from 10-K/10-Q filings across 6,000+ US companies. No analyst estimates, no model-guessed numbers.</li>
+      <li><strong>Not investment advice</strong>, and not a quote feed. Market data — prices, market cap, P/E — comes from a third-party feed we don't hold redistribution rights to, which is why the API is filing-grounded by design.</li>
+      <li><strong>Fund data is different.</strong> <code>sp_fund</code> is Yahoo-derived, for your own research, and not for redistribution.</li>
+      <li><strong>Bulk corpus licensing</strong> (the whole dataset, for training or redistribution) is a separate arrangement — see <a href="/licensing">data licensing</a>.</li>
+    </ul>`)}
+  <div class="seo-section"><p style="font-size:13px"><a href="/licensing">Data licensing &amp; terms &rarr;</a> &middot; <a href="/methodology">Methodology &rarr;</a> &middot; <a href="/tools">Free tools (no key needed) &rarr;</a></p></div>
+</main>` + footer();
+}
+
 // ---- Data licensing (AI companies / agent builders) ----
 // backend/bot-blocker.js refuses automated access and its 403 body points here,
 // so this is where a crawler operator lands after being blocked. It therefore
@@ -1070,7 +1177,7 @@ function renderLicensing() {
     </ul>`)}
   <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
     <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
-    <p><strong>Who has access:</strong> included with a Power or Desk subscription, or the top AppSumo/DealMirror lifetime tier — not sold separately. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
+    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, or the top AppSumo/DealMirror lifetime tier. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
     <ul>
       <li><strong>MCP</strong> — 1 credit per lookup, 2 credits per AI-backed ask. The cheaper, agent-native on-ramp.</li>
       <li><strong>REST API</strong> — 2 credits per lookup, 4 credits per ask (exactly 2x MCP).</li>
@@ -1095,7 +1202,7 @@ function invalidateSitemapInventory() {
 module.exports = {
     renderStockPage, renderStockIndex, buildSitemap, buildSitemapShard, loadCompanies, companyName, hasStockPage,
     resolveCanonicalSymbol, invalidateSitemapInventory,
-    renderMethodology, renderEditorialPolicy, renderLicensing,
+    renderMethodology, renderEditorialPolicy, renderLicensing, renderApiLanding,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
     loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer
 };

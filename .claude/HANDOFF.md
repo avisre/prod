@@ -1,5 +1,74 @@
 # Handoff
 
+## Viral growth plan for the MCP + API — Phase 1 shipped (9/11, uncommitted)
+
+Full plan: `~/.claude/plans/i-wan-to-advertsie-snappy-llama.md`. Owner decisions
+locked: cheap self-serve Dev plan (not free), npm publish with a CLOSED-SOURCE
+package, $0 budget, built-in virality. 5 phases; this is Phase 1 (the
+conversion point every later loop feeds).
+
+**Phase 1 done — the Dev plan exists and `/api` can sell it:**
+- **Dev tier**: planId `dev`, **$19.99/mo, 200 credits**, no trial, on its **own
+  new Stripe price** (owner creates it on product `stockportfolio.pro`). It was
+  briefly $24.99/250 sharing Monthly's price id under a no-new-Stripe-objects
+  constraint; the owner lifted that for this rung on 9/11 ("separate it") and it
+  returned to the growth plan's price. A distinct amount also keeps
+  `resolveStripeCheckoutPlan`'s amount+product matcher unambiguous — a second
+  $24.99/mo price on the same product would have matched twice and refused.
+- **Disambiguation kept as belt-and-braces.** While the ids were shared,
+  `getPlanConfigByPriceId` (first-match-wins, Dev's branch above Monthly's) would
+  have re-resolved every Monthly renewal as Dev — and `userTier('dev')` is
+  `'free'`, so paying Monthly customers would silently lose the web app. Both
+  fixes stay: (a) `ambiguousStripePriceIds()` returns null for any id claimed by
+  two distinct plans, and (b) `syncSubscriptionFromStripe` consults
+  `metadata.planId` **before** the price id, with a round-trip check so an
+  unknown value can't fall into `getPlanConfig`'s Monthly default. Nothing
+  collides today; a mis-set env var is all it takes.
+- **Entitlement stays narrow**: `userTier()` returns `'free'` for an active
+  `dev` plan; `hasApiAccess()` adds `'dev'`. Dossier/Monitor already out of reach.
+- **Priced leak closed**: Ask (`/api/ai/chat`) has NO tier gate, only credit
+  metering, so Dev's flat 200 credits would have bought 100 web asks against
+  Monthly's 50 — for $5 less a month. Refused with code
+  `API_PLAN_NO_WEB_ASK`, before the wallet is consulted.
+- **Credit repricing (same day)**: `mcp_ask` 2→**4**, `api_ask` 4→**8** (REST
+  stays exactly 2x MCP); lookups unchanged at 1/2. Anchor is 2x frontier
+  ($10/$50 per M tokens) applied to the **measured `chat`-shaped call at 13,820
+  tokens**, not the 10,779 all-purposes blend credits.js used before — that
+  blend is dragged down by shorter `summary` calls. The published AppSumo cost
+  table (`docs/growth/appsumo-listing-v6.md` + `.txt`) moved with it;
+  `credit-meter-truth.test.js` pins that sync. **Unaffected by the plan reprice**
+  — these are frontier-anchored, not plan-anchored.
+- **Split now recorded**: `ollama-usage-tracker.js` `publicEvent()` carries
+  `promptTokens`/`completionTokens`. It used to read them in `finish()` and
+  discard them, which made the anchor's 85/15 assumption unmeasurable in
+  principle. After a few weeks, replace the assumption with data.
+- **`/api` landing page**: `renderApiLanding()` in `seo-pages.js` — real
+  captured NVDA payload (not a mock-up), 7-tool table, copy-paste Claude
+  Desktop/Cursor `mcpServers` config, $19.99 CTA with per-call costs. Routed in
+  app.js, in the sitemap core routes, exempted in `bot-blocker.js` (`/^\/api$/`).
+- **register.html**: `dev` in PLANS + PLAN_VALUE + DIRECT_PLANS (so `?plan=dev`
+  renders a clean single-plan checkout instead of falling back to Monthly).
+  Deliberately NOT a picker card — it is a developer direct-link plan.
+- Tests: `test/dev-plan.test.js`; `api-access-gating.test.js` and
+  `public-api.test.js` amended. Suite green except the pre-existing
+  `selenium-webdriver` gap in `scripts/social-compose.js`, unrelated. No
+  `assets/*.js` or `system.css` edit → **no cache-stamp bump**.
+- **Owner-only, still to do**: create the NEW **$19.99/mo** recurring Stripe
+  price on product `stockportfolio.pro` and set `STRIPE_PRICE_ID_DEV` to it.
+  Unset is survivable (checkout resolves by amount+product) but the amount must
+  stay unique in the account. Nothing is deployed.
+- **Found, NOT fixed**: `frontend-v2/terms.html` (~line 66) enumerates "current
+  pricing" and does not list the Dev plan. Legal copy was deliberately left
+  untouched (plan Phase 1, item 5) — the owner decides that wording.
+
+**Phase 2 next** (npm closed-source publish + directory listings), then embeds,
+referral credits, and API SEO pages. Hard gate in the plan: phases 3-5 wait
+until the Dev tier is live; a Wave-1 outreach buyer committing preempts all.
+
+Note: CLAUDE.md's "there is no local `.git`" line is now stale — this repo has
+a working `.git` and `gh` is authenticated as `avisre` (per `dev-doctor.sh`).
+Also HANDOFF is at 916 lines, well over its 160-line budget.
+
 ## Progressive dossier serving (9/11, on funds/bond-credit-quality, NOT yet committed/deployed)
 
 Dossier builds now publish a "partial" (every data section, narrative empty)
@@ -197,15 +266,37 @@ contact + a "denied ≠ unavailable" note; licensing sections in `llms.txt` and
 `coreRoutes`. Full suite 563/564 — the one failure (`social-compose.test.js`,
 missing `selenium-webdriver`) is pre-existing and unrelated.
 
-**Outreach (not sent):** `docs/growth/mcp-api-lab-outreach.md` — long-form MCP/API
-pitch + 3-wave send sequence. Two constraints found while writing it:
+**Outreach (now sent — see the doc's send tables for the live record):**
+`docs/growth/mcp-api-lab-outreach.md` — long-form MCP/API pitch + 3-wave send
+sequence. **10 sends total, all 2026-09-11, all SMTP-accepted, zero replies**
+(replies land in support@). All from `support@` on the owner-accepted risk
+recorded in the doc.
+
+- 4 microcap IR firms + Mistral `contact@mistral.ai`
+- Chinese labs, bilingual EN+中文: Zhipu `service@zhipuai.cn` (商务合作),
+  Moonshot `growth@moonshot.cn`, MiniMax `api@minimaxi.com` (商务合作),
+  Alibaba Qwen `qianwen_opensource@alibabacloud.com` (no BD intake exists — the
+  QwenLM org address is the only route in)
+- Perplexity `publishers@perplexity.ai` — Western-lab batch, carries the
+  owner-directed **quiet-door acquisition signal**
+
+**Form-only, owner action** (no email exists anywhere): OpenAI Data Partnerships,
+Microsoft PCM, 01.AI (Feishu 生态合作), Baidu (ERNIE enterprise). **No intake at
+all** — not form-only, genuinely no door: DeepSeek, xAI, Anthropic, Meta, Google.
+**Never send the quiet door to Microsoft** — their published policy refuses
+unsolicited proposals, and the hint would risk the legitimate licensing
+submission. Of the seven Western labs only Perplexity has a channel that can
+carry the signal; the rest have no corp-dev route (those deals move via bankers
+and warm intros). Full reasoning + per-lab field mappings in the doc.
+
+Two constraints found while writing it:
 (1) `sp_fund` is Yahoo-derived (`asset-profile.js:6`), so the sellable surface is
 SEC-only — selling the full MCP contradicts `corpus-license-terms.md`;
 (2) `next-feature-ranking.md` already ruled MCP/API "do not build now" pending
 **three buyers committing to a price**, so Wave 1 is a demand test, not a build.
 `mcp-directory-listings.md` already has finished registry copy — submit, don't rewrite.
 
-NOTE: this file is 840+ lines against CLAUDE.md's 160-line cap. Needs a trim pass.
+NOTE: this file is 1,000+ lines against CLAUDE.md's 160-line cap. Needs a trim pass.
 
 ## Bot-blocker re-deployed after a Render bandwidth alert (9/11)
 
@@ -391,6 +482,28 @@ BWT API (GetFeeds Success, 25,831 URLs); IndexNow POST → 202. Pair lands in th
 live sitemap within the 30-min inventory TTL after a render. Recs clear on
 Bing's next scan. Recs 107 (noindex /login+/news — intentional) and 108
 (backlinks) left alone. BWT API key inline/temp only (never stored in repo).
+
+**Re-checked 9/11 (owner: "why isn't the Bing issue fixed yet") — the tiles are
+a lagging indicator, and Bing is converging.** All three tiles still show; the
+fix is live and the index is filling in. Measured via the BWT API, not guessed:
+`GetFeeds` shows the sitemap index last crawled **9/10**, Status Success,
+UrlCount 22,474 — vs 22,198 URLs actually published (core 94 / stocks 1,506 /
+comparisons 6,350 / metrics 13,880 / diffs 368). `GetCrawlStats` is the real
+signal: **InIndex 24,255 (9/3) → 29,598 (9/10)**, +5.3K in a week at ~400–2,600
+pages crawled/day, 4xx ≈ 0, robots-blocked 3–4. So Bing is indexing ~800
+pages/day net, and the red "missing from your sitemaps" rec should age out.
+Corrected a wrong first read: the per-statement pages (`/stocks/X/revenue` …)
+are NOT missing — all 11 live in the `metrics-*` shards (I had grepped the
+wrong shard; AAPL 11/11 in metrics-1). Also drained the 9-URL local
+`seo-data/indexnow-queue.json` (statement-page changes) → IndexNow HTTP 200,
+queue now 9 submitted, and resubmitted the sitemap (`SubmitFeed` → `d:null`).
+**Still unknown, owner-only:** the red tile's "Investigate" list names the exact
+URLs, and there is no API for it — probed `GetRecommendations`,
+`GetSiteScanResults`, `GetRecommendedUrls`, `GetCrawlIssues` (all empty) and
+`GetCrawlIssues` is genuinely empty, so this is a UI-only read. Owner must open
+the tile and paste the list; only then is it worth changing the sitemap.
+IndexNow drains weekly (in `refresh-fundamentals.yml`, last run 9/6, next
+~9/13), not continuously — that is the queue's normal cadence, not a bug.
 
 ## Credit recharge fixed (auth gate + expired-session recovery) — DEPLOYED (9/8, commit 6334cdb6)
 

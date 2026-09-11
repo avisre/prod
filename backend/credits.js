@@ -44,21 +44,38 @@ const mongoose = require('mongoose');
 // the MCP surface the cheaper on-ramp.
 // *_lookup covers the deterministic tools (cache/SEC/Yahoo, no AI spend) —
 // priced low, mainly abuse prevention rather than cost recovery, since no
-// inference happens.
-// *_ask is the only AI-backed action on either surface, so it's the only
-// one with a real per-call cost to anchor. Measured 9/11: current-generation
-// frontier pricing (Claude Fable 5.1 AND GPT-6 Astra, independently — they
-// happen to match) is $10/$50 per M input/output tokens. This product's
-// measured blended average is ~10,779 tokens/call (24.47M tokens / 2,270
-// calls, the 9/6 credit-wallet analysis below) — the input/output SPLIT
-// itself isn't measured (ollama-usage-tracker.js stores only the total,
-// a gap noted there), so an 85/15 split (typical for tool-augmented Q&A)
-// is assumed for this calculation only. That works out to ~$0.17/call at
-// frontier pricing, which at this product's existing $0.10/credit rate
-// ($14.99 / 150 recharge pack) is ~1.7 credits — mcp_ask: 2 sits right at
-// that anchor (and matches the existing web `ask` weight, since it's the
-// same underlying AI call). api_ask is 2x that by the same rule as lookup.
-const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 2, api_lookup: 2, api_ask: 4 };
+// inference happens. The labs anchor below does not apply: there is nothing
+// to anchor to.
+// *_ask is the only AI-backed action on either surface, so it is the only one
+// with a real per-call cost. Repriced 2026-09-11 to 2x current-generation
+// frontier pricing, per the owner's rule ("use 2x the premium labs pricing for
+// the mcp and api"). Frontier is Claude Fable 5.1 AND GPT-6 Astra,
+// independently — they happen to match — at $10/$50 per M input/output tokens.
+//
+// The token figure is MEASURED PER PURPOSE, not blended. The previous anchor
+// (mcp_ask: 2) used the all-purposes average of 10,779 tokens/call, and that
+// average is the wrong shape for this line item: it is dragged down by
+// 'summary' calls at 3,862 tokens. An sp_ask or /api/ask call is a 'chat'
+// call, and measured over 1,503 of them (tmp-token-split-measure.js, 9/11)
+// chat averages 13,820 tokens — 28% above the blended figure, with a trimmed
+// mean of 13,914 and a median of 14,113, so the distribution is tight and the
+// number is trustworthy rather than outlier-driven.
+//
+// The input/output SPLIT is still NOT measured: ollama-usage-tracker.js
+// persists only the total (a gap this change begins closing — see
+// publicEvent() there, which now carries the split through). An 85/15 split
+// is assumed for this calculation only. At 13,820 tokens that is $0.2211/call
+// at frontier pricing, so 2x is $0.4422 — which at this product's
+// $0.09993/credit ($14.99 / 150 recharge pack) is 4.4 credits. mcp_ask: 4 is
+// that anchor rounded down: 1.81x at an 85/15 split, and 2.0x at 90/10.
+// api_ask: 8 is 2x mcp_ask by the base-tier rule above.
+//
+// Note this deliberately DIVERGES from the web `ask` weight (still 2). The two
+// used to match because they were the same underlying call; they no longer do,
+// because the owner's 2x rule is scoped to the MCP and API surfaces. Web Ask
+// is a feature bundled into plan credits, not a metered API call, so it keeps
+// its old anchor.
+const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 4, api_lookup: 2, api_ask: 8 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 
@@ -134,7 +151,24 @@ async function grant(userId, amount, reason, refId) {
 // drawing from that same pool. Keyed on the *uncollapsed* planId so it must be
 // read from req.subscription.planId, not req.tier. Every other plan keeps the
 // plain ×2 — no current user's capacity shrinks.
-const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000 };
+// The Dev plan (app.js DEV_PLAN_ID) is the API/MCP-only rung: $19.99/mo for 200
+// credits. It gets an explicit floor rather than the derived x2 for the same
+// reason Power/Desk do — its Ask limit is the FREE tier's (it deliberately
+// grants no web-app features, so userTier() reads it as 'free'), and x2 off
+// that would be 6 credits, not the 200 that were sold. Keyed on the
+// uncollapsed planId, so it must be read from req.subscription.planId.
+//
+// $19.99 for 200 credits = $0.09995/credit against the $14.99/150 recharge-pack
+// rate of $0.09993 — a 0.017% gap, which means the pack is very slightly the
+// cheaper of the two per credit. That is the inversion the rule above forbids,
+// recorded here rather than rounded away: it sits inside the 1e-4 tolerance
+// test/dev-plan.test.js allows. It is a consequence of pricing the rung at a
+// round $19.99, not of any Stripe constraint — 210 credits would clear the rule
+// outright at $0.09519/credit and cost about three points of gross margin, so
+// make that change if the rule is judged worth more than the round number.
+// Worst case all 200 credits go to mcp_ask (4 each) = 50 AI calls, the same
+// tail the V2 LTD note below is protecting against.
+const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000, dev: 200 };
 
 // Explicit per-tier wallet for AppSumo/DealMirror lifetime buyers, replacing the
 // derived x2 for those accounts. The derived form made the listing a second,

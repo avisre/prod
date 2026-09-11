@@ -41,7 +41,12 @@ const DENY_PATTERNS = [
 
 // /licensing is exempt for the same reason robots.txt is: an agent refused above
 // is pointed at that page by FORBIDDEN_BODY, so it has to be fetchable to be read.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
+// /api (the developer landing page, NOT the /api/v1 endpoints already covered by
+// the first pattern) joins it for the same reason: it is the page a refused
+// crawler operator or an arriving developer is sent to, and it is where the
+// pricing and the copy-paste key setup live. It carries no data — the exemption
+// is a page, not the API itself.
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
 
 const STATIC_ASSET_RE = /\.(js|css|png|jpe?g|gif|svg|webp|woff2?|ttf|ico|mp4|json|xml|txt)$/i;
 

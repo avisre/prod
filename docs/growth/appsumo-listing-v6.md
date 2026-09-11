@@ -133,9 +133,9 @@ Fallback if length-limited:
 > | Compare two dossiers | 5 |
 > | Ask a follow-up question | 2 |
 > | MCP lookup | 1 |
-> | MCP ask | 2 |
+> | MCP ask | 4 |
 > | REST API lookup | 2 |
-> | REST API ask | 4 |
+> | REST API ask | 8 |
 >
 > Mix them however you like. A typical Investor month is 8 dossiers, 10 monitor reports and
 > 10 follow-up questions — that's 150. Credits reset on the 1st of each month.

@@ -77,6 +77,15 @@ function userTier(user, subscription) {
     const sub = subscription || (user && user.subscription) || {};
     const planId = sub.planId || '';
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
+    // Dev is checked FIRST and returns 'free' on purpose: the plan sells
+    // API/MCP credits and nothing else. Without this line it would fall through
+    // to the `planId !== 'free'` branch below and hand a Dev subscriber the
+    // full 'core' web-app feature set — turning a developer data plan into a
+    // second, identical general subscription for the same $24.99. The
+    // API/MCP surface is gated separately by hasApiAccess(), which is the only
+    // gate that reads 'dev'; its credits come from PLAN_ALLOWANCE_FLOOR in
+    // credits.js, not from this tier.
+    if (active && planId === 'dev') return 'free';
     if (active && (planId === 'pro' || planId === 'pro-annual' || planId === 'power' || planId === 'power-monthly' || planId === 'desk')) return 'pro';
     if (active && planId !== 'free') return AI_PRO_FOR_ALL ? 'pro' : 'core';
     if (active && planId === 'free') return 'free';
@@ -137,16 +146,21 @@ function monitorGate(req, res, next) {
 // downgrade takes effect immediately — same pattern as monitorGate/
 // coreGate/proGate, all of which re-check current status rather than a
 // grant-time snapshot.
+//
+// The Dev plan was added to this list deliberately, and it is the ONE plan
+// here that is not a top tier: it is the cheap self-serve on-ramp for
+// developers, who will never buy a $1,499 Power seat to evaluate a data
+// source. It is still a PAID plan — nothing about this gate is free access.
 function hasApiAccess(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
-    if (active && ['power', 'power-monthly', 'desk'].includes(sub.planId)) return true;
+    if (active && ['power', 'power-monthly', 'desk', 'dev'].includes(sub.planId)) return true;
     const user = req.user;
     return Boolean(user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3));
 }
 function apiAccessGate(req, res, next) {
     if (hasApiAccess(req)) return next();
-    return res.status(402).json({ message: 'API/MCP access is available on the Power and Desk plans, and the top AppSumo/DealMirror tier.', code: 'API_ACCESS_REQUIRED' });
+    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, and the top AppSumo/DealMirror tier.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -553,6 +567,35 @@ const POWER_MONTHLY_PLAN_PRICE = parseFloat(process.env.POWER_MONTHLY_PLAN_PRICE
 const POWER_MONTHLY_PLAN_CURRENCY = process.env.POWER_MONTHLY_PLAN_CURRENCY || 'USD';
 const DESK_PLAN_PRICE = parseFloat(process.env.DESK_PLAN_PRICE || '1999.99');
 const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
+// Dev — the self-serve API/MCP rung. Sells credits and the API/MCP surface
+// ONLY: userTier() reads it as 'free' so it grants no web-app features. It is
+// the entry point the whole developer funnel lands on (npm package, MCP
+// directory listings, embeddable widgets), which is why it exists at all: a
+// $1,499 Power plan is not a price a developer tries a new data source at.
+//
+// It is priced at $19.99/month on its OWN Stripe price — a new recurring price
+// on the existing "stockportfolio.pro" product, which the owner creates (see
+// prod.env.example). It briefly shared Monthly's $24.99 price id, when the
+// constraint was that no new Stripe object could be created; that constraint
+// was lifted for this rung on 9/11 and the plan moved back to the price the
+// growth plan specified. A distinct amount also keeps
+// resolveStripeCheckoutPlan's amount+product matcher unambiguous — a second
+// $24.99/mo price on the same product would have matched twice and refused to
+// sell.
+//
+// subscription.metadata.planId is still written at checkout
+// (subscription_data.metadata, further down) and still read FIRST by
+// syncSubscriptionFromStripe(); see ambiguousStripePriceIds() for why that
+// ordering survives even though the ids no longer collide. What the buyer gets
+// for $19.99 is the API instead of the web app: 200 credits and the
+// programmatic surface, with no web-app features.
+//
+// Credit economics: 200 credits/mo at $19.99 = $0.09995/credit, effectively at
+// parity with the $14.99/150 top-up rate ($0.09993). See PLAN_ALLOWANCE_FLOOR
+// in credits.js for the allowance side of this, including the 0.017% gap.
+const DEV_PLAN_ID = 'dev';
+const DEV_PLAN_PRICE = parseFloat(process.env.DEV_PLAN_PRICE || '19.99');
+const DEV_PLAN_CURRENCY = process.env.DEV_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 const STRIPE_SUCCESS_URL = process.env.STRIPE_SUCCESS_URL || '';
@@ -573,6 +616,7 @@ const STRIPE_PRICE_ID_PRO_ANNUAL = process.env.STRIPE_PRICE_ID_PRO_ANNUAL || '';
 const STRIPE_PRICE_ID_POWER = process.env.STRIPE_PRICE_ID_POWER || '';
 const STRIPE_PRICE_ID_POWER_MONTHLY = process.env.STRIPE_PRICE_ID_POWER_MONTHLY || '';
 const STRIPE_PRICE_ID_DESK = process.env.STRIPE_PRICE_ID_DESK || '';
+const STRIPE_PRICE_ID_DEV = process.env.STRIPE_PRICE_ID_DEV || '';
 // Credit top-up: a one-time payment that adds CREDIT_TOPUP_CREDITS to the
 // buyer's current-month wallet (credits.grant()). Priced above the Pro plan's
 // bundled per-credit rate on purpose so packs can't under undercut plans; the
@@ -586,16 +630,31 @@ const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP 
 // broken checkout. This is deliberately narrow: it resolves only the published
 // direct-purchase plans by their exact product, amount and recurring interval.
 // It also neutralizes legacy display variables that no longer match Stripe.
-// New-sale checkout specs: the four surviving rungs only. Pro (monthly) and
+// New-sale checkout specs: the five surviving rungs only. Pro (monthly) and
 // both Power variants are intentionally ABSENT — a plan absent here cannot be
 // freshly purchased (resolveStripeCheckoutPlan refuses), while grand-fathered
 // subscribers never hit this map (their price ids resolve through
 // LEGACY_PLAN_PRICE_SPECS first).
+//
+// `productName` is matched EXACTLY (case-insensitively) against the Stripe
+// product's name, so an entry naming a product that does not exist makes the
+// lookup find no match and the plan refuse to sell, rather than silently
+// charging against the wrong product. Each amount here must equal the
+// corresponding *_PLAN_PRICE; test/dev-plan.test.js pins the Dev one so the two
+// can't drift.
+//
+// Dev's entry differs from Monthly's in amount alone ($19.99 vs $24.99), and
+// that is what makes it resolvable: the matcher below is amount+currency+
+// interval+product, so a unique amount identifies the price without needing a
+// distinct product name. Keep the amount unique in the account — a second
+// $19.99/mo price on this product would match twice and the plan would refuse
+// to sell (the safe failure, but still a failure).
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [MONTHLY_PLAN_ID]: { amount: 24.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
   [ANNUAL_PLAN_ID]: { amount: 199.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [PRO_ANNUAL_PLAN_ID]: { amount: 499.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
-  [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' }
+  [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' },
+  [DEV_PLAN_ID]: { amount: 19.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' }
 });
 // Grandfathered subscribers keep their pre-reprice Stripe price until they
 // move to a new one. Webhook re-syncs resolve a renewal by the price id the
@@ -945,6 +1004,13 @@ function normalizePlanSelection(value) {
   if (plan === PRO_PLAN_ID) {
     return PRO_PLAN_ID;
   }
+  // Checked BEFORE the monthly fallback below: `normalizePlanSelection` returns
+  // MONTHLY_PLAN_ID for anything unrecognised, so an unhandled 'dev' would
+  // silently sell a $24.99 Monthly subscription to a developer who clicked the
+  // API plan — the wrong product at the wrong price, with no error.
+  if (plan === DEV_PLAN_ID || plan === 'developer' || plan === 'api') {
+    return DEV_PLAN_ID;
+  }
   if (plan === DESK_PLAN_ID) {
     return DESK_PLAN_ID;
   }
@@ -1017,6 +1083,21 @@ function getPlanConfig(value) {
       trialDays: 0
     };
   }
+  if (planId === DEV_PLAN_ID) {
+    return {
+      planId: DEV_PLAN_ID,
+      planName: 'Dev',
+      billingInterval: 'month',
+      price: DEV_PLAN_PRICE,
+      currency: DEV_PLAN_CURRENCY,
+      stripePriceId: STRIPE_PRICE_ID_DEV,
+      // No trial: the whole point of this rung is a price a developer can try
+      // without a decision. A 7-day trial on $19.99 buys a support burden and
+      // a churn cliff, not a conversion — and the free tier already exists
+      // above it for anyone who wants to evaluate first.
+      trialDays: 0
+    };
+  }
   if (planId === POWER_PLAN_ID) {
     return {
       planId: POWER_PLAN_ID,
@@ -1050,7 +1131,64 @@ function getPlanConfig(value) {
   };
 }
 
+// A Stripe price id shared by two different plans cannot be resolved from the
+// price id alone. getPlanConfigByPriceId below is a first-match-wins chain, so
+// whichever plan's branch sits higher silently wins for BOTH populations —
+// there is no ordering that makes an ambiguous id correct.
+//
+// Dev no longer shares Monthly's price (it has its own $19.99 one), so this
+// fires on nothing today. It stays because the failure it guards is silent and
+// expensive: while the two DID share a $24.99 id, and Dev's branch sits
+// deliberately ABOVE Monthly's so an unrecognised plan selection cannot fall
+// through to Monthly, every Monthly renewal would have re-resolved as Dev — and
+// since userTier('dev') is 'free', a paying Monthly customer would have
+// silently lost the web app they were being billed for. The reverse ordering
+// hands a Dev buyer Desk or Power. A misconfiguration that points two
+// *_PRICE_ID_* env vars at one price brings all of that straight back, so the
+// check is derived from the configured ids rather than hardcoded and stays
+// armed.
+//
+// A shared id resolves to null, and the caller MUST disambiguate from
+// subscription.metadata.planId — written by this file at checkout in
+// subscription_data.metadata, and preserved by Stripe across renewals. That is
+// fail-closed: null makes the caller fall through to metadata, never to a
+// guessed plan.
+let ambiguousPriceIdCache = null;
+function ambiguousStripePriceIds() {
+  if (ambiguousPriceIdCache) return ambiguousPriceIdCache;
+  const plansByPriceId = new Map();
+  const claim = (priceId, planId) => {
+    if (!priceId) return;
+    if (!plansByPriceId.has(priceId)) plansByPriceId.set(priceId, new Set());
+    plansByPriceId.get(priceId).add(planId);
+  };
+  claim(STRIPE_PRICE_ID_MONTHLY, MONTHLY_PLAN_ID);
+  claim(STRIPE_PRICE_ID, MONTHLY_PLAN_ID);
+  claim(STRIPE_PRICE_ID_ANNUAL, ANNUAL_PLAN_ID);
+  claim(STRIPE_PRICE_ID_PRO_ANNUAL, PRO_ANNUAL_PLAN_ID);
+  claim(STRIPE_PRICE_ID_PRO, PRO_PLAN_ID);
+  claim(STRIPE_PRICE_ID_POWER, POWER_PLAN_ID);
+  claim(STRIPE_PRICE_ID_POWER_MONTHLY, POWER_MONTHLY_PLAN_ID);
+  claim(STRIPE_PRICE_ID_DESK, DESK_PLAN_ID);
+  claim(STRIPE_PRICE_ID_DEV, DEV_PLAN_ID);
+  for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
+    claim(legacy.priceId, planId);
+  }
+  const shared = new Set();
+  for (const [priceId, planIds] of plansByPriceId) {
+    if (planIds.size > 1) shared.add(priceId);
+  }
+  ambiguousPriceIdCache = shared;
+  return shared;
+}
+
 function getPlanConfigByPriceId(priceId) {
+  // A shared id is unresolvable here by construction — see
+  // ambiguousStripePriceIds(). Returning null pushes the caller onto
+  // subscription.metadata.planId instead of letting branch order pick a winner.
+  if (priceId && ambiguousStripePriceIds().has(priceId)) {
+    return null;
+  }
   // Grandfathered price ids resolve to their plan at the OLD price, so a
   // legacy subscriber's stored amount keeps matching what Stripe charges.
   if (priceId) {
@@ -1066,6 +1204,9 @@ function getPlanConfigByPriceId(priceId) {
   }
   if (priceId && priceId === STRIPE_PRICE_ID_POWER) {
     return getPlanConfig(POWER_PLAN_ID);
+  }
+  if (priceId && priceId === STRIPE_PRICE_ID_DEV) {
+    return getPlanConfig(DEV_PLAN_ID);
   }
   if (priceId && priceId === STRIPE_PRICE_ID_POWER_MONTHLY) {
     return getPlanConfig(POWER_MONTHLY_PLAN_ID);
@@ -1083,6 +1224,20 @@ function getPlanConfigByPriceId(priceId) {
     return getPlanConfig(MONTHLY_PLAN_ID);
   }
   return null;
+}
+
+/**
+ * Resolves the plan recorded on the Stripe Subscription at checkout, accepting
+ * it only when it names a plan this build actually knows. getPlanConfig() falls
+ * back to Monthly for anything unrecognised, so an unknown or retired metadata
+ * value has to return null here rather than silently becoming a Monthly grant;
+ * the round-trip check is what enforces that.
+ */
+function planConfigFromSubscriptionMetadata(subscription) {
+  const raw = String(subscription?.metadata?.planId || '').trim().toLowerCase();
+  if (!raw) return null;
+  const config = getPlanConfig(raw);
+  return config.planId === raw ? config : null;
 }
 
 function isPublishedStripePlan(planConfig) {
@@ -1901,6 +2056,14 @@ app.get('/editorial-policy', (req, res) => {
 // page is just a denial.
 app.get('/licensing', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderLicensing());
+});
+// The developer landing page. Registered as a sibling of /licensing (and
+// exempted from bot-blocker.js the same way) because it is the other page a
+// refused crawler or an arriving developer is sent to — everything in the
+// developer funnel links here: the npm README, the MCP directory listings,
+// the embeddable widgets.
+app.get('/api', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderApiLanding());
 });
 app.get('/stocks/:ticker', (req, res) => {
     const canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
@@ -3819,7 +3982,20 @@ async function activateSubscription(user, { subscriptionId, customerId, planId, 
 
 async function syncSubscriptionFromStripe(user, subscription, customerId) {
     const stripePriceId = subscription?.items?.data?.[0]?.price?.id || null;
-    const planConfig = getPlanConfigByPriceId(stripePriceId) || getPlanConfig(subscription?.metadata?.planId || user?.subscription?.planId);
+    // Metadata FIRST, price id second. Dev and Monthly no longer share a price
+    // id, so the price id alone would resolve both today; metadata is preferred
+    // because it is the field that actually states which plan was sold — it is
+    // written by this file in subscription_data.metadata at checkout creation
+    // and Stripe carries it across renewals, so it survives a price being
+    // re-pointed or re-created underneath a live subscription. The price-id
+    // fallback stays for subscriptions with no metadata (created by hand in the
+    // Stripe dashboard, or predating the field), then the plan already stored on
+    // the user, and never a guess — getPlanConfigByPriceId() returns null for a
+    // shared id rather than letting branch order pick a winner (see
+    // ambiguousStripePriceIds()).
+    const planConfig = planConfigFromSubscriptionMetadata(subscription)
+        || getPlanConfigByPriceId(stripePriceId)
+        || getPlanConfig(subscription?.metadata?.planId || user?.subscription?.planId);
     const trialEndsAt = subscription?.trial_end ? new Date(subscription.trial_end * 1000) : null;
     const stripeStatus = subscription?.cancel_at_period_end
         ? 'cancel_at_period_end'
@@ -7753,6 +7929,23 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
         const userId = portfolioOwnerId(req);
         const limit = effectiveAskLimit(req);
         const planId = req.subscription && req.subscription.planId;
+        // Dev is API/MCP-only, and this is the one place that has to say so
+        // explicitly. Every other credit-spending web surface is already out of
+        // its reach — Dossier is behind proGate, Monitor behind monitorGate,
+        // and userTier() reads Dev as 'free' so coreGate closes the rest — but
+        // Ask has NO tier gate: it is metered purely by the credit wallet, and
+        // Dev's wallet is a flat 200 credits (PLAN_ALLOWANCE_FLOOR). Left open,
+        // a Dev subscriber could spend those 200 credits on the website Ask box
+        // — 100 questions against Monthly's 50, for $5 less a month. That is a
+        // pricing leak with no error anywhere, so it is refused here rather
+        // than discovered later in the revenue numbers.
+        if (String(planId || '') === DEV_PLAN_ID) {
+            return res.status(402).json({
+                message: 'The Dev plan covers the API and MCP server, not the website assistant. Use your key at /api, or switch to Monthly for Ask in the app.',
+                code: 'API_PLAN_NO_WEB_ASK',
+                next: { kind: 'plan', planId: MONTHLY_PLAN_ID }
+            });
+        }
         // 🧪 AI Portfolio mode — honored ONLY for beta users (server-side gate
         // on the account email). Anyone else sending the flag gets plain chat:
         // no ai-paper tools in the loop, no experiment data in the prompt.
