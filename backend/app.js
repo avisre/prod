@@ -28,6 +28,7 @@ const aiFeatures = require('./ai-features');
 const aiChat = require('./ai-chat');
 const credits = require('./credits');
 const aiPaper = require('./ai-paper-portfolio');
+const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
 const verifyHeadline = require('./verify');
@@ -333,6 +334,12 @@ app.use(compression({
     return compression.filter(req, res);
   }
 }));
+
+// Crawler policy, enforced server-side ahead of every rate limiter, the SSR
+// cache, and static serving — a refused crawler should cost one regex, not
+// an SSR render. See backend/bot-blocker.js and
+// docs/growth/bot-crawler-situation-2026-09-05.md for the full rationale.
+app.use(botBlocker.middleware({ isRawBodyWebhookPath }));
 
 // The public, unauthenticated page-view beacon gets its own tight per-IP cap
 // so a flood can't spend the shared /api budget or pile unbounded writes into
@@ -11954,6 +11961,10 @@ async function collectAugustGrowthReport() {
 app.get('/api/admin/growth/august-2026', authMiddleware, marketingDashboardOnly, async (req, res) => {
     try { res.set('Cache-Control', 'no-store').json(await collectAugustGrowthReport()); }
     catch (error) { console.error('[growth] report failed:', error && error.message); res.status(500).json({ message: 'Growth report unavailable' }); }
+});
+
+app.get('/api/admin/bot-blocker/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').json(botBlocker.stats());
 });
 
 app.post('/api/admin/growth/gmv', authMiddleware, marketingDashboardOnly, async (req, res) => {

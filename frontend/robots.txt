@@ -1,39 +1,34 @@
 # Stock Portfolio Pro - robots.txt
 # Site:    https://stockportfolio.pro
-# Updated: 2026-07-24
+# Updated: 2026-09-11
 # Contact: avinashsreekumar007@gmail.com
+#
+# Policy change 2026-09-11: default flipped from allow-all to deny-all. Only
+# Google and Bing are crawlable now. Render's Hobby-plan bandwidth (5GB/mo)
+# was being consumed primarily by bot/crawler traffic hitting the SEO page
+# surface — 68% of all site traffic was bots, and Meta's AI crawler alone
+# was 53% of ALL traffic. backend/bot-blocker.js enforces this same policy
+# server-side (403), since robots.txt is only a request a crawler can choose
+# to ignore. The two files must agree agent-by-agent — drift is caught by
+# backend/test/robots-policy.test.js. Full rationale in
+# docs/growth/bot-crawler-situation-2026-09-05.md.
+#
+# /login and /news carry <meta robots noindex> and are deliberately left
+# crawlable for Google/Bing below so the noindex itself can be read and
+# honored (blocking them here caused a "blocked by robots.txt" Search
+# Console warning instead of a clean drop). /register stays crawlable too —
+# it's a conversion landing page.
 
 # ---------------------------------------------------------------------------
-# Default rule for all crawlers
+# Default rule — deny by default; only Google and Bing are allowed below
 # ---------------------------------------------------------------------------
 User-agent: *
-Allow: /
-Allow: /demo
-Allow: /demo/
-Allow: /demo-dashboard.html
-Allow: /demo-fundamentals.html
-Allow: /stocks
-Allow: /stocks/
-Allow: /vs/
-Allow: /sitemap.xml
-Allow: /llms.txt
-Allow: /llms-full.txt
-Disallow: /api/
-Disallow: /dashboard
-Disallow: /dashboard.html
-Disallow: /fundamentals
-Disallow: /fundamentals.html
-# /login and /news are intentionally crawlable but carry <meta robots noindex>,
-# so Google can READ the noindex and drop them cleanly. Blocking them here caused
-# the Search Console "Indexed, though blocked by robots.txt" warning (a catch-22:
-# a blocked page can't be seen, so its noindex never registers). /register stays
-# crawlable + indexable (it's a conversion landing page).
-# transitional mirrors of the same site — crawl the root copies only
+Disallow: /
 Disallow: /v1/
 Disallow: /v2/
 
 # ---------------------------------------------------------------------------
-# Major search engines - explicit allowlist (defensive duplication)
+# Allowed — Google
 # ---------------------------------------------------------------------------
 User-agent: Googlebot
 Allow: /
@@ -47,7 +42,25 @@ Disallow: /v2/
 
 User-agent: Googlebot-Image
 Allow: /
+Disallow: /api/
 
+User-agent: Google-InspectionTool
+Allow: /
+Disallow: /api/
+
+User-agent: Storebot-Google
+Allow: /
+Disallow: /api/
+
+# Google's AI-training crawler — a DIFFERENT agent from Googlebot above. Kept
+# as its own explicit stanza so a future "let's allow Google" edit cannot
+# silently re-admit it.
+User-agent: Google-Extended
+Disallow: /
+
+# ---------------------------------------------------------------------------
+# Allowed — Bing
+# ---------------------------------------------------------------------------
 User-agent: Bingbot
 Allow: /
 Disallow: /api/
@@ -58,119 +71,107 @@ Disallow: /fundamentals.html
 Disallow: /v1/
 Disallow: /v2/
 
-User-agent: DuckDuckBot
+User-agent: BingPreview
 Allow: /
 Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
+
+# ---------------------------------------------------------------------------
+# Refused — other search engines
+# ---------------------------------------------------------------------------
+User-agent: DuckDuckBot
+Disallow: /
 
 User-agent: YandexBot
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
+Disallow: /
 
 User-agent: Baiduspider
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
+Disallow: /
 
 User-agent: Applebot
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
-
-# ---------------------------------------------------------------------------
-# AI / LLM crawlers - explicitly allowed so the product surfaces in
-# ChatGPT, Claude, Perplexity, Google AI Overviews, Bing Copilot, etc.
-# ---------------------------------------------------------------------------
-User-agent: GPTBot
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
-Disallow: /login.html
-
-User-agent: ChatGPT-User
-Allow: /
-Disallow: /api/
-
-User-agent: OAI-SearchBot
-Allow: /
-Disallow: /api/
-
-User-agent: anthropic-ai
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
-
-User-agent: ClaudeBot
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
-
-User-agent: Claude-Web
-Allow: /
-Disallow: /api/
-
-User-agent: PerplexityBot
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
-
-User-agent: Perplexity-User
-Allow: /
-Disallow: /api/
-
-User-agent: Google-Extended
-Allow: /
-Disallow: /api/
+Disallow: /
 
 User-agent: Applebot-Extended
-Allow: /
-Disallow: /api/
+Disallow: /
+
+# ---------------------------------------------------------------------------
+# Refused — AI / LLM crawlers
+# ---------------------------------------------------------------------------
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: OAI-SearchBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Perplexity-User
+Disallow: /
 
 User-agent: CCBot
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
-
-User-agent: FacebookBot
-Allow: /
-Disallow: /api/
-
-User-agent: facebookexternalhit
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: LinkedInBot
-Allow: /
+Disallow: /
 
 User-agent: Bytespider
-Allow: /
-Disallow: /api/
-Disallow: /dashboard.html
-Disallow: /fundamentals.html
+Disallow: /
 
 User-agent: Amazonbot
-Allow: /
-Disallow: /api/
+Disallow: /
 
 User-agent: cohere-ai
-Allow: /
-Disallow: /api/
+Disallow: /
 
 User-agent: Diffbot
-Allow: /
-Disallow: /api/
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+# ---------------------------------------------------------------------------
+# Refused — backlink / SEO scrapers
+# ---------------------------------------------------------------------------
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+# ---------------------------------------------------------------------------
+# Refused — social-preview bots
+# Cost of this change: link previews/cards no longer render on these
+# platforms (Facebook, X, LinkedIn). Accepted tradeoff — see rationale above.
+# ---------------------------------------------------------------------------
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: facebookexternalhit
+Disallow: /
+
+User-agent: Twitterbot
+Disallow: /
+
+User-agent: LinkedInBot
+Disallow: /
 
 # ---------------------------------------------------------------------------
 # Sitemaps

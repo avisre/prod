@@ -27,6 +27,11 @@ function driver() {
     '--no-sandbox', '--disable-dev-shm-usage', '--disable-gpu',
     '--ozone-platform=x11', '--no-first-run', '--no-default-browser-check',
     '--window-size=1280,900', '--hide-scrollbars',
+    // Marks this real Chrome instance as internal tooling so
+    // backend/bot-blocker.js never treats it as a scraper — belt-and-
+    // suspenders on top of it already sending real sec-ch-ua/sec-fetch-*
+    // headers, which alone would clear the header-consistency check.
+    '--user-agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 stockportfolio-internal',
   );
   const bin = binary();
   if (bin) options.setChromeBinaryPath(bin);
