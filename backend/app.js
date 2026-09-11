@@ -11182,11 +11182,15 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
 
         // Poll path: build-free, returns the dossier once cached else {building}.
         // Never charges — it cannot trigger new work, only observe it.
+        // The cache is peeked even while THIS instance is the builder: a build
+        // publishes a partial (every data section, narrative pending) the moment
+        // gathering finishes, and serving it here is what lets the page render
+        // ~20s in. A full hit ends the frontend's polling; a partial (payload
+        // carries partial: true) keeps it going until the narrative lands.
         if (req.query.poll === '1') {
-            if (_dossierInflight.has(inflightKey)) return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
             const cached = await dossier.peekDossier(sym, depth).catch(() => null);
             if (cached) {
-                recordDossierView(req.userId, sym, cached.name);
+                if (!cached.partial) recordDossierView(req.userId, sym, cached.name);
                 return res.json({ dossier: cached });
             }
             return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });

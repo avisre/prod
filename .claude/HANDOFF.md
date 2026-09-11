@@ -1,5 +1,60 @@
 # Handoff
 
+## Progressive dossier serving (9/11, on funds/bond-credit-quality, NOT yet committed/deployed)
+
+Dossier builds now publish a "partial" (every data section, narrative empty)
+to `company_dossiers` right after gathering (~23s of a ~99s build), before
+`onStage('writing')`; the finished payload overwrites it. `peekDossier` serves
+fresh partials to polls (payload carries `partial: true`; frontend renders it,
+shows a note, keeps polling); `cachedDossier` skips partials (lease/build
+re-checks must not treat a draft as done); partials older than
+`DOSSIER_PARTIAL_STALE_MS` (10 min, builder died mid-write) are a miss so a
+non-poll request rebuilds. app.js poll path peeks BEFORE returning 202 (was:
+inflight check first, which hid the partial from same-instance pollers).
+Frontend stamp `?v=20260911-progserve1` in dossier.html. Tests:
+`test/dossier-progressive.test.js` + read paths verified against real Mongo
+with a synthetic WIT partial (served/skipped/stale-miss all correct).
+Measured on a forced BABA rebuild: content at 23s, full at 99s (was 99s blind).
+
+## ADR dossier fix + credit-charge fix pushed (9/11, commit fc1061bd)
+
+NTES dossier failed + customer charged 10 credits. Both fixed and pushed to
+`funds/bond-credit-quality` (NOT deployed to Render yet — needs a deploy to
+go live). Full plan in `~/.claude/plans/humming-conjuring-harbor.md`.
+
+- **ADRs work end to end**: gate removed in `fundamentals-fetch.js`
+  (currency read from Yahoo stamp BEFORE backfill), `sec-source.js` unit
+  selection pinned to reporting currency (was mixing USD convenience
+  translations into CNY rows), `fx-conversion.js` runs at cache write with a
+  quote-anchored EPS guard (VALE stamps BRL but values are USD — converting
+  understated revenue 5.6x), per-share math on ADS basis
+  (`valuation-dcf.js`, `insights.js`), 20-F/40-F as annual forms everywhere
+  (watchdog, monitors, keypoints, filing-diff, filing-fetcher, ai-chat),
+  20-F item map 3.D/4/5/11 in `filing-sections.js` (minChars beats
+  self-citation matches in risk factors).
+- **Credits charged only after successful build** (`app.js` dossier route):
+  `costKey`/`planId` hoisted above the build IIFE (block-scoped there, would
+  have thrown → every build 404), reservation map
+  `_dossierReserved` prevents overdraft across concurrent tabs, release
+  strictly after spend.
+- EPS basis gotcha: filed `dilutedEPS` is ALREADY per-ADS; ordinary-share
+  count is for statement-internal series only. Yahoo `SharesOutstanding` is
+  ADS-basis (= marketCap÷price).
+- `mergeWithCached` in fundamentals-fetch preserves nightly-only keys
+  (dividends) — an on-demand rebuild no longer clobbers them.
+- Measured: NTES 18 annual yrs, rev $15.72B, DCF $115.63, P/E band sane;
+  15-ADR sweep OK (9 of 16 fall back to Yahoo's 4 yrs — IFRS filers lack
+  us-gaap XBRL tags; ifrs-full taxonomy support = deferred follow-up).
+- Tests 577/578 (pre-existing selenium failure in social-compose). New
+  `test/dossier-credits.test.js` (6 structural tests).
+- **Open**: refund for wrongly-charged users still deferred by owner
+  (`credits.grant()` is the idempotent tool; affected rows = dossier spends
+  with no matching company_dossiers doc). Full end-to-end NTES dossier build
+  on prod never run (user interrupted — costs real AI credits).
+- Gotcha hit: an AAPL-only `scripts/refresh-fundamentals.js` run rewrites
+  `top-100-fundamentals-index.json` with count=1 — always restore via
+  `git checkout` if a single-symbol run is used for testing.
+
 ## Public API + hosted MCP endpoint shipped, NOT deployed (9/11)
 
 Owner overrode `next-feature-ranking.md`'s "do not build" (3-buyer/rights-
