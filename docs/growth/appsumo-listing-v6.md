@@ -278,17 +278,21 @@ Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
 
 ## Owner checklist
 
-- [ ] **Email William: correct the "Uses AI: No" flag.** Do this first — every word here is
-      undercut while the marketplace formally declares this is not an AI tool. Independent of
-      everything else; send any time.
+- [x] **Emailed William: the "Uses AI: No" flag.** Sent 2026-09-11 to `partners@appsumo.com`,
+      subject *"StockPortfolio.pro — please correct the 'Uses AI' flag on our listing"*.
+- [x] **Emailed William: the copy, tier spec and classification.** Sent 2026-09-11, subject
+      *"StockPortfolio.pro — updated listing copy and tier spec"*. Carries the full copy, the
+      50/150/400 wallet with the per-action costs, the Monitor 1/4/8 ladder, and the
+      Best-for / Alternative-to / tag corrections. It states explicitly that existing buyers
+      keep their larger wallet permanently and only new redemptions get 50/150/400, so the
+      change is not read as a downgrade of sold licences.
 - [x] **Deploy `/api/v1` + `/mcp`** — confirmed live on production 2026-09-11, so Section 3
       ships with the rest. All five advertised tools verified 200 under a real key, and the
       REST prices verified against the wallet (12 credits for 4 lookups + 1 ask).
-- [ ] Approve the copy above.
+- [ ] **Reply to William with the three images** when he says where to send them — the email
+      asks. Keep the existing hero; only the three product shots change.
 - [ ] Set `STRIPE_PRICE_ID_CREDITS_TOPUP` on Render (`price_1UAUOtAUeKapY1OPUcSIaloi`), or
       leave the top-up line out. The route refuses to sell without it.
-- [ ] Re-check category and tags, including `mcp`/`api` once Section 3 ships.
-- [ ] Upload the image set (see `marketing/appsumo-listing-v6/README.md`).
 - [ ] Do **not** touch listing versions in the portal.
 
 ## What changed vs v5
