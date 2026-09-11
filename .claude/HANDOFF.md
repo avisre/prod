@@ -56,9 +56,46 @@ neutralized before running it for real. The only Stripe key on this machine is
 the **live** one (`backend/.env`), so there was no test-mode rehearsal path: no
 `sk_test_` key exists locally.
 
-**Next**: push `api-mcp-dev-tier` → `deploy-render.yml` → live checks →
-directory listings + `npm publish` → customer announcement copy (Step 6, not
-written yet).
+**LIVE (9/12)** — pushed and deployed; `origin/main` is `9cea8bab`. Verified
+against the real host, not the repo: `/api` 200 (18.5 kB, quotes $19.99/200 and
+carries the embeds section); both `/embed/*` routes 200 with `frame-ancestors *`
++ `X-Robots-Tag: noindex` + `s-maxage=900` and **zero** `/assets/` refs;
+`/tools/earnings-quality` publishes the iframe snippet while `/tools/dilution`
+stays panel-free; `POST /mcp` still 401s.
+
+**Deploys are half-broken — read this before the next push.** `deploy-render.yml`
+fails with `404 {"message":"not found: https://api.github.com/repositories/1105594471"}`
+— that id **is** `avisre/prod` (verified: unchanged, my push registered), so the
+GitHub side is fine and Render's GitHub App can no longer resolve this repo. It
+is intermittent, not new: the identical 404 hit at 01:03 and deploys at 07:35,
+13:46 and 14:38 then succeeded. A manual retry at 19:15 also 404'd, yet the code
+is live — so it deployed by some other path (Render dashboard, or Render's own
+on-push deploy). There is no workaround in-repo: no deploy hook secret exists
+(only `RENDER_API_KEY`, `ALPHA_VANTAGE_API_KEY`), the workflow sends only
+`{"clearCache":"do_not_clear"}`, and `repos/avisre/prod/hooks` is still empty.
+When the workflow's trigger 404s, the code may still have shipped — **check the
+live site, not the run's conclusion.** Owner fix: reconnect the repo in Render
+(service `srv-d4kc6schg0os73al6t10`, Settings → Build & Deploy → Repository).
+
+**The live `/api` page currently points at an npm package that does not exist.**
+It hands visitors `"command": "npx", "args": ["-y", "stockportfolio-mcp"]` and
+promises the seven tools appear — `registry.npmjs.org/stockportfolio-mcp` is
+**404**. `npm publish --dry-run` is clean (3 files, prepack = build + leak gate,
+name still free), so this is one `npm login` + `npm publish` away from being
+true. Until then the highest-traffic page promises a broken command.
+
+**Still unproven: the purchase path.** No public endpoint exposes the resolved
+price, `POST /api/checkout` is behind `authMiddleware` (401 before price
+resolution), and the only Stripe key here is live — so a test-mode rehearsal is
+impossible (no `sk_test_` key exists locally). Price resolution is verified by
+construction (env var written to the right service at 18:59, price active /
+1999 usd / month / exact product name / unique in the account), but nobody has
+completed a Dev checkout. Owner can confirm in 30s: `/api` → Dev buy button →
+Stripe shows $19.99/month, then abandon before paying.
+
+**Next**: `npm publish` (fixes the live page) → directory listings (slug is
+`io.github.avisre/stockportfolio-mcp`, confirmed from the remote + `gh auth
+status`) → customer announcement copy (Step 6, not written yet).
 
 ## Viral growth plan for the MCP + API — Phase 1 shipped (9/11, committed as 2ad99eae)
 
