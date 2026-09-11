@@ -221,11 +221,23 @@ GET /mcp            ->  401  {"error":"Missing API key. Pass Authorization: Bear
 The 401 rather than a 404 is the load-bearing part: the route and its key gate are both
 deployed. **Section 3 goes to William with the rest.**
 
-One caveat, stated plainly because it was not verified: the endpoints are live and
-authenticating, but whether every advertised tool returns correctly under a real key was not
-checked — that needs minting a key, which is a write to a production account. Worth one pass
-through `financials`, `filing`, `compare`, `screen` and `ask` before the listing sends buyers
-at them.
+**Every advertised tool was then exercised under a real key on production** (2026-09-11), so
+Section 3 does not point buyers at anything untested:
+
+| Tool | Endpoint | Result |
+|---|---|---|
+| financials | `GET /api/v1/financials/AAPL?tool=earnings-quality` | 200 |
+| filing | `GET /api/v1/filing/AAPL` | 200 |
+| compare | `GET /api/v1/compare?tickers=AAPL,MSFT` | 200 |
+| screen | `GET /api/v1/screen?tickers=AAPL,MSFT,NVDA` | 200 |
+| ask | `POST /api/v1/ask` | 200, answered from filed data |
+
+The wallet moved 155 → 167, i.e. exactly 12 credits for four lookups at 2 and one ask at 4 —
+so the published REST prices are the prices production actually charges. The key was minted
+for the test and revoked immediately afterwards.
+
+`/api/v1/fund` was deliberately not exercised: the listing does not advertise it, for the
+redistribution reason below.
 
 ### Why the fund endpoints are not advertised
 
@@ -270,7 +282,8 @@ Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
       undercut while the marketplace formally declares this is not an AI tool. Independent of
       everything else; send any time.
 - [x] **Deploy `/api/v1` + `/mcp`** — confirmed live on production 2026-09-11, so Section 3
-      ships with the rest. Still worth one authenticated pass over the advertised tools.
+      ships with the rest. All five advertised tools verified 200 under a real key, and the
+      REST prices verified against the wallet (12 credits for 4 lookups + 1 ask).
 - [ ] Approve the copy above.
 - [ ] Set `STRIPE_PRICE_ID_CREDITS_TOPUP` on Render (`price_1UAUOtAUeKapY1OPUcSIaloi`), or
       leave the top-up line out. The route refuses to sell without it.
