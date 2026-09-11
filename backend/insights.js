@@ -84,6 +84,14 @@ function buildFactPack(symbol) {
     L.push(`CASH: FCF latest $${f0 === null ? '—' : r1(f0 / 1e9)}B (FCF margin ${f0 !== null && rev(last) ? r1(f0 / rev(last) * 100) : '—'}%). OCF/netIncome ${o0 !== null && ni(last) ? r1(o0 / ni(last) * 100) / 100 : '—'}.`);
     const s0 = sh(last); const s5 = years.length > 5 ? sh(yr(5)) : null; const s10 = years.length > 10 ? sh(yr(10)) : null;
     L.push(`SHARES OUT: ${s0 ? r1(s0 / 1e9) + 'B' : '—'}; change 5y ${s0 && s5 ? r1((s0 / s5 - 1) * 100) + '%' : '—'}, 10y ${s0 && s10 ? r1((s0 / s10 - 1) * 100) + '%' : '—'}. Buybacks latest yr $${g(last, 'cash', 'paymentsForRepurchaseOfCommonStock') !== null ? r1(Math.abs(g(last, 'cash', 'paymentsForRepurchaseOfCommonStock')) / 1e9) : '—'}B, dividends $${g(last, 'cash', 'dividendPayout') !== null ? r1(Math.abs(g(last, 'cash', 'dividendPayout')) / 1e9) : '—'}B.`);
+    // For an ADR the filed share count is ORDINARY shares while price, market cap
+    // and EPS are all per ADS (NTES: 3.19B ordinary vs 640M ADS). Say so outright
+    // — the writers are instructed never to invent figures, so an unlabelled
+    // count invites netIncome ÷ shares, which is off by the ADS ratio.
+    const adsOut = num(ov.SharesOutstanding);
+    if (s0 && adsOut && adsOut > 0 && s0 / adsOut > 1.15) {
+        L.push(`ADS BASIS: the share count above is ORDINARY shares. The listed unit is the ADS, ${r1(adsOut / 1e9)}B outstanding (~${r1(s0 / adsOut)} ordinary per ADS). Price, market cap, dividend yield and EPS are all per ADS — never divide a total by the ordinary count to derive a per-share figure.`);
+    }
     const d0 = debt(last); const e0 = eq(last);
     L.push(`BALANCE SHEET: debt/equity now ${d0 !== null && e0 ? (d0 / e0).toFixed(2) : '—'} vs 5y ago ${years.length > 5 && debt(yr(5)) !== null && eq(yr(5)) ? (debt(yr(5)) / eq(yr(5))).toFixed(2) : '—'}. ROE now ${ni(last) !== null && e0 ? r1(ni(last) / e0 * 100) : '—'}%.`);
 
@@ -93,6 +101,12 @@ function buildFactPack(symbol) {
         month: k.slice(0, 7),
         close: num(ts[k]['5. adjusted close']) !== null ? num(ts[k]['5. adjusted close']) : num(ts[k]['4. close'])
     })).filter((m) => m.close !== null);
+    // NOTE ON SHARE BASIS (measured, not assumed): for an ADR, dilutedEPS is
+    // already quoted per ADS — NTES FY2025 files 7.31 against a price/PE-implied
+    // 7.50 — so price ÷ filed EPS is correct as-is and must NOT be rescaled.
+    // commonStockSharesOutstanding, however, is the ORDINARY count (NTES: 3.19B
+    // against 640M ADS). The two live on different bases inside the same payload,
+    // so derive per-share figures from EPS, never from netIncome ÷ shares.
     const peHist = [];
     for (let i = 0; i < Math.min(10, years.length); i++) {
         const y = yr(i);

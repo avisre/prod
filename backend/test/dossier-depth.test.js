@@ -22,7 +22,7 @@ function fakeCollection(docs) {
     };
 }
 
-const SCHEMA_VERSION = 5; // must track DOSSIER_SCHEMA_VERSION in dossier.js
+const SCHEMA_VERSION = 6; // must track DOSSIER_SCHEMA_VERSION in dossier.js
 
 test('a legacy dossier (no depth field) is served for a Standard request', async () => {
     const col = fakeCollection([

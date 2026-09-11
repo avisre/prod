@@ -86,6 +86,51 @@ const SECTIONS = [
 const SECTION_BUDGETS = { '1': 60000, '1A': 100000, '3': 10000, '7': 60000, '7A': 10000 };
 const CORE_KEYS = ['1', '1A', '3', '7', '7A'];
 
+// A foreign private issuer files Form 20-F, whose item scheme is unrelated to a
+// 10-K's: risk factors live at Item 3.D rather than 1A, the business description
+// at Item 4 rather than 1, and MD&A at Item 5 rather than 7. Running the 10-K
+// patterns over a 20-F therefore locates nothing at all, which is why every
+// filing-derived feature came back empty for NetEase and Alibaba.
+// Ordered by position in the document, as greedyWalk requires.
+const SECTIONS_20F = [
+    // Risk factors sit under "Item 3. Key Information" as a lettered subsection,
+    // and the heading in the body is the bare "D. Risk Factors" — the "Item 3"
+    // prefix appears only in cross-references ("see Item 3.D. 'Key Information —
+    // Risk Factors'"), which this cannot match because the quote entity and
+    // em-dash between them fall outside NAME. Requiring a separator after the "d"
+    // keeps it from matching a word that merely ends in one.
+    // A 20-F cross-references its own risk factors constantly ("see Item 3.D
+    // 'Key Information — Risk Factors — Risks Related to…'"), and those citations
+    // are textually identical to the heading, so no anchor pattern can separate
+    // them. Size does: the real section runs to tens of thousands of characters
+    // (NTES 100K+) while a citation spans a few thousand before the next heading.
+    // minChars makes repairShortPicks walk past them to the body.
+    { key: '3D', label: 'Risk Factors', minChars: 20000, re: /d[.:)\-–—]{1,2}riskfactors/g },
+    // Same citation problem as 3D, same size-based remedy: the business
+    // description and MD&A both run to tens of thousands of characters, while a
+    // "see Item 4 …" reference spans only as far as the next heading.
+    { key: '4',  label: 'Information on the Company', minChars: 15000, re: new RegExp(`item4[.:)\\-–—]{0,2}${NAME}informationonthecompany`, 'g') },
+    { key: '4A', label: 'Unresolved Comments',     re: /item4a[.:)\-–—]{0,2}unresolved/g },
+    { key: '5',  label: 'Operating and Financial Review', minChars: 15000, re: new RegExp(`item5[.:)\\-–—]{0,2}${NAME}operating(?:and)?financialreview`, 'g') },
+    { key: '8',  label: 'Financial Information',   re: new RegExp(`item8[.:)\\-–—]{0,2}${NAME}financialinformation`, 'g') },
+    { key: '11', label: 'Quantitative Risk',       re: new RegExp(`item11[.:)\\-–—]{0,2}${NAME}quantitative`, 'g') },
+    { key: '15', label: 'Controls',                re: /item15[.:)\-–—]{0,2}controls/g }
+];
+
+// Same sizing logic as the 10-K budgets: risk factors dominate, so 3.D gets the
+// largest allowance, with the business description and MD&A next.
+const SECTION_BUDGETS_20F = { '3D': 100000, '4': 60000, '5': 60000, '11': 10000 };
+const CORE_KEYS_20F = ['3D', '4', '5', '11'];
+
+// 40-F (Canadian MJDS) deliberately falls through to the 10-K profile: its
+// narrative lives in an attached Canadian AIF with no SEC item numbering at all,
+// so neither table fits and pretending otherwise would invent sections.
+function profileFor(form) {
+    return String(form || '').toUpperCase().startsWith('20-F')
+        ? { sections: SECTIONS_20F, keys: CORE_KEYS_20F, budgets: SECTION_BUDGETS_20F }
+        : { sections: SECTIONS, keys: CORE_KEYS, budgets: SECTION_BUDGETS };
+}
+
 // Walk sections in document order, each pick strictly after the previous one.
 function greedyWalk(hits, from) {
     let prev = from;
@@ -109,13 +154,15 @@ const MIN_SECTION_CHARS = 200;
 // like a real section or runs out of candidates.
 function repairShortPicks(picked, hits, total) {
     const positionsFor = new Map(hits.map((h) => [h.key, h.positions]));
-    for (let guard = 0; guard < 4; guard++) {
+    // Guard raised from 4: a 20-F can cite its own risk-factors section many
+    // times before the body heading, and each citation costs one iteration.
+    for (let guard = 0; guard < 12; guard++) {
         const located = picked.filter((s) => s.start !== null).sort((a, b) => a.start - b.start);
         let changed = false;
         for (let i = 0; i < located.length; i++) {
             const cur = located[i];
             const end = i + 1 < located.length ? located[i + 1].start : total;
-            if (end - cur.start >= MIN_SECTION_CHARS) continue;
+            if (end - cur.start >= (cur.minChars || MIN_SECTION_CHARS)) continue;
             const later = (positionsFor.get(cur.key) || []).find((p) => p > cur.start);
             if (later === undefined) continue;
             picked.find((s) => s.key === cur.key).start = later;
@@ -130,13 +177,13 @@ function repairShortPicks(picked, hits, total) {
 // (all Items listed within a few hundred chars of each other); the second,
 // starting past it, lands on the body. Filings with no TOC resolve on the
 // first walk, so keep whichever pass found more.
-function locateSections(compact) {
-    const hits = SECTIONS.map((s) => {
+function locateSections(compact, sectionTable = SECTIONS) {
+    const hits = sectionTable.map((s) => {
         const re = new RegExp(s.re.source, 'g');
         const positions = [];
         let m;
         while ((m = re.exec(compact)) !== null) positions.push(m.index);
-        return { key: s.key, label: s.label, positions };
+        return { key: s.key, label: s.label, positions, minChars: s.minChars };
     });
 
     const first = greedyWalk(hits, -1);
@@ -159,15 +206,19 @@ function fitToBudget(text, budget) {
 }
 
 // Extract the narrative sections of a filing.
-//   extractSections(html)                    -> core sections, budgeted
-//   extractSections(html, { keys, budgets }) -> override which/how much
+//   extractSections(html)                     -> core 10-K sections, budgeted
+//   extractSections(html, { form: '20-F' })   -> the 20-F item scheme instead
+//   extractSections(html, { keys, budgets })  -> override which/how much
 // Returns { text, sections: { KEY: {label, text, chars, trimmed} }, located, coverage }
-function extractSections(html, { keys = CORE_KEYS, budgets = SECTION_BUDGETS } = {}) {
+function extractSections(html, { keys, budgets, form } = {}) {
+    const profile = profileFor(form);
+    const useKeys = keys || profile.keys;
+    const useBudgets = budgets || profile.budgets;
     const text = typeof html === 'string' && /<[a-z!/]/i.test(html.slice(0, 4000))
         ? htmlToText(html)
         : String(html || '').replace(/\s+/g, ' ').trim();
     const { compact, map } = compactProjection(text);
-    const located = locateSections(compact).filter((s) => s.start !== null)
+    const located = locateSections(compact, profile.sections).filter((s) => s.start !== null)
         .sort((a, b) => a.start - b.start);
 
     const sections = {};
@@ -175,7 +226,7 @@ function extractSections(html, { keys = CORE_KEYS, budgets = SECTION_BUDGETS } =
     let keptTotal = 0;
     for (let i = 0; i < located.length; i++) {
         const cur = located[i];
-        if (!keys.includes(cur.key)) continue;
+        if (!useKeys.includes(cur.key)) continue;
         const startC = cur.start;
         const endC = i + 1 < located.length ? located[i + 1].start : compact.length;
         // map compact offsets back onto the original spaced text
@@ -183,7 +234,7 @@ function extractSections(html, { keys = CORE_KEYS, budgets = SECTION_BUDGETS } =
         const end = endC < map.length ? map[endC] : text.length;
         const body = text.slice(start, end).trim();
         if (body.length < MIN_SECTION_CHARS) continue;   // a cross-reference, not a section
-        const budget = budgets[cur.key] || 20000;
+        const budget = useBudgets[cur.key] || 20000;
         const kept = fitToBudget(body, budget);
         rawTotal += body.length;
         keptTotal += kept.length;
@@ -217,6 +268,9 @@ module.exports = {
     extractSections,
     sectionsAsText,
     compactProjection,
+    profileFor,
     CORE_KEYS,
-    SECTION_BUDGETS
+    SECTION_BUDGETS,
+    CORE_KEYS_20F,
+    SECTION_BUDGETS_20F
 };

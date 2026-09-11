@@ -90,7 +90,7 @@ test('the Ask route gates on the wallet OR the floor, never the floor alone', ()
 });
 
 test('the published listing matches credits.js exactly', () => {
-    const listing = read('docs/growth/appsumo-listing-v5.md');
+    const listing = read('docs/growth/appsumo-listing-v6.md');
     const { COST, LTD_CREDIT_ALLOWANCE_V2: WALLET } = credits;
 
     // The wallet row.
@@ -115,7 +115,13 @@ test('the published listing matches credits.js exactly', () => {
         ['Research Dossier', 'dossier_standard'],
         ['Filing Monitor report', 'monitor'],
         ['Compare two dossiers', 'dossier_compare'],
-        ['Ask a follow-up question', 'ask']
+        ['Ask a follow-up question', 'ask'],
+        // The programmatic surfaces. Listed here for the same reason as the four above:
+        // the listing publishes a price, so production has to charge that price.
+        ['MCP lookup', 'mcp_lookup'],
+        ['MCP ask', 'mcp_ask'],
+        ['REST API lookup', 'api_lookup'],
+        ['REST API ask', 'api_ask']
     ]) {
         assert.ok(
             listing.includes(`| ${label} | ${COST[key]} |`),
@@ -129,7 +135,7 @@ test('the published listing matches credits.js exactly', () => {
 });
 
 test('the listing never prices something the UI cannot invoke', () => {
-    const listing = read('docs/growth/appsumo-listing-v5.md');
+    const listing = read('docs/growth/appsumo-listing-v6.md');
     const dossierJs = read('frontend-v2/assets/dossier.js');
 
     // Deep Dossier is priced in credits.js but has no control in the UI — ?depth=deep
@@ -145,7 +151,7 @@ test('the listing never prices something the UI cannot invoke', () => {
 test('the listing publishes the Monitor caps the landing page already advertises', () => {
     // Only the copy is policed, not the "what changed vs v4" table below it, which
     // quotes the old line on purpose.
-    const listing = read('docs/growth/appsumo-listing-v5.md').split('## Before this is submitted')[0];
+    const listing = read('docs/growth/appsumo-listing-v6.md').split('## Before this is submitted')[0];
 
     // "Unlimited companies" was v4's most dangerous line: no tier grants unlimited
     // monitoring, and a published lifetime promise cannot be narrowed afterwards.
@@ -157,4 +163,41 @@ test('the listing publishes the Monitor caps the landing page already advertises
         listing.includes('| Companies watched by the Monitor | 1 | 4 | 8 |'),
         'the listing must publish the 1 / 4 / 8 Monitor ladder'
     );
+});
+
+test('the paste-ready .txt is in sync with the listing markdown', () => {
+    // The .txt is what actually gets pasted into the portal, but only the .md is
+    // guarded by the price checks above. If it is allowed to go stale, the copy
+    // that reaches a buyer can quote prices production no longer charges — the
+    // whole failure this file exists to prevent, one file further downstream.
+    const { execFileSync } = require('child_process');
+    const script = path.join(ROOT, 'scripts/render-appsumo-listing.js');
+    const fresh = execFileSync(process.execPath, [script, '--stdout'], { encoding: 'utf8' });
+    const onDisk = read('docs/growth/appsumo-listing-v6.txt');
+
+    // The generated header carries today's date; everything else must match.
+    const undated = (s) => s.replace(/^Generated from .* on \d{4}-\d{2}-\d{2}\.$/m, 'Generated.');
+    assert.equal(
+        undated(onDisk),
+        undated(fresh),
+        'docs/growth/appsumo-listing-v6.txt is stale — re-run: node scripts/render-appsumo-listing.js'
+    );
+});
+
+test('the listing never advertises a fund endpoint', () => {
+    // Only the copy is policed. The rationale below the marker names these routes on
+    // purpose, to explain why they are withheld.
+    const listing = read('docs/growth/appsumo-listing-v6.md').split('## Before this is submitted')[0];
+
+    // backend/public-api.md labels the fund profile route "Yahoo-derived, not
+    // redistributable", and corpus-license-terms.md says the same of quote-derived data
+    // generally. An AppSumo licence is permanent and cannot be narrowed afterwards — v4's
+    // "unlimited companies" is the standing precedent — so the advertised surface is the
+    // SEC-derived one only. The endpoint itself stays available to signed-in web users.
+    for (const route of ['sp_fund', '/api/v1/fund']) {
+        assert.ok(
+            !listing.includes(route),
+            `the listing must not advertise ${route} — we hold no redistribution rights to it`
+        );
+    }
 });

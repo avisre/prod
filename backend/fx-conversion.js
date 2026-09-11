@@ -2,11 +2,21 @@
 
 // USD presentation layer for foreign-reporter statements.
 //
-// The raw Yahoo/filing payload remains in the issuer's reporting currency.
-// Callers must opt in to conversion. Balance-sheet values use the fiscal-period
-// closing rate; income and cash-flow values use the average of month-end rates
-// over the reporting period. This mirrors the SEC's ASC 830 / S-X 3-20
-// presentation guidance without overwriting the source currency.
+// Balance-sheet values use the fiscal-period closing rate; income and cash-flow
+// values use the average of month-end rates over the reporting period. This
+// mirrors the SEC's ASC 830 / S-X 3-20 presentation guidance without losing the
+// source currency — every converted row keeps originalReportedCurrency,
+// fxRateToUSD and fxRateBasis, and the payload carries a currencyConversion
+// provenance block.
+//
+// Where this runs: fundamentals-fetch.js applies it once at the cache write, so
+// the stored payload is already USD for every filer. That is deliberate — ten
+// modules read that cache synchronously while fetching an FX series is async,
+// so the write is the only point that can serve all of them. Conversion is a
+// no-op for USD filers, and convertPayloadToUsd is idempotent (an
+// already-converted payload reports USD and is returned untouched), so the
+// opt-in route callers still use — presentFundamentalsCurrency in app.js, via
+// ?presentationCurrency=USD — remains safe to call on top of it.
 
 const yahooSource = require('./yahoo-source');
 

@@ -24,7 +24,11 @@ const mongoose = require('mongoose');
 const secSource = require('./sec-source');
 const aiChat = require('./ai-chat');
 
-const WATCH_FORMS = new Set(['10-K', '10-Q', '8-K', '10-K/A', '10-Q/A']);
+// 20-F/40-F are the foreign private issuer's and Canadian MJDS annual reports,
+// 6-K the furnished interim report that stands in for a 10-Q/8-K. Without them a
+// foreign filer's submissions look empty — NetEase files 25 20-Fs and 240 6-Ks
+// and not one 10-K/10-Q/8-K.
+const WATCH_FORMS = new Set(['10-K', '10-Q', '8-K', '10-K/A', '10-Q/A', '20-F', '20-F/A', '40-F', '6-K']);
 const SYMBOL_THROTTLE_MS = 200; // SEC fair-use is 10 req/s; stay well under
 const MAX_ALERTS_PER_USER = 200;
 
@@ -59,6 +63,11 @@ const WatchState = mongoose.models.WatchState || mongoose.model('WatchState', Wa
 
 // ---- SEC submissions ----
 async function fetchRecentFilings(symbol, forms = WATCH_FORMS, cap = 40) {
+  // Which annual report this caller is actually after. Was hardcoded to 10-K,
+  // which silently skipped CIK repair for foreign private issuers — they file
+  // 20-F (or 40-F for Canadian MJDS) and never a 10-K, so the repair path could
+  // never fire for exactly the filers whose CIK mapping is most often wrong.
+  const annualWanted = secSource.ANNUAL_FORMS.find((f) => forms.has(f)) || null;
   let cik = await secSource.cikFor(symbol);
   if (!cik) {
     // Not every filer is in the static company_tickers.json (2 of a 25-ticker
@@ -68,8 +77,8 @@ async function fetchRecentFilings(symbol, forms = WATCH_FORMS, cap = 40) {
     // of that file. Only worth trying when a 10-K is wanted; a null result
     // here is cached (see resolveWorkingCik), so a ticker with genuinely no
     // EDGAR filer only pays this extra request once.
-    if (!forms.has('10-K')) return null;
-    const found = await secSource.resolveWorkingCik(symbol, null, '10-K');
+    if (!annualWanted) return null;
+    const found = await secSource.resolveWorkingCik(symbol, null, annualWanted);
     if (!found) return null;
     cik = found;
   }
@@ -83,8 +92,8 @@ async function fetchRecentFilings(symbol, forms = WATCH_FORMS, cap = 40) {
   // that never files the form callers actually asked for (see
   // secSource.resolveWorkingCik — XOM is the case that surfaced this). Try
   // the corrected CIK once and re-fetch before giving up.
-  if (forms.has('10-K') && !(recent?.form || []).includes('10-K')) {
-    const altCik = await secSource.resolveWorkingCik(symbol, cik, '10-K');
+  if (annualWanted && !(recent?.form || []).includes(annualWanted)) {
+    const altCik = await secSource.resolveWorkingCik(symbol, cik, annualWanted);
     if (altCik && altCik !== cik) {
       cik = altCik;
       r = await axios.get(`https://data.sec.gov/submissions/CIK${cik}.json`, {

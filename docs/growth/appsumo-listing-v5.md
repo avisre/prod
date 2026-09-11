@@ -1,5 +1,9 @@
 # AppSumo listing v5 — Dossier and Monitor lead, credits are the meter
 
+> **SUPERSEDED by `appsumo-listing-v6.md`** (never submitted). Kept for the v4 comparison and
+> the Ask double-metering post-mortem below, which remain the record of why the meter is
+> shaped the way it is. `credit-meter-truth.test.js` now validates v6, not this file.
+
 > **STATUS: DRAFT. NOTHING SUBMITTED.** Owner reviews and approves before a single field
 > is changed. Supersedes `appsumo-listing-v4-credit-model.md`, which was report-first in
 > intent but still read as a feature list with Ask attached, and priced the product in an

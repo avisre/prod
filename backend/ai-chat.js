@@ -111,7 +111,7 @@ async function loadFundAny(symbol) {
         return payload;
     } catch (_) { return null; }
 }
-const NO_DATA = (symbol) => ({ error: `No data for ${symbol}. We cover US exchange-listed companies reporting in USD — foreign ADRs are not covered. Check the ticker symbol.` });
+const NO_DATA = (symbol) => ({ error: `No data for ${symbol}. We cover US exchange-listed SEC filers. Check the ticker symbol.` });
 
 // ---- Tool: get_financials ----
 const FIELDS = {
@@ -1315,7 +1315,10 @@ async function toolSearchWeb({ query }) {
 // for "latest" to be correct. Those confirmed-latest entries are merged in
 // and the combined list is always returned newest-first, so the model never
 // has to infer recency from relevance-ranked order.
-const PERIODIC_FILING_FORMS = new Set(['10-K', '10-Q']);
+// Includes the foreign private issuer's annual report: a 20-F filer has no 10-K,
+// so omitting it left the model unable to find the latest periodic filing for
+// any ADR.
+const PERIODIC_FILING_FORMS = new Set(['10-K', '10-Q', '20-F', '40-F']);
 async function toolSearchFilings({ query, ticker, forms, start_date, end_date, limit }) {
     const q = String(query || '').trim();
     if (!q) return { error: 'No query given.' };
@@ -1573,7 +1576,7 @@ const ASK_SYSTEM = [
     'GROUNDING (the most important rule): every figure you state MUST come from a tool result in THIS conversation. Call the tools — do not answer financial-data questions from memory. If the tools cannot provide something, say plainly that it is outside your data rather than estimating. Never silently blend in remembered numbers.',
     'RECENCY — LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — quarterlyReports are newest-first, so the row four down is the year-ago quarter — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
     'ANALYSIS & "WHAT-IF": many of the best questions are causal or hypothetical — "how would X affect Y", "what if…", "why does…". These want REASONING, not just a figure. The grounding rule governs concrete NUMBERS, not explanation: you may and should reason about how a business works, what drives a line item, and the mechanism linking a cause to an effect — only the actual numbers must come from tools. Tackle such a question by pulling what you CAN for the company in question (statements, segments, ratios, and the relevant risk-factor language via search_filings), then think the chain through step by step and quantify the impact wherever the pulled data lets you (e.g. apply operating leverage to an incremental-revenue scenario, using the real fixed-cost base).',
-    'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a foreign supplier, customer or rival (TSMC, a private firm, an ADR). Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
+    'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a private firm, or a foreign supplier, customer or rival with no US listing. (US-listed ADRs such as NTES or TSM ARE covered; their statements are converted to USD from the issuer\'s reporting currency.) Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',

@@ -26,23 +26,32 @@ const KEYPOINTS_VERSION = 2;
 // each prompt in a range the model actually attends to, lets a failed group
 // retry alone, and guarantees risk material is read rather than crowded out by
 // whatever happened to come first in the document.
+// keys20F maps each pass onto Form 20-F's unrelated item scheme: the business
+// description is Item 4 rather than 1/2, risk factors are Item 3.D rather than
+// 1A, and MD&A is Item 5 (with market risk at 11) rather than 7/7A.
 const PASSES = [
     {
         id: 'business',
         keys: ['1', '2'],
+        keys20F: ['4'],
         focus: 'what the company sells, its products/platforms, customers, segments, geographic mix, competition and workforce'
     },
     {
         id: 'risk',
         keys: ['1A', '3'],
+        keys20F: ['3D'],
         focus: 'the risks and legal exposures THIS company actually discloses — concentration, dependency, regulatory, litigation, supply, leverage. Prefer specific, company-particular risks over generic boilerplate'
     },
     {
         id: 'performance',
         keys: ['7', '7A'],
+        keys20F: ['5', '11'],
         focus: 'financial performance and its drivers — revenue/margin movement and WHY, segment results, liquidity, capital allocation, and management’s stated outlook'
     }
 ];
+
+const isForeignAnnual = (form) => String(form || '').toUpperCase().startsWith('20-F');
+const passKeys = (pass, form) => (isForeignAnnual(form) && pass.keys20F ? pass.keys20F : pass.keys);
 
 const EXTRACT_SYSTEM = [
     'You build a compact company dossier from SEC 10-K text. Reply with ONLY a JSON object, no prose, no markdown fences.',
@@ -93,8 +102,8 @@ async function extractOneFiling(symbol, tenK, { allowAi = true } = {}) {
     }
 
     const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 60e6 });
-    const extracted = filingSections.extractSections(r.data);
-    if (!Object.keys(extracted.sections).length) return { error: 'Could not read the 10-K text.' };
+    const extracted = filingSections.extractSections(r.data, { form: tenK.form });
+    if (!Object.keys(extracted.sections).length) return { error: `Could not read the ${tenK.form || '10-K'} text.` };
 
     const tryParse = (msg) => {
         try {
@@ -105,11 +114,11 @@ async function extractOneFiling(symbol, tenK, { allowAi = true } = {}) {
     };
 
     const runPass = async (pass) => {
-        const body = filingSections.sectionsAsText(extracted.sections, pass.keys);
+        const body = filingSections.sectionsAsText(extracted.sections, passKeys(pass, tenK.form));
         if (body.length < 800) return [];
         const call = (extra) => aiClient.chatRaw([
             { role: 'system', content: EXTRACT_SYSTEM },
-            { role: 'user', content: `Company: ${symbol}. 10-K filed ${tenK.date}.\nFocus on ${pass.focus}.${extra}\n\n${body}` }
+            { role: 'user', content: `Company: ${symbol}. ${tenK.form || '10-K'} filed ${tenK.date}.\nFocus on ${pass.focus}.${extra}\n\n${body}` }
         ], { purpose: 'summary', temperature: 0, maxTokens: 4000 });
         let parsed = tryParse(await call(''));
         if (!parsed) parsed = tryParse(await call(' REPLY WITH ONLY THE JSON OBJECT — your entire reply must parse as JSON.'));
@@ -140,7 +149,7 @@ async function extractOneFiling(symbol, tenK, { allowAi = true } = {}) {
         version: KEYPOINTS_VERSION,
         depth: 'standard',
         sections: sections.slice(0, 12),
-        filing: { form: '10-K', date: tenK.date, url: tenK.url },
+        filing: { form: tenK.form || '10-K', date: tenK.date, url: tenK.url },
         coverage: {
             sections: Object.keys(extracted.sections),
             chars: Object.values(extracted.sections).reduce((a, s) => a + s.chars, 0)
@@ -219,8 +228,11 @@ async function extractDeep(symbol, tenKs, { allowAi = true } = {}) {
 async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard' } = {}) {
     const filings = await watchdog.fetchRecentFilings(symbol);
     if (!filings) return { error: 'No SEC filings found for this company.' };
-    const tenKs = filings.filter((f) => f.form === '10-K' && f.url && /\.htm/i.test(f.url));
-    if (!tenKs.length) return { error: 'No 10-K found for this company.' };
+    // Any annual report, not literally a 10-K: a foreign private issuer files
+    // 20-F (40-F under the Canadian MJDS) and never a 10-K, so a literal match
+    // returned "No 10-K found" for every ADR.
+    const tenKs = filings.filter((f) => secSource.ANNUAL_FORMS.includes(f.form) && f.url && /\.htm/i.test(f.url));
+    if (!tenKs.length) return { error: 'No annual report (10-K or 20-F) found for this company.' };
 
     return depth === 'deep'
         ? extractDeep(symbol, tenKs.slice(0, 3), { allowAi })

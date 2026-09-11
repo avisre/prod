@@ -53,9 +53,11 @@ function narrativeWindows(text) {
     return out.slice(0, MAX_DOC_CHARS);
 }
 
-// Newest 10-K or 10-Q plus the previous filing of the same form.
+// Newest periodic report plus the previous filing of the same form. 20-F/40-F
+// are included so a foreign private issuer, which files no 10-K, can still be
+// compared year over year against its own prior annual report.
 async function latestPair(symbol) {
-    const filings = await watchdog.fetchRecentFilings(symbol, new Set(['10-K', '10-Q']), 12);
+    const filings = await watchdog.fetchRecentFilings(symbol, new Set(['10-K', '10-Q', '20-F', '40-F']), 12);
     if (!filings || !filings.length) return null;
     const latest = filings[0];
     const prev = filings.slice(1).find((f) => f.form === latest.form) || null;

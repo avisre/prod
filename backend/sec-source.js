@@ -137,16 +137,36 @@ const TOL = 14 * DAY;
 // with the facts blob when its 6h TTL evicts it.
 const _rowsCache = new WeakMap();
 
-function rowsFor(facts, tag) {
+// Which units bucket to read for a tag, given the currency the statements are
+// actually denominated in. A foreign private issuer's 20-F frequently carries a
+// USD *convenience translation* alongside the real figures — for some tags and
+// some years only (NTES: Revenues has CNY 2009-2014 but USD 2011-2014; Goodwill
+// is CNY-only). A blind units.USD preference therefore mixes two currencies
+// inside a single row. Never fall back to a different currency: a blank cell is
+// recoverable, a mis-denominated one is not.
+//
+// 'shares' (share counts) and 'pure' (ratios) carry no currency and are always
+// usable.
+function unitKeyFor(units, currency) {
+    if (!units) return null;
+    const cur = String(currency || 'USD').toUpperCase();
+    if (units[cur]) return cur;
+    if (units[`${cur}/shares`]) return `${cur}/shares`;
+    if (units.shares) return 'shares';
+    if (units.pure) return 'pure';
+    return null;
+}
+
+function rowsFor(facts, tag, currency = 'USD') {
     let perTag = _rowsCache.get(facts);
     if (!perTag) { perTag = new Map(); _rowsCache.set(facts, perTag); }
-    if (perTag.has(tag)) return perTag.get(tag);
+    const cacheKey = `${tag}|${String(currency || 'USD').toUpperCase()}`;
+    if (perTag.has(cacheKey)) return perTag.get(cacheKey);
 
     const out = [];
     const entry = facts[tag];
-    if (entry?.units) {
-        const unitKey = entry.units.USD ? 'USD'
-            : (entry.units['USD/shares'] ? 'USD/shares' : Object.keys(entry.units)[0]);
+    const unitKey = entry?.units ? unitKeyFor(entry.units, currency) : null;
+    if (unitKey) {
         for (const r of entry.units[unitKey] || []) {
             if (!Number.isFinite(r?.val)) continue;
             const end = Date.parse(r.end);
@@ -162,8 +182,29 @@ function rowsFor(facts, tag) {
             });
         }
     }
-    perTag.set(tag, out);
+    perTag.set(cacheKey, out);
     return out;
+}
+
+// The annual report forms we accept. 10-K is the US domestic filer; 20-F is the
+// foreign private issuer (NetEase, Alibaba, SAP); 40-F is the Canadian MJDS
+// equivalent. A 20-F filer has NO 10-K at all — NTES's EDGAR history is 25
+// 20-Fs and zero 10-Ks — so a hardcoded '10-K' meant every foreign issuer
+// resolved to an empty fact set and got no SEC history whatsoever.
+const ANNUAL_FORMS = ['10-K', '20-F', '40-F'];
+
+// Quarterly stays 10-Q-only on purpose. Foreign private issuers are not required
+// to file quarterly: NetEase reports quarterly through 6-K press-release
+// exhibits, which are not XBRL-tagged into companyfacts. Verified — every NTES
+// duration fact is 12-month/20-F, so there is nothing sub-annual to difference
+// and quarters for these filers come from Yahoo alone.
+const QUARTER_FORMS = ['10-'];
+
+function matchesForm(form, prefixes) {
+    if (!prefixes) return true;
+    const list = Array.isArray(prefixes) ? prefixes : [prefixes];
+    const f = String(form || '');
+    return list.some((p) => f.startsWith(p));
 }
 
 // Choose among candidate rows near a target end date: closest end date
@@ -176,7 +217,7 @@ function best(cands, target, preferForm) {
         const dr = Math.abs(r.end - target), dw = Math.abs(win.end - target);
         if (dr !== dw) { if (dr < dw) win = r; continue; }
         if (preferForm) {
-            const fr = r.form.startsWith(preferForm), fw = win.form.startsWith(preferForm);
+            const fr = matchesForm(r.form, preferForm), fw = matchesForm(win.form, preferForm);
             if (fr !== fw) { if (fr) win = r; continue; }
         }
         if (r.filed > win.filed) win = r;
@@ -185,9 +226,9 @@ function best(cands, target, preferForm) {
 }
 
 // Instant fact (balance sheet) at a point in time.
-function pickInstant(facts, tags, target) {
+function pickInstant(facts, tags, target, currency = 'USD') {
     for (const tag of tags) {
-        const cands = rowsFor(facts, tag).filter(r => r.days === null && Math.abs(r.end - target) <= TOL);
+        const cands = rowsFor(facts, tag, currency).filter(r => r.days === null && Math.abs(r.end - target) <= TOL);
         const win = best(cands, target);
         if (win) return win.val;
     }
@@ -196,9 +237,9 @@ function pickInstant(facts, tags, target) {
 
 // Duration fact (income / cash flow) whose period length falls in
 // [minDays, maxDays] and ends near the target date.
-function pickDuration(facts, tags, target, minDays, maxDays, preferForm) {
+function pickDuration(facts, tags, target, minDays, maxDays, preferForm, currency = 'USD') {
     for (const tag of tags) {
-        const cands = rowsFor(facts, tag).filter(r =>
+        const cands = rowsFor(facts, tag, currency).filter(r =>
             r.days !== null && r.days >= minDays && r.days <= maxDays &&
             Math.abs(r.end - target) <= TOL);
         const win = best(cands, target, preferForm);
@@ -210,12 +251,12 @@ function pickDuration(facts, tags, target, minDays, maxDays, preferForm) {
 // Discrete-quarter value ending at qEnd. Direct ~3-month fact when filed
 // (income statements), else difference two YTD facts sharing the same
 // fiscal-year start (cash flow Q2-Q4, income Q4 = FY − 9-month YTD).
-function pickQuarter(facts, tags, qEnd) {
-    const direct = pickDuration(facts, tags, qEnd, 75, 105);
+function pickQuarter(facts, tags, qEnd, currency = 'USD') {
+    const direct = pickDuration(facts, tags, qEnd, 75, 105, undefined, currency);
     if (direct !== null) return direct;
 
     for (const tag of tags) {
-        const rows = rowsFor(facts, tag);
+        const rows = rowsFor(facts, tag, currency);
         const ytds = rows.filter(r =>
             r.days !== null && r.days >= 160 && r.days <= 380 &&
             Math.abs(r.end - qEnd) <= TOL);
@@ -252,12 +293,12 @@ const MARKER_TAGS = [
 // trailing-twelve-month operating-cash-flow figure in every 10-Q, so a
 // 12-month duration alone does NOT mean "fiscal year end" — only 12-month
 // periods from a 10-K do.
-function periodEnds(facts, minDays, maxDays, formPrefix) {
+function periodEnds(facts, minDays, maxDays, formPrefix, currency = 'USD') {
     const ends = [];
     for (const tag of MARKER_TAGS) {
-        for (const r of rowsFor(facts, tag)) {
+        for (const r of rowsFor(facts, tag, currency)) {
             if (r.days === null || r.days < minDays || r.days > maxDays) continue;
-            if (formPrefix && !r.form.startsWith(formPrefix)) continue;
+            if (formPrefix && !matchesForm(r.form, formPrefix)) continue;
             ends.push(r.end);
         }
     }
@@ -270,14 +311,14 @@ function periodEnds(facts, minDays, maxDays, formPrefix) {
     return out; // ascending
 }
 
-function annualEnds(facts) {
-    return periodEnds(facts, 340, 380, '10-K');
+function annualEnds(facts, currency = 'USD') {
+    return periodEnds(facts, 340, 380, ANNUAL_FORMS, currency);
 }
 
-function quarterEnds(facts) {
+function quarterEnds(facts, currency = 'USD') {
     // Q1-Q3 come from discrete ~3-month facts; every fiscal year end is
     // also a Q4 end. Merge + recluster.
-    const all = periodEnds(facts, 75, 105, '10-').concat(annualEnds(facts));
+    const all = periodEnds(facts, 75, 105, QUARTER_FORMS, currency).concat(annualEnds(facts, currency));
     all.sort((a, b) => a - b);
     const out = [];
     for (const e of all) {
@@ -410,11 +451,11 @@ const CORE_FIELDS = {
 
 // kind: 'instant' (balance) | 'duration' (income/cash)
 // period: 'annual' | 'quarterly'
-function resolveField(facts, tags, end, kind, period) {
+function resolveField(facts, tags, end, kind, period, currency = 'USD') {
     if (!tags?.length) return null;
-    if (kind === 'instant') return pickInstant(facts, tags, end);
-    if (period === 'annual') return pickDuration(facts, tags, end, 340, 380, '10-K');
-    return pickQuarter(facts, tags, end);
+    if (kind === 'instant') return pickInstant(facts, tags, end, currency);
+    if (period === 'annual') return pickDuration(facts, tags, end, 340, 380, ANNUAL_FORMS, currency);
+    return pickQuarter(facts, tags, end, currency);
 }
 
 function formatValue(alphaField, val) {
@@ -427,11 +468,15 @@ function isoDate(ms) {
 }
 
 // Fill blank cells in rows that already exist (Yahoo's years).
-function backfillSection(reports, map, facts, kind, period) {
+function backfillSection(reports, map, facts, kind, period, currency = 'USD') {
     if (!facts || !reports?.length) return;
     for (const r of reports) {
         const end = Date.parse(r.fiscalDateEnding);
         if (!Number.isFinite(end)) continue;
+        // Fill from facts denominated the same way this row is. Filling a CNY
+        // row from a USD convenience translation is what produced mixed-currency
+        // rows before unitKeyFor existed.
+        const rowCurrency = String(r.reportedCurrency || currency || 'USD').toUpperCase();
         for (const [alphaField, xbrlTags] of Object.entries(map)) {
             // A literal 0 from Yahoo almost always means "not populated", not
             // a filed zero (e.g. AAPL gross profit 2022-25) — let SEC win.
@@ -439,7 +484,7 @@ function backfillSection(reports, map, facts, kind, period) {
             const present = existing !== '' && existing !== null && existing !== undefined
                 && existing !== 'None' && Number(existing) !== 0;
             if (present) continue;
-            const val = resolveField(facts, xbrlTags, end, kind, period);
+            const val = resolveField(facts, xbrlTags, end, kind, period, rowCurrency);
             if (val !== null && Number.isFinite(val)) {
                 r[alphaField] = formatValue(alphaField, val);
             }
@@ -449,18 +494,19 @@ function backfillSection(reports, map, facts, kind, period) {
 
 // Synthesize whole rows for periods EDGAR knows about but the reports
 // array doesn't cover.
-function extendSection(reports, map, facts, kind, period, ends, coreFields) {
+function extendSection(reports, map, facts, kind, period, ends, coreFields, currency = 'USD') {
     if (!facts || !Array.isArray(reports)) return;
     const have = reports
         .map(r => Date.parse(r.fiscalDateEnding))
         .filter(Number.isFinite);
 
+    const cur = String(currency || 'USD').toUpperCase();
     for (const end of ends) {
         if (have.some(t => Math.abs(t - end) <= TOL)) continue;
-        const row = { fiscalDateEnding: isoDate(end), reportedCurrency: 'USD' };
+        const row = { fiscalDateEnding: isoDate(end), reportedCurrency: cur };
         let coreHit = false;
         for (const [alphaField, xbrlTags] of Object.entries(map)) {
-            const val = resolveField(facts, xbrlTags, end, kind, period);
+            const val = resolveField(facts, xbrlTags, end, kind, period, cur);
             if (val !== null && Number.isFinite(val)) {
                 row[alphaField] = formatValue(alphaField, val);
                 if (coreFields.includes(alphaField)) coreHit = true;
@@ -475,12 +521,28 @@ function extendSection(reports, map, facts, kind, period, ends, coreFields) {
 
 const MAX_QUARTERS = 48; // ~12 years of quarterly history
 
+// The currency Yahoo stamped on the statements (yahoo-source stampCurrency),
+// which is the filer's real reporting currency. Everything pulled from EDGAR
+// must be read in this same denomination or the two sources cannot share a row.
+function payloadCurrency(payload) {
+    for (const node of [payload?.income, payload?.balance, payload?.cash]) {
+        for (const key of ['annualReports', 'quarterlyReports']) {
+            for (const r of (node || {})[key] || []) {
+                const c = String(r?.reportedCurrency || '').trim().toUpperCase();
+                if (c) return c;
+            }
+        }
+    }
+    return 'USD';
+}
+
 async function backfillStatements(symbol, payload) {
     const facts = await fetchCompanyFacts(symbol);
     if (!facts) return payload;
 
-    const annuals = annualEnds(facts);
-    const quarters = quarterEnds(facts).slice(-MAX_QUARTERS);
+    const currency = payloadCurrency(payload);
+    const annuals = annualEnds(facts, currency);
+    const quarters = quarterEnds(facts, currency).slice(-MAX_QUARTERS);
 
     const sections = [
         { node: payload.income, map: INCOME_MAP, kind: 'duration', core: CORE_FIELDS.income },
@@ -494,10 +556,10 @@ async function backfillStatements(symbol, payload) {
         if (!Array.isArray(s.node.quarterlyReports)) s.node.quarterlyReports = [];
         // Extend first (adds the deep-history rows), then backfill blanks
         // in the rows Yahoo supplied.
-        extendSection(s.node.annualReports, s.map, facts, s.kind, 'annual', annuals, s.core);
-        extendSection(s.node.quarterlyReports, s.map, facts, s.kind, 'quarterly', quarters, s.core);
-        backfillSection(s.node.annualReports, s.map, facts, s.kind, 'annual');
-        backfillSection(s.node.quarterlyReports, s.map, facts, s.kind, 'quarterly');
+        extendSection(s.node.annualReports, s.map, facts, s.kind, 'annual', annuals, s.core, currency);
+        extendSection(s.node.quarterlyReports, s.map, facts, s.kind, 'quarterly', quarters, s.core, currency);
+        backfillSection(s.node.annualReports, s.map, facts, s.kind, 'annual', currency);
+        backfillSection(s.node.quarterlyReports, s.map, facts, s.kind, 'quarterly', currency);
     }
 
     // GrossProfit is an optional XBRL tag many filers omit (and Yahoo wrote
@@ -572,4 +634,4 @@ async function resolveWorkingCik(symbol, mappedCik, form = '10-K') {
     return found;
 }
 
-module.exports = { backfillStatements, fetchCompanyFacts, cikFor, resolveWorkingCik, SEC_HEADERS };
+module.exports = { backfillStatements, fetchCompanyFacts, cikFor, resolveWorkingCik, SEC_HEADERS, ANNUAL_FORMS };

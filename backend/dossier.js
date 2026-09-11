@@ -20,7 +20,10 @@ const segments = require('./segments');
 const unitEconomics = require('./unit-economics');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
-const DOSSIER_SCHEMA_VERSION = 5; // bumped: added unitEconomics
+// bumped: statements are now stored USD-converted, and per-share figures are on
+// the ADS basis. Cached dossiers built before this assumed USD-native filers, and
+// the compare route reads them build-free — so they must not survive the change.
+const DOSSIER_SCHEMA_VERSION = 6;
 const analysis = require('./dossier-analysis');
 const governance = require('./governance');
 const esgMod = require('./esg');
@@ -247,7 +250,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     depth = depth === 'deep' ? 'deep' : 'standard';
 
     const data = await aiChat.loadFundAny(sym).catch(() => null);
-    if (!data) return { error: `No data for ${sym}. We cover US exchange-listed SEC filers reporting in USD.` };
+    if (!data) return { error: `No data for ${sym}. We cover US exchange-listed SEC filers. Check the ticker symbol.` };
     const overview = data.overview || {};
     const pack = insights.buildFactPack(sym); // gives the fiscal-year cache key
     const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
