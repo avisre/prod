@@ -1,6 +1,50 @@
 # Handoff
 
-## Viral growth plan for the MCP + API — Phase 1 shipped (9/11, uncommitted)
+## Deploy + market round (9/12) — Phases 2+3 committed, NOT pushed, NOT deployed
+
+Branch **`api-mcp-dev-tier`**, cut fresh from `origin/main` (see below) with two
+cherry-picks on top: `2ad99eae` (Dev plan) and the Phase 2+3 commit. Backend
+604/605 — only the pre-existing selenium `social-compose` failure. mcp-server
+11/11, `npm pack` = 3 files (README + dist/server.js + package.json), leak gate
+clean. Nothing is live.
+
+**`funds/bond-credit-quality` is a dead end — do not merge it.** It is based on
+an old main: `origin/main` is **28 commits ahead** of it and already contains
+`7c3de09f` (progressive dossiers) plus newer work (`frontend-v2/1668f45a…txt`,
+`discovered-compares.test.js`, the bot-blocker fix). Merging the old branch
+would drag main backwards; branch off `origin/main` and cherry-pick instead.
+The one conflict was a line-count NOTE in this file.
+
+**Verified, not assumed — the deploy order gate is real.** With no
+`STRIPE_PRICE_ID_DEV` in Render, `resolveStripeCheckoutPlan` falls back to the
+unconfigured plan config and the checkout route throws
+`500 "<plan> Stripe price is not configured"` ([app.js:4539](backend/app.js#L4539)).
+So the **owner's Stripe step must land before the push**, or the Dev buy button
+500s on the live site. The price is $19.99/mo on the existing product
+`stockportfolio.pro`; `scripts/create-dev-stripe-price.sh` creates it and prints
+the `gh workflow run set-render-env.yml` line (the owner types the value).
+
+**Phase 2 (npm)** — `mcp-server/src/bridge.js` is a real stdio↔Streamable-HTTP
+bridge to `POST /mcp`; the published bundle carries no backend code. Default URL
+is the **www** host on purpose: the apex answers 307 → www and `fetch` drops
+`Authorization` across a host-changing redirect (measured against a local 307 →
+`{"sawAuth":null}`). `prepack` = esbuild bundle + `no-leak-check.js`, so publish
+fails closed on any provider-adjacent string. npm name `stockportfolio-mcp` is
+free (E404).
+
+**Phase 3 (embeds)** — `/embed/earnings-quality` and `/embed/filing-timeline`
+via [embed-widgets.js](backend/embed-widgets.js) + [embed-config.js](backend/embed-config.js)
+(SSR, one `<iframe>`, no key, `frame-ancestors *`, `X-Robots-Tag: noindex`,
+`s-maxage=900`). All CSS inline and **no `/assets/` reference**, so the widgets
+stay out of the `?v=` cache-stamp cascade — `test/embed-widgets.test.js` pins
+that. The tool pages and the renderer share `embed-config`, and a test asserts
+the published snippet's `src` resolves on the mounted route.
+
+**Next**: owner Stripe price → `STRIPE_PRICE_ID_DEV` → push `api-mcp-dev-tier`
+→ `deploy-render.yml` → live checks → directory listings + `npm publish` →
+customer announcement copy (Step 6, not written yet).
+
+## Viral growth plan for the MCP + API — Phase 1 shipped (9/11, committed as 2ad99eae)
 
 Full plan: `~/.claude/plans/i-wan-to-advertsie-snappy-llama.md`. Owner decisions
 locked: cheap self-serve Dev plan (not free), npm publish with a CLOSED-SOURCE

@@ -1062,7 +1062,7 @@ function renderApiLanding() {
     "stockportfolio": {
       "command": "npx",
       "args": ["-y", "stockportfolio-mcp"],
-      "env": { "SP_API_KEY": "sp_live_..." }
+      "env": { "STOCKPORTFOLIO_API_KEY": "your-key-here" }
     }
   }
 }`;
@@ -1119,7 +1119,7 @@ function renderApiLanding() {
       <tr><td><code>sp_compare</code></td><td><code>GET /api/v1/compare?tickers=</code></td><td>1 / 2</td></tr>
       <tr><td><code>sp_screen</code></td><td><code>GET /api/v1/screen?tickers=</code></td><td>1 / 2</td></tr>
       <tr><td><code>sp_fund</code></td><td><code>GET /api/v1/fund/:symbol</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>2 / 4</td></tr>
+      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>4 / 8</td></tr>
       <tr><td><code>sp_health</code></td><td><code>GET /api/v1/health</code></td><td>free</td></tr>
     </tbody>
   </table>
@@ -1128,6 +1128,9 @@ function renderApiLanding() {
   ${S('Add it to Claude Desktop or Cursor', `<p>Publish once, use everywhere: the MCP server is a single command, and the key is the only configuration.</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(mcpConfig)}</pre>
     <p>Drop that into your client's MCP config file and the seven tools appear in the tool list. See the <a href="/licensing#mcp-api">licensing page</a> for the full tool reference.</p>`)}
+
+  ${S('Free embeds, no key', `<p>Not ready for an API key? Two of these widgets drop onto any site as a single <code>&lt;iframe&gt;</code> — a filing-grounded earnings-quality card and an SEC filing timeline, rendered server-side, no JavaScript and no key. They are free to embed and carry a link back to the full filing trail.</p>
+    <p><a href="/tools/earnings-quality#embed">Get the embed snippet &rarr;</a></p>`)}
 
   ${S('What it is, and what it is not', `<ul>
       <li><strong>Filed, not estimated.</strong> Figures are computed deterministically from 10-K/10-Q filings across 6,000+ US companies. No analyst estimates, no model-guessed numbers.</li>
@@ -1179,8 +1182,8 @@ function renderLicensing() {
     <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
     <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, or the top AppSumo/DealMirror lifetime tier. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
     <ul>
-      <li><strong>MCP</strong> — 1 credit per lookup, 2 credits per AI-backed ask. The cheaper, agent-native on-ramp.</li>
-      <li><strong>REST API</strong> — 2 credits per lookup, 4 credits per ask (exactly 2x MCP).</li>
+      <li><strong>MCP</strong> — 1 credit per lookup, 4 credits per AI-backed ask. The cheaper, agent-native on-ramp.</li>
+      <li><strong>REST API</strong> — 2 credits per lookup, 8 credits per ask (exactly 2x MCP).</li>
       <li>Both spend from the same monthly AI-credit wallet your plan already includes — no separate quota to track.</li>
       <li>Fund data (<code>sp_fund</code> / <code>/api/v1/fund/:symbol</code>) is Yahoo-derived, not SEC-filed, and is for your own research — not for redistribution.</li>
     </ul>

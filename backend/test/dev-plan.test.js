@@ -261,8 +261,13 @@ test('the API landing page renders, prices the Dev plan, and carries the real ex
     // sits inside esc(), so its quotes arrive HTML-escaped — match that form,
     // not the raw one, or this assertion passes on a page that renders broken.
     assert.match(html, /&quot;mcpServers&quot;/, 'includes the MCP client config snippet');
-    assert.match(html, /&quot;SP_API_KEY&quot;/, 'shows where the key goes');
+    assert.match(html, /&quot;STOCKPORTFOLIO_API_KEY&quot;/, 'shows where the key goes');
     assert.match(html, /stockportfolio-mcp/, 'names the npm package');
+    // The metering table must match credits.js COST. It silently kept the
+    // pre-reprice ask prices (2/4) after the 2x-frontier change, on the one page
+    // whose whole job is telling a developer what a call costs — so pin it.
+    assert.match(html, /<tr><td><code>sp_ask<\/code><\/td><td><code>POST \/api\/v1\/ask<\/code><\/td><td>4 \/ 8<\/td><\/tr>/, 'the ask row quotes the live mcp_ask/api_ask cost');
+    assert.ok(!/>2 \/ 4</.test(html), 'no row still quotes the retired 2/4 ask price');
     // Every one of the seven tools is listed, so the page can't quietly fall
     // behind the endpoint list.
     for (const tool of ['sp_financials', 'sp_filing', 'sp_compare', 'sp_screen', 'sp_fund', 'sp_ask', 'sp_health']) {

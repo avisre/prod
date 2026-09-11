@@ -34,6 +34,7 @@ const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
+const embedWidgets = require('./embed-widgets');
 const verifyHeadline = require('./verify');
 const marketingAttribution = require('./marketing-attribution');
 const growthMeasurement = require('./growth-measurement');
@@ -394,6 +395,18 @@ app.use('/api/track/page_view', pageViewLimiter);
 const freeToolLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 60,
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Embed widgets are a page-view surface, not a per-action one: one person
+// reading a blog post with two embeds spends two of these, and the same IP
+// behind a company network can spend a lot. Sized well above honest reading
+// (a 300/15min cap is ~1 embed load every 3 seconds for the whole window) and
+// still far below what a scraper pulling the widget per ticker would need.
+const embedLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
   standardHeaders: true,
   legacyHeaders: false
 });
@@ -2254,6 +2267,14 @@ for (const definition of Object.values(freeTools.TOOL_DEFINITIONS)) {
         res.set('Cache-Control', 'no-cache').type('html').send(freeTools.renderToolPage(definition.slug));
     });
 }
+// Embeddable widgets — see backend/embed-widgets.js. The one surface on this
+// site meant to be framed by other domains, so it sets its own CSP
+// (frame-ancestors *) in place of helmet's 'self'. It is server-rendered and
+// references no /assets file, which keeps it out of the ?v= cache-stamp
+// cascade; X-Robots-Tag keeps it out of the index while the badge link inside
+// it is what a reader clicks.
+embedWidgets.mountEmbedRoutes(app, { limiter: embedLimiter });
+
 app.get('/api/free-tools/:tool', freeToolLimiter, async (req, res) => {
     const tool = String(req.params.tool || '').trim().toLowerCase();
     try {
