@@ -1,5 +1,82 @@
 # Handoff
 
+## Revenue-integrity fixes from the growth.md audit (9/12) — committed, NOT pushed
+
+Six independent fixes, all `node --test` verified (628/629 — the one failure is
+the pre-existing, unrelated `social-compose` selenium gap, proven pre-existing
+by stashing and re-running on clean HEAD), zero regressions.
+Triggered by `growth.md`: 37 checkout sessions created all-time, 0 paid.
+
+**A verification pass on 9/13 re-confirmed all six bugs empirically and found
+the first pass had been under-inclusive in three sibling paths — now closed.
+See "gap closures" at the end of this entry.**
+
+1. **Retired plan ids (`pro`/`power`/`power-monthly`) 500'd or mis-sold.**
+   `remapRetiredPlanId()`/`RETIRED_PLAN_ID_REMAP` map them to `pro-annual` at
+   every checkout entry point (email login-resume gate, `/api/auth/social`
+   resume gate, `POST /api/checkout`), plus `register.html` and the in-app
+   "Upgrade to Pro" CTAs, which previously linked `?plan=pro` and silently
+   charged Monthly via the `!PLANS[plan]` fallback. **Different bug from the
+   already-tracked Dev-price gate below** — this one has no live price by
+   design, not a missing env var. Cache stamp bumped `20260907-aipaper3` →
+   `20260912-planfix1` (touched `assets/app.js`).
+2. **Stripe webhook swallowed processing failures into a 200.** All **8**
+   branch-level catches (`checkout.session.completed`, both
+   `async_payment_*`, `invoice.paid`, refund, dispute, subscription
+   updated/deleted) now `return res.status(500)` on a real error instead of
+   `console.error`-and-200, so Stripe redelivers instead of considering a
+   failed, possibly-paid event permanently handled. The signature-failure
+   catch deliberately stays 400 — an unverifiable signature is not transient.
+3. **CSP blocked the 3-D Secure challenge frame.** Added
+   `hooks.stripe.com` to `frameSrc`/`formAction` — the account is GB, so SCA
+   applies to most cards.
+4. **AppSumo `migrate` webhook silently downgraded licence tier**, and
+   `upgrade`/`downgrade` could `findOne({licenseKey: undefined})` → first
+   doc in the collection → wrong user re-granted. Both fixed; reproduces the
+   `khaledaziz130@gmail.com` tier mismatch found in `growth.md` §10.
+5. **AppSumo refund never cleared `appsumoTier`/`appsumoRedeemedAt`** — a
+   refunded lifetime buyer kept the full credit wallet and permanent
+   API/MCP access. `revokeAppSumoAccess` now clears both (mirrors
+   `revokeDealMirrorAccess`) and guards an active Stripe subscriber;
+   `hasApiAccess` now checks `subscription.status !== 'cancelled'`.
+6. **GA4 never received `sign_up`/`begin_checkout`/`purchase`** — consent
+   was never threaded to those events, and a server-originated one (the
+   Stripe webhook) has no request to source a clientId from anyway. Added
+   `User.analyticsConsent` (+ `PendingSignup.consent` for paid-first, no
+   live request exists at materialization), and `logFunnelEvent` now falls
+   back to the persisted value when the caller supplied no consent signal
+   at all. Still a no-op until `GA4_MP_ENABLED=true` on Render.
+
+**Still open, unchanged by this pass:** the owner's live purchase+refund test
+(never done, ever — the one thing that actually proves a card can be charged),
+secret rotation status, `STRIPE_PRICE_ID_CREDITS_TOPUP` on Render, the 4
+AppSumo tier-1 refunds' root cause (asked, not yet confirmed by AppSumo).
+
+**Gap closures (9/13 verification pass).** The 9/12 pass fixed the right bugs
+but missed three sibling paths carrying the same defects. All three were
+latent — none was reachable by a current user — and all three are now closed
+and covered by `test/checkout-resilience.test.js` (which also gives bugs 1 and
+2 their first test coverage; the 9/12 pass added tests only for bugs 4-6):
+- `POST /api/checkout` **defaulted to `'pro'`** — a retired id — so any
+  plan-less call 500'd. Now `remapRetiredPlanId(normalizePlanSelection(plan
+  || PRO_ANNUAL_PLAN_ID))`.
+- The `/api/auth/social` login-resume gate passed the raw stored planId,
+  unlike the email gate that was fixed. (Checked live: all 6 pending users on
+  a retired plan are email-auth, so nobody was actually hitting it.)
+- `checkout.session.async_payment_succeeded` still swallowed into a 200 —
+  and it calls `handleChinaAnnualPassPaid`, i.e. it grants entitlement after
+  payment. Latent only because the Alipay/WeChat path is disabled.
+
+**Known, deliberately left:** the nested `Stripe initial invoice lookup failed`
+catch inside `checkout.session.completed` is still best-effort (it only gates
+`initialPaymentAt`/refund-window recording, and `invoice.paid` records the same
+thing as a second chance). CSP also still omits `*.js.stripe.com`, which Stripe
+documents for `frame-src`/`script-src` — performance-related, not a blocker.
+
+**This file is 1,100+ lines against its own 160-line budget — flagged to the
+owner, not trimmed here** (real judgment calls about what's still load-bearing;
+out of scope for this pass).
+
 ## Deploy + market round (9/12) — Phases 2+3 committed, NOT pushed, NOT deployed
 
 Branch **`api-mcp-dev-tier`**, cut fresh from `origin/main` (see below) with two

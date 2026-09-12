@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260907-aipaper3" />
+  <link rel="stylesheet" href="assets/system.css?v=20260912-planfix1" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -164,7 +164,7 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20260907-aipaper3"></script>
+  <script src="assets/app.js?v=20260912-planfix1"></script>
   <script src="assets/social.js?v=20260831-paidfirst1"></script>
   <script>
     V2.nav('register');
@@ -190,7 +190,7 @@
         features: ['Everything in the Monthly plan', 'Save $100 a year vs monthly — $16.67/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
       },
       // Pro monthly is retired — the picker's Pro card is pro-annual, and a
-      // stale ?plan=pro URL falls back to Monthly via the !PLANS guard.
+      // ?plan=pro URL is remapped to it above (RETIRED_PLAN_REMAP).
       'pro-annual': {
         name: 'Pro', amount: '$499.99', cadence: 'per year',
         note: 'Billed today, renews yearly — the analyst tier with the Filing Change Monitor. Everything in Monthly, plus the AI analyst.',
@@ -235,7 +235,16 @@
     // Dev joins them: it is reached from /api, and a developer who arrived to
     // buy API access should see that checkout and nothing else.
     const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk', 'dev']);
+    // pro / power / power-monthly are retired rungs (2026-08-31 ladder cut) —
+    // no Stripe price is configured for them any more, so letting a link land
+    // here unmapped either 500s at checkout (power, power-monthly still had
+    // real PLANS cards below) or silently falls back to Monthly (pro, via the
+    // !PLANS guard) when the visitor was promised Pro. Remap to the current
+    // equivalent rung before either of those can happen — same mapping
+    // already approved for the pending-checkout recovery email.
+    const RETIRED_PLAN_REMAP = { pro: 'pro-annual', power: 'pro-annual', 'power-monthly': 'pro-annual' };
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
+    plan = RETIRED_PLAN_REMAP[plan] || plan;
     if (!PLANS[plan]) plan = 'monthly';
     const cardPlan = (p) => p; // Pro is sold as pro-annual only (2026-08-31 cut)
     function syncPlan() {

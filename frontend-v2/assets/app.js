@@ -705,7 +705,7 @@
             <h3>That's your ${limit} Ask questions for this month.</h3>
             <p class="sub">Upgrade to keep going — comparisons, screens, portfolio Q&amp;A, with charts, tables and a source under every figure. The counter resets on the 1st either way.</p>
             <div class="ask-plans">${cards}</div>
-            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=pro">Start Pro checkout</a>
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=pro-annual">Start Pro checkout</a>
             <p class="small faint" style="margin-top:14px;">Not ready to pay? <a href="/verify.html">Verify one headline against the filing — free, no account.</a></p>
           </div>
         </div>`;
@@ -1143,17 +1143,17 @@
     async function startUpgrade(e) {
         if (e) e.preventDefault();
         const t = token();
-        if (!t) { location.href = '/register.html?plan=pro'; return; }
+        if (!t) { location.href = '/register.html?plan=pro-annual'; return; }
         try {
             const r = await fetch(`${V2.API}/checkout`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
-                body: JSON.stringify({ plan: 'pro', next: 'dashboard.html' })
+                body: JSON.stringify({ plan: 'pro-annual', next: 'dashboard.html' })
             });
             const d = await r.json().catch(() => ({}));
             if (r.ok && d.url) { location.href = d.url; return; }
         } catch (_) { /* fall through to the register page */ }
-        location.href = '/register.html?plan=pro';
+        location.href = '/register.html?plan=pro-annual';
     }
 
     // Returns the /api/session payload (or null) so the caller can reuse it —

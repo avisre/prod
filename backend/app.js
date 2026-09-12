@@ -157,6 +157,15 @@ function hasApiAccess(req) {
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
     if (active && ['power', 'power-monthly', 'desk', 'dev'].includes(sub.planId)) return true;
     const user = req.user;
+    // A lifetime AppSumo/DealMirror grant has no billing cycle, so it isn't
+    // covered by the `active` check above — its own planId is 'pro', not one
+    // of the four here. That means this fallback is the ONLY gate for it, so
+    // it must respect a revocation: revokeAppSumoAccess/revokeDealMirrorAccess
+    // both set subscription.status to 'cancelled' on refund. Without this
+    // check, a refunded tier-3 buyer whose appsumoTier/dealMirrorTier a future
+    // bug or a missed reconcile pass failed to clear would keep API/MCP
+    // access forever, tier alone being sufficient.
+    if (sub.status === 'cancelled') return false;
     return Boolean(user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3));
 }
 function apiAccessGate(req, res, next) {
@@ -353,8 +362,13 @@ app.use(helmet({
       fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
       imgSrc: ["'self'", 'data:', 'blob:', 'https:'],
       connectSrc: ["'self'", 'https:'],
-      frameSrc: ["'self'", 'https://accounts.google.com', 'https://www.youtube.com', 'https://www.youtube-nocookie.com', 'https://js.stripe.com', 'https://checkout.stripe.com'],
-      objectSrc: ["'none'"], baseUri: ["'self'"], formAction: ["'self'"], frameAncestors: ["'self'"]
+      // hooks.stripe.com renders the 3-D Secure (SCA) challenge — required in
+      // frameSrc so the challenge iframe can load, and in formAction so the
+      // frame's own top-level POST back to the card issuer's ACS isn't blocked.
+      // The account is GB, so SCA applies to most cards; without these two,
+      // a checkout can stall at requires_action and look identical to abandonment.
+      frameSrc: ["'self'", 'https://accounts.google.com', 'https://www.youtube.com', 'https://www.youtube-nocookie.com', 'https://js.stripe.com', 'https://checkout.stripe.com', 'https://hooks.stripe.com'],
+      objectSrc: ["'none'"], baseUri: ["'self'"], formAction: ["'self'", 'https://hooks.stripe.com'], frameAncestors: ["'self'"]
     }
   },
   crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
@@ -1037,6 +1051,24 @@ function normalizePlanSelection(value) {
     return MONTHLY_PLAN_ID;
   }
   return MONTHLY_PLAN_ID;
+}
+
+// A pending (never-paid) account can carry a retired plan id from before the
+// 8/31 ladder simplification — pro / power / power-monthly have no
+// STRIPE_PRICE_ID_* configured any more (deliberately: they're legacy-only,
+// see LEGACY_PLAN_PRICE_SPECS), so resuming checkout on the stored id throws
+// "Stripe price is not configured". This does NOT apply to anyone with an
+// active legacy subscription — those callers never reach this helper, since
+// the login-resume gate only fires when subscriptionIsActive() is false, i.e.
+// there is no real Stripe price to preserve. Mirrors the rung mapping already
+// approved for the 9/1 warm-lead recovery email (pro/power -> Pro Annual).
+const RETIRED_PLAN_ID_REMAP = Object.freeze({
+  [PRO_PLAN_ID]: PRO_ANNUAL_PLAN_ID,
+  [POWER_PLAN_ID]: PRO_ANNUAL_PLAN_ID,
+  [POWER_MONTHLY_PLAN_ID]: PRO_ANNUAL_PLAN_ID
+});
+function remapRetiredPlanId(planId) {
+  return RETIRED_PLAN_ID_REMAP[planId] || planId;
 }
 
 function getPlanConfig(value) {
@@ -2362,7 +2394,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260912-planfix1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2391,7 +2423,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper3"></script>
+<script src="/assets/app.js?v=20260912-planfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2475,7 +2507,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260912-planfix1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2503,7 +2535,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper3"></script>
+<script src="/assets/app.js?v=20260912-planfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2607,7 +2639,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260907-aipaper3" />
+<link rel="stylesheet" href="/assets/system.css?v=20260912-planfix1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2640,7 +2672,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260907-aipaper3"></script>
+<script src="/assets/app.js?v=20260912-planfix1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2809,6 +2841,13 @@ const UserSchema = new mongoose.Schema({
     analyticsAnonymousId: { type: String, default: null, index: true },
     analyticsFirstTouch: { type: mongoose.Schema.Types.Mixed, default: null },
     analyticsLastNonDirectTouch: { type: mongoose.Schema.Types.Mixed, default: null },
+    // Proven true only via an explicit consent flag on a live browser request
+    // (signup, or /api/track/event's own hard consent check) — never inferred.
+    // Lets a later SERVER-originated event for this user (a Stripe webhook,
+    // with no request/cookie context of its own) still resolve a real
+    // consent + clientId for GA4, instead of never being able to report a
+    // conversion at all. See logFunnelEvent's GA4 block.
+    analyticsConsent: { type: Boolean, default: false },
     // New paid-first registrations receive a seven-day, first-payment refund
     // window. These fields contain billing state only; no card data is stored.
     paymentRequiredAt: { type: Date, default: null },
@@ -2861,6 +2900,11 @@ const PendingSignupSchema = new mongoose.Schema({
     stripeSessionId: { type: String, default: null, index: true },
     signupUtm: { type: mongoose.Schema.Types.Mixed, default: null },
     attribution: { type: mongoose.Schema.Types.Mixed, default: null },
+    // Proven analytics consent from the live checkout submission — the only
+    // moment before the paid-first account exists that has a real browser
+    // request. Carried to the User doc at materialization; see
+    // attachSignupAttribution.
+    consent: { type: Boolean, default: false },
     // Set once the payment lands and the account is created. Also the
     // idempotency marker: a redelivered webhook finds the user here instead
     // of creating a second one.
@@ -3313,11 +3357,17 @@ function requestUtm(req) {
 }
 
 function attachSignupAttribution(user, requestFields) {
-    const attribution = requestFields && requestFields.attribution;
-    if (!user || !attribution) return;
-    user.analyticsAnonymousId = String(attribution.anonymousId || '').slice(0, 80) || null;
-    user.analyticsFirstTouch = attribution.firstTouch || null;
-    user.analyticsLastNonDirectTouch = attribution.lastNonDirectTouch || null;
+    if (!user || !requestFields) return;
+    const attribution = requestFields.attribution;
+    if (attribution) {
+        user.analyticsAnonymousId = String(attribution.anonymousId || '').slice(0, 80) || null;
+        user.analyticsFirstTouch = attribution.firstTouch || null;
+        user.analyticsLastNonDirectTouch = attribution.lastNonDirectTouch || null;
+    }
+    // Only ever write `true`: the schema default (false) already covers every
+    // caller that has no consent signal to offer, so there is nothing to do
+    // in that case — never write a false/undefined signal over a true one.
+    if (requestFields.consent === true) user.analyticsConsent = true;
 }
 
 function eventTypeFor(event, extra = {}) {
@@ -3418,10 +3468,31 @@ async function logFunnelEvent(event, userId, plan, extra) {
             // Do not duplicate sensitive customer-success text in analytics.
             meta: metaForFunnel(safeData)
         });
-        if (canonical && data.consent === true && !canonical.internalFlag && !canonical.testFlag && !canonical.botFlag) {
+        // A server-originated event (the Stripe webhook, a background job)
+        // has no request or cookie of its own, so data.consent is simply
+        // undefined for it — never explicitly true or false. That silently
+        // dropped sign_up/begin_checkout/purchase from ever reaching GA4,
+        // since only a live browser request could ever prove consent.
+        // Fall back to what the account itself recorded, at signup or via a
+        // later /api/track/event consent proof — but only when the caller
+        // supplied no consent signal at all (undefined), never overriding an
+        // explicit false. Gated on ga4Server.enabled() so this never costs an
+        // extra query while GA4_MP_ENABLED is unset (the default).
+        let ga4Consent = data.consent;
+        let ga4ClientId = canonical && canonical.anonymousId;
+        if (ga4Consent === undefined && userId && ga4Server.enabled()) {
+            try {
+                const consentUser = await User.findById(userId).select('analyticsConsent analyticsAnonymousId').lean();
+                if (consentUser && consentUser.analyticsConsent === true) {
+                    ga4Consent = true;
+                    ga4ClientId = ga4ClientId || consentUser.analyticsAnonymousId || null;
+                }
+            } catch (_) { /* best-effort only — never block the funnel write above */ }
+        }
+        if (canonical && ga4Consent === true && !canonical.internalFlag && !canonical.testFlag && !canonical.botFlag) {
             ga4Server.sendServerEvent({
                 event: canonical.ga4EventName || canonical.eventName,
-                clientId: canonical.anonymousId,
+                clientId: ga4ClientId,
                 sessionId: canonical.sessionId,
                 opaqueUserId: canonical.opaqueUserId,
                 consent: true,
@@ -4370,7 +4441,7 @@ function createUserToken(user) {
 // Records a self-serve registration that has not been paid for yet. Re-using
 // the row for the same identity keeps a visitor who abandons checkout and
 // comes back from accumulating rows, and keeps the latest password/plan.
-async function createPendingSignup({ email, name, passwordHash, provider, providerUserId, avatarUrl, planId, utm, requestFields }) {
+async function createPendingSignup({ email, name, passwordHash, provider, providerUserId, avatarUrl, planId, utm, requestFields, consent }) {
     const normalizedEmail = normalizeEmail(email);
     const query = provider && providerUserId
         ? { provider, providerUserId }
@@ -4389,6 +4460,7 @@ async function createPendingSignup({ email, name, passwordHash, provider, provid
                 planId: getPlanConfig(planId).planId,
                 signupUtm: utm ? { ...utm, capturedAt: new Date() } : null,
                 attribution,
+                consent: consent === true,
                 expiresAt: new Date(Date.now() + PENDING_SIGNUP_TTL_MS)
             }
         },
@@ -4454,7 +4526,7 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
         user.paymentRequiredAt = new Date();
         user.initialRefundStatus = 'not_eligible';
         if (pending.signupUtm) user.signupUtm = pending.signupUtm;
-        if (pending.attribution) attachSignupAttribution(user, { attribution: pending.attribution });
+        if (pending.attribution || pending.consent) attachSignupAttribution(user, { attribution: pending.attribution, consent: pending.consent === true });
         user.markModified('subscription');
     }
     if (typeof session.customer === 'string' && session.customer) user.stripeCustomerId = session.customer;
@@ -5222,7 +5294,8 @@ app.post('/api/subscribe', async (req, res) => {
                 passwordHash: hashedPassword,
                 planId: planConfig.planId,
                 utm,
-                requestFields
+                requestFields,
+                consent: req.body && req.body.analyticsConsent === true
             });
             const session = await createCheckoutSessionForUser(null, {
                 req,
@@ -5268,7 +5341,7 @@ app.post('/api/subscribe', async (req, res) => {
 
         const user = new User({ name: displayName, email: normalizedEmail, password: hashedPassword });
         if (utm) user.signupUtm = { ...utm, capturedAt: new Date() };
-        attachSignupAttribution(user, requestFields);
+        attachSignupAttribution(user, { ...requestFields, consent: req.body && req.body.analyticsConsent === true });
 
         user.subscription = ensureSubscriptionShape(user);
         user.subscription.status = 'pending';
@@ -5712,7 +5785,8 @@ app.post('/api/auth/social', async (req, res) => {
                 avatarUrl: profile.avatarUrl,
                 planId: planConfig.planId,
                 utm,
-                requestFields
+                requestFields,
+                consent: req.body && req.body.analyticsConsent === true
             });
             const session = await createCheckoutSessionForUser(null, {
                 req,
@@ -5797,7 +5871,7 @@ app.post('/api/auth/social', async (req, res) => {
             } else if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && SIGNUP_TRIAL_DAYS > 0 && !user.signupTrialAt) {
                 startSignupTrial(user);
             }
-            attachSignupAttribution(user, requestFields);
+            attachSignupAttribution(user, { ...requestFields, consent: req.body && req.body.analyticsConsent === true });
             if (utm) {
                 user.signupUtm = { ...utm, capturedAt: new Date() };
             }
@@ -5881,8 +5955,13 @@ app.post('/api/auth/social', async (req, res) => {
         }
 
         const resumeInitialPayment = Boolean(user.paymentRequiredAt && !subscriptionIsActive(user.subscription));
+        // Same remap as the email login-resume gate: a pending social signup
+        // can carry a retired stored planId (pro / power / power-monthly),
+        // which has no configured Stripe price and would 500 here instead of
+        // resuming checkout. Only reached when subscriptionIsActive() is
+        // false, so there is no legacy subscription price to preserve.
         const checkoutPlanId = resumeInitialPayment && user.subscription && user.subscription.planId
-            ? user.subscription.planId
+            ? remapRetiredPlanId(user.subscription.planId)
             : planConfig.planId;
         const checkoutPlanConfig = getPlanConfig(checkoutPlanId);
         const session = await createCheckoutSessionForUser(user, {
@@ -6047,7 +6126,7 @@ app.post('/api/login', async (req, res) => {
             }
             const session = await createCheckoutSessionForUser(user, {
                 req,
-                planId: user.subscription && user.subscription.planId,
+                planId: remapRetiredPlanId(user.subscription && user.subscription.planId),
                 skipTrial: true,
                 initialSignup: true,
                 affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
@@ -6704,7 +6783,14 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
         if (!stripe) {
             return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
         }
-        const planId = normalizePlanSelection(req.body?.plan || 'pro');
+        // The fallback must be the CURRENT Pro rung. 'pro' is a retired id
+        // with no STRIPE_PRICE_ID_* configured, so defaulting to it sent every
+        // plan-less upgrade call straight into the "Stripe price is not
+        // configured" 500 at createCheckoutSessionForUser. remapRetiredPlanId
+        // additionally covers a caller that explicitly posts a retired id;
+        // a genuinely misconfigured CURRENT plan still fails loudly, which is
+        // the safe failure worth keeping.
+        const planId = remapRetiredPlanId(normalizePlanSelection(req.body?.plan || PRO_ANNUAL_PLAN_ID));
         const acquisition = shareCopy.parseAcquisitionCookieHeader(req.headers.cookie, { secret: JWT_SECRET });
         const session = await createCheckoutSessionForUser(req.user, {
             req,
@@ -9516,6 +9602,13 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             }
         } catch (err) {
             console.error('Stripe webhook processing error:', err);
+            // A transient failure here (a Mongo blip, a nested Stripe 5xx)
+            // must not tell Stripe the event was handled — this is where a
+            // paid-first account is actually born. Swallowing into a 200
+            // strands a real buyer at subscription.status:'pending' forever,
+            // since Stripe never retries an event it was told succeeded.
+            // 500 makes Stripe redeliver instead.
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'checkout.session.async_payment_succeeded') {
         // Alipay/WeChat Pay's normal confirmation path — payment_status was
@@ -9527,7 +9620,12 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 if (user) await handleChinaAnnualPassPaid(user, payload, event);
             }
         } catch (err) {
+            // Same rule as checkout.session.completed: this is a real payment
+            // confirmation (it grants the China annual pass), so a throw must
+            // not be reported to Stripe as handled — that would take the money
+            // and deliver nothing, with no redelivery.
             console.error('Stripe webhook async_payment_succeeded error:', err);
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'checkout.session.async_payment_failed') {
         try {
@@ -9541,7 +9639,10 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 });
             }
         } catch (err) {
+            // The funnel write is dedupeKey-idempotent, so letting Stripe
+            // redeliver is safe and keeps the failed-payment record honest.
             console.error('Stripe webhook async_payment_failed error:', err);
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'invoice.paid') {
         try {
@@ -9586,7 +9687,12 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             };
             await recordWithRetry();
         } catch (err) {
+            // Despite the label, this catch also guards recordInitialStripePayment()
+            // and the invoice_paid trackFunnel() call above — a throw from either
+            // must not 200, or a real renewal/first payment silently never gets
+            // recorded and Stripe never retries. 500 makes it redeliver.
             console.error('[affiliate] Stripe invoice attribution error:', err && err.message);
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'charge.refunded' || event.type === 'refund.created') {
         try {
@@ -9607,6 +9713,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             if (result && result.reversed) trackFunnel('commission_reversed', null, 'Stripe', { reason: 'refund' });
         } catch (err) {
             console.error('[affiliate] Stripe refund attribution error:', err && err.message);
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'charge.dispute.created') {
         try {
@@ -9619,6 +9726,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             if (result && result.reversed) trackFunnel('commission_reversed', null, 'Stripe', { reason: 'dispute' });
         } catch (err) {
             console.error('[affiliate] Stripe dispute attribution error:', err && err.message);
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'customer.subscription.updated') {
         try {
@@ -9648,7 +9756,11 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 }
             }
         } catch (err) {
+            // Covers the trialing->active transition above — a throw here
+            // must not 200, or a trial's first real charge never flips the
+            // stored status to active and Stripe never retries the event.
             console.error('Stripe webhook update error:', err);
+            return res.status(500).send({ received: false });
         }
     } else if (event.type === 'customer.subscription.deleted') {
         try {
@@ -9667,7 +9779,11 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                 trackFunnel('cancel', user._id, plan);
             }
         } catch (err) {
+            // A cancellation that fails to save must not 200 — the customer
+            // would keep showing as an active paid subscriber internally
+            // after Stripe has actually ended their billing.
             console.error('Stripe webhook delete error:', err);
+            return res.status(500).send({ received: false });
         }
     }
 
@@ -9869,9 +9985,25 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
 }
 
 async function revokeAppSumoAccess(user) {
+    // Mirrors revokeDealMirrorAccess just above: never downgrade a Stripe or
+    // professional-plan entitlement the user separately holds — an AppSumo
+    // refund must not clobber a subscription that has nothing to do with it.
+    if (isActiveStripeSubscriber(user)) return;
     user.subscription.status = 'cancelled';
     user.subscription.trialEndsAt = null;
     user.appsumoAiCap = null;
+    // Previously left appsumoTier/appsumoRedeemedAt in place after a refund.
+    // credits.ltdAllowance() and isCreditAllowanceV2Cohort() key off exactly
+    // those two fields, and hasApiAccess() checks appsumoTier===3 with no
+    // status check at all (see its comment) — so a refunded lifetime buyer
+    // kept their full credit wallet and API/MCP access permanently. null,
+    // never 0: an unknown-but-truthy tier resolves UP to tier 3 elsewhere
+    // (ltdAllowance, appsumoTierConfig), so null is the only safe "not a
+    // lifetime buyer" sentinel. appsumoLicenseKey is left intact — both the
+    // deactivate branch above and the reconcile job match on it to decide
+    // whether a later event still refers to the user's current key.
+    user.appsumoTier = null;
+    user.appsumoRedeemedAt = null;
     user.markModified('subscription');
     await user.save().catch(() => {});
     trackFunnel('cancel', user._id, 'Pro — AppSumo', {
@@ -9931,7 +10063,15 @@ async function appsumoHandleEvent(body) {
             });
         }
     } else if (event === 'upgrade' || event === 'downgrade') {
-        let lic = await AppSumoLicense.findOne({ licenseKey: prevKey });
+        // prev_license_key can be omitted (e.g. a tier change on the SAME
+        // key). Never fall through to findOne({licenseKey: undefined}) for
+        // that case — Mongoose strips an undefined filter key, so the lookup
+        // silently becomes "the first licence in the collection" and
+        // re-grants a RANDOM unrelated user with this event's tier and key.
+        // Only look up by prevKey when one was actually supplied; the upsert
+        // below is keyed on the real licenseKey, and $set never touches (so
+        // never clears) an existing userId already on that row.
+        let lic = prevKey ? await AppSumoLicense.findOne({ licenseKey: prevKey }) : null;
         if (lic) {
             lic.prevLicenseKey = prevKey;
             lic.licenseKey = licenseKey;
@@ -9969,11 +10109,26 @@ async function appsumoHandleEvent(body) {
             }
         }
     } else if (event === 'migrate') {
-        await AppSumoLicense.findOneAndUpdate(
+        // migrate is about licence-key lineage (AppSumo account transfers),
+        // not pricing — payloads routinely omit tier entirely. The shared
+        // `tier` const above defaults a missing value to 1, and writing that
+        // unconditionally silently downgraded the licence row while the
+        // linked user's appsumoTier was left untouched, so the two could
+        // permanently disagree. Only touch tier when this event actually
+        // supplies one, and re-grant the user so both sides always agree
+        // with whatever the licence row ends up holding.
+        const migrateSet = { parentLicenseKey: body.parent_license_key || null, lastEvent: 'migrate', lastEventAt: now };
+        const migrateTier = Number(body.tier);
+        if (Number.isFinite(migrateTier) && migrateTier > 0) migrateSet.tier = migrateTier;
+        const lic = await AppSumoLicense.findOneAndUpdate(
             { licenseKey },
-            { $set: { parentLicenseKey: body.parent_license_key || null, tier, lastEvent: 'migrate', lastEventAt: now } },
-            { upsert: true }
+            { $set: migrateSet },
+            { upsert: true, new: true }
         );
+        if (lic && lic.userId) {
+            const user = await User.findById(lic.userId);
+            if (user) await grantAppSumoProAccess(user, { licenseKey, tier: lic.tier });
+        }
     }
 }
 
@@ -10542,6 +10697,16 @@ app.post('/api/track/event', optionalAuth, (req, res) => {
     if (body.consent !== true) return res.status(204).end();
     const requestFields = trackingRequestFields(req, res);
     if (requestFields.isBot || requestFields.isQa) return res.status(204).end();
+    // Consent is already hard-verified above. Persist it onto the account so
+    // a LATER server-originated event for this same user (a Stripe webhook,
+    // with no request/cookie context of its own) can still resolve a real
+    // consent signal for GA4 instead of never being able to report a
+    // conversion — see logFunnelEvent's GA4 block. Fire-and-forget, matching
+    // this route's own funnel write below.
+    if (req.user && req.user.analyticsConsent !== true) {
+        req.user.analyticsConsent = true;
+        req.user.save().catch(() => {});
+    }
     const context = safeTrackingContext(body, requestFields);
     const clientEventId = String(body.eventId || '').trim();
     const dedupeKey = /^[A-Za-z0-9._:-]{8,120}$/.test(clientEventId) ? `browser:${clientEventId}` : null;
@@ -10553,7 +10718,10 @@ app.post('/api/track/event', optionalAuth, (req, res) => {
         dedupeKey,
         ctaId: context.ctaId,
         trafficSource: requestFields.referrerSource,
-        ...requestFields
+        ...requestFields,
+        // This route's own hard consent check above already proved it; never
+        // let a future requestFields field silently shadow that proof.
+        consent: true
     });
     return res.status(204).end();
 });

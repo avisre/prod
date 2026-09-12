@@ -45,8 +45,8 @@ test('metric CSV is raw, escaped, and preserves fiscal periods', () => {
 test('stock comparison pages use the shared authenticated navbar', () => {
     const page = extra.renderComparePage('LB-vs-MUR');
     assert.ok(page && page.html);
-    assert.match(page.html, /assets\/system\.css\?v=20260907-aipaper3/);
-    assert.match(page.html, /assets\/app\.js\?v=20260907-aipaper3/);
+    assert.match(page.html, /assets\/system\.css\?v=20260912-planfix1/);
+    assert.match(page.html, /assets\/app\.js\?v=20260912-planfix1/);
     assert.match(page.html, /V2\.nav\("compare"\)/);
     assert.match(page.html, /cmpWireAutocomplete\('cmpAdd','cmpMatches'\)/);
     assert.ok(Buffer.byteLength(page.html) < 100_000, 'comparison pages must not embed the full ticker universe');
@@ -64,7 +64,7 @@ test('stock comparison pages use the shared authenticated navbar', () => {
     assert.doesNotMatch(page.html, /localStorage\.getItem\('token'\)[\s\S]{0,80}if\(!tok\)return;/);
 
     const competitorPage = competitorComparisons.renderComparison(competitorComparisons.competitors[0]);
-    assert.match(competitorPage, /assets\/system\.css\?v=20260907-aipaper3/);
+    assert.match(competitorPage, /assets\/system\.css\?v=20260912-planfix1/);
     assert.match(competitorPage, /V2\.nav\('compare'\)/);
     assert.doesNotMatch(competitorPage, /<header class="seo-nav"/);
 });
@@ -78,7 +78,7 @@ test('paid compare variant renders the expanded design; free page stays untouche
     assert.ok((page.html.match(/class="cmp-prev"/g) || []).length === 6, 'each collapsed group keeps one teaser row');
     assert.match(page.html, /Red flags in the filings/);
     assert.match(page.html, /AI VERDICT/);
-    assert.match(page.html, /assets\/system\.css\?v=20260907-aipaper3/);
+    assert.match(page.html, /assets\/system\.css\?v=20260912-planfix1/);
     assert.match(page.html, /noindex/);
     assert.ok(Buffer.byteLength(page.html) < 100_000, 'pro pair page must stay under 100 KB');
     // No em-dashes in prose: strip the intentional missing-data cell placeholder
