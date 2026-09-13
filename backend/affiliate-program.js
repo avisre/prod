@@ -13,6 +13,10 @@ const COOKIE_NAME = 'sp_aff_ref';
 const DEFAULT_ATTRIBUTION_DAYS = 60;
 const DEFAULT_APP_SUMO_DESTINATION = 'appsumo';
 const CURRENT_TERMS_VERSION = 'customer-ambassador-v1-2026-08-13';
+// Partners are external publishers, not customers — the ambassador terms
+// above explicitly say "invite only, does not recruit external affiliates",
+// so partners accept this separate, versioned document instead.
+const PARTNER_TERMS_VERSION = 'partner-v1-2026-09-13';
 const STRIPE_COMMISSION_RATE_BPS = Object.freeze({
     monthly: 3000,
     annual: 3000,
@@ -28,7 +32,7 @@ const STATUS_VALUES = [
     'needs_support', 'needs_onboarding', 'successful_user', 'ambassador_invited',
     'ambassador_active', 'declined', 'unresponsive'
 ];
-const PROFILE_STATUS_VALUES = ['invited', 'active', 'suspended', 'declined'];
+const PROFILE_STATUS_VALUES = ['invited', 'active', 'suspended', 'declined', 'pending_review'];
 // 'ambassador' is a customer who advocates; 'partner' is an external
 // publisher (deal/review site) enrolled to earn on referred sales.
 const PROFILE_KIND_VALUES = ['ambassador', 'partner'];
@@ -370,15 +374,17 @@ function models() {
 function publicProfile(profile, baseUrl = '') {
     if (!profile) return null;
     const root = String(baseUrl || '').replace(/\/$/, '');
+    const expectedTermsVersion = String(profile.kind) === 'partner' ? PARTNER_TERMS_VERSION : CURRENT_TERMS_VERSION;
     return {
         slug: profile.slug,
         referralUrl: `${root}/r/${encodeURIComponent(profile.slug)}`,
         status: profile.status,
         customerStatus: profile.customerStatus,
+        kind: profile.kind,
         termsAcceptedAt: profile.termsAcceptedAt || null,
         termsVersion: profile.termsVersion || null,
-        currentTermsVersion: CURRENT_TERMS_VERSION,
-        termsCurrent: profile.termsVersion === CURRENT_TERMS_VERSION,
+        currentTermsVersion: expectedTermsVersion,
+        termsCurrent: profile.termsVersion === expectedTermsVersion,
         invitedAt: profile.invitedAt || null,
         activatedAt: profile.activatedAt || null,
         payoutMethod: profile.payoutMethod || null,
@@ -933,6 +939,7 @@ function normalizeAppSumoRow(raw = {}, mapping = {}) {
 module.exports = {
     COOKIE_NAME,
     CURRENT_TERMS_VERSION,
+    PARTNER_TERMS_VERSION,
     STRIPE_COMMISSION_RATE_BPS,
     PROFILE_KIND_VALUES,
     PAYOUT_METHOD_VALUES,

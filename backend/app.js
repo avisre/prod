@@ -13115,27 +13115,42 @@ app.get('/api/affiliate/me', authMiddleware, async (req, res) => {
 app.post('/api/affiliate/accept', authMiddleware, affiliateMutationLimiter, async (req, res) => {
     if (!affiliateFeatureEnabled(res)) return;
     if (req.body?.acceptTerms !== true) return res.status(400).json({ message: 'You must accept the ambassador terms before activating the link.' });
-    // The original server-rendered Release-1 page posts only acceptTerms. A
-    // genuinely invited, verified customer using that same-origin page may be
-    // recorded against the first versioned terms without breaking the dark
-    // pilot. Any explicit/stale version still fails closed.
-    const acceptedTermsVersion = req.body?.termsVersion == null
-        ? affiliateProgram.CURRENT_TERMS_VERSION
-        : String(req.body.termsVersion);
-    if (acceptedTermsVersion !== affiliateProgram.CURRENT_TERMS_VERSION) {
-        return res.status(409).json({ message: 'The ambassador terms have changed. Review the current version before accepting.', currentTermsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
-    }
     const { AffiliateProfile } = affiliateProgram.models();
     const profile = await AffiliateProfile.findOne({ userId: req.userId });
     if (!profile) return res.status(404).json({ message: 'No ambassador invitation is available for this account.' });
     if (profile.status === 'suspended' || profile.status === 'declined') return res.status(409).json({ message: 'This invitation is not active.' });
+
+    const isPartner = String(profile.kind) === 'partner';
+    if (isPartner) {
+        // Partners are external publishers, not customers. They accept a
+        // separate, versioned Partner Program Terms document — the ambassador
+        // terms below explicitly say "invite only, does not recruit external
+        // affiliates", which would misdescribe a partner's relationship.
+        const acceptedPartnerTermsVersion = req.body?.termsVersion == null
+            ? affiliateProgram.PARTNER_TERMS_VERSION
+            : String(req.body.termsVersion);
+        if (acceptedPartnerTermsVersion !== affiliateProgram.PARTNER_TERMS_VERSION) {
+            return res.status(409).json({ message: 'The partner program terms have changed. Review the current version before accepting.', currentTermsVersion: affiliateProgram.PARTNER_TERMS_VERSION });
+        }
+    } else {
+        // The original server-rendered Release-1 page posts only acceptTerms. A
+        // genuinely invited, verified customer using that same-origin page may be
+        // recorded against the first versioned terms without breaking the dark
+        // pilot. Any explicit/stale version still fails closed.
+        const acceptedTermsVersion = req.body?.termsVersion == null
+            ? affiliateProgram.CURRENT_TERMS_VERSION
+            : String(req.body.termsVersion);
+        if (acceptedTermsVersion !== affiliateProgram.CURRENT_TERMS_VERSION) {
+            return res.status(409).json({ message: 'The ambassador terms have changed. Review the current version before accepting.', currentTermsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
+        }
+    }
     const appSumoLicenseActive = Boolean(req.user?.appsumoRedeemedAt)
         && Boolean(await AppSumoLicense.exists({ userId: req.userId, status: 'active' }));
     // Partner profiles are external publishers (deal/review sites) enrolled by an
     // admin. They are never expected to buy, so the customer-purchase gate must not
     // apply to them — same exemption canAcceptAmbassadorInvite() makes below. Without
     // this, every partner 409s here and can never activate their link.
-    const verifiedPurchase = String(profile.kind) === 'partner'
+    const verifiedPurchase = isPartner
         || appSumoLicenseActive
         || affiliateProgram.hasVerifiedStripeSubscription(req.user);
     if (!verifiedPurchase) return res.status(409).json({ message: 'A verified active customer purchase is required before accepting an ambassador invitation.' });
@@ -13144,10 +13159,37 @@ app.post('/api/affiliate/accept', authMiddleware, affiliateMutationLimiter, asyn
         return res.status(409).json({ message: 'A current administrator invitation is required before this link can be activated.' });
     }
     const wasActive = profile.status === 'active';
-    profile.status = 'active'; profile.customerStatus = 'ambassador_active'; profile.termsAcceptedAt = new Date(); profile.activatedAt = profile.activatedAt || new Date(); profile.termsVersion = affiliateProgram.CURRENT_TERMS_VERSION;
-    await profile.save();
-    await affiliateProgram.writeAudit(wasActive ? 'ambassador_terms_accepted' : 'ambassador_activated', String(req.user?.email || req.userId), { affiliateProfileId: profile._id, termsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
-    if (!wasActive) trackFunnel('ambassador_activated', req.userId, req.user?.subscription?.planName, { affiliateProfileId: String(profile._id), termsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
+    profile.status = 'active'; profile.customerStatus = 'ambassador_active'; profile.termsAcceptedAt = new Date(); profile.activatedAt = profile.activatedAt || new Date();
+    if (isPartner) {
+        profile.termsVersion = affiliateProgram.PARTNER_TERMS_VERSION;
+        await profile.save();
+        await affiliateProgram.writeAudit(wasActive ? 'partner_terms_accepted' : 'partner_activated', String(req.user?.email || req.userId), { affiliateProfileId: profile._id, termsVersion: affiliateProgram.PARTNER_TERMS_VERSION });
+        if (!wasActive) trackFunnel('partner_activated', req.userId, req.user?.subscription?.planName, { affiliateProfileId: String(profile._id), termsVersion: affiliateProgram.PARTNER_TERMS_VERSION });
+    } else {
+        profile.termsVersion = affiliateProgram.CURRENT_TERMS_VERSION;
+        await profile.save();
+        await affiliateProgram.writeAudit(wasActive ? 'ambassador_terms_accepted' : 'ambassador_activated', String(req.user?.email || req.userId), { affiliateProfileId: profile._id, termsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
+        if (!wasActive) trackFunnel('ambassador_activated', req.userId, req.user?.subscription?.planName, { affiliateProfileId: String(profile._id), termsVersion: affiliateProgram.CURRENT_TERMS_VERSION });
+    }
+    return res.json({ ok: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
+});
+
+// Self-service payout details: without this, a partner's PayPal/Wise handle
+// depends on an admin entering it for them via the admin-only route below.
+// Reuses the same applyPayoutDetails() validator, so the rules (no raw bank
+// numbers, known payout methods only) are identical either way.
+app.post('/api/affiliate/payout-details', authMiddleware, affiliateMutationLimiter, async (req, res) => {
+    if (!affiliateFeatureEnabled(res)) return;
+    const { AffiliateProfile } = affiliateProgram.models();
+    const profile = await AffiliateProfile.findOne({ userId: req.userId });
+    if (!profile) return res.status(404).json({ message: 'No ambassador invitation is available for this account.' });
+    try {
+        if (applyPayoutDetails(profile, req.body)) await profile.save();
+    } catch (error) {
+        if (error instanceof PayoutDetailError) return res.status(400).json({ message: error.message });
+        throw error;
+    }
+    await affiliateProgram.writeAudit('payout_method_set', String(req.user?.email || req.userId), { affiliateProfileId: profile._id, details: { payoutMethod: profile.payoutMethod } });
     return res.json({ ok: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
 });
 
@@ -13227,6 +13269,177 @@ app.post('/api/admin/affiliates/invite', affiliateAdminAuth, affiliateMutationLi
         throw error;
     }
     return res.json({ ok: true, sentEmail: false, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
+});
+
+// ---- Partner acquisition: public self-service application -----------------
+// External finance publishers/creators are not customers, so they cannot use
+// the admin-invite path above (it requires a verified purchase). This is the
+// front door for them: a public form creates a 'pending_review' profile that
+// an admin must explicitly approve or decline before any link goes live.
+const partnerApplicationLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    skip: () => !affiliateProgram.isEnabled()
+});
+
+app.post('/api/partners/apply', partnerApplicationLimiter, async (req, res) => {
+    if (!affiliateFeatureEnabled(res)) return;
+    const body = req.body || {};
+    // Honeypot: a hidden field real applicants never fill in.
+    if (String(body.company || '').trim()) return res.json({ ok: true });
+
+    const name = String(body.name || '').trim().slice(0, 120);
+    const email = normalizeEmail(body.email);
+    const website = String(body.website || '').trim().slice(0, 300);
+    const audienceSize = String(body.audienceSize || '').trim().slice(0, 60);
+    const contentFocus = String(body.contentFocus || '').trim().slice(0, 800);
+    const promotionalApproach = String(body.promotionalApproach || '').trim().slice(0, 800);
+    const whyPartner = String(body.whyPartner || '').trim().slice(0, 800);
+
+    if (!name || !email || !emailLooksValid(email) || !website || !contentFocus || !promotionalApproach) {
+        return res.status(400).json({ message: 'Name, a valid email, website, content focus, and promotional approach are required.' });
+    }
+    try {
+        const parsed = new URL(website);
+        if (!['http:', 'https:'].includes(parsed.protocol)) throw new Error('bad protocol');
+    } catch (_) {
+        return res.status(400).json({ message: 'Website must be a valid URL, including https://.' });
+    }
+    if (body.acceptTerms !== true) return res.status(400).json({ message: 'You must accept the partner program terms to apply.' });
+
+    try {
+        const { AffiliateProfile } = affiliateProgram.models();
+        let user = await User.findOne({ email });
+        // userId is unique on AffiliateProfile, so a declined applicant's only
+        // path to reapply (as the decline email promises) is updating their
+        // existing document in place — never a second one.
+        let profile = null;
+        if (user) {
+            const existingProfile = await AffiliateProfile.findOne({ userId: user._id });
+            if (existingProfile && !(existingProfile.kind === 'partner' && existingProfile.status === 'declined')) {
+                const message = existingProfile.kind === 'partner'
+                    ? 'This email has already applied to the partner program. Check your inbox for a decision, or reply to a prior email if you have questions.'
+                    : 'This email is already enrolled in the customer ambassador program.';
+                return res.status(409).json({ message });
+            }
+            profile = existingProfile || null;
+        } else {
+            // No password yet — this account is activated (and a password set)
+            // only after an admin approves the application.
+            user = await User.create({ email, name, password: null });
+        }
+
+        if (profile) {
+            profile.status = 'pending_review';
+            profile.invitedAt = null;
+            profile.notes = JSON.stringify({ website, audienceSize, contentFocus, promotionalApproach, whyPartner }).slice(0, 2000);
+        } else {
+            profile = new AffiliateProfile({
+                userId: user._id,
+                slug: await uniqueAffiliateSlug(),
+                kind: 'partner',
+                status: 'pending_review',
+                customerStatus: 'ambassador_invited',
+                notes: JSON.stringify({ website, audienceSize, contentFocus, promotionalApproach, whyPartner }).slice(0, 2000)
+            });
+        }
+        try { applyPayoutDetails(profile, body); }
+        catch (_) { /* Payout details are optional here; the partner can set them again after approval. */ }
+        await profile.save();
+
+        await affiliateProgram.writeAudit('partner_applied', email, { affiliateProfileId: profile._id, targetId: String(user._id) });
+
+        const appUrl = process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro';
+        const applicantMail = mailer.partnerApplicationReceivedEmail(name, appUrl);
+        const ownerMail = mailer.partnerApplicationNotificationEmail({ name, email, website, audienceSize, contentFocus, promotionalApproach }, appUrl);
+        Promise.allSettled([
+            mailer.sendMail({ to: email, subject: applicantMail.subject, html: applicantMail.html, text: applicantMail.text }),
+            mailer.config().owner ? mailer.sendMail({ to: mailer.config().owner, subject: ownerMail.subject, html: ownerMail.html, text: ownerMail.text }) : Promise.resolve()
+        ]).catch(() => {});
+
+        return res.json({ ok: true, message: "Application received. We'll review it within 2 business days." });
+    } catch (error) {
+        if (error?.code === 11000) return res.status(409).json({ message: 'This email has already applied.' });
+        console.error('[partners] application failed:', error && error.message);
+        return res.status(500).json({ message: 'Unable to submit your application right now. Please try again shortly.' });
+    }
+});
+
+app.get('/api/admin/partners/pending', affiliateAdminAuth, async (req, res) => {
+    try {
+        const { AffiliateProfile } = affiliateProgram.models();
+        const profiles = await AffiliateProfile.find({ kind: 'partner', status: 'pending_review' }).sort({ createdAt: 1 }).limit(200).lean();
+        const users = await User.find({ _id: { $in: profiles.map((p) => p.userId) } }, { name: 1, email: 1 }).lean();
+        const byId = new Map(users.map((u) => [String(u._id), u]));
+        const applications = profiles.map((profile) => {
+            let application = {};
+            try { application = JSON.parse(profile.notes || '{}'); } catch (_) { application = {}; }
+            const user = byId.get(String(profile.userId)) || {};
+            return {
+                id: String(profile._id), userId: String(profile.userId),
+                name: user.name || null, email: user.email || null,
+                createdAt: profile.createdAt,
+                payoutMethod: profile.payoutMethod || null, payoutHandle: profile.payoutHandle || null,
+                website: application.website || null, audienceSize: application.audienceSize || null,
+                contentFocus: application.contentFocus || null, promotionalApproach: application.promotionalApproach || null,
+                whyPartner: application.whyPartner || null
+            };
+        });
+        res.set('Cache-Control', 'no-store').json({ applications });
+    } catch (error) {
+        console.error('[partners] pending list failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load pending applications.' });
+    }
+});
+
+app.post('/api/admin/partners/:id/approve', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
+    const { AffiliateProfile } = affiliateProgram.models();
+    const profile = await AffiliateProfile.findById(req.params.id);
+    if (!profile || profile.kind !== 'partner') return res.status(404).json({ message: 'Partner application not found.' });
+    if (profile.status !== 'pending_review') return res.status(409).json({ message: 'This application is not pending review.' });
+    const user = await User.findById(profile.userId);
+    if (!user) return res.status(404).json({ message: 'Applicant account not found.' });
+
+    profile.status = 'invited';
+    profile.invitedAt = new Date();
+    await profile.save();
+
+    const appUrl = (process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro').replace(/\/$/, '');
+    let activationUrl = `${appUrl}/affiliate`;
+    if (!user.password) {
+        const rawToken = crypto.randomBytes(32).toString('hex');
+        user.resetPasswordToken = crypto.createHash('sha256').update(rawToken).digest('hex');
+        user.resetPasswordExpires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        await user.save();
+        activationUrl = `${appUrl}/reset-password.html?token=${rawToken}`;
+    }
+
+    await affiliateProgram.writeAudit('partner_approved', String(req.headers['x-admin-actor'] || 'admin'), { affiliateProfileId: profile._id, targetId: String(user._id) });
+    const mail = mailer.partnerApprovedEmail(user.name, activationUrl);
+    mailer.sendMail({ to: user.email, subject: mail.subject, html: mail.html, text: mail.text }).catch((e) => console.error('[mailer] partner approval email error:', e && e.message));
+    return res.json({ ok: true, profile: affiliateProgram.publicProfile(profile, process.env.APP_PUBLIC_URL || 'https://stockportfolio.pro') });
+});
+
+app.post('/api/admin/partners/:id/decline', affiliateAdminAuth, affiliateMutationLimiter, async (req, res) => {
+    const { AffiliateProfile } = affiliateProgram.models();
+    const profile = await AffiliateProfile.findById(req.params.id);
+    if (!profile || profile.kind !== 'partner') return res.status(404).json({ message: 'Partner application not found.' });
+    if (profile.status !== 'pending_review') return res.status(409).json({ message: 'This application is not pending review.' });
+    const reason = String(req.body?.reason || '').trim().slice(0, 500) || null;
+    const user = await User.findById(profile.userId);
+
+    profile.status = 'declined';
+    if (reason) profile.notes = `${profile.notes || ''}\n\nDeclined: ${reason}`.trim().slice(0, 2000);
+    await profile.save();
+
+    await affiliateProgram.writeAudit('partner_declined', String(req.headers['x-admin-actor'] || 'admin'), { affiliateProfileId: profile._id, targetId: profile.userId ? String(profile.userId) : null, reason });
+    if (user) {
+        const mail = mailer.partnerDeclinedEmail(user.name, reason);
+        mailer.sendMail({ to: user.email, subject: mail.subject, html: mail.html, text: mail.text }).catch((e) => console.error('[mailer] partner decline email error:', e && e.message));
+    }
+    return res.json({ ok: true, status: profile.status });
 });
 
 // Where a partner actually gets paid. Payouts are manual, so without this the

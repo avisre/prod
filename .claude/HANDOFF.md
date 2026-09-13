@@ -1,5 +1,63 @@
 # Handoff
 
+## Partner acquisition system (9/13) — built, NOT pushed, NOT deployed
+
+Public front door added on top of the existing (invite-only) customer-ambassador
+affiliate infra. 30% commission, attribution, payouts, dashboards were already
+live for ambassadors — this phase opens the same machinery to external finance
+publishers/creators via self-service application. `node --test` 632/633 (the
+one failure is the pre-existing unrelated `social-compose` selenium gap).
+
+- **New:** `POST /api/partners/apply` (public, rate-limited, honeypot) creates
+  a `User` (password: null) + `AffiliateProfile(kind:'partner', status:
+  'pending_review')`. Reapplying on top of a `declined` profile is allowed in
+  place (userId is unique on AffiliateProfile — a second doc was never
+  possible, so this is how the decline email's "reapply in 6 months" is kept
+  true).
+- **New admin routes:** `GET/POST /api/admin/partners/pending|:id/approve|
+  :id/decline` (same `x-admin-token` pattern as `/api/admin/affiliates/*`).
+  Approve mints a `resetPasswordToken` (7-day) for a still-passwordless user
+  and emails an activation link reusing the existing `/api/password/reset`
+  flow — no new auth code.
+- **Partner terms are a separate versioned document** (`PARTNER_TERMS_VERSION
+  = 'partner-v1-2026-09-13'`, `frontend-v2/partner-terms.html`) because the
+  ambassador terms literally say "does not recruit external affiliates."
+  `/api/affiliate/accept` and `publicProfile()` now branch on `profile.kind`
+  to check/stamp the right version — ambassador literals kept byte-identical
+  so the existing pinned test (`affiliate-program.test.js:118`) still passes.
+- **New pages:** `frontend-v2/partners.html` (public landing, indexable),
+  `partners-apply.html` (application form), `partner-terms.html`,
+  `admin-partners.html` (token-gated review UI). All extension-less-served by
+  the existing `express.static({extensions:['html']})` — no new app.js routes
+  needed for the static pages themselves.
+- **Dashboard:** `backend/affiliate-dashboard.html` + `assets/affiliate.js`
+  now brand/link dynamically by `kind` (one file, no fork), plus new
+  promotional-materials and self-service payout-details sections. Cache
+  stamp bumped `affiliate.css`/`affiliate.js` → `?v=20260913-partners`
+  everywhere both are referenced (dashboard, `affiliate-terms.html`, new
+  `partner-terms.html`).
+- **4 new mailer.js templates:** `partnerApplicationReceivedEmail`,
+  `partnerApplicationNotificationEmail`, `partnerApprovedEmail`,
+  `partnerDeclinedEmail` — reuse the generic exported `sendMail()`, no new
+  send-wrapper functions.
+
+**Not done / deliberately deferred (MVP scope, called out in the plan, not
+oversights):** no auto-approval rules (every application is manual), no
+banner/screenshot assets (copy-only promo materials), no main-nav link (page
+is reachable at `/partners`, footer-linkable later), no `partners@` inbox
+(reuses `support@stockportfolio.pro`).
+
+**Before this goes live:** needs `AFFILIATE_PROGRAM_ENABLED=true` and
+`AFFILIATE_COOKIE_SECRET` set (same flags the existing ambassador program
+already needs — if ambassadors work today, this needs nothing new env-wise).
+Not yet pushed (no local `.git` — see CLAUDE.md) or manually walked end-to-end
+against a real SMTP send; model-level logic (schema, kind-aware terms
+versioning, reapply-after-decline) was verified against `mongodb-memory-
+server` in a throwaway script, not the full HTTP layer.
+
+**Note:** this file is far over the 160-line budget CLAUDE.md sets (pre-existing,
+not from this session) — worth a dedicated trim pass before it grows further.
+
 ## Revenue-integrity fixes from the growth.md audit (9/12) — committed, NOT pushed
 
 Six independent fixes, all `node --test` verified (628/629 — the one failure is

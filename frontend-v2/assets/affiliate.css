@@ -64,6 +64,11 @@
 .aff-share-actions p { max-width: 72ch; }
 .aff-share-actions strong { color: var(--ink); }
 
+.aff-promo-card { display: grid; gap: 14px; }
+.aff-promo-card textarea { height: auto; padding: 12px; resize: vertical; line-height: 1.6; }
+.aff-payout-form { display: grid; gap: 16px; max-width: 480px; }
+.aff-payout-form .btn { justify-self: start; }
+
 .aff-volume-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s4); }
 .aff-volume-card { padding: 18px 20px; }
 .aff-volume-card .kpi-value { margin-top: 2px; }
