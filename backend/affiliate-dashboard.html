@@ -11,14 +11,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
   <link rel="stylesheet" href="/assets/system.css?v=20260912-planfix1" />
-  <link rel="stylesheet" href="/assets/affiliate.css?v=20260813-r1" />
+  <link rel="stylesheet" href="/assets/affiliate.css?v=20260913-partners" />
 </head>
 <body>
   <main class="aff-page" id="affiliate-dashboard" aria-labelledby="aff-title">
     <div class="container aff-shell">
       <header class="aff-hero">
         <div>
-          <p class="label">Founding customer ambassador</p>
+          <p class="label" id="aff-hero-label">Founding customer ambassador</p>
           <h1 class="title-1" id="aff-title">Your referrals</h1>
           <p class="aff-intro">A private record of your link activity, attributed purchases, commissions and manual payouts.</p>
         </div>
@@ -51,7 +51,7 @@
           <div class="aff-terms-action" id="aff-terms-action" hidden>
             <label class="aff-check-row" for="aff-terms-checkbox">
               <input id="aff-terms-checkbox" type="checkbox" />
-              <span>I have read and accept the <a href="/affiliate-terms.html" target="_blank" rel="noopener">Customer Ambassador Terms, version 2026-08-13</a>.</span>
+              <span>I have read and accept the <a id="aff-terms-link" href="/affiliate-terms.html" target="_blank" rel="noopener">Customer Ambassador Terms, version 2026-08-13</a>.</span>
             </label>
             <button class="btn btn-primary" id="aff-accept" type="button" disabled>Accept terms and activate</button>
             <p class="small faint">Acceptance is recorded against this exact terms version. It does not change your product plan or customer access.</p>
@@ -64,7 +64,7 @@
               <p class="label">Your link</p>
               <h2 class="title-2" id="aff-link-title">Share only when it genuinely helps</h2>
             </div>
-            <a class="small" href="/affiliate-terms.html" target="_blank" rel="noopener">Read the current terms</a>
+            <a class="small" id="aff-terms-read-link" href="/affiliate-terms.html" target="_blank" rel="noopener">Read the current terms</a>
           </div>
 
           <div class="card card-pad aff-link-card">
@@ -89,6 +89,75 @@
               </div>
             </div>
           </div>
+        </section>
+
+        <section class="section" id="aff-promo-section" aria-labelledby="aff-promo-title" hidden>
+          <div class="section-head">
+            <div>
+              <p class="label">Promotional materials</p>
+              <h2 class="title-2" id="aff-promo-title">Ready-to-use copy</h2>
+            </div>
+            <p class="small faint">Every template keeps the commission disclosure — do not remove it.</p>
+          </div>
+          <div class="card card-pad aff-promo-card">
+            <label class="field" for="aff-promo-newsletter">
+              <span>Newsletter snippet</span>
+              <textarea class="input" id="aff-promo-newsletter" rows="6" readonly></textarea>
+            </label>
+            <div class="aff-share-actions">
+              <button class="btn btn-ghost" id="aff-copy-newsletter" type="button">Copy</button>
+            </div>
+
+            <label class="field" for="aff-promo-social">
+              <span>Social media post</span>
+              <textarea class="input" id="aff-promo-social" rows="5" readonly></textarea>
+            </label>
+            <div class="aff-share-actions">
+              <button class="btn btn-ghost" id="aff-copy-social" type="button">Copy</button>
+            </div>
+
+            <label class="field" for="aff-promo-blog">
+              <span>Blog post snippet</span>
+              <textarea class="input" id="aff-promo-blog" rows="6" readonly></textarea>
+            </label>
+            <div class="aff-share-actions">
+              <button class="btn btn-ghost" id="aff-copy-blog" type="button">Copy</button>
+            </div>
+            <p class="small faint">Visual assets (banners, screenshots) are coming soon.</p>
+          </div>
+        </section>
+
+        <section class="section" id="aff-payout-section" aria-labelledby="aff-payout-title">
+          <div class="section-head">
+            <div>
+              <p class="label">Payout details</p>
+              <h2 class="title-2" id="aff-payout-title">Where we send approved payouts</h2>
+            </div>
+          </div>
+          <form class="card card-pad aff-payout-form" id="aff-payout-form">
+            <label class="field" for="aff-payout-method">
+              <span>Payout method</span>
+              <select class="input" id="aff-payout-method" name="payoutMethod">
+                <option value="">Not set</option>
+                <option value="paypal">PayPal</option>
+                <option value="wise">Wise</option>
+                <option value="bank_transfer">Bank transfer</option>
+                <option value="other">Other</option>
+              </select>
+            </label>
+            <label class="field" for="aff-payout-handle">
+              <span>PayPal/Wise email or payment reference</span>
+              <input class="input" id="aff-payout-handle" name="payoutHandle" type="text" maxlength="200" placeholder="you@example.com" />
+              <span class="small faint">Never enter a full bank account number here.</span>
+            </label>
+            <label class="field" for="aff-payout-currency">
+              <span>Preferred payout currency (optional)</span>
+              <input class="input" id="aff-payout-currency" name="payoutCurrency" type="text" maxlength="3" placeholder="usd" />
+            </label>
+            <button class="btn btn-primary" type="submit" id="aff-payout-save">Save payout details</button>
+            <p class="small" id="aff-payout-status" role="status" aria-live="polite"></p>
+            <p class="small faint">Payouts are processed manually once your approved balance reaches $100 USD in one currency (or a lower amount by request).</p>
+          </form>
         </section>
 
         <section class="section" aria-labelledby="aff-summary-title">
@@ -203,6 +272,6 @@
   </main>
 
   <script src="/assets/app.js?v=20260912-planfix1"></script>
-  <script src="/assets/affiliate.js?v=20260813-r1"></script>
+  <script src="/assets/affiliate.js?v=20260913-partners"></script>
 </body>
 </html>

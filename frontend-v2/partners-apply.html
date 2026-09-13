@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Apply to the partner program — stockportfolio.pro</title>
+  <meta name="description" content="Apply to become a StockPortfolio.pro partner: 30% commission on referred subscription sales." />
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
+  <link rel="stylesheet" href="assets/system.css?v=20260912-planfix1" />
+  <link rel="stylesheet" href="assets/affiliate.css?v=20260913-partners" />
+  <style>
+    .pa-shell { max-width: 640px; margin: 0 auto; padding: 56px 0 80px; }
+    .pa-form { display: grid; gap: 18px; margin-top: 28px; }
+    .pa-row { display: grid; gap: 18px; }
+    @media (min-width: 640px) { .pa-row { grid-template-columns: 1fr 1fr; } }
+    .pa-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+    textarea.input { height: auto; padding: 12px; resize: vertical; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container pa-shell">
+      <p class="label">Partner program</p>
+      <h1 class="title-1">Apply to partner with us</h1>
+      <p class="muted" style="margin-top:10px;">Tell us about your audience and how you'd promote StockPortfolio.pro. We review every application by hand, usually within 2 business days. <a href="/partners.html">Read about the program</a> or the <a href="/partner-terms.html" target="_blank" rel="noopener">full partner terms</a> first.</p>
+
+      <form class="card card-pad pa-form" id="pa-form">
+        <label class="field pa-hp" for="pa-company" aria-hidden="true">
+          <span>Company</span>
+          <input id="pa-company" name="company" type="text" tabindex="-1" autocomplete="off" />
+        </label>
+
+        <div class="pa-row">
+          <label class="field" for="pa-name"><span>Your name</span>
+            <input class="input" id="pa-name" type="text" required maxlength="120" />
+          </label>
+          <label class="field" for="pa-email"><span>Email</span>
+            <input class="input" id="pa-email" type="email" required maxlength="200" />
+          </label>
+        </div>
+
+        <label class="field" for="pa-website"><span>Website, newsletter or channel URL</span>
+          <input class="input" id="pa-website" type="url" required maxlength="300" placeholder="https://" />
+        </label>
+
+        <label class="field" for="pa-audience"><span>Audience size (optional)</span>
+          <input class="input" id="pa-audience" type="text" maxlength="60" placeholder="e.g. 12,000 newsletter subscribers" />
+        </label>
+
+        <label class="field" for="pa-focus"><span>What do you cover?</span>
+          <textarea class="input" id="pa-focus" rows="3" required maxlength="800" placeholder="Stocks, ETFs, personal finance, options, etc."></textarea>
+        </label>
+
+        <label class="field" for="pa-approach"><span>How would you promote StockPortfolio.pro?</span>
+          <textarea class="input" id="pa-approach" rows="3" required maxlength="800" placeholder="Newsletter mention, dedicated video, blog post, social posts, etc."></textarea>
+        </label>
+
+        <label class="field" for="pa-why"><span>Why do you want to partner with us? (optional)</span>
+          <textarea class="input" id="pa-why" rows="3" maxlength="800"></textarea>
+        </label>
+
+        <div class="pa-row">
+          <label class="field" for="pa-payout-method"><span>Preferred payout method (optional)</span>
+            <select class="input" id="pa-payout-method">
+              <option value="">Not sure yet</option>
+              <option value="paypal">PayPal</option>
+              <option value="wise">Wise</option>
+              <option value="bank_transfer">Bank transfer</option>
+              <option value="other">Other</option>
+            </select>
+          </label>
+          <label class="field" for="pa-payout-handle"><span>PayPal/Wise email (optional)</span>
+            <input class="input" id="pa-payout-handle" type="text" maxlength="200" />
+          </label>
+        </div>
+
+        <label class="aff-check-row" for="pa-terms">
+          <input id="pa-terms" type="checkbox" required />
+          <span>I have read and accept the <a href="/partner-terms.html" target="_blank" rel="noopener">Partner Program Terms</a>, including the requirement to disclose the commission relationship wherever I promote StockPortfolio.pro.</span>
+        </label>
+
+        <button class="btn btn-primary" type="submit" id="pa-submit">Submit application</button>
+      </form>
+      <p class="small" id="pa-status" role="status" aria-live="polite" style="margin-top:16px;"></p>
+    </div>
+  </main>
+
+  <script src="assets/app.js?v=20260912-planfix1"></script>
+  <script>
+    if (window.V2) { V2.nav(''); V2.footer(); }
+
+    const form = document.getElementById('pa-form');
+    const status = document.getElementById('pa-status');
+    const submit = document.getElementById('pa-submit');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      status.textContent = '';
+      status.classList.remove('delta-neg');
+
+      const payload = {
+        company: document.getElementById('pa-company').value,
+        name: document.getElementById('pa-name').value.trim(),
+        email: document.getElementById('pa-email').value.trim(),
+        website: document.getElementById('pa-website').value.trim(),
+        audienceSize: document.getElementById('pa-audience').value.trim(),
+        contentFocus: document.getElementById('pa-focus').value.trim(),
+        promotionalApproach: document.getElementById('pa-approach').value.trim(),
+        whyPartner: document.getElementById('pa-why').value.trim(),
+        payoutMethod: document.getElementById('pa-payout-method').value || null,
+        payoutHandle: document.getElementById('pa-payout-handle').value.trim() || null,
+        acceptTerms: document.getElementById('pa-terms').checked
+      };
+
+      if (!payload.acceptTerms) {
+        status.textContent = 'You must accept the partner program terms to apply.';
+        status.classList.add('delta-neg');
+        return;
+      }
+
+      submit.disabled = true;
+      status.textContent = 'Submitting…';
+      try {
+        const response = await fetch('/api/partners/apply', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(String(data && data.message || 'Unable to submit your application right now.'));
+        form.hidden = true;
+        status.classList.remove('delta-neg');
+        status.textContent = data.message || "Application received. We'll review it within 2 business days.";
+      } catch (error) {
+        status.textContent = error && error.message ? error.message : 'Network problem — please try again.';
+        status.classList.add('delta-neg');
+        submit.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>

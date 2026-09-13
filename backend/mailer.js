@@ -343,6 +343,134 @@ function appsumoReviewEligibleEmail(name, appUrl, reviewUrl, unsubUrl) {
   return { subject: 'If StockPortfolio.pro helped, an honest review is welcome', html, text };
 }
 
+// Partner (external publisher) acquisition program — application intake and
+// admin decision emails. Kept separate from the customer-ambassador emails
+// above since partners are never expected to be paying customers.
+function partnerApplicationReceivedEmail(name, appUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    <h1 style="font-size:22px;margin:0 0 12px">Thanks for applying, ${safeFirst}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">
+      We received your StockPortfolio.pro partner program application. We review every application by hand,
+      usually within 2 business days.
+    </p>
+    <p style="font-size:15px;line-height:1.6;color:#334155">
+      If approved, you'll get an email with your unique referral link and next steps to activate your account.
+      If we can't approve it right now, we'll let you know why.
+    </p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      Questions in the meantime? Just reply to this email.<br/>
+      — The StockPortfolio.pro team
+    </p>
+  </div>`;
+  const text = `Thanks for applying, ${first}
+
+We received your StockPortfolio.pro partner program application. We review every application by hand, usually within 2 business days.
+
+If approved, you'll get an email with your unique referral link and next steps to activate your account. If we can't approve it right now, we'll let you know why.
+
+Questions in the meantime? Just reply to this email.
+— The StockPortfolio.pro team`;
+  return { subject: 'Your StockPortfolio.pro partner application is under review', html, text };
+}
+
+function partnerApplicationNotificationEmail({ name, email, website, audienceSize, contentFocus, promotionalApproach } = {}, appUrl) {
+  const row = (label, value) => `<tr><td style="padding:4px 10px 4px 0;color:#64748b;vertical-align:top">${escapeHtml(label)}</td><td>${escapeHtml(value) || '(not provided)'}</td></tr>`;
+  const reviewUrl = `${String(appUrl || '').replace(/\/$/, '')}/admin-partners.html`;
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#0f172a">
+    <h2 style="margin:0 0 10px">New partner application</h2>
+    <table style="font-size:14px;border-collapse:collapse">
+      ${row('Name', name)}
+      ${row('Email', email)}
+      ${row('Website', website)}
+      ${row('Audience size', audienceSize)}
+      ${row('Content focus', contentFocus)}
+      ${row('Promotional approach', promotionalApproach)}
+    </table>
+    <p style="margin:16px 0"><a href="${escapeHtml(reviewUrl)}" style="color:#6d5cff">Review pending applications</a></p>
+  </div>`;
+  const text = `New partner application\nName: ${name || '(not provided)'}\nEmail: ${email}\nWebsite: ${website || '(not provided)'}\nAudience size: ${audienceSize || '(not provided)'}\nContent focus: ${contentFocus || '(not provided)'}\nPromotional approach: ${promotionalApproach || '(not provided)'}\n\nReview: ${reviewUrl}`;
+  return { subject: `New partner application: ${email || 'unknown'}`, html, text };
+}
+
+function partnerApprovedEmail(name, activationUrl) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const safeUrl = escapeHtml(activationUrl);
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    <h1 style="font-size:22px;margin:0 0 12px">You're approved, ${safeFirst} 🎉</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">
+      Welcome to the StockPortfolio.pro partner program. You'll earn 30% commission on referred subscription
+      sales, held for 30 days to account for refunds, then paid out once your approved balance reaches $100 USD.
+    </p>
+    <p style="font-size:15px;line-height:1.6;color:#334155">Next steps:</p>
+    <ol style="font-size:15px;line-height:1.7;color:#334155;padding-left:18px">
+      <li>Set a password for your account.</li>
+      <li>Accept the partner program terms.</li>
+      <li>Grab your referral link and promotional materials from your dashboard.</li>
+    </ol>
+    <p style="margin:22px 0">
+      <a href="${safeUrl}" style="background:#6d5cff;color:#fff;text-decoration:none;padding:12px 20px;border-radius:10px;font-weight:700;font-size:15px;display:inline-block">Activate your account</a>
+    </p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      If the button doesn't work, paste this link into your browser:<br/>
+      <a href="${safeUrl}" style="color:#6d5cff;word-break:break-all">${safeUrl}</a>
+    </p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      Questions? Just reply to this email.<br/>
+      — The StockPortfolio.pro team
+    </p>
+  </div>`;
+  const text = `You're approved, ${first}!
+
+Welcome to the StockPortfolio.pro partner program. You'll earn 30% commission on referred subscription sales, held for 30 days to account for refunds, then paid out once your approved balance reaches $100 USD.
+
+Next steps:
+1. Set a password for your account.
+2. Accept the partner program terms.
+3. Grab your referral link and promotional materials from your dashboard.
+
+Activate your account: ${activationUrl}
+
+Questions? Just reply to this email.
+— The StockPortfolio.pro team`;
+  return { subject: 'Your StockPortfolio.pro partner application is approved', html, text };
+}
+
+function partnerDeclinedEmail(name, reason) {
+  const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
+  const safeFirst = escapeHtml(first);
+  const reasonLine = reason ? `<p style="font-size:15px;line-height:1.6;color:#334155">${escapeHtml(reason)}</p>` : '';
+  const reasonText = reason ? `\n${reason}\n` : '';
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#0f172a">
+    <h1 style="font-size:22px;margin:0 0 12px">Your partner application, ${safeFirst}</h1>
+    <p style="font-size:15px;line-height:1.6;color:#334155">
+      Thank you for your interest in the StockPortfolio.pro partner program. We're not able to approve your
+      application right now.
+    </p>
+    ${reasonLine}
+    <p style="font-size:15px;line-height:1.6;color:#334155">You're welcome to reapply in 6 months.</p>
+    <p style="font-size:13px;color:#64748b;line-height:1.6">
+      Questions? Just reply to this email.<br/>
+      — The StockPortfolio.pro team
+    </p>
+  </div>`;
+  const text = `Your partner application, ${first}
+
+Thank you for your interest in the StockPortfolio.pro partner program. We're not able to approve your application right now.
+${reasonText}
+You're welcome to reapply in 6 months.
+
+Questions? Just reply to this email.
+— The StockPortfolio.pro team`;
+  return { subject: 'Your StockPortfolio.pro partner application', html, text };
+}
+
 // Send a single password-reset email. Never throws; returns true only on a
 // successful send (false if SMTP isn't configured or the send fails).
 async function sendPasswordResetEmail({ to, name, resetUrl } = {}) {
@@ -588,4 +716,4 @@ async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth
   return out;
 }
 
-module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL };
+module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };

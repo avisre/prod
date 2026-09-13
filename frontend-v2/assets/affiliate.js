@@ -5,6 +5,8 @@
 
   const TERMS_VERSION = 'customer-ambassador-v1-2026-08-13';
   const TERMS_DATE_LABEL = '2026-08-13';
+  const PARTNER_TERMS_VERSION = 'partner-v1-2026-09-13';
+  const PARTNER_TERMS_DATE_LABEL = '2026-09-13';
   const STATUS_VALUES = new Set(['invited', 'active', 'suspended', 'declined']);
   const COMMISSION_STATUS_VALUES = new Set(['pending', 'approved', 'reversed', 'paid']);
   const ORDER_STATUS_VALUES = new Set([
@@ -36,6 +38,10 @@
     byId('aff-copy-link').addEventListener('click', () => copyField('aff-referral-url', 'Referral link copied.'));
     byId('aff-copy-share').addEventListener('click', () => copyField('aff-share-copy', 'Share message copied with the disclosure.'));
     byId('aff-test-link').addEventListener('click', testReferralLink);
+    byId('aff-copy-newsletter').addEventListener('click', () => copyField('aff-promo-newsletter', 'Newsletter snippet copied.'));
+    byId('aff-copy-social').addEventListener('click', () => copyField('aff-promo-social', 'Social post copied.'));
+    byId('aff-copy-blog').addEventListener('click', () => copyField('aff-promo-blog', 'Blog snippet copied.'));
+    byId('aff-payout-form').addEventListener('submit', savePayoutDetails);
 
     loadDashboard();
   }
@@ -93,27 +99,50 @@
     byId('aff-content').hidden = false;
 
     const profile = data.profile && typeof data.profile === 'object' ? data.profile : {};
+    const isPartner = profile.kind === 'partner';
+    const activeTermsVersion = isPartner ? PARTNER_TERMS_VERSION : TERMS_VERSION;
     const status = STATUS_VALUES.has(profile.status) ? profile.status : 'declined';
-    const currentVersion = String(profile.currentTermsVersion || TERMS_VERSION);
+    const currentVersion = String(profile.currentTermsVersion || activeTermsVersion);
     const termsCurrent = profile.termsCurrent === true
-      && String(profile.termsVersion || '') === TERMS_VERSION
-      && currentVersion === TERMS_VERSION;
+      && String(profile.termsVersion || '') === activeTermsVersion
+      && currentVersion === activeTermsVersion;
 
-    renderProfileState(status, termsCurrent);
+    renderBranding(isPartner);
+    renderProfileState(status, termsCurrent, isPartner);
     renderReferralLink(profile, status, termsCurrent);
+    renderPromoMaterials(status, termsCurrent);
+    renderPayoutForm(profile);
     renderVolume(data);
     renderCurrencyTotals(data.totalsByCurrency);
     renderCommissions(data.commissions);
     renderOrders(data.orders);
   }
 
-  function renderProfileState(status, termsCurrent) {
+  function renderBranding(isPartner) {
+    const heroLabel = byId('aff-hero-label');
+    if (heroLabel) heroLabel.textContent = isPartner ? 'Partner program' : 'Founding customer ambassador';
+    document.title = isPartner
+      ? 'Partner dashboard — stockportfolio.pro'
+      : 'Customer ambassador dashboard — stockportfolio.pro';
+    const termsHref = isPartner ? '/partner-terms.html' : '/affiliate-terms.html';
+    const termsLabel = isPartner ? 'Partner Program Terms' : 'Customer Ambassador Terms';
+    const inlineTerms = byId('aff-terms-link');
+    if (inlineTerms) {
+      inlineTerms.href = termsHref;
+      inlineTerms.textContent = `${termsLabel}, version ${isPartner ? PARTNER_TERMS_DATE_LABEL : TERMS_DATE_LABEL}`;
+    }
+    const readTerms = byId('aff-terms-read-link');
+    if (readTerms) readTerms.href = termsHref;
+  }
+
+  function renderProfileState(status, termsCurrent, isPartner) {
     const label = byId('aff-state-label');
     const title = byId('aff-state-title');
     const message = byId('aff-state-message');
     const termsAction = byId('aff-terms-action');
     const accept = byId('aff-accept');
     const checkbox = byId('aff-terms-checkbox');
+    const dateLabel = isPartner ? PARTNER_TERMS_DATE_LABEL : TERMS_DATE_LABEL;
 
     checkbox.checked = false;
     accept.disabled = true;
@@ -133,7 +162,7 @@
       setStatusPill('Terms update required', 'invited');
       label.textContent = 'Terms update';
       title.textContent = 'Accept the current terms to keep sharing';
-      message.textContent = `The program terms are now dated ${TERMS_DATE_LABEL}. Review and accept that version before using the link from this dashboard.`;
+      message.textContent = `The program terms are now dated ${dateLabel}. Review and accept that version before using the link from this dashboard.`;
       accept.textContent = 'Accept current terms';
       termsAction.hidden = false;
       return;
@@ -201,6 +230,76 @@
       '',
       'StockPortfolio.pro is research software, not personal investment advice.'
     ].join('\n');
+  }
+
+  function renderPromoMaterials(status, termsCurrent) {
+    const section = byId('aff-promo-section');
+    const url = safeReferralUrl(currentData && currentData.profile && currentData.profile.referralUrl);
+    const usable = status === 'active' && termsCurrent && Boolean(url);
+    section.hidden = !usable;
+    if (!usable) return;
+    byId('aff-promo-newsletter').value = [
+      '[Affiliate disclosure: I may earn a commission if you purchase through this link, at no extra cost to you.]',
+      '',
+      "I've been using StockPortfolio.pro for research. Unlike tools that give generic answers, every number cites the exact 10-K/10-Q line it came from, so you can verify it yourself instead of just trusting it.",
+      '',
+      `Try it: ${url}`
+    ].join('\n');
+    byId('aff-promo-social').value = [
+      'Research tool that actually cites its sources.',
+      '',
+      'StockPortfolio.pro shows you the SEC filing behind every number. No black boxes.',
+      '',
+      url,
+      '(Affiliate link — I may earn a commission)'
+    ].join('\n');
+    byId('aff-promo-blog').value = [
+      '[Full disclosure: this is an affiliate link. If you purchase through it, I may earn a commission at no extra cost to you.]',
+      '',
+      "One tool I've found genuinely useful is StockPortfolio.pro. Every answer includes a direct link to the SEC filing source, so instead of a generic summary you get cited research you can verify.",
+      '',
+      `Check it out: ${url}`
+    ].join('\n');
+  }
+
+  function renderPayoutForm(profile) {
+    const method = byId('aff-payout-method');
+    const handle = byId('aff-payout-handle');
+    const currency = byId('aff-payout-currency');
+    method.value = profile && profile.payoutMethod ? profile.payoutMethod : '';
+    handle.value = profile && profile.payoutHandle ? profile.payoutHandle : '';
+    currency.value = profile && profile.payoutCurrency ? profile.payoutCurrency : '';
+  }
+
+  async function savePayoutDetails(event) {
+    event.preventDefault();
+    const status = byId('aff-payout-status');
+    const button = byId('aff-payout-save');
+    const body = {
+      payoutMethod: byId('aff-payout-method').value || null,
+      payoutHandle: byId('aff-payout-handle').value.trim() || null,
+      payoutCurrency: byId('aff-payout-currency').value.trim() || null
+    };
+    button.disabled = true;
+    status.textContent = 'Saving…';
+    status.classList.remove('delta-neg');
+    try {
+      const response = await fetch('/api/affiliate/payout-details', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(String(payload && payload.message || 'Payout details could not be saved.'));
+      status.textContent = 'Saved.';
+      if (payload.profile) renderPayoutForm(payload.profile);
+    } catch (error) {
+      status.textContent = error && error.message ? error.message : 'Payout details could not be saved.';
+      status.classList.add('delta-neg');
+    } finally {
+      button.disabled = false;
+    }
   }
 
   function renderVolume(data) {
@@ -381,7 +480,10 @@
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ acceptTerms: true, termsVersion: TERMS_VERSION })
+        body: JSON.stringify({
+          acceptTerms: true,
+          termsVersion: (currentData && currentData.profile && currentData.profile.kind === 'partner') ? PARTNER_TERMS_VERSION : TERMS_VERSION
+        })
       });
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) throw new Error(safeApiMessage(payload && payload.message));
@@ -399,6 +501,7 @@
     const message = String(value || '').trim();
     const allowed = [
       'The ambassador terms have changed. Review the current version before accepting.',
+      'The partner program terms have changed. Review the current version before accepting.',
       'A verified active customer purchase is required before accepting an ambassador invitation.',
       'A current administrator invitation is required before this link can be activated.',
       'This invitation is not active.',

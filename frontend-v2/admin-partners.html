@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <title>Partner applications — admin</title>
+  <link rel="icon" href="/Media/icon.png" />
+  <link rel="stylesheet" href="assets/system.css?v=20260912-planfix1" />
+  <style>
+    .ap-shell { max-width: 880px; margin: 0 auto; padding: 40px 0 80px; }
+    .ap-token-row { display: flex; gap: 10px; align-items: center; margin: 18px 0 28px; flex-wrap: wrap; }
+    .ap-token-row input { flex: 1 1 320px; }
+    .ap-card { display: grid; gap: 10px; margin-bottom: 16px; padding: 20px; }
+    .ap-card dl { display: grid; grid-template-columns: 140px 1fr; gap: 6px 12px; margin: 8px 0; font-size: 13px; }
+    .ap-card dt { color: var(--ink-3); }
+    .ap-card dd { margin: 0; color: var(--ink-2); white-space: pre-wrap; }
+    .ap-actions { display: flex; gap: 10px; margin-top: 6px; }
+    .ap-empty { color: var(--ink-3); padding: 24px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container ap-shell">
+      <h1 class="title-1">Pending partner applications</h1>
+      <p class="muted small">Paste the admin token to load and act on applications. Nothing here is public — this page cannot fetch or change anything without a valid token.</p>
+
+      <div class="ap-token-row">
+        <input class="input" id="ap-token" type="password" placeholder="x-admin-token" autocomplete="off" />
+        <button class="btn btn-primary" id="ap-load" type="button">Load applications</button>
+      </div>
+
+      <p class="small" id="ap-status" role="status" aria-live="polite"></p>
+      <div id="ap-list"></div>
+    </div>
+  </main>
+
+  <script>
+    const tokenInput = document.getElementById('ap-token');
+    const status = document.getElementById('ap-status');
+    const list = document.getElementById('ap-list');
+    const stored = sessionStorage.getItem('sp_admin_token');
+    if (stored) tokenInput.value = stored;
+
+    document.getElementById('ap-load').addEventListener('click', load);
+
+    async function load() {
+      const token = tokenInput.value.trim();
+      if (!token) { status.textContent = 'Enter the admin token first.'; return; }
+      sessionStorage.setItem('sp_admin_token', token);
+      status.textContent = 'Loading…';
+      list.innerHTML = '';
+      try {
+        const response = await fetch('/api/admin/partners/pending', { headers: { 'x-admin-token': token } });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data && data.message || 'Unable to load applications.');
+        status.textContent = '';
+        render(data.applications || []);
+      } catch (error) {
+        status.textContent = error && error.message ? error.message : 'Unable to load applications.';
+      }
+    }
+
+    function esc(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, (ch) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[ch]));
+    }
+
+    function render(applications) {
+      if (!applications.length) {
+        list.innerHTML = '<p class="ap-empty">No pending applications.</p>';
+        return;
+      }
+      list.innerHTML = applications.map((app) => `
+        <article class="card ap-card" data-id="${esc(app.id)}">
+          <h2 class="title-3">${esc(app.name || '(no name)')} — ${esc(app.email || '(no email)')}</h2>
+          <dl>
+            <dt>Website</dt><dd>${esc(app.website || '—')}</dd>
+            <dt>Audience</dt><dd>${esc(app.audienceSize || '—')}</dd>
+            <dt>Content focus</dt><dd>${esc(app.contentFocus || '—')}</dd>
+            <dt>Promotional approach</dt><dd>${esc(app.promotionalApproach || '—')}</dd>
+            <dt>Why partner</dt><dd>${esc(app.whyPartner || '—')}</dd>
+            <dt>Payout</dt><dd>${esc(app.payoutMethod || 'not set')}${app.payoutHandle ? ' — ' + esc(app.payoutHandle) : ''}</dd>
+            <dt>Applied</dt><dd>${esc(app.createdAt ? new Date(app.createdAt).toLocaleString() : '—')}</dd>
+          </dl>
+          <div class="ap-actions">
+            <button class="btn btn-primary" type="button" data-action="approve">Approve</button>
+            <button class="btn btn-ghost" type="button" data-action="decline">Decline</button>
+          </div>
+          <p class="small" data-role="row-status"></p>
+        </article>`).join('');
+
+      list.querySelectorAll('[data-action]').forEach((button) => {
+        button.addEventListener('click', () => act(button));
+      });
+    }
+
+    async function act(button) {
+      const card = button.closest('.ap-card');
+      const id = card.getAttribute('data-id');
+      const rowStatus = card.querySelector('[data-role="row-status"]');
+      const action = button.getAttribute('data-action');
+      let reason = null;
+      if (action === 'decline') {
+        reason = window.prompt('Optional reason to include in the decline email:') || null;
+      }
+      card.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+      rowStatus.textContent = action === 'approve' ? 'Approving…' : 'Declining…';
+      try {
+        const response = await fetch(`/api/admin/partners/${encodeURIComponent(id)}/${action}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'x-admin-token': tokenInput.value.trim() },
+          body: JSON.stringify(reason ? { reason } : {})
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data && data.message || 'Action failed.');
+        card.style.opacity = '0.5';
+        rowStatus.textContent = action === 'approve' ? 'Approved. Removing…' : 'Declined. Removing…';
+        setTimeout(() => card.remove(), 900);
+      } catch (error) {
+        rowStatus.textContent = error && error.message ? error.message : 'Action failed.';
+        card.querySelectorAll('button').forEach((b) => { b.disabled = false; });
+      }
+    }
+  </script>
+</body>
+</html>
