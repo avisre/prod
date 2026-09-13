@@ -99,17 +99,19 @@ function loadFund(symbol) {
     return data;
 }
 // cache first; any other US-listed SEC registrant is built on demand
-// (Yahoo + SEC, ~5-20s once, persisted) — the universe is ALL of them
+// (Yahoo + SEC, ~5-20s once, persisted) — the universe is ALL of them.
+// A cache hit past isStaleOnDemand's threshold still gets rebuilt below —
+// otherwise a non-index ticker's first-ever fetch date is also its last.
 async function loadFundAny(symbol) {
-    const cached = loadFund(symbol);
-    if (cached) return cached;
     const key = String(symbol || '').toUpperCase().trim();
-    if (!fundFetch.lookup(key)) return null; // not a US-listed SEC filer
+    const cached = loadFund(symbol);
+    if (cached && !fundFetch.isStaleOnDemand(key)) return cached;
+    if (!fundFetch.lookup(key)) return cached; // not a US-listed SEC filer — serve whatever cache exists, if any
     try {
         const payload = await fundFetch.buildFundamentals(key);
         _cache.set(key, payload);
         return payload;
-    } catch (_) { return null; }
+    } catch (_) { return cached; } // rebuild failed — fail open to the stale cache rather than nothing
 }
 const NO_DATA = (symbol) => ({ error: `No data for ${symbol}. We cover US exchange-listed SEC filers. Check the ticker symbol.` });
 

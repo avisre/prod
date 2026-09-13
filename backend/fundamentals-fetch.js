@@ -185,4 +185,35 @@ async function buildFundamentals(symbol) {
     return timed;
 }
 
-module.exports = { buildFundamentals, lookup };
+// On-demand tickers never get touched again after their first fetch, unlike
+// the index names below which the nightly/weekly CI job keeps warm on its own
+// schedule — this is what let fundamentals go a year+ stale for anything
+// outside the S&P 1500 and surfaced as AppSumo refunds citing "old data, not
+// fresh". Refresh on request past this age instead of serving it forever.
+const STALE_AFTER_MS = 90 * 24 * 60 * 60 * 1000;
+let _indexSymbols = null;
+function indexCoveredSymbols() {
+    // Only sp500-companies.json is what .github/workflows/refresh-fundamentals.yml
+    // actually passes to the nightly/weekly job. sp1500-companies.json exists on
+    // disk but nothing schedules against it — treating it as "covered" here would
+    // silently reintroduce the same staleness bug for ~1,000 more tickers.
+    if (_indexSymbols) return _indexSymbols;
+    _indexSymbols = new Set();
+    try {
+        const d = JSON.parse(fs.readFileSync(path.join(DATA_DIR, 'sp500-companies.json'), 'utf8'));
+        const list = Array.isArray(d) ? d : (d.companies || []);
+        for (const c of list) _indexSymbols.add(String((c || {}).symbol || '').toUpperCase());
+    } catch (_) { /* file may not exist in this checkout */ }
+    return _indexSymbols;
+}
+
+function isStaleOnDemand(symbol) {
+    const sym = String(symbol || '').toUpperCase().trim();
+    if (indexCoveredSymbols().has(sym)) return false; // already kept warm by scripts/refresh-fundamentals.js
+    try {
+        const file = path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
+        return (Date.now() - fs.statSync(file).mtimeMs) > STALE_AFTER_MS;
+    } catch (_) { return false; } // no file yet — that's "missing", not "stale"
+}
+
+module.exports = { buildFundamentals, lookup, isStaleOnDemand };
