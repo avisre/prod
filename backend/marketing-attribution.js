@@ -225,6 +225,24 @@ function decodeAttribution(value, { secret, now = Date.now() } = {}) {
     return parsed;
 }
 
+// True when a request carries an explicit campaign marker. Lives here rather
+// than in a caller because two very different modules need the SAME answer:
+// app.js decides whether to capture the touch on its asset-less server-rendered
+// pages, and ssr-cache.js decides whether to bypass the shared HTML cache so
+// that capture can happen at all. If those two definitions ever drifted apart,
+// campaign clicks would be served from cache and silently lost.
+const CAMPAIGN_MARKER_PARAMS = Object.freeze([
+    'utm_source', 'source', 'utm_campaign', 'utm_medium',
+    'utm_content', 'content_id', 'click_id', 'cta_id'
+]);
+function hasCampaignMarker(query) {
+    if (!query || typeof query !== 'object') return false;
+    return CAMPAIGN_MARKER_PARAMS.some((k) => {
+        const v = query[k];
+        return typeof v === 'string' ? v.trim() !== '' : v !== undefined && v !== null;
+    });
+}
+
 function attributionTouch(req, { now = Date.now() } = {}) {
     const query = req && req.query && typeof req.query === 'object' ? req.query : {};
     const referrer = sanitizeReferrer(req && (req.headers.referer || req.headers.referrer));
@@ -354,6 +372,8 @@ function setQaModeCookie(res, enabled, {
 }
 
 module.exports = {
+    hasCampaignMarker,
+    CAMPAIGN_MARKER_PARAMS,
     SESSION_COOKIE_NAME,
     QA_COOKIE_NAME,
     SESSION_MAX_AGE_SECONDS,

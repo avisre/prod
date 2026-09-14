@@ -1997,20 +1997,18 @@ app.use((req, res, next) => {
     next();
 });
 
-// True when a request carries an explicit campaign marker. Used by the
-// server-rendered pages that load no /assets/*.js and so have no client-side
-// tracking: capturing the touch there is the only way those landings are ever
-// attributed, but capturing it sets a cookie, and ssr-cache refuses to cache
-// any response with a Set-Cookie header (ssr-cache.js:299). Gating on an
-// explicit marker keeps organic and crawler traffic — the overwhelming
-// majority, and the reason the cache exists — fully cacheable, and pays the
-// miss only for the campaign clicks that actually need measuring.
-// Deliberately NOT triggered by a bare external referrer: that would match most
-// organic search traffic and empty the cache for the case it matters most.
+// Campaign-marker test for the server-rendered pages that load no /assets/*.js
+// and so have no client-side tracking: capturing the touch there is the only
+// way those landings are ever attributed. Gating on an explicit marker keeps
+// organic and crawler traffic — the overwhelming majority, and the reason the
+// SSR cache exists — cacheable, and pays the cost only for clicks that need
+// measuring. Deliberately NOT triggered by a bare external referrer: that
+// matches most organic search and would empty the cache.
+// The definition lives in marketing-attribution.js because ssr-cache's bypass
+// must agree with it exactly — if they drifted, marked traffic would be served
+// from cache and the touch silently lost.
 function hasCampaignMarker(req) {
-    const q = (req && req.query) || {};
-    return Boolean(q.utm_source || q.source || q.utm_campaign || q.utm_medium
-        || q.click_id || q.cta_id || q.content_id || q.utm_content);
+    return marketingAttribution.hasCampaignMarker(req && req.query);
 }
 
 function marketingRequestFields(req, res) {
@@ -2135,7 +2133,13 @@ const { pixelConfig } = require('./pixels');
 // no-Set-Cookie only. Deploy clears it; 6h TTL covers the out-of-process
 // nightly fundamentals rewrites. Zero new npm deps.
 const ssrCache = require('./ssr-cache');
-const ssrCacheMw = ssrCache.middleware();
+// bypassWhen: a campaign-marked landing must reach its route handler so the
+// attribution touch is actually captured. This cache keys on path only and a
+// HIT short-circuits before any route runs, so without this every Show HN or
+// partner click on a cached page would be unattributable.
+const ssrCacheMw = ssrCache.middleware({
+    bypassWhen: (req) => marketingAttribution.hasCampaignMarker(req && req.query)
+});
 app.use(ssrCacheMw);
 
 app.get('/sitemap.xml', (req, res) => {

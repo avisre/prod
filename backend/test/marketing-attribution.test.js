@@ -92,4 +92,21 @@ test('filing-changes landings are attributed without emptying the SSR cache', ()
 
     assert.match(ssrCacheJs, /getHeader\('Set-Cookie'\)\)\s*return;/,
         'ssr-cache must keep refusing to cache a response that sets a cookie');
+
+    // THE HALF THAT WAS MISSING, and that made the capture above a no-op when
+    // it was first shipped: ssr-cache keys on path only and a HIT returns via
+    // res.send() WITHOUT calling next(), so a cached page never reaches its
+    // route and the touch is never captured. Verified against production: a
+    // ?utm_source= request set no cookie at all. The cache must therefore
+    // bypass for marked traffic, and app.js must supply that predicate.
+    assert.match(ssrCacheJs, /cfg\.bypassWhen === 'function' && cfg\.bypassWhen\(req\)/,
+        'ssr-cache must let a caller bypass the cache, or campaign clicks are served from it and lost');
+    assert.match(appJs, /bypassWhen: \(req\) => marketingAttribution\.hasCampaignMarker/,
+        'app.js must wire that bypass to the SAME predicate the capture uses');
+    // One definition, two consumers — drift here loses clicks silently.
+    assert.equal(typeof tracking.hasCampaignMarker, 'function', 'the predicate is exported for both consumers');
+    assert.equal(tracking.hasCampaignMarker({ utm_source: 'hn' }), true);
+    assert.equal(tracking.hasCampaignMarker({ utm_source: '  ' }), false, 'a blank value is not a campaign');
+    assert.equal(tracking.hasCampaignMarker({}), false);
+    assert.equal(tracking.hasCampaignMarker(null), false);
 });

@@ -230,6 +230,15 @@ function middleware(opts) {
     // route: never serve the cached free page for it, and never store its
     // per-user render into the shared cache.
     if (req.query && req.query.sp === '2') return next();
+    // A campaign-marked landing (utm_source, click_id, …) must REACH the route,
+    // because that is where the attribution touch is captured. The cache key is
+    // querystring-free and a HIT returns via res.send() without calling next(),
+    // so without this a Show HN spike would be served almost entirely from
+    // cache and every click would be unattributable — the exact failure this
+    // was built to prevent. Marked traffic is a small slice, so organic and
+    // crawler hits (the reason this cache exists) still get served from it.
+    // Injected rather than required, to keep this module dependency-free.
+    if (typeof cfg.bypassWhen === 'function' && cfg.bypassWhen(req)) return next();
 
     const key = normalizeKey(path);
 
