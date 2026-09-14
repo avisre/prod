@@ -1,7 +1,12 @@
 {
   "name": "stockportfolio-mcp",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "MCP server for filing-grounded US stock data — financials, SEC filing timelines, comparisons and fund profiles, every value with the URL of the filing it came from.",
+  "mcpName": "io.github.avisre/stockportfolio-mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/avisre/stockportfolio-mcp.git"
+  },
   "type": "module",
   "main": "dist/server.js",
   "bin": {

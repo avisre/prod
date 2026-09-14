@@ -1,19 +1,35 @@
 # MCP directory listings — draft submission copy
 
-Draft text for four MCP directories. **Nothing here has been submitted.** A
-human submits each one manually.
+Draft text for four MCP directories. **Nothing here has been submitted yet
+(9/14).** A human submits each one manually.
 
-Prerequisite before submitting anywhere: the server has to be reachable. Today
-`mcp-server/` runs over **stdio only** and is not deployed. Registries expect
-either a published npm package or a public repo people can point their client
-at. Decide that first — a listing pointing at nothing gets removed.
+**Prerequisites are now cleared, both of them:**
+- `stockportfolio-mcp` is **live on npm** (`npx stockportfolio-mcp`), v0.3.1,
+  `mcpName: "io.github.avisre/stockportfolio-mcp"` and a `repository` field
+  now in `package.json`.
+- The server is also reachable with **no install at all**: a hosted Streamable
+  HTTP endpoint at `POST https://www.stockportfolio.pro/mcp` (keyless tier: 2
+  free asks + 50 lookups/IP/30d, or OAuth 2.1 + DCR for a paying account —
+  shipped 9/14). `mcp-server/src/bridge.js` is what the npm package runs
+  under the hood; it bridges stdio to that same hosted endpoint.
+- **`avisre/stockportfolio-mcp` now exists** (created 9/14, standalone
+  `mcp-server/` subtree, leak-gate clean, 11/11 tests pass):
+  https://github.com/avisre/stockportfolio-mcp
+
+**Still do not point any listing at `avisre/prod`.** That repo is public and
+contains `backend/ai-client.js` and `CLAUDE.md`, which name the AI provider —
+the one trade secret this business has. Sending AI-ecosystem discovery traffic
+at it would actively worsen that exposure. Every listing below points at the
+standalone repo/package instead.
 
 Shared facts, kept identical across all four so the listings agree:
 
 - **Canonical name:** `stockportfolio-mcp`
 - **Display name:** StockPortfolio.pro — Verified Financial Data
 - **Homepage:** https://www.stockportfolio.pro
-- **License:** MIT
+- **npm package:** https://www.npmjs.com/package/stockportfolio-mcp
+- **Repo:** https://github.com/avisre/stockportfolio-mcp (standalone — see above, NOT avisre/prod)
+- **License:** MIT (matches `mcp-server/package.json` and `mcp-server/LICENSE`)
 - **Transport:** stdio
 - **Tools:** 7 (`sp_financials`, `sp_filing`, `sp_compare`, `sp_screen`,
   `sp_fund`, `sp_ask`, `sp_health`)
@@ -27,8 +43,7 @@ Shared facts, kept identical across all four so the listings agree:
 
 ## 1. Anthropic MCP registry
 
-**Name:** `io.github.<owner>/stockportfolio-mcp`
-*(fill in the actual GitHub owner before submitting)*
+**Name:** `io.github.avisre/stockportfolio-mcp`
 
 **Description (one line, ~100 chars):**
 > Filing-grounded US financial data — every value returns with its SEC filing source. No estimates.
@@ -78,7 +93,7 @@ Shared facts, kept identical across all four so the listings agree:
 > need global coverage or analyst estimates, this is not the right server.
 
 **Category:** Finance / Data
-**Repo:** *(add public repo URL — required by Glama's quality scoring)*
+**Repo:** https://github.com/avisre/stockportfolio-mcp
 
 ---
 
@@ -95,8 +110,10 @@ Shared facts, kept identical across all four so the listings agree:
 > filing-grounded Ask, and a health check. Every response includes the SEC
 > filing URL the values were drawn from.
 >
-> Install: point your MCP client at `node /path/to/mcp-server/src/server.js`
-> with `MCP_API_KEY` in the env. stdio transport.
+> Install: `npx -y stockportfolio-mcp` (stdio, bridges to the hosted
+> endpoint), or point an HTTP-capable client straight at
+> `https://www.stockportfolio.pro/mcp` — both keyless (rate-limited) and
+> `sp_live_...` key auth work.
 >
 > Coverage: US-listed, USD-reporting companies only.
 
@@ -135,9 +152,17 @@ Shared facts, kept identical across all four so the listings agree:
 
 ## Before submitting — checklist for the human
 
-- [ ] Decide how the server is distributed (npm package vs public repo) and fill
-      in the repo/package URL in every listing above.
-- [ ] Confirm the GitHub owner slug for the Anthropic registry name.
-- [ ] Re-read each directory's current submission form; these fields change.
+- [x] ~~Decide how the server is distributed~~ — both: npm package
+      (`stockportfolio-mcp`) and standalone repo (`avisre/stockportfolio-mcp`),
+      done 9/14.
+- [x] ~~Confirm the GitHub owner slug~~ — `io.github.avisre/stockportfolio-mcp`,
+      now in `package.json`'s `mcpName` field.
+- [ ] Re-read each directory's current submission form; these fields change,
+      and none of the four has actually been submitted yet. The Anthropic
+      registry publishes via the `mcp-publisher` CLI (GitHub-auth'd,
+      `io.github.avisre/...` name proven by the repo it's run from) or a PR —
+      an interactive login, so this needs the owner's terminal, not a session
+      without their GitHub credentials. Glama/mcp.so/Smithery are web-form
+      submissions against a logged-in account — same constraint.
 - [ ] Check the coverage caveat survived any editing. It is the one line that
       must not be trimmed for length.
