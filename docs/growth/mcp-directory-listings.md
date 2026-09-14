@@ -157,12 +157,21 @@ Shared facts, kept identical across all four so the listings agree:
       done 9/14.
 - [x] ~~Confirm the GitHub owner slug~~ — `io.github.avisre/stockportfolio-mcp`,
       now in `package.json`'s `mcpName` field.
-- [ ] Re-read each directory's current submission form; these fields change,
-      and none of the four has actually been submitted yet. The Anthropic
-      registry publishes via the `mcp-publisher` CLI (GitHub-auth'd,
-      `io.github.avisre/...` name proven by the repo it's run from) or a PR —
-      an interactive login, so this needs the owner's terminal, not a session
-      without their GitHub credentials. Glama/mcp.so/Smithery are web-form
-      submissions against a logged-in account — same constraint.
+- [x] ~~Anthropic registry needs an interactive login~~ — **wrong, and now
+      automated.** `avisre/stockportfolio-mcp` carries `server.json` plus
+      `.github/workflows/publish-mcp.yml`, which authenticates with **GitHub
+      OIDC** (no device flow, no stored token — OIDC also proves the
+      `io.github.avisre/*` namespace from the repo itself). Verified on 9/14:
+      a real run passed `login` and `validate`.
+- [ ] **Publish `stockportfolio-mcp@0.3.1` to npm.** This is the ONLY thing
+      still blocking the registry listing. The registry refuses a package whose
+      *published* package.json lacks `mcpName`; that field landed in 0.3.1 and
+      npm still serves 0.3.0. Its exact words:
+      `NPM package 'stockportfolio-mcp' is missing required 'mcpName' field.`
+      Needs an npm credential. Then just `gh workflow run publish-mcp.yml`.
+- [ ] Glama / mcp.so / Smithery: web-form submissions against a logged-in
+      account, so they stay manual. Worth doing the official registry first —
+      several aggregators index from it, so one submission may cover more than
+      one listing.
 - [ ] Check the coverage caveat survived any editing. It is the one line that
       must not be trimmed for length.
