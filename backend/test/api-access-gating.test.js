@@ -76,6 +76,22 @@ test('the Dev plan grants API/MCP access but no web-app tier', () => {
         'the Dev short-circuit must precede the `planId !== \'free\'` catch-all');
 });
 
+// An MCP client discovers OAuth ONLY from the WWW-Authenticate challenge on a
+// 401. Without it an expired token is a dead end: the client sees 401, has no
+// resource_metadata URL to follow, and the customer cannot re-authenticate from
+// inside ChatGPT or claude.ai at all.
+test('a /mcp 401 points the client at its OAuth discovery document', () => {
+    assert.match(appSource, /function mcpAuthChallenge\(req, res\) \{\s*if \(req\.path !== '\/mcp'\) return;/,
+        'the challenge is scoped to /mcp, leaving the REST error contract alone');
+    assert.match(appSource, /resource_metadata="\$\{oauthBase\(req\)\}\/\.well-known\/oauth-protected-resource"/,
+        'the challenge carries the RFC 9728 metadata URL');
+    // Both failure modes must challenge: no credential at all, and one that is
+    // present but expired/revoked — the second is what a stale connector hits.
+    const fn = appSource.slice(appSource.indexOf('async function apiKeyAuth'), appSource.indexOf('async function apiKeyAuth') + 1800);
+    assert.equal((fn.match(/mcpAuthChallenge\(req, res\);/g) || []).length, 2,
+        'both the missing-credential and invalid-credential 401s challenge');
+});
+
 test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
     const routes = [
         "app.post('/api/account/api-keys', authMiddleware, apiAccessGate,",

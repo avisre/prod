@@ -5149,11 +5149,24 @@ async function optionalAuth(req, res, next) {
 // missing: every existing credits.check/spend call site and
 // effectiveAskLimit() reads only these four fields, so an API-key caller
 // spends from the same wallet as the web account with no other code change.
+// An MCP client that presents an EXPIRED or revoked credential needs the same
+// pointer a credential-less one gets, or it has no way to discover that
+// re-authentication is possible — it just sees a bare 401 and stops. Scoped to
+// /mcp so the REST API's existing error contract is untouched.
+function mcpAuthChallenge(req, res) {
+    if (req.path !== '/mcp') return;
+    res.set('WWW-Authenticate',
+        `Bearer realm="stockportfolio", resource_metadata="${oauthBase(req)}/.well-known/oauth-protected-resource"`);
+}
+
 async function apiKeyAuth(req, res, next) {
     const header = String(req.get('authorization') || '');
     const bearer = /^Bearer\s+(.+)$/i.exec(header.trim());
     const rawKey = bearer ? bearer[1].trim() : String(req.get('x-api-key') || '').trim();
-    if (!rawKey) return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
+    if (!rawKey) {
+        mcpAuthChallenge(req, res);
+        return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
+    }
     try {
         // Two credential kinds resolve to the same identity: a user-minted
         // sp_live_ key, and an OAuth access token issued to a chatbot connector
@@ -5163,7 +5176,10 @@ async function apiKeyAuth(req, res, next) {
         const resolved = rawKey.startsWith(oauthMcp.ACCESS_PREFIX)
             ? await oauthMcp.resolveAccessToken(rawKey)
             : await apiKeys.resolveKey(rawKey);
-        if (!resolved) return res.status(401).json({ error: 'Invalid or revoked API key.' });
+        if (!resolved) {
+            mcpAuthChallenge(req, res);
+            return res.status(401).json({ error: 'Invalid or revoked API key.' });
+        }
         const user = await User.findById(resolved.userId);
         if (!user) return res.status(401).json({ error: 'API key owner not found.' });
         const normalized = ensureSubscriptionShape(user);
