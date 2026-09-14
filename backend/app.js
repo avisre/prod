@@ -39,6 +39,7 @@ const freeTools = require('./free-tools');
 const embedWidgets = require('./embed-widgets');
 const verifyHeadline = require('./verify');
 const marketingAttribution = require('./marketing-attribution');
+const outreachMailer = require('./outreach-mailer');
 const growthMeasurement = require('./growth-measurement');
 const ga4Server = require('./ga4-server');
 const xray = require('./xray');
@@ -12533,6 +12534,33 @@ app.post('/api/digest/unsubscribe', express.urlencoded({ extended: false }), asy
     } catch (_) {
         res.status(400).type('text/plain').send('Invalid unsubscribe token');
     }
+});
+
+// Cold-outreach unsubscribe. Separate from the digest pair above because a
+// prospect has NO ACCOUNT — the digest token carries a userId and flips a flag
+// on the User document, which is impossible for someone who never signed up.
+// This token carries the address itself and writes to `outreach_suppression`,
+// which outreach-mailer checks before every send. Without this there is no way
+// for a stranger to make the mail stop, which is both a CAN-SPAM problem and
+// the reason cold recipients click "spam" instead — the thing that actually
+// damages a sending domain.
+app.get('/api/outreach/unsubscribe', async (req, res) => {
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    const email = outreachMailer.verifyUnsubToken(String(req.query.token || ''), JWT_SECRET);
+    if (!email) {
+        return res.status(400).set('Content-Type', 'text/html').send(page('<h2>Invalid link</h2><p>This unsubscribe link is not valid. If you are still getting mail you did not ask for, reply to it and it will stop.</p>'));
+    }
+    await outreachMailer.suppress(email, 'unsubscribe_link').catch(() => {});
+    res.set('Content-Type', 'text/html').send(page('<h2>Unsubscribed</h2><p>You will not be contacted again from this list. Nothing else about your details is kept beyond the record needed to honour this.</p>'));
+});
+
+// RFC 8058 one-click. Must succeed on the token alone — no session, no
+// confirmation step — or mail clients treat the header as broken.
+app.post('/api/outreach/unsubscribe', express.urlencoded({ extended: false }), async (req, res) => {
+    const email = outreachMailer.verifyUnsubToken(String(req.query.token || ''), JWT_SECRET);
+    if (!email) return res.status(400).type('text/plain').send('Invalid unsubscribe token');
+    await outreachMailer.suppress(email, 'unsubscribe_one_click').catch(() => {});
+    res.status(200).type('text/plain').send('Unsubscribed');
 });
 
 // Headers every digest must carry so the one-click path actually works.
