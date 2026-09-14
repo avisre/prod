@@ -94,6 +94,18 @@ test('/mcp is exempt, or the agents the deny list names can never call a tool', 
     assert.equal(botBlocker.isExemptPath('/mcpx', isRawBodyWebhookPath), false);
 });
 
+test('/oauth/* is exempt, or the machine legs of the OAuth flow cannot run', () => {
+    // Registration and token exchange are made by the chatbot vendor's servers,
+    // not the user's browser: no browser headers, so the forged-browser check
+    // would 403 them and no customer could ever authenticate.
+    assert.equal(botBlocker.isExemptPath('/oauth/register', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/oauth/token', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/oauth/authorize', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/oauth/authorize/decision', isRawBodyWebhookPath), true);
+    // Scoped to the prefix and nothing adjacent to it.
+    assert.equal(botBlocker.isExemptPath('/oauthx', isRawBodyWebhookPath), false);
+});
+
 test('the deny list still names the chatbot agents — the exemption is what saves them', () => {
     // If these ever leave DENY_PATTERNS the /mcp exemption stops being
     // load-bearing, and this test should be revisited rather than deleted.

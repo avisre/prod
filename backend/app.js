@@ -31,6 +31,7 @@ const apiKeys = require('./api-keys');
 const publicApi = require('./public-api');
 const mcpEndpoint = require('./mcp-endpoint');
 const mcpAnon = require('./mcp-anon');
+const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
@@ -5154,7 +5155,14 @@ async function apiKeyAuth(req, res, next) {
     const rawKey = bearer ? bearer[1].trim() : String(req.get('x-api-key') || '').trim();
     if (!rawKey) return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
     try {
-        const resolved = await apiKeys.resolveKey(rawKey);
+        // Two credential kinds resolve to the same identity: a user-minted
+        // sp_live_ key, and an OAuth access token issued to a chatbot connector
+        // that cannot hold one. The prefix decides which store answers, so a
+        // refresh token or an API key presented in the wrong place resolves to
+        // nothing rather than being checked against the wrong table.
+        const resolved = rawKey.startsWith(oauthMcp.ACCESS_PREFIX)
+            ? await oauthMcp.resolveAccessToken(rawKey)
+            : await apiKeys.resolveKey(rawKey);
         if (!resolved) return res.status(401).json({ error: 'Invalid or revoked API key.' });
         const user = await User.findById(resolved.userId);
         if (!user) return res.status(401).json({ error: 'API key owner not found.' });
@@ -5163,7 +5171,8 @@ async function apiKeyAuth(req, res, next) {
         req.user = user;
         req.subscription = normalized;
         req.tier = userTier(user, normalized);
-        req.apiKeyId = resolved.keyId;
+        req.apiKeyId = resolved.keyId || null;
+        req.oauthClientId = resolved.clientId || null;
         next();
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'Database unavailable.' });
@@ -5226,6 +5235,311 @@ app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, 
 // single request/response. GET/DELETE are part of the MCP HTTP spec for
 // server-push and session teardown, neither of which this stateless server
 // implements.
+// ===========================================================================
+// OAuth 2.1 + Dynamic Client Registration — the paid path for chatbot clients
+// ===========================================================================
+// mcp-anon.js lets ChatGPT and claude.ai reach /mcp at all, but a keyless
+// caller gets 2 free asks and then a paywall it cannot pass FROM INSIDE THAT
+// CLIENT, because neither product can send a static API key. This is the only
+// route by which a paying customer authenticates from a chatbot.
+//
+// The consent screen below is server-rendered with inline CSS/JS on purpose.
+// login.html loads assets/app.js, and CLAUDE.md's cache-stamp rule means any
+// edit under frontend-v2/assets/ has to be accompanied by a new ?v= stamp
+// applied to every HTML file AND every server-rendered page at once. Adding a
+// sign-in redirect there would have dragged that whole cascade into an OAuth
+// change, so this flow touches no frontend asset at all.
+
+// Discovery documents must advertise the SAME origin the client actually used,
+// or the client rejects the issuer as mismatched. Derived from the request
+// rather than APP_PUBLIC_URL because that variable is the apex
+// (https://stockportfolio.pro) while MCP must be reached on www — the apex
+// redirect drops the Authorization header, which is exactly the failure this
+// endpoint cannot afford.
+function oauthBase(req) {
+    const host = String(req.get('host') || 'www.stockportfolio.pro');
+    const proto = process.env.NODE_ENV === 'production' ? 'https' : req.protocol;
+    return `${proto}://${host}`;
+}
+
+function escapeHtmlOauth(value) {
+    return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
+// RFC 9728. MCP clients probe the bare path and the resource-suffixed one, so
+// both are served rather than guessing which a given client implements.
+function sendProtectedResourceMetadata(req, res) {
+    const base = oauthBase(req);
+    res.json({
+        resource: `${base}/mcp`,
+        authorization_servers: [base],
+        scopes_supported: ['mcp'],
+        bearer_methods_supported: ['header'],
+        resource_documentation: `${base}/api`
+    });
+}
+app.get('/.well-known/oauth-protected-resource', sendProtectedResourceMetadata);
+app.get('/.well-known/oauth-protected-resource/mcp', sendProtectedResourceMetadata);
+
+// RFC 8414. token_endpoint_auth_method is 'none' because these are PUBLIC
+// clients: a connector registered by ChatGPT or claude.ai cannot hold a secret,
+// so PKCE does the work a client_secret would otherwise do.
+app.get('/.well-known/oauth-authorization-server', (req, res) => {
+    const base = oauthBase(req);
+    res.json({
+        issuer: base,
+        authorization_endpoint: `${base}/oauth/authorize`,
+        token_endpoint: `${base}/oauth/token`,
+        registration_endpoint: `${base}/oauth/register`,
+        response_types_supported: ['code'],
+        grant_types_supported: ['authorization_code', 'refresh_token'],
+        code_challenge_methods_supported: ['S256'],
+        token_endpoint_auth_methods_supported: ['none'],
+        scopes_supported: ['mcp']
+    });
+});
+
+// Open registration is what "dynamic" means and ChatGPT will not connect
+// without it, but an unauthenticated POST that writes a row needs a ceiling.
+const oauthRegisterLimit = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: Number(process.env.OAUTH_REGISTER_RATE_LIMIT || 30),
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'too_many_requests' }
+});
+
+app.post('/oauth/register', oauthRegisterLimit, jsonParser, async (req, res) => {
+    const body = req.body || {};
+    try {
+        const client = await oauthMcp.registerClient({
+            clientName: body.client_name,
+            redirectUris: body.redirect_uris,
+            softwareId: body.software_id
+        });
+        return res.status(201).json({
+            client_id: client._id,
+            client_name: client.clientName,
+            redirect_uris: client.redirectUris,
+            token_endpoint_auth_method: 'none',
+            grant_types: ['authorization_code', 'refresh_token'],
+            response_types: ['code'],
+            client_id_issued_at: Math.floor(client.createdAt.getTime() / 1000)
+        });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'temporarily_unavailable' });
+        return res.status(400).json({ error: error.code || 'invalid_client_metadata', error_description: error.message });
+    }
+});
+
+// Resolves the signed-in website account from the auth cookie, or null. Not
+// authMiddleware: that answers 401 JSON, and this endpoint is a browser page
+// that must render a sign-in prompt instead of an error body.
+async function oauthCurrentUser(req) {
+    try {
+        const token = authTokenFromRequest(req);
+        if (!token) return null;
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = await User.findById(decoded.userId);
+        if (!user) return null;
+        if (Number(decoded.v || 0) !== Number(user.authVersion || 0)) return null;
+        return user;
+    } catch (_) {
+        return null;
+    }
+}
+
+function oauthErrorPage(res, status, title, detail) {
+    res.status(status).type('html').send(`<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>${escapeHtmlOauth(title)}</title>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,Arial;margin:0;padding:48px 20px;background:#f8fafc;color:#0f172a}
+.card{max-width:520px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px}
+h1{font-size:19px;margin:0 0 10px}p{margin:0 0 8px;color:#475569}</style>
+<div class="card"><h1>${escapeHtmlOauth(title)}</h1><p>${escapeHtmlOauth(detail)}</p></div>`);
+}
+
+app.get('/oauth/authorize', async (req, res) => {
+    const q = req.query || {};
+    const clientId = String(q.client_id || '');
+    const redirectUri = String(q.redirect_uri || '');
+
+    // client_id and redirect_uri are validated BEFORE any redirect can happen.
+    // Redirecting on a bad redirect_uri would turn this endpoint into an open
+    // redirector and hand the code to whoever asked for it, so these two
+    // failures render a page and go nowhere.
+    const client = await oauthMcp.getClient(clientId).catch(() => null);
+    if (!client) return oauthErrorPage(res, 400, 'Unknown application', 'This application is not registered. Ask it to reconnect, which will register it again.');
+    if (!redirectUri || !client.redirectUris.includes(redirectUri)) {
+        return oauthErrorPage(res, 400, 'Redirect address not recognised', 'The address this application asked us to return to is not one it registered. Nothing has been shared.');
+    }
+
+    // Past this point failures CAN safely go back to the verified redirect_uri.
+    const fail = (code, description) => {
+        const url = new URL(redirectUri);
+        url.searchParams.set('error', code);
+        if (description) url.searchParams.set('error_description', description);
+        if (q.state) url.searchParams.set('state', String(q.state));
+        return res.redirect(302, url.toString());
+    };
+    if (String(q.response_type || '') !== 'code') return fail('unsupported_response_type', 'Only the authorization code flow is supported.');
+    if (String(q.code_challenge_method || '') !== 'S256') return fail('invalid_request', 'PKCE with S256 is required.');
+    if (!String(q.code_challenge || '')) return fail('invalid_request', 'code_challenge is required.');
+
+    const user = await oauthCurrentUser(req);
+    const selfUrl = oauthBase(req) + req.originalUrl;
+    const hidden = ['client_id', 'redirect_uri', 'state', 'code_challenge', 'code_challenge_method', 'scope']
+        .map((k) => `<input type="hidden" name="${k}" value="${escapeHtmlOauth(q[k] || '')}">`).join('');
+
+    const head = `<!doctype html><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Connect ${escapeHtmlOauth(client.clientName)}</title>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,Arial;margin:0;padding:48px 20px;background:#f8fafc;color:#0f172a}
+.card{max-width:460px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px}
+h1{font-size:20px;margin:0 0 6px}.sub{color:#64748b;font-size:14px;margin:0 0 20px}
+ul{margin:0 0 20px;padding-left:20px;color:#334155}li{margin:4px 0}
+label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px}
+input[type=email],input[type=password]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;box-sizing:border-box}
+button{width:100%;padding:12px;border:0;border-radius:8px;background:#111827;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:16px}
+.ghost{background:#fff;color:#334155;border:1px solid #cbd5e1;margin-top:8px}
+.err{color:#b91c1c;font-size:13px;margin-top:10px;min-height:18px}
+.alt{font-size:13px;color:#64748b;text-align:center;margin-top:14px}
+a{color:#0f172a}</style>`;
+
+    if (!user) {
+        // Sign-in is inline so the consent request survives it. The new-tab
+        // escape hatch below exists because accounts created with Google have
+        // no password to type here, and adding a ?next= to login.html would
+        // have meant editing assets/app.js and stamping every page in the app.
+        return res.type('html').send(`${head}
+<div class="card">
+  <h1>Sign in to connect</h1>
+  <p class="sub"><strong>${escapeHtmlOauth(client.clientName)}</strong> wants to use your StockPortfolio.pro account.</p>
+  <form id="f">
+    <label for="e">Email</label><input id="e" type="email" autocomplete="username" required>
+    <label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required>
+    <button type="submit">Sign in</button>
+    <div class="err" id="err"></div>
+  </form>
+  <p class="alt">Signed up with Google?
+    <a href="/login.html" target="_blank" rel="noopener">Sign in here</a>, then
+    <a href="${escapeHtmlOauth(selfUrl)}">continue</a>.</p>
+</div>
+<script>
+document.getElementById('f').addEventListener('submit', async function (ev) {
+  ev.preventDefault();
+  var err = document.getElementById('err'); err.textContent = '';
+  try {
+    var r = await fetch('/api/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'same-origin',
+      body: JSON.stringify({ email: document.getElementById('e').value, password: document.getElementById('p').value })
+    });
+    if (!r.ok) { var b = await r.json().catch(function(){return {};}); err.textContent = b.message || 'Sign in failed.'; return; }
+    location.reload();
+  } catch (_) { err.textContent = 'Sign in failed. Please try again.'; }
+});
+</script>`);
+    }
+
+    const email = escapeHtmlOauth(user.email || '');
+    return res.type('html').send(`${head}
+<div class="card">
+  <h1>Connect ${escapeHtmlOauth(client.clientName)}</h1>
+  <p class="sub">Signed in as ${email}</p>
+  <ul>
+    <li>Read filing-grounded company data through your account</li>
+    <li>Spend credits from your monthly allowance</li>
+    <li>No access to your password, card details or portfolios</li>
+  </ul>
+  <form method="POST" action="/oauth/authorize/decision">${hidden}
+    <button type="submit" name="decision" value="allow">Allow access</button>
+    <button type="submit" name="decision" value="deny" class="ghost">Cancel</button>
+  </form>
+</div>`);
+});
+
+// The decision post is the only place a code is minted, and it requires the
+// session cookie — so a code is always bound to a real signed-in human who saw
+// the screen above.
+app.post('/oauth/authorize/decision', express.urlencoded({ extended: false }), async (req, res) => {
+    const body = req.body || {};
+    const clientId = String(body.client_id || '');
+    const redirectUri = String(body.redirect_uri || '');
+
+    const client = await oauthMcp.getClient(clientId).catch(() => null);
+    if (!client) return oauthErrorPage(res, 400, 'Unknown application', 'This application is not registered.');
+    if (!redirectUri || !client.redirectUris.includes(redirectUri)) {
+        return oauthErrorPage(res, 400, 'Redirect address not recognised', 'Nothing has been shared.');
+    }
+
+    const url = new URL(redirectUri);
+    if (body.state) url.searchParams.set('state', String(body.state));
+
+    const user = await oauthCurrentUser(req);
+    if (!user) {
+        url.searchParams.set('error', 'access_denied');
+        url.searchParams.set('error_description', 'The session expired before access was granted.');
+        return res.redirect(302, url.toString());
+    }
+    if (String(body.decision || '') !== 'allow') {
+        url.searchParams.set('error', 'access_denied');
+        return res.redirect(302, url.toString());
+    }
+
+    try {
+        const code = await oauthMcp.issueCode({
+            clientId, userId: String(user._id), redirectUri,
+            codeChallenge: String(body.code_challenge || ''),
+            codeChallengeMethod: String(body.code_challenge_method || 'S256'),
+            scope: String(body.scope || 'mcp')
+        });
+        url.searchParams.set('code', code);
+        oauthMcp.pruneExpired().catch(() => {});
+        return res.redirect(302, url.toString());
+    } catch (error) {
+        console.error('[oauth] issueCode failed:', error && error.message);
+        url.searchParams.set('error', 'server_error');
+        return res.redirect(302, url.toString());
+    }
+});
+
+app.post('/oauth/token', express.urlencoded({ extended: false }), jsonParser, async (req, res) => {
+    const body = req.body || {};
+    const grant = String(body.grant_type || '');
+    // No store, and no proxy may hold a token response.
+    res.set('Cache-Control', 'no-store');
+    try {
+        if (grant === 'authorization_code') {
+            const redeemed = await oauthMcp.redeemCode({
+                code: String(body.code || ''),
+                clientId: String(body.client_id || ''),
+                redirectUri: String(body.redirect_uri || ''),
+                codeVerifier: String(body.code_verifier || '')
+            });
+            // Deliberately one undifferentiated failure: saying which of the
+            // four checks failed would let a holder of a stolen code probe for
+            // the missing piece.
+            if (!redeemed) return res.status(400).json({ error: 'invalid_grant' });
+            return res.json(await oauthMcp.issueTokens(redeemed));
+        }
+        if (grant === 'refresh_token') {
+            const rotated = await oauthMcp.refresh({
+                refreshToken: String(body.refresh_token || ''),
+                clientId: String(body.client_id || '')
+            });
+            if (!rotated) return res.status(400).json({ error: 'invalid_grant' });
+            return res.json(rotated);
+        }
+        return res.status(400).json({ error: 'unsupported_grant_type' });
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'temporarily_unavailable' });
+        console.error('[oauth] token failed:', error && error.message);
+        return res.status(500).json({ error: 'server_error' });
+    }
+});
+
 // ---------------------------------------------------------------------------
 // /mcp accepts BOTH a keyed caller and a keyless one. The keyless path exists
 // because ChatGPT and claude.ai cannot send a static bearer token to a custom
@@ -5243,7 +5557,12 @@ async function apiKeyAuthOptional(req, res, next) {
     const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
     if (offered) return apiKeyAuth(req, res, next);
     if (!mcpAnon.enabled()) {
-        return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
+        // RFC 9728 challenge: this header is how ChatGPT and claude.ai learn
+        // that OAuth is available and where its metadata lives. Without it a
+        // 401 is a dead end — the client cannot guess the discovery URL.
+        res.set('WWW-Authenticate',
+            `Bearer realm="stockportfolio", resource_metadata="${oauthBase(req)}/.well-known/oauth-protected-resource"`);
+        return res.status(401).json({ error: 'Authentication required. Use OAuth, or pass Authorization: Bearer <key>.' });
     }
     req.anonMcp = true;
     return next();

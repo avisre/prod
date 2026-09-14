@@ -50,6 +50,16 @@ const DENY_PATTERNS = [
 // call (mcp-anon.js caps keyless use per IP and globally per day), and is rate
 // limited on both paths.
 //
+// /oauth/* is exempt for the same reason /mcp is, and it is not optional: the
+// registration and token-exchange legs of the OAuth flow are BACK-CHANNEL calls
+// made by ChatGPT's and claude.ai's own servers, not by the user's browser, so
+// they carry no browser headers and are refused by the forged-browser check
+// below. /oauth/authorize is the one leg a human actually loads, and it would
+// pass on its own — but the flow is worthless if the two machine legs 403.
+// Bounded the same way: registration is rate limited, the token endpoint
+// requires a valid single-use code plus its PKCE verifier, and the consent
+// endpoint requires a signed-in session.
+//
 // /licensing is exempt for the same reason robots.txt is: an agent refused above
 // is pointed at that page by FORBIDDEN_BODY, so it has to be fetchable to be read.
 // /api (the developer landing page, NOT the /api/v1 endpoints already covered by
@@ -57,7 +67,7 @@ const DENY_PATTERNS = [
 // crawler operator or an arriving developer is sent to, and it is where the
 // pricing and the copy-paste key setup live. It carries no data — the exemption
 // is a page, not the API itself.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
 
 // .json deliberately excluded: it used to let bulk data (the fundamentals
 // corpus) skip the nav rate limiter entirely. It's now gated at the app.js
