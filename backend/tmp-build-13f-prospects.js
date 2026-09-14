@@ -48,7 +48,11 @@ async function getJson(url, { cacheKey } = {}) {
 // not buying a research tool. Banks and insurers file 13Fs for trust desks; the
 // giant quant shops build everything in-house. Neither is the ICP, which is the
 // small-to-mid adviser with no research team.
-const EXCLUDE = /\b(BANK|BANCORP|TRUST CO|INSURANCE|LIFE INSURANCE|PENSION FUND|CITADEL|BLACKROCK|VANGUARD|STATE STREET|FIDELITY|GOLDMAN|MORGAN STANLEY|JPMORGAN|UBS|CREDIT SUISSE|DEUTSCHE|BARCLAYS|WELLS FARGO|NORTHERN TRUST|INVESCO|ALLIANZ|AMUNDI|SCHWAB)\b/i;
+const EXCLUDE = /\b(BANK|BANCORP|TRUST CO|INSURANCE|LIFE INSURANCE|PENSION FUND|RETIREMENT SYSTEMS?|PERMANENT FUND|CITADEL|BLACKROCK|VANGUARD|STATE STREET|FIDELITY|GOLDMAN|MORGAN STANLEY|JPMORGAN|UBS|CREDIT SUISSE|DEUTSCHE|BARCLAYS|WELLS FARGO|NORTHERN TRUST|INVESCO|ALLIANZ|AMUNDI|SCHWAB)\b/i;
+
+// EDGAR uses two-letter codes for BOTH US states and foreign countries, so the
+// only way to tell them apart is to know the US set.
+const US_STATES = new Set(['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'DC', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY', 'PR', 'VI', 'GU', 'AS', 'MP']);
 
 function cell(v) {
     const s = v === null || v === undefined ? '' : String(v);
@@ -114,7 +118,12 @@ async function main() {
             city: biz.city || '',
             state: biz.stateOrCountry || f.state,
             zip: biz.zipCode || '',
-            country: biz.isForeignLocation ? (biz.countryCode || 'foreign') : 'US',
+            // isForeignLocation comes back NULL for foreign filers, not true, so
+            // trusting it marked Luxembourg, Denmark and Paris firms as US.
+            // The state code is the reliable signal: EDGAR uses the two-letter
+            // US state/territory codes for domestic addresses and its own
+            // non-state codes (N4, G7, I0, …) for everything else.
+            country: US_STATES.has(String(biz.stateOrCountry || '').toUpperCase()) ? 'US' : 'foreign',
             lastFiled: f.filed,
             edgar: `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${f.cik}&type=13F`
         });
