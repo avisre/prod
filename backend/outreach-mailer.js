@@ -48,10 +48,14 @@ function config(env = process.env) {
  * misconfiguration that silently reunited them would be invisible until
  * customer mail started bouncing.
  */
+function allowsSupportSender(env = process.env) {
+    return String(env.OUTREACH_ALLOW_SUPPORT_SENDER || 'false').toLowerCase() === 'true';
+}
+
 function isConfigured(env = process.env) {
     const c = config(env);
     if (!c.host || !c.user || !c.pass) return false;
-    if (c.user.toLowerCase() === SUPPORT_EMAIL) return false;
+    if (c.user.toLowerCase() === SUPPORT_EMAIL && !allowsSupportSender(env)) return false;
     return true;
 }
 
@@ -60,8 +64,29 @@ function configError(env = process.env) {
     if (!c.host) return 'OUTREACH_SMTP_HOST is not set';
     if (!c.user) return 'OUTREACH_SMTP_USER is not set';
     if (!c.pass) return 'OUTREACH_SMTP_PASS is not set';
-    if (c.user.toLowerCase() === SUPPORT_EMAIL) {
-        return `OUTREACH_SMTP_USER must NOT be ${SUPPORT_EMAIL} — cold mail on the support mailbox risks the deliverability of receipts and password resets`;
+    if (c.user.toLowerCase() === SUPPORT_EMAIL && !allowsSupportSender(env)) {
+        return `OUTREACH_SMTP_USER must NOT be ${SUPPORT_EMAIL} — cold mail on the support mailbox risks the deliverability of receipts and password resets. Set OUTREACH_ALLOW_SUPPORT_SENDER=true to override deliberately.`;
+    }
+    return null;
+}
+
+/**
+ * Owner override (2026-09-14): cold outreach may go from support@ rather than a
+ * separate identity, accepting the documented risk. It is an explicit env flag
+ * and not the default, so it can never happen through a typo or a copied
+ * config — the sender has to be chosen on purpose.
+ *
+ * Every OTHER guard stays armed, and that matters more here, not less: when
+ * cold mail goes out on the domain that also carries password resets, receipts
+ * and the AppSumo lifecycle, a spam complaint is expensive in a way it would
+ * not be on a throwaway subdomain. Suppression and a working one-click
+ * unsubscribe are what keep complaints low, so they are exactly what must not
+ * be skipped when this flag is on.
+ */
+function senderWarning(env = process.env) {
+    const c = config(env);
+    if (c.user.toLowerCase() === SUPPORT_EMAIL && allowsSupportSender(env)) {
+        return 'SENDING COLD MAIL FROM support@ — this mailbox also carries password resets, receipts and customer lifecycle mail. Spam complaints here degrade all of it.';
     }
     return null;
 }
@@ -209,7 +234,7 @@ async function sendOutreach({ to, subject, text, html, campaign, secret, env = p
 }
 
 module.exports = {
-    config, isConfigured, configError,
+    config, isConfigured, configError, allowsSupportSender, senderWarning,
     suppress, isSuppressed, alreadySent,
     unsubToken, verifyUnsubToken, unsubHeaders,
     sendOutreach, normalizeEmail, emailHash,

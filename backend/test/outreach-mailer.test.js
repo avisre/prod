@@ -31,6 +31,18 @@ test('it will not send on the support mailbox, and is off until configured', () 
     const distinct = { ...onSupport, OUTREACH_SMTP_USER: 'outreach@mail.stockportfolio.pro' };
     assert.equal(outreach.isConfigured(distinct), true, 'a distinct mailbox is accepted');
     assert.equal(outreach.configError(distinct), null);
+
+    // Owner override: support@ is allowed, but only via an explicit flag, never
+    // by default — so it cannot happen through a typo or a copied config.
+    const overridden = { ...onSupport, OUTREACH_ALLOW_SUPPORT_SENDER: 'true' };
+    assert.equal(outreach.isConfigured(overridden), true, 'the explicit override is honoured');
+    assert.equal(outreach.configError(overridden), null);
+    assert.match(outreach.senderWarning(overridden), /password resets/, 'and it still says what is at stake');
+    assert.equal(outreach.senderWarning(distinct), null, 'no warning for a properly separated sender');
+
+    // The flag must be opt-in, not merely truthy-ish.
+    assert.equal(outreach.isConfigured({ ...onSupport, OUTREACH_ALLOW_SUPPORT_SENDER: '1' }), false, 'only the literal string true opts in');
+    assert.equal(outreach.isConfigured({ ...onSupport, OUTREACH_ALLOW_SUPPORT_SENDER: 'yes' }), false);
 });
 
 test('unsubscribe tokens carry the address, and cannot be forged', () => {
