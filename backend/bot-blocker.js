@@ -48,7 +48,11 @@ const DENY_PATTERNS = [
 // is a page, not the API itself.
 const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
 
-const STATIC_ASSET_RE = /\.(js|css|png|jpe?g|gif|svg|webp|woff2?|ttf|ico|mp4|json|xml|txt)$/i;
+// .json deliberately excluded: it used to let bulk data (the fundamentals
+// corpus) skip the nav rate limiter entirely. It's now gated at the app.js
+// layer too, but keeping json off this list means any other JSON endpoint
+// stays subject to the same per-IP navigation cap as an HTML page.
+const STATIC_ASSET_RE = /\.(js|css|png|jpe?g|gif|svg|webp|woff2?|ttf|ico|mp4|xml|txt)$/i;
 
 function isEnabled() {
     return process.env.BOT_BLOCK_ENABLED !== 'false';

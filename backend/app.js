@@ -223,6 +223,51 @@ app.use((req, res, next) => {
     });
     next();
 });
+
+// Bandwidth-by-path accounting (added 2026-09-14, investigating the Render
+// bandwidth cap). Render's Hobby metrics don't break bandwidth down by route,
+// and funnel_events only logs page navigations — static assets, /data/*, and
+// video never appeared there, leaving ~95% of egress unattributed. This wraps
+// res.write/res.end at the top of the middleware stack (before compression,
+// static, and every route below), so it sums the same bytes that actually
+// reach the socket — post-gzip/brotli, post-sendFile-streaming — regardless
+// of whether a route sets Content-Length. In-memory only, bounded by
+// shapePath() collapsing dynamic segments (ticker, compare pair) so the map
+// can't grow past a few hundred keys; resets on deploy. Read via
+// /api/admin/byte-usage/stats.
+const byteUsageStats = new Map();
+const byteUsageSince = new Date().toISOString();
+function shapeBandwidthPath(rawPath) {
+    const p = String(rawPath || '/').split('?')[0];
+    if (/^\/assets\//.test(p)) return p;
+    if (/^\/(stocks|compare)\//.test(p)) return p.replace(/^\/(stocks|compare)\/[^/]+/, '/$1/<T>');
+    if (/^\/data\//.test(p)) return p.replace(/\/[^/]+\.json$/i, '/<file>.json');
+    if (/^\/api\//.test(p)) {
+        const parts = p.split('/').filter(Boolean);
+        return '/' + parts.slice(0, 3).join('/') + (parts.length > 3 ? '/*' : '');
+    }
+    return p;
+}
+function chunkByteLength(chunk, encoding) {
+    if (!chunk) return 0;
+    if (Buffer.isBuffer(chunk)) return chunk.length;
+    return Buffer.byteLength(chunk, typeof encoding === 'string' ? encoding : 'utf8');
+}
+app.use((req, res, next) => {
+    let bytesOut = 0;
+    const origWrite = res.write.bind(res);
+    const origEnd = res.end.bind(res);
+    res.write = (chunk, ...rest) => { bytesOut += chunkByteLength(chunk, rest[0]); return origWrite(chunk, ...rest); };
+    res.end = (chunk, ...rest) => { bytesOut += chunkByteLength(chunk, rest[0]); return origEnd(chunk, ...rest); };
+    res.on('finish', () => {
+        const shape = shapeBandwidthPath(req.path);
+        const entry = byteUsageStats.get(shape) || { count: 0, bytes: 0 };
+        entry.count++;
+        entry.bytes += bytesOut;
+        byteUsageStats.set(shape, entry);
+    });
+    next();
+});
 // Render terminates the public connection before forwarding it to Express.
 // Trust that single platform hop in production so rate limits are keyed to
 // the visitor address instead of grouping every visitor under Render's proxy.
@@ -2688,12 +2733,29 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 // support replies, so this stays a redirect rather than a 404.
 app.get(/^\/inbox(\.html)?\/?$/, (req, res) => res.redirect(301, '/profile.html'));
 
+// The fundamentals corpus and its derived screen-index are read server-side
+// only (stored-fundamentals.js reads FUND_DIR off disk; ai-chat.js builds and
+// reads screen-index.json off disk) — no client ever fetches either path; the
+// browser goes through /api/demo/alpha/fundamentals/:sym instead. Sitting in
+// this public static root, they were reachable in full (953MB / 6,042 files),
+// exempt from the bot nav-rate-limiter (bot-blocker.js's STATIC_ASSET_RE
+// matched .json), and identical to the corpus licensed at /licensing — i.e.
+// free bulk access to the product being sold. Block both ahead of static.
+app.use((req, res, next) => {
+    if (req.path === '/data/screen-index.json' || req.path.startsWith('/data/fundamentals/')) {
+        return res.status(404).end();
+    }
+    next();
+});
+
 app.use(express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], setHeaders: staticCacheHeaders }));
 app.use(express.static(path.join(__dirname, '../frontend'), { setHeaders: staticCacheHeaders }));
-// transition window: old surface stays reachable at /v1; /v2 links keep working
-app.use('/v1', express.static(path.join(__dirname, '../frontend')));
-app.use('/v2', express.static(path.join(__dirname, '../frontend-v2'), { extensions: ['html'], redirect: false }));
-app.get('/v2', (req, res) => res.sendFile(path.join(__dirname, '../frontend-v2/index.html')));
+// /v1 and /v2 mirror mounts removed 2026-09-14: robots.txt already disallows
+// both, they logged 0 hits in funnel_events for all of September, and they
+// served the full frontend/frontend-v2 trees with no cache headers at all
+// (express.static default max-age=0) — a second, unthrottled copy of every
+// asset including the 25MB and 10.5MB demo videos. Old /v1/* and /v2/* links
+// now fall through to the normal catch-all 404.
 
 // User Schema for MongoDB
 const SubscriptionSchema = new mongoose.Schema({
@@ -12533,6 +12595,14 @@ app.get('/api/admin/growth/august-2026', authMiddleware, marketingDashboardOnly,
 
 app.get('/api/admin/bot-blocker/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
     res.set('Cache-Control', 'no-store').json(botBlocker.stats());
+});
+
+app.get('/api/admin/byte-usage/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
+    const rows = [...byteUsageStats.entries()]
+        .map(([path, v]) => ({ path, count: v.count, bytes: v.bytes }))
+        .sort((a, b) => b.bytes - a.bytes);
+    const totalBytes = rows.reduce((sum, r) => sum + r.bytes, 0);
+    res.set('Cache-Control', 'no-store').json({ since: byteUsageSince, totalBytes, rows });
 });
 
 app.post('/api/admin/growth/gmv', authMiddleware, marketingDashboardOnly, async (req, res) => {
