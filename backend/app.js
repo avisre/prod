@@ -30,6 +30,7 @@ const credits = require('./credits');
 const apiKeys = require('./api-keys');
 const publicApi = require('./public-api');
 const mcpEndpoint = require('./mcp-endpoint');
+const mcpAnon = require('./mcp-anon');
 const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
@@ -5225,16 +5226,68 @@ app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, 
 // single request/response. GET/DELETE are part of the MCP HTTP spec for
 // server-push and session teardown, neither of which this stateless server
 // implements.
-app.post('/mcp', jsonParser, apiKeyAuth, apiAccessGate, apiKeyRateLimit, async (req, res) => {
+// ---------------------------------------------------------------------------
+// /mcp accepts BOTH a keyed caller and a keyless one. The keyless path exists
+// because ChatGPT and claude.ai cannot send a static bearer token to a custom
+// connector (ChatGPT mandates OAuth 2.1 + DCR; claude.ai offers only OAuth
+// client id/secret fields) while both DO support authless servers. Without it,
+// a user of either product cannot reach this endpoint at any price.
+//
+// A key that IS presented must still be valid: this only skips authentication
+// when no credential was offered at all, so a revoked or mistyped key fails
+// loudly instead of being silently downgraded to the free tier — which would
+// otherwise read to a paying customer as "my key stopped working, and nobody
+// told me".
+async function apiKeyAuthOptional(req, res, next) {
+    const header = String(req.get('authorization') || '');
+    const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
+    if (offered) return apiKeyAuth(req, res, next);
+    if (!mcpAnon.enabled()) {
+        return res.status(401).json({ error: 'Missing API key. Pass Authorization: Bearer <key> or X-Api-Key.' });
+    }
+    req.anonMcp = true;
+    return next();
+}
+function mcpAccessGate(req, res, next) {
+    if (req.anonMcp) return next();
+    return apiAccessGate(req, res, next);
+}
+// Keyed callers are throttled per key (a shared egress IP shouldn't penalise
+// them); keyless ones can only be throttled per IP, which is also the identity
+// their free allowance is counted against.
+const anonMcpRateLimit = rateLimit({
+    windowMs: 60 * 1000,
+    max: Number(process.env.ANON_MCP_RATE_LIMIT || 20),
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: 'Rate limit exceeded for keyless access.' }
+});
+function mcpRateLimit(req, res, next) {
+    return req.anonMcp ? anonMcpRateLimit(req, res, next) : apiKeyRateLimit(req, res, next);
+}
+
+app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpAccessGate, mcpRateLimit, async (req, res) => {
     try {
+        if (req.anonMcp) {
+            const identity = _anonAskIp(req);
+            await mcpEndpoint.handleMcpRequest(
+                req, res,
+                { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true },
+                // The anonymous limiter is credits-shaped, so buildMcpServer and
+                // every tool handler run unmodified. effectiveAskLimit is only
+                // consulted to size a wallet this caller does not have.
+                { credits: mcpAnon.creditsFor(identity), effectiveAskLimit: () => 0, aiChat }
+            );
+            return;
+        }
         await mcpEndpoint.handleMcpRequest(req, res, { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription }, { credits, effectiveAskLimit, aiChat });
     } catch (error) {
         console.error('[mcp] request failed:', error && error.message);
         if (!res.headersSent) res.status(500).json({ error: 'MCP request failed.' });
     }
 });
-app.get('/mcp', apiKeyAuth, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
-app.delete('/mcp', apiKeyAuth, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
+app.get('/mcp', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
+app.delete('/mcp', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
 
 // Email-to-SMS gateways (phone-number@carrier). Signup bots use these to text
 // strangers' phones via our welcome email — no human signs up with one.

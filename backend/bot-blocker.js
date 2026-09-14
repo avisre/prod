@@ -39,6 +39,17 @@ const DENY_PATTERNS = [
     /curl\//i, /wget\//i, /python-requests/i, /python-urllib/i, /scrapy/i, /go-http-client/i, /okhttp/i, /postmanruntime/i, /libwww-perl/i, /^java\//i
 ];
 
+// /mcp is exempt because UA-blocking it is a category error. DENY_PATTERNS names
+// `chatgpt-user` and `claude-user` — the agents ChatGPT and claude.ai send when
+// fetching ON A USER'S BEHALF — so without this, a customer asking their chatbot
+// to call a tool they are paying for is refused at the door, and the keyless
+// free tier is unreachable from the two clients it exists to serve. The rule
+// those patterns were written for is scraping /stocks/* for training data, which
+// is a different act from invoking a metered tool. Nothing is given away by the
+// exemption: /mcp serves no crawlable content, authenticates or meters every
+// call (mcp-anon.js caps keyless use per IP and globally per day), and is rate
+// limited on both paths.
+//
 // /licensing is exempt for the same reason robots.txt is: an agent refused above
 // is pointed at that page by FORBIDDEN_BODY, so it has to be fetchable to be read.
 // /api (the developer landing page, NOT the /api/v1 endpoints already covered by
@@ -46,7 +57,7 @@ const DENY_PATTERNS = [
 // crawler operator or an arriving developer is sent to, and it is where the
 // pricing and the copy-paste key setup live. It carries no data — the exemption
 // is a page, not the API itself.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
 
 // .json deliberately excluded: it used to let bulk data (the fundamentals
 // corpus) skip the nav rate limiter entirely. It's now gated at the app.js

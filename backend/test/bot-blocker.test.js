@@ -81,6 +81,27 @@ test('webhook paths are exempt even for a hostile user agent', () => {
 // The 403 body sends a refused crawler to /licensing, so that page must be
 // reachable by the same user agent that was just blocked — otherwise the
 // refusal names a destination the recipient cannot open.
+// The keyless MCP tier exists so ChatGPT and claude.ai users can reach this
+// server at all (neither client can send a static bearer token). Both send a UA
+// that DENY_PATTERNS matches, so without this exemption the feature is
+// unreachable from the exact two clients it was built for — and a PAYING
+// customer calling a tool from their chatbot is refused too.
+test('/mcp is exempt, or the agents the deny list names can never call a tool', () => {
+    assert.equal(botBlocker.isExemptPath('/mcp', isRawBodyWebhookPath), true);
+    // Scoped tightly: the exemption is the endpoint itself, not a prefix that
+    // could be extended later into something that does serve crawlable content.
+    assert.equal(botBlocker.isExemptPath('/mcp/anything', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/mcpx', isRawBodyWebhookPath), false);
+});
+
+test('the deny list still names the chatbot agents — the exemption is what saves them', () => {
+    // If these ever leave DENY_PATTERNS the /mcp exemption stops being
+    // load-bearing, and this test should be revisited rather than deleted.
+    const src = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'bot-blocker.js'), 'utf8');
+    assert.match(src, /chatgpt-user/i, 'ChatGPT\'s on-behalf-of-user agent is still denied site-wide');
+    assert.match(src, /claude-user/i, 'claude.ai\'s on-behalf-of-user agent is still denied site-wide');
+});
+
 test('/licensing is exempt so a blocked crawler can read the offer it was handed', () => {
     assert.equal(botBlocker.isExemptPath('/licensing', isRawBodyWebhookPath), true);
     assert.equal(botBlocker.isExemptPath('/licensing/extra', isRawBodyWebhookPath), false);

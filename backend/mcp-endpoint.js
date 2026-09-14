@@ -109,7 +109,14 @@ function buildMcpServer(ctx, deps) {
             const planId = ctx.subscription && ctx.subscription.planId;
             const gate = await credits.check(ctx.userId, cost, effectiveAskLimit({ tier: ctx.tier, user: ctx.user }), planId, ctx.user);
             if (!gate.ok) {
-                return textResult({ error: `Out of credits for this month (used ${gate.used}/${gate.allowance}). Resets ${gate.resetsAt}.`, code: 'QUOTA_EXCEEDED' }, true);
+                // A limiter may supply its own copy — the keyless tier uses this
+                // to say which free allowance ran out and what to do next, since
+                // "out of credits for this month" is meaningless to a caller who
+                // never had a wallet. Keyed callers fall through to the original.
+                return textResult({
+                    error: gate.message || `Out of credits for this month (used ${gate.used}/${gate.allowance}). Resets ${gate.resetsAt}.`,
+                    code: 'QUOTA_EXCEEDED'
+                }, true);
             }
 
             if (name === 'sp_financials') {

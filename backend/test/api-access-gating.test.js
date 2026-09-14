@@ -80,7 +80,12 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
     const routes = [
         "app.post('/api/account/api-keys', authMiddleware, apiAccessGate,",
         "app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate,",
-        "app.post('/mcp', jsonParser, apiKeyAuth, apiAccessGate,",
+        // /mcp deliberately no longer names apiAccessGate directly: it serves a
+        // keyless free tier (see mcp-anon.js) that ChatGPT and claude.ai need,
+        // because neither can send a static bearer token. mcpAccessGate is the
+        // wrapper that preserves the tier check for every KEYED caller, and the
+        // assertions below pin that it cannot be quietly reduced to a pass-through.
+        "app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpAccessGate,",
     ];
     for (const needle of routes) {
         assert.ok(appSource.includes(needle), `expected to find: ${needle}`);
@@ -89,4 +94,21 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
     // must still be able to see and delete its own existing keys.
     assert.match(appSource, /app\.get\('\/api\/account\/api-keys', authMiddleware, async/, 'listing keys stays tier-ungated');
     assert.match(appSource, /app\.delete\('\/api\/account\/api-keys\/:id', authMiddleware, async/, 'revoking a key stays tier-ungated');
+
+    // The keyless path widened /mcp's door, so pin the two things that stop it
+    // becoming a hole: a KEYED caller still meets apiAccessGate (a paid tier
+    // check cannot be skipped by presenting a key for a plan without access),
+    // and a caller who offers a key that does not resolve is rejected rather
+    // than silently served the free tier — which would read to a paying
+    // customer as their key having stopped working, with no error to explain it.
+    assert.match(
+        appSource,
+        /function mcpAccessGate\(req, res, next\) \{\s*if \(req\.anonMcp\) return next\(\);\s*return apiAccessGate\(req, res, next\);/,
+        'mcpAccessGate still applies apiAccessGate to every keyed caller'
+    );
+    assert.match(
+        appSource,
+        /if \(offered\) return apiKeyAuth\(req, res, next\);/,
+        'an offered key is always verified — no silent downgrade to the free tier'
+    );
 });
