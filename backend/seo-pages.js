@@ -1223,9 +1223,10 @@ function renderLicensing() {
       <li><strong>No written analysis.</strong> Report narratives, headlines and pulled quotes stay ours. You&#39;re licensing filed facts and the deterministic differences between them.</li>
     </ul>`)}
   ${S('Pricing', `<ul>
+      <li><strong>Pilot — $1,500 flat, one-time.</strong> Fixed scope, no quote needed: ~1,500 companies, up to 19 fiscal years of fundamentals, and the filing-change table, delivered as a one-off CSV+JSON export with manifest. Built for evaluating the data before an annual commitment, or for a one-off analysis that doesn&#39;t need refreshes. <a href="mailto:support@stockportfolio.pro?subject=Licensing%20pilot%20-%20%241%2C500">Buy the pilot &rarr;</a></li>
       <li><strong>Annual licence — $5,000 to $15,000/year</strong>, by scope: company universe, history depth, and whether the filing-change table is included. Refreshed quarterly for the term.</li>
-      <li><strong>One-off snapshot — $500 to $2,000</strong>, same scope dimensions, delivered once with no refreshes.</li>
-      <li>No recurring fee on the one-off, and no seat count on the corpus itself. Ask with your intended scope and you&#39;ll get a fixed number.</li>
+      <li><strong>Custom one-off snapshot — $500 to $2,000</strong>, same scope dimensions as the annual licence (broader or narrower than the pilot's fixed scope), delivered once with no refreshes.</li>
+      <li>No recurring fee on either one-off, and no seat count on the corpus itself. Outside the pilot&#39;s fixed scope, ask with your intended scope and you&#39;ll get a fixed number.</li>
     </ul>`)}
   <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
     <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
