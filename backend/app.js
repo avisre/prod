@@ -1997,6 +1997,22 @@ app.use((req, res, next) => {
     next();
 });
 
+// True when a request carries an explicit campaign marker. Used by the
+// server-rendered pages that load no /assets/*.js and so have no client-side
+// tracking: capturing the touch there is the only way those landings are ever
+// attributed, but capturing it sets a cookie, and ssr-cache refuses to cache
+// any response with a Set-Cookie header (ssr-cache.js:299). Gating on an
+// explicit marker keeps organic and crawler traffic — the overwhelming
+// majority, and the reason the cache exists — fully cacheable, and pays the
+// miss only for the campaign clicks that actually need measuring.
+// Deliberately NOT triggered by a bare external referrer: that would match most
+// organic search traffic and empty the cache for the case it matters most.
+function hasCampaignMarker(req) {
+    const q = (req && req.query) || {};
+    return Boolean(q.utm_source || q.source || q.utm_campaign || q.utm_medium
+        || q.click_id || q.cta_id || q.content_id || q.utm_content);
+}
+
 function marketingRequestFields(req, res) {
     return marketingAttribution.requestFields(req, res, {
         secret: JWT_SECRET,
@@ -2495,6 +2511,13 @@ app.get('/api/verify-ledger', async (req, res) => {
 // SEC source. The AI narrative stays behind the Power/Desk paywall; the
 // numbers are the public proof.
 app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
+    // These pages are server-rendered and deliberately load no /assets/*.js —
+    // that is what keeps them out of the cache-stamp cascade. The cost is that
+    // they carry no client-side tracking at all, so a campaign landing here
+    // (Show HN, a partner link) was completely unattributable. Capturing the
+    // touch server-side sets the same signed cookie the rest of the funnel
+    // reads, so a later signup is credited, and no asset is touched.
+    if (hasCampaignMarker(req)) marketingRequestFields(req, res);
     res.set('Content-Type', 'text/html; charset=utf-8');
     let reports = [];
     if (mongoose.connection.readyState === 1) {
@@ -2626,6 +2649,10 @@ app.get('/filing-changes/:symbol', async (req, res) => {
     // turn "..%2Fetc" into "..ETC" and redirect to a junk path.
     const symbol = String(req.params.symbol || '').toUpperCase();
     if (!/^[A-Z][A-Z0-9.\-]{0,9}$/.test(symbol)) return res.redirect(302, '/filing-changes');
+    // Same reason as the index above: no client-side tracking on this page, so
+    // the landing touch is captured here or not at all. Deliberately after the
+    // ticker validation — a junk path that only redirects is not a landing.
+    if (hasCampaignMarker(req)) marketingRequestFields(req, res);
     res.set('Content-Type', 'text/html; charset=utf-8');
     let doc = null;
     if (mongoose.connection.readyState === 1) {
