@@ -91,3 +91,40 @@ test('the tier can be switched off entirely, and fails closed without a database
     const gate = await mcpAnon.creditsFor('1.2.3.4', {}).check('1.2.3.4', 'mcp_ask', 0, null, null);
     assert.equal(gate.ok, false, 'fails closed when the counter store is unreachable');
 });
+
+// The developer funnel was blind for a reason worth pinning: trackFunnel()
+// silently DROPS any event name absent from growth-measurement's EVENT_NAMES
+// (normalizeEventName returns null), so instrumenting the cap without
+// registering the name logs nothing and looks like zero demand.
+test('the cap-hit signal is both emitted and loggable', async (t) => {
+    const growth = require('../growth-measurement');
+    for (const name of ['mcp_keyless_cap_hit', 'mcp_oauth_client_registered', 'mcp_oauth_authorized']) {
+        assert.equal(growth.EVENT_NAMES.has(name), true, `${name} must be canonical or trackFunnel discards it`);
+    }
+    // These are server-side and must never be accepted from a browser caller.
+    assert.equal(growth.BROWSER_EVENTS.has('mcp_keyless_cap_hit'), false, 'not a browser-reportable event');
+
+    const server = await MongoMemoryServer.create();
+    await mongoose.connect(server.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
+
+    const env = { ANON_MCP_ASK_LIMIT: '1', ANON_MCP_LOOKUP_LIMIT: '1' };
+    const hits = [];
+    const credits = mcpAnon.creditsFor(IP, env, (info) => hits.push(info));
+
+    assert.equal((await credits.check(IP, 'mcp_ask', 0, null, null)).ok, true, 'first ask is free');
+    assert.equal(hits.length, 0, 'no cap hit while the caller is inside the allowance');
+
+    await credits.spend(IP, 'mcp_ask', 'mcp', 'x');
+    const blocked = await credits.check(IP, 'mcp_ask', 0, null, null);
+    assert.equal(blocked.ok, false, 'the second ask is refused');
+    assert.equal(hits.length, 1, 'the refusal emits exactly one cap hit');
+    assert.equal(hits[0].reason, 'ask_limit');
+    assert.equal(hits[0].allowance, 1);
+
+    // A throwing callback must never cost the caller their refusal message.
+    const safe = mcpAnon.creditsFor(IP, env, () => { throw new Error('telemetry down'); });
+    const still = await safe.check(IP, 'mcp_ask', 0, null, null);
+    assert.equal(still.ok, false, 'a broken telemetry sink does not change the gate');
+    assert.match(still.message, /Dev plan/, 'and the upsell message still reaches the caller');
+});

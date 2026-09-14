@@ -5335,6 +5335,15 @@ app.post('/oauth/register', oauthRegisterLimit, jsonParser, async (req, res) => 
             redirectUris: body.redirect_uris,
             softwareId: body.software_id
         });
+        // Dynamic client registration is a back-channel call from the chatbot
+        // itself, so there is no user here. It still matters: it says which
+        // clients are discovering /mcp at all, which is the top of this funnel.
+        trackFunnel('mcp_oauth_client_registered', null, null, {
+            eventName: 'mcp_oauth_client_registered',
+            dedupeKey: `mcp_oauth_client_registered:${client._id}`,
+            oauthClientId: String(client._id),
+            oauthClientName: client.clientName || null
+        });
         return res.status(201).json({
             client_id: client._id,
             client_name: client.clientName,
@@ -5512,6 +5521,16 @@ app.post('/oauth/authorize/decision', express.urlencoded({ extended: false }), a
             scope: String(body.scope || 'mcp')
         });
         url.searchParams.set('code', code);
+        // A real person approved a real chatbot against a real account — the
+        // strongest signal the developer funnel produces, and the only one that
+        // names a user. Recorded after issueCode so a failed grant is not
+        // counted as an authorisation.
+        trackFunnel('mcp_oauth_authorized', user._id, user.subscription && user.subscription.planName, {
+            eventName: 'mcp_oauth_authorized',
+            dedupeKey: `mcp_oauth_authorized:${clientId}:${user._id}`,
+            oauthClientId: clientId,
+            oauthClientName: client.clientName || null
+        });
         oauthMcp.pruneExpired().catch(() => {});
         return res.redirect(302, url.toString());
     } catch (error) {
@@ -5611,7 +5630,32 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpAccessGate, mcpRateLimit, as
                 // The anonymous limiter is credits-shaped, so buildMcpServer and
                 // every tool handler run unmodified. effectiveAskLimit is only
                 // consulted to size a wallet this caller does not have.
-                { credits: mcpAnon.creditsFor(identity), effectiveAskLimit: () => 0, aiChat }
+                {
+                    // The cap-hit callback is the developer funnel's only demand
+                    // signal: a keyless caller who wanted more than the free
+                    // allowance is precisely the population the $19.99 Dev plan
+                    // is for, and until now none of it was recorded anywhere.
+                    // dedupeKey collapses it to one row per identity per reason
+                    // per day, so a hammering client counts once instead of
+                    // filling the collection. The identity is an IP, so it is
+                    // hashed — funnel_events must not become a log of addresses.
+                    credits: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance }) => {
+                        // require()d inline, not via the module-scope `crypto`
+                        // const — that is declared far below this line, and
+                        // relying on the callback firing after module evaluation
+                        // to dodge the temporal dead zone is too subtle to keep.
+                        const who = require('crypto').createHash('sha256').update(String(identity)).digest('hex').slice(0, 12);
+                        trackFunnel('mcp_keyless_cap_hit', null, null, {
+                            eventName: 'mcp_keyless_cap_hit',
+                            dedupeKey: `mcp_keyless_cap_hit:${reason}:${who}:${new Date().toISOString().slice(0, 10)}`,
+                            capReason: reason,
+                            used,
+                            allowance
+                        });
+                    }),
+                    effectiveAskLimit: () => 0,
+                    aiChat
+                }
             );
             return;
         }

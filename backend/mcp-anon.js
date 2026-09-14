@@ -116,8 +116,16 @@ const SIGNUP_URL = 'https://www.stockportfolio.pro/register?plan=dev';
  * proxy-resolved IP). Signature-compatible with credits.js so the MCP server
  * itself stays identical for keyed and keyless callers.
  */
-function creditsFor(identity, env = process.env) {
+function creditsFor(identity, env = process.env, onCapHit = null) {
     const cfg = config(env);
+
+    // Telemetry is injected rather than required here for the same reason the
+    // whole facade exists: this module must not know about app.js. A throw from
+    // the callback can never cost a caller their answer.
+    const capHit = (reason, used, allowance) => {
+        if (typeof onCapHit !== 'function') return;
+        try { onCapHit({ reason, used, allowance, identity }); } catch (_) { /* never break the call */ }
+    };
 
     return {
         async check(_userId, costKey, _allowance, _planId, _user) {
@@ -134,12 +142,14 @@ function creditsFor(identity, env = process.env) {
             if (isAsk) {
                 const globalAsks = await readGlobalAsks(now);
                 if (globalAsks >= cfg.globalAskDay) {
+                    capHit('global_ask_day', globalAsks, cfg.globalAskDay);
                     return {
                         ok: false, used: usage.asks, allowance: cfg.askLimit, resetsAt: null,
                         message: `Free questions are at today's global limit. This resets at 00:00 UTC — or skip the queue with your own key: ${SIGNUP_URL}`
                     };
                 }
                 if (usage.asks >= cfg.askLimit) {
+                    capHit('ask_limit', usage.asks, cfg.askLimit);
                     return {
                         ok: false, used: usage.asks, allowance: cfg.askLimit,
                         resetsAt: usage.resetsAt ? usage.resetsAt.toISOString().slice(0, 10) : null,
@@ -150,6 +160,7 @@ function creditsFor(identity, env = process.env) {
             }
 
             if (usage.lookups >= cfg.lookupLimit) {
+                capHit('lookup_limit', usage.lookups, cfg.lookupLimit);
                 return {
                     ok: false, used: usage.lookups, allowance: cfg.lookupLimit,
                     resetsAt: usage.resetsAt ? usage.resetsAt.toISOString().slice(0, 10) : null,
