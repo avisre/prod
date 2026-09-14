@@ -32,9 +32,12 @@ The 11 non-desk leads have links. **Desk has no payment link yet.**
 These five picked a $250/yr rung that is now priced $499.99. A 2x rise is the
 likeliest silent objection, so the close is honouring the price they saw.
 
-**Blocked until:** a 50%-off, `duration: once` coupon exists AND
-`allow_promotion_codes` is enabled on the Pro-annual link. Without both, the
-discount cannot be redeemed and this variant must not go out.
+**Ready.** Coupon `ZWYwJw3s` (−$249.99, `duration: once`) and promo code
+`ORIGINAL250` (max 6 redemptions) exist, `allow_promotion_codes` is on for the
+Pro-annual link, and each of these five links carries
+`&prefilled_promo_code=ORIGINAL250`. $499.99 − $249.99 = **exactly $250.00** in
+year 1, renewing at $499.99. The code is named in the email body too, in case
+the prefill doesn't take.
 
 > Subject: the Pro plan you signed up for — and what it cost you
 >
@@ -50,6 +53,9 @@ discount cannot be redeemed and this variant must not go out.
 > after that, cancel any time before then:
 >
 > {{link}}
+>
+> The discount should already be applied when the page opens; if it isn't, the
+> code is ORIGINAL250.
 >
 > If something other than the price stopped you, I'd genuinely like to know
 > what. A one-line reply is plenty, and it changes what I build next.
@@ -83,9 +89,15 @@ discount cannot be redeemed and this variant must not go out.
 
 ## Variant C — the one Desk lead
 
-**Blocked until:** a $1,999.99/yr Desk payment link exists. Don't send a
-different rung's link — the webhook grants whatever plan is stored on the user,
-so a mismatched link charges one price and grants another.
+**Ready.** Desk link created 9/14 on the existing $1,999.99/yr price
+(`price_1UAcD5AUeKapY1OPEaZfjKxI`). Unlike the other links it carries
+`subscription_data.metadata.planId = "desk"`, so the webhook resolves it via
+`planConfigFromSubscriptionMetadata` — the first and most reliable branch —
+rather than the stored-plan fallback.
+
+Still don't send a different rung's link to anyone: the other links have no
+metadata and grant whatever plan is stored on the user, so a mismatch charges
+one price and grants another.
 
 > Subject: your Desk signup — what stopped you?
 >
@@ -119,9 +131,16 @@ replies by day 4 means the pool is dead — don't email it a third time.
 
 ## Before any of this sends
 
-- [ ] One live purchase + refund through a `client_reference_id` link, checking
-      the grant actually lands (`credit_ledger` row, `stripe_paid` lifecycle
-      event, receipt email) and reverses cleanly on refund.
-- [ ] 50%-off `duration: once` coupon + `allow_promotion_codes` on the
-      Pro-annual link (variant A only).
-- [ ] Desk $1,999.99/yr payment link (variant C only).
+- [x] ~~50%-off coupon + `allow_promotion_codes`~~ — coupon `ZWYwJw3s`, promo
+      `ORIGINAL250`, prefilled on the five variant-A links (9/14).
+- [x] ~~Desk payment link~~ — created 9/14, carries `planId` metadata.
+- [ ] **One live purchase + refund through a `client_reference_id` link.** This
+      is the only remaining gate and it cannot be rehearsed — no `sk_test_` key
+      exists on this machine. Buy one rung, then confirm all four: a
+      `credit_ledger` row, a `stripe_paid` row in `customer_lifecycle_events`,
+      the receipt email, and `subscription.status` flipping off `pending` for
+      that user. Then refund and confirm entitlement actually revokes.
+
+Until that one purchase is done, everything above is unproven: 18 sessions have
+been started from these links and **all 18 are unpaid**, so the paid branch of
+this code has never once executed in production.
