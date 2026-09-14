@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 // Fails the publish if anything that must stay private ends up in the tarball.
 //
-// The npm package is public and the repo is not, so this is the boundary where
-// a mistake becomes permanent (npm versions cannot be unpublished after 72
-// hours). It runs from `prepack`, which npm invokes for both `npm pack` and
+// This is the boundary where a mistake becomes permanent (npm versions cannot
+// be unpublished after 72 hours) — regardless of whether this package's own
+// repo is public or private, since the tarball ships independently of that.
+// It runs from `prepack`, which npm invokes for both `npm pack` and
 // `npm publish`, so it cannot be skipped by publishing a different way.
 //
 // Two classes of leak are checked:

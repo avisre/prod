@@ -1059,12 +1059,13 @@ function renderApiLanding() {
     // the product. Both point at the hosted /mcp endpoint, which is what the
     // key actually pays for and needs no install.
     //
-    // The npm package (mcp-server/, name `stockportfolio-mcp`) is built and
-    // publish-ready but NOT on the registry, so it is deliberately absent here:
-    // for months this page handed every visitor `npx -y stockportfolio-mcp`,
-    // which 404s. mcp-server/README.md keeps its npx line — that file ships
-    // inside the package, so it is true the moment it is published. Re-add a
-    // one-line install path here then, not before.
+    // The npm package (mcp-server/, name `stockportfolio-mcp`) went live on the
+    // registry on 2026-09-14, so the first-party bridge config below is true now
+    // and is offered alongside the generic mcp-remote one. The key shape differs
+    // between the two and that difference is load-bearing: mcp-remote carries the
+    // whole `Bearer <key>` string because it is pasted straight into a header,
+    // while stockportfolio-mcp takes the BARE key and adds the scheme itself
+    // (see mcp-server/README.md). Swapping them silently 401s.
     //
     // `url` + `headers` is the native hosted shape; Cursor and every other
     // client that reads a `url` infers Streamable HTTP from it.
@@ -1089,6 +1090,19 @@ function renderApiLanding() {
       "command": "npx",
       "args": ["-y", "mcp-remote", "https://www.stockportfolio.pro/mcp", "--header", "Authorization:\${STOCKPORTFOLIO_API_KEY}"],
       "env": { "STOCKPORTFOLIO_API_KEY": "Bearer your-key-here" }
+    }
+  }
+}`;
+    // First-party stdio bridge, published as `stockportfolio-mcp`. It talks to
+    // the same hosted /mcp endpoint — it only replaces the generic mcp-remote
+    // hop, and sidesteps that config's Windows arg-splitting footgun because
+    // the whole credential rides in one env var with no spaces in `args`.
+    const npmBridgeConfig = `{
+  "mcpServers": {
+    "stockportfolio": {
+      "command": "npx",
+      "args": ["-y", "stockportfolio-mcp"],
+      "env": { "STOCKPORTFOLIO_API_KEY": "your-key-here" }
     }
   }
 }`;
@@ -1156,7 +1170,9 @@ function renderApiLanding() {
 
   ${S('Point your client at the hosted server', `<p>The server is hosted, so there is nothing to install: your key is the only configuration. Cursor and any other client that takes a <code>url</code>:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(mcpConfig)}</pre>
-    <p>Claude Desktop's config is stdio-only, so it goes through the <code>mcp-remote</code> bridge — the key sits in <code>env</code> and is expanded into the header:</p>
+    <p>Claude Desktop's config is stdio-only, so it needs a bridge. The first-party one is on npm — nothing to clone, and the bare key goes straight in <code>env</code>:</p>
+    <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(npmBridgeConfig)}</pre>
+    <p>Or use the generic <code>mcp-remote</code> bridge instead — note this one wants the full <code>Bearer &lt;key&gt;</code> value, since it is expanded into a header rather than read as a key:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(desktopConfig)}</pre>
     <p>Claude Code takes one command:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(claudeCodeCmd)}</pre>

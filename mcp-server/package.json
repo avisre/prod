@@ -32,7 +32,7 @@
     "financial-statements"
   ],
   "homepage": "https://stockportfolio.pro/api?utm_source=npm&utm_medium=integration&utm_campaign=stockportfolio-mcp",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "devDependencies": {
     "@modelcontextprotocol/sdk": "^1.30.0",
     "esbuild": "^0.28.2"
