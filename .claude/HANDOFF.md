@@ -1,5 +1,50 @@
 # Handoff
 
+## MCP reachable from ChatGPT + claude.ai (9/14) — SHIPPED, live, verified
+
+Neither chatbot could use `/mcp` at any price: ChatGPT mandates OAuth 2.1 + DCR
+and rejects bearer tokens; claude.ai exposes only OAuth fields
+(`anthropics/claude-ai-mcp#112`). Both DO support authless servers. Two phases,
+both pushed and confirmed against production. Suite 648/649 (the one failure is
+the pre-existing `social-compose` selenium gap).
+
+- **Keyless tier** (`mcp-anon.js`, `08d09ebc`/`0f76b354`): credits-shaped facade
+  injected through `buildMcpServer`'s existing `deps`, so no anonymous branch
+  exists inside the MCP server. **2** free asks + **50** lookups per IP / 30
+  days; **`ANON_MCP_GLOBAL_ASK_DAY=100`** is the real cost control and is
+  deliberately NOT the website's 400 — the provider bill is unrecorded, so unit
+  cost is unknown. `ANON_MCP_ASK_LIMIT=0` kills the tier. Fails CLOSED if Mongo
+  is unreachable.
+- **OAuth 2.1 + DCR** (`oauth-mcp.js`, `a0945e3a`/`e07c32d8`): PKCE S256 only,
+  public clients, rotating refresh, opaque SHA-256-hashed tokens (chosen over
+  JWT so revocation is immediate). Code redemption is one atomic
+  `findOneAndDelete` — check-then-delete would let two redemptions of a stolen
+  code both win. `client_id`/`redirect_uri` validated BEFORE any redirect, or
+  the endpoint is an open redirector.
+- **Consent screen is server-rendered with inline CSS/JS on purpose.**
+  `login.html` loads `assets/app.js`, so adding a `?next=` there would have
+  pulled the whole cache-stamp cascade into an OAuth change. No frontend asset
+  was touched; no stamp bump was needed.
+- **`bot-blocker.js` was the hidden ship-blocker, twice.** `DENY_PATTERNS` names
+  `chatgpt-user` and `claude-user`, so every request this work exists to serve
+  — including from a PAYING customer — was 403'd before reaching a route.
+  `/mcp` and `/oauth/*` are now exempt (the OAuth register/token legs are
+  back-channel calls with no browser headers). Tests pin both.
+
+**Still owner-only / open:**
+- `npm token revoke` — the token pasted in chat on 9/14 to publish
+  `stockportfolio-mcp@0.3.0` is in that transcript and has NOT been rotated.
+- MCP directory listings still unsubmitted; `mcpName` + `repository` fields are
+  still absent from `mcp-server/package.json` (would need a 0.3.1), and
+  `avisre/stockportfolio-mcp` does not exist.
+- **`avisre/prod` is still PUBLIC** and still names the provider.
+- Tier 2 LTD API access was built on 9/14 and **deliberately reverted** —
+  tier 3 remains the only lifetime tier with API/MCP, as the listing sells it.
+- **This file is 1,246 lines against CLAUDE.md's 160-line cap.** Not trimmed
+  here because that is 1,000+ lines of the owner's own working memory to
+  triage, not a mechanical edit.
+
+
 ## Partner acquisition system (9/13) — built, NOT pushed, NOT deployed
 
 Public front door added on top of the existing (invite-only) customer-ambassador
