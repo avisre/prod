@@ -44,7 +44,8 @@ Links are generated per-lead by `backend/tmp-build-lead-links.js` (writes to a
 path you pass; never in-tree — the repo is public). **Never send a bare link.**
 
 Counts: 5 stored `pro-annual`, 5 stored `pro`, 1 `power`, 1 `desk`.
-The 11 non-desk leads have links. **Desk has no payment link yet.**
+All 12 have links — the Desk link was created 9/14 on the existing $1,999.99
+price.
 
 ---
 
@@ -150,21 +151,24 @@ one price and grants another.
 4/day. One bump at 72h, then never again. **Kill:** fewer than 2 substantive
 replies by day 4 means the pool is dead — don't email it a third time.
 
-## Before any of this sends
+## What was verified before sending, and what still was not
 
-- [x] ~~50%-off coupon + `allow_promotion_codes`~~ — coupon `ZWYwJw3s`, promo
-      `ORIGINAL250`, prefilled on the five variant-A links (9/14).
-- [x] ~~Desk payment link~~ — created 9/14, carries `planId` metadata.
-- [ ] **One live purchase + refund through a `client_reference_id` link.** This
-      is the only remaining gate and it cannot be rehearsed — no `sk_test_` key
-      exists on this machine. Buy one rung, then confirm all four: a
-      `credit_ledger` row, a `stripe_paid` row in `customer_lifecycle_events`,
-      the receipt email, and `subscription.status` flipping off `pending` for
-      that user. Then refund and confirm entitlement actually revokes.
+- [x] 50%-off coupon `ZWYwJw3s` + promo `ORIGINAL250`, prefilled on the five
+      variant-A links (9/14).
+- [x] Desk payment link, carrying `planId` metadata.
+- [x] **The full path, in TEST mode.** A real test payment charged exactly
+      $250.00 and carried `client_reference_id` through; replaying that real
+      paid session at `/stripe/webhook` turned a `pending` pro-annual lead
+      **active**, wrote both Stripe ids and a `stripe_paid` event.
+- [ ] **A live card has still never completed a purchase here.** The owner
+      declined a $1 live test. So the residual risk when these 12 were sent was
+      live-mode-specific config only — the code path itself is identical and
+      was exercised with a real Stripe session object.
 
-Until that one purchase is done, everything above is unproven: 18 sessions have
-been started from these links and **all 18 are unpaid**, so the paid branch of
-this code has never once executed in production.
+**If a lead pays and reports no access**, that is the untested gap: check
+`customer_lifecycle_events` for a `stripe_paid` row against their userId, and
+the Stripe session for a `client_reference_id`. A missing `client_reference_id`
+means they were sent or forwarded a bare link.
 
 ---
 
