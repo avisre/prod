@@ -32,8 +32,13 @@ function config(env = process.env) {
     };
     return {
         // The headline offer. Asks are the expensive call (real inference), so
-        // this is the number that actually costs money and the one quoted to users.
-        askLimit: num(env.ANON_MCP_ASK_LIMIT, 10),
+        // this is the number that actually costs money and the one quoted to
+        // users. Two is a taste, not a trial: enough for a keyless caller to see
+        // a cited answer and judge whether it is better than what their chatbot
+        // already guesses, while the business is still paying for every one of
+        // them with no credential collected. Raise it when the provider bill is
+        // known, not before.
+        askLimit: num(env.ANON_MCP_ASK_LIMIT, 2),
         // Lookups hit cache/SEC/Yahoo with no model in the loop, so they are
         // deliberately generous — a chatbot burning its whole free allowance on
         // metadata calls would never see the answer that sells the product.

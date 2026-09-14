@@ -80,7 +80,10 @@ test('the global daily ceiling bounds total anonymous spend', { timeout: 60000 }
 test('the tier can be switched off entirely, and fails closed without a database', async () => {
     assert.equal(mcpAnon.enabled({ ANON_MCP_ASK_LIMIT: '0' }), false, 'ANON_MCP_ASK_LIMIT=0 removes the tier');
     assert.equal(mcpAnon.enabled({}), true, 'it is on by default');
-    assert.equal(mcpAnon.config({}).askLimit, 10, 'the default offer is 10 questions');
+    // Two, not ten: every keyless ask is paid for by the business with no
+    // credential collected, and the provider bill is still unmeasured.
+    assert.equal(mcpAnon.config({}).askLimit, 2, 'the default offer is 2 questions');
+    assert.equal(mcpAnon.config({}).globalAskDay, 100, 'the daily ceiling stays conservative');
 
     // Not connected here: a database blip must not hand out unlimited free
     // inference, so an unavailable store reads as exhausted rather than open.
