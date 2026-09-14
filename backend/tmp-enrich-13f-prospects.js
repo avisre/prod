@@ -149,8 +149,21 @@ async function main() {
         if (!names.length) continue;
 
         const portfolio = values.reduce((a, b) => a + b, 0);
-        // Match holdings to briefs, and keep the match with the largest position
-        // — the bigger the stake, the more a filing change in it matters to them.
+        // Pick the match by MATERIALITY, not by position size.
+        //
+        // Ranking by largest position was the obvious choice and it was wrong:
+        // measured over 143 firms it returned AAPL for 44 of them and NVDA for
+        // 29, because every adviser holds the mega-caps. "Here is a brief about
+        // Apple" is the generic pitch this whole exercise exists to avoid — it
+        // tells the recipient nothing they could not get anywhere, and it is
+        // indistinguishable from a mail merge.
+        //
+        // The interesting row is the firm holding something less obvious whose
+        // latest filing genuinely moved: a $90M ADI position against a
+        // materiality-98 brief is a conversation, a $3.3B AAPL position against
+        // a 66 is not. Mega-caps are demoted rather than excluded, so they can
+        // still match a firm that holds nothing else we cover.
+        const MEGA = new Set(['AAPL', 'NVDA', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'META', 'TSLA']);
         let match = null;
         for (let h = 0; h < names.length; h += 1) {
             const sym = byName.get(normName(names[h]));
@@ -158,7 +171,10 @@ async function main() {
             const brief = best.get(sym);
             if (!brief) continue;
             const position = values[h] || 0;
-            if (!match || position > match.position) match = { symbol: sym, position, issuer: names[h].trim(), ...brief };
+            const score = brief.materiality - (MEGA.has(sym) ? 40 : 0);
+            if (!match || score > match.score || (score === match.score && position > match.position)) {
+                match = { symbol: sym, position, score, issuer: names[h].trim(), ...brief };
+            }
         }
         if (!match) continue;
 
