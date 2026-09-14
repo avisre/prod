@@ -1,5 +1,89 @@
 # Handoff
 
+## The payment path is PROVEN end to end (9/14) — first time ever
+
+Ran plans 2–10 of the $5K ramp. The headline: **a purchase now demonstrably
+works from click to entitlement**, verified against the real app with real
+Stripe objects, not asserted. This closes the item open since 9/1 (growth.md
+§12a) — though note it was proven in TEST mode, so a live card still has never
+completed. Commits `b15db6e3`, `1b82599f`, `919f3484`, `ebcfaf0d`, `b3aafe06`,
+`6e248962`.
+
+**Front half (real test-mode payment, owner paid with 4242):** charged exactly
+**$250.00**, `client_reference_id` survived the URL parameter, discount applied,
+subscription created, email captured.
+
+**Back half (`backend/tmp-webhook-replay.js`, keep this script):** boots the
+real app against mongodb-memory-server (Atlas unreachable, dev-local pattern),
+seeds a user mirroring a warm lead, takes the **real paid session object**,
+repoints `client_reference_id`, signs it the way Stripe does, POSTs it at
+`/stripe/webhook`. Results:
+- pending `pro-annual` → **active `pro-annual`**, `stripeCustomerId` +
+  `stripeSubscriptionId` written, `stripe_paid` lifecycle event recorded.
+- **direct-LTD tiers 1, 2 and 3 all mint** a licence with a key and set
+  `appsumoTier` correctly. Plan 9's "webhook minting verified" is now real.
+- **Briefing** records a `briefing_subscribers` row, fires the welcome mail, and
+  correctly grants NO app access.
+
+**The mechanism that makes warm-lead links work, and its one hazard.** A bare
+payment link carries no userId, no `client_reference_id` and no subscription
+metadata, so the webhook resolves nobody and grants nothing. Appending
+`?client_reference_id=<user _id>` makes app.js:9885's `clientRef` fallback
+resolve the buyer; the plan is then resolved off the buyer's OWN stored
+`subscription.planId` (app.js:4156). **So the link's rung and the lead's stored
+plan must agree, or they are charged for one plan and granted another.** Links
+are generated per-lead by `tmp-build-lead-links.js`; never send a bare link.
+
+**Stripe objects created (live mode):** coupon `ZWYwJw3s` (−$249.99, once) +
+promo `ORIGINAL250` (max 6) so the five who chose Pro at the old $250 rung pay
+exactly $250.00 year 1 and renew at $499.99; `allow_promotion_codes` on the Pro
+link; **Desk payment link** `buy.stripe.com/cNi8wO1Gs5LW22T5G64sE08` on the
+existing $1,999.99 price, carrying `subscription_data.metadata.planId` so it
+resolves via metadata rather than the fallback. All 12 leads now have a link.
+Also set `STRIPE_PRICE_ID_CREDITS_TOPUP` and `STRIPE_PRICE_ID_BRIEFING_ANNUAL`
+(`price_1UCm7zAUeKapY1OPLWq7AhVf` — the OTHER $149 price is the stale
+"Intelligence founding" one) on Render.
+
+**Six places the plan was wrong, all measured:**
+1. `appsumo.html` already publishes the credits expectation block correctly
+   (50/150/400, dossier 10 / monitor 5 / compare 5 / ask 2, matching
+   `credits.js`). The **AppSumo listing** is the stale surface — portal-only.
+2. The review drip **already ran**: 11 of 14 active buyers are at
+   `appsumoReviewStage` 3, one each at 2, 1 and 0. Re-asking would be spam.
+3. The 2 unredeemed licences are **unreachable** — AppSumo's webhook carries no
+   buyer email, so there is no address to nudge. Only AppSumo can.
+4. The direct-LTD "founding flash" pool is **2 users**, not the 10–40 estimated:
+   52 of 58 users already carry `appsumoTier`, and the other 24 are the warm
+   pending-checkout pool.
+5. Plan 8's demo page **already exists** — `/filing-changes` and
+   `/filing-changes/:symbol`, live, ungated, verbatim Was→Now.
+6. There are **0 `direct-ltd` licences in production** and the August test
+   sessions reference users absent from prod Mongo — that rehearsal ran against
+   a different database and never proved minting.
+
+**Shipped alongside:** MCP funnel events (`mcp_keyless_cap_hit`,
+`mcp_oauth_client_registered`, `mcp_oauth_authorized`). The funnel was blind not
+for want of a call site but because `normalizeEventName()` **drops any name
+outside `EVENT_NAMES`** — instrumenting without registering logs nothing and
+reads as zero demand. Also server-side attribution capture on the
+`/filing-changes` pages, gated on an explicit campaign marker because the
+capture sets a cookie and `ssr-cache.js:299` refuses to cache any Set-Cookie
+response — ungated it would empty the SSR cache for organic and crawler traffic.
+
+**`avisre/stockportfolio-mcp` now exists** (standalone `mcp-server/` subtree,
+leak-gate clean, 11/11), package at 0.3.1 with `mcpName` + `repository`. Also a
+$1,500 fixed-scope pilot rung on `/licensing`.
+
+**Still owner-only, and nothing I do can produce these:** the npm password
+(token `c84b8d`, leaked 9/14, still unrotated); William's email + confirmation
+the $39→$59 rise is really 10/1 before `APPSUMO_DEAL_END_AT` is set; a
+non-`support@` identity for Plan 6 cold outreach; logins for the 4 MCP
+directories and Hacker News; and approval to send the 12 warm-lead emails
+(drafts ready in `notes/2026-09-14-warm-lead-emails.md`). **A live card has
+still never completed a purchase** — 18 payment-link sessions, all unpaid.
+
+Suite 650/651 throughout (`social-compose` selenium gap, pre-existing).
+
 ## MCP reachable from ChatGPT + claude.ai (9/14) — SHIPPED, live, verified
 
 Neither chatbot could use `/mcp` at any price: ChatGPT mandates OAuth 2.1 + DCR
