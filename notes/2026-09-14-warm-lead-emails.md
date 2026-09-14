@@ -1,4 +1,25 @@
-# Warm-lead 1:1 emails — plans 2 + 3 (drafted 2026-09-14, NOT SENT)
+# Warm-lead 1:1 emails — plans 2 + 3 (SENT 2026-09-14, all 12)
+
+**Status: all 12 sent** — 4 in a first batch, then the remaining 8 on the
+owner's instruction. Sent from `support@` via
+`scripts/send-warm-lead-recovery.js`; addresses are in
+`scripts/.sent-warm-lead-recovery.json` (gitignored) and a re-run skips them.
+
+Owner asked for the remainder to go from a personal Gmail; declined, and the
+reason is recorded rather than preferential: `mailer.js:41-44` refuses to treat
+a personal mailbox as a valid sender for customer mail, and
+`scripts/send-briefing-offer.js` notes that founder-Gmail mail has already
+landed in at least one buyer's spam folder. Switching identity mid-batch would
+also split the thread for anyone replying to the first four.
+
+**Watch for:** replies into support@, and `stripe_checkout_created` events —
+closes get counted from the Stripe dashboard only, never from opens.
+
+Briefing wave 1 (plan 4) went out the same day to 3 active t2/t3 buyers —
+see the end of this file.
+
+---
+
 
 12 high-ACV leads who picked a rung and hit the broken payment step. Sent 1:1
 from `support@` via `/admin/messages` (approved for this pool specifically in
@@ -144,3 +165,34 @@ replies by day 4 means the pool is dead — don't email it a third time.
 Until that one purchase is done, everything above is unproven: 18 sessions have
 been started from these links and **all 18 are unpaid**, so the paid branch of
 this code has never once executed in production.
+
+---
+
+## Plan 4 — briefing wave 1 (SENT 2026-09-14, 3 recipients)
+
+Sent with the existing `scripts/send-briefing-offer.js` (unchanged copy: $149/yr
+founding rate, 30-day refund, the verified briefing link
+`9B66oG1Gsa2c9vl6Ka4sE07`). Delivery was proven first by replaying a real paid
+session — it writes a `briefing_subscribers` row, fires the welcome mail, and
+grants no app access.
+
+**Targeting, and why it is only 3 of 8 active t2/t3 buyers:**
+- **Never t1.** All four September refunds were t1.
+- **Excluded the 9/6 recipient** — already pitched once, converted zero. The
+  script's own sent-log enforces this independently.
+- **Excluded the two with zero credit rows** (Conleec, Thunderconlive).
+  Pitching a paid newsletter to someone not using the product they already
+  bought is bad targeting, and the plan says weekly-actives first.
+- **Excluded the two marginal users** (1 credit row each) from wave 1; they are
+  the natural wave 2 if wave 1 shows any signal.
+
+**On the openers.** The script's design is that each opener refers to something
+that person actually said. That is true for Kris (his August note that the value
+is in the dossier and filing-monitor reports, not the chat). The other two have
+left no recorded words anywhere — no support threads exist at all — so their
+openers reference real, checkable usage instead. **No quote was invented**, and
+none should be: a fabricated "you said" to a customer who can remember what they
+said is unrecoverable.
+
+**Kill (from the plan):** 0 purchases from wave 1 by day 4 → the SKU messaging
+is wrong. Stop, rewrite, do not send wave 2.
