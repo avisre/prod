@@ -37,6 +37,14 @@ the trial branch at app.js:5990 can't run otherwise, and if it were false,
 app.js:5982 would hand every free signup `status: 'active'` and the wall would be
 free to bypass.
 
+**Reading the week's numbers:** `node scripts/wall-week-report.js` (read-only,
+no Stripe key needed) prints the window's signups, trials granted, trials still
+live, expired-unpaid, paid, and the trial→paid rate, per day and in total, plus
+the whole account base by status for comparison. Baseline at arming time: **0
+signups in the window**, base 24 pending / 17 active / 16 cancelled. Re-run it
+mid-week and again on ~9/22 — the fixed query is deliberate, so "converted"
+can't mean something different at each reading.
+
 **Original build notes:** `WALL_ALL_PAGES` defaults off (`=== 'true'`, revert =
 unset/false, no redeploy). `SIGNUP_TRIAL_DAYS=3` was ALREADY live before this
 (verified by reading `/stripe/config`; not set by any `set-render-env.yml` run,
