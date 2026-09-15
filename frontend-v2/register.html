@@ -98,6 +98,7 @@
             <span class="sum-label" id="sum-plan-name">Monthly</span>
             <div class="sum-price">
               <span class="sum-amount" id="sum-amount">$24.99</span>
+              <span class="sum-was" id="sum-was" hidden style="text-decoration:line-through; color:var(--ink-3); font-size:14px; font-weight:500;"></span>
               <span class="sum-cadence" id="sum-cadence">per month</span>
             </div>
             <p class="sum-note" id="plan-summary">Charged today through Stripe. Cancel anytime.</p>
@@ -173,7 +174,10 @@
     const PLANS = {
       free: {
         name: 'Free trial', amount: '$0.00', cadence: '3 days, no card',
-        note: 'No card required. After 3 days you keep a free account with the public research surfaces — upgrade anytime to keep Core.',
+        // "keep a free account with the public research surfaces" was true
+        // before the hard paywall; with every page gated it would be a promise
+        // the wall breaks on day 4. Phrased so it holds either way.
+        note: 'No card required. After 3 days, subscribe to keep full access.',
         cta: 'Start my free trial',
         features: ['3 days of everything in Monthly, no card required', 'Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Portfolio tracker, watchlist and SEC filing alerts', 'Upgrade anytime during or after the trial to keep Core']
       },
@@ -255,6 +259,11 @@
       document.querySelectorAll('.plan-card').forEach((b) => b.setAttribute('aria-pressed', b.dataset.plan === cardPlan(plan)));
       document.getElementById('sum-plan-name').textContent = meta.name;
       document.getElementById('sum-amount').textContent = meta.amount;
+      // The struck-through list price shows only on a plan carrying a promo
+      // (`was` is set by applyMonthlyPromo), so switching to Annual clears it.
+      const was = document.getElementById('sum-was');
+      was.textContent = meta.was ? `was ${meta.was}` : '';
+      was.hidden = !meta.was;
       document.getElementById('sum-cadence').textContent = meta.cadence;
       document.getElementById('plan-summary').textContent = meta.note;
       document.getElementById('sum-features').replaceChildren(...meta.features.map((f) => {
@@ -264,6 +273,55 @@
       document.getElementById('card-note').textContent = direct
         ? 'Billed today, securely via Stripe. Cancel anytime before renewal.'
         : 'Billed today, securely via Stripe.';
+    }
+    // September launch rate. The offer itself lives on the server — a Stripe
+    // coupon that makes the monthly charge $8.99 (LAUNCH_PROMO_* in
+    // backend/app.js) — and /stripe/config reports it only while the window is
+    // open, so this copy reverts to $24.99 on its own on Oct 1 with no deploy.
+    // Nothing here decides a price: it mirrors what Stripe is about to charge.
+    const PLANS_AT_LIST_PRICE = {
+      monthly: { amount: PLANS.monthly.amount, note: PLANS.monthly.note },
+      annual: { note: PLANS.annual.note, features: PLANS.annual.features.slice() },
+      free: { note: PLANS.free.note },
+      value: PLAN_VALUE.monthly
+    };
+    function applyMonthlyPromo(promo) {
+      const list = PLANS_AT_LIST_PRICE;
+      // No promo (or unreadable config): show the list price. A failed fetch
+      // never reaches here at all, so the page can't advertise a rate the
+      // checkout won't honour — it just keeps the $24.99 it shipped with.
+      if (!promo || !promo.price) {
+        PLANS.monthly.amount = list.monthly.amount;
+        PLANS.monthly.was = '';
+        PLANS.monthly.note = list.monthly.note;
+        PLANS.annual.note = list.annual.note;
+        PLANS.annual.features = list.annual.features.slice();
+        PLANS.free.note = list.free.note;
+        PLAN_VALUE.monthly = list.value;
+        syncPlan();
+        return;
+      }
+      PLANS.monthly.amount = `$${promo.price}`;
+      PLANS.monthly.was = `$${promo.listPrice}`;
+      PLANS.monthly.note = `${promo.note} Charged today through Stripe, cancel anytime.`;
+      // The trial card's day-4 price is the promo price, not the list price.
+      PLANS.free.note = `No card required. After 3 days, subscribe at $${promo.price}/month — the September rate, locked in.`;
+      // spTrack reports the conversion value below, so it has to be the number
+      // actually charged, not the list price.
+      PLAN_VALUE.monthly = Number(promo.price);
+      // Annual loses its savings pitch for the length of the promo: twelve
+      // months at the launch rate costs less than the annual plan, so "Save
+      // $100 a year vs monthly" and "two months free versus monthly" would both
+      // be false. The card itself stays — one payment for the year is still a
+      // real choice — it just stops claiming to be the cheaper one.
+      PLANS.annual.note = 'Billed today, renews yearly.';
+      PLANS.annual.features = [
+        'Everything in the Monthly plan',
+        'One payment covers the full year — $16.67/month effective',
+        'One renewal a year, nothing else to think about',
+        'Upgrade to Pro anytime, prorated'
+      ];
+      syncPlan();
     }
     // Moves the page between step 1 (account) and step 2 (payment).
     function showStep(n) {
@@ -280,6 +338,7 @@
     // if the fetch fails or the flag is off.
     fetch('/stripe/config').then((r) => r.json()).then((cfg) => {
       if (cfg.signupTrialDays > 0) document.getElementById('free-trial-card').hidden = false;
+      applyMonthlyPromo(cfg.monthlyPromo);
     }).catch(() => {});
     // Mobile stacks the summary above the form, so collapse the feature list
     // to keep the first input near the top of the page.

@@ -19,6 +19,10 @@
     .price-card { display: flex; flex-direction: column; gap: 10px; padding: 28px; }
     .price-fig { font-size: 34px; font-weight: 650; letter-spacing: -0.03em; }
     .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
+    /* Struck-through list price beside a launch-rate figure — same component
+       the homepage ladder uses for its annual comparison. */
+    .price-was { font-size: 17px; font-weight: 550; color: var(--ink-3); text-decoration: line-through; margin-left: 8px; }
+    .price-promo { margin: -4px 0 10px; font-size: 13px; font-weight: 600; color: var(--accent-ink); }
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
   </style>
@@ -100,6 +104,32 @@
           'A dedicated point of contact' ] }
       ];
 
+      // September launch rate. The charge itself is a server-side Stripe coupon
+      // (LAUNCH_PROMO_* in backend/app.js) and /stripe/config reports it only
+      // while the window is open, so this reverts to $24.99 on its own on Oct 1
+      // with no deploy. No price is decided here — it mirrors the charge.
+      // Both "save $100 vs monthly" pitches go with the promo: twelve months at
+      // the launch rate costs less than the annual plan, so they would be false
+      // claims on a pricing page. The annual rung stays — one payment for the
+      // year is still a real choice, it just stops claiming to be cheaper.
+      function applyMonthlyPromo(promo) {
+        if (!promo || !promo.price) return;
+        const monthly = LADDER.find((p) => p.planId === 'monthly');
+        const annual = LADDER.find((p) => p.planId === 'annual');
+        if (!monthly) return;
+        monthly.fig = `$${promo.price}`;
+        monthly.was = `$${promo.listPrice}`;
+        monthly.promoNote = promo.note;
+        monthly.lines = [
+          'The full research library: up to 19 years of filed statements, ratios and health checks',
+          'Portfolio tracker, peer comparison, watchlist + SEC filing alerts',
+          '50 Ask questions a month — filing, fund-data or web sources identified',
+          'Cancel anytime — no annual commitment' ];
+        if (annual) annual.lines = [
+          'Good, paid once a year — $16.67/month effective',
+          'One renewal a year; upgrade to Pro anytime, prorated' ];
+      }
+
       const grid = document.getElementById('upgrade-grid');
       const note = document.getElementById('upgrade-note');
       const sub = document.getElementById('upgrade-sub');
@@ -151,7 +181,13 @@
       }
 
       (async () => {
-        const session = await currentPlan();
+        // Config and session in parallel — the promo has to be known before the
+        // ladder renders, and neither call depends on the other.
+        const [session, promo] = await Promise.all([
+          currentPlan(),
+          fetch('/stripe/config').then((r) => r.json()).then((c) => (c && c.monthlyPromo) || null).catch(() => null)
+        ]);
+        applyMonthlyPromo(promo);
         // `owned`, NOT `sub` — that name is the DOM sub-line element at module
         // scope, and shadowing it here silently no-ops the "You're on …" line
         // at planName/sub.textContent below (found by ladder verification
@@ -214,7 +250,8 @@
           <div class="card price-card"${g.featured ? ' style="border-color: var(--ink);"' : ''}>
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">${esc(first.label)}</span>${g.featured ? '<span class="small" style="color:var(--accent-ink); font-weight:650;">Most picked</span>' : ''}</div>
             ${g.caption ? `<p class="small muted" style="margin:4px 0 10px;">${esc(g.caption)}</p>` : ''}
-            <div class="price-fig">${esc(first.fig)}<span>${esc(first.per)}</span></div>
+            <div class="price-fig">${esc(first.fig)}<span>${esc(first.per)}</span>${first.was ? `<s class="price-was">${esc(first.was)}</s>` : ''}</div>
+            ${first.promoNote ? `<p class="price-promo">${esc(first.promoNote)}</p>` : ''}
             <ul class="price-list">${first.lines.map((l) => `<li>${l}</li>`).join('')}</ul>
             ${cta}
             ${annual ? `

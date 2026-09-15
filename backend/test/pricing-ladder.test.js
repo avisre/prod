@@ -59,8 +59,11 @@ test('the homepage grid reads as the ladder table: Good, Good — annual (featur
   // don't. (2026-09-02: annual joined the featured set — best-value tag.)
   assert.equal((grid.match(/card price-card" style="border-color: var\(--ink\);"/g) || []).length, 3);
   // The annual card shows the actual monthly-billed price with a cross
-  // through it next to the discounted annual figure.
-  assert.match(grid, /\$199\.99<span>\/year<\/span><s class="price-was">\$299\.88<\/s>/);
+  // through it next to the discounted annual figure. The `<s>` may carry an
+  // id (the September launch-rate script hides this comparison while the
+  // promo runs, because twelve months of Monthly is then the cheaper option);
+  // the price, the class and the struck value stay pinned.
+  assert.match(grid, /\$199\.99<span>\/year<\/span><s class="price-was"[^>]*>\$299\.88<\/s>/);
   // Line 1 is a 3-card row; Desk and Enterprise flow onto the next line.
   assert.match(homepageSource, /#pricing-subscription-grid \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); \}/);
   // Pro is annual-only: no CTA anywhere on the page buys the retired

@@ -701,6 +701,44 @@ const STRIPE_PRICE_ID_DEV = process.env.STRIPE_PRICE_ID_DEV || '';
 const CREDIT_TOPUP_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '14.99');
 const CREDIT_TOPUP_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
 const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP || '';
+// September launch rate (2026-09): the Monthly rung at $8.99/mo for anyone who
+// starts it this month, and that rate stays theirs for as long as they keep the
+// subscription — October signups return to the $24.99 list price.
+//
+// Implemented as a Stripe coupon applied at checkout, NOT as a new Price. A
+// swapped price id would have to satisfy resolveStripeCheckoutPlan, which
+// demands the Stripe amount match CHECKOUT_STRIPE_PRICE_SPECS (frozen at boot)
+// and refuses to sell otherwise — so a promo price there means editing that
+// matcher plus a per-request date gate inside it. A $16-off coupon leaves the
+// matcher, the price ids and every legacy subscriber untouched and puts the
+// discounted amount in the only place that matters: the invoice.
+//
+// The offer exists only while BOTH vars are set, and `until` is evaluated per
+// request, so the window closes on its own with no deploy and no restart.
+// Launch: LAUNCH_PROMO_COUPON_ID=sept-launch-899 LAUNCH_PROMO_UNTIL=2026-09-30
+// (UTC). Kill switch: unset either one.
+const LAUNCH_PROMO_COUPON_ID = process.env.LAUNCH_PROMO_COUPON_ID || '';
+const LAUNCH_PROMO_UNTIL = process.env.LAUNCH_PROMO_UNTIL || '';
+const LAUNCH_PROMO_PRICE = process.env.LAUNCH_PROMO_PRICE || '8.99';
+const LAUNCH_PROMO_LIST_PRICE = process.env.LAUNCH_PROMO_LIST_PRICE || '24.99';
+
+// A bare date means "through the end of that day, UTC" — so 2026-09-30 keeps
+// the offer up for all of the last day of September. A full timestamp is taken
+// as written. An unparseable value fails CLOSED (no offer), never open.
+function launchPromoUntilMs() {
+  if (!LAUNCH_PROMO_UNTIL) return 0;
+  const raw = String(LAUNCH_PROMO_UNTIL).trim();
+  const parsed = /^\d{4}-\d{2}-\d{2}$/.test(raw)
+    ? Date.parse(`${raw}T23:59:59.999Z`)
+    : Date.parse(raw);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function launchPromoActive(now = Date.now()) {
+  if (!LAUNCH_PROMO_COUPON_ID) return false;
+  const until = launchPromoUntilMs();
+  return until > 0 && now <= until;
+}
 // A missing or stale Price ID must not turn a configured Stripe account into a
 // broken checkout. This is deliberately narrow: it resolves only the published
 // direct-purchase plans by their exact product, amount and recurring interval.
@@ -4823,6 +4861,17 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
                 ...returnContext
             })
         };
+    // September launch rate: while the offer window is open the Monthly rung
+    // carries an auto-applied coupon, so a visitor never has to know a code.
+    // Stripe rejects a session that carries both `discounts` and
+    // `allow_promotion_codes`, so the coupon REPLACES the code box — except on
+    // affiliate-attributed checkouts, which keep the box: a referral code takes
+    // the whole first invoice off, which beats $16, and the program exists
+    // precisely to reward those clicks.
+    const affiliateAttached = Object.keys(extraMetadata.affiliateMetadata || {}).length > 0;
+    const launchPromoApplied = launchPromoActive()
+        && planConfig.planId === MONTHLY_PLAN_ID
+        && !affiliateAttached;
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         mode: 'subscription',
@@ -4835,7 +4884,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         // Referral codes (GATTOMORTO et al.) are entered on this screen — the
         // coupon takes $24.99 off the first invoice, once. The one-off CNY and
         // credit-recharge sessions deliberately don't allow codes.
-        allow_promotion_codes: true,
+        ...(launchPromoApplied ? { discounts: [{ coupon: LAUNCH_PROMO_COUPON_ID }] } : { allow_promotion_codes: true }),
         ...urlParams,
         custom_text: {
             submit: {
@@ -6332,7 +6381,19 @@ app.get('/stripe/config', (req, res) => {
         publishableKey: STRIPE_PUBLISHABLE_KEY,
         successUrl: buildStripeReturnUrl(req, { session: 'success', flow: 'register' }),
         cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' }),
-        signupTrialDays: SIGNUP_TRIAL_DAYS
+        signupTrialDays: SIGNUP_TRIAL_DAYS,
+        // The September launch rate, present only while the offer window is
+        // open. Pages render their price from this rather than hardcoding
+        // $8.99, so the copy reverts to the list price on its own the moment
+        // the window closes — a stale "was $24.99" is a price the checkout
+        // would not honour.
+        monthlyPromo: launchPromoActive() ? {
+            planId: MONTHLY_PLAN_ID,
+            price: LAUNCH_PROMO_PRICE,
+            listPrice: LAUNCH_PROMO_LIST_PRICE,
+            until: LAUNCH_PROMO_UNTIL,
+            note: `September launch rate — locked in for as long as you stay subscribed.`
+        } : null
     });
 });
 

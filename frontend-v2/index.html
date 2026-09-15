@@ -196,7 +196,7 @@
             <ul class="hero-free-list">
               <li>Screener — 3,800+ companies, <a href="/screener.html">free for everyone</a></li>
               <li>Ask with citations — 3 free, no account</li>
-              <li>Full dossiers from $24.99/mo — <a href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
+              <li id="hero-dossier">Full dossiers from $24.99/mo — <a href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
             </ul>
             <p class="hero-note">The <a href="/monitor">Filing Change Monitor</a> reads each new 10-K, 10-Q and 8-K on your watchlist for you.</p>
           </div>
@@ -431,8 +431,8 @@
         <div class="price-grid" id="pricing-subscription-grid">
           <div class="card price-card">
             <span class="label">Good</span>
-            <div class="price-fig">$24.99<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;">Core research desk. Same plan yearly is <strong>$199.99 — $16.67/month, save $100</strong>.</p>
+            <div class="price-fig" id="good-fig">$24.99<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;" id="good-note">Core research desk. Same plan yearly is <strong>$199.99 — $16.67/month, save $100</strong>.</p>
             <ul class="price-list">
               <li>Covered US-listed companies that file in USD — up to 19 years of statements and 48 quarters, subject to data availability</li>
               <li>Ratios, health checks &amp; growth records computed for you</li>
@@ -463,12 +463,12 @@
             <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=pro-annual">Start Pro checkout</a>
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Good — annual</span><span class="small" style="color:var(--accent-ink); font-weight:650;">Best value — $16.67/month</span></div>
-            <div class="price-fig">$199.99<span>/year</span><s class="price-was">$299.88</s></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Good — annual</span><span class="small" id="annual-best" style="color:var(--accent-ink); font-weight:650;">Best value — $16.67/month</span></div>
+            <div class="price-fig">$199.99<span>/year</span><s class="price-was" id="annual-was">$299.88</s></div>
             <p class="small muted" style="margin:4px 0 14px;">Same Good, priced once a year — <strong>$16.67/month effective</strong>.</p>
             <ul class="price-list">
               <li>Everything in the Good plan, including the same 100 AI credits a month</li>
-              <li><strong>Save $100 a year</strong> — $16.67/month effective, two months free versus $24.99 monthly</li>
+              <li id="annual-save"><strong>Save $100 a year</strong> — $16.67/month effective, two months free versus $24.99 monthly</li>
               <li>One renewal a year — nothing else to think about</li>
               <li>Upgrade to Pro anytime, prorated</li>
             </ul>
@@ -575,6 +575,49 @@
             });
           })
           .catch(function () { /* experiment endpoint unreachable: leave subscription pricing showing */ });
+      })();
+      </script>
+
+      <script>
+      (function () {
+        // September launch rate — mirrors the server's LAUNCH_PROMO_* coupon
+        // (reported by /stripe/config only while the window is open, so the
+        // $24.99 list copy below comes back on Oct 1 with no deploy). Every
+        // node it touches keeps its list price in the HTML above, so a failed
+        // or slow fetch leaves the standard price on screen, never a discount
+        // the checkout won't honour.
+        function esc(value) {
+          return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
+            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+          });
+        }
+        function set(id, html) { var el = document.getElementById(id); if (el) el.innerHTML = html; }
+
+        fetch('/stripe/config', { credentials: 'same-origin' })
+          .then(function (r) { return r.json(); })
+          .then(function (cfg) {
+            var promo = cfg && cfg.monthlyPromo;
+            if (!promo) return;
+            // Numbers only — they are interpolated into markup below.
+            var price = String(promo.price || '').replace(/[^0-9.]/g, '');
+            var list = String(promo.listPrice || '').replace(/[^0-9.]/g, '');
+            if (!price) return;
+
+            var was = list ? '<s class="price-was">$' + list + '</s>' : '';
+            set('good-fig', '$' + price + '<span>/month</span>' + was);
+            set('good-note', 'Core research desk. ' + esc(promo.note));
+            set('hero-dossier', 'Full dossiers from $' + price + '/mo — <a href="/dashboard.html?demo=1">or see a demo portfolio</a>');
+
+            // Twelve months of Monthly now costs less than the annual plan, so
+            // the annual card's "save $100 / two months free" math and its
+            // $299.88 monthly comparison stop being true while the launch rate
+            // runs. The card keeps its one-payment framing, which still holds.
+            var annualWas = document.getElementById('annual-was');
+            if (annualWas) annualWas.hidden = true;
+            set('annual-best', 'One payment a year');
+            set('annual-save', 'One payment covers the year — $16.67/month effective');
+          })
+          .catch(function () { /* config unreachable: keep the list prices above */ });
       })();
       </script>
 
