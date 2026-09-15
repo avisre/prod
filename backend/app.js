@@ -2167,7 +2167,16 @@ const WALL_PAGE_EXEMPT_PREFIXES = [
     // Attribution redirects: they set a cookie and bounce to a real page. Walled,
     // an AppSumo or partner link would lose its attribution on the way in —
     // exactly the click those links exist to capture.
-    '/go'
+    '/go',
+    // The pages bot-blocker.js's refusal body points a refused crawler at (see
+    // /licensing and /api below, and its EXEMPT_PATH_PATTERNS) — same reason it
+    // exempts them there: a denial that points at an unreachable page is just a
+    // denial. /api, the developer landing page, is already covered by the '/api'
+    // prefix above (a test pins that, so narrowing the prefix can't silently wall
+    // it). /licensing sells bulk data to a different buyer (RIAs, data desks)
+    // than this experiment targets, so walling it only breaks a funnel with no
+    // consumer-subscription overlap to protect.
+    '/licensing'
 ];
 const WALL_ASSET_EXTENSIONS = new Set([
     'css', 'js', 'mjs', 'map', 'json', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp',

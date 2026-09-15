@@ -97,6 +97,21 @@ test('affiliate referral links stay open while the public research library stays
     assert.ok(!section.includes("'/r/'"), 'no blanket /r/ prefix exemption');
 });
 
+test('every page bot-blocker sends a refused crawler to is reachable through the wall', () => {
+    // bot-blocker.js answers a refused crawler with a body ending in "...available:
+    // /licensing" or ".../api", and exempts those two paths itself so the denial
+    // isn't a dead end. The wall must not re-create the dead end. Parsed from the
+    // array literal and evaluated the way wallPathIsExempt does it — path ===
+    // prefix || path.startsWith(prefix) — so narrowing a prefix (e.g. '/api' →
+    // '/api/' for JSON-only) fails here instead of silently walling the landing page.
+    const section = wallSection();
+    const literal = section.slice(section.indexOf('WALL_PAGE_EXEMPT_PREFIXES = ['));
+    const prefixes = [...literal.slice(0, literal.indexOf('];')).matchAll(/'(\/[A-Za-z0-9._-]*)'/g)].map((m) => m[1]);
+    const reachable = (p) => prefixes.some((prefix) => p === prefix || p.startsWith(prefix));
+    assert.ok(reachable('/licensing'), '/licensing stays reachable');
+    assert.ok(reachable('/api'), '/api (developer landing page) stays reachable');
+});
+
 test('no user-agent special-casing in the wall — crawlers get the same 302 as humans', () => {
     const section = wallSection();
     assert.doesNotMatch(section, /user-agent|userAgent|User-Agent/i);

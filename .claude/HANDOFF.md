@@ -1,5 +1,87 @@
 # Handoff
 
+## Hard paywall built, pushed, DEPLOYED FLAG-OFF — one env var arms it (9/15)
+
+Commit `f4af1ee5`, pushed to `origin/main`, deployed (run 34942061678 ✓), plus a
+follow-up commit exempting `/licensing` (below). **The wall code is inert:**
+`WALL_ALL_PAGES` defaults off, so no page is gated until the Render var is set —
+and the revert is unsetting it, no redeploy either way. The one thing already
+user-visible is the free-trial card, because the trial var is already live (next
+paragraph).
+
+**Aiming it — ONE var, not two:** `SIGNUP_TRIAL_DAYS=3` is ALREADY live on
+production (verified 9/15 by reading `/stripe/config` → `signupTrialDays: 3`; it
+was not set by any `set-render-env.yml` run, so it came from the Render
+dashboard). The trial card is therefore already unhidden on register.html and has
+been granting 3-day trials since ~9/10 (one granted, now expired). The only
+remaining launch action is `WALL_ALL_PAGES=true`:
+`gh workflow run set-render-env.yml -f key=WALL_ALL_PAGES -f value=true`.
+Anonymous page → 302 `/register.html`; signed-in-but-inactive (expired trial,
+cancelled) → 302 `/upgrade.html` (the checkout path). Paying, live-trial and
+AppSumo/lifetime users are untouched.
+
+**Blast radius, measured 9/15 against the prod DB (read-only):** 58 users
+total; **20 would pass** the wall (17 `active` + 3 AppSumo/DealMirror grants,
+which the wall lets through automatically); **38 blocked** — 24 `pending`
+(signed up, never paid) and 16 `cancelled`, i.e. exactly the population the
+experiment aims at, each landing on `/upgrade.html`. 0 trialing right now, so
+nobody's live trial is cut short.
+
+**The shape:** one page-scoped middleware in `app.js` mounted ahead of
+`ssrCacheMw` (which stores GET+200 HTML only, never a 302 — so a walled page
+can never be cached) and ahead of every SSR route and `express.static`. Expired
+no-card trials are caught on read by `ensureSubscriptionShape`, so the wall
+needs no expiry logic and never waits for the nightly sweep. No frontend asset
+was touched → **no cache-stamp bump**. `backend/test/hard-paywall.test.js`
+(9 static tests). Suite 663/664 — the one failure is the pre-existing
+`social-compose` selenium gap.
+
+**Verified live against dev-local (`WALL_ALL_PAGES=true SIGNUP_TRIAL_DAYS=3
+REQUIRE_INITIAL_STRIPE_PAYMENT=true`), all states walked:** anonymous `/`,
+`/stocks/AAPL`, `/screener`, `/dashboard.html`, `/methodology`, `/verify.html`,
+`/compare/*` → 302 register; register/login/forgot-password/privacy/terms/
+support/appsumo/upgrade → 200; seeded Pro → every page 200; a real trial signup
+via the free-plan card → `status: trialing`, `trialEndsAt` +3d exactly, price 0,
+no card → pages 200; that trial backdated in Mongo → 302 `/upgrade.html`;
+garbage token → 302 register; flag off → all 200 and `signupTrialDays: 0` (that
+last one is dev-local only, where `SIGNUP_TRIAL_DAYS` is unset — prod reports 3).
+
+**The bug the walkthrough caught that reading would not have:** `/stripe/config`
+is a ROOT path, so it looks exactly like a page and got walled — and it is how
+`register.html` learns `signupTrialDays` to unhide the free-trial card. Walling
+it silently kills the entire trial flow while every test stays green. Same class,
+found by scanning every root route rather than only the page inventory: `/mcp`
+and `/oauth` (machine legs, each authenticates or meters every call), `/.well-known`,
+and the attribution redirects `/go` + `/r/<amb-slug>`. **`/r/<publicId>` is the
+public research library, i.e. real content, so it stays walled** — the carve-out
+is exactly one slug prefix wide and a test pins that it can't widen.
+**`/licensing` (+ the `/api` developer landing page) is exempt**: it is where
+`bot-blocker.js`'s own 403 body sends a refused crawler, and this file already
+states the principle at the `/licensing` route — *a denial that points at an
+unreachable page is just a denial*. It also sells bulk data to a different buyer
+(RIAs, data desks) than the experiment targets. Live-verified with the flag on:
+`/licensing` and `/api` 200 with real titles, `/` and `/stocks/AAPL` still 302;
+a test now evaluates the exemption list the way the middleware does so narrowing
+a prefix can't silently wall them.
+
+**Crawlers get the same 302 as humans** — no user-agent special-casing, no
+cloaking (`bot-blocker.js` still 403s them first, unchanged). Accepted cost,
+stated when the plan was approved: **SEO is dead for the week by design.**
+robots.txt + sitemaps stay public so re-indexing is fast after. Bing click guard
+is meaningless this week; the metric is trial signups → `begin_checkout` →
+trial→paid conversions.
+
+**Still owner-only:** `WALL_ALL_PAGES=true` on launch day (above — the trial var
+is already set), and the 12 warm-lead emails (`notes/2026-09-14-warm-lead-emails.md`)
+— the higher-expected-value action, independent of this experiment.
+
+**Prod health after the 9/15 deploy (flag off), curled with full browser
+headers:** `/`, `/stocks/AAPL`, `/register.html`, `/login.html`, `/upgrade.html`,
+`/screener`, `/privacy`, `/robots.txt` all 200, no redirects — behavior byte-for-
+byte unchanged. Note `bot-blocker.js` serves its licensing refusal to bare
+`curl` even now: use `-A stockportfolio-internal` (or a browser header set) to
+read prod JSON endpoints.
+
 ## The payment path is PROVEN end to end (9/14) — first time ever
 
 Ran plans 2–10 of the $5K ramp. The headline: **a purchase now demonstrably
