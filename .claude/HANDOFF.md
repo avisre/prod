@@ -1,21 +1,47 @@
 # Handoff
 
-## Hard paywall built, pushed, DEPLOYED FLAG-OFF — one env var arms it (9/15)
+## Hard paywall ARMED LIVE 9/15 — the 1-week clock is running
 
-Commit `f4af1ee5`, pushed to `origin/main`, deployed (run 34942061678 ✓), plus a
-follow-up commit exempting `/licensing` (below). **The wall code is inert:**
-`WALL_ALL_PAGES` defaults off, so no page is gated until the Render var is set —
-and the revert is unsetting it, no redeploy either way. The one thing already
-user-visible is the free-trial card, because the trial var is already live (next
-paragraph).
+**Status: `WALL_ALL_PAGES=true` is LIVE in production as of 2026-09-15 ~08:00Z.**
+The wall is up; every walled page 302s for anonymous and non-paying visitors, and
+new signups get the 3-day no-card trial. The week runs to ~2026-09-22. Commits
+`f4af1ee5` (wall) + `8f4c131a` (`/licensing` exemption), both deployed.
 
-**Aiming it — ONE var, not two:** `SIGNUP_TRIAL_DAYS=3` is ALREADY live on
-production (verified 9/15 by reading `/stripe/config` → `signupTrialDays: 3`; it
-was not set by any `set-render-env.yml` run, so it came from the Render
-dashboard). The trial card is therefore already unhidden on register.html and has
-been granting 3-day trials since ~9/10 (one granted, now expired). The only
-remaining launch action is `WALL_ALL_PAGES=true`:
-`gh workflow run set-render-env.yml -f key=WALL_ALL_PAGES -f value=true`.
+**Kill switch = unset the var** (`gh workflow run set-render-env.yml -f
+key=WALL_ALL_PAGES -f value=` … but an empty value is not a delete — the reliable
+revert is setting it to anything other than `true`, i.e. `-f value=false`, which
+restores today's open site instantly). Trials already granted keep running to
+their own 3-day end; nothing else to unwind.
+
+**⚠️ Render gotcha, found the hard way — set-render-env alone does NOT deploy.**
+Setting the var triggers a *Render-native* deploy, and that deploy fails silently
+because Render's GitHub connection is broken (see the header of
+`deploy-render.yml`), so the old build keeps serving the old env and the wall
+stays off while the API reports success. **After any `set-render-env.yml` run,
+dispatch `gh workflow run deploy-render.yml` and wait for "deployed", or the
+change is only stored, not live.** That is exactly what happened here: the var was
+set at 08:0x and the site stayed open until the manual deploy 2m28s later.
+
+**Verified live in production (not just dev-local), all with the flag armed:**
+`/`, `/stocks/AAPL`, `/screener`, `/methodology`, `/compare/finviz`,
+`/dashboard.html`, `/news.html`, `/tour.html` → 302 `/register.html`; exempt
+`/register.html`, `/login.html`, `/upgrade.html`, `/licensing`, `/api`,
+`/privacy`, `/terms`, `/support`, `/appsumo.html`, `/robots.txt`, `/sitemap.xml`,
+`/llms.txt`, `/assets/app.js` → 200; `/stripe/config` → 200
+`signupTrialDays: 3`. A **real production signup** (`support+wallverify@…`,
+deleted afterwards — total back to 58 users, 0 trialing) returned
+`status: trialing`, `trialEndsAt` +3d exactly (09-15 → 09-18), `price: 0`, no
+card; its token got `/`, `/stocks/AAPL`, `/screener` 200; a tampered token 302'd
+to register. That also *proves* `REQUIRE_INITIAL_STRIPE_PAYMENT=true` in prod —
+the trial branch at app.js:5990 can't run otherwise, and if it were false,
+app.js:5982 would hand every free signup `status: 'active'` and the wall would be
+free to bypass.
+
+**Original build notes:** `WALL_ALL_PAGES` defaults off (`=== 'true'`, revert =
+unset/false, no redeploy). `SIGNUP_TRIAL_DAYS=3` was ALREADY live before this
+(verified by reading `/stripe/config`; not set by any `set-render-env.yml` run,
+so it came from the Render dashboard), so the free-trial card was already
+unhidden and trials had been granted since ~9/10 — one, since expired.
 Anonymous page → 302 `/register.html`; signed-in-but-inactive (expired trial,
 cancelled) → 302 `/upgrade.html` (the checkout path). Paying, live-trial and
 AppSumo/lifetime users are untouched.
@@ -71,9 +97,10 @@ robots.txt + sitemaps stay public so re-indexing is fast after. Bing click guard
 is meaningless this week; the metric is trial signups → `begin_checkout` →
 trial→paid conversions.
 
-**Still owner-only:** `WALL_ALL_PAGES=true` on launch day (above — the trial var
-is already set), and the 12 warm-lead emails (`notes/2026-09-14-warm-lead-emails.md`)
-— the higher-expected-value action, independent of this experiment.
+**Still owner-only:** the 12 warm-lead emails
+(`notes/2026-09-14-warm-lead-emails.md`) — the higher-expected-value action,
+independent of this experiment, and now the natural thing to send *into* the wall
+since warm traffic gets the 3-day trial.
 
 **Prod health after the 9/15 deploy (flag off), curled with full browser
 headers:** `/`, `/stocks/AAPL`, `/register.html`, `/login.html`, `/upgrade.html`,
