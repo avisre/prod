@@ -98,6 +98,66 @@ unreachable page is just a denial*. It also sells bulk data to a different buyer
 a test now evaluates the exemption list the way the middleware does so narrowing
 a prefix can't silently wall them.
 
+## September launch rate LIVE 9/15 — Monthly $8.99, locked in, self-expiring 10/1
+
+**Live in production.** `/stripe/config` returns `monthlyPromo` (`price: 8.99`,
+`listPrice: 24.99`, `until: 2026-09-30`). Anyone who starts a Monthly checkout
+this month pays $8.99 via the **`sept-launch-899` Stripe coupon** ($16 off,
+`duration: forever`) and keeps that rate while subscribed; October signups return
+to $24.99. Commit `e8dc2714`, deployed 9/15 — the set-render-env → deploy-render
+dance again (two vars set, then a manual deploy).
+
+**Kill switch:** unset either `LAUNCH_PROMO_COUPON_ID` or `LAUNCH_PROMO_UNTIL`
+(or point `UNTIL` at a past instant). The window is read **per request**, so the
+offer closes with no deploy and no restart, and the pages follow on their own:
+every surface ships the list price in its HTML and only swaps when `/stripe/config`
+reports the promo. Proven on a real server — `UNTIL=2026-09-01` → `monthlyPromo:
+null`; no coupon id → `null`.
+
+**Why a coupon, not a new Price:** `resolveStripeCheckoutPlan` requires the
+configured price id to match product+amount+currency+interval in
+`CHECKOUT_STRIPE_PRICE_SPECS` (frozen at boot, monthly `24.99`) and overrides the
+plan price with the spec amount, refusing to sell on mismatch — a promo Price
+means editing that matcher plus a date gate inside it. A coupon leaves the
+matcher, both price ids and every legacy subscriber untouched and puts the
+discounted amount where it must be right: the invoice. $24.99 − $16.00 = $8.99.
+
+**Scope:** Monthly only, and **never** on an affiliate-attributed checkout — a
+`/go` referral code takes the whole first invoice off, which beats $16, so that
+path keeps the code box. Stripe rejects a session carrying both `discounts` and
+`allow_promotion_codes`, so it is one or the other, never both.
+
+**The annual cards drop their savings pitch while this runs.** Twelve months at
+$8.99 is $107.88 — less than the $199.99 annual — so "Save $100 a year", "two
+months free versus $24.99 monthly" and the homepage's $299.88 monthly comparison
+are false for the length of the promo. All three are dropped at runtime on
+register/upgrade/homepage; the annual card stays on sale with its one-payment
+framing, and **the claims come back by themselves** when the promo ends (the
+shipped HTML is untouched — a test pins that nothing hardcodes $8.99).
+
+**Verified 9/15 in real headless Chrome** against dev-local with the promo armed:
+register summary `$8.99 / was $24.99 / per month` + the locked-in note; the trial
+card's day-4 line "subscribe at $8.99/month"; upgrade's Good card `$8.99` with
+`$24.99` struck (`getComputedStyle` → `line-through`); homepage Good card + hero
+"from $8.99/mo", annual `$299.88` hidden. Then re-verified in **production** by
+curl: `/stripe/config` carries the promo, register.html + upgrade.html carry the
+wiring. Screenshots: `/tmp/promo-shots/*.png`.
+
+**Known, accepted:** (a) `syncSubscriptionFromStripe` resolves the plan by price
+id and stores `subscription.price` from the *list* price, so the stored/API price
+reads 24.99 while the customer pays 8.99 — **no UI renders that field** (every
+consumer checked) and Stripe's own receipt is unambiguous, so it is latent; the
+fix, if ever needed, is a display rule, not a matcher change. (b)
+`frontend-v2/assets/app.js` Ask-wall CTAs still say `$24.99/month` (:609, :634) —
+deliberately untouched because that file carries the `?v=` stamp cascade; stale
+copy until the promo ends, leave it. (c) terms.html, JSON-LD, SEO and comparison
+pages keep the $24.99 list price on purpose — they state the standard price, and
+the checkout shows the real one.
+
+**Test:** `backend/test/launch-promo.test.js` (8) — the date boundary is
+*evaluated from the real helpers*, not re-implemented. Suite 671 pass, 1
+pre-existing failure (`social-compose`, selenium not installed).
+
 **Crawlers get the same 302 as humans** — no user-agent special-casing, no
 cloaking (`bot-blocker.js` still 403s them first, unchanged). Accepted cost,
 stated when the plan was approved: **SEO is dead for the week by design.**
