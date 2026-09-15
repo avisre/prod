@@ -54,8 +54,11 @@ async function main() {
     // production Mongo URI). Without a fixed secret every restart silently
     // invalidates the browser's session and gated calls answer 401.
     process.env.JWT_SECRET = process.env.JWT_SECRET || 'dev-local-fixed-secret-not-for-production';
-    process.env.REQUIRE_ACTIVE_SUBSCRIPTION = 'false';
-    process.env.REQUIRE_INITIAL_STRIPE_PAYMENT = 'false';
+    // Set-if-unset so the real production paths stay locally testable, e.g.
+    // WALL_ALL_PAGES=true SIGNUP_TRIAL_DAYS=3 REQUIRE_INITIAL_STRIPE_PAYMENT=true
+    // node scripts/dev-local.js — with these unset the permissive dev defaults win.
+    if (process.env.REQUIRE_ACTIVE_SUBSCRIPTION === undefined) process.env.REQUIRE_ACTIVE_SUBSCRIPTION = 'false';
+    if (process.env.REQUIRE_INITIAL_STRIPE_PAYMENT === undefined) process.env.REQUIRE_INITIAL_STRIPE_PAYMENT = 'false';
 
     const client = new MongoClient(uri);
     await client.connect();

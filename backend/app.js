@@ -836,6 +836,10 @@ const directLtdStripe = directLtd.testModeEnabled()
 const STRIPE_TEST_WEBHOOK_SECRET = process.env.STRIPE_TEST_WEBHOOK_SECRET || '';
 const googleOauthClient = GOOGLE_CLIENT_ID ? new OAuth2Client(GOOGLE_CLIENT_ID) : null;
 const REQUIRE_ACTIVE_SUBSCRIPTION = process.env.REQUIRE_ACTIVE_SUBSCRIPTION === 'true';
+// 1-week hard-paywall experiment: when true, every page (SSR or static html,
+// homepage included) requires an active subscription, a live trial, or an
+// AppSumo/lifetime grant. Unset = today's open pages, exactly as before.
+const WALL_ALL_PAGES = process.env.WALL_ALL_PAGES === 'true';
 const stripeAccountPreflight = {
   checkedAt: 0,
   accountId: '',
@@ -2133,6 +2137,85 @@ const { pixelConfig } = require('./pixels');
 // Caches GET + status-200 + text/html|xml +
 // no-Set-Cookie only. Deploy clears it; 6h TTL covers the out-of-process
 // nightly fundamentals rewrites. Zero new npm deps.
+// ---- Hard paywall (WALL_ALL_PAGES experiment) ----
+// When on, every page — SSR (stocks, compare, company, screener, methodology,
+// …), static .html, the homepage — requires an active subscription, a live
+// trial, or an AppSumo/lifetime grant. Anonymous page requests 302 to
+// /register.html; signed-in-but-inactive users (expired trial, cancelled,
+// free) 302 to /upgrade.html so they land on the checkout path. Mounted ahead
+// of ssrCacheMw (which only caches GET+200 HTML, never a 302, so a walled
+// page can never reach the cache) and ahead of every SSR route and
+// express.static below. Pages only: /api keeps its own per-route auth gates,
+// assets/robots/sitemaps stay public so re-indexing after the experiment is
+// fast, and crawlers get the same 302 as humans — no user-agent
+// special-casing, no cloaking.
+const WALL_PAGE_EXEMPT_PREFIXES = [
+    '/api', '/admin', '/assets', '/data', '/images', '/robots.txt', '/sitemap.xml',
+    '/sitemaps', '/register', '/login', '/forgot-password', '/reset-password',
+    '/privacy', '/terms', '/partner-terms', '/affiliate-terms', '/support',
+    '/appsumo', '/dealmirror', '/lifetime', '/recharge', '/upgrade', '/checkout',
+    '/health',
+    // Machine endpoints that carry no product content and break if walled.
+    // /stripe/config is how register.html learns signupTrialDays and unhides the
+    // free-trial card — walling it silently kills the entire trial flow (found by
+    // curl, not by reading: it is a root path, so it looks exactly like a page).
+    // /mcp and /oauth are the model-context and OAuth legs, already exempt from
+    // bot-blocker.js for the same reason — each authenticates or meters every
+    // call, so refusing them is a category error, not a leak. /.well-known
+    // serves discovery documents.
+    '/stripe', '/mcp', '/oauth', '/.well-known',
+    // Attribution redirects: they set a cookie and bounce to a real page. Walled,
+    // an AppSumo or partner link would lose its attribution on the way in —
+    // exactly the click those links exist to capture.
+    '/go'
+];
+const WALL_ASSET_EXTENSIONS = new Set([
+    'css', 'js', 'mjs', 'map', 'json', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp',
+    'ico', 'txt', 'xml', 'woff', 'woff2', 'ttf', 'webmanifest', 'mp4', 'webm', 'pdf'
+]);
+function wallPathIsExempt(pathname) {
+    // /r/<amb-slug> is an affiliate referral: it records the click, sets the
+    // referral cookie, and redirects — no content, so it stays open. /r/<publicId>
+    // is the public research library, i.e. real research, so it stays walled.
+    // The reserved `amb-` prefix (see the /r/:id route) makes this carve-out
+    // exact instead of a hole.
+    if (pathname.startsWith('/r/amb-')) return true;
+    if (WALL_PAGE_EXEMPT_PREFIXES.some((prefix) => pathname === prefix || pathname.startsWith(prefix))) return true;
+    const dot = pathname.lastIndexOf('.');
+    const slash = pathname.lastIndexOf('/');
+    // Extensionless paths (/, /stocks/AAPL, /screener) are pages: wall them.
+    return dot > slash && WALL_ASSET_EXTENSIONS.has(pathname.slice(dot + 1).toLowerCase());
+}
+function wallRedirect(res, target) {
+    res.set('Cache-Control', 'no-store');
+    return res.redirect(302, target);
+}
+// Token verify mirrors authMiddleware (below); ensureSubscriptionShape
+// self-expires no-card trials on read, so an expired trial is caught here
+// without waiting for the sweep.
+async function wallAllPagesMiddleware(req, res, next) {
+    if (!WALL_ALL_PAGES) return next();
+    if (req.method !== 'GET' && req.method !== 'HEAD') return next();
+    if (wallPathIsExempt(req.path || '/')) return next();
+
+    const token = authTokenFromRequest(req);
+    if (!token) return wallRedirect(res, '/register.html');
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = decoded && decoded.userId ? await User.findById(decoded.userId) : null;
+        if (!user || Number(decoded.v || 0) !== Number(user.authVersion || 0)) {
+            return wallRedirect(res, '/register.html');
+        }
+        const normalized = ensureSubscriptionShape(user);
+        if (user.isModified('subscription')) await user.save().catch(() => {});
+        if (!subscriptionIsActive(normalized)) return wallRedirect(res, '/upgrade.html');
+        next();
+    } catch (_) {
+        return wallRedirect(res, '/register.html');
+    }
+}
+app.use(wallAllPagesMiddleware);
+
 const ssrCache = require('./ssr-cache');
 // bypassWhen: a campaign-marked landing must reach its route handler so the
 // attribution touch is actually captured. This cache keys on path only and a
