@@ -23,15 +23,40 @@ async function quoteFor(symbol) {
     } catch (_) { return { price: null, dayPct: null, tradingDay: null }; }
 }
 
-async function headlinesFor(symbol, max = 2) {
+// time_published is "YYYYMMDDTHHMMSS" (yahoo-source's buildNewsItem);
+// tradingDay is "YYYY-MM-DD" (yahoo-source's isoDay). Compare on the date
+// portion only.
+function sameOrPriorDay(publishedAt, tradingDay) {
+    const key = String(publishedAt || '').slice(0, 8);
+    if (!key || !tradingDay) return false;
+    const dayKey = String(tradingDay).replace(/-/g, '');
+    if (key === dayKey) return true;
+    const d = new Date(`${tradingDay}T00:00:00Z`);
+    if (Number.isNaN(d.getTime())) return false;
+    d.setUTCDate(d.getUTCDate() - 1);
+    return key === d.toISOString().slice(0, 10).replace(/-/g, '');
+}
+
+async function headlinesFor(symbol, tradingDay, max = 2) {
     try {
-        const feed = await yahooSource.fetchNews({ tickers: symbol, limit: 6 });
+        // Fetch more than we need so there's a real chance of finding
+        // same-day coverage to filter down to, rather than just whatever two
+        // items happen to be most recent regardless of date.
+        const feed = await yahooSource.fetchNews({ tickers: symbol, limit: 10 });
         const items = (feed && feed.feed) || [];
-        return items.slice(0, max).map((i) => ({
+        const mapped = items.map((i) => ({
             title: String(i.title || '').slice(0, 160),
             url: String(i.url || ''),
-            source: String(i.source || '')
+            source: String(i.source || ''),
+            publishedAt: String(i.time_published || '')
         })).filter((i) => i.title);
+        // A headline from days ago reads as generic ticker news, not an
+        // explanation of THIS move — prefer coverage dated to the move
+        // itself (or the evening before, for after-hours-driven moves), and
+        // only fall back to "most recent" if nothing lines up, so the
+        // feature degrades gracefully instead of ever returning nothing.
+        const sameWindow = mapped.filter((i) => sameOrPriorDay(i.publishedAt, tradingDay));
+        return (sameWindow.length ? sameWindow : mapped).slice(0, max);
     } catch (_) { return []; }
 }
 
@@ -87,7 +112,7 @@ async function computeAttribution(holdings) {
     // presented as evidence for unrelated holdings.
     const seenHeadlineKeys = new Set();
     for (const p of drivers) {
-        const headlines = await headlinesFor(p.symbol);
+        const headlines = await headlinesFor(p.symbol, p.tradingDay);
         p.headlines = headlines.filter((headline) => {
             const key = String(headline.url || headline.title || '').split('?')[0].trim().toLowerCase();
             if (!key || seenHeadlineKeys.has(key)) return false;

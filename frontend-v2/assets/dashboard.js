@@ -565,9 +565,12 @@
         const select = $('pf-select');
         if (!select) return;
         // Before adoption only "+ New" shows — users who never touch the
-        // feature keep today's screen (spec: zero visible change).
+        // feature keep today's screen (spec: zero visible change). But an
+        // AI Paper Portfolio is a reason to show the switcher on its own —
+        // it used to stay hidden (and unreachable from the dashboard) until
+        // the unrelated multi-portfolio feature was also adopted.
         const adopted = pfAdopted();
-        select.hidden = !adopted;
+        select.hidden = !(adopted || (aiPaperBeta && aiPaperBeta.state.exists));
         if (!['all', ...pfList.map((p) => String(p.id))].includes(String(pfSelection))) pfPersist('all');
         const totalHoldings = pfList.reduce((a, p) => a + (p.holdingsCount || 0), 0);
         select.innerHTML = [
@@ -958,8 +961,15 @@
             const rows = d.movers.filter((m) => m.contributionPct !== null).slice(0, 6).map((m) => {
                 const w = Math.round(Math.abs(m.contributionPct) / maxAbs * 100);
                 const mc = m.contributionPct > 0 ? 'var(--pos)' : 'var(--neg)';
-                const head = (m.headlines && m.headlines[0])
-                    ? `<div class="small muted" style="margin-top:2px;">${esc(m.headlines[0].title)}${m.headlines[0].url ? ` <a href="${esc(m.headlines[0].url)}" rel="noopener" target="_blank">↗</a>` : ''}</div>`
+                const h0 = m.headlines && m.headlines[0];
+                // publishedAt is "YYYYMMDDTHHMMSS" — show just the date, and
+                // only once it's confirmed parseable, so a headline's date
+                // next to the move is what makes the connection legible
+                // instead of asking the reader to just trust the ranking.
+                const h0Date = h0 && /^\d{8}/.test(h0.publishedAt || '')
+                    ? `${h0.publishedAt.slice(4, 6)}/${h0.publishedAt.slice(6, 8)}` : '';
+                const head = h0
+                    ? `<div class="small muted" style="margin-top:2px;">${h0Date ? `${esc(h0Date)} — ` : ''}${esc(h0.title)}${h0.url ? ` <a href="${esc(h0.url)}" rel="noopener" target="_blank">↗</a>` : ''}</div>`
                     : '';
                 return `<div style="display:grid; grid-template-columns: 70px 1fr auto; gap:10px; align-items:start; padding:6px 0; border-bottom:1px solid var(--line);">
                   <a href="/company.html?symbol=${esc(m.symbol)}"><strong>${esc(m.symbol)}</strong></a>
@@ -1374,6 +1384,11 @@
                     line.textContent = log[i];
                     box.appendChild(line);
                 }
+                // .ai-progress is capped to ~4 visible rows (system.css) with the
+                // rest reachable by scrolling; keep the newest line in view as
+                // the build appends to it instead of leaving the reader parked
+                // at the top of a growing, scrolled-past log.
+                box.scrollTop = box.scrollHeight;
                 aiPaperFeedSeen = log.length;
             }
         }, 2500);

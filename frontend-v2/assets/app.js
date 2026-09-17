@@ -1685,7 +1685,7 @@
         mark('shown');
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent } = {}) {
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, prependNewest = false } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
@@ -1785,7 +1785,24 @@
                 <span style="width:88%"></span>
                 <span style="width:54%"></span>
               </div>`;
-            exchange.appendChild(block);
+            // /ask.html reads newest-turn-at-top (prependNewest) so a multi-turn
+            // conversation never requires scrolling up to find the latest
+            // answer; embedded widgets (mountAsk/mountAskFloor) keep the
+            // original bottom-append, page-flow-free behavior.
+            if (prependNewest) exchange.insertBefore(block, exchange.firstChild);
+            else exchange.appendChild(block);
+            // Delegated on `block` (stable for this turn's whole life) rather
+            // than bound directly on the rendered .ask-next button: the button
+            // can appear mid-stream, well before `finish()` runs and does its
+            // own (now-redundant) direct bind — a direct bind left a window
+            // where the button was visible but not yet listening, and
+            // finish()'s re-render then discarded that exact node anyway.
+            block.addEventListener('click', (e) => {
+                const nextBtn = e.target && e.target.closest && e.target.closest('.ask-next');
+                if (!nextBtn || nextBtn.disabled) return;
+                nextBtn.disabled = true;
+                send(nextBtn.dataset.q, opts);
+            });
             const traceEl = block.querySelector('.ask-trace');
             const answerEl = block.querySelector('.ask-a');
             // Capped boxes (system.css: .ask-panel .ask-a) scroll internally:
@@ -1940,7 +1957,10 @@
                         // reader is already at the bottom — never yank someone
                         // who has scrolled back up
                         if (stickInner && answerEl.scrollHeight > answerEl.clientHeight) answerEl.scrollTop = answerEl.scrollHeight;
-                        if (atBottom()) window.scrollTo({ top: document.documentElement.scrollHeight });
+                        // With prependNewest the answer sits at the top and its own
+                        // top edge never moves as it streams, so there is no "bottom
+                        // of the page" to follow — only the bottom-append layout needs it.
+                        if (!prependNewest && atBottom()) window.scrollTo({ top: document.documentElement.scrollHeight });
                     } else if (ev === 'ai_paper') {
                         // 🧪 build progress from the background AI Paper
                         // Portfolio construction (status/persona/done frames);
@@ -1986,8 +2006,8 @@
                         closeProgress();
                     renderTrace();
                     answerEl.innerHTML = markdown(data.answer);
-                    answerEl.querySelectorAll('.ask-next').forEach((b) =>
-                        b.addEventListener('click', () => { b.disabled = true; send(b.dataset.q, opts); }));
+                    // .ask-next clicks are handled by the delegated listener on
+                    // `block` (bound once, above) so they work during streaming too.
                     // The receipt leads the answer: the cited source is the first
                     // thing read, and it is the same sec.gov link source_opened tracks.
                     mountReceipt(answerEl);

@@ -1768,7 +1768,7 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .ai-tile { display:grid; gap:3px; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:var(--bg-2, var(--surface)); }
 .ai-tile-v { font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; }
 
-.ai-progress { display:grid; gap:6px; font-size:13.5px; color:var(--ink-2); }
+.ai-progress { display:grid; gap:6px; font-size:13.5px; color:var(--ink-2); max-height:112px; overflow-y:auto; }
 .ai-progress div { animation: aiFade .3s ease; }
 @keyframes aiFade { from { opacity:0; transform:translateY(3px); } to { opacity:1; transform:none; } }
 

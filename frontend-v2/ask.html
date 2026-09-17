@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260912-planfix1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260917-uifix1" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -100,7 +100,7 @@
     /* .prompts is display:grid, which overrides the hidden attribute — same for
        the progress strip — so both need the explicit rule. */
     .prompts[hidden], .paper-progress[hidden] { display: none; }
-    .paper-progress { display: grid; gap: 3px; font-size: 12.5px; color: var(--ink-2); }
+    .paper-progress { display: grid; gap: 3px; font-size: 12.5px; color: var(--ink-2); max-height: 78px; overflow-y: auto; }
     .paper-card { border: 1px solid var(--line-strong); border-radius: 12px; padding: 11px 14px; margin: 0 auto 16px; max-width: var(--ask-col, 800px); background: var(--paper); }
     .paper-card summary { cursor: pointer; font-weight: 600; font-size: 14px; list-style: none; }
     .paper-card summary::-webkit-details-marker { display: none; }
@@ -363,7 +363,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260912-planfix1"></script>
+  <script src="assets/app.js?v=20260917-uifix1"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -432,6 +432,7 @@
 
       function makeEngine() {
         return askEngine($('exchange'), {
+          prependNewest: true,
           onActivity: () => {
             document.body.classList.add('in-conversation');
             setFocus(true);
@@ -628,14 +629,23 @@
           currentThreadId = String(t.id || id);
           try { window.history.replaceState(null, '', `/ask?t=${currentThreadId}`); } catch (_) {}
           $('exchange').innerHTML = '';
-          (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
+          // Live turns render newest-at-top (prependNewest); a reopened thread
+          // needs the same reading order. Messages are stored oldest-first as
+          // a flat Q,A,Q,A sequence, so pair them up and replay the pairs
+          // newest-first — reversing pairs (not individual messages) keeps
+          // each question above its own answer.
+          const msgs = Array.isArray(t.messages) ? t.messages : [];
+          const pairs = [];
+          for (let i = 0; i < msgs.length; i += 2) pairs.push(msgs.slice(i, i + 2));
+          pairs.reverse();
+          pairs.forEach((pair) => pair.forEach((m) => renderSavedMessage(m.role, m.content)));
           document.body.classList.add('in-conversation');
           setFocus(true);
           if (prefersZen()) setZen(true);
           $('thread').hidden = false;
           renderThreads();
           closeSidePanel();
-          window.scrollTo({ top: document.body.scrollHeight });
+          window.scrollTo({ top: 0 });
         } catch (_) { /* sidebar is best-effort */ }
       }
       function deleteThread(id) {
@@ -1060,6 +1070,11 @@
         const line = document.createElement('div');
         line.textContent = text;
         strip.appendChild(line);
+        // .paper-progress is capped to ~4 visible rows (see <style> above) with
+        // the rest reachable by scrolling — this also stops the strip (inside
+        // the sticky-bottom composer dock) from growing tall enough to cover
+        // a growing share of the viewport over a multi-minute build.
+        strip.scrollTop = strip.scrollHeight;
       }
 
       function paperProgressReset() {

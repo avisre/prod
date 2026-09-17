@@ -302,6 +302,21 @@
             $('fund-chart-label').textContent = months <= 1
                 ? 'Adjusted price · last month (daily)'
                 : `Adjusted price · ${months >= 999 ? 'full history' : `last ${months / 12} years`}`;
+            // Same fix as the equity chart: the badge was frozen at the
+            // day-over-day change fetched once at load, so every range but
+            // "today" showed a stale, unrelated figure. Recompute it from the
+            // same series the chart just drew.
+            const rows = seriesFor(months);
+            const chEl = $('co-change');
+            if (chEl && rows.length >= 2) {
+                const first = rows[0][1];
+                const last = rows[rows.length - 1][1];
+                if (first !== null && last !== null && first !== 0) {
+                    const rangePct = ((last - first) / first) * 100;
+                    chEl.textContent = (rangePct >= 0 ? '+' : '') + rangePct.toFixed(2) + '% over ' + button.textContent;
+                    chEl.className = 'small num ' + (rangePct >= 0 ? 'delta-pos' : 'delta-neg');
+                }
+            }
         }));
 
         // A cold prospectus lookup runs past the profile route's 2.5s budget, so
@@ -821,6 +836,21 @@
                 label: fmtPoint(p.month),
                 lines: [currencyAmount(p.close, quoteCurrency(), { compact: false })] // price only — the cap reads off the left axis
             })));
+            // The badge used to be frozen at the one-day session change fetched
+            // once at load, regardless of which range tab was selected — every
+            // range but "today" showed a stale, unrelated number. It now tracks
+            // the currently selected window, computed from the same series the
+            // chart just drew.
+            const first = price[0];
+            const last = price[price.length - 1];
+            const chEl = $('co-change');
+            if (chEl && !priceTooOld() && first !== null && last !== null && first !== 0) {
+                const rangePct = ((last - first) / first) * 100;
+                const rangeBtn = document.querySelector('#seg-range button[aria-pressed="true"]');
+                const rangeLabel = rangeBtn ? rangeBtn.textContent : '';
+                chEl.textContent = (rangePct >= 0 ? '+' : '') + rangePct.toFixed(2) + '% over ' + rangeLabel;
+                chEl.className = 'small num ' + (rangePct >= 0 ? 'delta-pos' : 'delta-neg');
+            }
             $('chart-prov').textContent = mixedCurrencies
                 ? `Price is shown in ${quoteCurrency()}. Historical P/E and price × filed-share-count overlays are disabled because the source statements are reported in ${sourceReportingCurrency()}; USD presentation conversion does not supply the listing’s depositary-share ratio.`
                 : cap
