@@ -66,7 +66,10 @@ async function latestPair(symbol) {
 }
 
 // Bumped whenever the payload shape changes, so stale rows re-extract
-const DIFF_SCHEMA_V = 2;
+// v3: figures asserted in `what` are now checked against both filings, so a
+// pre-v3 payload may carry a fabricated number beside a verified quote and
+// must be recomputed rather than served.
+const DIFF_SCHEMA_V = 3;
 
 const DIFF_SYSTEM = [
     'You compare two SEC filings from the SAME company: the NEW one and the PRIOR one of the same form. Reply with ONLY a JSON object, no prose, no markdown fences.',
@@ -113,6 +116,71 @@ function quoteIsInSource(quote, sourceText) {
     return normalizeQuote(sourceText).includes(q);
 }
 
+// `what` was the hole: quotes were checked character-for-character, the prose
+// around them was not, so a change could carry a verified quote and still
+// assert a figure that is in neither filing. Found in the wild on a freshly
+// computed row — AAOI's narrative said the prior operating loss was $9.0M
+// while its own quote read "Loss from operations (24,727 ) (15,976 )", and
+// NVTS said 232.0M shares against a quote of 230,525,464. A fabricated number
+// beside a real citation is worse than no number, because the citation is what
+// makes a reader trust it.
+//
+// Scale is the whole difficulty: filings tabulate in thousands, the narrative
+// writes "$49.8 billion", and "49,836" is the same fact. So figures are
+// compared as scientific-notation mantissas to three significant figures,
+// which is scale-invariant — 49.8bn and 49,836 both reduce to 4.98 — and a
+// figure counts as supported if its mantissa occurs anywhere in either filing
+// excerpt. That direction is deliberately forgiving: the cost of missing a bad
+// figure is one wrong number, the cost of a false positive is deleting a true
+// one, and only the latter is silent.
+const YEAR_LIKE = /^(1[89]|20|21)\d\d$/;
+function figureMantissa(raw) {
+    const n = Number(String(raw).replace(/[,$\s]/g, ''));
+    if (!isFinite(n) || n === 0) return null;
+    const abs = Math.abs(n);
+    const mantissa = abs / Math.pow(10, Math.floor(Math.log10(abs)));
+    return mantissa.toFixed(2); // 3 significant figures
+}
+// Only tokens that actually look like reported figures: money, percentages,
+// decimals, thousands-separated, or three-plus digits. Skips "two segments",
+// "8-K", "Q1" and bare years, none of which are claims worth verifying.
+function extractFigures(text) {
+    const out = [];
+    const re = /\$?\d[\d,]*\.?\d*\s*(?:%|percent|bps|million|billion|trillion|thousand)?/gi;
+    for (const m of String(text || '').match(re) || []) {
+        const token = m.trim();
+        const digits = token.replace(/[^\d.]/g, '');
+        if (!digits) continue;
+        const looksReported = /[$%,.]/.test(token) || /million|billion|trillion|thousand|percent|bps/i.test(token) || digits.replace('.', '').length >= 3;
+        if (!looksReported) continue;
+        if (YEAR_LIKE.test(digits)) continue;
+        const mant = figureMantissa(digits);
+        if (mant) out.push({ token, mant });
+    }
+    return out;
+}
+function sourceMantissaSet(sourceText) {
+    const set = new Set();
+    for (const f of extractFigures(sourceText)) set.add(f.mant);
+    return set;
+}
+// Drops only the sentence carrying an unsupported figure, never the whole
+// change: the rest of the narrative is usually sound and the verified quotes
+// are untouched. Returns the surviving prose plus what was removed.
+function stripUnsupportedFigures(what, sourceMantissas) {
+    const text = String(what || '').trim();
+    if (!text) return { what: '', removed: [] };
+    const sentences = text.split(/(?<=[.;])\s+/);
+    const kept = [];
+    const removed = [];
+    for (const sentence of sentences) {
+        const bad = extractFigures(sentence).filter((f) => !sourceMantissas.has(f.mant));
+        if (bad.length) removed.push(...bad.map((b) => b.token));
+        else kept.push(sentence);
+    }
+    return { what: kept.join(' ').trim(), removed };
+}
+
 async function computeFilingDiff(symbol) {
     const sym = String(symbol || '').toUpperCase().trim();
     const pair = await latestPair(sym);
@@ -152,6 +220,8 @@ async function computeFilingDiff(symbol) {
         } catch (_) { return null; }
     };
 
+    const sourceFigures = sourceMantissaSet(`${oldDoc}\n${newDoc}`);
+
     let parsed = tryParse(await callModel(''));
     if (!parsed) {
         parsed = tryParse(await callModel(' REPLY WITH ONLY THE JSON OBJECT — your entire reply must parse as JSON.'));
@@ -166,18 +236,23 @@ async function computeFilingDiff(symbol) {
             // a quote survives only if it is really in the document it cites
             const priorQuote = quoteIsInSource(c.priorQuote, oldDoc) ? String(c.priorQuote).trim().slice(0, 420) : null;
             const newQuote = quoteIsInSource(c.newQuote || c.quote, newDoc) ? String(c.newQuote || c.quote).trim().slice(0, 420) : null;
+            // …and a figure in the prose survives only if it is in one of the
+            // filings. Both excerpts count as the source: a change legitimately
+            // cites the prior period, which lives in the older document.
+            const cleaned = stripUnsupportedFigures(cleanWhat(c.what), sourceFigures);
             return {
                 area: String(c.area || '').slice(0, 60),
-                what: cleanWhat(c.what).slice(0, 500),
+                what: cleaned.what.slice(0, 500),
                 priorQuote,
                 newQuote,
                 evidenceVerified: !!(priorQuote && newQuote),
+                figuresVerified: cleaned.removed.length === 0,
                 quote: newQuote // the company page and alerts read `quote`
             };
         }).filter((c) => c.area && c.what && c.what.length >= 12),
         latest: { form: latest.form, date: latest.date, url: latest.url },
         prev: { form: prev.form, date: prev.date, url: prev.url },
-        note: 'Compared from narrative excerpts (outlook, risks, MD&A) of both filings. Every quotation shown was checked character-for-character against the filing it is attributed to. Not advice.',
+        note: 'Compared from narrative excerpts (outlook, risks, MD&A) of both filings. Every quotation shown was checked character-for-character against the filing it is attributed to, and every figure in the commentary was checked against the filings themselves — anything unsupported is removed rather than shown. Not advice.',
         v: DIFF_SCHEMA_V,
         extractedAt: new Date().toISOString()
     };
@@ -191,4 +266,7 @@ async function computeFilingDiff(symbol) {
     return payload;
 }
 
-module.exports = { computeFilingDiff, normalizeQuote, quoteIsInSource, DIFF_SCHEMA_V };
+module.exports = {
+    computeFilingDiff, normalizeQuote, quoteIsInSource, DIFF_SCHEMA_V,
+    extractFigures, figureMantissa, sourceMantissaSet, stripUnsupportedFigures
+};
