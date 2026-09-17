@@ -1020,7 +1020,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-elapsed { flex: none; font-size: var(--text-xs); color: var(--ink-3); font-variant-numeric: tabular-nums; }
 /* the model's stated plan, in its own words */
 .ask-note { margin: 11px 0 0; font-size: 13px; line-height: 1.6; color: var(--ink-2); }
-.ask-steps { margin: 11px 0 0; display: flex; flex-direction: column; gap: 5px; }
+.ask-steps { margin: 11px 0 0; display: flex; flex-direction: column; gap: 5px; max-height: 84px; overflow-y: auto; }
 .ask-steps .row { display: flex; align-items: baseline; gap: 8px; font-size: 12.5px; color: var(--ink-2); }
 .ask-steps .row .mk { flex: none; width: 12px; text-align: center; color: var(--pos); }
 .ask-steps .row .lb { flex: 1; min-width: 0; overflow-wrap: anywhere; }
@@ -1050,6 +1050,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-trace summary::after { content: '▸'; font-size: 9px; transition: transform 0.12s ease; }
 .ask-trace details[open] summary::after { transform: rotate(90deg); }
 .ask-trace details > div { display: flex; flex-wrap: wrap; gap: 5px 14px; padding: 8px 0 2px; }
+.ask-disclaimer { margin: 10px 0 0; font-size: var(--text-xs); color: var(--ink-3); }
 .ask-step { font-size: var(--text-xs); color: var(--ink-3); }
 .ask-step::before { content: '✓ '; color: var(--pos); }
 .ask-step-miss::before { content: '✕ '; color: var(--ink-3); }

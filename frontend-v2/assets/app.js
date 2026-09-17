@@ -1685,7 +1685,7 @@
         mark('shown');
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, prependNewest = false } = {}) {
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
@@ -1785,12 +1785,7 @@
                 <span style="width:88%"></span>
                 <span style="width:54%"></span>
               </div>`;
-            // /ask.html reads newest-turn-at-top (prependNewest) so a multi-turn
-            // conversation never requires scrolling up to find the latest
-            // answer; embedded widgets (mountAsk/mountAskFloor) keep the
-            // original bottom-append, page-flow-free behavior.
-            if (prependNewest) exchange.insertBefore(block, exchange.firstChild);
-            else exchange.appendChild(block);
+            exchange.appendChild(block);
             // Delegated on `block` (stable for this turn's whole life) rather
             // than bound directly on the rendered .ask-next button: the button
             // can appear mid-stream, well before `finish()` runs and does its
@@ -1838,6 +1833,10 @@
                         + `<span class="dur">${s.ms == null ? '' : `${(s.ms / 1000).toFixed(1)}s`}</span>`
                         + '</div>';
                 }).join('');
+                // The list is capped to ~4 rows (system.css .ask-steps) so a long
+                // research phase can't push the page down; keep the running step
+                // in view as rows are added.
+                stepsEl.scrollTop = stepsEl.scrollHeight;
             };
             // first token: the skeleton has served its purpose and the card
             // steps aside — but it is only HIDDEN, because a `rollback` can
@@ -1957,10 +1956,11 @@
                         // reader is already at the bottom — never yank someone
                         // who has scrolled back up
                         if (stickInner && answerEl.scrollHeight > answerEl.clientHeight) answerEl.scrollTop = answerEl.scrollHeight;
-                        // With prependNewest the answer sits at the top and its own
-                        // top edge never moves as it streams, so there is no "bottom
-                        // of the page" to follow — only the bottom-append layout needs it.
-                        if (!prependNewest && atBottom()) window.scrollTo({ top: document.documentElement.scrollHeight });
+                        // The page deliberately does NOT follow the stream. The question
+                        // is anchored to the top of the viewport when the turn starts
+                        // and the answer fills downward from there, so the reader reads
+                        // from the first word and scrolls at their own pace. Following
+                        // the bottom pinned them to the last rendered line instead.
                     } else if (ev === 'ai_paper') {
                         // 🧪 build progress from the background AI Paper
                         // Portfolio construction (status/persona/done frames);
@@ -2008,6 +2008,15 @@
                     answerEl.innerHTML = markdown(data.answer);
                     // .ask-next clicks are handled by the delegated listener on
                     // `block` (bound once, above) so they work during streaming too.
+                    // The advice disclaimer rides the ANSWER, not the composer: the
+                    // moment something could be mistaken for a recommendation is
+                    // while reading output, not while typing a question.
+                    if (!block.querySelector('.ask-disclaimer')) {
+                        const note = document.createElement('p');
+                        note.className = 'ask-disclaimer';
+                        note.textContent = 'Describes and explains — never buy/sell advice.';
+                        block.appendChild(note);
+                    }
                     // The receipt leads the answer: the cited source is the first
                     // thing read, and it is the same sec.gov link source_opened tracks.
                     mountReceipt(answerEl);

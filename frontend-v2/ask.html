@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260917-uifix1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260917-uifix2" />
   <style>
     /* the canvas: one centred column, generous air. On wide screens the
        column opens up so charts (the financial sankey especially) get the
@@ -67,15 +67,18 @@
     .composer .go:disabled { opacity: 0.25; cursor: default; }
     .composer .paperclip { background: none; color: var(--ink-3); }
     .composer .paperclip:hover { color: var(--ink); }
-    /* the meta line lives OUTSIDE the box, dim — and is identical in both
-       states, so asking a question no longer reflows it */
+    /* the meta line sits ABOVE the box: the bottom edge stays clean, so the
+       composer ends the page instead of trailing two rows of chrome and 22px
+       of padding under it. Identical in both states — no reflow on send. */
     .composer-meta {
       display: flex; align-items: center; gap: 10px;
-      margin-top: 7px; padding: 0 4px;
+      margin: 0 0 7px; padding: 0 4px;
       font-size: 11.5px; color: var(--ink-3);
     }
     .composer-meta .quota-mini { margin-left: auto; white-space: nowrap; }
     .composer-foot { margin-top: 6px; padding: 0 4px; font-size: 11.5px; color: var(--ink-3); }
+    /* signed-in: the CTA is empty, so it must take up no room at all */
+    .composer-foot:empty { display: none; }
     .composer-foot a { display: inline-block; padding: 5px 2px; }
     /* mode as inked/faint text toggles, not two accent pills */
     .ask-mode-toggle { display: inline-flex; align-items: center; gap: 4px; }
@@ -157,7 +160,7 @@
     /* the dock spans the WHOLE canvas so its border-top is a rule that reaches
        both edges; the composer itself keeps one width in every state. Nothing
        about the box changes on send — the dock only slides to the floor. */
-    .composer-dock { width: 100%; position: sticky; bottom: 0; padding: 12px 0 22px; }
+    .composer-dock { width: 100%; position: sticky; bottom: 0; padding: 12px 0 10px; }
     .composer-dock > * { max-width: var(--ask-col, 800px); margin-left: auto; margin-right: auto; }
     body:not(.in-conversation) .composer-dock { position: static; background: none; padding: 0; }
     /* TWO reading states, not one.
@@ -322,6 +325,16 @@
         <div class="composer-dock">
           <div class="paper-progress" id="paper-progress" role="status" aria-live="polite" hidden></div>
           <p class="att-error" id="att-error" role="alert"></p>
+          <div class="composer-meta">
+            <span class="ask-mode-toggle">
+              <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
+              <span class="sep" aria-hidden="true">·</span>
+              <button type="button" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
+              <span class="sep" id="paper-sep" aria-hidden="true" hidden>·</span>
+              <button type="button" id="ask-mode-paper" aria-pressed="false" title="AI Paper Portfolio mode — drive the experiment conversationally" hidden>🧪 AI Portfolio</button>
+            </span>
+            <span class="quota-mini" id="quota-mini"></span>
+          </div>
           <form class="composer" id="composer">
             <input type="file" id="att-input" multiple accept="image/png,image/jpeg,image/webp,.pdf,.csv,.txt,.md,.json" hidden />
             <div class="att-chips" id="att-chips" aria-live="polite"></div>
@@ -335,17 +348,10 @@
             </button>
             </div>
           </form>
-          <div class="composer-meta">
-            <span class="ask-mode-toggle">
-              <button type="button" id="ask-mode-normal" aria-pressed="false" title="Plain-English writing">Normal</button>
-              <span class="sep" aria-hidden="true">·</span>
-              <button type="button" id="ask-mode-analyst" aria-pressed="false" title="Denser analyst writing">Analyst</button>
-              <span class="sep" id="paper-sep" aria-hidden="true" hidden>·</span>
-              <button type="button" id="ask-mode-paper" aria-pressed="false" title="AI Paper Portfolio mode — drive the experiment conversationally" hidden>🧪 AI Portfolio</button>
-            </span>
-            <span class="quota-mini" id="quota-mini"></span>
-          </div>
-          <p class="composer-foot" id="quota-line">Describes and explains — never buy/sell advice. Sources under every answer.</p>
+          <!-- Signed-out only: the account CTA. Empty (and collapsed) for
+               signed-in users, so the box sits flush with nothing beneath it.
+               The advice disclaimer now rides each answer instead. -->
+          <p class="composer-foot" id="quota-line"></p>
         </div>
 
         <div class="prompts" id="prompts">
@@ -363,7 +369,7 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20260917-uifix1"></script>
+  <script src="assets/app.js?v=20260917-uifix2"></script>
   <script>
     (function () {
       const { API, token, nav, footer, askEngine, trackSeoEvent, modal, markdown, esc } = window.V2;
@@ -432,7 +438,6 @@
 
       function makeEngine() {
         return askEngine($('exchange'), {
-          prependNewest: true,
           onActivity: () => {
             document.body.classList.add('in-conversation');
             setFocus(true);
@@ -629,23 +634,14 @@
           currentThreadId = String(t.id || id);
           try { window.history.replaceState(null, '', `/ask?t=${currentThreadId}`); } catch (_) {}
           $('exchange').innerHTML = '';
-          // Live turns render newest-at-top (prependNewest); a reopened thread
-          // needs the same reading order. Messages are stored oldest-first as
-          // a flat Q,A,Q,A sequence, so pair them up and replay the pairs
-          // newest-first — reversing pairs (not individual messages) keeps
-          // each question above its own answer.
-          const msgs = Array.isArray(t.messages) ? t.messages : [];
-          const pairs = [];
-          for (let i = 0; i < msgs.length; i += 2) pairs.push(msgs.slice(i, i + 2));
-          pairs.reverse();
-          pairs.forEach((pair) => pair.forEach((m) => renderSavedMessage(m.role, m.content)));
+          (Array.isArray(t.messages) ? t.messages : []).forEach((m) => renderSavedMessage(m.role, m.content));
           document.body.classList.add('in-conversation');
           setFocus(true);
           if (prefersZen()) setZen(true);
           $('thread').hidden = false;
           renderThreads();
           closeSidePanel();
-          window.scrollTo({ top: 0 });
+          window.scrollTo({ top: document.body.scrollHeight });
         } catch (_) { /* sidebar is best-effort */ }
       }
       function deleteThread(id) {
@@ -1274,11 +1270,11 @@
       (async () => {
         const el = $('quota-line');
         const mini = $('quota-mini');
-        // the count lives in the meta row, the scope disclaimer in the foot —
-        // both are present in every chrome state, so neither line reflows on
-        // send and the two never say the same thing twice
+        // The count lives in the meta row above the box. This line carries only
+        // the signed-out account CTA — the advice disclaimer moved onto each
+        // answer, where something could actually be mistaken for advice.
         if (!token()) {
-          el.innerHTML = 'Never buy/sell advice; sources under every answer. <a href="/register.html">Create a free account</a> to keep this thread and its follow-ups, or <a href="/login.html">log in</a>.';
+          el.innerHTML = '<a href="/register.html">Create a free account</a> to keep this thread and its follow-ups, or <a href="/login.html">log in</a>.';
           mini.textContent = '3 free questions';
           return;
         }
