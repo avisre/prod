@@ -9,7 +9,7 @@
 // tier only (not every lifetime buyer, unlike Monitor's isLifetimeBuyer()).
 // Pricing: MCP is the base tier, the REST API is exactly 2x MCP. Repriced
 // 9/11 to 2x measured frontier cost (Claude Fable 5.1 and GPT-6 Astra both
-// $10/$50 per M tokens as of 2026-09): mcp_ask (4) anchors on the measured
+// $10/$50 per M tokens as of 2026-09): mcp_ask anchors on the measured
 // 'chat'-shaped call at 13,820 tokens/call — NOT the all-purposes blend, which
 // is dragged down by shorter 'summary' calls — and api_ask (8) is 2x that by
 // the stated rule, not an independent estimate. The arithmetic is in the COST
@@ -34,9 +34,12 @@ const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
 test('credits.COST prices the API surface at exactly 2x the MCP surface', () => {
     assert.equal(credits.COST.mcp_lookup, 1);
-    assert.equal(credits.COST.mcp_ask, 4);
+    assert.equal(credits.COST.mcp_ask, 42);
     assert.equal(credits.COST.api_lookup, credits.COST.mcp_lookup * 2, 'api_lookup must be exactly 2x mcp_lookup');
-    assert.equal(credits.COST.api_ask, credits.COST.mcp_ask * 2, 'api_ask must be exactly 2x mcp_ask');
+    // The "REST ask = 2x MCP ask" rule was retired 2026-09-22: both metered
+    // surfaces run the identical call and now carry the identical 6x-frontier
+    // anchor. Lookups keep the 2x tier split (no inference either side).
+    assert.equal(credits.COST.api_ask, credits.COST.mcp_ask, 'api_ask and mcp_ask share the 6x anchor');
     // The old undifferentiated keys must be gone, not left dangling alongside
     // the new ones — a stray unused key here would be a second, driftable
     // price list.

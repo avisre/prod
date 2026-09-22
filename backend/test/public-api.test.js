@@ -36,7 +36,10 @@ function fakeApiKeyAuth(req, res, next) {
     next();
 }
 
-function effectiveAskLimit() { return 10; } // small, deterministic wallet for the test
+// allowance = limit x 2 (credits.js allowance()), so 40 -> an 80-credit wallet:
+// enough for one api_ask (42) plus the lookups above it, and still small and
+// deterministic. Sized off COST so a reprice does not silently 402 this test.
+function effectiveAskLimit() { return Math.max(10, credits.COST.api_ask); }
 
 async function withServer(t, run) {
     const app = express();
@@ -93,7 +96,7 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         assert.equal(body.symbol, 'AAPL');
         assert.equal(body.source.type, 'filed', 'sec.gov URL classifies as filed');
         let after = await credits.balance('u1', effectiveAskLimit());
-        assert.equal(after.used, before.used + 2, 'a successful lookup spends exactly api_lookup (2 — 2x the mcp_lookup tier)');
+        assert.equal(after.used, before.used + credits.COST.api_lookup, 'a successful lookup spends exactly api_lookup (2x the mcp_lookup tier)');
 
         // A different user's key never touches u1's wallet.
         const otherBefore = await credits.balance('u1', effectiveAskLimit());
@@ -109,10 +112,12 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         after = await credits.balance('u1', effectiveAskLimit());
         assert.equal(after.used, before.used, 'a failed lookup never spends');
 
-        // Exhaust the wallet (limit 10 -> allowance 20; api_lookup costs 2),
-        // then confirm 402 with no further spend past the ceiling.
+        // Exhaust a FRESH user's wallet exactly, then confirm 402 with no
+        // further spend past the ceiling. Derived from COST so the loop always
+        // lands on zero rather than assuming a particular price.
         freeTools.getToolResult = async (slug, ticker) => ({ status: 200, body: { symbol: ticker, tool: slug } });
-        for (let i = 0; i < 10; i++) {
+        const lookupsToDrain = (effectiveAskLimit() * 2) / credits.COST.api_lookup;
+        for (let i = 0; i < lookupsToDrain; i++) {
             await fetch(`${base}/financials/AAPL`, { headers: { 'x-test-user': 'u3' } });
         }
         before = await credits.balance('u3', effectiveAskLimit());
@@ -134,7 +139,8 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         res = await fetch(`${base}/fund/AAPL`, { headers: { 'x-test-user': 'u4' } });
         assert.equal(res.status, 404);
 
-        // /ask spends api_ask (8 — 2x the mcp_ask tier), not api_lookup.
+        // /ask spends api_ask, not api_lookup. Since 2026-09-22 api_ask and
+        // mcp_ask share one 6x-frontier anchor; only lookups keep the 2x split.
         aiChat.ask = async ({ question }) => ({ answer: `Answer to: ${question}`, source: 'filed' });
         before = await credits.balance('u5', effectiveAskLimit());
         res = await fetch(`${base}/ask`, {
@@ -145,6 +151,6 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         const askBody = await res.json();
         assert.match(askBody.answer, /What was NVDA revenue/);
         after = await credits.balance('u5', effectiveAskLimit());
-        assert.equal(after.used, before.used + 8, '/ask spends api_ask (8)');
+        assert.equal(after.used, before.used + credits.COST.api_ask, '/ask spends api_ask');
     });
 });
