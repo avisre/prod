@@ -120,7 +120,7 @@ function pagesReferencingSharedAssets() {
     for (const f of fs.readdirSync(FRONTEND)) {
         if (f.endsWith('.html')) out.push([f, fs.readFileSync(path.join(FRONTEND, f), 'utf8')]);
     }
-    for (const f of ['free-tools.js', 'comparison-pages.js', 'seo-pages.js', 'app.js', 'affiliate-dashboard.html']) {
+    for (const f of ['free-tools.js', 'comparison-pages.js', 'seo-pages.js', 'app.js', 'docs-pages.js', 'affiliate-dashboard.html']) {
         out.push([f, fs.readFileSync(path.join(__dirname, '..', f), 'utf8')]);
     }
     return out;

@@ -36,6 +36,7 @@ const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
 const shareCopy = require('./share-copy');
 const freeTools = require('./free-tools');
+const docsPages = require('./docs-pages');
 const embedWidgets = require('./embed-widgets');
 const verifyHeadline = require('./verify');
 const marketingAttribution = require('./marketing-attribution');
@@ -2188,6 +2189,11 @@ const { pixelConfig } = require('./pixels');
 // fast, and crawlers get the same 302 as humans — no user-agent
 // special-casing, no cloaking.
 const WALL_PAGE_EXEMPT_PREFIXES = [
+    // '/docs' is the one product surface that stays readable signed out: it is
+    // how a prospect finds out what the product does before paying for it, and
+    // walling the manual behind the wall it explains is circular. startsWith
+    // matching means this one entry covers every /docs/<slug>.
+    '/docs',
     '/api', '/admin', '/assets', '/data', '/images', '/robots.txt', '/sitemap.xml',
     '/sitemaps', '/register', '/login', '/forgot-password', '/reset-password',
     '/privacy', '/terms', '/partner-terms', '/affiliate-terms', '/support',
@@ -2492,6 +2498,19 @@ app.get('/api/campaign/august-2026', (req, res) => {
 app.get('/tools', (req, res) => {
     res.set('Cache-Control', 'no-cache').type('html').send(freeTools.renderToolIndex());
 });
+
+// Product documentation. Registered per concrete path, exactly as the tool
+// routes below are, rather than as '/docs/:slug' — an unknown slug then never
+// matches and falls through to the normal 404 instead of needing a handler
+// here that has to decide what "unknown" means.
+app.get('/docs', (req, res) => {
+    res.set('Cache-Control', 'no-cache').type('html').send(docsPages.renderDocsIndex());
+});
+for (const doc of Object.values(docsPages.DOC_PAGES)) {
+    app.get(doc.path, (req, res) => {
+        res.set('Cache-Control', 'no-cache').type('html').send(docsPages.renderDocPage(doc.slug));
+    });
+}
 for (const definition of Object.values(freeTools.TOOL_DEFINITIONS)) {
     app.get(definition.path, (req, res) => {
         res.set('Cache-Control', 'no-cache').type('html').send(freeTools.renderToolPage(definition.slug));
@@ -2592,7 +2611,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260917-uifix2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2621,7 +2640,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260917-uifix2"></script>
+<script src="/assets/app.js?v=20260922-docs1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2712,7 +2731,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260917-uifix2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2740,7 +2759,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260917-uifix2"></script>
+<script src="/assets/app.js?v=20260922-docs1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2848,7 +2867,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260917-uifix2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -2881,7 +2900,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260917-uifix2"></script>
+<script src="/assets/app.js?v=20260922-docs1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8832,6 +8851,10 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                     mode,
                     onEvent: (e) => send(e.type, e)
                 });
+                // Only source 'ai' leaves a trace (ask_reports, thread, credit
+                // ledger). 'blocked', 'partial' and 'error' leave none at all,
+                // so there is no denominator to watch a model rollout against.
+                console.log('[ask] ' + JSON.stringify({ source: result.source, tools: (result.toolsUsed || []).length, mode, stream: true }));
                 const counted = result.source === 'ai' || result.source === 'blocked';
                 if (counted) await aiChat.recordUse(userId);
                 // Additive only: still gated by the Ask-specific limit above,
@@ -8868,6 +8891,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
             ctx: { holdings, userId, memoryConsent, attachments, ...(aiPaperCtx || {}) },
             mode
         });
+        console.log('[ask] ' + JSON.stringify({ source: result.source, tools: (result.toolsUsed || []).length, mode, stream: false }));
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');
@@ -14449,3 +14473,10 @@ try {
             .catch(() => {});
     }, 20000);
 } catch (e) { console.log('[filing-changes] snapshot not scheduled:', e && e.message); }
+
+// Export the Express app so a local launcher can mount dev-only routes on it
+// after boot (scripts/dev-local.js adds a model switch used by the benchmark
+// harness). Express routers stay mutable after listen(), which already ran
+// above. Nothing in production reads this export — requiring app.js is what
+// STARTS the server, so only a process that already started it can see it.
+module.exports = app;
