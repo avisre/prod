@@ -224,8 +224,8 @@ test('the Dev credit floor is 200 and beats the derived wallet', () => {
     assert.ok(planRate <= packRate + 1e-4, `plan rate ${planRate} must not exceed pack rate ${packRate}`);
     // Guard the arithmetic above, so a future edit to the price or the floor
     // has to re-derive the rate rather than inherit a stale claim.
-    assert.equal(credits.COST.mcp_ask, 4, 'the AI-backed MCP action is priced at the 2x-frontier anchor');
-    assert.equal(credits.COST.api_ask, 8, 'REST API ask is 2x mcp_ask by the base-tier rule');
+    assert.equal(credits.COST.mcp_ask, 42, 'the AI-backed MCP action is priced at the 6x-frontier anchor');
+    assert.equal(credits.COST.api_ask, 42, 'REST API ask carries the same 6x anchor since 2026-09-22');
 });
 
 test('the Dev wallet cannot be spent on the website Ask box', () => {
@@ -273,7 +273,7 @@ test('the API landing page renders, prices the Dev plan, and carries the real ex
     // The metering table must match credits.js COST. It silently kept the
     // pre-reprice ask prices (2/4) after the 2x-frontier change, on the one page
     // whose whole job is telling a developer what a call costs — so pin it.
-    assert.match(html, /<tr><td><code>sp_ask<\/code><\/td><td><code>POST \/api\/v1\/ask<\/code><\/td><td>4 \/ 8<\/td><\/tr>/, 'the ask row quotes the live mcp_ask/api_ask cost');
+    assert.match(html, new RegExp(`<tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>${credits.COST.mcp_ask} / ${credits.COST.api_ask}</td></tr>`), 'the ask row quotes the live mcp_ask/api_ask cost');
     assert.ok(!/>2 \/ 4</.test(html), 'no row still quotes the retired 2/4 ask price');
     // Every one of the seven tools is listed, so the page can't quietly fall
     // behind the endpoint list.

@@ -39,9 +39,10 @@ const mongoose = require('mongoose');
 // build. Priced at 5 (half a standard Dossier): paid, but visibly cheaper
 // than running the reports it reads.
 // mcp_*/api_* (added for the hosted MCP endpoint and the public REST API,
-// mcp-endpoint.js/public-api.js): MCP is the base tier, REST API is priced
-// at exactly 2x MCP — a deliberate choice, not a rounding artifact, to make
-// the MCP surface the cheaper on-ramp.
+// mcp-endpoint.js/public-api.js). The old "REST is exactly 2x MCP" base-tier
+// rule was RETIRED 2026-09-22 by owner decision: both metered surfaces run the
+// identical call and now carry the identical 6x anchor. There is no longer an
+// MCP discount.
 // *_lookup covers the deterministic tools (cache/SEC/Yahoo, no AI spend) —
 // priced low, mainly abuse prevention rather than cost recovery, since no
 // inference happens. The labs anchor below does not apply: there is nothing
@@ -52,30 +53,56 @@ const mongoose = require('mongoose');
 // the mcp and api"). Frontier is Claude Fable 5.1 AND GPT-6 Astra,
 // independently — they happen to match — at $10/$50 per M input/output tokens.
 //
-// The token figure is MEASURED PER PURPOSE, not blended. The previous anchor
-// (mcp_ask: 2) used the all-purposes average of 10,779 tokens/call, and that
-// average is the wrong shape for this line item: it is dragged down by
-// 'summary' calls at 3,862 tokens. An sp_ask or /api/ask call is a 'chat'
-// call, and measured over 1,503 of them (tmp-token-split-measure.js, 9/11)
-// chat averages 13,820 tokens — 28% above the blended figure, with a trimmed
-// mean of 13,914 and a median of 14,113, so the distribution is tight and the
-// number is trustworthy rather than outlier-driven.
+// TOKENS ARE MEASURED PER USER ACTION, NOT PER MODEL CALL. This is the
+// correction that forced the 2026-09-22 reprice. Every earlier anchor here
+// used 13,820 tokens, which is the average of a single 'chat' COMPLETION —
+// but one Ask is an agentic loop that makes 5.6 model calls, re-sending the
+// whole conversation plus the system prompt and 28 tool schemas each round.
+// Rolling ollama_usage_events up by requestId (one requestId = one user
+// action) gives the real figures, medians over the 30-day window:
 //
-// The input/output SPLIT is still NOT measured: ollama-usage-tracker.js
-// persists only the total (a gap this change begins closing — see
-// publicEvent() there, which now carries the split through). An 85/15 split
-// is assumed for this calculation only. At 13,820 tokens that is $0.2211/call
-// at frontier pricing, so 2x is $0.4422 — which at this product's
-// $0.09993/credit ($14.99 / 150 recharge pack) is 4.4 credits. mcp_ask: 4 is
-// that anchor rounded down: 1.81x at an 85/15 split, and 2.0x at 90/10.
-// api_ask: 8 is 2x mcp_ask by the base-tier rule above.
+//   Ask (POST /api/ai/chat)      58,239 tokens   5.6 calls   n=301
+//   Dossier standard              36,673 tokens  14.1 calls   n=40
+//   Monitor report                13,884 tokens   3.2 calls   n=11
+//   Keypoints                     46,837 tokens   3.5 calls   n=6
 //
-// Note this deliberately DIVERGES from the web `ask` weight (still 2). The two
-// used to match because they were the same underlying call; they no longer do,
-// because the owner's 2x rule is scoped to the MCP and API surfaces. Web Ask
-// is a feature bundled into plan credits, not a metered API call, so it keeps
-// its old anchor.
-const COST = { ask: 2, monitor: 5, dossier_standard: 10, dossier_deep: 30, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 4, api_lookup: 2, api_ask: 8 };
+// So the previous basis understated an Ask by ~4x. Medians, not means: the
+// Ask distribution is right-skewed (mean 76,157) and a median is the honest
+// figure for a typical call.
+//
+// Measured input/output split, same source: 'chat' 95/5, 'summary' 90/10.
+// Input-heavy by construction, and it matters because frontier OUTPUT costs
+// 5x frontier input.
+//
+// Frontier remains Claude Fable 5.1 / GPT-6 Astra at $10/$50 per M. Applying
+// it to the per-ACTION tokens above, at $0.09993/credit ($14.99 / 150):
+//
+//   action             tokens   frontier $   multiple   = $      credits
+//   mcp_ask / api_ask  58,239   $0.6989      6x         $4.193   42
+//   dossier_deep      ~73,346   $1.0268      4x         $4.107   41
+//   dossier_standard   36,673   $0.5134      4x         $2.054   21
+//   monitor            13,884   $0.1944      4x         $0.778    8
+//
+// The two metered API surfaces carry 6x; the in-product features carry 4x
+// (owner's call, 2026-09-22). Rounded to nearest.
+//
+// Web `ask` DELIBERATELY STAYS AT 2, unchanged. It is bundled into plan
+// credits rather than sold per call, and it is the action LTD buyers actually
+// use — repricing it to its 4x anchor (28) would have put 1 of 10 active
+// AppSumo buyers over their monthly wallet on their existing September usage,
+// and 3 of 10 had the halved V2 wallets been active. That is a deliberate
+// subsidy of the bundled surface, not an oversight.
+//
+// dossier_compare, mcp_lookup and api_lookup are unchanged: no inference
+// happens on any of them, so there is nothing to anchor to. They stay priced
+// for abuse prevention.
+// ai_paper_* are unchanged: no per-action token measurement exists for them yet.
+//
+// For contrast with the anchor, real provider cost per Ask action:
+// glm-5.1 $0.065, glm-5.3 $0.090, glm-5.3-flash $0.010. So mcp_ask: 42 earns
+// ~65x its marginal cost on glm-5.1. The anchor is a PRICING rule benchmarked
+// to frontier labs, NOT a cost-recovery calculation.
+const COST = { ask: 2, monitor: 8, dossier_standard: 21, dossier_deep: 41, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 42, api_lookup: 2, api_ask: 42 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 
