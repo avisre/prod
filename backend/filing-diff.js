@@ -81,6 +81,13 @@ const DIFF_SYSTEM = [
     'No investment advice, no buy/sell language — describe, never recommend.'
 ].join('\n');
 
+// The user turn for one comparison. Extracted so the model A/B harness
+// (scripts/ab-summary-quality.js) prompts byte-identically to production —
+// a scorer running a drifted copy of the prompt measures the wrong thing.
+function diffUserMessage({ sym, latest, prev, oldDoc, newDoc }, extra = '') {
+    return `Company: ${sym}. Compare the NEW ${latest.form} (filed ${latest.date}) against the PRIOR ${prev.form} (filed ${prev.date}).${extra}\n\n=== PRIOR FILING (${prev.date}) — excerpts ===\n${oldDoc}\n\n=== NEW FILING (${latest.date}) — excerpts ===\n${newDoc}`;
+}
+
 // Defence in depth: the diff model (temp 0, JSON) occasionally spills self-
 // correction / scratch arithmetic into a "what" field ("…40.7%? Actually
 // calculation… Wait, need to recalc…"). Trim at the first such tell and drop the
@@ -206,10 +213,7 @@ async function computeFilingDiff(symbol) {
 
     const callModel = (extra) => aiClient.chatRaw([
         { role: 'system', content: DIFF_SYSTEM },
-        {
-            role: 'user',
-            content: `Company: ${sym}. Compare the NEW ${latest.form} (filed ${latest.date}) against the PRIOR ${prev.form} (filed ${prev.date}).${extra}\n\n=== PRIOR FILING (${prev.date}) — excerpts ===\n${oldDoc}\n\n=== NEW FILING (${latest.date}) — excerpts ===\n${newDoc}`
-        }
+        { role: 'user', content: diffUserMessage({ sym, latest, prev, oldDoc, newDoc }, extra) }
     ], { purpose: 'summary', temperature: 0, maxTokens: 4000, timeoutMs: 40000 });
 
     const tryParse = (msg) => {
@@ -268,5 +272,9 @@ async function computeFilingDiff(symbol) {
 
 module.exports = {
     computeFilingDiff, normalizeQuote, quoteIsInSource, DIFF_SCHEMA_V,
-    extractFigures, figureMantissa, sourceMantissaSet, stripUnsupportedFigures
+    extractFigures, figureMantissa, sourceMantissaSet, stripUnsupportedFigures,
+    // for scripts/ab-summary-quality.js — the scorer must run the production
+    // prompt and the production filters, never a copy that can drift
+    DIFF_SYSTEM, diffUserMessage, cleanWhat, REASONING_TELL,
+    latestPair, narrativeWindows
 };

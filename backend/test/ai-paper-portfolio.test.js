@@ -93,7 +93,7 @@ function makeLlm({ guruPick = 'AAAA', aiPick = 'BBBB', alloc = null } = {}) {
         calls,
         llm: async (messages, opts) => {
             const system = messages[0] && messages[0].content || '';
-            calls.push({ system: system.slice(0, 60), tools: opts && opts.tools ? opts.tools.length : 0 });
+            calls.push({ system: system.slice(0, 60), tools: opts && opts.tools ? opts.tools.length : 0, roles: messages.map((m) => m.role) });
             if (/allocator/i.test(system.slice(0, 120)) || /dollar split/i.test(system)) {
                 if (alloc) return { content: JSON.stringify(alloc), _usage: { prompt_tokens: 500, completion_tokens: 120, total_tokens: 620 } };
                 return { content: 'not json at all', _usage: null };
@@ -411,6 +411,29 @@ test('create: two minds, one buy, immutable commit, day-0 snapshot, logged decis
             paper.__resetDeps();
             betaEnvOff();
         }
+    });
+});
+
+test('every model call carries a user turn — a system-only list returns empty', { timeout: 60000 }, async () => {
+    // Measured on Ollama Cloud and re-confirmed for glm-5.3 and glm-5.3-flash
+    // (probe P9, 2026-09-21): a system-only message list comes back 200 with
+    // zero content and zero completion tokens on every model tested. The
+    // persona loops, allocator and nightly review all prompt exactly that way,
+    // which is why every live build once died in seconds. llmCall appends a
+    // user turn to guarantee it; this stops a future cleanup removing it.
+    await withMongo(async () => {
+        betaEnvOn();
+        process.env.AI_PAPER_PORTFOLIO = '1';
+        const scripted = makeLlm({ guruPick: 'AAAA', aiPick: 'BBBB', alloc: { guruWeight: 0.5, aiWeight: 0.5, rationale: 'Even split.', newsFactors: [] } });
+        paper.__setDeps({ ...makeDeps(), llm: scripted.llm });
+        try {
+            const res = await paper.create({ user: USER, guruId: 'berkshire' });
+            assert.equal(res.ok, true, res.error || 'build should succeed');
+            assert.ok(scripted.calls.length > 0, 'the build must have called the model');
+            for (const c of scripted.calls) {
+                assert.ok(c.roles.includes('user'), 'a model call was sent with no user turn: [' + c.roles.join(',') + ']');
+            }
+        } finally { paper.__resetDeps(); }
     });
 });
 

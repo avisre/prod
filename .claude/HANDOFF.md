@@ -1,5 +1,356 @@
 # Handoff
 
+## Documentation section at /docs — 18 pages (2026-09-22)
+
+`backend/docs-pages.js` (new) renders the whole product manual from one frozen
+`DOC_PAGES` map, on the `free-tools.js` pattern: routes registered per concrete
+path in `app.js` (so an unknown slug 404s with no handler), sitemap entries via
+`seo-pages.js:845`, one `layout()` for all 19 URLs.
+
+**Two things here are load-bearing and easy to undo by accident:**
+
+- **No credit number is typed in that file.** Every figure interpolates
+  `credits.COST`, and `test/docs-pages.test.js` parses the *rendered HTML* to
+  prove it. This is the guard `public-api.md` never had, which is why it drifted
+  for months. Do not "simplify" a price to a literal.
+- **`'/docs'` is in `WALL_PAGE_EXEMPT_PREFIXES`.** With `WALL_ALL_PAGES=true`
+  (live in prod) it is the only product surface readable signed out. Verified by
+  booting with the flag on: `/docs/*` -> 200, `/portfolio.html`, `/screener`,
+  `/stocks` -> 302 to `/register.html`.
+
+Nav and footer are byte-identical to the rest of the site — confirmed in headless
+Chrome against `/support.html`: same innerHTML length (2447 nav / 804 footer),
+same links, height, background, border. The docs emit no `<header>`/`<footer>`
+and no CSS touching `.nav`/`.footer`; a test asserts both.
+
+Stamp bumped `20260917-uifix2` -> `20260922-docs1` (101 occurrences, 51 files);
+`docs-pages.js` added to the scan list in `profile-consolidation.test.js`.
+
+Also fixed: `seo-pages.js:1147` still advertised the pre-reprice API price
+("a data lookup costs 1 credit, an AI answer 4") — now 1-2 and 42.
+
+Suite: **712/713**, the one failure the pre-existing `social-compose`
+MODULE_NOT_FOUND.
+
+**Still open, unrelated to this work:** `WALL_ALL_PAGES` has no crawler
+exemption, so the ~18,000 `/stocks`, `/tools`, `/compare`, `/screens` and
+`/research` URLs still in `sitemap.xml` redirect Googlebot to `/register.html`.
+Owner parked it deliberately on 2026-09-22. `/docs` is now the one indexable
+section.
+
+## AI cost is now measured, not estimated (2026-09-22)
+
+`scripts/ollama-cost-projection.js` (new, read-only) groups `ollama_usage_events`
+by **model x purpose** — something no script did before — and prices it against
+list rates fetched from ollama.com/pricing on 2026-09-22:
+
+| model | in $/M | cached in | out $/M | **$/mo at today's volume** | % of the $60 allowance |
+|---|---|---|---|---|---|
+| **glm-5.1** (live) | 1.00 | 0.20 | 3.20 | **$28.91** | 48% |
+| glm-5.2 / glm-5.3 | 1.40 | 0.26 | 4.40 | **$40.36** (1.40x) | 67% |
+| **glm-5.3-flash** | 0.15 | 0.03 | 0.50 | **$4.36** (0.15x) | 7% |
+
+$28.91 independently reproduces the "~$30/mo, half the allowance" figure that
+was hand-derived earlier, which is the cross-check that the method is right.
+**glm-5.3's price was recorded nowhere in the repo before this.**
+
+**The 85/15 input/output split in `credits.js` was wrong: the real figure is
+95/5 for `chat` and 90/10 for `summary`.** Chat is input-heavy by
+construction — every tool round resends the conversation plus the system prompt
+and 28 tool schemas while the answer stays short. Because frontier *output*
+costs 5x frontier *input*, an input-heavier split makes the anchored cost
+**lower**: the 2x rule now implies **3.3 credits**, not 4.4. So `mcp_ask: 4` sits
+slightly ABOVE the owner's own rule rather than just under it. **Left as is** —
+repricing downward is the owner's call and would need synchronised edits to the
+AppSumo listing, seo-pages.js and public-api.md.
+
+Margin is not a constraint either way. At the measured split, an `mcp_ask`
+earns **26x** its marginal cost on glm-5.1, **18x** on glm-5.3, **171x** on flash.
+
+**Two measurement traps worth remembering**, both of which produced confident
+wrong numbers before being caught:
+- `promptTokens`/`completionTokens` are **missing** (not null) on rows written
+  before 2026-09-11. `{$ne: ['$promptTokens', null]}` does NOT exclude a missing
+  field, so coverage read as 1,530 calls when only **259** carry data — and the
+  first cost run priced 15% of the tokens as if it were all of them ($3.93/mo
+  instead of $28.91). Use `$isNumber`, and apportion each group's FULL
+  `totalTokens` by the ratio measured on its covered subset.
+- Coverage is still only **295 of 2,349** calls. Re-run once it is broad.
+
+### Local rig + benchmark
+`scripts/dev-local.js` now seeds a **desk**-plan user at `rin@gmail.com` (the
+email `marketingDashboardOnly` hardcodes), mints fixed API keys, raises the
+local abuse limits, disables `WATCHDOG`/`GURU_PREWARM` (watchdog calls PAID
+inference and would pollute telemetry), and prints a full runbook. The previously
+seeded `pro` plan passed **neither** `hasApiAccess` nor `monitorGate`, so API,
+MCP and Monitor all 402'd locally. Verified end to end: REST, keyed+keyless MCP,
+admin dashboard, credit deduction, and a real Ask in ~4s.
+
+`scripts/bench-model-latency.js` (new) fixes the flaw that made the earlier
+speed numbers contradict each other: it interleaves models **per case** with a
+rotating order instead of running block A then block B, and reports **paired
+per-case ratios** with a sign test rather than totals.
+
+### Safety: two production incidents, same root cause
+`backend/.env` carries the provider keys AND the production Atlas URI, so any
+script calling `dotenv.config()` on it to get an API key inherits the live
+database. That caused the 2026-09-07 incident, and again on 2026-09-22 when
+`ab-feature-parity.js` deleted live `company_keypoints` rows and force-rebuilt
+dossiers/monitor reports for BRK-B/BABA/AAPL — several on glm-5.3, so **prod
+cache currently serves glm-5.3 content for those three tickers** (cache only;
+self-healing, but unapproved). **Restoring them to glm-5.1 is still OUTSTANDING.**
+New `scripts/lib/dev-env.js` makes it structurally impossible: `loadAiEnvOnly()`
+parses `.env` and copies only an allowlist (never MONGODB_URI), and
+`assertLocalMongo()` refuses any non-local host. Both harnesses now use them and
+require an explicit `--db`.
+
+`backend/public-api.md` was stale for months (2/4 credits, the 10,779 blended
+token figure, $0.10/credit). Fixed, and `test/public-api-doc-truth.test.js` now
+asserts it against `credits.COST` — verified to fail on the old values.
+
+
+## Cross-industry validation: 24/24 on both models (2026-09-22, evening)
+
+Independent of the bench run below, and agreeing with it. Six industries x four
+surfaces x two models on local mongo (`brew services start mongodb-community`,
+8.3.11 — now installed, so harnesses no longer need the Atlas URI):
+insurance PGR, autos GM, SaaS CRM, ads META, hyperscaler MSFT, energy XOM.
+
+**`ab-feature-parity.js`: 24/24 ok on BOTH models, 0 non-USD leaks on both.**
+Dossier filled 5/5 AI sections on every ticker for both models; Monitor never
+fell back to template. Wall clock **1301.8s (5.1) vs 329.6s (5.3)**.
+
+**`ab-summary-quality.js`, all six gates PASS** (fresh tickers, none of them
+the hard cases): parse 6/6 both; evidence **69.4% -> 86.8%**; figures 97.2% ->
+**97.4%**; yield **4.0 -> 5.3** changes/filing; segments reconcilable 4/4 both,
+median residual 0.001 -> **0.000**; 0 think-leaks, 0 self-converted currency.
+
+**Ask token use is the big cost story, and it is bigger than 23%.** Over the
+six questions 5.3 used **0.31x** the tokens (mean 23,008 vs 75,201), because it
+closes in 3-5 tool calls where 5.1 takes 7-10 and every round resends the whole
+conversation plus 28 tool schemas. At list rates and the measured 95/5 split,
+**mean marginal cost per Ask: $0.0835 on 5.1 vs $0.0357 on 5.3 — 57% cheaper.**
+The bench's 1.15x is a surface-mix average; on the Ask surface specifically the
+multiplier is well under 1. Settle it from `ollama_usage_events` after the flip.
+
+5.3 writes ~30% shorter Ask answers (2,975 vs 4,272 mean chars) but MORE Key
+Points (12 sections vs 10-11) and LONGER monitor briefs. Terseness is specific
+to the Ask loop, not a general property. Both carried figures on 6/6.
+
+**Round-1 tool-set divergence is not a real blocker** (detail further down):
+over the full loop 5.3 calls get_filing_diff on the Berkshire case in both
+model orderings. A prompt hole contributed — `ai-chat.js` now routes
+"summarise the latest quarter/results/earnings" explicitly at get_filing_diff
++ get_financials(quarterly), which helps both models.
+
+## glm-5.3: speed question RESOLVED, summary slot ready, chat is not (2026-09-22)
+
+Two things below are now superseded — read this first.
+
+**Speed is settled, and 5.3 wins.** `bench-model-latency.js` completed 162 timed
+runs (3 tickers x 2 reps x 9 surfaces, interleaved). **Paired medians vs 5.1**
+(<1.00x = faster): ask_nonstream **0.35x**, ask_stream **0.30x**, keypoints
+**0.50x**, dossier **0.62x**, filing_diff **0.46x**, mcp_ask 0.29x, api_ask
+0.25x; monitor is a wash at 0.99x. Ask, dossier and keypoints are 6/6 faster
+with sign p=0.031. The block-ordered TOTALS in the same report say the opposite
+(5.3 12106s vs 5.1 11112s) — that is exactly the drift artifact the paired
+design was built to defeat. **Do not quote the totals.**
+
+**The 1.40x cost multiplier is too high.** It assumed equal token counts, but
+5.3 used ~23% fewer input tokens over identical work: **$1.229 -> $1.414 = 1.15x**,
+so ~**$33/mo**, not $40.36 — 55% of the allowance, not 67%. (Bench surface mix
+is not the production mix, so treat as indicative.)
+
+**Hard-case accuracy re-run** (BRK-B, BABA, TSM, SONY, ASML, NVO at correct
+effort): parse **4/6 -> 6/6**, evidence 52% -> 62.5%, figures 96% -> **100%**,
+yield 3.3 -> 4.2 per filing. **All 6 gates pass.**
+
+**FIXED: the rollout was unsafe as written.** `applyReasoning` never received
+the model name, so effort came from env alone, defaulting summary to 'none'.
+"One env key at a time" therefore meant `AI_MODEL_SUMMARY=glm-5.3` as a single
+PUT -> 5.3 at 'none' -> the one measured combination that emits **no JSON at
+all**, silently, into ~20 template fallbacks. Effort is now **derived from the
+resolved model** (`reasoningFor`), env is an explicit override only, and
+`test/reasoning-effort-coupling.test.js` pins every cell including "glm-5.1 is
+byte-identical to today". `prod.env.example` no longer ships a hard-coded
+`=none` that would have survived the flip — **if that key is set explicitly in
+Render, delete it before flipping, or the derivation is bypassed.**
+Note `KEY=` is an empty string, which means *omit the field*, not *unset*.
+
+**CHAT: FLIP IT. 5.3 is safer than what is in production today.** (Supersedes
+the "do NOT flip" note below, which was written before the recency fix and
+before the private-company control was run more than once.)
+
+**The staleness hole is closed structurally.** `get_financials` now returns
+`latestPeriodEnd`, `latestPeriodAgeDays` and, when a newer filing should exist,
+a `stalenessWarning` telling the model to verify with search_filings/fetch_page
+before saying "latest". ASK_SYSTEM makes that field binding. The point is that
+`loadFundAny()` deliberately falls open to a stale cache, so the payload used to
+carry period dates but nothing saying those periods were BEHIND — and a model
+cannot detect what it is not told. Whether an answer was right depended on
+whether the model happened to double-check the web. Now it does not.
+
+**Threshold bug worth remembering:** the first version flagged at the FILING
+DEADLINE (~40d), which marks a current quarter stale for most of its life — on
+2026-09-22 Exxon, Meta and Morgan Stanley all sat on a Q2 ending 2026-06-30, 84
+days old and perfectly current, because Q3 had not ended. The right interval is
+one full period PLUS the next filing's deadline: `92+48` quarterly, `365+95`
+annual. Caught by running it against real tickers, not by reasoning.
+
+**Cross-sector result** (`scripts/ab-recency.js`, new — asserts the PERIOD in
+the answer, which every tool-volume metric missed). BRK-B, XOM, META, MS, 2 reps:
+**both models named Q2 2026 correctly 8/8.** 5.3 did it in 7-26s against 5.1's
+47-82s, skipping verification when the data was current and doing it when it was
+not (Berkshire).
+
+**The finding that decides it — SpaceX, private, files nothing:**
+| | clean declines | FABRICATED figures |
+|---|---|---|
+| glm-5.1 (in production now) | 1/6 | **5/6** |
+| glm-5.3 | 6/6 | **0/6** |
+5.1 invents an IPO — "SpaceX's first public quarterly report shows revenue
+nearly doubling year-on-year to $7.8bn". That is the incumbent, today. 5.3 never
+did it. Migration is now a risk REDUCTION, not a risk.
+
+Scoring note: the first detector scored that fabrication as a correct decline
+(it hedged further down) and would have false-flagged a good answer for naming
+Rocket Lab (RKLB) as an alternative. For a company that files nothing, the sound
+test is that a correct answer quotes NO figures — no dollars, quarters or
+percents.
+
+Suite **724/725** (only the pre-existing social-compose selenium gap).
+
+
+## SUPERSEDED — pre-fix chat assessment, kept for the reasoning
+
+**CHAT: do NOT flip. The round-1 concern was real, and worse than it looked.**
+`scripts/ab-ask-depth.js` (new) runs the FULL ask loop instead of P13's round-1
+snapshot, because round 1 cannot tell "researches less" from "sequences
+differently". Over 10 interleaved runs: 5.3 makes **6.2 tool calls/run vs 11.5**,
+in **19s vs 92s**, with **2 failed calls vs 14**, and 10/10 answers carry
+figures on both. That all favours 5.3 — and is why this needed an actual read
+of the answers rather than another metric.
+
+**The read: on "Summarise Berkshire's latest quarterly results", 5.1 returned
+Q2 2026 (ended 30 Jun). 5.3 returned Q1 2026 — one quarter STALE, stated with
+full confidence.** 5.1 spent 11 calls and cross-checked search_filings/fetch_page
+against the cached fundamentals; 5.3 spent 2, took `get_financials` at face value
+and never tested whether newer data existed. Caveat: the local fundamentals
+cache was itself on Q1, so this is a *robustness* difference, not a fixed bug —
+but that cache lags after every real filing, which is exactly when users ask
+"latest results". Stopping early is why 5.3 is fast, and here it cost the answer.
+
+**summary and briefing are ready now; chat is not.** Re-test chat with
+`ab-ask-depth.js` after any prompt change that pushes recency-checking.
+
+**API + MCP verified on 5.3**, 23/23 via new `scripts/verify-api-mcp.js`: auth
+boundary, all 6 documented REST endpoints, REST ask, all 7 MCP tools over real
+Streamable HTTP, and the anonymous MCP tier capping at exactly 2 free asks.
+Run it against a FRESHLY booted server — the anon check asserts exact quota.
+
+**Also fixed:** `probe-llm-capability.js` still did `dotenv.config()` on
+`backend/.env` and `mongoose.connect(MONGODB_URI)` — i.e. straight to production
+Atlas, the same pattern behind both incidents, and it was the one harness never
+retrofitted. Now uses `loadAiEnvOnly` + `assertLocalMongo` and requires `--db`.
+
+
+## Original 2026-09-22 notes (speed section superseded above)
+
+**Nothing is live.** Prod is still `glm-5.1` on all three purposes. The code is
+model-agnostic and the flip is three env PUTs. Harnesses are committed:
+`scripts/probe-llm-capability.js` (13 structural checks),
+`scripts/ab-summary-quality.js` (ground-truth quality gates),
+`scripts/ab-feature-parity.js` (keypoints/dossier/monitor/chat end to end).
+
+**The finding that matters: reasoning effort is a property of the MODEL, not the
+caller, and `none` is wrong for 5.3.** On the filing-diff prompt —
+`none` → it reasons in the *visible* channel, overruns max_tokens,
+`finish_reason: length`, **no JSON at all (0/10 filings)**; provider default →
+reasons in the hidden channel, overruns it, **content empty**; `low` → clean
+JSON in **925 completion tokens** (vs 4000 burned). `AI_SUMMARY_REASONING_EFFORT`
+now exists for exactly this, defaulting to `none` so 5.1 is unchanged.
+**Flipping the model without also setting effort=low would have silently
+emptied ~20 extractors into their template fallbacks.**
+
+**Measured at each model's own best effort (5.1=none, 5.3=low):**
+| | 5.1 | 5.3 |
+|---|---|---|
+| filing-diff parsed (10 US) | 8/10 | **10/10** |
+| filing-diff parsed (6 huge/foreign) | 4/6 | **6/6** |
+| evidence / figures verified | 71% / 94% | **75% / 96%** |
+| usable changes per filing | 4.0 | **4.8** |
+| mean extraction latency (16 filings) | 17.5s | **7.3s** |
+| Ask end-to-end (3-co compare) | 43k tok | **37k tok** |
+
+**Do NOT trust any single latency reading, including the one above.** Two
+identical feature-parity runs hours apart gave opposite answers: 5.3 totalled
+**699s then 994s** over the same 12 cases while 5.1 held **707s then 625s**.
+Per-case swings on 5.3 were 3-14x (keypoints BRK-B 28s then 122s; Ask BRK-B 12s
+then 173s), while 5.1 stayed within ~2x. The shared GPU pool's load dominates.
+**5.3 is measurably more ACCURATE; on speed the honest answer is "unresolved,
+and higher variance".** Settle it after a flip from `ollama_usage_events`
+grouped by `model` over real traffic — never from another hand-run.
+
+Tool calling needs **no changes**: all 32 schemas accepted (enums + arrays),
+0/20 text-form tool calls, 0/20 `<think>` leaks, identity deflection intact.
+Currency is safe: BABA extracts printed RMB on both models, `repairUnits`
+converts, users see the identical $78.7B. Neither model self-converts.
+
+**Two real bugs found and fixed while measuring** (both pre-existing, both
+independent of the swap): the Ask loop sliced tool calls past 12 without
+sending a `role:'tool'` reply, leaving unmatched `tool_call_id`s that a
+provider rejects with a 400 — and 5.1 *already* emits 15-20 calls on a
+5-company compare (5.3 emits 20). And every dossier section except the
+executive summary had a retry; under concurrency the first attempt times out
+often enough that the summary was the section that went missing. BABA dossier
+went 1/3 → **4/4 complete** after adding that retry and raising section
+timeouts 45s → 90s.
+
+**Round-1 divergence RESOLVED 2026-09-22 — it was a metric artefact plus a
+prompt hole, not a model regression.** P13 scored 5.3 at 60% of 20 questions
+against *5.1 as ground truth*, which nobody had validated, over round 1 only of
+a 12-round loop. Two causes:
+
+1. **Prompt hole.** The routing line mapped `"what changed since last
+   quarter/year" → get_filing_diff`. "Summarise Berkshire's latest quarterly
+   results" matched no rule, and RECENCY points that shape at
+   get_financials(quarterly) alone — so 5.1 calling get_filing_diff there was
+   unprompted taste, and 5.3 was following instructions more literally.
+   ai-chat.js now routes latest-quarter/results/earnings summaries explicitly.
+2. **Round 1 cannot see sequencing.** `scripts/ab-ask-depth.js` runs the full
+   ask() loop and compares the tool UNION, answer figures and length.
+
+**Measured, both model orderings, cold cache, local mongo:**
+| | 5.1 | 5.3 |
+|---|---|---|
+| tool calls / run | 11.8 / 9.2 | **6.4 / 6.4** |
+| answers carrying figures | 5/5, 5/5 | **5/5, 5/5** |
+| failed tool calls | 9 / 5 | **1 / 3** |
+| mean seconds | 70 / 64 | **23 / 30** |
+| mean answer chars | 4287 / 3967 | 2847 / 2974 |
+
+5.3 calls get_filing_diff on the Berkshire question in BOTH runs — the
+"dropped" finding does not survive the full loop. **Caveat: the prompt fix was
+live for both runs, so this cannot separate "round 1 was the wrong lens" from
+"the new routing rule did it". Both point the same way; neither is isolated.**
+
+**The one replicated difference left: 5.3 never calls get_key_points (5.1
+always does), and writes 25-30% shorter answers** (Boeing: 3889 vs 6029 chars).
+Both models produced figures on every question, so this is a judgement about
+DEPTH, not correctness — and it is the one thing still wanting a human read.
+n=5 questions x 1 rep x 2 orderings: small. Latency direction replicated even
+with 5.3 paying the cold-cache cost, but still settle it from
+`ollama_usage_events` after a flip, not from this.
+
+**Local mongo now exists**: `brew services start mongodb-community` (8.3.11),
+so harnesses run against `mongodb://127.0.0.1:27017/<scratch>` — no more
+reaching for the Atlas URI.
+
+**Rollout** (approved): local chat first, then briefing → summary → chat, one
+env key at a time. Remember `set-render-env.yml` alone does NOT deploy —
+dispatch `deploy-render.yml` after, or the value is stored but not live.
+
+
 ## Hard paywall ARMED LIVE 9/15 — the 1-week clock is running
 
 **Status: `WALL_ALL_PAGES=true` is LIVE in production as of 2026-09-15 ~08:00Z.**
@@ -1245,7 +1596,10 @@ wallet by accident. The five `credits.balance/check` call sites in `app.js` now 
 **Why: measured, not guessed.** `ollama_usage_events`, 30 days: 24.47M tokens, 2,270 calls,
 **~82k tokens per charged credit**. Ollama Pro is $20/mo = **$60 of usage credits**;
 glm-5.1 is $1.00/M in, $3.20/M out (~$1.20/M blended here) → current spend **~$30/mo, half
-the allowance**. One tier-3 buyer spending a full 800 = 65.9M tokens ≈ **$80/mo, more than
+the allowance**. (glm-5.3 at effort=low used ~14% FEWER tokens than 5.1 on the same
+Ask question and 4.3x fewer on a diff extraction — re-measure the blended rate from
+`ollama_usage_events` grouped by `model` once anything is flipped; 5.3's own per-M
+price is still unrecorded here.) One tier-3 buyer spending a full 800 = 65.9M tokens ≈ **$80/mo, more than
 the whole plan**. Heaviest real customer month ever: **118 credits**. One account (almost
 certainly the owner's testing) is **18.76M tokens = 77% of everything**.
 

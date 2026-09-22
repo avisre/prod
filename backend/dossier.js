@@ -190,11 +190,11 @@ async function riskSection(digest) {
     const call = (extra) => aiClient.chatRaw([
         { role: 'system', content: RISK_SYSTEM },
         { role: 'user', content: `Facts digest:\n${digest}${extra}\n\nWrite the risk factors.` }
-    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1400, timeoutMs: 45000 });
+    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1400, timeoutMs: 90000 });
     let p = null;
-    try { p = parseObj(await call(''), (x) => Array.isArray(x.risks)); } catch (_) { p = null; }
-    if (!p) { try { p = parseObj(await call('\nREPLY WITH ONLY THE JSON OBJECT.'), (x) => Array.isArray(x.risks)); } catch (_) { p = null; } }
-    if (!p) return [];
+    try { p = parseObj(await call(''), (x) => Array.isArray(x.risks)); } catch (e) { p = null; console.warn('[dossier] risks attempt 1:', e.message); }
+    if (!p) { try { p = parseObj(await call('\nREPLY WITH ONLY THE JSON OBJECT.'), (x) => Array.isArray(x.risks)); } catch (e) { p = null; console.warn('[dossier] risks attempt 2:', e.message); } }
+    if (!p) { console.warn('[dossier] risks section empty after 2 attempts'); return []; }
     const SEV = new Set(['high', 'medium', 'low']);
     return p.risks.slice(0, 5).map((r) => ({
         risk: String(r.risk || '').slice(0, 200),
@@ -211,10 +211,10 @@ async function edgeSection(forensic) {
     const call = (extra) => aiClient.chatRaw([
         { role: 'system', content: EDGE_SYSTEM },
         { role: 'user', content: `Computed forensic signals:\n${digest}${extra}\n\nWrite the Edge section.` }
-    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1200, timeoutMs: 45000 });
+    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1200, timeoutMs: 90000 });
     let p = null;
-    try { p = parseObj(await call(''), (x) => Array.isArray(x.insights)); } catch (_) { p = null; }
-    if (!p) { try { p = parseObj(await call('\nREPLY WITH ONLY THE JSON OBJECT.'), (x) => Array.isArray(x.insights)); } catch (_) { p = null; } }
+    try { p = parseObj(await call(''), (x) => Array.isArray(x.insights)); } catch (e) { p = null; console.warn('[dossier] edge attempt 1:', e.message); }
+    if (!p) { try { p = parseObj(await call('\nREPLY WITH ONLY THE JSON OBJECT.'), (x) => Array.isArray(x.insights)); } catch (e) { p = null; console.warn('[dossier] edge attempt 2:', e.message); } }
     if (!p) return [];
     return p.insights.slice(0, 4).map((i) => ({
         insight: String(i.insight || '').slice(0, 220),
@@ -238,20 +238,37 @@ const BULLBEAR_SYSTEM = [
 ].join('\n');
 
 async function execSummary(digest) {
+    // The four section calls fire concurrently, and under provider contention
+    // the first attempt can time out even at 90s. Every other section already
+    // gets a second attempt, which is what rescues them — measured 2026-09-22
+    // on the BABA digest, where attempt 1 timed out for bull/bear, risks and
+    // edge yet all three recovered on retry, while the summary (the only
+    // section with no retry) was the one that went missing from the page.
+    // Identity-blocked output is NOT retried: that is a deliberate refusal,
+    // not a transient fault, and asking again just burns another call.
+    const once = async () => String(await aiClient.chat([
+        { role: 'system', content: SUMMARY_SYSTEM },
+        { role: 'user', content: `Facts digest:\n${digest}\n\nWrite the executive summary.` }
+    ], { temperature: 0.3, maxTokens: 360, purpose: 'summary', timeoutMs: 90000 }) || '').trim();
     try {
-        const text = String(await aiClient.chat([
-            { role: 'system', content: SUMMARY_SYSTEM },
-            { role: 'user', content: `Facts digest:\n${digest}\n\nWrite the executive summary.` }
-        ], { temperature: 0.3, maxTokens: 360, purpose: 'summary', timeoutMs: 40000 }) || '').trim();
-        return text || null;
-    } catch (_) { return null; }
+        return (await once()) || null;
+    } catch (e) {
+        if (e && e.code === 'AI_IDENTITY_BLOCKED') { console.warn('[dossier] summary blocked on identity'); return null; }
+        console.warn('[dossier] summary attempt 1:', e.message);
+    }
+    try {
+        return (await once()) || null;
+    } catch (e) {
+        console.warn('[dossier] summary attempt 2:', e.message);
+        return null;
+    }
 }
 
 async function bullBear(digest) {
     const callModel = (extra) => aiClient.chatRaw([
         { role: 'system', content: BULLBEAR_SYSTEM },
         { role: 'user', content: `Facts digest:\n${digest}${extra}\n\nWrite the bull and bear cases.` }
-    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1400, timeoutMs: 45000 });
+    ], { purpose: 'summary', temperature: 0.3, maxTokens: 1400, timeoutMs: 90000 });
     const tryParse = (msg) => {
         try {
             const raw = String(msg.content || '').replace(/```json|```/g, '').trim();
@@ -260,9 +277,9 @@ async function bullBear(digest) {
         } catch (_) { return null; }
     };
     let parsed = null;
-    try { parsed = tryParse(await callModel('')); } catch (_) { parsed = null; }
-    if (!parsed) { try { parsed = tryParse(await callModel('\nREPLY WITH ONLY THE JSON OBJECT.')); } catch (_) { parsed = null; } }
-    if (!parsed) return null;
+    try { parsed = tryParse(await callModel('')); } catch (e) { parsed = null; console.warn('[dossier] bull/bear attempt 1:', e.message); }
+    if (!parsed) { try { parsed = tryParse(await callModel('\nREPLY WITH ONLY THE JSON OBJECT.')); } catch (e) { parsed = null; console.warn('[dossier] bull/bear attempt 2:', e.message); } }
+    if (!parsed) { console.warn('[dossier] bull/bear empty after 2 attempts'); return null; }
     const clean = (arr) => arr.slice(0, 4).map((x) => ({
         point: String(x.point || '').slice(0, 240),
         basis: String(x.basis || '').slice(0, 240)
