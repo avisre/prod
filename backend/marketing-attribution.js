@@ -194,9 +194,14 @@ function referrerSource(value) {
         if (host === 'google.com' || host.endsWith('.google.com')) return 'google';
         if (host === 'bing.com' || host.endsWith('.bing.com')) return 'bing';
         if (host === 'duckduckgo.com' || host.endsWith('.duckduckgo.com')) return 'duckduckgo';
+        if (host === 'youtube.com' || host.endsWith('.youtube.com') || host === 'youtu.be') return 'youtube';
         if (host === 'x.com' || host === 'twitter.com' || host.endsWith('.x.com') || host.endsWith('.twitter.com')) return 'x';
         if (host === 'linkedin.com' || host.endsWith('.linkedin.com')) return 'linkedin';
         if (host === 'reddit.com' || host.endsWith('.reddit.com')) return 'reddit';
+        if (host === 'facebook.com' || host.endsWith('.facebook.com')) return 'facebook';
+        if (host === 'instagram.com' || host.endsWith('.instagram.com')) return 'instagram';
+        if (host === 'news.ycombinator.com') return 'hackernews';
+        if (host === 'appsumo.com' || host.endsWith('.appsumo.com')) return 'appsumo';
         if (host === 'stockportfolio.pro' || host.endsWith('.stockportfolio.pro')) return 'internal';
         if (host === 'prod-gpln.onrender.com' || host === 'localhost' || host === '127.0.0.1') return 'internal';
         return host ? 'referral' : 'direct';
