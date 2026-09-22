@@ -200,4 +200,9 @@ async function extractSegments(symbol) {
     return payload;
 }
 
-module.exports = { extractSegments, latestTenK, htmlToText, anchorWindows, filedRevenue };
+module.exports = {
+    extractSegments, latestTenK, htmlToText, anchorWindows, filedRevenue,
+    // for the model probe + A/B harnesses in scripts/ — they must send the
+    // production extraction prompt, not a copy of it
+    EXTRACT_SYSTEM, segmentWindows, usdRate, repairUnits
+};

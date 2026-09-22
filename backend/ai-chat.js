@@ -1,5 +1,10 @@
 // Strips reasoning models' <think> blocks from message content.
 const THINK_RE = new RegExp('</?\\s*' + 'th' + 'ink\\s*>[\\s\\S]*?</\\s*think\\s*>', 'g');
+// A tool call the model typed out as prose instead of sending in the
+// tool_calls field. We deliberately do NOT parse and execute these — running
+// tools from unstructured text is a new trust surface — but they must never
+// be rendered at a user as an answer either. No /g: this is used with .test().
+const TEXT_TOOLCALL_RE = /<tool_call>|<\|tool_call\|>|^\s*```json\s*\{\s*"(?:name|tool|function)"\s*:/i;
 // "Ask" — the tool-grounded financial chatbot (the GR-1 competitor).
 //
 // Design rules (agreed):
@@ -49,6 +54,19 @@ const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 // the in-process build (the previous behavior), so this is strictly additive.
 const SCREEN_INDEX_FILE = path.join(FUND_DIR, '..', 'screen-index.json');
 const SCREEN_INDEX_VERSION = 1; // bump to invalidate persisted index on format change
+// The model calls go through `deps` so tests can drive the loop with a
+// scripted provider. The contracts worth covering here — one tool reply per
+// tool_call_id, never rendering a prose tool call, think-stripping, identity
+// blocking — are model-independent, and they had no coverage at all before
+// the glm-5.3 swap. Tests inject via __setDeps; production uses the defaults.
+const defaultDeps = {
+    chatRaw: (messages, opts) => aiClient.chatRaw(messages, opts),
+    chatRawStream: (messages, opts, onDelta) => aiClient.chatRawStream(messages, opts, onDelta)
+};
+let deps = { ...defaultDeps };
+function __setDeps(overrides) { deps = { ...defaultDeps, ...overrides }; }
+function __resetDeps() { deps = { ...defaultDeps }; }
+
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
 const MAX_TOOLCALLS_PER_ROUND = 12;
 const ASK_TOOL_CONCURRENCY = 6; // tools per round run in parallel, 6 at a time — most are cache reads; web tools share this pool too
@@ -133,6 +151,39 @@ const FIELDS = {
 const PER_SHARE = new Set(['dilutedEPS']);
 const SHARE_COUNT = new Set(['commonStockSharesOutstanding']);
 
+// How old the newest period must be before a NEWER one could plausibly be
+// filed and missing. This is not the filing deadline — that was the first
+// version of this and it was wrong. A 10-Q is due ~40 days after quarter end,
+// but that only means THAT quarter is filed; the next quarter does not even
+// EXIST until ~92 days later, and its own 10-Q is not due for ~45 days after
+// that. Flagging at the deadline marks a perfectly current quarter as stale
+// for most of its life: on 2026-09-22, with Q3 not yet ended, Exxon's Q2
+// ending 2026-06-30 is 84 days old and completely up to date.
+// So: one full period, plus the next filing's deadline, plus margin.
+const STALE_AFTER_DAYS = { quarterly: 92 + 48, annual: 365 + 95 };
+
+// Why this exists: loadFundAny() falls open to a stale cache when a rebuild
+// fails, and the table it returns carries period dates but no sense of whether
+// those periods are CURRENT. A model cannot detect what it is not told, so it
+// presents whatever the newest row happens to be as "the latest quarter".
+// Measured 2026-09-22: asked for Berkshire's latest quarterly results with the
+// cache sitting on Q1 2026, one model answered Q1 with full confidence while
+// another happened to cross-check the web and found Q2. That difference was
+// luck, not capability — so the freshness goes in the payload, where it is the
+// same for every model.
+function freshness(latestPeriodEnd, basis) {
+    const end = Date.parse(String(latestPeriodEnd || '') + 'T00:00:00Z');
+    if (!Number.isFinite(end)) return null;
+    const ageDays = Math.floor((Date.now() - end) / 86400000);
+    if (ageDays < 0) return null;
+    const limit = STALE_AFTER_DAYS[basis] || STALE_AFTER_DAYS.quarterly;
+    const out = { latestPeriodEnd: String(latestPeriodEnd), latestPeriodAgeDays: ageDays };
+    if (ageDays > limit) {
+        out.stalenessWarning = `POSSIBLY OUT OF DATE — the newest ${basis} period in this table ended ${latestPeriodEnd}, ${ageDays} days ago. A more recent 10-Q/10-K is likely already filed and is NOT in these figures. Before you describe anything as the "latest", "current", "most recent" or "last" quarter or year, call search_filings for this ticker (forms "10-Q,10-K") and read any newer filing with fetch_page. If you cannot confirm a newer period exists, do not say "latest" — name the period your figures actually cover, e.g. "as of the quarter ended ${latestPeriodEnd}".`;
+    }
+    return out;
+}
+
 async function toolGetFinancials({ symbol, statement, basis, limit }) {
     const data = await loadFundAny(symbol);
     if (!data) return NO_DATA(symbol);
@@ -171,11 +222,13 @@ async function toolGetFinancials({ symbol, statement, basis, limit }) {
         })).map(cell).join('|'));
     }
     const currency = String((rows[0] || {}).reportedCurrency || 'USD').toUpperCase();
+    const fresh = freshness((rows[0] || {}).fiscalDateEnding, annual ? 'annual' : 'quarterly');
     return {
         symbol: String(symbol).toUpperCase(),
         statement: st,
         basis: annual ? 'annual (fiscal years)' : 'quarterly',
         currency,
+        ...(fresh || {}),
         ...(currency !== 'USD' ? { currencyWarning: `FIGURES ARE IN ${currency}, NOT USD — this company reports in its home currency. State the currency in your answer and never present these values as dollars.` } : {}),
         units: `${currency} millions, except dilutedEPS (${currency}) and commonStockSharesOutstanding (millions of shares)`,
         note: 'Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Share counts and per-share figures are AS FILED — not adjusted for later stock splits, so do not compare them across a split.',
@@ -1576,14 +1629,14 @@ const ASK_SYSTEM = [
     'You are Ask, the stockportfolio.pro research assistant for long-term investors.',
     'SCOPE: you ONLY answer questions about companies, financial statements, valuation, portfolios, markets and investing concepts. For anything else (general knowledge, coding, writing, personal chat, politics), decline in one sentence and steer back to finance. Do not answer the off-topic part.',
     'GROUNDING (the most important rule): every figure you state MUST come from a tool result in THIS conversation. Call the tools — do not answer financial-data questions from memory. If the tools cannot provide something, say plainly that it is outside your data rather than estimating. Never silently blend in remembered numbers.',
-    'RECENCY — LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — quarterlyReports are newest-first, so the row four down is the year-ago quarter — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
+    'RECENCY — A TOOL THAT REPORTS ITS OWN STALENESS OVERRIDES YOU: if any tool result carries a stalenessWarning field, treat it as binding and do exactly what it says before using the word latest, current, most recent or last — the figures in front of you may simply predate a filing that already exists. Naming the wrong quarter confidently is worse than saying which quarter you have. LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — quarterlyReports are newest-first, so the row four down is the year-ago quarter — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
     'ANALYSIS & "WHAT-IF": many of the best questions are causal or hypothetical — "how would X affect Y", "what if…", "why does…". These want REASONING, not just a figure. The grounding rule governs concrete NUMBERS, not explanation: you may and should reason about how a business works, what drives a line item, and the mechanism linking a cause to an effect — only the actual numbers must come from tools. Tackle such a question by pulling what you CAN for the company in question (statements, segments, ratios, and the relevant risk-factor language via search_filings), then think the chain through step by step and quantify the impact wherever the pulled data lets you (e.g. apply operating leverage to an incremental-revenue scenario, using the real fixed-cost base).',
     'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a private firm, or a foreign supplier, customer or rival with no US listing. (US-listed ADRs such as NTES or TSM ARE covered; their statements are converted to USD from the issuer\'s reporting currency.) Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most TWO search_web calls per question — refine once, then work with what you have or say the web gave you nothing useful; never keep re-searching. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
-    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year" → get_filing_diff. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
+    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
     'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
@@ -1761,8 +1814,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             const attempt = () => {
                 streamer = onEvent ? makeRoundStreamer(emit) : null;
                 return streamer
-                    ? aiClient.chatRawStream(messages, opts, streamer.onDelta)
-                    : aiClient.chatRaw(messages, opts);
+                    ? deps.chatRawStream(messages, opts, streamer.onDelta)
+                    : deps.chatRaw(messages, opts);
             };
             try {
                 msg = await attempt();
@@ -1782,7 +1835,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 // answer — clear it, but surface it as the status line the
                 // model was asked to write (the "plan line").
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
-                const note = String(msg.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+                const note = String(msg.content || '').replace(THINK_RE, '').trim();
                 if (note && !aiClient.leaksIdentity(note)) emit({ type: 'note', text: note.slice(0, 280) });
                 messages.push({ role: 'assistant', content: msg.content || '', tool_calls: msg.tool_calls });
                 const roundCalls = msg.tool_calls.slice(0, MAX_TOOLCALLS_PER_ROUND);
@@ -1818,21 +1871,35 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     emit({ type: 'tool', tool: tc.function.name, args, ok: !result.error, ms });
                     messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify(result) });
                 }
+                // Anything past the round budget was sliced off above, but the
+                // provider still expects a reply per tool_call_id — an
+                // unmatched one comes back as a 400 that kills the whole
+                // question. Answer the dropped calls honestly instead.
+                for (const tc of msg.tool_calls.slice(MAX_TOOLCALLS_PER_ROUND)) {
+                    messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify({ error: 'Round tool budget exhausted — answer with what you already have.' }) });
+                }
                 continue;
             }
 
             // Final answer. Strip any leaked think tags, then identity-screen.
-            let text = String(msg.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
-            if (!text) {
+            let text = String(msg.content || '').replace(THINK_RE, '').trim();
+            if (!text || TEXT_TOOLCALL_RE.test(text)) {
                 // Reasoning models occasionally spend the whole token budget
                 // inside their reasoning channel and return empty content. One
-                // retry gives the write-up a fresh budget.
+                // retry gives the write-up a fresh budget. A tool call typed
+                // out as prose is the same kind of non-answer — retry it too
+                // rather than rendering markup at the user.
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
                 msg = await attempt();
                 if (msg._usage && num(msg._usage.total_tokens) !== null) totalTokens += msg._usage.total_tokens;
                 text = String(msg.content || '').replace(THINK_RE, '').trim();
             }
             if (!text) throw new Error('empty answer');
+            if (TEXT_TOOLCALL_RE.test(text)) {
+                // Twice in a row. Degrade honestly — never show the markup.
+                if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                return { answer: "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.", toolsUsed, source: 'partial' };
+            }
             if ((streamer && streamer.blocked) || aiClient.leaksIdentity(text)) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
                 return { answer: "I'm Ask, the stockportfolio.pro assistant — I can only help with companies, portfolios and market data.", toolsUsed, source: 'blocked' };
@@ -1846,9 +1913,9 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (messages[messages.length - 1].content !== SYNTHESIS_DIRECTIVE) {
                 messages.push({ role: 'system', content: SYNTHESIS_DIRECTIVE });
             }
-            const finalMsg = await aiClient.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: 8000 });
+            const finalMsg = await deps.chatRaw(messages, { purpose: 'chat', temperature: 0.3, maxTokens: 8000 });
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;
-            const finalText = String(finalMsg.content || '').replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+            const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {
                 emit({ type: 'delta', text: finalText });
                 return { answer: finalText, toolsUsed, source: 'ai', totalTokens };
@@ -1981,4 +2048,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });
+Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });

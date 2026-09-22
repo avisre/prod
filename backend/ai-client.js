@@ -40,11 +40,65 @@ function isConfigured() {
     return !!(process.env.OLLAMA_API_KEY || process.env.AI_BRIEFING_API_KEY || process.env.OPENROUTER_API_KEY || '');
 }
 
+// Reasoning-effort policy, shared by both request builders.
+//
+// 'summary' calls are one-shot prose/JSON over precomputed facts — no
+// reasoning needed. Without this, a thinking-capable model can burn its
+// entire max_tokens budget on internal reasoning before emitting any visible
+// content, leaving `content` empty — which silently degrades ~20 extractors
+// to their template/null fallbacks at once. Env-tunable (empty string omits
+// the field) so a provider that rejects the value is a config flip, not a
+// code push.
+//
+// Ask/chat calls: the hidden thinking channel dominated measured latency
+// (A/B on the chat model: effort 'none' answered in 12s vs 31–53s at
+// provider-default, with the SAME visible answer length, and tool selection
+// came back identical). Unset means provider default.
+// `override` is for the eval harnesses only.
+//
+// The right effort is a property of the MODEL, not the caller — so it is
+// derived from the resolved model name, and env is only an explicit escape
+// hatch on top. It used to come from env alone, which made the documented
+// rollout ("one env key at a time") unsafe: setting AI_MODEL_SUMMARY=glm-5.3
+// as a single change left effort at its 'none' default, and that exact pair is
+// the one measured on 2026-09-21 to emit NO JSON at all — 5.3 at 'none' reasons
+// in the VISIBLE channel and overruns max_tokens before any content appears,
+// silently degrading ~20 extractors to their template fallbacks with no error
+// raised anywhere. At provider default it overruns the hidden channel instead
+// and returns empty content. Only 'low' produces clean JSON (925 tokens vs
+// 4000 burned). glm-5.1 is the opposite: it needs 'none', or it spends the
+// whole budget in its hidden channel.
+//
+// Deriving it means a model flip carries its own effort and cannot be
+// half-applied. For glm-5.1 the resolved values are exactly what env produced
+// before, so nothing changes until a model actually moves.
+function reasoningFor(model, purpose) {
+    const m = String(model || '').toLowerCase();
+    // glm-5.3 and glm-5.3-flash both reason in the wrong channel unless pinned.
+    if (/glm-5\.[2-9]/.test(m)) return 'low';
+    if (purpose === 'summary') return 'none';
+    return '';   // chat/briefing on 5.1: provider default, as today
+}
+function applyReasoning(body, purpose, override, model) {
+    if (override !== undefined && override !== null) {
+        if (override) body.reasoning_effort = override;
+        return;
+    }
+    const envKey = purpose === 'summary' ? 'AI_SUMMARY_REASONING_EFFORT'
+        : purpose === 'chat' ? 'AI_CHAT_REASONING_EFFORT' : null;
+    // An explicitly-set env var still wins, so a provider that rejects a value
+    // stays a config flip rather than a code push.
+    const fromEnv = envKey ? process.env[envKey] : undefined;
+    const eff = (fromEnv === undefined || fromEnv === null) ? reasoningFor(model, purpose) : fromEnv;
+    if (eff) body.reasoning_effort = eff;
+}
+
 // Low-level call: returns the raw assistant message object ({content,
 // tool_calls, ...}). Used directly by the Ask chatbot's tool loop, which
 // needs tool_calls and does its own identity screening on the final answer.
-async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose = 'briefing', tools = null, toolChoice = null, timeoutMs = 120000 } = {}) {
-    const { key, baseUrl, model } = cfg(purpose);
+async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose = 'briefing', tools = null, toolChoice = null, timeoutMs = 120000, model: modelOverride = null, reasoningEffort = null } = {}) {
+    const { key, baseUrl, model: cfgModel } = cfg(purpose);
+    const model = modelOverride || cfgModel;
     if (!key) throw new Error('AI not configured');
     const usageCall = ollamaUsage.start({ baseUrl, model, purpose });
     const body = {
@@ -53,19 +107,7 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
         temperature,
         max_tokens: Math.max(Number(maxTokens) || 256, 3000)
     };
-    // 'summary' calls are one-shot prose/JSON over precomputed facts — no
-    // reasoning needed. Without this, a thinking-capable model (e.g. Ollama
-    // Cloud's glm-5.1) can burn its entire max_tokens budget on internal
-    // reasoning before emitting any visible content, leaving `content` empty.
-    if (purpose === 'summary') body.reasoning_effort = 'none';
-    // Ask/chat calls: the hidden thinking channel dominated measured latency
-    // (A/B on the chat model: effort 'none' answered in 12s vs 31–53s at
-    // provider-default, with the SAME visible answer length, and tool
-    // selection came back identical). Effort is env-tunable so prod can dial
-    // it without a code push — unset means provider default.
-    else if (purpose === 'chat' && process.env.AI_CHAT_REASONING_EFFORT) {
-        body.reasoning_effort = process.env.AI_CHAT_REASONING_EFFORT;
-    }
+    applyReasoning(body, purpose, reasoningEffort, model);
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
     // Hard timeout: Node's fetch has none, so a provider that accepts the
@@ -93,6 +135,14 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
         const data = await resp.json();
         const msg = data?.choices?.[0]?.message || {};
         msg._usage = data?.usage || null;
+        // A 200 with no content and no tool calls is the failure mode that
+        // hides: every JSON extractor returns null and falls back to a
+        // template with nothing logged anywhere. Make it greppable.
+        if (!msg.content && !(msg.tool_calls && msg.tool_calls.length)) {
+            console.warn('[ai-client] empty completion', JSON.stringify({
+                model, purpose, completionTokens: msg._usage && msg._usage.completion_tokens
+            }));
+        }
         ollamaUsage.finish(usageCall, { status: 'completed', usage: msg._usage });
         return msg;
     } catch (err) {
@@ -110,8 +160,9 @@ async function chatRaw(messages, { temperature = 0.4, maxTokens = 3000, purpose 
 // chunks and assembles the full assistant message ({content, tool_calls,
 // _usage}) exactly like chatRaw returns. onDelta(textFragment) fires for each
 // content token as it arrives — tool_call deltas are assembled silently.
-async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, purpose = 'briefing', tools = null, toolChoice = null, idleTimeoutMs = 90000 } = {}, onDelta) {
-    const { key, baseUrl, model } = cfg(purpose);
+async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, purpose = 'briefing', tools = null, toolChoice = null, idleTimeoutMs = 90000, model: modelOverride = null, reasoningEffort = null } = {}, onDelta) {
+    const { key, baseUrl, model: cfgModel } = cfg(purpose);
+    const model = modelOverride || cfgModel;
     if (!key) throw new Error('AI not configured');
     const usageCall = ollamaUsage.start({ baseUrl, model, purpose });
     const body = {
@@ -122,10 +173,7 @@ async function chatRawStream(messages, { temperature = 0.4, maxTokens = 3000, pu
         stream: true,
         stream_options: { include_usage: true }
     };
-    if (purpose === 'summary') body.reasoning_effort = 'none';
-    else if (purpose === 'chat' && process.env.AI_CHAT_REASONING_EFFORT) {
-        body.reasoning_effort = process.env.AI_CHAT_REASONING_EFFORT;
-    }
+    applyReasoning(body, purpose, reasoningEffort, model);
     if (Array.isArray(tools) && tools.length) body.tools = tools;
     if (toolChoice) body.tool_choice = toolChoice;
     // Idle timeout (not total): a long answer that keeps streaming is fine, but
