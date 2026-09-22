@@ -42,6 +42,12 @@ test('referrers are query-free and map search/social sources', () => {
     assert.equal(tracking.referrerSource('https://x.com/person/status/123'), 'x');
     assert.equal(tracking.referrerSource('https://www.linkedin.com/feed/'), 'linkedin');
     assert.equal(tracking.referrerSource('https://www.stockportfolio.pro/tools/dilution'), 'internal');
+    assert.equal(tracking.referrerSource('https://www.youtube.com/watch?v=abc123'), 'youtube');
+    assert.equal(tracking.referrerSource('https://m.youtube.com/'), 'youtube');
+    assert.equal(tracking.referrerSource('https://youtu.be/abc123'), 'youtube');
+    assert.equal(tracking.referrerSource('https://appsumo.com/products/stockportfolio/'), 'appsumo');
+    assert.equal(tracking.referrerSource('https://news.ycombinator.com/item?id=1'), 'hackernews');
+    assert.equal(tracking.referrerSource('https://example.invalid/blog'), 'referral');
     assert.equal(tracking.sanitizeReferrer('javascript:alert(1)'), null);
 });
 
