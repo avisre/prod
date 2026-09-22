@@ -130,7 +130,7 @@ test('the published listing matches credits.js exactly', () => {
     }
 
     // The worked example has to add up, or it teaches the buyer the wrong arithmetic.
-    const worked = 8 * COST.dossier_standard + 10 * COST.monitor + 10 * COST.ask;
+    const worked = 4 * COST.dossier_standard + 6 * COST.monitor + 9 * COST.ask;
     assert.equal(worked, WALLET[2], 'the "typical Investor month" must total the Investor wallet');
 });
 

@@ -28,22 +28,31 @@ API calls spend from the **same credit wallet** as your website account
 (see the "What things cost" line on your Profile page). There is no
 separate API quota to track.
 
-## Pricing: MCP is the base tier, REST API is 2x
+## Pricing
 
 | Action | MCP (`/mcp`) | REST API (`/api/v1`) |
 |---|---:|---:|
 | Deterministic lookup (financials/filing/compare/screen/fund) | 1 credit | 2 credits |
-| AI-backed ask | 2 credits | 4 credits |
+| AI-backed ask | 42 credits | 42 credits |
 
-The REST API is priced at exactly 2x MCP by design — MCP is the cheaper,
-agent-native on-ramp. The `ask` cost is the only one anchored to a real
-inference cost: measured 2026-09, both Claude Fable 5.1 and GPT-6 Astra
-price at $10/$50 per million input/output tokens, and this product's
-measured average AI call (~10,779 tokens) works out to roughly $0.17 at
-that rate — about 1.7 credits at the existing $0.10/credit rate, which is
-where the 2-credit `mcp_ask` price sits. Lookup costs aren't inference-priced
-at all (no LLM call happens for them) — they're flat, mainly to prevent
-abuse of the underlying SEC/Yahoo fetch path.
+Deterministic lookups keep the 2x tier split — MCP is the cheaper,
+agent-native on-ramp. The AI-backed `ask` is priced identically on both
+surfaces, because it is the identical call.
+
+The `ask` cost is the only one anchored to a real inference cost. Both
+Claude Fable 5.1 and GPT-6 Astra price at $10/$50 per million input/output
+tokens. One `ask` is an agentic loop, not a single completion: measured over
+301 real actions it makes 5.6 model calls and consumes **58,239 tokens**,
+because each round re-sends the conversation, the system prompt and the tool
+schemas. At the measured 95/5 input/output split that is $0.70 per action at
+frontier rates; at 6x, and $0.09993/credit ($14.99 / 150), that is 42 credits.
+
+Lookup costs aren't inference-priced at all (no LLM call happens for them) —
+they're flat, mainly to prevent abuse of the underlying SEC/Yahoo fetch path.
+
+These figures are derived in `credits.js` and asserted against
+`credits.COST` by `backend/test/public-api-doc-truth.test.js`, so this
+table cannot drift from the code again.
 
 ## Authenticating
 
@@ -62,12 +71,12 @@ Missing or revoked keys get `401`. Calls are rate-limited per key
 | Endpoint | Cost | Notes |
 |---|---|---|
 | `GET /api/v1/health` | free, unauthed | liveness check |
-| `GET /api/v1/financials/:ticker?tool=<slug>` | 1 | `tool` is any [free-tools](free-tools.js) slug, e.g. `earnings-quality`, `dilution`, `debt-snapshot` |
-| `GET /api/v1/filing/:ticker` | 1 | recent 10-K/10-Q/8-K/Form 4 with EDGAR links |
-| `GET /api/v1/compare?tickers=AAPL,MSFT` | 1 | exactly two tickers |
-| `GET /api/v1/screen?tickers=AAPL,MSFT,NVDA` | 1 | up to ten tickers, ranked by filed revenue growth |
-| `GET /api/v1/fund/:symbol` | 1 | ETF/mutual-fund profile — Yahoo-derived, **not redistributable** |
-| `POST /api/v1/ask` `{ "question": "..." }` | 2 | AI-backed; source class (`filed`/`fund-data`/`live-web`) travels with the answer |
+| `GET /api/v1/financials/:ticker?tool=<slug>` | 2 | `tool` is any [free-tools](free-tools.js) slug, e.g. `earnings-quality`, `dilution`, `debt-snapshot` |
+| `GET /api/v1/filing/:ticker` | 2 | recent 10-K/10-Q/8-K/Form 4 with EDGAR links |
+| `GET /api/v1/compare?tickers=AAPL,MSFT` | 2 | exactly two tickers |
+| `GET /api/v1/screen?tickers=AAPL,MSFT,NVDA` | 2 | up to ten tickers, ranked by filed revenue growth |
+| `GET /api/v1/fund/:symbol` | 2 | ETF/mutual-fund profile — Yahoo-derived, **not redistributable** |
+| `POST /api/v1/ask` `{ "question": "..." }` | 42 | AI-backed; source class (`filed`/`fund-data`/`live-web`) travels with the answer |
 
 Every deterministic response wraps its payload in an envelope with a
 `citation` block (filing source, period, a backlink to verify on-site).

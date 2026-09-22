@@ -185,7 +185,7 @@ function head(title, description, canonical, jsonld, ask) {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260917-uifix2" />
+<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -246,7 +246,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260917-uifix2"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260922-docs1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -841,8 +841,9 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/verify-ledger', '/filing-changes'];
+    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes'];
     try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
+    try { Object.values(require('./docs-pages').DOC_PAGES).forEach((d) => coreRoutes.push(d.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
     const core = coreRoutes.map((route) => ({ loc: SITE + route, lastmod: staticPageMtime(route), video: videoMarkup(route) }));
     const mtimes = new Map();
@@ -1144,7 +1145,7 @@ function renderApiLanding() {
   <div class="seo-next-action">
     <p class="seo-next-action-kicker">Dev plan</p>
     <h2>$19.99/month — 200 credits, all seven tools</h2>
-    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs 1 credit, an AI answer 4. Credits reset monthly. Cancel any time.</p>
+    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs 1&ndash;2 credits, an AI answer 42. Credits reset monthly. Cancel any time.</p>
     <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
     <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html">Profile page</a>.</p>
   </div>
@@ -1162,7 +1163,7 @@ function renderApiLanding() {
       <tr><td><code>sp_compare</code></td><td><code>GET /api/v1/compare?tickers=</code></td><td>1 / 2</td></tr>
       <tr><td><code>sp_screen</code></td><td><code>GET /api/v1/screen?tickers=</code></td><td>1 / 2</td></tr>
       <tr><td><code>sp_fund</code></td><td><code>GET /api/v1/fund/:symbol</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>4 / 8</td></tr>
+      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>42 / 42</td></tr>
       <tr><td><code>sp_health</code></td><td><code>GET /api/v1/health</code></td><td>free</td></tr>
     </tbody>
   </table>

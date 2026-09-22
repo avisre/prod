@@ -119,8 +119,8 @@ Fallback if length-limited:
 > | | Starter — $39 | Investor — $79 | Pro — $149 |
 > |---|---|---|---|
 > | **AI credits per month** | **50** | **150** | **400** |
-> | Research Dossiers, if you spent it all there | 5 | 15 | 40 |
-> | or Filing Monitor reports | 10 | 30 | 80 |
+> | Research Dossiers, if you spent it all there | 2 | 7 | 19 |
+> | or Filing Monitor reports | 6 | 18 | 50 |
 > | Companies watched by the Monitor | 1 | 4 | 8 |
 > | API and MCP access | — | — | included |
 >
@@ -128,19 +128,20 @@ Fallback if length-limited:
 >
 > | Action | Credits |
 > |---|---|
-> | Research Dossier | 10 |
-> | Filing Monitor report | 5 |
+> | Research Dossier | 21 |
+> | Filing Monitor report | 8 |
 > | Compare two dossiers | 5 |
 > | Ask a follow-up question | 2 |
 > | MCP lookup | 1 |
-> | MCP ask | 4 |
+> | MCP ask | 42 |
 > | REST API lookup | 2 |
-> | REST API ask | 8 |
+> | REST API ask | 42 |
 >
-> Mix them however you like. A typical Investor month is 8 dossiers, 10 monitor reports and
-> 10 follow-up questions — that's 150. Credits reset on the 1st of each month.
+> Mix them however you like. A typical Investor month is 4 dossiers, 6 monitor reports and
+> 9 follow-up questions — that's 150. Credits reset on the 1st of each month.
 >
-> MCP is the cheaper of the two programmatic paths on purpose: it is the agent-native one.
+> MCP lookups are half the price of the REST equivalent: MCP is the agent-native path.
+> The AI-backed ask costs the same on both, because it is the same call.
 
 **Top-up line — hold until the Render price ID is set.** If and only if
 `STRIPE_PRICE_ID_CREDITS_TOPUP` is live in production, append:

@@ -30,23 +30,24 @@ test('credit ledger: allowance, spend, balance, and month isolation', { timeout:
 
     await credits.spend(user, 'ask', 'ask', 'q1');
     bal = await credits.balance(user, 300);
-    assert.equal(bal.used, 2, 'ask costs 2');
-    assert.equal(bal.remaining, 598);
+    const C = credits.COST;
+    assert.equal(bal.used, C.ask, 'an ask costs COST.ask');
+    assert.equal(bal.remaining, 600 - C.ask);
 
     await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard');
     bal = await credits.balance(user, 300);
-    assert.equal(bal.used, 12, '2 (ask) + 10 (standard dossier)');
+    assert.equal(bal.used, C.ask + C.dossier_standard, 'ask + standard dossier');
 
     await credits.spend(user, 'dossier_deep', 'dossier', 'AAPL:deep');
     bal = await credits.balance(user, 300);
-    assert.equal(bal.used, 42, '2 + 10 + 30');
-    assert.equal(bal.remaining, 558);
+    assert.equal(bal.used, C.ask + C.dossier_standard + C.dossier_deep, 'ask + standard + deep');
+    assert.equal(bal.remaining, 600 - (C.ask + C.dossier_standard + C.dossier_deep));
 
     // check() reads without spending
     const before = await credits.balance(user, 300);
     const gate = await credits.check(user, 'dossier_deep', 300);
     assert.equal(gate.ok, true);
-    assert.equal(gate.cost, 30);
+    assert.equal(gate.cost, C.dossier_deep);
     const after = await credits.balance(user, 300);
     assert.equal(before.used, after.used, 'check() must not itself spend');
 
@@ -65,7 +66,7 @@ test('credit ledger: allowance, spend, balance, and month isolation', { timeout:
         userId: user, month: '2020-01', delta: -999, reason: 'ask', at: new Date()
     });
     bal = await credits.balance(user, 300);
-    assert.equal(bal.used, 42, 'a stale month must not bleed into the current balance');
+    assert.equal(bal.used, C.ask + C.dossier_standard + C.dossier_deep, 'a stale month must not bleed into the current balance');
 
     // recentActivity(): newest-first, scoped to this user+month, capped at
     // `limit`. Excludes the stale 2020-01 row just inserted above and the
@@ -74,7 +75,7 @@ test('credit ledger: allowance, spend, balance, and month isolation', { timeout:
     assert.equal(recent.length, 3, 'the 3 spends for this user this month, not the stale/other-user rows');
     assert.deepEqual(recent.map((r) => r.reason), ['dossier', 'dossier', 'ask'], 'newest first');
     assert.deepEqual(recent.map((r) => r.refId), ['AAPL:deep', 'AAPL:standard', 'q1']);
-    assert.deepEqual(recent.map((r) => r.delta), [-30, -10, -2]);
+    assert.deepEqual(recent.map((r) => r.delta), [-C.dossier_deep, -C.dossier_standard, -C.ask]);
     assert.ok(recent.every((r) => r.at instanceof Date), 'each row carries its own timestamp');
 
     const capped = await credits.recentActivity(user, 2);
@@ -88,7 +89,7 @@ test('credit ledger: allowance, spend, balance, and month isolation', { timeout:
     const monUser = 'user-monitor';
     await credits.spend(monUser, 'monitor', 'monitor', 'NVDA');
     const monBal = await credits.balance(monUser, 300);
-    assert.equal(monBal.used, 5, 'a Monitor report costs 5');
+    assert.equal(monBal.used, credits.COST.monitor, 'a Monitor report costs COST.monitor');
     const monRecent = await credits.recentActivity(monUser);
     assert.equal(monRecent.length, 1);
     assert.equal(monRecent[0].reason, 'monitor');
@@ -213,10 +214,10 @@ test('purchased top-ups raise the current month only, and a webhook retry never 
     assert.equal(granted.remaining, 750);
 
     // Spend against the enlarged wallet to prove both pools draw together.
-    await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard'); // -10
+    await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard');
     const afterSpend = await credits.balance(user, 300);
-    assert.equal(afterSpend.used, 10);
-    assert.equal(afterSpend.remaining, 740);
+    assert.equal(afterSpend.used, credits.COST.dossier_standard);
+    assert.equal(afterSpend.remaining, 750 - credits.COST.dossier_standard);
 
     // Stripe redelivers checkout.session.completed on ack failure: the same
     // refId must be refused, not inserted twice.
@@ -224,7 +225,7 @@ test('purchased top-ups raise the current month only, and a webhook retry never 
     assert.equal(retry, false, 'redelivery of the same Stripe session is idempotent');
     const afterRetry = await credits.balance(user, 300);
     assert.equal(afterRetry.allowance, 750, 'balance unchanged by the retry');
-    assert.equal(afterRetry.remaining, 740);
+    assert.equal(afterRetry.remaining, 750 - credits.COST.dossier_standard);
 
     // A genuinely new session (a second purchase later in the month) stacks.
     await credits.grant(user, 150, 'topup', 'cs_test_2');
@@ -250,18 +251,19 @@ test('monthBreakdown() is complete for the month, whatever the activity cap', { 
     t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
 
     const user = 'user-breakdown';
-    for (let i = 0; i < 20; i++) await credits.spend(user, 'ask', 'ask', `q${i}`);   // 40
-    await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard');       // 10
-    await credits.spend(user, 'dossier_deep', 'dossier', 'AAPL:deep');               // 30
-    await credits.spend(user, 'monitor', 'monitor', 'NVDA');                         //  5
-    await credits.grant(user, 150, 'topup', 'cs_bd_1');                              // +150
+    const C = credits.COST;
+    for (let i = 0; i < 20; i++) await credits.spend(user, 'ask', 'ask', `q${i}`);
+    await credits.spend(user, 'dossier_standard', 'dossier', 'AAPL:standard');
+    await credits.spend(user, 'dossier_deep', 'dossier', 'AAPL:deep');
+    await credits.spend(user, 'monitor', 'monitor', 'NVDA');
+    await credits.grant(user, 150, 'topup', 'cs_bd_1');
 
     const bd = await credits.monthBreakdown(user);
-    assert.equal(bd.ask.delta, -40);
+    assert.equal(bd.ask.delta, -20 * C.ask);
     assert.equal(bd.ask.count, 20);
-    assert.equal(bd.dossier.delta, -40, 'standard + deep share one reason');
+    assert.equal(bd.dossier.delta, -(C.dossier_standard + C.dossier_deep), 'standard + deep share one reason');
     assert.equal(bd.dossier.count, 2);
-    assert.equal(bd.monitor.delta, -5);
+    assert.equal(bd.monitor.delta, -C.monitor);
     assert.equal(bd.topup.delta, 150, 'a purchase is a positive row, not usage');
 
     // The whole point: the totals reconcile with used() even though the
