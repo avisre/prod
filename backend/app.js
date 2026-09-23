@@ -8037,7 +8037,7 @@ app.get('/api/assets/search', async (req, res) => {
 
 // A normalized, non-company-specific research payload. Fund consumers use
 // this route; legacy stock pages retain the existing SEC fundamentals route.
-app.get('/api/assets/:symbol/profile', async (req, res) => {
+app.get('/api/assets/:symbol/profile', anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
@@ -8059,7 +8059,7 @@ app.get('/api/assets/:symbol/profile', async (req, res) => {
 // topHoldings module is capped at ten rows for every fund on earth, so it can
 // only ever answer "the top ten"; N-PORT answers "all 508". Paged, because the
 // long tail is real — VTSAX files 3,546 positions and BND files 17,409.
-app.get('/api/assets/:symbol/holdings', async (req, res) => {
+app.get('/api/assets/:symbol/holdings', anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     const limit = Math.min(Math.max(Number(req.query.limit) || 100, 1), 1000);
@@ -8098,7 +8098,7 @@ app.get('/api/assets/:symbol/holdings', async (req, res) => {
 // against a 2.5s budget: the page calls this afterwards so a fund whose filing
 // had not been fetched yet still shows the filed figure on this visit rather
 // than waiting out the 30-minute profile cache.
-app.get('/api/assets/:symbol/fees', async (req, res) => {
+app.get('/api/assets/:symbol/fees', anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
@@ -9613,6 +9613,41 @@ app.delete('/api/watchlist/:symbol', authMiddleware, async (req, res) => {
     }
 });
 
+// ----- Anonymous company allowance (ANON_COMPANY_DAY, default 25) -----
+// The symbol-scoped endpoints below are the free ones that serve real product
+// data: /company/:symbol/filings runs a live SEC deep fetch on a cache miss and
+// /company/:symbol/insider-history starts a ~1-2 minute background build for a
+// company nobody has built yet. They stay keyless by design — they power the
+// pages Google indexes and the try-before-you-buy surface — so the control here
+// is a limit only a machine reaches (a reader looks at a handful of companies,
+// a scraper wants all of them), not a login wall. Counted per visitor per UTC
+// day in DISTINCT symbols: re-reading a company is free, and a page fanning out
+// to several endpoints for one stock costs one. Signed-in and keyed callers are
+// not limited here — their plan gates and per-key limits govern them.
+// `ANON_COMPANY_DAY=0` switches the limit off without a redeploy.
+const { createCompanyAllowance } = require('./anon-company-limit');
+const ANON_COMPANY_DAY = Math.max(0, Number.parseInt(process.env.ANON_COMPANY_DAY ?? '25', 10) || 0);
+const anonCompanyAllowance = createCompanyAllowance({ perDay: ANON_COMPANY_DAY });
+const anonCompanyCounters = { limited: 0 };
+function anonCompanyGate(req, res, next) {
+    if (ANON_COMPANY_DAY <= 0) return next();
+    if (req.user || req.userId || req.apiKeyId) return next();
+    const symbol = safeUpper(req.params.symbol);
+    if (!isValidTicker(symbol)) return next(); // the route answers 400 itself
+    const day = new Date().toISOString().slice(0, 10);
+    const key = crypto.createHmac('sha256', process.env.ANON_COMPANY_SALT || JWT_SECRET)
+        .update(visitorIp(req)).digest('hex').slice(0, 24);
+    if (anonCompanyAllowance.allow(key, normalizeTicker(symbol), day)) return next();
+    anonCompanyCounters.limited += 1;
+    res.setHeader('Cache-Control', 'no-store');
+    res.setHeader('RateLimit-Limit', String(ANON_COMPANY_DAY));
+    res.setHeader('RateLimit-Remaining', '0');
+    return res.status(429).json({
+        code: 'ANON_COMPANY_LIMIT',
+        message: `That's ${ANON_COMPANY_DAY} different companies today on the free plan. Create an account to keep researching.`
+    });
+}
+
 // ----- Company extras (v2 page): SEC filings + ownership, public + cached -----
 const _filingsCache = new Map(); // SYM -> { at, payload }
 const COMPANY_EXTRA_TTL_MS = 24 * 60 * 60 * 1000;
@@ -9625,7 +9660,7 @@ const DOC_CATEGORY = (form) => {
     if (form === 'DEF 14A') return 'proxy';
     return 'other';
 };
-app.get('/api/company/:symbol/filings', async (req, res) => {
+app.get('/api/company/:symbol/filings', optionalAuth, anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
@@ -9664,7 +9699,7 @@ const insiders = require('./insiders');
 const gurus = require('./gurus');
 const filingMonitor = require('./filing-monitor');
 const monitorDigest = require('./monitor-digest');
-app.get('/api/company/:symbol/insider-history', optionalAuth, async (req, res) => {
+app.get('/api/company/:symbol/insider-history', optionalAuth, anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
@@ -9785,7 +9820,7 @@ app.get('/api/company/:symbol/keypoints', optionalAuth, async (req, res) => {
 });
 
 const _ownershipCache = new Map(); // SYM -> { at, payload }
-app.get('/api/company/:symbol/ownership', optionalAuth, async (req, res) => {
+app.get('/api/company/:symbol/ownership', optionalAuth, anonCompanyGate, async (req, res) => {
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return res.status(400).json({ message: 'Invalid symbol' });
     try {
@@ -13540,6 +13575,14 @@ app.get('/api/admin/hosting-wall/stats', authMiddleware, marketingDashboardOnly,
         dryRun: HOSTING_WALL_DRY_RUN,
         counters: { ...hostingWallCounters },
         table: hostingRanges.stats()
+    });
+});
+
+app.get('/api/admin/anon-company/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').json({
+        limit: ANON_COMPANY_DAY,
+        tracked: anonCompanyAllowance.size(),
+        counters: { ...anonCompanyCounters }
     });
 });
 
