@@ -123,6 +123,27 @@
     .as-evidence-links { display: flex; flex-wrap: wrap; gap: 8px 22px; color: var(--ink-2); font-size: 13.5px; margin-top: 22px; }
     .as-evidence-links a { display: inline-block; padding: 6px 0; }
     .as-footer-links a { display: inline-block; padding: 10px 0; }
+    /* Reviews block — mirrors #reviews on the landing page (index.html). Both
+       pages carry this CSS because system.css is served immutable behind the
+       ?v= stamp; keep the two copies in step when either changes. --stars is
+       AppSumo's taco gold. */
+    :root { --stars: #d9930d; }
+    .as-reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .as-review { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 24px; display: flex; flex-direction: column; gap: 14px; }
+    .as-review-stars { display: flex; align-items: center; gap: 10px; }
+    .as-review-stars .stars { color: var(--stars); font-size: 16px; letter-spacing: 2px; }
+    .as-review blockquote { font-size: 14px; line-height: 1.6; color: var(--ink-2); margin: 0; }
+    .as-review-title { display: block; font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; }
+    .as-review-who { margin-top: auto; border-top: 1px solid var(--line); padding-top: 12px; display: flex; align-items: center; gap: 10px; }
+    /* the reviewer's handle initial — never a stock portrait, which would be a
+       fabricated identity under a "verified purchaser" line */
+    .as-review-who .avatar { width: 34px; height: 34px; border-radius: 50%; background: var(--accent-tint); color: var(--accent-ink);
+      display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex: none; text-transform: uppercase; }
+    .as-review-who .avatar svg { width: 19px; height: 19px; display: block; }
+    .as-review-who .avatar.is-anon { background: var(--line); color: var(--ink-3); }
+    .as-review-who .who-name { font-size: 13px; font-weight: 650; line-height: 1.3; margin: 0; }
+    .as-review-who .who-meta { font-size: 11.5px; color: var(--ink-3); margin: 0; }
+    .as-review-who .who-meta .verified { color: var(--pos); font-weight: 600; }
     .as-faq { max-width: 840px; }
     .as-faq details { border-top: 1px solid var(--line); padding: 18px 0; }
     .as-faq details:last-child { border-bottom: 1px solid var(--line); }
@@ -150,7 +171,7 @@
       .as-lead { font-size: 16px; }
       .as-actions .btn { width: 100%; }
       .as-demo-note { display: block; }
-      .as-strip-grid, .as-steps, .as-plans, .as-fit-grid, .as-trust-grid { grid-template-columns: 1fr; }
+      .as-strip-grid, .as-steps, .as-plans, .as-fit-grid, .as-trust-grid, .as-reviews { grid-template-columns: 1fr; }
       .as-strip-grid div { border-right: 0; border-top: 1px solid var(--line); padding-left: 0; }
       .as-strip-grid div:first-child { border-top: 0; }
       .as-section { padding: 52px 0; }
@@ -281,6 +302,53 @@
         <div class="as-plan-action">
           <a class="btn btn-primary" href="/go/appsumo/bridge" data-appsumo-campaign-link data-content-id="campaign-appsumo-tiers" data-appsumo-cta="tiers">Compare the live tiers on AppSumo &rarr;</a>
           <p class="as-fine" style="margin-inline:auto;">Prices and allowances above reflect the live offer checked 23 September 2026. Confirm the current listing before purchase. API and MCP access: every tier purchased on or before 22 September 2026 keeps it for life; from 23 September 2026 it ships on the Pro tier only.</p>
+        </div>
+      </section>
+
+      <!-- Same three reviews as the landing page, verbatim from the public
+           listing (scraped 23 September 2026). The taco rating leads because it
+           is the one claim here a buyer can check before paying; the reviews
+           themselves link out rather than being paraphrased. -->
+      <section class="as-section" id="reviews">
+        <div class="as-heading">
+          <span class="label">What buyers said</span>
+          <h2 class="title-1">5.0 out of 5 from 3 AppSumo reviews.</h2>
+          <p>Verbatim, including the one that says the data still needs cross-verifying. <a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener" style="white-space:nowrap;">Read them on AppSumo &rarr;</a></p>
+        </div>
+        <div class="as-reviews">
+          <article class="as-review">
+            <div class="as-review-stars"><span class="stars" aria-hidden="true">★★★★★</span><span class="small faint">5 tacos &middot; Sep 11, 2026</span></div>
+            <blockquote><strong class="as-review-title">Passion project</strong>I had some issues and the owner immediately fixed them, that is a good sign 🤩 also the owner lisents to the feedback and adapts to the feedback. The tool seems to be evolving fast (keep the spirit going!)</blockquote>
+            <div class="as-review-who">
+              <div class="avatar" aria-hidden="true">I</div>
+              <div>
+                <p class="who-name">ian.sterk99</p>
+                <p class="who-meta"><span class="verified">✓ Verified purchaser</span> · Member since May 2024</p>
+              </div>
+            </div>
+          </article>
+          <article class="as-review">
+            <div class="as-review-stars"><span class="stars" aria-hidden="true">★★★★★</span><span class="small faint">5 tacos &middot; Sep 1, 2026</span></div>
+            <blockquote><strong class="as-review-title">Outstanding Tool for Quarterly Insights and Market Screening</strong>I’ve been using this software for a while now. It is a solid, reliable platform that delivers exceptional value for both casual investors and dedicated traders. It’s a high-performing tool that streamlines financial analysis and makes digging into quarterly data completely effortless. Highly recommended!</blockquote>
+            <div class="as-review-who">
+              <div class="avatar is-anon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="9.2" r="3.4"/><path d="M4.9 20a7.1 7.1 0 0 1 14.2 0z"/></svg></div>
+              <div>
+                <p class="who-name">AppSumo buyer</p>
+                <p class="who-meta"><span class="verified">✓ Verified purchaser</span> · Member since Jul 2025</p>
+              </div>
+            </div>
+          </article>
+          <article class="as-review">
+            <div class="as-review-stars"><span class="stars" aria-hidden="true">★★★★★</span><span class="small faint">5 tacos &middot; Aug 13, 2026</span></div>
+            <blockquote><strong class="as-review-title">Very Efficient</strong>From what I see, it’s very efficient and am still trying out all the features. I need to cross verify the accuracy of the data. Will soon update again.</blockquote>
+            <div class="as-review-who">
+              <div class="avatar" aria-hidden="true">K</div>
+              <div>
+                <p class="who-name">Krisneni</p>
+                <p class="who-meta"><span class="verified">✓ Verified purchaser</span> · Member since Dec 2022</p>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
