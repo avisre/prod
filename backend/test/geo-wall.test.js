@@ -1,7 +1,7 @@
 'use strict';
 
 // Geo wall (owner decision 2026-09-23): visitors from GEO_WALL_COUNTRIES
-// (default SG,CN) get no free surface — pages, free tools, anonymous Ask,
+// (default SG,CN,HK) get no free surface — pages, free tools, anonymous Ask,
 // keyless MCP and the signup trial all require a paid plan — regardless of
 // WALL_ALL_PAGES. Pins the source wiring plus the GeoIP resolution it uses.
 
@@ -13,9 +13,9 @@ const marketingAttribution = require('../marketing-attribution');
 
 const appSource = () => fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
-test('GEO_WALL_COUNTRIES defaults to SG,CN and an empty value switches it off', () => {
+test('GEO_WALL_COUNTRIES defaults to SG,CN,HK and an empty value switches it off', () => {
     const source = appSource();
-    assert.match(source, /process\.env\.GEO_WALL_COUNTRIES \?\? 'SG,CN'/);
+    assert.match(source, /process\.env\.GEO_WALL_COUNTRIES \?\? 'SG,CN,HK'/);
     assert.match(source, /if \(!GEO_WALL_COUNTRIES\.size\) return false;/);
     // A GeoIP miss is never walled.
     assert.match(source, /return Boolean\(country && GEO_WALL_COUNTRIES\.has\(country\)\);/);
@@ -24,6 +24,7 @@ test('GEO_WALL_COUNTRIES defaults to SG,CN and an empty value switches it off', 
 test('the offline GeoIP lookup resolves SG and CN, and leaves other countries alone', () => {
     assert.equal(marketingAttribution.resolveCountry('101.127.0.1'), 'SG');
     assert.equal(marketingAttribution.resolveCountry('36.110.0.1'), 'CN');
+    assert.equal(marketingAttribution.resolveCountry('175.45.0.1'), 'HK');
     assert.equal(marketingAttribution.resolveCountry('::ffff:1.180.0.1'), 'CN');
     assert.equal(marketingAttribution.resolveCountry('8.8.8.8'), 'US');
     assert.equal(marketingAttribution.resolveCountry('127.0.0.1'), null);

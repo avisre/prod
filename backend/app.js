@@ -2255,14 +2255,15 @@ function wallRedirect(res, target) {
 // Token verify mirrors authMiddleware (below); ensureSubscriptionShape
 // self-expires no-card trials on read, so an expired trial is caught here
 // without waiting for the sweep.
-// ---- Geo wall (GEO_WALL_COUNTRIES, default SG,CN) ----
-// Owner decision 2026-09-23: visitors from these countries get no free
+// ---- Geo wall (GEO_WALL_COUNTRIES, default SG,CN,HK) ----
+// Owner decision 2026-09-23 (HK added the same day: mainland VPN egress
+// surfaces there): visitors from these countries get no free
 // surface at all — no open pages, free tools, anonymous Ask, keyless MCP or
 // signup trial. Only a paying account gets in, and the wall applies whether
 // or not WALL_ALL_PAGES is on. Country comes from the same offline GeoIP
 // lookup the marketing dashboard uses (req.ip is proxy-aware), so a lookup
 // miss (null) is never walled. GEO_WALL_COUNTRIES= (empty) switches it off.
-const GEO_WALL_COUNTRIES = new Set(String(process.env.GEO_WALL_COUNTRIES ?? 'SG,CN')
+const GEO_WALL_COUNTRIES = new Set(String(process.env.GEO_WALL_COUNTRIES ?? 'SG,CN,HK')
     .split(',').map((c) => c.trim().toUpperCase()).filter(Boolean));
 const GEO_WALL_MESSAGE = 'Free access is not available in your region. Subscribe to use StockPortfolio.pro.';
 function geoWalled(req) {
