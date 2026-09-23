@@ -4,6 +4,9 @@
 // (default SG,CN,HK) get no free surface — pages, free tools, anonymous Ask,
 // keyless MCP and the signup trial all require a paid plan — regardless of
 // WALL_ALL_PAGES. Pins the source wiring plus the GeoIP resolution it uses.
+//
+// The wall is now the combined freeTierWallReason() (region first, then the
+// hosting/VPN check); the hosting half is pinned in hosting-wall.test.js.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -52,30 +55,39 @@ test('paid means a paid plan: trials, comps and free-plan accounts do not pass',
     assert.match(source, /function subscriptionIsPaid\(sub\) \{\s*return Boolean\(sub && sub\.planId !== FREE_PLAN_ID\s*&& \['active', 'cancel_at_period_end'\]\.includes\(sub\.status\)\);/);
 });
 
-test('page wall applies to geo visitors even with WALL_ALL_PAGES off, and requires paid', () => {
+test('the walls are combined with the region checked first, and each reason names itself', () => {
+    const source = appSource();
+    assert.match(source, /function freeTierWallReason\(req\) \{\s*if \(geoWalled\(req\)\) return 'region';\s*if \(hostingWalled\(req\)\) return 'network';\s*return null;\s*\}/);
+    assert.match(source, /code: reason === 'network' \? 'NETWORK_PAID_ONLY' : 'REGION_PAID_ONLY',/);
+    // The old region-only 402 helper is gone; every free surface uses the
+    // reason-aware one so the response body never misreports the cause.
+    assert.doesNotMatch(source, /geoWallApiResponse/);
+});
+
+test('page wall applies to walled visitors even with WALL_ALL_PAGES off, and requires paid', () => {
     const source = appSource();
     const start = source.indexOf('async function wallAllPagesMiddleware');
     const end = source.indexOf('app.use(wallAllPagesMiddleware)');
     const section = source.slice(start, end);
-    assert.match(section, /const geo = geoWalled\(req\);/);
-    assert.match(section, /if \(!WALL_ALL_PAGES && !geo\) return next\(\);/);
-    assert.match(section, /if \(geo && !subscriptionIsPaid\(normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
+    assert.match(section, /const walled = freeTierWallReason\(req\);/);
+    assert.match(section, /if \(!WALL_ALL_PAGES && !walled\) return next\(\);/);
+    assert.match(section, /if \(walled && !subscriptionIsPaid\(normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
 });
 
-test('free API surfaces refuse geo visitors: free tools, anonymous Ask, keyless MCP', () => {
+test('free API surfaces refuse walled visitors: free tools, anonymous Ask, keyless MCP', () => {
     const source = appSource();
-    assert.match(source, /app\.get\('\/api\/free-tools\/:tool'[\s\S]{0,200}if \(geoWalled\(req\) && !\(await requestUserIsPaid\(req\)\)\) return geoWallApiResponse\(res\);/);
+    assert.match(source, /app\.get\('\/api\/free-tools\/:tool'[\s\S]{0,200}const wall = freeTierWallReason\(req\);\s*if \(wall && !\(await requestUserIsPaid\(req\)\)\) return freeTierWallResponse\(res, wall\);/);
     const anon = source.slice(source.indexOf('async function anonAskHandler'));
-    assert.match(anon.slice(0, 600), /if \(geoWalled\(req\)\) return geoWallApiResponse\(res\);/);
+    assert.match(anon.slice(0, 600), /if \(askWall\) return freeTierWallResponse\(res, askWall\);/);
     const mcp = source.slice(source.indexOf('async function apiKeyAuthOptional'));
     // A presented key is still honoured (apiKeyAuth + apiAccessGate gate it);
     // only the keyless free tier is refused.
-    assert.match(mcp.slice(0, 700), /if \(offered\) return apiKeyAuth\(req, res, next\);[\s\S]*if \(geoWalled\(req\)\) return geoWallApiResponse\(res\);/);
+    assert.match(mcp.slice(0, 700), /if \(offered\) return apiKeyAuth\(req, res, next\);[\s\S]*if \(mcpWall\) return freeTierWallResponse\(res, mcpWall\);/);
 });
 
-test('signup trial is withheld from geo visitors everywhere SIGNUP_TRIAL_DAYS was read', () => {
+test('signup trial is withheld from walled visitors everywhere SIGNUP_TRIAL_DAYS was read', () => {
     const source = appSource();
-    assert.match(source, /function signupTrialDaysFor\(req\) \{\s*return geoWalled\(req\) \? 0 : SIGNUP_TRIAL_DAYS;\s*\}/);
+    assert.match(source, /function signupTrialDaysFor\(req\) \{\s*return freeTierWalled\(req\) \? 0 : SIGNUP_TRIAL_DAYS;\s*\}/);
     assert.match(source, /signupTrialDays: signupTrialDaysFor\(req\),/);
     // No request-scoped check may read the raw constant any more.
     const raw = source.match(/SIGNUP_TRIAL_DAYS (<=|>) 0/g) || [];

@@ -1,5 +1,235 @@
 # Handoff
 
+## Hosting/VPN wall LIVE (2026-09-23) — the geo wall's VPN hole is closed
+
+The geo wall only knows country. A visitor in SG on an Australian VPN reads as
+Australian, and that cannot be fixed by any country check, because the
+connection genuinely arrives from Australia. What a VPN cannot hide is who OWNS
+the address: commercial VPNs and self-hosted Shadowsocks/Outline boxes run on
+cloud/hosting networks, not consumer lines. This wall refuses the free surface
+to those ranges, from any exit country.
+
+**Data: `backend/data/hosting-ranges.bin` — 30,723 merged ranges, 245,796 bytes
+(240 KB), generated 2026-09-23T17:13:09Z.** Binary format `SPHR` + uint32 count
++ uint32 generatedAt + sorted (start,end) uint32 pairs LE. Reader
+`backend/hosting-ranges.js` loads it at require time into two `Uint32Array`s,
+binary-searches, and **fails open** two ways: IPv6 (not classified) and a
+missing/corrupt bundle (`hasData()` false → nobody is walled, so a data problem
+cannot take the free tier from everyone at once). Refresh manually ~monthly:
+`node scripts/refresh-hosting-ranges.js` — sources are iptoasn `ip2asn-v4.tsv.gz`
+(filtered by curated hosting ASNs + ~50 org keywords), X4BNet/lists_vpn
+`ipv4.txt` (44,146 CIDRs, MIT), AWS `ip-ranges.json`, GCP `cloud.json`,
+Cloudflare `ips-v4`. The script exits 1 if the merged count falls below a floor
+(20000), so a silently-broken source fails loudly instead of shipping a thin
+table. **AS19527 (Google Fiber) is excluded via `NEVER_HOSTING_ASNS` and the six
+transit carriers (Cogent 174, Lumen 3356, NTT 2914, Telia 1299, PCCW 3491, Tata
+6453) are deliberately absent** — all seven carry ordinary residential traffic.
+
+**Policy:** `HOSTING_WALL_ENABLED` (default ON — `!== 'false'`), plus
+`HOSTING_WALL_DRY_RUN` (count, don't block) and `HOSTING_WALL_BYPASS_TOKEN` +
+`X-Hosting-Wall-Bypass` (QA from a data-centre address). One combined check,
+`freeTierWallReason(req)` → `'region'` | `'network'` | `null`, region first;
+402 bodies carry `REGION_PAID_ONLY` or `NETWORK_PAID_ONLY`. Five call sites:
+`wallAllPagesMiddleware`, `/api/free-tools/:tool`, `anonAskHandler`, keyless MCP
+in `apiKeyAuthOptional` (a presented key still wins — `offered` is handled
+first), and `signupTrialDaysFor` (→ 0 days). Counters + the bundle in use at
+`/api/admin/hosting-wall/stats`.
+
+**Two things in here are load-bearing:**
+1. **The address comes from `marketingAttribution.requestIp()` (CF-Connecting-IP
+   in production), never `req.ip`** — `req.ip` is an intermediate proxy hop in
+   prod (measured 9/23: IN request → req.ip DE), so checking it would classify
+   the wrong machine. Same reason `requestCountry` was fixed in 8738e542.
+2. **The crawler exemption is not optional.** Googlebot and Bingbot crawl from
+   Google/Microsoft cloud ranges that are IN this table, so without it the wall
+   answers them with a 302 to `/upgrade.html` and deindexes the site. It exempts
+   only a positive `bot-blocker.classifyUa` claim of `allowed-claim`/`internal`
+   — deliberately NOT `claim !== 'unknown'`, because `/api/*` skips bot-blocker
+   and a UA-less request would otherwise walk past both. Forged bot claims are
+   refused by bot-blocker's Layer 2 reverse-DNS check, which runs earlier.
+
+**A real defect found by reading the code, and fixed here:** `startSignupTrial`
+sets `status: 'trialing'` on a paid `planId`, but `subscriptionIsPaid` accepts
+only `active`/`cancel_at_period_end` — so a walled visitor *granted* a trial was
+redirected to `/upgrade.html` on first load and the trial was dead on arrival.
+Walled visitors now get 0 trial days: paid-only by design, not a broken promise.
+
+**Rollback without a code change:** `gh workflow run set-render-env.yml -f
+key=HOSTING_WALL_ENABLED -f value=false` then **always** `gh workflow run
+deploy-render.yml` (set-render-env alone never deploys).
+
+**Accepted cost, weighed by the owner:** legitimate corporate and privacy-VPN
+users, and anyone whose office egresses through cloud NAT, lose the free tier
+(they can still subscribe). Keyless MCP stops working for ChatGPT and claude.ai
+connectors worldwide — those call from Azure/AWS.
+
+**NOT closed by this, and the geo wall has the identical hole:** ~25 keyless
+`/api/*` data endpoints (`/api/screener`, `/api/company/:symbol/filings`,
+`/api/assets/*`, `/api/market/strip`, `/api/filings/:symbol/report`,
+`/api/compare/:pair/verdict`, `/api/gurus*`, `/api/portfolio/briefing/sample`,
+`/api/demo/*`, `/api/verify`) serve product data with no auth and no country
+check, because `/api` is exempt from the page wall.
+
+Tests: `test/hosting-wall.test.js` (new), `test/geo-wall.test.js` (pins moved to
+the combined check), `test/hard-paywall.test.js` (the no-UA rule now scopes to
+the region half; the hosting half must have exactly one UA branch, the crawler
+exemption). Suite **779/780** — the one failure is the pre-existing
+`social-compose` selenium `MODULE_NOT_FOUND`. No frontend asset touched ⇒ no
+`?v=` cache-stamp bump.
+
+## Geo wall LIVE + hard paywall OFF (2026-09-23, commit 2a75ad19)
+
+`GEO_WALL_COUNTRIES` (default `SG,CN`): SG/CN IPs get no free surface. Pages →
+/upgrade.html unless paid (trial/comp/free plan ≠ paid), free-tools API/anon
+Ask/keyless MCP → 402 REGION_PAID_ONLY, no signup trial (402 PAID_PLAN_REQUIRED).
+HK added (c31edf66). **req.ip is a proxy hop in prod** (measured: IN request →
+req.ip DE; XFF = [client, proxy]; CF-IPCountry correct). Fixed 8738e542:
+`marketingAttribution.requestCountry()` uses CF-IPCountry in production (also
+feeds dashboard country, so pre-9/23 country data = proxy locations, junk).
+Verified 2x from check-host hk1/sg1 → 402, us1/us2/India → 200.
+NOT fixed: per-IP limits (anon Ask, keyless MCP 50 lookups/IP, rate limiters)
+key on req.ip = proxy hop, so strangers share allowances. Fix =
+TRUST_PROXY_HOPS=2 (owner not yet asked).
+`WALL_ALL_PAGES=false` set + deployed. Wall week result: 3 signups / 9 days,
+0 paid. Measured pre-change: CN 0 sessions ever, SG 73, HK 43 (HK not walled).
+Test: `test/geo-wall.test.js`. Kill switch: `GEO_WALL_COUNTRIES=` + deploy.
+
+Open: reopen-10-accounts script `scratchpad/.../reopen/run.js` (7-day comp
+trial + email) was BLOCKED by the permission classifier — owner must approve.
+awesome-mcp-servers PR #14961 + awesome-remote #578 need a Glama listing
+(owner login). Official MCP registry already live since 9/14. Show HN + jojogo
+drafts: `docs/growth/show-hn-and-jojogo-2026-09-23.md`.
+
+## Broker/platform API partnership outreach SENT (2026-09-23)
+
+Trigger: AppSumo question from jojogo (TradingView + our screens). Owner said to
+send from support@ (overrides the "no cold from support@" rule for this batch).
+14 sent via SMTP, all 250-accepted, owner BCC'd: Gotrade, Pearler, Vested,
+Sharesies, Hatch, Sarwa, Superhero, Scalable (presse@), TradeZero, Tradier
+(sales@), Trading 212 (partnerships@), Freetrade, Stake, tastytrade (api.support@).
+TradingView = Gmail draft only (web form, no email). Finviz/DriveWealth skipped
+(form only). **Offer made, must be honoured:** free 60-day pilot = production key
++ 20,000 lookups (40k credits, comp a Dev plan); then $299/mo for up to 50,000
+lookups, locked 12 months, first 3 partners. SEC-derived tools only (no sp_fund,
+no sp_ask). Promised: send real API output for 3 tickers on reply.
+
+## MCP lookup repriced 1 -> 2: MCP and REST now identical (2026-09-23)
+
+Owner decision, finishing the 9/22 ask parity. `COST.mcp_lookup` 2 = `api_lookup`.
+No grandfather needed, MEASURED: prod ledger held 8 mcp/api rows, all
+rin@gmail.com (desk plan, dev account) from this session's tests. Zero customers.
+NB ledger `reason` is `mcp:<slug>`/`api:<slug>`, not the cost key — query by regex.
+Keyless MCP tier unaffected (mcp-anon counts calls, not credits).
+
+Tests now assert equality (api-access-gating, public-api-doc-truth,
+credit-meter-truth). credit-meter-truth + scripts/render-appsumo-listing.js now
+track **v7** (v6 marked superseded); listing collapses to one lookup row and one
+ask row "MCP or REST", guarded by an equality assert. 402 adds
+`freeAlternativeUrl` (/tools) — a link for the human only; /tools 403s
+non-browser UAs.
+
+STILL WRONG, owner not yet asked: mcp-anon.js:156 tells keyless callers the Dev
+plan is "about 50 questions" for 200 credits — at mcp_ask 42 it is 4.
+
+## API+MCP: grandfathered for pre-22-Sep LTD buyers; 402s now actionable (2026-09-23)
+
+Two changes, both shipped to the working tree, suite 752/753 (only
+`social-compose` fails — selenium not installed here, pre-existing).
+
+**1. Quota 402s are now actionable.** `quotaError()` in `api-response.js` is
+shared by `public-api.js` and `mcp-endpoint.js`: adds `used/allowance/
+remaining/needed/resetsAt` + `recharge{url,credits,price}` + `upgradeUrl` to
+what was bare prose. Keyless MCP callers keep `mcp-anon.js`'s Dev-plan upsell
+(they never had a wallet to recharge) — that branch is pinned by a test.
+`public-api.md` documents the shape.
+
+**2. API/MCP widened to all LTD tiers purchased on/before 2026-09-22.**
+`isLtdApiAccessCohort()` in `lib/tier-limits.js`, consulted by `hasApiAccess`
+(app.js) AFTER the refund check and AFTER the tier-3 clause. Fail direction is
+INVERTED vs the V2 gates in the same file: this WIDENS, so an unset/unparseable
+`LTD_API_ACCESS_CUTOFF` grants nobody. **Ships dark — not live until that env
+var is set in prod.**
+
+Purchase date vs redemption date: the DB only had `appsumoRedeemedAt`. Solved
+via AppSumo Licensing API — a licence's `created_at` IS the purchase instant.
+`scripts/import-grandfathered-licences.js` (dry-run default, `--apply` writes)
+sets `user.grandfatheredLicence`, and records unredeemed keys in
+`grandfathered_licences`, applied at redemption in app.js.
+
+Measured 9/23 (25 licences): ALL were purchased pre-cutoff. 13 active, of which
+**9 are tier 1-2 and newly gain access**; 6 bought-but-unredeemed (the exact
+case the importer exists for). So nobody loses anything — it is purely a
+widening, which needs no AppSumo approval.
+
+Copy: `frontend-v2/appsumo.html` (tier cards, facts strip, 5 new FAQs, JSON-LD)
+and `docs/growth/appsumo-listing-v7.md` (supersedes v6; FAQ answers William's
+5 MCP questions; carries a submission blocker — do not publish before the env
+var is set and the importer has run). No asset edits ⇒ no cache stamp bump.
+
+Also corrected stale copy found while tracing: appsumo.html said Dossier 10 /
+Monitor 5 (real: 21 / 8); seo-pages.js said MCP ask 4, REST ask 8 (real: 42
+both). Still stale, NOT fixed: `lifetime.html` meters in "AI Asks" and claims
+"full Pro access for life".
+
+NOTE: the AppSumo listing itself cannot be edited via API — the Licensing API
+does licences only. Portal paste + William approval, as before. Owner pasted a
+licensing key into chat on 9/22; treat as exposed, rotate.
+
+
+## glm-5.3-flash on MCP+API: VALIDATED AND REJECTED (2026-09-22)
+
+Flash was proposed for the two paid developer surfaces (MCP `sp_ask`, REST
+`POST /api/v1/ask`) behind a new `AI_MODEL_API` key. **Phase 1 gating failed —
+no code was written.** Numbers below so this is never re-litigated from the
+latency file alone.
+
+Ran against local mongod (`flashq`/`flashp` scratch DBs), 6 tickers
+(PGR,GM,CRM,META,MSFT,XOM), 2026-09-22 13:25-14:01Z. Raw logs were in the
+session scratchpad (gone); the numbers that matter are here.
+
+**PASSED** — `ab-summary-quality`, all six ground-truth gates, but weaker
+than 5.3 on two of them: evidence 81.3% (5.3: 89.7%, baseline 86.1%), yield 26
+against a bar of 24 (5.3: 34). MSFT alone dropped to `evid=2 yield=2` vs 5.3's
+6. Passing, not equal.
+
+**PASSED** — `ab-feature-parity` 24/24 ok. The `keypoints:CRM eur,yen,rupee`
+non-USD flag is IDENTICAL on 5.3, so it is pre-existing, not a flash
+regression. Neither model meets a literal "0 leaks" bar.
+
+**FAILED** — `probe-llm-capability`, two checks:
+
+- **P13 round-1 tool SET vs baseline: 60% same set (45% exact), bar >=80%.**
+  This is the decisive one — it measures the Ask path, which is exactly what
+  the change moved. Flash drops relevant tools: `get_red_flags` on "biggest
+  risks in Boeing's 10-K", `get_financials` on "Costco reverse DCF",
+  `get_ratios_history` on a 5-way growth/FCF compare.
+- **P2 strict-JSON idiom attempt 1: FAILED (200, 6464c)** — flash emitted a
+  reasoning preamble ("The user wants me to extract...") instead of JSON. 5.3
+  parses first try. Affects extractors, not chat, but it is a real regression.
+
+**The premise was wrong, and this is the part worth keeping.** Flash was
+pitched as faster on ask. On the *tool-free* path it is. With the 32 tool
+schemas attached — i.e. production Ask — the ordering REVERSES:
+
+    chat only, 6 tickers    time     tool calls   tokens
+    glm-5.3                 56.3s        20       130,202
+    glm-5.3-flash           87.4s        33       178,986
+                            1.55x       1.65x      1.37x
+
+Flash's real win is dossier/keypoints (361s vs 834s total) — surfaces the plan
+did NOT touch. `docs/benchmarks/model-latency-2026-09-22*.json`'s
+`ask_nonstream` row measured the tool-free path; do not cite it for Ask.
+Cost still favours flash (~5-7x even at 1.37x tokens), but not latency.
+
+P14 incidentally cleared: flash yields clean JSON at `low`
+(`[none:n (omitted):y low:y medium:y]`), so the inherited `/glm-5\.[2-9]/`
+-> 'low' regex is safe for flash, just not uniquely optimal. P3/P5/P7/P8/P10/
+P10B/P11/P12 all PASS. P12 footnote: flash blocked 0/12 adversarial identity
+probes vs 5.3's 1/12 — `leaksIdentity()` is carrying more weight on flash.
+
+**To revisit:** flash is plausible for the summary/extractor surfaces it
+actually wins on, gated on fixing P2. It is not right for Ask.
+
 ## Documentation section at /docs — 18 pages (2026-09-22)
 
 `backend/docs-pages.js` (new) renders the whole product manual from one frozen
@@ -108,6 +338,39 @@ require an explicit `--db`.
 token figure, $0.10/credit). Fixed, and `test/public-api-doc-truth.test.js` now
 asserts it against `credits.COST` — verified to fail on the old values.
 
+
+## Ask depth restored on 5.3 — LIVE (2026-09-22, commit 22bcc5c6)
+
+The owner read real 5.3 answers and found them thin; `ab-ask-depth.js` agreed.
+**Nothing mechanical was binding** — MAX_ITERS 10, MAX_TOOLCALLS_PER_ROUND 12
+and maxTokens 8000 all had headroom. Four ASK_SYSTEM rules were the cause,
+because 5.1 under-weighted them and 5.3 follows them literally:
+
+- **THE LIVE WEB said "at most TWO search_web calls" while `WEB_BUDGET.search_web`
+  is 3.** A straight bug: a literal model forfeited a third of its web research.
+- EFFICIENCY opened "you have a hard budget of a few tool rounds" — reads as
+  do-less. Batching BUYS research inside the budget; it now says so.
+- STOP DIGGING was written for dead fetches but capped research. Renamed
+  DROP DEAD THREADS and scoped to failing calls only.
+- STYLE's "concise but complete" was being applied to substance. Now: tight
+  prose, complete substance, completeness wins on conflict.
+
+| same 5 questions | 5.3 before | 5.3 after | 5.1 |
+|---|---|---|---|
+| mean answer chars | 2,731 | **3,082** | 3,870 |
+| tool calls / run | 6.2 | **7.8** | 12.0 |
+| failed tool calls | 3 | **1** | 13 |
+| figures present | 5/5 | 5/5 | 5/5 |
+| mean seconds | 17 | 38 | 93 |
+
+69% -> **80%** of 5.1's depth, 26% more research, fewest failed calls of any
+run, still 2.4x faster. **Next lever if more is wanted:
+`AI_CHAT_REASONING_EFFORT=medium`** — env-only, chat-only, cannot touch the
+extractors, breaks no test (the coupling test never sets the env var). Measure
+before setting; it will cost some of the speed.
+
+**Method note worth keeping: the prompt is the lever, not the budgets.** Every
+instinct said raise the caps. The caps were never the constraint.
 
 ## Cross-industry validation: 24/24 on both models (2026-09-22, evening)
 

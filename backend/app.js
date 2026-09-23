@@ -40,6 +40,7 @@ const docsPages = require('./docs-pages');
 const embedWidgets = require('./embed-widgets');
 const verifyHeadline = require('./verify');
 const marketingAttribution = require('./marketing-attribution');
+const hostingRanges = require('./hosting-ranges');
 const outreachMailer = require('./outreach-mailer');
 const growthMeasurement = require('./growth-measurement');
 const ga4Server = require('./ga4-server');
@@ -2289,18 +2290,91 @@ async function requestUserIsPaid(req) {
         return subscriptionIsPaid(ensureSubscriptionShape(user));
     } catch (_) { return false; }
 }
-function geoWallApiResponse(res) {
-    return res.status(402).json({ error: GEO_WALL_MESSAGE, message: GEO_WALL_MESSAGE, code: 'REGION_PAID_ONLY', upgradeUrl: '/upgrade.html' });
+// ---- Hosting/VPN wall (HOSTING_WALL_ENABLED, default on) ----
+// Owner decision 2026-09-23: the geo wall above is bypassed by a VPN, because
+// the connection genuinely arrives from an unlisted country and no IP-based
+// check can tell. What a VPN cannot hide is that the address is *rented* —
+// commercial VPNs and self-hosted Shadowsocks/Outline boxes run on cloud and
+// hosting networks, not on consumer lines. hosting-ranges.js answers that
+// question offline; this block is the policy.
+//
+// The address comes from marketingAttribution.requestIp(), NOT req.ip: behind
+// the edge req.ip is an intermediate proxy hop, so checking it would classify
+// the wrong machine and the wall would fire on unrelated requests.
+//
+// Googlebot and Bingbot crawl from Google's and Microsoft's cloud addresses,
+// so without the crawler exemption below this wall would answer them with a
+// redirect to /upgrade.html and deindex the site. A forged bot UA does not
+// collect the exemption — bot-blocker's Layer 2 reverse-DNS verification runs
+// ahead of this and refuses impostors.
+//
+// HOSTING_WALL_ENABLED=false disables it without a code change (rollback).
+// HOSTING_WALL_DRY_RUN=true counts what would be blocked instead of blocking.
+// HOSTING_WALL_BYPASS_TOKEN plus an X-Hosting-Wall-Bypass header lets QA work
+// from a data-centre address.
+const HOSTING_WALL_ENABLED = process.env.HOSTING_WALL_ENABLED !== 'false';
+const HOSTING_WALL_DRY_RUN = process.env.HOSTING_WALL_DRY_RUN === 'true';
+const HOSTING_WALL_BYPASS_TOKEN = process.env.HOSTING_WALL_BYPASS_TOKEN || '';
+const HOSTING_WALL_MESSAGE = 'Free access is not available from VPN or data-center connections. Subscribe to use StockPortfolio.pro.';
+const hostingWallCounters = { blocked: 0, dryRunWouldBlock: 0, bypassed: 0 };
+function hostingWalled(req) {
+    if (!HOSTING_WALL_ENABLED) return false;
+    // A missing bundle fails open, like a GeoIP miss: a data problem must not
+    // refuse the free tier to everyone at once.
+    if (!hostingRanges.hasData()) return false;
+    const ua = String((req.headers || {})['user-agent'] || '');
+    const claim = botBlocker.classifyUa(ua);
+    // Only positively identified callers are exempt. Anything 'unknown' or
+    // with no UA at all still gets checked: /api/* is exempt from bot-blocker,
+    // so a UA-less request would otherwise walk straight past both.
+    if (claim === 'allowed-claim' || claim === 'internal') return false;
+    if (HOSTING_WALL_BYPASS_TOKEN && req.headers['x-hosting-wall-bypass'] === HOSTING_WALL_BYPASS_TOKEN) {
+        hostingWallCounters.bypassed += 1;
+        return false;
+    }
+    if (!hostingRanges.isHostingIp(marketingAttribution.requestIp(req))) return false;
+    if (HOSTING_WALL_DRY_RUN) {
+        hostingWallCounters.dryRunWouldBlock += 1;
+        return false;
+    }
+    hostingWallCounters.blocked += 1;
+    return true;
 }
+// A walled request gets the same 402 shape on every free surface; only the
+// reason differs, so a support reply can tell a blocked region from a blocked
+// network.
+function freeTierWallResponse(res, reason) {
+    const message = reason === 'network' ? HOSTING_WALL_MESSAGE : GEO_WALL_MESSAGE;
+    return res.status(402).json({
+        error: message,
+        message,
+        code: reason === 'network' ? 'NETWORK_PAID_ONLY' : 'REGION_PAID_ONLY',
+        upgradeUrl: '/upgrade.html'
+    });
+}
+// Why this request loses the free tier, or null when it keeps it. Region is
+// checked first only so the log and the response name the narrower reason.
+function freeTierWallReason(req) {
+    if (geoWalled(req)) return 'region';
+    if (hostingWalled(req)) return 'network';
+    return null;
+}
+function freeTierWalled(req) {
+    return freeTierWallReason(req) !== null;
+}
+// A walled visitor is paid-only by design. startSignupTrial writes status
+// 'trialing' on a paid planId, and subscriptionIsPaid() refuses that, so a
+// granted trial would be unusable from the first page load — better to offer
+// none than a trial the wall immediately takes away.
 function signupTrialDaysFor(req) {
-    return geoWalled(req) ? 0 : SIGNUP_TRIAL_DAYS;
+    return freeTierWalled(req) ? 0 : SIGNUP_TRIAL_DAYS;
 }
 
 async function wallAllPagesMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (wallPathIsExempt(req.path || '/')) return next();
-    const geo = geoWalled(req);
-    if (!WALL_ALL_PAGES && !geo) return next();
+    const walled = freeTierWallReason(req);
+    if (!WALL_ALL_PAGES && !walled) return next();
 
     const token = authTokenFromRequest(req);
     if (!token) return wallRedirect(res, '/register.html');
@@ -2313,7 +2387,7 @@ async function wallAllPagesMiddleware(req, res, next) {
         const normalized = ensureSubscriptionShape(user);
         if (user.isModified('subscription')) await user.save().catch(() => {});
         if (!subscriptionIsActive(normalized)) return wallRedirect(res, '/upgrade.html');
-        if (geo && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
+        if (walled && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
         next();
     } catch (_) {
         return wallRedirect(res, '/register.html');
@@ -2578,7 +2652,8 @@ embedWidgets.mountEmbedRoutes(app, { limiter: embedLimiter });
 
 app.get('/api/free-tools/:tool', freeToolLimiter, async (req, res) => {
     const tool = String(req.params.tool || '').trim().toLowerCase();
-    if (geoWalled(req) && !(await requestUserIsPaid(req))) return geoWallApiResponse(res);
+    const wall = freeTierWallReason(req);
+    if (wall && !(await requestUserIsPaid(req))) return freeTierWallResponse(res, wall);
     try {
         const result = await freeTools.getToolResult(tool, req.query.symbol);
         res.set('Cache-Control', 'public, max-age=300').status(result.status).json(result.body);
@@ -5844,8 +5919,10 @@ async function apiKeyAuthOptional(req, res, next) {
     const header = String(req.get('authorization') || '');
     const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
     if (offered) return apiKeyAuth(req, res, next);
-    // Keyless is a free tier, so the geo wall refuses it; a paid key still works.
-    if (geoWalled(req)) return geoWallApiResponse(res);
+    // Keyless is a free tier, so the walls refuse it; a presented key still
+    // works because it is handled above, before either wall is consulted.
+    const mcpWall = freeTierWallReason(req);
+    if (mcpWall) return freeTierWallResponse(res, mcpWall);
     if (!mcpAnon.enabled()) {
         // RFC 9728 challenge: this header is how ChatGPT and claude.ai learn
         // that OAuth is available and where its metadata lives. Without it a
@@ -8639,7 +8716,8 @@ async function anonAskHandler(req, res) {
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
-    if (geoWalled(req)) return geoWallApiResponse(res);
+    const askWall = freeTierWallReason(req);
+    if (askWall) return freeTierWallResponse(res, askWall);
     if (ANON_ASK_LIMIT <= 0) {
         return res.status(401).json({ message: 'Ask needs an account', code: 'ASK_AUTH' });
     }
@@ -13421,6 +13499,19 @@ app.get('/api/admin/growth/august-2026', authMiddleware, marketingDashboardOnly,
 
 app.get('/api/admin/bot-blocker/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
     res.set('Cache-Control', 'no-store').json(botBlocker.stats());
+});
+
+// How many requests the hosting/VPN wall is refusing, and which bundle is
+// loaded. A zero blocked count with a loaded table means no visitor has
+// arrived from a hosting address yet; a loaded:false table means the wall is
+// doing nothing at all.
+app.get('/api/admin/hosting-wall/stats', authMiddleware, marketingDashboardOnly, (req, res) => {
+    res.set('Cache-Control', 'no-store').json({
+        enabled: HOSTING_WALL_ENABLED,
+        dryRun: HOSTING_WALL_DRY_RUN,
+        counters: { ...hostingWallCounters },
+        table: hostingRanges.stats()
+    });
 });
 
 app.get('/api/admin/byte-usage/stats', authMiddleware, marketingDashboardOnly, (req, res) => {

@@ -67,6 +67,25 @@ function resolveCountry(ip) {
 // CF-IPCountry and overwrites any client-supplied value, so it is trusted in
 // production. Elsewhere (local dev, tests) nothing strips a forged header, so
 // the lookup falls back to req.ip.
+// The visitor's address rather than the edge's. Behind Render's Cloudflare
+// edge req.ip is an intermediate proxy hop (measured 2026-09-23), so anything
+// that keys on the address — the hosting/VPN wall, per-IP free allowances —
+// must resolve the client the same way the country lookup does: Cloudflare
+// overwrites CF-Connecting-IP and strips a client-supplied value, so it is
+// trusted in production. Elsewhere (local dev, tests) nothing strips a forged
+// header, so req.ip is used.
+function requestIp(req, env = process.env) {
+    if (!req) return null;
+    if (env.NODE_ENV === 'production') {
+        const connecting = String((req.headers || {})['cf-connecting-ip'] || '').trim();
+        // Loose shape check: letters beyond a-f (a hostname) or stray
+        // punctuation are rejected, so a garbage header cannot masquerade as
+        // an address and silently defeat the wall.
+        if (/^[0-9a-fA-F:.]{3,45}$/.test(connecting)) return connecting;
+    }
+    return req.ip || null;
+}
+
 function requestCountry(req, env = process.env) {
     if (!req) return null;
     const headers = req.headers || {};
@@ -74,7 +93,7 @@ function requestCountry(req, env = process.env) {
         const cf = String(headers['cf-ipcountry'] || '').trim().toUpperCase();
         // XX = unknown, T1 = Tor (fails the letters-only test): fall through.
         if (/^[A-Z]{2}$/.test(cf) && cf !== 'XX') return cf;
-        const connecting = resolveCountry(String(headers['cf-connecting-ip'] || '').trim());
+        const connecting = resolveCountry(requestIp(req, env));
         if (connecting) return connecting;
     }
     return resolveCountry(req.ip);
@@ -410,6 +429,7 @@ module.exports = {
     referrerHostname,
     resolveCountry,
     requestCountry,
+    requestIp,
     normalizeSource,
     attributionTouch,
     captureAttribution,

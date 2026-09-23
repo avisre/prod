@@ -40,9 +40,10 @@ test('wall middleware is mounted ahead of the SSR cache so no walled page is eve
 
 test('wall skips non-GET/HEAD requests and passes through instantly when the flag is off', () => {
     const section = wallSection();
-    // The geo wall (geo-wall.test.js) keeps the wall up for SG/CN visitors even
-    // with the flag off; everyone else passes straight through.
-    assert.match(section, /if \(!WALL_ALL_PAGES && !geo\) return next\(\);/);
+    // The geo and hosting walls (geo-wall.test.js, hosting-wall.test.js) keep
+    // the wall up for their visitors even with the flag off; everyone else
+    // passes straight through.
+    assert.match(section, /if \(!WALL_ALL_PAGES && !walled\) return next\(\);/);
     assert.match(section, /if \(req\.method !== 'GET' && req\.method !== 'HEAD'\) return next\(\);/);
 });
 
@@ -114,7 +115,30 @@ test('every page bot-blocker sends a refused crawler to is reachable through the
     assert.ok(reachable('/api'), '/api (developer landing page) stays reachable');
 });
 
-test('no user-agent special-casing in the wall — crawlers get the same 302 as humans', () => {
+test('no user-agent special-casing in the region wall, and only the crawler claim in the hosting wall', () => {
+    // The point of this test is that a visitor cannot UA their way past the
+    // wall. That still holds — the region half never looks at the UA, and the
+    // hosting half's single UA branch exempts ONLY a crawler claim
+    // (bot-blocker.classifyUa -> 'allowed-claim'/'internal'), which a browser
+    // UA never produces: it classifies as 'unknown' and is checked normally.
+    // That exemption is not optional. Googlebot and Bingbot crawl from Google
+    // and Microsoft cloud ranges, which are in the hosting table, so without
+    // it the wall would answer them with a 302 to /upgrade.html and deindex
+    // the site. Forged bot claims are refused by bot-blocker's reverse-DNS
+    // verification, which runs ahead of the wall.
     const section = wallSection();
-    assert.doesNotMatch(section, /user-agent|userAgent|User-Agent/i);
+    const region = section.slice(section.indexOf('// ---- Geo wall'), section.indexOf('// ---- Hosting/VPN wall'));
+    assert.ok(region.length > 0, 'region wall section found');
+    assert.doesNotMatch(region, /user-agent|userAgent|User-Agent/i);
+    const hosting = section.slice(section.indexOf('// ---- Hosting/VPN wall'));
+    // Lines, not occurrences: the single branch tests the claim twice
+    // ('allowed-claim' or 'internal'), so counting matches would read as two.
+    const uaBranches = hosting.split('\n').filter((line) => /claim ===/.test(line));
+    assert.equal(uaBranches.length, 1, 'exactly one UA branch, the crawler exemption');
+    assert.match(hosting, /if \(claim === 'allowed-claim' \|\| claim === 'internal'\) return false;/);
+    // The wall delegates to bot-blocker's classifier rather than naming UAs
+    // itself, so the two can never drift about who counts as a crawler.
+    const code = hosting.replace(/\/\/[^\n]*/g, '');
+    assert.doesNotMatch(code, /googlebot|bingbot|headless|curl|wget/i, 'no UA string matching in the wall');
+    assert.doesNotMatch(code, /ALLOWED_UA_RE|DENY_PATTERNS/);
 });
