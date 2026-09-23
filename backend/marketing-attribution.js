@@ -61,6 +61,25 @@ function resolveCountry(ip) {
     } catch (_) { return null; }
 }
 
+// Behind Render's Cloudflare edge, req.ip resolves to an intermediate proxy
+// hop, not the visitor (measured 2026-09-23: an India request gave req.ip ->
+// DE while CF-IPCountry and CF-Connecting-IP both gave IN). Cloudflare sets
+// CF-IPCountry and overwrites any client-supplied value, so it is trusted in
+// production. Elsewhere (local dev, tests) nothing strips a forged header, so
+// the lookup falls back to req.ip.
+function requestCountry(req, env = process.env) {
+    if (!req) return null;
+    const headers = req.headers || {};
+    if (env.NODE_ENV === 'production') {
+        const cf = String(headers['cf-ipcountry'] || '').trim().toUpperCase();
+        // XX = unknown, T1 = Tor (fails the letters-only test): fall through.
+        if (/^[A-Z]{2}$/.test(cf) && cf !== 'XX') return cf;
+        const connecting = resolveCountry(String(headers['cf-connecting-ip'] || '').trim());
+        if (connecting) return connecting;
+    }
+    return resolveCountry(req.ip);
+}
+
 function parseCookies(header) {
     const cookies = new Map();
     for (const part of String(header || '').split(';')) {
@@ -355,7 +374,7 @@ function requestFields(req, res, {
         isQa,
         reportable: ua.estimatedHuman && !isQa,
         referrerHostname: referrerHostname(referrer),
-        country: resolveCountry(req && req.ip),
+        country: requestCountry(req),
         attribution
     };
     if (req) req._marketingRequestFields = fields;
@@ -390,6 +409,7 @@ module.exports = {
     referrerSource,
     referrerHostname,
     resolveCountry,
+    requestCountry,
     normalizeSource,
     attributionTouch,
     captureAttribution,

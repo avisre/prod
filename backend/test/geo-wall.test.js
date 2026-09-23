@@ -30,6 +30,23 @@ test('the offline GeoIP lookup resolves SG and CN, and leaves other countries al
     assert.equal(marketingAttribution.resolveCountry('127.0.0.1'), null);
 });
 
+test('requestCountry trusts Cloudflare headers in production only, else req.ip', () => {
+    const prod = { NODE_ENV: 'production' };
+    const dev = { NODE_ENV: 'development' };
+    // The measured production shape: req.ip is a German proxy hop, CF says HK.
+    const behindCf = { ip: '5.9.0.1', headers: { 'cf-ipcountry': 'hk', 'cf-connecting-ip': '175.45.0.1' } };
+    assert.equal(marketingAttribution.requestCountry(behindCf, prod), 'HK');
+    // A forged header outside production is ignored.
+    assert.equal(marketingAttribution.requestCountry(behindCf, dev), marketingAttribution.resolveCountry('5.9.0.1'));
+    // XX (unknown) and T1 (Tor) fall through to CF-Connecting-IP.
+    assert.equal(marketingAttribution.requestCountry({ ip: '8.8.8.8', headers: { 'cf-ipcountry': 'XX', 'cf-connecting-ip': '101.127.0.1' } }, prod), 'SG');
+    assert.equal(marketingAttribution.requestCountry({ ip: '8.8.8.8', headers: { 'cf-ipcountry': 'T1', 'cf-connecting-ip': '36.110.0.1' } }, prod), 'CN');
+    // No Cloudflare headers at all: req.ip.
+    assert.equal(marketingAttribution.requestCountry({ ip: '8.8.8.8', headers: {} }, prod), 'US');
+    assert.equal(marketingAttribution.requestCountry(null, prod), null);
+    assert.match(appSource(), /const country = marketingAttribution\.requestCountry\(req\);/);
+});
+
 test('paid means a paid plan: trials, comps and free-plan accounts do not pass', () => {
     const source = appSource();
     assert.match(source, /function subscriptionIsPaid\(sub\) \{\s*return Boolean\(sub && sub\.planId !== FREE_PLAN_ID\s*&& \['active', 'cancel_at_period_end'\]\.includes\(sub\.status\)\);/);

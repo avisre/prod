@@ -2260,15 +2260,16 @@ function wallRedirect(res, target) {
 // surfaces there): visitors from these countries get no free
 // surface at all — no open pages, free tools, anonymous Ask, keyless MCP or
 // signup trial. Only a paying account gets in, and the wall applies whether
-// or not WALL_ALL_PAGES is on. Country comes from the same offline GeoIP
-// lookup the marketing dashboard uses (req.ip is proxy-aware), so a lookup
+// or not WALL_ALL_PAGES is on. Country comes from requestCountry() — the
+// same resolver the marketing dashboard uses: Cloudflare's CF-IPCountry in
+// production, because req.ip there is a proxy hop, not the visitor. A lookup
 // miss (null) is never walled. GEO_WALL_COUNTRIES= (empty) switches it off.
 const GEO_WALL_COUNTRIES = new Set(String(process.env.GEO_WALL_COUNTRIES ?? 'SG,CN,HK')
     .split(',').map((c) => c.trim().toUpperCase()).filter(Boolean));
 const GEO_WALL_MESSAGE = 'Free access is not available in your region. Subscribe to use StockPortfolio.pro.';
 function geoWalled(req) {
     if (!GEO_WALL_COUNTRIES.size) return false;
-    const country = marketingAttribution.resolveCountry(req && req.ip);
+    const country = marketingAttribution.requestCountry(req);
     return Boolean(country && GEO_WALL_COUNTRIES.has(country));
 }
 // Paid = a paid plan (Stripe, China pass, AppSumo/lifetime grant). A no-card
@@ -2294,22 +2295,6 @@ function geoWallApiResponse(res) {
 function signupTrialDaysFor(req) {
     return geoWalled(req) ? 0 : SIGNUP_TRIAL_DAYS;
 }
-
-// TEMPORARY (2026-09-23): which request header carries the real client IP
-// behind Render's Cloudflare edge. Returns resolved countries only — never an
-// address. Remove once geo resolution is fixed.
-app.get('/geo-check', (req, res) => {
-    const c = (ip) => marketingAttribution.resolveCountry(String(ip || '').trim()) || null;
-    const xff = String(req.headers['x-forwarded-for'] || '').split(',').map((s) => s.trim()).filter(Boolean);
-    res.set('Cache-Control', 'no-store').json({
-        reqIp: c(req.ip),
-        cfConnectingIp: req.headers['cf-connecting-ip'] ? c(req.headers['cf-connecting-ip']) : 'absent',
-        trueClientIp: req.headers['true-client-ip'] ? c(req.headers['true-client-ip']) : 'absent',
-        xRealIp: req.headers['x-real-ip'] ? c(req.headers['x-real-ip']) : 'absent',
-        cfIpCountry: req.headers['cf-ipcountry'] || 'absent',
-        xffHops: xff.map(c)
-    });
-});
 
 async function wallAllPagesMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
