@@ -282,13 +282,31 @@ app.use((req, res, next) => {
     });
     next();
 });
-// Render terminates the public connection before forwarding it to Express.
-// Trust that single platform hop in production so rate limits are keyed to
-// the visitor address instead of grouping every visitor under Render's proxy.
-// Local/test environments remain untrusted unless explicitly configured.
+// Render terminates the public connection before forwarding it to Express, so
+// one platform hop is trusted in production. That does NOT make req.ip the
+// visitor: measured 2026-09-23, a request from India resolved to a German proxy
+// hop. Every per-visitor allowance therefore goes through visitorIp() below,
+// never req.ip. Local/test environments stay untrusted unless configured.
 const DEFAULT_TRUST_PROXY_HOPS = process.env.NODE_ENV === 'production' ? '1' : '0';
 const TRUST_PROXY_HOPS = Math.max(0, Number.parseInt(process.env.TRUST_PROXY_HOPS || DEFAULT_TRUST_PROXY_HOPS, 10) || 0);
 app.set('trust proxy', TRUST_PROXY_HOPS || false);
+
+// The visitor's address, for anything that counts or limits a person: rate-limit
+// keys, free-tier counters, and the geo/hosting walls. Keying an allowance on
+// req.ip groups every visitor into one shared bucket — behind the edge it is an
+// intermediate proxy hop — so one abuser spends everyone's free quota and honest
+// visitors get 429s caused by a stranger. CF-Connecting-IP is the visitor and
+// cannot be forged: the edge refuses a client-supplied value outright (verified
+// 2026-09-23, any value returned 403 "error code: 1000" without reaching the
+// app). Unlike a fixed `trust proxy` hop count it needs no assumption about the
+// chain's length, so a topology change cannot silently start reading a value the
+// caller controls. Falls back to req.ip outside production, where nothing strips
+// a forged header.
+function visitorIp(req) {
+  return marketingAttribution.requestIp(req) || String((req && req.ip) || '') || '0';
+}
+// The shared key for allowances that are per-visitor by design.
+const visitorKeyGenerator = (req) => visitorIp(req);
 app.disable('x-powered-by');
 
 const AUTH_COOKIE_NAME = 'sp_auth';
@@ -461,7 +479,8 @@ const pageViewLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 120,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  keyGenerator: visitorKeyGenerator
 });
 app.use('/api/track/page_view', pageViewLimiter);
 
@@ -469,7 +488,8 @@ const freeToolLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 60,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  keyGenerator: visitorKeyGenerator
 });
 
 // Embed widgets are a page-view surface, not a per-action one: one person
@@ -481,7 +501,8 @@ const embedLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 300,
   standardHeaders: true,
-  legacyHeaders: false
+  legacyHeaders: false,
+  keyGenerator: visitorKeyGenerator
 });
 
 const apiLimiter = rateLimit({
@@ -491,6 +512,10 @@ const apiLimiter = rateLimit({
   max: 900,
   standardHeaders: true,
   legacyHeaders: false,
+  // Per visitor, so 900 is one researcher's own budget. Keyed on the proxy hop
+  // this was a single bucket for the whole site: ~9 calls per v2 page view meant
+  // a few strangers browsing could 429 everyone else.
+  keyGenerator: visitorKeyGenerator,
   // the beacon has its own limiter above — don't let it spend this budget too
   skip: (req) => req.path === '/track/page_view'
 });
@@ -608,7 +633,7 @@ const checkoutClaimLimiter = rateLimit({
 // same response and code material is hashed before database lookup.
 const dealMirrorRedeemLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, max: 8, standardHeaders: true, legacyHeaders: false,
-  keyGenerator: (req) => `${req.userId || 'anon'}:${crypto.createHash('sha256').update(String(req.ip || '')).digest('hex').slice(0, 20)}`
+  keyGenerator: (req) => `${req.userId || 'anon'}:${crypto.createHash('sha256').update(visitorIp(req)).digest('hex').slice(0, 20)}`
 });
 
 // Alpha Vantage is no longer used — all market data is served from
@@ -5533,7 +5558,7 @@ const apiKeyRateLimit = rateLimit({
     max: Number(process.env.PUBLIC_API_RATE_LIMIT || 60),
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.apiKeyId || req.ip,
+    keyGenerator: (req) => req.apiKeyId || visitorIp(req),
     handler: (req, res) => res.status(429).json({ error: 'Rate limit exceeded. Try again shortly.' }),
 });
 
@@ -5939,13 +5964,16 @@ function mcpAccessGate(req, res, next) {
     return apiAccessGate(req, res, next);
 }
 // Keyed callers are throttled per key (a shared egress IP shouldn't penalise
-// them); keyless ones can only be throttled per IP, which is also the identity
-// their free allowance is counted against.
+// them); keyless ones are throttled per visitor, which is also the identity
+// their free allowance is counted against — that allowance reads the same
+// visitorIp(), so the limit and the quota it guards can never count different
+// people.
 const anonMcpRateLimit = rateLimit({
     windowMs: 60 * 1000,
     max: Number(process.env.ANON_MCP_RATE_LIMIT || 20),
     standardHeaders: true,
     legacyHeaders: false,
+    keyGenerator: visitorKeyGenerator,
     message: { error: 'Rate limit exceeded for keyless access.' }
 });
 function mcpRateLimit(req, res, next) {
@@ -8671,10 +8699,11 @@ function _anonAskRoll() {
     if (_anonAsk.day !== d) { _anonAsk.day = d; _anonAsk.global = 0; _anonAsk.ip.clear(); }
 }
 function _anonAskIp(req) {
-    // req.ip is proxy-aware (trust proxy = 1), so it reflects the client IP that
-    // Render's proxy appended — not a client-supplied X-Forwarded-For value,
-    // which is spoofable and would let anyone bypass or exhaust the free quota.
-    return String(req.ip || '0');
+    // The visitor, not req.ip: behind the edge req.ip is a proxy hop shared by
+    // many visitors (measured 2026-09-23), so the per-IP rung of this quota was
+    // in practice one bucket for everyone. The same address is the keyless MCP
+    // identity, so those two allowances had to move together.
+    return visitorIp(req);
 }
 function _anonAskReadCount(req) {
     const raw = (req.headers.cookie || '').split(';').map((s) => s.trim())
@@ -9707,7 +9736,7 @@ const KeypointFreeUsage = keypointFreeUsage.createModel(mongoose);
 function keypointFreeContext(req, now = new Date()) {
     const monthKey = now.toISOString().slice(0, 7);
     const expiresAt = new Date(now.getFullYear(), now.getMonth() + 2, 1); // clears ~35 days after month start
-    const clientKey = req.user ? `u:${req.user._id}` : `ip:${crypto.createHmac('sha256', process.env.MONITOR_FREE_IP_SALT || JWT_SECRET).update(String(req.ip || 'unknown')).digest('hex')}`;
+    const clientKey = req.user ? `u:${req.user._id}` : `ip:${crypto.createHmac('sha256', process.env.MONITOR_FREE_IP_SALT || JWT_SECRET).update(visitorIp(req)).digest('hex')}`;
     return { clientKey, monthKey, expiresAt };
 }
 
@@ -12117,7 +12146,7 @@ function monitorFreeContext(req, now = new Date()) {
     const expiresAt = new Date(`${dayKey}T00:00:00.000Z`);
     expiresAt.setUTCDate(expiresAt.getUTCDate() + 3);
     const salt = process.env.MONITOR_FREE_IP_SALT || JWT_SECRET;
-    const clientHash = crypto.createHmac('sha256', salt).update(String(req.ip || 'unknown')).digest('hex');
+    const clientHash = crypto.createHmac('sha256', salt).update(visitorIp(req)).digest('hex');
     return { clientHash, dayKey, expiresAt };
 }
 
@@ -12291,7 +12320,7 @@ const compareVerdict = require('./compare-verdict');
 const VERDICT_FREE_PER_DAY = parseInt(process.env.VERDICT_FREE_PER_DAY || '4', 10);
 const _verdictFreeSeen = new Map(); // ipKey -> { at:number, n:number }
 function verdictFreeRecord(req) {
-    const key = req.ip || 'unknown';
+    const key = visitorIp(req);
     const now = Date.now();
     let rec = _verdictFreeSeen.get(key);
     if (!rec || now - rec.at > 24 * 60 * 60 * 1000) { rec = { at: now, n: 0 }; _verdictFreeSeen.set(key, rec); }
