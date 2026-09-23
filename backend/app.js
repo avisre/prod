@@ -9299,28 +9299,69 @@ app.delete('/api/alert-rules/:id', authMiddleware, proGate, async (req, res) => 
 });
 
 // ----- Screener (public, un-gated — rivals charge for this; SEC data is free) -----
+// One mapping from the page's query params to screenRows(), shared by the
+// public screen and the gated export so the file always holds exactly the
+// companies the page showed.
+function screenerCriteria(q) {
+    return {
+        sector: q.sector,
+        min_revenue_cagr_5y_pct: q.minRevCagr5y,
+        min_net_margin_pct: q.minNetMargin,
+        min_roe_pct: q.minRoe,
+        min_dividend_yield_pct: q.minDivYield,
+        min_market_cap_billions: q.minMarketCapB,
+        max_market_cap_billions: q.maxMarketCapB,
+        min_profitable_years_of_last_10: q.minProfitableYears,
+        min_latest_qtr_earnings_growth_yoy_pct: q.minQtrEarningsGrowth,
+        max_pe: q.maxPe,
+        require_positive_fcf: String(q.fcfPositive || '') === '1',
+        sort_by: q.sortBy,
+        limit: q.limit,
+        maxLimit: 100
+    };
+}
+
 app.get('/api/screener', (req, res) => {
     try {
-        const q = req.query || {};
-        const result = aiChat.screenRows({
-            sector: q.sector,
-            min_revenue_cagr_5y_pct: q.minRevCagr5y,
-            min_net_margin_pct: q.minNetMargin,
-            min_roe_pct: q.minRoe,
-            min_dividend_yield_pct: q.minDivYield,
-            min_market_cap_billions: q.minMarketCapB,
-            max_market_cap_billions: q.maxMarketCapB,
-            min_profitable_years_of_last_10: q.minProfitableYears,
-            min_latest_qtr_earnings_growth_yoy_pct: q.minQtrEarningsGrowth,
-            max_pe: q.maxPe,
-            require_positive_fcf: String(q.fcfPositive || '') === '1',
-            sort_by: q.sortBy,
-            limit: q.limit,
-            maxLimit: 100
-        });
+        const result = aiChat.screenRows(screenerCriteria(req.query || {}));
         res.json({ ...result, sectors: aiChat.sectorList() });
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Screener failed') });
+    }
+});
+
+// Screener results as a ticker list TradingView imports as a watchlist
+// (Watchlist menu -> Import list). Asked for by an AppSumo buyer who screens
+// on fundamentals here and times entries on TradingView. Investor/Pro lifetime
+// tiers and Pro-and-up plans only (lib/tier-limits.js hasScreenerExport). The
+// screen is re-run server-side from the same criteria, so the gate is real,
+// not a hidden button. `order` (comma-separated tickers) only reorders the
+// server's own result set to match the on-page sort; it can't add a symbol.
+function screenerExportGate(req, res, next) {
+    if (tierLimits.hasScreenerExport(req.user, req.subscription)) return next();
+    return res.status(402).json({
+        message: 'Exporting screens to TradingView is included on the Investor and Pro lifetime tiers and on the Pro, Power and Desk plans.',
+        code: 'SCREENER_EXPORT_REQUIRED',
+        upgradeUrl: '/upgrade.html'
+    });
+}
+app.get('/api/screener/export', authMiddleware, screenerExportGate, (req, res) => {
+    try {
+        const q = req.query || {};
+        const result = aiChat.screenRows(screenerCriteria(q));
+        let symbols = (result.rows || []).map((r) => String(r.symbol || '').toUpperCase()).filter(Boolean);
+        const order = String(q.order || '').toUpperCase().split(',').map((s) => s.trim()).filter(Boolean);
+        if (order.length) {
+            const rank = new Map(order.map((s, i) => [s, i]));
+            symbols = symbols.slice().sort((a, b) => (rank.has(a) ? rank.get(a) : 1e9) - (rank.has(b) ? rank.get(b) : 1e9));
+        }
+        const day = new Date().toISOString().slice(0, 10);
+        res.set('Content-Type', 'text/plain; charset=utf-8');
+        res.set('Content-Disposition', `attachment; filename="stockportfolio-screen-${day}.txt"`);
+        res.set('Cache-Control', 'no-store');
+        res.send(symbols.join(','));
+    } catch (error) {
+        res.status(500).json({ message: publicErrorMessage(error, 'Export failed') });
     }
 });
 

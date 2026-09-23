@@ -48,7 +48,7 @@
         $('f-sector').value = '';
     }
 
-    async function run() {
+    function buildQuery() {
         const q = new URLSearchParams();
         const set = (k, v) => { if (v !== '' && v !== null && v !== undefined && v !== false) q.set(k, v); };
         set('sector', $('f-sector').value);
@@ -66,6 +66,11 @@
         if ($('f-fcf').checked) set('fcfPositive', '1');
         set('sortBy', sortKey === 'symbol' || sortKey === 'sector' ? 'marketCapB' : sortKey);
         set('limit', 100);
+        return q;
+    }
+
+    async function run() {
+        const q = buildQuery();
         try {
             const r = await fetch(`/api/screener?${q}`);
             const data = await r.json();
@@ -192,6 +197,64 @@
         field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
     });
     renderSaved();
+
+    // ---- export to TradingView (Investor/Pro tiers; the server enforces it) ----
+    // The file is the current screen, in the order the table shows it, as a
+    // comma-separated ticker list — the shape TradingView's "Import list"
+    // takes. The server re-runs the screen and decides who may have it, so
+    // this handler only has to explain the answer.
+    function note(title, html) {
+        if (window.V2 && V2.modal) V2.modal({ label: title, title, bodyHtml: html, actions: [{ label: 'OK', primary: true }] });
+        else window.alert(title);
+    }
+    function sortedSymbols() {
+        return rows.slice().sort((a, b) => {
+            const x = a[sortKey]; const y = b[sortKey];
+            if (typeof x === 'string' || typeof y === 'string') {
+                return (sortDir === 'asc' ? 1 : -1) * String(x || '').localeCompare(String(y || ''));
+            }
+            return ((x === null) - (y === null)) || (sortDir === 'asc' ? x - y : y - x);
+        }).map((r) => r.symbol);
+    }
+    $('export-btn').addEventListener('click', async () => {
+        if (!rows.length) { note('Nothing to export', '<p>Run a screen with at least one match first.</p>'); return; }
+        if (!(window.V2 && V2.token && V2.token())) {
+            note('Sign in to export', '<p>Exporting a screen to TradingView is included on the <strong>Investor and Pro</strong> tiers. <a href="/login.html?next=/screener.html">Sign in</a> to use it.</p>');
+            return;
+        }
+        const q = buildQuery();
+        q.set('order', sortedSymbols().join(','));
+        const btn = $('export-btn');
+        btn.disabled = true;
+        try {
+            const r = await fetch(`/api/screener/export?${q}`, { headers: { Authorization: `Bearer ${V2.token()}` }, credentials: 'same-origin' });
+            if (r.status === 401) {
+                note('Sign in to export', '<p>Your session has ended. <a href="/login.html?next=/screener.html">Sign in again</a> to export.</p>');
+                return;
+            }
+            if (r.status === 402) {
+                const d = await r.json().catch(() => ({}));
+                note('An Investor and Pro feature', `<p>${esc(d.message || 'Exporting screens to TradingView is on the Investor and Pro tiers.')}</p><p><a href="${esc(d.upgradeUrl || '/upgrade.html')}">See upgrade options →</a></p>`);
+                return;
+            }
+            if (!r.ok) throw new Error(String(r.status));
+            const text = await r.text();
+            const count = text ? text.split(',').length : 0;
+            const url = URL.createObjectURL(new Blob([text], { type: 'text/plain' }));
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `stockportfolio-screen-${new Date().toISOString().slice(0, 10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            setTimeout(() => URL.revokeObjectURL(url), 1000);
+            note('Screen exported', `<p>Saved <strong>${count}</strong> ticker${count === 1 ? '' : 's'}.</p><p>In TradingView, open the watchlist panel, click the watchlist name, choose <strong>Import list…</strong> and pick the file.</p>`);
+        } catch (_) {
+            note('Export failed', '<p>Couldn’t export this screen. Please try again.</p>');
+        } finally {
+            btn.disabled = false;
+        }
+    });
 
     document.querySelectorAll('#presets .chip[data-preset]').forEach((b) =>
         b.addEventListener('click', () => {
