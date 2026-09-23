@@ -29,6 +29,10 @@ const strip = (s) => s
     .replace(/\*\*(.+?)\*\*/gs, '$1')
     .replace(/(^|[\s(])\*([^*\n]+)\*/g, '$1$2')
     .replace(/`([^`]+)`/g, '$1')
+    // Markdown escapes (\* for a literal footnote asterisk) are source syntax,
+    // not copy — left in, the buyer reads "included\*". Runs after the
+    // emphasis passes above, which never match an escaped asterisk.
+    .replace(/\\([*_`\\])/g, '$1')
     .replace(/^#{1,6}\s*/gm, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();

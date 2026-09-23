@@ -22,6 +22,10 @@ Email William for version and tier-spec changes. This document is listing text o
 `GET /api/v1/health` returns `200 {"ok":true,"version":"v1"}` and `/mcp` returns a `401`
 auth challenge rather than a 404, so the routes and the key gate are both deployed.
 
+✅ **v7's prices are the ones production charges.** Re-verified 2026-09-23: an MCP lookup
+debited exactly 2 credits (09:22 UTC), and an exhausted wallet returns the new out-of-credits
+body on both surfaces, with the $14.99 recharge link and the free-website alternative.
+
 ---
 
 ## Why v7: buyers are asking about MCP before they buy
@@ -166,59 +170,51 @@ Fallback if length-limited:
 > MCP and the REST API cost exactly the same, action for action — they run the same call over
 > the same filings. MCP is the agent-native path, not the cheaper one: choose it because your
 > client speaks MCP, not to save credits.
-
-**Top-up line — hold until the Render price ID is set.** If and only if
-`STRIPE_PRICE_ID_CREDITS_TOPUP` is live in production, append:
-
+>
 > Run dry early? Top up 150 credits for $14.99, any time — no subscription.
 
-## FAQ — the five MCP questions, answered
+## FAQs — the portal's 5 slots
 
-These go in the listing's FAQ fields. Answer order is the order they get asked in.
-Every number here is the number the code actually charges — check against
-`backend/credits.js` COST before submitting, and do not round any of them down.
+The portal has exactly five FAQ slots and they are all in use, so the five MCP questions
+buyers ask are merged into slot 4, and the credit arithmetic into slot 3, rather than
+displacing the report-first answers. The five questions answered one by one live in the
+reply bank further down, for email.
 
-**1. Will API and MCP access be permanently included with the AppSumo Lifetime Deal?**
+**1. What is a Research Dossier?**
 
-> Yes, if you purchase on or before 22 September 2026. API and MCP access is then part of your
-> lifetime entitlement on whichever tier you bought, and it does not expire. Access is
-> re-checked on every call rather than granted once at signup, so it also stops immediately if
-> a licence is refunded. From 23 September 2026, API and MCP are included on the Pro tier.
+> The full write-up on a covered US-listed company — decision brief, filed trajectory,
+> segments, valuation including a reverse-DCF, bull and bear case, risks. The same twelve
+> sections for every company, so two or three line up side by side. Every figure carries its
+> fiscal period and a link to its SEC source.
 
-**2. Will MCP be available on all AppSumo tiers, or only on specific tiers?**
+**2. What does the Filing Change Monitor do?**
 
-> Purchased on or before 22 September 2026: all three tiers — Starter, Investor and Pro.
-> Purchased from 23 September 2026: Pro only. Nobody loses what they already bought.
+> When a company files a new 10-K, 10-Q or 8-K, it reads the new document against the
+> previous one of the same form and shows what changed — risk-factor edits, guidance
+> language, the numbers that moved — quoted verbatim with an EDGAR link, ranked by
+> materiality.
 
-**3. Will there be any separate subscription, add-on fee, or future payment required?**
+**3. How do the credits work?**
 
-> No. No add-on, no second subscription, no future payment to keep using it. You generate your
-> own key from your account page and it authenticates both the REST API and the hosted MCP
-> endpoint. There is an optional credit top-up if you want *more* usage, but nothing you must
-> buy to keep access.
+> Every tier includes every feature; tiers differ by how many reports you run each month —
+> 50, 150 or 400 credits. A Research Dossier costs 21, a Filing Monitor report 8, a
+> comparison 5, a follow-up question 2. Over the API or MCP, a data lookup costs 2 and an
+> AI-written answer 42, from the same wallet. Credits reset on the 1st; top up 150 for
+> $14.99 any time.
 
-**4. Will MCP/API usage have any monthly limits, credit limits, or rate limits?**
+**4. Are API and MCP included — on which tiers, and is there any extra fee?**
 
-> Yes, and they are the limits you already have — there is no second quota. Both surfaces spend
-> the same monthly credit allowance as the website: 50, 150 or 400 credits by tier, refreshing
-> monthly. MCP and REST are priced identically, so neither surface is the cheap way in.
->
-> | Action | Credits |
-> |---|---|
-> | Data lookup (MCP or REST) | 2 |
-> | AI-written answer (MCP or REST) | 42 |
->
-> Read that last row carefully before you buy. An AI answer costs 42 credits because it is the
-> same expensive call the website charges for — so a 50-credit Starter month is **one** AI
-> answer, or **25 data lookups**, or any mix. If your integration is deterministic lookups, the
-> allowance goes further. If you want your agent writing AI answers all day, buy Pro or
-> top up. There is also a limit of 60 requests per minute per key.
+> Yes, and they are live now, not a beta. Bought on or before 22 September 2026: every
+> tier includes them, permanently. Bought from 23 September 2026: the Pro tier. There is
+> no add-on fee, second subscription or future payment — you create your own key and it
+> spends the same monthly credits as the website. The limits are the credit wallet and 60
+> requests a minute per key: Starter's 50 credits is 25 data lookups or one AI answer.
 
-**5. If MCP is currently in beta, will AppSumo buyers who receive access retain it afterwards?**
+**5. Does the AI ever make up numbers, and is this investment advice?**
 
-> API and MCP are live in production now — not a closed beta, not a waitlist. There is no beta
-> period to graduate from and nothing to re-qualify for. Seven tools are exposed today:
-> financials, filing timeline, compare, screen, fund data, ask and health.
+> No, and no. It answers from a company's actual SEC filings on EDGAR and shows the figure
+> and its source so you can verify it; if the filing doesn't say it, neither does the app.
+> It surfaces reported numbers for you to analyse — it does not tell you what to buy.
 
 ## Ask, in one line
 
@@ -278,20 +274,123 @@ headings as much as anything: they are allowed to be blunt, not lurid.
 
 ## Before this is submitted — v7 blocker
 
-**Do not publish this listing until the entitlement is actually live in production.** The
-listing claims Starter and Investor buyers have API and MCP. That becomes true only when:
+**Do not publish this listing until the entitlement is live in production.** The listing
+says Starter and Investor buyers from on or before 22 September have API and MCP. Status:
 
-1. `LTD_API_ACCESS_CUTOFF=2026-09-22T23:59:59.999Z` is set in production env and deployed.
-   Unset, the code grants nobody the widening — it ships dark on purpose.
-2. `node scripts/import-grandfathered-licences.js --apply` has been run once. It reads the
-   AppSumo Licensing API (where a licence's `created_at` is the purchase instant) and flags
-   the buyers whose purchase date beats their redemption date. Re-runnable; dry run by default.
-3. Spot-check: sign in as a tier-1 buyer who redeemed before the cutoff, create a key from the
-   profile page, and confirm `GET /api/v1/financials/AAPL` returns 200 rather than 402.
+1. [x] `LTD_API_ACCESS_CUTOFF=2026-09-22T23:59:59.999Z` stored on Render 2026-09-23 09:24 UTC
+   via the `set-render-env` workflow (HTTP 200, 24 characters). Render's API stored it but did
+   not redeploy, so the running process could not see it; an empty commit (`3cb0c6c1`) was
+   pushed to redeploy, and the cutoff took effect at 09:34 UTC. Unset, the code grants nobody
+   the widening — it ships dark on purpose.
+2. [ ] `node scripts/import-grandfathered-licences.js --apply`, run once. It reads the AppSumo
+   Licensing API, where a licence's `created_at` is the purchase instant, and flags buyers whose
+   purchase date beats their redemption date. Dry run by default; re-runnable.
+3. [x] Live proof, 2026-09-23 09:34 UTC: a throwaway tier-1 AppSumo account redeemed in August got `200` from
+   `/api/v1/filing/MSFT`, and the same account redeemed after the cutoff gets `402
+   API_ACCESS_REQUIRED`. The probe creates and deletes its own account, key and ledger rows.
 
-Measured at the time of writing (Licensing API, 25 licences): every licence sold was purchased
-on or before the cutoff — 13 active, of which **9 are tier 1 or 2 and newly gain access**, and
-6 are bought-but-unredeemed, which is exactly the case step 2 exists to catch.
+Measured when this was written (Licensing API, 25 licences): every licence sold was purchased
+on or before the cutoff — 13 active, of which **9 are tier 1 or 2 and newly gain access** — and
+6 are bought but unredeemed, which is exactly the case step 2 exists to catch.
+
+## Portal field map — v7
+
+The portal draft is **not** seeded from the live listing: any field left empty wipes the live
+one. Fill every field below. The live values to fall back on are backed up verbatim in
+`docs/appsumo-portal-fields-v5.md` Part 1 (in git history; the working copy was deleted).
+
+**Plans — unchanged.** Starter $39 (was $144) · Investor $79 ($288) · Pro $149 ($432).
+
+**Product title** — *Product title* above. **Tagline** — *Tagline* above.
+
+**Feature matrix — tier-varying rows first.** Entered in the portal draft directly (see Sequence):
+
+1. `<b>50/mo</b> · <b>150/mo</b> · <b>400/mo</b> AI credits — a Research Dossier costs 21, a Filing Monitor report 8, a comparison 5, a follow-up question 2`
+2. `<b>1 company</b> · <b>4 companies</b> · <b>8 companies</b> watched by the Filing Change Monitor`
+3. `API + MCP access for your AI assistant — Pro tier (every tier for purchases on or before 22 Sep 2026)`
+4. `Research Dossier — the full report on any covered US stock, every figure cited to its SEC filing`
+5. `Filing Change Monitor — what changed in each new 10-K, 10-Q or 8-K, quoted verbatim with EDGAR links`
+6. `Up to 19 years of filed statements — on every tier`
+7. `Deep-dive pages for 6,000+ US stocks`
+8. `17 stock screeners + custom filters`
+9. `Side-by-side compare + portfolio tracking`
+
+If the editor caps rows, keep 1–5 and drop from the bottom.
+
+**Long description** — paste *Opening* through *Ask, in one line* (sections 1–4 and the FAQ
+block excluded — FAQs have their own fields), then the Proof block, Limits and the Integrity
+note. Or paste the generated `appsumo-listing-v7.txt`, which is exactly the buyer-facing text.
+
+**FAQs** — the five slots in *FAQs — the portal's 5 slots*, in that order.
+
+**Attributes** — Deal type **Software** (not an AI Skill). Category **Finance & Accounting** /
+**Investing & Crypto**. Best for, Alternative to and tags: see *Classification* above.
+
+### What is live right now (read 2026-09-23)
+
+The live page is still the original v4-era spec: tiers sell **"AI Ask 30/100/300 per month"**
+with no credits, no Monitor ladder, no Dossier row and no API/MCP; the 9/17 edit Yena approved
+changed only the tagline and section headings. The founder FAQs are the original five.
+
+### Sequence — the process changed on 14 September
+
+Yena (covering for William) consolidated every thread into *"StockPortfolio.pro — final-period
+promotion and deal-end confirmation"* and set the process:
+
+- **You edit the Partner Portal draft yourself.** AppSumo no longer uploads copy or tier specs by
+  email — the portal now carries that, tier fields included.
+- **The draft reflects your original submission, not the live page.** Every field below must be
+  filled or the live one is replaced with stale or empty text.
+- **Founder FAQs and product-update posts are NOT part of the draft** — they are edited in their
+  own place and are never overwritten by a submission.
+
+1. Edit every draft field against *Portal field map — v7* above.
+2. Replace the five founder FAQs with *FAQs — the portal's 5 slots* (separate editor).
+3. Submit. Reply in Yena's thread that it is submitted — she approves same day. A Gmail draft of
+   that reply is waiting.
+4. Post the product update below.
+5. Compare the live page against this map and flag anything lost.
+
+The deal closes permanently on **4 October** (LTD sunset; subscription-only after). The
+"Pro tier from 23 September" rule therefore governs an eleven-day window — which is exactly why
+it has to be on the page rather than discovered after purchase.
+
+### Product-update post — for existing buyers
+
+This is the only channel that reaches the Starter and Investor buyers who just gained access.
+
+> **API and MCP access is now included on your tier.**
+>
+> If you bought StockPortfolio.pro on or before 22 September, API and MCP access is now part of
+> your lifetime deal on whichever tier you hold — Starter and Investor included. Nothing to buy
+> and nothing to upgrade.
+>
+> Create a key from your account page and point Claude, ChatGPT or your own agent at the hosted
+> MCP endpoint, or call the REST API directly. Every figure comes back with the SEC filing it
+> came from. It spends the same monthly credits as the website: 2 per data lookup, 42 per
+> AI-written answer.
+>
+> Setup guide: stockportfolio.pro/docs/api-mcp
+
+## Reply bank — the five MCP questions, verbatim
+
+For email, when a buyer asks these one by one. Same facts as FAQ slots 3 and 4.
+
+1. **Permanently included?** Yes, if you purchase on or before 22 September 2026: part of your
+   lifetime entitlement on whichever tier you bought, it does not expire, and it is re-checked on
+   every call — so it also stops immediately if a licence is refunded. From 23 September 2026 it
+   is included on the Pro tier.
+2. **Which tiers?** On or before 22 September 2026: Starter, Investor and Pro. From 23 September
+   2026: Pro only. Nobody loses what they already bought.
+3. **Any subscription, add-on or future payment?** No. You generate your own key from your
+   account page; it authenticates both the REST API and the hosted MCP endpoint. The $14.99 top-up
+   is optional, for *more* usage — never required to keep access.
+4. **Limits?** The credit wallet you already have — 50, 150 or 400 a month — spent identically on
+   MCP and REST: 2 per data lookup, 42 per AI-written answer. Starter's 50 is 25 lookups or one AI
+   answer. Plus 60 requests a minute per key.
+5. **Beta — keep it afterwards?** It is live in production, not a beta or a waitlist; there is
+   nothing to re-qualify for. Seven tools today: financials, filing timeline, compare, screen,
+   fund data, ask and health.
 
 ## Before this is submitted
 
@@ -323,7 +422,7 @@ Section 3 does not point buyers at anything untested:
 | ask | `POST /api/v1/ask` | 200, answered from filed data |
 
 The wallet moved 155 → 167, i.e. exactly 12 credits for four lookups at 2 and one ask at 4 —
-so the published REST prices are the prices production actually charges. The key was minted
+the prices *on that date*; the ask has since been repriced to 42 (see Numbers verified below). The key was minted
 for the test and revoked immediately afterwards.
 
 `/api/v1/fund` was deliberately not exercised: the listing does not advertise it, for the
@@ -346,22 +445,22 @@ sell redistribution rights we do not hold. This is the same conclusion
 `credit-meter-truth.test.js` now asserts the listing copy never names a fund endpoint, so a
 future copy edit cannot quietly undo this.
 
-### The tier-3 gate has to stay visible
+### The two-population rule has to stay visible
 
-`backend/public-api.md` gates API/MCP to Power, Desk, or AppSumo tier 3, checked live on
-every call rather than only at key creation. Section 3 is the only headline section that is
-not available on every tier, so **"Pro tier" appears in its heading and again in its first
-line**, and the tier table carries its own row. A Starter buyer who reads a third headline
-and then hits a paywall is a refund, and refunds on this listing have already been traced to
-expectation gaps rather than product defects.
+v6 gated Section 3 to the Pro tier in its heading. v7 cannot, because it is true on every
+tier for buyers from on or before 22 September — so the **first line of Section 3, the tier
+table's footnote, feature-matrix row 3 and FAQ slot 4** each state both halves of the rule.
+A Starter buyer from 23 September who reads Section 3 and then hits a `402` is a refund, and
+refunds on this listing have already been traced to expectation gaps, not product defects.
 
-### Numbers verified this session
+### Numbers verified this session (2026-09-23)
 
 Against `backend/credits.js`: `LTD_CREDIT_ALLOWANCE_V2 = {1:50, 2:150, 3:400}` and
-`COST = {ask:2, monitor:5, dossier_standard:10, dossier_compare:5, mcp_lookup:1, mcp_ask:2,
-api_lookup:2, api_ask:4}`. The REST tier is exactly 2× MCP by design, per `public-api.md`.
-`frontend-v2/appsumo.html` already publishes 50/150/400 and the 1/4/8 Monitor ladder, so the
-site and the listing agree.
+`COST = {ask:2, monitor:8, dossier_standard:21, dossier_compare:5, mcp_lookup:2, api_lookup:2,
+mcp_ask:42, api_ask:42}`. MCP and REST are priced identically — the old "REST is 2× MCP" rule
+was retired for the ask on 22 September and for the lookup on 23 September.
+`credit-meter-truth.test.js` fails the build if the tables above drift from those values.
+`frontend-v2/appsumo.html` publishes the same numbers, so the site and the listing agree.
 
 Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
 `frontend-v2/assets/dossier.js` never sends it, so no buyer can invoke it.
@@ -381,9 +480,28 @@ Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
       REST prices verified against the wallet (12 credits for 4 lookups + 1 ask).
 - [ ] **Reply to William with the three images** when he says where to send them — the email
       asks. Keep the existing hero; only the three product shots change.
-- [ ] Set `STRIPE_PRICE_ID_CREDITS_TOPUP` on Render (`price_1UAUOtAUeKapY1OPUcSIaloi`), or
-      leave the top-up line out. The route refuses to sell without it.
+- [x] `STRIPE_PRICE_ID_CREDITS_TOPUP` set on Render via the `set-render-env` workflow, so the
+      top-up line is now in Section 4 and FAQ slot 3.
+- [ ] **Enter v7 in the portal draft** per *Portal field map — v7*, replace the founder FAQs,
+      submit, then send the waiting Gmail draft to Yena.
+- [ ] Post the product update for existing buyers.
+- [ ] Clear the three v7 blocker items above before submitting.
 - [ ] Do **not** touch listing versions in the portal.
+
+## What changed vs v6
+
+| | v6 | v7 |
+|---|---|---|
+| API + MCP | Pro tier only, "Pro tier" in the Section 3 heading | every tier bought on or before 22 Sep 2026; Pro from 23 Sep |
+| Tier table API row | — / — / included | included\* / included\* / included, footnoted |
+| MCP vs REST price | MCP lookup 1, REST lookup 2 (MCP "half the price") | both 2 — priced identically |
+| Cost table | eight rows, MCP and REST separately | six — one lookup row and one AI row, "MCP or REST" |
+| Top-up | held back | in Section 4 and FAQ slot 3 — the price ID is set |
+| FAQ | none in the listing text | the portal's 5 slots, MCP questions merged into slot 4 |
+| Portal map | lived in the v5 field doc | *Portal field map — v7*, with a nine-row feature matrix |
+
+**Nobody is narrowed by v7.** The only price that rose — the MCP lookup, 1 → 2 — had never been
+paid by a customer: the production ledger held no customer rows on either surface at the time.
 
 ## What changed vs v5
 

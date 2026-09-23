@@ -109,9 +109,9 @@ made from 23 September 2026 — whether API and MCP access is included.
 | Research Dossiers, if you spent it all there | 2 | 7 | 19 |
 | or Filing Monitor reports | 6 | 18 | 50 |
 | Companies watched by the Monitor | 1 | 4 | 8 |
-| API and MCP access | included\* | included\* | included |
+| API and MCP access | included* | included* | included |
 
-\* Included on Starter and Investor for purchases made on or before 22 September 2026.
+* Included on Starter and Investor for purchases made on or before 22 September 2026.
 From 23 September 2026 API and MCP ship on the Pro tier only. Buyers keep what they bought.
 
 What each thing costs, so there are no surprises:
@@ -132,58 +132,50 @@ MCP and the REST API cost exactly the same, action for action — they run the s
 the same filings. MCP is the agent-native path, not the cheaper one: choose it because your
 client speaks MCP, not to save credits.
 
-Top-up line — hold until the Render price ID is set. If and only if
-STRIPE_PRICE_ID_CREDITS_TOPUP is live in production, append:
-
 Run dry early? Top up 150 credits for $14.99, any time — no subscription.
 
-FAQ — the five MCP questions, answered
+FAQs — the portal's 5 slots
 
-These go in the listing's FAQ fields. Answer order is the order they get asked in.
-Every number here is the number the code actually charges — check against
-backend/credits.js COST before submitting, and do not round any of them down.
+The portal has exactly five FAQ slots and they are all in use, so the five MCP questions
+buyers ask are merged into slot 4, and the credit arithmetic into slot 3, rather than
+displacing the report-first answers. The five questions answered one by one live in the
+reply bank further down, for email.
 
-1. Will API and MCP access be permanently included with the AppSumo Lifetime Deal?
+1. What is a Research Dossier?
 
-Yes, if you purchase on or before 22 September 2026. API and MCP access is then part of your
-lifetime entitlement on whichever tier you bought, and it does not expire. Access is
-re-checked on every call rather than granted once at signup, so it also stops immediately if
-a licence is refunded. From 23 September 2026, API and MCP are included on the Pro tier.
+The full write-up on a covered US-listed company — decision brief, filed trajectory,
+segments, valuation including a reverse-DCF, bull and bear case, risks. The same twelve
+sections for every company, so two or three line up side by side. Every figure carries its
+fiscal period and a link to its SEC source.
 
-2. Will MCP be available on all AppSumo tiers, or only on specific tiers?
+2. What does the Filing Change Monitor do?
 
-Purchased on or before 22 September 2026: all three tiers — Starter, Investor and Pro.
-Purchased from 23 September 2026: Pro only. Nobody loses what they already bought.
+When a company files a new 10-K, 10-Q or 8-K, it reads the new document against the
+previous one of the same form and shows what changed — risk-factor edits, guidance
+language, the numbers that moved — quoted verbatim with an EDGAR link, ranked by
+materiality.
 
-3. Will there be any separate subscription, add-on fee, or future payment required?
+3. How do the credits work?
 
-No. No add-on, no second subscription, no future payment to keep using it. You generate your
-own key from your account page and it authenticates both the REST API and the hosted MCP
-endpoint. There is an optional credit top-up if you want more usage, but nothing you must
-buy to keep access.
+Every tier includes every feature; tiers differ by how many reports you run each month —
+50, 150 or 400 credits. A Research Dossier costs 21, a Filing Monitor report 8, a
+comparison 5, a follow-up question 2. Over the API or MCP, a data lookup costs 2 and an
+AI-written answer 42, from the same wallet. Credits reset on the 1st; top up 150 for
+$14.99 any time.
 
-4. Will MCP/API usage have any monthly limits, credit limits, or rate limits?
+4. Are API and MCP included — on which tiers, and is there any extra fee?
 
-Yes, and they are the limits you already have — there is no second quota. Both surfaces spend
-the same monthly credit allowance as the website: 50, 150 or 400 credits by tier, refreshing
-monthly. MCP and REST are priced identically, so neither surface is the cheap way in.
+Yes, and they are live now, not a beta. Bought on or before 22 September 2026: every
+tier includes them, permanently. Bought from 23 September 2026: the Pro tier. There is
+no add-on fee, second subscription or future payment — you create your own key and it
+spends the same monthly credits as the website. The limits are the credit wallet and 60
+requests a minute per key: Starter's 50 credits is 25 data lookups or one AI answer.
 
-| Action | Credits |
-|---|---|
-| Data lookup (MCP or REST) | 2 |
-| AI-written answer (MCP or REST) | 42 |
+5. Does the AI ever make up numbers, and is this investment advice?
 
-Read that last row carefully before you buy. An AI answer costs 42 credits because it is the
-same expensive call the website charges for — so a 50-credit Starter month is one AI
-answer, or 25 data lookups, or any mix. If your integration is deterministic lookups, the
-allowance goes further. If you want your agent writing AI answers all day, buy Pro or
-top up. There is also a limit of 60 requests per minute per key.
-
-5. If MCP is currently in beta, will AppSumo buyers who receive access retain it afterwards?
-
-API and MCP are live in production now — not a closed beta, not a waitlist. There is no beta
-period to graduate from and nothing to re-qualify for. Seven tools are exposed today:
-financials, filing timeline, compare, screen, fund data, ask and health.
+No, and no. It answers from a company's actual SEC filings on EDGAR and shows the figure
+and its source so you can verify it; if the filing doesn't say it, neither does the app.
+It surfaces reported numbers for you to analyse — it does not tell you what to buy.
 
 Ask, in one line
 
