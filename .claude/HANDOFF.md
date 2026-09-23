@@ -1,5 +1,53 @@
 # Handoff
 
+## Dossier redesign — "Company Brief" mockup DONE, awaiting review (2026-09-24)
+
+Plan: `~/.claude/plans/valiant-singing-parnas.md` (approved). Goal: a layman types
+a company **NAME**, clicks once, and gets every pertinent fact on **one page**.
+
+**Step 1 (mockup) is complete and NOT yet reviewed by the owner. Step 2 (the port
+into the real page) has NOT started.**
+
+- `docs/design/dossier-brief.html` — the mockup. Self-contained: tokens copied
+  verbatim from `system.css:23-57`, so it opens over `file://` with no server.
+  Four states (`#empty`/`#building`/`#simple`/`#analyst` select via hash, or the
+  bottom-left bar). `docs/design/*.png` are the captured states.
+- `docs/design/dossier-brief.artifact.html` — GENERATED, do not hand-edit. Run
+  `node scripts/build-dossier-mockup-artifact.js`. It exists only because the
+  Artifact viewer supplies the document skeleton while the source needs a real
+  doctype. **The Artifact publish was REFUSED**: this session authenticates with
+  `ANTHROPIC_AUTH_TOKEN`, and artifacts need a claude.ai login. Owner must unset
+  it and `/login` if that link is wanted; the file opens directly meanwhile.
+- `scripts/screenshot-cdp.js` — headless Chrome over CDP, no selenium.
+  `--shot "<url>|<out.png>|<w>|<h>[|full]"` (repeatable, one browser launch),
+  plus `--probe` (prints document-vs-viewport overflow + the widest offenders)
+  and `--eval <file>` (runs an expression and prints the result).
+  **Why it was needed: `chrome --screenshot --window-size=390,...` lays out at
+  macOS's ~500px window floor and crops to 390 — silently wrong mobile shots.**
+  `Emulation.setDeviceMetricsOverride` is the only way to set a real viewport.
+
+Measured, not assumed: 0px horizontal overflow at 390px (so the earlier "clipped"
+mobile shot was the window floor, not the CSS); card-row slack 468px -> 183px
+after the fix below, nothing over 77px.
+
+Two design notes that cost real work and should survive the port:
+- **Re-pairing cards cannot remove hollow space.** For a fixed set of column
+  spans the total |height difference| within rows is invariant — every pairing of
+  {534,555,457,331} into 7+5 gives the same 301px. The only fix is content: the
+  two short cards ("Where the money goes", "Is the price fair?") each gained a
+  real fact (a 5-year gross-margin chart; a P/E-vs-peer-median comparison).
+- The direction pill is a **tint**, never a saturated fill, and it reads "Margin
+  slipping" because FY2024 revenue +2.0% / net income −3.4% — the mockup does not
+  flatter the sample data.
+
+Step 2 is unchanged from the plan and its constraints still bind — read the plan
+before porting. The four easiest to break: the exact
+`>Compare ↔ <span class="beta-badge">Beta</span></a>` literal at ≥2 header render
+sites; `setBuilding` must keep a `.loading-line` element (the 5-min timeout at
+`dossier.js:1162` probes for it); the `partial` branch's 400-char slice in
+`dossier-progressive.test.js`; and only `dossier.js?v=` moves, to
+`20260923-brief1`, in exactly two places (dossier.html:287 + that test's line 76).
+
 ## AppSumo reviews on the landing page (2026-09-23)
 
 The listing has 3 reviews, all 5 tacos, 5.0 (deal id 261597). They now show in
@@ -179,9 +227,19 @@ CF-Connecting-IP cannot be forged (verified 9/23: any client-supplied value →
 overwritten with the real country). Auth/abuse limiters (login, password reset,
 support, subscribe, checkout claim) deliberately left on the shared key.
 Test: `test/visitor-allowances.test.js`.
-Open: the expensive half — a signed-out request still triggers live work
-(`/api/company/:symbol/filings` on a cache miss, keypoints/monitor builds), and
-no per-visitor cap on distinct companies. Needs the owner's number for that cap.
+FIXED 2d712451 (anonymous company allowance): a signed-out visitor gets 25
+DISTINCT companies/day (`ANON_COMPANY_DAY`, `0` = off, no redeploy) on the six
+symbol-scoped keyless data routes — company filings/insider-history/ownership
+and asset profile/holdings/fees. Distinct symbols, not calls, so a page fanning
+out for one stock costs one; re-reading a company is free; signed-in and keyed
+callers are never counted. Over it: 429 `ANON_COMPANY_LIMIT`, no-store, and no
+live SEC work happens. Verified in prod from one residential line: 25×200 then
+429 on the 26th, repeat view 200, AAPL filings 200 (8,892 bytes), /stocks/AAPL
+still renders. `/api/admin/anon-company/stats` reports the limit and how often
+it bites — the number that says whether machines are walking the free surface.
+Still open: bulk endpoints (screener, market/strip, assets/search) return many
+companies in one cached response, so their only per-visitor control is the rate
+limiter. Keypoints (5/month) and the filing monitor report keep their own.
 `WALL_ALL_PAGES=false` set + deployed. Wall week result: 3 signups / 9 days,
 0 paid. Measured pre-change: CN 0 sessions ever, SG 73, HK 43 (HK not walled).
 Test: `test/geo-wall.test.js`. Kill switch: `GEO_WALL_COUNTRIES=` + deploy.
