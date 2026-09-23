@@ -40,7 +40,9 @@ test('wall middleware is mounted ahead of the SSR cache so no walled page is eve
 
 test('wall skips non-GET/HEAD requests and passes through instantly when the flag is off', () => {
     const section = wallSection();
-    assert.match(section, /if \(!WALL_ALL_PAGES\) return next\(\);/);
+    // The geo wall (geo-wall.test.js) keeps the wall up for SG/CN visitors even
+    // with the flag off; everyone else passes straight through.
+    assert.match(section, /if \(!WALL_ALL_PAGES && !geo\) return next\(\);/);
     assert.match(section, /if \(req\.method !== 'GET' && req\.method !== 'HEAD'\) return next\(\);/);
 });
 

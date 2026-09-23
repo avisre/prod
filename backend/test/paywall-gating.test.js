@@ -136,7 +136,7 @@ test('3-day signup trial is flag-gated, defaults off, and never bypasses the App
     assert.match(src, /!user\.signupTrialAt/);
     assert.match(src, /signupTrialAt: \{ type: Date, default: null \}/);
     // The paid-first 402 still fires whenever the flag is off (default).
-    assert.match(src, /REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0/);
+    assert.match(src, /REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && signupTrialDaysFor\(req\) <= 0/);
 });
 
 test('upgrade strip helper is a pure function exported once on window.V2', () => {

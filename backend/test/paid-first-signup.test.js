@@ -138,7 +138,7 @@ test('an AppSumo redemption is exempt from paid-first checkout on both signup ro
   assert.match(appSource, /const appsumoActivationSignup = isAppSumoActivationSignup\(req\);\s*\n\s*const paymentRequired = initialPaymentRequiredForSignup\(planConfig\.planId, appsumoActivationSignup\);/);
   // The free-plan 402 stays intact; it is only bypassed by the flag-gated
   // signup trial (SIGNUP_TRIAL_DAYS, default 0 = off — see signup-trial.test.js).
-  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0\)/);
+  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && signupTrialDaysFor\(req\) <= 0\)/);
   // And returns a real session before any Stripe branch can be reached.
   assert.match(appSource, /if \(appsumoActivationSignup\) \{[\s\S]{0,400}appsumoActivation: true/);
 });

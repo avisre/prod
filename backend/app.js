@@ -2255,10 +2255,50 @@ function wallRedirect(res, target) {
 // Token verify mirrors authMiddleware (below); ensureSubscriptionShape
 // self-expires no-card trials on read, so an expired trial is caught here
 // without waiting for the sweep.
+// ---- Geo wall (GEO_WALL_COUNTRIES, default SG,CN) ----
+// Owner decision 2026-09-23: visitors from these countries get no free
+// surface at all — no open pages, free tools, anonymous Ask, keyless MCP or
+// signup trial. Only a paying account gets in, and the wall applies whether
+// or not WALL_ALL_PAGES is on. Country comes from the same offline GeoIP
+// lookup the marketing dashboard uses (req.ip is proxy-aware), so a lookup
+// miss (null) is never walled. GEO_WALL_COUNTRIES= (empty) switches it off.
+const GEO_WALL_COUNTRIES = new Set(String(process.env.GEO_WALL_COUNTRIES ?? 'SG,CN')
+    .split(',').map((c) => c.trim().toUpperCase()).filter(Boolean));
+const GEO_WALL_MESSAGE = 'Free access is not available in your region. Subscribe to use StockPortfolio.pro.';
+function geoWalled(req) {
+    if (!GEO_WALL_COUNTRIES.size) return false;
+    const country = marketingAttribution.resolveCountry(req && req.ip);
+    return Boolean(country && GEO_WALL_COUNTRIES.has(country));
+}
+// Paid = a paid plan (Stripe, China pass, AppSumo/lifetime grant). A no-card
+// signup trial or a complimentary 'trialing' comp is not enough inside the
+// geo wall, and neither is an 'active' free-plan account.
+function subscriptionIsPaid(sub) {
+    return Boolean(sub && sub.planId !== FREE_PLAN_ID
+        && ['active', 'cancel_at_period_end'].includes(sub.status));
+}
+async function requestUserIsPaid(req) {
+    const token = authTokenFromRequest(req);
+    if (!token) return false;
+    try {
+        const decoded = jwt.verify(token, JWT_SECRET);
+        const user = decoded && decoded.userId ? await User.findById(decoded.userId) : null;
+        if (!user || Number(decoded.v || 0) !== Number(user.authVersion || 0)) return false;
+        return subscriptionIsPaid(ensureSubscriptionShape(user));
+    } catch (_) { return false; }
+}
+function geoWallApiResponse(res) {
+    return res.status(402).json({ error: GEO_WALL_MESSAGE, message: GEO_WALL_MESSAGE, code: 'REGION_PAID_ONLY', upgradeUrl: '/upgrade.html' });
+}
+function signupTrialDaysFor(req) {
+    return geoWalled(req) ? 0 : SIGNUP_TRIAL_DAYS;
+}
+
 async function wallAllPagesMiddleware(req, res, next) {
-    if (!WALL_ALL_PAGES) return next();
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (wallPathIsExempt(req.path || '/')) return next();
+    const geo = geoWalled(req);
+    if (!WALL_ALL_PAGES && !geo) return next();
 
     const token = authTokenFromRequest(req);
     if (!token) return wallRedirect(res, '/register.html');
@@ -2271,6 +2311,7 @@ async function wallAllPagesMiddleware(req, res, next) {
         const normalized = ensureSubscriptionShape(user);
         if (user.isModified('subscription')) await user.save().catch(() => {});
         if (!subscriptionIsActive(normalized)) return wallRedirect(res, '/upgrade.html');
+        if (geo && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
         next();
     } catch (_) {
         return wallRedirect(res, '/register.html');
@@ -2535,6 +2576,7 @@ embedWidgets.mountEmbedRoutes(app, { limiter: embedLimiter });
 
 app.get('/api/free-tools/:tool', freeToolLimiter, async (req, res) => {
     const tool = String(req.params.tool || '').trim().toLowerCase();
+    if (geoWalled(req) && !(await requestUserIsPaid(req))) return geoWallApiResponse(res);
     try {
         const result = await freeTools.getToolResult(tool, req.query.symbol);
         res.set('Cache-Control', 'public, max-age=300').status(result.status).json(result.body);
@@ -5800,6 +5842,8 @@ async function apiKeyAuthOptional(req, res, next) {
     const header = String(req.get('authorization') || '');
     const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
     if (offered) return apiKeyAuth(req, res, next);
+    // Keyless is a free tier, so the geo wall refuses it; a paid key still works.
+    if (geoWalled(req)) return geoWallApiResponse(res);
     if (!mcpAnon.enabled()) {
         // RFC 9728 challenge: this header is how ChatGPT and claude.ai learn
         // that OAuth is available and where its metadata lives. Without it a
@@ -5906,7 +5950,7 @@ app.post('/api/subscribe', async (req, res) => {
     const selectedPlan = normalizePlanSelection(req.body?.plan);
     const planConfig = getPlanConfig(selectedPlan);
     const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0) {
+    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && signupTrialDaysFor(req) <= 0) {
         return sendApiError(
             res,
             createHttpError(402, 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.', 'PAID_PLAN_REQUIRED')
@@ -6072,7 +6116,7 @@ app.post('/api/subscribe', async (req, res) => {
         // Signup trial: a brand-new account choosing the free plan card gets a
         // short no-card Core trial instead of a bare free account, when enabled.
         let grantedSignupTrial = false;
-        if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && SIGNUP_TRIAL_DAYS > 0 && !user.signupTrialAt) {
+        if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && signupTrialDaysFor(req) > 0 && !user.signupTrialAt) {
             startSignupTrial(user);
             grantedSignupTrial = true;
         }
@@ -6417,7 +6461,7 @@ app.get('/stripe/config', (req, res) => {
         publishableKey: STRIPE_PUBLISHABLE_KEY,
         successUrl: buildStripeReturnUrl(req, { session: 'success', flow: 'register' }),
         cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' }),
-        signupTrialDays: SIGNUP_TRIAL_DAYS,
+        signupTrialDays: signupTrialDaysFor(req),
         // The September launch rate, present only while the offer window is
         // open. Pages render their price from this rather than hardcoding
         // $8.99, so the copy reverts to the list price on its own the moment
@@ -6470,7 +6514,7 @@ app.post('/api/auth/social', async (req, res) => {
         // non-Stripe bypass /api/subscribe uses.
         const appsumoActivationSignup = isAppSumoActivationSignup(req);
         const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && SIGNUP_TRIAL_DAYS <= 0) {
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && signupTrialDaysFor(req) <= 0) {
             return res.status(402).json({
                 message: 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.',
                 code: 'PAID_PLAN_REQUIRED'
@@ -6583,7 +6627,7 @@ app.post('/api/auth/social', async (req, res) => {
                 user.subscription.stripePriceId = planConfig.stripePriceId || null;
                 user.subscription.status = 'pending';
                 user.subscription.trialEndsAt = null;
-            } else if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && SIGNUP_TRIAL_DAYS > 0 && !user.signupTrialAt) {
+            } else if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && signupTrialDaysFor(req) > 0 && !user.signupTrialAt) {
                 startSignupTrial(user);
             }
             attachSignupAttribution(user, { ...requestFields, consent: req.body && req.body.analyticsConsent === true });
@@ -8593,6 +8637,7 @@ async function anonAskHandler(req, res) {
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question) return res.status(400).json({ message: 'Ask a question.' });
+    if (geoWalled(req)) return geoWallApiResponse(res);
     if (ANON_ASK_LIMIT <= 0) {
         return res.status(401).json({ message: 'Ask needs an account', code: 'ASK_AUTH' });
     }
