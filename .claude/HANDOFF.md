@@ -169,9 +169,19 @@ req.ip DE; XFF = [client, proxy]; CF-IPCountry correct). Fixed 8738e542:
 `marketingAttribution.requestCountry()` uses CF-IPCountry in production (also
 feeds dashboard country, so pre-9/23 country data = proxy locations, junk).
 Verified 2x from check-host hk1/sg1 → 402, us1/us2/India → 200.
-NOT fixed: per-IP limits (anon Ask, keyless MCP 50 lookups/IP, rate limiters)
-key on req.ip = proxy hop, so strangers share allowances. Fix =
-TRUST_PROXY_HOPS=2 (owner not yet asked).
+FIXED 5f37d270: per-IP limits (anon Ask, keyless MCP, the free-surface rate
+limiters, free-stock + compare-verdict allowances) now resolve the visitor via
+`visitorIp()` — the same CF-Connecting-IP resolution the walls use — never
+req.ip. NOT via `TRUST_PROXY_HOPS=2`: a fixed hop count breaks silently if the
+chain changes length, and past that point reads a value the caller controls.
+CF-Connecting-IP cannot be forged (verified 9/23: any client-supplied value →
+403 "error code: 1000" before reaching the app, and `CF-IPCountry: CN` was
+overwritten with the real country). Auth/abuse limiters (login, password reset,
+support, subscribe, checkout claim) deliberately left on the shared key.
+Test: `test/visitor-allowances.test.js`.
+Open: the expensive half — a signed-out request still triggers live work
+(`/api/company/:symbol/filings` on a cache miss, keypoints/monitor builds), and
+no per-visitor cap on distinct companies. Needs the owner's number for that cap.
 `WALL_ALL_PAGES=false` set + deployed. Wall week result: 3 signups / 9 days,
 0 paid. Measured pre-change: CN 0 sessions ever, SG 73, HK 43 (HK not walled).
 Test: `test/geo-wall.test.js`. Kill switch: `GEO_WALL_COUNTRIES=` + deploy.
