@@ -594,6 +594,78 @@ async function sendMail({ to, subject, html, text, replyTo, headers } = {}) {
   }
 }
 
+// ── Owner Gmail path ────────────────────────────────────────────────────────
+// Business correspondence the owner sends as himself (AppSumo partner support,
+// supplier outreach) has always gone from his personal Gmail. Before this
+// existed the only sender in the module was the support mailbox, and
+// getTransporter() refuses any identity other than support@ — so pointing SMTP
+// at Gmail did not "send as Gmail", it silently no-opped EVERY send in the
+// module, customer lifecycle mail included. Keep the two identities strictly
+// separate: customer mail is pinned to support@stockportfolio.pro, and only
+// mail that passes through sendOwnerMail() may carry the Gmail From.
+//
+// Needs an app password (myaccount.google.com/apppasswords), not the account
+// password: GMAIL_USER=avinashsreekumar007@gmail.com, GMAIL_APP_PASSWORD=xxxx.
+function ownerMailConfig() {
+  const user = (process.env.OWNER_GMAIL_USER || '').trim();
+  const pass = process.env.OWNER_GMAIL_APP_PASSWORD || '';
+  return { user, pass, host: 'smtp.gmail.com', port: 465, secure: true };
+}
+
+function isOwnerMailerConfigured() {
+  const c = ownerMailConfig();
+  return Boolean(c.user && c.pass && c.user.includes('@') && !c.user.trim().toLowerCase().endsWith('@stockportfolio.pro'));
+}
+
+let cachedOwnerTransporter = null;
+function getOwnerTransporter() {
+  if (!isOwnerMailerConfigured()) return null;
+  if (!cachedOwnerTransporter) {
+    const c = ownerMailConfig();
+    cachedOwnerTransporter = nodemailer.createTransport({
+      host: c.host,
+      port: c.port,
+      secure: c.secure,
+      auth: { user: c.user, pass: c.pass },
+    });
+  }
+  return cachedOwnerTransporter;
+}
+
+// Sends AS the owner. Deliberately does NOT fall back to the support mailbox:
+// a silent fallback would put support@stockportfolio.pro on a thread the owner
+// believes he is writing personally, and the caller could not tell. Returns a
+// receipt, or false with the reason logged.
+async function sendOwnerMail({ to, cc, bcc, subject, html, text, replyTo, headers } = {}) {
+  const transporter = getOwnerTransporter();
+  if (!transporter) {
+    console.warn('[mailer] owner Gmail not configured (OWNER_GMAIL_USER / OWNER_GMAIL_APP_PASSWORD) — skipping send to ' + (to || '(no to)'));
+    return false;
+  }
+  if (!to) return false;
+  const c = ownerMailConfig();
+  const from = `Avinash <${c.user}>`;
+  const messageId = newMessageId();
+  try {
+    const info = await transporter.sendMail({
+      from,
+      to,
+      ...(cc ? { cc } : {}),
+      ...(bcc ? { bcc } : {}),
+      subject,
+      html,
+      text,
+      replyTo: replyTo || c.user,
+      messageId,
+      ...(headers ? { headers } : {}),
+    });
+    return receiptFrom(info);
+  } catch (e) {
+    console.error('[mailer] owner send failed:', e && e.message);
+    return false;
+  }
+}
+
 // Trial lifecycle emails (no-card trial drip).
 function trialEndingEmail(name, appUrl, daysLeft, upgradeUrl, unsubUrl) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
@@ -743,4 +815,4 @@ async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth
   return out;
 }
 
-module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };
+module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };

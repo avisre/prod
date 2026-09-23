@@ -61,6 +61,61 @@ test('mailer accepts only the support mailbox as its SMTP identity', () => {
   }
 });
 
+test('owner Gmail is a separate sender identity from the customer support mailbox', () => {
+  const previous = {
+    OWNER_GMAIL_USER: process.env.OWNER_GMAIL_USER,
+    OWNER_GMAIL_APP_PASSWORD: process.env.OWNER_GMAIL_APP_PASSWORD,
+    SMTP_HOST: process.env.SMTP_HOST,
+    SMTP_USER: process.env.SMTP_USER,
+    SMTP_PASS: process.env.SMTP_PASS,
+  };
+  process.env.SMTP_HOST = 'mail.privateemail.com';
+  process.env.SMTP_USER = 'support@stockportfolio.pro';
+  process.env.SMTP_PASS = 'test-only';
+  process.env.OWNER_GMAIL_USER = 'avinashsreekumar007@gmail.com';
+  process.env.OWNER_GMAIL_APP_PASSWORD = 'test-only';
+  try {
+    // Both paths are live at once, and neither absorbs the other's identity.
+    assert.equal(mailer.isMailerConfigured(), true);
+    assert.equal(mailer.isOwnerMailerConfigured(), true);
+    assert.equal(mailer.config().from, 'StockPortfolio.pro Support <support@stockportfolio.pro>');
+    assert.equal(mailer.ownerMailConfig().user, 'avinashsreekumar007@gmail.com');
+    assert.equal(mailer.ownerMailConfig().host, 'smtp.gmail.com');
+    // Pointing the CUSTOMER transport at Gmail must still be refused: that is
+    // the regression where a Gmail SMTP_USER silently no-opped all product mail.
+    process.env.SMTP_USER = 'avinashsreekumar007@gmail.com';
+    assert.equal(mailer.isMailerConfigured(), false);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value == null) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
+test('owner Gmail path never falls back to the support mailbox, and never sends without an app password', async () => {
+  const previous = {
+    OWNER_GMAIL_USER: process.env.OWNER_GMAIL_USER,
+    OWNER_GMAIL_APP_PASSWORD: process.env.OWNER_GMAIL_APP_PASSWORD,
+  };
+  delete process.env.OWNER_GMAIL_USER;
+  delete process.env.OWNER_GMAIL_APP_PASSWORD;
+  try {
+    assert.equal(mailer.isOwnerMailerConfigured(), false);
+    assert.equal(await mailer.sendOwnerMail({ to: 'partners@appsumo.com', subject: 'x', text: 'y' }), false);
+    // A support address is not a valid owner identity — it must not be able to
+    // hijack the owner path and produce mail From: support that claims to be him.
+    process.env.OWNER_GMAIL_USER = 'support@stockportfolio.pro';
+    process.env.OWNER_GMAIL_APP_PASSWORD = 'test-only';
+    assert.equal(mailer.isOwnerMailerConfigured(), false);
+  } finally {
+    for (const [key, value] of Object.entries(previous)) {
+      if (value == null) delete process.env[key];
+      else process.env[key] = value;
+    }
+  }
+});
+
 test('MongoDB customer events are unique and cover signup, Stripe, and AppSumo', () => {
   const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
   assert.match(source, /collection: 'customer_lifecycle_events'/);

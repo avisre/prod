@@ -449,6 +449,14 @@ app.use(helmet({
     }
   },
   crossOriginOpenerPolicy: { policy: 'same-origin-allow-popups' },
+  // helmet's default CORP is 'same-origin', which the browser applies to
+  // `no-cors` subresource loads. Clarity's replay player runs on
+  // clarity.microsoft.com and re-fetches the recorded page's stylesheets from
+  // here, so that default silently blocked every one of them and recordings
+  // played back with no CSS at all. The stylesheets and bundles are public,
+  // unauthenticated files, and CORP is not what protects the API (CORS and the
+  // per-route auth gates are), so relaxing it costs nothing real.
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
   // helmet's no-referrer default breaks YouTube embeds (error 153);
   // strict-origin-when-cross-origin is the modern browser default.
   referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
@@ -11206,6 +11214,15 @@ async function appsumoHandleEvent(body) {
                 appsumoTier: tier,
                 appsumoStatus: 'inactive'
             });
+            // AppSumo sends no buyer PII on purchase, so this is also the only
+            // moment we learn a sale happened at all. Notify the owner.
+            const ownerEmail = mailer.config().owner || 'avinashsreekumar007@gmail.com';
+            mailer.sendMail({
+                to: ownerEmail,
+                subject: `New AppSumo sale — tier ${tier} (code not yet redeemed)`,
+                text: `An AppSumo code was just purchased (tier ${tier}).\n\nLicense key: ${licenseKey}\nStatus: inactive — the buyer has not redeemed it yet, and AppSumo sends us no email address until they do.\n\nYou'll get account details when they activate from AppSumo.`,
+                html: `<p>An AppSumo code was just purchased (tier ${tier}).</p><p>License key: <code>${licenseKey}</code><br>Status: <strong>inactive</strong> — the buyer has not redeemed it yet, and AppSumo sends us no email address until they do.</p><p>You'll get account details when they activate from AppSumo.</p>`
+            }).catch((error) => console.error('[appsumo] sale notification email error:', error && error.message));
         }
     } else if (event === 'upgrade' || event === 'downgrade') {
         // prev_license_key can be omitted (e.g. a tier change on the SAME
