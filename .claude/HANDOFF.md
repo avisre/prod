@@ -77,6 +77,45 @@ exemption). Suite **779/780** — the one failure is the pre-existing
 `social-compose` selenium `MODULE_NOT_FOUND`. No frontend asset touched ⇒ no
 `?v=` cache-stamp bump.
 
+**Deployed and verified in production the same day, commit `96f9f1ef`.** The
+probe is `/api/free-tools/earnings-quality?symbol=AAPL`, chosen because `/api`
+is exempt from `bot-blocker` — a page URL is useless here, since check-host's
+UA is 403'd by the bot blocker *before* the wall runs (all 7 nodes returned 403
+on `/`, which proves nothing). Status from 7 check-host nodes, each IP
+classified locally first so the expectation is derived, not assumed:
+
+| node | IP / network | table says | prod |
+|---|---|---|---|
+| us1 | 38.145.202.12 (hosting) | hosting, US | **402** |
+| us3 | 147.45.60.14 (not hosting) | clean, US | **200** |
+| de1 | 142.132.174.167 Hetzner | hosting, DE | **402** |
+| fr2 | 195.154.114.92 Scaleway | hosting, FR | **402** |
+| sg1 | 217.15.166.168 (hosting) | hosting, **SG** | **402** |
+| hk1 | 141.98.234.68 (not hosting) | clean, **HK** | **402** |
+| in1 | 185.2.49.57 (not hosting) | clean, IN | **200** |
+
+7/7 as predicted. **The us1/us3 pair is the decisive control** — two US nodes,
+one request, only ownership differs, and only the hosting one is refused. in1
+200 and this machine's residential IP (200 on `/`, `/stocks/AAPL`, `/docs`,
+`/api/free-tools`) prove the deploy did not wall the world.
+
+**Body read live, not inferred:** fetched through an AWS-hosted reader
+(`r.jina.ai`), the 402 carries `"code":"NETWORK_PAID_ONLY"` and the VPN/data-
+center message — so the hosting wall fires end to end. The REGION code was NOT
+read from a production body (no SG/HK egress available to fetch one); it is
+test-pinned, and hk1 is `hosting=false` in the table yet 402s, so for hk1 the
+region branch is the only one that could have run.
+
+**The crawler exemption is verified at the contract it depends on, not end to
+end:** `classifyUa` → Googlebot/Bingbot `allowed-claim` (exempt), a real Chrome
+UA `unknown` (checked normally — no cloaking hole), empty UA `denied` (also
+checked, so the `/api` exemption from bot-blocker does not become a bypass).
+End-to-end Googlebot cannot be simulated from here — a forged claim is refused
+by bot-blocker's reverse-DNS check, which is the point.
+
+Also confirmed: the push itself triggers a Render deploy and it succeeded in
+1m50s, so Render's GitHub connection is working again for on-push deploys.
+
 ## Geo wall LIVE + hard paywall OFF (2026-09-23, commit 2a75ad19)
 
 `GEO_WALL_COUNTRIES` (default `SG,CN`): SG/CN IPs get no free surface. Pages →
