@@ -358,6 +358,15 @@ function buildDailySeries(symbol, chart, outputSize) {
     const series = {};
     for (const q of quotes) {
         if (!q || !q.date) continue;
+        // And a row whose close is null is a placeholder, not a session: Yahoo
+        // sometimes emits one for a day whose OHLC was never populated (measured
+        // 2026-09-24: every symbol carried one for 2026-09-22, all fields '').
+        // n() renders null as '', so without this drop the row sits in the
+        // series as an all-empty entry — and the market tape reads the two
+        // newest dates directly, so one placeholder near the top silently
+        // blanked the tape for every visitor. A row with no close carries
+        // nothing any consumer can use.
+        if (q.close === null || q.close === undefined) continue;
         const day = isoDay(q.date);
         if (!day) continue;
         series[day] = {
@@ -387,6 +396,8 @@ function buildMonthlySeries(symbol, chart) {
     const series = {};
     for (const q of quotes) {
         if (!q || !q.date) continue;
+        // Same placeholder drop as the daily series — see buildDailySeries.
+        if (q.close === null || q.close === undefined) continue;
         const day = isoDay(q.date);
         if (!day) continue;
         series[day] = {
@@ -943,6 +954,9 @@ async function fetchNewsSearch(query, count = 10) {
 
 module.exports = {
     fetchFromYahoo,
+    // Exported for tests: pure shapers over a fetched chart blob.
+    buildDailySeries,
+    buildMonthlySeries,
     fetchNewsSearch,
     fetchQuote,
     fetchOverview,

@@ -1,21 +1,33 @@
 # Handoff
 
-## Dossier redesign — "Company Brief" mockup DONE, awaiting review (2026-09-24)
+## Dossier redesign — "The Plain Filing" mockup DONE, awaiting review (2026-09-24)
 
 Plan: `~/.claude/plans/valiant-singing-parnas.md` (approved). Goal: a layman types
 a company **NAME**, clicks once, and gets every pertinent fact on **one page**.
 
-**Step 1 (mockup) is complete and NOT yet reviewed by the owner. Step 2 (the port
-into the real page) has NOT started.**
+**Step 1 (mockup) is complete and NOT yet reviewed. Step 2 (the port into the real
+page) has NOT started.** The owner rejected the first mockup ("Company Brief",
+`docs/design/dossier-brief.html`, kept on disk as the record) as *highly
+derivative*, and chose a **full new identity** + **dropping the sankey**.
 
-- `docs/design/dossier-brief.html` — the mockup. Self-contained: tokens copied
-  verbatim from `system.css:23-57`, so it opens over `file://` with no server.
-  Four states (`#empty`/`#building`/`#simple`/`#analyst` select via hash, or the
-  bottom-left bar). `docs/design/*.png` are the captured states.
-- `docs/design/dossier-brief.artifact.html` — GENERATED, do not hand-edit. Run
-  `node scripts/build-dossier-mockup-artifact.js`. It exists only because the
-  Artifact viewer supplies the document skeleton while the source needs a real
-  doctype. **The Artifact publish was REFUSED**: this session authenticates with
+- `docs/design/dossier-plain-filing.html` — the current mockup. A **document, not
+  a dashboard**: no card grid, no rounded cards, no shadow, no decorative colour.
+  One sheet on the ground (`#e9ebee` under `#fbfbfc`), a ruled masthead, a ruled
+  figures band, and nine numbered sections with a left rail. Type is Newsreader
+  (display + prose) / IBM Plex Mono (figures, meta) / IBM Plex Sans (UI + chart
+  labels) — deliberately not Inter or a system-sans stack. Self-contained, opens
+  over `file://`. States via hash (`#empty`/`#building`/`#simple`/`#analyst`) or
+  the bottom-left bar; `docs/design/pf-*.png` are the captures.
+- **Analyst mode is the SAME nine sections with the evidence opened inside them**
+  (statement ledger in 02, six-year ledger in 04, health checks in 09, a section
+  10 for deep research). It is *not* a second document — the numbering never
+  shifts between modes. The first pass got this wrong and analyst came out
+  *shorter* than simple; that is the regression to watch.
+- `docs/design/dossier-plain-filing.artifact.html` — GENERATED, do not hand-edit.
+  `node scripts/build-dossier-mockup-artifact.js`. The builder now hoists the
+  `<link>` tags out of `<head>` (the viewer supplies the skeleton, so anything in
+  head is dropped otherwise — and the fonts *are* this design).
+  **The Artifact publish was REFUSED**: this session authenticates with
   `ANTHROPIC_AUTH_TOKEN`, and artifacts need a claude.ai login. Owner must unset
   it and `/login` if that link is wanted; the file opens directly meanwhile.
 - `scripts/screenshot-cdp.js` — headless Chrome over CDP, no selenium.
@@ -26,22 +38,27 @@ into the real page) has NOT started.**
   macOS's ~500px window floor and crops to 390 — silently wrong mobile shots.**
   `Emulation.setDeviceMetricsOverride` is the only way to set a real viewport.
 
-Measured, not assumed: 0px horizontal overflow at 390px (so the earlier "clipped"
-mobile shot was the window floor, not the CSS); card-row slack 468px -> 183px
-after the fix below, nothing over 77px.
+**Measured, not assumed: 0px horizontal overflow at 1440 AND at 390** (probe on
+all four states).
 
-Two design notes that cost real work and should survive the port:
-- **Re-pairing cards cannot remove hollow space.** For a fixed set of column
-  spans the total |height difference| within rows is invariant — every pairing of
-  {534,555,457,331} into 7+5 gives the same 301px. The only fix is content: the
-  two short cards ("Where the money goes", "Is the price fair?") each gained a
-  real fact (a 5-year gross-margin chart; a P/E-vs-peer-median comparison).
-- The direction pill is a **tint**, never a saturated fill, and it reads "Margin
-  slipping" because FY2024 revenue +2.0% / net income −3.4% — the mockup does not
-  flatter the sample data.
+Three things in this design cost real work and should survive the port:
 
-Step 2 is unchanged from the plan and its constraints still bind — read the plan
-before porting. The four easiest to break: the exact
+- **Chart text cannot live inside a stretched SVG.** The plots use
+  `preserveAspectRatio="none"` so the shape fills any width — which also stretched
+  the glyphs (a 640-wide viewBox squeezed into 390px made the tick labels visibly
+  wrong). The shape is SVG; every label is **HTML positioned over it**.
+- **Severity is fill count + the word, never two status colours.** The validator
+  FAILs the status warning/serious pair as *adjacent* marks on this surface
+  (normal-vision ΔE 13.6, below the 15 floor). So the meter is 3/2/1 discrete
+  cells of fixed width (a `flex: 1` meter just reads as a progress bar) plus the
+  word, and only the single most-severe row takes the red. The de-emphasis gray
+  is `#7d858f` — `#9aa1ab` measured 2.52:1 on the sheet and was rejected.
+- The verdict does not flatter the sample data: FY2024 revenue +2.0% / net income
+  −3.4%, so the flag reads "Margin slipping".
+
+Step 2's constraints from the plan still bind, but the *visual* half of the plan
+is superseded — the CSS/HTML specifics must be re-derived from the new design.
+The four easiest to break: the exact
 `>Compare ↔ <span class="beta-badge">Beta</span></a>` literal at ≥2 header render
 sites; `setBuilding` must keep a `.loading-line` element (the 5-min timeout at
 `dossier.js:1162` probes for it); the `partial` branch's 400-char slice in
@@ -272,13 +289,28 @@ touching it (2026-09-24):
 Verified: boots clean on local mongo (`BOOT OK`, no TDZ) and a real HTTP request
 through the live handler with `ANON_STRIP_SYMBOL_DAY=2` and 3 symbols returns
 `{"quotes":{…},"limited":true,"limit":2}` + `Cache-Control: no-store`, repeat
-requests free. The positive case (allowed symbols present) could NOT be shown
-locally — Yahoo 429s this machine, so the shared payload was empty; production
-confirms it end to end. Tests: `test/anon-bulk-allowance.test.js` (new, 6);
-`anon-company-limit` + `visitor-allowances` pins moved (the key derivation is now
-one helper, `anonCompanyKey`, so both allowance kinds key the same visitor).
-Suite **803 / 802 pass** — the one failure is the pre-existing `social-compose`
-selenium gap. No frontend asset touched ⇒ no `?v=` cache-stamp bump.
+requests free. The positive case could NOT be shown locally — Yahoo 429s this
+machine, so the shared payload was empty. Tests: `test/anon-bulk-allowance.test.js`
+(new, 6); `anon-company-limit` + `visitor-allowances` pins moved (the key derivation
+is now one helper, `anonCompanyKey`, so both allowance kinds key the same visitor).
+No frontend asset touched ⇒ no `?v=` cache-stamp bump.
+
+**The production verification found a PRE-EXISTING OUTAGE, now fixed (2026-09-24).**
+Post-deploy, `/api/market/strip` returned `{"quotes":{}}` for EVERY symbol — not
+my clip, not caching, not Yahoo flakiness (interleaved cold tests: strip empty,
+demo daily route full one second later). Root cause: Yahoo emits a placeholder
+quote row for a session with no OHLC (`close: null` → every price field shaped
+`''` by `n()`), and on 2026-09-24 EVERY symbol's series carried one for
+2026-09-22. The tape reads the two newest dates directly, `parseFloat('')` → NaN
+→ the `Number.isFinite` guard bailed → tape blank for every visitor, silently,
+since at least the 9-23 commit and probably much earlier. The pass-through demo
+route still "worked" — the empty row only breaks consumers that PARSE the series,
+which is why nothing else noticed. Fix, both layers: `buildDailySeries`/
+`buildMonthlySeries` in `yahoo-source.js` drop rows with no close (exported for
+tests), and the strip filters `dates` to finite closes because its nightly-store
+fallback can still hold blobs shaped before the fix. Tests:
+`test/yahoo-series-placeholder.test.js` (new, 5, including a tape-shaped
+`latest/prior` check against the measured TLT blob).
 `WALL_ALL_PAGES=false` set + deployed. Wall week result: 3 signups / 9 days,
 0 paid. Measured pre-change: CN 0 sessions ever, SG 73, HK 43 (HK not walled).
 Test: `test/geo-wall.test.js`. Kill switch: `GEO_WALL_COUNTRIES=` + deploy.

@@ -8207,7 +8207,13 @@ app.get('/api/market/strip', optionalAuth, async (req, res) => {
                 const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: 'compact' }, ALPHA_CACHE_TTL_MS.daily);
                 const series = data && data['Time Series (Daily)'];
                 if (!series) return;
-                const dates = Object.keys(series).sort((a, b) => (a < b ? 1 : -1));
+                // Rows without a close are placeholders (see buildDailySeries).
+                // The live shaper drops them now, but the nightly store this
+                // falls back to may still hold some, and one sitting in the two
+                // newest dates blanks the whole tape for every visitor.
+                const dates = Object.keys(series)
+                    .filter((d) => Number.isFinite(parseFloat((series[d] || {})['4. close'])))
+                    .sort((a, b) => (a < b ? 1 : -1));
                 if (dates.length < 2) return;
                 const latest = parseFloat(series[dates[0]]['4. close']);
                 const prior = parseFloat(series[dates[1]]['4. close']);
