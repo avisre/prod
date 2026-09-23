@@ -1145,7 +1145,7 @@ function renderApiLanding() {
   <div class="seo-next-action">
     <p class="seo-next-action-kicker">Dev plan</p>
     <h2>$19.99/month — 200 credits, all seven tools</h2>
-    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs 1&ndash;2 credits, an AI answer 42. Credits reset monthly. Cancel any time.</p>
+    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs 2 credits, an AI answer 42, the same on both surfaces. Credits reset monthly. Cancel any time.</p>
     <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
     <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html">Profile page</a>.</p>
   </div>
@@ -1231,10 +1231,10 @@ function renderLicensing() {
     </ul>`)}
   <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
     <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
-    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, or the top AppSumo/DealMirror lifetime tier. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
+    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, the top AppSumo/DealMirror lifetime tier, or any AppSumo/DealMirror tier purchased on or before 22 September 2026. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
     <ul>
-      <li><strong>MCP</strong> — 1 credit per lookup, 4 credits per AI-backed ask. The cheaper, agent-native on-ramp.</li>
-      <li><strong>REST API</strong> — 2 credits per lookup, 8 credits per ask (exactly 2x MCP).</li>
+      <li><strong>MCP</strong> — 2 credits per lookup, 42 credits per AI-backed ask. The agent-native path: your client calls the tools directly, no HTTP code to write.</li>
+      <li><strong>REST API</strong> — 2 credits per lookup, 42 credits per ask. Identical pricing to MCP: same call, same filings, same price.</li>
       <li>Both spend from the same monthly AI-credit wallet your plan already includes — no separate quota to track.</li>
       <li>Fund data (<code>sp_fund</code> / <code>/api/v1/fund/:symbol</code>) is Yahoo-derived, not SEC-filed, and is for your own research — not for redistribution.</li>
     </ul>

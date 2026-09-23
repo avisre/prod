@@ -66,5 +66,54 @@ test('hosted MCP endpoint: tools/list and tools/call over real Streamable HTTP',
     assert.equal(payload.symbol, 'AAPL');
     assert.equal(payload.source.type, 'filed');
     const after = await credits.balance('u1', effectiveAskLimit());
-    assert.equal(after.used, before.used + 1, 'a real tools/call over the wire spends exactly mcp_lookup (1) — half the api_lookup rate');
+    assert.equal(after.used, before.used + credits.COST.mcp_lookup, 'a real tools/call over the wire spends exactly mcp_lookup — the same rate as api_lookup');
+
+    // Drain the rest of the wallet, then check the exhaustion payload carries
+    // the same actionable fields the REST 402 does (api-response.quotaError):
+    // an MCP client is the caller least able to go and find /recharge itself.
+    const wallet = await credits.balance('u1', effectiveAskLimit());
+    // Derived from the price, never assumed to be 1 per call: at mcp_lookup 2
+    // a remaining-count loop would overshoot and drain the wallet early.
+    const callsToDrain = Math.floor(wallet.remaining / credits.COST.mcp_lookup);
+    for (let i = 0; i < callsToDrain; i++) {
+        await client.callTool({ name: 'sp_financials', arguments: { ticker: 'AAPL' } });
+    }
+    const drained = await client.callTool({ name: 'sp_financials', arguments: { ticker: 'AAPL' } });
+    assert.equal(drained.isError, true);
+    const quota = JSON.parse(drained.content[0].text);
+    assert.equal(quota.code, 'QUOTA_EXCEEDED');
+    assert.equal(quota.remaining, 0);
+    assert.equal(quota.needed, credits.COST.mcp_lookup, 'the refused call states its own price');
+    assert.ok(quota.resetsAt, 'the client is told when the allowance returns');
+    assert.ok(/\/recharge\.html/.test(quota.recharge.url), 'the client is handed the recharge link');
+    assert.equal(quota.recharge.price, '$14.99');
+});
+
+// The keyless tier has no wallet, so mcp-anon.js's own upsell (Dev plan, not
+// "recharge") must survive the quotaError change — a caller who never had
+// credits cannot top them up.
+test('a limiter-supplied message still wins over the recharge body', { timeout: 30000 }, async (t) => {
+    const app = express();
+    app.post('/mcp', express.json(), async (req, res) => {
+        const ctx = { userId: 'anon', user: null, tier: 'free', subscription: null, anonymous: true };
+        const fakeCredits = {
+            COST: credits.COST,
+            check: async () => ({ ok: false, used: 5, allowance: 5, remaining: 0, cost: 1, resetsAt: null, message: 'That was all 5 free data lookups. Keep going on the Dev plan — $19.99/month: https://www.stockportfolio.pro/signup.html' }),
+            spend: async () => {},
+        };
+        await mcpEndpoint.handleMcpRequest(req, res, ctx, { credits: fakeCredits, effectiveAskLimit: () => 0, aiChat: { ask: async () => ({ answer: 'stub' }) } });
+    });
+    const server = http.createServer(app);
+    await new Promise((resolve) => server.listen(0, resolve));
+    t.after(() => new Promise((resolve) => server.close(resolve)));
+
+    const client = new Client({ name: 'test-client', version: '1.0.0' });
+    await client.connect(new StreamableHTTPClientTransport(new URL(`http://127.0.0.1:${server.address().port}/mcp`)));
+    t.after(() => client.close());
+
+    const res = await client.callTool({ name: 'sp_financials', arguments: { ticker: 'AAPL' } });
+    const payload = JSON.parse(res.content[0].text);
+    assert.equal(payload.code, 'QUOTA_EXCEEDED');
+    assert.match(payload.error, /Dev plan/, 'the keyless caller keeps the signup upsell');
+    assert.equal(payload.recharge, undefined, 'and is never told to recharge a wallet it never had');
 });

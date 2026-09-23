@@ -15,7 +15,7 @@
 const express = require('express');
 const freeTools = require('./free-tools');
 const assetProfile = require('./asset-profile');
-const { envelope } = require('./api-response');
+const { envelope, quotaError } = require('./api-response');
 
 function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate, apiKeyRateLimit, jsonParser }) {
     const router = express.Router();
@@ -37,10 +37,10 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         const planId = req.subscription && req.subscription.planId;
         const check = await credits.check(req.userId, cost, effectiveAskLimit(req), planId, req.user);
         if (!check.ok) {
-            res.status(402).json({
-                error: `Out of credits for this month (used ${check.used}/${check.allowance}).`,
-                resetsAt: check.resetsAt,
-            });
+            // Machine-readable shortfall plus the one link that fixes it — see
+            // quotaError in api-response.js. The MCP endpoint returns the same
+            // shape for keyed callers, so one integration handles both.
+            res.status(402).json(quotaError(check));
             return null;
         }
         return check;

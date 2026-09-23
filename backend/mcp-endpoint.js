@@ -26,7 +26,7 @@ const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/ser
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
 const freeTools = require('./free-tools');
 const assetProfile = require('./asset-profile');
-const { envelope } = require('./api-response');
+const { envelope, quotaError } = require('./api-response');
 
 const SERVER_VERSION = '1.0.0';
 
@@ -113,10 +113,15 @@ function buildMcpServer(ctx, deps) {
                 // to say which free allowance ran out and what to do next, since
                 // "out of credits for this month" is meaningless to a caller who
                 // never had a wallet. Keyed callers fall through to the original.
-                return textResult({
-                    error: gate.message || `Out of credits for this month (used ${gate.used}/${gate.allowance}). Resets ${gate.resetsAt}.`,
-                    code: 'QUOTA_EXCEEDED'
-                }, true);
+                // Keyless callers keep the limiter's own copy: they never had a
+                // wallet, so "recharge" is the wrong instruction for them and
+                // mcp-anon.js already points them at the Dev plan instead. A
+                // keyed caller gets the same quotaError body the REST API
+                // returns — shortfall in numbers, plus the recharge link.
+                if (gate.message) {
+                    return textResult({ error: gate.message, code: 'QUOTA_EXCEEDED' }, true);
+                }
+                return textResult(quotaError(gate), true);
             }
 
             if (name === 'sp_financials') {

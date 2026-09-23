@@ -41,12 +41,11 @@ test('the published ask price matches credits.COST', () => {
     assert.equal(rest, credits.COST.api_ask, 'public-api.md REST ask price is stale');
 });
 
-test('lookups keep the 2x tier split; the AI ask is identical on both surfaces', () => {
-    // The "REST ask = 2x MCP ask" rule was retired 2026-09-22 — both metered
-    // surfaces run the identical call and now share one anchor. The LOOKUP
-    // split survives, so assert the half that is still true and pin the half
-    // that changed, rather than deleting the coverage.
-    assert.equal(credits.COST.api_lookup, 2 * credits.COST.mcp_lookup);
+test('both surfaces are priced identically, lookup and ask alike', () => {
+    // The "REST is 2x MCP" rule is fully retired: the ask went 2026-09-22, the
+    // lookup 2026-09-23. Keeping both assertions here means the published doc
+    // and the price list cannot drift apart one surface at a time.
+    assert.equal(credits.COST.api_lookup, credits.COST.mcp_lookup);
     assert.equal(credits.COST.api_ask, credits.COST.mcp_ask);
 });
 

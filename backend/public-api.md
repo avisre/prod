@@ -6,10 +6,11 @@ SEC filing it was drawn from.
 
 ## Who can get a key
 
-API/MCP access is a top-tier feature: **Power, Desk, or the highest AppSumo/
-DealMirror tier (tier 3)**. It's checked live on every call, not just at key
-creation — a plan downgrade takes effect immediately, the same way Monitor
-access does.
+API/MCP access is a paid feature: the **Dev plan** ($19.99/mo), **Power**, **Desk**,
+the **highest AppSumo/DealMirror tier (tier 3)**, or **any AppSumo/DealMirror tier
+purchased on or before 22 September 2026**. It's checked live on every call, not
+just at key creation — a plan downgrade takes effect immediately, the same way
+Monitor access does, and a refunded lifetime licence loses it on the next call.
 
 Log in at stockportfolio.pro on a qualifying plan, then:
 
@@ -32,12 +33,12 @@ separate API quota to track.
 
 | Action | MCP (`/mcp`) | REST API (`/api/v1`) |
 |---|---:|---:|
-| Deterministic lookup (financials/filing/compare/screen/fund) | 1 credit | 2 credits |
+| Deterministic lookup (financials/filing/compare/screen/fund) | 2 credits | 2 credits |
 | AI-backed ask | 42 credits | 42 credits |
 
-Deterministic lookups keep the 2x tier split — MCP is the cheaper,
-agent-native on-ramp. The AI-backed `ask` is priced identically on both
-surfaces, because it is the identical call.
+Both surfaces are priced identically, action for action: they run the same
+call over the same filings, so neither is the cheap way in. Pick MCP because
+your client speaks MCP, and REST because it speaks HTTP.
 
 The `ask` cost is the only one anchored to a real inference cost. Both
 Claude Fable 5.1 and GPT-6 Astra price at $10/$50 per million input/output
@@ -80,8 +81,23 @@ Missing or revoked keys get `401`. Calls are rate-limited per key
 
 Every deterministic response wraps its payload in an envelope with a
 `citation` block (filing source, period, a backlink to verify on-site).
-A `402` means the month's wallet is exhausted (`resetsAt` tells you when it
-refills); nothing is charged on an error response.
+A `402` means the month's wallet is exhausted; nothing is charged on an error
+response. The body is actionable rather than just descriptive — the MCP
+endpoint returns the same object inside its error result:
+
+```json
+{
+  "error": "Out of credits for this month (used 200/200). This call costs 2, you have 0 left. Recharge 150 credits for $14.99, or the monthly allowance returns on its own.",
+  "code": "QUOTA_EXCEEDED",
+  "used": 200, "allowance": 200, "remaining": 0, "needed": 2,
+  "resetsAt": "2026-10-01T00:00:00.000Z",
+  "recharge": { "url": "https://www.stockportfolio.pro/recharge.html", "credits": 150, "price": "$14.99" },
+  "upgradeUrl": "https://www.stockportfolio.pro/upgrade.html"
+}
+```
+
+Recharge checkout is on the website (the link above), not the API — buying
+credits is session-authenticated, so an API key cannot spend money.
 
 ## MCP endpoint
 

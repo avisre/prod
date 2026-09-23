@@ -47,4 +47,55 @@ function envelope(tool, symbol, result) {
     };
 }
 
-module.exports = { SITE, UTM, siteLink, attribution, envelope };
+// Credit-exhaustion body, shared by the REST API (public-api.js) and the
+// hosted MCP endpoint (mcp-endpoint.js). Both used to return only prose
+// ("Out of credits for this month (used 40/40)"), which left an API-only
+// caller with no machine-readable way to see HOW short they were and no
+// pointer to the fix — /api/credits/topup is session-authenticated, so a key
+// holder cannot buy programmatically and has to be told where to go. The
+// numbers mirror the web cards in dossier.js/monitor.js; the price constants
+// track CREDIT_TOPUP_PRICE/CREDIT_TOPUP_CREDITS in app.js, which are what the
+// /recharge checkout actually charges.
+const RECHARGE_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
+const RECHARGE_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '14.99');
+
+function quotaError(gate) {
+    const used = Number(gate && gate.used) || 0;
+    const allowance = Number(gate && gate.allowance) || 0;
+    const needed = Number(gate && gate.cost) || 0;
+    const remaining = Number(gate && gate.remaining) || 0;
+    const resetsAt = (gate && gate.resetsAt) || null;
+    return {
+        error: `Out of credits for this month (used ${used}/${allowance}). `
+            + `This call costs ${needed}, you have ${remaining} left. `
+            + `Recharge ${RECHARGE_CREDITS} credits for $${RECHARGE_PRICE.toFixed(2)}, `
+            + `keep going free on the website, or wait for the monthly allowance to return.`,
+        code: 'QUOTA_EXCEEDED',
+        used,
+        allowance,
+        remaining,
+        needed,
+        resetsAt,
+        recharge: {
+            url: siteLink('/recharge.html'),
+            credits: RECHARGE_CREDITS,
+            price: `$${RECHARGE_PRICE.toFixed(2)}`,
+        },
+        upgradeUrl: siteLink('/upgrade.html'),
+        // The deterministic tools behind every lookup are served free and
+        // unauthenticated on the website (app.js's /api/free-tools/:tool), so
+        // an exhausted wallet is never a dead end. Saying so costs nothing —
+        // the caller can find it in thirty seconds anyway — and it is the
+        // difference between a 402 that reads as a wall and one that reads as
+        // a choice.
+        //
+        // This is a link for the HUMAN who reads the error, not a fallback
+        // endpoint for the agent to call: /tools is a rendered HTML page and
+        // the anti-bot layer 403s non-browser user agents, so an integration
+        // that "helpfully" retries against it gets a refusal, not data. Do not
+        // turn this into a machine-callable URL without changing that first.
+        freeAlternativeUrl: siteLink('/tools'),
+    };
+}
+
+module.exports = { SITE, UTM, RECHARGE_CREDITS, RECHARGE_PRICE, siteLink, attribution, envelope, quotaError };

@@ -7,13 +7,12 @@
 //
 // Decided 9/11: API/MCP access is Power/Desk + the TOP AppSumo/DealMirror
 // tier only (not every lifetime buyer, unlike Monitor's isLifetimeBuyer()).
-// Pricing: MCP is the base tier, the REST API is exactly 2x MCP. Repriced
-// 9/11 to 2x measured frontier cost (Claude Fable 5.1 and GPT-6 Astra both
-// $10/$50 per M tokens as of 2026-09): mcp_ask anchors on the measured
-// 'chat'-shaped call at 13,820 tokens/call — NOT the all-purposes blend, which
-// is dragged down by shorter 'summary' calls — and api_ask (8) is 2x that by
-// the stated rule, not an independent estimate. The arithmetic is in the COST
-// comment in credits.js.
+// Pricing: MCP and the REST API are priced IDENTICALLY, action for action.
+// The old "REST is exactly 2x MCP" base-tier rule went in two steps — the ask
+// was equalised 2026-09-22, the lookup 2026-09-23 — because both surfaces run
+// the same call over the same data and a split with no cost basis behind it
+// was arbitrary. MCP is the agent-native path, not the cheap one. The
+// arithmetic behind the anchors is in the COST comment in credits.js.
 //
 // Amended the same day the Dev plan shipped ($19.99/mo, 200 credits): the
 // self-serve developer rung was added to this gate, and it is the ONE plan
@@ -32,13 +31,14 @@ const credits = require('../credits');
 
 const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 
-test('credits.COST prices the API surface at exactly 2x the MCP surface', () => {
-    assert.equal(credits.COST.mcp_lookup, 1);
+test('credits.COST prices the MCP and REST surfaces identically', () => {
+    assert.equal(credits.COST.mcp_lookup, 2);
     assert.equal(credits.COST.mcp_ask, 42);
-    assert.equal(credits.COST.api_lookup, credits.COST.mcp_lookup * 2, 'api_lookup must be exactly 2x mcp_lookup');
-    // The "REST ask = 2x MCP ask" rule was retired 2026-09-22: both metered
-    // surfaces run the identical call and now carry the identical 6x-frontier
-    // anchor. Lookups keep the 2x tier split (no inference either side).
+    // Surface parity, both halves. The ask was equalised 2026-09-22 (shared
+    // 6x-frontier anchor); the lookup 2026-09-23 (no anchor either side, so
+    // the 1-vs-2 split had nothing behind it). A future reprice must move both
+    // surfaces together or this fails — which is the point.
+    assert.equal(credits.COST.api_lookup, credits.COST.mcp_lookup, 'api_lookup and mcp_lookup must be equal');
     assert.equal(credits.COST.api_ask, credits.COST.mcp_ask, 'api_ask and mcp_ask share the 6x anchor');
     // The old undifferentiated keys must be gone, not left dangling alongside
     // the new ones — a stray unused key here would be a second, driftable
@@ -54,6 +54,11 @@ test('apiAccessGate exists and gates on Dev/Power/Desk or the top LTD tier only'
     assert.match(fn, /Number\(user\.appsumoTier\) === 3/, 'only the top AppSumo tier, not isLifetimeBuyer()');
     assert.match(fn, /Number\(user\.dealMirrorTier\) === 3/, 'DealMirror tier 3 is treated the same as AppSumo tier 3');
     assert.equal(/isLifetimeBuyer/.test(fn), false, 'must NOT reuse the any-LTD-buyer check Monitor uses — this gate is narrower');
+    // The 2026-09-23 widening: any tier purchased on or before the cutoff. It
+    // must go through the dated cohort check, never a bare tier test — a bare
+    // `user.appsumoTier` here would hand API access to every lifetime buyer.
+    assert.match(fn, /tierLimits\.isLtdApiAccessCohort\(user\)/, 'the pre-cutoff widening is date-gated via lib/tier-limits.js');
+    assert.ok(fn.indexOf("sub.status === 'cancelled'") < fn.indexOf('isLtdApiAccessCohort'), 'the refund revocation check must stay AHEAD of the cohort widening');
 });
 
 // Dev is the plan the whole developer funnel converts on, and it is the one

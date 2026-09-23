@@ -96,7 +96,7 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         assert.equal(body.symbol, 'AAPL');
         assert.equal(body.source.type, 'filed', 'sec.gov URL classifies as filed');
         let after = await credits.balance('u1', effectiveAskLimit());
-        assert.equal(after.used, before.used + credits.COST.api_lookup, 'a successful lookup spends exactly api_lookup (2x the mcp_lookup tier)');
+        assert.equal(after.used, before.used + credits.COST.api_lookup, 'a successful lookup spends exactly api_lookup — the same price as the MCP surface');
 
         // A different user's key never touches u1's wallet.
         const otherBefore = await credits.balance('u1', effectiveAskLimit());
@@ -126,6 +126,19 @@ test('public API: auth, credit gating, and spend-only-on-success', { timeout: 60
         assert.equal(res.status, 402);
         after = await credits.balance('u3', effectiveAskLimit());
         assert.equal(after.used, before.used, '402 spends nothing further');
+
+        // The 402 must be actionable, not just prose: an API-only caller
+        // cannot reach the session-authenticated /api/credits/topup, so the
+        // shortfall numbers and the recharge link are the whole remedy.
+        const quota = await res.json();
+        assert.equal(quota.code, 'QUOTA_EXCEEDED');
+        assert.equal(quota.remaining, 0);
+        assert.equal(quota.needed, credits.COST.api_lookup, '402 states what the refused call would have cost');
+        assert.equal(quota.used, before.used);
+        assert.ok(quota.resetsAt, '402 says when the allowance returns');
+        assert.ok(/\/recharge\.html/.test(quota.recharge.url), '402 links the recharge page');
+        assert.equal(quota.recharge.credits, 150);
+        assert.equal(quota.recharge.price, '$14.99');
 
         // /fund: non-redistributable note is present, and a non-fund symbol 404s.
         assetProfile.fetchAssetProfile = async (symbol) => ({ assetType: 'ETF', source: 'https://finance.yahoo.com/x', symbol });

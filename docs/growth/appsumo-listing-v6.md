@@ -1,5 +1,9 @@
 # AppSumo listing v6 — the problem first, the product second
 
+> **STATUS: SUPERSEDED by `appsumo-listing-v7.md` (2026-09-23), which opens API and MCP to
+> every tier purchased on or before 22 September 2026. Never submitted. Do not paste from this
+> file — its prices are no longer guarded by credit-meter-truth.test.js.**
+>
 > **STATUS: DRAFT. NOTHING SUBMITTED.** Owner reviews and approves before a single field is
 > changed. Supersedes `appsumo-listing-v5.md`, which put Dossier and Monitor in front — the
 > right order — but still described what they *are* rather than what they *fix*.

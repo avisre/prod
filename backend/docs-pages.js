@@ -72,7 +72,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Everyone',
         errors: [
             { code: 'ASK_AUTH', status: '401', means: 'You are signed out. Ask requires an account — there is no anonymous mode.', fix: '<a class="prose-link" href="/login.html">Sign in</a>, then resend the question.' },
-            { code: 'API_ACCESS_REQUIRED', status: '402', means: 'Your plan does not include the REST API or the MCP server.', fix: 'API and MCP access is on the Dev, Power and Desk plans, and on the top AppSumo or DealMirror tier. See <a class="prose-link" href="/docs/plans">Plans</a>.' },
+            { code: 'API_ACCESS_REQUIRED', status: '402', means: 'Your plan does not include the REST API or the MCP server.', fix: 'API and MCP access is on the Dev, Power and Desk plans, on the top AppSumo or DealMirror tier, and on any AppSumo or DealMirror tier purchased on or before 22 September 2026. See <a class="prose-link" href="/docs/plans">Plans</a>.' },
             { code: 'INSUFFICIENT_CREDITS', status: '402', means: 'This month’s credit allowance is spent.', fix: 'The response carries a <code>resetsAt</code> timestamp — the first moment of next month, UTC, when the allowance refills. Upgrade or top up to continue before then.' },
             { code: 'MONITOR_REQUIRED', status: '402', means: 'The Filing Change Monitor is not on your plan.', fix: 'The Monitor is on Power, Desk, Enterprise and Pro <em>annual</em> — and on lifetime plans. Retired Pro <em>monthly</em> does not include it. See <a class="prose-link" href="/docs/filing-monitor">Filing Monitor</a>.' },
             { code: 'TRIAL_EXHAUSTED', status: '429', means: 'You have used the Monitor trial for today. The trial covers three companies per day.', fix: 'Wait for the daily reset, or move to a plan that includes the Monitor outright.' },
@@ -374,7 +374,7 @@ const DOC_PAGES = Object.freeze({
             { title: 'Ask', body: 'On every paid plan except Dev. Dev is API-only and will refuse the website’s Ask box with <code>API_PLAN_NO_WEB_ASK</code>.' },
             { title: 'Research Dossier', body: 'Pro and above.' },
             { title: 'Filing Monitor', body: 'Power, Power monthly, Desk, Enterprise and Pro <em>annual</em>, plus lifetime plans. Retired Pro <em>monthly</em> is not included — the names are close, the access is not. Everyone else gets a trial of three companies per day.' },
-            { title: 'API and MCP', body: 'The Dev plan, Power, Power monthly and Desk, plus the top AppSumo and DealMirror tier. Dev exists as the cheap on-ramp for developers evaluating the data — it is a paid plan, not free access.' },
+            { title: 'API and MCP', body: 'The Dev plan, Power, Power monthly and Desk, plus the top AppSumo and DealMirror tier. Lifetime buyers who purchased on or before 22 September 2026 also keep it on whichever tier they bought, permanently. Dev exists as the cheap on-ramp for developers evaluating the data — it is a paid plan, not free access.' },
             { title: 'Access is re-checked on every request', body: 'Nothing is granted at signup and cached. If a subscription lapses or is refunded, the feature closes on the next call rather than at the end of a billing cycle.' }
         ],
         related: ['credits', 'api-mcp', 'account']
@@ -401,7 +401,7 @@ const DOC_PAGES = Object.freeze({
         ],
         notes: [
             { title: 'Rate limit', body: '60 requests per minute per key. Past that you get a 429 — back off rather than retrying in a tight loop.' },
-            { title: 'Lookups and AI answers are priced very differently', body: 'A lookup returns filed data and costs ' + COST.api_lookup + ' credits on REST or ' + COST.mcp_lookup + ' on MCP. An AI answer costs ' + COST.api_ask + ' on either surface, because it reads and reasons over whole filings. Structure integrations to use lookups for data and reserve AI answers for questions that genuinely need them.' },
+            { title: 'Lookups and AI answers are priced very differently', body: 'A lookup returns filed data and costs ' + COST.api_lookup + ' credits, on REST and MCP alike. An AI answer costs ' + COST.api_ask + ' on either surface, because it reads and reasons over whole filings. Structure integrations to use lookups for data and reserve AI answers for questions that genuinely need them.' },
             { title: 'Access is checked on every call', body: 'Not just when the key is created. If the plan behind a key lapses, the key stops working immediately with <code>API_ACCESS_REQUIRED</code>.' },
             { title: 'Keep your key server-side', body: 'A key spends your credit allowance. Never ship one in client-side code or a public repository. Revoke and reissue from your profile if one is exposed.' }
         ],

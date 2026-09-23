@@ -42,7 +42,14 @@ const mongoose = require('mongoose');
 // mcp-endpoint.js/public-api.js). The old "REST is exactly 2x MCP" base-tier
 // rule was RETIRED 2026-09-22 by owner decision: both metered surfaces run the
 // identical call and now carry the identical 6x anchor. There is no longer an
-// MCP discount.
+// MCP discount. That first pass equalised the ASK only and left the lookup
+// split at 1/2; the owner closed that gap on 2026-09-23, so mcp_lookup and
+// api_lookup are now both 2 and the two surfaces are priced identically end to
+// end. MCP's remaining advantage is ergonomic, not financial: it is the
+// agent-native path, not the cheap one. Safe to raise without a grandfather
+// clause because it narrowed nobody — the production ledger held zero
+// customer rows on either surface when this changed (only the dev account's
+// own test calls), so no lifetime buyer's existing capacity shrank.
 // *_lookup covers the deterministic tools (cache/SEC/Yahoo, no AI spend) —
 // priced low, mainly abuse prevention rather than cost recovery, since no
 // inference happens. The labs anchor below does not apply: there is nothing
@@ -93,16 +100,18 @@ const mongoose = require('mongoose');
 // and 3 of 10 had the halved V2 wallets been active. That is a deliberate
 // subsidy of the bundled surface, not an oversight.
 //
-// dossier_compare, mcp_lookup and api_lookup are unchanged: no inference
-// happens on any of them, so there is nothing to anchor to. They stay priced
-// for abuse prevention.
+// dossier_compare is unchanged: no inference happens on it, so there is
+// nothing to anchor to. mcp_lookup and api_lookup are likewise unanchored —
+// no inference either — and stay priced for abuse prevention rather than cost
+// recovery; they were levelled at 2 on 2026-09-23 (see the surface-parity note
+// above) because a split with no cost basis behind it was arbitrary.
 // ai_paper_* are unchanged: no per-action token measurement exists for them yet.
 //
 // For contrast with the anchor, real provider cost per Ask action:
 // glm-5.1 $0.065, glm-5.3 $0.090, glm-5.3-flash $0.010. So mcp_ask: 42 earns
 // ~65x its marginal cost on glm-5.1. The anchor is a PRICING rule benchmarked
 // to frontier labs, NOT a cost-recovery calculation.
-const COST = { ask: 2, monitor: 8, dossier_standard: 21, dossier_deep: 41, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 1, mcp_ask: 42, api_lookup: 2, api_ask: 42 };
+const COST = { ask: 2, monitor: 8, dossier_standard: 21, dossier_deep: 41, dossier_compare: 5, ai_paper_build: 10, ai_paper_daily: 4, mcp_lookup: 2, mcp_ask: 42, api_lookup: 2, api_ask: 42 };
 
 function monthKey() { return new Date().toISOString().slice(0, 7); }
 
@@ -193,7 +202,7 @@ async function grant(userId, amount, reason, refId) {
 // round $19.99, not of any Stripe constraint — 210 credits would clear the rule
 // outright at $0.09519/credit and cost about three points of gross margin, so
 // make that change if the rule is judged worth more than the round number.
-// Worst case all 200 credits go to mcp_ask (4 each) = 50 AI calls, the same
+// Worst case all 200 credits go to mcp_ask (42 each) = 4 AI calls, the same
 // tail the V2 LTD note below is protecting against.
 const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000, dev: 200 };
 

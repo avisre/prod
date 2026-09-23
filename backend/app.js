@@ -170,11 +170,20 @@ function hasApiAccess(req) {
     // bug or a missed reconcile pass failed to clear would keep API/MCP
     // access forever, tier alone being sufficient.
     if (sub.status === 'cancelled') return false;
-    return Boolean(user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3));
+    if (user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3)) return true;
+    // Lifetime buyers who PURCHASED on or before LTD_API_ACCESS_CUTOFF keep
+    // API/MCP on any tier, permanently (2026-09-23 round). Cohort membership
+    // lives in lib/tier-limits.js so the gate and the marketing copy can never
+    // disagree about who is grandfathered. Unset cutoff ⇒ nobody, so this is
+    // inert until the env var is set and the rule above is all that applies.
+    // Deliberately NOT the any-lifetime-buyer helper Monitor uses: that one is
+    // true for every redeemed LTD account regardless of date, which is exactly
+    // the undated widening this must never perform.
+    return Boolean(user && tierLimits.isLtdApiAccessCohort(user));
 }
 function apiAccessGate(req, res, next) {
     if (hasApiAccess(req)) return next();
-    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, and the top AppSumo/DealMirror tier.', code: 'API_ACCESS_REQUIRED' });
+    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, the top AppSumo/DealMirror tier, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -3002,6 +3011,14 @@ const UserSchema = new mongoose.Schema({
     appsumoTier: { type: Number, default: null },
     appsumoAiCap: { type: Number, default: null },
     appsumoRedeemedAt: { type: Date, default: null },
+    // Set true by scripts/import-grandfathered-licences.js from the AppSumo
+    // sales export: this licence was PURCHASED on or before the API/MCP cutoff,
+    // whatever date it was redeemed on. It is the only field that carries a
+    // purchase date rather than a redemption date, which is why the API/MCP
+    // cohort check in lib/tier-limits.js consults it first. Absent/false means
+    // "no purchase record either way", not "bought after the cutoff" — the
+    // cohort check then falls back to appsumoRedeemedAt.
+    grandfatheredLicence: { type: Boolean, default: false },
     // Which channel that lifetime entitlement was actually bought through:
     // 'appsumo' (marketplace) or 'direct-ltd' (bought here, #9). The grant
     // itself is deliberately shared — same tier ladder, same Ask cap, same
@@ -10629,6 +10646,24 @@ async function grantAppSumoProAccess(user, { licenseKey, tier, acquisition, requ
     const normalizedDiscoverySource = normalizeAppSumoDiscoverySource(discoverySource || user.discoverySource);
     if (normalizedDiscoverySource) user.discoverySource = normalizedDiscoverySource;
     user.appsumoRedeemedAt = user.appsumoRedeemedAt || now;
+    // A licence PURCHASED on or before the API/MCP cutoff but redeemed after it
+    // is still grandfathered — the rule is by purchase date, and redeemedAt
+    // above is the wrong date for exactly this person. The importer
+    // (scripts/import-grandfathered-licences.js) records those unredeemed
+    // licence keys from AppSumo's Licensing API, where created_at is the
+    // purchase instant; this is where that record lands on the account.
+    if (!user.grandfatheredLicence && (licenseKey || user.appsumoLicenseKey)) {
+        try {
+            const row = await mongoose.connection.collection('grandfathered_licences')
+                .findOne({ licenseKey: licenseKey || user.appsumoLicenseKey });
+            if (row) user.grandfatheredLicence = true;
+        } catch (error) {
+            // Never block a redemption on this lookup: a buyer who redeems
+            // during a Mongo blip must still get their lifetime grant. The
+            // importer is re-runnable and will set the flag on the next pass.
+            console.error('[appsumo] grandfathered licence lookup failed:', error && error.message);
+        }
+    }
     user.ltdChannel = user.ltdChannel || channel;
     user.pendingDirectLtdTier = null;
     if (isDirect) {
