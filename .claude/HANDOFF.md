@@ -1,5 +1,48 @@
 # Handoff
 
+## Bing "identical titles / identical descriptions": root cause measured, fixed locally (2026-09-24)
+
+The owner pasted the Bing Webmaster Top Recommendations for www.stockportfolio.pro
+(five tiles). Measured each one against the API (`/Date(ms)/` dates; there is
+**still no API** for the Recommendations/Investigate list — GetCrawlIssues and
+GetBlockedUrls both return empty, so tiles 1 and 4 must be read in the UI).
+
+- **API key**: stored OUTSIDE the repo at
+  `~/.local/share/secrets/bing_webmaster.txt` (chmod 600) — never inline it
+  here or anywhere tracked; this is a public repo. Probed with Node 26
+  native `fetch` — `scripts/bing-webmaster-stats.py` still cannot run here
+  (needs `requests`; pip is PEP 668-blocked and HANDOFF already records its
+  ConnectionReset).
+- **Site state**: 0 crawl issues, 0 blocked URLs, sitemap Success (21,307 URLs,
+  last crawled 9/22), quota 100/day & 800/month, InIndex 38,586.
+- **Root cause of tiles 2 and 3 (amber, identical titles/descriptions)**: the
+  crawlable pages link **5,961 distinct in-site URLs carrying a query string** —
+  **3,012 `/ask.html?q=<page-specific question>`** and 2,948
+  `/company?symbol=<TICKER>` (plus `/register?plan=monthly`). Every `/ask?q=…`
+  returned an indexable 200 with the *same* `<title>` and the *same* meta
+  description and **no robots meta** — thousands of identical-title pages.
+  `/company?symbol=` was already correct (injects the company name, canonicalises
+  to `/stocks/SYM`). Exact duplicate titles/descriptions across all 19,707
+  renderable sitemap pages: **0** — so the duplicates Bing counted are only the
+  parameterised ones.
+- **Fix**: new `backend/ask-page.js` + a route in `backend/app.js` registered
+  **ahead of `express.static`** that serves `noindex, follow` on any `/ask` with
+  a query string, keeping the template's canonical `/ask`. Plain `/ask` is
+  untouched. `frontend-v2/register.html` gained the missing
+  `<link rel="canonical" href="…/register" />` (it had none, so `/register` and
+  `/register.html` were two indexable pages with one title). robots.txt
+  deliberately does **not** disallow `/ask?*` — a blocked URL cannot be read, so
+  its noindex is never seen (same reasoning the file already records for
+  `/login` and `/news`).
+- **Tests**: new `backend/test/ask-page.test.js` (7 pass). Full suite 828 tests,
+  827 pass — the one failure is the pre-existing `selenium-webdriver` miss in
+  `test/social-compose.test.js`. Verified over real HTTP on a local boot.
+- **Not fixed, on purpose**: tile 4 (NOINDEX) is `/login`, `/news`, `/dashboard`
+  and the 404s — all intentional. Tile 5 is backlinks, off-page. Tile 1 (red,
+  sitemap gap) could not be reproduced locally and its URL list is UI-only.
+- **NOT DEPLOYED.** Nothing committed or pushed — the fix needs a deploy before
+  Bing can recrawl and clear the tiles.
+
 ## Send receipts: shipped, verified, re-send done (2026-09-24)
 
 Live in prod on commit `3f815222` (deployed by the owner manually — see the

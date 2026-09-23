@@ -2562,6 +2562,24 @@ app.get(['/company.html', '/company'], (req, res) => {
     res.send(html);
 });
 
+// The Ask shell with a question prefilled (/ask?q=…). Every company and metric
+// page links one of these, so in the thousands they would each be an indexable
+// page carrying the SAME <title> and <meta description> — exactly what Bing
+// Webmaster reports as "too many pages with identical titles"/"identical meta
+// descriptions". The query is user state, not content, so those variants are
+// served noindex,follow and the template's canonical (/ask) carries the
+// ranking. Must be registered ahead of express.static below, which serves the
+// unparameterised /ask. See backend/ask-page.js.
+const askPage = require('./ask-page');
+app.get(['/ask', '/ask.html'], (req, res, next) => {
+    if (!askPage.hasUserState(req.query)) return next();
+    const html = askPage.renderAskPage(req.query);
+    if (!html) return next();
+    res.set('Content-Type', 'text/html; charset=utf-8');
+    res.set('Cache-Control', 'public, max-age=3600');
+    res.send(html);
+});
+
 // ---- Screener SSR (/screener, /screener.html): inject default top-50 rows so
 // crawlers see a real HTML table instead of "Loading…". JS hydrates on load.
 let _screenerTpl = null;
