@@ -183,7 +183,7 @@ function unsubHeaders(email, secret, env = process.env) {
  * a missing secret or an unconfigured mailbox all mean "do not send", never
  * "send without the safety net".
  *
- * Returns { sent: boolean, reason?: string }.
+ * Returns { sent: boolean, reason?: string, receipt?: object }.
  */
 async function sendOutreach({ to, subject, text, html, campaign, secret, env = process.env } = {}) {
     const address = normalizeEmail(to);
@@ -211,26 +211,41 @@ async function sendOutreach({ to, subject, text, html, campaign, secret, env = p
         ? `${html}<p style="font-size:12px;color:#64748b;margin-top:22px">Not interested? <a href="${unsub.url}">Unsubscribe</a> and I won't contact you again.</p>`
         : undefined;
 
+    // Pin the Message-ID so the receipt logged below names the same id that
+    // appears in the recipient's headers. Without it a "sent: true" stays
+    // unfalsifiable — which is exactly how the 2026-09-23 batch became
+    // uncheckable once its script was gone.
+    const messageId = `<${require('node:crypto').randomUUID()}@${String(c.user).split('@')[1] || 'stockportfolio.pro'}>`;
+    let info;
     try {
-        await transporter.sendMail({
+        info = await transporter.sendMail({
             from: `${c.fromName} <${c.user}>`,
             to: address,
             subject,
             text: textWithUnsub,
             html: htmlWithUnsub,
             replyTo: c.user,
+            messageId,
             headers: unsub.headers
         });
     } catch (e) {
         return { sent: false, reason: `send failed: ${e && e.message}` };
     }
 
+    // The receipt is written to the send log, not just returned, so a campaign
+    // can be audited after the fact without the script that ran it.
+    const receipt = {
+        messageId: (info && info.messageId) || messageId,
+        response: (info && info.response) || null,
+        accepted: (info && info.accepted) || [],
+        rejected: (info && info.rejected) || []
+    };
     await sendLogCol().updateOne(
         { _id: `${campaign}:${emailHash(address)}` },
-        { $set: { campaign, email: address, at: new Date() } },
+        { $set: { campaign, email: address, at: new Date(), ...receipt } },
         { upsert: true }
     ).catch(() => {});
-    return { sent: true };
+    return { sent: true, receipt };
 }
 
 module.exports = {

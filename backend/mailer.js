@@ -14,6 +14,7 @@
 //   lifecycle email from a founder's personal address. OWNER_NOTIFICATION_EMAIL
 //   may remain the founder's address for internal alerts only.
 
+const crypto = require('node:crypto');
 const nodemailer = require('nodemailer');
 const directLtd = require('./direct-ltd');
 const tierLimits = require('../lib/tier-limits');
@@ -549,8 +550,33 @@ async function sendCustomerLifecycleEmails({ name, email, type, plan, tier, occu
   return result;
 }
 
+// The Message-ID is generated here rather than left to nodemailer so the id we
+// record is the same id that goes on the wire and appears in the recipient's
+// headers. That is what makes a stored receipt checkable against a delivered
+// message instead of merely asserted.
+function newMessageId() {
+  return `<${crypto.randomUUID()}@${SUPPORT_EMAIL.split('@')[1]}>`;
+}
+
+// nodemailer already returns the relay's own acceptance record — messageId,
+// accepted/rejected, and the `250 …` reply. Collapsing that to a boolean was
+// why a send could never be audited afterwards.
+function receiptFrom(info, at) {
+  return {
+    ok: true,
+    messageId: (info && info.messageId) || null,
+    accepted: (info && info.accepted) || [],
+    rejected: (info && info.rejected) || [],
+    response: (info && info.response) || null,
+    envelope: (info && info.envelope) || null,
+    at: at || new Date(),
+  };
+}
+
 // Generic single send (used by the weekly Monitor digest). Never throws;
-// no-ops if SMTP isn't configured. Returns true only on a successful send.
+// no-ops if SMTP isn't configured. Returns a truthy receipt object on a
+// successful send and false otherwise, so the ~20 existing call sites that test
+// the result for truthiness keep working unchanged.
 // `headers` exists for List-Unsubscribe / List-Unsubscribe-Post (RFC 8058
 // one-click). Bulk mail must carry them; transactional mail passes nothing.
 async function sendMail({ to, subject, html, text, replyTo, headers } = {}) {
@@ -558,9 +584,10 @@ async function sendMail({ to, subject, html, text, replyTo, headers } = {}) {
   const c = config();
   if (!transporter) { console.warn('[mailer] SMTP not configured — skipping send to ' + (to || '(no to)')); return false; }
   if (!to) return false;
+  const messageId = newMessageId();
   try {
-    await transporter.sendMail({ from: c.from, to, subject, html, text, replyTo: replyTo || c.support, ...(headers ? { headers } : {}) });
-    return true;
+    const info = await transporter.sendMail({ from: c.from, to, subject, html, text, replyTo: replyTo || c.support, messageId, ...(headers ? { headers } : {}) });
+    return receiptFrom(info);
   } catch (e) {
     console.error('[mailer] send failed:', e && e.message);
     return false;
@@ -716,4 +743,4 @@ async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth
   return out;
 }
 
-module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };
+module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };

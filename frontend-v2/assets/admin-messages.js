@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   const $ = (id) => document.getElementById(id);
-  const state = { selected: new Set(), page: 0, active: null, loading: false, timer: null };
+  const state = { selected: new Set(), page: 0, active: null, loading: false, timer: null, receiptsPage: 0, receiptsLoading: false };
   const list = $('thread-list');
   const search = $('customer-search');
   const audience = $('customer-audience');
@@ -213,6 +213,71 @@
       if (state.active && ids.includes(state.active)) openThread(state.active); else loadCustomers(true);
     } catch (error) { status.textContent = error.message || 'Could not send this message.'; }
     finally { button.disabled = false; }
+  });
+  // Delivery history. Read-only by construction: nothing here writes, so
+  // opening the panel can never alter what went out.
+  const receiptsPanel = $('receipts-panel');
+  const receiptsList = $('receipts-list');
+  const receiptsDetail = $('receipts-detail');
+  const receiptsStatus = $('receipts-status');
+  const receiptsMore = $('receipts-more');
+  function receiptCounts(b) {
+    const bits = [`${b.sent}/${b.total} emailed`, `${b.withReceipt} with receipt`];
+    if (b.failed) bits.push(`${b.failed} failed`);
+    if (b.suppressed) bits.push(`${b.suppressed} opted out`);
+    if (!b.sendEmail) bits.push('in-app only');
+    return bits.join(' · ');
+  }
+  function renderReceipt(b) {
+    const when = new Date(b.createdAt).toLocaleString();
+    return `<div class="receipt-row"><div class="receipt-row-head"><strong>${esc(b.subject)}</strong><span class="small muted">${esc(when)}</span></div><div class="receipt-meta">${esc(receiptCounts(b))} <button class="btn btn-ghost btn-sm" type="button" data-receipt-open="${esc(b.broadcastId)}">Recipients</button></div></div>`;
+  }
+  function renderRecipientRow(r) {
+    // A send from before receipts existed has no Message-ID. Say so plainly —
+    // an empty cell would read as a failure, which it is not.
+    const receipt = r.messageId
+      ? `<span class="receipt-mono">${esc(r.messageId)}</span>${r.smtpResponse ? ` <span class="muted">${esc(r.smtpResponse)}</span>` : ''}`
+      : (r.emailStatus === 'sent' ? '<span class="muted">no receipt (sent before receipts existed)</span>' : `<span class="muted">${esc(r.emailError || r.emailStatus)}</span>`);
+    return `<div class="receipt-addr"><span>${esc(r.email)}</span><span class="${r.emailStatus === 'failed' ? 'receipt-bad' : 'muted'}">${esc(r.emailStatus)}</span><span>${receipt}</span></div>`;
+  }
+  async function loadReceipts(reset) {
+    if (state.receiptsLoading) return;
+    if (reset) { state.receiptsPage = 0; receiptsList.innerHTML = ''; receiptsDetail.hidden = true; }
+    state.receiptsLoading = true;
+    receiptsStatus.textContent = 'Loading…';
+    try {
+      const params = new URLSearchParams({ page: String(state.receiptsPage), limit: '10' });
+      const response = await fetch(`/api/admin/messages/broadcasts?${params}`);
+      if (!response.ok) { accessError(response); throw new Error('Unable to load delivery history.'); }
+      const data = await response.json();
+      if (reset && !data.broadcasts.length) receiptsList.innerHTML = '<p class="small muted">No sends recorded yet.</p>';
+      else receiptsList.insertAdjacentHTML('beforeend', data.broadcasts.map(renderReceipt).join(''));
+      receiptsMore.hidden = !data.hasMore;
+      receiptsMore.disabled = false;
+      receiptsStatus.textContent = '';
+    } catch (error) { receiptsStatus.textContent = error.message || 'Delivery history is unavailable.'; }
+    finally { state.receiptsLoading = false; }
+  }
+  async function openReceipt(broadcastId) {
+    receiptsStatus.textContent = 'Loading recipients…';
+    try {
+      const response = await fetch(`/api/admin/messages/broadcasts/${encodeURIComponent(broadcastId)}`);
+      if (!response.ok) { accessError(response); throw new Error('Unable to load this delivery.'); }
+      const data = await response.json();
+      const rows = (data.recipients || []).map(renderRecipientRow).join('') || '<p class="small muted">No recipients.</p>';
+      receiptsDetail.innerHTML = `<div class="receipt-meta">${esc(data.broadcast.subject)} — ${esc(receiptCounts(data.broadcast))}</div>${rows}`;
+      receiptsDetail.hidden = false;
+      receiptsStatus.textContent = '';
+    } catch (error) { receiptsStatus.textContent = error.message || 'Unable to load this delivery.'; }
+  }
+  receiptsList.addEventListener('click', (event) => {
+    const id = event.target.dataset && event.target.dataset.receiptOpen;
+    if (id) openReceipt(id);
+  });
+  receiptsMore.addEventListener('click', () => { state.receiptsPage++; receiptsMore.disabled = true; loadReceipts(false); });
+  // Lazy: the history is only fetched when the operator opens the panel.
+  receiptsPanel.addEventListener('toggle', () => {
+    if (receiptsPanel.open && !receiptsList.children.length) loadReceipts(true);
   });
   loadCustomers(true);
 }());

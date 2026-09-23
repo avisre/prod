@@ -3390,7 +3390,14 @@ const CustomerMessageBroadcastSchema = new mongoose.Schema({
         inAppSentAt: { type: Date, default: null },
         emailStatus: { type: String, enum: ['not_requested', 'pending', 'sent', 'suppressed', 'failed'], default: 'not_requested' },
         emailSentAt: { type: Date, default: null },
-        emailError: { type: String, default: null }
+        emailError: { type: String, default: null },
+        // Delivery receipt, captured at send time. Rows written before
+        // 2026-09-24 carry none, so the operator view must say "no receipt"
+        // rather than let an absent field read as a failed send.
+        messageId: { type: String, default: null },
+        smtpResponse: { type: String, default: null },
+        accepted: { type: [String], default: undefined },
+        rejected: { type: [String], default: undefined }
     }],
     status: { type: String, enum: ['sending', 'completed', 'completed_with_errors'], default: 'sending', index: true },
     completedAt: { type: Date, default: null }
@@ -7340,10 +7347,15 @@ function customerMessageMailFor(user, subject, body) {
     };
 }
 async function sendCustomerMessageEmail(user, subject, body) {
-    if (user.customerMessageEmailsOptOut) return { status: 'suppressed' };
+    if (user.customerMessageEmailsOptOut) return { status: 'suppressed', receipt: null };
     const email = customerMessageMailFor(user, subject, body);
-    const sent = await mailer.sendMail({ to: user.email, subject: email.subject, html: email.html, text: email.text });
-    return { status: sent ? 'sent' : 'failed' };
+    const receipt = await mailer.sendMail({ to: user.email, subject: email.subject, html: email.html, text: email.text });
+    if (!receipt) return { status: 'failed', receipt: null };
+    // A send can resolve and still carry a rejected recipient. The receipt
+    // exists to be checkable, so that is recorded as a failure rather than a
+    // quiet success.
+    const rejected = Array.isArray(receipt.rejected) ? receipt.rejected : [];
+    return { status: rejected.length ? 'failed' : 'sent', receipt };
 }
 // Every inbound customer message pings the support inbox so a new thread
 // never sits unread in admin-messages.html until someone happens to check it.
@@ -7372,6 +7384,38 @@ async function getCustomerThread(userId) {
 }
 function messageDto(message) {
     return { id: String(message._id), sender: message.sender, body: message.body, createdAt: message.createdAt, editedAt: message.editedAt || null };
+}
+// A broadcast reduced to what an operator needs to audit it: how many went out,
+// and how many carry the SMTP acceptance record.
+function broadcastReceiptDto(broadcast) {
+    const recipients = broadcast.recipients || [];
+    const sent = recipients.filter((recipient) => recipient.emailStatus === 'sent');
+    return {
+        broadcastId: String(broadcast._id),
+        subject: broadcast.subject || '(in-app only)',
+        sendInApp: broadcast.sendInApp !== false,
+        sendEmail: !!broadcast.sendEmail,
+        status: broadcast.status,
+        createdAt: broadcast.createdAt || null,
+        completedAt: broadcast.completedAt || null,
+        total: recipients.length,
+        inApp: recipients.filter((recipient) => recipient.inAppSentAt).length,
+        sent: sent.length,
+        failed: recipients.filter((recipient) => recipient.emailStatus === 'failed').length,
+        suppressed: recipients.filter((recipient) => recipient.emailStatus === 'suppressed').length,
+        withReceipt: sent.filter((recipient) => recipient.messageId).length
+    };
+}
+function recipientReceiptDto(recipient) {
+    return {
+        email: recipient.email,
+        inAppSentAt: recipient.inAppSentAt || null,
+        emailStatus: recipient.emailStatus,
+        emailSentAt: recipient.emailSentAt || null,
+        emailError: recipient.emailError || null,
+        messageId: recipient.messageId || null,
+        smtpResponse: recipient.smtpResponse || null
+    };
 }
 
 app.get('/api/messages/unsubscribe', async (req, res) => {
@@ -7515,6 +7559,43 @@ app.get('/api/admin/messages/customers', authMiddleware, customerMessagesAdminOn
     }
 });
 
+// Delivery receipts for past broadcasts. The POST below has always been the
+// only writer and there was no reader at all, so a send could not be reviewed
+// after the fact — the receipt line the composer printed died on reload.
+app.get('/api/admin/messages/broadcasts', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
+    try {
+        const page = Math.max(0, Math.min(parseInt(req.query.page, 10) || 0, 10000));
+        const limit = Math.max(1, Math.min(parseInt(req.query.limit, 10) || 25, 100));
+        const [total, rows] = await Promise.all([
+            CustomerMessageBroadcast.countDocuments({}),
+            CustomerMessageBroadcast.find({}, { subject: 1, sendInApp: 1, sendEmail: 1, status: 1, createdAt: 1, completedAt: 1, recipients: 1 })
+                .sort({ createdAt: -1, _id: -1 }).skip(page * limit).limit(limit).lean()
+        ]);
+        res.set('Cache-Control', 'no-store').json({
+            broadcasts: rows.map(broadcastReceiptDto),
+            page, limit, total, hasMore: (page + 1) * limit < total
+        });
+    } catch (error) {
+        console.error('[messages] broadcast history failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load delivery history.' });
+    }
+});
+
+app.get('/api/admin/messages/broadcasts/:id', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) return res.status(400).json({ message: 'Invalid delivery.' });
+    try {
+        const broadcast = await CustomerMessageBroadcast.findById(req.params.id).lean();
+        if (!broadcast) return res.status(404).json({ message: 'Delivery not found.' });
+        res.set('Cache-Control', 'no-store').json({
+            broadcast: broadcastReceiptDto(broadcast),
+            recipients: (broadcast.recipients || []).map(recipientReceiptDto)
+        });
+    } catch (error) {
+        console.error('[messages] broadcast detail failed:', error && error.message);
+        res.status(500).json({ message: 'Unable to load this delivery.' });
+    }
+});
+
 app.get('/api/admin/messages/threads', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
     try {
         const query = String(req.query.q || '').trim().slice(0, 120);
@@ -7644,10 +7725,18 @@ app.post('/api/admin/messages/broadcasts', authMiddleware, customerMessagesAdmin
             }
             if (broadcast.sendEmail && recipient.emailStatus === 'pending') {
                 const user = await User.findById(recipient.userId, { _id: 1, name: 1, email: 1, customerMessageEmailsOptOut: 1 }).lean();
-                const result = user ? await sendCustomerMessageEmail(user, broadcast.subject, broadcast.body) : { status: 'failed' };
+                const result = user ? await sendCustomerMessageEmail(user, broadcast.subject, broadcast.body) : { status: 'failed', receipt: null };
                 recipient.emailStatus = result.status;
                 recipient.emailSentAt = result.status === 'sent' ? new Date() : null;
-                recipient.emailError = result.status === 'failed' ? 'SMTP delivery was not accepted.' : null;
+                const rejected = (result.receipt && result.receipt.rejected) || [];
+                recipient.emailError = result.status !== 'failed' ? null
+                    : (rejected.length ? `Recipient rejected: ${rejected.join(', ')}` : 'SMTP delivery was not accepted.');
+                // The receipt itself: what the relay said, kept beside the
+                // status rather than collapsed into it.
+                recipient.messageId = (result.receipt && result.receipt.messageId) || null;
+                recipient.smtpResponse = (result.receipt && result.receipt.response) || null;
+                recipient.accepted = (result.receipt && result.receipt.accepted) || undefined;
+                recipient.rejected = (result.receipt && result.receipt.rejected) || undefined;
             }
             await broadcast.save();
         }
