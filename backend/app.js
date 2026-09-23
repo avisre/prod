@@ -2295,6 +2295,22 @@ function signupTrialDaysFor(req) {
     return geoWalled(req) ? 0 : SIGNUP_TRIAL_DAYS;
 }
 
+// TEMPORARY (2026-09-23): which request header carries the real client IP
+// behind Render's Cloudflare edge. Returns resolved countries only — never an
+// address. Remove once geo resolution is fixed.
+app.get('/geo-check', (req, res) => {
+    const c = (ip) => marketingAttribution.resolveCountry(String(ip || '').trim()) || null;
+    const xff = String(req.headers['x-forwarded-for'] || '').split(',').map((s) => s.trim()).filter(Boolean);
+    res.set('Cache-Control', 'no-store').json({
+        reqIp: c(req.ip),
+        cfConnectingIp: req.headers['cf-connecting-ip'] ? c(req.headers['cf-connecting-ip']) : 'absent',
+        trueClientIp: req.headers['true-client-ip'] ? c(req.headers['true-client-ip']) : 'absent',
+        xRealIp: req.headers['x-real-ip'] ? c(req.headers['x-real-ip']) : 'absent',
+        cfIpCountry: req.headers['cf-ipcountry'] || 'absent',
+        xffHops: xff.map(c)
+    });
+});
+
 async function wallAllPagesMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (wallPathIsExempt(req.path || '/')) return next();
