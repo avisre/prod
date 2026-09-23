@@ -7561,7 +7561,7 @@ app.post('/api/credits/topup', authMiddleware, async (req, res) => {
             client_reference_id: req.userId.toString(),
             success_url: `${getRequestOrigin(req)}/profile.html?recharge=success#usage-details`,
             cancel_url: `${getRequestOrigin(req)}/recharge.html?recharge=cancelled`,
-            custom_text: { submit: { message: `Adds ${CREDIT_TOPUP_CREDITS} credits to this month's wallet. Final-month credits don't roll over.` } },
+            custom_text: { submit: { message: `Adds ${CREDIT_TOPUP_CREDITS} credits to your wallet. They don't expire: unused credits carry over month to month until you use them.` } },
             metadata: {
                 userId: String(req.userId),
                 checkoutType: 'credit_topup',

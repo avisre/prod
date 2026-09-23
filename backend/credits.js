@@ -139,17 +139,93 @@ async function used(userId) {
 }
 
 // Purchased top-ups land in the same ledger as positive rows (delta > 0,
-// reason 'topup'), so a grant is as auditable as a spend and expires with the
-// month key by construction — no cron, no second expiry field. used() only
+// reason TOPUP_REASON), so a grant is as auditable as a spend. used() only
 // sums negatives, so the two never contaminate each other.
-async function granted(userId) {
+//
+// Top-ups do NOT expire at the month boundary (owner decision 2026-09-23: a
+// pack someone paid $14.99 for vanishing on the 1st was indefensible). Each
+// month the plan allowance is spent first; only spend beyond it draws the
+// top-up bank down, and whatever is left carries into the next month until it
+// is used. Every other positive row (manual 'refund' credits) stays scoped to
+// its own month, exactly as before.
+const TOPUP_REASON = 'topup';
+
+function snapshotCol() { return mongoose.connection.collection('credit_plan_snapshots'); }
+
+// Replaying the bank needs each past month's PLAN allowance, which the ledger
+// does not hold and which can change (upgrades, LTD cohorts). So the plan is
+// snapshotted per month while a user holds top-up credits — only those users,
+// so nobody else pays a write on the gating path. A past month with no
+// snapshot falls back to the current plan.
+async function snapshotPlan(userId, month, plan) {
     try {
-        const rows = await ledgerCol().aggregate([
-            { $match: { userId: String(userId), month: monthKey(), delta: { $gt: 0 } } },
-            { $group: { _id: null, total: { $sum: '$delta' } } }
+        await snapshotCol().updateOne(
+            { userId: String(userId), month },
+            { $set: { plan, at: new Date() } },
+            { upsert: true }
+        );
+    } catch (_) { /* a missed snapshot only means a later fallback to the current plan */ }
+}
+
+// Current month's spend, month-scoped credits (refunds), and the top-up credits
+// available this month (carried bank + this month's packs). Fail-open to zeros,
+// matching used().
+async function walletState(userId, plan) {
+    const empty = { spent: 0, monthCredits: 0, topupAvailable: 0 };
+    let rows;
+    try {
+        rows = await ledgerCol().aggregate([
+            { $match: { userId: String(userId) } },
+            { $group: {
+                _id: {
+                    month: '$month',
+                    kind: { $cond: [{ $lt: ['$delta', 0] }, 'spent',
+                        { $cond: [{ $eq: ['$reason', TOPUP_REASON] }, 'topup', 'credit'] }] }
+                },
+                total: { $sum: '$delta' }
+            } }
         ]).toArray();
-        return rows.length ? rows[0].total : 0;
-    } catch (_) { return 0; }
+    } catch (_) { return empty; }
+
+    const now = monthKey();
+    const byMonth = new Map();
+    for (const r of rows) {
+        const m = r._id.month;
+        if (!byMonth.has(m)) byMonth.set(m, { spent: 0, credit: 0, topup: 0 });
+        const e = byMonth.get(m);
+        if (r._id.kind === 'spent') e.spent = -r.total;
+        else e[r._id.kind] = r.total;
+    }
+    const cur = byMonth.get(now) || { spent: 0, credit: 0, topup: 0 };
+    const pastMonths = [...byMonth.keys()].filter((m) => m < now).sort();
+    const everTopup = cur.topup > 0 || pastMonths.some((m) => byMonth.get(m).topup > 0);
+    if (!everTopup) return { spent: cur.spent, monthCredits: cur.credit, topupAvailable: 0 };
+
+    let snaps = new Map();
+    try {
+        const docs = await snapshotCol().find({ userId: String(userId), month: { $lt: now } }).toArray();
+        snaps = new Map(docs.map((d) => [d.month, Number(d.plan) || 0]));
+    } catch (_) { /* fall back to the current plan for every past month */ }
+
+    let bank = 0;
+    for (const m of pastMonths) {
+        const e = byMonth.get(m);
+        bank += e.topup;
+        const monthPlan = snaps.has(m) ? snaps.get(m) : plan;
+        const overflow = Math.max(0, e.spent - monthPlan - e.credit);
+        bank -= Math.min(bank, overflow);
+    }
+    const topupAvailable = bank + cur.topup;
+    if (topupAvailable > 0) await snapshotPlan(userId, now, plan);
+    return { spent: cur.spent, monthCredits: cur.credit, topupAvailable };
+}
+
+// Credits added on top of the plan this month: top-up credits still available
+// (carried plus bought this month) and any month-scoped credits. Kept for
+// callers of the old name; balance() is the source of truth.
+async function granted(userId, plan = 0) {
+    const s = await walletState(userId, plan);
+    return s.topupAvailable + s.monthCredits;
 }
 
 // Idempotent on refId (the Stripe checkout session id): the webhook fires
@@ -289,16 +365,20 @@ function allowance(effectiveAskLimit, planId, appsumoTierOrUser) {
 }
 
 async function balance(userId, effectiveAskLimit, planId, appsumoTierOrUser) {
-    const spent = await used(userId);
-    // Plan allowance plus any purchased top-ups still inside this month. The
-    // two halves are returned as well as their sum: a recharge silently
-    // inflating `allowance` left the profile meter unable to say that 150 of
-    // the wallet was bought rather than granted by the plan, so a $14.99
-    // purchase had no visible receipt anywhere in the product.
+    // Plan allowance plus top-up credits still available (carried from earlier
+    // months or bought this one) plus any month-scoped credits. The halves are
+    // returned as well as their sum: a recharge silently inflating `allowance`
+    // left the profile meter unable to say that 150 of the wallet was bought
+    // rather than granted by the plan, so a $14.99 purchase had no visible
+    // receipt anywhere in the product.
     const plan = allowance(effectiveAskLimit, planId, appsumoTierOrUser);
-    const purchased = await granted(userId);
+    const s = await walletState(userId, plan);
+    const purchased = s.topupAvailable + s.monthCredits;
     const limit = plan + purchased;
-    return { used: spent, allowance: limit, plan, purchased, remaining: Math.max(0, limit - spent), month: monthKey(), resetsAt: resetsAt() };
+    // What survives the reset: top-up credits not yet drawn this month. The
+    // plan (and month-scoped credits) are spent first.
+    const topupCarriesOver = Math.max(0, s.topupAvailable - Math.max(0, s.spent - plan - s.monthCredits));
+    return { used: s.spent, allowance: limit, plan, purchased, topupCarriesOver, remaining: Math.max(0, limit - s.spent), month: monthKey(), resetsAt: resetsAt() };
 }
 
 // Never throws: a failed ledger write must not undo an answer already shown

@@ -353,7 +353,7 @@ const DOC_PAGES = Object.freeze({
         notes: [
             { title: 'Why the API and MCP prices are higher', body: 'The web app is a person asking a question at human pace. A key is a program, and one that can run continuously. The API and MCP prices reflect what sustained programmatic use actually costs to serve, and they are what makes offering a key on a self-serve plan viable at all.' },
             { title: 'A failed action is not charged twice', body: 'If an answer fails and you retry, you are not billed for the failure. Charging happens on a delivered result.' },
-            { title: 'Unused credits do not roll over', body: 'The allowance is monthly. It resets to the full amount rather than accumulating.' }
+            { title: 'Plan credits reset; recharge credits carry over', body: 'Your plan allowance is monthly: it resets to the full amount on the 1st rather than accumulating. Recharge credits are different. They are used only after the month\'s plan allowance runs out, and whatever is left carries into the next month until it is spent.' }
         ],
         related: ['plans', 'api-mcp', 'troubleshooting']
     },

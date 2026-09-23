@@ -195,7 +195,7 @@ test('recentActivity() never throws, even with a broken connection', { timeout: 
     assert.deepEqual(result, []);
 });
 
-test('purchased top-ups raise the current month only, and a webhook retry never double-grants', { timeout: 60000 }, async (t) => {
+test('purchased top-ups raise the wallet, and a webhook retry never double-grants', { timeout: 60000 }, async (t) => {
     const server = await MongoMemoryServer.create();
     await mongoose.connect(server.getUri());
     t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
@@ -238,6 +238,54 @@ test('purchased top-ups raise the current month only, and a webhook retry never 
     assert.equal(await credits.grant(user, 'NaN', 'topup', 'cs_test_5'), false);
     const guarded = await credits.balance(user, 300);
     assert.equal(guarded.allowance, 900, 'rejected grants changed nothing');
+});
+
+test('unused top-up credits carry into later months; the plan is spent first; refunds stay month-scoped', { timeout: 60000 }, async (t) => {
+    const server = await MongoMemoryServer.create();
+    await mongoose.connect(server.getUri());
+    t.after(async () => { await mongoose.disconnect().catch(() => {}); await server.stop(); });
+
+    const monthsAgo = (n) => {
+        const d = new Date();
+        return new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth() - n, 1)).toISOString().slice(0, 7);
+    };
+    const L = mongoose.connection.collection('credit_ledger');
+    const row = (userId, month, delta, reason) => ({ userId, month, delta, reason, refId: null, at: new Date() });
+    const user = 'user-carry';
+
+    // Two months ago: plan was 600, bought a 150 pack, spent 700 -> 100 came
+    // out of the pack, 50 of it survives.
+    await L.insertMany([row(user, monthsAgo(2), 150, 'topup'), row(user, monthsAgo(2), -700, 'dossier')]);
+    await mongoose.connection.collection('credit_plan_snapshots').insertOne({ userId: user, month: monthsAgo(2), plan: 600 });
+    // Last month: stayed inside the plan, so the pack was untouched; a 30-credit
+    // manual refund that month must NOT carry.
+    await L.insertMany([row(user, monthsAgo(1), -500, 'ask'), row(user, monthsAgo(1), 30, 'refund')]);
+
+    const start = await credits.balance(user, 300);     // Pro: 600 plan
+    assert.equal(start.plan, 600);
+    assert.equal(start.purchased, 50, 'only the 50 unused pack credits carry, not the refund');
+    assert.equal(start.allowance, 650);
+    assert.equal(start.remaining, 650);
+    assert.equal(start.topupCarriesOver, 50);
+
+    // Spend past the plan: the overflow comes out of the carried pack.
+    await L.insertOne(row(user, monthsAgo(0), -620, 'dossier'));
+    const after = await credits.balance(user, 300);
+    assert.equal(after.remaining, 30);
+    assert.equal(after.topupCarriesOver, 30, '20 of the 50 carried credits were drawn');
+
+    // A past month with no plan snapshot falls back to the current plan.
+    const other = 'user-carry-nosnap';
+    await L.insertMany([row(other, monthsAgo(1), 150, 'topup'), row(other, monthsAgo(1), -650, 'ask')]);
+    const o = await credits.balance(other, 300);
+    assert.equal(o.purchased, 100, '650 spent against a 600 plan drew 50 of 150');
+
+    // A user who never bought a pack carries nothing, even with an old refund.
+    const plain = 'user-no-topup';
+    await L.insertOne(row(plain, monthsAgo(1), 40, 'refund'));
+    const p = await credits.balance(plain, 300);
+    assert.equal(p.purchased, 0);
+    assert.equal(p.allowance, 600);
 });
 
 test('monthBreakdown() is complete for the month, whatever the activity cap', { timeout: 60000 }, async (t) => {

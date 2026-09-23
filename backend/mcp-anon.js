@@ -153,7 +153,7 @@ function creditsFor(identity, env = process.env, onCapHit = null) {
                     return {
                         ok: false, used: usage.asks, allowance: cfg.askLimit,
                         resetsAt: usage.resetsAt ? usage.resetsAt.toISOString().slice(0, 10) : null,
-                        message: `That was all ${cfg.askLimit} free questions. The Dev plan is $19.99/month for 200 credits — about 50 questions, plus every data lookup: ${SIGNUP_URL}`
+                        message: `That was all ${cfg.askLimit} free questions. The Dev plan is $19.99/month for 200 credits — up to 100 data lookups (2 credits each) or 4 AI-written answers (42 each), in any mix: ${SIGNUP_URL}`
                     };
                 }
                 return { ok: true, used: usage.asks, allowance: cfg.askLimit, resetsAt: null };
