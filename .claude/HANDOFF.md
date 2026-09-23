@@ -1,5 +1,62 @@
 # Handoff
 
+## Send receipts: shipped, verified, re-send done (2026-09-24)
+
+Live in prod on commit `3f815222` (deployed by the owner manually — see the
+deploy note below). Answers "why don't I see send receipts": there were none,
+for three separate reasons — `mailer.sendMail` threw nodemailer's result away
+and returned a bare boolean; app sends are never filed to the mailbox Sent
+folder; and the admin UI wrote one `Done:` line that died on reload, with no
+GET route to list past sends.
+
+- `backend/mailer.js` now pins the Message-ID itself and returns
+  `{ok, messageId, accepted, rejected, response, envelope, at}`; every failure
+  path still returns `false` (verified: no call site strict-compares a result).
+- `backend/app.js` stores the receipt **beside** `emailStatus` (`messageId`,
+  `smtpResponse`, `accepted[]`, `rejected[]`) — the enum is untouched. A send
+  that resolves with `rejected[]` non-empty is recorded `failed`, not `sent`.
+- New admin routes `GET /api/admin/messages/broadcasts` (+ `/…/:id`), and a
+  read-only receipts panel in `admin-messages.html` (lazy-loaded on open,
+  styles inline in the HTML so the universal `?v=` stamp and its 8 pinned
+  tests stay put). Only `admin-messages.js` moved, to `20260924-receipts1`.
+- **Verified, not assumed:** `scripts/verify-send-receipt.js` self-sends
+  support@→support@ and reads the delivered `Message-ID` back over IMAP
+  (`BODY.PEEK`, nothing marked seen). Recorded id == delivered id. Then
+  `scripts/verify-receipts-panel.js` drives headless Chrome with the admin
+  cookie and reads the rendered panel: today's row shows "13/13 emailed · 13
+  with receipt", and the 9/23 rows show "no receipt (sent before receipts
+  existed)".
+- Re-sent the 9/23 update to the **13 real customers** (`RESEND 13`), each with
+  its own Message-ID and a `250 2.0.0 Ok: queued as …` reply. Receipt file:
+  `backend/tmp-resend-receipt-2026-09-23T21-35-49-547Z.txt`.
+
+**The "60" was not 60 customers.** The 9/23 "general" broadcast's 47 recipients
+are not accounts at all: 0 of their `userId`s exist, 24 are QA artifacts
+(`a@gmail.com`, `qa_test_*@example.com`, `support+qa-*`, three of the owner's
+own addresses), the rest look like cold-outreach prospects. Those rows were
+written to an address list, not from `users`. Do not mail that list again —
+that is why the re-send tool prints and excludes it rather than shrinking
+silently.
+
+**AppSumo, reconciled against the live Licensing API (2026-09-24):** 25 keys =
+13 active (all with live accounts, all LTD-active) + 6 inactive (code bought,
+never redeemed) + 4 genuine customer refunds + 2 tier-upgrade key retirements.
+So "20 completed orders" is 13 activated + buyers who never redeemed, not
+missing accounts — the only accounts ever deleted are 3 of the refunded ones.
+The unredeemed buyers are **unreachable**: the licence payload carries no
+buyer email, only AppSumo holds it.
+
+**Deploy is broken for pushes.** `deploy-render.yml` now fails before building:
+`deploy trigger returned HTTP 404 {"message":"not found: https://api.github.com/repositories/1105594471"}`.
+Render's GitHub app can no longer see that repo, so a push no longer ships.
+Reconnect the repo to service `srv-d4kc6schg0os73al6t10` in the Render
+dashboard; until then every deploy is a manual trigger.
+
+Open: `scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js`
+are currently untracked. This file is 2400+ lines against the 160-line cap in
+CLAUDE.md — needs a prune, deliberately not done here because the dossier
+record below is still in flight.
+
 ## Dossier redesign — "The Plain Filing" mockup DONE, awaiting review (2026-09-24)
 
 Plan: `~/.claude/plans/valiant-singing-parnas.md` (approved). Goal: a layman types

@@ -116,6 +116,24 @@ async function main() {
   console.log(`\ntotal to send: ${total}`);
   console.log(`note: these recipients already received this exact message on 2026-09-23.`);
 
+  // The first run reached more addresses than there are accounts. This is not
+  // a detail to leave implicit: 47 of the 60 have no `users` row at all, so a
+  // re-send computed from accounts cannot reach them — and most should not be
+  // reached. Say which, and why, rather than letting the number quietly drop.
+  const knownEmails = new Set(all.map((u) => String(u.email).toLowerCase()));
+  const orphaned = [];
+  for (const b of prior) {
+    for (const r of b.recipients || []) {
+      if (!knownEmails.has(String(r.email).toLowerCase())) orphaned.push(r.email);
+    }
+  }
+  if (orphaned.length) {
+    const testish = orphaned.filter((e) => /^(a|s|ss|sss|ssss|sssss|ssssss|sssssss|test|kim|ki2m|ki22m|rinn|ard|kard|ssfsssss)@|example\.com|qa|probe|screenshots|avinashsreekumar|globalairportconcierge/i.test(e));
+    console.log(`\n!! ${orphaned.length} addresses from the 2026-09-23 send are NOT in users and will NOT be re-sent.`);
+    console.log(`   ${testish.length} of them look like test artifacts:`);
+    testish.forEach((e) => console.log(`     - ${e}`));
+  }
+
   if (!SEND) return console.log('\nDRY RUN — nothing was sent. Re-run with --send --confirm "RESEND <n>".');
   if (!total) return console.log('\nNothing left to send.');
   if (total > MAX_SENDS) throw new Error(`${total} exceeds --max-sends ${MAX_SENDS}; refusing.`);
