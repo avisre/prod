@@ -94,6 +94,15 @@ test('/mcp is exempt, or the agents the deny list names can never call a tool', 
     assert.equal(botBlocker.isExemptPath('/mcpx', isRawBodyWebhookPath), false);
 });
 
+test('/appsumo/redeem is exempt, or AppSumo cannot validate the redirect URL', () => {
+    // The partner portal checks the registered OAuth redirect_uri server-side
+    // before a listing version can be submitted; a 403 here blocks submission.
+    assert.equal(botBlocker.isExemptPath('/appsumo/redeem', isRawBodyWebhookPath), true);
+    // Exact path only — the exemption must not open any other /appsumo page.
+    assert.equal(botBlocker.isExemptPath('/appsumo', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/appsumo/redeem/extra', isRawBodyWebhookPath), false);
+});
+
 test('/oauth/* is exempt, or the machine legs of the OAuth flow cannot run', () => {
     // Registration and token exchange are made by the chatbot vendor's servers,
     // not the user's browser: no browser headers, so the forged-browser check

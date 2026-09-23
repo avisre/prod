@@ -67,7 +67,15 @@ const DENY_PATTERNS = [
 // crawler operator or an arriving developer is sent to, and it is where the
 // pricing and the copy-paste key setup live. It carries no data — the exemption
 // is a page, not the API itself.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
+//
+// /appsumo/redeem is exempt for the /oauth/* reason, one partner over: it is
+// the OAuth redirect_uri registered with AppSumo, and AppSumo's partner portal
+// validates it server-side (expects 2xx/3xx) before a listing version can be
+// submitted. That validator sends no browser headers, so the forged-browser
+// check 403'd it and blocked submission (found 2026-09-23). It serves no
+// crawlable content: without a ?code it renders a bare redeem form, and with
+// one it needs a valid single-use AppSumo authorization code to do anything.
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
 
 // .json deliberately excluded: it used to let bulk data (the fundamentals
 // corpus) skip the nav rate limiter entirely. It's now gated at the app.js
