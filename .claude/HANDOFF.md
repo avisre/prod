@@ -1,5 +1,42 @@
 # Handoff
 
+## AppSumo reviews on the landing page (2026-09-23)
+
+The listing has 3 reviews, all 5 tacos, 5.0 (deal id 261597). They now show in
+three places, all with **page-scoped CSS and no cache-stamp bump** (page HTML is
+served no-cache; `system.css` untouched):
+
+- `frontend-v2/index.html` — `.trust-badge` in the hero, `<section id="reviews">`
+  after `#pro-plans`, and a pill under the Featured-on badges (`.as-tile-row`: a
+  `flex:1 0 100%` item, so it takes its own centred line at 1440 — the five badge
+  images leave only ~110px in that row).
+- `frontend-v2/appsumo.html` — the same 3 reviews as `#reviews`.
+- **Deleted** the "Browse the research library" section from index.html (owner
+  request). Cost: the ten `/stocks/<TICKER>` deep links lost their landing-page
+  entry point; `/stocks` is still linked from the footer. One footer line
+  restores them if crawl discovery there ever matters.
+
+Review text is NOT in the repo. **A plain fetch works — no browser needed**
+(verified 9/23: HTTP 200, 8.1 KB):
+`curl -A "<Chrome UA>" "https://appsumo.com/api/v2/deals/261597/reviews/?page=1&sort=relevance&order=desc&from=0&items_per_page=5"`
+→ `comments[]` with `user.username`, `title`, `comment`, `rating`, `created`.
+A static page fetch gives aggregates only (`"review_count"`, `"..._N_tacos"`).
+
+Verbatim as of 2026-09-23, all 5 tacos:
+- `ian.sterk99` — "Passion project" — 2026-09-11 (owner-fixed-my-issues review)
+- `113027750603327378239` — "Outstanding Tool for Quarterly Insights and Market
+  Screening" — 2026-09-01. No human-readable handle, so the card labels it
+  "AppSumo buyer" with a silhouette avatar rather than a 21-digit id.
+- `Krisneni` — "Very Efficient" — 2026-08-13. Asks us to cross-verify accuracy;
+  kept on purpose — an all-glowing block reads as marketing, this reads as a
+  customer.
+- The older note calling the Aug-13 review "gattomorto77" was wrong: that handle
+  is not on the live listing. Don't resurrect it.
+- The API exposes no plan tier → cards show AppSumo's own "Verified purchaser ·
+  Member since …", never a claimed tier. Avatars are handle initials (no stock
+  portraits: a stranger's face under "verified purchaser" would be a fabricated
+  identity).
+
 ## Hosting/VPN wall LIVE (2026-09-23) — the geo wall's VPN hole is closed
 
 The geo wall only knows country. A visitor in SG on an Australian VPN reads as
@@ -112,6 +149,12 @@ UA `unknown` (checked normally — no cloaking hole), empty UA `denied` (also
 checked, so the `/api` exemption from bot-blocker does not become a bypass).
 End-to-end Googlebot cannot be simulated from here — a forged claim is refused
 by bot-blocker's reverse-DNS check, which is the point.
+
+**The page surface is walled too, not just the API:** `/stocks/AAPL` fetched
+from the same AWS reader returned `register.html` (the anonymous branch of the
+page wall) — with `WALL_ALL_PAGES=false`, so that redirect is the hosting wall
+alone. The API probe is what proves the classification; this proves the page
+middleware reads the same decision.
 
 Also confirmed: the push itself triggers a Render deploy and it succeeded in
 1m50s, so Render's GitHub connection is working again for on-push deploys.
