@@ -76,13 +76,13 @@ test('the resolver and the walls share one address resolution', () => {
 test('the free-surface rate limiters are keyed per visitor', () => {
     // Each of these is a per-visitor budget by intent (see their comments); keyed
     // on the hop they were one budget for the whole site.
-    for (const name of ['pageViewLimiter', 'freeToolLimiter', 'embedLimiter', 'apiLimiter', 'anonMcpRateLimit']) {
+    for (const name of ['pageViewLimiter', 'freeToolLimiter', 'embedLimiter', 'apiLimiter', 'anonMcpRateLimit', 'assetSearchLimiter']) {
         assert.match(limiterOptions(name), /keyGenerator: visitorKeyGenerator/,
             `${name} is keyed per visitor`);
     }
     // Exactly this set, so widening the change to the auth/abuse limiters is a
     // deliberate edit that has to come past this assertion.
-    assert.equal((appSource().match(/keyGenerator: visitorKeyGenerator/g) || []).length, 5);
+    assert.equal((appSource().match(/keyGenerator: visitorKeyGenerator/g) || []).length, 6);
 });
 
 test('the anti-abuse limiters keep their own keys, deliberately', () => {

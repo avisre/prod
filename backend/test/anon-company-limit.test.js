@@ -100,8 +100,16 @@ test('signed-in and keyed callers are not limited here', () => {
 
 test('the gate counts the visitor through visitorIp, keyed by an HMAC', () => {
     const gate = gateSection();
-    assert.match(gate, /update\(visitorIp\(req\)\)\.digest\('hex'\)/);
+    assert.match(gate, /anonCompanyKey\(req\)/, 'the gate uses the shared key');
     assert.doesNotMatch(gate, /req\.ip\b/, 'never the proxy hop');
+    // The derivation lives in exactly one helper now, because the bulk
+    // allowances key on it too: two derivations would be two identities for one
+    // visitor, and the tape would spend a budget the company pages never see.
+    const source = appSource();
+    const derivations = source.split('\n')
+        .filter((line) => line.includes("createHmac('sha256', process.env.ANON_COMPANY_SALT"));
+    assert.equal(derivations.length, 1, 'one derivation, in anonCompanyKey');
+    assert.match(source, /function anonCompanyKey\(req\) \{[\s\S]{0,220}?update\(visitorIp\(req\)\)\.digest\('hex'\)/);
     // UTC day, so the allowance is predictable and not timezone-dependent.
     assert.match(gate, /new Date\(\)\.toISOString\(\)\.slice\(0, 10\)/);
     // BRK.B and BRK-B are one company.

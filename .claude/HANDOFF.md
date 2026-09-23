@@ -237,9 +237,48 @@ live SEC work happens. Verified in prod from one residential line: 25×200 then
 429 on the 26th, repeat view 200, AAPL filings 200 (8,892 bytes), /stocks/AAPL
 still renders. `/api/admin/anon-company/stats` reports the limit and how often
 it bites — the number that says whether machines are walking the free surface.
-Still open: bulk endpoints (screener, market/strip, assets/search) return many
-companies in one cached response, so their only per-visitor control is the rate
-limiter. Keypoints (5/month) and the filing monitor report keep their own.
+Still open: Keypoints (5/month) and the filing monitor report keep their own.
+
+FIXED the bulk-endpoint gap in two of three, and MEASURED the third before
+touching it (2026-09-24):
+- **`/api/market/strip` (the tape)** — 12 symbols per response, a live Yahoo
+  daily series per cold symbol, and *no auth at all*, while every outbound call
+  queues on one process-wide 400ms gate: a caller varying symbols held that queue
+  ahead of paying customers' price data, and the whole 3,840-company universe was
+  ~320 requests. Now `optionalAuth` + a per-visitor DAILY SYMBOL BUDGET
+  (`ANON_STRIP_SYMBOL_DAY`, default 40, `0` = off, no redeploy) that **CLIPS**
+  rather than refuses — a 429 on the chrome of a page the visitor is already
+  reading says nothing they can act on. Clipping is per request and never writes
+  into the shared cache. **Its own budget, deliberately not the 25-company
+  allowance:** the tape is ETFs and indices, and drawing on the research
+  allowance would spend four of a reader's 25 companies on SPY,QQQ,DIA,IWM before
+  they read anything. Reported under `strip` at `/api/admin/anon-company/stats`.
+- **`/api/assets/search`** — one *uncached* live Yahoo call per keystroke (the
+  client has no debounce). Now cached 5 min (`ALPHA_CACHE_TTL_MS.search`) and
+  behind its own per-visitor limiter (`assetSearchLimiter`, 150/15min — the 6th
+  limiter keyed per visitor). The client falls back to its bundled company list
+  when refused, so a refusal degrades autocomplete instead of breaking it.
+- **`/api/screener` — NOT changed, on evidence.** Measured: `screenRows` reads a
+  local persisted index (no provider call, ~ms), the universe is **3,840
+  companies x 26 filed metrics**, and a full dump is **~39 requests**. But it is
+  advertised as **free and unmetered** in `docs-pages.js:60` ("Company pages, the
+  screener ... are free and unmetered"), in index.html's JSON-LD ("free for
+  everyone", "no account needed"), on features.html, and in the AppSumo listing
+  ("without an account"). Clipping it would contradict indexed copy in five
+  places to protect filed fundamentals the SEC publishes and we already give
+  away. **Owner's call with the numbers attached** — a knob of exactly the
+  strip's shape (`ANON_SCREENER_ROW_DAY`) is one edit if it is wanted.
+
+Verified: boots clean on local mongo (`BOOT OK`, no TDZ) and a real HTTP request
+through the live handler with `ANON_STRIP_SYMBOL_DAY=2` and 3 symbols returns
+`{"quotes":{…},"limited":true,"limit":2}` + `Cache-Control: no-store`, repeat
+requests free. The positive case (allowed symbols present) could NOT be shown
+locally — Yahoo 429s this machine, so the shared payload was empty; production
+confirms it end to end. Tests: `test/anon-bulk-allowance.test.js` (new, 6);
+`anon-company-limit` + `visitor-allowances` pins moved (the key derivation is now
+one helper, `anonCompanyKey`, so both allowance kinds key the same visitor).
+Suite **803 / 802 pass** — the one failure is the pre-existing `social-compose`
+selenium gap. No frontend asset touched ⇒ no `?v=` cache-stamp bump.
 `WALL_ALL_PAGES=false` set + deployed. Wall week result: 3 signups / 9 days,
 0 paid. Measured pre-change: CN 0 sessions ever, SG 73, HK 43 (HK not walled).
 Test: `test/geo-wall.test.js`. Kill switch: `GEO_WALL_COUNTRIES=` + deploy.

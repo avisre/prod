@@ -521,6 +521,26 @@ const apiLimiter = rateLimit({
 });
 app.use('/api', apiLimiter);
 
+// Symbol lookup gets its own, much tighter budget than the general API limit.
+// It is the one keyless route whose cost is per request rather than per company:
+// a cache miss is a live Yahoo call, and outbound calls queue on a single
+// process-wide gate, so a machine walking prefixes (every 2- and 3-letter
+// combination is ~18k lookups) would sit in that queue ahead of paying
+// customers' price data. A person typing into the nav sends a few dozen queries
+// in a session, and the client already falls back to its bundled company list
+// when this refuses, so the refusal costs an honest visitor nothing.
+const assetSearchLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 150,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: visitorKeyGenerator,
+  handler: (req, res) => res.status(429).json({
+    code: 'SEARCH_RATE_LIMIT',
+    message: 'Too many symbol lookups. Create a free account to keep searching.'
+  })
+});
+
 // Forgot-password requests send an email, so throttle them hard per IP to
 // prevent inbox flooding and slow down enumeration probing. 5 per 15 min is
 // far above any legitimate need. Mounted after the general limiter so both apply.
@@ -1471,7 +1491,11 @@ const ALPHA_CACHE_TTL_MS = Object.freeze({
   daily: 15 * 60 * 1000,
   monthly: 30 * 60 * 1000,
   fundamentals: 12 * 60 * 60 * 1000,
-  news: 2 * 60 * 1000
+  news: 2 * 60 * 1000,
+  // Symbol lookup. Short rather than long: it only has to cover the same prefix
+  // being asked twice — one person keystroke-by-keystroke, or two people typing
+  // the same ticker in the same few minutes.
+  search: 5 * 60 * 1000
 });
 
 function cacheGet(map, key, ttlMs) {
@@ -1939,7 +1963,13 @@ async function verifyPassword(password, storedHash) {
 // app uses for portfolio price + profile lookups.
 const alphaClient = {
     async searchSymbols(query) {
-        const data = await yahooSource.fetchSymbolSearch(query);
+        // Through the cache, not straight to Yahoo. This call had no cache at all
+        // and every outbound call queues on one process-wide gate, so a caller
+        // walking prefixes (a, aa, aaa… or every ticker in a list) held a slot
+        // between paying customers' price lookups for as long as it wanted.
+        // Autocomplete asks per keystroke, so the cache also makes the common
+        // case free rather than a provider call each.
+        const data = await fetchAlphaCached('SYMBOL_SEARCH', { keywords: query }, ALPHA_CACHE_TTL_MS.search);
         return (data?.bestMatches || []).map((m) => ({
             symbol: m['1. symbol'], name: m['2. name'], quoteType: m['3. type'] || '',
             assetType: assetProfile.normalizeAssetType(m['3. type'])
@@ -7965,7 +7995,7 @@ app.get('/api/search/:query', authMiddleware, async (req, res) => {
 // Public asset directory for the navigation and add-holding autocomplete.
 // Results are additive: the established stock directory stays first, while
 // Yahoo supplies ETFs and mutual funds that are not SEC operating companies.
-app.get('/api/assets/search', async (req, res) => {
+app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
     const query = String(req.query.q || req.query.query || '').trim();
     const limit = Math.min(Math.max(Number(req.query.limit) || 10, 1), 20);
     if (!query) return res.json([]);
@@ -8153,12 +8183,23 @@ app.get('/api/alpha/time-series/daily', authMiddleware, coreGate, async (req, re
 // series (~270KB). Shared 10-min cache across all users.
 const _stripCache = new Map(); // symbols-key -> { at, payload }
 const STRIP_TTL_MS = 10 * 60 * 1000;
-app.get('/api/market/strip', async (req, res) => {
+app.get('/api/market/strip', optionalAuth, async (req, res) => {
     const symbols = String(req.query.symbols || 'SPY,QQQ,DIA,IWM')
         .split(',').map((s) => safeUpper(s.trim())).filter(Boolean).slice(0, 12);
+    // The payload is built once and cached for everyone; what a caller may see is
+    // decided per request, so a clipped answer never poisons the shared cache for
+    // the next visitor and no symbol is ever hidden from a signed-in one.
+    const send = (payload) => {
+        const kept = anonStripAllowance.keep(req, symbols);
+        if (kept.length === symbols.length) return res.json(payload);
+        const quotes = {};
+        for (const s of kept) if (payload.quotes[s]) quotes[s] = payload.quotes[s];
+        res.setHeader('Cache-Control', 'no-store');
+        return res.json({ ...payload, quotes, limited: true, limit: anonStripAllowance.perDay });
+    };
     const key = symbols.join(',');
     const cached = _stripCache.get(key);
-    if (cached && Date.now() - cached.at < STRIP_TTL_MS) return res.json(cached.payload);
+    if (cached && Date.now() - cached.at < STRIP_TTL_MS) return send(cached.payload);
     try {
         const out = {};
         await Promise.all(symbols.map(async (symbol) => {
@@ -8185,7 +8226,7 @@ app.get('/api/market/strip', async (req, res) => {
         const payload = { quotes: out, at: new Date().toISOString() };
         _stripCache.set(key, { at: Date.now(), payload });
         if (_stripCache.size > 500) _stripCache.delete(_stripCache.keys().next().value);
-        res.json(payload);
+        return send(payload);
     } catch (error) {
         res.status(500).json({ message: publicErrorMessage(error, 'Market strip failed') });
     }
@@ -9629,15 +9670,20 @@ const { createCompanyAllowance } = require('./anon-company-limit');
 const ANON_COMPANY_DAY = Math.max(0, Number.parseInt(process.env.ANON_COMPANY_DAY ?? '25', 10) || 0);
 const anonCompanyAllowance = createCompanyAllowance({ perDay: ANON_COMPANY_DAY });
 const anonCompanyCounters = { limited: 0 };
+// The anonymous identity every allowance keys on: the visitor's own address
+// (never the proxy hop — see visitorIp), HMAC'd so the raw address is not what
+// sits in memory. ANON_COMPANY_SALT rotates it without a redeploy.
+function anonCompanyKey(req) {
+    return crypto.createHmac('sha256', process.env.ANON_COMPANY_SALT || JWT_SECRET)
+        .update(visitorIp(req)).digest('hex').slice(0, 24);
+}
 function anonCompanyGate(req, res, next) {
     if (ANON_COMPANY_DAY <= 0) return next();
     if (req.user || req.userId || req.apiKeyId) return next();
     const symbol = safeUpper(req.params.symbol);
     if (!isValidTicker(symbol)) return next(); // the route answers 400 itself
     const day = new Date().toISOString().slice(0, 10);
-    const key = crypto.createHmac('sha256', process.env.ANON_COMPANY_SALT || JWT_SECRET)
-        .update(visitorIp(req)).digest('hex').slice(0, 24);
-    if (anonCompanyAllowance.allow(key, normalizeTicker(symbol), day)) return next();
+    if (anonCompanyAllowance.allow(anonCompanyKey(req), normalizeTicker(symbol), day)) return next();
     anonCompanyCounters.limited += 1;
     res.setHeader('Cache-Control', 'no-store');
     res.setHeader('RateLimit-Limit', String(ANON_COMPANY_DAY));
@@ -9647,6 +9693,42 @@ function anonCompanyGate(req, res, next) {
         message: `That's ${ANON_COMPANY_DAY} different companies today on the free plan. Create an account to keep researching.`
     });
 }
+
+// Bulk routes charge a day's allowance after the fact. A symbol-scoped route
+// knows its company before the work starts; a tape or a screener only learns its
+// set from the result, so it counts what it is about to disclose. Symbols already
+// counted today are free whichever route counted them — a company page and the
+// tape that links to it never charge twice — and the set is CLIPPED rather than
+// refused, because refusing the chrome of a page the visitor is already reading
+// tells them nothing they can act on.
+function createAnonBulkAllowance(envName, fallbackPerDay) {
+    const perDay = Math.max(0, Number.parseInt(process.env[envName] ?? String(fallbackPerDay), 10) || 0);
+    const allowance = createCompanyAllowance({ perDay });
+    const counters = { limited: 0 };
+    return {
+        perDay,
+        counters,
+        // The subset of `symbols` this request may disclose: all of them for a
+        // signed-in or keyed caller, and all of them when the limit is off.
+        keep(req, symbols) {
+            if (perDay <= 0 || req.user || req.userId || req.apiKeyId) return symbols;
+            const day = new Date().toISOString().slice(0, 10);
+            const key = anonCompanyKey(req);
+            const kept = symbols.filter((s) => allowance.allow(key, normalizeTicker(s), day));
+            if (kept.length < symbols.length) counters.limited += 1;
+            return kept;
+        },
+        stats() { return { limit: perDay, tracked: allowance.size(), counters: { ...counters } }; }
+    };
+}
+
+// Symbols one signed-out visitor may read from the market tape per UTC day.
+// Deliberately a separate budget from the 25-company research allowance: the tape
+// is chrome over ETFs and indices, and if it drew on the same allowance then
+// SPY,QQQ,DIA,IWM on a page load would spend four of a reader's 25 companies
+// before they had read anything. 40 covers the default tape and every
+// asset-class tab on the news page, and only a machine varies symbols past that.
+const anonStripAllowance = createAnonBulkAllowance('ANON_STRIP_SYMBOL_DAY', 40);
 
 // ----- Company extras (v2 page): SEC filings + ownership, public + cached -----
 const _filingsCache = new Map(); // SYM -> { at, payload }
@@ -13582,7 +13664,10 @@ app.get('/api/admin/anon-company/stats', authMiddleware, marketingDashboardOnly,
     res.set('Cache-Control', 'no-store').json({
         limit: ANON_COMPANY_DAY,
         tracked: anonCompanyAllowance.size(),
-        counters: { ...anonCompanyCounters }
+        counters: { ...anonCompanyCounters },
+        // The tape's own budget, kept separate from the 25-company allowance
+        // above so `limited` on either one means what it says.
+        strip: anonStripAllowance.stats()
     });
 });
 
