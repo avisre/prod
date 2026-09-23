@@ -22,6 +22,17 @@ const fs = require('node:fs');
 const path = require('node:path');
 
 const appSource = () => fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+const botBlockerSource = () => fs.readFileSync(path.join(__dirname, '..', 'bot-blocker.js'), 'utf8');
+
+function codeLinesIn(source, needle) {
+    return source.split('\n')
+        .map((line, index) => ({ line, number: index + 1 }))
+        .filter(({ line }) => line.includes(needle))
+        .filter(({ line }) => {
+            const trimmed = line.trim();
+            return !trimmed.startsWith('//') && !trimmed.startsWith('*') && !trimmed.startsWith('/*');
+        });
+}
 
 // Lines carrying code rather than prose. app.js documents req.ip heavily on
 // purpose and contains 'https://' strings, so neither a bare occurrence count
@@ -61,6 +72,25 @@ test('the resolver is the only place in app.js that reads req.ip', () => {
     assert.equal(uses.length, 1, `only visitorIp may read req.ip; found line(s) ${uses.map((u) => u.number).join(', ')}`);
     assert.match(uses[0].line, /String\(\(req && req\.ip\) \|\| ''\)/, 'the single use is the resolver fallback');
     assert.match(appSource(), /function visitorIp\(req\) \{\s*return marketingAttribution\.requestIp\(req\) \|\| String\(\(req && req\.ip\) \|\| ''\) \|\| '0';\s*\}/);
+});
+
+test('bot-blocker resolves the visitor too, not the proxy hop', () => {
+    // The same bug class one file over. bot-blocker.js predates the resolver and
+    // the guard above only ever scanned app.js, so its req.ip went unnoticed.
+    // The two sites it fed are both questions about the caller: Layer 2
+    // reverse-resolved the edge hop (a real Googlebot then failed verification on
+    // a stranger's PTR record and was cached 'impostor' for six hours), and
+    // Layer 4 handed one 100-navigation budget to every reader behind that hop.
+    const source = botBlockerSource();
+    const uses = codeLinesIn(source, 'req.ip');
+    assert.equal(uses.length, 1, `only clientIp may read req.ip; found line(s) ${uses.map((u) => u.number).join(', ')}`);
+    assert.match(uses[0].line, /String\(\(req && req\.ip\) \|\| ''\)/, 'the single use is the clientIp fallback');
+    assert.match(source, /function clientIp\(req\) \{\s*return marketingAttribution\.requestIp\(req\) \|\| String\(\(req && req\.ip\) \|\| ''\);\s*\}/);
+    // Every site that consumes an address goes through it, so a later edit
+    // cannot reintroduce the hop at just one of them.
+    assert.match(source, /checkCrawlerClaim\(clientIp\(req\), ua\)/);
+    assert.match(source, /keyGenerator: \(req\) => clientIp\(req\)/);
+    assert.match(source, /getCachedVerdict\(clientIp\(req\)\) === 'verified'/);
 });
 
 test('the resolver and the walls share one address resolution', () => {

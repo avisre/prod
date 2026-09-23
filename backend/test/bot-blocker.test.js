@@ -168,6 +168,32 @@ test('an unseen IP fails open — first sight is not blocked while resolution ru
     assert.equal(resolved, true);
 });
 
+test('crawler verification resolves the visitor IP, not the Cloudflare edge hop', async (t) => {
+    // Behind Render's Cloudflare edge req.ip is an intermediate proxy hop, not
+    // the caller. Verifying that hop means a real Googlebot is checked against
+    // someone else's PTR record — and lands in the 'impostor' cache for six
+    // hours. The address must come from the same visitor resolution the rest
+    // of the app uses (app.js visitorIp / marketing-attribution requestIp).
+    process.env.NODE_ENV = 'production';
+    t.after(() => { delete process.env.NODE_ENV; });
+    const reversed = [];
+    t.mock.method(dns, 'reverse', async (ip) => { reversed.push(ip); return ['crawl-66-249-66-9.googlebot.com']; });
+    t.mock.method(dns, 'resolve4', async () => ['66.249.66.9']);
+    t.mock.method(dns, 'resolve6', async () => { throw new Error('no AAAA'); });
+
+    const mw = botBlocker.middleware({ isRawBodyWebhookPath });
+    const req = fakeReq({
+        ip: '172.71.0.1', // the Cloudflare edge hop the origin actually sees
+        headers: { 'user-agent': 'Googlebot/2.1', 'cf-connecting-ip': '66.249.66.9' }
+    });
+    const res = fakeRes();
+    mw(req, res, () => {});
+    await new Promise((resolve) => setImmediate(resolve));
+
+    assert.deepEqual(reversed, ['66.249.66.9'],
+        'reverse DNS must ask about the visitor, never the edge hop');
+});
+
 test('dry-run mode counts what would be blocked without an env-level enforcement check', () => {
     // classifyUa/isExemptPath are pure; dry-run behavior lives in middleware(),
     // exercised at the app.js integration level. Here we confirm the switch

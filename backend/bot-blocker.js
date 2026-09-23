@@ -13,8 +13,27 @@
 
 const dns = require('dns').promises;
 const rateLimit = require('express-rate-limit');
+const marketingAttribution = require('./marketing-attribution');
 
 const INTERNAL_UA_MARKER = 'stockportfolio-internal';
+
+// The client's address, not the edge's. Behind Render's Cloudflare edge req.ip
+// is an intermediate proxy hop, not the visitor (measured 2026-09-23; see
+// app.js's visitorIp and marketing-attribution.js's requestIp). Every use of
+// the address below is a question about the *caller*, so keying on req.ip asks
+// it about the wrong machine in two ways:
+//   - Layer 2 reverse-resolves the proxy. A real Googlebot's claim then fails
+//     verification on someone else's PTR record, and the IP is cached
+//     'impostor' for six hours — a deindexing bug, not a spam block.
+//   - Layer 4's 100-navigation budget is spent by every visitor behind that
+//     edge at once, so one crawler exhausts the allowance for real readers
+//     (and for Googlebot) sharing the hop.
+// Cloudflare overwrites CF-Connecting-IP and refuses a client-supplied value,
+// so it is trustworthy in production; outside production nothing strips a
+// forged header and requestIp falls back to req.ip.
+function clientIp(req) {
+    return marketingAttribution.requestIp(req) || String((req && req.ip) || '');
+}
 
 // A refusal is also the only channel a blocked crawler's operator reliably
 // reads, so it carries the offer rather than just the denial.
@@ -224,8 +243,8 @@ const navLimiter = rateLimit({
     max: navMax(),
     standardHeaders: true,
     legacyHeaders: false,
-    keyGenerator: (req) => req.ip,
-    skip: (req) => isStaticAssetPath(req.path) || getCachedVerdict(req.ip) === 'verified',
+    keyGenerator: (req) => clientIp(req),
+    skip: (req) => isStaticAssetPath(req.path) || getCachedVerdict(clientIp(req)) === 'verified',
     handler: (req, res, next) => {
         counters.rateLimit++;
         if (isDryRun()) { counters.dryRunWouldBlock++; return next(); }
@@ -269,7 +288,7 @@ function middleware({ isRawBodyWebhookPath } = {}) {
         }
 
         if (claim === 'allowed-claim') {
-            const verdict = checkCrawlerClaim(req.ip, ua);
+            const verdict = checkCrawlerClaim(clientIp(req), ua);
             if (verdict === 'impostor') {
                 counters.blocked++;
                 if (isDryRun()) { counters.dryRunWouldBlock++; return next(); }

@@ -2255,12 +2255,18 @@ const { pixelConfig } = require('./pixels');
 // trial, or an AppSumo/lifetime grant. Anonymous page requests 302 to
 // /register.html; signed-in-but-inactive users (expired trial, cancelled,
 // free) 302 to /upgrade.html so they land on the checkout path. Mounted ahead
-// of ssrCacheMw (which only caches GET+200 HTML, never a 302, so a walled
-// page can never reach the cache) and ahead of every SSR route and
-// express.static below. Pages only: /api keeps its own per-route auth gates,
-// assets/robots/sitemaps stay public so re-indexing after the experiment is
-// fast, and crawlers get the same 302 as humans — no user-agent
-// special-casing, no cloaking.
+// of ssrCacheMw (which only caches GET+200 HTML, never a 302) and ahead of
+// every SSR route and express.static below. Pages only: /api keeps its own
+// per-route auth gates, and assets/robots/sitemaps stay public so re-indexing
+// after the experiment is fast.
+//
+// Crawlers are exempt (see the claim check in the middleware below). They were
+// NOT exempt in the 2026-09-15 run, and that is what the run cost: Google had
+// 21,716 sitemap URLs, got a 302 to /register.html on every one, and dropped
+// ~6,600 of them from the index inside four days — a bill that outlives the
+// week the wall was meant to run, because re-indexing is a crawl-schedule
+// question, not a flag. The exemption is not cloaking: a crawler and a person
+// get the same bytes, and the bytes are the real page.
 const WALL_PAGE_EXEMPT_PREFIXES = [
     // '/docs' is the one product surface that stays readable signed out: it is
     // how a prospect finds out what the product does before paying for it, and
@@ -2436,6 +2442,22 @@ function signupTrialDaysFor(req) {
 async function wallAllPagesMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (wallPathIsExempt(req.path || '/')) return next();
+    // Crawlers get the page, never the 302. Same rule and same escape hatch as
+    // the hosting wall above (hostingWalled exempts `allowed-claim` for exactly
+    // this reason), and the reason is measured rather than theoretical: the
+    // 2026-09-15 run walled crawlers too, and Google responded by dropping
+    // ~6,600 URLs from the index in four days (Search Console: indexed pages
+    // 16,574 -> 9,940 between 09-04 and 09-21).
+    //
+    // Sound without a verification step of its own: bot-blocker runs ahead of
+    // this middleware and reverse-resolves the claim, so a forged Googlebot UA
+    // is refused there before it arrives here. That check fails open on an
+    // unseen address, so the first request from an impostor is served — which
+    // is the trade bot-blocker already documents, and the cheap side of it: a
+    // scraper reading a page that is public again in a week costs less than a
+    // real Googlebot spending that week collecting 302s.
+    const crawlerClaim = botBlocker.classifyUa((req.headers || {})['user-agent']);
+    if (crawlerClaim === 'allowed-claim' || crawlerClaim === 'internal') return next();
     const walled = freeTierWallReason(req);
     if (!WALL_ALL_PAGES && !walled) return next();
 

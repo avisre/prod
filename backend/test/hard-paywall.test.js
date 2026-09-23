@@ -6,7 +6,10 @@
 // grant. This file pins the wall's source wiring: flag-gated (default off),
 // mounted ahead of the SSR cache, page-scoped (assets/robots/sitemaps/API
 // exempt), anonymous → register.html, signed-in-inactive → upgrade.html, and
-// no user-agent special-casing (crawlers walled like humans — no cloaking).
+// crawlers exempt through bot-blocker's classifier rather than any UA string of
+// its own. That last one is a correction, not a feature: the 2026-09-15 run
+// walled crawlers too, and Google dropped ~6,600 URLs from the index in four
+// days (Search Console: indexed 16,574 on 09-04 → 9,940 on 09-21).
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -130,7 +133,9 @@ test('no user-agent special-casing in the region wall, and only the crawler clai
     const region = section.slice(section.indexOf('// ---- Geo wall'), section.indexOf('// ---- Hosting/VPN wall'));
     assert.ok(region.length > 0, 'region wall section found');
     assert.doesNotMatch(region, /user-agent|userAgent|User-Agent/i);
-    const hosting = section.slice(section.indexOf('// ---- Hosting/VPN wall'));
+    // Ends at the page wall, which has its own (separately tested) claim check.
+    // Without this bound the slice would reach it and count two UA branches.
+    const hosting = section.slice(section.indexOf('// ---- Hosting/VPN wall'), section.indexOf('async function wallAllPagesMiddleware'));
     // Lines, not occurrences: the single branch tests the claim twice
     // ('allowed-claim' or 'internal'), so counting matches would read as two.
     const uaBranches = hosting.split('\n').filter((line) => /claim ===/.test(line));
@@ -140,5 +145,30 @@ test('no user-agent special-casing in the region wall, and only the crawler clai
     // itself, so the two can never drift about who counts as a crawler.
     const code = hosting.replace(/\/\/[^\n]*/g, '');
     assert.doesNotMatch(code, /googlebot|bingbot|headless|curl|wget/i, 'no UA string matching in the wall');
+    assert.doesNotMatch(code, /ALLOWED_UA_RE|DENY_PATTERNS/);
+});
+
+test('the page wall serves a crawler the page, not the 302', () => {
+    // The 2026-09-15 experiment walled crawlers along with everyone else. Google
+    // responded by dropping ~6,600 URLs — the sitemap's whole /stocks, /compare,
+    // /metrics surface — and unlike the wall that caused it, that cost does not
+    // lift when the flag is unset: re-indexing waits on a crawl schedule. So the
+    // exemption is asserted here, and asserted to run BEFORE the flag test, or
+    // re-arming the experiment re-creates the same bill.
+    const section = wallSection();
+    const wall = section.slice(section.indexOf('async function wallAllPagesMiddleware'));
+    assert.match(wall, /const crawlerClaim = botBlocker\.classifyUa\(\(req\.headers \|\| \{\}\)\['user-agent'\]\);/);
+    assert.match(wall, /if \(crawlerClaim === 'allowed-claim' \|\| crawlerClaim === 'internal'\) return next\(\);/);
+
+    const claimAt = wall.indexOf('crawlerClaim');
+    const flagAt = wall.indexOf('if (!WALL_ALL_PAGES && !walled)');
+    assert.ok(claimAt > -1 && flagAt > -1 && claimAt < flagAt,
+        'the crawler check precedes the WALL_ALL_PAGES test, so it holds in both states');
+
+    // Not a UA bypass: it delegates to bot-blocker's classifier instead of
+    // matching a UA string, so only what bot-blocker admits as a crawler is
+    // exempt, and bot-blocker verifies that claim by reverse DNS ahead of here.
+    const code = wall.replace(/\/\/[^\n]*/g, '');
+    assert.doesNotMatch(code, /googlebot|bingbot|headless|curl|wget/i, 'no UA string matching in the page wall');
     assert.doesNotMatch(code, /ALLOWED_UA_RE|DENY_PATTERNS/);
 });
