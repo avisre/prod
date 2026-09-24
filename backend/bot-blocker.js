@@ -48,6 +48,13 @@ const ALLOWED_UA_RE = new RegExp(ALLOWED_UAS.join('|'), 'i');
 // Everything else that self-identifies as automated: named AI crawlers,
 // non-Google/Bing search engines, backlink/SEO scrapers, headless browsers,
 // and plain HTTP client libraries.
+//
+// `google-extended` and `applebot-extended` are robots.txt CONTROL TOKENS, not
+// request user agents — neither company sends a fetch carrying them (Google:
+// "Google-Extended doesn't have a separate HTTP request user agent string").
+// They cannot match a legitimate request, so these two entries are defence
+// against a spoofed UA, not a live block. The real control is the stanza in
+// frontend/robots.txt; the real crawl gate for Google is Googlebot, above.
 const DENY_PATTERNS = [
     /meta-externalagent/i, /facebookbot/i, /gptbot/i, /chatgpt-user/i, /oai-searchbot/i,
     /anthropic-ai/i, /claudebot/i, /claude-web/i, /claude-user/i, /perplexitybot/i, /perplexity-user/i,

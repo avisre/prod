@@ -58,9 +58,17 @@ User-agent: Storebot-Google
 Allow: /
 Disallow: /api/
 
-# Google's AI-training crawler — a DIFFERENT agent from Googlebot above. Kept
-# as its own explicit stanza so a future "let's allow Google" edit cannot
-# silently re-admit it.
+# Google-Extended is NOT a crawler and NOT a separate agent — per Google,
+# "Google-Extended doesn't have a separate HTTP request user agent string";
+# the token is "used in a control capacity". It governs whether content
+# Googlebot already crawled may be used to train future Gemini models and to
+# ground them. No request ever arrives carrying this user agent, so this
+# stanza changes nothing about fetching: Googlebot (allowed above) does all
+# the fetching, and this line decides only what that content may then be used
+# for. Google states it plainly: "Google-Extended does not impact a site's
+# inclusion in Google Search nor is it used as a ranking signal in Google
+# Search." Kept as its own stanza (rather than folded into the wildcard) so a
+# future "let's allow Google" edit cannot silently re-admit Gemini training.
 User-agent: Google-Extended
 Disallow: /
 

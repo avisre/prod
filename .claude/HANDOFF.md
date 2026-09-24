@@ -1,5 +1,171 @@
 # Handoff
 
+## Why Google doesn't send clicks, and what to target — measured, not reasoned (2026-09-24)
+
+Asked whether a segment play (e.g. targeting small caps) would earn more Google
+clicks. Measured it against the real data instead. **The answer is no to the
+segment play, and the real finding is a Google-vs-Bing divergence that reframes
+the whole question.**
+
+- **Small caps: my first pass said "rejected" and that was WRONG — corrected
+  below.** The claim rested on 90 days, where the small and mid buckets held
+  **23 and 32 impressions across 9 and 10 symbols** — far too thin for the 23x
+  it produced. Re-run over the full 480-day window (850 human rows, 2,466
+  impressions) the picture changes in both magnitude and direction:
+
+  | size | syms with any impression | % of universe | imp/sym | median imp/sym | median position |
+  |---|---|---|---|---|---|
+  | large (503) | 57 | 11.3% | 1.431 | 2 | 59 |
+  | mid (400) | 47 | 11.8% | 0.305 | 1 | 58 |
+  | small (603) | 47 | 7.8% | 0.163 | 1 | **48** |
+
+  So: **"23x" was really ~8.8x**, and it is outlier-driven (max 156 impressions
+  for one large cap vs 13 for a small cap) while the *median* symbol earns 1–2
+  impressions in every bucket, and the share of the universe that ever appears is
+  comparable (7.8–11.8%). Worse for my original claim, **small caps rank slightly
+  BETTER, not the same** — median position 48 vs 59, and 6.4% of small-cap rows at
+  position ≤20 vs 4.4% for large caps. That is consistent with the owner's
+  intuition that small caps face less competition. **Lesson: a 90-day slice was
+  too thin to support a ratio claim — pull the full window before stating one.**
+- **But the segment question is second-order, which is why the correction does
+  not rescue a small-cap play.** Every size bucket sits at median position 48–59
+  with 0 clicks over 480 days. Moving from 59 to 48 is still page 5-6. The site's
+  problem is its site-wide position, not which companies it covers. One confound
+  remains open and would need the index data to settle: low small-cap impressions
+  could mean "no demand" OR "not indexed", and this join cannot tell them apart.
+- **87% of "impressions" are not people.** Filtering `site:`/`inurl:` operators,
+  quoted phrases and `- wab` suffixes leaves **485 human query rows, 831
+  impressions, 1 click over 90 days** out of 739 rows / 6,232 impressions. Every
+  apparent page-1 win in the raw data was a rank tool checking indexing. A naive
+  `split(',')` on the Bing CSVs also silently truncates (commas inside queries) —
+  parse RFC4180 or the numbers come out NaN.
+- **Bing and Google see the same site and disagree completely.** Bing: 183
+  impressions, **14 clicks, 7.7% CTR, avg position 6.1**, and **0 of 100 queries
+  below position 20.** Google: 831 impressions, 1 click, 0.12%, avg position ~60,
+  with **388 of 485 human queries at position 51-100.** Same pages, same titles
+  (verified live: `/stocks/AAPL/price-history` reads "AAPL (Apple) Stock Price
+  History", `/stocks/AMZN/pe-ratio` reads "AMZN P/E Ratio History").
+- **Joining the two query sets is the sharpest single measurement.** Of the 25
+  queries Bing ranks in its top 10, **Google shows the site for exactly one** —
+  "stock price of apple 3 years ago", Bing 7 vs **Google 48**. For the other 24
+  Google has no record at all. So this is not "Google ranks us lower"; it is
+  mostly "Google does not surface these pages". Even where both index the page,
+  Google sits ~40 positions behind.
+- **Conclusion: the bottleneck is indexing and site-level trust, not content,
+  targeting, or market segment.** Titles/H1s/descriptions already match the
+  queries, the sitemap is clean, canonicals are correct, and the paywall did not
+  move position (August human position was already 52.31 — the wall changed the
+  indexed *count*, not the ranking). What is left is Google's willingness to
+  crawl and trust the site, which is also the one thing never attempted
+  off-site. **Backlinks/citations are the unmeasured, unattempted lever** — the
+  Links report is UI-only, so nothing here proves it; it is the leading
+  explanation consistent with every number above.
+- **What actually ranks, on BOTH engines**, is one shape: a company name plus a
+  *specific* fundamental phrase, usually with a year or an unusual wording —
+  "terex corporation total debt borrowings" (Google 7.6, `/stocks/TEX/total-debt`),
+  "boeing ba shares outstanding 2025" (Google 1.0), "aapl 2012-02-02 adjusted
+  close" (Bing 4), "nvidia historical monthly prices 2022 adjusted split" (Bing 3).
+  The 13,879 `/stocks/:sym/:metric` pages are exactly this shape, and Bing's
+  clicks land on them (`/stocks/VSXY/revenue`, `/stocks/FDX/gross-profit`,
+  `/stocks/KN/pe-ratio`). **That tier is 64% of the sitemap and only 13% indexed**
+  (4/30 sampled) versus 40% for compare and stock. It is both the best content
+  and the worst-covered.
+- **Do not chase "X stock" or generic ticker queries** — positions 65-95 against
+  finance portals ("dynex corp" 67.1, "etoro stock" 77.2, "figr stock" 81.5),
+  and no segment of the universe changes that.
+
+### Why the metric tier is not indexed — measured against Google's own docs (2026-09-24)
+
+Fetched the primary sources (WebSearch is non-functional here; WebFetch works, but
+blog-post bodies return only nav chrome — the `/search/docs/...` tree renders
+fine). Three docs matter: crawling-indexing/large-site-managing-crawl-budget,
+crawling-indexing/troubleshoot-crawling-errors, appearance/ai-features.
+
+- **The three hypotheses for a 13% indexed rate are dead — measured, not assumed.**
+  (1) *Thin content*: a live `/stocks/AAPL/revenue` is **577 visible words, 138
+  numeric tokens, 19 fiscal years** of filed values plus a computed lead sentence
+  (YoY %, 5-yr CAGR, sector percentile). (2) *No internal links*: every ticker page
+  carries **11 crawlable `<a href="/stocks/AAPL/...">` links** (`seo-extra.js`
+  loads fine — the `catch (_)` at `seo-pages.js:567` is a real but *unfired*
+  failure path). (3) *Sitemap defects*: already ruled out (0 errors, `flags[slug]`
+  gates the sitemap on data presence, so no soft-404 metric URLs).
+- **Google names the actual reason, and it fits exactly:** for a URL that is
+  crawled but not indexed, the doc says "if there isn't sufficient value **or user
+  demand** for the content." That is the same demand/trust gap the Bing divergence
+  independently measured. Discovery, linking and content are all fine.
+- **Crawl *demand*, not crawl *budget*, is the gate.** The doc is explicit: "if
+  crawl demand is low, Google will crawl your site less," even when capacity is
+  free. Demand is driven by page popularity and staleness — which for a site with
+  no external links is ~zero. A sitemap establishes *inventory*, never demand.
+- **Actionable and non-obvious — `noindex` is the WRONG tool for unwanted URLs.**
+  The doc says plainly: "Don't use `noindex`, … Google still requests the page and
+  then discards it, wasting crawl time." If the metric tier is ever triaged as
+  not-worth-indexing, the correct move is `robots.txt` **or** fewer URLs emitted —
+  and note robots.txt is effectively permanent, so this is a one-way door.
+- **AI Overviews / AI Mode need nothing new.** "There are no additional
+  requirements … nor other special optimizations necessary" — indexed + snippet-
+  eligible is the whole bar. No `llms.txt`, no special schema. This is the same
+  gate as Search, so it is *not* a shortcut past the indexing problem. AI traffic
+  is reported inside the existing **Web** search type; there is no separate metric.
+- **E-E-A-T carries extra weight on finance — YMYL is named explicitly.** The
+  helpful-content doc singles out "health, finances, safety" for extra weight. Its
+  Who/How/Why framework asks for bylines with author background, an About page,
+  and — directly relevant here — **disclosure of automated/AI-generated content**,
+  describing its role. `/methodology` covers computation but not this.
+- **Links are the named demand channel, and internal linking is already done.**
+  "Every page you care about should have a link from at least one other page on
+  your site" — satisfied. What remains is *external* links, which is the leading
+  unmeasured explanation and the only lever never attempted off-site.
+- **Unverified:** "Search Generative AI performance reports in Search Console"
+  (blog, 2026-06) may describe a report not yet used here — body was truncated and
+  I could not read it. Treat as unconfirmed, don't act on the title alone.
+
+### "Why don't we target Gemini the way we targeted ChatGPT/Claude?" — premise is backwards (2026-09-24)
+
+Asked directly. Checked instead of answering from memory, and the assumption in
+the question is wrong on both halves.
+
+- **We never targeted those AI bots — we block every one of them.** The allow
+  list is six agents and no more (`bot-blocker.js:45`): `googlebot`,
+  `googlebot-image`, `google-inspectiontool`, `storebot-google`, `bingbot`,
+  `bingpreview`. `GPTBot`, `ChatGPT-User`, `OAI-SearchBot`, `ClaudeBot`,
+  `Claude-Web`, `anthropic-ai`, `PerplexityBot`, `Perplexity-User`, `CCBot`,
+  `Bytespider`, `Amazonbot`, `meta-externalagent` are all in `DENY_PATTERNS`
+  **and** have explicit `Disallow: /` stanzas in `frontend/robots.txt`. There is
+  no existing AI-crawler channel for Gemini to be added to — it was closed
+  deliberately on 2026-09-11 for Render Hobby bandwidth (Meta's crawler alone
+  was 53% of all traffic).
+- **The thing that IS true is the MCP channel, not the SEO channel.** ChatGPT
+  and claude.ai can reach the *product* (`/mcp`, `/oauth/*` are exempted at
+  `bot-blocker.js:61-80`) but not the *content* (pages are 403 + Disallow). That
+  is the distinction to remember: agent-reachable, not crawlable.
+- **Gemini cannot be targeted as a crawler, because none exists.** AI Overviews /
+  AI Mode ground on **Googlebot** — already allowed. And Google-Extended, the one
+  Gemini-sounding token, is explicitly not a fetcher: *"Google-Extended doesn't
+  have a separate HTTP request user agent string"*; the token is *"used in a
+  control capacity."* So there is nothing to whitelist — no request ever arrives
+  carrying it.
+- **The Gemini lever therefore IS the Googlebot lever**, which is the indexing /
+  demand / trust problem already measured. AI-feature eligibility is "indexed +
+  snippet-eligible", the same gate. Targeting Gemini is not a second strategy; it
+  looks like we "aren't doing it" because it has no separate surface.
+- **Fixed a factually wrong comment that would cause a real future mistake.**
+  `frontend/robots.txt` called Google-Extended "Google's AI-training crawler — a
+  DIFFERENT agent from Googlebot." It is neither a crawler nor a separate agent,
+  and Google states it "does not impact a site's inclusion in Google Search."
+  Corrected in place (stanza unchanged — denying Gemini training/grounding is a
+  legitimate, deliberate choice). Noted the same for `applebot-extended` in
+  `bot-blocker.js`: neither token can match a live request, so those two DENY
+  entries are spoof-defence, not a live block.
+- **The real open decision — and the legitimate version of the question.**
+  Blocking training-only crawlers (`GPTBot`, `ClaudeBot`, `CCBot`, `Bytespider`)
+  is defensible for bandwidth. Blocking `OAI-SearchBot` and `PerplexityBot` is
+  different in kind: those are the **answer-engine indexes**, so ChatGPT Search
+  and Perplexity can *never cite the site*, ever. That is a distribution channel
+  closed as a side effect of a bandwidth decision. Re-admitting just those two at
+  a bounded rate is a genuine, unexploited lever — needs the owner's call, since
+  it reverses a policy set after a bandwidth alert.
+
 ## Google Search Console: no ranking regression, and crawler checks keyed on the proxy hop (2026-09-24)
 
 Owner pointed at the GSC 24-hour view and asked for Google issues to fix. There is
