@@ -23,8 +23,9 @@ const filingMonitor = require('./filing-monitor');
 // bumped: statements are now stored USD-converted, and per-share figures are on
 // the ADS basis. Cached dossiers built before this assumed USD-native filers, and
 // the compare route reads them build-free — so they must not survive the change.
-const DOSSIER_SCHEMA_VERSION = 6;
+const DOSSIER_SCHEMA_VERSION = 7;
 const analysis = require('./dossier-analysis');
+const incomeStmt = require('./income-statement');
 const governance = require('./governance');
 const esgMod = require('./esg');
 const industry = require('./industry');
@@ -364,6 +365,14 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     try { forensic = analysis.forensicSignals(data, rdcf, overview); } catch (_) { forensic = []; }
     let financials = null;
     try { financials = analysis.financialHistory(data); } catch (_) { financials = null; }
+    // Absolute income-statement dollars for the revenue-flow chart.
+    // financialHistory() deliberately emits margins only, so the payload has
+    // never carried gross profit or cost of sales in dollars — which is also
+    // why Normal mode's "where the money goes" band has always rendered empty.
+    let incomeStatement = null;
+    try {
+        incomeStatement = incomeStmt.repairIncome((((data.income || {}).annualReports) || [])[0]);
+    } catch (_) { incomeStatement = null; }
 
     // Initiation-grade grounded sections — industry, governance and the forward
     // DCF run concurrently (each fetches its own SEC filing or is pure compute);
@@ -419,7 +428,15 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         partial: true,
         keyFigures: pack ? pack.lines : null,
         industry: industryData || null,
-        segments: segs ? { fiscalYear: segs.fiscalYear, items: segs.segments, note: segs.note || null } : null,
+        segments: segs ? {
+            fiscalYear: segs.fiscalYear,
+            items: segs.segments,
+            note: segs.note || null,
+            // Kept so the panel can cite the exact filing the split came from
+            // rather than asserting it unsourced; both were dropped before.
+            basis: segs.basis || null,
+            filing: segs.filing || null
+        } : null,
         unitEconomics: ue && (ue.derived || (ue.metrics && ue.metrics.length)) ? {
             unitLabel: ue.unitLabel || (ue.derived && ue.derived.unitLabel) || null,
             fiscalYear: ue.fiscalYear || null,
@@ -440,6 +457,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         governance: gov || null,
         esg: esg || null,
         financials,
+        incomeStatement,
         analystRead: insightItems,
         edge: [],
         edgePlain: [],
@@ -541,4 +559,4 @@ async function peekDossier(symbol, depth = 'standard') {
     } catch (_) { return null; }
 }
 
-module.exports = { buildDossier, peekDossier, buildDigest, cachedDossier };
+module.exports = { buildDossier, peekDossier, buildDigest, cachedDossier, DOSSIER_SCHEMA_VERSION };

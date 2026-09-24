@@ -33,6 +33,12 @@ frontend/_debug.html
 /_*.js
 backend/_*.js
 
+# tmp-* is the same convention under a different prefix — one-off session
+# scripts. NEVER push: they carry live customer email addresses and send
+# receipts (tmp-resend-receipt-*.txt) and query password/Google-ID columns.
+backend/tmp-*
+scripts/__pycache__/
+
 # --- Build / cache ---
 .cache/
 dist/

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260925-quiet1" />
 <style>
   .vf-wrap { max-width: 900px; }
   .vf-head { padding: 56px 0 8px; }
@@ -29,6 +29,35 @@
   .vf-warn { background: #fdf6e9; border: 1px solid #ecd9b0; }
   .vf-warn .vf-title { color: #8a5a13; }
   .vf-verdict p { margin: 6px 0 0; color: var(--ink); font-size: 15px; line-height: 1.55; }
+
+  /* The red pen — the one moment in the product drawn with an edge. The
+     headline figure is struck through and the filed figure lands beside it,
+     because catching a wrong number is the one thing only this product does,
+     and it was previously rendered as the same grey box as everything else.
+     Deliberately absent from a period mismatch: those figures are not wrong,
+     and spending the sharpest signal the product has on a case that is not a
+     lie would cost it the only time it matters. */
+  .vf-pen { margin: 16px 0 2px; padding: 14px 16px; border: 1px solid #f2c9c9; border-radius: 10px; background: #fffafa; }
+  .vf-pen-row { display: flex; align-items: baseline; justify-content: space-between; gap: 14px;
+    padding: 7px 0; font-variant-numeric: tabular-nums; }
+  .vf-pen-row + .vf-pen-row { border-top: 1px solid #f6dede; }
+  .vf-pen-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); }
+  .vf-pen-wrong { position: relative; font-size: 19px; font-weight: 650; color: var(--ink-3); }
+  /* The strike is drawn, not applied — a line arriving across the number is the
+     same motion as the hairline rule above a settled figure. */
+  .vf-pen-wrong::after { content: ''; position: absolute; left: -3px; right: -3px; top: calc(50% - 1px);
+    height: 2px; background: #b3261e; transform-origin: left center;
+    animation: penStrike .18s ease-out both; }
+  /* The filed figure lands beside it, 180ms later — once the correction has
+     been seen, not simultaneously with it. */
+  .vf-pen-right { font-size: 19px; font-weight: 650; color: var(--ink); animation: penStamp .2s ease-out .18s both; }
+  @keyframes penStrike { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @keyframes penStamp { from { opacity: 0; transform: translateY(-2px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) {
+    .vf-pen-wrong::after, .vf-pen-right { animation: none; }
+  }
+  .vf-pen-diff { margin: 10px 0 0; font-size: 13.5px; color: var(--ink-2); }
+  .vf-pen-diff strong { color: #b3261e; }
 
   .vf-bars { display: grid; gap: 10px; margin: 16px 0 4px; }
   .vf-bar-row { display: grid; grid-template-columns: 130px 1fr 130px; gap: 10px; align-items: center; font-size: 13px; }
@@ -73,7 +102,7 @@
   <p class="vf-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
 
-<script src="/assets/app.js?v=20260922-docs1"></script>
+<script src="/assets/app.js?v=20260925-quiet1"></script>
 <script>
 (function () {
   window.V2.nav(''); window.V2.footer();
@@ -81,7 +110,14 @@
   const money = (n) => {
     if (n == null) return '—';
     const abs = Math.abs(n);
-    const one = (v) => { const x = v.toFixed(abs >= 100 ? 0 : 1); return x.replace(/\.0$/, ''); };
+    // The decimal is chosen from the SCALED value. This closure used to compare
+    // `abs` — the whole dollar amount — which is >= 100 for every real financial
+    // figure, so its decimal branch never ran and every number printed as a
+    // whole unit: a $15.5 billion filing showed as "$16 billion". On this page
+    // that is the figure used to judge someone else's headline, so a mismatch
+    // the verdict called wrong could render as the same string on both sides.
+    const one = (v) => { const x = v.toFixed(Math.abs(v) >= 1000 ? 0 : 1); return x.replace(/\.0$/, ''); };
+    if (abs >= 1e12) return '$' + one(n / 1e12) + ' trillion';
     if (abs >= 1e9) return '$' + one(n / 1e9) + ' billion';
     if (abs >= 1e6) return '$' + one(n / 1e6) + ' million';
     if (abs >= 1e3) return '$' + one(n / 1e3) + ' thousand';
@@ -103,8 +139,21 @@
     return `Your headline says ${cw} in ${what}. The filing shows ${fw} — your number is ${dir} than what&rsquo;s actually filed, a difference of ${pct}%.`;
   }
 
-  function bars(j) {
+  // The red pen. Rendered only for a FLAGGED verdict — a period mismatch is not
+  // a wrong number, and its own verdict class already says so.
+  function pen(j) {
     const c = j.pr && j.pr.value, f = j.filed && j.filed.value;
+    if (c == null || f == null || !(j.pr && j.pr.raw)) return '';
+    const pct = Number.isFinite(Number(j.diffPct)) ? Math.abs(Number(j.diffPct)).toFixed(0) : null;
+    const period = j.period || 'the latest filing';
+    return `<div class="vf-pen">
+      <div class="vf-pen-row"><span class="vf-pen-label">You were told</span><span class="vf-pen-wrong">${esc(j.pr.raw)}</span></div>
+      <div class="vf-pen-row"><span class="vf-pen-label">Actually filed</span><span class="vf-pen-right">${money(f)}</span></div>
+      ${pct === null ? '' : `<p class="vf-pen-diff">The headline is ${c > f ? 'overstated' : 'understated'} by <strong>${pct}%</strong> against ${esc(period)}.</p>`}
+    </div>`;
+  }
+
+  function bars(j) {    const c = j.pr && j.pr.value, f = j.filed && j.filed.value;
     if (c == null || f == null) return '';
     const max = Math.max(c, f, 1);
     const cw = Math.max(3, Math.round(c / max * 100));
@@ -130,6 +179,7 @@
       <div class="vf-verdict ${cls}">
         <div class="vf-title">${title}</div>
         <p>${explain(j)}</p>
+        ${flag ? pen(j) : ''}
         ${bars(j)}
       </div>
       <table class="vf-table">

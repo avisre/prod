@@ -1,7 +1,7 @@
 // Dashboard: holdings, what changed (alerts), X-Ray, Ask — same APIs as v1.
 (function () {
     'use strict';
-    const { API, token, num, money, pct, fixed, esc, nav, footer, mountAsk, markdown, chart, searchAssets, mountShare } = window.V2;
+    const { API, token, num, money, pct, fixed, esc, nav, footer, mountAsk, markdown, chart, searchAssets, mountShare, settle, arrive, heldLabel } = window.V2;
     nav('dashboard');
     footer();
 
@@ -129,17 +129,36 @@
         overlay.hidden = false;
     }
 
-    function finishPortfolioAction(message, { error = false, holdMs = 550 } = {}) {
+    // A failed mutation is the moment a user is most likely to fear they
+    // half-broke something, so when the failure was a whole no-op the overlay
+    // leads with the reassurance instead of the complaint — the portfolio is
+    // untouched, and that is the first thing they read.
+    //
+    // `unchanged` is opt-in rather than derived from `error`, because the
+    // multi-ticker path reports a PARTIAL success as an error ("3 of 5 added").
+    // Claiming nothing changed there would be a lie.
+    const UNCHANGED = 'Nothing was changed — your portfolio is exactly as you left it.';
+
+    function finishPortfolioAction(message, { error = false, holdMs = 550, unchanged = false, arrival = null } = {}) {
         const overlay = $('portfolio-action-overlay');
         const status = $('portfolio-action-status');
+        // The arrival card replaces the flash-and-vanish tick for a successful
+        // save. It waits for the user instead of timing out: the whole point is
+        // that the moment is acknowledged, and a card that leaves before it is
+        // read acknowledges nothing.
+        if (arrival && !error) return showArrival(arrival);
+        $('portfolio-action-arrival').hidden = true;
+        const detail = (error && unchanged) ? `${UNCHANGED} ${message}` : message;
         overlay.setAttribute('aria-busy', 'false');
         overlay.classList.toggle('is-error', error);
         $('portfolio-action-spinner').hidden = true;
         $('portfolio-action-mark').hidden = false;
         $('portfolio-action-mark').textContent = error ? '!' : '✓';
-        $('portfolio-action-title').textContent = error ? 'Portfolio not changed' : 'Portfolio updated';
-        $('portfolio-action-detail').textContent = message;
-        status.textContent = message;
+        $('portfolio-action-title').textContent = error
+            ? (unchanged ? 'That didn’t go through.' : 'Some of that didn’t go through.')
+            : 'Portfolio updated';
+        $('portfolio-action-detail').textContent = detail;
+        status.textContent = detail;
         status.className = `portfolio-action-status small ${error ? 'is-error' : 'is-success'}`;
         status.hidden = false;
         window.setTimeout(() => {
@@ -148,6 +167,44 @@
             portfolioActionBusy = false;
             setPortfolioControlsBusy(false);
         }, holdMs);
+    }
+
+    // The rows come from the server and every one of them is optional: a row is
+    // drawn only for a number the save actually returned, so an unresolved
+    // symbol shows fewer rows rather than an estimated one.
+    function showArrival(a) {
+        const overlay = $('portfolio-action-overlay');
+        const box = $('portfolio-action-arrival');
+        overlay.classList.remove('is-error');
+        overlay.setAttribute('aria-busy', 'false');
+        $('portfolio-action-spinner').hidden = true;
+        $('portfolio-action-mark').hidden = false;
+        $('portfolio-action-mark').textContent = '✓';
+        $('portfolio-action-title').textContent = 'Your portfolio is live.';
+        $('portfolio-action-detail').innerHTML =
+            `<strong>${esc(a.symbol)}</strong> is yours to watch now, not just a ticker you looked up.`;
+        const total = a.portfolio ? Number(a.portfolio.totalValue) : null;
+        box.innerHTML = `${arrive(a)}
+          ${total === null ? '' : `<div class="arrive-total">
+            <span class="small muted">Total value</span>
+            <strong class="arrive-value" id="portfolio-action-value">—</strong>
+          </div>`}
+          ${a.held && a.held.days >= 30 ? `<p class="arrive-held small muted">Held ${esc(heldLabel(a.held.days))} &mdash; your own date, not ours.</p>` : ''}
+          <button class="btn btn-primary btn-sm" type="button" id="portfolio-action-done">See what changed</button>`;
+        box.hidden = false;
+        overlay.hidden = false;
+        portfolioActionBusy = true;
+        setPortfolioControlsBusy(true);
+        $('portfolio-action-done').onclick = () => {
+            overlay.hidden = true;
+            box.hidden = true;
+            box.innerHTML = '';
+            portfolioActionBusy = false;
+            setPortfolioControlsBusy(false);
+        };
+        // The figure settles rather than appearing — and settle() writes the
+        // true value first, so a browser without rAF still shows the real total.
+        settle($('portfolio-action-value'), total);
     }
 
     if (DEMO) {
@@ -378,7 +435,11 @@
             price,
             value,
             gain,
-            gainUsd
+            gainUsd,
+            // Carried for "Since you bought". Read straight off the stored
+            // holding — never derived from a saved-at timestamp, which is our
+            // clock, not the user's.
+            purchaseDate: h.purchaseDate || null
         };
     }
 
@@ -390,6 +451,54 @@
         const usdText = `${row.gainUsd >= 0 ? '+' : '−'}$${fixed(Math.abs(row.gainUsd), 2)}`;
         const cls = row.gain > 0 ? 'delta-pos' : row.gain < 0 ? 'delta-neg' : '';
         return `<td class="gain-cell ${cls}" data-pct="${esc(pctText)}" data-usd="${esc(usdText)}" data-on="${gainFmt}" title="Toggle between % and $">${gainFmt === 'usd' ? usdText : pctText}</td>`;
+    }
+
+    // "Since you bought" — the one thing on this page no competitor can copy,
+    // because it is the user's own data: the purchase date they typed in, which
+    // the product has stored on every holding since the beginning and never
+    // once reflected back at them.
+    //
+    // A duration is never inferred for a holding that has no date. Holdings
+    // without one are counted and disclosed rather than estimated, because an
+    // invented "held for 3 years" would be the product claiming a memory the
+    // user never gave it.
+    function renderSinceBought(rows) {
+        const section = $('since-section');
+        const body = $('since-body');
+        if (!section || !body) return;
+        const dated = rows
+            .map((row) => {
+                const at = row.purchaseDate ? new Date(row.purchaseDate) : null;
+                if (!at || Number.isNaN(at.getTime())) return null;
+                const days = Math.floor((Date.now() - at.getTime()) / 86400000);
+                return days >= 0 ? { row, days, at } : null;
+            })
+            .filter(Boolean)
+            .sort((a, b) => b.days - a.days);
+        if (!dated.length) { section.hidden = true; body.innerHTML = ''; return; }
+
+        const missing = rows.length - dated.length;
+        const totalDays = dated.reduce((n, x) => n + x.days, 0);
+        const oldest = dated[0];
+        const held = (d) => heldLabel(d) || 'under a month';
+        const delta = (g) => (g === null || g === undefined) ? '' :
+            (g > 0 ? 'delta-pos' : g < 0 ? 'delta-neg' : '');
+
+        body.innerHTML = `
+          <p class="since-total">You have held these positions for <strong>${esc(held(totalDays))}</strong> in total${
+              missing ? ` &middot; ${missing} of ${rows.length} came without a purchase date, so ${missing === 1 ? 'it is' : 'they are'} not counted here` : ''
+          }.</p>
+          <div class="since-list">
+            ${dated.map(({ row, days }) => `
+              <div class="since-row">
+                <span class="since-sym">${esc(row.symbol)} <span class="muted small">${esc(row.name)}</span></span>
+                <span class="since-held">${esc(held(days))}</span>
+                <span class="since-delta ${delta(row.gain)}">${row.gain === null ? '—' : (row.gain > 0 ? '+' : row.gain < 0 ? '−' : '') + fixed(Math.abs(row.gain), 1) + '%'}</span>
+                <span class="since-paid">${row.paid === null ? 'you paid —' : `you paid $${fixed(row.paid, 2)}`}${row.price === null ? '' : ` &rarr; $${fixed(row.price, 2)} today`}</span>
+              </div>`).join('')}
+          </div>
+          <p class="small muted since-foot">Longest held: <strong>${esc(oldest.row.symbol)}</strong> &mdash; ${esc(held(oldest.days))}, opened ${esc(oldest.at.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))}. Every date here is one you gave us.</p>`;
+        section.hidden = false;
     }
 
     function renderHoldings(rows) {
@@ -421,6 +530,8 @@
                     : `${rows.length} holdings · ${(pfCurrent() || {}).name || 'portfolio'}`)
                 : `${rows.length} holdings · stored prices refresh through the day`;
         $('holdings-loading').hidden = true;
+        // Before the empty-portfolio return, so an empty portfolio hides it too.
+        renderSinceBought(rows);
 
         if (!rows.length) {
             $('holdings-empty').hidden = false;
@@ -479,7 +590,7 @@
     async function refreshPortfolioInBackground(symbol, { removed = false } = {}) {
         const version = ++portfolioRefreshVersion;
         const status = $('portfolio-action-status');
-        status.textContent = 'Holding saved · refreshing performance and analysis in the background…';
+        status.textContent = 'Saved. Updating your performance and analysis…';
         status.className = 'portfolio-action-status small';
         status.hidden = false;
         await Promise.allSettled([
@@ -489,7 +600,7 @@
             loadBriefing()
         ]);
         if (version === portfolioRefreshVersion) {
-            status.textContent = 'Portfolio value, performance and analysis are up to date.';
+            status.textContent = 'Everything is up to date.';
             status.className = 'portfolio-action-status small is-success';
         }
     }
@@ -527,13 +638,13 @@
                 throw new Error(data.message || `Couldn’t remove ${symbol}.`);
             }
             renderHoldings(lastRows.filter((row) => String(row.id) !== String(id)));
-            finishPortfolioAction(`${symbol} was removed. Charts and analysis will finish refreshing in the background.`);
+            finishPortfolioAction(`${symbol} was removed. Your charts and analysis will catch up in a moment.`);
             // Counts feed the switcher labels and the delete modal's "and its N
             // holdings" line, which must never quote a stale number.
             void loadPortfolios();
             void refreshPortfolioInBackground(symbol, { removed: true });
         } catch (error) {
-            finishPortfolioAction(error.message || `${symbol} could not be removed. Please try again.`, { error: true, holdMs: 2200 });
+            finishPortfolioAction(error.message || `We couldn’t remove ${symbol}.`, { error: true, holdMs: 2200, unchanged: true });
         }
     }
 
@@ -698,7 +809,7 @@
             finishPortfolioAction(`${p.name} and its ${removed} holding${removed === 1 ? '' : 's'} were deleted. Holdings in other portfolios are untouched.`);
         } catch (error) {
             close();
-            finishPortfolioAction(error.message || `Couldn’t delete ${p.name}.`, { error: true, holdMs: 2400 });
+            finishPortfolioAction(error.message || `We couldn’t delete ${p.name}.`, { error: true, holdMs: 2400, unchanged: true });
         }
     }
 
@@ -833,10 +944,10 @@
                 if (data.skipped) bits.push(`${data.skipped} skipped`);
                 const unknown = data.unknownSymbols || [];
                 if (unknown.length) bits.push(`unknown ticker${unknown.length === 1 ? '' : 's'}: ${unknown.join(', ')}`);
-                finishPortfolioAction(`${bits.join(' · ')}. Charts and analysis will finish refreshing in the background.`);
+                finishPortfolioAction(`${bits.join(' · ')}. Your charts and analysis will catch up in a moment.`);
             } catch (error) {
                 close();
-                finishPortfolioAction(error.message || 'Import failed — nothing was saved.', { error: true, holdMs: 2600 });
+                finishPortfolioAction(error.message || 'The import failed.', { error: true, holdMs: 2600, unchanged: true });
             }
         }
     }
@@ -902,6 +1013,75 @@
         }
     }
 
+    // The look-through reveal. The finding is genuinely surprising — a portfolio
+    // of three funds resolves to sixty-one companies and the largest is usually
+    // not a line the user entered — so it is stated as a reveal rather than as
+    // another table: the two counts settle, a rule draws across, and the largest
+    // exposure is named with where it actually sits.
+    //
+    // Nothing here is inferred. A fund whose holding report could not be read is
+    // named in the footer with its share of the portfolio, and the coverage
+    // figure is printed, so a partial expansion says it is partial.
+    function renderReveal(rv) {
+        const box = $('xray-reveal');
+        if (!box) return;
+        if (!rv || !rv.companies || !rv.top || !rv.top.length) { box.hidden = true; box.innerHTML = ''; return; }
+
+        const held = (c) => {
+            if (c.via.length && c.direct) return `held directly and inside ${c.via.join(' and ')}`;
+            if (c.via.length) return `held inside ${c.via.join(' and ')}`;
+            return 'one of your own tickers';
+        };
+        const rows = rv.top.map((c, i) => `
+          <div class="reveal-row${i === 0 ? ' is-largest' : ''}">
+            <span class="reveal-name">${esc(c.name)}</span>
+            <span class="reveal-w">${fixed(c.weightPct, 1)}%</span>
+            <span class="reveal-via">${esc(held(c))}</span>
+          </div>`).join('');
+
+        const missed = (rv.notExpanded || []).filter((f) => f);
+        const foot = [];
+        if (rv.coveredPct !== null && rv.coveredPct !== undefined) {
+            foot.push(rv.coveredPct >= 99.5
+                ? 'Read from every fund\'s own SEC holding report — 100% of your portfolio is expanded.'
+                : `${fixed(rv.coveredPct, 0)}% of your portfolio is expanded here; the rest could not be read.`);
+        }
+        if (missed.length) {
+            foot.push(`Not expanded: ${missed.map((f) => `${esc(f.symbol)} (${fixed(f.weightPct, 1)}%)`).join(', ')}.`);
+        }
+        if (rv.otherPct >= 0.5) {
+            foot.push(`${fixed(rv.otherPct, 1)}% sits in bonds, derivatives or cash inside those funds — held, but not companies.`);
+        }
+
+        box.innerHTML = `
+          <p class="reveal-lede">You think you own <strong>${rv.tickers}</strong> ${rv.tickers === 1 ? 'thing' : 'things'}.</p>
+          <div class="reveal-count">
+            <span class="reveal-n" id="reveal-tickers">${rv.tickers}</span>
+            <span class="reveal-arrow" aria-hidden="true">&rarr;</span>
+            <span class="reveal-n" id="reveal-companies">${rv.companies}</span>
+          </div>
+          <div class="reveal-labels"><span>tickers</span><span>companies</span></div>
+          <div class="reveal-rule" aria-hidden="true"></div>
+          <p class="reveal-finding">${rv.largestIsUntyped
+              ? 'Your largest single exposure is not any ticker you typed in.'
+              : `Your largest single exposure is <strong>${esc(rv.largest.name)}</strong>.`}</p>
+          <div class="reveal-top">${rows}</div>
+          ${rv.more ? `<p class="small muted reveal-more">${rv.more} more ${rv.more === 1 ? 'company' : 'companies'} underneath.</p>` : ''}
+          ${foot.length ? `<p class="small muted reveal-foot">${foot.join(' ')}</p>` : ''}`;
+        box.hidden = false;
+
+        // The two counts settle into place — 3 becoming 61 is the whole finding,
+        // so it is the one figure worth watching arrive.
+        settleInt($('reveal-tickers'), rv.tickers);
+        settleInt($('reveal-companies'), rv.companies);
+    }
+
+    function settleInt(el, value) {
+        const to = num(value);
+        if (to === null) return;
+        settle(el, to, { format: (v) => String(Math.round(v)) });
+    }
+
     async function loadXray() {
         try {
             const r = await fetch(`${API}/portfolio/xray${pfScopeQuery()}`, { headers: auth });
@@ -911,8 +1091,10 @@
                 $('xray-section').hidden = true;
                 $('xray-strip').innerHTML = '';
                 $('xray-flags').innerHTML = '';
+                renderReveal(null);
                 return;
             }
+            renderReveal(x.reveal);
             const m = x.lookThrough;
             const cells = [
                 ['Look-through P/E', fixed(m.peRatio, 1)],
@@ -986,14 +1168,46 @@
         } catch (_) { /* enrichment */ }
     }
 
+    // A filing monitor that almost never speaks is only reassuring if the user
+    // can see it is running — otherwise silence is indistinguishable from a
+    // broken feed. So the quiet state is stated with measured facts (how many
+    // companies are watched, which forms count, when the SEC was last read)
+    // rather than an empty section, and the silence is named as the good case
+    // without ever promising anything about the future.
+    function renderQuiet(q) {
+        if (!q || !q.watched) return false;
+        const hours = q.checkedAt ? Math.floor((Date.now() - new Date(q.checkedAt).getTime()) / 3600000) : null;
+        const lastDays = q.lastAlertAt ? Math.floor((Date.now() - new Date(q.lastAlertAt).getTime()) / 86400000) : null;
+        const facts = [`Watching <strong>${q.watched}</strong> ${q.watched === 1 ? 'company' : 'companies'} for ${(q.forms || []).join(', ')} filings.`];
+        if (hours !== null) facts.push(hours < 1 ? 'Every one of them was read in the last hour.' : `Every one of them was read in the last ${hours} ${hours === 1 ? 'hour' : 'hours'}.`);
+        facts.push(lastDays === null
+            ? 'No alert has been raised yet, and nothing is backfilled — you are told about what happens from here.'
+            : `The last alert was ${lastDays === 0 ? 'today' : lastDays === 1 ? 'yesterday' : `${lastDays} days ago`}.`);
+        $('alerts-list').innerHTML = `
+          <div class="quiet-card">
+            <p class="quiet-lede">Nothing material filed since you last looked.</p>
+            <p class="small muted" style="margin:8px 0 0;">${facts.join(' ')}</p>
+            <p class="quiet-close">Nothing has changed in a way that matters. This is the normal case. It is also the good case.</p>
+          </div>`;
+        return true;
+    }
+
     async function loadAlerts() {
         try {
             const r = await fetch(`${API}/alerts`, { headers: auth });
             if (!r.ok) return;
             const data = await r.json();
             const alerts = (data.alerts || []).slice(0, 8);
-            if (!alerts.length) return;
-            $('alerts-sub').textContent = data.unseen ? `${data.unseen} unread` : 'up to date';
+            if (!alerts.length) {
+                // Nothing to report is the product working, not the product
+                // missing — but only say so when there is something being watched.
+                if (!renderQuiet(data.quiet)) return;
+                $('alerts-sub').textContent = data.quiet.watched ? `watching ${data.quiet.watched}` : '';
+                $('alerts-section').hidden = false;
+                return;
+            }
+            const watched = data.quiet && data.quiet.watched;
+            $('alerts-sub').textContent = `${data.unseen ? `${data.unseen} unread` : 'up to date'}${watched ? ` · watching ${watched}` : ''}`;
             $('alerts-list').innerHTML = alerts.map((a) => {
                 const cls = a.type === 'health-flip' ? (String(a.title || '').includes('PASS') ? 'notice-pos' : 'notice-neg')
                     : a.type === 'insider-cluster' ? 'notice-pos'
@@ -1226,24 +1440,27 @@
                 const { ok, status, saved } = await saveOneHolding(symbol, shared);
                 if (!ok) {
                     const message = status === 402
-                        ? 'Your subscription is not active. Choose a plan to add holdings.'
-                        : (saved.message || `Couldn’t add ${symbol} — try again.`);
+                        ? 'Your subscription isn’t active yet. Choose a plan to add holdings.'
+                        : (saved.message || `We couldn’t add ${symbol}.`);
                     if (status === 402) noteAddError('Your subscription isn’t active — <a href="/upgrade.html">choose a plan</a> to add holdings.');
                     else noteAddError(esc(message));
-                    finishPortfolioAction(message, { error: true, holdMs: 2200 });
+                    finishPortfolioAction(message, { error: true, holdMs: 2200, unchanged: true });
                     return;
                 }
                 noteAddError('');
                 clearAddInputs();
                 if (saved && saved._id) renderHoldings([...lastRows, holdingToRow(saved)]);
                 else if (!await loadHoldings()) throw new Error(`${symbol} was added, but the refreshed portfolio could not be loaded. Reload the page.`);
-                finishPortfolioAction(`${symbol} was added. Charts and analysis will finish refreshing in the background.`);
+                finishPortfolioAction(
+                    `${symbol} was added. Your charts and analysis will catch up in a moment.`,
+                    { arrival: (saved && saved.arrival) || null }
+                );
                 void loadPortfolios();
                 void refreshPortfolioInBackground(symbol);
             } catch (error) {
-                const message = error.message || 'Network problem — the holding wasn’t added.';
+                const message = error.message || 'The network dropped before we could save it.';
                 noteAddError(esc(message));
-                finishPortfolioAction(message, { error: true, holdMs: 2200 });
+                finishPortfolioAction(message, { error: true, holdMs: 2200, unchanged: true });
             }
             return;
         }
@@ -1279,13 +1496,13 @@
             finishPortfolioAction(
                 stoppedEarly
                     ? `${addedSymbols.length} of ${symbols.length} added before your subscription check stopped the rest.`
-                    : `${addedSymbols.length} of ${symbols.length} tickers added. Charts and analysis will finish refreshing in the background.`,
+                    : `${addedSymbols.length} of ${symbols.length} tickers added. Your charts and analysis will catch up in a moment.`,
                 { error: failed > 0, holdMs: failed > 0 ? 2600 : 550 }
             );
             void loadPortfolios();
             void refreshPortfolioInBackground(addedSymbols);
         } else {
-            finishPortfolioAction('No tickers were added.', { error: true, holdMs: 2600 });
+            finishPortfolioAction('None of those tickers could be added.', { error: true, holdMs: 2600, unchanged: true });
         }
     });
 

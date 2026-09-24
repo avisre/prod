@@ -45,6 +45,7 @@ const outreachMailer = require('./outreach-mailer');
 const growthMeasurement = require('./growth-measurement');
 const ga4Server = require('./ga4-server');
 const xray = require('./xray');
+const lookThrough = require('./look-through');
 const watchdog = require('./watchdog');
 const reverseDcf = require('./reverse-dcf');
 const monitorFreeUsage = require('./monitor-free-usage');
@@ -2819,7 +2820,12 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
     const money = (n) => {
         if (n == null) return '—';
         const abs = Math.abs(n);
-        const one = (v) => { const x = v.toFixed(abs >= 100 ? 0 : 1); return x.replace(/\.0$/, ''); };
+        // The decimal is chosen from the SCALED value. Comparing `abs` here
+        // instead made the decimal branch dead code — every real financial
+        // figure is >= 100 — so the verify ledger printed $15.5 billion as
+        // "$16 billion". Same fix as verify.html and seo-pages.js.
+        const one = (v) => { const x = v.toFixed(Math.abs(v) >= 1000 ? 0 : 1); return x.replace(/\.0$/, ''); };
+        if (abs >= 1e12) return '$' + one(n / 1e12) + ' trillion';
         if (abs >= 1e9) return '$' + one(n / 1e9) + ' billion';
         if (abs >= 1e6) return '$' + one(n / 1e6) + ' million';
         if (abs >= 1e3) return '$' + one(n / 1e3) + ' thousand';
@@ -2842,7 +2848,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260925-quiet1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2871,7 +2877,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260922-docs1"></script>
+<script src="/assets/app.js?v=20260925-quiet1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2962,7 +2968,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260925-quiet1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2990,7 +2996,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260922-docs1"></script>
+<script src="/assets/app.js?v=20260925-quiet1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3098,7 +3104,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260922-docs1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260925-quiet1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3131,7 +3137,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260922-docs1"></script>
+<script src="/assets/app.js?v=20260925-quiet1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -9485,6 +9491,7 @@ app.get('/api/ai-paper-portfolio/detail', authMiddleware, aiPaper.betaGate, asyn
 // ----- Portfolio X-Ray: look-through fundamentals of the whole portfolio -----
 const _xrayCache = new Map(); // userId -> { at, payload }
 const XRAY_TTL_MS = 60 * 60 * 1000;
+const LOOK_THROUGH_BUDGET_MS = 9000;
 app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
     try {
         const ownerId = portfolioOwnerId(req);
@@ -9494,7 +9501,7 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
         const key = `${ownerId}|${scope}`;
         const force = String(req.query.refresh || '') === '1';
         const cached = _xrayCache.get(key);
-        if (!force && cached && Date.now() - cached.at < XRAY_TTL_MS) {
+        if (!force && cached && Date.now() - cached.at < (cached.ttl || XRAY_TTL_MS)) {
             return res.json({ ...cached.payload, cached: true });
         }
         const portfolio = await Stock.find({ user: ownerId, ...(scopeFilter || {}) });
@@ -9505,7 +9512,24 @@ app.get('/api/portfolio/xray', authMiddleware, coreGate, async (req, res) => {
             return obj;
         }));
         const payload = xray.computeXray(enriched);
-        _xrayCache.set(key, { at: Date.now(), payload });
+        // The look-through reads the funds' own SEC holding reports, so it is
+        // network-bound where the rest of X-Ray is not. It is raced against a
+        // budget and degraded to null on the timeout: the fundamentals strip is
+        // the page, the reveal is the finding, and a slow SEC fetch must not
+        // hold the first one hostage.
+        payload.reveal = await Promise.race([
+            lookThrough.buildReveal(enriched).catch(() => null),
+            new Promise((resolve) => setTimeout(() => resolve(null), LOOK_THROUGH_BUDGET_MS))
+        ]);
+        // A timed-out reveal must not be cached for the hour the fundamentals
+        // get: the SEC fetch it lost the race to is still running and will have
+        // warmed the fund cache, so retrying in a few minutes usually succeeds.
+        // A portfolio with no funds has nothing to expand, so its null is final.
+        const hasFunds = (payload.positions || []).some((p) => p.assetType === 'etf' || p.assetType === 'mutual_fund');
+        _xrayCache.set(key, {
+            at: Date.now(), payload,
+            ttl: (payload.reveal || !hasFunds) ? XRAY_TTL_MS : 4 * 60 * 1000
+        });
         if (_xrayCache.size > 500) _xrayCache.delete(_xrayCache.keys().next().value);
         res.json({ ...payload, cached: false });
     } catch (error) {
@@ -10209,6 +10233,63 @@ app.get('/api/credits', authMiddleware, async (req, res) => {
     }
 });
 
+// What a user switched on, at the moment they switched it on — the only moment
+// the product can say it. Every field is optional by design: the client draws a
+// row only for a number the server actually sent, so a line that cannot be
+// backed is absent rather than estimated. A celebration built on an invented
+// count is worse than no celebration.
+async function arrivalPayload(req, saved) {
+    const ownerId = portfolioOwnerId(req);
+    const scopeFilter = portfolioScopeFilter(String(saved.portfolioId || 'main'));
+    const rows = await Stock.find({ user: ownerId, ...(scopeFilter || {}) }).lean();
+    let totalValue = 0;
+    for (const r of rows) {
+        const shares = Number(r.shares) || 0;
+        const price = Number(r.currentPrice) || Number(r.purchasePrice) || 0;
+        totalValue += shares * price;
+    }
+    const shares = Number(saved.shares) || 0;
+    const price = Number(saved.currentPrice) || Number(saved.purchasePrice) || 0;
+    const out = {
+        symbol: saved.symbol,
+        name: saved.name || saved.symbol,
+        value: Number((shares * price).toFixed(2)),
+        portfolio: { totalValue: Number(totalValue.toFixed(2)), holdings: rows.length }
+    };
+
+    // Continuity: the purchase date came from the user, and handing it back is
+    // the one thing no competitor can copy. Silent under 90 days — "held for 0
+    // months" is noise where the point is memory.
+    const since = saved.purchaseDate ? new Date(saved.purchaseDate) : null;
+    if (since && !Number.isNaN(since.getTime())) {
+        const days = Math.floor((Date.now() - since.getTime()) / 86400000);
+        if (days >= 90) out.held = { since: since.toISOString(), days };
+    }
+
+    // The same deterministic checks the dossier grades the company on. Present
+    // only when this symbol's fundamentals are already resolved; the client
+    // prints a count, so an unresolved symbol shows no row at all.
+    try {
+        const hc = aiChat.healthChecksFromData(aiChat.loadFund(saved.symbol), saved.symbol);
+        if (hc && Array.isArray(hc.checks) && hc.checks.length) {
+            const groups = [...new Set(hc.checks.map((c) => c && c.group).filter(Boolean))];
+            out.checks = { total: hc.checks.length, passed: hc.checks.filter((c) => c && c.pass).length, groups };
+        }
+    } catch (_) { /* no fundamentals cached yet — the row is simply absent */ }
+
+    // The Filing Watchdog sweeps every stock holding for new filings, for every
+    // user, regardless of tier (watchdog.js scan()). It skips funds and crypto
+    // — a fund files N-PORT, not a 10-Q — so those get no row rather than a
+    // promise the product does not keep. No form is named because the watch set
+    // (10-K/10-Q/8-K/20-F/40-F/6-K) differs by filer type, and the client
+    // cannot know which one this symbol will file next.
+    const at = String(saved.assetType || 'stock');
+    if (!['etf', 'mutual_fund', 'crypto', 'other'].includes(at)) {
+        out.monitor = { label: 'every new filing, as it lands' };
+    }
+    return out;
+}
+
 app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
     const { symbol, name, shares, purchaseDate, purchasePrice } = req.body;
     try {
@@ -10295,7 +10376,16 @@ app.post('/api/portfolio', authMiddleware, coreGate, async (req, res) => {
             requestFields: trackingRequestFields(req, res)
         });
         markOnboardingStep(req.user, 'hold');
-        res.json(newStock);
+        // Additive to the existing payload: a cached bundle ignores `arrival`
+        // entirely, and every field the old response carried is untouched. A
+        // failure to compute it degrades to the old response, never to an error
+        // — the holding IS saved by this point, and saying otherwise would be
+        // the exact lie the overlay copy exists to prevent.
+        const arrival = await arrivalPayload(req, newStock).catch((err) => {
+            console.warn('[arrival] payload failed:', err && err.message);
+            return null;
+        });
+        res.json(Object.assign(newStock.toObject(), arrival ? { arrival } : {}));
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
             return res.status(503).json({ message: 'Database unavailable. Start MongoDB and configure MONGODB_URI.' });

@@ -21,8 +21,11 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   exposed in this harness, so searching via Bash is correct here, not a fallback.
 - Tests: `cd backend && node --test test/<file>.test.js`
   (48 test files; `npm test` runs all of them).
-- There is no local `.git`. Pushing means cloning `avisre/prod` into the
-  scratchpad, copying files in, and committing there.
+- **There IS a local `.git`** — remote `avisre/prod`, branch `main`, verified
+  2026-09-24 (this line used to say there was none, and that stale claim would
+  send you down a needless clone-and-copy path). Commit and push from the repo
+  root. A push to `main` runs `deploy-render.yml` and deploys to production, so
+  put `[skip ci]` on a docs/data-only commit to avoid restarting the service.
 
 ## Editing frontend assets — bump the cache stamp
 

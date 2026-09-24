@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dossier Gates — one-screen mockup (Prototype F)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..800&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================================
+   PROTOTYPE F — "THE GATES"
+   The page is the argument: eight gates the thesis must survive, top to
+   bottom. Each gate = a state (fill count + word), one dominant visual, one
+   line of filed evidence. The verdict strip is the accumulation.
+   One screen, no scroll, at 1440×900 and 1280×800.
+
+   Encoding rules (pinned in NOTES at the foot):
+   - ink = filed fact · blue = price/expectation hurdle · hatched = not computed
+   - gate state = fill count + word, never two adjacent status colours
+   - gates map 1:1 to surfaces the product already computes
+   ========================================================================= */
+:root{
+  --paper:#faf9f6; --ink:#1c1b18; --ink2:#5f5c55; --ink3:#726e65;
+  --line:#e8e6e0; --line2:#d8d5cd;
+  --accent:#1a4fd6; --accent-tint:#eef2fd;
+  --pos:#1b7a4b; --pos-tint:#ecf5ef; --neg:#b3261e; --neg-tint:#fbeeec;
+  --sans:'Inter',-apple-system,'Segoe UI',sans-serif;
+  --q0:#efede7; --q1:#d7d3ca; --q2:#a09b90; --q3:#23211c;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font:400 13px/1.45 var(--sans);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+a{color:inherit;text-decoration:none}
+
+.nav{height:42px;display:flex;align-items:center;gap:22px;padding:0 26px;border-bottom:1px solid var(--line);font-size:12.5px}
+.brand{font-weight:800;letter-spacing:-.02em}
+.brand span{color:var(--ink3);font-weight:500}
+.nav a{color:var(--ink2)}
+.nav a.cur{color:var(--ink);font-weight:650}
+.nav .right{margin-left:auto;display:flex;align-items:center;gap:12px;color:var(--ink3);font-size:11.5px}
+.ptag{font-size:9.5px;font-weight:750;letter-spacing:.1em;color:var(--accent);background:var(--accent-tint);border-radius:999px;padding:3px 9px}
+.mode{display:flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden;font-size:10.5px;font-weight:700;letter-spacing:.04em}
+.mode span{padding:4px 11px;color:var(--ink3)}
+.mode span.on{background:var(--ink);color:#fff}
+
+.page{max-width:1240px;margin:0 auto;padding:12px 24px 14px}
+.kicker{font-size:10px;font-weight:750;letter-spacing:.13em;text-transform:uppercase;color:var(--ink3)}
+.mast{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;padding:12px 0 10px;border-bottom:1px solid var(--line)}
+.mast h1{margin:5px 0 0;font-size:25px;letter-spacing:-.03em;font-weight:700;line-height:1.15}
+.dots{display:inline-flex;gap:3px;margin-right:8px;vertical-align:1px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--ink)}
+.dots i.off{background:var(--line2)}
+.tagline{margin:6px 0 0;font-size:12.5px;color:var(--ink2)}
+.facts{display:flex;gap:30px;text-align:right;flex:none}
+.facts .k{font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3);font-weight:750}
+.facts .v{font-size:16px;font-weight:680;margin-top:2px;white-space:nowrap}
+.facts .s{font-size:10.5px;color:var(--ink3);display:block;margin-top:1px;font-weight:500}
+
+.wrap{display:grid;grid-template-columns:1fr 264px;gap:0 26px;margin-top:10px}
+.headline{font-size:10px;font-weight:750;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3);padding-bottom:8px}
+
+/* ---- gates ---- */
+.gate{display:grid;grid-template-columns:26px 172px 238px 1fr;column-gap:14px;row-gap:3px;align-items:center;padding:8.5px 0;border-bottom:1px solid var(--line)}
+.gate:last-child{border-bottom:0}
+.gno{grid-row:1/3;font-size:15px;font-weight:750;color:var(--ink3);text-align:center}
+.gname{display:flex;align-items:center;gap:9px;font-size:13.5px;font-weight:650;letter-spacing:-.01em}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:9px;font-weight:750;letter-spacing:.09em;padding:2.5px 8px;border-radius:999px;border:1px solid transparent}
+.chip .m{display:inline-flex;gap:2px}
+.chip .m i{width:5px;height:5px;border-radius:1px;background:var(--line2)}
+.chip.pass{background:var(--pos-tint);color:var(--pos)}
+.chip.pass .m i.on{background:var(--pos)}
+.chip.fail{background:var(--neg-tint);color:var(--neg)}
+.chip.fail .m i.on{background:var(--neg)}
+.chip.rec,.chip.watch{background:#fff;border-color:var(--line2);color:var(--ink2)}
+.chip.rec .m i.on,.chip.watch .m i.on{background:var(--ink2)}
+.gviz{grid-column:3}
+.gev{font-size:11.5px;color:var(--ink2)}
+.gev b{color:var(--ink);font-weight:650}
+.gapchip{display:inline-block;border:1px dashed var(--line2);border-radius:999px;padding:0 7px;font-size:9.5px;color:var(--ink3);margin-left:6px}
+
+/* visuals */
+.vbars{display:flex;align-items:flex-end;gap:2.5px;height:24px}
+.vbars i{flex:1;border-radius:2px 2px 0 0;background:var(--q2);min-height:1.5px}
+.vbars i:last-child{background:var(--ink)}
+.vbars i.neg{background:var(--neg-tint);border:1px solid var(--neg);min-height:2px;border-radius:2px}
+.vheat{display:flex;gap:2.5px;height:20px}
+.vheat i{flex:1;border-radius:2.5px}
+.vheat i.q0{background:var(--q0)} .vheat i.q1{background:var(--q1)} .vheat i.q2{background:var(--q2)} .vheat i.q3{background:var(--q3)}
+.vheat i.hi{outline:2px solid var(--paper);outline-offset:-4px} /* the FY25 recovery cell */
+.hbars{display:grid;gap:3px}
+.hbar{display:grid;grid-template-columns:44px 1fr 54px;gap:8px;align-items:center;font-size:10px;color:var(--ink2)}
+.hbar .track{height:8px;border-radius:999px;background:#efede7;position:relative}
+.hbar .track b{display:block;height:100%;border-radius:999px;background:var(--ink2)}
+.hbar .track b.hurdle{background:var(--accent)}
+.hbar .track .tick{position:absolute;top:-4px;right:0;width:1.5px;height:16px;background:var(--line2)}
+.hbar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+.vmix{display:flex;height:14px;border-radius:3px;overflow:hidden;width:100%}
+.vmix i{height:100%}
+.vnone{font-size:10.5px;color:var(--ink3)}
+
+/* ---- right rail ---- */
+.rail{border-left:1px solid var(--line);padding-left:22px;display:grid;gap:14px;align-content:start}
+.rail h3{margin:0;font-size:9.5px;font-weight:750;letter-spacing:.11em;text-transform:uppercase;color:var(--ink3)}
+.score{display:flex;gap:4px;align-items:center;margin-top:7px}
+.score i{width:11px;height:11px;border-radius:50%;background:var(--line2)}
+.score i.full{background:var(--ink)}
+.score i.half{background:linear-gradient(90deg,var(--ink) 50%,var(--line2) 50%)}
+.scorecap{margin-top:6px;font-size:10.5px;color:var(--ink2)}
+.pricebox{display:grid;gap:6px;margin-top:7px}
+.prow{display:grid;grid-template-columns:78px 1fr;gap:8px;align-items:center;font-size:10.5px;color:var(--ink2)}
+.prow .track{height:9px;border-radius:999px;background:#efede7}
+.prow .track b{display:block;height:100%;border-radius:999px;background:var(--accent)}
+.prow.ink .track b{background:var(--ink2)}
+.prow b.v{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink)}
+.dcf{margin-top:2px;font-size:11px;color:var(--ink2)}
+.dcf b{color:var(--ink)}
+.rrisk{display:flex;align-items:center;gap:7px;font-size:10.5px;color:var(--ink2);margin-top:6px;white-space:nowrap}
+.m3{display:inline-flex;gap:2px}
+.m3 i{width:6px;height:6px;border-radius:1px;background:var(--line2)}
+.m3.f3 i:nth-child(-n+3){background:var(--ink2)}
+.m3.f2 i:nth-child(-n+2){background:var(--ink2)}
+.m3.f1 i:nth-child(1){background:var(--ink2)}
+.rrisk b{font-size:9.5px;font-weight:750;letter-spacing:.05em;color:var(--ink3);width:38px}
+.sector{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
+.sector span{border:1px dashed var(--line2);border-radius:999px;padding:2px 8px;font-size:10px;color:var(--ink2);white-space:nowrap}
+.fil{font-size:10.5px;color:var(--ink2)}
+.fil b{color:var(--ink);font-size:13px}
+
+/* ---- verdict ---- */
+.verdict{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;display:flex;gap:20px;align-items:center}
+.vk{font-size:9.5px;font-weight:750;letter-spacing:.11em;color:var(--ink3);text-transform:uppercase;flex:none}
+.vtext{font-size:13px;max-width:78ch}
+.vtext b{font-weight:700}
+.ask{margin-left:auto;flex:none;display:flex;align-items:center;gap:8px;border:1px solid var(--line2);border-radius:999px;padding:7px 14px;font-size:12px;color:var(--ink2);background:#fff}
+.foot{margin-top:9px;font-size:10.5px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="brand" href="#">stockportfolio<span>.pro</span></a>
+  <a href="#">Screener</a><a href="#">Compare</a><a class="cur" href="#">Dossier</a><a href="#">Monitor</a><a href="#">Ask</a>
+  <div class="right">
+    <span>⌘K</span>
+    <div class="mode"><span class="on">SIMPLE</span><span>ANALYST</span></div>
+    <span class="ptag">PROTOTYPE F · GATES</span>
+  </div>
+</header>
+
+<div class="page">
+  <div class="mast">
+    <div>
+      <div class="kicker">Dossier · Advanced Micro Devices (AMD) · Technology / Semiconductors · FY ending 2025-12-31</div>
+      <h1>Advanced Micro Devices, Inc. (AMD)</h1>
+      <p class="tagline"><span class="dots"><i></i><i></i><i></i><i></i><i class="off"></i></span><b>4 / 5</b> — Revenue has quintupled and cash is at a record. Neither is what the price argues about — it argues about margin.</p>
+    </div>
+    <div class="facts">
+      <div><div class="k">Price</div><div class="v">$559.82</div><span class="s">▴ 1.2% today</span></div>
+      <div><div class="k">Market cap</div><div class="v">$913.9B</div><span class="s">EV not computed</span></div>
+      <div><div class="k">P/E</div><div class="v">142.8×</div><span class="s">peer median 34.8×</span></div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div>
+      <div class="headline">The thesis must survive eight gates</div>
+      <div id="gates"></div>
+
+      <div class="verdict">
+        <span class="vk">Verdict</span>
+        <div class="vtext"><b>Growth, cash and solvency pass. Returns, dilution, concentration and price do not</b> — 142.8× buys a margin cycle that has not yet returned to its 2021 peak.</div>
+        <a class="ask" href="#">Ask about AMD … <span style="color:var(--ink3)">⌘K</span></a>
+      </div>
+    </div>
+
+    <aside class="rail">
+      <div>
+        <h3>Running score</h3>
+        <div class="score" id="score"></div>
+        <div class="scorecap">3 pass · 1 recovering · 4 fail or watch — of 8 gates</div>
+      </div>
+      <div>
+        <h3>The price</h3>
+        <div class="pricebox">
+          <div class="prow"><span>implied</span><span class="track"><b style="width:63.5%"></b></span></div>
+          <div class="prow ink"><span>delivered</span><span class="track"><b style="width:100%"></b></span></div>
+          <div class="prow" style="grid-template-columns:78px 1fr"><span style="text-align:right;color:var(--ink)">34.3%/yr</span><span style="text-align:right;color:var(--ink2)">54.0%/yr — 5y FCF CAGR</span></div>
+          <div class="dcf">DCF base <b>$143.91</b> vs <b>$559.82</b> · <b>−74.3%</b> · bear $87 · bull $239 · WACC 15.49%</div>
+        </div>
+      </div>
+      <div>
+        <h3>Risks (filed)</h3>
+        <div class="rrisk"><span class="m3 f3"><i></i><i></i><i></i></span><b>HIGH</b>Premium valuation</div>
+        <div class="rrisk"><span class="m3 f3"><i></i><i></i><i></i></span><b>HIGH</b>Customer concentration</div>
+        <div class="rrisk"><span class="m3 f2"><i></i><i></i><i></i></span><b>MED</b>Margin compression</div>
+        <div class="rrisk"><span class="m3 f2"><i></i><i></i><i></i></span><b>MED</b>FCF decline</div>
+        <div class="rrisk"><span class="m3 f1"><i></i><i></i><i></i></span><b>LOW</b>ESG &amp; regulatory</div>
+      </div>
+      <div>
+        <h3>Sector · Semis</h3>
+        <div class="sector"><span>units —</span><span>ASP —</span><span>book-to-bill —</span><span>utilization —</span></div>
+      </div>
+      <div>
+        <h3>Latest filing</h3>
+        <div class="fil" style="margin-top:7px">materiality <b>98</b>/100 · numbers 70 · language 22 · risk 6<br/>rev +50.1% · NI +163.4% · EPS +155.6%</div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="foot">Prototype F · The Gates · static mockup · every figure from the live AMD dossier payload (FY2018–FY2025 filed 10-K series) · educational, not investment advice.</div>
+</div>
+
+<script>
+'use strict';
+// Gate visuals read the same real AMD series as Prototype E, so the two
+// mockups cross-link: a gate deep-links to the matching matrix row.
+const YEARS = ['FY18','FY19','FY20','FY21','FY22','FY23','FY24','FY25'];
+const REV  = [6.5,6.7,9.8,16.4,23.6,22.7,25.8,34.6];
+const FCF  = [-0.13,0.28,0.78,3.22,3.12,1.12,2.41,6.74];
+const OPM  = [7.0,9.4,14.0,22.2,5.4,1.8,7.4,10.7];
+
+// Rank within the row (see dossier-vitals.html NOTES): full tonal spread, so
+// outliers don't wash a row out. The gate's own evidence line states the peak.
+function heatClasses(vals) {
+  const present = vals.map((v, i) => ({ v, i })).filter((x) => x.v != null).sort((a, b) => a.v - b.v);
+  const out = new Array(vals.length).fill(null);
+  present.forEach((x, r) => {
+    out[x.i] = present.length <= 1 ? 1 : Math.min(3, Math.floor((r / (present.length - 1)) * 3.999));
+  });
+  return out;
+}
+function bars(vals, max) {
+  return '<div class="vbars">' + vals.map((v, i) =>
+    '<i style="height:' + Math.max(2, Math.max(0, v) / max * 22) + 'px"' +
+    (v < 0 ? ' class="neg"' : '') +
+    ' title="' + YEARS[i] + ': ' + v + '"></i>').join('') + '</div>';
+}
+function heat(vals) {
+  const q = heatClasses(vals);
+  return '<div class="vheat">' + vals.map((v, i) =>
+    '<i class="q' + q[i] + (i === vals.length - 1 ? ' hi' : '') +
+    '" title="' + YEARS[i] + ' · operating margin ' + v + '%"></i>').join('') + '</div>';
+}
+
+const GATES = [
+  { n:'1', name:'Growth', chip:['pass','PASS',3],
+    viz:bars(REV, 34.6),
+    ev:'<b>$34.6B</b> FY25 · <b>×5.3</b> since FY18 · +34.3% FY25 · 28.8%/yr five-year CAGR' },
+  { n:'2', name:'Margin cycle', chip:['rec','RECOVERING',2],
+    viz:heat(OPM),
+    ev:'1.8% trough (FY23) → <b>10.7%</b> now · peak <b>22.2%</b> (FY21) · net margin 12.5%' },
+  { n:'3', name:'Cash', chip:['pass','PASS',3],
+    viz:bars(FCF, 6.74),
+    ev:'FCF <b>$6.7B</b> — a record · <b>155%</b> of net income · latest quarter −9.9% ▼' },
+  { n:'4', name:'Returns', chip:['fail','FAIL',1],
+    viz:'<div class="hbars">' +
+      '<div class="hbar"><span>ROIC</span><span class="track"><b style="width:11.7%"></b><span class="tick"></span></span><em>4.3%</em></div>' +
+      '<div class="hbar"><span>WACC</span><span class="track"><b class="hurdle" style="width:42%"></b><span class="tick"></span></span><em>15.49%</em></div>' +
+      '</div>',
+    ev:'ROIC <b>4.3%</b> vs 15.49% cost of capital — <b>3.6× below the hurdle</b> · cycle peak 36.9% (FY21)' },
+  { n:'5', name:'Solvency', chip:['pass','PASS',3],
+    viz:'<div class="vnone">cash &gt; total debt, filed</div>',
+    ev:'cash &gt; total debt (filed) · interest cover <b>28.2×</b><span class="gapchip">net-debt series not computed</span>' },
+  { n:'6', name:'Dilution', chip:['fail','FAIL',1],
+    viz:'<div class="vnone">share count ▲ over 5y</div>',
+    ev:'share count rising over five years (filed health check)' },
+  { n:'7', name:'Concentration', chip:['watch','WATCH',1],
+    viz:'<div class="vmix"><i style="width:48%;background:var(--ink)" title="Data Center 48%"></i><i style="width:42%;background:var(--q2)" title="Client &amp; Gaming 42%"></i><i style="width:10%;background:var(--line2)" title="Embedded 10%"></i></div>',
+    ev:'Data Center <b>48%</b> of revenue · top-5 % not disclosed · filed risk: <b>HIGH</b>' },
+  { n:'8', name:'Price', chip:['fail','RICH',1],
+    viz:'<div class="hbars">' +
+      '<div class="hbar"><span>AMD</span><span class="track"><b style="width:100%"></b></span><em>142.8×</em></div>' +
+      '<div class="hbar"><span>peer</span><span class="track"><b style="width:24.4%"></b></span><em>34.8×</em></div>' +
+      '</div>',
+    ev:'P/E <b>142.8×</b> vs peer median 34.8× (<b>4.1×</b>) · DCF base $143.91 vs $559.82' }
+];
+
+const gatesEl = document.getElementById('gates');
+gatesEl.innerHTML = GATES.map((g) => {
+  const meter = '<span class="m">' + [1,2,3].map((i) =>
+    '<i class="' + (i <= g.chip[2] ? 'on' : '') + '"></i>').join('') + '</span>';
+  return '<div class="gate">' +
+    '<div class="gno">' + g.n + '</div>' +
+    '<div class="gname">' + g.name + '<span class="chip ' + g.chip[0] + '">' + meter + g.chip[1] + '</span></div>' +
+    '<div class="gviz">' + g.viz + '</div>' +
+    '<div class="gev">' + g.ev + '</div>' +
+    '</div>';
+}).join('');
+
+// Running score: one dot per gate, in gate order. full = pass, half = recovering.
+const DOTS = ['full','half','full','','full','','',''];
+document.getElementById('score').innerHTML =
+  DOTS.map((d) => '<i class="' + d + '"></i>').join('');
+</script>
+
+<!-- NOTES ==================================================================
+     PROTOTYPE F — THE GATES (one of three alternates to the shipped dossier page)
+
+     WHAT THIS IS
+       The page is the underwriting argument: eight gates the thesis must
+       survive, read top to bottom, each with a state, one dominant visual and
+       one line of filed evidence. The verdict strip is what the gates add to.
+
+     WHY THIS SHAPE
+       - Fastest verdict read of the six prototypes: a non-analyst gets the
+         answer in ~10 seconds, and the answer is an ARGUMENT, not a wall.
+       - Every gate maps 1:1 to a surface the product already computes:
+         ① financials trend · ② margins · ③ FCF · ④ ROIC vs WACC (reverse-DCF
+         build) · ⑤ health checks · ⑥ health checks (dilution) · ⑦ segments +
+         filed risks · ⑧ competitive + forward DCF. No new extraction.
+       - "Not computed" is a first-class, visible state (dashed chips), not a
+         hidden omission — the mockup ships with two real ones.
+
+     RULES ENCODED (keep these if this ships)
+       1. Gate state = fill count (3/2/1) + the word. PASS/FAIL use tinted
+          single-colour chips; RECOVERING/WATCH are neutral outlined — never
+          two saturated status colours side by side.
+       2. ink = filed fact · blue = the hurdle/expectation (WACC, peer) ·
+          dashed = not computed. The margin heat strip ranks within the row,
+          same encoding as Prototype E.
+       3. The verdict does not flatter the data: it concedes the three passes
+          and names the four failures, and the number that decides it.
+       4. Gate ② is deliberately RECOVERING, not PASS — the interesting fact
+          is the cycle shape (1.8% FY23 → 10.7%), and pass/fail would hide it.
+       5. Cross-links to Prototype E: each gate should deep-link to its row in
+          the vitals matrix (gate ④ → the ROIC row highlighted).
+
+     ONE-SCREEN BUDGET (measured, see docs/design/dg-*.png captures)
+       nav 42 + mast ~88 + 8 gates × ~52 = 416 + verdict ~52 + foot 18 ≈ 630px
+       of 900 — fits 1280×800 with room.
+
+     NOT IN THE MOCKUP (by design)
+       the evidence drawer, gate click-through, Simple/Analyst annotation
+       toggle (chips static), mobile, print.
+     ======================================================================= -->
+</body>
+</html>

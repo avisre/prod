@@ -2237,8 +2237,77 @@
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHScroll);
     else initHScroll();
 
+    // ---------- Motion: the product's own vocabulary ----------
+    // Robinhood reaches for glitter; a research desk reaches for ink. Three
+    // motions carry every moment worth marking — a figure settles, a rule draws
+    // across, a correction lands — and each one is a state change whose ending
+    // the user can already read, so reduce-motion jumps straight to the final
+    // frame rather than withholding the information the motion was carrying.
+    function motionOff() {
+        try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (_) { return false; }
+    }
+
+    // A figure counts up to its value. The true value is written FIRST and the
+    // animation runs away from zero afterwards, so a killed tab, a thrown
+    // error, a stale bundle or reduce-motion all leave the honest number on
+    // screen — the animation can never be the only thing that put it there.
+    function settle(el, to, opts) {
+        if (!el) return;
+        const o = opts || {};
+        const target = num(to);
+        if (target === null) return;
+        const fmt = o.format || ((v) => '$' + fixed(v, 2));
+        el.textContent = fmt(target);
+        if (o.ms === 0 || motionOff()) return;
+        const ms = o.ms || 420;
+        const t0 = performance.now();
+        const frame = (now) => {
+            const t = Math.min(1, (now - t0) / ms);
+            const eased = 1 - Math.pow(1 - t, 3); // ease-out cubic
+            el.textContent = fmt(target * eased);
+            if (t < 1) requestAnimationFrame(frame); else el.textContent = fmt(target);
+        };
+        requestAnimationFrame(frame);
+    }
+
+    // "3 years, 2 months" — the unit of the product's memory. Empty below a
+    // month, so a holding added today is never told it has been held for zero.
+    function heldLabel(days) {
+        const d = Math.max(0, Math.floor(Number(days) || 0));
+        if (d < 30) return '';
+        const years = Math.floor(d / 365);
+        const months = Math.floor((d % 365) / 30);
+        const parts = [];
+        if (years) parts.push(years + (years === 1 ? ' year' : ' years'));
+        if (months) parts.push(months + (months === 1 ? ' month' : ' months'));
+        return parts.join(', ') || 'a month';
+    }
+
+    // The arrival card's rows, drawn after a holding is saved. Every row exists
+    // because the server sent a real number for it — a line that cannot be
+    // backed is absent rather than estimated, because a celebration built on an
+    // invented count is worse than no celebration at all.
+    function arrive(a) {
+        if (!a || !a.symbol) return '';
+        const rows = [];
+        if (a.monitor && a.monitor.label) {
+            rows.push([1, 'filing monitor', esc(a.monitor.label)]);
+        }
+        if (a.checks && a.checks.total) {
+            rows.push([a.checks.total, a.checks.total === 1 ? 'risk check' : 'risk checks',
+                `${esc(String(a.checks.passed))} pass on the latest filing`]);
+        }
+        if (!rows.length) return '';
+        return `<div class="arrive-rows">${rows.map(([n, what, detail]) => `
+          <div class="arrive-row">
+            <span class="arrive-n">${esc(String(n))}</span>
+            <span class="arrive-what">${what}</span>
+            <span class="arrive-detail">${detail}</span>
+          </div>`).join('')}</div>`;
+    }
+
     mountCampaign();
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, pct, fixed, fy, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
 
     // Server-rendered SEO surfaces opt into the ask floor with a body
     // attribute (see /stocks/:ticker and the free-tool pages): every page

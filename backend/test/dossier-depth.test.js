@@ -2,7 +2,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { cachedDossier } = require('../dossier');
+const { cachedDossier, DOSSIER_SCHEMA_VERSION } = require('../dossier');
 
 // A tiny query-matcher covering exactly what cachedDossier's filters use:
 // equality and $ne on top-level fields. Real Mongo semantics for these two
@@ -22,7 +22,7 @@ function fakeCollection(docs) {
     };
 }
 
-const SCHEMA_VERSION = 6; // must track DOSSIER_SCHEMA_VERSION in dossier.js
+const SCHEMA_VERSION = DOSSIER_SCHEMA_VERSION; // imported, not restated — a literal here drifts on every schema bump
 
 test('a legacy dossier (no depth field) is served for a Standard request', async () => {
     const col = fakeCollection([

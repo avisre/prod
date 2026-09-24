@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260922-docs1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260925-quiet1" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -33,11 +33,102 @@
       background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
       box-shadow: 0 18px 60px rgba(28, 27, 24, .14); }
     .portfolio-action-card .spin { display: block; margin: 0 auto 16px; }
-    .portfolio-action-card strong { display: block; font-size: 17px; }
+    /* Direct child only: the title is the card's <strong>, but the detail line
+       below it also carries a <strong> around the ticker, and the unscoped rule
+       broke that inline emphasis onto its own line — so the ticker rendered as
+       a second heading and the sentence read as two fragments. */
+    .portfolio-action-card > strong { display: block; font-size: 17px; }
     .portfolio-action-card p { margin: 7px 0 0; }
     .portfolio-action-mark { display: grid; place-items: center; width: 32px; height: 32px; margin: 0 auto 14px;
       border-radius: 50%; color: var(--surface); background: var(--pos); font-weight: 750; }
     .portfolio-action-overlay.is-error .portfolio-action-mark { background: var(--neg); }
+    /* The arrival card. Saving a holding is the one moment the product can say
+       what was switched on, so it is drawn as a small ledger of real counts
+       rather than a congratulation — and the total settles into place instead
+       of appearing, which is the difference between a receipt and a moment. */
+    .arrive-rows { display: grid; margin: 18px 0 0; text-align: left; }
+    .arrive-row { display: grid; grid-template-columns: 2.4rem 1fr; gap: 1px 12px;
+      padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .arrive-row:last-child { border-bottom: 0; }
+    .arrive-n { grid-row: 1 / span 2; font-size: 19px; font-weight: 650; line-height: 1.15;
+      font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+    .arrive-what { font-size: 13.5px; font-weight: 650; }
+    .arrive-detail { font-size: 12.5px; color: var(--ink-2); }
+    .arrive-total { position: relative; display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; margin-top: 18px; padding-top: 15px; }
+    /* The rule draws across rather than simply existing — a hairline being
+       drawn is the product's second motion, and it is what makes the figure
+       beneath it read as a conclusion instead of another row. */
+    .arrive-total::before { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px;
+      background: var(--ink); transform-origin: left center; animation: ruleDraw .26s ease-out both; }
+    @keyframes ruleDraw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+    @media (prefers-reduced-motion: reduce) { .arrive-total::before { animation: none; } }
+    .arrive-value { font-size: 26px; font-weight: 650; letter-spacing: -0.035em;
+      font-variant-numeric: tabular-nums lining-nums; }
+    .arrive-held { margin: 9px 0 0; text-align: left; }
+    #portfolio-action-done { margin-top: 18px; width: 100%; }
+    /* "Since you bought" — the user's own history, reflected back. Every figure
+       here comes from a purchase date the user typed in themselves, which is why
+       it is the one thing on the page a competitor cannot copy. A holding with no
+       date is counted and disclosed, never given an invented duration. */
+    .since-total { margin: 0 0 14px; font-size: 14.5px; }
+    .since-list { display: grid; }
+    .since-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto;
+      gap: 2px 14px; align-items: baseline; padding: 11px 0;
+      border-top: 1px solid var(--line); }
+    .since-sym { grid-row: 1 / span 2; font-weight: 650; font-size: 14px;
+      overflow-wrap: anywhere; }
+    .since-held { font-size: 13px; color: var(--ink-2); font-variant-numeric: tabular-nums;
+      white-space: nowrap; }
+    .since-delta { font-size: 13.5px; font-weight: 650; text-align: right;
+      font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .since-paid { grid-column: 2 / -1; font-size: 12.5px; color: var(--ink-2);
+      font-variant-numeric: tabular-nums; }
+    .since-foot { margin: 14px 0 0; }
+    /* The look-through reveal. The finding — three tickers resolve to sixty-one
+       companies, and the largest is not one the user typed — is the only thing
+       on the page that changes what someone believes about their own portfolio,
+       so it is drawn as a statement with a rule under it, not as another table. */
+    .reveal-lede { margin: 0; font-size: 15px; }
+    .reveal-count { display: flex; align-items: baseline; gap: 14px; margin: 8px 0 2px; }
+    .reveal-n { font-size: 46px; font-weight: 650; letter-spacing: -0.04em; line-height: 1;
+      font-variant-numeric: tabular-nums lining-nums; }
+    .reveal-arrow { font-size: 24px; color: var(--ink-2); }
+    .reveal-labels { display: flex; gap: 14px; }
+    .reveal-labels span { flex: 0 0 auto; min-width: 0; font-size: 12px; text-transform: uppercase;
+      letter-spacing: 0.06em; color: var(--ink-2); }
+    /* The rule draws across the card, the product's second motion. It is what
+       makes the figure above it read as a conclusion rather than a statistic. */
+    .reveal-rule { position: relative; height: 1px; margin: 18px 0; background: var(--line); }
+    .reveal-rule::before { content: ''; position: absolute; inset: 0; background: var(--ink);
+      transform-origin: left center; animation: ruleDraw .26s ease-out both; }
+    @media (prefers-reduced-motion: reduce) { .reveal-rule::before { animation: none; } }
+    .reveal-finding { margin: 0 0 12px; font-size: 15px; }
+    .reveal-top { display: grid; }
+    .reveal-row { display: grid; grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1px 14px; padding: 10px 0; border-top: 1px solid var(--line); }
+    .reveal-row.is-largest .reveal-name { font-weight: 650; }
+    .reveal-name { font-size: 14px; overflow-wrap: anywhere; }
+    .reveal-w { font-size: 14px; font-weight: 650; text-align: right;
+      font-variant-numeric: tabular-nums; }
+    .reveal-via { grid-column: 1 / -1; font-size: 12.5px; color: var(--ink-2); }
+    .reveal-more, .reveal-foot { margin: 12px 0 0; }
+    /* The quiet state of the filing monitor. It is deliberately not a notice —
+       nothing has happened, so nothing should look like it has. The rule above
+       it is the same hairline the reveal uses, so silence reads as the product
+       being calm rather than as an empty box. */
+    .quiet-card { padding: 2px 0 0; }
+    .quiet-lede { margin: 0; font-size: 15px; font-weight: 650; }
+    .quiet-close { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line);
+      font-size: 14px; }
+    @media (max-width: 560px) {
+      .reveal-n { font-size: 36px; }
+      .reveal-count { gap: 10px; }
+    }
+    @media (max-width: 560px) {
+      .since-row { grid-template-columns: minmax(0, 1fr) auto; }
+      .since-paid { grid-column: 1 / -1; }
+    }
     .holding-group + .holding-group { margin-top: 32px; }
     .portfolio-value-line { display:flex; align-items:baseline; gap:12px; flex-wrap:wrap; }
     .portfolio-value-line .display { margin:6px 0 0; }
@@ -256,6 +347,16 @@
           </div>
         </section>
 
+        <!-- Since you bought. Rendered from the purchase dates the user gave us;
+             hidden entirely when no holding carries one. -->
+        <section class="section" id="since-section" hidden>
+          <div class="section-head">
+            <h2 class="title-2">Since you bought</h2>
+            <span class="small faint">your own dates, reflected back</span>
+          </div>
+          <div class="card card-pad" id="since-body"></div>
+        </section>
+
         <!-- Watchlist -->
         <section class="section" id="watch-section" hidden>
           <div class="section-head"><h2 class="title-2">Watchlist</h2><span class="small faint">starred from any company page</span></div>
@@ -276,6 +377,7 @@
             <h2 class="title-2">Inside your holdings</h2>
             <span class="small faint">your whole portfolio read as one business — every number value-weighted through what you own</span>
           </div>
+          <div class="card card-pad" id="xray-reveal" hidden></div>
           <div class="card card-pad"><div class="kpi-row" id="xray-strip" style="gap:24px 40px;"></div></div>
           <div id="xray-flags" style="display:grid; gap:8px; margin-top:12px;"></div>
         </section>
@@ -364,9 +466,10 @@
       <span class="portfolio-action-mark" id="portfolio-action-mark" aria-hidden="true" hidden>✓</span>
       <strong id="portfolio-action-title">Updating your portfolio</strong>
       <p class="small muted" id="portfolio-action-detail">Please wait…</p>
+      <div id="portfolio-action-arrival" hidden></div>
     </div>
   </div>
-  <script src="assets/app.js?v=20260922-docs1"></script>
-  <script src="assets/dashboard.js?v=20260922-docs1"></script>
+  <script src="assets/app.js?v=20260925-quiet1"></script>
+  <script src="assets/dashboard.js?v=20260925-quiet1"></script>
 </body>
 </html>

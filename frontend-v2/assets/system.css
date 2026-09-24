@@ -1278,6 +1278,12 @@ p.small a, p.muted a, p.small.muted a, p.small.faint a { display: inline-block; 
   user-select: none;
 }
 @keyframes shimmer { to { background-position: -200% 0; } }
+/* The plan's motion budget requires every effect to degrade under reduce-motion;
+   this one had no guard, so a user who asked the OS for stillness still got a
+   travelling gradient. A flat placeholder carries the same meaning. */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; background: var(--line); }
+}
 
 /* ---------- Page rhythm ---------- */
 .page-head { padding: var(--s7) 0 0; }
@@ -1772,6 +1778,12 @@ body.has-ask-floor .footer { padding-bottom: 90px; }
 .ai-progress { display:grid; gap:6px; font-size:13.5px; color:var(--ink-2); max-height:112px; overflow-y:auto; }
 .ai-progress div { animation: aiFade .3s ease; }
 @keyframes aiFade { from { opacity:0; transform:translateY(3px); } to { opacity:1; transform:none; } }
+/* Same missing guard as .skeleton above — the build log's lines are the one
+   place a user watches work happen, and reduce-motion should still show every
+   line land, just without the rise. */
+@media (prefers-reduced-motion: reduce) {
+  .ai-progress div { animation: none; }
+}
 
 .ai-chart { margin:16px 0 4px; overflow-x:auto; }
 .ai-showdown { display:grid; grid-template-columns:1fr auto 1fr; gap:14px; align-items:stretch; margin-top:14px; }

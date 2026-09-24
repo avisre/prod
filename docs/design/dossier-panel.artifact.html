@@ -1,0 +1,846 @@
+<title>Company Panel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Black&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================================
+   DOSSIER PANEL — a one-screen instrument face for /dossier.html
+   New identity: not system.css, not the rejected "Plain Filing" document.
+   Everything here is contained to this page body; the site nav and footer are
+   the shared chrome and are never targeted (see NOTES at the foot of the file).
+   ========================================================================= */
+:root{
+  --dp-ground:#f6f7f9;
+  --dp-ink:#101317;
+  --dp-ink2:#4d545e;
+  --dp-ink3:#7b828c;
+  --dp-rule:#e3e6ea;
+  --dp-rule2:#c9ced5;
+  --dp-accent:#4a3aa7;
+  --dp-accent-line:#4a3aa7;
+  --dp-accent-fill:#e7e3f7;
+  --dp-neutral:#6d7580;      /* the de-emphasis mark: every "everything else" bar */
+  --dp-neutral-2:#a6adb6;    /* lighter step of the two-step ordinal ramp */
+  --dp-neutral-fill:#e9ebee; /* tracks and skeletons — a surface, never a mark */
+  --dp-down:#d03b3b;
+  --dp-down-fill:#f7dede;
+  --dp-chrome:60px;          /* measured site nav, reserved so "one screen" is honest */
+  --dp-sans:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  background:var(--dp-ground); color:var(--dp-ink);
+  font:400 15px/1.45 var(--dp-sans);
+  -webkit-font-smoothing:antialiased;
+}
+[hidden]{display:none !important}
+button{font:inherit;color:inherit}
+
+/* --- the reserved site chrome (mockup honesty, not part of the design) ----- */
+.dp-chromebar{
+  height:var(--dp-chrome); display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:0 20px; border-bottom:1px dashed var(--dp-rule2);
+  color:var(--dp-ink3); font-size:11px; letter-spacing:.09em; text-transform:uppercase;
+}
+
+/* --- shell ---------------------------------------------------------------- */
+/* minmax(0,1fr) on every grid column, and min-width:0 on every flex row, is not
+   decoration. A default `auto` column cannot shrink below its widest item's
+   min-content width, so one nowrap row silently set the whole document's minimum
+   width: measured at 390px, .dp-asks held the page at 594 and the header actions
+   at 491, and the phone laid out at 727 scaled to fit. */
+.dp-wrap{
+  height:calc(100dvh - var(--dp-chrome));
+  display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto minmax(0,1fr);
+  padding:9px 20px 10px;
+}
+.dp-report{display:grid; grid-template-columns:minmax(0,1fr); grid-template-rows:auto auto minmax(0,1fr); min-height:0}
+
+/* --- ask strip — persistent, name-first ------------------------------------ */
+.dp-asks{display:flex; gap:9px; align-items:center; min-width:0; padding-bottom:9px}
+.dp-ask-input{
+  flex:1 1 0; min-width:0; height:38px; padding:0 13px;
+  background:#fff; border:1px solid var(--dp-rule2); border-radius:8px;
+  font:500 14.5px/1 var(--dp-sans); color:var(--dp-ink);
+}
+.dp-ask-input::placeholder{color:var(--dp-ink3); font-weight:400}
+.dp-ask-go{
+  flex:0 0 auto; height:38px; padding:0 17px; border:0; border-radius:8px;
+  background:var(--dp-accent); color:#fff; font-weight:600; font-size:14px;
+  letter-spacing:-.01em; cursor:pointer;
+}
+.dp-ask-hint{flex:0 0 auto; font-size:11.5px; color:var(--dp-ink3); white-space:nowrap}
+
+/* --- identity strip -------------------------------------------------------- */
+.dp-ident{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:20px; min-width:0;
+  padding:3px 0 9px; border-bottom:1px solid var(--dp-rule);
+}
+.dp-ident-l{min-width:0}
+.dp-name{
+  margin:0; font:700 23px/1.1 var(--dp-sans); letter-spacing:-.022em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dp-name span{color:var(--dp-ink3); font-weight:600}
+.dp-meta{margin:3px 0 0; font-size:11.5px; color:var(--dp-ink3); letter-spacing:.005em}
+.dp-ident-r{display:flex; align-items:center; gap:14px 14px; flex:0 1 auto; flex-wrap:wrap; justify-content:flex-end; min-width:0}
+.dp-verdict{display:flex; align-items:center; gap:9px}
+.dp-dots{display:inline-flex; gap:3.5px}
+.dp-dot{width:9px;height:9px;border-radius:50%;background:var(--dp-rule2);display:block}
+.dp-dot.on{background:var(--dp-accent)}
+.dp-score{font:600 13px/1 var(--dp-sans); font-variant-numeric:tabular-nums}
+.dp-score b{font-size:15px}
+.dp-score i{font-style:normal;color:var(--dp-ink3);font-weight:500}
+.dp-word{
+  font-size:10.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--dp-ink2);
+  border-left:1px solid var(--dp-rule2); padding-left:12px;
+}
+.dp-actions{display:flex; align-items:center; gap:6px; flex-wrap:wrap; justify-content:flex-end; min-width:0}
+.dp-chip{
+  height:28px; padding:0 11px; border:1px solid var(--dp-rule2); border-radius:7px;
+  background:#fff; font-size:12px; font-weight:500; cursor:pointer; color:var(--dp-ink2);
+}
+.dp-chip.on{background:var(--dp-accent); border-color:var(--dp-accent); color:#fff}
+.dp-link{
+  height:28px; display:inline-flex; align-items:center; padding:0 10px; gap:5px;
+  border:1px solid var(--dp-rule2); border-radius:7px; background:#fff;
+  font-size:12px; color:var(--dp-ink2); text-decoration:none; white-space:nowrap;
+}
+.beta-badge{
+  font-size:8.5px; font-weight:700; letter-spacing:.07em; text-transform:uppercase;
+  background:var(--dp-accent-fill); color:var(--dp-accent); border-radius:3px;
+  padding:1.5px 4px; vertical-align:1px;
+}
+
+/* --- figure ribbon --------------------------------------------------------- */
+.dp-ribbon{
+  display:grid; grid-template-columns:repeat(7,minmax(0,1fr));
+  border-bottom:1px solid var(--dp-rule);
+}
+.dp-fig{padding:9px 14px 10px; border-left:1px solid var(--dp-rule)}
+.dp-fig:first-child{border-left:0; padding-left:0}
+.dp-fig-v{
+  display:block; font:600 21px/1.05 var(--dp-sans); letter-spacing:-.028em;
+  white-space:nowrap;
+}
+.dp-fig-d{font-size:11px; font-weight:600; font-variant-numeric:tabular-nums; color:var(--dp-ink2); margin-left:5px}
+.dp-fig-d.down{color:var(--dp-down)}
+.dp-fig-l{
+  display:block; margin-top:4px; font-size:9.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--dp-ink3); white-space:nowrap;
+}
+
+/* --- the lattice ----------------------------------------------------------- */
+.dp-grid{
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-auto-rows:minmax(0,1fr); min-height:0;
+}
+.dp-panel{
+  display:grid; grid-template-rows:auto minmax(0,1fr) auto; gap:7px;
+  padding:11px 16px 9px; min-height:0; min-width:0;
+  border-top:1px solid var(--dp-rule); border-right:1px solid var(--dp-rule);
+}
+.dp-panel:nth-child(3n){border-right:0; padding-right:0}
+.dp-panel:nth-child(-n+3){border-top:0}
+.dp-panel:nth-child(3n+1){padding-left:0}
+.dp-lab{
+  margin:0; font-size:10px; font-weight:600; letter-spacing:.13em;
+  text-transform:uppercase; color:var(--dp-ink3);
+}
+.dp-lab b{color:var(--dp-ink); font-weight:600}
+.dp-body{min-height:0; min-width:0; display:flex; flex-direction:column; justify-content:flex-start}
+.dp-foot{
+  margin:0; font-size:11.5px; color:var(--dp-ink3); line-height:1.35;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.dp-foot b{color:var(--dp-ink2); font-weight:600}
+.dp-foot .down{color:var(--dp-down)}
+.dp-hero{
+  font:600 27px/1 var(--dp-sans); letter-spacing:-.032em;
+  display:flex; align-items:baseline; gap:7px;
+}
+.dp-hero small{font-size:11.5px; font-weight:500; color:var(--dp-ink3); letter-spacing:0}
+
+/* mini plots — one axis each, stacked. Never two scales on one plot. */
+.dp-mini{display:grid; grid-template-columns:38px minmax(0,1fr); align-items:stretch; gap:8px; flex:1 1 0; min-height:0; padding:3px 0}
+.dp-mini-t{
+  font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--dp-ink3);
+  text-align:right; align-self:center;
+}
+.dp-mini-t b{display:block;color:var(--dp-ink2);font-weight:600;font-variant-numeric:tabular-nums;letter-spacing:0;font-size:11px}
+/* The svg is absolutely positioned on purpose. With `height:100%` against an
+   indefinite parent it falls back to the viewBox aspect ratio and the chart
+   silently renders ~40px tall, leaving dead space in the cell — measured at
+   1440x900 before this was fixed. Absolute against a stretched grid cell makes
+   the height definite at every viewport. */
+.dp-plot{position:relative; min-height:0}
+.dp-plot svg{position:absolute; inset:0; display:block; width:100%; height:100%; overflow:visible}
+.dp-ruleline{stroke:var(--dp-rule); stroke-width:1; vector-effect:non-scaling-stroke}
+.dp-band{fill:var(--dp-accent-fill)}
+.dp-line{fill:none; stroke:var(--dp-accent-line); stroke-width:2; vector-effect:non-scaling-stroke; stroke-linejoin:round; stroke-linecap:round}
+.dp-line.n{stroke:var(--dp-neutral)}
+.dp-end{fill:var(--dp-accent); stroke:var(--dp-ground); stroke-width:2}
+.dp-ticks{
+  display:grid; font-size:10px; color:var(--dp-ink3);
+  font-variant-numeric:tabular-nums; letter-spacing:.02em;
+}
+.dp-ticks.two{grid-template-columns:auto auto; justify-content:space-between}
+.dp-ticks.three{grid-template-columns:repeat(3,1fr); }
+.dp-ticks.three span:nth-child(2){text-align:center}
+.dp-ticks.three span:nth-child(3){text-align:right}
+
+/* each-$1 split bar */
+.dp-split{display:flex; height:26px; gap:2px; margin:2px 0 9px}
+.dp-split i{display:block; height:100%; border-radius:2px}
+.dp-split i:first-child{border-radius:3px 2px 2px 3px}
+.dp-split i:last-child{border-radius:2px 3px 3px 2px}
+.dp-key{display:grid; grid-template-columns:1fr 1fr; gap:3px 16px; font-size:11.5px}
+.dp-key div{display:flex; align-items:baseline; gap:7px; min-width:0}
+.dp-key i{width:8px;height:8px;border-radius:2px;flex:0 0 auto;position:relative;top:-1px}
+.dp-key span{color:var(--dp-ink3); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dp-key b{margin-left:auto; font-variant-numeric:tabular-nums; font-weight:600; font-size:12px}
+
+/* share bars */
+.dp-share{display:grid; gap:0}
+.dp-share-row{display:grid; grid-template-columns:minmax(0,74px) minmax(0,1fr) 34px; align-items:center; gap:9px; padding:3.5px 0}
+.dp-share-row span{font-size:11.5px; color:var(--dp-ink2); overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dp-share-track{height:7px; background:var(--dp-neutral-fill); border-radius:4px; overflow:hidden}
+.dp-share-track i{display:block; height:100%; background:var(--dp-accent); border-radius:4px}
+.dp-share-row b{font-size:11.5px; font-weight:600; text-align:right; font-variant-numeric:tabular-nums}
+
+/* diverging change rows — position carries direction, colour is redundant */
+.dp-delta{display:grid; grid-template-columns:minmax(0,88px) minmax(0,1fr) 52px; align-items:center; gap:9px; padding:3.5px 0}
+.dp-delta-l{font-size:11.5px; color:var(--dp-ink2); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.dp-delta-track{position:relative; height:9px; background:linear-gradient(var(--dp-rule),var(--dp-rule)) center/1px 100% no-repeat}
+.dp-delta-track i{position:absolute; top:0; height:100%; border-radius:2px; background:var(--dp-accent)}
+.dp-delta-track i.down{background:var(--dp-down)}
+.dp-delta-v{font-size:11.5px; font-weight:600; text-align:right; font-variant-numeric:tabular-nums; white-space:nowrap}
+.dp-delta-v.down{color:var(--dp-down)}
+
+/* severity rows — word + discrete cells, never two status colours */
+.dp-risk{display:grid; grid-template-columns:minmax(0,1fr) auto; gap:4px 10px; align-items:baseline; padding:4.5px 0}
+.dp-risk-n{font-size:12.5px; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.dp-risk-w{font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--dp-ink3); white-space:nowrap}
+.dp-risk-w.serious{color:var(--dp-down)}
+.dp-cells{grid-column:1/-1; display:flex; gap:3px}
+.dp-cells i{width:22px;height:4px;border-radius:2px;background:var(--dp-rule2)}
+.dp-cells i.on{background:var(--dp-ink2)}
+.dp-cells i.on.serious{background:var(--dp-down)}
+
+/* works / watch */
+.dp-cases{display:grid; grid-template-columns:1fr 1fr; gap:2px 16px; font-size:11.5px; align-content:start}
+.dp-cases h4{margin:0 0 4px; font-size:9.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--dp-ink3); font-weight:600}
+.dp-cases h4.w{color:var(--dp-ink2)}
+.dp-cases ul{margin:0; padding:0; list-style:none; display:grid; gap:3.5px}
+.dp-cases li{display:flex; gap:6px; line-height:1.3; color:var(--dp-ink2)}
+.dp-cases li em{font-style:normal; color:var(--dp-accent); font-weight:700; flex:0 0 auto}
+.dp-cases li em.w{color:var(--dp-down)}
+
+/* --- empty + building ------------------------------------------------------ */
+.dp-hero-empty{
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; height:100%; gap:9px;
+}
+.dp-hero-empty h1{
+  margin:0; font:700 33px/1.14 var(--dp-sans); letter-spacing:-.028em; max-width:19ch;
+}
+.dp-hero-empty p{margin:0; color:var(--dp-ink3); font-size:14px; max-width:56ch}
+.dp-examples{display:flex; gap:7px; margin-top:5px}
+.dp-ex{height:29px; padding:0 13px; border:1px solid var(--dp-rule2); border-radius:15px; background:#fff; font-size:12.5px; color:var(--dp-ink2); cursor:pointer}
+.dp-sk{background:var(--dp-rule); border-radius:3px}
+.dp-sk.v{height:15px; width:74%}
+.dp-sk.b{height:100%; width:100%; border-radius:4px}
+.dp-loading-line{font-size:11.5px; color:var(--dp-ink3); letter-spacing:.02em}
+
+/* --- analyst slide-over ---------------------------------------------------- */
+.dp-slide{
+  position:fixed; top:var(--dp-chrome); right:0; bottom:0; width:min(478px,52vw);
+  background:#fff; border-left:1px solid var(--dp-rule2);
+  box-shadow:-14px 0 34px rgba(16,19,23,.07);
+  display:grid; grid-template-rows:auto minmax(0,1fr); z-index:5;
+}
+.dp-slide-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:13px 16px; border-bottom:1px solid var(--dp-rule);
+}
+.dp-slide-head strong{font-size:11px; letter-spacing:.13em; text-transform:uppercase; color:var(--dp-ink3); font-weight:600}
+.dp-slide-body{overflow-y:auto; padding:10px 16px 22px}
+.dp-sect{margin-top:13px}
+.dp-sect h3{
+  margin:0 0 5px; font-size:10px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--dp-ink3); font-weight:600;
+}
+.dp-tbl{width:100%; border-collapse:collapse; font-size:12px; font-variant-numeric:tabular-nums}
+.dp-tbl th,.dp-tbl td{text-align:left; padding:3.5px 0; border-bottom:1px solid var(--dp-rule)}
+.dp-tbl th{font-weight:500; color:var(--dp-ink2)}
+.dp-tbl td:last-child,.dp-tbl th:last-child{text-align:right; font-weight:600}
+.dp-tbl tr:last-child td{border-bottom:0}
+.dp-note{font-size:11.5px; color:var(--dp-ink3); margin:5px 0 0}
+
+/* --- mockup-only state bar -------------------------------------------------
+   It lives INSIDE the reserved chrome strip rather than floating over the page.
+   A fixed bar at the bottom-left covered a panel's foot line at 1440x900, and
+   any bottom-reserved space would have made the one-screen measurement flatter
+   than the real page. In the strip it costs the design nothing. */
+.dp-bar{display:flex; align-items:center; gap:5px; flex:0 0 auto}
+.dp-bar em{
+  font-style:normal; font-size:9px; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--dp-ink3); margin-right:3px;
+}
+.dp-bar button{
+  height:25px; padding:0 10px; border:1px solid var(--dp-rule2); border-radius:6px;
+  background:#fff; color:var(--dp-ink2); font-size:11px; letter-spacing:0;
+  text-transform:none; cursor:pointer;
+}
+.dp-bar button.on{background:var(--dp-ink); border-color:var(--dp-ink); color:#fff; font-weight:600}
+
+/* --- phone: one column, scrolls, keeps every fact -------------------------- */
+@media (max-width:1024px), (max-height:760px){
+  /* The reviewer note and the state switcher are the widest thing on the page at
+     this size: unbroken, they pushed the document's min-content width to 727px, so
+     a 390px emulated phone shrank-to-fit the whole page instead of laying out at
+     390. Measured, not guessed — the viewport reported 727x1574 for a 390 shot. */
+  .dp-chromebar{height:auto; min-height:36px; flex-wrap:wrap; padding:6px 14px; gap:8px}
+  .dp-chromebar > span{display:none}
+  .dp-bar{margin-left:auto}
+  .dp-asks{flex-wrap:wrap}
+  .dp-ask-input{flex:1 1 100%}
+  .dp-wrap{height:auto; min-height:calc(100dvh - var(--dp-chrome))}
+  .dp-report{grid-template-rows:auto auto auto}
+  .dp-ribbon{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dp-fig{padding:8px 0; border-left:0}
+  .dp-fig:nth-child(even){padding-left:14px}
+  .dp-grid{grid-template-columns:minmax(0,1fr)}
+  .dp-panel{border-right:0; padding:13px 0; grid-template-rows:auto auto auto; gap:8px}
+  .dp-panel:nth-child(-n+3){border-top:1px solid var(--dp-rule)}
+  .dp-panel:first-child{border-top:0}
+  .dp-mini{min-height:96px}
+  .dp-slide{width:100%; top:0}
+  .dp-ident{flex-wrap:wrap; align-items:flex-start}
+  .dp-name{white-space:normal}
+  .dp-foot{white-space:normal}
+}
+</style>
+<style>
+/* Publishing-only: the viewer supplies the document skeleton, and its :root carries the
+   phone's safe-area padding. A fixed element is positioned against the viewport, not that
+   padding, so it needs the inset added explicitly. The slide-over is the only fixed
+   element here — the mockup's own state bar sits inside the static .dp-chromebar, which
+   is why this block no longer mentions a bar or an ask strip. */
+.dp-slide { top: calc(var(--dp-chrome) + env(safe-area-inset-top, 0px)); bottom: env(safe-area-inset-bottom, 0px); }
+@media (max-width: 1024px), (max-height: 760px) { .dp-slide { top: env(safe-area-inset-top, 0px); } }
+</style>
+<!-- mockup honesty: the real page wears the shared site nav here. Reserved so
+     the one-screen measurement below is a real measurement, not a flattering one. -->
+<div class="dp-chromebar">
+  <span>site nav &amp; footer — shared chrome, not part of this design (60px reserved)</span>
+  <div class="dp-bar">
+    <em>Mockup</em>
+    <button data-dp-go="empty" type="button">Empty</button>
+    <button data-dp-go="building" type="button">Building</button>
+    <button data-dp-go="simple" type="button">Simple</button>
+    <button data-dp-go="analyst" type="button">Analyst</button>
+  </div>
+</div>
+
+<main class="dp-wrap">
+
+  <section class="dp-asks" id="dp-asks">
+    <!-- The examples live in the pills below, not here: with the ask strip visible in every
+         state, a placeholder listing Apple / Nike / Coca-Cola printed the same three names
+         twice, 100px apart, on the one screen it is meant to keep clear. -->
+    <input class="dp-ask-input" id="dp-ask" placeholder="Search a company by name" aria-label="Company name" />
+    <button class="dp-ask-go" type="button">Build brief</button>
+    <span class="dp-ask-hint" id="dp-ask-hint">one click · about a minute</span>
+  </section>
+
+  <!-- ================= EMPTY ================= -->
+  <section class="dp-hero-empty" data-when="empty">
+    <h1>Any US-listed company, in plain English</h1>
+    <p>Type the name. You get the whole picture on one screen — what it sells, what it keeps, what could go wrong, and what the price already assumes.</p>
+    <div class="dp-examples">
+      <button class="dp-ex" type="button">Apple</button>
+      <button class="dp-ex" type="button">Nike</button>
+      <button class="dp-ex" type="button">Coca-Cola</button>
+      <button class="dp-ex" type="button">Ford Motor</button>
+    </div>
+  </section>
+
+  <div class="dp-report" id="dp-report" data-when="simple analyst">
+
+    <!-- ================= IDENTITY ================= -->
+    <div class="dp-ident">
+      <div class="dp-ident-l">
+        <h2 class="dp-name">Apple Inc. <span>(AAPL)</span><span class="beta-badge">Beta</span></h2>
+        <p class="dp-meta">Technology · Consumer Electronics · fiscal year ended 28 Sep 2024 · built from the FY2024 10-K</p>
+      </div>
+      <div class="dp-ident-r">
+        <div class="dp-verdict" data-when="simple analyst">
+          <span class="dp-dots" role="img" aria-label="3 out of 5"><i class="dp-dot on"></i><i class="dp-dot on"></i><i class="dp-dot on"></i><i class="dp-dot"></i><i class="dp-dot"></i></span>
+          <span class="dp-score"><b>3.0</b><i>/5</i></span>
+        </div>
+        <span class="dp-word" data-when="simple analyst">holding steady</span>
+        <div class="dp-actions">
+          <button class="dp-chip" id="dp-mode-normal" type="button">Normal</button>
+          <button class="dp-chip" id="dp-mode-analyst" type="button">Analyst</button>
+          <a class="dp-link" href="#analyst" onclick="return false">Compare ↔ <span class="beta-badge">Beta</span></a>
+          <button class="dp-chip" type="button">Print / Save PDF</button>
+          <button class="dp-chip" type="button">Refresh</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= FIGURE RIBBON ================= -->
+    <div class="dp-ribbon" data-when="simple analyst">
+      <div class="dp-fig"><span class="dp-fig-v">$391.0B<span class="dp-fig-d">+2.0%</span></span><span class="dp-fig-l">Revenue</span></div>
+      <div class="dp-fig"><span class="dp-fig-v">+8.5%<small style="font-size:11px;color:var(--dp-ink3);font-weight:500">/yr</small></span><span class="dp-fig-l">5-yr sales</span></div>
+      <div class="dp-fig"><span class="dp-fig-v">$93.7B<span class="dp-fig-d down">−3.4%</span></span><span class="dp-fig-l">Net income</span></div>
+      <div class="dp-fig"><span class="dp-fig-v">24.0%<span class="dp-fig-d down">−1.3pt</span></span><span class="dp-fig-l">Net margin</span></div>
+      <div class="dp-fig"><span class="dp-fig-v">46.2%<span class="dp-fig-d">+2.1pt</span></span><span class="dp-fig-l">Gross margin</span></div>
+      <div class="dp-fig"><span class="dp-fig-v">$108.8B<span class="dp-fig-d">+9.2%</span></span><span class="dp-fig-l">Free cash flow</span></div>
+      <div class="dp-fig"><span class="dp-fig-v">34.2×</span><span class="dp-fig-l">Price / earnings</span></div>
+    </div>
+
+    <!-- ================= THE LATTICE ================= -->
+    <div class="dp-grid">
+
+      <!-- A1 — sales & profit, small multiples, one axis each -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">Sales <b>·</b> Profit</h3>
+        <div class="dp-body">
+          <div class="dp-mini">
+            <span class="dp-mini-t">sales<b>$391B</b></span>
+            <span class="dp-plot"><svg viewBox="0 0 640 60" preserveAspectRatio="none" aria-hidden="true">
+              <line class="dp-ruleline" x1="0" y1="56" x2="640" y2="56" />
+              <path class="dp-band" d="M 2,56 L 2,26.2 L 92.9,21.5 L 183.7,22.2 L 274.6,20.3 L 365.4,8.4 L 456.3,4.7 L 547.1,6.2 L 638,5.2 L 638,56 Z" />
+              <path class="dp-line" d="M 2,26.2 L 92.9,21.5 L 183.7,22.2 L 274.6,20.3 L 365.4,8.4 L 456.3,4.7 L 547.1,6.2 L 638,5.2" />
+              <circle class="dp-end" cx="638" cy="5.2" r="4" />
+            </svg></span>
+          </div>
+          <div class="dp-mini">
+            <span class="dp-mini-t">profit<b>$93.7B</b></span>
+            <span class="dp-plot"><svg viewBox="0 0 640 60" preserveAspectRatio="none" aria-hidden="true">
+              <line class="dp-ruleline" x1="0" y1="56" x2="640" y2="56" />
+              <path class="dp-band" d="M 2,56 L 2,32.1 L 92.9,26.5 L 183.7,28.6 L 274.6,27.6 L 365.4,9.1 L 456.3,6.6 L 547.1,8 L 638,9.6 L 638,56 Z" />
+              <path class="dp-line" d="M 2,32.1 L 92.9,26.5 L 183.7,28.6 L 274.6,27.6 L 365.4,9.1 L 456.3,6.6 L 547.1,8 L 638,9.6" />
+              <circle class="dp-end" cx="638" cy="9.6" r="4" />
+            </svg></span>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">Eight years. Sales tripled from $229B; profit <b class="down">fell 3.4%</b> last year.</p>
+      </section>
+
+      <!-- B1 — each $1 -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">Each <b>$1</b> of sales</h3>
+        <div class="dp-body">
+          <div class="dp-hero">54¢<small>to make the product</small></div>
+          <!-- Three segments, not four: tax and running costs are both "money
+               that didn't reach the shareholder", and a fourth hue put two
+               near-identical greys side by side (measured dE 9.1 — a hard fail
+               on the normal-vision floor). The remaining two-step grey ramp
+               passes the ordinal checks: monotone lightness, a visible step
+               gap, and a light end at 2.11:1 against this surface. -->
+          <div class="dp-split">
+            <i style="width:53.8%;background:var(--dp-neutral)"></i>
+            <i style="width:22.2%;background:var(--dp-neutral-2)"></i>
+            <i style="width:24.0%;background:var(--dp-accent)"></i>
+          </div>
+          <div class="dp-key">
+            <div><i style="background:var(--dp-neutral)"></i><span>cost of sales</span><b>54¢</b></div>
+            <div><i style="background:var(--dp-neutral-2)"></i><span>running the business</span><b>22¢</b></div>
+            <div><i style="background:var(--dp-accent)"></i><span>kept as profit</span><b>24¢</b></div>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">FY2024 income statement</p>
+      </section>
+
+      <!-- C1 — what it sells -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">What it <b>sells</b></h3>
+        <div class="dp-body">
+          <div class="dp-share">
+            <div class="dp-share-row"><span>iPhone</span><span class="dp-share-track"><i style="width:100%"></i></span><b>51%</b></div>
+            <div class="dp-share-row"><span>Services</span><span class="dp-share-track"><i style="width:48%"></i></span><b>25%</b></div>
+            <div class="dp-share-row"><span>Wearables</span><span class="dp-share-track"><i style="width:18%"></i></span><b>9%</b></div>
+            <div class="dp-share-row"><span>Mac</span><span class="dp-share-track"><i style="width:15%"></i></span><b>8%</b></div>
+            <div class="dp-share-row"><span>iPad</span><span class="dp-share-track"><i style="width:13%"></i></span><b>7%</b></div>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">Half the company is still one product</p>
+      </section>
+
+      <!-- A2 — margins, three lines, one shared axis -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">Margins</h3>
+        <div class="dp-body">
+          <div class="dp-mini" style="grid-template-columns:minmax(0,1fr)">
+            <span class="dp-plot"><svg viewBox="0 0 640 60" preserveAspectRatio="none" aria-hidden="true">
+              <line class="dp-ruleline" x1="0" y1="56" x2="640" y2="56" />
+              <path class="dp-line" d="M 2,16 L 92.9,16.2 L 183.7,16.7 L 274.6,16.3 L 365.4,12.5 L 456.3,11 L 547.1,10.1 L 638,8" />
+              <path class="dp-line n" d="M 2,28.1 L 92.9,28.2 L 183.7,30.4 L 274.6,30.9 L 365.4,25 L 456.3,24.5 L 547.1,25 L 638,23.2" />
+              <path class="dp-line n" style="opacity:.5" d="M 2,34.1 L 92.9,32.7 L 183.7,34 L 274.6,34.3 L 365.4,29.1 L 456.3,29.7 L 547.1,29.7 L 638,31" />
+              <circle class="dp-end" cx="638" cy="8" r="4" />
+            </svg></span>
+          </div>
+          <div class="dp-key" style="grid-template-columns:1fr 1fr 1fr; gap:2px 10px; margin-top:2px">
+            <div><i style="background:var(--dp-accent)"></i><span>gross</span></div>
+            <div><i style="background:var(--dp-neutral)"></i><span>operating</span></div>
+            <div><i style="background:var(--dp-neutral);opacity:.5"></i><span>net</span></div>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">Gross margin is the best in eight years; net is slipping</p>
+      </section>
+
+      <!-- B2 — versus the sector -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">Versus the <b>sector</b></h3>
+        <div class="dp-body">
+          <div class="dp-delta" style="grid-template-columns:minmax(0,86px) minmax(0,1fr) 54px">
+            <span class="dp-delta-l">Sales growth</span>
+            <span class="dp-delta-track"><i style="left:0;width:100%"></i></span>
+            <span class="dp-delta-v">8.5%/yr</span>
+          </div>
+          <div class="dp-delta" style="grid-template-columns:minmax(0,86px) minmax(0,1fr) 54px">
+            <span class="dp-delta-l">Peer median</span>
+            <span class="dp-delta-track"><i style="left:0;width:72%; background:var(--dp-neutral)"></i></span>
+            <span class="dp-delta-v" style="color:var(--dp-ink3)">6.1%/yr</span>
+          </div>
+          <div class="dp-delta" style="grid-template-columns:minmax(0,86px) minmax(0,1fr) 54px; margin-top:5px">
+            <span class="dp-delta-l">Net margin</span>
+            <span class="dp-delta-track"><i style="left:0;width:100%"></i></span>
+            <span class="dp-delta-v">24.0%</span>
+          </div>
+          <div class="dp-delta" style="grid-template-columns:minmax(0,86px) minmax(0,1fr) 54px">
+            <span class="dp-delta-l">Peer median</span>
+            <span class="dp-delta-track"><i style="left:0;width:76%; background:var(--dp-neutral)"></i></span>
+            <span class="dp-delta-v" style="color:var(--dp-ink3)">18.3%</span>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">Ahead of peers on both, by a wide margin</p>
+      </section>
+
+      <!-- C2 — what's priced in -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">What's <b>priced in</b></h3>
+        <div class="dp-body">
+          <div class="dp-hero">12.0%<small>growth the price assumes</small></div>
+          <div class="dp-delta" style="grid-template-columns:minmax(0,74px) minmax(0,1fr) 52px; margin-top:4px">
+            <span class="dp-delta-l">Delivered</span>
+            <span class="dp-delta-track"><i style="left:0;width:71%; background:var(--dp-neutral)"></i></span>
+            <span class="dp-delta-v" style="color:var(--dp-ink3)">8.5%</span>
+          </div>
+          <!-- A diverging range: two poles that read as opposite, neutral grey at
+               the expected case. Swatches are the MARK colours, not the pale
+               fills — at 8px a tint is not a swatch. -->
+          <div class="dp-key" style="grid-template-columns:1fr 1fr 1fr; gap:3px 8px; margin-top:8px">
+            <div><i style="background:var(--dp-down)"></i><span>bear</span><b style="font-size:11px">−38%</b></div>
+            <div><i style="background:var(--dp-neutral)"></i><span>base</span><b style="font-size:11px">+12%</b></div>
+            <div><i style="background:var(--dp-accent)"></i><span>bull</span><b style="font-size:11px">+54%</b></div>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">The price is asking for more than it has been delivering</p>
+      </section>
+
+      <!-- A3 — what changed -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">What <b>changed</b></h3>
+        <div class="dp-body">
+          <div class="dp-delta"><span class="dp-delta-l">Revenue</span><span class="dp-delta-track"><i style="left:50%;width:11%"></i></span><span class="dp-delta-v">+2.0%</span></div>
+          <div class="dp-delta"><span class="dp-delta-l">Net income</span><span class="dp-delta-track"><i class="down" style="right:50%;width:18%"></i></span><span class="dp-delta-v down">−3.4%</span></div>
+          <div class="dp-delta"><span class="dp-delta-l">Diluted EPS</span><span class="dp-delta-track"><i class="down" style="right:50%;width:4%"></i></span><span class="dp-delta-v down">−0.8%</span></div>
+          <div class="dp-delta"><span class="dp-delta-l">Gross margin</span><span class="dp-delta-track"><i style="left:50%;width:11%"></i></span><span class="dp-delta-v">+2.1pt</span></div>
+          <div class="dp-delta"><span class="dp-delta-l">Free cash flow</span><span class="dp-delta-track"><i style="left:50%;width:50%"></i></span><span class="dp-delta-v">+9.2%</span></div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">Latest 10-K vs the year before</p>
+      </section>
+
+      <!-- B3 — risks -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">Risks</h3>
+        <div class="dp-body">
+          <div class="dp-risk">
+            <span class="dp-risk-n">China demand and supply</span><span class="dp-risk-w serious">Serious</span>
+            <span class="dp-cells"><i class="on serious"></i><i class="on serious"></i><i class="on serious"></i></span>
+          </div>
+          <div class="dp-risk">
+            <span class="dp-risk-n">App Store regulation</span><span class="dp-risk-w serious">Serious</span>
+            <span class="dp-cells"><i class="on serious"></i><i class="on serious"></i><i class="on serious"></i></span>
+          </div>
+          <div class="dp-risk">
+            <span class="dp-risk-n">One product is half of sales</span><span class="dp-risk-w">Worth watching</span>
+            <span class="dp-cells"><i class="on"></i><i class="on"></i><i></i></span>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">2 more in the Analyst panel</p>
+      </section>
+
+      <!-- C3 — works / watch -->
+      <section class="dp-panel">
+        <h3 class="dp-lab">Working <b>·</b> Watch</h3>
+        <div class="dp-body">
+          <div class="dp-cases">
+            <div>
+              <h4>Working</h4>
+              <ul>
+                <li><em>+</em>Services grow faster than hardware</li>
+                <li><em>+</em>$108B of free cash flow</li>
+                <li><em>+</em>2.3B devices in use</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="w">Watch</h4>
+              <ul>
+                <li><em class="w">!</em>iPhone is half of sales</li>
+                <li><em class="w">!</em>China revenue is falling</li>
+                <li><em class="w">!</em>Growth trails mega-cap peers</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <p class="dp-foot" data-when="simple analyst">Built from this year's filing and the eight-year record</p>
+      </section>
+    </div>
+  </div>
+
+  <!-- ================= BUILDING (skeleton, same shapes) ================= -->
+  <div class="dp-report" data-when="building" hidden>
+    <div class="dp-ident">
+      <div class="dp-ident-l">
+        <h2 class="dp-name" style="color:var(--dp-ink3)">Reading the filings…</h2>
+        <p class="dp-meta">Apple Inc. · resolved from "Apple"</p>
+      </div>
+      <div class="dp-ident-r"><span class="dp-loading-line">every figure arrives from the filing before the writing does</span></div>
+    </div>
+    <div class="dp-ribbon">
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:52%;margin-top:8px;display:block"></span></div>
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:46%;margin-top:8px;display:block"></span></div>
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:58%;margin-top:8px;display:block"></span></div>
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:44%;margin-top:8px;display:block"></span></div>
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:56%;margin-top:8px;display:block"></span></div>
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:50%;margin-top:8px;display:block"></span></div>
+      <div class="dp-fig"><span class="dp-sk v"></span><span class="dp-sk" style="height:8px;width:40%;margin-top:8px;display:block"></span></div>
+    </div>
+    <div class="dp-grid">
+      <section class="dp-panel"><h3 class="dp-lab">Sales <b>·</b> Profit</h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">waiting on the income statement</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">Each <b>$1</b> of sales</h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">waiting on the income statement</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">What it <b>sells</b></h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">waiting on the segment note</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">Margins</h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">waiting on the eight-year record</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">Versus the <b>sector</b></h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">waiting on the peer set</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">What's <b>priced in</b></h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">waiting on the valuation model</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">What <b>changed</b></h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">comparing this filing with the last</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">Risks</h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">still writing…</p></section>
+      <section class="dp-panel"><h3 class="dp-lab">Working <b>·</b> Watch</h3><div class="dp-body"><span class="dp-sk b" style="min-height:96px"></span></div><p class="dp-foot">still writing…</p></section>
+    </div>
+  </div>
+
+</main>
+
+<!-- ================= ANALYST SLIDE-OVER ================= -->
+<aside class="dp-slide" data-when="analyst" hidden aria-label="Analyst detail">
+  <div class="dp-slide-head">
+    <strong>Analyst</strong>
+    <div class="dp-actions">
+      <a class="dp-link" href="#simple" onclick="return false">Compare ↔ <span class="beta-badge">Beta</span></a>
+      <button class="dp-chip" id="dp-slide-close" type="button">Close ×</button>
+    </div>
+  </div>
+  <div class="dp-slide-body">
+    <p class="dp-note">Every panel on this screen has a table here — the same figures, nothing colour-only.</p>
+
+    <div class="dp-sect">
+      <h3>Income statement · FY2024</h3>
+      <table class="dp-tbl">
+        <tr><th>Revenue</th><td>$391.0B</td></tr>
+        <tr><th>Cost of sales</th><td>−$210.4B</td></tr>
+        <tr><th>Gross profit</th><td>$180.7B</td></tr>
+        <tr><th>Research &amp; development</th><td>−$31.4B</td></tr>
+        <tr><th>Selling, general &amp; admin</th><td>−$26.1B</td></tr>
+        <tr><th>Operating income</th><td>$123.2B</td></tr>
+        <tr><th>Tax and other</th><td>−$29.5B</td></tr>
+        <tr><th>Net income</th><td>$93.7B</td></tr>
+      </table>
+    </div>
+
+    <div class="dp-sect">
+      <h3>The eight-year record</h3>
+      <table class="dp-tbl">
+        <tr><th>Year</th><th>Revenue</th><th>Net income</th><th>Gross %</th><th>Net %</th></tr>
+        <tr><th>2024</th><td>$391.0B</td><td>$93.7B</td><td>46.2%</td><td>24.0%</td></tr>
+        <tr><th>2023</th><td>$383.3B</td><td>$97.0B</td><td>44.1%</td><td>25.3%</td></tr>
+        <tr><th>2022</th><td>$394.3B</td><td>$99.8B</td><td>43.3%</td><td>25.3%</td></tr>
+        <tr><th>2021</th><td>$365.8B</td><td>$94.7B</td><td>41.8%</td><td>25.9%</td></tr>
+        <tr><th>2020</th><td>$274.5B</td><td>$57.4B</td><td>38.2%</td><td>20.9%</td></tr>
+        <tr><th>2019</th><td>$260.2B</td><td>$55.3B</td><td>37.8%</td><td>21.2%</td></tr>
+        <tr><th>2018</th><td>$265.6B</td><td>$59.5B</td><td>38.3%</td><td>22.4%</td></tr>
+        <tr><th>2017</th><td>$229.2B</td><td>$48.4B</td><td>38.5%</td><td>21.1%</td></tr>
+      </table>
+    </div>
+
+    <div class="dp-sect">
+      <h3>Health checks · 6 of 7 passed</h3>
+      <table class="dp-tbl">
+        <tr><th>Free cash flow positive every year</th><td>pass</td></tr>
+        <tr><th>Debt covered by earnings</th><td>pass</td></tr>
+        <tr><th>Margin not shrinking two years running</th><td>watch</td></tr>
+      </table>
+    </div>
+
+    <div class="dp-sect">
+      <h3>Forensic signals</h3>
+      <table class="dp-tbl">
+        <tr><th>Cash conversion</th><td>1.16×</td></tr>
+        <tr><th>Receivables vs sales</th><td>in line</td></tr>
+        <tr><th>Inventory vs sales</th><td>in line</td></tr>
+      </table>
+      <p class="dp-note">Nothing here contradicts the reported numbers.</p>
+    </div>
+
+    <div class="dp-sect">
+      <h3>Peer comps · 6 companies</h3>
+      <table class="dp-tbl">
+        <tr><th>Company</th><th>P/E</th><th>Net margin</th></tr>
+        <tr><th>AAPL</th><td>34.2×</td><td>24.0%</td></tr>
+        <tr><th>MSFT</th><td>35.1×</td><td>36.0%</td></tr>
+        <tr><th>GOOGL</th><td>24.8×</td><td>27.4%</td></tr>
+        <tr><th>AMZN</th><td>39.0×</td><td>9.3%</td></tr>
+        <tr><th>META</th><td>26.4×</td><td>33.1%</td></tr>
+        <tr><th>NVDA</th><td>51.2×</td><td>55.8%</td></tr>
+      </table>
+      <p class="dp-note">Median P/E 32.5× — AAPL trades at a 5% premium.</p>
+    </div>
+
+    <div class="dp-sect">
+      <h3>Discounted cash flow</h3>
+      <table class="dp-tbl">
+        <tr><th>Growth priced in</th><td>12.0%/yr</td></tr>
+        <tr><th>Growth delivered, 5 yrs</th><td>8.5%/yr</td></tr>
+        <tr><th>Discount rate</th><td>9.0%</td></tr>
+        <tr><th>Terminal growth</th><td>2.5%</td></tr>
+        <tr><th>Bear · base · bull</th><td>−38% / +12% / +54%</td></tr>
+      </table>
+    </div>
+
+    <div class="dp-sect">
+      <h3>Governance &amp; transparency</h3>
+      <table class="dp-tbl">
+        <tr><th>Board independence</th><td>8 of 9</td></tr>
+        <tr><th>Insider ownership</th><td>low</td></tr>
+        <tr><th>Disclosure score</th><td>78 / 100</td></tr>
+      </table>
+      <p class="dp-note">Pillar scores, related-party notes and the full board list sit under Deep research.</p>
+    </div>
+
+    <div class="dp-sect">
+      <h3>Deep research</h3>
+      <table class="dp-tbl">
+        <tr><th>Industry drivers</th><td>4</td></tr>
+        <tr><th>Sources cited</th><td>11</td></tr>
+        <tr><th>Your thesis vs this filing</th><td>grade it →</td></tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+<script>
+(function () {
+  'use strict';
+  var STATES = ['empty', 'building', 'simple', 'analyst'];
+
+  function apply(state) {
+    document.body.dataset.dpState = state;
+    document.querySelectorAll('[data-when]').forEach(function (el) {
+      el.hidden = el.dataset.when.split(' ').indexOf(state) === -1;
+    });
+    document.querySelectorAll('.dp-bar button').forEach(function (b) {
+      b.className = b.dataset.dpGo === state ? 'on' : '';
+    });
+    document.getElementById('dp-mode-normal').className = (state === 'analyst') ? 'dp-chip' : 'dp-chip on';
+    document.getElementById('dp-mode-analyst').className = (state === 'analyst') ? 'dp-chip on' : 'dp-chip';
+    // The ask strip is NEVER hidden. Hiding it in the empty state left a visitor with
+    // example pills and no box to type in — the one thing this page is for — and, because
+    // it removed the strip from the grid, it also promoted .dp-hero-empty into the `auto`
+    // row and dropped ~500px of dead space below the hero.
+    document.getElementById('dp-asks').hidden = false;
+  }
+
+  function fromHash() {
+    var h = (location.hash || '').replace('#', '');
+    return STATES.indexOf(h) === -1 ? 'simple' : h;
+  }
+
+  document.querySelectorAll('.dp-bar button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      location.hash = b.dataset.dpGo;
+      apply(b.dataset.dpGo);
+    });
+  });
+  document.getElementById('dp-mode-normal').addEventListener('click', function () { location.hash = 'simple'; apply('simple'); });
+  document.getElementById('dp-mode-analyst').addEventListener('click', function () { location.hash = 'analyst'; apply('analyst'); });
+  document.getElementById('dp-slide-close').addEventListener('click', function () { location.hash = 'simple'; apply('simple'); });
+  addEventListener('hashchange', function () { apply(fromHash()); });
+  apply(fromHash());
+})();
+</script>
+
+<!--
+  NOTES — measured, not estimated (2026-09-24)
+
+  PALETTE. Run against the new surface with the dataviz validator:
+    node scripts/validate_palette.js "#4a3aa7,#6d7580,#d03b3b" --mode light --surface "#f6f7f9" --pairs all
+      PASS lightness band · PASS CVD separation (#d03b3b vs #6d7580 dE 11.1 protan)
+      PASS normal-vision floor (dE 19.6) · PASS contrast vs surface (all >= 3:1)
+      FAIL chroma floor on #6d7580 (0.02) — DOCUMENTED DEPARTURE: that hue is the
+        neutral de-emphasis mark, not an identity slot. Reading as gray is its job
+        (the skill's own "highlight one, gray the rest"). Every categorical hue in
+        this design has chroma >= 0.1; the check is aimed at a series hue that
+        accidentally reads gray, which this one is not.
+
+    node scripts/validate_palette.js "#a6adb6,#6d7580" --mode light --surface "#f6f7f9" --ordinal
+      ALL PASS — monotone lightness, adjacent dL >= 0.06, single hue (2 deg spread),
+      light end 2.11:1 vs surface. This is the grey ramp inside the each-$1 bar.
+      The first attempt (#c9ced5 as the light step) measured 1.48:1 and FAILED the
+      light-end floor; the ramp was darkened until it cleared, not waved through.
+
+  AN EARLIER PALETTE FAILED AND WAS CHANGED, not excused. Green-up `#006300` vs
+  red-down `#d03b3b` measured CVD dE 4.6 protan — below even the 6-8 conditional
+  band. Rather than lean on the secondary-encoding exemption, the pair was
+  REMOVED: declines are the only thing that carries colour (#d03b3b), everything
+  positive is ink with a + and a glyph, and the change rows are centred diverging
+  bars so POSITION carries direction and colour is a redundant third channel.
+  Composition panels (each $1, what it sells, peer medians) use accent + neutrals,
+  so no red and green mark ever sits adjacent to be confused.
+
+  TYPE. One grotesque (Archivo). Figures at display size are PROPORTIONAL; only
+  aligned columns (ribbon deltas, tables, ticks) carry tabular-nums — the
+  anti-pattern list is explicit that tabular on a large standalone number reads
+  loose at display sizes.
+
+  CHARTS CARRY NO TEXT. Every svg uses preserveAspectRatio="none" with all labels
+  as HTML over or beside it. A stretched SVG distorts its glyphs, which is what
+  broke the previous mockup at both 1440 and 390.
+
+  AXIS BAND. Each panel is grid-template-rows: auto minmax(0,1fr) auto — label,
+  plot, foot — so the x-axis/legend band is INSIDE the cell and can never be
+  clipped by a fixed plot height.
+
+  SAMPLE DATA. Apple FY2017-FY2024 10-K actuals (revenue, net income, gross /
+  operating / net margin, cost of revenue, R&D, SG&A, FCF) and segment split.
+  Deliberately mixed: sales crept up 2%, profit fell 3.4% on the one-off EU tax
+  charge, gross margin is an eight-year high. Peer medians, the DCF scenario
+  range and market figures (P/E) are ILLUSTRATIVE placeholders — they are the
+  numbers a real build computes, and the layout is being judged, not the data.
+
+  ONE SCREEN. Height is calc(100dvh - var(--dp-chrome)) with --dp-chrome:60px
+  reserved for the shared site nav, which the real page wears and this mockup does
+  not author. Fractional grid rows mean the lattice absorbs whatever height is
+  left. Under 1024px wide or 760px tall it releases to one scrolling column.
+  The mockup state bar occupies ~46px the real page gives back to the grid.
+
+  WHAT THIS FILE MUST NEVER BE. It is not web-served and must not become a docs
+  slug: docs-pages.test.js pins 18 slugs and forbids page-local CSS from targeting
+  the shared chrome. No .nav / .footer / .wordmark selector appears here, and no
+  nav or footer is authored — only the labelled placeholder strip that reserves
+  their height.
+-->

@@ -172,6 +172,148 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     return sign + (a >= 1e12 ? '$' + (a / 1e12).toFixed(2) + 'T' : a >= 1e9 ? '$' + (a / 1e9).toFixed(1) + 'B' : '$' + (a / 1e6).toFixed(0) + 'M');
   };
 
+
+  // ---- Revenue flow (Sankey) -------------------------------------------
+  // Colour choices are computed, not eyeballed. The kept/spent polarity uses
+  // the existing C.pos / C.neg pair; segments use a single-hue ramp ordered by
+  // size, because segments are parts of one whole rather than different kinds,
+  // and sequential is the right encoding for magnitude.
+  //
+  // That green/red pair measures ΔE 6.1 under deuteranopia — inside the 6–8
+  // band that is only legal alongside a second channel — so every band carries
+  // a direct text label and a visible gap. Identity is never colour alone.
+  const SEG_RAMP = ['#143da6', '#1a4fd6', '#3b63db', '#6386e4', '#8fa9ee', '#b9caf5', '#dbe4fa'];
+
+  function sankey(inc, segs) {
+    if (!inc || !(inc.revenue > 0)) return '';
+    const rev = inc.revenue;
+
+    // The chain of retained figures. Each step's cost band is the exact
+    // arithmetic difference from the step before, so the diagram can never
+    // draw a band the filing does not support — and a filer that discloses
+    // less simply produces a shorter chain rather than a broken one.
+    const chain = [{ label: 'Revenue', value: rev, cost: null }];
+    const prevLabel = () => chain[chain.length - 1].label;
+    const step = (label, value, costLabel) => {
+      if (value == null || !Number.isFinite(value)) return;
+      const prev = chain[chain.length - 1];
+      const cost = prev.value - value;
+      if (value <= 0 || value > prev.value) return; // a loss year cannot be drawn as a share of revenue
+      chain.push({ label, value, cost: cost > 0 ? { label: costLabel, value: cost } : null });
+    };
+    step('Gross profit', inc.grossProfit, 'Cost of sales');
+    step('Operating income', inc.operatingIncome, 'Operating expenses');
+    step('Pre-tax income', inc.incomeBeforeTax,
+      prevLabel() === 'Operating income' ? 'Interest & other'
+        : prevLabel() === 'Gross profit' ? 'Operating & other costs' : 'Costs & expenses');
+    // The final gap only means "tax" when it runs from pre-tax income. For a
+    // filer that discloses nothing in between (XOM files zero-strings for COGS,
+    // opex and tax alike) the same gap is the entire cost base, and calling
+    // $303bn of it "tax" would be a serious misread.
+    const finalCost = prevLabel() === 'Pre-tax income' ? 'Tax'
+        : prevLabel() === 'Revenue' ? 'All costs & tax'
+            : 'Tax & other costs';
+    step('Net income', inc.netIncome, finalCost);
+    if (chain.length < 2) return '';
+
+    // Segment inflows, largest first. Anything the filing does not allocate is
+    // shown as its own band rather than silently rescaling the rest.
+    const items = ((segs && segs.items) || [])
+      .filter((s) => Number.isFinite(Number(s.revenueUsd)) && Number(s.revenueUsd) > 0)
+      .map((s) => ({ name: String(s.name || ''), v: Number(s.revenueUsd) }))
+      .sort((a, b) => b.v - a.v);
+    let inflow = [];
+    if (items.length) {
+      // Bands below ~3.5% of revenue are thinner than a line of text, and an
+      // unlabelled band is identity-by-colour-alone. Fold them rather than
+      // drawing something the reader cannot name.
+      const MIN_SHARE = 0.035;
+      const big = items.filter((s) => s.v / rev >= MIN_SHARE).slice(0, 7);
+      const top = big.length ? big : items.slice(0, 7);
+      const restV = items.filter((s) => !top.includes(s)).reduce((a, s) => a + s.v, 0);
+      if (restV > 0) top.push({ name: 'Other segments', v: restV });
+      const allocated = top.reduce((a, s) => a + s.v, 0);
+      if (allocated <= rev * 1.02) {
+        inflow = top.slice();
+        const gap = rev - allocated;
+        if (gap > rev * 0.005) inflow.push({ name: 'Unallocated', v: gap, grey: true });
+      }
+    }
+
+    const NW = 13, GAP = 14, PAD_T = 34, PAD_B = 34;
+    const plotH = 300, W = 980;
+    const segCol = inflow.length ? 250 : 0;
+    const cols = chain.length;
+    const spanW = W - segCol - NW - 92; // 92px keeps the final cost label on-canvas
+    const colX = (i) => segCol + (cols > 1 ? (spanW / (cols - 1)) * i : 0);
+    const h = (v) => Math.max(1.5, (v / rev) * plotH);
+    const H = PAD_T + plotH + GAP + PAD_B;
+
+    const band = (x0, y0a, y0b, x1, y1a, y1b, fill, op, title) => {
+      const cx = x0 + (x1 - x0) * 0.5;
+      return `<path d="M${x0.toFixed(1)},${y0a.toFixed(1)} C${cx.toFixed(1)},${y0a.toFixed(1)} ${cx.toFixed(1)},${y1a.toFixed(1)} ${x1.toFixed(1)},${y1a.toFixed(1)} L${x1.toFixed(1)},${y1b.toFixed(1)} C${cx.toFixed(1)},${y1b.toFixed(1)} ${cx.toFixed(1)},${y0b.toFixed(1)} ${x0.toFixed(1)},${y0b.toFixed(1)} Z" fill="${fill}" fill-opacity="${op}">${title ? `<title>${esc(title)}</title>` : ''}</path>`;
+    };
+
+    let svg = '';
+
+    // Segment inflows into the revenue node.
+    if (inflow.length) {
+      const totalIn = inflow.reduce((a, s) => a + s.v, 0);
+      const gaps = 2 * Math.max(0, inflow.length - 1);
+      const usable = plotH - gaps;
+      let sy = PAD_T, ty = PAD_T;
+      inflow.forEach((s, i) => {
+        const bh = Math.max(2, (s.v / totalIn) * usable);
+        const fill = s.grey ? C.grey : SEG_RAMP[Math.min(i, SEG_RAMP.length - 1)];
+        const pctOfRev = (s.v / rev) * 100;
+        const title = `${s.name}: ${bn(s.v)} (${pctOfRev.toFixed(1)}% of revenue)`;
+        svg += `<rect x="${(segCol - NW - 96).toFixed(1)}" y="${sy.toFixed(1)}" width="${NW}" height="${bh.toFixed(1)}" rx="2" fill="${fill}"><title>${esc(title)}</title></rect>`;
+        svg += band(segCol - NW - 96 + NW, sy, sy + bh, segCol, ty, ty + bh, fill, 0.42, title);
+        const mid = sy + bh / 2;
+        if (bh >= 22) {
+          svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid - 1).toFixed(1)}" font-size="10.5" fill="${C.ink}" text-anchor="end">${esc(s.name.length > 26 ? s.name.slice(0, 25) + '…' : s.name)}</text>`;
+          svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid + 10).toFixed(1)}" font-size="9.5" fill="${C.grey}" text-anchor="end">${esc(bn(s.v))} · ${pctOfRev.toFixed(0)}%</text>`;
+        } else if (bh >= 9) {
+          svg += `<text x="${(segCol - NW - 104).toFixed(1)}" y="${(mid + 3.5).toFixed(1)}" font-size="10" fill="${C.ink}" text-anchor="end">${esc(s.name.length > 20 ? s.name.slice(0, 19) + '…' : s.name)} <tspan fill="${C.grey}">${pctOfRev.toFixed(0)}%</tspan></text>`;
+        }
+        sy += bh + 2; ty += bh;
+      });
+    }
+
+    // The kept chain, top-aligned, with each cost peeling away below it.
+    for (let i = 0; i < cols; i++) {
+      const node = chain[i];
+      const x = colX(i);
+      const nh = h(node.value);
+      svg += `<rect x="${x.toFixed(1)}" y="${PAD_T}" width="${NW}" height="${nh.toFixed(1)}" rx="2" fill="${i === 0 ? C.ink : C.pos}"><title>${esc(node.label + ': ' + bn(node.value))}</title></rect>`;
+      // The last column sits flush against the right edge, so its label has to
+      // hang back inside the viewBox or it is clipped.
+      const last = i === cols - 1;
+      const lx = last ? x + NW : x, anchor = last ? 'end' : 'start';
+      svg += `<text x="${lx.toFixed(1)}" y="${PAD_T - 16}" font-size="11.5" font-weight="650" fill="${C.ink}" text-anchor="${anchor}">${esc(node.label)}</text>`;
+      svg += `<text x="${lx.toFixed(1)}" y="${PAD_T - 4}" font-size="11" fill="${C.grey}" text-anchor="${anchor}">${esc(bn(node.value))} · ${((node.value / rev) * 100).toFixed(0)}%</text>`;
+
+      if (i === cols - 1) break;
+      const next = chain[i + 1];
+      const nx = colX(i + 1), nnh = h(next.value);
+      const keptTitle = `${next.label}: ${bn(next.value)} (${((next.value / rev) * 100).toFixed(1)}% of revenue)`;
+      svg += band(x + NW, PAD_T, PAD_T + nnh, nx, PAD_T, PAD_T + nnh, C.pos, 0.34, keptTitle);
+
+      if (next.cost) {
+        const ch = h(next.cost.value);
+        const cTop = PAD_T + nnh + GAP;
+        const cTitle = `${next.cost.label}: ${bn(next.cost.value)} (${((next.cost.value / rev) * 100).toFixed(1)}% of revenue)`;
+        svg += band(x + NW, PAD_T + nnh, PAD_T + nh, nx, cTop, cTop + ch, C.neg, 0.34, cTitle);
+        svg += `<rect x="${nx.toFixed(1)}" y="${cTop.toFixed(1)}" width="${NW}" height="${ch.toFixed(1)}" rx="2" fill="${C.neg}"><title>${esc(cTitle)}</title></rect>`;
+        svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(next.cost.label)}</text>`;
+        svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(bn(next.cost.value))} · ${((next.cost.value / rev) * 100).toFixed(0)}%</text>`;
+      }
+    }
+
+    const per = inc.periodEnd ? ` fiscal year ended ${inc.periodEnd}` : '';
+    return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Revenue flow${per}: revenue ${bn(rev)} through to net income ${bn(inc.netIncome)}" style="width:100%;height:auto;display:block;overflow:visible">${svg}</svg>`;
+  }
+
   function miniBars(rows, key, color, fmt) {
     const pts = (rows || []).map((r) => Number(r[key])).filter(Number.isFinite);
     if (pts.length < 2) return '';
@@ -323,6 +465,59 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     const s = d.snapshot || {};
     const briefText = String(d.executiveSummary || '').trim() || deterministicBrief(d);
     const history = d.financials || [];
+
+    // Revenue flow — the dossier opens on where the money comes from and where
+    // it goes, before any prose. The segment table beneath carries the detail
+    // the chart cannot: absolute dollars, the filing it was read from, and the
+    // coverage caveat when the split does not account for all of revenue.
+    const flowSection = (() => {
+      const svg = sankey(d.incomeStatement, d.segments);
+      if (!svg) return '';
+      const inc = d.incomeStatement || {};
+      const sg = d.segments || {};
+      const rev = inc.revenue;
+      const rows = ((sg.items) || [])
+        .slice()
+        .sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0));
+      const segTable = rows.length ? `
+        <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
+          <thead><tr><th>Segment</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
+          <tbody>${rows.map((x) => {
+            const v = Number(x.revenueUsd);
+            // Compute the share from the dollars wherever possible, and fall
+            // back to the extracted percentage only when there are no dollars.
+            // repairUnits reconciles the dollars against filed revenue, but the
+            // percentages get no such treatment and do not always tie — PGR
+            // FY2025 came back 89.1% + 13% = 102.1% against dollars that summed
+            // to revenue exactly.
+            const pct = (Number.isFinite(v) && rev > 0) ? (v / rev) * 100
+              : (x.revenuePct != null ? Number(x.revenuePct) : null);
+            return `<tr>
+              <td>${esc(x.name)}${x.description ? `<br /><span class="small faint">${esc(x.description)}</span>` : ''}</td>
+              <td style="text-align:right;white-space:nowrap;">${Number.isFinite(v) ? esc(bn(v)) : '—'}</td>
+              <td style="text-align:right;white-space:nowrap;">${pct != null ? pct.toFixed(1) + '%' : '—'}</td>
+            </tr>`;
+          }).join('')}</tbody>
+        </table></div>` : '';
+      const cite = sg.filing && sg.filing.url
+        ? `<a href="${esc(sg.filing.url)}" rel="nofollow noopener" target="_blank">${esc(sg.filing.form || 'filing')}${sg.filing.date ? ' filed ' + esc(sg.filing.date) : ''}</a>`
+        : (sg.basis ? esc(sg.basis) : '');
+      const notes = [
+        inc.periodEnd ? `Fiscal year ended ${esc(inc.periodEnd)}` : '',
+        sg.fiscalYear ? `segments as reported for ${esc(sg.fiscalYear)}` : '',
+        cite
+      ].filter(Boolean).join(' · ');
+      return `
+      <section class="dos-sec" id="dos-flow">
+        <span class="dos-kicker">Revenue flow</span>
+        <h2>Where the money comes from, and where it goes</h2>
+        ${svg}
+        ${segTable}
+        ${sg.note ? `<p class="small faint" style="margin-top:8px;">${esc(sg.note)}</p>` : ''}
+        ${notes ? `<p class="small faint" style="margin-top:6px;">${notes}</p>` : ''}
+        ${(inc.derived && inc.derived.length) ? `<p class="small faint" style="margin-top:4px;">Derived from the filed figures rather than reported directly: ${esc(inc.derived.join(', '))}.</p>` : ''}
+      </section>`;
+    })();
     const mc = num(s.marketCap);
     const pct = (x) => { const n = num(x); return n == null ? null : (Math.abs(n) <= 1 ? (n * 100).toFixed(1) : Number(n).toFixed(1)) + '%'; };
     const keyStrip = [
@@ -594,7 +789,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
           <button class="btn btn-quiet btn-sm" id="dos-refresh" title="Rebuild from the latest filings">Refresh</button>
         </div>
       </div>
-      <nav class="dos-jump" aria-label="Dossier sections"><a href="#dos-brief">Decision brief</a><a href="#dos-financials">Financial trajectory</a><a href="#dos-latest-change">Latest filing</a><a href="#dos-cases">Cases &amp; risks</a><a href="#dos-deep">Deep research</a><a href="#dos-thesis">My thesis</a></nav>
+      <nav class="dos-jump" aria-label="Dossier sections"><a href="#dos-flow">Revenue flow</a><a href="#dos-brief">Decision brief</a><a href="#dos-financials">Financial trajectory</a><a href="#dos-latest-change">Latest filing</a><a href="#dos-cases">Cases &amp; risks</a><a href="#dos-deep">Deep research</a><a href="#dos-thesis">My thesis</a></nav>
+      ${flowSection}
       <section class="dos-decision-grid" id="dos-brief">
         <section><span class="dos-kicker">Visual evidence</span><h2>The business trajectory</h2>${decisionTrends(history)}</section>
         <section><span class="dos-kicker">Decision brief</span><h2>The case in two minutes</h2><div class="dos-decision-copy">${briefParagraphs(briefText)}</div><div class="dos-key-strip">${keyStrip}</div></section>
@@ -698,19 +894,52 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     }
 
     // Where the money goes — split of the latest year's revenue.
+    //
+    // This read last.grossProfit / last.costOfRevenue for years, and
+    // financialHistory() emits NEITHER — it carries margins only. So `cost`
+    // resolved to max(0, revenue - (revenue - 0)) = 0 and the cost band
+    // silently rendered empty on every company. It now uses the repaired
+    // income statement, and falls back to the gross-margin percentage that
+    // financialHistory does carry.
+    // The same revenue flow, in plain-language mode. It is arguably MORE
+    // suited here than in Analyst: it shows where the money goes instead of
+    // asking the reader to match three colours against a legend. Segments are
+    // trimmed to the handful that carry the story, since this mode is read by
+    // people who are not looking for a full segment schedule.
+    let flowPlain = '';
+    {
+      const sgPlain = d.segments && d.segments.items
+        ? { items: d.segments.items.slice().sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0)).slice(0, 5) }
+        : null;
+      const svgPlain = sankey(d.incomeStatement, sgPlain);
+      if (svgPlain) {
+        const iy = (d.incomeStatement && d.incomeStatement.fy) || '';
+        flowPlain = `
+        <div class="pv-card">
+          <h2>Follow the money</h2>
+          <p class="small faint" style="margin:0 0 12px;">Every pound of ${esc(iy || 'last year')} sales, from what customers paid to what the company kept</p>
+          ${svgPlain}
+        </div>`;
+      }
+    }
+
     let moneyHtml = '';
-    if (last.revenue) {
-      const cost = Math.max(0, (last.revenue || 0) - (last.grossProfit != null ? last.grossProfit : (last.revenue || 0) - (last.costOfRevenue || 0)));
-      const profit = Math.max(0, last.netIncome || 0);
-      const other = Math.max(0, (last.revenue || 0) - cost - profit);
+    const incN = d.incomeStatement || null;
+    const revN = (incN && incN.revenue) || last.revenue;
+    if (revN) {
+      let cost = (incN && incN.costOfRevenue != null) ? incN.costOfRevenue : null;
+      if (cost === null && last.grossMarginPct != null) cost = revN * (1 - last.grossMarginPct / 100);
+      cost = Math.max(0, cost || 0);
+      const profit = Math.max(0, (incN && incN.netIncome != null ? incN.netIncome : last.netIncome) || 0);
+      const other = Math.max(0, revN - cost - profit);
       moneyHtml = `
         <div class="pv-card">
           <h2>Where the money goes</h2>
-          <p class="small faint" style="margin:0 0 10px;">Every $1 of ${esc(last.fy || 'latest year')} sales</p>
+          <p class="small faint" style="margin:0 0 10px;">Every $1 of ${esc((incN && incN.fy) || last.fy || 'latest year')} sales</p>
           ${PV.splitBar([
-        { label: 'Cost of what it sells', value: cost, color: 'var(--neg)', shown: PV.perDollar(cost / last.revenue * 100) },
-        { label: 'Everything else (opex, tax, interest)', value: other, color: 'var(--ink-3)', shown: PV.perDollar(other / last.revenue * 100) },
-        { label: 'Kept as profit', value: profit, color: 'var(--pos)', shown: PV.perDollar(profit / last.revenue * 100) }
+        { label: 'Cost of what it sells', value: cost, color: 'var(--neg)', shown: PV.perDollar(cost / revN * 100) },
+        { label: 'Everything else (opex, tax, interest)', value: other, color: 'var(--ink-3)', shown: PV.perDollar(other / revN * 100) },
+        { label: 'Kept as profit', value: profit, color: 'var(--pos)', shown: PV.perDollar(profit / revN * 100) }
       ])}
         </div>`;
     }
@@ -794,6 +1023,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         </div>
       </div>
       ${verdictHtml}
+      ${flowPlain}
       ${unitHtml}
       ${moneyHtml}
       ${trendHtml}

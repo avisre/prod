@@ -293,7 +293,42 @@ function start() {
 async function listAlerts(userId, limit = 50) {
   const alerts = await Alert.find({ user: userId }).sort({ createdAt: -1 }).limit(limit).lean();
   const unseen = await Alert.countDocuments({ user: userId, seenAt: null });
-  return { alerts, unseen };
+  return { alerts, unseen, quiet: await quietFacts(userId) };
+}
+
+// What the sweep has actually been doing, for the case where it has nothing to
+// say. A filing monitor that fires rarely is only reassuring if the user can see
+// it is running — otherwise silence is indistinguishable from a broken feed. So
+// every field here is measured, never implied: how many companies are watched,
+// which forms count, and the oldest and newest of the last SEC reads.
+async function quietFacts(userId) {
+  const Stock = mongoose.models.Stock;
+  if (!Stock) return null;
+  const holdings = await Stock.find(
+    { user: userId, assetType: { $nin: ['etf', 'mutual_fund', 'crypto'] } },
+    { symbol: 1 }
+  ).lean();
+  const symbols = [...new Set(holdings.map((h) => String(h.symbol || '').toUpperCase().trim()).filter(Boolean))];
+  // Same shape either way. A caller must not have to know whether the portfolio
+  // happened to be empty to read the payload safely.
+  if (!symbols.length) return { watched: 0, forms: [...WATCH_FORMS], checkedAt: null, checkedThrough: null, lastAlertAt: null };
+
+  const states = await WatchState.find(
+    { symbol: { $in: symbols } },
+    { symbol: 1, filingsCheckedAt: 1 }
+  ).lean();
+  const checked = states.map((s) => s.filingsCheckedAt).filter(Boolean).map((d) => new Date(d).getTime());
+  const last = await Alert.findOne({ user: userId }).sort({ createdAt: -1 }).select('createdAt').lean();
+
+  return {
+    watched: symbols.length,
+    forms: [...WATCH_FORMS],
+    // Oldest = the weakest claim that can be made about the whole set, which is
+    // the one worth printing. Newest is the strongest.
+    checkedAt: checked.length ? new Date(Math.min(...checked)).toISOString() : null,
+    checkedThrough: checked.length ? new Date(Math.max(...checked)).toISOString() : null,
+    lastAlertAt: last && last.createdAt ? new Date(last.createdAt).toISOString() : null
+  };
 }
 
 async function markSeen(userId) {
@@ -346,4 +381,4 @@ async function fetchFilingsDeep(symbol, forms, perFormCap = {}) {
   return out;
 }
 
-module.exports = { start, scan, listAlerts, markSeen, fetchRecentFilings, fetchFilingsDeep, FORM_LABEL, createAlerts, Alert, WatchState };
+module.exports = { start, scan, listAlerts, quietFacts, markSeen, fetchRecentFilings, fetchFilingsDeep, FORM_LABEL, createAlerts, Alert, WatchState };

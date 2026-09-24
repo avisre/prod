@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Company Brief — dossier layout design</title>
+<meta name="description" content="Layout design for the Research Dossier page: name-first input, one page, card grid." />
+<style>
+/* Tokens copied verbatim from frontend-v2/assets/system.css:23-57 so this file
+   is self-contained and renders identically over file:// with no server. */
+:root {
+  --paper: #faf9f6;
+  --surface: #ffffff;
+  --ink: #1c1b18;
+  --ink-2: #5f5c55;
+  --ink-3: #726e65;
+  --line: #e8e6e0;
+  --line-strong: #d8d5cd;
+  --accent: #1a4fd6;
+  --accent-ink: #15409f;
+  --accent-tint: #eef2fd;
+  --pos: #1b7a4b;
+  --pos-tint: #ecf5ef;
+  --neg: #b3261e;
+  --neg-tint: #fbeeec;
+  --warn: #c98a1f;
+  --font: 'Inter', -apple-system, 'Segoe UI', sans-serif;
+  --text-xs: 11.5px;
+  --text-sm: 13px;
+  --text-base: 15px;
+  --text-lg: 18px;
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --container: 1480px;
+  --gutter: 32px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { background: var(--paper); }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--ink);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+button, input { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+b, strong { font-weight: 650; }
+
+/* ---------- shared components, copied from system.css ---------- */
+.title-1 { font-size: 28px; line-height: 1.18; font-weight: 650; letter-spacing: -0.026em; text-wrap: balance; }
+.muted { color: var(--ink-2); }
+.faint { color: var(--ink-3); }
+.small { font-size: var(--text-sm); }
+.label { font-size: 10.5px; font-weight: 750; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3); }
+.num { font-variant-numeric: tabular-nums; }
+.delta-pos { color: var(--pos); }
+.delta-neg { color: var(--neg); }
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; padding: 0 18px; border-radius: 9px;
+  border: 1px solid transparent; font-size: var(--text-sm); font-weight: 600;
+  cursor: pointer; white-space: nowrap;
+}
+.btn-primary { background: var(--ink); color: var(--paper); }
+.btn-ghost { background: transparent; border-color: var(--line-strong); color: var(--ink); }
+.btn-quiet { background: transparent; color: var(--ink-2); padding: 0 10px; }
+.btn-sm { height: 32px; padding: 0 12px; border-radius: 8px; font-size: var(--text-xs); }
+.input {
+  height: 42px; width: 100%; border: 1px solid var(--line-strong); border-radius: 9px;
+  background: var(--surface); padding: 0 12px; font-size: var(--text-sm); color: var(--ink);
+}
+.input::placeholder { color: var(--ink-3); }
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px;
+  border-radius: 999px; border: 1px solid var(--line); background: var(--surface);
+  font-size: var(--text-xs); font-weight: 550; color: var(--ink-2); white-space: nowrap;
+}
+.beta-badge {
+  display: inline-block; font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .06em; padding: 2px 7px; border-radius: 999px;
+  background: var(--paper); color: var(--ink-2); border: 1px solid var(--line);
+  vertical-align: middle; margin-left: 8px;
+}
+/* plainviz primitives (system.css:1711-1751) — the real Simple-mode visuals */
+.pv-split { margin-top: 14px; }
+.pv-split-track { display: flex; height: 26px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); }
+.pv-split-track i { display: block; height: 100%; }
+.pv-split-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; }
+.pv-split-legend-item { font-size: 12.5px; color: var(--ink-2); display: inline-flex; align-items: center; gap: 6px; }
+.pv-split-legend-item i { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+.pv-split-legend-item b { color: var(--ink); font-variant-numeric: tabular-nums; }
+.pv-pair { display: grid; gap: 12px; margin-top: 14px; }
+.pv-pair-row { display: grid; grid-template-columns: 132px minmax(80px, 1fr) auto; gap: 10px; align-items: center; font-size: 13px; }
+.pv-pair-track { height: 12px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+.pv-pair-fill { display: block; height: 100%; border-radius: 6px; }
+.pv-pair-fill.a { background: var(--ink-3); }
+.pv-pair-fill.b { background: var(--accent); }
+.pv-pair-row b { font-variant-numeric: tabular-nums; }
+.pv-share { display: grid; gap: 0; border-top: 1px solid var(--line); margin-top: 14px; }
+.pv-share-row { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(70px, 1fr) 52px; gap: 12px; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--line); }
+.pv-share-label { font-size: 13px; color: var(--ink-2); }
+.pv-share-track { height: 9px; border-radius: 5px; background: var(--surface); border: 1px solid var(--line); overflow: hidden; }
+.pv-share-track i { display: block; height: 100%; background: var(--accent); border-radius: 5px; }
+.pv-share-val { text-align: right; font-size: 13px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.pv-meter { display: flex; gap: 4px; margin: 11px 0 6px; }
+.pv-meter i { flex: 1; height: 8px; border-radius: 4px; background: var(--line-strong); }
+.pv-meter i.is-on.low { background: var(--pos); }
+.pv-meter i.is-on.mid { background: var(--warn); }
+.pv-meter i.is-on.high { background: var(--neg); }
+.pv-dots { display: inline-flex; gap: 4px; vertical-align: middle; }
+.pv-dot { width: 11px; height: 11px; border-radius: 50%; background: var(--line-strong); display: inline-block; }
+.pv-dot.is-on { background: var(--accent); }
+
+/* ============================================================
+   br-*  —  the Company Brief layout (the new design under review)
+   Depth from hairlines and space, never shadows.
+   ============================================================ */
+.br-wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter) var(--s8); }
+
+/* --- ask strip: one element, two shapes. Large + centred when empty,
+       compact + pinned once a brief is on screen. --- */
+.br-asks { position: sticky; top: 0; z-index: 30; background: var(--paper); border-bottom: 1px solid var(--line); padding: var(--s3) 0; }
+.br-asks-in { max-width: 1180px; margin: 0 auto; padding: 0 var(--gutter); }
+.br-asks-form { display: flex; gap: 10px; }
+.br-asks .input { height: 52px; font-size: 16px; border-radius: 12px; padding: 0 18px; }
+.br-asks .btn { height: 52px; padding: 0 26px; border-radius: 12px; font-size: 15px; }
+.br-asks-hint { margin: var(--s3) 0 0; font-size: 12.5px; color: var(--ink-3); }
+body[data-br-state='empty'] .br-asks { position: static; border-bottom: 0; background: transparent; padding: 0; }
+body[data-br-state='empty'] .br-asks-form { max-width: 620px; margin: 0 auto; }
+body[data-br-state='empty'] .br-asks-hint { text-align: center; }
+
+.br-match { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: var(--s3); }
+.br-match-chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 13px; border-radius: 999px; background: var(--accent-tint); color: var(--accent-ink); font-size: 12.5px; font-weight: 600; }
+.br-match-chip i { font-style: normal; opacity: .7; }
+.br-alts { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font-size: 12px; color: var(--ink-3); }
+.br-pill { padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line-strong); background: var(--surface); font-size: 12px; font-weight: 550; color: var(--ink-2); cursor: pointer; }
+.br-pill:hover { border-color: var(--ink-3); color: var(--ink); }
+.br-nomatch { margin-top: var(--s3); padding: 11px 14px; border-left: 3px solid var(--warn); background: var(--paper); border-radius: var(--radius-sm); font-size: 13px; color: var(--ink-2); }
+.br-nomatch b { color: var(--ink); }
+
+/* --- empty state hero --- */
+.br-hero { text-align: center; padding: 8vh 0 var(--s7); }
+.br-hero h1 { font-size: clamp(30px, 4.6vw, 50px); font-weight: 660; letter-spacing: -.034em; line-height: 1.08; }
+.br-hero p { margin: var(--s4) auto 0; max-width: 56ch; font-size: 16px; color: var(--ink-2); }
+.br-examples { display: flex; gap: 8px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: var(--s5); font-size: 12.5px; color: var(--ink-3); }
+
+/* --- the card grid: 12 columns, one primitive, span declared per card --- */
+.br-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
+.br-card { grid-column: span 12; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px 28px; }
+.br-span-7 { grid-column: span 7; }
+.br-span-5 { grid-column: span 5; }
+.br-span-6 { grid-column: span 6; }
+.br-eyebrow { font-size: 10.5px; font-weight: 750; letter-spacing: .11em; text-transform: uppercase; color: var(--ink-3); }
+.br-head { margin: 9px 0 0; font-size: 18px; font-weight: 650; line-height: 1.42; letter-spacing: -.014em; max-width: 46ch; }
+.br-body { margin-top: 20px; }
+.br-foot { margin-top: 20px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 12.5px; line-height: 1.55; color: var(--ink-2); }
+.br-foot b { color: var(--ink); }
+
+/* --- header card --- */
+.br-top { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--s5); flex-wrap: wrap; }
+.br-id { min-width: 0; flex: 1 1 420px; }
+.br-sym { font-size: 11px; font-weight: 750; letter-spacing: .14em; color: var(--ink-3); }
+.br-name { margin: 7px 0 0; font-size: clamp(27px, 3.3vw, 40px); font-weight: 660; letter-spacing: -.032em; line-height: 1.08; }
+.br-meta { margin: var(--s2) 0 0; font-size: 13px; color: var(--ink-2); }
+.br-desc { margin: var(--s3) 0 0; font-size: 14.5px; line-height: 1.62; color: var(--ink-2); max-width: 62ch; }
+.br-actions { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; justify-content: flex-end; }
+.br-seg { display: inline-flex; border: 1px solid var(--line-strong); border-radius: 9px; overflow: hidden; }
+.br-seg button { padding: 8px 13px; background: var(--surface); border: 0; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-3); cursor: pointer; }
+.br-seg button[aria-pressed='true'] { background: var(--ink); color: var(--paper); }
+.br-dir { display: inline-flex; align-items: center; gap: 7px; padding: 6px 13px; border-radius: 999px; font-size: 11px; font-weight: 750; text-transform: uppercase; letter-spacing: .06em; margin-left: 10px; vertical-align: 4px; }
+.br-dir.good { background: var(--pos-tint); color: var(--pos); }
+.br-dir.warn { background: var(--neg-tint); color: var(--neg); }
+.br-dir.flat { background: var(--paper); color: var(--ink-2); border: 1px solid var(--line); }
+
+/* --- the KPI tiles: the "pertinent facts at a glance" row --- */
+.br-tiles { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); margin-top: var(--s5); border-top: 1px solid var(--line); }
+.br-tile { padding: var(--s4) var(--s4) 0 0; border-right: 1px solid var(--line); }
+.br-tile:last-child { border-right: 0; padding-right: 0; }
+.br-tile small { display: block; font-size: 9.5px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-3); }
+.br-tile b { display: block; margin-top: 7px; font-size: 26px; font-weight: 640; letter-spacing: -.024em; font-variant-numeric: tabular-nums; }
+.br-tile em { display: block; margin-top: 3px; font-style: normal; font-size: 11.5px; font-weight: 600; color: var(--ink-3); }
+
+/* --- skeleton (the Building state) --- */
+.br-sk { position: relative; overflow: hidden; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; height: 14px; }
+.br-sk::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent, rgba(255,255,255,.8), transparent); animation: br-sh 1.5s infinite; }
+.br-sk.h20 { height: 20px; } .br-sk.h34 { height: 34px; } .br-sk.h120 { height: 120px; } .br-sk.h150 { height: 150px; }
+.br-sk.w70 { width: 70%; } .br-sk.w50 { width: 50%; } .br-sk.w35 { width: 35%; }
+@keyframes br-sh { from { transform: translateX(-100%); } to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .br-sk::after { animation: none; } }
+.br-rows { display: grid; gap: 10px; margin-top: var(--s4); }
+.br-writing { display: flex; align-items: center; gap: 9px; margin-top: var(--s3); font-size: 12.5px; color: var(--ink-3); }
+.br-spin { width: 13px; height: 13px; border-radius: 50%; border: 2px solid var(--line-strong); border-top-color: var(--ink-3); animation: br-sp .8s linear infinite; }
+@keyframes br-sp { to { transform: rotate(360deg); } }
+
+/* --- trend charts + flow svg --- */
+.br-chart { margin-top: var(--s4); }
+.br-chart-cap { display: flex; justify-content: space-between; align-items: baseline; font-size: 11.5px; color: var(--ink-3); margin-bottom: 7px; }
+.br-chart-cap b { color: var(--ink); font-size: 13px; font-variant-numeric: tabular-nums; }
+.br-flow { margin-top: var(--s4); width: 100%; height: auto; }
+.br-flow text { font-family: var(--font); }
+
+/* --- lists used inside cases / risks --- */
+.br-case h3 { font-size: 12px; font-weight: 750; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); margin-bottom: 4px; }
+.br-case li { position: relative; padding: 11px 0 11px 22px; border-bottom: 1px solid var(--line); font-size: 13.5px; line-height: 1.55; }
+.br-case li:last-child { border-bottom: 0; }
+.br-case li::before { position: absolute; left: 0; top: 11px; font-weight: 800; font-size: 13px; }
+.br-case.work li::before { content: '↑'; color: var(--pos); }
+.br-case.risk li::before { content: '↓'; color: var(--neg); }
+.br-risk-row { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.br-risk-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.br-risk-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+.br-risk-top strong { font-size: 13.5px; }
+.br-risk-top span { font-size: 11px; font-weight: 650; color: var(--ink-3); }
+.br-risk-note { margin-top: 5px; font-size: 12.5px; color: var(--ink-2); line-height: 1.5; }
+
+/* --- delta (what just changed) --- */
+.br-delta { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-top: var(--s4); }
+.br-ba { padding: 14px 0; border-top: 1px solid var(--line); }
+.br-ba-l { display: flex; justify-content: space-between; font-size: 11.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .05em; font-weight: 650; }
+.br-ba-nums { display: grid; grid-template-columns: 1fr auto 1fr; gap: 10px; align-items: center; margin-top: 9px; font-variant-numeric: tabular-nums; }
+.br-ba-nums span:first-child { color: var(--ink-2); }
+.br-ba-nums span:last-child { text-align: right; font-weight: 650; color: var(--ink); }
+.br-ba-nums i { font-style: normal; color: var(--line-strong); }
+
+/* --- analyst-only bits --- */
+.br-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.br-table th { text-align: left; font-size: 10px; font-weight: 750; text-transform: uppercase; letter-spacing: .07em; color: var(--ink-3); padding: 0 10px 8px 0; border-bottom: 1px solid var(--line); }
+.br-table td { padding: 9px 10px 9px 0; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.br-table tr:last-child td { border-bottom: 0; }
+.br-table td:last-child, .br-table th:last-child { text-align: right; padding-right: 0; }
+.br-read { counter-reset: r; }
+.br-read li { position: relative; padding: 13px 0 13px 26px; border-bottom: 1px solid var(--line); font-size: 13px; line-height: 1.55; }
+.br-read li:last-child { border-bottom: 0; }
+.br-read li::before { counter-increment: r; content: counter(r, decimal-leading-zero); position: absolute; left: 0; top: 15px; font-size: 9.5px; font-weight: 750; color: var(--ink-3); }
+.br-modules { border-top: 1px solid var(--line); margin-top: var(--s4); }
+.br-mod { display: flex; align-items: center; justify-content: space-between; gap: var(--s5); padding: 16px 0; border-bottom: 1px solid var(--line); }
+.br-mod strong { display: block; font-size: 14px; }
+.br-mod small { display: block; margin-top: 3px; font-size: 11.5px; color: var(--ink-3); }
+.br-mod span.act { font-size: 10.5px; font-weight: 750; text-transform: uppercase; letter-spacing: .09em; color: var(--ink-3); }
+.br-prov { margin-top: var(--s5); font-size: 11.5px; line-height: 1.6; color: var(--ink-3); }
+
+/* --- the mockup-only control bar: does not ship --- */
+.br-mockbar { position: fixed; left: 16px; bottom: 16px; z-index: 100; background: var(--ink); color: var(--paper); border-radius: 12px; padding: 12px 14px; max-width: 330px; }
+.br-mockbar strong { display: block; font-size: 9.5px; font-weight: 750; letter-spacing: .1em; text-transform: uppercase; color: #b9b5ab; }
+.br-mockbar p { margin: 5px 0 10px; font-size: 11px; line-height: 1.45; color: #d9d5cc; }
+.br-mockbar-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+.br-mockbar-btns button { padding: 6px 10px; border-radius: 7px; border: 1px solid #4a4740; background: transparent; color: var(--paper); font-size: 11px; font-weight: 600; cursor: pointer; }
+.br-mockbar-btns button[aria-pressed='true'] { background: var(--paper); color: var(--ink); border-color: var(--paper); }
+
+/* ---------- responsive ---------- */
+@media (max-width: 1080px) {
+  .br-span-7, .br-span-5 { grid-column: span 6; }
+}
+@media (max-width: 860px) {
+  .br-span-7, .br-span-5, .br-span-6 { grid-column: span 12; }
+  .br-card { padding: 22px 20px; }
+  .br-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .br-tile:nth-child(3n) { border-right: 0; padding-right: 0; }
+  .br-tile:nth-child(n + 4) { border-top: 1px solid var(--line); padding-top: var(--s4); }
+  .br-delta { grid-template-columns: 1fr; gap: 0; }
+  .br-top { gap: var(--s4); }
+  .br-actions { justify-content: flex-start; }
+}
+@media (max-width: 560px) {
+  :root { --gutter: 16px; }
+  .br-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .br-tile { padding: var(--s4) var(--s4) 0 0; }
+  .br-tile:nth-child(3n) { border-right: 1px solid var(--line); padding-right: var(--s4); }
+  .br-tile:nth-child(2n) { border-right: 0; padding-right: 0; }
+  .br-tile:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  .br-asks-form { flex-direction: column; }
+  .br-asks .btn { width: 100%; }
+  .br-hero h1 { font-size: 30px; }
+  .br-mockbar { left: 8px; right: 8px; bottom: 8px; max-width: none; }
+}
+@media print {
+  .br-mockbar, .br-asks { display: none !important; }
+  .br-grid { display: block; }
+  .br-card { break-inside: avoid; border: 0; border-top: 1px solid var(--line); border-radius: 0; padding: 18px 0; }
+}
+</style>
+</head>
+<body data-br-state="simple">
+
+<!-- ══ MOCKUP-ONLY CONTROL — this bar does not ship ══ -->
+<div class="br-mockbar">
+  <strong>Mockup only — does not ship</strong>
+  <p>Layout review of <code>/dossier.html</code>. Filed figures are Apple's real FY2019–FY2024 numbers; peer and valuation comparisons are illustrative. The layout is being judged, not the data.</p>
+  <div class="br-mockbar-btns" role="group" aria-label="Preview state">
+    <button data-state="empty">Empty</button>
+    <button data-state="building">Building</button>
+    <button data-state="simple">Simple</button>
+    <button data-state="analyst">Analyst</button>
+  </div>
+</div>
+
+<!-- ══ ASK STRIP — one element in every state; large when empty, compact + pinned after ══ -->
+<div class="br-asks">
+  <div class="br-asks-in">
+    <form class="br-asks-form" onsubmit="return false;">
+      <input class="input" id="br-q" type="text" autocomplete="off"
+             placeholder="Search a company by name — e.g. Apple, Nike, Coca-Cola"
+             aria-label="Company name" />
+      <button class="btn btn-primary" type="submit">Build brief</button>
+    </form>
+
+    <!-- resolved match + the "not this one?" safety net -->
+    <div class="br-match" data-show="simple analyst building">
+      <span class="br-match-chip">Apple Inc. <i>·</i> AAPL <i>·</i> Technology</span>
+      <span class="br-alts">not this one?
+        <button class="br-pill">Apple Hospitality REIT · APLE</button>
+        <button class="br-pill">Apple Financial · APFC</button>
+      </span>
+    </div>
+
+    <!-- the no-match path: never dead-end on a blank page -->
+    <div class="br-nomatch" data-show="nomatch" hidden>
+      <b>No US-listed company matched “John Deere”.</b>
+      It files as <b>Deere &amp; Company</b> — try <b>Deere</b>, or type the ticker (<b>DE</b>).
+      <a href="#" style="color:var(--accent-ink);">Browse all covered companies →</a>
+    </div>
+
+    <p class="br-asks-hint" data-show="empty">Enter a company name. One click, one page — no ticker needed.</p>
+  </div>
+</div>
+
+<!-- ══ STATE: EMPTY ══ -->
+<main class="br-wrap" data-when="empty">
+  <div class="br-hero">
+    <span class="label">AI Analyst · SEC filings · every figure sourced</span>
+    <h1 style="margin-top:14px;">Every company, explained on one page</h1>
+    <p>Type a name. One click. The business, the numbers, where the money goes, what could
+       go wrong and what the price assumes — in plain English, straight from the filings.</p>
+  </div>
+  <div class="br-examples">
+    Try one:
+    <button class="br-pill">Apple</button>
+    <button class="br-pill">NVIDIA</button>
+    <button class="br-pill">Coca-Cola</button>
+  </div>
+</main>
+
+<!-- ══ STATE: BUILDING — the same grid as a skeleton, so the page appears instantly ══ -->
+<main class="br-wrap" data-when="building" hidden>
+  <div class="br-grid">
+
+    <div class="br-card">
+      <span class="br-sym">AAPL</span>
+      <div class="br-rows">
+        <div class="br-sk h34 w50"></div>
+        <div class="br-sk w35"></div>
+        <div class="br-sk w70"></div>
+      </div>
+      <div class="br-tiles">
+        <div class="br-tile"><small>Revenue</small><div class="br-sk h20" style="margin-top:9px;"></div><div class="br-sk" style="margin-top:7px;width:60%;"></div></div>
+        <div class="br-tile"><small>Profit</small><div class="br-sk h20" style="margin-top:9px;"></div><div class="br-sk" style="margin-top:7px;width:60%;"></div></div>
+        <div class="br-tile"><small>Margin</small><div class="br-sk h20" style="margin-top:9px;"></div><div class="br-sk" style="margin-top:7px;width:60%;"></div></div>
+        <div class="br-tile"><small>Sales growth</small><div class="br-sk h20" style="margin-top:9px;"></div><div class="br-sk" style="margin-top:7px;width:60%;"></div></div>
+        <div class="br-tile"><small>Dividend</small><div class="br-sk h20" style="margin-top:9px;"></div><div class="br-sk" style="margin-top:7px;width:60%;"></div></div>
+        <div class="br-tile"><small>Price ÷ earnings</small><div class="br-sk h20" style="margin-top:9px;"></div><div class="br-sk" style="margin-top:7px;width:60%;"></div></div>
+      </div>
+      <div class="br-writing"><span class="br-spin loading-line"></span>Gathering the grounded surfaces — financials, segments, valuation, the latest filings…</div>
+    </div>
+
+    <div class="br-card br-span-7">
+      <span class="br-eyebrow">How it makes money</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk h150"></div></div>
+    </div>
+    <div class="br-card br-span-5">
+      <span class="br-eyebrow">What it sells</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk w50"></div><div class="br-sk"></div><div class="br-sk"></div><div class="br-sk w70"></div></div>
+    </div>
+    <div class="br-card br-span-7">
+      <span class="br-eyebrow">Is it growing?</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk h120"></div></div>
+    </div>
+    <div class="br-card br-span-5">
+      <span class="br-eyebrow">Where the money goes</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk h34"></div><div class="br-sk w50"></div></div>
+    </div>
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">What’s working</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk"></div><div class="br-sk"></div></div>
+      <div class="br-writing"><span class="br-spin"></span>The written analysis is still being drafted.</div>
+    </div>
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">What could go wrong</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk"></div><div class="br-sk"></div></div>
+      <div class="br-writing"><span class="br-spin"></span>The written analysis is still being drafted.</div>
+    </div>
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">Risks</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk"></div><div class="br-sk w70"></div></div>
+    </div>
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">Is the price fair?</span>
+      <div class="br-rows"><div class="br-sk h20 w70"></div><div class="br-sk w50"></div><div class="br-sk w50"></div></div>
+    </div>
+  </div>
+</main>
+
+<!-- ══ STATE: SIMPLE (default) — every pertinent fact, one page ══ -->
+<main class="br-wrap" data-when="simple" hidden>
+  <div class="br-grid">
+
+    <!-- ── header card ── -->
+    <div class="br-card">
+      <div class="br-top">
+        <div class="br-id">
+          <span class="br-sym">AAPL</span>
+          <h1 class="br-name">Apple Inc.<span class="br-dir warn">Margin slipping</span><span class="beta-badge">Beta</span></h1>
+          <p class="br-meta">Technology · Consumer Electronics · fiscal year ends September</p>
+          <p class="br-desc">Designs, makes and sells iPhone, Mac, iPad and wearables, and sells
+             services — the App Store, iCloud, Music and advertising — to a base of more than
+             two billion active devices.</p>
+        </div>
+        <div class="br-actions">
+          <span class="br-seg"><button aria-pressed="true">Simple</button><button>Analyst</button></span>
+          <button class="btn btn-ghost btn-sm">Print / Save PDF</button>
+          <a class="btn btn-ghost btn-sm" href="#" style="text-decoration:none;">Compare ↔ <span class="beta-badge">Beta</span></a>
+          <button class="btn btn-quiet btn-sm">Refresh</button>
+        </div>
+      </div>
+      <div class="br-tiles">
+        <div class="br-tile"><small>Revenue</small><b>$391B</b><em>FY2024</em></div>
+        <div class="br-tile"><small>Profit</small><b>$93.7B</b><em>net income</em></div>
+        <div class="br-tile"><small>Margin</small><b>24.0¢</b><em class="delta-neg">▼ 1.3pt per $1</em></div>
+        <div class="br-tile"><small>Sales growth</small><b>+8.5%</b><em class="delta-pos">▲ a year, 5-yr avg</em></div>
+        <div class="br-tile"><small>Dividend</small><b>0.44%</b><em>yield</em></div>
+        <div class="br-tile"><small>Price ÷ earnings</small><b>34.2×</b><em>P/E</em></div>
+      </div>
+    </div>
+
+    <!-- ── row 1: the money ── -->
+    <div class="br-card br-span-7">
+      <span class="br-eyebrow">How it makes money</span>
+      <h2 class="br-head">Customers paid $391B. Cost of making it took $210B, and $93.7B ended up as profit.</h2>
+      <svg class="br-flow" viewBox="0 0 640 330" role="img" aria-label="Revenue of $391B splits into $210B cost of sales and $181B gross profit; the gross profit splits into $57B operating costs, $30B tax and other, and $94B net income.">
+        <!-- revenue -->
+        <rect x="8" y="20" width="62" height="280" rx="4" style="fill:var(--ink)"></rect>
+        <text x="80" y="42" font-size="10.5" font-weight="750" letter-spacing="1" style="fill:var(--ink-3)">REVENUE</text>
+        <text x="80" y="66" font-size="19" font-weight="650" style="fill:var(--ink)">$391B</text>
+        <!-- cost of sales -->
+        <rect x="200" y="20" width="62" height="150" rx="4" style="fill:var(--neg);opacity:.85"></rect>
+        <text x="272" y="80" font-size="10.5" font-weight="750" letter-spacing="1" style="fill:var(--ink-3)">COST OF SALES</text>
+        <text x="272" y="102" font-size="15" font-weight="650" style="fill:var(--ink)">$210B</text>
+        <text x="272" y="120" font-size="11.5" style="fill:var(--ink-3)">54¢ of every dollar</text>
+        <!-- gross profit -->
+        <rect x="200" y="170" width="62" height="130" rx="4" style="fill:var(--ink-3);opacity:.45"></rect>
+        <text x="272" y="238" font-size="10.5" font-weight="750" letter-spacing="1" style="fill:var(--ink-3)">GROSS PROFIT</text>
+        <text x="272" y="260" font-size="15" font-weight="650" style="fill:var(--ink)">$181B</text>
+        <!-- the three uses of gross profit -->
+        <rect x="392" y="170" width="62" height="41" rx="3" style="fill:var(--warn);opacity:.8"></rect>
+        <rect x="392" y="215" width="62" height="21" rx="3" style="fill:var(--ink-3);opacity:.55"></rect>
+        <rect x="392" y="240" width="62" height="60" rx="3" style="fill:var(--pos);opacity:.85"></rect>
+        <text x="464" y="188" font-size="12" font-weight="650" style="fill:var(--ink)">Operating costs</text>
+        <text x="464" y="203" font-size="11.5" style="fill:var(--ink-3)">R&amp;D, sales &amp; admin — $57B</text>
+        <text x="464" y="229" font-size="12" font-weight="650" style="fill:var(--ink)">Tax &amp; other</text>
+        <text x="464" y="243" font-size="11.5" style="fill:var(--ink-3)">$30B</text>
+        <text x="464" y="272" font-size="12" font-weight="650" style="fill:var(--ink)">Kept as profit</text>
+        <text x="464" y="288" font-size="14" font-weight="650" style="fill:var(--pos)">$93.7B — 24¢ per dollar</text>
+        <!-- connector bands -->
+        <path d="M70 20 H200 V170 H70 Z" style="fill:var(--neg);opacity:.10"></path>
+        <path d="M70 170 H200 V300 H70 Z" style="fill:var(--ink-3);opacity:.10"></path>
+        <path d="M262 170 H392 V300 H262 Z" style="fill:var(--ink-3);opacity:.10"></path>
+      </svg>
+      <p class="br-foot"><b>What this means:</b> a 46% gross margin is a genuinely strong business — the
+         pressure is in what it spends below the line and in a tax bill that rose with overseas profits.</p>
+    </div>
+
+    <div class="br-card br-span-5">
+      <span class="br-eyebrow">What it sells</span>
+      <h2 class="br-head">Over half of all sales are still one product: the iPhone.</h2>
+      <div class="pv-share">
+        <div class="pv-share-row"><span class="pv-share-label">iPhone</span><span class="pv-share-track"><i style="width:100%"></i></span><span class="pv-share-val">51%</span></div>
+        <div class="pv-share-row"><span class="pv-share-label">Services</span><span class="pv-share-track"><i style="width:48%"></i></span><span class="pv-share-val">25%</span></div>
+        <div class="pv-share-row"><span class="pv-share-label">Wearables &amp; home</span><span class="pv-share-track"><i style="width:19%"></i></span><span class="pv-share-val">9%</span></div>
+        <div class="pv-share-row"><span class="pv-share-label">Mac</span><span class="pv-share-track"><i style="width:15%"></i></span><span class="pv-share-val">8%</span></div>
+        <div class="pv-share-row"><span class="pv-share-label">iPad</span><span class="pv-share-track"><i style="width:13%"></i></span><span class="pv-share-val">7%</span></div>
+      </div>
+      <p class="br-foot"><b>What this means:</b> concentration cuts both ways — a weak iPhone year is a weak
+         Apple year, but Services is the highest-margin part and it keeps growing.</p>
+    </div>
+
+    <!-- ── row 2: direction ── -->
+    <div class="br-card br-span-7">
+      <span class="br-eyebrow">Is it growing?</span>
+      <h2 class="br-head">Sales are up 8.5% a year over five years — but the last two have been flat.</h2>
+      <div class="br-chart">
+        <div class="br-chart-cap"><span>Revenue, $B · FY2019–FY2024</span><b>$391B</b></div>
+        <svg viewBox="0 0 620 130" style="width:100%;height:130px;display:block" role="img" aria-label="Revenue rose from $260B in FY2019 to a peak of $394B in FY2022, then flattened at $391B in FY2024.">
+          <g style="fill:var(--ink-3)">
+            <rect x="14"  y="46" width="72" height="74" rx="3"></rect>
+            <rect x="112" y="42" width="72" height="78" rx="3"></rect>
+            <rect x="210" y="16" width="72" height="104" rx="3"></rect>
+            <rect x="308" y="8"  width="72" height="112" rx="3"></rect>
+            <rect x="406" y="12" width="72" height="108" rx="3"></rect>
+          </g>
+          <rect x="504" y="10" width="72" height="110" rx="3" style="fill:var(--ink)"></rect>
+          <g font-size="10" text-anchor="middle" style="fill:var(--ink-3)">
+            <text x="50" y="128">FY19</text><text x="148" y="128">FY20</text><text x="246" y="128">FY21</text>
+            <text x="344" y="128">FY22</text><text x="442" y="128">FY23</text><text x="540" y="128" style="fill:var(--ink);font-weight:700">FY24</text>
+          </g>
+        </svg>
+      </div>
+      <div class="br-chart">
+        <div class="br-chart-cap"><span>Net income, $B · FY2019–FY2024</span><b>$93.7B</b></div>
+        <svg viewBox="0 0 620 130" style="width:100%;height:130px;display:block" role="img" aria-label="Net income rose from $55B in FY2019 to a peak of $100B in FY2022, then eased to $94B in FY2024.">
+          <g style="fill:var(--ink-3)">
+            <rect x="14"  y="62" width="72" height="58" rx="3"></rect>
+            <rect x="112" y="58" width="72" height="62" rx="3"></rect>
+            <rect x="210" y="18" width="72" height="102" rx="3"></rect>
+            <rect x="308" y="10" width="72" height="110" rx="3"></rect>
+            <rect x="406" y="14" width="72" height="106" rx="3"></rect>
+          </g>
+          <rect x="504" y="16" width="72" height="104" rx="3" style="fill:var(--ink)"></rect>
+          <g font-size="10" text-anchor="middle" style="fill:var(--ink-3)">
+            <text x="50" y="128">FY19</text><text x="148" y="128">FY20</text><text x="246" y="128">FY21</text>
+            <text x="344" y="128">FY22</text><text x="442" y="128">FY23</text><text x="540" y="128" style="fill:var(--ink);font-weight:700">FY24</text>
+          </g>
+        </svg>
+      </div>
+      <p class="br-foot"><b>What this means:</b> this is a mature compounder, not a fast grower. The five-year
+         average flatters it — the honest read is that growth has stalled at the top line.</p>
+    </div>
+
+    <div class="br-card br-span-5">
+      <span class="br-eyebrow">Where the money goes</span>
+      <h2 class="br-head">Of every $1 a customer spends, Apple keeps 24 cents.</h2>
+      <div class="pv-split">
+        <div class="pv-split-track">
+          <i style="width:54%;background:var(--neg)"></i>
+          <i style="width:22%;background:var(--ink-3)"></i>
+          <i style="width:24%;background:var(--pos)"></i>
+        </div>
+        <div class="pv-split-legend">
+          <span class="pv-split-legend-item"><i style="background:var(--neg)"></i>Cost of what it sells <b>54¢</b></span>
+          <span class="pv-split-legend-item"><i style="background:var(--ink-3)"></i>Opex, tax &amp; interest <b>22¢</b></span>
+          <span class="pv-split-legend-item"><i style="background:var(--pos)"></i>Kept as profit <b>24¢</b></span>
+        </div>
+      </div>
+      <div class="br-chart">
+        <div class="br-chart-cap"><span>Gross margin per $1 · FY2019–FY2024</span><b>46.2¢</b></div>
+        <svg viewBox="0 0 400 120" style="width:100%;height:120px;display:block" role="img" aria-label="Gross margin per dollar of sales widened from 37.8 cents in FY2019 to 46.2 cents in FY2024.">
+          <g style="fill:var(--ink-3)">
+            <rect x="16"  y="79" width="48" height="21" rx="3"></rect>
+            <rect x="80"  y="76" width="48" height="24" rx="3"></rect>
+            <rect x="144" y="49" width="48" height="51" rx="3"></rect>
+            <rect x="208" y="38" width="48" height="62" rx="3"></rect>
+            <rect x="272" y="21" width="48" height="79" rx="3"></rect>
+          </g>
+          <rect x="336" y="16" width="48" height="84" rx="3" style="fill:var(--ink)"></rect>
+          <g font-size="10" text-anchor="middle" style="fill:var(--ink-3)">
+            <text x="40" y="116">FY19</text><text x="104" y="116">FY20</text><text x="168" y="116">FY21</text>
+            <text x="232" y="116">FY22</text><text x="296" y="116">FY23</text><text x="360" y="116" style="fill:var(--ink);font-weight:700">FY24</text>
+          </g>
+        </svg>
+      </div>
+      <p class="br-foot"><b>What this means:</b> the 54¢ cost of what it sells has been shrinking for five
+         years — 24¢ retained per dollar of sales is well above the average large US company, and it is
+         what funds the buyback and the dividend.</p>
+    </div>
+
+    <!-- ── row 3: the two sides ── -->
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">What’s working</span>
+      <h2 class="br-head">Services keeps compounding, and it is the most profitable thing Apple sells.</h2>
+      <ul class="br-case work" style="margin-top:16px;">
+        <li>Services revenue has grown every year and now carries a quarter of all sales at a much higher margin than hardware.</li>
+        <li>Buybacks shrink the share count year after year, so earnings per share rise even when net income does not.</li>
+        <li>Cash and marketable securities still exceed total debt — the dividend is not a stretch.</li>
+      </ul>
+    </div>
+
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">What could go wrong</span>
+      <h2 class="br-head">The iPhone is half the business, and its growth has stalled.</h2>
+      <ul class="br-case risk" style="margin-top:16px;">
+        <li>iPhone revenue fell last year. A product that is half of sales cannot stall for long without the whole company flatlining.</li>
+        <li>Regulators in the US and EU are attacking the App Store commission, which is the heart of the Services margin.</li>
+        <li>Manufacturing and final assembly remain concentrated in a handful of countries, mostly in Asia.</li>
+      </ul>
+    </div>
+
+    <!-- ── row 4: risk and price ── -->
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">Risks</span>
+      <h2 class="br-head">Three things could break the story. One of them is serious.</h2>
+      <div style="margin-top:14px;">
+        <div class="br-risk-row">
+          <div class="br-risk-top"><strong>China exposure</strong><span>Serious</span></div>
+          <div class="pv-meter"><i class="is-on high"></i><i class="is-on high"></i><i class="is-on high"></i></div>
+          <p class="br-risk-note">China is both a major market and the centre of assembly. A ban on either side is a direct hit to revenue.</p>
+        </div>
+        <div class="br-risk-row">
+          <div class="br-risk-top"><strong>App Store regulation</strong><span>Worth watching</span></div>
+          <div class="pv-meter"><i class="is-on mid"></i><i class="is-on mid"></i><i></i></div>
+          <p class="br-risk-note">Forced alternative payments would trim the commission on the highest-margin revenue Apple has.</p>
+        </div>
+        <div class="br-risk-row">
+          <div class="br-risk-top"><strong>Supply-chain concentration</strong><span>Worth watching</span></div>
+          <div class="pv-meter"><i class="is-on low"></i><i></i><i></i></div>
+          <p class="br-risk-note">Assembly is diversifying, but slowly, and the 10-K added a new clause about it this year.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="br-card br-span-6">
+      <span class="br-eyebrow">Is the price fair?</span>
+      <h2 class="br-head">The price assumes 8.2% growth a year. Apple has delivered 5.1%.</h2>
+      <div class="pv-pair">
+        <div class="pv-pair-row">
+          <span>Priced in</span>
+          <span class="pv-pair-track"><span class="pv-pair-fill a" style="width:100%"></span></span>
+          <b>8.2%/yr</b>
+        </div>
+        <div class="pv-pair-row">
+          <span>Actually delivered</span>
+          <span class="pv-pair-track"><span class="pv-pair-fill b" style="width:62%"></span></span>
+          <b>5.1%/yr</b>
+        </div>
+      </div>
+      <div class="br-chart-cap" style="margin-top:22px;"><span>The multiple, against the industry</span><b>+38%</b></div>
+      <div class="pv-pair" style="margin-top:10px;">
+        <div class="pv-pair-row">
+          <span>Apple's P/E</span>
+          <span class="pv-pair-track"><span class="pv-pair-fill a" style="width:100%"></span></span>
+          <b>34.2×</b>
+        </div>
+        <div class="pv-pair-row">
+          <span>Peer median P/E</span>
+          <span class="pv-pair-track"><span class="pv-pair-fill a" style="width:73%"></span></span>
+          <b>24.8×</b>
+        </div>
+      </div>
+      <p class="br-foot"><b>What this means:</b> this is not a verdict on the share price — it is what the
+         multiple already assumes. Apple is priced at a third more than comparable companies, so
+         everything above 5.1% growth has to come from something new.</p>
+    </div>
+
+    <!-- ── row 5: what changed ── -->
+    <div class="br-card">
+      <span class="br-eyebrow">What just changed in the latest filing</span>
+      <h2 class="br-head">R&amp;D jumped to $31.4B, and the 10-K added a new China supply-chain risk clause.</h2>
+      <div class="br-delta">
+        <div>
+          <div class="br-ba">
+            <div class="br-ba-l"><span>Research &amp; development</span><span>▲ 4.9%</span></div>
+            <div class="br-ba-nums"><span>$29.9B</span><i>────────▶</i><span>$31.4B</span></div>
+          </div>
+          <div class="br-ba">
+            <div class="br-ba-l"><span>Gross margin</span><span>▼ 1.3pt</span></div>
+            <div class="br-ba-nums"><span>45.5%</span><i>────────▶</i><span>46.2%</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="br-ba">
+            <div class="br-ba-l"><span>New risk language</span><span>Added</span></div>
+            <div class="br-ba-nums" style="grid-template-columns:1fr;"><span style="text-align:left;color:var(--ink-2);font-size:12.5px;line-height:1.5;">“Substantially all of the Company’s manufacturing is performed in whole or in part by outsourcing partners located primarily in China, India, Japan, South Korea, Taiwan and Vietnam.”</span></div>
+          </div>
+          <div class="br-ba">
+            <div class="br-ba-l"><span>Segment disclosure</span><span>Unchanged</span></div>
+            <div class="br-ba-nums" style="grid-template-columns:1fr;"><span style="text-align:left;color:var(--ink-3);font-size:12.5px;">No change to how the business is reported.</span></div>
+          </div>
+        </div>
+      </div>
+      <p class="br-prov">Every figure on this page is computed from SEC-filed statements, and the prose is
+         written over those finished facts. Educational, not investment advice.</p>
+    </div>
+
+  </div>
+</main>
+
+<!-- ══ STATE: ANALYST — same grid and card system, denser bodies ══ -->
+<main class="br-wrap" data-when="analyst" hidden>
+  <div class="br-grid">
+
+    <div class="br-card">
+      <div class="br-top">
+        <div class="br-id">
+          <span class="br-sym">AAPL</span>
+          <h1 class="br-name">Apple Inc.<span class="br-dir warn">Margin slipping</span><span class="beta-badge">Beta</span></h1>
+          <p class="br-meta">Technology · Consumer Electronics · dossier as of fiscal 2024 · freshly built</p>
+          <p class="br-desc">Designs, makes and sells iPhone, Mac, iPad and wearables, and sells
+             services — the App Store, iCloud, Music and advertising — to a base of more than
+             two billion active devices.</p>
+        </div>
+        <div class="br-actions">
+          <span class="br-seg"><button>Simple</button><button aria-pressed="true">Analyst</button></span>
+          <button class="btn btn-ghost btn-sm">Print / Save PDF</button>
+          <a class="btn btn-ghost btn-sm" href="#" style="text-decoration:none;">Compare ↔ <span class="beta-badge">Beta</span></a>
+          <button class="btn btn-quiet btn-sm">Refresh</button>
+        </div>
+      </div>
+      <div class="br-tiles">
+        <div class="br-tile"><small>Revenue</small><b>$391B</b><em>FY2024</em></div>
+        <div class="br-tile"><small>Profit</small><b>$93.7B</b><em>net income</em></div>
+        <div class="br-tile"><small>Operating margin</small><b>31.5%</b><em class="delta-neg">▼ 3.1pt</em></div>
+        <div class="br-tile"><small>Sales growth</small><b>+8.5%</b><em class="delta-pos">▲ 5-yr avg</em></div>
+        <div class="br-tile"><small>Return on equity</small><b>157%</b><em>boosted by buybacks</em></div>
+        <div class="br-tile"><small>Price ÷ earnings</small><b>34.2×</b><em>P/E</em></div>
+      </div>
+    </div>
+
+    <div class="br-card br-span-7">
+      <span class="br-eyebrow">Revenue flow</span>
+      <h2 class="br-head">Every fiscal-2024 dollar, from what customers paid to what Apple kept.</h2>
+      <div class="br-body">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;">
+          <div>
+            <table class="br-table">
+              <thead><tr><th>Income statement</th><th>FY2024</th></tr></thead>
+              <tbody>
+                <tr><td>Total net sales</td><td>$391.0B</td></tr>
+                <tr><td>Cost of sales</td><td>$210.4B</td></tr>
+                <tr><td class="faint">Gross margin</td><td class="faint">46.2%</td></tr>
+                <tr><td>Research &amp; development</td><td>$31.4B</td></tr>
+                <tr><td>Selling, general &amp; admin</td><td>$26.1B</td></tr>
+                <tr><td>Operating income</td><td>$123.2B</td></tr>
+                <tr><td>Provision for income taxes</td><td>$29.7B</td></tr>
+                <tr><td><b>Net income</b></td><td><b>$93.7B</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div>
+            <table class="br-table">
+              <thead><tr><th>Segment</th><th>Sales</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td>iPhone</td><td>$201.2B</td><td>51%</td></tr>
+                <tr><td>Services</td><td>$96.2B</td><td>25%</td></tr>
+                <tr><td>Wearables, home &amp; accessories</td><td>$37.0B</td><td>9%</td></tr>
+                <tr><td>Mac</td><td>$30.0B</td><td>8%</td></tr>
+                <tr><td>iPad</td><td>$26.7B</td><td>7%</td></tr>
+              </tbody>
+            </table>
+            <p class="br-foot" style="margin-top:16px;">Filed segment note, 10-K FY2024. No unallocated remainder — the segments tie to total sales.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="br-card br-span-5">
+      <span class="br-eyebrow">The case in two minutes</span>
+      <h2 class="br-head">A 46% gross margin and a stalled top line, priced as though growth returns.</h2>
+      <div class="br-body">
+        <p style="font-size:13.5px;line-height:1.7;color:var(--ink-2);">Apple still earns more per dollar of sales than almost any large manufacturer, and Services
+           keeps widening the mix toward higher margin. But the last two fiscal years have been flat, the
+           iPhone is half of revenue, and the multiple already discounts growth the company has not
+           delivered since 2022.</p>
+        <p style="font-size:13.5px;line-height:1.7;color:var(--ink-2);margin-top:12px;">The bull case rests on Services and the installed base. The bear case is that both are
+           exposed to the same regulator, and that a flat top line makes the buyback the only remaining
+           lever on earnings per share.</p>
+      </div>
+      <div class="br-foot">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+          <div><small class="label" style="font-size:9.5px;">Gross margin</small><b style="display:block;margin-top:5px;font-size:16px;" class="num">46.2%</b></div>
+          <div><small class="label" style="font-size:9.5px;">FCF, 5-yr CAGR</small><b style="display:block;margin-top:5px;font-size:16px;" class="num">5.1%</b></div>
+          <div><small class="label" style="font-size:9.5px;">P/E vs peers</small><b style="display:block;margin-top:5px;font-size:16px;" class="num">+38%</b></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="br-card br-span-7">
+      <span class="br-eyebrow">Financial trajectory</span>
+      <h2 class="br-head">Six fiscal years of filed statements, and what they show.</h2>
+      <div class="br-body">
+        <ul class="br-read">
+          <li>Sales grew 8.5% a year for five years, but fell 2.8% in FY2023 and recovered only 2.0% in FY2024 — the growth is not linear and has stalled.</li>
+          <li>Gross margin improved 0.7pt to 46.2%, so the cost of making things is not the problem; the pressure sits in operating expense and tax.</li>
+          <li>Operating margin fell 3.1pt to 31.5% as R&amp;D stepped up — a deliberate trade of near-term margin for product pipeline.</li>
+          <li>Free cash flow has been positive in all six years and covers the dividend more than four times over.</li>
+        </ul>
+        <div class="br-foot" style="display:flex;justify-content:space-between;align-items:baseline;">
+          <span>Ratio detail — 14 filed ratios, FY2019–FY2024</span>
+          <span class="act" style="font-size:10.5px;font-weight:750;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);">Show table ▾</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="br-card br-span-5">
+      <span class="br-eyebrow">Health checks</span>
+      <h2 class="br-head">Deterministic tests, run against the filed statements.</h2>
+      <div class="br-body">
+        <table class="br-table">
+          <tbody>
+            <tr><td>Revenue grew over 5 years</td><td class="delta-pos">Pass</td></tr>
+            <tr><td>Positive free cash flow in the last year</td><td class="delta-pos">Pass</td></tr>
+            <tr><td>Gross margin stable or rising</td><td class="delta-pos">Pass</td></tr>
+            <tr><td>Operating margin stable or rising</td><td class="delta-neg">Fail</td></tr>
+            <tr><td>Net income grew in the latest year</td><td class="delta-neg">Fail</td></tr>
+            <tr><td>Debt covered by cash</td><td class="delta-pos">Pass</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="br-foot"><b>4 of 6 pass.</b> The two failures are the same story: a flat top line with rising costs.</div>
+    </div>
+
+    <div class="br-card">
+      <span class="br-eyebrow">Deep research</span>
+      <h2 class="br-head">Open only the evidence you need — the detail is preserved, not dumped on the page.</h2>
+      <div class="br-modules">
+        <div class="br-mod"><span><strong>Business &amp; segments</strong><small>How the company makes money, and what each unit earns</small></span><span class="act">View</span></div>
+        <div class="br-mod"><span><strong>Forensic signals</strong><small>Non-obvious earnings and capital-allocation evidence</small></span><span class="act">View</span></div>
+        <div class="br-mod"><span><strong>Industry &amp; peers</strong><small>Competitive position and comparable-company context</small></span><span class="act">View</span></div>
+        <div class="br-mod"><span><strong>Valuation</strong><small>Expectations, scenarios, forward DCF and WACC buildup</small></span><span class="act">View</span></div>
+        <div class="br-mod"><span><strong>Governance &amp; ownership</strong><small>Board, insiders and tracked investors</small></span><span class="act">View</span></div>
+        <div class="br-mod" style="border-bottom:0;"><span><strong>My thesis</strong><small>Write your reasons, and have each new filing grade them</small></span><span class="act">View</span></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<script>
+// Mockup-only state switcher. The real page derives this from its data, not a button.
+(function () {
+  var state = 'simple';
+  var buttons = document.querySelectorAll('.br-mockbar-btns button');
+  function apply(s) {
+    state = s;
+    document.body.dataset.brState = s;
+    document.querySelectorAll('[data-when]').forEach(function (el) {
+      el.hidden = el.dataset.when !== s;
+    });
+    // The match chip shows once a company is resolved; hidden while empty.
+    document.querySelectorAll('[data-show]').forEach(function (el) {
+      el.hidden = !el.dataset.show.split(' ').indexOf(s) > -1;
+    });
+    buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.state === s)); });
+  }
+  buttons.forEach(function (b) { b.addEventListener('click', function () { apply(b.dataset.state); }); });
+  // #simple / #analyst / #building / #empty also select a state, so a headless
+  // screenshot run can capture each one without driving a click.
+  var fromHash = (location.hash || '').replace('#', '');
+  apply(['empty', 'building', 'simple', 'analyst'].indexOf(fromHash) > -1 ? fromHash : state);
+})();
+</script>
+</body>
+</html>

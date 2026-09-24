@@ -1,0 +1,84 @@
+{
+  "at": "2026-09-21T20:57:09.619Z",
+  "profile": "quick",
+  "specs": [
+    {
+      "name": "glm-5.1",
+      "effort": "none"
+    },
+    {
+      "name": "glm-5.3",
+      "effort": "low"
+    }
+  ],
+  "tickers": [
+    "AAPL"
+  ],
+  "surfaces": [
+    "ask_nonstream",
+    "api_ask"
+  ],
+  "reps": 1,
+  "rows": [
+    {
+      "rep": 0,
+      "surface": "ask_nonstream",
+      "sym": "AAPL",
+      "model": "glm-5.1",
+      "effort": "none",
+      "ms": 44537,
+      "ok": true,
+      "note": "source=ai, 9 tools",
+      "err": null,
+      "providerCalls": 7,
+      "promptTokens": 63764,
+      "completionTokens": 400,
+      "retried": false
+    },
+    {
+      "rep": 0,
+      "surface": "ask_nonstream",
+      "sym": "AAPL",
+      "model": "glm-5.3",
+      "effort": "low",
+      "ms": 6565,
+      "ok": true,
+      "note": "source=ai, 3 tools",
+      "err": null,
+      "providerCalls": 2,
+      "promptTokens": 6505,
+      "completionTokens": 95,
+      "retried": false
+    },
+    {
+      "rep": 0,
+      "surface": "api_ask",
+      "sym": "AAPL",
+      "model": "glm-5.1",
+      "effort": "none",
+      "ms": 43367,
+      "ok": true,
+      "note": "http 200",
+      "err": null,
+      "providerCalls": 4,
+      "promptTokens": 42383,
+      "completionTokens": 1477,
+      "retried": false
+    },
+    {
+      "rep": 0,
+      "surface": "api_ask",
+      "sym": "AAPL",
+      "model": "glm-5.3",
+      "effort": "low",
+      "ms": 26455,
+      "ok": true,
+      "note": "http 200",
+      "err": null,
+      "providerCalls": 4,
+      "promptTokens": 34782,
+      "completionTokens": 1079,
+      "retried": false
+    }
+  ]
+}

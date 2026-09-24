@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Plain Filing — dossier design</title>
+<meta name="description" content="A document-shaped design for the Research Dossier: type a company name, one click, one page." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" />
+<style>
+/* ============================================================
+   THE PLAIN FILING — a document-shaped Research Dossier.
+
+   Not the site's paper-and-ink system (the owner asked for a brand new
+   identity) and deliberately not a card grid: a card grid is a dashboard,
+   and a dashboard is what made the last attempt read as generic. This is
+   one printed sheet — a ruled masthead, a figures band, and numbered
+   sections with a left rail.
+
+   Depth comes from the sheet sitting on the ground, from rules, and from
+   space. No shadow, no rounded card, no decorative colour.
+
+   Analyst mode is the SAME nine sections with the evidence opened up
+   inside them — never a second, differently-numbered document.
+
+   Chart colour is validated, not chosen by eye: see the NOTES at the foot
+   of this file for the measured checks.
+   ============================================================ */
+:root {
+  /* ground + sheet */
+  --ground:      #e9ebee;   /* the desk */
+  --sheet:       #fbfbfc;   /* the document — also the chart surface */
+  --sheet-edge:  #d5d9de;
+
+  /* ink */
+  --ink:         #14171c;
+  --ink-2:       #4e5560;
+  --ink-3:       #79808b;
+
+  /* rules */
+  --rule:        #dcdfe4;
+  --rule-2:      #b6bcc4;
+
+  /* data colour — validated against --sheet */
+  --accent:      #1c5cab;   /* marks + interactive; >=3:1 on sheet */
+  --accent-ink:  #143f84;   /* accent as text */
+  --mark-quiet:  #7d858f;   /* de-emphasis marks; >=3:1 on sheet */
+  --tint:        #cde2fb;   /* area fill (a fill, not a mark) */
+  --step-light:  #86b6ef;   /* ordinal step 250 — light end clears 2:1 */
+
+  /* semantic — text only, always beside a ▲/▼ or a word */
+  --pos:         #006300;
+  --neg:         #d03b3b;
+
+  /* type */
+  --serif: Newsreader, "Iowan Old Style", Georgia, serif;
+  --sans:  "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:  "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --gut: 28px;
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+[hidden] { display: none !important; }
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.62;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, p, ul, ol, figure { margin: 0; }
+ul { padding: 0; list-style: none; }
+b, strong { font-weight: 600; }
+a { color: var(--accent-ink); }
+
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- the ask line: a form on a document, not a search box ---------- */
+.pf-ask {
+  position: sticky; top: 0; z-index: 40;
+  background: var(--ground);
+  border-bottom: 1px solid var(--rule-2);
+}
+.pf-ask-in {
+  max-width: 1000px; margin: 0 auto;
+  padding: 14px var(--gut);
+  display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+}
+.pf-ask-lab {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3);
+  flex: 0 0 auto;
+}
+.pf-ask-form { flex: 1 1 340px; display: flex; align-items: baseline; gap: 14px; min-width: 0; }
+.pf-ask-input {
+  flex: 1 1 auto; min-width: 0;
+  font-family: var(--serif); font-size: 19px; color: var(--ink);
+  background: transparent; border: 0;
+  border-bottom: 1px solid var(--rule-2);
+  padding: 4px 2px 7px;
+}
+.pf-ask-input::placeholder { color: var(--ink-3); font-style: italic; }
+.pf-ask-input:focus { outline: none; border-bottom-color: var(--accent); box-shadow: 0 1px 0 0 var(--accent); }
+.pf-ask-go {
+  flex: 0 0 auto; cursor: pointer;
+  font-family: var(--mono); font-size: 11px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink); background: transparent; border: 0;
+  border-bottom: 1px solid var(--ink); padding: 4px 0 7px;
+}
+.pf-ask-go:hover { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+.pf-ask-note {
+  flex: 0 0 100%; font-family: var(--mono); font-size: 10.5px;
+  letter-spacing: .04em; color: var(--ink-3); margin-top: -4px;
+}
+
+/* the resolved-match line, shown once a company is known */
+.pf-match {
+  max-width: 1000px; margin: 0 auto; padding: 0 var(--gut) 12px;
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink-2);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.pf-match b { color: var(--ink); font-weight: 600; }
+.pf-match-alt { display: flex; gap: 8px; flex-wrap: wrap; }
+.pf-match-alt a {
+  color: var(--ink-2); text-decoration: none;
+  border-bottom: 1px dotted var(--rule-2); padding-bottom: 1px;
+}
+.pf-match-alt a:hover { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+
+/* ---------- the sheet ---------- */
+.pf-wrap { max-width: 1000px; margin: 0 auto; padding: 34px var(--gut) 90px; }
+.pf-sheet {
+  background: var(--sheet);
+  border: 1px solid var(--sheet-edge);
+  padding: 54px 58px 46px;
+}
+
+/* ---------- masthead ---------- */
+.pf-meta {
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 10px; font-weight: 500;
+  letter-spacing: .15em; text-transform: uppercase; color: var(--ink-3);
+}
+.pf-meta span + span::before { content: '·'; margin-right: 10px; color: var(--rule-2); }
+.pf-modes { margin-left: auto; display: flex; gap: 14px; }
+.pf-modes button {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .15em; text-transform: uppercase;
+  background: none; border: 0; padding: 0 0 3px; cursor: pointer;
+  color: var(--ink-3); border-bottom: 1px solid transparent;
+}
+.pf-modes button[aria-pressed='true'] { color: var(--ink); border-bottom-color: var(--ink); }
+.pf-modes button:hover { color: var(--ink); }
+
+.pf-name {
+  font-size: clamp(40px, 6.4vw, 68px);
+  font-weight: 500; line-height: 1.02; letter-spacing: -.022em;
+  margin: 22px 0 0; text-wrap: balance;
+}
+.pf-verdict {
+  font-size: 19px; font-style: italic; color: var(--ink-2);
+  margin-top: 14px; max-width: 54ch;
+}
+.pf-verdict b { font-style: normal; font-weight: 600; }
+.pf-flag {
+  display: inline-block; vertical-align: 2px;
+  font-family: var(--mono); font-size: 10px; font-weight: 600; font-style: normal;
+  letter-spacing: .14em; text-transform: uppercase;
+  white-space: nowrap; margin-left: 10px;
+}
+.pf-flag.down { color: var(--neg); }
+.pf-flag.up { color: var(--pos); }
+.pf-lede { margin-top: 18px; max-width: 58ch; color: var(--ink-2); }
+
+/* actions row */
+.pf-acts {
+  display: flex; gap: 22px; flex-wrap: wrap; align-items: baseline;
+  margin-top: 26px; padding-top: 16px; border-top: 1px solid var(--rule);
+}
+.pf-act {
+  font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+  letter-spacing: .11em; text-transform: uppercase;
+  color: var(--ink-2); background: none; border: 0; padding: 0;
+  border-bottom: 1px solid var(--rule-2); cursor: pointer; text-decoration: none;
+}
+.pf-act:hover { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+
+/* ---------- the figures band: a ruled row, not tiles ---------- */
+.pf-figs {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  border-top: 1px solid var(--rule-2); border-bottom: 1px solid var(--rule-2);
+  margin-top: 34px;
+}
+.pf-fig { padding: 18px 15px 19px; border-right: 1px solid var(--rule); }
+.pf-fig:first-child { padding-left: 0; }
+.pf-fig:last-child { border-right: 0; padding-right: 0; }
+.pf-fig-l {
+  display: block; font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase; color: var(--ink-3);
+  white-space: nowrap;
+}
+.pf-fig-v {
+  display: block; margin-top: 9px;
+  font-family: var(--mono); font-size: clamp(19px, 2vw, 26px); font-weight: 500;
+  letter-spacing: -.03em; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.pf-fig-n {
+  display: block; margin-top: 5px; font-family: var(--mono);
+  font-size: 10.5px; letter-spacing: .02em; color: var(--ink-3); white-space: nowrap;
+}
+.pf-fig-n.down { color: var(--neg); }
+.pf-fig-n.up { color: var(--pos); }
+
+/* ---------- numbered sections with a left rail ---------- */
+.pf-sec {
+  display: grid; grid-template-columns: 118px minmax(0, 1fr);
+  gap: 34px; padding: 30px 0; border-top: 1px solid var(--rule);
+}
+.pf-sec:first-of-type { margin-top: 40px; }
+.pf-rail { display: flex; gap: 12px; align-items: baseline; }
+.pf-num {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .1em; color: var(--ink-3);
+  padding-top: 6px; flex: 0 0 auto;
+}
+.pf-rail-l {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink);
+  line-height: 1.5; padding-top: 5px;
+}
+.pf-body > * + * { margin-top: 16px; }
+.pf-body p { max-width: 62ch; }
+.pf-lead { font-size: 20px; line-height: 1.45; letter-spacing: -.008em; }
+.pf-figref { font-family: var(--mono); font-size: .87em; font-variant-numeric: tabular-nums; }
+.pf-note { font-size: 15.5px; color: var(--ink-2); }
+.pf-src {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .03em;
+  color: var(--ink-3); margin-top: 4px; max-width: 70ch;
+}
+
+/* ---------- lists ---------- */
+.pf-list { display: grid; border-top: 1px solid var(--rule); max-width: 66ch; }
+.pf-list li {
+  display: grid; grid-template-columns: 20px minmax(0, 1fr);
+  gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--rule);
+  font-size: 16.5px; line-height: 1.55;
+}
+.pf-list li:last-child { border-bottom: 0; }
+.pf-list .mark { font-family: var(--mono); font-size: 12px; line-height: 1.7; }
+.pf-list.work .mark { color: var(--pos); }
+.pf-list.risk .mark { color: var(--neg); }
+
+/* ---------- ledger (analyst depth) ---------- */
+.pf-ledger { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 12.5px; }
+.pf-ledger caption {
+  text-align: left; font-family: var(--mono); font-size: 9.5px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3);
+  padding-bottom: 9px;
+}
+.pf-ledger th {
+  text-align: right; font-weight: 600; font-size: 9.5px; letter-spacing: .1em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding: 0 0 8px; border-bottom: 1px solid var(--rule-2);
+}
+.pf-ledger th:first-child { text-align: left; }
+.pf-ledger td {
+  padding: 7px 0; border-bottom: 1px solid var(--rule);
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+.pf-ledger td:first-child { text-align: left; font-family: var(--sans); font-size: 13px; }
+.pf-ledger tr.is-sum td { font-weight: 600; }
+.pf-ledger td.up { color: var(--pos); }
+.pf-ledger td.down { color: var(--neg); }
+.pf-scroll { overflow-x: auto; }
+.pf-scroll + .pf-scroll { margin-top: 26px; }
+
+/* ---------- segment bar: emphasis, one hue + the de-emphasis gray ---------- */
+.pf-share-bar {
+  display: flex; height: 30px; gap: 2px;   /* 2px sheet gap between fills */
+  border-bottom: 1px solid var(--rule-2);
+}
+.pf-share-bar i { display: block; background: var(--mark-quiet); }
+.pf-share-bar i.is-key { background: var(--accent); }
+.pf-share-legend {
+  display: flex; flex-wrap: wrap; gap: 9px 28px; margin-top: 15px;
+}
+.pf-share-legend li {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink-2); white-space: nowrap;
+}
+.pf-share-legend .dot { width: 10px; height: 10px; background: var(--mark-quiet); flex: 0 0 auto; }
+.pf-share-legend .is-key { color: var(--ink); font-weight: 600; }
+.pf-share-legend .is-key .dot { background: var(--accent); }
+.pf-share-legend b { font-variant-numeric: tabular-nums; color: var(--ink); }
+
+/* ---------- trend charts ----------
+   The SVG stretches to any width, so nothing that must stay type-shaped can
+   live inside it: `preserveAspectRatio="none"` would stretch the glyphs too.
+   The shape is SVG; every label is HTML positioned over it. */
+.pf-chart + .pf-chart { margin-top: 28px; }
+.pf-chart-cap {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em;
+  color: var(--ink-3); margin-bottom: 8px;
+}
+.pf-plot { position: relative; }
+.pf-plot svg { display: block; width: 100%; height: 148px; }
+.pf-plot-end {
+  position: absolute; left: 91.667%; transform: translate(-100%, -50%);
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+  background: var(--sheet); padding: 2px 5px 2px 4px; white-space: nowrap;
+}
+.pf-ticks {
+  display: grid; grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin-top: 7px; font-family: var(--mono); font-size: 10px;
+  letter-spacing: .04em; color: var(--ink-3); text-align: center;
+}
+
+/* ---------- two-value comparison ---------- */
+.pf-cmp { display: grid; gap: 12px; max-width: 520px; }
+.pf-cmp + .pf-cmp { margin-top: 26px; }
+.pf-cmp-row {
+  display: grid; grid-template-columns: 132px minmax(0, 1fr) auto;
+  gap: 14px; align-items: center;
+  font-family: var(--mono); font-size: 11.5px; color: var(--ink-2);
+}
+.pf-cmp-track { display: flex; height: 11px; }
+.pf-cmp-track i { display: block; background: var(--mark-quiet); }
+.pf-cmp-row.is-key .pf-cmp-track i { background: var(--accent); }
+.pf-cmp-row b { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+
+/* ---------- dumbbells: before → after ---------- */
+.pf-dumb { display: grid; max-width: 580px; border-top: 1px solid var(--rule); }
+.pf-dumb-row {
+  display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 16px;
+  align-items: center; padding: 14px 0; border-bottom: 1px solid var(--rule);
+}
+.pf-dumb-row:last-child { border-bottom: 0; }
+.pf-dumb-lab {
+  font-family: var(--mono); font-size: 11px; color: var(--ink-2); line-height: 1.45;
+}
+.pf-dumb-lab b { display: block; color: var(--ink); font-weight: 600; }
+.pf-dumb-plot { position: relative; height: 40px; }
+.pf-dumb-line { position: absolute; top: 14px; height: 1px; background: var(--rule-2); }
+.pf-dumb-dot { position: absolute; top: 9px; width: 11px; height: 11px; border-radius: 50%; }
+.pf-dumb-dot.from { background: var(--step-light); }
+.pf-dumb-dot.to { background: var(--accent); }
+.pf-dumb-val {
+  position: absolute; top: 25px; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 10.5px;
+  font-variant-numeric: tabular-nums; color: var(--ink-3); white-space: nowrap;
+}
+.pf-dumb-val.to { color: var(--accent-ink); font-weight: 600; }
+.pf-dumb-txt { font-family: var(--mono); font-size: 11px; line-height: 1.55; color: var(--ink-2); }
+
+/* ---------- severity: fill count + the word ----------
+   Not encoded by two adjacent status colours: the warning/serious pair fails
+   the normal-vision separation floor on this surface. Count carries the
+   gradient; only the single most severe row takes the red. */
+.pf-risk { display: grid; border-top: 1px solid var(--rule); max-width: 66ch; }
+.pf-risk-row { padding: 16px 0; border-bottom: 1px solid var(--rule); }
+.pf-risk-row:last-child { border-bottom: 0; }
+.pf-risk-top {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+}
+.pf-risk-top strong { font-size: 17px; font-weight: 600; }
+.pf-risk-word {
+  font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3);
+  white-space: nowrap;
+}
+.pf-risk-word.is-serious { color: var(--neg); }
+.pf-cells { display: flex; gap: 5px; margin: 11px 0 9px; }
+.pf-cells i { width: 40px; height: 6px; background: var(--rule); }
+.pf-cells i.on { background: var(--ink-3); }
+.pf-cells i.on.is-serious { background: var(--neg); }
+.pf-risk-note { font-size: 15.5px; color: var(--ink-2); max-width: 58ch; }
+
+/* ---------- empty state ---------- */
+.pf-empty { max-width: 1000px; margin: 0 auto; padding: 84px var(--gut) 0; }
+.pf-empty h2 {
+  font-size: clamp(38px, 6.2vw, 66px); font-weight: 500;
+  line-height: 1.03; letter-spacing: -.025em; text-wrap: balance; max-width: 20ch;
+}
+.pf-empty p { margin-top: 20px; max-width: 54ch; color: var(--ink-2); font-size: 18px; }
+.pf-empty-try {
+  margin-top: 34px; display: flex; gap: 20px; align-items: baseline; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 11px; letter-spacing: .04em; color: var(--ink-3);
+}
+.pf-empty-try a {
+  color: var(--ink); text-decoration: none; font-size: 12.5px; font-weight: 600;
+  border-bottom: 1px solid var(--rule-2); padding-bottom: 2px;
+}
+.pf-empty-try a:hover { color: var(--accent-ink); border-bottom-color: var(--accent-ink); }
+.pf-empty-why {
+  margin-top: 46px; padding-top: 20px; border-top: 1px solid var(--rule);
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 22px;
+  max-width: 900px;
+}
+.pf-empty-why p { margin: 0; font-size: 15.5px; color: var(--ink-2); max-width: none; }
+.pf-empty-why b {
+  display: block; font-family: var(--mono); font-size: 10px; font-weight: 600;
+  letter-spacing: .13em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 7px;
+}
+
+/* ---------- skeleton ---------- */
+.pf-sk { background: var(--ground); height: 12px; animation: pf-pulse 1.9s ease-in-out infinite; }
+.pf-sk.tall { height: 30px; } .pf-sk.hero { height: 56px; } .pf-sk.block { height: 132px; }
+.pf-sk.w40 { width: 40%; } .pf-sk.w60 { width: 60%; } .pf-sk.w75 { width: 75%; }
+.pf-sk + .pf-sk { margin-top: 11px; }
+@keyframes pf-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+@media (prefers-reduced-motion: reduce) { .pf-sk { animation: none; } }
+.pf-writing {
+  display: flex; align-items: center; gap: 9px; margin-top: 15px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: .04em; color: var(--ink-3);
+}
+.pf-writing::before {
+  content: ''; width: 9px; height: 9px; border-radius: 50%;
+  border: 1.5px solid var(--rule-2); border-top-color: var(--ink-3);
+  animation: pf-spin .85s linear infinite; flex: 0 0 auto;
+}
+@keyframes pf-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .pf-writing::before { animation: none; } }
+
+/* ---------- mockup-only control bar ---------- */
+.pf-bar {
+  position: fixed; left: 18px; bottom: 18px; z-index: 90;
+  background: var(--ink); color: var(--sheet);
+  padding: 12px 14px; max-width: 320px;
+}
+.pf-bar strong {
+  display: block; font-family: var(--mono); font-size: 9px; font-weight: 600;
+  letter-spacing: .16em; text-transform: uppercase; color: #9ba1aa;
+}
+.pf-bar p { margin: 6px 0 10px; font-family: var(--sans); font-size: 11px; line-height: 1.45; color: #cfd3d9; }
+.pf-bar-btns { display: flex; gap: 4px; flex-wrap: wrap; }
+.pf-bar-btns button {
+  font-family: var(--mono); font-size: 10px; letter-spacing: .08em; text-transform: uppercase;
+  padding: 5px 9px; border: 1px solid #3c414a; background: transparent;
+  color: var(--sheet); cursor: pointer;
+}
+.pf-bar-btns button[aria-pressed='true'] { background: var(--sheet); color: var(--ink); border-color: var(--sheet); }
+.pf-bar code { font-family: var(--mono); font-size: 10.5px; }
+
+/* ---------- responsive ---------- */
+@media (max-width: 900px) {
+  .pf-sheet { padding: 40px 30px 34px; }
+  .pf-figs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .pf-fig { padding: 16px 14px 18px; border-right: 1px solid var(--rule); }
+  .pf-fig:nth-child(3n) { border-right: 0; padding-right: 0; }
+  .pf-fig:nth-child(3n + 1) { padding-left: 0; }
+  .pf-fig:nth-child(n + 4) { border-top: 1px solid var(--rule); }
+  .pf-sec { grid-template-columns: 1fr; gap: 12px; }
+  .pf-rail { gap: 10px; }
+  .pf-num, .pf-rail-l { padding-top: 0; }
+}
+@media (max-width: 620px) {
+  :root { --gut: 18px; }
+  body { font-size: 16.5px; }
+  .pf-sheet { padding: 30px 20px 26px; }
+  .pf-ask-in { padding: 12px var(--gut); }
+  .pf-ask-form { flex-direction: column; align-items: stretch; gap: 10px; }
+  .pf-ask-go { align-self: flex-start; }
+  .pf-empty { padding-top: 56px; }
+  .pf-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pf-fig { padding: 15px 12px 17px; }
+  .pf-fig:nth-child(3n), .pf-fig:nth-child(3n + 1) { border-right: 1px solid var(--rule); padding-left: 12px; padding-right: 12px; }
+  .pf-fig:nth-child(2n) { border-right: 0; padding-right: 0; }
+  .pf-fig:nth-child(2n + 1) { padding-left: 0; }
+  .pf-fig:nth-child(n + 3) { border-top: 1px solid var(--rule); }
+  .pf-cmp-row { grid-template-columns: 106px minmax(0, 1fr) auto; font-size: 10.5px; }
+  .pf-dumb-row { grid-template-columns: 1fr; gap: 4px; }
+  .pf-plot svg { height: 118px; }
+  .pf-bar { left: 8px; right: 8px; bottom: 8px; max-width: none; }
+}
+@media print {
+  .pf-bar, .pf-ask { display: none !important; }
+  body { background: #fff; font-size: 11pt; }
+  .pf-wrap { max-width: none; padding: 0; }
+  .pf-sheet { border: 0; padding: 0; }
+  .pf-sec, .pf-figs, .pf-list li, .pf-risk-row, .pf-dumb-row { break-inside: avoid; }
+}
+</style>
+</head>
+<body data-pf-state="simple">
+
+<!-- ══ MOCKUP-ONLY CONTROL — does not ship ══ -->
+<div class="pf-bar">
+  <strong>Mockup only — does not ship</strong>
+  <p>Layout review of <code>/dossier.html</code>. Filed figures are Apple's real FY2019–FY2024 numbers; peer and valuation comparisons are illustrative. The layout is being judged, not the data.</p>
+  <div class="pf-bar-btns" role="group" aria-label="Preview state">
+    <button data-state="empty">Empty</button>
+    <button data-state="building">Building</button>
+    <button data-state="simple">Simple</button>
+    <button data-state="analyst">Analyst</button>
+  </div>
+</div>
+
+<!-- ══ ASK LINE — present in every state ══ -->
+<div class="pf-ask">
+  <div class="pf-ask-in">
+    <label class="pf-ask-lab" for="pf-q">Company</label>
+    <form class="pf-ask-form" onsubmit="return false">
+      <input class="pf-ask-input" id="pf-q" type="text" autocomplete="off"
+             placeholder="Type a name — Apple, Nike, Coca-Cola" />
+      <button class="pf-ask-go" type="submit">Build the brief →</button>
+    </form>
+    <span class="pf-ask-note" data-when="empty">A brief costs 21 credits. No ticker needed.</span>
+  </div>
+  <div class="pf-match" data-when="simple analyst">
+    <span>Read as <b>Apple Inc. · AAPL · Technology</b></span>
+    <span>Not it?</span>
+    <span class="pf-match-alt">
+      <a href="#">Apple Hospitality</a><a href="#">Apple Rush</a><a href="#">Applus</a>
+    </span>
+  </div>
+</div>
+
+<!-- ══ EMPTY ══ -->
+<main class="pf-empty" data-when="empty">
+  <h2>Everything a company files, in plain English, on one page.</h2>
+  <p>Type a company name. One click writes a brief from the filings themselves — what it
+     sells, where the money goes, what could go wrong, and what the share price already
+     assumes. No ticker, no spreadsheets, no jargon.</p>
+  <div class="pf-empty-try">
+    <span>Try one:</span>
+    <a href="#">Apple</a><a href="#">NVIDIA</a><a href="#">Coca-Cola</a>
+  </div>
+  <div class="pf-empty-why">
+    <p><b>Sourced, not summarised</b>Every figure is taken from a filed statement and
+       cited back to the note it came from.</p>
+    <p><b>Written for a reader</b>Each section leads with a sentence you could say out
+       loud, then shows the evidence behind it.</p>
+    <p><b>One page, no digging</b>The whole brief is visible at once — nothing is hidden
+       behind a tab or a click.</p>
+  </div>
+</main>
+
+<!-- ══ BUILDING ══ -->
+<main class="pf-wrap" data-when="building">
+  <div class="pf-sheet">
+    <div class="pf-meta"><span>AAPL</span><span>Reading the filings</span></div>
+    <div style="margin-top:22px;"><div class="pf-sk hero w60"></div></div>
+    <div style="margin-top:18px;"><div class="pf-sk w75"></div><div class="pf-sk w40"></div></div>
+    <div class="pf-figs">
+      <div class="pf-fig"><span class="pf-fig-l">Revenue</span><div style="margin-top:9px;"><div class="pf-sk tall"></div><div class="pf-sk w60"></div></div></div>
+      <div class="pf-fig"><span class="pf-fig-l">Profit</span><div style="margin-top:9px;"><div class="pf-sk tall"></div><div class="pf-sk w60"></div></div></div>
+      <div class="pf-fig"><span class="pf-fig-l">Margin</span><div style="margin-top:9px;"><div class="pf-sk tall"></div><div class="pf-sk w60"></div></div></div>
+      <div class="pf-fig"><span class="pf-fig-l">Sales growth</span><div style="margin-top:9px;"><div class="pf-sk tall"></div><div class="pf-sk w60"></div></div></div>
+      <div class="pf-fig"><span class="pf-fig-l">Dividend</span><div style="margin-top:9px;"><div class="pf-sk tall"></div><div class="pf-sk w60"></div></div></div>
+      <div class="pf-fig"><span class="pf-fig-l">Price/earnings</span><div style="margin-top:9px;"><div class="pf-sk tall"></div><div class="pf-sk w60"></div></div></div>
+    </div>
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">01</span><span class="pf-rail-l">What it is</span></div>
+      <div class="pf-body"><div class="pf-sk w75"></div><div class="pf-sk"></div><div class="pf-sk w60"></div>
+        <div class="pf-writing">The written analysis is still being drafted.</div></div>
+    </section>
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">02</span><span class="pf-rail-l">How the money moves</span></div>
+      <div class="pf-body"><div class="pf-sk w60"></div><div class="pf-sk"></div>
+        <div class="pf-writing">The written analysis is still being drafted.</div></div>
+    </section>
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">03</span><span class="pf-rail-l">What it sells</span></div>
+      <div class="pf-body"><div class="pf-sk block"></div></div>
+    </section>
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">04</span><span class="pf-rail-l">Is it growing?</span></div>
+      <div class="pf-body"><div class="pf-sk block"></div></div>
+    </section>
+  </div>
+</main>
+
+<!-- ══ THE DOCUMENT ══
+     One main, shown in BOTH modes. Analyst is the same nine sections with the
+     evidence opened inside them, so the numbering never shifts between modes. -->
+<main class="pf-wrap" data-when="simple analyst">
+  <div class="pf-sheet">
+
+    <header class="pf-mast">
+      <div class="pf-meta">
+        <span>AAPL</span><span>Technology</span><span>FY2024 · Form 10-K</span><span>Filed 2024-11-01</span>
+        <span class="pf-modes">
+          <button data-mode="simple" aria-pressed="true">Simple</button>
+          <button data-mode="analyst" aria-pressed="false">Analyst</button>
+        </span>
+      </div>
+      <h1 class="pf-name">Apple Inc.</h1>
+      <p class="pf-verdict" data-when="simple">Sales have flattened while the cost of running
+        the company keeps rising — the profit line has now fallen two years in a
+        row.<span class="pf-flag down">Margin slipping</span></p>
+      <p class="pf-verdict" data-when="analyst">A 46% gross margin and a stalled top line,
+        priced as though growth returns.<span class="pf-flag down">Margin slipping</span></p>
+      <p class="pf-lede">Designs, makes and sells iPhone, Mac, iPad and wearables, and sells
+        services — the App Store, iCloud, Music and advertising — to a base of more than two
+        billion active devices.</p>
+      <div class="pf-acts">
+        <a class="pf-act" href="#">Print / Save PDF</a>
+        <a class="pf-act" href="#">Compare with another company</a>
+        <button class="pf-act" type="button">Refresh this brief</button>
+      </div>
+    </header>
+
+    <div class="pf-figs">
+      <div class="pf-fig"><span class="pf-fig-l">Revenue</span><b class="pf-fig-v">$391B</b><span class="pf-fig-n">FY2024</span></div>
+      <div class="pf-fig"><span class="pf-fig-l">Profit</span><b class="pf-fig-v">$93.7B</b><span class="pf-fig-n">net income</span></div>
+      <div class="pf-fig"><span class="pf-fig-l">Margin</span><b class="pf-fig-v">24.0¢</b><span class="pf-fig-n down">▼ 1.3pt</span></div>
+      <div class="pf-fig"><span class="pf-fig-l">Sales growth</span><b class="pf-fig-v">+8.5%</b><span class="pf-fig-n up">▲ 5-yr avg</span></div>
+      <div class="pf-fig"><span class="pf-fig-l">Dividend</span><b class="pf-fig-v">0.44%</b><span class="pf-fig-n">yield</span></div>
+      <div class="pf-fig"><span class="pf-fig-l">Price/earnings</span><b class="pf-fig-v">34.2×</b><span class="pf-fig-n">market P/E</span></div>
+    </div>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">01</span><span class="pf-rail-l">What it is</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Apple sells hardware at a premium and then keeps selling to the
+          people who bought it.</p>
+        <p>The iPhone is still the centre of the business, but the money that grows fastest is
+          the money that comes after the sale: the App Store, iCloud, Music, advertising and
+          the rest of the services attached to more than two billion active devices. Hardware
+          is a low-margin, cyclical business. Services is a high-margin, repeating one, and it
+          is where the company's profit growth has come from for five years.</p>
+        <p class="pf-src">Source: Form 10-K FY2024, Item 1 and Item 8.</p>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">02</span><span class="pf-rail-l">How the money moves</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Customers paid <span class="pf-figref">$391B</span>. Making and
+          selling it cost <span class="pf-figref">$210B</span>, and
+          <span class="pf-figref">$93.7B</span> ended up as profit.</p>
+        <p>That is the whole story in one line: of every dollar a customer spends,
+          <span class="pf-figref">54¢</span> goes to the cost of what Apple sells,
+          <span class="pf-figref">22¢</span> to running the company, interest and tax, and
+          <span class="pf-figref">24¢</span> is kept. The 54¢ is the part worth watching — it
+          has been shrinking for five years, from 62¢ in FY2019, which is a sign of real
+          pricing power in the hardware.</p>
+        <p>The pressure is below that line. Research and development rose to
+          <span class="pf-figref">$31.4B</span> and selling and administration to
+          <span class="pf-figref">$26.1B</span>, and a tax provision of
+          <span class="pf-figref">$29.7B</span> took a larger share of profit than the year
+          before. That combination is why a company with a rising gross margin still reported
+          lower net income.</p>
+        <p class="pf-src">Source: Form 10-K FY2024, Item 8 — consolidated statements of operations.</p>
+
+        <!-- analyst depth -->
+        <div class="pf-scroll" data-when="analyst">
+          <table class="pf-ledger">
+            <caption>Consolidated statement of operations · FY2024</caption>
+            <thead><tr><th scope="col">Line</th><th scope="col">$B</th><th scope="col">% of sales</th></tr></thead>
+            <tbody>
+              <tr><td>Total net sales</td><td>391.0</td><td>100.0%</td></tr>
+              <tr><td>Cost of sales</td><td>210.4</td><td>53.8%</td></tr>
+              <tr class="is-sum"><td>Gross margin</td><td>180.7</td><td>46.2%</td></tr>
+              <tr><td>Research &amp; development</td><td>31.4</td><td>8.0%</td></tr>
+              <tr><td>Selling, general &amp; admin</td><td>26.1</td><td>6.7%</td></tr>
+              <tr class="is-sum"><td>Operating income</td><td>123.2</td><td>31.5%</td></tr>
+              <tr><td>Provision for income taxes</td><td>29.7</td><td>7.6%</td></tr>
+              <tr class="is-sum"><td>Net income</td><td>93.7</td><td>24.0%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">03</span><span class="pf-rail-l">What it sells</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Over half of all sales are still one product: the iPhone.</p>
+        <div class="pf-share-bar" role="img"
+             aria-label="Share of FY2024 sales: iPhone 51 percent, Services 25 percent, Wearables and home 9 percent, Mac 8 percent, iPad 7 percent.">
+          <i class="is-key" style="width:51%"></i>
+          <i style="width:25%"></i>
+          <i style="width:9%"></i>
+          <i style="width:8%"></i>
+          <i style="width:7%"></i>
+        </div>
+        <ul class="pf-share-legend">
+          <li class="is-key"><span class="dot"></span><span>iPhone</span><b>51%</b></li>
+          <li><span class="dot"></span><span>Services</span><b>25%</b></li>
+          <li><span class="dot"></span><span>Wearables &amp; home</span><b>9%</b></li>
+          <li><span class="dot"></span><span>Mac</span><b>8%</b></li>
+          <li><span class="dot"></span><span>iPad</span><b>7%</b></li>
+        </ul>
+        <p class="pf-note"><b>What this means:</b> concentration cuts both ways. A weak iPhone
+          year is a weak Apple year — but Services is the highest-margin part of the business,
+          and it keeps growing.</p>
+        <p class="pf-src">Source: Form 10-K FY2024, segment note. No unallocated remainder — the segments tie to total sales.</p>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">04</span><span class="pf-rail-l">Is it growing?</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Sales are up 8.5% a year over five years — but the last two years
+          have been flat.</p>
+
+        <div class="pf-chart">
+          <div class="pf-chart-cap">Revenue, $B · FY2019–FY2024</div>
+          <div class="pf-plot">
+            <svg viewBox="0 0 640 146" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="140" x2="640" y2="140" stroke="#dcdfe4" stroke-width="1" vector-effect="non-scaling-stroke" />
+              <path d="M53.3,125.7 L160,115.6 L266.7,51.2 L373.3,31.1 L480,38.8 L586.7,33.4 L586.7,140 L53.3,140 Z" fill="#cde2fb" />
+              <path d="M53.3,125.7 L160,115.6 L266.7,51.2 L373.3,31.1 L480,38.8 L586.7,33.4"
+                    fill="none" stroke="#1c5cab" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+              <circle cx="586.7" cy="33.4" r="4.5" fill="#1c5cab" />
+            </svg>
+            <span class="pf-plot-end" style="top:20px">$391B</span>
+          </div>
+          <div class="pf-ticks"><span>FY19</span><span>FY20</span><span>FY21</span><span>FY22</span><span>FY23</span><span>FY24</span></div>
+          <p class="pf-src" style="margin-top:9px">Rounded to the nearest billion, as filed.</p>
+        </div>
+
+        <div class="pf-chart">
+          <div class="pf-chart-cap">Net income, $B · FY2019–FY2024</div>
+          <div class="pf-plot">
+            <svg viewBox="0 0 640 146" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="0" y1="140" x2="640" y2="140" stroke="#dcdfe4" stroke-width="1" vector-effect="non-scaling-stroke" />
+              <path d="M53.3,119.4 L160,115.2 L266.7,40.6 L373.3,30.4 L480,36 L586.7,42.6 L586.7,140 L53.3,140 Z" fill="#cde2fb" />
+              <path d="M53.3,119.4 L160,115.2 L266.7,40.6 L373.3,30.4 L480,36 L586.7,42.6"
+                    fill="none" stroke="#1c5cab" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke" />
+              <circle cx="586.7" cy="42.6" r="4.5" fill="#1c5cab" />
+            </svg>
+            <span class="pf-plot-end" style="top:29px">$93.7B</span>
+          </div>
+          <div class="pf-ticks"><span>FY19</span><span>FY20</span><span>FY21</span><span>FY22</span><span>FY23</span><span>FY24</span></div>
+          <p class="pf-src" style="margin-top:9px">The peak was FY2022. The last two years have fallen.</p>
+        </div>
+
+        <p class="pf-note"><b>What this means:</b> this is a mature compounder, not a fast
+          grower. The five-year average flatters it — the honest read is that growth has
+          stalled at the top line while costs keep climbing.</p>
+        <p class="pf-src">Source: Form 10-K FY2019–FY2024, Item 8.</p>
+
+        <!-- analyst depth -->
+        <div class="pf-scroll" data-when="analyst">
+          <table class="pf-ledger">
+            <caption>Six fiscal years, as filed</caption>
+            <thead><tr><th scope="col">Fiscal year</th><th scope="col">Revenue $B</th><th scope="col">Net income $B</th><th scope="col">Gross margin</th></tr></thead>
+            <tbody>
+              <tr><td>FY2019</td><td>260.2</td><td>55.3</td><td>37.8%</td></tr>
+              <tr><td>FY2020</td><td>274.5</td><td>57.4</td><td>38.2%</td></tr>
+              <tr><td>FY2021</td><td>365.8</td><td>94.7</td><td>41.8%</td></tr>
+              <tr><td>FY2022</td><td>394.3</td><td>99.8</td><td>43.3%</td></tr>
+              <tr><td>FY2023</td><td>383.3</td><td>97.0</td><td>45.5%</td></tr>
+              <tr class="is-sum"><td>FY2024</td><td>391.0</td><td>93.7</td><td>46.2%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">05</span><span class="pf-rail-l">What's working</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Services keeps compounding, and it is the most profitable thing
+          Apple sells.</p>
+        <ul class="pf-list work">
+          <li><span class="mark">↑</span><span>Services revenue has grown every year and now carries a quarter of all sales at a much higher margin than hardware.</span></li>
+          <li><span class="mark">↑</span><span>Buybacks shrink the share count year after year, so earnings per share rise even when net income does not.</span></li>
+          <li><span class="mark">↑</span><span>Cash and marketable securities still exceed total debt — the dividend is not a stretch.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">06</span><span class="pf-rail-l">What could go wrong</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">The iPhone is half the business, and its growth has stalled.</p>
+        <ul class="pf-list risk">
+          <li><span class="mark">↓</span><span>iPhone revenue fell last year. A product that is half of sales cannot stall for long without the whole company flatlining.</span></li>
+          <li><span class="mark">↓</span><span>Regulators in the US and EU are attacking the App Store commission, which is the heart of the Services margin.</span></li>
+          <li><span class="mark">↓</span><span>Manufacturing and final assembly remain concentrated in a handful of countries, mostly in Asia.</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">07</span><span class="pf-rail-l">Risks</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Three things could break the story. One of them is serious.</p>
+        <div class="pf-risk">
+          <div class="pf-risk-row">
+            <div class="pf-risk-top"><strong>China exposure</strong><span class="pf-risk-word is-serious">Serious</span></div>
+            <div class="pf-cells" role="img" aria-label="Severity: 3 of 3"><i class="on is-serious"></i><i class="on is-serious"></i><i class="on is-serious"></i></div>
+            <p class="pf-risk-note">China is both a major market and the centre of assembly. A ban on either side is a direct hit to revenue.</p>
+          </div>
+          <div class="pf-risk-row">
+            <div class="pf-risk-top"><strong>App Store regulation</strong><span class="pf-risk-word">Worth watching</span></div>
+            <div class="pf-cells" role="img" aria-label="Severity: 2 of 3"><i class="on"></i><i class="on"></i><i></i></div>
+            <p class="pf-risk-note">Forced alternative payments would trim the commission on the highest-margin revenue Apple has.</p>
+          </div>
+          <div class="pf-risk-row">
+            <div class="pf-risk-top"><strong>Supply-chain concentration</strong><span class="pf-risk-word">Low</span></div>
+            <div class="pf-cells" role="img" aria-label="Severity: 1 of 3"><i class="on"></i><i></i><i></i></div>
+            <p class="pf-risk-note">Assembly is diversifying, but slowly, and the 10-K added a new clause about it this year.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">08</span><span class="pf-rail-l">Is the price fair?</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">The price assumes 8.2% growth a year. Apple has delivered 5.1%.</p>
+        <div class="pf-cmp">
+          <div class="pf-cmp-row"><span>Priced in</span><span class="pf-cmp-track"><i style="width:100%"></i></span><b>8.2%/yr</b></div>
+          <div class="pf-cmp-row is-key"><span>Actually delivered</span><span class="pf-cmp-track"><i style="width:62%"></i></span><b>5.1%/yr</b></div>
+        </div>
+        <div class="pf-cmp">
+          <div class="pf-cmp-row is-key"><span>Apple's P/E</span><span class="pf-cmp-track"><i style="width:100%"></i></span><b>34.2×</b></div>
+          <div class="pf-cmp-row"><span>Peer median P/E</span><span class="pf-cmp-track"><i style="width:73%"></i></span><b>24.8×</b></div>
+        </div>
+        <p class="pf-note"><b>What this means:</b> this is not a verdict on the share price — it
+          is what the multiple already assumes. Apple is priced at roughly a third more than
+          comparable companies, so everything above 5.1% growth has to come from something new.</p>
+      </div>
+    </section>
+
+    <section class="pf-sec">
+      <div class="pf-rail"><span class="pf-num">09</span><span class="pf-rail-l">What changed in the latest filing</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">R&amp;D jumped to $31.4B, and the 10-K added a new China
+          supply-chain risk clause.</p>
+        <div class="pf-dumb">
+          <div class="pf-dumb-row">
+            <span class="pf-dumb-lab"><b>Research &amp; development</b>FY2023 → FY2024</span>
+            <span class="pf-dumb-plot">
+              <span class="pf-dumb-line" style="left:38%;right:32%"></span>
+              <span class="pf-dumb-dot from" style="left:calc(38% - 5px)"></span>
+              <span class="pf-dumb-dot to" style="left:calc(68% - 5px)"></span>
+              <span class="pf-dumb-val" style="left:38%">$29.9B</span>
+              <span class="pf-dumb-val to" style="left:68%">$31.4B</span>
+            </span>
+          </div>
+          <div class="pf-dumb-row">
+            <span class="pf-dumb-lab"><b>Gross margin</b>FY2023 → FY2024</span>
+            <span class="pf-dumb-plot">
+              <span class="pf-dumb-line" style="left:50%;right:26.7%"></span>
+              <span class="pf-dumb-dot from" style="left:calc(50% - 5px)"></span>
+              <span class="pf-dumb-dot to" style="left:calc(73.3% - 5px)"></span>
+              <span class="pf-dumb-val" style="left:50%">45.5%</span>
+              <span class="pf-dumb-val to" style="left:73.3%">46.2%</span>
+            </span>
+          </div>
+          <div class="pf-dumb-row">
+            <span class="pf-dumb-lab"><b>New risk language</b>China supply chain</span>
+            <span class="pf-dumb-txt">Added — “substantially all of the Company's manufacturing is performed in whole or in part by outsourcing partners located primarily in China, India, Japan, South Korea, Taiwan and Vietnam.”</span>
+          </div>
+          <div class="pf-dumb-row">
+            <span class="pf-dumb-lab"><b>Segment disclosure</b>Reporting basis</span>
+            <span class="pf-dumb-txt">Unchanged — no change to how the business is reported.</span>
+          </div>
+        </div>
+
+        <!-- analyst depth -->
+        <div class="pf-scroll" data-when="analyst">
+          <table class="pf-ledger">
+            <caption>Health checks · run against the filed statements</caption>
+            <thead><tr><th scope="col">Test</th><th scope="col">Result</th></tr></thead>
+            <tbody>
+              <tr><td>Revenue grew over five years</td><td>Pass</td></tr>
+              <tr><td>Positive free cash flow in the latest year</td><td>Pass</td></tr>
+              <tr><td>Gross margin stable or rising</td><td>Pass</td></tr>
+              <tr><td>Operating margin stable or rising</td><td class="down">Fail</td></tr>
+              <tr><td>Net income grew in the latest year</td><td class="down">Fail</td></tr>
+              <tr><td>Debt covered by cash</td><td>Pass</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="pf-note" data-when="analyst"><b>4 of 6 pass.</b> The two failures are the same
+          story: a flat top line with rising costs.</p>
+
+        <p class="pf-src">Computed from SEC-filed statements. The figures are quoted from the
+          filings; the prose is written over those figures. Educational, not investment advice.</p>
+      </div>
+    </section>
+
+    <section class="pf-sec" data-when="analyst">
+      <div class="pf-rail"><span class="pf-num">10</span><span class="pf-rail-l">Deep research</span></div>
+      <div class="pf-body">
+        <p class="pf-lead">Open only the evidence you need — the detail is preserved, not
+          dumped on the page.</p>
+        <ul class="pf-list">
+          <li><span class="mark">→</span><span><b>Business &amp; segments</b> — how the company makes money, and what each unit earns.</span></li>
+          <li><span class="mark">→</span><span><b>Forensic signals</b> — non-obvious earnings and capital-allocation evidence.</span></li>
+          <li><span class="mark">→</span><span><b>Industry &amp; peers</b> — competitive position and comparable-company context.</span></li>
+          <li><span class="mark">→</span><span><b>Valuation</b> — expectations, scenarios, forward DCF and WACC buildup.</span></li>
+          <li><span class="mark">→</span><span><b>Governance &amp; ownership</b> — board, insiders and tracked investors.</span></li>
+          <li><span class="mark">→</span><span><b>My thesis</b> — write your reasons, and have each new filing grade them.</span></li>
+        </ul>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+// Mockup-only. The real page derives both state and mode from its data.
+(function () {
+  var STATES = ['empty', 'building', 'simple', 'analyst'];
+  var state = 'simple';
+
+  function apply(s) {
+    state = s;
+    document.body.dataset.pfState = s;
+    document.querySelectorAll('[data-when]').forEach(function (el) {
+      el.hidden = el.dataset.when.split(' ').indexOf(s) === -1;
+    });
+    document.querySelectorAll('.pf-modes button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.mode === s));
+    });
+    document.querySelectorAll('.pf-bar-btns button').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.state === s));
+    });
+  }
+
+  document.querySelectorAll('.pf-bar-btns button').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.state); });
+  });
+  document.querySelectorAll('.pf-modes button').forEach(function (b) {
+    b.addEventListener('click', function () { apply(b.dataset.mode); });
+  });
+
+  // #empty / #building / #simple / #analyst also select a state, so a headless
+  // screenshot run can capture each without driving a click.
+  var fromHash = (location.hash || '').replace('#', '');
+  apply(STATES.indexOf(fromHash) > -1 ? fromHash : state);
+})();
+</script>
+</body>
+</html>
+
+<!--
+NOTES — colour, measured not chosen by eye
+==========================================
+Run against the chart surface this page actually renders on, --sheet #fbfbfc
+(the validator's defaults assume #fcfcfb, so these were re-run):
+
+  accent      #1c5cab  PASS  lightness band, contrast >= 3:1
+  mark-quiet  #7d858f  PASS  contrast >= 3:1   (2.52:1 at #9aa1ab was rejected)
+  pos text    #006300  PASS  contrast >= 3:1
+  neg text    #d03b3b  PASS  contrast >= 3:1
+  blue steps  #86b6ef -> #1c5cab  PASS ordinal: one hue, monotone L,
+              visible step gaps, light end clears 2:1 on the sheet
+
+The status palette's warning (#fab219) and serious (#ec835a) FAIL as an
+adjacent pair on this surface — normal-vision delta E 13.6, under the 15
+floor. So severity is NOT encoded by those two colours: it is encoded by
+the fill count (3/2/1 cells) plus the word, and only the single most severe
+row takes the red. At most one status colour is ever on screen, so the
+failing pair cannot occur. Colour never carries a meaning alone anywhere:
+every delta has a ▲/▼, every risk has its word, every segment is labelled.
+
+Form choices, from the data's job:
+  segments (part-to-whole, one product is the point) -> emphasis,
+    1 hue + de-emphasis gray, not a categorical palette
+  trend over time                                    -> 1 series, area, emphasised endpoint
+  priced-in vs delivered                             -> bars, same measure, 1 hue + gray
+  before -> after per item                           -> dumbbell, 1 hue 2 shades
+  severity                                           -> fill count + word (+ one red)
+  money flow                                         -> prose only; the sankey is gone
+
+Two deliberate departures from the skill's type rules, both recorded so they
+are choices and not drift:
+  - figures are set in IBM Plex Mono, not the UI sans. Every numeral on this
+    page is either a ledger column or a figure read against its neighbours,
+    which is the case the skill's own rule reserves tabular figures for; and
+    a ledger voice is the whole point of the identity.
+  - chart labels live in HTML over the SVG, not in <text> inside it. The SVG
+    stretches to any width, so text inside it would stretch with the glyphs.
+-->

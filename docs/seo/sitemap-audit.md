@@ -1,15 +1,15 @@
 # Sitemap audit
 
-Generated: **2026-08-16T13:14:24.457Z**
+Generated: **2026-09-23T22:27:15.550Z**
 
 > This audit exercises the existing sitemap generator locally. It does not submit sitemaps or change Search Console/Bing state. Production HTTP status and URL Inspection still require a controlled deployment check.
 
 ## Summary
 
-- Entries: **19,762**.
-- Duplicate/contract issues found: **0**.
-- Shards: `core` 83, `stocks-1` 1506, `metrics-1` 5000, `metrics-2` 5000, `metrics-3` 2368, `comparisons-1` 5000, `comparisons-2` 805.
-- Page families: `core` 83, `stocks` 1506, `metrics` 12368, `comparisons` 5805.
+- Entries: **21,327**.
+- Duplicate/contract issues found: **2**.
+- Shards: `core` 114, `stocks-1` 1506, `comparisons-1` 5000, `comparisons-2` 828, `metrics-1` 5000, `metrics-2` 5000, `metrics-3` 3879.
+- Page families: `core` 112, `comparisons` 5830, `stocks` 1506, `metrics` 13879.
 
 ## Representative URL checks
 
@@ -23,7 +23,8 @@ Generated: **2026-08-16T13:14:24.457Z**
 
 ## Issue list
 
-No local sitemap contract issues found.
+- **PRIVATE_ROUTE**: `/register`
+- **PRIVATE_ROUTE**: `/docs/account`
 
 ## Lastmod guardrail
 
