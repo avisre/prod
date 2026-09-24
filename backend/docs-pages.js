@@ -21,7 +21,7 @@ const credits = require('./credits');
 
 const COST = credits.COST;
 const STAMP = '20260925-alerts1';
-const UPDATED = '22 September 2026';
+const UPDATED = '25 September 2026';
 
 function esc(value) {
     return String(value == null ? '' : value)
@@ -383,9 +383,9 @@ const DOC_PAGES = Object.freeze({
     'api-mcp': {
         slug: 'api-mcp', topic: 'Developers',
         title: 'API and MCP server — StockPortfolio.pro documentation',
-        description: 'Use the REST API and the MCP server with one key: authentication, endpoints, costs and rate limits.',
+        description: 'Connect Claude, ChatGPT or your own code to the filing data: setup for each MCP client and the REST API, with authentication, costs and rate limits.',
         heading: 'API and MCP server',
-        intro: 'One API key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into an MCP-capable AI client.',
+        intro: 'One key covers both developer surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>, which plugs the same filing data into Claude, ChatGPT or any other MCP-capable assistant. This page is the setup guide for each of them.',
         tier: 'Dev, Power, Desk and top lifetime tier',
         costTable: [
             ['REST data lookup', 'api_lookup'],
@@ -395,15 +395,102 @@ const DOC_PAGES = Object.freeze({
         ],
         steps: [
             'Create a key on your <a class="prose-link" href="/profile.html">profile</a>. Keys start with <code>sp_live_</code> and are shown once — store it immediately, because it is hashed and cannot be shown again.',
-            'Authenticate with <code>Authorization: Bearer sp_live_...</code> on every request.',
-            'Call the REST API at <code>https://www.stockportfolio.pro/api/v1</code>. The full endpoint reference is in <a class="prose-link" href="/api">the API documentation</a>.',
-            'Or point an MCP client at <code>https://www.stockportfolio.pro/mcp</code> using the same key. It speaks Streamable HTTP and exposes the filing tools directly to your assistant.'
+            'Decide which surface you need. An assistant takes the MCP server; your own code can use either the MCP server or the REST API — same data, same wallet, whichever your client speaks.',
+            'Follow the setup for your client below. Claude and ChatGPT add the server by URL and sign in, because neither can send a key — they authenticate over OAuth instead, and you paste nothing.',
+            'Everywhere else, authenticate with <code>Authorization: Bearer sp_live_...</code> on every request.'
+        ],
+        setup: [
+            {
+                title: 'Claude — claude.ai, Claude Desktop and the mobile apps',
+                body: 'Claude reaches a remote MCP server as a <em>custom connector</em>, and it authenticates over OAuth rather than a pasted key: Claude cannot send a static <code>Authorization</code> header to a custom connector, so there is no key to paste here. Add the server URL and approve the sign-in window Claude opens.',
+                code: 'https://www.stockportfolio.pro/mcp',
+                note: 'On a Pro or Max plan: <b>Customize → Connectors → + → Add custom connector</b>, paste the URL, then <b>Add</b>. On Team or Enterprise an owner adds it first (<b>Organization settings → Connectors → Add → Custom → Web</b>) and members then press <b>Connect</b>. Leave <b>Advanced settings</b> — the OAuth client ID and secret fields — empty, because we register each client automatically. Turn it on for a conversation with <b>+ → Connectors</b>.'
+            },
+            {
+                title: 'Claude Code',
+                body: 'Claude Code can send a header, so it uses your key directly and skips OAuth entirely.',
+                code: `claude mcp add --transport http stockportfolio \\
+  https://www.stockportfolio.pro/mcp \\
+  --header "Authorization: Bearer sp_live_your_key"`,
+                note: 'Confirm it registered with <code>claude mcp list</code>. Add <code>--scope user</code> to make the server available in every project rather than only the one you ran the command in.'
+            },
+            {
+                title: 'Anthropic API — the Messages API',
+                body: 'The Messages API connects to a remote MCP server directly, with your key passed as <code>authorization_token</code>. Send the beta header <code>anthropic-beta: mcp-client-2025-11-20</code> alongside the request.',
+                code: `{
+  "model": "claude-sonnet-5",
+  "max_tokens": 1024,
+  "mcp_servers": [
+    { "type": "url", "url": "https://www.stockportfolio.pro/mcp",
+      "authorization_token": "sp_live_your_key" }
+  ],
+  "messages": [{ "role": "user", "content": "What has NVDA filed recently?" }]
+}`,
+                note: 'Those calls spend the same credit allowance as the website, at the same prices.'
+            },
+            {
+                title: 'ChatGPT',
+                body: 'ChatGPT requires OAuth 2.1 for a custom connector and does not accept a bearer token, so — exactly as with Claude — you add the URL and approve a sign-in instead of pasting a key.',
+                code: 'https://www.stockportfolio.pro/mcp',
+                note: 'Custom connectors have to be available on your ChatGPT plan or workspace. If they are not, the API route below reaches the same seven tools.'
+            },
+            {
+                title: 'OpenAI API — the Responses API',
+                body: 'The Responses API takes a remote MCP server as an <code>mcp</code> tool, with your key in the <code>authorization</code> field.',
+                code: `{
+  "model": "<your model>",
+  "tools": [
+    { "type": "mcp", "server_label": "stockportfolio",
+      "server_url": "https://www.stockportfolio.pro/mcp",
+      "authorization": "sp_live_your_key" }
+  ]
+}`,
+                note: 'OpenAI does not retain that value, so send it on every request.'
+            },
+            {
+                title: 'Any other MCP client',
+                body: 'Anything that speaks MCP over Streamable HTTP works with the same URL and a bearer header.',
+                code: `POST https://www.stockportfolio.pro/mcp
+Authorization: Bearer sp_live_your_key
+Content-Type: application/json
+Accept: application/json, text/event-stream`
+            },
+            {
+                title: 'A client that only runs local stdio servers',
+                body: 'For a client that cannot reach a remote server at all, this npm bridge proxies the same hosted endpoint over stdio.',
+                code: `{
+  "mcpServers": {
+    "stockportfolio": {
+      "command": "npx",
+      "args": ["-y", "stockportfolio-mcp"],
+      "env": { "STOCKPORTFOLIO_API_KEY": "sp_live_your_key" }
+    }
+  }
+}`,
+                note: 'Put that in the client\'s own config file — for Claude Desktop it is <code>claude_desktop_config.json</code>. It needs Node 18 or newer, and it holds only the key you give it, which it sends nowhere except this endpoint. Restart the client afterwards: the file is read at startup.'
+            },
+            {
+                title: 'The REST API, from your own code',
+                body: 'The REST API is plain HTTP over the same key and the same wallet. A data lookup and an AI answer are the two shapes of call:',
+                code: [
+                    `curl https://www.stockportfolio.pro/api/v1/financials/NVDA \\
+  -H "Authorization: Bearer sp_live_your_key"`,
+                    `curl -X POST https://www.stockportfolio.pro/api/v1/ask \\
+  -H "Authorization: Bearer sp_live_your_key" \\
+  -H "Content-Type: application/json" \\
+  -d '{"question":"How did NVDA gross margin change year over year?"}'`
+                ],
+                note: 'Either header works: <code>Authorization: Bearer sp_live_...</code> or <code>X-Api-Key: sp_live_...</code>. Every path, parameter and response shape is in <a class="prose-link" href="/api">the API reference</a>.'
+            }
         ],
         notes: [
             { title: 'Rate limit', body: '60 requests per minute per key. Past that you get a 429 — back off rather than retrying in a tight loop.' },
             { title: 'Lookups and AI answers are priced very differently', body: 'A lookup returns filed data and costs ' + COST.api_lookup + ' credits, on REST and MCP alike. An AI answer costs ' + COST.api_ask + ' on either surface, because it reads and reasons over whole filings. Structure integrations to use lookups for data and reserve AI answers for questions that genuinely need them.' },
             { title: 'Access is checked on every call', body: 'Not just when the key is created. If the plan behind a key lapses, the key stops working immediately with <code>API_ACCESS_REQUIRED</code>.' },
-            { title: 'Keep your key server-side', body: 'A key spends your credit allowance. Never ship one in client-side code or a public repository. Revoke and reissue from your profile if one is exposed.' }
+            { title: 'An assistant can try it before anyone buys a key', body: 'Call the MCP endpoint with no key at all and you get a small free allowance — two AI answers and fifty data lookups by default — so a client can see a cited answer before signing up. Past that it asks for a key, and a connector that signed in over OAuth keeps going without one.' },
+            { title: 'Keep your key server-side', body: 'A key spends your credit allowance. Never ship one in client-side code or a public repository. Revoke and reissue from your profile if one is exposed.' },
+            { title: 'The connector shows no tools', body: 'Restart the client. MCP configuration is read once at startup, so a server added to a running client stays invisible until it restarts.' },
+            { title: 'Use the www host, not the bare domain', body: 'Every URL above carries <code>www</code> deliberately. The apex redirect from <code>stockportfolio.pro</code> to <code>www.stockportfolio.pro</code> drops the <code>Authorization</code> header, so a client pointed at the apex arrives as an anonymous caller and quietly falls back to the free allowance instead of your key.' }
         ],
         related: ['credits', 'plans', 'troubleshooting']
     },
@@ -492,6 +579,14 @@ table.errs td{font-size:var(--text-sm);line-height:1.6;color:var(--ink-2)}
 table.errs td:first-child{white-space:nowrap;color:var(--ink);font-weight:600}
 @media(max-width:700px){table.errs,table.errs tbody,table.errs tr,table.errs td{display:block;width:100%}table.errs thead{display:none}table.errs tr{border-bottom:1px solid var(--line);padding:12px 0}table.errs td{border:0;padding:2px 0}}
 code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.88em;background:#f0eee8;border-radius:4px;padding:1px 5px}
+.setup{margin-top:26px;padding-top:22px;border-top:1px solid var(--line)}
+.setup:first-of-type{margin-top:20px;padding-top:0;border-top:0}
+.setup h3{font-size:var(--text-base);font-weight:600;color:var(--ink);margin:0 0 7px}
+.setup > p{font-size:var(--text-base);line-height:1.65;color:var(--ink-2);margin:0}
+.setup pre{background:#f0eee8;border:1px solid var(--line);border-radius:var(--radius-sm,6px);padding:13px 15px;margin:13px 0 0;overflow-x:auto}
+.setup pre code{display:block;background:none;padding:0;font-size:12.5px;line-height:1.6;color:var(--ink);white-space:pre;overflow-wrap:normal}
+.setup .setup-note{font-size:var(--text-sm);line-height:1.6;color:var(--ink-3);margin:11px 0 0}
+.setup .setup-note code{background:transparent;padding:0;color:var(--ink-2)}
 .prose-link{color:inherit;text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:2px}
 .prose-link:hover{text-decoration-color:var(--ink)}
 .rel a{display:block;font-size:var(--text-base);padding:7px 0;color:var(--ink);text-decoration:none}
@@ -562,6 +657,20 @@ function notesBlock(page) {
     return `<section class="docs-sec"><p class="label">Good to know</p>${items}</section>`;
 }
 
+// Per-client setup. `body` and `note` are authored HTML (same trust as `steps`);
+// `code` is text and is escaped, so a snippet can contain <, > and quotes
+// without being parsed as markup. `code` accepts one snippet or several.
+function setupBlock(page) {
+    if (!page.setup || !page.setup.length) return '';
+    const items = page.setup.map((s) => {
+        const snippets = (Array.isArray(s.code) ? s.code : (s.code ? [s.code] : []))
+            .map((c) => `<pre><code>${esc(c)}</code></pre>`).join('');
+        const note = s.note ? `<p class="setup-note">${s.note}</p>` : '';
+        return `<div class="setup"><h3>${esc(s.title)}</h3><p>${s.body}</p>${snippets}${note}</div>`;
+    }).join('');
+    return `<section class="docs-sec"><p class="label">Connect a client</p><h2>Setup, by client</h2>${items}</section>`;
+}
+
 function costBlock(page) {
     if (!page.costTable) return '';
     const rows = page.costTable.map(([label, key]) => `<tr><td>${esc(label)}</td><td>${costLabel(key)}</td></tr>`).join('');
@@ -589,7 +698,7 @@ function renderDocPage(slug) {
     const stepsBlock = steps
         ? `<section class="docs-sec"><p class="label">How to use it</p><h2>Step by step</h2><ol class="steps">${steps}</ol></section>`
         : '';
-    const body = `${sidebar(slug)}<div class="docs-main"><p class="crumb"><a href="/docs">Docs</a> &rsaquo; ${esc(page.topic)} &rsaquo; ${esc(page.heading)}</p><h1>${esc(page.heading)}</h1><p class="docs-lead">${page.intro}</p><div class="docs-meta">${chips.join('')}</div>${stepsBlock}${costBlock(page)}${errorsBlock(page)}${notesBlock(page)}${relatedBlock(page)}<p class="crumb" style="margin:32px 0 0">Last updated ${esc(page.updated)}. Something missing? <a class="prose-link" href="/support.html">Tell support</a>.</p></div>`;
+    const body = `${sidebar(slug)}<div class="docs-main"><p class="crumb"><a href="/docs">Docs</a> &rsaquo; ${esc(page.topic)} &rsaquo; ${esc(page.heading)}</p><h1>${esc(page.heading)}</h1><p class="docs-lead">${page.intro}</p><div class="docs-meta">${chips.join('')}</div>${stepsBlock}${setupBlock(page)}${costBlock(page)}${errorsBlock(page)}${notesBlock(page)}${relatedBlock(page)}<p class="crumb" style="margin:32px 0 0">Last updated ${esc(page.updated)}. Something missing? <a class="prose-link" href="/support.html">Tell support</a>.</p></div>`;
     return layout({
         title: page.title,
         description: page.description,

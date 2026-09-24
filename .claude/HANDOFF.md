@@ -75,14 +75,22 @@ vocabulary is ink, not glitter.
 - **Phases 6-7 NOT started** (year in filings, comprehension streak); thesis letter and anniversaries
   also untouched. **Dossier redesign stays untouched** — the owner said leave the mockup alone.
 
+**MCP/API setup guide — SHIPPED 9/25, NOT deployed** (a customer asked whether one existed; it did
+not). `/docs/api-mcp` now carries 8 per-client blocks — Claude, Claude Code, the Anthropic and OpenAI
+APIs, ChatGPT, generic HTTP, the npm stdio bridge, REST — pinned by `test/mcp-setup-guide.test.js`.
+**Verified against prod, not read:** Claude and ChatGPT authenticate over OAuth because neither can
+send a static bearer to a custom connector (`oauth-mcp.js`), so the guide must never tell them to
+paste a key. Two stale claims fixed while there: `/api`'s table read `1 / 2` per lookup and "REST is
+2x MCP" (retired) while its own Dev card said 2 and 42, and `public-api.md` called the published npm
+bridge a dev-only server reading backend files off disk. Both now derive from `credits.COST`.
+
 **Dossier redesign — "The Plain Filing" — mockup done, awaiting review.**
 Plan `~/.claude/plans/valiant-singing-parnas.md`. `docs/design/dossier-plain-filing.html` is a
 document, not a dashboard (Newsreader / IBM Plex, not Inter). **Step 2 — the port into the real page
 — has NOT started**, and its visual half is superseded, so its CSS must be re-derived. Regenerate
 `dossier-plain-filing.artifact.html` with `node scripts/build-dossier-mockup-artifact.js`; never
 hand-edit it. Artifact publishing is refused here (this session uses `ANTHROPIC_AUTH_TOKEN`). Shoot
-with `scripts/screenshot-cdp.js` — `chrome --screenshot --window-size` lays out at macOS's ~500px
-floor and silently crops wrong mobile images.
+with `scripts/screenshot-cdp.js` — never `chrome --screenshot --window-size` (see the CDP trap below).
 
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (default `SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED`
@@ -124,8 +132,8 @@ floor and silently crops wrong mobile images.
 ## AI model + cost
 - **Prod runs glm-5.1 on all three purposes**, at a measured **$28.91/mo ≈ 48% of the $60 allowance**
   (`scripts/ollama-cost-projection.js`). The real input/output split is 95/5 chat and 90/10 summary,
-  not the 85/15 `credits.js` assumed, so the anchored fair price is ~3.3 credits and `mcp_ask: 4` sits
-  slightly ABOVE the owner's own 2x rule. Left as is.
+  not the 85/15 `credits.js` assumed. (The "REST is 2x MCP" rule this once compared against is retired;
+  both surfaces price identically.)
 - **glm-5.3-flash on MCP/API Ask: validated and REJECTED** — fails the tool-set gate (60% against an
   80% bar) and is *slower* with the 32 schemas attached (1.55x), emitting 1.65x the tool calls.
 - **Trap:** `promptTokens`/`completionTokens` are *missing* (not null) before 9/11, so

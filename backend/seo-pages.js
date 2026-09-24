@@ -8,6 +8,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const credits = require('./credits'); // the one source of credit prices (see COST)
+const COST = credits.COST;
 const aiChat = require('./ai-chat'); // health checks + per-symbol metrics
 const { pixelHeadSnippet } = require('./pixels'); // env-driven retargeting (no-op when unset)
 const { normalizeTicker } = require('./symbol-resolver');
@@ -1151,7 +1153,7 @@ function renderApiLanding() {
   <div class="seo-next-action">
     <p class="seo-next-action-kicker">Dev plan</p>
     <h2>$19.99/month — 200 credits, all seven tools</h2>
-    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs 2 credits, an AI answer 42, the same on both surfaces. Credits reset monthly. Cancel any time.</p>
+    <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs ${COST.mcp_lookup} credits, an AI answer ${COST.mcp_ask}, the same on both surfaces. Credits reset monthly. Cancel any time.</p>
     <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
     <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html">Profile page</a>.</p>
   </div>
@@ -1164,16 +1166,16 @@ function renderApiLanding() {
   ${S('The tools', `<table class="seo-table">
     <thead><tr><th>MCP tool</th><th>REST endpoint</th><th>Credits (MCP / REST)</th></tr></thead>
     <tbody>
-      <tr><td><code>sp_financials</code></td><td><code>GET /api/v1/financials/:ticker</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_filing</code></td><td><code>GET /api/v1/filing/:ticker</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_compare</code></td><td><code>GET /api/v1/compare?tickers=</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_screen</code></td><td><code>GET /api/v1/screen?tickers=</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_fund</code></td><td><code>GET /api/v1/fund/:symbol</code></td><td>1 / 2</td></tr>
-      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>42 / 42</td></tr>
+      <tr><td><code>sp_financials</code></td><td><code>GET /api/v1/financials/:ticker</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
+      <tr><td><code>sp_filing</code></td><td><code>GET /api/v1/filing/:ticker</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
+      <tr><td><code>sp_compare</code></td><td><code>GET /api/v1/compare?tickers=</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
+      <tr><td><code>sp_screen</code></td><td><code>GET /api/v1/screen?tickers=</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
+      <tr><td><code>sp_fund</code></td><td><code>GET /api/v1/fund/:symbol</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
+      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>${COST.mcp_ask} / ${COST.api_ask}</td></tr>
       <tr><td><code>sp_health</code></td><td><code>GET /api/v1/health</code></td><td>free</td></tr>
     </tbody>
   </table>
-  <p style="margin-top:12px">The MCP surface is deliberately the cheaper on-ramp — the REST API costs exactly 2&times; MCP. Rate limit: 60 requests/minute per key. <code>sp_health</code> is a free liveness probe, safe to call before anything else.</p>`)}
+  <p style="margin-top:12px">Both surfaces are priced identically — a lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask} on each, because they run the same call over the same filings. Rate limit: 60 requests/minute per key. <code>sp_health</code> is a free liveness probe, safe to call before anything else. The full per-client setup guide is in the <a href="/docs/api-mcp">documentation</a>.</p>`)}
 
   ${S('Point your client at the hosted server', `<p>The server is hosted, so there is nothing to install: your key is the only configuration. Cursor and any other client that takes a <code>url</code>:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(mcpConfig)}</pre>

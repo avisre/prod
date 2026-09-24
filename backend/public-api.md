@@ -107,9 +107,16 @@ used for the REST API. Seven tools, mirroring the REST surface:
 `sp_financials`, `sp_filing`, `sp_compare`, `sp_screen`, `sp_fund`, `sp_ask`,
 `sp_health` (free, no auth required for this one tool).
 
-A local stdio version of the same tool set lives in `mcp-server/` for
-Claude Desktop / local development — it talks to backend files directly on
-disk and isn't the public launch surface described here.
+For a client that can only run local stdio servers — Claude Desktop's config
+file is stdio-only, and drops a `url` entry silently — a bridge to this same
+hosted endpoint is published on npm as `stockportfolio-mcp`
+(`npx -y stockportfolio-mcp`, key in `STOCKPORTFOLIO_API_KEY`). It proxies
+every call here; it holds nothing but the key you give it and sends that key
+nowhere else.
+
+Step-by-step setup for each client — Claude, ChatGPT, the Anthropic and OpenAI
+APIs, and the REST surface from your own code — is in the
+[documentation](https://www.stockportfolio.pro/docs/api-mcp).
 
 ## What's not redistributable
 
