@@ -96,15 +96,75 @@ same run also disproves the cache-bypass worry: Chrome 302'd on `/stocks/AAPL`
 immediately after Googlebot's 200 would have populated the SSR cache, so a
 crawler-warmed entry is not reachable by a walled human.
 
-**Next, and only the owner can do it:** in Search Console, submit `sitemap.xml`
-and use URL Inspection → Request Indexing on the highest-value pages; watch
-`Indexed` in the Coverage chart for recovery. The `Server error (5xx)` and
-`Page with redirect` buckets need the UI drill-down to name URLs.
+**Search Console is now scripted (2026-09-24).** The owner created the GCP
+service account and the key is installed at
+`~/.local/share/secrets/gsc_service_account.json` (mode 600) —
+`gsc-stockportfolio@praarthana-492014.iam.gserviceaccount.com`. `scripts/gsc-stats.py`
+reads performance; **new `scripts/gsc-index-audit.py`** reads the Sitemaps API and
+the URL Inspection API (`urlInspection.index:inspect`, 2,000/day). Note
+`access_token()` returns a **tuple** `(token, client_email)` — unpacking it as a
+string yields a 401, which is how the first run of the new script failed.
 
-A GCP service-account key for
-`gsc-stockportfolio@praarthana-492014.iam.gserviceaccount.com` (already has
-siteFullUser) drops at `~/.local/share/secrets/gsc_service_account.json` and makes
-all of this scripted, like Bing.
+What the API adds to the Coverage-CSV reading above:
+
+- **The sitemap is submitted and being read.** Sitemaps API returns exactly one
+  entry — `https://www.stockportfolio.pro/sitemap.xml`, `lastDownloaded
+  2026-09-22T19:42:12Z`, `errors=0`, `warnings=0`, 21,689 URLs submitted (web) +
+  3 (video). So "re-submit the sitemap" is already done and is not the fix; Google
+  is fetching it fine and choosing not to index what it finds.
+- **Production is not walled, and crawlers are served.** Live 2026-09-24 with a
+  Googlebot UA: `/`, `/stocks/AAPL`, `/compare/AAPL-vs-MSFT` → **200**. The same
+  URLs with a Chrome UA → **403**, but that is bot-blocker refusing this probe's
+  network, **not** the paywall: the wall's signature is a 302 to `/register.html`,
+  and a 403 is a refusal. Read the 403 as "the probe is unwelcome", never as "the
+  wall is up".
+- **All four tiers serve a crawler today** — 12 spot-checked sitemap URLs (core,
+  `/stocks/:sym`, `/stocks/:sym/:metric`, `/compare/X-vs-Y`) all 200 to Googlebot.
+
+**Per-tier index status, measured 2026-09-24** (125 sitemap URLs via URL
+Inspection, `/tmp/tiers.json` → `scripts/gsc-index-audit.py`; quota 2,000/day):
+
+| tier | inspected | indexed | crawled-not-indexed | unknown to Google | median crawl age |
+|---|---|---|---|---|---|
+| core | 40 | 9 | — | 17 | 33d |
+| /compare | 30 | 12 | 12 | 4 | 63d |
+| /stocks/:sym | 25 | 10 | 8 | 7 | 76d |
+| /stocks/:sym/:metric | 30 | 4 | 2 | 21 | 58d |
+
+Read this as **crawl coverage, not a defect**: Google has an old, partial index of
+a 21,689-URL site that earns ~340 human impressions/month, and it is not spending
+crawl budget it sees no demand for. Nothing in the sample returned a FAIL verdict
+on indexing, no canonical mismatches, and no fetch errors. `/monitor-demo` is in
+the live sitemap but still "unknown to Google" — the core shard's `lastmod` is
+2026-09-23 and Google read it 09-22, so the newest entries simply have not been
+picked up yet. Ruled out by measurement, so nobody re-checks them: Cloudflare is
+not serving stale 302s (`cf-cache-status: DYNAMIC`, no `age`, every sampled tier
+200), robots.txt allows Googlebot everything but `/api/`, `/dashboard`,
+`/fundamentals`, `/v1/`, `/v2/`, and the video assets themselves serve 200 with
+correct `Content-Type` to a Googlebot UA.
+
+**The one real error Google reports is fixed (2026-09-24).** The URL Inspection
+API on `/tour` returns `richResultsResult.verdict = "FAIL"` with
+`Videos → "I asked an AI 3 hard finance questions…" → Missing field "uploadDate"
+[ERROR]`. Of the page's **two** VideoObject blocks the local-mp4 one was complete
+and the YouTube one had no `uploadDate`, which is why nothing looked wrong.
+`uploadDate` is required on a VideoObject; the rich result fails without it. Fixed
+in `frontend-v2/tour.html` with the date read from YouTube's own page metadata for
+`-3V_IaCOQUo` (`2026-06-13T14:31:13-07:00`), not guessed. A 12-page sweep
+(`/`, `/tour`, a stock, a metric, a compare, `/screener`, a tool, a screen,
+`/vs/koyfin`, a doc, `/methodology`) found **this and no other rich-result or
+usability issue**. New `backend/test/video-schema.test.js` pins it: every
+VideoObject on every `frontend-v2/*.html` must carry `name`, `thumbnailUrl`,
+`uploadDate` and a parseable date, plus `contentUrl`/`embedUrl`; verified
+non-vacuous by deleting the field and watching it fail with Google's own wording.
+Note the rich result was failing while the *page* was `PASS`/indexed — a page can
+be indexed and still be losing its video result, so index status alone is not a
+health check.
+
+**Next, and only the owner can do it:** URL Inspection → Request Indexing on the
+highest-value pages, and watch `Indexed` in the Coverage chart for recovery.
+The `Server error (5xx)` and `Page with redirect` buckets still need the UI
+drill-down to name URLs — the API does not expose either bucket.
 
 ## Bing "identical titles / identical descriptions": root cause measured, fixed locally (2026-09-24)
 
