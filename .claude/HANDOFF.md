@@ -1,5 +1,111 @@
 # Handoff
 
+## Google Search Console: no ranking regression, and crawler checks keyed on the proxy hop (2026-09-24)
+
+Owner pointed at the GSC 24-hour view and asked for Google issues to fix. There is
+still no GSC service-account key on this machine (`~/.local/share/secrets/` holds
+only `appsumo_licensing.txt` and `bing_webmaster.txt`), so the data came from two
+UI CSV exports into `~/Downloads/` (24 hours + 28 days), read with a proper
+RFC4180 parser — the naive `split(',')` mis-parses these files and silently
+returns zero rows.
+
+- **The August baseline was 64% machine traffic.** `seo-data/gsc/queries-3m.csv`
+  is dominated by rank-tool operator queries — `"earnings per share - wab"` (845
+  imp), `"earnings per share - wab" "shares outstanding - wab"` (892 imp), and
+  ~20 more, all at position 1.3–2.6 with **0 clicks**. Position 1.74 with 1,804
+  impressions cannot yield zero clicks from humans. These drove
+  `seo-data/search-opportunities.md`'s P1_REVIEW rows (WAB dividend-history,
+  3,272 imp) — **that report's priorities are phantoms and should not be acted on.**
+- **No regression.** Excluding machine rows AND one 979-impression outlier
+  ("playtika ltd. yelp"): August human = 1,009 imp @ position **52.31**; current
+  28 days = 341 imp @ **54.41**. Volume and position are both flat. An earlier
+  read of "31.5 → 54.4" was an artifact of the outlier, not a real drop.
+- **What is actually true**: ~340 human impressions/month, ~0 clicks, position
+  ~52 (page 6), across ~21,700 sitemap URLs. The pages are not the problem —
+  rendered samples (`/stocks/AAPL/price-history`, `/stocks/TSLA`,
+  `/stocks/AMZN/pe-ratio`, `/compare/OWL-vs-UNM`, `/stocks/DIS/dividend-history`)
+  all return 200 with correct canonicals, `index, follow`, unique titles, one H1,
+  658–1,527 words and JSON-LD. This is scale/authority, not a code defect.
+- **Real defect found and fixed — `bot-blocker.js` read `req.ip`.** Behind the
+  Cloudflare→Render edge `req.ip` is an intermediate proxy hop, not the caller
+  (measured 2026-09-23; app.js and marketing-attribution.js both document it).
+  Two consequences: Layer 2 reverse-resolved the *edge*, so a real Googlebot's
+  claim was verified against a stranger's PTR record and cached `impostor` for six
+  hours (a deindexing bug, not a spam block); and Layer 4's 100-navigation budget
+  was shared by every reader behind that hop. Now routed through a `clientIp(req)`
+  that mirrors `visitorIp()`. `test/visitor-allowances.test.js` only ever scanned
+  `app.js`, which is why this slipped through — its guard now covers bot-blocker.js
+  too, plus a behavioural test that fails on the old code (asserts `dns.reverse`
+  is called with the visitor IP, not the hop).
+- **Not reproduced**: 191 rapid navigations with full browser headers returned
+  191×200, and 5 Googlebot-UA requests from a residential IP all returned 200.
+  So Layer 4 is inert in production and Layer 2 fails open when the hop has no
+  PTR. The fix is correctness/hardening, not a demonstrated outage.
+- **Behaviour change to expect after deploy**: impostors claiming a Googlebot/
+  Bingbot UA are now actually caught (they previously failed open). Real crawlers
+  verify *better*, since the true IP is what gets reverse-resolved.
+- Full suite 830 tests, 829 pass; the one failure is the pre-existing
+  `selenium-webdriver` miss in `test/social-compose.test.js`.
+
+**The `Indexing > Pages` report is now exported and read** (owner downloaded it;
+copied to `seo-data/gsc/coverage-2026-09-24/`). It changes the diagnosis, and it
+is the answer to "what is the real Google issue":
+
+- **Indexed pages fell 16,574 → 9,940 between 09-04 and 09-21**; not-indexed rose
+  13,041 → 19,708. Two step changes, not a drift: **09-05 (+2,026)** and
+  **09-15 (+4,574)**, then flat. A cliff with a date on it is a deploy, not a
+  quality verdict.
+- **09-15 is `f4af1ee5`**, the hard paywall, which answered every page with a 302
+  to `/register.html` — its own message says "SEO is dead for the week by
+  design". The week ended; the indexed count did not come back, because
+  re-indexing waits on a crawl schedule. **This is the real Google issue.**
+- The 18,985 not-indexed URLs map onto the sitemap's two templated tiers almost
+  exactly: **12,405 "Discovered – currently not indexed"** ≈ the 13,879
+  `/stocks/:sym/:metric` pages, **6,580 "Crawled – currently not indexed"** ≈ the
+  5,830 `/compare/X-vs-Y` pairs. Together they are 92% of the 21,327-URL sitemap.
+- **The sitemap itself is clean**, so it is not the culprit: all 8 shards return
+  200, no duplicate `loc`s, no non-canonical symbols, nothing robots-blocked.
+  Every URL is 200 and canonical. Do not "fix" the sitemap.
+- Deliberate and expected, not defects: `Blocked by robots.txt` 51 (the
+  `/api/`, `/fundamentals`, `/dashboard` disallows), `Excluded by noindex` 6
+  (`/login`, `/news`). **`Page with redirect` 604** and **`Server error (5xx)` 2**
+  are unexplained — the Coverage export is a summary CSV with no URLs, so they
+  need the UI's drill-down to identify.
+
+**Layer 2 measurement, 2026-09-24 (corrects the paragraph above):** the reason a
+residential probe is never blocked is **`106.222.237.254` has no PTR at all** —
+`dns.reverse` throws ENOTFOUND → `resolveCrawlerIp` returns `unknown` → **not
+cached** → every request is `unseen` → served. So the probe returned 200 before
+and after the fix and proves nothing either way about the old code. What *is*
+measured: this site's own addresses have PTRs (`ip-216-24-57-16.ingress.render.com`)
+that are not Google's, so where `req.ip` held a real PTR the old code had
+something to compare and would cache `impostor`. Which hop origin actually saw
+is still unverified — **confirm before claiming the blocker deindexed anything.**
+The `clientIp` change stands on its own merits (ask about the caller, not the
+hop) and is what makes the new paywall exemption sound.
+
+**Fix shipped (deployed 2026-09-24, `9453e34c`):** the hard paywall now exempts
+bot-blocker's crawler claim, before the `WALL_ALL_PAGES` test, so re-arming the
+experiment can no longer take the index down with it. **Verified behaviourally
+against dev-local, not by source-pinning** — `WALL_ALL_PAGES=true
+node scripts/dev-local.js`, then curl on `/`, `/stocks/AAPL/revenue`,
+`/compare/AAPL-vs-MSFT`, `/screener`: Googlebot and Bingbot UA → **200**, Chrome
+and GPTBot UA → **302 `/register.html`**. GPTBot 302ing is the check that the
+exemption is scoped to what bot-blocker admits, not to "looks like a bot". The
+same run also disproves the cache-bypass worry: Chrome 302'd on `/stocks/AAPL`
+immediately after Googlebot's 200 would have populated the SSR cache, so a
+crawler-warmed entry is not reachable by a walled human.
+
+**Next, and only the owner can do it:** in Search Console, submit `sitemap.xml`
+and use URL Inspection → Request Indexing on the highest-value pages; watch
+`Indexed` in the Coverage chart for recovery. The `Server error (5xx)` and
+`Page with redirect` buckets need the UI drill-down to name URLs.
+
+A GCP service-account key for
+`gsc-stockportfolio@praarthana-492014.iam.gserviceaccount.com` (already has
+siteFullUser) drops at `~/.local/share/secrets/gsc_service_account.json` and makes
+all of this scripted, like Bing.
+
 ## Bing "identical titles / identical descriptions": root cause measured, fixed locally (2026-09-24)
 
 The owner pasted the Bing Webmaster Top Recommendations for www.stockportfolio.pro
@@ -37,11 +143,31 @@ GetBlockedUrls both return empty, so tiles 1 and 4 must be read in the UI).
 - **Tests**: new `backend/test/ask-page.test.js` (7 pass). Full suite 828 tests,
   827 pass — the one failure is the pre-existing `selenium-webdriver` miss in
   `test/social-compose.test.js`. Verified over real HTTP on a local boot.
+- **DEPLOYED AND LIVE 2026-09-24** (owner pushed the commit). Verified against
+  production with the internal-UA bypass: `/ask?q=…` → `noindex, follow` with
+  canonical `/ask`; `/ask` → no robots meta; `/register` and `/register.html` →
+  the same single canonical.
+- **Bing recrawl requested the same day**: `SubmitFeed` for `/sitemap.xml` (Bing
+  re-read it at once — `LastCrawled`/`Submitted` jumped to now) plus
+  `SubmitUrlBatch` of 95 URLs — `/ask`, `/register` and 93 `/ask?q=…` variants
+  chosen from the URLs `GetPageStats` reports impressions for. There is no
+  "most-linked" ranking to use: every variant is linked from exactly ONE page
+  (all inbound counts are 1). Quota is **100/day, 800/month**, so ~2,900
+  variants must drop by ordinary recrawl.
+- **Tile 1 (red) is staleness, measured**: the live sitemap now holds **21,716**
+  URLs across its 8 children, but Bing's last-processed reading of the index was
+  **21,307** — behind by ~409 pages. The `SubmitFeed` above forces that re-read;
+  no code change was needed. (Bing reports `UrlCount` for a *Sitemap Index* as
+  the child count, 8, immediately after a re-read — it is not a regression.)
+- **`GetUrlInfo` keeps no crawl record for query URLs**: it reports every
+  `/ask?q=…` variant as `documentSize=0`, `lastCrawled=DateTime.MinValue`, while
+  content pages (`/`, `/stocks/AAPL`, `/register`, `/login`) show real sizes and
+  recent dates. Don't read that as "not indexed" — the site's InIndex (38,586)
+  far exceeds its sitemap (21,307), consistent with the parameterised URLs being
+  indexed by discovery.
 - **Not fixed, on purpose**: tile 4 (NOINDEX) is `/login`, `/news`, `/dashboard`
-  and the 404s — all intentional. Tile 5 is backlinks, off-page. Tile 1 (red,
-  sitemap gap) could not be reproduced locally and its URL list is UI-only.
-- **NOT DEPLOYED.** Nothing committed or pushed — the fix needs a deploy before
-  Bing can recrawl and clear the tiles.
+  and the 404s — all intentional. Tile 5 is backlinks, off-page. Bing's tiles
+  refresh on its own schedule; nothing more can be forced through the API.
 
 ## Send receipts: shipped, verified, re-send done (2026-09-24)
 
