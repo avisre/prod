@@ -11097,9 +11097,11 @@ const AppSumoLicenseSchema = new mongoose.Schema({
 }, { timestamps: true });
 const AppSumoLicense = mongoose.model('AppSumoLicense', AppSumoLicenseSchema);
 
-// AppSumo tier -> Pro grant + monthly Ask cap. Mirrors the listing pricing
-// ($39/$79/$149 = Tier 1/2/3). Unknown tiers default to the top tier so a paying
-// customer is never under-served; the cap still bounds cost.
+// AppSumo tier -> Pro grant + monthly Ask cap. Mirrors the listing's tier ladder
+// (Tier 1/2/3 = Starter/Investor/Pro; repriced to $149/$299/$499 in listing v8).
+// No prices live here — the MFN floor reads backend/direct-ltd.js — so a
+// repricing never touches this table. Unknown tiers default to the top tier so a
+// paying customer is never under-served; the cap still bounds cost.
 const APPSUMO_TIER_CONFIG = {
     1: { planName: 'Pro — AppSumo (Starter)',  askCap: 30 },
     2: { planName: 'Pro — AppSumo (Investor)', askCap: 100 },

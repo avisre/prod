@@ -1,19 +1,27 @@
-# AppSumo listing v7 — API and MCP for everyone who already bought
+# AppSumo listing v8 — the final-window repricing: 200 / 500 / 1000 at $149 / $299 / $499
 
-> **STATUS: DRAFT. NOTHING SUBMITTED.** Owner reviews and approves before a single field is
-> changed. Supersedes `appsumo-listing-v6.md` (also never submitted), which gated API and MCP
-> to the Pro tier. That is still the rule for new purchases — but every buyer who purchased on
-> or before **22 September 2026** now keeps API and MCP on whichever tier they bought, for life.
+> **STATUS: DRAFT. NOTHING SUBMITTED — and none of it is live yet.** The prices and the wallet
+> below are NOT what production charges today. Supersedes `appsumo-listing-v7.md` (also never
+> submitted). Owner reviews and approves before a single portal field is changed.
 
-> **What changed vs v6, in one line:** section 3 is no longer Pro-only, the tier table's API
-> row reflects the two populations, and a five-question FAQ answers the MCP questions buyers
-> are actually asking before they purchase.
+> **What changed vs v7, in one line:** the same listing text, repriced — $39/$79/$149 becomes
+> $149/$299/$499, and the monthly wallet becomes 200/500/1000 on the same 1/4/8 Monitor ladder.
+> The API and MCP populations, the per-action cost table, the copy and the classification are
+> unchanged from v7.
 
-> **Why this is safe to publish.** It *widens* a lifetime entitlement for existing buyers and
-> leaves the narrower rule in place for new ones. Widening needs no AppSumo downgrade approval;
-> narrowing would need both a grandfather clause and their sign-off. Nobody who has already
-> bought loses anything — verified against the Licensing API: all 25 licences sold to date were
-> purchased on or before the cutoff, so every existing buyer is on the generous side.
+> **Why this is safe to publish.** Two independent reasons, and both are load-bearing:
+>
+> 1. **The wallet only widens.** 200/500/1000 sits above BOTH earlier tables (100/300/800 and
+>    50/150/400) on every tier, so nobody needs grandfathering and no AppSumo downgrade approval
+>    is required. V2 was a narrowing and needed both; V3 needs neither. The code says the same
+>    thing in the same words (`LTD_CREDIT_ALLOWANCE_V3`, `backend/credits.js`), and
+>    `credit-meter-truth.test.js` fails the build if a future ladder ever inverts that.
+> 2. **The price rise reaches only people who have not bought yet.** The 13 accounts already live
+>    keep the tier they paid for and the wallet that was metering them. A *price* is not a lifetime
+>    entitlement; a *wallet* is, which is why it only ever moves up.
+>
+> **For an existing buyer this changes nothing at all** — no wallet narrows, no Monitor cap moves,
+> no API entitlement is touched.
 
 ⚠️ Do **not** edit listing *versions* in the Partner Portal — known mapping bug.
 Email William for version and tier-spec changes. This document is listing text only.
@@ -22,9 +30,13 @@ Email William for version and tier-spec changes. This document is listing text o
 `GET /api/v1/health` returns `200 {"ok":true,"version":"v1"}` and `/mcp` returns a `401`
 auth challenge rather than a 404, so the routes and the key gate are both deployed.
 
-✅ **v7's prices are the ones production charges.** Re-verified 2026-09-23: an MCP lookup
-debited exactly 2 credits (09:22 UTC), and an exhausted wallet returns the new out-of-credits
-body on both surfaces, with the $14.99 recharge link and the free-website alternative.
+✅ **The per-action cost table is live.** Re-verified 2026-09-23: an MCP lookup debited exactly
+2 credits (09:22 UTC), and an exhausted wallet returns the out-of-credits body on both surfaces,
+with the $14.99 recharge link and the free-website alternative.
+
+🚩 **The prices and the wallet are not live.** Read *The flip — exact values, exact order* below
+before submitting: approving a listing that grants 200/month while production meters 50 is a
+refund, not a rounding error.
 
 ---
 
@@ -142,16 +154,19 @@ Fallback if length-limited:
 > many reports you run each month, how many companies the Monitor watches, and — for purchases
 > made from 23 September 2026 — whether API and MCP access is included.
 >
-> | | Starter — $39 | Investor — $79 | Pro — $149 |
+> | | Starter — $149 | Investor — $299 | Pro — $499 |
 > |---|---|---|---|
-> | **AI credits per month** | **50** | **150** | **400** |
-> | Research Dossiers, if you spent it all there | 2 | 7 | 19 |
-> | or Filing Monitor reports | 6 | 18 | 50 |
+> | **AI credits per month** | **200** | **500** | **1000** |
+> | Research Dossiers, if you spent it all there | 9 | 23 | 47 |
+> | or Filing Monitor reports | 25 | 62 | 125 |
 > | Companies watched by the Monitor | 1 | 4 | 8 |
 > | API and MCP access | included\* | included\* | included |
 >
 > \* Included on Starter and Investor for purchases made **on or before 22 September 2026**.
 > From 23 September 2026 API and MCP ship on the Pro tier only. Buyers keep what they bought.
+>
+> The ladder is priced so a credit costs less as the tier rises — $0.74 on Starter, $0.60 on
+> Investor, $0.50 on Pro. That is the whole reason the Pro tier is the recommendation.
 >
 > **What each thing costs, so there are no surprises:**
 >
@@ -164,8 +179,8 @@ Fallback if length-limited:
 > | Data lookup — MCP or REST | 2 |
 > | AI-backed ask — MCP or REST | 42 |
 >
-> Mix them however you like. A typical Investor month is 4 dossiers, 6 monitor reports and
-> 9 follow-up questions — that's 150. Credits reset on the 1st of each month.
+> Mix them however you like. A heavy Investor month is 12 dossiers, 20 monitor reports and
+> 44 follow-up questions — that's 500. Credits reset on the 1st of each month.
 >
 > MCP and the REST API cost exactly the same, action for action — they run the same call over
 > the same filings. MCP is the agent-native path, not the cheaper one: choose it because your
@@ -197,7 +212,7 @@ reply bank further down, for email.
 **3. How do the credits work?**
 
 > Every tier includes every feature; tiers differ by how many reports you run each month —
-> 50, 150 or 400 credits. A Research Dossier costs 21, a Filing Monitor report 8, a
+> 200, 500 or 1000 credits. A Research Dossier costs 21, a Filing Monitor report 8, a
 > comparison 5, a follow-up question 2. Over the API or MCP, a data lookup costs 2 and an
 > AI-written answer 42, from the same wallet. Credits reset on the 1st; top up 150 for
 > $14.99 any time.
@@ -208,7 +223,7 @@ reply bank further down, for email.
 > tier includes them, permanently. Bought from 23 September 2026: the Pro tier. There is
 > no add-on fee, second subscription or future payment — you create your own key and it
 > spends the same monthly credits as the website. The limits are the credit wallet and 60
-> requests a minute per key: Starter's 50 credits is 25 data lookups or one AI answer.
+> requests a minute per key: Starter's 200 credits is 100 data lookups or four AI answers.
 
 **5. Does the AI ever make up numbers, and is this investment advice?**
 
@@ -272,10 +287,15 @@ headings as much as anything: they are allowed to be blunt, not lurid.
 
 ---
 
-## Before this is submitted — v7 blocker
+## Before this is submitted — v8 blockers
 
-**Do not publish this listing until the entitlement is live in production.** The listing
-says Starter and Investor buyers from on or before 22 September have API and MCP. Status:
+**Do not submit this listing until the wallet cutover is live in production.** The page will say
+200/500/1000 per month; production meters 50/150/400 today. A buyer sold 200 credits who can only
+spend 50 refunds, and every refund traced on this listing so far has been an expectation gap
+rather than a product defect. The *price* is the safer half of that pair: a page priced above the
+live listing loses clicks, it does not create a refund.
+
+v7's own API/MCP blockers, still standing:
 
 1. [x] `LTD_API_ACCESS_CUTOFF=2026-09-22T23:59:59.999Z` stored on Render 2026-09-23 09:24 UTC
    via the `set-render-env` workflow (HTTP 200, 24 characters). Render's API stored it but did
@@ -289,23 +309,82 @@ says Starter and Investor buyers from on or before 22 September have API and MCP
    `/api/v1/filing/MSFT`, and the same account redeemed after the cutoff gets `402
    API_ACCESS_REQUIRED`. The probe creates and deletes its own account, key and ledger rows.
 
-Measured when this was written (Licensing API, 25 licences): every licence sold was purchased
+Measured when that was written (Licensing API, 25 licences): every licence sold was purchased
 on or before the cutoff — 13 active, of which **9 are tier 1 or 2 and newly gain access** — and
 6 are bought but unredeemed, which is exactly the case step 2 exists to catch.
 
-## Portal field map — v7
+### The flip — exact values, exact order
+
+**None of this has been done.** The code half is written and deployed (V3 ships dark behind its
+cutover); what remains is two env moves and one push. Both env moves need a deploy to reach the
+running process — `set-render-env` stores the value but Render does not restart, so a value only
+takes effect when the next deploy lands (step 1 of the v7 blockers above is the worked example).
+
+| # | Step | What breaks if it is skipped |
+|---|---|---|
+| 1 | `CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM=<flip instant, UTC ISO>` on Render | New buyers are metered at V2 while the page says 200 — a refund |
+| 2 | `APPSUMO_TIER1_PRICE_USD=149`, `_TIER2_=299`, `_TIER3_=499` | The MFN floor keeps comparing against $39/$79/$149, so it is laxer than the marketplace it exists to guard |
+| 3 | Push the prepared `appsumo-final-window` branch | /lifetime and /appsumo still advertise the old numbers, and direct checkout stays at $39.99 — which the floor then blocks the moment the listing rises |
+| 4 | Verify from outside: a live `/lifetime` fetch and `/api/lifetime/config` | A deploy can report success and still not be live; the workflow's own conclusion has lied once |
+
+**Step 1 is a future timestamp, on purpose.** The cutover is a redemption-time comparison, so
+pointing it at the instant the new prices take effect grants V3 exactly from that moment and
+leaves every earlier redemption on V2 — the widening is bounded rather than open-ended, and if
+the listing slips, the fix is to move that one env var forward. Getting it wrong in the other
+direction only over-delivers.
+
+**Steps 2 and 3 land together, and only once AppSumo is charging the new prices.** Set early,
+`/lifetime`'s gap sentence reads "the difference is 99 cents a tier" while AppSumo still sells at
+$39 — understating a real $110 difference in the one direction that produces a refund. Set late,
+the page keeps quoting $39 after the listing has already moved.
+
+**What moves together in step 3** — one commit, because splitting it breaks either the MFN floor
+or the page's own arithmetic:
+
+- `backend/direct-ltd.js`: `appsumoUsd` 39 / 79 / 149 → **149 / 299 / 499**, and `directUsd`
+  39.99 / 79.99 / 149.99 → **149.99 / 299.99 / 499.99** — still exactly $0.99 above, so direct
+  remains strictly the dearer channel and `assertPriceFloor` keeps passing.
+- `frontend-v2/appsumo.html`: three meta descriptions ("from $39"), the deal card, the deal-facts
+  strip ($39/$79/$149 and 50/150/400), all three plan prices, and every per-plan credit line.
+  **Also fix, in the same file:** the section intro prices a Dossier at 10 credits and a Monitor
+  report at 5. The real table is 21 and 8, so the page currently overstates what a wallet buys —
+  the same class of false storefront claim this file's test exists to catch.
+- `frontend-v2/lifetime.html`: the meta descriptions and the JSON-LD `offers` prices. The visible
+  cards need no edit — they render dynamically from `/api/lifetime/config`.
+- Tests: `direct-ltd.test.js`, `direct-ltd-wiring.test.js` and `appsumo-landing.test.js` all pin
+  the old literals; `credit-meter-truth.test.js` gains the listing-vs-reference price check.
+- **No cache-stamp bump**, because none of it touches `assets/*.js` or `system.css`.
+
+**Rollback.** Revert the commit and clear the two env moves; V3's cutover is the only thing that
+changes an entitlement, and unsetting it returns every new redemption to V2 immediately.
+
+## Portal field map — v8
 
 The portal draft is **not** seeded from the live listing: any field left empty wipes the live
 one. Fill every field below. The live values to fall back on are backed up verbatim in
 `docs/appsumo-portal-fields-v5.md` Part 1 (in git history; the working copy was deleted).
 
-**Plans — unchanged.** Starter $39 (was $144) · Investor $79 ($288) · Pro $149 ($432).
+**Plans — CHANGED, and the anchors move with them.** The compare-at fields are not optional:
+$149 is *above* the current $144 anchor, so leaving them would render a negative discount.
+
+| Tier | Price | Compare-at ("was") | Badge |
+|---|---|---|---|
+| Starter | **$149** | $549 | −73% |
+| Investor | **$299** | $1,099 | −73% |
+| Pro | **$499** | $1,849 | −73% |
+
+These hold the −73% story the live page already tells ($39 was $144, $79 was $288) and apply it
+consistently to all three — at a 73% discount the compare-at is roughly price ÷ 0.27. The live
+Pro anchor was only 2.9× its price ($149 was $432, −66%), so Pro's badge was already the weakest
+of the three; this flattens them. If the owner would rather preserve each tier's *current* ratio
+than flatten it, that instead gives $550 / $1,090 / $1,447 and a −66% badge on Pro — decide
+before submitting, not after.
 
 **Product title** — *Product title* above. **Tagline** — *Tagline* above.
 
 **Feature matrix — tier-varying rows first.** Entered in the portal draft directly (see Sequence):
 
-1. `<b>50/mo</b> · <b>150/mo</b> · <b>400/mo</b> AI credits — a Research Dossier costs 21, a Filing Monitor report 8, a comparison 5, a follow-up question 2`
+1. `<b>200/mo</b> · <b>500/mo</b> · <b>1000/mo</b> AI credits — a Research Dossier costs 21, a Filing Monitor report 8, a comparison 5, a follow-up question 2`
 2. `<b>1 company</b> · <b>4 companies</b> · <b>8 companies</b> watched by the Filing Change Monitor`
 3. `API + MCP access for your AI assistant — Pro tier (every tier for purchases on or before 22 Sep 2026)`
 4. `Research Dossier — the full report on any covered US stock, every figure cited to its SEC filing`
@@ -319,18 +398,30 @@ If the editor caps rows, keep 1–5 and drop from the bottom.
 
 **Long description** — paste *Opening* through *Ask, in one line* (sections 1–4 and the FAQ
 block excluded — FAQs have their own fields), then the Proof block, Limits and the Integrity
-note. Or paste the generated `appsumo-listing-v7.txt`, which is exactly the buyer-facing text.
+note. Or paste the generated `appsumo-listing-v8.txt`, which is exactly the buyer-facing text.
 
 **FAQs** — the five slots in *FAQs — the portal's 5 slots*, in that order.
 
 **Attributes** — Deal type **Software** (not an AI Skill). Category **Finance & Accounting** /
 **Investing & Crypto**. Best for, Alternative to and tags: see *Classification* above.
 
-### What is live right now (read 2026-09-23)
+### What is live right now (read 2026-09-25)
 
-The live page is still the original v4-era spec: tiers sell **"AI Ask 30/100/300 per month"**
-with no credits, no Monitor ladder, no Dossier row and no API/MCP; the 9/17 edit Yena approved
-changed only the tagline and section headings. The founder FAQs are the original five.
+**This replaces a 2026-09-23 note that said the live page was still the v4-era spec** — tiers
+selling "AI Ask 30/100/300 per month" with no credits, no Monitor ladder, no Dossier row and no
+API/MCP. Read from the public page on 2026-09-25, the live listing carries:
+
+- **$39** (was $144, −73%) Starter — 50 credits/month, 1 Monitor company
+- **$79** (was $288, −73%) Investor — 150/month, 4 companies
+- **$149** (was $432) Pro — 400/month, 8 companies
+- the per-action costs (Dossier 21, Monitor 8, compare 5, ask 2) and the 150-credit top-up at $14.99
+- the API + MCP row with the two-population 22 September wording
+
+So the live page already carries v7's *substance*, which means v8's price and wallet rows are the
+only genuinely new content here — everything else has been on the page since some point after that
+9/23 note. Re-read the page before submitting anyway. It changes nothing about the process: the
+portal draft is still not seeded from live and an empty field still wipes the live one, so every
+field in the map above is filled again regardless.
 
 ### Sequence — the process changed on 14 September
 
@@ -385,9 +476,9 @@ For email, when a buyer asks these one by one. Same facts as FAQ slots 3 and 4.
 3. **Any subscription, add-on or future payment?** No. You generate your own key from your
    account page; it authenticates both the REST API and the hosted MCP endpoint. The $14.99 top-up
    is optional, for *more* usage — never required to keep access.
-4. **Limits?** The credit wallet you already have — 50, 150 or 400 a month — spent identically on
-   MCP and REST: 2 per data lookup, 42 per AI-written answer. Starter's 50 is 25 lookups or one AI
-   answer. Plus 60 requests a minute per key.
+4. **Limits?** The credit wallet you already have — 200, 500 or 1000 a month — spent identically on
+   MCP and REST: 2 per data lookup, 42 per AI-written answer. Starter's 200 is 100 lookups or four AI
+   answers. Plus 60 requests a minute per key.
 5. **Beta — keep it afterwards?** It is live in production, not a beta or a waitlist; there is
    nothing to re-qualify for. Seven tools today: financials, filing timeline, compare, screen,
    fund data, ask and health.
@@ -453,14 +544,23 @@ table's footnote, feature-matrix row 3 and FAQ slot 4** each state both halves o
 A Starter buyer from 23 September who reads Section 3 and then hits a `402` is a refund, and
 refunds on this listing have already been traced to expectation gaps, not product defects.
 
-### Numbers verified this session (2026-09-23)
+### Numbers verified this session (2026-09-23; wallet row re-derived 2026-09-25)
 
-Against `backend/credits.js`: `LTD_CREDIT_ALLOWANCE_V2 = {1:50, 2:150, 3:400}` and
-`COST = {ask:2, monitor:8, dossier_standard:21, dossier_compare:5, mcp_lookup:2, api_lookup:2,
-mcp_ask:42, api_ask:42}`. MCP and REST are priced identically — the old "REST is 2× MCP" rule
-was retired for the ask on 22 September and for the lookup on 23 September.
-`credit-meter-truth.test.js` fails the build if the tables above drift from those values.
-`frontend-v2/appsumo.html` publishes the same numbers, so the site and the listing agree.
+Against `backend/credits.js`: `LTD_CREDIT_ALLOWANCE_V3 = {1:200, 2:500, 3:1000}` for redemptions
+on or after the V3 cutover, `LTD_CREDIT_ALLOWANCE_V2 = {1:50, 2:150, 3:400}` for the round before
+it, and `LTD_CREDIT_ALLOWANCE = {1:100, 2:300, 3:800}` underneath both. `COST = {ask:2, monitor:8,
+dossier_standard:21, dossier_compare:5, mcp_lookup:2, api_lookup:2, mcp_ask:42, api_ask:42}`. MCP
+and REST are priced identically — the old "REST is 2× MCP" rule was retired on 22–23 September.
+`credit-meter-truth.test.js` fails the build if the tables above drift from those values, if the
+ladder ever stops rewarding the higher tiers, or if the paste-ready .txt goes stale.
+
+Two rows are derived and the test computes them rather than trusting the copy: at 21 credits a
+Dossier the wallet is **9 / 23 / 47** dossiers, and at 8 a Monitor report it is **25 / 62 / 125**.
+The "heavy Investor month" line (12 + 20 + 44 = 500) is asserted to total the Investor wallet.
+
+`frontend-v2/appsumo.html` publishes the OLD numbers today (39/79/149 and 50/150/400) and moves
+with the flip. That lag is deliberate: a page advertising 200 credits while production meters 50
+is exactly the false storefront claim this test file exists to prevent.
 
 Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
 `frontend-v2/assets/dossier.js` never sends it, so no buyer can invoke it.
@@ -482,11 +582,36 @@ Deep Dossier remains deliberately unpriced: `?depth=deep` is URL-only and
       asks. Keep the existing hero; only the three product shots change.
 - [x] `STRIPE_PRICE_ID_CREDITS_TOPUP` set on Render via the `set-render-env` workflow, so the
       top-up line is now in Section 4 and FAQ slot 3.
-- [ ] **Enter v7 in the portal draft** per *Portal field map — v7*, replace the founder FAQs,
-      submit, then send the waiting Gmail draft to Yena.
-- [ ] Post the product update for existing buyers.
-- [ ] Clear the three v7 blocker items above before submitting.
+- [ ] **Decide the anchor** in *Portal field map — v8*: flatten every tier to −73%
+      ($549 / $1,099 / $1,849), or keep each tier's current ratio ($550 / $1,090 / $1,447, Pro
+      badge −66%). Then enter v8 in the portal draft field by field and replace the founder FAQs.
+- [ ] **Set `CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM`** to the instant the new prices are meant to take
+      effect — before submitting, not after. It needs a deploy to reach the running process.
+- [ ] **After AppSumo shows the new prices**: set the three `APPSUMO_TIER*_PRICE_USD` vars and push
+      the prepared `appsumo-final-window` branch (direct prices, site copy, test literals) — then
+      verify `/lifetime` from outside.
+- [ ] **Submit**, then send the waiting Gmail reply to Yena. She approves same day.
+- [ ] Post the product update for existing buyers — only if the v7 API/MCP post has not gone out.
+      This repricing gives an existing buyer nothing new, so there is no v8 equivalent to send.
+- [ ] Clear the remaining API/MCP blocker (the grandfathered-licence importer) before submitting.
 - [ ] Do **not** touch listing versions in the portal.
+
+## What changed vs v7
+
+| | v7 | v8 |
+|---|---|---|
+| Prices | $39 / $79 / $149 | $149 / $299 / $499 |
+| Compare-at anchors | $144 / $288 / $432 (−73% / −73% / −66%) | $549 / $1,099 / $1,849, all −73% |
+| Monthly wallet | 50 / 150 / 400 (V2) | 200 / 500 / 1000 (V3) |
+| Derived rows | 2/7/19 dossiers, 6/18/50 monitor reports | 9/23/47 dossiers, 25/62/125 monitor reports |
+| "Credits buy" example | 4 + 6 + 9 = 150 | 12 + 20 + 44 = 500 |
+| Pro's per-credit price | $0.37 (best of three) | $0.50 (best of three) |
+| Monitor ladder, API rule, cost table, copy, classification | — | unchanged |
+| New tier-table line | — | the per-credit line, so the Pro recommendation is checkable |
+
+**Nobody is narrowed by v8.** The wallet strictly widens on every tier, so there is no grandfather
+clause and nothing for AppSumo to approve; the price rise reaches only buyers who have not
+purchased yet. Existing accounts keep the tier, the price and the wallet they already have.
 
 ## What changed vs v6
 

@@ -305,32 +305,79 @@ const LTD_CREDIT_ALLOWANCE = { 1: 100, 2: 300, 3: 800 };
 // lib/tier-limits.js — read that file's note on retroactive metering first.
 const LTD_CREDIT_ALLOWANCE_V2 = { 1: 50, 2: 150, 3: 400 };
 
+// V3 (final-window round, 2026-09-25): the listing's closing days are repriced
+// and the wallet is re-laddered to 200 / 500 / 1000. Every value sits above BOTH
+// earlier tables (100/300/800 and 50/150/400), so for the buyers it covers this
+// is a pure WIDENING — it needs no grandfather clause and no AppSumo downgrade
+// approval, where V2's narrowing needed both. It applies only to redemptions on
+// or after CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM; every earlier buyer keeps
+// whichever table was metering them.
+//
+// The shape matters as much as the size: the per-credit price has to FALL as the
+// tier rises ($0.74 / $0.60 / $0.50 against the listed $149 / $299 / $499). A
+// ladder that gets worse as you climb turns the listing's "best value" tag on
+// the Pro tier into a claim a buyer can disprove with a calculator — 200/400/600
+// was rejected for exactly that, at $0.75 / $0.75 / $0.83.
+const LTD_CREDIT_ALLOWANCE_V3 = { 1: 200, 2: 500, 3: 1000 };
+
 /**
- * Cutover for the V2 wallet. No default: unset or unparseable means "no cohort
- * is on V2 yet", so everyone keeps V1. Fail-closed on the downgrade, never on
- * access — the same rule monitorCapV2EffectiveFrom() follows.
+ * Cutover for one wallet round. No default: unset or unparseable means "no
+ * cohort is on this round yet", so everyone keeps the table they already had.
+ * Fail-closed on every metering change, never on access — the same rule
+ * monitorCapV2EffectiveFrom() follows.
  */
-function creditAllowanceV2EffectiveFrom(env = process.env) {
-    const raw = String(env.CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM || '').trim();
+function allowanceCutoff(envVar, env) {
+    const raw = String(env[envVar] || '').trim();
     if (!raw) return null;
     const t = Date.parse(raw);
     return Number.isFinite(t) ? t : null;
 }
 
+function creditAllowanceV2EffectiveFrom(env = process.env) {
+    return allowanceCutoff('CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM', env);
+}
+
+function creditAllowanceV3EffectiveFrom(env = process.env) {
+    return allowanceCutoff('CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM', env);
+}
+
 /**
  * True only for lifetime buyers who redeemed ON OR AFTER the cutover.
  * A bare tier number carries no redemption date, so it can never be classified
- * into V2 — that is deliberate: an unclassifiable account keeps the larger
+ * into a cohort — that is deliberate: an unclassifiable account keeps the larger
  * wallet rather than silently losing half of it.
  */
-function isCreditAllowanceV2Cohort(user, env = process.env) {
-    if (!user || typeof user !== 'object') return false;
+function redeemedOnOrAfter(user, cutoff) {
+    if (!user || typeof user !== 'object' || cutoff === null) return false;
     const redeemedRaw = user.appsumoRedeemedAt || user.dealMirrorRedeemedAt;
     if (!redeemedRaw) return false;
-    const v2From = creditAllowanceV2EffectiveFrom(env);
-    if (v2From === null) return false;
     const redeemed = new Date(redeemedRaw).getTime();
-    return Number.isFinite(redeemed) && redeemed >= v2From;
+    return Number.isFinite(redeemed) && redeemed >= cutoff;
+}
+
+function isCreditAllowanceV2Cohort(user, env = process.env) {
+    return redeemedOnOrAfter(user, creditAllowanceV2EffectiveFrom(env));
+}
+
+function isCreditAllowanceV3Cohort(user, env = process.env) {
+    return redeemedOnOrAfter(user, creditAllowanceV3EffectiveFrom(env));
+}
+
+// The table a buyer is metered by: the NEWEST round whose cutover they fall
+// after. Picking the newest rather than testing V3-then-V2 in source order means
+// overlapping or out-of-order cutovers still cannot meter someone by an older,
+// smaller table. Anything that is not a user document — a bare tier number, or
+// any non-LTD caller — gets the original table, which is also the largest.
+function allowanceTableFor(user, env) {
+    if (!user || typeof user !== 'object') return LTD_CREDIT_ALLOWANCE;
+    const rounds = [
+        { from: creditAllowanceV3EffectiveFrom(env), table: LTD_CREDIT_ALLOWANCE_V3 },
+        { from: creditAllowanceV2EffectiveFrom(env), table: LTD_CREDIT_ALLOWANCE_V2 }
+    ].filter((round) => round.from !== null).sort((a, b) => b.from - a.from);
+    for (const round of rounds) {
+        if (redeemedOnOrAfter(user, round.from)) return round.table;
+    }
+    return LTD_CREDIT_ALLOWANCE;
 }
 
 // 0 means "not a lifetime buyer" — callers must fall through to the derived
@@ -345,9 +392,7 @@ function ltdAllowance(tierOrUser, env = process.env) {
     const isUser = tierOrUser && typeof tierOrUser === 'object';
     const tier = Number(isUser ? (tierOrUser.appsumoTier || tierOrUser.dealMirrorTier) : tierOrUser);
     if (!Number.isFinite(tier) || tier <= 0) return 0;
-    const map = (isUser && isCreditAllowanceV2Cohort(tierOrUser, env))
-        ? LTD_CREDIT_ALLOWANCE_V2
-        : LTD_CREDIT_ALLOWANCE;
+    const map = allowanceTableFor(isUser ? tierOrUser : null, env);
     return map[tier] || map[3];
 }
 
@@ -442,4 +487,4 @@ async function monthBreakdown(userId) {
     } catch (_) { return {}; }   // same fail-open as used(): a DB blip hides the split, not the page
 }
 
-module.exports = { COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, isCreditAllowanceV2Cohort, creditAllowanceV2EffectiveFrom, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };
+module.exports = { COST, LTD_CREDIT_ALLOWANCE, LTD_CREDIT_ALLOWANCE_V2, LTD_CREDIT_ALLOWANCE_V3, isCreditAllowanceV2Cohort, isCreditAllowanceV3Cohort, creditAllowanceV2EffectiveFrom, creditAllowanceV3EffectiveFrom, allowanceTableFor, monthKey, resetsAt, used, granted, grant, ltdAllowance, allowance, balance, spend, check, recentActivity, monthBreakdown };

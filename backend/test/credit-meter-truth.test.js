@@ -28,7 +28,7 @@ test('every tier keeps its Ask floor, whichever wallet it holds', () => {
     // which is exactly why the floor has to stay: halving the wallet must not
     // quietly halve the questions a buyer was sold.
     for (const tier of [1, 2, 3]) {
-        for (const [label, table] of [['V1', credits.LTD_CREDIT_ALLOWANCE], ['V2', credits.LTD_CREDIT_ALLOWANCE_V2]]) {
+        for (const [label, table] of [['V1', credits.LTD_CREDIT_ALLOWANCE], ['V2', credits.LTD_CREDIT_ALLOWANCE_V2], ['V3', credits.LTD_CREDIT_ALLOWANCE_V3]]) {
             const reachable = Math.max(ASK_FLOOR[tier], Math.floor(table[tier] / credits.COST.ask));
             assert.ok(
                 reachable >= ASK_FLOOR[tier],
@@ -64,6 +64,62 @@ test('halving the wallet reaches new buyers only', () => {
     }
 });
 
+test('the V3 round meters only redemptions after its own cutover', () => {
+    const V2_CUTOVER = '2026-09-10T00:00:00Z';
+    const V3_CUTOVER = '2026-10-01T00:00:00Z';
+    const both = { CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM: V2_CUTOVER, CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM: V3_CUTOVER };
+    const on = (date) => ({ appsumoTier: 3, appsumoRedeemedAt: date });
+    const v1Buyer = on('2026-08-20T00:00:00Z');
+    const v2Buyer = on('2026-09-20T00:00:00Z');
+    const v3Buyer = on('2026-10-02T00:00:00Z');
+
+    assert.equal(credits.ltdAllowance(v1Buyer, both), 800, 'pre-V2 buyer keeps V1');
+    assert.equal(credits.ltdAllowance(v2Buyer, both), 400, 'V2 buyer keeps V2');
+    assert.equal(credits.ltdAllowance(v3Buyer, both), 1000, 'post-V3 buyer gets V3');
+
+    // V3 unset — today's production. A redemption dated after V3's intended
+    // cutover still meters on V2: dark means dark, not "whatever the date says".
+    const v2Only = { CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM: V2_CUTOVER };
+    assert.equal(credits.ltdAllowance(v3Buyer, v2Only), 400);
+
+    // Both unset: neither round has a cohort, so everyone is on V1.
+    assert.equal(credits.ltdAllowance(v3Buyer, {}), 800);
+
+    // Overlapping or out-of-order cutovers cannot meter a buyer by an older,
+    // smaller table: the NEWEST round the buyer qualifies for wins.
+    const crossed = { CREDIT_ALLOWANCE_V2_EFFECTIVE_FROM: '2026-10-05T00:00:00Z', CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM: V3_CUTOVER };
+    assert.equal(credits.ltdAllowance(v3Buyer, crossed), 1000, 'V3 wins over a later-dated V2 cutover');
+    assert.equal(credits.ltdAllowance(v2Buyer, crossed), 800, 'a redemption before both cutovers stays on V1');
+
+    // An unparseable V3 cutover meters nobody onto V3.
+    assert.equal(credits.ltdAllowance(v3Buyer, { ...v2Only, CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM: 'soon' }), 400);
+});
+
+test('every wallet round widens the one before it, so no grandfather clause is needed', () => {
+    // V2 was a NARROWING and needed both a grandfather clause and AppSumo's
+    // downgrade approval. V3 must be the opposite: strictly larger than both
+    // earlier tables on every tier, which is what makes it publishable as a
+    // plain improvement with nobody grandfathered and nothing to approve.
+    for (const tier of [1, 2, 3]) {
+        assert.ok(credits.LTD_CREDIT_ALLOWANCE_V3[tier] > credits.LTD_CREDIT_ALLOWANCE_V2[tier], `V3 tier ${tier} must beat V2`);
+        assert.ok(credits.LTD_CREDIT_ALLOWANCE_V3[tier] > credits.LTD_CREDIT_ALLOWANCE[tier], `V3 tier ${tier} must beat V1`);
+    }
+});
+
+test('the V3 ladder rewards climbing — the listed price per credit falls as tiers rise', () => {
+    // The listing tags the Pro tier as the best value. That tag is only honest
+    // while a credit costs LESS on each tier up, measured against the same price
+    // the MFN floor compares to — so this reads direct-ltd rather than restating
+    // the prices here. 200/400/600 was rejected by exactly this arithmetic:
+    // $0.75 → $0.75 → $0.83, the ladder inverted and the tag had to come off.
+    const directLtd = require('../direct-ltd');
+    const rates = [1, 2, 3].map((t) => directLtd.TIERS[t].appsumoUsd / credits.LTD_CREDIT_ALLOWANCE_V3[t]);
+    assert.ok(
+        rates[0] > rates[1] && rates[1] > rates[2],
+        `per-credit price must fall as the tier rises, got ${rates.map((r) => r.toFixed(3)).join(' / ')}`
+    );
+});
+
 test('the Ask route gates on the wallet OR the floor, never the floor alone', () => {
     const src = read('backend/app.js');
 
@@ -90,8 +146,10 @@ test('the Ask route gates on the wallet OR the floor, never the floor alone', ()
 });
 
 test('the published listing matches credits.js exactly', () => {
-    const listing = read('docs/growth/appsumo-listing-v7.md');
-    const { COST, LTD_CREDIT_ALLOWANCE_V2: WALLET } = credits;
+    const listing = read('docs/growth/appsumo-listing-v8.md');
+    // The wallet the listing publishes is the one a NEW redemption gets once the
+    // V3 cutover is set — i.e. the table the marketplace is currently selling.
+    const { COST, LTD_CREDIT_ALLOWANCE_V3: WALLET } = credits;
 
     // The wallet row.
     const walletRow = `| **AI credits per month** | **${WALLET[1]}** | **${WALLET[2]}** | **${WALLET[3]}** |`;
@@ -137,12 +195,12 @@ test('the published listing matches credits.js exactly', () => {
     assert.equal(COST.api_ask, COST.mcp_ask, 'likewise for the collapsed ask row');
 
     // The worked example has to add up, or it teaches the buyer the wrong arithmetic.
-    const worked = 4 * COST.dossier_standard + 6 * COST.monitor + 9 * COST.ask;
-    assert.equal(worked, WALLET[2], 'the "typical Investor month" must total the Investor wallet');
+    const worked = 12 * COST.dossier_standard + 20 * COST.monitor + 44 * COST.ask;
+    assert.equal(worked, WALLET[2], 'the "heavy Investor month" must total the Investor wallet');
 });
 
 test('the listing never prices something the UI cannot invoke', () => {
-    const listing = read('docs/growth/appsumo-listing-v7.md');
+    const listing = read('docs/growth/appsumo-listing-v8.md');
     const dossierJs = read('frontend-v2/assets/dossier.js');
 
     // Deep Dossier is priced in credits.js but has no control in the UI — ?depth=deep
@@ -158,7 +216,7 @@ test('the listing never prices something the UI cannot invoke', () => {
 test('the listing publishes the Monitor caps the landing page already advertises', () => {
     // Only the copy is policed, not the "what changed vs v4" table below it, which
     // quotes the old line on purpose.
-    const listing = read('docs/growth/appsumo-listing-v7.md').split('## Before this is submitted')[0];
+    const listing = read('docs/growth/appsumo-listing-v8.md').split('## Before this is submitted')[0];
 
     // "Unlimited companies" was v4's most dangerous line: no tier grants unlimited
     // monitoring, and a published lifetime promise cannot be narrowed afterwards.
@@ -180,21 +238,21 @@ test('the paste-ready .txt is in sync with the listing markdown', () => {
     const { execFileSync } = require('child_process');
     const script = path.join(ROOT, 'scripts/render-appsumo-listing.js');
     const fresh = execFileSync(process.execPath, [script, '--stdout'], { encoding: 'utf8' });
-    const onDisk = read('docs/growth/appsumo-listing-v7.txt');
+    const onDisk = read('docs/growth/appsumo-listing-v8.txt');
 
     // The generated header carries today's date; everything else must match.
     const undated = (s) => s.replace(/^Generated from .* on \d{4}-\d{2}-\d{2}\.$/m, 'Generated.');
     assert.equal(
         undated(onDisk),
         undated(fresh),
-        'docs/growth/appsumo-listing-v7.txt is stale — re-run: node scripts/render-appsumo-listing.js'
+        'docs/growth/appsumo-listing-v8.txt is stale — re-run: node scripts/render-appsumo-listing.js'
     );
 });
 
 test('the listing never advertises a fund endpoint', () => {
     // Only the copy is policed. The rationale below the marker names these routes on
     // purpose, to explain why they are withheld.
-    const listing = read('docs/growth/appsumo-listing-v7.md').split('## Before this is submitted')[0];
+    const listing = read('docs/growth/appsumo-listing-v8.md').split('## Before this is submitted')[0];
 
     // backend/public-api.md labels the fund profile route "Yahoo-derived, not
     // redistributable", and corpus-license-terms.md says the same of quote-derived data
