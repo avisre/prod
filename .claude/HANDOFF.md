@@ -143,6 +143,14 @@ not serving stale 302s (`cf-cache-status: DYNAMIC`, no `age`, every sampled tier
 `/fundamentals`, `/v1/`, `/v2/`, and the video assets themselves serve 200 with
 correct `Content-Type` to a Googlebot UA.
 
+**The URL Inspection API reports the LAST CRAWL, not a live fetch.** `/tour`
+still returns `richResultsResult.verdict = "FAIL"` after the fix, because
+`lastCrawlTime` is `2026-09-11` — pre-fix. Do not read that as "the fix didn't
+work", and do not use this API to validate a markup change: only Google
+re-crawling the URL, or the UI's own live test, can move the verdict. What *is*
+verifiable from here is the served bytes (two `uploadDate` values on the live
+page, confirmed against production).
+
 **The one real error Google reports is fixed (2026-09-24).** The URL Inspection
 API on `/tour` returns `richResultsResult.verdict = "FAIL"` with
 `Videos → "I asked an AI 3 hard finance questions…" → Missing field "uploadDate"
