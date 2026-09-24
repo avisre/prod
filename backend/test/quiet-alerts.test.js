@@ -133,3 +133,63 @@ test('the quiet copy makes no claim about a portfolio with nothing watched', () 
     const fn = js.slice(js.indexOf('function renderQuiet(q)'), js.indexOf('async function loadAlerts()'));
     assert.match(fn, /if \(!q \|\| !q\.watched\) return false;/, 'no watch list, no reassuring copy');
 });
+
+// The panel is a window of three, not a cap of three. A monitor that fires
+// rarely can fire often, and a long list must not push the portfolio off the
+// screen — but truncating it would make the scrollbar a decoration and the
+// count a lie. So the whole list is rendered and the FIRST THREE are measured
+// to set the window, which is the only way "three at a time" is true of what is
+// on screen rather than of a number in the source.
+test('the alerts list is a measured window of three, with the rest stated', () => {
+    const js = fs.readFileSync(path.join(__dirname, '../../frontend-v2/assets/dashboard.js'), 'utf8');
+    const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/dashboard.html'), 'utf8');
+
+    assert.match(html, /id="alerts-list" class="alerts-scroll"/, 'the list must be the scroll container');
+    assert.match(html, /overflow-y: auto/, 'the remainder must be reachable by vertical scrollbar');
+    assert.match(html, /id="alerts-more"/, 'the count below the fold must have somewhere to render');
+    assert.match(js, /const alerts = data\.alerts \|\| \[\];/, 'the list must not be truncated to a handful');
+    assert.doesNotMatch(js, /\(data\.alerts \|\| \[\]\)\.slice\(/, 'a truncated list cannot be scrolled');
+
+    // Fitting before the section is visible would measure every item at zero.
+    assert.ok(!/fitAlertsWindow\(\);\s*\n\s*\$\('alerts-section'\)\.hidden = false;/.test(js),
+        'the window must be measured after the section is shown, or the height collapses to zero');
+    assert.equal((js.match(/hidden = false;\s*\n\s*fitAlertsWindow\(\);/g) || []).length, 2,
+        'both the quiet card and the alert list must be fitted, after unhiding');
+    // The same three alerts wrap to different heights at a different width, so
+    // a stale window would hide part of the third on a narrow screen.
+    assert.match(js, /addEventListener\('resize', \(\) => \{\s*\n\s*const section = \$\('alerts-section'\);\s*\n\s*if \(!section \|\| section\.hidden\) return;/,
+        'the window must be re-measured on resize, and not while the section is hidden');
+
+    const start = js.indexOf('function fitAlertsWindow() {');
+    assert.ok(start !== -1, 'fitAlertsWindow must exist');
+    const end = js.indexOf('\n    }\n', start);
+    const fit = js.slice(start, end + 6);
+
+    const build = (heights) => {
+        const list = {
+            style: {},
+            children: heights.map((h) => ({ getBoundingClientRect: () => ({ height: h }) }))
+        };
+        const more = { hidden: true, textContent: '' };
+        const nodes = { 'alerts-list': list, 'alerts-more': more };
+        new Function('$', 'getComputedStyle', `${fit}\n return fitAlertsWindow;`)(
+            (id) => nodes[id] || null,
+            () => ({ rowGap: '8px' })
+        )();
+        return { list, more };
+    };
+
+    const five = build([50, 70, 40, 50, 50]);
+    assert.equal(five.list.style.maxHeight, '176px',
+        'three items (50+70+40) plus two 8px gaps — a fourth must be below the fold');
+    assert.equal(five.more.hidden, false);
+    assert.match(five.more.textContent, /2 more alerts below/, 'the hidden count must be stated');
+
+    const three = build([50, 70, 40]);
+    assert.equal(three.list.style.maxHeight, '', 'three or fewer: no window, no scrollbar');
+    assert.equal(three.more.hidden, true);
+
+    const two = build([50, 70]);
+    assert.equal(two.more.textContent, '', 'no stale count when the list shrinks');
+});
+

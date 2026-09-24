@@ -1210,18 +1210,60 @@
         return true;
     }
 
+    // Three alerts at a time, the rest by scroll. The height is measured from
+    // the first three rendered items rather than hardcoded, because titles
+    // wrap and a fixed height would cut a long alert in half and leave room
+    // for a fourth short one — "three at a time" has to be true of what is on
+    // screen, not of a number in the source. The count below is the same
+    // measurement, so it cannot disagree with what is actually hidden.
+    function fitAlertsWindow() {
+        const list = $('alerts-list');
+        if (!list) return;
+        const more = $('alerts-more');
+        const items = [...list.children];
+        const WINDOW = 3;
+        if (items.length <= WINDOW) {
+            list.style.maxHeight = '';
+            if (more) { more.hidden = true; more.textContent = ''; }
+            return;
+        }
+        const gap = parseFloat(getComputedStyle(list).rowGap) || 8;
+        const shown = items.slice(0, WINDOW)
+            .reduce((sum, el) => sum + el.getBoundingClientRect().height, 0) + gap * (WINDOW - 1);
+        list.style.maxHeight = `${Math.ceil(shown)}px`;
+        if (more) {
+            const below = items.length - WINDOW;
+            more.hidden = false;
+            more.textContent = `${below} more ${below === 1 ? 'alert' : 'alerts'} below — scroll the list.`;
+        }
+    }
+
+    // Re-measure on resize: the same three alerts wrap to different heights at
+    // a different width, and a stale max-height would hide part of the third.
+    window.addEventListener('resize', () => {
+        const section = $('alerts-section');
+        if (!section || section.hidden) return;
+        fitAlertsWindow();
+    });
+
     async function loadAlerts() {
         try {
             const r = await fetch(`${API}/alerts`, { headers: auth });
             if (!r.ok) return;
             const data = await r.json();
-            const alerts = (data.alerts || []).slice(0, 8);
+            // Everything the server sent, not the first few: the window above
+            // shows three and the rest are one scroll away. Truncating here
+            // would make the scrollbar a decoration and the count a lie.
+            const alerts = data.alerts || [];
             if (!alerts.length) {
                 // Nothing to report is the product working, not the product
                 // missing — but only say so when there is something being watched.
                 if (!renderQuiet(data.quiet)) return;
                 $('alerts-sub').textContent = data.quiet.watched ? `watching ${data.quiet.watched}` : '';
+                // Unhide before measuring: a hidden element has no layout, so
+                // fitting first would size the window to zero.
                 $('alerts-section').hidden = false;
+                fitAlertsWindow();
                 return;
             }
             const watched = data.quiet && data.quiet.watched;
@@ -1241,6 +1283,7 @@
                     : `<div class="notice ${cls}">${content}</div>`;
             }).join('');
             $('alerts-section').hidden = false;
+            fitAlertsWindow();
             fetch(`${API}/alerts/seen`, { method: 'POST', headers: auth }).catch(() => {});
         } catch (_) { /* quiet */ }
     }

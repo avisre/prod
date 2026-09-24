@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260925-since1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260925-alerts1" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -117,6 +117,17 @@
        nothing has happened, so nothing should look like it has. The rule above
        it is the same hairline the reveal uses, so silence reads as the product
        being calm rather than as an empty box. */
+    /* Three alerts at a time. A monitor that fires rarely should not push the
+       portfolio off the screen when it fires often, so the list is a window of
+       exactly three with the rest reachable by scrolling — and the line under
+       it states how many are below the fold, so a scrollbar is never the only
+       hint that there is more. Height is measured in JS from the first three
+       rendered items, not hardcoded: titles wrap, and a fixed height would
+       show two of a long one and four of a short one. */
+    .alerts-scroll { display: grid; gap: 8px; overflow-y: auto; overscroll-behavior: contain;
+      scrollbar-width: thin; padding-right: 2px; }
+    .alerts-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+    .alerts-more { margin: 10px 0 0; }
     .quiet-card { padding: 2px 0 0; }
     .quiet-lede { margin: 0; font-size: 15px; font-weight: 650; }
     .quiet-close { margin: 12px 0 0; padding-top: 12px; border-top: 1px solid var(--line);
@@ -304,7 +315,8 @@
         <section class="section" id="alerts-section" hidden>
           <div class="section-head"><h2 class="title-2">Company filing alerts</h2><span class="small faint" id="alerts-sub"></span></div>
           <p class="small faint" style="margin:0 0 10px;">New 10-K, 10-Q and 8-K filings, plus monitored company signals such as dividend or health-check changes. This is not a price-move feed. ETFs and mutual funds remain in your portfolio totals but do not have comparable company filing alerts.</p>
-          <div id="alerts-list" style="display:grid; gap:8px;"></div>
+          <div id="alerts-list" class="alerts-scroll" tabindex="0" role="region" aria-label="Company filing alerts"></div>
+          <p class="small faint alerts-more" id="alerts-more" hidden></p>
         </section>
 
         <!-- Holdings grouped by instrument type; totals and performance remain combined. -->
@@ -469,7 +481,7 @@
       <div id="portfolio-action-arrival" hidden></div>
     </div>
   </div>
-  <script src="assets/app.js?v=20260925-since1"></script>
-  <script src="assets/dashboard.js?v=20260925-since1"></script>
+  <script src="assets/app.js?v=20260925-alerts1"></script>
+  <script src="assets/dashboard.js?v=20260925-alerts1"></script>
 </body>
 </html>
