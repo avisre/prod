@@ -90,7 +90,13 @@ test('bot-blocker resolves the visitor too, not the proxy hop', () => {
     // cannot reintroduce the hop at just one of them.
     assert.match(source, /checkCrawlerClaim\(clientIp\(req\), ua\)/);
     assert.match(source, /keyGenerator: \(req\) => clientIp\(req\)/);
-    assert.match(source, /getCachedVerdict\(clientIp\(req\)\) === 'verified'/);
+    // The skip condition must still route through clientIp, or the nav budget
+    // is back to being spent by every reader behind one edge hop at once.
+    assert.match(source, /skip: \(req\) => isStaticAssetPath\(req\.path\) \|\| isLimiterExempt\(clientIp\(req\)\)/);
+    // Exemption is vendor-aware, and that is load-bearing: verification alone
+    // must not release a crawler from the limit, or admitting the AI
+    // answer-engine crawlers would hand them an unthrottled sitemap crawl.
+    assert.match(source, /cached\.vendor === 'google' \|\| cached\.vendor === 'bing'/);
 });
 
 test('the resolver and the walls share one address resolution', () => {

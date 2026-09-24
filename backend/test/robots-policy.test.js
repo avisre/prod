@@ -64,9 +64,14 @@ test('the wildcard User-agent disallows everything by default', () => {
 });
 
 test('every named crawler bot-blocker.js denies by pattern has a matching Disallow stanza', () => {
+    // OAI-SearchBot and PerplexityBot are deliberately absent: they are
+    // answer-engine index crawlers, so they live in the Allow group and are
+    // verified by published IP range instead of refused. Their removal from
+    // this list is the change that makes them citable in ChatGPT Search and
+    // Perplexity; the Allow-group test above is what pins them now.
     const namedDeniedAgents = [
-        'GPTBot', 'ChatGPT-User', 'OAI-SearchBot', 'anthropic-ai', 'ClaudeBot', 'Claude-Web',
-        'PerplexityBot', 'Perplexity-User', 'CCBot', 'Bytespider', 'Amazonbot', 'cohere-ai',
+        'GPTBot', 'ChatGPT-User', 'anthropic-ai', 'ClaudeBot', 'Claude-Web',
+        'Perplexity-User', 'CCBot', 'Bytespider', 'Amazonbot', 'cohere-ai',
         'Diffbot', 'meta-externalagent', 'DuckDuckBot', 'YandexBot', 'Baiduspider', 'Applebot',
         'Applebot-Extended', 'FacebookBot', 'facebookexternalhit', 'Twitterbot', 'LinkedInBot'
     ];

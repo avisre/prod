@@ -41,8 +41,18 @@ const FORBIDDEN_BODY = 'Automated access is not permitted for this user agent. '
     + 'Licensed bulk data (SEC fundamentals + filing-change deltas) and MCP/API access '
     + 'are available: https://www.stockportfolio.pro/licensing or support@stockportfolio.pro.';
 
-// Allowed straight through, subject to IP verification (Layer 2) below.
-const ALLOWED_UAS = ['googlebot', 'googlebot-image', 'google-inspectiontool', 'storebot-google', 'bingbot', 'bingpreview'];
+// Allowed straight through, subject to IP verification (Layer 2/2b) below.
+//
+// `oai-searchbot` and `perplexitybot` are here for a different reason than the
+// rest. They populate ANSWER-ENGINE INDEXES rather than training corpora —
+// OAI-SearchBot's own documentation states that an opted-out site "won't appear
+// in ChatGPT search answers" — so refusing them closes a citation channel
+// rather than saving bandwidth. They are admitted, verified against the IP
+// ranges their vendors publish (Layer 2b), and are deliberately NOT exempted
+// from the nav limiter: that limit is the "bounded rate" they are admitted
+// under. The training-only crawlers (GPTBot, CCBot, Bytespider, ClaudeBot)
+// stay denied, which is a separate and still-sound bandwidth call.
+const ALLOWED_UAS = ['googlebot', 'googlebot-image', 'google-inspectiontool', 'storebot-google', 'oai-searchbot', 'bingbot', 'bingpreview', 'perplexitybot'];
 const ALLOWED_UA_RE = new RegExp(ALLOWED_UAS.join('|'), 'i');
 
 // Everything else that self-identifies as automated: named AI crawlers,
@@ -55,9 +65,14 @@ const ALLOWED_UA_RE = new RegExp(ALLOWED_UAS.join('|'), 'i');
 // They cannot match a legitimate request, so these two entries are defence
 // against a spoofed UA, not a live block. The real control is the stanza in
 // frontend/robots.txt; the real crawl gate for Google is Googlebot, above.
+// Note what is NOT here: `oai-searchbot` and `perplexitybot` were removed from
+// this list deliberately. They are answer-engine index crawlers, not training
+// crawlers, so they now sit in ALLOWED_UAS and are verified by published IP
+// range (Layer 2b) instead of refused. Their on-behalf-of-user siblings
+// (`chatgpt-user`, `perplexity-user`) and every training crawler stay denied.
 const DENY_PATTERNS = [
-    /meta-externalagent/i, /facebookbot/i, /gptbot/i, /chatgpt-user/i, /oai-searchbot/i,
-    /anthropic-ai/i, /claudebot/i, /claude-web/i, /claude-user/i, /perplexitybot/i, /perplexity-user/i,
+    /meta-externalagent/i, /facebookbot/i, /gptbot/i, /chatgpt-user/i,
+    /anthropic-ai/i, /claudebot/i, /claude-web/i, /claude-user/i, /perplexity-user/i,
     /google-extended/i, /applebot-extended/i, /bytespider/i, /amazonbot/i, /cohere-ai/i, /ccbot/i, /diffbot/i,
     /duckduckbot/i, /yandexbot/i, /baiduspider/i, /applebot/i, /facebookexternalhit/i, /twitterbot/i, /linkedinbot/i, /slackbot/i,
     /semrushbot/i, /ahrefsbot/i, /mj12bot/i, /dotbot/i, /blexbot/i,
@@ -162,17 +177,65 @@ function hasBrowserHeaders(headers) {
 // resolves to.
 
 const VERIFY_TTL_MS = 6 * 60 * 60 * 1000;
-const verdictCache = new Map(); // ip -> { verdict, expiresAt }
+const verdictCache = new Map(); // ip -> { verdict, vendor, expiresAt }
 const verifiedIpSet = new Set();
 const impostorIpSet = new Set();
+
+function readCachedVerdict(ip) {
+    const cached = verdictCache.get(ip);
+    return (cached && cached.expiresAt > Date.now()) ? cached : null;
+}
+
+function getCachedVerdict(ip) {
+    const cached = readCachedVerdict(ip);
+    return cached ? cached.verdict : null;
+}
+
+// Only Google and Bing are released from the nav limit once verified: their
+// crawl is already bounded by their own politeness and by the sitemap, and
+// throttling them would cost the indexing this whole file exists to protect.
+// The AI answer-engine crawlers admitted in ALLOWED_UAS are verified for a
+// different reason — so an impostor cannot take their name and slip past the
+// UA deny — and they stay subject to the limit. Keeping those two jobs
+// distinct is the point: verification stops impersonation, the limiter bounds
+// the bandwidth budget, and neither substitutes for the other.
+function isLimiterExempt(ip) {
+    const cached = readCachedVerdict(ip);
+    return Boolean(cached && cached.verdict === 'verified'
+        && (cached.vendor === 'google' || cached.vendor === 'bing'));
+}
+
+function cacheVerdict(ip, verdict, vendor) {
+    // Never cache 'unknown' — a DNS hiccup should be retried, not remembered
+    // as a standing verdict for six hours.
+    if (verdict === 'unknown') return;
+    verdictCache.set(ip, { verdict, vendor, expiresAt: Date.now() + VERIFY_TTL_MS });
+    if (verdict === 'verified') verifiedIpSet.add(ip);
+    if (verdict === 'impostor') impostorIpSet.add(ip);
+}
 
 const VENDOR_SUFFIXES = {
     google: ['.googlebot.com', '.google.com', '.googleusercontent.com'],
     bing: ['.search.msn.com']
 };
 
+// Vendors verified by published IP RANGE instead of reverse DNS (Layer 2b).
+// Their own documentation prescribes this method and names no PTR suffix:
+// OpenAI serves https://openai.com/searchbot.json, Perplexity serves
+// https://perplexity.com/perplexitybot.json. Because they publish no
+// reverse-DNS hostname at all, sending them down the PTR+forward-confirm path
+// would find no matching suffix and mark a GENUINE crawler an impostor — so
+// the range branch in checkCrawlerClaim must be taken first. That failure mode
+// was the reason this could not be a two-line change.
+const RANGE_VENDORS = {
+    openai: { url: 'https://openai.com/searchbot.json', ua: /oai-searchbot/i },
+    perplexity: { url: 'https://perplexity.com/perplexitybot.json', ua: /perplexitybot/i }
+};
+
 function vendorForUa(ua) {
     const value = String(ua || '').toLowerCase();
+    if (value.includes('oai-searchbot')) return 'openai';
+    if (value.includes('perplexitybot')) return 'perplexity';
     return (value.includes('bingbot') || value.includes('bingpreview')) ? 'bing' : 'google';
 }
 
@@ -181,18 +244,77 @@ function hostnameMatchesVendor(hostname, vendor) {
     return (VENDOR_SUFFIXES[vendor] || []).some((suffix) => h === suffix.slice(1) || h.endsWith(suffix));
 }
 
-function getCachedVerdict(ip) {
-    const cached = verdictCache.get(ip);
-    return (cached && cached.expiresAt > Date.now()) ? cached.verdict : null;
+// --- Layer 2b: published-range verification for the AI search crawlers ---
+// Both vendors ship a flat list of IPv4 prefixes. A prefix list ages, so it is
+// re-read on a TTL; a fetch failure keeps the previous list and, on a cold
+// start, falls through to 'unseen' — i.e. served but still rate limited. The
+// same split Layer 2 makes: an infrastructure failure is never evidence of
+// impersonation, only a successful fetch that positively excludes the IP is.
+const RANGE_TTL_MS = 6 * 60 * 60 * 1000;
+const RANGE_RETRY_MS = 60 * 1000;
+const rangeCache = new Map(); // vendor -> { nets, expiresAt, loading }
+
+function ipv4ToInt(ip) {
+    const parts = String(ip || '').split('.');
+    if (parts.length !== 4) return null;
+    let n = 0;
+    for (const part of parts) {
+        if (!/^\d{1,3}$/.test(part)) return null;
+        const octet = Number(part);
+        if (octet > 255) return null;
+        n = (n * 256) + octet;
+    }
+    return n >>> 0;
 }
 
-function cacheVerdict(ip, verdict) {
-    // Never cache 'unknown' — a DNS hiccup should be retried, not remembered
-    // as a standing verdict for six hours.
-    if (verdict === 'unknown') return;
-    verdictCache.set(ip, { verdict, expiresAt: Date.now() + VERIFY_TTL_MS });
-    if (verdict === 'verified') verifiedIpSet.add(ip);
-    if (verdict === 'impostor') impostorIpSet.add(ip);
+function parseCidr(cidr) {
+    const [addr, lenStr] = String(cidr || '').split('/');
+    const base = ipv4ToInt(addr);
+    if (base === null) return null;
+    const len = Number(lenStr);
+    if (!Number.isInteger(len) || len < 0 || len > 32) return null;
+    // A /0 shift by 32 is a no-op in JS, so the all-addresses case is explicit.
+    const mask = len === 0 ? 0 : (0xFFFFFFFF << (32 - len)) >>> 0;
+    return { base: (base & mask) >>> 0, mask };
+}
+
+function ipInNets(ip, nets) {
+    const n = ipv4ToInt(ip);
+    if (n === null || !nets) return false;
+    return nets.some(({ base, mask }) => ((n & mask) >>> 0) === base);
+}
+
+function loadRanges(vendor) {
+    const entry = rangeCache.get(vendor);
+    if (entry && (entry.loading || entry.expiresAt > Date.now())) return entry;
+
+    const previous = entry ? entry.nets : null;
+    const pending = { nets: previous, expiresAt: 0, loading: true };
+    rangeCache.set(vendor, pending);
+
+    fetch(RANGE_VENDORS[vendor].url, { signal: AbortSignal.timeout(10000) })
+        .then((res) => (res.ok ? res.json() : null))
+        .then((json) => {
+            const nets = ((json && json.prefixes) || [])
+                .map((p) => parseCidr(p.ipv4Prefix)).filter(Boolean);
+            // An empty or unparseable list is treated as a failed fetch, never
+            // as "this vendor owns no addresses" — the latter would 403 every
+            // genuine request.
+            rangeCache.set(vendor, {
+                nets: nets.length ? nets : previous,
+                expiresAt: Date.now() + (nets.length ? RANGE_TTL_MS : RANGE_RETRY_MS),
+                loading: false
+            });
+        })
+        .catch(() => {
+            rangeCache.set(vendor, {
+                nets: previous,
+                expiresAt: Date.now() + RANGE_RETRY_MS,
+                loading: false
+            });
+        });
+
+    return pending;
 }
 
 // Resolves the true verdict for one IP. A DNS failure (reverse or forward)
@@ -223,17 +345,33 @@ async function resolveCrawlerIp(ip, ua) {
     } catch (_) {
         verdict = 'unknown';
     }
-    cacheVerdict(ip, verdict);
+    cacheVerdict(ip, verdict, vendor);
     return verdict;
 }
 
 // Fails open on an unseen IP: the first request from it is served while
-// resolution happens in the background, because blocking real Googlebot
+// verification happens in the background, because blocking real Googlebot
 // over a slow DNS response costs far more than the handful of requests an
-// impostor gets in the meantime.
+// impostor gets in the meantime. It stays rate limited either way, so the
+// window is bounded.
 function checkCrawlerClaim(ip, ua) {
     const cached = getCachedVerdict(ip);
     if (cached) return cached;
+
+    const vendor = vendorForUa(ua);
+
+    // Range-verified vendors never touch DNS — they publish no PTR suffix, so
+    // the reverse lookup could only ever produce a false 'impostor'.
+    if (RANGE_VENDORS[vendor]) {
+        const entry = loadRanges(vendor);
+        // Cold start, or a fetch in flight with nothing cached: serve the
+        // request and let the limiter bound it, exactly as Layer 2 does.
+        if (!entry || !entry.nets) return 'unseen';
+        const verdict = ipInNets(ip, entry.nets) ? 'verified' : 'impostor';
+        cacheVerdict(ip, verdict, vendor);
+        return verdict;
+    }
+
     resolveCrawlerIp(ip, ua).catch(() => {});
     return 'unseen';
 }
@@ -251,7 +389,7 @@ const navLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
     keyGenerator: (req) => clientIp(req),
-    skip: (req) => isStaticAssetPath(req.path) || getCachedVerdict(clientIp(req)) === 'verified',
+    skip: (req) => isStaticAssetPath(req.path) || isLimiterExempt(clientIp(req)),
     handler: (req, res, next) => {
         counters.rateLimit++;
         if (isDryRun()) { counters.dryRunWouldBlock++; return next(); }
@@ -326,6 +464,13 @@ function _resetForTest() {
     counters.dryRunWouldBlock = 0;
 }
 
+// Seam for the limiter-asymmetry test. Verification is otherwise only reachable
+// through DNS or an HTTP fetch; seeding the cache lets the test assert which
+// vendors the limiter releases without standing up either.
+function _seedVerdictForTest(ip, verdict, vendor) {
+    cacheVerdict(ip, verdict, vendor);
+}
+
 module.exports = {
     ALLOWED_UAS,
     INTERNAL_UA_MARKER,
@@ -337,5 +482,11 @@ module.exports = {
     isStaticAssetPath,
     resolveCrawlerIp,
     checkCrawlerClaim,
-    _resetForTest
+    isLimiterExempt,
+    vendorForUa,
+    parseCidr,
+    ipInNets,
+    RANGE_VENDORS,
+    _resetForTest,
+    _seedVerdictForTest
 };

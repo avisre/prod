@@ -54,11 +54,28 @@ test('real browser UA with full header set is never blocked', () => {
 
 test('named AI crawlers and social bots classify as denied', () => {
     const uas = [
-        'meta-externalagent/1.1', 'GPTBot/1.0', 'ClaudeBot/1.0', 'PerplexityBot/1.0',
+        'meta-externalagent/1.1', 'GPTBot/1.0', 'ClaudeBot/1.0', 'Perplexity-User/1.0',
         'Bytespider', 'CCBot/2.0', 'anthropic-ai', 'facebookexternalhit/1.1'
     ];
     for (const ua of uas) {
         assert.equal(botBlocker.classifyUa(ua), 'denied', `expected ${ua} to be denied`);
+    }
+});
+
+// The two answer-engine index crawlers are admitted, and admitting them is the
+// whole point of the change: OAI-SearchBot's documentation states an opted-out
+// site "won't appear in ChatGPT search answers", so a 'denied' here silently
+// removes the site from two answer engines. They are 'allowed-claim' — not
+// trusted on the UA alone — because their vendors publish IP ranges rather
+// than reverse-DNS hostnames, and bot-blocker verifies against those.
+test('answer-engine index crawlers are admitted, not denied', () => {
+    for (const ua of ['OAI-SearchBot/1.0', 'PerplexityBot/1.0',
+        'Mozilla/5.0 (compatible; OAI-SearchBot/1.0; +https://openai.com/searchbot)']) {
+        assert.equal(botBlocker.classifyUa(ua), 'allowed-claim', `expected ${ua} to be admitted`);
+    }
+    // Their training-only and on-behalf-of-user siblings must stay out.
+    for (const ua of ['GPTBot/1.0', 'ChatGPT-User/1.0', 'Perplexity-User/1.0']) {
+        assert.equal(botBlocker.classifyUa(ua), 'denied', `expected ${ua} to stay denied`);
     }
 });
 
@@ -245,4 +262,67 @@ test('BOT_BLOCK_ENABLED=false is a full kill switch', () => {
     mw(req, res, () => { nextCalled = true; });
     assert.equal(nextCalled, true);
     assert.equal(res.statusCode, null);
+});
+
+// --- Layer 2b: published-range verification for the AI answer-engine crawlers ---
+
+test('published IP ranges parse and match, including the /0 and /32 edges', () => {
+    const nets = ['104.210.140.128/28', '13.66.216.176/28', '135.234.64.0/24', '3.224.62.45/32']
+        .map((c) => botBlocker.parseCidr(c));
+    assert.ok(nets.every(Boolean), "every prefix shape the vendors ship must parse");
+    assert.equal(botBlocker.ipInNets('104.210.140.130', nets), true, 'inside a /28');
+    assert.equal(botBlocker.ipInNets('104.210.140.143', nets), true, 'last address of a /28');
+    assert.equal(botBlocker.ipInNets('104.210.140.144', nets), false, 'first address past a /28');
+    assert.equal(botBlocker.ipInNets('135.234.64.7', nets), true, 'inside a /24');
+    assert.equal(botBlocker.ipInNets('3.224.62.45', nets), true, 'a /32 matches exactly');
+    assert.equal(botBlocker.ipInNets('3.224.62.46', nets), false, 'a /32 excludes its neighbour');
+    assert.equal(botBlocker.ipInNets('not-an-ip', nets), false, 'garbage must never match');
+    // A /0 is the one case JS cannot express by shifting: 1<<32 is a no-op, so
+    // the all-addresses prefix needs its own branch or it would match nothing.
+    assert.equal(botBlocker.ipInNets('8.8.8.8', [botBlocker.parseCidr('0.0.0.0/0')]), true);
+    assert.equal(botBlocker.parseCidr('nonsense/24'), null);
+    assert.equal(botBlocker.parseCidr('10.0.0.0/33'), null);
+    assert.equal(botBlocker.parseCidr('10.0.0.256/24'), null);
+});
+
+// The regression this guards: neither vendor publishes a reverse-DNS hostname,
+// so routing either one down the PTR path finds no matching suffix and marks a
+// GENUINE crawler an impostor — the exact bug that made this more than a
+// two-line change. vendorForUa is what keeps them on the range path.
+test('vendor routing sends each crawler to the verification method its vendor publishes', () => {
+    assert.equal(botBlocker.vendorForUa('OAI-SearchBot/1.0'), 'openai');
+    assert.equal(botBlocker.vendorForUa('PerplexityBot/1.0'), 'perplexity');
+    assert.equal(botBlocker.vendorForUa('Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)'), 'google');
+    assert.equal(botBlocker.vendorForUa('Mozilla/5.0 (compatible; bingbot/2.0)'), 'bing');
+
+    assert.ok(botBlocker.RANGE_VENDORS[botBlocker.vendorForUa('OAI-SearchBot/1.0')],
+        'the OpenAI crawler must take the range path');
+    assert.ok(botBlocker.RANGE_VENDORS[botBlocker.vendorForUa('PerplexityBot/1.0')],
+        'the Perplexity crawler must take the range path');
+    assert.equal(botBlocker.RANGE_VENDORS[botBlocker.vendorForUa('Googlebot/2.1')], undefined,
+        'Google must NOT take the range path — it is PTR-verified');
+});
+
+// The invariant that makes "bounded rate" true rather than aspirational.
+// Verification and rate limiting are separate jobs: verifying the AI crawlers
+// stops an impostor wearing their name, and the nav limit is what bounds their
+// crawl on a 5GB plan. Letting verification imply exemption would hand OpenAI
+// and Perplexity unthrottled access to a 21,689-URL sitemap.
+test('verification does not imply exemption — only Google and Bing skip the nav limit', () => {
+    botBlocker._resetForTest();
+    botBlocker._seedVerdictForTest('104.210.140.130', 'verified', 'openai');
+    botBlocker._seedVerdictForTest('3.224.62.45', 'verified', 'perplexity');
+    assert.equal(botBlocker.isLimiterExempt('104.210.140.130'), false,
+        'a verified OpenAI crawler must stay rate limited');
+    assert.equal(botBlocker.isLimiterExempt('3.224.62.45'), false,
+        'a verified Perplexity crawler must stay rate limited');
+
+    botBlocker._seedVerdictForTest('66.249.66.1', 'verified', 'google');
+    botBlocker._seedVerdictForTest('40.77.167.1', 'verified', 'bing');
+    assert.equal(botBlocker.isLimiterExempt('66.249.66.1'), true, 'verified Googlebot skips the limit');
+    assert.equal(botBlocker.isLimiterExempt('40.77.167.1'), true, 'verified Bingbot skips the limit');
+
+    botBlocker._seedVerdictForTest('203.0.113.9', 'impostor', 'google');
+    assert.equal(botBlocker.isLimiterExempt('203.0.113.9'), false, 'an impostor is never exempt');
+    botBlocker._resetForTest();
 });

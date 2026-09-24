@@ -1,17 +1,26 @@
 # Stock Portfolio Pro - robots.txt
 # Site:    https://stockportfolio.pro
-# Updated: 2026-09-11
+# Updated: 2026-09-24
 # Contact: support@stockportfolio.pro
 #
-# Policy change 2026-09-11: default flipped from allow-all to deny-all. Only
-# Google and Bing are crawlable now. Render's Hobby-plan bandwidth (5GB/mo)
-# was being consumed primarily by bot/crawler traffic hitting the SEO page
-# surface — 68% of all site traffic was bots, and Meta's AI crawler alone
-# was 53% of ALL traffic. backend/bot-blocker.js enforces this same policy
-# server-side (403), since robots.txt is only a request a crawler can choose
-# to ignore. The two files must agree agent-by-agent — drift is caught by
-# backend/test/robots-policy.test.js. Full rationale in
-# docs/growth/bot-crawler-situation-2026-09-05.md.
+# Policy change 2026-09-11: default flipped from allow-all to deny-all. Render's
+# Hobby-plan bandwidth (5GB/mo) was being consumed primarily by bot/crawler
+# traffic hitting the SEO page surface — 68% of all site traffic was bots, and
+# Meta's AI crawler alone was 53% of ALL traffic. backend/bot-blocker.js
+# enforces this same policy server-side (403), since robots.txt is only a
+# request a crawler can choose to ignore. The two files must agree
+# agent-by-agent — drift is caught by backend/test/robots-policy.test.js. Full
+# rationale in docs/growth/bot-crawler-situation-2026-09-05.md.
+#
+# Policy amendment 2026-09-24: the crawlable set is no longer Google + Bing
+# only. OAI-SearchBot and PerplexityBot were moved out of the refused group
+# into the Allowed — AI answer-engine INDEX crawlers section below, because they
+# populate answer-engine indexes rather than training corpora and refusing them
+# closed a citation channel. They are IP-verified against the ranges their
+# vendors publish and, unlike Google and Bing, are NOT exempt from the nav rate
+# limit — that limit is the bound they were admitted under. Every training-only
+# crawler (GPTBot, CCBot, Bytespider, ClaudeBot, meta-externalagent) remains
+# refused.
 #
 # Denied here does not mean unavailable. Licensed bulk data (SEC as-filed
 # fundamentals plus filing-change deltas, every row carrying a sourceUrl back
@@ -90,6 +99,45 @@ Allow: /
 Disallow: /api/
 
 # ---------------------------------------------------------------------------
+# Allowed — AI answer-engine INDEX crawlers (not training crawlers)
+# ---------------------------------------------------------------------------
+# These two are admitted on a different argument from the refused group below.
+# They populate answer-engine indexes: OAI-SearchBot's own documentation states
+# that an opted-out site "won't appear in ChatGPT search answers." Refusing
+# them therefore closes a citation channel rather than saving bandwidth, which
+# is what the 2026-09-11 deny-by-default rewrite was actually for.
+#
+# They are not simply re-allowed. backend/bot-blocker.js verifies each against
+# the IP ranges its vendor publishes — https://openai.com/searchbot.json and
+# https://perplexity.com/perplexitybot.json — because neither vendor publishes
+# a reverse-DNS hostname, so the PTR method used for Google and Bing cannot
+# apply to them. Unlike Google and Bing they are also deliberately NOT exempt
+# from the per-IP navigation rate limit: verification stops an impostor taking
+# their name, and the rate limit is what bounds their crawl on a 5GB plan.
+#
+# The training-only crawlers (GPTBot, CCBot, Bytespider, ClaudeBot) remain
+# refused below. That is a separate call and this section does not revisit it.
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /dashboard.html
+Disallow: /fundamentals
+Disallow: /fundamentals.html
+Disallow: /v1/
+Disallow: /v2/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /dashboard
+Disallow: /dashboard.html
+Disallow: /fundamentals
+Disallow: /fundamentals.html
+Disallow: /v1/
+Disallow: /v2/
+
+# ---------------------------------------------------------------------------
 # Refused — other search engines
 # ---------------------------------------------------------------------------
 User-agent: DuckDuckBot
@@ -116,9 +164,6 @@ Disallow: /
 User-agent: ChatGPT-User
 Disallow: /
 
-User-agent: OAI-SearchBot
-Disallow: /
-
 User-agent: anthropic-ai
 Disallow: /
 
@@ -126,9 +171,6 @@ User-agent: ClaudeBot
 Disallow: /
 
 User-agent: Claude-Web
-Disallow: /
-
-User-agent: PerplexityBot
 Disallow: /
 
 User-agent: Perplexity-User
