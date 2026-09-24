@@ -42,8 +42,13 @@ vocabulary is ink, not glitter.
   number on screen.
 - **Phase 2 PART SHIPPED (9/25)** — "Since you bought" (`renderSinceBought`, `#since-section`):
   purchase dates reflected back. Durations come ONLY from the stored `purchaseDate`, never a saved-at
-  stamp, and an undated holding gets **no** row — it is counted and disclosed ("1 of 3 came without a
-  purchase date"). Still to do: thesis letter, anniversaries.
+  stamp, and an undated holding gets **no** row — it is counted and disclosed. **Defect found while
+  shipping: the backend had been writing the add day into `purchaseDate` on undated adds/imports
+  since launch** — our clock laundered into the user's memory slot. Fixed at all three write paths
+  (absent stays absent; the add form sends nothing when the field is empty) and at display: a date
+  falling on the row's own creation day (readable from its `_id`) is treated as ours, suppressed and
+  disclosed — it cannot be told apart from the old default. `test/portfolio-since.test.js` pins all
+  of it. Still to do: thesis letter, anniversaries.
 - **Phase 4 SHIPPED (9/25)** — the red pen on `verify.html` (`.vf-pen`): told figure struck through,
   filed figure stamped in beside it.
 - **REAL DEFECT FOUND AND FIXED (9/25)** — the headline-vs-filing `money()` formatter chose its decimal

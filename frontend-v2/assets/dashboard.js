@@ -417,6 +417,23 @@
         } catch (_) { /* non-critical */ }
     }
 
+    // The purchase date we can actually call the user's. `h.purchaseDate` is
+    // only theirs when it cannot be the add-day default the backend used to
+    // write in when no date was given — that stamp always lands on the same
+    // day the row itself was created, and a holding's _id embeds that moment.
+    // A date the user really typed is indistinguishable only when it is from
+    // the same day, so same day reads as ours and is treated as absent.
+    function userDatedPurchase(h) {
+        const raw = h.purchaseDate ? new Date(h.purchaseDate) : null;
+        if (!raw || Number.isNaN(raw.getTime())) return null;
+        const oid = String(h._id || '');
+        if (!/^[0-9a-f]{24}$/i.test(oid)) return h.purchaseDate; // demo/API rows carry no creation day
+        const created = new Date(parseInt(oid.slice(0, 8), 16) * 1000);
+        const sameDay = (a, b) => a.getUTCFullYear() === b.getUTCFullYear()
+            && a.getUTCMonth() === b.getUTCMonth() && a.getUTCDate() === b.getUTCDate();
+        return sameDay(created, raw) ? null : h.purchaseDate;
+    }
+
     function holdingToRow(h) {
         const shares = num(h.shares) || 0;
         const current = num(h.currentPrice);
@@ -438,8 +455,9 @@
             gainUsd,
             // Carried for "Since you bought". Read straight off the stored
             // holding — never derived from a saved-at timestamp, which is our
-            // clock, not the user's.
-            purchaseDate: h.purchaseDate || null
+            // clock, not the user's — and only when it is provably theirs
+            // (see userDatedPurchase for the legacy-default guard).
+            purchaseDate: userDatedPurchase(h)
         };
     }
 
@@ -486,7 +504,7 @@
 
         body.innerHTML = `
           <p class="since-total">You have held these positions for <strong>${esc(held(totalDays))}</strong> in total${
-              missing ? ` &middot; ${missing} of ${rows.length} came without a purchase date, so ${missing === 1 ? 'it is' : 'they are'} not counted here` : ''
+              missing ? ` &middot; ${missing} of ${rows.length} have no purchase date of yours to show, so ${missing === 1 ? 'it is' : 'they are'} not counted here` : ''
           }.</p>
           <div class="since-list">
             ${dated.map(({ row, days }) => `
@@ -497,7 +515,7 @@
                 <span class="since-paid">${row.paid === null ? 'you paid —' : `you paid $${fixed(row.paid, 2)}`}${row.price === null ? '' : ` &rarr; $${fixed(row.price, 2)} today`}</span>
               </div>`).join('')}
           </div>
-          <p class="small muted since-foot">Longest held: <strong>${esc(oldest.row.symbol)}</strong> &mdash; ${esc(held(oldest.days))}, opened ${esc(oldest.at.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))}. Every date here is one you gave us.</p>`;
+          <p class="small muted since-foot">Longest held: <strong>${esc(oldest.row.symbol)}</strong> &mdash; ${esc(held(oldest.days))}, opened ${esc(oldest.at.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }))}. ${DEMO ? 'Sample portfolio — these dates come with the demo.' : 'Every date here is one you gave us.'}</p>`;
         section.hidden = false;
     }
 
@@ -900,7 +918,7 @@
                 <td class="row-head" style="text-align:left;"><strong>${esc(r.symbol)}</strong>${r.merges ? ' <span class="chip">merges with existing</span>' : ''}</td>
                 <td>${fixed(r.shares, r.shares % 1 ? 2 : 0)}</td>
                 <td>${r.price > 0 ? '$' + fixed(r.price, 2) : '—'}</td>
-                <td>${r.purchaseDate ? esc(r.purchaseDate) : 'today'}</td>
+                <td>${r.purchaseDate ? esc(r.purchaseDate) : '—'}</td>
               </tr>`).join('');
             const skipHtml = skipped.length
                 ? `<div class="notice notice-neg" style="margin:12px 0 0;">${skipped.map((s) => `! Row ${s.line} — ${esc(s.reason)} → skipped`).join('<br>')}</div>`
@@ -1431,7 +1449,11 @@
         const shared = { shares, portfolioId: pfTargetId() };
         const price = Number($('add-price').value);
         if (price > 0) shared.purchasePrice = price;
-        shared.purchaseDate = ($('add-date') && $('add-date').value) || new Date().toISOString().slice(0, 10);
+        // A purchase date is sent only when the user entered one. Defaulting
+        // to today would tell the backend we know a date we don't — the exact
+        // fabrication POST /api/portfolio no longer performs on its side.
+        const enteredDate = $('add-date') && $('add-date').value;
+        if (enteredDate) shared.purchaseDate = enteredDate;
 
         if (symbols.length === 1) {
             const symbol = symbols[0];

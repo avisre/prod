@@ -3,13 +3,15 @@
 // Pins "Since you bought" — the panel that reflects the user's own purchase
 // history back at them.
 //
-// Why this file exists: the product has stored a purchase date on every holding
-// since the beginning and never once showed it back. The whole value of the
-// feature rests on one property — the duration shown is the user's own date and
-// nothing else. The saved-at timestamp is our clock; a duration derived from it
-// would be the product claiming a memory the user never gave it. So the two
-// rules pinned here are: a duration only ever comes from `purchaseDate`, and a
-// holding without one is counted and disclosed rather than estimated.
+// Why this file exists: the product stores a purchase date the user can enter
+// and never once showed it back. The whole value of the feature rests on one
+// property — the duration shown is the user's own date and nothing else. The
+// saved-at timestamp is our clock; a duration derived from it would be the
+// product claiming a memory the user never gave it. For years the backend
+// also wrote the add day into purchaseDate when no date was given, which is
+// the same lie one layer down, so the rules pinned here are: a duration only
+// ever comes from a purchase date that is provably the user's, and a holding
+// without one is counted and disclosed rather than estimated.
 
 const test = require('node:test');
 const assert = require('node:assert/strict');
@@ -38,12 +40,13 @@ const heldLabel = new Function(`${sliceFn(appJs, 'function heldLabel(days) {', '
 function render(rows) {
     const nodes = { 'since-section': { hidden: true }, 'since-body': { innerHTML: '' } };
     const fn = sliceFn(dashboardJs, 'function renderSinceBought(rows) {');
-    const call = new Function('$', 'esc', 'fixed', 'heldLabel', `${fn}
+    const call = new Function('$', 'esc', 'fixed', 'heldLabel', 'DEMO', `${fn}
         return renderSinceBought;`)(
         (id) => nodes[id] || null,
         (s) => String(s == null ? '' : s),
         (n, d) => Number(n).toFixed(d),
-        heldLabel
+        heldLabel,
+        false
     );
     call(rows);
     return { hidden: nodes['since-section'].hidden, html: nodes['since-body'].innerHTML };
@@ -67,7 +70,7 @@ test('a holding with no purchase date is disclosed, never given a duration', () 
         { symbol: 'MSFT', name: 'Microsoft', purchaseDate: null, gain: 12.0, paid: 300, price: 336 },
         { symbol: 'KO', name: 'Coca-Cola', purchaseDate: 'not a date', gain: 4.9, paid: 58.2, price: 61.05 }
     ]);
-    assert.match(html, /2 of 3 came without a purchase date/, 'undated holdings must be counted out loud');
+    assert.match(html, /2 of 3 have no purchase date of yours to show/, 'undated holdings must be counted out loud');
     assert.doesNotMatch(html, /MSFT/, 'an undated holding must not be given a row with an invented duration');
     assert.doesNotMatch(html, /under a month\s*<\/span>\s*<span class="since-delta[^>]*>—?12/, 'no MSFT row');
 });
@@ -116,10 +119,55 @@ test('heldLabel is empty below a month and reads in years and months above it', 
 
 test('holdingToRow carries purchaseDate off the stored holding, not a saved-at stamp', () => {
     const row = sliceFn(dashboardJs, 'function holdingToRow(h) {');
-    assert.match(row, /purchaseDate: h\.purchaseDate \|\| null/);
+    assert.match(row, /purchaseDate: userDatedPurchase\(h\)/);
     for (const forbidden of ['createdAt', 'updatedAt', 'savedAt', 'Date.now()']) {
         assert.ok(!row.includes(forbidden), `holdingToRow must not derive a duration from ${forbidden}`);
     }
+});
+
+test('a date that only falls on the holding\'s add day is not treated as the user\'s', () => {
+    // The backend used to write the add day into purchaseDate when no date was
+    // given. Those stamps always land on the same day the row was created
+    // (its _id embeds that moment), so same-day dates are ours, not the
+    // user's — and a duration built on one would be a memory we invented.
+    const guard = `${sliceFn(dashboardJs, 'function userDatedPurchase(h) {')}\n${sliceFn(dashboardJs, 'function holdingToRow(h) {')}\n return holdingToRow;`;
+    const holdingToRow = new Function('num', guard)((v) => {
+        const n = Number(v);
+        return Number.isFinite(n) ? n : null;
+    });
+    const oid = (when) => Math.floor(when.getTime() / 1000).toString(16).padStart(8, '0') + '0'.repeat(16);
+    const added = new Date(Date.now() - 400 * 86400000); // holding row created 400 days ago
+
+    // A "purchase date" on the add day itself: the old default, not a memory.
+    const stamped = holdingToRow({ _id: oid(added), symbol: 'KO', shares: 5, purchasePrice: 48, currentPrice: 61, purchaseDate: added.toISOString() });
+    assert.equal(stamped.purchaseDate, null, 'the add-day default must read as absent');
+
+    // A real purchase date from before the row existed is the user's own.
+    const genuine = holdingToRow({ _id: oid(added), symbol: 'KO', shares: 5, purchasePrice: 48, currentPrice: 61, purchaseDate: new Date(added.getTime() - 100 * 86400000).toISOString() });
+    assert.ok(genuine.purchaseDate, 'a date the user gave before adding the row is kept');
+
+    // Demo rows carry string ids with no creation day to compare — their
+    // authored sample dates stay.
+    const demo = holdingToRow({ _id: 'demo-aapl', symbol: 'AAPL', shares: 120, purchasePrice: 148.32, currentPrice: 218, purchaseDate: '2023-03-15T00:00:00.000Z' });
+    assert.ok(demo.purchaseDate, 'demo sample dates are kept');
+});
+
+test('the backend no longer writes an add-day default into purchaseDate', () => {
+    // Both fabrication sites are pinned by their replacement, because a
+    // regression here is silent: the field fills in, the data looks complete,
+    // and three years later the panel claims a memory the user never gave.
+    const appJs = fs.readFileSync(path.join(__dirname, '../app.js'), 'utf8');
+    assert.match(appJs, /let purchase = purchaseDate \? new Date\(purchaseDate\) : null;/,
+        'POST /api/portfolio must store null when no date was given');
+    assert.match(appJs, /purchaseDate: row\.purchaseDate \? new Date\(`\$\{row\.purchaseDate\}T00:00:00Z`\) : null,/,
+        'CSV import must store null when the row carries no date');
+    assert.ok(!/: new Date\(\),\s*\n\s*currentPrice: livePrice/.test(appJs), 'no write path may default the date');
+});
+
+test('the add form no longer sends today as the purchase date', () => {
+    assert.doesNotMatch(dashboardJs, /purchaseDate = .*\|\| new Date\(\)\.toISOString/,
+        'an empty date field must not be filled in with today client-side');
+    assert.match(dashboardJs, /if \(enteredDate\) shared\.purchaseDate = enteredDate;/);
 });
 
 test('the panel is drawn even when the portfolio is empty, so it can hide itself', () => {
@@ -138,5 +186,5 @@ test('the section markup and its styles exist, and the stamp is fresh', () => {
         assert.ok(dashboardHtml.includes(`.${cls}`), `dashboard.html is missing .${cls}`);
     }
     assert.doesNotMatch(dashboardHtml, /20260925-arrival/, 'the stamp must move when the assets change');
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260925-quiet1/);
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20260925-since1/);
 });
