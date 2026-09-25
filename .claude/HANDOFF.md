@@ -24,24 +24,20 @@ transcript. Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `~/.c
 
 ## In flight
 
-**Claude plugin directory — package READY, not submitted; two preconditions open (9/25).** Drafted in
-`docs/growth/claude-plugin-submission.md`; built and passing at
-`/Users/drasharaghavan/stockportfolio-claude-plugin` (NOT a git repo yet, NOT pushed): manifest + `.mcp.json`
-(remote `https://www.stockportfolio.pro/mcp`, OAuth/DCR, no key paste) + one skill + one slash command.
-`claude plugin validate . --strict` passes; the leak gate (`mcp-server/scripts/no-leak-check-plugin.cjs`) is
-clean, and a local install showed 2 skills + 1 MCP server loaded (`claude mcp list` → `✔ Connected`).
-- **Chose the free plugin route, not the Connectors Directory.** The connector portal needs a
-  Team/Enterprise claude.ai org — 2 seats × $25 = **$50/month just to unlock the form**. The escape hatch for
-  individual authors is Console: `platform.claude.com/plugins/submit`.
-- **PRECONDITION 1 — a deploy is required.** Prod `tools/list` measured 9/25: **7 tools, 7 titles, ZERO
-  annotations.** The `readOnlyHint: true` fix is in `backend/mcp-endpoint.js` in the working tree but not
-  live, and the hint is a hard review requirement.
-- **PRECONDITION 2 — the bot-blocker fix must ship too.** `/docs/api-mcp` and `/privacy` are declared to
-  Anthropic and must not 403 their scanner (same trap as the AppSumo listing, 9/23).
-- **Owner-only:** create the free Console org and authorise the public repo
-  `avisre/stockportfolio-claude-plugin` (must NOT be `avisre/prod` — public, and it names the provider).
-  Deferred: the **listing icon** — the plugin form takes only a repo link, so it has no consumer; do not
-  fabricate a brand asset without sign-off.
+**Claude plugin directory — repo PUBLIC, both preconditions deployed and verified; the submission is the one
+step left (9/25).** `https://github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 6 files — config
+and prose, no source code). Package drafted in `docs/growth/claude-plugin-submission.md`. `validate --strict`
+and the leak gate (`mcp-server/scripts/no-leak-check-plugin.cjs`) both pass, re-run against a fresh clone; a
+local install connected live.
+- **Chose the free plugin route, not the Connectors Directory** — that portal needs a Team/Enterprise
+  claude.ai org, 2 seats × $25 = **$50/month just to unlock the form**. The escape hatch for individual
+  authors is `platform.claude.com/plugins/submit`.
+- **Shipped and verified from outside (9/25)** (deploy run 36146004424, success): prod `tools/list` returns
+  **7 tools, 7 with `readOnlyHint`** (was 0), and `/docs/api-mcp` + `/privacy` return **200** to a
+  non-browser UA while `/docs`, `/terms`, `/privacyx` and `/docs/api-mcp/extra` still 403 — so the exemption
+  is not over-broad.
+- **Owner-only, the last step:** the free Console org + the submission. Deferred: the **listing icon** — the
+  plugin form takes only a repo link, so it has no consumer; do not fabricate a brand asset without sign-off.
 - Reviewer test path: the **keyless tier exercises every tool** (2 asks + 50 lookups/30d), so no credential
   handover is needed. `sp_fund` proxies third-party fund data we don't own — declare it.
 
@@ -146,8 +142,8 @@ Artifact publishing is refused here.
   `frontend-v2/*.html` + the server-rendered pages in `backend/`) plus the pinned test literals.
 
 ## Owner actions pending
-1. **Authorise the plugin repo + deploy the two preconditions** (annotations, bot-blocker), then submit at
-   `platform.claude.com/plugins/submit` — see above.
+1. **Submit the plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
+   preconditions are deployed and verified; see above.
 2. **Dossier mockup review** — step 2, the port, has not started.
 3. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither.

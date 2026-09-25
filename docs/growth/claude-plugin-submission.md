@@ -4,7 +4,9 @@ Target: Anthropic's **plugin directory**, which surfaces in Claude Code and Cowo
 `claude-plugins-official`. Same shape as `mcp-directory-listings.md`: everything
 pre-drafted so the human pastes rather than composes.
 
-**Status: prepared, not submitted.** Two preconditions are open — see below.
+**Status: ready to submit.** Both preconditions shipped and were verified from
+outside on 2026-09-25. Two owner-only steps remain — a public repo and the Console
+form; see below.
 
 ## Why this route and not the Connectors Directory
 
@@ -41,18 +43,16 @@ The Console form takes little more than the repo link, so the real listing copy 
 **in the repo** — `README.md` is the storefront a user reads before installing, and
 `plugin.json`'s `description` is what the directory shows. Both are written.
 
-## Preconditions — both must be true before submitting
+## Preconditions — both met
 
-- [ ] **Deploy the annotations fix.** The plugin points at
-  `https://www.stockportfolio.pro/mcp`, and that endpoint must serve
-  `readOnlyHint: true` on all 7 tools. Verified 2026-09-25: production currently
-  returns **7 titles and 0 annotations** — the fix is in the repo, not yet live.
-  Directory review requires the hint, so submitting before the deploy fails on a
-  point we have already fixed.
-- [ ] **Deploy the bot-blocker exemption.** `/docs/api-mcp` and `/privacy` are
-  declared to Anthropic and must be readable by their review. Both answered **403**
-  to a non-browser fetch before the fix (`anthropic-ai` and `claudebot` are in
-  `DENY_PATTERNS`), which is the same trap that blocked the AppSumo listing on 9/23.
+- [x] **The annotations are live.** Deployed 2026-09-25 (run 36146004424, success).
+  Production `tools/list` returns **7 tools, all 7 carrying `readOnlyHint: true`** —
+  read from the live endpoint, not from the repo.
+- [x] **The bot-blocker exemption is live.** `/docs/api-mcp` and `/privacy` return
+  **200** to a non-browser UA, which they did not before (`anthropic-ai` and
+  `claudebot` are in `DENY_PATTERNS` — the trap that blocked the AppSumo listing on
+  9/23). Negative controls still 403: `/docs`, `/terms`, `/privacyx`,
+  `/docs/api-mcp/extra`, so the exemption is not over-broad.
 
 ## Reviewer test account
 
