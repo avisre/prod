@@ -24,18 +24,18 @@ transcript. Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `~/.c
 
 ## In flight
 
-**Claude plugin directory — repo PUBLIC, both preconditions deployed and verified; the submission is the one
-step left (9/25).** `https://github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 6 files — config
-and prose, no source code). Package drafted in `docs/growth/claude-plugin-submission.md`. `validate --strict`
-and the leak gate (`mcp-server/scripts/no-leak-check-plugin.cjs`) both pass, re-run against a fresh clone; a
-local install connected live.
+**Claude plugin directory — repo PUBLIC and installable NOW; the submission form is the one step left
+(9/25).** `https://github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 7 files — config and prose,
+no source code). It carries its own `.claude-plugin/marketplace.json`, so `claude plugin marketplace add
+avisre/stockportfolio-claude-plugin` + `claude plugin install stockportfolio@stockportfolio` works today —
+verified from GitHub. Package: `docs/growth/claude-plugin-submission.md`; validation + leak gate pass.
 - **Chose the free plugin route, not the Connectors Directory** — that portal needs a Team/Enterprise
-  claude.ai org, 2 seats × $25 = **$50/month just to unlock the form**. The escape hatch for individual
-  authors is `platform.claude.com/plugins/submit`.
+  claude.ai org, 2 seats × $25 = **$50/month just to unlock the form**. The free form
+  (`platform.claude.com/plugins/submit`) lists into the **community** catalog `claude-community`; the
+  **official** one takes no submissions at all, only a partner contact.
 - **Shipped and verified from outside (9/25)** (deploy run 36146004424, success): prod `tools/list` returns
-  **7 tools, 7 with `readOnlyHint`** (was 0), and `/docs/api-mcp` + `/privacy` return **200** to a
-  non-browser UA while `/docs`, `/terms`, `/privacyx` and `/docs/api-mcp/extra` still 403 — so the exemption
-  is not over-broad.
+  **7 tools, 7 with `readOnlyHint`** (was 0); `/docs/api-mcp` + `/privacy` return **200** to a non-browser UA
+  while `/docs`, `/terms`, `/privacyx`, `/docs/api-mcp/extra` still 403 — the exemption is not over-broad.
 - **Owner-only, the last step:** the free Console org + the submission. Deferred: the **listing icon** — the
   plugin form takes only a repo link, so it has no consumer; do not fabricate a brand asset without sign-off.
 - Reviewer test path: the **keyless tier exercises every tool** (2 asks + 50 lookups/30d), so no credential

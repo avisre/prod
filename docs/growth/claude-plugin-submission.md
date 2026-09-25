@@ -1,12 +1,33 @@
 # Claude plugin directory — submission package
 
-Target: Anthropic's **plugin directory**, which surfaces in Claude Code and Cowork as
-`claude-plugins-official`. Same shape as `mcp-directory-listings.md`: everything
-pre-drafted so the human pastes rather than composes.
+Target: the **community** marketplace, `claude-community`. The form below lists a
+plugin into `anthropics/claude-plugins-community`, in nearly every case pinned to a
+commit SHA. That is a *different* directory from the **official** marketplace
+(`claude-plugins-official`), which does not take submissions through these forms at
+all — it is reached only through an Anthropic partner contact. Worth knowing before
+submitting, so the listing isn't a surprise.
 
-**Status: ready to submit.** Both preconditions shipped and were verified from
-outside on 2026-09-25. Two owner-only steps remain — a public repo and the Console
-form; see below.
+Same shape as `mcp-directory-listings.md`: everything pre-drafted so the human pastes
+rather than composes.
+
+**Status: the repo is public and installable today; the form is the one step left.**
+Both preconditions shipped and were verified from outside on 2026-09-25 — see below.
+
+## It already installs, with no submission involved
+
+Anthropic's own docs: *"You can keep the file in the plugin's own repository… save
+the marketplace file beside `plugin.json` in `.claude-plugin/`, with one entry whose
+`source` is `"./"`. Once the file is in the repository, the plugin is published, with
+no submission form."* So the repo carries a `.claude-plugin/marketplace.json`:
+
+```
+claude plugin marketplace add avisre/stockportfolio-claude-plugin
+claude plugin install stockportfolio@stockportfolio
+```
+
+Verified by installing it that way from the public repo — 2 skills and 1 MCP server
+loaded, `claude mcp list` reported `✔ Connected`. The community listing adds
+discoverability inside `/plugin`; it is not what makes the plugin installable.
 
 ## Why this route and not the Connectors Directory
 
@@ -25,23 +46,30 @@ Two consequences to hold onto:
 - A plugin listing **does not** put the connector in claude.ai chat. Separate
   directories. The plugin reaches Claude Code and Cowork users, which is the
   developer audience the Dev plan ($19.99/mo, 200 credits) was built for.
-- Anthropic *"strongly encourages using connectors that already exist in the
-  Connectors Directory"* and says it raises the odds of verification and reduces the
-  warnings users see. Ours is not in the directory, so expect more warnings and a
-  lower chance of the Verified badge. Disclose, don't hide.
+- The plugin listing lands in the **community** catalog, not the official one, and
+  neither is the Connectors Directory. Anthropic's connector-directory material
+  *"strongly encourages using connectors that already exist in the Connectors
+  Directory"*, but that is guidance for that route and the community plugin form
+  states no such requirement. A reviewer may still ask why the connector isn't in
+  the directory; the honest answer is the cost decision above.
 
 ## The submission
 
-- **Form:** <https://platform.claude.com/plugins/submit> (Console org — free to create)
+- **Form:** <https://platform.claude.com/plugins/submit> (Console org — free to create).
+  Lists into `claude-community`, sourced from `anthropics/claude-plugins-community`.
 - **Public repo:** <https://github.com/avisre/stockportfolio-claude-plugin>
 - **License:** MIT (required — closed-source plugins are not accepted)
-- **Bundles:** one remote MCP connector (7 tools) + 2 skills
+- **Bundles:** one remote MCP connector (7 tools) + 2 skills + 1 slash command
 - **Documentation URL:** <https://www.stockportfolio.pro/docs/api-mcp>
 - **Support:** support@stockportfolio.pro
 
 The Console form takes little more than the repo link, so the real listing copy lives
 **in the repo** — `README.md` is the storefront a user reads before installing, and
-`plugin.json`'s `description` is what the directory shows. Both are written.
+`plugin.json`'s `description` is what the catalog shows. Both are written.
+
+After submitting, check the [community
+catalog](https://github.com/anthropics/claude-plugins-community/blob/main/.claude-plugin/marketplace.json)
+for the plugin name — there can be a delay before it appears.
 
 ## Preconditions — both met
 
