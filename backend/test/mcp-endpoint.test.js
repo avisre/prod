@@ -56,6 +56,21 @@ test('hosted MCP endpoint: tools/list and tools/call over real Streamable HTTP',
         'the hosted endpoint advertises the same 7 tools as the stdio dev server'
     );
 
+    // The connector-directory review requires every tool to carry a `title` and
+    // the applicable hint, and a missing one is a documented rejection reason.
+    // Asserted over the real wire, through the SDK, because that is what a
+    // reviewer's scanner sees — a missing annotation is invisible from the
+    // source alone once anything reshapes the payload in transit.
+    for (const tl of tools) {
+        assert.ok(tl.title, `${tl.name} must carry a title for directory review`);
+        assert.equal(
+            tl.annotations && tl.annotations.readOnlyHint,
+            true,
+            `${tl.name} must declare readOnlyHint — the hosted endpoint writes nothing, ` +
+            'so anything destructive here would be a false claim to the reviewer'
+        );
+    }
+
     const health = await client.callTool({ name: 'sp_health', arguments: {} });
     const healthPayload = JSON.parse(health.content[0].text);
     assert.equal(healthPayload.status, 'ok');

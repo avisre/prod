@@ -272,9 +272,13 @@
             // only — see app.js's apiAccessGate) the same way the Monitor and
             // AI Paper rows are gated: shown only to accounts that can actually
             // use it, so nobody sees a price for a feature their plan can't reach.
-            // REST is priced at exactly 2x MCP — a stated rule, not two
-            // independent numbers, so both are shown together for comparison.
-            if (hasApiAccess) parts.push(`MCP lookup ${cost.mcp_lookup ?? 1}`, `MCP ask ${cost.mcp_ask ?? 2}`, `API lookup ${cost.api_lookup ?? 2}`, `API ask ${cost.api_ask ?? 4}`);
+            // MCP and the REST API are priced identically, action for action.
+            // The old "REST is priced at exactly 2x MCP" rule was retired on
+            // 2026-09-23 (see the COST comment in backend/credits.js): both
+            // surfaces run the same call over the same data, so a split with no
+            // cost basis behind it was arbitrary. Shown together because the
+            // numbers agree on purpose, not because one derives from the other.
+            if (hasApiAccess) parts.push(`MCP lookup ${cost.mcp_lookup ?? 2}`, `MCP ask ${cost.mcp_ask ?? 42}`, `API lookup ${cost.api_lookup ?? 2}`, `API ask ${cost.api_ask ?? 42}`);
             costEl.textContent = `What things cost — ${parts.join(' · ')}. Re-opening anything you've already run is free.`;
         }
 

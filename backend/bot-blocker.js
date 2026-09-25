@@ -116,7 +116,18 @@ const DENY_PATTERNS = [
 // check 403'd it and blocked submission (found 2026-09-23). It serves no
 // crawlable content: without a ?code it renders a bare redeem form, and with
 // one it needs a valid single-use AppSumo authorization code to do anything.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/];
+//
+// /docs/api-mcp and /privacy join them for the connector-directory review. A
+// listing submission declares a documentation URL and a privacy policy URL, and
+// Anthropic's reviewers read both before deciding. DENY_PATTERNS refuses
+// `anthropic-ai` and `claudebot`, and the forged-browser check refuses anything
+// carrying no browser headers — so both pages answered 403 to the one reader
+// whose opinion decides the listing. Same trap as /appsumo/redeem above, one
+// partner over. Scoped to these two exact paths (trailing slash tolerated, since
+// app.js canonicalises /privacy/ to /privacy) rather than all of /docs/*, so the
+// exemption covers the two URLs actually declared and no crawlable data moves:
+// both render static prose and neither reads a query parameter.
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/];
 
 // .json deliberately excluded: it used to let bulk data (the fundamentals
 // corpus) skip the nav rate limiter entirely. It's now gated at the app.js

@@ -145,6 +145,30 @@ test('/licensing is exempt so a blocked crawler can read the offer it was handed
     assert.equal(botBlocker.isExemptPath('/licensing/extra', isRawBodyWebhookPath), false);
 });
 
+// A connector-directory submission declares a documentation URL and a privacy
+// policy URL, and Anthropic reads both during review. Their fetches carry no
+// browser headers and a UA the deny list matches, so without these exemptions
+// the submission is rejected on two URLs that are only unreadable to Anthropic.
+test('/docs/api-mcp is exempt, or Anthropic cannot read the declared docs URL', () => {
+    assert.equal(botBlocker.isExemptPath('/docs/api-mcp', isRawBodyWebhookPath), true);
+    // Trailing slash is the same page (app.js canonicalises it), so it must not
+    // be the one spelling that 403s.
+    assert.equal(botBlocker.isExemptPath('/docs/api-mcp/', isRawBodyWebhookPath), true);
+    // Exact path only: no other documentation page opens up.
+    assert.equal(botBlocker.isExemptPath('/docs/api-mcp/extra', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/docs', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/docs/terms', isRawBodyWebhookPath), false);
+});
+
+test('/privacy is exempt, or Anthropic cannot read the declared privacy policy URL', () => {
+    assert.equal(botBlocker.isExemptPath('/privacy', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/privacy/', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/privacy/extra', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/privacyx', isRawBodyWebhookPath), false);
+    // The neighbouring legal pages are deliberately NOT exempt.
+    assert.equal(botBlocker.isExemptPath('/terms', isRawBodyWebhookPath), false);
+});
+
 test('impostor detection: PTR does not belong to the claimed vendor', async (t) => {
     t.mock.method(dns, 'reverse', async () => ['evil-host.example.com']);
     const verdict = await botBlocker.resolveCrawlerIp('9.9.9.9', 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)');

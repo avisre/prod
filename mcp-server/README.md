@@ -39,12 +39,12 @@ this package bundles everything it needs.
 
 | tool | what it returns | cost |
 |------|-----------------|------|
-| `sp_financials(ticker, tool?)` | Period-locked figures from the filed statements. `tool` picks the view: `earnings-quality` (default), `dilution`, `buybacks-vs-dilution`, `revenue-consistency`, `profitability-trend`, `cash-flow-quality`, `free-cash-flow-trend`, `debt-snapshot`, and more. | 1 credit |
-| `sp_filing(ticker)` | Recent 10-K / 10-Q / 8-K / Form 4 with dates and direct EDGAR links. | 1 credit |
-| `sp_compare(tickers)` | Two tickers side by side, from their latest filed annuals. Periods stay separate. | 1 credit |
-| `sp_screen(tickers)` | Ranks up to ten tickers by filed revenue growth. | 1 credit |
-| `sp_fund(symbol)` | ETF / mutual-fund costs, holdings, allocation, performance, risk. Labelled fund data — never presented as company SEC data. | 1 credit |
-| `sp_ask(question)` | A filing-grounded answer plus its source class (`filed` / `fund-data` / `live-web`). | 4 credits |
+| `sp_financials(ticker, tool?)` | Period-locked figures from the filed statements. `tool` picks the view: `earnings-quality` (default), `dilution`, `buybacks-vs-dilution`, `revenue-consistency`, `profitability-trend`, `cash-flow-quality`, `free-cash-flow-trend`, `debt-snapshot`, and more. | 2 credits |
+| `sp_filing(ticker)` | Recent 10-K / 10-Q / 8-K / Form 4 with dates and direct EDGAR links. | 2 credits |
+| `sp_compare(tickers)` | Two tickers side by side, from their latest filed annuals. Periods stay separate. | 2 credits |
+| `sp_screen(tickers)` | Ranks up to ten tickers by filed revenue growth. | 2 credits |
+| `sp_fund(symbol)` | ETF / mutual-fund costs, holdings, allocation, performance, risk. Labelled fund data — never presented as company SEC data. | 2 credits |
+| `sp_ask(question)` | A filing-grounded answer plus its source class (`filed` / `fund-data` / `live-web`). | 42 credits |
 | `sp_health()` | Liveness probe: version, tool count. Free. | 0 |
 
 Credits are the monthly allowance on your key (200/month on the Dev plan) and reset on the 1st.

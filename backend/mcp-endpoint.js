@@ -34,7 +34,8 @@ const TOOL_DEFS = [
     {
         name: 'sp_financials',
         title: 'Filing-grounded financials (deterministic)',
-        description: 'Return period-locked filing figures for one ticker (revenue, net income, OCF, FCF, shares, margins). Missing data stays missing — never estimated.',
+        annotations: { readOnlyHint: true },
+        description: 'Return period-locked filing figures for one ticker (revenue, net income, OCF, FCF, shares, margins). Missing data stays missing — never estimated. The optional view parameter selects one of the documented free-tool views — see https://www.stockportfolio.pro/tools',
         inputSchema: {
             type: 'object',
             properties: {
@@ -47,36 +48,42 @@ const TOOL_DEFS = [
     {
         name: 'sp_filing',
         title: 'SEC filing timeline',
+        annotations: { readOnlyHint: true },
         description: 'Browse recent 10-K/10-Q/8-K/Form 4 with dates and direct EDGAR links.',
         inputSchema: { type: 'object', properties: { ticker: { type: 'string' } }, required: ['ticker'] },
     },
     {
         name: 'sp_compare',
         title: 'Company compare (two tickers, filing-grounded)',
+        annotations: { readOnlyHint: true },
         description: 'Side-by-side revenue, margins, cash flow and shares for two US companies from their latest filed annuals.',
         inputSchema: { type: 'object', properties: { tickers: { type: 'string', description: "Two tickers comma-separated, e.g. 'AAPL,MSFT'" } }, required: ['tickers'] },
     },
     {
         name: 'sp_screen',
         title: 'Screener (rank by filed numbers)',
+        annotations: { readOnlyHint: true },
         description: 'Rank up to ten tickers by filed revenue growth.',
         inputSchema: { type: 'object', properties: { tickers: { type: 'string', description: 'Comma-separated watchlist, max 10' } }, required: ['tickers'] },
     },
     {
         name: 'sp_fund',
         title: 'ETF/mutual-fund profile (labelled fund data)',
+        annotations: { readOnlyHint: true },
         description: 'ETF/mutual-fund costs, holdings, allocation, performance and risk. Yahoo-derived, not SEC company data; not redistributable.',
         inputSchema: { type: 'object', properties: { symbol: { type: 'string', description: 'Fund symbol, e.g. SPY, VOO' } }, required: ['symbol'] },
     },
     {
         name: 'sp_ask',
         title: 'Filing-grounded Ask (AI, but sourced)',
+        annotations: { readOnlyHint: true },
         description: "Ask a US stock/fund question. Returns the answer plus its source class (filed / fund-data / live-web). Prefer sp_financials/sp_filing when you need numbers only.",
         inputSchema: { type: 'object', properties: { question: { type: 'string' } }, required: ['question'] },
     },
     {
         name: 'sp_health',
         title: 'Health check',
+        annotations: { readOnlyHint: true },
         description: 'Liveness probe: server version and tool count. Safe to call before any other tool; does not consume quota.',
         inputSchema: { type: 'object', properties: {} },
     },
