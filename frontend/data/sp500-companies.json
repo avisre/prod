@@ -335,6 +335,11 @@
     "sector": "Financials"
   },
   {
+    "symbol": "BE",
+    "name": "Bloom Energy",
+    "sector": "Industrials"
+  },
+  {
     "symbol": "BNY",
     "name": "BNY Mellon",
     "sector": "Financials"
@@ -378,11 +383,6 @@
     "symbol": "BF.B",
     "name": "Brown–Forman",
     "sector": "Consumer Staples"
-  },
-  {
-    "symbol": "BLDR",
-    "name": "Builders FirstSource",
-    "sector": "Industrials"
   },
   {
     "symbol": "BG",
@@ -895,6 +895,11 @@
     "sector": "Utilities"
   },
   {
+    "symbol": "P",
+    "name": "Everpure",
+    "sector": "Information Technology"
+  },
+  {
     "symbol": "ES",
     "name": "Eversource Energy",
     "sector": "Utilities"
@@ -1233,6 +1238,11 @@
     "symbol": "ITW",
     "name": "Illinois Tool Works",
     "sector": "Industrials"
+  },
+  {
+    "symbol": "ILMN",
+    "name": "Illumina, Inc.",
+    "sector": "Health Care"
   },
   {
     "symbol": "INCY",
@@ -1583,11 +1593,6 @@
     "symbol": "MRNA",
     "name": "Moderna",
     "sector": "Health Care"
-  },
-  {
-    "symbol": "TAP",
-    "name": "Molson Coors Beverage Company",
-    "sector": "Consumer Staples"
   },
   {
     "symbol": "MDLZ",
@@ -2217,11 +2222,6 @@
   {
     "symbol": "TKO",
     "name": "TKO Group Holdings",
-    "sector": "Communication Services"
-  },
-  {
-    "symbol": "TTD",
-    "name": "Trade Desk (The)",
     "sector": "Communication Services"
   },
   {
