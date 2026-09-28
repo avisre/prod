@@ -74,6 +74,20 @@ test('every indexable page redirects its .html twin to the clean route', () => {
     }
 });
 
+test('every indexable page declares its own canonical URL', () => {
+    // The table above makes the clean route win, but a page carrying no canonical
+    // at all leaves the choice to the crawler. /verify, /partners and
+    // /partners-apply shipped that way — and were added to core.xml on 2026-09-28,
+    // so the sitemap named three pages that never stated their own URL. Reusing
+    // the file-derived list means a new page cannot quietly join them.
+    for (const file of indexable) {
+        const canonical = html.get(file).match(/<link rel="canonical" href="([^"]+)"/);
+        assert.ok(canonical, `${file} must declare a canonical`);
+        assert.equal(canonical[1], 'https://www.stockportfolio.pro' + cleanRoute(file),
+            `${file} must canonicalise to its own clean route, not to a twin or another page`);
+    }
+});
+
 test('the table is exactly the indexable pages plus the two fileless twins', () => {
     const expected = [...indexable.map((f) => '/' + f), ...ROUTE_ONLY_TWINS].sort();
     assert.deepEqual(Object.keys(TABLE).sort(), expected,
