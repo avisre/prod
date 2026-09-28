@@ -85,6 +85,10 @@ the main avoidable cost (measured ~5x per-turn difference).
   the real extractors against real tickers, not by picking a plausible number.
   A confirmed guess still gets overturned by measurement.
 - Work one phase at a time; record it in `.claude/HANDOFF.md` (keep that file
-  under 160 lines — it is durable working memory, not a transcript).
+  under 500 lines — it is durable working memory, not a transcript). At ~400
+  lines, snapshot it verbatim to `.claude/handoff-archive/<date>.md` and rewrite
+  the live file fresh, dropping superseded items to the snapshot. Back up and
+  rewrite — never hand-compress. Compression destroys detail and buys one session
+  at most, which is how this file reached 2,391 lines anyway.
 - The AI provider (Ollama Cloud, `glm-5.1`) is a trade secret. `ai-client.js`
   has `leaksIdentity()` regex backstops; don't surface model identity to users.

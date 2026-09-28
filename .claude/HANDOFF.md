@@ -1,7 +1,10 @@
 # Handoff
 
-Durable working memory — **keep under 160 lines** (CLAUDE.md). State and open actions only, never a
-transcript. Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `~/.claude/plans/`.
+Durable working memory — **keep under 500 lines** (CLAUDE.md). Current state and open actions only,
+never a transcript. At ~400 lines, snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite
+it fresh; **delete superseded items to the snapshot rather than compressing them here**.
+Earlier snapshots: `handoff-archive/2026-09-28.md`. Deep history: `git log`, `notes/2026-09-*.md`,
+`docs/growth/`, `~/.claude/plans/`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use
@@ -24,72 +27,78 @@ transcript. Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `~/.c
 
 ## In flight
 
-**Claude plugin directory — repo PUBLIC and installable NOW; the submission form is the one step left
-(9/25).** `https://github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 7 files — config and prose,
-no source code). It carries its own `.claude-plugin/marketplace.json`, so `claude plugin marketplace add
-avisre/stockportfolio-claude-plugin` + `claude plugin install stockportfolio@stockportfolio` works today —
-verified from GitHub. Package: `docs/growth/claude-plugin-submission.md`; validation + leak gate pass.
-- **Chose the free plugin route, not the Connectors Directory** — that portal needs a Team/Enterprise
-  claude.ai org, 2 seats × $25 = **$50/month just to unlock the form**. The free form
-  (`platform.claude.com/plugins/submit`) lists into the **community** catalog `claude-community`; the
-  **official** one takes no submissions at all, only a partner contact.
-- **Shipped and verified from outside (9/25)** (deploy run 36146004424, success): prod `tools/list` returns
-  **7 tools, 7 with `readOnlyHint`** (was 0); `/docs/api-mcp` + `/privacy` return **200** to a non-browser UA
-  while `/docs`, `/terms`, `/privacyx`, `/docs/api-mcp/extra` still 403 — the exemption is not over-broad.
-- **Owner-only, the last step:** the free Console org + the submission. Deferred: the **listing icon** — the
-  plugin form takes only a repo link, so it has no consumer; do not fabricate a brand asset without sign-off.
-- Reviewer test path: the **keyless tier exercises every tool** (2 asks + 50 lookups/30d), so no credential
-  handover is needed. `sp_fund` proxies third-party fund data we don't own — declare it.
+**Claude plugin directory — repo PUBLIC and installable NOW; only the submission form is left (9/25).**
+`github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 7 files — config and prose, no source). It
+carries `.claude-plugin/marketplace.json`, so `claude plugin marketplace add avisre/stockportfolio-claude-plugin`
++ `claude plugin install stockportfolio@stockportfolio` works today. Package:
+`docs/growth/claude-plugin-submission.md`; validation + leak gate pass.
+- **Chose the free plugin route, not the Connectors Directory** — that portal needs a Team/Enterprise org,
+  2 seats × $25 = **$50/month just to unlock the form**. The free form (`platform.claude.com/plugins/submit`)
+  lists into the **community** catalog `claude-community`; the official one takes no submissions at all.
+- **Owner-only, last step:** the free Console org + the submission. Deferred: the **listing icon** (the form
+  takes only a repo link, so it has no consumer — don't fabricate a brand asset). Reviewer path: the **keyless
+  tier exercises every tool** (2 asks + 50 lookups/30d), so no credential handover; `sp_fund` proxies
+  third-party fund data we don't own — declare it.
+- Shipped 9/25 and verified from outside: `tools/list` returns 7 tools, all 7 with `readOnlyHint`;
+  `/docs/api-mcp` + `/privacy` serve a non-browser UA while `/docs`, `/terms`, `/privacyx`,
+  `/docs/api-mcp/extra` still 403 — the exemption is real but not over-broad.
 
-**AppSumo final-window repricing — v8 copy DONE (11/11 guards pass); the flip is partly started, NOT
-finished.** v8 = prices ($149/$299/$499, anchors $549/$1,099/$1,849), wallet 200/500/1000; *the flip — exact
-values, exact order* is in `docs/growth/appsumo-listing-v8.md`.
-- **Done, verified from outside:** `CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM` is stored on Render (run 36070122159,
-  owner-set) and the deploy followed (run 36070525625, success, prod 200). **Unprovable from outside, by
-  design** — the public config publishes no wallet field, so the first redemption after 22:55:55Z is the proof.
-- **Three writes were BLOCKED for me by the auto-mode classifier** — the Render env set (owner ran it), the
-  grandfathered-licence importer (`scripts/import-grandfathered-licences.js` then `--apply`; it reads
-  `~/.local/share/secrets/appsumo_licensing.txt` and loads `backend/.env` — PRODUCTION Atlas), and the portal
-  draft values. **Hand these over rather than retrying.**
-- **The portal is the path and it is a browser surface**, driven headfully over CDP (`node /tmp/as-drive.mjs`,
-  Chrome :9222, profile `~/.appsumo-portal-profile`). **Never touch the `/self-submission/231048/build` version
-  flow** (known mapping bug), never press EXIT. The partner MCP is a dead end (`cached needs-auth`); the
-  Licensing key can't edit a listing (read-only).
-- **Remaining v8 fields:** the nine price/wallet values (draft read 9/25: 39/144 · 79/288 · 149/432, credits
-  50/150/400 → target **149/549 · 299/1099 · 499/1849**, **200/500/1000**), the long description from
-  `appsumo-listing-v8.txt`, five FAQ slots, the API+MCP row wording. Then Submit → reply in Yena's thread.
-- Live page read 23:32Z: still $39/$79/$149, **no $299/$499** (watcher re-armed). Set the three
-  `APPSUMO_TIER*_PRICE_USD` vars and push the price half **only once the page shows $299/$499** — a page
-  selling 200 credits while production meters 50 is the refund this ordering avoids.
+**AppSumo final-window repricing — v8 copy DONE (11/11 guards pass); the flip partly started, NOT finished.**
+Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299/1099 · 499/1849, wallet
+200/500/1000; draft read 9/25 showed 39/144 · 79/288 · 149/432 with credits 50/150/400).
+- **Done, verified from outside:** `CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM` stored on Render (36070122159,
+  owner-set), deploy followed (36070525625, prod 200). **Unprovable from outside by design** — no wallet field
+  is published, so the first redemption after 22:55:55Z is the proof.
+- **Three writes were BLOCKED by the auto-mode classifier** — the Render env set, the grandfathered-licence
+  importer (`scripts/import-grandfathered-licences.js --apply`; reads `…/secrets/appsumo_licensing.txt` and
+  loads `backend/.env` = PRODUCTION Atlas), and the portal draft values. **Hand over, don't retry.**
+- **Portal is a browser surface**, driven headfully over CDP (`node /tmp/as-drive.mjs`, Chrome :9222, profile
+  `~/.appsumo-portal-profile`). **Never touch `/self-submission/231048/build`** (mapping bug), never press EXIT.
+  Partner MCP is a dead end; the Licensing key is read-only.
+- **Remaining:** nine price/wallet values, long description, five FAQ slots, API+MCP row wording; then Submit →
+  reply in Yena's thread. Push the price half **only once the live page shows $299/$499** — a page selling 200
+  credits while production meters 50 is the refund this ordering avoids.
+
+**Prices split from fundamentals + truthful freshness — code DONE 9/28, NOT COMMITTED; 1,500-company backfill running.**
+- `backend/quote-store.js` = the one place pages ask for a price: live Yahoo (60s cache, browser UAs only,
+  120/min budget) → `frontend/data/quotes.json` (S&P 1500 daily snapshot, ~212 KB).
+  `scripts/refresh-quotes.js` + `refresh-quotes.yml` (Tue–Sat 01:30Z) write it. `/stocks/:sym` bypasses the
+  6h SSR cache for humans and serves crawlers the snapshot; `stored-fundamentals.js` prefers the snapshot on
+  the Yahoo-down path. Market cap / P/E / 52-week now ride the same quote (`fetchQuoteExtras`), not the blob.
+- **Freshness = the data's own dates, never mtime** (`backend/fundamentals-date.js`, `STALE_DAYS=45`) — same
+  trap as the sitemap `<lastmod>`. `refresh-fundamentals.js` stamps `fetchedAt`; `fundamentals-fetch.js`
+  stamps and exposes `maybeRefresh` (background rebuild on a browser visit, 6h cooldown). User-facing
+  surfaces now label everything: quote tiles "as of … · live/last close"; stale filings get
+  "Not the latest data — a newer SEC filing may exist" plus their date (stock, metric, price-history,
+  compare). All "refreshed nightly" copy removed — the weekly job only ever covered the S&P 500.
+- **Monthly full-universe refresh:** `refresh-fundamentals-monthly.yml` (sp1500, 1st 03:00Z, 360 min,
+  CONCURRENCY=6). Backfill of all 1,500 started locally 9/28 — it reaches prod only via commit + deploy.
+- **Audit (10 mid + 10 small vs SEC XBRL, 9/28):** annual revenue/NI/assets matched except definitional
+  gaps — banks report gross interest vs the cache's net revenue; VSEC net income 53.5M (continuing ops) vs
+  SEC 11.7M. Open data quality: 531 files missing shares outstanding, 1,014 missing market cap, 2,023
+  placeholders, 31 funds with negative "revenue". Quarterly staleness (2,949 companies on Q1 2026) is what
+  the monthly job fixes.
+
+**Dossier redesign — "The Plain Filing" — mockup done, awaiting review.** Plan
+`~/.claude/plans/valiant-singing-parnas.md`; `docs/design/dossier-plain-filing.html` (Newsreader / IBM Plex) is
+a document, not a dashboard. **Step 2 — the port — has NOT started** and its CSS must be re-derived.
+Regenerate with `node scripts/build-dossier-mockup-artifact.js`; never hand-edit it.
 
 **Emotional design** — plan `~/.claude/plans/warm-orbiting-sketch.md` (approved). Thesis: confetti imports a
 *trade* emotion; this product's emotions are comprehension, vindication and time, and its vocabulary is ink,
-not glitter. **Phases 0-5 SHIPPED (9/24-25)**, each pinned by its own test file — details in `git log`: the
-portfolio-action voice, motion vocabulary on `window.V2` (`app.js:2246-2308`), "Since you bought", the red pen
-on `verify.html`, the X-Ray reveal, quiet alarms.
-- **Two REAL DEFECTS found by shipping, not by reading:** (1) the backend had written the add day into
-  `purchaseDate` on undated adds/imports since launch — our clock laundered into the user's memory slot;
-  fixed at all three write paths and at display (`test/portfolio-since.test.js`). (2) the headline-vs-filing
-  `money()` formatter chose its decimal from the RAW amount (`abs >= 100`), so that branch was dead code and
-  every figure printed whole-unit (`$15.5B` → `"$16 billion"`); three copies fixed, `test/money-formatter.test.js`.
-- Standing rules: the error overlay's "Nothing was changed" is an explicit `unchanged: true` opt-in (the
-  multi-ticker path reports a PARTIAL success as an error, so a blanket claim would lie); X-Ray exposure is
-  summed in **DOLLARS** (percentages of different bases cannot be added); an EMPTY alert list renders a quiet
-  card rather than hiding the section (a working monitor and a broken feed looked identical).
-- **Phases 6-7 NOT started** (year in filings, comprehension streak); thesis letter and anniversaries
-  untouched. **Dossier redesign stays untouched** — leave the mockup alone.
+not glitter. **Phases 0-5 SHIPPED 9/24-25** — portfolio-action voice, motion vocabulary on `window.V2`
+(`app.js:2246-2308`), "Since you bought", the red pen on `verify.html`, the X-Ray reveal, quiet alarms; each
+pinned by its own test file. Phase log: `handoff-archive/2026-09-28.md` + `git log`.
+- **Standing rules, still binding:** the error overlay's "Nothing was changed" is an explicit `unchanged: true`
+  opt-in (the multi-ticker path reports a PARTIAL success as an error, so a blanket claim would lie); X-Ray
+  exposure is summed in **DOLLARS** (percentages of different bases cannot be added); an EMPTY alert list
+  renders a quiet card rather than hiding the section (a working monitor and a broken feed looked identical).
+- **Phases 6-7 NOT started** (year in filings, comprehension streak); thesis letter and anniversaries untouched.
 
-**MCP/API setup guide — SHIPPED 9/25 and deployed** (verified from outside). `/docs/api-mcp` carries 8
-per-client blocks, pinned by `test/mcp-setup-guide.test.js`. **Verified against prod:** Claude and ChatGPT
-authenticate over OAuth — neither can send a static bearer to a custom connector — so never say "paste a key".
-
-**AI portfolio creator — announced 9/25 as in-development, no date promised. No spec or plan file yet.**
-
-**Dossier redesign — "The Plain Filing" — mockup done, awaiting review.** Plan
-`~/.claude/plans/valiant-singing-parnas.md`. `docs/design/dossier-plain-filing.html` is a document, not a
-dashboard (Newsreader / IBM Plex). **Step 2 — the port into the real page — has NOT started**, and its CSS
-must be re-derived. Regenerate with `node scripts/build-dossier-mockup-artifact.js`; never hand-edit it.
-Artifact publishing is refused here.
+**MCP/API setup guide — SHIPPED 9/25, deployed**; `/docs/api-mcp` carries 8 per-client blocks, pinned by
+`test/mcp-setup-guide.test.js`. Claude and ChatGPT authenticate over **OAuth** — neither can send a static
+bearer to a custom connector — so never say "paste a key". **AI portfolio creator — announced 9/25 as
+in-development, no date promised, no spec file yet.**
 
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
@@ -117,6 +126,33 @@ Artifact publishing is refused here.
 - **Gemini cannot be targeted as a crawler — none exists.** AI Overviews ground on Googlebot (already allowed)
   and `Google-Extended` never arrives as a UA, so this lever IS the indexing lever.
 
+**Bing diagnosis + fixes — code DONE 9/28 in the working tree, NOT YET COMMITTED.** Full write-up:
+`docs/seo/bing-diagnosis-2026-09-28.md`. `seo-pages.js` and `seo-extra.js` both require the in-flight
+`fundamentals-date.js` / `quote-store.js`, so **this has to land with that work, not before** — committing
+the Bing files alone leaves the app requiring an untracked module. Don't re-derive:
+- **`<lastmod>` was frozen at 2026-07-19 on 21,272 of 21,780 live URLs (97.7%)** — `isoDataMtime`'s
+  `SITEMAP_DEPLOY_MS` clamp fires on every git-checkout deploy. Now reads the committed manifest
+  `frontend/data/fundamentals-changed.json`, which the workflow **must** stage (`refresh-fundamentals.yml`);
+  clamp deleted, pinned by `test/sitemap-lastmod.test.js`. **Per-symbol dates accrue from the next weekly
+  refresh** — until then every data-driven URL carries the manifest-wide date. A git-history backfill was
+  evaluated and rejected (965 MB data dir).
+- **The report's headline summed a capped top-N list** — `GetPageStats`/`GetQueryStats` return exactly **100
+  rows per week bucket**; only `GetRankAndTrafficStats` is exhaustive. Was 4.6x low on impressions, 3.6x high
+  on CTR; "Week totals" now equals its own Daily table. Fixes are in `scripts/bing-webmaster-stats.py`
+  (`window_totals`, `flag_phantom_queries`).
+- **IndexNow's key file 403'd every non-browser UA** while the ping saw 200 and reported success; now exempt
+  in `bot-blocker.js` (`test/indexnow-key.test.js`), and `seo-data/indexnow-queue.json` is untracked +
+  gitignored so it matches its comment. **Owner-only:** the orphan key `1668f45a03ea53cf94c51b61c43163d4.txt`
+  is hosted and referenced nowhere, left in place deliberately — only the owner can confirm its registration.
+- **One synthetic query (`aap 2024 free cash flow guided flat strategic costs`) is 42.8% of attributed
+  impressions** (1,181 impressions, 0 clicks). Excluding it CTR is **7.55%** not 4.32%, and positions 4-10 are
+  **4.67% not 2.46%** — the "titles are failing" premise in `bing-title-review.md` was this same artifact.
+- **Metric-page titles/descriptions rewritten** in `renderMetricPage`: the `…` is gone (3/50 → 0), and
+  descriptions over 160 chars went 44/50 → 2/50 with the boilerplate tail cut. Server-rendered, so **no `?v=`
+  stamp**. A bounded test, not a promised gain.
+- Operator Python needs **`.venv/bin/python3`** — Homebrew Python is PEP 668-managed, so `pip install --user`
+  is refused and no `scripts/*.py` could run at all. `scripts/requirements.txt` documents it.
+
 ## AI model + cost
 - **Prod runs glm-5.1 on all three purposes**, at a measured **$28.91/mo ≈ 48% of the $60 allowance**
   (`scripts/ollama-cost-projection.js`). Real split is 95/5 chat and 90/10 summary, not 85/15 as `credits.js` assumed.
@@ -136,7 +172,11 @@ Artifact publishing is refused here.
   `BOT_BLOCK_ENABLED=false` on dev-local only). A bare curl UA also 403s: `hasBrowserHeaders` needs the full
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
-- zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`. Pre-existing suite failures: `social-compose` (no selenium), `ga4-consent-resolution` (fails on a clean HEAD too).
+- zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
+- **Suite GREEN as of 9/28 (955 pass, 0 fail, exit 0).** The two long-standing failures are fixed — do not
+  re-report them: `ga4-consent-resolution` sliced a fixed 2000 chars and the route had outgrown it (the
+  assertion was wrong, not the code); `social-compose` could not load without the optional
+  `selenium-webdriver`, now required lazily so its draft-safety tests actually run.
 - Cache stamps: `app.js`/`system.css` share ONE `?v=` across every page, but **every other asset carries its
   own** (`company.js`, `news.js`, …). Bump the asset you edited AND its pinned test literal — a stale per-file
   stamp still passes `profile-consolidation` (it checks only the shared pair) and serves old JS for a year.
@@ -157,3 +197,5 @@ Artifact publishing is refused here.
 9. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
    their email, not us.
 10. **Monthly provider bill** — the one input that states AI margin in dollars.
+11. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered with an engine,
+    or say to delete it.

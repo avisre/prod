@@ -6,6 +6,13 @@ backend/.env
 backend/.env.*
 backend/prod.env
 
+# --- Python ---
+# The scripts/ operator scripts need `requests`. Homebrew's python3 is
+# externally managed (PEP 668) so it refuses user installs; use .venv/bin/python3.
+.venv/
+venv/
+__pycache__/
+
 # --- Node ---
 node_modules/
 backend/node_modules/
@@ -76,6 +83,13 @@ dealmirror-exports/
 # MCP server runtime quota counters (per-deploy state, never shared)
 mcp-server/data/quota.json
 mcp-server/data/*.tmp
+
+# --- Transient IndexNow state ---
+# Written by refresh-fundamentals.js, drained by indexnow-ping.js --queue, in the
+# same job. It is per-run scratch, not a record: a copy tracked here sat frozen at
+# 9 URLs from 2026-09-11 while the workflow comment claimed it was never committed.
+# The comment now matches the file.
+seo-data/indexnow-queue.json
 
 # --- Customer data: never commit ---
 # Outreach recipient lists and send ledgers carry paying customers' email
