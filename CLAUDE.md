@@ -27,8 +27,16 @@ of the below in one call, which is cheaper than rediscovering it by trial.
 - **There IS a local `.git`** — remote `avisre/prod`, branch `main`, verified
   2026-09-24 (this line used to say there was none, and that stale claim would
   send you down a needless clone-and-copy path). Commit and push from the repo
-  root. A push to `main` runs `deploy-render.yml` and deploys to production, so
-  put `[skip ci]` on a docs/data-only commit to avoid restarting the service.
+  root. A push to `main` runs `deploy-render.yml` and deploys to production.
+  **Docs-only or analytics-only commits** (`docs/`, `notes/`, `seo-data/`,
+  HANDOFF) carry the skip marker to avoid restarting the service.
+  **`frontend/data/fundamentals/**` is the exception and must NOT:** it is read
+  from the deployed filesystem (`app.js:3240`), so skipping the deploy leaves
+  production on old numbers indefinitely — `refresh-fundamentals.yml:98` and
+  `deploy-render.yml:9` both spell this out. The marker matches **anywhere** in
+  the commit message, including inside a sentence explaining why you are not
+  using it: on 9/28 a data commit that argued against the marker in its own body
+  was silently skipped and had to be deployed with `gh workflow run`.
 
 ## Editing frontend assets — bump the cache stamp
 

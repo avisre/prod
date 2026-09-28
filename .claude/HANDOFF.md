@@ -60,7 +60,7 @@ Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299
   reply in Yena's thread. Push the price half **only once the live page shows $299/$499** — a page selling 200
   credits while production meters 50 is the refund this ordering avoids.
 
-**Prices split from fundamentals + truthful freshness — code COMMITTED 9/28 (`e99c645b`, `0ba72c2d`); the 1,500-company backfill is data-only and still uncommitted in the working tree.**
+**Prices split from fundamentals + truthful freshness — COMMITTED 9/28 (`e99c645b`, `0ba72c2d`); the backfill's 22 broken stragglers were re-fetched and shipped the same day (`aaf4ea41`, deployed via `gh workflow run` — see the skip-marker trap).**
 - `backend/quote-store.js` = the one place pages ask for a price: live Yahoo (60s cache, browser UAs only,
   120/min budget) → `frontend/data/quotes.json` (S&P 1500 daily snapshot, ~212 KB).
   `scripts/refresh-quotes.js` + `refresh-quotes.yml` (Tue–Sat 01:30Z) write it. `/stocks/:sym` bypasses the
@@ -73,7 +73,12 @@ Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299
   "Not the latest data — a newer SEC filing may exist" plus their date (stock, metric, price-history,
   compare). All "refreshed nightly" copy removed — the weekly job only ever covered the S&P 500.
 - **Monthly full-universe refresh:** `refresh-fundamentals-monthly.yml` (sp1500, 1st 03:00Z, 360 min,
-  CONCURRENCY=6). Backfill of all 1,500 started locally 9/28 — it reaches prod only via commit + deploy.
+  CONCURRENCY=6). The local backfill left **22 symbols broken** — 16 with a daily series frozen at 2026-06-11, TRX at
+  2026-08-13, and CXAI/FFAI/GPUS/HOVR/ONFO with an entirely empty overview/daily/monthly (those pages had no price
+  series to show). Re-fetched 2026-09-28T13:54-13:57Z; all 22 now carry a 138-day window ending 9/28, committed
+  `aaf4ea41`. The refresh also rebased MUX's pre-2019 EPS, which had never been split-adjusted — every changed row
+  moved by exactly 10x, so the shipped numbers are more correct than what was live, not less. **A fundamentals commit
+  must deploy** (`frontend/data/fundamentals/` is read from the deployed filesystem).
 - **Audit (10 mid + 10 small vs SEC XBRL, 9/28):** annual revenue/NI/assets matched except definitional
   gaps — banks report gross interest vs the cache's net revenue; VSEC net income 53.5M (continuing ops) vs
   SEC 11.7M. Open data quality: 531 files missing shares outstanding, 1,014 missing market cap, 2,023
@@ -238,6 +243,12 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
   pipeline does by design. It went red on 9/28 against a **correct** tree and had to be rebuilt as the real
   invariant: no shard carries the frozen constant, and the inventory carries the manifest's date. Ask what
   a green assertion would do on the day the feature works as intended, not just whether it passes today.
+- **The CI-skip marker matches ANYWHERE in a commit message — not just at the start.** A data commit whose body
+  said "no skip marker on purpose" to explain why it had to deploy was silently skipped by *both* workflows, leaving
+  production on the old data with a green-looking `git push`. Detect it by the absence of a run for the new SHA
+  (`gh run list`), not by the push output; the fix is `gh workflow run deploy-render.yml --ref main`, which deploys
+  current HEAD without rewriting history. `frontend/data/fundamentals/**` must never carry it (`app.js:3240` reads
+  the deployed filesystem) — see CLAUDE.md's corrected rule.
 
 ## Owner actions pending
 1. **Submit the plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
