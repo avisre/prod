@@ -215,6 +215,18 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
   301 with the query preserved (`/ask.html?x=1` → `/ask?x=1`, `/register.html?plan=monthly` →
   `/register?plan=monthly`), `/pricing` 301, `/login.html` + `/upgrade.html` untouched. The three changed
   URLs went to IndexNow (HTTP 200). Suite 990.
+- **Pushing Bing to recrawl — done 9/28, all HTTP 200:** `SubmitFeed` re-fetch of `sitemap.xml`,
+  `SubmitUrlBatch` for the 24 clean routes and the 24 twin URLs, IndexNow for the 3 canonicals and the 24
+  twins. **The URL submission API is small — `GetUrlSubmissionQuota` said 100/day, 300/month — and it
+  counts 301-ing URLs too** (this spent 48: 52/day, 252/month left), so check the quota first and send only
+  index-worthy URLs there; **IndexNow is the free channel for moved ones**.
+- **Why the Site Scan cards still look unchanged (measured, not assumed):** the panel is a *snapshot of
+  the last scan run* and Bing's own crawl data still ends **2026-09-27** — its sitemap read is
+  **2026-09-27T20:13:54Z**, 18h before the first fix shipped; `/verify` has never been crawled *or
+  discovered*, and the clean route `/ask` was last crawled **2026-08-21**. `GetCrawlIssues` = 0.
+  `GetSiteScan`, `SubmitSiteScan`, `RunSiteScan`, `StartSiteScan` all 404 — **Site Scan is UI-only**, so
+  re-running it is an owner action, and card-4's noindex list stays forever by design (those pages *do*
+  carry noindex; the fix removed the links to them, not the tags).
 
 ## AI model + cost
 - **Prod runs glm-5.1 on all three purposes**, at a measured **$28.91/mo ≈ 48% of the $60 allowance**
