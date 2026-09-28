@@ -200,7 +200,7 @@
         // nothing to upgrade to — only the AI-credit recharge remains.
         const as = session && session.appsumo;
         if (as && as.isAppSumo && Number(as.tier) === 3) {
-          grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest AppSumo tier — nothing to upgrade to. You can top up your credit wallet instead: <a href="/recharge.html">Recharge credits →</a>.</p>';
+          grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest AppSumo tier — nothing to upgrade to. You can top up your credit wallet instead: <a rel="nofollow" href="/recharge.html">Recharge credits →</a>.</p>';
           note.hidden = false;
           return;
         }
@@ -225,7 +225,7 @@
         // Retired rungs rank for masking but never render.
         const options = LADDER.filter((p, i) => (myRank === -1 ? true : i > myRank) && !p.retired);
         if (!options.length) {
-          grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest tier — nothing to upgrade to. You can top up your credit wallet instead: <a href="/recharge.html">Recharge credits →</a>.</p>';
+          grid.innerHTML = '<p class="muted">You&rsquo;re already on the highest tier — nothing to upgrade to. You can top up your credit wallet instead: <a rel="nofollow" href="/recharge.html">Recharge credits →</a>.</p>';
           note.hidden = false;
           return;
         }

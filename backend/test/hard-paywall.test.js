@@ -79,7 +79,7 @@ test('page requests redirect: anonymous to register, signed-in-inactive to upgra
     const source = appSource();
     // Anonymous (no/invalid token) must never touch the DB on the way out.
     const section = wallSection();
-    assert.match(section, /if \(!token\) return wallRedirect\(res, '\/register\.html'\);/);
+    assert.match(section, /if \(!token\) return wallRedirect\(res, '\/register'\);/);
     assert.match(section, /if \(!subscriptionIsActive\(normalized\)\) return wallRedirect\(res, '\/upgrade\.html'\);/);
     // 302 + no-store so no shared/proxy layer ever caches the wall decision.
     assert.match(source, /function wallRedirect\(res, target\) \{\s*res\.set\('Cache-Control', 'no-store'\);\s*return res\.redirect\(302, target\);\s*\}/);

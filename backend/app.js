@@ -2115,6 +2115,58 @@ app.use((req, res, next) => {
     next();
 });
 
+// Canonical URL hygiene #2: retire the `.html` spelling of every public page.
+// express.static below is configured with `extensions: ['html']`, so every page
+// used to answer at BOTH /privacy and /privacy.html. The .html form sits in no
+// sitemap, duplicates its clean route's title and description verbatim (three
+// had no canonical at all), and the site linked to it internally — Bing's Site
+// Scan reported exactly those duplicates and the missing-from-sitemap URLs
+// (2026-09-28). 301, so search engines consolidate on the clean route for good.
+//
+// An exact table, never /(.+)\.html$/. The noindex private pages must keep both
+// spellings: /upgrade and /recharge carry the auth deep-link `?next=%2Fupgrade
+// .html`, /login.html is what the wall sends anonymous visitors to, and
+// /profile.html is the redirect *target* of the /inbox route further down. They
+// never enter an index, so a 301 there would buy no SEO gain and put the auth
+// flow on a redirect chain.
+//
+// Registered here — ahead of the wall and of express.static — for the same
+// reason the trailing-slash redirect above is: URL shape gets decided before
+// anything else reads the path, so the redirect wins over the file being served
+// directly. Verified no loop with WALL_ALL_PAGES on: the wall's own targets
+// (/register, /upgrade, /login) are prefix-exempt in WALL_PAGE_EXEMPT_PREFIXES,
+// so /ask.html -> /ask -> wall -> /register.html -> /register -> 200 terminates.
+//
+// Keep in step with frontend-v2/*.html: test/legacy-html-redirects.test.js
+// derives the expected key set from the files themselves — plus the two
+// route-only twins at the end of the table, whose pages have no file — so
+// adding an indexable page, or a new dual-path `app.get(['/x', '/x.html'])`
+// array, without an entry here fails the suite rather than quietly shipping
+// another duplicate URL.
+const HTML_TWIN_REDIRECTS = {
+    '/index.html': '/', '/ask.html': '/ask', '/register.html': '/register',
+    '/privacy.html': '/privacy', '/terms.html': '/terms', '/screener.html': '/screener',
+    '/support.html': '/support', '/monitor.html': '/monitor', '/monitor-demo.html': '/monitor-demo',
+    '/verify.html': '/verify', '/company.html': '/company', '/compare-dossiers.html': '/compare-dossiers',
+    '/dossier.html': '/dossier', '/appsumo.html': '/appsumo', '/partners.html': '/partners',
+    '/partners-apply.html': '/partners-apply', '/features.html': '/features', '/gurus.html': '/gurus',
+    '/lifetime.html': '/lifetime', '/sitemap.html': '/sitemap', '/tour.html': '/tour', '/zh.html': '/zh',
+    // Route-only twins: served by a dual-path route array with no file on disk,
+    // so a file-derived list can never see them. Both answered 200 alongside
+    // their clean route when measured live 2026-09-28, and /verify-ledger is in
+    // core.xml — the exact duplicate-with-a-sitemap-row Bing's Site Scan reports.
+    // Dropping the `.html` entry from those arrays instead would 404 a live URL.
+    '/verify-ledger.html': '/verify-ledger', '/filing-changes.html': '/filing-changes'
+};
+app.use((req, res, next) => {
+    if (req.method !== 'GET') return next();
+    // hasOwn, not a bare lookup: /constructor and /toString would otherwise
+    // resolve to Object.prototype members and be "redirected" to a function.
+    if (!Object.hasOwn(HTML_TWIN_REDIRECTS, req.path)) return next();
+    const qs = req.originalUrl.slice(req.path.length); // preserve ?plan=, ?symbol=, ?q=
+    return res.redirect(301, HTML_TWIN_REDIRECTS[req.path] + qs);
+});
+
 // Campaign-marker test for the server-rendered pages that load no /assets/*.js
 // and so have no client-side tracking: capturing the touch there is the only
 // way those landings are ever attributed. Gating on an explicit marker keeps
@@ -2465,12 +2517,12 @@ async function wallAllPagesMiddleware(req, res, next) {
     if (!WALL_ALL_PAGES && !walled) return next();
 
     const token = authTokenFromRequest(req);
-    if (!token) return wallRedirect(res, '/register.html');
+    if (!token) return wallRedirect(res, '/register');
     try {
         const decoded = jwt.verify(token, JWT_SECRET);
         const user = decoded && decoded.userId ? await User.findById(decoded.userId) : null;
         if (!user || Number(decoded.v || 0) !== Number(user.authVersion || 0)) {
-            return wallRedirect(res, '/register.html');
+            return wallRedirect(res, '/register');
         }
         const normalized = ensureSubscriptionShape(user);
         if (user.isModified('subscription')) await user.save().catch(() => {});
@@ -2478,7 +2530,7 @@ async function wallAllPagesMiddleware(req, res, next) {
         if (walled && !subscriptionIsPaid(normalized)) return wallRedirect(res, '/upgrade.html');
         next();
     } catch (_) {
-        return wallRedirect(res, '/register.html');
+        return wallRedirect(res, '/register');
     }
 }
 app.use(wallAllPagesMiddleware);
@@ -2513,7 +2565,9 @@ app.get('/stocks', (req, res) => {
 });
 // Pricing has no standalone page — the homepage #pricing section holds the tiers.
 // Catch /pricing (a URL cold visitors guess; was a 404) and land them on it.
-app.get('/pricing', (req, res) => res.redirect(302, '/#pricing'));
+// 301, not 302: this is permanent, and Bing's Site Scan flags a temporary
+// redirect on a linked URL as a page it cannot settle on (2026-09-28).
+app.get('/pricing', (req, res) => res.redirect(301, '/#pricing'));
 // E-E-A-T transparency pages (server-rendered, public, no auth).
 app.get('/methodology', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderMethodology());
@@ -2829,7 +2883,8 @@ app.post('/api/lie', freeToolLimiter, handleVerify); // alias for older links
 // A live proof artifact — real headlines checked against real filings, with
 // the filed figure and SEC source on every row. Registered before static so it
 // wins the path.
-app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
+// Single spelling: the `.html` twin 301s via HTML_TWIN_REDIRECTS above.
+app.get('/verify-ledger', async (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8');
     let rows = [];
     if (mongoose.connection.readyState === 1) {
@@ -2893,7 +2948,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
       <tbody>${rowHtml}${empty}</tbody>
     </table>
   </div>
-  <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
+  <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
 <script src="/assets/app.js?v=20260928-fundsearch"></script>
@@ -2920,7 +2975,8 @@ app.get('/api/verify-ledger', async (req, res) => {
 // deterministic materiality score and the top year-over-year deltas, with the
 // SEC source. The AI narrative stays behind the Power/Desk paywall; the
 // numbers are the public proof.
-app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
+// Single spelling: the `.html` twin 301s via HTML_TWIN_REDIRECTS above.
+app.get('/filing-changes', async (req, res) => {
     // These pages are server-rendered and deliberately load no /assets/*.js —
     // that is what keeps them out of the cache-stamp cascade. The cost is that
     // they carry no client-side tracking at all, so a campaign landing here
@@ -3012,7 +3068,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
       <tbody>${rowHtml}${empty}</tbody>
     </table>
   </div>
-  <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
+  <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
 <script src="/assets/app.js?v=20260928-fundsearch"></script>
@@ -3152,7 +3208,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   <div class="fd-lock">
     <strong>What it means &mdash; the analyst reading</strong>
     <p style="margin:8px 0 12px">The passages above are the company's own words. The plain-English reading of them&nbsp;&mdash;&nbsp;what changed, why it matters, and the direction of travel${gatedCount ? `, plus ${gatedCount} further change${gatedCount === 1 ? '' : 's'} without a quotable passage` : ''}&nbsp;&mdash;&nbsp;is part of the Filing Change Monitor.</p>
-    <a class="btn btn-primary" href="/monitor.html">See the Filing Change Monitor &rarr;</a>
+    <a class="btn btn-primary" href="/monitor">See the Filing Change Monitor &rarr;</a>
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
@@ -5978,7 +6034,7 @@ a{color:#0f172a}</style>`;
     <div class="err" id="err"></div>
   </form>
   <p class="alt">Signed up with Google?
-    <a href="/login.html" target="_blank" rel="noopener">Sign in here</a>, then
+    <a href="/login.html" target="_blank" rel="noopener nofollow">Sign in here</a>, then
     <a href="${escapeHtmlOauth(selfUrl)}">continue</a>.</p>
 </div>
 <script>

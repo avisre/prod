@@ -297,7 +297,7 @@ function nav() {
     return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20260928-fundsearch"></script><script>V2.nav('compare');</script>`;
 }
 function footer() {
-    return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo">Live demo</a> &middot; <a href="/register.html?plan=monthly">Free trial</a></p>
+    return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo" rel="nofollow">Live demo</a> &middot; <a href="/register?plan=monthly">Free trial</a></p>
   <p class="seo-disc">Competitor names and prices are trademarks of their respective owners and are shown for comparison only; pricing may change — check each provider for current details. stockportfolio.pro does not provide financial advice.</p></footer><script>try{var pv=JSON.stringify({path:location.pathname,referrer:document.referrer});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;
 }
 
@@ -342,8 +342,8 @@ function renderComparison(slug) {
   <div class="seo-cta">
     <h3 style="margin:0 0 8px">Try stockportfolio.pro free for 7 days</h3>
     <p class="seo-sub" style="margin:0 0 14px">No broker connection, cancel anytime. See your holdings, allocation and company fundamentals in minutes.</p>
-    <a class="seo-cta-btn" href="/register.html?plan=monthly">Start free trial</a>
-    &nbsp;<a class="seo-cta-btn" style="background:transparent;border:1px solid var(--border);color:var(--text)" href="/demo">Try the live demo</a>
+    <a class="seo-cta-btn" href="/register?plan=monthly">Start free trial</a>
+    &nbsp;<a class="seo-cta-btn" style="background:transparent;border:1px solid var(--border);color:var(--text)" href="/demo" rel="nofollow">Try the live demo</a>
   </div>
 </main>` + footer();
 }

@@ -187,7 +187,7 @@ async function scanSymbolFilings(symbol, holderIds) {
                 type: 'filing-diff',
                 title: `${symbol}: what changed in the new ${reportForm.form} (${reportForm.date})`,
                 detail: diff.headline,
-                url: `/company.html?symbol=${encodeURIComponent(symbol)}#filing-diff`
+                url: `/company?symbol=${encodeURIComponent(symbol)}#filing-diff`
               });
             }
           }

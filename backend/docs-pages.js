@@ -51,7 +51,7 @@ const DOC_PAGES = Object.freeze({
         intro: 'StockPortfolio.pro answers questions about public companies from their own SEC filings. This page takes you from a new account to your first answer.',
         tier: 'Everyone',
         steps: [
-            'Create an account at <a class="prose-link" href="/register.html">/register.html</a>. An account is required before any AI feature will answer — there is no anonymous mode.',
+            'Create an account at <a class="prose-link" href="/register">/register</a>. An account is required before any AI feature will answer — there is no anonymous mode.',
             'Find a company. Use the search box in the header, or open <a class="prose-link" href="/stocks">All stocks</a> to browse. Every company has a page with filings, fundamentals and charts.',
             'Ask a question. The Ask box takes plain English — "how did margins move last year?" — and answers from the filings, quoting what it used.',
             'Watch what you spend. Each AI action draws from a monthly credit allowance shown on your profile. Deterministic pages and the free tools cost nothing.'
@@ -71,7 +71,7 @@ const DOC_PAGES = Object.freeze({
         intro: 'Every error this product can show you, what it actually means, and the fix. The code in the first column is the one you will see in an API response or in the browser console.',
         tier: 'Everyone',
         errors: [
-            { code: 'ASK_AUTH', status: '401', means: 'You are signed out. Ask requires an account — there is no anonymous mode.', fix: '<a class="prose-link" href="/login.html">Sign in</a>, then resend the question.' },
+            { code: 'ASK_AUTH', status: '401', means: 'You are signed out. Ask requires an account — there is no anonymous mode.', fix: '<a class="prose-link" href="/login.html" rel="nofollow">Sign in</a>, then resend the question.' },
             { code: 'API_ACCESS_REQUIRED', status: '402', means: 'Your plan does not include the REST API or the MCP server.', fix: 'API and MCP access is on the Dev, Power and Desk plans, on the top AppSumo or DealMirror tier, and on any AppSumo or DealMirror tier purchased on or before 22 September 2026. See <a class="prose-link" href="/docs/plans">Plans</a>.' },
             { code: 'INSUFFICIENT_CREDITS', status: '402', means: 'This month’s credit allowance is spent.', fix: 'The response carries a <code>resetsAt</code> timestamp — the first moment of next month, UTC, when the allowance refills. Upgrade or top up to continue before then.' },
             { code: 'MONITOR_REQUIRED', status: '402', means: 'The Filing Change Monitor is not on your plan.', fix: 'The Monitor is on Power, Desk, Enterprise and Pro <em>annual</em> — and on lifetime plans. Retired Pro <em>monthly</em> does not include it. See <a class="prose-link" href="/docs/filing-monitor">Filing Monitor</a>.' },
@@ -81,7 +81,7 @@ const DOC_PAGES = Object.freeze({
         ],
         notes: [
             { title: 'The answer came back empty or refused', body: 'Two causes. Either the filing genuinely does not contain what you asked — the assistant will say so rather than guess, which is deliberate — or the question was about something outside public-company filings. Rephrase around a specific company and period. An empty answer does not consume the credit twice; retries on a failed answer are not double-charged.' },
-            { title: 'A number looks wrong', body: 'Open the filing the answer cites and compare. Figures are read from filed statements, so a mismatch usually means a period mismatch (trailing twelve months against a fiscal year) or a restatement. Foreign filers are converted to USD for display. If it is still wrong, send it to <a class="prose-link" href="/support.html">support</a> with the ticker and the filing.' },
+            { title: 'A number looks wrong', body: 'Open the filing the answer cites and compare. Figures are read from filed statements, so a mismatch usually means a period mismatch (trailing twelve months against a fiscal year) or a restatement. Foreign filers are converted to USD for display. If it is still wrong, send it to <a class="prose-link" href="/support">support</a> with the ticker and the filing.' },
             { title: 'A page redirected you to the sign-up screen', body: 'Everything except this documentation, the sign-in and sign-up screens, and the legal and support pages requires an account. That is intentional, not a fault.' }
         ],
         related: ['credits', 'plans', 'api-mcp']
@@ -96,7 +96,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Any paid plan except Dev',
         costKey: 'ask',
         steps: [
-            'Open <a class="prose-link" href="/ask.html">Ask</a>, or use the ask box that sits at the bottom of most pages.',
+            'Open <a class="prose-link" href="/ask">Ask</a>, or use the ask box that sits at the bottom of most pages.',
             'Name the company and be specific about the period. "What did Apple say about services margin in the latest 10-K?" works far better than "is Apple a good buy?".',
             'Read the sources. The answer lists the filings and periods behind it; each one links to the primary document.',
             'Follow up in the same thread. Context carries, so you can drill in without restating the company each time.'
@@ -118,7 +118,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Pro and above',
         costKey: 'dossier_standard',
         steps: [
-            'Open <a class="prose-link" href="/dossier.html">Research Dossier</a> and enter a ticker.',
+            'Open <a class="prose-link" href="/dossier">Research Dossier</a> and enter a ticker.',
             'Wait for it to build. A dossier reads the full filing set, so it takes minutes, not seconds. You can leave the page — it keeps building and is on your profile when it is done.',
             'Read it in sections. Each section names the filings behind it, so you can verify any claim against the source.',
             'Refresh it after a new filing. A dossier is a snapshot of the filings available when it was built; rebuilding after a new 10-Q picks up the change and costs the same again.'
@@ -139,7 +139,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Power, Desk, Enterprise, Pro annual and lifetime plans',
         costKey: 'monitor',
         steps: [
-            'Open <a class="prose-link" href="/monitor.html">Filing Monitor</a> and add a company to watch.',
+            'Open <a class="prose-link" href="/monitor">Filing Monitor</a> and add a company to watch.',
             'Wait for the next filing. The Monitor compares the new document against the one before it.',
             'Read the change report. It names what moved, quotes the wording that changed, and links both filings.',
             'Manage your watched companies from the same page. How many you can watch at once depends on your plan.'
@@ -162,7 +162,7 @@ const DOC_PAGES = Object.freeze({
         costKey: 'dossier_compare',
         steps: [
             'Build a dossier for each company first. The comparison reads existing dossiers rather than regenerating them, which is why it is much cheaper than building one.',
-            'Open <a class="prose-link" href="/dossier.html">Research Dossier</a> and choose the two to compare.',
+            'Open <a class="prose-link" href="/dossier">Research Dossier</a> and choose the two to compare.',
             'Read the comparison. It is written against both filing sets, so differences in accounting treatment or segment definition get called out rather than papered over.'
         ],
         notes: [
@@ -185,7 +185,7 @@ const DOC_PAGES = Object.freeze({
             'Use the ask box on the page to have anything on it explained in plain words.'
         ],
         notes: [
-            { title: 'Funds work too', body: 'ETFs and mutual funds have pages carrying holdings and profile data rather than filed statements. <a class="prose-link" href="/company.html?symbol=SPY">SPY</a> is a good example.' },
+            { title: 'Funds work too', body: 'ETFs and mutual funds have pages carrying holdings and profile data rather than filed statements. <a class="prose-link" href="/company?symbol=SPY">SPY</a> is a good example.' },
             { title: 'Missing values stay missing', body: 'Where a company has not filed a figure, the page leaves it blank rather than estimating it. A gap on the page is a gap in the filing.' }
         ],
         related: ['screener', 'comparisons', 'free-tools']
@@ -239,7 +239,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Any account',
         costKey: null,
         steps: [
-            'Open <a class="prose-link" href="/gurus.html">Gurus</a> and pick an investor.',
+            'Open <a class="prose-link" href="/gurus">Gurus</a> and pick an investor.',
             'Read the current holdings and the quarter-on-quarter change.',
             'Open any holding to its company page to do the actual work.'
         ],
@@ -258,7 +258,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Any account',
         costKey: null,
         steps: [
-            'Open <a class="prose-link" href="/markets.html">Markets</a> for the overview.',
+            'Open <a class="prose-link" href="/news" rel="nofollow">Markets</a> for the overview.',
             'Check <a class="prose-link" href="/filing-changes">filing changes</a> for companies whose latest filing differs materially from the one before.',
             'Follow anything interesting into a company page, Ask or the Monitor.'
         ],
@@ -277,7 +277,7 @@ const DOC_PAGES = Object.freeze({
         tier: 'Any account',
         costKey: null,
         steps: [
-            'Open <a class="prose-link" href="/portfolio.html">Portfolio</a>.',
+            'Open <a class="prose-link" href="/dashboard" rel="nofollow">Portfolio</a>.',
             'Add your holdings with quantity and cost basis. Accuracy here is what makes the return figures meaningful.',
             'Review allocation and performance. Concentration by position and by sector is worth checking more often than daily return.',
             'Research a holding in place — any position can go straight to its company page, to Ask, or onto the Monitor.'
@@ -346,7 +346,7 @@ const DOC_PAGES = Object.freeze({
             ['MCP AI answer', 'mcp_ask']
         ],
         steps: [
-            'Check your balance on your <a class="prose-link" href="/profile.html">profile</a>. It shows credits used, credits remaining and the reset date.',
+            'Check your balance on your <a rel="nofollow" class="prose-link" href="/profile.html">profile</a>. It shows credits used, credits remaining and the reset date.',
             'Read the activity list to see exactly which actions spent what.',
             'Plan around the reset. Allowances refill at the first moment of the next month, UTC.'
         ],
@@ -368,7 +368,7 @@ const DOC_PAGES = Object.freeze({
         steps: [
             'See current pricing on the <a class="prose-link" href="/#pricing">pricing section</a> of the home page.',
             'Check which features your plan unlocks against the list below.',
-            'Change plan from your <a class="prose-link" href="/profile.html">profile</a>. Feature access updates immediately — an upgrade or a downgrade both take effect on the next request, not at the next billing date.'
+            'Change plan from your <a rel="nofollow" class="prose-link" href="/profile.html">profile</a>. Feature access updates immediately — an upgrade or a downgrade both take effect on the next request, not at the next billing date.'
         ],
         notes: [
             { title: 'Ask', body: 'On every paid plan except Dev. Dev is API-only and will refuse the website’s Ask box with <code>API_PLAN_NO_WEB_ASK</code>.' },
@@ -394,7 +394,7 @@ const DOC_PAGES = Object.freeze({
             ['MCP AI answer', 'mcp_ask']
         ],
         steps: [
-            'Create a key on your <a class="prose-link" href="/profile.html">profile</a>. Keys start with <code>sp_live_</code> and are shown once — store it immediately, because it is hashed and cannot be shown again.',
+            'Create a key on your <a rel="nofollow" class="prose-link" href="/profile.html">profile</a>. Keys start with <code>sp_live_</code> and are shown once — store it immediately, because it is hashed and cannot be shown again.',
             'Decide which surface you need. An assistant takes the MCP server; your own code can use either the MCP server or the REST API — same data, same wallet, whichever your client speaks.',
             'Follow the setup for your client below. Claude and ChatGPT add the server by URL and sign in, because neither can send a key — they authenticate over OAuth instead, and you paste nothing.',
             'Everywhere else, authenticate with <code>Authorization: Bearer sp_live_...</code> on every request.'
@@ -500,11 +500,11 @@ Accept: application/json, text/event-stream`
         title: 'Your account — StockPortfolio.pro documentation',
         description: 'Manage your profile, subscription, credit usage, API keys and saved research.',
         heading: 'Your account',
-        intro: 'Your <a class="prose-link" href="/profile.html">profile</a> is where everything personal lives: subscription, credit usage, API keys, saved dossiers and past Ask threads.',
+        intro: 'Your <a rel="nofollow" class="prose-link" href="/profile.html">profile</a> is where everything personal lives: subscription, credit usage, API keys, saved dossiers and past Ask threads.',
         tier: 'Any account',
         costKey: null,
         steps: [
-            'Open your <a class="prose-link" href="/profile.html">profile</a>.',
+            'Open your <a rel="nofollow" class="prose-link" href="/profile.html">profile</a>.',
             'Check credits used, remaining and the reset date, with the activity list behind it.',
             'Manage your subscription — upgrade, downgrade or cancel. Changes to feature access apply on the next request.',
             'Create or revoke API keys if your plan includes them.',
@@ -512,7 +512,7 @@ Accept: application/json, text/event-stream`
         ],
         notes: [
             { title: 'Cancelling keeps access to the paid period', body: 'A cancelled subscription runs to the end of what you paid for rather than cutting off immediately.' },
-            { title: 'Support', body: 'Anything this documentation does not answer goes to <a class="prose-link" href="/support.html">support</a>, and a person replies within one business day.' }
+            { title: 'Support', body: 'Anything this documentation does not answer goes to <a class="prose-link" href="/support">support</a>, and a person replies within one business day.' }
         ],
         related: ['credits', 'plans', 'api-mcp']
     }
@@ -698,7 +698,7 @@ function renderDocPage(slug) {
     const stepsBlock = steps
         ? `<section class="docs-sec"><p class="label">How to use it</p><h2>Step by step</h2><ol class="steps">${steps}</ol></section>`
         : '';
-    const body = `${sidebar(slug)}<div class="docs-main"><p class="crumb"><a href="/docs">Docs</a> &rsaquo; ${esc(page.topic)} &rsaquo; ${esc(page.heading)}</p><h1>${esc(page.heading)}</h1><p class="docs-lead">${page.intro}</p><div class="docs-meta">${chips.join('')}</div>${stepsBlock}${setupBlock(page)}${costBlock(page)}${errorsBlock(page)}${notesBlock(page)}${relatedBlock(page)}<p class="crumb" style="margin:32px 0 0">Last updated ${esc(page.updated)}. Something missing? <a class="prose-link" href="/support.html">Tell support</a>.</p></div>`;
+    const body = `${sidebar(slug)}<div class="docs-main"><p class="crumb"><a href="/docs">Docs</a> &rsaquo; ${esc(page.topic)} &rsaquo; ${esc(page.heading)}</p><h1>${esc(page.heading)}</h1><p class="docs-lead">${page.intro}</p><div class="docs-meta">${chips.join('')}</div>${stepsBlock}${setupBlock(page)}${costBlock(page)}${errorsBlock(page)}${notesBlock(page)}${relatedBlock(page)}<p class="crumb" style="margin:32px 0 0">Last updated ${esc(page.updated)}. Something missing? <a class="prose-link" href="/support">Tell support</a>.</p></div>`;
     return layout({
         title: page.title,
         description: page.description,

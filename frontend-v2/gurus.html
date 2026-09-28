@@ -588,7 +588,7 @@
           <div class="perf-cells">${cells}</div>
           <div class="guru-lock-cta">
             <p class="guru-lock-text">See ${V2.esc(data.name || 'this investor')}'s 3M–15Y hypothetical returns and every buy &amp; sell this quarter.</p>
-            <a class="btn btn-primary btn-sm" href="/register.html?plan=monthly">Unlock with Core</a>
+            <a class="btn btn-primary btn-sm" href="/register?plan=monthly">Unlock with Core</a>
           </div>
         </div>`;
     }
@@ -615,7 +615,7 @@
               <span class="perf-strip-note">🔒 Pro feature</span>
             </div>
             <p class="guru-lock-text">Get an AI read on ${V2.esc(data.name || 'this investor')}'s quarter — biggest moves, concentration, and notable new buys and exits.</p>
-            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro-annual">Upgrade to Pro</a>
+            <a class="btn btn-primary btn-sm" href="/register?plan=pro-annual">Upgrade to Pro</a>
           </div>`;
       }
       return '';
@@ -855,7 +855,7 @@
       body.innerHTML = rows.length
         ? rows.map((h, i) => rowHtml(h, i, maxW)).join('') +
           (moreCount > 0 ? `<tr class="empty-row"><td colspan="6" style="text-align:center; padding:20px;">
-              🔒 …and ${moreCount} more holdings — <a href="/register.html?plan=monthly">unlock with Core</a>
+              🔒 …and ${moreCount} more holdings — <a href="/register?plan=monthly">unlock with Core</a>
             </td></tr>` : '')
         : `<tr class="empty-row"><td colspan="${data.locked ? 6 : 7}" style="text-align:center; padding:30px; color:var(--ink-3);">No ${activeTab === 'buys' ? 'new buys or adds' : activeTab === 'sells' ? 'sells' : 'holdings'} this quarter.</td></tr>`;
       applyFilter();
@@ -898,7 +898,7 @@
     /* ─── One holdings row ─── */
     function rowHtml(h, i, maxW) {
       const sector = detectSector(h.name);
-      const searchUrl = '/screener.html?q=' + encodeURIComponent(h.name);
+      const searchUrl = '/screener?q=' + encodeURIComponent(h.name);
       const pctCell = h.weight != null
         ? `<div class="pct-bar-row">
              <div class="pct-bar-fill" style="width:${maxW > 0 ? Math.min(100, Math.round((h.weight / maxW) * 100)) : 0}px; background:${sector.color};"></div>

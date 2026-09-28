@@ -98,7 +98,7 @@ async function scanInsiderCluster(symbol, holderIds, createAlerts) {
         // cluster and produces one fresh alert, repeat scans don't.
         title: `${symbol}: insider cluster buying — ${buyers.size} insiders bought through ${lastDate}`,
         detail: `${buyers.size} distinct insiders filed open-market purchases in the last ${CLUSTER_WINDOW_DAYS} days${total > 0 ? `, ~$${Math.round(total).toLocaleString('en-US')} combined` : ''}. Source: SEC Form 4 filings.`,
-        url: `/company.html?symbol=${encodeURIComponent(symbol)}`
+        url: `/company?symbol=${encodeURIComponent(symbol)}`
     });
 }
 
@@ -136,7 +136,7 @@ async function scanDividendRisk(symbol, holderIds, createAlerts) {
         // FY in the title: one alert per company per fiscal year of stretched data
         title: `${symbol}: dividend stretch in FY${fy} filings`,
         detail: `In the fiscal year ending ${cash[0].fiscalDateEnding}, ${problems.join('; ')}. Computed from filed statements — a flag to investigate, not a prediction.`,
-        url: `/company.html?symbol=${encodeURIComponent(symbol)}`
+        url: `/company?symbol=${encodeURIComponent(symbol)}`
     });
 }
 
@@ -158,7 +158,7 @@ async function scanRules(createAlerts) {
                         type: 'threshold',
                         title: `${rule.symbol}: ${METRIC_LABEL[rule.metric]} ${rule.op === 'lt' ? 'below' : 'above'} ${rule.value} (now ${Math.round(current * 100) / 100})`,
                         detail: `Your alert rule fired: ${rule.symbol} ${METRIC_LABEL[rule.metric]} is now ${Math.round(current * 100) / 100}. It re-arms if the condition reverses.`,
-                        url: `/company.html?symbol=${encodeURIComponent(rule.symbol)}`
+                        url: `/company?symbol=${encodeURIComponent(rule.symbol)}`
                     });
                 }
                 await AlertRule.updateOne({ _id: rule._id }, { $set: { armed: false, lastFiredAt: new Date() } });

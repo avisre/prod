@@ -437,10 +437,10 @@ function renderStockPage(ticker, options = {}) {
                 redFlagBlock = `<div class="seo-section"><h2>${esc(name)}: ${rf.flags.length} potential red flag${rf.flags.length > 1 ? 's' : ''} in the filings</h2>
                   <p style="color:var(--muted);font-size:12.5px;margin:0 0 10px">Patterns in the filed statements worth a second look — computed and cited, not AI guesswork, and not a signal to sell. The kind of thing that hides in a 10-K.</p>
                   <ul style="display:grid;gap:8px;padding:0;margin:0">${items}</ul>
-                  <p style="font-size:13px;margin-top:12px"><a href="/ask.html?q=${encodeURIComponent('Explain the red flags in ' + sym + "'s latest filings")}" style="color:var(--accent);font-weight:600">Ask the AI to dig into these &rarr;</a></p></div>`;
+                  <p style="font-size:13px;margin-top:12px"><a href="/ask?q=${encodeURIComponent('Explain the red flags in ' + sym + "'s latest filings")}" style="color:var(--accent);font-weight:600">Ask the AI to dig into these &rarr;</a></p></div>`;
             } else {
                 redFlagBlock = `<div class="seo-section"><h2>${esc(name)}: no obvious red flags in the filings</h2>
-                  <p style="color:var(--muted);font-size:12.5px;margin:0">Our deterministic scan of the filed statements — receivables vs sales, earnings vs cash, dilution, leverage and margins — didn't flag anything. <a href="/ask.html?q=${encodeURIComponent('What are the main risks in ' + sym + '?')}" style="color:var(--accent);font-weight:600">Ask about the risks &rarr;</a></p></div>`;
+                  <p style="color:var(--muted);font-size:12.5px;margin:0">Our deterministic scan of the filed statements — receivables vs sales, earnings vs cash, dilution, leverage and margins — didn't flag anything. <a href="/ask?q=${encodeURIComponent('What are the main risks in ' + sym + '?')}" style="color:var(--accent);font-weight:600">Ask about the risks &rarr;</a></p></div>`;
             }
         }
     } catch (_) { /* page renders without red flags */ }
@@ -651,7 +651,7 @@ function renderStockPage(ticker, options = {}) {
             analystBlock = `<div class="seo-section" style="background:var(--panel-solid);border:1px solid var(--border);border-radius:12px;padding:18px 22px">
               <h2 style="margin:0 0 12px">The analyst's take on ${esc(name)}</h2>
               <div style="font-size:15px;line-height:1.72;color:var(--text);max-width:74ch">${paras}</div>
-              <p style="font-size:12.5px;color:var(--muted);margin:4px 0 0">Synthesised from ${esc(name)}'s SEC filings — descriptive, not advice. <a href="/ask.html?q=${encodeURIComponent('Give me your full analysis of ' + sym)}" style="color:var(--accent);font-weight:600">Ask the analyst your own question &rarr;</a></p>
+              <p style="font-size:12.5px;color:var(--muted);margin:4px 0 0">Synthesised from ${esc(name)}'s SEC filings — descriptive, not advice. <a href="/ask?q=${encodeURIComponent('Give me your full analysis of ' + sym)}" style="color:var(--accent);font-weight:600">Ask the analyst your own question &rarr;</a></p>
             </div>`;
         }
     } catch (_) { /* page renders without the take */ }
@@ -663,7 +663,7 @@ function renderStockPage(ticker, options = {}) {
     const verifyBlock = `<div class="seo-section" style="background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px 22px">
   <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
     <h2 style="margin:0">See a claim about ${esc(name)}? Check it against the filing</h2>
-    <span style="font-size:12.5px;color:var(--ink3)"><a href="/verify.html" style="color:var(--accent)">Open the full tool &rarr;</a></span>
+    <span style="font-size:12.5px;color:var(--ink3)"><a href="/verify" style="color:var(--accent)">Open the full tool &rarr;</a></span>
   </div>
   <p style="margin:8px 0 16px;color:var(--ink2);font-size:14px;max-width:74ch">Paste a headline number you saw about ${esc(sym)} &mdash; a press-release figure, a tweet, another tool&rsquo;s number &mdash; and see the filed SEC number side-by-side with its source. Free, no account.</p>
   <div class="vf-form">
@@ -886,7 +886,12 @@ function staticPageMtime(route) {
     const names = {
         '/': 'index.html', '/register': 'register.html', '/appsumo': 'appsumo.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
         '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
-        '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html'
+        '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html',
+        // Public pages that were linked from the site but present in no shard at all
+        // (measured 2026-09-28, all four answering 200) — without an entry here
+        // their lastmod would fall back to this module's own mtime.
+        '/verify': 'verify.html', '/company': 'company.html', '/compare-dossiers': 'compare-dossiers.html',
+        '/partners': 'partners.html', '/partners-apply': 'partners-apply.html', '/lifetime': 'lifetime.html'
     };
     if (route.startsWith('/tools/')) return isoMtime(path.join(__dirname, 'free-tools.js'));
     if (names[route]) return isoMtime(path.join(__dirname, '..', 'frontend-v2', names[route]));
@@ -903,7 +908,17 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes'];
+    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
+        // Indexable and internally linked, but in no shard until 2026-09-28 — Bing's
+        // Site Scan reports exactly this as "important pages missing from sitemaps".
+        // /lifetime is the direct-sale twin of /appsumo (index,follow, prices from
+        // /api/lifetime/config) and had no inbound link at all.
+        // /company is deliberately absent: bare /company is a JS-only skeleton (the
+        // name is filled in client-side) that nothing links, and /stocks/:symbol
+        // already covers per-symbol pages — advertising a thin page is worse than
+        // leaving an unlinked URL out of the sitemap. Its `.html` twin still 301s
+        // to it, so the redirect table stays file-complete.
+        '/verify', '/compare-dossiers', '/partners', '/partners-apply', '/lifetime'];
     try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
     try { Object.values(require('./docs-pages').DOC_PAGES).forEach((d) => coreRoutes.push(d.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
@@ -1210,7 +1225,7 @@ function renderApiLanding() {
     <h2>$19.99/month — 200 credits, all seven tools</h2>
     <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs ${COST.mcp_lookup} credits, an AI answer ${COST.mcp_ask}, the same on both surfaces. Credits reset monthly. Cancel any time.</p>
     <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
-    <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html">Profile page</a>.</p>
+    <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a>.</p>
   </div>
 
   ${S('Make a call in two minutes', `<p>One key, one header. This is the actual response for <code>NVDA</code>, captured from the live extractor:</p>
@@ -1294,7 +1309,7 @@ function renderLicensing() {
     </ul>`)}
   <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
     <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
-    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, the top AppSumo/DealMirror lifetime tier, or any AppSumo/DealMirror tier purchased on or before 22 September 2026. Generate a key from your <a href="/profile.html">Profile page</a> once you&#39;re on a qualifying plan.</p>
+    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, the top AppSumo/DealMirror lifetime tier, or any AppSumo/DealMirror tier purchased on or before 22 September 2026. Generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a> once you&#39;re on a qualifying plan.</p>
     <ul>
       <li><strong>MCP</strong> — 2 credits per lookup, 42 credits per AI-backed ask. The agent-native path: your client calls the tools directly, no HTTP code to write.</li>
       <li><strong>REST API</strong> — 2 credits per lookup, 42 credits per ask. Identical pricing to MCP: same call, same filings, same price.</li>

@@ -40,7 +40,7 @@
         "url": "https://www.stockportfolio.pro/",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://www.stockportfolio.pro/company.html?symbol={search_term_string}",
+          "target": "https://www.stockportfolio.pro/company?symbol={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       },
@@ -243,16 +243,16 @@
           </div>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#home-try">Try 3 questions free</a>
-            <a class="btn btn-ghost" href="/dossier.html">Build a dossier →</a>
+            <a class="btn btn-ghost" href="/dossier">Build a dossier →</a>
           </div>
           <!-- the checklist fills the column to the demo card's exact height,
                so both columns end on the same line — no dead space -->
           <div class="hero-free">
             <p class="hero-free-label">Free entry points</p>
             <ul class="hero-free-list">
-              <li>Screener — 3,800+ companies, <a href="/screener.html">free for everyone</a></li>
+              <li>Screener — 3,800+ companies, <a href="/screener">free for everyone</a></li>
               <li>Ask with citations — 3 free, no account</li>
-              <li id="hero-dossier">Full dossiers from $24.99/mo — <a href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
+              <li id="hero-dossier">Full dossiers from $24.99/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
             </ul>
             <p class="hero-note">The <a href="/monitor">Filing Change Monitor</a> reads each new 10-K, 10-Q and 8-K on your watchlist for you.</p>
           </div>
@@ -303,7 +303,7 @@
       <section class="section" id="verify-headline">
         <div class="section-head">
           <div><span class="label">Free · no account</span><h2 class="title-1" style="margin-top:7px;">Verify a headline against the filing</h2></div>
-          <span class="small faint"><a href="/verify.html">Open the full tool →</a> · <a href="/verify-ledger">See the public claim ledger →</a></span>
+          <span class="small faint"><a href="/verify">Open the full tool →</a> · <a href="/verify-ledger">See the public claim ledger →</a></span>
         </div>
         <p style="max-width:60ch; color:var(--ink-2); margin-top:8px;">Paste a financial claim — a press-release number, a tweet, another tool's figure — and see the filed SEC number side-by-side with its source. No estimates.</p>
         <div class="card card-pad" style="margin-top:18px;">
@@ -345,7 +345,7 @@
                 <div class="notice" style="${flagged ? 'background:#fef1f1;border:1px solid #f2c9c9;' : 'background:#eef6ee;border:1px solid #cfe3cf;'}">
                   <strong>${esc(j.verdict)}</strong>${pct ? ' &nbsp; Δ ' + fmt(j.diff) + ' (' + pct + ')' : ''}
                   <p class="small" style="margin:8px 0 0;">Press release: <strong>${esc(j.pr.raw)}</strong> &nbsp;·&nbsp; SEC filing: <strong>${fmt(j.filed.value)}</strong> (${esc(j.period || 'latest filed')})<br>
-                  <a href="${esc(j.filed.sourceUrl)}" target="_blank" rel="noopener nofollow">Open the SEC source</a> · <a href="/verify.html">full head-to-head</a></p>
+                  <a href="${esc(j.filed.sourceUrl)}" target="_blank" rel="noopener nofollow">Open the SEC source</a> · <a href="/verify">full head-to-head</a></p>
                 </div>`;
             } catch (e) { $('cc-status').textContent = e.message; }
           };
@@ -367,7 +367,7 @@
         </div>
         <div class="asset-launch-foot">
           <p class="small muted" style="margin:0; max-width:68ch;">Add AAPL, SPY and VTSAX to the same portfolio. Prepare AI answers and reports for sharing to X, Instagram, LinkedIn, Facebook, WhatsApp and more.</p>
-          <a class="btn btn-primary btn-sm" href="/dashboard.html">Open your mixed portfolio →</a>
+          <a rel="nofollow" class="btn btn-primary btn-sm" href="/dashboard.html">Open your mixed portfolio →</a>
         </div>
       </section>
 
@@ -380,7 +380,7 @@
             <div class="card card-pad live-card" style="margin-top:20px;">
               <div style="display:flex; justify-content:space-between; align-items:baseline; gap:16px; flex-wrap:wrap; margin-bottom:18px;">
                 <span class="label" id="live-title">Apple Inc. — live from our data</span>
-                <a class="small" href="/company.html?symbol=AAPL" id="live-link">Open the full page →</a>
+                <a class="small" href="/company?symbol=AAPL" id="live-link">Open the full page →</a>
               </div>
               <div class="kpi-row" id="live-strip" style="gap:24px 40px;">
                 <div class="kpi"><span class="label">Revenue</span><span class="kpi-value skeleton">416.16B</span></div>
@@ -407,11 +407,11 @@
       <section class="section" id="dossier-feature">
         <div class="section-head"><h2 class="title-1">The report, already written</h2><span class="small faint">An initiation-grade dossier, structured the same way for every company.</span></div>
         <div class="card card-pad" style="max-width:680px; margin:0 auto;">
-          <p>Open the <a href="/dossier.html">Research Dossier</a> on any covered US company and get the write-up in twelve minutes: decision brief, the filed trajectory, segments, valuation tension, the bull and the bear case, and what just changed in the latest filing. No prompting — you type the ticker, the questions are already asked.</p>
-          <p style="margin-top:12px;">Because every dossier follows the same structure, companies are <strong>comparable</strong>: side-by-side metrics and briefs with <a href="/compare-dossiers.html">Compare</a>, five credits. A dossier is 10 credits.</p>
+          <p>Open the <a href="/dossier">Research Dossier</a> on any covered US company and get the write-up in twelve minutes: decision brief, the filed trajectory, segments, valuation tension, the bull and the bear case, and what just changed in the latest filing. No prompting — you type the ticker, the questions are already asked.</p>
+          <p style="margin-top:12px;">Because every dossier follows the same structure, companies are <strong>comparable</strong>: side-by-side metrics and briefs with <a href="/compare-dossiers">Compare</a>, five credits. A dossier is 10 credits.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px; align-items:center;">
-            <a class="btn btn-primary btn-sm" href="/dossier.html">Build a dossier →</a>
-            <a class="btn btn-ghost btn-sm" href="/compare-dossiers.html">Compare two companies →</a>
+            <a class="btn btn-primary btn-sm" href="/dossier">Build a dossier →</a>
+            <a class="btn btn-ghost btn-sm" href="/compare-dossiers">Compare two companies →</a>
           </div>
         </div>
       </section>
@@ -423,7 +423,7 @@
           <div class="ask-a" id="brief-sample-body"><p class="small faint">Loading a sample briefing…</p></div>
           <div style="margin-top:16px; padding-top:14px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
             <p class="small muted" style="margin:0; max-width:46ch;"><strong>Sample</strong> — demo portfolio. Paid plans generate this for <em>your</em> holdings every Monday.</p>
-            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro-annual">Start Pro checkout →</a>
+            <a class="btn btn-primary btn-sm" href="/register?plan=pro-annual">Start Pro checkout →</a>
           </div>
         </div>
       </section>
@@ -449,7 +449,7 @@
           <p>Track stocks, ETFs and mutual funds together. The AI understands the difference: company fundamentals stay company-only, while fund positions contribute to value, allocation and concentration using fund-specific facts. Weekly briefings and portfolio Q&amp;A cover the complete mixed portfolio.</p>
           <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:12px 18px; align-items:center; justify-content:space-between;">
             <p class="small muted" style="margin:0;">Weekly briefing · X-Ray · daily attribution · smart alerts</p>
-            <a class="btn btn-primary btn-sm" href="/register.html?plan=pro-annual">Start Pro checkout →</a>
+            <a class="btn btn-primary btn-sm" href="/register?plan=pro-annual">Start Pro checkout →</a>
           </div>
         </div>
       </section>
@@ -500,7 +500,7 @@
               <li><strong>100 AI credits a month</strong> — 10 Research Dossiers or 20 Filing Monitor reports, or 50 Ask questions if you spend it all there. A Dossier is 10 credits, a Monitor report 5, a comparison 5, a question 2.</li>
               <li>CSV export of any table</li>
             </ul>
-            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=monthly">Start secure checkout</a>
+            <a class="btn btn-ghost" style="margin-top:auto;" href="/register?plan=monthly">Start secure checkout</a>
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Pro</span><span class="small" style="color:var(--accent-ink); font-weight:650;">The analyst tier</span></div>
@@ -516,7 +516,7 @@
               <li><strong>Insights &amp; segments</strong> — what each business earns and why it wins, read from 19 years of filings</li>
               <li><strong>Weekly portfolio briefing</strong> — what changed in your holdings' filings, every Monday</li>
             </ul>
-            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=pro-annual">Start Pro checkout</a>
+            <a class="btn btn-primary" style="margin-top:auto;" href="/register?plan=pro-annual">Start Pro checkout</a>
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Good — annual</span><span class="small" id="annual-best" style="color:var(--accent-ink); font-weight:650;">Best value — $16.67/month</span></div>
@@ -528,7 +528,7 @@
               <li>One renewal a year — nothing else to think about</li>
               <li>Upgrade to Pro anytime, prorated</li>
             </ul>
-            <a class="btn btn-ghost" style="margin-top:auto;" href="/register.html?plan=annual">Continue to annual</a>
+            <a class="btn btn-ghost" style="margin-top:auto;" href="/register?plan=annual">Continue to annual</a>
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Desk</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One professional seat</span></div>
@@ -541,7 +541,7 @@
               <li>Built for RIAs, equity analysts and small funds</li>
               <li>First to get new coverage as it ships</li>
             </ul>
-            <a class="btn btn-primary" style="margin-top:auto;" href="/register.html?plan=desk">Get Desk →</a>
+            <a class="btn btn-primary" style="margin-top:auto;" href="/register?plan=desk">Get Desk →</a>
           </div>
           <div class="card price-card">
             <span class="label">Enterprise</span>
@@ -662,7 +662,7 @@
             var was = list ? '<s class="price-was">$' + list + '</s>' : '';
             set('good-fig', '$' + price + '<span>/month</span>' + was);
             set('good-note', 'Core research desk. ' + esc(promo.note));
-            set('hero-dossier', 'Full dossiers from $' + price + '/mo — <a href="/dashboard.html?demo=1">or see a demo portfolio</a>');
+            set('hero-dossier', 'Full dossiers from $' + price + '/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a>');
 
             // Twelve months of Monthly now costs less than the annual plan, so
             // the annual card's "save $100 / two months free" math and its

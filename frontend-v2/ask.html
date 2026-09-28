@@ -1226,14 +1226,14 @@
             const mine = per.find((q) => q.id === pos.personaId) || {};
             const pl = mine.plPct;
             return `<div class="pc-row">
-              <span>${persona.kind === 'guru' ? '🧠' : '📊'} <strong><a href="/company.html?symbol=${esc(pos.symbol || '')}">${esc(pos.symbol || '—')}</a></strong> <span class="small muted">${esc(pos.name || '')}</span></span>
+              <span>${persona.kind === 'guru' ? '🧠' : '📊'} <strong><a href="/company?symbol=${esc(pos.symbol || '')}">${esc(pos.symbol || '—')}</a></strong> <span class="small muted">${esc(pos.name || '')}</span></span>
               <span>${money(pos.shares * pos.avgPrice)} · <span class="${pl === undefined ? '' : (pl >= 0 ? 'delta-pos' : 'delta-neg')}">${pl === undefined ? '—' : pct(pl)}</span></span>
             </div>`;
           }).join('');
           card.innerHTML = `<summary>🧪 AI Paper Portfolio · ${money(t.totalValue)} · ${pct(t.portfolioReturnPct)} vs SPY ${pct(t.spyReturnPct)}</summary>
             ${rows}
             <div class="pc-row"><span class="small muted">cash</span><span>${money(p.cash)}</span></div>
-            <p class="small muted" style="margin:10px 0 0;">Full showdown and decision log on your <a href="/dashboard.html">dashboard</a>.</p>`;
+            <p class="small muted" style="margin:10px 0 0;">Full showdown and decision log on your <a rel="nofollow" href="/dashboard.html">dashboard</a>.</p>`;
         }
         const exchange = $('exchange');
         exchange.insertBefore(card, exchange.firstChild); // pinned at the top, above every message
@@ -1274,7 +1274,7 @@
         // the signed-out account CTA — the advice disclaimer moved onto each
         // answer, where something could actually be mistaken for advice.
         if (!token()) {
-          el.innerHTML = '<a href="/register.html">Create a free account</a> to keep this thread and its follow-ups, or <a href="/login.html">log in</a>.';
+          el.innerHTML = '<a href="/register">Create a free account</a> to keep this thread and its follow-ups, or <a rel="nofollow" href="/login.html">log in</a>.';
           mini.textContent = '3 free questions';
           return;
         }

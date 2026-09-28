@@ -26,7 +26,7 @@ test('screener CTA buttons wrap instead of overflowing the phone viewport', () =
     // measured 82px of document-level overflow at 390px before this
     assert.match(
         screenerHtml,
-        /display:flex; gap:12px; align-items:center; flex-wrap:wrap;[^>]*>\s*<a class="btn btn-primary" href="\/register\.html"/
+        /display:flex; gap:12px; align-items:center; flex-wrap:wrap;[^>]*>\s*<a class="btn btn-primary" href="\/register"/
     );
 });
 
@@ -148,7 +148,7 @@ test('404 recovery links, screener tool links, comparison foot links and monitor
     const cmpPages = read('backend', 'comparison-pages.js');
     assert.match(cmpPages, /\.seo-foot a\{color:var\(--muted\);display:inline-block;padding:8px 3px\}/);
     const monHtml = read('frontend-v2', 'monitor.html');
-    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/ask\.html">Ask<\/a>/);
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/ask">Ask<\/a>/);
 });
 
 // ── Pass 6: sitewide prose-link tap rule + the last stragglers ──
@@ -182,8 +182,8 @@ test('screener checkboxes are 28px on tablets too, not just phones', () => {
 
 test('monitor free-note links clear 28px wide, not just tall', () => {
     const monHtml = read('frontend-v2', 'monitor.html');
-    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/ask\.html">Ask<\/a>/);
-    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/company\.html\?symbol=SPY">/);
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/ask">Ask<\/a>/);
+    assert.match(monHtml, /<a style="display:inline-block; padding:8px 6px;" href="\/company\?symbol=SPY">/);
 });
 
 test('lifetime AppSumo note link is a tap target', () => {

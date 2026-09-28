@@ -49,8 +49,8 @@ test('the four-rung menu prices hold across homepage, register, upgrade, dossier
   assert.match(homepageSource, /\$199\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$499\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$1,999\.99<span>\/year<\/span>/);
-  assert.match(homepageSource, /register\.html\?plan=pro-annual/);
-  assert.doesNotMatch(homepageSource, /register\.html\?plan=power-monthly/);
+  assert.match(homepageSource, /register\?plan=pro-annual/);
+  assert.doesNotMatch(homepageSource, /register(?:\.html)?\?plan=power-monthly/);
   assert.match(dossierSource, /plan=pro-annual"\>Start Pro checkout/);
   assert.match(dossierSource, /plan=desk"\>\$1,999\.99\/yr/);
   assert.match(termsSource, /\$24\.99\/month \(Monthly\), \$199\.99\/year \(Annual\), \$499\.99\/year \(Pro/);

@@ -55,7 +55,7 @@ test('Frontend trial wall renders the inline email capture, not a dead-end notic
     // rung + paid checkout, never the (separate, later-added) signup-trial
     // upgradeStrip helper, which does link to /register.html?plan=free.
     const askTrialWallBody = src.match(/function askTrialWall\(data\) \{[\s\S]*?\n    \}/)[0];
-    assert.doesNotMatch(askTrialWallBody, /register\.html\?plan=free/, 'no /register.html?plan=free links remain in the ask wall');
+    assert.doesNotMatch(askTrialWallBody, /register(?:\.html)?\?plan=free/, 'no /register?plan=free links remain in the ask wall');
     assert.match(src, /api\/ask-trial\/email/);
     assert.match(src, /refundable within 7 days/);
     assert.match(src, /Start secure checkout — \$24\.99\/month/);
@@ -71,11 +71,13 @@ test('Homepage leads with Dossier + Monitor — Ask is NOT the primary marketing
     assert.ok(!html.includes('id="home-ask"'), 'no home-ask mount point');
     assert.ok(!html.includes('V2.mountAsk(host'), 'no inline ask mount');
     assert.ok(!html.includes('id="ask-feature"'), 'no Ask feature section');
-    assert.ok(!/hero-actions[\s\S]{0,600}?href="\/ask\.html/.test(html), 'no Ask CTA in the hero');
+    // Widened past the retired `.html` spelling (2026-09-28): the hero regressing
+    // to href="/ask" must fail this, not pass vacuously.
+    assert.ok(!/hero-actions[\s\S]{0,600}?href="\/ask(?![a-z-])/.test(html), 'no Ask CTA in the hero');
     // the hero leads with the dossier CTA and the monitor CTA
     const hero = html.match(/<section class="hero">[\s\S]*?<\/section>/)[0];
     assert.match(hero, /<h1 class="display">Detailed research reports on stocks, built from real SEC data\.<\/h1>/);
-    assert.match(hero, /href="\/dossier\.html"/);
+    assert.match(hero, /href="\/dossier(?![a-z-])/);
     assert.match(hero, /href="\/monitor"/);
     // the email-rung verify link still lands here and is still handled
     assert.match(html, /\?ask=verified/);
