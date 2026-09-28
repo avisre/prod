@@ -168,11 +168,36 @@ files alone would have left the app requiring an untracked module. **Measured li
 - **One synthetic query (`aap 2024 free cash flow guided flat strategic costs`) is 42.8% of attributed
   impressions** (1,181 impressions, 0 clicks). Excluding it CTR is **7.55%** not 4.32%, and positions 4-10 are
   **4.67% not 2.46%** — the "titles are failing" premise in `bing-title-review.md` was this same artifact.
-- **Metric-page titles/descriptions rewritten** in `renderMetricPage`: the `…` is gone (3/50 → 0), and
-  descriptions over 160 chars went 44/50 → 2/50 with the boilerplate tail cut. Server-rendered, so **no `?v=`
-  stamp**. A bounded test, not a promised gain.
+- **Metric-page titles/descriptions rewritten** in `renderMetricPage`: the `…` is gone (3/50 → 0). The
+  same 50-sample measurement claimed titles were fine — **that was a sampling artifact**; see the sitewide
+  sweep below. Server-rendered, so **no `?v=` stamp**.
 - Operator Python needs **`.venv/bin/python3`** — Homebrew Python is PEP 668-managed, so `pip install --user`
   is refused and no `scripts/*.py` could run at all. `scripts/requirements.txt` documents it.
+
+**SERP length sweep — COMMITTED + DEPLOYED 9/28 (`1164057f`), verified from outside.** Bing's UI (its API
+surfaces never showed this) filed **"Title too long" (High, 6 pages)** against `/`, three `/compare` pairs and
+two `/screens` pages; URL Inspection shows the same two errors on `/`. Bing's limit is **70 title / 25-160
+description**. Rendering **every** page the site can emit, not a sample:
+- `/stocks/:symbol` **1,469 of 1,502** descriptions over (worst 204) · metric pages **1,165 of 12,338** (worst
+  193) · `/compare/:pair` **9,863 violations across 5,887 pairs** (title max 156, desc max 290) · `/screens`
+  **all 17 titles** (worst 88) · `/vs/` 17 violations across 14 pages · hubs, tools, docs, 9 served pages.
+- **One cause:** a fixed boilerplate tail appended to a variable-length name with no budget, in almost every
+  SSR head. Aggravated by a legal-suffix stripper in `seo-extra.js`/`app.js` missing the `(?:&|and)?` that
+  `seo-pages.js` already had — it shipped **"JPMorgan Chase &"** and **"Becton, Dickinson and"** as live titles
+  — and by the long metric noun (`total debt (short- plus long-term borrowings)`) going into the description.
+- **Fix:** `clipName` / `fitTwoNames` in `seo-pages.js`, required by the stock, metric, pair and `/company`
+  heads; they clip the *name* to the room left **on word boundaries** and full names stay in H1/body. Budgets
+  **65 title / 158 description** — inside Bing's 70/160 *and* Google's ~60 truncation. METRICS gained a short
+  `metaNoun` (`total debt`) for the description only. Re-measured after: **0 over in every family**.
+- **Guard:** `test/serp-meta-length.test.js` (6 tests) derives its worst case from the longest names in
+  `sp1500-companies.json` rather than a hardcoded list; `/screens` titles are parsed statically because
+  `renderScreenPage` needs the live screen index. Suite 996.
+- **Live: 16/16 in budget** — the six Bing-named URLs plus each family's worst case, browser UA. Run as a
+  **negative control first** (mid-deploy it failed 7/16 naming the old templates), so the pass is a
+  measurement. IndexNow HTTP 200 for the 20 highest-value changed URLs; the other ~19,700 changed URLs ride on
+  the sitemap `<lastmod>`. Full write-up: `docs/seo/bing-diagnosis-2026-09-28.md` §6.
+- A metric URL that 302s to its stock page (`/stocks/AAOI/total-debt`) means **no data**, not a defect —
+  `/stocks/:ticker/:metric` redirects when `renderMetricPage` returns null (`seo-extra.js:2426`).
 
 **`.html` URL twins retired — COMMITTED + DEPLOYED 9/28 (`0a570df9`), verified from outside.** Second round on the same Site Scan
 panel: the API-side analysis could not see that the *link graph itself* was feeding the duplicates.
@@ -282,9 +307,12 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
 2. **Dossier mockup review** — step 2, the port, has not started.
 3. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click
-   **Investigate** on the identical-titles / identical-descriptions / noindex cards: the 9/28 fixes answer
-   all three, and those URL lists exist only in the Bing UI. Card 5 (inbound links) needs links that a
-   sitemap row cannot supply.
+   **Investigate** on the identical-titles / identical-descriptions / noindex / **Title-too-long** cards: the
+   9/28 fixes answer all four, and those URL lists exist only in the Bing UI. For the title/description card,
+   the six URLs it named are `1164057f`'s target — re-inspect `/`, `/compare/AMR-vs-SMCI`,
+   `/compare/CPT-vs-KREF`, `/compare/HONA-vs-LHX`, `/screens/stocks-below-book-value`,
+   `/screens/undervalued-tech-stocks` (all 16 checked URLs are live in budget). Card 5 (inbound links) needs
+   links that a sitemap row cannot supply.
 4. **`avisre/prod` visibility** — it names the AI provider while public.
 5. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
    SMTP_PASS, GOOGLE_CLIENT_SECRET, the provider key) at source AND on Render back-to-back per key, or

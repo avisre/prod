@@ -13,18 +13,19 @@ Site: `https://www.stockportfolio.pro/`
 
 ## Summary
 
-The site's indexing and crawl health are genuinely good. It has three real defects,
+The site's indexing and crawl health are genuinely good. It has a handful of real defects,
 and the most damaging one is not visible in the Bing dashboard at all: **the site tells
 Bing that 97.7% of its pages were last modified on 2026-07-19**, and Bing schedules
 recrawls from that signal.
 
 | | Finding | Severity |
 |---|---|---|
-| 1 | `<lastmod>` frozen at `2026-07-19` for 21,272 of 21,780 URLs | **High** |
+| 1 | `<lastmod>` frozen at `2026-07-19` for 21,272 of 21,780 URLs | **High** (shipped `97fc9a16`) |
 | 2 | Weekly report headline computed from a top-N source | **High** (reporting) |
 | 3 | One synthetic query is 42.8% of attributed impressions | Medium (reporting) |
-| 4 | IndexNow key file refused by the site's own bot blocker | Medium |
-| 5 | Description boilerplate exceeds SERP length on 88% of pages | Low |
+| 4 | IndexNow key file refused by the site's own bot blocker | Medium (shipped `97fc9a16`) |
+| 5 | Titles/descriptions outside the SERP range on 4 template families | **High** (shipped `1164057f`) |
+| 6 | `.html` twins doubling every public page; 5 linked pages in no sitemap | **High** (shipped `0a570df9`) |
 | — | Crawl health, index growth, robots.txt, canonicalisation | **Healthy** |
 
 ## 1. Indexing and crawl health are not the problem
@@ -199,37 +200,62 @@ actually hosted and fetchable.
 (`1668f45a03ea53cf94c51b61c43163d4.txt`) is hosted and referenced nowhere. It has not been
 deleted — only the owner can confirm whether it is registered with a search engine.
 
-## 6. Titles and descriptions — Low
+## 6. Titles and descriptions — HIGH (shipped `1164057f`; the first pass was undersampled)
 
-Measured across 50 symbol/metric pairs by rendering `renderMetricPage`.
+The first version of this section measured **50 symbol × metric pairs out of 12,338** and concluded
+**"titles are not too long"**. That sample came from one family and missed every family the defect
+actually lived in — a reminder that a 0.4% sample of a template-driven site proves nothing about the
+template. Bing's own UI disagreed within the day: its Recommendations panel filed a **"Title too
+long"** error (severity High, 6 pages / 6 errors) against the homepage,
+`/compare/AMR-vs-SMCI`, `/compare/CPT-vs-KREF`, `/compare/HONA-vs-LHX`,
+`/screens/stocks-below-book-value` and `/screens/undervalued-tech-stocks`, against Bing's stated
+limit of **70 characters**; URL Inspection showed the same two errors ("Title too long", "Meta
+Description too long or too short") on the homepage.
 
-**Titles are not too long**, contrary to the assumption that drove the P0 worklist:
+Rendering **every** page the site can emit — all 1,502 symbols, all metric slugs, all 5,887 pairs,
+all 17 screens, `/vs/`, tools, docs and the served `frontend-v2` pages — showed the six flagged URLs
+were the visible tip:
 
-| | Before | After |
-|---|---:|---:|
-| Length min / median / max | 24 / 39 / 56 | 24 / 39 / 55 |
-| Over 60 characters | 0 of 50 | 0 of 50 |
-| Containing a `…` | 3 of 50 | **0** |
+| Family | URLs | Out of range | Worst |
+|---|---:|---|---|
+| `/stocks/:symbol` | 1,502 | 1,469 descriptions | desc 204 |
+| metric pages | 12,338 | 1,165 descriptions | desc 193 |
+| `/compare/:a-vs-:b` | 5,887 | 9,863 violations | title 156, desc 290 |
+| `/screens/:slug` | 17 | **all 17 titles** | title 88 |
+| `/vs/:competitor` | 14 | 17 violations | desc 197 |
+| everything else (SSR hubs, docs, tools, 9 served pages) | ~40 | both fields | title 81, desc 260 |
 
-The real title defect was a `…`, not length: `titleNameShort` truncated any company name
-over 28 characters mid-word, producing `IBM Revenue History | International Business…`.
-It affected ~6% of samples (long legal names). It is now clipped on whole-word boundaries
-with no ellipsis.
+**The `…` finding was real but small.** `titleNameShort` truncated any company name over 28
+characters mid-word (`IBM Revenue History | International Business…`); ~6% of that sample. It is now
+clipped on whole-word boundaries with no ellipsis. That fix was correct and stayed.
 
-**Descriptions were the measurable defect** — they exceeded the ~160 characters a SERP
-renders, and the part being cut was the identical sitewide boilerplate tail:
+**One cause, written three ways:** a fixed boilerplate tail appended to a variable-length name with
+no budget, in almost every SSR head builder.
 
-| | Before | After |
-|---|---:|---:|
-| Length min / median / max | 150 / 171 / 200 | 116 / 137 / 166 |
-| Over 160 characters | 44 of 50 | **2 of 50** |
+- The **legal-suffix stripper was incomplete** in `seo-extra.js` and `app.js`: it stripped
+  `Inc|Corp|Company|…` but not the `(?:&|and)?` that `seo-pages.js` already had — so **"JPMorgan
+  Chase &"** and **"Becton, Dickinson and"** shipped as live titles.
+- The long metric noun (`total debt (short- plus long-term borrowings)`) was going into the SERP
+  description. The METRICS table now carries a short `metaNoun` for that one field; H1, body and FAQ
+  keep the full noun.
+- `/screens` had **no** variable part at all — every title was `{h1} — Ranked by Filed Fundamentals`,
+  so all 17 were over the limit before any company name entered.
 
-The differentiating content — which already leads with the exact query terms, the ticker,
-and the latest filed value — now survives instead of being truncated away. The two
-remaining over-length cases are IBM-class long legal names.
+**The fix is one pattern, shared:** each builder computes its fixed tail, then clips the *name* to
+the room left **on a word boundary** — `clipName` and `fitTwoNames` in `seo-pages.js`, required by
+the stock, metric, pair and `/company` heads alike. Full names stay in the H1 and page body. Budgets
+are **65 title / 158 description**: inside Bing's 70/160 *and* inside Google's ~60-character title
+truncation, so a future template edit has margin instead of sitting on the line.
 
-This is a **bounded test, not a promised gain**. The `?v=` cache stamp does not apply:
-these pages are server-rendered.
+Re-measured after the edit: **0 out of range in every family** — all 12,338 metric renders, all 5,887
+pairs, all 17 screens, `/vs/`, docs, tools (max title 63) and every served page. Guarded by
+`test/serp-meta-length.test.js`, which derives its worst case from the longest names in
+`sp1500-companies.json` rather than a hardcoded symbol list (the explicit list holds only the ten
+that were over on 9/28, so a regression there is caught even if a symbol leaves the index).
+
+This is a **bounded test, not a promised gain**. The `?v=` cache stamp does not apply: every one of
+these heads is server-rendered. The `.html` twins 301 to their clean route, so there is no second
+copy to fix.
 
 ## 7. Verified healthy — do not spend effort here
 
@@ -285,7 +311,16 @@ across ~40 pages plus 11 pinned test literals.
 
 ## Verification performed
 
-- `cd backend && node --test test/` — **968 passing, 0 failing** (exit 0).
+- `cd backend && node --test test/` — **996 passing, 0 failing** (exit 0; 968 at the first pass, the
+  rest added by the redirect, canonical and SERP-length guards).
+- **SERP metadata, from outside production after the `1164057f` deploy: 16/16 URLs inside Bing's
+  limits** — the six URLs Bing named, plus the worst case of each family (longest stock title, worst
+  metric description, the long-noun `total-debt` page, `/compare`, the longest tool title, `/vs/`,
+  `/filing-changes`, `/company?symbol=ZION` and the served `/features` page), fetched with a browser
+  UA. The check was run as a **negative control first**: against the still-restarting container the
+  same script failed 7 of 16 and named the old templates, so the pass is a measurement, not a vacuous
+  one. The 20 highest-value changed URLs went to IndexNow (HTTP 200); the remaining ~19,700 changed
+  URLs ride on the sitemap's now-truthful `<lastmod>`.
 - Sitemap: all 7 local shards date from the data manifest; 0 URLs on the frozen date; the
   sitemap date equals the page-body date for the same ticker.
 - `test/sitemap-index.test.js` no longer asserts that lastmod *varies* across the
