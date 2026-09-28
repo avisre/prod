@@ -357,7 +357,7 @@ function renderStockPage(ticker, options = {}) {
         ['Price', close !== null ? price(close) : (eps && pe ? price(num(eps) * num(pe)) : '—'), priceNote],
         ['Market Cap', money(mcap)],
         ['P/E Ratio', ratio(pe)],
-        ['EPS', eps ? price(eps) : '—'],
+        ['EPS (TTM)', eps ? price(eps) : '—'],
         ['Sector', sector || '—'],
         ['52-Week High', price((quote && quote.fiftyTwoWeekHigh) || ov['52WeekHigh'])],
         ['52-Week Low', price((quote && quote.fiftyTwoWeekLow) || ov['52WeekLow'])],

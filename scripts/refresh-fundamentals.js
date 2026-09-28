@@ -38,6 +38,7 @@ const secSource = require(path.join(__dirname, '..', 'backend', 'sec-source'));
 const indexNowChanges = require(path.join(__dirname, 'seo', 'indexnow-changes'));
 const indexNowQueue = require(path.join(__dirname, 'seo', 'indexnow-queue'));
 const fundamentalsStatus = require(path.join(__dirname, '..', 'backend', 'fundamentals-status'));
+const corrections = require(path.join(__dirname, '..', 'backend', 'fundamentals-corrections'));
 
 const SEC_EXTEND = String(process.env.SEC_EXTEND || '1') !== '0';
 const WRITE_INDEX = String(process.env.WRITE_INDEX || '1') !== '0';
@@ -543,6 +544,7 @@ async function main() {
         errors.push('indexnow:' + (err.message || 'unknown'));
       }
     }
+    corrections.apply(symbol, payload);
     fs.writeFileSync(file, JSON.stringify(payload));
     wrote++;
     runOutcomes.push({ symbol, ok: true, reasons: [] });

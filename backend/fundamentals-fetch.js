@@ -11,6 +11,7 @@ const yahooSource = require('./yahoo-source');
 const secSource = require('./sec-source');
 const fxConversion = require('./fx-conversion');
 const fundDate = require('./fundamentals-date');
+const corrections = require('./fundamentals-corrections');
 
 const DATA_DIR = path.join(__dirname, '..', 'frontend', 'data');
 const FUND_DIR = path.join(DATA_DIR, 'fundamentals');
@@ -173,6 +174,10 @@ async function buildFundamentals(symbol) {
         }
 
         presented = mergeWithCached(sym, presented);
+        // SEC-verified overrides for line items the provider gets wrong (see
+        // backend/fundamentals-corrections.js). Applied after the merge so the
+        // corrected value is what gets written and served.
+        corrections.apply(sym, presented);
         // Stamp the write so freshness is readable without trusting mtime, which
         // every git-checkout deploy resets to the deploy time (see
         // backend/fundamentals-date.js).

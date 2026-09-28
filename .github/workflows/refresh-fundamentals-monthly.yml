@@ -53,6 +53,14 @@ jobs:
         continue-on-error: true
         run: node scripts/build-sp1500-list.js
 
+      - name: Refresh SEC share counts
+        # A market cap is price x shares, and the quote's share count goes
+        # stale (LLY 5% low, ESS 7% high on 2026-09-28). See
+        # scripts/refresh-shares.js. continue-on-error so a SEC hiccup cannot
+        # block the fundamentals refresh.
+        continue-on-error: true
+        run: node scripts/refresh-shares.js
+
       - name: Refresh the full S&P 1500
         env:
           MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
@@ -67,6 +75,7 @@ jobs:
       - name: Stage data folder
         run: |
           git add frontend/data/sp1500-companies.json \
+                  frontend/data/sec-shares.json \
                   frontend/data/fundamentals/ \
                   frontend/data/top-100-fundamentals-index.json \
                   frontend/data/fundamentals-changed.json \

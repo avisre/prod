@@ -23,6 +23,7 @@ const yahooSource = require('./yahoo-source');
 const fundStatus = require('./fundamentals-status');
 
 const QUOTES_FILE = process.env.QUOTES_FILE || path.join(__dirname, '..', 'frontend', 'data', 'quotes.json');
+const SEC_SHARES_FILE = process.env.SEC_SHARES_FILE || path.join(__dirname, '..', 'frontend', 'data', 'sec-shares.json');
 const TTL_MS = Math.max(5 * 1000, Number(process.env.QUOTE_TTL_MS || 60 * 1000));
 const TIMEOUT_MS = Math.max(250, Number(process.env.QUOTE_TIMEOUT_MS || 2500));
 // Ceiling on live Yahoo lookups per process per minute. Crawlers that ignore
@@ -66,13 +67,40 @@ function loadDailyFile() {
     return data;
 }
 
+let secCache = { at: 0, data: {} };
+function loadSecShares() {
+    const now = Date.now();
+    if (now - secCache.at < 60 * 1000) return secCache.data;
+    let data = {};
+    try {
+        const parsed = JSON.parse(fs.readFileSync(SEC_SHARES_FILE, 'utf8'));
+        if (parsed && parsed.shares && typeof parsed.shares === 'object') data = parsed.shares;
+    } catch (_) { /* absent — fall back to the quote's own share count */ }
+    secCache = { at: now, data };
+    return data;
+}
+
+// A market cap is only as good as the share count behind it. Yahoo's count (and
+// sometimes its marketCap, which can contradict its own count) goes stale —
+// LLY was 5% low and ESS 7% high on 2026-09-28. When SEC's cover-page count
+// exists and is consistent with the quote's own scale, price x SEC shares wins.
+// A disagreement over 25% means a multi-class filer whose cover page covers one
+// class (GOOGL), so Yahoo's total-company figure is kept instead.
+function applySecShares(quote) {
+    if (!quote || !quote.price) return quote;
+    const s = loadSecShares()[quote.symbol];
+    if (!s || !(s.shares > 0)) return quote;
+    if (quote.marketCap && Math.abs(s.shares / (quote.marketCap / quote.price) - 1) > 0.25) return quote;
+    return { ...quote, marketCap: Math.round(quote.price * s.shares), sharesOutstanding: s.shares, sharesAsOf: s.asOf, marketCapSource: 'sec-shares' };
+}
+
 function getDailyQuote(symbol) {
     const key = normalize(symbol);
     if (!key) return null;
     const row = loadDailyFile()[key];
     const price = row ? num(row.price) : null;
     if (price === null || price <= 0) return null;
-    return {
+    return applySecShares({
         symbol: key,
         price,
         previousClose: num(row.previousClose),
@@ -86,7 +114,7 @@ function getDailyQuote(symbol) {
         fetchedAt: row.fetchedAt || null,
         currency: row.currency || 'USD',
         source: 'daily'
-    };
+    });
 }
 
 const liveCache = new Map(); // KEY -> { at, quote }
@@ -123,7 +151,7 @@ async function fetchLive(symbol) {
             const data = await withTimeout(yahooSource.fetchQuoteExtras(key), TIMEOUT_MS);
             const price = data ? num(data.price) : null;
             if (price === null || price <= 0) return null;
-            const quote = {
+            const quote = applySecShares({
                 symbol: key,
                 price,
                 previousClose: num(data.previousClose),
@@ -137,7 +165,7 @@ async function fetchLive(symbol) {
                 fetchedAt: new Date().toISOString(),
                 currency: data.currency || null,
                 source: 'live'
-            };
+            });
             liveCache.set(key, { at: Date.now(), quote });
             if (liveCache.size > 2000) liveCache.delete(liveCache.keys().next().value);
             return quote;
@@ -169,5 +197,6 @@ module.exports = {
     getDailyQuote,
     isLikelyCrawler,
     normalize,
-    _quotesFile: QUOTES_FILE
+    _quotesFile: QUOTES_FILE,
+    _secSharesFile: SEC_SHARES_FILE
 };
