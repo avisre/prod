@@ -32,14 +32,14 @@ else
   bad "no node on PATH"
 fi
 
-# Highest installed nvm node, whatever the version numbers happen to be.
-NODE22="$(ls -d "$HOME"/.nvm/versions/node/v* 2>/dev/null | sort -V | tail -1)"
-if [ -n "$NODE22" ] && [ -x "$NODE22/bin/node" ]; then
-  echo "  newest installed: $("$NODE22/bin/node" -v)  ($NODE22/bin/node)"
+# The ~/.nvm installs this script used to hunt for are GONE -- the directory no
+# longer exists, and the v22 path it printed fails with exit 127. PATH node
+# satisfies Playwright and yahoo-finance2, so there is nothing left to search for.
+# Printing a dead path here cost the very tool calls this script exists to save.
+NODE_BIN="$DEFAULT_NODE"
+if [ -n "$NODE_BIN" ]; then
   echo "  ↳ use this for tests, Playwright, yahoo-finance2:"
-  echo "      $NODE22/bin/node"
-else
-  warn "no nvm-installed node found under ~/.nvm/versions/node"
+  echo "      $NODE_BIN"
 fi
 
 echo
@@ -88,5 +88,24 @@ for v in MONGODB_URI OLLAMA_API_KEY ADMIN_TOKEN; do
 done
 
 echo
+echo "── durable memory ───────────────────────────────────"
+HANDOFF_FILE=".claude/HANDOFF.md"
+if [ -f "$HANDOFF_FILE" ]; then
+  HL="$(wc -l < "$HANDOFF_FILE" | tr -d ' ')"
+  SNAPS="$(ls .claude/handoff-archive/*.md 2>/dev/null | wc -l | tr -d ' ')"
+  echo "  $HANDOFF_FILE: $HL lines, $SNAPS snapshot(s) in .claude/handoff-archive/"
+  if [ "$HL" -gt 500 ]; then
+    bad "OVER the 500-line cap -- snapshot it and rewrite fresh BEFORE adding anything else"
+  elif [ "$HL" -gt 400 ]; then
+    warn "past 400 lines -- rotate now: snapshot to .claude/handoff-archive/<date>.md, rewrite fresh"
+  else
+    ok "inside the 500-line cap"
+  fi
+else
+  warn "$HANDOFF_FILE missing -- durable working memory is gone"
+fi
+
+echo
 echo "── suggested test command ───────────────────────────"
-echo "  cd $ROOT/backend && ${NODE22:-$HOME/.nvm/versions/node/vXX}/bin/node --test test/credits.test.js"
+echo "  cd $ROOT/backend && ${NODE_BIN:-node} --test test/credits.test.js"
+echo "  cd $ROOT/backend && ${NODE_BIN:-node} --test test/          # full suite"

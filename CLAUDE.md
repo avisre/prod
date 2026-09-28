@@ -20,7 +20,10 @@ of the below in one call, which is cheaper than rediscovering it by trial.
 - **`rg` is NOT installed.** Use `grep -rn`. There is also no Grep or Glob tool
   exposed in this harness, so searching via Bash is correct here, not a fallback.
 - Tests: `cd backend && node --test test/<file>.test.js`
-  (48 test files; `npm test` runs all of them).
+  (122 test files; `npm test` runs all of them). **No CI job runs the suite** —
+  `.github/workflows/repo-checks.yml` runs only `test/handoff-size.test.js`, which is
+  dependency-free on purpose (no install, no network, so it can only go red for a real
+  violation). A green local run is therefore the only thing protecting a push.
 - **There IS a local `.git`** — remote `avisre/prod`, branch `main`, verified
   2026-09-24 (this line used to say there was none, and that stale claim would
   send you down a needless clone-and-copy path). Commit and push from the repo

@@ -1,7 +1,8 @@
 # Handoff
 
-Durable working memory — **keep under 500 lines** (CLAUDE.md). Current state and open actions only,
-never a transcript. At ~400 lines, snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite
+Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
+`backend/test/handoff-size.test.js` and run on every push by `.github/workflows/repo-checks.yml`, so the
+cap can no longer be crossed silently. Current state and open actions only, never a transcript. At ~400 lines, snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite
 it fresh; **delete superseded items to the snapshot rather than compressing them here**.
 Earlier snapshots: `handoff-archive/2026-09-28.md`. Deep history: `git log`, `notes/2026-09-*.md`,
 `docs/growth/`, `~/.claude/plans/`.
@@ -173,7 +174,9 @@ the Bing files alone leaves the app requiring an untracked module. Don't re-deri
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 9/28 (955 pass, 0 fail, exit 0).** The two long-standing failures are fixed — do not
+- **Suite GREEN as of 9/28 (958 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
+  runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
+  need root `node_modules`, so a full-suite gate is a real job, not a config line. The two long-standing failures are fixed — do not
   re-report them: `ga4-consent-resolution` sliced a fixed 2000 chars and the route had outgrown it (the
   assertion was wrong, not the code); `social-compose` could not load without the optional
   `selenium-webdriver`, now required lazily so its draft-safety tests actually run.

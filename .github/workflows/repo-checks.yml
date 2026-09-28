@@ -1,0 +1,43 @@
+name: Repo checks
+
+# The one gate with teeth on a rule this repo otherwise keeps in prose.
+#
+# Before this existed, NOTHING ran a test on push: deploy-render.yml only triggers
+# Render, and the three refresh workflows install dependencies without ever running
+# the suite. So the 122 backend test files protected nothing at commit time -- a
+# change could break any of them and still ship. That is the same hole that let
+# .claude/HANDOFF.md grow to 2,391 lines against a 160-line cap: the rule was real,
+# and nothing could tell you it had been broken.
+#
+# Deliberately narrow. It runs only tests that need node builtins and nothing else,
+# so there is no npm install, no network, no database, and no way for this job to go
+# red for a reason that is not a real violation. A check that flakes teaches people
+# to ignore red Xs, which is worse than no check.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: repo-checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Invariant checks (no install required)
+        run: node --test backend/test/handoff-size.test.js
