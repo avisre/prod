@@ -13,6 +13,10 @@ Earlier snapshots: `handoff-archive/2026-09-28.md`. Deep history: `git log`, `no
 - **Verify every deploy from outside** (`gh run list` + a live fetch) — the workflow's own conclusion lied
   once. `deploy-render.yml` 404'd on push through 9/24 (Render lost the repo) and works again;
   `set-render-env.yml` alone never deploys. A push to `main` ships to prod.
+- **Parallel sessions share this working tree.** On 9/28 another session pushed `f5be04fd` mid-task and left
+  `backend/discovered-compares.json` deleted-but-unstaged. A push range starting at a SHA you do not recognise
+  means someone committed between your `git add` and your push — check `git log`/`git status` before staging
+  anything broad, because `git add -A` would have committed their deletion.
 
 ## Hard constraints — do not violate
 - **The AI provider is a trade secret.** `ai-client.js`'s `leaksIdentity()` is a backstop, not a licence;
@@ -228,7 +232,7 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 9/28 (981 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
+- **Suite GREEN as of 9/28 (989 pass, 0 fail, exit 0, after the market-cap fixes).** **No CI job runs it** — `repo-checks.yml`
   runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
   need root `node_modules`, so a full-suite gate is a real job, not a config line. The two long-standing failures are fixed — do not
   re-report them: `ga4-consent-resolution` sliced a fixed 2000 chars and the route had outgrown it (the
