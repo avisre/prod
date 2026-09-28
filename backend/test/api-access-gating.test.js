@@ -88,16 +88,24 @@ test('the Dev plan grants API/MCP access but no web-app tier', () => {
 // 401. Without it an expired token is a dead end: the client sees 401, has no
 // resource_metadata URL to follow, and the customer cannot re-authenticate from
 // inside ChatGPT or claude.ai at all.
-test('a /mcp 401 points the client at its OAuth discovery document', () => {
-    assert.match(appSource, /function mcpAuthChallenge\(req, res\) \{\s*if \(req\.path !== '\/mcp'\) return;/,
-        'the challenge is scoped to /mcp, leaving the REST error contract alone');
-    assert.match(appSource, /resource_metadata="\$\{oauthBase\(req\)\}\/\.well-known\/oauth-protected-resource"/,
-        'the challenge carries the RFC 9728 metadata URL');
-    // Both failure modes must challenge: no credential at all, and one that is
-    // present but expired/revoked — the second is what a stale connector hits.
-    const fn = appSource.slice(appSource.indexOf('async function apiKeyAuth'), appSource.indexOf('async function apiKeyAuth') + 1800);
-    assert.equal((fn.match(/mcpAuthChallenge\(req, res\);/g) || []).length, 2,
-        'both the missing-credential and invalid-credential 401s challenge');
+test('an MCP 401 points the client at its OAuth discovery document for the endpoint it called', () => {
+    // Scoped to the MCP endpoints only: /mcp keeps its published contract and
+    // /mcp/apps is the OpenAI Apps surface. The REST API's error contract is
+    // deliberately untouched, so neither path may widen this to all routes.
+    assert.match(appSource, /function mcpAuthChallenge\(req, res\) \{[\s\S]*?if \(req\.path !== '\/mcp' && !isApps\) return;/,
+        'the challenge is scoped to the MCP endpoints, leaving the REST error contract alone');
+    assert.match(appSource, /resource_metadata="\$\{oauthBase\(req\)\}\$\{metadataPath\}"/,
+        'the challenge carries the RFC 9728 metadata URL for the endpoint that was called');
+    assert.match(appSource, /const metadataPath = isApps \? '\/\.well-known\/oauth-protected-resource\/mcp\/apps' : '\/\.well-known\/oauth-protected-resource';/,
+        'each MCP endpoint advertises its own protected-resource document');
+    // Three failure modes must challenge: no credential at all, one that is
+    // present but expired/revoked, and an OAuth token minted for another
+    // resource — the resource case is what stops a /mcp token being replayed
+    // against /mcp/apps.
+    const start = appSource.indexOf('async function apiKeyAuth');
+    const fn = appSource.slice(start, appSource.indexOf('// Rate-limits public API/MCP callers'));
+    assert.equal((fn.match(/mcpAuthChallenge\(req, res\);/g) || []).length, 3,
+        'missing-credential, invalid-credential and wrong-resource 401s all challenge');
 });
 
 test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {

@@ -30,6 +30,7 @@ const credits = require('./credits');
 const apiKeys = require('./api-keys');
 const publicApi = require('./public-api');
 const mcpEndpoint = require('./mcp-endpoint');
+const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
 const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
@@ -5733,6 +5734,18 @@ async function optionalAuth(req, res, next) {
     next();
 }
 
+// OpenAI domain verification: the submission portal generates a token and
+// requires it verbatim at https://<mcp-host>/.well-known/openai-apps-challenge,
+// plain text only. The real token arrives from OpenAI during submission; it is
+// configured through OPENAI_APPS_CHALLENGE on the deployed service, never
+// committed here. Unset means the endpoint does not exist (404), which is the
+// correct state before a token has been issued.
+app.get('/.well-known/openai-apps-challenge', (req, res) => {
+    const token = String(process.env.OPENAI_APPS_CHALLENGE || '').trim();
+    if (!token) return res.status(404).type('text/plain').send('Not found');
+    res.type('text/plain').send(token);
+});
+
 // API-key auth for the public REST API (/api/v1) and the hosted MCP endpoint
 // (/mcp). Resolves an Authorization: Bearer <key> or X-Api-Key header via
 // api-keys.js to its owning website account, then populates req.userId/
@@ -5746,9 +5759,12 @@ async function optionalAuth(req, res, next) {
 // re-authentication is possible — it just sees a bare 401 and stops. Scoped to
 // /mcp so the REST API's existing error contract is untouched.
 function mcpAuthChallenge(req, res) {
-    if (req.path !== '/mcp') return;
+    const isApps = req.path === '/mcp/apps';
+    if (req.path !== '/mcp' && !isApps) return;
+    const metadataPath = isApps ? '/.well-known/oauth-protected-resource/mcp/apps' : '/.well-known/oauth-protected-resource';
+    const scope = isApps ? OAUTH_SCOPES.join(' ') : 'mcp';
     res.set('WWW-Authenticate',
-        `Bearer realm="stockportfolio", resource_metadata="${oauthBase(req)}/.well-known/oauth-protected-resource"`);
+        `Bearer realm="stockportfolio", resource_metadata="${oauthBase(req)}${metadataPath}", scope="${scope}"`);
 }
 
 async function apiKeyAuth(req, res, next) {
@@ -5781,6 +5797,21 @@ async function apiKeyAuth(req, res, next) {
         req.tier = userTier(user, normalized);
         req.apiKeyId = resolved.keyId || null;
         req.oauthClientId = resolved.clientId || null;
+        // OAuth tokens carry the scopes the user approved and the RFC 8707
+        // resource they were minted for. Both are enforced by the MCP layer:
+        // scopes per tool, and the resource against the endpoint the request
+        // actually arrived on, so a token for /mcp cannot be replayed on
+        // /mcp/apps or vice versa.
+        req.oauthScopes = resolved.scopes || null;
+        req.oauthResource = resolved.resource || null;
+        if (req.oauthResource) {
+            const base = oauthBase(req);
+            const expected = req.path === '/mcp/apps' ? `${base}/mcp/apps` : `${base}/mcp`;
+            if (req.oauthResource !== expected && req.oauthResource !== base) {
+                mcpAuthChallenge(req, res);
+                return res.status(401).json({ error: 'This token was issued for a different resource.' });
+            }
+        }
         next();
     } catch (error) {
         if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'Database unavailable.' });
@@ -5832,6 +5863,20 @@ app.delete('/api/account/api-keys/:id', authMiddleware, async (req, res) => {
     }
 });
 
+// Disconnect every assistant/connector authorised against this account. The
+// OAuth consent flow grants a chatbot long-lived refresh access, so a user
+// control to end it has to exist server-side even though v1 ships no UI for
+// it: POST here, or change the password (which calls the same revoke).
+app.post('/api/account/connected-apps/revoke', authMiddleware, jsonParser, async (req, res) => {
+    try {
+        await oauthMcp.revokeAllForUser(req.userId);
+        res.json({ ok: true, message: 'Connected assistant access has been revoked. Reconnect from the assistant to grant it again.' });
+    } catch (error) {
+        console.error('[oauth] revoke endpoint failed:', error && error.message);
+        res.status(500).json({ message: 'Could not revoke connected apps right now.' });
+    }
+});
+
 // Public REST API — see backend/public-api.js. Deterministic tools reuse
 // free-tools.js/asset-profile.js exactly as the web app does; sp_ask/ /ask
 // route to ai-chat.js. Every call spends from the caller's own credit
@@ -5870,6 +5915,41 @@ function oauthBase(req) {
     return `${proto}://${host}`;
 }
 
+// The scopes the OpenAI plugin surface asks for. They are read scopes only:
+// there is no write scope to grant, and v1 exposes no account or portfolio
+// access. A legacy 'mcp' scope (issued before scopes existed) is treated as
+// consent to all three by the tool layer.
+const OAUTH_SCOPES = ['financials:read', 'filings:read', 'research:read'];
+
+// Validates and normalizes the space-delimited `scope` parameter of an
+// authorization request. Absent means "everything advertised" — the consent
+// screen still lists what the connection gets. Unknown scopes are rejected
+// rather than silently dropped, per RFC 6749.
+function normalizeOauthScope(raw) {
+    const value = String(raw || '').trim();
+    if (!value) return OAUTH_SCOPES.join(' ');
+    const requested = value.split(/\s+/).filter(Boolean);
+    const invalid = requested.filter((s) => !OAUTH_SCOPES.includes(s));
+    if (invalid.length) return { error: `Unsupported scope: ${invalid.join(', ')}` };
+    return [...new Set(requested)].join(' ');
+}
+
+// RFC 8707. The resource parameter ties a token to one MCP endpoint. Only this
+// origin's /mcp and /mcp/apps paths (or the bare origin) are accepted.
+function normalizeOauthResource(raw, req) {
+    const value = String(raw || '').trim();
+    if (!value) return { value: null };
+    let url;
+    try { url = new URL(value); }
+    catch (_) { return { error: 'resource must be an absolute URL.' }; }
+    const base = oauthBase(req);
+    if (url.origin !== base) return { error: 'resource must be on this server\u2019s origin.' };
+    if (url.pathname !== '' && url.pathname !== '/' && url.pathname !== '/mcp' && url.pathname !== '/mcp/apps') {
+        return { error: 'resource must identify /mcp or /mcp/apps on this origin.' };
+    }
+    return { value: url.pathname === '' || url.pathname === '/' ? base : `${base}${url.pathname}` };
+}
+
 function escapeHtmlOauth(value) {
     return String(value == null ? '' : value)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -5877,19 +5957,23 @@ function escapeHtmlOauth(value) {
 }
 
 // RFC 9728. MCP clients probe the bare path and the resource-suffixed one, so
-// both are served rather than guessing which a given client implements.
+// both are served rather than guessing which a given client implements. The
+// OpenAI Apps surface under /mcp/apps has its own document because the resource
+// (the token audience) is the endpoint, not the host.
 function sendProtectedResourceMetadata(req, res) {
     const base = oauthBase(req);
+    const resourcePath = req.path.endsWith('/mcp/apps') ? '/mcp/apps' : '/mcp';
     res.json({
-        resource: `${base}/mcp`,
+        resource: `${base}${resourcePath}`,
         authorization_servers: [base],
-        scopes_supported: ['mcp'],
+        scopes_supported: OAUTH_SCOPES,
         bearer_methods_supported: ['header'],
         resource_documentation: `${base}/api`
     });
 }
 app.get('/.well-known/oauth-protected-resource', sendProtectedResourceMetadata);
 app.get('/.well-known/oauth-protected-resource/mcp', sendProtectedResourceMetadata);
+app.get('/.well-known/oauth-protected-resource/mcp/apps', sendProtectedResourceMetadata);
 
 // RFC 8414. token_endpoint_auth_method is 'none' because these are PUBLIC
 // clients: a connector registered by ChatGPT or claude.ai cannot hold a secret,
@@ -5905,7 +5989,7 @@ app.get('/.well-known/oauth-authorization-server', (req, res) => {
         grant_types_supported: ['authorization_code', 'refresh_token'],
         code_challenge_methods_supported: ['S256'],
         token_endpoint_auth_methods_supported: ['none'],
-        scopes_supported: ['mcp']
+        scopes_supported: OAUTH_SCOPES
     });
 });
 
@@ -6004,11 +6088,15 @@ app.get('/oauth/authorize', async (req, res) => {
     if (String(q.response_type || '') !== 'code') return fail('unsupported_response_type', 'Only the authorization code flow is supported.');
     if (String(q.code_challenge_method || '') !== 'S256') return fail('invalid_request', 'PKCE with S256 is required.');
     if (!String(q.code_challenge || '')) return fail('invalid_request', 'code_challenge is required.');
+    const scopeResult = normalizeOauthScope(q.scope);
+    if (scopeResult.error) return fail('invalid_scope', scopeResult.error);
+    const resourceResult = normalizeOauthResource(q.resource, req);
+    if (resourceResult.error) return fail('invalid_target', resourceResult.error);
 
     const user = await oauthCurrentUser(req);
     const selfUrl = oauthBase(req) + req.originalUrl;
-    const hidden = ['client_id', 'redirect_uri', 'state', 'code_challenge', 'code_challenge_method', 'scope']
-        .map((k) => `<input type="hidden" name="${k}" value="${escapeHtmlOauth(q[k] || '')}">`).join('');
+    const hidden = ['client_id', 'redirect_uri', 'state', 'code_challenge', 'code_challenge_method', 'scope', 'resource']
+        .map((k) => `<input type="hidden" name="${k}" value="${escapeHtmlOauth(k === 'scope' ? scopeResult : k === 'resource' ? (resourceResult.value || '') : (q[k] || ''))}">`).join('');
 
     const head = `<!doctype html><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -6106,11 +6194,24 @@ app.post('/oauth/authorize/decision', express.urlencoded({ extended: false }), a
     }
 
     try {
+        const scopeResult = normalizeOauthScope(body.scope);
+        if (scopeResult.error) {
+            url.searchParams.set('error', 'invalid_scope');
+            url.searchParams.set('error_description', scopeResult.error);
+            return res.redirect(302, url.toString());
+        }
+        const resourceResult = normalizeOauthResource(body.resource, req);
+        if (resourceResult.error) {
+            url.searchParams.set('error', 'invalid_target');
+            url.searchParams.set('error_description', resourceResult.error);
+            return res.redirect(302, url.toString());
+        }
         const code = await oauthMcp.issueCode({
             clientId, userId: String(user._id), redirectUri,
             codeChallenge: String(body.code_challenge || ''),
             codeChallengeMethod: String(body.code_challenge_method || 'S256'),
-            scope: String(body.scope || 'mcp')
+            scope: scopeResult,
+            resource: resourceResult.value
         });
         url.searchParams.set('code', code);
         // A real person approved a real chatbot against a real account — the
@@ -6143,7 +6244,8 @@ app.post('/oauth/token', express.urlencoded({ extended: false }), jsonParser, as
                 code: String(body.code || ''),
                 clientId: String(body.client_id || ''),
                 redirectUri: String(body.redirect_uri || ''),
-                codeVerifier: String(body.code_verifier || '')
+                codeVerifier: String(body.code_verifier || ''),
+                resource: body.resource ? String(body.resource) : null
             });
             // Deliberately one undifferentiated failure: saying which of the
             // four checks failed would let a holder of a stolen code probe for
@@ -6266,6 +6368,58 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpAccessGate, mcpRateLimit, as
 });
 app.get('/mcp', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
 app.delete('/mcp', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
+
+// ---------------------------------------------------------------------------
+// OpenAI Apps surface — POST /mcp/apps (see backend/mcp-apps.js). Same auth,
+// rate limiting and metering as /mcp, but a different, smaller tool contract
+// designed for ChatGPT and Codex. Entitlement is checked inside the tool
+// handler rather than as an HTTP gate, so a connection whose account does not
+// include the capability gets an actionable tool-level explanation instead of a
+// bare transport error. Its refusal copy is deliberately commerce-neutral: no
+// plan names, prices, checkout or upgrade links (OpenAI plugin guidelines).
+app.post('/mcp/apps', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) => {
+    try {
+        if (req.anonMcp) {
+            const identity = _anonAskIp(req);
+            const logId = require('crypto').createHash('sha256').update(String(identity)).digest('hex').slice(0, 12);
+            await mcpApps.handleMcpAppsRequest(
+                req, res,
+                { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, scopes: null, logId },
+                {
+                    limiter: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance }) => {
+                        trackFunnel('mcp_apps_keyless_cap_hit', null, null, {
+                            eventName: 'mcp_apps_keyless_cap_hit',
+                            dedupeKey: `mcp_apps_keyless_cap_hit:${reason}:${logId}:${new Date().toISOString().slice(0, 10)}`,
+                            capReason: reason,
+                            used,
+                            allowance
+                        });
+                    }),
+                    effectiveAskLimit: () => 0,
+                    entitled: () => false,
+                    onLog: (evt) => console.log('[mcp-apps]', JSON.stringify(evt))
+                }
+            );
+            return;
+        }
+        const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
+        await mcpApps.handleMcpAppsRequest(
+            req, res,
+            { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId },
+            {
+                limiter: credits,
+                effectiveAskLimit: () => effectiveAskLimit(req),
+                entitled: () => hasApiAccess(req),
+                onLog: (evt) => console.log('[mcp-apps]', JSON.stringify(evt))
+            }
+        );
+    } catch (error) {
+        console.error('[mcp-apps] request failed:', error && error.message);
+        if (!res.headersSent) res.status(500).json({ error: 'MCP request failed.' });
+    }
+});
+app.get('/mcp/apps', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — use POST.' }));
+app.delete('/mcp/apps', apiKeyAuthOptional, (req, res) => res.status(405).json({ error: 'This is a stateless MCP endpoint — no session to terminate.' }));
 
 // Email-to-SMS gateways (phone-number@carrier). Signup bots use these to text
 // strangers' phones via our welcome email — no human signs up with one.
@@ -7287,6 +7441,12 @@ app.post('/api/password/change', async (req, res) => {
         user.password = hashedPassword;
         user.authVersion = Number(user.authVersion || 0) + 1;
         await user.save();
+        // A password change must also cut off every chatbot connector that was
+        // authorised against this account. Cookie sessions die with authVersion
+        // above, but an OAuth token is looked up directly on each request, so
+        // without this a stolen token outlives the credential it was granted
+        // alongside.
+        oauthMcp.revokeAllForUser(user._id).catch((error) => console.error('[oauth] revoke on password change failed:', error && error.message));
 
         res.status(200).json({ message: 'Password updated successfully. You can now log in with your new password.' });
     } catch (error) {
@@ -7366,6 +7526,8 @@ app.post('/api/password/reset', async (req, res) => {
         user.resetPasswordToken = null;
         user.resetPasswordExpires = null;
         await user.save();
+        // Same rule as a password change: a reset revokes connected assistants.
+        oauthMcp.revokeAllForUser(user._id).catch((error) => console.error('[oauth] revoke on password reset failed:', error && error.message));
 
         // Sign them straight in — no need to retype credentials on a fresh password.
         return res.status(200).json({

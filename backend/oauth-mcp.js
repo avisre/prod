@@ -123,7 +123,7 @@ async function getClient(clientId) {
  * hash is stored: the code lives in a URL, so a database copy of it would be a
  * second place the credential exists.
  */
-async function issueCode({ clientId, userId, redirectUri, codeChallenge, codeChallengeMethod, scope }) {
+async function issueCode({ clientId, userId, redirectUri, codeChallenge, codeChallengeMethod, scope, resource }) {
     const raw = crypto.randomBytes(32).toString('hex');
     await codes().insertOne({
         _id: hash(raw),
@@ -133,6 +133,7 @@ async function issueCode({ clientId, userId, redirectUri, codeChallenge, codeCha
         codeChallenge: String(codeChallenge),
         codeChallengeMethod: String(codeChallengeMethod || 'S256'),
         scope: String(scope || 'mcp'),
+        resource: resource ? String(resource) : null,
         createdAt: new Date(),
         expiresAt: new Date(Date.now() + CODE_TTL_MS)
     });
@@ -147,7 +148,7 @@ async function issueCode({ clientId, userId, redirectUri, codeChallenge, codeCha
  * so two simultaneous redemptions of the same stolen code cannot both win — the
  * loser gets null. Checking-then-deleting would leave exactly that race open.
  */
-async function redeemCode({ code, clientId, redirectUri, codeVerifier }) {
+async function redeemCode({ code, clientId, redirectUri, codeVerifier, resource }) {
     if (!code || !clientId || !codeVerifier) return null;
     const result = await codes().findOneAndDelete({ _id: hash(code) });
     const doc = result && (result.value !== undefined ? result.value : result);
@@ -158,6 +159,10 @@ async function redeemCode({ code, clientId, redirectUri, codeVerifier }) {
     // Exact match, not prefix: a "starts with" comparison lets an attacker who
     // controls a path under a registered origin receive the code.
     if (doc.redirectUri !== String(redirectUri)) return null;
+    // RFC 8707 resource/audience binding: a token minted for one MCP endpoint
+    // must not be replayable against another. A client that omits the resource
+    // on the token request still gets the code's own binding.
+    if (doc.resource && resource && doc.resource !== String(resource)) return null;
 
     // PKCE. S256 only — "plain" offers no protection against an interception
     // that already has the authorization request, and OAuth 2.1 drops it.
@@ -168,20 +173,26 @@ async function redeemCode({ code, clientId, redirectUri, codeVerifier }) {
     const b = Buffer.from(String(doc.codeChallenge));
     if (a.length !== b.length || !crypto.timingSafeEqual(a, b)) return null;
 
-    return { userId: doc.userId, scope: doc.scope, clientId: doc.clientId };
+    return { userId: doc.userId, scope: doc.scope, clientId: doc.clientId, resource: doc.resource || null };
 }
 
-async function issueTokens({ userId, clientId, scope }) {
+function scopeList(scope) {
+    return String(scope || 'mcp').split(/\s+/).map((s) => s.trim()).filter(Boolean);
+}
+
+async function issueTokens({ userId, clientId, scope, resource }) {
     const accessToken = randomToken(ACCESS_PREFIX);
     const refreshToken = randomToken(REFRESH_PREFIX);
     const now = Date.now();
+    const value = String(scope || 'mcp');
     await tokens().insertMany([
         {
             _id: hash(accessToken),
             type: 'access',
             userId: String(userId),
             clientId: String(clientId),
-            scope: String(scope || 'mcp'),
+            scope: value,
+            resource: resource ? String(resource) : null,
             createdAt: new Date(now),
             expiresAt: new Date(now + ACCESS_TTL_MS)
         },
@@ -190,7 +201,8 @@ async function issueTokens({ userId, clientId, scope }) {
             type: 'refresh',
             userId: String(userId),
             clientId: String(clientId),
-            scope: String(scope || 'mcp'),
+            scope: value,
+            resource: resource ? String(resource) : null,
             createdAt: new Date(now),
             expiresAt: new Date(now + REFRESH_TTL_MS)
         }
@@ -200,7 +212,7 @@ async function issueTokens({ userId, clientId, scope }) {
         refresh_token: refreshToken,
         token_type: 'Bearer',
         expires_in: Math.floor(ACCESS_TTL_MS / 1000),
-        scope: String(scope || 'mcp')
+        scope: value
     };
 }
 
@@ -216,7 +228,13 @@ async function resolveAccessToken(raw) {
     if (!doc) return null;
     if (doc.revokedAt) return null;
     if (doc.expiresAt && doc.expiresAt.getTime() < Date.now()) return null;
-    return { userId: doc.userId, clientId: doc.clientId, scope: doc.scope };
+    return {
+        userId: doc.userId,
+        clientId: doc.clientId,
+        scope: doc.scope,
+        scopes: scopeList(doc.scope),
+        resource: doc.resource || null
+    };
 }
 
 /**
@@ -233,7 +251,7 @@ async function refresh({ refreshToken, clientId }) {
     if (doc.revokedAt) return null;
     if (doc.expiresAt && doc.expiresAt.getTime() < Date.now()) return null;
     if (clientId && doc.clientId !== String(clientId)) return null;
-    return issueTokens({ userId: doc.userId, clientId: doc.clientId, scope: doc.scope });
+    return issueTokens({ userId: doc.userId, clientId: doc.clientId, scope: doc.scope, resource: doc.resource });
 }
 
 /** Revokes every token held by one user — used when they sign out everywhere. */
@@ -257,6 +275,7 @@ module.exports = {
     ACCESS_TTL_MS,
     REFRESH_TTL_MS,
     isValidRedirectUri,
+    scopeList,
     registerClient,
     getClient,
     issueCode,

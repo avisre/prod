@@ -165,8 +165,22 @@ test('/privacy is exempt, or Anthropic cannot read the declared privacy policy U
     assert.equal(botBlocker.isExemptPath('/privacy/', isRawBodyWebhookPath), true);
     assert.equal(botBlocker.isExemptPath('/privacy/extra', isRawBodyWebhookPath), false);
     assert.equal(botBlocker.isExemptPath('/privacyx', isRawBodyWebhookPath), false);
-    // The neighbouring legal pages are deliberately NOT exempt.
-    assert.equal(botBlocker.isExemptPath('/terms', isRawBodyWebhookPath), false);
+});
+
+// The OpenAI plugin listing declares terms and support URLs next to the privacy
+// policy, and OpenAI reads them during review with the same header-less fetches.
+// They are static legal/contact prose with no query parameter, exactly like
+// /privacy, so the same exemption applies — and to these exact paths only.
+test('/terms and /support are exempt so the plugin listing URLs are readable', () => {
+    assert.equal(botBlocker.isExemptPath('/terms', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/terms/', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/terms/extra', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/support', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/support/', isRawBodyWebhookPath), true);
+    assert.equal(botBlocker.isExemptPath('/support/extra', isRawBodyWebhookPath), false);
+    // The rest of the site stays behind the scraper wall.
+    assert.equal(botBlocker.isExemptPath('/', isRawBodyWebhookPath), false);
+    assert.equal(botBlocker.isExemptPath('/pricing', isRawBodyWebhookPath), false);
 });
 
 test('impostor detection: PTR does not belong to the claimed vendor', async (t) => {

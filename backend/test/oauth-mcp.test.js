@@ -174,3 +174,65 @@ test('an expired access token does not authenticate', { timeout: 60000 }, async 
     assert.equal(await mongoose.connection.collection('oauth_tokens').countDocuments({ _id: hashed }), 0,
         'pruning clears the expired row');
 });
+
+test('scopes and the RFC 8707 resource are carried from code to token and refresh', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    const client = await oauth.registerClient({ clientName: 'ChatGPT', redirectUris: ['https://chatgpt.com/connector_platform_oauth_redirect'] });
+    const { verifier, challenge } = pkcePair();
+    const code = await oauth.issueCode({
+        clientId: client._id,
+        userId: 'user-scopes',
+        redirectUri: 'https://chatgpt.com/connector_platform_oauth_redirect',
+        codeChallenge: challenge,
+        codeChallengeMethod: 'S256',
+        scope: 'financials:read filings:read research:read',
+        resource: 'https://www.stockportfolio.pro/mcp/apps'
+    });
+
+    const redeemed = await oauth.redeemCode({
+        code,
+        clientId: client._id,
+        redirectUri: 'https://chatgpt.com/connector_platform_oauth_redirect',
+        codeVerifier: verifier,
+        resource: 'https://www.stockportfolio.pro/mcp/apps'
+    });
+    assert.equal(redeemed.resource, 'https://www.stockportfolio.pro/mcp/apps', 'the code keeps the resource binding');
+
+    const issued = await oauth.issueTokens(redeemed);
+    assert.equal(issued.scope, 'financials:read filings:read research:read');
+    const resolved = await oauth.resolveAccessToken(issued.access_token);
+    assert.deepEqual(resolved.scopes, ['financials:read', 'filings:read', 'research:read']);
+    assert.equal(resolved.resource, 'https://www.stockportfolio.pro/mcp/apps');
+
+    const rotated = await oauth.refresh({ refreshToken: issued.refresh_token, clientId: client._id });
+    const afterRefresh = await oauth.resolveAccessToken(rotated.access_token);
+    assert.deepEqual(afterRefresh.scopes, ['financials:read', 'filings:read', 'research:read'], 'refresh preserves scopes');
+    assert.equal(afterRefresh.resource, 'https://www.stockportfolio.pro/mcp/apps', 'refresh preserves the resource binding');
+});
+
+test('a code minted for one resource cannot be redeemed against another', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    const client = await oauth.registerClient({ clientName: 'c', redirectUris: ['https://a.example/cb'] });
+    const { verifier, challenge } = pkcePair();
+    const code = await oauth.issueCode({
+        clientId: client._id, userId: 'u1', redirectUri: 'https://a.example/cb',
+        codeChallenge: challenge, codeChallengeMethod: 'S256',
+        resource: 'https://www.stockportfolio.pro/mcp'
+    });
+    assert.equal(
+        await oauth.redeemCode({
+            code, clientId: client._id, redirectUri: 'https://a.example/cb',
+            codeVerifier: verifier, resource: 'https://www.stockportfolio.pro/mcp/apps'
+        }),
+        null,
+        'the token endpoint cannot move a code to a different MCP endpoint'
+    );
+});
+
+test('a legacy token with no stored scope resolves as the mcp scope, not as full access', { timeout: 60000 }, async (t) => {
+    await withMongo(t);
+    const issued = await oauth.issueTokens({ userId: 'u-legacy', clientId: 'mcpc_x' });
+    const resolved = await oauth.resolveAccessToken(issued.access_token);
+    assert.deepEqual(resolved.scopes, ['mcp']);
+    assert.equal(resolved.resource, null);
+});

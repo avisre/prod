@@ -65,7 +65,7 @@
           <div class="chips legal-meta" aria-label="Privacy policy summary">
             <div class="chip">
               <span class="kpi-label">Last Updated</span>
-              <span class="kpi-value">11 Feb 2026</span>
+              <span class="kpi-value">29 Sep 2026</span>
             </div>
             <div class="chip">
               <span class="kpi-label">Primary Region</span>
@@ -150,7 +150,18 @@
       </article>
 
       <article class="card legal-card">
-        <h3>7. Contact and Policy Updates</h3>
+        <h3>7. API, MCP and Connected Assistants</h3>
+        <ul>
+          <li>You can connect an assistant such as ChatGPT or Codex to stockportfolio.pro. The connection signs in with your existing account through OAuth; we receive the email address you sign in with, the assistant's client name, and the permissions you approve.</li>
+          <li>We do not receive or store your chat conversation. A tool request carries only the research input (for example a ticker, metric or SEC filing identifier) plus the connected account, and tool responses contain public company financial data and SEC filing references rather than personal data.</li>
+          <li>OAuth access and refresh tokens are stored only as irreversible hashes, expire on a schedule, and are revoked when you change your password, use the revoke control for connected apps, or delete your account.</li>
+          <li>API and MCP requests are rate-limited and metered against your account allowance. Call metadata (tool name, success or failure, latency and an account identifier) is logged for security, abuse prevention and reliability.</li>
+          <li>Requests made without signing in are limited per visitor IP address, which is held in a usage record for the allowance window to enforce that limit.</li>
+        </ul>
+      </article>
+
+      <article class="card legal-card">
+        <h3>8. Contact and Policy Updates</h3>
         <p>
           For privacy requests, email
           <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.
