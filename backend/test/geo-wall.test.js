@@ -81,8 +81,15 @@ test('free API surfaces refuse walled visitors: free tools, anonymous Ask, keyle
     assert.match(anon.slice(0, 600), /if \(askWall\) return freeTierWallResponse\(res, askWall\);/);
     const mcp = source.slice(source.indexOf('async function apiKeyAuthOptional'));
     // A presented key is still honoured (apiKeyAuth + apiAccessGate gate it);
-    // only the keyless free tier is refused.
-    assert.match(mcp.slice(0, 700), /if \(offered\) return apiKeyAuth\(req, res, next\);[\s\S]*if \(mcpWall\) return freeTierWallResponse\(res, mcpWall\);/);
+    // only the keyless free tier is refused. The two MCP metadata messages are
+    // exempt on /mcp/apps (they carry no data and a scanner must be able to
+    // read the tool contract), so the wall check is no longer adjacent to the
+    // key check — assert both facts independently over a wider window.
+    const mcpFn = mcp.slice(0, 1600);
+    assert.match(mcpFn, /if \(offered\) return apiKeyAuth\(req, res, next\);/);
+    assert.match(mcpFn, /if \(mcpWall\) return freeTierWallResponse\(res, mcpWall\);/);
+    assert.match(mcpFn, /req\.body\.method === 'initialize' \|\| req\.body\.method === 'tools\/list'/,
+        'only the metadata messages may bypass the wall');
 });
 
 test('signup trial is withheld from walled visitors everywhere SIGNUP_TRIAL_DAYS was read', () => {

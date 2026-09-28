@@ -32,6 +32,24 @@ Earlier snapshots: `handoff-archive/2026-09-28.md`. Deep history: `git log`, `no
 
 ## In flight
 
+**OpenAI plugin (remote MCP) — CODE COMPLETE + 1018/1018 tests + Inspector-verified; DEPLOY BLOCKED on
+Render (9/29).** Implementation on `main` (`febf5892` + the follow-up commit): the OpenAI surface is
+`POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools over the
+same auth/metering/data as `/mcp`, which is untouched. Full package: `OPENAI_PLUGIN_SUBMISSION.md`;
+design note: `notes/2026-09-29-openai-plugin-architecture.md`.
+- **BLOCKER (owner-only, one action): Render can no longer read the repo.** The deploy API answers
+  `{"message":"not found: https://api.github.com/repositories/1105594471"}` while the key still lists
+  `srv-d4kc6schg0os73al6t10` and the repo id matches `avisre/prod` — Render's GitHub App lost access to the
+  private repo. Render dashboard → service → Settings → Build & Deploy → Repository → reconnect/authorize,
+  then `gh workflow run deploy-render.yml`. Same failure as 9/24. No code fix exists for it.
+- After deploy: `node scripts/verify-mcp-apps.js` (all checks), set `OPENAI_APPS_CHALLENGE` from the portal,
+  run `scripts/create-openai-reviewer.js --apply` for the review account, then Scan Tools → draft → submit.
+- **Never submit before the deploy**: prod still 404s `/mcp/apps` and its AS metadata still advertises only
+  `scopes_supported:['mcp']` (verified 9/29 with the verify script).
+- Commerce rule enforced in code: `/mcp/apps` entitlement/quota errors carry no plan, price, `/upgrade` or
+  `/recharge` link (tests pin this). `/mcp` keeps its old upsell copy — it is not under OpenAI review.
+- The apex 307s to www and drops `Authorization`; the MCP URL must always be `www.stockportfolio.pro`.
+
 **Claude plugin directory — repo PUBLIC and installable NOW; only the submission form is left (9/25).**
 `github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 7 files — config and prose, no source). It
 carries `.claude-plugin/marketplace.json`, so `claude plugin marketplace add avisre/stockportfolio-claude-plugin`

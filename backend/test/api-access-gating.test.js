@@ -144,3 +144,20 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
         'an offered key is always verified — no silent downgrade to the free tier'
     );
 });
+
+// OpenAI's Scan Tools (and any MCP directory crawler) reads initialize and
+// tools/list before a credential is involved. Those two messages carry no
+// financial data, so they must reach the MCP layer even from a datacenter or
+// walled region — otherwise the server cannot be discovered at all. tools/call
+// is deliberately not exempt.
+test('MCP metadata calls bypass the keyless free-tier walls, but data calls do not', () => {
+    const start = appSource.indexOf('async function apiKeyAuthOptional');
+    const fn = appSource.slice(start, appSource.indexOf('function mcpAccessGate'));
+    assert.match(fn, /req\.body\.method === 'initialize' \|\| req\.body\.method === 'tools\/list'/,
+        'initialize and tools/list must bypass the wall');
+    assert.match(fn, /if \(req\.path === '\/mcp\/apps' && req\.body/,
+        'the bypass is scoped to the OpenAI Apps endpoint, not all MCP traffic');
+    const methodChecks = (fn.match(/req\.body\.method === '([^']+)'/g) || []).sort();
+    assert.deepEqual(methodChecks, ["req.body.method === 'initialize'", "req.body.method === 'tools/list'"],
+        'only the two metadata messages are exempt; tools/call is not');
+});

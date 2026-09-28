@@ -6285,6 +6285,16 @@ async function apiKeyAuthOptional(req, res, next) {
     const header = String(req.get('authorization') || '');
     const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
     if (offered) return apiKeyAuth(req, res, next);
+    // MCP metadata calls carry no financial data. An MCP directory crawler or
+    // the OpenAI tool scan reads initialize/tools/list before any credential is
+    // involved, and walling that read would make the server undiscoverable for
+    // a reason the anti-scraping wall was never meant to cover. tools/call is
+    // deliberately NOT exempt: metered data still goes through the wall and
+    // the per-visitor allowance.
+    if (req.path === '/mcp/apps' && req.body && (req.body.method === 'initialize' || req.body.method === 'tools/list')) {
+        req.anonMcp = true;
+        return next();
+    }
     // Keyless is a free tier, so the walls refuse it; a presented key still
     // works because it is handled above, before either wall is consulted.
     const mcpWall = freeTierWallReason(req);

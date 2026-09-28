@@ -423,6 +423,38 @@ const TOOL_DEFS = [
 
 const TOOL_BY_NAME = new Map(TOOL_DEFS.map((t) => [t.name, t]));
 
+// Some schema dialects (the OpenAPI subset some model providers map tool
+// schemas onto) cannot express `type: ["string","null"]`. Rewrite every
+// nullable type as an anyOf branch so the same schema validates everywhere.
+// Applied on the wire only; the source schemas stay readable.
+function portableSchema(node) {
+    if (Array.isArray(node)) return node.map(portableSchema);
+    if (!node || typeof node !== 'object') return node;
+    let nullableBase = null;
+    const out = {};
+    for (const [key, value] of Object.entries(node)) {
+        if (key === 'type' && Array.isArray(value) && value.includes('null')) {
+            const other = value.filter((t) => t !== 'null');
+            if (other.length === 1) nullableBase = other[0];
+            continue;
+        }
+        out[key] = portableSchema(value);
+    }
+    if (nullableBase) return { anyOf: [{ ...out, type: nullableBase }, { type: 'null' }] };
+    return out;
+}
+
+function wireTool(def) {
+    return {
+        name: def.name,
+        title: def.title,
+        description: def.description,
+        inputSchema: portableSchema(def.inputSchema),
+        outputSchema: portableSchema(def.outputSchema),
+        annotations: def.annotations
+    };
+}
+
 // Commerce-neutral copy. The plugin guidelines forbid showing plans, prices,
 // checkout or upgrade links, so these messages explain the limit and stop.
 const MSG_ENTITLEMENT = 'This capability is not included in the connected StockPortfolio.pro account.';
@@ -458,9 +490,7 @@ function buildMcpAppsServer(ctx, deps) {
     );
 
     server.setRequestHandler(ListToolsRequestSchema, async () => ({
-        tools: TOOL_DEFS.map(({ name, title, description, inputSchema, outputSchema, annotations }) => ({
-            name, title, description, inputSchema, outputSchema, annotations
-        }))
+        tools: TOOL_DEFS.map(wireTool)
     }));
 
     server.setRequestHandler(CallToolRequestSchema, async (req) => {
@@ -535,6 +565,7 @@ module.exports = {
     TOOL_DEFS,
     buildMcpAppsServer,
     handleMcpAppsRequest,
+    portableSchema,
     MSG_ENTITLEMENT,
     MSG_ALLOWANCE,
     MSG_TRIAL
