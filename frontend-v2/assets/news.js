@@ -3,7 +3,7 @@
 // alpha/movers.
 (function () {
     'use strict';
-    const { API, token, esc, fixed, sparkline, nav, footer, companies } = window.V2;
+    const { API, token, esc, fixed, sparkline, nav, footer, searchAssets } = window.V2;
     nav('news');
     footer();
     const $ = (id) => document.getElementById(id);
@@ -77,15 +77,26 @@
             loadNews();
         };
         input.addEventListener('input', async () => {
-            const q = input.value.trim().toUpperCase();
+            const q = input.value.trim();
             if (q.length < 1) { results.hidden = true; return; }
-            const list = await companies();
-            items = list.filter((c) => c.symbol.startsWith(q))
-                .concat(list.filter((c) => !c.symbol.startsWith(q) && (c.name || '').toUpperCase().includes(q)))
-                .slice(0, 8);
+            // searchAssets, NOT the bundled companies() directory. That list is
+            // SEC registrants, so it holds SPY and QQQ — both registered trusts —
+            // but not SCHG, VOO, VTI or VTSAX, which are series of one trust.
+            // Measured 2026-09-28: "SCHG" here gave an empty box and no message
+            // while the header search found it. The ETFs chip on this very page
+            // already sends VTI, VOO and SCHD to the same news endpoint.
+            items = (await searchAssets(q, { limit: 8 }))
+                .filter((row) => /^[A-Z0-9.\-]{1,10}$/.test(String(row.symbol || '')));
+            if (!items.length) {
+                // Say so. Hiding the box on no match is what made a fund look
+                // like a broken search rather than a symbol we don't carry.
+                results.innerHTML = `<div class="nav-search-empty">No ticker or fund matches “${esc(q)}”. Try SCHG, VOO or VXUS.</div>`;
+                results.hidden = false;
+                return;
+            }
             results.innerHTML = items.map((c) =>
-                `<a href="#" data-sym="${esc(c.symbol)}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}</span></a>`).join('');
-            results.hidden = !items.length;
+                `<a href="#" data-sym="${esc(c.symbol)}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}${c.assetType && c.assetType !== 'stock' ? ` · ${esc(c.assetTypeLabel || c.assetType)}` : ''}</span></a>`).join('');
+            results.hidden = false;
             results.querySelectorAll('a').forEach((a) =>
                 a.addEventListener('click', (e) => { e.preventDefault(); input.value = a.dataset.sym; go(a.dataset.sym); }));
         });

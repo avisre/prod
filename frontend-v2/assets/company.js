@@ -1250,9 +1250,17 @@
             items = list.filter((c) => c.symbol.startsWith(q))
                 .concat(list.filter((c) => !c.symbol.startsWith(q) && (c.name || '').toUpperCase().includes(q)))
                 .slice(0, 8);
+            if (!items.length) {
+                // The comparison table reads SEC fundamentals, so it stays
+                // company-only — but say that instead of hiding the box. Typing
+                // a fund (SCHG, VOO) used to look like a broken search.
+                results.innerHTML = `<div class="nav-search-empty">No filings match “${esc(q)}”. Comparison covers SEC-filing companies, not funds.</div>`;
+                results.hidden = false;
+                return;
+            }
             results.innerHTML = items.map((c) =>
                 `<a href="#" data-sym="${esc(c.symbol)}"><span class="sym">${esc(c.symbol)}</span><span class="nm">${esc(c.name)}</span></a>`).join('');
-            results.hidden = !items.length;
+            results.hidden = false;
             results.querySelectorAll('a').forEach((a) =>
                 a.addEventListener('click', (e) => {
                     e.preventDefault();

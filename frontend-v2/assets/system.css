@@ -283,6 +283,15 @@ p, li, dd, blockquote, figcaption { text-wrap: pretty; }
 .nav-search-results a:hover, .nav-search-results a.is-active { background: var(--accent-tint); }
 .nav-search-results .sym { font-weight: 650; min-width: 52px; font-variant-numeric: tabular-nums; }
 .nav-search-results .nm { color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+/* No-match row. Every box that reuses this dropdown must say why it found
+   nothing instead of collapsing — a fund the box cannot carry looked exactly
+   like a broken search (measured 2026-09-28, "SCHG"). */
+.nav-search-empty {
+  padding: 9px 12px;
+  font-size: var(--text-sm);
+  color: var(--ink-3);
+  line-height: 1.45;
+}
 
 /* Ticker autocomplete dropdown — shared by the portfolio add-form and the
    Filing Monitor. Same look as the nav search; anchored to its input wrapper. */

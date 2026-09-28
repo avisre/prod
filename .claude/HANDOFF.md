@@ -136,10 +136,10 @@ Artifact publishing is refused here.
   `BOT_BLOCK_ENABLED=false` on dev-local only). A bare curl UA also 403s: `hasBrowserHeaders` needs the full
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
-- zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-  `test/social-compose.test.js` **always fails** (needs `selenium-webdriver`, not installed) — pre-existing.
+- zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`. Pre-existing suite failures: `social-compose` (no selenium), `ga4-consent-resolution` (fails on a clean HEAD too).
 - Cache stamps: any edit to `frontend-v2/assets/*.js` needs a new `?v=` stamp everywhere at once (all
   `frontend-v2/*.html` + the server-rendered pages in `backend/`) plus the pinned test literals.
+- `news.js` (#news-q) and `company.js` (#cmp-input) searched the bundled **stocks-only** SEC directory, not the asset API — SCHG/VOO/VTI/VTSAX were invisible there while the header search found them (news box fixed 9/28; compare box now says so instead of hiding).
 
 ## Owner actions pending
 1. **Submit the plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
