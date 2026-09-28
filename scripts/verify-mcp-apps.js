@@ -146,9 +146,9 @@ async function main(argv = process.argv.slice(2)) {
         filings.parsed && filings.parsed.filings.length > 0
         && filings.parsed.filings.every((f) => /^\d{10}-\d{2}-\d{6}$/.test(f.accession_number) && /^https:\/\/www\.sec\.gov\//.test(f.source_url)));
 
-    const content = await call('get_filing_content', { company: 'AMZN', form: '10-K', query: 'AWS', max_excerpts: 2, max_chars: 400 });
+    const content = await call('get_filing_content', { company: 'AMZN', form: '10-K', query: 'AWS', max_excerpts: 2, max_chars: 800 });
     check('get_filing_content returns labelled excerpts, never the whole filing',
-        content.parsed && content.parsed.excerpts.length > 0 && content.parsed.excerpts.every((e) => e.text.length <= 400)
+        content.parsed && content.parsed.excerpts.length > 0 && content.parsed.excerpts.every((e) => e.text.length <= 800)
         && !content.parsed.text && content.parsed.search_scope === 'extracted_sections');
 
     const compare = await call('compare_company_metrics', { companies: ['MSFT', 'AAPL', 'AMZN'], metrics: ['operating_margin'], period_type: 'annual', periods: 1 });

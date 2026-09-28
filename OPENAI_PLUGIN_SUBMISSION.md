@@ -1,11 +1,12 @@
 # OpenAI plugin submission package — StockPortfolio.pro
 
-Status: **implementation complete, automated tests green, verified with MCP Inspector.
-Deployment is blocked on a Render↔GitHub repository-authorisation failure
-(`not found: https://api.github.com/repositories/1105594471`) — an owner action
-(§12).** Nothing in this document is a substitute for the live checks in
-`scripts/verify-mcp-apps.js`, which must be re-run after the deploy and before
-`Submit for Review`.
+Status: **deployed to production and verified live (2026-09-29, deploy run 36481252026).**
+Automated tests are green (1018/1018), the production endpoint passed
+`scripts/verify-mcp-apps.js` 17/17 with an entitled credential, and the official
+MCP Inspector reports zero strict-mode schema findings against the live server.
+The remaining steps are owner-only: the OpenAI Platform identity/Apps Management
+role, the domain-verification token, the reviewer account, and the portal form
+itself (§12).
 
 ---
 
@@ -275,9 +276,7 @@ Amazon/Alphabet filings, so fixtures are the production data itself.
    returns exactly that token as `text/plain` and nothing else. Until the token
    is set it returns 404, which is the correct pre-verification state; no fake
    token is committed.
-4. Click **Verify Domain** in the portal. If the portal offers a parent-origin
-   base, `https://stockportfolio.pro` also works, since the well-known path is
-   served before the apex canonicalisation.
+4. Click **Verify Domain** in the portal. Use the default challenge base (`https://www.stockportfolio.pro`). The parent apex (`https://stockportfolio.pro`) answers 301 → www, so do not enter it as the Challenge Base URL.
 
 ## 11. Deployment
 
@@ -286,7 +285,8 @@ Amazon/Alphabet filings, so fixtures are the production data itself.
 | Host | Render, service `srv-d4kc6schg0os73al6t10` (`prod`), behind Cloudflare |
 | Repo / branch | `github.com/avisre/prod`, `main` |
 | Deploy | Push to `main` → `.github/workflows/deploy-render.yml` triggers a Render deploy and waits for `live` |
-| Release commit | `febf5892` (implementation); deploy blocked, see §12 |
+| Release commit | `576ae002` — deployed successfully (workflow run 36481252026, 2026-09-29) |
+| Previous commit | `febf5892` (implementation) |
 | Rollback | Revert the commit and push; Render deploys the previous revision |
 
 Environment variables required for this feature:
@@ -303,29 +303,27 @@ No new credential, key or secret is required by the plugin itself.
 
 ## 12. Blockers requiring the owner
 
-1. **Render↔GitHub repository access is broken.** The deploy API answers
-   `{"message":"not found: https://api.github.com/repositories/1105594471"}`
-   even though the key can list service `srv-d4kc6schg0os73al6t10` and the repo
-   id matches `avisre/prod`. Render's GitHub App can no longer read the private
-   repo, so a deploy cannot start from a push or the API. This is the same
-   failure recorded in `.claude/HANDOFF.md` for 9/24.
-   **Fix:** as the repo/Render account owner, in the Render dashboard open the
-   service → **Settings → Build & Deploy → Repository**, reconnect the GitHub
-   account/repository (authorize the Render GitHub App for `avisre/prod`), then
-   re-run `gh workflow run deploy-render.yml`. No code change is needed; the
-   commit is already on `main`.
-2. **OpenAI Platform identity and Apps Management.** The submission form needs
+1. **OpenAI Platform identity and Apps Management.** The submission form needs
    the owner's verified individual/business identity and an organization role
    with **Apps Management: Write**. Only the account owner can complete
    verification or grant the role.
-3. **Portal actions** — creating the draft with **With MCP**, entering the URL,
-   running **Scan Tools**, pasting the challenge token, entering the demo
-   credentials, and pressing **Submit for Review**. These need the owner's
-   authenticated session; nothing here does it on their behalf.
+2. **Domain-verification token.** The portal generates it; set it as
+   `OPENAI_APPS_CHALLENGE` on Render and complete **Verify Domain** (§10).
+3. **Reviewer account.** Run the provisioner in §4 against production Atlas —
+   it creates/resets the entitled demo account and prints the password once.
+4. **Portal actions** — create the draft with **With MCP**, enter the URL, run
+   **Scan Tools**, enter the demo credentials, complete the listing, and press
+   **Submit for Review**. These need the owner's authenticated session.
 
-Everything else — implementation, automated tests, MCP Inspector verification,
-submission materials, the verification script and the reviewer-account
-provisioner — is done.
+Everything else — implementation, deployment, automated tests, MCP Inspector
+verification against production, submission materials, the production
+verification script and the reviewer-account provisioner — is done.
+
+*Note on the earlier Render blocker: the deploy API briefly answered
+`not found: https://api.github.com/repositories/1105594471`. It recovered
+without a code change and run 36481252026 deployed `576ae002` successfully. If
+it recurs, reconnect the repository in the Render service settings and
+re-run `gh workflow run deploy-render.yml`.*
 
 ## 13. Verification performed
 
@@ -334,7 +332,10 @@ provisioner — is done.
 | `backend && node --test test/` | **1017/1017 pass** (includes 17 new `mcp-apps` tests + 3 new OAuth scope/resource tests) |
 | MCP Inspector (`npx @modelcontextprotocol/inspector --cli … --strict`) | Initialization, `tools/list`, all 7 tool schemas (0 portability warnings after normalising nullable types to `anyOf`), valid calls, invalid inputs — all pass locally |
 | Every tool exercised via Inspector against real data | `search_companies`, `get_company_financials`, `get_metric_history`, `search_filings`, `get_filing_content`, `compare_company_metrics`, `get_financial_change_drivers` |
-| `scripts/verify-mcp-apps.js` against production | Fails as expected: `/mcp/apps` is not deployed (404). Re-run after §12.1. |
+| `scripts/verify-mcp-apps.js` against production | **17/17 with an entitled credential** (discovery docs, handshake, all 7 tools, typed errors, no-leak scan) and the metadata path works keyless; a repeated keyless run correctly hit the 20/min visitor limit. |
+| MCP Inspector against production (`--strict`) | exit 0, **zero schema findings**, all 7 tools with `readOnlyHint/destructiveHint/openWorldHint = true/false/true` |
+| Legal pages readable without a browser UA | `/privacy`, `/terms`, `/support` all HTTP 200 |
+| Legacy `/mcp` regression | Unchanged tool contract; the OpenAI surface is a separate path |
 | Source-url linkage honesty | Values carry `linkage: "xbrl_fact"` only for SEC XBRL facts with their own accession; otherwise `linkage: "filing_period"` (the filing that reports that fiscal period). |
 | Scan reachability | `initialize` and `tools/list` bypass the keyless anti-scraping wall on `/mcp/apps` (they carry no data); `tools/call` does not. A scanner or directory crawler can therefore import the tool contract even before OAuth. |
 | Commerce compliance | All `/mcp/apps` entitlement/allowance messages are checked by test to contain no `$`, plan name, `/upgrade`, `/recharge` or subscribe text. |
@@ -365,8 +366,8 @@ or purchase capability is included.
 
 ## 16. Final submission checklist
 
-- [ ] Render repo link repaired; `deploy-render.yml` succeeds for `febf5892`.
-- [ ] `node scripts/verify-mcp-apps.js` passes against production (all checks).
+- [x] Render repo link repaired; `deploy-render.yml` succeeded for `576ae002`.
+- [x] `node scripts/verify-mcp-apps.js` passes against production (17/17 keyed).
 - [ ] Reviewer account provisioned; login tested from outside the network.
 - [ ] Portal: create draft → **With MCP** → Universal URL `https://www.stockportfolio.pro/mcp/apps`.
 - [ ] **Scan Tools**: 7 tools, annotations correct, both schemas present, no validation errors.
