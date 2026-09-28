@@ -2641,8 +2641,15 @@ app.get(['/company.html', '/company'], (req, res) => {
     const name = sym && seoPages.companyName(sym);
     if (!sym || !name) return res.send(_companyTpl);
     const escAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    const title = `${name} (${sym}) financials, ratios & health checks — stockportfolio.pro`;
-    const desc = `${name} (${sym}): up to 19 years of SEC-filed income statement, balance sheet and cash flow, valuation ratios, ownership and plain-English health checks.`;
+    // Same SERP budgets as the stock pages (seo-pages.js clipName): an unstripped
+    // legal name pushed both tags over Bing's limits on its own — worst case ~190
+    // characters on the description (measured 9/28). The name is stripped and
+    // clipped; the full name stays in the page body.
+    const shortName = seoPages.shortCompanyName(name) || name;
+    const titleTail = ` (${sym}) financials, ratios & health checks`;
+    const title = seoPages.clipName(shortName, 65 - titleTail.length) + titleTail;
+    const descTail = ` (${sym}): up to 19 years of SEC-filed statements, valuation ratios and plain-English health checks.`;
+    const desc = seoPages.clipName(shortName, 158 - descTail.length) + descTail;
     const canonical = seoPages.hasStockPage(sym)
         ? `https://www.stockportfolio.pro/stocks/${sym}`
         : `https://www.stockportfolio.pro/company?symbol=${sym}`;
@@ -3036,8 +3043,8 @@ app.get('/filing-changes', async (req, res) => {
     const html = `<!DOCTYPE html>
 <html lang="en"><head>
 <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Filing Changes — what materially changed in recent SEC filings | stockportfolio.pro</title>
-<meta name="description" content="The latest material changes in recent SEC filings, computed from the filings themselves: year-over-year deltas, materiality scores and the primary source for every figure." />
+<title>Filing Changes — what changed in recent SEC filings</title>
+<meta name="description" content="Material changes in recent SEC filings, computed from the filings themselves: year-over-year deltas, materiality scores and a primary source for every figure." />
 <link rel="canonical" href="https://www.stockportfolio.pro/filing-changes" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />

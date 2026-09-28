@@ -144,6 +144,29 @@ function money(v) {
     return `$${n.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
 }
 function price(v) { const n = num(v); return n === null ? '—' : `$${n.toFixed(2)}`; }
+
+// SERP length budget, shared by the SSR head builders (seo-extra.js and app.js
+// require it from here). Bing's URL Inspection files a title over 70 characters
+// as "Title too long" and a description outside 25-160 as out of range; a long
+// registered name ("Zions Bancorporation, National Association") crosses those
+// limits on its own, so the name gives up room first — clipped on a word
+// boundary, never mid-word. The full name stays in the H1 and page body.
+function clipName(name, room) {
+    const s = String(name || '').trim();
+    if (s.length <= room) return s;
+    const clipped = room > 0 ? s.slice(0, room).replace(/\s+\S*$/, '').trim() : '';
+    return clipped || s.split(/\s+/)[0];
+}
+
+// The legal-suffix stripper the stock, metric and pair pages share. The
+// `(?:&|and)?` is load-bearing: without it "JPMorgan Chase & Co" strips down to a
+// dangling "&" and "Becton, Dickinson and Company" to a dangling "and" — both
+// shipped live in page titles before this was centralised (found 9/28).
+function shortCompanyName(name) {
+    return String(name || '').replace(/^The\s+/i, '')
+        .replace(/,?\s+(?:&|and)?\s*(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
+        .trim();
+}
 function pct(v) { const n = num(v); return n === null ? '—' : `${(n * 100).toFixed(2)}%`; }
 function ratio(v) { const n = num(v); return n === null ? '—' : n.toFixed(2); }
 
@@ -305,19 +328,27 @@ function renderStockPage(ticker, options = {}) {
         : (dates.stale ? 'Not the latest data — a newer SEC filing may exist.' : '');
     // Metric + year-range words are the long-tail hooks searchers actually type
     // ("apple revenue by year", "{name} net income 2018").
-    // Keep the <title> under ~60 chars (Google truncates ~60, Bing warns >65): strip
-    // the legal suffix from the company name and keep the keyword tail short. The full
-    // name, year range and Revenue/Net Income terms still live in the description + H1.
+    // Keep the <title> inside Bing's limit (its "Title too long" report says over
+    // 70 characters; Google truncates around 60) — the budget below is 65, inside
+    // both. Strip the legal suffix from the company name and keep the keyword tail
+    // short. The full name, year range and Revenue/Net Income terms still live in
+    // the description + H1.
     const shortName = name.replace(/^The\s+/i, '')
         .replace(/,?\s+(?:&|and)?\s*(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
         .trim() || name;
-    const title = `${shortName} (${sym}) Stock: Fair Value & Financials`;
+    const titleTail = ` (${sym}) Stock: Fair Value & Financials`;
+    const title = clipName(shortName, 65 - titleTail.length) + titleTail;
     const metricBits = [
         mcap ? `Market cap ${money(mcap)}` : '',
         pe ? `P/E ${ratio(pe)}` : '',
         income[0] && income[0].totalRevenue ? `revenue ${money(income[0].totalRevenue)}` : ''
     ].filter(Boolean).join(', ');
-    const description = `${name} (${sym}) fundamentals: ${metricBits || 'key financials'}. View income statement, balance sheet, cash flow and a price chart on stockportfolio.pro.`;
+    // Measured 9/28 over all 1,502 symbols: the previous template put 1,469 pages
+    // (98%) outside Bing's 25-160 description range, worst 204 characters. The
+    // boilerplate tail ("…on stockportfolio.pro") and the unstripped legal name
+    // were the whole cause; the tail now carries only terms a searcher types.
+    const descTail = ` (${sym}): ${metricBits || 'key financials'}. Income statement, balance sheet, cash flow, price chart.`;
+    const description = clipName(shortName, 158 - descTail.length) + descTail;
 
     let jsonld = JSON.stringify({
         '@context': 'https://schema.org',
@@ -1336,7 +1367,7 @@ module.exports = {
     resolveCanonicalSymbol, invalidateSitemapInventory,
     renderMethodology, renderEditorialPolicy, renderLicensing, renderApiLanding,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
-    loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer,
+    loadFundamentals, esc, num, money, price, pct, ratio, clipName, shortCompanyName, head, nav, footer,
     // The one date source for a symbol's data — used by the sitemap *and* by the
     // page body, so a page can never advertise a freshness its sitemap entry
     // contradicts.

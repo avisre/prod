@@ -290,7 +290,11 @@ const METRICS = {
         })
     },
     'total-debt': {
-        label: 'Total Debt', noun: 'total debt (short- plus long-term borrowings)', fmt: money, source: 'balance sheet (10-K)',
+        // noun feeds the H1, the FAQ answers and the body copy, where the
+        // parenthetical belongs; metaNoun is the SERP form — the parenthetical
+        // alone pushed 1,095 metric descriptions past Bing's 160-character limit
+        // (measured 9/28 across every rendered metric page).
+        label: 'Total Debt', noun: 'total debt (short- plus long-term borrowings)', metaNoun: 'total debt', fmt: money, source: 'balance sheet (10-K)',
         methodology: 'Total debt is derived by adding the available short-term and long-term borrowing fields; it is not a single filed line.',
         rows: (d) => ((d.balance || {}).annualReports || []).map((r) => ({ year: fyYear(r), value: totalDebtOf(r), derived: totalDebtOf(r) !== null }))
     },
@@ -502,15 +506,16 @@ function renderMetricPage(ticker, slug, options = {}) {
             || titleName.split(/\s+/)[0];
     }
     const title = `${titleHead}${titleNameShort}`;
-    // Descriptions are the real constraint: measured median 171 chars and max 200,
-    // with 44 of 50 samples past the ~160 a SERP shows -- so the tail was being cut
-    // on nearly every page, and the tail is the identical sitewide boilerplate.
-    // Shortening it costs no differentiating content and lets the whole message
-    // (which leads with the exact query terms and the latest filed value) survive.
-    const description = `${name} (${sym}) annual ${m.noun} from ${y0} to ${y1}` +
+    // Descriptions are the real constraint: measured across all 12,338 rendered
+    // metric pages on 9/28, 1,165 were past Bing's 160-character limit (max 193)
+    // and they were all the same story — a long registered name, the long "total
+    // debt (short- plus long-term borrowings)" noun, and a boilerplate tail that
+    // was being cut on nearly every page anyway. The tail is now four words, and
+    // the leading name and the latest filed value survive intact.
+    const description = `${name} (${sym}) annual ${m.metaNoun || m.noun} from ${y0} to ${y1}` +
         (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
         (oneYear !== null ? `, ${signedPct(oneYear)} year over year` : '') +
-        `. SEC-sourced annual history.`;
+        `. SEC-sourced.`;
 
     // table rows, newest first, with YoY change
     const trs = all.map((r, i) => {
@@ -1201,7 +1206,9 @@ const CMP_AUTOCOMPLETE = `function cmpWireAutocomplete(inputId,boxId){
 function renderCompareIndex() {
     const canonical = `${SITE}/compare`;
     const title = 'Compare Any Two US Stocks — Fundamentals & AI Verdict';
-    const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E, ROE and red flags from SEC filings — plus an AI verdict on which is the stronger business and the cheaper stock. Free, no account.';
+    // 207 characters — past Bing's limit, so the tail was truncated in the SERP
+    // regardless (measured 9/28). Kept: both query terms and the differentiators.
+    const description = 'Put any two US-listed companies side by side: revenue, margins, growth, P/E and ROE from SEC filings, plus an AI verdict on the stronger business. Free.';
     const popular = POPULAR_COMPARISONS;
     const popHtml = popular.map(([a, b]) => { const p = [a, b].slice().sort(); return `<a href="/compare/${p[0]}-vs-${p[1]}" style="display:inline-block;padding:8px 13px;border:1px solid var(--line);border-radius:999px;font-size:13.5px;font-weight:600;color:var(--ink);background:var(--surface)">${esc(a)} vs ${esc(b)}</a>`; }).join('');
     // Deduplicate browse links against popular pairs and cap at 200
@@ -1349,12 +1356,32 @@ function compareData(pairSlug) {
     const fmtRet = (v, listed) => v !== null ? `${v.toFixed(1)}%` : (listed ? `Listed ${listed}` : '—');
 
     const canonical = `${SITE}/compare/${a}-vs-${b}`;
-    const shortCompany = (value) => String(value || '').replace(/^The\s+/i, '').replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '').trim();
-    // GSC comparison queries commonly contain company names rather than
-    // tickers (for example, “Playtika Ltd. Yelp”). Put both names and tickers
-    // in the title/H1 so the canonical comparison page is an obvious match.
-    const title = `${shortCompany(ma.name)} (${a}) vs ${shortCompany(mb.name)} (${b}) | SEC-filed comparison`;
-    const description = `${ma.name} (${a}) vs ${mb.name} (${b}) with side-by-side SEC-filed revenue, margins, growth, P/E, ROE, dividends, red flags and 1/3/5/10-year performance. Compare the fundamentals before buying.`;
+    // The house legal-suffix stripper (seo-pages.js: the `(?:&|and)?` is what keeps
+    // "JPMorgan Chase & Co" from becoming a dangling "&", and "Becton, Dickinson
+    // and Company" a dangling "and" — both were live in these titles).
+    const shortCompany = (value) => String(value || '').replace(/^The\s+/i, '').replace(/,?\s+(?:&|and)?\s*(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '').trim();
+    // GSC comparison queries commonly contain company names rather than tickers
+    // (for example, “Playtika Ltd. Yelp”). Put both names and tickers in the
+    // title/H1 so the canonical comparison page is an obvious match — but the two
+    // SERP fields have hard budgets, and measured across all 5,887 pairs (9/28)
+    // the long fund names blew past both on their own: titles to 156 characters,
+    // descriptions to 290, 9,863 violations between them. The tickers and the "vs"
+    // are fixed and carry the query; the names share whatever room is left.
+    const nameA = shortCompany(ma.name), nameB = shortCompany(mb.name);
+    const pairFix = ` (${a}) vs `, pairEnd = ` (${b})`;
+    const TITLE_SUFFIX = ' | SEC-filed comparison';
+    const roomFor = (suffix) => 65 - pairFix.length - pairEnd.length - suffix.length;
+    let [tA, tB] = fitTwoNames(roomFor(TITLE_SUFFIX), nameA, nameB);
+    let titleSuffix = TITLE_SUFFIX;
+    if (tA !== nameA || tB !== nameB) {
+        // Clipping already happened — spend the suffix's room on the names too.
+        [tA, tB] = fitTwoNames(roomFor(''), nameA, nameB);
+        titleSuffix = '';
+    }
+    const title = `${tA}${pairFix}${tB}${pairEnd}${titleSuffix}`;
+    const DESC_TAIL = ': SEC-filed revenue, margins, growth, P/E, ROE, dividends and 1/3/5/10-year performance, side by side.';
+    const [dA, dB] = fitTwoNames(158 - pairFix.length - pairEnd.length - DESC_TAIL.length, nameA, nameB);
+    const description = `${dA}${pairFix}${dB}${pairEnd}${DESC_TAIL}`;
 
     const fmtB = (v) => v === null ? '—' : `$${v >= 1000 ? (v / 1000).toFixed(2) + 'T' : v.toFixed(1) + 'B'}`;
     const fmtP = (v) => v === null ? '—' : `${v.toFixed(1)}%`;
@@ -1608,6 +1635,21 @@ function compareData(pairSlug) {
 
 // The free / SEO surface of the pair page: byte-for-byte the markup that ships
 // today. Paid subscribers see renderComparePagePro instead (via ?sp=2).
+// Fit two company names into `room` characters together. Ordinary companies are
+// never truncated: the longer name gives up the difference, in proportion, and
+// both are clipped on word boundaries only.
+function fitTwoNames(room, nameA, nameB) {
+    if (nameA.length + nameB.length <= room) return [nameA, nameB];
+    const firstA = nameA.split(/\s+/)[0].length;
+    const firstB = nameB.split(/\s+/)[0].length;
+    let roomA = Math.floor(room * nameA.length / (nameA.length + nameB.length));
+    let roomB = room - roomA;
+    if (roomA < firstA) { roomA = Math.min(firstA, Math.floor(room / 2)); roomB = room - roomA; }
+    if (roomB < firstB) { roomB = Math.min(firstB, Math.floor(room / 2)); roomA = room - roomB; }
+    const clip = (s, r) => (s.length <= r ? s : (s.slice(0, Math.max(r, 0)).replace(/\s+\S*$/, '').trim() || s.split(/\s+/)[0]));
+    return [clip(nameA, roomA), clip(nameB, roomB)];
+}
+
 function renderComparePage(pairSlug) {
     const d = compareData(pairSlug);
     if (!d || d.redirect) return d;
@@ -2085,7 +2127,11 @@ function renderScreenPage(slug) {
     const { matched, rows } = aiChat.screenRows({ ...s.args, exclude_secondary_listings: true });
     if (!rows.length) return null;
     const canonical = `${SITE}/screens/${slug}`;
-    const title = `${s.h1} (${year}) — Ranked by Filed Fundamentals`;
+    // All 17 screens were over Bing's title limit on this template (measured 9/28:
+    // 69-88 characters, including the two URLs Bing named in its own "Title too
+    // long" report). The year keeps the freshness signal; the trailing boilerplate
+    // was the part a searcher never saw, and the H1 still carries the full name.
+    const title = `${s.h1} (${year})`;
     const infoBySymbol = new Map();
     rows.forEach((r) => { if (r && r.symbol) infoBySymbol.set(r.symbol, fundDate.info(r.symbol)); });
     const dataDays = [...new Set(rows.map((r) => {
@@ -2094,7 +2140,14 @@ function renderScreenPage(slug) {
     }).filter(Boolean))].sort();
     const dataSpan = dataDays.length === 1 ? `as of ${dataDays[0]}`
         : (dataDays.length ? `as of ${dataDays[0]} to ${dataDays[dataDays.length - 1]}` : '');
-    const description = `${s.intro} ${matched} companies qualify today; top ${rows.length} ranked from SEC-filed fundamentals${dataSpan ? ` ${dataSpan}` : ''}.`;
+    // The intro already runs 107-159 characters — right at the top of Bing's
+    // 25-160 range — so appending the live count and the data span pushed the
+    // longest screens past it (measured 9/28). The count and the "as of" date are
+    // still on the page (see the seo-sub line below); the description keeps the
+    // words a searcher actually reads. The clip is a guard for future edits.
+    const DESC_LIMIT = 160;
+    const description = s.intro.length <= DESC_LIMIT ? s.intro
+        : s.intro.slice(0, DESC_LIMIT).replace(/\s+\S*$/, '').trim();
     const colHead = s.cols.map((c) => `<th>${esc(COL_DEFS[c][0])}</th>`).join('');
     const trs = rows.map((r, i) =>
         `<tr><td>${i + 1}. <a href="/stocks/${esc(r.symbol)}">${esc(r.name)} (${esc(r.symbol)})</a></td>` +

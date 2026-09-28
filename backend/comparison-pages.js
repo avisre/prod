@@ -305,8 +305,13 @@ function renderComparison(slug) {
     const c = COMPETITORS[String(slug || '').toLowerCase()];
     if (!c) return null;
     const canonical = `${SITE}/vs/${c.slug}`;
-    const title = `stockportfolio.pro vs ${c.name}: Pricing & Features (2026)`;
-    const description = `${c.name} alternative? Compare stockportfolio.pro and ${c.name} on price, fundamentals, portfolio tracking and ease of use. $24.99/mo or $199.99/year ($16.67/month effective).`;
+    // Measured 9/28 across all 14 of these pages: titles to 69 characters and
+    // descriptions to 197, both past Bing's limits, so the description tail was
+    // truncated in the SERP anyway. Dropping the year and the effective-monthly
+    // price keeps the words that earn the click; the page body still carries the
+    // full price ladder for anyone who lands.
+    const title = `stockportfolio.pro vs ${c.name}: Pricing & Features`;
+    const description = `${c.name} alternative? stockportfolio.pro vs ${c.name} on price, SEC-filed fundamentals and portfolio tracking — from $24.99/mo.`;
     // Was a bare WebPage node. Naming both products as entities and adding
     // breadcrumbs brings these vendor pages up to the same structure the stock
     // comparison and metric pages already use.
