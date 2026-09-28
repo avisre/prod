@@ -1,0 +1,11 @@
+# Dependencies for the operator-run scripts in this directory.
+#
+# These scripts are not run by CI -- they are run by hand to pull SEO data.
+# Homebrew's python3 is externally managed (PEP 668), so `pip install --user`
+# is refused. Create the venv once from the repo root and use its interpreter:
+#
+#   python3 -m venv .venv
+#   .venv/bin/python3 -m pip install -r scripts/requirements.txt
+#   .venv/bin/python3 scripts/bing-webmaster-stats.py --week
+#
+requests>=2.31

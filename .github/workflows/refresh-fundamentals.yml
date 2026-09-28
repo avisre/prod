@@ -56,10 +56,16 @@ jobs:
         run: node scripts/refresh-fundamentals.js frontend/data/sp500-companies.json
 
       # refresh-fundamentals.js queues the pages whose *filed* statements changed.
-      # The queue lives outside frontend/data/ and is never committed, so it must
-      # be sent in the same job or it is discarded with the runner. Bing consumes
-      # IndexNow; Google does not. Non-blocking: a failed submission must never
-      # fail the data refresh.
+      # The queue lives outside frontend/data/, is gitignored, and is never staged,
+      # so it must be sent in the same job or it is discarded with the runner.
+      # (Until 2026-09-28 a stale copy was tracked in git while this comment claimed
+      # otherwise; it was untracked so the file's status now matches the comment.)
+      # Bing consumes IndexNow; Google does not. Non-blocking: a failed submission
+      # must never fail the data refresh.
+      #
+      # Note this step reports success on the POST alone. IndexNow fetches the key
+      # file asynchronously afterwards, so a 403 there was invisible -- see the
+      # bot-blocker exemption and backend/test/indexnow-key.test.js.
       - name: Submit changed pages to IndexNow
         continue-on-error: true
         run: |
@@ -73,8 +79,14 @@ jobs:
 
       - name: Stage data folder
         run: |
+          # fundamentals-changed.json MUST be staged: backend/seo-pages.js reads it
+          # to date <lastmod>. If it stops reaching production the sitemap freezes
+          # on its bundled snapshot date again, which is exactly the bug this
+          # manifest exists to fix -- and it would fail silently, the same way the
+          # deploy-mtime clamp did.
           git add frontend/data/sp500-companies.json \
                   frontend/data/top-100-fundamentals-index.json \
+                  frontend/data/fundamentals-changed.json \
                   frontend/data/fundamentals/
           if git diff --cached --quiet; then
             echo "no_changes=true" >> $GITHUB_ENV

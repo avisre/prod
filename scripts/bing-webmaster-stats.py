@@ -136,6 +136,56 @@ def totals(entries):
     return {"clicks": clicks, "impressions": impressions, "ctr": round(clicks / impressions, 6) if impressions else 0.0}
 
 
+def window_totals(traffic, end, days=7):
+    """Exhaustive site totals for the `days`-day window ending on `end`.
+
+    GetRankAndTrafficStats is the only daily-grained, exhaustive source. The
+    per-page list from GetPageStats is top-N, so summing it is NOT the site total:
+    for the week ending 2026-09-04 that under-reported impressions ~4.6x (329 vs
+    1,502) and over-reported CTR ~3.6x (4.56% vs 1.27%). Every headline figure
+    goes through here.
+    """
+    start = end - datetime.timedelta(days=days - 1)
+    rows = []
+    for row in traffic:
+        day = parse_date(row.get("Date"))
+        if day and start <= day <= end:
+            rows.append(row)
+    clicks = sum(as_int(r.get("Clicks")) for r in rows)
+    impressions = sum(as_int(r.get("Impressions")) for r in rows)
+    return {
+        "clicks": clicks,
+        "impressions": impressions,
+        "ctr": round(clicks / impressions, 6) if impressions else 0.0,
+        "days": len(rows),
+    }
+
+
+PHANTOM_MIN_SHARE = 0.05
+
+
+def flag_phantom_queries(queries, min_share=PHANTOM_MIN_SHARE):
+    """Split off queries that dominate impressions while earning no clicks.
+
+    One synthetic string -- `aap 2024 free cash flow guided flat strategic costs`
+    -- was 42.8% of all reported impressions over 105 days with zero clicks. It is
+    not a real search, so every CTR computed over it is a denominator artifact
+    (sitewide read ~1% when the real figure excluding it was ~7.5%).
+
+    Flagged, never silently dropped: the caller prints them in their own section,
+    and both the inclusive and exclusive CTR stay visible.
+    """
+    total = sum(e["impressions"] for e in queries.values())
+    if not total:
+        return {}, totals({})
+    flagged = {
+        name: e for name, e in queries.items()
+        if e["clicks"] == 0 and e["impressions"] / total >= min_share
+    }
+    clean = {name: e for name, e in queries.items() if name not in flagged}
+    return flagged, totals(clean)
+
+
 def delta_table(current, previous, limit=10):
     """Top movers by click change, then impression change as a tiebreak."""
     names = set(current) | set(previous)
@@ -206,6 +256,12 @@ def run_week(args, key):
             daily.append({"date": day.isoformat(), "clicks": as_int(row.get("Clicks")), "impressions": as_int(row.get("Impressions"))})
     daily.sort(key=lambda r: r["date"])
 
+    # Headline figures come from the exhaustive daily source, never from the
+    # top-N page list -- see window_totals() for why that distinction matters.
+    site_now = window_totals(traffic, latest)
+    site_was = window_totals(traffic, previous) if previous else {"clicks": 0, "impressions": 0, "ctr": 0.0, "days": 0}
+    phantom_queries, organic_totals = flag_phantom_queries(queries_now)
+
     out_dir = os.path.join(ROOT, "seo-data", "bing")
     # Header is the contract consumed by scripts/seo/find-search-opportunities.js.
     write_csv(
@@ -254,8 +310,14 @@ def run_week(args, key):
         "week_ending": latest.isoformat(),
         "week_start": week_start.isoformat(),
         "previous_week_ending": previous.isoformat() if previous else None,
-        "totals": page_totals,
-        "previous_totals": prev_totals,
+        # Site-level and exhaustive -- this is the headline figure.
+        "totals": site_now,
+        "previous_totals": site_was,
+        # Top-N page list, NOT the site total. Kept for the per-page table only.
+        "page_list_totals": page_totals,
+        "previous_page_list_totals": prev_totals,
+        "phantom_queries": phantom_queries,
+        "query_totals_excluding_phantom": organic_totals,
         "daily": daily,
         "pages": pages_now,
         "queries": queries_now,
@@ -299,14 +361,50 @@ def run_week(args, key):
         "",
         "## Week totals",
         "",
+        "Site-level, from `GetRankAndTrafficStats` (daily-grained, exhaustive). The",
+        "per-page list behind the tables below is top-N (100 rows, capped by Bing) and",
+        "is deliberately not summed here: doing so under-reported impressions by 3.8-4.6x",
+        "depending on the week and over-reported CTR by the same factor.",
+        "",
         "| Metric | This week | Last week | Change |",
         "|---|---:|---:|---:|",
-        f"| Clicks | {page_totals['clicks']} | {prev_totals['clicks']} | {pct(page_totals['clicks'], prev_totals['clicks'])} |",
-        f"| Impressions | {page_totals['impressions']} | {prev_totals['impressions']} | {pct(page_totals['impressions'], prev_totals['impressions'])} |",
-        f"| CTR | {page_totals['ctr'] * 100:.2f}% | {prev_totals['ctr'] * 100:.2f}% | — |",
+        f"| Clicks | {site_now['clicks']} | {site_was['clicks']} | {pct(site_now['clicks'], site_was['clicks'])} |",
+        f"| Impressions | {site_now['impressions']} | {site_was['impressions']} | {pct(site_now['impressions'], site_was['impressions'])} |",
+        f"| CTR | {site_now['ctr'] * 100:.2f}% | {site_was['ctr'] * 100:.2f}% | — |",
+        f"| Days reported | {site_now['days']} | {site_was['days']} | — |",
         f"| Pages with impressions | {len(pages_now)} | {len(pages_was)} | — |",
         f"| Queries with impressions | {len(queries_now)} | {len(queries_was)} | — |",
         "",
+        "### Query-level CTR, with phantom queries separated",
+        "",
+        "> `GetQueryStats` returns a capped top-N list (100 rows, no pagination",
+        "> parameter), so these are *not* site totals and must not be read as such --",
+        "> the gap to the Week totals above is unattributed long-tail, not a loss.",
+        "",
+        "| Basis | Queries | Impressions | Clicks | CTR |",
+        "|---|---:|---:|---:|---:|",
+        f"| As returned by Bing | {len(queries_now)} | {totals(queries_now)['impressions']} | {totals(queries_now)['clicks']} | {totals(queries_now)['ctr'] * 100:.2f}% |",
+        f"| Excluding flagged | {len(queries_now) - len(phantom_queries)} | {organic_totals['impressions']} | {organic_totals['clicks']} | {organic_totals['ctr'] * 100:.2f}% |",
+        "",
+        *(
+            [
+                "Flagged: zero-click queries holding >="
+                f" {PHANTOM_MIN_SHARE * 100:.0f}% of all query impressions. These are synthetic or",
+                "natural-language strings, not searches anyone makes, so a CTR computed over",
+                "them is a denominator artifact rather than a snippet failure.",
+                "",
+                "| Query | Impressions | Share of all |",
+                "|---|---:|---:|",
+            ]
+            + [
+                f"| `{name}` | {e['impressions']} | "
+                f"{e['impressions'] / max(1, totals(queries_now)['impressions']) * 100:.1f}% |"
+                for name, e in sorted(phantom_queries.items(), key=lambda kv: -kv[1]["impressions"])
+            ]
+            + [""]
+            if phantom_queries
+            else ["No query exceeded the phantom threshold this week.", ""]
+        ),
         "## Daily (site-level, from GetRankAndTrafficStats)",
         "",
         "| Date | Clicks | Impressions |",
@@ -366,8 +464,10 @@ def run_week(args, key):
     print(json.dumps({
         "week_ending": latest.isoformat(),
         "previous_week_ending": previous.isoformat() if previous else None,
-        "totals": page_totals,
-        "previous_totals": prev_totals,
+        "totals": site_now,
+        "previous_totals": site_was,
+        "page_list_totals": page_totals,
+        "phantom_queries": len(phantom_queries),
         "pages": len(pages_now),
         "queries": len(queries_now),
         "daily_rows": len(daily),

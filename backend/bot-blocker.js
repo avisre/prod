@@ -127,7 +127,15 @@ const DENY_PATTERNS = [
 // app.js canonicalises /privacy/ to /privacy) rather than all of /docs/*, so the
 // exemption covers the two URLs actually declared and no crawlable data moves:
 // both render static prose and neither reads a query parameter.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/];
+const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/,
+    // IndexNow key file: 32 hex chars at the site root. IndexNow's spec requires
+    // this be publicly fetchable, and participants fetch it asynchronously AFTER
+    // accepting the POST -- so it must not depend on browser headers. It was
+    // missing here, which 403'd the file to every non-browser UA while
+    // indexnow-ping.js saw HTTP 200 on the POST and reported success. The
+    // failure was silent by construction. It is a public, content-free
+    // verification file: no bandwidth or scraping risk in exempting it.
+    /^\/[0-9a-f]{32}\.txt$/];
 
 // .json deliberately excluded: it used to let bulk data (the fundamentals
 // corpus) skip the nav rate limiter entirely. It's now gated at the app.js

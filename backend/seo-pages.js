@@ -830,29 +830,56 @@ const SITEMAP_CHUNK = 5000;
 // them. Set SITEMAP_INCLUDE_METRICS=0 to restore the old behaviour.
 const SITEMAP_INCLUDE_METRICS = String(process.env.SITEMAP_INCLUDE_METRICS || '1') !== '0';
 const SITEMAP_TTL_MS = 30 * 60 * 1000;
-// Git checkouts stamp every bundled data file with the deploy time. Treat files
-// created during the checkout window as the known snapshot date; later nightly
-// refreshes retain their real filesystem date. This keeps deploys from falsely
-// telling crawlers that thousands of unchanged company pages changed today.
+// Last-resort date for a symbol with no entry in the change-date manifest and no
+// cache-wide refresh date — the known date the bundled data shipped. Keeps a
+// missing or unreadable manifest from falsely telling crawlers that thousands of
+// unchanged company pages changed today.
 const SITEMAP_DATA_SNAPSHOT = '2026-07-19';
-// Compare bundled data with the deployed source tree, not process start time.
-// A service may start many hours after a checkout/unpack (as happens in this
-// production snapshot), which made every bundled cache look like a fresh
-// nightly write and collapsed all sitemap dates to the deployment date.
-const SITEMAP_DEPLOY_MS = (() => {
-    try { return fs.statSync(__filename).mtime.getTime(); } catch (_) { return Date.now(); }
-})();
 let _sitemapInventoryCache = null;
+let _dataDatesCache = null;
 
 function isoMtime(file, fallback = '2026-07-19') {
     try { return fs.statSync(file).mtime.toISOString().slice(0, 10); } catch (_) { return fallback; }
 }
-function isoDataMtime(file) {
+// Per-symbol data dates come from a committed manifest the refresh writes, NOT
+// from filesystem mtime.
+//
+// Why not mtime: a git-checkout deploy stamps *every* file with the checkout
+// time, so mtime says nothing about the data. The previous version tried to
+// detect that by clamping any file modified within an hour of this file's own
+// deploy stamp back to SITEMAP_DATA_SNAPSHOT — but on a checkout deploy that
+// window matches every file, so the clamp fired unconditionally. The result was
+// <lastmod> frozen at 2026-07-19 across the ~20K stock/compare/metric URLs while
+// the page body, reading the same mtime unclamped, advertised a date months
+// newer. The page and its own sitemap entry contradicted each other.
+//
+// The manifest cannot drift that way: a symbol's date advances only when its
+// filed statements actually change, and it survives a checkout.
+function loadDataDates() {
+    if (_dataDatesCache) return _dataDatesCache;
+    let generatedAt = SITEMAP_DATA_SNAPSHOT;
+    const symbols = {};
     try {
-        const modified = fs.statSync(file).mtime;
-        if (modified.getTime() <= SITEMAP_DEPLOY_MS + 60 * 60 * 1000) return SITEMAP_DATA_SNAPSHOT;
-        return modified.toISOString().slice(0, 10);
-    } catch (_) { return SITEMAP_DATA_SNAPSHOT; }
+        const parsed = JSON.parse(fs.readFileSync(path.join(DATA, 'fundamentals-changed.json'), 'utf8'));
+        if (parsed && parsed.symbols && typeof parsed.symbols === 'object') {
+            for (const [sym, date] of Object.entries(parsed.symbols)) {
+                const day = String(date || '').slice(0, 10);
+                if (/^\d{4}-\d{2}-\d{2}$/.test(day)) symbols[String(sym).toUpperCase()] = day;
+            }
+        }
+        if (parsed && parsed.generatedAt) {
+            const day = String(parsed.generatedAt).slice(0, 10);
+            if (/^\d{4}-\d{2}-\d{2}$/.test(day)) generatedAt = day;
+        }
+    } catch (_) { /* no manifest yet — the bundled snapshot date still stands */ }
+    _dataDatesCache = { generatedAt, symbols };
+    return _dataDatesCache;
+}
+// The date a symbol's fundamentals actually last changed: its own manifest
+// entry, else the cache-wide refresh date, else the bundled snapshot date.
+function dataDateFor(symbol) {
+    const { generatedAt, symbols } = loadDataDates();
+    return symbols[String(symbol || '').toUpperCase()] || generatedAt;
 }
 function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-07-19'; }
 function staticPageMtime(route) {
@@ -884,7 +911,7 @@ function buildSitemapInventory() {
     const mtimes = new Map();
     const tickerMtime = (sym) => {
         const key = String(sym || '').toUpperCase();
-        if (!mtimes.has(key)) mtimes.set(key, isoDataMtime(symbolToFile(key)));
+        if (!mtimes.has(key)) mtimes.set(key, dataDateFor(key));
         return mtimes.get(key);
     };
     const stocks = loadCompanies()
@@ -1294,5 +1321,9 @@ module.exports = {
     resolveCanonicalSymbol, invalidateSitemapInventory,
     renderMethodology, renderEditorialPolicy, renderLicensing, renderApiLanding,
     // shared by seo-extra.js (metric pages / compare pages / screen pages)
-    loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer
+    loadFundamentals, esc, num, money, price, pct, ratio, head, nav, footer,
+    // The one date source for a symbol's data — used by the sitemap *and* by the
+    // page body, so a page can never advertise a freshness its sitemap entry
+    // contradicts.
+    dataDateFor
 };

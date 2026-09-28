@@ -49,6 +49,11 @@ const ROOT = path.resolve(__dirname, '..');
 const FRONTEND_DATA = path.join(ROOT, 'frontend', 'data');
 const OUT_DIR = path.join(FRONTEND_DATA, 'fundamentals');
 const INDEX_FILE = path.join(FRONTEND_DATA, 'top-100-fundamentals-index.json');
+// Committed record of when each symbol's *filed* statements last changed. The
+// sitemap reads this for <lastmod> instead of filesystem mtime, because a
+// git-checkout deploy stamps every file with the checkout time — which made the
+// old mtime-based date unable to ever advance (see backend/seo-pages.js).
+const CHANGED_FILE = path.join(FRONTEND_DATA, 'fundamentals-changed.json');
 const DEFAULT_LISTS = [
   path.join(FRONTEND_DATA, 'sp1500-companies.json'),
   path.join(FRONTEND_DATA, 'sp500-companies.json'),
@@ -75,6 +80,19 @@ function n(value) {
   if (value === null || value === undefined) return '';
   if (typeof value === 'object' && 'raw' in value) value = value.raw;
   return Number.isFinite(value) ? String(value) : '';
+}
+
+// The change-date manifest carries forward across runs: a symbol missing from
+// this run's work keeps whatever date it already had, because its data did not
+// change. Entries are only ever advanced, never rewritten to "now".
+function loadChangedManifest() {
+  try {
+    const parsed = JSON.parse(fs.readFileSync(CHANGED_FILE, 'utf8'));
+    if (parsed && typeof parsed.symbols === 'object' && parsed.symbols) {
+      return { generatedAt: parsed.generatedAt || null, symbols: { ...parsed.symbols } };
+    }
+  } catch (_) { /* first run, or unreadable — start empty */ }
+  return { generatedAt: null, symbols: {} };
 }
 
 // ---- Yahoo → Alpha shape translators ----
@@ -443,6 +461,7 @@ async function main() {
   const errorList = [];
   const runOutcomes = [];
   const indexNowUrls = [];
+  const changedDates = loadChangedManifest();
   const today = new Date().toISOString().slice(0, 10);
   const start = Date.now();
 
@@ -501,14 +520,24 @@ async function main() {
         errors.push('sec:' + (err.message || 'unknown'));
       }
     }
-    // Compare against what is on disk *before* overwriting it: only a change in
-    // filed statements is worth announcing to Bing. Never let this block a write.
+    // Compare against what is on disk *before* overwriting it. One predicate
+    // ("did the filed statements change?") answers two questions: what to
+    // announce to Bing, and what date the sitemap should carry for this symbol.
+    // Both must be read before the write below. Never let either block a write.
+    let previous = null;
+    if (fs.existsSync(file)) {
+      try { previous = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (_) { previous = null; }
+    }
+    try {
+      const wasPrint = indexNowChanges.filedFingerprint(previous);
+      const nowPrint = indexNowChanges.filedFingerprint(payload);
+      // A null "now" means no filed data at all — not a dateable change.
+      if (nowPrint && nowPrint !== wasPrint) changedDates.symbols[symbol] = today;
+    } catch (err) {
+      errors.push('datemap:' + (err.message || 'unknown'));
+    }
     if (INDEXNOW_ENQUEUE) {
       try {
-        let previous = null;
-        if (fs.existsSync(file)) {
-          try { previous = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (_) { previous = null; }
-        }
         indexNowUrls.push(...indexNowChanges.changedUrls(symbol, payload, previous));
       } catch (err) {
         errors.push('indexnow:' + (err.message || 'unknown'));
@@ -540,6 +569,15 @@ async function main() {
       count: indexFiles.length,
       source: 'yahoo-finance2',
       files: indexFiles
+    }, null, 2));
+    // Only a full run may advance generatedAt. A partial run (MAX_SYMBOLS) never
+    // fetched the symbols it skipped, so claiming "now" for them would be a
+    // fabricated freshness claim — the exact thing this manifest exists to
+    // avoid. Per-symbol change dates are always safe to record: they come from
+    // a real before/after fingerprint of that symbol's own filed statements.
+    fs.writeFileSync(CHANGED_FILE, JSON.stringify({
+      generatedAt: MAX_SYMBOLS === 0 ? new Date().toISOString() : changedDates.generatedAt,
+      symbols: changedDates.symbols
     }, null, 2));
   }
 
