@@ -75,7 +75,13 @@ test('PendingSignup carries consent through to materialization for paid-first si
 
 test('/api/track/event forwards its own hard-verified consent and persists it onto the account', () => {
   const start = appSource.indexOf("app.post('/api/track/event'");
-  const routeBody = appSource.slice(start, start + 2000);
+  // Slice to the NEXT route declaration rather than a fixed character count. A
+  // fixed window silently truncates as the route grows, and the assertion then
+  // fails for a reason unrelated to what it guards -- a 2000-char window did
+  // exactly that once the consent-persistence block pushed `consent: true` to
+  // offset 2115, so this test was failing at HEAD while the code was correct.
+  const nextRoute = appSource.indexOf('\napp.', start + 1);
+  const routeBody = appSource.slice(start, nextRoute === -1 ? undefined : nextRoute);
   assert.match(routeBody, /if \(body\.consent !== true\) return res\.status\(204\)\.end\(\);/,
     'the hard consent gate this fix relies on must still be there, unchanged');
   assert.match(routeBody, /req\.user\.analyticsConsent = true;/);

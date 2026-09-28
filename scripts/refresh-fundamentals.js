@@ -37,6 +37,7 @@ const yahooFinance = new YahooFinance();
 const secSource = require(path.join(__dirname, '..', 'backend', 'sec-source'));
 const indexNowChanges = require(path.join(__dirname, 'seo', 'indexnow-changes'));
 const indexNowQueue = require(path.join(__dirname, 'seo', 'indexnow-queue'));
+const fundamentalsStatus = require(path.join(__dirname, '..', 'backend', 'fundamentals-status'));
 
 const SEC_EXTEND = String(process.env.SEC_EXTEND || '1') !== '0';
 const WRITE_INDEX = String(process.env.WRITE_INDEX || '1') !== '0';
@@ -328,6 +329,13 @@ function toYahooSymbol(symbol) {
 async function fetchSymbol(symbol) {
   const result = { overview: null, daily: null, monthly: null, income: null, balance: null, cash: null };
   const errors = [];
+  // Rejection messages, kept apart from `errors` (which are field names used in
+  // logs). fundamentals-status.classify() reads these to tell a dead ticker
+  // ("Quote not found") from a transient outage.
+  const reasons = [];
+  const reasonOf = (settled) => (settled && settled.status === 'rejected'
+    ? String((settled.reason && (settled.reason.message || settled.reason)) || '')
+    : '');
   const yahooSymbol = toYahooSymbol(symbol);
 
   const now = new Date();
@@ -365,22 +373,23 @@ async function fetchSymbol(symbol) {
       result.income = { annualReports: buildIncomeReports(summary.value.incomeStatementHistory, reportCcy), quarterlyReports: [] };
       result.balance = { annualReports: buildBalanceReports(summary.value.balanceSheetHistory, reportCcy), quarterlyReports: [] };
       result.cash = { annualReports: buildCashReports(summary.value.cashflowStatementHistory, reportCcy), quarterlyReports: [] };
-    } else errors.push('quoteSummary');
+    } else { errors.push('quoteSummary'); reasons.push(reasonOf(summary)); }
 
     if (dailyChart.status === 'fulfilled' && dailyChart.value) result.daily = buildDailyTimeSeries(dailyChart.value);
-    else errors.push('chart-daily');
+    else { errors.push('chart-daily'); reasons.push(reasonOf(dailyChart)); }
 
     if (monthlyChart.status === 'fulfilled' && monthlyChart.value) result.monthly = buildMonthlyTimeSeries(monthlyChart.value);
-    else errors.push('chart-monthly');
+    else { errors.push('chart-monthly'); reasons.push(reasonOf(monthlyChart)); }
 
     if (dividendChart.status === 'fulfilled' && dividendChart.value) {
       result.dividends = { history: buildDividendHistory(dividendChart.value) };
-    } else errors.push('chart-dividends');
+    } else { errors.push('chart-dividends'); reasons.push(reasonOf(dividendChart)); }
   } catch (err) {
     errors.push('exception:' + (err.message || 'unknown'));
+    reasons.push(err.message || String(err));
   }
 
-  return { result, errors };
+  return { result, errors, reasons };
 }
 
 // ---- Concurrency-limited runner ----
@@ -432,7 +441,9 @@ async function main() {
   let wrote = 0;
   let skipped = 0;
   const errorList = [];
+  const runOutcomes = [];
   const indexNowUrls = [];
+  const today = new Date().toISOString().slice(0, 10);
   const start = Date.now();
 
   await runWithConcurrency(items, async (entry, i) => {
@@ -441,9 +452,9 @@ async function main() {
     const file = path.join(OUT_DIR, `${symbol.replace(/[^A-Z0-9]/g, '_')}.json`);
 
     let attempt = 0;
-    let result; let errors;
+    let result; let errors; let reasons;
     while (attempt < 2) {
-      ({ result, errors } = await fetchSymbol(symbol));
+      ({ result, errors, reasons } = await fetchSymbol(symbol));
       const haveAny = !!(result.overview || result.daily || result.monthly || result.income);
       if (haveAny) break;
       attempt++;
@@ -454,12 +465,18 @@ async function main() {
     if (!haveAny) {
       skipped++;
       errorList.push({ symbol, errors });
+      runOutcomes.push({ symbol, ok: false, reasons });
       console.log(`[${i + 1}/${limit}] ${symbol.padEnd(7)} SKIP (${errors.join(',')})`);
       indexFiles.push({ symbol, file: `data/fundamentals/${path.basename(file)}` });
       return;
     }
 
     const payload = {};
+    // When this refresh wrote the file. This is the only trustworthy freshness
+    // clock: filesystem mtime is reset by every git-checkout deploy, so a
+    // June-data file can look days old on a September server. Read by
+    // backend/fundamentals-date.js and surfaced to users.
+    payload.fetchedAt = new Date().toISOString();
     if (result.overview) payload.overview = result.overview;
     if (result.daily) payload.daily = result.daily;
     if (result.monthly) payload.monthly = result.monthly;
@@ -499,9 +516,23 @@ async function main() {
     }
     fs.writeFileSync(file, JSON.stringify(payload));
     wrote++;
+    runOutcomes.push({ symbol, ok: true, reasons: [] });
     indexFiles.push({ symbol, file: `data/fundamentals/${path.basename(file)}` });
     if (errors.length) console.log(`[${i + 1}/${limit}] ${symbol.padEnd(7)} OK ${(fs.statSync(file).size / 1024).toFixed(1)} KB (partial: ${errors.join(',')})`);
   }, CONCURRENCY);
+
+  // Persist this run's outcomes. A ticker Yahoo no longer resolves is caught
+  // here after two separate days of "not found" instead of being retried
+  // forever; a success clears the entry. backend/fundamentals-status.js is the
+  // reader (sitemap exclusion + page label); backend/seo-pages.js consumes it.
+  try {
+    const nextStatus = fundamentalsStatus.recordRun(fundamentalsStatus.load(), runOutcomes, today);
+    fundamentalsStatus.save(nextStatus);
+    const flagged = Object.values(nextStatus.symbols);
+    console.log(`Status: ${flagged.length} unresolved, ${flagged.filter((r) => r.unlistedSince).length} unlisted.`);
+  } catch (err) {
+    console.log('Status manifest write failed:', err.message || err);
+  }
 
   if (WRITE_INDEX) {
     fs.writeFileSync(INDEX_FILE, JSON.stringify({

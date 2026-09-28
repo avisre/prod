@@ -11,6 +11,8 @@ const seo = require('./seo-pages');
 const aiChat = require('./ai-chat');
 const marketingAttribution = require('./marketing-attribution');
 const shareCopy = require('./share-copy');
+const quoteStore = require('./quote-store');
+const fundDate = require('./fundamentals-date');
 
 const SITE = 'https://www.stockportfolio.pro';
 const { esc, num, money, price, pct, ratio, head, nav, footer, loadCompanies, loadFundamentals, resolveCanonicalSymbol } = seo;
@@ -397,6 +399,43 @@ function availability() {
 }
 
 // ---------- metric page ----------
+// The date this symbol's data last changed, from the same committed manifest the
+// sitemap reads (seo.dataDateFor). This used to read the fundamentals file's
+// filesystem mtime, which on a git-checkout deploy is the *deploy* time — so the
+// page advertised a fabricated freshness that its own sitemap entry contradicted.
+function dataFreshness(symbol) {
+    // The file's own dates first (backend/fundamentals-date.js); the committed
+    // manifest is the fallback for a symbol with no readable cache file.
+    const info = fundDate.info(symbol);
+    const day = (info.fetchedAt ? info.fetchedAt.slice(0, 10) : info.dataAsOf)
+        || (typeof seo.dataDateFor === 'function' ? seo.dataDateFor(symbol) : null);
+    if (!day) return { mtimeISO: null, freshness: '', stale: false };
+    const d = new Date(`${day}T00:00:00Z`);
+    if (Number.isNaN(d.getTime())) return { mtimeISO: null, freshness: '', stale: false };
+    return {
+        mtimeISO: d.toISOString(),
+        // Pinned to UTC: the source is a calendar day, and a local-time render
+        // would show the previous day at any negative offset.
+        freshness: d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' }),
+        stale: !!info.stale
+    };
+}
+
+// A compare page shows two companies' filed figures and no per-symbol date.
+// When either side's cache is stale, name it and date it rather than letting the
+// figures read as current.
+function staleCompareNote(a, b) {
+    const parts = [];
+    for (const sym of [a, b]) {
+        const info = fundDate.info(sym);
+        if (!info.stale) continue;
+        const day = info.fetchedAt ? info.fetchedAt.slice(0, 10) : info.dataAsOf;
+        parts.push(`${sym}${day ? ` as of ${day}` : ''}`);
+    }
+    if (!parts.length) return '';
+    return `<p style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"><strong>Not the latest data</strong>: a newer SEC filing may exist (${parts.join(', ')}).</p>`;
+}
+
 function renderMetricPage(ticker, slug, options = {}) {
     const sym = resolveCanonicalSymbol(ticker) || normalizeTicker(ticker);
     const m = METRICS[slug];
@@ -426,9 +465,7 @@ function renderMetricPage(ticker, slug, options = {}) {
     const peers = indexField ? sectorPeers(sym, indexField, 5) : [];
 
     const canonical = `${SITE}/stocks/${sym}/${slug}`;
-    const fundFile = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals', `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
-    let mtimeISO = null, freshness = '';
-    try { const mt = fs.statSync(fundFile).mtime; mtimeISO = mt.toISOString(); freshness = mt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (_) { /* no mtime */ }
+    const { mtimeISO, freshness, stale } = dataFreshness(sym);
     // Search Console shows that Google can associate a query with a neighboring
     // metric page when the title abbreviates the requested metric (for example,
     // "EPS" instead of "Earnings per Share"). Put the exact user-facing metric
@@ -447,14 +484,30 @@ function renderMetricPage(ticker, slug, options = {}) {
     // semantic owner out of a search-result title with a long legal name or a
     // volatile value. The latest value and period remain in the description,
     // answer and evidence table.
-    const titleNameShort = titleName.length > 28
-        ? `${titleName.slice(0, 28).replace(/\s+\S*$/, '').trim()}…`
-        : titleName;
-    const title = `${sym} ${titleHistory} | ${titleNameShort}`;
+    // Measured 2026-09-28 across 50 symbol/metric pairs: titles run 24-56 chars
+    // (median 39) and none reach the ~60 a SERP renders, so length is not the
+    // constraint here -- but a "…" inside a title reads as broken and costs the
+    // click it was meant to earn. Clip on whole-word boundaries instead. Only
+    // ~6% of samples hit this (long legal names like IBM), so it is a narrow fix,
+    // not a sitewide rewrite.
+    const TITLE_BUDGET = 60;
+    const titleHead = `${sym} ${titleHistory} | `;
+    let titleNameShort = titleName;
+    if (titleHead.length + titleName.length > TITLE_BUDGET) {
+        const room = TITLE_BUDGET - titleHead.length;
+        titleNameShort = (room > 0 ? titleName.slice(0, room).replace(/\s+\S*$/, '').trim() : '')
+            || titleName.split(/\s+/)[0];
+    }
+    const title = `${titleHead}${titleNameShort}`;
+    // Descriptions are the real constraint: measured median 171 chars and max 200,
+    // with 44 of 50 samples past the ~160 a SERP shows -- so the tail was being cut
+    // on nearly every page, and the tail is the identical sitewide boilerplate.
+    // Shortening it costs no differentiating content and lets the whole message
+    // (which leads with the exact query terms and the latest filed value) survive.
     const description = `${name} (${sym}) annual ${m.noun} from ${y0} to ${y1}` +
         (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
         (oneYear !== null ? `, ${signedPct(oneYear)} year over year` : '') +
-        `. SEC-sourced history, methodology, chart and downloadable CSV.`;
+        `. SEC-sourced annual history.`;
 
     // table rows, newest first, with YoY change
     const trs = all.map((r, i) => {
@@ -498,7 +551,7 @@ function renderMetricPage(ticker, slug, options = {}) {
     });
     faqs.push({
         q: 'Where does this data come from?',
-        a: `Figures are computed from ${name}'s official SEC filings (${m.source}), refreshed nightly. Not investment advice.`
+        a: `Figures are computed from ${name}'s official SEC filings (${m.source}), refreshed on a rolling schedule. Not investment advice.`
     });
 
     const jsonld = JSON.stringify({
@@ -590,7 +643,7 @@ function renderMetricPage(ticker, slug, options = {}) {
             const nextHtml = nextEx
                 ? `<p class="seo-about" style="margin:0 0 12px"><strong>Next expected ex-dividend date:</strong> ${esc(asDate(nextEx))}. Per Yahoo summary data — the company declares it; this is not a site projection.</p>`
                 : '';
-            dividendExtras = `<div class="seo-section"><h2>${esc(name)} dividend ex-dates and quarterly payouts</h2>${nextHtml}<div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Ex-dividend date</th><th>Dividend per share</th></tr></thead><tbody>${exRows}</tbody></table></div>${qRows ? `<div style="overflow-x:auto;margin-top:14px"><table class="seo-table"><thead><tr><th>Quarter</th><th>Total paid per share</th></tr></thead><tbody>${qRows}</tbody></table></div>` : ''}<p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Ex-dates and per-share amounts from Yahoo Finance dividend history, refreshed nightly; per-share figures are the declared cash dividends. The fiscal-year table above comes from the 10-K cash flow statement and remains the source of record.</p></div>`;
+            dividendExtras = `<div class="seo-section"><h2>${esc(name)} dividend ex-dates and quarterly payouts</h2>${nextHtml}<div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Ex-dividend date</th><th>Dividend per share</th></tr></thead><tbody>${exRows}</tbody></table></div>${qRows ? `<div style="overflow-x:auto;margin-top:14px"><table class="seo-table"><thead><tr><th>Quarter</th><th>Total paid per share</th></tr></thead><tbody>${qRows}</tbody></table></div>` : ''}<p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Ex-dates and per-share amounts from Yahoo Finance dividend history, refreshed on a rolling schedule; per-share figures are the declared cash dividends. The fiscal-year table above comes from the 10-K cash flow statement and remains the source of record.</p></div>`;
         }
     }
 
@@ -607,7 +660,7 @@ function renderMetricPage(ticker, slug, options = {}) {
       <thead><tr><th>Fiscal year</th><th>${esc(m.label)}</th>${m.auxLabel ? `<th>${esc(m.auxLabel)}</th>` : ''}<th>Change (YoY)</th></tr></thead>
       <tbody>${trs}</tbody>
     </table></div>
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. ${esc(methodology)}${all.some((row) => row.derived) ? ' Rows marked * are derived from filed inputs.' : ''} Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. Update frequency: quarterly (on each new SEC filing). <a href="${esc(sourceUrl)}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} 10-K filings at SEC EDGAR</a> · <a href="/methodology" style="color:var(--ink3)">Methodology</a> · <a href="/stocks/${esc(sym)}/${esc(slug)}.csv">Download CSV</a>.</p>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. ${esc(methodology)}${all.some((row) => row.derived) ? ' Rows marked * are derived from filed inputs.' : ''} Computed deterministically; refreshed on a rolling schedule${freshness ? ` (last updated ${esc(freshness)})` : ''}.${stale ? ' <strong>Not the latest data — a newer SEC filing may exist.</strong>' : ''} Update frequency: quarterly (on each new SEC filing). <a href="${esc(sourceUrl)}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} 10-K filings at SEC EDGAR</a> · <a href="/methodology" style="color:var(--ink3)">Methodology</a> · <a href="/stocks/${esc(sym)}/${esc(slug)}.csv">Download CSV</a>.</p>
   </div>
   ${dividendExtras}
   ${peers.length ? `<div class="seo-section"><h2>${esc(name)} ${esc(m.label)} vs. ${esc(sectorName)} sector peers</h2>
@@ -650,15 +703,23 @@ function renderPriceHistoryPage(ticker, options = {}) {
     const lastDate = series[series.length - 1].date;
     const firstYear = firstDate.slice(0, 4);
     const current = series[series.length - 1].close;
-    // Current close from the daily feed when present; the monthly series is the
-    // fallback so the page never fabricates a fresher quote.
-    const daily = (data.daily || {})['Time Series (Daily)'];
+    // Price from quote-store when the route supplied one (live, 60s cached);
+    // otherwise the newest daily close in the cache. The monthly series is the
+    // last fallback so the page never fabricates a fresher quote.
+    const quote = options.quote && num(options.quote.price) !== null ? options.quote : null;
     let currentPrice = current;
-    if (daily) {
-        const dDates = Object.keys(daily).sort();
-        const lastDaily = dDates.length ? num(daily[dDates[dDates.length - 1]]['4. close']) : null;
-        if (lastDaily !== null) currentPrice = lastDaily;
+    if (quote) {
+        currentPrice = num(quote.price);
+    } else {
+        const daily = (data.daily || {})['Time Series (Daily)'];
+        if (daily) {
+            const dDates = Object.keys(daily).sort();
+            const lastDaily = dDates.length ? num(daily[dDates[dDates.length - 1]]['4. close']) : null;
+            if (lastDaily !== null) currentPrice = lastDaily;
+        }
     }
+    const priceDate = (quote && quote.asOf) || lastDate;
+    const priceVerb = quote ? 'last traded at' : 'last closed at';
     const ytd = ytdReturn(series);
     const r1 = totalReturn(series, 1);
     const r3 = totalReturn(series, 3);
@@ -667,9 +728,11 @@ function renderPriceHistoryPage(ticker, options = {}) {
     // 52-week range from the market overview (realistic daily high/low, the same
     // source the compare pages use); fall back to the monthly series only when
     // the overview lacks the fields.
-    const rng = (num(ov['52WeekLow']) !== null && num(ov['52WeekHigh']) !== null)
-        ? { low: num(ov['52WeekLow']), high: num(ov['52WeekHigh']) }
-        : (range52w(series) || { low: null, high: null });
+    const rng = (quote && num(quote.fiftyTwoWeekLow) !== null && num(quote.fiftyTwoWeekHigh) !== null)
+        ? { low: num(quote.fiftyTwoWeekLow), high: num(quote.fiftyTwoWeekHigh) }
+        : (num(ov['52WeekLow']) !== null && num(ov['52WeekHigh']) !== null)
+            ? { low: num(ov['52WeekLow']), high: num(ov['52WeekHigh']) }
+            : (range52w(series) || { low: null, high: null });
     const ma50 = num(ov['50DayMovingAverage']);
     const ma200 = num(ov['200DayMovingAverage']);
     const beta = num(ov.Beta);
@@ -677,9 +740,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
         ? Math.max(0, Math.min(100, ((currentPrice - rng.low) / (rng.high - rng.low)) * 100)) : null;
 
     const canonical = `${SITE}/stocks/${sym}/price-history`;
-    const fundFile = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals', `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
-    let mtimeISO = null, freshness = '';
-    try { const mt = fs.statSync(fundFile).mtime; mtimeISO = mt.toISOString(); freshness = mt.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); } catch (_) { /* no mtime */ }
+    const { mtimeISO, freshness, stale } = dataFreshness(sym);
     const titleName = name.replace(/^The\s+/i, '')
         .replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
         .trim() || name;
@@ -694,7 +755,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
     const faqs = [];
     if (currentPrice !== null) faqs.push({
         q: `What is ${name}'s current stock price?`,
-        a: `${name} (${sym}) last closed at ${price(currentPrice)} on ${esc(lastDate)} (split- and dividend-adjusted). The 52-week range is ${price(rng.low)}–${price(rng.high)}.`
+        a: `${name} (${sym}) ${priceVerb} ${price(currentPrice)} on ${esc(priceDate)}${quote ? ' (latest quote)' : ' (split- and dividend-adjusted monthly close)'}. The 52-week range is ${price(rng.low)}–${price(rng.high)}.`
     });
     if (r1 !== null) faqs.push({
         q: `How has ${sym} performed over the last year?`,
@@ -706,7 +767,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
     });
     faqs.push({
         q: 'Where does this price data come from?',
-        a: `Prices are split- and dividend-adjusted monthly closes from the site's cached market-data feed, refreshed nightly from the last market session. Not investment advice.`
+        a: `The latest price shown is the most recent market quote we hold; the history and returns are split- and dividend-adjusted monthly closes from the cached market-data feed. Not investment advice.`
     });
 
     const jsonld = JSON.stringify({
@@ -750,7 +811,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / Price history</div>
   <h1 class="seo-h1">${esc(name)} stock price history <span style="color:var(--ink3);font-weight:600">${esc(firstYear)}–${esc(lastDate.slice(0, 4))}</span></h1>
-  <p class="seo-sub">As of ${esc(asDate(lastDate))}, ${esc(name)} (${esc(sym)}) last closed at <strong>${esc(price(currentPrice))}</strong> — ${esc(signedPct(ytd))} year to date, ${esc(signedPct(r1))} over one year and ${esc(signedPct(r5))} over five. The 52-week range is ${esc(price(rng.low))}–${esc(price(rng.high))}.</p>
+  <p class="seo-sub">As of ${esc(asDate(priceDate))}, ${esc(name)} (${esc(sym)}) ${priceVerb} <strong>${esc(price(currentPrice))}</strong> — ${esc(signedPct(ytd))} year to date, ${esc(signedPct(r1))} over one year and ${esc(signedPct(r5))} over five. The 52-week range is ${esc(price(rng.low))}–${esc(price(rng.high))}.</p>
   <div class="seo-section"><h2>${esc(sym)} adjusted monthly close since ${esc(firstYear)}</h2>${monthlyTrendSvg(series, `${sym} adjusted monthly close ${firstDate} to ${lastDate}`, 'Split- and dividend-adjusted monthly closes. Hover chart points for the raw value; the table below is the source of record.')}</div>
   <div class="seo-section">
     <div style="overflow-x:auto"><table class="seo-table">
@@ -758,7 +819,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
       <tbody>${returnRows}</tbody>
     </table></div>
     ${rangePct !== null ? `<p style="font-size:13px;color:var(--ink3);margin:6px 0 0">Position of the current price within the 52-week range${rangeBar}.</p>` : ''}
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} split- and dividend-adjusted monthly closes, ${esc(firstDate)} to ${esc(lastDate)}. Computed deterministically; refreshed nightly${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="${esc(secCompanyUrl(sym))}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} filings at SEC EDGAR</a> &middot; <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} split- and dividend-adjusted monthly closes, ${esc(firstDate)} to ${esc(lastDate)}. Computed deterministically; refreshed on a rolling schedule${freshness ? ` (last updated ${esc(freshness)})` : ''}.${stale ? ' <strong>Not the latest data — a newer SEC filing may exist.</strong>' : ''} <a href="${esc(secCompanyUrl(sym))}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} filings at SEC EDGAR</a> &middot; <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
   </div>
   ${trendTiles}
   <div class="seo-lock">
@@ -1147,7 +1208,7 @@ function renderCompareIndex() {
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Compare</div>
   <h1 class="seo-h1">Compare any two US stocks</h1>
-  <p class="seo-sub">Side by side on the filed numbers &mdash; revenue, margins, growth, P/E, ROE, red flags &mdash; plus an AI verdict on which is the stronger business and the cheaper stock. Every figure from SEC filings, refreshed nightly.</p>
+  <p class="seo-sub">Side by side on the filed numbers &mdash; revenue, margins, growth, P/E, ROE, red flags &mdash; plus an AI verdict on which is the stronger business and the cheaper stock. Every figure from SEC filings, refreshed on a rolling schedule.</p>
   <div class="seo-section" style="border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:18px">
     <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
       <div style="position:relative;flex:1;min-width:150px"><input id="cA" autocomplete="off" placeholder="Company or ticker — e.g. AMD" aria-label="First company or ticker" aria-autocomplete="list" aria-controls="cAMatches" style="width:100%;min-height:46px;padding:0 14px;border:1px solid var(--line);border-radius:9px;font-size:16px;background:var(--paper);color:var(--ink)"><div id="cAMatches" role="listbox" hidden style="position:absolute;z-index:20;left:0;right:0;top:calc(100% + 4px);max-height:290px;overflow:auto;border:1px solid var(--line);border-radius:9px;background:var(--surface);box-shadow:0 10px 28px rgba(0,0,0,.12)"></div></div>
@@ -1353,7 +1414,7 @@ function compareData(pairSlug) {
                 ? `Over the last five fiscal years, ${ma.revCagr5Pct >= mb.revCagr5Pct ? ma.name : mb.name} grew revenue faster — ${fmtP(Math.max(ma.revCagr5Pct, mb.revCagr5Pct))}/yr versus ${fmtP(Math.min(ma.revCagr5Pct, mb.revCagr5Pct))}/yr, computed from SEC-filed statements.`
                 : 'Five-year growth data is not available for both companies.'
         },
-        { q: 'Where does this data come from?', a: 'All figures are computed from official SEC filings (10-K), refreshed nightly. This is a data comparison, not investment advice.' }
+        { q: 'Where does this data come from?', a: 'All figures are computed from official SEC filings (10-K), refreshed on a rolling schedule. This is a data comparison, not investment advice.' }
     ];
     // Naming both sides as ticker-bearing entities lets Bing and Copilot resolve
     // the comparison to the right companies rather than to the words alone, and
@@ -1550,7 +1611,8 @@ function renderComparePage(pairSlug) {
   <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}</style>
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
   <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
-  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
+  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed on a rolling schedule. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
+  ${staleCompareNote(a, b)}
   ${verdictHtml}
   ${verdictAi}
   <div class="seo-section">
@@ -1809,12 +1871,13 @@ function renderComparePagePro(pairSlug) {
   <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}.cmp-grp td{padding:14px 7px 6px;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);border-top:1px solid var(--line)}.cmp-grp{cursor:pointer;-webkit-user-select:none;user-select:none}.cmp-grp:focus-visible td{outline:2px solid var(--accent);outline-offset:-2px}.cmp-grp td::before{content:'▾ ';color:var(--ink3)}.cmp-sec:not(.cmp-open) .cmp-grp td::before{content:'▸ '}.cmp-sec:not(.cmp-open) tr:not(.cmp-grp):not(.cmp-prev){display:none}.cmp-n{float:right;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--ink3)}@keyframes aivpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,79,214,.40)}55%{box-shadow:0 0 0 9px rgba(26,79,214,0)}}#aivbtn{animation:aivpulse 2.4s infinite}</style>
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
   <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
-  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side: fundamentals from SEC filings, refreshed nightly. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
+  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side: fundamentals from SEC filings, refreshed on a rolling schedule. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
+  ${staleCompareNote(a, b)}
   ${dedash(verdictHtml)}
   ${verdictAiPro}
   <div class="seo-section">
     <h2>The full numbers, head to head</h2>
-    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Every figure is computed from SEC-filed statements, refreshed nightly. Returns are total returns from monthly split- and dividend-adjusted closes; past performance is not a prediction. The stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>; raw size rows stay untinted because bigger is not automatically better.</p>
+    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Every figure is computed from SEC-filed statements, refreshed on a rolling schedule. Returns are total returns from monthly split- and dividend-adjusted closes; past performance is not a prediction. The stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>; raw size rows stay untinted because bigger is not automatically better.</p>
     <div style="overflow-x:auto"><table class="seo-table cmp-table">
       <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
       ${proTrs}
@@ -1853,7 +1916,7 @@ const SCREENS = {
     'dividend-stocks': {
         h1: 'Best Dividend Stocks in the US Market',
         intro: 'US companies yielding at least 2.5% that were profitable in at least 8 of the last 10 fiscal years — steady payers, not yield traps.',
-        explainer: 'A high dividend yield only matters if the company can keep paying it. This screen starts from yield but requires a real, multi-year record of profitability, so it leans toward durable payers rather than stocks whose yield looks high only because the price has collapsed. Yields move inversely with price, so a name near the top today may rank differently after the next nightly refresh — always check the payout against the underlying earnings before relying on it.',
+        explainer: 'A high dividend yield only matters if the company can keep paying it. This screen starts from yield but requires a real, multi-year record of profitability, so it leans toward durable payers rather than stocks whose yield looks high only because the price has collapsed. Yields move inversely with price, so a name near the top today may rank differently after the next refresh — always check the payout against the underlying earnings before relying on it.',
         args: { min_dividend_yield_pct: 2.5, min_profitable_years_of_last_10: 8, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
         cols: ['divYieldPct', 'pe', 'netMarginPct']
     },
@@ -1907,7 +1970,7 @@ const SCREENS = {
     'undervalued-tech-stocks': {
         h1: 'Undervalued Technology Stocks in the US Market',
         intro: 'Technology companies trading under 20× earnings with positive free cash flow and a real record of profits — value names in a sector that rarely screens cheap.',
-        explainer: 'Most technology coverage chases the fastest growers, so the profitable, cheaply-valued names get overlooked. This screen filters the technology sector to companies trading under 20× earnings that also generate positive free cash flow and have been profitable in at least 6 of the last 10 years, then ranks them from the lowest P/E up — all computed from SEC filings and recomputed nightly. A low multiple in tech can reflect slowing growth or a maturing product, so the revenue-growth and margin columns are shown alongside to separate cheap-and-steady from cheap-and-fading.',
+        explainer: 'Most technology coverage chases the fastest growers, so the profitable, cheaply-valued names get overlooked. This screen filters the technology sector to companies trading under 20× earnings that also generate positive free cash flow and have been profitable in at least 6 of the last 10 years, then ranks them from the lowest P/E up — all computed from SEC filings and recomputed on a rolling schedule. A low multiple in tech can reflect slowing growth or a maturing product, so the revenue-growth and margin columns are shown alongside to separate cheap-and-steady from cheap-and-fading.',
         args: { sector: 'technology', max_pe: 20, require_positive_fcf: true, min_profitable_years_of_last_10: 6, sort_by: 'pe', limit: 25, maxLimit: 25 },
         cols: ['pe', 'revCagr5Pct', 'netMarginPct'],
         related: ['low-pe-stocks', 'high-dividend-tech-stocks', 'low-peg-stocks', 'large-cap-value-stocks']
@@ -1945,7 +2008,7 @@ const SCREENS = {
     'high-dividend-tech-stocks': {
         h1: 'High-Dividend Technology Stocks',
         intro: 'Technology companies paying a 2%+ dividend yield with a long record of profits — income from a sector usually known for paying none.',
-        explainer: 'Technology is the last place most investors look for income, which is exactly why the dividend payers that do exist are easy to miss. This screen filters the technology sector to companies yielding at least 2% that have also been profitable in at least 8 of the last 10 years, then ranks them by yield — all from SEC filings, recomputed nightly. Because few tech names pay meaningful dividends, this is a deliberately short, high-conviction list; the P/E and margin columns are shown so you can judge whether the yield is backed by a healthy business or a stalled one.',
+        explainer: 'Technology is the last place most investors look for income, which is exactly why the dividend payers that do exist are easy to miss. This screen filters the technology sector to companies yielding at least 2% that have also been profitable in at least 8 of the last 10 years, then ranks them by yield — all from SEC filings, recomputed on a rolling schedule. Because few tech names pay meaningful dividends, this is a deliberately short, high-conviction list; the P/E and margin columns are shown so you can judge whether the yield is backed by a healthy business or a stalled one.',
         args: { sector: 'technology', min_dividend_yield_pct: 2, min_profitable_years_of_last_10: 8, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
         cols: ['divYieldPct', 'pe', 'netMarginPct'],
         related: ['dividend-stocks', 'undervalued-tech-stocks', 'high-dividend-energy-stocks', 'undervalued-dividend-stocks']
@@ -1961,7 +2024,7 @@ const SCREENS = {
     'large-cap-value-stocks': {
         h1: 'Large-Cap Value Stocks in the US Market',
         intro: 'Big, established companies above $10B trading under 15× earnings with positive free cash flow — value among the market’s largest names.',
-        explainer: 'When a large, established company trades at a low multiple, it is usually because the market doubts its growth — but size and cash generation also make big caps more resilient than the cheap small-cap names value screens often surface. This screen filters to US companies above $10 billion in market value trading under 15× earnings, with positive free cash flow and a multi-year profit record, then ranks them from the lowest P/E up. All figures come from SEC filings and refresh nightly. A low multiple on a large cap can signal a value opportunity or a slow structural decline, so the yield and ROE columns are shown to help tell durable franchises from value traps.',
+        explainer: 'When a large, established company trades at a low multiple, it is usually because the market doubts its growth — but size and cash generation also make big caps more resilient than the cheap small-cap names value screens often surface. This screen filters to US companies above $10 billion in market value trading under 15× earnings, with positive free cash flow and a multi-year profit record, then ranks them from the lowest P/E up. All figures come from SEC filings and refresh on a rolling schedule. A low multiple on a large cap can signal a value opportunity or a slow structural decline, so the yield and ROE columns are shown to help tell durable franchises from value traps.',
         args: { min_market_cap_billions: 10, max_pe: 15, require_positive_fcf: true, min_profitable_years_of_last_10: 7, sort_by: 'pe', limit: 25, maxLimit: 25 },
         cols: ['pe', 'divYieldPct', 'roePct'],
         related: ['low-pe-stocks', 'stocks-below-book-value', 'blue-chip-high-roe-stocks', 'undervalued-dividend-stocks']
@@ -1977,7 +2040,7 @@ const SCREENS = {
     'high-dividend-energy-stocks': {
         h1: 'High-Dividend Energy Stocks in the US Market',
         intro: 'Energy companies paying a 3%+ dividend yield with a multi-year record of profits — the sector’s highest, best-supported payouts.',
-        explainer: 'Energy is one of the market’s most generous income sectors, but payouts here swing with commodity prices, so the headline yield can flatter a business whose earnings are about to turn. This screen filters the energy sector to companies yielding at least 3% that have been profitable in at least 6 of the last 10 years, then ranks them by yield — straight from SEC filings, recomputed nightly. Several of the highest yielders are partnerships whose distributions and tax treatment differ from ordinary dividends, so the P/E and margin columns are shown to gauge how well each payout is covered before relying on it.',
+        explainer: 'Energy is one of the market’s most generous income sectors, but payouts here swing with commodity prices, so the headline yield can flatter a business whose earnings are about to turn. This screen filters the energy sector to companies yielding at least 3% that have been profitable in at least 6 of the last 10 years, then ranks them by yield — straight from SEC filings, recomputed on a rolling schedule. Several of the highest yielders are partnerships whose distributions and tax treatment differ from ordinary dividends, so the P/E and margin columns are shown to gauge how well each payout is covered before relying on it.',
         args: { sector: 'energy', min_dividend_yield_pct: 3, min_profitable_years_of_last_10: 6, sort_by: 'divYieldPct', limit: 25, maxLimit: 25 },
         cols: ['divYieldPct', 'pe', 'netMarginPct'],
         related: ['dividend-stocks', 'undervalued-dividend-stocks', 'high-dividend-tech-stocks', 'low-pe-stocks']
@@ -2014,7 +2077,7 @@ function renderScreenPage(slug) {
     if (!rows.length) return null;
     const canonical = `${SITE}/screens/${slug}`;
     const title = `${s.h1} (${year}) — Ranked by Filed Fundamentals`;
-    const description = `${s.intro} ${matched} companies qualify today; top ${rows.length} ranked. Live from SEC filing data, updated nightly.`;
+    const description = `${s.intro} ${matched} companies qualify today; top ${rows.length} ranked. Live from SEC filing data, updated on a rolling schedule.`;
     const colHead = s.cols.map((c) => `<th>${esc(COL_DEFS[c][0])}</th>`).join('');
     const trs = rows.map((r, i) =>
         `<tr><td>${i + 1}. <a href="/stocks/${esc(r.symbol)}">${esc(r.name)} (${esc(r.symbol)})</a></td>` +
@@ -2034,7 +2097,7 @@ function renderScreenPage(slug) {
         },
         {
             q: `What is the top-ranked stock in this screen right now?`,
-            a: `As of the latest nightly refresh, ${top.name} (${top.symbol}) ranks first, with ${c0Label} of ${c0Val}. The full ranked list of ${rows.length} companies is in the table above, and you can re-run or adjust the filters yourself in the free screener.`
+            a: `As of the latest scheduled refresh, ${top.name} (${top.symbol}) ranks first, with ${c0Label} of ${c0Val}. The full ranked list of ${rows.length} companies is in the table above, and you can re-run or adjust the filters yourself in the free screener.`
         },
         {
             q: `How often is this list updated?`,
@@ -2073,6 +2136,9 @@ function renderScreenPage(slug) {
     // Deep-links into the SEC-grounded Ask analyst, pre-seeded with this screen's
     // own top names so the prompt is concrete the moment they click.
     const a1 = rows[0]; const a2 = rows[1] || a1; const a3 = rows[2] || a1;
+    // If any ranked company's cache is stale, name them rather than letting the
+    // leaderboard read as current (dead tickers, or a refresh that has not run).
+    const staleRows = rows.filter((r) => r && r.symbol && fundDate.info(r.symbol).stale).map((r) => r.symbol);
     const askQ = (q) => `/ask?q=${encodeURIComponent(q)}`;
     const askHero = `
   <div class="seo-lock" style="border-color:var(--accent)">
@@ -2089,7 +2155,8 @@ function renderScreenPage(slug) {
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Screens / ${esc(s.h1)}</div>
   <h1 class="seo-h1">${esc(s.h1)} <span style="color:var(--ink3);font-weight:600">(${year})</span></h1>
-  <p class="seo-sub">${esc(s.intro)} ${matched} companies qualify today — top ${rows.length} below, recomputed nightly from SEC filings.</p>
+  <p class="seo-sub">${esc(s.intro)} ${matched} companies qualify today — top ${rows.length} below, recomputed on a rolling schedule from SEC filings.</p>
+  ${staleRows.length ? `<p style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"><strong>Not the latest data</strong> for ${esc(staleRows.slice(0, 6).join(', '))}${staleRows.length > 6 ? ` and ${staleRows.length - 6} more` : ''}: a newer SEC filing may exist.</p>` : ''}
   ${s.explainer ? `<p class="seo-about" style="margin:4px 0 20px">${esc(s.explainer)}</p>` : ''}
   <div class="seo-section">
     <div style="overflow-x:auto"><table class="seo-table">
@@ -2289,11 +2356,14 @@ router.get('/stocks/:ticker/:metric', (req, res, next) => {
     if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(canonical || normalizeTicker(req.params.ticker))}`);
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
-router.get('/stocks/:ticker/price-history', (req, res, next) => {
+router.get('/stocks/:ticker/price-history', async (req, res, next) => {
     // Not a METRICS slug, so the :metric route above falls through to here.
     const canonical = resolveCanonicalSymbol(req.params.ticker);
     if (canonical && String(req.params.ticker) !== canonical) return res.redirect(301, canonicalMetricPath(req, canonical, 'price-history'));
-    const html = renderPriceHistoryPage(canonical || req.params.ticker, { req });
+    const quote = await quoteStore.getQuote(canonical || req.params.ticker, {
+        allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
+    });
+    const html = renderPriceHistoryPage(canonical || req.params.ticker, { req, quote });
     if (!html) return res.redirect(302, `/stocks/${encodeURIComponent(canonical || normalizeTicker(req.params.ticker))}`);
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });

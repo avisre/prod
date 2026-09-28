@@ -12,8 +12,25 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const readline = require('readline');
-const { Builder, By, Key, until } = require('selenium-webdriver');
-const chrome = require('selenium-webdriver/chrome');
+// selenium-webdriver is needed only to actually open a browser, so it is required
+// lazily: a top-level require made this module unloadable wherever the package is
+// absent, which took the whole of backend/test/social-compose.test.js with it --
+// the draft-validation tests below never ran, and the safety rules they guard
+// (approved-only, link tracking, content allowlist) were silently unverified.
+let _selenium = null;
+function selenium() {
+    if (_selenium) return _selenium;
+    try {
+        _selenium = { webdriver: require('selenium-webdriver'), chrome: require('selenium-webdriver/chrome') };
+    } catch (err) {
+        throw new Error(
+            'social-compose drives a real browser and needs selenium-webdriver, which is not installed. ' +
+            'Install it with `npm i -D selenium-webdriver`, or use the CDP-based harness the repo ' +
+            `otherwise relies on. (${err.message})`
+        );
+    }
+    return _selenium;
+}
 const { ACQUISITION_CONTENT_IDS } = require('../backend/share-copy');
 
 const ROOT = path.resolve(__dirname, '..');
@@ -92,6 +109,7 @@ function chromeBinary() {
 }
 
 function buildDriver(profileDir) {
+    const { webdriver, chrome } = selenium();
     fs.mkdirSync(profileDir, { recursive: true, mode: 0o700 });
     try { fs.chmodSync(profileDir, 0o700); } catch (_) {}
     const options = new chrome.Options()
@@ -99,10 +117,11 @@ function buildDriver(profileDir) {
     if (hasFlag('headless')) options.addArguments('--headless=new', '--window-size=1440,1100');
     const binary = chromeBinary();
     if (binary) options.setChromeBinaryPath(binary);
-    return new Builder().forBrowser('chrome').setChromeOptions(options).build();
+    return new webdriver.Builder().forBrowser('chrome').setChromeOptions(options).build();
 }
 
 async function firstElement(driver, selectors, timeoutMs = 120000) {
+    const { By } = selenium();
     const deadline = Date.now() + timeoutMs;
     while (Date.now() < deadline) {
         for (const selector of selectors) {
@@ -117,6 +136,7 @@ async function firstElement(driver, selectors, timeoutMs = 120000) {
 }
 
 async function compose(draft, profileDir) {
+    const { Key } = selenium();
     const driver = await buildDriver(profileDir);
     const format = String(draft.format || 'post').toLowerCase();
     const url = format === 'reply'

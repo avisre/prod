@@ -20,12 +20,31 @@ const fs = require('fs');
 const path = require('path');
 
 const DIR = path.join(__dirname, '../frontend/data/fundamentals');
+const QUOTES_FILE = process.env.QUOTES_FILE || path.join(__dirname, '../frontend/data/quotes.json');
 
 function load(symbol) {
     const key = String(symbol || '').toUpperCase().replace(/[^A-Z0-9]/g, '_');
     if (!key) return null;
     try { return JSON.parse(fs.readFileSync(path.join(DIR, `${key}.json`), 'utf8')); }
     catch (_) { return null; }
+}
+
+// The price-only snapshot (scripts/refresh-quotes.js) is at most a session old;
+// the fundamentals bundle's newest close can be months old for anything outside
+// the weekly S&P 500 refresh. Prefer the snapshot when it carries the symbol.
+let _quotesCache = { at: 0, data: {} };
+function snapshotQuote(symbol) {
+    const now = Date.now();
+    if (now - _quotesCache.at > 60 * 1000) {
+        let data = {};
+        try {
+            const parsed = JSON.parse(fs.readFileSync(QUOTES_FILE, 'utf8'));
+            if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) data = parsed;
+        } catch (_) { /* no snapshot yet */ }
+        _quotesCache = { at: now, data };
+    }
+    const key = String(symbol || '').toUpperCase().replace(/\./g, '-');
+    return _quotesCache.data[key] || null;
 }
 
 // A third of the store is an empty placeholder carrying neither a name nor a
@@ -54,6 +73,28 @@ function dailyCloses(data) {
 }
 
 function globalQuote(symbol, data) {
+    const snap = snapshotQuote(symbol);
+    const snapPrice = snap ? Number(snap.price) : NaN;
+    if (Number.isFinite(snapPrice) && snapPrice > 0) {
+        const prev = snap.previousClose === null || snap.previousClose === undefined ? NaN : Number(snap.previousClose);
+        const change = Number.isFinite(prev) ? snapPrice - prev : null;
+        const pct = Number.isFinite(prev) && prev ? (snapPrice / prev - 1) * 100 : null;
+        const s = (v) => (v === null || v === undefined || !Number.isFinite(Number(v)) ? '' : String(v));
+        return {
+            'Global Quote': {
+                '01. symbol': String(symbol || '').toUpperCase(),
+                '02. open': '',
+                '03. high': '',
+                '04. low': '',
+                '05. price': String(snapPrice),
+                '06. volume': '',
+                '07. latest trading day': snap.asOf ? String(snap.asOf) : '',
+                '08. previous close': s(prev),
+                '09. change': change === null ? '' : String(change),
+                '10. change percent': pct === null ? '' : `${pct.toFixed(4)}%`
+            }
+        };
+    }
     const daily = dailyCloses(data);
     if (!daily || daily.close === null) return null;
     const prev = daily.previousClose;

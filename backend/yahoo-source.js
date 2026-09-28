@@ -524,6 +524,31 @@ async function fetchQuote(symbol) {
     return buildGlobalQuote(symbol, q);
 }
 
+// Extra live quote fields for backend/quote-store.js: one Yahoo call that
+// carries the price plus the price-derived fields a page would otherwise read
+// stale out of the weekly fundamentals blob (market cap, P/E, 52-week range).
+// fetchQuote stays Alpha-Vantage shaped for the legacy consumers.
+async function fetchQuoteExtras(symbol) {
+    const ys = toYahooSymbol(symbol);
+    const q = await yf.quote(ys);
+    const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : null);
+    return {
+        symbol: String(symbol || '').toUpperCase(),
+        price: num(q && q.regularMarketPrice),
+        previousClose: num(q && q.regularMarketPreviousClose),
+        changePercent: num(q && q.regularMarketChangePercent),
+        marketCap: num(q && q.marketCap),
+        trailingPE: num(q && q.trailingPE),
+        forwardPE: num(q && q.forwardPE),
+        fiftyTwoWeekHigh: num(q && q.fiftyTwoWeekHigh),
+        fiftyTwoWeekLow: num(q && q.fiftyTwoWeekLow),
+        sharesOutstanding: num(q && q.sharesOutstanding),
+        trailingEps: num(q && q.epsTrailingTwelveMonths),
+        currency: (q && q.currency) || null,
+        asOf: q && q.regularMarketTime ? isoDay(q.regularMarketTime) : null
+    };
+}
+
 async function fetchOverview(symbol) {
     const ys = toYahooSymbol(symbol);
     const summary = await yf.quoteSummary(ys, {
@@ -959,6 +984,7 @@ module.exports = {
     buildMonthlySeries,
     fetchNewsSearch,
     fetchQuote,
+    fetchQuoteExtras,
     fetchOverview,
     fetchIncomeStatement,
     fetchBalanceSheet,

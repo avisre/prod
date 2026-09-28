@@ -1,0 +1,84 @@
+name: Refresh fundamentals cache (full universe)
+
+# The weekly job (refresh-fundamentals.yml) refreshes only the S&P 500. This
+# monthly job covers the whole S&P 1500, so every company's statements are
+# re-read at least once a month — inside the quarterly filing cadence, so a new
+# 10-Q or 10-K cannot sit unseen for a full quarter. Runs on the 1st at 03:00
+# UTC, after the previous US session has settled.
+#
+# Statement data changes at most quarterly; prices are handled separately by
+# refresh-quotes.yml (daily snapshot) and backend/quote-store.js (live).
+
+on:
+  schedule:
+    - cron: '0 3 1 * *'
+  workflow_dispatch:
+    inputs:
+      max_symbols:
+        description: 'Cap symbols processed (0 = all)'
+        required: false
+        default: '0'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-fundamentals # shares the weekly job's group so the two never push at once
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix backend
+
+      - name: Update the S&P 1500 symbol list
+        # A Wikipedia layout change must not block the refresh; the previous
+        # list is still usable, and the refresh below runs either way.
+        continue-on-error: true
+        run: node scripts/build-sp1500-list.js
+
+      - name: Refresh the full S&P 1500
+        env:
+          MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
+          CONCURRENCY: '3'
+        run: node scripts/refresh-fundamentals.js frontend/data/sp1500-companies.json
+
+      - name: Configure git
+        run: |
+          git config user.name  'stockportfolio-bot'
+          git config user.email 'bot@stockportfolio.pro'
+
+      - name: Stage data folder
+        run: |
+          git add frontend/data/sp1500-companies.json \
+                  frontend/data/fundamentals/ \
+                  frontend/data/top-100-fundamentals-index.json \
+                  frontend/data/fundamentals-changed.json \
+                  frontend/data/fundamentals-status.json
+          if git diff --cached --quiet; then
+            echo "no_changes=true" >> $GITHUB_ENV
+          fi
+
+      - name: Commit + push to main
+        if: env.no_changes != 'true'
+        run: |
+          # No [skip ci] on purpose: the store is served from the deployed
+          # filesystem, so refreshed data only reaches production via a deploy.
+          git commit -m "data: refresh full-universe fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ))"
+          git push origin main

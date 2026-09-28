@@ -142,7 +142,7 @@ const COMPETITORS = {
         theirPrice: 'Free plan (limited); Plus ~$24.95/month; Pro ~$54.95/month.',
         rows: [
             ['Monthly price', '$24.99/mo; Pro with AI analyst + Filing Monitor $499.99/yr', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
-            ['Data source', 'Official SEC filings, refreshed nightly', 'S&P Capital IQ (global)'],
+            ['Data source', 'Official SEC filings, refreshed on a rolling schedule', 'S&P Capital IQ (global)'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'No'],
             ['US coverage', 'Every USD-reporting US-listed company, 19 yrs', 'Global, full history on Pro'],
             ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, alerts', 'Yes + superinvestor tracking'],

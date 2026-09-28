@@ -10,6 +10,7 @@ const path = require('path');
 const yahooSource = require('./yahoo-source');
 const secSource = require('./sec-source');
 const fxConversion = require('./fx-conversion');
+const fundDate = require('./fundamentals-date');
 
 const DATA_DIR = path.join(__dirname, '..', 'frontend', 'data');
 const FUND_DIR = path.join(DATA_DIR, 'fundamentals');
@@ -172,6 +173,10 @@ async function buildFundamentals(symbol) {
         }
 
         presented = mergeWithCached(sym, presented);
+        // Stamp the write so freshness is readable without trusting mtime, which
+        // every git-checkout deploy resets to the deploy time (see
+        // backend/fundamentals-date.js).
+        presented.fetchedAt = new Date().toISOString();
         try {
             fs.writeFileSync(path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`), JSON.stringify(presented));
         } catch (_) { /* cache write is best-effort — the payload still serves */ }
@@ -189,8 +194,10 @@ async function buildFundamentals(symbol) {
 // the index names below which the nightly/weekly CI job keeps warm on its own
 // schedule — this is what let fundamentals go a year+ stale for anything
 // outside the S&P 1500 and surfaced as AppSumo refunds citing "old data, not
-// fresh". Refresh on request past this age instead of serving it forever.
-const STALE_AFTER_MS = 90 * 24 * 60 * 60 * 1000;
+// fresh". Refresh on request past the age in backend/fundamentals-date.js
+// instead of serving it forever. That threshold reads the data's own dates,
+// not the file mtime: a checkout deploy resets mtime, so the old 90-day mtime
+// check passed June data as fresh on every September server.
 let _indexSymbols = null;
 function indexCoveredSymbols() {
     // Only sp500-companies.json is what .github/workflows/refresh-fundamentals.yml
@@ -210,10 +217,45 @@ function indexCoveredSymbols() {
 function isStaleOnDemand(symbol) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (indexCoveredSymbols().has(sym)) return false; // already kept warm by scripts/refresh-fundamentals.js
-    try {
-        const file = path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
-        return (Date.now() - fs.statSync(file).mtimeMs) > STALE_AFTER_MS;
-    } catch (_) { return false; } // no file yet — that's "missing", not "stale"
+    const file = path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
+    if (!fs.existsSync(file)) return false; // missing, not stale
+    // Read the data's own dates, never the file mtime: a checkout deploy stamps
+    // every file with the deploy time, which is what let June data pass as fresh.
+    const info = fundDate.info(sym);
+    if (info.ageDays === null) return true; // a file with no datable content is not evidence of freshness
+    return info.stale;
 }
 
-module.exports = { buildFundamentals, lookup, isStaleOnDemand };
+// Background heal for a stale file. Called from request paths that must not
+// block: the current response serves the cache with its real as-of date, and
+// the next ask gets the rebuilt one. Cooldown + the build's own inflight map
+// keep a burst of requests from stacking rebuilds.
+const _refreshCooldown = new Map(); // symbol -> last queue time
+const REFRESH_COOLDOWN_MS = 6 * 60 * 60 * 1000;
+// Per-symbol dedupe is not enough: a spoofed browser UA walking the stale
+// universe could otherwise start hundreds of 5-30s Yahoo+SEC builds at once.
+// Cap what runs concurrently and how many can be started per window.
+let _activeRefreshes = 0;
+const MAX_ACTIVE_REFRESHES = 3;
+let _refreshWindow = { at: 0, count: 0 };
+const REFRESH_WINDOW_MS = 10 * 60 * 1000;
+const MAX_REFRESHES_PER_WINDOW = 60;
+function maybeRefresh(symbol) {
+    const sym = String(symbol || '').toUpperCase().trim();
+    if (!sym || _inflight.has(sym)) return false;
+    if (!lookup(sym)) return false; // not a US-listed SEC filer we can rebuild
+    if (!isStaleOnDemand(sym)) return false;
+    if (Date.now() - (_refreshCooldown.get(sym) || 0) < REFRESH_COOLDOWN_MS) return false;
+    if (_activeRefreshes >= MAX_ACTIVE_REFRESHES) return false;
+    const now = Date.now();
+    if (now - _refreshWindow.at >= REFRESH_WINDOW_MS) _refreshWindow = { at: now, count: 0 };
+    if (_refreshWindow.count >= MAX_REFRESHES_PER_WINDOW) return false;
+    _refreshWindow.count += 1;
+    _refreshCooldown.set(sym, now);
+    if (_refreshCooldown.size > 500) _refreshCooldown.delete(_refreshCooldown.keys().next().value);
+    _activeRefreshes += 1;
+    buildFundamentals(sym).catch(() => {}).finally(() => { _activeRefreshes = Math.max(0, _activeRefreshes - 1); });
+    return true;
+}
+
+module.exports = { buildFundamentals, lookup, isStaleOnDemand, maybeRefresh };

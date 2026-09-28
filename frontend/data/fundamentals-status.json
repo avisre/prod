@@ -1,0 +1,125 @@
+{
+  "generatedAt": "2026-09-28T13:06:31.418Z",
+  "symbols": {
+    "AVNS": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.418Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: AVNS"
+    },
+    "CPRX": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: CPRX"
+    },
+    "BLD": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: BLD"
+    },
+    "CWEN.A": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: CWEN-A"
+    },
+    "FDP": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: FDP"
+    },
+    "GTLS": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: GTLS"
+    },
+    "JHG": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: JHG"
+    },
+    "KW": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: KW"
+    },
+    "MASI": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: MASI"
+    },
+    "NSA": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: NSA"
+    },
+    "PRA": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: PRA"
+    },
+    "SATS": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: SATS"
+    },
+    "SEM": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: SEM"
+    },
+    "STEL": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: STEL"
+    },
+    "TMHC": {
+      "firstFailedDay": "2026-09-28",
+      "lastFailedDay": "2026-09-28",
+      "lastFailedAt": "2026-09-28T13:06:31.419Z",
+      "consecutive": 1,
+      "kind": "not-found",
+      "lastError": "Quote not found for symbol: TMHC"
+    }
+  }
+}

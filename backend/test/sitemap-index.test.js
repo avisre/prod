@@ -25,6 +25,12 @@ test('sitemap root is a small index with valid, bounded child shards', () => {
   assert.match(seo.buildSitemapShard('core'), /<loc>https:\/\/www\.stockportfolio\.pro\/appsumo<\/loc>/);
   assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/tools\//g) || []).length, 30);
   assert.equal((seo.buildSitemapShard('core').match(/<loc>https:\/\/www\.stockportfolio\.pro\/research\//g) || []).length, 7);
-  assert.ok(dates.size > 1, 'lastmod must reflect real per-page/data freshness, not generation day');
+  // Note: `dates.size > 1` alone is too weak to catch a frozen data shard, since
+  // core.xml supplies a second distinct date on its own. The real per-shard
+  // freshness contract lives in test/sitemap-lastmod.test.js.
+  assert.ok(dates.size > 1, 'lastmod must vary across the inventory');
+  const today = new Date().toISOString().slice(0, 10);
+  const future = [...dates].filter((d) => d > today);
+  assert.equal(future.length, 0, `lastmod must never be dated in the future: ${future.join(', ')}`);
   assert.equal(seo.buildSitemapShard('does-not-exist'), null);
 });

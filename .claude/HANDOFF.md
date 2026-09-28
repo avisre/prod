@@ -79,6 +79,14 @@ Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299
   SEC 11.7M. Open data quality: 531 files missing shares outstanding, 1,014 missing market cap, 2,023
   placeholders, 31 funds with negative "revenue". Quarterly staleness (2,949 companies on Q1 2026) is what
   the monthly job fixes.
+- **Dead-ticker catch (built 9/28):** the refresh now records per-symbol outcomes in
+  `frontend/data/fundamentals-status.json` (`backend/fundamentals-status.js`), classifying Yahoo's
+  "Quote not found" against transient errors. Two *separate days* of not-found marks a ticker unlisted
+  (same-day retries never count); a later success clears it. Effect: excluded from the sitemap, the page
+  says "No longer listed under this ticker", `quote-store` stops live lookups for it. The monthly workflow
+  also rebuilds `sp1500-companies.json` from Wikipedia first, so index removals drop out naturally.
+  Seeded 9/28 with the 15 dead tickers (day 1); the 10/1 run makes it day 2. The weekly workflow writes the
+  status file but does not stage it — sp500 coverage therefore lands via the monthly run.
 
 **Dossier redesign — "The Plain Filing" — mockup done, awaiting review.** Plan
 `~/.claude/plans/valiant-singing-parnas.md`; `docs/design/dossier-plain-filing.html` (Newsreader / IBM Plex) is

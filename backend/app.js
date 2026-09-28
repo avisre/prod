@@ -2236,6 +2236,8 @@ app.use((req, res, next) => {
 const seoPages = require('./seo-pages');
 const comparisonPages = require('./comparison-pages');
 const { pixelConfig } = require('./pixels');
+const quoteStore = require('./quote-store');
+const fundamentalsFetch = require('./fundamentals-fetch');
 
 // ---- In-process SSR HTML/XML cache (backend/ssr-cache.js) ----
 // ONE pass-through middleware, mounted here so Express registration order puts
@@ -2486,8 +2488,15 @@ const ssrCache = require('./ssr-cache');
 // attribution touch is actually captured. This cache keys on path only and a
 // HIT short-circuits before any route runs, so without this every Show HN or
 // partner click on a cached page would be unattributable.
+// The price on a /stocks page is only meaningful at render time, so a human
+// request must reach the route handler instead of a cached body that can be six
+// hours old. Crawlers still take the cached copy — that is the CPU reason this
+// cache exists — with the daily snapshot, which is at most a session old and
+// labelled as such.
+const PRICE_PAGE_RE = /^\/stocks\/[A-Za-z0-9.\-]+(\/price-history)?$/;
 const ssrCacheMw = ssrCache.middleware({
     bypassWhen: (req) => marketingAttribution.hasCampaignMarker(req && req.query)
+        || (PRICE_PAGE_RE.test(String((req && req.path) || '')) && !quoteStore.isLikelyCrawler(req && req.get('user-agent')))
 });
 app.use(ssrCacheMw);
 
@@ -2526,12 +2535,22 @@ app.get('/licensing', (req, res) => {
 app.get('/api', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderApiLanding());
 });
-app.get('/stocks/:ticker', (req, res) => {
+app.get('/stocks/:ticker', async (req, res) => {
     const canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
     if (canonicalSymbol && String(req.params.ticker) !== canonicalSymbol) {
         return res.redirect(301, `/stocks/${encodeURIComponent(canonicalSymbol)}`);
     }
-    const html = seoPages.renderStockPage(req.params.ticker);
+    const quote = await quoteStore.getQuote(canonicalSymbol || req.params.ticker, {
+        allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
+    });
+    // Heal stale fundamentals in the background for real readers. Fire and
+    // forget: this response stays fast and carries the data's real as-of date,
+    // and the next visit gets the rebuild. Crawlers skip it — they would
+    // multiply the work for no reader benefit.
+    if (!quoteStore.isLikelyCrawler(req.get('user-agent'))) {
+        fundamentalsFetch.maybeRefresh(canonicalSymbol || req.params.ticker);
+    }
+    const html = seoPages.renderStockPage(req.params.ticker, { quote });
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });

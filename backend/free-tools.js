@@ -458,6 +458,9 @@ async function loadFundamentals(symbol) {
         if (!BUILD_INFLIGHT.has(symbol)) BUILD_INFLIGHT.set(symbol, fundamentalsFetch.buildFundamentals(symbol).finally(() => BUILD_INFLIGHT.delete(symbol)));
         try { data = await BUILD_INFLIGHT.get(symbol); } catch (_) { data = null; }
     }
+    // Present but stale: serve what we have — the page carries its real as-of
+    // date — and rebuild in the background so the next request is current.
+    if (data && fundamentalsFetch.isStaleOnDemand(symbol)) fundamentalsFetch.maybeRefresh(symbol);
     if (!data) return null;
     const loaded = { data, at: Date.now(), updatedAt: fs.existsSync(file) ? fs.statSync(file).mtime.toISOString() : null };
     DATA_CACHE.set(symbol, loaded);

@@ -156,7 +156,10 @@ test('return windows a young listing cannot cover say "Listed YYYY", never a bar
     const free = extra.renderComparePage('LB-vs-MUR');
     assert.ok((free.html.match(/Listed 2024/g) || []).length === 3, 'free page explains all three uncovered windows');
     assert.match(free.html, /3-year return<\/td><td[^>]*>Listed 2024<\/td>/);
-    assert.match(free.html, /10-year return<\/td><td[^>]*>Listed 2024<\/td><td[^>]*>80\.0%/);
+    // Do not pin MUR's exact percentage: it moves with every data refresh (80.0%
+    // before the 9/28 backfill, 70.4% after). The contract is that the uncovered
+    // side says "Listed 2024" and the covered side shows a real return, never a dash.
+    assert.match(free.html, /10-year return<\/td><td[^>]*>Listed 2024<\/td><td[^>]*>-?\d+(?:\.\d+)?%/);
     const pro = extra.renderComparePagePro('LB-vs-MUR');
     assert.ok((pro.html.match(/Listed 2024/g) || []).length === 3, 'pro page explains all three uncovered windows');
 });

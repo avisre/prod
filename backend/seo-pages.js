@@ -8,6 +8,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const fundDate = require('./fundamentals-date');
+const fundStatus = require('./fundamentals-status');
 const credits = require('./credits'); // the one source of credit prices (see COST)
 const COST = credits.COST;
 const aiChat = require('./ai-chat'); // health checks + per-symbol metrics
@@ -113,12 +115,6 @@ function loadFundamentals(symbol) {
     return data;
 }
 
-// Honest "last updated" for a symbol = when the nightly cache last wrote its
-// fundamentals file. Real freshness, not a fabricated date (Google penalises
-// fake freshness). Returns a Date or null.
-function fundamentalsMtime(symbol) {
-    try { return fs.statSync(symbolToFile(symbol)).mtime; } catch (_) { return null; }
-}
 function fmtDate(d) {
     if (!d) return '';
     try { return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }); }
@@ -215,6 +211,7 @@ function head(title, description, canonical, jsonld, ask) {
   .seo-tile{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--surface)}
   .seo-tile .l{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink3);font-weight:600}
   .seo-tile .v{font-size:19px;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:-.015em}
+  .seo-tile .n{font-size:11.5px;color:var(--ink3);margin-top:3px}
   .seo-section{margin:40px 0}
   .seo-section h2{font-size:21px;font-weight:600;letter-spacing:-.015em;margin:0 0 12px}
   .seo-table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums;background:var(--surface);border:1px solid var(--line);border-radius:10px;overflow:hidden}
@@ -261,7 +258,10 @@ function footer() {
 }
 
 // ---- stock page ----
-function renderStockPage(ticker) {
+// options.quote — a quote-store record ({ price, asOf, source }) fetched by the
+// route. Optional: sync callers (tests, scripts) still work and fall back to the
+// cached close, which the Price tile then labels as cached rather than current.
+function renderStockPage(ticker, options = {}) {
     const sym = resolveCanonicalSymbol(ticker) || String(ticker || '').toUpperCase();
     const company = loadCompanies().find((c) => c.symbol === sym);
     const data = loadFundamentals(sym);
@@ -272,17 +272,37 @@ function renderStockPage(ticker) {
     const sector = ov.Sector || (company && company.sector) || '';
     const industry = ov.Industry || '';
     const exchange = ov.Exchange || '';
-    const close = latestClose(data);
-    const mcap = ov.MarketCapitalization;
-    const pe = ov.PERatio;
+    const quote = options.quote && Number.isFinite(Number(options.quote.price)) ? options.quote : null;
+    const close = quote ? Number(quote.price) : latestClose(data);
+    const dailySeries = (data && data.daily && data.daily['Time Series (Daily)']) || null;
+    const closeDate = dailySeries ? Object.keys(dailySeries).sort().pop() : null;
+    const priceStamp = (quote && quote.asOf) || closeDate || '';
+    const priceNote = quote
+        ? `${priceStamp ? `as of ${priceStamp} · ` : ''}${quote.source === 'live' ? 'live' : 'last close'}`
+        : (close !== null && closeDate ? `as of ${closeDate} · cached` : '');
+    const quoteCaption = priceNote ? `Price, market cap, P/E and 52-week range: ${priceNote}.` : '';
+    // Price-derived fields come from the live quote when we have one; the cached
+    // overview figure is the fallback, dated by the freshness line above.
+    const mcap = (quote && quote.marketCap) || ov.MarketCapitalization;
+    const pe = (quote && quote.trailingPE !== null && quote.trailingPE !== undefined) ? quote.trailingPE : ov.PERatio;
     const eps = ov.EPS;
     const desc = ov.Description || '';
     const income = (data && data.income && data.income.annualReports) || [];
 
     const canonical = `${SITE}/stocks/${sym}`;
-    const mtime = fundamentalsMtime(sym);
-    const mtimeISO = mtime ? mtime.toISOString() : null;
-    const freshness = fmtDate(mtime);
+    // The data's own dates — never the file mtime. A git-checkout deploy stamps
+    // every file with the deploy time, so the old code advertised the deploy
+    // date as "last refreshed" while the sitemap said something else. The month
+    // this file was actually written is the honest answer; see
+    // backend/fundamentals-date.js.
+    const dates = fundDate.describe(data);
+    const refreshedDay = dates.fetchedAt ? dates.fetchedAt.slice(0, 10) : dates.dataAsOf;
+    const mtimeISO = refreshedDay ? `${refreshedDay}T00:00:00.000Z` : null;
+    const freshness = refreshedDay ? fmtDate(new Date(`${refreshedDay}T00:00:00Z`)) : '';
+    const listing = fundStatus.info(sym);
+    const staleNote = listing.unlisted
+        ? `No longer listed under this ticker — last data as of ${freshness}.`
+        : (dates.stale ? 'Not the latest data — a newer SEC filing may exist.' : '');
     // Metric + year-range words are the long-tail hooks searchers actually type
     // ("apple revenue by year", "{name} net income 2018").
     // Keep the <title> under ~60 chars (Google truncates ~60, Bing warns >65): strip
@@ -329,17 +349,20 @@ function renderStockPage(ticker) {
         ]
     });
 
-    // Public snapshot tiles (all public-domain facts)
+    // Public snapshot tiles (all public-domain facts). The price is live from
+    // quote-store when the route supplied a quote; the fundamentals close is the
+    // last resort, and the tile always carries an as-of label so a stale number
+    // cannot read as current.
     const tiles = [
-        ['Price', close !== null ? price(close) : (eps && pe ? price(num(eps) * num(pe)) : '—')],
+        ['Price', close !== null ? price(close) : (eps && pe ? price(num(eps) * num(pe)) : '—'), priceNote],
         ['Market Cap', money(mcap)],
         ['P/E Ratio', ratio(pe)],
         ['EPS', eps ? price(eps) : '—'],
         ['Sector', sector || '—'],
-        ['52-Week High', price(ov['52WeekHigh'])],
-        ['52-Week Low', price(ov['52WeekLow'])],
+        ['52-Week High', price((quote && quote.fiftyTwoWeekHigh) || ov['52WeekHigh'])],
+        ['52-Week Low', price((quote && quote.fiftyTwoWeekLow) || ov['52WeekLow'])],
         ['Dividend Yield', ov.DividendYield ? pct(ov.DividendYield) : '—']
-    ].map(([l, v]) => `<div class="seo-tile"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div></div>`).join('');
+    ].map(([l, v, n]) => `<div class="seo-tile"><div class="l">${esc(l)}</div><div class="v">${esc(v)}</div>${n ? `<div class="n">${esc(n)}</div>` : ''}</div>`).join('');
 
     // Revenue + profit history — 10 years of crawlable text (we un-gate what
     // rivals lock; the interactive page has the full 19 yrs + quarters).
@@ -445,7 +468,7 @@ function renderStockPage(ticker) {
                 : `No — ${sym} reported a net loss of ${money(niN)} in fiscal ${latestFY}.`
         });
     }
-    if (num(pe) !== null) faqs.push({ q: `What is ${sym}'s P/E ratio?`, a: `${name} trades at a price-to-earnings ratio of about ${num(pe).toFixed(1)} based on the latest data in our nightly-refreshed cache.` });
+    if (num(pe) !== null) faqs.push({ q: `What is ${sym}'s P/E ratio?`, a: `${name} trades at a price-to-earnings ratio of about ${num(pe).toFixed(1)}, based on the latest quote and filed figures.` });
     if (revCagr5Pct !== null && revCagr5Pct !== undefined) {
         faqs.push({ q: `How fast is ${name} growing?`, a: `${sym}'s revenue grew at roughly ${revCagr5Pct.toFixed(1)}% per year over the last five fiscal years (compound annual growth rate), computed from SEC-filed statements.` });
     }
@@ -481,7 +504,7 @@ function renderStockPage(ticker) {
     }
     if (num(mcap) !== null) faqs.push({
         q: `What is ${name}'s market cap?`,
-        a: `${name} (${sym}) has a market capitalization of about ${money(mcap)}, based on the latest data in our nightly-refreshed cache.`
+        a: `${name} (${sym}) has a market capitalization of about ${money(mcap)}, based on the latest quote and filed share count.`
     });
     {
         // overview.FiscalYearEnd is blank in SEC-sourced caches — derive the
@@ -518,7 +541,7 @@ function renderStockPage(ticker) {
             });
         }
     } catch (_) { /* page renders without the block */ }
-    faqs.push({ q: 'Where does this data come from?', a: `All figures are computed from ${name}'s official SEC filings (10-K and 10-Q), covering ${income.length} years of history, refreshed nightly. stockportfolio.pro does not provide investment advice.` });
+    faqs.push({ q: 'Where does this data come from?', a: `All figures are computed from ${name}'s official SEC filings (10-K and 10-Q), covering ${income.length} years of history, refreshed on a rolling schedule. stockportfolio.pro does not provide investment advice.` });
     const faqBlock = `<div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>` +
         faqs.map((f) => `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;color:var(--text);font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('') + '</div>';
     const faqLdTag = `<script type="application/ld+json">${JSON.stringify({
@@ -555,7 +578,10 @@ function renderStockPage(ticker) {
     if (revCagr5Pct !== null && revCagr5Pct !== undefined) leadBits.push(`and has compounded revenue about ${revCagr5Pct.toFixed(1)}%/yr over five years`);
     const leadSentence = leadBits.length ? `${name} (${sym}) ${leadBits.join(', ')}, per its SEC filings.` : '';
     const leadHtml = leadSentence ? `<p class="seo-about" style="margin:8px 0 4px">${esc(leadSentence)}</p>` : '';
-    const freshHtml = freshness ? `<p style="font-size:12px;color:var(--ink3);margin:2px 0 16px">Data last refreshed ${esc(freshness)} from SEC filings &middot; <a href="/methodology" style="color:var(--ink3)">how we compute this</a></p>` : '';
+    const latestPeriod = income[0] ? String(income[0].fiscalDateEnding || '').slice(0, 10) : '';
+    const freshHtml = freshness
+        ? `<p style="font-size:12px;color:var(--ink3);margin:2px 0 16px">Financial statements${latestPeriod ? ` through ${esc(latestPeriod)}` : ''} &middot; data last refreshed ${esc(freshness)}${staleNote ? ` &middot; <strong>${esc(staleNote)}</strong>` : ''} &middot; <a href="/methodology" style="color:var(--ink3)">how we compute this</a></p>`
+        : '';
 
     // Per-metric history pages (seo-extra) — linked here so crawlers discover
     // them from every ticker page, not just the sitemap. Lazy require: this
@@ -745,6 +771,7 @@ function renderStockPage(ticker) {
   ${leadHtml}
   ${freshHtml}
   <div class="seo-grid">${tiles}</div>
+  ${quoteCaption ? `<p style="font-size:12px;color:var(--ink3);margin:-6px 0 16px">${esc(quoteCaption)}</p>` : ''}
   ${analystBlock}
   ${verifyBlock}
   ${teaserTable}
@@ -861,6 +888,7 @@ function buildSitemapInventory() {
         return mtimes.get(key);
     };
     const stocks = loadCompanies()
+        .filter((c) => !fundStatus.isUnlisted(c.symbol))
         .filter((c) => resolveCanonicalSymbol(c.symbol) === c.symbol)
         .map((c) => ({ loc: `${SITE}/stocks/${c.symbol}`, lastmod: tickerMtime(c.symbol) }));
     const compares = [], screens = [], metrics = [];
@@ -1002,7 +1030,7 @@ function renderMethodology() {
   <p class="seo-sub">How stockportfolio.pro turns raw regulatory filings into the fundamentals, metrics, and screens you see — stated plainly so you can check our work.</p>
   ${S('Where the data comes from', `<p>Every financial figure on this site is computed from companies&#39; official filings with the U.S. Securities and Exchange Commission — annual reports (Form 10-K) and quarterly reports (Form 10-Q), sourced via <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. Prices come from end-of-day market data. We do not use analyst estimates, forecasts, or third-party &ldquo;adjusted&rdquo; numbers in the figures we report.</p>`)}
   ${S('Coverage &amp; history', `<p>We cover 1,500+ US-listed companies in the per-stock pages (S&amp;P 500, MidCap 400, SmallCap 600) and 3,800+ in the screener, with up to 19 fiscal years of history per company where filings exist.</p>`)}
-  ${S('How often it updates', `<p>The fundamentals cache is rebuilt nightly. Each stock and metric page shows the date its underlying data was last refreshed. Newly filed 10-Ks and 10-Qs flow in on the next nightly build.</p>`)}
+  ${S('How often it updates', `<p>The fundamentals cache is rebuilt on a rolling schedule — the S&P 500 weekly, the wider universe monthly — and a stock can also refresh on demand when its page is opened. Each stock and metric page shows the date its underlying data was last refreshed. Newly filed 10-Ks and 10-Qs flow in on the next build.</p>`)}
   ${S('How metrics are computed', `<p>All metrics are deterministic functions of filed line items — no AI, no editorial judgement, no hand-tuning:</p>
     <ul>
       <li><strong>Revenue, net income, gross profit, EBITDA</strong> — taken directly from the income statement; gross profit is derived as revenue minus cost of revenue when not separately disclosed.</li>
@@ -1034,7 +1062,7 @@ function renderEditorialPolicy() {
   <p class="seo-sub">How stockportfolio.pro decides what to show, keeps it independent, and fixes mistakes.</p>
   ${S('Independence', `<p>stockportfolio.pro is an independent analysis tool. No company can pay to appear, rank higher, or be presented more favourably in any stock page, comparison, screen, or list. Rankings and screens are produced by deterministic filters over filed fundamentals — never by editorial selection or commercial relationship.</p>`)}
   ${S('How rankings and screens work', `<p>Every &ldquo;best / fastest / most&rdquo; list is the output of a stated, reproducible filter (for example, &ldquo;dividend yield ≥ 2.5% and profitable in ≥ 8 of the last 10 years, sorted by yield&rdquo;). The criteria are shown on each page. Run the same filter yourself in the <a href="/screener">free screener</a> to verify.</p>`)}
-  ${S('Corrections', `<p>If a figure looks wrong, it usually traces to the source filing or a data-vendor mapping. We correct confirmed errors on the next nightly build. Report an issue at <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a> with the ticker and the figure, and we&#39;ll investigate.</p>`)}
+  ${S('Corrections', `<p>If a figure looks wrong, it usually traces to the source filing or a data-vendor mapping. We correct confirmed errors on the next refresh. Report an issue at <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a> with the ticker and the figure, and we&#39;ll investigate.</p>`)}
   ${S('Disclosures', `<p>Some outbound links (for example to brokers or partner tools) may be affiliate links that earn us a commission at no cost to you. Affiliate relationships never influence which companies&#39; data we show or how any ranking is computed.</p>`)}
   ${S('Not investment advice', `<p>Everything here is information and analysis for research and education only. It is not investment, financial, tax, or legal advice, and not a recommendation to buy or sell any security. Markets carry risk; do your own research and consider a licensed professional before investing.</p>`)}
   <div class="seo-section"><p style="font-size:13px"><a href="/methodology">How we compute our data &rarr;</a> &middot; <a href="/stocks">Browse stocks &rarr;</a></p></div>

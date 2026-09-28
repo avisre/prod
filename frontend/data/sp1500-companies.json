@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-06-10T19:42:47.821Z",
+  "generatedAt": "2026-09-28T13:13:04.977Z",
   "source": "wikipedia constituent tables (S&P 500/400/600)",
-  "count": 1506,
+  "count": 1502,
   "companies": [
     {
       "symbol": "A",
@@ -190,6 +190,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "ADIG",
+      "name": "ADI Global Distribution",
+      "sector": "Information Technology",
+      "index": "sp600"
+    },
+    {
       "symbol": "ADM",
       "name": "Archer Daniels Midland",
       "sector": "Consumer Staples",
@@ -286,6 +292,12 @@
       "index": "sp400"
     },
     {
+      "symbol": "AGNC",
+      "name": "AGNC Investment",
+      "sector": "Financials",
+      "index": "sp400"
+    },
+    {
       "symbol": "AGNT",
       "name": "eXp World Holdings, Inc.",
       "sector": "Real Estate",
@@ -335,7 +347,7 @@
     },
     {
       "symbol": "AIR",
-      "name": "AAR CORP.",
+      "name": "AAR Corp.",
       "sector": "Industrials",
       "index": "sp600"
     },
@@ -440,6 +452,12 @@
       "name": "Alarm.Com, Inc.",
       "sector": "Financials",
       "index": "sp600"
+    },
+    {
+      "symbol": "ALSN",
+      "name": "Allison Transmission",
+      "sector": "Industrials",
+      "index": "sp400"
     },
     {
       "symbol": "ALV",
@@ -660,7 +678,7 @@
     {
       "symbol": "APP",
       "name": "AppLovin",
-      "sector": "Information Technology",
+      "sector": "Communication Services",
       "index": "sp500"
     },
     {
@@ -698,12 +716,6 @@
       "name": "Ares Management",
       "sector": "Financials",
       "index": "sp500"
-    },
-    {
-      "symbol": "ARI",
-      "name": "Apollo Commercial Real Estate Finance",
-      "sector": "Real Estate",
-      "index": "sp600"
     },
     {
       "symbol": "ARLO",
@@ -820,22 +832,10 @@
       "index": "sp400"
     },
     {
-      "symbol": "AVB",
-      "name": "AvalonBay Communities",
-      "sector": "Real Estate",
-      "index": "sp500"
-    },
-    {
       "symbol": "AVGO",
       "name": "Broadcom",
       "sector": "Information Technology",
       "index": "sp500"
-    },
-    {
-      "symbol": "AVNS",
-      "name": "Avanos Medical, Inc.",
-      "sector": "Health Care",
-      "index": "sp600"
     },
     {
       "symbol": "AVNT",
@@ -1030,6 +1030,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "BE",
+      "name": "Bloom Energy",
+      "sector": "Industrials",
+      "index": "sp500"
+    },
+    {
       "symbol": "BEN",
       "name": "Franklin Resources",
       "sector": "Financials",
@@ -1150,18 +1156,6 @@
       "index": "sp600"
     },
     {
-      "symbol": "BLD",
-      "name": "TopBuild Corp.",
-      "sector": "Consumer Discretionary",
-      "index": "sp400"
-    },
-    {
-      "symbol": "BLDR",
-      "name": "Builders FirstSource",
-      "sector": "Industrials",
-      "index": "sp500"
-    },
-    {
       "symbol": "BLFS",
       "name": "BioLife Solutions, Inc.",
       "sector": "Health Care",
@@ -1177,7 +1171,7 @@
       "symbol": "BLKB",
       "name": "Blackbaud",
       "sector": "Information Technology",
-      "index": "sp400"
+      "index": "sp600"
     },
     {
       "symbol": "BMI",
@@ -1234,12 +1228,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "BRBR",
-      "name": "BellRing Brands",
-      "sector": "Consumer Staples",
-      "index": "sp400"
-    },
-    {
       "symbol": "BRC",
       "name": "Brady Corporation",
       "sector": "Industrials",
@@ -1289,9 +1277,9 @@
     },
     {
       "symbol": "BTSG",
-      "name": "BrightSpring Health Services, Inc.",
+      "name": "BrightSpring Health Services",
       "sector": "Health Care",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "BTU",
@@ -1348,9 +1336,9 @@
       "index": "sp500"
     },
     {
-      "symbol": "CABO",
-      "name": "Cable One",
-      "sector": "Communication Services",
+      "symbol": "CACC",
+      "name": "Credit Acceptance",
+      "sector": "Financials",
       "index": "sp600"
     },
     {
@@ -1363,7 +1351,7 @@
       "symbol": "CAG",
       "name": "Conagra Brands",
       "sector": "Consumer Staples",
-      "index": "sp500"
+      "index": "sp600"
     },
     {
       "symbol": "CAH",
@@ -1526,6 +1514,12 @@
       "name": "Century Communities, Inc.",
       "sector": "Consumer Discretionary",
       "index": "sp600"
+    },
+    {
+      "symbol": "CDE",
+      "name": "Coeur Mining",
+      "sector": "Materials",
+      "index": "sp400"
     },
     {
       "symbol": "CDNS",
@@ -1708,12 +1702,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "CLB",
-      "name": "Core Laboratories",
-      "sector": "Energy",
-      "index": "sp600"
-    },
-    {
       "symbol": "CLF",
       "name": "Cleveland-Cliffs",
       "sector": "Materials",
@@ -1837,7 +1825,7 @@
       "symbol": "CNXC",
       "name": "Concentrix",
       "sector": "Industrials",
-      "index": "sp400"
+      "index": "sp600"
     },
     {
       "symbol": "CNXN",
@@ -1925,9 +1913,9 @@
     },
     {
       "symbol": "CORT",
-      "name": "Corcept Therapeutics Incorporated",
+      "name": "Corcept Therapeutics",
       "sector": "Health Care",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "COST",
@@ -1939,7 +1927,7 @@
       "symbol": "COTY",
       "name": "Coty",
       "sector": "Consumer Staples",
-      "index": "sp400"
+      "index": "sp600"
     },
     {
       "symbol": "CPAY",
@@ -1949,9 +1937,9 @@
     },
     {
       "symbol": "CPB",
-      "name": "Campbell's Company (The)",
+      "name": "The Campbell's Company",
       "sector": "Consumer Staples",
-      "index": "sp500"
+      "index": "sp600"
     },
     {
       "symbol": "CPF",
@@ -1966,22 +1954,10 @@
       "index": "sp600"
     },
     {
-      "symbol": "CPRI",
-      "name": "Capri Holdings",
-      "sector": "Consumer Discretionary",
-      "index": "sp400"
-    },
-    {
       "symbol": "CPRT",
       "name": "Copart",
       "sector": "Industrials",
       "index": "sp500"
-    },
-    {
-      "symbol": "CPRX",
-      "name": "Catalyst Pharmaceuticals Partners, Inc.",
-      "sector": "Health Care",
-      "index": "sp600"
     },
     {
       "symbol": "CPT",
@@ -2120,12 +2096,6 @@
       "name": "Cintas",
       "sector": "Industrials",
       "index": "sp500"
-    },
-    {
-      "symbol": "CTKB",
-      "name": "Cytek Biosciences, Inc.",
-      "sector": "Health Care",
-      "index": "sp600"
     },
     {
       "symbol": "CTRE",
@@ -2358,7 +2328,7 @@
     {
       "symbol": "DD",
       "name": "DuPont",
-      "sector": "Materials",
+      "sector": "Industrials",
       "index": "sp500"
     },
     {
@@ -2488,6 +2458,12 @@
       "index": "sp600"
     },
     {
+      "symbol": "DMC",
+      "name": "Del Monte Corporation",
+      "sector": "Consumer Staples",
+      "index": "sp600"
+    },
+    {
       "symbol": "DNOW",
       "name": "NOW Inc",
       "sector": "Industrials",
@@ -2585,7 +2561,7 @@
     },
     {
       "symbol": "DV",
-      "name": "DoubleVerify Holdings, Inc.",
+      "name": "DoubleVerify Holdings Inc.",
       "sector": "Communication Services",
       "index": "sp600"
     },
@@ -2626,16 +2602,10 @@
       "index": "sp400"
     },
     {
-      "symbol": "EA",
-      "name": "Electronic Arts",
-      "sector": "Communication Services",
-      "index": "sp500"
-    },
-    {
       "symbol": "EAT",
-      "name": "Brinker International, Inc.",
+      "name": "Brinker International",
       "sector": "Consumer Discretionary",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "EBAY",
@@ -2644,10 +2614,22 @@
       "index": "sp500"
     },
     {
+      "symbol": "EBC",
+      "name": "Eastern Bankshares, Inc.",
+      "sector": "Financials",
+      "index": "sp600"
+    },
+    {
       "symbol": "ECG",
       "name": "Everus Construction Group, Inc.",
       "sector": "Industrials",
       "index": "sp600"
+    },
+    {
+      "symbol": "ECHO",
+      "name": "EchoStar",
+      "sector": "Communication Services",
+      "index": "sp500"
     },
     {
       "symbol": "ECL",
@@ -2758,12 +2740,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "EMBC",
-      "name": "Embecta Corp.",
-      "sector": "Health Care",
-      "index": "sp600"
-    },
-    {
       "symbol": "EME",
       "name": "Emcor",
       "sector": "Industrials",
@@ -2872,12 +2848,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "EQR",
-      "name": "Equity Residential",
-      "sector": "Real Estate",
-      "index": "sp500"
-    },
-    {
       "symbol": "EQT",
       "name": "EQT Corporation",
       "sector": "Energy",
@@ -2924,12 +2894,6 @@
       "name": "Essex Property Trust",
       "sector": "Real Estate",
       "index": "sp500"
-    },
-    {
-      "symbol": "ETD",
-      "name": "Ethan Allen Interiors, Inc.",
-      "sector": "Consumer Discretionary",
-      "index": "sp600"
     },
     {
       "symbol": "ETN",
@@ -3058,6 +3022,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "FA",
+      "name": "First Advantage Corporation",
+      "sector": "Industrials",
+      "index": "sp600"
+    },
+    {
       "symbol": "FAF",
       "name": "First American Financial Corporation",
       "sector": "Financials",
@@ -3136,12 +3106,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "FDP",
-      "name": "Fresh Del Monte Produce, Inc.",
-      "sector": "Consumer Staples",
-      "index": "sp600"
-    },
-    {
       "symbol": "FDS",
       "name": "FactSet",
       "sector": "Financials",
@@ -3170,6 +3134,12 @@
       "name": "Franklin Electric",
       "sector": "Industrials",
       "index": "sp600"
+    },
+    {
+      "symbol": "FERG",
+      "name": "Ferguson Enterprises",
+      "sector": "Industrials",
+      "index": "sp500"
     },
     {
       "symbol": "FFBC",
@@ -3250,6 +3220,12 @@
       "index": "sp400"
     },
     {
+      "symbol": "FIVN",
+      "name": "Five9, Inc.",
+      "sector": "Information Technology",
+      "index": "sp600"
+    },
+    {
       "symbol": "FIX",
       "name": "Comfort Systems USA",
       "sector": "Industrials",
@@ -3265,7 +3241,7 @@
       "symbol": "FLEX",
       "name": "Flex Ltd.",
       "sector": "Information Technology",
-      "index": "sp400"
+      "index": "sp500"
     },
     {
       "symbol": "FLG",
@@ -3430,12 +3406,6 @@
       "index": "sp600"
     },
     {
-      "symbol": "FWRD",
-      "name": "Forward Air Corp.",
-      "sector": "Industrials",
-      "index": "sp600"
-    },
-    {
       "symbol": "G",
       "name": "Genpact",
       "sector": "Industrials",
@@ -3476,12 +3446,6 @@
       "name": "GoDaddy",
       "sector": "Information Technology",
       "index": "sp500"
-    },
-    {
-      "symbol": "GDYN",
-      "name": "Grid Dynamics Holdings, Inc.",
-      "sector": "Information Technology",
-      "index": "sp600"
     },
     {
       "symbol": "GE",
@@ -3628,12 +3592,6 @@
       "index": "sp600"
     },
     {
-      "symbol": "GOGO",
-      "name": "Gogo, Inc.",
-      "sector": "Communication Services",
-      "index": "sp600"
-    },
-    {
       "symbol": "GOLF",
       "name": "Acushnet Company",
       "sector": "Consumer Discretionary",
@@ -3676,6 +3634,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "GPOR",
+      "name": "Gulfport Energy Corporation",
+      "sector": "Energy",
+      "index": "sp600"
+    },
+    {
       "symbol": "GRBK",
       "name": "Green Brick Partners, Inc.",
       "sector": "Consumer Discretionary",
@@ -3701,21 +3665,15 @@
     },
     {
       "symbol": "GT",
-      "name": "Goodyear Tire & Rubber",
+      "name": "Goodyear Tire and Rubber Company",
       "sector": "Consumer Discretionary",
-      "index": "sp400"
+      "index": "sp600"
     },
     {
       "symbol": "GTES",
       "name": "Gates Corporation",
       "sector": "Industrials",
       "index": "sp600"
-    },
-    {
-      "symbol": "GTLS",
-      "name": "Chart Industries",
-      "sector": "Industrials",
-      "index": "sp400"
     },
     {
       "symbol": "GTM",
@@ -3846,7 +3804,7 @@
     {
       "symbol": "HFWA",
       "name": "Heritage Financial Corporation",
-      "sector": "Health Care",
+      "sector": "Financials",
       "index": "sp600"
     },
     {
@@ -3941,7 +3899,13 @@
     },
     {
       "symbol": "HON",
-      "name": "Honeywell",
+      "name": "Honeywell Technologies",
+      "sector": "Industrials",
+      "index": "sp500"
+    },
+    {
+      "symbol": "HONA",
+      "name": "Honeywell Aerospace",
       "sector": "Industrials",
       "index": "sp500"
     },
@@ -4048,12 +4012,6 @@
       "index": "sp600"
     },
     {
-      "symbol": "HTZ",
-      "name": "Hertz",
-      "sector": "Industrials",
-      "index": "sp600"
-    },
-    {
       "symbol": "HUBB",
       "name": "Hubbell Incorporated",
       "sector": "Industrials",
@@ -4064,6 +4022,12 @@
       "name": "Hub Group, Inc.",
       "sector": "Industrials",
       "index": "sp600"
+    },
+    {
+      "symbol": "HUBS",
+      "name": "HubSpot",
+      "sector": "Information Technology",
+      "index": "sp400"
     },
     {
       "symbol": "HUM",
@@ -4168,6 +4132,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "IESC",
+      "name": "IES Holdings",
+      "sector": "Industrials",
+      "index": "sp400"
+    },
+    {
       "symbol": "IEX",
       "name": "IDEX Corporation",
       "sector": "Industrials",
@@ -4180,12 +4150,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "IIIN",
-      "name": "Insteel Industries, Inc.",
-      "sector": "Industrials",
-      "index": "sp600"
-    },
-    {
       "symbol": "IIPR",
       "name": "Innovative Industrial Properties, Inc.",
       "sector": "Real Estate",
@@ -4195,7 +4159,7 @@
       "symbol": "ILMN",
       "name": "Illumina, Inc.",
       "sector": "Health Care",
-      "index": "sp400"
+      "index": "sp500"
     },
     {
       "symbol": "INCY",
@@ -4313,7 +4277,7 @@
     },
     {
       "symbol": "IRT",
-      "name": "IRT Living",
+      "name": "Independence Realty Trust",
       "sector": "Real Estate",
       "index": "sp400"
     },
@@ -4352,6 +4316,12 @@
       "name": "Illinois Tool Works",
       "sector": "Industrials",
       "index": "sp500"
+    },
+    {
+      "symbol": "IVT",
+      "name": "InvenTrust Properties",
+      "sector": "Real Estate",
+      "index": "sp600"
     },
     {
       "symbol": "IVZ",
@@ -4416,12 +4386,6 @@
     {
       "symbol": "JEF",
       "name": "Jefferies",
-      "sector": "Financials",
-      "index": "sp400"
-    },
-    {
-      "symbol": "JHG",
-      "name": "Janus Henderson",
       "sector": "Financials",
       "index": "sp400"
     },
@@ -4654,10 +4618,16 @@
       "index": "sp400"
     },
     {
-      "symbol": "KRYS",
-      "name": "Krystal Biotech, Inc.",
-      "sector": "Health Care",
+      "symbol": "KRMN",
+      "name": "Karman Holdings",
+      "sector": "Industrials",
       "index": "sp600"
+    },
+    {
+      "symbol": "KRYS",
+      "name": "Krystal Biotech",
+      "sector": "Health Care",
+      "index": "sp400"
     },
     {
       "symbol": "KSS",
@@ -4682,12 +4652,6 @@
       "name": "Kenvue",
       "sector": "Consumer Staples",
       "index": "sp500"
-    },
-    {
-      "symbol": "KW",
-      "name": "Kennedy-Wilson Holdings, Inc.",
-      "sector": "Real Estate",
-      "index": "sp600"
     },
     {
       "symbol": "KWR",
@@ -4717,6 +4681,12 @@
       "symbol": "LAUR",
       "name": "Laureate Education, Inc.",
       "sector": "Consumer Discretionary",
+      "index": "sp600"
+    },
+    {
+      "symbol": "LAZ",
+      "name": "Lazard",
+      "sector": "Financials",
       "index": "sp600"
     },
     {
@@ -4760,6 +4730,12 @@
       "name": "Lennar",
       "sector": "Consumer Discretionary",
       "index": "sp500"
+    },
+    {
+      "symbol": "LEU",
+      "name": "Centrus Energy Corp.",
+      "sector": "Energy",
+      "index": "sp600"
     },
     {
       "symbol": "LFST",
@@ -4902,8 +4878,14 @@
     {
       "symbol": "LPX",
       "name": "Louisiana-Pacific",
-      "sector": "Materials",
+      "sector": "Industrials",
       "index": "sp400"
+    },
+    {
+      "symbol": "LQDA",
+      "name": "Liquidia Corporation",
+      "sector": "Health Care",
+      "index": "sp600"
     },
     {
       "symbol": "LQDT",
@@ -5068,12 +5050,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "MASI",
-      "name": "Masimo",
-      "sector": "Health Care",
-      "index": "sp400"
-    },
-    {
       "symbol": "MAT",
       "name": "Mattel",
       "sector": "Consumer Discretionary",
@@ -5094,6 +5070,12 @@
     {
       "symbol": "MBC",
       "name": "MasterBrand, Inc.",
+      "sector": "Industrials",
+      "index": "sp600"
+    },
+    {
+      "symbol": "MBGL",
+      "name": "Mobility Global, Inc.",
       "sector": "Industrials",
       "index": "sp600"
     },
@@ -5186,6 +5168,12 @@
       "name": "Meta Platforms",
       "sector": "Communication Services",
       "index": "sp500"
+    },
+    {
+      "symbol": "MFP",
+      "name": "Midera Food Processing, Inc.",
+      "sector": "Industrials",
+      "index": "sp600"
     },
     {
       "symbol": "MGEE",
@@ -5290,12 +5278,6 @@
       "index": "sp600"
     },
     {
-      "symbol": "MNRO",
-      "name": "Monro, Inc.",
-      "sector": "Consumer Discretionary",
-      "index": "sp600"
-    },
-    {
       "symbol": "MNST",
       "name": "Monster Beverage",
       "sector": "Consumer Staples",
@@ -5317,7 +5299,7 @@
       "symbol": "MOH",
       "name": "Molina Healthcare",
       "sector": "Health Care",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "MORN",
@@ -5392,6 +5374,12 @@
       "index": "sp600"
     },
     {
+      "symbol": "MRVL",
+      "name": "Marvell Technology",
+      "sector": "Information Technology",
+      "index": "sp500"
+    },
+    {
       "symbol": "MS",
       "name": "Morgan Stanley",
       "sector": "Financials",
@@ -5405,7 +5393,7 @@
     },
     {
       "symbol": "MSCI",
-      "name": "MSCI Inc.",
+      "name": "MSCI",
       "sector": "Financials",
       "index": "sp500"
     },
@@ -5668,10 +5656,22 @@
       "index": "sp600"
     },
     {
+      "symbol": "NHI",
+      "name": "National Health Investors, Inc.",
+      "sector": "Real Estate",
+      "index": "sp600"
+    },
+    {
       "symbol": "NI",
       "name": "NiSource",
       "sector": "Utilities",
       "index": "sp500"
+    },
+    {
+      "symbol": "NIC",
+      "name": "Nicolet Bankshares",
+      "sector": "Financials",
+      "index": "sp600"
     },
     {
       "symbol": "NJR",
@@ -5752,12 +5752,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "NSA",
-      "name": "National Storage Affiliates Trust",
-      "sector": "Real Estate",
-      "index": "sp400"
-    },
-    {
       "symbol": "NSC",
       "name": "Norfolk Southern",
       "sector": "Industrials",
@@ -5804,6 +5798,12 @@
       "name": "Northern Trust",
       "sector": "Financials",
       "index": "sp500"
+    },
+    {
+      "symbol": "NTST",
+      "name": "NETSTREIT Corp.",
+      "sector": "Real Estate",
+      "index": "sp600"
     },
     {
       "symbol": "NUE",
@@ -6059,7 +6059,7 @@
     },
     {
       "symbol": "ORLY",
-      "name": "O’Reilly Automotive",
+      "name": "O'Reilly Automotive",
       "sector": "Consumer Discretionary",
       "index": "sp500"
     },
@@ -6106,12 +6106,6 @@
       "index": "sp400"
     },
     {
-      "symbol": "OXM",
-      "name": "Oxford Industries, Inc.",
-      "sector": "Consumer Discretionary",
-      "index": "sp600"
-    },
-    {
       "symbol": "OXY",
       "name": "Occidental Petroleum",
       "sector": "Energy",
@@ -6127,7 +6121,7 @@
       "symbol": "P",
       "name": "Everpure",
       "sector": "Information Technology",
-      "index": "sp400"
+      "index": "sp500"
     },
     {
       "symbol": "PAG",
@@ -6323,7 +6317,7 @@
     },
     {
       "symbol": "PGNY",
-      "name": "Progyny",
+      "name": "Progyny, Inc.",
       "sector": "Health Care",
       "index": "sp600"
     },
@@ -6481,7 +6475,7 @@
       "symbol": "POOL",
       "name": "Pool Corporation",
       "sector": "Consumer Discretionary",
-      "index": "sp500"
+      "index": "sp600"
     },
     {
       "symbol": "POR",
@@ -6538,18 +6532,6 @@
       "index": "sp400"
     },
     {
-      "symbol": "PRA",
-      "name": "ProAssurance Corporation",
-      "sector": "Financials",
-      "index": "sp600"
-    },
-    {
-      "symbol": "PRAA",
-      "name": "PRA Group, Inc.",
-      "sector": "Financials",
-      "index": "sp600"
-    },
-    {
       "symbol": "PRDO",
       "name": "Perdoceo Education Corp.",
       "sector": "Consumer Discretionary",
@@ -6583,12 +6565,6 @@
       "symbol": "PRIM",
       "name": "Primoris Services Corporation",
       "sector": "Industrials",
-      "index": "sp600"
-    },
-    {
-      "symbol": "PRK",
-      "name": "Park National Corp.",
-      "sector": "Financials",
       "index": "sp600"
     },
     {
@@ -6790,6 +6766,12 @@
       "index": "sp600"
     },
     {
+      "symbol": "RDDT",
+      "name": "Reddit",
+      "sector": "Communication Services",
+      "index": "sp500"
+    },
+    {
       "symbol": "RDN",
       "name": "Radian Group, Inc.",
       "sector": "Financials",
@@ -6923,7 +6905,7 @@
     },
     {
       "symbol": "RMD",
-      "name": "ResMed",
+      "name": "ResMed|",
       "sector": "Health Care",
       "index": "sp500"
     },
@@ -6943,6 +6925,12 @@
       "symbol": "RNST",
       "name": "Renasant Corp.",
       "sector": "Financials",
+      "index": "sp600"
+    },
+    {
+      "symbol": "ROAD",
+      "name": "Construction Partners, Inc.",
+      "sector": "Industrials",
       "index": "sp600"
     },
     {
@@ -6968,6 +6956,12 @@
       "name": "Rockwell Automation",
       "sector": "Industrials",
       "index": "sp500"
+    },
+    {
+      "symbol": "ROKU",
+      "name": "Roku, Inc.",
+      "sector": "Communication Services",
+      "index": "sp400"
     },
     {
       "symbol": "ROL",
@@ -7024,6 +7018,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "RSI",
+      "name": "Rush Street Interactive, Inc.",
+      "sector": "Consumer Discretionary",
+      "index": "sp600"
+    },
+    {
       "symbol": "RTX",
       "name": "RTX Corporation",
       "sector": "Industrials",
@@ -7046,12 +7046,6 @@
       "name": "Revvity",
       "sector": "Health Care",
       "index": "sp500"
-    },
-    {
-      "symbol": "RWT",
-      "name": "Redwood Trust, Inc.",
-      "sector": "Real Estate",
-      "index": "sp600"
     },
     {
       "symbol": "RXO",
@@ -7108,28 +7102,16 @@
       "index": "sp400"
     },
     {
-      "symbol": "SAM",
-      "name": "Boston Beer Company",
-      "sector": "Consumer Staples",
-      "index": "sp400"
-    },
-    {
       "symbol": "SANM",
       "name": "Sanmina Corporation",
       "sector": "Information Technology",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "SARO",
       "name": "StandardAero",
       "sector": "Industrials",
       "index": "sp400"
-    },
-    {
-      "symbol": "SATS",
-      "name": "EchoStar",
-      "sector": "Communication Services",
-      "index": "sp500"
     },
     {
       "symbol": "SBAC",
@@ -7210,16 +7192,16 @@
       "index": "sp600"
     },
     {
+      "symbol": "SEI",
+      "name": "Solaris Energy Infrastructure, Inc.",
+      "sector": "Energy",
+      "index": "sp600"
+    },
+    {
       "symbol": "SEIC",
       "name": "SEI Investments Company",
       "sector": "Financials",
       "index": "sp400"
-    },
-    {
-      "symbol": "SEM",
-      "name": "Select Medical Holdings, Corp.",
-      "sector": "Health Care",
-      "index": "sp600"
     },
     {
       "symbol": "SEZL",
@@ -7303,6 +7285,12 @@
       "symbol": "SIGI",
       "name": "Selective Insurance Group",
       "sector": "Financials",
+      "index": "sp400"
+    },
+    {
+      "symbol": "SIRI",
+      "name": "SiriusXM",
+      "sector": "Communication Services",
       "index": "sp400"
     },
     {
@@ -7403,9 +7391,9 @@
     },
     {
       "symbol": "SMTC",
-      "name": "Semtech Corporation",
+      "name": "Semtech",
       "sector": "Information Technology",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "SN",
@@ -7582,12 +7570,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "STEL",
-      "name": "Stellar Bancorp, Inc.",
-      "sector": "Financials",
-      "index": "sp600"
-    },
-    {
       "symbol": "STEP",
       "name": "StepStone Group",
       "sector": "Financials",
@@ -7634,6 +7616,12 @@
       "name": "Constellation Brands",
       "sector": "Consumer Staples",
       "index": "sp500"
+    },
+    {
+      "symbol": "SUI",
+      "name": "Sun Communities",
+      "sector": "Real Estate",
+      "index": "sp400"
     },
     {
       "symbol": "SUPN",
@@ -7712,12 +7700,6 @@
       "name": "Talos Energy, Inc.",
       "sector": "Energy",
       "index": "sp600"
-    },
-    {
-      "symbol": "TAP",
-      "name": "Molson Coors Beverage Company",
-      "sector": "Consumer Staples",
-      "index": "sp500"
     },
     {
       "symbol": "TBBK",
@@ -7876,22 +7858,10 @@
       "index": "sp600"
     },
     {
-      "symbol": "TMHC",
-      "name": "Taylor Morrison",
-      "sector": "Consumer Discretionary",
-      "index": "sp400"
-    },
-    {
       "symbol": "TMO",
       "name": "Thermo Fisher Scientific",
       "sector": "Health Care",
       "index": "sp500"
-    },
-    {
-      "symbol": "TMP",
-      "name": "Tompkins Financial Corporation",
-      "sector": "Financials",
-      "index": "sp600"
     },
     {
       "symbol": "TMUS",
@@ -7922,6 +7892,18 @@
       "name": "Toll Brothers",
       "sector": "Consumer Discretionary",
       "index": "sp400"
+    },
+    {
+      "symbol": "TOST",
+      "name": "Toast, Inc.",
+      "sector": "Financials",
+      "index": "sp400"
+    },
+    {
+      "symbol": "TPC",
+      "name": "Tutor Perini Corporation",
+      "sector": "Industrials",
+      "index": "sp600"
     },
     {
       "symbol": "TPL",
@@ -8044,12 +8026,6 @@
       "index": "sp400"
     },
     {
-      "symbol": "TTD",
-      "name": "Trade Desk (The)",
-      "sector": "Communication Services",
-      "index": "sp500"
-    },
-    {
       "symbol": "TTEK",
       "name": "Tetra Tech",
       "sector": "Industrials",
@@ -8072,12 +8048,6 @@
       "name": "Twilio",
       "sector": "Information Technology",
       "index": "sp400"
-    },
-    {
-      "symbol": "TWO",
-      "name": "Two Harbors Investment Corp.",
-      "sector": "Financials",
-      "index": "sp600"
     },
     {
       "symbol": "TXN",
@@ -8194,12 +8164,6 @@
       "index": "sp500"
     },
     {
-      "symbol": "UHT",
-      "name": "Universal Health Realty Income Trust",
-      "sector": "Real Estate",
-      "index": "sp600"
-    },
-    {
       "symbol": "ULS",
       "name": "UL Solutions",
       "sector": "Industrials",
@@ -8294,6 +8258,12 @@
       "name": "US Foods",
       "sector": "Consumer Staples",
       "index": "sp400"
+    },
+    {
+      "symbol": "USLM",
+      "name": "United States Lime & Minerals, Inc.",
+      "sector": "Materials",
+      "index": "sp600"
     },
     {
       "symbol": "USPH",
@@ -8393,9 +8363,9 @@
     },
     {
       "symbol": "VIAV",
-      "name": "VIAVI Solutions",
+      "name": "Viavi Solutions",
       "sector": "Information Technology",
-      "index": "sp600"
+      "index": "sp400"
     },
     {
       "symbol": "VICI",
@@ -8419,12 +8389,6 @@
       "symbol": "VIRT",
       "name": "Virtu Financial, Inc.",
       "sector": "Financials",
-      "index": "sp600"
-    },
-    {
-      "symbol": "VITL",
-      "name": "Vital Farms, Inc.",
-      "sector": "Consumer Staples",
       "index": "sp600"
     },
     {
@@ -8456,6 +8420,12 @@
       "name": "Valmont Industries",
       "sector": "Industrials",
       "index": "sp400"
+    },
+    {
+      "symbol": "VMRK",
+      "name": "Vivmark Residential",
+      "sector": "Real Estate",
+      "index": "sp500"
     },
     {
       "symbol": "VNO",
@@ -8584,6 +8554,12 @@
       "index": "sp400"
     },
     {
+      "symbol": "VVX",
+      "name": "V2X, Inc.",
+      "sector": "Industrials",
+      "index": "sp600"
+    },
+    {
       "symbol": "VYX",
       "name": "NCR Voyix",
       "sector": "Information Technology",
@@ -8636,12 +8612,6 @@
       "name": "Warner Bros. Discovery",
       "sector": "Communication Services",
       "index": "sp500"
-    },
-    {
-      "symbol": "WBS",
-      "name": "Webster Bank",
-      "sector": "Financials",
-      "index": "sp400"
     },
     {
       "symbol": "WCC",
@@ -8818,6 +8788,12 @@
       "index": "sp500"
     },
     {
+      "symbol": "WRBY",
+      "name": "Warby Parker",
+      "sector": "Consumer Discretionary",
+      "index": "sp600"
+    },
+    {
       "symbol": "WRLD",
       "name": "World Acceptance Corporation",
       "sector": "Financials",
@@ -8827,6 +8803,12 @@
       "symbol": "WS",
       "name": "Worthington Steel",
       "sector": "Materials",
+      "index": "sp600"
+    },
+    {
+      "symbol": "WSBC",
+      "name": "WesBanco",
+      "sector": "Financials",
       "index": "sp600"
     },
     {
@@ -8852,12 +8834,6 @@
       "name": "Watsco",
       "sector": "Industrials",
       "index": "sp400"
-    },
-    {
-      "symbol": "WSR",
-      "name": "Whitestone REIT",
-      "sector": "Real Estate",
-      "index": "sp600"
     },
     {
       "symbol": "WST",
