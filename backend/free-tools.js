@@ -254,7 +254,11 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
     }
     if (tool === 'debt-snapshot') {
         const rows = annual('balance', (r) => ({ period: r.fiscalDateEnding, currentDebt: field(r, 'currentDebt', 'shortTermDebt'), longTermDebt: field(r, 'longTermDebt', 'longTermDebtNoncurrent'), cash: field(r, 'cashAndCashEquivalentsAtCarryingValue', 'cashAndShortTermInvestments') }));
-        const debt = (rows[0]?.currentDebt || 0) + (rows[0]?.longTermDebt || 0);
+        // Both tags absent means "not disclosed", not "debt free" — show "-"
+        // rather than a $0 total that would read as a debt-free balance sheet.
+        const cd = rows[0] ? rows[0].currentDebt : null;
+        const ld = rows[0] ? rows[0].longTermDebt : null;
+        const debt = cd === null && ld === null ? null : (cd || 0) + (ld || 0);
         return genericResult(tool, symbol, data, updatedAt, 'Debt balances are as filed and may not include every contractual maturity detail.', [{ label: 'Latest total debt', value: debt, format: 'money' }, { label: 'Latest cash', value: rows[0]?.cash, format: 'money' }], rows);
     }
     if (tool === 'buybacks-vs-dilution') {
@@ -273,8 +277,12 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
         return genericResult(tool, symbol, data, updatedAt, 'Coverage compares filed cash dividends with free cash flow and net income; it is not a dividend forecast.', [{ label: 'Cash dividends', value: dividends, format: 'money' }, { label: 'FCF coverage', value: safeRatio(fcf, dividends), format: 'ratio' }, { label: 'Earnings payout', value: safeRatio(dividends, ni, 100), format: 'percent' }], [{ period, dividends, freeCashFlow: fcf, netIncome: ni }], fcf !== null && dividends > fcf ? ['Cash dividends exceeded free cash flow in the latest period.'] : []);
     }
     if (tool === 'interest-coverage') {
-        const interest = Math.abs(field(income.latest, 'interestExpense', 'interestAndDebtExpense') || 0);
-        return genericResult(tool, symbol, data, updatedAt, 'Interest coverage equals operating income divided by reported interest expense.', [{ label: 'Operating income', value: op, format: 'money' }, { label: 'Interest expense', value: interest, format: 'money' }, { label: 'Interest coverage', value: safeRatio(op, interest), format: 'ratio' }], [{ period, operatingIncome: op, interestExpense: interest, coverage: safeRatio(op, interest) }], interest === 0 ? ['No separate interest expense was available; coverage cannot be interpreted.'] : []);
+        // null, not 0: an absent tag means "not disclosed". Printing $0
+        // invented an interest expense the filing never stated (AAPL, DINO).
+        const rawInterest = field(income.latest, 'interestExpense', 'interestAndDebtExpense');
+        const interest = rawInterest === null ? null : Math.abs(rawInterest);
+        const coverage = interest === null || interest === 0 ? null : safeRatio(op, interest);
+        return genericResult(tool, symbol, data, updatedAt, 'Interest coverage equals operating income divided by reported interest expense.', [{ label: 'Operating income', value: op, format: 'money' }, { label: 'Interest expense', value: interest, format: 'money' }, { label: 'Interest coverage', value: coverage, format: 'ratio' }], [{ period, operatingIncome: op, interestExpense: interest, coverage }], interest === null ? ['Interest expense was not separately disclosed in the cached filing facts, so coverage cannot be computed.'] : (interest === 0 ? ['Reported interest expense is zero; coverage is not meaningful.'] : []));
     }
     if (tool === 'balance-sheet-signals') {
         const assets = field(balance.latest, 'totalAssets'); const liabilities = field(balance.latest, 'totalLiabilities');
