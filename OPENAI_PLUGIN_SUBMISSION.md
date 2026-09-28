@@ -285,8 +285,8 @@ Amazon/Alphabet filings, so fixtures are the production data itself.
 | Host | Render, service `srv-d4kc6schg0os73al6t10` (`prod`), behind Cloudflare |
 | Repo / branch | `github.com/avisre/prod`, `main` |
 | Deploy | Push to `main` → `.github/workflows/deploy-render.yml` triggers a Render deploy and waits for `live` |
-| Release commit | `576ae002` — deployed successfully (workflow run 36481252026, 2026-09-29) |
-| Previous commit | `febf5892` (implementation) |
+| Release commit | `576ae002` (MCP surface) + `dfe3d114` (live privacy disclosure) — both deployed; latest run 36482007044, 2026-09-29 |
+| Previous commit | `febf5892` (initial implementation) |
 | Rollback | Revert the commit and push; Render deploys the previous revision |
 
 Environment variables required for this feature:
