@@ -135,15 +135,18 @@ in-development, no date promised, no spec file yet.**
 - **Gemini cannot be targeted as a crawler — none exists.** AI Overviews ground on Googlebot (already allowed)
   and `Google-Extended` never arrives as a UA, so this lever IS the indexing lever.
 
-**Bing diagnosis + fixes — code DONE 9/28 in the working tree, NOT YET COMMITTED.** Full write-up:
-`docs/seo/bing-diagnosis-2026-09-28.md`. `seo-pages.js` and `seo-extra.js` both require the in-flight
-`fundamentals-date.js` / `quote-store.js`, so **this has to land with that work, not before** — committing
-the Bing files alone leaves the app requiring an untracked module. Don't re-derive:
+**Bing diagnosis + fixes — COMMITTED + DEPLOYED 9/28 (`97fc9a16`), verified from outside.** Full write-up:
+`docs/seo/bing-diagnosis-2026-09-28.md`. It had to land on top of the prices/fundamentals split, because
+`seo-pages.js` and `seo-extra.js` require `fundamentals-date.js` / `quote-store.js`; committing the Bing
+files alone would have left the app requiring an untracked module. **Measured live after the deploy:
+21,339 URLs across all 7 shards, 0 on the frozen date, all `2026-09-28`** — it shipped 21,272 frozen
+(97.7%). The key file answers 200 to a plain curl UA with a 32-byte body. Don't re-derive:
 - **`<lastmod>` was frozen at 2026-07-19 on 21,272 of 21,780 live URLs (97.7%)** — `isoDataMtime`'s
   `SITEMAP_DEPLOY_MS` clamp fires on every git-checkout deploy. Now reads the committed manifest
   `frontend/data/fundamentals-changed.json`, which the workflow **must** stage (`refresh-fundamentals.yml`);
-  clamp deleted, pinned by `test/sitemap-lastmod.test.js`. **Per-symbol dates accrue from the next weekly
-  refresh** — until then every data-driven URL carries the manifest-wide date. A git-history backfill was
+  clamp deleted, pinned by `test/sitemap-lastmod.test.js`. **The manifest now holds 1,003 per-symbol
+  dates, all `2026-09-28`** — the backfill rewrote every symbol's data that day, so one date is truthful,
+  not a collapse. Variation starts with the first *partial* weekly refresh. A git-history backfill was
   evaluated and rejected (965 MB data dir).
 - **The report's headline summed a capped top-N list** — `GetPageStats`/`GetQueryStats` return exactly **100
   rows per week bucket**; only `GetRankAndTrafficStats` is exhaustive. Was 4.6x low on impressions, 3.6x high
@@ -182,7 +185,7 @@ the Bing files alone leaves the app requiring an untracked module. Don't re-deri
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 9/28 (958 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
+- **Suite GREEN as of 9/28 (968 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
   runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
   need root `node_modules`, so a full-suite gate is a real job, not a config line. The two long-standing failures are fixed — do not
   re-report them: `ga4-consent-resolution` sliced a fixed 2000 chars and the route had outgrown it (the
@@ -191,6 +194,12 @@ the Bing files alone leaves the app requiring an untracked module. Don't re-deri
 - Cache stamps: `app.js`/`system.css` share ONE `?v=` across every page, but **every other asset carries its
   own** (`company.js`, `news.js`, …). Bump the asset you edited AND its pinned test literal — a stale per-file
   stamp still passes `profile-consolidation` (it checks only the shared pair) and serves old JS for a year.
+- **A test can encode a coincidence and still look like an invariant.** `sitemap-index.test.js` asserted
+  that lastmod must *vary* across the inventory. That held only while `core.xml`'s file mtimes and the data
+  manifest's date happened to differ — and is false on the day the refresh runs, which is what the weekly
+  pipeline does by design. It went red on 9/28 against a **correct** tree and had to be rebuilt as the real
+  invariant: no shard carries the frozen constant, and the inventory carries the manifest's date. Ask what
+  a green assertion would do on the day the feature works as intended, not just whether it passes today.
 
 ## Owner actions pending
 1. **Submit the plugin** at `platform.claude.com/plugins/submit` — the repo is public and both

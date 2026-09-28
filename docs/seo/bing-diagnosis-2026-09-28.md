@@ -85,14 +85,17 @@ last changed; `backend/seo-pages.js` reads it and the clamp is deleted. A plain 
 deploy no longer moves or freezes the date; a real data refresh does. The page body, the
 JSON-LD `dateModified`, and the sitemap now derive from that one source.
 
-Verified after the fix: all 7 local shards carry `2026-09-27` (or a per-symbol date), and
-**0 URLs** remain on the frozen date. `backend/test/sitemap-lastmod.test.js` guards this,
-including a source-text assertion that the clamp cannot return.
+Verified after the fix: all 7 local shards date from the manifest (`2026-09-28`, the day a
+full backfill rewrote every symbol's data), and **0 URLs** remain on the frozen date.
+`backend/test/sitemap-lastmod.test.js` guards this per shard, including a source-text
+assertion that the clamp cannot return.
 
-**Honest limitation.** Per-symbol dates accrue from the next weekly refresh; until then
-every data-driven URL carries the manifest-wide refresh date. A git-history backfill of
-exact per-symbol dates was evaluated and rejected as disproportionate — the data
-directory is 965 MB and a full blob walk would mean reading several GB to refine a
+**Honest limitation.** The manifest now carries a date for each of 1,003 symbols, but on
+2026-09-28 **all of them share one day** — that day's backfill rewrote every symbol's data,
+so one date is the truthful answer, not a collapse. Per-symbol variation begins with the
+first *partial* weekly refresh, when only some companies' filings change. A git-history
+backfill of exact per-symbol dates was evaluated and rejected as disproportionate — the
+data directory is 965 MB and a full blob walk would mean reading several GB to refine a
 recrawl hint. The tradeoff is recorded here rather than hidden.
 
 ## 3. The weekly report's headline was computed from a top-N source — HIGH (reporting)
@@ -238,9 +241,17 @@ these pages are server-rendered.
 
 ## Verification performed
 
-- `cd backend && node --test test/` — **958 passing, 0 failing** (exit 0).
+- `cd backend && node --test test/` — **968 passing, 0 failing** (exit 0).
 - Sitemap: all 7 local shards date from the data manifest; 0 URLs on the frozen date; the
   sitemap date equals the page-body date for the same ticker.
+- `test/sitemap-index.test.js` no longer asserts that lastmod *varies* across the
+  inventory. That assertion was a coincidence detector rather than an invariant: `core.xml`
+  carries real file mtimes while the data shards carry the manifest date, so the distinct
+  count was 2 only on days those disagree — and on the day the refresh runs (what the
+  weekly pipeline does, and what the 2026-09-28 backfill did) they agree by design. It is
+  replaced by a per-shard frozen-date check plus an assertion that the inventory carries the
+  manifest's date, and `sitemap-lastmod.test.js` now derives its shard list instead of
+  hardcoding it, so `comparisons-2` and any future shard are covered.
 - Weekly report: Week totals equal the sum of the Daily table (2,070 impressions, 21
   clicks), where the two previously disagreed by 4.6x.
 - IndexNow: key path exempt, orphan key reported, queue untracked; regression tests added.
