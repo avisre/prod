@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const fundamentalsFetch = require('./fundamentals-fetch');
+const fundDate = require('./fundamentals-date');
 const watchdog = require('./watchdog');
 const assetProfile = require('./asset-profile');
 const fundHoldings = require('./fund-holdings');
@@ -462,7 +463,11 @@ async function loadFundamentals(symbol) {
     // date — and rebuild in the background so the next request is current.
     if (data && fundamentalsFetch.isStaleOnDemand(symbol)) fundamentalsFetch.maybeRefresh(symbol);
     if (!data) return null;
-    const loaded = { data, at: Date.now(), updatedAt: fs.existsSync(file) ? fs.statSync(file).mtime.toISOString() : null };
+    // The displayed freshness date must be the data's own date, never the
+    // file's mtime: a git-checkout deploy resets mtime, so every tool would
+    // otherwise claim it was refreshed at deploy time.
+    const info = fundDate.info(symbol);
+    const loaded = { data, at: Date.now(), updatedAt: info.fetchedAt || info.dataAsOf || null, stale: !!info.stale };
     DATA_CACHE.set(symbol, loaded);
     if (DATA_CACHE.size > 100) DATA_CACHE.delete(DATA_CACHE.keys().next().value);
     return loaded;

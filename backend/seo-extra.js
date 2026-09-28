@@ -422,18 +422,21 @@ function dataFreshness(symbol) {
 }
 
 // A compare page shows two companies' filed figures and no per-symbol date.
-// When either side's cache is stale, name it and date it rather than letting the
-// figures read as current.
-function staleCompareNote(a, b) {
-    const parts = [];
+// Always name the filing date on each side so the figures can never read as
+// current-by-default; add the stale warning only when a side is actually old.
+function compareDataNote(a, b) {
+    const parts = []; const staleParts = [];
     for (const sym of [a, b]) {
         const info = fundDate.info(sym);
-        if (!info.stale) continue;
         const day = info.fetchedAt ? info.fetchedAt.slice(0, 10) : info.dataAsOf;
-        parts.push(`${sym}${day ? ` as of ${day}` : ''}`);
+        const label = `${sym}${day ? ` as of ${day}` : ''}`;
+        parts.push(label);
+        if (info.stale) staleParts.push(label);
     }
-    if (!parts.length) return '';
-    return `<p style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"><strong>Not the latest data</strong>: a newer SEC filing may exist (${parts.join(', ')}).</p>`;
+    const base = `Fundamental data ${parts.join(' and ')}.`;
+    return staleParts.length
+        ? `<p style="font-size:12.5px;color:var(--ink3);margin:6px 0 0">${base} <strong>Not the latest data</strong>: a newer SEC filing may exist (${staleParts.join(', ')}).</p>`
+        : `<p style="font-size:12.5px;color:var(--ink3);margin:6px 0 0">${base}</p>`;
 }
 
 function renderMetricPage(ticker, slug, options = {}) {
@@ -1041,7 +1044,7 @@ function renderCompareGuide() {
   <div class="seo-section"><h2>Watch the base you compare on</h2><div class="seo-about"><p>A price-to-earnings multiple changes with the price, the fiscal year end, and whether earnings are trailing or forward. Returns change with the start date and whether dividends are counted. Two sources showing “different” numbers are often just using different bases — the honest comparison states the period and the formula.</p></div></div>
   <div class="seo-section"><h2>Frequently asked questions</h2>${guideFaq(faqs)}</div>
   <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/compare">Compare any two stocks</a><a href="/research/how-to-find-undervalued-stocks">How to find undervalued stocks</a><a href="/research/pe-ratio-history">Historical P/E research</a><a href="/methodology">Full methodology</a></div></div>
-  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Returns are computed from the split- and dividend-adjusted monthly close series in the fundamentals cache; P/E is trailing fiscal-year-end price divided by positive diluted annual EPS. All figures refresh nightly and originate in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. See <a href="/methodology">methodology</a>. Not investment advice.</p></div>`;
+  <div class="seo-section"><h2>Sources and limitations</h2><p class="seo-about">Returns are computed from the split- and dividend-adjusted monthly close series in the fundamentals cache; P/E is trailing fiscal-year-end price divided by positive diluted annual EPS. All figures are refreshed at least monthly from these filings and originate in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC EDGAR</a>. See <a href="/methodology">methodology</a>. Not investment advice.</p></div>`;
     return researchScaffold({
         slug: 'how-to-compare-two-stocks', title: 'How to Compare Two Stocks Without Fooling Yourself',
         description: 'Compare two stocks fairly: business fundamentals before valuation, same-sector peers, adjusted returns and a real Apple vs Microsoft worked example.',
@@ -1117,7 +1120,7 @@ function renderDilutionScorecard() {
   <div class="seo-grid"><div class="seo-tile"><div class="l">Companies in CSV</div><div class="v">${all.length}</div></div><div class="seo-tile"><div class="l">Comparable rankings</div><div class="v">${all.length - flagged}</div></div><div class="seo-tile"><div class="l">Flagged discontinuities</div><div class="v">${flagged}</div></div></div>
   <div class="seo-section"><h2>Largest reported latest-year increases</h2><p class="seo-about">Ranked by the latest annual percentage increase in year-end common shares among up to 500 large primary listings with usable recent history. An increase is a research prompt—not a verdict—because acquisitions and compensation may create value even while adding shares.</p><div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Rank</th><th>Company</th><th>Sector</th><th>Latest shares</th><th>1-year</th><th>Long-run context</th><th>Latest FY repurchases</th></tr></thead><tbody>${trs}</tbody></table></div><p style="font-size:12.5px;color:var(--ink3)">Dollar amounts automatically use millions, billions or trillions according to scale. <a href="/research/dilution-scorecard.csv">Download all ${all.length} rows as CSV</a>.</p></div>
   <div class="seo-lock"><h3>Use the data in your own research</h3><p>The CSV includes company, sector, latest period, raw share count, one- and five-year change, repurchases and comparability status.</p><a class="seo-cta-btn" href="/research/dilution-scorecard.csv">Download the free CSV</a></div>
-  <div class="seo-section"><h2>How this scorecard is built</h2><div class="seo-about"><p>Universe: up to 500 market-cap-ranked US primary listings in the existing fundamentals cache whose latest annual share count is dated 2024 or later. Metric: latest reported annual common shares versus the prior annual observation and an observation at least five fiscal years earlier when available. Latest-fiscal-year share repurchases are shown as context, but do not alter the ranking.</p><p>Rows with a one-year change of 65% or more or a five-year change of 200% or more are retained in the downloadable dataset but marked “not directly comparable” and excluded from rankings. Values are never imputed. Source: cached company statements originating in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC filings</a>; refreshed nightly. <a href="/methodology">Methodology</a>. Not investment advice.</p></div></div>
+  <div class="seo-section"><h2>How this scorecard is built</h2><div class="seo-about"><p>Universe: up to 500 market-cap-ranked US primary listings in the existing fundamentals cache whose latest annual share count is dated 2024 or later. Metric: latest reported annual common shares versus the prior annual observation and an observation at least five fiscal years earlier when available. Latest-fiscal-year share repurchases are shown as context, but do not alter the ranking.</p><p>Rows with a one-year change of 65% or more or a five-year change of 200% or more are retained in the downloadable dataset but marked “not directly comparable” and excluded from rankings. Values are never imputed. Source: cached company statements originating in <a href="https://www.sec.gov/edgar" rel="noopener nofollow" target="_blank">SEC filings</a>; refreshed at least monthly. <a href="/methodology">Methodology</a>. Not investment advice.</p></div></div>
   <div class="seo-section"><h2>Related research</h2><div class="seo-links"><a href="/research/shares-outstanding">Shares outstanding research guide</a><a href="/tools/dilution">Share dilution calculator</a><a href="/research/pe-ratio-history">Historical P/E research</a></div></div>`;
     return researchScaffold({
         slug: 'dilution-scorecard', title: `Share Dilution Scorecard: ${all.length} US Companies + CSV`,
@@ -1612,7 +1615,7 @@ function renderComparePage(pairSlug) {
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
   <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
   <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed on a rolling schedule. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
-  ${staleCompareNote(a, b)}
+  ${compareDataNote(a, b)}
   ${verdictHtml}
   ${verdictAi}
   <div class="seo-section">
@@ -1872,7 +1875,7 @@ function renderComparePagePro(pairSlug) {
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
   <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
   <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side: fundamentals from SEC filings, refreshed on a rolling schedule. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
-  ${staleCompareNote(a, b)}
+  ${compareDataNote(a, b)}
   ${dedash(verdictHtml)}
   ${verdictAiPro}
   <div class="seo-section">
@@ -2077,7 +2080,15 @@ function renderScreenPage(slug) {
     if (!rows.length) return null;
     const canonical = `${SITE}/screens/${slug}`;
     const title = `${s.h1} (${year}) — Ranked by Filed Fundamentals`;
-    const description = `${s.intro} ${matched} companies qualify today; top ${rows.length} ranked. Live from SEC filing data, updated on a rolling schedule.`;
+    const infoBySymbol = new Map();
+    rows.forEach((r) => { if (r && r.symbol) infoBySymbol.set(r.symbol, fundDate.info(r.symbol)); });
+    const dataDays = [...new Set(rows.map((r) => {
+        const i = r && r.symbol ? infoBySymbol.get(r.symbol) : null;
+        return i ? (i.fetchedAt ? i.fetchedAt.slice(0, 10) : i.dataAsOf) : null;
+    }).filter(Boolean))].sort();
+    const dataSpan = dataDays.length === 1 ? `as of ${dataDays[0]}`
+        : (dataDays.length ? `as of ${dataDays[0]} to ${dataDays[dataDays.length - 1]}` : '');
+    const description = `${s.intro} ${matched} companies qualify today; top ${rows.length} ranked from SEC-filed fundamentals${dataSpan ? ` ${dataSpan}` : ''}.`;
     const colHead = s.cols.map((c) => `<th>${esc(COL_DEFS[c][0])}</th>`).join('');
     const trs = rows.map((r, i) =>
         `<tr><td>${i + 1}. <a href="/stocks/${esc(r.symbol)}">${esc(r.name)} (${esc(r.symbol)})</a></td>` +
@@ -2138,7 +2149,7 @@ function renderScreenPage(slug) {
     const a1 = rows[0]; const a2 = rows[1] || a1; const a3 = rows[2] || a1;
     // If any ranked company's cache is stale, name them rather than letting the
     // leaderboard read as current (dead tickers, or a refresh that has not run).
-    const staleRows = rows.filter((r) => r && r.symbol && fundDate.info(r.symbol).stale).map((r) => r.symbol);
+    const staleRows = rows.filter((r) => r && r.symbol && infoBySymbol.get(r.symbol).stale).map((r) => r.symbol);
     const askQ = (q) => `/ask?q=${encodeURIComponent(q)}`;
     const askHero = `
   <div class="seo-lock" style="border-color:var(--accent)">
@@ -2155,7 +2166,7 @@ function renderScreenPage(slug) {
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / Screens / ${esc(s.h1)}</div>
   <h1 class="seo-h1">${esc(s.h1)} <span style="color:var(--ink3);font-weight:600">(${year})</span></h1>
-  <p class="seo-sub">${esc(s.intro)} ${matched} companies qualify today — top ${rows.length} below, recomputed on a rolling schedule from SEC filings.</p>
+  <p class="seo-sub">${esc(s.intro)} ${matched} companies qualify today — top ${rows.length} below, recomputed on a rolling schedule from SEC filings${dataSpan ? ` (financials ${dataSpan})` : ''}.</p>
   ${staleRows.length ? `<p style="font-size:12.5px;color:var(--ink3);margin:6px 0 0"><strong>Not the latest data</strong> for ${esc(staleRows.slice(0, 6).join(', '))}${staleRows.length > 6 ? ` and ${staleRows.length - 6} more` : ''}: a newer SEC filing may exist.</p>` : ''}
   ${s.explainer ? `<p class="seo-about" style="margin:4px 0 20px">${esc(s.explainer)}</p>` : ''}
   <div class="seo-section">

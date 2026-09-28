@@ -26,6 +26,8 @@ const path = require('path');
 const mongoose = require('mongoose');
 const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
+const quoteStore = require('./quote-store');
+const fundDate = require('./fundamentals-date');
 const yahooSource = require('./yahoo-source');
 const assetProfile = require('./asset-profile');
 const fundRanking = require('./fund-ranking');
@@ -368,16 +370,30 @@ async function toolGetQuote({ symbol }) {
         lastDay = Object.keys(ts).sort().pop() || null;
         if (lastDay) lastClose = Number(num(ts[lastDay]['4. close']).toFixed(2));
     } catch (_) { /* no daily series */ }
+    // The stored overview's market cap, P/E and 52-week range are only as fresh
+    // as the last fundamentals refresh (monthly at best), so they drift badly
+    // on a fast-moving price. The daily quote snapshot is rewritten every day
+    // and carries its own asOf, so prefer it — and always hand the model a date
+    // to quote beside the figure.
+    const q = quoteStore.getDailyQuote(symbol);
+    const asOf = (q && q.asOf) || lastDay || null;
+    const pick = (preferred, fallback) => (preferred === null || preferred === undefined) ? fallback : preferred;
+    const info = fundDate.info(String(symbol).toUpperCase());
+    const fundamentalsAsOf = info.fetchedAt ? info.fetchedAt.slice(0, 10) : info.dataAsOf;
     return {
         symbol: ov.Symbol || String(symbol).toUpperCase(),
         name: ov.Name, sector: ov.Sector, industry: ov.Industry,
+        price: pick(q && q.price, lastClose),
+        priceAsOf: asOf,
+        priceSource: q ? 'daily close snapshot' : 'cached close',
         lastClose, lastCloseDate: lastDay,
-        marketCap: num(ov.MarketCapitalization),
-        peRatio: num(ov.PERatio), forwardPE: num(ov.ForwardPE),
+        marketCap: pick(q && q.marketCap, num(ov.MarketCapitalization)),
+        peRatio: pick(q && q.trailingPE, num(ov.PERatio)), forwardPE: num(ov.ForwardPE),
         eps: num(ov.EPS), dividendYield: num(ov.DividendYield), beta: num(ov.Beta),
-        week52High: num(ov['52WeekHigh']), week52Low: num(ov['52WeekLow']),
+        week52High: pick(q && q.fiftyTwoWeekHigh, num(ov['52WeekHigh'])), week52Low: pick(q && q.fiftyTwoWeekLow, num(ov['52WeekLow'])),
         priceToBook: num(ov.PriceToBookRatio), evToEbitda: num(ov.EVToEBITDA),
-        note: 'Snapshot from our nightly-refreshed cache — may lag live market prices.'
+        asOf, fundamentalsAsOf,
+        note: `Price, market cap, P/E and 52-week range are as of ${asOf || 'an unspecified date'} (daily close snapshot, not a live tick); dividend yield, EPS, beta and the other ratios come from filed financials ${fundamentalsAsOf ? `as of ${fundamentalsAsOf}` : 'with no firm date available'}. State the matching date whenever you cite any of these figures, and never call them live or today's.`
     };
 }
 
@@ -480,7 +496,7 @@ async function toolGetPriceHistory({ symbol, years }) {
         totalReturnCagrPct: cagrs,
         maxDrawdown: mdd < 0 ? { pct: Number(mdd.toFixed(1)), fromMonth: String(mddPeakD).slice(0, 7), toMonth: String(mddTroughD).slice(0, 7) } : null,
         note: 'Returns are TOTAL returns (split- and dividend-adjusted, monthly closes). Rows newest first; a "YTD" row is the partial current year. For dividend history use the cash flow statement (dividendPayout) and get_quote (current yield).',
-        source: 'stockportfolio.pro price cache (nightly refresh)',
+        source: 'stockportfolio.pro price cache (refreshed each trading day; see the asOf date)',
         table: lines.join('\n')
     };
 }
@@ -821,7 +837,7 @@ function toolScreenUniverse(args) {
         universe: `${universe} US companies (S&P 1500) in the stockportfolio.pro cache`,
         matched,
         returned: top.length,
-        note: 'Fundamentals from latest SEC annual filings; valuation snapshot from nightly cache.',
+        note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.',
         table: lines.join('\n')
     };
 }
@@ -1630,6 +1646,7 @@ const ASK_SYSTEM = [
     'SCOPE: you ONLY answer questions about companies, financial statements, valuation, portfolios, markets and investing concepts. For anything else (general knowledge, coding, writing, personal chat, politics), decline in one sentence and steer back to finance. Do not answer the off-topic part.',
     'GROUNDING (the most important rule): every figure you state MUST come from a tool result in THIS conversation. Call the tools — do not answer financial-data questions from memory. If the tools cannot provide something, say plainly that it is outside your data rather than estimating. Never silently blend in remembered numbers.',
     'RECENCY — A TOOL THAT REPORTS ITS OWN STALENESS OVERRIDES YOU: if any tool result carries a stalenessWarning field, treat it as binding and do exactly what it says before using the word latest, current, most recent or last — the figures in front of you may simply predate a filing that already exists. Naming the wrong quarter confidently is worse than saying which quarter you have. LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — quarterlyReports are newest-first, so the row four down is the year-ago quarter — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
+    'DATE EVERY PRICE AND VALUATION FIGURE: a price, market cap, P/E or 52-week range is a point-in-time observation, not a permanent fact. Whenever you state one, name the date it is as of (the quote tools return priceAsOf / asOf), never call a cached close live or "today", and when two sources disagree prefer the newest dated one. If a tool gives a figure with no date, say which period it covers instead of letting it read as current.',
     'ANALYSIS & "WHAT-IF": many of the best questions are causal or hypothetical — "how would X affect Y", "what if…", "why does…". These want REASONING, not just a figure. The grounding rule governs concrete NUMBERS, not explanation: you may and should reason about how a business works, what drives a line item, and the mechanism linking a cause to an effect — only the actual numbers must come from tools. Tackle such a question by pulling what you CAN for the company in question (statements, segments, ratios, and the relevant risk-factor language via search_filings), then think the chain through step by step and quantify the impact wherever the pulled data lets you (e.g. apply operating leverage to an incremental-revenue scenario, using the real fixed-cost base).',
     'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a private firm, or a foreign supplier, customer or rival with no US listing. (US-listed ADRs such as NTES or TSM ARE covered; their statements are converted to USD from the issuer\'s reporting currency.) Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
