@@ -50,6 +50,10 @@ and environment are retained. Paths are stored without query strings.
 | `first_ask_succeeded` | authenticated Ask | custom | First successful sourced Ask result |
 | `research_outcome_completed` | authenticated workflow | custom | Valid result plus source opened |
 | `activation_completed` | server, once/account | custom | First qualified outcome |
+| `feature_activation_completed` | server, once per user/feature | custom | Per-feature activation record; never the account-level activation |
+| `briefing_viewed` | server, once per user per UTC day | custom | A valid authenticated portfolio briefing read |
+| `dossier_viewed`, `filing_monitor_viewed` | server, once per user/feature per UTC day | custom | A complete authenticated Dossier or company Filing Monitor result; no symbol or research text is stored in the funnel event |
+| `dossier_mode_selected` | browser (consent required) | custom | Explicit Dossier Normal/Analyst selection only |
 | `appsumo_redemption_started`, `appsumo_redemption_completed` | AppSumo lifecycle | custom | License lifecycle only |
 | `stripe_checkout_created`, `stripe_checkout_completed` | Stripe checkout/webhook | `begin_checkout`, custom | Checkout lifecycle; not proof of payment |
 | `invoice_paid` | verified Stripe webhook | `purchase` | Paid recurring invoice |
@@ -71,9 +75,19 @@ not rewritten.
 ## Metric definitions
 
 * **Signup**: a server-created account (`signup_completed`), not a GA4 user.
-* **Activation**: one account-level `activation_completed` after a successful
-  sourced Ask answer, comparison, portfolio with a holding, or Filing Monitor
-  workflow. Underlying `research_outcome_completed` rows remain available.
+* **Activation**: exactly one canonical account-level `activation_completed`
+  per user, identified by `dedupeKey: activation_completed:<userId>`. Per-feature
+  uses write `feature_activation_completed` with their own `activation-job:`
+  dedupe key, so they are never counted as an account activation. Underlying
+  `research_outcome_completed` rows remain available, and historical
+  `activation_completed` rows are left unchanged.
+* **Retention (D1/D7/D30)**: of the accounts activated in the window, the share
+  that performed a *meaningful action* on the target UTC day — a completed
+  research outcome, a Dossier or company Filing Monitor result, a valid
+  weekly-briefing read, a completed tool, or an explicitly tracked second
+  research session. Generic visits (`page_view`, `pricing_viewed`,
+  `cta_clicked`, `signup_completed`) and the activation row itself never count
+  as a return. Feature views are deduped once per account, feature and UTC day.
 * **AppSumo click**: outbound intent only. A sale is counted only from the
   Partner Portal export; redemption is not a sale.
 * **Stripe paid recurring customer**: a verified, idempotent webhook linked to
@@ -132,7 +146,8 @@ names, email addresses, license codes and raw order IDs are never stored.
 The report keeps unique visitors, sessions and registered users separate;
 reports conversion by first and last non-direct touch; includes landing-page,
 CTA and content-ID tables; calculates eligible D1/D7/D30 activated-user
-retention; compares the selected period with the preceding equal period; and
+retention from meaningful action events (not generic visits); compares the
+selected period with the preceding equal period; and
 surfaces data-quality counts (missing identifiers, duplicate IDs/dedupe keys,
 invalid canonical payloads, client/server event counts and excluded traffic).
 Optional external snapshots are allowlisted and redacted before appearing in

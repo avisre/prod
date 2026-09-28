@@ -12,11 +12,12 @@ const EVENT_NAMES = Object.freeze(new Set([
     'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started',
     'source_opened', 'proof_view', 'second_session',
     'signup_completed', 'appsumo_redemption_started', 'appsumo_redemption_completed',
-    'research_outcome_completed', 'activation_completed', 'stripe_checkout_created',
+    'research_outcome_completed', 'activation_completed', 'feature_activation_completed', 'stripe_checkout_created',
     'stripe_checkout_completed', 'subscription_started', 'invoice_paid',
     'subscription_cancel_scheduled', 'subscription_canceled', 'payment_refunded',
     'review_eligible', 'review_request_sent', 'review_received', 'support_outcome_confirmed',
     'page_view', 'tool_view', 'tool_complete', 'trial_started', 'meaningful_activation',
+    'briefing_viewed', 'dossier_viewed', 'filing_monitor_viewed', 'dossier_mode_selected',
     'appsumo_landing_view', 'appsumo_cta_click', 'appsumo_activation',
     'first_research_completed', 'first_ask_succeeded', 'seven_day_return',
     'activation', 'appsumo_click', 'appsumo_redemption', 'stripe_subscribe', 'paid', 'cancel',
@@ -33,7 +34,7 @@ const EVENT_NAMES = Object.freeze(new Set([
 
 const BROWSER_EVENTS = Object.freeze(new Set([
     'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started',
-    'source_opened', 'proof_view', 'second_session',
+    'source_opened', 'proof_view', 'second_session', 'dossier_mode_selected',
     'appsumo_landing_view', 'appsumo_cta_click'
 ]));
 
@@ -51,7 +52,7 @@ const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing
     'appsumo', 'website', 'facebook', 'instagram', 'referral']);
 const PAGE_TYPES = new Set(['metric', 'comparison', 'stock', 'screen', 'research', 'tool', 'pricing', 'other']);
 const ENTITLEMENTS = new Set(['stripe', 'appsumo', 'trial', 'free', 'comp', 'unknown']);
-const FEATURE_TYPES = new Set(['ask', 'comparison', 'portfolio', 'filing_monitor', 'screener', 'tool', 'other']);
+const FEATURE_TYPES = new Set(['ask', 'comparison', 'portfolio', 'filing_monitor', 'dossier', 'screener', 'tool', 'other']);
 
 function text(value, max = 120) {
     const valueText = String(value == null ? '' : value).trim();

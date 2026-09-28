@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20260925-alerts1" />
+  <link rel="stylesheet" href="assets/system.css?v=20260928-repeat2" />
   <style>
     /* Ticker autocomplete dropdown on the portfolio add-input */
     .sym-ac { position: absolute; top: 100%; left: 0; right: 0; z-index: 30; margin-top: 4px;
@@ -403,6 +403,22 @@
           <div class="card card-pad" id="brief-body" style="max-width:none;"></div>
         </section>
 
+        <!-- Weekly Filing Monitor digest opt-in. Default hidden; revealed only
+             for an eligible Pro Annual account by the inline script below. -->
+        <section class="section" id="digest-pref-section" hidden>
+          <div class="section-head">
+            <h2 class="title-2">Weekly filing digest</h2>
+            <span class="small faint">what changed in the companies you track</span>
+          </div>
+          <div class="card card-pad">
+            <label class="small" style="display:flex; align-items:flex-start; gap:10px; cursor:pointer;">
+              <input type="checkbox" id="digest-pref-toggle" style="margin-top:3px;" />
+              <span>Email me the weekly Filing Monitor digest. You can turn this off at any time, and the Monitor itself stays available in the app.</span>
+            </label>
+            <p class="small faint" id="digest-pref-status" role="status" aria-live="polite" style="margin:8px 0 0;"></p>
+          </div>
+        </section>
+
         <!-- Ask -->
         <section class="section">
           <div class="section-head">
@@ -481,7 +497,48 @@
       <div id="portfolio-action-arrival" hidden></div>
     </div>
   </div>
-  <script src="assets/app.js?v=20260925-alerts1"></script>
-  <script src="assets/dashboard.js?v=20260925-alerts1"></script>
+  <script src="assets/app.js?v=20260928-repeat2"></script>
+  <script src="assets/dashboard.js?v=20260928-repeat2"></script>
+  <script>
+  // Pro Annual weekly-digest opt-in. Hidden by default and never blocks the
+  // dashboard: a failed or absent preference check leaves it hidden.
+  (function () {
+    if (!/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie)) return;
+    var section = document.getElementById('digest-pref-section');
+    var toggle = document.getElementById('digest-pref-toggle');
+    var status = document.getElementById('digest-pref-status');
+    if (!section || !toggle || !status) return;
+    fetch('/api/digest/preferences', { credentials: 'same-origin', headers: { Authorization: 'Bearer cookie' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (data) {
+        if (!data || !data.eligible) return;
+        toggle.checked = data.enabled === true;
+        section.hidden = false;
+        toggle.addEventListener('change', function () {
+          var enabled = toggle.checked;
+          toggle.disabled = true;
+          status.textContent = 'Saving…';
+          fetch('/api/digest/preferences', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { Authorization: 'Bearer cookie', 'Content-Type': 'application/json' },
+            body: JSON.stringify({ enabled: enabled })
+          }).then(function (r) {
+            return r.json().catch(function () { return {}; }).then(function (d) { return { ok: r.ok, data: d }; });
+          }).then(function (result) {
+            if (!result.ok) throw new Error((result.data && result.data.message) || 'Could not save.');
+            toggle.checked = result.data.enabled === true;
+            status.textContent = result.data.enabled
+              ? 'On — you’ll get the weekly digest.'
+              : 'Off — you won’t get the digest.';
+          }).catch(function (error) {
+            toggle.checked = !enabled;
+            status.textContent = (error && error.message) || 'Could not save.';
+          }).finally(function () { toggle.disabled = false; });
+        });
+      })
+      .catch(function () { /* preference check is non-blocking */ });
+  })();
+  </script>
 </body>
 </html>

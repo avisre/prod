@@ -8,6 +8,17 @@
   const $ = (id) => document.getElementById(id);
   const auth = () => (token() ? { Authorization: `Bearer ${token()}` } : {});
   const MODE_KEY = 'sp_dossier_mode_v1';
+  // Explicit Normal/Analyst selections are the only mode signal we send. The
+  // value is validated here, and the shared consent-gated pipeline carries only
+  // a low-cardinality CTA id â€” never the ticker, prompt, answer or holdings.
+  function trackDossierMode(mode) {
+    if (mode !== 'normal' && mode !== 'analyst') return;
+    if (!window.V2 || typeof window.V2.trackGrowthEvent !== 'function') return;
+    window.V2.trackGrowthEvent('dossier_mode_selected', {
+      featureType: 'dossier',
+      ctaId: `dossier-mode-${mode}`
+    });
+  }
   let RAW_DOSSIER = null, RAW_SYM = null;
   // mountAskFloor appends to document.body unconditionally, and render() runs
   // again on every poll -> build -> rerender cycle and on each mode toggle, so
@@ -822,8 +833,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
 
     $('dos-print').addEventListener('click', () => window.print());
     $('dos-refresh').addEventListener('click', () => run(sym, true));
-    $('dos-mode-normal').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'normal'); render(out, RAW_DOSSIER, RAW_SYM); });
-    $('dos-mode-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-mode-normal').addEventListener('click', () => { trackDossierMode('normal'); localStorage.setItem(MODE_KEY, 'normal'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-mode-analyst').addEventListener('click', () => { trackDossierMode('analyst'); localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
     loadThesis(sym);
   }
 
@@ -1043,9 +1054,9 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
 
     $('dos-print').addEventListener('click', () => window.print());
     $('dos-refresh').addEventListener('click', () => run(sym, true));
-    $('dos-mode-normal').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'normal'); render(out, RAW_DOSSIER, RAW_SYM); });
-    $('dos-mode-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
-    $('dos-show-analyst').addEventListener('click', () => { localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-mode-normal').addEventListener('click', () => { trackDossierMode('normal'); localStorage.setItem(MODE_KEY, 'normal'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-mode-analyst').addEventListener('click', () => { trackDossierMode('analyst'); localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
+    $('dos-show-analyst').addEventListener('click', () => { trackDossierMode('analyst'); localStorage.setItem(MODE_KEY, 'analyst'); render(out, RAW_DOSSIER, RAW_SYM); });
     loadThesis(sym);
   }
 

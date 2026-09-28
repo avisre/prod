@@ -20,7 +20,7 @@
 const credits = require('./credits');
 
 const COST = credits.COST;
-const STAMP = '20260925-alerts1';
+const STAMP = '20260928-repeat2';
 const UPDATED = '25 September 2026';
 
 function esc(value) {

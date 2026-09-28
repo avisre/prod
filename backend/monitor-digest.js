@@ -1,8 +1,10 @@
 // Weekly Filing Monitor digest — "what changed in your watchlist this week".
 //
-// The retention engine for Power/Desk: lifecycle email is the single biggest
-// SaaS retention lever, and for a "never miss what changed" product the weekly
-// digest IS the renewal mechanism. For each subscriber's holdings + watchlist
+// The retention engine for the Monitor plans: lifecycle email is the single
+// biggest SaaS retention lever, and for a "never miss what changed" product
+// the weekly digest IS the renewal mechanism. Power/Desk/enterprise and
+// lifetime buyers are opted out by default; Pro Annual is opted IN explicitly
+// (see digestOptInAt in app.js). For each subscriber's holdings + watchlist
 // we build the Monitor report (cache-aware — only companies that filed in the
 // last week make the cut), rank by materiality, and mail a cited summary with
 // a deep link back into the app. Numbers come from filing-monitor; this only
@@ -59,13 +61,13 @@ function renderEmail(name, items, appUrl, unsubUrl) {
       <p style="font-size:14px;color:#64748b;margin:0 0 20px">${items.length} compan${items.length === 1 ? 'y' : 'ies'} filed — read for you, every figure taken from the filing.</p>
       ${rows}
       <p style="font-size:12px;color:#94a3b8;line-height:1.6;margin-top:24px;border-top:1px solid #e8e6e0;padding-top:12px">
-        You're receiving this because you're on a stockportfolio.pro Power or Desk plan. Educational, not investment advice.<br/>
+        You're receiving this because the Filing Monitor is active on your account. Educational, not investment advice.<br/>
         <a href="${esc(unsubUrl)}" style="color:#94a3b8">Unsubscribe from these digests</a>
       </p>
     </div>`;
     const text = `What changed in your watchlist this week\n\n`
         + items.map((it) => `${it.symbol} — ${(it.filing && it.filing.label) || ''} ${(it.filing && it.filing.date) || ''} (materiality ${it.materiality})\n${it.summary}\n${base}/monitor?symbol=${it.symbol}\n`).join('\n')
-        + `\n—\nYou're on a Power/Desk plan. Not investment advice.\nUnsubscribe: ${unsubUrl}`;
+        + `\n—\nYou're receiving this because the Filing Monitor is active on your account. Not investment advice.\nUnsubscribe: ${unsubUrl}`;
     return { html, text };
 }
 

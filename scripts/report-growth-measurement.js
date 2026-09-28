@@ -19,10 +19,29 @@ const STEP_EVENTS = Object.freeze({
     activation: new Set(['activation_completed']),
     paid: new Set(['invoice_paid', 'appsumo_redemption_completed'])
 });
+// Repeat meaningful use is not a visit. Retention counts a return only on an
+// event that proves the product was actually used again — a completed research
+// outcome, a per-feature activation, a valid authenticated briefing read, a
+// completed tool, or an explicitly tracked second research session. Generic
+// visits (page_view, pricing_viewed, cta_clicked, signup) and the activation
+// row itself never count as a return.
+const MEANINGFUL_RETURN_EVENTS = Object.freeze(new Set([
+    'research_outcome_completed',
+    'feature_activation_completed',
+    'briefing_viewed',
+    'dossier_viewed',
+    'filing_monitor_viewed',
+    'first_research_completed',
+    'first_ask_succeeded',
+    'second_session',
+    'tool_complete'
+]));
 const FUNNEL_NAMES = [
     'pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started',
     'checkout_started', 'signup_completed', 'research_outcome_completed',
-    'activation_completed', 'appsumo_redemption_started', 'appsumo_redemption_completed',
+    'activation_completed', 'feature_activation_completed', 'briefing_viewed',
+    'dossier_viewed', 'filing_monitor_viewed', 'dossier_mode_selected',
+    'appsumo_redemption_started', 'appsumo_redemption_completed',
     'stripe_checkout_created', 'stripe_checkout_completed', 'subscription_started',
     'invoice_paid', 'payment_refunded', 'subscription_canceled', 'review_eligible',
     'review_request_sent', 'review_received', 'support_outcome_confirmed'
@@ -81,6 +100,15 @@ function eventRows(rows, names) {
     const set = names instanceof Set ? names : new Set(names);
     return rows.filter((row) => set.has(eventName(row)));
 }
+// Account activation is exactly one canonical row per user. Per-feature
+// activation rows now carry a distinct event name and a different dedupe key,
+// and historical rows are left untouched, so activation must be counted from
+// the canonical dedupe key rather than the event name alone.
+function isCanonicalActivation(row) {
+    return eventName(row) === 'activation_completed'
+        && !!row.userId
+        && row.dedupeKey === `activation_completed:${String(row.userId)}`;
+}
 function inWindow(rows, since, until) {
     return rows.filter((row) => { const date = eventDate(row); return date && date >= since && date < until; });
 }
@@ -96,7 +124,7 @@ function sum(rows, key) { return rows.reduce((total, row) => total + (Number(row
 
 function funnelSummary(rows) {
     const reportableRows = rows.filter(reportable);
-    const activated = eventRows(reportableRows, STEP_EVENTS.activation);
+    const activated = reportableRows.filter(isCanonicalActivation);
     const paid = eventRows(reportableRows, STEP_EVENTS.paid);
     const invoiceRows = eventRows(reportableRows, ['invoice_paid']);
     const refundRows = eventRows(reportableRows, ['payment_refunded']);
@@ -130,7 +158,7 @@ function funnelByTouch(rows, touch) {
             visitors: uniqueCount(sourceRows),
             ctaVisitors: uniqueCount(sourceRows, (row) => STEP_EVENTS.cta.has(eventName(row))),
             signups: uniqueEventUsers(sourceRows, STEP_EVENTS.signup),
-            activatedAccounts: uniqueEventUsers(sourceRows, STEP_EVENTS.activation),
+            activatedAccounts: uniqueCount(sourceRows, isCanonicalActivation, { user: true }),
             paidCustomers: uniqueEventUsers(sourceRows, STEP_EVENTS.paid)
         };
     }
@@ -147,7 +175,7 @@ function landingPerformance(rows) {
         if (name === 'page_view') item.pageViews++;
         if (STEP_EVENTS.cta.has(name)) item.ctaClicks++;
         if (name === 'signup_completed') item.signups++;
-        if (name === 'activation_completed') item.activations++;
+        if (isCanonicalActivation(row)) item.activations++;
     }
     return Object.fromEntries([...pages.entries()].sort((a, b) => (b[1].pageViews + b[1].ctaClicks) - (a[1].pageViews + a[1].ctaClicks)));
 }
@@ -179,7 +207,7 @@ function contentPerformance(rows) {
         const name = eventName(row);
         if (STEP_EVENTS.cta.has(name)) item.clicks++;
         if (name === 'signup_completed') item.signups++;
-        if (name === 'activation_completed') item.activations++;
+        if (isCanonicalActivation(row)) item.activations++;
         if (STEP_EVENTS.paid.has(name)) item.paid++;
     }
     return output;
@@ -200,8 +228,8 @@ function dataQuality(rows) {
         user: rows.filter((row) => !row.userId).length
     };
     const invalid = canonicalRows.filter((row) => row.schemaVersion !== growth.SCHEMA_VERSION || !growth.normalizeEventName(row.eventName, row)).length;
-    const browser = rows.filter((row) => ['pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started'].includes(eventName(row)));
-    const server = rows.filter((row) => ['signup_completed', 'activation_completed', 'invoice_paid', 'appsumo_redemption_completed'].includes(eventName(row)));
+    const browser = rows.filter((row) => ['pricing_viewed', 'cta_clicked', 'appsumo_outbound_clicked', 'signup_started', 'checkout_started', 'dossier_mode_selected'].includes(eventName(row)));
+    const server = rows.filter((row) => ['signup_completed', 'activation_completed', 'feature_activation_completed', 'briefing_viewed', 'dossier_viewed', 'filing_monitor_viewed', 'invoice_paid', 'appsumo_redemption_completed'].includes(eventName(row)));
     return {
         totalEvents: rows.length,
         eventsWithSource: rows.filter((row) => row.referrerSource || row.acquisitionSource || row.firstTouch?.source || row.lastNonDirectTouch?.source).length,
@@ -217,7 +245,7 @@ function dataQuality(rows) {
 
 function retention(rows, since, until) {
     const activations = new Map();
-    for (const row of rows.filter((item) => reportable(item) && eventName(item) === 'activation_completed' && item.userId)) {
+    for (const row of rows.filter((item) => reportable(item) && isCanonicalActivation(item))) {
         const date = eventDate(row); if (!date) continue;
         const key = String(row.userId);
         if (!activations.has(key) || date < activations.get(key)) activations.set(key, date);
@@ -231,8 +259,8 @@ function retention(rows, since, until) {
             if (target >= until) continue;
             eligible++;
             const cameBack = rows.some((row) => row.userId && String(row.userId) === userId && reportable(row)
-                && eventDate(row) >= target && eventDate(row) < new Date(target.getTime() + 86400000)
-                && eventName(row) !== 'activation_completed');
+                && MEANINGFUL_RETURN_EVENTS.has(eventName(row))
+                && eventDate(row) >= target && eventDate(row) < new Date(target.getTime() + 86400000));
             if (cameBack) returned++;
         }
         output[`D${days}`] = { eligible, returned, rate: eligible ? returned / eligible : null };

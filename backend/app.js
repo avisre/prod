@@ -142,7 +142,7 @@ function hasMonitor(req) {
 }
 function monitorGate(req, res, next) {
     if (hasMonitor(req)) return next();
-    return res.status(402).json({ message: 'The Filing Change Monitor is on the Power and Desk plans.', code: 'MONITOR_REQUIRED' });
+    return res.status(402).json({ message: 'The Filing Change Monitor is on the Power, Desk, Enterprise and Pro Annual plans.', code: 'MONITOR_REQUIRED' });
 }
 
 // API/MCP access, like Monitor, is a top-tier developer feature: Power/Desk
@@ -2848,7 +2848,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260925-alerts1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260928-repeat2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2877,7 +2877,7 @@ app.get(['/verify-ledger', '/verify-ledger.html'], async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify.html">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260925-alerts1"></script>
+<script src="/assets/app.js?v=20260928-repeat2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -2968,7 +2968,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260925-alerts1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260928-repeat2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -2996,7 +2996,7 @@ app.get(['/filing-changes', '/filing-changes.html'], async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor.html">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260925-alerts1"></script>
+<script src="/assets/app.js?v=20260928-repeat2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3104,7 +3104,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260925-alerts1" />
+<link rel="stylesheet" href="/assets/system.css?v=20260928-repeat2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3137,7 +3137,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260925-alerts1"></script>
+<script src="/assets/app.js?v=20260928-repeat2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3211,8 +3211,13 @@ const UserSchema = new mongoose.Schema({
     subscription: { type: SubscriptionSchema, default: createDefaultSubscription },
     stripeCustomerId: { type: String, default: null },
     stripeSubscriptionId: { type: String, default: null },
-    // Weekly Filing Monitor digest (Power/Desk): opt-out + last-sent for cadence.
+    // Weekly Filing Monitor digest (Power/Desk/enterprise/LTD): opt-out plus
+    // last-sent for cadence. Pro Annual has Monitor access but was never
+    // mailed, so it is the one plan that must opt IN explicitly: digestOptInAt
+    // is set only by an authenticated POST /api/digest/preferences. Null means
+    // the account has never consented; consent is never inferred.
     digestOptOut: { type: Boolean, default: false },
+    digestOptInAt: { type: Date, default: null },
     lastDigestAt: { type: Date, default: null },
     // Pre-granted feature trials — access handed over before any invoice, with
     // a hard expiry. Carries no billing state of its own: a grant never creates,
@@ -4107,7 +4112,7 @@ async function meaningfulActivationFor(user, payload = {}) {
         });
         const activationNow = new Date();
         await mongoose.connection.collection('funnel_events').updateOne(
-            { eventName: 'activation_completed', userId: String(user._id) },
+            { eventName: 'activation_completed', dedupeKey: `activation_completed:${String(user._id)}` },
             { $setOnInsert: {
                 event: 'activation', eventType: 'activation', eventName: 'activation_completed',
                 schemaVersion: growthMeasurement.SCHEMA_VERSION, eventId: growthMeasurement.randomEventId(),
@@ -4164,7 +4169,7 @@ async function trackActivation(userId, job, extra = {}) {
             { event: 'activation', userId: String(userId), activationJob },
             { $setOnInsert: {
                 ...(extra || {}), event: 'activation', userId: String(userId),
-                activationJob, eventName: 'activation_completed', schemaVersion: growthMeasurement.SCHEMA_VERSION,
+                activationJob, eventName: 'feature_activation_completed', schemaVersion: growthMeasurement.SCHEMA_VERSION,
                 eventId: growthMeasurement.randomEventId(), dedupeKey: `activation-job:${String(userId)}:${activationJob}`,
                 featureType: activationJob === 'screener_company' ? 'screener' : activationJob,
                 occurredAt: new Date(), at: new Date()
@@ -4187,6 +4192,67 @@ async function trackActivation(userId, job, extra = {}) {
     } catch (_) {
         return false;
     }
+}
+
+// A cached or polled Dossier/Monitor serve is still a real use of the feature,
+// so it must earn the same per-user view, idempotent feature activation and
+// first-run onboarding step a fresh build earns. Only call these after a
+// complete, error-free payload; partials and pending builds must not count.
+function resolvedTrackingUserId(req) {
+    return req && (req.userId || (req.user && req.user._id)) || null;
+}
+
+function recordDossierEngagement(req, res) {
+    const userId = resolvedTrackingUserId(req);
+    if (!userId) return;
+    recordRepeatFeatureView(req, res, 'dossier_viewed', 'dossier');
+    trackActivation(userId, 'dossier', {
+        resultValid: true, sourceOpened: false, featureType: 'dossier',
+        requestFields: trackingRequestFields(req, res)
+    });
+    if (req.user) markOnboardingStep(req.user, 'dossier');
+}
+
+function recordMonitorEngagement(req, res) {
+    const userId = resolvedTrackingUserId(req);
+    if (!userId) return;
+    recordRepeatFeatureView(req, res, 'filing_monitor_viewed', 'filing_monitor');
+    trackActivation(userId, 'filing_monitor', {
+        resultValid: true, sourceOpened: false, featureType: 'filing_monitor',
+        requestFields: trackingRequestFields(req, res)
+    });
+}
+
+// Record one useful return per feature, per account, per UTC day. The feature
+// activation above is deliberately once-ever; this event lets the retention
+// report see a customer returning to Dossier or Monitor later without storing
+// the ticker, prompt, answer or portfolio details in the funnel row.
+function recordRepeatFeatureView(req, res, eventName, featureType) {
+    const userId = resolvedTrackingUserId(req);
+    if (!userId) return;
+    const dayKey = new Date().toISOString().slice(0, 10);
+    trackFunnel(eventName, userId, req.user && req.user.subscription && req.user.subscription.planName, {
+        ...trackingRequestFields(req, res),
+        eventName,
+        dedupeKey: `${eventName}:${String(userId)}:${dayKey}`,
+        featureType,
+        entitlementSource: entitlementSourceFor(req.user || {})
+    });
+}
+
+// A valid authenticated briefing read counts at most once per user per UTC
+// day. The deterministic per-day dedupe key makes the cached and fresh branches
+// retry-safe. The public /sample route is intentionally never counted here.
+function recordBriefingViewed(req, res) {
+    if (!req || !req.userId) return;
+    const dayKey = new Date().toISOString().slice(0, 10);
+    trackFunnel('briefing_viewed', req.userId, req.user && req.user.subscription && req.user.subscription.planName, {
+        ...trackingRequestFields(req, res),
+        eventName: 'briefing_viewed',
+        dedupeKey: `briefing_viewed:${String(req.userId)}:${dayKey}`,
+        featureType: 'portfolio',
+        entitlementSource: entitlementSourceFor(req.user || {})
+    });
 }
 
 // P0 proof-funnel: a returning buyer starts another research session after
@@ -8661,6 +8727,7 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
         const force = String(req.query.refresh || '') === '1';
         const cached = _briefingCache.get(cacheKey);
         if (!force && cached && Date.now() - cached.at < BRIEFING_TTL_MS) {
+            if (cached.payload && cached.payload.briefing) recordBriefingViewed(req, res);
             return res.json({ ...cached.payload, cached: true });
         }
 
@@ -8682,6 +8749,7 @@ app.get('/api/portfolio/briefing', authMiddleware, coreGate, async (req, res) =>
         };
         _briefingCache.set(cacheKey, { at: Date.now(), payload });
         if (_briefingCache.size > 500) _briefingCache.delete(_briefingCache.keys().next().value);
+        if (payload.briefing) recordBriefingViewed(req, res);
         res.json({ ...payload, cached: false });
     } catch (error) {
         if (isDatabaseUnavailableError(error)) {
@@ -11994,6 +12062,8 @@ app.post('/api/track/event', optionalAuth, (req, res) => {
     const eventName = growthMeasurement.normalizeEventName(body.event);
     if (!eventName || !growthMeasurement.BROWSER_EVENTS.has(eventName)) return res.status(204).end();
     if (body.consent !== true) return res.status(204).end();
+    if (eventName === 'dossier_mode_selected'
+        && !/^dossier-mode-(normal|analyst)$/.test(String(body.ctaId || body.cta || ''))) return res.status(204).end();
     const requestFields = trackingRequestFields(req, res);
     if (requestFields.isBot || requestFields.isQa) return res.status(204).end();
     // Consent is already hard-verified above. Persist it onto the account so
@@ -12551,7 +12621,7 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         if (req.query.poll === '1') {
             if (!hasMonitor(req)) {
                 if (MONITOR_FREE_STOCKS <= 0) {
-                    return res.status(402).json({ code: 'MONITOR_REQUIRED', message: 'The Filing Change Monitor is available on Power and Desk plans.' });
+                    return res.status(402).json({ code: 'MONITOR_REQUIRED', message: 'The Filing Change Monitor is available on the Power, Desk, Enterprise and Pro Annual plans.' });
                 }
                 const access = await monitorFreePollAccess(req, normSym);
                 setMonitorRateHeaders(res, access.remaining);
@@ -12562,7 +12632,8 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
             if (_monitorInflight.has(sym)) return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
             const cached = await filingMonitor.peekReport(sym).catch(() => null);
             if (cached) {
-                recordMonitorView(req.userId, normSym, cached.name);
+                recordMonitorView(resolvedTrackingUserId(req), normSym, cached.name);
+                recordMonitorEngagement(req, res);
                 return res.json({ report: cached });
             }
             return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
@@ -12573,11 +12644,15 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
             if (!hasMonitor(req)) {
                 return res.status(402).json({
                     code: 'MONITOR_REQUIRED',
-                    message: 'The Filing Change Monitor is available on Power and Desk plans.'
+                    message: 'The Filing Change Monitor is available on the Power, Desk, Enterprise and Pro Annual plans.'
                 });
             }
             const summary = await aiFeatures.summarizeFinancials(sym);
-            recordMonitorView(req.userId, normSym, instrument.name);
+            // A fund gets a labelled market-data snapshot, not a filing-change
+            // report — the payload's own note says so — therefore it must NOT
+            // count as Filing Monitor engagement. The view is still recorded so
+            // the fund shows in recent activity.
+            recordMonitorView(resolvedTrackingUserId(req), normSym, instrument.name);
             return res.json({ report: {
                 symbol: sym,
                 name: instrument.name || sym,
@@ -12610,7 +12685,7 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
             if (MONITOR_FREE_STOCKS <= 0) {
                 return res.status(402).json({
                     code: 'MONITOR_REQUIRED',
-                    message: 'The Filing Change Monitor is available on Power and Desk plans.'
+                    message: 'The Filing Change Monitor is available on the Power, Desk, Enterprise and Pro Annual plans.'
                 });
             }
             try {
@@ -12666,11 +12741,8 @@ app.get('/api/filings/:symbol/report', optionalAuth, async (req, res) => {
         const winner = await Promise.race([build, new Promise((r) => setTimeout(() => r('PENDING'), MONITOR_FAST_MS))]);
         if (winner && winner.error) return res.status(404).json(winner); // typo/invalid → no credit spent
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _monitorProgress.get(sym) || null });
-        if (req.user && winner && !winner.error) trackActivation(req.user._id, 'filing_monitor', {
-            resultValid: true, sourceOpened: false, featureType: 'filing_monitor',
-            requestFields: trackingRequestFields(req, res)
-        });
-        recordMonitorView(req.userId, normSym, winner && winner.name);
+        if (winner && !winner.error) recordMonitorEngagement(req, res);
+        recordMonitorView(resolvedTrackingUserId(req), normSym, winner && winner.name);
         return res.json({ report: winner });
     } catch (err) {
         console.error('[filings] report error:', err.message);
@@ -12836,6 +12908,10 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (instrument && assetProfile.isFundAsset(instrument.assetType)) {
             const summary = await aiFeatures.summarizeFinancials(sym);
             recordDossierView(req.userId, sym, instrument.name);
+            // The fund workspace on the Dossier route is a real, delivered
+            // result, so it earns the same per-feature engagement a company
+            // Dossier does.
+            recordDossierEngagement(req, res);
             return res.json({ dossier: {
                 symbol: sym,
                 name: instrument.name || sym,
@@ -12872,6 +12948,7 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
             const cached = await dossier.peekDossier(sym, depth).catch(() => null);
             if (cached) {
                 if (!cached.partial) recordDossierView(req.userId, sym, cached.name);
+                if (!cached.partial) recordDossierEngagement(req, res);
                 return res.json({ dossier: cached });
             }
             return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
@@ -12886,7 +12963,10 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (!force) {
             const preCached = await dossier.peekDossier(sym, depth).catch(() => null);
             if (preCached) {
-                recordDossierView(req.userId, sym, preCached.name);
+                if (!preCached.partial) {
+                    recordDossierView(req.userId, sym, preCached.name);
+                    recordDossierEngagement(req, res);
+                }
                 return res.json({ dossier: preCached });
             }
         }
@@ -12967,12 +13047,13 @@ app.get('/api/dossier/:symbol', authMiddleware, proGate, async (req, res) => {
         if (winner && winner.error) return res.status(404).json(winner);
         if (winner === 'PENDING') return res.status(202).json({ status: 'building', symbol: sym, stage: _dossierProgress.get(inflightKey) || null });
         if (winner && winner.status === 'building') return res.status(202).json(winner);
-        recordDossierView(req.userId, sym, winner && winner.name);
-        if (req.userId && winner && !winner.error) trackActivation(req.userId, 'dossier', {
-            resultValid: true, sourceOpened: false, featureType: 'dossier',
-            requestFields: trackingRequestFields(req, res)
-        });
-        if (winner && !winner.error) markOnboardingStep(req.user, 'dossier');
+        // A partial carries every data section but no narrative yet; it is a
+        // pollable intermediate, not a delivered Dossier, so it must not record
+        // a view or engagement until the complete build lands.
+        if (winner && !winner.error && !winner.partial) {
+            recordDossierView(req.userId, sym, winner.name);
+            recordDossierEngagement(req, res);
+        }
         return res.json({ dossier: winner });
     } catch (err) {
         console.error('[dossier] route error:', err.message);
@@ -13349,6 +13430,65 @@ function digestUnsubHeaders(userId) {
     };
 }
 
+// Explicit digest consent. Never inferred: a Pro Annual account is enabled
+// only after an authenticated POST sets enabled=true. GET reports eligibility
+// and the current state without changing anything, so the dashboard control
+// can default hidden/off. Power/Desk/enterprise/LTD remain opt-out and are
+// unaffected by these routes.
+function digestPreferenceState({ eligible, digestOptInAt, digestOptOut }) {
+    return {
+        eligible: !!eligible,
+        enabled: !!eligible && digestOptInAt != null && digestOptOut !== true,
+        digestOptInAt: digestOptInAt || null,
+        digestOptOut: digestOptOut === true,
+        cadence: 'weekly'
+    };
+}
+
+app.get('/api/digest/preferences', authMiddleware, async (req, res) => {
+    try {
+        return res.json(digestPreferenceState({
+            eligible: tierLimits.hasProAnnualDigestEntitlement(req.user, req.subscription),
+            digestOptInAt: req.user.digestOptInAt,
+            digestOptOut: req.user.digestOptOut
+        }));
+    } catch (error) {
+        console.error('[digest] preferences read failed:', error && error.message);
+        return res.status(500).json({ message: 'Could not load your digest preference.' });
+    }
+});
+
+app.post('/api/digest/preferences', authMiddleware, async (req, res) => {
+    const body = req.body && typeof req.body === 'object' ? req.body : {};
+    if (typeof body.enabled !== 'boolean') {
+        return res.status(400).json({ message: 'enabled must be a boolean.' });
+    }
+    const eligible = tierLimits.hasProAnnualDigestEntitlement(req.user, req.subscription);
+    try {
+        if (body.enabled) {
+            if (!eligible) {
+                return res.status(403).json({ message: 'The weekly digest opt-in is available on an active Pro Annual plan.' });
+            }
+            // Explicit opt-in: record the consent timestamp and clear any
+            // prior unsubscribe. No other field can turn this on.
+            const digestOptInAt = new Date();
+            await User.updateOne({ _id: req.userId }, { $set: { digestOptInAt, digestOptOut: false } });
+            return res.json({ ok: true, ...digestPreferenceState({ eligible, digestOptInAt, digestOptOut: false }) });
+        }
+        // An explicit opt-out suppresses the digest for every plan; the
+        // existing one-click unsubscribe links do exactly the same thing.
+        await User.updateOne({ _id: req.userId }, { $set: { digestOptOut: true } });
+        return res.json({ ok: true, ...digestPreferenceState({
+            eligible,
+            digestOptInAt: req.user.digestOptInAt,
+            digestOptOut: true
+        }) });
+    } catch (error) {
+        console.error('[digest] preference write failed:', error && error.message);
+        return res.status(500).json({ message: 'Could not save your digest preference.' });
+    }
+});
+
 async function runDigestSweep() {
     if (mongoose.connection.readyState !== 1) return { skipped: 'no db' };
     if (!mailer.isMailerConfigured()) return { skipped: 'no smtp' };
@@ -13367,6 +13507,11 @@ async function runDigestSweep() {
         $and: [{
             $or: [
                 { 'subscription.planId': { $in: ['power', 'power-monthly', 'desk', 'enterprise'] }, 'subscription.status': { $in: ACTIVE } },
+                // Pro Annual has Monitor access but was never mailed. It is the
+                // one plan that must opt in explicitly: digestOptInAt is set
+                // only by POST /api/digest/preferences, and the outer
+                // digestOptOut filter still suppresses any unsubscribe.
+                { 'subscription.planId': 'pro-annual', 'subscription.status': { $in: ACTIVE }, digestOptInAt: { $ne: null } },
                 { appsumoRedeemedAt: { $ne: null } },
                 { dealMirrorRedeemedAt: { $ne: null } }
             ]
@@ -13384,13 +13529,24 @@ async function runDigestSweep() {
             // real token cost), so an uncapped lifetime watchlist here would
             // silently mint spend. capSymbols is a no-op for non-LTD plans.
             const symbols = tierLimits.capSymbols(u, [...new Set([...holdings.map((h) => h.symbol), ...((wl && wl.symbols) || [])])]);
+            // An empty watchlist or a week with no material filings still
+            // advances the weekly check cadence. A failed SMTP send does not:
+            // leave it due so the next daily sweep can retry.
+            let advanceCadence = symbols.length === 0;
             if (symbols.length) {
                 const unsub = digestUnsubHeaders(u._id);
                 const digest = await monitorDigest.buildUserDigest(u, { appUrl, unsubUrl: unsub.url, symbols });
-                if (digest && await mailer.sendMail({ to: u.email, subject: digest.subject, html: digest.html, text: digest.text, headers: unsub.headers })) sent++;
+                if (!digest) {
+                    advanceCadence = true;
+                } else if (await mailer.sendMail({ to: u.email, subject: digest.subject, html: digest.html, text: digest.text, headers: unsub.headers })) {
+                    sent++;
+                    advanceCadence = true;
+                }
             }
-            u.lastDigestAt = new Date();
-            await u.save().catch(() => {});
+            if (advanceCadence) {
+                u.lastDigestAt = new Date();
+                await u.save().catch(() => {});
+            }
         } catch (_) { /* per-user fail-open */ }
     }
     return { eligible: users.length, sent };
