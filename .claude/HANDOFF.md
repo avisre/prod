@@ -207,10 +207,14 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
   costs the shared `?v=` stamp bump across ~40 pages plus 11 test literals.
 - Also unrecorded elsewhere: `backend/tmp-human-7d.js` and `tmp-register-detail.js` filter analytics rows on
   `pagePath === '/register.html'`, which no longer occurs for new traffic (the 301 lands first).
-- **Still open, deliberately not in this commit:** `verify.html`, `partners.html` and `partners-apply.html`
-  are the only pages now in the sitemap with no `<link rel=canonical>` — one self-canonical each closes the
-  class (the 301 already consolidates them, so this is tidiness, not a live defect, and it did not belong in
-  a change that was mid-deploy).
+- **CLOSED 9/28 (`fa6bcd7c`, deployed, verified live):** `verify.html`, `partners.html` and
+  `partners-apply.html` were the only sitemapped pages with **no `<link rel=canonical>` at all** — a sitemap
+  row naming a page that never states its own URL. Each now carries a self-canonical, and
+  `legacy-html-redirects.test.js` derives the requirement from the file list, so a new indexable page
+  without one goes red. Live re-check after the deploy: **12/12** — three canonicals present on 200, twins
+  301 with the query preserved (`/ask.html?x=1` → `/ask?x=1`, `/register.html?plan=monthly` →
+  `/register?plan=monthly`), `/pricing` 301, `/login.html` + `/upgrade.html` untouched. The three changed
+  URLs went to IndexNow (HTTP 200). Suite 990.
 
 ## AI model + cost
 - **Prod runs glm-5.1 on all three purposes**, at a measured **$28.91/mo ≈ 48% of the $60 allowance**
@@ -232,7 +236,7 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 9/28 (989 pass, 0 fail, exit 0, after the market-cap fixes).** **No CI job runs it** — `repo-checks.yml`
+- **Suite GREEN as of 9/28 (990 pass, 0 fail, exit 0, after the market-cap fixes + the twin-canonical test).** **No CI job runs it** — `repo-checks.yml`
   runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
   need root `node_modules`, so a full-suite gate is a real job, not a config line. The two long-standing failures are fixed — do not
   re-report them: `ga4-consent-resolution` sliced a fixed 2000 chars and the route had outgrown it (the
@@ -253,6 +257,12 @@ panel: the API-side analysis could not see that the *link graph itself* was feed
   (`gh run list`), not by the push output; the fix is `gh workflow run deploy-render.yml --ref main`, which deploys
   current HEAD without rewriting history. `frontend/data/fundamentals/**` must never carry it (`app.js:3240` reads
   the deployed filesystem) — see CLAUDE.md's corrected rule.
+- **Live verification has a request budget: 100 non-asset requests per 5 min per IP** (`navMax()`,
+  `bot-blocker.js:158`; the limiter's handler returns the *same* 403 body as a UA deny, so the two are
+  indistinguishable from outside). A 119-URL canonical sweep exceeded it and the very next run read
+  **403 for all 24 twins** — which reads exactly like a mass regression and was reported as one twice in
+  one session before the source was read. Split any sweep over 100 URLs across windows, never run a
+  second sweep immediately after a big one, and re-check a 403 before believing it.
 
 ## Owner actions pending
 1. **Submit the plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
