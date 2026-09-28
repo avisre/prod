@@ -137,9 +137,9 @@ Artifact publishing is refused here.
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`. Pre-existing suite failures: `social-compose` (no selenium), `ga4-consent-resolution` (fails on a clean HEAD too).
-- Cache stamps: any edit to `frontend-v2/assets/*.js` needs a new `?v=` stamp everywhere at once (all
-  `frontend-v2/*.html` + the server-rendered pages in `backend/`) plus the pinned test literals.
-- `news.js` (#news-q) and `company.js` (#cmp-input) searched the bundled **stocks-only** SEC directory, not the asset API — SCHG/VOO/VTI/VTSAX were invisible there while the header search found them (news box fixed 9/28; compare box now says so instead of hiding).
+- Cache stamps: `app.js`/`system.css` share ONE `?v=` across every page, but **every other asset carries its
+  own** (`company.js`, `news.js`, …). Bump the asset you edited AND its pinned test literal — a stale per-file
+  stamp still passes `profile-consolidation` (it checks only the shared pair) and serves old JS for a year.
 
 ## Owner actions pending
 1. **Submit the plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
