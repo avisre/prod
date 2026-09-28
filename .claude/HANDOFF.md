@@ -60,7 +60,7 @@ Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299
   reply in Yena's thread. Push the price half **only once the live page shows $299/$499** — a page selling 200
   credits while production meters 50 is the refund this ordering avoids.
 
-**Prices split from fundamentals + truthful freshness — code DONE 9/28, NOT COMMITTED; 1,500-company backfill running.**
+**Prices split from fundamentals + truthful freshness — code COMMITTED 9/28 (`e99c645b`, `0ba72c2d`); the 1,500-company backfill is data-only and still uncommitted in the working tree.**
 - `backend/quote-store.js` = the one place pages ask for a price: live Yahoo (60s cache, browser UAs only,
   120/min budget) → `frontend/data/quotes.json` (S&P 1500 daily snapshot, ~212 KB).
   `scripts/refresh-quotes.js` + `refresh-quotes.yml` (Tue–Sat 01:30Z) write it. `/stocks/:sym` bypasses the
@@ -165,6 +165,44 @@ files alone would have left the app requiring an untracked module. **Measured li
 - Operator Python needs **`.venv/bin/python3`** — Homebrew Python is PEP 668-managed, so `pip install --user`
   is refused and no `scripts/*.py` could run at all. `scripts/requirements.txt` documents it.
 
+**`.html` URL twins retired — COMMITTED + DEPLOYED 9/28 (`0a570df9`), verified from outside.** Second round on the same Site Scan
+panel: the API-side analysis could not see that the *link graph itself* was feeding the duplicates.
+**Measured live after the deploy: 24/24 twins 301 to exactly their clean route, query strings preserved
+(`?plan=`, `?symbol=`), the private twins still 200, every 301 target a real 200, `/pricing` 301 and
+`core.xml` at 119** — then the 49 changed URLs were pushed to IndexNow (HTTP 200).
+- **The defect:** `express.static(..., { extensions: ['html'] })` answered every public page at **both**
+  spellings — the extension fallback resolves the file, it does not redirect (`node_modules/send`). 22
+  indexable twins, each duplicating a sitemapped URL's title and description verbatim; 3 with no canonical;
+  72 internal hrefs pointing at them.
+- **The fix:** an exact 301 table (24 entries) registered before the wall and before `express.static`,
+  GET-only, query preserved. **Never `/(.+)\.html$/`** — the 17 noindex private twins keep both spellings
+  (`/upgrade` + `/recharge` carry `?next=%2Fupgrade.html`; `/profile.html` is the `/inbox` target).
+- **Four things an anchor-only sweep misses, all served markup or code:** the homepage JSON-LD
+  `SearchAction.target`, a `gurus.html` navigation string, four alert-email URLs (`smart-alerts` ×3,
+  `watchdog` ×1), and **the paywall's own target** — `wallRedirect(res, '/register.html')` made every
+  anonymous wall hit a two-hop redirect; it now goes straight to `/register`.
+  `test/legacy-html-redirects.test.js` guards all four classes (any twin reference in an indexable page; any
+  twin URL carrying `?`/`#` in a module) and derives its expected key set from the files, so a new page
+  without an entry goes red.
+- **Sitemap `core.xml` 114 → 119 live:** `/verify`, `/compare-dossiers`, `/partners`, `/partners-apply`,
+  `/lifetime` were linked but in no shard. **`/company` is deliberately excluded** — bare `/company` is a
+  JS-only skeleton that nothing links, and `/stocks/:symbol` already covers per-symbol pages. A sitemap row
+  is not an inbound link, so `/lifetime` (0 inbound) still needs one.
+- **Two live 404s in shipped docs prose fixed:** `docs-pages.js` linked `/markets.html` and
+  `/portfolio.html`; they now point at `/news` and `/dashboard`, the pages the shared nav calls Markets and
+  Portfolio. The v1 `founding.html` / `demo-dashboard.html` are left alone — `index,follow` but already
+  canonicalising to their intended target, and `/fundamentals(.html)` is robots-disallowed.
+- **Deferred on purpose:** `/demo` stays a **302** (its target is noindex by design, so "permanent" would be
+  wrong and would forfeit the URL if a real demo page replaces it); `frontend-v2/assets/app.js` still names
+  34 twins in the sitewide nav/footer — the 301 makes those clicks work, so it is cosmetic, and editing it
+  costs the shared `?v=` stamp bump across ~40 pages plus 11 test literals.
+- Also unrecorded elsewhere: `backend/tmp-human-7d.js` and `tmp-register-detail.js` filter analytics rows on
+  `pagePath === '/register.html'`, which no longer occurs for new traffic (the 301 lands first).
+- **Still open, deliberately not in this commit:** `verify.html`, `partners.html` and `partners-apply.html`
+  are the only pages now in the sitemap with no `<link rel=canonical>` — one self-canonical each closes the
+  class (the 301 already consolidates them, so this is tidiness, not a live defect, and it did not belong in
+  a change that was mid-deploy).
+
 ## AI model + cost
 - **Prod runs glm-5.1 on all three purposes**, at a measured **$28.91/mo ≈ 48% of the $60 allowance**
   (`scripts/ollama-cost-projection.js`). Real split is 95/5 chat and 90/10 summary, not 85/15 as `credits.js` assumed.
@@ -185,7 +223,7 @@ files alone would have left the app requiring an untracked module. **Measured li
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 9/28 (968 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
+- **Suite GREEN as of 9/28 (981 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
   runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
   need root `node_modules`, so a full-suite gate is a real job, not a config line. The two long-standing failures are fixed — do not
   re-report them: `ga4-consent-resolution` sliced a fixed 2000 chars and the route had outgrown it (the
@@ -206,7 +244,10 @@ files alone would have left the app requiring an untracked module. **Measured li
    preconditions are deployed and verified; see above.
 2. **Dossier mockup review** — step 2, the port, has not started.
 3. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
-   error (5xx)` (2) need the UI drill-down; the API has neither.
+   error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click
+   **Investigate** on the identical-titles / identical-descriptions / noindex cards: the 9/28 fixes answer
+   all three, and those URL lists exist only in the Bing UI. Card 5 (inbound links) needs links that a
+   sitemap row cannot supply.
 4. **`avisre/prod` visibility** — it names the AI provider while public.
 5. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
    SMTP_PASS, GOOGLE_CLIENT_SECRET, the provider key) at source AND on Render back-to-back per key, or

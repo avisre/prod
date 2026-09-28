@@ -239,6 +239,50 @@ these pages are server-rendered.
 - `www` canonicalisation is a clean 301 from the apex; `/sitemap.xml` is a valid index.
 - 4xx/5xx negligible.
 
+## 8. The `.html` URL twins, and the pages missing from the sitemap — HIGH (shipped `0a570df9`)
+
+Site Scan's panel is a third dataset from the API surfaces in §1–§7: it audits the site's own
+**internal link graph against the sitemap**, which the API-side analysis never looked at.
+
+`express.static(..., { extensions: ['html'] })` resolves `/<name>` to `/<name>.html` — the
+extension fallback *serves* the file, it does not redirect (`node_modules/send/index.js`). So every
+public page answered **200 at two URLs**; all 22 twins were measured live on 2026-09-28. The
+`.html` spelling is in no sitemap, duplicates its clean route's `<title>` and description verbatim
+(Site Scan cards 2 and 3), three carried no canonical at all, and 72 internal `href`s pointed at
+them — the site was feeding Bing its own duplicates.
+
+Fix: an exact 301 table in `app.js`, registered ahead of the wall and of `express.static`, GET-only,
+query preserved. Exact entries rather than `/(.+)\.html$/`, because the 17 noindex private pages
+must keep both spellings — `/upgrade` and `/recharge` deep-link `?next=%2Fupgrade.html`, and
+`/profile.html` is the *target* of the `/inbox` 301.
+
+Four things an anchor-only sweep misses — all four were still live after the hrefs were "done":
+
+- the homepage JSON-LD `SearchAction.target` (`/company.html?symbol={search_term_string}`);
+- a client-side navigation string in `gurus.html`;
+- four alert-email URLs (`smart-alerts.js` ×3, `watchdog.js` ×1);
+- **the paywall's own redirect target** — `wallRedirect(res, '/register.html')` sent every
+  anonymous wall hit through a second hop.
+
+`test/legacy-html-redirects.test.js` derives its expected key set from the files themselves (plus
+the two route-only twins `/verify-ledger.html` and `/filing-changes.html`, whose pages are
+dual-path route arrays with no file on disk, so a file-derived list can never see them) and guards
+all four classes above.
+
+Sitemap: `core.xml` **114 → 119**. `/verify`, `/compare-dossiers`, `/partners`, `/partners-apply`
+and `/lifetime` were indexable and internally linked but in no shard. `/company` is **deliberately
+excluded**: bare `/company` is a JS-only skeleton that nothing links, and `/stocks/:symbol` already
+covers per-symbol pages. Card 5 (inbound links) is untouched — a sitemap row is not an inbound
+link, so `/lifetime` still needs one.
+
+Two live 404s in shipped documentation prose (`/markets.html`, `/portfolio.html`) now point at
+`/news` and `/dashboard`, the pages the shared nav calls Markets and Portfolio.
+
+Deliberately not done: `/demo` stays a 302 (its target is noindex by design, so "permanent" would
+be wrong); `frontend-v2/assets/app.js` keeps 34 twin references in the sitewide nav and footer —
+the 301 makes those clicks work, so it is cosmetic, and the edit costs the shared `?v=` stamp bump
+across ~40 pages plus 11 pinned test literals.
+
 ## Verification performed
 
 - `cd backend && node --test test/` — **968 passing, 0 failing** (exit 0).
