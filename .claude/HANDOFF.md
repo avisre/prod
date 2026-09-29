@@ -52,10 +52,13 @@ plan's clock starts at actual launch). Ops doc: `docs/growth/filing-watch-runboo
 - **Owner-approved sandbox waiver (9/29):** proceed without a real Stripe sandbox transaction. Live $49/month
   price was re-verified read-only; local checkout integration (Stripe mocked) is **32/32**, full suite
   **1023/1023**. Real success/decline, webhook, renewal, refund and cancellation behavior remains unverified;
-  do not use a production card to test. After opening the flag, confirm deployed status and invitation page
-  behavior, then monitor the first genuine checkout. See the runbook for the recorded exception.
-- **Prospects: 1 of 5** — `ncdorc`/ATOS (Stocktwits, Sep 9) is conditional: verify live product retrieval for
-  ATOS before contacting, and Stocktwits' self-promotion rules must be met. Five documented rejects in
+  do not use a production card to test. Owner set the verified live price and opened the flag; deploy run
+  36593397177 succeeded and external checks returned `enabled:true`, $49, capacity 5, and HTTP 200 for offer
+  and sample. Monitor the first genuine checkout. See the runbook for the recorded exception.
+- **Prospects: 1 of 5** — `ncdorc`/ATOS (Stocktwits, Sep 9) is qualified: live EDGAR retrieval is confirmed,
+  and the Q2 10-Q example is prepared. Public reply only; no Stocktwits posting tool is connected here, so no
+  message has been sent. Check the account against Stocktwits' current self-promotion and first-50-post rules.
+  Five documented rejects in
   `notes/2026-09-29-filing-watch-prospects.md`. `notes/filing-watch-outreach.csv` + `filing-watch-payments.csv`
   are header-only and **must stay untracked — the repo is PUBLIC** and will hold prospect PII (the runbook keeps
   the outreach log private/local on purpose). Never send outreach without the owner's explicit authorization.

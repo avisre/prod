@@ -25,6 +25,13 @@ is 200, both `.html` twins 301, `/api/filing-watch/status` reports
 `{"enabled":false,"price":49,"capacity":5}`, and sitemap `core.xml` lists 121
 URLs including both pages.
 
+Opened by owner instruction on September 29, 2026: Render now has the verified
+live price ID and `FILING_WATCH_ENABLED=true`; deploy run 36593397177 succeeded.
+External checks returned `{"enabled":true,"price":49,"capacity":5}` and HTTP
+200 for both public offer and sample pages. The real Stripe sandbox flow and a
+genuine customer payment remain untested. Checkout is invitation-only; issue
+an invitation only after interest and supported ticker coverage are confirmed.
+
 Public offer: `/filing-watch`. Sourced sample: `/filing-watch-sample`.
 Post-payment stock selection: `/filing-watch/start`.
 No shared frontend bundle was changed; existing cache stamps stay intact.
