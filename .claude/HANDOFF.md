@@ -32,6 +32,33 @@ Earlier snapshots: `handoff-archive/2026-09-28.md`. Deep history: `git log`, `no
 
 ## In flight
 
+**Filing Watch $49/month pilot — BUILT, VALIDATED, DEPLOYED flag-off (`d642d04a`, deploy run 36525421832 — verified live 9/29).**
+First-recurring-customers experiment ($49/mo × 5 = $245/mo capacity; $0 collected, zero offers sent — the
+plan's clock starts at actual launch). Ops doc: `docs/growth/filing-watch-runbook.md` (committed with the code).
+- **Done:** `backend/filing-watch.js` (5 email-bound seats, hashed one-time invites, no seat recycling once a
+  checkout starts), `/filing-watch` + `/filing-watch-sample` + `/filing-watch/start`, register.html plan card
+  (email/password only — social sign-in off for this plan), admin invitation/queue/revoke/delivery APIs behind
+  the owner token, wall + bot-blocker exemptions for the two public prose pages, `.html` twin 301s, sitemap
+  core.xml 119 → 121. `scripts/verify-filing-watch.js` = **29/29** (real app, in-memory Mongo, Stripe mocked);
+  full suite **1023/1023**. Live price verified read-only: `price_1UKsebAUeKapY1OP7d68Qp7r` (exactly one
+  matching $49/mo price). Fails closed everywhere: no flag → `PILOT_NOT_OPEN`; unverified price →
+  `PRICE_UNVERIFIED`; no promo box/trial/discount on filing seats; plan subscription writes are hard-saved.
+- **Verified live from outside after the owner pushed** (my push was classifier-blocked twice; the deploy was the
+  owner's explicit instruction): run 36525421832 success — `/filing-watch` 200 with the honest flag-off copy
+  ("Pilot checkout is not open yet"), `/filing-watch-sample` 200, both `.html` twins 301 to clean routes,
+  `/api/filing-watch/status` = `{enabled:false,price:49,capacity:5}`, core.xml **119 → 121** with both new
+  routes, `/register` 200. Two 403s during the check were my thin-header curl (the `hasBrowserHeaders` trap);
+  re-checked clean with the full header set.
+- **Remaining launch gates, in order:** (1) real **Stripe sandbox acceptance** per the runbook (needs a Stripe
+  TEST key + webhook forwarding; `scripts/filing-watch-stripe.js --mode test` checks the sandbox price);
+  (2) set `STRIPE_PRICE_ID_FILING_WATCH=price_1UKsebAUeKapY1OP7d68Qp7r` then `FILING_WATCH_ENABLED=true` on
+  Render (only after acceptance); (3) deployed-checkout external checks. Outreach starts only after all three.
+- **Prospects: 1 of 5** — `ncdorc`/ATOS (Stocktwits, Sep 9) is conditional: verify live product retrieval for
+  ATOS before contacting, and Stocktwits' self-promotion rules must be met. Five documented rejects in
+  `notes/2026-09-29-filing-watch-prospects.md`. `notes/filing-watch-outreach.csv` + `filing-watch-payments.csv`
+  are header-only and **must stay untracked — the repo is PUBLIC** and will hold prospect PII (the runbook keeps
+  the outreach log private/local on purpose). Never send outreach without the owner's explicit authorization.
+
 **OpenAI plugin (remote MCP) — DEPLOYED + VERIFIED LIVE; only owner-only portal steps left (9/29).**
 Implementation on `main` (`febf5892`, follow-ups `576ae002`): the OpenAI surface is `POST /mcp/apps`
 (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools over the same

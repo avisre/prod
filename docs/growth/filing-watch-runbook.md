@@ -15,6 +15,12 @@ The live price created and verified on September 29, 2026 is
 on the existing `stockportfolio.pro` product. Creating a price charged nobody.
 Do not enable the offer until real Stripe sandbox acceptance is recorded.
 
+Deployed flag-off on September 29, 2026 (`d642d04a`, deploy run 36525421832),
+verified from outside: `/filing-watch` serves the closed-state copy, the sample
+is 200, both `.html` twins 301, `/api/filing-watch/status` reports
+`{"enabled":false,"price":49,"capacity":5}`, and sitemap `core.xml` lists 121
+URLs including both pages.
+
 Public offer: `/filing-watch`. Sourced sample: `/filing-watch-sample`.
 Post-payment stock selection: `/filing-watch/start`.
 No shared frontend bundle was changed; existing cache stamps stay intact.
