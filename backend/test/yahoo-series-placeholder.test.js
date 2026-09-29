@@ -69,9 +69,9 @@ test('a row with a close but a missing open is kept — only close-less rows are
 });
 
 test('the tape walks past holes itself, so a stale nightly-store blob cannot blank it', () => {
-    // The belt to the shaper's braces: fetchAlphaCached falls back to blobs
-    // stored before this fix, which can still contain all-empty rows.
+    // The strip builder must keep filtering historical placeholder rows even
+    // when fetchAlphaCached returns a nightly-store fallback.
     const source = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
     const strip = source.slice(source.indexOf("app.get('/api/market/strip'"));
-    assert.match(strip, /Object\.keys\(series\)\s*\.filter\(\(d\) => Number\.isFinite\(parseFloat\(\(series\[d\] \|\| \{\}\)\['4\. close'\]\)\)\)/);
+    assert.match(strip, /buildMarketStripQuote\(series\)/);
 });

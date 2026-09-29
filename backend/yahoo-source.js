@@ -788,6 +788,48 @@ const BROAD_MARKET_QUERIES = [
     'stocks', 'market', 'earnings', 'economy', 'wall street'
 ];
 
+// Yahoo does not provide Alpha Vantage's topic taxonomy. Keep the existing
+// topic chips useful with explicit keyword groups over the headline/summary.
+// Match whole phrases after normalizing punctuation and whitespace.
+const NEWS_TOPIC_TERMS = Object.freeze({
+    top_stories: ['breaking news', 'top story', 'what to know', 'what happened', 'biggest stories'],
+    financial_markets: ['stock market', 'financial markets', 'wall street', 'stock futures', 'market rally', 'market selloff', 'trading session', 'share prices', 'market close'],
+    earnings: ['earnings', 'revenue', 'quarterly results', 'quarter results', 'eps', 'profit', 'losses', 'guidance', 'fiscal quarter', 'beat estimates', 'missed estimates'],
+    technology: ['technology', 'tech', 'artificial intelligence', ' ai ', 'semiconductor', 'chipmaker', 'software', 'cybersecurity', 'data center'],
+    economy_macro: ['economy', 'economic', 'inflation', 'gdp', 'jobs report', 'unemployment', 'tariff', 'consumer spending', 'recession', 'labor market'],
+    economy_monetary: ['federal reserve', 'fed rate', 'interest rate', 'rate cut', 'rate hike', 'monetary policy', 'powell', 'fomc', 'treasury yields'],
+    ipo: ['ipo', 'initial public offering', 'goes public', 'stock market debut', 'public listing'],
+    mergers_and_acquisitions: ['merger', 'acquisition', 'acquires', 'acquired', 'takeover', 'buyout', 'deal talks'],
+    energy_transportation: ['energy', 'crude oil', 'natural gas', 'renewable', 'electric vehicle', 'airline', 'shipping', 'automotive'],
+    finance: ['bank', 'banking', 'financial services', 'credit card', 'lender', 'loan', 'insurance', 'private equity'],
+    life_sciences: ['biotech', 'biotechnology', 'pharma', 'drug trial', 'clinical trial', 'fda approval', 'healthcare', 'medical device'],
+    real_estate: ['real estate', 'housing', 'home sales', 'mortgage', 'commercial property', 'rents', 'property market'],
+    retail_wholesale: ['retail', 'retailer', 'wholesale', 'consumer brands', 'store sales', 'same-store sales', 'e-commerce', 'online shopping']
+});
+
+function normalizedNewsText(item) {
+    return `${item?.title || ''} ${item?.summary || ''}`.toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function newsMatchesTopic(item, topic) {
+    const terms = NEWS_TOPIC_TERMS[String(topic || '').toLowerCase()];
+    if (!terms) return true;
+    const text = ` ${normalizedNewsText(item)} `;
+    return terms.some((term) => text.includes(` ${term.trim().toLowerCase()} `));
+}
+
+function newsMatchesTickers(item, tickers) {
+    if (!tickers.length) return true;
+    const related = new Set((item?.relatedTickers || []).map((ticker) => toYahooSymbol(ticker)));
+    const titleAndSummary = ` ${normalizedNewsText(item)} `;
+    return tickers.some((ticker) => {
+        const yahooTicker = toYahooSymbol(ticker);
+        const escaped = yahooTicker.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        return related.has(yahooTicker) || new RegExp(`(?:^| )${escaped}(?:$| )`).test(titleAndSummary);
+    });
+}
+
 // Yahoo Finance RSS feed for the general headline index. Free, no key, and
 // returns ~25 broad-market items refreshed throughout the day.
 const YAHOO_RSS_INDEX = 'https://finance.yahoo.com/news/rssindex';
@@ -851,6 +893,7 @@ async function fetchYahooRss(url) {
 
 async function fetchNews(params = {}) {
     const tickers = String(params.tickers || '').split(',').map((t) => t.trim()).filter(Boolean);
+    const topic = String(params.topics || '').trim().toLowerCase();
     const limit = Math.max(1, Math.min(80, Number(params.limit) || 40));
 
     // Pick the source list: caller-supplied tickers, or our broad-market basket.
@@ -864,10 +907,14 @@ async function fetchNews(params = {}) {
     // Yahoo's search-based news + RSS feeds run in parallel — each adds ~10-25
     // headlines, dedup keeps the total tidy.
     const tasks = queries.map((q) => yf.search(q, { quotesCount: 0, newsCount: perQuery }).catch(() => null));
-    tasks.push(fetchYahooRss(YAHOO_RSS_INDEX));
+    // The general RSS index is useful for the broad feed but contaminates a
+    // ticker search with unrelated headlines. Ticker RSS URLs are already
+    // scoped upstream and are tagged with that ticker below.
+    if (!tickers.length) tasks.push(fetchYahooRss(YAHOO_RSS_INDEX));
     if (tickers.length) {
-        for (const t of tickers.slice(0, 4)) {
-            tasks.push(fetchYahooRss(YAHOO_RSS_TICKER(toYahooSymbol(t))));
+        for (const t of tickers.slice(0, 8)) {
+            tasks.push(fetchYahooRss(YAHOO_RSS_TICKER(toYahooSymbol(t))).then((items) =>
+                items.map((item) => ({ ...item, relatedTickers: [toYahooSymbol(t)] }))));
         }
     }
 
@@ -882,6 +929,7 @@ async function fetchNews(params = {}) {
             const url = String(item?.link || item?.uuid || '').split('?')[0].split('#')[0];
             const titleKey = String(item?.title || '').trim().toLowerCase().slice(0, 80);
             if (!url && !titleKey) continue;
+            if (!newsMatchesTickers(item, tickers) || !newsMatchesTopic(item, topic)) continue;
             if (url && seenUrl.has(url)) continue;
             if (titleKey && seenTitle.has(titleKey)) continue;
             if (url) seenUrl.add(url);
@@ -996,6 +1044,10 @@ module.exports = {
     fetchSymbolSearch,
     fetchMovers,
     fetchNews,
+    // Pure news filters are exported so their provider-adapter behavior is
+    // covered without making network requests.
+    newsMatchesTopic,
+    newsMatchesTickers,
     fetchOwnership,
     toYahooSymbol
 };

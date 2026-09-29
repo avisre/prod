@@ -1,6 +1,4 @@
-// Markets page — the v1 layout (tape → filters → featured | latest | sidebar
-// → stream) in the v2 skin. Same endpoints as v1: market/strip, alpha/news,
-// alpha/movers.
+// Markets page — market/strip, alpha/news, and alpha/movers.
 (function () {
     'use strict';
     const { API, token, esc, fixed, sparkline, nav, footer, searchAssets } = window.V2;
@@ -9,8 +7,8 @@
     const $ = (id) => document.getElementById(id);
 
     const TAPE = [
-        ['S&P 500', 'SPY'], ['Dow 30', 'DIA'], ['Nasdaq', 'QQQ'], ['Russell 2000', 'IWM'],
-        ['VIX', 'VXX'], ['Crude oil', 'USO'], ['Gold', 'GLD'], ['10-yr bond', 'TLT'], ['Bitcoin', 'BITO']
+        ['S&P 500 ETF · SPY', 'SPY'], ['Dow ETF · DIA', 'DIA'], ['Nasdaq 100 ETF · QQQ', 'QQQ'], ['Russell 2000 ETF · IWM', 'IWM'],
+        ['VIX futures ETN · VXX', 'VXX'], ['Oil fund · USO', 'USO'], ['Gold ETF · GLD', 'GLD'], ['20+ yr Treasury ETF · TLT', 'TLT'], ['Bitcoin strategy ETF · BITO', 'BITO']
     ];
     const TOPICS = [
         ['all', 'All'], ['top_stories', 'Top stories'], ['financial_markets', 'Markets'],
@@ -39,10 +37,14 @@
                 const q = (data.quotes || {})[sym];
                 if (!q) return '';
                 const up = q.pct >= 0;
+                const closeDate = q.date
+                    ? new Date(`${q.date}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+                    : 'date unavailable';
                 return `<a class="tape-item" href="/company.html?symbol=${sym}" style="color:inherit;">
                   <span class="label">${esc(label)}</span>
-                  <b>${fixed(q.value, 2)}</b>
+                  <b>$${fixed(q.value, 2)} USD</b>
                   <span class="small num ${up ? 'delta-pos' : 'delta-neg'}">${up ? '+' : ''}${fixed(q.pct, 2)}%</span>
+                  <span class="small faint">Daily close · ${closeDate}</span>
                 </a>`;
             }).join('');
         } catch (_) { $('tape').hidden = true; }
@@ -51,10 +53,13 @@
     // ---------- ② filters ----------
     function chipRow(el, items, onPick) {
         el.innerHTML = items.map(([k, label], i) =>
-            `<button class="chip${i === 0 ? ' chip-accent' : ''}" data-k="${k}">${label}</button>`).join('');
+            `<button type="button" class="chip${i === 0 ? ' chip-accent' : ''}" data-k="${k}" aria-pressed="${i === 0}">${label}</button>`).join('');
         el.querySelectorAll('.chip').forEach((b) =>
             b.addEventListener('click', () => {
-                el.querySelectorAll('.chip').forEach((x) => x.classList.toggle('chip-accent', x === b));
+                el.querySelectorAll('.chip').forEach((x) => {
+                    x.classList.toggle('chip-accent', x === b);
+                    x.setAttribute('aria-pressed', String(x === b));
+                });
                 onPick(b.dataset.k);
             }));
     }
@@ -69,7 +74,8 @@
     (function wireSearch() {
         const input = $('news-q');
         const results = $('news-q-results');
-        let items = [];
+        let suggestionState = { query: '', items: [] };
+        let searchVersion = 0;
         const go = (sym) => {
             searchTickers = sym;
             $('news-q-active').textContent = sym ? `showing news for ${sym}` : '';
@@ -78,6 +84,8 @@
         };
         input.addEventListener('input', async () => {
             const q = input.value.trim();
+            const version = ++searchVersion;
+            suggestionState = { query: q, items: [] };
             if (q.length < 1) { results.hidden = true; return; }
             // searchAssets, NOT the bundled companies() directory. That list is
             // SEC registrants, so it holds SPY and QQQ — both registered trusts —
@@ -85,8 +93,10 @@
             // Measured 2026-09-28: "SCHG" here gave an empty box and no message
             // while the header search found it. The ETFs chip on this very page
             // already sends VTI, VOO and SCHD to the same news endpoint.
-            items = (await searchAssets(q, { limit: 8 }))
+            const items = (await searchAssets(q, { limit: 8 }))
                 .filter((row) => /^[A-Z0-9.\-]{1,10}$/.test(String(row.symbol || '')));
+            if (version !== searchVersion || input.value.trim() !== q) return;
+            suggestionState = { query: q, items };
             if (!items.length) {
                 // Say so. Hiding the box on no match is what made a fund look
                 // like a broken search rather than a symbol we don't carry.
@@ -100,11 +110,32 @@
             results.querySelectorAll('a').forEach((a) =>
                 a.addEventListener('click', (e) => { e.preventDefault(); input.value = a.dataset.sym; go(a.dataset.sym); }));
         });
+        const resolveAndGo = async () => {
+            const query = input.value.trim();
+            if (!query) { go(''); return; }
+            let items = suggestionState.query.toLowerCase() === query.toLowerCase() ? suggestionState.items : [];
+            if (!items.length) {
+                items = (await searchAssets(query, { limit: 8 }))
+                    .filter((row) => /^[A-Z0-9.\-]{1,10}$/.test(String(row.symbol || '')));
+            }
+            if (input.value.trim() !== query) return;
+            const chosen = items.find((row) => String(row.symbol || '').toUpperCase() === query.toUpperCase())
+                || items.find((row) => String(row.name || '').trim().toLowerCase() === query.toLowerCase())
+                || items[0];
+            if (!chosen) {
+                $('news-q-active').textContent = `No ticker or fund matches “${query}”.`;
+                results.hidden = false;
+                results.innerHTML = `<div class="nav-search-empty">No ticker or fund matches “${esc(query)}”. Try a ticker such as AAPL.</div>`;
+                return;
+            }
+            input.value = chosen.symbol;
+            go(String(chosen.symbol).toUpperCase());
+        };
         input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') { e.preventDefault(); go(input.value.trim().toUpperCase()); }
+            if (e.key === 'Enter') { e.preventDefault(); resolveAndGo(); }
             if (e.key === 'Escape') results.hidden = true;
         });
-        $('news-go').addEventListener('click', () => go(input.value.trim().toUpperCase()));
+        $('news-go').addEventListener('click', resolveAndGo);
     })();
 
     // ---------- ③ news ----------
@@ -154,7 +185,7 @@
           </li>`).join('');
     }
     function renderStream(items) {
-        $('news-stream').innerHTML = items.slice(0, 24).map((it) => `
+        $('news-stream').innerHTML = items.map((it) => `
           <article class="stream-item">
             ${it.banner_image
                 ? `<img class="stream-img" src="${esc(it.banner_image)}" alt="" loading="lazy" onerror="this.remove()">`
@@ -195,59 +226,82 @@
             : '<li class="side-empty">No mentions yet.</li>';
     }
 
+    let newsRequest = 0;
+    function setAccessGate(paidRequired) {
+        $('news-controls').hidden = true;
+        $('news-signedout').hidden = false;
+        const panel = $('news-signedout');
+        panel.querySelector('h2').textContent = 'Market news is included with paid plans';
+        panel.querySelector('p').textContent = 'Get company headlines, market movers, and trending tickers. Choose a plan to unlock the Markets feed.';
+        panel.querySelector('.signedout-actions').innerHTML = paidRequired
+            ? '<a class="btn btn-primary" href="/pricing">View plans</a>'
+            : '<a class="btn btn-primary" href="/pricing">View plans</a><a rel="nofollow" class="btn btn-ghost" href="/login">Log in</a>';
+        $('news-feature-col').hidden = true;
+        $('news-latest-col').hidden = true;
+        $('news-stream-col').hidden = true;
+    }
+
+    function clearResults() {
+        $('news-feature').hidden = true;
+        $('news-secondary').innerHTML = '';
+        $('news-latest').innerHTML = '';
+        $('news-stream').innerHTML = '';
+        $('news-empty').hidden = true;
+        $('news-error').hidden = true;
+    }
+
     async function loadNews() {
+        const request = ++newsRequest;
         const tickers = searchTickers || assetTickers;
         const empty = $('news-empty');
         empty.hidden = true;
+        $('news-error').hidden = true;
         if (!token()) {
-            // Collapse the hollow columns into the composed sign-in panel —
-            // otherwise the centre of the grid is a void.
-            $('news-signedout').hidden = false;
-            $('news-feature-col').hidden = true;
-            $('news-latest-col').hidden = true;
-            $('news-stream-col').hidden = true;
+            clearResults();
+            setAccessGate(false);
             ['trending-list'].forEach((id) => { $(id).innerHTML = '<li class="side-empty">Sign in to see trending.</li>'; });
             return;
         }
+        $('news-controls').hidden = false;
+        $('news-signedout').hidden = true;
+        $('news-feature-col').hidden = false;
+        $('news-latest-col').hidden = false;
+        $('news-stream-col').hidden = false;
+        clearResults();
         $('news-latest').innerHTML = '<li class="side-empty"><span class="loading-line"><span class="spin"></span>Loading…</span></li>';
         try {
             const q = new URLSearchParams({ limit: '60', sort: 'LATEST' });
             if (topic !== 'all') q.set('topics', topic);
             if (tickers) q.set('tickers', tickers);
             const r = await fetch(`${API}/alpha/news?${q}`, { headers: { Authorization: `Bearer ${token()}` } });
+            if (request !== newsRequest) return;
             if (r.status === 401 || r.status === 402) {
                 // Markets news + sentiment are a paid feature. Collapse the hollow
                 // columns into the spanning panel (same as the signed-out path) so
                 // the wide featured track isn't left as a void down the middle, and
                 // show an upgrade prompt — not a transient "try again". The sidebar
                 // movers show their own paid-plan gate.
-                const panel = $('news-signedout');
-                panel.querySelector('h2').textContent = 'Market news is on the paid plans';
-                panel.querySelector('.signedout-actions').innerHTML =
-                    '<a class="btn btn-primary" href="/register.html">Choose a plan</a>';
-                panel.hidden = false;
-                $('news-feature-col').hidden = true;
-                $('news-latest-col').hidden = true;
-                $('news-stream-col').hidden = true;
-                $('trending-list').innerHTML = '<li class="side-empty">On the paid plans — <a href="/register.html">choose a plan →</a>.</li>';
+                setAccessGate(true);
+                $('trending-list').innerHTML = '<li class="side-empty">Included with paid plans — <a href="/pricing">view plans →</a>.</li>';
                 return;
             }
             if (!r.ok) throw new Error('news ' + r.status);
             const data = await r.json();
+            if (request !== newsRequest) return;
             const items = (data.feed || []).filter((it) => it && it.title && it.url);
             if (!items.length) {
                 renderFeatured(null); renderSecondary([]); renderLatest([]); renderStream([]); renderTrending([]);
                 empty.hidden = false;
                 return;
             }
-            // 1 featured + 2 secondary left, 8 compact in the middle, rest below
             renderFeatured(items[0]);
             renderSecondary(items.slice(1, 3));
             renderLatest(items.slice(3, 11));
             renderStream(items.slice(11));
             renderTrending(items);
         } catch (_) {
-            $('news-latest').innerHTML = '<li class="side-empty">Couldn’t load news — try again.</li>';
+            if (request !== newsRequest) return;
+            $('news-error').hidden = false;
             renderTrending([]); // don't leave the trending rail spinning on a real error
         }
     }
@@ -262,7 +316,6 @@
             const r = await fetch(`${API}/alpha/movers`, { headers: { Authorization: `Bearer ${token()}` } });
             if (!r.ok) { setMsg(r.status === 402 ? 'On the paid plans — <a href="/upgrade.html">upgrade →</a>.' : r.status === 401 ? 'Sign in to see movers.' : 'Movers unavailable right now.'); return; }
             const data = await r.json();
-            if (!Array.isArray(data.top_gainers) || !data.top_gainers.length) { setMsg('Movers throttled by data provider.'); return; }
             const paint = (id, rows) => {
                 $(id).innerHTML = (rows || []).slice(0, 6).map((row) => {
                     const tk = String(row.ticker || '').toUpperCase();
@@ -291,4 +344,5 @@
     })();
 
     loadNews();
+    $('news-retry').addEventListener('click', loadNews);
 })();

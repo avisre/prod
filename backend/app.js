@@ -17,6 +17,7 @@ const { OAuth2Client } = require('google-auth-library');
 const YahooFinance = require('yahoo-finance2').default;
 const yahooFinance = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] });
 const yahooSource = require('./yahoo-source');
+const { buildMarketStripQuote } = require('./market-strip');
 const fxConversion = require('./fx-conversion');
 const assetProfile = require('./asset-profile');
 const fundHoldings = require('./fund-holdings');
@@ -8711,26 +8712,8 @@ app.get('/api/market/strip', optionalAuth, async (req, res) => {
                 const data = await fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: 'compact' }, ALPHA_CACHE_TTL_MS.daily);
                 const series = data && data['Time Series (Daily)'];
                 if (!series) return;
-                // Rows without a close are placeholders (see buildDailySeries).
-                // The live shaper drops them now, but the nightly store this
-                // falls back to may still hold some, and one sitting in the two
-                // newest dates blanks the whole tape for every visitor.
-                const dates = Object.keys(series)
-                    .filter((d) => Number.isFinite(parseFloat((series[d] || {})['4. close'])))
-                    .sort((a, b) => (a < b ? 1 : -1));
-                if (dates.length < 2) return;
-                const latest = parseFloat(series[dates[0]]['4. close']);
-                const prior = parseFloat(series[dates[1]]['4. close']);
-                if (!Number.isFinite(latest) || !Number.isFinite(prior) || prior === 0) return;
-                const closes = dates.slice(0, 30).reverse()
-                    .map((d) => Number(parseFloat(series[d]['4. close']).toFixed(2)))
-                    .filter((v) => Number.isFinite(v));
-                out[symbol] = {
-                    value: latest,
-                    change: Number((latest - prior).toFixed(4)),
-                    pct: Number((((latest - prior) / prior) * 100).toFixed(4)),
-                    closes
-                };
+                const quote = buildMarketStripQuote(series);
+                if (quote) out[symbol] = quote;
             } catch (_) { /* symbol failed — leave out, tape shows dash */ }
         }));
         const payload = { quotes: out, at: new Date().toISOString() };
