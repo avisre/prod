@@ -242,13 +242,10 @@
     }
     function renderStream(items) {
         $('news-stream').innerHTML = items.map((it) => `
-          <article class="stream-item">
-            ${it.banner_image
-                ? `<img class="stream-img" src="${esc(it.banner_image)}" alt="" loading="lazy" onerror="this.remove()">`
-                : '<span></span>'}
-            <div>
+          <article class="stream-item${it.banner_image ? ' has-image' : ''}">
+            ${it.banner_image ? `<img class="stream-img" src="${esc(it.banner_image)}" alt="" loading="lazy" onerror="this.remove()">` : ''}
+            <div class="stream-copy">
               <h3><a href="${esc(it.url)}" target="_blank" rel="noopener">${esc(it.title)}</a></h3>
-              <p class="stream-sum">${esc((it.summary || '').slice(0, 220))}${(it.summary || '').length > 220 ? '…' : ''}</p>
               ${meta(it, 3)}
             </div>
           </article>`).join('');
@@ -279,7 +276,14 @@
                   <a class="tk" href="/company.html?symbol=${tk}">${tk}</a>
                   <span class="vl muted small">${s.mentions} mention${s.mentions > 1 ? 's' : ''}</span>
                 </li>`).join('')
-            : '<li class="side-empty">No mentions yet.</li>';
+            : '<li class="side-empty">No related tickers yet.</li>';
+        const topics = $('trending-topics');
+        if (topics) {
+            topics.innerHTML = '<strong>Trending tickers</strong>' + (ranked.length
+                ? ranked.slice(0, 6).map(([tk]) => `<a href="/company.html?symbol=${encodeURIComponent(tk)}">${esc(tk)}</a>`).join('')
+                : '<span>No related tickers yet.</span>');
+            topics.hidden = ranked.length === 0;
+        }
     }
 
     let newsRequest = 0;
@@ -326,7 +330,7 @@
         $('news-latest-col').hidden = false;
         $('news-stream-col').hidden = false;
         clearResults();
-        $('news-latest').innerHTML = '<li class="side-empty"><span class="loading-line"><span class="spin"></span>Loading…</span></li>';
+        $('news-stream').innerHTML = '<p class="small faint" style="padding:16px 2px;">Loading headlines…</p>';
         try {
             const q = new URLSearchParams({ limit: '60', sort: 'LATEST' });
             if (topic !== 'all') q.set('topics', topic);
@@ -354,10 +358,12 @@
                 return;
             }
             $('news-result-meta').textContent = resultSummary(items.length);
-            renderFeatured(items[0]);
-            renderSecondary(items.slice(1, 3));
-            renderLatest(items.slice(3, 11));
-            renderStream(items.slice(11));
+            // Keep the feed chronological and continuous, like a news wire.
+            // Render all 60 returned stories in the visible stream.
+            renderFeatured(null);
+            renderSecondary([]);
+            renderLatest([]);
+            renderStream(items);
             renderTrending(items);
         } catch (_) {
             if (request !== newsRequest) return;
