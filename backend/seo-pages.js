@@ -915,6 +915,7 @@ function dataDateFor(symbol) {
 function maxDate(...dates) { return dates.filter(Boolean).sort().pop() || '2026-07-19'; }
 function staticPageMtime(route) {
     const names = {
+        '/filing-watch': 'filing-watch.html', '/filing-watch-sample': 'filing-watch-sample.html',
         '/': 'index.html', '/register': 'register.html', '/appsumo': 'appsumo.html', '/tour': 'tour.html', '/monitor-demo': 'monitor-demo.html', '/features': 'features.html',
         '/screener': 'screener.html', '/ask': 'ask.html', '/support': 'support.html', '/privacy': 'privacy.html',
         '/terms': 'terms.html', '/sitemap': 'sitemap.html', '/gurus': 'gurus.html', '/monitor': 'monitor.html', '/dossier': 'dossier.html',
@@ -939,7 +940,7 @@ function videoMarkup(route) {
 
 function buildSitemapInventory() {
     if (_sitemapInventoryCache && Date.now() - _sitemapInventoryCache.at < SITEMAP_TTL_MS) return _sitemapInventoryCache.shards;
-    const coreRoutes = ['/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
+    const coreRoutes = ['/filing-watch', '/filing-watch-sample', '/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
         // Indexable and internally linked, but in no shard until 2026-09-28 — Bing's
         // Site Scan reports exactly this as "important pages missing from sitemaps".
         // /lifetime is the direct-sale twin of /appsumo (index,follow, prices from

@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Filing Watch — weekly updates · stockportfolio.pro</title>
+  <meta name="description" content="Founder-prepared filing updates for three US-listed stocks. $49/month including standard Monthly software access. Five-customer pilot.">
+  <meta name="referrer" content="same-origin">
+  <link rel="canonical" href="https://www.stockportfolio.pro/filing-watch">
+  <style>
+    :root{color-scheme:light}*{box-sizing:border-box}body{margin:0;background:#faf9f6;color:#252923;font:17px/1.65 system-ui,sans-serif}main{max-width:760px;margin:auto;padding:32px 24px 72px}nav{display:flex;justify-content:space-between;gap:16px;font-size:14px;border-bottom:1px solid #d8ddd3;padding-bottom:20px}a{color:#285c43;text-underline-offset:3px}h1{font-size:clamp(34px,6vw,54px);line-height:1.12;letter-spacing:-.04em;margin:20px 0}h2{font-size:23px;line-height:1.25}p{margin:14px 0}.eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:#546451;margin-top:48px}.price{font-size:28px;font-weight:650}.price span{font-size:16px;font-weight:400}.card{background:white;border:1px solid #d8ddd3;border-radius:12px;padding:24px;margin:26px 0}.button,button{display:inline-block;background:#244e38;color:white;border:0;border-radius:7px;padding:12px 18px;font:inherit;text-decoration:none;cursor:pointer}button:disabled{opacity:.6;cursor:wait}.muted,small{color:#5c645a;font-size:14px}li{margin:8px 0}label{display:block;margin:14px 0 4px}input{width:100%;padding:12px;border:1px solid #939e91;border-radius:5px;font:inherit}.tickers{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}[hidden]{display:none!important}footer{border-top:1px solid #d8ddd3;margin-top:40px;padding-top:20px;font-size:14px}#status{white-space:pre-line}@media(max-width:420px){.tickers{grid-template-columns:1fr}}
+  </style>
+</head>
+<body><main>
+  <nav><a href="/">stockportfolio.pro</a><a href="/filing-watch-sample">Read a sample</a></nav>
+  <section id="offer">
+    <p class="eyebrow">Filing Watch · five-customer pilot</p>
+    <h1>Three stocks.<br>One useful Friday email.</h1>
+    <p>I’m Avinash, founder of stockportfolio.pro. I’ll review the public filings for three companies you follow and send you the relevant changes, the sources, and what remains unanswered.</p>
+    <p class="price">$49<span> USD / month · software included</span></p>
+    <div class="card"><h2>Here’s what you receive</h2><ul>
+      <li>A starting brief within 48 hours of submitting three supported US-listed stocks.</li>
+      <li>A founder-prepared email every Friday: new filings, relevant changes, links to the evidence, and unresolved questions.</li>
+      <li>A clear update when there are no new filings. An unavailable source is flagged, rather than treated as “no change.”</li>
+      <li>Standard Monthly stockportfolio.pro software access, included in the same subscription.</li>
+    </ul><p>Factual research assistance for personal use. No buy/sell recommendations or return promises.</p></div>
+    <p id="availability" role="status">Pilot checkout is not open yet. You can read the sample or ask about coverage.</p>
+    <a class="button" href="mailto:support@stockportfolio.pro?subject=Filing%20Watch%20pilot&body=I%27m%20interested%20in%20Filing%20Watch%20at%20%2449%2Fmonth.%20The%20three%20stocks%20I%20follow%20are%3A%20">Ask about a pilot place</a>
+    <p class="muted">For new customers. Coverage is checked before a personal checkout invitation is issued. Billed monthly; cancel in your account before the next renewal. Request an initial-payment refund within seven days. The weekly service continues for every paid month.</p>
+  </section>
+  <section id="onboarding" hidden>
+    <p class="eyebrow">Your Filing Watch subscription</p><h1>Which three stocks should I follow?</h1>
+    <p>Your first brief is due within 48 hours of submitting supported tickers here. Friday emails go to your account email address.</p>
+    <form id="ticker-form"><div class="tickers">
+      <div><label for="ticker-1">Stock 1</label><input id="ticker-1" name="one" placeholder="AAPL" maxlength="10" required autocapitalize="characters"></div>
+      <div><label for="ticker-2">Stock 2</label><input id="ticker-2" name="two" placeholder="MSFT" maxlength="10" required autocapitalize="characters"></div>
+      <div><label for="ticker-3">Stock 3</label><input id="ticker-3" name="three" placeholder="FORM" maxlength="10" required autocapitalize="characters"></div>
+    </div><p><button type="submit">Save my three stocks</button></p></form>
+    <p id="status" role="status" aria-live="polite"></p>
+    <p><a href="/profile.html" rel="nofollow">Manage subscription or cancel</a> · <a href="mailto:support@stockportfolio.pro?subject=Filing%20Watch">Contact Avinash</a></p>
+  </section>
+  <footer><a href="/terms">Terms</a> · <a href="/privacy">Privacy</a> · <a href="/support">Support</a></footer>
+</main><script>
+  const form = document.getElementById('ticker-form');
+  const status = document.getElementById('status');
+  function showSeat(seat) {
+    if (!seat || !seat.tickersSubmittedAt) return;
+    form.hidden = true;
+    status.textContent = 'Saved: ' + seat.tickers.join(', ') + '.\nStarting brief due: ' + new Date(seat.baselineDueAt).toLocaleString() + '. Your Friday updates continue while subscribed.';
+  }
+  if (location.pathname.replace(/\/$/, '') === '/filing-watch/start') {
+    document.getElementById('offer').hidden = true;
+    document.getElementById('onboarding').hidden = false;
+    form.hidden = true;
+    fetch('/api/filing-watch', { credentials: 'same-origin' }).then(async r => {
+      if (r.status === 401) { location.href = '/login?next=filing-watch/start'; return; }
+      const data = await r.json();
+      if (!r.ok) throw new Error(data.message || 'Unable to load your subscription.');
+      form.hidden = false; showSeat(data.seat);
+    }).catch(e => { status.textContent = e.message; });
+  } else {
+    fetch('/api/filing-watch/status').then(r => r.json()).then(data => {
+      if (data.enabled) document.getElementById('availability').textContent = 'The pilot is open by personal invitation, up to five customers. Ask about availability and coverage.';
+    }).catch(() => {});
+  }
+  form.addEventListener('submit', async e => {
+    e.preventDefault(); const button = form.querySelector('button'); button.disabled = true;
+    try {
+      const tickers = [1,2,3].map(i => document.getElementById('ticker-' + i).value.trim().toUpperCase());
+      const r = await fetch('/api/filing-watch/tickers', { method:'POST', credentials:'same-origin', headers:{'Content-Type':'application/json'}, body:JSON.stringify({tickers}) });
+      const data = await r.json(); if (!r.ok) throw new Error(data.message || 'Unable to save your stocks.');
+      showSeat({ ...data, tickersSubmittedAt: true });
+    } catch(e) { status.textContent = e.message; } finally { button.disabled = false; }
+  });
+</script></body></html>

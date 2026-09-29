@@ -100,7 +100,7 @@ test('Stripe is never sent discounts and allow_promotion_codes in the same sessi
     // Stripe rejects the pair outright, so the two are one either/or.
     const branch = checkoutBranch();
     assert.match(branch,
-        /\.\.\.\(launchPromoApplied \? \{ discounts: \[\{ coupon: LAUNCH_PROMO_COUPON_ID \}\] \} : \{ allow_promotion_codes: true \}\),/);
+        /\.\.\.\(launchPromoApplied \? \{ discounts: \[\{ coupon: LAUNCH_PROMO_COUPON_ID \}\] \} : \{ allow_promotion_codes: !filingSeat \}\),/);
     // And nothing else in the branch adds a second, unconditional discount.
     assert.equal(branch.split('discounts').length - 1, 1, 'exactly one discounts param');
     assert.equal(branch.split('allow_promotion_codes').length - 1, 1, 'exactly one code-box param');

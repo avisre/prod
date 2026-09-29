@@ -55,6 +55,7 @@ const affiliateProgram = require('./affiliate-program');
 const dealMirror = require('./dealmirror');
 const directLtd = require('./direct-ltd');
 const briefingSubscription = require('./briefing-subscription');
+const filingWatch = require('./filing-watch');
 const pricingExperiment = require('./pricing-experiment');
 const augustCampaign = require('./august-campaign');
 const { safeUpper, isValidTicker, normalizeTicker } = require('./symbol-resolver');
@@ -734,6 +735,8 @@ const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 // Credit economics: 200 credits/mo at $19.99 = $0.09995/credit, effectively at
 // parity with the $14.99/150 top-up rate ($0.09993). See PLAN_ALLOWANCE_FLOOR
 // in credits.js for the allowance side of this, including the 0.017% gap.
+const FILING_WATCH_PLAN_ID = 'filing-watch';
+const STRIPE_PRICE_ID_FILING_WATCH = process.env.STRIPE_PRICE_ID_FILING_WATCH || '';
 const DEV_PLAN_ID = 'dev';
 const DEV_PLAN_PRICE = parseFloat(process.env.DEV_PLAN_PRICE || '19.99');
 const DEV_PLAN_CURRENCY = process.env.DEV_PLAN_CURRENCY || 'USD';
@@ -829,6 +832,7 @@ function launchPromoActive(now = Date.now()) {
 // $19.99/mo price on this product would match twice and the plan would refuse
 // to sell (the safe failure, but still a failure).
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
+  [FILING_WATCH_PLAN_ID]: { amount: 49, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
   [MONTHLY_PLAN_ID]: { amount: 24.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
   [ANNUAL_PLAN_ID]: { amount: 199.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [PRO_ANNUAL_PLAN_ID]: { amount: 499.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
@@ -1175,6 +1179,7 @@ async function connectMongoWithFallback(uri) {
 
 function normalizePlanSelection(value) {
   const plan = String(value || '').trim().toLowerCase();
+  if (plan === FILING_WATCH_PLAN_ID) return FILING_WATCH_PLAN_ID;
   if (plan === FREE_PLAN_ID) {
     return FREE_PLAN_ID;
   }
@@ -1229,6 +1234,9 @@ function remapRetiredPlanId(planId) {
 
 function getPlanConfig(value) {
   const planId = normalizePlanSelection(value);
+  if (planId === FILING_WATCH_PLAN_ID) {
+    return { planId, planName: 'Filing Watch', billingInterval: 'month', price: 49, currency: 'USD', stripePriceId: STRIPE_PRICE_ID_FILING_WATCH, trialDays: 0 };
+  }
   if (planId === FREE_PLAN_ID) {
     return {
       planId: FREE_PLAN_ID,
@@ -1372,6 +1380,7 @@ function ambiguousStripePriceIds() {
   claim(STRIPE_PRICE_ID_POWER_MONTHLY, POWER_MONTHLY_PLAN_ID);
   claim(STRIPE_PRICE_ID_DESK, DESK_PLAN_ID);
   claim(STRIPE_PRICE_ID_DEV, DEV_PLAN_ID);
+  claim(STRIPE_PRICE_ID_FILING_WATCH, FILING_WATCH_PLAN_ID);
   for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
     claim(legacy.priceId, planId);
   }
@@ -1400,6 +1409,7 @@ function getPlanConfigByPriceId(priceId) {
       }
     }
   }
+  if (priceId && priceId === STRIPE_PRICE_ID_FILING_WATCH) return getPlanConfig(FILING_WATCH_PLAN_ID);
   if (priceId && priceId === STRIPE_PRICE_ID_DESK) {
     return getPlanConfig(DESK_PLAN_ID);
   }
@@ -1464,6 +1474,7 @@ async function resolveStripeCheckoutPlan(planConfig) {
     return price?.active === true
       && Number(price?.unit_amount) === expectedAmount
       && String(price?.currency || '').toLowerCase() === spec.currency.toLowerCase()
+      && (planConfig.planId !== FILING_WATCH_PLAN_ID || (price?.recurring?.interval_count === 1 && price?.billing_scheme === 'per_unit' && price?.recurring?.usage_type === 'licensed'))
       && price?.recurring?.interval === spec.interval
       && productName === spec.productName;
   };
@@ -1487,6 +1498,8 @@ async function resolveStripeCheckoutPlan(planConfig) {
   });
   const matches = (result?.data || []).filter(isMatch);
   if (matches.length !== 1) {
+    // Never fall back to a stale/unverified price for this new bundle.
+    if (planConfig.planId === FILING_WATCH_PLAN_ID) return { ...planConfig, stripePriceId: null };
     return planConfig;
   }
 
@@ -1784,7 +1797,7 @@ function isAppSumoActivationSignup(req) {
 function initialPaymentRequiredForSignup(planId, appsumoActivation = false) {
   return Boolean(REQUIRE_INITIAL_STRIPE_PAYMENT
     && !appsumoActivation
-    && normalizePlanSelection(planId) !== FREE_PLAN_ID);
+    && normalizePlanSelection(planId) !== FREE_PLAN_ID) || normalizePlanSelection(planId) === FILING_WATCH_PLAN_ID;
 }
 
 // No-card 7-day trial: grant full Pro access immediately with NO Stripe
@@ -2145,6 +2158,7 @@ app.use((req, res, next) => {
 // array, without an entry here fails the suite rather than quietly shipping
 // another duplicate URL.
 const HTML_TWIN_REDIRECTS = {
+    '/filing-watch.html': '/filing-watch', '/filing-watch-sample.html': '/filing-watch-sample',
     '/index.html': '/', '/ask.html': '/ask', '/register.html': '/register',
     '/privacy.html': '/privacy', '/terms.html': '/terms', '/screener.html': '/screener',
     '/support.html': '/support', '/monitor.html': '/monitor', '/monitor-demo.html': '/monitor-demo',
@@ -2333,7 +2347,7 @@ const WALL_PAGE_EXEMPT_PREFIXES = [
     '/sitemaps', '/register', '/login', '/forgot-password', '/reset-password',
     '/privacy', '/terms', '/partner-terms', '/affiliate-terms', '/support',
     '/appsumo', '/dealmirror', '/lifetime', '/recharge', '/upgrade', '/checkout',
-    '/health',
+    '/health', '/filing-watch',
     // Machine endpoints that carry no product content and break if walled.
     // /stripe/config is how register.html learns signupTrialDays and unhides the
     // free-trial card — walling it silently kills the entire trial flow (found by
@@ -4698,7 +4712,7 @@ app.get('/go/appsumo/:source', (req, res) => {
 async function activateSubscription(user, { subscriptionId, customerId, planId, stripeStatus, trialEndsAt, stripePriceId, resolvedPlanConfig = null } = {}) {
     const now = new Date();
     const planConfig = applyPlanToSubscription(user, planId, resolvedPlanConfig);
-    user.subscription.status = stripeStatus === 'trialing' ? 'trialing' : 'active';
+    user.subscription.status = stripeStatus === 'trialing' ? 'trialing' : (planConfig.planId === FILING_WATCH_PLAN_ID && stripeStatus === 'cancel_at_period_end' ? 'cancel_at_period_end' : 'active');
     user.subscription.activatedAt = user.subscription.activatedAt || now;
     user.subscription.renewedAt = now;
     user.subscription.trialStartedAt = user.subscription.trialStartedAt || now;
@@ -4715,7 +4729,8 @@ async function activateSubscription(user, { subscriptionId, customerId, planId, 
         user.stripeCustomerId = customerId;
     }
     user.markModified('subscription');
-    await user.save().catch(() => {});
+    if (planConfig.planId === FILING_WATCH_PLAN_ID) await user.save();
+    else await user.save().catch(() => {});
 }
 
 async function syncSubscriptionFromStripe(user, subscription, customerId) {
@@ -4735,6 +4750,13 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
         || getPlanConfigByPriceId(stripePriceId)
         || getPlanConfig(subscription?.metadata?.planId || user?.subscription?.planId);
     const trialEndsAt = subscription?.trial_end ? new Date(subscription.trial_end * 1000) : null;
+    if (planConfig.planId === FILING_WATCH_PLAN_ID && !['active', 'trialing'].includes(subscription?.status)) {
+        applyPlanToSubscription(user, planConfig.planId, planConfig);
+        user.subscription.status = ['canceled', 'unpaid', 'incomplete_expired'].includes(subscription?.status) ? 'cancelled' : 'pending';
+        user.markModified('subscription');
+        await user.save();
+        return;
+    }
     const stripeStatus = subscription?.cancel_at_period_end
         ? 'cancel_at_period_end'
         : (subscription?.status === 'trialing' ? 'trialing' : 'active');
@@ -5087,13 +5109,17 @@ function createUserToken(user) {
 // Records a self-serve registration that has not been paid for yet. Re-using
 // the row for the same identity keeps a visitor who abandons checkout and
 // comes back from accumulating rows, and keeps the latest password/plan.
-async function createPendingSignup({ email, name, passwordHash, provider, providerUserId, avatarUrl, planId, utm, requestFields, consent }) {
+async function createPendingSignup({ email, name, passwordHash, provider, providerUserId, avatarUrl, planId, utm, requestFields, consent, filingWatchInvite }) {
     const normalizedEmail = normalizeEmail(email);
+    if (await PendingSignup.exists({ email: normalizedEmail, planId: FILING_WATCH_PLAN_ID, expiresAt: { $gt: new Date() } })) {
+        throw createHttpError(409, 'A Filing Watch checkout is already in progress for this email. Contact the founder to resume it.', 'CHECKOUT_IN_PROGRESS');
+    }
     const query = provider && providerUserId
         ? { provider, providerUserId }
         : { email: normalizedEmail, provider: null };
     const attribution = (requestFields && requestFields.attribution) || null;
-    return PendingSignup.findOneAndUpdate(
+    const filingSeat = planId === FILING_WATCH_PLAN_ID ? await filingWatch.reserve(filingWatchInvite, normalizedEmail) : null;
+    const pending = await PendingSignup.findOneAndUpdate(
         query,
         {
             $set: {
@@ -5112,6 +5138,8 @@ async function createPendingSignup({ email, name, passwordHash, provider, provid
         },
         { upsert: true, new: true, setDefaultsOnInsert: true }
     );
+    if (filingSeat) await filingWatch.bindPending(filingSeat, pending);
+    return pending;
 }
 
 // The only place a paid-first account is born. Refuses outright unless Stripe
@@ -5132,7 +5160,10 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
     }
     if (pending.userId) {
         const already = await User.findById(pending.userId);
-        if (already) return already;
+        if (already) {
+            if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, already._id);
+            return already;
+        }
     }
     if (String(session.payment_status || '') !== 'paid') {
         console.warn(`[signup] pending signup ${pendingSignupId} not materialised: payment_status=${session.payment_status || 'unknown'}`);
@@ -5191,6 +5222,7 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
         }
     }
 
+    if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, user._id);
     pending.userId = user._id;
     pending.consumedAt = pending.consumedAt || new Date();
     if (session.id) pending.stripeSessionId = session.id;
@@ -5288,6 +5320,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
     // affiliate-attributed checkouts, which keep the box: a referral code takes
     // the whole first invoice off, which beats $16, and the program exists
     // precisely to reward those clicks.
+    const filingSeat = planConfig.planId === FILING_WATCH_PLAN_ID ? await filingWatch.beginCheckout(pendingSignup) : null;
     const affiliateAttached = Object.keys(extraMetadata.affiliateMetadata || {}).length > 0;
     const launchPromoApplied = launchPromoActive()
         && planConfig.planId === MONTHLY_PLAN_ID
@@ -5304,7 +5337,8 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         // Referral codes (GATTOMORTO et al.) are entered on this screen — the
         // coupon takes $24.99 off the first invoice, once. The one-off CNY and
         // credit-recharge sessions deliberately don't allow codes.
-        ...(launchPromoApplied ? { discounts: [{ coupon: LAUNCH_PROMO_COUPON_ID }] } : { allow_promotion_codes: true }),
+        ...(launchPromoApplied ? { discounts: [{ coupon: LAUNCH_PROMO_COUPON_ID }] } : { allow_promotion_codes: !filingSeat }),
+        ...(filingSeat ? { expires_at: Math.floor(Date.now() / 1000) + 3600 } : {}),
         ...urlParams,
         custom_text: {
             submit: {
@@ -5330,6 +5364,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
             ...metadata
         }
     });
+    if (filingSeat) await filingWatch.recordSession(filingSeat, session);
     if (pendingSignup && session && session.id) {
         pendingSignup.stripeSessionId = session.id;
         await pendingSignup.save().catch((error) => console.error('[signup] pending session id save failed:', error && error.message));
@@ -6552,7 +6587,8 @@ app.post('/api/subscribe', async (req, res) => {
                 planId: planConfig.planId,
                 utm,
                 requestFields,
-                consent: req.body && req.body.analyticsConsent === true
+                consent: req.body && req.body.analyticsConsent === true,
+                filingWatchInvite: req.body?.filingWatchInvite
             });
             const session = await createCheckoutSessionForUser(null, {
                 req,
@@ -7018,6 +7054,7 @@ app.post('/api/auth/social', async (req, res) => {
         const flow = String(req.body?.flow || 'login').trim().toLowerCase();
         const selectedPlan = normalizePlanSelection(req.body?.plan);
         const planConfig = getPlanConfig(selectedPlan);
+        if (selectedPlan === FILING_WATCH_PLAN_ID) throw createHttpError(400, 'Please use email and password for your Filing Watch pilot invitation.', 'EMAIL_SIGNUP_REQUIRED');
         // An AppSumo buyer redeeming with Google has already paid AppSumo.
         // Without this the paid-first policy would send them to Stripe and
         // charge them a second time for what they own for life. Same signed,
@@ -7055,7 +7092,8 @@ app.post('/api/auth/social', async (req, res) => {
                 planId: planConfig.planId,
                 utm,
                 requestFields,
-                consent: req.body && req.body.analyticsConsent === true
+                consent: req.body && req.body.analyticsConsent === true,
+                filingWatchInvite: req.body?.filingWatchInvite
             });
             const session = await createCheckoutSessionForUser(null, {
                 req,
@@ -11236,11 +11274,22 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             console.error('Stripe webhook async_payment_failed error:', err);
             return res.status(500).send({ received: false });
         }
+    } else if (event.type === 'invoice.payment_failed') {
+        try {
+            const failedUser = payload.subscription ? await User.findOne({ stripeSubscriptionId: payload.subscription }) : null;
+            if (failedUser?.subscription?.planId === FILING_WATCH_PLAN_ID) {
+                await syncSubscriptionFromStripe(failedUser, await stripe.subscriptions.retrieve(payload.subscription), payload.customer);
+                trackFunnel('payment_failed', failedUser._id, 'Filing Watch', { eventName: 'payment_failed', dedupeKey: event.id ? `stripe:failed:${event.id}` : null, entitlementSource: 'stripe', testFlag: payload.livemode === false });
+            }
+        } catch (err) { return res.status(500).send({ received: false }); }
     } else if (event.type === 'invoice.paid') {
         try {
             const invoiceUser = payload.subscription
                 ? await User.findOne({ stripeSubscriptionId: payload.subscription })
                 : (payload.customer ? await User.findOne({ stripeCustomerId: payload.customer }) : null);
+            if (invoiceUser?.subscription?.planId === FILING_WATCH_PLAN_ID && invoiceUser.stripeSubscriptionId) {
+                await syncSubscriptionFromStripe(invoiceUser, await stripe.subscriptions.retrieve(invoiceUser.stripeSubscriptionId), payload.customer);
+            }
             if (invoiceUser && payload.billing_reason === 'subscription_create') {
                 await recordInitialStripePayment(invoiceUser, payload);
             }
@@ -11906,6 +11955,18 @@ function dealMirrorAdminAuth(req, res, next) {
     if (!token || !timingSafeStrEqual(req.headers['x-admin-token'], token)) return res.status(403).json({ message: 'Forbidden' });
     return next();
 }
+// Filing Watch uses the existing paid signup and cancellation paths. Only the
+// founder's service queue and five invitations are new.
+const filingWatchCompanies = new Set(require('../frontend/data/us-companies.json').companies.filter(c => c.cik).map(c => c.symbol));
+filingWatch.mount(app, {
+    auth: authMiddleware, admin: dealMirrorAdminAuth, User,
+    covered: ticker => filingWatchCompanies.has(ticker),
+    priceReady: async () => Boolean(stripe && (await resolveStripeCheckoutPlan(getPlanConfig(FILING_WATCH_PLAN_ID))).stripePriceId),
+    notify: notifySupportInbox
+});
+app.get(['/filing-watch', '/filing-watch/start'], (req, res) => res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/filing-watch.html')));
+app.get('/filing-watch-sample', (req, res) => res.set('Cache-Control', 'no-store').sendFile(path.join(__dirname, '../frontend-v2/filing-watch-sample.html')));
+
 app.get('/api/admin/dealmirror', dealMirrorAdminAuth, async (req, res) => {
     try {
         const { DealMirrorBatch, DealMirrorLicence } = dealMirror.models();

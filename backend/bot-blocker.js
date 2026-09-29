@@ -130,7 +130,8 @@ const DENY_PATTERNS = [
 // /support join /privacy for the same reason the OpenAI plugin submission needs
 // them: the listing declares a terms URL and a support URL, and a reviewer's
 // automated fetch of either must not hit the scraper wall.
-const EXEMPT_PATH_PATTERNS = [/^\/api\//, /^\/api$/, /^\/mcp$/, /^\/mcp\/apps$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/, /^\/terms\/?$/, /^\/support\/?$/,
+// The two Filing Watch sales/sample pages contain only public prose.
+const EXEMPT_PATH_PATTERNS = [/^\/filing-watch(?:-sample)?\/?$/, /^\/api\//, /^\/api$/, /^\/mcp$/, /^\/mcp\/apps$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/, /^\/terms\/?$/, /^\/support\/?$/,
     // IndexNow key file: 32 hex chars at the site root. IndexNow's spec requires
     // this be publicly fetchable, and participants fetch it asynchronously AFTER
     // accepting the POST -- so it must not depend on browser headers. It was

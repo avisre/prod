@@ -157,6 +157,7 @@ test('ambiguousStripePriceIds actually detects the collision it exists for', () 
             STRIPE_PRICE_ID_POWER_MONTHLY: '',
             STRIPE_PRICE_ID_DESK: '',
             STRIPE_PRICE_ID_DEV: ids.dev || '',
+            STRIPE_PRICE_ID_FILING_WATCH: '', FILING_WATCH_PLAN_ID: 'filing-watch',
             MONTHLY_PLAN_ID: 'monthly', ANNUAL_PLAN_ID: 'annual', PRO_ANNUAL_PLAN_ID: 'pro-annual',
             PRO_PLAN_ID: 'pro', POWER_PLAN_ID: 'power', POWER_MONTHLY_PLAN_ID: 'power-monthly',
             DESK_PLAN_ID: 'desk', DEV_PLAN_ID: 'dev',

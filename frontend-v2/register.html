@@ -182,6 +182,12 @@
         cta: 'Start my free trial',
         features: ['3 days of everything in Monthly, no card required', 'Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Portfolio tracker, watchlist and SEC filing alerts', 'Upgrade anytime during or after the trial to keep Core']
       },
+      'filing-watch': {
+        name: 'Filing Watch · founder-prepared', amount: '$49', cadence: 'per month',
+        note: 'One subscription: weekly research assistance plus Monthly software access. Charged today; cancel before renewal.',
+        cta: 'Continue to $49/month checkout',
+        features: ['Three supported US-listed stocks', 'Starting brief within 48 hours of submitting your stocks', 'A Friday email with filing changes, source links and open questions', 'A clear update when there are no new filings', 'Standard Monthly software access included', 'Factual research assistance; no buy or sell recommendations']
+      },
       monthly: {
         name: 'Monthly', amount: '$24.99', cadence: 'per month',
         note: 'Charged today through Stripe. Cancel anytime.',
@@ -235,11 +241,11 @@
       }
     };
     // Purchase values are reported in the actual charged currency: USD.
-    const PLAN_VALUE = { free: 0, monthly: 24.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
+    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 24.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     // Dev joins them: it is reached from /api, and a developer who arrived to
     // buy API access should see that checkout and nothing else.
-    const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk', 'dev']);
+    const DIRECT_PLANS = new Set(['power', 'power-monthly', 'desk', 'dev', 'filing-watch']);
     // pro / power / power-monthly are retired rungs (2026-08-31 ladder cut) —
     // no Stripe price is configured for them any more, so letting a link land
     // here unmapped either 500s at checkout (power, power-monthly still had
@@ -251,6 +257,8 @@
     let plan = (new URLSearchParams(location.search).get('plan') || 'monthly').toLowerCase();
     plan = RETIRED_PLAN_REMAP[plan] || plan;
     if (!PLANS[plan]) plan = 'monthly';
+    const filingWatchInvite = new URLSearchParams(location.search).get('invite') || '';
+    const checkoutNext = plan === 'filing-watch' ? 'filing-watch/start' : 'dashboard.html';
     const cardPlan = (p) => p; // Pro is sold as pro-annual only (2026-08-31 cut)
     function syncPlan() {
       const direct = DIRECT_PLANS.has(plan);
@@ -352,13 +360,13 @@
     // Post-checkout return (works pre- and post-cutover): Stripe sends the
     // user back with ?session=success — log in with the held credentials,
     // retrying while the webhook activates the subscription.
-    V2Social.init({
+    if (plan !== 'filing-watch') V2Social.init({
       flow: 'register',
       shellId: 'social-shell',
       mountId: 'google-btn',
       statusId: 'social-status',
-      next: 'dashboard.html',
-      getExtraPayload: () => ({ plan, utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
+      next: checkoutNext,
+      getExtraPayload: () => ({ plan, filingWatchInvite, utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
         analyticsConsent: (() => { try { return localStorage.getItem('sp_analytics_consent_v1') === 'granted'; } catch (_) { return false; } })() })
     });
 
@@ -465,9 +473,10 @@
             password: document.getElementById('password').value,
             website: document.getElementById('hp-website').value, // honeypot — humans leave it empty
             plan,
+            filingWatchInvite,
             utm: V2.getStoredUtm ? V2.getStoredUtm() : null,
             analyticsConsent: (() => { try { return localStorage.getItem('sp_analytics_consent_v1') === 'granted'; } catch (_) { return false; } })(),
-            next: 'dashboard.html' // checkout return lands back in v2
+            next: checkoutNext // paid Filing Watch buyers choose their stocks next
           })
         });
         const data = await r.json().catch(() => ({}));
