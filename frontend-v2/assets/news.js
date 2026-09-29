@@ -11,65 +11,100 @@
         ['VIX futures ETN · VXX', 'VXX'], ['Oil fund · USO', 'USO'], ['Gold ETF · GLD', 'GLD'], ['20+ yr Treasury ETF · TLT', 'TLT'], ['Bitcoin strategy ETF · BITO', 'BITO']
     ];
     const TOPICS = [
-        ['all', 'All'], ['top_stories', 'Top stories'], ['financial_markets', 'Markets'],
+        ['all', 'All topics'], ['top_stories', 'Top stories'], ['financial_markets', 'Markets'],
         ['earnings', 'Earnings'], ['technology', 'Tech'], ['economy_macro', 'Macro'],
         ['economy_monetary', 'Monetary'], ['ipo', 'IPO'], ['mergers_and_acquisitions', 'M&A'],
         ['energy_transportation', 'Energy'], ['finance', 'Finance'], ['life_sciences', 'Life sciences'],
         ['real_estate', 'Real estate'], ['retail_wholesale', 'Retail']
     ];
     const ASSETS = [
-        ['all', 'All', ''], ['stocks', 'Stocks', 'SPY,QQQ,DIA,IWM'], ['crypto', 'Crypto', 'BTC,ETH,COIN,MARA,RIOT'],
+        ['all', 'All assets', ''], ['stocks', 'Stocks', 'SPY,QQQ,DIA,IWM'], ['crypto', 'Crypto', 'BTC,ETH,COIN,MARA,RIOT'],
         ['forex', 'Forex', 'UUP,FXE,FXY,FXB,EWY'], ['bonds', 'Bonds', 'TLT,AGG,BND,IEF,LQD'],
         ['commodities', 'Commodities', 'GLD,USO,SLV,DBA,UNG'], ['etfs', 'ETFs', 'SPY,QQQ,VTI,VOO,SCHD'],
         ['sectors', 'Sectors', 'XLK,XLF,XLE,XLV,XLI,XLY,XLP']
     ];
 
     let topic = 'all';
+    let assetKey = 'all';
     let assetTickers = '';
     let searchTickers = '';
 
-    // ---------- ① tape ----------
+    // ---------- ① market snapshot ----------
     (async () => {
         try {
             const r = await fetch(`${API}/market/strip?symbols=${TAPE.map(([, s]) => s).join(',')}`);
+            if (!r.ok) throw new Error('market snapshot ' + r.status);
             const data = await r.json();
-            $('tape').innerHTML = TAPE.map(([label, sym]) => {
-                const q = (data.quotes || {})[sym];
+            const quotes = data.quotes || {};
+            const cards = TAPE.map(([label, sym]) => {
+                const q = quotes[sym];
                 if (!q) return '';
                 const up = q.pct >= 0;
                 const closeDate = q.date
                     ? new Date(`${q.date}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
                     : 'date unavailable';
-                return `<a class="tape-item" href="/company.html?symbol=${sym}" style="color:inherit;">
+                return `<a class="tape-item" role="listitem" href="/company.html?symbol=${sym}" aria-label="${esc(`${label}, $${fixed(q.value, 2)} US dollars, ${up ? '+' : ''}${fixed(q.pct, 2)} percent, daily close ${closeDate}`)}">
                   <span class="label">${esc(label)}</span>
-                  <b>$${fixed(q.value, 2)} USD</b>
-                  <span class="small num ${up ? 'delta-pos' : 'delta-neg'}">${up ? '+' : ''}${fixed(q.pct, 2)}%</span>
-                  <span class="small faint">Daily close · ${closeDate}</span>
+                  <span class="tape-values"><b>$${fixed(q.value, 2)}</b><span class="tape-change ${up ? 'delta-pos' : 'delta-neg'}">${up ? '+' : ''}${fixed(q.pct, 2)}%</span></span>
+                  ${sparkline(q.closes || [])}
+                  <span class="tape-date">Daily close · ${closeDate}</span>
                 </a>`;
-            }).join('');
-        } catch (_) { $('tape').hidden = true; }
+            }).filter(Boolean);
+            $('tape').innerHTML = cards.join('');
+            $('tape').setAttribute('aria-busy', 'false');
+            if (!cards.length) {
+                $('market-snapshot').hidden = true;
+                return;
+            }
+            $('tape-asof').textContent = `${cards.length} fund ${cards.length === 1 ? 'proxy' : 'proxies'} · close dates shown`;
+        } catch (_) {
+            $('tape').setAttribute('aria-busy', 'false');
+            $('market-snapshot').hidden = true;
+        }
     })();
 
     // ---------- ② filters ----------
     function chipRow(el, items, onPick) {
         el.innerHTML = items.map(([k, label], i) =>
             `<button type="button" class="chip${i === 0 ? ' chip-accent' : ''}" data-k="${k}" aria-pressed="${i === 0}">${label}</button>`).join('');
-        el.querySelectorAll('.chip').forEach((b) =>
-            b.addEventListener('click', () => {
-                el.querySelectorAll('.chip').forEach((x) => {
-                    x.classList.toggle('chip-accent', x === b);
-                    x.setAttribute('aria-pressed', String(x === b));
-                });
-                onPick(b.dataset.k);
-            }));
+        const choose = (key, notify = true) => {
+            const selected = [...el.querySelectorAll('.chip')].find((button) => button.dataset.k === key);
+            if (!selected) return;
+            el.querySelectorAll('.chip').forEach((button) => {
+                button.classList.toggle('chip-accent', button === selected);
+                button.setAttribute('aria-pressed', String(button === selected));
+            });
+            if (notify) onPick(key);
+        };
+        el.querySelectorAll('.chip').forEach((button) => button.addEventListener('click', () => choose(button.dataset.k)));
+        return choose;
     }
-    chipRow($('topics-row'), TOPICS, (k) => { topic = k; loadNews(); });
-    chipRow($('assets-row'), ASSETS, (k) => {
+    const chooseTopic = chipRow($('topics-row'), TOPICS, (k) => { topic = k; updateFilterControls(); loadNews(); });
+    const chooseAsset = chipRow($('assets-row'), ASSETS, (k) => {
+        assetKey = k;
         const a = ASSETS.find(([key]) => key === k);
         assetTickers = a ? a[2] : '';
-        if (k !== 'all') { searchTickers = ''; $('news-q').value = ''; $('news-q-active').textContent = ''; }
+        searchTickers = '';
+        $('news-q').value = '';
+        $('news-q-active').textContent = '';
+        updateFilterControls();
         loadNews();
     });
+
+    function updateFilterControls() {
+        $('news-clear-filters').hidden = topic === 'all' && assetKey === 'all' && !searchTickers;
+    }
+    $('news-clear-filters').addEventListener('click', () => {
+        topic = 'all'; assetKey = 'all'; assetTickers = ''; searchTickers = '';
+        $('news-q').value = '';
+        $('news-q-active').textContent = '';
+        $('news-q-results').hidden = true;
+        chooseTopic('all', false);
+        chooseAsset('all', false);
+        updateFilterControls();
+        loadNews();
+    });
+    updateFilterControls();
 
     (function wireSearch() {
         const input = $('news-q');
@@ -78,8 +113,12 @@
         let searchVersion = 0;
         const go = (sym) => {
             searchTickers = sym;
+            assetKey = 'all';
+            assetTickers = '';
+            chooseAsset('all', false);
             $('news-q-active').textContent = sym ? `showing news for ${sym}` : '';
             results.hidden = true;
+            updateFilterControls();
             loadNews();
         };
         input.addEventListener('input', async () => {
@@ -123,9 +162,17 @@
                 || items.find((row) => String(row.name || '').trim().toLowerCase() === query.toLowerCase())
                 || items[0];
             if (!chosen) {
+                newsRequest += 1;
+                searchTickers = '';
+                assetKey = 'all';
+                assetTickers = '';
+                chooseAsset('all', false);
                 $('news-q-active').textContent = `No ticker or fund matches “${query}”.`;
                 results.hidden = false;
                 results.innerHTML = `<div class="nav-search-empty">No ticker or fund matches “${esc(query)}”. Try a ticker such as AAPL.</div>`;
+                clearResults();
+                $('news-result-meta').textContent = 'No ticker or fund matched that search.';
+                updateFilterControls();
                 return;
             }
             input.value = chosen.symbol;
@@ -154,6 +201,15 @@
         .map((s) => `<a href="/company.html?symbol=${s.ticker}">${s.ticker}</a>`).join('');
     const meta = (it, n) =>
         `<div class="news-meta"><span>${esc(it.source || '')}</span><span>${when(it.time_published)}</span>${tickerLinks(it, n)}</div>`;
+
+    function resultSummary(count) {
+        const filters = [];
+        if (searchTickers) filters.push(searchTickers);
+        else if (assetKey !== 'all') filters.push(ASSETS.find(([key]) => key === assetKey)?.[1] || 'selected assets');
+        if (topic !== 'all') filters.push(TOPICS.find(([key]) => key === topic)?.[1] || 'selected topic');
+        const detail = filters.length ? ` for ${filters.join(' · ')}` : '';
+        return `${count} ${count === 1 ? 'story' : 'stories'}${detail} · latest first`;
+    }
 
     function renderFeatured(it) {
         const card = $('news-feature');
@@ -239,6 +295,7 @@
         $('news-feature-col').hidden = true;
         $('news-latest-col').hidden = true;
         $('news-stream-col').hidden = true;
+        $('news-result-meta').textContent = 'Market headlines require a paid plan.';
     }
 
     function clearResults() {
@@ -256,6 +313,7 @@
         const empty = $('news-empty');
         empty.hidden = true;
         $('news-error').hidden = true;
+        $('news-result-meta').textContent = 'Loading headlines…';
         if (!token()) {
             clearResults();
             setAccessGate(false);
@@ -292,8 +350,10 @@
             if (!items.length) {
                 renderFeatured(null); renderSecondary([]); renderLatest([]); renderStream([]); renderTrending([]);
                 empty.hidden = false;
+                $('news-result-meta').textContent = 'No headlines match these filters.';
                 return;
             }
+            $('news-result-meta').textContent = resultSummary(items.length);
             renderFeatured(items[0]);
             renderSecondary(items.slice(1, 3));
             renderLatest(items.slice(3, 11));
@@ -302,6 +362,7 @@
         } catch (_) {
             if (request !== newsRequest) return;
             $('news-error').hidden = false;
+            $('news-result-meta').textContent = 'Headlines are temporarily unavailable.';
             renderTrending([]); // don't leave the trending rail spinning on a real error
         }
     }

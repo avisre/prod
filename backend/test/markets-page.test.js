@@ -55,11 +55,12 @@ function makePage({ loggedIn = true } = {}) {
         : query.toUpperCase() === 'AAPL' ? [{ symbol: 'AAPL', name: 'Apple Inc.' }] : [];
     const V2 = {
         API: '/api', token: () => loggedIn ? 'cookie' : '', esc: (value) => String(value ?? ''),
-        fixed: (value, digits = 2) => Number(value).toFixed(digits), nav() {}, footer() {}, searchAssets
+        fixed: (value, digits = 2) => Number(value).toFixed(digits), sparkline: () => '<svg class="spark"></svg>',
+        nav() {}, footer() {}, searchAssets
     };
     const fetch = (url) => {
         if (url.includes('/alpha/news')) return new Promise((resolve) => pendingNews.push({ url, resolve }));
-        if (url.includes('/market/strip')) return Promise.resolve({ json: async () => ({ quotes: { SPY: { value: 100, pct: 1, date: '2026-09-28' } } }) });
+        if (url.includes('/market/strip')) return Promise.resolve({ ok: true, json: async () => ({ quotes: { SPY: { value: 100, pct: 1, date: '2026-09-28', closes: [95, 97, 100] } } }) });
         if (url.includes('/alpha/movers')) return Promise.resolve({ ok: true, json: async () => ({ top_gainers: [], top_losers: [{ ticker: 'LOSE', price: '4.5', change_percentage: '-2%' }], most_actively_traded: [{ ticker: 'ACT', price: '10', change_percentage: '1%' }] }) });
         return Promise.resolve({ ok: true, json: async () => [] });
     };
@@ -84,8 +85,13 @@ test('Markets page keeps the latest filter response, shows every story and prese
     assert.equal(page.pendingNews.length, 1);
     respond(page.pendingNews.shift(), { feed: stories('Initial', 60) });
     await tick();
+    assert.match(page.element('topics-row').innerHTML, />All topics<\/button>/);
+    assert.match(page.element('assets-row').innerHTML, />All assets<\/button>/);
+    assert.equal(page.element('news-result-meta').textContent, '60 stories · latest first');
     assert.match(page.element('tape').innerHTML, /S&P 500 ETF · SPY/);
     assert.match(page.element('tape').innerHTML, /Daily close · Sep 28, 2026/);
+    assert.match(page.element('tape').innerHTML, /class="spark"/);
+    assert.equal(page.element('tape').getAttribute('aria-busy'), 'false');
     assert.equal((page.element('news-stream').innerHTML.match(/class="stream-item"/g) || []).length, 49);
     assert.match(page.element('movers-losers').innerHTML, /LOSE/);
     assert.match(page.element('movers-active').innerHTML, /ACT/);
@@ -107,6 +113,24 @@ test('Markets page keeps the latest filter response, shows every story and prese
     await Promise.all([startEarnings, tick()]);
     assert.match(page.element('news-feature').innerHTML, /Technology story/);
     assert.doesNotMatch(page.element('news-feature').innerHTML, /Earnings story/);
+
+    const stocks = page.element('assets-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'stocks');
+    await stocks.fire('click');
+    await tick();
+    const stockStories = page.pendingNews.shift();
+    assert.match(stockStories.url, /topics=technology/);
+    assert.match(stockStories.url, /tickers=SPY%2CQQQ%2CDIA%2CIWM/);
+    respond(stockStories, { feed: stories('Stock filter', 1) });
+    await tick();
+    assert.equal(page.element('news-result-meta').textContent, '1 story for Stocks · Tech · latest first');
+    assert.equal(page.element('news-clear-filters').hidden, false);
+    await page.element('news-clear-filters').fire('click');
+    await tick();
+    const cleared = page.pendingNews.shift();
+    assert.doesNotMatch(cleared.url, /topics=|tickers=/);
+    respond(cleared, { feed: stories('All filters cleared', 1) });
+    await tick();
+    assert.equal(page.element('news-clear-filters').hidden, true);
 
     const input = page.element('news-q');
     input.value = 'Microsoft';
@@ -150,6 +174,32 @@ test('failed news filter clears stale articles and retry reloads the feed', asyn
     assert.match(page.element('news-feature').innerHTML, /Recovered story/);
 });
 
+test('unmatched company search clears old headlines and invalidates an older filter response', async () => {
+    const page = makePage();
+    await tick();
+    respond(page.pendingNews.shift(), { feed: stories('Current', 1) });
+    await tick();
+
+    const topicButton = page.element('topics-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'earnings');
+    await topicButton.fire('click');
+    await tick();
+    const staleRequest = page.pendingNews.shift();
+
+    const input = page.element('news-q');
+    input.value = 'No matching company';
+    await input.fire('input');
+    await tick();
+    await page.element('news-go').fire('click');
+    await tick();
+    assert.equal(page.element('news-feature').hidden, true);
+    assert.equal(page.element('news-result-meta').textContent, 'No ticker or fund matched that search.');
+
+    respond(staleRequest, { feed: stories('Stale response', 1) });
+    await tick();
+    assert.equal(page.element('news-feature').hidden, true);
+    assert.equal(page.element('news-result-meta').textContent, 'No ticker or fund matched that search.');
+});
+
 test('signed-out and paid-gated visitors see clear copy and no locked controls', async () => {
     const anonymous = makePage({ loggedIn: false });
     await tick();
@@ -175,5 +225,8 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260929-marketsfix1/);
+    assert.match(html, /assets\/news\.js\?v=20260930-markets-quality1/);
+    assert.match(html, /Filter headlines by topic/);
+    assert.match(html, /Filter headlines by asset class/);
+    assert.match(html, /daily closes, not intraday index quotes/);
 });
