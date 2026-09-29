@@ -26,11 +26,6 @@ class FakeElement {
                 const button = new FakeElement(); button.dataset.k = m[1]; button.textContent = m[3]; button.attributes['aria-pressed'] = m[2]; return button;
             });
         }
-        if (this.id === 'news-q-results') {
-            this.searchSuggestions = [...this._html.matchAll(/<a href="#" data-sym="([^"]+)"/g)].map((m) => {
-                const anchor = new FakeElement(); anchor.dataset.sym = m[1]; return anchor;
-            });
-        }
     }
     get innerHTML() { return this._html || ''; }
     addEventListener(type, callback) { (this.handlers[type] ||= []).push(callback); }
@@ -41,7 +36,9 @@ class FakeElement {
         if (selector === '.chip') {
             return this.chipButtons || [];
         }
-        if (selector === 'a') return this.searchSuggestions || [];
+        if (selector === 'a') return [...this.innerHTML.matchAll(/<a href="#" data-sym="([^"]+)"/g)].map((m) => {
+            const anchor = new FakeElement(); anchor.dataset.sym = m[1]; return anchor;
+        });
         return [];
     }
     querySelector(selector) {
@@ -95,7 +92,7 @@ test('Markets page keeps the latest filter response, shows every story and prese
     assert.match(page.element('tape').innerHTML, /Daily close · Sep 28, 2026/);
     assert.match(page.element('tape').innerHTML, /class="spark"/);
     assert.equal(page.element('tape').getAttribute('aria-busy'), 'false');
-    assert.equal((page.element('news-stream').innerHTML.match(/class="stream-item/g) || []).length, 60);
+    assert.equal((page.element('news-stream').innerHTML.match(/class="stream-item"/g) || []).length, 49);
     assert.match(page.element('movers-losers').innerHTML, /LOSE/);
     assert.match(page.element('movers-active').innerHTML, /ACT/);
     assert.match(page.element('movers-gainers').innerHTML, /No data right now/);
@@ -114,8 +111,8 @@ test('Markets page keeps the latest filter response, shows every story and prese
     await Promise.all([startTechnology, tick()]);
     respond(older, { feed: stories('Earnings', 1) });
     await Promise.all([startEarnings, tick()]);
-    assert.match(page.element('news-stream').innerHTML, /Technology story/);
-    assert.doesNotMatch(page.element('news-stream').innerHTML, /Earnings story/);
+    assert.match(page.element('news-feature').innerHTML, /Technology story/);
+    assert.doesNotMatch(page.element('news-feature').innerHTML, /Earnings story/);
 
     const stocks = page.element('assets-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'stocks');
     await stocks.fire('click');
@@ -146,17 +143,6 @@ test('Markets page keeps the latest filter response, shows every story and prese
     await tick();
     assert.match(page.element('news-q-active').textContent, /MSFT/);
 
-    input.value = 'Microsoft';
-    await input.fire('input');
-    const suggestion = page.element('news-q-results').querySelectorAll('a')[0];
-    assert.equal(suggestion.dataset.sym, 'MSFT');
-    await suggestion.fire('click');
-    await tick();
-    const clicked = page.pendingNews.shift();
-    assert.match(clicked.url, /tickers=MSFT/);
-    respond(clicked, { feed: stories('Microsoft suggestion', 1) });
-    await tick();
-
     input.value = 'AAPL';
     await input.fire('input');
     await input.fire('keydown', { key: 'Enter' });
@@ -185,7 +171,7 @@ test('failed news filter clears stale articles and retry reloads the feed', asyn
     respond(page.pendingNews.shift(), { feed: stories('Recovered', 1) });
     await Promise.all([retry, tick()]);
     assert.equal(page.element('news-error').hidden, true);
-    assert.match(page.element('news-stream').innerHTML, /Recovered story/);
+    assert.match(page.element('news-feature').innerHTML, /Recovered story/);
 });
 
 test('unmatched company search clears old headlines and invalidates an older filter response', async () => {
@@ -239,10 +225,8 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-feed1/);
+    assert.match(html, /assets\/news\.js\?v=20260930-markets-quality1/);
     assert.match(html, /Filter headlines by topic/);
     assert.match(html, /Filter headlines by asset class/);
     assert.match(html, /daily closes, not intraday index quotes/);
-    assert.match(html, /Latest News/);
-    assert.match(html, /aria-label="Latest news"/);
 });

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Markets news — stockportfolio.pro</title>
-  <meta name="description" content="Follow the latest market and company headlines with daily market proxy closes and related tickers." />
+  <title>Markets &amp; news — stockportfolio.pro</title>
+  <meta name="description" content="Today's US market movers and curated company news, linked to the SEC-filed fundamentals behind each ticker." />
   <meta name="robots" content="noindex" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -109,69 +109,6 @@
     .tone-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--ink-3); }
     .tone-dot.pos { background: var(--green, #2e7d4f); }
     .tone-dot.neg { background: var(--red, #b3402e); }
-
-    /* Yahoo Finance-inspired single-feed layout, using the site's neutral palette. */
-    .page-head { display: none; }
-    header.nav .nav-search { display: none; }
-    .snapshot { margin: 14px 0 0; }
-    .snapshot-head { align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--line); }
-    .snapshot-head h2 { font-size: 13px; font-weight: 650; }
-    .snapshot-note { font-size: 11px; }
-    .snapshot-asof { font-size: 10px; }
-    .tape { display: flex; gap: 0; padding: 0; border-bottom: 1px solid var(--line); scrollbar-width: thin; }
-    .tape-item { flex: 1 0 150px; grid-template-columns: 1fr auto; gap: 4px 8px; padding: 10px 12px; border: 0; border-right: 1px solid var(--line); border-radius: 0; background: transparent; }
-    .tape-item:last-child { border-right: 0; }
-    .tape-item .label { font-size: 9px; }
-    .tape-item b { font-size: 15px; }
-    .tape-item .spark { display: none; }
-    .tape-date { font-size: 9px; }
-    #news-controls { margin-top: 12px; }
-    .news-toolbar { gap: 8px; margin: 0 0 7px; }
-    .news-toolbar .nav-search { max-width: 430px; flex-basis: 280px; }
-    .filter-groups { display: block; padding: 0; border: 0; }
-    #asset-filter-group { display: none; }
-    .filter-group:first-child { display: block; }
-    .filter-group:first-child .filter-label { display: none; }
-    #topics-row { flex-wrap: nowrap; overflow-x: auto; gap: 17px; padding: 0 0 6px; scrollbar-width: thin; }
-    #topics-row .chip { min-height: 30px; padding: 3px 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; color: var(--ink-2); white-space: nowrap; }
-    #topics-row .chip[aria-pressed="true"] { border-bottom-color: #161616; background: transparent; color: #161616; font-weight: 650; }
-    .filter-actions { min-height: 0; margin: 0; }
-    .filter-actions .small { display: none; }
-    #news-clear-filters { margin-left: auto; }
-
-    .mkt-grid, .mkt-content { display: block; margin-top: 0; }
-    #news-feature-col, #news-latest-col, .mkt-grid > aside { display: none !important; }
-    #news-stream-col { display: block; max-width: 980px; margin: 18px auto 0; }
-    #news-stream-col > .section-head { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--line); }
-    #news-stream-col > .section-head h2 { font-size: 22px; font-weight: 680; letter-spacing: -0.025em; }
-    #news-result-meta { color: var(--ink-3); font-size: 11px; }
-    .stream { display: block; grid-column: auto; }
-    .stream-item { display: block; padding: 13px 2px 12px; border-bottom: 1px solid var(--line); }
-    .stream-item.has-image { display: grid; grid-template-columns: 128px minmax(0, 1fr); gap: 14px; align-items: start; }
-    .stream-img { width: 128px; aspect-ratio: 16 / 10; border-radius: 4px; }
-    .stream-item h3 { margin: 0; font-size: 15px; line-height: 1.4; font-weight: 620; }
-    .stream-sum { display: none; }
-    .stream-item .news-meta { margin-top: 4px; align-items: center; gap: 8px; font-size: 11px; }
-    .stream-item .news-meta a { color: var(--ink-2); font-size: 10px; font-weight: 650; }
-    .news-error { padding: 16px 2px; }
-    .trending-tickers { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding: 16px 2px 8px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 10px; }
-    .trending-tickers strong { font-size: 9px; letter-spacing: .06em; text-transform: uppercase; }
-    .trending-tickers a { color: var(--ink-2); font-weight: 600; }
-    .signedout-panel { max-width: 980px; margin: 20px auto 0; padding: 42px 28px; border-radius: 4px; }
-    @media (max-width: 640px) {
-      .snapshot { margin-top: 10px; }
-      .snapshot-head { align-items: flex-start; }
-      .snapshot-asof { max-width: 120px; white-space: normal; text-align: right; }
-      .tape-item { flex-basis: 142px; padding: 9px 10px; }
-      .news-toolbar .nav-search { flex-basis: 220px; }
-      #topics-row { gap: 14px; }
-      #news-stream-col { margin-top: 14px; }
-      #news-stream-col > .section-head h2 { font-size: 20px; }
-      .stream-item.has-image { grid-template-columns: 96px minmax(0, 1fr); gap: 10px; }
-      .stream-img { width: 96px; }
-      .stream-item h3 { font-size: 14px; }
-      .signedout-panel { padding: 30px 18px; }
-    }
   </style>
 </head>
 <body>
@@ -182,33 +119,33 @@
         <p class="page-deck">Market headlines, daily closing prices, and the companies behind each story.</p>
       </div>
 
-      <div id="news-controls">
-      <!-- Headline search and topic filters -->
-      <div class="news-toolbar">
-        <div class="nav-search" style="width:320px;">
-          <input type="search" id="news-q" placeholder="Ticker or company" autocomplete="off" aria-label="Search headlines by ticker or company" />
-          <div class="nav-search-results" id="news-q-results" hidden></div>
-        </div>
-        <button class="btn btn-ghost btn-sm" id="news-go" type="button">Search</button>
-        <span class="small faint" id="news-q-active" aria-live="polite"></span>
-      </div>
-      <div class="filter-groups" aria-label="Headline filters">
-        <div class="filter-group"><span class="filter-label">Topics</span><div class="chip-row" id="topics-row" role="group" aria-label="Filter headlines by topic"></div></div>
-        <div class="filter-group" id="asset-filter-group"><span class="filter-label">Asset class</span><div class="chip-row" id="assets-row" role="group" aria-label="Filter headlines by asset class"></div></div>
-        <div class="filter-actions"><button class="btn btn-ghost btn-sm" id="news-clear-filters" type="button" hidden>Clear filters</button></div>
-      </div>
-      </div>
-
       <!-- ① market snapshot -->
       <section class="snapshot" id="market-snapshot" aria-labelledby="snapshot-title">
         <div class="snapshot-head">
-          <div><h2 id="snapshot-title">U.S. markets</h2><p class="snapshot-note">Exchange-traded proxies · daily closes, not intraday index quotes</p></div>
+          <div><h2 id="snapshot-title">Market snapshot</h2><p class="snapshot-note">Exchange-traded proxies · daily closes, not intraday index quotes</p></div>
           <span class="snapshot-asof" id="tape-asof" aria-live="polite">Loading closing prices…</span>
         </div>
         <div class="tape" id="tape" role="list" aria-label="Market proxy closing prices" aria-busy="true"></div>
       </section>
 
-      <!-- Chronological story feed -->
+      <div id="news-controls">
+      <!-- ② search + topic + asset filters -->
+      <div class="news-toolbar">
+        <div class="nav-search" style="width:320px;">
+          <input type="search" id="news-q" placeholder="Search by ticker or company" autocomplete="off" aria-label="Search headlines by ticker or company" />
+          <div class="nav-search-results" id="news-q-results" hidden></div>
+        </div>
+        <button class="btn btn-ghost btn-sm" id="news-go" type="button">Search headlines</button>
+        <span class="small faint" id="news-q-active" aria-live="polite"></span>
+      </div>
+      <div class="filter-groups" aria-label="Headline filters">
+        <div class="filter-group"><span class="filter-label">Topics</span><div class="chip-row" id="topics-row" role="group" aria-label="Filter headlines by topic"></div></div>
+        <div class="filter-group"><span class="filter-label">Asset class</span><div class="chip-row" id="assets-row" role="group" aria-label="Filter headlines by asset class"></div></div>
+        <div class="filter-actions"><span class="small" id="news-result-meta" aria-live="polite">Loading headlines…</span><button class="btn btn-ghost btn-sm" id="news-clear-filters" type="button" hidden>Clear filters</button></div>
+      </div>
+      </div>
+
+      <!-- ③ the grid: featured | latest | sidebar, stream below -->
       <div class="mkt-grid">
         <div class="mkt-content">
         <section class="signedout-panel" id="news-signedout" hidden aria-label="Account required">
@@ -228,14 +165,13 @@
         <section id="news-latest-col" aria-label="Latest headlines">
           <div class="section-head" style="margin-bottom:4px;"><h2 class="title-3">Latest headlines</h2></div>
           <ul class="latest-list" id="news-latest"></ul>
+          <p class="small faint" id="news-empty" hidden style="padding:20px 0;">No news matched these filters yet.</p>
+          <div class="news-error" id="news-error" role="alert" hidden>Couldn’t load news. <button class="btn btn-ghost btn-sm" id="news-retry" type="button">Try again</button></div>
         </section>
 
-        <section class="stream" id="news-stream-col" aria-label="Latest news">
-          <div class="section-head"><div><h2 class="title-2">Latest News</h2><p class="small faint" id="news-result-meta" aria-live="polite">Loading headlines…</p></div><a class="btn btn-ghost btn-sm" href="/monitor">Monitor news <span aria-hidden="true">↗</span></a></div>
+        <section class="stream" id="news-stream-col" aria-label="More news">
+          <div class="section-head" style="margin-bottom:4px;"><h2 class="title-3">More news</h2></div>
           <div id="news-stream"></div>
-          <p class="small faint" id="news-empty" hidden style="padding:16px 2px;">No news matched these filters yet.</p>
-          <div class="news-error" id="news-error" role="alert" hidden>Couldn’t load news. <button class="btn btn-ghost btn-sm" id="news-retry" type="button">Try again</button></div>
-          <div class="trending-tickers" id="trending-topics" aria-label="Trending tickers" hidden></div>
         </section>
         </div><!-- /.mkt-content -->
 
@@ -266,6 +202,6 @@
     </div>
   </main>
   <script src="assets/app.js?v=20260928-fundsearch"></script>
-  <script src="assets/news.js?v=20260930-yahoo-feed1"></script>
+  <script src="assets/news.js?v=20260930-markets-quality1"></script>
 </body>
 </html>
