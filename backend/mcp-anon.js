@@ -31,14 +31,10 @@ function config(env = process.env) {
         return Number.isFinite(n) && n >= 0 ? n : fallback;
     };
     return {
-        // The headline offer. Asks are the expensive call (real inference), so
-        // this is the number that actually costs money and the one quoted to
-        // users. Two is a taste, not a trial: enough for a keyless caller to see
-        // a cited answer and judge whether it is better than what their chatbot
-        // already guesses, while the business is still paying for every one of
-        // them with no credential collected. Raise it when the provider bill is
-        // known, not before.
-        askLimit: num(env.ANON_MCP_ASK_LIMIT, 2),
+        // The headline offer: three keyless AI answers in each rolling window.
+        // The answer payload reports how many remain and tells callers how to
+        // subscribe and configure their MCP client before the allowance runs out.
+        askLimit: num(env.ANON_MCP_ASK_LIMIT, 3),
         // Lookups hit cache/SEC/Yahoo with no model in the loop, so they are
         // deliberately generous — a chatbot burning its whole free allowance on
         // metadata calls would never see the answer that sells the product.
@@ -110,6 +106,22 @@ async function readGlobalAsks(now = new Date()) {
 }
 
 const SIGNUP_URL = 'https://www.stockportfolio.pro/register?plan=dev';
+const SETUP_URL = 'https://www.stockportfolio.pro/docs/api-mcp';
+
+function upgradeInstructions() {
+    return `To get more MCP usage now, open ${SIGNUP_URL} and choose the Dev plan ($19.99/month for 200 credits; each AI question costs 42 credits). After subscribing, follow ${SETUP_URL}: it has OAuth steps for ChatGPT and Claude, and API-key steps for clients that support bearer keys.`;
+}
+
+function askUsageNotice(used, allowance, windowDays = 30) {
+    const remaining = Math.max(0, Number(allowance || 0) - Number(used || 0));
+    if (remaining === 0) {
+        return `Warning: you have used all ${allowance} free MCP questions in this rolling ${windowDays}-day window. ${upgradeInstructions()} Or wait for the free allowance to renew.`;
+    }
+    if (remaining === 1) {
+        return `Warning: only 1 free MCP question remains in this rolling ${windowDays}-day window. ${upgradeInstructions()}`;
+    }
+    return `Free MCP usage: ${used} of ${allowance} AI questions used; ${remaining} remain in this rolling ${windowDays}-day window.`;
+}
 
 /**
  * Builds a credits-shaped facade bound to one anonymous identity (the caller's
@@ -144,30 +156,32 @@ function creditsFor(identity, env = process.env, onCapHit = null) {
                 if (globalAsks >= cfg.globalAskDay) {
                     capHit('global_ask_day', globalAsks, cfg.globalAskDay);
                     return {
-                        ok: false, used: usage.asks, allowance: cfg.askLimit, resetsAt: null,
-                        message: `Free questions are at today's global limit. This resets at 00:00 UTC — or skip the queue with your own key: ${SIGNUP_URL}`
+                        ok: false, used: usage.asks, allowance: cfg.askLimit, resetsAt: null, windowDays: cfg.windowDays,
+                        message: `Free MCP questions have reached today's shared limit. Try again after 00:00 UTC, or get more reliable access: ${upgradeInstructions()}`
                     };
                 }
                 if (usage.asks >= cfg.askLimit) {
                     capHit('ask_limit', usage.asks, cfg.askLimit);
                     return {
-                        ok: false, used: usage.asks, allowance: cfg.askLimit,
+                        ok: false, used: usage.asks, allowance: cfg.askLimit, windowDays: cfg.windowDays,
                         resetsAt: usage.resetsAt ? usage.resetsAt.toISOString().slice(0, 10) : null,
-                        message: `That was all ${cfg.askLimit} free questions. The Dev plan is $19.99/month for 200 credits — up to 100 data lookups (2 credits each) or 4 AI-written answers (42 each), in any mix: ${SIGNUP_URL}`
+                        message: `That was all ${cfg.askLimit} free questions in this rolling ${cfg.windowDays}-day window. ${upgradeInstructions()} Or wait for the free allowance to renew.`
                     };
                 }
-                return { ok: true, used: usage.asks, allowance: cfg.askLimit, resetsAt: null };
+                const resetsAt = usage.resetsAt || windowResetAt(now, cfg.windowDays);
+                return { ok: true, used: usage.asks, allowance: cfg.askLimit, resetsAt: resetsAt.toISOString().slice(0, 10), windowDays: cfg.windowDays };
             }
 
             if (usage.lookups >= cfg.lookupLimit) {
                 capHit('lookup_limit', usage.lookups, cfg.lookupLimit);
                 return {
-                    ok: false, used: usage.lookups, allowance: cfg.lookupLimit,
+                    ok: false, used: usage.lookups, allowance: cfg.lookupLimit, windowDays: cfg.windowDays,
                     resetsAt: usage.resetsAt ? usage.resetsAt.toISOString().slice(0, 10) : null,
-                    message: `That was all ${cfg.lookupLimit} free data lookups. Keep going on the Dev plan — $19.99/month: ${SIGNUP_URL}`
+                    message: `That was all ${cfg.lookupLimit} free data lookups in this rolling ${cfg.windowDays}-day window. ${upgradeInstructions()} Or wait for the free allowance to renew.`
                 };
             }
-            return { ok: true, used: usage.lookups, allowance: cfg.lookupLimit, resetsAt: null };
+            const resetsAt = usage.resetsAt || windowResetAt(now, cfg.windowDays);
+            return { ok: true, used: usage.lookups, allowance: cfg.lookupLimit, resetsAt: resetsAt.toISOString().slice(0, 10), windowDays: cfg.windowDays };
         },
 
         // Recorded only after the work succeeded, matching credits.spend's
@@ -205,4 +219,4 @@ function creditsFor(identity, env = process.env, onCapHit = null) {
     };
 }
 
-module.exports = { config, enabled, creditsFor, COLLECTION, SIGNUP_URL };
+module.exports = { config, enabled, creditsFor, askUsageNotice, COLLECTION, SIGNUP_URL, SETUP_URL };

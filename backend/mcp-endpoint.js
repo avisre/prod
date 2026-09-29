@@ -27,6 +27,7 @@ const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontext
 const freeTools = require('./free-tools');
 const assetProfile = require('./asset-profile');
 const { envelope, quotaError } = require('./api-response');
+const mcpAnon = require('./mcp-anon');
 
 const SERVER_VERSION = '1.0.0';
 
@@ -77,7 +78,7 @@ const TOOL_DEFS = [
         name: 'sp_ask',
         title: 'Filing-grounded Ask (AI, but sourced)',
         annotations: { readOnlyHint: true },
-        description: "Ask a US stock/fund question. Returns the answer plus its source class (filed / fund-data / live-web). Prefer sp_financials/sp_filing when you need numbers only.",
+        description: "Ask a US stock/fund question. Returns the answer plus its source class (filed / fund-data / live-web). Keyless results include usage_notice; relay it after the answer so the user sees their free-question balance and how to get more. Prefer sp_financials/sp_filing when you need numbers only.",
         inputSchema: { type: 'object', properties: { question: { type: 'string' } }, required: ['question'] },
     },
     {
@@ -191,10 +192,22 @@ function buildMcpServer(ctx, deps) {
                 const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] } }).catch((e) => ({ error: e.message }));
                 if (result && result.error) return textResult({ error: result.error }, true);
                 await credits.spend(ctx.userId, cost, 'mcp:ask');
+                const keylessUsage = ctx.anonymous ? {
+                    usage: {
+                        type: 'free_mcp_ai_questions',
+                        used: gate.used + 1,
+                        allowance: gate.allowance,
+                        remaining: Math.max(0, gate.allowance - gate.used - 1),
+                        windowDays: gate.windowDays || 30,
+                        resetsAt: gate.resetsAt || null,
+                    },
+                    usage_notice: mcpAnon.askUsageNotice(gate.used + 1, gate.allowance, gate.windowDays || 30),
+                } : {};
                 return textResult({
                     tool: 'ask', question, answer: result.answer || result.text || result.body,
                     generatedAt: new Date().toISOString(),
                     source: { type: result.sourceClass || result.source || 'filed', note: 'Verify figures in the cited SEC filing before acting. Not investment advice.' },
+                    ...keylessUsage,
                 });
             }
 
