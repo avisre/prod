@@ -20,6 +20,21 @@ const fin = require('../mcp-financials');
 
 const ALL_SCOPES = ['financials:read', 'filings:read', 'research:read'];
 
+// openWorldHint is decided per tool from what the handler actually reaches
+// (OpenAI: "accesses the public internet or open-ended external entities"),
+// never copied across the set. Six tools query SEC EDGAR / the SEC XBRL API;
+// search_companies reads the deployed catalog only — the behavioural test
+// below proves it makes no outbound request.
+const OPEN_WORLD = {
+    search_companies: false,
+    get_company_financials: true,
+    get_metric_history: true,
+    search_filings: true,
+    get_filing_content: true,
+    compare_company_metrics: true,
+    get_financial_change_drivers: true
+};
+
 // --- SEC fixtures -----------------------------------------------------------
 // Report dates deliberately match the real fiscal periods in the fundamentals
 // files (AAPL FY ends 2025-09-27 etc.), so the filing-period link is exercised
@@ -143,7 +158,8 @@ test('tools/list advertises the OpenAI-ready contract: names, titles, both schem
         assert.equal(tl.outputSchema.type, 'object', `${tl.name} needs an output schema`);
         assert.equal(tl.annotations.readOnlyHint, true, `${tl.name} only reads`);
         assert.equal(tl.annotations.destructiveHint, false, `${tl.name} cannot destroy anything`);
-        assert.equal(tl.annotations.openWorldHint, true, `${tl.name} reads public SEC/market data`);
+        assert.ok(tl.name in OPEN_WORLD, `${tl.name} needs a declared openWorldHint value — decide it from what the handler reaches`);
+        assert.equal(tl.annotations.openWorldHint, OPEN_WORLD[tl.name], `${tl.name} declares openWorldHint ${OPEN_WORLD[tl.name]}`);
         assert.equal(tl.inputSchema.additionalProperties, false, `${tl.name} must not accept undeclared inputs`);
     }
     assert.match(mcpApps.SERVER_INSTRUCTIONS, /search_companies/);
@@ -162,6 +178,25 @@ test('search_companies returns ticker, name, CIK and exchange without any financ
     assert.equal(apple.cik, '0000320193');
     assert.equal(apple.exchange, 'NasdaqGS');
     assert.equal(payload.companies[0].value, undefined, 'no financial values leak into a company search');
+});
+
+// The openWorldHint: false claim for search_companies is only worth anything if
+// it is true of the code: with the SEC stub watching every axios.get, the tool
+// must answer without making one. If a future edit adds an EDGAR fallback to
+// the catalog path, this goes red and the annotation must be revisited with it.
+test('search_companies is closed-world: it answers without any outbound request', async (t) => {
+    const { client } = await withClient(t);
+    const before = axios.get.mock.callCount();
+    const result = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple', limit: 3 } });
+    assert.equal(result.isError, undefined);
+    assert.ok(result.structuredContent.companies.some((c) => c.ticker === 'AAPL'), 'Apple must resolve to AAPL');
+    assert.equal(axios.get.mock.callCount(), before,
+        'search_companies must not reach the network — that is why it declares openWorldHint: false');
+    // Positive control: a SEC-backed tool must move the same counter, otherwise
+    // the assertion above could pass on a dead stub.
+    await client.callTool({ name: 'get_company_financials', arguments: { company: 'AAPL', periods: 1 } });
+    assert.ok(axios.get.mock.callCount() > before,
+        'get_company_financials reaches SEC over the network — that is why it declares openWorldHint: true');
 });
 
 test('get_company_financials returns filed values with the filing that reports each period', async (t) => {

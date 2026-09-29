@@ -128,19 +128,24 @@ operational guidance):
 
 ## 6. Annotations and justifications
 
-Every tool declares `readOnlyHint: true`, `destructiveHint: false`,
-`openWorldHint: true`. The scan imports these values; the justifications below
-explain why each is accurate.
+Every tool declares `readOnlyHint: true` and `destructiveHint: false`.
+`openWorldHint` is decided **per tool** from what the handler actually reaches —
+OpenAI's current definition ("accesses the public internet or open-ended
+external entities"; a bounded dataset is not open-world merely because it is
+externally hosted) — and is deliberately not copied across the set. Six tools
+query the public internet over SEC EDGAR / the SEC XBRL API and declare `true`;
+`search_companies` reads only the deployed catalog and declares `false`. The
+scan imports these values; the justifications below explain why each is accurate.
 
-| Tool | readOnlyHint: true — why | destructiveHint: false — why | openWorldHint: true — why |
+| Tool | readOnlyHint: true — why | destructiveHint: false — why | openWorldHint — value and why |
 |---|---|---|---|
-| `search_companies` | Reads a deployed catalog of US-listed companies and, on a cold cache, SEC EDGAR's public ticker→CIK records. Writes nothing. | No create/update/delete path exists in the handler; results are returned to the caller only. | Sources are public entities on the public internet (SEC EDGAR plus a curated public-company index), not a bounded private account. |
-| `get_company_financials` | Reads the deployed normalized fundamentals files and SEC EDGAR submissions metadata. Writes nothing. | Same; a failed lookup has no side effect and is safe to retry. | Filing metadata is fetched from `data.sec.gov` and every value is attributed to a `www.sec.gov` document. |
-| `get_metric_history` | Reads the same normalized files plus the SEC XBRL `companyconcept` API for share counts. No writes. | Safe to retry; no state is mutated. | Public SEC XBRL/EDGAR data over the public internet. |
-| `search_filings` | Reads SEC EDGAR's submissions feed and returns metadata. No writes. | No effect beyond the response. | Queries SEC EDGAR (`data.sec.gov`) and returns public `sec.gov` URLs. |
-| `get_filing_content` | Fetches a public SEC filing document and extracts sections/excerpts. No writes (the filing-text cache is a server-side read-through cache of public documents). | Cannot delete or overwrite user data; retries are safe. | Fetches `www.sec.gov` filing documents over the public internet. |
-| `compare_company_metrics` | Reads the normalized cache for 2–5 companies. No writes. | Safe to retry. | Same public SEC sources as `get_company_financials`. |
-| `get_financial_change_drivers` | Reads the normalized cache and SEC XBRL share facts and computes arithmetic. No writes. | Safe to retry. | Same public SEC sources. |
+| `search_companies` | Reads the deployed company catalog (`us-companies.json`, `sp1500-companies.json`, the fundamentals directory). Writes nothing. | No create/update/delete path exists in the handler; results are returned to the caller only. | **false** — the only closed-world tool. `searchCompanies()` is a synchronous lookup over those deployed files and makes no outbound request at all, so its domain is bounded and server-controlled. `test/mcp-apps.test.js` pins this with a network stub that counts `axios.get` calls; add an EDGAR fallback to that path and the test goes red. |
+| `get_company_financials` | Reads the deployed normalized fundamentals files and SEC EDGAR submissions metadata. Writes nothing. | Same; a failed lookup has no side effect and is safe to retry. | `true` — filing metadata is fetched from `data.sec.gov` over the public internet and every value is attributed to a `www.sec.gov` document. |
+| `get_metric_history` | Reads the same normalized files plus the SEC XBRL `companyconcept` API for share counts. No writes. | Safe to retry; no state is mutated. | `true` — public SEC XBRL/EDGAR data over the public internet. |
+| `search_filings` | Reads SEC EDGAR's submissions feed and returns metadata. No writes. | No effect beyond the response. | `true` — queries SEC EDGAR (`data.sec.gov`) and returns public `sec.gov` URLs. |
+| `get_filing_content` | Fetches a public SEC filing document and extracts sections/excerpts. No writes (the filing-text cache is a server-side read-through cache of public documents). | Cannot delete or overwrite user data; retries are safe. | `true` — fetches `www.sec.gov` filing documents over the public internet. |
+| `compare_company_metrics` | Reads the normalized cache for 2–5 companies. No writes. | Safe to retry. | `true` — same public SEC sources as `get_company_financials`. |
+| `get_financial_change_drivers` | Reads the normalized cache and SEC XBRL share facts and computes arithmetic. No writes. | Safe to retry. | `true` — same public SEC sources. |
 
 No tool accesses a user's portfolio, account settings, email, files or the
 conversation. Input schemas set `additionalProperties: false`, so a tool cannot
@@ -333,7 +338,7 @@ re-run `gh workflow run deploy-render.yml`.*
 | MCP Inspector (`npx @modelcontextprotocol/inspector --cli … --strict`) | Initialization, `tools/list`, all 7 tool schemas (0 portability warnings after normalising nullable types to `anyOf`), valid calls, invalid inputs — all pass locally |
 | Every tool exercised via Inspector against real data | `search_companies`, `get_company_financials`, `get_metric_history`, `search_filings`, `get_filing_content`, `compare_company_metrics`, `get_financial_change_drivers` |
 | `scripts/verify-mcp-apps.js` against production | **17/17 with an entitled credential** (discovery docs, handshake, all 7 tools, typed errors, no-leak scan) and the metadata path works keyless; a repeated keyless run correctly hit the 20/min visitor limit. |
-| MCP Inspector against production (`--strict`) | exit 0, **zero schema findings**, all 7 tools with `readOnlyHint/destructiveHint/openWorldHint = true/false/true` |
+| MCP Inspector against production (`--strict`) | exit 0, **zero schema findings**, all 7 tools `readOnlyHint/destructiveHint = true/false`; `openWorldHint = true` on the six SEC-backed tools and `false` on `search_companies` (closed-world catalog lookup) |
 | Legal pages readable without a browser UA | `/privacy`, `/terms`, `/support` all HTTP 200 |
 | Legacy `/mcp` regression | Unchanged tool contract; the OpenAI surface is a separate path |
 | Source-url linkage honesty | Values carry `linkage: "xbrl_fact"` only for SEC XBRL facts with their own accession; otherwise `linkage: "filing_period"` (the filing that reports that fiscal period). |

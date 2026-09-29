@@ -11,9 +11,13 @@
 // Contract notes, all driven by the current OpenAI plugin documentation:
 //   - Every tool is read-only: readOnlyHint true, destructiveHint false. The
 //     server never writes user data, sends messages or executes transactions.
-//   - openWorldHint is true: every tool returns public-company data whose
-//     provenance is SEC EDGAR (and the SEC XBRL API), i.e. the public internet,
-//     not a bounded private account.
+//   - openWorldHint is decided per tool from what the handler actually reaches,
+//     as OpenAI's current definition requires ("accesses the public internet or
+//     open-ended external entities") — never copied across the set. Six tools
+//     query SEC EDGAR / the SEC XBRL API over the public internet, so they are
+//     true. search_companies resolves against the deployed company catalog
+//     only — a bounded, server-controlled dataset, never the network — so it is
+//     false. test/mcp-apps.test.js pins the values and proves the behaviour.
 //   - Structured results are returned as `structuredContent` and, for
 //     compatibility, the same object JSON-encoded in `content`.
 //   - Responses carry no timestamps, session/trace/request ids, debug payloads
@@ -151,7 +155,10 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+        // The one closed-world tool on this surface: searchCompanies() reads the
+        // deployed catalog JSON files and nothing else, so openWorldHint is
+        // false here while every SEC-backed tool declares true.
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         requiredScope: 'financials:read',
         handler: async (args) => {
             const query = String(args.query || '').trim();

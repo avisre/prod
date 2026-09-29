@@ -29,6 +29,19 @@ const TOOL_NAMES = [
     'get_filing_content', 'compare_company_metrics', 'get_financial_change_drivers'
 ].sort();
 
+// openWorldHint is asserted per tool, not as a set. Six tools reach SEC EDGAR or
+// the SEC XBRL API over the public internet (true); search_companies resolves
+// against the deployed company catalog only (false).
+const OPEN_WORLD = {
+    search_companies: false,
+    get_company_financials: true,
+    get_metric_history: true,
+    search_filings: true,
+    get_filing_content: true,
+    compare_company_metrics: true,
+    get_financial_change_drivers: true
+};
+
 function parseArgs(argv) {
     const args = {
         url: 'https://www.stockportfolio.pro/mcp/apps',
@@ -111,7 +124,7 @@ async function main(argv = process.argv.slice(2)) {
         const ok = tool.title && tool.description && tool.inputSchema && tool.outputSchema
             && tool.annotations && tool.annotations.readOnlyHint === true
             && tool.annotations.destructiveHint === false
-            && tool.annotations.openWorldHint === true
+            && tool.annotations.openWorldHint === OPEN_WORLD[tool.name]
             && tool.inputSchema.additionalProperties === false;
         if (!ok) { contractOk = false; console.log(`      ${tool.name}: ${JSON.stringify(tool.annotations)}`); }
     }
