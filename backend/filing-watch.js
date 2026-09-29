@@ -22,6 +22,13 @@ function model() {
         reservedAt: Date,
         pendingSignupId: mongoose.Schema.Types.ObjectId,
         stripeSessionId: String,
+        stripeSubscriptionId: { type: String, default: null, index: true },
+        billingStatus: { type: String, default: 'invited' },
+        lastPaidInvoiceId: { type: String, default: null },
+        lastPaidInvoiceAt: { type: Date, default: null },
+        lastPaidAmountMinor: { type: Number, default: null },
+        lastRefundId: { type: String, default: null },
+        lastRefundedAmountMinor: { type: Number, default: null },
         userId: mongoose.Schema.Types.ObjectId,
         tickers: { type: [String], default: [] },
         tickersSubmittedAt: Date,
@@ -74,8 +81,22 @@ async function beginCheckout(pending) {
 async function recordSession(seat, session) {
     await model().updateOne({ _id: seat._id }, { $set: { stripeSessionId: session.id } });
 }
-async function linkUser(pendingId, userId) {
-    await model().updateOne({ pendingSignupId: pendingId }, { $set: { userId } });
+async function linkUser(pendingId, userId, subscriptionId = null) {
+    await model().updateOne({ pendingSignupId: pendingId }, { $set: {
+        userId,
+        ...(subscriptionId ? { stripeSubscriptionId: String(subscriptionId), billingStatus: 'active' } : {})
+    } });
+}
+async function recordBilling(userId, { subscriptionId, status, invoiceId, paidAt, amountMinor, refundId, refundedAmountMinor } = {}) {
+    const $set = {};
+    if (subscriptionId) $set.stripeSubscriptionId = String(subscriptionId);
+    if (status) $set.billingStatus = String(status);
+    if (invoiceId) $set.lastPaidInvoiceId = String(invoiceId);
+    if (paidAt) $set.lastPaidInvoiceAt = paidAt;
+    if (Number.isFinite(amountMinor)) $set.lastPaidAmountMinor = amountMinor;
+    if (refundId) $set.lastRefundId = String(refundId);
+    if (Number.isFinite(refundedAmountMinor)) $set.lastRefundedAmountMinor = refundedAmountMinor;
+    if (Object.keys($set).length) await model().updateOne({ userId }, { $set });
 }
 function active(user) {
     return user?.subscription?.planId === PLAN_ID && ['active', 'cancel_at_period_end'].includes(user.subscription.status);
@@ -126,7 +147,7 @@ function mount(app, { auth, admin, User, covered, priceReady, notify }) {
         const seats = await model().find({ state: { $ne: 'available' } }).sort({ _id: 1 }).lean();
         const rows = await Promise.all(seats.map(async seat => {
             const user = seat.userId ? await User.findById(seat.userId).select('subscription stripeSubscriptionId initialPaymentAt initialRefundStatus').lean() : null;
-            return { ...seat, subscription: user?.subscription || null, stripeSubscriptionId: user?.stripeSubscriptionId || null,
+            return { ...seat, subscription: user?.subscription || null, stripeSubscriptionId: seat.stripeSubscriptionId || user?.stripeSubscriptionId || null,
                 initialPaymentAt: user?.initialPaymentAt || null, initialRefundStatus: user?.initialRefundStatus || null };
         }));
         res.json({ capacity: CAPACITY, allocated: rows.length, rows, revenueNote: 'Verify live Stripe paid invoices and refunds before counting recurring revenue. Invitations and app status are not payment evidence.' });
@@ -165,4 +186,4 @@ function mount(app, { auth, admin, User, covered, priceReady, notify }) {
         res.json({ tickers: seat.tickers, baselineDueAt: seat.baselineDueAt, notificationAccepted: !!notified });
     }));
 }
-module.exports = { PLAN_ID, PRICE, CAPACITY, model, issue, reserve, bindPending, beginCheckout, recordSession, linkUser, active, normalizeTickers, submitTickers, mount };
+module.exports = { PLAN_ID, PRICE, CAPACITY, model, issue, reserve, bindPending, beginCheckout, recordSession, linkUser, recordBilling, active, normalizeTickers, submitTickers, mount };

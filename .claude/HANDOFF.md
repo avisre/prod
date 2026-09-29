@@ -49,10 +49,11 @@ plan's clock starts at actual launch). Ops doc: `docs/growth/filing-watch-runboo
   `/api/filing-watch/status` = `{enabled:false,price:49,capacity:5}`, core.xml **119 → 121** with both new
   routes, `/register` 200. Two 403s during the check were my thin-header curl (the `hasBrowserHeaders` trap);
   re-checked clean with the full header set.
-- **Remaining launch gates, in order:** (1) real **Stripe sandbox acceptance** per the runbook (needs a Stripe
-  TEST key + webhook forwarding; `scripts/filing-watch-stripe.js --mode test` checks the sandbox price);
-  (2) set `STRIPE_PRICE_ID_FILING_WATCH=price_1UKsebAUeKapY1OP7d68Qp7r` then `FILING_WATCH_ENABLED=true` on
-  Render (only after acceptance); (3) deployed-checkout external checks. Outreach starts only after all three.
+- **Owner-approved sandbox waiver (9/29):** proceed without a real Stripe sandbox transaction. Live $49/month
+  price was re-verified read-only; local checkout integration (Stripe mocked) is **32/32**, full suite
+  **1023/1023**. Real success/decline, webhook, renewal, refund and cancellation behavior remains unverified;
+  do not use a production card to test. After opening the flag, confirm deployed status and invitation page
+  behavior, then monitor the first genuine checkout. See the runbook for the recorded exception.
 - **Prospects: 1 of 5** — `ncdorc`/ATOS (Stocktwits, Sep 9) is conditional: verify live product retrieval for
   ATOS before contacting, and Stocktwits' self-promotion rules must be met. Five documented rejects in
   `notes/2026-09-29-filing-watch-prospects.md`. `notes/filing-watch-outreach.csv` + `filing-watch-payments.csv`

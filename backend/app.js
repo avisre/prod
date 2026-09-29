@@ -4729,8 +4729,10 @@ async function activateSubscription(user, { subscriptionId, customerId, planId, 
         user.stripeCustomerId = customerId;
     }
     user.markModified('subscription');
-    if (planConfig.planId === FILING_WATCH_PLAN_ID) await user.save();
-    else await user.save().catch(() => {});
+    if (planConfig.planId === FILING_WATCH_PLAN_ID) {
+        await user.save();
+        await filingWatch.recordBilling(user._id, { subscriptionId, status: user.subscription.status });
+    } else await user.save().catch(() => {});
 }
 
 async function syncSubscriptionFromStripe(user, subscription, customerId) {
@@ -4755,6 +4757,7 @@ async function syncSubscriptionFromStripe(user, subscription, customerId) {
         user.subscription.status = ['canceled', 'unpaid', 'incomplete_expired'].includes(subscription?.status) ? 'cancelled' : 'pending';
         user.markModified('subscription');
         await user.save();
+        if (planConfig.planId === FILING_WATCH_PLAN_ID) await filingWatch.recordBilling(user._id, { subscriptionId: subscription?.id, status: user.subscription.status });
         return;
     }
     const stripeStatus = subscription?.cancel_at_period_end
@@ -5161,7 +5164,7 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
     if (pending.userId) {
         const already = await User.findById(pending.userId);
         if (already) {
-            if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, already._id);
+            if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, already._id, session.subscription);
             return already;
         }
     }
@@ -5222,7 +5225,7 @@ async function materializePendingSignup(pendingSignupId, session = {}) {
         }
     }
 
-    if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, user._id);
+    if (pending.planId === FILING_WATCH_PLAN_ID) await filingWatch.linkUser(pending._id, user._id, session.subscription);
     pending.userId = user._id;
     pending.consumedAt = pending.consumedAt || new Date();
     if (session.id) pending.stripeSessionId = session.id;
@@ -7648,6 +7651,7 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
         claimed.subscription.trialEndsAt = null;
         claimed.markModified('subscription');
         await claimed.save();
+        if (claimed.subscription?.planId === FILING_WATCH_PLAN_ID) await filingWatch.recordBilling(claimed._id, { status: 'refunded', refundId: refund.id, refundedAmountMinor: refund.amount });
         return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment was refunded and the subscription was cancelled.' });
     } catch (error) {
         await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
@@ -11293,6 +11297,10 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             if (invoiceUser && payload.billing_reason === 'subscription_create') {
                 await recordInitialStripePayment(invoiceUser, payload);
             }
+            if (invoiceUser?.subscription?.planId === FILING_WATCH_PLAN_ID) {
+                await filingWatch.recordBilling(invoiceUser._id, { subscriptionId: payload.subscription, status: invoiceUser.subscription.status, invoiceId: payload.id,
+                    paidAt: payload.status_transitions?.paid_at ? new Date(payload.status_transitions.paid_at * 1000) : new Date(), amountMinor: Number(payload.amount_paid) });
+            }
             if (invoiceUser) trackFunnel('invoice_paid', invoiceUser._id, invoiceUser.subscription && invoiceUser.subscription.planName, {
                 eventName: 'invoice_paid', dedupeKey: event.id ? `stripe:invoice:${event.id}` : null,
                 entitlementSource: 'stripe', testFlag: payload.livemode === false,
@@ -11413,6 +11421,7 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
             const user = await User.findOne({ stripeSubscriptionId: subscription.id });
             if (user) {
                 const plan = user.subscription && user.subscription.planName;
+                if (user.subscription?.planId === FILING_WATCH_PLAN_ID) await filingWatch.recordBilling(user._id, { subscriptionId: subscription.id, status: 'cancelled' });
                 user.subscription.status = 'cancelled';
                 user.subscription.trialEndsAt = null;
                 user.stripeSubscriptionId = null;

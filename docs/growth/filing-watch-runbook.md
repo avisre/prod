@@ -13,7 +13,11 @@ The implementation defaults CLOSED (`FILING_WATCH_ENABLED` absent or false).
 The live price created and verified on September 29, 2026 is
 `price_1UKsebAUeKapY1OP7d68Qp7r`: USD 4,900 cents, recurring every one month,
 on the existing `stockportfolio.pro` product. Creating a price charged nobody.
-Do not enable the offer until real Stripe sandbox acceptance is recorded.
+The owner has directed us to proceed without real Stripe sandbox acceptance.
+This waives the sandbox launch gate; it does not validate live payment success,
+declines, webhook delivery, renewals, refunds, or cancellation. The local
+integration suite and full test suite pass with Stripe mocked. Do not make a
+production-card purchase to test the flow; monitor the first genuine checkout.
 
 Deployed flag-off on September 29, 2026 (`d642d04a`, deploy run 36525421832),
 verified from outside: `/filing-watch` serves the closed-state copy, the sample
@@ -40,7 +44,9 @@ The helper parses only Stripe credentials and never loads a database URI or
 mail configuration. Do not run the application locally with `backend/.env`.
 Use a scratch local MongoDB and explicit test environment settings instead.
 For production set `STRIPE_PRICE_ID_FILING_WATCH` to the verified live id.
-Set `FILING_WATCH_ENABLED=true` only after acceptance and deployment checks.
+`FILING_WATCH_ENABLED=true` opens invitation creation and checkout. The owner
+approved enabling it before real sandbox acceptance on September 29, 2026; the
+unverified Stripe behaviors above remain an explicit launch risk.
 Switching the flag off stops new invitations/checkouts, not fulfilment for
 existing paid customers.
 

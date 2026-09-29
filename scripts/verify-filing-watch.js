@@ -184,12 +184,17 @@ Module._load = function (request, parent, isMain) {
   subscription.status = 'active';
   await webhook('invoice.paid', { id: 'in_recovered', subscription: subscription.id, customer: subscription.customer, billing_reason: 'subscription_cycle', amount_paid: 4900, currency: 'usd', livemode: false });
   check('paid recovery restores access', (await User.findById(user._id)).subscription.status === 'active');
+  r = await post('/api/admin/filing-watch/' + queue.rows[0]._id + '/deliveries', { weekEnding: '2026-09-25', evidence: 'sent-message-001', baseline: true }, admin);
+  check('sent report evidence is stored for the active customer', r.status === 200 && r.body.recorded);
+  check('duplicate delivery reference is rejected', (await post('/api/admin/filing-watch/' + queue.rows[0]._id + '/deliveries', { weekEnding: '2026-09-25', evidence: 'sent-message-001' }, admin)).body.recorded === false);
   r = await post('/api/subscription/cancel', {}, auth);
   check('existing cancellation route schedules period-end cancellation', r.status === 200 && subscription.cancel_at_period_end === true);
   await webhook('customer.subscription.updated', subscription);
   check('update webhook preserves cancellation state', (await User.findById(user._id)).subscription.status === 'cancel_at_period_end');
   await webhook('customer.subscription.deleted', subscription);
   check('ended subscription removes paid access', (await User.findById(user._id)).subscription.status === 'cancelled');
+  const closedQueue = await (await fetch(base + '/api/admin/filing-watch', { headers: admin })).json();
+  check('cancellation keeps the historic Stripe subscription and last paid invoice in the service ledger', closedQueue.rows[0].stripeSubscriptionId === 'sub_filing' && closedQueue.rows[0].lastPaidInvoiceId === 'in_recovered' && closedQueue.rows[0].billingStatus === 'cancelled');
   r = await post('/api/subscribe', { email: 'standard@example.com', password: 'Passw0rdd', plan: 'monthly' });
   check('standard monthly checkout still works without invitation', r.status === 200 && !!r.body.clientSecret);
   const standard = Array.from(sessions.values()).find(s => s.customer_email === 'standard@example.com');
