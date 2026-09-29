@@ -20,6 +20,15 @@ test('referral cookie is signed, opaque and expires at the configured window', (
   assert.equal(affiliate.parseReferralCookieValue(value, { secret: SECRET, now: NOW + 61 * 86400000, maxAgeSeconds: 60 * 86400 }), null);
 });
 
+test('partner referral links lead to recurring pricing by default', () => {
+  const partner = affiliate.publicProfile({ slug: 'amb-partner', kind: 'partner' }, 'https://www.stockportfolio.pro');
+  const ambassador = affiliate.publicProfile({ slug: 'amb-customer', kind: 'ambassador' }, 'https://www.stockportfolio.pro');
+  assert.equal(partner.referralUrl, 'https://www.stockportfolio.pro/r/amb-partner');
+  assert.equal(ambassador.referralUrl, 'https://www.stockportfolio.pro/r/amb-customer');
+  assert.equal(affiliate.defaultDestinationForProfile({ kind: 'partner' }), 'pricing');
+  assert.equal(affiliate.defaultDestinationForProfile({ kind: 'ambassador' }), 'appsumo');
+});
+
 test('commission rates use integer minor units and the approved plan bands', () => {
   assert.deepEqual(affiliate.calculateCommission({ eligibleBasisMinor: 25000, planId: 'pro-annual' }), { basisMinor: 25000, rateBps: 3000, amountMinor: 7500 });
   assert.deepEqual(affiliate.calculateCommission({ eligibleBasisMinor: 196100, planId: 'desk' }), { basisMinor: 196100, rateBps: 2000, amountMinor: 39220 });

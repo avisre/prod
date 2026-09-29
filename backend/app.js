@@ -14951,7 +14951,7 @@ async function handleAffiliateReferral(req, res) {
         }).lean();
         if (!profile) return res.status(404).send('Referral link not found.');
         const clickId = affiliateProgram.randomId(16);
-        const destination = affiliateProgram.safeDestination(req.query.destination);
+        const destination = affiliateProgram.safeDestination(req.query.destination || affiliateProgram.defaultDestinationForProfile(profile));
         await affiliateProgram.recordReferralClick({ profile, clickId, destination, landingPath: req.query.landing, req });
         const value = affiliateProgram.createReferralCookieValue({ slug, clickId, secret: affiliateProgram.cookieSecret() });
         const cookie = affiliateProgram.serializeReferralCookie(value, {

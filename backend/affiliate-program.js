@@ -416,6 +416,10 @@ function safeDestination(value) {
     return ['appsumo', 'pricing', 'home', 'lifetime'].includes(target) ? target : DEFAULT_APP_SUMO_DESTINATION;
 }
 
+function defaultDestinationForProfile(profile) {
+    return profile?.kind === 'partner' ? 'pricing' : DEFAULT_APP_SUMO_DESTINATION;
+}
+
 async function findProfileForReferral(referral, { userId = null, now = new Date() } = {}) {
     if (!referral || mongoose.connection.readyState !== 1) return null;
     const { AffiliateProfile, ReferralClick } = models();
@@ -953,6 +957,7 @@ module.exports = {
     cookieSecret,
     appSumoUrl,
     safeDestination,
+    defaultDestinationForProfile,
     randomId,
     slugify,
     createReferralCookieValue,
