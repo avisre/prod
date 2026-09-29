@@ -179,6 +179,12 @@ pinned by its own test file. Phase log: `handoff-archive/2026-09-28.md` + `git l
 bearer to a custom connector — so never say "paste a key". **AI portfolio creator — announced 9/25 as
 in-development, no date promised, no spec file yet.**
 
+**Keyless hosted MCP trial — DEPLOYED 9/30 (`2931e954`, live tool-list check after `1d350daf`).** Three free
+`sp_ask` AI questions and 50 data lookups per visitor IP in a rolling 30-day window. Successful Ask results
+carry `usage_notice` and a structured remaining count; at one remaining or exhausted, the notice points to
+the $19.99/month Dev plan and `/docs/api-mcp` client-specific OAuth/API-key setup. The Glama listing advertises
+the same offer. Keep `ANON_MCP_ASK_LIMIT` configurable; runtime tool descriptions show the effective value.
+
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
   `backend/data/hosting-ranges.bin`. Hard paywall `WALL_ALL_PAGES` — off since the wall week (3 signups /
