@@ -12320,6 +12320,11 @@ app.get(/^\/sitemap\/?$/, (req, res) => {
 // express.static defaults to dotfiles:'ignore', so /.well-known/* would
 // otherwise fall through to the SPA catch-all below and return index.html.
 // Define these explicitly so crawlers get the real file with the right MIME.
+app.get('/.well-known/glama.json', (req, res) => {
+    res.type('application/json; charset=utf-8');
+    res.set('Cache-Control', 'no-store');
+    res.sendFile(path.join(__dirname, '../frontend/.well-known/glama.json'));
+});
 app.get('/.well-known/security.txt', (req, res) => {
     res.type('text/plain; charset=utf-8');
     res.sendFile(path.join(__dirname, '../frontend/.well-known/security.txt'));
