@@ -30,6 +30,7 @@ const { envelope, quotaError } = require('./api-response');
 const mcpAnon = require('./mcp-anon');
 
 const SERVER_VERSION = '1.0.0';
+const ANON_MCP_CONFIG = mcpAnon.config();
 
 const TOOL_DEFS = [
     {
@@ -78,7 +79,7 @@ const TOOL_DEFS = [
         name: 'sp_ask',
         title: 'Filing-grounded Ask (AI, but sourced)',
         annotations: { readOnlyHint: true },
-        description: "Ask a US stock/fund question. Returns the answer plus its source class (filed / fund-data / live-web). Keyless results include usage_notice; relay it after the answer so the user sees their free-question balance and how to get more. Prefer sp_financials/sp_filing when you need numbers only.",
+        description: `Ask a US stock/fund question. Returns the answer plus its source class (filed / fund-data / live-web). Keyless callers get ${ANON_MCP_CONFIG.askLimit} free AI questions per visitor IP in each rolling ${ANON_MCP_CONFIG.windowDays}-day window. Keyless results include usage_notice; relay it after the answer so the user sees their remaining questions and how to get more. Prefer sp_financials/sp_filing when you need numbers only.`,
         inputSchema: { type: 'object', properties: { question: { type: 'string' } }, required: ['question'] },
     },
     {
