@@ -29,6 +29,57 @@ test('partner referral links lead to recurring pricing by default', () => {
   assert.equal(affiliate.defaultDestinationForProfile({ kind: 'ambassador' }), 'appsumo');
 });
 
+test('partner pricing click survives signup and a paid monthly invoice', { timeout: 120000 }, async (t) => {
+  const originalFlag = process.env.AFFILIATE_PROGRAM_ENABLED;
+  const originalSecret = process.env.AFFILIATE_COOKIE_SECRET;
+  process.env.AFFILIATE_PROGRAM_ENABLED = 'true';
+  process.env.AFFILIATE_COOKIE_SECRET = SECRET;
+  const server = await MongoMemoryServer.create();
+  await mongoose.connect(server.getUri());
+  t.after(async () => {
+    if (originalFlag == null) delete process.env.AFFILIATE_PROGRAM_ENABLED;
+    else process.env.AFFILIATE_PROGRAM_ENABLED = originalFlag;
+    if (originalSecret == null) delete process.env.AFFILIATE_COOKIE_SECRET;
+    else process.env.AFFILIATE_COOKIE_SECRET = originalSecret;
+    await mongoose.disconnect().catch(() => {});
+    await server.stop();
+  });
+
+  const { AffiliateProfile, ReferralClick, ReferralOrder, Commission } = affiliate.models();
+  const partner = await AffiliateProfile.create({
+    userId: new mongoose.Types.ObjectId(), slug: 'amb-partner-flow', kind: 'partner',
+    status: 'active', invitedAt: new Date(), termsAcceptedAt: new Date(),
+    termsVersion: affiliate.PARTNER_TERMS_VERSION
+  });
+  const clickId = affiliate.randomId(16);
+  const destination = affiliate.defaultDestinationForProfile(partner);
+  assert.equal(destination, 'pricing');
+  await affiliate.recordReferralClick({ profile: partner, clickId, destination });
+  const cookie = affiliate.createReferralCookieValue({ slug: partner.slug, clickId, secret: SECRET });
+  const metadata = await affiliate.buildCheckoutMetadata({
+    req: { headers: { cookie: `sp_aff_ref=${encodeURIComponent(cookie)}` } }, newAccount: true
+  });
+  assert.equal(metadata.referralClickId, clickId);
+  assert.equal(metadata.affiliateProfileId, String(partner._id));
+
+  const checkout = await affiliate.recordStripeCheckout({
+    payload: { id: 'cs_partner_flow', customer: 'cus_partner_flow', subscription: 'sub_partner_flow',
+      metadata: { ...metadata, planId: 'monthly', billingInterval: 'month' } },
+    user: { _id: new mongoose.Types.ObjectId() }
+  });
+  assert.equal(checkout.recorded, true);
+  const paid = await affiliate.recordStripeInvoicePaid({
+    eventId: 'evt_partner_flow',
+    payload: { id: 'in_partner_flow', subscription: 'sub_partner_flow', amount_paid: 2499,
+      currency: 'usd', status_transitions: { paid_at: Math.floor(Date.now() / 1000) } }
+  });
+  assert.equal(paid.recorded, true);
+  assert.equal(paid.amountMinor, 749);
+  assert.equal(await ReferralClick.countDocuments({ clickId, destination: 'pricing', convertedAt: { $ne: null } }), 1);
+  assert.equal(await ReferralOrder.countDocuments({ providerOrderId: 'cs_partner_flow', status: 'paid', planId: 'monthly' }), 1);
+  assert.equal(await Commission.countDocuments({ invoiceId: 'in_partner_flow', status: 'pending', rateBps: 3000 }), 1);
+});
+
 test('commission rates use integer minor units and the approved plan bands', () => {
   assert.deepEqual(affiliate.calculateCommission({ eligibleBasisMinor: 25000, planId: 'pro-annual' }), { basisMinor: 25000, rateBps: 3000, amountMinor: 7500 });
   assert.deepEqual(affiliate.calculateCommission({ eligibleBasisMinor: 196100, planId: 'desk' }), { basisMinor: 196100, rateBps: 2000, amountMinor: 39220 });
