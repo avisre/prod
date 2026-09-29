@@ -40,16 +40,17 @@ auth/metering/data as `/mcp`, which is untouched. Full package: `OPENAI_PLUGIN_S
 - **Live now** (deploy run 36481252026): `scripts/verify-mcp-apps.js` = **17/17 keyed**; official MCP
   Inspector `--strict` against prod = **0 findings**, all 7 tools `ro/dest = true/false`;
   `/privacy`, `/terms`, `/support` now 200 to a non-browser UA; `/mcp` legacy contract unchanged.
-- **Annotation-accuracy fix (9/29, committed, NOT yet deployed):** `search_companies` declared
-  `openWorldHint: true` like the other six, and the package justified it with an "SEC EDGAR ticker→CIK on a
-  cold cache" fetch that does not exist — `searchCompanies()` is synchronous file I/O over the deployed
-  catalog and never touches the network. Under OpenAI's current definition ("accesses the public internet
-  or open-ended external entities") that is **false**, and the other six (SEC EDGAR / XBRL) stay true.
-  `test/mcp-apps.test.js` now pins per-tool values and proves the claim behaviourally — a call-counting
-  network stub asserts `search_companies` makes zero `axios.get` calls, with a positive control on
-  `get_company_financials` so a dead stub cannot pass it — and `verify-mcp-apps.js` asserts the same map.
-  **Prod still serves `true` for all 7 until this deploys**, so **Scan Tools and the Inspector run must
-  follow the deploy**, not precede it, or the portal imports the stale annotation.
+- **Annotation-accuracy fix (9/29, `03a2b382`, deploy run 36523702050 — DEPLOYED, verified live):**
+  `search_companies` declared `openWorldHint: true` like the other six, and the package justified it with
+  an "SEC EDGAR ticker→CIK on a cold cache" fetch that does not exist — `searchCompanies()` is synchronous
+  file I/O over the deployed catalog and never touches the network. Under OpenAI's current definition
+  ("accesses the public internet or open-ended external entities") that is **false**, and the other six
+  (SEC EDGAR / XBRL) stay true. `test/mcp-apps.test.js` pins per-tool values and proves the claim
+  behaviourally — a call-counting network stub asserts `search_companies` makes zero `axios.get` calls,
+  with a positive control on `get_company_financials` so a dead stub cannot pass it — and
+  `verify-mcp-apps.js` asserts the same map against production. **Live re-check after the deploy: 7/7** —
+  the same checker that read `ow=true` for `search_companies` before the deploy (negative control, run
+  from outside) reads `ow=false` now. Scan Tools and the Inspector run can proceed.
 - **Owner-only remaining:** (1) verified identity + **Apps Management: Write** in the OpenAI Platform;
   (2) run `scripts/create-openai-reviewer.js --apply` with the prod Atlas URI for the review account;
   (3) portal: With MCP → `https://www.stockportfolio.pro/mcp/apps` (must be **www**; the apex 307 drops
