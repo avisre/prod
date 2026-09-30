@@ -390,10 +390,11 @@ re-run `gh workflow run deploy-render.yml`.*
 
 | Check | Result |
 |---|---|
-| `backend && node --test test/` | **1017/1017 pass** (includes 17 new `mcp-apps` tests + 3 new OAuth scope/resource tests) |
+| `backend && node --test test/` | **1073/1073 pass** (includes 17 new `mcp-apps` tests, 3 new OAuth scope/resource tests, and 6 pinning the internal review account out of customer counts) |
 | MCP Inspector (`npx @modelcontextprotocol/inspector --cli … --strict`) | Initialization, `tools/list`, all 7 tool schemas (0 portability warnings after normalising nullable types to `anyOf`), valid calls, invalid inputs — all pass locally |
 | Every tool exercised via Inspector against real data | `search_companies`, `get_company_financials`, `get_metric_history`, `search_filings`, `get_filing_content`, `compare_company_metrics`, `get_financial_change_drivers` |
-| `scripts/verify-mcp-apps.js` against production | **17/17 with an entitled credential** (discovery docs, handshake, all 7 tools, typed errors, no-leak scan) and the metadata path works keyless; a repeated keyless run correctly hit the 20/min visitor limit. |
+| `scripts/verify-mcp-apps.js` against production | **23/23 with an entitled credential** (discovery docs, handshake, all 7 tools, typed errors, no-leak scan, plus the five review cases below) and the metadata path works keyless; a repeated keyless run correctly hit the 20/min visitor limit. |
+| `scripts/verify-mcp-apps.js --review-cases` | **5/5.** The flag reads each positive case's `expected_behavior` **out of `plugin.json`** and requires every date, accession number and thousands-separated value in it to appear in the live response, so a filing that advances turns the check red rather than surprising the reviewer. Each figure is re-checked with its last digit changed and must then *not* match, so a pass cannot be vacuous. Decimals are skipped: the prose rounds some ("4.28" for 4.275553). |
 | MCP Inspector against production (`--strict`) | exit 0, **zero schema findings**, all 7 tools `readOnlyHint/destructiveHint = true/false`; `openWorldHint = true` on the six SEC-backed tools and `false` on `search_companies` (closed-world catalog lookup) |
 | Legal pages readable without a browser UA | `/privacy`, `/terms`, `/support` all HTTP 200 |
 | Legacy `/mcp` regression | Unchanged tool contract; the OpenAI surface is a separate path |
@@ -431,7 +432,9 @@ or purchase capability is included.
 - [x] `node scripts/verify-mcp-apps.js` passes against production (17/17 keyed).
 - [x] OIDC surface published (`/.well-known/openid-configuration`, `/oauth/userinfo`, `openid`+`email`
       advertised *and* issued) — OpenAI requires it of an OAuth plugin.
-- [x] Package built: `openai-plugin.zip` (§0). All five positive cases run against production first.
+- [x] Package built: `openai-plugin.zip` (§0). All five positive cases run against production first, and
+      re-verified against production on 2026-10-01 (`--review-cases`, 5/5) after the OIDC and comparison
+      deployments — the recorded expectations are not stale.
 - [x] Reviewer account provisioned (`openai-review@stockportfolio.pro`, `dev`/`active`, 200 credits/month).
 - [ ] Reviewer login exercised from outside this network, with the credentials that go in **Review details**.
 - [ ] Portal: create draft → **With MCP** → Universal URL `https://www.stockportfolio.pro/mcp/apps`.

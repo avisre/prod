@@ -13,6 +13,7 @@
 //   node scripts/verify-mcp-apps.js --url https://www.stockportfolio.pro/mcp/apps
 //   SP_API_KEY=sp_live_... node scripts/verify-mcp-apps.js      # spends credits
 //   node scripts/verify-mcp-apps.js --key-file ~/.config/stockportfolio/api-key
+//   node scripts/verify-mcp-apps.js --review-cases               # +5 tool calls
 //
 // With no credential it runs on the keyless trial allowance (counts against the
 // per-visitor free lookups). The script never writes a credential anywhere.
@@ -50,6 +51,7 @@ function parseArgs(argv) {
     for (let i = 0; i < argv.length; i++) {
         if (argv[i] === '--url') args.url = argv[++i];
         else if (argv[i] === '--key-file') args.keyFile = argv[++i];
+        else if (argv[i] === '--review-cases') args.reviewCases = true;
         else if (argv[i] === '--help' || argv[i] === '-h') args.help = true;
         else throw new Error(`Unknown argument: ${argv[i]}`);
     }
@@ -68,7 +70,7 @@ function readKey(args) {
 async function main(argv = process.argv.slice(2)) {
     const args = parseArgs(argv);
     if (args.help) {
-        console.log('Usage: node scripts/verify-mcp-apps.js [--url <mcp-url>] [--key-file <path>]');
+        console.log('Usage: node scripts/verify-mcp-apps.js [--url <mcp-url>] [--key-file <path>] [--review-cases]');
         return 0;
     }
     const base = new URL(args.url);
@@ -187,6 +189,62 @@ async function main(argv = process.argv.slice(2)) {
     const tooMany = await call('compare_company_metrics', { companies: ['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'NVDA'], metrics: ['revenue'] });
     check('more than five companies is refused with TOO_MANY_COMPANIES',
         tooMany.parsed && tooMany.parsed.code === 'TOO_MANY_COMPANIES');
+
+    // --- the five review test cases -----------------------------------------
+    // plugin.json's expected_behavior for each positive case IS the contract a
+    // reviewer checks against what they see. Those expectations were written
+    // from live responses, but the filing pipeline keeps moving, so they can go
+    // stale between the day they were captured and the day of review — and a
+    // stale expectation reads to the reviewer as a broken tool.
+    //
+    // Rather than keep a second copy of the figures here (which would drift
+    // from the ZIP), each expectation is read out of plugin.json and every
+    // date, accession number and value in it is required to appear in the live
+    // response. Decimals are deliberately skipped: the prose rounds some of
+    // them ("4.28" for 4.275553), so asserting on them would fail on wording
+    // rather than on drift. The arguments mirror the prompt the reviewer types.
+    if (args.reviewCases) {
+        const manifest = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'openai-plugin', 'plugin.json'), 'utf8'));
+        const cases = manifest.extensions['com.openai'].review.test_cases.positive;
+        const caseArgs = {
+            get_company_financials: { company: 'AAPL', metrics: ['revenue'], period_type: 'annual', periods: 5 },
+            search_filings: { company: 'MSFT', forms: ['10-Q'], limit: 1 },
+            get_filing_content: { company: 'AMZN', form: '10-K', query: 'AWS', max_excerpts: 3 },
+            compare_company_metrics: { companies: ['AMZN', 'MSFT', 'GOOGL'], metrics: ['operating_margin'] },
+            get_financial_change_drivers: { company: 'MSFT', period_type: 'annual' }
+        };
+        for (const testCase of cases) {
+            const tool = testCase.tools_triggered;
+            const run = await call(tool, caseArgs[tool] || {});
+            const haystack = String(run.raw || '').replace(/,/g, '');
+            // Dates, accession numbers, and only figures written with thousands
+            // separators. That last form is what keeps this honest: a looser
+            // "digits and commas" match also swallows years out of "FY2025",
+            // fragments out of an accession number, and — worst — a value at
+            // the end of a sentence gets truncated to fit a lookahead, so
+            // "365,817,000,000." was being checked as the 11-digit
+            // "36581700000", which is a substring of the real figure and would
+            // have passed no matter what the tool returned.
+            const wanted = [...new Set([
+                // The boundaries matter: without them the date pattern also
+                // matches "3125-26-19" inside the accession number
+                // 0001193125-26-191507.
+                ...(testCase.expected_behavior.match(/(?<![\d-])\d{4}-\d{2}-\d{2}(?![\d-])/g) || []),
+                ...(testCase.expected_behavior.match(/\d{10}-\d{2}-\d{6}/g) || []),
+                ...(testCase.expected_behavior.match(/\d{1,3}(?:,\d{3})+/g) || []).map((n) => n.replace(/,/g, ''))
+            ])];
+            const missing = wanted.filter((token) => !haystack.includes(token));
+            // A pass is only worth anything if the comparison can fail. Every
+            // token is checked against a copy of itself with its last digit
+            // changed; if that still "matches", the figure is being satisfied
+            // by something incidental and the case above proves nothing.
+            const discriminating = wanted.every((token) => !haystack.includes(token.slice(0, -1) + ((+token.slice(-1) + 1) % 10)));
+            check(`review case ${cases.indexOf(testCase) + 1} (${tool}) still returns every figure its expectation records`,
+                wanted.length > 0 && missing.length === 0 && discriminating,
+                missing.length ? `not found: ${missing.join(', ')}`
+                    : (!discriminating ? 'a changed figure still matched — the comparison is not discriminating' : `${wanted.length} figures present`));
+        }
+    }
 
     const combined = [search, financials, shares, filings, content, compare, drivers].map((r) => r.raw).join('\n');
     check('no timestamps, internal ids, tokens or debug fields in successful responses',

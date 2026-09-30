@@ -85,6 +85,25 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   rejects `test_credentials`/`reviewer_instructions` — they go in the dashboard, which is what makes the
   re-upload risk below real); no `demo_recording_url` **yet** because no recording exists. Every one of the
   five positive cases was **run against production** before its expected result was written down.
+- **All five were RE-RUN against production 10/01, after OIDC and the comparison fixes deployed, and all five
+  still match** — the expectations are not stale, which was the real risk: MSFT's latest 10-Q reading
+  2026-03-31 looks outdated in October until you remember the June quarter is the 10-K, so a pipeline that was
+  merely *correct* would have looked broken. Verified figures: AAPL revenue 416,161 / 391,035 / 383,285 /
+  394,328M, FY2021 period ending **2021-09-25**; MSFT latest 10-Q filing 2026-04-29 accession
+  `0001193125-26-191507` of 18 matched; AMZN 10-K filed 2026-02-06 accession `0001018724-26-000004` with
+  `search_scope: extracted_sections` and 3 AWS excerpts; operating margin MSFT 46.7808 / GOOGL 32.0326 /
+  AMZN 11.1553 **each carrying `ticker`** (the `86c1612d` fix, live) with the note reading *"up to 181 days
+  apart … not simultaneous"* (the warning that used to never fire); MSFT revenue 331,839 against 281,724
+  (**17.7887%**) with `eps_decomposition` 17.95 / 13.64 → net income 4.2756 + shares 0.0288.
+  **The check is now permanent:** `node scripts/verify-mcp-apps.js --review-cases` (the flag adds only these
+  five calls; full run is 23/23) reads each expectation **out of plugin.json** and requires every date,
+  accession number and value in it to appear in the live response — so plugin.json stays the single source of
+  truth and a filing that advances turns the check red instead of surprising the reviewer. It also proves it
+  can fail: each figure is re-checked with its last digit changed and must then NOT match, because the first
+  cut of this check passed vacuously — a value at the end of a sentence was truncated by a lookahead to
+  `36581700000`, an 11-digit substring of the real 12-digit figure, so it would have matched anything.
+  Decimals are skipped on purpose: the prose rounds some ("4.28" for 4.275553), so asserting on them would
+  fail on wording, not drift.
 - **Two real defects came out of that, fixed in `mcp-financials.js` + `mcp-apps.js` (`86c1612d`):**
   (a) `compare_company_metrics` flattened every company's observations into one series per metric with **no
   company identifier**, so a three-way comparison was a column of numbers whose owner could only be recovered
