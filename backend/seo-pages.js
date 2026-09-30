@@ -15,6 +15,7 @@ const COST = credits.COST;
 const aiChat = require('./ai-chat'); // health checks + per-symbol metrics
 const { pixelHeadSnippet } = require('./pixels'); // env-driven retargeting (no-op when unset)
 const { normalizeTicker } = require('./symbol-resolver');
+const { loadFundamentals } = require('./fundamentals-cache');
 
 const FRONTEND = path.join(__dirname, '..', 'frontend');
 const DATA = path.join(FRONTEND, 'data');
@@ -97,22 +98,6 @@ function resolveCanonicalSymbol(input) {
     // cache filename; use it only as a fallback and never create an alias.
     if (fs.existsSync(symbolToFile(normalized))) return normalized;
     return null;
-}
-
-const _fundCache = new Map();
-function loadFundamentals(symbol) {
-    const key = String(symbol || '').toUpperCase();
-    if (_fundCache.has(key)) return _fundCache.get(key);
-    let data = null;
-    try {
-        const f = symbolToFile(key);
-        if (fs.existsSync(f)) data = JSON.parse(fs.readFileSync(f, 'utf8'));
-    } catch (_) { data = null; }
-    _fundCache.set(key, data);
-    // Fundamentals blobs run large; cap the map so a full-universe crawl can't
-    // pin every symbol's payload in heap (was an unbounded OOM source).
-    if (_fundCache.size > 300) _fundCache.delete(_fundCache.keys().next().value);
-    return data;
 }
 
 function fmtDate(d) {

@@ -28,6 +28,7 @@ const axios = require('axios');
 const secSource = require('./sec-source');
 const filingSections = require('./filing-sections');
 const { normalizeTicker } = require('./symbol-resolver');
+const { loadFundamentals: loadCachedFundamentals } = require('./fundamentals-cache');
 
 const DATA_DIR = path.join(__dirname, '..', 'frontend', 'data');
 const FUND_DIR = path.join(DATA_DIR, 'fundamentals');
@@ -217,17 +218,9 @@ async function resolveCompany(input) {
 // ---------------------------------------------------------------------------
 // Fundamentals cache
 // ---------------------------------------------------------------------------
-const _fundMemo = new Map();
-
 function loadFundamentals(symbol) {
-    const hit = memoGet(_fundMemo, symbol);
-    if (hit) return hit.value;
-    const file = path.join(FUND_DIR, `${symbol}.json`);
-    if (!fs.existsSync(file)) return null;
-    const data = readJsonFile(file, null);
-    if (!data || !data.income) return null;
-    memoSet(_fundMemo, symbol, data, 30 * 60 * 1000);
-    return data;
+    const data = loadCachedFundamentals(symbol);
+    return data && data.income ? data : null;
 }
 
 function overviewOf(symbol, data) {

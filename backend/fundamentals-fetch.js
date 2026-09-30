@@ -7,11 +7,13 @@
 // later one is instant. Same payload shape as refresh-fundamentals.js.
 const fs = require('fs');
 const path = require('path');
+const v8 = require('v8');
 const yahooSource = require('./yahoo-source');
 const secSource = require('./sec-source');
 const fxConversion = require('./fx-conversion');
 const fundDate = require('./fundamentals-date');
 const corrections = require('./fundamentals-corrections');
+const fundamentalsCache = require('./fundamentals-cache');
 
 const DATA_DIR = path.join(__dirname, '..', 'frontend', 'data');
 const FUND_DIR = path.join(DATA_DIR, 'fundamentals');
@@ -184,14 +186,26 @@ async function buildFundamentals(symbol) {
         presented.fetchedAt = new Date().toISOString();
         try {
             fs.writeFileSync(path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`), JSON.stringify(presented));
+            fundamentalsCache.invalidate(sym);
         } catch (_) { /* cache write is best-effort — the payload still serves */ }
         return presented;
     })();
+    let timeoutId;
     const timed = Promise.race([
         p,
-        new Promise((_, rej) => setTimeout(() => rej(new Error(`Fetching ${sym} took too long — try again in a minute.`)), BUILD_TIMEOUT_MS))
-    ]).finally(() => _inflight.delete(sym));
+        new Promise((_, rej) => {
+            timeoutId = setTimeout(() => rej(new Error(`Fetching ${sym} took too long — try again in a minute.`)), BUILD_TIMEOUT_MS);
+        })
+    ]);
     _inflight.set(sym, timed);
+    // A caller timeout does not cancel Yahoo/SEC work. Hold the in-flight slot
+    // until that work actually settles, or a later request can start a second
+    // large build while the first one is still parsing companyfacts.
+    const release = () => {
+        clearTimeout(timeoutId);
+        if (_inflight.get(sym) === timed) _inflight.delete(sym);
+    };
+    p.then(release, release);
     return timed;
 }
 
@@ -240,8 +254,8 @@ const REFRESH_COOLDOWN_MS = 6 * 60 * 60 * 1000;
 // Per-symbol dedupe is not enough: a spoofed browser UA walking the stale
 // universe could otherwise start hundreds of 5-30s Yahoo+SEC builds at once.
 // Cap what runs concurrently and how many can be started per window.
-let _activeRefreshes = 0;
-const MAX_ACTIVE_REFRESHES = 3;
+const MAX_ACTIVE_REFRESHES = 1;
+const MAX_REFRESH_HEAP_FRACTION = 0.7;
 let _refreshWindow = { at: 0, count: 0 };
 const REFRESH_WINDOW_MS = 10 * 60 * 1000;
 const MAX_REFRESHES_PER_WINDOW = 60;
@@ -251,15 +265,17 @@ function maybeRefresh(symbol) {
     if (!lookup(sym)) return false; // not a US-listed SEC filer we can rebuild
     if (!isStaleOnDemand(sym)) return false;
     if (Date.now() - (_refreshCooldown.get(sym) || 0) < REFRESH_COOLDOWN_MS) return false;
-    if (_activeRefreshes >= MAX_ACTIVE_REFRESHES) return false;
+    // Count actual builds, including work that continued after a caller's
+    // timeout. Leave room for the next SEC response's JSON parse.
+    if (_inflight.size >= MAX_ACTIVE_REFRESHES) return false;
+    if (process.memoryUsage().heapUsed > v8.getHeapStatistics().heap_size_limit * MAX_REFRESH_HEAP_FRACTION) return false;
     const now = Date.now();
     if (now - _refreshWindow.at >= REFRESH_WINDOW_MS) _refreshWindow = { at: now, count: 0 };
     if (_refreshWindow.count >= MAX_REFRESHES_PER_WINDOW) return false;
     _refreshWindow.count += 1;
     _refreshCooldown.set(sym, now);
     if (_refreshCooldown.size > 500) _refreshCooldown.delete(_refreshCooldown.keys().next().value);
-    _activeRefreshes += 1;
-    buildFundamentals(sym).catch(() => {}).finally(() => { _activeRefreshes = Math.max(0, _activeRefreshes - 1); });
+    buildFundamentals(sym).catch(() => {});
     return true;
 }
 

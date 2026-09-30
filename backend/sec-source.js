@@ -18,6 +18,7 @@
 
 const axios = require('axios');
 const mongoose = require('mongoose');
+const v8 = require('v8');
 const splitAdjust = require('./split-adjust');
 const bulkFacts = require('./companyfacts-bulk'); // opt-in bulk companyfacts (inert unless SEC_BULK_DIR set)
 require('./sec-throttle'); // installs the global ≤8/sec axios interceptor for *.sec.gov
@@ -31,9 +32,15 @@ const SEC_HEADERS = {
 let _tickerMap = null;        // { TICKER: '0000320193' (10-digit padded CIK) }
 let _factsCache = new Map();  // ticker -> { fetchedAt, facts }
 const FACTS_TTL_MS = 6 * 60 * 60 * 1000; // 6h
-// companyfacts payloads run several MB each — without eviction a long sweep
-// (e.g. refreshing 1000+ tickers) grows the heap past Node's 4GB limit.
-const FACTS_CACHE_MAX = 30;
+const FACTS_FAILURE_TTL_MS = 5 * 60 * 1000;
+// A production worker has a much smaller V8 heap than a local build. SEC
+// companyfacts can be several MB per ticker before object expansion.
+const FACTS_CACHE_MAX = 2;
+const MAX_ACTIVE_FACTS_FETCHES = 1;
+const MAX_FACTS_HEAP_FRACTION = 0.7;
+const MAX_FACTS_RESPONSE_BYTES = 12 * 1024 * 1024;
+const _factsInFlight = new Map();
+let _activeFactsFetches = 0;
 
 function factsCacheSet(key, entry) {
     _factsCache.delete(key); // re-insert to keep Map in LRU order
@@ -96,8 +103,24 @@ async function loadTickerMap() {
 async function fetchCompanyFacts(symbol) {
     const key = String(symbol || '').toUpperCase();
     const cached = _factsCache.get(key);
-    if (cached && Date.now() - cached.fetchedAt < FACTS_TTL_MS) return cached.facts;
+    if (cached && Date.now() - cached.fetchedAt < (cached.facts ? FACTS_TTL_MS : FACTS_FAILURE_TTL_MS)) return cached.facts;
+    if (_factsInFlight.has(key)) return _factsInFlight.get(key);
+    // The authenticated and demo fundamentals routes also call this function.
+    // Cap their combined SEC parses even when no background refresh is running.
+    if (_activeFactsFetches >= MAX_ACTIVE_FACTS_FETCHES) return null;
+    if (process.memoryUsage().heapUsed > v8.getHeapStatistics().heap_size_limit * MAX_FACTS_HEAP_FRACTION) return null;
+    _activeFactsFetches += 1;
+    const pending = fetchCompanyFactsUncached(key);
+    _factsInFlight.set(key, pending);
+    const release = () => {
+        _activeFactsFetches -= 1;
+        if (_factsInFlight.get(key) === pending) _factsInFlight.delete(key);
+    };
+    pending.then(release, release);
+    return pending;
+}
 
+async function fetchCompanyFactsUncached(key) {
     const map = await loadTickerMap();
     const cik = map[key];
     if (!cik) return null;
@@ -112,7 +135,10 @@ async function fetchCompanyFacts(symbol) {
     try {
         const r = await axios.get(`https://data.sec.gov/api/xbrl/companyfacts/CIK${cik}.json`, {
             headers: SEC_HEADERS,
-            timeout: 20000
+            timeout: 20000,
+            // Reject unusually large responses before Axios JSON.parse expands
+            // them into objects on the production worker's small V8 heap.
+            maxContentLength: MAX_FACTS_RESPONSE_BYTES
         });
         const facts = r?.data?.facts?.['us-gaap'] || {};
         factsCacheSet(key, { fetchedAt: Date.now(), facts });

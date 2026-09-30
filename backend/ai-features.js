@@ -7,20 +7,17 @@
 // Same rules as the briefing: numbers are computed in code, the model only
 // writes prose; strictly descriptive/educational, never investment advice.
 
-const fs = require('fs');
-const path = require('path');
 const aiClient = require('./ai-client');
 const { computePortfolioFacts } = require('./ai-briefing');
 const assetProfile = require('./asset-profile');
 const fundHoldings = require('./fund-holdings');
+const { loadFundamentals } = require('./fundamentals-cache');
 
 // Budget for the filed portfolio inside a summary request; see its use below.
 const HOLDINGS_TIMEOUT_MS = 4000;
 const fundRanking = require('./fund-ranking');
 
 const QUESTION_MAX_CHARS = 8000;
-
-const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 
 function num(v) {
     if (v === null || v === undefined || v === '') return null;
@@ -46,22 +43,6 @@ function pct(v, digits = 2) {
     if (x === null) return null;
     const percentage = Math.abs(x) <= 1 ? x * 100 : x;
     return Number(percentage.toFixed(digits));
-}
-
-const _fundCache = new Map();
-function loadFundamentals(symbol) {
-    const key = String(symbol || '').toUpperCase();
-    if (_fundCache.has(key)) return _fundCache.get(key);
-    let data = null;
-    try {
-        const f = path.join(FUND_DIR, `${key.replace(/[^A-Z0-9]/g, '_')}.json`);
-        if (fs.existsSync(f)) data = JSON.parse(fs.readFileSync(f, 'utf8'));
-    } catch (_) { data = null; }
-    _fundCache.set(key, data);
-    // Fundamentals blobs run large; cap the map so a full-universe crawl can't
-    // pin every symbol's payload in heap (was an unbounded OOM source).
-    if (_fundCache.size > 300) _fundCache.delete(_fundCache.keys().next().value);
-    return data;
 }
 
 // ---- Deterministic financial facts for a single company ----
