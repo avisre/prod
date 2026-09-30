@@ -60,9 +60,13 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
 - **`/mcp/apps` takes `company`; `/mcp` takes `ticker`.** `backend/scripts/test-mcp.mjs` speaks the `/mcp`
   shape, so running it with `--url .../mcp/apps` reports one FAILED metered call (`COMPANY_REQUIRED`). That is
   the harness, not the surface — do not "fix" it by editing the tool schema.
-- **Owner-only, in order:** (1) identity verification — submitted 9/30, reads **"Identity in review"**;
-  publishing under an unverified name is an automatic rejection. (2) **Submit for review** (skill scans can
-  take two hours). Still open, ours: the privacy policy's human legal review.
+- **Owner-only, in order:** (1) identity verification — **the owner's part is DONE.** Persona (OpenAI's
+  verifier) returned *"Congratulations, you're done!"* on 9/30 18:24 UTC; the org page's **"Identity in
+  review"** means OpenAI is processing that submission, **not that a step is outstanding** — org settings:
+  *"Verify as an individual or business to access protected models and submit ChatGPT apps."* Publishing under
+  an unverified name is an automatic rejection, so it must clear before the app goes live. (2) **Submit for
+  review** (skill scans can take two hours; **only one review may be active per plugin**, so submit once).
+  Still open, ours: the privacy policy's human legal review.
 - **The ZIP upload is done (10/01).** Portal re-ran its metadata checks and reports **No Issues**; version
   still `1.0.0 · Draft`. The served mp4 is **byte-identical** to the committed file (sha256 `119862d7…`,
   1,483,166 bytes), so the reviewer's URL is exactly the recording.
@@ -72,11 +76,16 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   `unzip -p openai-plugin.zip plugin.json`, never anything the portal renders.
 - **The reviewer-credential re-check needs the Submit-for-review wizard, and that is the owner's to open.**
   The review-information panel holds the five credential fields (`url=41 tenant=0 user=32 pw=32 steps=257` when
-  last checked) and the step-5 status, and it is **not** in the DOM on the details tab — `textContent` there
-  contains neither "Reviewer credentials" nor "Add review information", and it is not re-shown by an upload.
-  Its terminal button is the owner-only **Submit for review**, in a flow with a documented mapping bug and a
-  standing "never press EXIT", so it was **not driven autonomously**. Check the credentials at the same sitting
-  as the submit: they live in the dashboard, and the ZIP does not carry them.
+  last checked) and the step-5 status. It is **not in the DOM** on the details tab and not merely hidden:
+  `documentElement.innerHTML` contains neither "Reviewer credentials" nor "Add review information", and there
+  are **no `[role=dialog]` elements at all**, so it renders only on entering the wizard. The header's **"Submit
+  for review"** is the only such control (`disabled:false`, `aria-disabled:null`, no verification warning
+  anywhere on the page), and **whether it opens the wizard or fires the submission could not be determined from
+  outside, so it was not clicked.**
+  **Correction (10/01): the "mapping bug / never press EXIT" rule belongs to the AppSumo portal, not this
+  wizard** — an earlier note carried it over here by mistake. The real reason to leave this to the owner is
+  simply that a submission is irreversible and one-shot. Check the credentials at the same sitting: they live in
+  the dashboard, and the ZIP does not carry them.
 
 ### The package
 - **`openai-plugin/` → `openai-plugin.zip` via `scripts/build-openai-plugin.sh`** (Agent Plugins portable
@@ -334,9 +343,10 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
   source was read. Split any sweep over 100 URLs across windows, and re-check a 403 before believing it.
 
 ## Owner actions pending
-1. **OpenAI plugin submission** — identity verification, then re-check the five reviewer-credential fields
-   inside the Submit-for-review wizard, then **Submit for review**. Everything package-side is done and the
-   ZIP is uploaded; this is the only submission still moving.
+1. **OpenAI plugin submission** — identity verification is **submitted and in OpenAI's queue** (the owner's
+   part is done); re-check the five reviewer-credential fields inside the Submit-for-review wizard, then
+   **Submit for review**. Everything package-side is done and the ZIP is uploaded; this is the only submission
+   still moving.
 2. **Submit the Claude plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
    preconditions are deployed and verified; see above.
 3. **Dossier mockup review** — step 2, the port, has not started.
