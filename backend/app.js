@@ -3466,7 +3466,16 @@ const UserSchema = new mongoose.Schema({
     // unprompted (surfaced to the user inline) and reads them back for context.
     // ON by default, like ChatGPT; the Profile → Settings toggle stops both
     // writes and reads without deleting anything (the user can Clear all there).
-    askMemoryEnabled: { type: Boolean, default: true }
+    askMemoryEnabled: { type: Boolean, default: true },
+    // Marks an account we created ourselves for an outside reviewer to sign in
+    // with — currently only the OpenAI plugin review account
+    // (scripts/create-openai-reviewer.js). It has to be declared here because
+    // mongoose strips paths the schema does not know: the provisioning script
+    // writes the flag straight to the collection, but every hydrated read
+    // (`User.findById` in oauthCurrentUser, for instance) would drop it again,
+    // leaving no way to tell an internal demo account from a customer. Reads
+    // that count customers or attribute activity must exclude it.
+    reviewAccount: { type: Boolean, default: false }
 }, { timestamps: true });
 
 const User = mongoose.model('User', UserSchema);
@@ -4265,6 +4274,13 @@ async function trackActivation(userId, job, extra = {}) {
     if (mongoose.connection.readyState !== 1) return false;
     const activationJob = String(job);
     try {
+        // Fetched first because it also carries the seven-day-return inputs, so
+        // the internal-account guard below costs no extra round trip.
+        const user = await User.findById(userId).select({ firstActivationAt: 1, subscription: 1, reviewAccount: 1 }).lean();
+        // An account we provisioned for an outside reviewer is not a customer
+        // completing a first meaningful job — the reviewer is walked through
+        // every tool by design, so counting it would fabricate activation.
+        if (user && user.reviewAccount) return false;
         await mongoose.connection.collection('funnel_events').updateOne(
             { event: 'activation', userId: String(userId), activationJob },
             { $setOnInsert: {
@@ -4278,7 +4294,6 @@ async function trackActivation(userId, job, extra = {}) {
         );
         // A return is only counted after a prior activation has aged seven
         // days. The event is idempotent and contains no research text.
-        const user = await User.findById(userId).select({ firstActivationAt: 1, subscription: 1 }).lean();
         const firstActivationAt = user && user.firstActivationAt ? new Date(user.firstActivationAt) : null;
         if (firstActivationAt && Number.isFinite(firstActivationAt.getTime())
             && Date.now() - firstActivationAt.getTime() >= 7 * 86400000) {
@@ -6348,12 +6363,19 @@ app.post('/oauth/authorize/decision', express.urlencoded({ extended: false }), a
         // strongest signal the developer funnel produces, and the only one that
         // names a user. Recorded after issueCode so a failed grant is not
         // counted as an authorisation.
-        trackFunnel('mcp_oauth_authorized', user._id, user.subscription && user.subscription.planName, {
-            eventName: 'mcp_oauth_authorized',
-            dedupeKey: `mcp_oauth_authorized:${clientId}:${user._id}`,
-            oauthClientId: clientId,
-            oauthClientName: client.clientName || null
-        });
+        //
+        // Internal review accounts are excluded: the dashboard reads this count
+        // as "a real user approved a client", and the OpenAI reviewer has to
+        // walk this exact flow to exercise the plugin, so counting it would
+        // manufacture demand that does not exist.
+        if (!user.reviewAccount) {
+            trackFunnel('mcp_oauth_authorized', user._id, user.subscription && user.subscription.planName, {
+                eventName: 'mcp_oauth_authorized',
+                dedupeKey: `mcp_oauth_authorized:${clientId}:${user._id}`,
+                oauthClientId: clientId,
+                oauthClientName: client.clientName || null
+            });
+        }
         oauthMcp.pruneExpired().catch(() => {});
         return res.redirect(302, url.toString());
     } catch (error) {
@@ -14720,7 +14742,10 @@ app.get('/api/admin/customers', async (req, res) => {
             return res.status(400).json({ message: 'source must be all, appsumo, stripe, subscriber, signup, or trial' });
         }
         const limit = Math.min(Math.max(Number(req.query.limit) || 500, 1), 2000);
-        const filter = {};
+        // Accounts we created for an outside reviewer are never customers, so
+        // they stay out of every source view including `all` — otherwise the
+        // registry quietly reports one more customer than we have.
+        const filter = { reviewAccount: { $ne: true } };
         if (source === 'appsumo') filter.appsumoRedeemedAt = { $ne: null };
         if (source === 'stripe') filter.$or = [{ stripeCustomerId: { $ne: null } }, { stripeSubscriptionId: { $ne: null } }];
         if (source === 'subscriber') {
@@ -14886,6 +14911,7 @@ async function runTrialLifecycleSweep() {
         stripeSubscriptionId: null,
         appsumoRedeemedAt: null,
         trialEmailsOptOut: { $ne: true },
+        reviewAccount: { $ne: true },
         // $lt alone skips docs missing the field — trials predating this field have
         // no trialEmailStage, so match "missing OR < 2" or they'd be silently skipped.
         $or: [{ trialEmailStage: { $exists: false } }, { trialEmailStage: { $lt: 2 } }]

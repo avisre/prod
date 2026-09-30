@@ -134,8 +134,14 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   (`POST /api/login` → 200, session issued, **no MFA / no emailed code / no magic link**), and the stored
   document carries `reviewAccount: true`, all four mail opt-outs and `analyticsConsent: false`
   (`scripts/create-openai-reviewer.js` writes through the **native collection**, bypassing `UserSchema`).
-  **`reviewAccount` is not a schema field and no query filters on it**, so the account will still land in
-  customer and usage counts — excluding it is a separate job, not done.
+  **Exclusion is DONE (10/01).** `reviewAccount` is now a declared path on `UserSchema` — that mattered more
+  than it looks: mongoose strips undeclared paths, so `User.findById` in `oauthCurrentUser` returned
+  `undefined` and any guard would have silently never fired. Four reads now skip it: `trackActivation`
+  (reviewer walks every tool by design, so counting it fabricates activation), the `mcp_oauth_authorized`
+  event (the dashboard reads that as *"a real user approved a client"* and the reviewer MUST approve the OAuth
+  client to exercise the plugin), the `/api/admin/customers` registry, and the trial-lifecycle drip.
+  `test/internal-review-account.test.js` pins the flag, the schema path and all four exclusions — the schema
+  half especially, because that is the one whose absence is invisible in Mongo.
 - **Driving the portal over CDP:** `node /tmp/cdp-drive.mjs` (Chrome :9333, profile `/tmp/chatgpt-drive`).
   Synthetic `Input.dispatchMouseEvent` on a React tab does nothing — a plain `el.click()` works; and when two
   buttons share a label (e.g. the card's `Connect` behind the modal's), pick by bounding rect, not DOM order.
