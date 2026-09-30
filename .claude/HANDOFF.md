@@ -8,6 +8,10 @@ Earlier snapshots: `handoff-archive/2026-10-01.md` (verbatim, taken 10/01 at 409
 narrative, the CSP/CIMD scoping detail, the OIDC fix, the full five-case verification figures, the recording
 capture traps and the logo-reupload credential check all live there), `handoff-archive/2026-09-30.md`,
 `handoff-archive/2026-09-28.md`.
+This file was **edited in place**, not rewritten, after that 10/01 snapshot, so the archive's Claude section
+still carries the "blocked on a claude.ai sign-in" wording for an item that has since gone `In review`. One
+snapshot per date is the rule — a second take of a near-identical file was taken, then dropped, because the
+live file's own git history already holds it (`10c5769a`, `2d770e8b`).
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
 ## Session start
@@ -47,8 +51,8 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 
 ## In flight
 
-**OpenAI ChatGPT plugin directory — the ONLY submission still moving. Every package-side item is DONE and the
-rebuilt ZIP is uploaded; what remains is owner-only (10/01).**
+**OpenAI ChatGPT plugin directory — submitted 10/01, package-side items all DONE; what remains is owner-only.**
+(The Anthropic submission below is the second live submission; neither is blocked on us.)
 Surface is `POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools over
 the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; design note:
 `notes/2026-09-29-openai-plugin-architecture.md`.
@@ -77,8 +81,9 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
 - **UNVERIFIED, and the one real loose end: the five reviewer-credential fields.** The *"Add review
   information"* button appeared in the header **only while the review dialog was loading** and was gone from
   the DOM once it settled, so the panel could not be reached and the credential-survival question was never
-  answered. If the review comes back asking for access, `/tmp/openai-reviewer-credentials.txt` is the fix —
-  **move it somewhere durable, /tmp is not.** Still open, ours: the privacy policy's human legal review.
+  answered. If the review comes back asking for access, the credentials are at
+  **`~/.config/stockportfolio/reviewer-account.txt`** (mode 600 — moved out of `/tmp` on 10/01, which is what
+  this line used to ask for). Still open, ours: the privacy policy's human legal review.
 - **The ZIP upload is done (10/01).** Portal re-ran its metadata checks and reports **No Issues**; version
   still `1.0.0 · Draft`. The served mp4 is **byte-identical** to the committed file (sha256 `119862d7…`,
   1,483,166 bytes), so the reviewer's URL is exactly the recording.
@@ -153,8 +158,9 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   OAuth was kept rather than switched.
 - **Review details are entered and saved** ("Progress saved"). Step 1 Countries = *All supported countries*.
   Step 2 reviewer credentials: Login URL `https://www.stockportfolio.pro/login.html`, username
-  `openai-review@stockportfolio.pro`, the 32-char password read from `/tmp/openai-reviewer-credentials.txt` by
-  `/tmp/fill-creds.mjs`, plus sign-in steps naming the login page, the absence of MFA/emailed codes, and
+  `openai-review@stockportfolio.pro`, the 32-char password read in-process by `/tmp/fill-creds.mjs` from
+  `~/.config/stockportfolio/reviewer-account.txt` (was `/tmp/openai-reviewer-credentials.txt` until 10/01),
+  plus sign-in steps naming the login page, the absence of MFA/emailed codes, and
   approving the OAuth consent screen. **This is the path ChatGPT itself takes, so the reviewer WILL be asked to
   sign in — the demo account is required, not a fallback.**
 - **The upload entry point moves.** After review details are saved, the header's **"Upload new version"**
@@ -211,18 +217,34 @@ genuine checkout. Ops doc: `docs/growth/filing-watch-runbook.md`.
   in `notes/2026-09-29-filing-watch-prospects.md`. **Never send outreach without the owner's explicit
   authorization.**
 
-**Claude plugin directory — the route MOVED, and the plugin was shipping broken tool names until 10/01.**
+**Claude / Anthropic directory — BOTH submissions are IN, 10/01. Nothing is blocked on the owner.**
 Submit at **claude.ai/directory/manage**, not `platform.claude.com/plugins/submit` — the Console form is
 retired ("no longer supported"), and the old **$50/month Team blocker died with it**: the account is **Claude
-Pro**, which can submit, and on Pro there is no role check. Needs **GitHub connected to claude.ai** (the portal
-verifies push access to the repo), and **two submissions, not one** — the plugin bundle *and* the MCP connector
-at `https://www.stockportfolio.pro/mcp`, which is what lets Anthropic pair the listings. `claude plugin
-validate .` passes; repo public, MIT, plugin at the root. **The plugin documented the npm bridge's seven `sp_*`
-tools while `.mcp.json` connects the six-tool hosted endpoint** — four of those names did not exist on the
-connected server, so the skill was telling Claude to call tools that were not there. Rewritten against live
-`tools/list` and pushed as `1376fc6`. Package: `docs/growth/claude-plugin-submission.md`. Reviewer path: the
-**keyless tier exercises every tool** (3 asks + 50 lookups/30d), so no credential handover. Fund data is
-REST-only (`/api/v1/fund/:symbol`). **Blocked on: a claude.ai sign-in in a driveable browser.**
+Pro**, which can submit, and on Pro there is no role check. **Two submissions, not one.**
+- **Plugin bundle — `Publish requested`, waiting for an Anthropic reviewer.** Repo public, MIT, plugin at the
+  root; `claude plugin validate .` passes. It had been **shipping seven tools that do not exist** (the skill
+  described the npm bridge's `sp_*` names while `.mcp.json` connects the six-tool hosted endpoint), rewritten
+  against live `tools/list` and pushed as `1376fc6`. **Do not press `Cancel review`** — it withdraws.
+- **MCP connector — `In review`**, listing slug **`stockportfolio`** (permanent), at
+  `claude.ai/directory/manage/stockportfolio`. Its Tools step first flagged **all six tools "Missing title
+  annotation"** because the checker reads `ToolAnnotations.title`, a *separate field* from `Tool.title`; fixed
+  in `backend/mcp-endpoint.js` **and** `backend/mcp-apps.js` as `annotations: { title: def.title, ...def.annotations }`
+  (`10c5769a`, deployed, re-measured live — all six now carry it). **The portal only re-reads a tool list when
+  you reconnect** (Step 1 → `Change` → paste the URL → `Connect and authorize` → approve as the reviewer
+  account); the six suggestions cleared on the first re-read after the deploy.
+- **Auth is declared `Required when the server asks` + Dynamic Client Registration.** The portal renders that
+  as *"No sign-in. Anyone can connect."* on the Settings tab, and the free tier is real, so it is the honest
+  answer — but it means a directory user is **not** forced to sign in and will hit the keyless wall (3 asks +
+  50 lookups/30d) rather than an OAuth prompt, because `/mcp` never 401s for the anonymous tier. If you would
+  rather every directory user sign in, **Settings → Change authentication → `Always required`** is the one
+  click; it contradicts the README's keyless-start paragraph, which is why it was not chosen.
+- **Reviewer test account: `openai-review@stockportfolio.pro`**, credentials now at
+  **`~/.config/stockportfolio/reviewer-account.txt`** (mode 600; moved out of `/tmp`). The *same* account is
+  the OpenAI reviewer's — deliberate, it is a test account with no personal data. The connector form's
+  Test & launch step carries the login URL, the password, the scopes and the six verified tool calls, so the
+  handover is in the submission itself. All six tools were **called against production before the checkbox was
+  ticked**: each `HTTP 200`, `isError=false`.
+- Package and history: `docs/growth/claude-plugin-submission.md`.
 
 **AppSumo final-window repricing — v8 copy DONE (11/11 guards); the flip partly started, NOT finished.**
 Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299/1099 · 499/1849, wallet
@@ -361,11 +383,11 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
 1. **OpenAI plugin submission — SUBMITTED 10/01, now "In review".** Watch for the verdict. Two things could
    still bite: identity verification has not cleared, and the reviewer-credential fields were never
    re-checked. Do not press **Cancel review** unless you mean to withdraw it.
-2. **Claude plugin submission — the work is done, it needs your claude.ai sign-in.** The portal moved to
-   `claude.ai/directory/manage`, and the plugin's stale tool names are fixed and pushed (`1376fc6`). Sign in
-   in the Chrome window that is open (scratch profile `/tmp/claude-console-profile` — delete that copy when
-   we are done), then I fill the form end to end. If you would rather not log in there, say so and I will drive
-   your own Chrome instead.
+2. **Claude / Anthropic directory — SUBMITTED 10/01, nothing for you to do.** Both the plugin bundle
+   (`Publish requested`) and the connector (`In review`, slug `stockportfolio`) are with Anthropic; the
+   verdict arrives by email at the primary contact. Two judgement calls are recorded above if you want to
+   revisit them: the connector's auth declaration (one click on Settings), and reusing the OpenAI reviewer
+   account for Anthropic too. The scratch Chrome profile that held the signed-in session has been deleted.
 3. **Dossier mockup review** — step 2, the port, has not started.
 4. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click **Investigate**

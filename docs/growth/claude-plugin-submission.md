@@ -1,6 +1,8 @@
 # Claude plugin directory — submission package
 
-**Status 2026-10-01: route changed, plugin fixed, submission blocked on a browser sign-in.**
+**Status 2026-10-01: BOTH SUBMISSIONS ARE IN. The plugin bundle is `Publish requested` (waiting for an
+Anthropic reviewer) and the MCP connector is `In review`, listing slug `stockportfolio`. Nothing here is
+blocked on us any more; the verdict arrives by email at the primary contact.**
 
 Everything the plugin needs is in place and verified from outside. Two things
 happened since this doc was written on 9/25, and both are recorded below: the
@@ -103,16 +105,68 @@ Reviewers need credentials for a **fully populated account** to exercise the too
 | Does it collect conversation data or read user files? | No. The ask path runs with an empty history and no holdings, and never persists the exchange — only the website's own ask routes do. |
 | Coverage limits? | US-listed companies reporting in USD to the SEC. No international listings, no analyst estimates, no forward data. Stated in the skill, the README and the tool descriptions. |
 
-## What is left, and whose step it is
-
-1. **Sign in to claude.ai in a browser we can drive** (owner — credentials are not
-   mine to enter). The submission portal is behind a claude.ai login.
-2. **Connect GitHub** on claude.ai for this organization, if the portal reports
-   *"GitHub isn't connected for this Claude organization"* (owner — it is an OAuth
-   grant to `avisre`).
-3. Everything after that — repository, Validate, listing details, data-handling
-   answers, the four compliance acknowledgements, Submit for review — is form work.
+## How the two submissions were made (both 10/01)
 
 `claude.ai/directory/manage` is the page; the repository is
 `avisre/stockportfolio-claude-plugin`, plugin path empty (root), tracked branch
-`main`.
+`main`. The owner signed in once; everything after that was form work.
+
+**Plugin bundle — 5 steps, submitted, `Publish requested`.** The listing carries
+`icon`, `privacyPolicyUrl`, `supportUrl` and `termsOfServiceUrl` — fields
+`claude plugin validate` does not recognise (it warns and strips them at load)
+but the *directory* asks for by name, so they stay in `plugin.json`. Link count
+went 4 of 6 → **6 of 6** once `/support` and `/terms` were added; both had been
+measured 200 to an `anthropic-ai` UA first (`/contact` and `/help` are still
+403). The push webhook was set up without the secret entering any transcript:
+rotate → capture the payload URL and secret into a file by redirect → build the
+hook body with Node → `gh api --input`.
+
+**MCP connector — 10 steps, submitted, `In review`.** The two things worth
+keeping:
+- **Step 2 flagged all six tools "Missing title annotation. Add
+  annotations.title."** The checker reads `ToolAnnotations.title`, which is a
+  *separate field* from `Tool.title`; only the top-level field was set. Fixed in
+  `backend/mcp-endpoint.js` and `backend/mcp-apps.js` as
+  `annotations: { title: def.title, ...def.annotations }` (`10c5769a`, deployed,
+  re-measured live — all six now carry it). **A connected server's tool list is
+  only re-read when you reconnect**: Step 1 → `Change` → paste the URL →
+  `Connect and authorize` → approve. The suggestions cleared on the first
+  re-read after the deploy.
+- **Auth is declared `Required when the server asks` + Dynamic Client
+  Registration**, which the portal renders as *"No sign-in. Anyone can
+  connect."* That is accurate — `/mcp` answers `initialize` and `tools/list`
+  anonymously and never 401s for the free tier — but it means a directory user
+  is not forced to sign in, and meets the keyless wall (3 asks + 50 lookups per
+  30 days) rather than an OAuth prompt. `Always required` is one click away on
+  the connector's Settings tab if we ever want every directory user signed in;
+  it would contradict this README's keyless-start paragraph, which is why it was
+  not chosen.
+
+**Data-handling answers, and why they are what they are.** API ownership *We own
+the API* (the LLM hop is a subprocessor, not the API we serve), health data *No*,
+sponsored content *No*, read/write *Read only*, and all seven compliance
+acknowledgements checked against the connector pre-submission checklist. The
+`Additional notes` field discloses the one third-party hop in plain words:
+`ask_filings` sends the question text to a third-party language-model provider,
+the other five tools reach nobody, tool arguments are never stored, and request
+metadata is kept up to 30 days. Same facts as the README's Data handling
+section.
+
+**Test & launch** carries the reviewer path: login URL, the reviewer account, the
+scopes, and the six tool calls that were run against production with their
+results. The credentials live at `~/.config/stockportfolio/reviewer-account.txt`
+(mode 600) — the same `openai-review@stockportfolio.pro` account the OpenAI
+submission uses, which is deliberate: it is a test account with no personal
+data, and the keyless tier exercises every tool anyway.
+
+## Judgement calls, if they need revisiting
+
+- **The connector's auth declaration** — see above. One click on Settings.
+- **Reusing the OpenAI reviewer account for Anthropic too.** A second account
+  would be cleaner but needs an email confirmation cycle; this one is
+  purpose-built and carries no customer data.
+- **The custom icon is a GitHub raw URL**
+  (`raw.githubusercontent.com/avisre/stockportfolio-claude-plugin/main/icon.png`,
+  512×512, 200 OK). The default was our favicon, `/Media/icon.png` — it serves
+  only to a request carrying browser headers, so a directory fetch could have
+  come back empty.
