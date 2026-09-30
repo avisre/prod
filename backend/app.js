@@ -33,6 +33,7 @@ const publicApi = require('./public-api');
 const mcpEndpoint = require('./mcp-endpoint');
 const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
+const oauthCsp = require('./oauth-csp');
 const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
@@ -6139,6 +6140,13 @@ app.get('/oauth/authorize', async (req, res) => {
     if (scopeResult.error) return fail('invalid_scope', scopeResult.error);
     const resourceResult = normalizeOauthResource(q.resource, req);
     if (resourceResult.error) return fail('invalid_target', resourceResult.error);
+
+    // The consent form POSTs here and this route 302s to the client's
+    // redirect_uri, and Chrome checks form-action against redirect targets as
+    // well. Without the client's origin in the policy the browser aborts the
+    // navigation and the Allow button silently does nothing (see oauth-csp.js).
+    const patchedCsp = oauthCsp.withConsentFormAction(res.getHeader('Content-Security-Policy'), redirectUri);
+    if (patchedCsp) res.setHeader('Content-Security-Policy', patchedCsp);
 
     const user = await oauthCurrentUser(req);
     const selfUrl = oauthBase(req) + req.originalUrl;
