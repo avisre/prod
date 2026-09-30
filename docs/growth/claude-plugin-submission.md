@@ -159,6 +159,31 @@ results. The credentials live at `~/.config/stockportfolio/reviewer-account.txt`
 submission uses, which is deliberate: it is a test account with no personal
 data, and the keyless tier exercises every tool anyway.
 
+## The connector in your own account — installed 10/01
+
+Separate from the directory submission: the same endpoint is now a **custom connector on the owner's own
+claude.ai account**, the Claude-side counterpart of the ChatGPT connector. Added at
+`claude.ai/customize/connectors` → **Add** → **Add custom connector** (connectors moved here from Settings —
+`/settings/connectors` now just points at Customize). Name `StockPortfolio`, URL
+`https://www.stockportfolio.pro/mcp`, auth **`Sign in now` + Dynamic Client Registration**.
+
+- The picker **auto-detected `No sign-in`**, which is the UI's reading of our `defer_auth` declaration and is
+  the same judgement call recorded below. `Sign in now` was chosen here instead because this is a personal
+  install: it runs the real OAuth handshake so the account is bound from the first tool call. CIMD is
+  deliberately unsupported on our server, so the registration method must be switched from its `cimd` default
+  to `dcr` — the same path ChatGPT takes.
+- It authorized on our own `/oauth/authorize` consent screen and the connector page then listed **all six
+  tools** under Tool permissions.
+- **It is bound to `openai-review@stockportfolio.pro`** — that is the session the scratch Chrome profile
+  happened to hold, not a deliberate choice. `Disconnect` on the same page rebinds it to another account.
+
+**It cannot be exercised yet: the Claude Pro plan is past due and paused.** Billing names
+**Discover •••• 4563**; the composer's send button is `disabled`, so no message can be sent and no tool can
+be called in a chat. Updating the payment method and paying the overdue invoice restores access in about a
+minute, with the billing cycle reset to start that day at no extra charge. The two directory submissions are
+unaffected so far — `/directory/manage` shows them normally with no plan warning — but a paid plan is a
+directory eligibility requirement, so this is worth clearing promptly.
+
 ## Judgement calls, if they need revisiting
 
 - **The connector's auth declaration** — see above. One click on Settings.

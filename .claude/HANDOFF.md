@@ -244,6 +244,21 @@ Pro**, which can submit, and on Pro there is no role check. **Two submissions, n
   Test & launch step carries the login URL, the password, the scopes and the six verified tool calls, so the
   handover is in the submission itself. All six tools were **called against production before the checkbox was
   ticked**: each `HTTP 200`, `isError=false`.
+- **The connector is now INSTALLED in the owner's own Claude account (10/01)** — parity with the ChatGPT
+  connector, added by hand at `claude.ai/customize/connectors` → `Add` → `Add custom connector`, name
+  `StockPortfolio`, URL `https://www.stockportfolio.pro/mcp`, auth **`Sign in now` + DCR** (the picker had
+  auto-detected `No sign-in`; CIMD is deliberately unsupported). It authorized on our own
+  `/oauth/authorize` consent screen and the settings tab then listed **all 6 tools** under Tool permissions.
+  **It is bound to `openai-review@stockportfolio.pro`** — that is the session the scratch Chrome profile
+  holds, not a deliberate choice. To rebind, `Disconnect` and sign in as the owner's own account.
+- **BLOCKER, owner-only: the Claude Pro plan is past due and PAUSED.** Billing says *"Your subscription is
+  past due so your access has been paused"* — payment method **Discover •••• 4563**, auto-renew would have
+  been 10/24. The composer's send button is `disabled`, so **the connector cannot be exercised in a chat
+  until the invoice is paid** (Settings → Billing → update the payment method → pay the overdue invoice;
+  the cycle then resets to start that day at no extra charge). Nothing here can be driven from the terminal.
+  **The two directory submissions are unaffected so far** — `/directory/manage` still shows the plugin
+  `Publish requested` (v0.2.3 · b09ef41, scan passed) and the MCP server `In review`, with no plan warning —
+  but eligibility for the directory is a paid-plan feature, so this is worth clearing quickly.
 - Package and history: `docs/growth/claude-plugin-submission.md`.
 
 **AppSumo final-window repricing — v8 copy DONE (11/11 guards); the flip partly started, NOT finished.**
@@ -387,27 +402,34 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
    (`Publish requested`) and the connector (`In review`, slug `stockportfolio`) are with Anthropic; the
    verdict arrives by email at the primary contact. Two judgement calls are recorded above if you want to
    revisit them: the connector's auth declaration (one click on Settings), and reusing the OpenAI reviewer
-   account for Anthropic too. The scratch Chrome profile that held the signed-in session has been deleted.
-3. **Dossier mockup review** — step 2, the port, has not started.
-4. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
+   account for Anthropic too. The signed-in session lives on in the scratch Chrome profile
+   (`/tmp/claude-console-profile`, CDP :9335) — it was used again on 10/01 to install the custom connector
+   below, so it is **still live**, not deleted.
+3. **Pay the overdue Claude Pro invoice — this one blocks you directly.** `Settings → Billing`: the plan is
+   past due and paused on **Discover •••• 4563**, so **Claude cannot send a message at all** (the composer's
+   send button is disabled) and the StockPortfolio connector, though installed and connected with all six
+   tools, cannot be used in a chat. Change the payment method, pay the invoice, and access restores in about
+   a minute at no extra charge. Only you can do this — no terminal path exists.
+4. **Dossier mockup review** — step 2, the port, has not started.
+5. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click **Investigate**
    on the identical-titles / identical-descriptions / noindex / **Title-too-long** cards: the 9/28 fixes answer
    all four, and those URL lists exist only in the Bing UI. Card 5 (inbound links) needs links that a sitemap
    row cannot supply.
-5. **`avisre/prod` visibility** — it names the AI provider while public.
-6. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
+6. **`avisre/prod` visibility** — it names the AI provider while public.
+7. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
    SMTP_PASS, GOOGLE_CLIENT_SECRET, the provider key) at source AND on Render back-to-back per key, or
    checkout and webhooks break mid-rotation. Also revoke the old GitHub PAT and npm token pasted 9/14.
-7. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
-8. **Reopen-10-accounts script** (`scratchpad/.../reopen/run.js`) was blocked by the classifier — needs approval.
-9. **`scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.**
-10. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
+8. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
+9. **Reopen-10-accounts script** (`scratchpad/.../reopen/run.js`) was blocked by the classifier — needs approval.
+10. **`scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.**
+11. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
     their email, not us.
-11. **Monthly provider bill** — the one input that states AI margin in dollars.
-12. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered with an engine,
+12. **Monthly provider bill** — the one input that states AI margin in dollars.
+13. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered with an engine,
     or say to delete it.
-13. **`mcp-server` republish** — its README documents the retired `sp_*` tool names; the published bridge
+14. **`mcp-server` republish** — its README documents the retired `sp_*` tool names; the published bridge
     proxies `/mcp` live so nothing is broken, but the npm page is now stale.
-14. **ChatGPT connector polish** (optional, not blockers): the icon is the default placeholder, and the plugin
+15. **ChatGPT connector polish** (optional, not blockers): the icon is the default placeholder, and the plugin
     still reads `DEVELOPMENT` review status — publish it from the plugin page if you want it directory-listed.
     Note this is the *connector* in your account, separate from the directory submission in item 1.
