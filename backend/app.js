@@ -5801,7 +5801,15 @@ function mcpAuthChallenge(req, res) {
     const isApps = req.path === '/mcp/apps';
     if (req.path !== '/mcp' && !isApps) return;
     const metadataPath = isApps ? '/.well-known/oauth-protected-resource/mcp/apps' : '/.well-known/oauth-protected-resource';
-    const scope = isApps ? OAUTH_SCOPES.join(' ') : 'mcp';
+    // The challenge must name scopes /oauth/authorize will actually ISSUE.
+    // /mcp used to advertise "mcp" — the legacy all-access scope mcp-apps.js
+    // still honours on tokens already in the wild, but one normalizeOauthScope
+    // refuses to grant — so a client that read the challenge and asked for the
+    // scope it had just been told to request was bounced with invalid_scope and
+    // never connected. Both surfaces now advertise the same three read scopes
+    // the discovery documents do, which is everything either surface can do.
+    // Found 2026-09-30 by walking the consent flow in a real browser.
+    const scope = OAUTH_SCOPES.join(' ');
     res.set('WWW-Authenticate',
         `Bearer realm="stockportfolio", resource_metadata="${oauthBase(req)}${metadataPath}", scope="${scope}"`);
 }

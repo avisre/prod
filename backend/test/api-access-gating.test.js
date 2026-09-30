@@ -111,6 +111,33 @@ test('an MCP 401 points the client at its OAuth discovery document for the endpo
         'missing-credential, invalid-credential and wrong-resource 401s all challenge');
 });
 
+// A challenge is an instruction, not a label: the client reads scope= and asks
+// /oauth/authorize for exactly that value. So it has to be one the
+// authorization endpoint will ISSUE. /mcp advertised "mcp" — the legacy
+// all-access scope mcp-apps.js still honours on tokens already in the wild, but
+// one normalizeOauthScope refuses to grant — so a client that followed the
+// instruction was refused with invalid_scope and never connected, and the
+// failure read as a dead connector rather than a scope mismatch. Found
+// 2026-09-30 by walking the consent flow through a real browser.
+test('the challenge asks for scopes the authorization endpoint will actually issue', () => {
+    const start = appSource.indexOf('function mcpAuthChallenge');
+    const fn = appSource.slice(start, appSource.indexOf('async function apiKeyAuth'));
+    const scopeExpr = (fn.match(/const scope = ([^;]+);/) || [])[1];
+    assert.ok(scopeExpr, 'mcpAuthChallenge still computes a scope');
+    assert.equal(scopeExpr.trim(), "OAUTH_SCOPES.join(' ')",
+        'the challenge advertises a scope /oauth/authorize does not issue');
+
+    // Every document that advertises scopes must read that same list, or a
+    // client that trusts one and asks with the other is refused for the same
+    // reason from the other direction.
+    const advertised = [...appSource.matchAll(/scopes_supported: ([A-Za-z_$][\w$]*)/g)].map((m) => m[1]);
+    assert.ok(advertised.length >= 2, 'both discovery documents still advertise scopes');
+    for (const name of advertised) {
+        assert.equal(name, 'OAUTH_SCOPES',
+            `a discovery document advertises ${name}, not the list authorize validates against`);
+    }
+});
+
 test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
     const routes = [
         "app.post('/api/account/api-keys', authMiddleware, apiAccessGate,",

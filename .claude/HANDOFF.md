@@ -17,6 +17,9 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **The MCP endpoint has a live checker: `cd backend && npm run test:mcp`** (`scripts/test-mcp.mjs`) — the 10
   scenarios a directory scan or ChatGPT connector performs, against a real URL, PASS/FAIL per line, exit 1 on
   any failure. Key is read from `~/.config/stockportfolio/api-key`; it is fingerprinted, never printed.
+- **The browser path has a checker too: `node scripts/mcp-browser-test.mjs`** — walks the ChatGPT-connector flow
+  in a real headless Chrome (CDP, UA overridden past the bot blocker), PASS/FAIL per line, exit 1 on failure.
+  Needs no credential; the two hops it cannot cover are a successful sign-in and the approve POST that follows.
 - **Parallel sessions share this working tree.** On 9/28 another session pushed `f5be04fd` mid-task and left
   `backend/discovered-compares.json` deleted-but-unstaged. A push range starting at a SHA you do not recognise
   means someone committed between your `git add` and your push — check `git log`/`git status` before staging
@@ -36,7 +39,8 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 
 ## In flight
 
-**MCP `/mcp` rebuilt for ChatGPT/directory compatibility — CODE COMPLETE, TESTS GREEN, NOT YET DEPLOYED (9/30).**
+**MCP `/mcp` rebuilt for ChatGPT/directory compatibility — DEPLOYED (`a3a3ff74`), VERIFIED LIVE, and the
+browser path walked end-to-end; one scope defect found there and fixed (9/30).**
 Owner request: make the hosted MCP endpoint work with ChatGPT custom connectors and MCP directories, with
 discovery that never requires payment. Smallest-change reading of the existing implementation, no backend
 redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
@@ -68,12 +72,36 @@ redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
 - **Exit 134 (SIGABRT):** consistent with V8 heap exhaustion, already mitigated by the owner's `d29a4359`
   (`MAX_ACTIVE_REFRESHES` 3→1, a 0.7 heap-fraction guard, `fundamentals-cache.js`). **Not confirmable from
   here** — no `RENDER_API_KEY` locally and the repo is public, so prod logs were not routed through CI.
-- **Verification done this session:** full suite **1055/1055**; `npm run test:mcp` against production reads
-  **7 pass / 3 fail / 1 skip**, the three fails being exactly the pre-deploy shapes (old tool names, no
-  structured error code) — i.e. a clean baseline, not script bugs. Docs updated to the live names:
-  `public-api.md`, `seo-pages.js` (/api landing two tables + licensing), `docs-pages.js`; pinning tests updated
-  with them (`dev-plan`, `mcp-setup-guide`, `geo-wall`, `api-access-gating`). **Next: commit, push, then re-run
-  `npm run test:mcp` against the deployed endpoint and show the returned tool names** (owner asked explicitly).
+- **Verification done this session:** full suite **1055/1055**; deployed as `a3a3ff74` (Deploy to Render
+  `36711490868` + Repo checks `36711490844`, both success) and re-run from outside: `npm run test:mcp` against
+  production = **10 pass / 0 fail / 1 skip**, tool names exactly `search_companies`, `get_company_fundamentals`,
+  `search_filings`, `get_filing`, `ask_filings`, `sp_health`. A datacenter fetcher (Jina Reader) now gets **405**
+  on `GET /mcp` where the old code answered 402. Docs updated to the live names: `public-api.md`,
+  `seo-pages.js` (/api landing two tables + licensing), `docs-pages.js`; pinning tests updated with them
+  (`dev-plan`, `mcp-setup-guide`, `geo-wall`, `api-access-gating`).
+- **Browser path, in a real Chrome** (`scripts/mcp-browser-test.mjs`, CDP, UA overridden past the bot blocker;
+  `node scripts/mcp-browser-test.mjs`, PASS/FAIL per line, exit 1 on failure): GET /mcp → 405 not 402;
+  `initialize` → `stockportfolio-mcp 1.0.0`; `tools/list` → the 6 names, all with object schemas and read-only
+  annotations; keyless `search_companies` served; keyless metered tool answered as a **tool result** (the anon
+  allowance is real); both OAuth discovery documents parsed; DCR → **201** with ChatGPT's redirect_uri; the
+  consent page renders its sign-in form and returns a clean error for bad credentials. **The last hops need the
+  owner**: a successful sign-in (their password) and the approve POST, then creating the connector in ChatGPT.
+- **Defect the browser caught — the 401 challenge advertised a scope the server refuses to issue.**
+  `mcpAuthChallenge` said `scope="mcp"` on `/mcp`: the legacy all-access scope `mcp-apps.js:524` still honours
+  on tokens already in the wild, but one `normalizeOauthScope` will not grant. A client that read the challenge
+  and asked for exactly what it had been told to ask for was bounced with `invalid_scope` and never connected —
+  and from a browser that looks like a dead connector, not a scope mismatch, because `/oauth/authorize` 302s
+  off to the client's own redirect_uri carrying `?error=`. Both surfaces now advertise `OAUTH_SCOPES` (the three
+  read scopes), matching the discovery documents. Pinned in `api-access-gating.test.js`: the challenge, both
+  `scopes_supported` documents and the validator must all read the same list.
+- **CIMD is not supported, deliberately.** `developers.openai.com/plugins/build/auth` says ChatGPT *prioritises
+  CIMD when available* and signals availability with `client_id_metadata_document_supported: true`; we omit that
+  field, so ChatGPT takes the **DCR** path (verified live: 201 + `client_id`). CIMD would mean fetching an
+  attacker-supplied HTTPS URL server-side — an SSRF surface — so it is a deliberate build, not a default.
+  **Watch the first real connector**: a URL-shaped `client_id` fails `getClient` (a plain Mongo lookup) and
+  `/oauth/authorize` renders "Unknown application". ChatGPT's redirect URIs are now
+  `https://chatgpt.com/connector/oauth/{callback_id}` by default with the stable
+  `https://chatgpt.com/connector_platform_oauth_redirect` for older servers; DCR accepts either, no allowlist work.
 - **Glama:** its public connector page went Healthy on 9/30 via `59582a07`, but the manual **Test Profile** call
   still reports `NETWORK_PAID_ONLY` when it exercises data calls from its datacenter. That refusal is now a tool
   error rather than an HTTP 402, so the call itself should read; if a reviewer still needs it, use Glama's
