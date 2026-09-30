@@ -228,6 +228,42 @@ Regenerate with `node scripts/build-dossier-mockup-artifact.js`; never hand-edit
 
 **AI portfolio creator — announced 9/25 as in-development, no date promised, no spec file yet.**
 
+**OpenAI ChatGPT plugin directory — in progress; the OAuth surface now carries the OIDC pieces OpenAI requires
+(`656d4b52`, 10/01, VERIFIED LIVE).** The portal is not the flow the 9/29 package assumed:
+`platform.openai.com/plugins` today offers one entry point — **Upload new or existing plugin** (a ZIP) — with
+**Skills only** vs **With MCP** as the choice inside it, and "Build a plugin" only opens the desktop Codex app.
+A remote MCP server goes in through **Create plugin → With MCP → the production endpoint**, and per OpenAI's docs
+an MCP server must be in the FIRST package: adding one to a skills-only plugin later is unsupported.
+- **Found and fixed 10/01 — the OIDC requirement.** OpenAI requires an OAuth plugin to publish OIDC discovery
+  metadata, advertise AND issue `openid` + `email`, and expose a UserInfo endpoint returning `email` with
+  `email_verified: true`. We had none of the three, and `normalizeOauthScope` **rejected** every scope outside
+  `OAUTH_SCOPES` — while ChatGPT asks for openid/email by default from any server that ADVERTISES them. The
+  connection would have been refused `invalid_scope` and read as a dead connector: the same shape as the 'mcp'
+  challenge bug. Added `OIDC_SCOPES`, `OAUTH_SCOPES_SUPPORTED` (the union — what authorize validates, and what
+  the AS and OIDC documents advertise), `/.well-known/openid-configuration`, and `GET /oauth/userinfo`.
+  **The RFC 9728 resource document still advertises data scopes only**: the resource is the filings API and
+  openid/email unlock nothing it reads. No ID token is issued — OpenAI calls one optional ("Reauthorization
+  still works when an ID token is unavailable"), and a `jwks_uri` with no key set behind it is worse than the
+  omission. Claim-building lives in `oauth-oidc.js` so it is unit-tested rather than source-pinned.
+- **Verified live 10/01:** both discovery documents name the UserInfo endpoint and advertise
+  `["openid","email","financials:read","filings:read","research:read"]`; `/oauth/userinfo` answers 401 with
+  `WWW-Authenticate: Bearer error="invalid_token"` for a missing or bogus credential; `/mcp` still lists its 6
+  tools (10 passed / 0 failed / 1 skipped) and `/mcp/apps` still lists 7 with **0 tools missing an explicit
+  readOnlyHint/destructiveHint/openWorldHint**, and a metered `get_company_financials` call returns real AAPL
+  10-K data. Suite **1067/1067**.
+- **`/mcp/apps` takes `company`; `/mcp` takes `ticker`.** `backend/scripts/test-mcp.mjs` speaks the `/mcp`
+  shape, so running it with `--url .../mcp/apps` reports one FAILED metered call (`COMPANY_REQUIRED`). That is
+  the harness, not the surface — do not "fix" it by editing the tool schema.
+- **Owner-only, in order:** (1) identity verification — submitted 9/30, reads **"Identity in review"**;
+  publishing under an unverified name is an automatic rejection. (2) `OPENAI_APPS_CHALLENGE` on Render from the
+  portal's challenge token, then Verify Domain — `/.well-known/openai-apps-challenge` already serves it and
+  **404s today only because the env var is unset**. (3) the reviewer demo account (package §4) — a real
+  production Atlas write that needs an explicit go-ahead. (4) a **demo-recording URL**. (5) portal: Create
+  plugin → With MCP → listing fields + exactly five positive and three negative test cases + release notes →
+  attestations → Submit (skill scans can take two hours).
+- **Still missing on our side:** a square logo larger than the 48×48 `frontend/Media/icon.png`, a
+  `shortDescription` of ≤30 characters, and the privacy policy's pending human legal review.
+
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
   `backend/data/hosting-ranges.bin`. Hard paywall `WALL_ALL_PAGES` — off since the wall week (3 signups /
@@ -360,3 +396,6 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
     the `OPENAI_APPS_CHALLENGE` domain token on Render, the reviewer account (§4), and the portal actions.
     **The reviewer account is a real write to production Atlas**: attempted 9/30 and correctly stopped by the
     classifier — "yeah list it" covers the listing, not provisioning an account, so it needs an explicit go-ahead.
+    **Superseded in part on 10/01 — see the "OpenAI ChatGPT plugin directory" block under In flight** for the
+    portal's real entry point (Create plugin → With MCP, not a pasted URL), the OIDC/UserInfo work OpenAI turned
+    out to require, and the current owner-only list.
