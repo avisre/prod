@@ -1239,7 +1239,7 @@ function renderApiLanding() {
 
   <div class="seo-next-action">
     <p class="seo-next-action-kicker">Dev plan</p>
-    <h2>$19.99/month — 200 credits, all seven tools</h2>
+    <h2>$19.99/month — 200 credits, every tool</h2>
     <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs ${COST.mcp_lookup} credits, an AI answer ${COST.mcp_ask}, the same on both surfaces. Credits reset monthly. Cancel any time.</p>
     <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
     <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a>.</p>
@@ -1250,19 +1250,31 @@ function renderApiLanding() {
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(jsonExample)}</pre>
     <p>Every response — including every error — carries that <code>citation</code> block. It is what makes the data usable in an agent: the model can point at the filing rather than assert a number.</p>`)}
 
-  ${S('The tools', `<table class="seo-table">
-    <thead><tr><th>MCP tool</th><th>REST endpoint</th><th>Credits (MCP / REST)</th></tr></thead>
+  ${S('The tools', `<p>Each surface lists its own catalog, because they are not the same shape: the MCP endpoint is built for an agent to route on, so its tools are named for the question they answer, while the REST API mirrors the website's free tools one route at a time.</p>
+  <table class="seo-table">
+    <thead><tr><th>MCP tool (${esc('POST /mcp')})</th><th>What it returns</th><th>Credits</th></tr></thead>
     <tbody>
-      <tr><td><code>sp_financials</code></td><td><code>GET /api/v1/financials/:ticker</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
-      <tr><td><code>sp_filing</code></td><td><code>GET /api/v1/filing/:ticker</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
-      <tr><td><code>sp_compare</code></td><td><code>GET /api/v1/compare?tickers=</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
-      <tr><td><code>sp_screen</code></td><td><code>GET /api/v1/screen?tickers=</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
-      <tr><td><code>sp_fund</code></td><td><code>GET /api/v1/fund/:symbol</code></td><td>${COST.mcp_lookup} / ${COST.api_lookup}</td></tr>
-      <tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>${COST.mcp_ask} / ${COST.api_ask}</td></tr>
-      <tr><td><code>sp_health</code></td><td><code>GET /api/v1/health</code></td><td>free</td></tr>
+      <tr><td><code>search_companies</code></td><td>Name or ticker → ticker, company name, SEC CIK</td><td>free</td></tr>
+      <tr><td><code>get_company_fundamentals</code></td><td>Filed statements by fiscal period — revenue, margins, EPS, cash flow, debt, shares — each figure with its filing</td><td>${COST.mcp_lookup}</td></tr>
+      <tr><td><code>search_filings</code></td><td>Filings by type and date range, with direct EDGAR links</td><td>${COST.mcp_lookup}</td></tr>
+      <tr><td><code>get_filing</code></td><td>One filing's metadata and content, by accession number or ticker</td><td>${COST.mcp_lookup}</td></tr>
+      <tr><td><code>ask_filings</code></td><td>A filing-grounded answer, with the figures and citations behind it</td><td>${COST.mcp_ask}</td></tr>
+      <tr><td><code>sp_health</code></td><td>Liveness probe — safe to call before anything else</td><td>free</td></tr>
     </tbody>
   </table>
-  <p style="margin-top:12px">Both surfaces are priced identically — a lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask} on each, because they run the same call over the same filings. Rate limit: 60 requests/minute per key. <code>sp_health</code> is a free liveness probe, safe to call before anything else. The full per-client setup guide is in the <a href="/docs/api-mcp">documentation</a>.</p>`)}
+  <table class="seo-table" style="margin-top:16px">
+    <thead><tr><th>REST endpoint (<code>/api/v1</code>)</th><th>What it returns</th><th>Credits</th></tr></thead>
+    <tbody>
+      <tr><td><code>GET /api/v1/health</code></td><td>Liveness probe</td><td>free</td></tr>
+      <tr><td><code>GET /api/v1/financials/:ticker</code></td><td>One free-tool view of the filed statements</td><td>${COST.api_lookup}</td></tr>
+      <tr><td><code>GET /api/v1/filing/:ticker</code></td><td>Recent 10-K / 10-Q / 8-K / Form 4 with EDGAR links</td><td>${COST.api_lookup}</td></tr>
+      <tr><td><code>GET /api/v1/compare?tickers=</code></td><td>Two companies side by side, from their latest filed annuals</td><td>${COST.api_lookup}</td></tr>
+      <tr><td><code>GET /api/v1/screen?tickers=</code></td><td>Up to ten tickers ranked by filed revenue growth</td><td>${COST.api_lookup}</td></tr>
+      <tr><td><code>GET /api/v1/fund/:symbol</code></td><td>ETF / mutual-fund profile — Yahoo-derived, labelled as such</td><td>${COST.api_lookup}</td></tr>
+      <tr><td><code>POST /api/v1/ask</code></td><td>AI-backed answer, with its source class (filed / fund-data / live-web)</td><td>${COST.api_ask}</td></tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px">Both surfaces are priced identically — a lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask} on each, because they run the same call over the same filings. Reading the tool list is free on both, so a connector scan or a directory probe needs no key. Rate limit: 60 requests/minute per key. The full per-client setup guide is in the <a href="/docs/api-mcp">documentation</a>.</p>`)}
 
   ${S('Point your client at the hosted server', `<p>The server is hosted, so there is nothing to install: your key is the only configuration. Cursor and any other client that takes a <code>url</code>:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(mcpConfig)}</pre>
@@ -1272,7 +1284,7 @@ function renderApiLanding() {
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(desktopConfig)}</pre>
     <p>Claude Code takes one command:</p>
     <pre style="background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px;overflow-x:auto;font-size:12.5px;line-height:1.5">${esc(claudeCodeCmd)}</pre>
-    <p>Either way the seven tools appear in the tool list, served from <code>https://www.stockportfolio.pro/mcp</code> — note the <code>www</code>, since the apex redirect drops the <code>Authorization</code> header. See the <a href="/licensing#mcp-api">licensing page</a> for the full tool reference.</p>`)}
+    <p>Either way the tools appear in the tool list, served from <code>https://www.stockportfolio.pro/mcp</code> — note the <code>www</code>, since the apex redirect drops the <code>Authorization</code> header. See the <a href="/licensing#mcp-api">licensing page</a> for the full tool reference.</p>`)}
 
   ${S('Free embeds, no key', `<p>Not ready for an API key? Two of these widgets drop onto any site as a single <code>&lt;iframe&gt;</code> — a filing-grounded earnings-quality card and an SEC filing timeline, rendered server-side, no JavaScript and no key. They are free to embed and carry a link back to the full filing trail.</p>
     <p><a href="/tools/earnings-quality#embed">Get the embed snippet &rarr;</a></p>`)}
@@ -1325,13 +1337,13 @@ function renderLicensing() {
       <li>No recurring fee on either one-off, and no seat count on the corpus itself. Outside the pilot&#39;s fixed scope, ask with your intended scope and you&#39;ll get a fixed number.</li>
     </ul>`)}
   <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
-    <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Seven filing-grounded tools (financials, filing timeline, compare, screen, fund data, ask, health) reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients, or a plain <strong>REST API</strong> at <code>/api/v1</code>. Every response cites the filing it drew from, the same as everywhere else on this site.</p>
+    <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Filing-grounded tools reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients (search, fundamentals, filings, one filing, ask, health), or a plain <strong>REST API</strong> at <code>/api/v1</code> (financials, filing timeline, compare, screen, fund data, ask, health). Every response cites the filing it drew from, the same as everywhere else on this site. Reading the tool list is free on both — only calling a metered tool spends credits.</p>
     <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Power or Desk subscription, the top AppSumo/DealMirror lifetime tier, or any AppSumo/DealMirror tier purchased on or before 22 September 2026. Generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a> once you&#39;re on a qualifying plan.</p>
     <ul>
       <li><strong>MCP</strong> — 2 credits per lookup, 42 credits per AI-backed ask. The agent-native path: your client calls the tools directly, no HTTP code to write.</li>
       <li><strong>REST API</strong> — 2 credits per lookup, 42 credits per ask. Identical pricing to MCP: same call, same filings, same price.</li>
       <li>Both spend from the same monthly AI-credit wallet your plan already includes — no separate quota to track.</li>
-      <li>Fund data (<code>sp_fund</code> / <code>/api/v1/fund/:symbol</code>) is Yahoo-derived, not SEC-filed, and is for your own research — not for redistribution.</li>
+      <li>Fund data (<code>/api/v1/fund/:symbol</code> on the REST surface; the MCP endpoint carries SEC-filed company data only) is Yahoo-derived, not SEC-filed, and is for your own research — not for redistribution.</li>
     </ul>
   </div></div>
   ${S('How to start', `<p>Email <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a> with the scope you want — how many companies, how far back, and whether you need the filing-change table — and you&#39;ll get a quote and a sample. Figures are drawn from public SEC filings and provided as-is; verify anything material against the <code>sourceUrl</code> on the row.</p>`)}

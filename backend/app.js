@@ -6324,52 +6324,46 @@ async function apiKeyAuthOptional(req, res, next) {
     const header = String(req.get('authorization') || '');
     const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
     if (offered) return apiKeyAuth(req, res, next);
-    // MCP metadata calls and the liveness probe carry no financial data. A
-    // directory crawler or app scan reads initialize/tools/list, then may call
-    // sp_health to verify the endpoint. Let those exact requests through from a
-    // hosted runner, or the network wall marks a public connector unhealthy.
-    // Every data-bearing tools/call stays behind the normal region/network wall
-    // and the per-visitor allowance.
-    const publicHealthProbe = req.path === '/mcp'
-        && req.body
-        && req.body.method === 'tools/call'
-        && req.body.params
-        && req.body.params.name === 'sp_health';
-    if ((req.path === '/mcp' || req.path === '/mcp/apps') && req.body && (
-        req.body.method === 'initialize'
-        || req.body.method === 'server/discover'
-        || req.body.method === 'notifications/initialized'
-        || req.body.method === 'tools/list'
-        || req.body.method === 'ping'
-        || publicHealthProbe
-    )) {
-        req.anonMcp = true;
-        return next();
-    }
-    // Keyless is a free tier, so the walls refuse it; a presented key still
-    // works because it is handled above, before either wall is consulted.
-    const mcpWall = freeTierWallReason(req);
-    if (mcpWall) return freeTierWallResponse(res, mcpWall);
+    // No credential was offered. This is a first-class way to use /mcp — ChatGPT
+    // and claude.ai cannot send a static bearer to a custom connector — and it is
+    // never refused HERE. Resolving access at the transport is what made this
+    // endpoint unlistable: a directory probe, an app scan or a client handshake
+    // arrives with no credential by definition, and answering any of them 402
+    // told the client the server was broken. Identity, entitlement and allowance
+    // are all resolved inside mcp-endpoint.js at tools/call time, where a
+    // refusal is a tool result the model can read out and the connection
+    // survives it.
+    //
+    // A wrong or revoked key never reaches this branch — `offered` above sends
+    // it through apiKeyAuth, so a mistyped key still fails loudly instead of
+    // being silently downgraded to the free tier.
+    //
+    // The one case that still advertises a challenge: with no keyless tier there
+    // is no way in but OAuth, and this header is how a client learns OAuth
+    // exists and where its metadata lives. Without it a 401 is a dead end — the
+    // client cannot guess the discovery URL.
     if (!mcpAnon.enabled()) {
-        // RFC 9728 challenge: this header is how ChatGPT and claude.ai learn
-        // that OAuth is available and where its metadata lives. Without it a
-        // 401 is a dead end — the client cannot guess the discovery URL.
         res.set('WWW-Authenticate',
             `Bearer realm="stockportfolio", resource_metadata="${oauthBase(req)}/.well-known/oauth-protected-resource"`);
-        return res.status(401).json({ error: 'Authentication required. Use OAuth, or pass Authorization: Bearer <key>.' });
     }
     req.anonMcp = true;
+    // Carried to the tool layer rather than enforced here. See
+    // mcp-endpoint.js's KEYLESS_WALL_APPLIES for why a rented address is no
+    // longer by itself a reason to refuse an agent, and MCP_KEYLESS_WALL for
+    // putting the refusal back.
+    req.mcpWallReason = freeTierWallReason(req);
     return next();
 }
-function mcpAccessGate(req, res, next) {
-    if (req.anonMcp) return next();
-    return apiAccessGate(req, res, next);
-}
-// Keyed callers are throttled per key (a shared egress IP shouldn't penalise
-// them); keyless ones are throttled per visitor, which is also the identity
-// their free allowance is counted against — that allowance reads the same
-// visitorIp(), so the limit and the quota it guards can never count different
-// people.
+// Entitlement deliberately does not gate the transport any more. apiAccessGate
+// answers 402 API_ACCESS_REQUIRED, and a 402 before the MCP session starts is
+// indistinguishable from a dead server: the client cannot read the tool list,
+// and the account holder cannot be told why. mcp-endpoint.js checks
+// hasApiAccess() inside tools/call and returns ENTITLEMENT_REQUIRED instead.
+// Keyed callers are still throttled per key (a shared egress IP shouldn't
+// penalise them); keyless ones are throttled per visitor, which is also the
+// identity their free allowance is counted against — that allowance reads the
+// same visitorIp(), so the limit and the quota it guards can never count
+// different people.
 const anonMcpRateLimit = rateLimit({
     windowMs: 60 * 1000,
     max: Number(process.env.ANON_MCP_RATE_LIMIT || 20),
@@ -6382,46 +6376,74 @@ function mcpRateLimit(req, res, next) {
     return req.anonMcp ? anonMcpRateLimit(req, res, next) : apiKeyRateLimit(req, res, next);
 }
 
-app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpAccessGate, mcpRateLimit, async (req, res) => {
+// Structured, redacted MCP telemetry — one JSON line per protocol operation, so
+// initialize, tools/list and tools/call are all reconstructable from the log
+// without a debugger. `caller` is a 12-character sha256 prefix of the user id or
+// visitor IP, never the identifier itself, and no Authorization header, API key,
+// session token or request body is read here at all.
+function logMcp(event) {
+    try { console.log('[mcp]', JSON.stringify(event)); } catch (_) { /* logging must never fail a request */ }
+}
+
+app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) => {
+    const started = Date.now();
     try {
+        const body = req.body && typeof req.body === 'object' ? req.body : {};
+        const method = String(body.method || '');
         if (req.anonMcp) {
             const identity = _anonAskIp(req);
+            const logId = require('crypto').createHash('sha256').update(String(identity)).digest('hex').slice(0, 12);
+            // The anonymous limiter is credits-shaped, so the endpoint and every
+            // tool handler run unmodified. effectiveAskLimit is only consulted to
+            // size a wallet this caller does not have.
+            const deps = {
+                // The cap-hit callback is the developer funnel's only demand
+                // signal: a keyless caller who wanted more than the free
+                // allowance is precisely the population the $19.99 Dev plan is
+                // for, and until now none of it was recorded anywhere.
+                // dedupeKey collapses it to one row per identity per reason per
+                // day, so a hammering client counts once instead of filling the
+                // collection. The identity is an IP, so it is hashed —
+                // funnel_events must not become a log of addresses.
+                limiter: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance }) => {
+                    trackFunnel('mcp_keyless_cap_hit', null, null, {
+                        eventName: 'mcp_keyless_cap_hit',
+                        dedupeKey: `mcp_keyless_cap_hit:${reason}:${logId}:${new Date().toISOString().slice(0, 10)}`,
+                        capReason: reason,
+                        used,
+                        allowance
+                    });
+                }),
+                effectiveAskLimit: () => 0,
+                entitled: () => false,
+                wallReason: req.mcpWallReason || null,
+                onLog: logMcp
+            };
             await mcpEndpoint.handleMcpRequest(
                 req, res,
-                { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true },
-                // The anonymous limiter is credits-shaped, so buildMcpServer and
-                // every tool handler run unmodified. effectiveAskLimit is only
-                // consulted to size a wallet this caller does not have.
-                {
-                    // The cap-hit callback is the developer funnel's only demand
-                    // signal: a keyless caller who wanted more than the free
-                    // allowance is precisely the population the $19.99 Dev plan
-                    // is for, and until now none of it was recorded anywhere.
-                    // dedupeKey collapses it to one row per identity per reason
-                    // per day, so a hammering client counts once instead of
-                    // filling the collection. The identity is an IP, so it is
-                    // hashed — funnel_events must not become a log of addresses.
-                    credits: mcpAnon.creditsFor(identity, process.env, ({ reason, used, allowance }) => {
-                        // require()d inline, not via the module-scope `crypto`
-                        // const — that is declared far below this line, and
-                        // relying on the callback firing after module evaluation
-                        // to dodge the temporal dead zone is too subtle to keep.
-                        const who = require('crypto').createHash('sha256').update(String(identity)).digest('hex').slice(0, 12);
-                        trackFunnel('mcp_keyless_cap_hit', null, null, {
-                            eventName: 'mcp_keyless_cap_hit',
-                            dedupeKey: `mcp_keyless_cap_hit:${reason}:${who}:${new Date().toISOString().slice(0, 10)}`,
-                            capReason: reason,
-                            used,
-                            allowance
-                        });
-                    }),
-                    effectiveAskLimit: () => 0,
-                    aiChat
-                }
+                { userId: identity, user: null, tier: 'free', subscription: null, anonymous: true, logId },
+                deps
             );
+            if (method === 'initialize') {
+                logMcp({ event: 'initialize', anonymous: true, protocolVersion: (body.params && body.params.protocolVersion) || null, ms: Date.now() - started, caller: logId });
+            }
             return;
         }
-        await mcpEndpoint.handleMcpRequest(req, res, { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription }, { credits, effectiveAskLimit, aiChat });
+        const logId = require('crypto').createHash('sha256').update(String(req.userId)).digest('hex').slice(0, 12);
+        await mcpEndpoint.handleMcpRequest(
+            req, res,
+            { userId: req.userId, user: req.user, tier: req.tier, subscription: req.subscription, anonymous: false, scopes: req.oauthScopes || null, logId },
+            {
+                limiter: credits,
+                effectiveAskLimit: () => effectiveAskLimit(req),
+                entitled: () => hasApiAccess(req),
+                wallReason: null,
+                onLog: logMcp
+            }
+        );
+        if (method === 'initialize') {
+            logMcp({ event: 'initialize', anonymous: false, protocolVersion: (body.params && body.params.protocolVersion) || null, ms: Date.now() - started, caller: logId });
+        }
     } catch (error) {
         console.error('[mcp] request failed:', error && error.message);
         if (!res.headersSent) res.status(500).json({ error: 'MCP request failed.' });

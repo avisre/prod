@@ -79,17 +79,34 @@ test('free API surfaces refuse walled visitors: free tools, anonymous Ask, keyle
     assert.match(source, /app\.get\('\/api\/free-tools\/:tool'[\s\S]{0,200}const wall = freeTierWallReason\(req\);\s*if \(wall && !\(await requestUserIsPaid\(req\)\)\) return freeTierWallResponse\(res, wall\);/);
     const anon = source.slice(source.indexOf('async function anonAskHandler'));
     assert.match(anon.slice(0, 600), /if \(askWall\) return freeTierWallResponse\(res, askWall\);/);
+
+    // MCP is the one surface where the wall is NOT enforced at the transport.
+    // A 402 (or an allowlist of blessed method names) lands before the session
+    // starts, so the client cannot read the tool list and cannot tell a wall
+    // from a dead server — which is how a directory came to mark /mcp
+    // Unhealthy while three successive commits each added one more method name
+    // to the exemption list. The verdict is still computed; it is carried on
+    // the request and decided per tool call in mcp-endpoint.js, where it can
+    // be READ (NETWORK_PAID_ONLY / REGION_PAID_ONLY as a tool error).
+    // Sliced to the end of the function, not a fixed window: the reasoning is
+    // written out in full above the code and grows every time the decision is
+    // revisited, which is exactly what silently truncated the previous version
+    // of this assertion.
     const mcp = source.slice(source.indexOf('async function apiKeyAuthOptional'));
-    // A presented key is still honoured (apiKeyAuth + apiAccessGate gate it);
-    // only the keyless free tier is refused. The two MCP metadata messages are
-    // exempt on /mcp/apps (they carry no data and a scanner must be able to
-    // read the tool contract), so the wall check is no longer adjacent to the
-    // key check — assert both facts independently over a wider window.
-    const mcpFn = mcp.slice(0, 1600);
-    assert.match(mcpFn, /if \(offered\) return apiKeyAuth\(req, res, next\);/);
-    assert.match(mcpFn, /if \(mcpWall\) return freeTierWallResponse\(res, mcpWall\);/);
-    assert.match(mcpFn, /req\.body\.method === 'initialize' \|\| req\.body\.method === 'tools\/list'/,
-        'only the metadata messages may bypass the wall');
+    const mcpFn = mcp.slice(0, mcp.indexOf('\nconst anonMcpRateLimit'));
+    assert.ok(mcpFn.length > 0, 'apiKeyAuthOptional is still where this test expects it');
+    assert.match(mcpFn, /if \(offered\) return apiKeyAuth\(req, res, next\);/,
+        'a presented key is still verified first — no silent downgrade to the keyless tier');
+    assert.equal(/freeTierWallResponse|mcpWall\b/.test(mcpFn), false,
+        'the MCP transport raises no wall of its own: every method, keyless or keyed, is admitted');
+    assert.match(mcpFn, /req\.mcpWallReason = freeTierWallReason\(req\);/,
+        'the wall verdict is carried to the tool layer rather than dropped');
+
+    // And the tool layer can express it, or moving the decision would have
+    // deleted the wall instead of relocating it.
+    const endpoint = require('node:fs').readFileSync(require('node:path').join(__dirname, '..', 'mcp-endpoint.js'), 'utf8');
+    assert.match(endpoint, /NETWORK_PAID_ONLY|MSG_NETWORK/, 'the network wall survives as a tool error');
+    assert.match(endpoint, /REGION_PAID_ONLY|MSG_REGION/, 'the region wall survives as a tool error');
 });
 
 test('signup trial is withheld from walled visitors everywhere SIGNUP_TRIAL_DAYS was read', () => {

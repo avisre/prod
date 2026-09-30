@@ -432,7 +432,7 @@ const DOC_PAGES = Object.freeze({
                 title: 'ChatGPT',
                 body: 'ChatGPT requires OAuth 2.1 for a custom connector and does not accept a bearer token, so — exactly as with Claude — you add the URL and approve a sign-in instead of pasting a key.',
                 code: 'https://www.stockportfolio.pro/mcp',
-                note: 'Custom connectors have to be available on your ChatGPT plan or workspace. If they are not, the API route below reaches the same seven tools.'
+                note: 'Custom connectors have to be available on your ChatGPT plan or workspace. If they are not, the API route below reaches the same filings and the same prices.'
             },
             {
                 title: 'OpenAI API — the Responses API',

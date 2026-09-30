@@ -4,6 +4,7 @@
   "main": "app.js",
   "scripts": {
     "test": "node --test test/*.test.js",
+    "test:mcp": "node scripts/test-mcp.mjs",
     "start": "node app.js"
   },
   "author": "",

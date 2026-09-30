@@ -94,19 +94,35 @@ test('the stdio bridge is documented with the bare key its package expects', () 
 
 test('the /api landing page quotes credits.COST rather than typed-in numbers', () => {
     const html = seoPages.renderApiLanding();
-    const rows = [...html.matchAll(
-        /<code>(sp_\w+)<\/code><\/td><td><code>[^<]+<\/code><\/td><td>([^<]+)<\/td>/g
+    // Two tables, one per surface, since the MCP catalog stopped mirroring the
+    // REST routes: the MCP tools are named for the question they answer, and
+    // the REST rows keep the website's route shapes. Each is priced from the
+    // constant for ITS surface — a row quoting the other surface's figure is
+    // exactly the drift this test exists for.
+    const mcpRows = [...html.matchAll(
+        /<code>([a-z_]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+)<\/td>/g
     )].map((m) => [m[1], m[2]]);
-    assert.ok(rows.length >= 7, 'the tool table did not render');
-
-    const lookup = `${COST.mcp_lookup} / ${COST.api_lookup}`;
-    const ask = `${COST.mcp_ask} / ${COST.api_ask}`;
-    for (const [tool, price] of rows) {
-        if (tool === 'sp_health') {
-            assert.equal(price, 'free', 'sp_health is documented as costing something');
+    assert.equal(mcpRows.length, 6, `expected six MCP tool rows, found ${mcpRows.length}`);
+    for (const [tool, price] of mcpRows) {
+        if (tool === 'search_companies' || tool === 'sp_health') {
+            assert.equal(price, 'free', `${tool} is documented as costing something`);
             continue;
         }
-        assert.equal(price, tool === 'sp_ask' ? ask : lookup, `${tool} is priced ${price} on /api`);
+        assert.equal(Number(price), tool === 'ask_filings' ? COST.mcp_ask : COST.mcp_lookup,
+            `${tool} is priced ${price} on /api`);
+    }
+
+    const restRows = [...html.matchAll(
+        /<code>(?:GET|POST) (\/api\/v1\/[^<]+)<\/code><\/td><td>[^<]*<\/td><td>(free|\d+)<\/td>/g
+    )].map((m) => [m[1], m[2]]);
+    assert.ok(restRows.length >= 7, `the REST table did not render (found ${restRows.length} rows)`);
+    for (const [route, price] of restRows) {
+        if (route === '/api/v1/health') {
+            assert.equal(price, 'free', 'the health route is documented as costing something');
+            continue;
+        }
+        assert.equal(Number(price), route === '/api/v1/ask' ? COST.api_ask : COST.api_lookup,
+            `${route} is priced ${price} on /api`);
     }
 });
 

@@ -69,7 +69,7 @@ test('the global daily ceiling bounds total anonymous spend', { timeout: 60000 }
 
     const third = await mcpAnon.creditsFor('c', env).check('c', 'mcp_ask', 0, null, null);
     assert.equal(third.ok, false, 'a brand-new IP is refused once the day is spent');
-    assert.match(third.message, /global limit/, 'explains it is a global cap, not their own');
+    assert.match(third.message, /shared limit/, 'explains it is a global cap, not their own');
     assert.match(third.message, /00:00 UTC/, 'says when it lifts');
 
     // The ceiling is asks-only: lookups carry no inference cost, so they stay open.

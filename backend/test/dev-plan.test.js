@@ -271,14 +271,26 @@ test('the API landing page renders, prices the Dev plan, and carries the real ex
     assert.match(html, /https:\/\/www\.stockportfolio\.pro\/mcp/, 'configs point at the hosted /mcp endpoint');
     assert.match(html, /stockportfolio-mcp/, 'advertises the published npm package');
     assert.match(html, /mcp-remote/, 'still offers the generic stdio bridge as an alternative');
-    // The metering table must match credits.js COST. It silently kept the
+    // The metering tables must match credits.js COST. They silently kept the
     // pre-reprice ask prices (2/4) after the 2x-frontier change, on the one page
-    // whose whole job is telling a developer what a call costs — so pin it.
-    assert.match(html, new RegExp(`<tr><td><code>sp_ask</code></td><td><code>POST /api/v1/ask</code></td><td>${credits.COST.mcp_ask} / ${credits.COST.api_ask}</td></tr>`), 'the ask row quotes the live mcp_ask/api_ask cost');
+    // whose whole job is telling a developer what a call costs — so pin them.
+    // There are two tables now: the MCP catalog prices its tools from mcp_*,
+    // the REST table from api_*, and quoting the wrong surface's constant is
+    // the mistake this catches.
+    assert.match(html, new RegExp(`<tr><td><code>ask_filings</code></td><td>[^<]*</td><td>${credits.COST.mcp_ask}</td></tr>`), 'the MCP ask row quotes the live mcp_ask cost');
+    assert.match(html, new RegExp(`<tr><td><code>POST /api/v1/ask</code></td><td>[^<]*</td><td>${credits.COST.api_ask}</td></tr>`), 'the REST ask row quotes the live api_ask cost');
     assert.ok(!/>2 \/ 4</.test(html), 'no row still quotes the retired 2/4 ask price');
-    // Every one of the seven tools is listed, so the page can't quietly fall
-    // behind the endpoint list.
-    for (const tool of ['sp_financials', 'sp_filing', 'sp_compare', 'sp_screen', 'sp_fund', 'sp_ask', 'sp_health']) {
+    // Every tool the MCP endpoint actually serves is listed, so the page cannot
+    // quietly fall behind it. Read out of mcp-endpoint.js rather than retyped:
+    // the seven sp_* names this used to pin were replaced wholesale when the
+    // MCP surface was rebuilt for directory compatibility, and a retyped list
+    // would have gone on passing while the page described tools that no longer
+    // exist. A future rename now fails here instead of on the page.
+    const endpointSource = fs.readFileSync(path.join(__dirname, '..', 'mcp-endpoint.js'), 'utf8');
+    const toolNames = [...endpointSource.matchAll(/^\s+name: '([a-z_]+)',$/gm)].map((m) => m[1]);
+    assert.ok(toolNames.length >= 5, `tool names were not extracted from mcp-endpoint.js (got ${toolNames.length})`);
+    assert.ok(toolNames.includes('ask_filings'), 'the extraction found the MCP tool definitions, not some other name field');
+    for (const tool of toolNames) {
         assert.ok(html.includes(tool), `${tool} is listed on the landing page`);
     }
 });

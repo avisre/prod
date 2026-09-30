@@ -30,6 +30,9 @@ const path = require('node:path');
 const credits = require('../credits');
 
 const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
+// The MCP tool layer, where the decisions that used to sit at the transport
+// (entitlement, the network/region walls, the free allowance) now live.
+const endpointSource = fs.readFileSync(path.join(__dirname, '..', 'mcp-endpoint.js'), 'utf8');
 
 test('credits.COST prices the MCP and REST surfaces identically', () => {
     assert.equal(credits.COST.mcp_lookup, 2);
@@ -112,32 +115,36 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
     const routes = [
         "app.post('/api/account/api-keys', authMiddleware, apiAccessGate,",
         "app.use('/api/v1', publicApi.buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, apiAccessGate,",
-        // /mcp deliberately no longer names apiAccessGate directly: it serves a
-        // keyless free tier (see mcp-anon.js) that ChatGPT and claude.ai need,
-        // because neither can send a static bearer token. mcpAccessGate is the
-        // wrapper that preserves the tier check for every KEYED caller, and the
-        // assertions below pin that it cannot be quietly reduced to a pass-through.
-        "app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpAccessGate,",
     ];
     for (const needle of routes) {
         assert.ok(appSource.includes(needle), `expected to find: ${needle}`);
     }
+    // /mcp names NEITHER apiAccessGate nor a wrapper around it, and that is
+    // deliberate rather than a dropped gate. apiAccessGate answers HTTP 402
+    // API_ACCESS_REQUIRED, and a 402 raised before the MCP session starts is
+    // indistinguishable to a client from a dead server: it cannot read the tool
+    // list, and the account holder is never told why. mcp-endpoint.js applies
+    // hasApiAccess() inside tools/call and returns ENTITLEMENT_REQUIRED as a
+    // tool result instead — same decision, delivered where it can be read.
+    assert.ok(
+        !/app\.post\('\/mcp',[^\n]*apiAccessGate/.test(appSource),
+        '/mcp must not raise a transport-level 402: entitlement is decided per tool call'
+    );
+    // The gate therefore has to exist on the tool side, or the paid tier check
+    // would simply be gone.
+    assert.match(endpointSource, /ENTITLEMENT_REQUIRED/,
+        'the tool layer carries the paid-tier check that left the transport');
+
     // list/revoke intentionally stay ungated by tier — a downgraded account
     // must still be able to see and delete its own existing keys.
     assert.match(appSource, /app\.get\('\/api\/account\/api-keys', authMiddleware, async/, 'listing keys stays tier-ungated');
     assert.match(appSource, /app\.delete\('\/api\/account\/api-keys\/:id', authMiddleware, async/, 'revoking a key stays tier-ungated');
 
-    // The keyless path widened /mcp's door, so pin the two things that stop it
-    // becoming a hole: a KEYED caller still meets apiAccessGate (a paid tier
-    // check cannot be skipped by presenting a key for a plan without access),
-    // and a caller who offers a key that does not resolve is rejected rather
-    // than silently served the free tier — which would read to a paying
-    // customer as their key having stopped working, with no error to explain it.
-    assert.match(
-        appSource,
-        /function mcpAccessGate\(req, res, next\) \{\s*if \(req\.anonMcp\) return next\(\);\s*return apiAccessGate\(req, res, next\);/,
-        'mcpAccessGate still applies apiAccessGate to every keyed caller'
-    );
+    // The keyless path widened /mcp's door, so pin the thing that stops it
+    // becoming a hole: a caller who offers a key that does not resolve is
+    // rejected rather than silently served the free tier — which would read to
+    // a paying customer as their key having stopped working, with no error to
+    // explain it.
     assert.match(
         appSource,
         /if \(offered\) return apiKeyAuth\(req, res, next\);/,
@@ -147,19 +154,47 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
 
 // OpenAI's Scan Tools (and any MCP directory crawler) performs server discovery
 // or the initialize / notifications/initialized handshake and reads tools/list,
-// then may ping or call sp_health to verify the endpoint. These requests carry
-// no financial data, so they must reach the MCP layer from a datacenter or
-// walled region. Other tools/call requests remain behind the normal walls.
-test('MCP metadata and liveness calls bypass keyless walls, but data calls do not', () => {
+// then may ping or call a tool to verify the endpoint. None of that may be
+// refused by a wall, because the refusal arrives before the client has read the
+// tool list and is indistinguishable from a broken server — which is exactly
+// how a directory came to mark this endpoint Unhealthy while a hand-built
+// allowlist of method names tried to carve out the protocol operations.
+//
+// The fix was to stop deciding at the transport at all. These assertions pin
+// that: the transport never refuses, and discovery never consults entitlement.
+test('the MCP transport never refuses a request, and discovery never meters', () => {
     const start = appSource.indexOf('async function apiKeyAuthOptional');
-    const fn = appSource.slice(start, appSource.indexOf('function mcpAccessGate'));
-    assert.match(fn, /req\.body\.method === 'initialize'[\s\S]*?req\.body\.method === 'server\/discover'[\s\S]*?req\.body\.method === 'notifications\/initialized'[\s\S]*?req\.body\.method === 'tools\/list'[\s\S]*?req\.body\.method === 'ping'/,
-        'server discovery, handshake, metadata and ping messages must bypass the wall');
-    assert.match(fn, /req\.path === '\/mcp' \|\| req\.path === '\/mcp\/apps'/,
-        'metadata bypasses are scoped to the two MCP endpoints');
-    assert.match(fn, /req\.body\.method === 'tools\/call'[\s\S]*?req\.body\.params\.name === 'sp_health'/,
-        'only the read-only hosted MCP health tool bypasses the wall');
-    const methodChecks = (fn.match(/req\.body\.method === '([^']+)'/g) || []).sort();
-    assert.deepEqual(methodChecks, ["req.body.method === 'initialize'", "req.body.method === 'notifications/initialized'", "req.body.method === 'ping'", "req.body.method === 'server/discover'", "req.body.method === 'tools/call'", "req.body.method === 'tools/list'"],
-        'only protocol control messages and the health tool call are exempt');
+    const fn = appSource.slice(start, appSource.indexOf('const anonMcpRateLimit'));
+    assert.ok(fn.length > 0, 'apiKeyAuthOptional is still where this test expects it');
+
+    // No payment status, no auth status, no wall refusal at the transport. A
+    // method allowlist would be the old bug in a new form, so assert the wall
+    // and the 402 body are simply not reachable from here.
+    assert.ok(!/freeTierWallResponse|\.status\(402\)/.test(fn),
+        'the MCP transport must never answer 402, for any method or any caller');
+    assert.ok(!/\.status\(401\)/.test(fn),
+        'the MCP transport must never answer 401: a client has to reach tools/list to be told it lacks access');
+    assert.ok(!/req\.body\.method ===/.test(fn),
+        'no method allowlist: every protocol operation is allowed through, not an enumerated few');
+
+    // What it does instead: mark the caller keyless and hand the wall decision
+    // onward, so tools/call can decide with the tool actually being called.
+    assert.match(fn, /req\.anonMcp = true;/, 'a credential-less caller is admitted as keyless');
+    assert.match(fn, /req\.mcpWallReason = freeTierWallReason\(req\);/, 'the wall verdict is carried to the tool layer, not enforced here');
+    assert.match(fn, /if \(offered\) return apiKeyAuth\(req, res, next\);/, 'an offered key is still verified first');
+
+    // Discovery is the one thing that must never consult entitlement or a
+    // wallet: a client cannot be told it lacks access to tools it has not been
+    // allowed to read yet.
+    const listStart = endpointSource.indexOf('setRequestHandler(ListToolsRequestSchema');
+    const listHandler = endpointSource.slice(listStart, endpointSource.indexOf('setRequestHandler(CallToolRequestSchema'));
+    assert.ok(listStart > -1 && listHandler.length > 0, 'the tools/list handler is present');
+    assert.ok(!/deps\.limiter|deps\.entitled|gate\b/.test(listHandler),
+        'tools/list must not touch the limiter, entitlement or the wall — discovery is never metered');
+
+    // And the decisions that left the transport are all accounted for on the
+    // tool side, or they would have been dropped rather than moved.
+    assert.match(endpointSource, /ENTITLEMENT_REQUIRED/, 'entitlement is decided per tool call');
+    assert.match(endpointSource, /NETWORK_PAID_ONLY|MSG_NETWORK/, 'the network wall is expressible as a tool error');
+    assert.match(endpointSource, /REGION_PAID_ONLY|MSG_REGION/, 'the region wall is expressible as a tool error');
 });

@@ -81,9 +81,9 @@ Missing or revoked keys get `401`. Calls are rate-limited per key
 
 Every deterministic response wraps its payload in an envelope with a
 `citation` block (filing source, period, a backlink to verify on-site).
-A `402` means the month's wallet is exhausted; nothing is charged on an error
-response. The body is actionable rather than just descriptive — the MCP
-endpoint returns the same object inside its error result:
+A `402` on the REST surface means the month's wallet is exhausted; nothing is
+charged on an error response. The MCP endpoint never answers `402` — it
+returns the same object inside its error result, so the agent can read it:
 
 ```json
 {
@@ -103,9 +103,24 @@ credits is session-authenticated, so an API key cannot spend money.
 
 `POST /mcp` — Streamable HTTP transport, stateless (no session id). Point
 any MCP client at this URL with the same `Authorization: Bearer` header
-used for the REST API. Seven tools, mirroring the REST surface:
-`sp_financials`, `sp_filing`, `sp_compare`, `sp_screen`, `sp_fund`, `sp_ask`,
-`sp_health` (free, no auth required for this one tool).
+used for the REST API. Six tools, each named for what it returns:
+
+| Tool | Returns | Cost |
+|---|---|---|
+| `search_companies` | Company name or ticker → ticker, name, SEC CIK | free |
+| `get_company_fundamentals` | Filed statements by fiscal period, each figure carrying its filing | 2 |
+| `search_filings` | Filings by type and date range, with direct EDGAR URLs | 2 |
+| `get_filing` | One filing's metadata and content, by accession number or ticker | 2 |
+| `ask_filings` | A filing-grounded answer with the figures and citations behind it | 42 |
+| `sp_health` | Liveness probe | free |
+
+**Discovery costs nothing and needs no credential.** `initialize` and
+`tools/list` answer without a key and without a plan, so a directory scan or
+a ChatGPT connector's "Scan Tools" pass can read this list before anyone has
+signed in. Entitlement is checked when a metered tool is actually called,
+and a refusal arrives as a tool error the model can read — never as an HTTP
+`402` on the connection, which a client cannot distinguish from a dead
+server.
 
 For a client that can only run local stdio servers — Claude Desktop's config
 file is stdio-only, and drops a `url` entry silently — a bridge to this same
