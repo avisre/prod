@@ -146,18 +146,19 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
 });
 
 // OpenAI's Scan Tools (and any MCP directory crawler) reads initialize and
-// tools/list before a credential is involved. Those two messages carry no
-// financial data, so they must reach the MCP layer even from a datacenter or
-// walled region — otherwise the server cannot be discovered at all. tools/call
-// is deliberately not exempt.
-test('MCP metadata calls bypass the keyless free-tier walls, but data calls do not', () => {
+// tools/list, then may call sp_health to verify the endpoint. These requests
+// carry no financial data, so they must reach the MCP layer from a datacenter
+// or walled region. Other tools/call requests remain behind the normal walls.
+test('MCP metadata and liveness calls bypass keyless walls, but data calls do not', () => {
     const start = appSource.indexOf('async function apiKeyAuthOptional');
     const fn = appSource.slice(start, appSource.indexOf('function mcpAccessGate'));
     assert.match(fn, /req\.body\.method === 'initialize' \|\| req\.body\.method === 'tools\/list'/,
         'initialize and tools/list must bypass the wall');
-    assert.match(fn, /if \(req\.path === '\/mcp\/apps' && req\.body/,
-        'the bypass is scoped to the OpenAI Apps endpoint, not all MCP traffic');
+    assert.match(fn, /req\.path === '\/mcp' \|\| req\.path === '\/mcp\/apps'/,
+        'metadata bypasses are scoped to the two MCP endpoints');
+    assert.match(fn, /req\.body\.method === 'tools\/call'[\s\S]*?req\.body\.params\.name === 'sp_health'/,
+        'only the read-only hosted MCP health tool bypasses the wall');
     const methodChecks = (fn.match(/req\.body\.method === '([^']+)'/g) || []).sort();
-    assert.deepEqual(methodChecks, ["req.body.method === 'initialize'", "req.body.method === 'tools/list'"],
-        'only the two metadata messages are exempt; tools/call is not');
+    assert.deepEqual(methodChecks, ["req.body.method === 'initialize'", "req.body.method === 'tools/call'", "req.body.method === 'tools/list'"],
+        'only metadata messages and the health tool call are exempt');
 });

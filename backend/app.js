@@ -6324,12 +6324,22 @@ async function apiKeyAuthOptional(req, res, next) {
     const header = String(req.get('authorization') || '');
     const offered = /^Bearer\s+(.+)$/i.test(header.trim()) || String(req.get('x-api-key') || '').trim();
     if (offered) return apiKeyAuth(req, res, next);
-    // MCP metadata calls carry no financial data. A directory crawler or an
-    // app scan reads initialize/tools/list before any credential is involved.
-    // Let those requests through even from a hosted runner, or the network wall
-    // returns 402 before the MCP handshake can complete. tools/call stays behind
-    // the normal region/network wall and the per-visitor allowance.
-    if ((req.path === '/mcp' || req.path === '/mcp/apps') && req.body && (req.body.method === 'initialize' || req.body.method === 'tools/list')) {
+    // MCP metadata calls and the liveness probe carry no financial data. A
+    // directory crawler or app scan reads initialize/tools/list, then may call
+    // sp_health to verify the endpoint. Let those exact requests through from a
+    // hosted runner, or the network wall marks a public connector unhealthy.
+    // Every data-bearing tools/call stays behind the normal region/network wall
+    // and the per-visitor allowance.
+    const publicHealthProbe = req.path === '/mcp'
+        && req.body
+        && req.body.method === 'tools/call'
+        && req.body.params
+        && req.body.params.name === 'sp_health';
+    if ((req.path === '/mcp' || req.path === '/mcp/apps') && req.body && (
+        req.body.method === 'initialize'
+        || req.body.method === 'tools/list'
+        || publicHealthProbe
+    )) {
         req.anonMcp = true;
         return next();
     }
