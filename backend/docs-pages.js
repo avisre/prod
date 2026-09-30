@@ -432,7 +432,7 @@ const DOC_PAGES = Object.freeze({
                 title: 'ChatGPT',
                 body: 'ChatGPT requires OAuth 2.1 for a custom connector and does not accept a bearer token, so — exactly as with Claude — you add the URL and approve a sign-in instead of pasting a key.',
                 code: 'https://www.stockportfolio.pro/mcp',
-                note: 'Custom connectors have to be available on your ChatGPT plan or workspace. If they are not, the API route below reaches the same filings and the same prices.'
+                note: 'ChatGPT gates custom connectors behind <b>Developer mode</b>: turn it on under <b>Settings → Security and login</b>, then go to <b>chatgpt.com/plugins → Add → Create MCP App</b>, paste the URL, set <b>Authentication</b> to <b>OAuth</b> and press <b>Create</b>. Whether Developer mode is offered at all can depend on account and workspace policy, and a managed workspace may not offer it — Claude needs no such switch, so it is the shorter path. Where neither is open to you, the API routes below reach the same filings at the same prices.'
             },
             {
                 title: 'OpenAI API — the Responses API',
