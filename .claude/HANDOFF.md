@@ -42,7 +42,7 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 ## In flight
 
 **MCP `/mcp` rebuilt for ChatGPT/directory compatibility — DEPLOYED (`a3a3ff74`), VERIFIED LIVE, and the
-browser path walked end-to-end; one scope defect found there and fixed (9/30).**
+ChatGPT connector itself now installed and calling tools in the owner's account (`b29c02f2`, 9/30).**
 Owner request: make the hosted MCP endpoint work with ChatGPT custom connectors and MCP directories, with
 discovery that never requires payment. Smallest-change reading of the existing implementation, no backend
 redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
@@ -90,9 +90,30 @@ redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
   allowance is real); both OAuth discovery documents parsed; DCR → **201** with ChatGPT's redirect_uri; the
   consent page renders its sign-in form and returns a clean error for bad credentials. A cross-origin page
   **cannot** call `/mcp` (no CORS headers) — informational: ChatGPT's connector is server-side, so this only
-  matters for browser-based MCP clients, and the fix would be a deliberate widening. **The one hop left is the
-  owner's alone** — their own ChatGPT login and StockPortfolio password. Every hop *after* a sign-in was proved
-  locally instead, in the bullet below.
+  matters for browser-based MCP clients, and the fix would be a deliberate widening. Every hop *after* a sign-in
+  is proved locally too, in the bullet below — and the real client has now walked all of them in production, in
+  the two bullets below that.
+- **The ChatGPT connector is LIVE in the owner's account (9/30)** — created at `chatgpt.com/plugins` → **Add** →
+  *Create MCP App* (the form opened with no Developer-mode toggle to flip; it was already on), name
+  **StockPortfolio**, URL `https://www.stockportfolio.pro/mcp`, Authentication **OAuth**. The consent screen came
+  up signed in as `rin@gmail.com` → **Allow** → ChatGPT lists it under **Installed** with *Authorization used:
+  OAuth* and the account "avi's StockPortfolio account" (`asdk_app_6abd24eb748c8191a053dca74c9376ae`). A real
+  chat then called `search_companies("Nvidia")` → NVDA and `get_company_fundamentals(NVDA, quarterly, 1)`, and
+  answered from the 2026-07-26 10-Q (revenue $96.22B, net income $59.69B, diluted EPS $2.46, FCF $21.40B) —
+  **naming the four tools it did *not* call** (`search_filings`, `get_filing`, `ask_filings`, `sp_health`), which
+  is the six-name discovery confirmed by the client itself rather than by us. Shares outstanding returned *Not
+  reported / null*: the never-estimate rule holding in the wild. ChatGPT side is `avinashsreekumar007@gmail.com`.
+- **Defect production caught that no local harness could — Chrome blocked the consent redirect (`b29c02f2`).**
+  Chrome enforces `form-action` **across redirects**, not just against the form's own action URL. The consent
+  form POSTs `/oauth/authorize/decision`, which 302s straight to the client's `redirect_uri`; helmet's policy
+  allowed only `'self'` and `https://hooks.stripe.com`, so the browser aborted the navigation with
+  `net::ERR_ABORTED` and **Allow access did nothing at all** — no request, no visible error — for every MCP
+  client whose callback is off-origin, i.e. all of them. `scripts/mcp-oauth-e2e.mjs:165` redirects to `${base}`
+  (our own origin), so it passed **14/14 while production was broken for everyone**. New `backend/oauth-csp.js`
+  (`withConsentFormAction`) appends the `redirect_uri`'s origin to `form-action` on the consent response only,
+  idempotently, and only for a `redirect_uri` already matched against the client's registered list. Pinned by
+  `test/oauth-consent-csp.test.js` (5 tests). Diagnosed by reading `Log.entryAdded` + `Network.loadingFailed`
+  over CDP, not by guessing at the handler.
 - **Defect the browser caught — the 401 challenge advertised a scope the server refuses to issue.**
   `mcpAuthChallenge` said `scope="mcp"` on `/mcp`: the legacy all-access scope `mcp-apps.js:524` still honours
   on tokens already in the wild, but one `normalizeOauthScope` will not grant. A client that read the challenge
@@ -273,9 +294,15 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
 - Chrome headless sends "HeadlessChrome", which `bot-blocker.js` correctly 403s — override the UA (or
   `BOT_BLOCK_ENABLED=false` on dev-local only). A bare curl UA also 403s: `hasBrowserHeaders` needs the full
   browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
+- **A CSP failure that exists only in production is invisible to a same-origin harness.** Chrome enforces
+  `form-action` across *redirects*, so any POST-then-302-to-another-origin flow — the OAuth consent → client
+  callback is the one that bit — needs that origin in the policy. The consent button was dead for every external
+  MCP client while the loopback e2e passed 14/14, and it failed *silently*: no request, nothing a user would
+  see. When a browser button "does nothing", read `Log.entryAdded` + `Network.loadingFailed` over CDP before
+  touching the handler.
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 9/30 (1055 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
+- **Suite GREEN as of 9/30 (1061 pass, 0 fail, exit 0).** **No CI job runs it** — `repo-checks.yml`
   runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
   need root `node_modules`, so a full-suite gate is a real job, not a config line.
 - **A test can encode a coincidence and still look like an invariant.** `sitemap-index.test.js` asserted
@@ -321,9 +348,6 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
     or say to delete it.
 12. **`mcp-server` republish** — its README documents the retired `sp_*` tool names; the published bridge
     proxies `/mcp` live so nothing is broken, but the npm page is now stale.
-13. **Create the ChatGPT connector** — Settings → Connectors → Add custom → `https://www.stockportfolio.pro/mcp`
-    (www; the apex 307 drops `Authorization`), then sign in **with your own account**. This is the one step that
-    cannot be done from here: it needs your ChatGPT login and your StockPortfolio password, and the credential
-    classifier declined to reach for a stored password and barred pursuing it by any other route. Expect the
-    consent screen to name the account, and the tool list to be `search_companies`, `get_company_fundamentals`,
-    `search_filings`, `get_filing`, `ask_filings`, `sp_health`.
+13. ~~**Create the ChatGPT connector**~~ — **DONE 9/30**: installed and calling tools, see In flight. Two optional
+    polish items that are yours to make and are not blockers: the icon is the default placeholder, and the plugin
+    still reads `DEVELOPMENT` review status — publish it from the plugin page if you want it directory-listed.
