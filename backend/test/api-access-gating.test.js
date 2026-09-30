@@ -145,21 +145,21 @@ test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
     );
 });
 
-// OpenAI's Scan Tools (and any MCP directory crawler) performs the initialize /
-// notifications/initialized handshake and reads tools/list, then may ping or
-// call sp_health to verify the endpoint. These requests carry no financial
-// data, so they must reach the MCP layer from a datacenter or walled region.
-// Other tools/call requests remain behind the normal walls.
+// OpenAI's Scan Tools (and any MCP directory crawler) performs server discovery
+// or the initialize / notifications/initialized handshake and reads tools/list,
+// then may ping or call sp_health to verify the endpoint. These requests carry
+// no financial data, so they must reach the MCP layer from a datacenter or
+// walled region. Other tools/call requests remain behind the normal walls.
 test('MCP metadata and liveness calls bypass keyless walls, but data calls do not', () => {
     const start = appSource.indexOf('async function apiKeyAuthOptional');
     const fn = appSource.slice(start, appSource.indexOf('function mcpAccessGate'));
-    assert.match(fn, /req\.body\.method === 'initialize'[\s\S]*?req\.body\.method === 'notifications\/initialized'[\s\S]*?req\.body\.method === 'tools\/list'[\s\S]*?req\.body\.method === 'ping'/,
-        'handshake, discovery and ping messages must bypass the wall');
+    assert.match(fn, /req\.body\.method === 'initialize'[\s\S]*?req\.body\.method === 'server\/discover'[\s\S]*?req\.body\.method === 'notifications\/initialized'[\s\S]*?req\.body\.method === 'tools\/list'[\s\S]*?req\.body\.method === 'ping'/,
+        'server discovery, handshake, metadata and ping messages must bypass the wall');
     assert.match(fn, /req\.path === '\/mcp' \|\| req\.path === '\/mcp\/apps'/,
         'metadata bypasses are scoped to the two MCP endpoints');
     assert.match(fn, /req\.body\.method === 'tools\/call'[\s\S]*?req\.body\.params\.name === 'sp_health'/,
         'only the read-only hosted MCP health tool bypasses the wall');
     const methodChecks = (fn.match(/req\.body\.method === '([^']+)'/g) || []).sort();
-    assert.deepEqual(methodChecks, ["req.body.method === 'initialize'", "req.body.method === 'notifications/initialized'", "req.body.method === 'ping'", "req.body.method === 'tools/call'", "req.body.method === 'tools/list'"],
+    assert.deepEqual(methodChecks, ["req.body.method === 'initialize'", "req.body.method === 'notifications/initialized'", "req.body.method === 'ping'", "req.body.method === 'server/discover'", "req.body.method === 'tools/call'", "req.body.method === 'tools/list'"],
         'only protocol control messages and the health tool call are exempt');
 });
