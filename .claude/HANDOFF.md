@@ -211,15 +211,18 @@ genuine checkout. Ops doc: `docs/growth/filing-watch-runbook.md`.
   in `notes/2026-09-29-filing-watch-prospects.md`. **Never send outreach without the owner's explicit
   authorization.**
 
-**Claude plugin directory — repo PUBLIC and installable NOW; only the submission form is left (9/25).**
-`github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 7 files — config and prose, no source);
-`claude plugin marketplace add avisre/stockportfolio-claude-plugin` works today. Package:
-`docs/growth/claude-plugin-submission.md`. **Chose the free plugin route, not the Connectors Directory** —
-that portal needs a Team/Enterprise org, 2 seats × $25 = **$50/month just to unlock the form**. The free form
-(`platform.claude.com/plugins/submit`) lists into the **community** catalog. Reviewer path: the **keyless tier
-exercises every tool** (2 asks + 50 lookups/30d), so no credential handover. The npm/Claude bridge sees the
-**six-tool `/mcp` catalog**; if the reviewer needs fund data, that is REST-only (`/api/v1/fund/:symbol`) —
-declare it rather than implying `sp_fund` still exists on `/mcp`.
+**Claude plugin directory — the route MOVED, and the plugin was shipping broken tool names until 10/01.**
+Submit at **claude.ai/directory/manage**, not `platform.claude.com/plugins/submit` — the Console form is
+retired ("no longer supported"), and the old **$50/month Team blocker died with it**: the account is **Claude
+Pro**, which can submit, and on Pro there is no role check. Needs **GitHub connected to claude.ai** (the portal
+verifies push access to the repo), and **two submissions, not one** — the plugin bundle *and* the MCP connector
+at `https://www.stockportfolio.pro/mcp`, which is what lets Anthropic pair the listings. `claude plugin
+validate .` passes; repo public, MIT, plugin at the root. **The plugin documented the npm bridge's seven `sp_*`
+tools while `.mcp.json` connects the six-tool hosted endpoint** — four of those names did not exist on the
+connected server, so the skill was telling Claude to call tools that were not there. Rewritten against live
+`tools/list` and pushed as `1376fc6`. Package: `docs/growth/claude-plugin-submission.md`. Reviewer path: the
+**keyless tier exercises every tool** (3 asks + 50 lookups/30d), so no credential handover. Fund data is
+REST-only (`/api/v1/fund/:symbol`). **Blocked on: a claude.ai sign-in in a driveable browser.**
 
 **AppSumo final-window repricing — v8 copy DONE (11/11 guards); the flip partly started, NOT finished.**
 Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299/1099 · 499/1849, wallet
@@ -358,8 +361,11 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
 1. **OpenAI plugin submission — SUBMITTED 10/01, now "In review".** Watch for the verdict. Two things could
    still bite: identity verification has not cleared, and the reviewer-credential fields were never
    re-checked. Do not press **Cancel review** unless you mean to withdraw it.
-2. **Submit the Claude plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
-   preconditions are deployed and verified; see above.
+2. **Claude plugin submission — the work is done, it needs your claude.ai sign-in.** The portal moved to
+   `claude.ai/directory/manage`, and the plugin's stale tool names are fixed and pushed (`1376fc6`). Sign in
+   in the Chrome window that is open (scratch profile `/tmp/claude-console-profile` — delete that copy when
+   we are done), then I fill the form end to end. If you would rather not log in there, say so and I will drive
+   your own Chrome instead.
 3. **Dossier mockup review** — step 2, the port, has not started.
 4. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click **Investigate**
