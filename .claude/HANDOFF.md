@@ -185,6 +185,13 @@ carry `usage_notice` and a structured remaining count; at one remaining or exhau
 the $19.99/month Dev plan and `/docs/api-mcp` client-specific OAuth/API-key setup. The Glama listing advertises
 the same offer. Keep `ANON_MCP_ASK_LIMIT` configurable; runtime tool descriptions show the effective value.
 
+**Glama connector health — listing FIXED 9/30 (`59582a07`, deploy run `36678341079`).** Public MCP
+discovery, legacy initialization, initialized notification, tool listing, ping and `sp_health` bypass the
+geo/hosting wall; data tools remain behind it. Glama's public connector page reported **Healthy** at
+06:36 UTC on MCP `2025-11-25`; update posted to awesome-remote-mcp-servers PR #578. The separate manual
+Test Profile call still reports `NETWORK_PAID_ONLY` when it exercises calls from Glama's datacenter; if a
+reviewer requires that path too, use Glama's test-credential process instead of opening data calls publicly.
+
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
   `backend/data/hosting-ranges.bin`. Hard paywall `WALL_ALL_PAGES` — off since the wall week (3 signups /
