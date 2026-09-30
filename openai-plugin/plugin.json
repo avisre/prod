@@ -90,6 +90,7 @@
             }
           ]
         },
+        "demo_recording_url": "https://www.stockportfolio.pro/assets/plugin-walkthrough.mp4",
         "commerce": false,
         "commerce_description": "The plugin does not sell anything and no payment takes place in ChatGPT. It is a read-only data tool: its MCP server exposes seven read-only tools and no purchase, subscription or account action. The underlying StockPortfolio.pro service is a separate paid subscription bought on the website, and the plugin does not surface, sell or manage it."
       },

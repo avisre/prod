@@ -58,12 +58,14 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   shape, so running it with `--url .../mcp/apps` reports one FAILED metered call (`COMPANY_REQUIRED`). That is
   the harness, not the surface — do not "fix" it by editing the tool schema.
 - **Owner-only, in order:** (1) identity verification — submitted 9/30, reads **"Identity in review"**;
-  publishing under an unverified name is an automatic rejection. (2) a **demo-recording URL**, which must go in
-  **`plugin.json`** (`extensions.com.openai.review.demo_recording_url`) — there is **no dashboard field for
-  it**, and step 5 of the review dialog says verbatim to add it and upload the ZIP again. This is now the
-  **only** package-side blocker: the logo landed 10/01 (below), so recording + URL means one rebuild and one
-  reupload. (3) **Submit for review** (skill scans can take two hours). Still open, ours: the privacy
-  policy's human legal review.
+  publishing under an unverified name is an automatic rejection. (2) **Submit for review** (skill scans can
+  take two hours). Still open, ours: the privacy policy's human legal review.
+- **Both package-side blockers cleared on 10/01: the logo and the demo recording.** The recording requirement
+  is step 5 of the review dialog and has **no dashboard field** — the URL must live in **`plugin.json`**
+  (`extensions.com.openai.review.demo_recording_url`) and the ZIP must be uploaded again, which is the one
+  upload that still has to happen. Because the ZIP carries the reviewer credentials' neighbours but *not* the
+  credentials, **re-check the dashboard's five reviewer fields after that upload** (same check the logo
+  re-upload got: `url=41 tenant=0 user=32 pw=32 steps=257`).
 
 ### The package
 - **`openai-plugin/` → `openai-plugin.zip` via `scripts/build-openai-plugin.sh`** (Agent Plugins portable
@@ -83,8 +85,20 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   records the deliberate choices: no `skills/` (that requirement is scoped to skills-only ZIPs); three starter
   prompts (the `defaultPrompt` cap is three); `commerce: false`; **no reviewer credentials** (ZIP metadata
   rejects `test_credentials`/`reviewer_instructions` — they go in the dashboard, which is what makes the
-  re-upload risk below real); no `demo_recording_url` **yet** because no recording exists. Every one of the
+  re-upload risk below real); `demo_recording_url` is **set** as of 10/01 (see below). Every one of the
   five positive cases was **run against production** before its expected result was written down.
+- **The walkthrough recording is real, and lives at `/assets/plugin-walkthrough.mp4`** (63s, 1280×688, 2.2 MB,
+  made 10/01 by `scripts/record-mcp-walkthrough.mjs`). It is not a staged screen capture: the script runs
+  `initialize`, `tools/list` and the five review cases **against production**, bakes those live responses into
+  a local page, then captures that page over CDP — so every figure on screen is a filed value and the video
+  dates itself. The Authorization header is never rendered, so the recording cannot leak the key it was made
+  with. Re-record any time with `node scripts/record-mcp-walkthrough.mjs` (needs Chrome on CDP 9333 + ffmpeg);
+  publish by committing the mp4, which **must not carry the skip marker** or production stays on the old file.
+  Two capture traps, both hit for real: `Page.startScreencast` is **change-driven** and silently truncated a
+  take at test case 3 — a 30s video for a 48s page, no error — so the script polls `Page.captureScreenshot`
+  instead and **fails loudly** if the capture span is short; and `Emulation.setDeviceMetricsOverride` taller
+  than the real window **clips** the bottom off every frame rather than scaling, so the window is sized first
+  and the measured `innerHeight` is emulated exactly.
 - **All five were RE-RUN against production 10/01, after OIDC and the comparison fixes deployed, and all five
   still match** — the expectations are not stale, which was the real risk: MSFT's latest 10-Q reading
   2026-03-31 looks outdated in October until you remember the June quarter is the 10-K, so a pipeline that was

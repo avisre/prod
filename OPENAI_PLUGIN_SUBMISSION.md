@@ -59,10 +59,21 @@ Decisions worth knowing before editing it:
   review dialog states it verbatim: *"Add a video walkthrough URL to
   `extensions.com.openai.review.demo_recording_url` in plugin.json, then upload
   your plugin ZIP again before submitting for review."* There is no dashboard
-  field for it. It is owner-supplied and still outstanding, so the package
-  currently carries no recording — this is the one remaining blocker on the
-  review path, and it is why the next ZIP upload is required even though the
-  test cases and release notes already imported correctly.
+  field for it. It is **set** as of 10/01:
+  `https://www.stockportfolio.pro/assets/plugin-walkthrough.mp4`. Because the URL
+  changed the manifest, the ZIP must still be uploaded once more, and the
+  dashboard's reviewer credentials re-checked afterwards.
+- **The recording is a real session, not a staged screen capture.**
+  `scripts/record-mcp-walkthrough.mjs` runs `initialize`, `tools/list` and the
+  five positive review cases against production at record time, bakes the live
+  responses into a local page, and captures that page over the Chrome DevTools
+  Protocol: 63s, 1280×688, 2.2 MB. Every figure on screen is a filed value and
+  the video dates itself, so a reviewer watching it sees the same numbers their
+  own test run returns. The Authorization header is never rendered, so the
+  recording cannot leak the credential it was made with. Re-record with
+  `node scripts/record-mcp-walkthrough.mjs`; the mp4 commit must **not** carry
+  the skip marker, since `frontend-v2/assets/` is served from the deployed
+  filesystem.
 
 ---
 
