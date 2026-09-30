@@ -20,6 +20,8 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **The browser path has a checker too: `node scripts/mcp-browser-test.mjs`** — walks the ChatGPT-connector flow
   in a real headless Chrome (CDP, UA overridden past the bot blocker), PASS/FAIL per line, exit 1 on failure.
   Needs no credential; the two hops it cannot cover are a successful sign-in and the approve POST that follows.
+  Each run registers a real DCR client (`mcpc_*`) in the **production** database — harmless, but they accumulate,
+  so don't leave it in a loop.
 - **Parallel sessions share this working tree.** On 9/28 another session pushed `f5be04fd` mid-task and left
   `backend/discovered-compares.json` deleted-but-unstaged. A push range starting at a SHA you do not recognise
   means someone committed between your `git add` and your push — check `git log`/`git status` before staging
@@ -80,11 +82,15 @@ redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
   `seo-pages.js` (/api landing two tables + licensing), `docs-pages.js`; pinning tests updated with them
   (`dev-plan`, `mcp-setup-guide`, `geo-wall`, `api-access-gating`).
 - **Browser path, in a real Chrome** (`scripts/mcp-browser-test.mjs`, CDP, UA overridden past the bot blocker;
-  `node scripts/mcp-browser-test.mjs`, PASS/FAIL per line, exit 1 on failure): GET /mcp → 405 not 402;
+  `node scripts/mcp-browser-test.mjs`, PASS/FAIL per line, exit 1 on failure) — **14 pass / 0 fail once the
+  scope defect below was fixed**, and 2 of those 14 were the harness learning the page's real shape, not
+  product bugs: GET /mcp → 405 not 402;
   `initialize` → `stockportfolio-mcp 1.0.0`; `tools/list` → the 6 names, all with object schemas and read-only
   annotations; keyless `search_companies` served; keyless metered tool answered as a **tool result** (the anon
   allowance is real); both OAuth discovery documents parsed; DCR → **201** with ChatGPT's redirect_uri; the
-  consent page renders its sign-in form and returns a clean error for bad credentials. **The last hops need the
+  consent page renders its sign-in form and returns a clean error for bad credentials. A cross-origin page
+  **cannot** call `/mcp` (no CORS headers) — informational: ChatGPT's connector is server-side, so this only
+  matters for browser-based MCP clients, and the fix would be a deliberate widening. **The last hops need the
   owner**: a successful sign-in (their password) and the approve POST, then creating the connector in ChatGPT.
 - **Defect the browser caught — the 401 challenge advertised a scope the server refuses to issue.**
   `mcpAuthChallenge` said `scope="mcp"` on `/mcp`: the legacy all-access scope `mcp-apps.js:524` still honours

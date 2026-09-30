@@ -268,10 +268,12 @@ async function main() {
     const mres = metered.rpc && metered.rpc[0] && metered.rpc[0].result;
     const mcode = mres && mres.structuredContent && mres.structuredContent.error &&
       mres.structuredContent.error.code;
+    const mServed = !!mres && mres.isError !== true;
+    const mCoded = !!mres && mres.isError === true && !!mcode;
     check('metered tool keyless answers as a tool result, never HTTP 402',
-      metered.status !== 402 && !!mres && typeof mres.isError === 'boolean',
+      metered.status !== 402 && (mServed || mCoded),
       metered.threw ? metered.error
-        : `HTTP ${metered.status} · ${mres && mres.isError ? 'tool error ' + mcode : 'served within the anon allowance'}`);
+        : `HTTP ${metered.status} · ${mServed ? 'served within the anon allowance' : mCoded ? 'tool error ' + mcode : 'malformed response'}`);
 
     // 7. OAuth discovery documents, parsed by the browser
     const asMeta = await evaluate(cdp, sid, `(async () => {
@@ -356,8 +358,10 @@ async function main() {
       })`);
       const p = JSON.parse(page);
       const landedOffsite = !String(p.url).startsWith(BASE);
+      // The heading is the <h1> in the card, not <title> — the document title is
+      // "Connect <client>" on both the sign-in and the consent variant.
       check('consent page renders a sign-in form (no 402, no error page)',
-        p.hasForm && p.hasEmail && p.hasPassword && !landedOffsite && /Sign in to connect/i.test(p.title),
+        p.hasForm && p.hasEmail && p.hasPassword && !landedOffsite && /Sign in to connect/i.test(p.text),
         landedOffsite
           ? `redirected off-site to ${p.url} — an OAuth error came back instead of a consent screen`
           : `${p.title} · ${p.text.slice(0, 150)}`);
