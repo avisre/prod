@@ -77,7 +77,8 @@ const OBSERVATION_SCHEMA = {
         currency: { type: ['string', 'null'] },
         derived_from: { type: ['array', 'null'], items: { type: 'string' } },
         source: SOURCE_SCHEMA,
-        note: { type: 'string' }
+        note: { type: 'string' },
+        ticker: { type: 'string', description: 'Company the value belongs to. Set on comparison responses, where several companies share one series.' }
     },
     additionalProperties: true
 };

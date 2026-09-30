@@ -261,8 +261,26 @@ an MCP server must be in the FIRST package: adding one to a skills-only plugin l
   production Atlas write that needs an explicit go-ahead. (4) a **demo-recording URL**. (5) portal: Create
   plugin → With MCP → listing fields + exactly five positive and three negative test cases + release notes →
   attestations → Submit (skill scans can take two hours).
-- **Still missing on our side:** a square logo larger than the 48×48 `frontend/Media/icon.png`, a
-  `shortDescription` of ≤30 characters, and the privacy policy's pending human legal review.
+- **The uploaded package is built (10/01): `openai-plugin/` → `openai-plugin.zip`** via
+  `scripts/build-openai-plugin.sh` (Agent Plugins portable format; `plugin.json` + `mcp.json` at the
+  archive root). The listing text, the exactly-five-positive/three-negative review cases and the release
+  notes all travel **inside the ZIP** and import on upload — imported cases are read-only in the dashboard
+  afterwards, so the package is the source of truth, not the form. `OPENAI_PLUGIN_SUBMISSION.md` §0
+  records the deliberate choices (no `skills/` — that requirement is scoped to skills-only ZIPs; three
+  starter prompts because that is the submission cap; no reviewer credentials because ZIP metadata rejects
+  them; no `demo_recording_url` so the dashboard value survives). Every one of the five positive cases was
+  **run against production** before its expected result was written down.
+- **Two real defects found by running the cases, both fixed in `mcp-financials.js` + `mcp-apps.js`:**
+  (a) `compare_company_metrics` flattened every company's observations into one series per metric with **no
+  company identifier**, and sorted them by value — so a three-way comparison was a column of numbers whose
+  owner could only be recovered by resolving the CIK inside each filing URL. Each observation now carries
+  `ticker`. (b) the misalignment warning computed its spread as **first minus last in the caller's order**
+  rather than max minus min, so AMZN/MSFT/GOOGL — where the June-ending company sits in the middle —
+  reported a 0-day spread and **the warning the tool's own description promises never fired**. Now max−min;
+  `mcp-apps.test.js` pins both, and the middle-of-list case fails against the old code.
+- **Still missing on our side:** the logo (owner is supplying a large square one; the package currently
+  carries a valid 48×48 placeholder that swaps in place) and the privacy policy's pending human legal
+  review.
 
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from

@@ -258,6 +258,22 @@ test('comparison accepts 2-5 companies and refuses more', async (t) => {
     assert.equal(good.structuredContent.metrics[0].observations.length, 2);
     assert.ok(good.structuredContent.notes.some((n) => /fiscal period-end/.test(n)), 'different period ends are flagged');
 
+    // One series holds every company's values, so each value has to name its
+    // company; and the flag is about the widest gap in the set, so a company
+    // that is neither first nor last in the list still has to raise it.
+    const mixed = await client.callTool({
+        name: 'compare_company_metrics',
+        arguments: { companies: ['AMZN', 'MSFT', 'GOOGL'], metrics: ['operating_margin'], period_type: 'annual', periods: 1 }
+    });
+    assert.equal(mixed.isError, undefined);
+    assert.deepEqual(
+        mixed.structuredContent.metrics[0].observations.map((o) => o.ticker).sort(),
+        ['AMZN', 'GOOGL', 'MSFT'],
+        'every value names the company it belongs to'
+    );
+    assert.ok(mixed.structuredContent.notes.some((n) => /fiscal period-end/.test(n)),
+        'a misaligned company is flagged even when it is neither first nor last');
+
     const tooMany = await client.callTool({
         name: 'compare_company_metrics',
         arguments: { companies: ['MSFT', 'AAPL', 'AMZN', 'GOOGL', 'META', 'NVDA'], metrics: ['revenue'] }

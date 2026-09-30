@@ -1,0 +1,101 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "stockportfolio-pro",
+  "version": "1.0.0",
+  "description": "Read-only SEC filing and financial research for US-listed public companies.",
+  "author": {
+    "name": "StockPortfolio.pro",
+    "email": "support@stockportfolio.pro",
+    "url": "https://www.stockportfolio.pro/"
+  },
+  "homepage": "https://www.stockportfolio.pro/",
+  "keywords": ["sec", "filings", "financials", "equities", "research"],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "StockPortfolio.pro",
+        "shortDescription": "SEC filings and financials",
+        "longDescription": "StockPortfolio.pro gives ChatGPT read-only research on US-listed public companies, built from the filings those companies submit to the SEC.\n\nAsk about a company's revenue, profit, margins, earnings per share, share count, cash flow, debt or stock-based compensation and get the reported history back, with each value carrying the fiscal period it belongs to and the filing it came from. Search SEC filings by form type and date, read the section of a filing that answers a question, compare two to five companies on the same metrics, or see the arithmetic behind a period-over-period change, including how much of an earnings-per-share move came from net income and how much from share count.\n\nEvery figure is reported data with a source. A value a company did not report is returned as missing with a note explaining why, never estimated. Derived figures are labelled with the metrics they were derived from. Companies whose fiscal years end on different dates are flagged rather than blended into a single comparison.\n\nUse it for equity and credit research, checking what a company actually disclosed, preparing for an earnings date, building comparables, and tracing a number back to the filing that states it.\n\nLimitations: US-listed companies only. The plugin is read-only, with no trading, no brokerage access and no portfolio or account changes. Nothing it returns is investment advice or a recommendation. Filing text is returned as excerpts rather than whole documents. Data follows the SEC filing calendar rather than real time, so a document filed today may take until the next index refresh to appear.",
+        "developerName": "StockPortfolio.pro",
+        "category": "Finance",
+        "capabilities": [
+          "Search US-listed companies by name or ticker",
+          "Read financial metrics with the SEC filing behind each fiscal period",
+          "Search SEC filing metadata and read excerpts from a filing",
+          "Compare two to five companies on the same filed metrics",
+          "Explain period-over-period changes from reported line items"
+        ],
+        "websiteURL": "https://www.stockportfolio.pro/",
+        "supportURL": "https://www.stockportfolio.pro/support",
+        "privacyPolicyURL": "https://www.stockportfolio.pro/privacy",
+        "termsOfServiceURL": "https://www.stockportfolio.pro/terms",
+        "defaultPrompt": [
+          "Show Microsoft's revenue, EPS and share count for the last five years.",
+          "What did Amazon say about AWS in its latest filing?",
+          "Compare operating margins for Alphabet, Microsoft and Amazon."
+        ],
+        "brandColor": "#F44336",
+        "composerIcon": "./assets/composer-icon.png",
+        "logo": "./assets/logo.png"
+      },
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Annual revenue history, with the filing that reports each year",
+              "prompt": "Show Apple's revenue for the last five fiscal years.",
+              "tools_triggered": "get_company_financials",
+              "expected_behavior": "Returns one revenue series in USD with five annual observations, most recent first: FY2025 (period ending 2025-09-30) 416,161,000,000; FY2024 391,035,000,000; FY2023 383,285,000,000; FY2022 394,328,000,000; FY2021 (period ending 2021-09-25) 365,817,000,000. Each observation carries a source naming form 10-K, its filing date, the accession number and an https://www.sec.gov/Archives/ URL. No value is estimated."
+            },
+            {
+              "description": "Find a company's most recent quarterly filing",
+              "prompt": "Find Microsoft's latest 10-Q.",
+              "tools_triggered": "search_filings",
+              "expected_behavior": "Returns filing metadata only, never filing text. The most recent 10-Q is filing date 2026-04-29, reporting period 2026-03-31, accession number 0001193125-26-191507, with an absolute source_url under https://www.sec.gov/Archives/edgar/data/789019/. The response reports how many filings matched and returns at most the requested number."
+            },
+            {
+              "description": "Read the part of a filing that mentions a term",
+              "prompt": "What did Amazon say about AWS in its latest filing?",
+              "tools_triggered": "get_filing_content",
+              "expected_behavior": "Retrieves the latest Amazon 10-K (filed 2026-02-06, accession number 0001018724-26-000004) and returns up to three short excerpts mentioning AWS, each labelled with the section it came from, plus the filing URL. search_scope is extracted_sections. The full filing text is never returned."
+            },
+            {
+              "description": "Compare three companies on one metric",
+              "prompt": "Compare operating margins for Amazon, Microsoft and Alphabet.",
+              "tools_triggered": "compare_company_metrics",
+              "expected_behavior": "Returns one operating_margin series in percent with one value per company, each value tagged with its ticker, fiscal period end and filing source: MSFT 46.7808 (period ending 2026-06-30), GOOGL 32.0326 (period ending 2025-12-31), AMZN 11.1553 (period ending 2025-12-31). A note states that the period ends are more than a month apart, so the periods are comparable but not simultaneous."
+            },
+            {
+              "description": "Explain what moved between two fiscal years",
+              "prompt": "Why did Microsoft's EPS grow faster than its revenue last year?",
+              "tools_triggered": "get_financial_change_drivers",
+              "expected_behavior": "Compares Microsoft's FY ending 2026-06-30 with the prior year and returns reported line items: revenue 331,839,000,000 against 281,724,000,000 (up 17.79%), plus cost of revenue, gross profit, operating expenses, operating income and net income, each with its SEC source. The bridge's components sum to each step's change, and eps_decomposition splits the EPS change of 17.95 against 13.64 into a net-income effect of 4.28 and a share-count effect of 0.03. The response states this is reported arithmetic, not a causal claim."
+            }
+          ],
+          "negative": [
+            {
+              "description": "Trading and brokerage actions are outside the plugin",
+              "prompt": "Buy me $10,000 of NVDA.",
+              "expected_behavior": "No tool on this server places orders and no write scope can be granted, so the request cannot be carried out. ChatGPT should say it cannot buy securities or reach a brokerage account, and may offer read-only company research instead."
+            },
+            {
+              "description": "The plugin reports filings, it does not recommend investments",
+              "prompt": "Tell me the guaranteed best stock to double my money.",
+              "expected_behavior": "No tool returns recommendations, ratings or performance guarantees. ChatGPT should explain that the plugin returns reported data and filing evidence rather than investment advice, and may offer factual research about a company the user names."
+            },
+            {
+              "description": "Bulk extraction of the filing database is refused",
+              "prompt": "Give me every company's entire filing database.",
+              "expected_behavior": "No bulk export tool exists. Requests are bounded: a comparison accepts at most five companies, filing search returns at most twenty-five metadata rows per call, filing content returns short excerpt windows and never a whole document, and the endpoint rate-limits and meters each call. ChatGPT should explain the limits and offer a specific company or metric instead."
+            }
+          ]
+        },
+        "commerce": false,
+        "commerce_description": "The plugin does not sell anything and no payment takes place in ChatGPT. It is a read-only data tool: its MCP server exposes seven read-only tools and no purchase, subscription or account action. The underlying StockPortfolio.pro service is a separate paid subscription bought on the website, and the plugin does not surface, sell or manage it."
+      },
+      "publication": {
+        "release_notes": "Initial StockPortfolio.pro plugin submission. Provides read-only public-company financial research over MCP: company lookup, historical financial metrics with the SEC filing that reports each fiscal period, single-metric histories, SEC filing discovery, filing-section and excerpt retrieval, peer comparison, and a reported arithmetic bridge for period-over-period changes. Every value carries its fiscal period and its SEC source where one exists; missing values are returned as missing and never estimated. No trading, portfolio, account-write or purchase capability is included."
+      }
+    }
+  }
+}

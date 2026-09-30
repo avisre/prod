@@ -53,6 +53,9 @@ build/
 .next/
 .parcel-cache/
 .tools/
+# The OpenAI plugin ZIP is rebuilt from openai-plugin/ by
+# scripts/build-openai-plugin.sh; the version it carries lives in plugin.json.
+openai-plugin.zip
 
 # --- Coverage / test output ---
 coverage/

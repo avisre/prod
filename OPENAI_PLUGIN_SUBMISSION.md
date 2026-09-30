@@ -1,12 +1,55 @@
 # OpenAI plugin submission package — StockPortfolio.pro
 
 Status: **deployed to production and verified live (2026-09-29, deploy run 36481252026).**
-Automated tests are green (1018/1018), the production endpoint passed
+Automated tests are green, the production endpoint passed
 `scripts/verify-mcp-apps.js` 17/17 with an entitled credential, and the official
 MCP Inspector reports zero strict-mode schema findings against the live server.
 The remaining steps are owner-only: the OpenAI Platform identity/Apps Management
 role, the domain-verification token, the reviewer account, and the portal form
 itself (§12).
+
+---
+
+## 0. The uploaded package
+
+`openai-plugin/` is the artifact uploaded through **Create plugin → With MCP**,
+built by `scripts/build-openai-plugin.sh` into `openai-plugin.zip`. It follows
+the Agent Plugins portable format (`plugin.json` + `mcp.json` at the archive
+root) because the review and listing metadata travel **inside the ZIP**: the
+portal imports them on upload, and imported test cases are read-only in the
+dashboard afterwards, so the package — not the form — is the source of truth.
+Where §7–§9 below disagree with `plugin.json`, the package wins.
+
+```
+openai-plugin/
+├── plugin.json    identity, listing fields, review cases, release notes
+├── mcp.json       mcpServers.stockportfolio → https://www.stockportfolio.pro/mcp/apps
+└── assets/        logo.png, composer-icon.png (square, ≥48×48)
+```
+
+Decisions worth knowing before editing it:
+
+- **No `skills/`.** A skill requirement applies only to a *skills-only* ZIP
+  (`archive_plugin_files_missing`). Tool-selection guidance already lives in the
+  tool descriptions, so a bundled skill would add a second scan gate (up to two
+  hours) for no behaviour the reviewer would observe.
+- **`review.test_cases` is declared at plugin level**, which requires exactly one
+  MCP server — true here. The alternative, per-server declarations, cannot be
+  combined with it.
+- **Exactly five positive and three negative cases.** The six positives and four
+  negatives drafted in §8–§9 had to be cut. `get_metric_history` was the one
+  dropped: its honest `value: null` for a fiscal fourth quarter is correct
+  behaviour but reads as a broken result to a reviewer comparing against an
+  expectation, and "a test case did not produce correct results" is a named
+  rejection reason. It is still reachable, just not submitted as a case.
+- **Starter prompts are cut from five in §7 to three** — the submission limit is
+  three (`defaultPrompt`, ≤128 characters each).
+- **`commerce: false`** with a description that says plainly that nothing is sold
+  in ChatGPT and the website subscription is not surfaced by the plugin.
+- **Reviewer credentials are deliberately absent** — ZIP metadata rejects
+  `test_credentials` and `reviewer_instructions`. They go in **Review details**.
+- **`demo_recording_url` is absent** so the dashboard value is preserved; it is
+  owner-supplied and still outstanding.
 
 ---
 
@@ -373,7 +416,11 @@ or purchase capability is included.
 
 - [x] Render repo link repaired; `deploy-render.yml` succeeded for `576ae002`.
 - [x] `node scripts/verify-mcp-apps.js` passes against production (17/17 keyed).
-- [ ] Reviewer account provisioned; login tested from outside the network.
+- [x] OIDC surface published (`/.well-known/openid-configuration`, `/oauth/userinfo`, `openid`+`email`
+      advertised *and* issued) — OpenAI requires it of an OAuth plugin.
+- [x] Package built: `openai-plugin.zip` (§0). All five positive cases run against production first.
+- [x] Reviewer account provisioned (`openai-review@stockportfolio.pro`, `dev`/`active`, 200 credits/month).
+- [ ] Reviewer login exercised from outside this network, with the credentials that go in **Review details**.
 - [ ] Portal: create draft → **With MCP** → Universal URL `https://www.stockportfolio.pro/mcp/apps`.
 - [ ] **Scan Tools**: 7 tools, annotations correct, both schemas present, no validation errors.
 - [ ] Domain verification: token in `OPENAI_APPS_CHALLENGE`, **Verify Domain** passes.

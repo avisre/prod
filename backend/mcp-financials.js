@@ -807,9 +807,13 @@ async function compareCompanyMetrics({ companies, metrics, periodType, periods }
     }
     // Alignment warning: same-type fiscal periods more than a month apart are
     // comparable as periods but not simultaneous, and the model must say so.
-    const ends = built.map((b) => b.series.observations.filter((o) => o.metric === metricIds[0]).map((o) => o.period_end));
-    const firstEnds = ends.map((e) => e[0]).filter(Boolean);
-    const spreadDays = firstEnds.length > 1 ? Math.round((Date.parse(firstEnds[0]) - Date.parse(firstEnds[firstEnds.length - 1])) / DAY) : 0;
+    // The spread is the widest gap between any two companies, not the gap
+    // between whichever two the caller happened to list first and last: a peer
+    // set whose extreme dates sit in the middle of the list would otherwise
+    // report no misalignment at all and skip the warning entirely.
+    const ends = built.map((b) => b.series.observations.filter((o) => o.metric === metricIds[0]).map((o) => Date.parse(o.period_end)));
+    const firstEnds = ends.map((e) => e[0]).filter((t) => Number.isFinite(t));
+    const spreadDays = firstEnds.length > 1 ? Math.round((Math.max(...firstEnds) - Math.min(...firstEnds)) / DAY) : 0;
     return {
         period_type: type,
         order: 'most_recent_first',
@@ -820,9 +824,16 @@ async function compareCompanyMetrics({ companies, metrics, periodType, periods }
             exchange: b.series.overview.exchange,
             currency: b.series.currency
         })),
-        metrics: groupObservations(built.flatMap((b) => b.series.observations), 'most_recent_first'),
-        notes: Math.abs(spreadDays) > 31
-            ? [`The companies report different fiscal period-end dates (up to ${Math.abs(spreadDays)} days apart). Periods are labelled separately and are not simultaneous.`]
+        // Every company's observations land in one series per metric, so each
+        // observation has to name the company it belongs to. Without the tag the
+        // series is a column of numbers ordered by date, and the owner of a value
+        // can only be recovered by resolving the CIK inside its filing URL.
+        metrics: groupObservations(
+            built.flatMap((b) => b.series.observations.map((o) => ({ ...o, ticker: b.company.ticker }))),
+            'most_recent_first'
+        ),
+        notes: spreadDays > 31
+            ? [`The companies report different fiscal period-end dates (up to ${spreadDays} days apart). Periods are labelled separately and are not simultaneous.`]
             : []
     };
 }
