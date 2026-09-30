@@ -32,6 +32,16 @@
     let assetTickers = '';
     let searchTickers = '';
 
+    function syncAssetFilter({ close = false, focusSummary = false } = {}) {
+        const selected = ASSETS.find(([key]) => key === assetKey);
+        const label = $('asset-filter-selected');
+        if (label && selected) label.textContent = selected[1];
+        const menu = $('asset-filter-menu');
+        if (close && menu) menu.open = false;
+        const summary = $('asset-filter-summary');
+        if (focusSummary && summary && typeof summary.focus === 'function') summary.focus();
+    }
+
     // ---------- ① market snapshot ----------
     function renderMarketWatch(quotes) {
         const available = WATCH.filter(([symbol]) => quotes[symbol]);
@@ -155,6 +165,7 @@
     const chooseTopic = chipRow($('topics-row'), TOPICS, (k) => { topic = k; updateFilterControls(); loadNews(); });
     const chooseAsset = chipRow($('assets-row'), ASSETS, (k) => {
         assetKey = k;
+        syncAssetFilter({ close: true, focusSummary: true });
         const a = ASSETS.find(([key]) => key === k);
         assetTickers = a ? a[2] : '';
         searchTickers = '';
@@ -163,6 +174,7 @@
         updateFilterControls();
         loadNews();
     });
+    syncAssetFilter();
 
     function updateFilterControls() {
         $('news-clear-filters').hidden = topic === 'all' && assetKey === 'all' && !searchTickers;
@@ -174,6 +186,7 @@
         $('news-q-results').hidden = true;
         chooseTopic('all', false);
         chooseAsset('all', false);
+        syncAssetFilter({ close: true });
         updateFilterControls();
         loadNews();
     });
@@ -189,6 +202,7 @@
             assetKey = 'all';
             assetTickers = '';
             chooseAsset('all', false);
+            syncAssetFilter({ close: true });
             $('news-q-active').textContent = sym ? `showing news for ${sym}` : '';
             results.hidden = true;
             updateFilterControls();
@@ -240,6 +254,7 @@
                 assetKey = 'all';
                 assetTickers = '';
                 chooseAsset('all', false);
+                syncAssetFilter({ close: true });
                 $('news-q-active').textContent = `No ticker or fund matches “${query}”.`;
                 results.hidden = false;
                 results.innerHTML = `<div class="nav-search-empty">No ticker or fund matches “${esc(query)}”. Try a ticker such as AAPL.</div>`;

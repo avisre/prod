@@ -14,9 +14,9 @@
   <style>
     /* Keep the Markets page neutral while the rest of the site retains its blue accent. */
     body { --accent: #161616; --accent-ink: #000000; --accent-tint: #ededeb; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
     /* market snapshot */
-    .page-deck { color: var(--ink-2); font-size: 14px; margin-top: 5px; }
     .snapshot { margin: 22px 0 26px; }
     .snapshot-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 10px; }
     .snapshot-head h2 { font-size: 15px; line-height: 1.35; font-weight: 620; }
@@ -35,10 +35,21 @@
     .news-toolbar { display: flex; gap: 10px; align-items: center; margin: 16px 0 14px; flex-wrap: wrap; }
     .news-toolbar .nav-search { width: min(100%, 520px) !important; max-width: 520px; flex: 1 1 320px; }
     .chip-row { display: flex; gap: 7px; flex-wrap: wrap; }
-    .filter-groups { display: grid; gap: 12px; padding: 14px 0 2px; border-top: 1px solid var(--line); }
+    .filter-groups { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: 12px 18px; padding: 14px 0 2px; border-top: 1px solid var(--line); }
     .filter-group { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: start; gap: 10px; }
+    .filter-group-topics { grid-column: 1; }
     .filter-label { padding-top: 6px; color: var(--ink-3); font-size: 10.5px; font-weight: 650; letter-spacing: .07em; text-transform: uppercase; }
-    .filter-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 2px 106px; min-height: 26px; }
+    .asset-filter-menu { position: relative; grid-column: 2; grid-row: 1; z-index: 5; }
+    .asset-filter-menu > summary { display: flex; align-items: center; gap: 7px; min-height: 34px; padding: 6px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--ink-2); cursor: pointer; font-size: 12px; white-space: nowrap; list-style: none; }
+    .asset-filter-menu > summary::-webkit-details-marker { display: none; }
+    .asset-filter-menu > summary:hover, .asset-filter-menu[open] > summary { border-color: var(--line-strong, var(--line)); color: var(--ink); }
+    #asset-filter-selected { color: var(--ink); font-weight: 600; }
+    .asset-filter-chevron { width: 12px; height: 12px; transition: transform .15s ease; }
+    .asset-filter-menu[open] .asset-filter-chevron { transform: rotate(180deg); }
+    .asset-filter-options { position: absolute; top: calc(100% + 7px); right: 0; width: min(286px, calc(100vw - 40px)); padding: 10px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); box-shadow: 0 12px 30px rgb(0 0 0 / 12%); }
+    .asset-filter-options .chip-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+    .asset-filter-options .chip { width: 100%; min-height: 36px; justify-content: flex-start; padding: 7px 10px; text-align: left; white-space: normal; }
+    .filter-actions { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 2px 106px; min-height: 26px; }
     .filter-actions .small { color: var(--ink-3); }
     #news-clear-filters { padding: 2px 0; min-height: 28px; }
 
@@ -140,6 +151,12 @@
       .filter-group .chip { min-height: 34px; padding: 5px 9px; }
       .news-toolbar .btn { min-height: 42px; }
     }
+    @media (max-width: 760px) {
+      .filter-groups { grid-template-columns: minmax(0, 1fr); }
+      .filter-group-topics, .asset-filter-menu, .filter-actions { grid-column: 1; }
+      .asset-filter-menu { grid-row: auto; justify-self: start; }
+      .asset-filter-options { position: static; width: min(286px, calc(100vw - 40px)); margin-top: 7px; }
+    }
 
     .tone-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--ink-3); }
     .tone-dot.pos { background: var(--green, #2e7d4f); }
@@ -149,10 +166,7 @@
 <body>
   <main>
     <div class="container">
-      <div class="page-head">
-        <h1 class="title-1">Markets</h1>
-        <p class="page-deck">Market headlines, daily closing prices, and the companies behind each story.</p>
-      </div>
+      <h1 class="visually-hidden">Markets</h1>
 
       <!-- ① market snapshot -->
       <section class="snapshot" id="market-snapshot" aria-labelledby="snapshot-title">
@@ -174,8 +188,11 @@
         <span class="small faint" id="news-q-active" aria-live="polite"></span>
       </div>
       <div class="filter-groups" aria-label="Headline filters">
-        <div class="filter-group"><span class="filter-label">Topics</span><div class="chip-row" id="topics-row" role="group" aria-label="Filter headlines by topic"></div></div>
-        <div class="filter-group"><span class="filter-label">Asset class</span><div class="chip-row" id="assets-row" role="group" aria-label="Filter headlines by asset class"></div></div>
+        <div class="filter-group filter-group-topics"><span class="filter-label">Topics</span><div class="chip-row" id="topics-row" role="group" aria-label="Filter headlines by topic"></div></div>
+        <details class="asset-filter-menu" id="asset-filter-menu">
+          <summary id="asset-filter-summary">Asset class <span aria-hidden="true">·</span> <span id="asset-filter-selected">All assets</span><svg class="asset-filter-chevron" viewBox="0 0 16 16" aria-hidden="true"><path d="m3.5 6 4.5 4.5L12.5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <div class="asset-filter-options"><div class="chip-row" id="assets-row" role="group" aria-label="Filter headlines by asset class"></div></div>
+        </details>
         <div class="filter-actions"><span class="small" id="news-result-meta" aria-live="polite">Loading headlines…</span><button class="btn btn-ghost btn-sm" id="news-clear-filters" type="button" hidden>Clear filters</button></div>
       </div>
       </div>
@@ -244,6 +261,6 @@
     </div>
   </main>
   <script src="assets/app.js?v=20260928-fundsearch"></script>
-  <script src="assets/news.js?v=20260930-yahoo-rail1"></script>
+  <script src="assets/news.js?v=20260930-yahoo-dropdown1"></script>
 </body>
 </html>

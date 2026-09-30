@@ -16,6 +16,8 @@ class FakeElement {
         this.attributes = {};
         this.handlers = {};
         this.children = {};
+        this.open = false;
+        this.focused = false;
         this.classList = { toggle: (name, enabled) => { this.attributes[`class:${name}`] = enabled; } };
         this.innerHTML = '';
     }
@@ -34,6 +36,7 @@ class FakeElement {
     }
     get innerHTML() { return this._html || ''; }
     addEventListener(type, callback) { (this.handlers[type] ||= []).push(callback); }
+    focus() { this.focused = true; }
     fire(type, event = {}) { return Promise.all((this.handlers[type] || []).map((callback) => callback({ preventDefault() {}, ...event }))); }
     setAttribute(name, value) { this.attributes[name] = String(value); }
     getAttribute(name) { return this.attributes[name] ?? null; }
@@ -98,6 +101,7 @@ test('Markets page keeps the latest filter response, shows every story and prese
     await tick();
     assert.match(page.element('topics-row').innerHTML, />All topics<\/button>/);
     assert.match(page.element('assets-row').innerHTML, />All assets<\/button>/);
+    assert.equal(page.element('asset-filter-selected').textContent, 'All assets');
     assert.deepEqual(page.element('topics-row').querySelectorAll('.chip').map((button) => button.textContent), [
         'All topics', 'Top stories', 'Markets', 'Earnings', 'Tech', 'Macro', 'Monetary', 'IPO', 'M&A', 'Energy', 'Finance', 'Life sciences', 'Real estate', 'Retail'
     ]);
@@ -148,6 +152,7 @@ test('Markets page keeps the latest filter response, shows every story and prese
     assert.doesNotMatch(page.element('news-feature').innerHTML, /Earnings story/);
 
     const stocks = page.element('assets-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'stocks');
+    page.element('asset-filter-menu').open = true;
     await stocks.fire('click');
     await tick();
     const stockStories = page.pendingNews.shift();
@@ -156,6 +161,9 @@ test('Markets page keeps the latest filter response, shows every story and prese
     respond(stockStories, { feed: stories('Stock filter', 1) });
     await tick();
     assert.equal(page.element('news-result-meta').textContent, '1 story for Stocks · Tech · latest first');
+    assert.equal(page.element('asset-filter-selected').textContent, 'Stocks');
+    assert.equal(page.element('asset-filter-menu').open, false);
+    assert.equal(page.element('asset-filter-summary').focused, true);
     assert.equal(page.element('news-clear-filters').hidden, false);
     await page.element('news-clear-filters').fire('click');
     await tick();
@@ -164,6 +172,7 @@ test('Markets page keeps the latest filter response, shows every story and prese
     respond(cleared, { feed: stories('All filters cleared', 1) });
     await tick();
     assert.equal(page.element('news-clear-filters').hidden, true);
+    assert.equal(page.element('asset-filter-selected').textContent, 'All assets');
 
     const crypto = page.element('assets-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'crypto');
     await crypto.fire('click');
@@ -275,7 +284,11 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-rail1/);
+    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-dropdown1/);
+    assert.match(html, /<h1 class="visually-hidden">Markets<\/h1>/);
+    assert.doesNotMatch(html, /Market headlines, daily closing prices, and the companies behind each story\./);
+    assert.match(html, /<details class="asset-filter-menu" id="asset-filter-menu">/);
+    assert.match(html, /<summary id="asset-filter-summary">Asset class/);
     assert.match(html, /Filter headlines by topic/);
     assert.match(html, /Filter headlines by asset class/);
     assert.match(html, /daily closes, not intraday index quotes/);
