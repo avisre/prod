@@ -6337,7 +6337,9 @@ async function apiKeyAuthOptional(req, res, next) {
         && req.body.params.name === 'sp_health';
     if ((req.path === '/mcp' || req.path === '/mcp/apps') && req.body && (
         req.body.method === 'initialize'
+        || req.body.method === 'notifications/initialized'
         || req.body.method === 'tools/list'
+        || req.body.method === 'ping'
         || publicHealthProbe
     )) {
         req.anonMcp = true;
