@@ -60,13 +60,25 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
 - **`/mcp/apps` takes `company`; `/mcp` takes `ticker`.** `backend/scripts/test-mcp.mjs` speaks the `/mcp`
   shape, so running it with `--url .../mcp/apps` reports one FAILED metered call (`COMPANY_REQUIRED`). That is
   the harness, not the surface — do not "fix" it by editing the tool schema.
-- **Owner-only, in order:** (1) identity verification — **the owner's part is DONE.** Persona (OpenAI's
-  verifier) returned *"Congratulations, you're done!"* on 9/30 18:24 UTC; the org page's **"Identity in
-  review"** means OpenAI is processing that submission, **not that a step is outstanding** — org settings:
+- **SUBMITTED FOR REVIEW 10/01 — no longer owner-blocked.** The dialog is a **six-item compliance attestation**
+  (`button[role=checkbox]`, all unchecked, Submit greyed out until every one is ticked) — nothing in it shows
+  the reviewer credentials. After Submit the page **navigated itself from the draft to `/plugins`**, and the
+  state is now **Review status "In review"**, version chip **`1.0.0 · In review`** (was `· Draft`), and the
+  header button changed from *Submit for review* to **Cancel review**. **That header-button change is the
+  reliable confirmation** — the status chips took ~30s to flip and the modal sat on a spinner throughout, so
+  a slow poll reads as "nothing happened" right up until it doesn't. While a review is active the metadata
+  **"No Issues" badge is replaced** by *"Choose or upload a draft to check metadata"*; that is expected, not a
+  regression. Skill scans can take two hours. **Only one review may be active per plugin** — *Cancel review* is
+  now a live header control, so do not press it casually; it withdraws the submission.
+- **Identity verification is still "Identity in review"** — the owner's part is DONE (Persona, OpenAI's
+  verifier, returned *"Congratulations, you're done!"* on 9/30 18:24 UTC). Org settings says why it matters:
   *"Verify as an individual or business to access protected models and submit ChatGPT apps."* Publishing under
-  an unverified name is an automatic rejection, so it must clear before the app goes live. (2) **Submit for
-  review** (skill scans can take two hours; **only one review may be active per plugin**, so submit once).
-  Still open, ours: the privacy policy's human legal review.
+  an unverified name is an automatic rejection, so it must clear before the app goes live.
+- **UNVERIFIED, and the one real loose end: the five reviewer-credential fields.** The *"Add review
+  information"* button appeared in the header **only while the review dialog was loading** and was gone from
+  the DOM once it settled, so the panel could not be reached and the credential-survival question was never
+  answered. If the review comes back asking for access, `/tmp/openai-reviewer-credentials.txt` is the fix —
+  **move it somewhere durable, /tmp is not.** Still open, ours: the privacy policy's human legal review.
 - **The ZIP upload is done (10/01).** Portal re-ran its metadata checks and reports **No Issues**; version
   still `1.0.0 · Draft`. The served mp4 is **byte-identical** to the committed file (sha256 `119862d7…`,
   1,483,166 bytes), so the reviewer's URL is exactly the recording.
@@ -343,10 +355,9 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
   source was read. Split any sweep over 100 URLs across windows, and re-check a 403 before believing it.
 
 ## Owner actions pending
-1. **OpenAI plugin submission** — identity verification is **submitted and in OpenAI's queue** (the owner's
-   part is done); re-check the five reviewer-credential fields inside the Submit-for-review wizard, then
-   **Submit for review**. Everything package-side is done and the ZIP is uploaded; this is the only submission
-   still moving.
+1. **OpenAI plugin submission — SUBMITTED 10/01, now "In review".** Watch for the verdict. Two things could
+   still bite: identity verification has not cleared, and the reviewer-credential fields were never
+   re-checked. Do not press **Cancel review** unless you mean to withdraw it.
 2. **Submit the Claude plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
    preconditions are deployed and verified; see above.
 3. **Dossier mockup review** — step 2, the port, has not started.
