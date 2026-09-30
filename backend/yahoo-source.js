@@ -792,7 +792,10 @@ const BROAD_MARKET_QUERIES = [
 // topic chips useful with explicit keyword groups over the headline/summary.
 // Match whole phrases after normalizing punctuation and whitespace.
 const NEWS_TOPIC_TERMS = Object.freeze({
-    top_stories: ['breaking news', 'top story', 'what to know', 'what happened', 'biggest stories'],
+    // A small keyword-only list made "Top stories" return no headlines: news
+    // rarely uses those exact editorial phrases. Match the market-wide terms
+    // that Yahoo's finance front page uses in its highest-level coverage.
+    top_stories: ['stock market', 'market news', 'wall street', 'financial markets', 'market rally', 'market selloff', 'market close', 'federal reserve', 'inflation', 'earnings', 'treasury yields', 'oil prices', 'bitcoin'],
     financial_markets: ['stock market', 'financial markets', 'wall street', 'stock futures', 'market rally', 'market selloff', 'trading session', 'share prices', 'market close'],
     earnings: ['earnings', 'revenue', 'quarterly results', 'quarter results', 'eps', 'profit', 'losses', 'guidance', 'fiscal quarter', 'beat estimates', 'missed estimates'],
     technology: ['technology', 'tech', 'artificial intelligence', ' ai ', 'semiconductor', 'chipmaker', 'software', 'cybersecurity', 'data center'],
@@ -803,8 +806,17 @@ const NEWS_TOPIC_TERMS = Object.freeze({
     energy_transportation: ['energy', 'crude oil', 'natural gas', 'renewable', 'electric vehicle', 'airline', 'shipping', 'automotive'],
     finance: ['bank', 'banking', 'financial services', 'credit card', 'lender', 'loan', 'insurance', 'private equity'],
     life_sciences: ['biotech', 'biotechnology', 'pharma', 'drug trial', 'clinical trial', 'fda approval', 'healthcare', 'medical device'],
-    real_estate: ['real estate', 'housing', 'home sales', 'mortgage', 'commercial property', 'rents', 'property market'],
+    real_estate: ['real estate', 'housing', 'home sales', 'home prices', 'mortgage', 'commercial property', 'property market', 'realty', 'reit', 'homebuilder', 'homebuilding', 'apartment', 'landlord', 'residential'],
     retail_wholesale: ['retail', 'retailer', 'wholesale', 'consumer brands', 'store sales', 'same-store sales', 'e-commerce', 'online shopping']
+});
+
+// Topic-specific searches prevent a category with a small share of the broad
+// market basket (especially property news) from being filtered out before it
+// ever reaches the headline matcher. We still apply the same local keyword
+// rules below so unrelated results from Yahoo search do not leak into a topic.
+const NEWS_TOPIC_QUERIES = Object.freeze({
+    top_stories: ['stock market today', 'market news', 'Wall Street news', 'financial markets'],
+    real_estate: ['real estate market', 'housing market', 'REIT stocks', 'mortgage rates', 'homebuilder stocks']
 });
 
 function normalizedNewsText(item) {
@@ -897,9 +909,10 @@ async function fetchNews(params = {}) {
     const limit = Math.max(1, Math.min(80, Number(params.limit) || 40));
 
     // Pick the source list: caller-supplied tickers, or our broad-market basket.
+    const topicQueries = NEWS_TOPIC_QUERIES[topic] || [];
     const queries = tickers.length
-        ? tickers.slice(0, 8).map(toYahooSymbol)
-        : BROAD_MARKET_QUERIES;
+        ? [...tickers.slice(0, 8).map(toYahooSymbol), ...topicQueries]
+        : (topicQueries.length ? topicQueries : BROAD_MARKET_QUERIES);
     const perQuery = tickers.length
         ? Math.max(8, Math.ceil(limit / Math.max(1, tickers.length)) + 4)
         : Math.max(8, Math.ceil(limit / 6));

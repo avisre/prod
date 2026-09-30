@@ -259,6 +259,27 @@ test('trending price charts ignore stale quote responses and omit sentiment labe
     assert.doesNotMatch(page.element('trending-list').innerHTML, /NVDA|Neutral|Positive|Negative/);
 });
 
+test('Top stories and Real estate chips select visibly and request their matching topics', async () => {
+    const page = makePage();
+    await tick();
+    respond(page.pendingNews.shift(), { feed: stories('Initial', 1) });
+    await tick();
+
+    for (const [key, label] of [['top_stories', 'Top stories'], ['real_estate', 'Real estate']]) {
+        const chip = page.element('topics-row').querySelectorAll('.chip').find((button) => button.dataset.k === key);
+        const requestPromise = chip.fire('click');
+        await tick();
+        const request = page.pendingNews.shift();
+        assert.match(request.url, new RegExp(`topics=${key}`));
+        assert.equal(chip.getAttribute('aria-pressed'), 'true');
+        assert.equal(page.element('news-result-meta').textContent, 'Loading headlines…');
+        respond(request, { feed: stories(label, 2) });
+        await Promise.all([requestPromise, tick()]);
+        assert.equal(page.element('news-result-meta').textContent, `2 stories for ${label} · latest first`);
+        assert.match(page.element('news-feature').innerHTML, new RegExp(`${label} story`));
+    }
+});
+
 test('missing trending price history falls back to a dash instead of sentiment text', async () => {
     const page = makePage({ deferTrendingQuotes: true });
     await tick();
@@ -346,7 +367,7 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-trending-chart1/);
+    assert.match(html, /assets\/news\.js\?v=20260930-markets-topic-queries1/);
     assert.match(html, /<h1 class="visually-hidden">Markets<\/h1>/);
     assert.doesNotMatch(html, /Market headlines, daily closing prices, and the companies behind each story\./);
     assert.match(html, /<details class="asset-filter-menu" id="asset-filter-menu">/);

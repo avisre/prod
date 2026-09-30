@@ -5,11 +5,16 @@ const assert = require('node:assert/strict');
 const Module = require('node:module');
 
 let searchFeed = [];
+let searchByQuery = {};
+let searchCalls = [];
 let rssIndex = [];
 let tickerRss = [];
 let rssRequests = [];
 class MockYahooFinance {
-    async search() { return { news: searchFeed }; }
+    async search(query) {
+        searchCalls.push(query);
+        return { news: searchByQuery[query] || searchFeed };
+    }
 }
 function rssXml(items) {
     return `<rss>${items.map((item) => `<item><title>${item.title}</title><link>${item.link}</link><description>${item.summary || ''}</description><pubDate>Tue, 29 Sep 2026 10:00:00 GMT</pubDate></item>`).join('')}</rss>`;
@@ -37,6 +42,44 @@ test('topic filter keeps matching earnings stories and removes unrelated stories
     rssIndex = [];
     const result = await yahooSource.fetchNews({ topics: 'earnings', limit: 60 });
     assert.deepEqual(result.feed.map((item) => item.title), ['Acme beats quarterly earnings estimates']);
+});
+
+test('Top stories searches the market headline feed and keeps relevant stories', async () => {
+    searchFeed = [{ title: 'New consumer gadget launches today', link: 'https://example.test/gadget', providerPublishTime: 1790685500 }];
+    searchByQuery = {
+        'stock market today': [
+            { title: 'Stock Market Today: S&P 500 rises as yields ease', link: 'https://example.test/market-today', providerPublishTime: 1790685600 },
+            { title: 'Unrelated gadget review', link: 'https://example.test/unrelated-gadget', providerPublishTime: 1790685550 }
+        ],
+        'market news': [{ title: 'Wall Street weighs new inflation data', link: 'https://example.test/inflation', providerPublishTime: 1790685400 }]
+    };
+    searchCalls = [];
+    rssIndex = [];
+    const result = await yahooSource.fetchNews({ topics: 'top_stories', limit: 60 });
+    assert.deepEqual(result.feed.map((item) => item.title), [
+        'Stock Market Today: S&P 500 rises as yields ease',
+        'Wall Street weighs new inflation data'
+    ]);
+    assert.ok(searchCalls.includes('stock market today'));
+});
+
+test('Real estate searches a property-focused feed and matches common property terms', async () => {
+    searchFeed = [{ title: 'A chipmaker unveils a new product', link: 'https://example.test/chips', providerPublishTime: 1790685000 }];
+    searchByQuery = {
+        'real estate market': [{ title: 'Real estate market activity picks up', link: 'https://example.test/property', providerPublishTime: 1790685600 }],
+        'housing market': [{ title: 'Housing market cools as mortgage rates rise', link: 'https://example.test/housing', providerPublishTime: 1790685500 }],
+        'REIT stocks': [{ title: 'REIT stocks gain after a strong quarter', link: 'https://example.test/reit', providerPublishTime: 1790685400 }]
+    };
+    searchCalls = [];
+    rssIndex = [];
+    const result = await yahooSource.fetchNews({ topics: 'real_estate', limit: 60 });
+    assert.deepEqual(result.feed.map((item) => item.title), [
+        'Real estate market activity picks up',
+        'Housing market cools as mortgage rates rise',
+        'REIT stocks gain after a strong quarter'
+    ]);
+    assert.ok(searchCalls.includes('real estate market'));
+    assert.ok(searchCalls.includes('housing market'));
 });
 
 test('ticker filter excludes general RSS headlines and unrelated search results', async () => {
