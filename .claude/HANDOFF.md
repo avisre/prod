@@ -90,8 +90,9 @@ redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
   allowance is real); both OAuth discovery documents parsed; DCR → **201** with ChatGPT's redirect_uri; the
   consent page renders its sign-in form and returns a clean error for bad credentials. A cross-origin page
   **cannot** call `/mcp` (no CORS headers) — informational: ChatGPT's connector is server-side, so this only
-  matters for browser-based MCP clients, and the fix would be a deliberate widening. **The last hops need the
-  owner**: a successful sign-in (their password) and the approve POST, then creating the connector in ChatGPT.
+  matters for browser-based MCP clients, and the fix would be a deliberate widening. **The one hop left is the
+  owner's alone** — their own ChatGPT login and StockPortfolio password. Every hop *after* a sign-in was proved
+  locally instead, in the bullet below.
 - **Defect the browser caught — the 401 challenge advertised a scope the server refuses to issue.**
   `mcpAuthChallenge` said `scope="mcp"` on `/mcp`: the legacy all-access scope `mcp-apps.js:524` still honours
   on tokens already in the wild, but one `normalizeOauthScope` will not grant. A client that read the challenge
@@ -100,6 +101,27 @@ redesign; `/mcp/apps` (the OpenAI Apps surface) is untouched.
   off to the client's own redirect_uri carrying `?error=`. Both surfaces now advertise `OAUTH_SCOPES` (the three
   read scopes), matching the discovery documents. Pinned in `api-access-gating.test.js`: the challenge, both
   `scopes_supported` documents and the validator must all read the same list.
+- **The hops a production browser run cannot reach, proved end to end** (`scripts/mcp-oauth-e2e.mjs`,
+  **14 pass / 0 fail**, 9/30). Driven through a real Chrome against `scripts/dev-local.js` (in-memory Mongo,
+  production untouched): DCR → the challenge's own scope → the consent page's inline sign-in form POSTing
+  `/api/login` → the consent screen **naming the account** → `Allow` → a code back on the registered
+  redirect_uri with `state` echoed → token exchange (scope `financials:read filings:read research:read`) →
+  replay refused `invalid_grant` → `initialize` (`stockportfolio-mcp`) → the 6 tool names → a metered
+  `get_company_fundamentals` returning **real AAPL data**. Run it as
+  `ANON_MCP_LOOKUP_LIMIT=1 node scripts/dev-local.js` **from the repo root**, then
+  `node scripts/mcp-oauth-e2e.mjs` — no test in the suite boots app.js at all, so the approve route had no
+  coverage of any kind before this.
+  - **The identity check is the interesting one.** Response *shape* cannot prove which tier a call was billed to
+    (mcp-endpoint.js injects `usage`/`notice` only for anonymous callers of `aiCost` tools), so the harness spends
+    the free allowance keylessly until the server answers `QUOTA_EXCEEDED`, then calls the same tool again with
+    the token: **still served**. The two calls differ only in the `Authorization` header — had the bearer been
+    discarded, both would be refused. This is what rules out the failure that would cost a customer silently:
+    a connector riding the free tier instead of their own wallet.
+  - **`ANON_MCP_LOOKUP_LIMIT=1` is required** — the launcher's default is 10000 lookups, unspendable in a test.
+  - **Launch from the repo root, and never pipe its output to `head`.** From `backend/`, app.js's dotenv finds
+    `backend/.env`, so `NODE_ENV=production`, `oauthBase()` goes https, and a loopback `resource` is refused
+    **`invalid_target`** — a dead end that reads like broken OAuth rather than a wrong cwd. And `| head -60` closes
+    the pipe once the boot banner passes 60 lines, killing the server mid-test (`fetch failed` after 7 passes).
 - **CIMD is not supported, deliberately.** `developers.openai.com/plugins/build/auth` says ChatGPT *prioritises
   CIMD when available* and signals availability with `client_id_metadata_document_supported: true`; we omit that
   field, so ChatGPT takes the **DCR** path (verified live: 201 + `client_id`). CIMD would mean fetching an
@@ -299,3 +321,9 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
     or say to delete it.
 12. **`mcp-server` republish** — its README documents the retired `sp_*` tool names; the published bridge
     proxies `/mcp` live so nothing is broken, but the npm page is now stale.
+13. **Create the ChatGPT connector** — Settings → Connectors → Add custom → `https://www.stockportfolio.pro/mcp`
+    (www; the apex 307 drops `Authorization`), then sign in **with your own account**. This is the one step that
+    cannot be done from here: it needs your ChatGPT login and your StockPortfolio password, and the credential
+    classifier declined to reach for a stored password and barred pursuing it by any other route. Expect the
+    consent screen to name the account, and the tool list to be `search_companies`, `get_company_fundamentals`,
+    `search_filings`, `get_filing`, `ask_filings`, `sp_health`.
