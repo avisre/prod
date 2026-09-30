@@ -4,9 +4,10 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 `backend/test/handoff-size.test.js` and run on every push by `.github/workflows/repo-checks.yml`, so the
 cap can no longer be crossed silently. Current state and open actions only, never a transcript. At ~400 lines, snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite
 it fresh; **delete superseded items to the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-10-01.md` (the previous live file, verbatim — the long `/mcp`
-rebuild narrative, the CSP/CIMD scoping detail and the 9/29 OpenAI-package assumptions live there),
-`handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
+Earlier snapshots: `handoff-archive/2026-10-01.md` (verbatim, taken 10/01 at 409 lines — the `/mcp` rebuild
+narrative, the CSP/CIMD scoping detail, the OIDC fix, the full five-case verification figures, the recording
+capture traps and the logo-reupload credential check all live there), `handoff-archive/2026-09-30.md`,
+`handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
 ## Session start
@@ -42,168 +43,134 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **Never log API keys, authorization headers, session tokens or sensitive data** — including into this
   transcript. `/tmp/fill-creds.mjs` shows the pattern for a secret a browser form needs: read the file
   in-process, hand it straight to the DOM, never through argv or stdout.
+- **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
 ## In flight
 
-**OpenAI ChatGPT plugin directory — the ONLY submission still moving. Portal draft is MCP-COMPLETE and the
-review form is saved; three owner-only items and one click remain (10/01).**
+**OpenAI ChatGPT plugin directory — the ONLY submission still moving. Every package-side item is DONE and the
+rebuilt ZIP is uploaded; what remains is owner-only (10/01).**
 Surface is `POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools over
 the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; design note:
 `notes/2026-09-29-openai-plugin-architecture.md`.
-- **Live checks:** `scripts/verify-mcp-apps.js` = **17/17 keyed**; official MCP Inspector `--strict` against
-  prod = **0 findings**, 7/7 tools `ro/dest = true/false`; `/mcp` legacy contract unchanged. `POST /mcp/apps`
-  (the submitted URL, **not** `/mcp`) answers unauthenticated `initialize` *and* `tools/list` with **200** —
-  the keyless trial, 50 lookups/30 days per visitor.
+- **Live checks:** `scripts/verify-mcp-apps.js --review-cases` = **23/23** against production (re-run 10/01
+  after every deploy); official MCP Inspector `--strict` = **0 findings**, 7/7 tools `ro/dest = true/false`;
+  `/mcp` legacy contract unchanged. `POST /mcp/apps` (the submitted URL, **not** `/mcp`) answers
+  unauthenticated `initialize` *and* `tools/list` with **200** — the keyless trial, 50 lookups/30 days per
+  visitor.
 - **`/mcp/apps` takes `company`; `/mcp` takes `ticker`.** `backend/scripts/test-mcp.mjs` speaks the `/mcp`
   shape, so running it with `--url .../mcp/apps` reports one FAILED metered call (`COMPANY_REQUIRED`). That is
   the harness, not the surface — do not "fix" it by editing the tool schema.
 - **Owner-only, in order:** (1) identity verification — submitted 9/30, reads **"Identity in review"**;
   publishing under an unverified name is an automatic rejection. (2) **Submit for review** (skill scans can
   take two hours). Still open, ours: the privacy policy's human legal review.
-- **Both package-side blockers cleared on 10/01: the logo and the demo recording.** The recording requirement
-  is step 5 of the review dialog and has **no dashboard field** — the URL must live in **`plugin.json`**
-  (`extensions.com.openai.review.demo_recording_url`) and the ZIP must be uploaded again, which is the one
-  upload that still has to happen. Because the ZIP carries the reviewer credentials' neighbours but *not* the
-  credentials, **re-check the dashboard's five reviewer fields after that upload** (same check the logo
-  re-upload got: `url=41 tenant=0 user=32 pw=32 steps=257`).
+- **The ZIP upload is done (10/01).** Portal re-ran its metadata checks and reports **No Issues**; version
+  still `1.0.0 · Draft`. The served mp4 is **byte-identical** to the committed file (sha256 `119862d7…`,
+  1,483,166 bytes), so the reviewer's URL is exactly the recording.
+- **"No video walkthrough URL provided" is static dashboard copy — do not chase it.** The review panel prints
+  that line next to the step-5 instruction even after a successful upload, and would print it whatever the ZIP
+  contained, because the dashboard has no field for the URL by its own wording. The authoritative check is
+  `unzip -p openai-plugin.zip plugin.json`, never anything the portal renders.
+- **The reviewer-credential re-check needs the Submit-for-review wizard, and that is the owner's to open.**
+  The review-information panel holds the five credential fields (`url=41 tenant=0 user=32 pw=32 steps=257` when
+  last checked) and the step-5 status, and it is **not** in the DOM on the details tab — `textContent` there
+  contains neither "Reviewer credentials" nor "Add review information", and it is not re-shown by an upload.
+  Its terminal button is the owner-only **Submit for review**, in a flow with a documented mapping bug and a
+  standing "never press EXIT", so it was **not driven autonomously**. Check the credentials at the same sitting
+  as the submit: they live in the dashboard, and the ZIP does not carry them.
 
 ### The package
 - **`openai-plugin/` → `openai-plugin.zip` via `scripts/build-openai-plugin.sh`** (Agent Plugins portable
   format; `plugin.json` + `mcp.json` at the archive root, assets under `assets/`, members listed explicitly
   because `plugin_root_has_siblings` rejects a plugin dir with sibling files). The script validates every
-  referenced asset is square and ≥48×48 via `magick`, and now **warns when `demo_recording_url` is missing** —
+  referenced asset is square and ≥48×48 via `magick`, and **warns when `demo_recording_url` is missing** —
   the one submission requirement no other check catches.
-- **The logo is the owner's own, and it shipped 10/01.** `assets/{logo,composer-icon}.png` are both
-  **512×512 PNGs on a transparent background**, scaled from the owner's 1254×1254 red-bull master (body
-  `#EB1D1E`, corners `srgba(0,0,0,0)` — the master is transparent, not black, so it composites on light and
-  dark surfaces alike). `magick <master> -resize 512x512 -strip -define png:color-type=6 <out>`. The build
-  script only enforces what the uploader enforces — square and ≥48×48 — so a future swap needs an eye check
-  too. This replaces the `frontend/Media/icon.png` placeholder the package shipped before.
+- **The logo is the owner's own and shipped 10/01.** `assets/{logo,composer-icon}.png` are both **512×512 PNGs
+  on a transparent background**, scaled from the owner's 1254×1254 red-bull master (body `#EB1D1E`). The build
+  script only enforces what the uploader enforces — square and ≥48×48 — so a future swap needs an eye check too.
 - **The ZIP is the source of truth, not the form.** Listing text, the exactly-five-positive/three-negative
   review cases and the release notes all travel inside it and import on upload; the dashboard shows them
   **read-only** afterwards (`ro=true`, verified on tabs 1–2 of each step). `OPENAI_PLUGIN_SUBMISSION.md` §0
   records the deliberate choices: no `skills/` (that requirement is scoped to skills-only ZIPs); three starter
   prompts (the `defaultPrompt` cap is three); `commerce: false`; **no reviewer credentials** (ZIP metadata
   rejects `test_credentials`/`reviewer_instructions` — they go in the dashboard, which is what makes the
-  re-upload risk below real); `demo_recording_url` is **set** as of 10/01 (see below). Every one of the
-  five positive cases was **run against production** before its expected result was written down.
-- **The walkthrough recording is real, and lives at `/assets/plugin-walkthrough.mp4`** (63s, 1280×688, 2.2 MB,
-  made 10/01 by `scripts/record-mcp-walkthrough.mjs`). It is not a staged screen capture: the script runs
+  re-upload risk real); `demo_recording_url` set. Every positive case was **run against production** before its
+  expected result was written down.
+- **The walkthrough recording is real and lives at `/assets/plugin-walkthrough.mp4`** (64.6s, 1280×688, 1.4 MB,
+  made 10/01 by `scripts/record-mcp-walkthrough.mjs`). It is not a staged capture: the script runs
   `initialize`, `tools/list` and the five review cases **against production**, bakes those live responses into
-  a local page, then captures that page over CDP — so every figure on screen is a filed value and the video
-  dates itself. The Authorization header is never rendered, so the recording cannot leak the key it was made
-  with. Re-record any time with `node scripts/record-mcp-walkthrough.mjs` (needs Chrome on CDP 9333 + ffmpeg);
-  publish by committing the mp4, which **must not carry the skip marker** or production stays on the old file.
-  A **re-recording needs a new filename**: `staticCacheHeaders` gives `.mp4` the same `ONE_YEAR` immutable
-  header as `.js`, so overwriting `plugin-walkthrough.mp4` would never reach anyone who already fetched it —
-  the same trap as the asset cache stamp, in a file the stamp rule does not cover.
-  Three capture traps, all hit for real. `Page.startScreencast` is **change-driven** and silently truncated a
-  take at test case 3 — a 30s video for a 48s page, no error — so the script polls `Page.captureScreenshot`
-  instead and **fails loudly** if the capture span is short. `Emulation.setDeviceMetricsOverride` taller than
-  the real window **clips** the bottom off every frame rather than scaling, so the window is sized first and
-  the measured `innerHeight` is emulated exactly. And **the page must not pace itself**: when the tab was not
-  the visible one Chrome throttled the page's `setTimeout` and the take never finished at all, so the recorder
-  walks the reveal plan on Node timers and the page only renders what `window.__show` hands it — which is why
-  the reveal plan lives in the script and not in the HTML.
-- **All five were RE-RUN against production 10/01, after OIDC and the comparison fixes deployed, and all five
-  still match** — the expectations are not stale, which was the real risk: MSFT's latest 10-Q reading
-  2026-03-31 looks outdated in October until you remember the June quarter is the 10-K, so a pipeline that was
-  merely *correct* would have looked broken. Verified figures: AAPL revenue 416,161 / 391,035 / 383,285 /
-  394,328M, FY2021 period ending **2021-09-25**; MSFT latest 10-Q filing 2026-04-29 accession
-  `0001193125-26-191507` of 18 matched; AMZN 10-K filed 2026-02-06 accession `0001018724-26-000004` with
-  `search_scope: extracted_sections` and 3 AWS excerpts; operating margin MSFT 46.7808 / GOOGL 32.0326 /
-  AMZN 11.1553 **each carrying `ticker`** (the `86c1612d` fix, live) with the note reading *"up to 181 days
-  apart … not simultaneous"* (the warning that used to never fire); MSFT revenue 331,839 against 281,724
-  (**17.7887%**) with `eps_decomposition` 17.95 / 13.64 → net income 4.2756 + shares 0.0288.
-  **The check is now permanent:** `node scripts/verify-mcp-apps.js --review-cases` (the flag adds only these
-  five calls; full run is 23/23) reads each expectation **out of plugin.json** and requires every date,
-  accession number and value in it to appear in the live response — so plugin.json stays the single source of
-  truth and a filing that advances turns the check red instead of surprising the reviewer. It also proves it
-  can fail: each figure is re-checked with its last digit changed and must then NOT match, because the first
-  cut of this check passed vacuously — a value at the end of a sentence was truncated by a lookahead to
-  `36581700000`, an 11-digit substring of the real 12-digit figure, so it would have matched anything.
-  Decimals are skipped on purpose: the prose rounds some ("4.28" for 4.275553), so asserting on them would
-  fail on wording, not drift.
-- **Two real defects came out of that, fixed in `mcp-financials.js` + `mcp-apps.js` (`86c1612d`):**
-  (a) `compare_company_metrics` flattened every company's observations into one series per metric with **no
-  company identifier**, so a three-way comparison was a column of numbers whose owner could only be recovered
-  by resolving the CIK inside each filing URL — each observation now carries `ticker`. (b) the misalignment
-  warning computed its spread as **first minus last in the caller's order** rather than max minus min, so
-  AMZN/MSFT/GOOGL — where the June-ending company sits in the middle — reported a 0-day spread and **the
-  warning the tool's own description promises never fired**. Now max−min; `mcp-apps.test.js` pins both, and the
-  middle-of-list case fails against the old code.
+  a local page, then captures that page over CDP — every figure on screen is a filed value. The Authorization
+  header is never rendered, so the recording cannot leak the key it was made with. The script's own header
+  comment documents the three capture traps (screencast truncation, viewport clipping, page-timer throttling)
+  — read it before changing the capture. Re-record with `node scripts/record-mcp-walkthrough.mjs` (Chrome on
+  CDP 9333 + ffmpeg); **publish by committing the mp4, which must NOT carry the skip marker**, and **a
+  re-recording needs a new filename** — `staticCacheHeaders` gives `.mp4` the same `ONE_YEAR` immutable header
+  as `.js`, so overwriting would never reach anyone who already fetched it.
+- **The five review cases are checked permanently: `node scripts/verify-mcp-apps.js --review-cases`.** It reads
+  each expectation **out of plugin.json** and requires every date, accession number and value in it to appear in
+  the live response, so plugin.json stays the single source of truth and a filing that advances turns the check
+  red instead of surprising the reviewer. It also proves it can fail: each figure is re-checked with its last
+  digit changed and must then NOT match. Decimals are skipped on purpose — the prose rounds some ("4.28" for
+  4.275553), so asserting on them would fail on wording, not drift.
+- **Two defects that check caught are fixed and pinned** (`86c1612d`, `mcp-financials.js` + `mcp-apps.js`):
+  `compare_company_metrics` flattened companies into one series with no company identifier (each observation now
+  carries `ticker`), and the misalignment warning computed first-minus-last instead of max-minus-min so it
+  **never fired** for mid-list companies. `mcp-apps.test.js` pins both.
 
 ### The portal (draft `plugin_asdk_app_6abd5ccb15d48191a50f8fc678fd3732`, dev identity Individual — AVINASH SREEKUMAR)
-- **MCP configuration is COMPLETE.** The MCPs tab has no warning dot and lists the server `stockportfolio` →
-  `https://www.stockportfolio.pro/mcp/apps`, **Domain verified**, and all **seven discovered tools**:
-  `search_companies`, `get_company_financials`, `get_metric_history`, `search_filings`, `get_filing_content`,
-  `compare_company_metrics`, `get_financial_change_drivers`. Tabs **Metadata & Skills** = *No Issues*;
-  Publication *Not published*; Review *Not submitted*.
+- **MCP configuration is COMPLETE.** MCPs tab has no warning dot and lists the server `stockportfolio` →
+  `https://www.stockportfolio.pro/mcp/apps`, **Domain verified**, and all **seven discovered tools**.
+  **Metadata & Skills** = *No Issues*; Publication *Not published*; Review *Not submitted*.
 - **The domain challenge is verified.** `OPENAI_APPS_CHALLENGE` (43 chars) is set on Render via
-  `gh workflow run set-render-env.yml` (run `36763010793`, HTTP 200, value never echoed). **Render's
-  env-triggered redeploy never appears in `gh run list`**, so `/.well-known/openai-apps-challenge` kept 404ing
-  until `deploy-render.yml` was dispatched explicitly (run `36763142470`); after that it returns **HTTP 200
-  with the exact token** and **Verify Domain** went green. If it 404s again, check the deployed service's env
-  before the code. The route 404s by design when the var is unset (`backend/app.js:5784`).
-- **Authentication is OAuth and the flow is verified end-to-end in production.** The modal first read
-  *Authorization unavailable*, then *Authorization required* once the config saved with Authentication=OAuth.
-  **Continue** opened `https://www.stockportfolio.pro/oauth/authorize?…`, which served our own consent screen
-  (`Connect ChatGPT`, signed in as rin@gmail.com, Allow access / Cancel); approving it returned to the editor
-  with discovery complete. **This is the path ChatGPT itself takes, so the reviewer WILL be asked to sign in —
-  the demo account is required, not a fallback.** The editor also says it *"automatically determines the OAuth
-  configuration of your MCP through discovered metadata"*, so the `/.well-known` documents are load-bearing and
-  must stay reachable. The `Authentication` listbox could not be opened by synthetic pointer or mouse events
-  (it is a `span[role=button]` React Aria listbox), which is part of why OAuth was kept rather than switched.
-- **Review details are entered and saved** ("Progress saved"). Step 1 Countries = *All supported countries*,
-  translations empty. Step 2 reviewer credentials: Login URL `https://www.stockportfolio.pro/login.html`,
-  username `openai-review@stockportfolio.pro`, the 32-char password read from
-  `/tmp/openai-reviewer-credentials.txt` by `/tmp/fill-creds.mjs`, plus sign-in steps naming the login page,
-  the absence of MFA/emailed codes, and approving the OAuth consent screen. Step 5 shows the release notes
-  imported and **"No video walkthrough URL provided"** — the only red item left.
-- **The logo reupload was verified in production, 10/01.** Metadata came back **No Issues**, MCP
-  configuration stayed **Configured**, and — the risk that actually mattered — **all five reviewer-credential
-  fields survived** (`url=41`, `tenant=0`, `user=32`, `pw=32`, `steps=257`), because those live in the
-  dashboard and the ZIP does not carry them. Test case 1 re-imported identically. "Incomplete review
-  information" remains and is expected: it is the missing video URL and nothing else.
+  `gh workflow run set-render-env.yml` (value never echoed). **Render's env-triggered redeploy never appears in
+  `gh run list`**, so the route kept 404ing until `deploy-render.yml` was dispatched explicitly; if it 404s
+  again, check the deployed service's env before the code. It 404s by design when the var is unset
+  (`backend/app.js:5784`).
+- **Authentication is OAuth and the flow is verified end-to-end in production.** The editor says it
+  *"automatically determines the OAuth configuration of your MCP through discovered metadata"*, so the
+  `/.well-known` documents are load-bearing and must stay reachable. The `Authentication` listbox could not be
+  opened by synthetic pointer or mouse events (a `span[role=button]` React Aria listbox), which is part of why
+  OAuth was kept rather than switched.
+- **Review details are entered and saved** ("Progress saved"). Step 1 Countries = *All supported countries*.
+  Step 2 reviewer credentials: Login URL `https://www.stockportfolio.pro/login.html`, username
+  `openai-review@stockportfolio.pro`, the 32-char password read from `/tmp/openai-reviewer-credentials.txt` by
+  `/tmp/fill-creds.mjs`, plus sign-in steps naming the login page, the absence of MFA/emailed codes, and
+  approving the OAuth consent screen. **This is the path ChatGPT itself takes, so the reviewer WILL be asked to
+  sign in — the demo account is required, not a fallback.**
 - **The upload entry point moves.** After review details are saved, the header's **"Upload new version"**
-  disappears; the path is the right-panel drop zone **"Upload plugin to make changes"**, which is a real
+  disappears; the path is the right-panel drop zone **"Upload plugin to make changes"**, which becomes a real
   `input[type=file]` once clicked (attach with `DOM.setFileInputFiles`). The dialog that follows is "Reupload
   draft".
-- **Reviewer account verified 10/01** — `openai-review@stockportfolio.pro` signs in on production
-  (`POST /api/login` → 200, session issued, **no MFA / no emailed code / no magic link**), and the stored
-  document carries `reviewAccount: true`, all four mail opt-outs and `analyticsConsent: false`
-  (`scripts/create-openai-reviewer.js` writes through the **native collection**, bypassing `UserSchema`).
-  **Exclusion is DONE (10/01).** `reviewAccount` is now a declared path on `UserSchema` — that mattered more
-  than it looks: mongoose strips undeclared paths, so `User.findById` in `oauthCurrentUser` returned
-  `undefined` and any guard would have silently never fired. Four reads now skip it: `trackActivation`
-  (reviewer walks every tool by design, so counting it fabricates activation), the `mcp_oauth_authorized`
-  event (the dashboard reads that as *"a real user approved a client"* and the reviewer MUST approve the OAuth
-  client to exercise the plugin), the `/api/admin/customers` registry, and the trial-lifecycle drip.
-  `test/internal-review-account.test.js` pins the flag, the schema path and all four exclusions — the schema
-  half especially, because that is the one whose absence is invisible in Mongo.
+- **Reviewer account verified 10/01** — `openai-review@stockportfolio.pro` signs in on production (`POST
+  /api/login` → 200, session issued, **no MFA / no emailed code / no magic link**). **Exclusion is DONE
+  (10/01).** `reviewAccount` is a declared path on `UserSchema` — that mattered more than it looks: mongoose
+  strips undeclared paths, so `User.findById` in `oauthCurrentUser` returned `undefined` and any guard would
+  have silently never fired (`scripts/create-openai-reviewer.js` writes through the **native collection**,
+  bypassing the schema). Four reads now skip it: `trackActivation` (the reviewer walks every tool by design, so
+  counting it fabricates activation), the `mcp_oauth_authorized` event (the dashboard reads that as *"a real
+  user approved a client"* and the reviewer MUST approve to exercise the plugin), `/api/admin/customers`, and
+  the trial-lifecycle drip. `test/internal-review-account.test.js` pins the flag, the schema path and all four
+  exclusions — the schema half especially, because its absence is invisible in Mongo.
 - **Driving the portal over CDP:** `node /tmp/cdp-drive.mjs` (Chrome :9333, profile `/tmp/chatgpt-drive`).
   Synthetic `Input.dispatchMouseEvent` on a React tab does nothing — a plain `el.click()` works; and when two
-  buttons share a label (e.g. the card's `Connect` behind the modal's), pick by bounding rect, not DOM order.
+  buttons share a label, pick by bounding rect, not DOM order.
 
-### OpenAI's OIDC requirement — found and fixed 10/01 (`656d4b52`, VERIFIED LIVE)
-OpenAI requires an OAuth plugin to publish OIDC discovery metadata, advertise AND issue `openid` + `email`,
-and expose a UserInfo endpoint returning `email` with `email_verified: true`. We had none of the three, and
+### OpenAI's OIDC requirement — fixed 10/01 (`656d4b52`, VERIFIED LIVE)
+OpenAI requires an OAuth plugin to publish OIDC discovery metadata, advertise AND issue `openid` + `email`, and
+expose a UserInfo endpoint returning `email` with `email_verified: true`. We had none of the three, and
 `normalizeOauthScope` **rejected** every scope outside `OAUTH_SCOPES` — while ChatGPT asks for openid/email by
-default from any server that ADVERTISES them. The connection would have been refused `invalid_scope` and read
-as a dead connector, the same shape as the earlier `'mcp'` challenge bug. Added `OIDC_SCOPES`,
-`OAUTH_SCOPES_SUPPORTED` (the union — what authorize validates and what both discovery documents advertise),
-`/.well-known/openid-configuration` and `GET /oauth/userinfo`; claim-building lives in `oauth-oidc.js` so it is
-unit-tested rather than source-pinned. **The RFC 9728 resource document still advertises data scopes only** —
-the resource is the filings API and openid/email unlock nothing it reads. **No ID token is issued**: OpenAI
-calls one optional, and a `jwks_uri` with no key set behind it is worse than the omission.
+default from any server that ADVERTISES them, so the connection would have been refused `invalid_scope` and read
+as a dead connector. Added `OIDC_SCOPES`, `OAUTH_SCOPES_SUPPORTED` (the union — what authorize validates and
+what both discovery documents advertise), `/.well-known/openid-configuration` and `GET /oauth/userinfo`;
+claim-building lives in `oauth-oidc.js` so it is unit-tested rather than source-pinned. **The RFC 9728 resource
+document still advertises data scopes only**, and **no ID token is issued** — OpenAI calls one optional, and a
+`jwks_uri` with no key set behind it is worse than the omission.
 
-**The ChatGPT connector itself is LIVE in the owner's account (9/30)** — installed at `chatgpt.com/plugins`
-(`/mcp`, Authentication OAuth), and a real chat called `search_companies("Nvidia")` →
-`get_company_fundamentals(NVDA, quarterly, 1)` and answered from the 2026-07-26 10-Q (revenue $96.22B, net
-income $59.69B, diluted EPS $2.46, FCF $21.40B), naming the four tools it did *not* call. Shares outstanding
-returned *Not reported / null* — the never-estimate rule holding in the wild. **CIMD is not supported,
-deliberately** (it would mean fetching an attacker-supplied HTTPS URL server-side); we omit
-`client_id_metadata_document_supported`, so ChatGPT takes the DCR path (verified live: 201 + `client_id`).
+**The ChatGPT connector itself is LIVE in the owner's account (9/30)** — installed at `chatgpt.com/plugins`,
+and a real chat called `search_companies("Nvidia")` → `get_company_fundamentals(NVDA, quarterly, 1)` and answered
+from the 2026-07-26 10-Q, naming the four tools it did *not* call; shares outstanding returned *Not reported /
+null*, the never-estimate rule holding in the wild. **CIMD is not supported, deliberately** (it would mean
+fetching an attacker-supplied HTTPS URL server-side); we omit `client_id_metadata_document_supported`, so
+ChatGPT takes the DCR path.
 
 **Glama:** its public connector page went Healthy on 9/30 via `59582a07`, but the manual **Test Profile** call
 still reports `NETWORK_PAID_ONLY` when it exercises data calls from its datacenter. That refusal is now a tool
@@ -220,9 +187,8 @@ genuine checkout. Ops doc: `docs/growth/filing-watch-runbook.md`.
 - **Prospects: 1 of 5** — `ncdorc`/ATOS (Stocktwits, Sep 9), qualified, live EDGAR retrieval confirmed, Q2 10-Q
   example prepared. Public reply only and **no Stocktwits posting tool is connected here, so nothing has been
   sent**; check the account against Stocktwits' self-promotion and first-50-post rules. Five documented rejects
-  in `notes/2026-09-29-filing-watch-prospects.md`. `notes/filing-watch-outreach.csv` +
-  `filing-watch-payments.csv` are header-only and **must stay untracked — the repo is PUBLIC** and they will
-  hold prospect PII. **Never send outreach without the owner's explicit authorization.**
+  in `notes/2026-09-29-filing-watch-prospects.md`. **Never send outreach without the owner's explicit
+  authorization.**
 
 **Claude plugin directory — repo PUBLIC and installable NOW; only the submission form is left (9/25).**
 `github.com/avisre/stockportfolio-claude-plugin` (public, MIT, 7 files — config and prose, no source);
@@ -334,7 +300,8 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
   misses. Check distinct user agents before quoting any visitor count.
 - Chrome headless sends "HeadlessChrome", which `bot-blocker.js` correctly 403s — override the UA (or
   `BOT_BLOCK_ENABLED=false` on dev-local only). A bare curl UA also 403s: `hasBrowserHeaders` needs the full
-  browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
+  browser header set (an `Accept-Language` alone is enough; mp4 is in `STATIC_ASSET_RE`, so our own `.mp4`
+  assets serve to any real browser). Browser checks go through CDP (`scripts/screenshot-cdp.js`).
 - **A CSP failure that exists only in production is invisible to a same-origin harness.** Chrome enforces
   `form-action` across *redirects*, so any POST-then-302-to-another-origin flow — the OAuth consent → client
   callback is the one that bit — needs that origin in the policy. The consent button was dead for every external
@@ -367,8 +334,9 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
   source was read. Split any sweep over 100 URLs across windows, and re-check a 403 before believing it.
 
 ## Owner actions pending
-1. **OpenAI plugin submission** — the three items under In flight: the demo-recording URL, the logo, then
-   Submit. This is the only submission that is still moving.
+1. **OpenAI plugin submission** — identity verification, then re-check the five reviewer-credential fields
+   inside the Submit-for-review wizard, then **Submit for review**. Everything package-side is done and the
+   ZIP is uploaded; this is the only submission still moving.
 2. **Submit the Claude plugin** at `platform.claude.com/plugins/submit` — the repo is public and both
    preconditions are deployed and verified; see above.
 3. **Dossier mockup review** — step 2, the port, has not started.
