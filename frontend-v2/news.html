@@ -121,9 +121,10 @@
     .mover-tab { border: 0; border-radius: 4px; background: transparent; color: var(--ink-3); padding: 5px 7px; font-size: 9px; }
     .mover-tab[aria-pressed="true"] { background: #161616; color: #fff; font-weight: 650; }
     .mover-list li { padding: 8px 12px; font-size: 11px; }
-    .ticker-tone { margin-left: auto; color: var(--ink-3); font-size: 9px; }
-    .ticker-tone.pos { color: var(--green, #2e7d4f); }
-    .ticker-tone.neg { color: var(--red, #b3402e); }
+    .ticker-chart { display: flex; flex: 0 0 64px; align-items: center; justify-content: flex-end; margin-left: auto; height: 20px; }
+    .ticker-chart .spark { width: 62px; height: 18px; }
+    .ticker-chart-unavailable { color: var(--ink-3); font-size: 11px; }
+    .ticker-chart-loading { width: 62px; height: 1px; background: linear-gradient(90deg, var(--line), var(--ink-3), var(--line)); opacity: .45; }
     .news-error { color: var(--red, #b3402e); padding: 18px 0; }
     .news-error button { margin-top: 8px; }
 
@@ -158,9 +159,6 @@
       .asset-filter-options { position: static; width: min(286px, calc(100vw - 40px)); margin-top: 7px; }
     }
 
-    .tone-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; background: var(--ink-3); }
-    .tone-dot.pos { background: var(--green, #2e7d4f); }
-    .tone-dot.neg { background: var(--red, #b3402e); }
   </style>
 </head>
 <body>
@@ -261,6 +259,6 @@
     </div>
   </main>
   <script src="assets/app.js?v=20260928-fundsearch"></script>
-  <script src="assets/news.js?v=20260930-yahoo-dropdown1"></script>
+  <script src="assets/news.js?v=20260930-yahoo-trending-chart1"></script>
 </body>
 </html>

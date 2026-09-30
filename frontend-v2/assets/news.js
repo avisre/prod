@@ -31,6 +31,7 @@
     let assetKey = 'all';
     let assetTickers = '';
     let searchTickers = '';
+    let trendingChartRequest = 0;
 
     function syncAssetFilter({ close = false, focusSummary = false } = {}) {
         const selected = ASSETS.find(([key]) => key === assetKey);
@@ -343,7 +344,19 @@
           </article>`).join('');
     }
     // weighted trending: relevance × |sentiment| per mention, summed per ticker
+    function renderTrendingRows(ranked, quotes, request) {
+        if (request !== trendingChartRequest) return;
+        $('trending-list').innerHTML = ranked.map(([tk]) => {
+            const q = quotes[tk];
+            const closes = Array.isArray(q && q.closes) ? q.closes.map(Number).filter(Number.isFinite) : [];
+            const chart = closes.length >= 3
+                ? `<span class="ticker-chart" role="img" aria-label="${tk} recent daily closing prices">${sparkline(closes)}</span>`
+                : `<span class="ticker-chart ticker-chart-unavailable" role="img" aria-label="Price history unavailable for ${tk}">—</span>`;
+            return `<li><a class="tk" href="/company.html?symbol=${tk}">${tk}</a>${chart}</li>`;
+        }).join('');
+    }
     function renderTrending(items) {
+        const request = ++trendingChartRequest;
         const stats = new Map();
         for (const it of items) {
             for (const s of it.ticker_sentiment || []) {
@@ -351,28 +364,34 @@
                 if (!/^[A-Z.\-]{1,6}$/.test(tk)) continue;
                 const rel = Math.max(0, parseFloat(s.relevance_score) || 0);
                 const sen = parseFloat(s.ticker_sentiment_score) || 0;
-                const p = stats.get(tk) || { score: 0, mentions: 0, signed: 0 };
+                const p = stats.get(tk) || { score: 0, mentions: 0 };
                 p.score += rel * Math.abs(sen);
                 p.mentions += 1;
-                p.signed += rel * sen;
                 stats.set(tk, p);
             }
         }
         const ranked = [...stats.entries()]
             .sort((a, b) => (b[1].score - a[1].score) || (b[1].mentions - a[1].mentions))
             .slice(0, 8);
-        $('trending-list').innerHTML = ranked.length
-            ? ranked.map(([tk, s]) => {
-                const tone = s.signed > 0.05 ? 'Positive' : s.signed < -0.05 ? 'Negative' : 'Neutral';
-                const toneClass = s.signed > 0.05 ? 'pos' : s.signed < -0.05 ? 'neg' : '';
-                return `
-                <li>
-                  <span class="tone-dot ${toneClass}" aria-hidden="true"></span>
-                  <a class="tk" href="/company.html?symbol=${tk}">${tk}</a>
-                  <span class="ticker-tone ${toneClass}">${tone}</span>
-                </li>`;
-            }).join('')
-            : '<li class="side-empty">No related tickers yet.</li>';
+        if (!ranked.length) {
+            $('trending-list').innerHTML = '<li class="side-empty">No related tickers yet.</li>';
+            return;
+        }
+
+        $('trending-list').innerHTML = ranked.map(([tk]) =>
+            `<li><a class="tk" href="/company.html?symbol=${tk}">${tk}</a><span class="ticker-chart ticker-chart-loading" aria-hidden="true"></span></li>`
+        ).join('');
+        const query = new URLSearchParams({ symbols: ranked.map(([tk]) => tk).join(',') });
+        (async () => {
+            try {
+                const r = await fetch(`${API}/market/strip?${query}`);
+                if (!r.ok) throw new Error('ticker history ' + r.status);
+                const data = await r.json();
+                renderTrendingRows(ranked, data.quotes || {}, request);
+            } catch (_) {
+                renderTrendingRows(ranked, {}, request);
+            }
+        })();
     }
 
     function chooseMoverView(view) {
@@ -421,6 +440,7 @@
         if (!token()) {
             clearResults();
             setAccessGate(false);
+            trendingChartRequest += 1;
             $('trending-list').innerHTML = '<li class="side-empty">Sign in to see trending tickers.</li>';
             return;
         }
@@ -444,6 +464,7 @@
                 // show an upgrade prompt — not a transient "try again". The sidebar
                 // movers show their own paid-plan gate.
                 setAccessGate(true);
+                trendingChartRequest += 1;
                 $('trending-list').innerHTML = '<li class="side-empty">Included with paid plans — <a href="/pricing">view plans →</a>.</li>';
                 return;
             }

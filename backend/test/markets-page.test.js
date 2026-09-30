@@ -55,10 +55,12 @@ class FakeElement {
     }
 }
 
-function makePage({ loggedIn = true } = {}) {
+function makePage({ loggedIn = true, deferTrendingQuotes = false } = {}) {
     const elements = new Map();
     const element = (id) => { if (!elements.has(id)) elements.set(id, new FakeElement(id)); return elements.get(id); };
     const pendingNews = [];
+    const pendingQuotes = [];
+    const requestedQuoteSymbols = [];
     const searchAssets = async (query) => query.toLowerCase() === 'microsoft'
         ? [{ symbol: 'MSFT', name: 'Microsoft Corporation' }]
         : query.toUpperCase() === 'AAPL' ? [{ symbol: 'AAPL', name: 'Apple Inc.' }] : [];
@@ -69,10 +71,21 @@ function makePage({ loggedIn = true } = {}) {
     };
     const fetch = (url) => {
         if (url.includes('/alpha/news')) return new Promise((resolve) => pendingNews.push({ url, resolve }));
-        if (url.includes('/market/strip')) return Promise.resolve({ ok: true, json: async () => ({ quotes: {
-            SPY: { value: 100, pct: 1, date: '2026-09-28', closes: [95, 97, 100] },
-            QQQ: { value: 120, pct: -0.5, date: '2026-09-28', closes: [122, 121, 120] }
-        } }) });
+        if (url.includes('/market/strip')) {
+            const query = new URLSearchParams(String(url).split('?')[1] || '');
+            const symbols = (query.get('symbols') || '').split(',').filter(Boolean);
+            requestedQuoteSymbols.push(symbols);
+            if (symbols.length <= 8) {
+                if (deferTrendingQuotes) return new Promise((resolve) => pendingQuotes.push({ symbols, resolve }));
+                return Promise.resolve({ ok: true, json: async () => ({ quotes: Object.fromEntries(symbols.map((symbol) => [symbol, {
+                    value: 100, pct: 1, date: '2026-09-28', closes: [95, 97, 99, 100]
+                }])) }) });
+            }
+            return Promise.resolve({ ok: true, json: async () => ({ quotes: {
+                SPY: { value: 100, pct: 1, date: '2026-09-28', closes: [95, 97, 100] },
+                QQQ: { value: 120, pct: -0.5, date: '2026-09-28', closes: [122, 121, 120] }
+            } }) });
+        }
         if (url.includes('/alpha/movers')) return Promise.resolve({ ok: true, json: async () => ({ top_gainers: [], top_losers: [{ ticker: 'LOSE', price: '4.5', change_percentage: '-2%' }], most_actively_traded: [{ ticker: 'ACT', price: '10', change_percentage: '1%' }] }) });
         return Promise.resolve({ ok: true, json: async () => [] });
     };
@@ -81,7 +94,7 @@ function makePage({ loggedIn = true } = {}) {
     let source = fs.readFileSync(require.resolve('../../frontend-v2/assets/news.js'), 'utf8');
     source = source.replace('    loadNews();\n})();', '    loadNews();\n})();');
     vm.runInNewContext(source, box);
-    return { box, element, pendingNews };
+    return { box, element, pendingNews, pendingQuotes, requestedQuoteSymbols };
 }
 
 const tick = async () => { for (let i = 0; i < 8; i++) await Promise.resolve(); };
@@ -90,6 +103,7 @@ const stories = (prefix, count) => Array.from({ length: count }, (_, i) => ({
     time_published: '20260929T100000', source: 'Test', ticker_sentiment: []
 }));
 const respond = (pending, body, status = 200) => pending.resolve({ ok: status === 200, status, json: async () => body });
+const respondQuotes = (pending, quotes, status = 200) => pending.resolve({ ok: status === 200, status, json: async () => ({ quotes }) });
 
 test('Markets page keeps the latest filter response, shows every story and preserves partial movers', async () => {
     const page = makePage();
@@ -98,6 +112,7 @@ test('Markets page keeps the latest filter response, shows every story and prese
     const initialStories = stories('Initial', 60);
     initialStories[0].ticker_sentiment = [{ ticker: 'NVDA', relevance_score: '0.8', ticker_sentiment_score: '0.2' }];
     respond(page.pendingNews.shift(), { feed: initialStories });
+    await new Promise((resolve) => setImmediate(resolve));
     await tick();
     assert.match(page.element('topics-row').innerHTML, />All topics<\/button>/);
     assert.match(page.element('assets-row').innerHTML, />All assets<\/button>/);
@@ -118,6 +133,9 @@ test('Markets page keeps the latest filter response, shows every story and prese
     assert.equal(page.element('watch-price').textContent, '$100.00');
     assert.match(page.element('watch-chart').innerHTML, /class="chart-line"/);
     assert.match(page.element('trending-list').innerHTML, /NVDA/);
+    assert.match(page.element('trending-list').innerHTML, /class="spark"/);
+    assert.doesNotMatch(page.element('trending-list').innerHTML, /Neutral|Positive|Negative|ticker-tone|tone-dot/);
+    assert.ok(page.requestedQuoteSymbols.some((symbols) => symbols.includes('NVDA')));
     assert.doesNotMatch(page.element('trending-list').innerHTML, /mention/i);
     const watchButtons = page.element('watch-list').querySelectorAll('.watch-row');
     assert.equal(watchButtons.length, 2);
@@ -212,6 +230,50 @@ test('Markets page keeps the latest filter response, shows every story and prese
     await tick();
 });
 
+test('trending price charts ignore stale quote responses and omit sentiment labels', async () => {
+    const page = makePage({ deferTrendingQuotes: true });
+    await tick();
+    const firstStory = stories('NVDA', 1)[0];
+    firstStory.ticker_sentiment = [{ ticker: 'NVDA', relevance_score: '0.8', ticker_sentiment_score: '0' }];
+    respond(page.pendingNews.shift(), { feed: [firstStory] });
+    await tick();
+    const oldQuotes = page.pendingQuotes.shift();
+    assert.deepEqual(oldQuotes.symbols, ['NVDA']);
+
+    const marketTopic = page.element('topics-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'financial_markets');
+    await marketTopic.fire('click');
+    await tick();
+    const latestStory = stories('AAPL', 1)[0];
+    latestStory.ticker_sentiment = [{ ticker: 'AAPL', relevance_score: '0.9', ticker_sentiment_score: '0' }];
+    respond(page.pendingNews.shift(), { feed: [latestStory] });
+    await tick();
+    const freshQuotes = page.pendingQuotes.shift();
+    assert.deepEqual(freshQuotes.symbols, ['AAPL']);
+
+    respondQuotes(freshQuotes, { AAPL: { closes: [170, 171, 169, 173] } });
+    await tick();
+    respondQuotes(oldQuotes, { NVDA: { closes: [120, 121, 122, 124] } });
+    await tick();
+    assert.match(page.element('trending-list').innerHTML, /AAPL/);
+    assert.match(page.element('trending-list').innerHTML, /class="spark"/);
+    assert.doesNotMatch(page.element('trending-list').innerHTML, /NVDA|Neutral|Positive|Negative/);
+});
+
+test('missing trending price history falls back to a dash instead of sentiment text', async () => {
+    const page = makePage({ deferTrendingQuotes: true });
+    await tick();
+    const story = stories('SPCX', 1)[0];
+    story.ticker_sentiment = [{ ticker: 'SPCX', relevance_score: '0.8', ticker_sentiment_score: '0' }];
+    respond(page.pendingNews.shift(), { feed: [story] });
+    await new Promise((resolve) => setImmediate(resolve));
+    const quoteRequest = page.pendingQuotes.shift();
+    respondQuotes(quoteRequest, {}, 502);
+    await tick();
+    assert.match(page.element('trending-list').innerHTML, /ticker-chart-unavailable/);
+    assert.match(page.element('trending-list').innerHTML, />—<\/span>/);
+    assert.doesNotMatch(page.element('trending-list').innerHTML, /Neutral|Positive|Negative|ticker-tone|tone-dot/);
+});
+
 test('failed news filter clears stale articles and retry reloads the feed', async () => {
     const page = makePage();
     await tick();
@@ -284,7 +346,7 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-dropdown1/);
+    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-trending-chart1/);
     assert.match(html, /<h1 class="visually-hidden">Markets<\/h1>/);
     assert.doesNotMatch(html, /Market headlines, daily closing prices, and the companies behind each story\./);
     assert.match(html, /<details class="asset-filter-menu" id="asset-filter-menu">/);
