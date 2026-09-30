@@ -94,11 +94,17 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   dates itself. The Authorization header is never rendered, so the recording cannot leak the key it was made
   with. Re-record any time with `node scripts/record-mcp-walkthrough.mjs` (needs Chrome on CDP 9333 + ffmpeg);
   publish by committing the mp4, which **must not carry the skip marker** or production stays on the old file.
-  Two capture traps, both hit for real: `Page.startScreencast` is **change-driven** and silently truncated a
+  A **re-recording needs a new filename**: `staticCacheHeaders` gives `.mp4` the same `ONE_YEAR` immutable
+  header as `.js`, so overwriting `plugin-walkthrough.mp4` would never reach anyone who already fetched it —
+  the same trap as the asset cache stamp, in a file the stamp rule does not cover.
+  Three capture traps, all hit for real. `Page.startScreencast` is **change-driven** and silently truncated a
   take at test case 3 — a 30s video for a 48s page, no error — so the script polls `Page.captureScreenshot`
-  instead and **fails loudly** if the capture span is short; and `Emulation.setDeviceMetricsOverride` taller
-  than the real window **clips** the bottom off every frame rather than scaling, so the window is sized first
-  and the measured `innerHeight` is emulated exactly.
+  instead and **fails loudly** if the capture span is short. `Emulation.setDeviceMetricsOverride` taller than
+  the real window **clips** the bottom off every frame rather than scaling, so the window is sized first and
+  the measured `innerHeight` is emulated exactly. And **the page must not pace itself**: when the tab was not
+  the visible one Chrome throttled the page's `setTimeout` and the take never finished at all, so the recorder
+  walks the reveal plan on Node timers and the page only renders what `window.__show` hands it — which is why
+  the reveal plan lives in the script and not in the HTML.
 - **All five were RE-RUN against production 10/01, after OIDC and the comparison fixes deployed, and all five
   still match** — the expectations are not stale, which was the real risk: MSFT's latest 10-Q reading
   2026-03-31 looks outdated in October until you remember the June quarter is the 10-K, so a pipeline that was

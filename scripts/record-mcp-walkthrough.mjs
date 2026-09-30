@@ -13,11 +13,18 @@
 // Authorization header is never rendered, so the recording cannot leak the
 // credential it was made with.
 //
-// How it works: the session is run first, its real responses are baked into a
-// local HTML page, and that page is screencast frame-by-frame over the Chrome
-// DevTools Protocol as it reveals the session line by line. CDP only emits a
-// frame when the page actually changes, so the frame timestamps are the real
-// pacing and are carried into the encode rather than flattened to a fixed rate.
+// Two hard-won constraints shape the design:
+//
+//   1. The recorder owns the timeline, not the page. An earlier version paced
+//      the reveal with setTimeout inside the page and had it set window.__done
+//      at the end; when the tab was not the visible one Chrome throttled those
+//      timers and the take never finished. Now the page only renders what it is
+//      told to (`window.__show`) and this script does all the waiting on Node
+//      timers, which are never throttled.
+//   2. Frames are polled with Page.captureScreenshot, never Page.startScreencast.
+//      Screencast is change-driven and halts the stream if a frame goes
+//      unacknowledged, which silently truncated one take at test case 3 — a
+//      30-second video for a 48-second page, with no error anywhere.
 //
 // Usage:
 //   node scripts/record-mcp-walkthrough.mjs                       # writes the asset
@@ -30,6 +37,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 
@@ -41,10 +49,12 @@ const { StreamableHTTPClientTransport } = require(path.join(SDK, 'client', 'stre
 
 const WIDTH = 1280;
 const HEIGHT = 720;
+const LEAD_MS = 900;    // beat before the first line
 const BLOCK_MS = 1100;  // per revealed line — long enough to read a figure
 const CASE_MS = 2800;   // pause between test cases
+const OUTRO_MS = 3400;  // how long the closing card rests on screen
 const FRAME_MS = 100;   // capture cadence (~10 fps)
-const HOLD_S = 1.2;     // how long the closing card rests on screen at the end
+const HOLD_S = 1.2;     // extra rest on the final frame in the encode
 
 function parseArgs(argv) {
     const args = {
@@ -158,6 +168,11 @@ const CASES = [
     }
 ];
 
+const OUTRO = '<strong>Read-only, and never estimated.</strong> Seven tools over MCP: company lookup, '
+    + 'financial metrics with the filing behind each fiscal period, metric histories, SEC filing search, '
+    + 'filing excerpts, peer comparison, and period-over-period change from reported line items. '
+    + 'Values that are not in a filing are returned as missing rather than filled in.';
+
 // --- run the session --------------------------------------------------------
 async function runSession(args, key) {
     const client = new Client({ name: 'record-walkthrough', version: '1.0.0' });
@@ -167,52 +182,38 @@ async function runSession(args, key) {
     const call = async (name, callArgs) => {
         const result = await client.callTool({ name, arguments: callArgs });
         const raw = (result.content && result.content[0] && result.content[0].text) || '';
-        return { raw, parsed: JSON.parse(raw) };
+        return JSON.parse(raw);
     };
     const list = await client.listTools();
     const results = [];
-    for (const testCase of CASES) {
-        results.push(await call(testCase.tool, testCase.args));
-    }
+    for (const testCase of CASES) results.push(await call(testCase.tool, testCase.args));
     await client.close().catch(() => {});
     return { tools: list.tools.map((t) => t.name), results };
 }
 
-// --- build the page ---------------------------------------------------------
-function buildBlocks(session) {
-    const blocks = [];
-    const caseBlocks = [];
+// --- the reveal plan --------------------------------------------------------
+// A flat list of what appears and how long each beat is held. Node walks it, so
+// the pacing is this script's, not the page's.
+function buildPlan(session, args) {
+    const plan = [{ kind: 'pause', ms: LEAD_MS }];
     CASES.forEach((testCase, index) => {
-        const lines = [];
-        lines.push({ html: `<div class="case">Test case ${index + 1} of 5 &nbsp;·&nbsp; <span class="tool">${esc(testCase.tool)}</span></div>` });
-        lines.push({ html: `<div class="prompt">&ldquo;${esc(testCase.prompt)}&rdquo;</div>` });
-        lines.push({ html: `<div class="call"><span class="d">arguments</span> ${esc(JSON.stringify(testCase.args))}</div>` });
-        for (const line of testCase.render(session.results[index].parsed)) {
-            lines.push({ html: `<div class="out">${line}</div>` });
+        plan.push({ kind: 'line', ms: BLOCK_MS, html: `<div class="case">Test case ${index + 1} of 5 &nbsp;·&nbsp; <span class="tool">${esc(testCase.tool)}</span></div>` });
+        plan.push({ kind: 'line', ms: BLOCK_MS, html: `<div class="prompt">&ldquo;${esc(testCase.prompt)}&rdquo;</div>` });
+        plan.push({ kind: 'line', ms: BLOCK_MS, html: `<div class="call"><span class="d">arguments</span> ${esc(JSON.stringify(testCase.args))}</div>` });
+        for (const line of testCase.render(session.results[index])) {
+            plan.push({ kind: 'line', ms: BLOCK_MS, html: `<div class="out">${line}</div>` });
         }
-        caseBlocks.push({ index, lines });
+        plan.push({ kind: 'pause', ms: CASE_MS });
     });
-    return caseBlocks;
+    plan.push({ kind: 'line', ms: OUTRO_MS, html: `<div id="end">${OUTRO}</div>` });
+    const expectedMs = plan.reduce((total, item) => total + item.ms, 0);
+    const header = { endpoint: args.url, tools: session.tools, date: localDate(new Date()) };
+    return { plan, expectedMs, header };
 }
 
-function buildHtml(session, args) {
-    const caseBlocks = buildBlocks(session);
-    const payload = JSON.stringify({
-        cases: caseBlocks,
-        blockMs: BLOCK_MS,
-        caseMs: CASE_MS,
-        header: {
-            endpoint: args.url,
-            tools: session.tools,
-            date: localDate(new Date())
-        }
-    });
-    // How long the page's own timeline runs. The capture is checked against it,
-    // because a capture that stops early is the one failure mode that produces a
-    // plausible-looking but incomplete video.
-    const lines = caseBlocks.reduce((total, block) => total + block.lines.length, 0);
-    const expectedMs = 900 + lines * BLOCK_MS + caseBlocks.length * CASE_MS + 3200;
-    const html = `<!doctype html><html lang="en"><head><meta charset="utf-8">
+function buildHtml(header) {
+    const meta = JSON.stringify(header);
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <title>StockPortfolio.pro — MCP plugin walkthrough</title>
 <style>
   html,body{margin:0;background:#0b1120;color:#e2e8f0;
@@ -222,7 +223,10 @@ function buildHtml(session, args) {
   #bar h1{margin:0;font-size:17px;font-weight:700;letter-spacing:.01em;color:#f8fafc}
   #bar .sub{color:#94a3b8;font-size:12.5px;margin-top:3px}
   #bar .tools{color:#64748b;font-size:12px;margin-top:5px}
-  #stage{padding:20px 24px 40px}
+  #stage{padding:20px 24px 50vh}
+  /* Half a viewport of tail room, or the closing lines clamp at maximum scroll
+     and slide up under the sticky bar instead of centring. */
+  #stage > div{scroll-margin-top:120px}
   .case{margin:22px 0 10px;color:#f8fafc;font-weight:700;font-size:15px;
     border-top:1px solid #1e293b;padding-top:14px}
   .case:first-child{border-top:0;margin-top:0;padding-top:0}
@@ -235,7 +239,8 @@ function buildHtml(session, args) {
   .call .d{color:#64748b}
   .fade{animation:in .18s ease-out}
   @keyframes in{from{opacity:0;transform:translateY(3px)}to{opacity:1;transform:none}}
-  #end{margin-top:26px;border-top:1px solid #1e293b;padding-top:16px;color:#94a3b8;font-size:13px}
+  #end{margin-top:26px;border-top:1px solid #1e293b;padding-top:16px;color:#94a3b8;font-size:13px;
+    margin-bottom:40px}
   #end strong{color:#f8fafc}
 </style></head><body>
 <div id="bar">
@@ -245,41 +250,23 @@ function buildHtml(session, args) {
 </div>
 <div id="stage"></div>
 <script>
-window.__ready = true;
-const DATA = ${payload};
-document.getElementById('ep').textContent = DATA.header.endpoint;
-document.getElementById('dt').textContent = DATA.header.date;
-document.getElementById('tl').textContent = 'tools discovered (' + DATA.header.tools.length + '): ' + DATA.header.tools.join(' · ');
+const META = ${meta};
+document.getElementById('ep').textContent = META.endpoint;
+document.getElementById('dt').textContent = META.date;
+document.getElementById('tl').textContent = 'tools discovered (' + META.tools.length + '): ' + META.tools.join(' · ');
 const stage = document.getElementById('stage');
-const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
-(async () => {
-  await sleep(900);
-  for (const block of DATA.cases) {
-    for (const line of block.lines) {
-      const el = document.createElement('div');
-      el.innerHTML = line.html;
-      el.className = (el.className ? el.className + ' ' : '') + 'fade';
-      stage.appendChild(el);
-      // Centring the newest line keeps it clear of the sticky header and off
-      // the bottom edge, so the reader's eye lands on what just arrived.
-      el.scrollIntoView({ block: 'center' });
-      await sleep(DATA.blockMs);
-    }
-    await sleep(DATA.caseMs);
-  }
-  const end = document.createElement('div');
-  end.id = 'end';
-  end.innerHTML = '<strong>Read-only, and never estimated.</strong> Seven tools over MCP: company lookup, '
-    + 'financial metrics with the filing behind each fiscal period, metric histories, SEC filing search, '
-    + 'filing excerpts, peer comparison, and period-over-period change from reported line items. '
-    + 'Values that are not in a filing are returned as missing rather than filled in.';
-  stage.appendChild(end);
-  end.scrollIntoView({ block: 'center' });
-  await sleep(3200);
-  window.__done = true;
-})();
+// The page has no clock of its own: the recorder calls this once per beat.
+// Anything time-based here would be throttled whenever the tab is not visible.
+window.__show = (html) => {
+  const el = document.createElement('div');
+  el.innerHTML = html;
+  el.className = (el.className ? el.className + ' ' : '') + 'fade';
+  stage.appendChild(el);
+  const target = el.children.length === 1 ? el.children[0] : el;
+  target.scrollIntoView({ block: 'center' });
+};
+window.__ready = true;
 </script></body></html>`;
-    return { html, expectedMs };
 }
 
 // --- screencast -------------------------------------------------------------
@@ -288,7 +275,6 @@ function cdp(wsUrl) {
         const ws = new WebSocket(wsUrl);
         let id = 0;
         const pending = new Map();
-        const listeners = [];
         ws.addEventListener('open', () => resolve({
             send(method, params = {}) {
                 const mid = ++id;
@@ -298,7 +284,6 @@ function cdp(wsUrl) {
                     setTimeout(() => { if (pending.has(mid)) { pending.delete(mid); rej(new Error(`timeout: ${method}`)); } }, 30000);
                 });
             },
-            on(fn) { listeners.push(fn); },
             close() { try { ws.close(); } catch (_) { /* already closed */ } }
         }));
         ws.addEventListener('error', () => reject(new Error('CDP socket failed')));
@@ -307,14 +292,12 @@ function cdp(wsUrl) {
             if (msg.id && pending.has(msg.id)) {
                 const p = pending.get(msg.id); pending.delete(msg.id);
                 msg.error ? p.rej(new Error(msg.error.message)) : p.res(msg.result);
-                return;
             }
-            for (const fn of listeners) fn(msg);
         });
     });
 }
 
-async function record(args, html, frameDir) {
+async function record(args, html, plan, frameDir) {
     const base = `http://127.0.0.1:${args.cdpPort}`;
     const version = await (await fetch(`${base}/json/version`)).json();
     const browser = await cdp(version.webSocketDebuggerUrl);
@@ -322,16 +305,19 @@ async function record(args, html, frameDir) {
     const pageInfo = (await (await fetch(`${base}/json/list`)).json()).find((t) => t.id === targetId);
     const page = await cdp(pageInfo.webSocketDebuggerUrl);
 
-    // The screencast captures the real compositor surface, not the emulated
+    // A capture is bounded by the real compositor surface, not by the emulated
     // viewport: asking for a taller override than the window can show clips the
-    // bottom off every frame instead of scaling it. So size the window first,
-    // then read back what the page actually got and emulate exactly that.
+    // bottom off every frame instead of scaling it down. So size the window
+    // first, then read back what the page actually got and emulate exactly that.
     const original = await browser.send('Browser.getWindowForTarget', { targetId }).catch(() => null);
     if (original) {
         await browser.send('Browser.setWindowBounds', {
             windowId: original.windowId,
             bounds: { width: WIDTH, height: 810, windowState: 'normal' }
         }).catch(() => {});
+        // A throttled background tab renders at about a frame a second, which
+        // would make the video stutter, so make this the visible tab.
+        await browser.send('Target.activateTarget', { targetId }).catch(() => {});
     }
     await page.send('Page.enable');
     const measured = await page.send('Runtime.evaluate', { expression: 'window.innerHeight', returnByValue: true });
@@ -350,26 +336,37 @@ async function record(args, html, frameDir) {
         await new Promise((r) => setTimeout(r, 100));
     }
 
-    // Screenshots on our own clock rather than Page.startScreencast. Chrome only
-    // emits a screencast frame when something visually changes and halts the
-    // stream if a frame goes unacknowledged, which silently truncated an earlier
-    // take at the third test case with no error. Polling cannot do that: a short
-    // capture throws instead of producing a short video.
+    // Screenshots on our own clock rather than Page.startScreencast, which is
+    // change-driven and halts the stream if a frame goes unacknowledged — that
+    // silently truncated an earlier take at the third test case.
     const frames = [];
+    const digests = new Set();
     const started = Date.now();
-    let done = false;
-    while (Date.now() - started < 240000) {
+    const capture = async () => {
         const at = Date.now();
         const shot = await page.send('Page.captureScreenshot', { format: 'jpeg', quality: 85 }).catch(() => null);
-        if (shot && shot.data) {
-            const file = path.join(frameDir, `f${String(frames.length).padStart(5, '0')}.jpg`);
-            fs.writeFileSync(file, Buffer.from(shot.data, 'base64'));
-            frames.push({ file, ts: (at - started) / 1000 });
+        if (!shot || !shot.data) return;
+        const buf = Buffer.from(shot.data, 'base64');
+        const file = path.join(frameDir, `f${String(frames.length).padStart(5, '0')}.jpg`);
+        fs.writeFileSync(file, buf);
+        frames.push({ file, ts: (at - started) / 1000 });
+        digests.add(crypto.createHash('md5').update(buf).digest('hex'));
+    };
+    const hold = async (ms) => {
+        const until = Date.now() + ms;
+        while (Date.now() < until) {
+            const at = Date.now();
+            await capture();
+            const spent = Date.now() - at;
+            if (spent < FRAME_MS) await new Promise((r) => setTimeout(r, FRAME_MS - spent));
         }
-        const state = await page.send('Runtime.evaluate', { expression: 'window.__done === true', returnByValue: true }).catch(() => null);
-        if (state && state.result && state.result.value === true) { done = true; break; }
-        const spent = Date.now() - at;
-        if (spent < FRAME_MS) await new Promise((r) => setTimeout(r, FRAME_MS - spent));
+    };
+
+    for (const item of plan) {
+        if (item.kind === 'line') {
+            await page.send('Runtime.evaluate', { expression: `window.__show(${JSON.stringify(item.html)})`, returnByValue: true });
+        }
+        await hold(item.ms);
     }
 
     page.close();
@@ -378,8 +375,17 @@ async function record(args, html, frameDir) {
         await browser.send('Browser.setWindowBounds', { windowId: original.windowId, bounds: original.bounds }).catch(() => {});
     }
     browser.close();
-    if (!done) throw new Error('the page never finished — no video written');
+
     console.log(`Viewport: ${WIDTH}x${height}`);
+    console.log(`Frames:   ${frames.length} (${digests.size} distinct)`);
+    // A capture that returned the same picture over and over means the tab was
+    // throttled or the compositor was not keeping up; either way there is no
+    // video to publish.
+    if (digests.size < 5) throw new Error(`the capture never changed (${digests.size} distinct frames) — the tab was probably throttled`);
+    const span = frames[frames.length - 1].ts * 1000;
+    if (span < plan.reduce((t, i) => t + i.ms, 0) - 2000) {
+        throw new Error(`capture stopped after ${(span / 1000).toFixed(1)}s — the video would be incomplete`);
+    }
     return frames;
 }
 
@@ -419,28 +425,24 @@ async function main(argv = process.argv.slice(2)) {
     console.log(`Session: ${args.url}`);
     const session = await runSession(args, key);
     console.log(`Tools:   ${session.tools.length}`);
-    console.log('Responses captured; building the page.');
+    const { plan, expectedMs, header } = buildPlan(session, args);
+    console.log(`Timeline: ${(expectedMs / 1000).toFixed(1)}s`);
 
     const work = fs.mkdtempSync(path.join(os.tmpdir(), 'walkthrough-'));
     const html = path.join(work, 'walkthrough.html');
-    const page = buildHtml(session, args);
-    fs.writeFileSync(html, page.html);
+    fs.writeFileSync(html, buildHtml(header));
 
-    const frames = await record(args, html, work);
-    console.log(`Frames:  ${frames.length}`);
-    const span = frames[frames.length - 1].ts * 1000;
-    if (span < page.expectedMs - 2000) {
-        throw new Error(`capture stopped after ${(span / 1000).toFixed(1)}s but the page runs for ${(page.expectedMs / 1000).toFixed(1)}s — the video would be incomplete`);
-    }
+    const frames = await record(args, html, plan, work);
     encode(frames, args.out);
     fs.rmSync(work, { recursive: true, force: true });
     const bytes = fs.statSync(args.out).size;
-    console.log(`Duration: ${(span / 1000 + HOLD_S).toFixed(1)}s`);
+    const span = frames[frames.length - 1].ts;
+    console.log(`Duration: ${(span + HOLD_S).toFixed(1)}s`);
     console.log(`\nwrote ${args.out} (${(bytes / 1048576).toFixed(1)} MB)`);
     return 0;
 }
 
-export { main, buildHtml, CASES };
+export { main, buildPlan, buildHtml, CASES };
 
 if (process.argv[1] && path.resolve(process.argv[1]) === path.resolve(import.meta.filename)) {
     main().then((code) => process.exit(code)).catch((error) => {
