@@ -136,6 +136,21 @@ test('the challenge asks for scopes the authorization endpoint will actually iss
         assert.equal(name, 'OAUTH_SCOPES',
             `a discovery document advertises ${name}, not the list authorize validates against`);
     }
+
+    // And a tool's requiredScope has to be one of them. A tool asking for a
+    // scope no newly issued token can carry is denied on every new connection
+    // and works only for legacy 'mcp' tokens — which mcp-apps.js still honours,
+    // so the breakage stays invisible to anyone testing with an old token.
+    const literal = (appSource.match(/const OAUTH_SCOPES = \[([^\]]+)\];/) || [])[1];
+    assert.ok(literal, 'OAUTH_SCOPES is still a literal list this test can read');
+    const issuable = literal.split(',').map((s) => s.trim().replace(/^'|'$/g, ''));
+    const appsSource = fs.readFileSync(path.join(__dirname, '..', 'mcp-apps.js'), 'utf8');
+    const required = [...appsSource.matchAll(/requiredScope: '([^']+)'/g)].map((m) => m[1]);
+    assert.ok(required.length >= 5, `the apps tools still declare required scopes (found ${required.length})`);
+    for (const scope of new Set(required)) {
+        assert.ok(issuable.includes(scope),
+            `an /mcp/apps tool requires ${scope}, which no newly issued token can carry`);
+    }
 });
 
 test('every API/MCP-issuing or -serving route carries apiAccessGate', () => {
