@@ -131,10 +131,14 @@ test('the challenge asks for scopes the authorization endpoint will actually iss
     // client that trusts one and asks with the other is refused for the same
     // reason from the other direction.
     const advertised = [...appSource.matchAll(/scopes_supported: ([A-Za-z_$][\w$]*)/g)].map((m) => m[1]);
-    assert.ok(advertised.length >= 2, 'both discovery documents still advertise scopes');
+    assert.ok(advertised.length >= 3, 'the discovery documents still advertise scopes');
+    // Two lists are legitimate, and they answer different questions: the RFC
+    // 9728 resource document names the DATA scopes the endpoint reads, while the
+    // authorization-server and OIDC documents also name the identity scopes
+    // /oauth/userinfo needs. Neither may name anything authorize refuses.
     for (const name of advertised) {
-        assert.equal(name, 'OAUTH_SCOPES',
-            `a discovery document advertises ${name}, not the list authorize validates against`);
+        assert.ok(['OAUTH_SCOPES', 'OAUTH_SCOPES_SUPPORTED'].includes(name),
+            `a discovery document advertises ${name}, which this test does not account for`);
     }
 
     // And a tool's requiredScope has to be one of them. A tool asking for a
@@ -143,7 +147,18 @@ test('the challenge asks for scopes the authorization endpoint will actually iss
     // so the breakage stays invisible to anyone testing with an old token.
     const literal = (appSource.match(/const OAUTH_SCOPES = \[([^\]]+)\];/) || [])[1];
     assert.ok(literal, 'OAUTH_SCOPES is still a literal list this test can read');
-    const issuable = literal.split(',').map((s) => s.trim().replace(/^'|'$/g, ''));
+    const oidcLiteral = (appSource.match(/const OIDC_SCOPES = \[([^\]]+)\];/) || [])[1];
+    assert.ok(oidcLiteral, 'OIDC_SCOPES is still a literal list this test can read');
+    // The advertised union must be built from both lists, and authorize must
+    // validate against THAT union — otherwise advertising an OIDC scope is an
+    // invitation to a request the same endpoint then refuses, which is exactly
+    // how the /mcp 'mcp'-scope challenge broke a connector before.
+    assert.match(appSource, /const OAUTH_SCOPES_SUPPORTED = \[\.\.\.OIDC_SCOPES, \.\.\.OAUTH_SCOPES\];/,
+        'the advertised union is no longer built from the two scope lists');
+    assert.match(appSource, /const invalid = requested\.filter\(\(s\) => !OAUTH_SCOPES_SUPPORTED\.includes\(s\)\);/,
+        'normalizeOauthScope no longer accepts everything the documents advertise');
+    const issuable = [...literal.split(','), ...oidcLiteral.split(',')]
+        .map((s) => s.trim().replace(/^'|'$/g, '')).filter(Boolean);
     const appsSource = fs.readFileSync(path.join(__dirname, '..', 'mcp-apps.js'), 'utf8');
     const required = [...appsSource.matchAll(/requiredScope: '([^']+)'/g)].map((m) => m[1]);
     assert.ok(required.length >= 5, `the apps tools still declare required scopes (found ${required.length})`);

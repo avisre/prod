@@ -34,6 +34,7 @@ const mcpEndpoint = require('./mcp-endpoint');
 const mcpApps = require('./mcp-apps');
 const mcpAnon = require('./mcp-anon');
 const oauthCsp = require('./oauth-csp');
+const oauthOidc = require('./oauth-oidc');
 const oauthMcp = require('./oauth-mcp');
 const aiPaper = require('./ai-paper-portfolio');
 const botBlocker = require('./bot-blocker');
@@ -5969,6 +5970,22 @@ function oauthBase(req) {
 // consent to all three by the tool layer.
 const OAUTH_SCOPES = ['financials:read', 'filings:read', 'research:read'];
 
+// OpenID Connect identity scopes, added 2026-09-30 for the OpenAI plugin
+// directory. ChatGPT asks for `openid email` by default from any authorization
+// server that ADVERTISES them (OpenAI docs, "OIDC scopes"), and
+// normalizeOauthScope refuses a scope it does not know — so before these were
+// listed, a ChatGPT connection would have been refused with invalid_scope and
+// the connector would have read as dead rather than mis-scoped. Same failure
+// shape as the 'mcp' challenge bug below. They grant no data access; they exist
+// so /oauth/userinfo can name the caller.
+const OIDC_SCOPES = ['openid', 'email'];
+
+// Everything scopes_supported may advertise and /oauth/authorize will issue.
+// Kept as a separate union rather than folded into OAUTH_SCOPES because
+// mcpAuthChallenge advertises OAUTH_SCOPES as the scopes a 401 is asking for,
+// and a missing credential should not be answered with "grant me your email".
+const OAUTH_SCOPES_SUPPORTED = [...OIDC_SCOPES, ...OAUTH_SCOPES];
+
 // Validates and normalizes the space-delimited `scope` parameter of an
 // authorization request. Absent means "everything advertised" — the consent
 // screen still lists what the connection gets. Unknown scopes are rejected
@@ -5977,7 +5994,7 @@ function normalizeOauthScope(raw) {
     const value = String(raw || '').trim();
     if (!value) return OAUTH_SCOPES.join(' ');
     const requested = value.split(/\s+/).filter(Boolean);
-    const invalid = requested.filter((s) => !OAUTH_SCOPES.includes(s));
+    const invalid = requested.filter((s) => !OAUTH_SCOPES_SUPPORTED.includes(s));
     if (invalid.length) return { error: `Unsupported scope: ${invalid.join(', ')}` };
     return [...new Set(requested)].join(' ');
 }
@@ -6037,8 +6054,66 @@ app.get('/.well-known/oauth-authorization-server', (req, res) => {
         grant_types_supported: ['authorization_code', 'refresh_token'],
         code_challenge_methods_supported: ['S256'],
         token_endpoint_auth_methods_supported: ['none'],
-        scopes_supported: OAUTH_SCOPES
+        userinfo_endpoint: `${base}/oauth/userinfo`,
+        // The identity scopes belong here and not in the RFC 9728 resource
+        // document: the resource is the filings API, and it reads nothing that
+        // openid/email unlocks.
+        scopes_supported: OAUTH_SCOPES_SUPPORTED
     });
+});
+
+// OpenID Connect discovery, required by OpenAI's plugin docs for workspace
+// domain restrictions. jwks_uri and id_token_signing_alg_values_supported are
+// deliberately absent: this server issues no ID token, and OpenAI treats one as
+// optional ("Reauthorization still works when an ID token is unavailable").
+// Publishing a key set that does not exist would be worse than the omission.
+app.get('/.well-known/openid-configuration', (req, res) => {
+    const base = oauthBase(req);
+    res.json({
+        issuer: base,
+        authorization_endpoint: `${base}/oauth/authorize`,
+        token_endpoint: `${base}/oauth/token`,
+        userinfo_endpoint: `${base}/oauth/userinfo`,
+        registration_endpoint: `${base}/oauth/register`,
+        response_types_supported: ['code'],
+        grant_types_supported: ['authorization_code', 'refresh_token'],
+        code_challenge_methods_supported: ['S256'],
+        token_endpoint_auth_methods_supported: ['none'],
+        scopes_supported: OAUTH_SCOPES_SUPPORTED,
+        subject_types_supported: ['public']
+    });
+});
+
+// GET /oauth/userinfo — the claims OpenAI reads to compare a caller's email
+// domain against a ChatGPT Enterprise workspace's verified domains.
+//
+// Any live access token may call this, not only one carrying `openid`. The
+// token belongs to the user who consented at /oauth/authorize and the address
+// returned is their own, so the strict reading buys no privacy; what it does
+// buy is a second way for a connector to fail silently over a scope mismatch.
+// email_verified is true because no User document exists until the address is
+// confirmed — registration only promotes a PendingSignup to a User once Stripe
+// or the emailed link confirms it (see the UserSchema comment above).
+app.get('/oauth/userinfo', async (req, res) => {
+    res.set('Cache-Control', 'no-store');
+    const unauthorized = () => {
+        res.set('WWW-Authenticate', 'Bearer error="invalid_token"');
+        return res.status(401).json({ error: 'invalid_token' });
+    };
+    const raw = oauthOidc.bearerToken(req.get('authorization'));
+    if (!raw) return unauthorized();
+    try {
+        const resolved = await oauthMcp.resolveAccessToken(raw);
+        if (!resolved) return unauthorized();
+        const user = await User.findById(resolved.userId).select('email').lean().catch(() => null);
+        const claims = oauthOidc.userInfoClaims(resolved, user);
+        if (!claims) return unauthorized();
+        return res.json(claims);
+    } catch (error) {
+        if (isDatabaseUnavailableError(error)) return res.status(503).json({ error: 'temporarily_unavailable' });
+        console.error('[oauth] userinfo failed:', error && error.message);
+        return res.status(500).json({ error: 'server_error' });
+    }
 });
 
 // Open registration is what "dynamic" means and ChatGPT will not connect
