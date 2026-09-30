@@ -68,9 +68,9 @@
     .latest-list h3 a { color: var(--ink); }
     .latest-list h3 a:hover { color: var(--accent-ink); }
 
-    .side-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 20px; overflow: hidden; }
-    .side-card h3 { font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); padding: 12px 16px 10px; margin: 0; border-bottom: 1px solid var(--line); }
-    .side-note { padding: 9px 16px 2px; color: var(--ink-3); font-size: 11px; line-height: 1.45; }
+    .side-card { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); margin-bottom: 14px; overflow: hidden; }
+    .side-card h3 { font-size: 10px; font-weight: 650; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-3); padding: 12px 14px 9px; margin: 0; border-bottom: 1px solid var(--line); }
+    .side-note { padding: 8px 14px 2px; color: var(--ink-3); font-size: 10px; line-height: 1.4; }
     .side-list { list-style: none; margin: 0; padding: 0; }
     .side-list li { display: flex; align-items: baseline; gap: 10px; padding: 9px 16px; border-bottom: 1px solid var(--line); font-size: 13px; }
     .side-list li:last-child { border-bottom: 0; }
@@ -78,6 +78,41 @@
     .side-list .vl { margin-left: auto; font-variant-numeric: tabular-nums; }
     .side-list .ch { font-variant-numeric: tabular-nums; min-width: 64px; text-align: right; }
     .side-empty { padding: 14px 16px; font-size: 12.5px; color: var(--ink-3); }
+    .market-watch-card .watch-summary { display: flex; align-items: end; justify-content: space-between; gap: 10px; padding: 10px 14px 5px; }
+    .watch-identity, .watch-quote { display: flex; min-width: 0; flex-direction: column; line-height: 1.25; }
+    .watch-identity strong { font-size: 13px; letter-spacing: .01em; }
+    .watch-identity span, .watch-quote span { overflow: hidden; color: var(--ink-3); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+    .watch-quote { align-items: end; font-variant-numeric: tabular-nums; }
+    .watch-quote strong { font-size: 15px; letter-spacing: -.02em; }
+    .watch-quote .watch-change { font-size: 10px; font-weight: 650; }
+    .watch-change.delta-pos { color: var(--green, #2e7d4f); }
+    .watch-change.delta-neg { color: var(--red, #b3402e); }
+    .watch-chart { padding: 4px 12px 0; }
+    .watch-chart svg { display: block; width: 100%; height: 88px; overflow: visible; }
+    .watch-chart .chart-grid { fill: none; stroke: var(--line); stroke-width: 1; }
+    .watch-chart .chart-area { fill: #ededeb; }
+    .watch-chart .chart-line { fill: none; stroke: #161616; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .watch-chart .chart-point { fill: #161616; }
+    .watch-chart .chart-axis { stroke: var(--line-strong); stroke-width: 1; }
+    .watch-chart .chart-date { fill: var(--ink-3); font-size: 8px; font-family: inherit; }
+    .watch-list { padding: 4px 0 0; }
+    .watch-row { display: grid; width: 100%; grid-template-columns: 42px minmax(0, 1fr) 55px; gap: 6px; align-items: center; min-height: 36px; padding: 5px 12px; border: 0; border-top: 1px solid #efeeeb; background: transparent; text-align: left; }
+    .watch-row:hover, .watch-row[aria-pressed="true"] { background: #f7f6f3; }
+    .watch-row[aria-pressed="true"] { box-shadow: inset 2px 0 #161616; }
+    .watch-row b { font-size: 10px; font-variant-numeric: tabular-nums; }
+    .watch-row .watch-name { overflow: hidden; color: var(--ink-3); font-size: 9px; text-overflow: ellipsis; white-space: nowrap; }
+    .watch-row .watch-value { text-align: right; font-variant-numeric: tabular-nums; }
+    .watch-row .watch-value strong { display: block; font-size: 9px; font-weight: 650; }
+    .watch-row .watch-value small { font-size: 8px; }
+    .watch-row .watch-value .delta-pos { color: var(--green, #2e7d4f); }
+    .watch-row .watch-value .delta-neg { color: var(--red, #b3402e); }
+    .mover-tabs { display: flex; gap: 3px; padding: 8px 10px 5px; }
+    .mover-tab { border: 0; border-radius: 4px; background: transparent; color: var(--ink-3); padding: 5px 7px; font-size: 9px; }
+    .mover-tab[aria-pressed="true"] { background: #161616; color: #fff; font-weight: 650; }
+    .mover-list li { padding: 8px 12px; font-size: 11px; }
+    .ticker-tone { margin-left: auto; color: var(--ink-3); font-size: 9px; }
+    .ticker-tone.pos { color: var(--green, #2e7d4f); }
+    .ticker-tone.neg { color: var(--red, #b3402e); }
     .news-error { color: var(--red, #b3402e); padding: 18px 0; }
     .news-error button { margin-top: 8px; }
 
@@ -175,24 +210,31 @@
         </section>
         </div><!-- /.mkt-content -->
 
-        <aside aria-label="Markets and trending">
-        <div class="side-card">
-            <h3>Most mentioned tickers</h3>
-            <p class="side-note">Ranked by story relevance and sentiment; counts show provider mentions.</p>
-            <ul class="side-list" id="trending-list"><li class="side-empty"><span class="loading-line"><span class="spin"></span>Loading…</span></li></ul>
-          </div>
-          <div class="side-card">
-            <h3>Top gainers</h3>
-            <ul class="side-list" id="movers-gainers"><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
-          </div>
-          <div class="side-card">
-            <h3>Top losers</h3>
-            <ul class="side-list" id="movers-losers"><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
-          </div>
-          <div class="side-card">
-            <h3>Most active</h3>
-            <ul class="side-list" id="movers-active"><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
-          </div>
+        <aside class="markets-sidebar" aria-label="Market watch and movers">
+          <section class="side-card market-watch-card" id="market-watch-card" aria-labelledby="market-watch-title">
+            <h3 id="market-watch-title">Market watch</h3>
+            <p class="side-note">Recent daily closes · fund proxies</p>
+            <div class="watch-summary"><div class="watch-identity"><strong id="watch-symbol">SPY</strong><span id="watch-name">S&amp;P 500 ETF</span></div><div class="watch-quote"><strong id="watch-price">—</strong><span class="watch-change" id="watch-change">—</span></div></div>
+            <div class="watch-chart" id="watch-chart" role="img" aria-label="Recent daily closes for SPY"></div>
+            <div class="watch-list" id="watch-list" role="group" aria-label="Choose a fund proxy"></div>
+          </section>
+          <section class="side-card mover-card" aria-labelledby="movers-title">
+            <h3 id="movers-title">Market movers</h3>
+            <p class="side-note">Latest available close · USD</p>
+            <div class="mover-tabs" role="group" aria-label="Choose market movers">
+              <button class="mover-tab" id="movers-tab-gainers" type="button" data-view="gainers" aria-pressed="true">Gainers</button>
+              <button class="mover-tab" id="movers-tab-losers" type="button" data-view="losers" aria-pressed="false">Losers</button>
+              <button class="mover-tab" id="movers-tab-active" type="button" data-view="active" aria-pressed="false">Active</button>
+            </div>
+            <ul class="side-list mover-list" id="movers-gainers"><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
+            <ul class="side-list mover-list" id="movers-losers" hidden><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
+            <ul class="side-list mover-list" id="movers-active" hidden><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
+          </section>
+          <section class="side-card" aria-labelledby="trending-title">
+            <h3 id="trending-title">Trending tickers</h3>
+            <p class="side-note">Companies appearing in these headlines</p>
+            <ul class="side-list" id="trending-list"><li class="side-empty"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></li></ul>
+          </section>
           <div class="side-card">
             <h3>Recently viewed</h3>
             <ul class="side-list" id="recent-viewed"><li class="side-empty">Open a company page to start tracking.</li></ul>
@@ -202,6 +244,6 @@
     </div>
   </main>
   <script src="assets/app.js?v=20260928-fundsearch"></script>
-  <script src="assets/news.js?v=20260930-markets-quality1"></script>
+  <script src="assets/news.js?v=20260930-yahoo-rail1"></script>
 </body>
 </html>

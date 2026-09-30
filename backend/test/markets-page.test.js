@@ -26,6 +26,11 @@ class FakeElement {
                 const button = new FakeElement(); button.dataset.k = m[1]; button.textContent = m[3]; button.attributes['aria-pressed'] = m[2]; return button;
             });
         }
+        if (this.id === 'watch-list') {
+            this.watchButtons = [...this._html.matchAll(/<button[^>]*data-symbol="([^"]+)"[^>]*aria-pressed="([^"]+)"/g)].map((m) => {
+                const button = new FakeElement(); button.dataset.symbol = m[1]; button.attributes['aria-pressed'] = m[2]; return button;
+            });
+        }
     }
     get innerHTML() { return this._html || ''; }
     addEventListener(type, callback) { (this.handlers[type] ||= []).push(callback); }
@@ -36,6 +41,7 @@ class FakeElement {
         if (selector === '.chip') {
             return this.chipButtons || [];
         }
+        if (selector === '.watch-row') return this.watchButtons || [];
         if (selector === 'a') return [...this.innerHTML.matchAll(/<a href="#" data-sym="([^"]+)"/g)].map((m) => {
             const anchor = new FakeElement(); anchor.dataset.sym = m[1]; return anchor;
         });
@@ -60,7 +66,10 @@ function makePage({ loggedIn = true } = {}) {
     };
     const fetch = (url) => {
         if (url.includes('/alpha/news')) return new Promise((resolve) => pendingNews.push({ url, resolve }));
-        if (url.includes('/market/strip')) return Promise.resolve({ ok: true, json: async () => ({ quotes: { SPY: { value: 100, pct: 1, date: '2026-09-28', closes: [95, 97, 100] } } }) });
+        if (url.includes('/market/strip')) return Promise.resolve({ ok: true, json: async () => ({ quotes: {
+            SPY: { value: 100, pct: 1, date: '2026-09-28', closes: [95, 97, 100] },
+            QQQ: { value: 120, pct: -0.5, date: '2026-09-28', closes: [122, 121, 120] }
+        } }) });
         if (url.includes('/alpha/movers')) return Promise.resolve({ ok: true, json: async () => ({ top_gainers: [], top_losers: [{ ticker: 'LOSE', price: '4.5', change_percentage: '-2%' }], most_actively_traded: [{ ticker: 'ACT', price: '10', change_percentage: '1%' }] }) });
         return Promise.resolve({ ok: true, json: async () => [] });
     };
@@ -83,19 +92,43 @@ test('Markets page keeps the latest filter response, shows every story and prese
     const page = makePage();
     await tick();
     assert.equal(page.pendingNews.length, 1);
-    respond(page.pendingNews.shift(), { feed: stories('Initial', 60) });
+    const initialStories = stories('Initial', 60);
+    initialStories[0].ticker_sentiment = [{ ticker: 'NVDA', relevance_score: '0.8', ticker_sentiment_score: '0.2' }];
+    respond(page.pendingNews.shift(), { feed: initialStories });
     await tick();
     assert.match(page.element('topics-row').innerHTML, />All topics<\/button>/);
     assert.match(page.element('assets-row').innerHTML, />All assets<\/button>/);
+    assert.deepEqual(page.element('topics-row').querySelectorAll('.chip').map((button) => button.textContent), [
+        'All topics', 'Top stories', 'Markets', 'Earnings', 'Tech', 'Macro', 'Monetary', 'IPO', 'M&A', 'Energy', 'Finance', 'Life sciences', 'Real estate', 'Retail'
+    ]);
+    assert.deepEqual(page.element('assets-row').querySelectorAll('.chip').map((button) => button.textContent), [
+        'All assets', 'Stocks', 'Crypto', 'Forex', 'Bonds', 'Commodities', 'ETFs', 'Sectors'
+    ]);
     assert.equal(page.element('news-result-meta').textContent, '60 stories · latest first');
     assert.match(page.element('tape').innerHTML, /S&P 500 ETF · SPY/);
     assert.match(page.element('tape').innerHTML, /Daily close · Sep 28, 2026/);
     assert.match(page.element('tape').innerHTML, /class="spark"/);
     assert.equal(page.element('tape').getAttribute('aria-busy'), 'false');
+    assert.equal(page.element('news-stream-col').hidden, false);
+    assert.equal(page.element('watch-symbol').textContent, 'SPY');
+    assert.equal(page.element('watch-price').textContent, '$100.00');
+    assert.match(page.element('watch-chart').innerHTML, /class="chart-line"/);
+    assert.match(page.element('trending-list').innerHTML, /NVDA/);
+    assert.doesNotMatch(page.element('trending-list').innerHTML, /mention/i);
+    const watchButtons = page.element('watch-list').querySelectorAll('.watch-row');
+    assert.equal(watchButtons.length, 2);
+    await watchButtons[1].fire('click');
+    assert.equal(page.element('watch-symbol').textContent, 'QQQ');
+    assert.equal(page.element('watch-price').textContent, '$120.00');
     assert.equal((page.element('news-stream').innerHTML.match(/class="stream-item"/g) || []).length, 49);
     assert.match(page.element('movers-losers').innerHTML, /LOSE/);
     assert.match(page.element('movers-active').innerHTML, /ACT/);
     assert.match(page.element('movers-gainers').innerHTML, /No data right now/);
+    assert.equal(page.element('movers-gainers').hidden, false);
+    await page.element('movers-tab-losers').fire('click');
+    assert.equal(page.element('movers-gainers').hidden, true);
+    assert.equal(page.element('movers-losers').hidden, false);
+    assert.equal(page.element('movers-tab-losers').getAttribute('aria-pressed'), 'true');
 
     const topics = page.element('topics-row').querySelectorAll('.chip');
     const earnings = topics.find((button) => button.dataset.k === 'earnings');
@@ -131,6 +164,23 @@ test('Markets page keeps the latest filter response, shows every story and prese
     respond(cleared, { feed: stories('All filters cleared', 1) });
     await tick();
     assert.equal(page.element('news-clear-filters').hidden, true);
+
+    const crypto = page.element('assets-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'crypto');
+    await crypto.fire('click');
+    await tick();
+    const cryptoOnly = page.pendingNews.shift();
+    assert.match(cryptoOnly.url, /tickers=BTC%2CETH%2CCOIN%2CMARA%2CRIOT/);
+    respond(cryptoOnly, { feed: stories('Crypto filter', 6) });
+    await tick();
+    const markets = page.element('topics-row').querySelectorAll('.chip').find((button) => button.dataset.k === 'financial_markets');
+    await markets.fire('click');
+    await tick();
+    const cryptoMarkets = page.pendingNews.shift();
+    assert.match(cryptoMarkets.url, /topics=financial_markets/);
+    respond(cryptoMarkets, { feed: stories('Crypto markets', 6) });
+    await tick();
+    assert.equal(page.element('news-result-meta').textContent, '6 stories for Crypto · Markets · latest first');
+    assert.equal(page.element('news-stream-col').hidden, true);
 
     const input = page.element('news-q');
     input.value = 'Microsoft';
@@ -225,8 +275,11 @@ test('signed-out and paid-gated visitors see clear copy and no locked controls',
 
 test('Markets page cache-busts the immutable news asset after changing its behavior', () => {
     const html = fs.readFileSync(path.join(__dirname, '../../frontend-v2/news.html'), 'utf8');
-    assert.match(html, /assets\/news\.js\?v=20260930-markets-quality1/);
+    assert.match(html, /assets\/news\.js\?v=20260930-yahoo-rail1/);
     assert.match(html, /Filter headlines by topic/);
     assert.match(html, /Filter headlines by asset class/);
     assert.match(html, /daily closes, not intraday index quotes/);
+    assert.match(html, /Market watch/);
+    assert.match(html, /Market movers/);
+    assert.match(html, /id="movers-tab-gainers"/);
 });

@@ -10,6 +10,9 @@
         ['S&P 500 ETF · SPY', 'SPY'], ['Dow ETF · DIA', 'DIA'], ['Nasdaq 100 ETF · QQQ', 'QQQ'], ['Russell 2000 ETF · IWM', 'IWM'],
         ['VIX futures ETN · VXX', 'VXX'], ['Oil fund · USO', 'USO'], ['Gold ETF · GLD', 'GLD'], ['20+ yr Treasury ETF · TLT', 'TLT'], ['Bitcoin strategy ETF · BITO', 'BITO']
     ];
+    const WATCH = [
+        ['SPY', 'S&P 500 ETF'], ['QQQ', 'Nasdaq 100 ETF'], ['DIA', 'Dow ETF'], ['IWM', 'Russell 2000 ETF']
+    ];
     const TOPICS = [
         ['all', 'All topics'], ['top_stories', 'Top stories'], ['financial_markets', 'Markets'],
         ['earnings', 'Earnings'], ['technology', 'Tech'], ['economy_macro', 'Macro'],
@@ -30,12 +33,81 @@
     let searchTickers = '';
 
     // ---------- ① market snapshot ----------
+    function renderMarketWatch(quotes) {
+        const available = WATCH.filter(([symbol]) => quotes[symbol]);
+        const list = $('watch-list');
+        const card = $('market-watch-card');
+        if (!available.length) {
+            card.hidden = true;
+            return;
+        }
+        card.hidden = false;
+        list.innerHTML = available.map(([symbol, name]) => {
+            const q = quotes[symbol];
+            const up = Number(q.pct) >= 0;
+            return `<button class="watch-row" type="button" data-symbol="${symbol}" aria-pressed="false" aria-label="${esc(`${symbol}, ${name}, $${fixed(q.value, 2)}, ${up ? '+' : ''}${fixed(q.pct, 2)} percent`)}">
+              <b>${symbol}</b><span class="watch-name">${esc(name)}</span>
+              <span class="watch-value"><strong>$${fixed(q.value, 2)}</strong><small class="${up ? 'delta-pos' : 'delta-neg'}">${up ? '+' : ''}${fixed(q.pct, 2)}%</small></span>
+            </button>`;
+        }).join('');
+
+        const select = (symbol) => {
+            const entry = available.find(([key]) => key === symbol);
+            if (!entry) return;
+            const [key, name] = entry;
+            const q = quotes[key];
+            const up = Number(q.pct) >= 0;
+            const date = q.date
+                ? new Date(`${q.date}T12:00:00Z`).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+                : 'date unavailable';
+            $('watch-symbol').textContent = key;
+            $('watch-name').textContent = name;
+            $('watch-price').textContent = `$${fixed(q.value, 2)}`;
+            const change = $('watch-change');
+            change.textContent = `${up ? '+' : ''}${fixed(q.pct, 2)}% · ${date}`;
+            change.classList.toggle('delta-pos', up);
+            change.classList.toggle('delta-neg', !up);
+            $('watch-chart').setAttribute('aria-label', `${name} (${key}) recent daily closes through ${date}`);
+
+            const values = (Array.isArray(q.closes) ? q.closes : []).map(Number).filter(Number.isFinite);
+            if (values.length < 2) {
+                $('watch-chart').innerHTML = '<p class="side-empty">Recent price history unavailable.</p>';
+            } else {
+                const left = 8, right = 272, top = 8, bottom = 56;
+                const low = Math.min(...values), high = Math.max(...values);
+                const pad = high === low ? Math.max(Math.abs(high) * 0.002, 0.01) : (high - low) * 0.08;
+                const min = low - pad, max = high + pad;
+                const coords = values.map((value, index) => {
+                    const x = left + (index / (values.length - 1)) * (right - left);
+                    const y = bottom - ((value - min) / (max - min)) * (bottom - top);
+                    return [Number(x.toFixed(1)), Number(y.toFixed(1))];
+                });
+                const line = coords.map(([x, y], index) => `${index ? 'L' : 'M'}${x} ${y}`).join(' ');
+                const [lastX, lastY] = coords[coords.length - 1];
+                const area = `${line} L${right} ${bottom} L${left} ${bottom} Z`;
+                $('watch-chart').innerHTML = `<svg viewBox="0 0 280 78" aria-hidden="true">
+                  <path class="chart-grid" d="M8 8H272 M8 32H272 M8 56H272"></path>
+                  <path class="chart-area" d="${area}"></path>
+                  <path class="chart-line" d="${line}"></path>
+                  <circle class="chart-point" cx="${lastX}" cy="${lastY}" r="2.8"></circle>
+                  <path class="chart-axis" d="M8 57H272"></path>
+                  <text class="chart-date" x="8" y="72">Earlier closes</text>
+                  <text class="chart-date" x="272" y="72" text-anchor="end">${esc(date)}</text>
+                </svg>`;
+            }
+            list.querySelectorAll('.watch-row').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.symbol === key)));
+        };
+        list.querySelectorAll('.watch-row').forEach((button) => button.addEventListener('click', () => select(button.dataset.symbol)));
+        select(available[0][0]);
+    }
+
     (async () => {
         try {
             const r = await fetch(`${API}/market/strip?symbols=${TAPE.map(([, s]) => s).join(',')}`);
             if (!r.ok) throw new Error('market snapshot ' + r.status);
             const data = await r.json();
             const quotes = data.quotes || {};
+            renderMarketWatch(quotes);
             const cards = TAPE.map(([label, sym]) => {
                 const q = quotes[sym];
                 if (!q) return '';
@@ -60,6 +132,7 @@
         } catch (_) {
             $('tape').setAttribute('aria-busy', 'false');
             $('market-snapshot').hidden = true;
+            $('market-watch-card').hidden = true;
         }
     })();
 
@@ -241,6 +314,7 @@
           </li>`).join('');
     }
     function renderStream(items) {
+        $('news-stream-col').hidden = items.length === 0;
         $('news-stream').innerHTML = items.map((it) => `
           <article class="stream-item">
             ${it.banner_image
@@ -273,14 +347,29 @@
             .sort((a, b) => (b[1].score - a[1].score) || (b[1].mentions - a[1].mentions))
             .slice(0, 8);
         $('trending-list').innerHTML = ranked.length
-            ? ranked.map(([tk, s]) => `
+            ? ranked.map(([tk, s]) => {
+                const tone = s.signed > 0.05 ? 'Positive' : s.signed < -0.05 ? 'Negative' : 'Neutral';
+                const toneClass = s.signed > 0.05 ? 'pos' : s.signed < -0.05 ? 'neg' : '';
+                return `
                 <li>
-                  <span class="tone-dot ${s.signed > 0.05 ? 'pos' : s.signed < -0.05 ? 'neg' : ''}"></span>
+                  <span class="tone-dot ${toneClass}" aria-hidden="true"></span>
                   <a class="tk" href="/company.html?symbol=${tk}">${tk}</a>
-                  <span class="vl muted small">${s.mentions} mention${s.mentions > 1 ? 's' : ''}</span>
-                </li>`).join('')
-            : '<li class="side-empty">No mentions yet.</li>';
+                  <span class="ticker-tone ${toneClass}">${tone}</span>
+                </li>`;
+            }).join('')
+            : '<li class="side-empty">No related tickers yet.</li>';
     }
+
+    function chooseMoverView(view) {
+        ['gainers', 'losers', 'active'].forEach((key) => {
+            $(`movers-tab-${key}`).setAttribute('aria-pressed', String(key === view));
+            $(`movers-${key}`).hidden = key !== view;
+        });
+    }
+    ['gainers', 'losers', 'active'].forEach((view) => {
+        $(`movers-tab-${view}`).addEventListener('click', () => chooseMoverView(view));
+    });
+    chooseMoverView('gainers');
 
     let newsRequest = 0;
     function setAccessGate(paidRequired) {
@@ -317,7 +406,7 @@
         if (!token()) {
             clearResults();
             setAccessGate(false);
-            ['trending-list'].forEach((id) => { $(id).innerHTML = '<li class="side-empty">Sign in to see trending.</li>'; });
+            $('trending-list').innerHTML = '<li class="side-empty">Sign in to see trending tickers.</li>';
             return;
         }
         $('news-controls').hidden = false;
