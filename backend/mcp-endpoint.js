@@ -586,7 +586,14 @@ function buildMcpServer(ctx, deps) {
             description: toolDescription(def),
             inputSchema: def.inputSchema,
             outputSchema: def.outputSchema,
-            annotations: def.annotations
+            // `title` belongs in BOTH places. Tool.title and
+            // ToolAnnotations.title are separate fields in the spec, and the
+            // directory's connector checker reads the annotation one: with only
+            // the top-level field set, all six tools came back "Missing title
+            // annotation. Add annotations.title" on the submission form
+            // (2026-10-01). Spread after so an explicit annotations.title, if one
+            // is ever added, still wins.
+            annotations: { title: def.title, ...def.annotations }
         }));
         logEvent(deps, { event: 'tools/list', toolCount: tools.length, caller: ctx.logId || null });
         return { tools };

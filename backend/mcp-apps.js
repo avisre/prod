@@ -459,7 +459,9 @@ function wireTool(def) {
         description: def.description,
         inputSchema: portableSchema(def.inputSchema),
         outputSchema: portableSchema(def.outputSchema),
-        annotations: def.annotations
+        // Both fields, for the same reason as mcp-endpoint.js: the directory's
+        // connector checker reads ToolAnnotations.title, not Tool.title.
+        annotations: { title: def.title, ...def.annotations }
     };
 }
 
