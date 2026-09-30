@@ -48,8 +48,14 @@ Decisions worth knowing before editing it:
   in ChatGPT and the website subscription is not surfaced by the plugin.
 - **Reviewer credentials are deliberately absent** — ZIP metadata rejects
   `test_credentials` and `reviewer_instructions`. They go in **Review details**.
-- **`demo_recording_url` is absent** so the dashboard value is preserved; it is
-  owner-supplied and still outstanding.
+- **`demo_recording_url` must live in the ZIP, not the dashboard.** Step 5 of the
+  review dialog states it verbatim: *"Add a video walkthrough URL to
+  `extensions.com.openai.review.demo_recording_url` in plugin.json, then upload
+  your plugin ZIP again before submitting for review."* There is no dashboard
+  field for it. It is owner-supplied and still outstanding, so the package
+  currently carries no recording — this is the one remaining blocker on the
+  review path, and it is why the next ZIP upload is required even though the
+  test cases and release notes already imported correctly.
 
 ---
 

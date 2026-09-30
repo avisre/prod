@@ -39,6 +39,17 @@ for (const ref of refs) {
 process.exit(bad);
 '
 
+# The portal reads the walkthrough recording from the ZIP rather than from a
+# dashboard field: step 5 of the review dialog says to "add a video walkthrough
+# URL to extensions.com.openai.review.demo_recording_url in plugin.json, then
+# upload your plugin ZIP again before submitting for review." This warns instead
+# of aborting so a package can still be built and inspected before the recording
+# exists, but the warning has to be unmissable because nothing else catches it.
+if ! node -e 'process.exit(require("./plugin.json").extensions?.["com.openai"]?.review?.demo_recording_url ? 0 : 1)'; then
+    echo "WARNING: plugin.json has no extensions.com.openai.review.demo_recording_url."
+    echo "         The portal rejects this ZIP at submission until one is added."
+fi
+
 rm -f "$out"
 zip -q -X "$out" plugin.json mcp.json -r assets
 echo
