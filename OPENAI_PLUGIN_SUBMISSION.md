@@ -27,6 +27,13 @@ openai-plugin/
 └── assets/        logo.png, composer-icon.png (square, ≥48×48)
 ```
 
+The two assets are both 512×512 PNGs with a transparent background. The brand
+mark is a red bull (`#EB1D1E`) on transparency, supplied by the owner as a
+1254×1254 master; the assets are that master scaled down, so the framing is the
+owner's own and the mark composites correctly on light and dark surfaces alike.
+`scripts/build-openai-plugin.sh` checks only what the uploader enforces — square
+and at least 48×48 — so a replacement must be checked by eye as well.
+
 Decisions worth knowing before editing it:
 
 - **No `skills/`.** A skill requirement applies only to a *skills-only* ZIP

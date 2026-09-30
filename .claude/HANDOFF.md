@@ -60,11 +60,10 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
 - **Owner-only, in order:** (1) identity verification — submitted 9/30, reads **"Identity in review"**;
   publishing under an unverified name is an automatic rejection. (2) a **demo-recording URL**, which must go in
   **`plugin.json`** (`extensions.com.openai.review.demo_recording_url`) — there is **no dashboard field for
-  it**, and step 5 of the review dialog says verbatim to add it and upload the ZIP again. (3) the **logo** —
-  the package ships a valid 48×48 placeholder (`openai-plugin/assets/{logo,composer-icon}.png`, copies of
-  `frontend/Media/icon.png`) that swaps in place; owner is supplying a large square one.
-  **Items (2) and (3) are ONE rebuild and ONE "Upload new version".** (4) **Submit for review** (skill scans
-  can take two hours). Still open, ours: the privacy policy's human legal review.
+  it**, and step 5 of the review dialog says verbatim to add it and upload the ZIP again. This is now the
+  **only** package-side blocker: the logo landed 10/01 (below), so recording + URL means one rebuild and one
+  reupload. (3) **Submit for review** (skill scans can take two hours). Still open, ours: the privacy
+  policy's human legal review.
 
 ### The package
 - **`openai-plugin/` → `openai-plugin.zip` via `scripts/build-openai-plugin.sh`** (Agent Plugins portable
@@ -72,6 +71,12 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   because `plugin_root_has_siblings` rejects a plugin dir with sibling files). The script validates every
   referenced asset is square and ≥48×48 via `magick`, and now **warns when `demo_recording_url` is missing** —
   the one submission requirement no other check catches.
+- **The logo is the owner's own, and it shipped 10/01.** `assets/{logo,composer-icon}.png` are both
+  **512×512 PNGs on a transparent background**, scaled from the owner's 1254×1254 red-bull master (body
+  `#EB1D1E`, corners `srgba(0,0,0,0)` — the master is transparent, not black, so it composites on light and
+  dark surfaces alike). `magick <master> -resize 512x512 -strip -define png:color-type=6 <out>`. The build
+  script only enforces what the uploader enforces — square and ≥48×48 — so a future swap needs an eye check
+  too. This replaces the `frontend/Media/icon.png` placeholder the package shipped before.
 - **The ZIP is the source of truth, not the form.** Listing text, the exactly-five-positive/three-negative
   review cases and the release notes all travel inside it and import on upload; the dashboard shows them
   **read-only** afterwards (`ro=true`, verified on tabs 1–2 of each step). `OPENAI_PLUGIN_SUBMISSION.md` §0
@@ -116,8 +121,15 @@ the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; d
   `/tmp/openai-reviewer-credentials.txt` by `/tmp/fill-creds.mjs`, plus sign-in steps naming the login page,
   the absence of MFA/emailed codes, and approving the OAuth consent screen. Step 5 shows the release notes
   imported and **"No video walkthrough URL provided"** — the only red item left.
-- **After re-uploading the ZIP, re-check review step 2.** The credentials were typed into the dashboard, not
-  carried by the ZIP, so confirm they survived the new version before submitting.
+- **The logo reupload was verified in production, 10/01.** Metadata came back **No Issues**, MCP
+  configuration stayed **Configured**, and — the risk that actually mattered — **all five reviewer-credential
+  fields survived** (`url=41`, `tenant=0`, `user=32`, `pw=32`, `steps=257`), because those live in the
+  dashboard and the ZIP does not carry them. Test case 1 re-imported identically. "Incomplete review
+  information" remains and is expected: it is the missing video URL and nothing else.
+- **The upload entry point moves.** After review details are saved, the header's **"Upload new version"**
+  disappears; the path is the right-panel drop zone **"Upload plugin to make changes"**, which is a real
+  `input[type=file]` once clicked (attach with `DOM.setFileInputFiles`). The dialog that follows is "Reupload
+  draft".
 - **Reviewer account verified 10/01** — `openai-review@stockportfolio.pro` signs in on production
   (`POST /api/login` → 200, session issued, **no MFA / no emailed code / no magic link**), and the stored
   document carries `reviewAccount: true`, all four mail opt-outs and `analyticsConsent: false`
