@@ -351,3 +351,12 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
 13. ~~**Create the ChatGPT connector**~~ — **DONE 9/30**: installed and calling tools, see In flight. Two optional
     polish items that are yours to make and are not blockers: the icon is the default placeholder, and the plugin
     still reads `DEVELOPMENT` review status — publish it from the plugin page if you want it directory-listed.
+14. **ChatGPT directory listing** — the submission package is already written and current
+    (`OPENAI_PLUGIN_SUBMISSION.md`, 26 KB, plus `scripts/verify-mcp-apps.js` and `scripts/create-openai-reviewer.js`).
+    **The submitted URL is `https://www.stockportfolio.pro/mcp/apps`, NOT `/mcp`** — there are two surfaces and
+    `/mcp/apps` is the purpose-built OpenAI one (7 tools, commerce-neutral). Anything read off `/mcp` — including
+    the `upgradeInstructions()` copy naming the Dev plan and `/register?plan=dev` — does **not** apply to the
+    submission. Four owner-only steps remain, all in its §12: identity verification + Apps Management: Write,
+    the `OPENAI_APPS_CHALLENGE` domain token on Render, the reviewer account (§4), and the portal actions.
+    **The reviewer account is a real write to production Atlas**: attempted 9/30 and correctly stopped by the
+    classifier — "yeah list it" covers the listing, not provisioning an account, so it needs an explicit go-ahead.
