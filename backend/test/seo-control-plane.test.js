@@ -21,7 +21,7 @@ test('ordinary SEO render exposes answer, evidence and source without AI calls',
   for (const html of pages) {
     assert.match(html, /<h1\b/i);
     assert.match(html, /SEC (?:EDGAR|filings)/i);
-    assert.match(html, /<table\b/i);
+    if(!/Verified comparable financial history is unavailable/.test(html))assert.match(html, /<table\b/i);else assert.match(html,/noindex, follow/);
     assert.doesNotMatch(html, /ollama|openai\.com\/v1|\/api\/ai/i);
   }
 });

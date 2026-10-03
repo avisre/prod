@@ -1,78 +1,30 @@
 #!/usr/bin/env node
-/**
- * build-us-companies.js
- *
- * Builds frontend/data/us-companies.json — the full universe of US-listed
- * SEC registrants (~10,400) — from the SEC's free company_tickers.json.
- * The file is ordered by market cap (the SEC keeps it that way), which
- * makes prefix search ranking sensible for free.
- *
- * Where a company is in our S&P 1500 list we keep that curated name and
- * sector; otherwise the SEC title is lightly title-cased.
- *
- * Usage: node scripts/build-us-companies.js
- */
-
+'use strict';
+// Refresh all US exchange-listed stocks; keep the last good file on failure.
 const fs = require('fs');
 const path = require('path');
-const https = require('https');
-
-const ROOT = path.resolve(__dirname, '..');
-const OUT = path.join(ROOT, 'frontend', 'data', 'us-companies.json');
-const SP1500 = path.join(ROOT, 'frontend', 'data', 'sp1500-companies.json');
-
-function fetchJson(url) {
-    return new Promise((resolve, reject) => {
-        https.get(url, { headers: { 'User-Agent': 'stockportfolio.pro admin@stockportfolio.pro' } }, (res) => {
-            if (res.statusCode !== 200) { reject(new Error(`HTTP ${res.statusCode}`)); return; }
-            let body = '';
-            res.on('data', (c) => { body += c; });
-            res.on('end', () => { try { resolve(JSON.parse(body)); } catch (e) { reject(e); } });
-        }).on('error', reject);
-    });
+const { buildUniverse } = require('./lib/us-listings');
+const DATA = path.join(__dirname, '../frontend/data');
+const OUT = path.join(DATA, 'us-companies.json');
+async function get(url) {
+    const response = await fetch(url, { headers: { 'User-Agent': 'stockportfolio.pro contact@stockportfolio.pro' }, signal: AbortSignal.timeout(30000) });
+    if (!response.ok) throw new Error(`${url}: HTTP ${response.status}`);
+    return response.text();
 }
-
-// "NVIDIA CORP" → "Nvidia Corp"; keeps known all-caps tickers/initialisms intact
-function prettyName(title) {
-    return String(title || '').replace(/\w[\w'’.&-]*/g, (w) => {
-        if (/^[A-Z]{1,3}$/.test(w) || /\d/.test(w)) return w; // "AT", "3M", "II"
-        return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
-    });
+async function main() {
+    const [nasdaq, other, sec] = await Promise.all([
+        get('https://www.nasdaqtrader.com/dynamic/SymDir/nasdaqlisted.txt'),
+        get('https://www.nasdaqtrader.com/dynamic/SymDir/otherlisted.txt'),
+        get('https://www.sec.gov/files/company_tickers_exchange.json')
+    ]);
+    const read = (file) => { try { return JSON.parse(fs.readFileSync(file, 'utf8')).companies || []; } catch (_) { return []; } };
+    const previous = read(OUT);
+    const result = buildUniverse(nasdaq, other, JSON.parse(sec), read(path.join(DATA, 'sp1500-companies.json')), previous);
+    if (result.count < 4000 || result.count < previous.length * 0.65) throw new Error(`Suspicious directory size (${result.count}); keeping previous file`);
+    if (process.argv.includes('--dry-run')) { console.log(JSON.stringify({ count: result.count, excluded: result.excluded })); return; }
+    fs.writeFileSync(OUT + '.tmp', JSON.stringify(result));
+    fs.renameSync(OUT + '.tmp', OUT);
+    console.log(`US-listed stock directory: ${result.count}; excluded non-stock issues: ${JSON.stringify(result.excluded)}`);
 }
-
-(async () => {
-    // exchange-listed only: OTC/unlisted rows are mostly foreign ordinaries
-    // and shells — out of scope (we focus on US exchange-traded stocks)
-    const sec = await fetchJson('https://www.sec.gov/files/company_tickers_exchange.json');
-    const KEEP = new Set(['Nasdaq', 'NYSE', 'CBOE']);
-    let curated = new Map();
-    try {
-        const sp = JSON.parse(fs.readFileSync(SP1500, 'utf8'));
-        curated = new Map((sp.companies || []).map((c) => [c.symbol, c]));
-    } catch (_) { /* sp1500 list optional */ }
-
-    const seen = new Set();
-    const companies = [];
-    for (const [cik, title, ticker, exchange] of sec.data || []) {
-        if (!KEEP.has(exchange)) continue;
-        const symbol = String(ticker || '').toUpperCase().trim();
-        if (!symbol || seen.has(symbol) || !/^[A-Z0-9.\-]{1,10}$/.test(symbol)) continue;
-        seen.add(symbol);
-        const cur = curated.get(symbol);
-        companies.push({
-            symbol,
-            name: cur ? cur.name : prettyName(title),
-            cik,
-            ...(cur && cur.sector ? { sector: cur.sector } : {})
-        });
-    }
-
-    const payload = {
-        generatedAt: new Date().toISOString(),
-        source: 'SEC company_tickers_exchange.json, Nasdaq/NYSE/CBOE only (+ curated S&P 1500 names/sectors)',
-        count: companies.length,
-        companies
-    };
-    fs.writeFileSync(OUT, JSON.stringify(payload));
-    console.log(`wrote ${OUT}: ${companies.length} exchange-listed companies (${[...curated.keys()].filter((s) => seen.has(s)).length} with curated names)`);
-})().catch((e) => { console.error('fatal:', e.message); process.exit(1); });
+if (require.main === module) main().catch((e) => { console.error(e.message); process.exitCode = 1; });
+module.exports = { main };

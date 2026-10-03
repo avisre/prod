@@ -18,15 +18,16 @@
 
 const fs = require('fs');
 const path = require('path');
+const stockUniverse = require('./stock-universe');
 
 const DIR = path.join(__dirname, '../frontend/data/fundamentals');
 const QUOTES_FILE = process.env.QUOTES_FILE || path.join(__dirname, '../frontend/data/quotes.json');
 
 function load(symbol) {
-    const key = String(symbol || '').toUpperCase().replace(/[^A-Z0-9]/g, '_');
-    if (!key) return null;
-    try { return JSON.parse(fs.readFileSync(path.join(DIR, `${key}.json`), 'utf8')); }
-    catch (_) { return null; }
+    const company=stockUniverse.lookup(symbol);
+    if (company) return require('./fundamentals-cache').loadFundamentals(company.symbol);
+    // Non-company asset routes retain their dedicated provider data.
+    return require('./fundamentals-cache').loadRawFundamentals(symbol);
 }
 
 // The price-only snapshot (scripts/refresh-quotes.js) is at most a session old;

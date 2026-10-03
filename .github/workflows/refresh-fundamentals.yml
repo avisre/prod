@@ -72,6 +72,19 @@ jobs:
           node scripts/seo/indexnow-queue.js status || true
           node scripts/indexnow-ping.js --queue || true
 
+      - name: Refresh verified SEC evidence
+        run: node --max-old-space-size=1536 scripts/refresh-sec-coverage.js --daily
+
+      - name: Refresh optional currency presentation
+        run: node scripts/refresh-sec-fx.js
+
+      - name: Build consistent public and screen snapshots
+        run: |
+          node --max-old-space-size=1536 scripts/build-public-stock-index.js
+          node scripts/build-screen-index.js
+          node scripts/validate-stock-coverage.js
+
+
       - name: Configure git
         run: |
           git config user.name  'stockportfolio-bot'
@@ -84,7 +97,7 @@ jobs:
           # on its bundled snapshot date again, which is exactly the bug this
           # manifest exists to fix -- and it would fail silently, the same way the
           # deploy-mtime clamp did.
-          git add frontend/data/sp500-companies.json \
+          git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/public-stock-index.json frontend/data/sp500-companies.json frontend/data/screen-index.json \
                   frontend/data/top-100-fundamentals-index.json \
                   frontend/data/fundamentals-changed.json \
                   frontend/data/fundamentals/

@@ -56,6 +56,7 @@ const INDEX_FILE = path.join(FRONTEND_DATA, 'top-100-fundamentals-index.json');
 // old mtime-based date unable to ever advance (see backend/seo-pages.js).
 const CHANGED_FILE = path.join(FRONTEND_DATA, 'fundamentals-changed.json');
 const DEFAULT_LISTS = [
+  path.join(FRONTEND_DATA, 'us-companies.json'),
   path.join(FRONTEND_DATA, 'sp1500-companies.json'),
   path.join(FRONTEND_DATA, 'sp500-companies.json'),
   path.join(FRONTEND_DATA, 'top-100-companies.json')

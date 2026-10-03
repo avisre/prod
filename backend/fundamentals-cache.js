@@ -4,6 +4,7 @@
 // cache instead of retaining a separate parsed copy in each surface.
 const fs = require('fs');
 const path = require('path');
+const stockUniverse = require('./stock-universe');
 
 const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 const MAX_SOURCE_BYTES = 8 * 1024 * 1024;
@@ -23,7 +24,7 @@ function keyFor(symbol) {
     return String(symbol || '').toUpperCase().replace(/[^A-Z0-9]/g, '_');
 }
 
-function loadFundamentals(symbol) {
+function loadRawFundamentals(symbol) {
     const key = keyFor(symbol);
     if (!key) return null;
     const hit = entries.get(key);
@@ -41,7 +42,7 @@ function loadFundamentals(symbol) {
     try {
         const raw = fs.readFileSync(path.join(FUND_DIR, `${key}.json`), 'utf8');
         bytes = Buffer.byteLength(raw);
-        data = JSON.parse(raw);
+        data = stockUniverse.withIdentity(JSON.parse(raw), stockUniverse.lookup(symbol));
     } catch (_) { return null; }
 
     // Source bytes are a conservative accounting unit for cache eviction;
@@ -58,4 +59,5 @@ function loadFundamentals(symbol) {
 
 function invalidate(symbol) { remove(keyFor(symbol)); }
 
-module.exports = { loadFundamentals, invalidate };
+function loadFundamentals(symbol) { return require('./verified-fundamentals').load(symbol, loadRawFundamentals(symbol)); }
+module.exports = { loadFundamentals, loadRawFundamentals, invalidate };

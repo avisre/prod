@@ -73,12 +73,14 @@ function normalizeAssetType(value) {
     if (type === 'ETF') return 'etf';
     if (type === 'MUTUALFUND' || type === 'FUND') return 'mutual_fund';
     if (type === 'CRYPTOCURRENCY') return 'crypto';
+    if (type === 'UNIT') return 'unit';
+    if (type === 'RIGHT') return 'right';
     if (type === 'EQUITY' || type === 'STOCK') return 'stock';
     return 'other';
 }
 
 function assetTypeLabel(value) {
-    return ({ stock: 'Stock', etf: 'ETF', mutual_fund: 'Mutual fund', crypto: 'Crypto', other: 'Asset' })[normalizeAssetType(value)] || 'Asset';
+    return ({ stock: 'Stock', unit: 'Unit', right: 'Right', etf: 'ETF', mutual_fund: 'Mutual fund', crypto: 'Crypto', other: 'Asset' })[normalizeAssetType(value)] || 'Asset';
 }
 
 function isFundAsset(value) {
@@ -156,8 +158,8 @@ function profileFromStore(symbol, key) {
     return {
         symbol: String(symbol || '').toUpperCase().trim(),
         name: overview.Name || key,
-        assetType: 'stock',
-        assetTypeLabel: assetTypeLabel('stock'),
+        assetType: require('./stock-universe').lookup(symbol)?.securityType || 'stock',
+        assetTypeLabel: assetTypeLabel(require('./stock-universe').lookup(symbol)?.securityType || 'stock'),
         quoteType: 'EQUITY',
         exchange: overview.Exchange || '',
         currency: overview.Currency || 'USD',
@@ -181,7 +183,7 @@ function profileFromStore(symbol, key) {
         supports: {
             portfolio: true, quote: true, priceHistory: true, news: true, ask: true,
             fundProfile: false,
-            financialStatements: true, filings: true, reverseDcf: true, insiders: true
+            financialStatements: data.coverage?.securityType==='stock' && data.coverage?.financialCoverage!=='unavailable', filings: !!data.overview.CIK, reverseDcf: data.coverage?.financialCoverage==='ready', insiders: data.coverage?.securityType==='stock'
         },
         source: 'Cached snapshot'
     };
@@ -221,7 +223,7 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
         throw Object.assign(new Error(`No market data found for ${symbol}`), { status: 404 });
     }
 
-    const assetType = normalizeAssetType(quote.quoteType || quote.typeDisp);
+    const assetType = require('./stock-universe').lookup(symbol)?.securityType || normalizeAssetType(quote.quoteType || quote.typeDisp);
     let summary = {};
     if (fundDetails && isFundAsset(assetType)) {
         summary = await yahoo.quoteSummary(key, {

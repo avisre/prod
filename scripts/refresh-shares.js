@@ -17,7 +17,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..');
-const LIST_FILE = path.join(ROOT, 'frontend', 'data', 'sp1500-companies.json');
+const LIST_FILE = path.join(ROOT, 'frontend', 'data', 'us-companies.json');
 const OUT_FILE = path.join(ROOT, 'frontend', 'data', 'sec-shares.json');
 const SEC_UA = process.env.SEC_UA || 'stockportfolio.pro/1.0 (contact: support@stockportfolio.pro)';
 

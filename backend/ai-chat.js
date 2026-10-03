@@ -26,6 +26,7 @@ const path = require('path');
 const mongoose = require('mongoose');
 const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
+const stockUniverse = require('./stock-universe');
 const quoteStore = require('./quote-store');
 const fundDate = require('./fundamentals-date');
 const yahooSource = require('./yahoo-source');
@@ -55,7 +56,7 @@ const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 // script regenerates it from fresh data. Any read/write failure falls back to
 // the in-process build (the previous behavior), so this is strictly additive.
 const SCREEN_INDEX_FILE = path.join(FUND_DIR, '..', 'screen-index.json');
-const SCREEN_INDEX_VERSION = 1; // bump to invalidate persisted index on format change
+const SCREEN_INDEX_VERSION = 3; // bump to invalidate persisted index on format change
 // The model calls go through `deps` so tests can drive the loop with a
 // scripted provider. The contracts worth covering here — one tool reply per
 // tool_call_id, never rendering a prose tool call, think-stripping, identity
@@ -99,41 +100,20 @@ function ratio(a, b) {
 }
 
 // ---- Fundamentals cache (small LRU of full payloads; files are ~300KB) ----
-const _cache = new Map();
-const CACHE_MAX = 40;
 function loadFund(symbol) {
-    const key = String(symbol || '').toUpperCase().trim();
-    if (!key || !/^[A-Z0-9.\-]{1,10}$/.test(key)) return null;
-    if (_cache.has(key)) {
-        const v = _cache.get(key);
-        _cache.delete(key); _cache.set(key, v); // refresh LRU position
-        return v;
-    }
-    let data = null;
-    try {
-        const f = path.join(FUND_DIR, `${key.replace(/[^A-Z0-9]/g, '_')}.json`);
-        if (fs.existsSync(f)) data = JSON.parse(fs.readFileSync(f, 'utf8'));
-    } catch (_) { data = null; }
-    _cache.set(key, data);
-    if (_cache.size > CACHE_MAX) _cache.delete(_cache.keys().next().value);
-    return data;
+    const company=stockUniverse.lookup(symbol);
+    if (!company || company.securityType !== 'stock') return null;
+    return require('./fundamentals-cache').loadFundamentals(company.symbol);
 }
-// cache first; any other US-listed SEC registrant is built on demand
-// (Yahoo + SEC, ~5-20s once, persisted) — the universe is ALL of them.
-// A cache hit past isStaleOnDemand's threshold still gets rebuilt below —
-// otherwise a non-index ticker's first-ever fetch date is also its last.
 async function loadFundAny(symbol) {
-    const key = String(symbol || '').toUpperCase().trim();
-    const cached = loadFund(symbol);
-    if (cached && !fundFetch.isStaleOnDemand(key)) return cached;
-    if (!fundFetch.lookup(key)) return cached; // not a US-listed SEC filer — serve whatever cache exists, if any
-    try {
-        const payload = await fundFetch.buildFundamentals(key);
-        _cache.set(key, payload);
-        return payload;
-    } catch (_) { return cached; } // rebuild failed — fail open to the stale cache rather than nothing
+    const company=stockUniverse.lookup(symbol);
+    if (company && company.securityType !== 'stock') throw Object.assign(new Error('Company financial analysis is unavailable for this security type.'), {code:'UNSUPPORTED_SECURITY_TYPE'});
+    const data=loadFund(symbol);
+    if (data && data.coverage.annualReportingStatus === 'recent_annual') return data;
+    if (company) await require('./sec-on-demand').refresh(company.symbol);
+    return loadFund(symbol);
 }
-const NO_DATA = (symbol) => ({ error: `No data for ${symbol}. We cover US exchange-listed SEC filers. Check the ticker symbol.` });
+const NO_DATA = (symbol) => ({ code: 'VERIFIED_FINANCIALS_UNAVAILABLE', error: `No data for ${symbol}. We cover US exchange-listed SEC filers. Check the ticker symbol.` });
 
 // ---- Tool: get_financials ----
 const FIELDS = {
@@ -188,7 +168,7 @@ function freshness(latestPeriodEnd, basis) {
 
 async function toolGetFinancials({ symbol, statement, basis, limit }) {
     const data = await loadFundAny(symbol);
-    if (!data) return NO_DATA(symbol);
+    if (!data || !stockUniverse.hasStatements(data)) return NO_DATA(symbol);
     const st = ['income', 'balance', 'cash'].includes(statement) ? statement : 'income';
     const annual = basis !== 'quarterly';
     const reports = ((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || [];
@@ -198,22 +178,7 @@ async function toolGetFinancials({ symbol, statement, basis, limit }) {
     const fields = FIELDS[st];
     const lines = ['period_end|' + fields.join('|')];
     for (const r of rows) {
-        // Some source years store a literal 0 for gross profit / cost of
-        // revenue when the figure was simply absent — repair from revenue
-        // where possible, otherwise blank it so the model says "unavailable"
-        // instead of claiming a 100% gross margin.
-        const rev = num(r.totalRevenue);
-        let gp = num(r.grossProfit); if (gp === 0) gp = null;
-        let cor = num(r.costOfRevenue); if (cor === 0) cor = null;
-        if (st === 'income' && rev !== null) {
-            if (gp === null && cor !== null) gp = rev - cor;
-            if (cor === null && gp !== null) cor = rev - gp;
-        }
-        let tax = num(r.incomeTaxExpense);
-        if (st === 'income' && (tax === null || tax === 0)) {
-            const pre = num(r.incomeBeforeTax); const nin = num(r.netIncome);
-            if (pre !== null && nin !== null && pre - nin > 0) tax = pre - nin;
-        }
+        const gp = num(r.grossProfit), cor = num(r.costOfRevenue), tax = num(r.incomeTaxExpense);
         lines.push([r.fiscalDateEnding].concat(fields.map((f) => {
             if (f === 'grossProfit') return gp === null ? '' : mm(gp);
             if (f === 'costOfRevenue') return cor === null ? '' : mm(cor);
@@ -234,7 +199,9 @@ async function toolGetFinancials({ symbol, statement, basis, limit }) {
         ...(currency !== 'USD' ? { currencyWarning: `FIGURES ARE IN ${currency}, NOT USD — this company reports in its home currency. State the currency in your answer and never present these values as dollars.` } : {}),
         units: `${currency} millions, except dilutedEPS (${currency}) and commonStockSharesOutstanding (millions of shares)`,
         note: 'Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Share counts and per-share figures are AS FILED — not adjusted for later stock splits, so do not compare them across a split.',
-        source: 'Company SEC filings (10-K/10-Q), stockportfolio.pro fundamentals cache',
+        coverage: data.coverage,
+        provenance: data.provenance,
+        source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
     };
 }
@@ -244,7 +211,7 @@ function annualJoined(data) {
     const by = new Map();
     for (const st of ['income', 'balance', 'cash']) {
         for (const r of ((data[st] || {}).annualReports) || []) {
-            const k = String(r.fiscalDateEnding || '').slice(0, 7);
+            const k = String(r.fiscalDateEnding || '');
             if (!k) continue;
             if (!by.has(k)) by.set(k, { end: r.fiscalDateEnding });
             by.get(k)[st] = r;
@@ -268,14 +235,13 @@ async function toolGetRatios({ symbol }) {
             : (rev !== null && corRaw !== null ? rev - corRaw : null);
         const ocf = num(c.operatingCashflow); const capex = num(c.capitalExpenditures);
         const fcf = (ocf !== null && capex !== null) ? ocf + capex : null; // capex stored negative
-        const debt = ['shortTermDebt', 'currentLongTermDebt', 'longTermDebt']
-            .map((k) => num(b[k])).filter((v) => v !== null).reduce((a, v) => a + v, 0) || null;
+        const debt = require('./financial-metrics').debt(b);
         const r100 = (x) => x === null ? '' : pct(x * 100);
         lines.push([
             y.end,
             r100(ratio(gp, rev)), r100(ratio(i.operatingIncome, rev)), r100(ratio(i.netIncome, rev)),
             r100(ratio(fcf, rev)),
-            r100(ratio(i.netIncome, b.totalShareholderEquity)), r100(ratio(i.netIncome, b.totalAssets)),
+            r100(i._scopes?.netIncome === b._scopes?.totalShareholderEquity ? ratio(i.netIncome, b.totalShareholderEquity) : null), r100(ratio(i.netIncome, b.totalAssets)),
             ratio(b.totalCurrentAssets, b.totalCurrentLiabilities) === null ? '' : ratio(b.totalCurrentAssets, b.totalCurrentLiabilities).toFixed(2),
             ratio(debt, b.totalShareholderEquity) === null ? '' : ratio(debt, b.totalShareholderEquity).toFixed(2),
             ratio(ocf, i.netIncome) === null ? '' : ratio(ocf, i.netIncome).toFixed(2),
@@ -286,7 +252,8 @@ async function toolGetRatios({ symbol }) {
     return {
         symbol: String(symbol).toUpperCase(),
         note: 'All ratios computed deterministically from filed annual statements. Rows newest first. sharesOutM is as filed — not split-adjusted.',
-        source: 'Company SEC filings, stockportfolio.pro fundamentals cache',
+        coverage:data.coverage, provenance:data.provenance,
+        source: 'Calculated from verified SEC financial observations',
         table: lines.join('\n')
     };
 }
@@ -303,25 +270,25 @@ function healthChecksFromData(data, symbol) {
     const get = (y, st, f) => num((y[st] || {})[f]);
     const last = years[years.length - 1];
     const span = (n) => years.slice(-n);
-    const yrSpan = years.length - 1;
+    const yrSpan = (Date.parse(last.end)-Date.parse(years[0].end))/86400000/365.2425;
     const checks = [];
     const add = (group, label, ok, detail) => { if (ok !== null) checks.push({ group, label, pass: !!ok, detail }); };
 
     const rev0 = get(years[0], 'income', 'totalRevenue'); const revN = get(last, 'income', 'totalRevenue');
     const revCagr = cagr(rev0, revN, yrSpan);
-    add('Growth', `Revenue CAGR over ${yrSpan} yrs`, revCagr === null ? null : revCagr > 4, revCagr === null ? '' : `${pct(revCagr)}%/yr`);
+    add('Growth', `Revenue CAGR over ${yrSpan.toFixed(1)} yrs`, revCagr === null ? null : revCagr > 4, revCagr === null ? '' : `${pct(revCagr)}%/yr`);
     const ni = (y) => get(y, 'income', 'netIncome');
-    const profitable5 = span(5).every((y) => (ni(y) || 0) > 0);
-    add('Profitability', 'Profitable every year (last 5)', span(5).length >= 5 ? profitable5 : null, '');
+    const profitable5 = span(5).every((y) => ni(y) > 0);
+    add('Profitability', 'Profitable every year (last 5)', span(5).length >= 5 && span(5).every(y=>ni(y)!==null) ? profitable5 : null, '');
     const nm = ratio(ni(last), get(last, 'income', 'totalRevenue'));
     add('Profitability', 'Net margin above 10%', nm === null ? null : nm > 0.10, nm === null ? '' : `${pct(nm * 100)}%`);
     const cashRaw = get(last, 'balance', 'cashAndCashEquivalentsAtCarryingValue');
     const cash = (cashRaw || 0) + (get(last, 'balance', 'shortTermInvestments') || 0);
-    const debt = (get(last, 'balance', 'shortTermDebt') || 0) + (get(last, 'balance', 'currentLongTermDebt') || 0) + (get(last, 'balance', 'longTermDebt') || 0);
+    const debt = require('./financial-metrics').debt(last.balance || {});
     // Only judge this when the balance sheet actually discloses cash.
-    add('Balance sheet', 'More cash than total debt', cashRaw === null ? null : cash > debt, `cash ${mm(cash)}M vs debt ${mm(debt)}M`);
-    const ocfPos5 = span(5).every((y) => (get(y, 'cash', 'operatingCashflow') || 0) > 0);
-    add('Cash flow', 'Positive operating cash flow (last 5 yrs)', span(5).length >= 5 ? ocfPos5 : null, '');
+    add('Balance sheet', 'More cash than total debt', cashRaw === null || debt === null ? null : cash > debt, `cash ${mm(cash)}M vs debt ${mm(debt)}M`);
+    const ocfPos5 = span(5).every((y) => get(y, 'cash', 'operatingCashflow') > 0);
+    add('Cash flow', 'Positive operating cash flow (last 5 yrs)', span(5).length >= 5 && span(5).every(y=>get(y,'cash','operatingCashflow')!==null) ? ocfPos5 : null, '');
     const ocfN = get(last, 'cash', 'operatingCashflow');
     const fcfN = (ocfN !== null && get(last, 'cash', 'capitalExpenditures') !== null) ? ocfN + get(last, 'cash', 'capitalExpenditures') : null;
     add('Cash flow', 'Free cash flow positive (latest yr)', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : `${mm(fcfN)}M`);
@@ -393,7 +360,7 @@ async function toolGetQuote({ symbol }) {
         week52High: pick(q && q.fiftyTwoWeekHigh, num(ov['52WeekHigh'])), week52Low: pick(q && q.fiftyTwoWeekLow, num(ov['52WeekLow'])),
         priceToBook: num(ov.PriceToBookRatio), evToEbitda: num(ov.EVToEBITDA),
         asOf, fundamentalsAsOf,
-        note: `Price, market cap, P/E and 52-week range are as of ${asOf || 'an unspecified date'} (daily close snapshot, not a live tick); dividend yield, EPS, beta and the other ratios come from filed financials ${fundamentalsAsOf ? `as of ${fundamentalsAsOf}` : 'with no firm date available'}. State the matching date whenever you cite any of these figures, and never call them live or today's.`
+        note: `Price, market cap, P/E and 52-week range are as of ${asOf || 'an unspecified date'} (daily close snapshot, not a live tick); EPS comes from verified filed financials; other available market fields carry their provider source. Financial data is ${fundamentalsAsOf ? `as of ${fundamentalsAsOf}` : 'with no firm date available'}. State the matching date whenever you cite any of these figures, and never call them live or today's.`
     };
 }
 
@@ -548,32 +515,12 @@ async function toolGetInsiders({ symbol }) {
 
 // ---- Tool: screen_universe (real screener over the ~500-ticker cache) ----
 let _screenIndex = null;
-// Best-effort async write (tmp + rename so a boot never reads a half file).
-function persistScreenIndex(rows) {
-    try {
-        const payload = JSON.stringify({ v: SCREEN_INDEX_VERSION, generatedAt: new Date().toISOString(), count: rows.length, rows });
-        const tmp = SCREEN_INDEX_FILE + '.' + process.pid + '.tmp';
-        fs.writeFile(tmp, payload, (err) => {
-            if (err) return;
-            try { fs.renameSync(tmp, SCREEN_INDEX_FILE); } catch (_) {}
-        });
-    } catch (_) { /* best effort; disk may be read-only on some hosts */ }
-}
-
-// Load the persisted snapshot if present, current version, and not ancient.
 function loadScreenIndex() {
-    try {
-        const raw = fs.readFileSync(SCREEN_INDEX_FILE, 'utf8');
-        const parsed = JSON.parse(raw);
-        if (!parsed || parsed.v !== SCREEN_INDEX_VERSION || !Array.isArray(parsed.rows)) return null;
-        if (parsed.generatedAt) {
-            const ageMs = Date.now() - new Date(parsed.generatedAt).getTime();
-            if (!Number.isFinite(ageMs) || ageMs > 31 * 24 * 60 * 60 * 1000) return null;
-        }
-        return parsed.rows;
-    } catch (_) { return null; }
+    const index=require('./public-stock-index');
+    const snapshot=index.view();
+    const parsed=require('./screen-stock-index').load(snapshot.datasetId);
+    return parsed;
 }
-
 // Single-symbol 5-year revenue CAGR from an already-loaded fundamentals payload
 // — the fast path renderStockPage uses instead of building the whole-universe
 // index. Mirrors the revCagr5Pct row computation in buildScreenIndex() exactly
@@ -585,118 +532,22 @@ function revCagrFromData(data) {
     const rev = (i) => num((inc[i] || {}).totalRevenue);
     const b5 = inc.length > 5 ? 5 : inc.length - 1;
     if (b5 < 2) return null;
-    return cagr(rev(b5), rev(0), b5);
+    return cagr(rev(b5), rev(0), (Date.parse(inc[0].fiscalDateEnding)-Date.parse(inc[b5].fiscalDateEnding))/86400000/365.2425);
 }
 
-function buildScreenIndex(opts) {
-    const force = !!(opts && opts.force);
-    if (_screenIndex && !force) return _screenIndex;
-    if (!force) {
-        const persisted = loadScreenIndex();
-        if (persisted) { _screenIndex = persisted; return persisted; }
-    }
-    const out = [];
-    let files = [];
-    try { files = fs.readdirSync(FUND_DIR).filter((f) => f.endsWith('.json') && f !== 'index.json'); } catch (_) { files = []; }
-    for (const f of files) {
-        try {
-            const d = JSON.parse(fs.readFileSync(path.join(FUND_DIR, f), 'utf8'));
-            const ov = d.overview || {};
-            const inc = ((d.income || {}).annualReports) || [];
-            const incQ = ((d.income || {}).quarterlyReports) || [];
-            const cf = ((d.cash || {}).annualReports) || [];
-            const bal = ((d.balance || {}).annualReports) || [];
-            if (!ov.Symbol || !inc.length) continue;
-            const rev = (i) => num((inc[i] || {}).totalRevenue);
-            const niy = (i) => num((inc[i] || {}).netIncome);
-            const yrsBack = (n) => inc.length > n ? n : inc.length - 1;
-            const b5 = yrsBack(5);
-            const nmLatest = ratio(niy(0), rev(0));
-            const ocf = num((cf[0] || {}).operatingCashflow); const capex = num((cf[0] || {}).capitalExpenditures);
-            const fcf = (ocf !== null && capex !== null) ? ocf + capex : null;
-            let profYears = 0;
-            for (let i = 0; i < Math.min(10, inc.length); i++) if ((niy(i) || 0) > 0) profYears++;
-            // Latest-quarter earnings growth vs the same quarter a year ago
-            // (quarterlyReports are newest-first, so index 4 = year-ago qtr).
-            let qEpsYoY = null; let qNiYoY = null; let qEnd = null;
-            const q0 = incQ[0]; const q4 = incQ[4];
-            if (q0 && q4) {
-                qEnd = q0.fiscalDateEnding || null;
-                const n0 = num(q0.netIncome); const n4 = num(q4.netIncome);
-                if (n0 !== null && n4 !== null && n4 > 0) qNiYoY = ((n0 - n4) / n4) * 100;
-                const e0 = num(q0.dilutedEPS); const e4 = num(q4.dilutedEPS);
-                if (e0 !== null && e4 !== null && e4 > 0) qEpsYoY = ((e0 - e4) / e4) * 100;
-            }
-            out.push({
-                symbol: ov.Symbol, name: ov.Name || ov.Symbol, sector: ov.Sector || '',
-                marketCapB: num(ov.MarketCapitalization) !== null ? num(ov.MarketCapitalization) / 1e9 : null,
-                pe: num(ov.PERatio),
-                divYieldPct: num(ov.DividendYield) !== null ? num(ov.DividendYield) * 100 : null,
-                revCagr5Pct: b5 >= 2 ? cagr(rev(b5), rev(0), b5) : null,
-                netMarginPct: nmLatest !== null ? nmLatest * 100 : null,
-                roePct: ratio(niy(0), (bal[0] || {}).totalShareholderEquity) !== null
-                    ? ratio(niy(0), (bal[0] || {}).totalShareholderEquity) * 100 : null,
-                fcfPositive: fcf !== null ? fcf > 0 : null,
-                // Absolute free cash flow (already computed above, was discarded) — sortable for
-                // the "highest free cash flow stocks" leaderboard. Raw dollars; capex stored negative.
-                fcfAbs: fcf,
-                // Computed PEG = trailing P/E ÷ 5-year revenue CAGR, both from filings (NOT the sparse
-                // vendor PEGRatio field, which embeds forward estimates). Only meaningful for profitable growers.
-                pegRatio: (num(ov.PERatio) > 0 && b5 >= 2 && cagr(rev(b5), rev(0), b5) > 0)
-                    ? num(ov.PERatio) / cagr(rev(b5), rev(0), b5) : null,
-                priceToBook: num(ov.PriceToBookRatio),
-                profitableYears10: profYears,
-                qtrNetIncomeYoYPct: qNiYoY,
-                qtrEpsYoYPct: qEpsYoY,
-                latestQuarterEnd: qEnd,
-                latestFiscalYearEnd: (inc[0] || {}).fiscalDateEnding || '',
-                // Latest-FY raw values for sector-percentile and peer-table
-                // enrichment on the per-metric SEO pages.
-                latestRevenue: num((inc[0] || {}).totalRevenue),
-                latestNetIncome: num((inc[0] || {}).netIncome),
-                latestEps: num((inc[0] || {}).eps) !== null ? num((inc[0] || {}).eps) : num((inc[0] || {}).dilutedEPS),
-                latestGrossProfit: (() => {
-                    const r = num((inc[0] || {}).totalRevenue);
-                    let gp = num((inc[0] || {}).grossProfit); if (gp === 0) gp = null;
-                    let cor = num((inc[0] || {}).costOfRevenue); if (cor === 0) cor = null;
-                    if (gp === null && r !== null && cor !== null) gp = r - cor;
-                    return gp;
-                })(),
-                latestEbitda: num((inc[0] || {}).ebitda),
-                latestTotalDebt: (() => {
-                    const b0 = bal[0] || {};
-                    const ltd = num(b0.longTermDebt) !== null ? num(b0.longTermDebt) : num(b0.longTermDebtNoncurrent);
-                    const std = num(b0.shortTermDebt) !== null ? num(b0.shortTermDebt) : num(b0.currentDebt);
-                    if (ltd === null && std === null) return null;
-                    return (ltd || 0) + (std || 0);
-                })(),
-                latestSharesOutstanding: num((bal[0] || {}).commonStockSharesOutstanding),
-                // Cash-flow dividend payout is a negative outflow; store the
-                // magnitude so "pays more dividends" ranks higher.
-                latestDividendPayout: (() => {
-                    const v = num((cf[0] || {}).dividendPayoutCommonStock) !== null
-                        ? num((cf[0] || {}).dividendPayoutCommonStock) : num((cf[0] || {}).dividendPayout);
-                    return v === null ? null : Math.abs(v);
-                })()
-            });
-        } catch (_) { /* skip unreadable file */ }
-    }
-    _screenIndex = out;
-    persistScreenIndex(out);
-    return out;
+function buildScreenIndex() {
+    const index=require('./public-stock-index'),snapshot=index.view();
+    if (!_screenIndex || _screenIndex.datasetId !== snapshot.datasetId) _screenIndex=loadScreenIndex();
+    const eligible=new Map(snapshot.securities.filter(s=>s.screenable).map(s=>[s.symbol,s]));
+    const changed=require('./sec-on-demand').screenOverrides();
+    return [..._screenIndex.rows.filter(r=>!changed.has(r.symbol)),...changed.values()].filter(r=>eligible.has(r.symbol) && r.financialDigest === eligible.get(r.symbol).financialDigest);
 }
 
-// Collapse a screen index down to one primary common-stock row per issuer:
-// drops preferreds / warrants / units / rights (their symbols carry a hyphen,
-// e.g. COF-PN) and duplicate share classes (same issuer name, e.g. GOOG/GOOGL),
-// keeping the shortest symbol. These secondary listings inherit the common's
-// overview verbatim, producing junk like "Capital One P/E 0.6, P/B 0.09" that
-// otherwise dominates value leaderboards. Opt-in via exclude_secondary_listings.
 function primaryListings(rows) {
     const best = new Map();
     for (const r of rows) {
         if (r.symbol && r.symbol.includes('-')) continue;
-        const key = (r.name || r.symbol || '').trim().toLowerCase();
+        const key = r.cik || (r.name || r.symbol || '').trim().toLowerCase();
         const cur = best.get(key);
         if (!cur || r.symbol.length < cur.symbol.length ||
             (r.symbol.length === cur.symbol.length && r.symbol < cur.symbol)) best.set(key, r);
@@ -737,7 +588,7 @@ function screenRows(args) {
     const asc = sortKey === 'pe' || sortKey === 'pegRatio' || sortKey === 'priceToBook';
     rows.sort((x, y) => ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]));
     const limit = Math.min(Math.max(num(a.limit) || 10, 1), a.maxLimit || 25);
-    return { universe, matched: rows.length, rows: rows.slice(0, limit) };
+    return { universe, listedUniverse:buildScreenIndex().length, issuerUniverse:new Set(buildScreenIndex().map(r=>r.cik)).size, datasetId:require('./public-stock-index').view().datasetId, matched: rows.length, rows: rows.slice(0, limit) };
 }
 
 function sectorList() {
@@ -788,7 +639,7 @@ function redFlagsFor(symbol) {
     for (const y of span3) { const ni = get(y, 'income', 'netIncome'), ocf = get(y, 'cash', 'operatingCashflow'); if (ni === null || ocf === null) { ok3 = false; break; } niSum += ni; ocfSum += ocf; }
     if (ok3 && niSum > 0 && ocfSum > 0 && niSum > ocfSum * 1.2) {
         add('warn', 'Reported earnings run ahead of cash',
-            `Over 3 years net income totalled $${mm(niSum)}M but operating cash flow only $${mm(ocfSum)}M — earnings aren't fully backed by cash, an accruals flag worth investigating.`);
+            `Over 3 years net income totalled ${data.overview.Currency} ${mm(niSum)}M but operating cash flow only ${data.overview.Currency} ${mm(ocfSum)}M — earnings aren't fully backed by cash, an accruals flag worth investigating.`);
     }
     // 4) Shareholder dilution (split-guarded, same guard as the buyback check)
     const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
@@ -804,15 +655,13 @@ function redFlagsFor(symbol) {
         }
     }
     // 5) Leverage vs cash flow
-    const debt = (get(latest, 'balance', 'longTermDebt') || get(latest, 'balance', 'longTermDebtNoncurrent') || 0)
-        + (get(latest, 'balance', 'shortTermDebt') || get(latest, 'balance', 'currentDebt') || 0)
-        + (get(latest, 'balance', 'currentLongTermDebt') || 0);
+    const debt = require('./financial-metrics').debt(latest.balance || {});
     const ocfL = get(latest, 'cash', 'operatingCashflow');
     if (debt > 0 && ocfL !== null) {
         if (ocfL <= 0) add('high', 'Debt with negative operating cash flow',
-            `Carries $${mm(debt)}M of debt while last year's operating cash flow was negative ($${mm(ocfL)}M).`);
+            `Carries ${data.overview.Currency} ${mm(debt)}M of debt while last year's operating cash flow was negative (${data.overview.Currency} ${mm(ocfL)}M).`);
         else if (debt / ocfL >= 5) add('warn', 'Heavy debt load',
-            `Total debt of $${mm(debt)}M is ${(debt / ocfL).toFixed(1)}× last year's operating cash flow — it would take years of cash flow to clear.`);
+            `Total debt of ${data.overview.Currency} ${mm(debt)}M is ${(debt / ocfL).toFixed(1)}× last year's operating cash flow — it would take years of cash flow to clear.`);
     }
     // 6) Margin trajectory / outright losses
     const nmOf = (y) => { const ni = get(y, 'income', 'netIncome'), rev = get(y, 'income', 'totalRevenue'); return (ni !== null && rev > 0) ? ni / rev * 100 : null; };
@@ -834,7 +683,7 @@ function toolScreenUniverse(args) {
         lines.push([r.symbol, r.name, r.sector, fm(r.marketCapB), fm(r.pe), fm(r.revCagr5Pct), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd].map(cell).join('|'));
     }
     return {
-        universe: `${universe} US companies (S&P 1500) in the stockportfolio.pro cache`,
+        universe: `${universe} US-listed stocks with available fundamentals in the stockportfolio.pro cache`,
         matched,
         returned: top.length,
         note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.',
@@ -1104,7 +953,7 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'screen_universe',
-            description: 'Screen ~1,500 US companies (the S&P 1500 subset — NOT the full universe) by real filed fundamentals. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions.',
+            description: 'Screen US-listed stocks with available filed fundamentals. The result reports the actual screenable universe; stocks without usable statements are not included. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions.',
             parameters: {
                 type: 'object',
                 properties: {
@@ -1655,7 +1504,7 @@ const ASK_SYSTEM = [
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
     'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
-    'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
+    'COVERAGE: US exchange-listed companies, including ADRs and foreign reporters, plus US-listed ETFs and ticker-addressable US mutual funds. Honor the returned reporting currency and conversion provenance; missing filings or unsupported metrics must be disclosed. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens currently listed stocks with available fundamentals and returns the actual coverage count. Do not reject a US-listed ADR solely because its issuer is foreign.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios, per-segment margins) — but only ever combine figures from the SAME tool result or the SAME reporting scope (e.g. a segment\'s revenue from get_segments divided by that same segment\'s volume). Never build a "per X" figure by dividing company-wide revenue by a count that is not literally the thing sold (shares outstanding, employees/headcount, assets under management, or any count narrower in scope than the revenue figure) — that produces a fabricated number.',
     'SCOPE MATCHING: before dividing any revenue or cost figure by a volume or count, check the count\'s scope. If it is segment/division/region-limited (e.g. wireless-only subscribers, upstream-only barrels, US-only units) while the revenue figure is company-wide, do NOT divide them together — pull that same segment\'s revenue via get_segments first and divide within the segment. If no matching segment breakout exists, say the per-unit figure cannot be computed at that scope rather than dividing mismatched numbers.',

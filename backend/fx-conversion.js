@@ -84,7 +84,7 @@ function closingRate(points, endMonth) {
 function averageRate(points, endMonth, months) {
     const start = shiftMonth(endMonth, -(months - 1));
     const window = points.filter((point) => point.month >= start && point.month <= endMonth);
-    if (!window.length) return null;
+    if (new Set(window.map(p=>p.month)).size !== months) return null;
     return window.reduce((sum, point) => sum + point.rate, 0) / window.length;
 }
 
@@ -166,6 +166,7 @@ async function convertPayloadToUsd(payload) {
 }
 
 module.exports = {
+    rateSeries,
     reportingCurrency,
     normalizeSeries,
     closingRate,
