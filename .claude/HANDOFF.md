@@ -113,6 +113,15 @@ Checks do not certify every causal sentence; some answer repetition remains. Bro
 isolated actual-renderer harness, not an authenticated deployed Ask page. **Local commit only: no push
 or deployment.** Release separately, then verify the deployed SHA and authenticated Ask behavior.
 
+## Local Ask review — 2026-10-04
+
+`node scripts/dev-ask-review.js --examples docs/qa/local-ask-review-2026-10-04` serves
+http://127.0.0.1:5056/ with the real Ask engine and product renderer, no database connection.
+Fresh short/complex model examples: 53/284 displayed words, zero/two charts. Custom-question SSE
+was exercised in Chrome (27-word answer); desktop/mobile examples render without page overflow.
+Generate new examples, change Simple/Analyst mode or use custom follow-ups. SEC data is read-only,
+account tools are unavailable. QA files are local/untracked; see `docs/local-ask-review.md`.
+
 ## In flight
 
 **Day 41 AppLovin card — re-rendered in the house theme (10/03, DONE; `marketing/` is gitignored, nothing to
