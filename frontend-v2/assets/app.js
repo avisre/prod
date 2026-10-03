@@ -327,10 +327,10 @@
 
     // ---------- chart (the system's only chart: line on hairlines) ----------
     // series: [{values:[...oldest→newest], cls:'ink'|'accent'}], labels: per-point x labels
-    function chart(series, labels, { fmt = (v) => String(v), height = 220 } = {}) {
+    function chart(series, labels, { fmt = (v) => String(v), height = 220, width = 760, axisFmt = null, compactLabels = false } = {}) {
         const all = series.flatMap((s) => s.values).filter((v) => v !== null && Number.isFinite(v));
         if (all.length < 2) return '';
-        const W = 760, H = height, padL = 56, padR = 20, padT = 28, padB = 26;
+        const W = width, H = height, padL = axisFmt ? 88 : 56, padR = 20, padT = 28, padB = 30;
         let min = Math.min(...all, 0 < Math.min(...all) ? Infinity : 0);
         let max = Math.max(...all, 0 > Math.max(...all) ? -Infinity : 0);
         if (min === max) { min -= 1; max += 1; }
@@ -356,13 +356,14 @@
         const tickFmt = (t) => {
             if (!Number.isFinite(t)) return '';
             const v = Object.is(t, -0) ? 0 : t;
+            if (axisFmt) return axisFmt(v);
             const dec = gridStep >= 1 ? 0 : gridStep >= 0.1 ? 1 : gridStep >= 0.01 ? 2 : 3;
             return v.toLocaleString('en-US', { maximumFractionDigits: dec });
         };
         let g = '';
         for (const t of ticks) {
             g += `<line x1="${padL}" y1="${y(t).toFixed(1)}" x2="${W - padR}" y2="${y(t).toFixed(1)}" stroke="var(--line)" stroke-width="1"/>`;
-            g += `<text x="${padL - 8}" y="${(y(t) + 3.5).toFixed(1)}" text-anchor="end" font-size="10.5" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(tickFmt(t))}</text>`;
+            g += `<text x="${padL - 8}" y="${(y(t) + 3.5).toFixed(1)}" text-anchor="end" font-size="${compactLabels ? 12 : 10.5}" fill="var(--ink-3)" style="font-variant-numeric:tabular-nums">${esc(tickFmt(t))}</text>`;
         }
         if (min < 0 && max > 0) {
             g += `<line x1="${padL}" y1="${y(0).toFixed(1)}" x2="${W - padR}" y2="${y(0).toFixed(1)}" stroke="var(--line-strong)" stroke-width="1"/>`;
@@ -374,7 +375,15 @@
         const n = Math.max(...series.map((s) => s.values.length));
         const labelIdx = (labels || []).map((l, i) => (l ? i : -1)).filter((i) => i >= 0);
         const drawLabel = (i) => {
-            g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="middle" font-size="10.5" fill="var(--ink-3)">${esc(String(labels[i]))}</text>`;
+            let label = String(labels[i]);
+            if (compactLabels) {
+                const date = label.match(/\d{4}-\d{2}-\d{2}/)?.[0];
+                const fiscalYear = label.match(/FY\s*(\d{2,4})/i)?.[1] || (/\bFY\b/i.test(label) ? label.match(/20\d{2}/)?.[0] : null);
+                const quarter = label.match(/\bQ([1-4])\b/i)?.[1];
+                label = date || (fiscalYear ? (quarter ? 'Q' + quarter + ' ' : '') + 'FY' + fiscalYear : label);
+            }
+            const anchor = compactLabels && i === 0 ? 'start' : compactLabels && i === n - 1 ? 'end' : 'middle';
+            g += `<text x="${x(i, n).toFixed(1)}" y="${H - 8}" text-anchor="${anchor}" font-size="${compactLabels ? 12 : 10.5}" fill="var(--ink-3)">${esc(label)}</text>`;
         };
         if (labels && labels.some((l) => l === '') && labelIdx.length) {
             const lstep = Math.max(1, Math.ceil(labelIdx.length / 8));
@@ -395,10 +404,11 @@
             }
             kept.forEach(drawLabel);
         } else {
-            const step = Math.max(1, Math.ceil(n / 7));
+            const step = Math.max(1, Math.ceil(n / (compactLabels && W < 480 ? 3 : 7)));
             for (let i = 0; i < n; i += step) {
                 if (labels && labels[i] !== undefined) drawLabel(i);
             }
+            if (compactLabels && (n - 1) % step && labels?.[n - 1] !== undefined) drawLabel(n - 1);
         }
         const colors = { ink: 'var(--ink)', accent: 'var(--accent)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };
         for (const s of series) {
@@ -443,6 +453,12 @@
         }
         return (v) => money(v) || String(v);
     }
+    function vizWidth() {
+        if (typeof document === 'undefined') return 760;
+        const viewport = document.documentElement.clientWidth || 880;
+        const answer = document.querySelector('.ask-a')?.clientWidth || Math.min(viewport - 48, 880);
+        return Math.min(760, Math.max(260, answer - (viewport <= 600 ? 32 : 48)));
+    }
     function vizBlock(json) {
         let spec;
         try { spec = JSON.parse(json); } catch (_) {
@@ -474,12 +490,18 @@
             const map = new Map(s.points.map((p) => [String(p[0]), p[1]]));
             return { values: labels.map((l) => (map.has(l) ? map.get(l) : null)), cls: cls[i % 3] };
         });
-        const svg = chart(chartSeries, labels, { fmt: vizFmt(spec.unit), height: 240 });
+        const format = vizFmt(spec.unit);
+        const perShare = /\/share$/.test(spec.unit || '') || spec.unit === '$ps';
+        const axisFormat = perShare ? vizFmt(spec.unit === '$ps' ? 'USD' : spec.unit.slice(0, 3)) : format;
+        const receipt = series.map(s => s.name + ': ' + s.points.map(p => String(p[0]) + ' ' + (p[1] === null ? 'unavailable' : format(p[1]))).join('; ')).join('. ');
+        const svg = chart(chartSeries, labels, { fmt: format, axisFmt: axisFormat, width: vizWidth(), compactLabels: true, height: 260 })
+            .replace(/(<svg[^>]*>)/, opening => opening + '<title>' + esc(String(spec.title || 'Financial history')) + '</title><desc>' + esc(receipt) + '</desc>');
         if (!svg) return '';
         const legend = series.length > 1
             ? `<div class="ask-viz-legend">${series.map((s, i) => `<span><i class="lg lg-${cls[i % 3]}"></i>${esc(s.name)}</span>`).join('')}</div>`
             : '';
-        return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}${svg}${legend}</figure>`;
+        const unitLabel = perShare ? `<div class="small faint">${esc(spec.unit === '$ps' ? 'USD' : spec.unit.slice(0, 3))} per share</div>` : '';
+        return `<figure class="ask-viz" data-viz="${esc(JSON.stringify(spec))}">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}${unitLabel}${svg}${legend}</figure>`;
     }
 
     // ---------- Ask bars blocks (```bars {json}```) → horizontal compare bars ----------
@@ -510,10 +532,10 @@
         const max = Math.max(...rows.map((r) => Math.abs(Number(r[1]))), 1);
         const rowHtml = rows.map((r) => {
             const [label, value, note] = r;
-            const pct = Math.max(2, Math.min(100, Math.abs(Number(value)) / max * 100));
+            const pct = Math.min(100, Math.abs(Number(value)) / max * 100);
             return `<div class="pv-scale-row">
         <span class="pv-scale-label">${esc(String(label))}${note ? ` <span class="small faint">${esc(String(note))}</span>` : ''}</span>
-        <span class="pv-scale-track"><i class="pv-scale-fill" style="width:${pct.toFixed(1)}%"></i></span>
+        <span class="pv-scale-track"><i class="pv-scale-fill${Number(value) < 0 ? ' is-negative' : ''}" style="width:${pct.toFixed(1)}%"></i></span>
         <b class="pv-scale-val">${esc(fmt(Number(value)))}</b>
       </div>`;
         }).join('');
@@ -581,13 +603,13 @@
             if (line.includes('|') && i + 1 < lines.length && /^\s*\|?[\s:|-]+\|[\s:|-]*$/.test(lines[i + 1])) {
                 close();
                 const cells = (l) => l.replace(/^\s*\|/, '').replace(/\|\s*$/, '').split('|').map((c) => inlineMd(c.trim()));
-                out.push('<table><thead><tr>' + cells(line).map((c) => `<th>${c}</th>`).join('') + '</tr></thead><tbody>');
+                out.push('<div class="ask-table-scroll" role="region" aria-label="Financial data table" tabindex="0"><table><thead><tr>' + cells(line).map((c) => `<th>${c}</th>`).join('') + '</tr></thead><tbody>');
                 i += 2;
                 while (i < lines.length && lines[i].includes('|') && lines[i].trim() !== '') {
                     out.push('<tr>' + cells(lines[i]).map((c) => `<td>${c}</td>`).join('') + '</tr>');
                     i++;
                 }
-                out.push('</tbody></table>');
+                out.push('</tbody></table></div>');
                 continue;
             }
             if (/^\s*[-*_]{3,}\s*$/.test(line)) { close(); i++; continue; } // hr → just a pause
@@ -2316,6 +2338,16 @@
     }
 
     mountCampaign();
+    let askChartResize;
+    window.addEventListener('resize', () => {
+        clearTimeout(askChartResize);
+        askChartResize = setTimeout(() => {
+            document.querySelectorAll('.ask-viz[data-viz]').forEach(figure => {
+                const html = vizBlock(figure.getAttribute('data-viz'));
+                if (html) figure.outerHTML = html;
+            });
+        }, 100);
+    });
     window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
 
     // Server-rendered SEO surfaces opt into the ask floor with a body

@@ -85,6 +85,35 @@ function quarterlyComparisons(reports, fields) {
     return { periodEnd: latest.fiscalDateEnding, yoy: compare(350, 380), qoq: compare(75, 105) };
 }
 
+function annualComparisons(reports, fields) {
+    const rows = reports.filter(r => day(r.fiscalDateEnding)).slice().sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding));
+    const current = rows[0];
+    if (!current) return null;
+    const annual = r => r.periodType === 'instant' || (r.periodStart &&
+        (Date.parse(r.fiscalDateEnding) - Date.parse(r.periodStart)) / DAY + 1 >= 340 &&
+        (Date.parse(r.fiscalDateEnding) - Date.parse(r.periodStart)) / DAY + 1 <= 380);
+    const candidates = rows.slice(1).filter(r => {
+        const gap = (Date.parse(current.fiscalDateEnding) - Date.parse(r.fiscalDateEnding)) / DAY;
+        return gap >= 340 && gap <= 380 && annual(current) && annual(r) && r.reportedCurrency === current.reportedCurrency;
+    });
+    const prior = candidates.length === 1 ? candidates[0] : null;
+    return { periodEnd: current.fiscalDateEnding, yoy: {
+        periodEnd: prior?.fiscalDateEnding || null,
+        missingReason: prior ? null : 'No unique comparable verified annual period is available.',
+        metrics: Object.fromEntries(fields.map(field => {
+            const a = observation(current, field), b = observation(prior, field);
+            const magnitude = /capitalExpenditures|dividend|Repurchase/.test(field);
+            const base = b.value === null ? null : magnitude ? Math.abs(b.value) : b.value;
+            const valid = compatible(a, b) && base > 0;
+            return [field, { current: a, previous: b,
+                changePct: valid ? ((magnitude ? Math.abs(a.value) : a.value) / base - 1) * 100 : null,
+                formula: magnitude ? '(abs(current) / abs(previous) - 1) * 100' : '(current / previous - 1) * 100',
+                sourceIds: valid ? [...new Set([...a.sourceIds, ...b.sourceIds])] : [],
+                missingReason: valid ? null : 'Missing or incompatible annual inputs, or a non-positive comparison base.' }];
+        }))
+    } };
+}
+
 function freeCashFlow(row) {
     const ocf = observation(row, 'operatingCashflow'), capex = observation(row, 'capitalExpenditures');
     const valid = compatible(ocf, capex);
@@ -99,6 +128,23 @@ function freeCashFlow(row) {
     };
 }
 
+function capitalReturns(row) {
+    const fcf = freeCashFlow(row), dividends = observation(row, 'dividendPayout');
+    const buybacks = observation(row, 'paymentsForRepurchaseOfCommonStock');
+    const valid = fcf.value !== null && compatible(dividends, buybacks) &&
+        dividends.currency === fcf.currency;
+    const total = valid ? Math.abs(dividends.value) + Math.abs(buybacks.value) : null;
+    return { periodEnd: row.fiscalDateEnding, periodStart: row.periodStart || null,
+        currency: row.reportedCurrency, freeCashflow: fcf.value,
+        totalDistributions: total, surplusAfterDistributions: valid ? fcf.value - total : null,
+        shortfallPctOfFreeCashflow: valid && fcf.value > 0 ? Math.max(0, total - fcf.value) / fcf.value * 100 : null,
+        coveredByFreeCashflow: valid ? fcf.value >= total : null,
+        formula: 'freeCashflow - (abs(dividendPayout) + abs(paymentsForRepurchaseOfCommonStock))',
+        inputs: { freeCashflow: fcf, dividends, buybacks },
+        sourceIds: valid ? [...new Set([...fcf.sourceIds, ...dividends.sourceIds, ...buybacks.sourceIds])] : [],
+        missingReason: valid ? null : 'Verified FCF, dividends and buybacks for the same period and currency are required.' };
+}
+
 function calculate(inputs, formula, fn, { sameScope = false } = {}) {
     const values = Object.values(inputs);
     const first = values[0];
@@ -106,7 +152,8 @@ function calculate(inputs, formula, fn, { sameScope = false } = {}) {
         o.periodEnd === first.periodEnd && (!o.periodStart || !first.periodStart || o.periodStart === first.periodStart) &&
         (!sameScope || (o.scope && o.scope === first.scope)));
     const value = valid ? num(fn(...values.map(o => o.value))) : null;
-    return { value, formula, inputs, sourceIds: value === null ? [] : [...new Set(values.flatMap(o => o.sourceIds))],
+    return { value, formula, inputs, periodEnd: first?.periodEnd || null, periodStart: first?.periodStart || null,
+        currency: first?.currency || null, sourceIds: value === null ? [] : [...new Set(values.flatMap(o => o.sourceIds))],
         missingReason: value === null ? 'Verified compatible inputs and a valid denominator are required.' : null };
 }
 
@@ -117,7 +164,9 @@ function toolError(error) {
     };
     const code = known[error?.code] ? error.code : 'TOOL_UNAVAILABLE';
     // Do not put upstream errors, credentials or provider details in prompts.
-    return { code, error: known[code] || 'This data tool is unavailable. State the gap and continue with the other results.', retryable: false };
+    return { code, error: known[code] || 'This data tool is unavailable. State the gap and continue with the other results.', retryable: false,
+        ...(code === 'UNSUPPORTED_SECURITY_TYPE' && ['unit', 'right'].includes(error.securityType)
+            ? { symbol: error.symbol, securityType: error.securityType } : {}) };
 }
 
 function serializeResult(result, remaining) {
@@ -132,8 +181,9 @@ function fitHistory(result, data, availablePeriods) {
     while (Buffer.byteLength(JSON.stringify(result)) > MAX_RESULT_BYTES && result.observations.length > 1) {
         result.observations.pop();
         if (result.calculations?.length) result.calculations.pop();
+        if (result.capitalReturns?.length) result.capitalReturns.pop();
         result.table = result.table.split('\n').slice(0, result.observations.length + 1).join('\n');
-        result.provenance = provenance(data, [result.observations, result.comparisons, result.calculations]);
+        result.provenance = provenance(data, [result.observations, result.comparisons, result.calculations, result.capitalReturns]);
         result.history.returnedPeriods = result.observations.length;
         result.history.omittedReason = 'Older periods omitted to keep research within its context budget. Use before with the oldest returned periodEnd for the next history window.';
     }
@@ -165,5 +215,5 @@ function requiresEvidence(question, answer) {
         !definition && !/\b(hypothetical|suppose|assume)\b/i.test(question);
 }
 
-module.exports = { observation, rowEvidence, provenance, compatible, quarterlyComparisons, freeCashFlow, calculate,
+module.exports = { observation, rowEvidence, provenance, compatible, quarterlyComparisons, annualComparisons, freeCashFlow, capitalReturns, calculate,
     toolError, serializeResult, fitHistory, filingLinks, appendCitations, requiresEvidence, MAX_RESULT_BYTES, MAX_CONTEXT_BYTES };

@@ -17,7 +17,7 @@ function cfg(purpose) {
     // Direct Ollama Cloud requests use the library model name without the
     // `:cloud` suffix; that suffix is for a local Ollama daemon forwarding a
     // request to the cloud. OpenRouter uses its namespaced slug.
-    const fallback = useOllama ? 'glm-5.1' : 'z-ai/glm-5.1';
+    const fallback = useOllama ? 'glm-5.3' : 'z-ai/glm-5.3';
     const byPurpose = {
         summary: process.env.AI_MODEL_SUMMARY || fallback,
         chat: process.env.AI_MODEL_CHAT || fallback,
@@ -33,7 +33,11 @@ function cfg(purpose) {
             ? (ollamaKey || process.env.AI_BRIEFING_API_KEY || '')
             : (process.env.AI_BRIEFING_API_KEY || process.env.OPENROUTER_API_KEY || ''),
         baseUrl: explicitBase || (useOllama ? 'https://ollama.com/v1' : 'https://openrouter.ai/api/v1'),
-        model: byPurpose[purpose] || fallback
+        // This direct-service model was retired on 2026-09-25. Migrate only
+        // the known retired configuration; preserve explicit supported models
+        // and other endpoints. Both streaming and ordinary calls use cfg().
+        model: useOllama && /^glm-5\.1(?::cloud)?$/.test(byPurpose[purpose])
+            ? fallback : byPurpose[purpose] || fallback
     };
 }
 function isConfigured() {

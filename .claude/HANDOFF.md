@@ -61,7 +61,8 @@ preserved. Release commit only: **no push or deployment**; deploying remains a s
 
 ## Ask answer quality review — 2026-10-04
 
-**Hold the expanded Ask release pending the findings in `docs/qa/ask-quality-2026-10-04/report.html`.**
+**Historical baseline:** findings in `docs/qa/ask-quality-2026-10-04/report.html` were repaired in the
+following engineering and quality releases; see the current readiness report below.
 One live analyst answer returned in 9.3s but compared June 2026 to September 2025 and called it YoY:
 Apple revenue 6.8% vs verified 16.36%; net income 8.5% vs 27.12%. Annual cash/FCF amounts were correct,
 but FY2025/FY2024 end dates were wrong. Twenty local tool probes on `730507cc` found ~812KB AAPL
@@ -80,9 +81,37 @@ research context with explicit history pagination; per-tool exception replies; s
 native-currency chart units; separate quote/financial/check dates; exact SEC links and a no-research numeric
 answer retry/fallback. Public and screen snapshots were regenerated together after market-field suppression.
 The deployment regression gate now includes Ask evidence and loop tests. See
-`docs/ask-production-fixes-2026-10-04.md` for checks and limits. Original QA remains the historical baseline;
-real-model answer quality still needs a broader rerun with AI-only credentials. Production env files were
-not loaded. No push or deployment is authorized by this repair task.
+`docs/ask-production-fixes-2026-10-04.md` for checks and limits. Original QA remains the historical baseline.
+Eight post-repair real answers and 16 Chrome desktop/mobile renders are recorded in
+`docs/qa/ask-postfix-2026-10-04/report.md`: sample scores **answers 7/10, visualizations 4/10, length 6/10**.
+**Hold Ask approval:** one chart is scaled 1,000,000× incorrectly; one answer claims USD98.8bn FCF covers
+USD106.1bn dividends/buybacks; mobile chart axes are tiny/clipped. The user authorized the AI-only loader;
+no production DB was connected. Configured model returned retired HTTP410 for all eight initial calls;
+successful answers use an evaluation-only active replacement. Production configuration is unchanged.
+No push/deployment or authenticated deployed Ask verification occurred at that checkpoint.
+
+## Ask quality release — 2026-10-04
+
+The earlier Ask hold is resolved by the scoped release on `ask-production-ready-20261004`.
+See `docs/ask-release-readiness-2026-10-04.md`. Financial chart units/values, explicit dates and metric
+labels are checked against supplied evidence; monetary and percentage claims are checked at displayed
+precision. Annual comparisons and dividend-plus-buyback coverage retain formulas and input sources.
+Wrong output gets one bounded rewrite, then a truthful partial receipt; synthesis outages preserve
+successful research. Financial prose streaming waits for validation while tool progress remains visible.
+Missing share/ADR basis is explained accurately, and unit/right errors retain the instrument type.
+Default answer/history lengths are shorter; chart axes resize/read clearly and mobile links/tables wrap.
+Shared stamp: `20261004-askquality2`. Known retired direct-service configuration migrates in code, without
+editing production environment files. Custom endpoints and supported explicit configurations are retained.
+343 targeted regressions pass on Node22.23.3 and Node26.9.0. Final ten actual AI answers pass (two rewrites),
+including streaming, historical queries and follow-ups; 20 desktop/mobile renders have zero page overflow.
+Local raw QA is in `docs/qa/ask-release-2026-10-04/`, excluded from the commit. Earlier rounds/repeat evidence
+are preserved separately, not counted as final-code successes. Clean staged-checkout startup passes with
+disposable local MongoDB and reused dependencies, no production environment files or database connections.
+Dataset/exhaustive rendering pass; counts remain 6,099 listings/4,442 ready issuers. Node22 harness:
+cold sitemap96.3ms, RSS221.3MiB, max event-loop delay8.7ms. This is not a production load test.
+Checks do not certify every causal sentence; some answer repetition remains. Browser evidence is an
+isolated actual-renderer harness, not an authenticated deployed Ask page. **Local commit only: no push
+or deployment.** Release separately, then verify the deployed SHA and authenticated Ask behavior.
 
 ## In flight
 

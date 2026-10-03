@@ -2,7 +2,9 @@
 
 ## Status
 
-The six engineering findings from the Ask evaluation are repaired locally. The release includes tests and a matching public/screener snapshot pair. It has not been pushed or deployed. A broader real-model answer benchmark remains pending because this shell has no AI credentials; production environment files were not read.
+The original engineering repairs are recorded in `d426e4b43834a7612813d79b34a23dfb13becbad`. A subsequent eight-answer benchmark identified additional output and rendering defects. Those defects are now repaired and the scoped Ask release is validated locally; see [the current readiness report](ask-release-readiness-2026-10-04.md). No push or deployment has occurred. The details below preserve the earlier repair checkpoint and its verification limits.
+
+The user authorized an AI-only credential loader; production database connections were disabled. The earlier configured connection was retired, so the first successful benchmark used an evaluation-only replacement. The current release handles the known retired configuration in application code, and the final ten-answer benchmark uses the existing configured connection without that evaluation override. Production environment files remain unchanged.
 
 ## Repairs and evidence
 
@@ -46,6 +48,6 @@ node scripts/check-stock-coverage-startup.js
 
 ## Remaining verification limits
 
-The tests exercise real financial tool handlers and scripted model responses. They prove the corrected inputs, arithmetic and control flow; they do not prove that every real model answer will use those inputs correctly. The no-research guard is not a claim-by-claim semantic verifier of all generated prose. Exact source links allow checking reported claims, but an appended source list alone does not certify the answer.
+The regression tests exercise real financial tool handlers and scripted model responses. They prove the corrected inputs, arithmetic and control flow; they do not prove that every real model answer will use those inputs correctly. The subsequent actual-model evaluation confirms that distinction: the model received correct FCF/dividend/buyback values and still wrote an incorrect coverage conclusion. The no-research guard is not a claim-by-claim semantic verifier of all generated prose. Exact source links allow checking reported claims, but an appended source list alone does not certify the answer.
 
-Before release approval for Ask, rerun real answers in both modes across quarterly comparisons, foreign currencies, multiple share classes, missing data, historical data, units/rights and follow-ups. Verify both streaming and final responses. No authenticated browser or deployed repair has been verified in this task.
+At this earlier checkpoint, eight real answers and sixteen desktop/mobile renders produced subjective sample scores of answers 7/10, visualizations 4/10 and length 6/10. The current readiness report records the subsequent fixes, repeated evaluations, historical questions and follow-ups. No authenticated deployed Ask page or deployed repair has been verified in this task.

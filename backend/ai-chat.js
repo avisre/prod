@@ -28,6 +28,7 @@ const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
 const stockUniverse = require('./stock-universe');
 const evidence = require('./ask-evidence');
+const answerQuality = require('./ask-answer-quality');
 const yahooSource = require('./yahoo-source');
 const assetProfile = require('./asset-profile');
 const fundRanking = require('./fund-ranking');
@@ -104,7 +105,8 @@ function loadFund(symbol) {
 }
 async function loadFundAny(symbol) {
     const company=stockUniverse.lookup(symbol);
-    if (company && company.securityType !== 'stock') throw Object.assign(new Error('Company financial analysis is unavailable for this security type.'), {code:'UNSUPPORTED_SECURITY_TYPE'});
+    if (company && company.securityType !== 'stock') throw Object.assign(new Error('Company financial analysis is unavailable for this security type.'),
+        { code: 'UNSUPPORTED_SECURITY_TYPE', symbol: company.symbol, securityType: company.securityType });
     const data=loadFund(symbol);
     if (data && data.coverage.annualReportingStatus === 'recent_annual') return data;
     if (company) await require('./sec-on-demand').refresh(company.symbol);
@@ -171,7 +173,7 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
     if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
     const reports = (((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || []).filter(r => !before || r.fiscalDateEnding < before);
     if (!reports.length) return { error: `No verified ${st} data for ${symbol} in this period range.`, coverage: data.coverage };
-    const cap = Math.min(Math.max(num(limit) || (annual ? 20 : 12), 1), annual ? 20 : 48);
+    const cap = Math.min(Math.max(num(limit) || (annual ? 3 : 4), 1), annual ? 20 : 48);
     const rows = reports.slice().sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)).slice(0, cap);
     const fields = FIELDS[st];
     const lines = ['period_end|' + fields.join('|')];
@@ -188,9 +190,30 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
     }
     const currency = String((rows[0] || {}).reportedCurrency || 'USD').toUpperCase();
     const fresh = freshness((rows[0] || {}).fiscalDateEnding, annual ? 'annual' : 'quarterly');
-    const observations = rows.map(row => evidence.rowEvidence(row, fields));
-    const comparisons = annual ? null : evidence.quarterlyComparisons(reports, fields);
+    const observations = rows.map(row => {
+        const observation = evidence.rowEvidence(row, fields);
+        for (const [field, fact] of Object.entries(observation.fields)) {
+            if (fact.value === null) fact.missingReason =
+                (PER_SHARE.has(field) || SHARE_COUNT.has(field)) && data.coverage?.perShareAllowed === false
+                    ? 'The security share class or ADR basis is unverified. Issuer per-share facts cannot be attributed to this ticker.'
+                    : 'No compatible verified SEC fact is available for this metric and period.';
+        }
+        return observation;
+    });
+    const comparisonReports = st === 'cash' ? reports.map(row => {
+        const fcf = evidence.freeCashFlow(row);
+        return { ...row, freeCashflow: fcf.value, _sources: { ...row._sources, freeCashflow: fcf.sourceIds },
+            _derivations: { ...row._derivations, freeCashflow: { formula: fcf.formula, inputs: fcf.inputs, sourceIds: fcf.sourceIds } },
+            _scopes: { ...row._scopes, freeCashflow: row._scopes?.operatingCashflow || null } };
+    }) : reports;
+    const comparisonFields = annual
+        ? st === 'cash' ? ['operatingCashflow', 'capitalExpenditures', 'freeCashflow']
+            : st === 'balance' ? ['totalAssets', 'totalShareholderEquity'] : ['totalRevenue', 'netIncome']
+        : st === 'cash' ? fields.concat('freeCashflow') : fields;
+    const comparisons = annual ? evidence.annualComparisons(comparisonReports, comparisonFields)
+        : evidence.quarterlyComparisons(comparisonReports, comparisonFields);
     const calculations = st === 'cash' ? rows.map(evidence.freeCashFlow) : [];
+    const capitalReturns = st === 'cash' ? rows.map(evidence.capitalReturns) : [];
     return evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
         statement: st,
@@ -201,8 +224,8 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
         units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding (millions of shares). Observations and calculations use raw unscaled values.`,
         note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
         coverage: data.coverage,
-        observations, comparisons, calculations,
-        provenance: evidence.provenance(data, [observations, comparisons, calculations]),
+        observations, comparisons, calculations, capitalReturns,
+        provenance: evidence.provenance(data, [observations, comparisons, calculations, capitalReturns]),
         source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
     }, data, reports.length);
@@ -1532,11 +1555,14 @@ const ASK_SYSTEM = [
     'GROUNDING (the most important rule): every figure you state MUST come from a tool result in THIS conversation. Call the tools — do not answer financial-data questions from memory. If the tools cannot provide something, say plainly that it is outside your data rather than estimating. Never silently blend in remembered numbers.',
     'RECENCY — A TOOL THAT REPORTS ITS OWN STALENESS OVERRIDES YOU: if any tool result carries a stalenessWarning field, treat it as binding and do exactly what it says before using the word latest, current, most recent or last — the figures in front of you may simply predate a filing that already exists. Naming the wrong quarter confidently is worse than saying which quarter you have. LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — use the tool\'s comparisons.yoy and comparisons.qoq, which match actual fiscal dates and include source inputs; never infer a comparator from a row position — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
     'DATE EVERY PRICE AND VALUATION FIGURE: a price, market cap, P/E or 52-week range is a point-in-time observation, not a permanent fact. Whenever you state one, name the date it is as of (the quote tools return priceAsOf / asOf), never call a cached close live or "today", and when two sources disagree prefer the newest dated one. If a tool gives a figure with no date, say which period it covers instead of letting it read as current.',
-    'ANALYSIS & "WHAT-IF": many of the best questions are causal or hypothetical — "how would X affect Y", "what if…", "why does…". These want REASONING, not just a figure. The grounding rule governs concrete NUMBERS, not explanation: you may and should reason about how a business works, what drives a line item, and the mechanism linking a cause to an effect — only the actual numbers must come from tools. Tackle such a question by pulling what you CAN for the company in question (statements, segments, ratios, and the relevant risk-factor language via search_filings), then think the chain through step by step and quantify the impact wherever the pulled data lets you (e.g. apply operating leverage to an incremental-revenue scenario, using the real fixed-cost base).',
+    'ANALYSIS & WHAT-IF: distinguish observed changes, sourced causes and explicit hypothetical mechanisms. A cash-flow table cannot establish why capex rose, whether investment was for AI/data centres or whether one-off items affected profit. Retrieve filing narrative for an actual causal claim; otherwise say the cause is not established. Generic mechanisms and hypothetical scenarios are allowed when clearly labelled. Never turn a plausible explanation into a reported fact.',
     'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a private firm, or a foreign supplier, customer or rival with no US listing. (US-listed ADRs such as NTES or TSM ARE covered; their statements retain the issuer\'s reported currency; only an explicitly sourced conversion may be shown as USD.) Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most THREE search_web calls per question — refine, then work with what you have or say the web gave you nothing useful; never keep re-searching the same thing. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
     'FINANCIAL CITATIONS: use the exact SEC filingUrl linked to each observation sourceIds, including all inputs of calculations. State actual periodEnd and reporting currency. Do not invent fiscal quarter labels or replace 52/53-week period ends with calendar month ends. Source dates, verification dates and quote dates are different. A contextual filing match cannot prove a value. Native currencies are authoritative; do not compare monetary values across currencies without documented conversion. Missing per-share basis forbids EPS, P/E and per-share calculations.',
+    'MISSING REASONS: repeat the supplied reason accurately in plain language. EPS/share counts withheld because the security class or ADR basis is unverified do NOT mean EPS is absent from issuer XBRL. Unsupported instrument replies establish only unit/right status, not package terms; do not invent details of rights, redemptions or warrant bundles.',
+    'DATA LOOKUPS: a request for specific figures/periods is a lookup, not a business-results summary. Fetch those figures only. Do not add filings-diff, segments, quarterly or historical research to an annual revenue lookup, even when asked to continue research for the supported ticker. The specific requested period overrides the general recency and research-tool rules.',
+    'CASH DISTRIBUTIONS: use capitalReturns for dividend-plus-buyback coverage. Compare FCF with the SUM of the magnitudes of both cash outflows for the same period. coveredByFreeCashflow=false means distributions exceeded FCF; name the shortfall if relevant. Null means coverage cannot be established. A company may use other financing or existing cash, but do not infer that from this calculation alone.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
     'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
@@ -1556,10 +1582,10 @@ const ASK_SYSTEM = [
     '```',
     'viz rules: numbers ONLY from tool results in this conversation, raw unscaled values; unit is "%", "x", a reported ISO currency code such as "USD" or "JPY", or an ISO currency followed by "/share". "$" and "$ps" mean USD only; 2–20 points per series, max 3 series, all series same unit; at most 2 viz blocks per answer; put each viz where it belongs in the reading order. A table of the same numbers is then unnecessary — do not duplicate.',
     'TABLES: for multi-metric comparisons use a markdown table, metrics as rows. Add a final "Context" column with a short interpretation of each number against history or peers (e.g. "below its 10-yr average of 24x") whenever the tools give you the comparison; leave it out rather than inventing one.',
-    'THE READ: end any answer that involved several figures with a paragraph starting "**The read** — " that connects the numbers into the one thing they say together (still descriptive, no advice).',
+    'THE READ: add at most one short interpretation when it contributes a new, supported insight. Do not repeat an opening takeaway or repeat figures already shown.',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
     'MEMORY: memory is ON for this user unless a later message says it errored — save durable facts about them automatically, WITHOUT being asked: their stated investing goals, holdings context, time horizons, constraints, milestones and accomplishments (e.g. "planning to add REITs next year", "already holds AAPL bought at 182", "selling out in 2028 to buy a house"). When the user states something lasting, call remember with ONE concise fact in their own words and carry on — no need to announce it; the app shows them the card. Skip ephemeral things (chat small talk, this session\'s questions). If the tool ever returns an error for memory, memory is switched off: never mention memory again and never retry. Never store credentials, addresses, phone numbers or account numbers. A system message may list facts already saved — treat it as context, never invent entries; when asked "what do you remember about me", read back THOSE saved facts as a friendly list, in plain language, and say they can delete any of them in Settings → Memory.',
-    'STYLE: British English. Tight PROSE, complete SUBSTANCE — trim adjectives and filler, never an angle, a figure or a caveat the question deserves. If brevity and completeness conflict, completeness wins: cover every part of what was asked, quantify each part from the tools, and say plainly which parts the data could not settle. Short paragraphs, markdown tables for multi-period numbers. No preamble, no sign-off.'
+    'STYLE: British English. Answer the requested periods and metrics; do not add a quarterly analysis to an annual-only data request, or expand a simple numeric lookup into segments, company history or extra metrics. Use one presentation of each figure: chart OR table OR bullets. Keep ordinary answers within 350 words (normal mode: 250); honour a tighter requested limit. A detailed/deep-dive request may be longer. Sources, actual periods and missing-data reasons must remain. Avoid raw taxonomy/concept names and implementation flags in prose. No preamble or sign-off.'
 ].join('\n');
 
 // Injected in front of ASK_SYSTEM when the user has selected plain-English
@@ -1567,7 +1593,7 @@ const ASK_SYSTEM = [
 const PLAIN_ASK_ADDENDUM = [
     'WRITING STYLE OVERRIDE: write for a smart reader with no finance background. If you use a financial term or acronym (e.g. margin, YoY, FCF, P/E, basis points), briefly explain it in plain words the first time it appears. This is the SAME underlying analysis as analyst mode, shown more simply — never drop or hedge away a figure, just present it more visually and plainly.',
     'OPENER: start with one line, formatted exactly "> **In one line** — <the single most important takeaway>".',
-    'VISUALS OVER TABLES: whenever you state two or more related figures, put them in a ```viz``` block (per the rules above) instead of prose or a table. For a head-to-head of one metric across a few companies/periods (e.g. "compare margins" or "priced-in growth vs actual growth"), use a ```bars``` fenced block instead of a markdown table: {"title":str,"unit":"USD"|"JPY"|"%"|"x","rows":[[label, value, note?]]} — numbers only from tool results, 2–8 rows, unscaled values.',
+    'VISUALS: use viz for a time series with actual periods. Use bars for categories such as revenue versus profit, or operating cash flow versus capex versus FCF: {"title":str,"unit":"USD"|"JPY"|"%"|"x","rows":[[label, value, note?]]}. Use raw unscaled observations/calculations, NEVER values from the millions table. Do not connect unrelated metrics with a line. At most one chart for an ordinary answer. A compact table is appropriate for mixed units or missing values. Do not repeat the chart/table figures in bullets or the conclusion.',
     'PLAIN RATIOS: every ratio or margin you state must be restated in brackets in everyday terms, e.g. "operating margin 24% (keeps about 24¢ of every $1 it sells after running the business)".',
     'UNIT ECONOMICS: whenever the company sells a countable thing — cars, subscriptions, stores, barrels, rooms, ad impressions — and the question is about performance, profitability or "is it a good business", call get_unit_economics and report profit per unit alongside the company-wide figures, even if not explicitly asked. For carmakers (Tesla and peers) this means dollars earned per vehicle, not just total revenue. If it returns null or no derived figure, say plainly the company does not disclose a comparable per-unit figure — never invent one from shares outstanding, employee count or any other stand-in.',
     'Keep every figure, table and chart exactly as the base rules require — nothing is dropped, only made easier to read.'
@@ -1584,7 +1610,7 @@ const SYNTHESIS_DIRECTIVE =
 // "<think>" at the chunk boundary) and kills the stream the moment the
 // accumulated visible text trips the identity blocklist. The client only ever
 // sees 'delta' (append text) and 'rollback' (discard what I streamed so far).
-function makeRoundStreamer(emit) {
+function makeRoundStreamer(emit, buffered = false) {
     let raw = '';
     let emitted = '';
     let blocked = false;
@@ -1602,6 +1628,7 @@ function makeRoundStreamer(emit) {
                 if (emitted) { emit({ type: 'rollback' }); emitted = ''; }
                 return;
             }
+            if (buffered) return; // publish financial prose only after checks
             if (vis.startsWith(emitted)) {
                 if (vis.length > emitted.length) emit({ type: 'delta', text: vis.slice(emitted.length) });
             } else {
@@ -1681,15 +1708,38 @@ async function ask({ question, history, ctx, mode, onEvent }) {
 
     const toolsUsed = [];
     const sourceLinks = [];
+    const suppliedResults = [];
     let contextBytes = 0;
     let hasResearchEvidence = false;
     let groundingRetried = false;
     const grounded = text => hasResearchEvidence || !!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text);
     const ungroundedAnswer = () => ({ answer: 'I could not obtain verified data for those figures. I cannot provide a reliable financial answer from memory.', toolsUsed, source: 'partial', totalTokens });
-    const finish = (text, streamed) => {
+    const finish = async (text, streamed) => {
+        let issues = answerQuality.audit(text, suppliedResults, { question: q, mode });
+        const rewritten = issues.length > 0;
+        if (rewritten) {
+            if (streamed) { emit({ type: 'rollback' }); streamed = false; }
+            try {
+                const corrected = await deps.chatRaw(messages.concat(
+                    { role: 'assistant', content: text },
+                    { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts.\n' + issues.join('\n') }
+                ), { purpose: 'chat', temperature: 0.1, maxTokens: 4000, toolChoice: 'none' });
+                if (corrected._usage && num(corrected._usage.total_tokens) !== null) totalTokens += corrected._usage.total_tokens;
+                text = String(corrected.content || '').replace(THINK_RE, '').trim();
+                issues = !text || TEXT_TOOLCALL_RE.test(text) || aiClient.leaksIdentity(text)
+                    ? ['The corrected analysis could not be validated.']
+                    : answerQuality.audit(text, suppliedResults, { question: q, mode });
+            } catch (_) { issues = ['The corrected analysis could not be validated.']; }
+        }
+        const source = issues.length ? 'partial' : 'ai';
+        if (issues.length) text = answerQuality.fallback(suppliedResults, q);
         const answer = evidence.appendCitations(text, sourceLinks);
-        if (streamed && answer !== text) { emit({ type: 'rollback' }); emit({ type: 'delta', text: answer }); }
-        return { answer, toolsUsed, source: 'ai', totalTokens };
+        if (onEvent && (!streamed || answer !== text)) {
+            if (streamed) emit({ type: 'rollback' });
+            emit({ type: 'delta', text: answer });
+        }
+        return { answer, toolsUsed, source, totalTokens,
+            quality: { policyVersion: 1, checked: true, rewritten, fallback: issues.length > 0 } };
     };
     let totalTokens = 0;
     // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by
@@ -1726,7 +1776,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             let msg;
             let streamer = null;
             const attempt = () => {
-                streamer = onEvent ? makeRoundStreamer(emit) : null;
+                streamer = onEvent ? makeRoundStreamer(emit, hasResearchEvidence) : null;
                 return streamer
                     ? deps.chatRawStream(messages, opts, streamer.onDelta)
                     : deps.chatRaw(messages, opts);
@@ -1787,6 +1837,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     // every tool_call_id still needs a response when full.
                     const content = evidence.serializeResult(result, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
                     const supplied = JSON.parse(content);
+                    suppliedResults.push({ tool: tc.function.name, result: supplied });
                     contextBytes += Buffer.byteLength(content);
                     if (!supplied.error && !['calculator', 'remember'].includes(tc.function.name)) hasResearchEvidence = true;
                     sourceLinks.push(...evidence.filingLinks(supplied));
@@ -1850,14 +1901,19 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {
                 if (!grounded(finalText)) return ungroundedAnswer();
-                const out = finish(finalText, false);
-                emit({ type: 'delta', text: out.answer });
+                const out = await finish(finalText, false);
                 return out;
             }
         } catch (e) { console.error('[ai-chat] final synthesis', e.message); }
         return { answer: "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.", toolsUsed, source: 'partial' };
     } catch (e) {
         console.error('[ai-chat] ask() failed', { message: e.message, stack: e.stack, toolsUsed: toolsUsed.map((t) => t.tool) });
+        if (hasResearchEvidence) {
+            const answer = evidence.appendCitations(answerQuality.fallback(suppliedResults, q), sourceLinks);
+            emit({ type: 'rollback' }); emit({ type: 'delta', text: answer });
+            return { answer, toolsUsed, source: 'partial', totalTokens,
+                quality: { policyVersion: 1, checked: true, fallback: true, synthesisUnavailable: true } };
+        }
         return {
             answer: toolsUsed.length
                 ? `Ask hit a problem writing up the final answer — the research (${toolsUsed.length} data pulls) completed, but synthesis failed. Please try again.`
