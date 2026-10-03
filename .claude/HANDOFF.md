@@ -59,6 +59,31 @@ fingerprints include market data, price history, FX and screen contents; screen 
 verified SEC facts. Same-period extraction loss preserves prior validated data. Unrelated local work is
 preserved. Release commit only: **no push or deployment**; deploying remains a separate release action.
 
+## Ask answer quality review — 2026-10-04
+
+**Hold the expanded Ask release pending the findings in `docs/qa/ask-quality-2026-10-04/report.html`.**
+One live analyst answer returned in 9.3s but compared June 2026 to September 2025 and called it YoY:
+Apple revenue 6.8% vs verified 16.36%; net income 8.5% vs 27.12%. Annual cash/FCF amounts were correct,
+but FY2025/FY2024 end dates were wrong. Twenty local tool probes on `730507cc` found ~812KB AAPL
+financial payloads, unsupported instruments aborting Ask, P/E bypassing share-basis suppression, and
+native-currency/prompt contradictions. Sixty-six Ask regressions pass; they are control tests, not
+answer accuracy evidence. Three loop cases used scripted model responses. A broader local real-model
+benchmark awaits an AI-only credentials source; backend/.env was not loaded. No product-code fixes,
+commit, push or deployment in this evaluation. Data/readiness acceptance on `730507cc` remains recorded,
+but does not certify Ask answer quality. The report's claim ledger links primary SEC filings.
+
+## Ask engineering fixes — 2026-10-04
+
+Implemented date-matched quarterly comparisons, exact annual periods and calculated FCF in financial
+results; selected field provenance (AAPL two-year income ~16KB vs ~812KB); bounded 64KB results / 192KB
+research context with explicit history pagination; per-tool exception replies; shared share-basis guards;
+native-currency chart units; separate quote/financial/check dates; exact SEC links and a no-research numeric
+answer retry/fallback. Public and screen snapshots were regenerated together after market-field suppression.
+The deployment regression gate now includes Ask evidence and loop tests. See
+`docs/ask-production-fixes-2026-10-04.md` for checks and limits. Original QA remains the historical baseline;
+real-model answer quality still needs a broader rerun with AI-only credentials. Production env files were
+not loaded. No push or deployment is authorized by this repair task.
+
 ## In flight
 
 **Day 41 AppLovin card — re-rendered in the house theme (10/03, DONE; `marketing/` is gitignored, nothing to

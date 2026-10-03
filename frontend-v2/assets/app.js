@@ -274,7 +274,7 @@
 
     // ---------- formatters ----------
     function num(v) {
-        if (v === null || v === undefined || v === '' || v === 'None') return null;
+        if (v === null || v === undefined || (typeof v === 'string' && /^(?:none|null)?$/i.test(v.trim()))) return null;
         const n = Number(v);
         return Number.isFinite(n) ? n : null;
     }
@@ -433,6 +433,14 @@
         if (unit === '%') return (v) => (Math.round(v * 10) / 10) + '%';
         if (unit === 'x') return (v) => (Math.round(v * 10) / 10) + '×';
         if (unit === '$ps') return (v) => '$' + fixed(v, 2);
+        // SEC statements keep the issuer's reporting currency. Both Ask
+        // chart types share this formatter, including per-share amounts.
+        if (/^[A-Z]{3}(?:\/share)?$/.test(unit || '')) {
+            const currency = unit.slice(0, 3);
+            return unit.endsWith('/share')
+                ? (v) => currency + ' ' + fixed(v, 2) + '/share'
+                : (v) => currency + ' ' + money(v);
+        }
         return (v) => money(v) || String(v);
     }
     function vizBlock(json) {
@@ -455,14 +463,15 @@
             .map((s) => ({
                 name: String(s.name || ''),
                 points: (Array.isArray(s.points) ? s.points : [])
-                    .filter((p) => Array.isArray(p) && p.length === 2 && Number.isFinite(Number(p[1])))
+                    .filter((p) => Array.isArray(p) && p.length === 2)
+                    .map((p) => [p[0], num(p[1])])
             }))
-            .filter((s) => s.points.length >= 2);
+            .filter((s) => s.points.filter((p) => p[1] !== null).length >= 2);
         if (!series.length) return '';
         const labels = series.reduce((a, s) => (s.points.length > a.length ? s.points.map((p) => String(p[0])) : a), []);
         const cls = ['ink', 'accent', 'pos'];
         const chartSeries = series.map((s, i) => {
-            const map = new Map(s.points.map((p) => [String(p[0]), Number(p[1])]));
+            const map = new Map(s.points.map((p) => [String(p[0]), p[1]]));
             return { values: labels.map((l) => (map.has(l) ? map.get(l) : null)), cls: cls[i % 3] };
         });
         const svg = chart(chartSeries, labels, { fmt: vizFmt(spec.unit), height: 240 });
@@ -494,7 +503,7 @@
             try { spec = JSON.parse(json + closers); } catch (_2) { return ''; }
         }
         const rows = (Array.isArray(spec.rows) ? spec.rows : [])
-            .filter((r) => Array.isArray(r) && r.length >= 2 && Number.isFinite(Number(r[1])))
+            .filter((r) => Array.isArray(r) && r.length >= 2 && num(r[1]) !== null)
             .slice(0, 8);
         if (!rows.length) return '';
         const fmt = vizFmt(spec.unit);

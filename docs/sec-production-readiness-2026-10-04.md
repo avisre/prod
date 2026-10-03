@@ -8,6 +8,19 @@ The directory contains **6,099 securities**. **4,442 distinct companies** have r
 
 The release integrates the SEC implementation with production data commit `df49a84f35b82b46a9de3cb81014af24c8fc181d`. Fresh production quote inputs and the DMC provider input were retained when resolving the merge. Resolve the release SHA with `git log -1 --format=%H -- docs/sec-production-readiness-2026-10-04.md`; the final delivery also identifies the SHA.
 
+## Ask quality addendum — engineering fixes implemented, answer benchmark pending
+
+The subsequent Ask evaluation found a wrong quarterly growth comparison in a real live answer, plus
+integration gaps in the local release: oversized source payloads, unsupported instruments aborting the
+Ask loop, P/E exposure despite unverified share basis, and currency/prompt contradictions. **Hold release
+approval for Ask until those issues are fixed and real answers are re-evaluated.** The dataset counts,
+provenance validation and other acceptance results below remain valid; they do not establish answer quality.
+The historical local evaluation is in `docs/qa/ask-quality-2026-10-04/report.html`. The follow-up repair
+implements deterministic fiscal comparisons, compact exact provenance, error isolation, currency and
+share-basis guards, citations and a no-research numeric-answer guard. See
+[Ask repair verification](ask-production-fixes-2026-10-04.md). The broader real-model benchmark is still
+pending; repaired tool contracts and scripted loop checks do not establish a product-wide accuracy rate.
+
 ## Verified counts
 
 | Measure | Count |

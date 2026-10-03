@@ -20,7 +20,7 @@
 const credits = require('./credits');
 
 const COST = credits.COST;
-const STAMP = '20261003-secverified1';
+const STAMP = '20261004-askverified1';
 const UPDATED = '25 September 2026';
 
 function esc(value) {
