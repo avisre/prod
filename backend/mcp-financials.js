@@ -124,22 +124,12 @@ function companyCatalog() {
         bySymbol.set(symbol, {
             ticker: symbol,
             name: String(c.name || symbol),
-            cik: c.cik ? String(c.cik).padStart(10, '0') : null,
+            cik: c.cik ? String(c.cik).padStart(10, '0') : null, exchange:c.exchange || null,
             sector: c.sector || null,
-            index: null
+            index: null, securityType:c.securityType || 'stock'
         });
     }
-    const sp = readJsonFile(path.join(DATA_DIR, 'sp1500-companies.json'), { companies: [] });
-    for (const c of sp.companies || []) {
-        const symbol = normalizeTicker(c.symbol);
-        if (!symbol) continue;
-        const existing = bySymbol.get(symbol);
-        if (existing) { existing.index = c.index || existing.index; if (c.sector) existing.sector = c.sector; }
-        else bySymbol.set(symbol, { ticker: symbol, name: String(c.name || symbol), cik: null, sector: c.sector || null, index: c.index || null });
-    }
-    for (const symbol of fundamentalsSet()) {
-        if (!bySymbol.has(symbol)) bySymbol.set(symbol, { ticker: symbol, name: symbol, cik: null, sector: null, index: null });
-    }
+    for(const [symbol,entry] of bySymbol) if(entry.securityType !== 'stock') bySymbol.delete(symbol);
     _catalog = bySymbol;
     return _catalog;
 }
@@ -166,7 +156,7 @@ function searchCompanies(query, limit = 10) {
         if (score === null) continue;
         hits.push({
             score,
-            hasFundamentals: fundamentalsSet().has(entry.ticker),
+            hasFundamentals: ['ready','partial','historical_only'].includes(require('./public-stock-index').get(entry.ticker)?.financialCoverage),
             entry
         });
     }
@@ -180,7 +170,7 @@ function searchCompanies(query, limit = 10) {
         const overview = fundamentals ? fundamentals.overview || {} : {};
         return {
             ...h.entry,
-            exchange: overview.Exchange || null,
+            exchange: overview.Exchange || h.entry.exchange || null,
             fiscal_year_end: overview.FiscalYearEnd || null,
             has_financial_data: h.hasFundamentals
         };
@@ -191,6 +181,8 @@ function searchCompanies(query, limit = 10) {
 // number, or a name. An ambiguous name throws with the candidates so the model
 // can ask the user instead of guessing.
 async function resolveCompany(input) {
+    const instrument=require('./stock-universe').lookup(input);
+    if(instrument && instrument.securityType!=='stock')throw mcpError('UNSUPPORTED_SECURITY_TYPE','Company financial analysis is unavailable for this instrument.');
     const raw = String(input || '').trim();
     if (!raw) throw mcpError('COMPANY_REQUIRED', 'Provide a company ticker, name or CIK.');
     if (/^\d{4,10}$/.test(raw)) {
@@ -248,6 +240,7 @@ function periodRows(data, periodType) {
         if (!list.length) return {};
         const exact = list.find((r) => r.fiscalDateEnding === target);
         if (exact) return exact;
+        if(data.provenance)return {};
         let best = null;
         for (const row of list) {
             const d = dayDiff(row.fiscalDateEnding, target);
@@ -279,7 +272,7 @@ const METRICS = {
     research_and_development: { label: 'Research and development expense', units: 'USD', statement: 'income', field: 'researchAndDevelopment' },
     selling_general_and_administrative: { label: 'Selling, general and administrative expense', units: 'USD', statement: 'income', field: 'sellingGeneralAndAdministrative', aliases: ['sga', 'sg_and_a'] },
     operating_expenses: { label: 'Operating expenses', units: 'USD', statement: 'income', field: 'operatingExpenses' },
-    operating_income: { label: 'Operating income', units: 'USD', statement: 'income', field: 'operatingIncome', aliases: ['operatingIncome', 'ebit'] },
+    operating_income: { label: 'Operating income', units: 'USD', statement: 'income', field: 'operatingIncome', aliases: ['operatingIncome'] },
     interest_expense: { label: 'Interest expense', units: 'USD', statement: 'income', field: 'interestExpense', aliases: ['interestExpense'] },
     other_non_operating_income: { label: 'Other non-operating income (expense)', units: 'USD', statement: 'income', field: 'otherNonOperatingIncome' },
     income_before_tax: { label: 'Income before income taxes', units: 'USD', statement: 'income', field: 'incomeBeforeTax', aliases: ['pretax_income', 'incomeBeforeTax'] },
@@ -409,7 +402,7 @@ function resolveMetrics(rawList) {
 }
 
 function ratioPct(numerator, denominator) {
-    if (numerator === null || denominator === null || denominator === 0) return null;
+    if (numerator === null || denominator === null || denominator <= 0) return null;
     return round((numerator / denominator) * 100, 4);
 }
 
@@ -426,12 +419,8 @@ function rowValue(id, row) {
 }
 
 function priorRowFor(rows, index, periodType) {
-    const back = periodType === 'quarterly' ? 4 : 1;
-    const prior = rows[index + back];
-    if (!prior) return null;
-    const months = dayDiff(prior.period_end, rows[index].period_end) / 30.44;
-    const want = periodType === 'quarterly' ? 3 : 12;
-    return Math.abs(months - want) <= 1.5 ? prior : null;
+    const current=rows[index];
+    return rows.find(r=>r.period_end<current.period_end && r.currency===current.currency && Math.abs((Date.parse(current.period_end)-Date.parse(r.period_end))/86400000-365.2425)<=14) || null;
 }
 
 // ---------------------------------------------------------------------------
@@ -654,12 +643,21 @@ function shareFactFor(history, periodEnd, periodType) {
 // ---------------------------------------------------------------------------
 // Series builder
 // ---------------------------------------------------------------------------
+function sourceRefsForMetric(data,row,id,seen=new Set()) {
+    if(seen.has(id))return [];seen.add(id);
+    const def=metricDef(id);if(!def)return [];
+    if(def.kind==='reported')return require('./verified-fundamentals').sourcesFor(data,row[def.statement],def.field).map(s=>({...s,filing_date:s.filingDate,report_date:s.periodEnd,accession_number:s.accessionNumber,url:s.filingUrl}));
+    return (def.derived_from || []).flatMap(base=>sourceRefsForMetric(data,row,base,seen));
+}
+
 async function buildSeries(symbol, metricIds, periodType, opts = {}) {
+    const listing=require('./stock-universe').lookup(symbol);
+    if(listing && listing.securityType !== 'stock') throw mcpError('UNSUPPORTED_SECURITY_TYPE','Company financial analysis is unavailable for this instrument.');
     const data = loadFundamentals(symbol);
     if (!data) throw mcpError('COMPANY_NOT_FOUND', `No normalized filing data is available for ${symbol}.`);
     const overview = overviewOf(symbol, data);
     const rows = periodRows(data, periodType);
-    if (!rows.length) throw mcpError('INVALID_PERIOD', `No ${periodType} periods are available for ${symbol}.`);
+    if (!rows.length) throw mcpError('VERIFIED_FINANCIALS_UNAVAILABLE', `No verified ${periodType} financial observations are available for ${symbol}.`);
 
     let selected = rows;
     if (opts.startPeriod) {
@@ -679,23 +677,21 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
     const needsIndex = metricIds.some((id) => METRICS[id] || DERIVED[id] || id.endsWith('_growth'));
     const needsShares = metricIds.some((id) => XBRL_METRICS[id]);
     const [index, shares] = await Promise.all([
-        needsIndex ? getFilingIndex(symbol).catch(() => null) : Promise.resolve(null),
-        needsShares ? getShareHistory(symbol).catch(() => null) : Promise.resolve(null)
+        needsIndex && !data.provenance ? getFilingIndex(symbol).catch(() => null) : Promise.resolve(null),
+        needsShares && !data.provenance && data.coverage?.perShareAllowed ? getShareHistory(symbol).catch(() => null) : Promise.resolve(null)
     ]);
 
     const observations = [];
     for (let i = 0; i < selected.length; i++) {
         const row = selected[i];
-        const source = sourceForPeriod(index, row.period_end, periodType);
+        const source = data.provenance ? null : sourceForPeriod(index, row.period_end, periodType);
         for (const id of metricIds) {
             const def = metricDef(id);
             let value;
             let sourceOverride = null;
             let derivedFrom = def.derived_from || null;
             if (XBRL_METRICS[id]) {
-                const fact = shareFactFor(shares, row.period_end, periodType);
-                value = fact ? fact.val : null;
-                sourceOverride = shareSourceForFact(fact, shares && shares.cik);
+                if(data.provenance){const field=id==='diluted_shares'?'weightedAverageSharesDiluted':'weightedAverageSharesOutstanding';value=num(row.income[field]);const ref=row.income._sources?.[field]?.[0];sourceOverride=ref?data.provenance.sources[ref]:null;if(sourceOverride)sourceOverride={...sourceOverride,filing_date:sourceOverride.filingDate,report_date:sourceOverride.periodEnd,accession_number:sourceOverride.accessionNumber,url:sourceOverride.filingUrl};}else{const fact=shareFactFor(shares,row.period_end,periodType);value=fact?fact.val:null;sourceOverride=shareSourceForFact(fact,shares && shares.cik);}
             } else if (id === 'revenue_growth' || id === 'diluted_eps_growth') {
                 const baseId = id === 'revenue_growth' ? 'revenue' : 'diluted_eps';
                 const prior = priorRowFor(rows, rows.indexOf(row), periodType);
@@ -704,16 +700,25 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
             } else {
                 value = rowValue(id, row);
             }
+            let exactSource=sourceOverride || source;
+            if(data.provenance && !XBRL_METRICS[id]) {
+                const refs=sourceRefsForMetric(data,row,id);
+                const prior=(id==='revenue_growth' || id==='diluted_eps_growth')?priorRowFor(rows,rows.indexOf(row),periodType):null;
+                if(prior) refs.push(...sourceRefsForMetric(data,prior,id==='revenue_growth'?'revenue':'diluted_eps'));
+                if(!refs.length) value=null;
+                const unique=[...new Map(refs.map(x=>[JSON.stringify(x),x])).values()];
+                if(unique.length) exactSource=!derivedFrom && !row[def.statement]?._derivations?.[def.field] && unique.length===1 ? unique[0] : {type:'calculated',linkage:'derived_from_facts',inputs:unique};
+            }
             const observation = {
                 metric: id,
                 label: def.label,
                 period_type: periodType,
                 period_end: row.period_end,
                 value: value === null || value === undefined ? null : round(value, 6),
-                units: def.units,
+                units: def.units === 'USD' ? row.currency : def.units === 'USD_per_share' ? row.currency+'_per_share' : def.units,
                 currency: def.units === 'USD' || def.units === 'USD_per_share' ? row.currency : null,
                 derived_from: derivedFrom,
-                source: sourceOverride || source
+                source: value === null || value === undefined ? null : exactSource
             };
             if (observation.value === null && XBRL_METRICS[id]) {
                 observation.note = `No discrete ${periodType === 'quarterly' ? 'quarterly' : 'annual'} weighted-average share count was tagged for this period. A fourth fiscal quarter is normally reported only inside the annual filing, so no filed value exists for it.`;
@@ -721,7 +726,7 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
             observations.push(observation);
         }
     }
-    return { overview, observations, currency: rows[0].currency, periodType, totalPeriods: rows.length };
+    return { overview, observations, currency: rows[0].currency, periodType, totalPeriods: rows.length,coverage:data.coverage };
 }
 
 function groupObservations(observations, order) {
@@ -739,7 +744,7 @@ function groupObservations(observations, order) {
         out.push({
             metric,
             label: def.label,
-            units: def.units,
+            units: sorted[0]?.units || def.units,
             observations: sorted
         });
     }
@@ -762,6 +767,7 @@ async function companyFinancials({ company, metrics, periodType, periods, startP
             exchange: built.overview.exchange,
             currency: built.currency
         },
+        coverage: built.coverage,
         period_type: type,
         order: 'most_recent_first',
         metrics: groupObservations(built.observations, 'most_recent_first')
@@ -782,6 +788,7 @@ async function metricHistory({ company, metric, periodType, periods }) {
             exchange: built.overview.exchange,
             currency: built.currency
         },
+        coverage: built.coverage,
         metric: series.metric,
         label: series.label,
         units: series.units,
@@ -1112,16 +1119,16 @@ async function changeDrivers({ company, periodType, periodEnd, compareToPeriodEn
         prior = priorRowFor(rows, currentIndex, type) || rows[currentIndex + 1];
     }
     if (!prior) throw mcpError('INVALID_PERIOD', 'No comparable prior period is available.');
-    const index = await getFilingIndex(resolved.ticker).catch(() => null);
+    const index = data.provenance ? null : await getFilingIndex(resolved.ticker).catch(() => null);
     const sourceCur = sourceForPeriod(index, current.period_end, type);
     const sourcePrior = sourceForPeriod(index, prior.period_end, type);
-    const history = await getShareHistory(resolved.ticker).catch(() => null);
+    const history = data.provenance ? null : await getShareHistory(resolved.ticker).catch(() => null);
     const sharesCurFact = shareFactFor(history, current.period_end, type);
     const sharesPriorFact = shareFactFor(history, prior.period_end, type);
     const sourceCurShares = shareSourceForFact(sharesCurFact, history && history.cik);
     const sourcePriorShares = shareSourceForFact(sharesPriorFact, history && history.cik);
-    const impliedCur = DERIVED.implied_diluted_shares.compute(current);
-    const impliedPrior = DERIVED.implied_diluted_shares.compute(prior);
+    const impliedCur = data.provenance ? null : DERIVED.implied_diluted_shares.compute(current);
+    const impliedPrior = data.provenance ? null : DERIVED.implied_diluted_shares.compute(prior);
     // A filed value always wins; the implied value is a labelled fallback, used
     // only because the fourth fiscal quarter has no separately filed average.
     const shareSide = (filed, implied, source) => (filed !== null
@@ -1139,6 +1146,7 @@ async function changeDrivers({ company, periodType, periodEnd, compareToPeriodEn
         const cur = val(current, id);
         const pri = val(prior, id);
         observed[id] = {
+            sources:data.provenance ? {current:sourceRefsForMetric(data,current,id),prior:sourceRefsForMetric(data,prior,id)} : null,
             current: cur, prior: pri,
             change: cur !== null && pri !== null ? round(cur - pri, 6) : null,
             change_pct: pctChange(cur, pri)
@@ -1157,7 +1165,7 @@ async function changeDrivers({ company, periodType, periodEnd, compareToPeriodEn
     const component = (driver, amount, formula) => ({
         driver,
         amount: amount === null || !Number.isFinite(amount) ? null : round(amount, 6),
-        units: 'USD',
+        units: current.currency,
         formula
     });
     const negate = (value) => (value === null ? null : -value);
@@ -1173,7 +1181,7 @@ async function changeDrivers({ company, periodType, periodEnd, compareToPeriodEn
             const sum = list.reduce((acc, c) => acc + c.amount, 0);
             const residual = round(subtotal - sum, 4);
             if (Math.abs(residual) >= 1 && residualLabel) {
-                list.push({ driver: residualLabel, amount: residual, units: 'USD', formula: 'reported difference that balances this step (not separately broken out in the normalized data)' });
+                list.push({ driver: residualLabel, amount: residual, units: current.currency, formula: 'reported difference that balances this step (not separately broken out in the normalized data)' });
             }
             check = round(subtotal - list.reduce((acc, c) => acc + c.amount, 0), 4);
         }
@@ -1264,6 +1272,7 @@ module.exports = {
     XBRL_METRICS,
     resolveMetricId,
     periodRows,
+    priorRowFor,
     companyCatalog,
     // test seam: clears the process-level memoization of SEC reads so a test
     // that stubs the network cannot be served a previous test's real data

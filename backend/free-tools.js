@@ -81,9 +81,7 @@ function normalizeSymbol(value) {
 }
 
 function number(value) {
-    if (value === null || value === undefined || value === '' || value === 'None') return null;
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : null;
+    return require('./sec-coverage').number(value);
 }
 
 function annualRows(data, statement) {
@@ -102,8 +100,10 @@ function sourceInfo(symbol, data, updatedAt) {
     return {
         symbol,
         currency: currencyOf(data),
-        source: 'Company SEC filings (10-K), stockportfolio.pro fundamentals cache',
-        sourceUrl: `https://www.sec.gov/edgar/search/#/q=${encodeURIComponent(symbol)}`,
+        source: data?.provenance?'Verified SEC XBRL facts and explicit calculations':'Company filings',
+        sourceUrl: data?.coverage?.latestAnnual?.filingUrl || `https://www.sec.gov/edgar/search/#/q=${encodeURIComponent(symbol)}`,
+        coverage:data?.coverage || null,
+        provenance:data?.provenance?{...data.provenance,statements:Object.fromEntries(['income','balance','cash'].map(st=>[st,annualRows(data,st).map(r=>({period:r.fiscalDateEnding,currency:r.reportedCurrency,sources:r._sources,derivations:r._derivations}))]))}:null,
         updatedAt: updatedAt || null,
         note: 'Informational research only. Verify material figures against the linked primary filing before acting.'
     };
@@ -115,7 +115,7 @@ function computeEarningsQuality(symbol, data, updatedAt) {
     const latestIncome = income[0] || null;
     if (!latestIncome) return { tool: 'earnings-quality', symbol, error: `No annual income statement data for ${symbol}.` };
     const exactCash = cash.find((row) => row.fiscalDateEnding === latestIncome.fiscalDateEnding) || null;
-    const latestCash = exactCash || cash[0] || null;
+    const latestCash = exactCash && exactCash.reportedCurrency===latestIncome.reportedCurrency?exactCash:null;
     const revenue = number(latestIncome.totalRevenue);
     const netIncome = number(latestIncome.netIncome);
     const operatingCashFlow = number(latestCash?.operatingCashflow);
@@ -130,7 +130,7 @@ function computeEarningsQuality(symbol, data, updatedAt) {
         ...sourceInfo(symbol, data, updatedAt),
         period: latestIncome.fiscalDateEnding,
         cashFlowPeriod: latestCash?.fiscalDateEnding || null,
-        comparablePeriods: Boolean(exactCash),
+        comparablePeriods: Boolean(latestCash),
         revenue,
         netIncome,
         operatingCashFlow,
@@ -158,13 +158,13 @@ function computeDilution(symbol, data, updatedAt) {
     const multiple = priorShares > 0 ? latestShares / priorShares : null;
     const splitSuspected = multiple !== null && (multiple > 1.8 || multiple < 0.55);
     const change = latestShares - priorShares;
-    const percentageChange = !splitSuspected && priorShares !== 0 ? change / Math.abs(priorShares) * 100 : null;
+    const percentageChange = !splitSuspected && annualGap(latest,prior) && priorShares > 0 ? change / Math.abs(priorShares) * 100 : null;
     const result = {
         tool: 'dilution',
         ...sourceInfo(symbol, data, updatedAt),
         latest: { period: latest.fiscalDateEnding, shares: latestShares },
         prior: { period: prior.fiscalDateEnding, shares: priorShares },
-        comparablePeriods: !splitSuspected,
+        comparablePeriods: !splitSuspected && annualGap(latest,prior),
         splitSuspected,
         change: splitSuspected ? null : change,
         percentageChange,
@@ -188,26 +188,33 @@ function pctChange(latest, prior) {
     return latest !== null && prior !== null && prior !== 0 ? (latest / Math.abs(prior) - Math.sign(prior)) * 100 : null;
 }
 
+function annualGap(a,b){const days=(Date.parse(a?.fiscalDateEnding)-Date.parse(b?.fiscalDateEnding))/86400000;return days>=340 && days<=380;}
+
 function safeRatio(a, b, scale = 1) {
-    return a !== null && b !== null && b !== 0 ? a / b * scale : null;
+    return a !== null && b !== null && b > 0 ? a / b * scale : null;
 }
 
 function genericResult(tool, symbol, data, updatedAt, summary, metrics, rows, warnings = []) {
     return { tool, ...sourceInfo(symbol, data, updatedAt), summary, metrics, rows, warnings };
 }
 
-function paired(data, statement) {
+function paired(data, statement, end) {
     const rows = annualRows(data, statement);
-    return { latest: rows[0] || {}, prior: rows[1] || {}, rows };
+    const latest=(end?rows.find(r=>r.fiscalDateEnding===end):rows[0]) || {};
+    const prior=rows.find(r=>r.fiscalDateEnding<latest.fiscalDateEnding && r.reportedCurrency===latest.reportedCurrency && annualGap(latest,r)) || {};
+    return {latest,prior,rows};
 }
 
 function computeSingleTool(tool, symbol, data, updatedAt) {
-    const income = paired(data, 'income');
-    const balance = paired(data, 'balance');
-    const cash = paired(data, 'cash');
+    const end=['income','balance','cash'].flatMap(st=>annualRows(data,st).map(r=>r.fiscalDateEnding)).sort().at(-1);
+    const income = paired(data, 'income',end);
+    const balance = paired(data, 'balance',end);
+    const cash = paired(data, 'cash',end);
     const period = income.latest.fiscalDateEnding || balance.latest.fiscalDateEnding || cash.latest.fiscalDateEnding || null;
     const rev = field(income.latest, 'totalRevenue');
     const prevRev = field(income.prior, 'totalRevenue');
+    if(cash.latest.reportedCurrency!==income.latest.reportedCurrency && income.latest.fiscalDateEnding)cash.latest={};
+    if(balance.latest.reportedCurrency!==income.latest.reportedCurrency && income.latest.fiscalDateEnding)balance.latest={};
     const ni = field(income.latest, 'netIncome');
     const op = field(income.latest, 'operatingIncome');
     const ocf = field(cash.latest, 'operatingCashflow');
@@ -216,7 +223,7 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
     const shares = field(balance.latest, 'commonStockSharesOutstanding');
     const prevShares = field(balance.prior, 'commonStockSharesOutstanding');
     const warnings = [];
-    const annual = (statement, mapper) => annualRows(data, statement).slice(0, 6).map(mapper);
+    const annual = (statement, mapper) => annualRows(data, statement).slice(0, 6).map((r,i,all)=>({currency:r.reportedCurrency,...mapper(r,i,all)}));
 
     if (tool === 'filing-change') {
         const specs = [
@@ -228,11 +235,11 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
         return genericResult(tool, symbol, data, updatedAt, `Latest filed annual changes through ${period || 'the available period'}.`, [], rows, rows.some((r) => r.latest === null || r.prior === null) ? ['Some line items were not available in both periods.'] : []);
     }
     if (tool === 'revenue-consistency') {
-        const rows = annual('income', (r, i, all) => ({ period: r.fiscalDateEnding, revenue: field(r, 'totalRevenue'), growthPct: i < all.length - 1 ? pctChange(field(r, 'totalRevenue'), field(all[i + 1], 'totalRevenue')) : null }));
+        const rows = annual('income', (r, i, all) => ({ period: r.fiscalDateEnding, revenue: field(r, 'totalRevenue'), growthPct: i < all.length - 1 && annualGap(r,all[i+1]) && r.reportedCurrency===all[i+1].reportedCurrency ? pctChange(field(r, 'totalRevenue'), field(all[i + 1], 'totalRevenue')) : null }));
         const growth = rows.map((r) => r.growthPct).filter(Number.isFinite);
         const oldest = rows[rows.length - 1];
-        const years = Math.max(1, rows.length - 1);
-        const cagr = rows.length > 1 && rows[0].revenue > 0 && oldest.revenue > 0 ? (Math.pow(rows[0].revenue / oldest.revenue, 1 / years) - 1) * 100 : null;
+        const years = rows.length>1?(Date.parse(rows[0].period)-Date.parse(oldest.period))/(365.2425*86400000):0;
+        const cagr = years > 0 && income.rows.every(r=>r.reportedCurrency===income.latest.reportedCurrency && field(r,'totalRevenue')!==null) && rows[0].revenue > 0 && oldest.revenue > 0 ? (Math.pow(rows[0].revenue / oldest.revenue, 1 / years) - 1) * 100 : null;
         return genericResult(tool, symbol, data, updatedAt, `${growth.filter((v) => v > 0).length} of ${growth.length} measured years had positive revenue growth.`, [{ label: 'Revenue CAGR', value: cagr, format: 'percent' }, { label: 'Positive-growth years', value: growth.filter((v) => v > 0).length, format: 'number' }], rows);
     }
     if (tool === 'profitability-trend') {
@@ -241,7 +248,7 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
     }
     if (tool === 'cash-flow-quality') {
         const cashByPeriod = new Map(annualRows(data, 'cash').map((r) => [r.fiscalDateEnding, r]));
-        const rows = annual('income', (r) => { const c = cashByPeriod.get(r.fiscalDateEnding) || {}; const netIncome = field(r, 'netIncome'); const operatingCashFlow = field(c, 'operatingCashflow'); return { period: r.fiscalDateEnding, netIncome, operatingCashFlow, cashConversionRatio: safeRatio(operatingCashFlow, netIncome) }; });
+        const rows = annual('income', (r) => { const candidate=cashByPeriod.get(r.fiscalDateEnding); const c = candidate?.reportedCurrency===r.reportedCurrency?candidate:{}; const netIncome = field(r, 'netIncome'); const operatingCashFlow = field(c, 'operatingCashflow'); return { period: r.fiscalDateEnding, netIncome, operatingCashFlow, cashConversionRatio: safeRatio(operatingCashFlow, netIncome) }; });
         return genericResult(tool, symbol, data, updatedAt, 'Cash conversion compares operating cash flow with net income for matching annual periods.', [{ label: 'Latest cash conversion', value: rows[0]?.cashConversionRatio, format: 'ratio' }], rows, rows.some((r) => r.operatingCashFlow === null) ? ['Some matching cash-flow periods are missing.'] : []);
     }
     if (tool === 'free-cash-flow-trend') {
@@ -258,11 +265,13 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
         // rather than a $0 total that would read as a debt-free balance sheet.
         const cd = rows[0] ? rows[0].currentDebt : null;
         const ld = rows[0] ? rows[0].longTermDebt : null;
-        const debt = cd === null && ld === null ? null : (cd || 0) + (ld || 0);
+        const combined=field(balance.latest,'totalDebt');
+        const debt = combined!==null?combined:cd!==null && ld!==null?cd+ld:null;
         return genericResult(tool, symbol, data, updatedAt, 'Debt balances are as filed and may not include every contractual maturity detail.', [{ label: 'Latest total debt', value: debt, format: 'money' }, { label: 'Latest cash', value: rows[0]?.cash, format: 'money' }], rows);
     }
     if (tool === 'buybacks-vs-dilution') {
-        const repurchases = Math.abs(field(cash.latest, 'paymentsForRepurchaseOfCommonStock', 'paymentsForRepurchaseOfEquity') || 0);
+        const rawRepurchases=field(cash.latest, 'paymentsForRepurchaseOfCommonStock', 'paymentsForRepurchaseOfEquity');
+        const repurchases = rawRepurchases===null?null:Math.abs(rawRepurchases);
         const changePct = pctChange(shares, prevShares);
         if (changePct !== null && changePct > 0) warnings.push('Shares increased despite reported repurchase spending; issuance or compensation may have offset buybacks.');
         return genericResult(tool, symbol, data, updatedAt, 'Repurchase cash outflow is compared with the net filed share-count change.', [{ label: 'Repurchase spending', value: repurchases, format: 'money' }, { label: 'Share-count change', value: changePct, format: 'percent' }], [{ period, repurchases, latestShares: shares, priorShares: prevShares, shareChangePct: changePct }], warnings);
@@ -273,7 +282,8 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
         return genericResult(tool, symbol, data, updatedAt, 'Stock compensation is shown only when separately disclosed in the cached filing facts.', [{ label: 'Stock compensation', value: sbc, format: 'money' }, { label: 'SBC / revenue', value: safeRatio(sbc, rev, 100), format: 'percent' }, { label: 'SBC / operating cash flow', value: safeRatio(sbc, ocf, 100), format: 'percent' }], [{ period, stockBasedCompensation: sbc, revenue: rev, operatingCashFlow: ocf, shares }], warnings);
     }
     if (tool === 'dividend-safety') {
-        const dividends = Math.abs(field(cash.latest, 'dividendPayout', 'dividendPayoutCommonStock') || 0);
+        const rawDividends=field(cash.latest, 'dividendPayout', 'dividendPayoutCommonStock');
+        const dividends = rawDividends===null?null:Math.abs(rawDividends);
         return genericResult(tool, symbol, data, updatedAt, 'Coverage compares filed cash dividends with free cash flow and net income; it is not a dividend forecast.', [{ label: 'Cash dividends', value: dividends, format: 'money' }, { label: 'FCF coverage', value: safeRatio(fcf, dividends), format: 'ratio' }, { label: 'Earnings payout', value: safeRatio(dividends, ni, 100), format: 'percent' }], [{ period, dividends, freeCashFlow: fcf, netIncome: ni }], fcf !== null && dividends > fcf ? ['Cash dividends exceeded free cash flow in the latest period.'] : []);
     }
     if (tool === 'interest-coverage') {
@@ -304,7 +314,7 @@ function computeSingleTool(tool, symbol, data, updatedAt) {
     }
     if (tool === 'ask-question-builder') {
         const questions = [
-            `Why did ${symbol}'s operating cash flow ${ocf !== null && ni !== null && ocf >= ni ? 'exceed' : 'trail'} net income in the ${period || 'latest'} filing?`,
+            ocf!==null && ni!==null?`Why did ${symbol}'s operating cash flow ${ocf >= ni ? 'exceed' : 'trail'} net income in the ${period || 'latest'} filing?`:`Which verified cash flow and net income figures are available for ${symbol}, and what remains missing?`,
             `What explains ${symbol}'s latest revenue change, and which filing sections support the explanation?`,
             `Did ${symbol}'s share count change materially, and what issuance or repurchase disclosures explain it?`,
             `What were the most material risks or accounting changes in ${symbol}'s latest 10-K or 10-Q?`
@@ -355,7 +365,7 @@ async function filingTool(tool, symbol) {
         const loaded = await loadFundamentals(symbol);
         const data = loaded?.data || {};
         const earnings = loaded ? computeEarningsQuality(symbol, data, loaded.updatedAt) : {};
-        return { tool, symbol, source: 'SEC EDGAR and stockportfolio.pro fundamentals cache', generatedAt: new Date().toISOString(), summary: 'A deterministic starting pack for deeper research; no AI conclusion is generated.', metrics: [
+        return { tool, symbol, ...sourceInfo(symbol,data,loaded?.updatedAt), generatedAt: new Date().toISOString(), summary: 'A deterministic starting pack for deeper research; no AI conclusion is generated.', metrics: [
             { label: 'Latest revenue', value: earnings.revenue, format: 'money' }, { label: 'Latest net income', value: earnings.netIncome, format: 'money' }, { label: 'Latest free cash flow', value: earnings.freeCashFlow, format: 'money' }
         ], rows: rows.slice(0, 12), warnings: earnings.warnings || [] };
     }
@@ -420,27 +430,33 @@ async function computeMultiTool(tool, symbols) {
         const rows = await Promise.all(symbols.map(async (symbol) => { const filings = await watchdog.fetchRecentFilings(symbol, new Set(['10-K', '10-Q', '8-K']), 1).catch(() => []); const filing = filings?.[0]; return { symbol, date: filing?.date || null, form: filing?.form || null, url: filing?.url || null }; }));
         return { tool, symbols, source: 'SEC EDGAR', generatedAt: new Date().toISOString(), summary: `Latest filing activity for ${symbols.length} holdings.`, metrics: [{ label: 'Holdings checked', value: symbols.length, format: 'number' }, { label: 'Filings found', value: rows.filter((row) => row.form).length, format: 'number' }], rows, warnings: [] };
     }
+    const unsupported=symbols.find(symbol=>{const c=require('./stock-universe').lookup(symbol);return c && c.securityType!=='stock';});
+    if(unsupported)return {code:'UNSUPPORTED_SECURITY_TYPE',error:`Company financial analysis is unavailable for ${unsupported}.`};
     const records = await loadMany(symbols);
     const missing = records.filter((record) => !record.loaded).map((record) => record.symbol);
     const valid = records.filter((record) => record.loaded);
-    if (!valid.length) return { error: 'No supported filing data was found for the supplied symbols.' };
+    if (!valid.length) return {code:'VERIFIED_FINANCIALS_UNAVAILABLE', error: 'No verified financial data was found for the supplied symbols.' };
+    const evidence=Object.fromEntries(valid.map(({symbol,loaded})=>[symbol,sourceInfo(symbol,loaded.data,loaded.updatedAt)]));
     if (tool === 'portfolio-revenue') {
-        const rows = valid.map(({ symbol, loaded }) => { const inc = annualRows(loaded.data, 'income'); const latest = field(inc[0], 'totalRevenue'); const prior = field(inc[1], 'totalRevenue'); return { symbol, period: inc[0]?.fiscalDateEnding || null, revenue: latest, revenueGrowthPct: pctChange(latest, prior) }; });
+        const rows = valid.map(({ symbol, loaded }) => { const inc = annualRows(loaded.data, 'income'); const latest = field(inc[0], 'totalRevenue'); const prior = inc[1]?.reportedCurrency===inc[0]?.reportedCurrency && annualGap(inc[0],inc[1])?field(inc[1], 'totalRevenue'):null; return { symbol,currency:inc[0]?.reportedCurrency, period: inc[0]?.fiscalDateEnding || null, revenue: latest, revenueGrowthPct: pctChange(latest, prior) }; });
         const values = rows.map((row) => row.revenueGrowthPct).filter(Number.isFinite);
-        return { tool, symbols, source: 'Company SEC filings', generatedAt: new Date().toISOString(), summary: 'Equal-weighted snapshot; portfolio position sizes are not used.', metrics: [{ label: 'Average revenue growth', value: values.length ? values.reduce((a, b) => a + b, 0) / values.length : null, format: 'percent' }], rows, warnings: missing.length ? [`No data for: ${missing.join(', ')}.`] : [] };
+        return { tool, symbols, source: 'Verified SEC XBRL facts and explicit calculations', companyEvidence:evidence, generatedAt: new Date().toISOString(), summary: 'Equal-weighted snapshot; portfolio position sizes are not used.', metrics: [{ label: 'Average revenue growth', value: values.length ? values.reduce((a, b) => a + b, 0) / values.length : null, format: 'percent' }], rows, warnings: missing.length ? [`No data for: ${missing.join(', ')}.`] : [] };
     }
     if (tool === 'portfolio-dilution') {
-        const rows = valid.map(({ symbol, loaded }) => { const d = computeDilution(symbol, loaded.data, loaded.updatedAt); return { symbol, latestPeriod: d.latest?.period || null, priorPeriod: d.prior?.period || null, shareChangePct: d.percentageChange, comparable: d.comparablePeriods !== false }; });
-        return { tool, symbols, source: 'Company SEC filings', generatedAt: new Date().toISOString(), summary: 'Filed share-count changes across the supplied holdings.', metrics: [{ label: 'Holdings with dilution', value: rows.filter((row) => row.shareChangePct > 0).length, format: 'number' }], rows, warnings: missing.length ? [`No data for: ${missing.join(', ')}.`] : [] };
+        const rows = valid.map(({ symbol, loaded }) => { const d = computeDilution(symbol, loaded.data, loaded.updatedAt); return { symbol, latestPeriod: d.latest?.period || null, priorPeriod: d.prior?.period || null, shareChangePct: d.percentageChange, comparable: d.comparablePeriods===true }; });
+        return { tool, symbols, source: 'Verified SEC XBRL facts and explicit calculations', companyEvidence:evidence, generatedAt: new Date().toISOString(), summary: 'Filed share-count changes across the supplied holdings.', metrics: [{ label: 'Holdings with dilution', value: rows.some(row=>number(row.shareChangePct)!==null)?rows.filter((row) => number(row.shareChangePct)!==null && row.shareChangePct > 0).length:null, format: 'number' }], rows, warnings: missing.length ? [`No data for: ${missing.join(', ')}.`] : [] };
     }
     if (tool === 'company-comparison') {
         if (symbols.length !== 2) return { error: 'Enter exactly two company tickers separated by a comma.' };
-        const rows = valid.map(({ symbol, loaded }) => { const i = annualRows(loaded.data, 'income')[0] || {}; const c = annualRows(loaded.data, 'cash')[0] || {}; const b = annualRows(loaded.data, 'balance')[0] || {}; const revenue = field(i, 'totalRevenue'); const netIncome = field(i, 'netIncome'); const operatingCashFlow = field(c, 'operatingCashflow'); const capex = field(c, 'capitalExpenditures'); return { symbol, period: i.fiscalDateEnding, revenue, netMarginPct: safeRatio(netIncome, revenue, 100), operatingCashFlow, freeCashFlow: operatingCashFlow !== null && capex !== null ? operatingCashFlow - Math.abs(capex) : null, shares: field(b, 'commonStockSharesOutstanding') }; });
-        return { tool, symbols, source: 'Company SEC filings', generatedAt: new Date().toISOString(), summary: 'Latest as-filed values are shown with their periods; fiscal calendars may differ.', metrics: [], rows, warnings: rows[0]?.period !== rows[1]?.period ? ['The companies have different fiscal period-end dates.'] : [] };
+        if(valid.length!==2 || valid.some(({loaded})=>loaded.data.coverage.financialCoverage!=='ready'))return {code:'VERIFIED_FINANCIALS_UNAVAILABLE',error:'Comparisons require two companies with ready verified financial coverage.'};
+        const rows = valid.map(({ symbol, loaded }) => { const i = annualRows(loaded.data, 'income')[0] || {}; const c = annualRows(loaded.data,'cash').find(r=>r.fiscalDateEnding===i.fiscalDateEnding && r.reportedCurrency===i.reportedCurrency) || {}; const b = annualRows(loaded.data,'balance').find(r=>r.fiscalDateEnding===i.fiscalDateEnding && r.reportedCurrency===i.reportedCurrency) || {}; const revenue = field(i, 'totalRevenue'); const netIncome = field(i, 'netIncome'); const operatingCashFlow = field(c, 'operatingCashflow'); const capex = field(c, 'capitalExpenditures'); return { symbol,currency:i.reportedCurrency, period: i.fiscalDateEnding, revenue, netMarginPct: safeRatio(netIncome, revenue, 100), operatingCashFlow, freeCashFlow: operatingCashFlow !== null && capex !== null ? operatingCashFlow - Math.abs(capex) : null, shares: field(b, 'commonStockSharesOutstanding') }; });
+        const incompatible=rows[0]?.currency!==rows[1]?.currency;
+        if(incompatible)for(const row of rows)for(const field of ['revenue','operatingCashFlow','freeCashFlow'])row[field]=null;
+        return { tool, symbols, source: 'Verified SEC XBRL facts and explicit calculations', companyEvidence:evidence, generatedAt: new Date().toISOString(), summary: 'Latest as-filed values are shown with their periods; fiscal calendars may differ.', metrics: [], rows, warnings: [...(rows[0]?.period !== rows[1]?.period ? ['The companies have different fiscal period-end dates.'] : []),...(incompatible?['Monetary comparisons are unavailable because reporting currencies differ.']:[])] };
     }
     if (tool === 'peer-cash-conversion') {
-        const rows = valid.map(({ symbol, loaded }) => { const i = annualRows(loaded.data, 'income')[0] || {}; const c = annualRows(loaded.data, 'cash').find((row) => row.fiscalDateEnding === i.fiscalDateEnding) || {}; const netIncome = field(i, 'netIncome'); const operatingCashFlow = field(c, 'operatingCashflow'); return { symbol, period: i.fiscalDateEnding, netIncome, operatingCashFlow, cashConversionRatio: safeRatio(operatingCashFlow, netIncome) }; }).sort((a, b) => (b.cashConversionRatio ?? -Infinity) - (a.cashConversionRatio ?? -Infinity));
-        return { tool, symbols, source: 'Company SEC filings', generatedAt: new Date().toISOString(), summary: 'Ranking uses matching-period operating cash flow divided by net income; negative earnings require caution.', metrics: [{ label: 'Peers ranked', value: rows.length, format: 'number' }], rows, warnings: rows.some((row) => row.netIncome <= 0) ? ['At least one peer has zero or negative net income, which can make the ratio misleading.'] : [] };
+        const rows = valid.map(({ symbol, loaded }) => { const i = annualRows(loaded.data, 'income')[0] || {}; const c = annualRows(loaded.data, 'cash').find((row) => row.fiscalDateEnding === i.fiscalDateEnding && row.reportedCurrency===i.reportedCurrency) || {}; const netIncome = field(i, 'netIncome'); const operatingCashFlow = field(c, 'operatingCashflow'); return { symbol,currency:i.reportedCurrency, period: i.fiscalDateEnding, netIncome, operatingCashFlow, cashConversionRatio: safeRatio(operatingCashFlow, netIncome) }; }).sort((a, b) => (b.cashConversionRatio ?? -Infinity) - (a.cashConversionRatio ?? -Infinity));
+        return { tool, symbols, source: 'Verified SEC XBRL facts and explicit calculations', companyEvidence:evidence, generatedAt: new Date().toISOString(), summary: 'Ranking uses matching-period operating cash flow divided by net income; negative earnings require caution.', metrics: [{ label: 'Peers ranked', value: rows.length, format: 'number' }], rows, warnings: rows.some((row) => number(row.netIncome)!==null && row.netIncome <= 0) ? ['At least one peer has zero or negative net income, which can make the ratio misleading.'] : [] };
     }
     return { error: 'This multi-symbol tool is unavailable.' };
 }
@@ -458,27 +474,15 @@ function cacheFile(symbol) {
 }
 
 async function loadFundamentals(symbol) {
-    const hit = DATA_CACHE.get(symbol);
-    if (hit && Date.now() - hit.at < CACHE_TTL_MS) return hit;
-    let data = null;
-    const file = cacheFile(symbol);
-    try { if (fs.existsSync(file)) data = JSON.parse(fs.readFileSync(file, 'utf8')); } catch (_) { data = null; }
-    if (!data && fundamentalsFetch.lookup(symbol)) {
-        if (!BUILD_INFLIGHT.has(symbol)) BUILD_INFLIGHT.set(symbol, fundamentalsFetch.buildFundamentals(symbol).finally(() => BUILD_INFLIGHT.delete(symbol)));
-        try { data = await BUILD_INFLIGHT.get(symbol); } catch (_) { data = null; }
+    const company=require('./stock-universe').lookup(symbol);
+    if(!company || company.securityType!=='stock')return null;
+    let data=require('./fundamentals-cache').loadFundamentals(company.symbol);
+    if(!data || data.coverage.annualReportingStatus==='unverified') {
+        await require('./sec-on-demand').refresh(company.symbol);
+        data=require('./fundamentals-cache').loadFundamentals(company.symbol);
     }
-    // Present but stale: serve what we have — the page carries its real as-of
-    // date — and rebuild in the background so the next request is current.
-    if (data && fundamentalsFetch.isStaleOnDemand(symbol)) fundamentalsFetch.maybeRefresh(symbol);
-    if (!data) return null;
-    // The displayed freshness date must be the data's own date, never the
-    // file's mtime: a git-checkout deploy resets mtime, so every tool would
-    // otherwise claim it was refreshed at deploy time.
-    const info = fundDate.info(symbol);
-    const loaded = { data, at: Date.now(), updatedAt: info.fetchedAt || info.dataAsOf || null, stale: !!info.stale };
-    DATA_CACHE.set(symbol, loaded);
-    if (DATA_CACHE.size > 100) DATA_CACHE.delete(DATA_CACHE.keys().next().value);
-    return loaded;
+    if(!data || data.coverage.financialCoverage==='unavailable')return null;
+    return {data,at:Date.now(),updatedAt:data.fetchedAt || null,stale:data.coverage.financialCoverage==='historical_only'};
 }
 
 async function getToolResult(tool, rawSymbol) {
@@ -512,15 +516,16 @@ async function getToolResult(tool, rawSymbol) {
     if (!fundamentalsFetch.lookup(symbol)) {
         return { status: 404, body: { error: `${symbol} is not a supported US-listed ticker.` } };
     }
+    const security=require('./stock-universe').lookup(symbol);
+    if(security && security.securityType!=='stock')return {status:422,body:{code:'UNSUPPORTED_SECURITY_TYPE',error:'Company financial analysis is unavailable for this instrument.'}};
     const loaded = await loadFundamentals(symbol);
-    if (!loaded) return { status: 404, body: { error: `No supported USD filing data was found for ${symbol}.` } };
-    const currency = currencyOf(loaded.data);
-    if (currency !== 'USD') return { status: 422, body: { error: `${symbol} reports in ${currency}, which is outside this pilot's USD coverage.` } };
+    if (!loaded) return { status: 404, body: {code:'VERIFIED_FINANCIALS_UNAVAILABLE',error: `No verified financial data was found for ${symbol}.` } };
+
     let body;
     if (tool === 'earnings-quality') body = computeEarningsQuality(symbol, loaded.data, loaded.updatedAt);
     else if (tool === 'dilution') body = computeDilution(symbol, loaded.data, loaded.updatedAt);
     else body = computeSingleTool(tool, symbol, loaded.data, loaded.updatedAt);
-    return body ? { status: 200, body } : { status: 501, body: { error: 'This tool is not implemented.' } };
+    return body ? { status: body.error?422:200, body } : { status: 501, body: { error: 'This tool is not implemented.' } };
 }
 
 function esc(value) {
@@ -592,9 +597,9 @@ function renderExpandedToolPage(tool) {
     // Only the two tools that have a widget get the snippet panel — the snippet
     // is empty for the rest, and an empty panel on 28 pages is worse than none.
     const embedDef = embedConfig.widgetDefinition(tool);
-    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(definition.title)}</title><meta name="description" content="${esc(definition.description)}"><link rel="canonical" href="${canonical}"><link rel="icon" type="image/png" sizes="48x48" href="/Media/icon.png?v=20260729-favicon1"><link rel="apple-touch-icon" href="/Media/icon.png?v=20260729-favicon1"><meta property="og:title" content="${esc(definition.title)}"><meta property="og:description" content="${esc(definition.description)}"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap"><link rel="stylesheet" href="/assets/system.css?v=20260928-fundsearch"><script type="application/ld+json">${jsonld}</script><style>
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(definition.title)}</title><meta name="description" content="${esc(definition.description)}"><link rel="canonical" href="${canonical}"><link rel="icon" type="image/png" sizes="48x48" href="/Media/icon.png?v=20260729-favicon1"><link rel="apple-touch-icon" href="/Media/icon.png?v=20260729-favicon1"><meta property="og:title" content="${esc(definition.title)}"><meta property="og:description" content="${esc(definition.description)}"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap"><link rel="stylesheet" href="/assets/system.css?v=20261003-secverified1"><script type="application/ld+json">${jsonld}</script><style>
 main.tool-page{max-width:980px;margin:auto;padding:48px 32px 70px}.crumb,.note{font-size:var(--text-sm);color:var(--ink-3)}h1{font-size:clamp(34px,5vw,48px);line-height:1.06;font-weight:650;letter-spacing:-.035em;margin:24px 0 10px}.lead{font-size:17px;color:var(--ink-2);max-width:720px}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:24px;margin:18px 0;overflow:auto}.form{display:flex;gap:10px;flex-wrap:wrap;overflow:visible}.tool-input-wrap{position:relative;min-width:230px;flex:1}.form input{width:100%;height:44px;border:1px solid var(--line-strong);border-radius:var(--radius-sm);padding:0 12px;font:inherit;text-transform:uppercase;background:var(--surface)}.form input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}.form button{height:44px;border:1px solid var(--ink);border-radius:var(--radius-sm);padding:0 18px;background:var(--ink);color:var(--paper);font:inherit;font-weight:600;cursor:pointer}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}.metric{border:1px solid var(--line);border-radius:var(--radius);padding:14px}.metric span{font-size:var(--text-xs);color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em}.metric strong{display:block;font-size:21px;margin-top:4px;font-variant-numeric:tabular-nums}table{border-collapse:collapse;width:100%;margin-top:14px;font-variant-numeric:tabular-nums}th,td{text-align:left;border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top}th{font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.05em;color:var(--ink-3);font-weight:600}.warn{background:var(--neg-tint);color:var(--neg);border:1px solid color-mix(in srgb,var(--neg) 18%,var(--line));padding:10px;border-radius:var(--radius-sm);margin-top:9px}.error{color:var(--neg)}.cta{background:var(--accent-tint);border-color:color-mix(in srgb,var(--accent) 18%,var(--line))}.cta-bridge{margin:8px 0 0}.cta-bridge a{font-weight:600}.tools{columns:3;column-gap:20px}pre.embed-snippet{background:#f8fafc;border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px;overflow:auto;font-size:12.5px;line-height:1.5;margin:10px 0}.tools a{display:block;padding:8px 0;font-size:var(--text-sm)}.crumb a{display:inline-block;padding:8px 2px}@media(max-width:650px){main.tool-page{padding:32px 16px 56px}.tool-input-wrap,.form button{width:100%;flex-basis:100%}.tools{columns:2}th,td{font-size:12px}}@media(max-width:420px){.tools{columns:1}}
- </style></head><body data-ask-floor="1" data-ask-placeholder="Ask what this means — answered from SEC filings…"><main class="tool-page"><div class="crumb"><a href="/">Home</a> / <a href="/tools">Free tools</a> / ${esc(definition.heading)}</div><h1>${esc(definition.heading)}</h1><p class="lead">${esc(definition.intro)}</p><section class="panel"><form id="form" class="form"><div class="tool-input-wrap"><input id="symbols" maxlength="120" placeholder="${placeholder}" aria-label="Stock, fund or company name" aria-autocomplete="list" aria-controls="tool-suggestions" autocomplete="off" required><div id="tool-suggestions" class="sym-ac" role="listbox" hidden></div></div><button type="submit">Run tool</button></form><p class="note">${inputHelp} No login or AI is used.</p></section><section id="result" class="panel"><h2 class="title-2">Ready</h2><p class="note">Results show reporting periods, refresh context, source links and limitations.</p></section><section id="contextual-cta" class="panel cta" hidden><strong>You just checked a real filing result.</strong><p>${esc(ctaIntro)}</p><p><a href="${ctaHref}" data-appsumo-campaign-link data-content-id="${esc(contentId)}" data-tool-id="${esc(contentId)}">${ctaLabel}</a></p><p class="cta-bridge"><a id="cta-watch" href="/monitor">Watch this company — get this check every time the filing changes &rarr;</a></p><p class="cta-bridge"><a id="cta-ask" href="/ask">Ask what this means in plain words &rarr;</a></p><p class="cta-bridge"><a href="/filing-changes">See what changed in the latest filings &rarr;</a></p></section><section class="panel"><strong>Methodology and limitations</strong><p class="note">Calculations use existing filed fundamentals or explicitly identified fund-profile data. Missing values stay missing. Period mismatches, split-sized changes and incomplete holdings coverage are labelled rather than estimated. These tools are informational and are not investment advice.</p><p><a href="/methodology">Read the full methodology &rarr;</a></p></section>${embedDef ? `<section class="panel" id="embed"><strong>Embed this on your site</strong><p class="note">One iframe, no key and no JavaScript — it renders the filed figures server-side and links back to the full filing trail. Free to use on any site; the ticker is the only thing you change.</p><pre class="embed-snippet">${esc(embedConfig.embedSnippet(tool))}</pre><p class="note">The widget carries a &ldquo;Powered by StockPortfolio.pro&rdquo; link. Prefer the raw numbers programmatically? <a href="/api">Use the API &rarr;</a></p></section>` : ''}<section class="panel"><strong>All free research tools</strong><div class="tools">${Object.values(TOOL_DEFINITIONS).map((item) => `<a href="${item.path}">${esc(item.heading)}</a>`).join('')}</div></section></main><script src="/assets/app.js?v=20260928-fundsearch"></script><script>
+ </style></head><body data-ask-floor="1" data-ask-placeholder="Ask what this means — answered from SEC filings…"><main class="tool-page"><div class="crumb"><a href="/">Home</a> / <a href="/tools">Free tools</a> / ${esc(definition.heading)}</div><h1>${esc(definition.heading)}</h1><p class="lead">${esc(definition.intro)}</p><section class="panel"><form id="form" class="form"><div class="tool-input-wrap"><input id="symbols" maxlength="120" placeholder="${placeholder}" aria-label="Stock, fund or company name" aria-autocomplete="list" aria-controls="tool-suggestions" autocomplete="off" required><div id="tool-suggestions" class="sym-ac" role="listbox" hidden></div></div><button type="submit">Run tool</button></form><p class="note">${inputHelp} No login or AI is used.</p></section><section id="result" class="panel"><h2 class="title-2">Ready</h2><p class="note">Results show reporting periods, refresh context, source links and limitations.</p></section><section id="contextual-cta" class="panel cta" hidden><strong>You just checked a real filing result.</strong><p>${esc(ctaIntro)}</p><p><a href="${ctaHref}" data-appsumo-campaign-link data-content-id="${esc(contentId)}" data-tool-id="${esc(contentId)}">${ctaLabel}</a></p><p class="cta-bridge"><a id="cta-watch" href="/monitor">Watch this company — get this check every time the filing changes &rarr;</a></p><p class="cta-bridge"><a id="cta-ask" href="/ask">Ask what this means in plain words &rarr;</a></p><p class="cta-bridge"><a href="/filing-changes">See what changed in the latest filings &rarr;</a></p></section><section class="panel"><strong>Methodology and limitations</strong><p class="note">Calculations use existing filed fundamentals or explicitly identified fund-profile data. Missing values stay missing. Period mismatches, split-sized changes and incomplete holdings coverage are labelled rather than estimated. These tools are informational and are not investment advice.</p><p><a href="/methodology">Read the full methodology &rarr;</a></p></section>${embedDef ? `<section class="panel" id="embed"><strong>Embed this on your site</strong><p class="note">One iframe, no key and no JavaScript — it renders the filed figures server-side and links back to the full filing trail. Free to use on any site; the ticker is the only thing you change.</p><pre class="embed-snippet">${esc(embedConfig.embedSnippet(tool))}</pre><p class="note">The widget carries a &ldquo;Powered by StockPortfolio.pro&rdquo; link. Prefer the raw numbers programmatically? <a href="/api">Use the API &rarr;</a></p></section>` : ''}<section class="panel"><strong>All free research tools</strong><div class="tools">${Object.values(TOOL_DEFINITIONS).map((item) => `<a href="${item.path}">${esc(item.heading)}</a>`).join('')}</div></section></main><script src="/assets/app.js?v=20261003-secverified1"></script><script>
 const TOOL=${JSON.stringify(tool)},CID=${JSON.stringify(contentId)},MULTI=${Boolean(definition.multi)},SEARCH_TYPES=${JSON.stringify(searchTypes)},form=document.getElementById('form'),input=document.getElementById('symbols'),suggestions=document.getElementById('tool-suggestions'),result=document.getElementById('result'),ctaPanel=document.getElementById('contextual-cta');
 const E=v=>String(v==null?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const label=k=>String(k).replace(/([a-z])([A-Z])/g,'$1 $2').replace(/_/g,' ').replace(/^./,c=>c.toUpperCase());
@@ -610,16 +615,17 @@ suggestions.addEventListener('mousedown',event=>{const button=event.target.close
 document.addEventListener('click',event=>{if(!event.target.closest('.tool-input-wrap'))closeSuggestions();});
 async function resolveSymbols(){const parts=input.value.split(',').map(part=>part.trim()).filter(Boolean);const resolved=[];for(const part of parts){if(/^[A-Z0-9][A-Z0-9.\-]{0,9}$/i.test(part)){resolved.push(part.toUpperCase());continue;}const rows=await V2.searchAssets(part,{limit:1,types:SEARCH_TYPES});if(!rows.length)throw new Error('Choose a company or ticker from the suggestions.');resolved.push(rows[0].symbol.toUpperCase());}return resolved.join(',');}
 function compact(v,prefix=''){const n=Number(v),a=Math.abs(n),f=(x,d)=>x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});if(a>=1e9)return prefix+f(n/1e9,2)+'B';if(a>=1e6)return prefix+f(n/1e6,1)+'M';return prefix+n.toLocaleString('en-US',{maximumFractionDigits:2});}
-function value(v,format){if(v==null||v==='')return '—';if(typeof v==='string')return E(v);const n=Number(v);if(!Number.isFinite(n))return E(v);if(format==='money')return compact(n,'$');if(format==='compact')return compact(n);if(format==='percent')return n.toLocaleString('en-US',{maximumFractionDigits:2})+'%';if(format==='ratio')return n.toLocaleString('en-US',{maximumFractionDigits:2})+'×';return n.toLocaleString('en-US',{maximumFractionDigits:2});}
+let displayedCurrency='USD';
+function value(v,format,currency=displayedCurrency){if(v==null||v==='')return '—';if(typeof v==='string')return E(v);const n=Number(v);if(!Number.isFinite(n))return E(v);if(format==='money')return compact(n,currency==='USD'?'$':currency+' ');if(format==='compact')return compact(n);if(format==='percent')return n.toLocaleString('en-US',{maximumFractionDigits:2})+'%';if(format==='ratio')return n.toLocaleString('en-US',{maximumFractionDigits:2})+'×';return n.toLocaleString('en-US',{maximumFractionDigits:2});}
 function normalize(d){if(d.filings&&!d.rows)d.rows=d.filings;if(TOOL==='earnings-quality'&&!d.metrics)d.metrics=[['Revenue',d.revenue,'money'],['Net income',d.netIncome,'money'],['Operating cash flow',d.operatingCashFlow,'money'],['Free cash flow',d.freeCashFlow,'money'],['Cash conversion',d.cashConversionRatio,'ratio']].map(x=>({label:x[0],value:x[1],format:x[2]}));if(TOOL==='dilution'&&!d.rows){d.metrics=[{label:'Share-count change',value:d.change,format:'compact'},{label:'Percentage change',value:d.percentageChange,format:'percent'}];d.rows=[{period:d.latest&&d.latest.period,shares:d.latest&&d.latest.shares},{period:d.prior&&d.prior.period,shares:d.prior&&d.prior.shares}];}return d;}
 function rowFormat(k,row){const s=k.toLowerCase();if(s.includes('pct')||s.includes('margin')||s.includes('weight'))return 'percent';if(s.includes('ratio')||s==='coverage')return 'ratio';if(s.includes('shares')||(s==='latest'||s==='prior')&&row.metric==='Shares outstanding')return 'compact';if((s==='latest'||s==='prior')&&row.metric)return 'money';if(/revenue|income|cash|debt|asset|liabilit|equity|goodwill|receivable|inventory|payable|capitalexpenditure|freecashflow|workingcapital|repurchase|dividend|compensation|latestvalue|priorvalue/.test(s))return 'money';return null;}
-function render(raw){const d=normalize(raw);if(d.error){result.innerHTML='<h2 class="title-2 error">'+E(d.error)+'</h2>';return;}let h='<h2 class="title-2">'+E((d.symbol||(d.symbols||[]).join(', '))||'Result')+'</h2>';if(d.summary)h+='<p class="muted">'+E(d.summary)+'</p>';if(d.updatedAt||d.generatedAt)h+='<p class="note">Data refreshed/generated: '+E(d.updatedAt||d.generatedAt)+'</p>';if(d.sourceUrl)h+='<p><a href="'+E(d.sourceUrl)+'" target="_blank" rel="noopener nofollow">Open SEC source</a></p>';if((d.metrics||[]).length)h+='<div class="grid">'+d.metrics.map(m=>'<div class="metric"><span>'+E(m.label)+'</span><strong>'+value(m.value,m.format)+'</strong></div>').join('')+'</div>';const rows=d.rows||[];if(rows.length){const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))].filter(k=>!k.startsWith('_'));h+='<div class="table-wrap"><table><thead><tr>'+keys.map(k=>'<th>'+E(label(k))+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+keys.map(k=>{const v=r[k];return '<td>'+(k==='url'&&v?'<a href="'+E(v)+'" target="_blank" rel="noopener nofollow">SEC source</a>':value(v,rowFormat(k,r)))+'</td>';}).join('')+'</tr>').join('')+'</tbody></table></div>';}h+=(d.warnings||[]).map(w=>'<div class="warn">'+E(w)+'</div>').join('');result.innerHTML=h;ctaPanel.hidden=false;const sym=String(d.symbol||(d.symbols||[])[0]||'').toUpperCase();if(sym){const w=document.getElementById('cta-watch'),a=document.getElementById('cta-ask');if(w)w.href='/monitor?symbol='+encodeURIComponent(sym);if(a)a.href='/ask?q='+encodeURIComponent('What does this '+TOOL+' result mean for '+sym+'? Explain the numbers in plain words.');}V2.attachHScroll&&V2.attachHScroll(result.querySelector('.table-wrap'));}
+function render(raw){const d=normalize(raw);displayedCurrency=/^[A-Z]{3}$/.test(d.currency || '')?d.currency:'USD';if(d.error){result.innerHTML='<h2 class="title-2 error">'+E(d.error)+'</h2>';return;}let h='<h2 class="title-2">'+E((d.symbol||(d.symbols||[]).join(', '))||'Result')+'</h2>';if(d.summary)h+='<p class="muted">'+E(d.summary)+'</p>';if(d.updatedAt||d.generatedAt)h+='<p class="note">Data refreshed/generated: '+E(d.updatedAt||d.generatedAt)+'</p>';if(d.sourceUrl)h+='<p><a href="'+E(d.sourceUrl)+'" target="_blank" rel="noopener nofollow">Open SEC source</a></p>';if((d.metrics||[]).length)h+='<div class="grid">'+d.metrics.map(m=>'<div class="metric"><span>'+E(m.label)+'</span><strong>'+value(m.value,m.format)+'</strong></div>').join('')+'</div>';const rows=d.rows||[];if(rows.length){const keys=[...new Set(rows.flatMap(r=>Object.keys(r)))].filter(k=>!k.startsWith('_'));h+='<div class="table-wrap"><table><thead><tr>'+keys.map(k=>'<th>'+E(label(k))+'</th>').join('')+'</tr></thead><tbody>'+rows.map(r=>'<tr>'+keys.map(k=>{const v=r[k];return '<td>'+(k==='url'&&v?'<a href="'+E(v)+'" target="_blank" rel="noopener nofollow">SEC source</a>':value(v,rowFormat(k,r),r.currency || displayedCurrency))+'</td>';}).join('')+'</tr>').join('')+'</tbody></table></div>';}h+=(d.warnings||[]).map(w=>'<div class="warn">'+E(w)+'</div>').join('');result.innerHTML=h;ctaPanel.hidden=false;const sym=String(d.symbol||(d.symbols||[])[0]||'').toUpperCase();if(sym){const w=document.getElementById('cta-watch'),a=document.getElementById('cta-ask');if(w)w.href='/monitor?symbol='+encodeURIComponent(sym);if(a)a.href='/ask?q='+encodeURIComponent('What does this '+TOOL+' result mean for '+sym+'? Explain the numbers in plain words.');}V2.attachHScroll&&V2.attachHScroll(result.querySelector('.table-wrap'));}
 	form.addEventListener('submit',async e=>{e.preventDefault();closeSuggestions();ctaPanel.hidden=true;result.innerHTML='<h2 class="title-2">Loading filed data…</h2>';try{const symbols=await resolveSymbols();input.value=symbols.replace(/,/g,', ');const r=await fetch('/api/free-tools/'+encodeURIComponent(TOOL)+'?symbol='+encodeURIComponent(symbols));render(await r.json());if(r.ok&&navigator.sendBeacon)navigator.sendBeacon('/api/track/free_tool_complete',new Blob([JSON.stringify({toolId:CID,contentId:CID,symbol:symbols.split(',')[0].trim(),referrer:document.referrer})],{type:'application/json'}));}catch(error){render({error:error&&error.message==='Choose a company or ticker from the suggestions.'?error.message:'The tool is temporarily unavailable.'});}});try{navigator.sendBeacon&&navigator.sendBeacon('/api/track/free_tool_view',new Blob([JSON.stringify({toolId:CID,path:location.pathname,referrer:document.referrer})],{type:'application/json'}));}catch(_){}V2.nav('tools');V2.footer();</script></body></html>`;
 }
 
 function renderToolIndex() {
     const cards = Object.values(TOOL_DEFINITIONS).map((tool) => `<article class="card card-pad"><p class="label">Free research tool</p><h2 class="title-2"><a href="${tool.path}">${esc(tool.heading)}</a></h2><p class="muted small">${esc(tool.description)}</p><a class="tool-link" href="${tool.path}">Open tool &rarr;</a></article>`).join('');
-    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>30 free SEC and portfolio research tools — StockPortfolio.pro</title><meta name="description" content="Thirty deterministic financial research tools for SEC filings, cash flow, dilution, portfolios, comparisons and ETFs."><link rel="canonical" href="https://www.stockportfolio.pro/tools"><link rel="icon" type="image/png" sizes="48x48" href="/Media/icon.png?v=20260729-favicon1"><link rel="apple-touch-icon" href="/Media/icon.png?v=20260729-favicon1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap"><link rel="stylesheet" href="/assets/system.css?v=20260928-fundsearch"><style>main.tools-index{max-width:1180px;margin:auto;padding:64px 32px 80px}.tools-index .display{max-width:18ch}.tools-index p a{display:inline-block;padding:8px 2px}.tools-lead{color:var(--ink-2);font-size:17px;max-width:720px;margin-top:16px}.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:36px}.tool-grid article{display:flex;flex-direction:column;min-height:210px}.tool-grid h2{margin:10px 0 8px}.tool-grid h2 a{display:inline-block;padding:5px 0}.tool-grid p.muted{flex:1}.tool-link{font-size:var(--text-sm);font-weight:600;margin-top:18px;display:inline-block;padding:8px 0}@media(max-width:650px){main.tools-index{padding:42px 16px 64px}}</style></head><body data-ask-floor="1" data-ask-placeholder="Ask about any company — answered from its SEC filings…"><main class="tools-index"><p class="label">Engineering as marketing</p><h1 class="display">30 free research tools.</h1><p class="tools-lead">Deterministic filing, accounting, portfolio and fund analysis. No login, no AI conclusions, and primary-source links wherever the underlying data permits.</p><div class="tool-grid">${cards}</div><p style="margin-top:32px">Embed the <a href="/tools/earnings-quality#embed">earnings-quality</a> and <a href="/tools/filing-timeline#embed">filing-timeline</a> cards on your own site — one iframe, no key.</p><p style="margin-top:12px"><a href="/methodology">Methodology and limitations &rarr;</a></p></main><script src="/assets/app.js?v=20260928-fundsearch"></script><script>V2.nav('tools');V2.footer();</script></body></html>`;
+    return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>30 free SEC and portfolio research tools — StockPortfolio.pro</title><meta name="description" content="Thirty deterministic financial research tools for SEC filings, cash flow, dilution, portfolios, comparisons and ETFs."><link rel="canonical" href="https://www.stockportfolio.pro/tools"><link rel="icon" type="image/png" sizes="48x48" href="/Media/icon.png?v=20260729-favicon1"><link rel="apple-touch-icon" href="/Media/icon.png?v=20260729-favicon1"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap"><link rel="stylesheet" href="/assets/system.css?v=20261003-secverified1"><style>main.tools-index{max-width:1180px;margin:auto;padding:64px 32px 80px}.tools-index .display{max-width:18ch}.tools-index p a{display:inline-block;padding:8px 2px}.tools-lead{color:var(--ink-2);font-size:17px;max-width:720px;margin-top:16px}.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:36px}.tool-grid article{display:flex;flex-direction:column;min-height:210px}.tool-grid h2{margin:10px 0 8px}.tool-grid h2 a{display:inline-block;padding:5px 0}.tool-grid p.muted{flex:1}.tool-link{font-size:var(--text-sm);font-weight:600;margin-top:18px;display:inline-block;padding:8px 0}@media(max-width:650px){main.tools-index{padding:42px 16px 64px}}</style></head><body data-ask-floor="1" data-ask-placeholder="Ask about any company — answered from its SEC filings…"><main class="tools-index"><p class="label">Engineering as marketing</p><h1 class="display">30 free research tools.</h1><p class="tools-lead">Deterministic filing, accounting, portfolio and fund analysis. No login, no AI conclusions, and primary-source links wherever the underlying data permits.</p><div class="tool-grid">${cards}</div><p style="margin-top:32px">Embed the <a href="/tools/earnings-quality#embed">earnings-quality</a> and <a href="/tools/filing-timeline#embed">filing-timeline</a> cards on your own site — one iframe, no key.</p><p style="margin-top:12px"><a href="/methodology">Methodology and limitations &rarr;</a></p></main><script src="/assets/app.js?v=20261003-secverified1"></script><script>V2.nav('tools');V2.footer();</script></body></html>`;
 }
 
 module.exports = {

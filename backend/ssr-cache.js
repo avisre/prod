@@ -190,6 +190,10 @@ function createStore(opts) {
   }
 
   function flush() { map.clear(); totalBytes = 0; sitemap = null; }
+  function invalidateWhere(predicate) {
+    if (predicate('/sitemap.xml')) sitemap = null;
+    for (const key of map.keys()) if (predicate(key)) removeKey(key);
+  }
 
   function stats() {
     return {
@@ -202,7 +206,7 @@ function createStore(opts) {
   }
 
   return {
-    cfg, metrics, get, set, staleBody, flush, stats,
+    cfg, metrics, get, set, staleBody, flush, stats, invalidateWhere,
     incCold() { activeColdRenders++; },
     decCold() { if (activeColdRenders > 0) activeColdRenders--; },
     coldCount() { return activeColdRenders; }
@@ -215,8 +219,11 @@ function createStore(opts) {
 function middleware(opts) {
   const store = createStore(opts);
   const cfg = store.cfg;
+  let utcDay = new Date().toISOString().slice(0,10);
 
   const mw = function ssrCache(req, res, next) {
+    const today = new Date().toISOString().slice(0,10);
+    if (today !== utcDay) { utcDay=today; store.flush(); }
     if (req.method !== 'GET') return next();
     const path = req.path; // querystring-free; decoded by Express
     if (!isCacheablePath(path)) return next();

@@ -129,7 +129,7 @@ test('expanded catalog renderer has 30 unique routes and parseable browser JavaS
     assert.match(html, /V2\.searchAssets/);
     assert.match(html, /ArrowDown/);
     assert.match(html, /@media\(max-width:650px\)[\s\S]*\.tool-input-wrap,.form button\{width:100%/);
-    assert.match(html, /return compact\(n,'\$'\)/);
+    assert.match(html, /compact\(n,currency==='USD'\?'\$':currency\+' '\)/);
     assert.match(html, /1e9[\s\S]*'B'/);
     assert.match(html, /1e6[\s\S]*'M'/);
     const index = freeTools.renderToolIndex();
@@ -144,5 +144,5 @@ test('shared tools navbar renders the StockPortfolio emblem', () => {
     assert.match(app, /class="wordmark-emblem" src="\/Media\/icon\.png"/);
     assert.match(app, /aria-label="StockPortfolio\.pro home"/);
     assert.match(css, /\.wordmark-emblem\s*\{/);
-    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20260928-fundsearch/);
+    assert.match(freeTools.renderToolIndex(), /app\.js\?v=20261003-secverified1/);
 });

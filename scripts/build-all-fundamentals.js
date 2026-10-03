@@ -1,62 +1,64 @@
 #!/usr/bin/env node
-/**
- * build-all-fundamentals.js
- *
- * Walks the full US-listed directory (us-companies.json) and builds the
- * fundamentals cache for every symbol not already cached, via the same
- * on-demand builder Ask uses (Yahoo + SEC extension, USD gate, persisted
- * to frontend/data/fundamentals/). Free sources only; resumable — rerun
- * skips whatever already exists.
- *
- * Env: CONCURRENCY=3  MAX=0 (0 = all)
- */
+'use strict';
+// Resumable full-universe backfill. An incomplete file is not a cache hit.
+// --audit performs no network work. --refresh also rebuilds existing records.
 const fs = require('fs');
 const path = require('path');
-
+const stocks = require('../backend/stock-universe');
 const ROOT = path.resolve(__dirname, '..');
-const FUND_DIR = path.join(ROOT, 'frontend', 'data', 'fundamentals');
-const fundFetch = require(path.join(ROOT, 'backend', 'fundamentals-fetch'));
-
-const CONCURRENCY = Math.max(1, Math.min(6, Number(process.env.CONCURRENCY || 3)));
-const MAX = Number(process.env.MAX || 0);
-
-(async () => {
-    const dir = JSON.parse(fs.readFileSync(path.join(ROOT, 'frontend', 'data', 'us-companies.json'), 'utf8'));
-    const cached = new Set(fs.readdirSync(FUND_DIR).filter((f) => f.endsWith('.json')).map((f) => f.slice(0, -5)));
-    let todo = dir.companies
-        .map((c) => c.symbol)
-        .filter((s) => !cached.has(s.replace(/[^A-Z0-9]/g, '_')));
-    if (MAX) todo = todo.slice(0, MAX);
-    console.log(`${dir.companies.length} in directory, ${cached.size} cached, ${todo.length} to build, concurrency ${CONCURRENCY}`);
-
-    let done = 0; let ok = 0; let skipped = 0; let failed = 0;
-    const t0 = Date.now();
+const FUND_DIR = path.join(ROOT, 'frontend/data/fundamentals');
+const REPORT = path.join(ROOT, 'frontend/data/stock-coverage.json');
+function inspect(company) {
+    try {
+        const d = JSON.parse(fs.readFileSync(path.join(FUND_DIR, company.symbol.replace(/[^A-Z0-9]/g, '_') + '.json'), 'utf8'));
+        return stocks.usable(stocks.withIdentity(d, company));
+    } catch (_) { return false; }
+}
+function audit(list, failures = []) {
+    const missing = list.filter((c) => !inspect(c)).map((c) => c.symbol);
+    return { generatedAt: new Date().toISOString(), listed: list.length, fundamentalsReady: list.length - missing.length,
+        missing, failures, note: 'Listing coverage and available fundamentals are counted separately. Readiness does not guarantee every metric or a recent filing.' };
+}
+function writeReport(report) {
+    fs.writeFileSync(REPORT + '.tmp', JSON.stringify(report));
+    fs.renameSync(REPORT + '.tmp', REPORT);
+}
+async function main() {
+    const list = stocks.companies();
+    if (process.argv.includes('--audit')) { const report = audit(list); console.log(JSON.stringify({ listed: report.listed, ready: report.fundamentalsReady, missing: report.missing.length })); return; }
+    const max = Number(process.env.MAX || 0);
+    const refresh = process.argv.includes('--refresh');
+    const shards = Number(process.env.UNIVERSE_SHARD_COUNT || 1);
+    const shard = Number(process.env.UNIVERSE_SHARD_INDEX ?? ((new Date().getUTCDate() - 1) % shards));
+    if (!Number.isInteger(shards) || shards < 1 || !Number.isInteger(shard) || shard < 0 || shard >= shards) throw new Error('Invalid universe shard');
+    const bucket = (symbol) => [...symbol].reduce((h, ch) => ((h * 31 + ch.charCodeAt(0)) >>> 0), 0) % shards;
+    const todo = list.filter((c) => bucket(c.symbol) === shard && (refresh || !inspect(c)));
+    console.log(`Refresh shard ${shard + 1}/${shards}`);
+    if (max > 0) todo.splice(max);
+    const total = todo.length;
+    const concurrency = Math.max(1, Math.min(4, Number(process.env.CONCURRENCY || 2)));
+    const fundFetch = require('../backend/fundamentals-fetch');
     const failures = [];
+    let done = 0, ok = 0;
+    console.log(`${list.length} listed stocks; ${total} to ${refresh ? 'refresh' : 'backfill'}; concurrency ${concurrency}`);
     async function worker() {
         for (;;) {
-            const sym = todo.shift();
-            if (!sym) return;
+            const entry = todo.shift();
+            if (!entry) return;
             try {
-                await fundFetch.buildFundamentals(sym);
+                const data = await fundFetch.buildFundamentals(entry.symbol, { waitForCompletion: true });
+                if (!stocks.usable(data) || !inspect(entry)) throw new Error('Build did not persist usable statements');
                 ok++;
-            } catch (e) {
-                if (/reports in [A-Z]{3}/.test(e.message)) skipped++; // foreign — by design
-                else { failed++; failures.push(`${sym}: ${e.message.slice(0, 80)}`); }
-            }
+            } catch (e) { failures.push({ symbol: entry.symbol, reason: String(e.message).slice(0, 180) }); }
             done++;
-            if (done % 50 === 0) {
-                const rate = done / ((Date.now() - t0) / 60000);
-                console.log(`${done} done (${ok} ok, ${skipped} foreign-skipped, ${failed} failed) — ${rate.toFixed(0)}/min, ~${Math.round(todo.length / rate)}min left`);
-            }
-            await new Promise((r) => setTimeout(r, 250)); // be polite to SEC/Yahoo
+            if (done % 25 === 0 || done === total) console.log(`${done}/${total}: ${ok} ready, ${failures.length} unavailable`);
         }
     }
-    await Promise.all(Array.from({ length: CONCURRENCY }, worker));
-    console.log(`\nFINISHED in ${((Date.now() - t0) / 60000).toFixed(1)}min: ${ok} built, ${skipped} foreign-skipped, ${failed} failed`);
-    if (failures.length) {
-        fs.writeFileSync('/tmp/build-all-failures.txt', failures.join('\n'));
-        console.log(`failures listed in /tmp/build-all-failures.txt (first 10):`);
-        failures.slice(0, 10).forEach((f) => console.log('  ' + f));
-    }
-    process.exit(0);
-})().catch((e) => { console.error('fatal:', e); process.exit(1); });
+    await Promise.all(Array.from({ length: concurrency }, worker));
+    const report = audit(list, failures);
+    writeReport(report);
+    console.log(JSON.stringify({ listed: report.listed, ready: report.fundamentalsReady, missing: report.missing.length, failures: failures.length }));
+    if (total > 0 && ok === 0) process.exitCode = 1;
+}
+if (require.main === module) main().catch((e) => { console.error(e.message); process.exitCode = 1; });
+module.exports = { inspect, audit };

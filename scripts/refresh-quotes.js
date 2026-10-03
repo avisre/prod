@@ -34,7 +34,7 @@ const yf = new YahooFinance({ suppressNotices: ['yahooSurvey', 'ripHistorical'] 
 
 const ROOT = path.resolve(__dirname, '..');
 const OUT_FILE = path.join(ROOT, 'frontend', 'data', 'quotes.json');
-const DEFAULT_LIST = path.join(ROOT, 'frontend', 'data', 'sp1500-companies.json');
+const DEFAULT_LIST = path.join(ROOT, 'frontend', 'data', 'us-companies.json');
 const BATCH = Math.max(1, Math.min(100, Number(process.env.BATCH || 50)));
 const MAX_SYMBOLS = Math.max(0, Number(process.env.MAX_SYMBOLS || 0));
 const DRY_RUN = String(process.env.DRY_RUN || '') === '1';

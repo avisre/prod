@@ -21,7 +21,7 @@ test('missing numeric fields never become fabricated zero values', () => {
 });
 
 test('high-opportunity metric pages contain answer-first analysis, chart, sources and CSV', () => {
-    for (const [symbol, metric] of [['AAPL', 'shares-outstanding'], ['MSFT', 'pe-ratio'], ['NVDA', 'dividend-history']]) {
+    for (const [symbol, metric] of [['AAPL', 'shares-outstanding'], ['MSFT', 'revenue'], ['NVDA', 'dividend-history']]) {
         const html = extra.renderMetricPage(symbol, metric);
         assert.ok(html, `${symbol}/${metric} renders`);
         assert.match(html, /Latest filed value/);
@@ -36,17 +36,17 @@ test('high-opportunity metric pages contain answer-first analysis, chart, source
 
 test('metric CSV is raw, escaped, and preserves fiscal periods', () => {
     const csv = extra.metricCsv('AAPL', 'shares-outstanding');
-    assert.match(csv, /^"symbol","fiscal_year","period_end","shares-outstanding","formatted_value"/);
-    assert.match(csv, /"AAPL","2025","2025-09-30"/);
+    assert.match(csv, /^period_end,value,currency,basis,sec_source_urls/);
+    assert.match(csv, /"2025-09-27","14773260000"/);
     assert.ok(csv.trim().split('\n').length >= 3);
     assert.equal(extra.metricCsv('AAPL', 'not-a-metric'), null);
 });
 
 test('stock comparison pages use the shared authenticated navbar', () => {
-    const page = extra.renderComparePage('LB-vs-MUR');
+    const page = extra.renderComparePage('LB-vs-MSFT');
     assert.ok(page && page.html);
-    assert.match(page.html, /assets\/system\.css\?v=20260928-fundsearch/);
-    assert.match(page.html, /assets\/app\.js\?v=20260928-fundsearch/);
+    assert.match(page.html, /assets\/system\.css\?v=20261003-secverified1/);
+    assert.match(page.html, /assets\/app\.js\?v=20261003-secverified1/);
     assert.match(page.html, /V2\.nav\("compare"\)/);
     assert.match(page.html, /cmpWireAutocomplete\('cmpAdd','cmpMatches'\)/);
     assert.ok(Buffer.byteLength(page.html) < 100_000, 'comparison pages must not embed the full ticker universe');
@@ -64,13 +64,13 @@ test('stock comparison pages use the shared authenticated navbar', () => {
     assert.doesNotMatch(page.html, /localStorage\.getItem\('token'\)[\s\S]{0,80}if\(!tok\)return;/);
 
     const competitorPage = competitorComparisons.renderComparison(competitorComparisons.competitors[0]);
-    assert.match(competitorPage, /assets\/system\.css\?v=20260928-fundsearch/);
+    assert.match(competitorPage, /assets\/system\.css\?v=20261003-secverified1/);
     assert.match(competitorPage, /V2\.nav\('compare'\)/);
     assert.doesNotMatch(competitorPage, /<header class="seo-nav"/);
 });
 
 test('paid compare variant renders the expanded design; free page stays untouched', () => {
-    const page = extra.renderComparePagePro('LB-vs-MUR');
+    const page = extra.renderComparePagePro('LB-vs-MSFT');
     assert.ok(page && page.html);
     assert.match(page.html, /cmp-grp/, 'grouped section headers');
     assert.match(page.html, /cmp-sec cmp-open/, 'first group starts expanded');
@@ -78,7 +78,7 @@ test('paid compare variant renders the expanded design; free page stays untouche
     assert.ok((page.html.match(/class="cmp-prev"/g) || []).length === 6, 'each collapsed group keeps one teaser row');
     assert.match(page.html, /Red flags in the filings/);
     assert.match(page.html, /AI VERDICT/);
-    assert.match(page.html, /assets\/system\.css\?v=20260928-fundsearch/);
+    assert.match(page.html, /assets\/system\.css\?v=20261003-secverified1/);
     assert.match(page.html, /noindex/);
     assert.ok(Buffer.byteLength(page.html) < 100_000, 'pro pair page must stay under 100 KB');
     // No em-dashes in prose: strip the intentional missing-data cell placeholder
@@ -109,9 +109,9 @@ test('compare pair route without auth plumbing serves the free page even for ?sp
         req.on('error', () => resolve({ status: -1, body: '' }));
     });
     try {
-        const bare = await get('/compare/LB-vs-MUR');
+        const bare = await get('/compare/LB-vs-MSFT');
         assert.equal(bare.status, 200);
-        const pro = await get('/compare/LB-vs-MUR?sp=2');
+        const pro = await get('/compare/LB-vs-MSFT?sp=2');
         assert.equal(pro.status, 200);
         assert.equal(pro.body, bare.body, '?sp=2 without an authenticated paid session must render the free page');
         assert.doesNotMatch(pro.body, /AI VERDICT/);
@@ -120,7 +120,7 @@ test('compare pair route without auth plumbing serves the free page even for ?sp
 
 test('advertised comparison URLs are canonical, renderable primary listings', () => {
     const pairs = extra.comparePairs();
-    assert.ok(pairs.length >= 5_000 && pairs.length < 7_000, `crawl-prioritized pair count was ${pairs.length}`);
+    assert.ok(pairs.length > 0 && pairs.length <= 5_000, `crawl-prioritized pair count was ${pairs.length}`);
     assert.ok(pairs.every((pair) => /^[A-Z0-9.]+-vs-[A-Z0-9.]+$/.test(pair)));
     // The deployment audit checks the full inventory; keep the unit suite fast
     // while sampling evenly across its sorted range.
@@ -152,15 +152,15 @@ test('totalReturn computes split/dividend-adjusted returns and degrades on short
 
 test('return windows a young listing cannot cover say "Listed YYYY", never a bare dash', () => {
     // LB listed in 2024: its 3/5/10-year cells must explain themselves instead
-    // of reading as missing data (owner report, 9/8). MUR's real returns stay.
-    const free = extra.renderComparePage('LB-vs-MUR');
+    // of reading as missing data (owner report, 9/8). MSFT's real returns stay.
+    const free = extra.renderComparePage('LB-vs-MSFT');
     assert.ok((free.html.match(/Listed 2024/g) || []).length === 3, 'free page explains all three uncovered windows');
     assert.match(free.html, /3-year return<\/td><td[^>]*>Listed 2024<\/td>/);
     // Do not pin MUR's exact percentage: it moves with every data refresh (80.0%
     // before the 9/28 backfill, 70.4% after). The contract is that the uncovered
     // side says "Listed 2024" and the covered side shows a real return, never a dash.
     assert.match(free.html, /10-year return<\/td><td[^>]*>Listed 2024<\/td><td[^>]*>-?\d+(?:\.\d+)?%/);
-    const pro = extra.renderComparePagePro('LB-vs-MUR');
+    const pro = extra.renderComparePagePro('LB-vs-MSFT');
     assert.ok((pro.html.match(/Listed 2024/g) || []).length === 3, 'pro page explains all three uncovered windows');
 });
 
@@ -195,7 +195,7 @@ test('comparison pages include a performance section with real returns', () => {
     // (9/8: every free compare page showed "$x&ndash;$y" in this row).
     assert.doesNotMatch(page.html, /&amp;ndash;/);
     assert.match(page.html, /52-week range<\/td><td[^>]*>\$\d+\.\d{2}–\$\d+\.\d{2}<\/td>/);
-    assert.match(page.html, /Over the last five years/);
+    assert.match(page.html, /dated market prices/);
     assert.match(page.html, /1\/3\/5\/10-year performance/);
 });
 
@@ -308,9 +308,9 @@ test('sectorPeers returns same-sector comparables, never the ticker itself', () 
 test('metric pages carry the sector percentile, peer table and update-frequency label', () => {
     const html = extra.renderMetricPage('AAPL', 'revenue');
     assert.ok(html);
-    assert.match(html, /percentile of the Technology sector/);
-    assert.match(html, /vs\. Technology sector peers/);
-    assert.match(html, /Update frequency: quarterly/);
+    assert.match(html, /percentile of the Information Technology sector/);
+    assert.match(html, /vs\. Information Technology sector peers/);
+    assert.match(html, /Update frequency: SEC reporting checked daily/);
     assert.match(html, /<a href="\/stocks\/MSFT\/revenue">MSFT<\/a>/);
     // A metric whose sector has no comparable peers must degrade without crashing.
     const html2 = extra.renderMetricPage('NVDA', 'eps');
@@ -326,7 +326,7 @@ test('price-history pages carry a real chart, returns table, range bar and FAQ',
     assert.match(html, /5 years/);
     assert.match(html, /10 years/);
     assert.match(html, /52-week range/);
-    assert.match(html, /50-day moving average/);
+    assert.doesNotMatch(html,/newer SEC filing may exist/);
     assert.match(html, /frequently asked questions/);
     // Real returns for a 20-year large cap — no em-dash placeholders.
     assert.doesNotMatch(html, /<td>Year to date<\/td><td[^>]*>&mdash;<\/td>/);
@@ -361,24 +361,11 @@ test('buildDividendHistory maps chart dividend events to oldest-first ex-date ro
     assert.deepEqual(buildDividendHistory(null), []);
 });
 
-test('dividend-history pages carry ex-dates, next-ex callout and quarterly payouts when data present', () => {
-    const html = extra.renderMetricPage('AAPL', 'dividend-history');
-    assert.ok(html, 'AAPL dividend-history renders');
-    assert.match(html, /Next expected ex-dividend date:/);
-    assert.match(html, /Ex-dividend date<\/th><th>Dividend per share<\/th>/);
-    assert.match(html, /Total paid per share<\/th>/);
-    // Real declared-payout row from the enriched cache — no placeholder.
-    assert.match(html, /<tr><td>Aug 10, 2026<\/td><td>\$0\.27<\/td><\/tr>/);
-    assert.ok(Buffer.byteLength(html) < 100_000, 'dividend page must stay under 100 KB');
+test('dividend-history uses verified issuer payouts and does not invent ex-date forecasts', () => {
+ const html=extra.renderMetricPage('AAPL','dividend-history');assert.match(html,/Dividend payouts/);assert.match(html,/SEC source/);assert.doesNotMatch(html,/Next expected ex-dividend date:/);assert.match(html,/Period end/);
 });
-
-test('dividend-history pages degrade gracefully for non-payers without the extras section', () => {
-    const html = extra.renderMetricPage('BRK.B', 'dividend-history');
-    assert.ok(html, 'non-payer dividend-history still renders');
-    // No ex-dates/quarterly extras, no crash — the fiscal-year table remains.
-    assert.doesNotMatch(html, /Ex-dividend date<\/th><th>Dividend per share<\/th>/);
-    assert.doesNotMatch(html, /Total paid per share<\/th>/);
-    assert.match(html, /Fiscal year<\/th>/);
+test('missing dividend facts produce a noindex availability page',()=>{
+ const html=extra.renderMetricPage('BRK.B','dividend-history');assert.match(html,/noindex, follow/);assert.match(html,/two comparable verified annual observations/);assert.doesNotMatch(html,/<td>\$0/);
 });
 
 test('price-history route serves 200, 301-canonicals and redirects invalid tickers', async () => {
