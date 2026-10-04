@@ -410,7 +410,7 @@
             }
             if (compactLabels && (n - 1) % step && labels?.[n - 1] !== undefined) drawLabel(n - 1);
         }
-        const colors = { ink: 'var(--ink)', accent: 'var(--accent)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)' };
+        const colors = { ink: 'var(--ink)', accent: 'var(--accent)', pos: 'var(--pos)', neg: 'var(--neg)', faint: 'var(--ink-3)', c1: 'var(--chart-1)', c2: 'var(--chart-2)', c3: 'var(--chart-3)' };
         for (const s of series) {
             const vs = s.values;
             let d = ''; let started = false;
@@ -504,7 +504,7 @@
             .filter((s) => s.points.filter((p) => p[1] !== null).length >= 2);
         if (!series.length) return '';
         const labels = series.reduce((a, s) => (s.points.length > a.length ? s.points.map((p) => String(p[0])) : a), []);
-        const cls = ['ink', 'accent', 'pos'];
+        const cls = ['c1', 'c2', 'c3'];
         const chartSeries = series.map((s, i) => {
             const map = new Map(s.points.map((p) => [String(p[0]), p[1]]));
             return { values: labels.map((l) => (map.has(l) ? map.get(l) : null)), cls: cls[i % 3] };
@@ -523,6 +523,73 @@
         return `<figure class="ask-viz" data-viz="${esc(JSON.stringify(spec))}">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}${unitLabel}${svg}${legend}</figure>`;
     }
 
+    // Facet (small multiples): one panel per metric, each on its own zero-based
+    // scale, so a metric a fraction of the largest one's size still reads as a
+    // shape instead of a hairline against a shared axis. Opted into with
+    // "facet": true on a ```bars``` fence rather than a new fence kind, so the
+    // answer validator's fence regex and every grouped-bar rule apply unchanged.
+    function facetBarsBlock(spec, series, categories) {
+        const fmt = v => compactBarValue(v, spec.unit);
+        const W = vizWidth(), panelH = 104, padT = 18, padB = 20, plotH = panelH - padT - padB;
+        const n = categories.length, cellW = W / n;
+        // One bar width for every panel, so a bar's height means the same thing
+        // panel to panel even though each has its own scale.
+        const barW = Math.max(3, Math.min(46, cellW * 0.5));
+        const colors = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)'];
+        const desc = [];
+        const panels = series.map((s, si) => {
+            const vals = s.points.map(p => p[1]).filter(v => v !== null && Number.isFinite(v));
+            if (!vals.length) return '';
+            // Its own scale, always including zero: bar height stays proportional
+            // to value inside the panel, and no baseline is ever truncated.
+            const max = Math.max(0, ...vals), min = Math.min(0, ...vals);
+            const span = (max - min) || 1;
+            const y = v => padT + (max - v) / span * plotH;
+            const zeroY = y(0);
+            let g = `<line x1="0" y1="${zeroY.toFixed(1)}" x2="${W}" y2="${zeroY.toFixed(1)}" class="ask-zero"/>`;
+            const items = [];
+            let latestIdx = -1;
+            categories.forEach((category, ci) => {
+                const value = s.points[ci][1];
+                const label = `${s.name}, ${category}: ${value === null ? 'unavailable' : fmt(value)}`;
+                items.push(label);
+                if (value === null || !Number.isFinite(value)) return;
+                latestIdx = ci;
+                const yy = y(value), barY = Math.min(yy, zeroY), barH = Math.max(1, Math.abs(zeroY - yy));
+                const x = ci * cellW + (cellW - barW) / 2;
+                g += `<rect x="${x.toFixed(1)}" y="${barY.toFixed(1)}" width="${barW.toFixed(1)}" height="${barH.toFixed(1)}" fill="${colors[si % 3]}" rx="2"><title>${esc(label)}</title></rect>`;
+                // Every bar carries its value. That is what replaces the shared
+                // axis here, and it is why the form survives a 20x spread.
+                const ly = value >= 0 ? Math.max(padT - 4, barY - 4) : Math.min(panelH - padB + 14, barY + barH + 11);
+                g += `<text x="${(x + barW / 2).toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" class="ask-bar-value">${esc(fmt(value))}</text>`;
+            });
+            desc.push(...items);
+            // Change from the first reported period to the last one, and only
+            // when both ends are positive — a percentage off a zero or negative
+            // base would say nothing about the business.
+            const firstIdx = s.points.findIndex(p => p[1] !== null && Number.isFinite(p[1]));
+            let lastIdx = -1;
+            for (let i = s.points.length - 1; i >= 0; i--) if (s.points[i][1] !== null && Number.isFinite(s.points[i][1])) { lastIdx = i; break; }
+            const a = firstIdx >= 0 ? s.points[firstIdx][1] : null, b = lastIdx >= 0 ? s.points[lastIdx][1] : null;
+            const delta = (a !== null && b !== null && a > 0 && b > 0)
+                ? `<span class="ask-facet-delta">${b >= a ? '+' : ''}${((b / a - 1) * 100).toFixed(1)}% ${esc(compactPeriod(categories[0]))}→${esc(compactPeriod(categories[lastIdx]))}</span>` : '';
+            const latest = latestIdx >= 0
+                ? `<span class="ask-facet-latest">${esc(compactPeriod(categories[latestIdx]))} · ${esc(fmt(s.points[latestIdx][1]))}</span>` : '';
+            return `<div class="ask-facet-row">
+      <div class="ask-facet-head"><span class="ask-facet-name">${esc(s.name)}</span>${latest}${delta}</div>
+      <svg viewBox="0 0 ${W} ${panelH}" role="img" class="ask-bar-svg ask-facet-plot"><title>${esc(s.name)}</title><desc>${esc(items.join('. '))}</desc>${g}</svg>
+    </div>`;
+        }).filter(Boolean);
+        if (!panels.length) return '';
+        // Period axis is shared, and it is the only thing shared: it sits outside
+        // the panels so no reader takes a bar height as a cross-metric quantity.
+        const showDates = cellW >= 70;
+        const axis = `<div class="ask-facet-axis">${categories.map(c => {
+            const date = c.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '';
+            return `<span>${esc(compactPeriod(c))}${showDates && date ? `<em>${esc(date)}</em>` : ''}</span>`;
+        }).join('')}</div>`;
+        return `<figure class="ask-viz ask-bars-facet" role="group" aria-label="${esc(String(spec.title || 'Financial metrics') + '. ' + desc.join('. '))}">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="ask-chart-unit">${esc(spec.unit || '')} · actual fiscal periods · each panel scaled to its own range</div><div class="ask-facet">${panels.join('')}${axis}</div><p class="ask-facet-note">Each metric is drawn on its own vertical scale, so compare bars within a panel — heights are not comparable between panels.</p></figure>`;
+    }
     // ---------- Ask bars blocks: horizontal categories or vertical time groups ----------
     // Horizontal: {title, unit, rows:[[label,value,note?]]}
     // Vertical: {title, unit, orientation:"vertical", series:[{name,points:[[periodEnd,value]]}]}
@@ -541,12 +608,13 @@
             if (!series.length || !categories.length || categories.length > 8 || series.some(s => JSON.stringify(s.points.map(p => p[0])) !== JSON.stringify(categories))) return '';
             const vals = series.flatMap(s => s.points.map(p => p[1]).filter(v => v !== null));
             if (!vals.length) return '';
+            if (spec.facet === true) return facetBarsBlock(spec, series, categories);
             const max = Math.max(0, ...vals) || 1, min = Math.min(0, ...vals);
             const W = vizWidth(), H = 330, padL = 62, padR = 14, padT = 24, padB = 64;
             const top = padT, bottom = H - padB, plotH = bottom - top, plotW = W - padL - padR;
             const y = v => top + (max - v) / (max - min) * plotH;
             const zeroY = y(0), groupW = plotW / categories.length;
-            const colors = ['var(--ink)', 'var(--accent)', 'var(--pos)'];
+            const colors = ['var(--chart-1)', 'var(--chart-2)', 'var(--chart-3)'];
             const tickValues = [];
             const span = max - min, rawStep = span / 4, power = Math.pow(10, Math.floor(Math.log10(rawStep || 1)));
             const norm = rawStep / power, step = (norm < 1.5 ? 1 : norm < 3.5 ? 2 : norm < 7.5 ? 5 : 10) * power;
@@ -559,8 +627,12 @@
             }
             svg += `<line x1="${padL}" y1="${zeroY.toFixed(1)}" x2="${W-padR}" y2="${zeroY.toFixed(1)}" class="ask-zero"/>`;
             const slot = groupW * 0.72 / series.length, barW = Math.max(3, Math.min(34, slot * 0.76));
+            // Up to four periods, every one keeps its label: dropping FY2024 to
+            // save room hides a year the answer is actually about. Only denser
+            // histories thin, and the exact-date sub-line thins on width instead.
             const labelCapacity = Math.max(2, Math.floor(plotW / 76));
-            const labelStep = Math.max(1, Math.ceil((categories.length - 1) / (labelCapacity - 1)));
+            const labelStep = categories.length <= 4 ? 1
+                : Math.max(1, Math.ceil((categories.length - 1) / (labelCapacity - 1)));
             const accessible = [];
             categories.forEach((category, ci) => {
                 const groupStart = padL + ci * groupW + (groupW - slot * series.length) / 2;
@@ -572,7 +644,9 @@
                     const label = `${s.name}, ${category}: ${fmt(value)}`;
                     accessible.push(label);
                     svg += `<rect x="${x.toFixed(1)}" y="${barY.toFixed(1)}" width="${barW.toFixed(1)}" height="${barH.toFixed(1)}" fill="${colors[si]}" rx="2"><title>${esc(label)}</title></rect>`;
-                    if (categories.length <= 3 && series.length <= 2) {
+                    // Print the value whenever the bar is genuinely wide enough to
+                    // carry one, instead of assuming a third series never fits.
+                    if (barW >= 30) {
                         const labelY = value >= 0 ? Math.max(top + 10, barY - 5) : Math.min(bottom - 2, barY + barH + 12);
                         svg += `<text x="${(x+barW/2).toFixed(1)}" y="${labelY.toFixed(1)}" text-anchor="middle" class="ask-bar-value">${esc(fmt(value))}</text>`;
                     }
@@ -584,12 +658,12 @@
                     const lx = first ? padL : last ? W-padR : padL + ci * groupW + groupW / 2;
                     const anchor = first ? 'start' : last ? 'end' : 'middle';
                     svg += `<text x="${lx.toFixed(1)}" y="${H-34}" text-anchor="${anchor}" class="ask-period">${esc(compactPeriod(category))}</text>`;
-                    svg += `<text x="${lx.toFixed(1)}" y="${H-18}" text-anchor="${anchor}" class="ask-axis">${esc(category.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '')}</text>`;
+                    if (groupW >= 70) svg += `<text x="${lx.toFixed(1)}" y="${H-18}" text-anchor="${anchor}" class="ask-axis">${esc(category.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '')}</text>`;
                 }
             });
             const desc = accessible.join('. ');
             svg = `<svg viewBox="0 0 ${W} ${H}" role="img" class="ask-bar-svg"><title>${esc(String(spec.title || 'Financial metric comparison'))}</title><desc>${esc(desc)}</desc>${svg}</svg>`;
-            const classes = ['ink', 'accent', 'pos'];
+            const classes = ['c1', 'c2', 'c3'];
             const legend = series.length > 1 ? `<div class="ask-viz-legend">${series.map((s, i) => `<span><i class="lg lg-${classes[i]}"></i>${esc(s.name)}</span>`).join('')}</div>` : '';
             return `<figure class="ask-viz ask-bars-vertical">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="ask-chart-unit">${esc(spec.unit || '')} · actual fiscal periods</div>${svg}${legend}</figure>`;
         }

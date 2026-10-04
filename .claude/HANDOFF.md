@@ -5,10 +5,10 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 cap can no longer be crossed silently. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-10-03.md` (verbatim, taken 10/03 at 445 lines — the OpenAI review
-narrative and portal-driving detail, the OIDC fix, the breakthrough-hunt post-mortem, the AppSumo v8 values,
-the full Bing fix list), `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`,
-`handoff-archive/2026-09-28.md`.
+Earlier snapshots: `handoff-archive/2026-10-04.md` (verbatim, taken 10/04 at 395 lines — the SEC coverage
+release narrative, the three earlier Ask quality/engineering release write-ups, the AppSumo v8 detail, the
+OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archive/2026-10-03.md`,
+`handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
 ## Session start
@@ -47,345 +47,277 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
-## SEC coverage release — 2026-10-04
+## Production state — 2026-10-04
+- **`main` currently runs the Ask ROLLBACK.** `97c61b35` is deployed (`dep-db0uvplg1s2s73fplsq0`, workflow
+  `37182036116`, deployed SHA confirmed): Ask server/tools/prompts/streaming and charts restored to
+  `730507cc`, the new validation/segment/Sankey modules and the local review harness removed from `main`.
+  Asset stamp `20261004-askrollback1`. Verified SEC coverage, datasets and dependency updates retained.
+  Evidence: `docs/qa/ask-rollback-2026-10-04/release.json`.
+- Earlier the same day, the SEC coverage release `73186a12` deployed and passed independent production
+  checks: 6,099 securities, 4,440 ready issuers, 4,498 screenable listings; live stock sitemap matched the
+  snapshot exactly; 403s blocked automated stock-profile/alias checks, so authenticated Ask stayed unverified
+  there. Evidence: `docs/qa/ask-live-readiness-2026-10-04/`.
+- **The Ask work below re-does what the rollback removed, on branch `ask-production-ready-20261004`, and is
+  not deployed.** `main` still carries the rollback. Do not restage the superseded copies from the older
+  release worktrees.
 
-Production-readiness fixes are on `sec-production-ready-20261004`, integrated with latest production data
-`df49a84f`. See `docs/sec-production-readiness-2026-10-04.md` for counts, policy, checks and limitations.
-6,099 listings; 5,879 identified issuers; 5,274 recent annual issuers; 4,442 ready; 391 partial; 598
-historical-only; 448 unavailable. Screener: 4,500 listings / 4,442 issuers. Bootstrap checks 100% / 100%;
-25 unresolved directory identities; zero network/financial verification failures. Node 22 regression suite:
-236 passed. All profiles, advertised metrics/comparisons and sitemap shards render offline. Snapshot
-fingerprints include market data, price history, FX and screen contents; screen version 4. Calculators use
-verified SEC facts. Same-period extraction loss preserves prior validated data. Unrelated local work is
-preserved. Release commit only: **no push or deployment**; deploying remains a separate release action.
+## Ask framework for every stock — built, measured; not deployed
 
-## Ask answer quality review — 2026-10-04
+The owner's request: apply the Broadcom-shaped answer framework (framing → segment split → quarterly/annual
+tables with a Context column → chart → what makes it different → key risks → valuation snapshot →
+**"The read" —** → **`> Next:`** button) to **every** stock, personalised by the company's sector/industry.
+Plan: `~/.claude/plans/twinkling-tickling-taco.md`, phases 0–4.
 
-**Historical baseline:** findings in `docs/qa/ask-quality-2026-10-04/report.html` were repaired in the
-following engineering and quality releases; see the current readiness report below.
-One live analyst answer returned in 9.3s but compared June 2026 to September 2025 and called it YoY:
-Apple revenue 6.8% vs verified 16.36%; net income 8.5% vs 27.12%. Annual cash/FCF amounts were correct,
-but FY2025/FY2024 end dates were wrong. Twenty local tool probes on `730507cc` found ~812KB AAPL
-financial payloads, unsupported instruments aborting Ask, P/E bypassing share-basis suppression, and
-native-currency/prompt contradictions. Sixty-six Ask regressions pass; they are control tests, not
-answer accuracy evidence. Three loop cases used scripted model responses. A broader local real-model
-benchmark awaits an AI-only credentials source; backend/.env was not loaded. No product-code fixes,
-commit, push or deployment in this evaluation. Data/readiness acceptance on `730507cc` remains recorded,
-but does not certify Ask answer quality. The report's claim ledger links primary SEC filings.
+**Shipped:** prose means prose (table rows no longer charged to the word budget); one canonical GICS
+vocabulary (`backend/sector.js`) with the Yahoo value kept when the GICS store is empty, so sector coverage
+goes ~25% → ~57% and peer positioning/sector medians come back for ~1,968 companies; an industry archetype
+profile (`backend/ask-industry-profile.js`) delivered as `get_peer_context.industryProfile` so the metric rows
+differ by industry; `get_ratios_history` routed in the research-tools line; `FRAMEWORK_ANALYST` (nine parts)
+and a fully rewritten `FRAMEWORK_NORMAL` (ANSWER SHAPE — same evidence and substance, plain English);
+faceted bars (`facetBarsBlock`, `app.js:611`) for metrics spanning >10×; chart palette tokens
+`--chart-1/2/3`.
 
-## Ask engineering fixes — 2026-10-04
+**Two deliberate deviations from the plan, both the owner's instruction:**
+1. **Caps raised** to 480 analyst / 320 normal (plan said keep 250/350). Measured: the owner's own target
+   shape runs 348–432 prose words once tables are excluded, so the old cap made the requested shape
+   unshippable.
+2. **5% length tolerance** (`ceiling = ceil(limit * 1.05)`). "Cut at least N words" is the instruction the
+   model follows least: 331→329 on a "cut 11", and 481 against a 480 cap published a receipt over one word.
 
-Implemented date-matched quarterly comparisons, exact annual periods and calculated FCF in financial
-results; selected field provenance (AAPL two-year income ~16KB vs ~812KB); bounded 64KB results / 192KB
-research context with explicit history pagination; per-tool exception replies; shared share-basis guards;
-native-currency chart units; separate quote/financial/check dates; exact SEC links and a no-research numeric
-answer retry/fallback. Public and screen snapshots were regenerated together after market-field suppression.
-The deployment regression gate now includes Ask evidence and loop tests. See
-`docs/ask-production-fixes-2026-10-04.md` for checks and limits. Original QA remains the historical baseline.
-Eight post-repair real answers and 16 Chrome desktop/mobile renders are recorded in
-`docs/qa/ask-postfix-2026-10-04/report.md`: sample scores **answers 7/10, visualizations 4/10, length 6/10**.
-**Hold Ask approval:** one chart is scaled 1,000,000× incorrectly; one answer claims USD98.8bn FCF covers
-USD106.1bn dividends/buybacks; mobile chart axes are tiny/clipped. The user authorized the AI-only loader;
-no production DB was connected. Configured model returned retired HTTP410 for all eight initial calls;
-successful answers use an evaluation-only active replacement. Production configuration is unchanged.
-No push/deployment or authenticated deployed Ask verification occurred at that checkpoint.
+**Seven defects found by measurement, not review** (each has a regression test):
+1. A prose cap below the owner's own target shape (above).
+2. **A range dash read as a minus sign**: `$188.22–$645.46` negated the supplied 52-week high, so the one
+   figure in a clean normal-mode answer was unclaimable.
+3. **Rejection wording invited invented precision**: "use the exact verified value" produced `$14,181
+   million` for a rejected `$14.2bn`; "state it exactly as the tool results give it" produced
+   `$1,176,299,062,416`. Both issue texts and the rewrite directive are now **deletion-only**.
+4. Normal mode was thin; it now carries the analyst evidence in everyday English (`SIMPLE, NOT THIN`).
+5. **One-letter tickers**: bare `O` (Realty Income) was answered as an interjection, 0 tools.
+6. **`viz` cannot facet** — a live answer emitted a line chart with `"facet": true`, the renderer ignored it
+   and drew net income as a flat line at the baseline (40× spread). The validator flags it and the prompt
+   asks for faceted bars; a deterministic output normalizer now converts a valid `viz` facet request into
+   the renderer's supported `bars` + `facet:true` shape, preserving every point.
+7. **R&D intensity was not a claimable calculation**: `percentageEvidence` whitelisted only the three margins,
+   so `8,091/34,639 → "23% of revenue"` on AMD was rejected as unsourced.
+8. **Named peer percentages were not harvested**: measured `get_peer_context.peerPositioning.comps` supplies
+   Intel at -7.5% and Palantir at 32.6% 5-year revenue CAGR, but only the company and peer medians were
+   claimable. `percentageEvidence` now includes the same supported percentage fields for each returned peer.
 
-## Ask quality release — 2026-10-04
+**Live harness + evidence.** `node scripts/dev-ask-review.js` (repo root) serves the real engine and product
+renderer at http://127.0.0.1:5056 with no database. It **holds the backend modules in memory — restart it
+after every source edit or you are measuring the old build** (this cost an hour on 10/04). Probe sweeps:
+`/tmp/probe-drafts.js` writes `pass*.md` (the model's own rejected draft) + the audit issues to `/tmp/drafts`.
+The original six-probe sweep had **5 of 6 publish** (JPM 494w→1 issue→485w clean, PFE 530→7→492 clean,
+WMT 476→3→470 clean, O/REIT 404→9→395 clean, AMD normal 277w clean with no rewrite). AMD analyst was the
+fallback: its first measured draft had R&D intensity plus two ratio mis-roundings (49.3% for a supplied 49.35,
+printed by the tool as "49.4"; 48.3% for 48.25, printed "48.2"). The prompt now says to quote each ratio
+exactly as the `get_ratios_history` table prints it. A later probe confirmed the named-peer evidence gap and
+reproduced `facet:true` on a `viz` block; after the comp collector and chart normalizer fixes, bare AMD analyst
+published at **479 prose words**, `source: ai`, zero audit issues, with a five-period faceted bars chart.
+The earlier five successful answers pre-date these two fixes; AMD has now passed separately.
 
-The earlier Ask hold is resolved by the scoped release on `ask-production-ready-20261004`.
-See `docs/ask-release-readiness-2026-10-04.md`. Financial chart units/values, explicit dates and metric
-labels are checked against supplied evidence; monetary and percentage claims are checked at displayed
-precision. Annual comparisons and dividend-plus-buyback coverage retain formulas and input sources.
-Wrong output gets one bounded rewrite, then a truthful partial receipt; synthesis outages preserve
-successful research. Financial prose streaming waits for validation while tool progress remains visible.
-Missing share/ADR basis is explained accurately, and unit/right errors retain the instrument type.
-Default answer/history lengths are shorter; chart axes resize/read clearly and mobile links/tables wrap.
-Shared stamp: `20261004-askquality2`. Known retired direct-service configuration migrates in code, without
-editing production environment files. Custom endpoints and supported explicit configurations are retained.
-343 targeted regressions pass on Node22.23.3 and Node26.9.0. Final ten actual AI answers pass (two rewrites),
-including streaming, historical queries and follow-ups; 20 desktop/mobile renders have zero page overflow.
-Local raw QA is in `docs/qa/ask-release-2026-10-04/`, excluded from the commit. Earlier rounds/repeat evidence
-are preserved separately, not counted as final-code successes. Clean staged-checkout startup passes with
-disposable local MongoDB and reused dependencies, no production environment files or database connections.
-Dataset/exhaustive rendering pass; counts remain 6,099 listings/4,442 ready issuers. Node22 harness:
-cold sitemap96.3ms, RSS221.3MiB, max event-loop delay8.7ms. This is not a production load test.
-Checks do not certify every causal sentence; some answer repetition remains. Browser evidence is an
-isolated actual-renderer harness, not an authenticated deployed Ask page. **Local commit only: no push
-or deployment.** Release separately, then verify the deployed SHA and authenticated Ask behavior.
+**Verification state:** full backend suite **1239/1239 pass, 0 fail** on Node 26.9.0. Faceted bars render
+correctly at 1100px and 390px — one panel per metric, values printed, all five period labels survive at phone
+width, no horizontal overflow. Cache stamp `20261004-askfacet1` sits on all 88 pages that load
+`app.js`/`system.css` plus the `${STAMP}` server-rendered pages (the three HTML files without it do not
+reference the assets). The tested feature branch is still separate from production `main`.
 
 ## Local Ask review — 2026-10-04
-
 `node scripts/dev-ask-review.js --examples docs/qa/local-ask-review-2026-10-04` serves
 http://127.0.0.1:5056/ with the real Ask engine and product renderer, no database connection.
-Fresh short/complex model examples: 53/284 displayed words, zero/two charts. Custom-question SSE
-was exercised in Chrome (27-word answer); desktop/mobile examples render without page overflow.
-Generate new examples, change Simple/Analyst mode or use custom follow-ups. SEC data is read-only,
-account tools are unavailable. QA files are local/untracked; see `docs/local-ask-review.md`.
+Generate examples, switch Simple/Analyst mode or ask custom follow-ups. SEC data is read-only, account tools
+are unavailable. QA files are local/untracked; see `docs/local-ask-review.md`.
 
 ## In flight
 
-**Day 41 AppLovin card — re-rendered in the house theme (10/03, DONE; `marketing/` is gitignored, nothing to
-commit).** `marketing/applovin-growth/applovin-axon-q2-2026.{html,png}`: the ChatGPT dark card's content in the
-`applovin-growth-2020-2025.html` skeleton (cream paper, blue `--data`, red only for the −2% and the bull mark).
-PNG is 3072×2048, rendered by headless Chrome `--force-device-scale-factor=2` — `scripts/screenshot-cdp.js`
-pins `deviceScaleFactor: 1`, so it cannot render this at 2×. Original card kept at `day-41-source-dark.png`.
+**Day 41 AppLovin card — re-rendered in the house theme (10/03, DONE; `marketing/` is gitignored).**
+`marketing/applovin-growth/applovin-axon-q2-2026.{html,png}`: the ChatGPT dark card's content in the
+`applovin-growth-2020-2025.html` skeleton. PNG is 3072×2048, rendered by headless Chrome
+`--force-device-scale-factor=2` — `scripts/screenshot-cdp.js` pins `deviceScaleFactor: 1`.
 - **The published labels do not compound:** 0.98 × 1.58 = 1.5484, so the strict endpoint is 154.8, not 153.
-  Labels stay as published; the third bar is drawn to land exactly on 153 so the bridge foots (~3px at 2×).
 - **`applovin-axon-q2-2026-artifact.html` is the share page and is NOT PUBLISHED.** This session
   authenticates with `ANTHROPIC_AUTH_TOKEN`, which takes precedence over a claude.ai login, so **every
-  `Artifact` call is refused** — do not retry; unset the var, `/login` as a Claude account, then publish.
-  Verified locally instead: page overflow 0 at both 400px and 1600px, board scales to 768/1536 exactly,
-  7 nodes + 7 arrowheads + 4 bars + 3 dashed connectors all drawn, logo natural 512×512.
+  `Artifact` call is refused** — unset the var, `/login` as a Claude account, then publish.
 - **Trap for scaled poster pages:** without `*{box-sizing:border-box}` the board's 56px padding sits outside
-  its 1536px width and the scaled sheet clips the right 56px (the logo lockup). The reset must not zero
-  `:root` padding — that is the host's safe-area inset.
+  its 1536px width and the scaled sheet clips the right 56px. The reset must not zero `:root` padding.
 
-**Breakthrough-product hunt (10/01–10/02) — completed; result is a negative with a sharp conclusion.**
+**Breakthrough-product hunt (10/01–10/02) — completed; the result is a negative with a sharp conclusion.**
 75-agent adversarial funnel (26 ideas → 15 after dedup): all 15 passed the live novelty kill-squad, all 15 died
 at the 3-lens adversarial panel, and a manual re-review of all 45 refutes confirms the kills. Repeated
-structural findings: every high-price version sells to buyers behind enterprise procurement this company cannot
-reach; incumbents (AlphaSense SuperAnalyst, DiligenceVault, ISS/GL/Tumelo, Xtract, Workiva, ThesisCheck at
-CHF 39–149) hold the buyers; EDGAR/XBRL-derived moats are copyable; no idea cited a real named incident.
-Strongest near-miss: creator track-record registry ("Audited Alpha") — viable only reframed at $49–149/mo
-self-serve; never panel-tested in that form. Full post-mortem + kill list:
+findings: every high-price version sells to buyers behind enterprise procurement this company cannot reach;
+incumbents hold them; EDGAR/XBRL-derived moats are copyable. Strongest near-miss: "Audited Alpha" (creator
+track-record registry), viable only reframed at $49–149/mo self-serve; never panel-tested in that form.
 `notes/2026-10-02-breakthrough-product-hunt-result.md`.
 
 **OpenAI ChatGPT plugin directory — SUBMITTED 10/01, "In review"; package-side items all DONE.**
-Surface is `POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools over
-the same auth/metering/data as `/mcp`. Package: `OPENAI_PLUGIN_SUBMISSION.md`; design note:
-`notes/2026-09-29-openai-plugin-architecture.md`.
-- **Live checks:** `scripts/verify-mcp-apps.js --review-cases` = **23/23** against production (re-run after every
-  deploy); official MCP Inspector `--strict` = **0 findings**; `/mcp` legacy contract unchanged.
-  `POST /mcp/apps` answers unauthenticated `initialize` *and* `tools/list` with **200** — the keyless trial,
-  50 lookups/30 days per visitor.
+Surface is `POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools.
+Package: `OPENAI_PLUGIN_SUBMISSION.md`; design note: `notes/2026-09-29-openai-plugin-architecture.md`.
+- **Live checks:** `scripts/verify-mcp-apps.js --review-cases` = **23/23** against production (re-run after
+  every deploy); official MCP Inspector `--strict` = **0 findings**; `/mcp` legacy contract unchanged.
 - **`/mcp/apps` takes `company`; `/mcp` takes `ticker`.** `backend/scripts/test-mcp.mjs` speaks the `/mcp`
-  shape, so running it with `--url .../mcp/apps` reports one FAILED metered call (`COMPANY_REQUIRED`). That is
-  the harness, not the surface — do not "fix" it by editing the tool schema.
-- **Review state: "In review", version `1.0.0`, identity verification still "Identity in review"** (the
-  owner's Persona round returned *done* 9/30; publishing under an unverified name is an automatic rejection).
-  **Only one review may be active per plugin** — the header's *Cancel review* button withdraws it; never press
-  it casually. While a review is active the metadata "No Issues" badge is replaced by *"Choose or upload a
-  draft to check metadata"* — expected, not a regression. *"No video walkthrough URL provided"* is static
-  dashboard copy, not a defect: the authority is `unzip -p openai-plugin.zip plugin.json`.
-- **The one real loose end: the five reviewer-credential fields were never re-checked.** The panel renders only
-  inside the Submit-for-review wizard, which is irreversible and one-shot, so it was left to the owner.
-  Credentials live at `~/.config/stockportfolio/reviewer-account.txt` and in the dashboard — the ZIP does not
-  carry them (metadata rejects `test_credentials`). Also still open, ours: the privacy policy's human legal
-  review.
-- **The ZIP is the source of truth, not the form.** Rebuild with `scripts/build-openai-plugin.sh`
-  (`openai-plugin/` → `openai-plugin.zip`; Agent Plugins portable format, members listed explicitly because
-  `plugin_root_has_siblings` rejects a plugin dir with sibling files; warns when `demo_recording_url` is
-  missing). `assets/{logo,composer-icon}.png` are 512×512 on transparent, scaled from the owner's 1254×1254
-  red-bull master (body `#EB1D1E`) — the build script only enforces square ≥48×48, so a future swap needs an
-  eye check. The walkthrough mp4 is real (64.6s, made against production by
-  `scripts/record-mcp-walkthrough.mjs`; read its header comment for the three capture traps) and **a
-  re-recording needs a new filename** — `.mp4` gets the same one-year immutable header as `.js`.
-- **OIDC (fixed `656d4b52`, verified live):** OpenAI requires discovery metadata, `openid` + `email` scopes and
-  a UserInfo endpoint with `email_verified`. `oauth-oidc.js` builds the claims; the RFC 9728 resource document
-  still advertises data scopes only, and **no ID token is issued** (deliberate — a `jwks_uri` with no key set
-  behind it is worse than the omission).
-- **The ChatGPT connector itself is LIVE in the owner's account (9/30)** — installed at `chatgpt.com/plugins`,
-  exercised in a real chat against the 2026-07-26 10-Q. **CIMD is not supported, deliberately.**
+  shape, so running it against `/mcp/apps` reports one FAILED metered call — that is the harness, not the
+  surface.
+- **Review state: "In review", version `1.0.0`, identity verification still "Identity in review"** —
+  publishing under an unverified name is an automatic rejection. **Only one review may be active per plugin**;
+  *Cancel review* withdraws it, so never press it casually.
+- **The one real loose end: the five reviewer-credential fields were never re-checked** (the panel renders
+  only inside the one-shot Submit wizard). Credentials: `~/.config/stockportfolio/reviewer-account.txt`.
+  Also still open, ours: the privacy policy's human legal review.
+- **The ZIP is the source of truth, not the form.** Rebuild with `scripts/build-openai-plugin.sh`; read its
+  header for the three capture traps. The walkthrough mp4 is real and **a re-recording needs a new filename**
+  (`.mp4` gets the same one-year immutable header as `.js`).
+- **OIDC (fixed `656d4b52`, verified live):** discovery metadata, `openid` + `email` scopes, UserInfo with
+  `email_verified`. **No ID token is issued** (deliberate).
+- **The ChatGPT connector itself is LIVE in the owner's account (9/30).** **CIMD is not supported.**
 
 **Claude / Anthropic directory — BOTH submissions are IN (10/01). Nothing is blocked on us.**
-Submit at **claude.ai/directory/manage** (the Console form is retired; the old $50 Team blocker died with it —
-Pro can submit).
-- **Plugin bundle — `Publish requested`**; repo public, MIT, `claude plugin validate .` passes. It had been
-  shipping seven tool names that do not exist; rewritten against live `tools/list` and pushed as `1376fc6`.
-  **Do not press `Cancel review`.**
-- **MCP connector — `In review`**, listing slug **`stockportfolio`** (permanent). The "Missing title
-  annotation" flags were fixed in `backend/mcp-endpoint.js` **and** `backend/mcp-apps.js`
-  (`10c5769a`, deployed); **the portal only re-reads a tool list on reconnect**, not on reload.
-- **Auth is declared `Required when the server asks` + DCR** — honest (the free tier is real) but it means a
-  directory user is not forced to sign in and hits the keyless wall instead of an OAuth prompt. One click on
-  Settings changes it to `Always required`; that contradicts the README's keyless-start paragraph, which is
-  why it was not chosen.
-- **Reviewer account: `openai-review@stockportfolio.pro`** — the same account serves both directories (a test
-  account with no personal data). It is a declared `UserSchema` path (`reviewAccount`), and four reads skip it:
-  `trackActivation`, the `mcp_oauth_authorized` event, `/api/admin/customers`, the trial-lifecycle drip —
-  `test/internal-review-account.test.js` pins the flag, the schema path and all four exclusions. **Mongoose
-  strips undeclared paths, so the schema half is the one that fails invisibly.**
-- **The connector is installed in the owner's own Claude account (10/01)**, bound to
-  `openai-review@stockportfolio.pro` (the scratch profile's session, not a choice).
-- Package and history: `docs/growth/claude-plugin-submission.md`.
+Submit at **claude.ai/directory/manage** (the Console form is retired).
+- **Plugin bundle — `Publish requested`**; repo public, MIT, `claude plugin validate .` passes. **Do not press
+  `Cancel review`.**
+- **MCP connector — `In review`**, listing slug **`stockportfolio`** (permanent). The portal only re-reads a
+  tool list on reconnect, not on reload.
+- **Auth is declared `Required when the server asks` + DCR** — honest (the free tier is real), but a directory
+  user is not forced to sign in. One click on Settings changes it to `Always required`.
+- **Reviewer account: `openai-review@stockportfolio.pro`** — declared as a `UserSchema` path
+  (`reviewAccount`); four reads skip it (`trackActivation`, the `mcp_oauth_authorized` event,
+  `/api/admin/customers`, the trial-lifecycle drip). **Mongoose strips undeclared paths, so the schema half is
+  the one that fails invisibly.** Package + history: `docs/growth/claude-plugin-submission.md`.
 
 **AppSumo final-window repricing — v8 copy DONE (11/11 guards); the flip partly started, NOT finished.**
-Exact values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299/1099 · 499/1849, wallet
-200/500/1000). `CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM` is stored on Render, deploy followed —
-**unprovable from outside by design**; the first redemption after 22:55:55Z is the proof. **Three writes were
-BLOCKED by the auto-mode classifier** (the Render env set, the grandfathered-licence importer, the portal draft
-values) — hand over, don't retry. Portal is browser-only (`node /tmp/as-drive.mjs`, Chrome :9222, profile
-`~/.appsumo-portal-profile`); **never touch `/self-submission/231048/build`** (mapping bug), never press EXIT.
-**Remaining:** nine price/wallet values, long description, five FAQ slots, API+MCP row wording; then Submit →
-reply in Yena's thread. Push the price half **only once the live page shows $299/$499**.
+Values + order: `docs/growth/appsumo-listing-v8.md` (target 149/549 · 299/1099 · 499/1849, wallet
+200/500/1000). `CREDIT_ALLOWANCE_V3_EFFECTIVE_FROM` is stored on Render, deploy followed — **unprovable from
+outside by design**. **Three writes were BLOCKED by the auto-mode classifier** (the Render env set, the
+grandfathered-licence importer, the portal draft values) — hand over, don't retry. Portal is browser-only
+(`node /tmp/as-drive.mjs`, Chrome :9222, profile `~/.appsumo-portal-profile`); **never touch
+`/self-submission/231048/build`**, never press EXIT. **Remaining:** nine price/wallet values, long
+description, five FAQ slots, API+MCP row wording; then Submit → reply in Yena's thread.
 
 **Filing Watch $49/month pilot — BUILT, VALIDATED, DEPLOYED flag-ON (`d642d04a`). $0 collected, zero offers
-sent** — the clock starts at the first genuine checkout. Ops doc: `docs/growth/filing-watch-runbook.md`.
-Fails closed (`PILOT_NOT_OPEN`, `PRICE_UNVERIFIED`); live checks read `{enabled:true, price:49, capacity:5}`.
-Real success/decline, webhook, renewal, refund and cancellation behaviour is **unverified** — the owner waived
-a live Stripe sandbox run; never test with a production card. **Prospects: 1 of 5** (`ncdorc`/ATOS, qualified,
-Q2 10-Q example prepared; no Stocktwits posting tool is connected here, so nothing has been sent). Five
-documented rejects in `notes/2026-09-29-filing-watch-prospects.md`. **Never send outreach without the owner's
+sent.** Ops doc: `docs/growth/filing-watch-runbook.md`. Fails closed (`PILOT_NOT_OPEN`, `PRICE_UNVERIFIED`).
+Real success/decline, webhook, renewal, refund and cancellation behaviour is **unverified** — never test with
+a production card. **Prospects: 1 of 5** (`ncdorc`/ATOS, qualified). **Never send outreach without the owner's
 explicit authorization.**
 
 **Dossier redesign — "The Plain Filing" — mockup done, awaiting review.** Plan
-`~/.claude/plans/valiant-singing-parnas.md`; `docs/design/dossier-plain-filing.html` (Newsreader / IBM Plex) is
-a document, not a dashboard. **Step 2 — the port — has NOT started** and its CSS must be re-derived.
-Regenerate with `node scripts/build-dossier-mockup-artifact.js`; never hand-edit it.
+`~/.claude/plans/valiant-singing-parnas.md`; `docs/design/dossier-plain-filing.html` (Newsreader / IBM Plex).
+**Step 2 — the port — has NOT started.** Regenerate with
+`node scripts/build-dossier-mockup-artifact.js`; never hand-edit it.
 
 **Emotional design** — plan `~/.claude/plans/warm-orbiting-sketch.md` (approved). Phases 0-5 shipped 9/24-25;
-**phases 6-7 NOT started** (year in filings, comprehension streak). Thesis letter and anniversaries untouched.
+**phases 6-7 NOT started** (year in filings, comprehension streak).
 - **Standing rules, still binding:** the error overlay's "Nothing was changed" is an explicit `unchanged: true`
-  opt-in (the multi-ticker path reports a PARTIAL success as an error, so a blanket claim would lie); X-Ray
-  exposure is summed in **DOLLARS** (percentages of different bases cannot be added); an EMPTY alert list
-  renders a quiet card rather than hiding the section (a working monitor and a broken feed looked identical).
+  opt-in; X-Ray exposure is summed in **DOLLARS**; an EMPTY alert list renders a quiet card rather than hiding
+  the section.
 
 **AI portfolio creator — announced 9/25 as in-development, no date promised, no spec file yet.**
 
 ## Walls (live in prod)
 - Geo wall `GEO_WALL_COUNTRIES` (`SG,CN,HK`); hosting/VPN wall `HOSTING_WALL_ENABLED` (ON) from
   `backend/data/hosting-ranges.bin`. Hard paywall `WALL_ALL_PAGES` — off since the wall week (3 signups /
-  9 days, 0 paid); **`/docs` is the only product surface readable signed out.** Kill switches + deploy:
-  `GEO_WALL_COUNTRIES=` · `HOSTING_WALL_ENABLED=false` · `WALL_ALL_PAGES=false`.
+  9 days, 0 paid); **`/docs` is the only product surface readable signed out.**
 - **Load-bearing, both walls:** the visitor IP comes from `marketingAttribution.requestIp()`
-  (CF-Connecting-IP in prod), **never `req.ip` — that is an intermediate proxy hop**. The crawler exemption is
-  not optional either: Googlebot/Bingbot crawl from cloud ranges that ARE in the hosting table, so without it
-  the wall 302s them and deindexes the site (exempt only a positive `bot-blocker.classifyUa` claim of
-  `allowed-claim`/`internal`).
+  (CF-Connecting-IP in prod), **never `req.ip`**. The crawler exemption is not optional either: Googlebot/Bingbot
+  crawl from cloud ranges that ARE in the hosting table, so without it the wall 302s them and deindexes the site.
 - **The MCP transport is the ONE surface the walls no longer decide.** `apiKeyAuthOptional` makes no decision
-  at the transport: it verifies an offered key (a bad key still fails loudly, never a silent downgrade) and
-  otherwise marks `req.anonMcp = true`. Identity, entitlement, allowance and the wall resolve inside
-  `mcp-endpoint.js` at `tools/call` and return as **tool errors** the model can read;
-  `initialize`/`tools/list` never consult a wallet. The old 402 (`NETWORK_PAID_ONLY`) is gone because directory
-  probes run from datacenter IPs and the hosting wall classified **every** cloud range as hosting (measured:
-  OpenAI/Azure, AWS, GCP, GitHub Actions and Googlebot all `true`; Comcast/Verizon `false`).
+  at the transport; identity, entitlement, allowance and the wall resolve inside `mcp-endpoint.js` at
+  `tools/call` and return as **tool errors** the model can read. The old 402 is gone because directory probes
+  run from datacenter IPs and the hosting wall classified every cloud range as hosting.
 - **Unclosed:** ~25 keyless `/api/*` endpoints serve product data with no auth and no country check.
 
 ## SEO / discovery — measured; do not re-derive
 - **The bottleneck is indexing and site-level trust, not content, targeting or segment** — titles/H1s match
   the queries and canonicals are clean, yet Google gives ~340 human impressions/month, ~0 clicks, median
   position ~52 across ~21,700 URLs, while Bing ranks the same site well (7.7% CTR, pos 6.1).
-- **87% of raw "impressions" are rank tools, not people** (filter `site:`/`inurl:`, quoted phrases, `- wab`);
-  `seo-data/search-opportunities.md`'s P1 rows are phantoms. Parse GSC/Bing CSVs RFC4180; `split(',')` yields NaN.
+- **87% of raw "impressions" are rank tools, not people**; `seo-data/search-opportunities.md`'s P1 rows are
+  phantoms. Parse GSC/Bing CSVs RFC4180; `split(',')` yields NaN.
 - **Google names the reason itself:** crawled-but-not-indexed means "insufficient value **or user demand**".
   Demand follows links, so **external links/citations are the unmeasured, unattempted lever**. Never `noindex`
   an unwanted URL — use robots.txt, a one-way door, or emit fewer URLs.
 - **The URL Inspection API reports the LAST CRAWL, never a live fetch.** The 9/15 hard paywall (`f4af1ee5`)
-  was the real deindexing cause: 16,574 → 9,940 in two step changes, fixed 9/24.
-- **Gemini cannot be targeted as a crawler — none exists.** AI Overviews ground on Googlebot (already allowed)
-  and `Google-Extended` never arrives as a UA, so this lever IS the indexing lever.
-- Bing fixes (`<lastmod>` freezing, the capped top-N report, IndexNow's 403 key file, the synthetic query, the
-  sitewide SERP length sweep, the `.html` twin 301s, `core.xml` 114 → 119) are **complete, deployed and
-  verified**; details + the four classes of twin reference an anchor sweep misses are in
-  `handoff-archive/2026-09-30.md` and `docs/seo/bing-diagnosis-2026-09-28.md`.
-- Operator Python needs **`.venv/bin/python3`** — Homebrew Python is PEP 668-managed, so `pip install --user`
-  is refused and no `scripts/*.py` could run at all. `scripts/requirements.txt` documents it.
-- **Pushing Bing to recrawl:** the URL submission API is small — `GetUrlSubmissionQuota` said 100/day,
-  300/month — and it **counts 301-ing URLs too**, so check the quota first; **IndexNow is the free channel for
-  moved URLs**. `GetSiteScan`/`SubmitSiteScan`/`RunSiteScan` all 404 — **Site Scan is UI-only**.
+  was the real deindexing cause; fixed 9/24.
+- **Gemini cannot be targeted as a crawler — none exists.** AI Overviews ground on Googlebot, so this lever IS
+  the indexing lever.
+- Operator Python needs **`.venv/bin/python3`** (Homebrew Python is PEP 668-managed).
+- **Pushing Bing to recrawl:** the URL submission API is small (100/day, 300/month) and **counts 301-ing URLs
+  too**; **IndexNow is the free channel for moved URLs**. `GetSiteScan`/`SubmitSiteScan` 404 — **Site Scan is
+  UI-only**.
 
-**Prices split from fundamentals + truthful freshness — COMMITTED + DEPLOYED 9/28** (`e99c645b`, `0ba72c2d`,
-backfill stragglers `aaf4ea41`). Still load-bearing:
-- `backend/quote-store.js` is the one place pages ask for a price (live Yahoo → `frontend/data/quotes.json`).
-- **Freshness = the data's own dates, never mtime** (`backend/fundamentals-date.js`, `STALE_DAYS=45`) — the same
-  trap as the sitemap `<lastmod>`.
+## Prices, freshness, dead tickers (deployed 9/28, still load-bearing)
+- `backend/quote-store.js` is the one place pages ask for a price.
+- **Freshness = the data's own dates, never mtime** (`backend/fundamentals-date.js`, `STALE_DAYS=45`).
 - **A fundamentals commit must deploy** (`frontend/data/fundamentals/` is read from the deployed filesystem).
-- **Dead-ticker rule:** two *separate days* of Yahoo "Quote not found" mark a ticker unlisted (same-day retries
-  never count); a later success clears it. Seeded 9/28 with 15 dead tickers (day 1); **the 10/1 monthly run makes
-  it day 2.** The weekly workflow writes `fundamentals-status.json` but does not stage it.
+- **Dead-ticker rule:** two *separate days* of Yahoo "Quote not found" mark a ticker unlisted; a later success
+  clears it. The weekly workflow writes `fundamentals-status.json` but does not stage it.
 
 ## AI model + cost
-- **Prod runs glm-5.1 on all three purposes**, at a measured **$28.91/mo ≈ 48% of the $60 allowance**
-  (`scripts/ollama-cost-projection.js`). Real split is 95/5 chat and 90/10 summary, not 85/15 as `credits.js` assumed.
+- **Every purpose resolves to `glm-5.3`** (`ai-client.js:20`); `glm-5.1` is retired. `glm-5.3` needs
+  `reasoning_effort: 'low'` (`ai-client.js:82`).
+- Cost baseline was a measured **$28.91/mo ≈ 48% of the $60 allowance** on glm-5.1
+  (`scripts/ollama-cost-projection.js`); real split 95/5 chat, 90/10 summary. **Re-measure after the swap.**
 - **glm-5.3-flash on MCP/API Ask: validated and REJECTED** — fails the tool-set gate (60% against an 80% bar)
-  and is *slower* with the 32 schemas attached (1.55x), emitting 1.65x the tool calls.
+  and is slower with the 32 schemas attached (1.55x).
 - **Trap:** `promptTokens`/`completionTokens` are *missing* (not null) before 9/11, so `$ne: [field, null]`
-  does not exclude them. Use `$isNumber` and apportion each group's FULL `totalTokens`. Coverage ~295/2,349.
+  does not exclude them. Use `$isNumber` and apportion each group's FULL `totalTokens`.
 
 ## Traps that have already cost real time
+- **The local Ask harness holds backend modules in memory** — restart it after every edit, or every
+  measurement is against the old build.
+- **The model mis-rounds ratios.** The tool's own `table` column is the quote source, and a value restated one
+  tenth off is rejected as unsourced (49.3% for a supplied 49.35). The prompt now says so explicitly.
+- **A fence field the renderer ignores fails silently.** `"facet": true` on a `viz` line chart was simply
+  dropped; the answer still validated and still published a flat-line chart. Anything the prompt advertises
+  needs a validator rule or a renderer branch, not just prose.
 - `users.updatedAt` reads "3d ago" for every account uniformly — a bulk-write artifact. **Measure activity
   from `ollama_usage_events`, never `updatedAt`.**
 - **A broadcast's recipient list is not a customer list.** The 9/23 "general" send's 47 non-owner recipients
-  had **0 live userIds** (24 were QA artifacts); only 13 of 60 were customers.
-- **~95% of first-party "unique visitors" are a botnet hitting `/register.html`**, which the bot classifier
-  misses. Check distinct user agents before quoting any visitor count.
-- Chrome headless sends "HeadlessChrome", which `bot-blocker.js` correctly 403s — override the UA (or
-  `BOT_BLOCK_ENABLED=false` on dev-local only). A bare curl UA also 403s: `hasBrowserHeaders` needs the full
-  browser header set. Browser checks go through CDP (`scripts/screenshot-cdp.js`).
+  had **0 live userIds**.
+- **~95% of first-party "unique visitors" are a botnet hitting `/register.html`.** Check distinct user agents
+  before quoting any visitor count.
+- Chrome headless sends "HeadlessChrome", which `bot-blocker.js` correctly 403s — override the UA. Browser
+  checks go through CDP (`scripts/screenshot-cdp.js`).
 - **A CSP failure that exists only in production is invisible to a same-origin harness.** Chrome enforces
-  `form-action` across *redirects*, so any POST-then-302-to-another-origin flow — the OAuth consent → client
-  callback is the one that bit — needs that origin in the policy. The consent button was dead for every external
-  MCP client while the loopback e2e passed 14/14, and it failed *silently*. When a browser button "does
-  nothing", read `Log.entryAdded` + `Network.loadingFailed` over CDP before touching the handler.
+  `form-action` across *redirects*, and it failed *silently* while the loopback e2e passed 14/14. When a
+  browser button "does nothing", read `Log.entryAdded` + `Network.loadingFailed` over CDP first.
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 10/01 (1067 pass, 0 fail).** **No CI job runs it** — `repo-checks.yml`
-  runs only `handoff-size` (dependency-free by design); 23 files need mongo, 25 touch the network and 8
-  need root `node_modules`, so a full-suite gate is a real job, not a config line.
+- **Suite GREEN as of 10/04 (1239 pass, 0 fail).** **No CI job runs it** — `repo-checks.yml` runs only
+  `handoff-size`; 23 files need mongo, 25 touch the network and 8 need root `node_modules`.
 - **A test can encode a coincidence and still look like an invariant.** `sitemap-index.test.js` asserted
-  that lastmod must *vary* across the inventory — true only while the file mtimes and the data manifest's date
-  happened to differ, and false on the day the refresh runs.
-- **A source-pinning test slices source, and the slice is a silent expiry date.** `geo-wall.test.js` and
-  `api-access-gating.test.js` both pinned the MCP transport by taking a fixed number of characters after a
-  function name. Slice to the next function, not to a character count.
-- **The CI-skip marker matches ANYWHERE in a commit message — not just at the start.** A data commit whose body
-  explained why it had to deploy was silently skipped by *both* workflows. Detect it by the absence of a run for
-  the new SHA (`gh run list`), not by the push output; the fix is `gh workflow run deploy-render.yml --ref main`.
-  `frontend/data/fundamentals/**` must never carry it (`app.js:3240` reads the deployed filesystem).
+  lastmod must *vary* — true only while two dates happened to differ.
+- **A source-pinning test slices source, and the slice is a silent expiry date.** Slice to the next function,
+  not to a character count.
+- **The CI-skip marker matches ANYWHERE in a commit message.** Detect a skipped deploy by the absence of a run
+  for the new SHA (`gh run list`), not by the push output. `frontend/data/fundamentals/**` must never carry it.
 - **Live verification has a request budget: 100 non-asset requests per 5 min per IP** (`navMax()`,
-  `bot-blocker.js:158`; the limiter's handler returns the *same* 403 body as a UA deny, so the two are
-  indistinguishable from outside). Split any sweep over 100 URLs across windows, and re-check a 403 before
-  believing it.
+  `bot-blocker.js:158`; the limiter returns the *same* 403 body as a UA deny). Split sweeps across windows.
 
 ## Owner actions pending
-1. **Pay the overdue Claude Pro invoice — this one blocks you directly.** `Settings → Billing`: the plan is
-   past due and paused on **Discover •••• 4563**, so **Claude cannot send a message at all** (the composer's
-   send button is disabled) and the StockPortfolio connector, though installed with all six tools, cannot be
-   used in a chat. Only you can do this — no terminal path exists.
-2. **OpenAI plugin submission — "In review".** Watch for the verdict. Two things could still bite: identity
-   verification has not cleared, and the reviewer-credential fields were never re-checked. Do not press
-   **Cancel review** unless you mean to withdraw it.
-3. **Claude / Anthropic directory — nothing for you to do.** Both submissions are with Anthropic; the verdict
-   arrives by email at the primary contact. Two recorded judgement calls if you want to revisit them: the
-   connector's auth declaration (one click on Settings) and reusing the OpenAI reviewer account for Anthropic.
-   The signed-in session lives in the scratch Chrome profile (`/tmp/claude-console-profile`, CDP :9335) —
-   **still live**, not deleted.
-4. **Dossier mockup review** — step 2, the port, has not started.
-5. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
+1. **Pay the overdue Claude Pro invoice — this one blocks you directly.** `Settings → Billing`: past due and
+   paused on **Discover •••• 4563**, so Claude cannot send a message at all. Only you can do this.
+2. **OpenAI plugin submission — "In review".** Watch for the verdict; identity verification has not cleared and
+   the reviewer-credential fields were never re-checked. Do not press **Cancel review**.
+3. **Claude / Anthropic directory — nothing for you to do.** Two judgement calls if you want to revisit them:
+   the connector's auth declaration and reusing the OpenAI reviewer account. The signed-in session lives in
+   the scratch Chrome profile (`/tmp/claude-console-profile`, CDP :9335) — **still live**.
+4. **Ask framework deployment remains a separate release decision:** the tested work is on
+   `ask-production-ready-20261004`; nothing is pushed, and `main` still carries the rollback.
+5. **Dossier mockup review** — step 2, the port, has not started.
+6. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click **Investigate**
-   on the identical-titles / identical-descriptions / noindex / **Title-too-long** cards. Card 5 (inbound
-   links) needs links that a sitemap row cannot supply.
-6. **`avisre/prod` visibility** — it names the AI provider while public.
-7. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
+   on the identical-titles / identical-descriptions / noindex / **Title-too-long** cards.
+7. **`avisre/prod` visibility** — it names the AI provider while public.
+8. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
    SMTP_PASS, GOOGLE_CLIENT_SECRET, the provider key) at source AND on Render back-to-back per key, or
    checkout and webhooks break mid-rotation. Also revoke the old GitHub PAT and npm token pasted 9/14.
-8. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
-9. **Reopen-10-accounts script** (`scratchpad/.../reopen/run.js`) was blocked by the classifier — needs approval.
-10. **`scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.**
-11. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
+9. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
+10. **Reopen-10-accounts script** (`scratchpad/.../reopen/run.js`) was blocked by the classifier — needs approval.
+11. **`scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.**
+12. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
     their email, not us.
-12. **Monthly provider bill** — the one input that states AI margin in dollars.
-13. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered with an engine,
-    or say to delete it.
-14. **`mcp-server` republish** — its README documents the retired `sp_*` tool names; the published bridge
-    proxies `/mcp` live so nothing is broken, but the npm page is now stale.
-15. **Publish the Day 41 share page (optional, 10/03).** `marketing/applovin-growth/applovin-axon-q2-2026-artifact.html`
-    is built and locally verified but **could not be published from this session** — it authenticates with
-    `ANTHROPIC_AUTH_TOKEN`, which preempts the claude.ai login every `Artifact` call needs. Unset that env var
-    and `/login` with a Claude account, then re-run the publish.
-16. **ChatGPT connector polish** (optional, not blockers): the icon is the default placeholder, and the plugin
-    still reads `DEVELOPMENT` review status — publish it from the plugin page if you want it directory-listed.
-    This is the *connector* in your account, separate from the directory submission in item 2.
-
-
-## 2026-10-04 — Ask financial visual release
-
-- Release branch: `ask-visuals-release-20261004`, merged with current main provider data. No push or deployment performed.
-- On-demand Ask financial visuals cover every eligible directory stock; native SEC segments use cache version 2 and exact filing reconciliation. Units/rights are excluded; non-company segments return structured unavailable results.
-- Grouped bars preserve missing gaps and native currency; sourced obligation bars keep recognized liabilities, uncommenced leases, commitments and entity exposures distinct.
-- Dependency audit is clear after patching Axios, Nodemailer and transitive packages; local MIME transport and password-library checks pass.
-- Node 22 acceptance: 385 tests, real local Mongo cache persistence, full local application startup, read-only audit, 6,099 profile renders, all advertised metrics/comparisons and bounded sitemap performance passed. Real AI/SEC answers render at 320/390/1440px. Complex examples use checked partial fallback when synthesis fails validation.
-- Paired coverage snapshot: 4,440 ready issuers; dataset ID `33502d5144407925bf082a4b39d3040181c924a26e8b35f663ae3a9b53b69102`. Counts expire with UTC policy.
-- Readiness report: `docs/ask-visuals-release-readiness-2026-10-04.md`; public QA samples and measurements are adjacent under `docs/qa/ask-live-readiness-2026-10-04/`.
-- Local review server: `http://127.0.0.1:5058/`, Node 22, AI-only inherited environment, database blocked.
-- Original developer worktree retains unrelated notes, CSVs, mockups and comparison discoveries. Stage only the scoped release.
+13. **Monthly provider bill** — the one input that states AI margin in dollars.
+14. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered, or delete it.
+15. **`mcp-server` republish** — its README documents the retired `sp_*` tool names.
+16. **Publish the Day 41 share page (optional).** Unset `ANTHROPIC_AUTH_TOKEN` and `/login` with a Claude
+    account, then re-run the publish.
+17. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
+    `DEVELOPMENT` review status. Separate from the directory submission in item 2.

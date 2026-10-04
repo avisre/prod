@@ -3,6 +3,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const p=require('./sec-coverage');
 const stocks=require('./stock-universe');
+const sector=require('./sector');
 const index=require('./public-stock-index');
 const entries=new Map();let bytes=0;
 function invalidate(id){const x=entries.get(id);if(x){bytes-=x.bytes;entries.delete(id);}}
@@ -26,7 +27,11 @@ function adapt(company,raw,data,entry,issuer) {
  const type=company.securityType || 'stock';
  const siblings=stocks.companies().filter(s=>s.securityType==='stock' && p.cik(s.cik)===p.cik(company.cik));
  let perShareAllowed=siblings.length===1 && !/American Deposit(?:ary|ory)|\b(?:ADR|ADS)\b/i.test(company.securityName || company.name || '');
- const overview={Symbol:company.symbol,Name:company.name,CIK:company.cik || '',Sector:company.sector || '',Exchange:company.exchange || '',Currency:'USD'};
+ // Sector is rebuilt rather than copied: us-companies carries GICS names and the
+ // fundamentals file carries Yahoo ones, and every peer/median consumer groups on
+ // the GICS key. Falling back to the file's own label is what keeps ~1,968
+ // companies that are absent from us-companies from losing peer context entirely.
+ const overview={Symbol:company.symbol,Name:company.name,CIK:company.cik || '',Sector:sector.canonical(company.sector) || sector.canonical(raw?.overview?.Sector) || '',Exchange:company.exchange || '',Currency:'USD'};
  for(const key of ['Industry','Description','Country','AssetType'])if(raw?.overview?.[key])overview[key]=raw.overview[key];
  // Legacy cover-page share overlays infer security basis from provider scale.
  // Verified company market values retain the dated provider quote instead.

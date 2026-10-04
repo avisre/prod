@@ -23,6 +23,21 @@ const prompts = {
     short: { mode: 'normal', question: 'Using only verified stored facts, how much free cash flow did Apple generate in its latest stored annual period? Name the actual period end, currency and SEC source, show the calculation, and keep the answer under 80 words. No extra history or chart.' },
     complex: { mode: 'analyst', question: 'For Meta Platforms (META), use verified SEC evidence to analyze the latest three annual periods of revenue, net income and share-based compensation as grouped vertical bars with actual period ends and reporting currency. Show latest business-segment revenue as a Sankey only if the segment values reconcile to at least 98% of the same annual filing’s verified revenue without exceeding it; otherwise explain the gap. Inspect the same annual filing for off-balance-sheet arrangements, unconsolidated or variable-interest entities, guarantees, leases and commitments. Distinguish recognized debt from other obligations, give only amounts with explicit periods/currencies, keep categories separate, and do not infer intent to hide debt. Link the exact filings and keep the answer under 450 words.' }
 };
+// Why an answer was rewritten or replaced by a receipt is the single thing this
+// harness exists to show, and the product deliberately does not expose it. The
+// engine calls audit() through the module object, so patching that one property
+// records every pass — the rules that fired, on the first pass and on the rewrite.
+const answerQuality = require(path.join(backend, 'ask-answer-quality'));
+const auditPasses = [];
+const realAudit = answerQuality.audit;
+answerQuality.audit = (text, results, options) => {
+    const issues = realAudit(text, results, options);
+    // The draft itself, not just the verdict: an audit that rejects a figure is
+    // only reviewable next to the sentence that stated it.
+    auditPasses.push({ mode: options?.mode, words: answerQuality.wordCount(text), issues, text });
+    return issues;
+};
+
 const examples = new Map();
 const savedIndex = process.argv.indexOf('--examples');
 if (savedIndex >= 0) {
@@ -88,12 +103,18 @@ const server = http.createServer(async (req, res) => {
     }
     active = true;
     const started = Date.now();
+    auditPasses.length = 0;
     try {
         const result = await engine.ask({ question, mode, history, ctx: { holdings: [], memoryConsent: false }, ...(stream ? { onEvent: e => send(e.type, e) } : {}) });
-        const output = { question, mode, ms: Date.now() - started, generatedAt: new Date().toISOString(), ...result };
+        const output = { question, mode, ms: Date.now() - started, generatedAt: new Date().toISOString(), ...result, auditPasses: [...auditPasses] };
+        for (const pass of auditPasses) console.log(`[audit] ${pass.mode} ${pass.words}w -> ${pass.issues.length} issue(s)${pass.issues.length ? ':\n  - ' + pass.issues.join('\n  - ') : ''}`);
         if (example) examples.set(example, output);
         if (stream) send('done', output); else if (!closed) json(res, 200, output);
-    } catch (_) {
+    } catch (error) {
+        // The engine handles its own failures and returns a result object, so a
+        // throw reaching here is a defect with no other way to surface: logging
+        // the stack is what turns "could not be completed" into a fixable line.
+        console.error('[dev-ask-review] ask() threw', { message: error.message, stack: error.stack });
         if (stream) send('error', { message: 'The answer could not be completed. Please retry.' });
         else if (!closed) json(res, 502, { message: 'The answer could not be completed. Please retry.' });
     } finally {

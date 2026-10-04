@@ -137,15 +137,27 @@ function filingNarrativeEvidence(results) {
     return out;
 }
 
+// Table rows are data, not prose — a metrics-over-periods table is the shape
+// the answer prompt asks for, so charging its cells against the prose budget
+// made the two rules unsatisfiable. Tables are bounded separately in audit().
 function wordCount(text) {
     return String(text).replace(/```[\s\S]*?```/g, '')
+        .replace(/^\s*\|.*$/gm, ' ')
         .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').trim().split(/\s+/).filter(Boolean).length;
 }
 function wordLimit(question, mode) {
     const explicit = question.match(/(?:under|at most|maximum(?: of)?|no more than|within|keep it (?:to|below))\s+(\d+)\s+words/i);
     if (explicit) return Math.min(Math.max(Number(explicit[1]), 40), 2000);
-    if (/\b(detailed|comprehensive|in.depth|deep dive|exhaustive)\b/i.test(question)) return mode === 'normal' ? 550 : 800;
-    return mode === 'normal' ? 250 : 350;
+    if (/\b(detailed|comprehensive|in.depth|deep dive|exhaustive)\b/i.test(question)) return mode === 'normal' ? 700 : 1000;
+    // Measured live on the nine-part framework, with tables already excluded from
+    // the count: 348–432 prose words on five real companies. The old 350 cap made
+    // the owner's own target shape unshippable — every analyst probe rewrote,
+    // failed again on length alone and published the generic receipt instead. The
+    // owner's instruction is that a rich answer like the Broadcom reference
+    // (336 words there, more on companies with more to say) must reach the user,
+    // so the cap sits above the measured maximum rather than below it. The bound
+    // still exists — it is what stops a rambling answer, not a thorough one.
+    return mode === 'normal' ? 320 : 480;
 }
 
 function chartEvidence(results) {
@@ -177,7 +189,30 @@ function chartEvidence(results) {
     }
     for (const result of unwrap(results)) visit(result, result.currency, null, null);
     out.push(...filingNarrativeEvidence(results));
+    out.push(...filingQuoteEvidence(results));
     return out;
+}
+
+// The chart renderer only supports facet panels for grouped bars. The model has
+// twice returned a valid financial time series with `facet: true` in a `viz`
+// block; the validator correctly refused it, but the rewrite repeated the same
+// invalid shape. Convert that explicit split-scale request to the renderer's
+// supported bar shape while preserving every point verbatim.
+function normalizeFacetedViz(text) {
+    return String(text || '').replace(/```viz\s*\n([\s\S]*?)```/g, (fence, body) => {
+        let spec;
+        try { spec = JSON.parse(body); } catch (_) { return fence; }
+        if (!Array.isArray(spec.series) || !spec.series.length || spec.series.length > 3 ||
+            spec.series.some(series => !Array.isArray(series?.points) || series.points.length < 2 || series.points.length > 8))
+            return fence;
+        const values = spec.series.flatMap(series => series.points.map(point => num(point?.[1])))
+            .filter(value => value !== null && value !== 0).map(Math.abs);
+        const peak = values.length ? Math.max(...values) : 0;
+        const base = values.length ? Math.min(...values) : 0;
+        if (spec.facet !== true && !(base > 0 && peak / base > 10)) return fence;
+        const bars = { ...spec, orientation: 'vertical', facet: true };
+        return `\`\`\`bars\n${JSON.stringify(bars)}\n\`\`\``;
+    });
 }
 
 function metricForLabel(label) {
@@ -258,15 +293,144 @@ function issuerDisclosureEvidence(results, question = '') {
         requestedDisclosureText(r.result.text, question));
 }
 
-function percentageEvidence(results) {
-    const percentages = chartEvidence(results).filter(f => f.unit === '%').map(f => f.value);
+// The MATHS rule tells the model to put every non-trivial calculation through the
+// calculator, but nothing collected its output — so a sum the model was INSTRUCTED
+// to compute could still be rejected as an unsourced claim. A result counts only
+// when every number in its expression is itself a supplied fact or a bare
+// unit/period constant (100 for a percentage, 1e9 for a scale): a remembered
+// figure typed in as 999999999 is neither, so the calculator cannot launder one.
+const BARE_CONSTANTS = new Set([0, 1, 2, 3, 4, 5, 7, 10, 12, 30, 52, 100, 365]);
+const bareConstant = (v) => BARE_CONSTANTS.has(v) || (Number.isInteger(v) && Math.abs(v) <= 400) || /^10{1,15}$/.test(String(v));
+function calculatorClaims(results, facts) {
+    const near = (a, b) => Math.abs(a - b) <= Math.max(Math.abs(b) * 1e-9, 1e-9);
+    const out = [];
+    for (const r of results) {
+        const result = r && r.result ? r.result : r;
+        if (!result || typeof result !== 'object') continue;
+        for (const item of (Array.isArray(result.results) ? result.results : [result])) {
+            if (!item || typeof item.expression !== 'string' || num(item.result) === null) continue;
+            const literals = (item.expression.match(/\d+(?:\.\d+)?(?:[eE][+-]?\d+)?/g) || []).map(Number);
+            if (!literals.length) continue;
+            const matched = literals.map(n => bareConstant(n) ? null : facts.find(f => near(f.value, n)));
+            if (literals.some((n, i) => !matched[i] && !bareConstant(n))) continue;
+            const units = [...new Set(matched.filter(Boolean).map(f => f.unit))];
+            out.push({ value: num(item.result), unit: units.length === 1 ? units[0] : null });
+        }
+    }
+    return out;
+}
+
+// get_filing_diff quotes are checked character-for-character against the filing
+// they name (the tool reports evidenceVerified), so a figure inside one is a filed
+// figure — and the framework's "how it makes money" and "key risks" sections are
+// written from them. Only the QUOTE fields qualify: the tool's headline and `what`
+// commentary are prose written ABOUT the filing, and harvesting those would let a
+// summary's number read as though the issuer itself had stated it.
+const FILING_QUOTE_FIELDS = ['quote', 'newQuote', 'priorQuote'];
+const QUOTE_CURRENCIES = { $: 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' };
+function filingQuoteEvidence(results) {
+    const out = [];
+    const decline = /(?:decline[sd]?|decrease[sd]?|loss(?:es)?|fell|fall|drop(?:ped)?|lower|negative|outflow)\b/i;
+    for (const r of unwrap(results)) {
+        if (!Array.isArray(r.changes)) continue;
+        for (const change of r.changes) {
+            if (!change || typeof change !== 'object') continue;
+            for (const key of FILING_QUOTE_FIELDS) {
+                const text = String(change[key] || '');
+                if (!text) continue;
+                for (const m of text.matchAll(/(?<![A-Za-z])(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g)) {
+                    // An unscaled table cell is not a narrative figure; the quote
+                    // must state the scale for it to mean anything on its own.
+                    if (!m[3]) continue;
+                    const suffix = String(m[3]).toLowerCase();
+                    const scale = /^(?:trillion|tn|t)$/.test(suffix) ? 1e12 : /^(?:billion|bn|b)$/.test(suffix) ? 1e9
+                        : /^(?:million|m)$/.test(suffix) ? 1e6 : suffix === 'k' ? 1e3 : 1;
+                    const magnitude = Math.abs(Number(m[2].replace(/,/g, '').replace(/[−–]/g, '-')));
+                    if (!Number.isFinite(magnitude)) continue;
+                    // The quote's own wording carries the sign — but only when the
+                    // amount is the object of it. "a net loss of $134 million" is
+                    // negative; "declined 31% year-over-year to $779 million" is a
+                    // level reached, and the decline word sits near it without
+                    // applying to it.
+                    const before = text.slice(Math.max(0, m.index - 26), m.index);
+                    const signed = /[−–-]\s*$/.test(before) ||
+                        /(?:loss(?:es)?|decline[sd]?|decrease[sd]?|drop(?:ped)?|outflow|negative)\s+(?:of\s+)?(?:approximately\s+|about\s+|nearly\s+)?$/i.test(before);
+                    out.push({ value: signed ? -magnitude * scale : magnitude * scale, unit: QUOTE_CURRENCIES[m[1]] || m[1], field: 'filingQuoteAmount', sourceType: 'sec_filing_narrative' });
+                }
+                for (const m of text.matchAll(/([+−–-]?\d+(?:\.\d+)?)\s*%/g)) {
+                    const size = Math.abs(Number(m[1].replace(/[−–]/g, '-')));
+                    if (!Number.isFinite(size)) continue;
+                    const around = text.slice(Math.max(0, m.index - 30), m.index + 40);
+                    out.push({ value: /^[+−–-]/.test(m[1]) ? Number(m[1].replace(/[−–]/g, '-')) : size, unit: '%', field: 'filingQuotePercent', sourceType: 'sec_filing_narrative' });
+                    // A quoted "31% decline" and a written "fell 31%" are one filed
+                    // figure in the two directions it can be phrased, so when the
+                    // quote's own words name a decline both readings are supplied —
+                    // the claim-side rule only sees words placed before the number,
+                    // and "a 31% decline" would otherwise be unclaimable. The cost
+                    // is that a direction error in the prose can pass on this
+                    // figure; the number itself still has to be the quoted one.
+                    if (decline.test(around)) out.push({ value: -size, unit: '%', field: 'filingQuotePercent', sourceType: 'sec_filing_narrative' });
+                }
+            }
+        }
+    }
+    return out;
+}
+
+function percentageEvidence(results, facts) {
+    const percentages = (facts || chartEvidence(results)).filter(f => f.unit === '%').map(f => f.value);
     for (const r of unwrap(results)) {
         for (const c of r.capitalReturns || []) if (num(c.shortfallPctOfFreeCashflow) !== null)
             percentages.push(c.shortfallPctOfFreeCashflow);
+        // Reverse-DCF outputs carry no sourceIds (they are the tool's own
+        // calculation), so chartEvidence never sees them: the implied growth
+        // rate and each scenario's growth and upside were unclaimable, which
+        // failed the valuation paragraph of every analyst answer that used them.
+        if (num(r.impliedGrowthPct) !== null) percentages.push(num(r.impliedGrowthPct));
+        for (const scenario of Object.values(r.scenarios || {})) {
+            if (!scenario || typeof scenario !== 'object') continue;
+            for (const key of ['growthPct', 'upsidePct']) if (num(scenario[key]) !== null) percentages.push(num(scenario[key]));
+        }
+        // get_peer_context computes its positioning figures itself, so they carry
+        // no sourceIds and no collector saw them — yet the framework REQUIRES the
+        // peer medians, the ranks and the premium to the median in sections 5 and
+        // 7. Measured: the tool returns multiples.premiumPct 293.9 and the model
+        // quoted it verbatim, and the audit rejected its own tool's output.
+        const pp = r.peerPositioning;
+        if (pp && typeof pp === 'object') {
+            for (const key of ['revCagr5Pct', 'netMarginPct', 'roePct', 'divYieldPct']) {
+                if (num(pp.company?.[key]) !== null) percentages.push(num(pp.company[key]));
+                if (num(pp.medians?.[key]) !== null) percentages.push(num(pp.medians[key]));
+            }
+            // The tool also returns a bounded comparison set with the same
+            // percentage measures for named peers. These values are evidence
+            // from get_peer_context just like its company values and medians;
+            // omitting them made a correctly sourced peer comparison fail
+            // validation (measured on AMD: Intel -7.5%, Palantir 32.6%).
+            for (const comp of Array.isArray(pp.comps) ? pp.comps : []) {
+                for (const key of ['revCagr5Pct', 'netMarginPct', 'roePct', 'divYieldPct']) {
+                    if (num(comp?.[key]) !== null) percentages.push(num(comp[key]));
+                }
+            }
+            for (const key of ['premiumPct', 'repriceToMedianPct'])
+                if (num(pp.multiples?.[key]) !== null) percentages.push(num(pp.multiples[key]));
+        }
+        // ProviderValuation margins and the dividend yield are decimals, and the
+        // model restates them in percent — the shape every reader expects. Each
+        // is unitless, so no currency question arises; the priced-off-a-share
+        // multiples beside them are stated as "x" and are not validated here.
+        const pv = r.providerValuation;
+        if (pv && pv.fields) for (const key of ['dividendYield', 'profitMarginTtm', 'operatingMarginTtm', 'returnOnEquityTtm'])
+            if (num(pv.fields[key]) !== null) percentages.push(num(pv.fields[key]) * 100);
         const rows = r.observations || [];
         for (const o of rows) {
             const f = o.fields || {};
-            for (const [top, bottom] of [['netIncome', 'totalRevenue'], ['grossProfit', 'totalRevenue'], ['operatingIncome', 'totalRevenue']]) {
+            // R&D over revenue is the same contract as the three margins — two
+            // filed lines from one observation, same currency — and the Context
+            // column expresses it as an intensity. Measured on the AMD analyst
+            // answer: 8,091/34,639 → "23% of revenue" was rejected, and the whole
+            // answer fell back over a figure the tool results fully supply.
+            for (const [top, bottom] of [['netIncome', 'totalRevenue'], ['grossProfit', 'totalRevenue'], ['operatingIncome', 'totalRevenue'], ['researchAndDevelopment', 'totalRevenue']]) {
                 if (f[top]?.value != null && f[bottom]?.value > 0 && f[top].currency === f[bottom].currency)
                     percentages.push(f[top].value / f[bottom].value * 100);
             }
@@ -320,11 +484,42 @@ function numericClaims(text, results, question = '') {
         }
     }
     // Quotes keep market dates and sources; they are not SEC observations.
+    // The 52-week keys are the names get_quote actually returns (week52High,
+    // week52Low) — this list asked for high52Week/low52Week, which no tool
+    // returns, so a cited 52-week range was unclaimable on every answer. Both
+    // spellings are kept: the aliases cost nothing and a rename in either place
+    // must not silently stop a supplied figure from being usable.
     for (const r of data) if (r.priceAsOf || r.asOf) {
-        for (const key of ['price', 'previousClose', 'marketCap', 'high52Week', 'low52Week', 'eps']) {
+        for (const key of ['price', 'previousClose', 'lastClose', 'marketCap', 'high52Week', 'low52Week', 'week52High', 'week52Low', 'eps']) {
             if (num(r[key]) !== null) facts.push({ value: num(r[key]), unit: r.currency });
         }
     }
+    // Reverse-DCF outputs: the tool is the sanctioned source for "what growth is
+    // priced in", and it states its basis (the company's own filed cash-flow
+    // CAGR). Its money figures are claimable here; its growth and upside
+    // percentages are collected by percentageEvidence().
+    for (const r of data) {
+        const currency = String(r.currency || 'USD').toUpperCase();
+        for (const key of ['marketCap', 'fcfBase']) if (num(r[key]) !== null) facts.push({ value: num(r[key]), unit: currency });
+        if (num(r.scenarios?.currentMarketCap) !== null) facts.push({ value: num(r.scenarios.currentMarketCap), unit: currency });
+    }
+    // Provider gap-fill: a line the issuer's own facts cannot carry is supplied
+    // by the provider block, and it is a number the model was handed — without
+    // this, citing it read as an unsourced claim and triggered the rewrite that
+    // the block exists to avoid. The currency is the filed row's, and cash
+    // outflows keep the magnitude convention the block labels.
+    for (const r of data) {
+        const gaps = r.alternativeSources;
+        if (!gaps || !gaps.fields || typeof gaps.fields !== 'object') continue;
+        for (const [field, entries] of Object.entries(gaps.fields)) {
+            if (!Array.isArray(entries)) continue;
+            for (const e of entries) if (e && num(e.value) !== null)
+                facts.push({ value: num(e.value), unit: unitName(String(e.currency || 'USD').toUpperCase()), field });
+        }
+    }
+    // Calculator results, once the supplied facts are all in place — a money
+    // calculation keeps its currency only when every input shared one.
+    for (const c of calculatorClaims(results, facts)) if (c.unit) facts.push({ value: c.value, unit: c.unit, calculated: true });
     const prose = text.replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
     const issues = [];
     const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' };
@@ -335,7 +530,21 @@ function numericClaims(text, results, question = '') {
         const before = prose.slice(Math.max(0, m.index - 45), m.index);
         const context = before + prose.slice(m.index, m.index + m[0].length + 45);
         const after = prose.slice(m.index + m[0].length, m.index + m[0].length + 20);
-        const negative = /(?:[−–-]|negative\s+|loss of\s+|consumed\s+|used\s+|spent\s+|outflow of\s+)(?:\*\*)?$/.test(before) || /^\s*(?:\*\*)?\s*(?:net )?outflow\b/i.test(after);
+        // A loss is usually written after its amount — "operating income $1,990m
+        // (vs a $134m loss)" — and the before-the-number test alone read that as a
+        // positive, so a filed operating loss was unclaimable and every answer
+        // that named one failed. The trailing form is anchored, so a neighbouring
+        // figure ("revenue of $5bn and a loss of $134m") is not dragged into the sign.
+        // A dash that follows another figure is a range separator, not a sign:
+        // "52-week range $188.22–$645.46" was read as −645.46, so the one figure a
+        // clean normal-mode answer cites — the 52-week high get_quote supplies —
+        // was unclaimable and a correct answer fell back. A dash is a sign only
+        // when no digit sits immediately before it.
+        const signDash = /([−–-])(?:\*\*)?$/.exec(before);
+        const negative = (!!signDash && !/\d$/.test(before.slice(0, signDash.index))) ||
+            /(?:negative\s+|loss of\s+|consumed\s+|used\s+|spent\s+|outflow of\s+)(?:\*\*)?$/.test(before) ||
+            /^\s*(?:\*\*)?\s*(?:(?:an?|net|operating|net operating)\s+){0,2}(?:loss|deficit|shortfall)\b/i.test(after) ||
+            /^\s*(?:\*\*)?\s*(?:net )?outflow\b/i.test(after);
         const value = Number(raw) * scale * (!raw.startsWith('-') && negative ? -1 : 1);
         const precision = raw.split('.')[1]?.length || 0;
         const tolerance = scale * 0.5 * Math.pow(10, -precision) + 1e-6;
@@ -350,16 +559,26 @@ function numericClaims(text, results, question = '') {
                 (f.field === 'surplusAfterDistributions' && /short|deficit|more than|exceed|gap/i.test(context))) && Math.abs(Math.abs(f.value) - Math.abs(value)) <= tolerance)) &&
             (f.sourceType !== 'sec_filing_narrative' || !claimCategory || claimCategory === f.category) &&
             (!sensitiveDisclosure || (f.sourceType === 'sec_filing_narrative' && f.category === claimCategory))))
-            issues.push(`Monetary claim ${m[0]} does not match supplied facts/calculations at its displayed currency and precision. Omit it or use the exact verified value.`);
+            // Every wording that offered a second option was taken as licence to
+            // invent precision: "use the exact verified value" produced $14,181
+            // million for a rejected $14.2bn, and "state it exactly as the tool
+            // results give it" produced $1,176,299,062,416 for a rejected $1.18tn.
+            // Deletion of the figure and of the sentence carrying it is the only
+            // fix offered, because it is the only one that is always available.
+            issues.push(`Monetary claim ${m[0]} is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.`);
     }
-    const percentages = percentageEvidence(results);
+    const percentages = percentageEvidence(results, facts);
+    // A computed figure is as often a percentage as an amount — a share of
+    // revenue, a premium to a peer median — so the same gated results are
+    // claimable on this channel too.
+    for (const c of calculatorClaims(results, facts)) percentages.push(c.value);
     for (const m of prose.matchAll(/([+−–-]?\d+(?:\.\d+)?)\s*%/g)) {
         const raw = m[1].replace(/[−–]/g, '-');
         const before = prose.slice(Math.max(0, m.index - 40), m.index);
         const value = Number(raw) * (!/^[+-]/.test(raw) && /(?:down|fell|declined|decreased|drop(?:ped)?|decline|decrease|fall|slipped|shrank|lower|contracted|reduced)\s+(?:(?:by|about|around|roughly|approximately|nearly)\s+)?[~≈]?\s*$/i.test(before) ? -1 : 1);
         const tolerance = 0.5 * Math.pow(10, -(raw.split('.')[1]?.length || 0)) + 1e-8;
         if (!percentages.some(p => Math.abs(p - value) <= tolerance))
-            issues.push(`Percentage claim ${m[0]} does not match the verified dated comparison or a compatible calculation at its stated precision. Use supplied comparisons or verified ratio inputs.`);
+            issues.push(`Percentage claim ${m[0]} is not a supplied dated comparison or a compatible calculation. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.`);
     }
     return [...new Set(issues)];
 }
@@ -463,6 +682,37 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
             if (match[1] === 'viz' && s.points.some(p => /^(?:operating cash flow|capex|capital expenditure|free cash flow)$/i.test(p?.[0] || '')))
                 issues.push('Use bars for categories such as operating cash flow, capex and FCF; a line chart implies a time sequence.');
         }
+        // One shared axis cannot show a metric a fraction of the largest one's
+        // size: AMD's annual revenue is 21x its share-based compensation, and its
+        // FY2023 net income renders a few pixels tall. The facet panels are the
+        // remedy, so name the ratio and the fix rather than only flagging it.
+        if (match[1] === 'bars' && Array.isArray(spec.series)) {
+            if (spec.facet !== undefined && spec.facet !== true)
+                issues.push('The bars "facet" field takes only true; leave it out for a shared-axis chart.');
+            if (spec.facet !== true) {
+                const magnitudes = series.flatMap(s => (Array.isArray(s?.points) ? s.points : []).map(p => num(p?.[1])))
+                    .filter(v => v !== null && v !== 0).map(Math.abs);
+                const peak = magnitudes.length ? Math.max(...magnitudes) : 0;
+                const base = magnitudes.length ? Math.min(...magnitudes) : 0;
+                if (base > 0 && peak / base > 10)
+                    issues.push(`These grouped metrics span ${(peak / base).toFixed(0)}x from smallest to largest, so the smaller ones are unreadable on a shared axis. Add "facet": true to the bars block — each metric then gets its own panel with its value printed — or compare metrics of similar size.`);
+            }
+        }
+        // A line chart cannot facet, so the same spread is worse there and the
+        // "facet" field is silently ignored: measured live, the model wrote a viz
+        // chart with "facet": true for AMD revenue against net income (40x apart)
+        // and the phone render drew net income as a flat line at the baseline.
+        // The remedy is the one fence that can facet.
+        if (match[1] === 'viz' && Array.isArray(spec.series)) {
+            const magnitudes = series.flatMap(s => (Array.isArray(s?.points) ? s.points : []).map(p => num(p?.[1])))
+                .filter(v => v !== null && v !== 0).map(Math.abs);
+            const peak = magnitudes.length ? Math.max(...magnitudes) : 0;
+            const base = magnitudes.length ? Math.min(...magnitudes) : 0;
+            if (spec.facet !== undefined)
+                issues.push('A viz chart cannot facet — the "facet" field is ignored and every series shares one axis. Use a bars block with "facet": true instead.');
+            else if (base > 0 && peak / base > 10)
+                issues.push(`These charted metrics span ${(peak / base).toFixed(0)}x from smallest to largest, so the smaller ones are unreadable on a shared axis. Use a faceted bars block ("bars" with "facet": true) instead of a line chart, or plot metrics of similar size.`);
+        }
         if (disclosurePeriods.size > 1) issues.push('Horizontal filing disclosure bars must compare amounts from the same disclosed date.');
     }
     if (chartMatches.length > 3) issues.push('Use no more than three charts in a detailed multi-angle answer.');
@@ -511,7 +761,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
         }
         const checks = r.capitalReturns || (r.statement === 'cash' ? (r.observations || []).map(o => {
             const row = { fiscalDateEnding: o.periodEnd, periodStart: o.periodStart, reportedCurrency: o.currency, _sources: {}, _scopes: {} };
-            for (const [field, f] of Object.entries(o.fields)) { row[field] = f.value; row._sources[field] = f.sourceIds; row._scopes[field] = f.scope; }
+            for (const [field, f] of Object.entries(o.fields || {})) { row[field] = f.value; row._sources[field] = f.sourceIds; row._scopes[field] = f.scope; }
             return capitalReturns(row);
         }) : []);
         for (const p of paragraphs) {
@@ -531,7 +781,22 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
     if (!narrative && /(?:funded|financed|covered|paid for)[^.!?\n]{0,70}(?:cash reserves|cash balances|debt issuance|borrowing|existing cash)/i.test(text))
         issues.push('A cash-coverage shortfall does not establish its financing source. Omit assertions about reserves or debt issuance unless separately sourced.');
     const limit = wordLimit(question, mode);
-    if (wordCount(text) > limit) issues.push(`Answer exceeds ${limit} prose words. Remove repeated figures, unrequested history and technical concept names; preserve requested facts and missing-data reasons.`);
+    // The model overshoots a bare "over the limit" by a few words and the rewrite
+    // pass barely trims (measured: 509 → 498 against a 480 cap, 339 → 330 against
+    // 320). Naming the count and the size of the cut makes the instruction
+    // actionable rather than a judgement call.
+    // The model lands within a few percent of whatever cap it is given, and the
+    // rewrite pass barely trims (measured: 331 → 329 against a 320 cap; 481
+    // against 480). A hard boundary turns a complete, fully sourced answer into
+    // the generic receipt over one word — twice in six probes. The published cap
+    // stays the number the prompt quotes and the target the model aims at; the
+    // audit allows 5% of jitter above it before an answer is rejected for length.
+    const ceiling = Math.ceil(limit * 1.05);
+    const words = wordCount(text);
+    if (words > ceiling) issues.push(`Answer is ${words} prose words, ${words - limit} over the ${limit}-word limit. Cut at least ${words - limit} words: delete whole sentences, starting with repeated figures and unrequested history — never drop a sourced figure, a missing-data reason or the Next line to get there.`);
+    // Table rows are excluded from the prose budget above, so bound them here.
+    const tableRows = (String(text).match(/^\s*\|.*$/gm) || []).length;
+    if (tableRows > 40) issues.push(`Answer has ${tableRows} table rows. Keep tables to the metrics, periods and context columns actually requested.`);
     return [...new Set(issues)];
 }
 
@@ -575,13 +840,18 @@ function groupedFinancialBars(data, question) {
         const periods = s.points.filter(([, value]) => value === null).map(([period]) => period);
         return periods.length ? [{ metric: s.name, periods }] : [];
     });
+    // Faceted when the spread warrants it, by the same 10x rule audit() applies.
+    // A receipt is the guaranteed-valid terminal state, so it must never itself be
+    // an answer its own audit rejects — and revenue beside SBC is always wide.
+    const magnitudes = series.flatMap(s => s.points.map(p => p[1])).filter(v => v !== null && v !== 0).map(Math.abs);
+    const spread = magnitudes.length ? Math.max(...magnitudes) / Math.min(...magnitudes) : 1;
     return {
         symbol: income.symbol,
         periodCount: periods.length,
         requestedCount: explicitYear ? 1 : count,
         missing,
         spec: { title: `${income.symbol} · Revenue, net income and share-based compensation`, unit,
-            orientation: 'vertical', series }
+            orientation: 'vertical', ...(spread > 10 ? { facet: true } : {}), series }
     };
 }
 
@@ -640,7 +910,11 @@ function fallback(results, question = '') {
             if (!sections.has(key)) sections.set(key, { symbol: r.symbol, period: o.periodEnd, currency: o.currency,
                 coverage: labels[r.coverage?.financialCoverage] || 'Verified stored observations', values: new Map() });
             const section = sections.get(key);
-            for (const [field, label] of fields) if (field in o.fields &&
+            // Observations are not all statement observations: get_ratios_history
+            // returns {periodEnd, currency, metrics} with no fields at all, and
+            // `field in undefined` threw — which turned an audit failure into a
+            // failed question, because the receipt builder ran inside the catch.
+            for (const [field, label] of fields) if (o.fields && field in o.fields &&
                 (r.statement === 'cash' ? /operatingCashflow|capitalExpenditures|dividendPayout|paymentsForRepurchaseOfCommonStock|shareBasedCompensation/.test(field) : r.statement === 'income' ? /totalRevenue|netIncome/.test(field) : true)) {
                 const fact = o.fields[field];
                 section.values.set(label, fmt(fact.value, o.currency) + (fact.value === null && fact.missingReason ? ' — ' + fact.missingReason.replace(/\.$/, '') : ''));
@@ -775,4 +1049,4 @@ function appendSegmentSankey(lines, results, question) {
     }
 }
 
-module.exports = { audit, chartEvidence, numericClaims, wordCount, wordLimit, fallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };
+module.exports = { audit, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };

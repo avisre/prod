@@ -128,6 +128,203 @@ test('incorrect reported money and growth cannot pass because a tool was called'
     assert.match(q.audit('Operating cash flow was $111.482bn.', bad).join(' '), /Monetary claim/);
 });
 
+test('R&D intensity is a claimable compatible calculation from filed lines', async () => {
+    // Apple FY2025: 34.55bn R&D over 416.161bn revenue = 8.3%. The framework's
+    // Context column expresses R&D as a share of revenue, but the pair was
+    // missing from percentageEvidence, so a correctly derived intensity was
+    // rejected and the whole answer fell back (measured on the AMD analyst
+    // sweep: 8,091/34,639 -> "23% of revenue", rejected).
+    const income = await get('income');
+    assert.deepEqual(q.audit('Research and development spend was 8.3% of revenue.', income), []);
+    assert.deepEqual(q.audit('Research and development spend was 8% of revenue.', income), []);
+    assert.match(q.audit('Research and development spend was 20% of revenue.', income).join(' '), /Percentage claim/);
+});
+
+test('a provider gap-fill figure is usable evidence, and only what the block supplied', () => {
+    // EBITDA has no XBRL concept, so it arrives from the provider block. Citing
+    // it used to read as an unsourced claim — the model was rewritten for using
+    // the one number the tool handed it.
+    const nvda = [{
+        tool: 'get_financials',
+        result: {
+            symbol: 'NVDA', statement: 'income', basis: 'annual (fiscal years)', currency: 'USD',
+            observations: [{ periodEnd: '2026-01-25', currency: 'USD', fields: { totalRevenue: { value: 213000000000, currency: 'USD', unit: 'USD', scope: 'consolidated' } } }],
+            alternativeSources: {
+                source: 'Yahoo Finance', asOf: '2026-10-01T00:00:00.000Z',
+                units: 'Unscaled values in the row currency; magnitudes are unsigned cash outflows.',
+                fields: {
+                    ebit: [{ periodEnd: '2026-01-25', providerPeriodEnd: '2026-01-31', value: 130387000000, currency: 'USD', providerField: 'ebit' }],
+                    capitalExpenditures: [{ periodEnd: '2026-01-25', value: 6042000000, magnitude: true, currency: 'USD', providerField: 'capitalExpenditures' }]
+                }
+            }
+        }
+    }];
+    assert.deepEqual(q.audit('Yahoo Finance reports EBIT of $130.39bn for the year to 25 January 2026, as of 1 October 2026.', nvda), []);
+    // The magnitude convention travels with it: capex is stated as money going out.
+    assert.deepEqual(q.audit('Yahoo Finance reports capital expenditure of $6.042bn for the same period.', nvda), []);
+    // Only supplied figures are claimable — the block is not an amnesty.
+    assert.match(q.audit('Yahoo Finance reports EBIT of $99.9bn.', nvda).join(' '), /Monetary claim/);
+    // And the filed row's currency is the block's: the same figure in JPY fails.
+    assert.match(q.audit('Yahoo Finance reports EBIT of ¥130.39bn.', nvda).join(' '), /Monetary claim/);
+});
+
+test('provider valuation margins restated as percentages are claimable, wrong ones are not', () => {
+    const quote = [{
+        tool: 'get_quote',
+        result: {
+            symbol: 'AMD', price: 633.91, priceAsOf: '2026-10-02', currency: 'USD',
+            // Claim validation only runs at all when the answer carries statement
+            // observations (a quote-only answer is not audited figure-by-figure),
+            // so the fixture is the shape a real analyst answer has: a quote
+            // beside the statements.
+            observations: [{ periodEnd: '2026-06-27', currency: 'USD', fields: { totalRevenue: { value: 11536000000, currency: 'USD', unit: 'USD', scope: 'consolidated' } } }],
+            providerValuation: {
+                source: 'Yahoo Finance', asOf: '2026-10-01T09:57:19.929Z',
+                fields: { forwardPE: 39.270035, beta: 2.476, dividendYield: 0.0921, profitMarginTtm: 0.15577, operatingMarginTtm: 0.1725, returnOnEquityTtm: 0.10196 }
+            }
+        }
+    }];
+    assert.deepEqual(q.audit('The provider puts the profit margin at 15.6% and operating margin at 17.3%.', quote), []);
+    assert.match(q.audit('The provider puts the profit margin at 42%.', quote).join(' '), /Percentage claim/);
+});
+
+test('the peer medians and the premium the tool computed are claimable evidence', () => {
+    // get_peer_context computes these itself, so they carry no sourceIds — and
+    // the framework REQUIRES them in sections 5 and 7. The tool returns
+    // premiumPct 293.9; the model quoted it and the audit rejected its own
+    // tool's output.
+    const peer = [{
+        tool: 'get_peer_context',
+        result: {
+            symbol: 'AMD',
+            observations: [{ periodEnd: '2026-06-27', currency: 'USD', fields: { totalRevenue: { value: 11536000000, currency: 'USD', unit: 'USD', scope: 'consolidated' } } }],
+            peerPositioning: {
+                sector: 'Information Technology', peerCount: 187,
+                company: { pe: 156.1, revCagr5Pct: 28.8, netMarginPct: 12.5, roePct: 6.9, divYieldPct: 0 },
+                medians: { pe: 39.6, revCagr5Pct: 9.2, netMarginPct: 9.4, roePct: 8.7, divYieldPct: 0 },
+                rank: { revCagr5Pct: 93, netMarginPct: 63, roePct: 43 },
+                comps: [
+                    { symbol: 'INTC', name: 'Intel', revCagr5Pct: -7.5, netMarginPct: -0.5, roePct: -0.2 },
+                    { symbol: 'PLTR', name: 'Palantir Technologies', revCagr5Pct: 32.6, netMarginPct: 36.3, roePct: 22 }
+                ],
+                multiples: { companyPe: 156.1, peerMedianPe: 39.6, premiumPct: 293.9, repriceToMedianPct: -74.6 }
+            }
+        }
+    }];
+    assert.deepEqual(q.audit('Revenue grew 28.8% a year against a 9.2% peer median, and the 156x P/E is a 293.9% premium to the 39.6x median.', peer), []);
+    // The bounded named-peer list is evidence too. AMD's live output supplied
+    // Intel at -7.5% and Palantir at 32.6%, but neither value was harvested.
+    assert.deepEqual(q.audit('Intel had a -7.5% five-year revenue CAGR while Palantir reached 32.6%.', peer), []);
+    assert.match(q.audit('The P/E carries a 42% premium to the peer median.', peer).join(' '), /Percentage claim/);
+});
+
+test('a calculator result counts only when every input is itself a supplied figure', () => {
+    const results = [
+        {
+            tool: 'get_financials',
+            result: {
+                symbol: 'AMD', basis: 'annual (fiscal years)', currency: 'USD',
+                observations: [{
+                    periodEnd: '2026-06-27', currency: 'USD', fields: {
+                        cash: { value: 5000000000, currency: 'USD', unit: 'USD', scope: 'entity', sourceIds: ['0000002488-26-000021'] },
+                        longTermDebt: { value: 8058000000, currency: 'USD', unit: 'USD', scope: 'entity', sourceIds: ['0000002488-26-000021'] }
+                    }
+                }]
+            }
+        },
+        { tool: 'calculator', result: { expression: '5000000000+8058000000', result: 13058000000 } }
+    ];
+    // A sum the prompt instructs the model to compute is evidence.
+    assert.deepEqual(q.audit('Cash and long-term debt together come to $13,058m.', results), []);
+    // A remembered figure typed into the calculator is not: its literal matches
+    // no supplied fact, so the result stays unclaimable.
+    const laundered = structuredClone(results);
+    laundered[1].result = { expression: '5000000000+999999999', result: 5999999999 };
+    assert.match(q.audit('Cash and long-term debt together come to $5.999bn.', laundered).join(' '), /Monetary claim/);
+    // Neither is a scale-invented figure: the millions figure does not match the
+    // unscaled facts, so it is refused rather than silently accepted.
+    const millions = structuredClone(results);
+    millions[1].result = { expression: '5000+8058', result: 13058 };
+    assert.match(q.audit('Cash and long-term debt together come to $13,058m.', millions).join(' '), /Monetary claim/);
+});
+
+test('a loss written after its amount is the filed negative, not a positive', () => {
+    const results = [{
+        tool: 'get_financials',
+        result: {
+            symbol: 'AMD', basis: 'quarterly', currency: 'USD',
+            observations: [{ periodEnd: '2025-06-28', currency: 'USD', fields: { operatingIncome: { value: -134000000, currency: 'USD', unit: 'USD', scope: 'entity', sourceIds: ['0000002488-25-000118'] } } }]
+        }
+    }];
+    assert.deepEqual(q.audit('Operating income swung from a $134m loss to a profit.', results), []);
+    // The wording "a loss of" was already handled; both spellings must work.
+    assert.deepEqual(q.audit('It swung from a loss of $134m to a profit.', results), []);
+    // A neighbouring figure is not dragged into the sign by the trailing form.
+    assert.match(q.audit('Revenue of $5bn in a year with a $134m loss.', results).join(' '), /Monetary claim/);
+    // A dash before the figure with nothing before it is still a sign.
+    assert.deepEqual(q.audit('Operating income came in at −$134m.', results), []);
+});
+
+test('a dash between two figures is a range, not a sign', () => {
+    // get_quote supplies a 52-week range and a range is written with a dash
+    // between its ends. That dash was read as a minus, so the high arrived as
+    // −645.46 against a supplied +645.4599: the one figure a normal-mode answer
+    // cites from the quote made a correct answer fall back. Measured live — it
+    // was the only issue in both passes of the bare-AMD probe.
+    const results = [
+        {
+            tool: 'get_financials',
+            result: {
+                symbol: 'AMD', basis: 'annual (fiscal years)', currency: 'USD',
+                observations: [{ periodEnd: '2025-12-27', currency: 'USD', fields: { totalRevenue: { value: 34639000000, currency: 'USD', unit: 'USD', scope: 'entity', sourceIds: ['b10cdf3286d81ca73abd17c6'] } } }]
+            }
+        },
+        { tool: 'get_quote', result: { symbol: 'AMD', currency: 'USD', priceAsOf: '2026-10-02', price: 633.91, week52High: 645.4599, week52Low: 188.22 } }
+    ];
+    assert.deepEqual(q.audit('Price $633.91, a 52-week range of $188.22–$645.46 — near its high.', results), []);
+    // The rounded form of the supplied high is the same fact at coarser precision.
+    assert.deepEqual(q.audit('Price $633.91 against a 52-week high of $645.46.', results), []);
+});
+
+test('a filing-diff quote is evidence; the tool’s own commentary is not', () => {
+    // The quotes are checked character-for-character against the filing, so a
+    // figure inside one is filed — and the framework's "how it makes money" and
+    // "key risks" sections are written from them. The headline and `what` fields
+    // are prose ABOUT the filing and must stay out of evidence.
+    const diff = [
+        // Claim validation only runs when the answer carries statement
+        // observations, so the fixture is the shape a real answer has.
+        {
+            tool: 'get_financials',
+            result: {
+                symbol: 'AMD', basis: 'annual (fiscal years)', currency: 'USD',
+                observations: [{ periodEnd: '2025-12-27', currency: 'USD', fields: { totalRevenue: { value: 34639000000, currency: 'USD', unit: 'USD', scope: 'entity', sourceIds: ['b10cdf3286d81ca73abd17c6'] } } }]
+            }
+        },
+        {
+            tool: 'get_filing_diff',
+            result: {
+                symbol: 'AMD',
+                headline: 'Data Center revenue grew 107% with a 31% Gaming decline.',
+                changes: [{
+                    area: 'Demand',
+                    what: 'Net revenue accelerated to 77% growth.',
+                    newQuote: 'Net revenue for the three months ended June 27, 2026 was $11.5 billion, a 50% increase compared to the prior year period. Data Center segment revenue grew 107% year-over-year.',
+                    priorQuote: 'Gaming segment revenue declined 31% year-over-year to $779 million.',
+                    evidenceVerified: true, figuresVerified: true
+                }]
+            }
+        }
+    ];
+    assert.deepEqual(q.audit('Net revenue was $11.5bn, up 50%, with Data Center up 107%.', diff), []);
+    // The declined figure is claimable in either phrasing, and the level it fell
+    // to is not dragged negative by the decline word beside it.
+    assert.deepEqual(q.audit('Gaming revenue fell 31% to $779m.', diff), []);
+    assert.deepEqual(q.audit('Gaming revenue showed a 31% decline.', diff), []);
+    // Commentary the tool wrote itself is not a source.
+    assert.match(q.audit('Headline: net revenue grew 77%.', diff).join(' '), /Percentage claim/);
+});
+
 test('raw category bars match evidence; millionfold scale and wrong currencies fail', async () => {
     const data = await get('cash');
     const points = [['Operating cash flow', 111482000000], ['Capex', 12715000000], ['Free cash flow', 98767000000]];
@@ -177,8 +374,32 @@ test('unsupported investment causation fails; explicit unknown causes and retrie
 test('length counts visible prose, not chart JSON/URLs; explicit and detailed requests are respected', () => {
     assert.equal(q.wordCount('[Source](https://example.com/very-long-url) hello ' + spec([['2024', 1], ['2025', 2]])), 2);
     assert.equal(q.wordLimit('Keep it under 150 words.', 'normal'), 150);
-    assert.equal(q.wordLimit('A detailed analysis.', 'normal'), 550);
-    assert.match(q.audit('word '.repeat(251), [], { mode: 'normal' }).join(' '), /250/);
+    assert.equal(q.wordLimit('A detailed analysis.', 'normal'), 700);
+    // The framework's measured size sets the cap, not the other way round: five
+    // live analyst answers ran 348–432 prose words with tables already excluded,
+    // so a 350 cap rejected the owner's own target shape on length alone.
+    assert.equal(q.wordLimit('AMD', 'analyst'), 480);
+    assert.equal(q.wordLimit('AMD', 'normal'), 320);
+    // Five percent of jitter above the quoted cap is tolerated — a model that
+    // lands within a few words of the target has followed the instruction, and
+    // rejecting it publishes the generic receipt instead of the answer.
+    assert.deepEqual(q.audit('word '.repeat(334), [], { mode: 'normal' }), []);
+    assert.match(q.audit('word '.repeat(340), [], { mode: 'normal' }).join(' '), /over the 320-word limit/);
+    // A rich analyst answer inside the raised cap raises no length issue at all.
+    assert.deepEqual(q.audit('word '.repeat(430), [], { mode: 'analyst' }), []);
+});
+
+test('table rows are data, not prose — bounded separately from the word budget', () => {
+    const table = (rows) => 'Summary of the reported periods.\n\n| Metric | FY2024 | FY2025 |\n| --- | --- | --- |\n' +
+        Array.from({ length: rows }, (_, i) => `| Metric ${i} | ${i} | ${i + 1} |`).join('\n');
+    // Header, separator and body rows all stay out of the prose count.
+    assert.equal(q.wordCount(table(3)), 5);
+    // 200 prose words is inside the normal-mode budget, so only the row cap can fire.
+    const audited = q.audit('word '.repeat(200) + '\n\n' + table(45), [], { mode: 'normal' }).join(' ');
+    assert.match(audited, /table rows/);
+    assert.doesNotMatch(audited, /250 prose words/);
+    // A reference-shaped answer with tables passes the budget it used to fail.
+    assert.deepEqual(q.audit(table(6), [], { mode: 'normal' }), []);
 });
 
 test('financial chart prose cannot describe line series as bars', async () => {
@@ -281,7 +502,7 @@ test('mobile financial charts abbreviate axes, adapt viewBox and provide accessi
 test('requested revenue, net income and SBC use period-matched grouped bars', async () => {
     const income = await get('income'), cash = await get('cash');
     const grouped = {
-        title: 'Revenue, net income and share-based compensation', unit: 'USD', orientation: 'vertical',
+        title: 'Revenue, net income and share-based compensation', unit: 'USD', orientation: 'vertical', facet: true,
         series: [
             { name: 'Revenue', points: [['2024-09-28', 391035000000], ['2025-09-27', 416161000000]] },
             { name: 'Net income', points: [['2024-09-28', 93736000000], ['2025-09-27', 112010000000]] },
@@ -299,6 +520,43 @@ test('requested revenue, net income and SBC use period-matched grouped bars', as
     reversed.series.push({ name: 'Share-based compensation', points: [['2025-09-27', 12863000000], ['2024-09-28', 11688000000]] });
     reversed.series.forEach(s => s.points.reverse());
     assert.match(q.audit('```bars\n' + JSON.stringify(reversed) + '\n```', [...income, ...cash], { question: 'Compare revenue, net profit and share-based compensation' }).join(' '), /oldest to newest/);
+});
+
+test('a grouped chart spanning more than 10x demands facets, and faceting discharges it', async () => {
+    const income = await get('income'), cash = await get('cash');
+    const facts = [...income, ...cash];
+    const question = 'Compare revenue and share-based compensation';
+    const spec = {
+        title: 'Revenue and share-based compensation', unit: 'USD', orientation: 'vertical',
+        series: [
+            { name: 'Revenue', points: [['2025-09-27', 416161000000]] },
+            { name: 'Share-based compensation', points: [['2025-09-27', 12863000000]] }
+        ]
+    };
+    const bar = (s) => '```bars\n' + JSON.stringify(s) + '\n```';
+    const issue = q.audit(bar(spec), facts, { question }).join(' ');
+    assert.match(issue, /span 32x/);
+    assert.match(issue, /"facet": true/);
+    // Faceting is the remedy, so the faceted chart is accepted outright.
+    assert.deepEqual(q.audit(bar({ ...spec, facet: true }), facts, { question }), []);
+    // The model has returned this otherwise-valid time series using a viz
+    // fence with facet:true, which the renderer ignores. Normalize the chart
+    // fence and type without changing any evidence point.
+    const facetedViz = '```viz\n' + JSON.stringify({ ...spec, orientation: 'vertical', facet: true, series: [
+        { name: 'Revenue', points: [['2024-09-28', 391035000000], ['2025-09-27', 416161000000]] },
+        { name: 'Share-based compensation', points: [['2024-09-28', 11688000000], ['2025-09-27', 12863000000]] }
+    ] }) + '\n```';
+    const normalized = q.normalizeFacetedViz(facetedViz);
+    assert.match(normalized, /^```bars\n/);
+    assert.deepEqual(q.audit(normalized, facts, { question }), []);
+    // Comparable magnitudes stay on one axis: faceting is allowed, never required.
+    const narrow = { ...spec, series: [
+        { name: 'Revenue', points: [['2025-09-27', 416161000000]] },
+        { name: 'Net income', points: [['2025-09-27', 112010000000]] }
+    ] };
+    assert.deepEqual(q.audit(bar(narrow), facts, { question: 'Compare revenue and net income' }), []);
+    // A facet value that is neither absent nor true is a silent no-op in the renderer.
+    assert.match(q.audit(bar({ ...spec, facet: false }), facts, { question }).join(' '), /takes only true/);
 });
 
 test('validated fallback keeps available SBC, actual periods and grouped bar output', async () => {
@@ -465,8 +723,8 @@ test('filing obligation amounts are grounded to their disclosed category', () =>
         { tool: 'fetch_page', result: { url, text: 'As of December 31, 2025, we had guarantees of USD 2 billion.' } }
     ];
     assert.deepEqual(q.numericClaims('The 10-K separately discloses $103.77 billion of lease obligations for leases not yet commenced.', results), []);
-    assert.match(q.numericClaims('The company has $103.77 billion of off-balance debt.', results).join(' '), /does not match supplied facts/);
-    assert.match(q.numericClaims('The SPV has $103.77 billion of debt.', results, 'Does the company have SPVs and off-balance-sheet exposures?').join(' '), /does not match supplied facts/);
+    assert.match(q.numericClaims('The company has $103.77 billion of off-balance debt.', results).join(' '), /is not a figure any tool result supplies/);
+    assert.match(q.numericClaims('The SPV has $103.77 billion of debt.', results, 'Does the company have SPVs and off-balance-sheet exposures?').join(' '), /is not a figure any tool result supplies/);
     assert.equal(q.filingNarrativeEvidence(results)[0].category, 'lease_obligation');
     assert.equal(q.filingNarrativeEvidence(results)[0].periodEnd, '2025-12-31');
     const undated = q.filingNarrativeEvidence([
@@ -571,6 +829,46 @@ test('Ask renders grouped vertical bars, horizontal negative bars and a reconcil
     assert.equal(box.sankey(JSON.stringify({ unit: 'USD', periodEnd: '2025-09-27', filingDate: '2025-10-31', accessionNumber: '000000000000000001', total: 100, unallocated: 0, segments: [{ name: 'Only', value: 100 }] })), '');
 });
 
+test('faceted bars give each wide-spread metric its own panel, scaled and labelled', () => {
+    const fs = require('node:fs'), vm = require('node:vm');
+    const source = fs.readFileSync(require.resolve('../../frontend-v2/assets/app.js'), 'utf8');
+    const code = source.slice(source.indexOf('    function chart('), source.indexOf('    // A completed answer'));
+    const load = (clientWidth) => {
+        const box = { num: v => v == null || v === '' ? null : Number(v), money: v => String(v), fixed: (v, dp) => Number(v).toFixed(dp),
+            esc: v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+            document: { documentElement: { clientWidth }, querySelector: () => ({ clientWidth: clientWidth - 48 }) } };
+        vm.runInNewContext(code + '\nthis.bars=barsBlock;', box);
+        return box;
+    };
+    // AMD's real annual figures: revenue is 21x share-based compensation, the
+    // measured case a shared axis renders as a hairline.
+    const spec = { title: 'AMD annual', unit: 'USD', orientation: 'vertical', facet: true, series: [
+        { name: 'Revenue', points: [['2023-12-30', 22680000000], ['2024-12-28', 25785000000], ['2025-12-27', 34639000000]] },
+        { name: 'Net income', points: [['2023-12-30', 854000000], ['2024-12-28', 1641000000], ['2025-12-27', 4335000000]] },
+        { name: 'Share-based compensation', points: [['2023-12-30', 1384000000], ['2024-12-28', 1419000000], ['2025-12-27', 1638000000]] }
+    ] };
+    const facet = load(390).bars(JSON.stringify(spec));
+    assert.match(facet, /ask-bars-facet/);
+    assert.equal((facet.match(/ask-facet-row/g) || []).length, 3, 'one panel per metric');
+    assert.equal((facet.match(/<rect /g) || []).length, 9, 'every observation is drawn');
+    assert.equal((facet.match(/class="ask-bar-value"/g) || []).length, 9, 'every bar is labelled — this is what replaces the shared axis');
+    assert.match(facet, /not comparable between panels/);
+    assert.match(facet, /fill="var\(--chart-1\)"/); assert.match(facet, /fill="var\(--chart-3\)"/);
+    assert.match(facet, /FY2025 · USD 34\.6B/);
+    assert.match(facet, /\+52\.7% FY2023→FY2025/, 'first-to-last change is stated with its window');
+    assert.equal((facet.match(/<span>FY20\d\d/g) || []).length, 3, 'every period keeps its label at phone width');
+    assert.match(facet, /Revenue, 2023-12-30: USD 22\.7B/);
+    // A panel must never truncate its baseline: each is scaled from zero.
+    const panel = facet.slice(facet.indexOf('ask-facet-row'));
+    assert.ok(panel.includes('class="ask-zero"'), 'each panel draws its own zero line');
+    // Faceting is opt-in: the same data on a shared axis keeps the old form.
+    const shared = load(390).bars(JSON.stringify({ ...spec, facet: undefined }));
+    assert.doesNotMatch(shared, /ask-facet-row/);
+    // Three series on a shared axis label their bars once the bars are wide
+    // enough to carry a value, instead of assuming a third series never fits.
+    assert.equal((load(1440).bars(JSON.stringify({ ...spec, facet: undefined })).match(/class="ask-bar-value"/g) || []).length, 9, 'desktop bars print their values');
+    assert.equal((shared.match(/class="ask-bar-value"/g) || []).length, 0, 'phone-width bars stay clean');
+});
 
 test('mixed entity and lease research retains sourced leases and explains missing entity evidence', () => {
     const url = 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm';
@@ -587,6 +885,43 @@ test('mixed entity and lease research retains sourced leases and explains missin
     assert.equal(q.issuerDisclosureEvidence(results, 'Inspect SPVs in the annual filing.'), false);
 });
 
+
+test('the receipt tolerates every tool-result shape, including results with no statement fields', () => {
+    // The receipt is the terminal state the pipeline promises is always
+    // answerable, and both of its call sites sit inside failure handlers. So a
+    // shape it cannot parse does not degrade the answer — it destroys it.
+    // Measured 2026-10-04: get_ratios_history returns observations of
+    // {periodEnd, currency, metrics} with no `fields` at all, `field in undefined`
+    // threw at the receipt's field loop, and because the receipt is built *inside*
+    // the catch that was meant to survive it, every analyst answer whose research
+    // included the ratios tool returned no answer at all instead of a receipt.
+    const ratios = {
+        tool: 'get_ratios_history',
+        result: {
+            symbol: 'AMD', units: 'USD', statement: undefined,
+            observations: [{
+                periodEnd: '2025-12-27', currency: 'USD',
+                metrics: { grossMarginPct: { value: 49.51 }, netMarginPct: { value: 12.5 } }
+            }]
+        }
+    };
+    const shapes = [
+        [ratios],
+        [{ tool: 'get_financials', result: { symbol: 'AMD', statement: 'cash', observations: [{ periodEnd: '2025-12-27', currency: 'USD' }] } }],
+        [{ tool: 'get_quote', result: { error: 'unavailable', code: 'VERIFIED_FINANCIALS_UNAVAILABLE' } }],
+        []
+    ];
+    for (const results of shapes) {
+        const answer = q.fallback(results, 'How is AMD doing?');
+        assert.equal(typeof answer, 'string');
+        assert.ok(answer.length > 0, 'the receipt is never empty');
+        // A receipt that its own audit rejects would be replaced by another
+        // receipt on the next pass — the reason it may never throw in the first place.
+        assert.deepEqual(q.audit(answer, results, { question: 'How is AMD doing?', mode: 'analyst' }), []);
+    }
+    // The ratios observation contributes no statement rows rather than a crash.
+    assert.match(q.fallback([ratios], 'How is AMD doing?'), /partial answer using verified SEC evidence/);
+});
 
 test('filing currency can be established from consistent core inline XBRL with literal receipts', () => {
     const currency = require('../ask-filing-currency');

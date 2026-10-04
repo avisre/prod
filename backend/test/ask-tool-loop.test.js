@@ -116,3 +116,41 @@ test('malformed tool-call arguments do not crash the round', async () => {
     assert.equal(out.source, 'ai');
     assert.equal(calls[1].messages.filter((m) => m.role === 'tool').length, 1);
 });
+
+test('the answer framework is injected for open-ended company questions only', async () => {
+    const systemFor = async (question, mode) => {
+        const calls = scripted([{ content: 'A short answer.' }]);
+        await aiChat.ask({ question, history: [], ctx: {}, mode });
+        return calls[0].messages.find((m) => m.role === 'system').content;
+    };
+    // Both modes carry their own shape, and never each other's.
+    const analyst = await systemFor('How is AMD doing?', 'analyst');
+    assert.match(analyst, /ANSWER FRAMEWORK/);
+    assert.match(analyst, /industryProfile/, 'the industry profile is what personalises the metric rows');
+    // The facet remedy is named as a bars block: a viz line chart cannot facet,
+    // and the model wrote one anyway with the field set, which the renderer
+    // silently ignored (measured on the phone render of a live answer).
+    assert.match(analyst, /span more than about 10x it is a faceted bars block/i);
+    assert.doesNotMatch(analyst, /ANSWER SHAPE/);
+    const normal = await systemFor('AMD', 'normal');
+    assert.match(normal, /ANSWER SHAPE/);
+    assert.match(normal, /No chart for a bare ticker/);
+    // Normal mode is simplified, not thin: it fetches the same evidence and
+    // carries its own budget, in everyday English.
+    assert.match(normal, /SIMPLE, NOT THIN/);
+    assert.match(normal, /normal limit of 320 prose words/);
+    assert.match(normal, /get_filing_diff/);
+    assert.doesNotMatch(normal, /ANSWER FRAMEWORK/);
+    // A named figure, period, comparison or portfolio question keeps the older
+    // narrower behaviour: a lookup that grows into a report is the failure this
+    // gate exists to prevent.
+    for (const q of ['What is AMD revenue in FY2024?', 'Compare AMD and NVDA', 'How is my portfolio doing?', 'Summarise AMD latest results']) {
+        for (const mode of ['analyst', 'normal']) {
+            const system = await systemFor(q, mode);
+            assert.doesNotMatch(system, /ANSWER FRAMEWORK|ANSWER SHAPE/, `${q} (${mode}) should stay a lookup`);
+        }
+    }
+    // The read is a renderer hook (app.js matches the paragraph start), so the
+    // prompt must spell the marker exactly as the renderer tests for it.
+    assert.match(analyst, /beginning exactly "\*\*The read\*\* — "/);
+});
