@@ -143,7 +143,12 @@ async function extractSegments(symbol) {
     const col = mongoose.connection.collection('company_segments');
     try {
         const hit = await col.findOne({ symbol, accession: tenK.accession });
-        if (hit) return { ...hit.payload, cached: true };
+        if (hit) return { ...hit.payload, filing: {
+            ...(hit.payload.filing || {}), form: tenK.form || hit.payload.filing?.form || '10-K',
+            date: tenK.date || hit.payload.filing?.date || null,
+            url: tenK.url || hit.payload.filing?.url || null,
+            accessionNumber: tenK.accession
+        }, cached: true };
     } catch (_) { /* cache is best-effort */ }
 
     const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 40e6 });
@@ -180,7 +185,7 @@ async function extractSegments(symbol) {
             revenuePct: Number.isFinite(s.revenuePct) ? Math.round(s.revenuePct * 10) / 10 : null,
             description: String(s.description || '').slice(0, 240)
         })).filter((s) => s.name), symbol),
-        filing: { form: tenK.form || '10-K', date: tenK.date, url: tenK.url },
+        filing: { form: tenK.form || '10-K', date: tenK.date, url: tenK.url, accessionNumber: tenK.accession },
         extractedAt: new Date().toISOString()
     };
     // Honesty check: if the extracted segments cover well under the filed
