@@ -1,17 +1,12 @@
-name: Refresh fundamentals cache (full universe)
+name: Refresh all US-listed stocks (rolling monthly coverage)
 
-# The weekly job (refresh-fundamentals.yml) refreshes only the S&P 500. This
-# monthly job covers the whole S&P 1500, so every company's statements are
-# re-read at least once a month — inside the quarterly filing cadence, so a new
-# 10-Q or 10-K cannot sit unseen for a full quarter. Runs on the 1st at 03:00
-# UTC, after the previous US session has settled.
-#
-# Statement data changes at most quarterly; prices are handled separately by
-# refresh-quotes.yml (daily snapshot) and backend/quote-store.js (live).
+# A stable symbol hash splits the exchange universe into 28 daily batches.
+# Every stock is refreshed each calendar month; on-demand refresh still applies.
+# This bounds runtime as listings grow, rather than putting all stocks in one job.
 
 on:
   schedule:
-    - cron: '0 3 1 * *'
+    - cron: '0 3 * * *'
   workflow_dispatch:
     inputs:
       max_symbols:
@@ -47,13 +42,14 @@ jobs:
           npm ci
           npm ci --prefix backend
 
-      - name: Update the S&P 1500 symbol list
-        # A Wikipedia layout change must not block the refresh; the previous
-        # list is still usable, and the refresh below runs either way.
-        continue-on-error: true
-        run: node scripts/build-sp1500-list.js
+      - name: Update all US exchange-listed stocks
+        run: node scripts/build-us-companies.js
+
+      - name: Check share refresh date
+        run: echo "DAY_OF_MONTH=$(date -u +%d)" >> "$GITHUB_ENV"
 
       - name: Refresh SEC share counts
+        if: env.DAY_OF_MONTH == '01'
         # A market cap is price x shares, and the quote's share count goes
         # stale (LLY 5% low, ESS 7% high on 2026-09-28). See
         # scripts/refresh-shares.js. continue-on-error so a SEC hiccup cannot
@@ -61,11 +57,25 @@ jobs:
         continue-on-error: true
         run: node scripts/refresh-shares.js
 
-      - name: Refresh the full S&P 1500
+      - name: Refresh the daily full-universe batch
         env:
-          MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
-          CONCURRENCY: '3'
-        run: node scripts/refresh-fundamentals.js frontend/data/sp1500-companies.json
+          MAX: ${{ github.event.inputs.max_symbols || '0' }}
+          CONCURRENCY: '2'
+          UNIVERSE_SHARD_COUNT: '28'
+        run: node scripts/build-all-fundamentals.js --refresh
+
+      - name: Refresh verified SEC evidence
+        run: node --max-old-space-size=1536 scripts/refresh-sec-coverage.js --daily
+
+      - name: Refresh optional currency presentation
+        run: node scripts/refresh-sec-fx.js
+
+      - name: Build consistent public and screen snapshots
+        run: |
+          node --max-old-space-size=1536 scripts/build-public-stock-index.js
+          node scripts/build-screen-index.js
+          node scripts/validate-stock-coverage.js
+
 
       - name: Configure git
         run: |
@@ -74,7 +84,9 @@ jobs:
 
       - name: Stage data folder
         run: |
-          git add frontend/data/sp1500-companies.json \
+          git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/public-stock-index.json frontend/data/us-companies.json \
+                  frontend/data/stock-coverage.json \
+                  frontend/data/screen-index.json \
                   frontend/data/sec-shares.json \
                   frontend/data/fundamentals/ \
                   frontend/data/top-100-fundamentals-index.json \

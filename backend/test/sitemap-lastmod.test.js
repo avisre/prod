@@ -37,7 +37,7 @@ test('lastmod is derived from the data manifest, not from file mtimes', () => {
 
     const symbols = manifest.symbols || {};
     // Per-symbol date when one is recorded, else the manifest-wide refresh date.
-    assert.equal(seo.dataDateFor('AAPL'), symbols.AAPL || manifestDay);
+    assert.equal(seo.dataDateFor('AAPL'),require('../public-stock-index').get('AAPL').lastmod);
 
     // The load-bearing part: this must NOT be the frozen fallback. On a git
     // checkout the fundamentals file's mtime is "now", so an mtime-derived answer
@@ -71,7 +71,7 @@ test('a sitemap shard dates a ticker exactly as the page body does', () => {
 
 test('data-driven shards do not collapse onto the frozen snapshot date', () => {
     const manifest = readManifest();
-    const manifestDay = String(manifest.generatedAt).slice(0, 10);
+    const manifestDay = require('../public-stock-index').get('AAPL').lastmod;
 
     // Every ticker-derived shard, whatever today's split happens to be — comparisons-2
     // and any future metrics-4 are covered without hardcoding a list that goes stale

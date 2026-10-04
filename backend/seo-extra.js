@@ -84,8 +84,8 @@ const cagr = (oldV, newV, yrs) =>
 
 function grossProfitOf(r) {
     const rev = num(r.totalRevenue);
-    let gp = num(r.grossProfit); if (gp === 0) gp = null;
-    let cor = num(r.costOfRevenue); if (cor === 0) cor = null;
+    let gp = num(r.grossProfit);
+    let cor = num(r.costOfRevenue);
     if (gp === null && rev !== null && cor !== null) gp = rev - cor;
     return gp;
 }
@@ -93,7 +93,7 @@ function totalDebtOf(b) {
     const ltd = num(b.longTermDebt) !== null ? num(b.longTermDebt) : num(b.longTermDebtNoncurrent);
     const std = num(b.shortTermDebt) !== null ? num(b.shortTermDebt) : num(b.currentDebt);
     if (ltd === null && std === null) return null;
-    return (ltd || 0) + (std || 0);
+    return ltd !== null && std !== null ? ltd + std : null;
 }
 // Year-end adjusted close from the monthly series, for the P/E history.
 function closeAtFiscalEnd(data, fiscalDateEnding) {
@@ -308,7 +308,7 @@ const METRICS = {
         label: 'Dividend History', noun: 'dividends paid', fmt: money, source: 'cash flow statement (10-K)',
         methodology: 'Cash dividends paid come from the annual cash-flow statement. The per-share figure is an approximate derived value using the reported payout and share count; it is not a declared dividend rate.',
         auxLabel: 'Per share (approx., derived)',
-        allowEmpty: true, // "does X pay a dividend" is a real query even when the answer is no
+        allowEmpty: false, // "does X pay a dividend" is a real query even when the answer is no
         rows: (d) => {
             const shares = {};
             ((d.balance || {}).annualReports || []).forEach((r) => { shares[fyYear(r)] = num(r.commonStockSharesOutstanding); });
@@ -349,15 +349,14 @@ function secCompanyUrl(symbol, form = '10-K') {
     return `https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=${encodeURIComponent(symbol)}&type=${encodeURIComponent(form)}&owner=exclude&count=40`;
 }
 function metricCsv(ticker, slug) {
-    const sym = resolveCanonicalSymbol(ticker) || normalizeTicker(ticker); const m = METRICS[slug]; const data = loadFundamentals(sym);
-    if (!m || !data) return null;
-    const rows = m.rows(data).filter((row) => row.year);
-    if (!(m.allowEmpty ? rows.length >= 2 : rows.filter((row) => row.value !== null).length >= 2)) return null;
-    const quote = (value) => `"${String(value == null ? '' : value).replace(/"/g, '""')}"`;
-    const lines = [['symbol', 'fiscal_year', 'period_end', slug, 'formatted_value', ...(m.auxLabel ? ['auxiliary_value'] : [])]];
-    rows.forEach((row) => lines.push([sym, row.year, row.period || '', row.value == null ? '' : row.value, row.value == null ? '' : m.fmt(row.value), ...(m.auxLabel ? [row.aux || ''] : [])]));
-    return lines.map((line) => line.map(quote).join(',')).join('\n') + '\n';
+    const index=require('./public-stock-index');
+    const entry=index.get(ticker);if(!entry?.indexable || !entry.metricSlugs.includes(slug))return null;
+    const data=loadFundamentals(entry.symbol);if(!data)return null;
+    const rows=require('./financial-metrics').history(data,slug).filter(r=>r.value!==null);
+    const cell=v=>JSON.stringify(String(v ?? ''));
+    return 'period_end,value,currency,basis,sec_source_urls\n'+rows.map(r=>[r.period,r.value,r.currency,r.derived?'calculated':'reported',r.sourceIds.map(id=>data.provenance.sources[id]?.filingUrl).filter(Boolean).join(' ')].map(cell).join(',')).join('\n')+'\n';
 }
+
 function trendSvg(rows, label, caption = 'Annual filed history. Hover chart points for raw values; the accessible table below is the source of record.') {
     const values = rows.filter((row) => row.value !== null).slice().reverse();
     if (values.length < 2) return '';
@@ -377,29 +376,8 @@ function trendSvg(rows, label, caption = 'Annual filed history. Hover chart poin
 // usable years, discard the JSON (never hold 1,500 full files in memory).
 let _avail = null;
 function availability() {
-    if (_avail) return _avail;
-    _avail = new Map();
-    for (const c of loadCompanies()) {
-        const canonical = resolveCanonicalSymbol(c.symbol);
-        if (!canonical) continue;
-        try {
-            const f = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals',
-                `${canonical.replace(/[^A-Z0-9]/g, '_')}.json`);
-            if (!fs.existsSync(f)) continue;
-            const d = JSON.parse(fs.readFileSync(f, 'utf8'));
-            const flags = {};
-            for (const slug of METRIC_SLUGS) {
-                const m = METRICS[slug];
-                const usable = m.rows(d).filter((r) => r.value !== null).length;
-                flags[slug] = m.allowEmpty ? m.rows(d).length >= 2 : usable >= 2;
-            }
-            // Price-history pages need >=2 monthly adjusted closes to render.
-            const monthly = (d.monthly || {})['Monthly Adjusted Time Series'] || {};
-            flags.priceHistory = Object.keys(monthly).filter((k) => num(monthly[k]['5. adjusted close']) !== null).length >= 2;
-            _avail.set(canonical, flags);
-        } catch (_) { /* unreadable file — no metric pages for it */ }
-    }
-    return _avail;
+    const snap=require('./public-stock-index').view();
+    return new Map(snap.securities.filter(s=>s.securityType==='stock').map(s=>[s.symbol,{...Object.fromEntries(s.metricSlugs.map(slug=>[slug,true])),priceHistory:s.indexable && s.priceHistory}]));
 }
 
 // ---------- metric page ----------
@@ -444,259 +422,9 @@ function compareDataNote(a, b) {
 }
 
 function renderMetricPage(ticker, slug, options = {}) {
-    const sym = resolveCanonicalSymbol(ticker) || normalizeTicker(ticker);
-    const m = METRICS[slug];
-    if (!m) return null;
-    const company = loadCompanies().find((c) => c.symbol === sym);
-    const data = loadFundamentals(sym);
-    if (!company || !data) return null;
-    const all = m.rows(data).filter((r) => r.year);
-    const usable = all.filter((r) => r.value !== null);
-    if (!(m.allowEmpty ? all.length >= 2 : usable.length >= 2)) return null;
-
-    const name = (data.overview || {}).Name || company.name || sym;
-    const newest = all[0] || {}; const oldest = all[all.length - 1] || {};
-    const y1 = newest.year; const y0 = oldest.year;
-    const latestVal = usable[0] ? usable[0].value : null;
-    const yrsSpan = Number(y1) - Number(y0);
-    const growth = cagr(usable[usable.length - 1]?.value, usable[0]?.value, yrsSpan);
-    const oneYear = usable.length > 1 ? pctChange(usable[0].value, usable[1].value) : null;
-    const fiveYearRow = usable.find((row) => Number(row.year) <= Number(usable[0]?.year) - 5) || usable[usable.length - 1];
-    const fiveYear = fiveYearRow && fiveYearRow !== usable[0] ? pctChange(usable[0].value, fiveYearRow.value) : null;
-
-    // Sector context: percentile sentence + peer table, only when the cached
-    // screen index has a sector with enough comparable peers.
-    const indexField = METRIC_INDEX_FIELD[slug];
-    const sectorName = indexField ? (aiChat.buildScreenIndex().find((r) => r.symbol === sym) || {}).sector : null;
-    const percentile = indexField ? sectorPercentile(sym, indexField) : null;
-    const peers = indexField ? sectorPeers(sym, indexField, 5) : [];
-
-    const canonical = `${SITE}/stocks/${sym}/${slug}`;
-    const { mtimeISO, freshness, stale } = dataFreshness(sym);
-    // Search Console shows that Google can associate a query with a neighboring
-    // metric page when the title abbreviates the requested metric (for example,
-    // "EPS" instead of "Earnings per Share"). Put the exact user-facing metric
-    // phrase and ticker first so the canonical page is unambiguous. Keep the
-    // company name at the end, where a long legal suffix is less likely to push
-    // the answer out of the SERP title. Fall back to a plain range when there is
-    // no value (for example, a company that pays no dividend).
-    const titleMetric = m.label;
-    const titleHistory = /history$/i.test(titleMetric) ? titleMetric : `${titleMetric} History`;
-    const titleName = name.replace(/^The\s+/i, '')
-        .replace(/,?\s+(Incorporated|Corporation|Corp|Company|Co|Holdings|plc|Ltd|Limited|L\.?P|N\.?V|S\.?A|Inc)\.?$/i, '')
-        .trim() || name;
-    // A "$0"/"0" headline (e.g. a company that pays no dividend) reads as broken
-    // and won't earn the click — use the plain range title in that case.
-    // Keep the exact metric phrase/ticker at the front, but avoid pushing the
-    // semantic owner out of a search-result title with a long legal name or a
-    // volatile value. The latest value and period remain in the description,
-    // answer and evidence table.
-    // Measured 2026-09-28 across 50 symbol/metric pairs: titles run 24-56 chars
-    // (median 39) and none reach the ~60 a SERP renders, so length is not the
-    // constraint here -- but a "…" inside a title reads as broken and costs the
-    // click it was meant to earn. Clip on whole-word boundaries instead. Only
-    // ~6% of samples hit this (long legal names like IBM), so it is a narrow fix,
-    // not a sitewide rewrite.
-    const TITLE_BUDGET = 60;
-    const titleHead = `${sym} ${titleHistory} | `;
-    let titleNameShort = titleName;
-    if (titleHead.length + titleName.length > TITLE_BUDGET) {
-        const room = TITLE_BUDGET - titleHead.length;
-        titleNameShort = (room > 0 ? titleName.slice(0, room).replace(/\s+\S*$/, '').trim() : '')
-            || titleName.split(/\s+/)[0];
-    }
-    const title = `${titleHead}${titleNameShort}`;
-    // Descriptions are the real constraint: measured across all 12,338 rendered
-    // metric pages on 9/28, 1,165 were past Bing's 160-character limit (max 193)
-    // and they were all the same story — a long registered name, the long "total
-    // debt (short- plus long-term borrowings)" noun, and a boilerplate tail that
-    // was being cut on nearly every page anyway. The tail is now four words, and
-    // the leading name and the latest filed value survive intact.
-    const description = `${name} (${sym}) annual ${m.metaNoun || m.noun} from ${y0} to ${y1}` +
-        (latestVal !== null ? ` — latest: ${m.fmt(latestVal)}` : '') +
-        (oneYear !== null ? `, ${signedPct(oneYear)} year over year` : '') +
-        `. SEC-sourced.`;
-
-    // table rows, newest first, with YoY change
-    const trs = all.map((r, i) => {
-        const prev = all[i + 1];
-        let yoy = '—';
-        if (r.value !== null && prev && prev.value !== null && prev.value !== 0) {
-            const g = ((r.value - prev.value) / Math.abs(prev.value)) * 100;
-            yoy = `${g >= 0 ? '+' : ''}${g.toFixed(1)}%`;
-        }
-        return `<tr><td>FY ${esc(r.year)}</td><td>${esc(r.value === null ? '—' : `${m.fmt(r.value)}${r.derived ? '*' : ''}`)}</td>` +
-            (m.auxLabel ? `<td>${esc(r.aux || '—')}</td>` : '') + `<td>${esc(yoy)}</td></tr>`;
-    }).join('');
-    const latestRow = usable[0] || {};
-    const directMetric = !latestRow.derived && !['free-cash-flow', 'total-debt', 'pe-ratio'].includes(slug);
-    // Keep the opening answer deterministic and show the filed inputs behind
-    // derived metrics before the visitor reaches the chart/table.
-    const cashRows = ((data.cash || {}).annualReports || []);
-    const balanceRows = ((data.balance || {}).annualReports || []);
-    const latestCash = cashRows.find((row) => fyYear(row) === latestRow.year) || cashRows[0] || {};
-    const latestBalance = balanceRows.find((row) => fyYear(row) === latestRow.year) || balanceRows[0] || {};
-    const operatingCashflow = num(latestCash.operatingCashflow);
-    const rawCapitalExpenditures = num(latestCash.capitalExpenditures);
-    const capitalExpenditures = rawCapitalExpenditures === null ? null : Math.abs(rawCapitalExpenditures);
-    const cashBalance = num(latestBalance.cashAndCashEquivalentsAtCarryingValue) ?? num(latestBalance.cashAndShortTermInvestments);
-    const debtValue = totalDebtOf(latestBalance);
-
-    const faqs = [];
-    if (latestVal !== null) faqs.push({
-        q: `What is ${name}'s ${m.noun}?`,
-        a: directMetric
-            ? `${name} (${sym}) reported ${m.noun} of ${m.fmt(latestVal)} for fiscal year ${usable[0].year}, per its SEC filings.`
-            : `${name} (${sym}) has a calculated ${m.noun} value of ${m.fmt(latestVal)} for fiscal year ${usable[0].year}, derived from the filed inputs described below.`
-    });
-    if (growth !== null) faqs.push({
-        q: `How has ${name}'s ${m.noun} changed over time?`,
-        a: `Between fiscal ${y0} and ${y1}, ${sym}'s ${m.noun} ${growth >= 0 ? 'grew' : 'declined'} at roughly ${Math.abs(growth).toFixed(1)}% per year (compound annual rate), from ${m.fmt(usable[usable.length - 1].value)} to ${m.fmt(usable[0].value)}.`
-    });
-    if (slug === 'dividend-history' && !usable.some((r) => r.value > 0)) faqs.push({
-        q: `Does ${name} pay a dividend?`,
-        a: `Based on its filed cash flow statements ${y0}–${y1}, ${sym} has not paid a common dividend.`
-    });
-    faqs.push({
-        q: 'Where does this data come from?',
-        a: `Figures are computed from ${name}'s official SEC filings (${m.source}), refreshed on a rolling schedule. Not investment advice.`
-    });
-
-    const jsonld = JSON.stringify({
-        '@context': 'https://schema.org',
-        '@graph': [
-            {
-                '@type': 'BreadcrumbList',
-                itemListElement: [
-                    { '@type': 'ListItem', position: 1, name: 'Stocks', item: `${SITE}/stocks` },
-                    { '@type': 'ListItem', position: 2, name: `${name} (${sym})`, item: `${SITE}/stocks/${sym}` },
-                    { '@type': 'ListItem', position: 3, name: m.label, item: canonical }
-                ]
-            },
-            {
-                '@type': 'FAQPage',
-                mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } }))
-            },
-            {
-                '@type': 'WebPage', '@id': canonical, url: canonical, name: title,
-                ...(mtimeISO ? { dateModified: mtimeISO } : {}),
-                isBasedOn: 'https://www.sec.gov/edgar',
-                publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` }
-            }
-        ]
-    });
-
-    const siblings = METRIC_SLUGS.filter((s) => s !== slug)
-        .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(METRICS[s].label)}</a>`).join('');
-    const faqHtml = faqs.map((f) =>
-        `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
-    const sourceUrl = secCompanyUrl(sym);
-    const metricHub = slug === 'shares-outstanding' ? '/research/shares-outstanding' : slug === 'pe-ratio' ? '/research/pe-ratio-history' : null;
-    const metricTool = slug === 'shares-outstanding' ? '/tools/dilution' : slug === 'pe-ratio' ? '/tools/company-comparison' : '/tools/dividend-safety';
-    const nextAction = renderPilotAction(pilotAction(sym, slug, options.req), sym, name);
-    let interpretation;
-    if (slug === 'eps') {
-        interpretation = `${name} ${latestRow.sourceField === 'EPS fallback' ? 'uses the reported EPS fallback' : 'reported diluted EPS'} of ${m.fmt(latestVal)} for fiscal ${latestRow.year}, presented on a split-adjusted basis.`;
-    } else if (slug === 'shares-outstanding') {
-        interpretation = `${name} reported ${m.fmt(latestVal)} shares outstanding at fiscal ${latestRow.year}, presented on a split-adjusted basis.`;
-    } else if (slug === 'dividend-history') {
-        interpretation = `${name} reported ${m.fmt(latestVal)} of cash dividends paid for fiscal ${latestRow.year}. Any per-share figure below is derived and approximate.`;
-    } else if (slug === 'pe-ratio') {
-        interpretation = `${name}'s fiscal-year-end P/E ratio is derived from the adjusted close divided by diluted EPS for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
-    } else if (slug === 'free-cash-flow') {
-        interpretation = `${name}'s free cash flow was calculated as operating cash flow ${money(operatingCashflow)} minus capital expenditures ${money(capitalExpenditures)} for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
-    } else if (slug === 'total-debt') {
-        const netDebt = debtValue !== null && cashBalance !== null ? debtValue - cashBalance : null;
-        interpretation = `${name}'s total debt is derived by adding the available short- and long-term borrowing fields for fiscal ${latestRow.year}: ${m.fmt(latestVal)}${netDebt !== null ? `; cash was ${money(cashBalance)}, implying derived net ${netDebt >= 0 ? 'debt' : 'cash'} of ${money(Math.abs(netDebt))}` : ''}.`;
-    } else if (slug === 'gross-profit' && latestRow.derived) {
-        interpretation = `${name}'s gross profit is derived as revenue minus cost of revenue for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
-    } else if (directMetric) {
-        interpretation = `${name} reported ${m.fmt(latestVal)} of ${m.noun} for fiscal ${latestRow.year}.`;
-    } else {
-        interpretation = `${name}'s ${m.label.toLowerCase()} is calculated as ${m.methodology ? m.methodology.replace(/^[^.]+\.\s*/, '').replace(/;.*$/, '') : 'a deterministic combination of filed values'} for fiscal ${latestRow.year}: ${m.fmt(latestVal)}.`;
-    }
-    if (oneYear !== null) interpretation += ` That was ${Math.abs(oneYear).toFixed(1)}% ${oneYear >= 0 ? 'higher' : 'lower'} than fiscal ${usable[1]?.year}.`;
-    if (fiveYear !== null && fiveYearRow) interpretation += ` Compared with fiscal ${fiveYearRow.year}, the change was ${signedPct(fiveYear)}.`;
-    if (slug === 'shares-outstanding') interpretation += oneYear > 0 ? ' A rising share count can dilute per-share ownership; the filings should be checked for issuance and stock-compensation details.' : oneYear < 0 ? ' A falling share count is consistent with net buybacks exceeding issuance over the period, though the filing should be checked for the components.' : ' The filed year-end share count was broadly unchanged.';
-    if (slug === 'pe-ratio') interpretation += ' This is a fiscal-year-end price divided by diluted EPS—not a live valuation—and is omitted when annual EPS is not positive.';
-    const baseSummaryCards = `<div class="seo-grid"><div class="seo-tile"${directMetric ? '' : ' aria-label="Latest filed value inputs support this calculated value"'}><div class="l">${directMetric ? 'Latest filed value' : 'Latest calculated value'}</div><div class="v">${esc(latestVal === null ? '—' : m.fmt(latestVal))}</div></div><div class="seo-tile"><div class="l">One-year change</div><div class="v">${esc(signedPct(oneYear))}</div></div><div class="seo-tile"><div class="l">Change since ${esc(fiveYearRow?.year || y0)}</div><div class="v">${esc(signedPct(fiveYear))}</div></div><div class="seo-tile"><div class="l">Latest period end</div><div class="v" style="font-size:16px">${esc(usable[0]?.period || usable[0]?.year || '—')}</div></div></div>`;
-    const inputSummary = slug === 'free-cash-flow'
-        ? `<div class="seo-grid"><div class="seo-tile"><div class="l">Operating cash flow</div><div class="v">${esc(money(operatingCashflow))}</div></div><div class="seo-tile"><div class="l">Capital expenditures</div><div class="v">${esc(money(capitalExpenditures))}</div></div><div class="seo-tile"><div class="l">Calculation</div><div class="v" style="font-size:16px">OCF − capex</div></div></div>`
-        : slug === 'total-debt'
-            ? `<div class="seo-grid"><div class="seo-tile"><div class="l">Total debt (derived)</div><div class="v">${esc(money(debtValue))}</div></div><div class="seo-tile"><div class="l">Cash balance</div><div class="v">${esc(money(cashBalance))}</div></div><div class="seo-tile"><div class="l">Net debt / (cash)</div><div class="v">${esc(debtValue !== null && cashBalance !== null ? money(debtValue - cashBalance) : '—')}</div></div></div>`
-            : '';
-    const summaryCards = baseSummaryCards + inputSummary;
-    const historyHeading = `${name} ${m.label}${/history$/i.test(m.label) ? '' : ' history'} by fiscal year`;
-    const methodology = m.methodology || `Figures are drawn from ${m.source}.`;
-
-    // Dividend ex-date enrichment for the dividend-history page, only when the
-    // cache carries Yahoo dividend history (populated by the refresh flow). The
-    // fiscal-year cash-flow table above stays the source of record; these are
-    // complementary declared per-share dividends and are labelled as such.
-    let dividendExtras = '';
-    if (slug === 'dividend-history') {
-        const divHist = ((data.dividends || {}).history || [])
-            .filter((d) => d.exDate && d.amount !== null && d.amount !== undefined);
-        if (divHist.length) {
-            const nextEx = (data.overview || {}).ExDividendDate || '';
-            const exRows = divHist.slice(-24).reverse()
-                .map((d) => `<tr><td>${esc(asDate(d.exDate))}</td><td>$${Number(d.amount).toFixed(2)}</td></tr>`).join('');
-            const qMap = new Map();
-            divHist.forEach((d) => {
-                const q = `${d.exDate.slice(0, 4)} Q${Math.floor((Number(d.exDate.slice(5, 7)) - 1) / 3) + 1}`;
-                qMap.set(q, (qMap.get(q) || 0) + Number(d.amount));
-            });
-            const qRows = [...qMap.entries()].slice(-8).reverse()
-                .map(([q, v]) => `<tr><td>${esc(q)}</td><td>$${v.toFixed(2)}</td></tr>`).join('');
-            const nextHtml = nextEx
-                ? `<p class="seo-about" style="margin:0 0 12px"><strong>Next expected ex-dividend date:</strong> ${esc(asDate(nextEx))}. Per Yahoo summary data — the company declares it; this is not a site projection.</p>`
-                : '';
-            dividendExtras = `<div class="seo-section"><h2>${esc(name)} dividend ex-dates and quarterly payouts</h2>${nextHtml}<div style="overflow-x:auto"><table class="seo-table"><thead><tr><th>Ex-dividend date</th><th>Dividend per share</th></tr></thead><tbody>${exRows}</tbody></table></div>${qRows ? `<div style="overflow-x:auto;margin-top:14px"><table class="seo-table"><thead><tr><th>Quarter</th><th>Total paid per share</th></tr></thead><tbody>${qRows}</tbody></table></div>` : ''}<p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Ex-dates and per-share amounts from Yahoo Finance dividend history, refreshed on a rolling schedule; per-share figures are the declared cash dividends. The fiscal-year table above comes from the 10-K cash flow statement and remains the source of record.</p></div>`;
-        }
-    }
-
-    return head(title, description, canonical, jsonld) + nav('company') + `
-<main class="seo-wrap">
-  <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / ${esc(m.label)}</div>
-  <h1 class="seo-h1">${esc(name)} ${esc(m.label)} <span style="color:var(--ink3);font-weight:600">${esc(y0)}–${esc(y1)}</span></h1>
-  <p class="seo-sub">${esc(interpretation)}</p>
-  ${percentile !== null && sectorName ? `<p class="seo-sub" style="margin-top:6px">${esc(name)}'s ${esc(m.label)} is in the ${ordinal(percentile)} percentile of the ${esc(sectorName)} sector — ${percentile >= 50 ? 'above' : 'below'} the sector median.</p>` : ''}
-  ${summaryCards}
-  <div class="seo-section"><h2>${esc(historyHeading)}</h2>${trendSvg(all, historyHeading, directMetric ? 'Annual filed history. Hover chart points for raw values; the accessible table below is the source of record.' : 'Annual calculated history from filed inputs. Hover chart points for raw values; the accessible table below is the source of record.')}</div>
-  <div class="seo-section">
-    <div style="overflow-x:auto"><table class="seo-table">
-      <thead><tr><th>Fiscal year</th><th>${esc(m.label)}</th>${m.auxLabel ? `<th>${esc(m.auxLabel)}</th>` : ''}<th>Change (YoY)</th></tr></thead>
-      <tbody>${trs}</tbody>
-    </table></div>
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} SEC filings — ${esc(m.source)}. ${esc(methodology)}${all.some((row) => row.derived) ? ' Rows marked * are derived from filed inputs.' : ''} Computed deterministically; refreshed on a rolling schedule${freshness ? ` (last updated ${esc(freshness)})` : ''}.${stale ? ' <strong>Not the latest data — a newer SEC filing may exist.</strong>' : ''} Update frequency: quarterly (on each new SEC filing). <a href="${esc(sourceUrl)}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} 10-K filings at SEC EDGAR</a> · <a href="/methodology" style="color:var(--ink3)">Methodology</a> · <a href="/stocks/${esc(sym)}/${esc(slug)}.csv">Download CSV</a>.</p>
-  </div>
-  ${dividendExtras}
-  ${peers.length ? `<div class="seo-section"><h2>${esc(name)} ${esc(m.label)} vs. ${esc(sectorName)} sector peers</h2>
-    <div style="overflow-x:auto"><table class="seo-table">
-      <thead><tr><th>Company</th><th>${esc(m.label)}</th></tr></thead>
-      <tbody>${peers.map((p) => `<tr><td><a href="/stocks/${esc(p.symbol)}/${esc(slug)}">${esc(p.symbol)}</a> — ${esc(p.name)}</td><td>${esc(m.fmt(p.value))}</td></tr>`).join('')}</tbody>
-    </table></div>
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Latest fiscal-year figures from SEC filings, ${esc(sectorName)} sector. Peers are the same-sector companies with the highest ${esc(m.noun)}; values are not estimates.</p>
-  </div>` : ''}
-  <div class="seo-section"><h2>${esc(m.label)} methodology and context</h2><p class="seo-about">${esc(methodology)} ${esc(interpretation)} Values remain missing when the cached filing does not disclose a comparable line item; they are never estimated. Stock splits, reorganizations and fiscal-calendar changes can reduce comparability.</p><p style="font-size:13px;color:var(--ink3)">Prepared and reviewed by the stockportfolio.pro research desk. Corrections: <a href="mailto:support@stockportfolio.pro">support@stockportfolio.pro</a>.</p></div>
-  ${nextAction}
-  <div class="seo-lock">
-    <h3>See the full picture for ${esc(name)}</h3>
-    <p>Complete income statement, balance sheet and cash flow with trend on every row, 48 quarters, ratios, health checks, and Ask — the SEC-grounded research assistant.</p>
-    <a class="seo-cta-btn" href="/company?symbol=${esc(sym)}">Open the interactive view — free</a>
-  </div>
-  <div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>${faqHtml}</div>
-  <div class="seo-section"><h2>More ${esc(sym)} financial history</h2>
-    <div class="seo-links">${siblings}</div>
-    <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="${metricTool}">Analyze ${esc(m.noun)} with a free tool &rarr;</a>${metricHub ? ` &middot; <a href="${metricHub}">Research guide &amp; leaders &rarr;</a>` : ''} &middot; <a href="/stocks">All 1,500+ companies &rarr;</a></p>
-  </div>
-</main>` + footer();
+    return require('./verified-seo').metric(ticker,slug,require('./seo-pages'), {action:renderPilotAction(pilotAction(ticker,slug,options.req),ticker,loadCompanies().find(c=>c.symbol===ticker)?.name || ticker)});
 }
 
-// ---------- price-history page ----------
-// A per-ticker long-tail page: 20-year monthly adjusted-close chart, computed
-// total returns, 52-week range and trend indicators. Every number on the page
-// is derived from the same cached monthly series, so nothing is estimated.
 function renderPriceHistoryPage(ticker, options = {}) {
     const sym = resolveCanonicalSymbol(ticker) || normalizeTicker(ticker);
     const company = loadCompanies().find((c) => c.symbol === sym);
@@ -796,13 +524,13 @@ function renderPriceHistoryPage(ticker, options = {}) {
             {
                 '@type': 'WebPage', '@id': canonical, url: canonical, name: title,
                 ...(mtimeISO ? { dateModified: mtimeISO } : {}),
-                isBasedOn: 'https://www.sec.gov/edgar',
+                isBasedOn: 'https://finance.yahoo.com',
                 publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` }
             }
         ]
     });
 
-    const metricLinks = METRIC_SLUGS
+    const metricLinks = (require('./public-stock-index').get(sym)?.indexable ? require('./public-stock-index').get(sym).metricSlugs : [])
         .map((s) => `<a href="/stocks/${esc(sym)}/${s}">${esc(METRICS[s].label)}</a>`).join('');
     const faqHtml = faqs.map((f) =>
         `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(f.a)}</p>`).join('');
@@ -815,7 +543,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
         : '';
     const trendTiles = (ma50 !== null || ma200 !== null || beta !== null) ? `<div class="seo-grid">${ma50 !== null ? `<div class="seo-tile"><div class="l">50-day moving average</div><div class="v">${esc(price(ma50))}</div></div>` : ''}${ma200 !== null ? `<div class="seo-tile"><div class="l">200-day moving average</div><div class="v">${esc(price(ma200))}</div></div>` : ''}${beta !== null ? `<div class="seo-tile"><div class="l">Beta</div><div class="v">${esc(String(beta))}</div></div>` : ''}</div>` : '';
 
-    return head(title, description, canonical, jsonld) + nav('company') + `
+    return head(title, description, canonical, jsonld, null, require('./public-stock-index').get(sym)?.indexable?undefined:'noindex, follow') + nav('company') + `
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/stocks">Stocks</a> / <a href="/stocks/${esc(sym)}">${esc(sym)}</a> / Price history</div>
   <h1 class="seo-h1">${esc(name)} stock price history <span style="color:var(--ink3);font-weight:600">${esc(firstYear)}–${esc(lastDate.slice(0, 4))}</span></h1>
@@ -827,7 +555,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
       <tbody>${returnRows}</tbody>
     </table></div>
     ${rangePct !== null ? `<p style="font-size:13px;color:var(--ink3);margin:6px 0 0">Position of the current price within the 52-week range${rangeBar}.</p>` : ''}
-    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} split- and dividend-adjusted monthly closes, ${esc(firstDate)} to ${esc(lastDate)}. Computed deterministically; refreshed on a rolling schedule${freshness ? ` (last updated ${esc(freshness)})` : ''}.${stale ? ' <strong>Not the latest data — a newer SEC filing may exist.</strong>' : ''} <a href="${esc(secCompanyUrl(sym))}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} filings at SEC EDGAR</a> &middot; <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
+    <p style="color:var(--ink3);font-size:12.5px;margin-top:8px">Source: ${esc(name)} split- and dividend-adjusted monthly closes, ${esc(firstDate)} to ${esc(lastDate)}. Computed deterministically; refreshed on a rolling schedule${freshness ? ` (last updated ${esc(freshness)})` : ''}. <a href="${esc(secCompanyUrl(sym))}" rel="noopener nofollow" target="_blank">Open ${esc(sym)} filings at SEC EDGAR</a> &middot; <a href="/methodology" style="color:var(--ink3)">Methodology</a>.</p>
   </div>
   ${trendTiles}
   <div class="seo-lock">
@@ -838,7 +566,7 @@ function renderPriceHistoryPage(ticker, options = {}) {
   <div class="seo-section"><h2>${esc(name)} — frequently asked questions</h2>${faqHtml}</div>
   <div class="seo-section"><h2>More ${esc(sym)} financial history</h2>
     <div class="seo-links">${metricLinks}</div>
-    <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a></p>
+    <p style="margin-top:10px"><a href="/stocks/${esc(sym)}">Full ${esc(sym)} fundamentals page &rarr;</a> &middot; <a href="/stocks">All US-listed securities &rarr;</a></p>
   </div>
 </main>` + footer();
 }
@@ -955,7 +683,7 @@ function renderSharesResearch() {
         slug: 'shares-outstanding', title: 'Shares Outstanding History: Dilution & Buyback Research',
         description: 'Understand shares outstanding, dilution and buybacks with filed histories, latest-year leaderboards, a free calculator and a downloadable US-company dataset.',
         h1: 'Shares outstanding, dilution and buybacks', intro: 'A source-backed guide to how company share counts change—and where to inspect the filed evidence before drawing a conclusion.', body,
-        jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Shares outstanding, dilution and buybacks', url: canonical, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` } }
+        jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Shares outstanding, dilution and buybacks', url: canonical, isBasedOn: 'https://finance.yahoo.com', publisher: { '@id': `${SITE}/#org` } }
     });
 }
 
@@ -976,7 +704,7 @@ function renderPeResearch() {
         slug: 'pe-ratio-history', title: 'Historical P/E Ratios: Method, Examples & Company Data',
         description: 'Research historical P/E ratios using fiscal-year-end prices and diluted annual EPS, with transparent methodology and direct links to company histories.',
         h1: 'Historical P/E ratios, explained with filed data', intro: 'Use consistent fiscal-year snapshots to understand how a company’s earnings multiple changed—without confusing historical P/E with today’s valuation.', body,
-        jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Historical P/E ratios', url: canonical, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` } }
+        jsonld: { '@context': 'https://schema.org', '@type': 'CollectionPage', name: 'Historical P/E ratios', url: canonical, isBasedOn: 'https://finance.yahoo.com', publisher: { '@id': `${SITE}/#org` } }
     });
 }
 
@@ -993,8 +721,8 @@ function guideFaq(faqs) {
 
 function guideJsonLd(canonical, title, faqs) {
     const graph = [
-        { '@type': 'Article', '@id': canonical, url: canonical, name: title, headline: title, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` } },
-        { '@type': 'WebPage', '@id': canonical, url: canonical, name: title, isBasedOn: 'https://www.sec.gov/edgar', publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` } }
+        { '@type': 'Article', '@id': canonical, url: canonical, name: title, headline: title, isBasedOn: 'https://finance.yahoo.com', publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` } },
+        { '@type': 'WebPage', '@id': canonical, url: canonical, name: title, isBasedOn: 'https://finance.yahoo.com', publisher: { '@id': `${SITE}/#org` }, author: { '@id': `${SITE}/#org` } }
     ];
     if (faqs.length) graph.splice(1, 0, { '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) });
     return graph;
@@ -1137,7 +865,7 @@ function renderDilutionScorecard() {
         slug: 'dilution-scorecard', title: `Share Dilution Scorecard: ${all.length} US Companies + CSV`,
         description: `Compare one- and five-year share-count changes across ${all.length} large US companies. Filed data, split warnings, buyback context and free CSV.`,
         h1: 'US company share dilution scorecard', intro: 'A reproducible starting point for finding material share-count changes, with source trails, comparability warnings and a downloadable dataset.', body,
-        jsonld: { '@context': 'https://schema.org', '@type': 'Dataset', name: 'US Company Share Dilution Scorecard', description: 'Annual common-share-count changes and repurchase context for large US-listed companies.', url: canonical, creator: { '@id': `${SITE}/#org` }, isBasedOn: 'https://www.sec.gov/edgar', distribution: { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: `${SITE}/research/dilution-scorecard.csv` } }
+        jsonld: { '@context': 'https://schema.org', '@type': 'Dataset', name: 'US Company Share Dilution Scorecard', description: 'Annual common-share-count changes and repurchase context for large US-listed companies.', url: canonical, creator: { '@id': `${SITE}/#org` }, isBasedOn: 'https://finance.yahoo.com', distribution: { '@type': 'DataDownload', encodingFormat: 'text/csv', contentUrl: `${SITE}/research/dilution-scorecard.csv` } }
     });
 }
 
@@ -1155,39 +883,9 @@ const POPULAR_COMPARISONS = [
 ];
 let _pairs = null;
 function comparePairs() {
-    if (_pairs) return _pairs;
-    const rows = aiChat.screenRows({
-        limit: 5000, maxLimit: 5000, sort_by: 'marketCapB', exclude_secondary_listings: true
-    }).rows.filter((r) => r.marketCapB !== null && r.sector && /^[A-Z0-9.]+$/.test(r.symbol));
-    const bySector = {};
-    rows.forEach((r) => { (bySector[r.sector] = bySector[r.sector] || []).push(r); });
-    const set = new Set();
-    POPULAR_COMPARISONS.forEach(([x, y]) => {
-        const ca = resolveCanonicalSymbol(x);
-        const cb = resolveCanonicalSymbol(y);
-        if (!ca || !cb) return;
-        if (!aiChat.metricsFor(ca) || !aiChat.metricsFor(cb)) return;
-        const [a, b] = [ca, cb].sort();
-        set.add(`${a}-vs-${b}`);
-    });
-    Object.values(bySector).forEach((list) => {
-        list.sort((a, b) => b.marketCapB - a.marketCapB);
-        list.forEach((r, i) => {
-            [list[i + 1], list[i + 2]].forEach((p) => {
-                if (!p) return;
-                const [a, b] = [r.symbol, p.symbol].sort();
-                set.add(`${a}-vs-${b}`);
-            });
-        });
-    });
-    _pairs = [...set].sort();
-    return _pairs;
+    return require('./public-stock-index').view().comparisonPairs.filter(p=>p.split('-vs-').every(s=>require('./public-stock-index').get(s)?.screenable));
 }
 
-// Shared client-side helpers: the old implementation embedded roughly 180 KB of
-// repeated <option> markup in every comparison page. Search suggestions now use
-// the site's existing public asset search only after a visitor types, keeping
-// the server-rendered response small while retaining company-name autocomplete.
 const CMP_EXTRACT_SYM = `function cmpExtractSym(v){v=(v||'').split(' — ')[0];return v.toUpperCase().replace(/[^A-Z0-9.]/g,'');}`;
 const CMP_AUTOCOMPLETE = `function cmpWireAutocomplete(inputId,boxId){
   var input=document.getElementById(inputId),box=document.getElementById(boxId);if(!input||!box)return;
@@ -1651,318 +1349,17 @@ function fitTwoNames(room, nameA, nameB) {
 }
 
 function renderComparePage(pairSlug) {
-    const d = compareData(pairSlug);
-    if (!d || d.redirect) return d;
-    // This pair is about to render with real metrics on both sides. If it came
-    // from outside comparePairs(), the sitemap would never learn it existed.
-    noteDiscoveredCompare(d.a, d.b);
-    const { a, b, ma, mb, canonical, title, description, jsonld, verdictHtml, verdictAi, trs, perfHtml, swapHtml, relatedHtml, faqHtml, screensHtml } = d;
-    return { html: head(title, description, canonical, jsonld) + nav('compare') + `
-<main class="seo-wrap">
-  <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}</style>
-  <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
-  <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
-  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side — fundamentals from SEC filings, refreshed on a rolling schedule. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
-  ${compareDataNote(a, b)}
-  ${verdictHtml}
-  ${verdictAi}
-  <div class="seo-section">
-    <div style="overflow-x:auto"><table class="seo-table cmp-table">
-      <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
-      <tbody>${trs}</tbody>
-    </table></div>
-  </div>
-  ${perfHtml}
-  <div class="seo-section"><h2>Verify the comparison</h2><div class="seo-links"><a href="/tools/earnings-quality">Check earnings versus cash flow &rarr;</a><a href="/tools/dilution">Compare filed share counts &rarr;</a><a href="/tools/filing-timeline">Open the latest SEC filing timeline &rarr;</a><a href="/tools/company-comparison">Run another company comparison &rarr;</a></div><p style="margin-top:10px;font-size:13px;color:var(--ink3)">Use the filing period and source shown by each tool before treating two figures as comparable.</p></div>
-  ${swapHtml}
-  <div class="seo-lock">
-    <h3>See the full ${esc(a)} vs ${esc(b)} breakdown</h3>
-    <p>Both companies across 19 years of income statement, balance sheet and cash flow — with ratios, health checks and Ask, the SEC-grounded research assistant. Free, no account needed.</p>
-    <a class="seo-cta-btn" href="/company?symbol=${esc(a)}">Open ${esc(a)}'s full financials &rarr;</a>
-    &nbsp; <a class="seo-cta-btn" href="/company?symbol=${esc(b)}">Open ${esc(b)}'s full financials &rarr;</a>
-  </div>
-  ${relatedHtml ? `<div class="seo-section"><h2>More comparisons</h2><div class="seo-links">${relatedHtml}</div></div>` : ''}
-  <div class="seo-section"><h2>Frequently asked questions</h2>${faqHtml}</div>
-  <div class="seo-section"><h2>Keep exploring</h2>
-    <div class="seo-links">${screensHtml}</div>
-    <p style="margin-top:10px"><a href="/stocks/${esc(a)}">${esc(a)} fundamentals &rarr;</a> &middot; <a href="/stocks/${esc(b)}">${esc(b)} fundamentals &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p>
-  </div>
-</main>
-<script>
-(function(){
-  var k='sp2up';
-  // Consume the one-shot flag on the ?sp=2 load itself, not on the next free
-  // visit — otherwise the visit right after an upgrade does nothing.
-  if(/(^|[?&])sp=2/.test(location.search)){try{sessionStorage.removeItem(k);}catch(e){}return;}
-  try{if(sessionStorage.getItem(k)){sessionStorage.removeItem(k);return;}}catch(e){}
-  // The app's auth is cookie-based (HttpOnly sp_auth + sp_logged_in marker);
-  // login never stores a localStorage token. Gate on the marker cookie, and
-  // let the same-origin fetch carry sp_auth to /api/session.
-  if(!/(?:^|;\s*)sp_logged_in=1(?:;|$)/.test(document.cookie||''))return;
-  fetch('/api/session').then(function(r){return r.ok?r.json():null;}).then(function(j){
-    var t=j&&j.tier;
-    if(t==='core'||t==='pro'){try{sessionStorage.setItem(k,'1');}catch(e){}location.replace(location.pathname+'?sp=2');}
-  }).catch(function(){});
-})();
-</script>` + footer() };
+    const out=require('./verified-seo').compare(pairSlug,require('./seo-pages'));
+    if(out && !out.redirect && process.env.SEC_COVERAGE_READ_ONLY !== '1') {
+        const [a,b]=String(pairSlug).toUpperCase().split('-VS-');
+        noteDiscoveredCompare(a,b);
+    }
+    return out;
 }
-
-// ---- the paid variant: the full expanded head-to-head ----
-// Grouped ratio table (performance merged in), a red-flags section, a dark
-// AI-verdict hero, and no em-dashes in the prose. Same head/nav/FAQ skeleton
-// as the free page; reached only through /compare/PAIR?sp=2 by paying
-// subscribers, and always sent Cache-Control: private so it never enters the
-// shared SSR cache or a browser/CDN cache.
 function renderComparePagePro(pairSlug) {
-    const d = compareData(pairSlug);
-    if (!d || d.redirect) return d;
-    const { a, b, ma, mb, da, db, inca, inca1, incb, incb1, bala, balb, casha, cashb,
-        perfA, perfB, rangeA, rangeB, listedA, listedB, fmtRet, fmtB, fmtP, peFmt, yesNo, hi, loPos, boolWin, winCell,
-        canonical, title, description, jsonld, faqs, verdictHtml, rfa, rfb, relatedHtml, swapHtml, screensHtml, pair } = d;
-
-    const xFmt = (v) => (v === null || v === undefined) ? '—' : `${v.toFixed(2)}×`;
-    const rangeFmtP = (r) => (r.high != null && r.low != null) ? `$${r.low.toFixed(2)}–$${r.high.toFixed(2)}` : '—';
-    const pctOf = (n, dn) => (n != null && dn != null && dn !== 0) ? (n / dn) * 100 : null;
-    const yoy = (cur, prev) => (cur != null && prev != null && prev > 0) ? ((cur / prev) - 1) * 100 : null;
-    const shOut = (d2, i) => num((((d2.balance || {}).annualReports || [])[i] || {}).commonStockSharesOutstanding);
-    const shares5y = (d2) => yoy(shOut(d2, 0), shOut(d2, 4));
-    const debtOf = (bl) => totalDebtOf(bl);
-    const cashOf = (bl) => { const c = num(bl.cashAndCashEquivalentsAtCarryingValue); return c !== null ? c : num(bl.cashAndShortTermInvestments); };
-    const deOf = (bl) => { const eq = num(bl.totalShareholderEquity), dt = totalDebtOf(bl); return (eq !== null && eq > 0 && dt !== null) ? dt / eq : null; };
-    const fcfMargin = (m, rev) => (m.fcfAbs != null && rev != null && rev > 0) ? ((m.fcfPositive ? m.fcfAbs : -m.fcfAbs) / rev) * 100 : null;
-    const payoutOf = (csh, inc) => {
-        const dv = num(csh.dividendPayoutCommonStock) !== null ? num(csh.dividendPayoutCommonStock) : num(csh.dividendPayout);
-        const ni = num(inc.netIncome);
-        return (dv !== null && ni !== null && ni > 0) ? (Math.abs(dv) / ni) * 100 : null;
-    };
-
-    // One side's expanded-table values, formatted strings plus the raw numbers
-    // the winner logic needs.
-    const sideOf = (m, d2, inc, inc1, bal, csh, rf) => {
-        const rev = num(inc.totalRevenue), gp = grossProfitOf(inc), op = num(inc.operatingIncome),
-            ni = num(inc.netIncome), rev1 = num(inc1.totalRevenue);
-        // EBITDA as filed, else derived: operating income + the same FY's filed
-        // D&A (positive add-back). Missing stays missing — never a guess.
-        let eb = num(inc.ebitda);
-        if (eb === null && op !== null) {
-            const dna = num(csh.depreciationDepletionAndAmortization);
-            if (dna !== null && dna > 0) eb = op + dna;
-        }
-        const ndE = (() => {
-            const dt = totalDebtOf(bal), cshv = cashOf(bal);
-            return (eb !== null && eb > 0 && dt !== null && cshv !== null) ? (dt - cshv) / eb : null;
-        })();
-        return {
-            cap: { v: m.marketCapB, f: fmtB(m.marketCapB) },
-            rev: { v: rev, f: money(rev) },
-            gp: { v: gp, f: money(gp) },
-            op: { v: op, f: money(op) },
-            ni: { v: ni, f: money(ni) },
-            eb: { v: eb, f: money(eb) },
-            eps: { v: num(inc.dilutedEPS), f: (v => v === null ? '—' : `$${v.toFixed(2)}`)(num(inc.dilutedEPS)) },
-            revYoY: { v: yoy(rev, rev1), f: fmtP(yoy(rev, rev1)) },
-            revCagr: { v: m.revCagr5Pct, f: fmtP(m.revCagr5Pct) },
-            qtrYoY: { v: m.qtrNetIncomeYoYPct, f: fmtP(m.qtrNetIncomeYoYPct) },
-            sh5y: { v: shares5y(d2), f: fmtP(shares5y(d2)) },
-            gm: { v: pctOf(gp, rev), f: fmtP(pctOf(gp, rev)) },
-            om: { v: pctOf(op, rev), f: fmtP(pctOf(op, rev)) },
-            nm: { v: m.netMarginPct, f: fmtP(m.netMarginPct) },
-            em: { v: pctOf(eb, rev), f: fmtP(pctOf(eb, rev)) },
-            roe: { v: m.roePct, f: fmtP(m.roePct) },
-            prof: { v: m.profitableYears10, f: (m.profitableYears10 == null ? '—' : String(m.profitableYears10)) },
-            fcf: { v: m.fcfPositive, f: yesNo(m.fcfPositive) },
-            fcfm: { v: fcfMargin(m, rev), f: fmtP(fcfMargin(m, rev)) },
-            flags: { v: rf ? rf.flagCount : null, f: (rf && rf.flagCount != null) ? String(rf.flagCount) : '—' },
-            de: { v: deOf(bal), f: xFmt(deOf(bal)) },
-            ndE: { v: ndE, f: xFmt(ndE) },
-            pe: { v: m.pe, f: peFmt(m.pe) },
-            peg: { v: m.pegRatio, f: peFmt(m.pegRatio) },
-            pb: { v: m.priceToBook, f: peFmt(m.priceToBook) },
-            dy: { v: m.divYieldPct, f: fmtP(m.divYieldPct) },
-            payout: { v: payoutOf(csh, inc), f: fmtP(payoutOf(csh, inc)) }
-        };
-    };
-    const sa = sideOf(ma, da, inca, inca1, bala, casha, rfa);
-    const sb = sideOf(mb, db, incb, incb1, balb, cashb, rfb);
-    const wA = (x) => hi(sa[x].v, sb[x].v);
-    const wL = (x) => loPos(sa[x].v, sb[x].v);
-    const fa = rfa ? rfa.flagCount : null, fb = rfb ? rfb.flagCount : null;
-    const flagWin = (fa !== null && fb !== null && fa !== fb) ? (fa < fb ? 0 : 1) : -1;
-
-    const rowsPro = [
-        { g: 'Size and latest FY' },
-        { l: 'Market cap', a: sa.cap.f, b: sb.cap.f, w: -1 },
-        { l: 'Revenue (latest FY)', a: sa.rev.f, b: sb.rev.f, w: -1 },
-        { l: 'Gross profit', a: sa.gp.f, b: sb.gp.f, w: -1 },
-        { l: 'Operating income', a: sa.op.f, b: sb.op.f, w: -1 },
-        { l: 'Net income', a: sa.ni.f, b: sb.ni.f, w: -1 },
-        { l: 'EBITDA', a: sa.eb.f, b: sb.eb.f, w: -1 },
-        { l: 'EPS (diluted)', a: sa.eps.f, b: sb.eps.f, w: -1 },
-        { g: 'Growth' },
-        { l: 'Revenue growth (latest FY)', a: sa.revYoY.f, b: sb.revYoY.f, w: wA('revYoY') },
-        { l: 'Revenue growth (5y CAGR)', a: sa.revCagr.f, b: sb.revCagr.f, w: wA('revCagr') },
-        { l: 'Latest-quarter earnings YoY', a: sa.qtrYoY.f, b: sb.qtrYoY.f, w: wA('qtrYoY') },
-        { l: 'Share count (5y change)', a: sa.sh5y.f, b: sb.sh5y.f, w: wL('sh5y') },
-        { g: 'Margins' },
-        { l: 'Gross margin', a: sa.gm.f, b: sb.gm.f, w: wA('gm') },
-        { l: 'Operating margin', a: sa.om.f, b: sb.om.f, w: wA('om') },
-        { l: 'Net margin', a: sa.nm.f, b: sb.nm.f, w: wA('nm') },
-        { l: 'EBITDA margin', a: sa.em.f, b: sb.em.f, w: wA('em') },
-        { g: 'Returns and quality' },
-        { l: 'Return on equity', a: sa.roe.f, b: sb.roe.f, w: wA('roe') },
-        { l: 'Profitable years (of last 10)', a: sa.prof.f, b: sb.prof.f, w: wA('prof') },
-        { l: 'Positive free cash flow', a: sa.fcf.f, b: sb.fcf.f, w: boolWin(sa.fcf.v, sb.fcf.v) },
-        { l: 'FCF margin', a: sa.fcfm.f, b: sb.fcfm.f, w: wA('fcfm') },
-        { l: 'Red flags in filings', a: sa.flags.f, b: sb.flags.f, w: flagWin },
-        { g: 'Balance sheet (ratios)' },
-        { l: 'Debt to equity', a: sa.de.f, b: sb.de.f, w: wL('de') },
-        { l: 'Net debt to EBITDA', a: sa.ndE.f, b: sb.ndE.f, w: wL('ndE') },
-        { g: 'Valuation and dividends' },
-        { l: 'P/E ratio', a: sa.pe.f, b: sb.pe.f, w: wL('pe') },
-        { l: 'PEG ratio', a: sa.peg.f, b: sb.peg.f, w: wL('peg') },
-        { l: 'Price to book', a: sa.pb.f, b: sb.pb.f, w: wL('pb') },
-        { l: 'Dividend yield', a: sa.dy.f, b: sb.dy.f, w: wA('dy') },
-        { l: 'Payout ratio', a: sa.payout.f, b: sb.payout.f, w: -1 },
-        { g: 'Performance' },
-        { l: '1-year return', a: fmtRet(perfA.r1, listedA), b: fmtRet(perfB.r1, listedB), w: hi(perfA.r1, perfB.r1) },
-        { l: '3-year return', a: fmtRet(perfA.r3, listedA), b: fmtRet(perfB.r3, listedB), w: hi(perfA.r3, perfB.r3) },
-        { l: '5-year return', a: fmtRet(perfA.r5, listedA), b: fmtRet(perfB.r5, listedB), w: hi(perfA.r5, perfB.r5) },
-        { l: '10-year return', a: fmtRet(perfA.r10, listedA), b: fmtRet(perfB.r10, listedB), w: hi(perfA.r10, perfB.r10) },
-        { l: '52-week range', a: rangeFmtP(rangeA), b: rangeFmtP(rangeB), w: -1 }
-    ];
-    // Collapsible groups: one tbody per group; the first ("Size and latest FY")
-    // starts open, the rest collapsed. Clicking the group row toggles it.
-    const groupsPro = [];
-    rowsPro.forEach((r) => {
-        if (r.g) groupsPro.push({ title: r.g, rows: [] });
-        else groupsPro[groupsPro.length - 1].rows.push(r);
-    });
-    const proTrs = groupsPro.map((g, gi) => {
-        const open = gi === 0;
-        // Collapsed groups keep their FIRST metric row visible as a teaser;
-        // expanding reveals the rest.
-        const body = g.rows.map((r, ri) =>
-            `<tr${gi > 0 && ri === 0 ? ' class="cmp-prev"' : ''}><td>${esc(r.l)}</td>` +
-            `<td${r.w === 0 ? ` style="${winCell}"` : ''}>${esc(r.a)}</td>` +
-            `<td${r.w === 1 ? ` style="${winCell}"` : ''}>${esc(r.b)}</td></tr>`).join('');
-        return `<tbody class="cmp-sec${open ? ' cmp-open' : ''}">` +
-            `<tr class="cmp-grp" role="button" tabindex="0" aria-expanded="${open}" aria-label="${esc(g.title)}: toggle section"><td colspan="3">${esc(g.title)}<span class="cmp-n">${g.rows.length} metrics</span></td></tr>` +
-            body + `</tbody>`;
-    }).join('');
-
-    // ---- red flags, spelled out per company (counts alone hide the detail) ----
-    const flagCard = (sym, name, rf) => {
-        const items = (rf && Array.isArray(rf.flags) ? rf.flags : []).slice(0, 6).map((f) =>
-            `<li style="margin:0 0 9px"><span style="font-weight:650">${esc(dedash(f.title))}</span> <span style="font-size:11.5px;color:var(--ink3)">(${esc(f.severity)})</span><br><span style="font-size:13px;color:var(--ink2)">${esc(dedash(f.detail))}</span></li>`).join('');
-        const empty = !rf
-            ? 'No filed history to scan yet.'
-            : (rf.flagCount === 0 ? 'No red flags found in the filed statements.' : dedash(rf.source || ''));
-        return `<div style="border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:14px 16px">
-      <h3 style="margin:0 0 8px;font-size:14.5px">${esc(name)} (${esc(sym)})</h3>
-      ${items ? `<ul style="margin:0;padding-left:18px;font-size:13.5px;line-height:1.5">${items}</ul>` : `<p style="margin:0;font-size:13.5px;color:var(--ink3)">${esc(empty)}</p>`}
-    </div>`;
-    };
-    const flagsHtml = `
-  <div class="seo-section">
-    <h2>Red flags in the filings</h2>
-    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Computed from each company's filed statements: every flag cites the numbers behind it. A flag is a question to check, not a verdict.</p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px">${flagCard(a, ma.name, rfa)}${flagCard(b, mb.name, rfb)}</div>
-  </div>`;
-
-    // ---- dark-hero AI verdict: same endpoint, same gating, same behavior ----
-    const verdictAiPro = `
-  <div id="aiv" style="border-radius:14px;background:var(--ink);color:var(--paper);padding:20px 20px 18px;margin:14px 0 4px">
-    <div style="font-size:11px;font-weight:700;letter-spacing:.16em;color:rgba(250,249,246,.62)">AI VERDICT</div>
-    <h2 style="margin:6px 0 0;font-size:19px;line-height:1.3;color:var(--paper)">Is ${esc(a)} or ${esc(b)} the stronger business?</h2>
-    <p style="margin:8px 0 14px;font-size:13px;line-height:1.6;color:rgba(250,249,246,.75);max-width:72ch">The stronger business, the cheaper stock, and the risks: synthesised from both companies&rsquo; SEC filings, every figure computed not guessed. Not investment advice.</p>
-    <button type="button" id="aivbtn" style="min-height:46px;padding:0 22px;border:0;border-radius:10px;background:var(--accent);color:#fff;font-size:14.5px;font-weight:650;cursor:pointer;white-space:nowrap">Generate the verdict &rarr;</button>
-    <div id="aivout"></div>
-  </div>
-  <script>
-  (function(){
-    var btn=document.getElementById('aivbtn'),out=document.getElementById('aivout');
-    if(!btn)return;
-    btn.addEventListener('click',function(){
-      btn.disabled=true;var orig=btn.textContent;btn.textContent='Reading the filings…';
-      out.style.marginTop='14px';
-      out.innerHTML='<p style="font-size:13px;color:rgba(250,249,246,.7);margin:0">Computing the head-to-head from both companies&rsquo; filings…</p>';
-      var tok=null;try{tok=localStorage.getItem('token');}catch(e){}
-      fetch('/api/compare/${esc(pair)}/verdict',{headers:tok?{Authorization:'Bearer '+tok}:{}}).then(function(r){
-        return r.json().then(function(j){return {status:r.status,j:j};});
-      }).then(function(res){
-        if(res.status===429){
-          out.innerHTML='<div style="border:1px solid rgba(250,249,246,.28);border-radius:10px;padding:14px 16px;margin-top:14px;background:rgba(250,249,246,.06)"><p style="margin:0 0 12px;font-size:14px;color:var(--paper)">'+(res.j.message||'Free limit reached for today.')+'</p><a class="seo-cta-btn" href="/register">Create a free account &rarr;</a></div>';
-          btn.style.display='none';return;
-        }
-        if(res.status!==200||!res.j.verdict){
-          out.innerHTML='<p style="font-size:13px;color:rgba(250,249,246,.7);margin:14px 0 0">Could not generate the verdict right now. Please try again in a moment.</p>';
-          btn.disabled=false;btn.textContent='Try again';return;
-        }
-        var safe=res.j.verdict.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        out.innerHTML='<div style="background:var(--surface);border-radius:10px;padding:14px 16px;margin-top:14px"><div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--ink3)">VERDICT</div><div style="white-space:pre-wrap;font-size:14.5px;line-height:1.7;color:var(--ink);margin-top:6px">'+safe+'</div><p style="margin:10px 0 0;font-size:11.5px;color:var(--ink3)">Computed from SEC-filed statements; the model writes the synthesis, never the numbers. Not investment advice.</p></div><div style="display:flex;gap:7px;align-items:center;margin-top:10px"><span style="font-size:11.5px;color:rgba(250,249,246,.65)">Share</span><button type="button" id="aivx" class="seo-cta-btn" style="cursor:pointer">X / Twitter</button><button type="button" id="aivcopy" class="seo-cta-btn" style="cursor:pointer">Copy</button></div>';
-        var excerpt=res.j.verdict.replace(/\\s+/g,' ').slice(0,220),shareTitle='${esc(a)} vs ${esc(b)} AI verdict';
-        document.getElementById('aivx').onclick=function(){window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareTitle+'\\n\\n'+excerpt)+'&url='+encodeURIComponent(location.href),'_blank','noopener,noreferrer,width=720,height=520');};
-        document.getElementById('aivcopy').onclick=function(){var text=shareTitle+'\\n\\n'+res.j.verdict+'\\n\\n'+location.href;navigator.clipboard?navigator.clipboard.writeText(text):window.prompt('Copy this verdict',text);this.textContent='Copied';};
-        btn.style.display='none';
-      }).catch(function(e){
-        out.innerHTML='<p style="font-size:13px;color:rgba(250,249,246,.7);margin:14px 0 0">Something went wrong. Please try again.</p>';
-        btn.disabled=false;btn.textContent=orig;
-      });
-    });
-  })();
-  </script>`;
-
-    // Em-dash-free FAQ text for the paid page; the free page keeps its copy.
-    const proFaqHtml = faqs.map((f) =>
-        `<h3 style="font-size:15.5px;margin:18px 0 6px">${esc(f.q)}</h3><p style="margin:0;font-size:14px;line-height:1.7;max-width:74ch">${esc(dedash(f.a))}</p>`).join('');
-    const proJsonld = dedash(jsonld);
-
-    return { html: head(title, description, canonical, proJsonld).replace('</title>', '</title><meta name="robots" content="noindex">') + nav('compare') + `
-<main class="seo-wrap">
-  <style>@media (max-width:560px){.cmp-table{table-layout:fixed;width:100%}.cmp-table th,.cmp-table td{padding:8px 7px;font-size:12.5px;white-space:normal;overflow-wrap:anywhere;word-break:break-word}.cmp-table th:first-child,.cmp-table td:first-child{width:40%}.cmp-table th:nth-child(n+2),.cmp-table td:nth-child(n+2){width:30%}}.cmp-grp td{padding:14px 7px 6px;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink3);border-top:1px solid var(--line)}.cmp-grp{cursor:pointer;-webkit-user-select:none;user-select:none}.cmp-grp:focus-visible td{outline:2px solid var(--accent);outline-offset:-2px}.cmp-grp td::before{content:'▾ ';color:var(--ink3)}.cmp-sec:not(.cmp-open) .cmp-grp td::before{content:'▸ '}.cmp-sec:not(.cmp-open) tr:not(.cmp-grp):not(.cmp-prev){display:none}.cmp-n{float:right;font-weight:600;letter-spacing:.02em;text-transform:none;color:var(--ink3)}@keyframes aivpulse{0%,100%{box-shadow:0 0 0 0 rgba(26,79,214,.40)}55%{box-shadow:0 0 0 9px rgba(26,79,214,0)}}#aivbtn{animation:aivpulse 2.4s infinite}</style>
-  <div class="seo-crumbs"><a href="/stocks">Stocks</a> / ${esc(a)} vs ${esc(b)}</div>
-  <h1 class="seo-h1">${esc(ma.name)} (${esc(a)}) vs ${esc(mb.name)} (${esc(b)})</h1>
-  <p class="seo-sub">${esc(ma.name)} and ${esc(mb.name)} side by side: fundamentals from SEC filings, refreshed on a rolling schedule. Sector: ${esc(ma.sector)}${ma.sector !== mb.sector ? ` / ${esc(mb.sector)}` : ''}.</p>
-  ${compareDataNote(a, b)}
-  ${dedash(verdictHtml)}
-  ${verdictAiPro}
-  <div class="seo-section">
-    <h2>The full numbers, head to head</h2>
-    <p style="margin:0 0 10px;font-size:13.5px;color:var(--ink2)">Every figure is computed from SEC-filed statements, refreshed on a rolling schedule. Returns are total returns from monthly split- and dividend-adjusted closes; past performance is not a prediction. The stronger figure on each row is in <span style="color:var(--pos);font-weight:650">green</span>; raw size rows stay untinted because bigger is not automatically better.</p>
-    <div style="overflow-x:auto"><table class="seo-table cmp-table">
-      <thead><tr><th>&nbsp;</th><th><a href="/stocks/${esc(a)}">${esc(ma.name)} (${esc(a)})</a></th><th><a href="/stocks/${esc(b)}">${esc(mb.name)} (${esc(b)})</a></th></tr></thead>
-      ${proTrs}
-    </table></div>
-    <script>
-    (function(){
-      var t=document.querySelector('.cmp-table');if(!t)return;
-      Array.prototype.forEach.call(t.querySelectorAll('.cmp-grp'),function(tr){
-        var tg=function(){var sec=tr.closest('tbody');if(!sec)return;var open=sec.classList.toggle('cmp-open');tr.setAttribute('aria-expanded',open?'true':'false');};
-        tr.addEventListener('click',tg);
-        tr.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tg();}});
-      });
-    })();
-    </script>
-  </div>
-  ${flagsHtml}
-  <div class="seo-section"><h2>Verify the comparison</h2><div class="seo-links"><a href="/tools/earnings-quality">Check earnings versus cash flow &rarr;</a><a href="/tools/dilution">Compare filed share counts &rarr;</a><a href="/tools/filing-timeline">Open the latest SEC filing timeline &rarr;</a><a href="/tools/company-comparison">Run another company comparison &rarr;</a></div><p style="margin-top:10px;font-size:13px;color:var(--ink3)">Use the filing period and source shown by each tool before treating two figures as comparable.</p></div>
-  ${swapHtml}
-  <div class="seo-lock">
-    <h3>See the full ${esc(a)} vs ${esc(b)} breakdown</h3>
-    <p>Both companies across 19 years of income statement, balance sheet and cash flow: ratios, health checks and Ask, the SEC-grounded research assistant. Free, no account needed.</p>
-    <a class="seo-cta-btn" href="/company?symbol=${esc(a)}">Open ${esc(a)}'s full financials &rarr;</a>
-    &nbsp; <a class="seo-cta-btn" href="/company?symbol=${esc(b)}">Open ${esc(b)}'s full financials &rarr;</a>
-  </div>
-  ${relatedHtml ? `<div class="seo-section"><h2>More comparisons</h2><div class="seo-links">${relatedHtml}</div></div>` : ''}
-  <div class="seo-section"><h2>Frequently asked questions</h2>${proFaqHtml}</div>
-  <div class="seo-section"><h2>Keep exploring</h2>
-    <div class="seo-links">${screensHtml}</div>
-    <p style="margin-top:10px"><a href="/stocks/${esc(a)}">${esc(a)} fundamentals &rarr;</a> &middot; <a href="/stocks/${esc(b)}">${esc(b)} fundamentals &rarr;</a> &middot; <a href="/stocks">All 1,500+ companies &rarr;</a> &middot; <a href="/screener">Free screener &rarr;</a></p>
-  </div>
-</main>` + footer() };
+    return require('./verified-seo').compare(pairSlug,require('./seo-pages'),{privatePage:true});
 }
 
-// ---------- screener-preset landing pages ----------
 const SCREENS = {
     'dividend-stocks': {
         h1: 'Best Dividend Stocks in the US Market',
@@ -2238,7 +1635,7 @@ function renderScreenPage(slug) {
   ${askHero}
   <div class="seo-lock">
     <h3>Run your own screen — free</h3>
-    <p>The full screener covers 3,800+ US companies with growth, margin, ROE, valuation and dividend filters. No account needed.</p>
+    <p>The full screener covers companies with verified core SEC financial data with growth, margin, ROE, valuation and dividend filters. No account needed.</p>
     <a class="seo-cta-btn" href="/screener">Open the free screener</a>
   </div>
   <div class="seo-section"><h2>${esc(s.h1)} — frequently asked questions</h2>${faqHtml}</div>
@@ -2505,6 +1902,6 @@ module.exports = {
     pilotEnabled, organicRequest, pilotEligibility, pilotAction,
     renderSharesResearch, renderPeResearch, renderDilutionScorecard,
     renderRead10KGuide, renderCompareGuide, renderFreeCashFlowGuide, renderFindUndervaluedGuide,
-    monthlySeries, totalReturn, fiftyTwoWeekRange, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
+    CMP_EXTRACT_SYM, CMP_AUTOCOMPLETE, monthlySeries, totalReturn, fiftyTwoWeekRange, sectorPercentile, sectorPeers, METRIC_INDEX_FIELD,
     renderPriceHistoryPage
 };

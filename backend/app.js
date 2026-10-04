@@ -197,6 +197,7 @@ require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 async function presentFundamentalsCurrency(payload, requestedCurrency) {
     if (String(requestedCurrency || '').trim().toUpperCase() !== 'USD') return payload;
     try {
+        if(payload.provenance){const source=fxConversion.reportingCurrency(payload);if(source==='USD')return payload;const rates=await fxConversion.rateSeries(source);return {...require('./sec-presentation').usd(payload,{[source]:rates}),currencyConversion:{from:source,to:'USD',source:'Yahoo Finance historical FX',approximate:true}};}
         return await fxConversion.convertPayloadToUsd(payload);
     } catch (error) {
         // A missing FX series must never make the underlying filing data
@@ -2569,6 +2570,10 @@ const ssrCacheMw = ssrCache.middleware({
         || (PRICE_PAGE_RE.test(String((req && req.path) || '')) && !quoteStore.isLikelyCrawler(req && req.get('user-agent')))
 });
 app.use(ssrCacheMw);
+require('./sec-on-demand').onChange(symbols => {
+    const set=new Set(symbols);
+    ssrCacheMw.store.invalidateWhere(key => key==='/stocks' || /^\/sitemap|^\/sitemaps\//.test(key) || symbols.some(s=>key===`/stocks/${s}` || key.startsWith(`/stocks/${s}/`)) || (key.startsWith('/compare/') && key.slice(9).split('-vs-').some(s=>set.has(s))));
+});
 
 app.get('/sitemap.xml', (req, res) => {
     res.set('Content-Type', 'application/xml').send(seoPages.buildSitemap());
@@ -2947,7 +2952,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260928-fundsearch" />
+<link rel="stylesheet" href="/assets/system.css?v=20261004-askquality2" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2976,7 +2981,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260928-fundsearch"></script>
+<script src="/assets/app.js?v=20261004-askquality2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3068,7 +3073,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260928-fundsearch" />
+<link rel="stylesheet" href="/assets/system.css?v=20261004-askquality2" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3096,7 +3101,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260928-fundsearch"></script>
+<script src="/assets/app.js?v=20261004-askquality2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3204,7 +3209,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20260928-fundsearch" />
+<link rel="stylesheet" href="/assets/system.css?v=20261004-askquality2" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3237,7 +3242,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20260928-fundsearch"></script>
+<script src="/assets/app.js?v=20261004-askquality2"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8654,7 +8659,10 @@ app.get('/api/assets/search', assetSearchLimiter, async (req, res) => {
     if (!query) return res.json([]);
     const local = searchTopCompanies(query, limit).map((row) => ({
         symbol: row.symbol, name: row.name, sector: row.sector || '',
-        assetType: 'stock', assetTypeLabel: 'Stock', quoteType: 'EQUITY'
+        securityType: require('./stock-universe').lookup(row.symbol)?.securityType || 'stock',
+        assetType: require('./stock-universe').lookup(row.symbol)?.securityType || 'stock',
+        assetTypeLabel: ({stock:'Stock',unit:'Unit',right:'Right'})[require('./stock-universe').lookup(row.symbol)?.securityType || 'stock'],
+        supportsCompanyFinancials: require('./stock-universe').lookup(row.symbol)?.securityType === 'stock', quoteType: 'EQUITY'
     }));
     const directory = searchFundDirectory(query, limit);
     try {
@@ -8897,26 +8905,12 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // (~3MB). Monthly series in same response covers longer ranges.
         // Client can request ?historyDepth=full when user picks 3Y+ ranges.
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        const [quote, overview, daily, monthly, income, balance, cash] = await Promise.all([
-            fetchAlphaCached('GLOBAL_QUOTE', { symbol }, ALPHA_CACHE_TTL_MS.quote),
-            fetchAlphaCached('OVERVIEW', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
-            fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: historyDepth }, ALPHA_CACHE_TTL_MS.daily),
-            fetchAlphaCached('TIME_SERIES_MONTHLY_ADJUSTED', { symbol }, ALPHA_CACHE_TTL_MS.monthly),
-            fetchAlphaCached('INCOME_STATEMENT', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
-            fetchAlphaCached('BALANCE_SHEET', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
-            fetchAlphaCached('CASH_FLOW', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals)
-        ]);
-        if (local) {
-            overview.Name = overview.Name || local.name;
-            overview.MarketCapitalization = overview.MarketCapitalization || (local.marketCap ? String(local.marketCap) : '');
-            overview.PERatio = overview.PERatio || (local.peRatio ? String(local.peRatio) : '');
-            overview.EPS = overview.EPS || (local.eps ? String(local.eps) : '');
-            overview.Sector = overview.Sector || local.sector || '';
-        }
-        // SEC EDGAR backfill: fill any cell Yahoo left blank from the
-        // company's actual XBRL filings. US-only, but free + no API key.
-        const payload = { quote, overview, daily, monthly, income, balance, cash };
-        await secSource.backfillStatements(symbol, payload).catch(() => {});
+        const payload = require('./fundamentals-cache').loadFundamentals(symbol);
+        if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
+        if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
+        if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
+        if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
+        if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         // Tier meter v2 — history depth. Inert unless ENABLE_TIER_V2_LIMITS=true
         // and this account redeemed on/after TIER_V2_EFFECTIVE_FROM; every
         // existing redeemer always comes back unlimited. See lib/tier-limits.js.
@@ -10177,12 +10171,17 @@ function screenerCriteria(q) {
     };
 }
 
+app.get('/api/stock-coverage', (req, res) => {
+    try { const {counts,asOf,generatedAt,policyVersion}=require('./public-stock-index').view(); res.json({counts,asOf,generatedAt,policyVersion,definition:'Validated issuer with an original 10-K, 20-F or 40-F filed within 12 calendar months, a report period ending within 18 calendar months, and submissions checked within 35 days. That annual report or its verified amendment supplies annual net income, assets, shareholders’ equity, operating cash flow, and revenue or basic/diluted EPS, with exact SEC provenance.'}); }
+    catch(error) { res.status(503).json({code:'STOCK_COVERAGE_UNAVAILABLE',message:'Verified coverage is temporarily unavailable.'}); }
+});
+
 app.get('/api/screener', (req, res) => {
     try {
         const result = aiChat.screenRows(screenerCriteria(req.query || {}));
         res.json({ ...result, sectors: aiChat.sectorList() });
     } catch (error) {
-        res.status(500).json({ message: publicErrorMessage(error, 'Screener failed') });
+        res.status(error.status || 500).json({ code:error.code || 'SCREENER_FAILED', message: publicErrorMessage(error, 'Screener failed') });
     }
 });
 
@@ -12345,25 +12344,12 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        const [quote, overview, daily, monthly, income, balance, cash] = await Promise.all([
-            fetchAlphaCached('GLOBAL_QUOTE', { symbol }, ALPHA_CACHE_TTL_MS.quote),
-            fetchAlphaCached('OVERVIEW', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
-            fetchAlphaCached('TIME_SERIES_DAILY_ADJUSTED', { symbol, outputsize: historyDepth }, ALPHA_CACHE_TTL_MS.daily),
-            fetchAlphaCached('TIME_SERIES_MONTHLY_ADJUSTED', { symbol }, ALPHA_CACHE_TTL_MS.monthly),
-            fetchAlphaCached('INCOME_STATEMENT', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
-            fetchAlphaCached('BALANCE_SHEET', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals),
-            fetchAlphaCached('CASH_FLOW', { symbol }, ALPHA_CACHE_TTL_MS.fundamentals)
-        ]);
-        const local = topCompaniesBySymbol.get(symbol);
-        if (local) {
-            overview.Name = overview.Name || local.name;
-            overview.MarketCapitalization = overview.MarketCapitalization || (local.marketCap ? String(local.marketCap) : '');
-            overview.PERatio = overview.PERatio || (local.peRatio ? String(local.peRatio) : '');
-            overview.EPS = overview.EPS || (local.eps ? String(local.eps) : '');
-            overview.Sector = overview.Sector || local.sector || '';
-        }
-        const payload = { quote, overview, daily, monthly, income, balance, cash };
-        await secSource.backfillStatements(symbol, payload).catch(() => {});
+        const payload = require('./fundamentals-cache').loadFundamentals(symbol);
+        if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
+        if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
+        if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
+        if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
+        if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         res.json(await presentFundamentalsCurrency(payload, req.query.presentationCurrency));
     } catch (error) {
         res.status(error.status || 500).json({ message: publicErrorMessage(error, 'Fundamentals load failed') });

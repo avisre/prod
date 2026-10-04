@@ -38,8 +38,7 @@ function normalize(symbol) {
 }
 
 function num(value) {
-    const n = Number(value);
-    return Number.isFinite(n) ? n : null;
+    return require('./sec-coverage').number(value);
 }
 
 const CRAWLER_RE = /bot|crawl|spider|slurp|bing|google|yandex|baidu|duckduck|facebookexternalhit|semrush|ahrefs|mj12|dotbot|petal|applebot|python-requests|curl|wget|headless|pingdom|statuscake|uptime/i;
@@ -94,13 +93,13 @@ function applySecShares(quote) {
     return { ...quote, marketCap: Math.round(quote.price * s.shares), sharesOutstanding: s.shares, sharesAsOf: s.asOf, marketCapSource: 'sec-shares' };
 }
 
-function getDailyQuote(symbol) {
+function getDailyQuote(symbol,{useLegacySecShares=true}={}) {
     const key = normalize(symbol);
     if (!key) return null;
     const row = loadDailyFile()[key];
     const price = row ? num(row.price) : null;
     if (price === null || price <= 0) return null;
-    return applySecShares({
+    const quote={
         symbol: key,
         price,
         previousClose: num(row.previousClose),
@@ -114,7 +113,8 @@ function getDailyQuote(symbol) {
         fetchedAt: row.fetchedAt || null,
         currency: row.currency || 'USD',
         source: 'daily'
-    });
+    };
+    return useLegacySecShares?applySecShares(quote):quote;
 }
 
 const liveCache = new Map(); // KEY -> { at, quote }

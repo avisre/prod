@@ -27,12 +27,12 @@ const ALL_SCOPES = ['financials:read', 'filings:read', 'research:read'];
 // below proves it makes no outbound request.
 const OPEN_WORLD = {
     search_companies: false,
-    get_company_financials: true,
-    get_metric_history: true,
+    get_company_financials: false,
+    get_metric_history: false,
     search_filings: true,
     get_filing_content: true,
-    compare_company_metrics: true,
-    get_financial_change_drivers: true
+    compare_company_metrics: false,
+    get_financial_change_drivers: false
 };
 
 // --- SEC fixtures -----------------------------------------------------------
@@ -176,7 +176,7 @@ test('search_companies returns ticker, name, CIK and exchange without any financ
     assert.ok(apple, 'Apple must resolve to AAPL');
     assert.equal(apple.name, 'Apple Inc.');
     assert.equal(apple.cik, '0000320193');
-    assert.equal(apple.exchange, 'NasdaqGS');
+    assert.equal(apple.exchange, 'Nasdaq');
     assert.equal(payload.companies[0].value, undefined, 'no financial values leak into a company search');
 });
 
@@ -192,11 +192,11 @@ test('search_companies is closed-world: it answers without any outbound request'
     assert.ok(result.structuredContent.companies.some((c) => c.ticker === 'AAPL'), 'Apple must resolve to AAPL');
     assert.equal(axios.get.mock.callCount(), before,
         'search_companies must not reach the network — that is why it declares openWorldHint: false');
-    // Positive control: a SEC-backed tool must move the same counter, otherwise
+    // Positive control: filing search reaches SEC; stored financial observations stay offline.
     // the assertion above could pass on a dead stub.
-    await client.callTool({ name: 'get_company_financials', arguments: { company: 'AAPL', periods: 1 } });
+    await client.callTool({ name: 'search_filings', arguments: { company: 'AAPL', limit: 1 } });
     assert.ok(axios.get.mock.callCount() > before,
-        'get_company_financials reaches SEC over the network — that is why it declares openWorldHint: true');
+        'search_filings reaches SEC over the network');
 });
 
 test('get_company_financials returns filed values with the filing that reports each period', async (t) => {
@@ -214,11 +214,11 @@ test('get_company_financials returns filed values with the filing that reports e
     const latest = revenue.observations[0];
     // The real FY2025 figure from frontend/data/fundamentals/AAPL.json.
     assert.equal(latest.value, 416161000000);
-    assert.equal(latest.period_end, '2025-09-30');
+    assert.equal(latest.period_end, '2025-09-27');
     assert.match(latest.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
     assert.equal(latest.source.accession_number, '0000320193-25-000079');
     assert.equal(latest.source.form, '10-K');
-    assert.ok(['filing_period', 'xbrl_fact'].includes(latest.source.linkage));
+    assert.equal(latest.source.linkage,'xbrl_fact');assert.equal(latest.source.rawValue,latest.value);
 });
 
 test('get_metric_history returns a single metric oldest-first, including SEC-derived share counts', async (t) => {
@@ -236,14 +236,14 @@ test('get_metric_history returns a single metric oldest-first, including SEC-der
     const dates = payload.observations.map((o) => o.period_end);
     assert.deepEqual(dates, [...dates].sort(), 'chronological order');
     const filed = payload.observations.filter((o) => o.value !== null);
-    assert.equal(filed.length, 3, 'three of the four periods have a discrete filed fact');
+    assert.equal(filed.length, 4, 'four available discrete quarters have stored verified facts; an absent Q4 is not inferred from annual shares');
     for (const o of filed) {
         assert.equal(o.source.type, 'sec_xbrl_fact');
         assert.match(o.source.accession_number, /^\d{10}-\d{2}-\d{6}$/);
         assert.match(o.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
     }
-    const missing = payload.observations.find((o) => o.value === null);
-    assert.ok(missing && missing.note, 'a period with no filed value says why, and is never estimated');
+    assert.ok(payload.observations.every(o=>o.source?.periodEnd===o.period_end));
+    assert.ok(!payload.observations.some(o=>o.period_end==='2025-09-27'),'the annual weighted average is never substituted for Q4');
 });
 
 test('comparison accepts 2-5 companies and refuses more', async (t) => {
@@ -433,7 +433,7 @@ test('responses carry no timestamps, identifiers, tokens or debug fields', async
     const raw = result.content[0].text;
     assert.doesNotMatch(raw, /generatedAt|timestamp|traceId|requestId|sessionId|stack|apiKey|token/i);
     const payload = JSON.parse(raw);
-    assert.deepEqual(Object.keys(payload).sort(), ['company', 'metrics', 'order', 'period_type']);
+    assert.deepEqual(Object.keys(payload).sort(), ['company', 'coverage', 'metrics', 'order', 'period_type']);
     const keys = Object.keys(payload.metrics[0].observations[0]).sort();
     for (const key of keys) {
         assert.ok(['currency', 'derived_from', 'label', 'metric', 'note', 'period_end', 'period_type', 'source', 'units', 'value'].includes(key), `unexpected observation field ${key}`);

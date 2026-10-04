@@ -26,8 +26,9 @@ const path = require('path');
 const mongoose = require('mongoose');
 const aiClient = require('./ai-client');
 const fundFetch = require('./fundamentals-fetch');
-const quoteStore = require('./quote-store');
-const fundDate = require('./fundamentals-date');
+const stockUniverse = require('./stock-universe');
+const evidence = require('./ask-evidence');
+const answerQuality = require('./ask-answer-quality');
 const yahooSource = require('./yahoo-source');
 const assetProfile = require('./asset-profile');
 const fundRanking = require('./fund-ranking');
@@ -55,7 +56,7 @@ const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 // script regenerates it from fresh data. Any read/write failure falls back to
 // the in-process build (the previous behavior), so this is strictly additive.
 const SCREEN_INDEX_FILE = path.join(FUND_DIR, '..', 'screen-index.json');
-const SCREEN_INDEX_VERSION = 1; // bump to invalidate persisted index on format change
+const SCREEN_INDEX_VERSION = 4; // verified rows and complete generation fingerprints
 // The model calls go through `deps` so tests can drive the loop with a
 // scripted provider. The contracts worth covering here — one tool reply per
 // tool_call_id, never rendering a prose tool call, think-stripping, identity
@@ -77,12 +78,10 @@ const QUESTION_MAX_CHARS = 8000;
 // '' / null / undefined mean "not disclosed" in the cache — never coerce them
 // to 0 (Number('') === 0 would silently turn missing data into real zeros).
 function num(v) {
-    if (v === null || v === undefined || v === '' || v === 'None') return null;
-    const n = Number(v);
-    return Number.isFinite(n) ? n : null;
+    return require('./sec-coverage').number(v);
 }
 
-// Money in USD millions (compact for the prompt, precise enough for analysis).
+// Money in the reported currency, millions (compact presentation only).
 function mm(v) {
     const n = num(v);
     if (n === null) return '';
@@ -94,52 +93,32 @@ function pct(n, dp = 1) { return n === null ? '' : n.toFixed(dp); }
 function cell(v) { return (v === '' || v === null || v === undefined) ? '-' : v; }
 function ratio(a, b) {
     const x = num(a); const y = num(b);
-    if (x === null || y === null || y === 0) return null;
+    if (x === null || y === null || y <= 0) return null;
     return x / y;
 }
 
 // ---- Fundamentals cache (small LRU of full payloads; files are ~300KB) ----
-const _cache = new Map();
-const CACHE_MAX = 40;
 function loadFund(symbol) {
-    const key = String(symbol || '').toUpperCase().trim();
-    if (!key || !/^[A-Z0-9.\-]{1,10}$/.test(key)) return null;
-    if (_cache.has(key)) {
-        const v = _cache.get(key);
-        _cache.delete(key); _cache.set(key, v); // refresh LRU position
-        return v;
-    }
-    let data = null;
-    try {
-        const f = path.join(FUND_DIR, `${key.replace(/[^A-Z0-9]/g, '_')}.json`);
-        if (fs.existsSync(f)) data = JSON.parse(fs.readFileSync(f, 'utf8'));
-    } catch (_) { data = null; }
-    _cache.set(key, data);
-    if (_cache.size > CACHE_MAX) _cache.delete(_cache.keys().next().value);
-    return data;
+    const company=stockUniverse.lookup(symbol);
+    if (!company || company.securityType !== 'stock') return null;
+    return require('./fundamentals-cache').loadFundamentals(company.symbol);
 }
-// cache first; any other US-listed SEC registrant is built on demand
-// (Yahoo + SEC, ~5-20s once, persisted) — the universe is ALL of them.
-// A cache hit past isStaleOnDemand's threshold still gets rebuilt below —
-// otherwise a non-index ticker's first-ever fetch date is also its last.
 async function loadFundAny(symbol) {
-    const key = String(symbol || '').toUpperCase().trim();
-    const cached = loadFund(symbol);
-    if (cached && !fundFetch.isStaleOnDemand(key)) return cached;
-    if (!fundFetch.lookup(key)) return cached; // not a US-listed SEC filer — serve whatever cache exists, if any
-    try {
-        const payload = await fundFetch.buildFundamentals(key);
-        _cache.set(key, payload);
-        return payload;
-    } catch (_) { return cached; } // rebuild failed — fail open to the stale cache rather than nothing
+    const company=stockUniverse.lookup(symbol);
+    if (company && company.securityType !== 'stock') throw Object.assign(new Error('Company financial analysis is unavailable for this security type.'),
+        { code: 'UNSUPPORTED_SECURITY_TYPE', symbol: company.symbol, securityType: company.securityType });
+    const data=loadFund(symbol);
+    if (data && data.coverage.annualReportingStatus === 'recent_annual') return data;
+    if (company) await require('./sec-on-demand').refresh(company.symbol);
+    return loadFund(symbol);
 }
-const NO_DATA = (symbol) => ({ error: `No data for ${symbol}. We cover US exchange-listed SEC filers. Check the ticker symbol.` });
+const NO_DATA = (symbol, data) => ({ code: 'VERIFIED_FINANCIALS_UNAVAILABLE', error: `No verified financial data is available for ${symbol}.`, coverage: data?.coverage || null });
 
 // ---- Tool: get_financials ----
 const FIELDS = {
     income: ['totalRevenue', 'costOfRevenue', 'grossProfit', 'researchAndDevelopment',
         'sellingGeneralAndAdministrative', 'operatingIncome', 'interestExpense',
-        'incomeBeforeTax', 'incomeTaxExpense', 'netIncome', 'dilutedEPS'],
+        'incomeBeforeTax', 'incomeTaxExpense', 'netIncome', 'dilutedEPS', 'eps'],
     balance: ['totalAssets', 'totalCurrentAssets', 'cashAndCashEquivalentsAtCarryingValue',
         'shortTermInvestments', 'inventory', 'propertyPlantEquipment', 'goodwill',
         'totalLiabilities', 'totalCurrentLiabilities', 'shortTermDebt', 'currentLongTermDebt',
@@ -150,7 +129,7 @@ const FIELDS = {
         'deferredRevenue', 'changeInReceivables', 'changeInInventory',
         'proceedsFromIssuanceOfCommonStock', 'dividendPayoutCommonStock', 'shareBasedCompensation']
 };
-const PER_SHARE = new Set(['dilutedEPS']);
+const PER_SHARE = new Set(['dilutedEPS', 'eps']);
 const SHARE_COUNT = new Set(['commonStockSharesOutstanding']);
 
 // How old the newest period must be before a NEWER one could plausibly be
@@ -186,34 +165,20 @@ function freshness(latestPeriodEnd, basis) {
     return out;
 }
 
-async function toolGetFinancials({ symbol, statement, basis, limit }) {
+async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
     const data = await loadFundAny(symbol);
-    if (!data) return NO_DATA(symbol);
+    if (!data || !stockUniverse.hasStatements(data)) return NO_DATA(symbol, data);
     const st = ['income', 'balance', 'cash'].includes(statement) ? statement : 'income';
     const annual = basis !== 'quarterly';
-    const reports = ((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || [];
-    if (!reports.length) return { error: `No ${st} data for ${symbol}.` };
-    const cap = Math.min(Math.max(num(limit) || (annual ? 20 : 12), 1), annual ? 20 : 48);
-    const rows = reports.slice(0, cap);
+    if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
+    const reports = (((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || []).filter(r => !before || r.fiscalDateEnding < before);
+    if (!reports.length) return { error: `No verified ${st} data for ${symbol} in this period range.`, coverage: data.coverage };
+    const cap = Math.min(Math.max(num(limit) || (annual ? 3 : 4), 1), annual ? 20 : 48);
+    const rows = reports.slice().sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)).slice(0, cap);
     const fields = FIELDS[st];
     const lines = ['period_end|' + fields.join('|')];
     for (const r of rows) {
-        // Some source years store a literal 0 for gross profit / cost of
-        // revenue when the figure was simply absent — repair from revenue
-        // where possible, otherwise blank it so the model says "unavailable"
-        // instead of claiming a 100% gross margin.
-        const rev = num(r.totalRevenue);
-        let gp = num(r.grossProfit); if (gp === 0) gp = null;
-        let cor = num(r.costOfRevenue); if (cor === 0) cor = null;
-        if (st === 'income' && rev !== null) {
-            if (gp === null && cor !== null) gp = rev - cor;
-            if (cor === null && gp !== null) cor = rev - gp;
-        }
-        let tax = num(r.incomeTaxExpense);
-        if (st === 'income' && (tax === null || tax === 0)) {
-            const pre = num(r.incomeBeforeTax); const nin = num(r.netIncome);
-            if (pre !== null && nin !== null && pre - nin > 0) tax = pre - nin;
-        }
+        const gp = num(r.grossProfit), cor = num(r.costOfRevenue), tax = num(r.incomeTaxExpense);
         lines.push([r.fiscalDateEnding].concat(fields.map((f) => {
             if (f === 'grossProfit') return gp === null ? '' : mm(gp);
             if (f === 'costOfRevenue') return cor === null ? '' : mm(cor);
@@ -225,18 +190,45 @@ async function toolGetFinancials({ symbol, statement, basis, limit }) {
     }
     const currency = String((rows[0] || {}).reportedCurrency || 'USD').toUpperCase();
     const fresh = freshness((rows[0] || {}).fiscalDateEnding, annual ? 'annual' : 'quarterly');
-    return {
+    const observations = rows.map(row => {
+        const observation = evidence.rowEvidence(row, fields);
+        for (const [field, fact] of Object.entries(observation.fields)) {
+            if (fact.value === null) fact.missingReason =
+                (PER_SHARE.has(field) || SHARE_COUNT.has(field)) && data.coverage?.perShareAllowed === false
+                    ? 'The security share class or ADR basis is unverified. Issuer per-share facts cannot be attributed to this ticker.'
+                    : 'No compatible verified SEC fact is available for this metric and period.';
+        }
+        return observation;
+    });
+    const comparisonReports = st === 'cash' ? reports.map(row => {
+        const fcf = evidence.freeCashFlow(row);
+        return { ...row, freeCashflow: fcf.value, _sources: { ...row._sources, freeCashflow: fcf.sourceIds },
+            _derivations: { ...row._derivations, freeCashflow: { formula: fcf.formula, inputs: fcf.inputs, sourceIds: fcf.sourceIds } },
+            _scopes: { ...row._scopes, freeCashflow: row._scopes?.operatingCashflow || null } };
+    }) : reports;
+    const comparisonFields = annual
+        ? st === 'cash' ? ['operatingCashflow', 'capitalExpenditures', 'freeCashflow']
+            : st === 'balance' ? ['totalAssets', 'totalShareholderEquity'] : ['totalRevenue', 'netIncome']
+        : st === 'cash' ? fields.concat('freeCashflow') : fields;
+    const comparisons = annual ? evidence.annualComparisons(comparisonReports, comparisonFields)
+        : evidence.quarterlyComparisons(comparisonReports, comparisonFields);
+    const calculations = st === 'cash' ? rows.map(evidence.freeCashFlow) : [];
+    const capitalReturns = st === 'cash' ? rows.map(evidence.capitalReturns) : [];
+    return evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
         statement: st,
         basis: annual ? 'annual (fiscal years)' : 'quarterly',
         currency,
         ...(fresh || {}),
         ...(currency !== 'USD' ? { currencyWarning: `FIGURES ARE IN ${currency}, NOT USD — this company reports in its home currency. State the currency in your answer and never present these values as dollars.` } : {}),
-        units: `${currency} millions, except dilutedEPS (${currency}) and commonStockSharesOutstanding (millions of shares)`,
-        note: 'Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Share counts and per-share figures are AS FILED — not adjusted for later stock splits, so do not compare them across a split.',
-        source: 'Company SEC filings (10-K/10-Q), stockportfolio.pro fundamentals cache',
+        units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding (millions of shares). Observations and calculations use raw unscaled values.`,
+        note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
+        coverage: data.coverage,
+        observations, comparisons, calculations, capitalReturns,
+        provenance: evidence.provenance(data, [observations, comparisons, calculations, capitalReturns]),
+        source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
-    };
+    }, data, reports.length);
 }
 
 // ---- Tool: get_ratios_history ----
@@ -244,7 +236,7 @@ function annualJoined(data) {
     const by = new Map();
     for (const st of ['income', 'balance', 'cash']) {
         for (const r of ((data[st] || {}).annualReports) || []) {
-            const k = String(r.fiscalDateEnding || '').slice(0, 7);
+            const k = String(r.fiscalDateEnding || '');
             if (!k) continue;
             if (!by.has(k)) by.set(k, { end: r.fiscalDateEnding });
             by.get(k)[st] = r;
@@ -253,42 +245,52 @@ function annualJoined(data) {
     return [...by.values()].sort((a, b) => String(b.end).localeCompare(String(a.end)));
 }
 
-async function toolGetRatios({ symbol }) {
+async function toolGetRatios({ symbol, limit, before }) {
     const data = await loadFundAny(symbol);
     if (!data) return NO_DATA(symbol);
-    const years = annualJoined(data);
-    if (!years.length) return { error: `No annual data for ${symbol}.` };
+    if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
+    const years = annualJoined(data).filter(y => !before || y.end < before);
+    if (!years.length) return { code: 'VERIFIED_FINANCIALS_UNAVAILABLE', error: `No verified annual data for ${symbol}.`, coverage: data.coverage };
+    const names = ['grossMarginPct', 'opMarginPct', 'netMarginPct', 'fcfMarginPct', 'roePct', 'roaPct', 'currentRatio', 'debtToEquity', 'ocfToNetIncome', 'capexPctRevenue', 'sharesOutM'];
     const lines = ['fiscal_year_end|grossMargin%|opMargin%|netMargin%|fcfMargin%|ROE%|ROA%|currentRatio|debtToEquity|ocfToNetIncome|capexPctRevenue|sharesOutM'];
-    for (const y of years.slice(0, 20)) {
-        const i = y.income || {}; const b = y.balance || {}; const c = y.cash || {};
-        const rev = num(i.totalRevenue);
-        const gpRaw = num(i.grossProfit) || null; // 0 = missing in source data
-        const corRaw = num(i.costOfRevenue) || null;
-        const gp = gpRaw !== null ? gpRaw
-            : (rev !== null && corRaw !== null ? rev - corRaw : null);
-        const ocf = num(c.operatingCashflow); const capex = num(c.capitalExpenditures);
-        const fcf = (ocf !== null && capex !== null) ? ocf + capex : null; // capex stored negative
-        const debt = ['shortTermDebt', 'currentLongTermDebt', 'longTermDebt']
-            .map((k) => num(b[k])).filter((v) => v !== null).reduce((a, v) => a + v, 0) || null;
-        const r100 = (x) => x === null ? '' : pct(x * 100);
-        lines.push([
-            y.end,
-            r100(ratio(gp, rev)), r100(ratio(i.operatingIncome, rev)), r100(ratio(i.netIncome, rev)),
-            r100(ratio(fcf, rev)),
-            r100(ratio(i.netIncome, b.totalShareholderEquity)), r100(ratio(i.netIncome, b.totalAssets)),
-            ratio(b.totalCurrentAssets, b.totalCurrentLiabilities) === null ? '' : ratio(b.totalCurrentAssets, b.totalCurrentLiabilities).toFixed(2),
-            ratio(debt, b.totalShareholderEquity) === null ? '' : ratio(debt, b.totalShareholderEquity).toFixed(2),
-            ratio(ocf, i.netIncome) === null ? '' : ratio(ocf, i.netIncome).toFixed(2),
-            capex !== null && rev ? pct(Math.abs(capex) / rev * 100) : '',
-            mm(b.commonStockSharesOutstanding)
-        ].map(cell).join('|'));
+    const observations = [];
+    for (const y of years.slice(0, Math.min(Math.max(num(limit) || 5, 1), 20))) {
+        const o = (st, field) => evidence.observation(y[st], field);
+        const divide = (a, b, percent = false, sameScope = false) => evidence.calculate({ numerator: a, denominator: b },
+            percent ? '(numerator / denominator) * 100' : 'numerator / denominator',
+            (x, z) => z > 0 ? x / z * (percent ? 100 : 1) : null, { sameScope });
+        const i = field => o('income', field), bal = field => o('balance', field), cash = field => o('cash', field);
+        const fcf = evidence.freeCashFlow(y.cash || {});
+        const debt = num(y.balance?.shortLongTermDebtTotal) !== null ? bal('shortLongTermDebtTotal') : {
+            ...evidence.calculate({ noncurrent: bal('longTermDebt'), current: bal('shortTermDebt') }, 'noncurrent + current', (x, z) => x + z),
+            periodEnd: y.end, currency: y.balance?.reportedCurrency, periodStart: null
+        };
+        const metrics = {
+            grossMarginPct: divide(i('grossProfit'), i('totalRevenue'), true),
+            opMarginPct: divide(i('operatingIncome'), i('totalRevenue'), true),
+            netMarginPct: divide(i('netIncome'), i('totalRevenue'), true),
+            fcfMarginPct: divide(fcf, i('totalRevenue'), true),
+            roePct: divide(i('netIncome'), bal('totalShareholderEquity'), true, true),
+            roaPct: divide(i('netIncome'), bal('totalAssets'), true),
+            currentRatio: divide(bal('totalCurrentAssets'), bal('totalCurrentLiabilities')),
+            debtToEquity: divide(debt, bal('totalShareholderEquity')),
+            ocfToNetIncome: divide(cash('operatingCashflow'), i('netIncome')),
+            capexPctRevenue: evidence.calculate({ capex: cash('capitalExpenditures'), revenue: i('totalRevenue') },
+                'abs(capex) / revenue * 100', (x, z) => z > 0 ? Math.abs(x) / z * 100 : null),
+            sharesOutM: evidence.calculate({ shares: bal('commonStockSharesOutstanding') }, 'shares / 1000000', x => x / 1e6)
+        };
+        observations.push({ periodEnd: y.end, currency: y.income?.reportedCurrency || y.balance?.reportedCurrency || y.cash?.reportedCurrency, metrics });
+        lines.push([y.end, ...names.map(name => metrics[name].value === null ? '-' : metrics[name].value.toFixed(name.endsWith('Pct') ? 1 : 2))].join('|'));
     }
-    return {
+    return evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
-        note: 'All ratios computed deterministically from filed annual statements. Rows newest first. sharesOutM is as filed — not split-adjusted.',
-        source: 'Company SEC filings, stockportfolio.pro fundamentals cache',
+        note: 'Calculated from compatible verified annual facts. Rows newest first. Null means unavailable. sharesOutM is as filed, not split-adjusted. Formula and exact inputs accompany each ratio.',
+        units: 'Percent for columns ending %, dimensionless for ratios, millions of shares for sharesOutM. Inputs retain reported currencies and raw values.',
+        coverage: data.coverage, observations,
+        provenance: evidence.provenance(data, observations),
+        source: 'Calculated from verified SEC financial observations',
         table: lines.join('\n')
-    };
+    }, data, years.length);
 }
 
 // ---- Tool: get_health_checks (server-side mirror of the page's checklist) ----
@@ -299,32 +301,41 @@ function cagr(first, last, years) {
 function healthChecksFromData(data, symbol) {
     if (!data) return NO_DATA(symbol);
     const years = annualJoined(data).reverse(); // oldest first
-    if (years.length < 2) return { error: `Not enough history for ${symbol}.` };
+    if (years.length < 2) return { error: `Not enough verified annual history for ${symbol}.`, coverage: data.coverage, yearsOfHistory: years.length, asOfFiscalYearEnd: years.at(-1)?.end || null };
     const get = (y, st, f) => num((y[st] || {})[f]);
     const last = years[years.length - 1];
     const span = (n) => years.slice(-n);
-    const yrSpan = years.length - 1;
+    const yrSpan = (Date.parse(last.end)-Date.parse(years[0].end))/86400000/365.2425;
     const checks = [];
-    const add = (group, label, ok, detail) => { if (ok !== null) checks.push({ group, label, pass: !!ok, detail }); };
+    const missingChecks = [];
+    const obs = (y, st, field) => evidence.observation(y?.[st], field);
+    const add = (group, label, ok, detail, inputs, formula) => {
+        const sourceIds = [...new Set((inputs || []).flatMap(o => o.sourceIds))];
+        if (ok === null || !sourceIds.length) { missingChecks.push({ group, label, reason: 'Insufficient compatible verified facts.' }); return; }
+        checks.push({ group, label, pass: !!ok, detail, inputs, sourceIds, formula });
+    };
+    const compatibleHistory = (rows, st, field) => rows.every(y => {
+        const o = obs(y, st, field), first = obs(rows[0], st, field);
+        return o.value !== null && o.sourceIds.length && o.currency && o.currency === first.currency && o.scope === first.scope;
+    });
 
     const rev0 = get(years[0], 'income', 'totalRevenue'); const revN = get(last, 'income', 'totalRevenue');
-    const revCagr = cagr(rev0, revN, yrSpan);
-    add('Growth', `Revenue CAGR over ${yrSpan} yrs`, revCagr === null ? null : revCagr > 4, revCagr === null ? '' : `${pct(revCagr)}%/yr`);
+    const revCagr = compatibleHistory(years, 'income', 'totalRevenue') ? cagr(rev0, revN, yrSpan) : null;
+    add('Growth', `Revenue CAGR over ${yrSpan.toFixed(1)} yrs`, revCagr === null ? null : revCagr > 4, revCagr === null ? '' : `${pct(revCagr)}%/yr`, [obs(years[0], 'income', 'totalRevenue'), obs(last, 'income', 'totalRevenue')], `(last / first) ** (1 / ${yrSpan}) - 1; threshold > 4%`);
     const ni = (y) => get(y, 'income', 'netIncome');
-    const profitable5 = span(5).every((y) => (ni(y) || 0) > 0);
-    add('Profitability', 'Profitable every year (last 5)', span(5).length >= 5 ? profitable5 : null, '');
-    const nm = ratio(ni(last), get(last, 'income', 'totalRevenue'));
-    add('Profitability', 'Net margin above 10%', nm === null ? null : nm > 0.10, nm === null ? '' : `${pct(nm * 100)}%`);
+    const profitable5 = span(5).every((y) => ni(y) > 0);
+    add('Profitability', 'Profitable every year (last 5)', require('./financial-metrics').annualWindow(data.income?.annualReports || [], last.end, 5, 'netIncome') && compatibleHistory(span(5), 'income', 'netIncome') ? profitable5 : null, '', span(5).map(y => obs(y, 'income', 'netIncome')), 'every annual netIncome > 0');
+    const nm = evidence.calculate({ income: obs(last, 'income', 'netIncome'), revenue: obs(last, 'income', 'totalRevenue') }, 'income / revenue', (x, z) => z > 0 ? x / z : null).value;
+    add('Profitability', 'Net margin above 10%', nm === null ? null : nm > 0.10, nm === null ? '' : `${pct(nm * 100)}%`, [obs(last, 'income', 'netIncome'), obs(last, 'income', 'totalRevenue')], 'netIncome / totalRevenue > 0.10');
     const cashRaw = get(last, 'balance', 'cashAndCashEquivalentsAtCarryingValue');
-    const cash = (cashRaw || 0) + (get(last, 'balance', 'shortTermInvestments') || 0);
-    const debt = (get(last, 'balance', 'shortTermDebt') || 0) + (get(last, 'balance', 'currentLongTermDebt') || 0) + (get(last, 'balance', 'longTermDebt') || 0);
+    const cash = cashRaw; // Do not turn missing investments into a reported zero.
+    const debt = require('./financial-metrics').debt(last.balance || {});
     // Only judge this when the balance sheet actually discloses cash.
-    add('Balance sheet', 'More cash than total debt', cashRaw === null ? null : cash > debt, `cash ${mm(cash)}M vs debt ${mm(debt)}M`);
-    const ocfPos5 = span(5).every((y) => (get(y, 'cash', 'operatingCashflow') || 0) > 0);
-    add('Cash flow', 'Positive operating cash flow (last 5 yrs)', span(5).length >= 5 ? ocfPos5 : null, '');
-    const ocfN = get(last, 'cash', 'operatingCashflow');
-    const fcfN = (ocfN !== null && get(last, 'cash', 'capitalExpenditures') !== null) ? ocfN + get(last, 'cash', 'capitalExpenditures') : null;
-    add('Cash flow', 'Free cash flow positive (latest yr)', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : `${mm(fcfN)}M`);
+    add('Balance sheet', 'More cash than total debt', cashRaw === null || debt === null ? null : cash > debt, `cash ${mm(cash)}M vs debt ${mm(debt)}M`, ['cashAndCashEquivalentsAtCarryingValue', ...(num(last.balance?.shortLongTermDebtTotal) !== null ? ['shortLongTermDebtTotal'] : ['longTermDebt', 'shortTermDebt'])].map(field => obs(last, 'balance', field)), 'cashAndCashEquivalentsAtCarryingValue > verified total debt');
+    const ocfPos5 = span(5).every((y) => get(y, 'cash', 'operatingCashflow') > 0);
+    add('Cash flow', 'Positive operating cash flow (last 5 yrs)', require('./financial-metrics').annualWindow(data.cash?.annualReports || [], last.end, 5, 'operatingCashflow') && compatibleHistory(span(5), 'cash', 'operatingCashflow') ? ocfPos5 : null, '', span(5).map(y => obs(y, 'cash', 'operatingCashflow')), 'every annual operatingCashflow > 0');
+    const fcfN = evidence.freeCashFlow(last.cash || {}).value;
+    add('Cash flow', 'Free cash flow positive (latest yr)', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : `${mm(fcfN)}M`, [obs(last, 'cash', 'operatingCashflow'), obs(last, 'cash', 'capitalExpenditures')], 'operatingCashflow - abs(capitalExpenditures) > 0');
     // Share counts are as-filed (not split-adjusted), so only compare within
     // a window with no split-sized jump (>1.8x either way) year to year.
     const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
@@ -334,24 +345,26 @@ function healthChecksFromData(data, symbol) {
         const a = sh(shWin[i - 1]); const b = sh(shWin[i]);
         if (a > 0 && b > 0 && (b / a > 1.8 || b / a < 0.55)) { splitSuspected = true; break; }
     }
-    if (!splitSuspected && shWin.length >= 3) {
-        add('Returns', `Share count falling over ${shWin.length - 1} yrs (buybacks)`, sh(shWin[shWin.length - 1]) < sh(shWin[0]), `${mm(sh(shWin[0]))}M → ${mm(sh(shWin[shWin.length - 1]))}M shares`);
+    if (!splitSuspected && shWin.length >= 3 && compatibleHistory(shWin, 'balance', 'commonStockSharesOutstanding')) {
+        add('Returns', `Share count falling over ${shWin.length - 1} yrs (buybacks)`, sh(shWin[shWin.length - 1]) < sh(shWin[0]), `${mm(sh(shWin[0]))}M → ${mm(sh(shWin[shWin.length - 1]))}M shares`, [obs(shWin[0], 'balance', 'commonStockSharesOutstanding'), obs(shWin[shWin.length - 1], 'balance', 'commonStockSharesOutstanding')], 'last shares < first shares; exclude suspected splits');
     }
     const div = (y) => { const a = get(y, 'cash', 'dividendPayout'); return a !== null ? a : get(y, 'cash', 'dividendPayoutCommonStock'); };
-    const hasDivData = years.some((y) => div(y) !== null);
     let divStreak = 0;
     for (let i = years.length - 1; i >= 0; i--) {
         const d = div(years[i]);
         if (d !== null && d !== 0) divStreak++; else break;
     }
     // Skip when the source simply doesn't disclose dividends for this name.
-    add('Returns', 'Pays a dividend', hasDivData ? divStreak > 0 : null, divStreak > 0 ? `${divStreak} consecutive yrs in our data` : 'no dividend in our data');
+    add('Returns', 'Pays a dividend', div(last) !== null ? divStreak > 0 : null, divStreak > 0 ? `${divStreak} consecutive reported annual periods in our data` : 'reported latest annual dividend payout is zero', years.slice(-Math.max(1, divStreak)).map(y => obs(y, 'cash', num(y.cash?.dividendPayout) !== null ? 'dividendPayout' : 'dividendPayoutCommonStock')), 'latest reported dividend payout != 0');
     return {
         symbol: String(symbol).toUpperCase(),
         asOfFiscalYearEnd: last.end,
         yearsOfHistory: years.length,
-        checks,
-        source: 'Computed from SEC-filed annual statements (no AI judgement)'
+        checks, missingChecks,
+        currency: last.income?.reportedCurrency || last.balance?.reportedCurrency || last.cash?.reportedCurrency || null,
+        units: 'Monetary details use reporting-currency millions; input observations use raw values.',
+        coverage: data.coverage, provenance: evidence.provenance(data, checks),
+        source: 'Calculated from verified SEC annual observations; exact inputs and formulas supplied'
     };
 }
 
@@ -375,11 +388,14 @@ async function toolGetQuote({ symbol }) {
     // on a fast-moving price. The daily quote snapshot is rewritten every day
     // and carries its own asOf, so prefer it — and always hand the model a date
     // to quote beside the figure.
-    const q = quoteStore.getDailyQuote(symbol);
+    const q = data.marketData;
     const asOf = (q && q.asOf) || lastDay || null;
     const pick = (preferred, fallback) => (preferred === null || preferred === undefined) ? fallback : preferred;
-    const info = fundDate.info(String(symbol).toUpperCase());
-    const fundamentalsAsOf = info.fetchedAt ? info.fetchedAt.slice(0, 10) : info.dataAsOf;
+    const annual = data.income?.annualReports?.[0];
+    const fundamentalsAsOf = annual?.fiscalDateEnding || data.coverage?.latestAnnual?.reportDate || null;
+    const perShareAllowed = data.coverage?.perShareAllowed === true;
+    const epsField = num(annual?.dilutedEPS) !== null ? 'dilutedEPS' : 'eps';
+    const epsObservation = evidence.observation(annual, epsField);
     return {
         symbol: ov.Symbol || String(symbol).toUpperCase(),
         name: ov.Name, sector: ov.Sector, industry: ov.Industry,
@@ -388,12 +404,21 @@ async function toolGetQuote({ symbol }) {
         priceSource: q ? 'daily close snapshot' : 'cached close',
         lastClose, lastCloseDate: lastDay,
         marketCap: pick(q && q.marketCap, num(ov.MarketCapitalization)),
-        peRatio: pick(q && q.trailingPE, num(ov.PERatio)), forwardPE: num(ov.ForwardPE),
-        eps: num(ov.EPS), dividendYield: num(ov.DividendYield), beta: num(ov.Beta),
+        peRatio: perShareAllowed ? num(q?.trailingPE) : null, forwardPE: perShareAllowed ? num(ov.ForwardPE) : null,
+        eps: perShareAllowed ? epsObservation.value : null, dividendYield: num(ov.DividendYield), beta: num(ov.Beta),
         week52High: pick(q && q.fiftyTwoWeekHigh, num(ov['52WeekHigh'])), week52Low: pick(q && q.fiftyTwoWeekLow, num(ov['52WeekLow'])),
-        priceToBook: num(ov.PriceToBookRatio), evToEbitda: num(ov.EVToEBITDA),
+        priceToBook: perShareAllowed ? num(ov.PriceToBookRatio) : null, evToEbitda: num(ov.EVToEBITDA),
+        currency: q?.currency || null,
+        financialCurrency: annual?.reportedCurrency || null,
+        coverage: data.coverage,
+        epsObservation: perShareAllowed ? epsObservation : null,
+        provenance: evidence.provenance(data, perShareAllowed ? epsObservation : null),
+        marketDataSource: q?.source || null,
+        financialVerificationCheckedAt: data.coverage?.lastSuccessfulCheckAt || null,
+        financialFilingDate: data.coverage?.latestAnnual?.filingDate || null,
+        missingReasons: { perShare: perShareAllowed ? null : 'The ticker share-class or ADR basis is unverified. EPS, P/E and per-share valuation are unavailable.' },
         asOf, fundamentalsAsOf,
-        note: `Price, market cap, P/E and 52-week range are as of ${asOf || 'an unspecified date'} (daily close snapshot, not a live tick); dividend yield, EPS, beta and the other ratios come from filed financials ${fundamentalsAsOf ? `as of ${fundamentalsAsOf}` : 'with no firm date available'}. State the matching date whenever you cite any of these figures, and never call them live or today's.`
+        note: `Price, market cap, P/E and 52-week range are as of ${asOf || 'an unspecified date'} (daily close snapshot, not a live tick); EPS comes from verified filed financials; other available market fields carry their provider source. Financial data is ${fundamentalsAsOf ? `as of ${fundamentalsAsOf}` : 'with no firm date available'}. State the matching date whenever you cite any of these figures, and never call them live or today's.`
     };
 }
 
@@ -548,32 +573,12 @@ async function toolGetInsiders({ symbol }) {
 
 // ---- Tool: screen_universe (real screener over the ~500-ticker cache) ----
 let _screenIndex = null;
-// Best-effort async write (tmp + rename so a boot never reads a half file).
-function persistScreenIndex(rows) {
-    try {
-        const payload = JSON.stringify({ v: SCREEN_INDEX_VERSION, generatedAt: new Date().toISOString(), count: rows.length, rows });
-        const tmp = SCREEN_INDEX_FILE + '.' + process.pid + '.tmp';
-        fs.writeFile(tmp, payload, (err) => {
-            if (err) return;
-            try { fs.renameSync(tmp, SCREEN_INDEX_FILE); } catch (_) {}
-        });
-    } catch (_) { /* best effort; disk may be read-only on some hosts */ }
-}
-
-// Load the persisted snapshot if present, current version, and not ancient.
 function loadScreenIndex() {
-    try {
-        const raw = fs.readFileSync(SCREEN_INDEX_FILE, 'utf8');
-        const parsed = JSON.parse(raw);
-        if (!parsed || parsed.v !== SCREEN_INDEX_VERSION || !Array.isArray(parsed.rows)) return null;
-        if (parsed.generatedAt) {
-            const ageMs = Date.now() - new Date(parsed.generatedAt).getTime();
-            if (!Number.isFinite(ageMs) || ageMs > 31 * 24 * 60 * 60 * 1000) return null;
-        }
-        return parsed.rows;
-    } catch (_) { return null; }
+    const index=require('./public-stock-index');
+    const snapshot=index.view();
+    const parsed=require('./screen-stock-index').load(snapshot.datasetId);
+    return parsed;
 }
-
 // Single-symbol 5-year revenue CAGR from an already-loaded fundamentals payload
 // — the fast path renderStockPage uses instead of building the whole-universe
 // index. Mirrors the revCagr5Pct row computation in buildScreenIndex() exactly
@@ -585,118 +590,22 @@ function revCagrFromData(data) {
     const rev = (i) => num((inc[i] || {}).totalRevenue);
     const b5 = inc.length > 5 ? 5 : inc.length - 1;
     if (b5 < 2) return null;
-    return cagr(rev(b5), rev(0), b5);
+    return cagr(rev(b5), rev(0), (Date.parse(inc[0].fiscalDateEnding)-Date.parse(inc[b5].fiscalDateEnding))/86400000/365.2425);
 }
 
-function buildScreenIndex(opts) {
-    const force = !!(opts && opts.force);
-    if (_screenIndex && !force) return _screenIndex;
-    if (!force) {
-        const persisted = loadScreenIndex();
-        if (persisted) { _screenIndex = persisted; return persisted; }
-    }
-    const out = [];
-    let files = [];
-    try { files = fs.readdirSync(FUND_DIR).filter((f) => f.endsWith('.json') && f !== 'index.json'); } catch (_) { files = []; }
-    for (const f of files) {
-        try {
-            const d = JSON.parse(fs.readFileSync(path.join(FUND_DIR, f), 'utf8'));
-            const ov = d.overview || {};
-            const inc = ((d.income || {}).annualReports) || [];
-            const incQ = ((d.income || {}).quarterlyReports) || [];
-            const cf = ((d.cash || {}).annualReports) || [];
-            const bal = ((d.balance || {}).annualReports) || [];
-            if (!ov.Symbol || !inc.length) continue;
-            const rev = (i) => num((inc[i] || {}).totalRevenue);
-            const niy = (i) => num((inc[i] || {}).netIncome);
-            const yrsBack = (n) => inc.length > n ? n : inc.length - 1;
-            const b5 = yrsBack(5);
-            const nmLatest = ratio(niy(0), rev(0));
-            const ocf = num((cf[0] || {}).operatingCashflow); const capex = num((cf[0] || {}).capitalExpenditures);
-            const fcf = (ocf !== null && capex !== null) ? ocf + capex : null;
-            let profYears = 0;
-            for (let i = 0; i < Math.min(10, inc.length); i++) if ((niy(i) || 0) > 0) profYears++;
-            // Latest-quarter earnings growth vs the same quarter a year ago
-            // (quarterlyReports are newest-first, so index 4 = year-ago qtr).
-            let qEpsYoY = null; let qNiYoY = null; let qEnd = null;
-            const q0 = incQ[0]; const q4 = incQ[4];
-            if (q0 && q4) {
-                qEnd = q0.fiscalDateEnding || null;
-                const n0 = num(q0.netIncome); const n4 = num(q4.netIncome);
-                if (n0 !== null && n4 !== null && n4 > 0) qNiYoY = ((n0 - n4) / n4) * 100;
-                const e0 = num(q0.dilutedEPS); const e4 = num(q4.dilutedEPS);
-                if (e0 !== null && e4 !== null && e4 > 0) qEpsYoY = ((e0 - e4) / e4) * 100;
-            }
-            out.push({
-                symbol: ov.Symbol, name: ov.Name || ov.Symbol, sector: ov.Sector || '',
-                marketCapB: num(ov.MarketCapitalization) !== null ? num(ov.MarketCapitalization) / 1e9 : null,
-                pe: num(ov.PERatio),
-                divYieldPct: num(ov.DividendYield) !== null ? num(ov.DividendYield) * 100 : null,
-                revCagr5Pct: b5 >= 2 ? cagr(rev(b5), rev(0), b5) : null,
-                netMarginPct: nmLatest !== null ? nmLatest * 100 : null,
-                roePct: ratio(niy(0), (bal[0] || {}).totalShareholderEquity) !== null
-                    ? ratio(niy(0), (bal[0] || {}).totalShareholderEquity) * 100 : null,
-                fcfPositive: fcf !== null ? fcf > 0 : null,
-                // Absolute free cash flow (already computed above, was discarded) — sortable for
-                // the "highest free cash flow stocks" leaderboard. Raw dollars; capex stored negative.
-                fcfAbs: fcf,
-                // Computed PEG = trailing P/E ÷ 5-year revenue CAGR, both from filings (NOT the sparse
-                // vendor PEGRatio field, which embeds forward estimates). Only meaningful for profitable growers.
-                pegRatio: (num(ov.PERatio) > 0 && b5 >= 2 && cagr(rev(b5), rev(0), b5) > 0)
-                    ? num(ov.PERatio) / cagr(rev(b5), rev(0), b5) : null,
-                priceToBook: num(ov.PriceToBookRatio),
-                profitableYears10: profYears,
-                qtrNetIncomeYoYPct: qNiYoY,
-                qtrEpsYoYPct: qEpsYoY,
-                latestQuarterEnd: qEnd,
-                latestFiscalYearEnd: (inc[0] || {}).fiscalDateEnding || '',
-                // Latest-FY raw values for sector-percentile and peer-table
-                // enrichment on the per-metric SEO pages.
-                latestRevenue: num((inc[0] || {}).totalRevenue),
-                latestNetIncome: num((inc[0] || {}).netIncome),
-                latestEps: num((inc[0] || {}).eps) !== null ? num((inc[0] || {}).eps) : num((inc[0] || {}).dilutedEPS),
-                latestGrossProfit: (() => {
-                    const r = num((inc[0] || {}).totalRevenue);
-                    let gp = num((inc[0] || {}).grossProfit); if (gp === 0) gp = null;
-                    let cor = num((inc[0] || {}).costOfRevenue); if (cor === 0) cor = null;
-                    if (gp === null && r !== null && cor !== null) gp = r - cor;
-                    return gp;
-                })(),
-                latestEbitda: num((inc[0] || {}).ebitda),
-                latestTotalDebt: (() => {
-                    const b0 = bal[0] || {};
-                    const ltd = num(b0.longTermDebt) !== null ? num(b0.longTermDebt) : num(b0.longTermDebtNoncurrent);
-                    const std = num(b0.shortTermDebt) !== null ? num(b0.shortTermDebt) : num(b0.currentDebt);
-                    if (ltd === null && std === null) return null;
-                    return (ltd || 0) + (std || 0);
-                })(),
-                latestSharesOutstanding: num((bal[0] || {}).commonStockSharesOutstanding),
-                // Cash-flow dividend payout is a negative outflow; store the
-                // magnitude so "pays more dividends" ranks higher.
-                latestDividendPayout: (() => {
-                    const v = num((cf[0] || {}).dividendPayoutCommonStock) !== null
-                        ? num((cf[0] || {}).dividendPayoutCommonStock) : num((cf[0] || {}).dividendPayout);
-                    return v === null ? null : Math.abs(v);
-                })()
-            });
-        } catch (_) { /* skip unreadable file */ }
-    }
-    _screenIndex = out;
-    persistScreenIndex(out);
-    return out;
+function buildScreenIndex() {
+    const index=require('./public-stock-index'),snapshot=index.view();
+    if (!_screenIndex || _screenIndex.datasetId !== snapshot.datasetId) _screenIndex=loadScreenIndex();
+    const eligible=new Map(snapshot.securities.filter(s=>s.screenable).map(s=>[s.symbol,s]));
+    const changed=require('./sec-on-demand').screenOverrides();
+    return [..._screenIndex.rows.filter(r=>!changed.has(r.symbol)),...changed.values()].filter(r=>eligible.has(r.symbol) && r.financialDigest === eligible.get(r.symbol).financialDigest);
 }
 
-// Collapse a screen index down to one primary common-stock row per issuer:
-// drops preferreds / warrants / units / rights (their symbols carry a hyphen,
-// e.g. COF-PN) and duplicate share classes (same issuer name, e.g. GOOG/GOOGL),
-// keeping the shortest symbol. These secondary listings inherit the common's
-// overview verbatim, producing junk like "Capital One P/E 0.6, P/B 0.09" that
-// otherwise dominates value leaderboards. Opt-in via exclude_secondary_listings.
 function primaryListings(rows) {
     const best = new Map();
     for (const r of rows) {
         if (r.symbol && r.symbol.includes('-')) continue;
-        const key = (r.name || r.symbol || '').trim().toLowerCase();
+        const key = r.cik || (r.name || r.symbol || '').trim().toLowerCase();
         const cur = best.get(key);
         if (!cur || r.symbol.length < cur.symbol.length ||
             (r.symbol.length === cur.symbol.length && r.symbol < cur.symbol)) best.set(key, r);
@@ -737,7 +646,7 @@ function screenRows(args) {
     const asc = sortKey === 'pe' || sortKey === 'pegRatio' || sortKey === 'priceToBook';
     rows.sort((x, y) => ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]));
     const limit = Math.min(Math.max(num(a.limit) || 10, 1), a.maxLimit || 25);
-    return { universe, matched: rows.length, rows: rows.slice(0, limit) };
+    return { universe, listedUniverse:buildScreenIndex().length, issuerUniverse:new Set(buildScreenIndex().map(r=>r.cik)).size, datasetId:require('./public-stock-index').view().datasetId, matched: rows.length, rows: rows.slice(0, limit) };
 }
 
 function sectorList() {
@@ -788,7 +697,7 @@ function redFlagsFor(symbol) {
     for (const y of span3) { const ni = get(y, 'income', 'netIncome'), ocf = get(y, 'cash', 'operatingCashflow'); if (ni === null || ocf === null) { ok3 = false; break; } niSum += ni; ocfSum += ocf; }
     if (ok3 && niSum > 0 && ocfSum > 0 && niSum > ocfSum * 1.2) {
         add('warn', 'Reported earnings run ahead of cash',
-            `Over 3 years net income totalled $${mm(niSum)}M but operating cash flow only $${mm(ocfSum)}M — earnings aren't fully backed by cash, an accruals flag worth investigating.`);
+            `Over 3 years net income totalled ${data.overview.Currency} ${mm(niSum)}M but operating cash flow only ${data.overview.Currency} ${mm(ocfSum)}M — earnings aren't fully backed by cash, an accruals flag worth investigating.`);
     }
     // 4) Shareholder dilution (split-guarded, same guard as the buyback check)
     const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
@@ -804,15 +713,13 @@ function redFlagsFor(symbol) {
         }
     }
     // 5) Leverage vs cash flow
-    const debt = (get(latest, 'balance', 'longTermDebt') || get(latest, 'balance', 'longTermDebtNoncurrent') || 0)
-        + (get(latest, 'balance', 'shortTermDebt') || get(latest, 'balance', 'currentDebt') || 0)
-        + (get(latest, 'balance', 'currentLongTermDebt') || 0);
+    const debt = require('./financial-metrics').debt(latest.balance || {});
     const ocfL = get(latest, 'cash', 'operatingCashflow');
     if (debt > 0 && ocfL !== null) {
         if (ocfL <= 0) add('high', 'Debt with negative operating cash flow',
-            `Carries $${mm(debt)}M of debt while last year's operating cash flow was negative ($${mm(ocfL)}M).`);
+            `Carries ${data.overview.Currency} ${mm(debt)}M of debt while last year's operating cash flow was negative (${data.overview.Currency} ${mm(ocfL)}M).`);
         else if (debt / ocfL >= 5) add('warn', 'Heavy debt load',
-            `Total debt of $${mm(debt)}M is ${(debt / ocfL).toFixed(1)}× last year's operating cash flow — it would take years of cash flow to clear.`);
+            `Total debt of ${data.overview.Currency} ${mm(debt)}M is ${(debt / ocfL).toFixed(1)}× last year's operating cash flow — it would take years of cash flow to clear.`);
     }
     // 6) Margin trajectory / outright losses
     const nmOf = (y) => { const ni = get(y, 'income', 'netIncome'), rev = get(y, 'income', 'totalRevenue'); return (ni !== null && rev > 0) ? ni / rev * 100 : null; };
@@ -834,7 +741,7 @@ function toolScreenUniverse(args) {
         lines.push([r.symbol, r.name, r.sector, fm(r.marketCapB), fm(r.pe), fm(r.revCagr5Pct), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd].map(cell).join('|'));
     }
     return {
-        universe: `${universe} US companies (S&P 1500) in the stockportfolio.pro cache`,
+        universe: `${universe} US-listed stocks with available fundamentals in the stockportfolio.pro cache`,
         matched,
         returned: top.length,
         note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.',
@@ -1063,14 +970,15 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'get_financials',
-            description: 'Full income statement, balance sheet or cash flow history for a US-listed company from SEC filings. Annual gives up to ~20 fiscal years; quarterly up to 48 quarters. Use this for any question about revenue, profit, debt, cash flow, EPS, shares outstanding etc.',
+            description: 'Full income statement, balance sheet or cash flow history for a US-listed company from SEC filings. Annual gives up to ~20 fiscal years; quarterly up to 48 quarters. Includes exact field sources, raw observations, calculated FCF and date-matched YoY/QoQ comparisons, even when limit excludes the prior-year row. Use this for revenue, profit, debt, cash flow, EPS or shares questions.',
             parameters: {
                 type: 'object',
                 properties: {
                     symbol: { type: 'string', description: 'Ticker, e.g. AAPL' },
                     statement: { type: 'string', enum: ['income', 'balance', 'cash'] },
                     basis: { type: 'string', enum: ['annual', 'quarterly'], description: 'Default annual.' },
-                    limit: { type: 'integer', description: 'Number of periods (annual max 20, quarterly max 48).' }
+                    limit: { type: 'integer', description: 'Number of periods (annual max 20, quarterly max 48).' },
+                    before: { type: 'string', description: 'Optional exclusive period-end date, YYYY-MM-DD, to retrieve an older history window.' }
                 },
                 required: ['symbol', 'statement']
             }
@@ -1081,7 +989,7 @@ const TOOLS = [
         function: {
             name: 'get_ratios_history',
             description: 'Pre-computed annual ratio history (margins, ROE, ROA, current ratio, debt/equity, FCF margin, capex intensity, share count) for a company. Prefer this over computing ratios yourself.',
-            parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+            parameters: { type: 'object', properties: { symbol: { type: 'string' }, limit: { type: 'integer', description: 'Annual periods, default 5, max 20; older rows may be omitted within the context budget.' }, before: { type: 'string', description: 'Optional exclusive period-end date, YYYY-MM-DD, for an older history window.' } }, required: ['symbol'] }
         }
     },
     {
@@ -1104,7 +1012,7 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'screen_universe',
-            description: 'Screen ~1,500 US companies (the S&P 1500 subset — NOT the full universe) by real filed fundamentals. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions.',
+            description: 'Screen US-listed stocks with available filed fundamentals. The result reports the actual screenable universe; stocks without usable statements are not included. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions.',
             parameters: {
                 type: 'object',
                 properties: {
@@ -1645,17 +1553,21 @@ const ASK_SYSTEM = [
     'You are Ask, the stockportfolio.pro research assistant for long-term investors.',
     'SCOPE: you ONLY answer questions about companies, financial statements, valuation, portfolios, markets and investing concepts. For anything else (general knowledge, coding, writing, personal chat, politics), decline in one sentence and steer back to finance. Do not answer the off-topic part.',
     'GROUNDING (the most important rule): every figure you state MUST come from a tool result in THIS conversation. Call the tools — do not answer financial-data questions from memory. If the tools cannot provide something, say plainly that it is outside your data rather than estimating. Never silently blend in remembered numbers.',
-    'RECENCY — A TOOL THAT REPORTS ITS OWN STALENESS OVERRIDES YOU: if any tool result carries a stalenessWarning field, treat it as binding and do exactly what it says before using the word latest, current, most recent or last — the figures in front of you may simply predate a filing that already exists. Naming the wrong quarter confidently is worse than saying which quarter you have. LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — quarterlyReports are newest-first, so the row four down is the year-ago quarter — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
+    'RECENCY — A TOOL THAT REPORTS ITS OWN STALENESS OVERRIDES YOU: if any tool result carries a stalenessWarning field, treat it as binding and do exactly what it says before using the word latest, current, most recent or last — the figures in front of you may simply predate a filing that already exists. Naming the wrong quarter confidently is worse than saying which quarter you have. LEAD WITH THE LATEST QUARTER: the most recent completed fiscal YEAR is almost never the latest data — newer quarters are usually already filed. For ANY question about how a company is doing now, recent or current performance, momentum, a recent run-up or sell-off, guidance, or whether a trend is structural vs cyclical, you MUST also call get_financials with basis="quarterly" and lead with the most recently reported quarter: state its period-end (e.g. "Q3 FY2026, ended 28 May 2026") and the headline figures (revenue, gross/operating margin, net income) with QoQ and YoY change — use the tool\'s comparisons.yoy and comparisons.qoq, which match actual fiscal dates and include source inputs; never infer a comparator from a row position — then set that against the multi-year annual trend. Never present an annual-only picture as the current state when a newer quarter exists; if the latest quarter differs sharply from the last full fiscal year, say so up front.',
     'DATE EVERY PRICE AND VALUATION FIGURE: a price, market cap, P/E or 52-week range is a point-in-time observation, not a permanent fact. Whenever you state one, name the date it is as of (the quote tools return priceAsOf / asOf), never call a cached close live or "today", and when two sources disagree prefer the newest dated one. If a tool gives a figure with no date, say which period it covers instead of letting it read as current.',
-    'ANALYSIS & "WHAT-IF": many of the best questions are causal or hypothetical — "how would X affect Y", "what if…", "why does…". These want REASONING, not just a figure. The grounding rule governs concrete NUMBERS, not explanation: you may and should reason about how a business works, what drives a line item, and the mechanism linking a cause to an effect — only the actual numbers must come from tools. Tackle such a question by pulling what you CAN for the company in question (statements, segments, ratios, and the relevant risk-factor language via search_filings), then think the chain through step by step and quantify the impact wherever the pulled data lets you (e.g. apply operating leverage to an incremental-revenue scenario, using the real fixed-cost base).',
-    'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a private firm, or a foreign supplier, customer or rival with no US listing. (US-listed ADRs such as NTES or TSM ARE covered; their statements are converted to USD from the issuer\'s reporting currency.) Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
+    'ANALYSIS & WHAT-IF: distinguish observed changes, sourced causes and explicit hypothetical mechanisms. A cash-flow table cannot establish why capex rose, whether investment was for AI/data centres or whether one-off items affected profit. Retrieve filing narrative for an actual causal claim; otherwise say the cause is not established. Generic mechanisms and hypothetical scenarios are allowed when clearly labelled. Never turn a plausible explanation into a reported fact.',
+    'RELATED ENTITIES OUTSIDE COVERAGE: a question may hinge on a company we do not cover — a private firm, or a foreign supplier, customer or rival with no US listing. (US-listed ADRs such as NTES or TSM ARE covered; their statements retain the issuer\'s reported currency; only an explicitly sourced conversion may be shown as USD.) Do NOT abandon the question. Note the gap in one clause ("we don\'t cover TSMC directly"), then answer from the covered company\'s OWN filings and segments and from the relationship as that company describes it in its 10-K (search_filings the dependency/risk language). The user still gets a full, useful answer about the company you do cover.',
     'NEVER REFUSE A HARD QUESTION: never tell the user to simplify, narrow, rephrase, split up, or "be more specific", and never call a question too complex or broad. A complex question earns a fuller answer, not a smaller one or a request to shrink it. Always deliver your best grounded analysis with whatever the tools returned; if one angle was unavailable, answer every other angle and state in one line what you could not source — then stop. Asking the user to do your narrowing is failure.',
     'THE LIVE WEB: for recent events, news, or anything after the latest filing, use search_web (headlines + readable article URLs) then fetch_page (read an article). HARD BUDGET: at most THREE search_web calls per question — refine, then work with what you have or say the web gave you nothing useful; never keep re-searching the same thing. Web-sourced claims are NOT filed data — always attribute them ("according to Reuters, 12 May 2026") and keep them clearly separate from filed figures. Filings remain the only source for financial statement numbers.',
+    'FINANCIAL CITATIONS: use the exact SEC filingUrl linked to each observation sourceIds, including all inputs of calculations. State actual periodEnd and reporting currency. Do not invent fiscal quarter labels or replace 52/53-week period ends with calendar month ends. Source dates, verification dates and quote dates are different. A contextual filing match cannot prove a value. Native currencies are authoritative; do not compare monetary values across currencies without documented conversion. Missing per-share basis forbids EPS, P/E and per-share calculations.',
+    'MISSING REASONS: repeat the supplied reason accurately in plain language. EPS/share counts withheld because the security class or ADR basis is unverified do NOT mean EPS is absent from issuer XBRL. Unsupported instrument replies establish only unit/right status, not package terms; do not invent details of rights, redemptions or warrant bundles.',
+    'DATA LOOKUPS: a request for specific figures/periods is a lookup, not a business-results summary. Fetch those figures only. Do not add filings-diff, segments, quarterly or historical research to an annual revenue lookup, even when asked to continue research for the supported ticker. The specific requested period overrides the general recency and research-tool rules.',
+    'CASH DISTRIBUTIONS: use capitalReturns for dividend-plus-buyback coverage. Compare FCF with the SUM of the magnitudes of both cash outflows for the same period. coveredByFreeCashflow=false means distributions exceeded FCF; name the shortfall if relevant. Null means coverage cannot be established. A company may use other financing or existing cash, but do not infer that from this calculation alone.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
     'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
-    'COVERAGE: US exchange-listed companies reporting in USD plus US-listed ETFs and ticker-addressable US mutual funds. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens the S&P 1500 stock subset only. Foreign companies and their ADRs are not covered directly.',
+    'COVERAGE: US exchange-listed companies, including ADRs and foreign reporters, plus US-listed ETFs and ticker-addressable US mutual funds. Honor the returned reporting currency and conversion provenance; missing filings or unsupported metrics must be disclosed. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens currently listed stocks with available fundamentals and returns the actual coverage count. Do not reject a US-listed ADR solely because its issuer is foreign.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios, per-segment margins) — but only ever combine figures from the SAME tool result or the SAME reporting scope (e.g. a segment\'s revenue from get_segments divided by that same segment\'s volume). Never build a "per X" figure by dividing company-wide revenue by a count that is not literally the thing sold (shares outstanding, employees/headcount, assets under management, or any count narrower in scope than the revenue figure) — that produces a fabricated number.',
     'SCOPE MATCHING: before dividing any revenue or cost figure by a volume or count, check the count\'s scope. If it is segment/division/region-limited (e.g. wireless-only subscribers, upstream-only barrels, US-only units) while the revenue figure is company-wide, do NOT divide them together — pull that same segment\'s revenue via get_segments first and divide within the segment. If no matching segment breakout exists, say the per-unit figure cannot be computed at that scope rather than dividing mismatched numbers.',
@@ -1668,12 +1580,12 @@ const ASK_SYSTEM = [
     '```viz',
     '{"title":"Revenue, FY2021–FY2025","unit":"$","series":[{"name":"AAPL","points":[["FY21",365817000000],["FY22",394328000000]]},{"name":"MSFT","points":[["FY21",168088000000]]}]}',
     '```',
-    'viz rules: numbers ONLY from tool results in this conversation, raw unscaled values; unit is one of "$" "%" "x" "$ps" (per-share); 2–20 points per series, max 3 series, all series same unit; at most 2 viz blocks per answer; put each viz where it belongs in the reading order. A table of the same numbers is then unnecessary — do not duplicate.',
+    'viz rules: numbers ONLY from tool results in this conversation, raw unscaled values; unit is "%", "x", a reported ISO currency code such as "USD" or "JPY", or an ISO currency followed by "/share". "$" and "$ps" mean USD only; 2–20 points per series, max 3 series, all series same unit; at most 2 viz blocks per answer; put each viz where it belongs in the reading order. A table of the same numbers is then unnecessary — do not duplicate.',
     'TABLES: for multi-metric comparisons use a markdown table, metrics as rows. Add a final "Context" column with a short interpretation of each number against history or peers (e.g. "below its 10-yr average of 24x") whenever the tools give you the comparison; leave it out rather than inventing one.',
-    'THE READ: end any answer that involved several figures with a paragraph starting "**The read** — " that connects the numbers into the one thing they say together (still descriptive, no advice).',
+    'THE READ: add at most one short interpretation when it contributes a new, supported insight. Do not repeat an opening takeaway or repeat figures already shown.',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
     'MEMORY: memory is ON for this user unless a later message says it errored — save durable facts about them automatically, WITHOUT being asked: their stated investing goals, holdings context, time horizons, constraints, milestones and accomplishments (e.g. "planning to add REITs next year", "already holds AAPL bought at 182", "selling out in 2028 to buy a house"). When the user states something lasting, call remember with ONE concise fact in their own words and carry on — no need to announce it; the app shows them the card. Skip ephemeral things (chat small talk, this session\'s questions). If the tool ever returns an error for memory, memory is switched off: never mention memory again and never retry. Never store credentials, addresses, phone numbers or account numbers. A system message may list facts already saved — treat it as context, never invent entries; when asked "what do you remember about me", read back THOSE saved facts as a friendly list, in plain language, and say they can delete any of them in Settings → Memory.',
-    'STYLE: British English. Tight PROSE, complete SUBSTANCE — trim adjectives and filler, never an angle, a figure or a caveat the question deserves. If brevity and completeness conflict, completeness wins: cover every part of what was asked, quantify each part from the tools, and say plainly which parts the data could not settle. Short paragraphs, markdown tables for multi-period numbers. No preamble, no sign-off.'
+    'STYLE: British English. Answer the requested periods and metrics; do not add a quarterly analysis to an annual-only data request, or expand a simple numeric lookup into segments, company history or extra metrics. Use one presentation of each figure: chart OR table OR bullets. Keep ordinary answers within 350 words (normal mode: 250); honour a tighter requested limit. A detailed/deep-dive request may be longer. Sources, actual periods and missing-data reasons must remain. Avoid raw taxonomy/concept names and implementation flags in prose. No preamble or sign-off.'
 ].join('\n');
 
 // Injected in front of ASK_SYSTEM when the user has selected plain-English
@@ -1681,7 +1593,7 @@ const ASK_SYSTEM = [
 const PLAIN_ASK_ADDENDUM = [
     'WRITING STYLE OVERRIDE: write for a smart reader with no finance background. If you use a financial term or acronym (e.g. margin, YoY, FCF, P/E, basis points), briefly explain it in plain words the first time it appears. This is the SAME underlying analysis as analyst mode, shown more simply — never drop or hedge away a figure, just present it more visually and plainly.',
     'OPENER: start with one line, formatted exactly "> **In one line** — <the single most important takeaway>".',
-    'VISUALS OVER TABLES: whenever you state two or more related figures, put them in a ```viz``` block (per the rules above) instead of prose or a table. For a head-to-head of one metric across a few companies/periods (e.g. "compare margins" or "priced-in growth vs actual growth"), use a ```bars``` fenced block instead of a markdown table: {"title":str,"unit":"$"|"%"|"x","rows":[[label, value, note?]]} — numbers only from tool results, 2–8 rows, unscaled values.',
+    'VISUALS: use viz for a time series with actual periods. Use bars for categories such as revenue versus profit, or operating cash flow versus capex versus FCF: {"title":str,"unit":"USD"|"JPY"|"%"|"x","rows":[[label, value, note?]]}. Use raw unscaled observations/calculations, NEVER values from the millions table. Do not connect unrelated metrics with a line. At most one chart for an ordinary answer. A compact table is appropriate for mixed units or missing values. Do not repeat the chart/table figures in bullets or the conclusion.',
     'PLAIN RATIOS: every ratio or margin you state must be restated in brackets in everyday terms, e.g. "operating margin 24% (keeps about 24¢ of every $1 it sells after running the business)".',
     'UNIT ECONOMICS: whenever the company sells a countable thing — cars, subscriptions, stores, barrels, rooms, ad impressions — and the question is about performance, profitability or "is it a good business", call get_unit_economics and report profit per unit alongside the company-wide figures, even if not explicitly asked. For carmakers (Tesla and peers) this means dollars earned per vehicle, not just total revenue. If it returns null or no derived figure, say plainly the company does not disclose a comparable per-unit figure — never invent one from shares outstanding, employee count or any other stand-in.',
     'Keep every figure, table and chart exactly as the base rules require — nothing is dropped, only made easier to read.'
@@ -1698,7 +1610,7 @@ const SYNTHESIS_DIRECTIVE =
 // "<think>" at the chunk boundary) and kills the stream the moment the
 // accumulated visible text trips the identity blocklist. The client only ever
 // sees 'delta' (append text) and 'rollback' (discard what I streamed so far).
-function makeRoundStreamer(emit) {
+function makeRoundStreamer(emit, buffered = false) {
     let raw = '';
     let emitted = '';
     let blocked = false;
@@ -1716,6 +1628,7 @@ function makeRoundStreamer(emit) {
                 if (emitted) { emit({ type: 'rollback' }); emitted = ''; }
                 return;
             }
+            if (buffered) return; // publish financial prose only after checks
             if (vis.startsWith(emitted)) {
                 if (vis.length > emitted.length) emit({ type: 'delta', text: vis.slice(emitted.length) });
             } else {
@@ -1794,6 +1707,40 @@ async function ask({ question, history, ctx, mode, onEvent }) {
     messages.push({ role: 'user', content: q });
 
     const toolsUsed = [];
+    const sourceLinks = [];
+    const suppliedResults = [];
+    let contextBytes = 0;
+    let hasResearchEvidence = false;
+    let groundingRetried = false;
+    const grounded = text => hasResearchEvidence || !!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text);
+    const ungroundedAnswer = () => ({ answer: 'I could not obtain verified data for those figures. I cannot provide a reliable financial answer from memory.', toolsUsed, source: 'partial', totalTokens });
+    const finish = async (text, streamed) => {
+        let issues = answerQuality.audit(text, suppliedResults, { question: q, mode });
+        const rewritten = issues.length > 0;
+        if (rewritten) {
+            if (streamed) { emit({ type: 'rollback' }); streamed = false; }
+            try {
+                const corrected = await deps.chatRaw(messages.concat(
+                    { role: 'assistant', content: text },
+                    { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts.\n' + issues.join('\n') }
+                ), { purpose: 'chat', temperature: 0.1, maxTokens: 4000, toolChoice: 'none' });
+                if (corrected._usage && num(corrected._usage.total_tokens) !== null) totalTokens += corrected._usage.total_tokens;
+                text = String(corrected.content || '').replace(THINK_RE, '').trim();
+                issues = !text || TEXT_TOOLCALL_RE.test(text) || aiClient.leaksIdentity(text)
+                    ? ['The corrected analysis could not be validated.']
+                    : answerQuality.audit(text, suppliedResults, { question: q, mode });
+            } catch (_) { issues = ['The corrected analysis could not be validated.']; }
+        }
+        const source = issues.length ? 'partial' : 'ai';
+        if (issues.length) text = answerQuality.fallback(suppliedResults, q);
+        const answer = evidence.appendCitations(text, sourceLinks);
+        if (onEvent && (!streamed || answer !== text)) {
+            if (streamed) emit({ type: 'rollback' });
+            emit({ type: 'delta', text: answer });
+        }
+        return { answer, toolsUsed, source, totalTokens,
+            quality: { policyVersion: 1, checked: true, rewritten, fallback: issues.length > 0 } };
+    };
     let totalTokens = 0;
     // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by
     // app.js after a server-side gate — they are absent for everyone else,
@@ -1829,7 +1776,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             let msg;
             let streamer = null;
             const attempt = () => {
-                streamer = onEvent ? makeRoundStreamer(emit) : null;
+                streamer = onEvent ? makeRoundStreamer(emit, hasResearchEvidence) : null;
                 return streamer
                     ? deps.chatRawStream(messages, opts, streamer.onDelta)
                     : deps.chatRaw(messages, opts);
@@ -1870,8 +1817,10 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
                         result = { error: `Web budget exhausted for ${tc.function.name} — answer now with what you already have.` };
                     } else {
-                        result = await runTool(tc.function.name, args, ctx);
+                        try { result = await runTool(tc.function.name, args, ctx); }
+                        catch (error) { result = evidence.toolError(error); }
                     }
+                    if (!result || typeof result !== 'object') result = { error: 'The data tool returned no result.' };
                     return { tc, args, result, ms: Date.now() - t0 };
                 };
                 const roundResults = [];
@@ -1884,9 +1833,17 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 });
                 await Promise.all(workers);
                 for (const { tc, args, result, ms } of roundResults) {
-                    toolsUsed.push({ tool: tc.function.name, args, ok: !result.error, ms });
-                    emit({ type: 'tool', tool: tc.function.name, args, ok: !result.error, ms });
-                    messages.push({ role: 'tool', tool_call_id: tc.id, content: JSON.stringify(result) });
+                    // Reserve space for all remaining small error replies;
+                    // every tool_call_id still needs a response when full.
+                    const content = evidence.serializeResult(result, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+                    const supplied = JSON.parse(content);
+                    suppliedResults.push({ tool: tc.function.name, result: supplied });
+                    contextBytes += Buffer.byteLength(content);
+                    if (!supplied.error && !['calculator', 'remember'].includes(tc.function.name)) hasResearchEvidence = true;
+                    sourceLinks.push(...evidence.filingLinks(supplied));
+                    toolsUsed.push({ tool: tc.function.name, args, ok: !supplied.error, ...(supplied.code ? { code: supplied.code } : {}), ms });
+                    emit({ type: 'tool', tool: tc.function.name, args, ok: !supplied.error, ms });
+                    messages.push({ role: 'tool', tool_call_id: tc.id, content });
                 }
                 // Anything past the round budget was sliced off above, but the
                 // provider still expects a reply per tool_call_id — an
@@ -1921,7 +1878,16 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
                 return { answer: "I'm Ask, the stockportfolio.pro assistant — I can only help with companies, portfolios and market data.", toolsUsed, source: 'blocked' };
             }
-            return { answer: text, toolsUsed, source: 'ai', totalTokens };
+            if (!grounded(text)) {
+                if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                if (!groundingRetried && !lastRound) {
+                    groundingRetried = true;
+                    messages.push({ role: 'system', content: 'No successful research result supports the financial numbers in your proposed answer. Call a relevant data tool now. A calculator or memory save alone is not financial evidence. If the tool cannot provide verified figures, explicitly state they are unavailable and omit the numbers.' });
+                    continue;
+                }
+                return ungroundedAnswer();
+            }
+            return finish(text, streamer && streamer.emittedAny);
         }
         // Reached only if the model kept emitting tool calls even on the
         // tool-free final round. Force one last tool-free synthesis so the user
@@ -1934,13 +1900,20 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;
             const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {
-                emit({ type: 'delta', text: finalText });
-                return { answer: finalText, toolsUsed, source: 'ai', totalTokens };
+                if (!grounded(finalText)) return ungroundedAnswer();
+                const out = await finish(finalText, false);
+                return out;
             }
         } catch (e) { console.error('[ai-chat] final synthesis', e.message); }
         return { answer: "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.", toolsUsed, source: 'partial' };
     } catch (e) {
         console.error('[ai-chat] ask() failed', { message: e.message, stack: e.stack, toolsUsed: toolsUsed.map((t) => t.tool) });
+        if (hasResearchEvidence) {
+            const answer = evidence.appendCitations(answerQuality.fallback(suppliedResults, q), sourceLinks);
+            emit({ type: 'rollback' }); emit({ type: 'delta', text: answer });
+            return { answer, toolsUsed, source: 'partial', totalTokens,
+                quality: { policyVersion: 1, checked: true, fallback: true, synthesisUnavailable: true } };
+        }
         return {
             answer: toolsUsed.length
                 ? `Ask hit a problem writing up the final answer — the research (${toolsUsed.length} data pulls) completed, but synthesis failed. Please try again.`

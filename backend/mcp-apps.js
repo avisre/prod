@@ -51,7 +51,7 @@ const SERVER_INSTRUCTIONS = [
 
 const SOURCE_SCHEMA = {
     type: ['object', 'null'],
-    description: 'The SEC filing behind a value. linkage "xbrl_fact" means the value was read from an SEC XBRL fact with that accession; linkage "filing_period" means the value comes from the normalized cache and this is the filing that reports the fiscal period.',
+    description: 'The SEC filing behind a value. linkage "xbrl_fact" means the value was read from an SEC XBRL fact with that accession; linkage "derived_from_facts" identifies a calculation with explicit fact inputs. A period-matched filing is contextual metadata and does not prove a value source.',
     properties: {
         type: { type: ['string', 'null'] },
         form: { type: ['string', 'null'] },
@@ -199,7 +199,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         requiredScope: 'financials:read',
         handler: (args) => fin.companyFinancials({
             company: args.company,
@@ -238,7 +238,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         requiredScope: 'financials:read',
         handler: (args) => fin.metricHistory({
             company: args.company,
@@ -378,7 +378,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         requiredScope: 'research:read',
         handler: (args) => fin.compareCompanyMetrics({
             companies: args.companies,
@@ -418,7 +418,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
         requiredScope: 'research:read',
         handler: (args) => fin.changeDrivers({
             company: args.company,

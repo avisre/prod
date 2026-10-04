@@ -440,8 +440,9 @@
         return { rev, gp, cor };
     };
     const debtOf = (r) => {
-        const parts = ['shortTermDebt', 'currentLongTermDebt', 'longTermDebt'].map((k) => num(r[k])).filter((v) => v !== null);
-        return parts.length ? parts.reduce((a, v) => a + v, 0) : null;
+        const combined=num(r.shortLongTermDebtTotal);if(combined!==null)return combined;
+        const current=num(r.shortTermDebt),noncurrent=num(r.longTermDebt);
+        return current!==null && noncurrent!==null ? current+noncurrent : null;
     };
     const fcfOf = (r) => {
         const ocf = num(r.operatingCashflow); const capex = num(r.capitalExpenditures);
@@ -465,7 +466,7 @@
             { label: 'Operating expenses', get: (r) => num(r.operatingExpenses), fmt: money, kind: 'money', neutral: true },
             { label: 'R&D', get: (r) => num(r.researchAndDevelopment), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'SG&A', get: (r) => num(r.sellingGeneralAndAdministrative), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Other operating expenses', get: (r) => { const t = num(r.operatingExpenses); const rd = num(r.researchAndDevelopment); const sg = num(r.sellingGeneralAndAdministrative); if (t === null || (rd === null && sg === null)) return null; const rest = t - (rd || 0) - (sg || 0); return Math.abs(rest) < 1 ? null : rest; }, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Other operating expenses', get: (r) => { const t = num(r.operatingExpenses); const rd = num(r.researchAndDevelopment); const sg = num(r.sellingGeneralAndAdministrative); if (t === null || rd === null || sg === null) return null; const rest = t - (rd || 0) - (sg || 0); return Math.abs(rest) < 1 ? null : rest; }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Operating income', get: (r) => num(r.operatingIncome), fmt: money, kind: 'money', rule: true },
             { label: 'Operating margin', get: (r) => ratio(num(r.operatingIncome), derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
             { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money' },
@@ -487,14 +488,14 @@
         // row and its components unfold DIRECTLY BELOW it when expanded.
         balance: [
             { label: 'Total current assets', get: (r) => num(r.totalCurrentAssets), fmt: money, kind: 'money' },
-            { label: 'Cash & short-term investments', get: (r) => { const t = num(r.cashAndShortTermInvestments); if (t !== null) return t; const c = num(r.cashAndCashEquivalentsAtCarryingValue); const s = num(r.shortTermInvestments); return c === null && s === null ? null : (c || 0) + (s || 0); }, fmt: money, kind: 'money', sub: true },
+            { label: 'Cash & short-term investments', get: (r) => { const t = num(r.cashAndShortTermInvestments); if (t !== null) return t; const c = num(r.cashAndCashEquivalentsAtCarryingValue); const s = num(r.shortTermInvestments); return c === null || s === null ? null : c + s; }, fmt: money, kind: 'money', sub: true },
             { label: 'Receivables', get: (r) => num(r.currentNetReceivables), fmt: money, kind: 'money', sub: true },
             { label: 'Inventory', get: (r) => num(r.inventory), fmt: money, kind: 'money', sub: true },
             { label: 'Other current assets', get: (r) => num(r.otherCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total long-term assets', get: (r) => { const t = num(r.totalNonCurrentAssets); if (t !== null) return t; const a = num(r.totalAssets); const c = num(r.totalCurrentAssets); return (a !== null && c !== null) ? a - c : null; }, fmt: money, kind: 'money' },
             { label: 'Property, plant & equipment', get: (r) => num(r.propertyPlantEquipment), fmt: money, kind: 'money', sub: true },
             { label: 'Long-term investments', get: (r) => num(r.longTermInvestments), fmt: money, kind: 'money', sub: true },
-            { label: 'Goodwill & intangibles', get: (r) => { const g2 = num(r.goodwill); const ix = num(r.intangibleAssetsExcludingGoodwill); if (g2 !== null || ix !== null) return (g2 || 0) + (ix || 0); return num(r.intangibleAssets); }, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Goodwill & intangibles', get: (r) => { const g2 = num(r.goodwill); const ix = num(r.intangibleAssetsExcludingGoodwill); if (g2 !== null && ix !== null) return g2 + ix; return num(r.intangibleAssets); }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other long-term assets', get: (r) => num(r.otherNonCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total assets', get: (r) => num(r.totalAssets), fmt: money, kind: 'money', rule: true, solo: true },
             { label: 'Total current liabilities', get: (r) => num(r.totalCurrentLiabilities), fmt: money, kind: 'money' },
@@ -542,7 +543,7 @@
     let lastRender = { rows: [], periods: [] };
 
     function quoteCurrency(data = payload) {
-        return currencyCode((data && data.overview && data.overview.Currency) || 'USD');
+        return currencyCode(data?.marketData?.currency || (data && data.overview && data.overview.Currency) || 'USD');
     }
     function reportingCurrency(data = payload) {
         if (!data) return 'USD';
@@ -568,7 +569,7 @@
         return quoteCurrency(data);
     }
     function hasCurrencyMismatch(data = payload) {
-        return quoteCurrency(data) !== sourceReportingCurrency(data);
+        return data?.coverage?.perShareAllowed===false || quoteCurrency(data) !== sourceReportingCurrency(data);
     }
 
     // ---------- data joins ----------
@@ -576,7 +577,7 @@
         const by = new Map();
         for (const st of ['income', 'balance', 'cash']) {
             for (const r of ((payload[st] || {}).annualReports) || []) {
-                const k = String(r.fiscalDateEnding || '').slice(0, 7);
+                const k = String(r.fiscalDateEnding || '');
                 if (!k) continue;
                 if (!by.has(k)) by.set(k, { end: r.fiscalDateEnding });
                 by.get(k)[st] = r;
@@ -598,7 +599,7 @@
         sharesByPeriod = new Map();
         for (const kind of ['annualReports', 'quarterlyReports']) {
             for (const r of ((payload.balance || {})[kind]) || []) {
-                const k = String(r.fiscalDateEnding || '').slice(0, 7);
+                const k = String(r.fiscalDateEnding || '');
                 const v = num(r.commonStockSharesOutstanding);
                 if (k && v) sharesByPeriod.set(k, v);
             }
@@ -664,7 +665,7 @@
         $('co-name').textContent = ov.Name || symbol;
         const dos = $('co-dossier');
         if (dos) { dos.href = `/dossier.html?symbol=${encodeURIComponent(symbol)}`; dos.hidden = false; }
-        document.title = `${ov.Name || symbol} (${symbol}) — 19 years of financials | stockportfolio.pro`;
+        document.title = `${ov.Name || symbol} (${symbol}) — verified financials | stockportfolio.pro`;
         const price = num(q['05. price']);
         const chPct = num(String(q['10. change percent'] || '').replace('%', ''));
         const hidePrice = priceTooOld();
@@ -862,7 +863,7 @@
             const vals = []; const labels = [];
             for (const r of inc) {
                 const eps = num(r.dilutedEPS);
-                const end = String(r.fiscalDateEnding || '').slice(0, 7);
+                const end = String(r.fiscalDateEnding || '');
                 if (eps === null || eps <= 0 || !end) continue;
                 const endIdx = series.findIndex((p) => p.month >= end);
                 const idx = endIdx === -1 ? series.length - 1 : endIdx;
@@ -1003,14 +1004,14 @@
         const get = (y, st, f) => num((y[st] || {})[f]);
         const last = years[years.length - 1];
         const span = (n) => years.slice(-n);
-        const yrSpan = years.length - 1;
+        const yrSpan = (Date.parse(last.end)-Date.parse(years[0].end))/86400000/365.2425;
         const checks = [];
         const add = (label, ok, detail) => { if (ok !== null) checks.push({ label, pass: !!ok, detail }); };
 
         const revC = cagr(get(years[0], 'income', 'totalRevenue'), get(last, 'income', 'totalRevenue'), yrSpan);
-        add(`Revenue compounding over ${yrSpan} years`, revC === null ? null : revC > 4, revC === null ? '' : revC.toFixed(1) + '%/yr');
+        add(`Revenue compounding over ${yrSpan.toFixed(1)} years`, revC === null ? null : revC > 4, revC === null ? '' : revC.toFixed(1) + '%/yr');
         const ni = (y) => get(y, 'income', 'netIncome');
-        add('Profitable every year, last five', span(5).length >= 5 ? span(5).every((y) => (ni(y) || 0) > 0) : null, '');
+        add('Profitable every year, last five', span(5).length >= 5 && span(5).every(y=>ni(y)!==null) ? span(5).every(y=>ni(y)>0) : null, '');
         const nmOf = (y) => ratio(ni(y), get(y, 'income', 'totalRevenue'));
         const nmNow = nmOf(last); const nm5 = years.length > 5 ? nmOf(years[years.length - 6]) : null;
         if (nmNow !== null && nm5 !== null && Math.abs(nmNow - nm5) > 0.02) {
@@ -1020,8 +1021,8 @@
         const cashRaw = get(last, 'balance', 'cashAndCashEquivalentsAtCarryingValue');
         const cash = (cashRaw || 0) + (get(last, 'balance', 'shortTermInvestments') || 0);
         const debt = debtOf(last.balance || {});
-        add('More cash than total debt', cashRaw === null ? null : cash > (debt || 0), `${currencyAmount(cash, reportingCurrency())} vs ${currencyAmount(debt || 0, reportingCurrency())}`);
-        add('Operating cash flow positive, five years', span(5).length >= 5 ? span(5).every((y) => (get(y, 'cash', 'operatingCashflow') || 0) > 0) : null, '');
+        add('More cash than total debt', cashRaw === null || debt === null ? null : cash > debt, `${currencyAmount(cash, reportingCurrency())} vs ${currencyAmount(debt, reportingCurrency())}`);
+        add('Operating cash flow positive, five years', span(5).length >= 5 && span(5).every(y=>get(y,'cash','operatingCashflow')!==null) ? span(5).every(y=>get(y,'cash','operatingCashflow')>0) : null, '');
         const fcfN = fcfOf(last.cash || {});
         add('Free cash flow positive, latest year', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : currencyAmount(fcfN, reportingCurrency()));
         const sh = (y) => get(y, 'balance', 'commonStockSharesOutstanding');
@@ -1202,7 +1203,7 @@
         $('cmp-body').hidden = false;
         $('cmp-table').innerHTML = '<tbody><tr><td style="text-align:left" class="faint"><span class="loading-line"><span class="spin" aria-hidden="true"></span>Loading…</span></td></tr></tbody>';
         try {
-            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}?presentationCurrency=USD`);
+            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(sym2)}`);
             if (!r.ok) throw new Error('nope');
             const p2 = await r.json();
             let html = `<thead><tr><th class="row-head" style="text-align:left;">Metric</th><th>${esc(symbol)}</th><th>${esc(sym2)}</th></tr></thead><tbody>`;
@@ -1504,7 +1505,7 @@
                 : `Financial statements are shown in ${reportCur}, the company’s reported currency; no FX conversion is applied. `;
             provenance.textContent = conversionText +
                 (mismatch ? `The exchange-traded quote and market-cap data are in ${quoteCurrency()}; ADR-dependent valuation overlays remain disabled. ` : '') +
-                'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Per-share figures and share counts are adjusted to the current split basis. ▸ unfolds a total into its components.';
+                'Figures come from company filings (10-K/10-Q or foreign-filer equivalents), as filed. Reported per-share values retain their filed basis. Calculated figures require available verified inputs; missing inputs stay missing. ▸ unfolds a total into its components.';
         }
         // Tapping anywhere on a parent row toggles its component group. The ▸
         // glyph alone is only ~12×18px — far too small to hit on a phone, which
@@ -1689,7 +1690,7 @@
         if (years.length < 4) return;
         const revs = years.map((y) => derive(y.income || {}).rev);
         const profits = years.map((y) => num((y.income || {}).netIncome));
-        const roes = years.map((y) => ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalShareholderEquity)));
+        const roes = years.map((y) => (y.income?._scopes?.netIncome===y.balance?._scopes?.totalShareholderEquity ? ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalShareholderEquity)) : null));
         const px = monthlySeries(payload);
         const horizons = [10, 5, 3].filter((h) => h < years.length);
         const seriesCagr = (vals, h) => cagr(vals[vals.length - 1 - h], vals[vals.length - 1], h);
@@ -1737,7 +1738,7 @@
         { label: 'Operating margin', get: (y) => ratio(num((y.income || {}).operatingIncome), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'Net margin', get: (y) => ratio(num((y.income || {}).netIncome), derive(y.income || {}).rev), fmt: pctFmt },
         { label: 'FCF margin', get: (y) => ratio(fcfOf(y.cash || {}), derive(y.income || {}).rev), fmt: pctFmt },
-        { label: 'Return on equity', get: (y) => ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalShareholderEquity)), fmt: pctFmt },
+        { label: 'Return on equity', get: (y) => (y.income?._scopes?.netIncome===y.balance?._scopes?.totalShareholderEquity ? ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalShareholderEquity)) : null), fmt: pctFmt },
         { label: 'Return on assets', get: (y) => ratio(num((y.income || {}).netIncome), num((y.balance || {}).totalAssets)), fmt: pctFmt },
         { label: 'Current ratio', get: (y) => ratio(num((y.balance || {}).totalCurrentAssets), num((y.balance || {}).totalCurrentLiabilities)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
         { label: 'Debt to equity', get: (y) => ratio(debtOf(y.balance || {}), num((y.balance || {}).totalShareholderEquity)), fmt: (v) => v === null ? '—' : fixed(v, 2) },
@@ -2165,8 +2166,9 @@
                 mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
                 return;
             }
+            if (['unit','right'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; return; }
             mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
-            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}?presentationCurrency=USD`);
+            const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
             if (!r.ok) throw new Error('load failed');
             payload = await r.json();
             buildSharesMap();

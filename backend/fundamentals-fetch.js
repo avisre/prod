@@ -14,6 +14,7 @@ const fxConversion = require('./fx-conversion');
 const fundDate = require('./fundamentals-date');
 const corrections = require('./fundamentals-corrections');
 const fundamentalsCache = require('./fundamentals-cache');
+const stockUniverse = require('./stock-universe');
 
 const DATA_DIR = path.join(__dirname, '..', 'frontend', 'data');
 const FUND_DIR = path.join(DATA_DIR, 'fundamentals');
@@ -30,7 +31,7 @@ function universe() {
     return _universe;
 }
 function lookup(symbol) {
-    return universe().get(String(symbol || '').toUpperCase().trim()) || null;
+    return stockUniverse.lookup(symbol);
 }
 
 // ---- build + persist ----
@@ -102,7 +103,7 @@ function restampAsUsd(payload, stampedCurrency) {
     return out;
 }
 
-async function buildFundamentals(symbol) {
+async function buildFundamentals(symbol, { waitForCompletion = false } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     if (!/^[A-Z0-9.\-]{1,10}$/.test(sym)) throw new Error('Invalid symbol.');
     if (_inflight.has(sym)) return _inflight.get(sym);
@@ -117,7 +118,7 @@ async function buildFundamentals(symbol) {
             fetchY('BALANCE_SHEET'),
             fetchY('CASH_FLOW')
         ]);
-        const payload = { overview, daily, monthly, income, balance, cash };
+        const payload = stockUniverse.withIdentity({ overview, daily, monthly, income, balance, cash }, lookup(sym));
         // Read the reporting currency from Yahoo's own stamp BEFORE the SEC
         // extension runs. backfillStatements synthesizes whole rows, so reading
         // it afterwards can read a row EDGAR supplied rather than the filer's
@@ -134,7 +135,7 @@ async function buildFundamentals(symbol) {
         await secSource.backfillStatements(sym, payload).catch(() => {});
         const filed = ((payload.income || {}).annualReports || []).length
             + ((payload.balance || {}).annualReports || []).length;
-        if (!filed) throw new Error(`No filed statements found for ${sym}.`);
+        if (!filed || !stockUniverse.usable(payload)) throw new Error(`No usable filed statements found for ${sym}.`);
 
         // Store every filer in USD. A foreign private issuer reports in its home
         // currency (NTES in CNY, SAP in EUR) while its ADR trades in USD, so
@@ -185,11 +186,19 @@ async function buildFundamentals(symbol) {
         // backend/fundamentals-date.js).
         presented.fetchedAt = new Date().toISOString();
         try {
-            fs.writeFileSync(path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`), JSON.stringify(presented));
+            const file = path.join(FUND_DIR, `${sym.replace(/[^A-Z0-9]/g, '_')}.json`);
+            fs.writeFileSync(file + '.tmp', JSON.stringify(presented));
+            fs.renameSync(file + '.tmp', file);
             fundamentalsCache.invalidate(sym);
         } catch (_) { /* cache write is best-effort — the payload still serves */ }
         return presented;
     })();
+    if (waitForCompletion) {
+        _inflight.set(sym, p);
+        const release = () => { if (_inflight.get(sym) === p) _inflight.delete(sym); };
+        p.then(release, release);
+        return p;
+    }
     let timeoutId;
     const timed = Promise.race([
         p,

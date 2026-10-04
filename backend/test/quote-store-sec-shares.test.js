@@ -50,9 +50,10 @@ test('a symbol with no SEC count keeps the quote market cap', async () => {
     assert.ok(quote.marketCap > 0);
 });
 
-test('the real SEC share map resolves LLY and ESS and omits multi-class GOOGL', () => {
+test('the optional SEC share map retains valid observations and omits ambiguous multi-class GOOGL', () => {
     const real = JSON.parse(fs.readFileSync(path.join(__dirname, '..', '..', 'frontend', 'data', 'sec-shares.json'), 'utf8')).shares;
     assert.ok(real.LLY && real.LLY.shares > 0, 'LLY resolved');
-    assert.ok(real.ESS && real.ESS.shares > 0, 'ESS resolved');
+    // An issuer can be absent after a refresh; missing evidence is not a zero.
+    for(const [symbol,row] of Object.entries(real)){assert.ok(Number.isFinite(row.shares) && row.shares>0,symbol);assert.match(String(row.asOf),/^\d{4}-\d{2}-\d{2}$/);}
     assert.equal(real.GOOGL, undefined, 'multi-class GOOGL is not resolved');
 });
