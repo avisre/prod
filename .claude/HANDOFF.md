@@ -48,20 +48,21 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
 ## Production state — 2026-10-04
-- **`main` currently runs the Ask ROLLBACK.** `97c61b35` is deployed (`dep-db0uvplg1s2s73fplsq0`, workflow
-  `37182036116`, deployed SHA confirmed): Ask server/tools/prompts/streaming and charts restored to
-  `730507cc`, the new validation/segment/Sankey modules and the local review harness removed from `main`.
-  Asset stamp `20261004-askrollback1`. Verified SEC coverage, datasets and dependency updates retained.
-  Evidence: `docs/qa/ask-rollback-2026-10-04/release.json`.
+- **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
+  deploy `dep-db181bvavr4c73an2krg` through workflow `37216736433`; the workflow confirmed the deployed
+  commit. `/api/health` returned 200 with `{"ok":true}`. Direct requests to `/ask` and the stamped asset
+  returned 403 from this environment, so authenticated rendered-page verification is still unavailable.
+  Asset stamp: `20261004-askfacet1`.
+- The earlier rollback `97c61b35` deployed as `dep-db0uvplg1s2s73fplsq0` through workflow `37182036116`.
+  Its historical evidence remains in `docs/qa/ask-rollback-2026-10-04/release.json`.
 - Earlier the same day, the SEC coverage release `73186a12` deployed and passed independent production
   checks: 6,099 securities, 4,440 ready issuers, 4,498 screenable listings; live stock sitemap matched the
   snapshot exactly; 403s blocked automated stock-profile/alias checks, so authenticated Ask stayed unverified
   there. Evidence: `docs/qa/ask-live-readiness-2026-10-04/`.
-- **The Ask work below re-does what the rollback removed, on branch `ask-production-ready-20261004`, and is
-  not deployed.** `main` still carries the rollback. Do not restage the superseded copies from the older
-  release worktrees.
+- The release restored the Ask modules onto current `main` while keeping the SEC data and dependency files.
+  The tested source branch remains `ask-production-ready-20261004` at `ed11f4e7`.
 
-## Ask framework for every stock — built, measured; not deployed
+## Ask framework for every stock — deployed
 
 The owner's request: apply the Broadcom-shaped answer framework (framing → segment split → quarterly/annual
 tables with a Context column → chart → what makes it different → key risks → valuation snapshot →
@@ -116,11 +117,15 @@ reproduced `facet:true` on a `viz` block; after the comp collector and chart nor
 published at **479 prose words**, `source: ai`, zero audit issues, with a five-period faceted bars chart.
 The earlier five successful answers pre-date these two fixes; AMD has now passed separately.
 
-**Verification state:** full backend suite **1239/1239 pass, 0 fail** on Node 26.9.0. Faceted bars render
+**Verification state:** the feature worktree passed **1239/1239** backend tests on Node 26.9.0. The clean
+release tree passed **398/398** tests in the deployment's targeted gate; its full suite passed 1233/1239.
+All six failures reproduced on the untouched pre-release production tree (stale metric-page, formatter,
+model-routing and reliability assertions, plus a long SEO description). GitHub's committed dataset,
+exhaustive public rendering and resource gates all passed. Faceted bars render
 correctly at 1100px and 390px — one panel per metric, values printed, all five period labels survive at phone
 width, no horizontal overflow. Cache stamp `20261004-askfacet1` sits on all 88 pages that load
 `app.js`/`system.css` plus the `${STAMP}` server-rendered pages (the three HTML files without it do not
-reference the assets). The tested feature branch is still separate from production `main`.
+reference the assets).
 
 ## Local Ask review — 2026-10-04
 `node scripts/dev-ask-review.js --examples docs/qa/local-ask-review-2026-10-04` serves
@@ -280,8 +285,10 @@ explicit authorization.**
   browser button "does nothing", read `Log.entryAdded` + `Network.loadingFailed` over CDP first.
 - `access_token()` in the GSC script returns a **tuple** `(token, client_email)`; treating it as a string 401s.
 - zsh does not word-split unquoted variables: bulk `sed` needs `… | xargs sed -i '' …`.
-- **Suite GREEN as of 10/04 (1239 pass, 0 fail).** **No CI job runs it** — `repo-checks.yml` runs only
-  `handoff-size`; 23 files need mongo, 25 touch the network and 8 need root `node_modules`.
+- **The clean release tree has six pre-existing full-suite failures** (1233 pass, 6 fail), reproduced on the
+  pre-release production tree. The feature worktree's dirty, unrelated local fixes made its full suite green
+  (1239 pass). **No CI job runs the full suite** — `repo-checks.yml` runs only `handoff-size`; 23 files need
+  mongo, 25 touch the network and 8 need root `node_modules`.
 - **A test can encode a coincidence and still look like an invariant.** `sitemap-index.test.js` asserted
   lastmod must *vary* — true only while two dates happened to differ.
 - **A source-pinning test slices source, and the slice is a silent expiry date.** Slice to the next function,
@@ -299,25 +306,23 @@ explicit authorization.**
 3. **Claude / Anthropic directory — nothing for you to do.** Two judgement calls if you want to revisit them:
    the connector's auth declaration and reusing the OpenAI reviewer account. The signed-in session lives in
    the scratch Chrome profile (`/tmp/claude-console-profile`, CDP :9335) — **still live**.
-4. **Ask framework deployment remains a separate release decision:** the tested work is on
-   `ask-production-ready-20261004`; nothing is pushed, and `main` still carries the rollback.
-5. **Dossier mockup review** — step 2, the port, has not started.
-6. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
+4. **Dossier mockup review** — step 2, the port, has not started.
+5. **URL Inspection → Request Indexing** on the highest-value pages — `Page with redirect` (604) + `Server
    error (5xx)` (2) need the UI drill-down; the API has neither. Re-run **Site Scan** and click **Investigate**
    on the identical-titles / identical-descriptions / noindex / **Title-too-long** cards.
-7. **`avisre/prod` visibility** — it names the AI provider while public.
-8. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
+6. **`avisre/prod` visibility** — it names the AI provider while public.
+7. **Rotate the secrets exposed in local transcripts** (STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET, JWT_SECRET,
    SMTP_PASS, GOOGLE_CLIENT_SECRET, the provider key) at source AND on Render back-to-back per key, or
    checkout and webhooks break mid-rotation. Also revoke the old GitHub PAT and npm token pasted 9/14.
-9. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
-10. **Reopen-10-accounts script** (`scratchpad/.../reopen/run.js`) was blocked by the classifier — needs approval.
-11. **`scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.**
-12. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
+8. **List-Unsubscribe + DMARC `rua`** before the next bulk send.
+9. **Reopen-10-accounts script** (`scratchpad/.../reopen/run.js`) was blocked by the classifier — needs approval.
+10. **`scripts/verify-receipts-panel.js` and `scripts/verify-send-receipt.js` are untracked.**
+11. **AppSumo listing** is portal-only: paste + approval. The unredeemed buyers are unreachable — AppSumo holds
     their email, not us.
-13. **Monthly provider bill** — the one input that states AI margin in dollars.
-14. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered, or delete it.
-15. **`mcp-server` republish** — its README documents the retired `sp_*` tool names.
-16. **Publish the Day 41 share page (optional).** Unset `ANTHROPIC_AUTH_TOKEN` and `/login` with a Claude
+12. **Monthly provider bill** — the one input that states AI margin in dollars.
+13. **Orphan IndexNow key** `1668f45a03ea53cf94c51b61c43163d4.txt` — confirm it is registered, or delete it.
+14. **`mcp-server` republish** — its README documents the retired `sp_*` tool names.
+15. **Publish the Day 41 share page (optional).** Unset `ANTHROPIC_AUTH_TOKEN` and `/login` with a Claude
     account, then re-run the publish.
-17. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
+16. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
     `DEVELOPMENT` review status. Separate from the directory submission in item 2.
