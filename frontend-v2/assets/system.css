@@ -1070,13 +1070,10 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
 }
-.ask-table-scroll { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
-.ask-table-scroll:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .ask-a th, .ask-a td { padding: 9px 20px 9px 0; border-bottom: 1px solid var(--line); text-align: right; }
 .ask-a th:first-child, .ask-a td:first-child { text-align: left; }
 .ask-a th { font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); font-weight: 600; }
 .ask-a p { margin: 0 0 14px; }
-.ask-a p, .ask-a li, .ask-a a { overflow-wrap: anywhere; }
 .ask-a ul, .ask-a ol { margin: 6px 0 14px; padding-left: 20px; }
 .ask-a li { margin-bottom: 6px; }
 .ask-a.is-normal { font-size: 15.5px; line-height: 1.8; }
@@ -1099,39 +1096,11 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 /* charts inside an answer */
 .ask-viz { margin: 22px 0 26px; padding: 20px 24px 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
 .ask-viz figcaption { margin-bottom: 12px; }
-.ask-viz-legend { display: flex; flex-wrap: wrap; gap: 8px 18px; justify-content: center; margin-top: 6px; font-size: var(--text-xs); color: var(--ink-2); }
-.ask-viz .pv-scale-fill.is-negative { background: var(--neg); }
-@media (max-width: 600px) {
-  .ask-viz { padding: 16px; }
-  .ask-viz .pv-scale-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 10px; }
-  .ask-viz .pv-scale-label { min-width: 0; overflow-wrap: anywhere; }
-  .ask-viz .pv-scale-val { min-width: 0; }
-  .ask-viz .pv-scale-track { grid-column: 1 / -1; grid-row: 2; width: 100%; }
-}
+.ask-viz-legend { display: flex; gap: 18px; justify-content: center; margin-top: 6px; font-size: var(--text-xs); color: var(--ink-2); }
 .ask-viz-legend .lg { display: inline-block; width: 14px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
 .ask-viz-legend .lg-ink { background: var(--ink); }
 .ask-viz-legend .lg-accent { background: var(--accent); }
 .ask-viz-legend .lg-pos { background: var(--pos); }
-.ask-chart-unit { color: var(--ink-3); font-size: var(--text-xs); margin: -7px 0 8px; }
-.ask-bar-svg, .ask-sankey-svg { display:block; width:100%; height:auto; overflow:visible; }
-.ask-grid { stroke:var(--line); stroke-width:1; }
-.ask-zero { stroke:var(--line-strong); stroke-width:1.2; }
-.ask-axis, .ask-period { fill:var(--ink-3); font:11px Inter,system-ui,sans-serif; }
-.ask-period { fill:var(--ink-2); font-size:11px; font-weight:600; }
-.ask-bar-value { fill:var(--ink); font:600 10px Inter,system-ui,sans-serif; paint-order:stroke; stroke:var(--surface); stroke-width:3px; }
-.ask-hbar-track { position:relative; }
-.ask-hbar-track::before { content:""; position:absolute; z-index:1; top:-1px; bottom:-1px; left:0; border-left:1px solid var(--line-strong); }
-.ask-hbar-track.is-mixed::before { left:50%; }
-.ask-hbar-track .pv-scale-fill { position:absolute; top:0; }
-.ask-sankey-label { fill:var(--ink); font:600 11px Inter,system-ui,sans-serif; }
-.ask-sankey-value { fill:var(--ink-2); font:10px Inter,system-ui,sans-serif; }
-.ask-sankey-source { fill:var(--accent-ink); font:10px Inter,system-ui,sans-serif; text-decoration:underline; }
-.ask-sankey-svg a { cursor:pointer; }
-.ask-sankey-legend { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:7px 14px; margin-top:10px; }
-.ask-sankey-key { display:grid; grid-template-columns:9px minmax(0,1fr) auto; gap:8px; align-items:start; min-width:0; color:var(--ink-2); font-size:var(--text-xs); }
-.ask-sankey-key i { width:8px; height:8px; margin-top:4px; border-radius:2px; }
-.ask-sankey-key span { min-width:0; overflow-wrap:anywhere; }
-.ask-sankey-key b { color:var(--ink); white-space:nowrap; font-variant-numeric:tabular-nums; }
 /* the suggested follow-up */
 .ask-next { border: 1px solid var(--line-strong); background: none; border-radius: 999px; padding: 7px 14px; font-size: var(--text-sm); color: var(--accent-ink); cursor: pointer; font-family: inherit; }
 .ask-next:hover { border-color: var(--accent); }

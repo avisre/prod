@@ -389,3 +389,11 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
 - Readiness report: `docs/ask-visuals-release-readiness-2026-10-04.md`; public QA samples and measurements are adjacent under `docs/qa/ask-live-readiness-2026-10-04/`.
 - Local review server: `http://127.0.0.1:5058/`, Node 22, AI-only inherited environment, database blocked.
 - Original developer worktree retains unrelated notes, CSVs, mockups and comparison discoveries. Stage only the scoped release.
+
+
+## 2026-10-04 — Ask rollback requested
+
+- User requested rollback of Ask changes and production deployment. Ask prompts, tools, streaming and chart UI restored to `730507cc` behavior; new answer-validation and segment-Sankey modules and local review harness removed.
+- Verified SEC adapter, current financial datasets, stock coverage/screener contracts, dependency security upgrades and provider compatibility retained. Frontend missing-value parsing and HTML attribute escaping retained.
+- Fresh shared frontend stamp: `20261004-askrollback1`. Original dirty workspace preserved; rollback prepared in isolated `ask-rollback-20261004` worktree based on current main.
+- Historical Ask release reports describe the superseded release, not the rollback. Deployment gate remains active and must validate the rollback SHA before Render deploys.

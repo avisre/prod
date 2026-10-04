@@ -60,11 +60,11 @@ test('every tool_call gets a reply, including ones past the round budget', async
 test('a tool call typed out as prose is never rendered as the answer', async () => {
     const calls = scripted([
         { content: '<tool_call>{"name": "get_quote", "arguments": {"symbol": "AAPL"}}</tool_call>' },
-        { content: 'Apple quote data is unavailable.' }
+        { content: 'Apple trades at $220.' }
     ]);
     const out = await ask();
     assert.equal(calls.length, 2, 'the prose tool call should trigger the one-shot retry');
-    assert.equal(out.answer, 'Apple quote data is unavailable.');
+    assert.equal(out.answer, 'Apple trades at $220.');
     assert.ok(!out.answer.includes('tool_call'));
 });
 
@@ -97,12 +97,12 @@ test('an answer that reveals the underlying model is blocked, not shown', async 
 test('a normal tool round then a text answer reports source ai and the tools it used', async () => {
     scripted([
         { tool_calls: [toolCall('c1', 'not_a_real_tool', {})] },
-        { content: 'The requested data is unavailable.' }
+        { content: 'Revenue grew 14.2% year over year.' }
     ]);
     const out = await ask();
     assert.equal(out.source, 'ai');
     assert.equal(out.toolsUsed.length, 1);
-    assert.equal(out.answer, 'The requested data is unavailable.');
+    assert.equal(out.answer, 'Revenue grew 14.2% year over year.');
 });
 
 test('malformed tool-call arguments do not crash the round', async () => {
