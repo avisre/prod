@@ -1,0 +1,37 @@
+{
+  "question": "For MUFG, show the latest three stored annual periods of revenue, net income and share-based compensation as grouped vertical bars in the issuer reporting currency, using the actual period-end dates. Explain missing metrics explicitly. Do not research segments, news, valuation or causes. Keep the answer under 150 words.",
+  "mode": "normal",
+  "ms": 12073,
+  "generatedAt": "2026-10-04T05:24:56.469Z",
+  "answer": "This is a partial answer using verified SEC evidence. Unverified figures are omitted.\n\n**MUFG \u2014 verified annual facts, reported in JPY.**\nEach bar comes from the matching annual SEC observations.\nShare-based compensation is unavailable for 2024-03-31, 2025-03-31, 2026-03-31; missing values are shown as gaps, not zero.\n```bars\n{\"title\":\"MUFG \u00b7 Revenue, net income and share-based compensation\",\"unit\":\"JPY\",\"orientation\":\"vertical\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2024-03-31\",10032704000000],[\"2025-03-31\",10836109000000],[\"2026-03-31\",11867264000000]]},{\"name\":\"Net income\",\"points\":[[\"2024-03-31\",1325869000000],[\"2025-03-31\",1266933000000],[\"2026-03-31\",1729359000000]]},{\"name\":\"Share-based compensation\",\"points\":[[\"2024-03-31\",null],[\"2025-03-31\",null],[\"2026-03-31\",null]]}]}\n```\n\nSEC sources: [MUFG 20-F filed 2026-07-06](https://www.sec.gov/Archives/edgar/data/67088/000162828026047095/0001628280-26-047095-index.htm); [MUFG 20-F filed 2024-07-30](https://www.sec.gov/Archives/edgar/data/67088/000006708824000021/0000067088-24-000021-index.htm).",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 3,
+        "statement": "income",
+        "symbol": "MUFG"
+      },
+      "ok": true,
+      "ms": 25
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 3,
+        "statement": "cash",
+        "symbol": "MUFG"
+      },
+      "ok": true,
+      "ms": 8
+    }
+  ],
+  "source": "partial",
+  "totalTokens": 58605,
+  "quality": {
+    "policyVersion": 1,
+    "checked": true,
+    "rewritten": true,
+    "fallback": true
+  }
+}

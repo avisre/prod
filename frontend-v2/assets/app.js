@@ -305,7 +305,7 @@
         return "FY '" + String(d.getFullYear()).slice(2) + ' (' + d.toLocaleString('en-US', { month: 'short' }) + ')';
     }
     function esc(s) {
-        return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     }
 
     // ---------- sparkline ----------
@@ -459,10 +459,8 @@
         const answer = document.querySelector('.ask-a')?.clientWidth || Math.min(viewport - 48, 880);
         return Math.min(760, Math.max(260, answer - (viewport <= 600 ? 32 : 48)));
     }
-    function vizBlock(json) {
-        let spec;
-        try { spec = JSON.parse(json); } catch (_) {
-            // models sometimes drop a trailing bracket — auto-close and retry
+    function parseVizJson(json) {
+        try { return JSON.parse(json); } catch (_) {
             let depth = []; let inStr = false; let escp = false;
             for (const ch of json) {
                 if (escp) { escp = false; continue; }
@@ -472,9 +470,30 @@
                 if (ch === '{' || ch === '[') depth.push(ch);
                 else if (ch === '}' || ch === ']') depth.pop();
             }
-            const closers = depth.reverse().map((c) => (c === '{' ? '}' : ']')).join('');
-            try { spec = JSON.parse(json + closers); } catch (_2) { return ''; }
+            const closers = depth.reverse().map(c => c === '{' ? '}' : ']').join('');
+            try { return JSON.parse(json + closers); } catch (_2) { return null; }
         }
+    }
+    function compactBarValue(value, unit) {
+        const v = Number(value);
+        if (!Number.isFinite(v)) return '—';
+        if (unit === '%' || unit === 'x' || /\/share$/.test(unit || '')) return vizFmt(unit)(v);
+        const abs = Math.abs(v);
+        const scale = abs >= 1e12 ? 1e12 : abs >= 1e9 ? 1e9 : abs >= 1e6 ? 1e6 : 1;
+        const suffix = scale === 1e12 ? 'T' : scale === 1e9 ? 'B' : scale === 1e6 ? 'M' : '';
+        const prefix = /^[A-Z]{3}$/.test(unit || '') ? unit + ' ' : '';
+        const digits = scale === 1 ? 0 : 1;
+        return prefix + (v / scale).toLocaleString('en-US', { maximumFractionDigits: digits }) + suffix;
+    }
+    function compactPeriod(label) {
+        const date = String(label).match(/^(\d{4})-\d{2}-\d{2}$/);
+        if (date) return 'FY' + date[1];
+        const fy = String(label).match(/\bFY\s*['’]?(20\d{2}|\d{2})\b/i);
+        return fy ? 'FY' + (fy[1].length === 2 ? '20' + fy[1] : fy[1]) : String(label);
+    }
+    function vizBlock(json) {
+        const spec = parseVizJson(json);
+        if (!spec) return '';
         const series = (Array.isArray(spec.series) ? spec.series : []).slice(0, 3)
             .map((s) => ({
                 name: String(s.name || ''),
@@ -504,42 +523,141 @@
         return `<figure class="ask-viz" data-viz="${esc(JSON.stringify(spec))}">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}${unitLabel}${svg}${legend}</figure>`;
     }
 
-    // ---------- Ask bars blocks (```bars {json}```) → horizontal compare bars ----------
-    // {"title":str,"unit":"$"|"%"|"x","rows":[[label, value, note?]]} — the
-    // Normal-mode alternative to a wide markdown table for a multi-metric or
-    // multi-company comparison. Reuses PV.pairBars-style styling via a simple
-    // one-bar-per-row track so it needs no extra CSS beyond .pv-scale-*.
+    // ---------- Ask bars blocks: horizontal categories or vertical time groups ----------
+    // Horizontal: {title, unit, rows:[[label,value,note?]]}
+    // Vertical: {title, unit, orientation:"vertical", series:[{name,points:[[periodEnd,value]]}]}
     function barsBlock(json) {
-        let spec;
-        try { spec = JSON.parse(json); } catch (_) {
-            let depth = []; let inStr = false; let escp = false;
-            for (const ch of json) {
-                if (escp) { escp = false; continue; }
-                if (ch === '\\') { escp = true; continue; }
-                if (ch === '"') { inStr = !inStr; continue; }
-                if (inStr) continue;
-                if (ch === '{' || ch === '[') depth.push(ch);
-                else if (ch === '}' || ch === ']') depth.pop();
+        const spec = parseVizJson(json);
+        if (!spec) return '';
+        const fmt = v => compactBarValue(v, spec.unit);
+        if (Array.isArray(spec.series)) {
+            if (spec.orientation !== 'vertical') return '';
+            const series = spec.series.slice(0, 3).map(s => ({
+                name: String(s.name || ''),
+                points: (Array.isArray(s.points) ? s.points : []).filter(p => Array.isArray(p) && p.length >= 2)
+                    .map(p => [String(p[0]), num(p[1])])
+            })).filter(s => s.name);
+            const categories = series[0]?.points.map(p => p[0]) || [];
+            if (!series.length || !categories.length || categories.length > 8 || series.some(s => JSON.stringify(s.points.map(p => p[0])) !== JSON.stringify(categories))) return '';
+            const vals = series.flatMap(s => s.points.map(p => p[1]).filter(v => v !== null));
+            if (!vals.length) return '';
+            const max = Math.max(0, ...vals) || 1, min = Math.min(0, ...vals);
+            const W = vizWidth(), H = 330, padL = 62, padR = 14, padT = 24, padB = 64;
+            const top = padT, bottom = H - padB, plotH = bottom - top, plotW = W - padL - padR;
+            const y = v => top + (max - v) / (max - min) * plotH;
+            const zeroY = y(0), groupW = plotW / categories.length;
+            const colors = ['var(--ink)', 'var(--accent)', 'var(--pos)'];
+            const tickValues = [];
+            const span = max - min, rawStep = span / 4, power = Math.pow(10, Math.floor(Math.log10(rawStep || 1)));
+            const norm = rawStep / power, step = (norm < 1.5 ? 1 : norm < 3.5 ? 2 : norm < 7.5 ? 5 : 10) * power;
+            for (let t = Math.ceil(min / step) * step; t <= max + step * 1e-8; t += step) tickValues.push(Math.abs(t) < step * 1e-8 ? 0 : t);
+            let svg = '';
+            for (const t of tickValues) {
+                const yy = y(t);
+                svg += `<line x1="${padL}" y1="${yy.toFixed(1)}" x2="${W-padR}" y2="${yy.toFixed(1)}" class="ask-grid"/>`;
+                svg += `<text x="${padL-8}" y="${(yy+4).toFixed(1)}" text-anchor="end" class="ask-axis">${esc(compactBarValue(t, spec.unit))}</text>`;
             }
-            const closers = depth.reverse().map((c) => (c === '{' ? '}' : ']')).join('');
-            try { spec = JSON.parse(json + closers); } catch (_2) { return ''; }
+            svg += `<line x1="${padL}" y1="${zeroY.toFixed(1)}" x2="${W-padR}" y2="${zeroY.toFixed(1)}" class="ask-zero"/>`;
+            const slot = groupW * 0.72 / series.length, barW = Math.max(3, Math.min(34, slot * 0.76));
+            const labelCapacity = Math.max(2, Math.floor(plotW / 76));
+            const labelStep = Math.max(1, Math.ceil((categories.length - 1) / (labelCapacity - 1)));
+            const accessible = [];
+            categories.forEach((category, ci) => {
+                const groupStart = padL + ci * groupW + (groupW - slot * series.length) / 2;
+                series.forEach((s, si) => {
+                    const value = s.points[ci][1];
+                    if (value === null) { accessible.push(`${s.name}, ${category}: unavailable`); return; }
+                    const yy = y(value), barY = Math.min(yy, zeroY), barH = Math.max(1, Math.abs(zeroY - yy));
+                    const x = groupStart + si * slot + (slot - barW) / 2;
+                    const label = `${s.name}, ${category}: ${fmt(value)}`;
+                    accessible.push(label);
+                    svg += `<rect x="${x.toFixed(1)}" y="${barY.toFixed(1)}" width="${barW.toFixed(1)}" height="${barH.toFixed(1)}" fill="${colors[si]}" rx="2"><title>${esc(label)}</title></rect>`;
+                    if (categories.length <= 3 && series.length <= 2) {
+                        const labelY = value >= 0 ? Math.max(top + 10, barY - 5) : Math.min(bottom - 2, barY + barH + 12);
+                        svg += `<text x="${(x+barW/2).toFixed(1)}" y="${labelY.toFixed(1)}" text-anchor="middle" class="ask-bar-value">${esc(fmt(value))}</text>`;
+                    }
+                });
+                // Keep every bar and exact date in the description. Sparse
+                // labels prevent dense annual histories colliding on phones.
+                if (ci % labelStep === 0 || ci === categories.length - 1) {
+                    const first = ci === 0 && categories.length > 1, last = ci === categories.length - 1 && categories.length > 1;
+                    const lx = first ? padL : last ? W-padR : padL + ci * groupW + groupW / 2;
+                    const anchor = first ? 'start' : last ? 'end' : 'middle';
+                    svg += `<text x="${lx.toFixed(1)}" y="${H-34}" text-anchor="${anchor}" class="ask-period">${esc(compactPeriod(category))}</text>`;
+                    svg += `<text x="${lx.toFixed(1)}" y="${H-18}" text-anchor="${anchor}" class="ask-axis">${esc(category.match(/\d{4}-\d{2}-\d{2}/)?.[0] || '')}</text>`;
+                }
+            });
+            const desc = accessible.join('. ');
+            svg = `<svg viewBox="0 0 ${W} ${H}" role="img" class="ask-bar-svg"><title>${esc(String(spec.title || 'Financial metric comparison'))}</title><desc>${esc(desc)}</desc>${svg}</svg>`;
+            const classes = ['ink', 'accent', 'pos'];
+            const legend = series.length > 1 ? `<div class="ask-viz-legend">${series.map((s, i) => `<span><i class="lg lg-${classes[i]}"></i>${esc(s.name)}</span>`).join('')}</div>` : '';
+            return `<figure class="ask-viz ask-bars-vertical">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="ask-chart-unit">${esc(spec.unit || '')} · actual fiscal periods</div>${svg}${legend}</figure>`;
         }
         const rows = (Array.isArray(spec.rows) ? spec.rows : [])
             .filter((r) => Array.isArray(r) && r.length >= 2 && num(r[1]) !== null)
             .slice(0, 8);
         if (!rows.length) return '';
-        const fmt = vizFmt(spec.unit);
-        const max = Math.max(...rows.map((r) => Math.abs(Number(r[1]))), 1);
+        const hasNegative = rows.some(r => Number(r[1]) < 0);
+        const max = Math.max(...rows.map(r => Math.abs(Number(r[1]))), 1);
+        const zero = hasNegative ? 50 : 0, half = hasNegative ? 50 : 100;
         const rowHtml = rows.map((r) => {
             const [label, value, note] = r;
-            const pct = Math.min(100, Math.abs(Number(value)) / max * 100);
+            const pct = Math.min(half, Math.abs(Number(value)) / max * half);
+            const left = Number(value) < 0 ? zero - pct : zero;
             return `<div class="pv-scale-row">
         <span class="pv-scale-label">${esc(String(label))}${note ? ` <span class="small faint">${esc(String(note))}</span>` : ''}</span>
-        <span class="pv-scale-track"><i class="pv-scale-fill${Number(value) < 0 ? ' is-negative' : ''}" style="width:${pct.toFixed(1)}%"></i></span>
+        <span class="pv-scale-track ask-hbar-track${hasNegative ? ' is-mixed' : ''}"><i class="pv-scale-fill${Number(value) < 0 ? ' is-negative' : ''}" style="left:${left.toFixed(1)}%;width:${pct.toFixed(1)}%"></i></span>
         <b class="pv-scale-val">${esc(fmt(Number(value)))}</b>
       </div>`;
         }).join('');
-        return `<figure class="ask-viz">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="pv-card" style="margin-top:0;">${rowHtml}</div></figure>`;
+        const desc = rows.map(r => `${String(r[0])}: ${fmt(r[1])}`).join('. ');
+        return `<figure class="ask-viz ask-bars-horizontal">${spec.title ? `<figcaption class="label">${esc(String(spec.title))}</figcaption>` : ''}<div class="ask-chart-unit">${esc(spec.unit || '')} · zero-based scale${hasNegative ? ' centred on zero' : ''}</div><div class="pv-card" role="img" aria-label="${esc(desc)}" style="margin-top:0;">${rowHtml}</div></figure>`;
+    }
+    function sankeyBlock(json) {
+        const spec = parseVizJson(json);
+        if (!spec || !/^[A-Z]{3}$/.test(String(spec.unit || '')) ||
+            !/^\d{4}-\d{2}-\d{2}$/.test(String(spec.periodEnd || '')) ||
+            !/^\d{4}-\d{2}-\d{2}$/.test(String(spec.filingDate || '')) ||
+            !/^\d{18}$/.test(String(spec.accessionNumber || '').replace(/\D/g, ''))) return '';
+        const total = num(spec.total), unallocated = num(spec.unallocated);
+        const segments = (Array.isArray(spec.segments) ? spec.segments : []).map(s => ({
+            name: String(s.name || '').trim(), value: num(s.value)
+        }));
+        if (!(total > 0) || unallocated === null || unallocated < 0 || segments.length < 2 || segments.length > 10 ||
+            segments.some(s => !s.name || !(s.value > 0)) ||
+            Math.abs(segments.reduce((a, s) => a + s.value, 0) + unallocated - total) > Math.max(1, total * 1e-8)) return '';
+        const all = segments.concat(unallocated > 0 ? [{ name: 'Unallocated / eliminations', value: unallocated }] : []);
+        const W = vizWidth(), plotH = Math.max(190, all.length * 42), H = plotH + 68, top = 28;
+        const sx = 18, tx = Math.max(110, Math.round(W * 0.52)), nodeW = 13, labelX = tx + nodeW + 10;
+        const colors = ['var(--ink)', 'var(--accent)', 'var(--pos)', 'var(--neg)', 'var(--ink-3)', '#7c5ce7', '#16a6a1', '#c67a26', '#9e557c'];
+        let sourceOffset = 0, targetOffset = 0, paths = '', nodes = '', labels = [], legend = [], totalFmt = compactBarValue(total, spec.unit);
+        all.forEach((item, i) => {
+            const size = item.value / total * plotH;
+            const sourceY0 = top + sourceOffset, sourceY1 = sourceY0 + size;
+            const targetY0 = top + targetOffset, targetY1 = targetY0 + size;
+            const color = colors[i % colors.length];
+            paths += `<path d="M${sx+nodeW},${sourceY0.toFixed(2)} C${Math.round(W*.25)},${sourceY0.toFixed(2)} ${Math.round(W*.34)},${targetY0.toFixed(2)} ${tx},${targetY0.toFixed(2)} L${tx},${targetY1.toFixed(2)} C${Math.round(W*.34)},${targetY1.toFixed(2)} ${Math.round(W*.25)},${sourceY1.toFixed(2)} ${sx+nodeW},${sourceY1.toFixed(2)} Z" fill="${color}" fill-opacity=".24"><title>${esc(item.name)}: ${esc(compactBarValue(item.value, spec.unit))}</title></path>`;
+            nodes += `<rect x="${tx}" y="${targetY0.toFixed(2)}" width="${nodeW}" height="${size.toFixed(2)}" rx="2" fill="${color}"/>`;
+            const amount = compactBarValue(item.value, spec.unit);
+            labels.push(`${item.name}: ${amount}`);
+            legend.push(`<div class="ask-sankey-key"><i style="background:${colors[i % colors.length]}"></i><span>${esc(item.name)}</span><b>${esc(amount)}</b></div>`);
+            const availableChars = Math.max(12, Math.floor((W - labelX - 8) / 6.2));
+            const nameChars = Math.max(5, availableChars - amount.length - 3);
+            const displayName = item.name.length > nameChars ? item.name.slice(0, Math.max(1, nameChars - 1)) + '…' : item.name;
+            if (size >= 18) nodes += `<text x="${labelX}" y="${(targetY0 + size/2 + 4).toFixed(2)}" class="ask-sankey-label"><title>${esc(item.name)}: ${esc(amount)}</title>${esc(displayName)} · ${esc(amount)}</text>`;
+            sourceOffset += size; targetOffset += size;
+        });
+        nodes += `<rect x="${sx}" y="${top}" width="${nodeW}" height="${plotH}" rx="2" fill="var(--ink)"/>`;
+        nodes += `<text x="${sx}" y="${top-9}" class="ask-sankey-value">Total revenue</text>`;
+        nodes += `<text x="${sx}" y="${top+plotH+17}" class="ask-sankey-value">${esc(totalFmt)}</text>`;
+        const accession = String(spec.accessionNumber).replace(/\D/g, '');
+        const sourceMatches = /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/(\d+)\/([\w-]+)\/[^\s"<>]+$/i.exec(String(spec.sourceUrl || ''));
+        const sourceUrl = sourceMatches && sourceMatches[2].replace(/\D/g, '') === accession
+            ? `<a href="${esc(spec.sourceUrl)}" target="_blank" rel="noopener nofollow"><text x="${sx}" y="${H-6}" class="ask-sankey-source">SEC annual filing · ${esc(String(spec.filingDate || spec.periodEnd))}</text></a>`
+            : `<text x="${sx}" y="${H-6}" class="ask-sankey-source">SEC annual filing · ${esc(String(spec.filingDate || spec.periodEnd))}</text>`;
+        const desc = `Total revenue ${totalFmt} for period ending ${spec.periodEnd}. ` + labels.join('. ');
+        const svg = `<svg viewBox="0 0 ${W} ${H}" role="img" class="ask-sankey-svg"><title>${esc(String(spec.title || 'Revenue by business segment'))}</title><desc>${esc(desc)}</desc>${paths}${nodes}${sourceUrl}</svg>`;
+        return `<figure class="ask-viz ask-sankey"><figcaption class="label">${esc(String(spec.title || 'Revenue by business segment'))}</figcaption><div class="ask-chart-unit">${esc(spec.unit)} · annual period ending ${esc(spec.periodEnd)}</div>${svg}<div class="ask-sankey-legend" role="list" aria-label="Segment revenue values">${legend.join('')}</div></figure>`;
     }
 
     // A completed answer leads with its source receipt: the first SEC link the
@@ -580,8 +698,13 @@
             vizzes.push(barsBlock(body.trim()));
             return `\nVIZBLOCK${vizzes.length - 1}END\n`;
         });
+        src = src.replace(/```sankey\s*\n([\s\S]*?)```/g, (m, body) => {
+            vizzes.push(sankeyBlock(body.trim()));
+            return `\nVIZBLOCK${vizzes.length - 1}END\n`;
+        });
         src = src.replace(/```viz[\s\S]*$/, '');
         src = src.replace(/```bars[\s\S]*$/, '');
+        src = src.replace(/```sankey[\s\S]*$/, '');
         src = src.replace(/```[a-z]*\n?([\s\S]*?)```/g, '$1');
         const lines = esc(src).split('\n');
         const out = [];

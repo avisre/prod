@@ -376,3 +376,16 @@ backfill stragglers `aaf4ea41`). Still load-bearing:
 16. **ChatGPT connector polish** (optional, not blockers): the icon is the default placeholder, and the plugin
     still reads `DEVELOPMENT` review status — publish it from the plugin page if you want it directory-listed.
     This is the *connector* in your account, separate from the directory submission in item 2.
+
+
+## 2026-10-04 — Ask financial visual release
+
+- Release branch: `ask-visuals-release-20261004`, merged with current main provider data. No push or deployment performed.
+- On-demand Ask financial visuals cover every eligible directory stock; native SEC segments use cache version 2 and exact filing reconciliation. Units/rights are excluded; non-company segments return structured unavailable results.
+- Grouped bars preserve missing gaps and native currency; sourced obligation bars keep recognized liabilities, uncommenced leases, commitments and entity exposures distinct.
+- Dependency audit is clear after patching Axios, Nodemailer and transitive packages; local MIME transport and password-library checks pass.
+- Node 22 acceptance: 385 tests, real local Mongo cache persistence, full local application startup, read-only audit, 6,099 profile renders, all advertised metrics/comparisons and bounded sitemap performance passed. Real AI/SEC answers render at 320/390/1440px. Complex examples use checked partial fallback when synthesis fails validation.
+- Paired coverage snapshot: 4,440 ready issuers; dataset ID `33502d5144407925bf082a4b39d3040181c924a26e8b35f663ae3a9b53b69102`. Counts expire with UTC policy.
+- Readiness report: `docs/ask-visuals-release-readiness-2026-10-04.md`; public QA samples and measurements are adjacent under `docs/qa/ask-live-readiness-2026-10-04/`.
+- Local review server: `http://127.0.0.1:5058/`, Node 22, AI-only inherited environment, database blocked.
+- Original developer worktree retains unrelated notes, CSVs, mockups and comparison discoveries. Stage only the scoped release.

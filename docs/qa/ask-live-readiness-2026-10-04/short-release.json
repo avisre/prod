@@ -1,0 +1,27 @@
+{
+  "question": "Using only verified stored facts, how much free cash flow did Apple generate in its latest stored annual period? Name the actual period end, currency and SEC source, show the calculation, and keep the answer under 80 words. No extra history or chart.",
+  "mode": "normal",
+  "ms": 4326,
+  "generatedAt": "2026-10-04T05:23:55.790Z",
+  "answer": "> **In one line** \u2014 Apple generated **$98.767bn of free cash flow** in the fiscal year ended 27 September 2025.\n\nCalculation (USD, per Apple's FY2025 10-K, filed 31 Oct 2025, accession 0000320193-25-000079):\n- Operating cash flow: $111,482,000,000\n- Less capital expenditure: $12,715,000,000\n- **FCF = $111,482m \u2212 $12,715m = $98,767m**\n\nSource: [SEC 10-K filing](https://www.sec.gov/Archives/edgar/data/320193/000032019325000079/0000320193-25-000079-index.htm).",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 1,
+        "statement": "cash",
+        "symbol": "AAPL"
+      },
+      "ok": true,
+      "ms": 220
+    }
+  ],
+  "source": "ai",
+  "totalTokens": 22963,
+  "quality": {
+    "policyVersion": 1,
+    "checked": true,
+    "rewritten": false,
+    "fallback": false
+  }
+}

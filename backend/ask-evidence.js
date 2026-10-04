@@ -191,9 +191,21 @@ function fitHistory(result, data, availablePeriods) {
 }
 
 function filingLinks(result) {
-    return Object.values(result?.provenance?.sources || {}).filter(s => s.linkage === 'xbrl_fact' &&
-        /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\//.test(s.filingUrl || ''))
-        .map(s => ({ url: s.filingUrl, label: `${result.symbol || 'SEC'} ${s.form} filed ${s.filingDate}` }));
+    const out = [];
+    const add = (url, label) => {
+        if (/^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\//.test(String(url || '')))
+            out.push({ url, label: String(label || 'SEC filing').slice(0, 160) });
+    };
+    for (const source of Object.values(result?.provenance?.sources || {})) {
+        if (source.linkage === 'xbrl_fact') add(source.filingUrl, `${result.symbol || 'SEC'} ${source.form} filed ${source.filingDate}`);
+    }
+    const filings = result?.results || [];
+    const latest = filings.filter(f => f.confirmedLatest || f.candidateOnly).slice(0, 1);
+    const selectedFilings = latest.length ? latest : filings.slice(0, 1);
+    for (const filing of selectedFilings) add(filing.url, `${filing.company || result.ticker || 'SEC'} ${filing.form || 'filing'}${filing.filed ? ` filed ${filing.filed}` : ''}`);
+    add(result?.filing?.url, `${result.symbol || result.filing?.company || 'SEC'} ${result.filing?.form || 'annual report'}${result.filing?.date ? ` filed ${result.filing.date}` : ''}`);
+    add(result?.url, `${result.form || 'SEC filing'}${result.filed ? ` filed ${result.filed}` : ''}`);
+    return out;
 }
 
 function appendCitations(text, links) {

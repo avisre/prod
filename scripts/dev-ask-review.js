@@ -9,7 +9,9 @@ const root = path.resolve(__dirname, '..');
 const backend = path.join(root, 'backend');
 const port = Number(process.env.ASK_REVIEW_PORT || 5056);
 if (!Number.isInteger(port) || port < 1024 || port > 65535) throw Error('Invalid ASK_REVIEW_PORT.');
-require('./lib/dev-env').loadAiEnvOnly(backend);
+// A caller that already holds an AI-only environment can avoid reading any
+// environment file. The database guard below applies in both modes.
+if (!process.argv.includes('--no-env-file')) require('./lib/dev-env').loadAiEnvOnly(backend);
 for (const key of ['MONGODB_URI', 'JWT_SECRET', 'ADMIN_TOKEN']) delete process.env[key];
 Object.assign(process.env, { DISABLE_BACKGROUND_JOBS: '1', SEC_COVERAGE_READ_ONLY: '1', SEC_COVERAGE_DISABLE_ON_DEMAND: '1' });
 const mongoose = require(path.join(backend, 'node_modules/mongoose'));
@@ -17,6 +19,10 @@ mongoose.set('bufferCommands', false);
 mongoose.connect = mongoose.createConnection = () => { throw Error('Database connections are disabled in local Ask review.'); };
 const engine = require(path.join(backend, 'ai-chat'));
 const client = require(path.join(backend, 'ai-client'));
+const prompts = {
+    short: { mode: 'normal', question: 'Using only verified stored facts, how much free cash flow did Apple generate in its latest stored annual period? Name the actual period end, currency and SEC source, show the calculation, and keep the answer under 80 words. No extra history or chart.' },
+    complex: { mode: 'analyst', question: 'For Meta Platforms (META), use verified SEC evidence to analyze the latest three annual periods of revenue, net income and share-based compensation as grouped vertical bars with actual period ends and reporting currency. Show latest business-segment revenue as a Sankey only if the segment values reconcile to at least 98% of the same annual filing’s verified revenue without exceeding it; otherwise explain the gap. Inspect the same annual filing for off-balance-sheet arrangements, unconsolidated or variable-interest entities, guarantees, leases and commitments. Distinguish recognized debt from other obligations, give only amounts with explicit periods/currencies, keep categories separate, and do not infer intent to hide debt. Link the exact filings and keep the answer under 450 words.' }
+};
 const examples = new Map();
 const savedIndex = process.argv.indexOf('--examples');
 if (savedIndex >= 0) {
@@ -25,15 +31,11 @@ if (savedIndex >= 0) {
     for (const id of ['short', 'complex']) {
         try {
             const result = JSON.parse(fs.readFileSync(path.resolve(directory, id + '.json'), 'utf8'));
-            if (typeof result.answer === 'string' && typeof result.question === 'string' && ['ai', 'partial'].includes(result.source)) examples.set(id, result);
+            if (typeof result.answer === 'string' && result.question === prompts[id].question && ['ai', 'partial'].includes(result.source)) examples.set(id, result);
         } catch (_) { /* examples are optional; generate fresh answers in the UI */ }
     }
 }
 let active = false;
-const prompts = {
-    short: { mode: 'normal', question: 'Using only verified stored facts, how much free cash flow did Apple generate in its latest stored annual period? Name the actual period end, currency and SEC source, show the calculation, and keep the answer under 80 words. No extra history or chart.' },
-    complex: { mode: 'analyst', question: 'Using only verified stored annual financial facts for Apple, analyse the latest three annual periods of revenue, net income, operating cash flow, capex and calculated free cash flow. Include readable charts for revenue/net income and operating cash flow/capex/free cash flow using raw USD values and actual period ends. Explain the changes, calculate whether dividends plus buybacks were covered by free cash flow in the latest period, and show any shortfall. Distinguish observations from causes the data cannot establish. Name currencies, periods and exact SEC sources. Do not refresh data, search news or infer missing facts. This is a detailed analysis; keep it under 450 words.' }
-};
 function json(res, status, body) {
     res.writeHead(status, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
     res.end(JSON.stringify(body));

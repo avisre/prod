@@ -7,14 +7,79 @@ process.env.SEC_COVERAGE_DISABLE_ON_DEMAND = '1';
 const q = require('../ask-answer-quality');
 const evidence = require('../ask-evidence');
 const ask = require('../ai-chat');
+const axios = require('axios');
+const secSource = require('../sec-source');
+const watchdog = require('../watchdog');
+const segmentProof = require('../ask-segment-evidence');
 const fixture = require('./fixtures/ask-apple-verified.json');
 const cache = require('../fundamentals-cache');
 const originalLoad = cache.loadFundamentals;
-afterEach(() => { ask.__resetDeps(); cache.loadFundamentals = originalLoad; });
+const originalAxiosGet = axios.get;
+const originalCikFor = secSource.cikFor;
+const originalRecentFilings = watchdog.fetchRecentFilings;
+afterEach(() => {
+    ask.__resetDeps(); cache.loadFundamentals = originalLoad; axios.get = originalAxiosGet;
+    secSource.cikFor = originalCikFor; watchdog.fetchRecentFilings = originalRecentFilings;
+});
 function useFixture() { cache.loadFundamentals = symbol => symbol === 'AAPL' ? structuredClone(fixture) : originalLoad(symbol); }
 const tool = (id, statement) => ({ id, type: 'function', function: { name: 'get_financials', arguments: JSON.stringify({ symbol: 'AAPL', statement, limit: 2 }) } });
 const spec = (points, unit = 'USD', type = 'viz', name = 'Revenue') => '```' + type + '\n' + JSON.stringify(type === 'viz' ? { unit, series: [{ name, points }] } : { unit, rows: points }) + '\n```';
 const get = async statement => { useFixture(); return [{ tool: 'get_financials', result: await ask.runTool('get_financials', { symbol: 'AAPL', statement, limit: 2 }) }]; };
+
+function withLiteralSegmentProof(segment, income) {
+    const row = income.observations[0], fact = row.fields.totalRevenue;
+    fact.unit = segment.currency;
+    const start = new Date(row.periodEnd + 'T00:00:00Z');
+    start.setUTCFullYear(start.getUTCFullYear() - 1); start.setUTCDate(start.getUTCDate() + 1);
+    for (const source of Object.values(income.provenance.sources)) Object.assign(source, {
+        rawValue: fact.value, periodStart: start.toISOString().slice(0, 10), linkage: 'xbrl_fact'
+    });
+    const parsed = { periodEnd: segment.periodEnd, basisExcerpt: `Segment revenue in ${segment.currency}.`, periodExcerpt: `Year ended ${segment.periodEnd}.`,
+        segments: segment.segments.map(s => ({ ...s, reportedValue: s.value, scale: 1, sourceExcerpt: `${s.name} revenue ${s.value}.` })) };
+    const text = [parsed.basisExcerpt, parsed.periodExcerpt, ...parsed.segments.map(s => s.sourceExcerpt)].join(' ');
+    const filing = { ...segment.filing, accession: segment.filing.accessionNumber };
+    return segmentProof.normalizeResult(parsed, segment.symbol || 'TEST', segment.cik, filing, { text, anchor: segmentProof.exactAnnualRevenue(filing, income, segment.cik) });
+}
+
+test('standalone leases and guarantees use filing research without requiring an SPV mention', () => {
+    const url = 'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/annual.htm';
+    const results = [
+        { tool: 'search_filings', result: { results: [{ url, form: '20-F', filed: '2026-03-01' }] } },
+        { tool: 'fetch_page', result: { url, text: 'All amounts are in CAD. Lease obligations were $2 billion as of December 31, 2025. Guarantees were C$400 million as of December 31, 2025.' } }
+    ];
+    const facts = q.filingNarrativeEvidence(results);
+    assert.deepEqual(facts.map(f => [f.category, f.unit, f.value]), [['lease_obligation', 'CAD', 2e9], ['guarantee', 'CAD', 400e6]]);
+    assert.equal(q.issuerDisclosureEvidence(results, 'Show lease obligations and guarantees.'), true);
+    const lines = []; q.appendDisclosureSummary(lines, results, 'Show lease obligations and guarantees.');
+    assert.match(lines.join('\n'), /```bars/);
+    assert.doesNotMatch(lines.join('\n'), /research is unavailable|does not quantify a separate unconsolidated/);
+    const ambiguous = structuredClone(results); ambiguous[1].result.text = 'Lease obligations were $2 billion as of December 31, 2025. Guarantees were ¥400 million as of December 31, 2025.';
+    assert.deepEqual(q.filingNarrativeEvidence(ambiguous), [], 'bare dollar and yen symbols need a verified currency basis');
+});
+
+test('dated obligation charts reject mixed dates and ambiguous same-category scopes', () => {
+    const url = 'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/annual.htm';
+    const wrap = text => [
+        { tool: 'search_filings', result: { results: [{ url, form: '10-K', filed: '2026-03-01' }] } },
+        { tool: 'fetch_page', result: { url, text } }
+    ];
+    const results = wrap('Lease obligations were USD 2 billion as of December 31, 2025. Guarantees were USD 400 million as of December 31, 2024.');
+    const mixed = spec([['Lease obligations as of 2025-12-31', 2e9], ['Guarantees as of 2024-12-31', 400e6]], 'USD', 'bars');
+    assert.match(q.audit(mixed, results).join(' '), /same disclosed date/);
+    const undated = spec([['Lease obligations', 2e9], ['Guarantees', 400e6]], 'USD', 'bars');
+    assert.match(q.audit(undated, results).join(' '), /date/);
+    const conflicting = wrap('Lease obligations were USD 2 billion as of December 31, 2025 and USD 1 billion as of December 31, 2024.');
+    assert.ok(q.filingNarrativeEvidence(conflicting).every(f => f.periodEnd === null));
+    const scopes = wrap('Lease liabilities were USD 2 billion as of December 31, 2025. Leases not yet commenced had lease obligations of USD 5 billion as of December 31, 2025.');
+    const known = []; q.appendDisclosureSummary(known, scopes, 'Show lease obligations.');
+    assert.match(known.join('\n'), /Reported lease liabilities/);
+    assert.match(known.join('\n'), /Leases not yet commenced/);
+    assert.match(known.join('\n'), /not summed/);
+    const ambiguousScopes = wrap('Lease obligations were USD 2 billion as of December 31, 2025. Other lease obligations were USD 5 billion as of December 31, 2025.');
+    const lines = []; q.appendDisclosureSummary(lines, ambiguousScopes, 'Show lease obligations.');
+    assert.doesNotMatch(lines.join('\n'), /```bars/);
+    assert.match(lines.join('\n'), /scopes cannot be compared reliably/);
+});
 
 test('capital-return coverage preserves exact inputs and does not invent missing payouts', async () => {
     const [{ result }] = await get('cash'), c = result.capitalReturns[0];
@@ -28,6 +93,22 @@ test('capital-return coverage preserves exact inputs and does not invent missing
     assert.equal(evidence.capitalReturns(row).coveredByFreeCashflow, true);
     row.paymentsForRepurchaseOfCommonStock = null;
     assert.equal(evidence.capitalReturns(row).coveredByFreeCashflow, null);
+});
+
+test('financial bars retain a single available metric, reported zero and native-currency gaps', () => {
+    const results = [{ tool: 'get_financials', result: { symbol: 'TEST', statement: 'income', basis: 'annual', currency: 'EUR', observations: [
+        { periodEnd: '2025-03-31', currency: 'EUR', fields: { totalRevenue: { value: 0, unit: 'EUR', sourceIds: ['current'] } } },
+        { periodEnd: '2024-03-31', currency: 'USD', fields: { totalRevenue: { value: 200, unit: 'USD', sourceIds: ['old'] } } }
+    ] } }];
+    const question = 'Show revenue, net income and SBC for the latest two stored annual periods.';
+    const answer = q.fallback(results, question), bars = JSON.parse(answer.match(/```bars\n([\s\S]*?)```/)[1]);
+    assert.deepEqual(bars.series[0].points, [['2024-03-31', null], ['2025-03-31', 0]]);
+    assert.ok(bars.series.slice(1).every(s => s.points.every(([,v]) => v === null)));
+    assert.equal(bars.unit, 'EUR'); assert.deepEqual(q.audit(answer, results, { question }), []);
+    const latest = 'Show revenue, net income and SBC for the latest annual period.';
+    const single = q.fallback(results, latest);
+    assert.deepEqual(q.audit(single, results, { question: latest }), []);
+    assert.match(single, /2025-03-31/); assert.doesNotMatch(single.match(/```bars\n([\s\S]*?)```/)[1], /2024-03-31/);
 });
 
 test('observed false FCF coverage assertion is rejected, accurate shortfall is allowed', async () => {
@@ -195,4 +276,340 @@ test('mobile financial charts abbreviate axes, adapt viewBox and provide accessi
     assert.doesNotMatch(annual, />FY ended 31 Mar 2025<\/text>/);
     const bars = box.bars(JSON.stringify({ unit: 'USD', rows: [['Zero', 0], ['Outflow', -5]] }));
     assert.match(bars, /width:0.0%/); assert.match(bars, /is-negative/);
+});
+
+test('requested revenue, net income and SBC use period-matched grouped bars', async () => {
+    const income = await get('income'), cash = await get('cash');
+    const grouped = {
+        title: 'Revenue, net income and share-based compensation', unit: 'USD', orientation: 'vertical',
+        series: [
+            { name: 'Revenue', points: [['2024-09-28', 391035000000], ['2025-09-27', 416161000000]] },
+            { name: 'Net income', points: [['2024-09-28', 93736000000], ['2025-09-27', 112010000000]] },
+            { name: 'Share-based compensation', points: [['2024-09-28', 11688000000], ['2025-09-27', 12863000000]] }
+        ]
+    };
+    const answer = '```bars\n' + JSON.stringify(grouped) + '\n```';
+    assert.deepEqual(q.audit(answer, [...income, ...cash], { question: 'Compare revenue, net profit and share-based compensation' }), []);
+    grouped.series[2].points[1][1] = 12863000000 + 100000000;
+    assert.match(q.audit('```bars\n' + JSON.stringify(grouped) + '\n```', [...income, ...cash], { question: 'Compare revenue, net profit and share-based compensation' }).join(' '), /exact supplied source/);
+    grouped.series[2].points[1][1] = 12863000000;
+    grouped.series.pop();
+    assert.match(q.audit('```bars\n' + JSON.stringify(grouped) + '\n```', [...income, ...cash], { question: 'Compare revenue, net profit and share-based compensation' }).join(' '), /must include/);
+    const reversed = structuredClone(grouped);
+    reversed.series.push({ name: 'Share-based compensation', points: [['2025-09-27', 12863000000], ['2024-09-28', 11688000000]] });
+    reversed.series.forEach(s => s.points.reverse());
+    assert.match(q.audit('```bars\n' + JSON.stringify(reversed) + '\n```', [...income, ...cash], { question: 'Compare revenue, net profit and share-based compensation' }).join(' '), /oldest to newest/);
+});
+
+test('validated fallback keeps available SBC, actual periods and grouped bar output', async () => {
+    const income = await get('income'), cash = await get('cash');
+    const question = 'Compare Apple revenue, net income and share-based compensation for the latest three annual periods.';
+    const text = q.fallback([...income, ...cash], question);
+    assert.match(text, /partial answer using verified SEC evidence/);
+    assert.match(text, /Only 2 comparable annual periods/);
+    assert.match(text, /```bars/);
+    assert.match(text, /Share-based compensation/);
+    assert.match(text, /2024-09-28/);
+    assert.deepEqual(q.audit(text, [...income, ...cash], { question }), []);
+    const noSbc = structuredClone(cash);
+    for (const row of noSbc[0].result.observations) {
+        row.fields.shareBasedCompensation.value = null;
+        row.fields.shareBasedCompensation.sourceIds = [];
+        row.fields.shareBasedCompensation.missingReason = 'Not available in verified filing facts.';
+    }
+    const sparse = q.fallback([...income, ...noSbc], question);
+    const bars = JSON.parse(sparse.match(/```bars\s*\n([\s\S]*?)\n```/)[1]);
+    assert.ok(bars.series.find(s => /share-based/i.test(s.name)).points.every(([, value]) => value === null));
+    assert.match(sparse, /share-based compensation.*unavailable|unavailable.*share-based compensation/i);
+});
+
+test('Sankey is allowed only when native segment values reconcile to revenue from that same annual SEC filing', () => {
+    const accessionNumber = '0000000123-25-000001';
+    const sourceUrl = 'https://www.sec.gov/Archives/edgar/data/123/000000012325000001/report.htm';
+    let segment = {
+        cik: '0000000123', periodEnd: '2025-12-31', currency: 'EUR', filing: { form: '10-K', date: '2026-02-15', accessionNumber, url: sourceUrl },
+        segments: [{ name: 'Cloud', value: 65, currency: 'EUR' }, { name: 'Devices', value: 35, currency: 'EUR' }]
+    };
+    const income = {
+        tool: 'get_financials', result: { statement: 'income', basis: 'annual (fiscal years)', currency: 'EUR',
+            observations: [{ periodEnd: '2025-12-31', currency: 'EUR', fields: { totalRevenue: { value: 100, unit: 'EUR', sourceIds: ['annual-revenue'] } } }],
+            provenance: { sources: { 'annual-revenue': { type: 'sec_xbrl_fact', cik: '0000000123', form: '10-K', filingDate: '2026-02-15', accessionNumber, periodEnd: '2025-12-31', unit: 'EUR' } } }
+        }
+    };
+    segment = withLiteralSegmentProof(segment, income.result);
+    const segmentResult = { tool: 'get_segments', result: segment };
+    const evidence = q.verifiedSegmentEvidence([segmentResult, income]);
+    assert.equal(evidence.status, 'eligible');
+    assert.equal(evidence.currency, 'EUR');
+    assert.equal(evidence.unallocated, 0);
+    const chart = {
+        title: 'Revenue by segment', unit: evidence.currency, periodEnd: evidence.periodEnd, filingDate: evidence.filingDate,
+        accessionNumber, sourceUrl, total: evidence.totalRevenue, unallocated: evidence.unallocated,
+        segments: evidence.segments
+    };
+    assert.deepEqual(q.audit('```sankey\n' + JSON.stringify(chart) + '\n```', [segmentResult, income]), []);
+    const fallback = q.fallback([segmentResult, income], 'Show the business segment revenue mix.');
+    assert.match(fallback, /```sankey/);
+    assert.deepEqual(q.audit(fallback, [segmentResult, income]), []);
+    chart.segments[0].value++;
+    assert.match(q.audit('```sankey\n' + JSON.stringify(chart) + '\n```', [segmentResult, income]).join(' '), /match the retrieved SEC segment evidence/);
+    segment.segments[1].revenueUsd = 30;
+    segment.segments[1].value = 30;
+    assert.equal(q.segmentEvidence(segment, income.result).status, 'unverified');
+    segment.filing.accessionNumber = '0000000123-25-000002';
+    assert.equal(q.segmentEvidence(segment, income.result).status, 'unverified');
+    const legacy = { ...segment, filing: { form: '10-K', date: '2026-02-15', accessionNumber, url: sourceUrl }, segments: [{ name: 'Cloud', revenueUsd: 65 }, { name: 'Devices', revenueUsd: 35 }] };
+    assert.equal(q.segmentEvidence(legacy, income.result).status, 'unverified', 'legacy revenueUsd cache values cannot authorize an Ask Sankey');
+});
+
+test('native segment reconciliation is generic across industries, currencies and fiscal year ends', () => {
+    const cases = [
+        ['JPM', 'bank', 'USD', '2025-12-31'], ['PGR', 'insurer', 'USD', '2025-12-31'],
+        ['O', 'REIT', 'USD', '2025-12-31'], ['CAT', 'industrial', 'USD', '2025-12-31'],
+        ['REGN', 'biotech', 'USD', '2025-12-31'], ['BABA', 'ADR', 'CNY', '2025-03-31']
+    ];
+    for (const [symbol, industry, currency, periodEnd] of cases) {
+        const digits = String(cases.indexOf(cases.find(row => row[0] === symbol)) + 501).padStart(10, '0');
+        const accessionNumber = `${digits.slice(0, 10)}-26-${String(symbol.charCodeAt(0)).padStart(6, '0')}`;
+        const filingDate = '2026-05-01', url = `https://www.sec.gov/Archives/edgar/data/${Number(digits)}/${accessionNumber.replace(/-/g, '')}/report.htm`;
+        let segment = { symbol, cik: digits, periodEnd, currency, filing: { form: industry === 'ADR' ? '20-F' : '10-K', date: filingDate, accessionNumber, url },
+            segments: [{ name: 'Segment A', value: 60, currency }, { name: 'Segment B', value: 39, currency }] };
+        const sourceId = `${symbol}-revenue`;
+        const income = { statement: 'income', basis: 'annual', observations: [{ periodEnd, currency, fields: { totalRevenue: { value: 100, sourceIds: [sourceId] } } }],
+            provenance: { sources: { [sourceId]: { type: 'sec_xbrl_fact', cik: digits, form: segment.filing.form, filingDate, accessionNumber, periodEnd, unit: currency } } } };
+        segment = withLiteralSegmentProof(segment, income);
+        const result = q.segmentEvidence(segment, income);
+        assert.equal(result.status, 'eligible', `${symbol} (${industry}) should use generic native-currency matching`);
+        assert.equal(result.currency, currency);
+        assert.equal(result.unallocated, 1);
+    }
+});
+
+test('Ask native segment cache parser requires exact quoted amounts, explicit scale and ISO currency', () => {
+    const extractor = require('../ask-segments');
+    const filing = { form: '20-F', date: '2026-05-01', accession: '0000000501-26-000065', url: 'https://www.sec.gov/Archives/edgar/data/501/000000050126000065/report.htm' };
+    const parsed = { periodEnd: '2025-03-31', basisExcerpt: 'Revenue in EUR millions.', periodExcerpt: 'Year ended March 31, 2025.', segments: [
+        { name: 'Cloud', reportedValue: 42, scale: 1e6, currency: 'EUR', value: 42e6, sourceExcerpt: 'Cloud revenue EUR 42 million' },
+        { name: 'Hardware', reportedValue: 58, scale: 1e6, currency: 'EUR', value: 58e6, sourceExcerpt: 'Hardware revenue EUR 58 million' }
+    ] };
+    const anchor = { periodEnd: parsed.periodEnd, currency: 'EUR', value: 100e6, sourceId: 'revenue', source: { rawValue: 100e6, unit: 'EUR' } };
+    const context = { anchor, text: [parsed.basisExcerpt, parsed.periodExcerpt, ...parsed.segments.map(s => s.sourceExcerpt)].join(' ') };
+    const good = extractor.normalizeResult(parsed, 'BABA', '0000000501', filing, context);
+    assert.equal(good.currency, 'EUR'); assert.equal(good.periodEnd, '2025-03-31'); assert.equal(good.segments[0].value, 42e6);
+    assert.equal(extractor.validCachedPayload(good, '0000000501', filing, anchor), true);
+    assert.equal(extractor.validCachedPayload(good, '0000000502', filing, anchor), false);
+    assert.equal(extractor.normalizeResult({ ...parsed, segments: parsed.segments.map(s => ({ ...s, sourceExcerpt: 'segment revenue not shown' })) }, 'BABA', '0000000501', filing, context), null);
+    assert.equal(extractor.normalizeResult({ ...parsed, segments: parsed.segments.map(s => ({ ...s, scale: 1e4 })) }, 'BABA', '0000000501', filing, context), null);
+    assert.equal(extractor.normalizeResult({ ...parsed, segments: parsed.segments.slice(0, 1) }, 'BABA', '0000000501', filing, context), null);
+    assert.equal(extractor.normalizeResult({ ...parsed, segments: [{ ...parsed.segments[0] }, { ...parsed.segments[0], reportedValue: 58, value: 58e6, sourceExcerpt: 'Cloud revenue EUR 58 million' }] }, 'BABA', '0000000501', filing, context), null);
+});
+
+test('directory routing covers every stock listing and rejects units and rights without refresh', async () => {
+    const universe = require('../stock-universe');
+    const listings = universe.companies();
+    const stocks = listings.filter(x => x.securityType === 'stock');
+    const instruments = listings.filter(x => ['unit', 'right'].includes(x.securityType));
+    assert.equal(stocks.length, 5974);
+    assert.equal(instruments.length, 125);
+    for (const listing of stocks) {
+        assert.equal(universe.lookup(listing.symbol)?.symbol, listing.symbol);
+        assert.equal(universe.lookup(listing.symbol)?.securityType, 'stock');
+    }
+    for (const listing of instruments) {
+        assert.equal(universe.lookup(listing.symbol)?.securityType, listing.securityType);
+        const response = await ask.runTool('get_segments', { symbol: listing.symbol });
+        assert.equal(response.code, 'UNSUPPORTED_SECURITY_TYPE');
+    }
+});
+
+test('SPV and off-balance-sheet claims require fetched issuer-filing evidence and reject inferred intent', () => {
+    const filing = [{ tool: 'fetch_page', result: { url: 'https://www.sec.gov/Archives/edgar/data/1/filing.htm', text: 'The filing discusses a variable interest entity and guarantees.' } }];
+    assert.match(q.audit('The company uses an SPV to keep debt off the books.', filing).join(' '), /Do not infer an intent/);
+    assert.match(q.audit('The company keeps obligations off-balance-sheet.', []).join(' '), /require retrieved text/);
+    assert.deepEqual(q.audit('The filing discusses an unconsolidated entity; it does not establish that the issuer hides debt.', filing), []);
+    assert.match(q.audit('The issuer says the filing addresses accounting.', [], { question: 'Does Meta use SPVs to keep debt off its books?' }).join(' '), /needs a searched SEC filing/);
+    const candidate = [{ tool: 'search_filings', result: { results: [{ url: filing[0].result.url, candidateOnly: true }] } }];
+    assert.equal(q.issuerDisclosureEvidence([...candidate, filing[0]]), true);
+    assert.equal(q.issuerDisclosureEvidence([...candidate, { ...filing[0], result: { ...filing[0].result, note: 'Keyword "off-balance sheet" not found in the document.' } }]), false);
+    assert.equal(q.issuerDisclosureEvidence([...candidate, { ...filing[0], result: { ...filing[0].result, text: 'The issuer has lease obligations and guarantees.' } }]), false);
+    const searchUrl = 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm';
+    assert.deepEqual(evidence.filingLinks({ results: [{ url: searchUrl, form: '10-K', filed: '2026-01-29' }] }), [
+        { url: searchUrl, label: 'SEC 10-K filed 2026-01-29' }
+    ]);
+    assert.deepEqual(evidence.filingLinks({ ticker: 'META', results: [
+        { url: searchUrl, form: '10-K', filed: '2026-01-29', confirmedLatest: true },
+        { url: 'https://www.sec.gov/Archives/edgar/data/1/older.htm', form: '10-K', filed: '2020-01-30' }
+    ] }), [{ url: searchUrl, label: 'META 10-K filed 2026-01-29' }]);
+});
+
+test('SEC full-text outage falls back to latest ticker-specific filing candidates, not fake keyword matches', async () => {
+    axios.get = async () => { throw Object.assign(new Error('server error'), { response: { status: 500 } }); };
+    secSource.cikFor = async symbol => symbol === 'META' ? '0001326801' : null;
+    watchdog.fetchRecentFilings = async (symbol, forms, count) => {
+        assert.equal(symbol, 'META'); assert.ok(forms.has('10-K')); assert.equal(count, 3);
+        return [{ form: '10-K', date: '2026-01-29', url: 'https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm' }];
+    };
+    const result = await ask.toolSearchFilings({ query: 'off-balance-sheet arrangements', ticker: 'META', forms: '10-K', limit: 3 });
+    assert.equal(result.totalMatches, null);
+    assert.equal(result.results[0].candidateOnly, true);
+    assert.equal(result.results[0].confirmedLatest, true);
+    assert.match(result.note, /not keyword matches/);
+    assert.doesNotMatch(JSON.stringify(result.results), /off-balance-sheet/);
+});
+
+test('filing obligation amounts are grounded to their disclosed category', () => {
+    const url = 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm';
+    const results = [
+        { tool: 'search_filings', result: { results: [{ url, form: '10-K', filed: '2026-01-29', periodEnding: '2025-12-31' }] } },
+        { tool: 'fetch_page', result: { url, text: 'All amounts are in USD. We have no off-balance-sheet arrangements. In addition to lease liabilities in our consolidated balance sheets, we have leases that have not yet commenced, with total lease obligations of approximately $103.77 billion as of December 31, 2025.' } },
+        { tool: 'fetch_page', result: { url, text: 'As of December 31, 2025, we had guarantees of USD 2 billion.' } }
+    ];
+    assert.deepEqual(q.numericClaims('The 10-K separately discloses $103.77 billion of lease obligations for leases not yet commenced.', results), []);
+    assert.match(q.numericClaims('The company has $103.77 billion of off-balance debt.', results).join(' '), /does not match supplied facts/);
+    assert.match(q.numericClaims('The SPV has $103.77 billion of debt.', results, 'Does the company have SPVs and off-balance-sheet exposures?').join(' '), /does not match supplied facts/);
+    assert.equal(q.filingNarrativeEvidence(results)[0].category, 'lease_obligation');
+    assert.equal(q.filingNarrativeEvidence(results)[0].periodEnd, '2025-12-31');
+    const undated = q.filingNarrativeEvidence([
+        results[0], { tool: 'fetch_page', result: { url, text: 'Lease obligations were USD 5 billion.' } }
+    ]);
+    assert.equal(undated[0].periodEnd, null);
+    const fallback = q.fallback(results, 'Check SPVs and off-balance-sheet obligations in this issuer 10-K.');
+    assert.doesNotMatch(fallback.replace(/```[\s\S]*?```/g, ''), /103\.77bn/, 'plotted amounts are not repeated in prose');
+    assert.match(fallback, /not summed/);
+    assert.match(fallback, /does not quantify a separate unconsolidated-entity or securitization exposure/);
+    assert.match(fallback, /Separately disclosed amounts/);
+    assert.match(fallback, /\[\["Leases not yet commenced · as of 2025-12-31",103770000000\],\["Guarantees · as of 2025-12-31",2000000000\]\]/);
+    assert.deepEqual(q.audit(fallback, results, { question: 'Check SPVs and off-balance-sheet obligations in this issuer 10-K.' }), []);
+    assert.equal(q.disclosureCategory('The unconsolidated entity has $80 million of debt'), 'entity_or_securitization_exposure');
+    const noGuaranteeAmount = q.fallback([
+        results[0], results[1], { tool: 'fetch_page', result: { url, text: 'We provide guarantees to certain vendors under the terms of their contracts.' } }
+    ], 'Check guarantees in this issuer 10-K.');
+    assert.match(noGuaranteeAmount, /Guarantees are mentioned in the retrieved excerpt, but I could not verify an amount with its own explicit scale, currency and period/);
+    assert.match(noGuaranteeAmount, /does not establish that the full filing contains no such amount/);
+});
+
+test('filing amount classification follows its own sentence and nearest obligation label', () => {
+    const url = 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm';
+    const results = [
+        { tool: 'search_filings', result: { results: [{ url, form: '10-K', filed: '2026-01-29' }] } },
+        { tool: 'fetch_page', result: { url, text: 'All amounts are in USD. Lease obligations are described in Note 6. We also have $131.05 billion of contractual commitments as of December 31, 2025. Investments of $30.63 billion were due in 2026. Long-term debt is described below.' } }
+    ];
+    const facts = q.filingNarrativeEvidence(results);
+    assert.deepEqual(facts.map(({ category, value, periodEnd }) => ({ category, value, periodEnd })), [
+        { category: 'commitment', value: 131050000000, periodEnd: '2025-12-31' }
+    ]);
+    const exposure = q.filingNarrativeEvidence([
+        results[0], { tool: 'fetch_page', result: { url, text: 'All amounts are in USD. Our maximum exposure to loss related to the Venture was $45.95 billion as of December 31, 2025, consisting of $1.83 billion carrying value of our equity investment, the lease commitments, and our estimated future fundings.' } }
+    ]);
+    assert.deepEqual(exposure.map(({ category, value }) => ({ category, value })), [
+        { category: 'entity_or_securitization_exposure', value: 45950000000 }
+    ]);
+    const distinctExposures = q.fallback([
+        results[0],
+        { tool: 'fetch_page', result: { url, text: 'All amounts are in USD. Our maximum exposure to loss related to the Venture was $45.95 billion as of December 31, 2025, consisting of $1.83 billion carrying value of our equity investment, the lease commitments, and our estimated future fundings.' } },
+        { tool: 'fetch_page', result: { url, text: 'As of December 31, 2025, total maximum exposure to loss in these other VIEs was $5.58 billion, equal to our investments.' } },
+        { tool: 'fetch_page', result: { url, text: 'We have total lease obligations of approximately $103.77 billion as of December 31, 2025.' } }
+    ], 'Compare the unconsolidated-entity exposure and leases in this 10-K.');
+    assert.doesNotMatch(distinctExposures.replace(/```[\s\S]*?```/g, ''), /USD 45\.95bn|USD 5\.58bn/, 'a chart replaces duplicated amount bullets');
+    assert.match(distinctExposures, /\[\["Venture maximum exposure to loss · as of 2025-12-31",45950000000\],\["Other VIE maximum exposure to loss · as of 2025-12-31",5580000000\]/);
+});
+
+test('Ask renders grouped vertical bars, horizontal negative bars and a reconciled Sankey accessibly', () => {
+    const fs = require('node:fs'), vm = require('node:vm');
+    const source = fs.readFileSync(require.resolve('../../frontend-v2/assets/app.js'), 'utf8');
+    const code = source.slice(source.indexOf('    function chart('), source.indexOf('    // A completed answer'));
+    const box = { num: v => v == null || v === '' ? null : Number(v), money: v => String(v), fixed: (v, dp) => Number(v).toFixed(dp),
+        esc: v => String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'),
+        document: { documentElement: { clientWidth: 390 }, querySelector: () => ({ clientWidth: 342 }) } };
+    vm.runInNewContext(code + '\nthis.bars=barsBlock; this.sankey=sankeyBlock;', box);
+    const grouped = box.bars(JSON.stringify({ title: 'Revenue and profit', unit: 'USD', orientation: 'vertical', series: [
+        { name: 'Revenue', points: [['2024-09-28', 100], ['2025-09-27', 120]] },
+        { name: 'Net income', points: [['2024-09-28', -5], ['2025-09-27', 10]] }
+    ] }));
+    assert.match(grouped, /role="img"/); assert.match(grouped, /ask-zero/); assert.match(grouped, /Revenue, 2025-09-27: USD 120/);
+    assert.match(grouped, /FY2025/); assert.match(grouped, /Net income/);
+    const gaps = box.bars(JSON.stringify({ unit: 'USD', orientation: 'vertical', series: [
+        { name: 'Revenue', points: [['2024-12-31', 100], ['2025-12-31', 120]] },
+        { name: 'Net income', points: [['2024-12-31', 10], ['2025-12-31', 12]] },
+        { name: 'Share-based compensation', points: [['2024-12-31', null], ['2025-12-31', null]] }
+    ] }));
+    assert.match(gaps, /Share-based compensation, 2025-12-31: unavailable/); assert.doesNotMatch(gaps, /<title>Share-based compensation, 202[45]-12-31:/);
+    const single = box.bars(JSON.stringify({ unit: 'EUR', orientation: 'vertical', series: [
+        { name: 'Revenue', points: [['2025-03-31', 0]] },
+        { name: 'Net income', points: [['2025-03-31', null]] },
+        { name: 'Share-based compensation', points: [['2025-03-31', null]] }
+    ] }));
+    assert.match(single, /ask-bar-svg/); assert.match(single, /Revenue, 2025-03-31: EUR 0/);
+    assert.match(single, /Net income, 2025-03-31: unavailable/); assert.equal((single.match(/<rect /g) || []).length, 1);
+    const dense = box.bars(JSON.stringify({ unit: 'USD', orientation: 'vertical', series: [
+        { name: 'Revenue', points: [['2024-12-31', 100], ['2025-12-31', 120]] },
+        { name: 'Net income', points: [['2024-12-31', 10], ['2025-12-31', 12]] },
+        { name: 'Share-based compensation', points: [['2024-12-31', 2], ['2025-12-31', 3]] }
+    ] }));
+    for (const match of dense.matchAll(/<rect x="([\d.]+)"[^>]+width="([\d.]+)"/g)) assert.ok(Number(match[1]) + Number(match[2]) <= 296.1, 'every bar stays inside the mobile plot');
+    const dates = Array.from({ length: 8 }, (_, i) => `${2018+i}-03-31`);
+    const history = box.bars(JSON.stringify({ unit: 'USD', orientation: 'vertical', series: [
+        { name: 'Revenue', points: dates.map((d,i) => [d,100+i]) },
+        { name: 'Net income', points: dates.map((d,i) => [d,i-2]) }
+    ] }));
+    assert.ok((history.match(/class="ask-period"/g) || []).length <= 3, 'mobile period labels stay sparse');
+    assert.equal((history.match(/<rect /g) || []).length, 16, 'label thinning preserves all observations');
+    assert.match(history, /Net income, 2021-03-31: USD 1/);
+    const horizontal = box.bars(JSON.stringify({ unit: 'USD', rows: [['Net loss', -5], ['Cash flow', 0], ['Revenue', 10]] }));
+    assert.match(horizontal, /ask-hbar-track is-mixed/); assert.match(horizontal, /left:50.0%;width:50.0%/); assert.match(horizontal, /Zero-based scale/i);
+    const sankey = box.sankey(JSON.stringify({ title: 'Revenue by segment', unit: 'EUR', periodEnd: '2025-09-27', filingDate: '2025-10-31', accessionNumber: '000000000000000001',
+        sourceUrl: 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm', total: 100, unallocated: 10,
+        segments: [{ name: 'Cloud', value: 60 }, { name: 'Devices', value: 30 }] }));
+    assert.match(sankey, /ask-sankey-svg/); assert.match(sankey, /Cloud/); assert.match(sankey, /Unallocated \/ eliminations/); assert.match(sankey, /SEC annual filing/); assert.match(sankey, /EUR 100/);
+    const thinSpec = { unit: 'EUR', periodEnd: '2025-12-31', filingDate: '2026-02-15', accessionNumber: '000000000000000001',
+        sourceUrl: 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm', total: 100, unallocated: 1,
+        segments: [{ name: 'Main segment', value: 98 }, { name: 'Small segment', value: 1 }] };
+    const thin = box.sankey(JSON.stringify(thinSpec));
+    assert.match(thin, /ask-sankey-svg/); assert.match(thin, /Small segment/); assert.match(thin, /Unallocated \/ eliminations/);
+    assert.equal((thin.match(/<path /g) || []).length, 3, 'thin flows retain their true values');
+    assert.equal(box.sankey(JSON.stringify({ ...thinSpec, unallocated: null })), '');
+    assert.equal(box.sankey(JSON.stringify({ unit: 'USD', periodEnd: '2025-09-27', filingDate: '2025-10-31', accessionNumber: '000000000000000001', total: 100, unallocated: 0, segments: [{ name: 'Only', value: 100 }] })), '');
+});
+
+
+test('mixed entity and lease research retains sourced leases and explains missing entity evidence', () => {
+    const url = 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm';
+    const results = [
+        { tool: 'search_filings', result: { results: [{ url, form: '10-K', filed: '2026-01-29' }] } },
+        { tool: 'fetch_page', result: { url, text: 'All amounts are in USD. Lease obligations were $2 billion as of December 31, 2025. Guarantees were USD 400 million as of December 31, 2025.' } }
+    ];
+    const question = 'Inspect SPVs, VIEs, guarantees and leases in the annual filing.';
+    assert.equal(q.issuerDisclosureEvidence(results, question), true);
+    const answer = q.fallback(results, question);
+    assert.match(answer, /does not quantify a separate unconsolidated-entity/);
+    assert.match(answer, /orientation.*horizontal/);
+    assert.doesNotMatch(answer, /SEC filing research is unavailable/);
+    assert.equal(q.issuerDisclosureEvidence(results, 'Inspect SPVs in the annual filing.'), false);
+});
+
+
+test('filing currency can be established from consistent core inline XBRL with literal receipts', () => {
+    const currency = require('../ask-filing-currency');
+    const unit = '<xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>';
+    const html = unit + ['Revenues','NetIncomeLoss','Assets'].map(name => `<ix:nonFraction name="us-gaap:${name}" unitRef="usd" contextRef="fy">100</ix:nonFraction>`).join('');
+    const receipt = currency.inlineCurrency(html);
+    assert.equal(receipt.currency, 'USD');
+    const url = 'https://www.sec.gov/Archives/edgar/data/1/000000000000000001/report.htm';
+    const page = {url, currencyEvidence:{...receipt,sourceUrl:url},text:'Lease obligations were $2 billion as of December 31, 2025.'};
+    assert.equal(currency.filingBasis([],page), 'USD');
+    assert.equal(currency.filingBasis([],{...page,currencyEvidence:{...page.currencyEvidence,currency:'CAD'}}),null);
+    assert.equal(currency.inlineCurrency(unit + '<ix:nonFraction name="us-gaap:Assets" unitRef="usd">1</ix:nonFraction>'),null);
+    assert.equal(currency.inlineCurrency(html+'<xbrli:unit id="cad"><xbrli:measure>iso4217:CAD</xbrli:measure></xbrli:unit><ix:nonFraction name="us-gaap:Assets" unitRef="cad">1</ix:nonFraction>'),null);
+    const results=[{tool:'search_filings',result:{results:[{url}]}},{tool:'fetch_page',result:page}];
+    assert.equal(q.filingNarrativeEvidence(results)[0].unit,'USD');
+});
+
+
+test('non-directory funds cannot receive company segment analysis', async () => {
+    for (const symbol of ['SPY','VFIAX']) {
+        const result = await ask.runTool('get_segments',{symbol});
+        assert.equal(result.code,'VERIFIED_FINANCIALS_UNAVAILABLE');
+        assert.equal(result.coverage,'unavailable');
+        assert.equal(result.segments,undefined);
+    }
 });

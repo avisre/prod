@@ -1,0 +1,318 @@
+{
+  "asOf": "2026-10-04",
+  "nodeVersion": "v22.23.3",
+  "regressionTests": 385,
+  "regressionFailures": 0,
+  "datasetAudit": {
+    "ok": true,
+    "asOf": "2026-10-04",
+    "policyVersion": 1,
+    "datasetId": "33502d5144407925bf082a4b39d3040181c924a26e8b35f663ae3a9b53b69102",
+    "counts": {
+      "listedSecurities": 6099,
+      "identifiedIssuers": 5879,
+      "recentAnnualIssuers": 5272,
+      "financialReadyIssuers": 4440,
+      "partialFinancialIssuers": 391,
+      "historicalOnlyIssuers": 600,
+      "unavailableFinancialIssuers": 448,
+      "screenableListings": 4498,
+      "screenableIssuers": 4440
+    },
+    "financialFiles": 5724,
+    "verifiedValues": 4872473,
+    "unresolvedIdentityMappings": 25,
+    "networkFailures": 0,
+    "financialFailures": 0,
+    "successfulSubmissions": 5879,
+    "completedFacts": 5272,
+    "submissionsPercent": 100,
+    "factsPercent": 100,
+    "errors": []
+  },
+  "exhaustiveRender": {
+    "ok": true,
+    "profiles": 6099,
+    "metrics": 27788,
+    "comparisons": 2897,
+    "shards": 9,
+    "errors": []
+  },
+  "performance": {
+    "ok": true,
+    "heapLimitMiB": 256,
+    "timings": {
+      "coldPublicSnapshotMs": 150.25883299999998,
+      "coldScreenSnapshotMs": 205.622375,
+      "coldSitemapMs": 112.81645899999995,
+      "allSitemapShardsMs": 3.198833000000036,
+      "representativeProfilesMs": 101.89512500000001,
+      "representativeMetricsMs": 55.83045800000002
+    },
+    "rssMiB": 223.4375,
+    "maxEventLoopDelayMs": 10.51608299999998,
+    "maxHealthBatchMs": 45.872458999999935,
+    "screenRows": 4498,
+    "cache": {
+      "entries": 5,
+      "bytes": 38660,
+      "sitemapBytes": 225,
+      "activeColdRenders": 0,
+      "hits": 94,
+      "misses": 6,
+      "stores": 6,
+      "evictions": 0,
+      "stale": 0,
+      "shed": 0
+    },
+    "scope": "Isolated local HTTP harness; not a production load test or full application startup."
+  },
+  "applicationStartup": {
+    "ok": true,
+    "scope": "Full application startup, production mode, clean checkout dependencies and disposable local MongoDB; no production credentials or deployment.",
+    "nodeVersion": "v22.23.3",
+    "health": 200,
+    "coverage": 200,
+    "screener": 200,
+    "sitemap": 200,
+    "profiles": [
+      {
+        "symbol": "A",
+        "type": "stock",
+        "coverage": "ready",
+        "status": 200
+      },
+      {
+        "symbol": "AAMI",
+        "type": "stock",
+        "coverage": "partial",
+        "status": 200
+      },
+      {
+        "symbol": "ADIG",
+        "type": "stock",
+        "coverage": "historical_only",
+        "status": 200
+      },
+      {
+        "symbol": "OZK",
+        "type": "stock",
+        "coverage": "unavailable",
+        "status": 200
+      },
+      {
+        "symbol": "HCACU",
+        "type": "unit",
+        "coverage": "partial",
+        "status": 200
+      },
+      {
+        "symbol": "GENVR",
+        "type": "right",
+        "coverage": "ready",
+        "status": 200
+      }
+    ],
+    "counts": {
+      "listedSecurities": 6099,
+      "identifiedIssuers": 5879,
+      "recentAnnualIssuers": 5272,
+      "financialReadyIssuers": 4440,
+      "partialFinancialIssuers": 391,
+      "historicalOnlyIssuers": 600,
+      "unavailableFinancialIssuers": 448,
+      "screenableListings": 4498,
+      "screenableIssuers": 4440
+    }
+  },
+  "dependencyAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "liveExamples": [
+    {
+      "id": "short",
+      "http": 200,
+      "ms": 4326,
+      "proseWords": 54,
+      "requestedLimit": 80,
+      "source": "ai",
+      "quality": {
+        "policyVersion": 1,
+        "checked": true,
+        "rewritten": false,
+        "fallback": false
+      },
+      "chartTypes": []
+    },
+    {
+      "id": "complex",
+      "http": 200,
+      "ms": 34130,
+      "proseWords": 148,
+      "requestedLimit": 450,
+      "source": "partial",
+      "quality": {
+        "policyVersion": 1,
+        "checked": true,
+        "rewritten": true,
+        "fallback": true
+      },
+      "chartTypes": [
+        "bars",
+        "sankey",
+        "bars"
+      ]
+    },
+    {
+      "id": "adr",
+      "http": 200,
+      "ms": 12073,
+      "proseWords": 56,
+      "requestedLimit": 150,
+      "source": "partial",
+      "quality": {
+        "policyVersion": 1,
+        "checked": true,
+        "rewritten": true,
+        "fallback": true
+      },
+      "chartTypes": [
+        "bars"
+      ]
+    },
+    {
+      "id": "obligations",
+      "http": 200,
+      "ms": 16157,
+      "proseWords": 45,
+      "requestedLimit": 150,
+      "source": "partial",
+      "quality": {
+        "policyVersion": 1,
+        "checked": true,
+        "rewritten": true,
+        "fallback": true
+      },
+      "chartTypes": [
+        "bars"
+      ]
+    }
+  ],
+  "browserChecks": [
+    {
+      "viewport": 320,
+      "scrollWidth": 320,
+      "answers": [
+        {
+          "id": "short",
+          "charts": 0,
+          "svgs": 0,
+          "missingGaps": false,
+          "brokenChartJSON": false
+        },
+        {
+          "id": "complex",
+          "charts": 3,
+          "svgs": 2,
+          "missingGaps": false,
+          "currency": "reported in USD",
+          "brokenChartJSON": false
+        },
+        {
+          "id": "adr",
+          "charts": 1,
+          "svgs": 1,
+          "missingGaps": true,
+          "currency": "reported in JPY",
+          "brokenChartJSON": false
+        },
+        {
+          "id": "obligations",
+          "charts": 1,
+          "svgs": 0,
+          "missingGaps": false,
+          "brokenChartJSON": false
+        }
+      ]
+    },
+    {
+      "viewport": 390,
+      "scrollWidth": 390,
+      "answers": [
+        {
+          "id": "short",
+          "charts": 0,
+          "svgs": 0,
+          "missingGaps": false,
+          "brokenChartJSON": false
+        },
+        {
+          "id": "complex",
+          "charts": 3,
+          "svgs": 2,
+          "missingGaps": false,
+          "currency": "reported in USD",
+          "brokenChartJSON": false
+        },
+        {
+          "id": "adr",
+          "charts": 1,
+          "svgs": 1,
+          "missingGaps": true,
+          "currency": "reported in JPY",
+          "brokenChartJSON": false
+        },
+        {
+          "id": "obligations",
+          "charts": 1,
+          "svgs": 0,
+          "missingGaps": false,
+          "brokenChartJSON": false
+        }
+      ]
+    },
+    {
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "answers": [
+        {
+          "id": "short",
+          "charts": 0,
+          "svgs": 0,
+          "missingGaps": false,
+          "brokenChartJSON": false
+        },
+        {
+          "id": "complex",
+          "charts": 3,
+          "svgs": 2,
+          "missingGaps": false,
+          "currency": "reported in USD",
+          "brokenChartJSON": false
+        },
+        {
+          "id": "adr",
+          "charts": 1,
+          "svgs": 1,
+          "missingGaps": true,
+          "currency": "reported in JPY",
+          "brokenChartJSON": false
+        },
+        {
+          "id": "obligations",
+          "charts": 1,
+          "svgs": 0,
+          "missingGaps": false,
+          "brokenChartJSON": false
+        }
+      ]
+    }
+  ],
+  "freshInstall": true,
+  "argon2Smoke": true
+}

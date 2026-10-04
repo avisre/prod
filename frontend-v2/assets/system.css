@@ -1112,6 +1112,26 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-viz-legend .lg-ink { background: var(--ink); }
 .ask-viz-legend .lg-accent { background: var(--accent); }
 .ask-viz-legend .lg-pos { background: var(--pos); }
+.ask-chart-unit { color: var(--ink-3); font-size: var(--text-xs); margin: -7px 0 8px; }
+.ask-bar-svg, .ask-sankey-svg { display:block; width:100%; height:auto; overflow:visible; }
+.ask-grid { stroke:var(--line); stroke-width:1; }
+.ask-zero { stroke:var(--line-strong); stroke-width:1.2; }
+.ask-axis, .ask-period { fill:var(--ink-3); font:11px Inter,system-ui,sans-serif; }
+.ask-period { fill:var(--ink-2); font-size:11px; font-weight:600; }
+.ask-bar-value { fill:var(--ink); font:600 10px Inter,system-ui,sans-serif; paint-order:stroke; stroke:var(--surface); stroke-width:3px; }
+.ask-hbar-track { position:relative; }
+.ask-hbar-track::before { content:""; position:absolute; z-index:1; top:-1px; bottom:-1px; left:0; border-left:1px solid var(--line-strong); }
+.ask-hbar-track.is-mixed::before { left:50%; }
+.ask-hbar-track .pv-scale-fill { position:absolute; top:0; }
+.ask-sankey-label { fill:var(--ink); font:600 11px Inter,system-ui,sans-serif; }
+.ask-sankey-value { fill:var(--ink-2); font:10px Inter,system-ui,sans-serif; }
+.ask-sankey-source { fill:var(--accent-ink); font:10px Inter,system-ui,sans-serif; text-decoration:underline; }
+.ask-sankey-svg a { cursor:pointer; }
+.ask-sankey-legend { display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:7px 14px; margin-top:10px; }
+.ask-sankey-key { display:grid; grid-template-columns:9px minmax(0,1fr) auto; gap:8px; align-items:start; min-width:0; color:var(--ink-2); font-size:var(--text-xs); }
+.ask-sankey-key i { width:8px; height:8px; margin-top:4px; border-radius:2px; }
+.ask-sankey-key span { min-width:0; overflow-wrap:anywhere; }
+.ask-sankey-key b { color:var(--ink); white-space:nowrap; font-variant-numeric:tabular-nums; }
 /* the suggested follow-up */
 .ask-next { border: 1px solid var(--line-strong); background: none; border-radius: 999px; padding: 7px 14px; font-size: var(--text-sm); color: var(--accent-ink); cursor: pointer; font-family: inherit; }
 .ask-next:hover { border-color: var(--accent); }

@@ -1,0 +1,91 @@
+{
+  "question": "For Meta Platforms (META), use verified SEC evidence to analyze the latest three annual periods of revenue, net income and share-based compensation as grouped vertical bars with actual period ends and reporting currency. Show latest business-segment revenue as a Sankey only if the segment values reconcile to at least 98% of the same annual filing\u2019s verified revenue without exceeding it; otherwise explain the gap. Inspect the same annual filing for off-balance-sheet arrangements, unconsolidated or variable-interest entities, guarantees, leases and commitments. Distinguish recognized debt from other obligations, give only amounts with explicit periods/currencies, keep categories separate, and do not infer intent to hide debt. Link the exact filings and keep the answer under 450 words.",
+  "mode": "analyst",
+  "ms": 34130,
+  "generatedAt": "2026-10-04T05:24:44.393Z",
+  "answer": "This is a partial answer using verified SEC evidence. Unverified figures are omitted.\n\n**META \u2014 verified annual facts, reported in USD.**\nEach bar comes from the matching annual SEC observations.\n```bars\n{\"title\":\"META \u00b7 Revenue, net income and share-based compensation\",\"unit\":\"USD\",\"orientation\":\"vertical\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2023-12-31\",134902000000],[\"2024-12-31\",164501000000],[\"2025-12-31\",200966000000]]},{\"name\":\"Net income\",\"points\":[[\"2023-12-31\",39098000000],[\"2024-12-31\",62360000000],[\"2025-12-31\",60458000000]]},{\"name\":\"Share-based compensation\",\"points\":[[\"2023-12-31\",14027000000],[\"2024-12-31\",16690000000],[\"2025-12-31\",20427000000]]}]}\n```\n\n**META \u2014 filed segment revenue, USD, period ended 2025-12-31.**\n```sankey\n{\"title\":\"Revenue by business segment\",\"unit\":\"USD\",\"periodEnd\":\"2025-12-31\",\"filingDate\":\"2026-01-29\",\"accessionNumber\":\"0001628280-26-003942\",\"sourceUrl\":\"https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm\",\"total\":200966000000,\"unallocated\":0,\"segments\":[{\"name\":\"Family of Apps\",\"value\":198759000000},{\"name\":\"Reality Labs\",\"value\":2207000000}]}\n```\n\n**Filing disclosure check:** Retrieved text from the issuer\u2019s 10-K filed 2026-01-29. This confirms only the disclosure language in that excerpt; it does not establish intent to conceal debt.\n\n```bars\n{\"title\":\"Separately disclosed amounts \u00b7 not summed \u00b7 10-K filed 2026-01-29\",\"unit\":\"USD\",\"orientation\":\"horizontal\",\"rows\":[[\"Contractual commitments \u00b7 as of 2025-12-31\",131050000000],[\"Venture maximum exposure to loss \u00b7 as of 2025-12-31\",45950000000],[\"Other VIE maximum exposure to loss \u00b7 as of 2025-12-31\",5580000000]]}\n```\n- Lease obligations are mentioned in the retrieved excerpt, but I could not verify an amount with its own explicit scale, currency and period. This does not establish that the full filing contains no such amount.\n- Guarantees are mentioned in the retrieved excerpt, but I could not verify an amount with its own explicit scale, currency and period. This does not establish that the full filing contains no such amount.\n\nSEC sources: [META 10-K filed 2026-01-29](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/0001628280-26-003942-index.htm); [META 10-K filed 2024-02-02](https://www.sec.gov/Archives/edgar/data/1326801/000132680124000012/0001326801-24-000012-index.htm).",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 3,
+        "statement": "income",
+        "symbol": "META"
+      },
+      "ok": true,
+      "ms": 62
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 3,
+        "statement": "cash",
+        "symbol": "META"
+      },
+      "ok": true,
+      "ms": 34
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "META"
+      },
+      "ok": true,
+      "ms": 3611
+    },
+    {
+      "tool": "search_filings",
+      "args": {
+        "forms": "10-K",
+        "query": "\"off-balance sheet\" arrangements guarantees commitments",
+        "ticker": "META"
+      },
+      "ok": true,
+      "ms": 659
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "find": "off-balance sheet arrangements",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+      },
+      "ok": true,
+      "ms": 294
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "find": "operating leases total lease payments",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+      },
+      "ok": true,
+      "ms": 270
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "find": "commitments and contingencies",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+      },
+      "ok": true,
+      "ms": 224
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "find": "guarantees",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+      },
+      "ok": true,
+      "ms": 195
+    }
+  ],
+  "source": "partial",
+  "totalTokens": 151760,
+  "quality": {
+    "policyVersion": 1,
+    "checked": true,
+    "rewritten": true,
+    "fallback": true
+  }
+}

@@ -69,9 +69,8 @@ test('a sitemap shard dates a ticker exactly as the page body does', () => {
         'the sitemap and the page body must agree on the data date for the same ticker');
 });
 
-test('data-driven shards do not collapse onto the frozen snapshot date', () => {
-    const manifest = readManifest();
-    const manifestDay = require('../public-stock-index').get('AAPL').lastmod;
+test('every ticker-derived sitemap entry retains its own genuine content date', () => {
+    readManifest();
 
     // Every ticker-derived shard, whatever today's split happens to be — comparisons-2
     // and any future metrics-4 are covered without hardcoding a list that goes stale
@@ -89,7 +88,14 @@ test('data-driven shards do not collapse onto the frozen snapshot date', () => {
         assert.ok(dates.size > 0, `${shard} must carry lastmod values`);
         assert.ok(!dates.has(SNAPSHOT_FALLBACK),
             `${shard} still advertises the frozen snapshot date ${SNAPSHOT_FALLBACK}`);
-        assert.ok(dates.has(manifestDay),
-            `${shard} should carry the manifest date ${manifestDay}; got ${[...dates].join(', ')}`);
+        for (const entry of xml.matchAll(/<url>\s*<loc>([^<]+)<\/loc>\s*<lastmod>([^<]+)<\/lastmod>/g)) {
+            const stock = entry[1].match(/\/stocks\/([^/]+)(?:\/|$)/);
+            const comparison = entry[1].match(/\/compare\/([^/]+)-vs-([^/]+)$/);
+            if (stock) assert.equal(entry[2], seo.dataDateFor(stock[1]), 'a quote refresh must not rewrite unrelated issuer dates');
+            else if (comparison) {
+                const expected = [seo.dataDateFor(comparison[1]), seo.dataDateFor(comparison[2])].sort().at(-1);
+                assert.ok(entry[2] >= expected, 'comparison lastmod must include its latest changed issuer');
+            }
+        }
     }
 });

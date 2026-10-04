@@ -1,0 +1,46 @@
+{
+  "question": "For META, read its latest annual SEC filing and show horizontal bars for its disclosed total lease obligations for leases not yet commenced and contractual commitments as of that annual period end. Fetch the relevant filing excerpts, verify each printed amount and currency, keep the categories separate and do not sum them or call them hidden debt. Explain any amount you cannot verify. Keep the answer under 150 words.",
+  "mode": "analyst",
+  "ms": 16157,
+  "generatedAt": "2026-10-04T05:29:11.278Z",
+  "answer": "This is a partial answer using verified SEC evidence. Unverified figures are omitted.\n\n**Filing disclosure check:** Retrieved text from the issuer\u2019s 10-K filed 2026-01-29. This confirms only the disclosure language in that excerpt; it does not establish intent to conceal debt.\n\n```bars\n{\"title\":\"Separately disclosed amounts \u00b7 not summed \u00b7 10-K filed 2026-01-29\",\"unit\":\"USD\",\"orientation\":\"horizontal\",\"rows\":[[\"Leases not yet commenced \u00b7 as of 2025-12-31\",103770000000],[\"Contractual commitments \u00b7 as of 2025-12-31\",131050000000]]}\n```\n\nSEC sources: [SEC filing](https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm).",
+  "toolsUsed": [
+    {
+      "tool": "search_filings",
+      "args": {
+        "forms": "10-K",
+        "limit": 3,
+        "query": "\"leases not yet commenced\" \"contractual commitments\"",
+        "ticker": "META"
+      },
+      "ok": true,
+      "ms": 1198
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "find": "leases not yet commenced",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+      },
+      "ok": true,
+      "ms": 332
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "find": "not yet commenced",
+        "url": "https://www.sec.gov/Archives/edgar/data/1326801/000162828026003942/meta-20251231.htm"
+      },
+      "ok": true,
+      "ms": 189
+    }
+  ],
+  "source": "partial",
+  "totalTokens": 45701,
+  "quality": {
+    "policyVersion": 1,
+    "checked": true,
+    "rewritten": true,
+    "fallback": true
+  }
+}
