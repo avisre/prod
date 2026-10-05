@@ -942,7 +942,161 @@ function groupedFinancialBars(data, question) {
 
 // If one bounded rewrite still fails validation, publish a factual receipt
 // rather than the rejected generated conclusions. No narrative is invented.
-function fallback(results, question = '') {
+function companyReportFallback(results, policy) {
+    const all = (Array.isArray(results) ? results : []).filter(row => row && typeof row === 'object')
+        .map(row => ({ tool: row.tool, result: row.result || row }));
+    const data = all.filter(row => row.result && typeof row.result === 'object' && !row.result.error);
+    const symbol = policy?.company?.symbol || data.find(row => row.result.symbol)?.result.symbol || 'Company';
+    const lines = [
+        `**${symbol} — partial company report**`,
+        'The report could not be completed after its evidence check. Unsupported generated claims are omitted; the retrieved observations and specific gaps follow.'
+    ];
+    const isFiniteValue = value => value !== null && value !== undefined && value !== '' && Number.isFinite(Number(value));
+    const fmt = value => isFiniteValue(value) ? Number(value).toLocaleString('en-US', { maximumFractionDigits: 6 }) : 'Unavailable';
+    const labelFor = {
+        totalRevenue: 'Revenue', grossProfit: 'Gross profit', operatingIncome: 'Operating income',
+        netIncome: 'Net income', researchAndDevelopment: 'Research and development',
+        operatingCashflow: 'Operating cash flow', capitalExpenditures: 'Capital expenditures',
+        totalAssets: 'Total assets', totalDebt: 'Total debt', cashAndCashEquivalents: 'Cash and equivalents'
+    };
+    let financialTables = 0;
+    for (const basis of ['annual', 'quarterly']) {
+        const statements = data.filter(row => row.tool === 'get_financials' && String(row.result.basis || '').startsWith(basis));
+        if (!statements.length) continue;
+        const observations = statements.flatMap(row => row.result.observations || []);
+        if (!observations.length) continue;
+        const selectedFields = Object.keys(labelFor).filter(field => observations.some(o => o.fields?.[field] && isFiniteValue(o.fields[field].value)));
+        if (!selectedFields.length) continue;
+        const periodLabel = basis === 'annual' ? 'Reported annual statements' : 'Reported quarterly statements';
+        lines.push(`\n**${periodLabel} — ${symbol}**`, '| Fiscal period ended | ' + selectedFields.map(field => labelFor[field]).join(' | ') + ' |',
+            '| --- | ' + selectedFields.map(() => '---').join(' | ') + ' |');
+        const byPeriod = new Map();
+        for (const observation of observations) {
+            const period = observation.periodEnd || 'Period unavailable';
+            if (!byPeriod.has(period)) byPeriod.set(period, {});
+            for (const field of selectedFields) {
+                const fact = observation.fields?.[field];
+                if (!fact || !isFiniteValue(fact.value)) continue;
+                const currency = fact.currency || observation.currency || '';
+                const unit = fact.unit && fact.unit !== currency ? ` ${fact.unit}` : '';
+                byPeriod.get(period)[field] = `${currency} ${fmt(fact.value)}${unit}`.trim();
+            }
+        }
+        for (const [period, values] of [...byPeriod.entries()].sort((a, b) => b[0].localeCompare(a[0])))
+            lines.push(`| ${period} | ` + selectedFields.map(field => values[field] || '—').join(' | ') + ' |');
+        financialTables++;
+    }
+    for (const row of data.filter(row => row.tool === 'get_ratios_history')) {
+        const result = row.result;
+        if (result.table) lines.push(`\n**${symbol} — ${result.basis || 'reported'} ratios**\n\n${result.table}`);
+        else if (result.observations?.length) {
+            lines.push(`\n**${symbol} — ${result.basis || 'reported'} ratios**`);
+            for (const observation of result.observations) {
+                const ratios = Object.entries(observation.metrics || {}).filter(([, metric]) => Number.isFinite(Number(metric?.value)))
+                    .map(([name, metric]) => `${name}: ${fmt(metric.value)}${metric.unit || ''}`);
+                if (ratios.length) lines.push(`- ${observation.periodEnd || 'Period unavailable'}: ${ratios.join('; ')}.`);
+            }
+        }
+    }
+    const supplemental = [];
+    const filedKeys = new Set();
+    for (const { tool, result } of data) {
+        const basis = String(result.basis || '').startsWith('quarterly') ? 'quarterly' : 'annual';
+        if (tool === 'get_financials') for (const observation of result.observations || []) for (const [field, fact] of Object.entries(observation.fields || {})) {
+            if (isFiniteValue(fact?.value)) filedKeys.add([field, observation.periodEnd, fact.currency || observation.currency || ''].join('|'));
+        }
+        for (const fact of result.supplementalObservations || []) {
+            if (fact?.state !== 'available' || !require('./company-observations').validSupplement(fact, fact.issuer)) continue;
+            const historyBasis = fact.historyBasis || fact.basis;
+            if (tool === 'get_financials' && historyBasis !== basis) continue;
+            const key = [fact.field, fact.periodEnd, fact.currency].join('|');
+            // Use matching filed evidence when present; keep distinct currencies
+            // and reporting bases as separately attributed observations.
+            if (!filedKeys.has(key)) supplemental.push(fact);
+        }
+    }
+    if (supplemental.length) {
+        const seen = new Set();
+        const rows = [];
+        for (const fact of supplemental.sort((a, b) => b.periodEnd.localeCompare(a.periodEnd))) {
+            const key = require('./company-observations').key(fact);
+            if (seen.has(key)) continue;
+            seen.add(key);
+            const label = labelFor[fact.field] || fact.definition;
+            const unit = fact.unit && fact.unit !== fact.currency ? ` ${fact.unit}` : '';
+            const source = fact.sourceUrl ? `[${fact.sourceName}](${fact.sourceUrl})` : fact.sourceName;
+            rows.push(`| ${label} | ${fact.periodEnd} | ${fact.currency} ${fmt(fact.value)}${unit} | ${source} ${require('./company-observations').sourceDate(fact)} | ${fact.accountingBasis} |`);
+        }
+        if (rows.length) lines.push('\n**Additional attributed financial observations — not SEC-verified**',
+            '| Field | Period end | Value and currency | Source and data date | Accounting basis |',
+            '| --- | --- | --- | --- | --- |', ...rows.slice(0, 30));
+    }
+    const quote = data.find(row => row.tool === 'get_quote')?.result;
+    if (quote && isFiniteValue(quote.price)) lines.push(`\n**Dated quote:** ${quote.currency || 'USD'} ${fmt(quote.price)} as of ${quote.asOf || quote.priceAsOf || 'date unavailable'}.`);
+
+    const context = data.find(row => row.tool === 'get_key_points')?.result;
+    const excerpts = (context?.sections || []).filter(section => section && typeof section.text === 'string' && section.text.trim());
+    if (excerpts.length) {
+        lines.push('\n**Retrieved issuer context**');
+        const headings = [...new Set(excerpts.map(section => String(section.heading || 'Filing context').trim()).filter(Boolean))];
+        lines.push(`Retrieved sections: ${headings.join(', ')}.`);
+        // Keep a short source excerpt (under the quote limit for one source)
+        // so the deterministic recovery still tells the reader what it found.
+        const words = excerpts[0].text.replace(/\s+/g, ' ').trim().split(' ');
+        lines.push(`- ${headings[0]}: ${words.slice(0, 20).join(' ')}${words.length > 20 ? '…' : ''}`);
+    }
+    const businessContext = data.map(row => row.result.businessContext).find(context => context && typeof context.text === 'string' && context.text.trim());
+    if (businessContext?.sourceName && businessContext?.sourceUrl) {
+        const date = businessContext.effectiveDate || businessContext.retrievedAt?.slice(0, 10) || 'date unavailable';
+        const words = businessContext.text.replace(/\s+/g, ' ').trim().split(' ');
+        lines.push('\n**Attributed company profile context**',
+            `- ${symbol} business description from [${businessContext.sourceName}](${businessContext.sourceUrl}), retrieved ${date}: ${words.slice(0, 20).join(' ')}${words.length > 20 ? '…' : ''}`);
+    }
+    if (!financialTables) lines.push('\nNo compatible annual or quarterly statement observations were returned for this report.');
+    if (all.some(row => row.tool === 'get_segments')) appendSegmentSankey(lines, all, 'segments');
+
+    const gaps = new Set();
+    for (const { tool, result } of all) {
+        const toolLabel = ({ get_key_points: 'issuer business context', get_segments: 'segment disclosures',
+            get_peer_context: 'peer and industry context', get_quote: 'dated valuation data',
+            get_financials: `${result.basis || 'requested'} ${result.statement || 'financial'} statements`,
+            get_ratios_history: `${result.basis || 'requested'} ratios`, get_filing_diff: 'filing changes' })[tool] || tool.replace(/^get_/, '').replace(/_/g, ' ');
+        const remaining = [...(Array.isArray(result.remainingGaps) ? result.remainingGaps : []),
+            ...(Array.isArray(result.coverage?.remainingGaps) ? result.coverage.remainingGaps : [])];
+        for (const gap of remaining) {
+            const subject = gap.field || gap.section || toolLabel;
+            const reason = String(gap.reason || gap.state || 'not available in the retrieved evidence').replace(/[\r\n]+/g, ' ').slice(0, 180).replace(/[.;\s]+$/, '');
+            gaps.add(`- ${subject}: ${reason}.`);
+        }
+        if (result.error) {
+            const reason = tool === 'get_segments' && result.sankeyEvidence?.reason ? result.sankeyEvidence.reason
+                : result.code === 'TOOL_CONTEXT_LIMIT' ? 'evidence exceeded the available context budget'
+                : result.code === 'UNSUPPORTED_SECURITY_TYPE' ? `not available for this ${result.securityType || 'instrument type'}`
+                : 'the source returned no usable evidence';
+            gaps.add(`- ${toolLabel}: ${String(reason).replace(/[.;\s]+$/, '')}.`);
+        } else if (tool === 'get_key_points' && !result.sections?.length) gaps.add('- issuer business context: no usable filing sections were returned.');
+        else if (tool === 'get_quote' && !isFiniteValue(result.price)) gaps.add('- dated valuation data: no usable quote was returned.');
+        else if (tool === 'get_segments' && result.sankeyEvidence?.status !== 'eligible' && !result.error)
+            gaps.add(`- segment disclosures: ${result.sankeyEvidence?.reason || 'no reconciled segment table was returned'}.`);
+    }
+    if (gaps.size) lines.push('\n**Specific evidence gaps**', ...gaps);
+    const attempts = new Map();
+    for (const { result } of all) for (const attempt of result.sourceAttempts || result.coverage?.sourceAttempts || []) {
+        if (!attempt?.source || !attempt?.status) continue;
+        const reason = String(attempt.reason || '').replace(/[\r\n]+/g, ' ').slice(0, 120).trim();
+        attempts.set(`${attempt.source}|${attempt.status}|${reason}`, { source: attempt.source, status: attempt.status, reason });
+    }
+    if (attempts.size) lines.push('\n**Source checks**', ...[...attempts.values()].slice(0, 12).map(attempt =>
+        `- ${String(attempt.source).replace(/[\r\n]+/g, ' ').slice(0, 100)}: ${String(attempt.status).replace(/[\r\n]+/g, ' ').slice(0, 60)}${attempt.reason ? ` — ${attempt.reason}` : ''}.`));
+    lines.push('\n**Sections not synthesized**', policy?.story
+        ? '- The chronological business story, historical turning-point analysis, competitive and risk interpretation, and closing synthesis were not retained because the generated narrative did not pass validation.'
+        : '- Competitive differences, material-risk interpretation, valuation read-through, the annual trend chart, **The read**, and the closing **Next** question were not retained because the generated narrative did not pass validation.');
+    return lines.join('\n');
+}
+
+function fallback(results, question = '', options = {}) {
+    if (options.policy?.kind === 'company_report' && !options.policy.explicitWordLimit)
+        return companyReportFallback(results, options.policy);
     const data = unwrap(results), sections = new Map();
     const hasFiled=data.some(r=>r.observations?.length);
     const lines = [hasFiled?'This is a partial answer using verified SEC evidence. Unverified figures are omitted.':'This is a partial answer using attributed financial evidence. Sources and dates are retained.'];
@@ -1142,4 +1296,4 @@ function appendSegmentSankey(lines, results, question) {
     }
 }
 
-module.exports = { audit, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };
+module.exports = { audit, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };

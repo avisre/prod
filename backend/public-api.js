@@ -114,8 +114,13 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         const question = String((req.body && req.body.question) || '').trim();
         if (!question) return res.status(400).json({ error: 'Missing "question".' });
         if (!(await gate(req, res, 'api_ask'))) return;
-        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] } }).catch((e) => ({ error: e.message }));
+        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'public_api' } }).catch((error) => {
+            const failed = { source: 'error', toolsUsed: [], quality: { terminalReason: 'engine_exception', errorType: error.name || 'Error' } };
+            console.log('[ask] ' + JSON.stringify(require('./ask-diagnostics').outcome(failed, { mode: 'normal', stream: false, entrypoint: 'public_api' })));
+            return { ...failed, error: error.message };
+        });
         if (result && result.error) return res.status(502).json({ error: result.error });
+        console.log('[ask] ' + JSON.stringify(require('./ask-diagnostics').outcome(result, { mode: 'normal', stream: false, entrypoint: 'public_api' })));
         await credits.spend(req.userId, 'api_ask', 'api:ask');
         res.json({
             tool: 'ask',

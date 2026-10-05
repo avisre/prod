@@ -116,30 +116,35 @@ test('all six full report statement and ratio payloads fit Ask usable context',a
 test('complete live projected report budgets instructions, history, every research tool and supplementation',async t=>{
  onlineProjection(t);
  const policy=require('../ask-report-policy');process.env.OLLAMA_API_KEY='test-only-key';
- const receipts=[],captured=[];
+  const receipts=[],captured=[];
  try {
  for(const mode of ['normal','analyst']){
   const required=policy.missingResearch(policy.select('AMD',mode),[]);let calls=0;
-  ai.__setDeps({chatRaw:async(messages)=>{
+  ai.__setDeps({chatRaw:async(messages,opts)=>{
    calls++;
-   if(calls===1)return {tool_calls:required.map((r,i)=>({id:'r'+i,type:'function',function:{name:r.tool,arguments:JSON.stringify(r.args)}}))};
    const tools=messages.filter(m=>m.role==='tool').map(m=>JSON.parse(m.content));
    const bytes=Buffer.byteLength(messages.map(m=>m.content||'').join('\n'));
-   receipts.push({mode,bytes,toolReplies:tools.length});captured.push({mode,bytes,tools});
+   receipts.push({mode,bytes,toolReplies:tools.length});captured.push({mode,bytes,tools,availableTools:(opts.tools||[]).map(x=>x.function.name)});
    assert.ok(bytes<=tool.MAX_CONTEXT_BYTES-32*1024,`${mode}: complete request ${bytes} bytes`);
    assert.ok(tools.every(r=>r.code!=='TOOL_CONTEXT_LIMIT'),`${mode}: ${JSON.stringify(tools.map((r,index)=>({index,code:r.code,bytes:Buffer.byteLength(JSON.stringify(r))})))}`);
    for(const result of tools.filter(r=>['annual','quarterly'].includes(r.basis)&&r.observations))assert.equal(result.observations.length,result.basis==='annual'?5:4);
-   return {content:'Products and customers require the original disclosure. Divisions and competitive differences remain uncertain. Risks and valuation remain unavailable. **The read** — The original context supplies the report evidence.\n> Next: Which division matters?'};
+   const periods=tools.filter(r=>r.statement==='income').flatMap(r=>r.observations||[]).map(o=>o.periodEnd);
+   const annual=tools.filter(r=>r.statement==='income'&&String(r.basis||'').startsWith('annual')).flatMap(r=>r.observations||[]).map(o=>o.periodEnd);
+   const quarterly=tools.filter(r=>r.statement==='income'&&String(r.basis||'').startsWith('quarterly')).flatMap(r=>r.observations||[]).map(o=>o.periodEnd);
+   const rows=[...new Set([...annual,...quarterly])].map(d=>`| ${d} | Revenue unavailable in fixture |`).join('\n');
+   assert.ok(periods.length,'financial report evidence is preloaded before first synthesis');
+   return {content:`Products are sold to customers.\n\nDivisions are covered by the retrieved disclosures.\n\nAnnual reporting: ${annual.length} periods.\n\nQuarterly reporting: ${quarterly.length} periods.\n\n| Fiscal period ended | Revenue |\n| --- | --- |\n${rows}\n\nCompetitors shape the industry position.\n\nRisks include business uncertainty.\n\nValuation is based on dated market evidence.\n\n**The read** — The supplied observations show the reported periods; the source excerpts support the business context.\n> Next: Which division should we examine?`};
   },runTool:async(name,args,ctx)=>{
    if(['get_financials','get_ratios_history'].includes(name))return ai.runTool(name,args,ctx);
    if(name==='get_key_points')return {symbol:'AMD',sections:[{heading:'Business',text:'Official business context. '.repeat(1080)}],sourceUrl:'https://www.sec.gov/Archives/company-report.htm'};
    if(name==='get_supplemental_context')return {symbol:'AMD',businessContext:[{text:'Supplemental original disclosure. '.repeat(300),sourceUrl:'https://issuer.example/report.htm'}],remainingGaps:[{field:'segments',state:'not_disclosed'}]};
    return {symbol:'AMD',error:'Reviewed source fixture is unavailable',context:'Source context. '.repeat(120)};
   }});
-  await ai.ask({question:'AMD',mode,history:[{role:'assistant',content:'Previous detailed report. '.repeat(1200)}]});
-  assert.ok(calls>=3,'supplement and synthesis exercised');
+  const result=await ai.ask({question:'AMD',mode,history:[{role:'assistant',content:'Previous detailed report. '.repeat(1200)}]});
+  assert.ok(calls>=1 && calls<=2,'evidence is prepared before synthesis; at most one correction generation follows');
+  assert.equal(result.source,'ai',JSON.stringify({issues:result.quality.auditFindings,inputs:captured.map(c=>c.tools.filter(r=>r.statement==='income').map(r=>({basis:r.basis,observations:r.observations?.map(o=>o.periodEnd)})))}));
  }
- for(const {mode,bytes,tools}of captured){assert.ok(bytes<=tool.MAX_CONTEXT_BYTES-32*1024,mode);assert.ok(tools.every(r=>r.code!=='TOOL_CONTEXT_LIMIT'),`${mode}: ${JSON.stringify(tools.map((r,index)=>({index,code:r.code,bytes:Buffer.byteLength(JSON.stringify(r))})))}`);for(const result of tools.filter(r=>['annual','quarterly'].includes(r.basis)&&r.observations))assert.equal(result.observations.length,result.basis==='annual'?5:4);}
+ for(const {mode,bytes,tools,availableTools}of captured){assert.ok(bytes<=tool.MAX_CONTEXT_BYTES-32*1024,mode);assert.ok(tools.every(r=>r.code!=='TOOL_CONTEXT_LIMIT'),`${mode}: ${JSON.stringify(tools.map((r,index)=>({index,code:r.code,bytes:Buffer.byteLength(JSON.stringify(r))})))}`);for(const result of tools.filter(r=>['annual','quarterly'].includes(r.basis)&&r.observations))assert.equal(result.observations.length,result.basis==='annual'?5:4);assert.ok(!availableTools.includes('get_financials'),'prefetched pulls are removed from callable tools');assert.ok(availableTools.includes('search_web'),'independent source research remains available');}
  if(process.env.ASK_REPORT_BUDGET_RECEIPT==='1')require('node:fs').writeFileSync(require('node:path').join(__dirname,'../../docs/qa/ask-reports-2026-10-05/report-context-budget.json'),JSON.stringify({scope:'Complete engine request; real AMD financial tools; bounded narrative fixtures; no model calls',limitBytes:tool.MAX_CONTEXT_BYTES-32*1024,receipts},null,2)+'\n');
  } finally {ai.__resetDeps();}
 });

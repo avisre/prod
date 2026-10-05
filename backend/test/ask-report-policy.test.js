@@ -44,15 +44,15 @@ test('required evidence recognises honest retrieval failures but not wrong perio
 });
 const tc=(id,tool,args)=>({id,type:'function',function:{name:tool,arguments:JSON.stringify(args)}});
 test('bare tickers cannot publish an interjection without research, and listing choices use no model calls',async()=>{
- let calls=0;engine.__setDeps({chatRaw:async()=>{calls++;return {content:'Oh, interesting.'};}});
+ let calls=0;engine.__setDeps({chatRaw:async()=>{calls++;return {content:'Oh, interesting.'};},runTool:async()=>({error:'Offline test fixture'})});
  const noEvidence=await engine.ask({question:'O',mode:'analyst'});assert.equal(noEvidence.source,'partial');assert.notEqual(noEvidence.answer,'Oh, interesting.');assert.equal(calls,2);
  calls=0;const choice=await engine.ask({question:'Alphabet'});assert.equal(choice.source,'disambiguation');assert.match(choice.answer,/GOOG/);assert.equal(calls,0);
 });
-test('full-report loop fetches a missing supplement once and reports its attempted sources and gaps',async()=>{
+test('full reports preload required evidence once, supplement gaps, then draft from the prepared results',async()=>{
  const policy=p.select('AMD'), required=p.missingResearch(policy,[]);let calls=0,supplements=0;
  engine.__setDeps({chatRaw:async(messages)=>{
   calls++;
-  if(calls===1)return {tool_calls:required.map((r,i)=>tc('r'+i,r.tool,r.args))};
+  if(calls===1){const supplied=messages.filter(m=>m.role==='tool').map(m=>JSON.parse(m.content));assert.ok(supplied.some(r=>r.statement==='income'));assert.ok(supplied.some(r=>r.sourceAttempts?.some(a=>a.source==='Yahoo Finance')));return {tool_calls:required.map((r,i)=>tc('r'+i,r.tool,r.args))};}
   return {content:'The requested company history is unavailable. The source outage prevents a full supported report.'};
  },runTool:async(tool,args)=>{
   if(tool==='get_supplemental_context'){supplements++;return {symbol:'AMD',sourceAttempts:[{source:'Yahoo Finance',status:'retrieval_failed'}],remainingGaps:[{field:'totalRevenue',state:'retrieval_failed',reason:'Provider outage'}]};}
@@ -60,7 +60,63 @@ test('full-report loop fetches a missing supplement once and reports its attempt
   if(tool==='get_financials')return {symbol:'AMD',statement:args.statement,basis:args.basis,observations:[],coverage:{remainingGaps:[{field:'totalRevenue',state:'missing'}]}};
   return {symbol:'AMD',error:'Evidence unavailable in scripted fixture'};
  }});
- const out=await engine.ask({question:'AMD',mode:'normal'});assert.equal(supplements,1);assert.equal(calls,3);assert.equal(out.quality.policy.kind,'company_report');assert.ok(out.quality.sourceAttempts.some(a=>a.source==='Yahoo Finance'));assert.ok(out.quality.remainingGaps.some(g=>g.reason==='Provider outage'));assert.doesNotMatch(out.answer,/```/);
+ const out=await engine.ask({question:'AMD',mode:'normal'});assert.equal(supplements,1);assert.equal(calls,2);assert.equal(out.quality.policy.kind,'company_report');assert.ok(out.quality.sourceAttempts.some(a=>a.source==='Yahoo Finance'));assert.ok(out.quality.remainingGaps.some(g=>g.reason==='Provider outage'));assert.ok(out.toolsUsed.filter(t=>required.some(r=>r.tool===t.tool)).slice(required.length).every(t=>t.reused));assert.doesNotMatch(out.answer,/```/);
+});
+test('a failed full-report synthesis keeps every sourced period and names unavailable evidence',()=>{
+ const policy=p.select('AMD'),money=value=>({value,unit:'USD',currency:'USD'});
+ const results=[
+  {tool:'get_financials',result:{symbol:'AMD',statement:'income',basis:'annual',observations:[
+   {periodEnd:'2025-12-27',currency:'USD',fields:{totalRevenue:money(34000000000),netIncome:money(4200000000),grossProfit:money(null),totalAssets:money(0)}},
+   {periodEnd:'2024-12-28',currency:'USD',fields:{totalRevenue:money(25000000000),netIncome:money(1200000000)}}]}},
+  {tool:'get_financials',result:{symbol:'AMD',statement:'income',basis:'quarterly',observations:[
+   {periodEnd:'2026-06-27',currency:'USD',fields:{totalRevenue:money(8000000000)}},
+   {periodEnd:'2026-03-28',currency:'USD',fields:{totalRevenue:money(7500000000)}}]}},
+  {tool:'get_key_points',result:{symbol:'AMD',sections:[{heading:'Business',text:'The company designs processors and graphics products for data centers and consumer devices.'}]}},
+  {tool:'get_segments',result:{symbol:'AMD',error:'No usable segment table',sankeyEvidence:{status:'unverified',reason:'No reconciled segment table was returned.'}}},
+  {tool:'get_quote',result:{symbol:'AMD',error:'Quote provider unavailable'}},
+  {tool:'get_peer_context',result:{symbol:'AMD',error:'Peer snapshot unavailable'}},
+  {tool:'get_supplemental_context',result:{symbol:'AMD',remainingGaps:[{field:'quarterly grossProfit',state:'retrieval_failed',reason:'Yahoo statement module unavailable'}]}}
+ ];
+ const answer=q.fallback(results,'AMD',{policy,terminalReason:'validation_after_correction'});
+ assert.match(answer,/2025-12-27/);assert.match(answer,/2024-12-28/);assert.match(answer,/2026-06-27/);assert.match(answer,/2026-03-28/);
+ assert.match(answer,/USD 34,000,000,000/);assert.match(answer,/designs processors and graphics products/);
+ assert.match(answer,/\| Total assets \|/);assert.match(answer,/\| 2025-12-27 \| .*USD 0/);assert.doesNotMatch(answer,/\| Gross profit \|/);
+ assert.match(answer,/quarterly grossProfit: Yahoo statement module unavailable/);assert.match(answer,/segment disclosures: No reconciled segment table was returned/);
+ assert.match(answer,/dated valuation data: the source returned no usable evidence/);assert.match(answer,/peer and industry context: the source returned no usable evidence/);
+});
+test('deterministic report recovery retains attributed provider facts and reports source checks',()=>{
+ const today=new Date().toISOString(),policy=p.select('AMD');
+ const fact=(value,periodEnd)=>({issuer:'0000002488',field:'totalRevenue',definition:'Provider-reported revenue',value,scale:1,unit:'USD',currency:'USD',periodStart:(Number(periodEnd.slice(0,4))-1)+'-01-01',periodEnd,basis:'annual',historyBasis:'annual',accountingBasis:'provider-reported',scope:'entity',sourceType:'provider',sourceName:'Yahoo Finance',sourceUrl:'https://finance.yahoo.com/quote/AMD/financials/',sourceDataDate:today.slice(0,10),sourceDateKind:'retrieval',retrievedAt:today,sourceIds:['provider:'+periodEnd],state:'available'});
+ const results=[
+  {tool:'get_financials',result:{symbol:'AMD',basis:'annual',observations:[{periodEnd:'2025-12-27',currency:'USD',fields:{totalRevenue:{value:34000000000,currency:'USD'}}}]}},
+  {tool:'get_supplemental_context',result:{symbol:'AMD',supplementalObservations:[fact(99900000000,'2025-12-27'),fact(123000000,'2024-12-28')],businessContext:{text:'AMD makes compute processors and graphics products for data centers.','sourceName':'Yahoo Finance',sourceUrl:'https://finance.yahoo.com/quote/AMD/profile/',effectiveDate:null,retrievedAt:today},sourceAttempts:[{source:'Yahoo Finance',status:'retrieval_failed',reason:'Timed out during refresh'}],remainingGaps:[{field:'grossProfit',reason:'Provider response omitted the field'}]}}
+ ];
+ const answer=q.fallback(results,'AMD',{policy,terminalReason:'validation_after_correction'});
+ assert.match(answer,/USD 123,000,000/);assert.match(answer,/\[Yahoo Finance\]\(https:\/\/finance\.yahoo\.com\/quote\/AMD\/financials\/\) 2026-/);
+ assert.doesNotMatch(answer,/USD 99,900,000,000/,'the matching filed period takes precedence');
+ assert.match(answer,/Yahoo Finance: retrieval_failed — Timed out during refresh/);
+ assert.match(answer,/Attributed company profile context/);assert.match(answer,/business description from \[Yahoo Finance\].*retrieved 2026-/);
+ assert.match(answer,/grossProfit: Provider response omitted the field/);
+});
+test('full-report terminal failures preserve the retrieved source gaps instead of the generic receipt',async()=>{
+ let calls=0;engine.__setDeps({chatRaw:async()=>{calls++;return {content:'Revenue was USD 9 trillion.'};},runTool:async()=>({error:'Offline test fixture'})});
+ const out=await engine.ask({question:'AMD',mode:'analyst'});
+ assert.equal(calls,2,'unsupported synthesis gets one grounding retry');assert.equal(out.source,'partial');
+ assert.equal(out.quality.terminalReason,'no_research_evidence');assert.match(out.answer,/\*\*Specific evidence gaps\*\*/);
+ assert.match(out.answer,/annual income statements: the source returned no usable evidence/);
+ assert.match(out.answer,/Sections not synthesized/);assert.doesNotMatch(out.answer,/I could not obtain verified data for those figures/);
+});
+test('a follow-up request carries its own prior INTC thread context into the shared engine',async()=>{
+ let calls=0,toolCalls=[];
+ const prior='Prior thread subject: INTC; THREAD_CONTEXT_SENTINEL';
+ engine.__setDeps({chatRaw:async messages=>{
+  calls++;
+  assert.ok(messages.some(m=>m.role==='assistant'&&m.content.includes(prior)),'prior assistant context reaches each model generation');
+  if(calls===1)return {tool_calls:[tc('diff','get_filing_diff',{symbol:'INTC'})]};
+  return {content:'The retrieved latest-quarter filing describes a change in Intel\'s operating results; this answer uses the earlier INTC thread context.'};
+ },runTool:async(tool,args)=>{toolCalls.push({tool,args});return {symbol:'INTC',periodEnd:'2026-06-27',sourceUrl:'https://www.sec.gov/Archives/edgar/data/50863/quarter.htm',changes:[{text:'The latest quarter describes a changed operating result.'}]};}});
+ const out=await engine.ask({question:'And what changed in its latest quarter?',mode:'normal',history:[{role:'user',content:'INTC'},{role:'assistant',content:prior}]});
+ assert.equal(out.source,'ai');assert.equal(calls,2);assert.equal(toolCalls[0].args.symbol,'INTC');assert.match(out.answer,/latest-quarter filing/);
 });
 test('corrections keep an 8000-token allowance and strict requested prose limits',async()=>{
  let calls=0,correctionOptions;

@@ -21,7 +21,7 @@ afterEach(() => aiChat.__resetDeps());
 // A scripted provider: hands back `responses` in order, snapshotting the
 // message list it was given on each call so we can assert on what the loop
 // would have sent to a real provider.
-function scripted(responses) {
+function scripted(responses, overrides = {}) {
     const calls = [];
     const chatRaw = async (messages, opts) => {
         calls.push({ messages: JSON.parse(JSON.stringify(messages)), opts });
@@ -29,7 +29,7 @@ function scripted(responses) {
         if (!r) return { role: 'assistant', content: 'Fallback answer so the loop terminates.' };
         return { role: 'assistant', content: '', ...r };
     };
-    aiChat.__setDeps({ chatRaw, chatRawStream: (m, o) => chatRaw(m, o) });
+    aiChat.__setDeps({ chatRaw, chatRawStream: (m, o) => chatRaw(m, o), ...overrides });
     return calls;
 }
 const toolCall = (id, name, args = {}) => ({ id, type: 'function', function: { name, arguments: JSON.stringify(args) } });
@@ -140,12 +140,13 @@ test('a scripted "companies like X" screen reaches the model as a real ranked ta
 
 test('the answer framework is injected for open-ended company questions only', async () => {
     const systemFor = async (question, mode) => {
-        const calls = scripted([{ content: 'A short answer.' }]);
+        const calls = scripted([{ content: 'A short answer.' }], { runTool: async () => ({ error: 'Offline test fixture' }) });
         await aiChat.ask({ question, history: [], ctx: {}, mode });
-        return calls[0].messages.find((m) => m.role === 'system').content;
+        return { system: calls[0].messages.find((m) => m.role === 'system').content, opts: calls[0].opts, messages: calls[0].messages };
     };
     // Both modes carry their own shape, and never each other's.
-    const analyst = await systemFor('How is AMD doing?', 'analyst');
+    const analystCall = await systemFor('How is AMD doing?', 'analyst');
+    const analyst = analystCall.system;
     assert.match(analyst, /ANSWER FRAMEWORK/);
     assert.match(analyst, /industryProfile/, 'the industry profile is what personalises the metric rows');
     // The facet remedy is named as a bars block: a viz line chart cannot facet,
@@ -153,7 +154,7 @@ test('the answer framework is injected for open-ended company questions only', a
     // silently ignored (measured on the phone render of a live answer).
     assert.match(analyst, /span more than about 10x it is a faceted bars block/i);
     assert.doesNotMatch(analyst, /ANSWER SHAPE/);
-    const normal = await systemFor('AMD', 'normal');
+    const normal = (await systemFor('AMD', 'normal')).system;
     assert.match(normal, /ANSWER SHAPE/);
     assert.match(normal, /VISUAL FREEDOM/);
     assert.doesNotMatch(normal, /No chart for a bare ticker/);
@@ -170,11 +171,13 @@ test('the answer framework is injected for open-ended company questions only', a
     // gate exists to prevent.
     for (const q of ['What is AMD revenue in FY2024?', 'Compare AMD and NVDA', 'How is my portfolio doing?', 'Summarise AMD latest results']) {
         for (const mode of ['analyst', 'normal']) {
-            const system = await systemFor(q, mode);
+            const system = (await systemFor(q, mode)).system;
             assert.doesNotMatch(system, /ANSWER FRAMEWORK|ANSWER SHAPE/, `${q} (${mode}) should stay a lookup`);
         }
     }
     // The read is a renderer hook (app.js matches the paragraph start), so the
     // prompt must spell the marker exactly as the renderer tests for it.
     assert.match(analyst, /beginning exactly "\*\*The read\*\* — "/);
+    assert.ok(!analystCall.opts.tools.some(t => ['get_financials','get_ratios_history','get_peer_context','get_segments','get_quote','get_key_points','get_filing_diff'].includes(t.function.name)), 'prepared evidence tools are no longer left for the model to choose');
+    assert.ok(analystCall.messages.some(m => m.role === 'tool'), 'prepared tool evidence is in the initial prompt before generation');
 });

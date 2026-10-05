@@ -9445,6 +9445,9 @@ function askAuth(req, res, next) {
     req.anon = true;
     return next();
 }
+function askOutcomeLog(result, mode, stream, entrypoint) {
+    return require('./ask-diagnostics').outcome(result, { mode, stream, entrypoint });
+}
 async function anonAskHandler(req, res) {
     const question = String((req.body && req.body.question) || '').trim();
     const mode = (req.body && req.body.mode) === 'analyst' ? 'analyst' : 'normal';
@@ -9499,11 +9502,13 @@ async function anonAskHandler(req, res) {
             };
             const ping = setInterval(() => { if (!closed && !res.writableEnded) res.write(': ping\n\n'); }, 10000);
             try {
-                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, mode, onEvent: (e) => send(e.type, e) });
+                const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode, onEvent: (e) => send(e.type, e) });
+                console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, true, 'web_trial')));
                 send('done', { answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
                     trial: true, quota: { used: newVisitor, limit, remaining } });
                 trackFunnel('anon_ask_done', null, null, { mode, bonus: bonusUsed, streamed: true });
             } catch (error) {
+                console.log('[ask] ' + JSON.stringify(askOutcomeLog({ source: 'error', toolsUsed: [], quality: { terminalReason: 'web_trial_exception', errorType: error.name || 'Error' } }, mode, true, 'web_trial')));
                 send('error', { message: publicErrorMessage(error, 'Ask failed') });
             } finally {
                 clearInterval(ping);
@@ -9511,12 +9516,14 @@ async function anonAskHandler(req, res) {
             }
             return;
         }
-        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [] }, mode });
+        const result = await aiChat.ask({ question, history: [], ctx: { holdings: [], askSurface: 'web_trial' }, mode });
+        console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_trial')));
         res.setHeader('Set-Cookie', _anonAskCookie(newVisitor));
         res.json({ answer: result.answer, toolsUsed: result.toolsUsed, source: result.source,
             trial: true, quota: { used: newVisitor, limit, remaining } });
         trackFunnel('anon_ask_done', null, null, { mode, bonus: bonusUsed, streamed: false });
     } catch (error) {
+        console.log('[ask] ' + JSON.stringify(askOutcomeLog({ source: 'error', toolsUsed: [], quality: { terminalReason: 'web_trial_exception', errorType: error.name || 'Error' } }, mode, false, 'web_trial')));
         if (!res.headersSent) res.status(500).json({ message: publicErrorMessage(error, 'Ask failed') });
     }
 }
@@ -9718,7 +9725,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 const result = await aiChat.ask({
                     question, history,
                     ctx: {
-                        holdings, userId, memoryConsent, attachments,
+                        holdings, userId, memoryConsent, attachments, askSurface: 'web_chat',
                         // ai_paper events stream the background build's
                         // progress lines while this connection lives.
                         ...(aiPaperCtx ? { ...aiPaperCtx, aiPaperProgress: (e) => send('ai_paper', e) } : {})
@@ -9729,7 +9736,7 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
                 // Only source 'ai' leaves a trace (ask_reports, thread, credit
                 // ledger). 'blocked', 'partial' and 'error' leave none at all,
                 // so there is no denominator to watch a model rollout against.
-                console.log('[ask] ' + JSON.stringify({ source: result.source, tools: (result.toolsUsed || []).length, mode, stream: true }));
+                console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, true, 'web_chat')));
                 const counted = result.source === 'ai' || result.source === 'blocked';
                 if (counted) await aiChat.recordUse(userId);
                 // Additive only: still gated by the Ask-specific limit above,
@@ -9763,10 +9770,10 @@ app.post('/api/ai/chat', askAuth, async (req, res) => {
 
         const result = await aiChat.ask({
             question, history,
-            ctx: { holdings, userId, memoryConsent, attachments, ...(aiPaperCtx || {}) },
+            ctx: { holdings, userId, memoryConsent, attachments, askSurface: 'web_chat', ...(aiPaperCtx || {}) },
             mode
         });
-        console.log('[ask] ' + JSON.stringify({ source: result.source, tools: (result.toolsUsed || []).length, mode, stream: false }));
+        console.log('[ask] ' + JSON.stringify(askOutcomeLog(result, mode, false, 'web_chat')));
         const counted = result.source === 'ai' || result.source === 'blocked';
         if (counted) await aiChat.recordUse(userId);
         if (result.source === 'ai') await credits.spend(userId, 'ask', 'ask');

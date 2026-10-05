@@ -1951,7 +1951,7 @@ function frameworkApplies(question) {
 }
 const FULL_REPORT = [
     'Give the full company picture. Both modes may use up to 1,600 prose words, plus tables and visuals. Choose the length useful for this company without a preset target or minimum. A requested shorter answer uses its strict limit. When a bounded source search leaves real gaps, a shorter supported report is appropriate.',
-    'FETCH FIRST, IN ONE ROUND: get_financials income annual (limit 5), income quarterly (limit 4), balance annual (limit 5), cash annual (limit 5); get_ratios_history annual (limit 5) and quarterly (limit 4); get_peer_context, get_segments, get_quote, get_key_points, get_filing_diff and get_reverse_dcf when applicable. Batch independent calls. Reuse evidence rather than requesting it twice.',
+    'For an open-ended report, the engine retrieves required statement, ratio, peer, segment, quote, filing-context and filing-change evidence before drafting. Reuse supplied results; do not request them again. For an explicit user word limit, match the research depth to the requested scope. Use other tools only for a specific unresolved question, and do not repeat an unsuccessful source check.',
     'Before writing, inspect coverage and remainingGaps. Request get_supplemental_context for missing fields, periods or business sections. The shared resolver checks SEC filings, original issuer releases and Yahoo Finance. For remaining narrative gaps, use original issuer documents or accessible reputable articles within the existing search/page budgets. Search snippets, forums and remembered figures are not financial evidence. Explain specific gaps only after bounded retrieval.',
     'Cover what the business sells, customers and products, divisions or revenue streams, four reported quarters and five annual periods, competitive differences, material risks, dated valuation, **The read** and one > Next: question. Choose headings and section order that suit this company; an unavailable section gets an attributed gap explanation.',
     'Include quarterly and annual financial tables with exact fiscal period ends, units and appropriate industry metrics. Use get_peer_context.industryProfile to choose metrics and get_ratios_history to quote printed ratios exactly. Quarter margins come from the supplied quarterly ratios. Table figures remain useful alongside a trend chart of the same history: the table gives precise values and the visual shows change.',
@@ -1972,10 +1972,10 @@ const FRAMEWORK_NORMAL = 'ANSWER SHAPE — full company report in everyday Engli
 // authoritative — callers should render result.answer over streamed text.
 async function ask({ question, history, ctx, mode, onEvent }) {
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
-    if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty' };
+    if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
-    if (policy.kind === 'listing_choice') return { answer: 'Which listing would you like: ' + policy.choices.map(c => `${c.symbol} (${c.name})`).join(' or ') + '?', source: 'disambiguation', toolsUsed: [], totalTokens: 0, quality: { policyVersion: reportPolicy.VERSION, checked: true, policy, listingChoice: true } };
-    if (!aiClient.isConfigured()) return { answer: 'Ask is not available right now — the AI service is not configured.', toolsUsed: [], source: 'unconfigured' };
+    if (policy.kind === 'listing_choice') return { answer: 'Which listing would you like: ' + policy.choices.map(c => `${c.symbol} (${c.name})`).join(' or ') + '?', source: 'disambiguation', toolsUsed: [], totalTokens: 0, quality: { policyVersion: reportPolicy.VERSION, checked: true, policy, listingChoice: true, terminalReason: 'listing_choice' } };
+    if (!aiClient.isConfigured()) return { answer: 'Ask is not available right now — the AI service is not configured.', toolsUsed: [], source: 'unconfigured', quality: { policy, terminalReason: 'provider_unconfigured' } };
     const emit = (e) => { if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep computing the answer */ } } };
 
     const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '')
@@ -2035,6 +2035,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
     let groundingRetried = false;
     let reportResearchRetried = false;
     let reportSupplemented = false;
+    const preparedReportEvidence = [];
     const grounded = text => hasResearchEvidence || (policy.kind !== 'company_report' &&
         (!!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text)));
     // The receipt is the terminal state the whole pipeline promises is always
@@ -2042,32 +2043,36 @@ async function ask({ question, history, ctx, mode, onEvent }) {
     // throw from it used to mean no answer at all (a 502 here, a 500 in the app),
     // the one outcome this path exists to prevent. Degrade to the single line
     // that is unconditionally true and keep the stack for the log.
-    const receipt = (results, question) => {
+    const receipt = (results, question, terminalReason = 'evidence_or_validation_failure') => {
         try {
-            const text = answerQuality.fallback(results, question);
+            const text = answerQuality.fallback(results, question, { policy, terminalReason });
             if (policy.explicitWordLimit && answerQuality.wordCount(text) > policy.maxWords) return policy.maxWords >= 10 ? 'I could not validate a sourced answer within that limit.' : policy.maxWords >= 5 ? 'A verified answer is unavailable.' : 'Unavailable.';
             return text;
         }
         catch (e) {
-            console.error('[ai-chat] fallback receipt failed', { message: e.message, stack: e.stack });
+            console.error('[ai-chat] fallback receipt failed', { errorType: e.name || 'Error' });
             return 'This is a partial answer using verified SEC evidence. Unverified figures are omitted.';
         }
     };
     const qualityFor = (answer, extra = {}) => ({ policyVersion: reportPolicy.VERSION, checked: true, policy,
         proseWords: answerQuality.wordCount(answer), tableRows: (answer.match(/^\s*\|.*$/gm) || []).length, sectionCoverage: reportPolicy.coverage(answer), auditFindings: [],
+        failedTools: [...new Set(toolsUsed.filter(t => t.ok === false).map(t => t.tool))],
         sourceAttempts: suppliedResults.flatMap(r => r.result?.sourceAttempts || []),
         remainingGaps: suppliedResults.flatMap(r => r.result?.remainingGaps || r.result?.coverage?.remainingGaps || (r.result?.error ? [{ tool: r.tool, reason: r.result.error }] : [])), ...extra });
     const ungroundedAnswer = () => {
         const full = 'I could not obtain verified data for those figures. I cannot provide a reliable financial answer from memory.';
-        const answer = policy.explicitWordLimit && answerQuality.wordCount(full) > policy.maxWords ? policy.maxWords >= 5 ? 'A verified answer is unavailable.' : 'Unavailable.' : full;
-        return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, auditFindings: ['No research evidence supports the proposed answer.'] }) };
+        const answer = policy.kind === 'company_report' ? receipt(suppliedResults, q, 'no_research_evidence')
+            : policy.explicitWordLimit && answerQuality.wordCount(full) > policy.maxWords ? policy.maxWords >= 5 ? 'A verified answer is unavailable.' : 'Unavailable.' : full;
+        return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'no_research_evidence', auditFindings: ['No research evidence supports the proposed answer.'] }) };
     };
     const finish = async (text, streamed) => {
         const modelText = String(text || '');
         text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeFacetedViz(modelText), suppliedResults, { ...policy, question: q }), sourceLinks);
         const normalizedChart = text !== modelText;
         let issues = answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
-        const rewritten = normalizedChart || issues.length > 0;
+        const correctionAttempted = issues.length > 0;
+        const rewritten = normalizedChart || correctionAttempted;
+        let correctionSucceeded = false;
         if (rewritten && streamed) { emit({ type: 'rollback' }); streamed = false; }
         if (issues.length > 0) {
             try {
@@ -2081,6 +2086,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 issues = !text || TEXT_TOOLCALL_RE.test(text) || aiClient.leaksIdentity(text)
                     ? ['The corrected analysis could not be validated.']
                     : answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
+                correctionSucceeded = issues.length === 0;
             } catch (_) { issues = ['The corrected analysis could not be validated.']; }
         }
         const source = issues.length ? 'partial' : 'ai';
@@ -2092,7 +2098,9 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             emit({ type: 'delta', text: answer });
         }
         return { answer, toolsUsed, source, totalTokens,
-            quality: qualityFor(answer, { rewritten, fallback: issues.length > 0, auditFindings: issues }) };
+            quality: qualityFor(answer, { rewritten, correctionAttempted, correctionSucceeded,
+                fallback: issues.length > 0, terminalReason: issues.length ? 'validation_after_correction' : 'answered',
+                auditFindings: issues }) };
     };
     let totalTokens = 0;
     // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by
@@ -2116,14 +2124,30 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         search_web: 0, fetch_page: 0, search_filings: 0, get_supplemental_context: 0,
         get_unit_economics: 0, get_key_points: 0, get_governance: 0, get_esg: 0, get_filing_diff: 0
     };
-    const prepareStoryEvidence = async () => {
-        if (!policy.story || policy.kind !== 'company_report') return;
+    const preparedEvidenceFor = (tool, args) => {
+        const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+        const symbol = String(args.symbol || '').toUpperCase();
+        return preparedReportEvidence.find(item => {
+            if (item.tool !== tool || String(item.args.symbol || '').toUpperCase() !== symbol) return false;
+            if (tool === 'get_financials' || tool === 'get_ratios_history') {
+                if (tool === 'get_financials' && item.args.statement !== args.statement) return false;
+                if ((item.args.basis || 'annual') !== (args.basis || 'annual')) return false;
+                if (Number(item.args.limit || 5) < Number(args.limit || 5)) return false;
+                const key = tool === 'get_financials' ? 'fields' : 'metrics';
+                return (args[key] || []).every(value => (item.args[key] || []).includes(value));
+            }
+            return Object.entries(args).every(([key, value]) => key === 'symbol' || same(item.args[key], value));
+        });
+    };
+    const prepareCompanyReportEvidence = async () => {
+        if (policy.kind !== 'company_report') return;
         const pending = reportPolicy.missingResearch(policy, toolsUsed);
         if (!pending.length) return;
-        // Story research is deterministic. A model choosing only get_quote
-        // must not turn the story into the missing-report/price receipt path.
+        // Full-report research is deterministic. A model choosing only a quote
+        // must not turn an open-ended company request into a short receipt.
         const retrieve = async ({ tool, args }) => {
             if (tool === 'get_financials') args = { ...args, fields: require('./ask-report-evidence').defaults(args.symbol, args.statement, args.basis).fields };
+            if (tool === 'get_ratios_history') args = { ...args, metrics: require('./ask-report-evidence').defaults(args.symbol, 'income', args.basis).metrics };
             const started = Date.now();
             let result;
             if (WEB_BUDGET[tool] !== undefined && ++webUsed[tool] > WEB_BUDGET[tool]) result = { error: `Web budget exhausted for ${tool} — use the existing evidence.` };
@@ -2132,6 +2156,9 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 catch (error) { result = evidence.toolError(error); }
             }
             if (!result || typeof result !== 'object') result = { error: 'The data tool returned no result.' };
+            if (result.error && args.symbol) result = { ...result, symbol: result.symbol || args.symbol,
+                ...(tool === 'get_financials' ? { statement: args.statement, basis: args.basis } : {}),
+                ...(tool === 'get_ratios_history' ? { basis: args.basis } : {}) };
             return { tool, args, result, ms: Date.now() - started };
         };
         const supply = ({ tool, args, result, ms }) => {
@@ -2139,6 +2166,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             const content = reportEvidence.serialize(result, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
             const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
             suppliedResults.push({ tool, result: supplied });
+            preparedReportEvidence.push({ tool, args, result: supplied });
             contextBytes += Buffer.byteLength(content);
             if (!supplied.error) hasResearchEvidence = true;
             sourceLinks.push(...evidence.filingLinks(supplied));
@@ -2148,9 +2176,18 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: tool, arguments: JSON.stringify(args) } }] },
                 { role: 'tool', tool_call_id: id, content });
         };
-        const fetched = await Promise.all(pending.map(retrieve));
+        // Keep the same concurrency bound as model-selected tool rounds while
+        // making the required report evidence independent of model tool choice.
+        const fetched = new Array(pending.length);
+        let next = 0;
+        await Promise.all(Array.from({ length: Math.min(ASK_TOOL_CONCURRENCY, pending.length) }, async () => {
+            while (next < pending.length) {
+                const index = next++;
+                fetched[index] = await retrieve(pending[index]);
+            }
+        }));
         fetched.forEach(supply);
-        if (!policy.explicitWordLimit) {
+        if (policy.story && !policy.explicitWordLimit) {
             // A latest-year business excerpt does not establish the company's
             // earlier history. Retrieve one older original annual document,
             // using the same per-question filing/page budgets as model calls.
@@ -2167,18 +2204,23 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             reportSupplemented = true;
             supply(await retrieve({ tool: 'get_supplemental_context', args: supplemental }));
         }
-        messages.push({ role: 'system', content: 'The company story evidence was retrieved before generation. Reuse its supported financial history and original business context. Supplement historical gaps using accessible original documents within the remaining web budgets. A failed source affects only its missing details; write the supported story, rather than replacing it with a stock quote or asking the user to narrow the request.' });
+        messages.push({ role: 'system', content: policy.story
+            ? 'The company story evidence was retrieved before generation. Reuse its supported financial history and original business context. Supplement historical gaps using accessible original documents within the remaining web budgets. A failed source affects only its missing details; write the supported story, rather than replacing it with a stock quote or asking the user to narrow the request.'
+            : 'All required full-report evidence was retrieved before generation. Reuse these exact results; do not repeat completed pulls. A failed source affects only its missing details. Write the supported company report from the available evidence and name specific gaps instead of replacing the report with a financial receipt.' });
     };
     try {
         for (let iter = 0; iter < MAX_ITERS; iter++) {
-            await prepareStoryEvidence();
+            await prepareCompanyReportEvidence();
             const lastRound = iter === MAX_ITERS - 1;
             // On the final round there are no tools — tell the model to commit to
             // a full answer instead of stalling or asking the user to narrow it.
             if (lastRound) messages.push({ role: 'system', content: SYNTHESIS_DIRECTIVE });
+            const reportTools = policy.kind === 'company_report' && !policy.explicitWordLimit
+                ? activeTools.filter(tool => !preparedReportEvidence.some(item => item.tool === tool.function?.name))
+                : activeTools;
             const opts = {
                 purpose: 'chat', temperature: 0.3, maxTokens: 8000,
-                tools: lastRound ? null : activeTools
+                tools: lastRound ? null : reportTools
             };
             let msg;
             let streamer = null;
@@ -2227,14 +2269,19 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     }
                     let result;
                     const t0 = Date.now();
-                    if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
+                    const reused = report ? preparedEvidenceFor(tc.function.name, args) : null;
+                    if (reused) {
+                        result = reused.result.error
+                            ? { error: `This source was already checked and unavailable: ${String(reused.result.error).slice(0, 180)}` }
+                            : { symbol: args.symbol, evidenceAlreadySupplied: true, note: 'The matching report evidence is already present earlier in this conversation. Reuse it.' };
+                    } else if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
                         result = { error: `Web budget exhausted for ${tc.function.name} — answer now with what you already have.` };
                     } else {
                         try { result = await deps.runTool(tc.function.name, args, {...ctx,companyReportEvidence:report}); }
                         catch (error) { result = evidence.toolError(error); }
                     }
                     if (!result || typeof result !== 'object') result = { error: 'The data tool returned no result.' };
-                    return { tc, args, result, ms: Date.now() - t0 };
+                    return { tc, args, result, ms: Date.now() - t0, reused: Boolean(reused) };
                 };
                 const roundResults = [];
                 let cursor = 0;
@@ -2245,14 +2292,16 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     }
                 });
                 await Promise.all(workers);
-                for (const { tc, args, result, ms } of roundResults) {
+                for (const { tc, args, result, ms, reused } of roundResults) {
                     // Reserve space for all remaining small error replies;
                     // every tool_call_id still needs a response when full.
                     const remaining = evidence.MAX_CONTEXT_BYTES - (policy.kind==='company_report' && !policy.explicitWordLimit
                         ? require('./ask-report-evidence').CONTEXT_RESERVE_BYTES : 32*1024) - contextBytes;
-                    const content = policy.kind==='company_report' && !policy.explicitWordLimit
-                        ? require('./ask-report-evidence').serialize(result, remaining) : evidence.serializeResult(result, remaining);
-                    const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
+                    const content = reused
+                        ? JSON.stringify(result)
+                        : policy.kind==='company_report' && !policy.explicitWordLimit
+                            ? require('./ask-report-evidence').serialize(result, remaining) : evidence.serializeResult(result, remaining);
+                    const supplied = reused ? result : require('./ask-report-evidence').expand(JSON.parse(content));
                     suppliedResults.push({ tool: tc.function.name, result: supplied });
                     if (!policy.company && supplied.symbol) {
                         const company = stockUniverse.lookup(supplied.symbol) || (['etf','mutual_fund','closed_end_fund'].includes(supplied.assetType) ? {symbol:supplied.symbol,name:supplied.name,securityType:supplied.assetType} : null);
@@ -2264,8 +2313,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     contextBytes += Buffer.byteLength(content);
                     if (!supplied.error && !['calculator', 'remember'].includes(tc.function.name)) hasResearchEvidence = true;
                     sourceLinks.push(...evidence.filingLinks(supplied));
-                    toolsUsed.push({ tool: tc.function.name, args, ok: !supplied.error, ...(supplied.code ? { code: supplied.code } : {}), ms });
-                    emit({ type: 'tool', tool: tc.function.name, args, ok: !supplied.error, ms });
+                    toolsUsed.push({ tool: tc.function.name, args, ok: !supplied.error, ...(supplied.code ? { code: supplied.code } : {}), ...(reused ? { reused: true } : {}), ms });
+                    emit({ type: 'tool', tool: tc.function.name, args, ok: !supplied.error, ...(reused ? { reused: true } : {}), ms });
                     messages.push({ role: 'tool', tool_call_id: tc.id, content });
                 }
                 // Anything past the round budget was sliced off above, but the
@@ -2295,11 +2344,18 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (TEXT_TOOLCALL_RE.test(text)) {
                 // Twice in a row. Degrade honestly — never show the markup.
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
-                return { answer: "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.", toolsUsed, source: 'partial' };
+                const answer = policy.kind === 'company_report' ? receipt(suppliedResults, q, 'invalid_model_tool_text')
+                    : "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.";
+                return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'invalid_model_tool_text' }) };
             }
             if ((streamer && streamer.blocked) || aiClient.leaksIdentity(text)) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
-                return { answer: "I'm Ask, the stockportfolio.pro assistant — I can only help with companies, portfolios and market data.", toolsUsed, source: 'blocked' };
+                if (policy.kind === 'company_report') {
+                    const answer = receipt(suppliedResults, q, 'identity_guard');
+                    return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'identity_guard', auditFindings: ['The generated narrative was withheld by the identity guard.'] }) };
+                }
+                const answer = "I'm Ask, the stockportfolio.pro assistant — I can only help with companies, portfolios and market data.";
+                return { answer, toolsUsed, source: 'blocked', totalTokens, quality: qualityFor(answer, { terminalReason: 'identity_guard' }) };
             }
             const missingResearch = reportPolicy.missingResearch(policy, toolsUsed);
             if (missingResearch.length) {
@@ -2311,7 +2367,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 }
                 const answer = receipt(suppliedResults, q);
                 return { answer, toolsUsed, source: 'partial', totalTokens,
-                    quality: qualityFor(answer, { fallback: true, auditFindings: ['Required company evidence was not requested.'], missingResearch }) };
+                    quality: qualityFor(answer, { fallback: true, terminalReason: 'required_research_missing', auditFindings: ['Required company evidence was not requested.'], missingResearch: missingResearch.map(r => r.tool) }) };
             }
             const supplemental = reportPolicy.supplementalNeeds(policy, suppliedResults);
             if (supplemental && !reportSupplemented && !toolsUsed.some(t => t.tool === 'get_supplemental_context') && !lastRound) {
@@ -2359,28 +2415,32 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (finalText && !aiClient.leaksIdentity(finalText)) {
                 if (reportPolicy.missingResearch(policy, toolsUsed).length) {
                     const answer = receipt(suppliedResults, q);
-                    return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, auditFindings: ['Required company evidence was not requested.'] }) };
+                    return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'required_research_missing', auditFindings: ['Required company evidence was not requested.'] }) };
                 }
                 if (!grounded(finalText)) return ungroundedAnswer();
                 const out = await finish(finalText, false);
                 return out;
             }
-        } catch (e) { console.error('[ai-chat] final synthesis', e.message); }
-        return { answer: "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.", toolsUsed, source: 'partial' };
+        } catch (e) { console.error('[ai-chat] final synthesis failed', { errorType: e.name || 'Error' }); }
+        const answer = policy.kind === 'company_report' ? receipt(suppliedResults, q, 'iteration_limit')
+            : "Here's the most I can pull together on that from the data I have — tell me which part to dig into and I'll go deeper.";
+        return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, terminalReason: 'iteration_limit' }) };
     } catch (e) {
-        console.error('[ai-chat] ask() failed', { message: e.message, stack: e.stack, toolsUsed: toolsUsed.map((t) => t.tool) });
-        if (hasResearchEvidence) {
+        console.error('[ai-chat] ask() failed', { errorType: e.name || 'Error', toolsUsed: toolsUsed.map((t) => t.tool) });
+        if (hasResearchEvidence || (policy.kind === 'company_report' && toolsUsed.length)) {
             const answer = evidence.appendCitations(receipt(suppliedResults, q), sourceLinks);
             emit({ type: 'rollback' }); emit({ type: 'delta', text: answer });
             return { answer, toolsUsed, source: 'partial', totalTokens,
-                quality: qualityFor(answer, { fallback: true, synthesisUnavailable: true }) };
+                quality: qualityFor(answer, { fallback: true, terminalReason: hasResearchEvidence ? 'exception_after_research' : 'exception_during_report', errorType: e.name || 'Error', synthesisUnavailable: true }) };
         }
+        const answer = toolsUsed.length
+            ? `Ask hit a problem writing up the final answer — the research (${toolsUsed.length} data pulls) completed, but synthesis failed. Please try again.`
+            : 'Ask is unavailable right now. Please try again shortly.';
         return {
-            answer: toolsUsed.length
-                ? `Ask hit a problem writing up the final answer — the research (${toolsUsed.length} data pulls) completed, but synthesis failed. Please try again.`
-                : 'Ask is unavailable right now. Please try again shortly.',
+            answer,
             toolsUsed,
-            source: 'error'
+            source: 'error',
+            quality: qualityFor(answer, { terminalReason: 'provider_failure_before_research', errorType: e.name || 'Error' })
         };
     }
 }
