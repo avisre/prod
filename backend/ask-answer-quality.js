@@ -940,6 +940,143 @@ function groupedFinancialBars(data, question) {
     };
 }
 
+function annualIncomeRows(results, symbol = null) {
+    const byPeriod = new Map();
+    for (const row of Array.isArray(results) ? results : []) {
+        const result = row?.result || row;
+        if (row?.tool && row.tool !== 'get_financials') continue;
+        if (result?.statement !== 'income' || !/^annual/.test(String(result.basis || '')) ||
+            (symbol && String(result.symbol || '').toUpperCase() !== String(symbol).toUpperCase())) continue;
+        for (const observation of result.observations || []) {
+            if (!/^\d{4}-\d{2}-\d{2}$/.test(observation.periodEnd || '')) continue;
+            const prior = byPeriod.get(observation.periodEnd) || { ...observation, fields: {} };
+            for (const [field, fact] of Object.entries(observation.fields || {})) {
+                const existing = prior.fields[field];
+                if (!existing || (!existing.sourceIds?.length && fact?.sourceIds?.length)) prior.fields[field] = fact;
+            }
+            prior.currency ||= observation.currency;
+            byPeriod.set(observation.periodEnd, prior);
+        }
+    }
+    return [...byPeriod.values()].sort((a, b) => b.periodEnd.localeCompare(a.periodEnd));
+}
+
+function reportMoney(value, currency) {
+    if (!Number.isFinite(Number(value))) return 'Unavailable';
+    const n = Number(value), magnitude = Math.abs(n);
+    const scale = magnitude >= 1e12 ? 1e12 : magnitude >= 1e9 ? 1e9 : magnitude >= 1e6 ? 1e6 : 1;
+    const suffix = scale === 1e12 ? 'tn' : scale === 1e9 ? 'bn' : scale === 1e6 ? 'm' : '';
+    return `${currency || ''} ${(n / scale).toLocaleString('en-US', { maximumFractionDigits: scale === 1 ? 2 : 3 })}${suffix}`.trim();
+}
+
+function annualChange(current, prior, field) {
+    const a = current?.fields?.[field], b = prior?.fields?.[field];
+    const days = (Date.parse(current?.periodEnd) - Date.parse(prior?.periodEnd)) / 86400000;
+    if (!a || !b || !a.sourceIds?.length || !b.sourceIds?.length ||
+        !Number.isFinite(Number(a.value)) || !Number.isFinite(Number(b.value)) || Number(b.value) <= 0 ||
+        a.unit !== b.unit || a.currency !== b.currency || a.scope !== b.scope ||
+        current.currency !== prior.currency || days < 340 || days > 380) return null;
+    return (Number(a.value) / Number(b.value) - 1) * 100;
+}
+
+function comparisonFallback(results, question) {
+    if (!/\b(?:compare|comparison|versus|vs\.?|against)\b/i.test(question)) return null;
+    const symbols = [...new Set((results || []).filter(row => row?.tool === 'get_financials')
+        .map(row => String(row.result?.symbol || '').toUpperCase()).filter(Boolean))];
+    if (symbols.length < 2) return null;
+    const comparisons = symbols.slice(0, 4).map(symbol => {
+        const annual = annualIncomeRows(results, symbol);
+        const current = annual[0], previous = annual[1];
+        const revenue = current?.fields?.totalRevenue, income = current?.fields?.netIncome;
+        const quote = (results || []).find(row => row?.tool === 'get_quote' && String(row.result?.symbol || '').toUpperCase() === symbol)?.result;
+        if (!current || !revenue || !income || !Number.isFinite(Number(revenue.value)) || !Number.isFinite(Number(income.value))) return null;
+        const growth = annualChange(current, previous, 'totalRevenue');
+        const valuationDate = quote?.asOf || quote?.priceAsOf || quote?.quoteAsOf || null;
+        return { symbol, period: current.periodEnd, currency: revenue.currency || current.currency || '', revenue: revenue.value,
+            netIncome: income.value, growth, quote, valuationDate };
+    }).filter(Boolean);
+    if (comparisons.length < 2) return null;
+    const lines = ['**Partial company comparison — verified reported annual evidence**',
+        'Each company uses its own latest available annual report, so the periods may differ. Revenue growth is calculated against that company’s immediately preceding annual observation when the period, currency, unit and scope match. Market data is a dated snapshot, not a live quote.',
+        '| Company | Fiscal period ended | Revenue | Revenue growth vs prior year | Net income | Market capitalization and quote date |',
+        '| --- | --- | ---: | ---: | ---: | --- |'];
+    for (const item of comparisons) {
+        const marketCap = Number.isFinite(Number(item.quote?.marketCap))
+            ? `${reportMoney(item.quote.marketCap, item.quote.currency || 'USD')} as of ${item.valuationDate || 'date unavailable'}` : 'Unavailable';
+        const growth = item.growth === null ? 'Unavailable from comparable sourced periods' : `${item.growth.toFixed(1)}%`;
+        lines.push(`| ${item.symbol} | ${item.period} | ${reportMoney(item.revenue, item.currency)} | ${growth} | ${reportMoney(item.netIncome, item.currency)} | ${marketCap} |`);
+    }
+    return lines.join('\n');
+}
+
+function appendVerifiedFilingComparison(lines, results, question) {
+    if (!/(?:follow.?up|what changed|latest quarter|latest filing|earlier report|previous answer)/i.test(question)) return;
+    const row = (results || []).find(item => item?.tool === 'get_filing_diff' && !item.result?.error && item.result?.latest && item.result?.prev);
+    if (!row) return;
+    const diff = row.result;
+    const validSecUrl = url => /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\/\d+\/\d{18}\//i.test(String(url || ''));
+    const latestUrl = validSecUrl(diff.latest.url) ? diff.latest.url : null;
+    const priorUrl = validSecUrl(diff.prev.url) ? diff.prev.url : null;
+    if (!latestUrl || !priorUrl) return;
+    const label = filing => `${filing.form || 'SEC filing'} filed ${filing.date || 'on an unavailable date'}`;
+    lines.push(`\n**Checked filing comparison:** [${label(diff.latest)}](${latestUrl}) versus [${label(diff.prev)}](${priorUrl}).`);
+    const verified = (diff.changes || []).filter(change => change?.evidenceVerified === true && change?.figuresVerified === true && change.priorQuote && change.newQuote);
+    if (!verified.length) {
+        lines.push('No change passage with checked quotations and figures was available to carry into this follow-up.');
+        return;
+    }
+    const change = verified[0];
+    const excerpt = text => String(text).replace(/\s+/g, ' ').trim().split(' ').slice(0, 20).join(' ');
+    lines.push(`- **${String(change.area || 'Reported change').replace(/[\r\n|]/g, ' ').slice(0, 60)} — prior filing:** “${excerpt(change.priorQuote)}”`);
+    lines.push(`- **Latest filing:** “${excerpt(change.newQuote)}”`);
+}
+
+function appendFinancialStory(lines, results, symbol) {
+    const annual = annualIncomeRows(results, symbol).reverse();
+    const revenueRows = annual.filter(row => Number.isFinite(Number(row.fields?.totalRevenue?.value)));
+    if (!revenueRows.length) return false;
+    const latest = revenueRows[revenueRows.length - 1];
+    const revenue = latest.fields.totalRevenue;
+    const netIncome = latest.fields.netIncome;
+    const latestCurrency = revenue.currency || latest.currency || '';
+    lines.push('\n**The financial story in the reported numbers**');
+    if (revenueRows.length > 1) {
+        const first = revenueRows[0], firstRevenue = first.fields.totalRevenue;
+        const firstCurrency = firstRevenue.currency || first.currency || '';
+        if (firstCurrency === latestCurrency) {
+            const doubled = Number(revenue.value) >= Number(firstRevenue.value) * 2;
+            const direction = Number(revenue.value) >= Number(firstRevenue.value) ? (doubled ? 'more than doubled' : 'increased') : 'decreased';
+            lines.push(`Revenue ${direction} from ${reportMoney(firstRevenue.value, firstCurrency)} for the period ended ${first.periodEnd} to ${reportMoney(revenue.value, latestCurrency)} for the period ended ${latest.periodEnd}.`);
+        }
+        const movements = [];
+        for (let i = 1; i < revenueRows.length; i++) {
+            const prior = revenueRows[i - 1], current = revenueRows[i];
+            const currentValue = Number(current.fields.totalRevenue.value), priorValue = Number(prior.fields.totalRevenue.value);
+            if (!Number.isFinite(currentValue) || !Number.isFinite(priorValue)) continue;
+            const change = annualChange(current, prior, 'totalRevenue');
+            const verb = currentValue >= priorValue ? 'rose' : 'fell';
+            movements.push(change === null ? `revenue ${verb} from ${reportMoney(priorValue, latestCurrency)} to ${reportMoney(currentValue, latestCurrency)} in the period ended ${current.periodEnd}`
+                : `revenue ${verb} ${Math.abs(change).toFixed(1)}% in the period ended ${current.periodEnd}`);
+        }
+        if (movements.length) lines.push(`Year to year, ${movements.join('; ')}.`);
+    }
+    if (Number.isFinite(Number(netIncome?.value))) {
+        const state = Number(netIncome.value) < 0 ? 'reported a net loss' : 'reported net income';
+        lines.push(`For the latest annual period ended ${latest.periodEnd}, ${symbol} ${state} of ${reportMoney(netIncome.value, netIncome.currency || latestCurrency)}.`);
+    }
+    const rd = latest.fields.researchAndDevelopment;
+    if (Number(rd?.value) >= 0 && Number(revenue.value) > 0 && rd.currency === revenue.currency && rd.sourceIds?.length && revenue.sourceIds?.length) {
+        const intensity = Number(rd.value) / Number(revenue.value) * 100;
+        lines.push(`Research and development was ${intensity.toFixed(1)}% of revenue in that same period, calculated from the two reported USD values.`);
+    }
+    lines.push('\n**The read**');
+    lines.push(revenueRows.length > 1
+        ? `The filings show a longer-term revenue increase with the year-to-year path above; they do not establish what caused each change. ${netIncome ? 'Profitability should be read from the reported net-income row, whose direction can differ from revenue.' : 'The available report rows do not include net income for the latest year.'}`
+        : `The available annual evidence covers ${latest.periodEnd}; it is not enough to establish a longer-term business trend.`);
+    lines.push(`\n> Next: Would you like the segment-level filing evidence behind ${symbol}’s revenue changes?`);
+    return true;
+}
+
 // If one bounded rewrite still fails validation, publish a factual receipt
 // rather than the rejected generated conclusions. No narrative is invented.
 function companyReportFallback(results, policy) {
@@ -1052,6 +1189,7 @@ function companyReportFallback(results, policy) {
         lines.push('\n**Attributed company profile context**',
             `- ${symbol} business description from [${businessContext.sourceName}](${businessContext.sourceUrl}), retrieved ${date}: ${words.slice(0, 20).join(' ')}${words.length > 20 ? '…' : ''}`);
     }
+    const financialStoryRecovered = appendFinancialStory(lines, all, symbol);
     if (!financialTables) lines.push('\nNo compatible annual or quarterly statement observations were returned for this report.');
     if (all.some(row => row.tool === 'get_segments')) appendSegmentSankey(lines, all, 'segments');
 
@@ -1088,15 +1226,17 @@ function companyReportFallback(results, policy) {
     }
     if (attempts.size) lines.push('\n**Source checks**', ...[...attempts.values()].slice(0, 12).map(attempt =>
         `- ${String(attempt.source).replace(/[\r\n]+/g, ' ').slice(0, 100)}: ${String(attempt.status).replace(/[\r\n]+/g, ' ').slice(0, 60)}${attempt.reason ? ` — ${attempt.reason}` : ''}.`));
-    lines.push('\n**Sections not synthesized**', policy?.story
-        ? '- The chronological business story, historical turning-point analysis, competitive and risk interpretation, and closing synthesis were not retained because the generated narrative did not pass validation.'
-        : '- Competitive differences, material-risk interpretation, valuation read-through, the annual trend chart, **The read**, and the closing **Next** question were not retained because the generated narrative did not pass validation.');
+    lines.push('\n**Sections not synthesized**', financialStoryRecovered
+        ? '- Product and customer narrative, segment drivers, peer positioning, material-risk interpretation, and dated valuation multiples could not be validated from the retrieved evidence. The financial trend above does not establish its causes.'
+        : '- Business narrative, segment drivers, peer positioning, material-risk interpretation, dated valuation, annual chart and closing synthesis could not be validated from the retrieved evidence.');
     return lines.join('\n');
 }
 
 function fallback(results, question = '', options = {}) {
     if (options.policy?.kind === 'company_report' && !options.policy.explicitWordLimit)
         return companyReportFallback(results, options.policy);
+    const comparison = comparisonFallback(results, question);
+    if (comparison) return comparison;
     const data = unwrap(results), sections = new Map();
     const hasFiled=data.some(r=>r.observations?.length);
     const lines = [hasFiled?'This is a partial answer using verified SEC evidence. Unverified figures are omitted.':'This is a partial answer using attributed financial evidence. Sources and dates are retained.'];
@@ -1192,6 +1332,7 @@ function fallback(results, question = '', options = {}) {
         else errors.add('Some requested research was unavailable.');
     }
     for (const error of errors) lines.push('\n' + error);
+    appendVerifiedFilingComparison(lines, results, question);
     appendDisclosureSummary(lines, results, question);
     return lines.join('\n');
 }
