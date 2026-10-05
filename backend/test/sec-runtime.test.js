@@ -12,3 +12,7 @@ test('cache invalidation removes only affected profiles and comparisons',()=>{
  const mw=require('../ssr-cache').middleware();mw.store.set('/stocks/AAPL','a'.repeat(500),'text/html');mw.store.set('/stocks/MSFT','b'.repeat(500),'text/html');mw.store.set('/compare/AAPL-vs-MSFT','c'.repeat(500),'text/html');
  mw.store.invalidateWhere(key=>key.includes('AAPL'));assert.equal(mw.store.get('/stocks/AAPL'),null);assert.equal(mw.store.get('/compare/AAPL-vs-MSFT'),null);assert.ok(mw.store.get('/stocks/MSFT'));
 });
+test('production cannot invoke the legacy path that writes committed financial files',async()=>{
+ const old=process.env.NODE_ENV;process.env.NODE_ENV='production';
+ try{assert.equal(await require('../sec-on-demand').refresh('AAPL'),false);}finally{if(old===undefined)delete process.env.NODE_ENV;else process.env.NODE_ENV=old;}
+});

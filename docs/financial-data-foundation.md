@@ -19,6 +19,9 @@ Field coverage is not a promise that every issuer discloses every metric.
 Industry coverage lists supported standard fields and remaining custom gaps
 separately. `/api/stock-coverage` retains the existing counts and adds this audit
 summary, its dated universe, source fingerprints and denominator descriptions.
+A compact reporting index retains latest interim filings and retrieval failures;
+its digest matches the public generation. The API reads a separately validated
+coverage summary instead of parsing the full per-issuer audit into app memory.
 
 ## Stored and requested evidence
 

@@ -144,7 +144,8 @@ function profile(ticker,options,seo) {
  const type=company.securityType || 'stock',isStock=type==='stock',ready=entry?.indexable && data?.coverage?.financialCoverage==='ready' && !require('./fundamentals-status').isUnlisted(symbol);
  const coverage=data?.coverage || {},annual=coverage.latestAnnual;
  const name=company.name,canonical=`https://www.stockportfolio.pro/stocks/${symbol}`;
- const title=`${seo.clipName(name,42)} (${symbol}): ${isStock?'SEC financials':type+' profile'}`;
+ const titleTail=` (${symbol}): ${isStock?'SEC financials':type.replace(/_/g,' ')+' profile'}`;
+ const title=`${seo.clipName(name,65-titleTail.length)}${titleTail}`;
  const descTail=` (${symbol}) ${isStock?'financial data with periods and SEC sources':'security profile and issuer filings'}. Financial coverage: ${coverage.financialCoverage || 'unavailable'}.`;
  const description=`${seo.clipName(name,158-descTail.length)}${descTail}`;
  const status=coverage.financialCoverage || 'unavailable';
@@ -165,7 +166,7 @@ function profile(ticker,options,seo) {
  const price=value=>p.number(value)===null?'—':(quote.currency==='USD'?'$':quote.currency+' ')+p.number(value).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:4});
  const overlay=quote?.marketCapSource==='sec-shares';
  const stats=[['Price',price(quote?.price)],...(isStock?[['Market Cap',overlay?'—':amount(quote?.marketCap,quote?.currency)],['P/E Ratio',!coverage.perShareAllowed || p.number(quote?.trailingPE)===null?'—':p.number(quote.trailingPE).toFixed(2)],['52-Week High',price(quote?.fiftyTwoWeekHigh)],['52-Week Low',price(quote?.fiftyTwoWeekLow)]]:[])];
- const quoteHtml=quote?.asOf?`<section class="seo-section"><h2>Market snapshot</h2><div class="seo-stats">${stats.map(([name,value])=>`<div><div class="l">${name}</div><div class="v">${seo.esc(value)}</div><div class="n">as of ${seo.esc(quote.asOf)} · ${label}</div></div>`).join('')}</div><p>Source: Yahoo Finance ${present && supplied.source==='live'?'live quote':'daily snapshot'}. Market prices and ratios are separate from SEC financial statements.</p></section>`:'';
+ const quoteHtml=quote?.asOf?`<section class="seo-section"><h2>Market snapshot</h2><div class="seo-stats">${stats.map(([name,value])=>`<div><div class="l">${name}</div><div class="v">${seo.esc(value)}</div><div class="n">as of ${seo.esc(quote.asOf)} · ${label}</div></div>`).join('')}</div><p>Source: Yahoo Finance ${present && supplied.source==='live'?'provider quote':'daily snapshot'}. Market prices and ratios are separate from SEC financial statements.</p></section>`:'';
  const filing=annual?`<a href="${seo.esc(annual.filingUrl)}">${seo.esc(annual.form)} filed ${seo.esc(annual.filingDate)}</a> · report period ${seo.esc(annual.reportDate)}`:company.cik?`<a href="https://www.sec.gov/edgar/browse/?CIK=${seo.esc(company.cik)}">Issuer filings on SEC EDGAR</a>`:'SEC issuer identity has not yet been verified.';
  const annualCount=new Set(income.map(r=>r.fiscalDateEnding)).size;
  const jsonld=JSON.stringify({'@context':'https://schema.org','@type':'WebPage',name:title,url:canonical,description});

@@ -1,0 +1,82 @@
+{
+  "date": "2026-10-05",
+  "datasetId": "66921b62f4eda7da2847acce0fdcf3f5d6e404b06c7d091a0b99acbaa05b74ef",
+  "stockUniverse": {
+    "directoryRecords": 13295,
+    "stockListings": 5607,
+    "uniqueIssuers": 5522,
+    "adrs": 323,
+    "funds": 6118,
+    "unresolved": 0,
+    "retainedInstrumentsByType": {
+      "closed_end_fund": 360,
+      "unit": 94,
+      "right": 38
+    }
+  },
+  "coverage": {
+    "stockListings": 5607,
+    "uniqueIssuers": 5522,
+    "unresolvedStockListings": 11,
+    "unresolvedSupplementalNeededListings": 11,
+    "accessibleSecFilings": 5503,
+    "usableStructuredSecFinancials": 5432,
+    "coreAnnualFinancialIssuers": 4176,
+    "fiveAnnualCorePeriods": 3696,
+    "fourConsecutiveIncomeQuarters": 3376,
+    "relevantIndustryCoreFields": 1859,
+    "supplementalNeededIssuers": 4392,
+    "failedFilingChecks": 0,
+    "failedFinancialChecks": 1
+  },
+  "fullBackendTests": {
+    "total": 1299,
+    "passed": 1294,
+    "failed": 5,
+    "baselineFailures": [
+      "metric-ownership: WAB answer-first content",
+      "metric-ownership: exact metric navigation labels",
+      "money-formatter: scaled-value precision assertion",
+      "reasoning-effort-coupling: obsolete glm-5.1 effort pin",
+      "reliability-guard: healthChecksFromData source assertion"
+    ]
+  },
+  "coreFailure": {
+    "symbol": "MUR",
+    "reason": "EXTRACTION_DISCARDED_VALID_PERIOD: income.grossProfit",
+    "behaviour": "Prior validated evidence retained with unsuccessful extraction status"
+  },
+  "originalDisclosures": {
+    "success": 5158,
+    "unsupportedExtraction": 76,
+    "retrievalFailedAfterRetry": 45
+  },
+  "productionInfrastructure": {
+    "workflowRun": 37262137896,
+    "publicCacheCappedBytes": 67108864,
+    "sharedSecAllocator": true,
+    "financialTestRecordsWritten": 0,
+    "accountCollectionsAccessed": 0
+  },
+  "ollamaCalls": 0,
+  "otherModelCalls": 0,
+  "browserVerification": {
+    "local": "1100px and 390px passed",
+    "authenticatedProduction": "Unmet: login page returned HTTP 403 before authentication"
+  },
+  "stoppedAskReportRelease": "Separate and unchanged",
+  "deployment": "Local gates passed; authorized rollout through main deployment workflow",
+  "targetedTests": {
+    "total": 458,
+    "passed": 458,
+    "failed": 0
+  },
+  "renderingGate": {
+    "ok": true,
+    "profiles": 6099,
+    "metrics": 28804,
+    "comparisons": 2897,
+    "shards": 9,
+    "errors": []
+  }
+}

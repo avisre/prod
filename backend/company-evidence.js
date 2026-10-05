@@ -16,7 +16,7 @@ function createResolver(deps={}) {
   const index=require('./public-stock-index').view();const entry=index.issuers[p.cik(company.cik)];
   const data=verified.loadIssuer(p.cik(company.cik),entry?.financialDigest || entry?.evidence?.financialDigest);
   const supplemental=require('./committed-supplements').forIssuer(identity(company));
-  return {financial:data,reporting:entry?.evidence || {},supplemental,attempts:[]};
+  return {financial:data,reporting:{...require('./company-reporting').get(company.cik,index),...entry?.evidence},supplemental,attempts:[]};
  }
  function projection(company,state,fields,periods) {
   const filed=obs.observations(state.financial),supplemental=obs.reconcile(filed,(state.supplemental || []).filter(f=>obs.validSupplement(f,identity(company))));

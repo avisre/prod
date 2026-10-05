@@ -1,5 +1,6 @@
 'use strict';
-// Single-issuer refresh only. The daily builder owns universe-wide maintenance.
+// Legacy local overrides. Production requests use the public evidence cache;
+// the weekly builder owns committed universe-wide maintenance.
 const fs=require('node:fs'),path=require('node:path');
 const p=require('./sec-coverage'),index=require('./public-stock-index');
 const pending=new Map(),cooldowns=new Map(),rows=new Map(),listeners=new Set();
@@ -7,6 +8,7 @@ let requests=[];
 function onChange(fn){listeners.add(fn);return ()=>listeners.delete(fn);}
 function screenOverrides(){for(const item of Object.values(index.view().issuers))for(const row of item.runtimeScreenRows || [])rows.set(row.symbol,row);return rows;}
 async function refresh(symbol){
+ if(process.env.NODE_ENV==='production')return false;
  if(process.env.SEC_COVERAGE_DISABLE_ON_DEMAND==='1' || process.env.SEC_COVERAGE_READ_ONLY==='1')return false;
  const stocks=require('./stock-universe'),company=stocks.lookup(symbol),id=p.cik(company?.cik);
  if(!id || company.securityType!=='stock')return false;

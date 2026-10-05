@@ -310,7 +310,7 @@ test('metric pages carry the sector percentile, peer table and update-frequency 
     assert.ok(html);
     assert.match(html, /percentile of the Information Technology sector/);
     assert.match(html, /vs\. Information Technology sector peers/);
-    assert.match(html, /Update frequency: SEC reporting checked daily/);
+    assert.match(html, /Update frequency: the complete stock universe is reconciled weekly/);
     assert.match(html, /<a href="\/stocks\/MSFT\/revenue">MSFT<\/a>/);
     // A metric whose sector has no comparable peers must degrade without crashing.
     const html2 = extra.renderMetricPage('NVDA', 'eps');

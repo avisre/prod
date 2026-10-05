@@ -67,7 +67,7 @@ test('the stock page shows the supplied price with its as-of label', () => {
     assert.match(daily, /<div class="l">Price<\/div><div class="v">\$58\.16<\/div><div class="n">as of 2026-09-25 · last close<\/div>/);
 
     const live = seo.renderStockPage('EXEL', { quote: { price: 58.4, asOf: '2026-09-28', source: 'live' } });
-    assert.match(live, /\$58\.40<\/div><div class="n">as of 2026-09-28 · live<\/div>/);
+    assert.match(live, /\$58\.40<\/div><div class="n">as of 2026-09-28 · dated quote<\/div>/);
 
     // Sync callers (scripts, older tests) still render, labelled as cached.
     assert.match(seo.renderStockPage('EXEL'), /cached/);

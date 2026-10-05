@@ -1,0 +1,32 @@
+[
+  {
+    "symbol": "AMD",
+    "retrievedAt": "2026-10-05T03:59:23.063Z",
+    "currency": "USD",
+    "annualPeriods": 4,
+    "quarterlyPeriods": 5,
+    "datedQuote": "2026-10-02",
+    "errors": [],
+    "modelCalls": 0
+  },
+  {
+    "symbol": "TSM",
+    "retrievedAt": "2026-10-05T03:59:23.606Z",
+    "currency": "TWD",
+    "annualPeriods": 4,
+    "quarterlyPeriods": 5,
+    "datedQuote": "2026-10-02",
+    "errors": [],
+    "modelCalls": 0
+  },
+  {
+    "symbol": "BBAI",
+    "retrievedAt": "2026-10-05T03:59:24.002Z",
+    "currency": "USD",
+    "annualPeriods": 4,
+    "quarterlyPeriods": 5,
+    "datedQuote": "2026-10-02",
+    "errors": [],
+    "modelCalls": 0
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "ok": true,
+  "asOf": "2026-10-05",
+  "policyVersion": 1,
+  "datasetId": "66921b62f4eda7da2847acce0fdcf3f5d6e404b06c7d091a0b99acbaa05b74ef",
+  "counts": {
+    "listedSecurities": 6099,
+    "identifiedIssuers": 5522,
+    "recentAnnualIssuers": 5257,
+    "financialReadyIssuers": 4593,
+    "partialFinancialIssuers": 412,
+    "historicalOnlyIssuers": 427,
+    "unavailableFinancialIssuers": 90,
+    "screenableListings": 4649,
+    "screenableIssuers": 4593
+  },
+  "financialFiles": 5756,
+  "verifiedValues": 5564534,
+  "unresolvedIdentityMappings": 17,
+  "networkFailures": 0,
+  "financialFailures": 1,
+  "successfulSubmissions": 5522,
+  "completedFacts": 5256,
+  "submissionsPercent": 100,
+  "factsPercent": 99.98097774396044,
+  "errors": []
+}

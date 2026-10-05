@@ -85,7 +85,7 @@ test('a profile built on a timed-out lookup expires in a minute, not half an hou
     // it. A fund that simply has no filed table (SPY, GLD) is not a timeout and
     // keeps the normal TTL, so those do not re-hit Yahoo every minute.
     assert.ok(profileSource.includes('const FEE_RETRY_TTL_MS = 60 * 1000;'));
-    assert.ok(profileSource.includes('ttl: feeLookup.timedOut ? FEE_RETRY_TTL_MS : TTL_MS'));
+    assert.ok(profileSource.includes("ttl: assetType==='stock'?60*1000:feeLookup.timedOut ? FEE_RETRY_TTL_MS : TTL_MS"));
     assert.ok(profileSource.includes('(hit.ttl || TTL_MS)'));
 });
 

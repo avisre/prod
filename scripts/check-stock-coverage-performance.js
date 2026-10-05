@@ -6,6 +6,8 @@ const {performance}=require('node:perf_hooks'),http=require('node:http');
 async function main(){
  const timings={},measure=(name,fn)=>{const t=performance.now(),value=fn();timings[name]=performance.now()-t;return value;};
  const index=measure('coldPublicSnapshotMs',()=>require('../backend/public-stock-index').view());
+ measure('coldReportingMetadataMs',()=>require('../backend/company-reporting').load(index));
+ measure('coldFinancialCoverageMs',()=>require('../backend/financial-coverage').summary(index.datasetId));
  const ai=measure('coldScreenSnapshotMs',()=>require('../backend/ai-chat').buildScreenIndex());
  const seo=require('../backend/seo-pages'),extra=require('../backend/seo-extra');
  const root=measure('coldSitemapMs',()=>seo.buildSitemap());

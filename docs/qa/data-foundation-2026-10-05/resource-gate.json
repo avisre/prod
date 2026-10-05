@@ -1,0 +1,31 @@
+{
+  "ok": true,
+  "heapLimitMiB": 256,
+  "timings": {
+    "coldPublicSnapshotMs": 123.45195900000002,
+    "coldReportingMetadataMs": 27.070208000000008,
+    "coldFinancialCoverageMs": 0.6206249999999898,
+    "coldScreenSnapshotMs": 151.807667,
+    "coldSitemapMs": 71.649834,
+    "allSitemapShardsMs": 5.750292000000002,
+    "representativeProfilesMs": 139.35749999999996,
+    "representativeMetricsMs": 79.15724999999998
+  },
+  "rssMiB": 327.328125,
+  "maxEventLoopDelayMs": 30.602125,
+  "maxHealthBatchMs": 48.01912500000003,
+  "screenRows": 4649,
+  "cache": {
+    "entries": 5,
+    "bytes": 38499,
+    "sitemapBytes": 217,
+    "activeColdRenders": 0,
+    "hits": 94,
+    "misses": 6,
+    "stores": 6,
+    "evictions": 0,
+    "stale": 0,
+    "shed": 0
+  },
+  "scope": "Isolated local HTTP harness; not a production load test or full application startup."
+}

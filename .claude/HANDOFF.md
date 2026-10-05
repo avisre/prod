@@ -47,32 +47,43 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
-## Data foundation implementation — 2026-10-05 (not deployed)
+## Data foundation implementation — 2026-10-05 (release gates)
 
 - Isolated checkout: `/Users/drasharaghavan/worktrees/data-foundation-20261005`, branch
-  `data-foundation-20261005`, based on production main `76b178ee`. Initial implementation commit
-  `af97f900` is pushed to the feature branch only. The original Ask/Claude worktree is preserved.
-- Deterministic SEC core repairs, source provenance, classified universe, shared evidence resolver,
-  bounded public Mongo cache, current quote timestamps, weekly whole-universe reconciliation and
-  additive coverage/source metadata are implemented. See `docs/financial-data-foundation.md`.
-- Production infrastructure check `37257597183` passed: capped 64MiB public cache and shared SEC
-  allocator; zero account collections accessed, financial test records written or model calls.
-- Full backfill is running with two workers/checkpoints every 20. Candidate counts and deployment
-  gates are pending. Do not promote a partially built or mismatched generation.
-- The original temporary checkout/backfill disappeared when `/tmp` was cleared externally. Code
-  was recovered from the session record; the backfill was restarted in the permanent checkout.
-  Durable logs/artifacts are in `/Users/drasharaghavan/worktrees/data-recovery-20261005`.
-- Local company/fund browser QA passed at 1100px and 390px. Production login returned 403 before
-  authentication; signed-in rendered-page verification remains unmet. Do not equate API health
-  with authenticated browser verification. No Ollama/model probes have been run.
-- The stopped longer Ask-report release remains separate. Do not change its report word policy.
+  `data-foundation-20261005`; production main `264b32aa` has been merged, preserving the
+  entitlement and navigation fixes. The original Ask/Claude working tree is untouched.
+- Core extraction and full-universe backfill completed. Dated universe: **5,607 stocks,
+  5,522 identified issuers, 323 ADR listings, 11 listings without confirmed SEC identity**.
+  Exchange-source rows: 13,295, all classified. ETFs (5,758) and closed-end funds (360)
+  are separate. Legacy public directory: 6,099 instruments, including retained units/rights.
+- SEC coverage: 5,503 issuers with accessible filings; 5,432 with structured financials;
+  4,176 core annual histories; 3,696 five-annual-period histories; **3,376 four consecutive
+  revenue/net-income quarters**. Financial-ready issuers: 4,593; screenable listings: 4,649.
+- All current issuers reconciled. One core extraction failure (MUR) retains dated last-good
+  evidence. Original disclosures: 5,158 success, 76 unsupported, 45 retrieval failures after
+  retry. Those gaps and unsupported industry KPIs are explicit; this is not complete coverage.
+- Generation `66921b62f4eda7da2847acce0fdcf3f5d6e404b06c7d091a0b99acbaa05b74ef` passed
+  provenance/fingerprint validation for 5,564,534 values. Resource gate passed under a
+  256MiB heap with 338MiB peak RSS. See `docs/financial-data-foundation.md`.
+- Production infrastructure check `37262137896` passed: capped 64MiB public cache and
+  shared SEC allocator; zero account collections accessed or financial test records written.
+- Local browser QA passed at 1100px and 390px. Production login returned 403 before
+  authentication; signed-in rendered-page verification remains unmet. Zero Ollama/model calls.
+- Durable logs: `/Users/drasharaghavan/worktrees/data-recovery-20261005`. The original
+  temporary checkout disappeared during external `/tmp` cleanup; permanent backfill completed.
+- Release gates: targeted **458/458**; full **1,294/1,299** (five reproduced baseline
+  failures only); exhaustive **6,099 profiles / 28,804 metrics / 2,897 comparisons**, zero
+  errors. QA receipts: `docs/qa/data-foundation-2026-10-05/`.
+- Candidate asset stamp `20261005-financial1`; local gates passed, deployment pending CI.
+  Current production is `264b32aa`, stamp `20261005-navtray1`.
+- The stopped longer Ask-report release remains separate; its report word policy is unchanged.
 
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
   deploy `dep-db181bvavr4c73an2krg` through workflow `37216736433`; the workflow confirmed the deployed
   commit. `/api/health` returned 200 with `{"ok":true}`. Direct requests to `/ask` and the stamped asset
   returned 403 from this environment, so authenticated rendered-page verification is still unavailable.
-  Asset stamp: `20261005-financial1`.
+  Historical Ask asset stamp: `20261004-askfacet1`.
 - The earlier rollback `97c61b35` deployed as `dep-db0uvplg1s2s73fplsq0` through workflow `37182036116`.
   Its historical evidence remains in `docs/qa/ask-rollback-2026-10-04/release.json`.
 - Earlier the same day, the SEC coverage release `73186a12` deployed and passed independent production
@@ -143,7 +154,7 @@ All six failures reproduced on the untouched pre-release production tree (stale 
 model-routing and reliability assertions, plus a long SEO description). GitHub's committed dataset,
 exhaustive public rendering and resource gates all passed. Faceted bars render
 correctly at 1100px and 390px — one panel per metric, values printed, all five period labels survive at phone
-width, no horizontal overflow. Cache stamp `20261005-financial1` sits on all 88 pages that load
+width, no horizontal overflow. Historical Ask cache stamp `20261004-askfacet1` sat on all 88 pages that load
 `app.js`/`system.css` plus the `${STAMP}` server-rendered pages (the three HTML files without it do not
 reference the assets).
 

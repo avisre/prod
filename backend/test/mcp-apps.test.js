@@ -244,7 +244,7 @@ test('get_metric_history returns a single metric oldest-first, including SEC-der
         assert.match(o.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
     }
     assert.ok(filed.every(o=>o.source?.periodEnd===o.period_end));
-    assert.ok(!payload.observations.some(o=>o.period_end==='2025-09-27'),'the annual weighted average is never substituted for Q4');
+    assert.ok(!filed.some(o=>o.period_end==='2025-09-27'),'the annual weighted average is never substituted for Q4; its absent quarterly value remains null');
 });
 
 test('comparison accepts 2-5 companies and refuses more', async (t) => {

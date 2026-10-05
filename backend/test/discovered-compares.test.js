@@ -3,7 +3,10 @@ const assert = require('node:assert');
 const fs = require('fs');
 const path = require('path');
 
-test('discovered compare pairs reach the sitemap', () => {
+test('discovered compare pairs reach the sitemap', (t) => {
+    const readOnly=process.env.SEC_COVERAGE_READ_ONLY;
+    delete process.env.SEC_COVERAGE_READ_ONLY;
+    t.after(()=>{if(readOnly===undefined)delete process.env.SEC_COVERAGE_READ_ONLY;else process.env.SEC_COVERAGE_READ_ONLY=readOnly;});
     const snap = path.join(__dirname, '..', 'discovered-compares.json');
     try { fs.unlinkSync(snap); } catch (_) {}
     const seoExtra = require('../seo-extra');

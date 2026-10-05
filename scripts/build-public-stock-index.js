@@ -33,7 +33,8 @@ function build({asOf=p.day(new Date().toISOString()),write=true}={}) {
  }
  for(const c of directory.companies.filter(c=>!p.cik(c.cik))){const contentDigest=p.digest(c),old=oldSecurities.get(c.symbol);securities.push({...c,cik:null,aliases:[],annualReportingStatus:'unverified',financialCoverage:'unavailable',indexable:false,screenable:false,metricSlugs:[],priceHistory:false,financialDigest:null,contentDigest,lastmod:old?.contentDigest===contentDigest?old.lastmod:asOf});}
  const rank=new Map(directory.companies.map((c,i)=>[c.symbol,i]));securities.sort((a,b)=>rank.get(a.symbol)-rank.get(b.symbol));
- const sourceFingerprints={supplementalDigest:require('../backend/committed-supplements').fingerprint(),directoryDigest:p.digest(directoryRaw),reportingDigest:p.digest(report),financialDigests:p.digest(Object.entries(issuers).map(([id,i])=>[id,i.financialDigest])),quotesDigest:p.digest(marketDigests),priceHistoryDigest:p.digest(priceDigests),fxDigest:p.digest(rates),screenRowsDigest:p.digest(rows)};
+ const reportingMetadata=require('../backend/company-reporting').metadata(report);
+ const sourceFingerprints={reportingMetadataDigest:p.digest(reportingMetadata),supplementalDigest:require('../backend/committed-supplements').fingerprint(),directoryDigest:p.digest(directoryRaw),reportingDigest:p.digest(report),financialDigests:p.digest(Object.entries(issuers).map(([id,i])=>[id,i.financialDigest])),quotesDigest:p.digest(marketDigests),priceHistoryDigest:p.digest(priceDigests),fxDigest:p.digest(rates),screenRowsDigest:p.digest(rows)};
  const datasetId=p.digest({asOf,sourceFingerprints,policyVersion:1,securities:securities.map(s=>s.contentDigest)});
  const comparisonPairs=[];const bySector=new Map();for(const s of securities.filter(s=>s.screenable && s.sector)){const list=bySector.get(s.sector)||[];list.push(s);bySector.set(s.sector,list);}
  const seen=new Set();for(const list of bySector.values())for(let i=0;i<list.length;i++)for(let offset=1;offset<=2;offset++){const peer=list[i+offset];if(peer && peer.cik!==list[i].cik){const pair=[list[i].symbol,peer.symbol].sort().join('-vs-');if(!seen.has(pair) && comparisonPairs.length<5000){seen.add(pair);comparisonPairs.push(pair);}}}
@@ -41,7 +42,9 @@ function build({asOf=p.day(new Date().toISOString()),write=true}={}) {
  const screenSnapshot={v:4,policyVersion:1,generatedAt:publicSnapshot.generatedAt,asOf,datasetId,rowsDigest:sourceFingerprints.screenRowsDigest,count:rows.length,rows};
  for(const doc of [publicSnapshot,screenSnapshot])if(Buffer.byteLength(JSON.stringify(doc))>8*1024*1024)throw new Error('Snapshot exceeds 8 MiB');
  if(write){
+  p.atomicWrite(path.join(p.DATA_DIR,'financial-reporting-index.json'),{schemaVersion:1,datasetId,reportingDigest:sourceFingerprints.reportingDigest,issuers:reportingMetadata});
   require('./lib/publish-stock-snapshots').publish(p.DATA_DIR,publicSnapshot,screenSnapshot);
+  require('../backend/company-reporting').invalidate();
   require('../backend/public-stock-index').invalidate();
   require('./build-financial-coverage').build();
   require('../backend/financial-coverage').invalidate();

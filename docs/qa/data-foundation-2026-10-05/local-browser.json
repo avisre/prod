@@ -1,0 +1,28 @@
+{
+  "mode": "local fixture-based browser QA",
+  "authenticatedProduction": false,
+  "providerCalls": 0,
+  "modelCalls": 0,
+  "results": [
+    {
+      "width": 1100,
+      "overflow": {
+        "viewport": 1100,
+        "scroll": 1100
+      },
+      "scriptErrors": [],
+      "stockSourcePanel": "pass",
+      "separateClosedEndFund": "pass"
+    },
+    {
+      "width": 390,
+      "overflow": {
+        "viewport": 390,
+        "scroll": 390
+      },
+      "scriptErrors": [],
+      "stockSourcePanel": "pass",
+      "separateClosedEndFund": "pass"
+    }
+  ]
+}
