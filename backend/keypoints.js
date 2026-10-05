@@ -92,18 +92,31 @@ function writeCache(query, payload) {
 
 // Extract one filing. Keyed on the accession alone, so a Deep run reuses any
 // year already extracted — and next year's Deep run reuses two of three.
-async function extractOneFiling(symbol, tenK, { allowAi = true } = {}) {
+async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = false } = {}) {
     const key = { symbol, accession: tenK.accession, depth: 'standard' };
-    const cached = await readCache(key);
+    const cached = contextOnly && mongoose.connection.readyState !== 1 ? null : await readCache(key);
     if (cached) return cached;
 
-    if (!allowAi || !aiClient.isConfigured()) {
+    if (!contextOnly && (!allowAi || !aiClient.isConfigured())) {
         return { error: 'Key points are available to signed-in paid users after generation.' };
     }
 
-    const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 60e6 });
+    if (contextOnly && (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1')) return { error: 'No cached official business context; live original-document retrieval is disabled in this review.' };
+    if (contextOnly) await require('./sec-throttle').take();
+    const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: contextOnly ? 15000 : 30000, maxContentLength: contextOnly ? 15e6 : 60e6 });
     const extracted = filingSections.extractSections(r.data, { form: tenK.form });
     if (!Object.keys(extracted.sections).length) return { error: `Could not read the ${tenK.form || '10-K'} text.` };
+    if (contextOnly) {
+        const sections = Object.entries(extracted.sections).map(([key, section]) => ({
+            heading: section.label || key, text: section.text.slice(0, /risk/i.test(section.label || '') ? 6000 : 9000)
+        }));
+        let budget = 28000;
+        const bounded = sections.flatMap(section => { if (!budget) return []; const text = section.text.slice(0, budget); budget -= text.length; return [{ ...section, text }]; });
+        return { symbol, sourceType: 'sec_filing_context', filing: { form: tenK.form, date: tenK.date, url: tenK.url, accession: tenK.accession },
+            sections: bounded, retrievedAt: new Date().toISOString(), sourceUrl: tenK.url,
+            note: 'Original issuer filing excerpts, without an additional model extraction. Use supported business and risk context; financial values still need supplied observations.' };
+    }
+
 
     const tryParse = (msg) => {
         try {
@@ -225,7 +238,16 @@ async function extractDeep(symbol, tenKs, { allowAi = true } = {}) {
     return payload;
 }
 
-async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard' } = {}) {
+async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard', contextOnly = false, filingReference = null } = {}) {
+    if (contextOnly) {
+        const company = require('./stock-universe').lookup(symbol);
+        const annual = filingReference || (company && require('./public-stock-index').view().issuers[require('./sec-coverage').cik(company.cik)]?.evidence?.latestAnnual);
+        if (annual?.primaryDocument && /^[\w.-]+\.html?$/i.test(annual.primaryDocument)) {
+            return extractOneFiling(symbol, { form: annual.form, date: annual.filingDate,
+                accession: annual.accessionNumber, url: String(annual.filingUrl).replace(/[^/]*$/, '') + annual.primaryDocument }, { allowAi: false, contextOnly: true });
+        }
+        if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return { error: 'No cached original annual business document is available; live retrieval is disabled in this review.' };
+    }
     const filings = await watchdog.fetchRecentFilings(symbol);
     if (!filings) return { error: 'No SEC filings found for this company.' };
     // Any annual report, not literally a 10-K: a foreign private issuer files
@@ -236,7 +258,7 @@ async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard' } =
 
     return depth === 'deep'
         ? extractDeep(symbol, tenKs.slice(0, 3), { allowAi })
-        : extractOneFiling(symbol, tenKs[0], { allowAi });
+        : extractOneFiling(symbol, tenKs[0], { allowAi, contextOnly });
 }
 
 module.exports = { extractKeyPoints, DEPTHS: ['standard', 'deep'], KEYPOINTS_VERSION };

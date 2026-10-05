@@ -29,6 +29,11 @@ test('missing stored history can return separately attributed Yahoo observations
 test('recent annual check does not suppress retrieval for missing interim periods',async()=>{
  const x=setup();x.evidence.lastSuccessfulCheckAt=new Date().toISOString();const a=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:4});assert.equal(x.calls(),1);assert.ok(a.remainingGaps.some(g=>g.basis==='quarterly'));assert.ok(a.coverage.sourceAttempts.some(s=>s.source==='Yahoo Finance'));
 });
+test('a requested missing business profile is fetched even when stored core financial history is complete and fresh',async()=>{
+ const {doc,evidence}=fixture();evidence.lastSuccessfulCheckAt=new Date().toISOString();let yahoo=0;
+ const x=setup({baseline:()=>({financial:extract(doc,evidence),reporting:evidence,supplemental:[]}),yahoo:async()=>{yahoo++;return {fetchedAt:new Date().toISOString(),overview:{Description:'Issuer business description'},statements:{}};}});
+ const result=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:0,businessProfile:true});assert.equal(yahoo,1);assert.equal(result.data.businessProfile.overview.Description,'Issuer business description');assert.equal(result.data.businessProfile.sourceName,'Yahoo Finance');assert.deepEqual(result.remainingGaps,[]);
+});
 test('identity and fund routes do not borrow company financials',async()=>{
  const a=setup({lookup:()=>null});await assert.rejects(a.resolver.getCompanyEvidence('EX'),{code:'UNKNOWN_LISTING'});const b=setup({lookup:()=>({...company,securityType:'closed_end_fund'})});await assert.rejects(b.resolver.getCompanyEvidence('EX'),{code:'UNSUPPORTED_SECURITY_TYPE'});
 });

@@ -1,0 +1,255 @@
+{
+  "fixture": true,
+  "question": "BRAI",
+  "mode": "normal",
+  "answer": "# Braiin Limited (BRAI)\n\n**Review fixture:** assembled deterministically from production data tools. This is not a model-generated investment report. It demonstrates the report policy, financial tables and product renderer without spending model quota.\n\n## What the business does\n\nBraiin Limited operates as an agriculture and analytics services company that provides solutions to improve farming productivity using IoTs, Wireless Connectivity, Robotics, Software, and AI/ML in Australia and New Zealand.\n\nBusiness-description source: stored Yahoo Finance profile; its original retrieval date is unavailable in this legacy cache. A customer report must check official publications or retrieve a dated profile before treating it as current.\n\n## Customers, products and revenue streams\n\nAn investor needs to understand who buys the company’s products, how those customers use them and which divisions earn the revenue. The financial statements establish reported company totals. They do not, by themselves, establish the product mix, recurring nature of sales or bargaining power of individual customers. Those explanations require the supplied original business disclosure.\n\nThe offline probe does not establish a complete division or segment breakdown. That remains a specific disclosure gap; no division share is estimated from a company total.\n\n## Four reported quarters\n\nCompatible filed history is unavailable for this section.\n\nThe quarter table uses actual fiscal period ends and the reported currency. This matters when a company’s financial year differs from the calendar year. A directly reported quarter and a compatible derived quarter are observations with different evidence paths. The derivation retains its source inputs. Missing history stays unavailable and a reported zero remains a valid value.\n\nCompatible quarterly ratios are unavailable; no annual ratio is substituted for a quarter.\n\n## Five annual periods\n\nCompatible filed history is unavailable for this section.\n\nThe annual history places the most recent quarter in a longer financial context. Revenue measures the amount the business earned from its customers. Gross profit is what remains after the associated direct costs. Operating income reflects operating expenses as well. Net income includes further items such as financing and taxes. These definitions help a Simple reader interpret the same evidence that an Analyst reader receives.\n\nA chart shows the direction and shape of that history; the table preserves exact values. The model may use a line or bars for a comparable annual series. When metrics are very different in size, separate bar panels preserve readable values. Different currencies and accounting definitions remain separate. A dated provider series may fill an otherwise unavailable annual chart, with its source named visibly.\n\n## Competitive differences\n\nPeer positioning is useful only when the companies and metrics are comparable. A sector median supplies context rather than a conclusion about the business. The production peer tool provides an industry profile so the final model can choose the relevant measures and explain their limits. A bank, semiconductor designer and property owner should not be judged by an identical generic set of ratios.\n\n## Material risks\n\nCompany-specific risk explanations require original disclosures or fetched reputable articles. Statement history can reveal a financial pattern, but it does not establish the cause of that pattern. The offline probe makes no unsupported claim about a customer, product, regulatory proceeding or future outcome. A live report must retrieve that context and distinguish observed history from an uncertain explanation.\n\n## Dated valuation\n\nStored quote: currency unavailable 7.8, as of 2026-06-11. Source: cached close.\n\nMarket prices and financial statements have different clocks. A dated close is useful evidence and should keep its actual timestamp, including when a market is closed or a provider is unavailable. A valuation multiple also needs compatible financial inputs. Missing per-share evidence cannot be repaired by attaching an issuer’s unverified share-class figure to the requested listing.\n\n**The read** — The displayed tables and chart can be checked against supplied observations. The business, competitive and risk discussion still needs original context where the offline cache leaves a gap. This fixture verifies the mechanics and layout; live model response quality remains a separate, deferred check.\n\n> Next: Which reported business division drives the revenue trend?",
+  "source": "ai",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "BRAI",
+        "statement": "income",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "BRAI",
+        "statement": "balance",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "BRAI",
+        "statement": "cash",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "BRAI",
+        "statement": "income",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "BRAI",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "BRAI",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "BRAI"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "BRAI"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "BRAI"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "BRAI"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "BRAI"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "BRAI",
+        "missingFields": [
+          "totalRevenue",
+          "netIncome"
+        ],
+        "missingSections": [
+          "segments",
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true
+    }
+  ],
+  "totalTokens": 0,
+  "ms": 23,
+  "generatedAt": "2026-10-05T10:12:40.696Z",
+  "quality": {
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "normal",
+      "company": {
+        "symbol": "BRAI",
+        "name": "Braiin Limited",
+        "securityName": "Braiin Limited - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "BRAI"
+        ],
+        "isADR": false,
+        "cik": "0002076975"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "policyVersion": 2,
+    "proseWords": 666,
+    "tableRows": 0,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_financials",
+        "reason": "No verified financial data is available for BRAI."
+      },
+      {
+        "tool": "get_financials",
+        "reason": "No verified financial data is available for BRAI."
+      },
+      {
+        "tool": "get_financials",
+        "reason": "No verified financial data is available for BRAI."
+      },
+      {
+        "tool": "get_financials",
+        "reason": "No verified financial data is available for BRAI."
+      },
+      {
+        "tool": "get_ratios_history",
+        "reason": "No compatible verified annual financial history for BRAI."
+      },
+      {
+        "tool": "get_ratios_history",
+        "reason": "No compatible verified quarterly financial history for BRAI."
+      },
+      {
+        "tool": "get_segments",
+        "reason": "No stored compatible segment group; live extraction is disabled in this review."
+      },
+      {
+        "tool": "get_key_points",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "tool": "get_filing_diff",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "field": "totalRevenue",
+        "basis": "annual",
+        "state": "missing",
+        "reason": "Insufficient compatible reported periods",
+        "availablePeriods": 0,
+        "requiredPeriods": 5,
+        "sourcesAttempted": []
+      },
+      {
+        "field": "netIncome",
+        "basis": "annual",
+        "state": "missing",
+        "reason": "Insufficient compatible reported periods",
+        "availablePeriods": 0,
+        "requiredPeriods": 5,
+        "sourcesAttempted": []
+      },
+      {
+        "field": "totalRevenue",
+        "basis": "quarterly",
+        "state": "missing",
+        "reason": "Insufficient compatible reported periods",
+        "availablePeriods": 0,
+        "requiredPeriods": 4,
+        "sourcesAttempted": []
+      },
+      {
+        "field": "netIncome",
+        "basis": "quarterly",
+        "state": "missing",
+        "reason": "Insufficient compatible reported periods",
+        "availablePeriods": 0,
+        "requiredPeriods": 4,
+        "sourcesAttempted": []
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      },
+      {
+        "section": "segments",
+        "state": "missing",
+        "reason": "This supplemental financial resolver does not establish that section. Use the dedicated segment, quote or original-document tool; preserve a gap when those sources fail."
+      }
+    ]
+  }
+}

@@ -8,10 +8,12 @@ const http = require('node:http');
 const root = path.resolve(__dirname, '..');
 const backend = path.join(root, 'backend');
 const port = Number(process.env.ASK_REVIEW_PORT || 5056);
+const offline = process.argv.includes('--offline');
 if (!Number.isInteger(port) || port < 1024 || port > 65535) throw Error('Invalid ASK_REVIEW_PORT.');
 // A caller that already holds an AI-only environment can avoid reading any
 // environment file. The database guard below applies in both modes.
-if (!process.argv.includes('--no-env-file')) require('./lib/dev-env').loadAiEnvOnly(backend);
+if (!offline && !process.argv.includes('--no-env-file')) require('./lib/dev-env').loadAiEnvOnly(backend);
+if (offline) require('./local-qa/no-model-network.cjs');
 for (const key of ['MONGODB_URI', 'JWT_SECRET', 'ADMIN_TOKEN']) delete process.env[key];
 Object.assign(process.env, { DISABLE_BACKGROUND_JOBS: '1', SEC_COVERAGE_READ_ONLY: '1', SEC_COVERAGE_DISABLE_ON_DEMAND: '1' });
 const mongoose = require(path.join(backend, 'node_modules/mongoose'));
@@ -19,10 +21,17 @@ mongoose.set('bufferCommands', false);
 mongoose.connect = mongoose.createConnection = () => { throw Error('Database connections are disabled in local Ask review.'); };
 const engine = require(path.join(backend, 'ai-chat'));
 const client = require(path.join(backend, 'ai-client'));
+const policy = require(path.join(backend, 'ask-report-policy'));
 const prompts = {
     short: { mode: 'normal', question: 'Using only verified stored facts, how much free cash flow did Apple generate in its latest stored annual period? Name the actual period end, currency and SEC source, show the calculation, and keep the answer under 80 words. No extra history or chart.' },
     complex: { mode: 'analyst', question: 'For Meta Platforms (META), use verified SEC evidence to analyze the latest three annual periods of revenue, net income and share-based compensation as grouped vertical bars with actual period ends and reporting currency. Show latest business-segment revenue as a Sankey only if the segment values reconcile to at least 98% of the same annual filing’s verified revenue without exceeding it; otherwise explain the gap. Inspect the same annual filing for off-balance-sheet arrangements, unconsolidated or variable-interest entities, guarantees, leases and commitments. Distinguish recognized debt from other obligations, give only amounts with explicit periods/currencies, keep categories separate, and do not infer intent to hide debt. Link the exact filings and keep the answer under 450 words.' }
 };
+for (const [symbol, name] of [['AVGO','Broadcom'],['AMD','Advanced Micro Devices'],['JPM','JPMorgan']]) {
+    for (const mode of ['normal','analyst']) for (const question of [symbol,name]) {
+        prompts[`${symbol.toLowerCase()}-${mode}-${question === symbol ? 'ticker' : 'name'}`] = { mode, question };
+    }
+}
+for (const symbol of ['PFE','WMT','O','TSM','BRAI']) for (const mode of ['normal','analyst']) prompts[`${symbol.toLowerCase()}-${mode}-ticker`] = { mode, question: symbol };
 // Why an answer was rewritten or replaced by a receipt is the single thing this
 // harness exists to show, and the product deliberately does not expose it. The
 // engine calls audit() through the module object, so patching that one property
@@ -34,7 +43,7 @@ answerQuality.audit = (text, results, options) => {
     const issues = realAudit(text, results, options);
     // The draft itself, not just the verdict: an audit that rejects a figure is
     // only reviewable next to the sentence that stated it.
-    auditPasses.push({ mode: options?.mode, words: answerQuality.wordCount(text), issues, text });
+    auditPasses.push({ mode: options?.mode, policy: options?.policy || policy.select(options?.question, options?.mode), words: answerQuality.wordCount(text), tableRows: (String(text).match(/^\s*\|.*$/gm) || []).length, sectionCoverage: policy.coverage(text), issues, text });
     return issues;
 };
 
@@ -43,10 +52,10 @@ const savedIndex = process.argv.indexOf('--examples');
 if (savedIndex >= 0) {
     const directory = process.argv[savedIndex + 1];
     if (!directory) throw Error('Give an examples directory after --examples.');
-    for (const id of ['short', 'complex']) {
+    for (const id of Object.keys(prompts)) {
         try {
             const result = JSON.parse(fs.readFileSync(path.resolve(directory, id + '.json'), 'utf8'));
-            if (typeof result.answer === 'string' && result.question === prompts[id].question && ['ai', 'partial'].includes(result.source)) examples.set(id, result);
+            if (typeof result.answer === 'string' && result.answer.length <= policy.ANSWER_MAX_CHARS && result.question === prompts[id].question && ['ai', 'partial'].includes(result.source)) examples.set(id, result);
         } catch (_) { /* examples are optional; generate fresh answers in the UI */ }
     }
 }
@@ -59,7 +68,7 @@ async function readBody(req) {
     const parts = []; let length = 0;
     for await (const chunk of req) {
         length += chunk.length;
-        if (length > 64 * 1024) throw Error('Request too large.');
+        if (length > 256 * 1024) throw Error('Request too large.');
         parts.push(chunk);
     }
     return JSON.parse(Buffer.concat(parts).toString('utf8') || '{}');
@@ -77,9 +86,10 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'GET' && assets.has(pathname)) {
         res.writeHead(200, { 'Content-Type': pathname.endsWith('.js') ? 'application/javascript' : 'text/css', 'Cache-Control': 'no-store' }); return fs.createReadStream(assets.get(pathname)).pipe(res);
     }
-    if (req.method === 'GET' && pathname === '/api/health') return json(res, 200, { ok: true, configured: client.isConfigured(), active, scope: 'Local Ask engine; no database connection' });
+    if (req.method === 'GET' && pathname === '/api/health') return json(res, 200, { ok: true, configured: !offline && client.isConfigured(), offline, active, scope: 'Local Ask engine; no database connection' });
     if (req.method === 'GET' && pathname === '/api/examples') return json(res, 200, { prompts, examples: Object.fromEntries(examples) });
     if (req.method !== 'POST' || pathname !== '/api/ask') return json(res, 404, { message: 'Not found.' });
+    if (offline) return json(res, 409, { message: 'Offline review shows saved deterministic fixtures. Model generation is disabled to preserve the Ollama quota.' });
     if (!/^application\/json(?:;|$)/i.test(req.headers['content-type'] || '')) return json(res, 415, { message: 'Send JSON.' });
     if (active) return json(res, 429, { message: 'An answer is already running. Wait for it to finish.' });
     let body;
@@ -91,7 +101,7 @@ const server = http.createServer(async (req, res) => {
     const mode = (example ? prompts[example].mode : body.mode) === 'analyst' ? 'analyst' : 'normal';
     if (!question || question.length > 8000) return json(res, 400, { message: 'Enter a question of 1–8,000 characters.' });
     if (!client.isConfigured()) return json(res, 503, { message: 'The local AI connection is not configured.' });
-    const history = Array.isArray(body.history) ? body.history.slice(-10).filter(m => ['user', 'assistant'].includes(m?.role) && typeof m.content === 'string').map(m => ({ role: m.role, content: m.content.slice(0, 16000) })) : [];
+    const history = policy.historyMessages(body.history);
     const stream = body.stream === true;
     let closed = false;
     res.on('close', () => { closed = true; });
@@ -125,4 +135,4 @@ const server = http.createServer(async (req, res) => {
 });
 server.requestTimeout = 200000;
 server.on('error', error => { console.error(error.code === 'EADDRINUSE' ? 'Local review port is occupied. Set ASK_REVIEW_PORT to another port.' : 'Local review server could not start.'); process.exitCode = 1; });
-server.listen(port, '127.0.0.1', () => console.log(`Local Ask review: http://127.0.0.1:${port}\nReal AI answers and product charts. No database connection. Stop with Ctrl+C.`));
+server.listen(port, '127.0.0.1', () => console.log(`Local Ask review: http://127.0.0.1:${port}\n${offline ? 'Offline saved fixtures; model generation disabled.' : 'Real AI answers and product charts.'} No database connection. Stop with Ctrl+C.`));

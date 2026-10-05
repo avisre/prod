@@ -146,18 +146,7 @@ function wordCount(text) {
         .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1').trim().split(/\s+/).filter(Boolean).length;
 }
 function wordLimit(question, mode) {
-    const explicit = question.match(/(?:under|at most|maximum(?: of)?|no more than|within|keep it (?:to|below))\s+(\d+)\s+words/i);
-    if (explicit) return Math.min(Math.max(Number(explicit[1]), 40), 2000);
-    if (/\b(detailed|comprehensive|in.depth|deep dive|exhaustive)\b/i.test(question)) return mode === 'normal' ? 700 : 1000;
-    // Measured live on the nine-part framework, with tables already excluded from
-    // the count: 348–432 prose words on five real companies. The old 350 cap made
-    // the owner's own target shape unshippable — every analyst probe rewrote,
-    // failed again on length alone and published the generic receipt instead. The
-    // owner's instruction is that a rich answer like the Broadcom reference
-    // (336 words there, more on companies with more to say) must reach the user,
-    // so the cap sits above the measured maximum rather than below it. The bound
-    // still exists — it is what stops a rambling answer, not a thorough one.
-    return mode === 'normal' ? 320 : 480;
+    return require('./ask-report-policy').select(question, mode).maxWords;
 }
 
 function chartEvidence(results) {
@@ -210,7 +199,7 @@ function normalizeFacetedViz(text) {
             .filter(value => value !== null && value !== 0).map(Math.abs);
         const peak = values.length ? Math.max(...values) : 0;
         const base = values.length ? Math.min(...values) : 0;
-        if (spec.facet !== true && !(base > 0 && peak / base > 10)) return fence;
+        if (spec.facet !== true && !(spec.series.length > 1 && base > 0 && peak / base > 10)) return fence;
         const bars = { ...spec, orientation: 'vertical', facet: true };
         return `\`\`\`bars\n${JSON.stringify(bars)}\n\`\`\``;
     });
@@ -218,7 +207,8 @@ function normalizeFacetedViz(text) {
 
 function metricForLabel(label) {
     const s = String(label || '');
-    return /share.?based compensation|\bSBC\b/i.test(s) ? 'shareBasedCompensation'
+    return /stock price|share price/i.test(s) ? 'price'
+        : /share.?based compensation|\bSBC\b/i.test(s) ? 'shareBasedCompensation'
         : /free cash|\bFCF\b/i.test(s) ? 'freeCashflow'
         : /operating cash/i.test(s) ? 'operatingCashflow'
         : /capex|capital expend/i.test(s) ? 'capitalExpenditures'
@@ -388,7 +378,11 @@ function percentageEvidence(results, facts) {
     const percentages = (facts || chartEvidence(results)).filter(f => f.unit === '%').map(f => f.value);
     for (const r of unwrap(results)) {
         if(r.storedSegmentsReceipt && require('./sec-segment-observations').validGroup(r.storedSegmentsReceipt,r.financialWitness) && r.storedSegmentsReceipt.totalRevenue>0)for(const e of r.storedSegmentsReceipt.entries)percentages.push(e.value/r.storedSegmentsReceipt.totalRevenue*100);
-        if(r.storedSegmentsReceipt && require('./sec-segment-observations').validGroup(r.storedSegmentsReceipt,r.financialWitness) && r.storedSegmentsReceipt.totalRevenue>0)for(const e of r.storedSegmentsReceipt.entries)percentages.push(e.value/r.storedSegmentsReceipt.totalRevenue*100);
+        if (!r.storedSegmentsReceipt && r.segments?.length) {
+            const income = unwrap(results).find(i => i.statement === 'income' && /^annual/.test(i.basis || '') && (!r.symbol || i.symbol === r.symbol));
+            const verified = segmentEvidence(r, r.revenueEvidence || income);
+            if (verified.status === 'eligible' && verified.totalRevenue > 0) for (const segment of verified.segments) percentages.push(segment.value / verified.totalRevenue * 100);
+        }
         for (const c of r.capitalReturns || []) if (num(c.shortfallPctOfFreeCashflow) !== null)
             percentages.push(c.shortfallPctOfFreeCashflow);
         // Reverse-DCF outputs carry no sourceIds (they are the tool's own
@@ -468,9 +462,10 @@ function percentageEvidence(results, facts) {
 
 function numericClaims(text, results, question = '') {
     const data = unwrap(results);
-    const hasFinancialObservations = data.some(r => r.observations?.some(o => o.fields));
+    const hasFinancialObservations = data.some(r => r.observations?.some(o => o.fields || o.metrics) || r.marketObservations?.length || r.peerPositioning);
+    const financialResearchAttempted = (results || []).some(r => ['get_financials','get_ratios_history','get_supplemental_context','get_quote','get_peer_context'].includes(r.tool));
     const filingFacts = filingNarrativeEvidence(results);
-    if (!hasFinancialObservations && !filingFacts.length && !data.some(r=>r.supplementalObservations?.length || r.industryObservations?.length)) return [];
+    if (!financialResearchAttempted && !hasFinancialObservations && !filingFacts.length && !data.some(r=>r.supplementalObservations?.length || r.industryObservations?.length)) return [];
     const facts = chartEvidence(results);
     // Changes are explicit calculations from comparable verified annual inputs,
     // rather than invented facts. Retain signs except when prose names a drop.
@@ -592,8 +587,10 @@ function numericClaims(text, results, question = '') {
     return [...new Set(issues)];
 }
 
-function audit(text, results, { question = '', mode = 'analyst' } = {}) {
+function audit(text, results, { question = '', mode = 'analyst', policy } = {}) {
+    policy = policy || require('./ask-report-policy').select(question, mode);
     const issues = [], facts = chartEvidence(results), data = unwrap(results);
+    issues.push(...require('./ask-report-policy').reportIssues(text, policy, results));
     if (!/\b(hypothetical|suppose|assume)\b/i.test(question)) issues.push(...numericClaims(text, results, question));
     for(const r of data)for(const f of r.supplementalObservations || []) {
         if(!require('./company-observations').validSupplement(f,f.issuer))continue;
@@ -720,7 +717,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
                     .filter(v => v !== null && v !== 0).map(Math.abs);
                 const peak = magnitudes.length ? Math.max(...magnitudes) : 0;
                 const base = magnitudes.length ? Math.min(...magnitudes) : 0;
-                if (base > 0 && peak / base > 10)
+                if (series.length > 1 && base > 0 && peak / base > 10)
                     issues.push(`These grouped metrics span ${(peak / base).toFixed(0)}x from smallest to largest, so the smaller ones are unreadable on a shared axis. Add "facet": true to the bars block — each metric then gets its own panel with its value printed — or compare metrics of similar size.`);
             }
         }
@@ -736,12 +733,12 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
             const base = magnitudes.length ? Math.min(...magnitudes) : 0;
             if (spec.facet !== undefined)
                 issues.push('A viz chart cannot facet — the "facet" field is ignored and every series shares one axis. Use a bars block with "facet": true instead.');
-            else if (base > 0 && peak / base > 10)
+            else if (series.length > 1 && base > 0 && peak / base > 10)
                 issues.push(`These charted metrics span ${(peak / base).toFixed(0)}x from smallest to largest, so the smaller ones are unreadable on a shared axis. Use a faceted bars block ("bars" with "facet": true) instead of a line chart, or plot metrics of similar size.`);
         }
         if (disclosurePeriods.size > 1) issues.push('Horizontal filing disclosure bars must compare amounts from the same disclosed date.');
     }
-    if (chartMatches.length > 3) issues.push('Use no more than three charts in a detailed multi-angle answer.');
+    if (String(text).length > require('./ask-report-policy').ANSWER_MAX_CHARS) issues.push('The answer exceeds the 32000-character storage and history ceiling. Remove repeated detail and duplicated chart metadata while preserving the supported report.');
     if (chartMatches.length && /```viz/.test(text) && !/```bars/.test(text) && /each bar|the bars|bar chart/i.test(text.replace(/```[\s\S]*?```/g, '')))
         issues.push('The supplied viz renders as a line chart. Describe its lines/points accurately, or use a bars block for a category comparison.');
     if (metricQuestions && groupedFinancialBars(data, question)) {
@@ -806,7 +803,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
         issues.push('Do not attribute a financial change to investment or one-offs without supporting retrieved narrative. Describe the observed change or state the cause is not established.');
     if (!narrative && /(?:funded|financed|covered|paid for)[^.!?\n]{0,70}(?:cash reserves|cash balances|debt issuance|borrowing|existing cash)/i.test(text))
         issues.push('A cash-coverage shortfall does not establish its financing source. Omit assertions about reserves or debt issuance unless separately sourced.');
-    const limit = wordLimit(question, mode);
+    const limit = policy.maxWords;
     // The model overshoots a bare "over the limit" by a few words and the rewrite
     // pass barely trims (measured: 509 → 498 against a 480 cap, 339 → 330 against
     // 320). Naming the count and the size of the cut makes the instruction
@@ -817,12 +814,12 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
     // the generic receipt over one word — twice in six probes. The published cap
     // stays the number the prompt quotes and the target the model aims at; the
     // audit allows 5% of jitter above it before an answer is rejected for length.
-    const ceiling = Math.ceil(limit * 1.05);
+    const ceiling = policy.ceiling;
     const words = wordCount(text);
     if (words > ceiling) issues.push(`Answer is ${words} prose words, ${words - limit} over the ${limit}-word limit. Cut at least ${words - limit} words: delete whole sentences, starting with repeated figures and unrequested history — never drop a sourced figure, a missing-data reason or the Next line to get there.`);
     // Table rows are excluded from the prose budget above, so bound them here.
     const tableRows = (String(text).match(/^\s*\|.*$/gm) || []).length;
-    if (tableRows > 40) issues.push(`Answer has ${tableRows} table rows. Keep tables to the metrics, periods and context columns actually requested.`);
+    if (tableRows > policy.tableRows) issues.push(`Answer has ${tableRows} table rows. Keep tables to the metrics, periods and context columns actually requested.`);
     return [...new Set(issues)];
 }
 

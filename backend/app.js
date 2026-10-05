@@ -3636,8 +3636,7 @@ function recordMonitorView(userId, symbol, name) {
 
 // One row per successful Ask exchange. Same "your research is saved and
 // reopening it is free" promise Dossiers make: the full answer is stored
-// (ai_chat_log truncates at 8000 chars, which is not enough for long
-// reports) and re-reading it never touches credits.
+// (assistant answers retain up to 32,000 characters across history and threads) and re-reading it never touches credits.
 const AskReportSchema = new mongoose.Schema({
     userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     question: { type: String, required: true },
@@ -3657,7 +3656,7 @@ function saveAskReport(userId, question, answer, mode, toolsUsed) {
     const tools = Array.isArray(toolsUsed)
         ? toolsUsed.map((t) => (typeof t === 'string' ? t : t && t.tool)).filter(Boolean).slice(0, 20)
         : [];
-    AskReport.create({ userId, question: question.slice(0, 8000), answer, mode: mode === 'analyst' ? 'analyst' : 'normal', toolsUsed: tools })
+    AskReport.create({ userId, question: question.slice(0, 8000), answer: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), mode: mode === 'analyst' ? 'analyst' : 'normal', toolsUsed: tools })
         // keep only the most recent ASK_REPORT_KEEP per user
         .then((doc) => AskReport.find({ userId: doc.userId }, { _id: 1 }).sort({ createdAt: -1 }).skip(ASK_REPORT_KEEP).lean())
         .then((stale) => {
@@ -3704,7 +3703,7 @@ async function saveThreadExchange(userId, threadId, question, answer, mode, tool
         const cap = (s) => String(s).slice(0, 8000);
         const turn = () => [
             { role: 'user', content: cap(question) },
-            { role: 'assistant', content: cap(answer), toolsUsed: tools }
+            { role: 'assistant', content: String(answer).slice(0, require('./ask-report-policy').ANSWER_MAX_CHARS), toolsUsed: tools }
         ];
         let doc;
         if (typeof threadId === 'string' && THREAD_ID_RE.test(threadId)) {

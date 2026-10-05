@@ -31,6 +31,8 @@ const evidence = require('./ask-evidence');
 const sectorVocab = require('./sector');
 const askIndustry = require('./ask-industry-profile');
 const answerQuality = require('./ask-answer-quality');
+const reportPolicy = require('./ask-report-policy');
+const visualization = require('./ask-visualization');
 const provider = require('./provider-fundamentals');
 const yahooSource = require('./yahoo-source');
 const assetProfile = require('./asset-profile');
@@ -67,7 +69,8 @@ const SCREEN_INDEX_VERSION = 4; // verified rows and complete generation fingerp
 // the glm-5.3 swap. Tests inject via __setDeps; production uses the defaults.
 const defaultDeps = {
     chatRaw: (messages, opts) => aiClient.chatRaw(messages, opts),
-    chatRawStream: (messages, opts, onDelta) => aiClient.chatRawStream(messages, opts, onDelta)
+    chatRawStream: (messages, opts, onDelta) => aiClient.chatRawStream(messages, opts, onDelta),
+    runTool: (name, args, ctx) => runTool(name, args, ctx)
 };
 let deps = { ...defaultDeps };
 function __setDeps(overrides) { deps = { ...defaultDeps, ...overrides }; }
@@ -176,11 +179,13 @@ function freshness(latestPeriodEnd, basis) {
     return out;
 }
 
-async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
+async function toolGetFinancials({ symbol, statement, basis, limit, before, fields: requestedFields }, {compact=false}={}) {
     const st = ['income', 'balance', 'cash'].includes(statement) ? statement : 'income';
     let industryFields=[];
     try{const company=stockUniverse.lookup(symbol),issuer=require('./public-stock-index').view().issuers[company?.cik],overview=require('./fundamentals-cache').loadRawFundamentals(symbol)?.overview || {Sector:company?.sector};industryFields=require('./financial-requirements').requirements(overview,issuer?.evidence?.sic).industry.filter(field=>require('./sec-facts').MAPS[st][field]);}catch(_){}
-    const fields=[...new Set([...FIELDS[st],...industryFields])];
+    const supported=[...new Set([...FIELDS[st],...industryFields])];
+    const fields=Array.isArray(requestedFields) && requestedFields.length?supported.filter(f=>requestedFields.includes(f)):supported;
+    if(!fields.length)return {error:'No supported financial fields were requested.'};
     const data = await loadFundAny(symbol,fields);
     if (!data || (!stockUniverse.hasStatements(data) && !data.supplementalObservations?.length)) return NO_DATA(symbol, data);
     const annual = basis !== 'quarterly';
@@ -246,14 +251,14 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
         provenance: evidence.provenance(data, [observations, comparisons, calculations, capitalReturns]),
         source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
-    }, data, reports.length);
+    }, data, reports.length, {compact});
 }
 
 // ---- Tool: get_ratios_history ----
-function annualJoined(data) {
+function annualJoined(data, basis = 'annual') {
     const by = new Map();
     for (const st of ['income', 'balance', 'cash']) {
-        for (const r of ((data[st] || {}).annualReports) || []) {
+        for (const r of ((data[st] || {})[basis === 'quarterly' ? 'quarterlyReports' : 'annualReports']) || []) {
             const k = String(r.fiscalDateEnding || '');
             if (!k) continue;
             if (!by.has(k)) by.set(k, { end: r.fiscalDateEnding });
@@ -263,14 +268,19 @@ function annualJoined(data) {
     return [...by.values()].sort((a, b) => String(b.end).localeCompare(String(a.end)));
 }
 
-async function toolGetRatios({ symbol, limit, before }) {
+async function toolGetRatios({ symbol, limit, before, basis = 'annual', metrics: requestedMetrics }, {compact=false}={}) {
+    if (!['annual','quarterly'].includes(basis)) return { error: 'Ratio history basis must be annual or quarterly.' };
     const data = await loadFundAny(symbol);
     if (!data) return NO_DATA(symbol);
     if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
-    const years = annualJoined(data).filter(y => !before || y.end < before);
-    if (!years.length) return { code: 'VERIFIED_FINANCIALS_UNAVAILABLE', error: `No verified annual data for ${symbol}.`, coverage: data.coverage };
-    const names = ['grossMarginPct', 'opMarginPct', 'netMarginPct', 'fcfMarginPct', 'roePct', 'roaPct', 'currentRatio', 'debtToEquity', 'ocfToNetIncome', 'capexPctRevenue', 'sharesOutM'];
-    const lines = ['fiscal_year_end|grossMargin%|opMargin%|netMargin%|fcfMargin%|ROE%|ROA%|currentRatio|debtToEquity|ocfToNetIncome|capexPctRevenue|sharesOutM'];
+    const years = annualJoined(data, basis).filter(y => (!before || y.end < before) && (basis !== 'quarterly' || y.income));
+    if (!years.length) return { symbol, basis, code: 'VERIFIED_FINANCIALS_UNAVAILABLE', error: `No compatible verified ${basis} financial history for ${symbol}.`, coverage: data.coverage };
+    const annualNames = ['grossMarginPct', 'opMarginPct', 'netMarginPct', 'fcfMarginPct', 'roePct', 'roaPct', 'currentRatio', 'debtToEquity', 'ocfToNetIncome', 'capexPctRevenue', 'sharesOutM'];
+    const allowed = basis === 'quarterly' ? ['grossMarginPct','opMarginPct','netMarginPct','rdIntensityPct'] : [...annualNames,'rdIntensityPct'];
+    const names = Array.isArray(requestedMetrics) && requestedMetrics.length?allowed.filter(n=>requestedMetrics.includes(n)):basis==='quarterly'?allowed:annualNames;
+    if(!names.length)return {error:'No supported ratio metrics were requested.'};
+    const metricLabel={grossMarginPct:'grossMargin%',opMarginPct:'opMargin%',netMarginPct:'netMargin%',rdIntensityPct:'rdIntensity%',fcfMarginPct:'fcfMargin%',roePct:'ROE%',roaPct:'ROA%',currentRatio:'currentRatio',debtToEquity:'debtToEquity',ocfToNetIncome:'ocfToNetIncome',capexPctRevenue:'capexPctRevenue',sharesOutM:'sharesOutM'};
+    const lines = [(basis === 'quarterly' ? 'fiscal_quarter_end' : 'fiscal_year_end')+'|'+names.map(name=>metricLabel[name]).join('|')];
     const observations = [];
     for (const y of years.slice(0, Math.min(Math.max(num(limit) || 5, 1), 20))) {
         const o = (st, field) => evidence.observation(y[st], field);
@@ -287,6 +297,7 @@ async function toolGetRatios({ symbol, limit, before }) {
             grossMarginPct: divide(i('grossProfit'), i('totalRevenue'), true),
             opMarginPct: divide(i('operatingIncome'), i('totalRevenue'), true),
             netMarginPct: divide(i('netIncome'), i('totalRevenue'), true),
+            rdIntensityPct: divide(i('researchAndDevelopment'), i('totalRevenue'), true),
             fcfMarginPct: divide(fcf, i('totalRevenue'), true),
             roePct: divide(i('netIncome'), bal('totalShareholderEquity'), true, true),
             roaPct: divide(i('netIncome'), bal('totalAssets'), true),
@@ -297,18 +308,18 @@ async function toolGetRatios({ symbol, limit, before }) {
                 'abs(capex) / revenue * 100', (x, z) => z > 0 ? Math.abs(x) / z * 100 : null),
             sharesOutM: evidence.calculate({ shares: bal('commonStockSharesOutstanding') }, 'shares / 1000000', x => x / 1e6)
         };
-        observations.push({ periodEnd: y.end, currency: y.income?.reportedCurrency || y.balance?.reportedCurrency || y.cash?.reportedCurrency, metrics });
+        observations.push({ periodEnd: y.end, currency: y.income?.reportedCurrency || y.balance?.reportedCurrency || y.cash?.reportedCurrency, metrics: Object.fromEntries(names.map(name => [name, metrics[name]])) });
         lines.push([y.end, ...names.map(name => metrics[name].value === null ? '-' : metrics[name].value.toFixed(name.endsWith('Pct') ? 1 : 2))].join('|'));
     }
     return evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
-        note: 'Calculated from compatible verified annual facts. Rows newest first. Null means unavailable. sharesOutM is as filed, not split-adjusted. Formula and exact inputs accompany each ratio.',
+        basis, note: 'Calculated from compatible verified fiscal facts. Rows newest first. Null means unavailable. sharesOutM is as filed, not split-adjusted. Formula and exact inputs accompany each ratio.',
         units: 'Percent for columns ending %, dimensionless for ratios, millions of shares for sharesOutM. Inputs retain reported currencies and raw values.',
         coverage: data.coverage, observations,
         provenance: evidence.provenance(data, observations),
         source: 'Calculated from verified SEC financial observations',
         table: lines.join('\n')
-    }, data, years.length);
+    }, data, years.length, {compact});
 }
 
 // ---- Tool: get_health_checks (server-side mirror of the page's checklist) ----
@@ -420,10 +431,18 @@ async function toolGetQuote({ symbol }) {
     const pf = pv?.fields || {};
     const epsField = num(annual?.dilutedEPS) !== null ? 'dilutedEPS' : 'eps';
     const epsObservation = evidence.observation(annual, epsField);
+    const marketPrice = pick(q && q.price, lastClose);
+    const quoteDate = require('./sec-coverage').day(asOf);
+    const marketObservations = Number.isFinite(marketPrice) && marketPrice >= 0 && quoteDate && /^[A-Z]{3}$/.test(q?.currency || '') ? [{
+        issuer: 'listing:' + String(symbol).toUpperCase().replace(/\./g, '-'), field: 'price', definition: 'Dated quote per listed share; may be delayed or a last-known close',
+        value: marketPrice, scale: 1, unit: q.currency, currency: q.currency, periodEnd: quoteDate, basis: 'market', accountingBasis: 'market quote', scope: 'listed share',
+        sourceType: 'provider', sourceName: q.source === 'live' || /yahoo/i.test(q.source || '') ? 'Yahoo Finance' : q.source || 'Cached market quote', sourceUrl: 'https://finance.yahoo.com/quote/' + encodeURIComponent(symbol) + '/',
+        publicationDate: quoteDate, retrievedAt: new Date().toISOString(), sourceIds: ['quote:' + String(symbol).toUpperCase() + ':' + asOf], state: 'available'
+    }] : [];
     return {
         symbol: ov.Symbol || String(symbol).toUpperCase(),
         name: ov.Name, sector: ov.Sector, industry: ov.Industry,
-        price: pick(q && q.price, lastClose),
+        price: marketPrice, marketObservations,
         priceAsOf: asOf,
         priceSource:q?.source || 'cached close',marketTimestamp:q?.asOf || null,marketState:q?.marketState || null,quoteFreshness:q?.freshness || null,
         lastClose, lastCloseDate: lastDay,
@@ -562,8 +581,9 @@ async function toolGetSegments({ symbol }) {
         const company = stockUniverse.lookup(key);
         if (!company) return { code: 'VERIFIED_FINANCIALS_UNAVAILABLE', symbol: key, coverage: 'unavailable', error: 'Segment research requires an eligible company equity listing in the stock directory.' };
         if (company.securityType !== 'stock') return { code: 'UNSUPPORTED_SECURITY_TYPE', symbol: company.symbol, securityType: company.securityType, error: 'Company segment analysis is not available for this security type.' };
-        if(process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1') {
-            const stored=await require('./verified-fundamentals').getCompanyEvidence(company.symbol);
+        {
+            const online=process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1';
+            const stored=await require('./verified-fundamentals').getCompanyEvidence(company.symbol, [], {annual:5,quarterly:4}, online);
             const group=(stored.statements?.segmentObservations || []).find(g=>/StatementBusinessSegmentsAxis$/.test(g.axis)) || stored.statements?.segmentObservations?.[0];
             if(group){const result=require('./sec-segment-observations').toolPayload(group,stored.statements,company.symbol);if(result)return {...result,sankeyEvidence:answerQuality.segmentEvidence(result,null)};}
         }
@@ -1044,7 +1064,7 @@ async function toolGetPeerContext({ symbol }) {
         const dossierAnalysis = require('./dossier-analysis'); // lazy — see note at top of file
         const industry = require('./industry'); // lazy — see note at top of file
         const peers = dossierAnalysis.peerAnalysis(key, overview);
-        const ind = await industry.buildIndustry(key, { overview, peers });
+        const ind = await industry.buildIndustry(key, { overview, peers, allowAi: false, filingReference: data.coverage?.latestAnnual });
         return { symbol: key, sector: overview.Sector || '', peerPositioning: peers, industry: ind,
             industryProfile: askIndustry.profile(overview.Industry, overview.Sector) };
     } catch (e) {
@@ -1052,11 +1072,8 @@ async function toolGetPeerContext({ symbol }) {
     }
 }
 
-// Boot-time warm for the free-demo tickers: runs the exact get_peer_context
-// path (fund data → peer positioning → industry build) so the Mongo-cached
-// industry extraction is in place before the first landing-page visitor asks.
-// The cached build measured 34-65s cold. Best-effort by design — a failure
-// just means the next Ask builds it on demand.
+// Boot-time warm for demo tickers follows the deterministic/cached peer path.
+// Starting a service never spends model quota to populate an industry narrative.
 async function warmPeerContext(symbols) {
     for (const raw of symbols) {
         const key = String(raw || '').toUpperCase().trim();
@@ -1067,7 +1084,7 @@ async function warmPeerContext(symbols) {
             const dossierAnalysis = require('./dossier-analysis'); // lazy — see note at top of file
             const industry = require('./industry'); // lazy — see note at top of file
             const peers = dossierAnalysis.peerAnalysis(key, data.overview || {});
-            await industry.buildIndustry(key, { overview: data.overview || {}, peers });
+            await industry.buildIndustry(key, { overview: data.overview || {}, peers, allowAi: false, filingReference: data.coverage?.latestAnnual });
             console.log(`[ask-warm] ${key} peer context ready`);
         } catch (e) {
             console.log(`[ask-warm] ${key} skipped: ${e && e.message}`);
@@ -1080,7 +1097,8 @@ async function toolGetKeyPoints({ symbol }) {
     const key = String(symbol || '').toUpperCase().trim();
     if (!key) return { error: 'No symbol given.' };
     try {
-        return await keypoints.extractKeyPoints(key);
+        const data = await loadFundAny(key);
+        return await keypoints.extractKeyPoints(key, { allowAi: false, contextOnly: true, filingReference: data?.coverage?.latestAnnual });
     } catch (e) {
         return { error: 'Key-points extraction failed: ' + (e.message || 'unknown') };
     }
@@ -1181,6 +1199,7 @@ const TOOLS = [
                     statement: { type: 'string', enum: ['income', 'balance', 'cash'] },
                     basis: { type: 'string', enum: ['annual', 'quarterly'], description: 'Default annual.' },
                     limit: { type: 'integer', description: 'Number of periods (annual max 20, quarterly max 48).' },
+                    fields: { type: 'array', items: { type: 'string', enum: [...new Set(Object.values(FIELDS).flat())] }, description: 'Optional focused field selection. Full reports automatically include the industry-relevant fields.' },
                     before: { type: 'string', description: 'Optional exclusive period-end date, YYYY-MM-DD, to retrieve an older history window.' }
                 },
                 required: ['symbol', 'statement']
@@ -1192,7 +1211,7 @@ const TOOLS = [
         function: {
             name: 'get_ratios_history',
             description: 'Pre-computed annual ratio history (margins, ROE, ROA, current ratio, debt/equity, FCF margin, capex intensity, share count) for a company. Prefer this over computing ratios yourself.',
-            parameters: { type: 'object', properties: { symbol: { type: 'string' }, limit: { type: 'integer', description: 'Annual periods, default 5, max 20; older rows may be omitted within the context budget.' }, before: { type: 'string', description: 'Optional exclusive period-end date, YYYY-MM-DD, for an older history window.' } }, required: ['symbol'] }
+            parameters: { type: 'object', properties: { symbol: { type: 'string' }, basis: { type: 'string', enum: ['annual','quarterly'], description: 'Quarterly returns gross, operating and net margins plus R&D intensity; annual retains the complete ratio set.' }, limit: { type: 'integer', description: 'Annual periods, default 5, max 20; older rows may be omitted within the context budget.' }, metrics: { type: 'array', items: { type: 'string', enum: ['grossMarginPct','opMarginPct','netMarginPct','fcfMarginPct','roePct','roaPct','currentRatio','debtToEquity','ocfToNetIncome','capexPctRevenue','sharesOutM','rdIntensityPct'] }, description: 'Optional focused ratio selection. Full reports automatically include industry-relevant metrics.' }, before: { type: 'string', description: 'Optional exclusive period-end date, YYYY-MM-DD, for an older history window.' } }, required: ['symbol'] }
         }
     },
     {
@@ -1365,6 +1384,17 @@ const TOOLS = [
             name: 'get_peer_context',
             description: 'Competitive/industry positioning: sector peer-multiples valuation (P/E vs peer median, growth and margin percentile among sector peers), industry drivers extracted from the 10-K\'s Business and Risk Factors each tagged positive/negative/mixed FOR THIS COMPANY, and industryProfile — the archetype, the metrics to lead with for this industry, and which omissions are normal for it rather than missing data. Use for "how does it compare to competitors/its sector" and "is it cheap vs peers" questions.',
             parameters: { type: 'object', properties: { symbol: { type: 'string' } }, required: ['symbol'] }
+        }
+    },
+    {
+        type: 'function', function: {
+            name: 'get_supplemental_context',
+            description: 'Complete missing report fields, fiscal periods or business context through the same validated SEC / official issuer / Yahoo evidence resolver used by company pages. Returns separately attributed observations, calculations, source/date metadata, attempts and remaining gaps; never SEC-label provider values.',
+            parameters: { type: 'object', properties: {
+                symbol: { type: 'string' }, missingFields: { type: 'array', items: { type: 'string' } },
+                missingSections: { type: 'array', items: { type: 'string', enum: ['business','customers','products','segments','risks','valuation'] } },
+                periods: { type: 'object', properties: { annual: { type: 'integer' }, quarterly: { type: 'integer' } } }
+            }, required: ['symbol'] }
         }
     },
     {
@@ -1747,8 +1777,8 @@ function runTool(name, args, ctx) {
         case 'read_document': return toolReadDocument(args || {}, ctx);
         case 'get_fund_profile': return toolGetFundProfile(args || {});
         case 'rank_funds': return toolRankFunds(args || {});
-        case 'get_financials': return toolGetFinancials(args || {});
-        case 'get_ratios_history': return toolGetRatios(args || {});
+        case 'get_financials': return toolGetFinancials(args || {}, {compact:ctx?.companyReportEvidence===true});
+        case 'get_ratios_history': return toolGetRatios(args || {}, {compact:ctx?.companyReportEvidence===true});
         case 'get_health_checks': return toolGetHealthChecks(args || {});
         case 'get_quote': return toolGetQuote(args || {});
         case 'get_price_history': return toolGetPriceHistory(args || {});
@@ -1765,6 +1795,7 @@ function runTool(name, args, ctx) {
         case 'get_reverse_dcf': return toolGetReverseDcf(args || {});
         case 'get_peer_context': return toolGetPeerContext(args || {});
         case 'get_key_points': return toolGetKeyPoints(args || {});
+        case 'get_supplemental_context': return require('./ask-supplemental-context').getSupplementalContext(args || {});
         case 'get_governance': return toolGetGovernance(args || {});
         case 'get_esg': return toolGetEsg(args || {});
         case 'get_filing_diff': return toolGetFilingDiff(args || {});
@@ -1814,7 +1845,7 @@ const ASK_SYSTEM = [
     '```viz',
     '{"title":"Revenue, FY2021–FY2025","unit":"$","series":[{"name":"AAPL","points":[["FY21",365817000000],["FY22",394328000000]]},{"name":"MSFT","points":[["FY21",168088000000]]}]}',
     '```',
-    'viz rules: numbers ONLY from tool results in this conversation, raw unscaled values; unit is "%", "x", a reported ISO currency code such as "USD" or "JPY", or an ISO currency followed by "/share". "$" and "$ps" mean USD only; 2–20 points per series, max 3 series, all series same unit; at most 3 visual blocks in a detailed multi-angle answer; put each chart where it belongs in the reading order. A table of the same numbers is then unnecessary — do not duplicate.',
+    'viz rules: numbers ONLY from tool results in this conversation, raw unscaled values; unit is "%", "x", a reported ISO currency code such as "USD" or "JPY", or an ISO currency followed by "/share". "$" and "$ps" mean USD only; 2–20 points per series, max 3 series, all series same unit; choose the number of useful supported visual blocks to suit the answer; put each chart where it belongs in the reading order. In a company report a precise table may accompany the same trend chart; avoid repeating it again in prose.',
     'BAR JSON: horizontal category format is {"title":"...","unit":"USD","orientation":"horizontal","rows":[["Net income, FY ended 2025-09-27",112010000000]]}. For fiscal-period grouped bars use {"title":"Revenue, net income and SBC","unit":"USD","orientation":"vertical","series":[{"name":"Revenue","points":[["2025-09-27",416161000000]]},{"name":"Net income","points":[["2025-09-27",112010000000]]},{"name":"Share-based compensation","points":[["2025-09-27",12000000000]]}]}. Use actual period-end dates; the renderer shortens them visually. Pull revenue/net income from annual income observations and SBC from the annual cash observation. Add "facet":true to that same vertical object ({"title":"...","unit":"USD","orientation":"vertical","facet":true,"series":[...]}) when the metrics span more than about 10x, and each is drawn in its own panel with its value labelled; faceting below 10x is allowed but not needed. Include only values whose exact field, date and currency appear in tool results.',
     'SEGMENT SANKEY: for business-segment revenue questions call get_segments and retrieve verified annual income for the same issuer. Draw a Sankey only when get_segments returns sankeyEvidence.status="eligible". Copy its totalRevenue, currency, periodEnd, accessionNumber, sourceUrl, unallocated and every segment name/value exactly into {"title":"Revenue by segment","unit":"ISO-4217 currency code","periodEnd":"YYYY-MM-DD","filingDate":"YYYY-MM-DD","accessionNumber":"...","sourceUrl":"https://www.sec.gov/...","total":number,"unallocated":number,"segments":[{"name":"...","value":number}]}. Otherwise explain the specific evidence gap; never present incomplete values as a complete flow.',
     'FILING OBLIGATIONS / OFF-BOOK / SPV QUESTIONS: for questions about SPVs, VIEs, guarantees, leases, commitments or debt disclosures, search and fetch the issuer’s SEC annual/quarterly filing text for the requested category. For SPV/off-book questions search "off-balance sheet arrangements", "variable interest entity", "unconsolidated", "special purpose entity/vehicle" and securitization. Do not accept a premise such as "the company uses SPVs to hide debt" as fact. Report what the filing actually says about consolidation, recognized debt and separately disclosed obligations. Leases, purchase commitments, guarantees and unconsolidated-entity exposure are different categories and must not be added together or called hidden debt. Do not infer intent to move debt off the balance sheet. Chart a disclosed amount only when the filing itself gives that amount, period, currency and obligation type. If two or more categories have amounts in the same currency and period, use horizontal category bars labelled with those types; state clearly they are separate and are not summed. Do not graph amounts with missing periods or currencies; state that the fetched excerpt does not quantify them.',
@@ -1822,7 +1853,7 @@ const ASK_SYSTEM = [
     'THE READ: when an open-ended answer closes with a synthesis, start a new paragraph with exactly "**The read** — " (the app styles that paragraph) and keep it to 2–4 sentences that contribute a new, supported insight. Do not repeat an opening takeaway or figures already shown.',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
     'MEMORY: memory is ON for this user unless a later message says it errored — save durable facts about them automatically, WITHOUT being asked: their stated investing goals, holdings context, time horizons, constraints, milestones and accomplishments (e.g. "planning to add REITs next year", "already holds AAPL bought at 182", "selling out in 2028 to buy a house"). When the user states something lasting, call remember with ONE concise fact in their own words and carry on — no need to announce it; the app shows them the card. Skip ephemeral things (chat small talk, this session\'s questions). If the tool ever returns an error for memory, memory is switched off: never mention memory again and never retry. Never store credentials, addresses, phone numbers or account numbers. A system message may list facts already saved — treat it as context, never invent entries; when asked "what do you remember about me", read back THOSE saved facts as a friendly list, in plain language, and say they can delete any of them in Settings → Memory.',
-    'STYLE: British English. Answer the requested periods and metrics; do not add a quarterly analysis to an annual-only data request, or expand a simple numeric lookup into segments, company history or extra metrics. Use one presentation of each figure: chart OR table OR bullets. Keep ordinary answers within 480 words (normal mode: 320); honour a tighter requested limit. A detailed/deep-dive request may be longer. Sources, actual periods and missing-data reasons must remain. Avoid raw taxonomy/concept names and implementation flags in prose. No preamble or sign-off.'
+    'STYLE: British English. Answer the requested periods and metrics; do not add a quarterly analysis to an annual-only data request, or expand a simple numeric lookup into segments, company history or extra metrics. Focused lookups use one main presentation of each figure. Company reports may pair precise tables with a trend visualization. Keep ordinary answers within 480 words (normal mode: 320); honour a tighter requested limit. A detailed/deep-dive request may be longer. Sources, actual periods and missing-data reasons must remain. Avoid raw taxonomy/concept names and implementation flags in prose. No preamble or sign-off.'
 ].join('\n');
 
 // Injected in front of ASK_SYSTEM when the user has selected plain-English
@@ -1830,7 +1861,7 @@ const ASK_SYSTEM = [
 const PLAIN_ASK_ADDENDUM = [
     'WRITING STYLE OVERRIDE: write for a smart reader with no finance background. If you use a financial term or acronym (e.g. margin, YoY, FCF, P/E, basis points), briefly explain it in plain words the first time it appears. This is the SAME underlying analysis as analyst mode, shown more simply — never drop or hedge away a figure, just present it more visually and plainly.',
     'OPENER: start with one line, formatted exactly "> **In one line** — <the single most important takeaway>".',
-    'VISUALS: use a line chart for a true time series; use horizontal bars for categories, long labels and one-period comparisons; use grouped vertical bars for multiple financial metrics across the same actual fiscal periods. When the user requests revenue, net income and share-based compensation, get annual income and cash observations, then show those three as grouped bars when their dates and reported currency align. Use raw unscaled observations/calculations, never values from the millions table. Keep a visible zero baseline and negative bars for losses. When the plotted metrics span more than about 10x, use a faceted grouped bars block ("bars" with "facet":true) so each metric gets its own panel with its value printed — a line chart cannot facet and its "facet" field is ignored, so a time series with that spread becomes faceted bars too. For business segments, use a Sankey only when get_segments says sankeyEvidence.status="eligible"; otherwise use honest partial bars/table. A compact table is appropriate for mixed currencies or missing values. Use up to three visuals only when a detailed multi-angle answer needs them; simple lookups do not need a chart. Do not repeat plotted values in bullets or the conclusion.',
+    'VISUALS: use a line chart for a true time series; use horizontal bars for categories, long labels and one-period comparisons; use grouped vertical bars for multiple financial metrics across the same actual fiscal periods. When the user requests revenue, net income and share-based compensation, get annual income and cash observations, then show those three as grouped bars when their dates and reported currency align. Use raw unscaled observations/calculations, never values from the millions table. Keep a visible zero baseline and negative bars for losses. When the plotted metrics span more than about 10x, use a faceted grouped bars block ("bars" with "facet":true) so each metric gets its own panel with its value printed — a line chart cannot facet and its "facet" field is ignored, so a time series with that spread becomes faceted bars too. For business segments, use a Sankey only when get_segments says sankeyEvidence.status="eligible"; otherwise use honest partial bars/table. A compact table is appropriate for mixed currencies or missing values. Choose the number and layout of supported visuals to suit the question; a focused lookup may use a compact visual. Do not repeat plotted values in bullets or the conclusion.',
     'PLAIN RATIOS: every ratio or margin you state must be restated in brackets in everyday terms, e.g. "operating margin 24% (keeps about 24¢ of every $1 it sells after running the business)".',
     'UNIT ECONOMICS: whenever the company sells a countable thing — cars, subscriptions, stores, barrels, rooms, ad impressions — and the question is about performance, profitability or "is it a good business", call get_unit_economics and report profit per unit alongside the company-wide figures, even if not explicitly asked. For carmakers (Tesla and peers) this means dollars earned per vehicle, not just total revenue. If it returns null or no derived figure, say plainly the company does not disclose a comparable per-unit figure — never invent one from shares outstanding, employee count or any other stand-in.',
     'Keep every figure, table and chart exactly as the base rules require — nothing is dropped, only made easier to read.'
@@ -1890,44 +1921,21 @@ function makeRoundStreamer(emit, buffered = false) {
 // behaviour, because a lookup that grows into a report is the failure the DATA
 // LOOKUPS rule exists to prevent.
 function frameworkApplies(question) {
-    const q = String(question || '').trim();
-    if (!q) return false;
-    if (/\b(?:compare|compared|comparing|versus|vs\.?|against|portfolio|screener|screen|screening|rank|ranking|best|top\s+\d|cheapest|etf|mutual fund|index fund|my (?:holdings|positions|portfolio|watchlist))\b/i.test(q)) return false;
-    if (/\b(?:revenue|sales|margin|earnings|eps|income|profit|p\/e|pe ratio|price|market cap|valuation|multiple|dividend|buyback|repurchase|debt|cash flow|free cash|fcf|ratio|yield|volume|beta|volatility|quarter|q[1-4]\b|fy\s?\d|annual|results|10-k|10-q|8-k|prospectus|insider|governance|esg|risk factor|segment|segments|guidance|outlook)\b/i.test(q)) return false;
-    return true;
+    return reportPolicy.select(question).kind === 'company_report';
 }
-
-const FRAMEWORK_ANALYST = [
-    'ANSWER FRAMEWORK — for an open-ended question about one company (a bare ticker, "how is X doing", "tell me about X") this replaces the STYLE rule against expanding a lookup: the user asked for the whole picture, so give it. A question that names the figure or period it wants is still a lookup — answer that and stop.',
-    'BUDGET: all nine parts together must fit inside STYLE\'s analyst limit of 480 prose words — and 320 in normal mode. Tables, chart blocks and your sources are not counted, so put the figures in the table and spend the prose on what they mean. Nine parts is not a licence for nine paragraphs: most parts are one or two sentences, and a part this company does not report is one line saying so. But length is not the enemy here — an unsourced figure is. Never drop a sourced figure, a missing-data reason or the explanation that makes a number mean something in order to save words; aim for 440.',
-    'A bare one- or two-letter question is a ticker as often as it is a word — "O" is Realty Income, not an interjection. Call the tools with it before deciding the question is unclear; if the symbol resolves to no company, say so in one line rather than asking the user to rephrase.',
-    'ARITHMETIC: any figure the filing does not state on its own — a sum (cash plus short-term investments), a difference, a share of revenue, a premium to a peer median — must come from the calculator tool, never from your head. A figure you worked out yourself has no source behind it and the answer gets rejected for it.',
-    'FETCH FIRST, IN ONE ROUND: the framework needs get_financials four times — income annual (limit 5), income quarterly (limit 6), balance annual (limit 5) and cash annual (limit 5) — plus get_ratios_history, get_peer_context, get_segments, get_quote, get_reverse_dcf and get_filing_diff. Request them together: a second round-trip costs more than the calls. A part of the framework whose figures are not in those results is omitted with one line saying which figure is unavailable — NEVER filled from memory or from what you know about the company. A remembered figure is the single most common reason an answer is rejected, and a shorter sourced answer always beats a fuller unsourced one.',
-    'Work through these parts in order. The company\'s own industry chooses the figures: get_peer_context returns an industryProfile naming the metrics that matter for this company, the statement lines to read alongside them, and why the rest do not apply. That profile is the personalisation — lead each table with its metrics, in its order.',
-    '1. What it is — what the company sells, to whom, and its sector and industry, in 2–3 sentences.',
-    '2. How it makes money — the segment or product mix with amounts and shares from get_segments. When sankeyEvidence.status is not "eligible", name the specific evidence gap rather than presenting a partial flow as complete.',
-    '3. The numbers — one table of the industryProfile metrics across the latest reported periods, metrics as rows with a Context column interpreting each against its history or peers, plus the annual history (up to five years) when the question is open-ended. Call get_ratios_history for the ratios instead of computing them yourself, and quote each ratio exactly as that result prints it — its table column is already rounded to one decimal; never re-round, recompute or restate it at another value (a right ratio restated one tenth off is still rejected as unsourced). A metric the profile names but this issuer never tags is not a dead end — when get_financials returns an alternativeSources block the provider has the figure, so state it there, attributed as PROVIDER-SUPPLIED FIGURES requires; do not leave the row out as if the value did not exist.',
-    '4. One chart, chosen as CHART SELECTION and BAR JSON describe — and when the metrics span more than about 10x it is a faceted bars block ("facet": true), never a line chart, because a shared axis renders the smaller metric as a flat line at the baseline.',
-    '5. What makes it different — the company against the peer medians and ranks from get_peer_context.',
-    '6. Key risks — the filing-grounded drivers that are negative or exposed, with the evidence that supports each.',
-    '7. Valuation snapshot — price, market capitalisation, P/E against the peer median, and the reverse-DCF implied growth when the tools provide it. get_quote\'s providerValuation carries forward P/E, price-to-book, EV/EBITDA, beta and the margin ratios when the verified side does not; use them, attributed and dated, never inside a verified table row.',
-    '8. **The read** — a new paragraph beginning exactly "**The read** — " and then 2–4 sentences on what these figures say together about this business. Add something the earlier sections have not already said; do not restate them.',
-    '9. Final line: "> Next: <one follow-up question>", as FOLLOW-UP describes.',
-    'Omit any part this company does not report and say in one line why — a bank with no capex, a REIT with no meaningful gross margin and a shell with no operating business are all still answerable, and inventing a figure for a missing one is not.'
+const FULL_REPORT = [
+    'Give the full company picture. Both modes aim for 600–900 prose words, with a 1,200-word default ceiling, plus tables and visuals. A requested shorter answer uses its strict limit. When a bounded source search leaves real gaps, a shorter supported report is appropriate.',
+    'FETCH FIRST, IN ONE ROUND: get_financials income annual (limit 5), income quarterly (limit 4), balance annual (limit 5), cash annual (limit 5); get_ratios_history annual (limit 5) and quarterly (limit 4); get_peer_context, get_segments, get_quote, get_key_points, get_filing_diff and get_reverse_dcf when applicable. Batch independent calls. Reuse evidence rather than requesting it twice.',
+    'Before writing, inspect coverage and remainingGaps. Request get_supplemental_context for missing fields, periods or business sections. The shared resolver checks SEC filings, original issuer releases and Yahoo Finance. For remaining narrative gaps, use original issuer documents or accessible reputable articles within the existing search/page budgets. Search snippets, forums and remembered figures are not financial evidence. Explain specific gaps only after bounded retrieval.',
+    'Cover what the business sells, customers and products, divisions or revenue streams, four reported quarters and five annual periods, competitive differences, material risks, dated valuation, **The read** and one > Next: question. Choose headings and section order that suit this company; an unavailable section gets an attributed gap explanation.',
+    'Include quarterly and annual financial tables with exact fiscal period ends, units and appropriate industry metrics. Use get_peer_context.industryProfile to choose metrics and get_ratios_history to quote printed ratios exactly. Quarter margins come from the supplied quarterly ratios. Table figures remain useful alongside a trend chart of the same history: the table gives precise values and the visual shows change.',
+    'VISUAL FREEDOM: choose and arrange meaningful line charts, bars, faceted bars, eligible Sankeys and tables yourself. Include an annual trend visualization whenever compatible annual history exists. Additional visuals are your choice when they improve understanding. Do not force a fixed chart type or layout. Preserve gaps, signed values and comparable periods. When scales span more than about 10x it is a faceted bars block if those metrics are compared together; a line chart cannot facet. A Sankey requires eligible reconciliation, not an invented total.',
+    'Keep GAAP, adjusted, fiscal/calendar periods and currencies distinct. Attribute supplemental observations with their source and date; never describe provider figures as SEC-verified. A provider chart uses one compatible source series and names its provider and data date. A reported zero is different from missing data.',
+    'Business sections may be expansive when original disclosures support them. Explain the mechanism and the evidence, rather than repeating the table. Preserve useful supported detail in corrections; cut repetition first.',
+    'Write a synthesis paragraph beginning exactly "**The read** — ", then end with > Next: and one helpful follow-up question. Calculations require compatible supplied observations or the calculator; no remembered financial values.'
 ].join('\n');
-
-const FRAMEWORK_NORMAL = [
-    'ANSWER SHAPE — for an open-ended question about one company (a bare ticker, "how is X doing", "tell me about X"), give a short answer in plain English that carries the same substance as the analyst report. A question that names the figure or period it wants is still a lookup — answer that and stop.',
-    'FETCH FIRST, IN ONE ROUND: get_quote, get_financials twice (income quarterly, limit 4, and income annual, limit 3), get_segments, get_peer_context and get_filing_diff. The plain answer is built from these results, never from memory — a remembered figure is the most common reason an answer is rejected.',
-    'BUDGET: the whole answer fits inside STYLE\'s normal limit of 320 prose words. The table, the tool sources and the Next line are not counted, so aim for 280. Plain English is shorter than analyst prose, not longer — if a sentence can go without losing a sourced figure or a reason, cut it.',
-    'A bare one- or two-letter question is a ticker as often as it is a word — "O" is Realty Income, not an interjection. Call the tools with it before deciding the question is unclear; if the symbol resolves to no company, say so in one line rather than asking the user to rephrase.',
-    '1. A short paragraph on what the company does and how it makes its money, in everyday words. Explain any term you have to use ("gross margin — the share of each sales dollar left after making the product") instead of assuming it.',
-    '2. One compact table of the figures that matter now, using the metrics this company\'s industry is actually judged on (get_peer_context\'s industryProfile names them and says why the others do not apply): price, market capitalisation and P/E alongside the latest reported period\'s headline metrics, metrics as rows, one column per figure or period.',
-    '3. Two or three plain sentences on what those figures say together — growing or shrinking, profitable or not, and whether the price looks high or low next to its peers.',
-    '4. Two or three plain sentences on what changed in the latest filing (get_filing_diff) and what could go wrong for the business.',
-    '5. The "> Next: <one follow-up question>" line to finish.',
-    'SIMPLE, NOT THIN: every figure still comes from the tool results and stays sourced, and a figure the company does not report is still omitted with a few words saying so — but the language is everyday English. Short sentences. No acronym without its meaning, no taxonomy or technical concept names, no analyst shorthand. Someone who has never read a financial statement should finish it understanding the business. No chart for a bare ticker — a ticker is navigation, not a question; add one only when the question is about change over time.'
-].join('\n');
+const FRAMEWORK_ANALYST = 'ANSWER FRAMEWORK — full company report, technical context and industry comparisons.\n' + FULL_REPORT;
+const FRAMEWORK_NORMAL = 'ANSWER SHAPE — full company report in everyday English. SIMPLE, NOT THIN: explain each financial term the first time it appears; retain the same evidence, business detail, tables and visuals as Analyst.\n' + FULL_REPORT;
 
 // ---- The agentic loop ----
 // onEvent (optional) makes the run streaming: it receives
@@ -1939,11 +1947,14 @@ const FRAMEWORK_NORMAL = [
 async function ask({ question, history, ctx, mode, onEvent }) {
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty' };
+    let policy = reportPolicy.select(q, mode);
+    if (policy.kind === 'listing_choice') return { answer: 'Which listing would you like: ' + policy.choices.map(c => `${c.symbol} (${c.name})`).join(' or ') + '?', source: 'disambiguation', toolsUsed: [], totalTokens: 0, quality: { policyVersion: reportPolicy.VERSION, checked: true, policy, listingChoice: true } };
     if (!aiClient.isConfigured()) return { answer: 'Ask is not available right now — the AI service is not configured.', toolsUsed: [], source: 'unconfigured' };
     const emit = (e) => { if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep computing the answer */ } } };
 
     const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '')
-        + (frameworkApplies(q) ? `\n${mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST}` : '')
+        + (policy.kind === 'company_report' ? `\n${mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST}` : '')
+        + '\n' + reportPolicy.prompt(policy)
         + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.`;
     const messages = [{ role: 'system', content: systemContent }];
     // 🧪 AI Portfolio mode: a beta-only experiment context app.js injects after
@@ -1987,63 +1998,75 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         lines.push('Answer using the attachments where they matter to the question.');
         messages.push({ role: 'system', content: `USER ATTACHMENTS (this message):\n${lines.join('\n')}` });
     }
-    for (const h of (Array.isArray(history) ? history.slice(-8) : [])) {
-        if (h && (h.role === 'user' || h.role === 'assistant') && typeof h.content === 'string') {
-            messages.push({ role: h.role, content: h.content.slice(0, QUESTION_MAX_CHARS) });
-        }
-    }
+    for (const h of reportPolicy.historyMessages(history)) messages.push(h);
     messages.push({ role: 'user', content: q });
 
     const toolsUsed = [];
     const sourceLinks = [];
     const suppliedResults = [];
-    let contextBytes = 0;
+    let contextBytes = Buffer.byteLength(messages.map(m => m.content || '').join('\n'));
     let hasResearchEvidence = false;
     let groundingRetried = false;
-    const grounded = text => hasResearchEvidence || !!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text);
+    let reportResearchRetried = false;
+    let reportSupplemented = false;
+    const grounded = text => hasResearchEvidence || (policy.kind !== 'company_report' &&
+        (!!ctx?.attachments?.some(a => a.text) || !evidence.requiresEvidence(q, text)));
     // The receipt is the terminal state the whole pipeline promises is always
     // answerable, and both call sites of it sit inside failure handlers — so a
     // throw from it used to mean no answer at all (a 502 here, a 500 in the app),
     // the one outcome this path exists to prevent. Degrade to the single line
     // that is unconditionally true and keep the stack for the log.
     const receipt = (results, question) => {
-        try { return answerQuality.fallback(results, question); }
+        try {
+            const text = answerQuality.fallback(results, question);
+            if (policy.explicitWordLimit && answerQuality.wordCount(text) > policy.maxWords) return policy.maxWords >= 10 ? 'I could not validate a sourced answer within that limit.' : policy.maxWords >= 5 ? 'A verified answer is unavailable.' : 'Unavailable.';
+            return text;
+        }
         catch (e) {
             console.error('[ai-chat] fallback receipt failed', { message: e.message, stack: e.stack });
             return 'This is a partial answer using verified SEC evidence. Unverified figures are omitted.';
         }
     };
-    const ungroundedAnswer = () => ({ answer: 'I could not obtain verified data for those figures. I cannot provide a reliable financial answer from memory.', toolsUsed, source: 'partial', totalTokens });
+    const qualityFor = (answer, extra = {}) => ({ policyVersion: reportPolicy.VERSION, checked: true, policy,
+        proseWords: answerQuality.wordCount(answer), tableRows: (answer.match(/^\s*\|.*$/gm) || []).length, sectionCoverage: reportPolicy.coverage(answer), auditFindings: [],
+        sourceAttempts: suppliedResults.flatMap(r => r.result?.sourceAttempts || []),
+        remainingGaps: suppliedResults.flatMap(r => r.result?.remainingGaps || r.result?.coverage?.remainingGaps || (r.result?.error ? [{ tool: r.tool, reason: r.result.error }] : [])), ...extra });
+    const ungroundedAnswer = () => {
+        const full = 'I could not obtain verified data for those figures. I cannot provide a reliable financial answer from memory.';
+        const answer = policy.explicitWordLimit && answerQuality.wordCount(full) > policy.maxWords ? policy.maxWords >= 5 ? 'A verified answer is unavailable.' : 'Unavailable.' : full;
+        return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, auditFindings: ['No research evidence supports the proposed answer.'] }) };
+    };
     const finish = async (text, streamed) => {
         const modelText = String(text || '');
-        text = answerQuality.normalizeFacetedViz(modelText);
+        text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeFacetedViz(modelText), suppliedResults, { ...policy, question: q }), sourceLinks);
         const normalizedChart = text !== modelText;
-        let issues = answerQuality.audit(text, suppliedResults, { question: q, mode });
+        let issues = answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
         const rewritten = normalizedChart || issues.length > 0;
         if (rewritten && streamed) { emit({ type: 'rollback' }); streamed = false; }
         if (issues.length > 0) {
             try {
                 const corrected = await deps.chatRaw(messages.concat(
                     { role: 'assistant', content: text },
-                    { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts. Fix every issue by DELETING, never by rewriting: a figure the tool results do not carry is deleted together with the sentence that needs it — never restated at another precision, never replaced with one from memory, never rounded to look like a different figure. Do not add any figure that is not already in the tool results. When the issue says the answer is over the word limit, delete whole sentences until it is under — the same sourced facts in fewer words, never fewer sourced facts.\n' + issues.join('\n') }
-                ), { purpose: 'chat', temperature: 0.1, maxTokens: 4000, toolChoice: 'none' });
+                    { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts. Delete unsupported figures and their dependent claims; preserve supported detail. Structural issues may be fixed by reorganising the existing evidence. For unsupported precision: a figure the tool results do not carry is deleted together with the sentence that needs it — never restated at another precision, never replaced with one from memory, never rounded to look like a different figure. Do not add any figure that is not already in the tool results. When the issue says the answer is over the word limit, remove repetition first and keep the useful supported business explanation, requested tables, visuals and gap reasons within the selected policy limit.\n' + issues.join('\n') }
+                ), { purpose: 'chat', temperature: 0.1, maxTokens: 8000, toolChoice: 'none' });
                 if (corrected._usage && num(corrected._usage.total_tokens) !== null) totalTokens += corrected._usage.total_tokens;
                 const correctedText = String(corrected.content || '').replace(THINK_RE, '').trim();
-                text = answerQuality.normalizeFacetedViz(correctedText);
+                text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeFacetedViz(correctedText), suppliedResults, { ...policy, question: q }), sourceLinks);
                 issues = !text || TEXT_TOOLCALL_RE.test(text) || aiClient.leaksIdentity(text)
                     ? ['The corrected analysis could not be validated.']
-                    : answerQuality.audit(text, suppliedResults, { question: q, mode });
+                    : answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
             } catch (_) { issues = ['The corrected analysis could not be validated.']; }
         }
         const source = issues.length ? 'partial' : 'ai';
         if (issues.length) text = receipt(suppliedResults, q);
-        const answer = evidence.appendCitations(text, sourceLinks);
+        const withSources = evidence.appendCitations(text, sourceLinks);
+        const answer = policy.explicitWordLimit && answerQuality.wordCount(withSources) > policy.maxWords ? text : withSources;
         if (onEvent && (!streamed || answer !== text)) {
             if (streamed) emit({ type: 'rollback' });
             emit({ type: 'delta', text: answer });
         }
         return { answer, toolsUsed, source, totalTokens,
-            quality: { policyVersion: 1, checked: true, rewritten, fallback: issues.length > 0 } };
+            quality: qualityFor(answer, { rewritten, fallback: issues.length > 0, auditFindings: issues }) };
     };
     let totalTokens = 0;
     // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by
@@ -2060,11 +2083,11 @@ async function ask({ question, history, ctx, mode, onEvent }) {
     // get_peer_context, get_guru_ownership, get_portfolio_xray) are cheap and
     // stay uncapped.
     const WEB_BUDGET = {
-        search_web: 3, fetch_page: 4, search_filings: 3,
+        search_web: 3, fetch_page: 4, search_filings: 3, get_supplemental_context: 1,
         get_unit_economics: 1, get_key_points: 1, get_governance: 1, get_esg: 1, get_filing_diff: 1
     };
     const webUsed = {
-        search_web: 0, fetch_page: 0, search_filings: 0,
+        search_web: 0, fetch_page: 0, search_filings: 0, get_supplemental_context: 0,
         get_unit_economics: 0, get_key_points: 0, get_governance: 0, get_esg: 0, get_filing_diff: 0
     };
     try {
@@ -2116,12 +2139,18 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 const runOne = async (tc) => {
                     let args = {};
                     try { args = JSON.parse(tc.function.arguments || '{}'); } catch (_) { /* bad JSON from model */ }
+                    const report = policy.kind==='company_report' && !policy.explicitWordLimit;
+                    if(report && ['get_financials','get_ratios_history'].includes(tc.function.name)){
+                        const selected=require('./ask-report-evidence').defaults(args.symbol,args.statement,args.basis);
+                        if(tc.function.name==='get_financials')args.fields=[...new Set([...selected.fields,...(Array.isArray(args.fields)?args.fields:[])])];
+                        if(tc.function.name==='get_ratios_history')args.metrics=[...new Set([...selected.metrics,...(Array.isArray(args.metrics)?args.metrics:[])])];
+                    }
                     let result;
                     const t0 = Date.now();
                     if (WEB_BUDGET[tc.function.name] !== undefined && ++webUsed[tc.function.name] > WEB_BUDGET[tc.function.name]) {
                         result = { error: `Web budget exhausted for ${tc.function.name} — answer now with what you already have.` };
                     } else {
-                        try { result = await runTool(tc.function.name, args, ctx); }
+                        try { result = await deps.runTool(tc.function.name, args, {...ctx,companyReportEvidence:report}); }
                         catch (error) { result = evidence.toolError(error); }
                     }
                     if (!result || typeof result !== 'object') result = { error: 'The data tool returned no result.' };
@@ -2140,8 +2169,15 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     // Reserve space for all remaining small error replies;
                     // every tool_call_id still needs a response when full.
                     const content = evidence.serializeResult(result, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
-                    const supplied = JSON.parse(content);
+                    const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
                     suppliedResults.push({ tool: tc.function.name, result: supplied });
+                    if (!policy.company && supplied.symbol) {
+                        const company = stockUniverse.lookup(supplied.symbol) || (['etf','mutual_fund','closed_end_fund'].includes(supplied.assetType) ? {symbol:supplied.symbol,name:supplied.name,securityType:supplied.assetType} : null);
+                        if (company) {
+                            policy = reportPolicy.select(q, mode, { company });
+                            messages.push({ role: 'system', content: reportPolicy.prompt(policy) + (policy.kind === 'company_report' ? '\n' + (mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST) : '') });
+                        }
+                    }
                     contextBytes += Buffer.byteLength(content);
                     if (!supplied.error && !['calculator', 'remember'].includes(tc.function.name)) hasResearchEvidence = true;
                     sourceLinks.push(...evidence.filingLinks(supplied));
@@ -2182,6 +2218,39 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
                 return { answer: "I'm Ask, the stockportfolio.pro assistant — I can only help with companies, portfolios and market data.", toolsUsed, source: 'blocked' };
             }
+            const missingResearch = reportPolicy.missingResearch(policy, toolsUsed);
+            if (missingResearch.length) {
+                if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                if (!reportResearchRetried && !lastRound) {
+                    reportResearchRetried = true;
+                    messages.push({ role: 'system', content: 'The full company report still needs these evidence requests before synthesis. Batch the missing calls now, preserving their periods and limits. Failed retrievals are specific gaps, never permission to invent values.\n' + JSON.stringify(missingResearch) });
+                    continue;
+                }
+                const answer = receipt(suppliedResults, q);
+                return { answer, toolsUsed, source: 'partial', totalTokens,
+                    quality: qualityFor(answer, { fallback: true, auditFindings: ['Required company evidence was not requested.'], missingResearch }) };
+            }
+            const supplemental = reportPolicy.supplementalNeeds(policy, suppliedResults);
+            if (supplemental && !reportSupplemented && !toolsUsed.some(t => t.tool === 'get_supplemental_context') && !lastRound) {
+                reportSupplemented = true;
+                if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
+                const t0 = Date.now();
+                let result;
+                try { result = await deps.runTool('get_supplemental_context', supplemental, ctx); }
+                catch (error) { result = evidence.toolError(error); }
+                const content = evidence.serializeResult(result || { error: 'Supplemental retrieval returned no evidence.' }, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+                const supplied = JSON.parse(content), id = 'report-supplement';
+                suppliedResults.push({ tool: 'get_supplemental_context', result: supplied });
+                contextBytes += Buffer.byteLength(content);
+                sourceLinks.push(...evidence.filingLinks(supplied));
+                const trace = { tool: 'get_supplemental_context', args: supplemental, ok: !supplied.error, ms: Date.now() - t0 };
+                toolsUsed.push(trace); emit({ type: 'tool', ...trace });
+                if (!supplied.error) hasResearchEvidence = true;
+                messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: 'get_supplemental_context', arguments: JSON.stringify(supplemental) } }] },
+                    { role: 'tool', tool_call_id: id, content },
+                    { role: 'system', content: 'The missing report evidence was checked through supplemental retrieval. Write the report using the supported observations and original business context, attribute provider figures with their dates, and state the specific remaining gaps. Do not repeat unsuccessful research.' });
+                continue;
+            }
             if (!grounded(text)) {
                 if (streamer && streamer.emittedAny) emit({ type: 'rollback' });
                 if (!groundingRetried && !lastRound) {
@@ -2204,6 +2273,10 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (finalMsg._usage && num(finalMsg._usage.total_tokens) !== null) totalTokens += finalMsg._usage.total_tokens;
             const finalText = String(finalMsg.content || '').replace(THINK_RE, '').trim();
             if (finalText && !aiClient.leaksIdentity(finalText)) {
+                if (reportPolicy.missingResearch(policy, toolsUsed).length) {
+                    const answer = receipt(suppliedResults, q);
+                    return { answer, toolsUsed, source: 'partial', totalTokens, quality: qualityFor(answer, { fallback: true, auditFindings: ['Required company evidence was not requested.'] }) };
+                }
                 if (!grounded(finalText)) return ungroundedAnswer();
                 const out = await finish(finalText, false);
                 return out;
@@ -2216,7 +2289,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             const answer = evidence.appendCitations(receipt(suppliedResults, q), sourceLinks);
             emit({ type: 'rollback' }); emit({ type: 'delta', text: answer });
             return { answer, toolsUsed, source: 'partial', totalTokens,
-                quality: { policyVersion: 1, checked: true, fallback: true, synthesisUnavailable: true } };
+                quality: qualityFor(answer, { fallback: true, synthesisUnavailable: true }) };
         }
         return {
             answer: toolsUsed.length
@@ -2264,7 +2337,7 @@ async function saveExchange(userId, question, answer) {
         const col = mongoose.connection.collection('ai_chat_log');
         await col.updateOne(
             { userId: String(userId) },
-            { $push: { turns: { $each: [{ q: String(question).slice(0, QUESTION_MAX_CHARS), a: String(answer).slice(0, 8000), at: new Date() }], $slice: -8 } } },
+            { $push: { turns: { $each: [{ q: String(question).slice(0, QUESTION_MAX_CHARS), a: String(answer).slice(0, reportPolicy.ANSWER_MAX_CHARS), at: new Date() }], $slice: -8 } } },
             { upsert: true }
         );
     } catch (_) { /* memory is best-effort */ }

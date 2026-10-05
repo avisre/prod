@@ -1,0 +1,151 @@
+{
+  "kind": "Deterministic source/layout probes; not live model evaluations",
+  "modelCalls": 0,
+  "providerCalls": 0,
+  "probes": [
+    {
+      "symbol": "AVGO",
+      "mode": "normal",
+      "proseWords": 784,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 3
+    },
+    {
+      "symbol": "AVGO",
+      "mode": "analyst",
+      "proseWords": 784,
+      "tableRows": 19,
+      "charts": 2,
+      "auditFindings": [],
+      "remainingGapCount": 3
+    },
+    {
+      "symbol": "AMD",
+      "mode": "normal",
+      "proseWords": 757,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "AMD",
+      "mode": "analyst",
+      "proseWords": 757,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "JPM",
+      "mode": "normal",
+      "proseWords": 788,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "JPM",
+      "mode": "analyst",
+      "proseWords": 788,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "PFE",
+      "mode": "normal",
+      "proseWords": 771,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "PFE",
+      "mode": "analyst",
+      "proseWords": 771,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "WMT",
+      "mode": "normal",
+      "proseWords": 725,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "WMT",
+      "mode": "analyst",
+      "proseWords": 725,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 5
+    },
+    {
+      "symbol": "O",
+      "mode": "normal",
+      "proseWords": 650,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 3
+    },
+    {
+      "symbol": "O",
+      "mode": "analyst",
+      "proseWords": 650,
+      "tableRows": 19,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 3
+    },
+    {
+      "symbol": "TSM",
+      "mode": "normal",
+      "proseWords": 741,
+      "tableRows": 7,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 8
+    },
+    {
+      "symbol": "TSM",
+      "mode": "analyst",
+      "proseWords": 741,
+      "tableRows": 7,
+      "charts": 1,
+      "auditFindings": [],
+      "remainingGapCount": 8
+    },
+    {
+      "symbol": "BRAI",
+      "mode": "normal",
+      "proseWords": 666,
+      "tableRows": 0,
+      "charts": 0,
+      "auditFindings": [],
+      "remainingGapCount": 15
+    },
+    {
+      "symbol": "BRAI",
+      "mode": "analyst",
+      "proseWords": 666,
+      "tableRows": 0,
+      "charts": 0,
+      "auditFindings": [],
+      "remainingGapCount": 15
+    }
+  ]
+}

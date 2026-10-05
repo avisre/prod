@@ -175,7 +175,8 @@ function serializeResult(result, remaining) {
     return JSON.stringify({ code: 'TOOL_CONTEXT_LIMIT', error: 'This result exceeds the research context budget. Request fewer periods or a narrower result. No values from this result were supplied.' });
 }
 
-function fitHistory(result, data, availablePeriods) {
+function fitHistory(result, data, availablePeriods, {compact=false}={}) {
+    if(compact)result=require('./ask-report-evidence').compact(result);
     const requestedPeriods = result.observations.length;
     result.history = { requestedPeriods, returnedPeriods: requestedPeriods, availablePeriods, omittedReason: null };
     while (Buffer.byteLength(JSON.stringify(result)) > MAX_RESULT_BYTES && result.observations.length > 1) {
@@ -184,6 +185,7 @@ function fitHistory(result, data, availablePeriods) {
         if (result.capitalReturns?.length) result.capitalReturns.pop();
         result.table = result.table.split('\n').slice(0, result.observations.length + 1).join('\n');
         result.provenance = provenance(data, [result.observations, result.comparisons, result.calculations, result.capitalReturns]);
+        if(compact)result=require('./ask-report-evidence').compact(result);
         result.history.returnedPeriods = result.observations.length;
         result.history.omittedReason = 'Older periods omitted to keep research within its context budget. Use before with the oldest returned periodEnd for the next history window.';
     }

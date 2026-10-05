@@ -32,10 +32,12 @@
   <header>
     <p class="label">Local Ask preview</p>
     <h1>Check the answer, charts and length</h1>
-    <p>Actual model responses, shown with the product’s renderer. Generate an example or ask your own question.</p>
+    <p id="review-description">Ask responses shown with the product’s renderer. The evidence checks below use the production policy.</p>
     <div class="review-controls">
       <button class="btn" type="button" data-example="short">Generate short answer</button>
       <button class="btn" type="button" data-example="complex">Generate complex answer</button>
+      <label for="company-example">Company report</label><select id="company-example"></select>
+      <button class="btn" type="button" id="company-generate">Generate report</button>
     </div>
   </header>
   <section class="review-card" aria-labelledby="custom-heading">
@@ -55,6 +57,7 @@
   </section>
   <section class="review-card" id="short-card"><h2>Short answer</h2><div id="short-output"><p>Generate the short example above.</p></div></section>
   <section class="review-card" id="complex-card"><h2>Complex answer</h2><div id="complex-output"><p>Generate the complex example above.</p></div></section>
+  <section class="review-card" id="company-card"><h2>Company report</h2><div id="company-output"><p>Choose a company example above.</p></div></section>
 </main>
 <script src="/assets/app.js"></script>
 <script>
@@ -66,8 +69,13 @@
   function render(result, target) {
     target.innerHTML = `<details><summary>Question · ${esc(result.mode === 'normal' ? 'Simple' : 'Analyst')}</summary><p class="review-question">${esc(result.question)}</p></details><div class="review-meta"></div><div class="ask-a${result.mode === 'normal' ? ' is-normal' : ''}">${V2.markdown(result.answer || '')}</div>`;
     const answer = target.querySelector('.ask-a');
-    const prose = String(result.answer || '').replace(/```[\s\S]*?```/g,'').replace(/\[([^\]]+)\]\([^)]*\)/g,'$1');
-    target.querySelector('.review-meta').textContent = `${words(answer.innerText)} displayed words · ${words(prose)} prose/table words · ${answer.querySelectorAll('.ask-viz').length} charts · ${(result.ms / 1000).toFixed(1)}s · ${result.source === 'ai' ? 'Model answer' : 'Partial or unavailable answer'}${result.quality?.rewritten ? ' · rewritten after checks' : ''}`;
+    const qa = result.quality || {}, selected = qa.policy || {};
+    const prose = String(result.answer || '').replace(/```[\s\S]*?```/g,'').replace(/^\s*\|.*$/gm,'').replace(/\[([^\]]+)\]\([^)]*\)/g,'$1');
+    target.querySelector('.review-meta').textContent = `${selected.kind || 'policy unavailable'} · ${qa.proseWords ?? words(prose)} prose words / ${selected.maxWords ?? '?'} limit · ${qa.tableRows ?? 0} table rows · ${answer.querySelectorAll('.ask-viz').length} charts · ${result.totalTokens ?? 0} tokens · ${((result.ms || 0) / 1000).toFixed(1)}s · ${result.fixture ? 'Deterministic fixture — not a model response' : result.source === 'ai' ? 'Model answer' : 'Partial or unavailable answer'}${qa.rewritten ? ' · rewritten after checks' : ''}`;
+    const detail = document.createElement('details');
+    detail.innerHTML = '<summary>Policy, section coverage, sources, gaps and audit findings</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere"></pre>';
+    detail.querySelector('pre').textContent = JSON.stringify({policy:selected, sectionCoverage:qa.sectionCoverage, sourceAttempts:qa.sourceAttempts || [], remainingGaps:qa.remainingGaps || [], auditFindings:qa.auditFindings || [], auditPasses:result.auditPasses?.map(({text,...pass})=>pass)},null,2);
+    target.append(detail);
     target.querySelectorAll('.ask-next').forEach(button => button.addEventListener('click', () => {
       if (busy) return;
       history = [{role:'user',content:result.question},{role:'assistant',content:result.answer}];
@@ -123,9 +131,19 @@
     event.preventDefault();
     generate({question:document.getElementById('question').value,mode:document.getElementById('mode').value,history:document.getElementById('followup').checked ? history : []},document.getElementById('custom-output'));
   });
+  let savedExamples = {};
+  const companySelect = document.getElementById('company-example');
+  companySelect.addEventListener('change',()=>{const example=savedExamples[companySelect.value];if(example)render(example,document.getElementById('company-output'));});
+  document.getElementById('company-generate').addEventListener('click',()=>generate({example:companySelect.value},document.getElementById('company-output')));
   Promise.all([fetch('/api/health').then(r=>r.json()),fetch('/api/examples').then(r=>r.json())]).then(([health,saved])=>{
-    status.textContent = health.configured ? 'Ready. Choose an example or enter a question.' : 'The local AI connection is not configured.';
-    for (const [id,result] of Object.entries(saved.examples)) render(result,document.getElementById(id+'-output'));
+    savedExamples = saved.examples;
+    for (const [id,prompt] of Object.entries(saved.prompts).filter(([id])=>!['short','complex'].includes(id))) {
+      const option=document.createElement('option');option.value=id;option.textContent=`${prompt.question} · ${prompt.mode==='normal'?'Simple':'Analyst'}`;companySelect.append(option);
+    }
+    status.textContent = health.offline ? 'Offline fixtures ready. Generation is disabled; no model quota is used.' : health.configured ? 'Ready. Choose an example or enter a question.' : 'The local AI connection is not configured.';
+    if(health.offline){document.getElementById('review-description').textContent='Saved deterministic fixtures rendered with production charts. These verify layout and numerical checks; they do not prove live model answer quality.';document.querySelectorAll('button').forEach(b=>b.disabled=true);}
+    for (const id of ['short','complex']) if(saved.examples[id])render(saved.examples[id],document.getElementById(id+'-output'));
+    if(saved.examples[companySelect.value])render(saved.examples[companySelect.value],document.getElementById('company-output'));
     window.__reviewReady = true;
   }).catch(()=>{status.textContent='Could not connect to the local backend.';});
 })();

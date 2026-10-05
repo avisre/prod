@@ -68,10 +68,20 @@ const DRIVER_SYSTEM = [
 function guard(o) { return o && Array.isArray(o.drivers); }
 
 // `peers`/`financials` are passed in by the dossier to avoid recompute.
-async function buildIndustry(symbol, { overview, peers = null, financials = null } = {}) {
+async function buildIndustry(symbol, { overview, peers = null, financials = null, allowAi = true, filingReference = null } = {}) {
     const sym = String(symbol || '').toUpperCase().trim();
     const sector = (overview && overview.Sector) || '';
     const ctx = sector ? sectorContext(sym, sector) : null;
+
+    if (!allowAi) {
+        if (filingReference?.accessionNumber && mongoose.connection.readyState === 1) {
+            try {
+                const hit = await col().findOne({ symbol: sym, accession: filingReference.accessionNumber, v: INDUSTRY_VERSION }, { maxTimeMS: 1500 });
+                if (hit?.payload) return { ...hit.payload, sectorContext: ctx, cached: true };
+            } catch (_) { /* deterministic peers remain usable during a cache outage */ }
+        }
+        return { sectorContext: ctx, drivers: [], note: 'No cached industry narrative is available. Use the original business filing context and supplied peer metrics; no additional model extraction was requested.' };
+    }
 
     const got = await filing.getFilingText(sym, '10-K', { maxChars: 420000 });
     if (!got || got.error) return { error: (got && got.error) || 'No 10-K found.', sectorContext: ctx };

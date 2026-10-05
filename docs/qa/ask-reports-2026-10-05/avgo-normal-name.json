@@ -1,0 +1,183 @@
+{
+  "fixture": true,
+  "question": "Broadcom",
+  "mode": "normal",
+  "answer": "# Broadcom (AVGO)\n\n**Review fixture:** assembled deterministically from production data tools. This is not a model-generated investment report. It demonstrates the report policy, financial tables and product renderer without spending model quota.\n\n## What the business does\n\nBroadcom Inc. designs, develops, and supplies various semiconductor devices and infrastructure software solutions internationally. The company operates in two segments: Semiconductor Solutions and Infrastructure Software. The company offers networking connectivity, such as custom silicon solutions, ethernet switching & routing, ethernet NIC controllers, physical layer devices, and fiber optic components; wireless device connectivity, including RF semiconductor devices, connectivity solutions, custom touch controllers, and inductive charging ASICS; servers and storage system solutions, such as PCIE switches, SAS & raid products, fibre channel products, and HDD & SSD solutions; broadband solutions, includes set-top box, and broadband access; and industrial. The company also offers a private cloud software portfolio, including the VMware Cloud Foundation, Edge, vSphere foundation, telco cloud platform, private AI, live recovery, application networking and security, application development and data services; mainframe software, such as AIOPS & automation, database & data management, DEVX & DEVOPS, cybersecurity & compliance management, beyond code programs, foundational & open mainframe solutions; cybersecurity, such as endpoint, network, information, application security, and identity & access management; enterprise software; and fc san management.\n\nBusiness-description source: stored Yahoo Finance profile; its original retrieval date is unavailable in this legacy cache. A customer report must check official publications or retrieve a dated profile before treating it as current.\n\n## Customers, products and revenue streams\n\nAn investor needs to understand who buys the company’s products, how those customers use them and which divisions earn the revenue. The financial statements establish reported company totals. They do not, by themselves, establish the product mix, recurring nature of sales or bargaining power of individual customers. Those explanations require the supplied original business disclosure.\n\nCompatible segment observations are available from the original annual disclosure. The model may choose their table, a bar comparison or a reconciled revenue Sankey.\n\n## Four reported quarters\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2026-08-02 | USD 29591000000 | USD 20456000000 | USD 15955000000 | USD 13088000000 |\n| 2026-05-03 | USD 22187000000 | USD 15415000000 | USD 10788000000 | USD 9310000000 |\n| 2026-02-01 | USD 19311000000 | USD 13157000000 | USD 8563000000 | USD 7349000000 |\n| 2025-11-02 | USD 18015000000 | USD 12249000000 | USD 7508000000 | USD 8518000000 |\n\nThe quarter table uses actual fiscal period ends and the reported currency. This matters when a company’s financial year differs from the calendar year. A directly reported quarter and a compatible derived quarter are observations with different evidence paths. The derivation retains its source inputs. Missing history stays unavailable and a reported zero remains a valid value.\n\nQuarterly calculated margins, using compatible observations:\n\n| fiscal_quarter_end | grossMargin% | opMargin% | netMargin% | rdIntensity% |\n| --- | --- | --- | --- | --- |\n| 2026-08-02 | 69.1 | 53.9 | 44.2 | 9.8 |\n| 2026-05-03 | 69.5 | 48.6 | 42.0 | 13.5 |\n| 2026-02-01 | 68.1 | 44.3 | 38.1 | 15.4 |\n| 2025-11-02 | 68.0 | 41.7 | 47.3 | 16.5 |\n\n## Five annual periods\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2025-11-02 | USD 63887000000 | USD 43294000000 | USD 25484000000 | USD 23126000000 |\n| 2024-11-03 | USD 51574000000 | USD 32509000000 | USD 13463000000 | USD 5895000000 |\n| 2023-10-29 | USD 35819000000 | USD 24690000000 | USD 16207000000 | USD 14082000000 |\n| 2022-10-30 | USD 33203000000 | USD 22095000000 | USD 14225000000 | USD 11495000000 |\n| 2021-10-31 | USD 27450000000 | USD 16844000000 | USD 8519000000 | USD 6736000000 |\n\nThe annual history places the most recent quarter in a longer financial context. Revenue measures the amount the business earned from its customers. Gross profit is what remains after the associated direct costs. Operating income reflects operating expenses as well. Net income includes further items such as financing and taxes. These definitions help a Simple reader interpret the same evidence that an Analyst reader receives.\n\nA chart shows the direction and shape of that history; the table preserves exact values. The model may use a line or bars for a comparable annual series. When metrics are very different in size, separate bar panels preserve readable values. Different currencies and accounting definitions remain separate. A dated provider series may fill an otherwise unavailable annual chart, with its source named visibly.\n\n## Competitive differences\n\nPeer positioning is useful only when the companies and metrics are comparable. A sector median supplies context rather than a conclusion about the business. The production peer tool provides an industry profile so the final model can choose the relevant measures and explain their limits. A bank, semiconductor designer and property owner should not be judged by an identical generic set of ratios.\n\n## Material risks\n\nCompany-specific risk explanations require original disclosures or fetched reputable articles. Statement history can reveal a financial pattern, but it does not establish the cause of that pattern. The offline probe makes no unsupported claim about a customer, product, regulatory proceeding or future outcome. A live report must retrieve that context and distinguish observed history from an uncertain explanation.\n\n## Dated valuation\n\nStored quote: USD 355.14, as of 2026-10-02. Source: Yahoo Finance daily snapshot.\n\nMarket prices and financial statements have different clocks. A dated close is useful evidence and should keep its actual timestamp, including when a market is closed or a provider is unavailable. A valuation multiple also needs compatible financial inputs. Missing per-share evidence cannot be repaired by attaching an issuer’s unverified share-class figure to the requested listing.\n\n**The read** — The displayed tables and chart can be checked against supplied observations. The business, competitive and risk discussion still needs original context where the offline cache leaves a gap. This fixture verifies the mechanics and layout; live model response quality remains a separate, deferred check.\n\n\n\n```viz\n{\"title\":\"Annual revenue\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-10-31\",27450000000],[\"2022-10-30\",33203000000],[\"2023-10-29\",35819000000],[\"2024-11-03\",51574000000],[\"2025-11-02\",63887000000]]}]}\n```\n\n> Next: Which reported business division drives the revenue trend?",
+  "source": "ai",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AVGO",
+        "statement": "income",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AVGO",
+        "statement": "balance",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AVGO",
+        "statement": "cash",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AVGO",
+        "statement": "income",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "AVGO",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "AVGO",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "AVGO",
+        "missingFields": [],
+        "missingSections": [
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true
+    }
+  ],
+  "totalTokens": 0,
+  "ms": 598,
+  "generatedAt": "2026-10-05T10:12:36.941Z",
+  "quality": {
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "normal",
+      "company": {
+        "symbol": "AVGO",
+        "name": "Broadcom",
+        "securityName": "Broadcom Inc. - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "AVGO"
+        ],
+        "isADR": false,
+        "cik": "0001730168",
+        "sector": "Information Technology"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "policyVersion": 2,
+    "proseWords": 784,
+    "tableRows": 19,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_key_points",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "tool": "get_filing_diff",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      }
+    ]
+  }
+}

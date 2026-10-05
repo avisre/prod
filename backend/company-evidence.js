@@ -79,7 +79,7 @@ function createResolver(deps={}) {
   }
   const missing=obs.gaps([...filed,...supplemental.filter(f=>f.state==='available')],fields,periods,reporting.reportingCadence,reporting);
   let profileMissing=!profile;try{const raw=require('./fundamentals-cache').loadRawFundamentals(company.symbol);profileMissing=!profile && !raw?.overview?.Description;}catch(_){}
-  if(missing.length || profileMissing) {
+  if(missing.length || profileMissing || (periods.businessProfile && !profile)) {
    const sections=[...new Set(missing.map(g=>Object.entries(require('./sec-facts').MAPS).find(([,defs])=>defs[g.field])?.[0]).filter(Boolean))];
    try{
     const live=await (deps.yahoo || require('./yahoo-source').fetchSupplementalSnapshot)(company.symbol,sections);
@@ -109,9 +109,9 @@ function createResolver(deps={}) {
   if(saved && Date.parse(saved.reporting?.lastSuccessfulCheckAt || saved.providerLastSuccessfulCheckAt || 0)>=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || 0) && (!saved.financial || !p.validateFinancial(saved.financial,company.cik).length))state={...state,...saved};
   let result=projection(company,state,requiredFields,requestedPeriods);
   const now=Date.now(),last=Date.parse(state.reporting?.lastSuccessfulCheckAt || state.providerLastSuccessfulCheckAt || ''),failed=now-Date.parse(state.lastAttemptAt || '')<FAILURE_COOLDOWN && requiredFields.every(f=>(state.attemptedFields || []).includes(f));
-  if(checkFreshness && !failed && (!Number.isFinite(last) || now-last>SIX_HOURS || result.remainingGaps.length)) {
+  if(checkFreshness && !failed && (!Number.isFinite(last) || now-last>SIX_HOURS || result.remainingGaps.length || (requestedPeriods.businessProfile && !result.data.businessProfile))) {
    let task=pending.get(identity(company));
-   if(task){for(const field of requiredFields)if(!task.requestedFields.includes(field))task.requestedFields.push(field);for(const basis of ['annual','quarterly'])task.requestedPeriods[basis]=Math.max(task.requestedPeriods[basis] || 0,requestedPeriods[basis] || 0);}
+   if(task){for(const field of requiredFields)if(!task.requestedFields.includes(field))task.requestedFields.push(field);for(const basis of ['annual','quarterly'])task.requestedPeriods[basis]=Math.max(task.requestedPeriods[basis] || 0,requestedPeriods[basis] || 0);if(requestedPeriods.businessProfile)task.requestedPeriods.businessProfile=true;}
    if(!task){calls=calls.filter(t=>now-t<600000);if(pending.size>=2 || calls.length>=60){result.freshness.backgroundStatus='capacity_limited';return applyQuote(result,await quoteTask);}calls.push(now);const fields=[...requiredFields],periods={...requestedPeriods};task=supplement(company,state,fields,periods).finally(()=>pending.delete(identity(company)));task.requestedFields=fields;task.requestedPeriods=periods;pending.set(identity(company),task);}
    let timer;const completed=await Promise.race([task,new Promise(resolve=>{timer=setTimeout(()=>resolve(null),deps.timeoutMs ?? 15000);})]);clearTimeout(timer);
    if(completed)result=projection(company,completed,requiredFields,requestedPeriods);

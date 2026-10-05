@@ -1,0 +1,193 @@
+{
+  "fixture": true,
+  "question": "AMD",
+  "mode": "analyst",
+  "answer": "# Advanced Micro Devices (AMD)\n\n**Review fixture:** assembled deterministically from production data tools. This is not a model-generated investment report. It demonstrates the report policy, financial tables and product renderer without spending model quota.\n\n## What the business does\n\nAdvanced Micro Devices, Inc. operates as a semiconductor company internationally. It operates in three segments: Data Center, Client and Gaming, and Embedded. The company offers artificial intelligence (AI) accelerators, microprocessors, and graphics processing units (GPUs) as standalone devices or as incorporated into accelerated processing units, chipsets, and data center and professional GPUs; and embedded processors and semi-custom system-on-chip (SoC) products, microprocessor and SoC development services and technology, data processing units, field programmable gate arrays (FPGA), system on modules, AI network interface cards, and adaptive SoC products. It provides processors under the AMD Ryzen, AMD Ryzen AI, AMD Ryzen PRO, AMD Ryzen Threadripper, AMD Ryzen Threadripper PRO, AMD Athlon, and AMD PRO A-Series brands; graphics under the AMD Radeon graphics and AMD Embedded Radeon graphics; professional graphics under the AMD Radeon Pro graphics brand; and AI and general-purpose compute infrastructure for hyperscale providers.\n\nBusiness-description source: stored Yahoo Finance profile; its original retrieval date is unavailable in this legacy cache. A customer report must check official publications or retrieve a dated profile before treating it as current.\n\n## Customers, products and revenue streams\n\nAn investor needs to understand who buys the company’s products, how those customers use them and which divisions earn the revenue. The financial statements establish reported company totals. They do not, by themselves, establish the product mix, recurring nature of sales or bargaining power of individual customers. Those explanations require the supplied original business disclosure.\n\nThe offline probe does not establish a complete division or segment breakdown. That remains a specific disclosure gap; no division share is estimated from a company total.\n\n## Four reported quarters\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2026-06-27 | USD 11536000000 | USD 6203000000 | USD 1990000000 | USD 2297000000 |\n| 2026-03-28 | USD 10253000000 | USD 5416000000 | USD 1476000000 | USD 1383000000 |\n| 2025-12-27 | USD 10270000000 | USD 5577000000 | USD 1752000000 | USD 1511000000 |\n| 2025-09-27 | USD 9246000000 | USD 4780000000 | USD 1270000000 | USD 1243000000 |\n\nThe quarter table uses actual fiscal period ends and the reported currency. This matters when a company’s financial year differs from the calendar year. A directly reported quarter and a compatible derived quarter are observations with different evidence paths. The derivation retains its source inputs. Missing history stays unavailable and a reported zero remains a valid value.\n\nQuarterly calculated margins, using compatible observations:\n\n| fiscal_quarter_end | grossMargin% | opMargin% | netMargin% | rdIntensity% |\n| --- | --- | --- | --- | --- |\n| 2026-06-27 | 53.8 | 17.3 | 19.9 | 21.9 |\n| 2026-03-28 | 52.8 | 14.4 | 13.5 | 23.4 |\n| 2025-12-27 | 54.3 | 17.1 | 14.7 | 22.7 |\n| 2025-09-27 | 51.7 | 13.7 | 13.4 | 23.1 |\n\n## Five annual periods\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2025-12-27 | USD 34639000000 | USD 17152000000 | USD 3694000000 | USD 4335000000 |\n| 2024-12-28 | USD 25785000000 | USD 12725000000 | USD 1900000000 | USD 1641000000 |\n| 2023-12-30 | USD 22680000000 | USD 10460000000 | USD 401000000 | USD 854000000 |\n| 2022-12-31 | USD 23601000000 | USD 10603000000 | USD 1264000000 | USD 1320000000 |\n| 2021-12-25 | USD 16434000000 | USD 7929000000 | USD 3648000000 | USD 3162000000 |\n\nThe annual history places the most recent quarter in a longer financial context. Revenue measures the amount the business earned from its customers. Gross profit is what remains after the associated direct costs. Operating income reflects operating expenses as well. Net income includes further items such as financing and taxes. These definitions help a Simple reader interpret the same evidence that an Analyst reader receives.\n\nA chart shows the direction and shape of that history; the table preserves exact values. The model may use a line or bars for a comparable annual series. When metrics are very different in size, separate bar panels preserve readable values. Different currencies and accounting definitions remain separate. A dated provider series may fill an otherwise unavailable annual chart, with its source named visibly.\n\n```bars\n{\"title\":\"Annual revenue and net income\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"orientation\":\"vertical\",\"facet\":true}\n```\n\n## Competitive differences\n\nPeer positioning is useful only when the companies and metrics are comparable. A sector median supplies context rather than a conclusion about the business. The production peer tool provides an industry profile so the final model can choose the relevant measures and explain their limits. A bank, semiconductor designer and property owner should not be judged by an identical generic set of ratios.\n\n## Material risks\n\nCompany-specific risk explanations require original disclosures or fetched reputable articles. Statement history can reveal a financial pattern, but it does not establish the cause of that pattern. The offline probe makes no unsupported claim about a customer, product, regulatory proceeding or future outcome. A live report must retrieve that context and distinguish observed history from an uncertain explanation.\n\n## Dated valuation\n\nStored quote: USD 633.91, as of 2026-10-02. Source: Yahoo Finance daily snapshot.\n\nMarket prices and financial statements have different clocks. A dated close is useful evidence and should keep its actual timestamp, including when a market is closed or a provider is unavailable. A valuation multiple also needs compatible financial inputs. Missing per-share evidence cannot be repaired by attaching an issuer’s unverified share-class figure to the requested listing.\n\n**The read** — The displayed tables and chart can be checked against supplied observations. The business, competitive and risk discussion still needs original context where the offline cache leaves a gap. This fixture verifies the mechanics and layout; live model response quality remains a separate, deferred check.\n\n> Next: Which reported business division drives the revenue trend?",
+  "source": "ai",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AMD",
+        "statement": "income",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AMD",
+        "statement": "balance",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AMD",
+        "statement": "cash",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AMD",
+        "statement": "income",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "AMD",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "AMD",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "AMD",
+        "missingFields": [],
+        "missingSections": [
+          "segments",
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true
+    }
+  ],
+  "totalTokens": 0,
+  "ms": 382,
+  "generatedAt": "2026-10-05T10:12:38.148Z",
+  "quality": {
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "analyst",
+      "company": {
+        "symbol": "AMD",
+        "name": "Advanced Micro Devices",
+        "securityName": "Advanced Micro Devices, Inc. - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "AMD"
+        ],
+        "isADR": false,
+        "cik": "0000002488",
+        "sector": "Information Technology"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "policyVersion": 2,
+    "proseWords": 757,
+    "tableRows": 19,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_segments",
+        "reason": "No stored compatible segment group; live extraction is disabled in this review."
+      },
+      {
+        "tool": "get_key_points",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "tool": "get_filing_diff",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      },
+      {
+        "section": "segments",
+        "state": "missing",
+        "reason": "This supplemental financial resolver does not establish that section. Use the dedicated segment, quote or original-document tool; preserve a gap when those sources fail."
+      }
+    ]
+  }
+}

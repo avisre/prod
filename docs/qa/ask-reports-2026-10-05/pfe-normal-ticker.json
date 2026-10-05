@@ -1,0 +1,193 @@
+{
+  "fixture": true,
+  "question": "PFE",
+  "mode": "normal",
+  "answer": "# Pfizer (PFE)\n\n**Review fixture:** assembled deterministically from production data tools. This is not a model-generated investment report. It demonstrates the report policy, financial tables and product renderer without spending model quota.\n\n## What the business does\n\nPfizer Inc. discovers, develops, manufactures, markets, distributes, and sells biopharmaceutical products in the United States and internationally. It also provides inflammation and immunology products, such as Xeljanz, Enbrel, Cibinqo, Litfulo, Eucrisa, and Velsipity; rare disease products for therapeutic areas comprising amyloidosis, hemophilia, and endocrine diseases under the Vyndaqel family, Genotropin, BeneFIX, Xyntha, Somavert, Ngenla, and Hympavzi brands; and anti-infective and immunoglobulin medicines under the Zavicefta, Octagam, and Panzyga brands. In addition, the company offers oncology products comprising ADCs, small molecules, bispecific, and other immunotherapies for the treatment of cancers, including breast cancer, genitourinary cancer, and hematologic malignancies, as well as melanoma, gastrointestinal, gynecological, and lung cancer under the Ibrance, Xtandi, Padcev, Adcetris, Inlyta, Lorbrena, Bosulif, Tukysa, Braftovi, Mektovi, Orgovyx, Elrexfio, Tivdak, and Talzenna brands. Further, it provides biosimilars under the Inflectra brand; oncology biosimilars comprising Retacrit, Ruxience, Zirabev, Trazimera and Nivestym, and other biosimilars; and sterile injectables, such as Sulperazon, Atgam, Fragmin, Solu Medrol, Solu Cortef, and Bicillin.\n\nBusiness-description source: stored Yahoo Finance profile; its original retrieval date is unavailable in this legacy cache. A customer report must check official publications or retrieve a dated profile before treating it as current.\n\n## Customers, products and revenue streams\n\nAn investor needs to understand who buys the company’s products, how those customers use them and which divisions earn the revenue. The financial statements establish reported company totals. They do not, by themselves, establish the product mix, recurring nature of sales or bargaining power of individual customers. Those explanations require the supplied original business disclosure.\n\nThe offline probe does not establish a complete division or segment breakdown. That remains a specific disclosure gap; no division share is estimated from a company total.\n\n## Four reported quarters\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2026-06-28 | USD 15034000000 | USD 10942000000 | Not disclosed | USD -248000000 |\n| 2026-03-29 | USD 14451000000 | USD 10903000000 | Not disclosed | USD 2687000000 |\n| 2025-12-31 | USD 17557000000 | USD 12285000000 | Not disclosed | USD -1648000000 |\n| 2025-09-28 | USD 16654000000 | USD 12482000000 | Not disclosed | USD 3541000000 |\n\nThe quarter table uses actual fiscal period ends and the reported currency. This matters when a company’s financial year differs from the calendar year. A directly reported quarter and a compatible derived quarter are observations with different evidence paths. The derivation retains its source inputs. Missing history stays unavailable and a reported zero remains a valid value.\n\nQuarterly calculated margins, using compatible observations:\n\n| fiscal_quarter_end | grossMargin% | opMargin% | netMargin% | rdIntensity% |\n| --- | --- | --- | --- | --- |\n| 2026-06-28 | 72.8 | - | -1.6 | - |\n| 2026-03-29 | 75.4 | - | 18.6 | - |\n| 2025-12-31 | 70.0 | - | -9.4 | - |\n| 2025-09-28 | 74.9 | - | 21.3 | - |\n\n## Five annual periods\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2025-12-31 | USD 62579000000 | USD 46512000000 | Not disclosed | USD 7771000000 |\n| 2024-12-31 | USD 63627000000 | USD 45776000000 | Not disclosed | USD 8031000000 |\n| 2023-12-31 | USD 50914000000 | Not disclosed | Not disclosed | USD 2119000000 |\n| 2022-12-31 | USD 91793000000 | Not disclosed | Not disclosed | USD 31372000000 |\n| 2021-12-31 | USD 73636000000 | USD 42815000000 | Not disclosed | USD 21979000000 |\n\nThe annual history places the most recent quarter in a longer financial context. Revenue measures the amount the business earned from its customers. Gross profit is what remains after the associated direct costs. Operating income reflects operating expenses as well. Net income includes further items such as financing and taxes. These definitions help a Simple reader interpret the same evidence that an Analyst reader receives.\n\nA chart shows the direction and shape of that history; the table preserves exact values. The model may use a line or bars for a comparable annual series. When metrics are very different in size, separate bar panels preserve readable values. Different currencies and accounting definitions remain separate. A dated provider series may fill an otherwise unavailable annual chart, with its source named visibly.\n\n## Competitive differences\n\nPeer positioning is useful only when the companies and metrics are comparable. A sector median supplies context rather than a conclusion about the business. The production peer tool provides an industry profile so the final model can choose the relevant measures and explain their limits. A bank, semiconductor designer and property owner should not be judged by an identical generic set of ratios.\n\n## Material risks\n\nCompany-specific risk explanations require original disclosures or fetched reputable articles. Statement history can reveal a financial pattern, but it does not establish the cause of that pattern. The offline probe makes no unsupported claim about a customer, product, regulatory proceeding or future outcome. A live report must retrieve that context and distinguish observed history from an uncertain explanation.\n\n## Dated valuation\n\nStored quote: USD 27.8, as of 2026-10-02. Source: Yahoo Finance daily snapshot.\n\nMarket prices and financial statements have different clocks. A dated close is useful evidence and should keep its actual timestamp, including when a market is closed or a provider is unavailable. A valuation multiple also needs compatible financial inputs. Missing per-share evidence cannot be repaired by attaching an issuer’s unverified share-class figure to the requested listing.\n\n**The read** — The displayed tables and chart can be checked against supplied observations. The business, competitive and risk discussion still needs original context where the offline cache leaves a gap. This fixture verifies the mechanics and layout; live model response quality remains a separate, deferred check.\n\n\n\n```viz\n{\"title\":\"Annual revenue\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-31\",73636000000],[\"2022-12-31\",91793000000],[\"2023-12-31\",50914000000],[\"2024-12-31\",63627000000],[\"2025-12-31\",62579000000]]}]}\n```\n\n> Next: Which reported business division drives the revenue trend?",
+  "source": "ai",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "PFE",
+        "statement": "income",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "PFE",
+        "statement": "balance",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "PFE",
+        "statement": "cash",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "PFE",
+        "statement": "income",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "PFE",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "PFE",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "PFE"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "PFE"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "PFE"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "PFE"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "PFE"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "PFE",
+        "missingFields": [],
+        "missingSections": [
+          "segments",
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true
+    }
+  ],
+  "totalTokens": 0,
+  "ms": 317,
+  "generatedAt": "2026-10-05T10:12:38.976Z",
+  "quality": {
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "normal",
+      "company": {
+        "symbol": "PFE",
+        "name": "Pfizer",
+        "securityName": "Pfizer, Inc. Common Stock",
+        "exchange": "NYSE",
+        "securityType": "stock",
+        "aliases": [
+          "PFE"
+        ],
+        "isADR": false,
+        "cik": "0000078003",
+        "sector": "Health Care"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "policyVersion": 2,
+    "proseWords": 771,
+    "tableRows": 19,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_segments",
+        "reason": "No stored compatible segment group; live extraction is disabled in this review."
+      },
+      {
+        "tool": "get_key_points",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "tool": "get_filing_diff",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      },
+      {
+        "section": "segments",
+        "state": "missing",
+        "reason": "This supplemental financial resolver does not establish that section. Use the dedicated segment, quote or original-document tool; preserve a gap when those sources fail."
+      }
+    ]
+  }
+}

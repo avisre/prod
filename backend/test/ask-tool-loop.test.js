@@ -155,11 +155,13 @@ test('the answer framework is injected for open-ended company questions only', a
     assert.doesNotMatch(analyst, /ANSWER SHAPE/);
     const normal = await systemFor('AMD', 'normal');
     assert.match(normal, /ANSWER SHAPE/);
-    assert.match(normal, /No chart for a bare ticker/);
+    assert.match(normal, /VISUAL FREEDOM/);
+    assert.doesNotMatch(normal, /No chart for a bare ticker/);
     // Normal mode is simplified, not thin: it fetches the same evidence and
     // carries its own budget, in everyday English.
     assert.match(normal, /SIMPLE, NOT THIN/);
-    assert.match(normal, /normal limit of 320 prose words/);
+    assert.match(normal, /aim for 600–900 prose words in BOTH modes/);
+    assert.match(normal, /default prose limit 1200 words/);
     assert.match(normal, /get_filing_diff/);
     assert.doesNotMatch(normal, /ANSWER FRAMEWORK/);
     // A named figure, period, comparison or portfolio question keeps the older

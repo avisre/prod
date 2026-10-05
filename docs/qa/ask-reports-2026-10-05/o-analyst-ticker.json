@@ -1,0 +1,183 @@
+{
+  "fixture": true,
+  "question": "O",
+  "mode": "analyst",
+  "answer": "# Realty Income (O)\n\n**Review fixture:** assembled deterministically from production data tools. This is not a model-generated investment report. It demonstrates the report policy, financial tables and product renderer without spending model quota.\n\n## What the business does\n\nstates, the U.K., and eight other countries in Europe. We are known as \"The Monthly Dividend Company\" and have a mission to invest in people and places to deliver dependable monthly dividends that increase over time.\n\nBusiness-description source: stored Yahoo Finance profile; its original retrieval date is unavailable in this legacy cache. A customer report must check official publications or retrieve a dated profile before treating it as current.\n\n## Customers, products and revenue streams\n\nAn investor needs to understand who buys the company’s products, how those customers use them and which divisions earn the revenue. The financial statements establish reported company totals. They do not, by themselves, establish the product mix, recurring nature of sales or bargaining power of individual customers. Those explanations require the supplied original business disclosure.\n\nThe offline probe does not establish a complete division or segment breakdown. That remains a specific disclosure gap; no division share is estimated from a company total.\n\n## Four reported quarters\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2026-06-30 | USD 1547711000 | Not disclosed | Not disclosed | USD 370513000 |\n| 2026-03-31 | USD 1548727000 | Not disclosed | Not disclosed | USD 320935000 |\n| 2025-12-31 | USD 1487942000 | Not disclosed | Not disclosed | USD 296085000 |\n| 2025-09-30 | USD 1470552000 | Not disclosed | Not disclosed | USD 315771000 |\n\nThe quarter table uses actual fiscal period ends and the reported currency. This matters when a company’s financial year differs from the calendar year. A directly reported quarter and a compatible derived quarter are observations with different evidence paths. The derivation retains its source inputs. Missing history stays unavailable and a reported zero remains a valid value.\n\nQuarterly calculated margins, using compatible observations:\n\n| fiscal_quarter_end | grossMargin% | opMargin% | netMargin% | rdIntensity% |\n| --- | --- | --- | --- | --- |\n| 2026-06-30 | - | - | 23.9 | - |\n| 2026-03-31 | - | - | 20.7 | - |\n| 2025-12-31 | - | - | 19.9 | - |\n| 2025-09-30 | - | - | 21.5 | - |\n\n## Five annual periods\n\n| Period end | Revenue | Gross profit | Operating income | Net income |\n| --- | ---: | ---: | ---: | ---: |\n| 2025-12-31 | USD 5749377000 | Not disclosed | Not disclosed | USD 1058590000 |\n| 2024-12-31 | USD 5271142000 | Not disclosed | Not disclosed | USD 860772000 |\n| 2023-12-31 | USD 4078993000 | Not disclosed | Not disclosed | USD 872309000 |\n| 2022-12-31 | USD 3343681000 | Not disclosed | Not disclosed | USD 869408000 |\n| 2021-12-31 | USD 2080463000 | Not disclosed | Not disclosed | USD 359456000 |\n\nThe annual history places the most recent quarter in a longer financial context. Revenue measures the amount the business earned from its customers. Gross profit is what remains after the associated direct costs. Operating income reflects operating expenses as well. Net income includes further items such as financing and taxes. These definitions help a Simple reader interpret the same evidence that an Analyst reader receives.\n\nA chart shows the direction and shape of that history; the table preserves exact values. The model may use a line or bars for a comparable annual series. When metrics are very different in size, separate bar panels preserve readable values. Different currencies and accounting definitions remain separate. A dated provider series may fill an otherwise unavailable annual chart, with its source named visibly.\n\n```bars\n{\"title\":\"Annual revenue and net income\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-31\",2080463000],[\"2022-12-31\",3343681000],[\"2023-12-31\",4078993000],[\"2024-12-31\",5271142000],[\"2025-12-31\",5749377000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-31\",359456000],[\"2022-12-31\",869408000],[\"2023-12-31\",872309000],[\"2024-12-31\",860772000],[\"2025-12-31\",1058590000]]}],\"orientation\":\"vertical\",\"facet\":true}\n```\n\n## Competitive differences\n\nPeer positioning is useful only when the companies and metrics are comparable. A sector median supplies context rather than a conclusion about the business. The production peer tool provides an industry profile so the final model can choose the relevant measures and explain their limits. A bank, semiconductor designer and property owner should not be judged by an identical generic set of ratios.\n\n## Material risks\n\nCompany-specific risk explanations require original disclosures or fetched reputable articles. Statement history can reveal a financial pattern, but it does not establish the cause of that pattern. The offline probe makes no unsupported claim about a customer, product, regulatory proceeding or future outcome. A live report must retrieve that context and distinguish observed history from an uncertain explanation.\n\n## Dated valuation\n\nStored quote: USD 54.13, as of 2026-10-02. Source: Yahoo Finance daily snapshot.\n\nMarket prices and financial statements have different clocks. A dated close is useful evidence and should keep its actual timestamp, including when a market is closed or a provider is unavailable. A valuation multiple also needs compatible financial inputs. Missing per-share evidence cannot be repaired by attaching an issuer’s unverified share-class figure to the requested listing.\n\n**The read** — The displayed tables and chart can be checked against supplied observations. The business, competitive and risk discussion still needs original context where the offline cache leaves a gap. This fixture verifies the mechanics and layout; live model response quality remains a separate, deferred check.\n\n> Next: Which reported business division drives the revenue trend?",
+  "source": "ai",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "O",
+        "statement": "income",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "O",
+        "statement": "balance",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "O",
+        "statement": "cash",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "O",
+        "statement": "income",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "O",
+        "basis": "annual",
+        "limit": 5
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "symbol": "O",
+        "basis": "quarterly",
+        "limit": 4
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "O"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "O"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "O"
+      },
+      "ok": true
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "O"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "O"
+      },
+      "ok": false
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "O",
+        "missingFields": [],
+        "missingSections": [
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true
+    }
+  ],
+  "totalTokens": 0,
+  "ms": 250,
+  "generatedAt": "2026-10-05T10:12:40.554Z",
+  "quality": {
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "analyst",
+      "company": {
+        "symbol": "O",
+        "name": "Realty Income",
+        "securityName": "Realty Income Corporation Common Stock",
+        "exchange": "NYSE",
+        "securityType": "stock",
+        "aliases": [
+          "O"
+        ],
+        "isADR": false,
+        "cik": "0000726728",
+        "sector": "Real Estate"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "policyVersion": 2,
+    "proseWords": 650,
+    "tableRows": 19,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_key_points",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "tool": "get_filing_diff",
+        "reason": "Original narrative/model extraction is deferred in this offline source-and-layout review."
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      }
+    ]
+  }
+}

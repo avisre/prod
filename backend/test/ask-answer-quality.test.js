@@ -378,8 +378,8 @@ test('length counts visible prose, not chart JSON/URLs; explicit and detailed re
     // The framework's measured size sets the cap, not the other way round: five
     // live analyst answers ran 348–432 prose words with tables already excluded,
     // so a 350 cap rejected the owner's own target shape on length alone.
-    assert.equal(q.wordLimit('AMD', 'analyst'), 480);
-    assert.equal(q.wordLimit('AMD', 'normal'), 320);
+    assert.equal(q.wordLimit('AMD', 'analyst'), 1200);
+    assert.equal(q.wordLimit('AMD', 'normal'), 1200);
     // Five percent of jitter above the quoted cap is tolerated — a model that
     // lands within a few words of the target has followed the instruction, and
     // rejecting it publishes the generic receipt instead of the answer.
@@ -387,6 +387,10 @@ test('length counts visible prose, not chart JSON/URLs; explicit and detailed re
     assert.match(q.audit('word '.repeat(340), [], { mode: 'normal' }).join(' '), /over the 320-word limit/);
     // A rich analyst answer inside the raised cap raises no length issue at all.
     assert.deepEqual(q.audit('word '.repeat(430), [], { mode: 'analyst' }), []);
+    assert.deepEqual(q.audit('word '.repeat(1260), [], { question: 'AMD', mode: 'normal' }), []);
+    assert.match(q.audit('word '.repeat(1261), [], { question: 'AMD' }).join(' '), /1200-word limit/);
+    assert.match(q.audit('word '.repeat(101), [], { question: 'AMD under 100 words' }).join(' '), /100-word limit/);
+    assert.equal(q.wordLimit('Keep it under 10 words.', 'normal'), 10);
 });
 
 test('table rows are data, not prose — bounded separately from the word budget', () => {

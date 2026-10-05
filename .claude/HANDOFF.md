@@ -49,9 +49,10 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 
 ## Data foundation implementation — 2026-10-05 (release gates)
 
-- Isolated checkout: `/Users/drasharaghavan/worktrees/data-foundation-20261005`, branch
-  `data-foundation-20261005`; production main `264b32aa` has been merged, preserving the
-  entitlement and navigation fixes. The original Ask/Claude working tree is untouched.
+- Isolated checkout: `/Users/drasharaghavan/worktrees/data-foundation-20261005`, now on the
+  unpushed full-report branch `ask-full-reports-20261005`, based on current `origin/main`
+  `49e09d7c`. The production main includes the data-foundation commit `6335a975`; the Claude
+  Ask working tree at `/Users/drasharaghavan/prod` remains untouched.
 - Core extraction and full-universe backfill completed. Dated universe: **5,607 stocks,
   5,522 identified issuers, 323 ADR listings, 11 listings without confirmed SEC identity**.
   Exchange-source rows: 13,295, all classified. ETFs (5,758) and closed-end funds (360)
@@ -74,9 +75,24 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Release gates: targeted **458/458**; full **1,294/1,299** (five reproduced baseline
   failures only); exhaustive **6,099 profiles / 28,804 metrics / 2,897 comparisons**, zero
   errors. QA receipts: `docs/qa/data-foundation-2026-10-05/`.
-- Candidate asset stamp `20261005-financial1`; local gates passed, deployment pending CI.
-  Current production is `264b32aa`, stamp `20261005-navtray1`.
-- The stopped longer Ask-report release remains separate; its report word policy is unchanged.
+- Data foundation is live: workflow `37285673662` deployed `49e09d7c` as
+  `dep-db1mfm1srm7s73ccln0g`; redirected `/api/health` returned `{"ok":true}`.
+- The full-report branch is an unpushed local candidate. It adds the 600–900-word report
+  policy to both Ask modes, attributed source fallback, saved-answer support through 32,000
+  characters, deterministic context compaction, and flexible supported chart choices. This
+  is a separate candidate from the already deployed data foundation. Live model probes were
+  deliberately skipped to protect the owner's constrained model quota.
+- Final checks: targeted suite **499/499**; full suite **1,358/1,363**, with the same five
+  unrelated baseline failures (WAB metric content/navigation, scaled decimal,
+  retired glm-5.1 pin, and background health cache); 16 deterministic report probes have zero
+  audit findings; browser renderer **32/32** at 1,100px and 390px, zero overflow/errors.
+  AMD's complete 11-tool evidence round measured **154,766 / 163,840 usable bytes** while
+  retaining five annual and four quarterly statement periods. See
+  `docs/qa/ask-reports-2026-10-05/report-context-budget.json` and the external suite logs.
+- Deterministic report receipts and desktop/mobile renderer checks are in
+  `docs/qa/ask-reports-2026-10-05/`; they are source/layout fixtures, not model-generated
+  answers. `node scripts/local-qa/ask-offline-probes.cjs` regenerates them; run the offline
+  review server before `ask-browser.cjs`. Zero model/provider calls are required.
 
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
