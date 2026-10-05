@@ -1817,7 +1817,7 @@
         get_price_history: (a) => `${(a.symbol || '').toUpperCase()} 20-yr returns`,
         get_segments: (a) => `${(a.symbol || '').toUpperCase()} segments (10-K)`,
         get_insider_activity: (a) => `${(a.symbol || '').toUpperCase()} insider trades`,
-        screen_universe: () => 'Screened the fundamentals universe',
+        screen_universe: (a) => (a && a.similar_to ? `Screened ${String(a.similar_to).toUpperCase()}'s doppelgangers` : 'Screened the fundamentals universe'),
         get_portfolio: () => 'Your portfolio',
         calculator: () => 'Calculator',
         search_web: (a) => `Searched the web: ${String(a.query || '').slice(0, 40)}`,
@@ -1925,7 +1925,7 @@
         mark('shown');
     }
 
-    function askEngine(exchange, { onActivity, onComplete, onPaperEvent } = {}) {
+    function askEngine(exchange, { onActivity, onComplete, onPaperEvent, onTool } = {}) {
         const history = [];
         let busy = false;
         let aborter = null;
@@ -2177,6 +2177,10 @@
                         workingEl.textContent = label + '…';
                         workingRow.hidden = false;
                         renderSteps();
+                        // Let the page react to a specific tool (e.g. the screener
+                        // page offering "Use this screen on the page" when Ask ran
+                        // screen_universe) — never automatic, the page decides.
+                        if (onTool) onTool({ tool: d.tool, args: d.args || {}, ok: d.ok !== false, ms: d.ms });
                     } else if (ev === 'note') {
                         // the model's own plan, in its own words — kept on screen
                         // beside the steps rather than overwriting the status line
@@ -2381,7 +2385,7 @@
     // Floor shell: a quiet bar pinned to the bottom of the viewport — the
     // page's voice, always one keystroke away (⌘K / Ctrl-K). Answers unfold
     // in a sheet above the bar; Esc puts it away without losing the thread.
-    function mountAskFloor({ placeholder } = {}) {
+    function mountAskFloor({ placeholder, onTool, onComplete } = {}) {
         document.body.classList.add('has-ask-floor');
         const sheet = document.createElement('div');
         sheet.className = 'ask-sheet';
@@ -2400,7 +2404,7 @@
         const input = bar.querySelector('input');
         const exchange = sheet.querySelector('.ask-exchange');
         sheet.querySelector('.ask-sheet-close').addEventListener('click', () => { sheet.hidden = true; });
-        const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; } });
+        const engine = askEngine(exchange, { onActivity: () => { sheet.hidden = false; }, ...(onTool ? { onTool } : {}), ...(onComplete ? { onComplete } : {}) });
         bar.querySelector('form').addEventListener('submit', (e) => {
             e.preventDefault();
             const q = input.value.trim();
@@ -2557,7 +2561,7 @@
             });
         }, 100);
     });
-    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
+    window.V2 = { API, token, trackActivation, trackMeaningfulActivation, trackSeoEvent, trackCustomerSuccess, trackGrowthEvent, trackDiagnosticEvent, mountCampaign, getStoredUtm, num, money, fixed, fy, pct, esc, sparkline, chart, markdown, nav, footer, formatReset, activityLabel, creditSplit, modal, onboarding, mountAsk, mountAskFloor, askEngine, askToolEvent: 'v2:ask-tool', askDoneEvent: 'v2:ask-done', companies, searchAssets, mountTickerAutocomplete, mountShare, spinner, attachHScroll, upgradeStrip, settle, arrive, heldLabel, motionOff };
 
     // Server-rendered SEO surfaces opt into the ask floor with a body
     // attribute (see /stocks/:ticker and the free-tool pages): every page
@@ -2565,6 +2569,12 @@
     // it themselves (company, dossier) simply don't carry the attribute, and
     // the guard keeps any double-mount impossible.
     if (document.body && document.body.dataset && document.body.dataset.askFloor === '1' && !document.querySelector('.ask-floor')) {
-        mountAskFloor({ placeholder: document.body.dataset.askPlaceholder || undefined });
+        // Tool/done frames are re-dispatched as DOM events so a page can react
+        // to what Ask actually ran without hard-coding event names.
+        window.V2.askFloor = mountAskFloor({
+            placeholder: document.body.dataset.askPlaceholder || undefined,
+            onTool: (d) => document.dispatchEvent(new CustomEvent(window.V2.askToolEvent, { detail: d })),
+            onComplete: (d) => document.dispatchEvent(new CustomEvent(window.V2.askDoneEvent, { detail: d }))
+        });
     }
 })();

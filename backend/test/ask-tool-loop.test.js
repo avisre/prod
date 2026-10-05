@@ -117,6 +117,27 @@ test('malformed tool-call arguments do not crash the round', async () => {
     assert.equal(calls[1].messages.filter((m) => m.role === 'tool').length, 1);
 });
 
+test('a scripted "companies like X" screen reaches the model as a real ranked table', async () => {
+    // The anchor is chosen from the live index (widest fully-reported company)
+    // rather than pinned — the snapshot refreshes monthly and the test is about
+    // the loop carrying similar_to through, not about who the peers are.
+    const usable = aiChat.buildScreenIndex().filter((r) => r.symbol && !r.symbol.includes('-') && r.revCagr5Pct !== null && r.netMarginPct !== null && r.roePct !== null && r.qtrNetIncomeYoYPct !== null);
+    usable.sort((a, b) => (b.marketCapB || 0) - (a.marketCapB || 0));
+    const anchor = usable[0];
+    const calls = scripted([
+        { tool_calls: [toolCall('c1', 'screen_universe', { similar_to: anchor.symbol, limit: 3 })] },
+        { content: 'Here are companies resembling it.' }
+    ]);
+    const out = await ask();
+    assert.equal(out.source, 'ai');
+    const reply = JSON.parse(calls[1].messages.find((m) => m.role === 'tool').content);
+    assert.equal(reply.similarTo.symbol, anchor.symbol);
+    assert.equal(reply.similarTo.sectorConstrained, false);
+    assert.ok(!reply.table.split('\n').some((line) => line.startsWith(anchor.symbol + '|')), 'the anchor is not in its own table');
+    assert.match(reply.table, /similarity/i);
+    assert.ok(out.toolsUsed.some((t) => t.tool === 'screen_universe' && t.args.similar_to === anchor.symbol));
+});
+
 test('the answer framework is injected for open-ended company questions only', async () => {
     const systemFor = async (question, mode) => {
         const calls = scripted([{ content: 'A short answer.' }]);

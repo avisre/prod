@@ -70,11 +70,14 @@ const SWEEP_MS = 10 * 60 * 1000;         // hourly-ish sweep cadence
 const TICK_UTC_HOUR_DEFAULT = 2;         // 02:00 UTC = after the 4pm ET close
 
 // ---- Tool subset handed to the persona research loops (from aiChat.TOOLS).
-// screen_universe is a REAL custom-factor screener over the S&P-1500 SEC
-// fundamentals cache (ROE / margins / rev CAGR / P/E / PEG / P/B / FCF /
-// profitable years / latest-qtr earnings growth / sector / market cap),
-// verified 2026-09-07 — but it has NO price-momentum factors, so the AI
-// persona card tells it to read momentum from get_price_history instead.
+// screen_universe is a REAL custom-factor screener over the US-listed SEC
+// fundamentals universe (~4,500 screenable rows as of 2026-10; the tool
+// result always reports its own coverage count) — ROE / margins / rev CAGR /
+// P/E / PEG / P/B / FCF / profitable years / latest-qtr earnings growth /
+// sector / market cap, and similar_to for "companies like X" (factor
+// resemblance, anchor excluded). Verified 2026-09-07 — but it has NO
+// price-momentum factors, so the AI persona card tells it to read momentum
+// from get_price_history instead.
 // fetch_page lets the guru mind OPEN the letters/interviews it finds with
 // search_web — snippets alone are a thin basis for "documented philosophy".
 const PERSONA_TOOL_NAMES = [
@@ -790,7 +793,7 @@ function guruPersonaPrompt(guru, holdings, digest, style, constraints = []) {
         `You are a disciplined research analyst choosing ONE stock for a paper portfolio built strictly on the documented investing philosophy of ${guru.name} (${guru.fund}). This is a paper-trading experiment; no real money is involved.`,
         `YOUR PROCESS (in order):`,
         `1. PHILOSOPHY FIRST: research ${guru.name}'s documented investing philosophy — shareholder letters, books, interviews, principles they are known for. Use search_web. Research the PHILOSOPHY, not their trades or current holdings.`,
-        `2. APPLY IT TO TODAY'S DATA: translate those principles into concrete screens and checks, then use the tools to find US stocks that satisfy them TODAY: screen_universe (real factor screens over ~1,500 US companies: ROE, net margin, revenue CAGR, P/E, P/B, FCF, profitable years, latest-quarter growth, sector, market cap), get_financials, get_ratios_history, get_health_checks, get_reverse_dcf, get_price_history, search_filings. Every number you rely on must come from a tool result in this conversation — never from memory.`,
+        `2. APPLY IT TO TODAY'S DATA: translate those principles into concrete screens and checks, then use the tools to find US stocks that satisfy them TODAY: screen_universe (real factor screens over ~4,500 US-listed companies with filed fundamentals: ROE, net margin, revenue CAGR, P/E, P/B, FCF, profitable years, latest-quarter growth, sector, market cap, and similar_to="TICKER" for companies resembling a named one), get_financials, get_ratios_history, get_health_checks, get_reverse_dcf, get_price_history, search_filings. Every number you rely on must come from a tool result in this conversation — never from memory.`,
         `3. PICK EXACTLY ONE STOCK whose rationale names the specific principles AND the specific fetched numbers that satisfy them.`,
         refBlock,
         marketDigestBlock(digest),
@@ -815,7 +818,7 @@ function dataMindPrompt(digest, slot = 2, constraints = []) {
             ? `You are an independent quantitative research analyst choosing ONE stock for a paper portfolio. You follow NO investor, NO philosophy, NO style — only what the data says today. A second data mind is independently picking one other stock; reach your own conclusion, not a safe consensus. This is a paper-trading experiment; no real money is involved.`
             : `You are a pure quantitative research analyst choosing ONE stock for a paper portfolio. You follow NO investor, NO philosophy, NO style — only what the data says today. This is a paper-trading experiment; no real money is involved.`,
         `YOUR PROCESS (in order):`,
-        `1. SCREEN THE DATA: use screen_universe (real factor screens over ~1,500 US companies: ROE, net margin, revenue CAGR, P/E, P/B, FCF, profitable years, latest-quarter earnings growth, sector, market-cap bands — combine factors freely, up to 25 rows per call) to build your candidate set. NOTE: screen_universe has NO momentum factors — read momentum from get_price_history for your shortlist. Use search_web only for today's market regime if the digest below is not enough.`,
+        `1. SCREEN THE DATA: use screen_universe (real factor screens over ~4,500 US-listed companies with filed fundamentals: ROE, net margin, revenue CAGR, P/E, P/B, FCF, profitable years, latest-quarter earnings growth, sector, market-cap bands, similar_to for companies resembling a named one — combine factors freely, up to 25 rows per call) to build your candidate set. NOTE: screen_universe has NO momentum factors — read momentum from get_price_history for your shortlist. Use search_web only for today's market regime if the digest below is not enough.`,
         `2. ANALYZE: compare your finalists on the numbers that matter to your thesis — get_financials, get_ratios_history, get_health_checks, get_quote. Every number you rely on must come from a tool result in this conversation — never from memory.`,
         mandate,
         `3. PICK EXACTLY ONE STOCK whose rationale cites the specific data factors that made it the winner.`,

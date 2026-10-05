@@ -66,6 +66,10 @@
         if ($('f-fcf').checked) set('fcfPositive', '1');
         set('sortBy', sortKey === 'symbol' || sortKey === 'sector' ? 'marketCapB' : sortKey);
         set('limit', 100);
+        // An adopted AI screen travels back as its own tool args — the server
+        // whitelists them, so filters the controls cannot express (similar_to,
+        // PEG ceilings, secondary-listing exclusions) survive the round trip.
+        if (aiCriteria) q.set('criteria', JSON.stringify(aiCriteria));
         return q;
     }
 
@@ -75,12 +79,14 @@
             const r = await fetch(`/api/screener?${q}`);
             const data = await r.json();
             rows = data.rows || [];
+            aiSimilar = data.similarTo || null;
             $('result-count').textContent = `${data.matched} of ${data.universe} companies match`;
             const sel = $('f-sector');
             if (sel.options.length <= 1 && Array.isArray(data.sectors)) {
                 data.sectors.forEach((s) => sel.insertAdjacentHTML('beforeend', `<option>${esc(s)}</option>`));
             }
             render();
+            renderAiNote();
         } catch (_) {
             // A dead-looking error row is a dead end (D7) — make it the retry
             // control itself so recovery is one click in place.
@@ -91,7 +97,9 @@
     }
 
     function render() {
-        const sorted = rows.slice().sort((a, b) => {
+        // A similarity screen arrives ranked by the server — re-sorting it
+        // client-side by a column would silently destroy that ranking.
+        const sorted = aiSimilar ? rows.slice() : rows.slice().sort((a, b) => {
             const x = a[sortKey]; const y = b[sortKey];
             if (typeof x === 'string' || typeof y === 'string') {
                 return (sortDir === 'asc' ? 1 : -1) * String(x || '').localeCompare(String(y || ''));
@@ -126,6 +134,10 @@
             else { sortKey = k; sortDir = k === 'pe' || k === 'symbol' || k === 'sector' ? 'asc' : 'desc'; }
             document.querySelectorAll('th.sortable').forEach((x) => x.removeAttribute('data-dir'));
             th.setAttribute('data-dir', sortDir);
+            // Sorting by a column is off-script for a similarity screen: leave
+            // it and re-fetch as a plain screen ordered by that column, so the
+            // table and the TradingView export never disagree about the set.
+            if (aiSimilar) { clearAiScreen(); run(); return; }
             render();
         }));
 
@@ -208,13 +220,14 @@
         else window.alert(title);
     }
     function sortedSymbols() {
-        return rows.slice().sort((a, b) => {
+        const ordered = aiSimilar ? rows.slice() : rows.slice().sort((a, b) => {
             const x = a[sortKey]; const y = b[sortKey];
             if (typeof x === 'string' || typeof y === 'string') {
                 return (sortDir === 'asc' ? 1 : -1) * String(x || '').localeCompare(String(y || ''));
             }
             return ((x === null) - (y === null)) || (sortDir === 'asc' ? x - y : y - x);
-        }).map((r) => r.symbol);
+        });
+        return ordered.map((r) => r.symbol);
     }
     $('export-btn').addEventListener('click', async () => {
         if (!rows.length) { note('Nothing to export', '<p>Run a screen with at least one match first.</p>'); return; }
@@ -256,22 +269,148 @@
         }
     });
 
+    // ---- AI screen: plain words in, a real screen out ----------------------
+    // The chip hands the question to the page's Ask floor; when Ask actually
+    // runs screen_universe, the page offers to adopt the screen it ran — never
+    // automatically. Adoption re-runs the exact tool args server-side through
+    // ?criteria=, so the rows, the count and the export stay one code path.
+    let aiCriteria = null;        // screen_universe args the page re-runs
+    let aiSimilar = null;         // the result's similarTo block, for the note
+    let pendingAiScreen = false;  // the chip started the in-flight Ask
+    let pendingScreenArgs = null; // a screen Ask ran, waiting for adoption
+
+    const AI_TOOL_EVT = (window.V2 && V2.askToolEvent) || 'v2:ask-tool';
+    const AI_DONE_EVT = (window.V2 && V2.askDoneEvent) || 'v2:ask-done';
+    const AI_MAPPED_KEYS = new Set(['similar_to', 'min_revenue_cagr_5y_pct', 'min_net_margin_pct', 'min_roe_pct', 'max_pe', 'min_dividend_yield_pct', 'min_latest_qtr_earnings_growth_yoy_pct', 'require_positive_fcf', 'min_market_cap_billions', 'max_market_cap_billions', 'sector']);
+
+    function clearAiScreen() {
+        aiCriteria = null;
+        aiSimilar = null;
+        renderAiNote();
+    }
+
+    function renderAiNote() {
+        const el = $('ai-note');
+        $('ai-screen-btn').classList.toggle('chip-accent', !!(pendingScreenArgs || aiCriteria));
+        const clearBtn = '<button type="button" class="chip" id="ai-clear" title="Back to plain filters">×</button>';
+        if (pendingScreenArgs) {
+            el.style.display = 'flex';
+            el.innerHTML = '<button type="button" class="chip chip-accent" id="ai-use-btn">Use this screen on the page</button><span class="muted">Doppelganger ran a screen over the filed fundamentals.</span>';
+            $('ai-use-btn').addEventListener('click', adoptAiScreen);
+            return;
+        }
+        if (aiSimilar) {
+            const f = aiSimilar.factors || {};
+            const bits = [];
+            if (f.revCagr5Pct !== null && f.revCagr5Pct !== undefined) bits.push('rev CAGR ' + pct(f.revCagr5Pct));
+            if (f.netMarginPct !== null && f.netMarginPct !== undefined) bits.push('net margin ' + pct(f.netMarginPct));
+            const floor = (aiCriteria && aiCriteria.min_market_cap_billions) ? '' : ' · $2B+ market cap';
+            el.style.display = 'flex';
+            el.innerHTML = `<span class="muted">Ranked by resemblance to <strong>${esc(aiSimilar.symbol)}</strong>${bits.length ? ' — ' + esc(bits.join(', ')) : ''}${esc(floor)}; ${esc(aiSimilar.symbol)} excluded.</span>${clearBtn}`;
+            $('ai-clear').addEventListener('click', () => { clearAiScreen(); run(); });
+            return;
+        }
+        if (aiCriteria) {
+            const extra = Object.keys(aiCriteria).filter((k) => !AI_MAPPED_KEYS.has(k));
+            el.style.display = 'flex';
+            el.innerHTML = `<span class="muted">Doppelganger screen applied${extra.length ? ' — also ' + esc(extra.map((k) => k.replace(/_/g, ' ')).join(', ')) : ''}.</span>${clearBtn}`;
+            $('ai-clear').addEventListener('click', () => { clearAiScreen(); run(); });
+            return;
+        }
+        el.style.display = 'none';
+        el.innerHTML = '';
+    }
+
+    function syncFiltersTo(a) {
+        [['f-cagr', 'min_revenue_cagr_5y_pct'], ['f-margin', 'min_net_margin_pct'], ['f-roe', 'min_roe_pct'], ['f-pe', 'max_pe'], ['f-div', 'min_dividend_yield_pct'], ['f-qtr', 'min_latest_qtr_earnings_growth_yoy_pct']]
+            .forEach(([id, key]) => { $(id).value = (a[key] === undefined || a[key] === null) ? '' : a[key]; });
+        $('f-fcf').checked = a.require_positive_fcf === true;
+        // The cap select expresses a band, not a bound — only set it when the
+        // screen's own bounds are exactly a band's, else leave it "Any size"
+        // (the criteria still carries the bounds to the server).
+        const minB = a.min_market_cap_billions ?? null, maxB = a.max_market_cap_billions ?? null;
+        let bandName = '';
+        for (const [name, b] of Object.entries(BANDS)) {
+            if ((b.min ?? null) === minB && (b.max ?? null) === maxB) { bandName = name; break; }
+        }
+        $('f-mcap').value = bandName;
+        const sector = typeof a.sector === 'string' ? a.sector.toUpperCase() : '';
+        const opt = sector ? [...$('f-sector').options].find((o) => o.value.toUpperCase() === sector) : null;
+        $('f-sector').value = opt ? opt.value : '';
+    }
+
+    function adoptAiScreen() {
+        aiCriteria = pendingScreenArgs;
+        pendingScreenArgs = null;
+        syncFiltersTo(aiCriteria);
+        run();
+    }
+
+    document.addEventListener(AI_TOOL_EVT, (e) => {
+        // Only a screen from an Ask this chip started is ever offered, and an
+        // explicit click still stands between Ask's run and the page's table.
+        if (!pendingAiScreen) return;
+        const d = e.detail || {};
+        if (d.tool !== 'screen_universe' || d.ok === false) return;
+        const args = d.args || {};
+        if (!Object.keys(args).length) return; // an unfiltered screen is nothing to adopt
+        pendingScreenArgs = args;
+        renderAiNote();
+    });
+    document.addEventListener(AI_DONE_EVT, () => { pendingAiScreen = false; });
+
+    const AI_EXAMPLES = ['Companies like AppLovin', 'High-margin growers under 30× earnings', 'Cash machines with steady dividends'];
+    $('ai-screen-btn').addEventListener('click', () => {
+        if (!(window.V2 && V2.askFloor && V2.modal)) return;
+        const ask = (q) => { pendingAiScreen = true; V2.askFloor.send(q); };
+        const m = V2.modal({
+            label: 'Doppelganger',
+            title: "Find a stock's doppelganger",
+            bodyHtml: `<p class="small muted" style="margin:0 0 10px;">Closest matches by the numbers — any sector. Name a company to match, or describe a screen.</p>
+              <input class="input" id="ai-screen-q" maxlength="500" placeholder="A company to match — or a screen in plain words…" style="width:100%;">
+              <p class="small muted" style="margin:12px 0 0;">Try:</p>
+              <p style="margin:6px 0 0;">${AI_EXAMPLES.map((x) => `<button type="button" class="chip" data-ai-example="${esc(x)}">${esc(x)}</button>`).join(' ')}</p>
+              <p class="small faint" style="margin:12px 0 0;">Runs a real screen over the filed fundamentals — spends one Ask.</p>`,
+            actions: [
+                { label: 'Run it', primary: true, onClick: () => {
+                    const q = (m.el.querySelector('#ai-screen-q').value || '').trim();
+                    if (!q) return;
+                    ask(q);
+                } },
+                { label: 'Cancel' }
+            ]
+        });
+        m.el.querySelectorAll('[data-ai-example]').forEach((b) =>
+            b.addEventListener('click', () => {
+                const field = m.el.querySelector('#ai-screen-q');
+                field.value = b.dataset.aiExample;
+                field.focus();
+            }));
+        const field = m.el.querySelector('#ai-screen-q');
+        field.focus();
+        field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
+    });
+    if (!(window.V2 && V2.askFloor)) $('ai-screen-btn').style.display = 'none';
+
     document.querySelectorAll('#presets .chip[data-preset]').forEach((b) =>
         b.addEventListener('click', () => {
             document.querySelectorAll('#presets .chip[data-preset]').forEach((x) => x.classList.remove('chip-accent'));
             if (b.dataset.preset !== 'clear') b.classList.add('chip-accent');
+            clearAiScreen();
             setFilters(PRESETS[b.dataset.preset] || {});
             run();
         }));
     $('run-btn').addEventListener('click', run);
-    ['f-sector', 'f-mcap'].forEach((id) => $(id).addEventListener('change', run));
+    ['f-sector', 'f-mcap'].forEach((id) => $(id).addEventListener('change', () => { clearAiScreen(); run(); }));
     // typing applies live — no hunting for the Run button; a manual edit also
-    // releases the active preset highlight (you're off-script now)
+    // releases the active preset highlight (you're off-script now) and leaves
+    // any adopted AI screen behind
     let debounce = null;
     document.querySelectorAll('.card input').forEach((i) => {
         i.addEventListener('keydown', (e) => { if (e.key === 'Enter') { clearTimeout(debounce); run(); } });
         i.addEventListener('input', () => {
             document.querySelectorAll('#presets .chip[data-preset]').forEach((x) => x.classList.remove('chip-accent'));
+            clearAiScreen();
             clearTimeout(debounce);
             debounce = setTimeout(run, 450);
         });

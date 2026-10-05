@@ -614,7 +614,7 @@ async function toolGetInsiders({ symbol }) {
     }
 }
 
-// ---- Tool: screen_universe (real screener over the ~500-ticker cache) ----
+// ---- Tool: screen_universe (real screener over the filed-fundamentals universe) ----
 let _screenIndex = null;
 function loadScreenIndex() {
     const index=require('./public-stock-index');
@@ -656,6 +656,63 @@ function primaryListings(rows) {
     return [...best.values()];
 }
 
+// ---- Similarity screen: "companies like AppLovin" ------------------------
+// Shared by the Ask tool, the /api/screener route and the AI Paper Portfolio.
+// This is factor RESEMBLANCE, not an industry-peer classification: the index
+// carries eleven GICS sectors and no industry field, and a sector+factor
+// screen for AppLovin matched exactly one row — AppLovin itself.
+const SIMILAR_DIMS = ['revCagr5Pct', 'netMarginPct', 'roePct', 'qtrNetIncomeYoYPct'];
+// The approved list for APP (SEZL, HOOD, PTCT, SNDK, LYFT…) is the liquid
+// end of the universe; without a floor the nearest profiles are micro-caps.
+const SIMILAR_DEFAULT_MARKET_CAP_B = 2;
+
+// Signed log keeps a 156%-ROE or 5649%-growth outlier from swamping the
+// distance while preserving direction; ±200 caps the 3948%-ROE class.
+function slog(v) {
+    const n = num(v);
+    if (n === null) return null;
+    return Math.sign(n) * Math.log1p(Math.abs(n));
+}
+
+// RMS distance over the dims BOTH companies report. Two comparable dims is
+// the floor: a row that overlaps on one (or none) is a coincidence, not a
+// resemblance. Nulls are skipped, never treated as zero — AppLovin itself
+// reports no FCF, and imputing would poison every downstream screen.
+function similarityDistance(anchor, row) {
+    let total = 0, dims = 0;
+    for (const k of SIMILAR_DIMS) {
+        const x = slog(anchor[k]), y = slog(row[k]);
+        if (x === null || y === null) continue;
+        total += (x - y) ** 2;
+        dims += 1;
+    }
+    if (dims < 2) return null;
+    return { distance: Math.sqrt(total / dims), dims };
+}
+
+// Ticker first, then exact name, then a unique name substring. Dual-class
+// pairs share a name and a cik; the shortest symbol is the primary listing.
+function resolveScreenAnchor(rows, query) {
+    const raw = String(query || '').trim();
+    if (!raw) return { error: 'No company given — pass similar_to with a ticker, e.g. "APP".' };
+    const bySymbol = rows.find((r) => r.symbol === raw.toUpperCase());
+    if (bySymbol) return { row: bySymbol };
+    const lower = raw.toLowerCase();
+    const byName = rows.filter((r) => String(r.name || '').trim().toLowerCase() === lower);
+    if (byName.length) {
+        return { row: byName.slice().sort((a, b) => a.symbol.length - b.symbol.length || (a.symbol < b.symbol ? -1 : 1))[0] };
+    }
+    const partial = rows.filter((r) => String(r.name || '').toLowerCase().includes(lower));
+    if (partial.length === 1) return { row: partial[0] };
+    if (partial.length > 1) {
+        return {
+            error: `Several companies match "${raw}" — use one exact ticker.`,
+            candidates: partial.slice(0, 3).map((r) => ({ symbol: r.symbol, name: r.name }))
+        };
+    }
+    return { error: `No US-listed operating company with filed fundamentals matches "${raw}". Funds and private or foreign companies are outside the screen universe.` };
+}
+
 // Shared filter/sort core — used by the chatbot tool AND the /api/screener
 // route that powers the Screener page.
 function screenRows(args) {
@@ -686,12 +743,104 @@ function screenRows(args) {
     ge('priceToBook', a.min_price_to_book);
     le('priceToBook', a.max_price_to_book);
     if (a.require_positive_fcf) rows = rows.filter((r) => r.fcfPositive === true);
+    const limit = Math.min(Math.max(num(a.limit) || 10, 1), a.maxLimit || 25);
+    const listedUniverse = buildScreenIndex().length;
+    const issuerUniverse = new Set(buildScreenIndex().map((r) => r.cik)).size;
+    const datasetId = require('./public-stock-index').view().datasetId;
+
+    if (a.similar_to) {
+        // The anchor resolves against the UNFILTERED index, so a screen that
+        // would drop the company itself ("like APP, under 25× earnings") can
+        // still be anchored on it — and is then excluded explicitly below.
+        const anchor = resolveScreenAnchor(buildScreenIndex(), a.similar_to);
+        if (anchor.error) {
+            return { universe, listedUniverse, issuerUniverse, datasetId, matched: 0, rows: [], error: anchor.error, candidates: anchor.candidates || null, similarTo: { requested: String(a.similar_to).slice(0, 40) } };
+        }
+        const me = anchor.row;
+        const callerFloor = num(a.min_market_cap_billions) !== null;
+        let belowFloor = 0, tooFewDims = 0;
+        const scored = [];
+        for (const r of rows) {
+            if (r.symbol === me.symbol || (me.cik && r.cik === me.cik)) continue;
+            if (!callerFloor && !(num(r.marketCapB) >= SIMILAR_DEFAULT_MARKET_CAP_B)) { belowFloor += 1; continue; }
+            const d = similarityDistance(me, r);
+            if (!d) { tooFewDims += 1; continue; }
+            scored.push({ row: r, distance: d.distance });
+        }
+        scored.sort((x, y) => (x.distance - y.distance) || ((num(y.row.marketCapB) || 0) - (num(x.row.marketCapB) || 0)) || String(x.row.symbol).localeCompare(String(y.row.symbol)));
+        // Never mutate the cached index rows (_screenIndex is module-level).
+        rows = scored.map((s) => ({ ...s.row, similarity: Math.round(100 / (1 + s.distance)) }));
+        return {
+            universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit),
+            similarTo: {
+                symbol: me.symbol,
+                name: me.name,
+                sector: me.sector,
+                factors: { revCagr5Pct: me.revCagr5Pct, netMarginPct: me.netMarginPct, roePct: me.roePct, qtrNetIncomeYoYPct: me.qtrNetIncomeYoYPct },
+                latestFiscalYearEnd: me.latestFiscalYearEnd || null,
+                latestQuarterEnd: me.latestQuarterEnd || null,
+                rankedBy: 'Closest by filed revenue CAGR, net margin, ROE and latest-quarter earnings growth — sector is not constrained.',
+                sectorConstrained: false,
+                excludedSymbol: me.symbol,
+                skippedAnchorDims: SIMILAR_DIMS.filter((k) => num(me[k]) === null),
+                skipped: { belowMarketCapFloor: belowFloor, tooFewComparableFactors: tooFewDims },
+                note: 'Similarity is factor resemblance, not an industry-peer classification. The anchor company is excluded, and factors it does not report are ignored rather than estimated.'
+            }
+        };
+    }
+
     const sortKey = ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook'].includes(a.sort_by) ? a.sort_by : 'marketCapB';
     // ascending for "cheapness" metrics (lower is better); descending for everything else
     const asc = sortKey === 'pe' || sortKey === 'pegRatio' || sortKey === 'priceToBook';
     rows.sort((x, y) => ((x[sortKey] === null) - (y[sortKey] === null)) || (asc ? x[sortKey] - y[sortKey] : y[sortKey] - x[sortKey]));
-    const limit = Math.min(Math.max(num(a.limit) || 10, 1), a.maxLimit || 25);
-    return { universe, listedUniverse:buildScreenIndex().length, issuerUniverse:new Set(buildScreenIndex().map(r=>r.cik)).size, datasetId:require('./public-stock-index').view().datasetId, matched: rows.length, rows: rows.slice(0, limit) };
+    return { universe, listedUniverse, issuerUniverse, datasetId, matched: rows.length, rows: rows.slice(0, limit) };
+}
+
+// ---- Screen args from the browser ("Use this screen on the page") --------
+// The screener page re-runs the AI's exact screen through /api/screener, sending
+// the tool args back as JSON. Every key is validated and coerced here; anything
+// unknown is dropped. limit / maxLimit / sort_by are deliberately NOT accepted:
+// paging and the table's own ordering stay the page's job.
+const SCREEN_ARG_KEYS = {
+    similar_to: 'string',
+    sector: 'string',
+    min_revenue_cagr_5y_pct: 'number', max_revenue_cagr_5y_pct: 'number',
+    min_net_margin_pct: 'number',
+    min_roe_pct: 'number', max_roe_pct: 'number',
+    min_dividend_yield_pct: 'number',
+    max_pe: 'number', max_peg: 'number',
+    min_price_to_book: 'number', max_price_to_book: 'number',
+    min_market_cap_billions: 'number', max_market_cap_billions: 'number',
+    min_profitable_years_of_last_10: 'number',
+    min_latest_qtr_earnings_growth_yoy_pct: 'number',
+    require_positive_fcf: 'boolean', exclude_secondary_listings: 'boolean'
+};
+
+function screenArgsFromClient(raw) {
+    if (raw === null || raw === undefined || raw === '') return {};
+    let obj = raw;
+    if (typeof raw === 'string') {
+        if (raw.length > 4000) return {};
+        try { obj = JSON.parse(raw); } catch (e) { return {}; }
+    }
+    if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return {};
+    const out = {};
+    for (const [key, kind] of Object.entries(SCREEN_ARG_KEYS)) {
+        const v = obj[key];
+        if (v === null || v === undefined) continue;
+        if (kind === 'string') {
+            const s = String(v).trim().slice(0, 60);
+            if (s) out[key] = s;
+        } else if (kind === 'number') {
+            const n = num(v);
+            if (n !== null) out[key] = n;
+        } else if (v === true || v === 'true' || v === 1) {
+            out[key] = true;
+        } else if (v === false || v === 'false' || v === 0) {
+            out[key] = false;
+        }
+    }
+    return out;
 }
 
 function sectorList() {
@@ -779,17 +928,25 @@ function redFlagsFor(symbol) {
 }
 
 function toolScreenUniverse(args) {
-    const { universe, matched, rows: top } = screenRows(args);
+    const res = screenRows(args);
+    if (res.error) return { error: res.error, ...(res.candidates ? { candidates: res.candidates } : {}) };
+    const { universe, matched, rows: top, similarTo } = res;
     const fm = (v, dp = 1) => v === null ? '' : Number(v).toFixed(dp);
-    const lines = ['symbol|name|sector|mktCap$B|P/E|revCAGR5y%|netMargin%|ROE%|divYield%|qtrEarnGrowthYoY%|latestQtr|profitableYrs/10|latestFY'];
+    const header = 'symbol|name|sector|mktCap$B|P/E|revCAGR5y%|netMargin%|ROE%|divYield%|qtrEarnGrowthYoY%|latestQtr|profitableYrs/10|latestFY';
+    const lines = [similarTo ? header.replace('symbol|', 'symbol|similarity|') : header];
     for (const r of top) {
-        lines.push([r.symbol, r.name, r.sector, fm(r.marketCapB), fm(r.pe), fm(r.revCagr5Pct), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd].map(cell).join('|'));
+        const cells = [r.symbol];
+        if (similarTo) cells.push(r.similarity);
+        cells.push(r.name, r.sector, fm(r.marketCapB), fm(r.pe), fm(r.revCagr5Pct), fm(r.netMarginPct), fm(r.roePct), fm(r.divYieldPct, 2), fm(r.qtrNetIncomeYoYPct), r.latestQuarterEnd || '', r.profitableYears10, r.latestFiscalYearEnd);
+        lines.push(cells.map(cell).join('|'));
     }
     return {
         universe: `${universe} US-listed stocks with available fundamentals in the stockportfolio.pro cache`,
         matched,
         returned: top.length,
-        note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.',
+        ...(similarTo ? { similarTo } : {}),
+        note: 'Fundamentals are from the latest SEC annual filings (each row names its latestFiscalYearEnd / latestQtr); the P/E and market-cap valuation columns come from the daily price cache. Name the period or date whenever you cite a figure.'
+            + (similarTo ? ' Similarity is factor resemblance, not an industry-peer classification: the anchor company is excluded and factors it does not report are ignored rather than estimated. Disclose the ranked-by sentence and any skipped counts when you present the list.' : ''),
         table: lines.join('\n')
     };
 }
@@ -1058,21 +1215,29 @@ const TOOLS = [
         type: 'function',
         function: {
             name: 'screen_universe',
-            description: 'Screen US-listed stocks with available filed fundamentals. The result reports the actual screenable universe; stocks without usable statements are not included. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions.',
+            description: 'Screen US-listed stocks with available filed fundamentals. The result reports the actual screenable universe; stocks without usable statements are not included. All thresholds optional; combine freely. Use for "which companies…", "find stocks that…" questions, and for "companies like X" / "peers of X" / "similar to X" — set similar_to=X (its own filed factors derive the ranking, X is excluded; do NOT also set sector unless the user explicitly asks for same-sector peers).',
             parameters: {
                 type: 'object',
                 properties: {
+                    similar_to: { type: 'string', description: 'Ticker of the company to model the screen on — e.g. "APP" for "companies like AppLovin". Pass the company name exactly as the user said it if the ticker is uncertain; the tool resolves ticker, then name.' },
                     sector: { type: 'string', description: 'Sector substring filter, e.g. TECHNOLOGY, ENERGY' },
                     min_revenue_cagr_5y_pct: { type: 'number' },
+                    max_revenue_cagr_5y_pct: { type: 'number' },
                     min_net_margin_pct: { type: 'number' },
                     min_roe_pct: { type: 'number' },
-                    min_dividend_yield_pct: { type: 'number' },
+                    max_roe_pct: { type: 'number', description: 'Ceiling that excludes negative/negligible-equity ROE distortions' },
+                    min_dividend_yield_pct: { type: 'number', description: 'Note: dividend-yield data is currently absent from the screen universe, so any value here matches nothing' },
                     max_pe: { type: 'number' },
+                    max_peg: { type: 'number' },
+                    min_price_to_book: { type: 'number' },
+                    max_price_to_book: { type: 'number' },
                     min_market_cap_billions: { type: 'number' },
+                    max_market_cap_billions: { type: 'number' },
                     min_profitable_years_of_last_10: { type: 'integer' },
                     min_latest_qtr_earnings_growth_yoy_pct: { type: 'number', description: 'Latest quarter net income growth vs same quarter a year ago, in %' },
-                    require_positive_fcf: { type: 'boolean' },
-                    sort_by: { type: 'string', enum: ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct'] },
+                    require_positive_fcf: { type: 'boolean', description: 'WARNING: a company that does not report free cash flow is excluded (missing is not "negative") — say so when it materially narrows the list.' },
+                    exclude_secondary_listings: { type: 'boolean', description: 'Keep one listing per issuer (drops foreign secondary listings) — use for peer lists.' },
+                    sort_by: { type: 'string', enum: ['revCagr5Pct', 'netMarginPct', 'roePct', 'marketCapB', 'pe', 'divYieldPct', 'qtrNetIncomeYoYPct', 'fcfAbs', 'pegRatio', 'priceToBook'] },
                     limit: { type: 'integer', description: 'Max 25, default 10' }
                 }
             }
@@ -1633,9 +1798,9 @@ const ASK_SYSTEM = [
     'CASH DISTRIBUTIONS: use capitalReturns for dividend-plus-buyback coverage. Compare FCF with the SUM of the magnitudes of both cash outflows for the same period. coveredByFreeCashflow=false means distributions exceeded FCF; name the shortfall if relevant. Null means coverage cannot be established. A company may use other financing or existing cash, but do not infer that from this calculation alone.',
     'PRIMARY SOURCES: search_filings full-text searches every SEC filing since 2001 — use it when the question is about something a company FILED (a contract, risk factor, acquisition terms, executive change, guidance language), then fetch_page the filing URL to quote the actual document. A direct quote from a filing beats a news paraphrase — prefer it when both exist.',
     'PERFORMANCE & OWNERSHIP: get_price_history gives 20 years of computed total returns, CAGRs, drawdowns and dividends per share — use it for price-performance questions instead of inferring from valuation data. get_fund_profile gives one ETF/mutual fund\'s costs, holdings, allocation, returns and risk. rank_funds answers best/top-performing/ranking questions across eligible ETFs and mutual funds; use it directly instead of asking the user for tickers. get_segments and get_insider_activity apply to operating companies only.',
-    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "what are the margins, returns, leverage and reinvestment over time" → get_ratios_history (11 ratios, each carrying its own formula and inputs — prefer it over computing them yourself). "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context, whose industryProfile names the metric set and the omissions that matter for this company\'s industry — lead the table with those rows. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
+    'RESEARCH TOOLS — match the question shape to the tool, don\'t default to get_financials alone: "is it making money on each car/subscriber/room/barrel" or any per-unit economics question → get_unit_economics (call this whenever the company has a natural unit — cars, subscribers, stores, rooms, barrels — even if not asked by name, whenever comparing companies of that kind, e.g. automakers). If get_unit_economics returns null or no derived figure, say plainly that the company does not disclose a comparable per-unit metric — never substitute shares outstanding, employee count, or any other stand-in via the calculator tool. "what growth is priced in / is the stock expensive" → get_reverse_dcf. "what are the margins, returns, leverage and reinvestment over time" → get_ratios_history (11 ratios, each carrying its own formula and inputs — prefer it over computing them yourself). "how does it compare to competitors/its sector / is it cheap vs peers" → get_peer_context, whose industryProfile names the metric set and the omissions that matter for this company\'s industry — lead the table with those rows. "companies like X" / "peers of X" / "similar to X" → screen_universe with similar_to=X: it ranks the universe by each company\'s own filed factors resembling X\'s and excludes X itself; add sector only if the user explicitly asks for same-sector companies. "who are its customers / what does it actually sell / what\'s new" → get_key_points. "anything concerning/dodgy" → get_red_flags. "who runs it / is governance healthy" → get_governance (already includes tracked-investor ownership); "do famous investors own it" → get_guru_ownership if governance wasn\'t already called. "what changed since last quarter/year", and ANY request to summarise the latest quarter, the latest results or the latest earnings → get_filing_diff, alongside get_financials with basis="quarterly"; add get_key_points when the question is about the business itself and not only the numbers. A results summary that reports figures without saying what changed in the filing is incomplete, so do not leave get_filing_diff out just because the word "changed" was not used. ESG/sustainability-disclosure questions → get_esg. "how is my portfolio built/doing as a whole" → get_portfolio_xray (no arguments). These are in addition to get_financials, not instead of it — pull the underlying statements too when the question needs the raw numbers.',
     'FUND DATA DISCIPLINE: in get_fund_profile, null or an empty list means that field is unavailable from the current feed. Never fill a missing expense ratio, yield, return, allocation, holding, rating or risk statistic from memory or general knowledge; say it is unavailable. Do not infer a specific fund\'s benchmark, index, total holding count, minimum investment, liquidity, tax treatment or issuer policy from its ticker or name. You may explain generic ETF-versus-mutual-fund mechanics, but label them as general differences rather than sourced facts about that product.',
-    'COVERAGE: US exchange-listed companies, including ADRs and foreign reporters, plus US-listed ETFs and ticker-addressable US mutual funds. Honor the returned reporting currency and conversion provenance; missing filings or unsupported metrics must be disclosed. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens currently listed stocks with available fundamentals and returns the actual coverage count. Do not reject a US-listed ADR solely because its issuer is foreign.',
+    'COVERAGE: US exchange-listed companies, including ADRs and foreign reporters, plus US-listed ETFs and ticker-addressable US mutual funds. Honor the returned reporting currency and conversion provenance; missing filings or unsupported metrics must be disclosed. For a fund, call get_fund_profile first and never call company statements, segments, filings, insiders, health checks or DCF tools. get_financials/get_ratios_history/get_health_checks cover operating companies; screen_universe screens currently listed stocks with available fundamentals and returns the actual coverage count. With similar_to it ranks the surviving rows by resemblance to that company\'s own filed factors and excludes the company itself — resemblance, not an industry-peer classification. Do not reject a US-listed ADR solely because its issuer is foreign.',
     'PROVENANCE: cite the fiscal period for figures, e.g. "revenue of $416.2bn (FY ending Sep 2025)". When you computed something, show the inputs briefly.',
     'MATHS: use the calculator tool for any non-trivial arithmetic (CAGR, ratios, per-segment margins) — but only ever combine figures from the SAME tool result or the SAME reporting scope (e.g. a segment\'s revenue from get_segments divided by that same segment\'s volume). Never build a "per X" figure by dividing company-wide revenue by a count that is not literally the thing sold (shares outstanding, employees/headcount, assets under management, or any count narrower in scope than the revenue figure) — that produces a fabricated number.',
     'SCOPE MATCHING: before dividing any revenue or cost figure by a volume or count, check the count\'s scope. If it is segment/division/region-limited (e.g. wireless-only subscribers, upstream-only barrels, US-only units) while the revenue figure is company-wide, do NOT divide them together — pull that same segment\'s revenue via get_segments first and divide within the segment. If no matching segment breakout exists, say the per-unit figure cannot be computed at that scope rather than dividing mismatched numbers.',
@@ -2177,4 +2342,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });
+Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });

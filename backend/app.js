@@ -2960,7 +2960,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2989,7 +2989,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261005-financial1"></script>
+<script src="/assets/app.js?v=20261005-aiscreen1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3081,7 +3081,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3109,7 +3109,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261005-financial1"></script>
+<script src="/assets/app.js?v=20261005-aiscreen1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3217,7 +3217,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3250,7 +3250,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261005-financial1"></script>
+<script src="/assets/app.js?v=20261005-aiscreen1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -10180,7 +10180,7 @@ app.delete('/api/alert-rules/:id', authMiddleware, proGate, async (req, res) => 
 // public screen and the gated export so the file always holds exactly the
 // companies the page showed.
 function screenerCriteria(q) {
-    return {
+    const page = {
         sector: q.sector,
         min_revenue_cagr_5y_pct: q.minRevCagr5y,
         min_net_margin_pct: q.minNetMargin,
@@ -10191,11 +10191,19 @@ function screenerCriteria(q) {
         min_profitable_years_of_last_10: q.minProfitableYears,
         min_latest_qtr_earnings_growth_yoy_pct: q.minQtrEarningsGrowth,
         max_pe: q.maxPe,
-        require_positive_fcf: String(q.fcfPositive || '') === '1',
         sort_by: q.sortBy,
         limit: q.limit,
         maxLimit: 100
     };
+    if (String(q.fcfPositive || '') === '1') page.require_positive_fcf = true;
+    // An AI screen adopted by the page ("Use this screen on the page") arrives
+    // as ?criteria=<json> — the screen_universe args exactly as Ask called them.
+    // The page's own filter params win where both name the same thing, and
+    // limit/sort_by stay the page's own (the whitelist drops them from the
+    // criteria side), so paging can't be overridden through this input.
+    const fromClient = aiChat.screenArgsFromClient(q.criteria);
+    for (const k of Object.keys(page)) if (page[k] === undefined) delete page[k];
+    return { ...fromClient, ...page, maxLimit: 100 };
 }
 
 app.get('/api/stock-coverage', (req, res) => {
