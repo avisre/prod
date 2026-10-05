@@ -107,6 +107,8 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
     const extracted = filingSections.extractSections(r.data, { form: tenK.form });
     if (!Object.keys(extracted.sections).length) return { error: `Could not read the ${tenK.form || '10-K'} text.` };
     if (contextOnly) {
+        const filingCurrency = require('./ask-filing-currency');
+        const currency = filingCurrency.declaration(filingSections.htmlToText(r.data)) || filingCurrency.inlineCurrency(r.data);
         const sections = Object.entries(extracted.sections).map(([key, section]) => ({
             heading: section.label || key, text: section.text.slice(0, /risk/i.test(section.label || '') ? 6000 : 9000)
         }));
@@ -114,6 +116,7 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
         const bounded = sections.flatMap(section => { if (!budget) return []; const text = section.text.slice(0, budget); budget -= text.length; return [{ ...section, text }]; });
         return { symbol, sourceType: 'sec_filing_context', filing: { form: tenK.form, date: tenK.date, url: tenK.url, accession: tenK.accession },
             sections: bounded, retrievedAt: new Date().toISOString(), sourceUrl: tenK.url,
+            ...(currency ? { currencyEvidence: { ...currency, sourceUrl: tenK.url } } : {}),
             note: 'Original issuer filing excerpts, without an additional model extraction. Use supported business and risk context; financial values still need supplied observations.' };
     }
 

@@ -1,0 +1,142 @@
+{
+  "answer": "> **In one line** — AMD's story is one of the great second acts in tech: a chipmaker founded as Intel's scrappy rival, spun off its factories to survive near-bankruptcy, then rebuilt itself under Lisa Su into an AI-computing powerhouse whose revenue just hit a record $34.6bn.\n\n## The story of Advanced Micro Devices\n\n### Chapter 1: The challenger is born (1969–1990s)\n\nAdvanced Micro Devices was founded in 1969 in Silicon Valley as a second-source semiconductor supplier — a company that made chips originally designed by others, giving customers an alternative to the dominant supplier, Intel. For its first decades AMD lived in Intel's shadow, first as a licensed maker of Intel-compatible processors and then, from the early 1990s, as a designer of its own x86-compatible PC chips. That legal tightrope — building products compatible with Intel's architecture without Intel's blessing — defined AMD's identity: the perpetual challenger, forced to compete on price and engineering daring rather than scale.\n\n*(This founding era predates our SEC filing coverage, which begins in 2001; the details above come from general histories such as Tom's Hardware's \"AMD at 50\" retrospective, 1 May 2019, not from filings.)*\n\n### Chapter 2: The factory problem and the near-death experience (2000s–2014)\n\nBy the 2000s AMD had a structural handicap: Intel owned its own chip factories, while AMD had to fund fabs of its own — enormously expensive plants that devoured cash whenever AMD's sales dipped. The filings we hold show the fix: a 2010 \"Amended and Restated Funding Agreement\" between AMD, the Abu Dhabi-backed Advanced Technology Investment Company and GlobalFoundries Inc., dated 27 December 2010, under which outside investors funded AMD's spun-off manufacturing arm. AMD became a \"fabless\" company — designing chips while paying others to make them — which is the model it still uses today.\n\nThe relief came too late to save the decade. AMD's own filed numbers show the damage: by fiscal 2021 (the year ended 25 December 2021) revenue was $16.4bn, but that was after years of losses, heavy debt and a share price that had collapsed. The company was, by common account, on the edge of insolvency in the early 2010s. Its product line was losing to Intel in PCs and to Nvidia in graphics.\n\n### Chapter 3: The Lisa Su turnaround (2014–2020)\n\nIn 2014 Dr. Lisa Su — a semiconductor engineer, not a salesperson — became CEO. Her strategy, as the filings later describe it, was to bet everything on a new chip architecture called **Zen**, launched in 2017, and to focus on high-performance computing rather than fighting everywhere. Zen's Ryzen PC processors were genuinely competitive with Intel for the first time in years, and the EPYC server chips that followed gave data centres a real alternative.\n\nThe filed financials show the inflection clearly. In FY2021 (ended 25 Dec 2021) AMD earned $3.16bn of net income on $16.4bn of revenue — a 19% net margin (it kept about 19¢ of every $1 of sales as profit), with operating income of $3.65bn. After years of losses, AMD was suddenly solidly profitable, with almost no debt.\n\n### Chapter 4: The Xilinx deal and the AI pivot (2022–2024)\n\nFY2022 (ended 31 Dec 2022) shows revenue jumping to $23.6bn — but that jump was mostly because AMD acquired Xilinx, a maker of programmable chips, in early 2022. The purchase price was largely in AMD shares, and the accounting charges from the deal crushed reported profit: net income fell to $1.32bn despite the bigger revenue. FY2023 was the trough of the PC downturn: revenue slipped to $22.7bn and operating income collapsed to just $401m — AMD kept less than 2¢ of every sales dollar as operating profit — while net income of $854m was propped up by items below the operating line.\n\nThe strategic logic, though, was sound: Xilinx gave AMD chips for embedded and custom markets, and the combined company now had CPUs, graphics and adaptive computing under one roof — exactly the toolkit the AI boom demanded.\n\n### Chapter 5: The AI era (2024–today)\n\nFY2024 (ended 28 Dec 2024) showed the recovery taking hold: revenue $25.8bn, net income $1.64bn. Then came the breakout year. In FY2025 (ended 27 December 2025), per the 10-K filed 4 February 2026:\n\n- **Revenue rose 34% to $34.6bn** — a record.\n- **Net income more than doubled, up 164% to $4.34bn.**\n- **Gross margin hit 50%** (AMD keeps 50¢ of every $1 of sales after making the chips), up from 49%, despite inventory and related charges tied to US government export controls on its Instinct MI308 data-centre GPU products.\n- **Data Center revenue of $16.6bn**, driven by 5th-generation EPYC server processors and Instinct MI350 AI chips — AMD is now the main credible alternative to Nvidia in AI accelerators.\n- **Client and Gaming revenue of $14.6bn**, on Ryzen PC processors, game-console chips and Radeon GPUs; the Embedded segment brought in $3.5bn.\n- The balance sheet transformed: **$10.6bn in cash and short-term investments against just $3.3bn of debt**, and $1.3bn returned to shareholders during the year.\n\n```bars\n{\"title\":\"AMD revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"orientation\":\"vertical\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"facet\":true}\n```\n\nThe pattern in the chart tells the whole arc: the Xilinx-inflated revenue step in 2022, the 2023 profit trough as PC demand slumped and deal charges bit, and the 2025 surge as AI chips and Ryzen carried the company to record revenue and its best profit since the turnaround began.\n\n**The read** — AMD's history is a study in survival economics: it shed its capital-hungry factories at the worst moment, then used its new asset-light model to pour resources into one decisive product bet (Zen) that flipped it from loss-maker to the number-two force in high-performance computing. Today's filing shows a company that finally has the balance sheet ($10.6bn cash vs $3.3bn debt) to sustain the R&D arms race — $8.1bn spent on research in FY2025 alone, nearly a quarter of revenue — against much larger rivals, with export controls on China sales as its most tangible near-term drag.\n\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.htm); [AMD 10-K filed 2025-02-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.htm); [AMD 10-K filed 2024-01-31](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.htm); [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [SEC filing](https://www.sec.gov/Archives/edgar/data/2488/000119312511040392/dex1045a.htm).\n> Next: How much growth does AMD's current share price already have priced in?",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "symbol": "AMD",
+        "statement": "income",
+        "basis": "annual",
+        "limit": 5,
+        "fields": [
+          "totalRevenue",
+          "netIncome",
+          "grossProfit",
+          "operatingIncome",
+          "researchAndDevelopment"
+        ]
+      },
+      "ok": true,
+      "ms": 155
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true,
+      "ms": 10
+    },
+    {
+      "tool": "search_filings",
+      "args": {
+        "ticker": "AMD",
+        "query": "business",
+        "forms": "10-K,20-F,40-F",
+        "end_date": "2021-12-25",
+        "limit": 1
+      },
+      "ok": true,
+      "ms": 3627
+    },
+    {
+      "tool": "fetch_page",
+      "args": {
+        "url": "https://www.sec.gov/Archives/edgar/data/2488/000119312511040392/dex1045a.htm",
+        "find": "history founded incorporated business leadership"
+      },
+      "ok": true,
+      "ms": 752
+    },
+    {
+      "tool": "search_web",
+      "args": {
+        "query": "AMD history founding 1969 Jerry Sanders spin-off GlobalFoundries"
+      },
+      "ok": true,
+      "ms": 1569
+    },
+    {
+      "tool": "search_web",
+      "args": {
+        "query": "AMD Lisa Su turnaround Zen Ryzen 2017 near bankruptcy"
+      },
+      "ok": true,
+      "ms": 1241
+    }
+  ],
+  "source": "ai",
+  "totalTokens": 76070,
+  "quality": {
+    "policyVersion": 4,
+    "checked": true,
+    "policy": {
+      "version": 4,
+      "kind": "company_report",
+      "mode": "normal",
+      "company": {
+        "symbol": "AMD",
+        "name": "Advanced Micro Devices",
+        "securityName": "Advanced Micro Devices, Inc. - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "AMD"
+        ],
+        "isADR": false,
+        "cik": "0000002488",
+        "sector": "Information Technology"
+      },
+      "choices": [],
+      "story": true,
+      "targetWords": null,
+      "maxWords": 1600,
+      "ceiling": 1600,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "proseWords": 1018,
+    "tableRows": 0,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": false,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [],
+    "rewritten": true,
+    "fallback": false
+  },
+  "modelCalls": 4,
+  "ms": 32790,
+  "auditPasses": [
+    {
+      "text": "> **In one line** — AMD's story is one of the great second acts in tech: a chipmaker founded as Intel's scrappy rival, spun off its factories to survive near-bankruptcy, then rebuilt itself under Lisa Su into an AI-computing powerhouse whose revenue just hit a record $34.6bn.\n\n## The story of Advanced Micro Devices\n\n### Chapter 1: The challenger is born (1969–1990s)\n\nAdvanced Micro Devices was founded in 1969 in Silicon Valley as a second-source semiconductor supplier — a company that made chips originally designed by others, giving customers an alternative to the dominant supplier, Intel. For its first decades AMD lived in Intel's shadow, first as a licensed maker of Intel-compatible processors and then, from the early 1990s, as a designer of its own x86-compatible PC chips. That legal tightrope — building products compatible with Intel's architecture without Intel's blessing — defined AMD's identity: the perpetual challenger, forced to compete on price and engineering daring rather than scale.\n\n*(This founding era predates our SEC filing coverage, which begins in 2001; the details above come from general histories such as Tom's Hardware's \"AMD at 50\" retrospective, 1 May 2019, not from filings.)*\n\n### Chapter 2: The factory problem and the near-death experience (2000s–2014)\n\nBy the 2000s AMD had a structural handicap: Intel owned its own chip factories, while AMD had to fund fabs of its own — enormously expensive plants that devoured cash whenever AMD's sales dipped. The filings we hold show the fix: a 2010 \"Amended and Restated Funding Agreement\" between AMD, the Abu Dhabi-backed Advanced Technology Investment Company and GlobalFoundries Inc., dated 27 December 2010, under which outside investors funded AMD's spun-off manufacturing arm. AMD became a \"fabless\" company — designing chips while paying others to make them — which is the model it still uses today.\n\nThe relief came too late to save the decade. AMD's own filed numbers show the damage: by fiscal 2021 (the year ended 25 December 2021) revenue was $16.4bn, but that was after years of losses, heavy debt and a share price that had collapsed. The company was, by common account, on the edge of insolvency in the early 2010s. Its product line was losing to Intel in PCs and to Nvidia in graphics.\n\n### Chapter 3: The Lisa Su turnaround (2014–2020)\n\nIn 2014 Dr. Lisa Su — a semiconductor engineer, not a salesperson — became CEO. Her strategy, as the filings later describe it, was to bet everything on a new chip architecture called **Zen**, launched in 2017, and to focus on high-performance computing rather than fighting everywhere. Zen's Ryzen PC processors were genuinely competitive with Intel for the first time in years, and the EPYC server chips that followed gave data centres a real alternative.\n\nThe filed financials show the inflection clearly. In FY2021 (ended 25 Dec 2021) AMD earned $3.16bn of net income on $16.4bn of revenue — a 19% net margin (it kept about 19¢ of every $1 of sales as profit), with operating income of $3.65bn. After years of losses, AMD was suddenly solidly profitable, with almost no debt.\n\n### Chapter 4: The Xilinx deal and the AI pivot (2022–2024)\n\nFY2022 (ended 31 Dec 2022) shows revenue jumping to $23.6bn — but that jump was mostly because AMD acquired Xilinx, a maker of programmable chips, in early 2022. The purchase price was largely in AMD shares, and the accounting charges from the deal crushed reported profit: net income fell to $1.32bn despite the bigger revenue. FY2023 was the trough of the PC downturn: revenue slipped to $22.7bn and operating income collapsed to just $401m — AMD kept less than 2¢ of every sales dollar as operating profit — while net income of $854m was propped up by items below the operating line.\n\nThe strategic logic, though, was sound: Xilinx gave AMD chips for embedded and custom markets, and the combined company now had CPUs, graphics and adaptive computing under one roof — exactly the toolkit the AI boom demanded.\n\n### Chapter 5: The AI era (2024–today)\n\nFY2024 (ended 28 Dec 2024) showed the recovery taking hold: revenue $25.8bn, net income $1.64bn. Then came the breakout year. In FY2025 (ended 27 December 2025), per the 10-K filed 4 February 2026:\n\n- **Revenue rose 34% to $34.6bn** — a record.\n- **Net income more than doubled, up 164% to $4.34bn.**\n- **Gross margin hit 50%** (AMD keeps 50¢ of every $1 of sales after making the chips), up from 49%, despite roughly $440m of inventory charges caused by US government export controls blocking sales of its MI308 data-centre GPUs to China.\n- **Data Center revenue of $16.6bn, up 32%**, driven by 5th-generation EPYC server processors and Instinct MI350 AI chips — AMD is now the main credible alternative to Nvidia in AI accelerators.\n- **Client and Gaming revenue of $14.6bn, up 51%**, on Ryzen PC processors, game-console chips and Radeon GPUs.\n- The balance sheet transformed: **$10.6bn in cash and short-term investments against just $3.3bn of debt**, and $1.3bn returned to shareholders during the year.\n\n```bars\n{\"title\":\"AMD revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"orientation\":\"vertical\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"facet\":true}\n```\n\nThe pattern in the chart tells the whole arc: the Xilinx-inflated revenue step in 2022, the 2023 profit trough as PC demand slumped and deal charges bit, and the 2025 surge as AI chips and Ryzen carried the company to record revenue and its best profit since the turnaround began.\n\n**The read** — AMD's history is a study in survival economics: it shed its capital-hungry factories at the worst moment, then used its new asset-light model to pour resources into one decisive product bet (Zen) that flipped it from loss-maker to the number-two force in high-performance computing. Today's filing shows a company that finally has the balance sheet ($10.6bn cash vs $3.3bn debt) to sustain the R&D arms race — $8.1bn spent on research in FY2025 alone, nearly a quarter of revenue — against much larger rivals, with export controls on China sales as its most tangible near-term drag.\n\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.htm); [AMD 10-K filed 2025-02-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.htm); [AMD 10-K filed 2024-01-31](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.htm); [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [SEC filing](https://www.sec.gov/Archives/edgar/data/2488/000119312511040392/dex1045a.htm).\n> Next: How much growth does AMD's current share price already have priced in?",
+      "words": 1019,
+      "issues": [
+        "Monetary claim $440m is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Percentage claim 32% is not a supplied dated comparison or a compatible calculation. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Percentage claim 51% is not a supplied dated comparison or a compatible calculation. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory."
+      ]
+    },
+    {
+      "text": "> **In one line** — AMD's story is one of the great second acts in tech: a chipmaker founded as Intel's scrappy rival, spun off its factories to survive near-bankruptcy, then rebuilt itself under Lisa Su into an AI-computing powerhouse whose revenue just hit a record $34.6bn.\n\n## The story of Advanced Micro Devices\n\n### Chapter 1: The challenger is born (1969–1990s)\n\nAdvanced Micro Devices was founded in 1969 in Silicon Valley as a second-source semiconductor supplier — a company that made chips originally designed by others, giving customers an alternative to the dominant supplier, Intel. For its first decades AMD lived in Intel's shadow, first as a licensed maker of Intel-compatible processors and then, from the early 1990s, as a designer of its own x86-compatible PC chips. That legal tightrope — building products compatible with Intel's architecture without Intel's blessing — defined AMD's identity: the perpetual challenger, forced to compete on price and engineering daring rather than scale.\n\n*(This founding era predates our SEC filing coverage, which begins in 2001; the details above come from general histories such as Tom's Hardware's \"AMD at 50\" retrospective, 1 May 2019, not from filings.)*\n\n### Chapter 2: The factory problem and the near-death experience (2000s–2014)\n\nBy the 2000s AMD had a structural handicap: Intel owned its own chip factories, while AMD had to fund fabs of its own — enormously expensive plants that devoured cash whenever AMD's sales dipped. The filings we hold show the fix: a 2010 \"Amended and Restated Funding Agreement\" between AMD, the Abu Dhabi-backed Advanced Technology Investment Company and GlobalFoundries Inc., dated 27 December 2010, under which outside investors funded AMD's spun-off manufacturing arm. AMD became a \"fabless\" company — designing chips while paying others to make them — which is the model it still uses today.\n\nThe relief came too late to save the decade. AMD's own filed numbers show the damage: by fiscal 2021 (the year ended 25 December 2021) revenue was $16.4bn, but that was after years of losses, heavy debt and a share price that had collapsed. The company was, by common account, on the edge of insolvency in the early 2010s. Its product line was losing to Intel in PCs and to Nvidia in graphics.\n\n### Chapter 3: The Lisa Su turnaround (2014–2020)\n\nIn 2014 Dr. Lisa Su — a semiconductor engineer, not a salesperson — became CEO. Her strategy, as the filings later describe it, was to bet everything on a new chip architecture called **Zen**, launched in 2017, and to focus on high-performance computing rather than fighting everywhere. Zen's Ryzen PC processors were genuinely competitive with Intel for the first time in years, and the EPYC server chips that followed gave data centres a real alternative.\n\nThe filed financials show the inflection clearly. In FY2021 (ended 25 Dec 2021) AMD earned $3.16bn of net income on $16.4bn of revenue — a 19% net margin (it kept about 19¢ of every $1 of sales as profit), with operating income of $3.65bn. After years of losses, AMD was suddenly solidly profitable, with almost no debt.\n\n### Chapter 4: The Xilinx deal and the AI pivot (2022–2024)\n\nFY2022 (ended 31 Dec 2022) shows revenue jumping to $23.6bn — but that jump was mostly because AMD acquired Xilinx, a maker of programmable chips, in early 2022. The purchase price was largely in AMD shares, and the accounting charges from the deal crushed reported profit: net income fell to $1.32bn despite the bigger revenue. FY2023 was the trough of the PC downturn: revenue slipped to $22.7bn and operating income collapsed to just $401m — AMD kept less than 2¢ of every sales dollar as operating profit — while net income of $854m was propped up by items below the operating line.\n\nThe strategic logic, though, was sound: Xilinx gave AMD chips for embedded and custom markets, and the combined company now had CPUs, graphics and adaptive computing under one roof — exactly the toolkit the AI boom demanded.\n\n### Chapter 5: The AI era (2024–today)\n\nFY2024 (ended 28 Dec 2024) showed the recovery taking hold: revenue $25.8bn, net income $1.64bn. Then came the breakout year. In FY2025 (ended 27 December 2025), per the 10-K filed 4 February 2026:\n\n- **Revenue rose 34% to $34.6bn** — a record.\n- **Net income more than doubled, up 164% to $4.34bn.**\n- **Gross margin hit 50%** (AMD keeps 50¢ of every $1 of sales after making the chips), up from 49%, despite inventory and related charges tied to US government export controls on its Instinct MI308 data-centre GPU products.\n- **Data Center revenue of $16.6bn**, driven by 5th-generation EPYC server processors and Instinct MI350 AI chips — AMD is now the main credible alternative to Nvidia in AI accelerators.\n- **Client and Gaming revenue of $14.6bn**, on Ryzen PC processors, game-console chips and Radeon GPUs; the Embedded segment brought in $3.5bn.\n- The balance sheet transformed: **$10.6bn in cash and short-term investments against just $3.3bn of debt**, and $1.3bn returned to shareholders during the year.\n\n```bars\n{\"title\":\"AMD revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"orientation\":\"vertical\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"facet\":true}\n```\n\nThe pattern in the chart tells the whole arc: the Xilinx-inflated revenue step in 2022, the 2023 profit trough as PC demand slumped and deal charges bit, and the 2025 surge as AI chips and Ryzen carried the company to record revenue and its best profit since the turnaround began.\n\n**The read** — AMD's history is a study in survival economics: it shed its capital-hungry factories at the worst moment, then used its new asset-light model to pour resources into one decisive product bet (Zen) that flipped it from loss-maker to the number-two force in high-performance computing. Today's filing shows a company that finally has the balance sheet ($10.6bn cash vs $3.3bn debt) to sustain the R&D arms race — $8.1bn spent on research in FY2025 alone, nearly a quarter of revenue — against much larger rivals, with export controls on China sales as its most tangible near-term drag.\n\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.htm); [AMD 10-K filed 2025-02-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.htm); [AMD 10-K filed 2024-01-31](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.htm); [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [SEC filing](https://www.sec.gov/Archives/edgar/data/2488/000119312511040392/dex1045a.htm).\n> Next: How much growth does AMD's current share price already have priced in?",
+      "words": 1018,
+      "issues": []
+    }
+  ],
+  "scope": "Fresh model synthesis; unchanged retrieved original AMD filing context reused; real stored financial tools; no database",
+  "question": "tell me thes touy of amd",
+  "mode": "normal",
+  "verificationScope": "Fresh model synthesis on repaired intent and evidence collector. Original latest AMD filing context was retrieved and reused; current committed financial tools and bounded history/news retrieval were live. The subsequent primary-document-only archival selection is covered by deterministic tests; this captured generation predates that selection refinement."
+}

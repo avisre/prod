@@ -33,6 +33,10 @@ for (const [symbol, name] of [['AVGO','Broadcom'],['AMD','Advanced Micro Devices
 }
 for (const symbol of ['PFE','WMT','O','TSM','BRAI']) for (const mode of ['normal','analyst']) prompts[`${symbol.toLowerCase()}-${mode}-ticker`] = { mode, question: symbol };
 for(const mode of ['normal','analyst'])prompts['mu-'+mode+'-story']={mode,question:'Tell the Micron story'};
+for(const mode of ['normal','analyst']) {
+    prompts['amd-'+mode+'-story']={mode,question:'Tell me the story of AMD'};
+    prompts['amd-'+mode+'-story-typo']={mode,question:'tell me thes touy of amd'};
+}
 // Why an answer was rewritten or replaced by a receipt is the single thing this
 // harness exists to show, and the product deliberately does not expose it. The
 // engine calls audit() through the module object, so patching that one property

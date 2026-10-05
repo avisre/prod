@@ -1325,6 +1325,7 @@ const TOOLS = [
                     forms: { type: 'string', description: 'Comma-separated form types, e.g. "10-K,8-K".' },
                     start_date: { type: 'string', description: 'YYYY-MM-DD' },
                     end_date: { type: 'string', description: 'YYYY-MM-DD' },
+                    primary_documents_only: { type: 'boolean', description: 'For company history, return primary periodic documents confirmed by SEC submissions metadata within the requested dates. Excludes relevance-ranked exhibits; documents remain candidates until their text is fetched.' },
                     limit: { type: 'integer', description: 'Max 10, default 8.' }
                 },
                 required: ['query']
@@ -1539,7 +1540,7 @@ async function toolSearchWeb({ query }) {
 // so omitting it left the model unable to find the latest periodic filing for
 // any ADR.
 const PERIODIC_FILING_FORMS = new Set(['10-K', '10-Q', '20-F', '40-F']);
-async function toolSearchFilings({ query, ticker, forms, start_date, end_date, limit }) {
+async function toolSearchFilings({ query, ticker, forms, start_date, end_date, limit, primary_documents_only }) {
     const q = String(query || '').trim();
     if (!q) return { error: 'No query given.' };
     const f = String(forms || '').toUpperCase().replace(/\s/g, '');
@@ -1549,6 +1550,15 @@ async function toolSearchFilings({ query, ticker, forms, start_date, end_date, l
     const sd = /^\d{4}-\d{2}-\d{2}$/.test(String(start_date || '')) ? start_date : null;
     const ed = /^\d{4}-\d{2}-\d{2}$/.test(String(end_date || '')) ? end_date : null;
     try {
+        if (primary_documents_only === true && sym && periodicRequested.length) {
+            const recent = await require('./watchdog').fetchRecentFilings(sym, new Set(periodicRequested), 60);
+            const results = (recent || []).filter(r => (!sd || r.date >= sd) && (!ed || r.date <= ed) &&
+                /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\//.test(r.url || ''))
+                .sort((a,b)=>String(b.date).localeCompare(String(a.date)))
+                .slice(0, cap).map(r => ({company:null,form:r.form,filed:r.date,url:r.url,confirmedPrimary:true,candidateOnly:true}));
+            if (!results.length) return {error:'No primary historical annual document is available in the bounded submissions history for the requested dates.',code:'HISTORICAL_DOCUMENT_UNAVAILABLE',results:[]};
+            return { query:q,totalMatches:null,results,note:'Primary periodic documents from SEC submissions metadata, within the requested filing dates. These are historical document candidates, not keyword matches or the current latest report. Fetch the original document and verify the requested history before citing it. An unavailable older document is a specific history gap.' };
+        }
         const params = new URLSearchParams({ q });
         if (/^[A-Z0-9,\-\/]{1,40}$/.test(f) && f) params.set('forms', f);
         if (sd || ed) {
@@ -2091,8 +2101,61 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         search_web: 0, fetch_page: 0, search_filings: 0, get_supplemental_context: 0,
         get_unit_economics: 0, get_key_points: 0, get_governance: 0, get_esg: 0, get_filing_diff: 0
     };
+    const prepareStoryEvidence = async () => {
+        if (!policy.story || policy.kind !== 'company_report') return;
+        const pending = reportPolicy.missingResearch(policy, toolsUsed);
+        if (!pending.length) return;
+        // Story research is deterministic. A model choosing only get_quote
+        // must not turn the story into the missing-report/price receipt path.
+        const retrieve = async ({ tool, args }) => {
+            if (tool === 'get_financials') args = { ...args, fields: require('./ask-report-evidence').defaults(args.symbol, args.statement, args.basis).fields };
+            const started = Date.now();
+            let result;
+            if (WEB_BUDGET[tool] !== undefined && ++webUsed[tool] > WEB_BUDGET[tool]) result = { error: `Web budget exhausted for ${tool} — use the existing evidence.` };
+            else {
+                try { result = await deps.runTool(tool, args, { ...ctx, companyReportEvidence: true }); }
+                catch (error) { result = evidence.toolError(error); }
+            }
+            if (!result || typeof result !== 'object') result = { error: 'The data tool returned no result.' };
+            return { tool, args, result, ms: Date.now() - started };
+        };
+        const supply = ({ tool, args, result, ms }) => {
+            const content = evidence.serializeResult(require('./ask-report-evidence').compact(require('./ask-report-evidence').boundNarrative(result)), evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+            const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
+            suppliedResults.push({ tool, result: supplied });
+            contextBytes += Buffer.byteLength(content);
+            if (!supplied.error) hasResearchEvidence = true;
+            sourceLinks.push(...evidence.filingLinks(supplied));
+            const trace = { tool, args, ok: !supplied.error, ms };
+            toolsUsed.push(trace); emit({ type: 'tool', ...trace });
+            const id = `story-research-${toolsUsed.length}`;
+            messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: tool, arguments: JSON.stringify(args) } }] },
+                { role: 'tool', tool_call_id: id, content });
+        };
+        const fetched = await Promise.all(pending.map(retrieve));
+        fetched.forEach(supply);
+        if (!policy.explicitWordLimit) {
+            // A latest-year business excerpt does not establish the company's
+            // earlier history. Retrieve one older original annual document,
+            // using the same per-question filing/page budgets as model calls.
+            const earliest = suppliedResults.filter(r => r.tool === 'get_financials').flatMap(r => r.result?.observations || [])
+                .map(o => o.periodEnd).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort()[0];
+            const search = await retrieve({ tool: 'search_filings', args: { ticker: policy.company.symbol,
+                query: 'business', forms: '10-K,20-F,40-F', end_date: earliest || `${new Date().getUTCFullYear()-6}-12-31`, limit: 1, primary_documents_only: true } });
+            supply(search);
+            const historical = search.result?.results?.find(r => /^https:\/\/www\.sec\.gov\/Archives\/edgar\/data\//.test(r.url || ''));
+            if (historical) supply(await retrieve({ tool: 'fetch_page', args: { url: historical.url, find: 'business' } }));
+        }
+        const supplemental = reportPolicy.supplementalNeeds(policy, suppliedResults);
+        if (supplemental && !reportSupplemented && !toolsUsed.some(t => t.tool === 'get_supplemental_context')) {
+            reportSupplemented = true;
+            supply(await retrieve({ tool: 'get_supplemental_context', args: supplemental }));
+        }
+        messages.push({ role: 'system', content: 'The company story evidence was retrieved before generation. Reuse its supported financial history and original business context. Supplement historical gaps using accessible original documents within the remaining web budgets. A failed source affects only its missing details; write the supported story, rather than replacing it with a stock quote or asking the user to narrow the request.' });
+    };
     try {
         for (let iter = 0; iter < MAX_ITERS; iter++) {
+            await prepareStoryEvidence();
             const lastRound = iter === MAX_ITERS - 1;
             // On the final round there are no tools — tell the model to commit to
             // a full answer instead of stalling or asking the user to narrow it.

@@ -1,0 +1,65 @@
+{
+  "scope": "Final-code deterministic replay of captured supported answer; zero model calls",
+  "source": "ai",
+  "quality": {
+    "policyVersion": 4,
+    "checked": true,
+    "policy": {
+      "version": 4,
+      "kind": "company_report",
+      "mode": "normal",
+      "company": {
+        "symbol": "AMD",
+        "name": "Advanced Micro Devices",
+        "securityName": "Advanced Micro Devices, Inc. - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "AMD"
+        ],
+        "isADR": false,
+        "cik": "0000002488",
+        "sector": "Information Technology"
+      },
+      "choices": [],
+      "story": true,
+      "targetWords": null,
+      "maxWords": 1600,
+      "ceiling": 1600,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "proseWords": 1018,
+    "tableRows": 0,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": false,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "search_filings",
+        "reason": "Bounded original-document replay; no retrieval for this test."
+      }
+    ],
+    "rewritten": false,
+    "fallback": false
+  },
+  "auditPasses": [
+    {
+      "words": 1018,
+      "issues": []
+    }
+  ]
+}

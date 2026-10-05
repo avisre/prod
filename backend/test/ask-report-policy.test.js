@@ -112,3 +112,60 @@ test('one firm 1600-word ceiling lets both modes choose length freely across sco
  for(const mode of ['normal','analyst'])for(const question of ['AMD','AMD revenue last quarter','Tell the Micron story','Give a detailed analysis of JPM','SPY']){const policy=p.select(question,mode);assert.equal(policy.maxWords,1600);assert.equal(policy.ceiling,1600);assert.equal(policy.targetWords,null);assert.deepEqual(q.audit('Narrative '.repeat(1600),[],{question,mode}),[]);assert.match(q.audit('Narrative '.repeat(1601),[],{question,mode}).join(' '),/1600-word limit/);assert.doesNotMatch(p.prompt(policy),/aim for/);}
  assert.equal(p.select('AMD under 100 words').ceiling,100);assert.equal(p.select('AMD under 2000 words').ceiling,1600);assert.doesNotMatch(engine.ASK_SYSTEM,/480 words|normal mode: 320/);assert.doesNotMatch(engine.FRAMEWORK_ANALYST,/600–900|1,200-word/);
 });
+
+test('company story spelling and history requests resolve the listing before selecting research',()=>{
+ for(const mode of ['normal','analyst'])for(const question of ['tell me thes touy of amd','tell me the stroy of AMD','tell me stoy of AMD','tell me the story of AMD','tell me the history of AMD']) {
+  const policy=p.select(question,mode);assert.equal(policy.kind,'company_report',question);assert.equal(policy.story,true,question);assert.equal(policy.company.symbol,'AMD',question);
+  assert.deepEqual(p.missingResearch(policy,[]).map(r=>r.tool),['get_financials','get_key_points']);
+ }
+ for(const question of ['AMD price history','AMD stock price','tell me the stock of AMD'])assert.equal(p.select(question).story,false,question);
+ assert.equal(p.select('Tell me the stroy of Alphabet').kind,'listing_choice');assert.equal(p.select('Tell me the stroy of SPY').kind,'fund');
+});
+
+test('AMD story evidence precedes generation even when the model chooses only a quote',async()=>{
+ const financial=await engine.runTool('get_financials',{symbol:'AMD',statement:'income',basis:'annual',limit:5},{companyReportEvidence:true});
+ for(const mode of ['normal','analyst'])for(const question of ['tell me thes touy of amd','Tell me the story of AMD']) {
+  let calls=0;const requested=[];
+  engine.__setDeps({chatRaw:async(messages)=>{
+   calls++;
+   if(calls===1){
+    assert.match(messages[0].content,/COMPANY STORY/);assert.doesNotMatch(messages[0].content,/ANSWER FRAMEWORK|ANSWER SHAPE/);
+    const supplied=messages.filter(m=>m.role==='tool').map(m=>JSON.parse(m.content));
+    assert.ok(supplied.some(r=>r.statement==='income'&&r.observations.length===5));assert.ok(supplied.some(r=>r.sections?.some(s=>s.text==='Original business disclosure.')));
+    assert.ok(supplied.some(r=>r.text==='Original older business history.'));
+    return {tool_calls:[tc('quote','get_quote',{symbol:'AMD'})]};
+   }
+   return {content:'## AMD’s story\nThe supplied business disclosure describes AMD’s products and customers. Its filed financial history shows how the business has evolved.\n**The read** — Evaluate the business using dated evidence.\n> Next: Which era should we explore?'};
+  },runTool:async(tool,args)=>{
+   requested.push({tool,args});
+   if(tool==='get_financials')return financial;
+   if(tool==='get_key_points')return {symbol:'AMD',sections:[{heading:'Business',text:'Original business disclosure.'}],sourceUrl:'https://www.sec.gov/Archives/amd-business.htm'};
+   if(tool==='get_quote')return {symbol:'AMD',price:633.91,currency:'USD',asOf:'2026-10-02T20:00:01.000Z'};
+   if(tool==='search_filings'){assert.equal(args.end_date,'2021-12-25');return {results:[{url:'https://www.sec.gov/Archives/edgar/data/2488/000000248821000001/annual.htm',form:'10-K',filed:'2021-02-01'}]};}
+   if(tool==='fetch_page')return {url:args.url,text:'Original older business history.'};
+   throw Error('Unexpected report request: '+tool);
+  }});
+  const out=await engine.ask({question,mode});assert.equal(calls,2);assert.equal(out.source,'ai');assert.equal(out.quality.policy.story,true);assert.equal(out.quality.fallback,false);
+  assert.deepEqual(requested.map(r=>r.tool),['get_financials','get_key_points','search_filings','fetch_page','get_quote']);assert.match(out.answer,/AMD’s story/);assert.match(out.answer,/```(?:bars|viz)/);assert.doesNotMatch(out.answer,/partial answer|stored price|Some requested research was unavailable/);
+ }
+});
+
+test('story source failures trigger one shared supplement before generation and keep explicit limits',async()=>{
+ const financial=await engine.runTool('get_financials',{symbol:'AMD',statement:'income',basis:'annual',limit:5},{companyReportEvidence:true});let supplements=0,calls=0;
+ engine.__setDeps({runTool:async(tool)=>{
+  if(tool==='get_financials')return financial;
+  if(tool==='get_key_points')throw Error('Official filing retrieval failed');
+  if(tool==='get_supplemental_context'){supplements++;return {symbol:'AMD',businessContext:{text:'The provider describes processors and graphics products.',sourceName:'Yahoo Finance',sourceUrl:'https://finance.yahoo.com/quote/AMD/profile/'},sourceAttempts:[{source:'Yahoo Finance',status:'available'}],remainingGaps:[{section:'early_history',state:'missing',reason:'Founding-era documents unavailable'}]};}
+  throw Error('Unexpected tool');
+ },chatRaw:async(messages)=>{
+  calls++;assert.ok(messages.some(m=>m.role==='tool'&&JSON.parse(m.content).businessContext?.sourceName==='Yahoo Finance'));
+  return {content:'AMD sells processors and graphics products, according to Yahoo Finance’s company profile. Founding-era documents were unavailable.\n**The read** — The present business is documented; the earlier history remains a source gap.\n> Next: Explore its processor business?'};
+ }});
+ const out=await engine.ask({question:'Tell me the story of AMD under 100 words',mode:'normal'});assert.equal(calls,1);assert.equal(supplements,1);assert.equal(out.source,'ai');assert.ok(q.wordCount(out.answer)<=100);assert.ok(out.quality.remainingGaps.some(g=>g.section==='early_history'));assert.ok(out.quality.sourceAttempts.some(a=>a.source==='Yahoo Finance'));
+});
+
+test('story prefetch does not permit an invented financial figure after correction',async()=>{
+ const financial=await engine.runTool('get_financials',{symbol:'AMD',statement:'income',basis:'annual',limit:5},{companyReportEvidence:true});let calls=0;
+ engine.__setDeps({runTool:async name=>name==='get_financials'?financial:{symbol:'AMD',sections:[{text:'Original processor-business disclosure.'}],sourceUrl:'https://www.sec.gov/Archives/amd-business.htm'},chatRaw:async()=>{calls++;return {content:'AMD revenue was USD 999999999999999 billion.'};}});
+ const out=await engine.ask({question:'Tell me the story of AMD'});assert.equal(calls,2);assert.equal(out.source,'partial');assert.ok(out.quality.auditFindings.length);assert.doesNotMatch(out.answer,/999999999999999/);
+});

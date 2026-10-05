@@ -47,6 +47,23 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Ask company-story recovery — 2026-10-05
+
+- Isolated branch `fix/ask-story-recovery-20261005`, based on production `7b92299d`;
+  shared Claude working tree untouched. Exact report: `tell me thes touy of amd`
+  returned a partial price receipt. Story-word typo resolution and deterministic
+  pre-generation annual/business research now prevent that quote-only path.
+- Historical research uses submissions-confirmed primary annual documents, not
+  relevance-ranked exhibits. Existing search/page budgets remain shared. Original
+  filing monetary excerpts support prose only with label/currency/year guards;
+  generated summaries cannot supply figures, charts or calculation inputs.
+- Fresh exact-question synthesis: 1,018 words, zero numerical findings; final-code
+  deterministic replay also passes. Loopback renderer passes 1100/390px. Deployment
+  regressions 523/523; final full suite 1377/1382 with five reproduced main failures.
+- Dataset, exhaustive public rendering and resource gates pass. Receipts and
+  verification limits: `docs/qa/ask-story-2026-10-05/README.md`. Authenticated live
+  generation is a separate post-deployment check. No frontend code/stamp change.
+
 ## Data foundation implementation — 2026-10-05 (release gates)
 
 - Isolated checkout: `/Users/drasharaghavan/worktrees/data-foundation-20261005`, now on the

@@ -1,13 +1,19 @@
 'use strict';
 
 // Shared by generation, numerical review, saved conversations and local QA.
-const VERSION = 3;
+const VERSION = 4;
 const ANSWER_MAX_CHARS = 32000;
 const QUESTION_MAX_CHARS = 8000;
 const HISTORY_MAX_BYTES = 64000;
 const EXPLICIT = /(?:under|at most|maximum(?: of)?|no more than|within|keep (?:it|the answer) (?:to|below))\s+(\d+)\s+words\b/i;
 const NARROW = /\b(?:compar(?:e|es|ed|ing|ison)|similar|peers?|competitors?|(?:companies|stocks) like|lookalikes?|versus|vs\.?|portfolio|screen(?:er|ing)?|rank|best|top\s+\d|revenue|sales|margin|earnings|eps|income|profit|p\/e|price|market cap|valuation|multiple|dividend|buyback|debt|cash flow|fcf|ratio|yield|volume|beta|volatility|quarter|q[1-4]|fy\s?\d|annual|results|10-k|10-q|8-k|prospectus|insider|governance|esg|risk factor|segments?|guidance|outlook|brief|concise|employees?|headcount|workforce|capex|tax|ffo|affo|arr|roe|roa|backlog)\b/i;
 let registry;
+// Correct only narrative words in a story-request phrase. Do not fuzzy-match
+// company identities or turn stock/price-history lookups into company stories.
+function narrativeQuestion(question) {
+    return String(question || '').replace(/\b(?:the|thes|a|an)\s+(?:stroy|storry|storey|stoy|stry|touy)\b/gi, 'the story')
+        .replace(/\b(tell(?: me)?|write|create)\s+(?:stroy|storry|storey|stoy|stry|touy)\b/gi, '$1 story');
+}
 function nameKey(value) {
     return String(value || '').toLowerCase().replace(/['’]s\b/g, '')
         .replace(/\b(?:class\s+[a-z]|common (?:stock|shares)|ordinary shares|incorporated|inc|corporation|corp|limited|ltd|co)\b/g, ' ')
@@ -26,7 +32,7 @@ function listings() {
     return registry;
 }
 function resolve(question, companies = listings()) {
-    const subject = String(question || '').replace(EXPLICIT, '').trim().replace(/[?.!,]+$/g, '')
+    const subject = narrativeQuestion(question).replace(EXPLICIT, '').trim().replace(/[?.!,]+$/g, '')
         .replace(/^(?:please\s+)?(?:tell me about|what do you think (?:of|about)|give me (?:an? )?(?:overview|report|analysis) (?:of|on)|how is|what does|analy[sz]e|explain)\s+/i, '')
         .replace(/^(?:please\s+)?(?:tell(?: me)?|write|create|give me)\s+(?:(?:the|a|an|full|long|detailed|company)\s+)*(?:story|history|narrative|biography|chronicle)\s+(?:(?:of|about|behind|for)\s+)?/i, '')
         .replace(/^(?:please\s+)?(?:tell(?: me)?|write|create)\s+(?:the\s+)?/i, '')
@@ -41,13 +47,14 @@ function resolve(question, companies = listings()) {
     return { subject, matches, bare: matches.length > 0 };
 }
 function select(question = '', mode = 'analyst', options = {}) {
-    const q = String(question).trim(), identity = resolve(q, options.companies);
+    const q = narrativeQuestion(question).trim(), identity = resolve(q, options.companies);
     const requested = q.match(EXPLICIT), explicitWords = requested ? Number(requested[1]) : null;
     const company = options.company || (identity.matches.length === 1 ? identity.matches[0] : null);
     const ambiguous = identity.matches.length > 1;
     const fund = company && ['etf', 'mutual_fund', 'closed_end_fund'].includes(company.securityType);
     const open = identity.bare || (!NARROW.test(q) && (/\b(?:business|overview|doing|investment|analy[sz]e|analysis|report|tell me|think|thoughts|deep dive|in.depth)\b/i.test(q) || (!!options.company && /^[\w .&'’-]+$/.test(q))));
-    const story = /\b(?:story|stories|storytelling|narrative|chronicle|biography)\b/i.test(q) && !fund && !ambiguous;
+    const story = (/\b(?:story|stories|storytelling|narrative|chronicle|biography)\b/i.test(q) ||
+        (identity.bare && /\bhistory\b/i.test(q))) && !fund && !ambiguous;
     const full = !!company && company.securityType === 'stock' && (open || story) && !ambiguous;
     const kind = ambiguous ? 'listing_choice' : fund ? 'fund' : full ? 'company_report' : 'focused';
     const maxWords = explicitWords !== null ? Math.min(explicitWords,1600) : 1600;
@@ -60,7 +67,7 @@ function select(question = '', mode = 'analyst', options = {}) {
         annualPeriods: full ? 5 : null, quarterlyPeriods: full ? 4 : null };
 }
 function missingResearch(policy, used) {
-    if (policy.kind !== 'company_report' || policy.explicitWordLimit) return [];
+    if (policy.kind !== 'company_report' || (policy.explicitWordLimit && !policy.story)) return [];
     const symbol = policy.company.symbol;
     const required = policy.story ? [
         {tool:'get_financials',args:{symbol,statement:'income',basis:'annual',limit:5}},
@@ -78,7 +85,7 @@ function missingResearch(policy, used) {
         (!r.args.limit || Number(t.args.limit ?? (r.tool === 'get_financials' ? 5 : 10)) >= r.args.limit)));
 }
 function supplementalNeeds(policy, results) {
-    if (policy.kind !== 'company_report' || policy.explicitWordLimit) return null;
+    if (policy.kind !== 'company_report' || (policy.explicitWordLimit && !policy.story)) return null;
     const fields = new Set(), sections = new Set();
     for (const basis of policy.story ? ['annual'] : ['annual', 'quarterly']) {
         const income = results.find(r => r.tool === 'get_financials' && r.result?.statement === 'income' && String(r.result?.basis || '').startsWith(basis));
@@ -119,7 +126,7 @@ function reportIssues(text, policy, results) {
 }
 function prompt(policy) {
     return `SELECTED ANSWER POLICY: ${policy.kind}; ${policy.explicitWordLimit ? 'strict requested' : 'default'} prose limit ${policy.maxWords} words; choose the length needed for a useful answer, without a minimum or preset target. Focused lookups stay focused; do not pad an answer to reach the ceiling. Markdown tables and chart JSON have separate budgets (${policy.tableRows} table rows). ${policy.company ? `Resolved listing: ${policy.company.name} (${policy.company.symbol}), ${policy.company.securityType}.` : 'Resolve the listing and instrument before choosing company or fund tools.'}
-${policy.story ? 'COMPANY STORY: tell a source-backed chronological narrative with chapters or eras and an engaging explanation of business turning points. Use as many words as the story needs within the selected ceiling. Tables are optional; use compatible supplied financial history for a meaningful visual when available. Retrieve requested historical periods and original issuer/history sources as needed; disclose unsupported eras and never fill them from memory. Use third person by default. If a real person is requested as narrator, label the perspective as a dramatization; invented dialogue is never an authentic quote. Keep supplied facts, ratios, dates and source distinctions exact. A missing disclosure can justify a shorter story. Finish with The read and one Next question.' : ''}
+${policy.story ? 'COMPANY STORY: tell a source-backed chronological narrative with chapters or eras and an engaging explanation of business turning points. Use as many words as the story needs within the selected ceiling. The engine supplies annual financial history, original business context and an older annual-document attempt before generation; reuse those pulls. A stock quote is not company-history evidence and a price receipt does not answer a story request. Founding dates, leadership changes, product launches, acquisitions, near-bankruptcy and turnaround claims require retrieved narrative that actually establishes them; never recall an unsupported early era from memory. Use search_filings/search_web and fetch_page within their existing budgets when the supplied business context lacks the requested historical eras; read original issuer/history pages before making historical claims. If one historical era cannot be sourced, tell the supported parts and name that specific gap. Tables are optional; use compatible supplied financial history for a meaningful visual when available. Retrieve requested historical periods and original issuer/history sources as needed; disclose unsupported eras and never fill them from memory. Use third person by default. If a real person is requested as narrator, label the perspective as a dramatization; invented dialogue is never an authentic quote. Keep supplied facts, ratios, dates and source distinctions exact. A missing disclosure can justify a shorter story. Finish with The read and one Next question.' : ''}
 EVIDENCE REFERENCES: factRef names the exact observation or calculation input in reportEvidence.facts; sourceIds use tool-local keys in provenance.sources; each source row follows provenance.sourceColumns in order (explicit nulls are listed in provenance.sourceNulls; other null cells mean absent). A fact's reportContextRef names its exact period, currency, unit and scope in reportEvidence.contexts; a source's filingRef names its shared metadata in provenance.filings; sourceContextRef names source periods and units in provenance.sourceContexts. Read those referenced entries before using a value. Printed tables remain exact; chart values use raw observations, with their referenced units and fiscal dates.
 VISUAL FREEDOM: choose your own headings, reading order and visual layout. Choose any supported line chart, horizontal or grouped bars, faceted bars, eligible revenue Sankey or Markdown table that helps explain the evidence. Include a meaningful chart when supplied observations support it; a simple lookup can use a single-value bar. Choose the number and placement of visuals to suit the question. Preserve readable scales, exact periods, currencies, definitions and attribution. A financial report includes at least one annual trend visual when compatible history exists. Explain the gap when no supported chart can be drawn. Never invent data to make a visual.`;
 }

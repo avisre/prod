@@ -137,6 +137,59 @@ function filingNarrativeEvidence(results) {
     return out;
 }
 
+function businessAmountCategory(text, index, length) {
+    const labels = [
+        ['cash', /\bcash(?: equivalents)?|\bshort[- ]term investments\b/gi],
+        ['net_income', /\bnet (?:income|earnings|profit|loss)\b/gi],
+        ['operating_income', /\boperating (?:income|profit|loss)\b/gi],
+        ['revenue', /\brevenue|\bsales\b/gi],
+        ['debt', /\bdebt|\bborrowings\b/gi],
+        ['research', /\bR&D\b|\bresearch and development\b/gi],
+        ['acquisition', /\bacquisition|\bacquir\w*\b/gi],
+        ['inventory_charge', /\binventory charges?\b/gi],
+        ['repurchases', /\brepurchas\w*|\bbuybacks?|\breturned to shareholders\b/gi]
+    ];
+    const matches = labels.flatMap(([category, pattern]) => [...String(text).matchAll(pattern)].map(m => ({ category,
+        distance: m.index + m[0].length < index ? index - m.index - m[0].length : m.index > index + length ? m.index - index - length : 0 })))
+        .filter(m => m.distance <= 180).sort((a,b) => a.distance - b.distance);
+    if (!matches.length || (matches[1] && matches[0].distance === matches[1].distance && matches[0].category !== matches[1].category)) return null;
+    return matches[0].category;
+}
+function businessAmountYear(text,index,length) {
+    const years=[...String(text).matchAll(/\b(?:19|20)\d{2}\b/g)].map(m=>({year:m[0],distance:m.index<index?index-m.index-4:Math.max(0,m.index-index-length)}))
+        .filter(m=>m.distance<=100).sort((a,b)=>a.distance-b.distance);
+    if(!years.length || (years[1] && years[0].distance===years[1].distance && years[0].year!==years[1].year))return null;
+    return years[0].year;
+}
+
+// Only original contextOnly filing excerpts qualify, never AI-written cached
+// key points. These amounts support prose in their named business context;
+// they are not typed statement observations and cannot seed financial charts.
+function originalBusinessAmounts(results) {
+    const facts = [];
+    for (const { tool, result } of results) {
+        if (tool !== 'get_key_points' || result?.error || result?.sourceType !== 'sec_filing_context') continue;
+        const url = result.filing?.url, filing = /\/Archives\/edgar\/data\/\d+\/(\d{18})\//i.exec(String(url || ''));
+        if (!/^https:\/\/www\.sec\.gov\//i.test(String(url || '')) || !filing || result.sourceUrl !== url ||
+            String(result.filing?.accession || '').replace(/\D/g,'') !== filing[1] || !/^\d{4}-\d{2}-\d{2}$/.test(result.filing?.date || '')) continue;
+        for (const section of result.sections || []) {
+            const text = String(section.text || ''), currency = filingCurrency.filingBasis(results, { url, text, currencyEvidence: result.currencyEvidence });
+            for (const m of text.matchAll(/(?<![A-Za-z])(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)/g)) {
+                const unit = filingCurrency.code(m[1],currency), suffix=m[3].toLowerCase();
+                if (!unit) continue;
+                const sentence=sentenceAround(text,m.index), offset=m.index-sentence.start-text.slice(sentence.start,sentence.end).search(/\S|$/), category=businessAmountCategory(sentence.text,offset,m[0].length);
+                if (!category) continue;
+                const scale=/^(?:trillion|tn|t)$/.test(suffix)?1e12:/^(?:billion|bn|b)$/.test(suffix)?1e9:/^(?:million|m)$/.test(suffix)?1e6:1e3;
+                const raw=Number(m[2].replace(/,/g,'').replace(/[−–]/g,'-'));
+                const loss=/\b(?:loss|outflow) (?:of )?\s*$/i.test(sentence.text.slice(0,offset));
+                const subject=category==='revenue'?sentence.text.match(/^([A-Z][A-Za-z&-]*(?:\s+[A-Za-z&-]+){0,5}?)\s+(?:segment\s+)?(?:net\s+)?revenue\b/)?.[1]:null;
+                facts.push({value:raw*scale*(raw>=0&&loss?-1:1),unit,category,subject,periodYear:businessAmountYear(sentence.text,offset,m[0].length),sourceType:'sec_business_narrative',filingUrl:url,filingDate:result.filing.date,context:sentence.text});
+            }
+        }
+    }
+    return facts;
+}
+
 // Table rows are data, not prose — a metrics-over-periods table is the shape
 // the answer prompt asks for, so charging its cells against the prose budget
 // made the two rules unsatisfiable. Tables are bounded separately in audit().
@@ -529,6 +582,7 @@ function numericClaims(text, results, question = '') {
     // Calculator results, once the supplied facts are all in place — a money
     // calculation keeps its currency only when every input shared one.
     for (const c of calculatorClaims(results, facts)) if (c.unit) facts.push({ value: c.value, unit: c.unit, calculated: true });
+    facts.push(...originalBusinessAmounts(results));
     const prose = text.replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
     const issues = [];
     const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' };
@@ -559,6 +613,10 @@ function numericClaims(text, results, question = '') {
         const tolerance = scale * 0.5 * Math.pow(10, -precision) + 1e-6;
         if (value === 1 && scale === 1 && /(?:every|each|per)\s*$/.test(prose.slice(Math.max(0, m.index - 20), m.index))) continue;
         const claimCategory = disclosureCategory(context);
+        const lineStart=prose.lastIndexOf('\n',m.index)+1, nextLine=prose.indexOf('\n',m.index);
+        const businessLine=prose.slice(lineStart,nextLine<0?prose.length:nextLine);
+        const businessCategory = businessAmountCategory(businessLine, m.index-lineStart, m[0].length);
+        const businessYear = businessAmountYear(businessLine,m.index-lineStart,m[0].length);
         const sensitiveDisclosure = DISCLOSURE_TERMS.test(question) && !!disclosureCategory(context) &&
             (DISCLOSURE_TERMS.test(context) || /\b(?:lease|guarantee|commitment|purchase obligation)/i.test(context));
         if (!facts.some(f => (f.unit === unit || f.unit === unit + '/share') &&
@@ -567,6 +625,9 @@ function numericClaims(text, results, question = '') {
                 (f.difference && /fell|fall|drop|declin|decreas|lower/i.test(context)) ||
                 (f.field === 'surplusAfterDistributions' && /short|deficit|more than|exceed|gap/i.test(context))) && Math.abs(Math.abs(f.value) - Math.abs(value)) <= tolerance)) &&
             (f.sourceType !== 'sec_filing_narrative' || !claimCategory || claimCategory === f.category) &&
+            (f.sourceType !== 'sec_business_narrative' || (!!businessCategory && businessCategory === f.category) ||
+                (f.subject && new RegExp('\\b'+f.subject.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i').test(businessLine))) &&
+            (f.sourceType !== 'sec_business_narrative' || !f.periodYear || !businessYear || f.periodYear===businessYear) &&
             (!sensitiveDisclosure || (f.sourceType === 'sec_filing_narrative' && f.category === claimCategory))))
             // Every wording that offered a second option was taken as licence to
             // invent precision: "use the exact verified value" produced $14,181

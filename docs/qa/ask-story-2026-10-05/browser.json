@@ -1,0 +1,23 @@
+{
+  "scope": "Actual production renderer on loopback; saved live model answer; no model calls; not authenticated production browser QA",
+  "checks": [
+    {
+      "width": 1100,
+      "scroll": 1100,
+      "charts": 2,
+      "invalidGeometry": false,
+      "read": true,
+      "next": true,
+      "errors": []
+    },
+    {
+      "width": 390,
+      "scroll": 390,
+      "charts": 2,
+      "invalidGeometry": false,
+      "read": true,
+      "next": true,
+      "errors": []
+    }
+  ]
+}
