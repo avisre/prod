@@ -44,8 +44,8 @@ function joined(d) {
     return [...by.values()].sort((a, b) => String(a.end).localeCompare(String(b.end)));
 }
 
-function buildFactPack(symbol) {
-    const d = loadFund(symbol);
+function buildFactPack(symbol,supplied=null) {
+    const d = supplied || loadFund(symbol);
     if (!d) return null;
     const ov = d.overview || {};
     const years = joined(d);

@@ -21,6 +21,12 @@ test('incomplete or malformed directory input is rejected instead of shrinking c
     assert.throws(() => parseDirectory('<html>Denied</html>', 'nasdaq'), /missing/);
     assert.throws(() => parseDirectory(nasdaq.replace('NEW|New Issuer', 'NEW|extra|New Issuer'), 'nasdaq'), /Malformed/);
 });
+test('punctuated warrants cannot inherit the CIK or fund classification of a different ticker',()=>{
+ const extra=other.replace('File Creation Time:','NE.A|Noble Corporation plc Tranche 2 Warrants|N|NE.A|N|100|N|NE.A\nNEA|Nuveen Fund Common Shares of Beneficial Interest|N|NEA|N|100|N|NEA\nFile Creation Time:');
+ const identities={fields:sec.fields,data:[...sec.data,[1195737,'Nuveen','NEA','NYSE']]};
+ const out=buildUniverse(nasdaq,extra,identities,[],[{symbol:'NEA',name:'Nuveen'}],{NEA:{confirmedFund:true}});
+ assert.equal(out.companies.find(c=>c.symbol==='NEA').cik,'0001195737');assert.equal(out.companies.find(c=>c.symbol==='NEA').securityType,'closed_end_fund');assert.equal(out.companies.some(c=>c.symbol==='NE.A'),false);assert.equal(out.manifest.outcomes.find(c=>c.symbol==='NE.A').classification,'warrant');
+});
 test('non-stock instruments are classified without excluding ordinary REIT or ADR shares', () => {
     for (const [name, expected] of [['Acme - Warrants', 'warrant'], ['Acme - Rights', 'right'], ['Acme - Units', 'unit'], ['Acme 6% Notes due 2030', 'debt'], ['Acme Preferred Stock', 'preferred'], ['Real Estate Trust Common Stock', 'stock'], ['Foreign American Depositary Shares', 'stock']]) {
         assert.equal(securityType({ symbol: 'XYZ', name }), expected);

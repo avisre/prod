@@ -46,8 +46,6 @@ jobs:
           npm ci
           npm ci --prefix backend
 
-      - name: Update all US exchange-listed stocks
-        run: node scripts/build-us-companies.js
 
       - name: Refresh quote snapshot
         env:
@@ -67,7 +65,7 @@ jobs:
 
       - name: Stage quote file
         run: |
-          git add frontend/data/quotes.json frontend/data/us-companies.json frontend/data/public-stock-index.json frontend/data/screen-index.json
+          git add frontend/data/quotes.json frontend/data/us-companies.json frontend/data/public-stock-index.json frontend/data/screen-index.json frontend/data/financial-coverage.json
           if git diff --cached --quiet; then
             echo "no_changes=true" >> $GITHUB_ENV
           fi

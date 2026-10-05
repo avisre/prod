@@ -106,14 +106,14 @@ function loadFund(symbol) {
     if (!company || company.securityType !== 'stock') return null;
     return require('./fundamentals-cache').loadFundamentals(company.symbol);
 }
-async function loadFundAny(symbol) {
-    const company=stockUniverse.lookup(symbol);
+async function loadFundAny(symbol,requiredFields) {
+    const company=stockUniverse.lookup(symbol) || ((process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1' && process.env.SEC_COVERAGE_READ_ONLY!=='1')?await stockUniverse.resolveListing(symbol):null);
     if (company && company.securityType !== 'stock') throw Object.assign(new Error('Company financial analysis is unavailable for this security type.'),
         { code: 'UNSUPPORTED_SECURITY_TYPE', symbol: company.symbol, securityType: company.securityType });
-    const data=loadFund(symbol);
-    if (data && data.coverage.annualReportingStatus === 'recent_annual') return data;
-    if (company) await require('./sec-on-demand').refresh(company.symbol);
-    return loadFund(symbol);
+    if(!company)return null;
+    const online=process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1' && process.env.SEC_COVERAGE_READ_ONLY!=='1';
+    if(!online)return loadFund(symbol);
+    return (await require('./verified-fundamentals').getCompanyEvidence(company.symbol,requiredFields,undefined,online)).data;
 }
 const NO_DATA = (symbol, data) => ({ code: 'VERIFIED_FINANCIALS_UNAVAILABLE', error: `No verified financial data is available for ${symbol}.`, coverage: data?.coverage || null });
 
@@ -177,13 +177,13 @@ function freshness(latestPeriodEnd, basis) {
 }
 
 async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
-    const data = await loadFundAny(symbol);
-    if (!data || !stockUniverse.hasStatements(data)) return NO_DATA(symbol, data);
     const st = ['income', 'balance', 'cash'].includes(statement) ? statement : 'income';
+    const data = await loadFundAny(symbol,FIELDS[st]);
+    if (!data || (!stockUniverse.hasStatements(data) && !data.supplementalObservations?.length)) return NO_DATA(symbol, data);
     const annual = basis !== 'quarterly';
     if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
     const reports = (((data[st] || {})[annual ? 'annualReports' : 'quarterlyReports']) || []).filter(r => !before || r.fiscalDateEnding < before);
-    if (!reports.length) return { error: `No verified ${st} data for ${symbol} in this period range.`, coverage: data.coverage };
+    if (!reports.length) return { symbol,statement:st,basis:annual?'annual':'quarterly',verifiedObservations:[],supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),sourceAttempts:data.sourceAttempts,coverage:data.coverage,note:'No compatible SEC statement rows. Supplemental observations are separately attributed provider figures, not SEC-verified.' };
     const cap = Math.min(Math.max(num(limit) || (annual ? 3 : 4), 1), annual ? 20 : 48);
     const rows = reports.slice().sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)).slice(0, cap);
     const fields = FIELDS[st];
@@ -234,13 +234,13 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
         ...(currency !== 'USD' ? { currencyWarning: `FIGURES ARE IN ${currency}, NOT USD — this company reports in its home currency. State the currency in your answer and never present these values as dollars.` } : {}),
         units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding (millions of shares). Observations and calculations use raw unscaled values.`,
         note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
-        coverage: data.coverage,
-        observations, comparisons, calculations, capitalReturns,
+        coverage: data.coverage,freshness:data.freshness,industryObservations:(data.industryObservations || []).map(f=>{const {reconciliation,...receipt}=f;return {...receipt,reconciliationStatus:reconciliation?.status,reconciliationDigest:reconciliation?.tableDigest};}),supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),
+        observations, comparisons, calculations:[...calculations,...(data.compatibleCalculations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly'))], capitalReturns,
         // Metrics the issuer's XBRL facts cannot carry — EBITDA and EBIT have no
         // concept at all, and eight balance/cash lines were measured non-null zero
         // times across every shipped annual row. The stored provider snapshot has
         // them, so they arrive here instead of as a blank the model cannot fill.
-        alternativeSources: provider.statementGaps(symbol, st, annual ? 'annual' : 'quarterly', rows),
+        alternativeSources: null,
         provenance: evidence.provenance(data, [observations, comparisons, calculations, capitalReturns]),
         source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
@@ -404,7 +404,7 @@ async function toolGetQuote({ symbol }) {
     // on a fast-moving price. The daily quote snapshot is rewritten every day
     // and carries its own asOf, so prefer it — and always hand the model a date
     // to quote beside the figure.
-    const q = data.marketData;
+    const q = process.env.SEC_COVERAGE_DISABLE_ON_DEMAND==='1' || process.env.SEC_COVERAGE_READ_ONLY==='1'?data.marketData:await require('./quote-store').getQuote(symbol,{allowLive:true,useLegacySecShares:false});
     const asOf = (q && q.asOf) || lastDay || null;
     const pick = (preferred, fallback) => (preferred === null || preferred === undefined) ? fallback : preferred;
     const annual = data.income?.annualReports?.[0];
@@ -414,7 +414,7 @@ async function toolGetQuote({ symbol }) {
     // forwardPE, priceToBook, evToEbitda, beta and the rest read as null on every
     // request while the stored provider snapshot carries them. They come back
     // here with their own source and date, which the daily quote's asOf is not.
-    const pv = provider.valuation(symbol, { perShareAllowed });
+    const pv = null; // Price-derived ratios must come from the dated quote, not a weekly profile.
     const pf = pv?.fields || {};
     const epsField = num(annual?.dilutedEPS) !== null ? 'dilutedEPS' : 'eps';
     const epsObservation = evidence.observation(annual, epsField);
@@ -423,7 +423,7 @@ async function toolGetQuote({ symbol }) {
         name: ov.Name, sector: ov.Sector, industry: ov.Industry,
         price: pick(q && q.price, lastClose),
         priceAsOf: asOf,
-        priceSource: q ? 'daily close snapshot' : 'cached close',
+        priceSource:q?.source || 'cached close',marketTimestamp:q?.asOf || null,marketState:q?.marketState || null,quoteFreshness:q?.freshness || null,
         lastClose, lastCloseDate: lastDay,
         marketCap: pick(q && q.marketCap, num(ov.MarketCapitalization)),
         peRatio: perShareAllowed ? num(q?.trailingPE) : null, forwardPE: perShareAllowed ? pick(num(ov.ForwardPE), pf.forwardPE ?? null) : null,
@@ -444,7 +444,7 @@ async function toolGetQuote({ symbol }) {
         financialFilingDate: data.coverage?.latestAnnual?.filingDate || null,
         missingReasons: { perShare: perShareAllowed ? null : 'The ticker share-class or ADR basis is unverified. EPS, P/E and per-share valuation are unavailable.' },
         asOf, fundamentalsAsOf,
-        note: `Price, market cap, P/E and 52-week range are as of ${asOf || 'an unspecified date'} (daily close snapshot, not a live tick); EPS comes from verified filed financials. forwardPE, pegRatio, priceToBook, evToEbitda, beta, dividendYield and the TTM margins are from providerValuation, which is a ${pv?.asOf || 'undated'} ${pv ? pv.source : 'provider'} snapshot, not a filed figure — when you cite one, name that provider and its date, exactly as providerValuation instructs. Financial data is ${fundamentalsAsOf ? `as of ${fundamentalsAsOf}` : 'with no firm date available'}. State the matching date whenever you cite any of these figures, and never call them live or today's.`
+        note: `Price-derived figures use the quote timestamp ${asOf || 'unavailable'} and its reported market state ${q?.marketState || 'unspecified'}. Provider quotes may be delayed; a dated fallback retains its original timestamp. EPS uses filed financials dated ${fundamentalsAsOf || 'unavailable'}. Do not call a cached or closed-market quote continuously current.`
     };
 }
 
@@ -560,6 +560,11 @@ async function toolGetSegments({ symbol }) {
         const company = stockUniverse.lookup(key);
         if (!company) return { code: 'VERIFIED_FINANCIALS_UNAVAILABLE', symbol: key, coverage: 'unavailable', error: 'Segment research requires an eligible company equity listing in the stock directory.' };
         if (company.securityType !== 'stock') return { code: 'UNSUPPORTED_SECURITY_TYPE', symbol: company.symbol, securityType: company.securityType, error: 'Company segment analysis is not available for this security type.' };
+        if(process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1') {
+            const stored=await require('./verified-fundamentals').getCompanyEvidence(company.symbol);
+            const group=(stored.statements?.segmentObservations || []).find(g=>/StatementBusinessSegmentsAxis$/.test(g.axis)) || stored.statements?.segmentObservations?.[0];
+            if(group){const result=require('./sec-segment-observations').toolPayload(group,stored.statements,company.symbol);if(result)return {...result,sankeyEvidence:answerQuality.segmentEvidence(result,null)};}
+        }
         const income = await toolGetFinancials({ symbol: company.symbol, statement: 'income', basis: 'annual', limit: 5 });
         const r = await askSegments.extractAskSegments(company.symbol, income);
         if (r.error) return r;

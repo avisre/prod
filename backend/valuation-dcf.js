@@ -50,6 +50,7 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     if (!data) return { error: `No data for ${sym}.` };
 
     const ov = data.overview || {};
+    if(data.marketData?.currency && data.cash?.annualReports?.[0]?.reportedCurrency && data.marketData.currency!==data.cash.annualReports[0].reportedCurrency)return {error:'Valuation requires compatible financial and quote currencies; no verified conversion is supplied.'};
     const inc0 = ((data.income || {}).annualReports || [])[0] || {};
     const bal0 = ((data.balance || {}).annualReports || [])[0] || {};
     const fyEnd = String(inc0.fiscalDateEnding || '').slice(0, 10) || null;

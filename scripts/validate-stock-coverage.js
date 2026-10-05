@@ -9,9 +9,10 @@ function validate({asOf,bootstrap=false}={}){
  const rates=read('sec-fx.json').rates || {},marketDigests=[],priceDigests=[],expectedRows=[];
  asOf=asOf || pub.asOf;
  const canonical=new Set(),normalized=new Set();
- for(const c of dir.companies){const k=c.symbol?.replace(/[.-]/g,'');if(!c.symbol || canonical.has(c.symbol) || normalized.has(k))fail('Symbol collision '+c.symbol);canonical.add(c.symbol);normalized.add(k);if(!['stock','unit','right'].includes(c.securityType))fail('Invalid type '+c.symbol);if(c.cik && c.cik!==p.cik(c.cik))fail('Noncanonical CIK '+c.symbol);}
+ for(const c of dir.companies){const k=c.symbol?.replace(/\./g,'-');if(!c.symbol || canonical.has(c.symbol) || normalized.has(k))fail('Symbol collision '+c.symbol);canonical.add(c.symbol);normalized.add(k);if(!['stock','unit','right','closed_end_fund','unresolved'].includes(c.securityType))fail('Invalid type '+c.symbol);if(c.cik && c.cik!==p.cik(c.cik))fail('Noncanonical CIK '+c.symbol);}
  if(report.schemaVersion!==1 || pub.schemaVersion!==1 || pub.policyVersion!==1 || screen.v!==4 || screen.policyVersion!==1)fail('Incompatible schema');
  if(screen.datasetId!==pub.datasetId || screen.asOf!==pub.asOf)fail('Snapshot generation mismatch');
+ try{const coverage=read('financial-coverage.json');if(coverage.datasetId!==pub.datasetId || coverage.asOf!==pub.asOf)fail('Coverage generation mismatch');const covered=new Set(coverage.records.flatMap(r=>r.symbols));for(const c of dir.companies.filter(c=>c.securityType==='stock'))if(!covered.has(c.symbol))fail('Missing financial coverage record '+c.symbol);}catch(e){fail('Financial coverage audit unavailable');}
  if(pub.sourceFingerprints?.directoryDigest!==p.digest(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8')) || pub.sourceFingerprints?.reportingDigest!==p.digest(report))fail('Source fingerprint mismatch');
  for(const name of ['public-stock-index.json','screen-index.json'])if(fs.statSync(path.join(p.DATA_DIR,name)).size>=8*1024*1024)fail(name+' exceeds 8 MiB');
  const securities=new Map(pub.securities.map(s=>[s.symbol,s]));if(securities.size!==canonical.size || pub.securities.length!==canonical.size)fail('Incomplete directory outcomes');
@@ -37,7 +38,7 @@ function validate({asOf,bootstrap=false}={}){
    if(e?.lastAttemptResult==='invalid_identity')invalidIdentity++;
   }
  }
- for(const [field,value]of Object.entries({quotesDigest:p.digest(marketDigests),priceHistoryDigest:p.digest(priceDigests),fxDigest:p.digest(rates),screenRowsDigest:p.digest(expectedRows)}))if(pub.sourceFingerprints?.[field]!==value)fail('Source fingerprint mismatch '+field);
+ for(const [field,value]of Object.entries({supplementalDigest:require('../backend/committed-supplements').fingerprint(),quotesDigest:p.digest(marketDigests),priceHistoryDigest:p.digest(priceDigests),fxDigest:p.digest(rates),screenRowsDigest:p.digest(expectedRows)}))if(pub.sourceFingerprints?.[field]!==value)fail('Source fingerprint mismatch '+field);
  if(screen.rowsDigest!==p.digest(screen.rows) || screen.rowsDigest!==pub.sourceFingerprints?.screenRowsDigest)fail('Screen contents do not match generation fingerprint');
  if(pub.datasetId!==p.digest({asOf:pub.asOf,sourceFingerprints:pub.sourceFingerprints,policyVersion:pub.policyVersion,securities:pub.securities.map(s=>s.contentDigest)}))fail('Dataset identity mismatch');
  for(const c of dir.companies){const s=securities.get(c.symbol);if(!s){fail('Missing security '+c.symbol);continue;}const expected=c.securityType==='stock' && pub.issuers[c.cik]?.financialCoverage==='ready';if(s.indexable!==!!expected || s.screenable!==!!expected)fail('Incorrect eligibility '+c.symbol);if(s.cik!==(c.cik || null) || s.securityType!==c.securityType)fail('Identity mismatch '+c.symbol);if(!Array.isArray(s.metricSlugs) || (!expected && s.metricSlugs.length))fail('Invalid metric capability '+c.symbol);if(!p.day(s.lastmod) || s.lastmod>asOf)fail('Invalid content date '+c.symbol);}

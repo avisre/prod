@@ -2,10 +2,11 @@
 // Deterministic extraction. No network, provider data, split guesses, or FX.
 const p = require('./sec-coverage');
 const DAY = 86400000;
+const EXTRACTION_VERSION = '20261005-core2';
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
 const MAPS = {
  income: {
-  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax'],['Revenue']),
+  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenueNetOfInterestExpense'],['RevenueFromContractsWithCustomers','Revenue']),
   netIncome:mapping(['NetIncomeLoss','ProfitLoss'],['ProfitLossAttributableToOwnersOfParent','ProfitLoss']),
   operatingIncome:mapping(['OperatingIncomeLoss'],['ProfitLossFromOperatingActivities']),
   grossProfit:mapping(['GrossProfit'],['GrossProfit']),
@@ -14,6 +15,8 @@ const MAPS = {
   researchAndDevelopment:mapping(['ResearchAndDevelopmentExpense'],['ResearchAndDevelopmentExpense']),
   operatingExpenses:mapping(['OperatingExpenses'],[]),
   interestExpense:mapping(['InterestExpense'],[]),
+  premiums:mapping(['PremiumsEarnedNet'],['InsuranceRevenue']),
+  investmentIncome:mapping(['InvestmentIncomeNet'],[]),
   interestIncome:mapping(['InvestmentIncomeInterest','InterestIncomeOperating'],['InterestIncome']),
   netInterestIncome:mapping(['InterestIncomeExpenseNet'],[]),
   nonInterestIncome:mapping(['NoninterestIncome'],[]),
@@ -31,12 +34,16 @@ const MAPS = {
   totalCurrentAssets:mapping(['AssetsCurrent'],['CurrentAssets']),
   totalCurrentLiabilities:mapping(['LiabilitiesCurrent'],['CurrentLiabilities']),
   cashAndCashEquivalentsAtCarryingValue:mapping(['CashAndCashEquivalentsAtCarryingValue'],['CashAndCashEquivalents']),
+  loans:mapping(['FinancingReceivableRecordedInvestmentExcludingAccruedInterestAfterAllowanceForCreditLoss'],[]),
+  deposits:mapping(['Deposits'],[]),
   inventory:mapping(['InventoryNet'],['Inventories']),
   currentNetReceivables:mapping(['AccountsReceivableNetCurrent'],['TradeAndOtherCurrentReceivables']),
   goodwill:mapping(['Goodwill'],['Goodwill']),
   longTermDebt:mapping(['LongTermDebtNoncurrent'],['NoncurrentBorrowings']),
   shortTermDebt:mapping(['DebtCurrent'],['CurrentBorrowings']),
-  shortLongTermDebtTotal:mapping(['DebtLongtermAndShorttermCombinedAmount'],[]),
+  shortTermBorrowings:mapping(['ShortTermBorrowings'],[]),
+  currentLongTermDebt:mapping(['LongTermDebtCurrent'],['CurrentPortionOfLongtermBorrowings','CurrentPortionOfNoncurrentBorrowings']),
+  shortLongTermDebtTotal:mapping(['DebtLongtermAndShorttermCombinedAmount','LongTermDebtAndShortTermBorrowings'],['Borrowings']),
   commonStockSharesOutstanding:mapping(['CommonStockSharesOutstanding'],[]),
   retainedEarnings:mapping(['RetainedEarningsAccumulatedDeficit'],['RetainedEarnings'])
  },
@@ -62,7 +69,7 @@ function scope(concept, fallback) {
 function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = {}) {
  const issuer = p.cik(document?.cik);
  if (!issuer || issuer !== p.cik(evidence?.cik) || !document.facts || typeof document.facts !== 'object') throw new Error('SEC_IDENTITY_MISMATCH');
- const out = {schemaVersion:1,cik:issuer,issuerName:document.entityName || evidence.issuerName || '',fetchedAt:new Date().toISOString(),factsDigest:p.digest(document),income:{annualReports:[],quarterlyReports:[]},balance:{annualReports:[],quarterlyReports:[]},cash:{annualReports:[],quarterlyReports:[]},sources:{},issues:[]};
+ const out = {schemaVersion:1,extractionVersion:EXTRACTION_VERSION,cik:issuer,issuerName:document.entityName || evidence.issuerName || '',fetchedAt:new Date().toISOString(),factsDigest:p.digest(document),income:{annualReports:[],quarterlyReports:[]},balance:{annualReports:[],quarterlyReports:[]},cash:{annualReports:[],quarterlyReports:[]},sources:{},issues:[]};
  const rows = [];
  const wanted = new Map();
  for(const fields of Object.values(MAPS)) for(const def of Object.values(fields)) for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) wanted.set(taxonomy + ':' + concept,true);
@@ -73,7 +80,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    if(val===null || !end || !filed || end>asOf || filed>asOf || !FORM.test(f.form || '') || !/^\d{10}-\d{2}-\d{6}$/.test(f.accn || '') || (f.start && !start)) continue;
    const days=start?(Date.parse(end)-Date.parse(start))/DAY+1:null;
    if(days !== null && days <= 0) continue;
-   rows.push({taxonomy,concept,unit,val,start,end,days,filed,form:f.form,accn:f.accn});
+   rows.push({taxonomy,concept,unit,val,start,end,days,filed,form:f.form,accn:f.accn,original:f._original || null});
   }
  }
  const a=evidence.latestAnnual;
@@ -93,6 +100,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   const possible=sets.length?[...sets[0]].filter(u=>sets.every(s=>s.has(u))):[];
   // Reporting-currency facts are strings and intentionally kept outside numeric rows.
   const declared=new Set();
+  if(/^[A-Z]{3}$/.test(evidence.reportingCurrency || ''))declared.add(evidence.reportingCurrency);
   for(const concept of ['EntityReportingCurrencyISOCode','EntityReportingCurrency']) for(const facts of Object.values(document.facts.dei?.[concept]?.units || {})) for(const f of facts) if(annualAccessions.has(f.accn) && /^[A-Z]{3}$/.test(String(f.val))) declared.add(f.val);
   if(declared.size===1 && possible.includes([...declared][0])) return [...declared][0];
   if(possible.length===1) return possible[0];
@@ -107,8 +115,8 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   return first;
  }
  function source(f) {
-  const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact'};
-  const id=p.digest(s).slice(0,24);out.sources[id]=s;return id;
+  const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
+  const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;return id;
  }
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
@@ -119,11 +127,11 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
    if(selected)return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};
-   if(basis==='quarterly' && st==='cash') {
+   if(basis==='quarterly' && st!=='balance' && unit===cur) {
     const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
     if(ytd?.ambiguous)return null;
     if(ytd) {
-     const prev=select(all.filter(r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-105 && r.days<=ytd.days-75),field);
+     const prev=select(all.filter(r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-105 && r.days<=ytd.days-75 && r.filed<=ytd.filed && (!/\/A$/.test(ytd.form) || r.accn===ytd.accn)),field);
      if(prev?.ambiguous)return null;
      if(prev){const start=new Date(Date.parse(prev.end)+DAY).toISOString().slice(0,10);return {value:ytd.val-prev.val,refs:[source(ytd),source(prev)],start,scope:scope(concept,def.scope),derivation:{formula:'ytd_difference',inputValues:[ytd.val,prev.val]}};}
     }
@@ -144,13 +152,29 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
     if(found.derivation)row._derivations[field]=found.derivation;
     if(found.start && !row.periodStart)row.periodStart=found.start;
    }
-   if(st==='income' && row.grossProfit===null && row.totalRevenue!==null && row.costOfRevenue!==null && row._sources.totalRevenue && row._sources.costOfRevenue && out.sources[row._sources.totalRevenue[0]].periodStart===out.sources[row._sources.costOfRevenue[0]].periodStart) {
-    row.grossProfit=row.totalRevenue-row.costOfRevenue;row._sources.grossProfit=[...row._sources.totalRevenue,...row._sources.costOfRevenue];row._derivations.grossProfit={formula:'revenue_minus_cost',inputValues:[row.totalRevenue,row.costOfRevenue]};
+   function combine(field, left, right, operation) {
+    if(row[field]!==null || row[left]===null || row[right]===null || !p.verifiedField(out,row,left) || !p.verifiedField(out,row,right))return;
+    const refs=[...row._sources[left],...row._sources[right]];
+    const scopes=[row._scopes[left],row._scopes[right]];
+    if(scopes[0]!==scopes[1])return;
+    row[field]=operation==='sum_fields'?row[left]+row[right]:row[left]-row[right];
+    row._sources[field]=refs;row._scopes[field]=scopes[0];row._derivations[field]={formula:operation,inputs:[left,right],inputValues:[row[left],row[right]]};
+   }
+   if(st==='income') {
+    // Bank net revenue is a monetary flow, not gross interest income.
+    if(/^(602|603|609)/.test(String(evidence.sic || '')))combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
+    combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
+   }
+   if(st==='balance') {
+    combine('shortTermDebt','shortTermBorrowings','currentLongTermDebt','sum_fields');
+    combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');
    }
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}
    if(Object.keys(row._sources).length)out[st][basis+'Reports'].push(row);
   }
  }
+ if(document.segmentFacts?.length)out.segmentObservations=require('./sec-segment-observations').extract(document.segmentFacts,out,document.industryFiling);
+ if(document.industryTables?.length)out.industryObservations=require('./sec-industry-tables').extractTables(document.industryTables,document.industryFiling,issuer,out);
  return out;
 }
-module.exports={extract,MAPS,OUTFLOWS};
+module.exports={extract,MAPS,OUTFLOWS,EXTRACTION_VERSION};

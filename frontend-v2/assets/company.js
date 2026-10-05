@@ -651,6 +651,8 @@
     function renderStaleNotice() {
         const el = $('co-stale');
         if (!el) return;
+        const market=payload?.marketData;
+        if(market?.asOf && !priceTooOld()){el.textContent='Quote as of '+market.asOf+' · '+(market.freshness==='stale_fallback'?'Last-known quote; live retrieval unavailable':market.marketState && market.marketState!=='REGULAR'?'Market closed':'Provider quote may be delayed');el.hidden=false;return;}
         if (!staleAsOf) { el.hidden = true; return; }
         el.textContent = priceTooOld()
             ? `Current price unavailable. Financials and chart shown as of ${formatAsOf(staleAsOf)}`
@@ -666,8 +668,10 @@
         const dos = $('co-dossier');
         if (dos) { dos.href = `/dossier.html?symbol=${encodeURIComponent(symbol)}`; dos.hidden = false; }
         document.title = `${ov.Name || symbol} (${symbol}) — verified financials | stockportfolio.pro`;
-        const price = num(q['05. price']);
-        const chPct = num(String(q['10. change percent'] || '').replace('%', ''));
+        const market=payload.marketData || {};
+        if(market.asOf)staleAsOf=market.asOf;
+        const price = num(market.price ?? q['05. price']);
+        const chPct = market.changePercent!==undefined?num(market.changePercent):num(String(q['10. change percent'] || '').replace('%', ''));
         const hidePrice = priceTooOld();
         $('co-price').textContent = (!hidePrice && price !== null)
             ? currencyAmount(price, quoteCurrency(), { compact: false })
@@ -678,7 +682,7 @@
             chEl.className = 'small num';
         } else if (chPct !== null) {
             // "today" would be a lie on a stored snapshot — name the day instead.
-            const when = staleAsOf ? `% on ${formatAsOf(staleAsOf)}` : '% today';
+            const when = staleAsOf ? `% on ${formatAsOf(staleAsOf)}` : '% · quote date unavailable';
             chEl.textContent = (chPct >= 0 ? '+' : '') + chPct.toFixed(2) + when;
             chEl.className = 'small num ' + (chPct >= 0 ? 'delta-pos' : 'delta-neg');
         }
@@ -1432,7 +1436,17 @@
         syncStatementTrendControls();
         if (payload) renderStatements();
     }
+    function renderFinancialSources() {
+        let panel=$('financial-source-status');
+        if(!panel){panel=document.createElement('section');panel.id='financial-source-status';panel.style.margin='20px 0';$('stmt-prov')?.insertAdjacentElement('afterend',panel);}
+        const basis=basisState==='quarterly'?'quarterly':'annual';
+        const facts=[...(payload?.supplementalObservations || []),...(payload?.industryObservations || [])].filter(f=>(!f.statement || f.statement===stState) && (f.historyBasis || f.basis)===basis).slice(0,40);
+        const fresh=payload?.freshness || {};const gaps=payload?.coverage?.remainingGaps || [];
+        const notes=[fresh.lastSuccessfulCheckAt?'Filing freshness checked '+fresh.lastSuccessfulCheckAt:null,fresh.backgroundStatus==='running'?'Additional source retrieval is in progress.':null,fresh.lastAttemptResult==='retrieval_failed'?'The freshness check failed; previous dated observations are retained.':null].filter(Boolean);
+        panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
+    }
     function renderStatements() {
+        renderFinancialSources();
         const rows = reports(stState, basisState);
         const table = $('stmt-table');
         if (!rows.length) { table.innerHTML = '<tbody><tr><td style="text-align:left">No data filed for this view.</td></tr></tbody>'; return; }
@@ -2161,12 +2175,12 @@
             if (assetData && assetData.profile && assetData.profile.stale) {
                 staleAsOf = assetData.profile.staleAsOf || assetData.profile.asOf || null;
             }
-            if (assetData && ['etf', 'mutual_fund'].includes(assetData.profile && assetData.profile.assetType)) {
+            if (assetData && ['etf','mutual_fund','closed_end_fund'].includes(assetData.profile && assetData.profile.assetType)) {
                 renderFundProfile(assetData);
                 mountAskFloor({ placeholder: `Ask about ${symbol} — fees, holdings, allocation, performance and risk…  (⌘K)` });
                 return;
             }
-            if (['unit','right'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; return; }
+            if (['unit','right','unresolved'].includes(assetData?.profile?.assetType)) { $('co-name').textContent=assetData.profile.name || symbol; $('co-crumb').textContent=assetData.profile.assetTypeLabel+' · Company financial analysis is unavailable for this instrument.'; $('stmt-table').innerHTML='<tbody><tr><td>No company financial analysis is available for this instrument.</td></tr></tbody>'; return; }
             mountAskFloor({ placeholder: `Ask about ${symbol} — answers come from its SEC filings…  (⌘K)` });
             const r = await fetch(`/api/demo/alpha/fundamentals/${encodeURIComponent(symbol)}`);
             if (!r.ok) throw new Error('load failed');

@@ -40,7 +40,7 @@ const PROFILES = {
     reit: {
         metrics: ['netMarginPct', 'roaPct', 'ocfToNetIncome', 'debtToEquity'],
         lines: ['totalRevenue', 'netIncome', 'depreciationDepletionAndAmortization'],
-        note: 'Property companies carry heavy depreciation, so net margin understates cash generation — read it with the depreciation line and leverage. FFO/AFFO is not available from filed XBRL and must never be substituted.'
+        note: 'Property companies carry heavy depreciation, so net margin understates cash generation — read it with the depreciation line and leverage. Use FFO/AFFO only when typed issuer disclosures supply the reported definition and reconciliation; never infer them from generic net income.'
     },
     software: {
         metrics: ['grossMarginPct', 'opMarginPct', 'fcfMarginPct', 'capexPctRevenue'],

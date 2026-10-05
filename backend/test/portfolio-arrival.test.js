@@ -145,7 +145,7 @@ test('the new primitives are exported on window.V2 and consumed, not redefined',
 test('the arrival card and its motion carry the fresh cache stamp', () => {
     // Same immutable-cache trap as every other asset edit: the fix is worthless
     // while browsers run the old bundle for up to a year.
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261004-askfacet1/);
-    assert.match(dashboardHtml, /assets\/app\.js\?v=20261004-askfacet1/);
-    assert.match(dashboardHtml, /assets\/system\.css\?v=20261004-askfacet1/);
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261005-financial1/);
+    assert.match(dashboardHtml, /assets\/app\.js\?v=20261005-financial1/);
+    assert.match(dashboardHtml, /assets\/system\.css\?v=20261005-financial1/);
 });

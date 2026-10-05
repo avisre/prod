@@ -236,13 +236,14 @@ test('get_metric_history returns a single metric oldest-first, including SEC-der
     const dates = payload.observations.map((o) => o.period_end);
     assert.deepEqual(dates, [...dates].sort(), 'chronological order');
     const filed = payload.observations.filter((o) => o.value !== null);
-    assert.equal(filed.length, 4, 'four available discrete quarters have stored verified facts; an absent Q4 is not inferred from annual shares');
+    assert.equal(filed.length, 3, 'three directly reported quarters have verified shares; annual shares cannot supply the missing Q4');
+    assert.equal(payload.observations.filter(o=>o.value===null).length, 1);
     for (const o of filed) {
         assert.equal(o.source.type, 'sec_xbrl_fact');
         assert.match(o.source.accession_number, /^\d{10}-\d{2}-\d{6}$/);
         assert.match(o.source.url, /^https:\/\/www\.sec\.gov\/Archives\//);
     }
-    assert.ok(payload.observations.every(o=>o.source?.periodEnd===o.period_end));
+    assert.ok(filed.every(o=>o.source?.periodEnd===o.period_end));
     assert.ok(!payload.observations.some(o=>o.period_end==='2025-09-27'),'the annual weighted average is never substituted for Q4');
 });
 
@@ -433,7 +434,7 @@ test('responses carry no timestamps, identifiers, tokens or debug fields', async
     const raw = result.content[0].text;
     assert.doesNotMatch(raw, /generatedAt|timestamp|traceId|requestId|sessionId|stack|apiKey|token/i);
     const payload = JSON.parse(raw);
-    assert.deepEqual(Object.keys(payload).sort(), ['company', 'coverage', 'metrics', 'order', 'period_type']);
+    assert.deepEqual(Object.keys(payload).sort(), ['company','coverage','metrics','order','period_type','supplementalObservations']);
     const keys = Object.keys(payload.metrics[0].observations[0]).sort();
     for (const key of keys) {
         assert.ok(['currency', 'derived_from', 'label', 'metric', 'note', 'period_end', 'period_type', 'source', 'units', 'value'].includes(key), `unexpected observation field ${key}`);

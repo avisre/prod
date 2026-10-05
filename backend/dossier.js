@@ -70,7 +70,7 @@ async function writeDossierDoc(col, sym, fyEnd, depth, payload) {
 // this field existed) — nothing already built gets silently invalidated. A
 // Deep request matches only an explicit 'deep' document, which by definition
 // cannot exist yet, so it always builds fresh the first time.
-async function cachedDossier(col, sym, fyEnd, depth = 'standard') {
+async function cachedDossier(col, sym, fyEnd, depth = 'standard', evidenceFingerprint = null) {
     const query = depth === 'deep'
         ? { symbol: sym, fyEnd, depth: 'deep' }
         : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
@@ -80,12 +80,23 @@ async function cachedDossier(col, sym, fyEnd, depth = 'standard') {
     // done would (a) return a narrative-less dossier as final to a concurrent
     // requester who then stops polling, and (b) skip the spend that funds the
     // build still in flight. Only peekDossier serves partials.
-    return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION && !hit.payload.partial
+    return hit && hit.payload && hit.payload.schemaVersion === DOSSIER_SCHEMA_VERSION && !hit.payload.partial && (!evidenceFingerprint || hit.payload.evidenceFingerprint===evidenceFingerprint)
         ? { ...hit.payload, cached: true }
         : null;
 }
 
-async function acquireDossierLease(col, sym, fyEnd, depth, onStage) {
+// Prices refresh independently of the saved filing analysis. No model call.
+async function refreshValuation(payload, sym, data) {
+    if(!data.marketData?.asOf)return payload;
+    const rdcf=reverseDcf.computeFromData(sym,data);
+    const forward=await valuationDcf.buildValuation(sym,{data,rdcf:rdcf.error?null:rdcf});
+    return {...payload,marketData:data.marketData,valuationAsOf:data.marketData.asOf,
+        snapshot:{...payload.snapshot,marketCap:data.overview.MarketCapitalization,pe:data.overview.PERatio,price:data.marketData.price},
+        valuation:rdcf.error?{error:rdcf.error}: {impliedGrowthPct:rdcf.impliedGrowthPct,assumptions:rdcf.assumptions,record:rdcf.record,marketCap:rdcf.marketCap,scenarios:rdcf.scenarios || null,note:rdcf.notes?.[0] || null},
+        forwardDcf:forward, narrativeAsOf:payload.generatedAt || payload.at || null};
+}
+
+async function acquireDossierLease(col, sym, fyEnd, depth, onStage, evidenceFingerprint) {
     const key = `${sym}:${fyEnd}:${depth}:v${DOSSIER_SCHEMA_VERSION}`;
     const owner = crypto.randomUUID();
     const deadline = Date.now() + DOSSIER_BUILD_WAIT_MS;
@@ -97,7 +108,7 @@ async function acquireDossierLease(col, sym, fyEnd, depth, onStage) {
         if (lease.acquired) return { key, owner };
 
         onStage('queued');
-        const cached = await cachedDossier(col, sym, fyEnd, depth);
+        const cached = await cachedDossier(col, sym, fyEnd, depth, evidenceFingerprint);
         if (cached) return { cached };
         if (Date.now() >= deadline) return { busy: true };
         await sleep(1000);
@@ -297,31 +308,32 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
 
     const data = await aiChat.loadFundAny(sym).catch(() => null);
     if (!data) return { error: `No data for ${sym}. We cover US exchange-listed SEC filers. Check the ticker symbol.` };
+    const evidenceFingerprint=data.provenance?.evidenceFingerprint || data.provenance?.financialDigest;
     const overview = data.overview || {};
-    const pack = insights.buildFactPack(sym); // gives the fiscal-year cache key
+    const pack = insights.buildFactPack(sym,data); // gives the fiscal-year cache key
     const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
 
     const col = dossierCol();
     if (!force) {
         try {
-            const hit = await cachedDossier(col, sym, fyEnd, depth);
-            if (hit) return hit;
+            const hit = await cachedDossier(col, sym, fyEnd, depth, evidenceFingerprint);
+            if (hit) return refreshValuation(hit,sym,data);
         } catch (_) { /* cache best-effort */ }
     }
 
     let buildLease = null;
     try {
         try {
-            const lease = await acquireDossierLease(col, sym, fyEnd, depth, onStage);
-            if (lease.cached) return lease.cached;
+            const lease = await acquireDossierLease(col, sym, fyEnd, depth, onStage, evidenceFingerprint);
+            if (lease.cached) return refreshValuation(lease.cached,sym,data);
             if (lease.busy) return { status: 'building', symbol: sym, stage: 'queued' };
             buildLease = lease;
 
             // Another worker may have completed between our first cache read
             // and this lease acquisition. Re-check before spending any AI.
             if (!force) {
-                const hit = await cachedDossier(col, sym, fyEnd, depth);
-                if (hit) return hit;
+                const hit = await cachedDossier(col, sym, fyEnd, depth, evidenceFingerprint);
+                if (hit) return refreshValuation(hit,sym,data);
             }
         } catch (error) {
             // Availability wins if Mongo's lock collection is temporarily
@@ -405,7 +417,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     // The writing round then merges the narrative in over these draft values
     // and the same doc is overwritten with the finished payload.
     const payload = {
-        schemaVersion: DOSSIER_SCHEMA_VERSION,
+        schemaVersion: DOSSIER_SCHEMA_VERSION,evidenceFingerprint,financialSources:data.provenance,supplementalObservations:data.supplementalObservations || [],financialCoverage:data.coverage,
         symbol: sym,
         name: overview.Name || sym,
         sector: overview.Sector || '',
@@ -543,20 +555,20 @@ async function peekDossier(symbol, depth = 'standard') {
     try {
         const data = await aiChat.loadFundAny(sym).catch(() => null);
         if (!data) return null;
-        const pack = insights.buildFactPack(sym);
+        const pack = insights.buildFactPack(sym,data);
         const fyEnd = pack ? pack.fyEnd : (((data.income || {}).annualReports || [])[0] || {}).fiscalDateEnding || 'na';
         const d = depth === 'deep' ? 'deep' : 'standard';
         const query = d === 'deep'
             ? { symbol: sym, fyEnd, depth: 'deep' }
             : { symbol: sym, fyEnd, depth: { $ne: 'deep' } };
         const hit = await dossierCol().findOne(query, { projection: { _id: 0 } });
-        if (!hit || !hit.payload || hit.payload.schemaVersion !== DOSSIER_SCHEMA_VERSION) return null;
+        if (!hit || !hit.payload || hit.payload.schemaVersion !== DOSSIER_SCHEMA_VERSION || (data.provenance?.evidenceFingerprint && hit.payload.evidenceFingerprint!==data.provenance.evidenceFingerprint)) return null;
         if (hit.payload.partial) {
             const age = hit.at ? Date.now() - new Date(hit.at).getTime() : Infinity;
             return age <= DOSSIER_PARTIAL_STALE_MS ? { ...hit.payload, partial: true } : null;
         }
-        return { ...hit.payload, cached: true };
+        return refreshValuation({ ...hit.payload, cached: true },sym,data);
     } catch (_) { return null; }
 }
 
-module.exports = { buildDossier, peekDossier, buildDigest, cachedDossier, DOSSIER_SCHEMA_VERSION };
+module.exports = { buildDossier, peekDossier, buildDigest, cachedDossier, refreshValuation, DOSSIER_SCHEMA_VERSION };

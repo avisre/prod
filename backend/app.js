@@ -2613,7 +2613,8 @@ app.get('/api', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderApiLanding());
 });
 app.get('/stocks/:ticker', async (req, res) => {
-    const canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
+    let canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
+    if(!canonicalSymbol && !quoteStore.isLikelyCrawler(req.get('user-agent'))){const listing=await require('./stock-universe').resolveListing(req.params.ticker);canonicalSymbol=listing?.symbol || null;}
     if (canonicalSymbol && String(req.params.ticker) !== canonicalSymbol) {
         return res.redirect(301, `/stocks/${encodeURIComponent(canonicalSymbol)}`);
     }
@@ -2625,9 +2626,11 @@ app.get('/stocks/:ticker', async (req, res) => {
     // and the next visit gets the rebuild. Crawlers skip it — they would
     // multiply the work for no reader benefit.
     if (!quoteStore.isLikelyCrawler(req.get('user-agent'))) {
-        fundamentalsFetch.maybeRefresh(canonicalSymbol || req.params.ticker);
+        // The resolver retains validated additions in the dedicated public cache.
     }
-    const html = seoPages.renderStockPage(req.params.ticker, { quote });
+    let evidenceData=null;
+    if(!quoteStore.isLikelyCrawler(req.get('user-agent')) && require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType==='stock')try{evidenceData=(await require('./verified-fundamentals').getCompanyEvidence(canonicalSymbol || req.params.ticker)).data;}catch(_){}
+    const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });
@@ -2952,7 +2955,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2981,7 +2984,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261004-askfacet1"></script>
+<script src="/assets/app.js?v=20261005-financial1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3073,7 +3076,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3101,7 +3104,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261004-askfacet1"></script>
+<script src="/assets/app.js?v=20261005-financial1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3209,7 +3212,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3242,7 +3245,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261004-askfacet1"></script>
+<script src="/assets/app.js?v=20261005-financial1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8905,10 +8908,9 @@ app.get('/api/alpha/fundamentals/:symbol', authMiddleware, coreGate, async (req,
         // (~3MB). Monthly series in same response covers longer ranges.
         // Client can request ?historyDepth=full when user picks 3Y+ ranges.
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        const payload = require('./fundamentals-cache').loadFundamentals(symbol);
+        const payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
-        if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         // Tier meter v2 — history depth. Inert unless ENABLE_TIER_V2_LIMITS=true
@@ -10172,7 +10174,7 @@ function screenerCriteria(q) {
 }
 
 app.get('/api/stock-coverage', (req, res) => {
-    try { const {counts,asOf,generatedAt,policyVersion}=require('./public-stock-index').view(); res.json({counts,asOf,generatedAt,policyVersion,definition:'Validated issuer with an original 10-K, 20-F or 40-F filed within 12 calendar months, a report period ending within 18 calendar months, and submissions checked within 35 days. That annual report or its verified amendment supplies annual net income, assets, shareholders’ equity, operating cash flow, and revenue or basic/diluted EPS, with exact SEC provenance.'}); }
+    try { const {counts,asOf,generatedAt,policyVersion,datasetId}=require('./public-stock-index').view(); const financialCoverage=require('./financial-coverage').summary(datasetId);res.json({counts,asOf,generatedAt,policyVersion,datasetId,financialCoverage,definition:'Validated issuer with an original 10-K, 20-F or 40-F filed within 12 calendar months, a report period ending within 18 calendar months, and submissions checked within 35 days. That annual report or its verified amendment supplies annual net income, assets, shareholders’ equity, operating cash flow, and revenue or basic/diluted EPS, with exact SEC provenance.'}); }
     catch(error) { res.status(503).json({code:'STOCK_COVERAGE_UNAVAILABLE',message:'Verified coverage is temporarily unavailable.'}); }
 });
 
@@ -12344,10 +12346,9 @@ app.get('/api/demo/alpha/fundamentals/:symbol', async (req, res) => {
     if (!symbol) return res.status(400).json({ message: 'symbol is required' });
     try {
         const historyDepth = String(req.query.historyDepth || '').toLowerCase() === 'full' ? 'full' : 'compact';
-        const payload = require('./fundamentals-cache').loadFundamentals(symbol);
+        const payload = (await require('./verified-fundamentals').getCompanyEvidence(symbol,undefined,undefined,!quoteStore.isLikelyCrawler(req.get('user-agent')))).data;
         if(payload && historyDepth!=='full' && payload.daily?.['Time Series (Daily)'])payload.daily={...payload.daily,'Time Series (Daily)':Object.fromEntries(Object.entries(payload.daily['Time Series (Daily)']).sort((a,b)=>b[0].localeCompare(a[0])).slice(0,100))};
         if (!payload) return res.status(404).json({code:'VERIFIED_FINANCIALS_UNAVAILABLE', message:'No covered company was found.'});
-        if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.financialCoverage==='unavailable')payload.code='VERIFIED_FINANCIALS_UNAVAILABLE';
         if (payload.coverage.securityType !== 'stock') return res.status(422).json({code:'UNSUPPORTED_SECURITY_TYPE', message:'Company financial analysis is unavailable for this security type.'});
         res.json(await presentFundamentalsCurrency(payload, req.query.presentationCurrency));

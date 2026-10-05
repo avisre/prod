@@ -1,0 +1,29 @@
+name: Financial infrastructure check
+on:
+  push:
+    branches: [data-foundation-20261005]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      RENDER_SERVICE: srv-d4kc6schg0os73al6t10
+      PUBLIC_FINANCIAL_CACHE_URI: ${{ secrets.PUBLIC_FINANCIAL_CACHE_URI }}
+      SEC_COVERAGE_DISABLE_ON_DEMAND: '1'
+      DISABLE_BACKGROUND_JOBS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci --prefix backend
+      - name: Verify public cache bounds and shared SEC allocator
+        run: node backend/check-financial-infrastructure.js

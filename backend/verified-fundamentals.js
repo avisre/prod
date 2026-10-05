@@ -46,6 +46,8 @@ function adapt(company,raw,data,entry,issuer) {
  const inc=out.income.annualReports[0];overview.Currency=inc?.reportedCurrency || out.balance.annualReports[0]?.reportedCurrency || 'USD';
  overview.EPS=inc?.dilutedEPS ?? inc?.eps ?? null;
  if(!perShareAllowed)overview.PERatio=null;
+ if(type==='stock')out.supplementalObservations=require('./committed-supplements').forIssuer(company.cik || 'listing:'+company.symbol.replace(/\./g,'-'));
+ out.provenance.supplementalDigest=p.digest(out.supplementalObservations || []);
  return out;
 }
 function load(symbol,raw) {
@@ -55,4 +57,5 @@ function load(symbol,raw) {
  return adapt(company,raw,data,entry,issuer);
 }
 function sourcesFor(data,row,field){return (row?._sources?.[field] || []).map(id=>data?.provenance?.sources?.[id]).filter(Boolean);}
-module.exports={load,loadIssuer,adapt,safeRows,sourcesFor,invalidate};
+function getCompanyEvidence(...args){return require('./company-evidence').getCompanyEvidence(...args);}
+module.exports={getCompanyEvidence,load,loadIssuer,adapt,safeRows,sourcesFor,invalidate};

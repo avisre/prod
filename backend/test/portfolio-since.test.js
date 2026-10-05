@@ -186,5 +186,5 @@ test('the section markup and its styles exist, and the stamp is fresh', () => {
         assert.ok(dashboardHtml.includes(`.${cls}`), `dashboard.html is missing .${cls}`);
     }
     assert.doesNotMatch(dashboardHtml, /20260925-arrival/, 'the stamp must move when the assets change');
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261004-askfacet1/);
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261005-financial1/);
 });

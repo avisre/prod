@@ -1,105 +1,15 @@
-name: Refresh all US-listed stocks (rolling monthly coverage)
-
-# A stable symbol hash splits the exchange universe into 28 daily batches.
-# Every stock is refreshed each calendar month; on-demand refresh still applies.
-# This bounds runtime as listings grow, rather than putting all stocks in one job.
-
+name: Legacy financial refresh redirect
+# Monthly rotation is retired; manual runs use the same weekly reconciler.
 on:
-  schedule:
-    - cron: '0 3 * * *'
   workflow_dispatch:
-    inputs:
-      max_symbols:
-        description: 'Cap symbols processed (0 = all)'
-        required: false
-        default: '0'
-
 permissions:
-  contents: write
-
-concurrency:
-  group: refresh-fundamentals # shares the weekly job's group so the two never push at once
-  cancel-in-progress: false
-
+  actions: write
+  contents: read
 jobs:
-  refresh:
+  redirect:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          npm ci
-          npm ci --prefix backend
-
-      - name: Update all US exchange-listed stocks
-        run: node scripts/build-us-companies.js
-
-      - name: Check share refresh date
-        run: echo "DAY_OF_MONTH=$(date -u +%d)" >> "$GITHUB_ENV"
-
-      - name: Refresh SEC share counts
-        if: env.DAY_OF_MONTH == '01'
-        # A market cap is price x shares, and the quote's share count goes
-        # stale (LLY 5% low, ESS 7% high on 2026-09-28). See
-        # scripts/refresh-shares.js. continue-on-error so a SEC hiccup cannot
-        # block the fundamentals refresh.
-        continue-on-error: true
-        run: node scripts/refresh-shares.js
-
-      - name: Refresh the daily full-universe batch
+      - uses: actions/checkout@v4
+      - run: gh workflow run refresh-fundamentals.yml --ref main
         env:
-          MAX: ${{ github.event.inputs.max_symbols || '0' }}
-          CONCURRENCY: '2'
-          UNIVERSE_SHARD_COUNT: '28'
-        run: node scripts/build-all-fundamentals.js --refresh
-
-      - name: Refresh verified SEC evidence
-        run: node --max-old-space-size=1536 scripts/refresh-sec-coverage.js --daily
-
-      - name: Refresh optional currency presentation
-        run: node scripts/refresh-sec-fx.js
-
-      - name: Build consistent public and screen snapshots
-        run: |
-          node --max-old-space-size=1536 scripts/build-public-stock-index.js
-          node scripts/build-screen-index.js
-          node scripts/validate-stock-coverage.js
-
-
-      - name: Configure git
-        run: |
-          git config user.name  'stockportfolio-bot'
-          git config user.email 'bot@stockportfolio.pro'
-
-      - name: Stage data folder
-        run: |
-          git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/public-stock-index.json frontend/data/us-companies.json \
-                  frontend/data/stock-coverage.json \
-                  frontend/data/screen-index.json \
-                  frontend/data/sec-shares.json \
-                  frontend/data/fundamentals/ \
-                  frontend/data/top-100-fundamentals-index.json \
-                  frontend/data/fundamentals-changed.json \
-                  frontend/data/fundamentals-status.json
-          if git diff --cached --quiet; then
-            echo "no_changes=true" >> $GITHUB_ENV
-          fi
-
-      - name: Commit + push to main
-        if: env.no_changes != 'true'
-        run: |
-          # No [skip ci] on purpose: the store is served from the deployed
-          # filesystem, so refreshed data only reaches production via a deploy.
-          git commit -m "data: refresh full-universe fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ))"
-          git push origin main
+          GH_TOKEN: ${{ github.token }}

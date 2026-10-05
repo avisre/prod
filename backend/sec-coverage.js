@@ -43,6 +43,7 @@ function reportingStatus(evidence, asOf = day(new Date().toISOString())) {
     return a.filingDate >= monthsBefore(asOf, 12) && a.reportDate >= monthsBefore(asOf, 18) ? 'recent_annual' : 'no_recent_annual';
 }
 function validSource(source, issuerCik) {
+    if(source?.verificationMethod==='original_inline_xbrl' && require('./sec-inline-number').number(source.originalDocument?.numericReceipt)!==source.rawValue)return false;
     return !!(source && source.type === 'sec_xbrl_fact' && source.linkage === 'xbrl_fact' && cik(source.cik) === cik(issuerCik) && source.taxonomy && source.concept && source.unit && number(source.rawValue) !== null && day(source.periodEnd) && (source.periodStart===null || day(source.periodStart)) && day(source.filingDate) && source.filingDate>=source.periodEnd && /^\d{10}-\d{2}-\d{6}$/.test(source.accessionNumber || '') && source.filingUrl === `https://www.sec.gov/Archives/edgar/data/${Number(issuerCik)}/${source.accessionNumber.replace(/-/g, '')}/${source.accessionNumber}-index.htm`);
 }
 function verifiedField(data, row, field, accessions) {
@@ -50,10 +51,20 @@ function verifiedField(data, row, field, accessions) {
     const ids = row._sources?.[field];
     if (!Array.isArray(ids) || !ids.length) return false;
     const sources = ids.map(id => data.sources?.[id]);
-    // These narrower/broader concepts are not equivalent to the displayed field.
-    const incompatible={sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
-    if(sources.some(s=>incompatible[field]?.includes(s?.concept)))return false;
     const derived = row._derivations?.[field];
+    // These narrower/broader concepts are not equivalent to the displayed field.
+    const incompatible={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
+    if(!derived && sources.some(s=>incompatible[field]?.includes(s?.concept)))return false;
+    if(['sum_fields','difference_fields'].includes(derived?.formula)) {
+        const permitted={totalRevenue:['netInterestIncome','nonInterestIncome'],grossProfit:['totalRevenue','costOfRevenue'],shortTermDebt:['shortTermBorrowings','currentLongTermDebt'],shortLongTermDebtTotal:['shortTermDebt','longTermDebt']};
+        const inputs=permitted[field];
+        if(!inputs || JSON.stringify(derived.inputs)!==JSON.stringify(inputs) || !inputs.every(f=>verifiedField(data,row,f,accessions)))return false;
+        if(row._scopes?.[inputs[0]]!==row._scopes?.[inputs[1]])return false;
+        const expectedRefs=inputs.flatMap(f=>row._sources[f]);
+        const operation=field==='grossProfit'?'difference_fields':'sum_fields';
+        const value=operation==='sum_fields'?row[inputs[0]]+row[inputs[1]]:row[inputs[0]]-row[inputs[1]];
+        return derived.formula===operation && number(row[field])===value && JSON.stringify(ids)===JSON.stringify(expectedRefs);
+    }
     if (!sources.every(s => validSource(s, data.cik) && /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/.test(s.form) && (!accessions || accessions.has(s.accessionNumber)) && (s.periodEnd === row.fiscalDateEnding || derived?.formula === 'ytd_difference') && s.unit === (/(?:EPS|^eps$)/.test(field) ? row.reportedCurrency + '/shares' : /Shares/.test(field) ? 'shares' : row.reportedCurrency))) return false;
     if (row.periodType==='instant' && sources.some(s=>s.periodStart!==null)) return false;
     if (row.periodType!=='instant' && !derived && sources.some(s=>s.periodStart!==row.periodStart)) return false;
@@ -62,7 +73,7 @@ function verifiedField(data, row, field, accessions) {
     if (!row._derivations?.[field] && number(row[field]) !== (row._signs?.[field] === -1 ? -Math.abs(number(sources[0].rawValue)) : number(sources[0].rawValue))) return false;
     if (derived) {
         if (sources.length !== 2 || !['ytd_difference','revenue_minus_cost'].includes(derived.formula)) return false;
-        if (derived.formula === 'ytd_difference' && (sources[0].periodStart !== sources[1].periodStart || sources[0].periodEnd !== row.fiscalDateEnding || sources[1].periodEnd >= row.fiscalDateEnding || /EPS|^eps$/.test(field))) return false;
+        if (derived.formula === 'ytd_difference' && (sources[0].periodStart !== sources[1].periodStart || sources[0].periodEnd !== row.fiscalDateEnding || sources[1].periodEnd >= row.fiscalDateEnding || /EPS|^eps$|Shares/.test(field) || sources[0].taxonomy!==sources[1].taxonomy || sources[0].concept!==sources[1].concept || sources[1].filingDate>sources[0].filingDate || (/\/A$/.test(sources[0].form) && sources[0].accessionNumber!==sources[1].accessionNumber) || row.periodType!=='quarterly' || row.periodStart!==new Date(Date.parse(sources[1].periodEnd)+DAY).toISOString().slice(0,10) || (Date.parse(row.fiscalDateEnding)-Date.parse(row.periodStart))/DAY+1<75 || (Date.parse(row.fiscalDateEnding)-Date.parse(row.periodStart))/DAY+1>105)) return false;
         if (derived.formula === 'revenue_minus_cost' && (sources[0].periodStart !== sources[1].periodStart || sources[0].periodEnd !== sources[1].periodEnd)) return false;
         const value = number(sources[0].rawValue) - number(sources[1].rawValue);
         if (number(row[field]) !== (row._signs?.[field] === -1 ? -Math.abs(value) : value)) return false;
@@ -118,6 +129,8 @@ function validateFinancial(data, expectedCik, asOf=day(new Date().toISOString())
             }
         }
     }
+    for(const f of data.industryObservations || [])if(!require('./sec-industry-tables').validObservation(f,expectedCik))errors.push('Invalid industry disclosure provenance '+f.field);
+    for(const g of data.segmentObservations || [])if(!require('./sec-segment-observations').validGroup(g,data))errors.push('Invalid segment disclosure provenance '+g.periodEnd);
     return errors;
 }
 module.exports = { DATA_DIR, number, cik, day, monthsBefore, digest, selectAnnual, reportingStatus, validSource, verifiedField, classify, count, atomicWrite, validateFinancial };

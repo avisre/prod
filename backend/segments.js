@@ -136,6 +136,11 @@ const EXTRACT_SYSTEM = [
 ].join('\n');
 
 async function extractSegments(symbol) {
+    if(process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1') {
+        const evidence=await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(()=>null);
+        const group=evidence?.statements?.segmentObservations?.find(g=>/StatementBusinessSegmentsAxis$/.test(g.axis)) || evidence?.statements?.segmentObservations?.[0];
+        if(group){const result=require('./sec-segment-observations').toolPayload(group,evidence.statements,symbol);if(result)return result;}
+    }
     const tenK = await latestTenK(symbol);
     if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No annual report (10-K or 20-F) found for this company.' };
 

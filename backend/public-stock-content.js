@@ -10,7 +10,7 @@ function content(company,view,classification,financialDigest,{asOf=p.day(new Dat
  const priceHistory=company.securityType==='stock' && prices.length>=2;
  const priceDigest=p.digest(prices),marketDigest=p.digest(view.marketData);
  const screenRow=eligible?{...metrics.screenRow(company,view,usd(view,rates)),financialDigest}:null;
- const contentDigest=p.digest({company,classification,financialDigest,metricSlugs,priceDigest,marketDigest,screenRow});
+ const contentDigest=p.digest({company,classification,financialDigest,supplementalDigest:view.provenance?.supplementalDigest || null,metricSlugs,priceDigest,marketDigest,screenRow});
  return {entry:{metricSlugs,priceHistory,financialPeriod:view.income.annualReports[0]?.fiscalDateEnding || null,contentDigest,lastmod:previous?.contentDigest===contentDigest?previous.lastmod:asOf},screenRow,priceDigest,marketDigest};
 }
 module.exports={content};

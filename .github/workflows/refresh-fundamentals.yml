@@ -1,116 +1,100 @@
-name: Refresh fundamentals cache
-
-# Pulls fresh fundamentals from Yahoo Finance + SEC filings for every symbol in
-# frontend/data/sp500-companies.json (or top-100-companies.json if that
-# isn't present yet) and force-pushes the result to a dedicated branch.
-# Force-pushing keeps git history flat so the data churn doesn't bloat
-# the repo over time.
-
+name: Weekly complete-universe financial reconciliation
 on:
   schedule:
-    # Weekly: Saturday 22:30 UTC, after the trading week is fully settled.
-    # (Was nightly on weekdays — weekly is enough for filed fundamentals
-    # and cuts Alpha Vantage usage ~5x.)
+    # Sunday 04:00 Asia/Kolkata = Saturday 22:30 UTC.
     - cron: '30 22 * * 6'
   workflow_dispatch:
     inputs:
-      max_symbols:
-        description: 'Cap symbols processed (0 = all)'
+      resume_run_id:
+        description: 'Optional failed weekly run ID whose checkpoint should be resumed'
         required: false
-        default: '0'
-
 permissions:
   contents: write
-
+  actions: read
 concurrency:
   group: refresh-fundamentals
   cancel-in-progress: false
-
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 360
+    env:
+      SEC_COVERAGE_DISABLE_ON_DEMAND: '1'
+      DISABLE_BACKGROUND_JOBS: '1'
+      RENDER_SERVICE: srv-d4kc6schg0os73al6t10
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      PUBLIC_FINANCIAL_CACHE_URI: ${{ secrets.PUBLIC_FINANCIAL_CACHE_URI }}
     steps:
-      - name: Checkout main
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           ref: main
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: |
-          npm ci
-          npm ci --prefix backend
-
-      - name: Update S&P 500 symbol list
-        run: node scripts/build-sp500-list.js
-
-      - name: Refresh fundamentals JSON files
+          node-version: '22'
+          cache: npm
+      - run: npm ci && npm ci --prefix backend
+      - name: Record rollback baseline
+        run: git rev-parse HEAD > /tmp/financial-baseline-sha
+      - name: Resume approved weekly checkpoint
+        if: inputs.resume_run_id != ''
         env:
-          MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
-        run: node scripts/refresh-fundamentals.js frontend/data/sp500-companies.json
-
-      # refresh-fundamentals.js queues the pages whose *filed* statements changed.
-      # The queue lives outside frontend/data/, is gitignored, and is never staged,
-      # so it must be sent in the same job or it is discarded with the runner.
-      # (Until 2026-09-28 a stale copy was tracked in git while this comment claimed
-      # otherwise; it was untracked so the file's status now matches the comment.)
-      # Bing consumes IndexNow; Google does not. Non-blocking: a failed submission
-      # must never fail the data refresh.
-      #
-      # Note this step reports success on the POST alone. IndexNow fetches the key
-      # file asynchronously afterwards, so a 403 there was invisible -- see the
-      # bot-blocker exemption and backend/test/indexnow-key.test.js.
-      - name: Submit changed pages to IndexNow
-        continue-on-error: true
+          GH_TOKEN: ${{ github.token }}
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
         run: |
-          node scripts/seo/indexnow-queue.js status || true
-          node scripts/indexnow-ping.js --queue || true
-
-      - name: Refresh verified SEC evidence
-        run: node --max-old-space-size=1536 scripts/refresh-sec-coverage.js --daily
-
+          [[ "$RESUME_RUN_ID" =~ ^[0-9]+$ ]]
+          gh run download "$RESUME_RUN_ID" -n "financial-checkpoint-$RESUME_RUN_ID" -D /tmp/financial-resume
+          test -f /tmp/financial-resume/sec-reporting.json
+          cp -R /tmp/financial-resume/. frontend/data/
+      - name: Select a dated reconciliation cycle
+        env:
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: |
+          node -e 'const fs=require("node:fs");const date=process.env.RESUME_RUN_ID?JSON.parse(fs.readFileSync("frontend/data/sec-reporting.json","utf8")).asOf:new Date().toISOString().slice(0,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||Date.now()-Date.parse(date)>7*86400000)throw new Error("Invalid or expired weekly checkpoint");fs.appendFileSync(process.env.GITHUB_ENV,"FINANCIAL_AS_OF="+date+"\n");'
+      - name: Reconcile authoritative listings
+        run: node scripts/run-financial-stage.js listings
+      - name: Reconcile every issuer; checkpoint every 20
+        run: node --max-old-space-size=1536 scripts/run-financial-stage.js core
+      - name: Retry incomplete issuers in the same cycle
+        run: node --max-old-space-size=1536 scripts/run-financial-stage.js core
+      - name: Preserve superseded incompatible evidence
+        run: node scripts/normalize-financial-source-ids.js
+      - name: Refresh fund and ambiguous issuer identities
+        run: node scripts/run-financial-stage.js identities
+      - name: Confirm classifications using refreshed SEC identities
+        run: node scripts/run-financial-stage.js listings
+      - name: Extract original industry and segment disclosures
+        run: node --max-old-space-size=1536 scripts/run-financial-stage.js industry
+      - name: Promote validated public request additions
+        run: node scripts/run-financial-stage.js promote
       - name: Refresh optional currency presentation
         run: node scripts/refresh-sec-fx.js
-
-      - name: Build consistent public and screen snapshots
+      - name: Build and validate one generation
         run: |
           node --max-old-space-size=1536 scripts/build-public-stock-index.js
           node scripts/build-screen-index.js
-          node scripts/validate-stock-coverage.js
-
-
-      - name: Configure git
+          node --test backend/test/financial-foundation.test.js backend/test/sec-original.test.js backend/test/financial-provenance.test.js backend/test/company-evidence.test.js
+          node scripts/validate-stock-coverage.js --bootstrap
+          node scripts/verify-public-stock-pages.js
+          node --max-old-space-size=256 scripts/check-stock-coverage-performance.js
+      - name: Preserve interrupted checkpoint
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: financial-checkpoint-${{ github.run_id }}
+          retention-days: 14
+          path: |
+            frontend/data/sec-reporting.json
+            frontend/data/sec-financials/
+            frontend/data/us-companies.json
+            frontend/data/stock-universe-manifest.json
+            frontend/data/legacy-instruments.json
+            frontend/data/supplemental-financials/
+      - name: Publish validated generation
         run: |
-          git config user.name  'stockportfolio-bot'
-          git config user.email 'bot@stockportfolio.pro'
-
-      - name: Stage data folder
-        run: |
-          # fundamentals-changed.json MUST be staged: backend/seo-pages.js reads it
-          # to date <lastmod>. If it stops reaching production the sitemap freezes
-          # on its bundled snapshot date again, which is exactly the bug this
-          # manifest exists to fix -- and it would fail silently, the same way the
-          # deploy-mtime clamp did.
-          git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/public-stock-index.json frontend/data/sp500-companies.json frontend/data/screen-index.json \
-                  frontend/data/top-100-fundamentals-index.json \
-                  frontend/data/fundamentals-changed.json \
-                  frontend/data/fundamentals/
-          if git diff --cached --quiet; then
-            echo "no_changes=true" >> $GITHUB_ENV
-          fi
-
-      - name: Commit + push to main
-        if: env.no_changes != 'true'
-        run: |
-          # No [skip ci] here on purpose. The fundamentals store is served from
-          # the deployed filesystem, so refreshed data only reaches production
-          # via a deploy — skipping CI would leave the site on last week's
-          # numbers indefinitely. This push is what triggers deploy-render.yml.
-          git commit -m "data: refresh fundamentals cache ($(date -u +%Y-%m-%dT%H:%MZ))"
-          git push origin main
+          git config user.name stockportfolio-bot
+          git config user.email bot@stockportfolio.pro
+          git add frontend/data/sec-reporting.json frontend/data/sec-financials/ frontend/data/sec-fx.json frontend/data/us-companies.json frontend/data/stock-universe-manifest.json frontend/data/legacy-instruments.json frontend/data/public-stock-index.json frontend/data/screen-index.json frontend/data/financial-coverage.json
+          if [ -d frontend/data/supplemental-financials ]; then git add frontend/data/supplemental-financials/; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "data: weekly complete-universe financial reconciliation"
+          git push origin HEAD:main

@@ -70,6 +70,8 @@ function date(value) {
 
 function normalizeAssetType(value) {
     const type = String(value || '').toUpperCase().replace(/[^A-Z]/g, '');
+    if(type==='CLOSEDENDFUND')return 'closed_end_fund';
+    if(type==='UNRESOLVED')return 'unresolved';
     if (type === 'ETF') return 'etf';
     if (type === 'MUTUALFUND' || type === 'FUND') return 'mutual_fund';
     if (type === 'CRYPTOCURRENCY') return 'crypto';
@@ -80,12 +82,12 @@ function normalizeAssetType(value) {
 }
 
 function assetTypeLabel(value) {
-    return ({ stock: 'Stock', unit: 'Unit', right: 'Right', etf: 'ETF', mutual_fund: 'Mutual fund', crypto: 'Crypto', other: 'Asset' })[normalizeAssetType(value)] || 'Asset';
+    return ({ closed_end_fund:'Closed-end fund',unresolved:'Instrument under review',stock: 'Stock', unit: 'Unit', right: 'Right', etf: 'ETF', mutual_fund: 'Mutual fund', crypto: 'Crypto', other: 'Asset' })[normalizeAssetType(value)] || 'Asset';
 }
 
 function isFundAsset(value) {
     const type = normalizeAssetType(value);
-    return type === 'etf' || type === 'mutual_fund';
+    return ['etf','mutual_fund','closed_end_fund'].includes(type);
 }
 
 // Yahoo returns sector weightings and bond ratings as an array of single-key
@@ -289,6 +291,8 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
         previousClose,
         changePercent,
         asOf: date(quote.regularMarketTime),
+        marketState: quote.marketState || null,
+        freshness: !date(quote.regularMarketTime) ? 'timestamp_unavailable' : assetType === 'mutual_fund' ? 'dated_nav' : quote.marketState === 'REGULAR' ? 'delayed' : 'market_closed',
         category: ks.category || fund.categoryName || fp.fundCategoryName || '',
         fundFamily: ks.fundFamily || fund.family || '',
         totalAssets: number(ks.totalAssets ?? sd.totalAssets ?? fees.totalNetAssets),

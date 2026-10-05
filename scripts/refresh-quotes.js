@@ -58,7 +58,8 @@ function toRow(quote) {
     const prev = Number(quote.regularMarketPreviousClose);
     const change = Number(quote.regularMarketChangePercent);
     const time = quote.regularMarketTime;
-    const asOf = time ? new Date(time).toISOString().slice(0, 10) : new Date().toISOString().slice(0, 10);
+    if(!time || !Number.isFinite(new Date(time).getTime()))return null;
+    const asOf=new Date(time).toISOString();
     return {
         price,
         previousClose: Number.isFinite(prev) ? prev : null,

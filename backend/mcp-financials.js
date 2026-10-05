@@ -653,11 +653,19 @@ function sourceRefsForMetric(data,row,id,seen=new Set()) {
 async function buildSeries(symbol, metricIds, periodType, opts = {}) {
     const listing=require('./stock-universe').lookup(symbol);
     if(listing && listing.securityType !== 'stock') throw mcpError('UNSUPPORTED_SECURITY_TYPE','Company financial analysis is unavailable for this instrument.');
-    const data = loadFundamentals(symbol);
+    const online=process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1' && process.env.SEC_COVERAGE_READ_ONLY!=='1';
+    const fieldsFor=id=>{const def=metricDef(id);return def?.field?[def.field]:(def?.derived_from || []).flatMap(fieldsFor);};
+    const requiredFields=[...new Set(metricIds.flatMap(fieldsFor))];
+    const data=online?(await require('./verified-fundamentals').getCompanyEvidence(symbol,requiredFields.length?requiredFields:undefined,{annual:periodType==='annual'?(opts.periods || 5):0,quarterly:periodType==='quarterly'?(opts.periods || 4):0})).data:loadFundamentals(symbol);
     if (!data) throw mcpError('COMPANY_NOT_FOUND', `No normalized filing data is available for ${symbol}.`);
     const overview = overviewOf(symbol, data);
     const rows = periodRows(data, periodType);
-    if (!rows.length) throw mcpError('VERIFIED_FINANCIALS_UNAVAILABLE', `No verified ${periodType} financial observations are available for ${symbol}.`);
+    if (!rows.length) {
+        const supplemental=data.supplementalObservations || [],observations=[];
+        for(const id of metricIds){const def=metricDef(id);if(!def?.field)continue;for(const f of supplemental.filter(f=>f.field===def.field && (f.historyBasis || f.basis)===periodType && f.state==='available').slice(0,opts.periods || 5))observations.push({metric:id,label:def.label,period_type:periodType,period_end:f.periodEnd,value:f.value,units:f.unit,currency:f.currency,derived_from:null,source:{type:'supplemental',linkage:'attributed_provider_observation',source_name:f.sourceName,source_type:f.sourceType,url:f.sourceUrl,source_date:f.publicationDate || f.sourceDataDate,retrieved_at:f.retrievedAt,accounting_basis:f.accountingBasis},verification:'attributed_supplemental'});}
+        if(observations.length)return {overview,observations,currency:new Set(observations.map(f=>f.currency)).size===1?observations[0].currency:null,periodType,totalPeriods:new Set(observations.map(f=>f.period_end)).size,coverage:data.coverage,freshness:data.freshness,supplementalObservations:supplemental};
+        throw mcpError('VERIFIED_FINANCIALS_UNAVAILABLE', `No compatible ${periodType} financial observations are available for ${symbol}.`,{coverage:data.coverage,freshness:data.freshness});
+    }
 
     let selected = rows;
     if (opts.startPeriod) {
@@ -726,7 +734,7 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
             observations.push(observation);
         }
     }
-    return { overview, observations, currency: rows[0].currency, periodType, totalPeriods: rows.length,coverage:data.coverage };
+    return { overview, observations, currency: rows[0].currency, periodType,totalPeriods:rows.length,coverage:data.coverage,freshness:data.freshness,supplementalObservations:data.supplementalObservations || [] };
 }
 
 function groupObservations(observations, order) {
@@ -767,7 +775,7 @@ async function companyFinancials({ company, metrics, periodType, periods, startP
             exchange: built.overview.exchange,
             currency: built.currency
         },
-        coverage: built.coverage,
+        coverage:built.coverage,freshness:built.freshness,supplementalObservations:built.supplementalObservations || [],
         period_type: type,
         order: 'most_recent_first',
         metrics: groupObservations(built.observations, 'most_recent_first')

@@ -1,0 +1,8 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path');
+const root=path.join(__dirname,'../..'),client=require('../../backend/sec-reporting'),engine=require('../../backend/sec-facts'),original=require('../../backend/sec-original');
+const dir=path.join(root,'backend/test/fixtures/sec-original');
+async function main(){fs.mkdirSync(dir,{recursive:true});const companies=require('../../frontend/data/us-companies.json').companies;
+ for(const symbol of ['AMD','AVGO','JPM','TSM','O','PFE','WMT','BBAI']){const issuer=companies.find(c=>c.symbol===symbol),evidence=await client.fetchReporting({cik:issuer.cik,symbols:[symbol]},{asOf:'2026-10-05'}),facts=await client.fetchFacts(issuer.cik);const trimmed={...facts,facts:Object.fromEntries(Object.entries(facts.facts).map(([tax,defs])=>[tax,Object.fromEntries(Object.entries(defs).filter(([tag])=>Object.values(engine.MAPS).some(fields=>Object.values(fields).some(def=>def[tax]?.includes(tag)))))]))};fs.writeFileSync(path.join(dir,symbol+'.json'),JSON.stringify({sourceUrl:'https://data.sec.gov/api/xbrl/companyfacts/CIK'+issuer.cik+'.json',retrievedAt:new Date().toISOString(),facts:trimmed,evidence}));if(['AMD','AVGO','JPM','TSM','O'].includes(symbol)){const parsed=await original.fetchOriginal(issuer.cik,evidence.latestAnnual);fs.writeFileSync(path.join(dir,symbol+'-inline.json'),JSON.stringify({source:parsed.originalDocument,retrievedAt:new Date().toISOString(),original:parsed}));}console.log(symbol,'captured');}
+}
+if(require.main===module)main().catch(e=>{console.error(e.code || e.message);process.exitCode=1;});module.exports={main};

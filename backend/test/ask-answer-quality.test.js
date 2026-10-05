@@ -667,8 +667,9 @@ test('directory routing covers every stock listing and rejects units and rights 
     const listings = universe.companies();
     const stocks = listings.filter(x => x.securityType === 'stock');
     const instruments = listings.filter(x => ['unit', 'right'].includes(x.securityType));
-    assert.equal(stocks.length, 5974);
-    assert.equal(instruments.length, 125);
+    assert.equal(stocks.length,require('../../frontend/data/stock-universe-manifest.json').counts.stockListings);
+    const types=require('../../frontend/data/stock-universe-manifest.json').counts.retainedInstrumentsByType;
+    assert.equal(instruments.length,(types.unit || 0)+(types.right || 0));
     for (const listing of stocks) {
         assert.equal(universe.lookup(listing.symbol)?.symbol, listing.symbol);
         assert.equal(universe.lookup(listing.symbol)?.securityType, 'stock');

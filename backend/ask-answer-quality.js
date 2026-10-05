@@ -165,12 +165,13 @@ function chartEvidence(results) {
     function visit(value, currency, field, periodEnd) {
         if (!value || typeof value !== 'object') return;
         currency = value.currency || currency;
+        if(value.sourceType && value.field){if(value.sourceType==='calculation'?!require('./company-calculations').validCalculation(value):!require('./company-observations').validSupplement(value,value.issuer))return;field=value.field;}
         periodEnd = value.periodEnd || periodEnd;
         if (num(value.value) !== null && value.sourceIds?.length) {
             const name = value.formula === 'operatingCashflow - abs(capitalExpenditures)' ? 'freeCashflow' : field;
             const unit = value.unit || (/Pct$/.test(field || '') ? '%' : /^(currentRatio|debtToEquity|ocfToNetIncome)$/.test(field || '') ? 'x' : field === 'sharesOutM' ? 'million_shares' : currency);
             out.push({ value: num(value.value), unit: unitName(unit),
-                field: name, periodEnd, sourceIds: value.sourceIds });
+                field: name, periodEnd, sourceIds: value.sourceIds,sourceType:value.sourceOrigin || value.sourceType,sourceName:value.sourceName,sourceUrl:value.sourceUrl,accountingBasis:value.accountingBasis,basis:value.historyBasis || value.basis,publicationDate:require('./company-observations').sourceDate(value) });
         }
         if (num(value.changePct) !== null && value.sourceIds?.length) {
             out.push({ value: num(value.changePct), unit: '%', field, periodEnd: value.current?.periodEnd, sourceIds: value.sourceIds });
@@ -181,7 +182,7 @@ function chartEvidence(results) {
             }
         }
         for (const [key, item] of Object.entries(value)) {
-            if (['provenance', 'sources', 'coverage', 'inputs', 'sourceIds'].includes(key)) continue;
+            if (['provenance', 'sources', 'coverage', 'inputs', 'sourceIds','reconciliation'].includes(key)) continue;
             const nextField = /^(current|previous)$/.test(key) ? field : key;
             if (Array.isArray(item)) for (const child of item) visit(child, currency, nextField, periodEnd);
             else if (item && typeof item === 'object') visit(item, currency, nextField, periodEnd);
@@ -233,6 +234,12 @@ function metricForLabel(label) {
 // can repair units against a cached provider value; this check makes that
 // output ineligible unless it also reconciles to the SEC XBRL observation.
 function segmentEvidence(segmentResult, incomeResult) {
+    if(segmentResult?.storedSegmentsReceipt) {
+        const g=segmentResult.storedSegmentsReceipt;
+        if(!require('./sec-segment-observations').validGroup(g,segmentResult.financialWitness))return {status:'unverified',reason:'Stored segment context provenance is invalid.'};
+        if(g.reconciliationStatus!=='reconciled' || g.entries.some(e=>!e.label || e.value<0) || g.sum>g.totalRevenue || g.totalRevenue<=0)return {status:'unverified',reason:'The original group requires signed entries, missing member labels or unresolved reconciliation; present its source table without a complete Sankey.'};
+        return {status:'eligible',currency:g.currency,periodEnd:g.periodEnd,filingDate:g.publicationDate,form:segmentResult.filing.form,accessionNumber:g.sourceVersion,sourceUrl:g.sourceUrl,totalRevenue:g.totalRevenue,totalSourceIds:g.totalSourceIds,segmentTotal:g.sum,difference:g.difference,unallocated:g.difference,segments:g.entries.map(e=>({name:e.label,value:e.value}))};
+    }
     const filing = segmentResult?.filing || {};
     const issuerCik = validCik(segmentResult.cik);
     const anchor = segmentProof.exactAnnualRevenue(filing, incomeResult || segmentResult.revenueEvidence, issuerCik);
@@ -338,7 +345,7 @@ function filingQuoteEvidence(results) {
             for (const key of FILING_QUOTE_FIELDS) {
                 const text = String(change[key] || '');
                 if (!text) continue;
-                for (const m of text.matchAll(/(?<![A-Za-z])(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g)) {
+                for (const m of text.matchAll(/(?<![A-Za-z])(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g)) {
                     // An unscaled table cell is not a narrative figure; the quote
                     // must state the scale for it to mean anything on its own.
                     if (!m[3]) continue;
@@ -380,6 +387,8 @@ function filingQuoteEvidence(results) {
 function percentageEvidence(results, facts) {
     const percentages = (facts || chartEvidence(results)).filter(f => f.unit === '%').map(f => f.value);
     for (const r of unwrap(results)) {
+        if(r.storedSegmentsReceipt && require('./sec-segment-observations').validGroup(r.storedSegmentsReceipt,r.financialWitness) && r.storedSegmentsReceipt.totalRevenue>0)for(const e of r.storedSegmentsReceipt.entries)percentages.push(e.value/r.storedSegmentsReceipt.totalRevenue*100);
+        if(r.storedSegmentsReceipt && require('./sec-segment-observations').validGroup(r.storedSegmentsReceipt,r.financialWitness) && r.storedSegmentsReceipt.totalRevenue>0)for(const e of r.storedSegmentsReceipt.entries)percentages.push(e.value/r.storedSegmentsReceipt.totalRevenue*100);
         for (const c of r.capitalReturns || []) if (num(c.shortfallPctOfFreeCashflow) !== null)
             percentages.push(c.shortfallPctOfFreeCashflow);
         // Reverse-DCF outputs carry no sourceIds (they are the tool's own
@@ -461,7 +470,7 @@ function numericClaims(text, results, question = '') {
     const data = unwrap(results);
     const hasFinancialObservations = data.some(r => r.observations?.some(o => o.fields));
     const filingFacts = filingNarrativeEvidence(results);
-    if (!hasFinancialObservations && !filingFacts.length) return [];
+    if (!hasFinancialObservations && !filingFacts.length && !data.some(r=>r.supplementalObservations?.length || r.industryObservations?.length)) return [];
     const facts = chartEvidence(results);
     // Changes are explicit calculations from comparable verified annual inputs,
     // rather than invented facts. Retain signs except when prose names a drop.
@@ -523,7 +532,7 @@ function numericClaims(text, results, question = '') {
     const prose = text.replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
     const issues = [];
     const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' };
-    for (const m of prose.matchAll(/(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g)) {
+    for (const m of prose.matchAll(/(USD|JPY|EUR|GBP|CAD|AUD|CHF|CNY|TWD|HKD|SGD|NZD|INR|KRW|\$|¥|€|£)\s*([−–-]?\d[\d,]*(?:\.\d+)?)\s*(trillion|billion|million|tn|bn|[TtBbMmKk]\b)?/g)) {
         const unit = currencies[m[1]] || m[1], suffix = (m[3] || '').toLowerCase();
         const scale = /^(trillion|tn|t)$/.test(suffix) ? 1e12 : /^(billion|bn|b)$/.test(suffix) ? 1e9 : /^(million|m)$/.test(suffix) ? 1e6 : suffix === 'k' ? 1e3 : 1;
         const raw = m[2].replace(/,/g, '').replace(/[−–]/g, '-');
@@ -586,6 +595,17 @@ function numericClaims(text, results, question = '') {
 function audit(text, results, { question = '', mode = 'analyst' } = {}) {
     const issues = [], facts = chartEvidence(results), data = unwrap(results);
     if (!/\b(hypothetical|suppose|assume)\b/i.test(question)) issues.push(...numericClaims(text, results, question));
+    for(const r of data)for(const f of r.supplementalObservations || []) {
+        if(!require('./company-observations').validSupplement(f,f.issuer))continue;
+        const lines=String(text).replace(/```[\s\S]*?```/g,'').split(/\n/);
+        lines.forEach((line,i)=>{
+            if(metricForLabel(line)!==f.field)return;
+            const values=[...line.matchAll(/(?<![\w.-])[-−]?\d[\d,]*(?:\.\d+)?/g)].map(m=>Number(m[0].replace(/,/g,'').replace('−','-')));
+            if(!values.some(n=>[1,1e3,1e6,1e9,1e12].some(scale=>Math.abs(n-f.value/scale)<=0.000001)))return;
+            const context=line.startsWith('|')?lines.slice(Math.max(0,i-3),i+2).join('\n'):line;
+            if(!context.includes(f.sourceName) || !context.includes(require('./company-observations').sourceDate(f)))issues.push('Supplemental financial values require their source name and date on the displayed line or labelled table.');
+        });
+    }
     const financial = facts.some(f => f.sourceIds?.length);
     const metricQuestions = /revenue/i.test(question) && /net (?:income|profit)|net profit/i.test(question) && /share.?based compensation|\bSBC\b/i.test(question);
     const chartMatches = [...text.matchAll(/```(viz|bars|sankey)\s*\n([\s\S]*?)```/g)];
@@ -630,7 +650,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
             series = [{ name: '', points: spec.rows }];
         }
         if (!Array.isArray(series) || !series.length || series.length > 3) { issues.push('Chart series structure is invalid.'); continue; }
-        const disclosurePeriods = new Set();
+        const disclosurePeriods = new Set(),chartSources=new Set(),chartAccounting=new Set(),chartPeriods=new Set();
         for (const s of series) {
             const singlePeriodGroup = match[1] === 'bars' && Array.isArray(spec.series);
             if (!Array.isArray(s.points) || s.points.length < (singlePeriodGroup ? 1 : 2) || s.points.length > (match[1] === 'bars' ? 8 : 20)) {
@@ -667,6 +687,10 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
                         (magnitude && Math.abs(Math.abs(f.value) - v) <= Math.max(1e-8, Math.abs(f.value) * 1e-10))));
                     const metricMatches = amountMatches.filter(f => !metric || f.field === metric);
                     const matches = metricMatches.filter(periodMatches);
+                    const compatible=matches.filter(f=>String(spec.title || '').includes('Yahoo Finance')?f.sourceName==='Yahoo Finance':f.sourceType!=='provider');
+                    const chosen=compatible[0] || matches[0];
+                    if(chosen){chartSources.add(chosen.sourceType || 'sec_filing');if(chosen.accountingBasis)chartAccounting.add(chosen.accountingBasis);if(chosen.basis && chosen.basis!=='instant')chartPeriods.add(chosen.basis);
+                        if(chosen.sourceType==='provider' && (!String(spec.title || '').includes(chosen.sourceName) || !String(spec.title || '').includes(chosen.publicationDate)))issues.push('A supplemental financial chart must name its provider and data date in the visible chart title.');}
                     if (!matches.length && date && metricMatches.length)
                         issues.push('Chart date does not match the sourced financial period.');
                     else if (!matches.length && metric && amountMatches.length)
@@ -682,6 +706,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
             if (match[1] === 'viz' && s.points.some(p => /^(?:operating cash flow|capex|capital expenditure|free cash flow)$/i.test(p?.[0] || '')))
                 issues.push('Use bars for categories such as operating cash flow, capex and FCF; a line chart implies a time sequence.');
         }
+        if(chartSources.size>1 || chartAccounting.size>1 || chartPeriods.size>1)issues.push('Use one compatible source, accounting basis and period definition throughout a financial chart; do not splice provider and filed observations.');
         // One shared axis cannot show a metric a fraction of the largest one's
         // size: AMD's annual revenue is 21x its share-based compensation, and its
         // FY2023 net income renders a few pixels tall. The facet panels are the

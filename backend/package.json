@@ -25,6 +25,7 @@
     "geoip-country": "^5.0.202608212355",
     "google-auth-library": "^10.6.1",
     "helmet": "^7.1.0",
+    "htmlparser2": "^10.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb-memory-server": "^11.1.0",
     "mongoose": "^8.6.1",
@@ -33,7 +34,6 @@
     "stripe": "^20.0.0",
     "yahoo-finance2": "^3.14.0"
   },
-  "devDependencies": {},
   "overrides": {
     "geoip-country": {
       "ip-address": "^10.5.0"

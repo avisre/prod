@@ -93,7 +93,7 @@ function resolveCanonicalSymbol(input) {
     const normalized = normalizeTicker(input);
     if (!normalized) return null;
     if(!canonicalLookup)canonicalLookup=new Map(loadCompanies().map(c=>[normalizeTicker(c.symbol),c]));
-    const match = canonicalLookup.get(normalized);
+    const match = canonicalLookup.get(normalized) || require('./stock-universe').lookup(normalized);
     if (match) return match.symbol;
     // Some supported securities are present in the fundamentals cache but not
     // in the curated directory. The normalized spelling still maps to the same
@@ -193,7 +193,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-financial1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -255,7 +255,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261004-askfacet1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261005-financial1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -294,7 +294,7 @@ function renderStockIndex() {
     return head(title, description, canonical, jsonld, { placeholder: 'Ask about any company — answered from its SEC filings…' }) + nav('company') + `
 <main class="seo-wrap">
   <h1 class="seo-h1">Stock fundamentals directory</h1>
-  <p class="seo-sub">${snapshot.counts.listedSecurities.toLocaleString('en-US')} securities. ${snapshot.counts.financialReadyIssuers.toLocaleString('en-US')} distinct companies have verified core SEC financial coverage; ${snapshot.counts.recentAnnualIssuers.toLocaleString('en-US')} have recent annual SEC reports. Coverage calculated ${esc(snapshot.asOf)}.</p>
+  <p class="seo-sub">${snapshot.counts.listedSecurities.toLocaleString('en-US')} directory records: ${all.filter(c=>c.securityType==='stock').length.toLocaleString('en-US')} stock listings and ${all.filter(c=>c.securityType==='closed_end_fund').length.toLocaleString('en-US')} closed-end funds, with legacy units and rights listed separately. ${snapshot.counts.financialReadyIssuers.toLocaleString('en-US')} distinct companies have verified core SEC financial coverage; ${snapshot.counts.recentAnnualIssuers.toLocaleString('en-US')} have recent annual SEC reports. Coverage calculated ${esc(snapshot.asOf)}.</p>
   <p>A ready company has an original annual SEC report filed within 12 months, reporting checked within 35 days, and verified annual income, assets, equity and operating cash flow. Partial and historical profiles remain available with their status. Country does not affect eligibility.</p>
   ${sectorBlocks}
 </main>` + footer();
@@ -558,7 +558,7 @@ function renderMethodology() {
   <p class="seo-sub">How stockportfolio.pro turns raw regulatory filings into the fundamentals, metrics, and screens you see — stated plainly so you can check our work.</p>
   ${S('Where the data comes from', `<p>Company financial statements and figures labeled as SEC sourced use facts traced to the issuer&#39;s filings with the U.S. Securities and Exchange Commission. The coverage check looks for annual reports (Form 10-K, 20-F or 40-F); quarterly observations may come from 10-Q or 6-K filings. We link each reported fact to its source filing. Calculated figures identify their inputs and formula. Prices and returns come from dated market data, not SEC filings. See <a href="https://www.sec.gov/search-filings/edgar-application-programming-interfaces" rel="noopener nofollow" target="_blank">SEC EDGAR APIs</a>.</p>`)}
   ${S('Coverage &amp; history', `<p>The public directory contains ${require('./public-stock-index').view().counts.listedSecurities.toLocaleString('en-US')} securities. ${require('./public-stock-index').view().counts.financialReadyIssuers.toLocaleString('en-US')} distinct issuers have a recent original 10-K, 20-F or 40-F and verified annual net income, assets, equity, operating cash flow, plus revenue or EPS. SEC reporting checks expire after 35 days. Country does not affect coverage. Partial and historical data is labelled separately.</p>`)}
-  ${S('How often it updates', `<p>SEC submissions metadata is checked daily for covered issuers. Verified company-facts data is refreshed when a new periodic filing is found and through a rolling 28-day issuer batch. A failed SEC request does not erase the last successful evidence. Profile pages show the fiscal period, filing date, verification date, and market-data date separately.</p>`)}
+  ${S('How often it updates', `<p>The full stock universe is reconciled weekly. Requested companies are checked for newer filings when the last successful check is over six hours old, and whenever required information is missing. A failed SEC request does not erase the last successful evidence. Profile pages show the fiscal period, filing date, verification date, and market-data date separately.</p>`)}
   ${S('How metrics are computed', `<p>All metrics are deterministic functions of filed line items — no AI, no editorial judgement, no hand-tuning:</p>
     <ul>
       <li><strong>Revenue, net income, assets, equity, earnings per share and operating cash flow</strong> — shown only when a compatible SEC fact is available. Gross profit is calculated from verified revenue and cost of revenue when both have matching periods, units and source evidence. Unavailable metrics remain blank.</li>

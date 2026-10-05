@@ -150,8 +150,8 @@ async function fetchLive(symbol) {
         try {
             const data = await withTimeout(yahooSource.fetchQuoteExtras(key), TIMEOUT_MS);
             const price = data ? num(data.price) : null;
-            if (price === null || price <= 0) return null;
-            const quote = applySecShares({
+            if (price === null || price <= 0 || !data.asOf || !Number.isFinite(Date.parse(data.asOf))) return null;
+            const quote = {
                 symbol: key,
                 price,
                 previousClose: num(data.previousClose),
@@ -161,11 +161,11 @@ async function fetchLive(symbol) {
                 fiftyTwoWeekHigh: num(data.fiftyTwoWeekHigh),
                 fiftyTwoWeekLow: num(data.fiftyTwoWeekLow),
                 sharesOutstanding: num(data.sharesOutstanding),
-                asOf: data.asOf || new Date().toISOString().slice(0, 10),
+                asOf:data.asOf,marketState:data.marketState || null,freshness:data.marketState==='REGULAR'?'delayed':data.marketState?'market_closed':'dated_quote',
                 fetchedAt: new Date().toISOString(),
                 currency: data.currency || null,
                 source: 'live'
-            });
+            };
             liveCache.set(key, { at: Date.now(), quote });
             if (liveCache.size > 2000) liveCache.delete(liveCache.keys().next().value);
             return quote;
@@ -187,9 +187,11 @@ async function getQuote(symbol, options = {}) {
     if (!key) return null;
     if (options.allowLive !== false && !fundStatus.isUnlisted(key)) {
         const live = await fetchLive(key);
-        if (live) return live;
+        if (live) return options.useLegacySecShares===false?live:applySecShares(live);
     }
-    return getDailyQuote(key);
+    const lastGood=liveCache.get(key)?.quote || getDailyQuote(key,{useLegacySecShares:options.useLegacySecShares!==false});
+    const selected=lastGood && options.useLegacySecShares!==false?applySecShares(lastGood):lastGood;
+    return selected?{...selected,freshness:'stale_fallback',lastRetrievalResult:'retrieval_failed_or_skipped'}:null;
 }
 
 module.exports = {

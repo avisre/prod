@@ -135,7 +135,7 @@ function buildIncomeReportsFromFTS(rows) {
         operatingIncome: n(r.operatingIncome ?? r.totalOperatingIncomeAsReported),
         sellingGeneralAndAdministrative: n(r.sellingGeneralAndAdministration),
         researchAndDevelopment: n(r.researchAndDevelopment),
-        operatingExpenses: n(r.operatingExpense ?? r.totalExpenses),
+        operatingExpenses: n(r.operatingExpense),
         investmentIncomeNet: '',
         netInterestIncome: n(r.netInterestIncome),
         interestIncome: n(r.interestIncome ?? r.interestIncomeNonOperating),
@@ -148,9 +148,9 @@ function buildIncomeReportsFromFTS(rows) {
         incomeTaxExpense: n(r.taxProvision),
         interestAndDebtExpense: n(r.interestExpense ?? r.interestExpenseNonOperating),
         netIncomeFromContinuingOperations: n(r.netIncomeContinuousOperations ?? r.netIncomeFromContinuingOperationNetMinorityInterest),
-        comprehensiveIncomeNetOfTax: n(r.netIncomeCommonStockholders),
+        comprehensiveIncomeNetOfTax: '',
         ebit: n(r.EBIT),
-        ebitda: n(r.EBITDA ?? r.normalizedEBITDA),
+        ebitda: n(r.EBITDA),
         netIncome: n(r.netIncome ?? r.netIncomeIncludingNoncontrollingInterests),
         eps: n(r.basicEPS),
         dilutedEPS: n(r.dilutedEPS)
@@ -199,40 +199,40 @@ function buildBalanceReportsFromFTS(rows) {
         reportedCurrency: 'USD',
         totalAssets: n(r.totalAssets),
         totalCurrentAssets: n(r.currentAssets),
-        cashAndCashEquivalentsAtCarryingValue: n(r.cashAndCashEquivalents ?? r.cashFinancial),
+        cashAndCashEquivalentsAtCarryingValue: n(r.cashAndCashEquivalents),
         cashAndShortTermInvestments: n(r.cashCashEquivalentsAndShortTermInvestments),
         inventory: n(r.inventory),
         currentNetReceivables: n(r.receivables ?? r.accountsReceivable),
         totalNonCurrentAssets: n(r.totalNonCurrentAssets),
-        propertyPlantEquipment: n(r.netPPE ?? r.grossPPE),
+        propertyPlantEquipment: n(r.netPPE),
         accumulatedDepreciationAmortizationPPE: n(r.accumulatedDepreciation),
         intangibleAssets: '',
         intangibleAssetsExcludingGoodwill: '',
         goodwill: '',
         investments: n(r.investmentsAndAdvances),
-        longTermInvestments: n(r.investmentinFinancialAssets ?? r.investmentsAndAdvances),
+        longTermInvestments: n(r.longTermInvestments),
         shortTermInvestments: n(r.otherShortTermInvestments),
         otherCurrentAssets: n(r.otherCurrentAssets),
         otherNonCurrentAssets: n(r.otherNonCurrentAssets),
         totalLiabilities: n(r.totalLiabilitiesNetMinorityInterest),
         totalCurrentLiabilities: n(r.currentLiabilities),
-        currentAccountsPayable: n(r.accountsPayable ?? r.payables),
+        currentAccountsPayable: n(r.accountsPayable),
         deferredRevenue: n(r.currentDeferredRevenue),
         currentDebt: n(r.currentDebt),
         shortTermDebt: n(r.currentDebt),
         totalNonCurrentLiabilities: n(r.totalNonCurrentLiabilitiesNetMinorityInterest),
-        capitalLeaseObligations: n(r.leases),
+        capitalLeaseObligations: n(r.capitalLeaseObligations),
         longTermDebt: n(r.longTermDebt),
-        currentLongTermDebt: n(r.currentDebt),
+        currentLongTermDebt: n(r.currentLongTermDebt),
         longTermDebtNoncurrent: n(r.longTermDebt),
         shortLongTermDebtTotal: n(r.totalDebt),
         otherCurrentLiabilities: n(r.otherCurrentLiabilities),
         otherNonCurrentLiabilities: n(r.otherNonCurrentLiabilities),
-        totalShareholderEquity: n(r.stockholdersEquity ?? r.totalEquityGrossMinorityInterest),
+        totalShareholderEquity: n(r.stockholdersEquity),
         treasuryStock: '',
         retainedEarnings: n(r.retainedEarnings),
-        commonStock: n(r.commonStock ?? r.capitalStock),
-        commonStockSharesOutstanding: n(r.ordinarySharesNumber ?? r.shareIssued)
+        commonStock: n(r.commonStock),
+        commonStockSharesOutstanding: n(r.ordinarySharesNumber)
     }));
 }
 
@@ -269,7 +269,7 @@ function buildBalanceReports(history) {
         longTermDebt: n(r.longTermDebt),
         currentLongTermDebt: n(r.shortLongTermDebt),
         longTermDebtNoncurrent: n(r.longTermDebt),
-        shortLongTermDebtTotal: n((r.shortLongTermDebt || 0) + (r.longTermDebt || 0)),
+        shortLongTermDebtTotal: n(r.shortLongTermDebt != null && r.longTermDebt != null ? r.shortLongTermDebt + r.longTermDebt : null),
         otherCurrentLiabilities: n(r.otherCurrentLiab),
         otherNonCurrentLiabilities: n(r.otherLiab),
         totalShareholderEquity: n(r.totalStockholderEquity),
@@ -287,7 +287,7 @@ function buildCashReportsFromFTS(rows) {
         return {
             fiscalDateEnding: isoDay(r.date) || '',
             reportedCurrency: 'USD',
-            operatingCashflow: n(r.operatingCashFlow ?? r.cashFlowFromContinuingOperatingActivities),
+            operatingCashflow: n(r.operatingCashFlow),
             paymentsForOperatingActivities: '',
             proceedsFromOperatingActivities: '',
             changeInOperatingLiabilities: n(r.changeInPayablesAndAccruedExpense),
@@ -296,15 +296,15 @@ function buildCashReportsFromFTS(rows) {
             capitalExpenditures: n(Number.isFinite(capex) ? -Math.abs(capex) : null),
             changeInReceivables: n(r.changesInAccountReceivables ?? r.changeInReceivables),
             changeInInventory: n(r.changeInInventory),
-            profitLoss: n(r.netIncomeFromContinuingOperations),
-            cashflowFromInvestment: n(r.cashFlowFromContinuingInvestingActivities ?? r.investingCashFlow),
-            cashflowFromFinancing: n(r.cashFlowFromContinuingFinancingActivities ?? r.financingCashFlow),
+            profitLoss: n(r.netIncome),
+            cashflowFromInvestment: n(r.investingCashFlow),
+            cashflowFromFinancing: n(r.financingCashFlow),
             proceedsFromRepaymentsOfShortTermDebt: n(r.netShortTermDebtIssuance),
             paymentsForRepurchaseOfCommonStock: n(r.repurchaseOfCapitalStock != null ? -Math.abs(r.repurchaseOfCapitalStock) : null),
             paymentsForRepurchaseOfEquity: '',
             paymentsForRepurchaseOfPreferredStock: '',
             dividendPayout: n(Number.isFinite(div) ? -Math.abs(div) : null),
-            dividendPayoutCommonStock: n(Number.isFinite(div) ? -Math.abs(div) : null),
+            dividendPayoutCommonStock: n(Number.isFinite(r.commonStockDividendPaid) ? -Math.abs(r.commonStockDividendPaid) : null),
             dividendPayoutPreferredStock: '',
             proceedsFromIssuanceOfCommonStock: n(r.netCommonStockIssuance),
             proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet: n(r.longTermDebtIssuance),
@@ -313,7 +313,7 @@ function buildCashReportsFromFTS(rows) {
             proceedsFromSaleOfTreasuryStock: '',
             changeInCashAndCashEquivalents: n(r.changesInCash),
             changeInExchangeRate: '',
-            netIncome: n(r.netIncomeFromContinuingOperations)
+            netIncome: n(r.netIncome)
         };
     });
 }
@@ -340,7 +340,7 @@ function buildCashReports(history) {
         paymentsForRepurchaseOfEquity: '',
         paymentsForRepurchaseOfPreferredStock: '',
         dividendPayout: n(r.dividendsPaid != null ? -Math.abs(r.dividendsPaid) : null),
-        dividendPayoutCommonStock: n(r.dividendsPaid != null ? -Math.abs(r.dividendsPaid) : null),
+        dividendPayoutCommonStock: '',
         dividendPayoutPreferredStock: '',
         proceedsFromIssuanceOfCommonStock: n(r.issuanceOfStock),
         proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet: '',
@@ -531,7 +531,7 @@ async function fetchQuote(symbol) {
 async function fetchQuoteExtras(symbol) {
     const ys = toYahooSymbol(symbol);
     const q = await yf.quote(ys);
-    const num = (v) => (Number.isFinite(Number(v)) ? Number(v) : null);
+    const num = require('./sec-coverage').number;
     return {
         symbol: String(symbol || '').toUpperCase(),
         price: num(q && q.regularMarketPrice),
@@ -545,7 +545,8 @@ async function fetchQuoteExtras(symbol) {
         sharesOutstanding: num(q && q.sharesOutstanding),
         trailingEps: num(q && q.epsTrailingTwelveMonths),
         currency: (q && q.currency) || null,
-        asOf: q && q.regularMarketTime ? isoDay(q.regularMarketTime) : null
+        asOf: q?.regularMarketTime && Number.isFinite(new Date(q.regularMarketTime).getTime()) ? new Date(q.regularMarketTime).toISOString() : null,
+        marketState:q?.marketState || null
     };
 }
 
@@ -1038,7 +1039,31 @@ async function fetchNewsSearch(query, count = 10) {
     }));
 }
 
+async function fetchSupplementalSnapshot(symbol, sections = ['income', 'balance', 'cash']) {
+    const summary = await yf.quoteSummary(toYahooSymbol(symbol), {
+        modules: ['assetProfile', 'price', 'summaryDetail', 'defaultKeyStatistics', 'financialData']
+    });
+    const currency = summary?.financialData?.financialCurrency || null;
+    const builders = { income: ['financials', buildIncomeReportsFromFTS],
+        balance: ['balance-sheet', buildBalanceReportsFromFTS], cash: ['cash-flow', buildCashReportsFromFTS] };
+    const statements = {}, errors = [];
+    if(!/^[A-Z]{3}$/.test(currency || ''))errors.push('Financial reporting currency is unavailable; quote currency is not substituted for statement currency');
+    await Promise.all([...new Set(sections)].filter(s => builders[s]).map(async s => {
+        try {
+            const [module, build] = builders[s], rows = await fetchFtsRows(symbol, module);
+            statements[s] = { annualReports: build(rows.annual), quarterlyReports: build(rows.quarterly) };
+            for (const rs of Object.values(statements[s])) for (const row of rs)
+                row.reportedCurrency = /^[A-Z]{3}$/.test(currency || '') ? currency : null;
+        } catch (_) { errors.push(s + ' history unavailable from Yahoo Finance'); }
+    }));
+    return { overview: buildOverview(symbol, summary), statements, financialCurrency: currency,
+        quote: { price: n(summary?.price?.regularMarketPrice), currency: summary?.price?.currency || null,
+            asOf: isoDay(summary?.price?.regularMarketTime) || null },
+        fetchedAt: new Date().toISOString(), errors };
+}
+
 module.exports = {
+    fetchSupplementalSnapshot,
     fetchFromYahoo,
     // Exported for tests: pure shapers over a fetched chart blob.
     buildDailySeries,
@@ -1057,6 +1082,7 @@ module.exports = {
     fetchSymbolSearch,
     fetchMovers,
     fetchNews,
+    buildIncomeReportsFromFTS,buildBalanceReportsFromFTS,buildCashReportsFromFTS,
     // Pure news filters are exported so their provider-adapter behavior is
     // covered without making network requests.
     newsMatchesTopic,

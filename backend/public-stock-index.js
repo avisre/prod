@@ -12,11 +12,11 @@ function load() {
   const doc=JSON.parse(raw),directory=fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8');
   if(doc.schemaVersion!==1 || doc.policyVersion!==1 || !Array.isArray(doc.securities) || !doc.issuers || !p.day(doc.asOf) || !doc.datasetId || doc.sourceFingerprints?.directoryDigest!==p.digest(directory))throw new Error('incompatible snapshot');
   if(!Number.isFinite(Date.parse(doc.generatedAt)) || Date.parse(doc.generatedAt)>Date.now()+60000 || doc.asOf>p.day(new Date().toISOString()))throw new Error('Invalid snapshot timestamps');
-  const symbols=new Set();for(const s of doc.securities){if(!s.symbol || symbols.has(s.symbol) || !['stock','unit','right'].includes(s.securityType) || (s.cik && s.cik!==p.cik(s.cik)) || !Array.isArray(s.metricSlugs) || !p.day(s.lastmod))throw new Error('Invalid security snapshot record');symbols.add(s.symbol);}
+  const symbols=new Set();for(const s of doc.securities){if(!s.symbol || symbols.has(s.symbol) || !['stock','unit','right','closed_end_fund','unresolved'].includes(s.securityType) || (s.cik && s.cik!==p.cik(s.cik)) || !Array.isArray(s.metricSlugs) || !p.day(s.lastmod))throw new Error('Invalid security snapshot record');symbols.add(s.symbol);}
   for(const field of ['quotesDigest','priceHistoryDigest','fxDigest','screenRowsDigest'])if(!/^[a-f0-9]{64}$/.test(doc.sourceFingerprints?.[field] || ''))throw new Error('Missing generation fingerprint '+field);
   require('./screen-stock-index').load(doc.datasetId,doc.sourceFingerprints.screenRowsDigest);
   try{const runtime=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'sec-runtime-overrides.json'),'utf8'));if(runtime.datasetId===doc.datasetId && Object.keys(runtime.issuers || {}).length<=96)for(const [id,value]of Object.entries(runtime.issuers))overrides.set(id,value);}catch(_){}
-  cached=doc;lookups=new Map();for(const s of doc.securities)for(const alias of [s.symbol,...(s.aliases || [])])lookups.set(alias.toUpperCase().replace(/[.-]/g,''),s);
+  cached=doc;lookups=new Map();for(const s of doc.securities)for(const alias of [s.symbol,...(s.aliases || [])])lookups.set(alias.toUpperCase().replace(/\./g,'-'),s);
   return cached;
  }catch(e){throw unavailable(e.message);}
 }
@@ -32,7 +32,7 @@ function view(asOf=p.day(new Date().toISOString())) {
  const securities=snap.securities.map(s=>{const issuer=issuers[s.cik],active=s.securityType==='stock' && issuer?.financialCoverage==='ready';const modified=overrides.get(s.cik)?.securities?.[s.symbol];return {...s,...modified,annualReportingStatus:issuer?.annualReportingStatus || 'unverified',financialCoverage:issuer?.financialCoverage || 'unavailable',indexable:!!active,screenable:!!active,metricSlugs:active?(modified?.metricSlugs || s.metricSlugs):[]};});
  currentDay=asOf;currentView={...snap,asOf,issuers,securities,counts:p.count(securities,issuers)};return currentView;
 }
-function get(symbol,asOf){const original=load() && lookups.get(String(symbol || '').toUpperCase().replace(/[.-]/g,''));if(!original)return null;const v=view(asOf),entry=v.issuers[original.cik];const active=original.securityType==='stock' && entry?.financialCoverage==='ready';return {...original,...overrides.get(original.cik)?.securities?.[original.symbol],annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:entry?.financialCoverage || 'unavailable',indexable:!!active,screenable:!!active};}
+function get(symbol,asOf){const original=load() && lookups.get(String(symbol || '').toUpperCase().replace(/\./g,'-'));if(!original)return null;const v=view(asOf),entry=v.issuers[original.cik];const active=original.securityType==='stock' && entry?.financialCoverage==='ready';return {...original,...overrides.get(original.cik)?.securities?.[original.symbol],annualReportingStatus:entry?.annualReportingStatus || 'unverified',financialCoverage:entry?.financialCoverage || 'unavailable',indexable:!!active,screenable:!!active};}
 function updateIssuer(id,value){overrides.delete(id);overrides.set(id,value);while(overrides.size>96)overrides.delete(overrides.keys().next().value);currentDay=null;currentView=null;}
 function canOverride(id){load();return overrides.has(id) || overrides.size<96;}
 function persistOverrides(){p.atomicWrite(path.join(p.DATA_DIR,'sec-runtime-overrides.json'),{schemaVersion:1,datasetId:load().datasetId,issuers:Object.fromEntries(overrides)});}
