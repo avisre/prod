@@ -14,7 +14,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 784 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.6s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 784 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.6s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -26,7 +26,7 @@
       "chartCount": 3,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 784 prose words / 1200 limit · 19 table rows · 2 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 784 prose words / 1600 limit · 19 table rows · 2 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -38,7 +38,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 757 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 757 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -50,7 +50,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 757 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 757 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -62,7 +62,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 788 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 788 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -74,7 +74,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 788 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 788 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -86,7 +86,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 771 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 771 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -98,7 +98,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 771 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 771 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -110,7 +110,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 725 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 725 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -122,7 +122,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 725 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 725 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -134,7 +134,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 650 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 650 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -146,7 +146,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 650 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 650 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -158,7 +158,7 @@
       "chartCount": 1,
       "tableCount": 1,
       "invalidGeometry": false,
-      "metadata": "company_report · 741 prose words / 1200 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 741 prose words / 1600 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -170,7 +170,7 @@
       "chartCount": 1,
       "tableCount": 1,
       "invalidGeometry": false,
-      "metadata": "company_report · 741 prose words / 1200 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 741 prose words / 1600 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -182,7 +182,7 @@
       "chartCount": 0,
       "tableCount": 0,
       "invalidGeometry": false,
-      "metadata": "company_report · 666 prose words / 1200 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 666 prose words / 1600 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -194,7 +194,7 @@
       "chartCount": 0,
       "tableCount": 0,
       "invalidGeometry": false,
-      "metadata": "company_report · 666 prose words / 1200 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 666 prose words / 1600 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -206,7 +206,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 784 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.6s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 784 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.6s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -218,7 +218,7 @@
       "chartCount": 3,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 784 prose words / 1200 limit · 19 table rows · 2 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 784 prose words / 1600 limit · 19 table rows · 2 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -230,7 +230,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 757 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 757 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -242,7 +242,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 757 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 757 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -254,7 +254,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 788 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 788 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -266,7 +266,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 788 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 788 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -278,7 +278,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 771 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 771 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -290,7 +290,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 771 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 771 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -302,7 +302,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 725 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 725 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -314,7 +314,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 725 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 725 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.4s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -326,7 +326,7 @@
       "chartCount": 1,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 650 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 650 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -338,7 +338,7 @@
       "chartCount": 2,
       "tableCount": 3,
       "invalidGeometry": false,
-      "metadata": "company_report · 650 prose words / 1200 limit · 19 table rows · 1 charts · 0 tokens · 0.3s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 650 prose words / 1600 limit · 19 table rows · 1 charts · 0 tokens · 0.2s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -350,7 +350,7 @@
       "chartCount": 1,
       "tableCount": 1,
       "invalidGeometry": false,
-      "metadata": "company_report · 741 prose words / 1200 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 741 prose words / 1600 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -362,7 +362,7 @@
       "chartCount": 1,
       "tableCount": 1,
       "invalidGeometry": false,
-      "metadata": "company_report · 741 prose words / 1200 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 741 prose words / 1600 limit · 7 table rows · 1 charts · 0 tokens · 0.1s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -374,7 +374,7 @@
       "chartCount": 0,
       "tableCount": 0,
       "invalidGeometry": false,
-      "metadata": "company_report · 666 prose words / 1200 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 666 prose words / 1600 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     },
@@ -386,7 +386,7 @@
       "chartCount": 0,
       "tableCount": 0,
       "invalidGeometry": false,
-      "metadata": "company_report · 666 prose words / 1200 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
+      "metadata": "company_report · 666 prose words / 1600 limit · 0 table rows · 0 charts · 0 tokens · 0.0s · Deterministic fixture — not a model response",
       "readMarker": true,
       "nextQuestion": true
     }

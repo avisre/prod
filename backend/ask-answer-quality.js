@@ -813,12 +813,8 @@ function audit(text, results, { question = '', mode = 'analyst', policy } = {}) 
     // pass barely trims (measured: 509 → 498 against a 480 cap, 339 → 330 against
     // 320). Naming the count and the size of the cut makes the instruction
     // actionable rather than a judgement call.
-    // The model lands within a few percent of whatever cap it is given, and the
-    // rewrite pass barely trims (measured: 331 → 329 against a 320 cap; 481
-    // against 480). A hard boundary turns a complete, fully sourced answer into
-    // the generic receipt over one word — twice in six probes. The published cap
-    // stays the number the prompt quotes and the target the model aims at; the
-    // audit allows 5% of jitter above it before an answer is rejected for length.
+    // The shared policy applies the owner's firm 1600-word ceiling, or a
+    // shorter explicit limit, without mode-specific targets or tolerance.
     const ceiling = policy.ceiling;
     const words = wordCount(text);
     if (words > ceiling) issues.push(`Answer is ${words} prose words, ${words - limit} over the ${limit}-word limit. Cut at least ${words - limit} words: delete whole sentences, starting with repeated figures and unrequested history — never drop a sourced figure, a missing-data reason or the Next line to get there.`);

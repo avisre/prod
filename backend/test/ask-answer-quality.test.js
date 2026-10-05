@@ -374,21 +374,19 @@ test('unsupported investment causation fails; explicit unknown causes and retrie
 test('length counts visible prose, not chart JSON/URLs; explicit and detailed requests are respected', () => {
     assert.equal(q.wordCount('[Source](https://example.com/very-long-url) hello ' + spec([['2024', 1], ['2025', 2]])), 2);
     assert.equal(q.wordLimit('Keep it under 150 words.', 'normal'), 150);
-    assert.equal(q.wordLimit('A detailed analysis.', 'normal'), 700);
+    assert.equal(q.wordLimit('A detailed analysis.', 'normal'), 1600);
     // The framework's measured size sets the cap, not the other way round: five
     // live analyst answers ran 348–432 prose words with tables already excluded,
     // so a 350 cap rejected the owner's own target shape on length alone.
-    assert.equal(q.wordLimit('AMD', 'analyst'), 1200);
-    assert.equal(q.wordLimit('AMD', 'normal'), 1200);
-    // Five percent of jitter above the quoted cap is tolerated — a model that
-    // lands within a few words of the target has followed the instruction, and
-    // rejecting it publishes the generic receipt instead of the answer.
+    assert.equal(q.wordLimit('AMD', 'analyst'), 1600);
+    assert.equal(q.wordLimit('AMD', 'normal'), 1600);
+    // The owner requested one firm ceiling, with no preset word target.
     assert.deepEqual(q.audit('word '.repeat(334), [], { mode: 'normal' }), []);
-    assert.match(q.audit('word '.repeat(340), [], { mode: 'normal' }).join(' '), /over the 320-word limit/);
+    assert.deepEqual(q.audit('word '.repeat(340), [], { mode: 'normal' }), []);
     // A rich analyst answer inside the raised cap raises no length issue at all.
     assert.deepEqual(q.audit('word '.repeat(430), [], { mode: 'analyst' }), []);
-    assert.deepEqual(q.audit('word '.repeat(1260), [], { question: 'AMD', mode: 'normal' }), []);
-    assert.match(q.audit('word '.repeat(1261), [], { question: 'AMD' }).join(' '), /1200-word limit/);
+    assert.deepEqual(q.audit('word '.repeat(1600), [], { question: 'AMD', mode: 'normal' }), []);
+    assert.match(q.audit('word '.repeat(1601), [], { question: 'AMD' }).join(' '), /1600-word limit/);
     assert.match(q.audit('word '.repeat(101), [], { question: 'AMD under 100 words' }).join(' '), /100-word limit/);
     assert.equal(q.wordLimit('Keep it under 10 words.', 'normal'), 10);
 });

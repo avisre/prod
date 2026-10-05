@@ -6,7 +6,7 @@ const p=require('../ask-report-policy'), q=require('../ask-answer-quality'), eng
 afterEach(()=>engine.__resetDeps());
 test('names, tickers and open questions select the same full policy in both modes',()=>{
  for(const question of ['AVGO','Broadcom','AMD','Advanced Micro Devices','JPM','JPMorgan','O','Realty Income','Meta','Micron','Broadcom stock','What do you think about AMD?','How is AMD doing?'])for(const mode of ['normal','analyst']) {
-  const policy=p.select(question,mode);assert.equal(policy.kind,'company_report',question);assert.deepEqual(policy.targetWords,[600,900]);assert.equal(policy.ceiling,1260);assert.equal(policy.tableRows,70);assert.equal(q.wordLimit(question,mode),policy.maxWords);
+  const policy=p.select(question,mode);assert.equal(policy.kind,'company_report',question);assert.equal(policy.targetWords,null);assert.equal(policy.ceiling,1600);assert.equal(policy.tableRows,70);assert.equal(q.wordLimit(question,mode),policy.maxWords);
  }
 });
 test('identity precedes keyword exclusions; ambiguous listings and funds keep their own treatment',()=>{
@@ -89,4 +89,26 @@ test('full report coverage is checked without fixing headings or chart layout',(
  assert.ok(p.reportIssues('Revenue improved.',policy,results).some(issue=>/annual financial periods/.test(issue)));
  const flexible='Products and customers\nDivisions\n| 2025-12-31 | Revenue unavailable |\n| 2026-06-27 | Revenue unavailable |\nPricing power\nRisk disclosures unavailable\nValuation unavailable\n**The read** — Evidence gaps remain.\n> Next: Which business division matters?';
  assert.deepEqual(p.reportIssues(flexible,policy,results),[]);assert.deepEqual(p.reportIssues('Short lookup.',p.select('AMD under 100 words'),results),[]);
+});
+
+test('company stories allow the 1363-word reference length in both modes without changing bare-name reports',()=>{
+ for(const mode of ['normal','analyst'])for(const question of ['Tell the Micron story','Write a story about Micron','Micron story','Tell me the story of MU']){
+  const policy=p.select(question,mode);assert.equal(policy.kind,'company_report');assert.equal(policy.company.symbol,'MU');assert.equal(policy.story,true);assert.equal(policy.maxWords,1600);assert.equal(policy.ceiling,1600);assert.equal(policy.targetWords,null);
+  assert.equal(p.missingResearch(policy,[]).length,2);assert.match(p.prompt(policy),/chronological narrative/);assert.deepEqual(q.audit('Narrative '.repeat(1363),[],{question,mode}),[]);assert.deepEqual(p.reportIssues('Narrative '.repeat(1363),policy,[]),[]);
+ }
+ assert.equal(p.select('Micron').maxWords,1600);assert.equal(p.select('Tell the Micron story under 100 words').ceiling,100);assert.equal(p.select('SPY story').kind,'fund');
+});
+test('long stories generate with the 8000-token allowance and keep unsupported numbers rejected',async()=>{
+ for(const mode of ['normal','analyst']){
+  const policy=p.select('Tell the Micron story',mode),required=p.missingResearch(policy,[]);let calls=0,allowance;
+  const financial=require('../ask-report-evidence').expand(await engine.runTool('get_financials',{symbol:'MU',statement:'income',basis:'annual',limit:5},{companyReportEvidence:true}));
+  engine.__setDeps({chatRaw:async(messages,opts)=>{calls++;allowance=opts.maxTokens;assert.match(messages[0].content,/COMPANY STORY/);if(calls===1)return {tool_calls:required.map((r,i)=>tc('story'+i,r.tool,r.args))};return {content:'## The company story\n'+('Narrative context. '.repeat(675))+'\n**The read** — Use the dated evidence.\n> Next: Which era matters?'};},runTool:async name=>name==='get_financials'?financial:{symbol:'MU',sections:[{heading:'Business',text:'Source-backed business context.'}],sourceUrl:'https://www.sec.gov/report.htm'}});
+  const result=await engine.ask({question:'Tell the Micron story',mode});assert.equal(result.source,'ai');assert.equal(allowance,8000);assert.ok(result.quality.proseWords>1300);assert.ok(result.answer.length<32000);assert.match(result.answer,/```(?:viz|bars)/);
+  assert.ok(q.audit('Revenue was USD 999999999999999 billion.',[{tool:'get_financials',result:financial}],{question:'Tell the Micron story',mode}).length);
+ }
+});
+
+test('one firm 1600-word ceiling lets both modes choose length freely across scopes',()=>{
+ for(const mode of ['normal','analyst'])for(const question of ['AMD','AMD revenue last quarter','Tell the Micron story','Give a detailed analysis of JPM','SPY']){const policy=p.select(question,mode);assert.equal(policy.maxWords,1600);assert.equal(policy.ceiling,1600);assert.equal(policy.targetWords,null);assert.deepEqual(q.audit('Narrative '.repeat(1600),[],{question,mode}),[]);assert.match(q.audit('Narrative '.repeat(1601),[],{question,mode}).join(' '),/1600-word limit/);assert.doesNotMatch(p.prompt(policy),/aim for/);}
+ assert.equal(p.select('AMD under 100 words').ceiling,100);assert.equal(p.select('AMD under 2000 words').ceiling,1600);assert.doesNotMatch(engine.ASK_SYSTEM,/480 words|normal mode: 320/);assert.doesNotMatch(engine.FRAMEWORK_ANALYST,/600–900|1,200-word/);
 });

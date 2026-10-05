@@ -1853,7 +1853,7 @@ const ASK_SYSTEM = [
     'THE READ: when an open-ended answer closes with a synthesis, start a new paragraph with exactly "**The read** — " (the app styles that paragraph) and keep it to 2–4 sentences that contribute a new, supported insight. Do not repeat an opening takeaway or figures already shown.',
     'FOLLOW-UP: finish with exactly one natural next question the user might ask, on its own final line, formatted: "> Next: <the question>". It must be answerable with YOUR tools (US-listed companies, filed financials, screening, their portfolio) — never suggest something outside your data.',
     'MEMORY: memory is ON for this user unless a later message says it errored — save durable facts about them automatically, WITHOUT being asked: their stated investing goals, holdings context, time horizons, constraints, milestones and accomplishments (e.g. "planning to add REITs next year", "already holds AAPL bought at 182", "selling out in 2028 to buy a house"). When the user states something lasting, call remember with ONE concise fact in their own words and carry on — no need to announce it; the app shows them the card. Skip ephemeral things (chat small talk, this session\'s questions). If the tool ever returns an error for memory, memory is switched off: never mention memory again and never retry. Never store credentials, addresses, phone numbers or account numbers. A system message may list facts already saved — treat it as context, never invent entries; when asked "what do you remember about me", read back THOSE saved facts as a friendly list, in plain language, and say they can delete any of them in Settings → Memory.',
-    'STYLE: British English. Answer the requested periods and metrics; do not add a quarterly analysis to an annual-only data request, or expand a simple numeric lookup into segments, company history or extra metrics. Focused lookups use one main presentation of each figure. Company reports may pair precise tables with a trend visualization. Keep ordinary answers within 480 words (normal mode: 320); honour a tighter requested limit. A detailed/deep-dive request may be longer. Sources, actual periods and missing-data reasons must remain. Avoid raw taxonomy/concept names and implementation flags in prose. No preamble or sign-off.'
+    'STYLE: British English. Answer the requested periods and metrics; do not add a quarterly analysis to an annual-only data request, or expand a simple numeric lookup into segments, company history or extra metrics. Focused lookups use one main presentation of each figure. Company reports may pair precise tables with a trend visualization. Use the length needed for a useful answer, up to 1,600 prose words in either mode; honour a tighter requested limit. There is no preset word target or minimum. Sources, actual periods and missing-data reasons must remain. Avoid raw taxonomy/concept names and implementation flags in prose. No preamble or sign-off.'
 ].join('\n');
 
 // Injected in front of ASK_SYSTEM when the user has selected plain-English
@@ -1921,10 +1921,11 @@ function makeRoundStreamer(emit, buffered = false) {
 // behaviour, because a lookup that grows into a report is the failure the DATA
 // LOOKUPS rule exists to prevent.
 function frameworkApplies(question) {
-    return reportPolicy.select(question).kind === 'company_report';
+    const policy=reportPolicy.select(question);
+    return policy.kind === 'company_report' && !policy.story;
 }
 const FULL_REPORT = [
-    'Give the full company picture. Both modes aim for 600–900 prose words, with a 1,200-word default ceiling, plus tables and visuals. A requested shorter answer uses its strict limit. When a bounded source search leaves real gaps, a shorter supported report is appropriate.',
+    'Give the full company picture. Both modes may use up to 1,600 prose words, plus tables and visuals. Choose the length useful for this company without a preset target or minimum. A requested shorter answer uses its strict limit. When a bounded source search leaves real gaps, a shorter supported report is appropriate.',
     'FETCH FIRST, IN ONE ROUND: get_financials income annual (limit 5), income quarterly (limit 4), balance annual (limit 5), cash annual (limit 5); get_ratios_history annual (limit 5) and quarterly (limit 4); get_peer_context, get_segments, get_quote, get_key_points, get_filing_diff and get_reverse_dcf when applicable. Batch independent calls. Reuse evidence rather than requesting it twice.',
     'Before writing, inspect coverage and remainingGaps. Request get_supplemental_context for missing fields, periods or business sections. The shared resolver checks SEC filings, original issuer releases and Yahoo Finance. For remaining narrative gaps, use original issuer documents or accessible reputable articles within the existing search/page budgets. Search snippets, forums and remembered figures are not financial evidence. Explain specific gaps only after bounded retrieval.',
     'Cover what the business sells, customers and products, divisions or revenue streams, four reported quarters and five annual periods, competitive differences, material risks, dated valuation, **The read** and one > Next: question. Choose headings and section order that suit this company; an unavailable section gets an attributed gap explanation.',
@@ -1953,7 +1954,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
     const emit = (e) => { if (onEvent) { try { onEvent(e); } catch (_) { /* client gone — keep computing the answer */ } } };
 
     const systemContent = ASK_SYSTEM + (mode === 'normal' ? `\n${PLAIN_ASK_ADDENDUM}` : '')
-        + (policy.kind === 'company_report' ? `\n${mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST}` : '')
+        + (policy.kind === 'company_report' && !policy.story ? `\n${mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST}` : '')
         + '\n' + reportPolicy.prompt(policy)
         + `\nToday's date is ${new Date().toISOString().slice(0, 10)}.`;
     const messages = [{ role: 'system', content: systemContent }];
@@ -2176,7 +2177,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                         const company = stockUniverse.lookup(supplied.symbol) || (['etf','mutual_fund','closed_end_fund'].includes(supplied.assetType) ? {symbol:supplied.symbol,name:supplied.name,securityType:supplied.assetType} : null);
                         if (company) {
                             policy = reportPolicy.select(q, mode, { company });
-                            messages.push({ role: 'system', content: reportPolicy.prompt(policy) + (policy.kind === 'company_report' ? '\n' + (mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST) : '') });
+                            messages.push({ role: 'system', content: reportPolicy.prompt(policy) + (policy.kind === 'company_report' && !policy.story ? '\n' + (mode === 'normal' ? FRAMEWORK_NORMAL : FRAMEWORK_ANALYST) : '') });
                         }
                     }
                     contextBytes += Buffer.byteLength(content);

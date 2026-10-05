@@ -116,11 +116,11 @@
     }
   ],
   "totalTokens": 0,
-  "ms": 304,
-  "generatedAt": "2026-10-05T10:12:39.281Z",
+  "ms": 308,
+  "generatedAt": "2026-10-05T12:54:34.391Z",
   "quality": {
     "policy": {
-      "version": 2,
+      "version": 3,
       "kind": "company_report",
       "mode": "analyst",
       "company": {
@@ -137,19 +137,17 @@
         "sector": "Health Care"
       },
       "choices": [],
-      "targetWords": [
-        600,
-        900
-      ],
-      "maxWords": 1200,
-      "ceiling": 1260,
+      "story": false,
+      "targetWords": null,
+      "maxWords": 1600,
+      "ceiling": 1600,
       "explicitWordLimit": false,
       "tableRows": 70,
       "visualRequired": true,
       "annualPeriods": 5,
       "quarterlyPeriods": 4
     },
-    "policyVersion": 2,
+    "policyVersion": 3,
     "proseWords": 771,
     "tableRows": 19,
     "sectionCoverage": {

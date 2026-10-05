@@ -160,8 +160,9 @@ test('the answer framework is injected for open-ended company questions only', a
     // Normal mode is simplified, not thin: it fetches the same evidence and
     // carries its own budget, in everyday English.
     assert.match(normal, /SIMPLE, NOT THIN/);
-    assert.match(normal, /aim for 600–900 prose words in BOTH modes/);
-    assert.match(normal, /default prose limit 1200 words/);
+    assert.match(normal, /without a minimum or preset target/);
+    assert.doesNotMatch(normal, /aim for 600–900/);
+    assert.match(normal, /default prose limit 1600 words/);
     assert.match(normal, /get_filing_diff/);
     assert.doesNotMatch(normal, /ANSWER FRAMEWORK/);
     // A named figure, period, comparison or portfolio question keeps the older

@@ -4,32 +4,32 @@
   "receipts": [
     {
       "mode": "normal",
-      "bytes": 147902,
+      "bytes": 148081,
       "toolReplies": 11
     },
     {
       "mode": "normal",
-      "bytes": 156688,
+      "bytes": 156867,
       "toolReplies": 12
     },
     {
       "mode": "normal",
-      "bytes": 159572,
+      "bytes": 159751,
       "toolReplies": 12
     },
     {
       "mode": "analyst",
-      "bytes": 145135,
+      "bytes": 145314,
       "toolReplies": 11
     },
     {
       "mode": "analyst",
-      "bytes": 153921,
+      "bytes": 154100,
       "toolReplies": 12
     },
     {
       "mode": "analyst",
-      "bytes": 156805,
+      "bytes": 156984,
       "toolReplies": 12
     }
   ]

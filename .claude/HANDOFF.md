@@ -106,6 +106,24 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   drivers: `/Users/drasharaghavan/worktrees/data-recovery-20261005/`. Model call receipts
   separate the captured Broadcom response from its deterministic final-engine replay.
 
+- The corrected report release `74c2fee7` deployed successfully through workflow
+  `37301030092` as Render `dep-db1oh20u01pc73fdli00`; health and coverage return 200 and
+  match the committed financial snapshot. Ordinary production login remains HTTP 403.
+- Latest owner instruction supersedes previous mode caps, 600–900 targets and 5% tolerance:
+  shared policy v3 permits **up to 1,600 prose words, firm ceiling, no minimum or target**
+  in both modes and all scopes. Explicit smaller word limits remain strict. Tables/charts
+  retain separate budgets. Focused questions retain their scope; brevity is still useful.
+- Explicit company stories use chronological narrative and chapters with optional tables,
+  sourced history and supported visuals. The pasted Micron reference is 1,363 words / 7,800
+  characters; its figures are not fixtures. Stories request financial and original business
+  evidence and attempt supplementation when missing. A requested real-person narrator is a
+  labelled dramatization, never an invented authentic quote. Saved answers still retain 32k.
+- The policy/story follow-up passes **507/507 targeted** and **1,366/1,371 full**, with only
+  the same five baseline failures. Tests cover 1,600 accepted / 1,601 rejected, both modes,
+  shorter explicit limits, 1,363-word stories, 8k generation tokens, visual support, storage
+  and unsupported-number rejection. No further model calls were used. Deployment follows
+  the existing validation/Render workflow; final release receipt records its deployed SHA.
+
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
   deploy `dep-db181bvavr4c73an2krg` through workflow `37216736433`; the workflow confirmed the deployed
