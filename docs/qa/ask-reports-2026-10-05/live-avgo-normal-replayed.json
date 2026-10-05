@@ -1,0 +1,248 @@
+{
+  "answer": "> **In one line** — Broadcom is a chip-and-software giant whose AI-driven semiconductor sales just produced a record quarter (revenue up 86% YoY), but the stock at ~$355 trades at a price that already assumes years of very fast growth.\n\n## What Broadcom is\n\nBroadcom (AVGO) designs semiconductors and infrastructure software. Its FY2025 revenue (fiscal year ended 2 Nov 2025) split into two segments, per the 10-K filed 18 Dec 2025:\n\n- **Semiconductor Solutions — $36.86bn (58% of revenue)**: custom AI accelerator chips and networking silicon, plus chips for broadband, storage, wireless and industrial uses.\n- **Infrastructure Software — $27.03bn (42% of revenue)**: largely VMware (acquired in FY2024), plus mainframe and cybersecurity software.\n\n```sankey\n{\"title\":\"Revenue by segment, FY2025 (ended 2 Nov 2025)\",\"unit\":\"USD\",\"periodEnd\":\"2025-11-02\",\"filingDate\":\"2025-12-18\",\"accessionNumber\":\"0001730168-25-000121\",\"sourceUrl\":\"https://www.sec.gov/Archives/edgar/data/1730168/000173016825000121/avgo-20251102.htm\",\"total\":63887000000,\"unallocated\":0,\"segments\":[{\"name\":\"Semiconductor Solutions\",\"value\":36858000000},{\"name\":\"Infrastructure Software\",\"value\":27029000000}]}\n```\n\n## The latest quarter is the story\n\nThe most recent reported quarter, **Q3 FY2026 (ended 2 Aug 2026, filed 10 Sep 2026)**, was extraordinary:\n\n| Metric | Q3 FY26 | vs prior quarter | vs year ago |\n|---|---|---|---|\n| Revenue | $29.59bn | +33.4% | **+85.5%** |\n| Gross profit | $20.46bn | +32.7% | +91.1% |\n| Operating income | $15.96bn | +47.9% | +171.0% |\n| Net income | $13.09bn | +40.6% | +216.1% |\n\nMargins in that quarter: gross margin 69.1% (keeps ~69¢ of every $1 of sales after making the product), operating margin 53.9% (keeps ~54¢ after running the whole business), net margin 44.2%. R&D spend was 9.8% of revenue — unusually low because revenue grew far faster than R&D dollars.\n\nThe four most recent quarters show a steep acceleration:\n\n| Fiscal quarter end | Revenue | Gross profit | Operating income | Net income | Gross margin | Operating margin |\n|---|---|---|---|---|---|---|\n| 2025-11-02 | $18.02bn | $12.25bn | $7.51bn | $8.52bn | 68.0% | 41.7% |\n| 2026-02-01 | $19.31bn | $13.16bn | $8.56bn | $7.35bn | 68.1% | 44.3% |\n| 2026-05-03 | $22.19bn | $15.42bn | $10.79bn | $9.31bn | 69.5% | 48.6% |\n| 2026-08-02 | $29.59bn | $20.46bn | $15.96bn | $13.09bn | 69.1% | 53.9% |\n\nThis is a sharp break from the last full fiscal year (FY2025 revenue $63.89bn, +23.9% YoY) — the current run-rate is well above the annual trend.\n\n## Five-year annual picture\n\n| Fiscal year end | Revenue | Net income | Operating margin | FCF margin |\n|---|---|---|---|---|\n| 2021-10-31 | $27.45bn | $6.74bn | 31.0% | 48.5% |\n| 2022-10-30 | $33.20bn | $11.50bn | 42.8% | 49.1% |\n| 2023-10-29 | $35.82bn | $14.08bn | 45.2% | 49.2% |\n| 2024-11-03 | $51.57bn | $5.90bn | 26.1% | 37.6% |\n| 2025-11-02 | $63.89bn | $23.13bn | 39.9% | 42.1% |\n\nFY2024's low net income ($5.9bn despite higher revenue) coincides with the VMware acquisition — purchase accounting and integration costs depressed reported profit that year; FY2025 shows the recovery. Free cash flow (operating cash flow minus capital spending — the cash the business generates after investing) was $26.9bn in FY2025, up 38.6% YoY, with capex under 1% of revenue.\n\n```bars\n{\"title\":\"Revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"orientation\":\"vertical\",\"facet\":true,\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-10-31\",27450000000],[\"2022-10-30\",33203000000],[\"2023-10-29\",35819000000],[\"2024-11-03\",51574000000],[\"2025-11-02\",63887000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-10-31\",6736000000],[\"2022-10-30\",11495000000],[\"2023-10-29\",14082000000],[\"2024-11-03\",5895000000],[\"2025-11-02\",23126000000]]}]}\n```\n\n## Cash returns and balance sheet\n\nIn FY2025 Broadcom paid $11.14bn in dividends and $2.45bn in buybacks — $13.59bn total, comfortably covered by its $26.9bn free cash flow (a $13.3bn surplus). Shareholder equity rose 20% to $81.3bn; cash was $16.2bn. One gap: the verified data contains no filed total-debt figure for FY2025 (no compatible SEC fact was available for short- or long-term debt that year), so present leverage can't be stated here.\n\n## How it compares\n\nAgainst 187 Information Technology peers, Broadcom sits in the **85th percentile for 5-year revenue growth (21.7%/yr vs 9.4% median)** and the **94th percentile for net margin (36.2% vs 9.4% median)**. Its P/E of 43.8 is only ~11% above the sector median of 39.6 — modest for a company growing this fast. Peers like AMD (P/E 156) and Palantir (P/E 161) trade far richer.\n\n## Risks\n\nThe tools in this session did not return a dedicated risk-factor or red-flag extraction for Broadcom, so specific filed risk language can't be quoted here. What the numbers themselves show: reported profit is volatile around acquisitions (FY2024 net income fell to $5.9bn on higher revenue), the current 86% YoY growth rate is far above the 5-year trend and could prove cyclical rather than structural, and the valuation leaves little room for a slowdown (see below). A full risk review would require pulling the 10-K risk factors directly.\n\n## Valuation: what's priced in\n\nAt the 2 Oct 2026 close of **$355.14** (market cap ~$1.70tn, Yahoo Finance), a reverse DCF — which asks what growth rate today's price implies — says the market is pricing in roughly **23.4% annual free-cash-flow growth for the next decade**, versus Broadcom's actual 5-year FCF growth of 18.3%/yr. The tool's scenario range spans a bear case (10.3% growth) to a bull case (26.3% growth, ~23% upside); that's a descriptive range, not a price target.\n\n**The read** — Broadcom's fundamentals right now are close to best-in-class: 86% YoY revenue growth, 54% operating margins, and a cash machine that funds dividends twice over. The tension is entirely in the price — at ~44x earnings the market has already booked several more years of AI-driven growth, so the investment case rests on whether the current quarter's explosive trajectory is structural rather than a cyclical peak.\n\nSEC sources: [10-K filed 2025-12-18](https://www.sec.gov/Archives/edgar/data/1730168/000173016825000121/0001730168-25-000121-index.htm); [10-K filed 2024-12-20](https://www.sec.gov/Archives/edgar/data/1730168/000173016824000139/0001730168-24-000139-index.htm); [10-K filed 2023-12-14](https://www.sec.gov/Archives/edgar/data/1730168/000173016823000096/0001730168-23-000096-index.htm); [10-Q filed 2026-09-10](https://www.sec.gov/Archives/edgar/data/1730168/000173016826000080/0001730168-26-000080-index.htm); [10-Q filed 2026-06-09](https://www.sec.gov/Archives/edgar/data/1730168/000173016826000054/0001730168-26-000054-index.htm); [10-Q filed 2026-03-11](https://www.sec.gov/Archives/edgar/data/1730168/000173016826000016/0001730168-26-000016-index.htm); [10-Q filed 2025-09-10](https://www.sec.gov/Archives/edgar/data/1730168/000173016825000098/0001730168-25-000098-index.htm); [10-K filed 2022-12-16](https://www.sec.gov/Archives/edgar/data/1730168/000173016822000118/0001730168-22-000118-index.htm).\n\n\nSEC sources: [AVGO 10-Q filed 2022-09-08](https://www.sec.gov/Archives/edgar/data/1730168/000173016822000094/0001730168-22-000094-index.htm).\n> Next: How does Broadcom's AI-chip business compare with NVIDIA's on margins and growth?",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "basis": "annual",
+        "limit": 5,
+        "statement": "income",
+        "symbol": "AVGO",
+        "fields": [
+          "totalRevenue",
+          "netIncome",
+          "grossProfit",
+          "operatingIncome",
+          "researchAndDevelopment"
+        ]
+      },
+      "ok": true,
+      "ms": 221
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "basis": "quarterly",
+        "limit": 4,
+        "statement": "income",
+        "symbol": "AVGO",
+        "fields": [
+          "totalRevenue",
+          "netIncome",
+          "grossProfit",
+          "operatingIncome",
+          "researchAndDevelopment"
+        ]
+      },
+      "ok": true,
+      "ms": 90
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "basis": "annual",
+        "limit": 5,
+        "statement": "balance",
+        "symbol": "AVGO",
+        "fields": [
+          "totalAssets",
+          "totalShareholderEquity",
+          "shortLongTermDebtTotal",
+          "longTermDebt",
+          "shortTermDebt",
+          "cashAndCashEquivalentsAtCarryingValue"
+        ]
+      },
+      "ok": true,
+      "ms": 72
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "basis": "annual",
+        "limit": 5,
+        "statement": "cash",
+        "symbol": "AVGO",
+        "fields": [
+          "operatingCashflow",
+          "capitalExpenditures",
+          "shareBasedCompensation",
+          "dividendPayout",
+          "paymentsForRepurchaseOfCommonStock"
+        ]
+      },
+      "ok": true,
+      "ms": 58
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "basis": "annual",
+        "limit": 5,
+        "symbol": "AVGO",
+        "metrics": [
+          "grossMarginPct",
+          "opMarginPct",
+          "fcfMarginPct",
+          "capexPctRevenue",
+          "netMarginPct",
+          "rdIntensityPct"
+        ]
+      },
+      "ok": true,
+      "ms": 43
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "basis": "quarterly",
+        "limit": 4,
+        "symbol": "AVGO",
+        "metrics": [
+          "grossMarginPct",
+          "opMarginPct",
+          "netMarginPct",
+          "rdIntensityPct"
+        ]
+      },
+      "ok": true,
+      "ms": 29
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true,
+      "ms": 239
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true,
+      "ms": 225
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true,
+      "ms": 200
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": false,
+      "ms": 185
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": false,
+      "ms": 889
+    },
+    {
+      "tool": "get_reverse_dcf",
+      "args": {
+        "symbol": "AVGO"
+      },
+      "ok": true,
+      "ms": 169
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "AVGO",
+        "missingFields": [],
+        "missingSections": [
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true,
+      "ms": 149
+    }
+  ],
+  "source": "ai",
+  "totalTokens": 0,
+  "quality": {
+    "policyVersion": 2,
+    "checked": true,
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "normal",
+      "company": {
+        "symbol": "AVGO",
+        "name": "Broadcom",
+        "securityName": "Broadcom Inc. - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "AVGO"
+        ],
+        "isADR": false,
+        "cik": "0001730168",
+        "sector": "Information Technology"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "proseWords": 704,
+    "tableRows": 19,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_key_points",
+        "reason": "No cached official business context; live original-document retrieval is disabled in this review."
+      },
+      {
+        "tool": "get_filing_diff",
+        "reason": "Filing diff failed: Actual model-provider requests are disabled during financial QA"
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      }
+    ],
+    "rewritten": true,
+    "fallback": false
+  },
+  "question": "AVGO",
+  "mode": "normal",
+  "verificationScope": "Captured live model correction replayed through final production engine and deterministic tools. No new model calls.",
+  "modelCalls": 0
+}

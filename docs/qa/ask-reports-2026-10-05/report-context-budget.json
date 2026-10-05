@@ -1,27 +1,36 @@
 {
-  "kind": "read-only Ask evidence context measurement",
-  "date": "2026-10-05",
-  "symbol": "AMD",
-  "modelCalls": 0,
-  "providerCalls": 0,
-  "networkGuard": "scripts/local-qa/no-model-network.cjs",
-  "readOnly": true,
-  "askContextLimitBytes": 196608,
-  "reservedBytes": 32768,
-  "usableBytes": 163840,
-  "combinedToolResultBytes": 154766,
-  "remainingUsableBytes": 9074,
-  "results": [
-    { "tool": "get_financials", "statement": "income", "basis": "annual", "periods": 5, "bytes": 18501 },
-    { "tool": "get_financials", "statement": "income", "basis": "quarterly", "periods": 4, "bytes": 24397 },
-    { "tool": "get_financials", "statement": "balance", "basis": "annual", "periods": 5, "bytes": 19244 },
-    { "tool": "get_financials", "statement": "cash", "basis": "annual", "periods": 5, "bytes": 30903 },
-    { "tool": "get_ratios_history", "basis": "annual", "periods": 5, "bytes": 32355 },
-    { "tool": "get_ratios_history", "basis": "quarterly", "periods": 4, "bytes": 23099 },
-    { "tool": "get_peer_context", "bytes": 2603 },
-    { "tool": "get_segments", "bytes": 143, "result": "specific SEC retrieval gap" },
-    { "tool": "get_quote", "bytes": 3363 },
-    { "tool": "get_key_points", "bytes": 109, "result": "original-document retrieval unavailable in offline review" },
-    { "tool": "get_filing_diff", "bytes": 49, "result": "requires model extraction; not invoked" }
+  "scope": "Complete engine request; real AMD financial tools; bounded narrative fixtures; no model calls",
+  "limitBytes": 163840,
+  "receipts": [
+    {
+      "mode": "normal",
+      "bytes": 147902,
+      "toolReplies": 11
+    },
+    {
+      "mode": "normal",
+      "bytes": 156688,
+      "toolReplies": 12
+    },
+    {
+      "mode": "normal",
+      "bytes": 159572,
+      "toolReplies": 12
+    },
+    {
+      "mode": "analyst",
+      "bytes": 145135,
+      "toolReplies": 11
+    },
+    {
+      "mode": "analyst",
+      "bytes": 153921,
+      "toolReplies": 12
+    },
+    {
+      "mode": "analyst",
+      "bytes": 156805,
+      "toolReplies": 12
+    }
   ]
 }

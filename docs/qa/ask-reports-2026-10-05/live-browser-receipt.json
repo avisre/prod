@@ -1,0 +1,47 @@
+{
+  "scope": "Production renderer using captured real AMD model report and captured Broadcom correction replay",
+  "modelCalls": 0,
+  "authenticatedProduction": false,
+  "checks": [
+    {
+      "id": "amd-analyst-ticker",
+      "width": 1100,
+      "scroll": 1100,
+      "chartCount": 2,
+      "tableCount": 2,
+      "invalidGeometry": false,
+      "read": true,
+      "next": true
+    },
+    {
+      "id": "avgo-normal-ticker",
+      "width": 1100,
+      "scroll": 1100,
+      "chartCount": 3,
+      "tableCount": 3,
+      "invalidGeometry": false,
+      "read": true,
+      "next": true
+    },
+    {
+      "id": "amd-analyst-ticker",
+      "width": 390,
+      "scroll": 390,
+      "chartCount": 2,
+      "tableCount": 2,
+      "invalidGeometry": false,
+      "read": true,
+      "next": true
+    },
+    {
+      "id": "avgo-normal-ticker",
+      "width": 390,
+      "scroll": 390,
+      "chartCount": 3,
+      "tableCount": 3,
+      "invalidGeometry": false,
+      "read": true,
+      "next": true
+    }
+  ]
+}

@@ -180,6 +180,7 @@ function fitHistory(result, data, availablePeriods, {compact=false}={}) {
     const requestedPeriods = result.observations.length;
     result.history = { requestedPeriods, returnedPeriods: requestedPeriods, availablePeriods, omittedReason: null };
     while (Buffer.byteLength(JSON.stringify(result)) > MAX_RESULT_BYTES && result.observations.length > 1) {
+        if(compact)result=require('./ask-report-evidence').expand(result);
         result.observations.pop();
         if (result.calculations?.length) result.calculations.pop();
         if (result.capitalReturns?.length) result.capitalReturns.pop();

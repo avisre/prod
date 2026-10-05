@@ -77,22 +77,34 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   errors. QA receipts: `docs/qa/data-foundation-2026-10-05/`.
 - Data foundation is live: workflow `37285673662` deployed `49e09d7c` as
   `dep-db1mfm1srm7s73ccln0g`; redirected `/api/health` returned `{"ok":true}`.
-- The full-report branch is an unpushed local candidate. It adds the 600–900-word report
-  policy to both Ask modes, attributed source fallback, saved-answer support through 32,000
-  characters, deterministic context compaction, and flexible supported chart choices. This
-  is a separate candidate from the already deployed data foundation. Live model probes were
-  deliberately skipped to protect the owner's constrained model quota.
-- Final checks: targeted suite **499/499**; full suite **1,358/1,363**, with the same five
-  unrelated baseline failures (WAB metric content/navigation, scaled decimal,
-  retired glm-5.1 pin, and background health cache); 16 deterministic report probes have zero
-  audit findings; browser renderer **32/32** at 1,100px and 390px, zero overflow/errors.
-  AMD's complete 11-tool evidence round measured **154,766 / 163,840 usable bytes** while
-  retaining five annual and four quarterly statement periods. See
-  `docs/qa/ask-reports-2026-10-05/report-context-budget.json` and the external suite logs.
-- Deterministic report receipts and desktop/mobile renderer checks are in
-  `docs/qa/ask-reports-2026-10-05/`; they are source/layout fixtures, not model-generated
-  answers. `node scripts/local-qa/ask-offline-probes.cjs` regenerates them; run the offline
-  review server before `ask-browser.cjs`. Zero model/provider calls are required.
+- Full-report candidate `4ab5b41f` was pushed to main. Workflow `37296089294` passed
+  validation, then was cancelled after a complete-context accounting defect was measured.
+  Render had already been triggered (`dep-db1nuo8u01pc73fbgnmg`); cancellation of GitHub
+  polling does not itself prove that Render stopped. The corrected release supersedes it.
+- The correction retains every financial value, calculation input, canonical source identity
+  and original XBRL segment context. It deduplicates repeated provenance and inputs, bounds
+  original-document excerpts to 8KiB per result, and reserves fresh full-report evidence by
+  using 8KiB of prior conversation in generation. Saved/reopened answers still retain 32,000
+  characters; focused follow-ups retain the existing 64KiB aggregate history allowance.
+- A complete AMD request test includes system instructions, prior history, all 11 research
+  tools, supplementation and correction. Both modes stay below the 163,840-byte usable
+  context limit with five annual and four quarterly periods retained. The earlier 154,766-byte
+  tool-only measurement excluded instructions and is superseded by this receipt.
+- Live review used 11 provider calls total, including three internal research summaries.
+  AMD Analyst publishes 753 prose words with zero audit findings. Broadcom Simple's live
+  correction had 704 words and a segment Sankey mislabeled as `viz`; the deterministic fence
+  correction now passes a replay through the final engine, with zero additional model calls
+  and zero audit findings. Every original segment context survives compaction. Local probes
+  used committed data without database access or on-demand writes; live source fallback and
+  authenticated production generation are not claimed by these probes.
+- Final checks: targeted **504/504**; full **1,363/1,368** with the same five unrelated
+  baseline failures (WAB content/navigation, scaled decimal, retired glm-5.1 pin, background
+  health cache). An earlier network timeout in social-compose passed on isolated retry and
+  the final full run. Deterministic report probes: 16 clean; renderer checks: 32 desktop/mobile
+  fixtures plus four captured real-response views, zero overflow or script errors.
+- Receipts and screenshots: `docs/qa/ask-reports-2026-10-05/`; logs and local-only review
+  drivers: `/Users/drasharaghavan/worktrees/data-recovery-20261005/`. Model call receipts
+  separate the captured Broadcom response from its deterministic final-engine replay.
 
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render

@@ -1998,7 +1998,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         lines.push('Answer using the attachments where they matter to the question.');
         messages.push({ role: 'system', content: `USER ATTACHMENTS (this message):\n${lines.join('\n')}` });
     }
-    for (const h of reportPolicy.historyMessages(history)) messages.push(h);
+    for (const h of reportPolicy.historyMessages(history,8,policy.kind==='company_report' && !policy.explicitWordLimit?8192:undefined)) messages.push(h);
     messages.push({ role: 'user', content: q });
 
     const toolsUsed = [];
@@ -2168,7 +2168,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 for (const { tc, args, result, ms } of roundResults) {
                     // Reserve space for all remaining small error replies;
                     // every tool_call_id still needs a response when full.
-                    const content = evidence.serializeResult(result, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+                    const reportResult=policy.kind==='company_report' && !policy.explicitWordLimit?require('./ask-report-evidence').compact(require('./ask-report-evidence').boundNarrative(result)):result;
+                    const content = evidence.serializeResult(reportResult, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
                     const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
                     suppliedResults.push({ tool: tc.function.name, result: supplied });
                     if (!policy.company && supplied.symbol) {
@@ -2238,8 +2239,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 let result;
                 try { result = await deps.runTool('get_supplemental_context', supplemental, ctx); }
                 catch (error) { result = evidence.toolError(error); }
-                const content = evidence.serializeResult(result || { error: 'Supplemental retrieval returned no evidence.' }, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
-                const supplied = JSON.parse(content), id = 'report-supplement';
+                const content = evidence.serializeResult(require('./ask-report-evidence').compact(require('./ask-report-evidence').boundNarrative(result || { error: 'Supplemental retrieval returned no evidence.' })), evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+                const supplied = require('./ask-report-evidence').expand(JSON.parse(content)), id = 'report-supplement';
                 suppliedResults.push({ tool: 'get_supplemental_context', result: supplied });
                 contextBytes += Buffer.byteLength(content);
                 sourceLinks.push(...evidence.filingLinks(supplied));

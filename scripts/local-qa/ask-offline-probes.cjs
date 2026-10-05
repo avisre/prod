@@ -34,6 +34,7 @@ async function make(symbol,mode) {
    const financial=require('../../backend/verified-fundamentals').loadIssuer(company?.cik,entry?.financialDigest);
    result=financial?.segmentObservations?.length?await engine.runTool(r.tool,args):{symbol,error:'No stored compatible segment group; live extraction is disabled in this review.'};
   } else result=await engine.runTool(r.tool,args,reportTool?{companyReportEvidence:true}:undefined);
+  result=require('../../backend/ask-report-evidence').expand(result);
   results.push({tool:r.tool,result});toolsUsed.push({...r,ok:!result.error});
  }
  const gaps=policy.supplementalNeeds(p,results);

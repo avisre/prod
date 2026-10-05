@@ -113,10 +113,11 @@ function reportIssues(text, policy, results) {
 }
 function prompt(policy) {
     return `SELECTED ANSWER POLICY: ${policy.kind}; ${policy.explicitWordLimit ? 'strict requested' : 'default'} prose limit ${policy.maxWords} words${policy.targetWords ? '; aim for 600–900 prose words in BOTH modes' : ''}; Markdown tables and chart JSON have separate budgets (${policy.tableRows} table rows). ${policy.company ? `Resolved listing: ${policy.company.name} (${policy.company.symbol}), ${policy.company.securityType}.` : 'Resolve the listing and instrument before choosing company or fund tools.'}
+EVIDENCE REFERENCES: factRef names the exact observation or calculation input in reportEvidence.facts; sourceIds use tool-local keys in provenance.sources; each source row follows provenance.sourceColumns in order (explicit nulls are listed in provenance.sourceNulls; other null cells mean absent). A fact's reportContextRef names its exact period, currency, unit and scope in reportEvidence.contexts; a source's filingRef names its shared metadata in provenance.filings; sourceContextRef names source periods and units in provenance.sourceContexts. Read those referenced entries before using a value. Printed tables remain exact; chart values use raw observations, with their referenced units and fiscal dates.
 VISUAL FREEDOM: choose your own headings, reading order and visual layout. Choose any supported line chart, horizontal or grouped bars, faceted bars, eligible revenue Sankey or Markdown table that helps explain the evidence. Include a meaningful chart when supplied observations support it; a simple lookup can use a single-value bar. Choose the number and placement of visuals to suit the question. Preserve readable scales, exact periods, currencies, definitions and attribution. A financial report includes at least one annual trend visual when compatible history exists. Explain the gap when no supported chart can be drawn. Never invent data to make a visual.`;
 }
-function historyMessages(history, n = 8) {
-    let remaining = HISTORY_MAX_BYTES;
+function historyMessages(history, n = 8, maxBytes = HISTORY_MAX_BYTES) {
+    let remaining = Math.min(HISTORY_MAX_BYTES,maxBytes);
     return (Array.isArray(history) ? history.slice(-n) : []).filter(h => h && ['user', 'assistant'].includes(h.role) && typeof h.content === 'string').reverse().flatMap(h => {
         if (!remaining) return [];
         let text = h.content.slice(0, h.role === 'assistant' ? ANSWER_MAX_CHARS : QUESTION_MAX_CHARS);

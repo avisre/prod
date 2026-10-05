@@ -192,6 +192,11 @@ function normalizeFacetedViz(text) {
     return String(text || '').replace(/```viz\s*\n([\s\S]*?)```/g, (fence, body) => {
         let spec;
         try { spec = JSON.parse(body); } catch (_) { return fence; }
+        // The model sometimes labels a segment-flow payload as a line chart.
+        // Correct only the fence; the full Sankey evidence audit still applies.
+        if (!spec.series && !spec.rows && Array.isArray(spec.segments) && spec.segments.length &&
+            spec.total !== undefined && spec.unallocated !== undefined && spec.periodEnd && spec.filingDate && spec.accessionNumber && spec.sourceUrl)
+            return `\`\`\`sankey\n${JSON.stringify(spec)}\n\`\`\``;
         if (!Array.isArray(spec.series) || !spec.series.length || spec.series.length > 3 ||
             spec.series.some(series => !Array.isArray(series?.points) || series.points.length < 2 || series.points.length > 8))
             return fence;

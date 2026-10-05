@@ -43,3 +43,9 @@ test('a rapidly growing single metric remains a line chart, and visual count is 
  const chart='```viz\n'+JSON.stringify(spec)+'\n```';assert.equal(q.normalizeFacetedViz(chart),chart);assert.deepEqual(q.audit(chart,[r]),[]);
  assert.deepEqual(q.audit(Array.from({length:4},()=>chart).join('\n\n'),[r]),[]);
 });
+
+test('a segment-flow payload mislabeled viz becomes a Sankey without changing evidence or bypassing validation',()=>{
+ const spec={title:'Revenue streams',unit:'USD',periodEnd:'2025-12-31',filingDate:'2026-02-01',accessionNumber:'0000000000-26-000001',sourceUrl:'https://www.sec.gov/filing.htm',total:100,unallocated:0,segments:[{name:'Products',value:100}]};
+ const normalized=q.normalizeFacetedViz('```viz\n'+JSON.stringify(spec)+'\n```');assert.match(normalized,/```sankey/);assert.deepEqual(v.specs(normalized)[0],{type:'sankey',...spec});assert.ok(q.audit(normalized,[]).some(issue=>/Sankey chart is unsupported/.test(issue)));
+ const mixed={...spec,series:[{name:'Revenue',points:[['2024-12-31',90],['2025-12-31',100]]}]};const line='```viz\n'+JSON.stringify(mixed)+'\n```';assert.equal(q.normalizeFacetedViz(line),line);
+});

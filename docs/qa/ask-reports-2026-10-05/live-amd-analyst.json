@@ -1,0 +1,262 @@
+{
+  "answer": "# Advanced Micro Devices (AMD) — company report\n\n**Latest quarter first: Q2 FY2026 (ended 27 June 2026)**, filed 5 Aug 2026. Revenue was **$11.54bn, up 50.1% YoY** and 12.5% QoQ; gross margin 53.8%, operating margin 17.3%, net income **$2.30bn, up 163% YoY**. The filing attributes the margin jump partly to lapping prior-year MI308 export-control inventory charges and to Data Center mix. This is a sharp acceleration versus the FY2025 full year (+34% revenue, 10.7% operating margin) — the current run-rate is materially stronger than the last annual picture.\n\n## What AMD sells\nAMD designs CPUs (EPYC server, Ryzen PC), GPUs (Radeon gaming, Instinct data-centre accelerators), semi-custom chips (notably console SoCs) and adaptive/FPGA products (Xilinx). The Q2 FY2026 10-Q shows the growth engine clearly: **Data Center revenue of $6.7bn, +107% YoY** (segment operating income $2.1bn vs a prior-year loss), while **Gaming fell 31% to $779m** on lower semi-custom demand. The filing also flags forward-looking items on **Helios rack-scale platform shipments**, a ZT Group acquisition-related asset-transfer gain, and future data-centre lease commitments — AMD is moving up-stack into full AI systems. (A fuller business-section dossier was unavailable from the cache; segment narrative above is from the filed 10-Q text.)\n\n## Annual trend (USD millions, fiscal years)\n\n| FY end | Revenue | Gross profit | Op. income | Net income | FCF | Op. margin | FCF margin |\n|---|---|---|---|---|---|---|---|\n| 2025-12-27 | 34,639 | 17,152 | 3,694 | 4,335 | 6,735 | 10.7% | 19.4% |\n| 2024-12-28 | 25,785 | 12,725 | 1,900 | 1,641 | 2,405 | 7.4% | 9.3% |\n| 2023-12-30 | 22,680 | 10,460 | 401 | 854 | 1,121 | 1.8% | 4.9% |\n| 2022-12-31 | 23,601 | 10,603 | 1,264 | 1,320 | 3,115 | 5.4% | 13.2% |\n| 2021-12-25 | 16,434 | 7,929 | 3,648 | 3,162 | 3,220 | 22.2% | 19.6% |\n\n```bars\n{\"title\":\"AMD revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"orientation\":\"vertical\",\"facet\":true}\n```\n\n## Quarterly momentum (USD millions)\n\n| Quarter end | Revenue | Gross margin | Op. margin | Net income |\n|---|---|---|---|---|\n| 2026-06-27 | 11,536 | 53.8% | 17.3% | 2,297 |\n| 2026-03-28 | 10,253 | 52.8% | 14.4% | 1,383 |\n| 2025-12-27 | 10,270 | 54.3% | 17.1% | 1,511 |\n| 2025-09-27 | 9,246 | 51.7% | 13.7% | 1,243 |\n\nNote: Q2 FY2026 net income includes an **$853m tax benefit** from releasing uncertain tax positions after IRS reasonable-cause relief (April 2025) — a one-off flattering the 19.9% net margin.\n\n## Balance sheet and cash flow\nAt FY2025 year-end: total assets $76.9bn, equity $63.0bn, cash $5.5bn, short-term debt $1.75bn and long-term debt $2.35bn as separately reported balance-sheet lines. Operating cash flow was $7.71bn (+154% YoY); capex $974m; FCF $6.74bn. Buybacks were $1.32bn; no dividend. R&D intensity is high at 23.4% of revenue ($8.1bn in FY2025) — the main reinvestment channel. The Q2 FY2026 10-Q also discloses **future investment commitments and commencement of future payments under data-centre leases**; these are commitments and lease obligations, not reported balance-sheet debt, and are not summed with it here.\n\n## Risks (from the filed record)\n- **Export controls**: the prior-year quarter carried MI308 inventory and related charges from US government export controls on AMD Instinct MI308 data-centre GPUs — the filing lists \"the extent of impact of export restrictions imposed by the U.S. on our business\" as a forward-looking risk.\n- **Segment concentration of growth**: Gaming revenue fell 31% YoY in Q2 FY2026 on lower semi-custom demand; growth is increasingly dependent on Data Center.\n- **One-off earnings quality**: the $853m tax benefit and the expected ZT Group asset-transfer gain both flatter reported net income.\n- **Rising fixed commitments**: new data-centre lease payment commitments and investment obligations are disclosed alongside the AI ramp.\n- A dedicated risk-factor dossier was not available from the cache; the above is drawn from the filed 10-Q narrative.\n\n## Competitive position\nAmong 187 IT-sector peers, AMD ranks in the **92nd percentile for 5-year revenue CAGR (28.8% vs 9.4% median)**, 63rd percentile for net margin (12.5% vs 9.4%), but only 37th percentile for ROE (6.9% — depressed by the Xilinx-inflated equity base). Its P/E of **156x** sits at a ~294% premium to the sector median of 39.6x.\n\n## Valuation — what's priced in\nAt the 2 Oct 2026 quote of **$633.91** (Yahoo Finance), market cap is **$1.03tn**, P/E 156x on FY2025 diluted EPS of $2.65, with a 52-week range of $188.22–$645.46. The reverse DCF solves an implied FCF growth of **~36%/yr** over ten years (10% discount rate). Scenario outcomes versus the current market cap: bear (22% growth) **-62.9%**, base (30%) **-34.5%**, bull (38%) **+13.7%**. Even the bull case anchored on AMD's 54%/yr 5-year FCF CAGR barely clears today's price — the market is paying for sustained data-centre acceleration well beyond the filed record.\n\n**The read** — AMD has genuinely inflected: Data Center doubling YoY, gross margin back above 53%, and FCF at a record $6.7bn with modest reported debt. But the $1tn market cap already assumes roughly a decade of ~36% FCF growth, and Q2's headline net income was boosted by a one-off $853m tax benefit. The investment question is less about execution than about how long the AI accelerator ramp can outrun a valuation that leaves little room for the Gaming segment's 31% decline to spread.\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.htm); [AMD 10-K filed 2025-02-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.htm); [AMD 10-K filed 2024-01-31](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.htm); [AMD 10-Q filed 2026-08-05](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/0000002488-26-000123-index.htm); [AMD 10-Q filed 2026-05-06](https://www.sec.gov/Archives/edgar/data/2488/000000248826000076/0000002488-26-000076-index.htm); [AMD 10-Q filed 2025-11-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000166/0000002488-25-000166-index.htm); [AMD 10-K filed 2023-02-27](https://www.sec.gov/Archives/edgar/data/2488/000000248823000047/0000002488-23-000047-index.htm); [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm).\n\n> Next: How does AMD's valuation and growth compare with NVIDIA's on the same filed metrics?",
+  "toolsUsed": [
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 5,
+        "statement": "income",
+        "symbol": "AMD",
+        "fields": [
+          "totalRevenue",
+          "netIncome",
+          "grossProfit",
+          "operatingIncome",
+          "researchAndDevelopment"
+        ]
+      },
+      "ok": true,
+      "ms": 267
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 4,
+        "statement": "income",
+        "symbol": "AMD",
+        "basis": "quarterly",
+        "fields": [
+          "totalRevenue",
+          "netIncome",
+          "grossProfit",
+          "operatingIncome",
+          "researchAndDevelopment"
+        ]
+      },
+      "ok": true,
+      "ms": 116
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 5,
+        "statement": "balance",
+        "symbol": "AMD",
+        "fields": [
+          "totalAssets",
+          "totalShareholderEquity",
+          "shortLongTermDebtTotal",
+          "longTermDebt",
+          "shortTermDebt",
+          "cashAndCashEquivalentsAtCarryingValue"
+        ]
+      },
+      "ok": true,
+      "ms": 94
+    },
+    {
+      "tool": "get_financials",
+      "args": {
+        "limit": 5,
+        "statement": "cash",
+        "symbol": "AMD",
+        "fields": [
+          "operatingCashflow",
+          "capitalExpenditures",
+          "shareBasedCompensation",
+          "dividendPayout",
+          "paymentsForRepurchaseOfCommonStock"
+        ]
+      },
+      "ok": true,
+      "ms": 75
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "limit": 5,
+        "symbol": "AMD",
+        "metrics": [
+          "grossMarginPct",
+          "opMarginPct",
+          "fcfMarginPct",
+          "capexPctRevenue",
+          "netMarginPct",
+          "rdIntensityPct"
+        ]
+      },
+      "ok": true,
+      "ms": 55
+    },
+    {
+      "tool": "get_ratios_history",
+      "args": {
+        "basis": "quarterly",
+        "limit": 4,
+        "symbol": "AMD",
+        "metrics": [
+          "grossMarginPct",
+          "opMarginPct",
+          "netMarginPct",
+          "rdIntensityPct"
+        ]
+      },
+      "ok": true,
+      "ms": 36
+    },
+    {
+      "tool": "get_peer_context",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true,
+      "ms": 372
+    },
+    {
+      "tool": "get_segments",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true,
+      "ms": 5781
+    },
+    {
+      "tool": "get_quote",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true,
+      "ms": 321
+    },
+    {
+      "tool": "get_key_points",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": false,
+      "ms": 322
+    },
+    {
+      "tool": "get_filing_diff",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true,
+      "ms": 9671
+    },
+    {
+      "tool": "get_reverse_dcf",
+      "args": {
+        "symbol": "AMD"
+      },
+      "ok": true,
+      "ms": 277
+    },
+    {
+      "tool": "get_supplemental_context",
+      "args": {
+        "symbol": "AMD",
+        "missingFields": [],
+        "missingSections": [
+          "business"
+        ],
+        "periods": {
+          "annual": 5,
+          "quarterly": 4
+        }
+      },
+      "ok": true,
+      "ms": 257
+    }
+  ],
+  "source": "ai",
+  "totalTokens": 155258,
+  "quality": {
+    "policyVersion": 2,
+    "checked": true,
+    "policy": {
+      "version": 2,
+      "kind": "company_report",
+      "mode": "analyst",
+      "company": {
+        "symbol": "AMD",
+        "name": "Advanced Micro Devices",
+        "securityName": "Advanced Micro Devices, Inc. - Common Stock",
+        "exchange": "Nasdaq",
+        "securityType": "stock",
+        "aliases": [
+          "AMD"
+        ],
+        "isADR": false,
+        "cik": "0000002488",
+        "sector": "Information Technology"
+      },
+      "choices": [],
+      "targetWords": [
+        600,
+        900
+      ],
+      "maxWords": 1200,
+      "ceiling": 1260,
+      "explicitWordLimit": false,
+      "tableRows": 70,
+      "visualRequired": true,
+      "annualPeriods": 5,
+      "quarterlyPeriods": 4
+    },
+    "proseWords": 753,
+    "tableRows": 13,
+    "sectionCoverage": {
+      "business": true,
+      "divisions": true,
+      "quarters": true,
+      "annual": true,
+      "differences": true,
+      "risks": true,
+      "valuation": true,
+      "read": true,
+      "next": true
+    },
+    "auditFindings": [],
+    "sourceAttempts": [],
+    "remainingGaps": [
+      {
+        "tool": "get_key_points",
+        "reason": "No cached official business context; live original-document retrieval is disabled in this review."
+      },
+      {
+        "section": "business",
+        "state": "missing",
+        "reason": "No attributed provider business description is available; use supplied official filing context or the existing bounded original-document tools."
+      }
+    ],
+    "rewritten": true,
+    "fallback": false
+  },
+  "question": "AMD",
+  "mode": "analyst",
+  "elapsedMs": 50292,
+  "modelCalls": 7,
+  "auditPasses": [
+    {
+      "text": "# Advanced Micro Devices (AMD) — company report\n\n**Latest quarter first: Q2 FY2026 (ended 27 June 2026)**, filed 5 Aug 2026. Revenue was **$11.54bn, up 50.1% YoY** and 12.5% QoQ; gross margin 53.8%, operating margin 17.3%, net income **$2.30bn, up 163% YoY**. The filing attributes the margin jump partly to lapping prior-year MI308 export-control inventory charges and to Data Center mix. This is a sharp acceleration versus the FY2025 full year (+34% revenue, 10.7% operating margin) — the current run-rate is materially stronger than the last annual picture.\n\n## What AMD sells\nAMD designs CPUs (EPYC server, Ryzen PC), GPUs (Radeon gaming, Instinct data-centre accelerators), semi-custom chips (notably console SoCs) and adaptive/FPGA products (Xilinx). The Q2 FY2026 10-Q shows the growth engine clearly: **Data Center revenue of $6.7bn, +107% YoY** (segment operating income $2.1bn vs a prior-year loss), while **Gaming fell 31% to $779m** on lower semi-custom demand. The filing also flags forward-looking items on **Helios rack-scale platform shipments**, a ZT Group acquisition-related asset-transfer gain, and future data-centre lease commitments — AMD is moving up-stack into full AI systems. (A fuller business-section dossier was unavailable from the cache; segment narrative above is from the filed 10-Q text.)\n\n## Annual trend (USD millions, fiscal years)\n\n| FY end | Revenue | Gross profit | Op. income | Net income | FCF | Op. margin | FCF margin |\n|---|---|---|---|---|---|---|---|\n| 2025-12-27 | 34,639 | 17,152 | 3,694 | 4,335 | 6,735 | 10.7% | 19.4% |\n| 2024-12-28 | 25,785 | 12,725 | 1,900 | 1,641 | 2,405 | 7.4% | 9.3% |\n| 2023-12-30 | 22,680 | 10,460 | 401 | 854 | 1,121 | 1.8% | 4.9% |\n| 2022-12-31 | 23,601 | 10,603 | 1,264 | 1,320 | 3,115 | 5.4% | 13.2% |\n| 2021-12-25 | 16,434 | 7,929 | 3,648 | 3,162 | 3,220 | 22.2% | 19.6% |\n\n```bars\n{\"title\":\"AMD revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"orientation\":\"vertical\",\"facet\":true}\n```\n\n## Quarterly momentum (USD millions)\n\n| Quarter end | Revenue | Gross margin | Op. margin | Net income |\n|---|---|---|---|---|\n| 2026-06-27 | 11,536 | 53.8% | 17.3% | 2,297 |\n| 2026-03-28 | 10,253 | 52.8% | 14.4% | 1,383 |\n| 2025-12-27 | 10,270 | 54.3% | 17.1% | 1,511 |\n| 2025-09-27 | 9,246 | 51.7% | 13.7% | 1,243 |\n\nNote: Q2 FY2026 net income includes an **$853m tax benefit** from releasing uncertain tax positions after IRS reasonable-cause relief (April 2025) — a one-off flattering the 19.9% net margin.\n\n## Balance sheet and cash flow\nAt FY2025 year-end: total assets $76.9bn, equity $63.0bn, cash $5.5bn, total debt ~$4.1bn ($1.75bn short-term + $2.35bn long-term) — modest leverage. Operating cash flow was $7.71bn (+154% YoY); capex just $974m (2.8% of revenue, fabless model); FCF $6.74bn. Buybacks were $1.32bn; no dividend. R&D intensity is high at 23.4% of revenue ($8.1bn in FY2025) — the main reinvestment channel.\n\n## Competitive position\nAmong 187 IT-sector peers, AMD ranks in the **92nd percentile for 5-year revenue CAGR (28.8% vs 9.4% median)**, 63rd percentile for net margin (12.5% vs 9.4%), but only 37th percentile for ROE (6.9% — depressed by the huge Xilinx-inflated equity base). Its P/E of **156x** sits at a ~294% premium to the sector median of 39.6x.\n\n## Valuation — what's priced in\nAt the 2 Oct 2026 quote of **$633.91** (Yahoo Finance), market cap is **$1.03tn**, P/E 156x on FY2025 diluted EPS of $2.65, with a 52-week range of $188.22–$645.46. The reverse DCF solves an implied FCF growth of **~36%/yr** over ten years (10% discount rate, 2.5% terminal growth). Scenario values: bear (22% growth) ~$384bn (-63%), base (30%) ~$678bn (-35%), bull (38%) ~$1.18tn (+14%). Even the bull case anchored on AMD's 54%/yr 5-year FCF CAGR barely clears today's price — the market is paying for sustained data-centre acceleration well beyond the filed record.\n\n**The read** — AMD has genuinely inflected: Data Center doubling YoY, gross margin back above 53%, and FCF at a record $6.7bn with almost no debt. But the $1tn market cap already assumes roughly a decade of ~36% FCF growth, and Q2's headline net income was boosted by a one-off $853m tax benefit. The investment question is less about execution than about how long the AI accelerator ramp can outrun a valuation that leaves little room for the Gaming segment's 31% decline to spread.\n\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.htm); [AMD 10-K filed 2025-02-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.htm); [AMD 10-K filed 2024-01-31](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.htm); [AMD 10-Q filed 2026-08-05](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/0000002488-26-000123-index.htm); [AMD 10-Q filed 2026-05-06](https://www.sec.gov/Archives/edgar/data/2488/000000248826000076/0000002488-26-000076-index.htm); [AMD 10-Q filed 2025-11-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000166/0000002488-25-000166-index.htm); [AMD 10-K filed 2023-02-27](https://www.sec.gov/Archives/edgar/data/2488/000000248823000047/0000002488-23-000047-index.htm); [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm).\n> Next: How does AMD's valuation and growth compare with NVIDIA's on the same filed metrics?",
+      "words": 593,
+      "issues": [
+        "The full report lacks these requested topics: risks. Cover supported evidence or state each specific source gap. Choose your own headings, layout and reading order; keep the requested The read and Next markers.",
+        "Monetary claim $4.1bn is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Monetary claim $384bn is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Monetary claim $678bn is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Monetary claim $1.18tn is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Percentage claim 2.8% is not a supplied dated comparison or a compatible calculation. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Percentage claim 2.5% is not a supplied dated comparison or a compatible calculation. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.",
+        "Distinguish leases, commitments and guarantees from reported debt; do not add them together as debt without a filing-supported reconciliation."
+      ]
+    },
+    {
+      "text": "# Advanced Micro Devices (AMD) — company report\n\n**Latest quarter first: Q2 FY2026 (ended 27 June 2026)**, filed 5 Aug 2026. Revenue was **$11.54bn, up 50.1% YoY** and 12.5% QoQ; gross margin 53.8%, operating margin 17.3%, net income **$2.30bn, up 163% YoY**. The filing attributes the margin jump partly to lapping prior-year MI308 export-control inventory charges and to Data Center mix. This is a sharp acceleration versus the FY2025 full year (+34% revenue, 10.7% operating margin) — the current run-rate is materially stronger than the last annual picture.\n\n## What AMD sells\nAMD designs CPUs (EPYC server, Ryzen PC), GPUs (Radeon gaming, Instinct data-centre accelerators), semi-custom chips (notably console SoCs) and adaptive/FPGA products (Xilinx). The Q2 FY2026 10-Q shows the growth engine clearly: **Data Center revenue of $6.7bn, +107% YoY** (segment operating income $2.1bn vs a prior-year loss), while **Gaming fell 31% to $779m** on lower semi-custom demand. The filing also flags forward-looking items on **Helios rack-scale platform shipments**, a ZT Group acquisition-related asset-transfer gain, and future data-centre lease commitments — AMD is moving up-stack into full AI systems. (A fuller business-section dossier was unavailable from the cache; segment narrative above is from the filed 10-Q text.)\n\n## Annual trend (USD millions, fiscal years)\n\n| FY end | Revenue | Gross profit | Op. income | Net income | FCF | Op. margin | FCF margin |\n|---|---|---|---|---|---|---|---|\n| 2025-12-27 | 34,639 | 17,152 | 3,694 | 4,335 | 6,735 | 10.7% | 19.4% |\n| 2024-12-28 | 25,785 | 12,725 | 1,900 | 1,641 | 2,405 | 7.4% | 9.3% |\n| 2023-12-30 | 22,680 | 10,460 | 401 | 854 | 1,121 | 1.8% | 4.9% |\n| 2022-12-31 | 23,601 | 10,603 | 1,264 | 1,320 | 3,115 | 5.4% | 13.2% |\n| 2021-12-25 | 16,434 | 7,929 | 3,648 | 3,162 | 3,220 | 22.2% | 19.6% |\n\n```bars\n{\"title\":\"AMD revenue and net income, FY2021–FY2025\",\"unit\":\"USD\",\"series\":[{\"name\":\"Revenue\",\"points\":[[\"2021-12-25\",16434000000],[\"2022-12-31\",23601000000],[\"2023-12-30\",22680000000],[\"2024-12-28\",25785000000],[\"2025-12-27\",34639000000]]},{\"name\":\"Net income\",\"points\":[[\"2021-12-25\",3162000000],[\"2022-12-31\",1320000000],[\"2023-12-30\",854000000],[\"2024-12-28\",1641000000],[\"2025-12-27\",4335000000]]}],\"orientation\":\"vertical\",\"facet\":true}\n```\n\n## Quarterly momentum (USD millions)\n\n| Quarter end | Revenue | Gross margin | Op. margin | Net income |\n|---|---|---|---|---|\n| 2026-06-27 | 11,536 | 53.8% | 17.3% | 2,297 |\n| 2026-03-28 | 10,253 | 52.8% | 14.4% | 1,383 |\n| 2025-12-27 | 10,270 | 54.3% | 17.1% | 1,511 |\n| 2025-09-27 | 9,246 | 51.7% | 13.7% | 1,243 |\n\nNote: Q2 FY2026 net income includes an **$853m tax benefit** from releasing uncertain tax positions after IRS reasonable-cause relief (April 2025) — a one-off flattering the 19.9% net margin.\n\n## Balance sheet and cash flow\nAt FY2025 year-end: total assets $76.9bn, equity $63.0bn, cash $5.5bn, short-term debt $1.75bn and long-term debt $2.35bn as separately reported balance-sheet lines. Operating cash flow was $7.71bn (+154% YoY); capex $974m; FCF $6.74bn. Buybacks were $1.32bn; no dividend. R&D intensity is high at 23.4% of revenue ($8.1bn in FY2025) — the main reinvestment channel. The Q2 FY2026 10-Q also discloses **future investment commitments and commencement of future payments under data-centre leases**; these are commitments and lease obligations, not reported balance-sheet debt, and are not summed with it here.\n\n## Risks (from the filed record)\n- **Export controls**: the prior-year quarter carried MI308 inventory and related charges from US government export controls on AMD Instinct MI308 data-centre GPUs — the filing lists \"the extent of impact of export restrictions imposed by the U.S. on our business\" as a forward-looking risk.\n- **Segment concentration of growth**: Gaming revenue fell 31% YoY in Q2 FY2026 on lower semi-custom demand; growth is increasingly dependent on Data Center.\n- **One-off earnings quality**: the $853m tax benefit and the expected ZT Group asset-transfer gain both flatter reported net income.\n- **Rising fixed commitments**: new data-centre lease payment commitments and investment obligations are disclosed alongside the AI ramp.\n- A dedicated risk-factor dossier was not available from the cache; the above is drawn from the filed 10-Q narrative.\n\n## Competitive position\nAmong 187 IT-sector peers, AMD ranks in the **92nd percentile for 5-year revenue CAGR (28.8% vs 9.4% median)**, 63rd percentile for net margin (12.5% vs 9.4%), but only 37th percentile for ROE (6.9% — depressed by the Xilinx-inflated equity base). Its P/E of **156x** sits at a ~294% premium to the sector median of 39.6x.\n\n## Valuation — what's priced in\nAt the 2 Oct 2026 quote of **$633.91** (Yahoo Finance), market cap is **$1.03tn**, P/E 156x on FY2025 diluted EPS of $2.65, with a 52-week range of $188.22–$645.46. The reverse DCF solves an implied FCF growth of **~36%/yr** over ten years (10% discount rate). Scenario outcomes versus the current market cap: bear (22% growth) **-62.9%**, base (30%) **-34.5%**, bull (38%) **+13.7%**. Even the bull case anchored on AMD's 54%/yr 5-year FCF CAGR barely clears today's price — the market is paying for sustained data-centre acceleration well beyond the filed record.\n\n**The read** — AMD has genuinely inflected: Data Center doubling YoY, gross margin back above 53%, and FCF at a record $6.7bn with modest reported debt. But the $1tn market cap already assumes roughly a decade of ~36% FCF growth, and Q2's headline net income was boosted by a one-off $853m tax benefit. The investment question is less about execution than about how long the AI accelerator ramp can outrun a valuation that leaves little room for the Gaming segment's 31% decline to spread.\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/0000002488-26-000018-index.htm); [AMD 10-K filed 2025-02-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000012/0000002488-25-000012-index.htm); [AMD 10-K filed 2024-01-31](https://www.sec.gov/Archives/edgar/data/2488/000000248824000012/0000002488-24-000012-index.htm); [AMD 10-Q filed 2026-08-05](https://www.sec.gov/Archives/edgar/data/2488/000000248826000123/0000002488-26-000123-index.htm); [AMD 10-Q filed 2026-05-06](https://www.sec.gov/Archives/edgar/data/2488/000000248826000076/0000002488-26-000076-index.htm); [AMD 10-Q filed 2025-11-05](https://www.sec.gov/Archives/edgar/data/2488/000000248825000166/0000002488-25-000166-index.htm); [AMD 10-K filed 2023-02-27](https://www.sec.gov/Archives/edgar/data/2488/000000248823000047/0000002488-23-000047-index.htm); [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm).\n\n> Next: How does AMD's valuation and growth compare with NVIDIA's on the same filed metrics?",
+      "words": 753,
+      "issues": []
+    }
+  ],
+  "verificationScope": "Real production engine and model with committed financial snapshot; no database or on-demand source writes. Live supplementation disabled in this bounded review."
+}

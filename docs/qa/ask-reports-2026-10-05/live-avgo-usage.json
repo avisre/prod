@@ -1,0 +1,29 @@
+{
+  "modelCalls": 3,
+  "usage": [
+    {
+      "prompt_tokens": 47463,
+      "completion_tokens": 1785,
+      "total_tokens": 49248,
+      "prompt_tokens_details": {
+        "cached_tokens": 10944
+      }
+    },
+    {
+      "prompt_tokens": 47774,
+      "completion_tokens": 1656,
+      "total_tokens": 49430,
+      "prompt_tokens_details": {
+        "cached_tokens": 47424
+      }
+    },
+    {
+      "prompt_tokens": 45352,
+      "completion_tokens": 2534,
+      "total_tokens": 47886,
+      "prompt_tokens_details": {
+        "cached_tokens": 4800
+      }
+    }
+  ]
+}
