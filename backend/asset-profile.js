@@ -353,7 +353,7 @@ async function fetchAssetProfile(symbol, { fundDetails = true } = {}) {
         },
         source: 'Yahoo Finance'
     };
-    cache.set(cacheKey, { at: Date.now(), value, ttl: feeLookup.timedOut ? FEE_RETRY_TTL_MS : TTL_MS });
+    cache.set(cacheKey, { at: Date.now(), value, ttl: assetType==='stock'?60*1000:feeLookup.timedOut ? FEE_RETRY_TTL_MS : TTL_MS });
     if (cache.size > 1000) cache.delete(cache.keys().next().value);
     return value;
 }

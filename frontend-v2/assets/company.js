@@ -431,8 +431,8 @@
     const ratio = (a, b) => (a !== null && b !== null && b !== 0) ? a / b : null;
     const derive = (r) => {
         const rev = num(r.totalRevenue);
-        let gp = num(r.grossProfit); if (gp === 0) gp = null;
-        let cor = num(r.costOfRevenue); if (cor === 0) cor = null;
+        let gp = num(r.grossProfit); if (gp === 0 && !r._sources?.grossProfit?.length) gp = null;
+        let cor = num(r.costOfRevenue); if (cor === 0 && !r._sources?.costOfRevenue?.length) cor = null;
         if (rev !== null) {
             if (gp === null && cor !== null) gp = rev - cor;
             if (cor === null && gp !== null) cor = rev - gp;
@@ -441,6 +441,7 @@
     };
     const debtOf = (r) => {
         const combined=num(r.shortLongTermDebtTotal);if(combined!==null)return combined;
+        if(r._sources)return null;
         const current=num(r.shortTermDebt),noncurrent=num(r.longTermDebt);
         return current!==null && noncurrent!==null ? current+noncurrent : null;
     };
@@ -470,6 +471,8 @@
             { label: 'Operating income', get: (r) => num(r.operatingIncome), fmt: money, kind: 'money', rule: true },
             { label: 'Operating margin', get: (r) => ratio(num(r.operatingIncome), derive(r).rev), fmt: pctFmt, kind: 'pct', neutral: true, sub: true },
             { label: 'Pre-tax income', get: (r) => num(r.incomeBeforeTax), fmt: money, kind: 'money' },
+            { label: 'Net interest income', get: (r) => num(r.netInterestIncome), fmt: money, kind: 'money', solo: true },
+            { label: 'Noninterest income', get: (r) => num(r.nonInterestIncome), fmt: money, kind: 'money', solo: true },
             { label: 'Interest income', get: (r) => num(r.interestIncome), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Interest expense', get: (r) => num(r.interestExpense), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other non-operating income', get: (r) => num(r.otherNonOperatingIncome), fmt: money, kind: 'money', sub: true, neutral: true },
@@ -489,6 +492,7 @@
         balance: [
             { label: 'Total current assets', get: (r) => num(r.totalCurrentAssets), fmt: money, kind: 'money' },
             { label: 'Cash & short-term investments', get: (r) => { const t = num(r.cashAndShortTermInvestments); if (t !== null) return t; const c = num(r.cashAndCashEquivalentsAtCarryingValue); const s = num(r.shortTermInvestments); return c === null || s === null ? null : c + s; }, fmt: money, kind: 'money', sub: true },
+            { label: 'Cash and cash equivalents', get: (r) => num(r.cashAndCashEquivalentsAtCarryingValue), fmt: money, kind: 'money', sub: true },
             { label: 'Receivables', get: (r) => num(r.currentNetReceivables), fmt: money, kind: 'money', sub: true },
             { label: 'Inventory', get: (r) => num(r.inventory), fmt: money, kind: 'money', sub: true },
             { label: 'Other current assets', get: (r) => num(r.otherCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
@@ -498,9 +502,12 @@
             { label: 'Goodwill & intangibles', get: (r) => { const g2 = num(r.goodwill); const ix = num(r.intangibleAssetsExcludingGoodwill); if (g2 !== null && ix !== null) return g2 + ix; return num(r.intangibleAssets); }, fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other long-term assets', get: (r) => num(r.otherNonCurrentAssets), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total assets', get: (r) => num(r.totalAssets), fmt: money, kind: 'money', rule: true, solo: true },
+            { label: 'Loans, as defined by the filing', get: (r) => num(r.loans), fmt: money, kind: 'money', solo: true },
+            { label: 'Deposits', get: (r) => num(r.deposits), fmt: money, kind: 'money', solo: true },
             { label: 'Total current liabilities', get: (r) => num(r.totalCurrentLiabilities), fmt: money, kind: 'money' },
             { label: 'Accounts payable', get: (r) => num(r.currentAccountsPayable), fmt: money, kind: 'money', sub: true, neutral: true },
-            { label: 'Short-term debt', get: (r) => { const a = num(r.shortTermDebt); const b = num(r.currentLongTermDebt); return a === null && b === null ? null : (a || 0) + (b || 0); }, fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Short-term debt, including current maturities', get: (r) => num(r.shortTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
+            { label: 'Of which: current maturities of long-term debt', get: (r) => num(r.currentLongTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Total long-term liabilities', get: (r) => { const t = num(r.totalNonCurrentLiabilities); if (t !== null) return t; const a = num(r.totalLiabilities); const c = num(r.totalCurrentLiabilities); return (a !== null && c !== null) ? a - c : null; }, fmt: money, kind: 'money' },
             { label: 'Long-term debt', get: (r) => num(r.longTermDebt), fmt: money, kind: 'money', sub: true, neutral: true },
             { label: 'Other non-current liabilities', get: (r) => num(r.otherNonCurrentLiabilities), fmt: money, kind: 'money', sub: true, neutral: true },
@@ -1023,9 +1030,9 @@
         }
         add('Net margin above 10%', nmNow === null ? null : nmNow > 0.10, nmNow === null ? '' : pct(nmNow * 100));
         const cashRaw = get(last, 'balance', 'cashAndCashEquivalentsAtCarryingValue');
-        const cash = (cashRaw || 0) + (get(last, 'balance', 'shortTermInvestments') || 0);
+        const cash = cashRaw;
         const debt = debtOf(last.balance || {});
-        add('More cash than total debt', cashRaw === null || debt === null ? null : cash > debt, `${currencyAmount(cash, reportingCurrency())} vs ${currencyAmount(debt, reportingCurrency())}`);
+        add('Cash and cash equivalents exceed borrowing debt', cashRaw === null || debt === null ? null : cash > debt, `${currencyAmount(cash, reportingCurrency())} vs ${currencyAmount(debt, reportingCurrency())}; short-term investments excluded`);
         add('Operating cash flow positive, five years', span(5).length >= 5 && span(5).every(y=>get(y,'cash','operatingCashflow')!==null) ? span(5).every(y=>get(y,'cash','operatingCashflow')>0) : null, '');
         const fcfN = fcfOf(last.cash || {});
         add('Free cash flow positive, latest year', fcfN === null ? null : fcfN > 0, fcfN === null ? '' : currencyAmount(fcfN, reportingCurrency()));
@@ -1442,7 +1449,7 @@
         const basis=basisState==='quarterly'?'quarterly':'annual';
         const facts=[...(payload?.supplementalObservations || []),...(payload?.industryObservations || [])].filter(f=>(!f.statement || f.statement===stState) && (f.historyBasis || f.basis)===basis).slice(0,40);
         const fresh=payload?.freshness || {};const gaps=payload?.coverage?.remainingGaps || [];
-        const notes=[fresh.lastSuccessfulCheckAt?'Filing freshness checked '+fresh.lastSuccessfulCheckAt:null,fresh.backgroundStatus==='running'?'Additional source retrieval is in progress.':null,fresh.lastAttemptResult==='retrieval_failed'?'The freshness check failed; previous dated observations are retained.':null].filter(Boolean);
+        const notes=[fresh.lastSuccessfulCheckAt?'Filing freshness checked '+fresh.lastSuccessfulCheckAt:null,fresh.backgroundStatus==='running'?'Additional source retrieval is in progress.':null,fresh.backgroundStatus==='capacity_limited'?'Source retrieval is temporarily busy; stored observations and their dates are shown.':null,fresh.lastAttemptResult==='retrieval_failed'?'The freshness check failed; previous dated observations are retained.':null].filter(Boolean);
         panel.innerHTML=notes.map(n=>'<p class="small faint">'+esc(n)+'</p>').join('')+(facts.length?'<details><summary>Additional attributed financial observations ('+facts.length+')</summary><p class="small faint">Provider observations and issuer-defined measures are separate from the verified GAAP/IFRS statements.</p><div class="table-wrap"><table class="table-data"><thead><tr><th>Field</th><th>Period end</th><th>Value and unit</th><th>Source and date</th></tr></thead><tbody>'+facts.map(f=>'<tr><td>'+esc(f.definition)+'</td><td>'+esc(f.periodEnd)+'</td><td>'+esc(f.value.toLocaleString('en-US'))+' '+esc(f.unit)+'</td><td><a href="'+esc(f.sourceUrl)+'" target="_blank" rel="noopener">'+esc(f.sourceName)+'</a> '+esc(f.publicationDate || f.sourceDataDate)+' '+esc(f.sourceDateKind==='retrieval'?'retrieved':'published')+' · '+esc(f.accountingBasis)+'</td></tr>').join('')+'</tbody></table></div></details>':'')+(gaps.length?'<details><summary>Remaining data gaps ('+gaps.length+')</summary><ul>'+gaps.slice(0,20).map(g=>'<li>'+esc([g.field,g.basis,g.reason].filter(Boolean).join(' · '))+'</li>').join('')+'</ul></details>':'');
     }
     function renderStatements() {

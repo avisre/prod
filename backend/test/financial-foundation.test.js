@@ -37,3 +37,8 @@ test('Yahoo statement shapers do not substitute differently defined financial co
  assert.equal(cash.dividendPayout,'-10');for(const field of ['dividendPayoutCommonStock','operatingCashflow','netIncome'])assert.equal(cash[field],'');
  const income=y.buildIncomeReportsFromFTS([{date:'2025-12-31',netIncomeCommonStockholders:20}])[0];assert.equal(income.comprehensiveIncomeNetOfTax,'');
 });
+
+test('legacy quote responses retain exact provider timestamps and closed-market/NAV labels',()=>{
+ const q=require('../yahoo-source').buildGlobalQuote('EX',{regularMarketPrice:12,regularMarketPreviousClose:10,regularMarketTime:new Date('2026-10-02T20:00:03Z'),marketState:'CLOSED'});assert.equal(q.marketData.asOf,'2026-10-02T20:00:03.000Z');assert.equal(q.marketData.freshness,'market_closed');assert.equal(q['Global Quote']['05. price'],'12');
+ const nav=require('../yahoo-source').buildGlobalQuote('FUND',{quoteType:'MUTUALFUND',regularMarketPrice:12});assert.equal(nav.marketData.asOf,null);assert.equal(nav.marketData.freshness,'dated_nav');
+});

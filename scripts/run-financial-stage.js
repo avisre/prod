@@ -12,6 +12,7 @@ async function main() {
   else if(stage==='identities')await require('./audit-listing-identities').main();
   else if(stage==='core')await require('./refresh-sec-coverage').main(['--weekly','--concurrency','2','--as-of',process.env.FINANCIAL_AS_OF || new Date().toISOString().slice(0,10)]);
   else if(stage==='industry')await require('./refresh-sec-industry').main();
+  else if(stage==='industry-retry')await require('./refresh-sec-industry').main(['--retry']);
   else if(stage==='promote')console.log(JSON.stringify(await promote(mongoose.connection.collection('public_financial_requests'),{asOf:process.env.FINANCIAL_AS_OF})));
   else throw new Error('Unknown financial stage');
  }finally{await mongoose.disconnect();}

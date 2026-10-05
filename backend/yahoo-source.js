@@ -60,7 +60,8 @@ function buildGlobalQuote(symbol, quote) {
             '08. previous close': n(prevClose),
             '09. change': n(change),
             '10. change percent': Number.isFinite(pct) ? `${pct.toFixed(4)}%` : ''
-        }
+        },
+        marketData:{asOf:quote?.regularMarketTime && Number.isFinite(new Date(quote.regularMarketTime).getTime())?new Date(quote.regularMarketTime).toISOString():null,source:'Yahoo Finance',marketState:quote?.marketState || null,freshness:quote?.quoteType==='MUTUALFUND'?'dated_nav':quote?.marketState==='REGULAR'?'delayed':quote?.marketState?'market_closed':'dated_quote'}
     };
 }
 
@@ -1058,7 +1059,7 @@ async function fetchSupplementalSnapshot(symbol, sections = ['income', 'balance'
     }));
     return { overview: buildOverview(symbol, summary), statements, financialCurrency: currency,
         quote: { price: n(summary?.price?.regularMarketPrice), currency: summary?.price?.currency || null,
-            asOf: isoDay(summary?.price?.regularMarketTime) || null },
+            asOf: summary?.price?.regularMarketTime && Number.isFinite(new Date(summary.price.regularMarketTime).getTime()) ? new Date(summary.price.regularMarketTime).toISOString() : null },
         fetchedAt: new Date().toISOString(), errors };
 }
 
@@ -1082,7 +1083,7 @@ module.exports = {
     fetchSymbolSearch,
     fetchMovers,
     fetchNews,
-    buildIncomeReportsFromFTS,buildBalanceReportsFromFTS,buildCashReportsFromFTS,
+    buildGlobalQuote,buildIncomeReportsFromFTS,buildBalanceReportsFromFTS,buildCashReportsFromFTS,
     // Pure news filters are exported so their provider-adapter behavior is
     // covered without making network requests.
     newsMatchesTopic,

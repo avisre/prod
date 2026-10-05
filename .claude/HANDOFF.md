@@ -47,6 +47,26 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Data foundation implementation — 2026-10-05 (not deployed)
+
+- Isolated checkout: `/Users/drasharaghavan/worktrees/data-foundation-20261005`, branch
+  `data-foundation-20261005`, based on production main `76b178ee`. Initial implementation commit
+  `af97f900` is pushed to the feature branch only. The original Ask/Claude worktree is preserved.
+- Deterministic SEC core repairs, source provenance, classified universe, shared evidence resolver,
+  bounded public Mongo cache, current quote timestamps, weekly whole-universe reconciliation and
+  additive coverage/source metadata are implemented. See `docs/financial-data-foundation.md`.
+- Production infrastructure check `37257597183` passed: capped 64MiB public cache and shared SEC
+  allocator; zero account collections accessed, financial test records written or model calls.
+- Full backfill is running with two workers/checkpoints every 20. Candidate counts and deployment
+  gates are pending. Do not promote a partially built or mismatched generation.
+- The original temporary checkout/backfill disappeared when `/tmp` was cleared externally. Code
+  was recovered from the session record; the backfill was restarted in the permanent checkout.
+  Durable logs/artifacts are in `/Users/drasharaghavan/worktrees/data-recovery-20261005`.
+- Local company/fund browser QA passed at 1100px and 390px. Production login returned 403 before
+  authentication; signed-in rendered-page verification remains unmet. Do not equate API health
+  with authenticated browser verification. No Ollama/model probes have been run.
+- The stopped longer Ask-report release remains separate. Do not change its report word policy.
+
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
   deploy `dep-db181bvavr4c73an2krg` through workflow `37216736433`; the workflow confirmed the deployed

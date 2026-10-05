@@ -603,6 +603,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
             const values=[...line.matchAll(/(?<![\w.-])[-−]?\d[\d,]*(?:\.\d+)?/g)].map(m=>Number(m[0].replace(/,/g,'').replace('−','-')));
             if(!values.some(n=>[1,1e3,1e6,1e9,1e12].some(scale=>Math.abs(n-f.value/scale)<=0.000001)))return;
             const context=line.startsWith('|')?lines.slice(Math.max(0,i-3),i+2).join('\n'):line;
+            if(f.sourceType!=='sec_filing' && /\b(?:SEC[- ]verified|verified SEC|SEC[- ]reported)\b/i.test(line) && !/\b(?:not|never|isn.t)\s+(?:SEC[- ]verified|verified SEC|SEC[- ]reported)/i.test(line))issues.push('Attributed supplemental observations must not be described as SEC-verified.');
             if(!context.includes(f.sourceName) || !context.includes(require('./company-observations').sourceDate(f)))issues.push('Supplemental financial values require their source name and date on the displayed line or labelled table.');
         });
     }
@@ -690,7 +691,7 @@ function audit(text, results, { question = '', mode = 'analyst' } = {}) {
                     const compatible=matches.filter(f=>String(spec.title || '').includes('Yahoo Finance')?f.sourceName==='Yahoo Finance':f.sourceType!=='provider');
                     const chosen=compatible[0] || matches[0];
                     if(chosen){chartSources.add(chosen.sourceType || 'sec_filing');if(chosen.accountingBasis)chartAccounting.add(chosen.accountingBasis);if(chosen.basis && chosen.basis!=='instant')chartPeriods.add(chosen.basis);
-                        if(chosen.sourceType==='provider' && (!String(spec.title || '').includes(chosen.sourceName) || !String(spec.title || '').includes(chosen.publicationDate)))issues.push('A supplemental financial chart must name its provider and data date in the visible chart title.');}
+                        if(chosen.sourceType==='provider' && (!String(spec.title || '').includes(chosen.sourceName) || !String(spec.title || '').includes(require('./company-observations').sourceDate(chosen))))issues.push('A supplemental financial chart must name its provider and data date in the visible chart title.');}
                     if (!matches.length && date && metricMatches.length)
                         issues.push('Chart date does not match the sourced financial period.');
                     else if (!matches.length && metric && amountMatches.length)
@@ -884,7 +885,8 @@ function groupedFinancialBars(data, question) {
 // rather than the rejected generated conclusions. No narrative is invented.
 function fallback(results, question = '') {
     const data = unwrap(results), sections = new Map();
-    const lines = ['This is a partial answer using verified SEC evidence. Unverified figures are omitted.'];
+    const hasFiled=data.some(r=>r.observations?.length);
+    const lines = [hasFiled?'This is a partial answer using verified SEC evidence. Unverified figures are omitted.':'This is a partial answer using attributed financial evidence. Sources and dates are retained.'];
     const wantsRevenueProfitSbc = /revenue/i.test(question) && /net (?:income|profit)|net profit/i.test(question) && /share.?based compensation|\bSBC\b/i.test(question);
     const grouped = wantsRevenueProfitSbc ? groupedFinancialBars(data, question) : null;
     if (grouped) {
@@ -955,6 +957,13 @@ function fallback(results, question = '') {
                     ? 'Covered by free cash flow' : 'Not covered; shortfall ' + fmt(-c.surplusAfterDistributions, o.currency));
             }
         }
+    }
+    const supplementalSeen=new Set();
+    for(const r of data.slice(0,4)) {
+        const selected=(r.supplementalObservations || []).filter(f=>f.state==='available' && require('./company-observations').validSupplement(f,f.issuer) && fields.some(([field])=>field===f.field)).sort((a,b)=>b.periodEnd.localeCompare(a.periodEnd));
+        const dates=[...new Set(selected.map(f=>f.periodEnd))].slice(0,periods),rows=[];
+        for(const f of selected.filter(f=>dates.includes(f.periodEnd))){const key=require('./company-observations').key(f);if(supplementalSeen.has(key))continue;supplementalSeen.add(key);const label=fields.find(([field])=>field===f.field)?.[1] || f.definition;rows.push('| '+label+' | '+f.periodEnd+' | '+f.currency+' '+String(f.value)+' | '+f.sourceName+' '+require('./company-observations').sourceDate(f)+' | '+f.accountingBasis+' |');}
+        if(rows.length)lines.push('\n**'+(r.symbol || 'Company')+' — additional attributed financial observations**','| Field | Period end | Value and currency | Source and date | Accounting basis |','| --- | --- | --- | --- | --- |',...rows.slice(0,20));
     }
     for (const section of sections.values()) {
         if (!section.values.size) continue;

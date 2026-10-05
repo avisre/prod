@@ -6,6 +6,7 @@ const {content}=require('../backend/public-stock-content'),adapter=require('../b
 function validate({asOf,bootstrap=false}={}){
  const errors=[],fail=message=>errors.push(message),read=name=>JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,name),'utf8'));
  const dir=read('us-companies.json'),report=read('sec-reporting.json'),pub=read('public-stock-index.json'),screen=read('screen-index.json');
+ try{for(const error of require('./lib/us-listings').validateManifest(read('stock-universe-manifest.json'),dir.companies))fail(error);}catch(e){fail('Authoritative universe manifest unavailable: '+e.message);}
  const rates=read('sec-fx.json').rates || {},marketDigests=[],priceDigests=[],expectedRows=[];
  asOf=asOf || pub.asOf;
  const canonical=new Set(),normalized=new Set();

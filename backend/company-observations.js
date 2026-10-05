@@ -17,8 +17,9 @@ function observations(data) {
 function identity(value){return p.cik(value) || (/^listing:[A-Z0-9]+(?:-[A-Z0-9]+)?$/.test(String(value || ''))?value:null);}
 function validSupplement(f,issuer) {
  if(!identity(issuer) || identity(f?.issuer)!==identity(issuer) || p.number(f?.value)===null || !f.field || !f.definition || !p.day(f.periodEnd) || !Number.isFinite(Date.parse(f.retrievedAt || '')) || !f.scope || !f.unit || !f.accountingBasis || f.scale!==1)return false;
+ if(String(issuer).startsWith('listing:') && f.sourceType!=='provider')return false;
  const date=sourceDate(f);if(!date || (!p.day(f.publicationDate) && !(f.sourceType==='provider' && f.sourceDateKind==='retrieval' && f.sourceDataDate===p.day(f.retrievedAt))))return false;
- if(f.periodEnd>p.day(new Date().toISOString()) || date<f.periodEnd || p.day(f.retrievedAt)<date)return false;
+ if(Date.parse(f.retrievedAt)>Date.now()+5*60*1000 || date>p.day(new Date().toISOString()) || f.periodEnd>p.day(new Date().toISOString()) || date<f.periodEnd || p.day(f.retrievedAt)<date)return false;
  if(!Array.isArray(f.sourceIds) || !f.sourceIds.length || f.sourceIds.some(id=>typeof id!=='string' || !id) || !STATES.includes(f.state) || ![f.currency,f.currency+'/shares','shares','%'].includes(f.unit))return false;
  if(!/^[A-Z]{3}$/.test(f.currency || '') || !['annual','quarterly','instant','market'].includes(f.basis) || !['provider','issuer_release','sec_filing'].includes(f.sourceType))return false;
  if(['annual','quarterly'].includes(f.basis) && !p.day(f.periodStart) && !(f.sourceType==='provider' && f.periodDefinition))return false;
@@ -39,15 +40,21 @@ function reconcile(filed,supplemental) {
  }
  return [...out.values()];
 }
-function gaps(facts,fields,periods,cadence='quarterly') {
+function gaps(facts,fields,periods,cadence='quarterly',reporting={}) {
  const out=[];
  for(const basis of ['annual','quarterly']) {
   const count=Math.max(0,Math.min(basis==='annual'?25:48,Number(periods?.[basis] ?? (basis==='annual'?5:4))));
   for(const field of fields) {
+   if(!count)continue;
    const selected=facts.filter(f=>f.field===field && (f.historyBasis || f.basis)===basis && f.state==='available');
-   const dates=[...new Set(selected.map(f=>f.periodEnd))].sort().reverse();
+   const groups=new Map();for(const f of selected){const group=[f.issuer,f.unit,f.accountingBasis,f.scope].join('|');if(!groups.has(group))groups.set(group,[]);groups.get(group).push(f.periodEnd);}
+   const histories=[...groups.values()].map(values=>[...new Set(values)].sort().reverse());
+   const dates=histories.sort((a,b)=>b.length-a.length || (b[0] || '').localeCompare(a[0] || ''))[0] || [];
    if(dates.length<count)out.push({field,basis,state:'missing',reason:cadence!=='quarterly' && basis==='quarterly'?'Issuer interim cadence must be checked in original disclosures':'Insufficient compatible reported periods',availablePeriods:dates.length,requiredPeriods:count});
    if(basis==='quarterly' && cadence==='quarterly')for(let i=1;i<Math.min(count,dates.length);i++){const delta=(Date.parse(dates[i-1])-Date.parse(dates[i]))/86400000;if(delta<75 || delta>105){out.push({field,basis,state:'missing',reason:'Nonconsecutive quarterly history',after:dates[i],before:dates[i-1]});break;}}
+   const latest=basis==='annual'?reporting.latestAnnual:cadence==='quarterly' && /^(10-Q|10-K)(\/A)?$/.test(reporting.latestPeriodic?.form || '')?reporting.latestPeriodic:null;
+   const requiredEnd=p.day(latest?.reportDate);
+   if(requiredEnd && !selected.some(f=>Date.parse(f.periodEnd)>=Date.parse(requiredEnd)-14*86400000))out.push({field,basis,state:'missing',reason:'The latest filed reporting period has not been extracted',requiredPeriodEnd:requiredEnd,filingUrl:latest.filingUrl || null});
   }
  }
  return out;

@@ -17,7 +17,7 @@ const aiChat = require('./ai-chat');
 const FUND_DIR = path.join(__dirname, '..', 'frontend', 'data', 'fundamentals');
 const CACHE_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 
-const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+const num = require('./sec-coverage').number;
 const r1 = (v) => v === null ? null : Math.round(v * 10) / 10;
 function cagr(first, last, years) {
     if (!first || !last || first <= 0 || last <= 0 || years < 1.5) return null;
@@ -35,7 +35,7 @@ function joined(d) {
     const by = new Map();
     for (const st of ['income', 'balance', 'cash']) {
         for (const r of ((d[st] || {}).annualReports) || []) {
-            const k = String(r.fiscalDateEnding || '').slice(0, 7);
+            const k = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || '');
             if (!k) continue;
             if (!by.has(k)) by.set(k, { end: r.fiscalDateEnding });
             by.get(k)[st] = r;
@@ -61,8 +61,8 @@ function buildFactPack(symbol,supplied=null) {
     const ni = (y) => g(y, 'income', 'netIncome');
     const nm = (y) => { const a = ni(y); const b = rev(y); return (a !== null && b) ? a / b * 100 : null; };
     const gp = (y) => {
-        const r = rev(y); let v = g(y, 'income', 'grossProfit'); if (v === 0) v = null;
-        let c = g(y, 'income', 'costOfRevenue'); if (c === 0) c = null;
+        const r = rev(y); let v = g(y, 'income', 'grossProfit'); if (v === 0 && !y.income?._sources?.grossProfit?.length) v = null;
+        let c = g(y, 'income', 'costOfRevenue'); if (c === 0 && !y.income?._sources?.costOfRevenue?.length) c = null;
         if (v === null && r !== null && c !== null) v = r - c;
         return (v !== null && r) ? v / r * 100 : null;
     };
@@ -72,18 +72,17 @@ function buildFactPack(symbol,supplied=null) {
         return (o !== null && c !== null) ? o + c : null;
     };
     const sh = (y) => g(y, 'balance', 'commonStockSharesOutstanding');
-    const debt = (y) => ['shortTermDebt', 'currentLongTermDebt', 'longTermDebt']
-        .map((k) => g(y, 'balance', k)).filter((v) => v !== null).reduce((a, v) => a + v, 0) || null;
+    const debt = y => require('./financial-row').totalDebt(y?.balance);
     const eq = (y) => g(y, 'balance', 'totalShareholderEquity');
 
     L.push(`COMPANY ${ov.Name || symbol} (${symbol}), sector ${ov.Sector || '?'}, latest fiscal year ${fyName(last)} (ended ${last.end}). ${years.length} fiscal years on record.`);
-    L.push(`REVENUE: latest $${r1(rev(last) / 1e9)}B. CAGR ${span}y ${r1(cagr(rev(years[0]), rev(last), span))}%, 5y ${years.length > 5 ? r1(cagr(rev(yr(5)), rev(last), 5)) : '—'}%, 3y ${years.length > 3 ? r1(cagr(rev(yr(3)), rev(last), 3)) : '—'}%, 1y ${r1((rev(last) / rev(yr(1)) - 1) * 100)}%.`);
-    L.push(`NET INCOME: latest $${r1(ni(last) / 1e9)}B. 5y CAGR ${years.length > 5 ? r1(cagr(ni(yr(5)), ni(last), 5)) : '—'}%, 1y ${ni(yr(1)) > 0 ? r1((ni(last) / ni(yr(1)) - 1) * 100) : '—'}%.`);
+    L.push(`REVENUE: latest ${last.income?.reportedCurrency || ov.Currency || 'currency unavailable'} ${rev(last)===null?'—':r1(rev(last) / 1e9)}B. CAGR ${span}y ${r1(cagr(rev(years[0]), rev(last), span))}%, 5y ${years.length > 5 ? r1(cagr(rev(yr(5)), rev(last), 5)) : '—'}%, 3y ${years.length > 3 ? r1(cagr(rev(yr(3)), rev(last), 3)) : '—'}%, 1y ${rev(last)!==null && rev(yr(1))>0?r1((rev(last) / rev(yr(1)) - 1) * 100):'—'}%.`);
+    L.push(`NET INCOME: latest ${last.income?.reportedCurrency || ov.Currency || 'currency unavailable'} ${ni(last)===null?'—':r1(ni(last) / 1e9)}B. 5y CAGR ${years.length > 5 ? r1(cagr(ni(yr(5)), ni(last), 5)) : '—'}%, 1y ${ni(yr(1)) > 0 ? r1((ni(last) / ni(yr(1)) - 1) * 100) : '—'}%.`);
     L.push(`MARGINS (gross/operating/net %): now ${r1(gp(last))}/${r1(om(last))}/${r1(nm(last))}; 5y ago ${years.length > 5 ? `${r1(gp(yr(5)))}/${r1(om(yr(5)))}/${r1(nm(yr(5)))}` : '—'}; 10y ago ${years.length > 10 ? `${r1(gp(yr(10)))}/${r1(om(yr(10)))}/${r1(nm(yr(10)))}` : '—'}.`);
     const f0 = fcf(last); const o0 = g(last, 'cash', 'operatingCashflow');
-    L.push(`CASH: FCF latest $${f0 === null ? '—' : r1(f0 / 1e9)}B (FCF margin ${f0 !== null && rev(last) ? r1(f0 / rev(last) * 100) : '—'}%). OCF/netIncome ${o0 !== null && ni(last) ? r1(o0 / ni(last) * 100) / 100 : '—'}.`);
+    L.push(`CASH: FCF latest ${last.cash?.reportedCurrency || ov.Currency || 'currency unavailable'} ${f0 === null ? '—' : r1(f0 / 1e9)}B (FCF margin ${f0 !== null && rev(last) ? r1(f0 / rev(last) * 100) : '—'}%). OCF/netIncome ${o0 !== null && ni(last) ? r1(o0 / ni(last) * 100) / 100 : '—'}.`);
     const s0 = sh(last); const s5 = years.length > 5 ? sh(yr(5)) : null; const s10 = years.length > 10 ? sh(yr(10)) : null;
-    L.push(`SHARES OUT: ${s0 ? r1(s0 / 1e9) + 'B' : '—'}; change 5y ${s0 && s5 ? r1((s0 / s5 - 1) * 100) + '%' : '—'}, 10y ${s0 && s10 ? r1((s0 / s10 - 1) * 100) + '%' : '—'}. Buybacks latest yr $${g(last, 'cash', 'paymentsForRepurchaseOfCommonStock') !== null ? r1(Math.abs(g(last, 'cash', 'paymentsForRepurchaseOfCommonStock')) / 1e9) : '—'}B, dividends $${g(last, 'cash', 'dividendPayout') !== null ? r1(Math.abs(g(last, 'cash', 'dividendPayout')) / 1e9) : '—'}B.`);
+    L.push(`SHARES OUT: ${s0 ? r1(s0 / 1e9) + 'B' : '—'}; change 5y ${s0 && s5 ? r1((s0 / s5 - 1) * 100) + '%' : '—'}, 10y ${s0 && s10 ? r1((s0 / s10 - 1) * 100) + '%' : '—'}. Buybacks latest yr ${last.cash?.reportedCurrency || ov.Currency || 'currency unavailable'} ${g(last, 'cash', 'paymentsForRepurchaseOfCommonStock') !== null ? r1(Math.abs(g(last, 'cash', 'paymentsForRepurchaseOfCommonStock')) / 1e9) : '—'}B, dividends ${g(last, 'cash', 'dividendPayout') !== null ? r1(Math.abs(g(last, 'cash', 'dividendPayout')) / 1e9) : '—'}B.`);
     // For an ADR the filed share count is ORDINARY shares while price, market cap
     // and EPS are all per ADS (NTES: 3.19B ordinary vs 640M ADS). Say so outright
     // — the writers are instructed never to invent figures, so an unlabelled

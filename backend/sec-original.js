@@ -78,7 +78,8 @@ async function fetchOriginal(cik,filing) {
  return parseOriginal(String(response.data),{...filing,documentUrl},cik);
 }
 function mergeFacts(raw,original) {
- const merged={...raw,facts:{...raw.facts},segmentFacts:[...(raw.segmentFacts || []),...(original.segments || [])],industryTables:original.industryTables || raw.industryTables || [],industryFiling:original.originalDocument,originalDocuments:[...(raw.originalDocuments || []),original.originalDocument]};
+ const annual=/^(10-K|20-F|40-F)(\/A)?$/.test(original.originalDocument?.form || '');
+ const merged={...raw,facts:{...raw.facts},segmentFacts:[...(raw.segmentFacts || []),...(original.segments || [])],industryTables:original.industryTables || raw.industryTables || [],industryFiling:annual || !raw.industryFiling?original.originalDocument:raw.industryFiling,originalDocuments:[...(raw.originalDocuments || []),original.originalDocument]};
  for(const [tax,defs]of Object.entries(original.facts)) {
   merged.facts[tax]={...merged.facts[tax]};
   for(const [tag,def]of Object.entries(defs)) {

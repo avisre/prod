@@ -7,7 +7,7 @@
 
 const aiChat = require('./ai-chat');
 
-const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+const num = require('./sec-coverage').number;
 const median = (arr) => {
     const a = arr.filter((x) => x !== null && Number.isFinite(x)).sort((x, y) => x - y);
     if (!a.length) return null;
@@ -171,14 +171,14 @@ function forensicSignals(data, rdcf, overview) {
     }
 
     // 8) Leverage — net debt vs equity
-    const debt = (num(b0.shortTermDebt) || 0) + (num(b0.longTermDebt) || 0) + (num(b0.currentLongTermDebt) || 0);
-    const cashEq = (num(b0.cashAndCashEquivalentsAtCarryingValue) || 0) + (num(b0.shortTermInvestments) || 0);
+    const debt = require('./financial-row').totalDebt(b0);
+    const cashEq = num(b0.cashAndCashEquivalentsAtCarryingValue);
     const eq = num(b0.totalShareholderEquity);
-    if (debt > 0 && eq && eq > 0) {
+    if (debt !== null && cashEq !== null && debt > 0 && eq && eq > 0) {
         const netDebt = debt - cashEq;
         const nd2e = netDebt / eq;
-        push('leverage', 'Net debt ÷ equity', `${nd2e.toFixed(2)}×`,
-            netDebt <= 0 ? 'Net cash — more cash and investments than total debt.' : nd2e > 1.5 ? 'Heavily levered relative to equity — financial-risk watch.' : 'Moderate leverage.',
+        push('leverage', 'Net debt (cash-equivalent basis) ÷ equity', `${nd2e.toFixed(2)}×`,
+            netDebt <= 0 ? 'Net cash — reported cash and cash equivalents exceed borrowing debt; short-term investments are excluded.' : nd2e > 1.5 ? 'Heavily levered relative to equity — financial-risk watch.' : 'Moderate leverage.',
             netDebt <= 0 ? 'good' : nd2e > 1.5 ? 'watch' : 'neutral');
     }
 
@@ -193,29 +193,29 @@ function financialHistory(data, maxYears = 8) {
     if (!inc.length) return null;
     const byFy = new Map();
     const put = (fy, k, v) => { if (!byFy.has(fy)) byFy.set(fy, { fy }); byFy.get(fy)[k] = v; };
-    for (const r of inc) { const fy = String(r.fiscalDateEnding || '').slice(0, 4); if (fy) { put(fy, 'rev', num(r.totalRevenue)); put(fy, 'gp', num(r.grossProfit)); put(fy, 'cor', num(r.costOfRevenue)); put(fy, 'op', num(r.operatingIncome)); put(fy, 'ni', num(r.netIncome)); put(fy, 'int', num(r.interestExpense)); } }
-    for (const r of bal) { const fy = String(r.fiscalDateEnding || '').slice(0, 4); if (fy) { put(fy, 'assets', num(r.totalAssets)); put(fy, 'eq', num(r.totalShareholderEquity)); put(fy, 'curAssets', num(r.totalCurrentAssets)); put(fy, 'curLiab', num(r.totalCurrentLiabilities)); put(fy, 'std', num(r.shortTermDebt)); put(fy, 'ltd', num(r.longTermDebt)); put(fy, 'cltd', num(r.currentLongTermDebt)); } }
-    for (const r of cash) { const fy = String(r.fiscalDateEnding || '').slice(0, 4); if (fy) { put(fy, 'ocf', num(r.operatingCashflow)); put(fy, 'capex', num(r.capitalExpenditures)); } }
+    for (const r of inc) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'rev', num(r.totalRevenue)); put(fy, 'gp', r._sources?.grossProfit?.length ? num(r.grossProfit) : num(r.grossProfit)===0?null:num(r.grossProfit)); put(fy, 'cor', num(r.costOfRevenue)); put(fy, 'op', num(r.operatingIncome)); put(fy, 'ni', num(r.netIncome)); put(fy, 'int', num(r.interestExpense)); } }
+    for (const r of bal) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'assets', num(r.totalAssets)); put(fy, 'eq', num(r.totalShareholderEquity)); put(fy, 'curAssets', num(r.totalCurrentAssets)); put(fy, 'curLiab', num(r.totalCurrentLiabilities)); put(fy, 'std', num(r.shortTermDebt)); put(fy, 'ltd', num(r.longTermDebt)); put(fy, 'cltd', num(r.currentLongTermDebt)); put(fy, 'debt', require('./financial-row').totalDebt(r)); } }
+    for (const r of cash) { const fy = String(r.fiscalDateEnding || '')+'|'+String(r.reportedCurrency || ''); if (fy) { put(fy, 'ocf', num(r.operatingCashflow)); put(fy, 'capex', num(r.capitalExpenditures)); } }
 
     const pct = (a, b) => (a !== null && a !== undefined && b && b !== 0 ? r1((a / b) * 100) : null);
     const rows = [...byFy.values()].sort((a, b) => a.fy.localeCompare(b.fy)).slice(-maxYears).map((y) => {
-        let gp = y.gp; if (gp === 0) gp = null;
+        let gp = y.gp;
         if (gp === null && y.rev !== null && y.cor) gp = y.rev - y.cor;
-        const debt = (y.std || 0) + (y.ltd || 0) + (y.cltd || 0);
-        const fcf = (y.ocf !== null && y.capex !== null) ? y.ocf + y.capex : null;
+        const debt = num(y.debt);
+        const fcf = (num(y.ocf) !== null && num(y.capex) !== null) ? y.ocf + y.capex : null;
         return {
-            fy: y.fy,
-            revenue: y.rev, netIncome: y.ni, fcf,
+            fy: y.fy.slice(0,4), periodEnd:y.fy.split('|')[0], currency:y.fy.split('|')[1] || null,
+            revenue: num(y.rev), netIncome: num(y.ni), fcf,
             grossMarginPct: pct(gp, y.rev),
             opMarginPct: pct(y.op, y.rev),
             netMarginPct: pct(y.ni, y.rev),
-            assetTurnover: (y.rev !== null && y.assets) ? r1(y.rev / y.assets) : null,
+            assetTurnover: (num(y.rev) !== null && y.assets) ? r1(y.rev / y.assets) : null,
             roaPct: pct(y.ni, y.assets),
             roePct: pct(y.ni, y.eq),
-            roicPct: (y.op !== null && (debt + (y.eq || 0)) > 0) ? r1((y.op * 0.79 / (debt + y.eq)) * 100) : null, // NOPAT≈op×(1−21%)
-            currentRatio: (y.curAssets !== null && y.curLiab) ? r1(y.curAssets / y.curLiab) : null,
-            debtToEquity: (y.eq && y.eq !== 0) ? r1(debt / y.eq) : null,
-            interestCoverage: (y.op !== null && y.int) ? r1(y.op / Math.abs(y.int)) : null
+            roicPct: (num(y.op) !== null && debt !== null && num(y.eq) !== null && debt+y.eq > 0) ? r1((y.op * 0.79 / (debt + y.eq)) * 100) : null, // NOPAT≈op×(1−21%)
+            currentRatio: (num(y.curAssets) !== null && y.curLiab) ? r1(y.curAssets / y.curLiab) : null,
+            debtToEquity: (debt !== null && y.eq && y.eq !== 0) ? r1(debt / y.eq) : null,
+            interestCoverage: (num(y.op) !== null && y.int) ? r1(y.op / Math.abs(y.int)) : null
         };
     });
     return rows.length ? rows : null;

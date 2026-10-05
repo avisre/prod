@@ -20,6 +20,11 @@ function sanitize(data) {
   delete row._sources?.[field];delete row._derivations?.[field];excluded++;
  }
  const validSegments=[];for(const g of data.segmentObservations || []){if(require('../backend/sec-segment-observations').validGroup(g,data))validSegments.push(g);else (data.supersededSegmentObservations ||= []).push({...g,remainingReason:'Original context witness must be extracted under current rules'});}if(data.segmentObservations)data.segmentObservations=validSegments;
+ if(/^(602|603|609)/.test(String(data.reportingSic || '')))for(const basis of ['annualReports','quarterlyReports'])for(const row of data.income?.[basis] || []){
+  if(row.totalRevenue!==null || !['netInterestIncome','nonInterestIncome'].every(f=>p.verifiedField(data,row,f)))continue;
+  row.totalRevenue=row.netInterestIncome+row.nonInterestIncome;row._sources.totalRevenue=[...row._sources.netInterestIncome,...row._sources.nonInterestIncome];row._scopes.totalRevenue=row._scopes.netInterestIncome;row._derivations.totalRevenue={formula:'sum_fields',inputs:['netInterestIncome','nonInterestIncome'],inputValues:[row.netInterestIncome,row.nonInterestIncome]};
+  if(p.verifiedField(data,row,'totalRevenue')){delete row._states?.totalRevenue;}else{row.totalRevenue=null;delete row._sources.totalRevenue;delete row._derivations.totalRevenue;}
+ }
  return {data,excluded};
 }
 function main() {
@@ -27,7 +32,8 @@ function main() {
  for(const [id,evidence]of Object.entries(report.issuers)) {
   const file=path.join(p.DATA_DIR,'sec-financials',id+'.json');if(!evidence.financialDigest || !fs.existsSync(file))continue;
   const raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==evidence.financialDigest)throw new Error('Financial digest mismatch '+id);
-  const {data:result,excluded}=sanitize(normalize(JSON.parse(raw)));if(excluded)evidence.excludedIncompatibleObservations=excluded;
+  const input=JSON.parse(raw);input.reportingSic=String(evidence.sic || input.reportingSic || '');input.validationVersion=require('../backend/sec-facts').VALIDATION_VERSION;
+  const {data:result,excluded}=sanitize(normalize(input));if(excluded)evidence.excludedIncompatibleObservations=excluded;
   const next=JSON.stringify(result);if(raw===next)continue;
   const errors=p.validateFinancial(result,id);if(errors.length)throw new Error(errors[0]);p.atomicWrite(file,result);evidence.financialDigest=p.digest(next);changed++;
  }

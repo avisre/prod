@@ -28,7 +28,7 @@ const INDUSTRY_VERSION = 1;
 function col() { return mongoose.connection.collection('industry_context'); }
 const _inflight = new Map(); // 'SYM:accession:v' -> Promise
 
-const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+const num = require('./sec-coverage').number;
 const r1 = (v) => (v === null || v === undefined ? null : Math.round(v * 10) / 10);
 const median = (arr) => {
     const a = arr.filter((x) => x !== null && Number.isFinite(x)).sort((x, y) => x - y);

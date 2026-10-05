@@ -27,12 +27,12 @@ const ALL_SCOPES = ['financials:read', 'filings:read', 'research:read'];
 // below proves it makes no outbound request.
 const OPEN_WORLD = {
     search_companies: false,
-    get_company_financials: false,
-    get_metric_history: false,
+    get_company_financials: true,
+    get_metric_history: true,
     search_filings: true,
     get_filing_content: true,
-    compare_company_metrics: false,
-    get_financial_change_drivers: false
+    compare_company_metrics: true,
+    get_financial_change_drivers: true
 };
 
 // --- SEC fixtures -----------------------------------------------------------

@@ -21,6 +21,13 @@ test('incomplete or malformed directory input is rejected instead of shrinking c
     assert.throws(() => parseDirectory('<html>Denied</html>', 'nasdaq'), /missing/);
     assert.throws(() => parseDirectory(nasdaq.replace('NEW|New Issuer', 'NEW|extra|New Issuer'), 'nasdaq'), /Malformed/);
 });
+test('universe release validation requires an explicit outcome and provenance for every source row',()=>{
+ const out=buildUniverse(nasdaq,other,sec),validate=require('../../scripts/lib/us-listings').validateManifest;
+ out.manifest.sources.push({directory:'sec_issuer_identity',url:'https://www.sec.gov/files/company_tickers_exchange.json',retrievedAt:new Date().toISOString(),sha256:'a'.repeat(64)});
+ assert.deepEqual(validate(out.manifest,out.companies),[]);
+ const broken=structuredClone(out.manifest);broken.outcomes[0].decision='exclude';assert.ok(validate(broken,out.companies).some(e=>e.includes('classification outcome')));
+ broken.outcomes.pop();assert.ok(validate(broken,out.companies).some(e=>e.includes('incomplete')));
+});
 test('punctuated warrants cannot inherit the CIK or fund classification of a different ticker',()=>{
  const extra=other.replace('File Creation Time:','NE.A|Noble Corporation plc Tranche 2 Warrants|N|NE.A|N|100|N|NE.A\nNEA|Nuveen Fund Common Shares of Beneficial Interest|N|NEA|N|100|N|NEA\nFile Creation Time:');
  const identities={fields:sec.fields,data:[...sec.data,[1195737,'Nuveen','NEA','NYSE']]};

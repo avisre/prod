@@ -40,6 +40,26 @@ test('same-period filed observations win, while adjusted figures and different c
  assert.deepEqual(obs.reconcile([base],[{...base,value:7,sourceType:'provider'}]),[]);
  assert.equal(obs.reconcile([base],[{...base,value:7,sourceType:'issuer_release',accountingBasis:'adjusted'}]).length,1);assert.equal(obs.reconcile([base],[{...base,value:7,sourceType:'provider',unit:'TWD',currency:'TWD'}]).length,1);
 });
+test('coverage never counts different currencies or accounting bases as one compatible history',()=>{
+ const base={issuer:company.cik,field:'totalRevenue',basis:'annual',state:'available',scope:'entity',unit:'USD',accountingBasis:'US GAAP'};
+ const facts=[{...base,periodEnd:'2025-12-31'},{...base,periodEnd:'2024-12-31',unit:'TWD'},{...base,periodEnd:'2023-12-31',accountingBasis:'adjusted'}];
+ assert.equal(obs.gaps(facts,['totalRevenue'],{annual:3,quarterly:0})[0].availablePeriods,1);
+});
+test('complete old history still reports a missing latest filing period',()=>{
+ const base={issuer:company.cik,field:'totalRevenue',basis:'annual',state:'available',scope:'entity',unit:'USD',accountingBasis:'US GAAP'};
+ const facts=Array.from({length:5},(_,i)=>({...base,periodEnd:(2024-i)+'-12-31'}));
+ const reporting={latestAnnual:{reportDate:'2025-12-31',filingUrl:'https://www.sec.gov/filing.htm'}};
+ const missing=obs.gaps(facts,['totalRevenue'],{annual:5,quarterly:0},'quarterly',reporting);
+ assert.equal(missing.length,1);assert.equal(missing[0].requiredPeriodEnd,'2025-12-31');
+ facts.push({...base,periodEnd:'2025-12-31'});assert.deepEqual(obs.gaps(facts,['totalRevenue'],{annual:5,quarterly:0},'quarterly',reporting),[]);
+});
+test('a missing interim period attempts its original SEC filing before Yahoo',async()=>{
+ const {doc,evidence}=fixture(),accession='0000000123-26-000002',attempts=[];
+ const reporting={...evidence,latestPeriodic:{form:'10-Q',accessionNumber:accession,reportDate:'2026-03-31',filingDate:'2026-05-01',primaryDocument:'quarter.htm'},lastSuccessfulCheckAt:new Date().toISOString()};
+ const quarter={val:50,start:'2026-01-01',end:'2026-03-31',accn:accession,form:'10-Q',filed:'2026-05-01'};
+ const x=setup({client:{fetchReporting:async()=>reporting,fetchFacts:async()=>doc,fetchOriginal:async(cik,filing)=>{attempts.push(filing.form);return {cik:123,facts:{'us-gaap':{Revenues:{units:{USD:[quarter]}}}},segments:[],originalDocument:{form:'10-Q',accessionNumber:accession,url:'https://www.sec.gov/Archives/edgar/data/123/'+accession.replace(/-/g,'')+'/quarter.htm'}};}},yahoo:async()=>{attempts.push('Yahoo');return {overview:{},statements:{},fetchedAt:new Date().toISOString()};}});
+ const result=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:1});assert.equal(attempts[0],'10-Q');assert.equal(result.observations.find(f=>f.periodEnd==='2026-03-31').value,50);assert.deepEqual(result.remainingGaps,[]);assert.ok(result.coverage.sourceAttempts.some(a=>a.source==='SEC original interim filing'));
+});
 test('simultaneous statement requests batch their different missing fields once per issuer',async()=>{
  const {evidence}=fixture();let yahooCalls=0,sections=[];
  const x=setup({baseline:()=>({financial:null,reporting:evidence,supplemental:[]}),client:{fetchReporting:async()=>{await new Promise(r=>setTimeout(r,5));return {...evidence,lastSuccessfulCheckAt:new Date().toISOString()};},fetchFacts:async()=>({cik:123,facts:{}})},yahoo:async(symbol,requested)=>{yahooCalls++;sections=requested;return {fetchedAt:'2026-10-04T00:00:00Z',overview:{},statements:{income:{annualReports:[{fiscalDateEnding:'2025-12-31',reportedCurrency:'USD',totalRevenue:0}]},balance:{annualReports:[{fiscalDateEnding:'2025-12-31',reportedCurrency:'USD',totalAssets:100}]}}};}});

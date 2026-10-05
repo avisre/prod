@@ -52,6 +52,7 @@ function verifiedField(data, row, field, accessions) {
     if (!Array.isArray(ids) || !ids.length) return false;
     const sources = ids.map(id => data.sources?.[id]);
     const derived = row._derivations?.[field];
+    if(field==='totalRevenue' && sources.some(s=>require('./sec-facts').partialRevenueConcept(data.reportingSic,s?.concept)))return false;
     // These narrower/broader concepts are not equivalent to the displayed field.
     const incompatible={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
     if(!derived && sources.some(s=>incompatible[field]?.includes(s?.concept)))return false;
@@ -60,6 +61,8 @@ function verifiedField(data, row, field, accessions) {
         const inputs=permitted[field];
         if(!inputs || JSON.stringify(derived.inputs)!==JSON.stringify(inputs) || !inputs.every(f=>verifiedField(data,row,f,accessions)))return false;
         if(row._scopes?.[inputs[0]]!==row._scopes?.[inputs[1]])return false;
+        const versions=field=>[...new Set((row._sources[field] || []).map(id=>data.sources[id]?.accessionNumber))].sort().join('|');
+        if(versions(inputs[0])!==versions(inputs[1]))return false;
         const expectedRefs=inputs.flatMap(f=>row._sources[f]);
         const operation=field==='grossProfit'?'difference_fields':'sum_fields';
         const value=operation==='sum_fields'?row[inputs[0]]+row[inputs[1]]:row[inputs[0]]-row[inputs[1]];

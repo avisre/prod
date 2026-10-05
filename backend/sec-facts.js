@@ -3,6 +3,8 @@
 const p = require('./sec-coverage');
 const DAY = 86400000;
 const EXTRACTION_VERSION = '20261005-core2';
+const VALIDATION_VERSION = '20261005-validation3';
+function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
 const MAPS = {
  income: {
@@ -69,7 +71,7 @@ function scope(concept, fallback) {
 function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = {}) {
  const issuer = p.cik(document?.cik);
  if (!issuer || issuer !== p.cik(evidence?.cik) || !document.facts || typeof document.facts !== 'object') throw new Error('SEC_IDENTITY_MISMATCH');
- const out = {schemaVersion:1,extractionVersion:EXTRACTION_VERSION,cik:issuer,issuerName:document.entityName || evidence.issuerName || '',fetchedAt:new Date().toISOString(),factsDigest:p.digest(document),income:{annualReports:[],quarterlyReports:[]},balance:{annualReports:[],quarterlyReports:[]},cash:{annualReports:[],quarterlyReports:[]},sources:{},issues:[]};
+ const out = {schemaVersion:1,extractionVersion:EXTRACTION_VERSION,reportingSic:String(evidence.sic || ''),validationVersion:VALIDATION_VERSION,cik:issuer,issuerName:document.entityName || evidence.issuerName || '',fetchedAt:new Date().toISOString(),factsDigest:p.digest(document),income:{annualReports:[],quarterlyReports:[]},balance:{annualReports:[],quarterlyReports:[]},cash:{annualReports:[],quarterlyReports:[]},sources:{},issues:[]};
  const rows = [];
  const wanted = new Map();
  for(const fields of Object.values(MAPS)) for(const def of Object.values(fields)) for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) wanted.set(taxonomy + ':' + concept,true);
@@ -83,6 +85,8 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    rows.push({taxonomy,concept,unit,val,start,end,days,filed,form:f.form,accn:f.accn,original:f._original || null});
   }
  }
+ const byConceptUnit=new Map(),byEnd=new Map(),sourceCache=new Map();
+ for(const row of rows){const key=row.taxonomy+':'+row.concept+'|'+row.unit;const concept=byConceptUnit.get(key) || [];concept.push(row);byConceptUnit.set(key,concept);const ending=byEnd.get(row.end) || [];ending.push(row);byEnd.set(row.end,ending);}
  const a=evidence.latestAnnual;
  const annualAccessions=new Set(a?[a.accessionNumber,...(a.amendments || []).map(x=>x.accessionNumber)]:[]);
  const annualEnds=new Set(rows.filter(r=>r.days>=340 && r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form)).map(r=>r.end));
@@ -94,7 +98,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   const sets=[];
   for(const [st,field] of [['income','netIncome'],['income','totalRevenue'],['balance','totalAssets'],['balance','totalShareholderEquity'],['cash','operatingCashflow']]) {
    const def=MAPS[st][field];
-   const found=new Set(rows.filter(r=>r.end===end && /^[A-Z]{3}$/.test(r.unit) && def[r.taxonomy]?.includes(r.concept) && (!restrict || annualAccessions.has(r.accn)) && (st==='balance'?r.days===null:annual?r.days>=340&&r.days<=380:r.days!==null&&r.days<=380)).map(r=>r.unit));
+   const found=new Set((byEnd.get(end) || []).filter(r=>r.end===end && /^[A-Z]{3}$/.test(r.unit) && def[r.taxonomy]?.includes(r.concept) && (!restrict || annualAccessions.has(r.accn)) && (st==='balance'?r.days===null:annual?r.days>=340&&r.days<=380:r.days!==null&&r.days<=380)).map(r=>r.unit));
    if(found.size) sets.push(found);
   }
   const possible=sets.length?[...sets[0]].filter(u=>sets.every(s=>s.has(u))):[];
@@ -115,14 +119,16 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   return first;
  }
  function source(f) {
+  if(sourceCache.has(f))return sourceCache.get(f);
   const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
-  const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;return id;
+  const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;sourceCache.set(f,id);return id;
  }
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
   const restrict=basis==='annual' && a?.reportDate===end;
   for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) {
-   const all=rows.filter(r=>r.taxonomy===taxonomy && r.concept===concept && r.unit===unit && (!restrict || annualAccessions.has(r.accn)));
+   if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
+   const all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>!restrict || annualAccessions.has(r.accn));
    const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=105));
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
@@ -157,6 +163,8 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
     const refs=[...row._sources[left],...row._sources[right]];
     const scopes=[row._scopes[left],row._scopes[right]];
     if(scopes[0]!==scopes[1])return;
+    const versions=field=>[...new Set(row._sources[field].map(id=>out.sources[id].accessionNumber))].sort().join('|');
+    if(versions(left)!==versions(right))return;
     row[field]=operation==='sum_fields'?row[left]+row[right]:row[left]-row[right];
     row._sources[field]=refs;row._scopes[field]=scopes[0];row._derivations[field]={formula:operation,inputs:[left,right],inputValues:[row[left],row[right]]};
    }
@@ -173,8 +181,8 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    if(Object.keys(row._sources).length)out[st][basis+'Reports'].push(row);
   }
  }
- if(document.segmentFacts?.length)out.segmentObservations=require('./sec-segment-observations').extract(document.segmentFacts,out,document.industryFiling);
+ if(document.segmentFacts?.length){const segments=require('./sec-segment-observations'),groups=segments.extract(document.segmentFacts,out,document.industryFiling);out.segmentObservations=groups.filter(g=>{if(segments.validGroup(g,out))return true;out.issues.push({code:'UNSUPPORTED_SEGMENT_PROVENANCE',periodEnd:g.periodEnd,reason:'The original segment context or numerical receipt did not pass validation'});return false;});}
  if(document.industryTables?.length)out.industryObservations=require('./sec-industry-tables').extractTables(document.industryTables,document.industryFiling,issuer,out);
  return out;
 }
-module.exports={extract,MAPS,OUTFLOWS,EXTRACTION_VERSION};
+module.exports={extract,MAPS,OUTFLOWS,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept};

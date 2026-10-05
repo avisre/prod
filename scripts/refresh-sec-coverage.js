@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const p=require('../backend/sec-coverage');
 const client=require('../backend/sec-reporting');
-const {extract,EXTRACTION_VERSION}=require('../backend/sec-facts');
+const {extract,EXTRACTION_VERSION,VALIDATION_VERSION}=require('../backend/sec-facts');
 const DATA=p.DATA_DIR,REPORT=path.join(DATA,'sec-reporting.json');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
 function args(argv){const o={};for(let i=0;i<argv.length;i++){const name=argv[i];if(['--symbols','--as-of','--max-issuers','--concurrency'].includes(name)){if(!argv[i+1] || argv[i+1].startsWith('--'))throw new Error('Missing value for '+name);o[name]=argv[++i];}else if(['--bootstrap','--weekly','--daily','--audit','--dry-run'].includes(name))o[name]=true;else throw new Error('Unknown option '+name);}return o;}
@@ -43,7 +43,7 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
     for(const st of ['income','balance','cash'])for(const row of d[st]?.annualReports || [])if(row.fiscalDateEnding===annual.reportDate)for(const field of Object.keys(row._sources || {}))if(p.verifiedField(d,row,field,accessions))found.add(st+'.'+field);
     return found;
    };
-   const before=fields(old,previous),after=fields(merged,data),lost=[...before].filter(field=>!after.has(field));
+   const before=fields(old,{...previous,reportingSic:merged.sic}),after=fields(merged,data),lost=[...before].filter(field=>!after.has(field));
    if(lost.length)throw new Error('EXTRACTION_DISCARDED_VALID_PERIOD: '+lost.join(','));
    if(p.classify(old,previous,asOf).financialCoverage==='ready' && validation.financialCoverage!=='ready')throw new Error('EXTRACTION_DISCARDED_READY_COVERAGE');
   }
@@ -52,13 +52,14 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
   const comparable=x=>({...x,fetchedAt:null,sources:Object.fromEntries(Object.entries(x.sources).map(([id,s])=>[id,{...s,retrievedAt:null}]))});
   if(previous && p.digest(comparable(previous))===p.digest(comparable(data))){data.fetchedAt=previous.fetchedAt;data.sources=previous.sources;}
   p.atomicWrite(file,data);
-  merged.extractionVersion=EXTRACTION_VERSION;merged.financialDigest=p.digest(fs.readFileSync(file,'utf8'));merged.lastFinancialCheckAt=attempted;merged.lastFinancialResult='success';merged.lastErrorCode=null;
+  merged.extractionVersion=EXTRACTION_VERSION;merged.validationVersion=VALIDATION_VERSION;merged.financialDigest=p.digest(fs.readFileSync(file,'utf8'));merged.lastFinancialCheckAt=attempted;merged.lastFinancialResult='success';merged.financialFailureType=null;merged.lastErrorCode=null;
  }catch(error){
   const identity=/IDENTITY/.test(error.message);
   if(identity)merged.lastAttemptResult='invalid_identity';
   merged.lastFinancialResult=identity?'invalid_identity':error.response?.status===404?'no_facts':'transient_failure';
   if(error.response?.status===404)merged.lastFinancialCheckAt=attempted;
   if(error.response?.status===404)merged.extractionVersion=EXTRACTION_VERSION;
+  merged.financialFailureType=/EXTRACTION_DISCARDED|INVALID_EXTRACTION/.test(error.message)?'unsupported_extraction':error.response?.status===404?'issuer_facts_unavailable':'retrieval_failed';
   merged.lastErrorCode=String(error.response?.status || error.code || error.message).slice(0,100);
  }
  return merged;
@@ -87,7 +88,7 @@ async function main(argv=process.argv.slice(2)) {
  const shard=(new Date(asOf+'T00:00:00Z').getUTCDate()-1)%28;
  await Promise.all(Array.from({length:concurrency},async()=>{
   while(todo.length){const issuer=todo.shift(),old=report.issuers[issuer.cik];
-   const completed=old?.extractionVersion===EXTRACTION_VERSION && old?.lastAttemptResult==='success' && (old?.lastReconciledCycle || old?.lastSuccessfulCheckAt?.slice(0,10))===asOf && ['success','no_facts'].includes(old.lastFinancialResult) && (old.lastFinancialResult==='no_facts' || fs.existsSync(path.join(DATA,'sec-financials',issuer.cik+'.json')));
+   const completed=(!/^63/.test(String(old?.sic || '')) || old?.validationVersion===VALIDATION_VERSION) && old?.extractionVersion===EXTRACTION_VERSION && old?.lastAttemptResult==='success' && (old?.lastReconciledCycle || old?.lastSuccessfulCheckAt?.slice(0,10))===asOf && ['success','no_facts'].includes(old.lastFinancialResult) && (old.lastFinancialResult==='no_facts' || fs.existsSync(path.join(DATA,'sec-financials',issuer.cik+'.json')));
    if(!((o['--bootstrap'] || o['--weekly']) && completed)){report.issuers[issuer.cik]=await refreshIssuer(issuer,old,{asOf,force:!!o['--symbols'] || !!o['--weekly']});report.issuers[issuer.cik].lastReconciledCycle=asOf;}
    done++;if(done%20===0){save();console.log(JSON.stringify({done,total:done+todo.length,last:issuer.symbols[0],result:report.issuers[issuer.cik]?.lastFinancialResult,error:report.issuers[issuer.cik]?.lastErrorCode}));}
   }

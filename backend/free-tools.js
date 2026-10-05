@@ -103,6 +103,8 @@ function sourceInfo(symbol, data, updatedAt) {
         source: data?.provenance?'Verified SEC XBRL facts and explicit calculations':'Company filings',
         sourceUrl: data?.coverage?.latestAnnual?.filingUrl || `https://www.sec.gov/edgar/search/#/q=${encodeURIComponent(symbol)}`,
         coverage:data?.coverage || null,
+        freshness:data?.freshness || null,
+        supplementalObservations:data?.supplementalObservations || [],
         provenance:data?.provenance?{...data.provenance,statements:Object.fromEntries(['income','balance','cash'].map(st=>[st,annualRows(data,st).map(r=>({period:r.fiscalDateEnding,currency:r.reportedCurrency,sources:r._sources,derivations:r._derivations}))]))}:null,
         updatedAt: updatedAt || null,
         note: 'Informational research only. Verify material figures against the linked primary filing before acting.'
@@ -474,14 +476,11 @@ function cacheFile(symbol) {
 }
 
 async function loadFundamentals(symbol) {
-    const company=require('./stock-universe').lookup(symbol);
+    const universe=require('./stock-universe'),online=process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1' && process.env.SEC_COVERAGE_READ_ONLY!=='1';
+    const company=universe.lookup(symbol) || (online?await universe.resolveListing(symbol):null);
     if(!company || company.securityType!=='stock')return null;
-    let data=require('./fundamentals-cache').loadFundamentals(company.symbol);
-    if(!data || data.coverage.annualReportingStatus==='unverified') {
-        await require('./sec-on-demand').refresh(company.symbol);
-        data=require('./fundamentals-cache').loadFundamentals(company.symbol);
-    }
-    if(!data || data.coverage.financialCoverage==='unavailable')return null;
+    const data=online?(await require('./verified-fundamentals').getCompanyEvidence(company.symbol)).data:require('./fundamentals-cache').loadFundamentals(company.symbol);
+    if(!data || data.coverage.financialCoverage==='unavailable' && !data.supplementalObservations?.length)return null;
     return {data,at:Date.now(),updatedAt:data.fetchedAt || null,stale:data.coverage.financialCoverage==='historical_only'};
 }
 
@@ -513,7 +512,8 @@ async function getToolResult(tool, rawSymbol) {
     // Reuse the existing US-listed universe allowlist before touching the SEC
     // or fundamentals cache. This keeps arbitrary hostnames/strings from
     // becoming on-demand fetch jobs and gives unsupported symbols a safe 404.
-    if (!fundamentalsFetch.lookup(symbol)) {
+    const liveIdentity=process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1' && process.env.SEC_COVERAGE_READ_ONLY!=='1';
+    if (!fundamentalsFetch.lookup(symbol) && !(liveIdentity && await require('./stock-universe').resolveListing(symbol))) {
         return { status: 404, body: { error: `${symbol} is not a supported US-listed ticker.` } };
     }
     const security=require('./stock-universe').lookup(symbol);
@@ -525,7 +525,7 @@ async function getToolResult(tool, rawSymbol) {
     if (tool === 'earnings-quality') body = computeEarningsQuality(symbol, loaded.data, loaded.updatedAt);
     else if (tool === 'dilution') body = computeDilution(symbol, loaded.data, loaded.updatedAt);
     else body = computeSingleTool(tool, symbol, loaded.data, loaded.updatedAt);
-    return body ? { status: body.error?422:200, body } : { status: 501, body: { error: 'This tool is not implemented.' } };
+    return body ? { status: body.error?422:200, body:{...body,coverage:loaded.data.coverage,freshness:loaded.data.freshness,supplementalObservations:loaded.data.supplementalObservations || []} } : { status: 501, body: { error: 'This tool is not implemented.' } };
 }
 
 function esc(value) {

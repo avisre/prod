@@ -64,6 +64,8 @@ jobs:
         run: node scripts/run-financial-stage.js listings
       - name: Extract original industry and segment disclosures
         run: node --max-old-space-size=1536 scripts/run-financial-stage.js industry
+      - name: Retry transient original-document failures
+        run: node --max-old-space-size=1536 scripts/run-financial-stage.js industry-retry
       - name: Promote validated public request additions
         run: node scripts/run-financial-stage.js promote
       - name: Refresh optional currency presentation
@@ -72,7 +74,7 @@ jobs:
         run: |
           node --max-old-space-size=1536 scripts/build-public-stock-index.js
           node scripts/build-screen-index.js
-          node --test backend/test/financial-foundation.test.js backend/test/sec-original.test.js backend/test/financial-provenance.test.js backend/test/company-evidence.test.js
+          node scripts/test-stock-coverage.js
           node scripts/validate-stock-coverage.js --bootstrap
           node scripts/verify-public-stock-pages.js
           node --max-old-space-size=256 scripts/check-stock-coverage-performance.js

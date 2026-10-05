@@ -93,7 +93,8 @@ function globalQuote(symbol, data) {
                 '08. previous close': s(prev),
                 '09. change': change === null ? '' : String(change),
                 '10. change percent': pct === null ? '' : `${pct.toFixed(4)}%`
-            }
+            },
+            marketData:{asOf:snap.asOf || null,source:'Yahoo Finance daily snapshot',freshness:'stale_fallback',lastRetrievalResult:'retrieval_failed_or_skipped'}
         };
     }
     const daily = dailyCloses(data);
@@ -114,7 +115,8 @@ function globalQuote(symbol, data) {
             '08. previous close': str(prev),
             '09. change': str(change),
             '10. change percent': pct === null ? '' : `${pct.toFixed(4)}%`
-        }
+        },
+        marketData:{asOf:daily.date,source:'Stored dated price history',freshness:'stale_fallback',lastRetrievalResult:'retrieval_failed_or_skipped'}
     };
 }
 

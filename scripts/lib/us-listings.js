@@ -65,7 +65,7 @@ function buildUniverse(nasdaq, other, sec, curated = [], previous = [], metadata
         const symbol = cur?.symbol || prev?.symbol || row.symbol;
         if (companies.has(k)) throw new Error(`Normalized symbol collision: ${row.symbol}`);
         companies.set(k, { symbol, name: cur?.name || row.name.replace(/ - (?:Class .*|Common .*|Ordinary .*|American .*|ADS.*)$/, ''),
-            securityName: row.name, exchange: row.exchange, securityType: type, aliases:[...new Set([symbol,row.symbol,issuer?.ticker].filter(Boolean))], isADR:/American Deposit|\bADR\b|\bADS\b/i.test(row.name),
+            securityName: row.name, exchange: row.exchange, securityType: type, aliases:[...new Set([symbol,row.symbol,issuer?.ticker].filter(Boolean))], isADR:/American Deposit|\bADR\b|\bADSs?\b/i.test(row.name),
             ...(issuer?.cik ? { cik: String(issuer.cik).padStart(10, '0') } : {}),
             ...(cur?.sector || prev?.sector ? { sector: cur?.sector || prev.sector } : {}),
             ...(row.financialStatus && row.financialStatus !== 'N' ? { financialStatus: row.financialStatus } : {}) });
@@ -84,4 +84,16 @@ function buildUniverse(nasdaq, other, sec, curated = [], previous = [], metadata
     return { manifest, generatedAt: new Date().toISOString(), source: 'Nasdaq Trader nasdaqlisted.txt + otherlisted.txt; SEC issuer identifiers',
         count: list.length, excluded, companies: list };
 }
-module.exports = { parseDirectory, securityType, buildUniverse,validateTimestamp };
+function validateManifest(manifest,companies) {
+ const errors=[];
+ if(!Array.isArray(manifest?.outcomes) || manifest.counts?.directoryRecords!==manifest.outcomes.length)return ['Authoritative directory outcomes are incomplete'];
+ const allowed=new Set(['stock','etf','test','preferred','warrant','unit','right','debt','closed_end_fund','unresolved']);
+ const symbols=new Set();for(const row of manifest.outcomes){const symbol=key(row.symbol);if(!symbol || symbols.has(symbol))errors.push('Duplicate or absent directory identity '+symbol);symbols.add(symbol);if(!allowed.has(row.classification) || row.decision!==(row.classification==='stock'?'include':row.classification==='unresolved'?'review':'exclude') || !row.classificationSource)errors.push('Invalid classification outcome '+symbol);}
+ const stocks=companies.filter(c=>c.securityType==='stock'),included=manifest.outcomes.filter(o=>o.decision==='include');
+ if(stocks.length!==included.length || stocks.some(c=>!included.some(o=>key(o.symbol)===key(c.symbol))))errors.push('Included directory stocks do not match published listings');
+ if(manifest.counts.stockListings!==stocks.length || manifest.counts.uniqueIssuers!==new Set(stocks.filter(c=>c.cik).map(c=>c.cik)).size)errors.push('Universe denominators do not reconcile');
+ for(const source of manifest.sources || [])if(!source.url || !Number.isFinite(Date.parse(source.retrievedAt || '')) || !/^[a-f0-9]{64}$/.test(source.sha256 || ''))errors.push('Invalid directory source provenance');
+ for(const directory of ['nasdaq','other','sec_issuer_identity'])if(!(manifest.sources || []).some(s=>s.directory===directory))errors.push('Missing authoritative directory source '+directory);
+ return errors;
+}
+module.exports = { parseDirectory, securityType, buildUniverse,validateTimestamp,validateManifest };

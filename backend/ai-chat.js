@@ -178,7 +178,10 @@ function freshness(latestPeriodEnd, basis) {
 
 async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
     const st = ['income', 'balance', 'cash'].includes(statement) ? statement : 'income';
-    const data = await loadFundAny(symbol,FIELDS[st]);
+    let industryFields=[];
+    try{const company=stockUniverse.lookup(symbol),issuer=require('./public-stock-index').view().issuers[company?.cik],overview=require('./fundamentals-cache').loadRawFundamentals(symbol)?.overview || {Sector:company?.sector};industryFields=require('./financial-requirements').requirements(overview,issuer?.evidence?.sic).industry.filter(field=>require('./sec-facts').MAPS[st][field]);}catch(_){}
+    const fields=[...new Set([...FIELDS[st],...industryFields])];
+    const data = await loadFundAny(symbol,fields);
     if (!data || (!stockUniverse.hasStatements(data) && !data.supplementalObservations?.length)) return NO_DATA(symbol, data);
     const annual = basis !== 'quarterly';
     if (before && !require('./sec-coverage').day(before)) return { error: 'before must be a valid UTC date (YYYY-MM-DD).' };
@@ -186,7 +189,6 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before }) {
     if (!reports.length) return { symbol,statement:st,basis:annual?'annual':'quarterly',verifiedObservations:[],supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),sourceAttempts:data.sourceAttempts,coverage:data.coverage,note:'No compatible SEC statement rows. Supplemental observations are separately attributed provider figures, not SEC-verified.' };
     const cap = Math.min(Math.max(num(limit) || (annual ? 3 : 4), 1), annual ? 20 : 48);
     const rows = reports.slice().sort((a, b) => b.fiscalDateEnding.localeCompare(a.fiscalDateEnding)).slice(0, cap);
-    const fields = FIELDS[st];
     const lines = ['period_end|' + fields.join('|')];
     for (const r of rows) {
         const gp = num(r.grossProfit), cor = num(r.costOfRevenue), tax = num(r.incomeTaxExpense);

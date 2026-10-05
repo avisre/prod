@@ -8,7 +8,8 @@ async function main(argv=process.argv.slice(2)) {
  const symbols=argv.includes('--symbols')?new Set(argv[argv.indexOf('--symbols')+1].split(',')):null;
  const directory=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8'));
  const reportFile=path.join(p.DATA_DIR,'sec-reporting.json'),report=JSON.parse(fs.readFileSync(reportFile,'utf8'));
- const todo=issuersFor(directory.companies).filter(i=>!symbols || i.symbols.some(s=>symbols.has(s)));
+ const retryOnly=argv.includes('--retry');
+ const todo=issuersFor(directory.companies).filter(i=>(!symbols || i.symbols.some(s=>symbols.has(s))) && (!retryOnly || report.issuers[i.cik]?.industryExtraction?.status==='retrieval_failed'));
  const lock=path.join(p.DATA_DIR,'.sec-refresh.lock');const fd=fs.openSync(lock,'wx');fs.writeSync(fd,String(process.pid));
  let done=0,success=0,failed=0;const save=()=>p.atomicWrite(reportFile,report);
  const shutdown=()=>{save();process.exit(130);};process.once('SIGINT',shutdown);process.once('SIGTERM',shutdown);
@@ -18,7 +19,7 @@ async function main(argv=process.argv.slice(2)) {
   const file=path.join(p.DATA_DIR,'sec-financials',issuer.cik+'.json'),raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==e.financialDigest)throw new Error('FINANCIAL_DIGEST_MISMATCH');
   const data=JSON.parse(raw);if(data.industryExtraction?.version===industry.VERSION && data.industryExtraction.sourceVersion===e.latestAnnual.accessionNumber && (data.industryExtraction.checkedAt || '').slice(0,10)===report.asOf)continue;
   try{const document=await original.fetchOriginal(issuer.cik,e.latestAnnual),next=industry.enrich(data,document,e,{asOf:report.asOf});p.atomicWrite(file,next);e.financialDigest=p.digest(fs.readFileSync(file,'utf8'));e.industryExtraction=next.industryExtraction;success++;}
-  catch(err){e.industryExtraction={version:industry.VERSION,status:'retrieval_failed',sourceVersion:e.latestAnnual.accessionNumber,checkedAt:new Date().toISOString(),reason:String(err.code || err.message).slice(0,120)};failed++;}
+  catch(err){e.industryExtraction={version:industry.VERSION,status:/INVALID_INDUSTRY|ORIGINAL_DOCUMENT_(?:TOO_LARGE|PATH_UNAVAILABLE)/.test(err.message || '')?'unsupported_extraction':'retrieval_failed',sourceVersion:e.latestAnnual.accessionNumber,checkedAt:new Date().toISOString(),reason:String(err.code || err.message).slice(0,120)};failed++;}
   done++;if(done%20===0){save();console.log(JSON.stringify({originalIssuers:done,success,failed,remaining:todo.length}));}
  }}));save();process.removeListener('SIGINT',shutdown);process.removeListener('SIGTERM',shutdown);unlock();process.removeListener('exit',unlock);console.log(JSON.stringify({originalIssuers:done,success,failed}));
 }

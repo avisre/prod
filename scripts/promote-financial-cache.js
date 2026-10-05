@@ -8,9 +8,9 @@ async function promote(collection,{asOf=p.day(new Date().toISOString()),refresh=
  const allowed=new Set(stocks.map(c=>p.cik(c.cik) || 'listing:'+c.symbol.replace(/\./g,'-'))),symbolFor=new Map(stocks.map(c=>[p.cik(c.cik) || 'listing:'+c.symbol.replace(/\./g,'-'),c.symbol]));const seen=new Set();let promoted=0,rejected=0,refreshFailures=0;
  async function* candidates(){yield* collection.find({},{projection:{issuer:1,value:1,createdAt:1}}).sort({createdAt:-1});for(const record of require('../backend/committed-supplements').readAll())yield {issuer:record.issuer,value:{supplemental:record.doc.observations}};}
  for await(const row of candidates()) {
-  if(!allowed.has(row.issuer) || seen.has(row.issuer))continue;seen.add(row.issuer);
+  if(!allowed.has(row.issuer) || seen.has(row.issuer))continue;
   let facts=(row.value?.supplemental || []).filter(f=>obs.validSupplement(f,row.issuer) && f.sourceType!=='sec_filing' && f.basis!=='market' && f.periodEnd<=asOf && obs.sourceDate(f)<=asOf && p.day(f.retrievedAt)<=asOf && f.state==='available');
-  rejected+=(row.value?.supplemental?.length || 0)-facts.length;if(!facts.length)continue;
+  rejected+=(row.value?.supplemental?.length || 0)-facts.length;if(!facts.length)continue;seen.add(row.issuer);
   let refreshStatus='not_required';const provider=facts.filter(f=>f.sourceName==='Yahoo Finance');
   if(provider.length)try{const live=await refresh(symbolFor.get(row.issuer),[...new Set(provider.map(f=>f.statement))]);facts=facts.map(f=>{
    if(f.sourceName!=='Yahoo Finance')return f;

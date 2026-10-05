@@ -17,7 +17,7 @@
 
 const aiChat = require('./ai-chat');
 
-const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+const num = require('./sec-coverage').number;
 const r1 = (v) => (v === null || v === undefined ? null : Math.round(v * 10) / 10);
 const r2 = (v) => (v === null || v === undefined ? null : Math.round(v * 100) / 100);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
@@ -26,10 +26,10 @@ const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 const DEFAULTS = { riskFreePct: 4.4, erpPct: 4.5, terminalGrowthPct: 2.5, horizonYears: 10, taxFallbackPct: 21 };
 
 function latestDebt(b) {
-    return (num(b.shortTermDebt) || 0) + (num(b.longTermDebt) || 0) + (num(b.currentLongTermDebt) || 0);
+    return require('./financial-row').totalDebt(b);
 }
 function latestCash(b) {
-    return (num(b.cashAndCashEquivalentsAtCarryingValue) || 0) + (num(b.shortTermInvestments) || 0);
+    return num(b.cashAndCashEquivalentsAtCarryingValue);
 }
 
 // FCFF for a single year's statements (cash to all capital providers).
@@ -38,7 +38,8 @@ function fcffOf(inc, cash, taxRate) {
     const capex = num(cash.capitalExpenditures); // stored negative
     if (ocf === null || capex === null) return null;
     const interest = num(inc.interestExpense);
-    const afterTaxInterest = interest !== null ? Math.abs(interest) * (1 - taxRate) : 0;
+    if (interest === null) return null;
+    const afterTaxInterest = Math.abs(interest) * (1 - taxRate);
     return ocf + afterTaxInterest + capex; // capex negative → subtracts
 }
 
@@ -74,6 +75,7 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     const re = rf + betaUsed * erp; // cost of equity (CAPM)
 
     const totalDebt = latestDebt(bal0);
+    if(totalDebt===null || latestCash(bal0)===null)return {error:'Compatible total debt and cash-equivalent observations are required; missing inputs are not treated as zero.'};
     const interest = num(inc0.interestExpense);
     let rd = (interest !== null && totalDebt > 0) ? Math.abs(interest) / totalDebt : null;
     if (rd !== null) rd = clamp(rd, 0, 0.15); // guard odd ratios
@@ -89,7 +91,7 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
         erpPct: r2(erp * 100),
         costOfEquityPct: r2(re * 100),
         costOfDebtPct: rd !== null ? r2(rd * 100) : null,
-        costOfDebtNote: rd !== null ? 'Interest expense ÷ total debt, from the latest 10-K.' : 'No debt / interest reported — debt weight is zero.',
+        costOfDebtNote: rd !== null ? 'Interest expense ÷ total debt, from the latest 10-K.' : totalDebt===0?'Reported total debt is zero.':'Interest expense is unavailable; an explicit 5% cost-of-debt assumption is used.',
         taxRatePct: r1(taxPct),
         weightEquityPct: r1(wE * 100),
         weightDebtPct: r1(wD * 100),
@@ -100,10 +102,11 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     // ---- FCFF base + growth anchor ----
     const incs = (data.income || {}).annualReports || [];
     const cashs = (data.cash || {}).annualReports || [];
-    const n = Math.min(incs.length, cashs.length);
+    const n = incs.length;
     const fcffHist = [];
     for (let i = 0; i < Math.min(n, 6); i++) {
-        const f = fcffOf(incs[i] || {}, cashs[i] || {}, tax);
+        const inc=incs[i],cash=cashs.find(row=>require('./financial-row').compatible(inc,row));
+        const f = cash?fcffOf(inc, cash, tax):null;
         if (f !== null) fcffHist.push({ fy: String((incs[i] || {}).fiscalDateEnding || '').slice(0, 10), fcff: f });
     }
     if (!fcffHist.length) return { error: 'No free-cash-flow history available to project.' };
@@ -132,7 +135,7 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
     if (tg >= tgCap) { tg = Math.max(0, tgCap); tgClamped = true; }
     const horizon = DEFAULTS.horizonYears;
 
-    const netDebt = totalDebt - latestCash(bal0);
+    const netDebt = totalDebt - latestCash(bal0); // Cash-equivalent basis; investments are excluded, not assumed zero.
     // The share count MUST be on the same basis as marketCap and the quoted
     // price. ov.SharesOutstanding is Yahoo's quote-basis count (marketCap /
     // price); for an ADR that is the ADS count, while the balance sheet reports
@@ -215,6 +218,7 @@ async function buildValuation(symbol, { data, rdcf, opts = {} } = {}) {
         currentPrice: currentPrice !== null ? r2(currentPrice) : null,
         sharesOutstanding: shares || null,
         netDebt: Math.round(netDebt),
+        netDebtBasis:'Total borrowing debt minus reported cash and cash equivalents; short-term investments excluded',
         waccBuildup,
         fairValue: {
             perShare: base.perShare,

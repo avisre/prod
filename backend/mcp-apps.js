@@ -43,7 +43,7 @@ const SERVER_VERSION = '1.0.0';
 const SERVER_INSTRUCTIONS = [
     'StockPortfolio.pro provides structured financial data and SEC filing evidence for US-listed public companies.',
     'If a company name is ambiguous, call search_companies first and use the exact ticker it returns.',
-    'Financial values are returned with the SEC filing that reports each fiscal period; cite that source URL.',
+    'Financial values carry their reporting period and source URL; cite that source. Supplemental provider figures are separately attributed and must not be described as SEC-verified.',
     'A missing value is returned as null and is never estimated. Reported arithmetic is labelled as such.',
     'Do not treat any output as investment advice, and do not execute transactions.',
     'Tools are read-only and never modify an account.'
@@ -51,7 +51,7 @@ const SERVER_INSTRUCTIONS = [
 
 const SOURCE_SCHEMA = {
     type: ['object', 'null'],
-    description: 'The SEC filing behind a value. linkage "xbrl_fact" means the value was read from an SEC XBRL fact with that accession; linkage "derived_from_facts" identifies a calculation with explicit fact inputs. A period-matched filing is contextual metadata and does not prove a value source.',
+    description: 'The filing or explicitly attributed supplemental source behind a value. linkage "xbrl_fact" means the value was read from an SEC XBRL fact with that accession; linkage "derived_from_facts" identifies a calculation with explicit fact inputs. A period-matched filing is contextual metadata and does not prove a value source.',
     properties: {
         type: { type: ['string', 'null'] },
         form: { type: ['string', 'null'] },
@@ -73,7 +73,7 @@ const OBSERVATION_SCHEMA = {
         period_type: { type: 'string', enum: ['annual', 'quarterly'] },
         period_end: { type: 'string', description: 'Fiscal period end date (YYYY-MM-DD).' },
         value: { type: ['number', 'null'] },
-        units: { type: 'string', description: 'USD, USD_per_share, shares or percent.' },
+        units: { type: 'string', description: 'Reported currency code or currency per share, shares or percent; retain the supplied native currency.' },
         currency: { type: ['string', 'null'] },
         derived_from: { type: ['array', 'null'], items: { type: 'string' } },
         source: SOURCE_SCHEMA,
@@ -199,7 +199,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
         requiredScope: 'financials:read',
         handler: (args) => fin.companyFinancials({
             company: args.company,
@@ -238,7 +238,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
         requiredScope: 'financials:read',
         handler: (args) => fin.metricHistory({
             company: args.company,
@@ -378,7 +378,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
         requiredScope: 'research:read',
         handler: (args) => fin.compareCompanyMetrics({
             companies: args.companies,
@@ -418,7 +418,7 @@ const TOOL_DEFS = [
             },
             additionalProperties: true
         },
-        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: false },
+        annotations: { readOnlyHint: true, destructiveHint: false, openWorldHint: true },
         requiredScope: 'research:read',
         handler: (args) => fin.changeDrivers({
             company: args.company,

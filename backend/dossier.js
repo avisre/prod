@@ -33,7 +33,7 @@ const valuationDcf = require('./valuation-dcf');
 const dossierBuildLock = require('./dossier-build-lock');
 const keypoints = require('./keypoints');
 
-const num = (v) => { const n = Number(v); return Number.isFinite(n) ? n : null; };
+const num = require('./sec-coverage').number;
 function dossierCol() { return mongoose.connection.collection('company_dossiers'); }
 const DossierBuildLock = dossierBuildLock.createModel(mongoose);
 const DOSSIER_BUILD_LEASE_MS = 15 * 60 * 1000;

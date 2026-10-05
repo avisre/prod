@@ -5,8 +5,8 @@
 // instance — so EVERY outbound call to *.sec.gov across the whole codebase
 // (sec-source, filing-fetcher, watchdog, insiders, gurus, segments, keypoints,
 // ai-chat) is paced automatically, with no per-call-site changes and covering
-// any future SEC call too. A small burst (capacity 8) keeps a single dossier's
-// handful of fetches instant; sustained load (pre-warm, bursts) is held to 8/sec.
+// any future SEC call too. Production and weekly workers share a Mongo slot allocator; local offline
+// workflows use a capacity-one bucket. Requests are evenly paced at 8/sec.
 
 const axios = require('axios');
 

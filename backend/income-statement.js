@@ -58,24 +58,25 @@ function present(v) {
 function repairIncome(report) {
     if (!report) return null;
     const derived = [];
+    const disclosed = field => report._sources?.[field]?.length ? num(report[field]) : present(report[field]);
 
     const revenue = num(report.totalRevenue);
-    let grossProfit = present(report.grossProfit);
-    let costOfRevenue = present(report.costOfRevenue);
-    if (costOfRevenue === null) costOfRevenue = present(report.costofGoodsAndServicesSold);
+    let grossProfit = disclosed('grossProfit');
+    let costOfRevenue = disclosed('costOfRevenue');
+    if (costOfRevenue === null) costOfRevenue = disclosed('costofGoodsAndServicesSold');
 
     if (revenue !== null) {
         if (grossProfit === null && costOfRevenue !== null) { grossProfit = revenue - costOfRevenue; derived.push('grossProfit'); }
         else if (costOfRevenue === null && grossProfit !== null) { costOfRevenue = revenue - grossProfit; derived.push('costOfRevenue'); }
     }
 
-    const researchAndDevelopment = present(report.researchAndDevelopment);
-    const sellingGeneralAndAdministrative = present(report.sellingGeneralAndAdministrative);
+    const researchAndDevelopment = disclosed('researchAndDevelopment');
+    const sellingGeneralAndAdministrative = disclosed('sellingGeneralAndAdministrative');
 
     // Gross profit ties these two, so either recovers the other exactly. Never
     // build opex from its components — see the note above.
-    let operatingExpenses = present(report.operatingExpenses);
-    let operatingIncome = present(report.operatingIncome);
+    let operatingExpenses = disclosed('operatingExpenses');
+    let operatingIncome = disclosed('operatingIncome');
     if (grossProfit !== null) {
         if (operatingExpenses === null && operatingIncome !== null) { operatingExpenses = grossProfit - operatingIncome; derived.push('operatingExpenses'); }
         else if (operatingIncome === null && operatingExpenses !== null) { operatingIncome = grossProfit - operatingExpenses; derived.push('operatingIncome'); }
@@ -83,14 +84,14 @@ function repairIncome(report) {
 
     const incomeBeforeTax = num(report.incomeBeforeTax);
     const netIncome = num(report.netIncome);
-    let tax = present(report.incomeTaxExpense);
+    let tax = disclosed('incomeTaxExpense');
     if (tax === null && incomeBeforeTax !== null && netIncome !== null && incomeBeforeTax - netIncome > 0) {
         tax = incomeBeforeTax - netIncome;
         derived.push('tax');
     }
 
-    let interestExpense = present(report.interestExpense);
-    if (interestExpense === null) interestExpense = present(report.interestAndDebtExpense);
+    let interestExpense = disclosed('interestExpense');
+    if (interestExpense === null) interestExpense = disclosed('interestAndDebtExpense');
 
     return {
         periodEnd: report.fiscalDateEnding || null,

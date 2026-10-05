@@ -52,7 +52,7 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         const slug = slugs.has(requested) ? requested : 'earnings-quality';
         if (!(await gate(req, res, 'api_lookup'))) return;
         const { status, body } = await freeTools.getToolResult(slug, req.params.ticker);
-        if (status !== 200) return res.status(status).json({ error: body.error });
+        if (status !== 200) return res.status(status).json(body);
         await credits.spend(req.userId, 'api_lookup', `api:${slug}`, req.params.ticker);
         res.json(envelope(slug, freeTools.normalizeSymbol(req.params.ticker), body));
     });

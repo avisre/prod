@@ -651,6 +651,11 @@ function sourceRefsForMetric(data,row,id,seen=new Set()) {
 }
 
 async function buildSeries(symbol, metricIds, periodType, opts = {}) {
+    const start=opts.startPeriod?isoDay(opts.startPeriod):null,end=opts.endPeriod?isoDay(opts.endPeriod):null;
+    if(opts.startPeriod && !start)throw mcpError('INVALID_PERIOD','start_period must be an ISO date (YYYY-MM-DD).');
+    if(opts.endPeriod && !end)throw mcpError('INVALID_PERIOD','end_period must be an ISO date (YYYY-MM-DD).');
+    if(start && end && start>end)throw mcpError('INVALID_PERIOD','start_period must be on or before end_period.');
+    const count=Math.min(Math.max(Number(opts.periods) || (periodType==='quarterly'?8:5),1),20);
     const listing=require('./stock-universe').lookup(symbol);
     if(listing && listing.securityType !== 'stock') throw mcpError('UNSUPPORTED_SECURITY_TYPE','Company financial analysis is unavailable for this instrument.');
     const online=process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1' && process.env.SEC_COVERAGE_READ_ONLY!=='1';
@@ -662,7 +667,7 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
     const rows = periodRows(data, periodType);
     if (!rows.length) {
         const supplemental=data.supplementalObservations || [],observations=[];
-        for(const id of metricIds){const def=metricDef(id);if(!def?.field)continue;for(const f of supplemental.filter(f=>f.field===def.field && (f.historyBasis || f.basis)===periodType && f.state==='available').slice(0,opts.periods || 5))observations.push({metric:id,label:def.label,period_type:periodType,period_end:f.periodEnd,value:f.value,units:f.unit,currency:f.currency,derived_from:null,source:{type:'supplemental',linkage:'attributed_provider_observation',source_name:f.sourceName,source_type:f.sourceType,url:f.sourceUrl,source_date:f.publicationDate || f.sourceDataDate,retrieved_at:f.retrievedAt,accounting_basis:f.accountingBasis},verification:'attributed_supplemental'});}
+        for(const id of metricIds){const def=metricDef(id);if(!def?.field)continue;for(const f of supplemental.filter(f=>f.field===def.field && (f.historyBasis || f.basis)===periodType && f.state==='available' && (!start || f.periodEnd>=start) && (!end || f.periodEnd<=end)).sort((a,b)=>b.periodEnd.localeCompare(a.periodEnd)).slice(0,count))observations.push({metric:id,label:def.label,period_type:periodType,period_end:f.periodEnd,value:f.value,units:f.unit,currency:f.currency,derived_from:null,source:{type:'supplemental',linkage:'attributed_provider_observation',source_name:f.sourceName,source_type:f.sourceType,url:f.sourceUrl,source_date:f.publicationDate || f.sourceDataDate,retrieved_at:f.retrievedAt,accounting_basis:f.accountingBasis},verification:'attributed_supplemental'});}
         if(observations.length)return {overview,observations,currency:new Set(observations.map(f=>f.currency)).size===1?observations[0].currency:null,periodType,totalPeriods:new Set(observations.map(f=>f.period_end)).size,coverage:data.coverage,freshness:data.freshness,supplementalObservations:supplemental};
         throw mcpError('VERIFIED_FINANCIALS_UNAVAILABLE', `No compatible ${periodType} financial observations are available for ${symbol}.`,{coverage:data.coverage,freshness:data.freshness});
     }
@@ -678,7 +683,6 @@ async function buildSeries(symbol, metricIds, periodType, opts = {}) {
         if (!end) throw mcpError('INVALID_PERIOD', 'end_period must be an ISO date (YYYY-MM-DD).');
         selected = selected.filter((r) => r.period_end <= end);
     }
-    const count = Math.min(Math.max(Number(opts.periods) || (periodType === 'quarterly' ? 8 : 5), 1), 20);
     selected = selected.slice(0, count);
     if (!selected.length) throw mcpError('INVALID_PERIOD', 'No periods matched the requested date range.');
 

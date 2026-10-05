@@ -15,7 +15,8 @@ function enrich(financial,document,reporting,{asOf=p.day(new Date().toISOString(
   }
  }
  out.industryObservations=incoming.industryObservations || out.industryObservations || [];
- out.segmentObservations=require('./sec-segment-observations').extract(document.segments,out,document.originalDocument);
+ const segments=require('./sec-segment-observations'),groups=segments.extract(document.segments,out,document.originalDocument);
+ out.segmentObservations=groups.filter(g=>{if(segments.validGroup(g,out))return true;out.issues.push({code:'UNSUPPORTED_SEGMENT_PROVENANCE',periodEnd:g.periodEnd,reason:'The original segment context or numerical receipt did not pass validation'});return false;});
  out.industryExtraction={version:VERSION,sourceVersion:document.originalDocument.accessionNumber,sourceUrl:document.originalDocument.url,checkedAt:new Date().toISOString(),status:'success',remainingReason:'Only standard mapped concepts and reviewed issuer tables are eligible; unsupported custom disclosures remain explicit gaps'};
  const errors=p.validateFinancial(out,out.cik,asOf);if(errors.length)throw new Error('INVALID_INDUSTRY_EXTRACTION: '+errors[0]);
  return out;
