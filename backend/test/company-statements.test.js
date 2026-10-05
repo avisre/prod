@@ -101,8 +101,8 @@ test('company page cache-busts the approved statement assets together', () => {
   // system.css site-wide; company.js follows so the pair stays in lockstep.
   // Re-synced 2026-09-28 (both files changed again, for the compare-box and
   // nav-search empty states) — the two literals below must always match.
-  assert.match(companyHtml, /assets\/system\.css\?v=20261005-financial1/);
-  assert.match(companyHtml, /assets\/company\.js\?v=20261005-financial1/);
+  assert.match(companyHtml, /assets\/system\.css\?v=20261005-aiscreen1/);
+  assert.match(companyHtml, /assets\/company\.js\?v=20261005-aiscreen1/);
 });
 
 test('financial statements use five-period mini bars instead of sparklines', () => {
@@ -132,9 +132,12 @@ test('statement striping alternates complete visible rows rather than individual
 });
 
 test('statement units remain single-line and compact screens can hide and restore trends', () => {
-  assert.match(companySource, /let showStatementTrend = true;/);
+  // Owner rule (10/05): the table opens with no control activated — the
+  // 5Y-trend column stays off until the reader asks for it.
+  assert.match(companySource, /let showStatementTrend = false;/);
   assert.match(companyHtml, /id="stmt-trend-toggle"/);
-  assert.match(companyHtml, /id="stmt-trend-toggle"[^>]*aria-expanded="true"[^>]*aria-controls="stmt-table"[^>]*hidden/);
+  assert.match(companyHtml, /id="stmt-trend-toggle"[^>]*aria-expanded="false"[^>]*aria-controls="stmt-table"[^>]*>Show 5Y trend</);
+  assert.doesNotMatch(companyHtml, /id="stmt-trend-toggle"[^>]*\shidden/);
   assert.match(companySource, /function setStatementTrendVisible\(visible\)/);
   assert.match(companySource, /class="stmt-trend-close"[^>]*aria-expanded="true"[^>]*aria-controls="stmt-table"/);
   assert.match(companySource, /table\.classList\.toggle\('trend-hidden'/);
@@ -150,6 +153,16 @@ test('statement units remain single-line and compact screens can hide and restor
   assert.match(companySource, /wrap\.scrollLeft = latest/);
   assert.match(companySource, /requestAnimationFrame\(\(\) => requestAnimationFrame\(apply\)\)/);
   assert.match(companySource, /window\.addEventListener\('pageshow'/);
+});
+
+test('the masthead notice never prints a raw quote timestamp or market state', () => {
+  // The retired line read "Quote as of 2026-10-02T20:00:01.000Z · Market
+  // closed" — a raw ISO timestamp plus a market-state suffix, and a
+  // different sentence on every stock. One notice, one shape now.
+  assert.doesNotMatch(companySource, /Quote as of/);
+  assert.doesNotMatch(companySource, /Market closed/);
+  assert.doesNotMatch(companySource, /Provider quote may be delayed/);
+  assert.match(companySource, /Data as of \$\{formatAsOf\(staleAsOf\)\}/);
 });
 
 test('growth mini bars distinguish negative values below a zero baseline', () => {

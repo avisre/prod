@@ -545,7 +545,9 @@
     let viewState = 'usd';
     let chartMode = 'price';
     let rangeYears = 10;
-    let showStatementTrend = true;
+    // The 5Y-trend column is a control, and controls start off: the table
+    // opens with no trend column; "Show 5Y trend" is what turns it on.
+    let showStatementTrend = false;
     let sharesByPeriod = new Map();
     let lastRender = { rows: [], periods: [] };
 
@@ -658,8 +660,11 @@
     function renderStaleNotice() {
         const el = $('co-stale');
         if (!el) return;
-        const market=payload?.marketData;
-        if(market?.asOf && !priceTooOld()){el.textContent='Quote as of '+market.asOf+' · '+(market.freshness==='stale_fallback'?'Last-known quote; live retrieval unavailable':market.marketState && market.marketState!=='REGULAR'?'Market closed':'Provider quote may be delayed');el.hidden=false;return;}
+        // The old quote-as-of notice is retired: it printed the provider's
+        // raw ISO timestamp plus a market-state suffix, so the same notice
+        // read differently on every stock. The notice now says one thing —
+        // a formatted date, or the stale-price line when the quote is too
+        // old to be shown at all.
         if (!staleAsOf) { el.hidden = true; return; }
         el.textContent = priceTooOld()
             ? `Current price unavailable. Financials and chart shown as of ${formatAsOf(staleAsOf)}`
