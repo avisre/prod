@@ -101,10 +101,22 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
         return { error: 'Key points are available to signed-in paid users after generation.' };
     }
 
-    if (contextOnly && (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1')) return { error: 'No cached official business context; live original-document retrieval is disabled in this review.' };
+    // The read is a plain SEC fetch with no cache write, so local review may opt in.
+    if (contextOnly && process.env.ASK_REVIEW_LIVE_FILING_CONTEXT !== '1' && (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1')) return { error: 'No cached official business context; live original-document retrieval is disabled in this review.' };
     if (contextOnly) await require('./sec-throttle').take();
     const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: contextOnly ? 15000 : 30000, maxContentLength: contextOnly ? 15e6 : 60e6 });
     const extracted = filingSections.extractSections(r.data, { form: tenK.form });
+    if (contextOnly) {
+        // Business first: it is what a company report most needs and what the
+        // 28,000-character context budget below would otherwise cut last-in.
+        const recovered = {};
+        for (const [key, label, budget] of [['1', 'Business', 9000], ['1A', 'Risk Factors', 6000]]) {
+            if ((extracted.sections[key]?.text || '').length >= 1500) continue;
+            const text = filingSections.narrativeFallback(extracted.text, key, budget);
+            if (text) recovered[key] = { label, text, chars: text.length, trimmed: true };
+        }
+        if (Object.keys(recovered).length) extracted.sections = { ...recovered, ...extracted.sections, ...recovered };
+    }
     if (!Object.keys(extracted.sections).length) return { error: `Could not read the ${tenK.form || '10-K'} text.` };
     if (contextOnly) {
         const filingCurrency = require('./ask-filing-currency');

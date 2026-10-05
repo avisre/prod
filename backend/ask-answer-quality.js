@@ -604,7 +604,10 @@ function numericClaims(text, results, question = '') {
         // was unclaimable and a correct answer fell back. A dash is a sign only
         // when no digit sits immediately before it.
         const signDash = /([−–-])(?:\*\*)?$/.exec(before);
-        const negative = (!!signDash && !/\d$/.test(before.slice(0, signDash.index))) ||
+        // The figure before a range dash usually carries its scale —
+        // "$15.2bn–$16.5bn a year" — and the bare-digit test read that dash as a
+        // minus, so a supplied R&D figure discarded a whole company story.
+        const negative = (!!signDash && !/\d(?:\s?(?:trillion|billion|million|tn|bn|[tbmk]))?$/i.test(before.slice(0, signDash.index))) ||
             /(?:negative\s+|loss of\s+|consumed\s+|used\s+|spent\s+|outflow of\s+)(?:\*\*)?$/.test(before) ||
             /^\s*(?:\*\*)?\s*(?:(?:an?|net|operating|net operating)\s+){0,2}(?:loss|deficit|shortfall)\b/i.test(after) ||
             /^\s*(?:\*\*)?\s*(?:net )?outflow\b/i.test(after);
@@ -621,6 +624,11 @@ function numericClaims(text, results, question = '') {
             (DISCLOSURE_TERMS.test(context) || /\b(?:lease|guarantee|commitment|purchase obligation)/i.test(context));
         if (!facts.some(f => (f.unit === unit || f.unit === unit + '/share') &&
             (Math.abs(f.value - value) <= tolerance ||
+            // A scaled figure cut short rather than rounded — "$630bn" for
+            // 630.79bn — is the supplied figure, not an invented one. Rejecting
+            // it made the rewrite delete Intel's market cap from its valuation.
+            (scale >= 1e6 && Math.sign(f.value) === Math.sign(value) && Math.abs(f.value) >= Math.abs(value) &&
+                Math.abs(f.value) - Math.abs(value) < scale * Math.pow(10, -precision)) ||
             ((/capitalExpenditures|dividend|Repurchase/.test(f.field || '') ||
                 (f.difference && /fell|fall|drop|declin|decreas|lower/i.test(context)) ||
                 (f.field === 'surplusAfterDistributions' && /short|deficit|more than|exceed|gap/i.test(context))) && Math.abs(Math.abs(f.value) - Math.abs(value)) <= tolerance)) &&
@@ -643,7 +651,9 @@ function numericClaims(text, results, question = '') {
     // claimable on this channel too.
     for (const c of calculatorClaims(results, facts)) percentages.push(c.value);
     for (const m of prose.matchAll(/([+−–-]?\d+(?:\.\d+)?)\s*%/g)) {
-        const raw = m[1].replace(/[−–]/g, '-');
+        // "70–75%" is a range: a dash that follows a digit is not a minus sign.
+        const ranged = /^[−–-]/.test(m[1]) && /\d$/.test(prose.slice(Math.max(0, m.index - 1), m.index));
+        const raw = (ranged ? m[1].slice(1) : m[1]).replace(/[−–]/g, '-');
         const before = prose.slice(Math.max(0, m.index - 40), m.index);
         const value = Number(raw) * (!/^[+-]/.test(raw) && /(?:down|fell|declined|decreased|drop(?:ped)?|decline|decrease|fall|slipped|shrank|lower|contracted|reduced)\s+(?:(?:by|about|around|roughly|approximately|nearly)\s+)?[~≈]?\s*$/i.test(before) ? -1 : 1);
         const tolerance = 0.5 * Math.pow(10, -(raw.split('.')[1]?.length || 0)) + 1e-8;
@@ -833,7 +843,13 @@ function audit(text, results, { question = '', mode = 'analyst', policy } = {}) 
         if (/\b(?:to (?:get|keep|move|hide)|in order to (?:get|keep|move|hide))\b.{0,55}\b(?:off (?:the )?books|off[- ]balance[- ]sheet)\b/i.test(text))
             issues.push('Do not infer an intent to move debt off the books; describe the filing’s accounting treatment and disclosed obligation precisely.');
     }
-    if (DISCLOSURE_TERMS.test(text) && /\b(?:lease|commitment|guarantee|purchase obligation)s?\b/i.test(text) && /\bdebt\b/i.test(text) && !/distinct|separate|not (?:the same as|classified as)|not all debt/i.test(text))
+    // The two terms have to meet in one sentence. Tested across the whole
+    // answer, any full report that mentioned a balance-sheet debt figure and,
+    // sections later, "the 14A commitment" was rejected as conflating them.
+    const obligationSentences = text.replace(/```[\s\S]*?```/g, '').split(/(?<=[.!?])\s+|\n+/)
+        .filter(s => /\b(?:lease|commitment|guarantee|purchase obligation)s?\b/i.test(s) && /\bdebt\b/i.test(s));
+    if (obligationSentences.length && (DISCLOSURE_TERMS.test(question) || obligationSentences.some(s => /\b(?:total(?:l?ing)?|combined|including|includes?|plus|adds?|added|sum)\b/i.test(s))) &&
+        !/distinct|separate|not (?:the same as|classified as)|not all debt/i.test(text))
         issues.push('Distinguish leases, commitments and guarantees from reported debt; do not add them together as debt without a filing-supported reconciliation.');
     if (DISCLOSURE_TERMS.test(question)) {
         if (!issuerDisclosureEvidence(results, question) && !/SEC filing research is unavailable for this request\./.test(text))
@@ -883,6 +899,114 @@ function audit(text, results, { question = '', mode = 'analyst', policy } = {}) 
     const tableRows = (String(text).match(/^\s*\|.*$/gm) || []).length;
     if (tableRows > policy.tableRows) issues.push(`Answer has ${tableRows} table rows. Keep tables to the metrics, periods and context columns actually requested.`);
     return [...new Set(issues)];
+}
+
+// Layout findings ask for a better report; they never mean a figure is wrong,
+// so after the one rewrite they are recorded rather than allowed to replace
+// the answer. A length the user asked for stays a hard limit.
+function structuralIssue(issue, policy) {
+    return /^The full report (?:needs|lacks) /.test(issue) || /^Answer has \d+ table rows\./.test(issue) ||
+        (!policy?.explicitWordLimit && /^Answer is \d+ prose words, /.test(issue));
+}
+
+function claimPattern(claim) {
+    const escaped = claim.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s*');
+    // "$5" must not match inside "$5.2bn", nor "5%" inside "25%".
+    // A claim that opens with a dash may be the tail of a range ("70–75%").
+    return new RegExp((/^\d/.test(claim) ? '(?<![\\d.,])' : '') + escaped + '(?![\\d]|[.,]\\d)', 'g');
+}
+
+function removeClaims(text, claims) {
+    const patterns = claims.map(claimPattern);
+    let removed = 0;
+    const out = String(text).split(/(```[\s\S]*?```)/).map(segment => {
+        if (segment.startsWith('```')) return segment;
+        return segment.split('\n').map(line => {
+            if (!patterns.some(p => (p.lastIndex = 0, p.test(line)))) return line;
+            if (/^\s*\|/.test(line)) {
+                // A table keeps its shape: only the unsupported cell is blanked.
+                const cells = line.split('|').map(cell => patterns.some(p => (p.lastIndex = 0, p.test(cell))) ? (removed++, ' — ') : cell);
+                // A label with nothing left beside it is not a row worth keeping.
+                const filled = cells.slice(1, -1).map(cell => cell.trim());
+                return filled.length > 1 && filled.slice(1).every(cell => cell === '—') ? null : cells.join('|');
+            }
+            const lead = line.match(/^(\s*(?:>\s*)?(?:[-*+]\s+|\d+\.\s+|#{1,6}\s+)?(?:\*\*The read\*\*\s*[—–-]?\s*)?)/)[0];
+            let body = line.slice(lead.length);
+            for (const p of patterns) {
+                for (let guard = 0; guard < 40; guard++) {
+                    p.lastIndex = 0;
+                    const m = p.exec(body);
+                    if (!m) break;
+                    const sentence = sentenceAround(body, m.index);
+                    body = (body.slice(0, sentence.start) + body.slice(sentence.end)).replace(/\s{2,}/g, ' ');
+                    removed++;
+                }
+            }
+            body = body.trim();
+            if (!body) return null;
+            return lead + body;
+        }).filter(line => line !== null).join('\n');
+    }).join('');
+    return { text: out, removed };
+}
+
+function dropEmptyHeadings(text) {
+    const lines = String(text).split('\n'), keep = [];
+    const level = line => line.match(/^(#{1,6})\s/)?.[1].length || 0;
+    for (let i = 0; i < lines.length; i++) {
+        const own = level(lines[i]);
+        if (own) {
+            let j = i + 1;
+            while (j < lines.length && !lines[j].trim()) j++;
+            if (j >= lines.length || (level(lines[j]) && level(lines[j]) <= own)) continue;
+        }
+        keep.push(lines[i]);
+    }
+    return keep.join('\n').replace(/\n{3,}/g, '\n\n');
+}
+
+// One unsupported figure used to discard the entire answer for a data receipt.
+// Remove what the audit rejected — the sentence carrying an unsupported figure,
+// an unsupported chart — and publish everything that passes. Nothing is added
+// or reworded, so the result can only contain claims the audit accepts.
+function salvage(text, results, options = {}) {
+    const original = String(text || ''), originalWords = wordCount(original);
+    const chartIssue = issue => /chart|sankey|\bbars\b|\bviz\b/i.test(issue);
+    let current = original, removedClaims = 0, chartsRemoved = 0;
+    for (let pass = 0; pass < 4; pass++) {
+        const issues = audit(current, results, options);
+        const blocking = issues.filter(issue => !structuralIssue(issue, options.policy));
+        if (!blocking.length) {
+            const words = wordCount(current);
+            const ok = removedClaims + chartsRemoved === 0 || (words >= 120 && words >= originalWords * 0.5);
+            return { ok, text: current, issues, removedClaims, chartsRemoved };
+        }
+        const claims = [...new Set(blocking.map(issue => /^(?:Monetary|Percentage) claim ([\s\S]+?) is not /.exec(issue)?.[1]?.trim()).filter(Boolean))];
+        let next = current;
+        if (claims.length) {
+            const pruned = removeClaims(next, claims);
+            next = pruned.text; removedClaims += pruned.removed;
+        }
+        if (blocking.some(chartIssue)) {
+            // Keep each chart that passes on its own; drop only the rejected ones.
+            for (const fence of next.match(/```(?:viz|bars|sankey)\s*\n[\s\S]*?```\n?/g) || []) {
+                const without = next.replace(fence, '');
+                if (audit(without, results, options).filter(chartIssue).length < audit(next, results, options).filter(chartIssue).length) {
+                    next = without; chartsRemoved++;
+                }
+            }
+        }
+        next = dropEmptyHeadings(next);
+        if (next === current) break;
+        current = next;
+    }
+    return { ok: false, text: current, issues: audit(current, results, options), removedClaims, chartsRemoved };
+}
+
+// The renderer and the coverage check key on the bold marker; a model that
+// follows the numbered format sometimes writes part 8 as a heading instead.
+function normalizeDraft(text) {
+    return normalizeFacetedViz(String(text || '').replace(/^#{1,4}\s*(?:8\.\s*)?The read\s*\n+(?:\*\*The read\*\*\s*[—–-]?\s*)?/mi, '**The read** — '));
 }
 
 function requestedPeriodCount(question) {
@@ -1070,8 +1194,10 @@ function appendFinancialStory(lines, results, symbol) {
         lines.push(`Research and development was ${intensity.toFixed(1)}% of revenue in that same period, calculated from the two reported USD values.`);
     }
     lines.push('\n**The read**');
+    const firstValue = Number(revenueRows[0].fields.totalRevenue.value), lastValue = Number(revenue.value);
+    const trend = lastValue > firstValue ? 'increase' : lastValue < firstValue ? 'decline' : 'plateau';
     lines.push(revenueRows.length > 1
-        ? `The filings show a longer-term revenue increase with the year-to-year path above; they do not establish what caused each change. ${netIncome ? 'Profitability should be read from the reported net-income row, whose direction can differ from revenue.' : 'The available report rows do not include net income for the latest year.'}`
+        ? `The filings show a longer-term revenue ${trend} with the year-to-year path above; they do not establish what caused each change. ${netIncome ? 'Profitability should be read from the reported net-income row, whose direction can differ from revenue.' : 'The available report rows do not include net income for the latest year.'}`
         : `The available annual evidence covers ${latest.periodEnd}; it is not enough to establish a longer-term business trend.`);
     lines.push(`\n> Next: Would you like the segment-level filing evidence behind ${symbol}’s revenue changes?`);
     return true;
@@ -1125,7 +1251,12 @@ function companyReportFallback(results, policy) {
     }
     for (const row of data.filter(row => row.tool === 'get_ratios_history')) {
         const result = row.result;
-        if (result.table) lines.push(`\n**${symbol} — ${result.basis || 'reported'} ratios**\n\n${result.table}`);
+        if (result.table) {
+            // The tool prints a compact pipe list for the model; a reader needs a table.
+            const rows = String(result.table).split('\n').filter(Boolean).map(row => '| ' + row.split('|').join(' | ') + ' |');
+            if (rows.length > 1) rows.splice(1, 0, '|' + ' --- |'.repeat(rows[0].split('|').length - 2));
+            lines.push(`\n**${symbol} — ${result.basis || 'reported'} ratios**\n\n${rows.join('\n')}`);
+        }
         else if (result.observations?.length) {
             lines.push(`\n**${symbol} — ${result.basis || 'reported'} ratios**`);
             for (const observation of result.observations) {
@@ -1437,4 +1568,4 @@ function appendSegmentSankey(lines, results, question) {
     }
 }
 
-module.exports = { audit, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };
+module.exports = { audit, salvage, normalizeDraft, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };

@@ -1953,8 +1953,16 @@ const FULL_REPORT = [
     'Give the full company picture. Both modes may use up to 1,600 prose words, plus tables and visuals. Choose the length useful for this company without a preset target or minimum. A requested shorter answer uses its strict limit. When a bounded source search leaves real gaps, a shorter supported report is appropriate.',
     'For an open-ended report, the engine retrieves required statement, ratio, peer, segment, quote, filing-context and filing-change evidence before drafting. Reuse supplied results; do not request them again. For an explicit user word limit, match the research depth to the requested scope. Use other tools only for a specific unresolved question, and do not repeat an unsuccessful source check.',
     'Before writing, inspect coverage and remainingGaps. Request get_supplemental_context for missing fields, periods or business sections. The shared resolver checks SEC filings, original issuer releases and Yahoo Finance. For remaining narrative gaps, use original issuer documents or accessible reputable articles within the existing search/page budgets. Search snippets, forums and remembered figures are not financial evidence. Explain specific gaps only after bounded retrieval.',
-    'Cover what the business sells, customers and products, divisions or revenue streams, four reported quarters and five annual periods, competitive differences, material risks, dated valuation, **The read** and one > Next: question. Choose headings and section order that suit this company; an unavailable section gets an attributed gap explanation.',
-    'Include quarterly and annual financial tables with exact fiscal period ends, units and appropriate industry metrics. Use get_peer_context.industryProfile to choose metrics and get_ratios_history to quote printed ratios exactly. Quarter margins come from the supplied quarterly ratios. Table figures remain useful alongside a trend chart of the same history: the table gives precise values and the visual shows change.',
+    'REPORT FORMAT — every company report has these eight parts, in this order, each under its own heading. Prefer tables to paragraphs; keep prose between tables to a few sentences. A part whose evidence was not retrieved keeps its heading and says in one line what is missing and why — never drop a part and never fill it from memory.',
+    '1. What the company does — two to four plain sentences: what it sells, to whom, and why it matters now.',
+    '2. Business segments — one sub-heading per reported segment with its revenue and share of total revenue from get_segments, written with the plain segment name rather than the XBRL member id. Use the reported segment values even when no Sankey is eligible; when segments overlap or include internal sales, say so instead of adding them up. Under each segment, a Markdown table (Product line | What it makes | Who buys it or why it matters) built from the filing business context — a table, not bullets or a paragraph. Name a customer only when the filing or a cited source names it.',
+    '3. Recent quarters — a table of the four latest quarters, newest first: revenue, gross margin, operating margin, net income (or the industry equivalents). One line on the direction.',
+    '4. Annual trend — a five-year table and the annual trend chart. One sentence for any year that breaks the pattern, with its cause only when the filing context states it.',
+    '5. What makes it different — a Factor | Detail table of the company\'s distinguishing features, including scale facts the evidence supplies (revenue, employees, market value, peer standing).',
+    '6. Key risks — a Risk | Detail table. Put the filing\'s own number in the detail wherever it gives one (customer concentration, debt, supplier dependence, regulation).',
+    '7. Valuation snapshot — a Metric | Value table from get_quote: market cap, trailing P/E, forward P/E, EV/EBITDA, dividend yield, 52-week range, with the quote date. A metric the quote does not supply is listed as "n/a" with the reason (for example negative earnings); it is never estimated.',
+    '8. The read — no heading and nothing after it but the question: one paragraph that begins exactly "**The read** — " and ties the business, the numbers and the valuation together, then one > Next: question. Do not add a ninth part.',
+    'In every financial table, label each period with its fiscal period-end date in YYYY-MM-DD form (for example "FY2025 (2025-12-27)"), keep periods in order, and state units. Use get_peer_context.industryProfile to choose metrics and get_ratios_history to quote printed ratios exactly. Quarter margins come from the supplied quarterly ratios. Table figures remain useful alongside a trend chart of the same history: the table gives precise values and the visual shows change.',
     'VISUAL FREEDOM: choose and arrange meaningful line charts, bars, faceted bars, eligible Sankeys and tables yourself. Include an annual trend visualization whenever compatible annual history exists. Additional visuals are your choice when they improve understanding. Do not force a fixed chart type or layout. Preserve gaps, signed values and comparable periods. When scales span more than about 10x it is a faceted bars block if those metrics are compared together; a line chart cannot facet. A Sankey requires eligible reconciliation, not an invented total.',
     'Keep GAAP, adjusted, fiscal/calendar periods and currencies distinct. Attribute supplemental observations with their source and date; never describe provider figures as SEC-verified. A provider chart uses one compatible source series and names its provider and data date. A reported zero is different from missing data.',
     'Business sections may be expansive when original disclosures support them. Explain the mechanism and the evidence, rather than repeating the table. Preserve useful supported detail in corrections; cut repetition first.',
@@ -2067,12 +2075,14 @@ async function ask({ question, history, ctx, mode, onEvent }) {
     };
     const finish = async (text, streamed) => {
         const modelText = String(text || '');
-        text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeFacetedViz(modelText), suppliedResults, { ...policy, question: q }), sourceLinks);
+        text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(modelText), suppliedResults, { ...policy, question: q }), sourceLinks);
         const normalizedChart = text !== modelText;
         let issues = answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
         const correctionAttempted = issues.length > 0;
         const rewritten = normalizedChart || correctionAttempted;
         let correctionSucceeded = false;
+        const firstDraft = text;
+        let salvaged = null;
         if (rewritten && streamed) { emit({ type: 'rollback' }); streamed = false; }
         if (issues.length > 0) {
             try {
@@ -2082,13 +2092,27 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 ), { purpose: 'chat', temperature: 0.1, maxTokens: 8000, toolChoice: 'none' });
                 if (corrected._usage && num(corrected._usage.total_tokens) !== null) totalTokens += corrected._usage.total_tokens;
                 const correctedText = String(corrected.content || '').replace(THINK_RE, '').trim();
-                text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeFacetedViz(correctedText), suppliedResults, { ...policy, question: q }), sourceLinks);
+                text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(correctedText), suppliedResults, { ...policy, question: q }), sourceLinks);
                 issues = !text || TEXT_TOOLCALL_RE.test(text) || aiClient.leaksIdentity(text)
                     ? ['The corrected analysis could not be validated.']
                     : answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
                 correctionSucceeded = issues.length === 0;
             } catch (_) { issues = ['The corrected analysis could not be validated.']; }
         }
+        // A finding that survives the rewrite removes the sentence or chart it
+        // names, not the answer. The receipt remains for a draft with too little
+        // left to publish, or a finding that cannot be located in the text.
+        if (issues.length) {
+            for (const candidate of [text, firstDraft]) {
+                if (!candidate || TEXT_TOOLCALL_RE.test(candidate) || aiClient.leaksIdentity(candidate)) continue;
+                let attempt;
+                try { attempt = answerQuality.salvage(candidate, suppliedResults, { question: q, mode, policy }); }
+                catch (e) { console.error('[ai-chat] salvage failed', { errorType: e.name || 'Error' }); continue; }
+                if (attempt.ok) { salvaged = attempt; break; }
+            }
+        }
+        const structuralFindings = salvaged ? salvaged.issues : [];
+        if (salvaged) { text = salvaged.text; issues = []; }
         const source = issues.length ? 'partial' : 'ai';
         if (issues.length) text = receipt(suppliedResults, q);
         const withSources = evidence.appendCitations(text, sourceLinks);
@@ -2100,7 +2124,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         return { answer, toolsUsed, source, totalTokens,
             quality: qualityFor(answer, { rewritten, correctionAttempted, correctionSucceeded,
                 fallback: issues.length > 0, terminalReason: issues.length ? 'validation_after_correction' : 'answered',
-                auditFindings: issues }) };
+                auditFindings: issues.length ? issues : structuralFindings,
+                ...(salvaged ? { salvaged: true, removedClaims: salvaged.removedClaims, chartsRemoved: salvaged.chartsRemoved } : {}) }) };
     };
     let totalTokens = 0;
     // 🧪 AI Portfolio mode: beta-only extra tools, injected per request by

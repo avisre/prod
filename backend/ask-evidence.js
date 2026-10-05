@@ -217,7 +217,9 @@ function filingLinks(result) {
 function appendCitations(text, links) {
     const unique = [...new Map(links.map(link => [link.url, link])).values()];
     const missing = unique.filter(link => !text.includes(link.url)).slice(0, 8);
-    if (!missing.length) return text;
+    // finish() cites the draft and then the published text; with more than
+    // eight filings the second pass printed a second "SEC sources" block.
+    if (!missing.length || /\n\nSEC sources: /.test(text)) return text;
     const citation = '\n\nSEC sources: ' + missing.map(link => `[${link.label}](${link.url})`).join('; ') + '.';
     // Preserve the UI's final suggested-question contract.
     const next = text.search(/\n> Next:/);

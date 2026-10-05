@@ -100,7 +100,9 @@ function boundNarrative(result,maxBytes=8192){
 }
 function serialize(result,remaining){
  const evidence=require('./ask-evidence'),cap=Math.min(evidence.MAX_RESULT_BYTES,remaining);
- let narrativeBytes=8192,packed=compact(boundNarrative(result,narrativeBytes));
+ // The filing business context is the only source for the segment, product
+ // and risk tables, so it keeps more of its text than other excerpts.
+ let narrativeBytes=result?.sourceType==='sec_filing_context'?20480:8192,packed=compact(boundNarrative(result,narrativeBytes));
  // Only excerpts can shrink. Typed values, calculation inputs, filing
  // identities and source dates remain intact; if those cannot fit, the
  // existing context-limit error still reports that nothing was supplied.

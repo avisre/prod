@@ -263,9 +263,27 @@ function sectionsAsText(sections, keys = CORE_KEYS) {
         .join('\n\n');
 }
 
+// Some issuers (Intel is one) lay the annual report out as a magazine and map
+// the Form 10-K items in a cross-reference index, so "Item 1. Business" exists
+// only as a page list and extractSections finds no business text at all. The
+// description is still there under a plain heading; take the first heading
+// that is followed directly by a sentence, which a contents entry never is.
+const NARRATIVE_HEADINGS = {
+    '1': /\b(?:Our Business|Business Overview|Overview of (?:Our|the) Business|Company Overview|Our Company|About (?:Us|the Company))\s+(?=(?:We|Our|The Company|[A-Z][\w&.,'’-]*(?: [\w&.,'’-]+){0,5} (?:is|are|was))\s)/,
+    '1A': /\bRisk Factors\s+(?=(?:The following|Our|We|You should|In addition|Investing|An investment|Described below)\b)/
+};
+function narrativeFallback(text, key, budget) {
+    const pattern = NARRATIVE_HEADINGS[key];
+    const match = pattern && pattern.exec(String(text || ''));
+    if (!match) return null;
+    const body = text.slice(match.index, match.index + budget).trim();
+    return body.length < 1500 ? null : body;
+}
+
 module.exports = {
     htmlToText,
     extractSections,
+    narrativeFallback,
     sectionsAsText,
     compactProjection,
     profileFor,

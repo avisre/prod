@@ -47,6 +47,26 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Ask eight-part company report + narrative salvage — 2026-10-06
+
+- Owner report: `tell me the story of intel` and `intel` both returned the "partial company report" receipt.
+  Measured on the local harness: each had a full draft (696 / 929 words) discarded over ONE finding after the
+  rewrite — a range dash read as a minus (`$15.2bn–$16.5bn`) and a lease/debt rule matching across sections.
+- `answerQuality.salvage` (called from `finish`): a finding that survives the rewrite removes its sentence,
+  table cell or chart; layout findings no longer block. The receipt remains only when under 120 words / half the
+  draft survive or a finding cannot be located.
+- Owner's format is now fixed in `FULL_REPORT`: 1 what it does, 2 segments + product tables, 3 quarters,
+  4 annual + chart, 5 what makes it different, 6 key risks, 7 valuation snapshot, 8 The read.
+- Intel's 10-K is magazine-layout (items only in a cross-reference index), so `get_key_points` returned 221
+  chars. `filingSections.narrativeFallback` recovers Business / Risk Factors from plain headings.
+- Context is full (~155 KB of 156 KB usable): `get_filing_diff` is now supplied before `get_key_points`, which
+  shrinks to what is left. Any new evidence must displace something.
+- Local review: `ASK_REVIEW_LIVE_FILING_CONTEXT=1` lets the harness read filing context live (no cache write).
+  This sparse worktree has no `frontend/data`; do NOT `git sparse-checkout add` it (3.4 GB, filled the disk).
+- Verified locally: INTC, AVGO, JPM, WMT, PFE, O, MU, NKE all `source: ai` in the format; Ask tests 224/224.
+- Open: quotes.json holds only price, market cap, trailing P/E and 52-week range, so forward P/E, EV/EBITDA and
+  dividend yield print "n/a" for every stock; product tables are thin; reasoning (not figures) is unchecked.
+
 ## Ask company-story recovery — 2026-10-05
 
 - Isolated branch `fix/ask-story-recovery-20261005`, based on production `7b92299d`;
