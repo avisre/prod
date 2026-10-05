@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-10-05T15:32:21.418Z",
+  "expectedSha": "35905879b0cabe1132eb38ad8f2d6e23e11c1bdf",
+  "question": "tell me thes touy of amd",
+  "scope": "Authenticated deployed REST Ask engine with the exact wording; not web streaming, thread storage or authenticated browser verification",
+  "status": 200,
+  "elapsedMs": 29437,
+  "source": "partial",
+  "answer": "This is a partial answer using verified SEC evidence. Unverified figures are omitted.\n\nSome requested research was unavailable.\n\nSEC sources: [AMD 10-K filed 2026-02-04](https://www.sec.gov/Archives/edgar/data/2488/000000248826000018/amd-20251227.htm); [SEC filing](https://www.sec.gov/Archives/edgar/data/2488/000000248820000008/amdform10-kfy2019.htm).",
+  "proseWords": 26,
+  "visualBlocks": 0,
+  "read": false,
+  "next": false,
+  "receipt": true,
+  "tools": [
+    {
+      "tool": "get_financials",
+      "ok": false,
+      "ms": 4541
+    },
+    {
+      "tool": "get_key_points",
+      "ok": true,
+      "ms": 4542
+    },
+    {
+      "tool": "search_filings",
+      "ok": true,
+      "ms": 524
+    },
+    {
+      "tool": "fetch_page",
+      "ok": true,
+      "ms": 625
+    },
+    {
+      "tool": "get_supplemental_context",
+      "ok": true,
+      "ms": 1303
+    }
+  ],
+  "pass": false
+}

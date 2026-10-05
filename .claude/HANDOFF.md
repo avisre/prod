@@ -63,6 +63,17 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - Dataset, exhaustive public rendering and resource gates pass. Receipts and
   verification limits: `docs/qa/ask-story-2026-10-05/README.md`. Authenticated live
   generation is a separate post-deployment check. No frontend code/stamp change.
+- Deployed `35905879` still failed the exact-question REST probe: live calculation
+  history exceeded the per-tool budget, despite production fundamentals having
+  five periods. Correction scopes calculations, deduplicates SEC receipts only
+  when exact inputs are already supplied, retains supplemental calculations,
+  bounds excerpts against remaining space and reserves correction/control room.
+  AMD statement payload: 97,183 bytes / one period -> 13,080 bytes / five periods.
+  Complete online resolver report tests now cover both modes without model calls.
+  Correction gates: 527/527 targeted; 1380/1386 full (five main failures plus
+  intermittent referral replay, 4/4 standalone); dataset/resource checks pass.
+- Reviewer login is Dev/API-only: web Ask is correctly refused. Use authorized
+  REST Ask for deployed synthesis; do not claim authenticated web/thread QA.
 
 ## Data foundation implementation — 2026-10-05 (release gates)
 

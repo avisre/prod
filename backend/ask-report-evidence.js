@@ -3,6 +3,9 @@
 // canonical source id. The auditor expands this lossless representation.
 const SHARED=['cik','form','filingDate','filingUrl','retrievedAt','extractionVersion','accessionNumber','taxonomy','linkage'];
 const CONTEXT=['periodStart','periodEnd','currency','unit','scope'];
+// Leave room for the correction directive and control messages appended after
+// retrieval, in addition to the engine's existing 32 KiB reserve.
+const CONTEXT_RESERVE_BYTES=36*1024;
 function compact(result) {
  if(!result || typeof result!=='object')return result;
  if(result.reportEvidence?.encoding==='observation-context-ref-v1' || result.provenance?.encoding==='filing-metadata-ref-v1')return result;
@@ -95,4 +98,16 @@ function boundNarrative(result,maxBytes=8192){
  for(const slot of slots){const allocation=Math.floor(maxBytes*Buffer.byteLength(slot.text)/total);const bytes=Buffer.from(slot.text);let end=allocation;while(end>0 && (bytes[end]&0xc0)===0x80)end--;slot.owner[slot.key]=bytes.subarray(0,end).toString('utf8');}
  return {...out,contextNote:'Original-document excerpts shortened to fit the shared report context; all supplied financial observations and source references are retained.'};
 }
-module.exports={compact,expand,defaults,boundNarrative};
+function serialize(result,remaining){
+ const evidence=require('./ask-evidence'),cap=Math.min(evidence.MAX_RESULT_BYTES,remaining);
+ let narrativeBytes=8192,packed=compact(boundNarrative(result,narrativeBytes));
+ // Only excerpts can shrink. Typed values, calculation inputs, filing
+ // identities and source dates remain intact; if those cannot fit, the
+ // existing context-limit error still reports that nothing was supplied.
+ while(Buffer.byteLength(JSON.stringify(packed))>cap && narrativeBytes>0){
+  narrativeBytes=Math.max(0,Math.min(Math.floor(narrativeBytes/2),narrativeBytes-(Buffer.byteLength(JSON.stringify(packed))-cap)-256));
+  packed=compact(boundNarrative(result,narrativeBytes));
+ }
+ return evidence.serializeResult(packed,remaining);
+}
+module.exports={compact,expand,defaults,boundNarrative,serialize,CONTEXT_RESERVE_BYTES};

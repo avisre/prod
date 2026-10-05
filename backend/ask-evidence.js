@@ -182,7 +182,10 @@ function fitHistory(result, data, availablePeriods, {compact=false}={}) {
     while (Buffer.byteLength(JSON.stringify(result)) > MAX_RESULT_BYTES && result.observations.length > 1) {
         if(compact)result=require('./ask-report-evidence').expand(result);
         result.observations.pop();
-        if (result.calculations?.length) result.calculations.pop();
+        if (result.calculations?.length) {
+            const retainedPeriods = new Set(result.observations.map(o => o.periodEnd));
+            result.calculations = result.calculations.filter(c => retainedPeriods.has(c.periodEnd));
+        }
         if (result.capitalReturns?.length) result.capitalReturns.pop();
         result.table = result.table.split('\n').slice(0, result.observations.length + 1).join('\n');
         result.provenance = provenance(data, [result.observations, result.comparisons, result.calculations, result.capitalReturns]);

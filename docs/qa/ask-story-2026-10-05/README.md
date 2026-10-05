@@ -10,6 +10,22 @@ The prose auditor also rejected supported amounts in the original AMD MD&A, incl
 
 ## Evidence
 
+### Production follow-up
+
+The first deployed candidate, `35905879`, **still returned a 26-word partial receipt** for the exact question through the authenticated REST API. Its statement tool failed while original filing retrieval succeeded. A separate deterministic production fundamentals call returned five revenue/net-income periods: the financial data existed.
+
+The online resolver adds 240 compatible calculations to AMD's data, including 48 annual income calculations. Ask included the entire calculation history in a five-period statement result. Even after reducing the statement to one period, that payload was **97,183 bytes**, beyond the 65,536-byte tool limit. Offline snapshot reads did not include those live calculations.
+
+The correction scopes calculated receipts to the requested statement/period window, omits a duplicate SEC calculation only when its exact inputs, currencies, scopes and source identities are already supplied, and preserves attributed supplemental calculations. Budget trimming now keeps calculations aligned with retained periods. Narrative excerpts fit the remaining context while typed financial values and provenance remain intact; additional control/correction space is reserved inside the unchanged aggregate budget.
+
+Deterministic reproduction now supplies **five AMD periods in 13,080 bytes**. Complete live projected reports in both modes, including history, all requested tools, supplementation and correction, pass the context checks. Seven-company payload measurements are in `online-context-matrix.json`; TSM's unavailable quarterly ratios remain a specific data gap. These tests make zero model calls. The failed production receipt is retained in `production-failure-35905879.json`.
+
+The reviewer login is an API-only account: website Ask correctly returns `API_PLAN_NO_WEB_ASK`. Production inference verification therefore uses the authorized `/api/v1/ask` route with the exact wording; it does not establish website streaming, production thread persistence or authenticated browser rendering.
+
+Follow-up gates: **527/527 targeted**, **35/35 financial/context regressions**. Full suite **1,380/1,386**: the same five baseline failures plus an intermittent direct-LTD referral-replay assertion, which passes **4/4 standalone**. Dataset and resource checks pass. Financial statements and the aggregate context ceiling are unchanged; narrative space also reserves the later correction/control messages.
+
+### Initial repair checks
+
 - Fresh synthesis of the exact question: **1,018 prose words**, `source: ai`, zero numerical audit findings, four model calls, 32.8 seconds. The saved response predates the final primary-document selection refinement; its old exhibit link is not evidence of a historical primary-document check.
 - Final-code deterministic replay of that answer: **1,018 words, zero findings**, zero model calls.
 - Final primary-document lookup against SEC: AMD 2020 10-K, filed 2021-01-29, `amd-20201226.htm`; excludes exhibits. This is a candidate until its text is retrieved and reviewed.

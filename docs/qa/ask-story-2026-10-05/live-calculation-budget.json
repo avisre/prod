@@ -1,0 +1,15 @@
+{
+  "scope": "Deterministic online resolver reproduction; no network, database or model calls; complete baseline financial history preserved",
+  "before": {
+    "source": "partial",
+    "perToolLimitBytes": 65536,
+    "fullLiveCalculations": 240,
+    "annualIncomeCalculations": 48,
+    "afterHistoryTrimmingBytes": 97183,
+    "returnedPeriods": 1
+  },
+  "after": {
+    "bytes": 13080,
+    "returnedPeriods": 5
+  }
+}

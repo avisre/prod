@@ -1,0 +1,340 @@
+{
+  "scope": "Actual online projection without network or database; zero model calls",
+  "matrix": [
+    {
+      "symbol": "AMD",
+      "totalBytes": 101056,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 13080,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 16159,
+          "periods": 4
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 14430,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 20696,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 21652,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 15039,
+          "periods": 4
+        }
+      ]
+    },
+    {
+      "symbol": "AVGO",
+      "totalBytes": 100113,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 12927,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 16296,
+          "periods": 4
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 14950,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 19291,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 21459,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 15190,
+          "periods": 4
+        }
+      ]
+    },
+    {
+      "symbol": "JPM",
+      "totalBytes": 95697,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 12074,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 14383,
+          "periods": 4
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 14470,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 20829,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 20520,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 13421,
+          "periods": 4
+        }
+      ]
+    },
+    {
+      "symbol": "PFE",
+      "totalBytes": 105339,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 14390,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 17536,
+          "periods": 4
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 13209,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 20955,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 23686,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 15563,
+          "periods": 4
+        }
+      ]
+    },
+    {
+      "symbol": "WMT",
+      "totalBytes": 105246,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 14840,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 17631,
+          "periods": 4
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 14470,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 20428,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 21882,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 15995,
+          "periods": 4
+        }
+      ]
+    },
+    {
+      "symbol": "O",
+      "totalBytes": 127358,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 19453,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 21426,
+          "periods": 4
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 20801,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 24752,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 25795,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 15131,
+          "periods": 4
+        }
+      ]
+    },
+    {
+      "symbol": "TSM",
+      "totalBytes": 88822,
+      "rows": [
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 18001,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 2733
+        },
+        {
+          "tool": "get_financials",
+          "statement": "balance",
+          "basis": "annual",
+          "bytes": 16497,
+          "periods": 5
+        },
+        {
+          "tool": "get_financials",
+          "statement": "cash",
+          "basis": "annual",
+          "bytes": 21471,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "annual",
+          "bytes": 27240,
+          "periods": 5
+        },
+        {
+          "tool": "get_ratios_history",
+          "statement": "income",
+          "basis": "quarterly",
+          "bytes": 2880,
+          "error": "No compatible verified quarterly financial history for TSM."
+        }
+      ]
+    }
+  ]
+}

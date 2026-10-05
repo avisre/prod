@@ -232,6 +232,21 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
         : evidence.quarterlyComparisons(comparisonReports, comparisonFields);
     const calculations = st === 'cash' ? rows.map(evidence.freeCashFlow) : [];
     const capitalReturns = st === 'cash' ? rows.map(evidence.capitalReturns) : [];
+    const selectedPeriods = new Set(rows.map(row => row.fiscalDateEnding));
+    const compatibleCalculations = (data.compatibleCalculations || []).filter(f => {
+        if (f.statement !== st || f.historyBasis !== (annual ? 'annual' : 'quarterly') || !selectedPeriods.has(f.periodEnd)) return false;
+        // Filed margins/FCF already follow from these exact supplied inputs.
+        // Keep supplemental calculations and any input absent from this view;
+        // duplicating the full SEC receipt history can crowd out other tools.
+        const row = observations.find(o => o.periodEnd === f.periodEnd);
+        const redundant = f.sourceOrigin === 'sec_filing' && require('./company-calculations').validCalculation(f) && f.inputs.every(input => {
+            const supplied = row?.fields[input.field];
+            return supplied && supplied.value === input.value && supplied.currency === input.currency && supplied.scope === input.scope &&
+                JSON.stringify([...supplied.sourceIds].sort()) === JSON.stringify([...input.sourceIds].sort());
+        });
+        return !redundant;
+    });
+    const suppliedCalculations = [...calculations, ...compatibleCalculations];
     return evidence.fitHistory({
         symbol: String(symbol).toUpperCase(),
         statement: st,
@@ -242,13 +257,13 @@ async function toolGetFinancials({ symbol, statement, basis, limit, before, fiel
         units: `${currency} millions in table only, except dilutedEPS and eps (${currency}/share) and commonStockSharesOutstanding (millions of shares). Observations and calculations use raw unscaled values.`,
         note: 'Use exact periodEnd dates from observations; do not substitute calendar month-ends. Negative capitalExpenditures/dividendPayout/buybacks = cash outflow. Rows newest first. Use the supplied dated comparisons for YoY/QoQ; never choose a comparator by array position. Missing growth is unavailable. Share counts and per-share figures are AS FILED, not split-adjusted.',
         coverage: data.coverage,freshness:data.freshness,industryObservations:(data.industryObservations || []).map(f=>{const {reconciliation,...receipt}=f;return {...receipt,reconciliationStatus:reconciliation?.status,reconciliationDigest:reconciliation?.tableDigest};}),supplementalObservations:(data.supplementalObservations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly')),
-        observations, comparisons, calculations:[...calculations,...(data.compatibleCalculations || []).filter(f=>f.statement===st && f.historyBasis===(annual?'annual':'quarterly'))], capitalReturns,
+        observations, comparisons, calculations: suppliedCalculations, capitalReturns,
         // Metrics the issuer's XBRL facts cannot carry — EBITDA and EBIT have no
         // concept at all, and eight balance/cash lines were measured non-null zero
         // times across every shipped annual row. The stored provider snapshot has
         // them, so they arrive here instead of as a blank the model cannot fill.
         alternativeSources: null,
-        provenance: evidence.provenance(data, [observations, comparisons, calculations, capitalReturns]),
+        provenance: evidence.provenance(data, [observations, comparisons, suppliedCalculations, capitalReturns]),
         source: 'Verified SEC XBRL facts; sources and calculations supplied in provenance',
         table: lines.join('\n')
     }, data, reports.length, {compact});
@@ -2120,7 +2135,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             return { tool, args, result, ms: Date.now() - started };
         };
         const supply = ({ tool, args, result, ms }) => {
-            const content = evidence.serializeResult(require('./ask-report-evidence').compact(require('./ask-report-evidence').boundNarrative(result)), evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+            const reportEvidence = require('./ask-report-evidence');
+            const content = reportEvidence.serialize(result, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
             const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
             suppliedResults.push({ tool, result: supplied });
             contextBytes += Buffer.byteLength(content);
@@ -2232,8 +2248,10 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 for (const { tc, args, result, ms } of roundResults) {
                     // Reserve space for all remaining small error replies;
                     // every tool_call_id still needs a response when full.
-                    const reportResult=policy.kind==='company_report' && !policy.explicitWordLimit?require('./ask-report-evidence').compact(require('./ask-report-evidence').boundNarrative(result)):result;
-                    const content = evidence.serializeResult(reportResult, evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+                    const remaining = evidence.MAX_CONTEXT_BYTES - (policy.kind==='company_report' && !policy.explicitWordLimit
+                        ? require('./ask-report-evidence').CONTEXT_RESERVE_BYTES : 32*1024) - contextBytes;
+                    const content = policy.kind==='company_report' && !policy.explicitWordLimit
+                        ? require('./ask-report-evidence').serialize(result, remaining) : evidence.serializeResult(result, remaining);
                     const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
                     suppliedResults.push({ tool: tc.function.name, result: supplied });
                     if (!policy.company && supplied.symbol) {
@@ -2303,7 +2321,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 let result;
                 try { result = await deps.runTool('get_supplemental_context', supplemental, ctx); }
                 catch (error) { result = evidence.toolError(error); }
-                const content = evidence.serializeResult(require('./ask-report-evidence').compact(require('./ask-report-evidence').boundNarrative(result || { error: 'Supplemental retrieval returned no evidence.' })), evidence.MAX_CONTEXT_BYTES - 32 * 1024 - contextBytes);
+                const reportEvidence = require('./ask-report-evidence');
+                const content = reportEvidence.serialize(result || { error: 'Supplemental retrieval returned no evidence.' }, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
                 const supplied = require('./ask-report-evidence').expand(JSON.parse(content)), id = 'report-supplement';
                 suppliedResults.push({ tool: 'get_supplemental_context', result: supplied });
                 contextBytes += Buffer.byteLength(content);
