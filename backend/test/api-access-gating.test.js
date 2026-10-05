@@ -5,8 +5,13 @@
 // this is exactly the kind of gate that's easy to wire once and silently
 // drop from a route added later.
 //
-// Decided 9/11: API/MCP access is Power/Desk + the TOP AppSumo/DealMirror
-// tier only (not every lifetime buyer, unlike Monitor's isLifetimeBuyer()).
+// Decided 9/11: API/MCP access is Power/Desk + the top lifetime tiers only
+// (not every lifetime buyer, unlike Monitor's isLifetimeBuyer()). Amended
+// 2026-10-05: the floor moved from tier 3 alone to tier 2 (Investor), because
+// the live AppSumo listing kept selling API+MCP on Investor while the gate had
+// narrowed past it — a tier-2 buyer redeemed for the API, found no key, and
+// refunded inside 30 minutes. The floor is shared with lib/tier-limits.js so
+// the gate and the listing copy cannot drift apart again.
 // Pricing: MCP and the REST API are priced IDENTICALLY, action for action.
 // The old "REST is exactly 2x MCP" base-tier rule went in two steps — the ask
 // was equalised 2026-09-22, the lookup 2026-09-23 — because both surfaces run
@@ -18,8 +23,8 @@
 // self-serve developer rung was added to this gate, and it is the ONE plan
 // here that is not a top tier. The gate stays a PAID gate — Dev is a
 // subscription, not a free tier — but it is no longer accurate to describe
-// this as "top tiers only". The narrower assertions below (top LTD tier, no
-// isLifetimeBuyer) are unchanged. Dev has its own $19.99 Stripe price; the
+// this as "top tiers only". The narrower assertions below (LTD tier floor, no
+// isLifetimeBuyer) are unchanged in kind. Dev has its own $19.99 Stripe price; the
 // guards that keep it from ever being confused with Monthly — metadata-first
 // resolution and the shared-price-id refusal — live in test/dev-plan.test.js.
 
@@ -28,6 +33,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const credits = require('../credits');
+const tierLimits = require('../../lib/tier-limits');
 
 const appSource = fs.readFileSync(path.join(__dirname, '..', 'app.js'), 'utf8');
 // The MCP tool layer, where the decisions that used to sit at the transport
@@ -49,13 +55,17 @@ test('credits.COST prices the MCP and REST surfaces identically', () => {
     assert.equal('api_lookup' in credits.COST && 'mcp_lookup' in credits.COST, true);
 });
 
-test('apiAccessGate exists and gates on Dev/Power/Desk or the top LTD tier only', () => {
+test('apiAccessGate exists and gates on Dev/Power/Desk or the top two LTD tiers only', () => {
     const gi = appSource.indexOf('function hasApiAccess(req)');
     assert.ok(gi >= 0, 'hasApiAccess exists');
     const fn = appSource.slice(gi, appSource.indexOf('\nfunction apiAccessGate'));
     assert.match(fn, /\['power', 'power-monthly', 'desk', 'dev'\]\.includes\(sub\.planId\)/, 'recurring gate is Dev/Power/Desk only, not every paid plan');
-    assert.match(fn, /Number\(user\.appsumoTier\) === 3/, 'only the top AppSumo tier, not isLifetimeBuyer()');
-    assert.match(fn, /Number\(user\.dealMirrorTier\) === 3/, 'DealMirror tier 3 is treated the same as AppSumo tier 3');
+    // Tier 2 (Investor) is in, added 2026-10-05 to match the live AppSumo
+    // listing, which sells API+MCP on Investor as well as Pro. The floor is a
+    // shared constant so the gate and the marketing copy cannot drift apart.
+    assert.match(fn, /Number\(user\.appsumoTier\) >= tierLimits\.API_ACCESS_MIN_LTD_TIER/, 'Investor (tier 2) and Pro (tier 3), not isLifetimeBuyer()');
+    assert.match(fn, /Number\(user\.dealMirrorTier\) >= tierLimits\.API_ACCESS_MIN_LTD_TIER/, 'DealMirror uses the same floor as AppSumo');
+    assert.equal(tierLimits.API_ACCESS_MIN_LTD_TIER, 2, 'the floor is Investor (tier 2): a Starter (tier 1) purchase after the cutoff carries no API/MCP');
     assert.equal(/isLifetimeBuyer/.test(fn), false, 'must NOT reuse the any-LTD-buyer check Monitor uses — this gate is narrower');
     // The 2026-09-23 widening: any tier purchased on or before the cutoff. It
     // must go through the dated cohort check, never a bare tier test — a bare

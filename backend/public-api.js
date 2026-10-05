@@ -24,8 +24,8 @@ function buildPublicApiRouter({ credits, effectiveAskLimit, aiChat, apiKeyAuth, 
         res.json({ ok: true, version: 'v1', generatedAt: new Date().toISOString() });
     });
 
-    // Access is tier-gated (Power/Desk, or the top AppSumo/DealMirror
-    // tier — see app.js's apiAccessGate) BEFORE the rate limiter, so a
+    // Access is tier-gated (Power/Desk, or the Investor/Pro AppSumo/DealMirror
+    // tiers — see app.js's apiAccessGate) BEFORE the rate limiter, so a
     // caller who isn't entitled gets a clear 402 rather than counting
     // against the shared per-key rate budget.
     router.use(apiKeyAuth, apiAccessGate, apiKeyRateLimit);

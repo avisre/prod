@@ -61,7 +61,7 @@ test('source: hasApiAccess denies a cancelled lifetime AppSumo/DealMirror grant'
   const fnBody = appSource.slice(start, start + 1400);
   assert.match(fnBody, /if \(sub\.status === 'cancelled'\) return false;/);
   const guardIdx = fnBody.indexOf("sub.status === 'cancelled'");
-  const fallbackIdx = fnBody.indexOf('appsumoTier) === 3');
+  const fallbackIdx = fnBody.indexOf('appsumoTier) >= tierLimits.API_ACCESS_MIN_LTD_TIER');
   assert.ok(guardIdx > -1 && fallbackIdx > -1 && guardIdx < fallbackIdx,
-    'the cancelled-status check must run before the tier-3 fallback it is meant to gate');
+    'the cancelled-status check must run before the LTD-tier fallback it is meant to gate');
 });

@@ -151,9 +151,10 @@ function monitorGate(req, res, next) {
 }
 
 // API/MCP access, like Monitor, is a top-tier developer feature: Power/Desk
-// recurring subscribers, or the HIGHEST lifetime tier only (AppSumo/
-// DealMirror tier 3) — not every LTD buyer the way isLifetimeBuyer() reads
-// for Monitor. Checked live on every gated request (key creation AND every
+// recurring subscribers, or the top TWO lifetime tiers (AppSumo/DealMirror
+// tier 2 Investor and tier 3 Pro) — not every LTD buyer the way
+// isLifetimeBuyer() reads for Monitor. Checked live on every gated request
+// (key creation AND every
 // authenticated API/MCP call), not just at key-issuance time, so a
 // downgrade takes effect immediately — same pattern as monitorGate/
 // coreGate/proGate, all of which re-check current status rather than a
@@ -163,6 +164,15 @@ function monitorGate(req, res, next) {
 // here that is not a top tier: it is the cheap self-serve on-ramp for
 // developers, who will never buy a $1,499 Power seat to evaluate a data
 // source. It is still a PAID plan — nothing about this gate is free access.
+//
+// Tier 2 was added 2026-10-05 to match the live AppSumo listing, which sells
+// "API + MCP access for your AI assistant" on Investor ($299) as well as Pro
+// ($499). The gate had narrowed this to tier 3 alone on 2026-09-23 and the
+// listing was never narrowed with it, so for a fortnight we sold an
+// entitlement the code refused: a tier-2 buyer redeemed for the API, found no
+// key on his profile, asked support, and refunded inside 30 minutes. The floor
+// lives in lib/tier-limits.js so the gate and the marketing copy cannot drift
+// apart again.
 function hasApiAccess(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
@@ -173,11 +183,12 @@ function hasApiAccess(req) {
     // of the four here. That means this fallback is the ONLY gate for it, so
     // it must respect a revocation: revokeAppSumoAccess/revokeDealMirrorAccess
     // both set subscription.status to 'cancelled' on refund. Without this
-    // check, a refunded tier-3 buyer whose appsumoTier/dealMirrorTier a future
-    // bug or a missed reconcile pass failed to clear would keep API/MCP
+    // check, a refunded tier-2/3 buyer whose appsumoTier/dealMirrorTier a
+    // future bug or a missed reconcile pass failed to clear would keep API/MCP
     // access forever, tier alone being sufficient.
     if (sub.status === 'cancelled') return false;
-    if (user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3)) return true;
+    if (user && (Number(user.appsumoTier) >= tierLimits.API_ACCESS_MIN_LTD_TIER
+        || Number(user.dealMirrorTier) >= tierLimits.API_ACCESS_MIN_LTD_TIER)) return true;
     // Lifetime buyers who PURCHASED on or before LTD_API_ACCESS_CUTOFF keep
     // API/MCP on any tier, permanently (2026-09-23 round). Cohort membership
     // lives in lib/tier-limits.js so the gate and the marketing copy can never
@@ -190,7 +201,7 @@ function hasApiAccess(req) {
 }
 function apiAccessGate(req, res, next) {
     if (hasApiAccess(req)) return next();
-    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, the top AppSumo/DealMirror tier, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
+    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
