@@ -36,7 +36,7 @@ function selectAnnual(filings, asOf = day(new Date().toISOString())) {
 function reportingStatus(evidence, asOf = day(new Date().toISOString())) {
     if (!day(asOf)) throw new Error('Invalid asOf date');
     const checked = day(evidence?.lastSuccessfulCheckAt);
-    if (!cik(evidence?.cik) || evidence?.lastAttemptResult === 'invalid_identity' || !checked || checked > asOf || Date.parse(asOf) - Date.parse(checked) > 35 * DAY) return 'unverified';
+    if (!cik(evidence?.cik) || evidence?.lastAttemptResult === 'invalid_identity' || !checked || !Number.isFinite(Date.parse(evidence.lastSuccessfulCheckAt)) || Date.parse(evidence.lastSuccessfulCheckAt)>Date.now()+5*60*1000 || Date.parse(asOf) - Date.parse(checked) > 35 * DAY) return 'unverified';
     const a = evidence.latestAnnual;
     if (!a) return evidence.amendmentOnly ? 'unverified' : 'no_recent_annual';
     if (!/^(10-K|20-F|40-F)$/.test(a.form) || !day(a.filingDate) || !day(a.reportDate) || a.filingDate > asOf || a.reportDate > asOf) return 'unverified';

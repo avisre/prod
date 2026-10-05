@@ -73,3 +73,14 @@ test('an authoritative stock listing without a CIK uses attributed provider evid
  const first=await x.resolver.getCompanyEvidence('NEW',['totalRevenue'],{annual:1,quarterly:0});assert.equal(secCalls,0);assert.equal(first.cik,null);assert.equal(first.supplementalObservations[0].issuer,'listing:NEW');assert.equal(first.supplementalObservations[0].value,0);assert.deepEqual(first.remainingGaps,[]);assert.ok(keys.every(key=>key==='listing:NEW'));assert.ok(first.coverage.sourceAttempts.some(a=>a.reason==='SEC_IDENTITY_UNRESOLVED'));
  await x.resolver.getCompanyEvidence('NEW',['totalRevenue'],{annual:1,quarterly:0});assert.equal(keys.filter(key=>key==='listing:NEW').length,3);
 });
+test('core and industry extraction reuse one fetched annual document within the four-page budget',async()=>{
+ const {doc,evidence}=fixture();let originalCalls=0;
+ const original={...doc,segments:[],originalDocument:{form:'10-K',accessionNumber:evidence.latestAnnual.accessionNumber,url:'https://www.sec.gov/Archives/edgar/data/123/'+evidence.latestAnnual.accessionNumber.replace(/-/g,'')+'/annual.htm'}};
+ const x=setup({baseline:()=>({financial:null,reporting:evidence,supplemental:[]}),client:{fetchReporting:async()=>({...evidence,lastSuccessfulCheckAt:new Date().toISOString()}),fetchFacts:async()=>({cik:123,facts:{}}),fetchOriginal:async()=>{originalCalls++;return original;}}});
+ const result=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:0});assert.equal(originalCalls,1);assert.equal(result.observations.find(f=>f.field==='totalRevenue').value,0);assert.deepEqual(result.remainingGaps,[]);
+});
+test('a successful filing-index check does not label a failed financial refresh as fully successful',async()=>{
+ const {evidence}=fixture(),reporting={...evidence,lastSuccessfulCheckAt:new Date().toISOString(),latestPeriodic:{form:'10-Q',accessionNumber:'0000000123-26-000099',reportDate:'2026-03-31',filingDate:'2026-05-01'}};
+ const x=setup({client:{fetchReporting:async()=>reporting,fetchFacts:async()=>{throw new Error('FACTS_OUTAGE');}}});
+ const result=await x.resolver.getCompanyEvidence('EX',['totalRevenue'],{annual:1,quarterly:1});assert.equal(result.freshness.lastAttemptResult,'partial_failure');assert.equal(result.freshness.financialAttemptResult,'retrieval_failed');assert.equal(result.observations.find(f=>f.field==='totalRevenue').value,0);assert.ok(result.coverage.sourceAttempts.some(a=>a.reason==='FACTS_OUTAGE'));assert.ok(result.remainingGaps.some(g=>g.basis==='quarterly'));
+});

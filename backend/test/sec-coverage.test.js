@@ -43,3 +43,8 @@ test('counts deduplicate stock classes and exclude secondary securities from iss
     const c=p.count(securities,{'0000000123':{annualReportingStatus:'recent_annual',financialCoverage:'ready'}});assert.equal(c.listedSecurities,4);assert.equal(c.identifiedIssuers,1);assert.equal(c.financialReadyIssuers,1);assert.equal(c.screenableListings,2);assert.equal(c.screenableIssuers,1);
 });
 module.exports={financial,evidence};
+test('a run crossing UTC midnight keeps its filing cutoff separate from its actual retrieval date',()=>{
+ const e=evidence();e.lastSuccessfulCheckAt=new Date().toISOString();assert.equal(p.reportingStatus(e,'2026-10-03'),'recent_annual');
+ e.lastSuccessfulCheckAt=new Date(Date.now()+86400000).toISOString();assert.equal(p.reportingStatus(e,'2026-10-03'),'unverified');
+ e.lastSuccessfulCheckAt=new Date().toISOString();e.latestAnnual.filingDate='2026-10-04';assert.equal(p.reportingStatus(e,'2026-10-03'),'unverified');
+});

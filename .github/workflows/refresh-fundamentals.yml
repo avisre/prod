@@ -62,6 +62,10 @@ jobs:
         run: node scripts/run-financial-stage.js identities
       - name: Confirm classifications using refreshed SEC identities
         run: node scripts/run-financial-stage.js listings
+      - name: Reconcile identities newly classified as stocks
+        run: node --max-old-space-size=1536 scripts/run-financial-stage.js core
+      - name: Revalidate the final classified financial universe
+        run: node scripts/normalize-financial-source-ids.js
       - name: Extract original industry and segment disclosures
         run: node --max-old-space-size=1536 scripts/run-financial-stage.js industry
       - name: Retry transient original-document failures

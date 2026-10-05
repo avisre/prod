@@ -2632,16 +2632,10 @@ app.get('/stocks/:ticker', async (req, res) => {
     const quote = await quoteStore.getQuote(canonicalSymbol || req.params.ticker, {
         allowLive: !quoteStore.isLikelyCrawler(req.get('user-agent'))
     });
-    // Heal stale fundamentals in the background for real readers. Fire and
-    // forget: this response stays fast and carries the data's real as-of date,
-    // and the next visit gets the rebuild. Crawlers skip it — they would
-    // multiply the work for no reader benefit.
-    if (!quoteStore.isLikelyCrawler(req.get('user-agent'))) {
-        // The resolver retains validated additions in the dedicated public cache.
-    }
     let evidenceData=null;
     if(!quoteStore.isLikelyCrawler(req.get('user-agent')) && require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType==='stock')try{evidenceData=(await require('./verified-fundamentals').getCompanyEvidence(canonicalSymbol || req.params.ticker)).data;}catch(_){}
     const html = seoPages.renderStockPage(req.params.ticker, { quote,evidenceData });
+    if(!html && !quoteStore.isLikelyCrawler(req.get('user-agent')) && ['stock','closed_end_fund'].includes(require('./stock-universe').lookup(canonicalSymbol || req.params.ticker)?.securityType))return res.redirect(302,'/company?symbol='+encodeURIComponent(canonicalSymbol || req.params.ticker));
     if (!html) return res.status(404).set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderStockIndex());
     res.set('Content-Type', 'text/html; charset=utf-8').send(html);
 });

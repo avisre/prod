@@ -33,14 +33,17 @@ function createResolver(deps={}) {
   const stableSources=Object.fromEntries(Object.entries(state.financial?.sources || {}).map(([id,source])=>{const {retrievedAt,...stable}=source;return [id,stable];}));
   const digest=p.digest({extractionVersion:state.financial?.extractionVersion,validationVersion:state.financial?.validationVersion,financial:state.financial?.factsDigest,sources:stableSources,supplemental:usable.map(f=>({key:obs.key(f),value:f.value,versions:f.sourceVersions}))});
   data.coverage={...data.coverage,fields,periods,remainingGaps:remaining,sourceAttempts:data.sourceAttempts};
-  data.freshness={lastSuccessfulCheckAt:state.reporting?.lastSuccessfulCheckAt || null,lastAttemptAt:state.lastAttemptAt || null,lastAttemptResult:state.lastAttemptResult || null,backgroundStatus:pending.has(identity(company))?'running':'idle',persistence:state.persistence || null};
+  data.freshness={lastSuccessfulCheckAt:state.reporting?.lastSuccessfulCheckAt || null,lastAttemptAt:state.lastAttemptAt || state.reporting?.lastFinancialAttemptAt || state.reporting?.lastAttemptAt || null,lastAttemptResult:state.lastAttemptResult || (['transient_failure','invalid_identity'].includes(state.reporting?.lastAttemptResult)?'retrieval_failed':state.reporting?.lastFinancialResult==='transient_failure'?'partial_failure':state.reporting?.lastAttemptResult || null),financialAttemptResult:state.financialAttemptResult || state.reporting?.lastFinancialResult || null,lastFinancialCheckAt:state.reporting?.lastFinancialCheckAt || state.financial?.fetchedAt || null,backgroundStatus:pending.has(identity(company))?'running':'idle',persistence:state.persistence || null};
   data.provenance.evidenceFingerprint=digest;
   try{const req=require('./financial-requirements').requirements(data.overview,state.reporting?.sic);data.coverage.industry={...req,metrics:req.industry.map(field=>({field,state:[...filed,...usable].some(f=>f.field===field)?'available':'missing',reason:[...filed,...usable].some(f=>f.field===field)?null:'A compatible original disclosure or supplemental observation has not been extracted'}))};}catch(_){}data.provenance.extractionVersion=state.financial?.extractionVersion || 'legacy';
   return {symbol:company.symbol,cik:company.cik,securityType:company.securityType,statements:state.financial,observations:filed,supplementalObservations:usable,marketData:data.marketData,coverage:data.coverage,freshness:data.freshness,remainingGaps:remaining,evidenceFingerprint:digest,data};
  }
  async function supplement(company,state,fields,periods) {
-  const attempted=new Date().toISOString(),attempts=[];let profile=state.profile || null;let financial=state.financial,reporting=state.reporting || {},supplemental=state.supplemental || [],success=false;
+  const attempted=new Date().toISOString(),attempts=[];let profile=state.profile || null;let financial=state.financial,reporting=state.reporting || {},supplemental=state.supplemental || [],success=false,financialAttemptResult='not_required';
   const issuer={cik:p.cik(company.cik),symbols:[company.symbol]};
+  const originalDocuments=new Map();
+  function fetchOriginal(filing){if(!filing?.accessionNumber)return Promise.reject(Object.assign(new Error('No applicable original financial filing was identified'),{code:'ORIGINAL_FILING_UNAVAILABLE'}));if(!originalDocuments.has(filing.accessionNumber))originalDocuments.set(filing.accessionNumber,Promise.resolve().then(()=>(network.fetchOriginal || require('./sec-original').fetchOriginal)(issuer.cik,filing)));return originalDocuments.get(filing.accessionNumber);}
+
   try {
    if(!issuer.cik)throw Object.assign(new Error('The exchange listing has no confirmed SEC CIK; provider observations remain linked to this listing'),{code:'SEC_IDENTITY_UNRESOLVED'});
    const newer=await network.fetchReporting(issuer);reporting={...reporting,...newer};success=true;
@@ -48,24 +51,26 @@ function createResolver(deps={}) {
    const missing=obs.gaps(obs.observations(financial),fields,periods,reporting.reportingCadence,reporting);
    const mapped=field=>Object.values(require('./sec-facts').MAPS).some(defs=>defs[field]);
    if(changed || missing.some(g=>mapped(g.field)) || financial?.extractionVersion!==EXTRACTION_VERSION || financial?.validationVersion!==VALIDATION_VERSION) {
+    financialAttemptResult='retrieval_failed';
     let raw;try{raw=await network.fetchFacts(issuer.cik);}catch(e){if(e.response?.status!==404 || !reporting.latestAnnual)throw e;raw={cik:Number(issuer.cik),facts:{}};}financial=extract(raw,reporting);
     if(!changed){financial.industryObservations=state.financial?.industryObservations || [];financial.segmentObservations=state.financial?.segmentObservations || [];financial.industryExtraction=state.financial?.industryExtraction;}
     const coreMissing=obs.gaps(obs.observations(financial),fields,{annual:1,quarterly:0}).some(g=>mapped(g.field));
     if(coreMissing || financial.issues.some(i=>i.code==='AMBIGUOUS_CURRENCY') || (financial.industryExtraction?.sourceVersion!==reporting.latestAnnual?.accessionNumber && require('./sec-industry-tables').REGISTRY[issuer.cik])) {
-     try{const original=await (network.fetchOriginal || require('./sec-original').fetchOriginal)(issuer.cik,reporting.latestAnnual);raw=require('./sec-original').mergeFacts(raw,original);reporting.reportingCurrency=original.reportingCurrency || reporting.reportingCurrency;financial=extract(raw,reporting);attempts.push({source:'SEC original filing',status:'success',url:original.originalDocument.url});}
+     try{const original=await fetchOriginal(reporting.latestAnnual);raw=require('./sec-original').mergeFacts(raw,original);reporting.reportingCurrency=original.reportingCurrency || reporting.reportingCurrency;financial=extract(raw,reporting);attempts.push({source:'SEC original filing',status:'success',url:original.originalDocument.url});}
      catch(e){attempts.push({source:'SEC original filing',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}
     }
     const interimMissing=Number(periods.quarterly)>0 && /^(10-Q)(\/A)?$/.test(reporting.latestPeriodic?.form || '') && obs.gaps(obs.observations(financial),fields,periods,reporting.reportingCadence,reporting).some(g=>g.basis==='quarterly' && mapped(g.field));
-    if(interimMissing){try{const original=await (network.fetchOriginal || require('./sec-original').fetchOriginal)(issuer.cik,reporting.latestPeriodic);raw=require('./sec-original').mergeFacts(raw,original);financial=extract(raw,reporting);attempts.push({source:'SEC original interim filing',status:'success',url:original.originalDocument.url});}catch(e){attempts.push({source:'SEC original interim filing',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}}
+    if(interimMissing){try{const original=await fetchOriginal(reporting.latestPeriodic);raw=require('./sec-original').mergeFacts(raw,original);financial=extract(raw,reporting);attempts.push({source:'SEC original interim filing',status:'success',url:original.originalDocument.url});}catch(e){attempts.push({source:'SEC original interim filing',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}}
     financial=require('./sec-last-good').preserveSameFiling(financial,state.financial,reporting);
     const errors=p.validateFinancial(financial,company.cik);if(errors.length)throw new Error('INVALID_EXTRACTION');
     const candidateFacts=obs.observations(financial),oldFacts=obs.observations(state.financial);
     if(oldFacts.some(f=>!candidateFacts.some(n=>n.field===f.field && n.periodEnd===f.periodEnd && n.historyBasis===f.historyBasis && n.unit===f.unit)))throw new Error('EXTRACTION_HISTORY_REGRESSION');
+    financialAttemptResult='success';
    }
    attempts.push({source:'SEC',status:'success'});
   }catch(e){financial=state.financial;attempts.push({source:'SEC',status:'retrieval_failed',reason:String(e.code || e.response?.status || e.message).slice(0,120)});}
   if(financial && reporting.latestAnnual && financial.industryExtraction?.sourceVersion!==reporting.latestAnnual.accessionNumber && (!deps.client || network.fetchOriginal)) {
-   try{const document=await (network.fetchOriginal || require('./sec-original').fetchOriginal)(issuer.cik,reporting.latestAnnual);financial=require('./sec-industry').enrich(financial,document,reporting);attempts.push({source:'SEC industry and segment disclosures',status:'success',url:document.originalDocument.url});}
+   try{const document=await fetchOriginal(reporting.latestAnnual);financial=require('./sec-industry').enrich(financial,document,reporting);attempts.push({source:'SEC industry and segment disclosures',status:'success',url:document.originalDocument.url});}
    catch(e){attempts.push({source:'SEC industry and segment disclosures',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}
   }
   const filed=obs.observations(financial);
@@ -90,7 +95,7 @@ function createResolver(deps={}) {
    }catch(e){attempts.push({source:'Yahoo Finance',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}
   }
   supplemental=obs.reconcile(filed,supplemental);
-  const next={financial,reporting,supplemental,profile,attempts,lastAttemptAt:attempted,attemptedFields:fields,lastAttemptResult:success?'success':'retrieval_failed'};
+  const next={financial,reporting,supplemental,profile,attempts,lastAttemptAt:attempted,attemptedFields:fields,financialAttemptResult,lastAttemptResult:success?(attempts.some(a=>a.status==='retrieval_failed')?'partial_failure':'success'):'retrieval_failed'};
   if(!issuer.cik && profile?.retrievedAt)next.providerLastSuccessfulCheckAt=profile.retrievedAt;
   next.persistence=await cache.set(identity(company),next);return next;
  }

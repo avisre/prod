@@ -9,6 +9,8 @@ function main(){const asOf=process.env.FINANCIAL_AS_OF || new Date().toISOString
  ['reconcile classified listings',['scripts/build-us-companies.js']],
  ['review fund and ambiguous identities',['scripts/audit-listing-identities.js']],
  ['publish the classified directory',['scripts/build-us-companies.js']],
+ ['reconcile newly classified stock identities',['--max-old-space-size=768','scripts/refresh-sec-coverage.js','--weekly','--as-of',asOf,'--concurrency','2']],
+ ['revalidate the final stock financial universe',['scripts/normalize-financial-source-ids.js']],
  ['original industry disclosures',['--max-old-space-size=768','scripts/refresh-sec-industry.js']],
  ['retry transient original-document failures',['--max-old-space-size=768','scripts/refresh-sec-industry.js','--retry']],
  ['build matching public, screening and coverage generations',['--max-old-space-size=768','scripts/build-public-stock-index.js']],

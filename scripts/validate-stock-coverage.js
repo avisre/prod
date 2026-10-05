@@ -19,6 +19,7 @@ function validate({asOf,bootstrap=false}={}){
  const securities=new Map(pub.securities.map(s=>[s.symbol,s]));if(securities.size!==canonical.size || pub.securities.length!==canonical.size)fail('Incomplete directory outcomes');
  let checked=0,recent=0,completed=0,networkFailures=0,financialFailures=0,invalidIdentity=0,files=0,values=0;
  const eligibleIds=new Set(dir.companies.filter(c=>c.securityType==='stock' && c.cik).map(c=>c.cik));
+ if(bootstrap)for(const id of eligibleIds)if(report.issuers[id]?.lastReconciledCycle!==asOf)fail('In-scope issuer was not checked in the current reconciliation cycle '+id);
  for(const [id,item]of Object.entries(pub.issuers)){
   const e=report.issuers[id],file=path.join(p.DATA_DIR,'sec-financials',id+'.json');let data=null;
   if(e?.financialDigest){try{const raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==e.financialDigest || item.financialDigest!==e.financialDigest)fail('Financial digest mismatch '+id);data=JSON.parse(raw);files++;for(const error of p.validateFinancial(data,id,asOf))fail(id+': '+error);for(const st of ['income','balance','cash'])for(const basis of ['annualReports','quarterlyReports'])for(const row of data[st]?.[basis] || [])values+=Object.keys(row._sources || {}).length;}catch(err){fail('Financial file '+id+': '+err.message);}}
