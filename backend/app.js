@@ -2963,7 +2963,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-navtray1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2992,7 +2992,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261004-askfacet1"></script>
+<script src="/assets/app.js?v=20261005-navtray1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3084,7 +3084,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-navtray1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3112,7 +3112,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261004-askfacet1"></script>
+<script src="/assets/app.js?v=20261005-navtray1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3220,7 +3220,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261004-askfacet1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261005-navtray1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3253,7 +3253,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261004-askfacet1"></script>
+<script src="/assets/app.js?v=20261005-navtray1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -8112,17 +8112,31 @@ app.get('/api/admin/messages/customers', authMiddleware, customerMessagesAdminOn
         if (audience === 'free') {
             filter.$and = [...(filter.$and || []), { $or: [{ 'subscription.planId': 'free' }, { 'subscription.status': { $in: ['pending', 'cancelled'] } }] }];
         }
-        const [total, users] = await Promise.all([
-            User.countDocuments(filter),
-            User.find(filter, { name: 1, email: 1, subscription: 1, appsumoRedeemedAt: 1, customerMessageEmailsOptOut: 1, createdAt: 1 })
-                .sort({ createdAt: -1, _id: -1 }).skip(page * limit).limit(limit).lean()
-        ]);
-        const ids = users.map((user) => user._id);
-        const threads = ids.length ? await CustomerMessageThread.find({ userId: { $in: ids } }, { userId: 1, lastMessageAt: 1, adminUnread: 1 }).lean() : [];
-        const threadByUser = new Map(threads.map((thread) => [String(thread.userId), thread]));
+        // ONE round-trip, not three. The queries here cost ~0ms of server time
+        // but the app host sits ~85ms from Atlas, and this route paid that three
+        // times over in sequence (count, then the page, then the thread lookup).
+        // $facet folds the count and the page into one pass and $lookup carries
+        // each customer's thread along with its row.
+        const [result] = await User.aggregate([
+            { $match: filter },
+            {
+                $facet: {
+                    meta: [{ $count: 'total' }],
+                    rows: [
+                        { $sort: { createdAt: -1, _id: -1 } },
+                        { $skip: page * limit },
+                        { $limit: limit },
+                        { $lookup: { from: 'customer_message_threads', localField: '_id', foreignField: 'userId', as: 'thread' } },
+                        { $project: { name: 1, email: 1, subscription: 1, appsumoRedeemedAt: 1, customerMessageEmailsOptOut: 1, thread: { $arrayElemAt: ['$thread', 0] } } }
+                    ]
+                }
+            }
+        ]).allowDiskUse(true);
+        const total = (result && result.meta[0] && result.meta[0].total) || 0;
+        const users = (result && result.rows) || [];
         res.set('Cache-Control', 'no-store').json({
             customers: users.map((user) => {
-                const thread = threadByUser.get(String(user._id));
+                const thread = user.thread;
                 return {
                     userId: String(user._id), name: user.name || '', email: user.email,
                     audience: user.appsumoRedeemedAt ? 'appsumo' : (user.subscription && user.subscription.planId !== 'free' ? 'paid' : 'free'),
@@ -8198,11 +8212,17 @@ app.get('/api/admin/messages/threads', authMiddleware, customerMessagesAdminOnly
 app.get('/api/admin/messages/threads/:userId', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.userId)) return res.status(400).json({ message: 'Invalid customer.' });
     try {
-        const user = await User.findById(req.params.userId, { name: 1, email: 1 }).lean();
+        // Five sequential DB round-trips used to sit between the click and the
+        // conversation. Reading the thread is what clears the badge, so do both
+        // in one operation and run it alongside the customer lookup: three hops
+        // in the common case, and the app host pays ~85ms per hop.
+        const [user, existingThread] = await Promise.all([
+            User.findById(req.params.userId, { name: 1, email: 1 }).lean(),
+            CustomerMessageThread.findOneAndUpdate({ userId: req.params.userId }, { $set: { adminUnread: 0 } }, { new: true }).lean()
+        ]);
         if (!user) return res.status(404).json({ message: 'Customer not found.' });
-        const thread = await getCustomerThread(user._id);
+        const thread = existingThread || await getCustomerThread(user._id);
         const messages = await CustomerMessage.find({ threadId: thread._id }).sort({ createdAt: 1 }).limit(500).lean();
-        await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { adminUnread: 0 } });
         res.set('Cache-Control', 'no-store').json({ customer: { id: String(user._id), name: user.name || '', email: user.email }, messages: messages.map(messageDto) });
     } catch (error) {
         console.error('[messages] admin thread failed:', error && error.message);

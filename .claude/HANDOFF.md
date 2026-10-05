@@ -52,7 +52,7 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   deploy `dep-db181bvavr4c73an2krg` through workflow `37216736433`; the workflow confirmed the deployed
   commit. `/api/health` returned 200 with `{"ok":true}`. Direct requests to `/ask` and the stamped asset
   returned 403 from this environment, so authenticated rendered-page verification is still unavailable.
-  Asset stamp: `20261004-askfacet1`.
+  Asset stamp: `20261005-navtray1`.
 - The earlier rollback `97c61b35` deployed as `dep-db0uvplg1s2s73fplsq0` through workflow `37182036116`.
   Its historical evidence remains in `docs/qa/ask-rollback-2026-10-04/release.json`.
 - Earlier the same day, the SEC coverage release `73186a12` deployed and passed independent production
@@ -123,7 +123,7 @@ All six failures reproduced on the untouched pre-release production tree (stale 
 model-routing and reliability assertions, plus a long SEO description). GitHub's committed dataset,
 exhaustive public rendering and resource gates all passed. Faceted bars render
 correctly at 1100px and 390px — one panel per metric, values printed, all five period labels survive at phone
-width, no horizontal overflow. Cache stamp `20261004-askfacet1` sits on all 88 pages that load
+width, no horizontal overflow. Cache stamp `20261005-navtray1` sits on all 88 pages that load
 `app.js`/`system.css` plus the `${STAMP}` server-rendered pages (the three HTML files without it do not
 reference the assets).
 
