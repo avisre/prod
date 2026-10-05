@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Stripe checkout. Monthly $49.99, Annual $199.99, Pro $499.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
+  <meta name="description" content="Stripe checkout. Monthly $49.99, Annual $419.99, Pro $499.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
   <link rel="canonical" href="https://www.stockportfolio.pro/register" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261006-notrial1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261006-annual30" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -165,7 +165,7 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20261006-notrial1"></script>
+  <script src="assets/app.js?v=20261006-annual30"></script>
   <script src="assets/social.js?v=20260831-paidfirst1"></script>
   <script>
     V2.nav('register');
@@ -185,10 +185,10 @@
         features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '50 Ask questions a month, every answer sourced', 'CSV export of any table']
       },
       annual: {
-        name: 'Annual', amount: '$199.99', cadence: 'per year',
-        note: 'Billed today, renews yearly. Save $399.89 a year versus monthly.',
+        name: 'Annual', amount: '$419.99', cadence: 'per year',
+        note: 'Billed today, renews yearly. Save $179.89 a year versus monthly.',
         cta: 'Continue to annual checkout',
-        features: ['Everything in the Monthly plan', 'Save $399.89 a year vs monthly — $16.67/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
+        features: ['Everything in the Monthly plan', 'Save $179.89 a year vs monthly — $35.00/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
       },
       // Pro monthly is retired — the picker's Pro card is pro-annual, and a
       // ?plan=pro URL is remapped to it above (RETIRED_PLAN_REMAP).
@@ -231,7 +231,7 @@
       }
     };
     // Purchase values are reported in the actual charged currency: USD.
-    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 49.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
+    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 49.99, annual: 419.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     // Dev joins them: it is reached from /api, and a developer who arrived to
     // buy API access should see that checkout and nothing else.
@@ -312,7 +312,7 @@
       PLANS.annual.note = 'Billed today, renews yearly.';
       PLANS.annual.features = [
         'Everything in the Monthly plan',
-        'One payment covers the full year — $16.67/month effective',
+        'One payment covers the full year — $35.00/month effective',
         'One renewal a year, nothing else to think about',
         'Upgrade to Pro anytime, prorated'
       ];

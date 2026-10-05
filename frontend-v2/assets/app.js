@@ -834,7 +834,7 @@
     // (the value is seen, not described) above one upgrade panel with the plan
     // ladder and a single CTA. Pro users just get a reset note, no upsell.
     const ASK_PLANS = {
-        core: { name: 'Monthly', price: '$49.99', per: '/mo', q: 25 },
+        core: { name: 'Monthly', price: '$49.99', per: '/mo', q: 50 },
         pro: { name: 'Pro', price: '$499.99', per: '/yr', q: 300 }
     };
     // Anon preview wall: the free questions are spent. The next rung is an

@@ -42,19 +42,19 @@ test('retired rungs keep legacy pricing but cannot be freshly purchased', () => 
 
 test('the four-rung menu prices hold across homepage, register, upgrade, dossier and terms', () => {
   assert.match(registerSource, /amount: '\$49\.99', cadence: 'per month'/);
-  assert.match(registerSource, /amount: '\$199\.99', cadence: 'per year'/);
+  assert.match(registerSource, /amount: '\$419\.99', cadence: 'per year'/);
   assert.match(registerSource, /'pro-annual': \{\s*\n\s*name: 'Pro', amount: '\$499\.99', cadence: 'per year'/);
   assert.match(registerSource, /\$1,999\.99', cadence: 'per year'/);
   assert.doesNotMatch(registerSource, /amount: '\$39\.99'/);
   assert.match(homepageSource, /\$49\.99<span>\/month<\/span>/);
-  assert.match(homepageSource, /\$199\.99<span>\/year<\/span>/);
+  assert.match(homepageSource, /\$419\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$499\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$1,999\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /register\?plan=pro-annual/);
   assert.doesNotMatch(homepageSource, /register(?:\.html)?\?plan=power-monthly/);
   assert.match(dossierSource, /plan=pro-annual"\>Start Pro checkout/);
   assert.match(dossierSource, /plan=desk"\>\$1,999\.99\/yr/);
-  assert.match(termsSource, /\$49\.99\/month \(Monthly\), \$199\.99\/year \(Annual\), \$499\.99\/year \(Pro/);
+  assert.match(termsSource, /\$49\.99\/month \(Monthly\), \$419\.99\/year \(Annual\), \$499\.99\/year \(Pro/);
   assert.match(termsSource, /\$1,999\.99\/year \(Desk\)/);
 });
 

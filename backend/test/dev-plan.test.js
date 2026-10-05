@@ -161,7 +161,7 @@ test('ambiguousStripePriceIds actually detects the collision it exists for', () 
             MONTHLY_PLAN_ID: 'monthly', ANNUAL_PLAN_ID: 'annual', PRO_ANNUAL_PLAN_ID: 'pro-annual',
             PRO_PLAN_ID: 'pro', POWER_PLAN_ID: 'power', POWER_MONTHLY_PLAN_ID: 'power-monthly',
             DESK_PLAN_ID: 'desk', DEV_PLAN_ID: 'dev',
-            LEGACY_PLAN_PRICE_SPECS: {}, LEGACY_MONTHLY_2499_PRICE_ID: ''
+            LEGACY_PLAN_PRICE_SPECS: {}, LEGACY_MONTHLY_2499_PRICE_ID: '', LEGACY_ANNUAL_19999_PRICE_ID: ''
         };
         vm.createContext(ctx);
         vm.runInContext(`${helper}\n__shared = ambiguousStripePriceIds();`, ctx);

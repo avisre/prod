@@ -17,11 +17,11 @@ const homepageSource = fs.readFileSync(require.resolve('../../frontend-v2/index.
 
 test('upgrade.html ladder sells exactly the four decided rungs', () => {
   assert.match(upgradeSource, /planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '\$49\.99', per: '\/month'/);
-  assert.match(upgradeSource, /planId: 'annual', label: 'Good — annual', group: 'core', fig: '\$199\.99', per: '\/year'/);
+  assert.match(upgradeSource, /planId: 'annual', label: 'Good — annual', group: 'core', fig: '\$419\.99', per: '\/year'/);
   assert.match(upgradeSource, /planId: 'pro-annual', label: 'Pro', group: 'pro', featured: true, .*fig: '\$499\.99', per: '\/year'/);
   assert.match(upgradeSource, /planId: 'desk', label: 'Desk', group: 'desk', featured: true, .*fig: '\$1,999\.99', per: '\/year'/);
   // The Good card carries the annual cross-sell line verbatim.
-  assert.match(upgradeSource, /Same plan yearly is <strong>\$199\.99 — \$16\.67\/month, save \$399\.89<\/strong>/);
+  assert.match(upgradeSource, /Same plan yearly is <strong>\$419\.99 — \$35\.00\/month, save \$179\.89<\/strong>/);
 });
 
 test('retired rungs rank for masking but never render or sell', () => {
@@ -63,7 +63,7 @@ test('the homepage grid reads as the ladder table: Good, Good — annual (featur
   // id (the September launch-rate script hides this comparison while the
   // promo runs, because twelve months of Monthly is then the cheaper option);
   // the price, the class and the struck value stay pinned.
-  assert.match(grid, /\$199\.99<span>\/year<\/span><s class="price-was"[^>]*>\$299\.88<\/s>/);
+  assert.match(grid, /\$419\.99<span>\/year<\/span><s class="price-was"[^>]*>\$599\.88<\/s>/);
   // Line 1 is a 3-card row; Desk and Enterprise flow onto the next line.
   assert.match(homepageSource, /#pricing-subscription-grid \{ grid-template-columns: repeat\(3, minmax\(0, 1fr\)\); \}/);
   // Pro is annual-only: no CTA anywhere on the page buys the retired

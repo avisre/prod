@@ -34,7 +34,7 @@ const SOFTWARE_LD = JSON.stringify({
         offers: [
             { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Monthly', price: '49.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Annual', price: '199.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '419.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Pro', price: '499.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Desk', price: '1999.99', priceCurrency: 'USD' }
         ]
@@ -54,7 +54,7 @@ const COMPETITORS = {
         blurb: 'Sharesight is a well-established portfolio tracker focused on performance and tax reporting, popular with investors who want detailed dividend and capital-gains records.',
         theirPrice: 'Free up to 10 holdings; paid tiers roughly $7–$23/month (billed annually).',
         rows: [
-            ['Monthly price', '$49.99/mo or $199.99/yr ($16.67/mo)', '$7–$23/mo (annual billing)'],
+            ['Monthly price', '$49.99/mo or $419.99/yr ($35.00/mo)', '$7–$23/mo (annual billing)'],
             ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free up to 10 holdings'],
             ['Company fundamentals', 'Income, balance sheet & cash flow built in', 'Limited; focus is performance & tax'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes — strong tax & dividend reporting'],
@@ -69,7 +69,7 @@ const COMPETITORS = {
         blurb: 'Stock Rover is a powerful research and screening platform aimed at US investors who want deep screeners, ratings and detailed data tables.',
         theirPrice: 'Free plan available; paid tiers roughly $7–$28/month.',
         rows: [
-            ['Monthly price', '$49.99/mo or $199.99/yr ($16.67/mo)', '$7–$28/mo'],
+            ['Monthly price', '$49.99/mo or $419.99/yr ($35.00/mo)', '$7–$28/mo'],
             ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free plan + paid trials'],
             ['Learning curve', 'Simple, calm, opinionated UI', 'Powerful but dense — lots of screens'],
             ['Company fundamentals', 'Clean income, balance sheet & cash flow', 'Extensive data & screeners'],
@@ -155,7 +155,7 @@ const COMPETITORS = {
         blurb: 'Simply Wall St is known for its visual "snowflake" company analysis and is popular with investors who like infographic-style research.',
         theirPrice: 'Free plan available; paid roughly $10/month (annual billing).',
         rows: [
-            ['Monthly price', '$49.99/mo or $199.99/yr ($16.67/mo)', '~$10/mo (annual billing)'],
+            ['Monthly price', '$49.99/mo or $419.99/yr ($35.00/mo)', '~$10/mo (annual billing)'],
             ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free plan + paid annual'],
             ['Fundamentals format', 'Real statements: income, balance, cash flow', 'Visual infographics & summaries'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes'],
@@ -170,7 +170,7 @@ const COMPETITORS = {
         blurb: "WallStreetZen is a stock research platform built around a 115-factor quantitative rating system (Zen Ratings) and transparent analyst performance rankings, aimed at part-time investors who want screeners and due diligence tools.",
         theirPrice: "Free tier (limited screener); Premium $19.50/month when billed yearly ($234/year) or $59/month if paid monthly; 14-day trial for $1.",
         rows: [
-            ["Monthly price (annual plan)","$49.99/mo or $199.99/yr; paid at signup, refundable within 7 days","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
+            ["Monthly price (annual plan)","$49.99/mo or $419.99/yr; paid at signup, refundable within 7 days","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
             ["Fundamentals depth","Up to 19 years annual + 48 quarters, from SEC filings; health checks included","Historical fundamentals + 115-factor Zen Ratings; no explicit statement of years back"],
             ["AI research assistant","Yes — Ask answers from SEC filings, sources shown; refuses when unsure","No AI assistant; offers analyst rankings and due diligence checks instead"],
             ["Analyst ratings & consensus","No analyst consensus or call transcripts included","Ranks 130+ top analysts by historical accuracy, win rate, and returns; shows analyst consensus — a genuine strength"],
@@ -241,7 +241,7 @@ const COMPETITORS = {
         blurb: "Established multi-tier financial platform with global market coverage, portfolio tools, and professional-grade analysis at higher price points.",
         theirPrice: "Bronze $9.95/mo (~$95/yr); Silver ~$24.95/mo (~$239/yr); Gold ~$49.95/mo (~$479/yr) with 20% annual discount",
         rows: [
-            ["Entry Price","$49.99/mo or $199.99/yr ($16.67/mo)","Bronze $9.95/mo (lowest tier)"],
+            ["Entry Price","$49.99/mo or $419.99/yr ($35.00/mo)","Bronze $9.95/mo (lowest tier)"],
             ["Data Depth (History)","Up to 19 years annual + 48 quarters from verified SEC filings (10-K/10-Q)","~40 years downloadable data (Gold tier); breadth unclear, not SEC-verified"],
             ["Geographic Coverage","US equities only, no international","Global coverage + UK studio + 24/5 US market data; supports non-US stocks on US exchanges — a genuine strength"],
             ["AI/Research","Grounded AI analyst (Pro tier, $499.99/yr) with SEC filing sources; refuses when unsure","Research reports, stock recommendations, Motley Fool Stock Advisor (Gold); analyst estimates & consensus not emphasized"],
@@ -267,7 +267,7 @@ function head(title, description, canonical, jsonld) {
 <meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="stylesheet" href="/styles.css?v=20260610-1" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-annual30" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -294,7 +294,7 @@ function head(title, description, canonical, jsonld) {
 }
 
 function nav() {
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261006-notrial1"></script><script>V2.nav('compare');</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261006-annual30"></script><script>V2.nav('compare');</script>`;
 }
 function footer() {
     return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo" rel="nofollow">Live demo</a> &middot; <a href="/register?plan=monthly">Plans</a></p>
@@ -338,7 +338,7 @@ function renderComparison(slug) {
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <h1 class="seo-h1">stockportfolio.pro vs ${esc(c.name)}</h1>
-  <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>$49.99/month or $199.99/year</strong>.</p>
+  <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>$49.99/month or $419.99/year</strong>.</p>
   <table class="cmp-table">
     <thead><tr><th>&nbsp;</th><th>stockportfolio.pro</th><th>${esc(c.name)}</th></tr></thead>
     <tbody>${rows}</tbody>

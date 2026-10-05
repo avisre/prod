@@ -59,8 +59,8 @@ $49.99/month; the screener and stock pages are free.
 ## Pricing
 
 - Free: the screener, all /stocks pages, and the demo — no account required.
-- Monthly: $49.99/month — full research library, portfolio tracker, 25 Ask questions a month.
-- Annual: $199.99/year — $16.67/month effective, save $399.89 versus monthly billing.
+- Monthly: $49.99/month — full research library, portfolio tracker, 100 AI credits a month (50 Ask questions if spent there).
+- Annual: $419.99/year — $35.00/month effective, save $179.89 versus monthly billing.
 - Pro: $499.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
 - Desk: $1,999.99/year — Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Credit top-ups: $14.99 for 150 credits.
@@ -132,7 +132,7 @@ A: No. Positions are added manually.
 Q: Can I get my money back?
 A: Yes — the initial payment is refundable within 7 days if the service is
 not right for you. The chosen plan starts immediately on signup ($49.99
-monthly, $199.99 annual, $499.99 Pro, or $1,999.99 Desk). Cancel anytime
+monthly, $419.99 annual, $499.99 Pro, or $1,999.99 Desk). Cancel anytime
 from account settings.
 
 ## Contact

@@ -56,7 +56,7 @@ const SOFTWARE_LD = JSON.stringify({
         offers: [
             { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Monthly', price: '49.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Annual', price: '199.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '419.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Pro', price: '499.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Desk', price: '1999.99', priceCurrency: 'USD' }
         ]
@@ -193,7 +193,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-annual30" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -255,7 +255,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261006-notrial1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261006-annual30"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {

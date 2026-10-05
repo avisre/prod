@@ -700,8 +700,9 @@ const FREE_PLAN_ID = 'free';
 // variables remain the source of truth when prices are intentionally changed.
 // 2026-08-31 Jobs cut: four prices a visitor can buy —
 // $24.99/mo · $199.99/yr · Pro $499.99/yr · Desk $1,999.99/yr (Monthly was
-// repriced to $49.99 on 2026-10-06; $24.99 subscribers are grandfathered via
-// LEGACY_MONTHLY_2499_PRICE_ID). The Pro and
+// repriced to $49.99 and Annual to $419.99 — 30% off twelve months — on
+// 2026-10-06; earlier subscribers are grandfathered via
+// LEGACY_MONTHLY_2499_PRICE_ID / LEGACY_ANNUAL_19999_PRICE_ID). The Pro and
 // Power rungs are retired from the menus (legacy subscribers keep their
 // legacy price ids at the old amounts via LEGACY_PLAN_PRICE_SPECS below).
 // DEPLOY GATE: the matching active Stripe prices (same product, amount and
@@ -710,7 +711,7 @@ const FREE_PLAN_ID = 'free';
 // doesn't match, so an early deploy fails safe but sells nothing.
 const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '49.99');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '199.99');
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '419.99');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
 const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '79.99'); // retired rung — legacy only
 const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '499.99');
@@ -851,7 +852,7 @@ function launchPromoActive(now = Date.now()) {
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [FILING_WATCH_PLAN_ID]: { amount: 49, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
   [MONTHLY_PLAN_ID]: { amount: 49.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [ANNUAL_PLAN_ID]: { amount: 199.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [ANNUAL_PLAN_ID]: { amount: 419.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [PRO_ANNUAL_PLAN_ID]: { amount: 499.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' },
   [DEV_PLAN_ID]: { amount: 19.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' }
@@ -877,6 +878,9 @@ const LEGACY_PLAN_PRICE_SPECS = Object.freeze({
 // actually charges them, rather than displaying the new $49.99 list price.
 const LEGACY_MONTHLY_2499_PRICE_ID = process.env.LEGACY_STRIPE_PRICE_ID_MONTHLY_2499 || '';
 const LEGACY_MONTHLY_2499_PRICE = 24.99;
+// Annual was $199.99 until 2026-10-06 (now 30% off twelve months of Monthly).
+const LEGACY_ANNUAL_19999_PRICE_ID = process.env.LEGACY_STRIPE_PRICE_ID_ANNUAL_19999 || '';
+const LEGACY_ANNUAL_19999_PRICE = 199.99;
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
 
 // China wallet checkout (Alipay / WeChat Pay). Both are structurally
@@ -1409,6 +1413,7 @@ function ambiguousStripePriceIds() {
     claim(legacy.priceId, planId);
   }
   claim(LEGACY_MONTHLY_2499_PRICE_ID, MONTHLY_PLAN_ID);
+  claim(LEGACY_ANNUAL_19999_PRICE_ID, ANNUAL_PLAN_ID);
   const shared = new Set();
   for (const [priceId, planIds] of plansByPriceId) {
     if (planIds.size > 1) shared.add(priceId);
@@ -1428,6 +1433,9 @@ function getPlanConfigByPriceId(priceId) {
   // legacy subscriber's stored amount keeps matching what Stripe charges.
   if (priceId && LEGACY_MONTHLY_2499_PRICE_ID && priceId === LEGACY_MONTHLY_2499_PRICE_ID) {
     return { ...getPlanConfig(MONTHLY_PLAN_ID), stripePriceId: priceId, price: LEGACY_MONTHLY_2499_PRICE };
+  }
+  if (priceId && LEGACY_ANNUAL_19999_PRICE_ID && priceId === LEGACY_ANNUAL_19999_PRICE_ID) {
+    return { ...getPlanConfig(ANNUAL_PLAN_ID), stripePriceId: priceId, price: LEGACY_ANNUAL_19999_PRICE };
   }
   if (priceId) {
     for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
@@ -2914,7 +2922,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-annual30" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2943,7 +2951,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261006-notrial1"></script>
+<script src="/assets/app.js?v=20261006-annual30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3035,7 +3043,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-annual30" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3063,7 +3071,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261006-notrial1"></script>
+<script src="/assets/app.js?v=20261006-annual30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3171,7 +3179,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-annual30" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3204,7 +3212,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261006-notrial1"></script>
+<script src="/assets/app.js?v=20261006-annual30"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -9351,8 +9359,8 @@ async function anonAskHandler(req, res) {
     };
     if (visitorUsed >= limit) {
         return res.status(429).json(wall(bonusUsed
-            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $49.99, or $199.99 a year.`
-            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $49.99, or $199.99 a year.`));
+            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $49.99, or $419.99 a year.`
+            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $49.99, or $419.99 a year.`));
     }
     if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
         trackFunnel('anon_wall_shown', null, null, { bonus: bonusUsed, reason: 'busy', limit });

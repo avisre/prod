@@ -25,7 +25,7 @@ stockportfolio.pro is a web-based equity research and portfolio tool for long-te
 - Free: screener, /stocks pages, and demo — no account.
 - One meter: AI credits. A Research Dossier costs 10, a Filing Monitor report 5, a comparison 5, a follow-up question 2.
 - Monthly: $49.99/month — full research library, portfolio tracker, 100 AI credits a month (10 Dossiers or 20 Filing Monitor reports, or 50 Ask questions).
-- Annual: $199.99/year (save $399.89 a year vs monthly), same 100 AI credits a month.
+- Annual: $419.99/year (save $179.89 a year vs monthly), same 100 AI credits a month.
 - Pro: $499.99/year — 600 AI credits a month, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
 - Desk: $1,999.99/year — 10,000 AI credits a month; Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Cancel anytime.
