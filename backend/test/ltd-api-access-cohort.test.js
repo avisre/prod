@@ -30,7 +30,7 @@ test('a post-cutoff buyer is not in the cohort — tier 3 is their only route', 
     const late = buyer({ appsumoRedeemedAt: new Date('2026-09-23T00:00:01.000Z') });
     assert.equal(tierLimits.isLtdApiAccessCohort(late, env()), false);
     assert.equal(tierLimits.isLtdApiAccessCohort({ ...late, appsumoTier: 3 }, env()), false,
-        'tier 3 is NOT granted here — app.js grants it before consulting this cohort at all');
+        'the tier floor is NOT granted here — app.js applies it before consulting this cohort at all');
 });
 
 test('the cutoff boundary is inclusive to the last millisecond of 22 September', () => {

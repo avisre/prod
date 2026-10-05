@@ -1135,6 +1135,12 @@
         if (!trigger || !menu || menu.dataset.wired === '1') return;
         menu.dataset.wired = '1';   // nav() is already idempotent; belt and braces
         let loaded = false;
+        // The tray opens on hover AND toggles on click. Without remembering
+        // which one opened it, a click that lands after the pointer already
+        // opened the tray toggled it straight back shut — the "sometimes the
+        // first click does nothing, click again to open" bug. Only a tray that
+        // a click opened may be closed by a click.
+        let openedByClick = false;
 
         // Below 641px the icon keeps plain-link behaviour — the mobile drawer
         // already has its own Profile entry, and a tray doesn't belong on a
@@ -1142,7 +1148,7 @@
         // windows navigate instead of opening the tray — that was the bug.)
         const isDesktop = () => window.matchMedia('(min-width: 641px)').matches;
         const isOpen = () => menu.dataset.open === '1';
-        const close = () => { menu.dataset.open = '0'; trigger.setAttribute('aria-expanded', 'false'); };
+        const close = () => { menu.dataset.open = '0'; trigger.setAttribute('aria-expanded', 'false'); openedByClick = false; };
 
         async function load() {
             const badge = document.getElementById('v2-message-badge');
@@ -1171,7 +1177,15 @@
         trigger.addEventListener('click', (e) => {
             if (!isDesktop()) return;      // let the href do its job
             e.preventDefault();
-            if (isOpen()) { close(); return; }
+            if (isOpen()) {
+                // Hover already opened it: adopt that state rather than closing,
+                // so the click the user just made leaves the tray open. A second
+                // click (now that a click owns it) closes, as before.
+                if (openedByClick) close();
+                else openedByClick = true;
+                return;
+            }
+            openedByClick = true;
             open();
         });
 
@@ -1181,9 +1195,7 @@
         trigger.addEventListener('mouseenter', () => {
             if (!isDesktop()) return;
             if (isOpen()) return;
-            menu.dataset.open = '1';
-            trigger.setAttribute('aria-expanded', 'true');
-            if (!loaded) { loaded = true; load(); }
+            open();
         });
 
         document.addEventListener('click', (e) => {

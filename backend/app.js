@@ -151,9 +151,10 @@ function monitorGate(req, res, next) {
 }
 
 // API/MCP access, like Monitor, is a top-tier developer feature: Power/Desk
-// recurring subscribers, or the HIGHEST lifetime tier only (AppSumo/
-// DealMirror tier 3) — not every LTD buyer the way isLifetimeBuyer() reads
-// for Monitor. Checked live on every gated request (key creation AND every
+// recurring subscribers, or the top TWO lifetime tiers (AppSumo/DealMirror
+// tier 2 Investor and tier 3 Pro) — not every LTD buyer the way
+// isLifetimeBuyer() reads for Monitor. Checked live on every gated request
+// (key creation AND every
 // authenticated API/MCP call), not just at key-issuance time, so a
 // downgrade takes effect immediately — same pattern as monitorGate/
 // coreGate/proGate, all of which re-check current status rather than a
@@ -163,6 +164,15 @@ function monitorGate(req, res, next) {
 // here that is not a top tier: it is the cheap self-serve on-ramp for
 // developers, who will never buy a $1,499 Power seat to evaluate a data
 // source. It is still a PAID plan — nothing about this gate is free access.
+//
+// Tier 2 was added 2026-10-05 to match the live AppSumo listing, which sells
+// "API + MCP access for your AI assistant" on Investor ($299) as well as Pro
+// ($499). The gate had narrowed this to tier 3 alone on 2026-09-23 and the
+// listing was never narrowed with it, so for a fortnight we sold an
+// entitlement the code refused: a tier-2 buyer redeemed for the API, found no
+// key on his profile, asked support, and refunded inside 30 minutes. The floor
+// lives in lib/tier-limits.js so the gate and the marketing copy cannot drift
+// apart again.
 function hasApiAccess(req) {
     const sub = req.subscription || (req.user && req.user.subscription) || {};
     const active = ['active', 'trialing', 'cancel_at_period_end'].includes(sub.status);
@@ -173,11 +183,12 @@ function hasApiAccess(req) {
     // of the four here. That means this fallback is the ONLY gate for it, so
     // it must respect a revocation: revokeAppSumoAccess/revokeDealMirrorAccess
     // both set subscription.status to 'cancelled' on refund. Without this
-    // check, a refunded tier-3 buyer whose appsumoTier/dealMirrorTier a future
-    // bug or a missed reconcile pass failed to clear would keep API/MCP
+    // check, a refunded tier-2/3 buyer whose appsumoTier/dealMirrorTier a
+    // future bug or a missed reconcile pass failed to clear would keep API/MCP
     // access forever, tier alone being sufficient.
     if (sub.status === 'cancelled') return false;
-    if (user && (Number(user.appsumoTier) === 3 || Number(user.dealMirrorTier) === 3)) return true;
+    if (user && (Number(user.appsumoTier) >= tierLimits.API_ACCESS_MIN_LTD_TIER
+        || Number(user.dealMirrorTier) >= tierLimits.API_ACCESS_MIN_LTD_TIER)) return true;
     // Lifetime buyers who PURCHASED on or before LTD_API_ACCESS_CUTOFF keep
     // API/MCP on any tier, permanently (2026-09-23 round). Cohort membership
     // lives in lib/tier-limits.js so the gate and the marketing copy can never
@@ -190,7 +201,7 @@ function hasApiAccess(req) {
 }
 function apiAccessGate(req, res, next) {
     if (hasApiAccess(req)) return next();
-    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, the top AppSumo/DealMirror tier, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
+    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -8104,17 +8115,31 @@ app.get('/api/admin/messages/customers', authMiddleware, customerMessagesAdminOn
         if (audience === 'free') {
             filter.$and = [...(filter.$and || []), { $or: [{ 'subscription.planId': 'free' }, { 'subscription.status': { $in: ['pending', 'cancelled'] } }] }];
         }
-        const [total, users] = await Promise.all([
-            User.countDocuments(filter),
-            User.find(filter, { name: 1, email: 1, subscription: 1, appsumoRedeemedAt: 1, customerMessageEmailsOptOut: 1, createdAt: 1 })
-                .sort({ createdAt: -1, _id: -1 }).skip(page * limit).limit(limit).lean()
-        ]);
-        const ids = users.map((user) => user._id);
-        const threads = ids.length ? await CustomerMessageThread.find({ userId: { $in: ids } }, { userId: 1, lastMessageAt: 1, adminUnread: 1 }).lean() : [];
-        const threadByUser = new Map(threads.map((thread) => [String(thread.userId), thread]));
+        // ONE round-trip, not three. The queries here cost ~0ms of server time
+        // but the app host sits ~85ms from Atlas, and this route paid that three
+        // times over in sequence (count, then the page, then the thread lookup).
+        // $facet folds the count and the page into one pass and $lookup carries
+        // each customer's thread along with its row.
+        const [result] = await User.aggregate([
+            { $match: filter },
+            {
+                $facet: {
+                    meta: [{ $count: 'total' }],
+                    rows: [
+                        { $sort: { createdAt: -1, _id: -1 } },
+                        { $skip: page * limit },
+                        { $limit: limit },
+                        { $lookup: { from: 'customer_message_threads', localField: '_id', foreignField: 'userId', as: 'thread' } },
+                        { $project: { name: 1, email: 1, subscription: 1, appsumoRedeemedAt: 1, customerMessageEmailsOptOut: 1, thread: { $arrayElemAt: ['$thread', 0] } } }
+                    ]
+                }
+            }
+        ]).allowDiskUse(true);
+        const total = (result && result.meta[0] && result.meta[0].total) || 0;
+        const users = (result && result.rows) || [];
         res.set('Cache-Control', 'no-store').json({
             customers: users.map((user) => {
-                const thread = threadByUser.get(String(user._id));
+                const thread = user.thread;
                 return {
                     userId: String(user._id), name: user.name || '', email: user.email,
                     audience: user.appsumoRedeemedAt ? 'appsumo' : (user.subscription && user.subscription.planId !== 'free' ? 'paid' : 'free'),
@@ -8190,11 +8215,17 @@ app.get('/api/admin/messages/threads', authMiddleware, customerMessagesAdminOnly
 app.get('/api/admin/messages/threads/:userId', authMiddleware, customerMessagesAdminOnly, async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(req.params.userId)) return res.status(400).json({ message: 'Invalid customer.' });
     try {
-        const user = await User.findById(req.params.userId, { name: 1, email: 1 }).lean();
+        // Five sequential DB round-trips used to sit between the click and the
+        // conversation. Reading the thread is what clears the badge, so do both
+        // in one operation and run it alongside the customer lookup: three hops
+        // in the common case, and the app host pays ~85ms per hop.
+        const [user, existingThread] = await Promise.all([
+            User.findById(req.params.userId, { name: 1, email: 1 }).lean(),
+            CustomerMessageThread.findOneAndUpdate({ userId: req.params.userId }, { $set: { adminUnread: 0 } }, { new: true }).lean()
+        ]);
         if (!user) return res.status(404).json({ message: 'Customer not found.' });
-        const thread = await getCustomerThread(user._id);
+        const thread = existingThread || await getCustomerThread(user._id);
         const messages = await CustomerMessage.find({ threadId: thread._id }).sort({ createdAt: 1 }).limit(500).lean();
-        await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { adminUnread: 0 } });
         res.set('Cache-Control', 'no-store').json({ customer: { id: String(user._id), name: user.name || '', email: user.email }, messages: messages.map(messageDto) });
     } catch (error) {
         console.error('[messages] admin thread failed:', error && error.message);
