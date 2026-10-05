@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
+  <link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
   <style>
     /* Same price components the homepage ladder uses (index.html) — the
        classes live page-locally in this tree, so each pricing surface
@@ -47,7 +47,7 @@
 
     </div>
   </main>
-  <script src="/assets/app.js?v=20261005-aiscreen1"></script>
+  <script src="/assets/app.js?v=20261006-notrial1"></script>
   <script>
     (function () {
       'use strict';
@@ -67,18 +67,18 @@
       // they hold, and everything below it, is never rendered, so the plan
       // they pay for today can't be re-purchased by a stray click.
       // 2026-08-31 Jobs cut: four prices a visitor can buy — Monthly
-      // $24.99, Annual $199.99, Pro (annual-only) $499.99, Desk $1,999.99.
+      // $49.99, Annual $199.99, Pro (annual-only) $499.99, Desk $1,999.99.
       // The retired rungs (pro monthly, power ×2) stay in the list as
       // `retired` entries purely so a legacy subscriber's planId still ranks
       // in the mask below — they never render and can't be freshly bought.
       const LADDER = [
-        { planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '$24.99', per: '/month', lines: [
+        { planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '$49.99', per: '/month', lines: [
           'The full research library: up to 19 years of filed statements, ratios and health checks',
           'Portfolio tracker, peer comparison, watchlist + SEC filing alerts',
           '50 Ask questions a month — filing, fund-data or web sources identified',
-          'Same plan yearly is <strong>$199.99 — $16.67/month, save $100</strong>' ] },
+          'Same plan yearly is <strong>$199.99 — $16.67/month, save $399.89</strong>' ] },
         { planId: 'annual', label: 'Good — annual', group: 'core', fig: '$199.99', per: '/year', lines: [
-          'Good, paid once a year — <strong>save $100</strong>: $16.67/month effective, two months free versus $24.99 monthly',
+          'Good, paid once a year — <strong>save $399.89</strong>: $16.67/month effective versus $49.99 monthly',
           'One renewal a year; upgrade to Pro anytime, prorated' ] },
         { planId: 'pro', label: 'Pro — retired', group: 'pro', retired: true, fig: '$79.99', per: '/month', lines: [] },
         { planId: 'pro-annual', label: 'Pro', group: 'pro', featured: true, caption: 'Everything in Good, plus the AI analyst and the Filing Change Monitor', fig: '$499.99', per: '/year', lines: [
@@ -106,9 +106,9 @@
 
       // September launch rate. The charge itself is a server-side Stripe coupon
       // (LAUNCH_PROMO_* in backend/app.js) and /stripe/config reports it only
-      // while the window is open, so this reverts to $24.99 on its own on Oct 1
+      // while the window is open, so this reverts to $49.99 on its own on Oct 1
       // with no deploy. No price is decided here — it mirrors the charge.
-      // Both "save $100 vs monthly" pitches go with the promo: twelve months at
+      // Both "save $399.89 vs monthly" pitches go with the promo: twelve months at
       // the launch rate costs less than the annual plan, so they would be false
       // claims on a pricing page. The annual rung stays — one payment for the
       // year is still a real choice, it just stops claiming to be cheaper.

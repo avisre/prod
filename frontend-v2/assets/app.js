@@ -834,7 +834,7 @@
     // (the value is seen, not described) above one upgrade panel with the plan
     // ladder and a single CTA. Pro users just get a reset note, no upsell.
     const ASK_PLANS = {
-        core: { name: 'Monthly', price: '$24.99', per: '/mo', q: 25 },
+        core: { name: 'Monthly', price: '$49.99', per: '/mo', q: 25 },
         pro: { name: 'Pro', price: '$499.99', per: '/yr', q: 300 }
     };
     // Anon preview wall: the free questions are spent. The next rung is an
@@ -859,7 +859,7 @@
               <button class="btn btn-primary" type="submit">Send 2 more →</button>
             </form>
             <p class="small faint ask-trial-msg" style="margin:8px 0 0;" role="status"></p>
-            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start secure checkout — $24.99/month</a>
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start secure checkout — $49.99/month</a>
             <p class="small faint" style="margin-top:12px;">Paid-first signup · the initial payment is refundable within 7 days. Already have an account? <a href="/login.html">Log in</a>.
             Or <a href="/verify.html">verify one headline against the filing — free, no account</a>.</p>
           </div>
@@ -940,15 +940,15 @@
     }
 
     // Shared upgrade strip: what a free/anonymous visitor is missing, with one
-    // CTA. Logged-in free -> /upgrade.html; anonymous -> the trial signup page.
+    // CTA. Logged-in free -> /upgrade.html; anonymous -> paid checkout signup.
     // Callers set innerHTML on a fixed id, so re-renders cannot duplicate it.
     function upgradeStrip(opts) {
         const items = (opts && opts.items) || [];
-        const cta = token() ? '/upgrade.html' : '/register.html?plan=free';
+        const cta = token() ? '/upgrade.html' : '/register.html?plan=monthly';
         return `<div class="upgrade-strip" role="note">
           <div class="upgrade-strip-copy"><strong>${esc((opts && opts.title) || 'You are seeing the free preview.')}</strong>
           <ul>${items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></div>
-          <a class="btn btn-primary btn-sm" href="${cta}">${token() ? 'Unlock with Core →' : 'Start the 3-day free trial →'}</a></div>`;
+          <a class="btn btn-primary btn-sm" href="${cta}">${token() ? 'Unlock with Core →' : 'Get Core →'}</a></div>`;
     }
 
     // ---------- analytics, consent-gated (prod hostname only) ----------

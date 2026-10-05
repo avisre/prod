@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261005-aiscreen1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261006-notrial1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -53,8 +53,8 @@
         "description": "Initiation-grade Research Dossiers on US stocks, SEC-filed financials, sourced AI answers, free screeners, side-by-side comparisons and portfolio tracking.",
         "offers": [
           { "@type": "Offer", "name": "Free screener", "price": "0", "priceCurrency": "USD", "description": "Screen companies with verified core SEC financial data by filed fundamentals — no account needed." },
-          { "@type": "Offer", "name": "Monthly", "price": "24.99", "priceCurrency": "USD", "description": "$24.99 charged today; request a refund within 7 days if the service is not right for you." },
-          { "@type": "Offer", "name": "Annual", "price": "199.99", "priceCurrency": "USD", "description": "$199.99 per year ($16.67/month effective) — save $100 versus the $24.99 monthly plan." },
+          { "@type": "Offer", "name": "Monthly", "price": "49.99", "priceCurrency": "USD", "description": "$49.99 charged today; request a refund within 7 days if the service is not right for you." },
+          { "@type": "Offer", "name": "Annual", "price": "199.99", "priceCurrency": "USD", "description": "$199.99 per year ($16.67/month effective) — save $399.89 versus the $49.99 monthly plan." },
           { "@type": "Offer", "name": "Pro", "price": "499.99", "priceCurrency": "USD", "description": "$499.99 per year — the AI analyst tier with the Filing Change Monitor, billed annually." },
           { "@type": "Offer", "name": "Desk", "price": "1999.99", "priceCurrency": "USD", "description": "$1,999.99 per year — Pro for one named professional seat, with a client-facing licence." }
         ],
@@ -147,7 +147,7 @@
     .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
-    /* Ladder layout (2026-09-01): line 1 = Good $24.99 · Pro $499.99 ·
+    /* Ladder layout (2026-09-01): line 1 = Good $49.99 · Pro $499.99 ·
        Good — annual $199.99 (actual monthly price struck through);
        Desk and Enterprise share the next line (grid auto-places them at
        columns 1–2 of the second row). */
@@ -252,7 +252,7 @@
             <ul class="hero-free-list">
               <li>Screener — verified companies, <a href="/screener">free for everyone</a></li>
               <li>Ask with citations — 3 free, no account</li>
-              <li id="hero-dossier">Full dossiers from $24.99/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
+              <li id="hero-dossier">Full dossiers from $49.99/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
             </ul>
             <p class="hero-note">The <a href="/monitor">Filing Change Monitor</a> reads each new 10-K, 10-Q and 8-K on your watchlist for you.</p>
           </div>
@@ -487,8 +487,8 @@
         <div class="price-grid" id="pricing-subscription-grid">
           <div class="card price-card">
             <span class="label">Good</span>
-            <div class="price-fig" id="good-fig">$24.99<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;" id="good-note">Core research desk. Same plan yearly is <strong>$199.99 — $16.67/month, save $100</strong>.</p>
+            <div class="price-fig" id="good-fig">$49.99<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;" id="good-note">Core research desk. Same plan yearly is <strong>$199.99 — $16.67/month, save $399.89</strong>.</p>
             <ul class="price-list">
               <li>Covered US-listed companies, in their reported currency — up to 19 years of statements and 48 quarters, subject to data availability</li>
               <li>Ratios, health checks &amp; growth records computed for you</li>
@@ -524,7 +524,7 @@
             <p class="small muted" style="margin:4px 0 14px;">Same Good, priced once a year — <strong>$16.67/month effective</strong>.</p>
             <ul class="price-list">
               <li>Everything in the Good plan, including the same 100 AI credits a month</li>
-              <li id="annual-save"><strong>Save $100 a year</strong> — $16.67/month effective, two months free versus $24.99 monthly</li>
+              <li id="annual-save"><strong>Save $399.89 a year</strong> — $16.67/month effective versus $49.99 monthly</li>
               <li>One renewal a year — nothing else to think about</li>
               <li>Upgrade to Pro anytime, prorated</li>
             </ul>
@@ -638,7 +638,7 @@
       (function () {
         // September launch rate — mirrors the server's LAUNCH_PROMO_* coupon
         // (reported by /stripe/config only while the window is open, so the
-        // $24.99 list copy below comes back on Oct 1 with no deploy). Every
+        // $49.99 list copy below comes back on Oct 1 with no deploy). Every
         // node it touches keeps its list price in the HTML above, so a failed
         // or slow fetch leaves the standard price on screen, never a discount
         // the checkout won't honour.
@@ -665,7 +665,7 @@
             set('hero-dossier', 'Full dossiers from $' + price + '/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a>');
 
             // Twelve months of Monthly now costs less than the annual plan, so
-            // the annual card's "save $100 / two months free" math and its
+            // the annual card's "save $399.89" math and its
             // $299.88 monthly comparison stop being true while the launch rate
             // runs. The card keeps its one-payment framing, which still holds.
             var annualWas = document.getElementById('annual-was');
@@ -779,7 +779,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20261005-aiscreen1"></script>
+  <script src="assets/app.js?v=20261006-notrial1"></script>
   <script>
     V2.nav('home');
     V2.footer();

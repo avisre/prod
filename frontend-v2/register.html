@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Stripe checkout. Monthly $24.99, Annual $199.99, Pro $499.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
+  <meta name="description" content="Stripe checkout. Monthly $49.99, Annual $199.99, Pro $499.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
   <link rel="canonical" href="https://www.stockportfolio.pro/register" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261005-aiscreen1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261006-notrial1" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -89,7 +89,6 @@
           </div>
 
           <div class="seg" role="group" aria-label="Choose your plan" id="plan-pick">
-            <button type="button" class="plan-card" data-plan="free" aria-pressed="false" id="free-trial-card" hidden>Free trial</button>
             <button type="button" class="plan-card" data-plan="monthly" aria-pressed="true">Monthly</button>
             <button type="button" class="plan-card" data-plan="annual" aria-pressed="false">Annual</button>
             <button type="button" class="plan-card" data-plan="pro-annual" aria-pressed="false">Pro</button>
@@ -98,7 +97,7 @@
           <div>
             <span class="sum-label" id="sum-plan-name">Monthly</span>
             <div class="sum-price">
-              <span class="sum-amount" id="sum-amount">$24.99</span>
+              <span class="sum-amount" id="sum-amount">$49.99</span>
               <span class="sum-was" id="sum-was" hidden style="text-decoration:line-through; color:var(--ink-3); font-size:14px; font-weight:500;"></span>
               <span class="sum-cadence" id="sum-cadence">per month</span>
             </div>
@@ -166,22 +165,13 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20261005-aiscreen1"></script>
+  <script src="assets/app.js?v=20261006-notrial1"></script>
   <script src="assets/social.js?v=20260831-paidfirst1"></script>
   <script>
     V2.nav('register');
     // One record per plan drives the whole summary column: price, cadence,
     // the line under it, the feature list and the submit label.
     const PLANS = {
-      free: {
-        name: 'Free trial', amount: '$0.00', cadence: '3 days, no card',
-        // "keep a free account with the public research surfaces" was true
-        // before the hard paywall; with every page gated it would be a promise
-        // the wall breaks on day 4. Phrased so it holds either way.
-        note: 'No card required. After 3 days, subscribe to keep full access.',
-        cta: 'Start my free trial',
-        features: ['3 days of everything in Monthly, no card required', 'Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Portfolio tracker, watchlist and SEC filing alerts', 'Upgrade anytime during or after the trial to keep Core']
-      },
       'filing-watch': {
         name: 'Filing Watch · founder-prepared', amount: '$49', cadence: 'per month',
         note: 'One subscription: weekly research assistance plus Monthly software access. Charged today; cancel before renewal.',
@@ -189,16 +179,16 @@
         features: ['Three supported US-listed stocks', 'Starting brief within 48 hours of submitting your stocks', 'A Friday email with filing changes, source links and open questions', 'A clear update when there are no new filings', 'Standard Monthly software access included', 'Factual research assistance; no buy or sell recommendations']
       },
       monthly: {
-        name: 'Monthly', amount: '$24.99', cadence: 'per month',
+        name: 'Monthly', amount: '$49.99', cadence: 'per month',
         note: 'Charged today through Stripe. Cancel anytime.',
         cta: 'Continue to secure checkout',
         features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '50 Ask questions a month, every answer sourced', 'CSV export of any table']
       },
       annual: {
         name: 'Annual', amount: '$199.99', cadence: 'per year',
-        note: 'Billed today, renews yearly. Two months free versus monthly.',
+        note: 'Billed today, renews yearly. Save $399.89 a year versus monthly.',
         cta: 'Continue to annual checkout',
-        features: ['Everything in the Monthly plan', 'Save $100 a year vs monthly — $16.67/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
+        features: ['Everything in the Monthly plan', 'Save $399.89 a year vs monthly — $16.67/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
       },
       // Pro monthly is retired — the picker's Pro card is pro-annual, and a
       // ?plan=pro URL is remapped to it above (RETIRED_PLAN_REMAP).
@@ -241,7 +231,7 @@
       }
     };
     // Purchase values are reported in the actual charged currency: USD.
-    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 24.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
+    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 49.99, annual: 199.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     // Dev joins them: it is reached from /api, and a developer who arrived to
     // buy API access should see that checkout and nothing else.
@@ -286,26 +276,24 @@
     // September launch rate. The offer itself lives on the server — a Stripe
     // coupon that makes the monthly charge $8.99 (LAUNCH_PROMO_* in
     // backend/app.js) — and /stripe/config reports it only while the window is
-    // open, so this copy reverts to $24.99 on its own on Oct 1 with no deploy.
+    // open, so this copy reverts to $49.99 on its own on Oct 1 with no deploy.
     // Nothing here decides a price: it mirrors what Stripe is about to charge.
     const PLANS_AT_LIST_PRICE = {
       monthly: { amount: PLANS.monthly.amount, note: PLANS.monthly.note },
       annual: { note: PLANS.annual.note, features: PLANS.annual.features.slice() },
-      free: { note: PLANS.free.note },
       value: PLAN_VALUE.monthly
     };
     function applyMonthlyPromo(promo) {
       const list = PLANS_AT_LIST_PRICE;
       // No promo (or unreadable config): show the list price. A failed fetch
       // never reaches here at all, so the page can't advertise a rate the
-      // checkout won't honour — it just keeps the $24.99 it shipped with.
+      // checkout won't honour — it just keeps the $49.99 it shipped with.
       if (!promo || !promo.price) {
         PLANS.monthly.amount = list.monthly.amount;
         PLANS.monthly.was = '';
         PLANS.monthly.note = list.monthly.note;
         PLANS.annual.note = list.annual.note;
         PLANS.annual.features = list.annual.features.slice();
-        PLANS.free.note = list.free.note;
         PLAN_VALUE.monthly = list.value;
         syncPlan();
         return;
@@ -313,8 +301,6 @@
       PLANS.monthly.amount = `$${promo.price}`;
       PLANS.monthly.was = `$${promo.listPrice}`;
       PLANS.monthly.note = `${promo.note} Charged today through Stripe, cancel anytime.`;
-      // The trial card's day-4 price is the promo price, not the list price.
-      PLANS.free.note = `No card required. After 3 days, subscribe at $${promo.price}/month — the September rate, locked in.`;
       // spTrack reports the conversion value below, so it has to be the number
       // actually charged, not the list price.
       PLAN_VALUE.monthly = Number(promo.price);
@@ -342,11 +328,8 @@
     document.querySelectorAll('.plan-card').forEach((b) =>
       b.addEventListener('click', () => { plan = b.dataset.plan; syncPlan(); }));
     syncPlan();
-    // Free-trial card only appears when the server has the trial switched on;
-    // a stale ?plan=free URL falls back to Monthly via the !PLANS guard above
-    // if the fetch fails or the flag is off.
+    // A stale ?plan=free URL falls back to Monthly via the !PLANS guard above.
     fetch('/stripe/config').then((r) => r.json()).then((cfg) => {
-      if (cfg.signupTrialDays > 0) document.getElementById('free-trial-card').hidden = false;
       applyMonthlyPromo(cfg.monthlyPromo);
     }).catch(() => {});
     // Mobile stacks the summary above the form, so collapse the feature list
@@ -481,13 +464,10 @@
         });
         const data = await r.json().catch(() => ({}));
         if (r.ok && data.token && !data.url) {
-          // Rollback-only no-card trial path. Production paid-first signup
-          // always returns a Stripe URL instead of a live token here.
+          // Paid-first signup always returns a Stripe session instead of a
+          // live token here; this is only the rollback-flag path.
           try {
-            if (window.spTrack) {
-              window.spTrack('signup');
-              if (plan !== 'free') window.spTrack('trial_start', { plan });
-            }
+            if (window.spTrack) window.spTrack('signup');
             if (window.spGrowthDiagnostic) window.spGrowthDiagnostic('signup_completed', { pageType: 'other' });
           } catch (_) { /* pixels best-effort */ }
           location.href = '/dashboard.html';

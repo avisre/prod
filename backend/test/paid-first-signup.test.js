@@ -13,7 +13,8 @@ const termsSource = fs.readFileSync(require.resolve('../../frontend-v2/terms.htm
 test('new registrations use paid-first Stripe checkout with no Stripe trial', () => {
   assert.match(appSource, /REQUIRE_INITIAL_STRIPE_PAYMENT/);
   assert.match(appSource, /paymentRequired = initialPaymentRequiredForSignup/);
-  assert.match(appSource, /skipTrial: paymentRequired/);
+  assert.doesNotMatch(appSource, /trial_period_days/);
+  assert.doesNotMatch(appSource, /startNoCardTrial|startSignupTrial|SIGNUP_TRIAL_DAYS/);
   assert.match(appSource, /initialSignup: paymentRequired/);
   assert.match(appSource, /appsumoActivationSignup/);
 });
@@ -40,12 +41,12 @@ test('retired rungs keep legacy pricing but cannot be freshly purchased', () => 
 });
 
 test('the four-rung menu prices hold across homepage, register, upgrade, dossier and terms', () => {
-  assert.match(registerSource, /amount: '\$24\.99', cadence: 'per month'/);
+  assert.match(registerSource, /amount: '\$49\.99', cadence: 'per month'/);
   assert.match(registerSource, /amount: '\$199\.99', cadence: 'per year'/);
   assert.match(registerSource, /'pro-annual': \{\s*\n\s*name: 'Pro', amount: '\$499\.99', cadence: 'per year'/);
   assert.match(registerSource, /\$1,999\.99', cadence: 'per year'/);
   assert.doesNotMatch(registerSource, /amount: '\$39\.99'/);
-  assert.match(homepageSource, /\$24\.99<span>\/month<\/span>/);
+  assert.match(homepageSource, /\$49\.99<span>\/month<\/span>/);
   assert.match(homepageSource, /\$199\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$499\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$1,999\.99<span>\/year<\/span>/);
@@ -53,7 +54,7 @@ test('the four-rung menu prices hold across homepage, register, upgrade, dossier
   assert.doesNotMatch(homepageSource, /register(?:\.html)?\?plan=power-monthly/);
   assert.match(dossierSource, /plan=pro-annual"\>Start Pro checkout/);
   assert.match(dossierSource, /plan=desk"\>\$1,999\.99\/yr/);
-  assert.match(termsSource, /\$24\.99\/month \(Monthly\), \$199\.99\/year \(Annual\), \$499\.99\/year \(Pro/);
+  assert.match(termsSource, /\$49\.99\/month \(Monthly\), \$199\.99\/year \(Annual\), \$499\.99\/year \(Pro/);
   assert.match(termsSource, /\$1,999\.99\/year \(Desk\)/);
 });
 
@@ -70,13 +71,10 @@ test('signup surfaces describe payment and refund terms instead of a no-card tri
   assert.match(registerSource, /refund within 7 days/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
-  assert.match(registerSource, /amount: '\$24\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
+  assert.match(registerSource, /amount: '\$49\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
-  // The paid plan cards (monthly/annual/pro-annual/desk) must still describe
-  // payment terms, not a trial — "no card required" is scoped to the
-  // flag-gated free-trial card only (SIGNUP_TRIAL_DAYS, default 0 = hidden).
-  assert.match(registerSource, /free-trial-card.*hidden/);
-  assert.match(appSource, /SIGNUP_TRIAL_DAYS = parseInt\(process\.env\.SIGNUP_TRIAL_DAYS \|\| '0', 10\)/);
+  // No plan card advertises a trial or a no-card option.
+  assert.doesNotMatch(registerSource, /free-trial-card|no card required|Start my free trial/i);
 });
 
 // --- account creation is gated on the payment, not on the form submit -------
@@ -136,9 +134,8 @@ test('the buyer is signed in by claiming the paid checkout, not by pre-issuing a
 test('an AppSumo redemption is exempt from paid-first checkout on both signup routes', () => {
   // Social sign-in reads the same signed activation token /api/subscribe uses.
   assert.match(appSource, /const appsumoActivationSignup = isAppSumoActivationSignup\(req\);\s*\n\s*const paymentRequired = initialPaymentRequiredForSignup\(planConfig\.planId, appsumoActivationSignup\);/);
-  // The free-plan 402 stays intact; it is only bypassed by the flag-gated
-  // signup trial (SIGNUP_TRIAL_DAYS, default 0 = off — see signup-trial.test.js).
-  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && signupTrialDaysFor\(req\) <= 0\)/);
+  // The free-plan 402 is unconditional apart from the AppSumo bypass.
+  assert.match(appSource, /if \(REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID\)/);
   // And returns a real session before any Stripe branch can be reached.
   assert.match(appSource, /if \(appsumoActivationSignup\) \{[\s\S]{0,400}appsumoActivation: true/);
 });
@@ -157,4 +154,14 @@ test('the AppSumo redeem page opens on signup and offers one-click Google', () =
   assert.match(appSource, /At least 8 characters, with one capital letter, one lowercase letter and one number\./);
   // Stepping away mid-activation should not send the buyer back to AppSumo.
   assert.match(appSource, /asRedeem: true \}, JWT_SECRET, \{ expiresIn: '60m' \}\)/);
+});
+
+test('Monthly lists at $49.99 and $24.99 subscribers are grandfathered', () => {
+  assert.match(appSource, /process\.env\.CORE_PLAN_PRICE \|\| '49\.99'/);
+  assert.match(appSource, /\[MONTHLY_PLAN_ID\]: \{ amount: 49\.99, currency: 'USD', interval: 'month'/);
+  assert.match(appSource, /LEGACY_MONTHLY_2499_PRICE_ID = process\.env\.LEGACY_STRIPE_PRICE_ID_MONTHLY_2499 \|\| ''/);
+  assert.match(appSource, /priceId === LEGACY_MONTHLY_2499_PRICE_ID\) \{\s*return \{ \.\.\.getPlanConfig\(MONTHLY_PLAN_ID\), stripePriceId: priceId, price: LEGACY_MONTHLY_2499_PRICE \}/);
+  assert.match(registerSource, /name: 'Monthly', amount: '\$49\.99', cadence: 'per month'/);
+  assert.match(homepageSource, /"name": "Monthly", "price": "49\.99"/);
+  assert.doesNotMatch(registerSource + homepageSource, /24\.99/);
 });

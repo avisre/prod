@@ -699,14 +699,16 @@ const FREE_PLAN_ID = 'free';
 // These defaults mirror the active self-serve Stripe prices. Environment
 // variables remain the source of truth when prices are intentionally changed.
 // 2026-08-31 Jobs cut: four prices a visitor can buy —
-// $24.99/mo · $199.99/yr · Pro $499.99/yr · Desk $1,999.99/yr. The Pro and
+// $24.99/mo · $199.99/yr · Pro $499.99/yr · Desk $1,999.99/yr (Monthly was
+// repriced to $49.99 on 2026-10-06; $24.99 subscribers are grandfathered via
+// LEGACY_MONTHLY_2499_PRICE_ID). The Pro and
 // Power rungs are retired from the menus (legacy subscribers keep their
 // legacy price ids at the old amounts via LEGACY_PLAN_PRICE_SPECS below).
 // DEPLOY GATE: the matching active Stripe prices (same product, amount and
 // interval) must exist and STRIPE_PRICE_ID_* must point at them before this
 // ships — resolveStripeCheckoutPlan refuses to sell a plan whose Stripe price
 // doesn't match, so an early deploy fails safe but sells nothing.
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '24.99');
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '49.99');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
 const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '199.99');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
@@ -804,7 +806,7 @@ const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP 
 const LAUNCH_PROMO_COUPON_ID = process.env.LAUNCH_PROMO_COUPON_ID || '';
 const LAUNCH_PROMO_UNTIL = process.env.LAUNCH_PROMO_UNTIL || '';
 const LAUNCH_PROMO_PRICE = process.env.LAUNCH_PROMO_PRICE || '8.99';
-const LAUNCH_PROMO_LIST_PRICE = process.env.LAUNCH_PROMO_LIST_PRICE || '24.99';
+const LAUNCH_PROMO_LIST_PRICE = process.env.LAUNCH_PROMO_LIST_PRICE || '49.99';
 
 // A bare date means "through the end of that day, UTC" — so 2026-09-30 keeps
 // the offer up for all of the last day of September. A full timestamp is taken
@@ -840,7 +842,7 @@ function launchPromoActive(now = Date.now()) {
 // corresponding *_PLAN_PRICE; test/dev-plan.test.js pins the Dev one so the two
 // can't drift.
 //
-// Dev's entry differs from Monthly's in amount alone ($19.99 vs $24.99), and
+// Dev's entry differs from Monthly's in amount alone ($19.99 vs $49.99), and
 // that is what makes it resolvable: the matcher below is amount+currency+
 // interval+product, so a unique amount identifies the price without needing a
 // distinct product name. Keep the amount unique in the account — a second
@@ -848,7 +850,7 @@ function launchPromoActive(now = Date.now()) {
 // to sell (the safe failure, but still a failure).
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [FILING_WATCH_PLAN_ID]: { amount: 49, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [MONTHLY_PLAN_ID]: { amount: 24.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [MONTHLY_PLAN_ID]: { amount: 49.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
   [ANNUAL_PLAN_ID]: { amount: 199.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [PRO_ANNUAL_PLAN_ID]: { amount: 499.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' },
@@ -870,6 +872,11 @@ const LEGACY_PLAN_PRICE_SPECS = Object.freeze({
   [POWER_MONTHLY_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_POWER_MONTHLY || '', price: 64.00, currency: 'USD', interval: 'month' },
   [DESK_PLAN_ID]: { priceId: process.env.LEGACY_STRIPE_PRICE_ID_DESK || '', price: 1961.00, currency: 'USD', interval: 'year' }
 });
+// Monthly was $24.99 until 2026-10-06. The owner sets this to that Stripe
+// Price ID so its subscribers keep resolving to Monthly at the amount Stripe
+// actually charges them, rather than displaying the new $49.99 list price.
+const LEGACY_MONTHLY_2499_PRICE_ID = process.env.LEGACY_STRIPE_PRICE_ID_MONTHLY_2499 || '';
+const LEGACY_MONTHLY_2499_PRICE = 24.99;
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
 
 // China wallet checkout (Alipay / WeChat Pay). Both are structurally
@@ -1209,7 +1216,7 @@ function normalizePlanSelection(value) {
   }
   // Checked BEFORE the monthly fallback below: `normalizePlanSelection` returns
   // MONTHLY_PLAN_ID for anything unrecognised, so an unhandled 'dev' would
-  // silently sell a $24.99 Monthly subscription to a developer who clicked the
+  // silently sell a $49.99 Monthly subscription to a developer who clicked the
   // API plan — the wrong product at the wrong price, with no error.
   if (plan === DEV_PLAN_ID || plan === 'developer' || plan === 'api') {
     return DEV_PLAN_ID;
@@ -1293,7 +1300,7 @@ function getPlanConfig(value) {
       price: PRO_PLAN_PRICE,
       currency: CORE_PLAN_CURRENCY,
       stripePriceId: STRIPE_PRICE_ID_PRO,
-      trialDays: TRIAL_DAYS
+      trialDays: 0
     };
   }
   if (planId === DESK_PLAN_ID) {
@@ -1351,7 +1358,9 @@ function getPlanConfig(value) {
     price: CORE_PLAN_PRICE,
     currency: CORE_PLAN_CURRENCY,
     stripePriceId: STRIPE_PRICE_ID_MONTHLY,
-    trialDays: TRIAL_DAYS
+    // No plan carries a free trial: every customer pays at checkout and can
+    // request a refund within INITIAL_REFUND_DAYS.
+    trialDays: 0
   };
 }
 
@@ -1399,6 +1408,7 @@ function ambiguousStripePriceIds() {
   for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
     claim(legacy.priceId, planId);
   }
+  claim(LEGACY_MONTHLY_2499_PRICE_ID, MONTHLY_PLAN_ID);
   const shared = new Set();
   for (const [priceId, planIds] of plansByPriceId) {
     if (planIds.size > 1) shared.add(priceId);
@@ -1416,6 +1426,9 @@ function getPlanConfigByPriceId(priceId) {
   }
   // Grandfathered price ids resolve to their plan at the OLD price, so a
   // legacy subscriber's stored amount keeps matching what Stripe charges.
+  if (priceId && LEGACY_MONTHLY_2499_PRICE_ID && priceId === LEGACY_MONTHLY_2499_PRICE_ID) {
+    return { ...getPlanConfig(MONTHLY_PLAN_ID), stripePriceId: priceId, price: LEGACY_MONTHLY_2499_PRICE };
+  }
   if (priceId) {
     for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
       if (legacy.priceId && priceId === legacy.priceId) {
@@ -1793,11 +1806,6 @@ function defaultTrialEndsAt() {
   return date;
 }
 
-// Legacy direct plans that have always charged at checkout. When
-// REQUIRE_INITIAL_STRIPE_PAYMENT is enabled, monthly and Pro join this set for
-// new self-serve registrations without changing existing entitlements.
-const NO_TRIAL_PLAN_IDS = ['annual', 'pro-annual', 'power', 'power-monthly', 'desk', 'enterprise'];
-
 function isAppSumoActivationSignup(req) {
   const token = String(req && req.body && req.body.appsumoRedeemToken || '').trim();
   if (!token) return false;
@@ -1815,54 +1823,8 @@ function initialPaymentRequiredForSignup(planId, appsumoActivation = false) {
     && normalizePlanSelection(planId) !== FREE_PLAN_ID) || normalizePlanSelection(planId) === FILING_WATCH_PLAN_ID;
 }
 
-// No-card 7-day trial: grant full Pro access immediately with NO Stripe
-// subscription and NO card. ensureSubscriptionShape() self-expires it to
-// 'cancelled' at trialEndsAt (the same path comped reviewers use, guarded on
-// the absence of a stripeSubscriptionId), so day 7 drops cleanly to the free
-// tier with nothing charged. Converting to paid is a deliberate click — the
-// in-app Upgrade CTA → POST /api/checkout — and never automatic.
-function startNoCardTrial(user) {
-  const s = user.subscription || {};
-  s.status = 'trialing';
-  s.planId = 'pro';
-  s.planName = 'Pro trial';
-  s.stripePriceId = null;
-  s.trialStartedAt = new Date();
-  s.trialEndsAt = defaultTrialEndsAt();
-  s.expiredAt = null;
-  s.activatedAt = null;
-  s.renewedAt = null;
-  s.lastPaymentAt = null;
-  user.subscription = s;
-  user.markModified('subscription');
-}
-
-// 3-day signup trial: a Core-tier no-card trial offered on the free plan card
-// at registration, gated behind SIGNUP_TRIAL_DAYS (default 0 = off, preserving
-// today's paid-first behaviour). Unlike startNoCardTrial (Pro, 7 days, legacy
-// rollback), this always grants Core and is short by design. Same self-expiry
-// mechanism: no stripeSubscriptionId means ensureSubscriptionShape() drops it
-// to 'cancelled' at trialEndsAt with nothing charged.
-const SIGNUP_TRIAL_DAYS = parseInt(process.env.SIGNUP_TRIAL_DAYS || '0', 10);
-function startSignupTrial(user) {
-    const s = user.subscription || {};
-    s.status = 'trialing';
-    s.planId = MONTHLY_PLAN_ID;
-    s.planName = 'Core trial';
-    s.price = 0;
-    s.currency = 'USD';
-    s.billingInterval = 'month';
-    s.stripePriceId = null;
-    s.trialStartedAt = new Date();
-    s.trialEndsAt = new Date(Date.now() + SIGNUP_TRIAL_DAYS * 24 * 60 * 60 * 1000);
-    s.expiredAt = null;
-    s.activatedAt = null;
-    s.renewedAt = null;
-    s.lastPaymentAt = null;
-    user.subscription = s;
-    user.signupTrialAt = new Date();
-    user.markModified('subscription');
-}
+// There is deliberately no free trial of any kind: every customer pays at
+// checkout. Old trialing accounts still self-expire via ensureSubscriptionShape().
 
 function createDefaultSubscription(plan = MONTHLY_PLAN_ID) {
   const planConfig = getPlanConfig(plan);
@@ -2364,9 +2326,9 @@ const WALL_PAGE_EXEMPT_PREFIXES = [
     '/appsumo', '/dealmirror', '/lifetime', '/recharge', '/upgrade', '/checkout',
     '/health', '/filing-watch',
     // Machine endpoints that carry no product content and break if walled.
-    // /stripe/config is how register.html learns signupTrialDays and unhides the
-    // free-trial card — walling it silently kills the entire trial flow (found by
-    // curl, not by reading: it is a root path, so it looks exactly like a page).
+    // /stripe/config carries the Stripe publishable key and the launch promo
+    // register.html renders from — walling it breaks checkout (it is a root
+    // path, so it looks exactly like a page).
     // /mcp and /oauth are the model-context and OAuth legs, already exempt from
     // bot-blocker.js for the same reason — each authenticates or meters every
     // call, so refusing them is a category error, not a leak. /.well-known
@@ -2516,14 +2478,6 @@ function freeTierWallReason(req) {
 function freeTierWalled(req) {
     return freeTierWallReason(req) !== null;
 }
-// A walled visitor is paid-only by design. startSignupTrial writes status
-// 'trialing' on a paid planId, and subscriptionIsPaid() refuses that, so a
-// granted trial would be unusable from the first page load — better to offer
-// none than a trial the wall immediately takes away.
-function signupTrialDaysFor(req) {
-    return freeTierWalled(req) ? 0 : SIGNUP_TRIAL_DAYS;
-}
-
 async function wallAllPagesMiddleware(req, res, next) {
     if (req.method !== 'GET' && req.method !== 'HEAD') return next();
     if (wallPathIsExempt(req.path || '/')) return next();
@@ -2960,7 +2914,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2989,7 +2943,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261005-aiscreen1"></script>
+<script src="/assets/app.js?v=20261006-notrial1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3081,7 +3035,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3109,7 +3063,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261005-aiscreen1"></script>
+<script src="/assets/app.js?v=20261006-notrial1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3217,7 +3171,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3250,7 +3204,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261005-aiscreen1"></script>
+<script src="/assets/app.js?v=20261006-notrial1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -5368,7 +5322,8 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         }],
         client_reference_id: subjectRef,
         // Referral codes (GATTOMORTO et al.) are entered on this screen — the
-        // coupon takes $24.99 off the first invoice, once. The one-off CNY and
+        // coupon takes $24.99 off the first invoice, once (so $25.00 is charged on
+        // the $49.99 Monthly plan). The one-off CNY and
         // credit-recharge sessions deliberately don't allow codes.
         ...(launchPromoApplied ? { discounts: [{ coupon: LAUNCH_PROMO_COUPON_ID }] } : { allow_promotion_codes: !filingSeat }),
         ...(filingSeat ? { expires_at: Math.floor(Date.now() / 1000) + 3600 } : {}),
@@ -5387,7 +5342,6 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
                 billingInterval: planConfig.billingInterval,
                 ...Object.fromEntries(Object.entries(extraMetadata.affiliateMetadata || {}).map(([key, value]) => [key, String(value)]))
             },
-            ...((planConfig.trialDays > 0 && !extraMetadata.skipTrial) ? { trial_period_days: planConfig.trialDays } : {})
         },
         metadata: {
             ...identityMetadata,
@@ -6658,7 +6612,7 @@ app.post('/api/subscribe', async (req, res) => {
     const selectedPlan = normalizePlanSelection(req.body?.plan);
     const planConfig = getPlanConfig(selectedPlan);
     const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && signupTrialDaysFor(req) <= 0) {
+    if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
         return sendApiError(
             res,
             createHttpError(402, 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.', 'PAID_PLAN_REQUIRED')
@@ -6757,7 +6711,6 @@ app.post('/api/subscribe', async (req, res) => {
                 req,
                 pendingSignup: pending,
                 planId: planConfig.planId,
-                skipTrial: true,
                 initialSignup: true,
                 uiMode: 'embedded',
                 returnUrl: buildStripeReturnUrl(req, {
@@ -6822,13 +6775,6 @@ app.post('/api/subscribe', async (req, res) => {
             user.subscription.activatedAt = new Date();
             user.subscription.trialEndsAt = null;
         }
-        // Signup trial: a brand-new account choosing the free plan card gets a
-        // short no-card Core trial instead of a bare free account, when enabled.
-        let grantedSignupTrial = false;
-        if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && signupTrialDaysFor(req) > 0 && !user.signupTrialAt) {
-            startSignupTrial(user);
-            grantedSignupTrial = true;
-        }
         user.markModified('subscription');
         await user.save();
 
@@ -6856,8 +6802,7 @@ app.post('/api/subscribe', async (req, res) => {
             return res.status(200).json({
                 token: createUserToken(user),
                 subscription: normalizeSubscription(user.subscription),
-                plan: FREE_PLAN_ID,
-                trial: grantedSignupTrial
+                plan: FREE_PLAN_ID
             });
         }
 
@@ -6870,37 +6815,9 @@ app.post('/api/subscribe', async (req, res) => {
             });
         }
 
-        // Legacy rollback mode retains the old no-card trial behavior. The
-        // production default always follows the paid checkout path below.
-        if (!REQUIRE_INITIAL_STRIPE_PAYMENT && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
-            startNoCardTrial(user);
-            await user.save();
-            trackFunnel('trial_start', user._id, 'Pro', {
-                authMethod: 'email',
-                selectedPlan: planConfig.planId,
-                utm,
-                ...acquisitionFunnelFields(acquisition),
-                ...requestFields
-            });
-            notifyTrialStartedInternal(user, {
-                authMethod: 'email',
-                selectedPlan: planConfig.planId,
-                utm,
-                ...acquisitionFunnelFields(acquisition),
-                ...requestFields
-            }).catch((e) => console.error('[mailer] trial-start internal email error:', e && e.message));
-            return res.status(200).json({
-                token: createUserToken(user),
-                subscription: normalizeSubscription(user.subscription),
-                trial: true,
-                plan: 'pro'
-            });
-        }
-
         const session = await createCheckoutSessionForUser(user, {
             req,
             planId: planConfig.planId,
-            skipTrial: paymentRequired || NO_TRIAL_PLAN_IDS.includes(planConfig.planId),
             initialSignup: paymentRequired,
             uiMode: 'embedded',
             returnUrl: buildStripeReturnUrl(req, {
@@ -7170,7 +7087,6 @@ app.get('/stripe/config', (req, res) => {
         publishableKey: STRIPE_PUBLISHABLE_KEY,
         successUrl: buildStripeReturnUrl(req, { session: 'success', flow: 'register' }),
         cancelUrl: buildStripeReturnUrl(req, { session: 'cancel', flow: 'register' }),
-        signupTrialDays: signupTrialDaysFor(req),
         // The September launch rate, present only while the offer window is
         // open. Pages render their price from this rather than hardcoding
         // $8.99, so the copy reverts to the list price on its own the moment
@@ -7224,7 +7140,7 @@ app.post('/api/auth/social', async (req, res) => {
         // non-Stripe bypass /api/subscribe uses.
         const appsumoActivationSignup = isAppSumoActivationSignup(req);
         const paymentRequired = initialPaymentRequiredForSignup(planConfig.planId, appsumoActivationSignup);
-        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID && signupTrialDaysFor(req) <= 0) {
+        if (REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig.planId === FREE_PLAN_ID) {
             return res.status(402).json({
                 message: 'Please choose a paid plan to create an account. You can request a refund within 7 days if the service is not right for you.',
                 code: 'PAID_PLAN_REQUIRED'
@@ -7262,7 +7178,6 @@ app.post('/api/auth/social', async (req, res) => {
                 req,
                 pendingSignup: pending,
                 planId: planConfig.planId,
-                skipTrial: true,
                 initialSignup: true,
                 affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, newAccount: true }),
                 returnContext: { flow, provider, next: req.body?.next },
@@ -7338,8 +7253,6 @@ app.post('/api/auth/social', async (req, res) => {
                 user.subscription.stripePriceId = planConfig.stripePriceId || null;
                 user.subscription.status = 'pending';
                 user.subscription.trialEndsAt = null;
-            } else if (planConfig.planId === FREE_PLAN_ID && REQUIRE_INITIAL_STRIPE_PAYMENT && signupTrialDaysFor(req) > 0 && !user.signupTrialAt) {
-                startSignupTrial(user);
             }
             attachSignupAttribution(user, { ...requestFields, consent: req.body && req.body.analyticsConsent === true });
             if (utm) {
@@ -7387,34 +7300,6 @@ app.post('/api/auth/social', async (req, res) => {
             });
         }
 
-        // Legacy rollback mode retains the former no-card trial for new social
-        // accounts. The production default takes the paid checkout path below.
-        if (!REQUIRE_INITIAL_STRIPE_PAYMENT && created && !NO_TRIAL_PLAN_IDS.includes(planConfig.planId)) {
-            startNoCardTrial(user);
-            await user.save();
-            trackFunnel('trial_start', user._id, 'Pro', {
-                authMethod: provider,
-                selectedPlan: planConfig.planId,
-                utm,
-                ...acquisitionFunnelFields(acquisition),
-                ...requestFields
-            });
-            notifyTrialStartedInternal(user, {
-                authMethod: provider,
-                selectedPlan: planConfig.planId,
-                utm,
-                ...acquisitionFunnelFields(acquisition),
-                ...requestFields
-            }).catch((e) => console.error('[mailer] trial-start internal email error:', e && e.message));
-            return res.status(200).json({
-                token: createUserToken(user),
-                subscription: normalizeSubscription(user.subscription),
-                created,
-                provider,
-                trial: true
-            });
-        }
-
         if (!stripe) {
             return res.status(402).json({
                 message: 'An active subscription is required to use the app.',
@@ -7437,7 +7322,6 @@ app.post('/api/auth/social', async (req, res) => {
         const session = await createCheckoutSessionForUser(user, {
             req,
             planId: checkoutPlanId,
-            skipTrial: (created && paymentRequired) || resumeInitialPayment || NO_TRIAL_PLAN_IDS.includes(checkoutPlanId),
             initialSignup: (created && paymentRequired) || resumeInitialPayment,
             affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
             returnContext: {
@@ -7597,7 +7481,6 @@ app.post('/api/login', async (req, res) => {
             const session = await createCheckoutSessionForUser(user, {
                 req,
                 planId: remapRetiredPlanId(user.subscription && user.subscription.planId),
-                skipTrial: true,
                 initialSignup: true,
                 affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user }),
                 returnContext: { flow: 'login', next: req.body?.next },
@@ -8357,8 +8240,7 @@ app.get('/admin/messages', authMiddleware, customerMessagesAdminOnly, (req, res)
 });
 
 // Existing-user upgrade: turn a logged-in trial/free account into a paid
-// subscription. The 7-day trial was the no-card demo, so this charges today
-// (skipTrial) — we never stack a second Stripe trial on top of it.
+// subscription. This always charges today; there is no trial on any plan.
 app.post('/api/checkout', authMiddleware, async (req, res) => {
     try {
         if (!stripe) {
@@ -8376,7 +8258,6 @@ app.post('/api/checkout', authMiddleware, async (req, res) => {
         const session = await createCheckoutSessionForUser(req.user, {
             req,
             planId,
-            skipTrial: true,
             affiliateMetadata: await affiliateProgram.buildCheckoutMetadata({ req, user: req.user }),
             returnContext: { flow: 'upgrade', next: req.body?.next },
             metadata: {
@@ -9470,12 +9351,12 @@ async function anonAskHandler(req, res) {
     };
     if (visitorUsed >= limit) {
         return res.status(429).json(wall(bonusUsed
-            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $24.99, or $199.99 a year with two months free.`
-            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $24.99, or $199.99 a year with two months free.`));
+            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $49.99, or $199.99 a year.`
+            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $49.99, or $199.99 a year.`));
     }
     if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
         trackFunnel('anon_wall_shown', null, null, { bonus: bonusUsed, reason: 'busy', limit });
-        return res.status(429).json({ message: 'The free preview is busy right now — try again later, or start the full plan from $24.99/month.', code: 'ASK_TRIAL', trial: true,
+        return res.status(429).json({ message: 'The free preview is busy right now — try again later, or start the full plan from $49.99/month.', code: 'ASK_TRIAL', trial: true,
             quota: { used: limit, limit, remaining: 0 } });
     }
     // cost is incurred on the call → count the IP/global attempt now; the
@@ -9570,7 +9451,7 @@ app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
                 to: email,
                 subject: 'Your 2 more Ask questions — verify in one click',
                 text: `Confirm this address and ${ASK_TRIAL_BONUS} more free Ask questions unlock in your browser, grounded in the actual SEC filings:\n\n${verifyUrl}\n\nThis link works for 3 days. No account is created; you can start the full paid plan anytime at ${PUBLIC_APP_URL}/register.html.\n\nStockPortfolio.pro — support@stockportfolio.pro`,
-                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#66717d;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $24.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
+                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#66717d;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $49.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
             });
         }
         trackFunnel('anon_email_captured', null, null, { leadId: lead ? String(lead._id) : null, hadClaim: Boolean(visitorUsed), mailer: isMailerConfigured() ? 'smtp' : 'skipped' });

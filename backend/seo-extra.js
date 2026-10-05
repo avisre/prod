@@ -1616,7 +1616,7 @@ function renderScreenPage(slug) {
       <a href="${askQ(`Compare ${a1.symbol} and ${a2.symbol} on growth, margins, returns and valuation, using SEC filings.`)}">${esc(a1.symbol)} vs ${esc(a2.symbol)} &rarr;</a>
       <a href="${askQ(`Of ${a1.symbol}, ${a2.symbol} and ${a3.symbol}, which has the most durable fundamentals and what is the risk in each?`)}">Rank the top 3 &rarr;</a>
     </div>
-    <a class="seo-cta-btn" href="/register?plan=monthly">Try the AI analyst free — no card</a>
+    <a class="seo-cta-btn" href="/register?plan=monthly">Get the AI analyst with Core</a>
   </div>`;
     return head(title, description, canonical, jsonld) + nav('screener') + `
 <main class="seo-wrap">

@@ -1,6 +1,6 @@
 # stockportfolio.pro
 
-> The AI analyst grounded in SEC filings. Research every US-listed stock with up to 19 years of filed financials, a free screener over the S&P 1500, free server-rendered fundamentals pages for 1,500+ companies, and an AI assistant that answers only from SEC filings — never from model memory. From $24.99/month; the screener and stock pages are free with no account.
+> The AI analyst grounded in SEC filings. Research every US-listed stock with up to 19 years of filed financials, a free screener over the S&P 1500, free server-rendered fundamentals pages for 1,500+ companies, and an AI assistant that answers only from SEC filings — never from model memory. From $49.99/month; the screener and stock pages are free with no account.
 
 stockportfolio.pro is a web-based equity research and portfolio tool for long-term retail investors. Every figure shown is computed from official SEC filings (10-K and 10-Q), refreshed nightly. Holdings are added manually, so no broker credentials are required. The product is owned and built by Avinash Sreekumar.
 
@@ -24,8 +24,8 @@ stockportfolio.pro is a web-based equity research and portfolio tool for long-te
 
 - Free: screener, /stocks pages, and demo — no account.
 - One meter: AI credits. A Research Dossier costs 10, a Filing Monitor report 5, a comparison 5, a follow-up question 2.
-- Monthly: $24.99/month — full research library, portfolio tracker, 100 AI credits a month (10 Dossiers or 20 Filing Monitor reports, or 50 Ask questions).
-- Annual: $199.99/year (two months free vs monthly), same 100 AI credits a month.
+- Monthly: $49.99/month — full research library, portfolio tracker, 100 AI credits a month (10 Dossiers or 20 Filing Monitor reports, or 50 Ask questions).
+- Annual: $199.99/year (save $399.89 a year vs monthly), same 100 AI credits a month.
 - Pro: $499.99/year — 600 AI credits a month, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
 - Desk: $1,999.99/year — 10,000 AI credits a month; Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Cancel anytime.

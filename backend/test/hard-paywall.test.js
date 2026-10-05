@@ -67,8 +67,8 @@ test('auth, legal, redemption, and buy pages stay reachable through the wall', (
         assert.ok(section.includes(`'${prefix}'`), `exempt: ${prefix}`);
     }
     // Non-page endpoints and attribution redirects that must survive the wall:
-    // /stripe/config carries signupTrialDays (walling it kills the trial card
-    // unhide), /mcp + /oauth are machine legs that authenticate or meter every
+    // /stripe/config carries the publishable key and launch promo (walling it
+    // breaks checkout), /mcp + /oauth are machine legs that authenticate or meter every
     // call, /go and /go/appsumo/:source are cookie-setting redirects.
     for (const prefix of ['/stripe', '/mcp', '/oauth', '/.well-known', '/go']) {
         assert.ok(section.includes(`'${prefix}'`), `exempt: ${prefix}`);

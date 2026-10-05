@@ -55,7 +55,7 @@ const SOFTWARE_LD = JSON.stringify({
         offerCount: 5,
         offers: [
             { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Monthly', price: '24.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Monthly', price: '49.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Annual', price: '199.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Pro', price: '499.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Desk', price: '1999.99', priceCurrency: 'USD' }
@@ -193,7 +193,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261005-aiscreen1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261006-notrial1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -255,13 +255,13 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261005-aiscreen1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261006-notrial1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
     return `<footer class="seo-foot">
   <p><a href="/screens/dividend-stocks">Best dividend stocks</a> &middot; <a href="/screens/high-growth-stocks">Fastest-growing</a> &middot; <a href="/screens/most-profitable-stocks">Most profitable</a> &middot; <a href="/screens/low-pe-stocks">Low P/E value</a> &middot; <a href="/screens/low-peg-stocks">Low PEG</a> &middot; <a href="/screens/highest-free-cash-flow-stocks">Highest free cash flow</a> &middot; <a href="/screens/stocks-below-book-value">Below book value</a> &middot; <a href="/screens/quality-compounders">Quality compounders</a></p>
-  <p><a href="/stocks">All stocks</a> &middot; <a href="/tools">Free tools</a> &middot; <a href="/research/shares-outstanding">Shares research</a> &middot; <a href="/research/pe-ratio-history">P/E research</a> &middot; <a href="/research/dilution-scorecard">Dilution dataset</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Free trial</a> &middot; <a href="/methodology">Methodology</a> &middot; <a href="/editorial-policy">Editorial policy</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
+  <p><a href="/stocks">All stocks</a> &middot; <a href="/tools">Free tools</a> &middot; <a href="/research/shares-outstanding">Shares research</a> &middot; <a href="/research/pe-ratio-history">P/E research</a> &middot; <a href="/research/dilution-scorecard">Dilution dataset</a> &middot; <a href="/">Home</a> &middot; <a href="/screener">Free screener</a> &middot; <a href="/ask">Ask the AI analyst</a> &middot; <a href="/register?plan=monthly">Plans</a> &middot; <a href="/methodology">Methodology</a> &middot; <a href="/editorial-policy">Editorial policy</a> &middot; <a href="/privacy">Privacy</a> &middot; <a href="/terms">Terms</a></p>
   <p class="seo-disc">Company financial figures use verified facts from official SEC filings and link to their sources. Market prices and returns come from dated market data. Calculated figures identify their inputs — no analyst estimates or AI-guessed financial values. See our <a href="/methodology">methodology</a> and <a href="/editorial-policy">editorial policy</a>.</p>
   <p class="seo-disc">Data is provided for informational purposes only and may be delayed or inaccurate. stockportfolio.pro is an analysis and visualization tool and does not provide financial advice. &copy; 2026 stockportfolio.pro.</p>
 </footer><script>try{var rm={'/research/shares-outstanding':'research-shares-outstanding','/research/pe-ratio-history':'research-pe-ratio-history','/research/dilution-scorecard':'research-dilution-scorecard'};var pv=JSON.stringify({path:location.pathname,contentId:rm[location.pathname]||null,referrer:document.referrer});(navigator.sendBeacon&&navigator.sendBeacon('/api/track/page_view',new Blob([pv],{type:'application/json'})))||fetch('/api/track/page_view',{method:'POST',headers:{'Content-Type':'application/json'},body:pv,keepalive:true}).catch(function(){})}catch(e){}</script></body></html>`;

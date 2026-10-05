@@ -126,17 +126,18 @@ test('gurus.html renders the top-5 teaser footer and hides the locked-holdings o
     assert.match(src, /paywall-strip/);
 });
 
-test('3-day signup trial is flag-gated, defaults off, and never bypasses the AppSumo/paid paths', () => {
+test('no plan carries a trial: no no-card trial code, no Stripe trial_period_days', () => {
     const src = appSource();
-    assert.match(src, /const SIGNUP_TRIAL_DAYS = parseInt\(process\.env\.SIGNUP_TRIAL_DAYS \|\| '0', 10\)/);
-    assert.match(src, /function startSignupTrial\(user\) \{/);
-    assert.match(src, /s\.status = 'trialing';\s*\n\s*s\.planId = MONTHLY_PLAN_ID;/);
-    assert.match(src, /s\.price = 0;/);
-    // Repeat-trial guard.
-    assert.match(src, /!user\.signupTrialAt/);
+    assert.doesNotMatch(src, /startSignupTrial|startNoCardTrial|SIGNUP_TRIAL_DAYS|trial_period_days|skipTrial/);
+    // Every plan config is trialDays: 0.
+    const fn = src.slice(src.indexOf('function getPlanConfig('), src.indexOf('function getPlanConfigByPriceId') > 0 ? src.indexOf('function getPlanConfigByPriceId') : undefined);
+    const days = fn.match(/trialDays: [^\s,}]+/g) || [];
+    assert.ok(days.length >= 9, 'found the plan configs');
+    assert.ok(days.every((d) => d === 'trialDays: 0'), `all trialDays are 0: ${days.join(' | ')}`);
+    // The schema field stays so existing documents keep their value.
     assert.match(src, /signupTrialAt: \{ type: Date, default: null \}/);
-    // The paid-first 402 still fires whenever the flag is off (default).
-    assert.match(src, /REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID && signupTrialDaysFor\(req\) <= 0/);
+    // The paid-first 402 fires for every free-plan signup except an AppSumo redemption.
+    assert.match(src, /REQUIRE_INITIAL_STRIPE_PAYMENT && !appsumoActivationSignup && planConfig\.planId === FREE_PLAN_ID\)/);
 });
 
 test('upgrade strip helper is a pure function exported once on window.V2', () => {

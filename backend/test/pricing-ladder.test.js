@@ -16,12 +16,12 @@ const rechargeSource = fs.readFileSync(require.resolve('../../frontend-v2/rechar
 const homepageSource = fs.readFileSync(require.resolve('../../frontend-v2/index.html'), 'utf8');
 
 test('upgrade.html ladder sells exactly the four decided rungs', () => {
-  assert.match(upgradeSource, /planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '\$24\.99', per: '\/month'/);
+  assert.match(upgradeSource, /planId: 'monthly', label: 'Good', group: 'core', caption: 'The full research library, portfolio tracker and markets desk', fig: '\$49\.99', per: '\/month'/);
   assert.match(upgradeSource, /planId: 'annual', label: 'Good — annual', group: 'core', fig: '\$199\.99', per: '\/year'/);
   assert.match(upgradeSource, /planId: 'pro-annual', label: 'Pro', group: 'pro', featured: true, .*fig: '\$499\.99', per: '\/year'/);
   assert.match(upgradeSource, /planId: 'desk', label: 'Desk', group: 'desk', featured: true, .*fig: '\$1,999\.99', per: '\/year'/);
   // The Good card carries the annual cross-sell line verbatim.
-  assert.match(upgradeSource, /Same plan yearly is <strong>\$199\.99 — \$16\.67\/month, save \$100<\/strong>/);
+  assert.match(upgradeSource, /Same plan yearly is <strong>\$199\.99 — \$16\.67\/month, save \$399\.89<\/strong>/);
 });
 
 test('retired rungs rank for masking but never render or sell', () => {

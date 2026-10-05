@@ -109,11 +109,7 @@ test('free API surfaces refuse walled visitors: free tools, anonymous Ask, keyle
     assert.match(endpoint, /REGION_PAID_ONLY|MSG_REGION/, 'the region wall survives as a tool error');
 });
 
-test('signup trial is withheld from walled visitors everywhere SIGNUP_TRIAL_DAYS was read', () => {
+test('no signup trial exists for walled or unwalled visitors', () => {
     const source = appSource();
-    assert.match(source, /function signupTrialDaysFor\(req\) \{\s*return freeTierWalled\(req\) \? 0 : SIGNUP_TRIAL_DAYS;\s*\}/);
-    assert.match(source, /signupTrialDays: signupTrialDaysFor\(req\),/);
-    // No request-scoped check may read the raw constant any more.
-    const raw = source.match(/SIGNUP_TRIAL_DAYS (<=|>) 0/g) || [];
-    assert.equal(raw.length, 0, 'every trial check goes through signupTrialDaysFor(req)');
+    assert.doesNotMatch(source, /signupTrialDaysFor|SIGNUP_TRIAL_DAYS|signupTrialDays/);
 });
