@@ -2,7 +2,7 @@
 const cache=require('./public-financial-cache'),stocks=require('./stock-universe');
 const {buildUniverse,validateTimestamp}=require('../scripts/lib/us-listings');
 let batch=null,batchAt=0;const misses=new Map();
-async function resolveListing(symbol,{fetchImpl=fetch}={}) {
+async function resolveListing(symbol,{fetchImpl=fetch,fetchReporting=require('./sec-reporting').fetchReporting}={}) {
  const known=stocks.lookup(symbol);if(known)return known;
  const key=String(symbol || '').trim().toUpperCase();if(!/^[A-Z0-9]+(?:[.-][A-Z0-9]+)?$/.test(key))return null;
  const saved=await cache.get('identity:'+key);if(saved && Date.now()-Date.parse(saved.checkedAt)<6*60*60*1000){stocks.register(saved.company);return saved.company;}
@@ -16,6 +16,7 @@ async function resolveListing(symbol,{fetchImpl=fetch}={}) {
   })().catch(e=>{batch=null;throw e;});
  }
  try {const directory=await batch;const found=directory.companies.find(c=>c.symbol.replace(/\./g,'-')===key.replace(/\./g,'-'));if(!found || found.securityType!=='stock'){misses.set(key,Date.now());while(misses.size>256)misses.delete(misses.keys().next().value);return null;}
+  if(found.cik)try{const reporting=await fetchReporting({cik:found.cik,symbols:[found.symbol]});if(reporting.fundRegistrant || reporting.entityType==='investment' || reporting.sic==='6726')found.securityType='closed_end_fund';}catch(_){if(/\bfund\b|\bincome trust\b/i.test(found.name || ''))found.securityType='unresolved';}
   await cache.set('identity:'+key,{company:found,checkedAt:new Date().toISOString(),sources:directory.manifest.sources});stocks.register(found);return found;
  }catch(_){misses.set(key,Date.now());return null;}
 }

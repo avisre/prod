@@ -36,3 +36,17 @@ test('SEC industry classification selects relevant metrics when cached industry 
  const life=requirements({},'6311');assert.deepEqual(life.notApplicable,['combinedRatio','lossRatio']);assert.ok(!life.industry.includes('combinedRatio'));
  const mortgage=requirements({Industry:'Mortgage REITs'},'6798');assert.deepEqual(mortgage.notApplicable,['occupancy']);assert.ok(!mortgage.industry.includes('occupancy'));
 });
+test('an omitted optional fact can retain its original receipt only in the same annual filing version',()=>{
+ const {fixture}=require('./fixtures/sec-fixture'),{preserveSameFiling}=require('../sec-last-good'),{doc,evidence}=fixture();
+ const acc=evidence.latestAnnual.accessionNumber;doc.facts['us-gaap'].CommonStockSharesOutstanding={units:{shares:[{val:25,end:evidence.latestAnnual.reportDate,form:'10-K',filed:evidence.latestAnnual.filingDate,accn:acc}]}};
+ const old=extract(doc,evidence,{asOf:'2026-10-05'});delete doc.facts['us-gaap'].CommonStockSharesOutstanding;
+ const incoming=extract(doc,evidence,{asOf:'2026-10-05'});preserveSameFiling(incoming,old,evidence);const row=incoming.balance.annualReports[0];assert.equal(row.commonStockSharesOutstanding,25);assert.ok(p.verifiedField(incoming,row,'commonStockSharesOutstanding'));assert.equal(row._retained.commonStockSharesOutstanding.method,'same_filing_last_good');
+ const changed=extract(doc,evidence,{asOf:'2026-10-05'});preserveSameFiling(changed,old,{...evidence,latestAnnual:{...evidence.latestAnnual,accessionNumber:'0000000123-26-000099'}});assert.equal(changed.balance.annualReports[0].commonStockSharesOutstanding,null);
+});
+test('issuer earnings releases apply the same partial-revenue exclusion as filed statements',()=>{
+ const f=load('MET'),facts=structuredClone(f.facts.facts);
+ for(const def of Object.values(facts['us-gaap']))for(const rows of Object.values(def.units))for(const row of rows)row._original={contextRef:'reviewed-release-context'};
+ const release={facts,originalDocument:{url:'https://www.sec.gov/Archives/edgar/data/1099219/'+f.evidence.latestAnnual.accessionNumber.replace(/-/g,'')+'/release.htm',accessionNumber:f.evidence.latestAnnual.accessionNumber,filingDate:f.evidence.latestAnnual.filingDate}};
+ const values=require('../issuer-release').observations(release,f.evidence.cik,['totalRevenue'],'6311');
+ assert.ok(values.length>0);assert.ok(values.every(v=>v.concept==='Revenues'));assert.ok(!values.some(v=>v.value===2436000000));
+});

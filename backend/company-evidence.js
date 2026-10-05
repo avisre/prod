@@ -57,6 +57,7 @@ function createResolver(deps={}) {
     }
     const interimMissing=Number(periods.quarterly)>0 && /^(10-Q)(\/A)?$/.test(reporting.latestPeriodic?.form || '') && obs.gaps(obs.observations(financial),fields,periods,reporting.reportingCadence,reporting).some(g=>g.basis==='quarterly' && mapped(g.field));
     if(interimMissing){try{const original=await (network.fetchOriginal || require('./sec-original').fetchOriginal)(issuer.cik,reporting.latestPeriodic);raw=require('./sec-original').mergeFacts(raw,original);financial=extract(raw,reporting);attempts.push({source:'SEC original interim filing',status:'success',url:original.originalDocument.url});}catch(e){attempts.push({source:'SEC original interim filing',status:'retrieval_failed',reason:String(e.code || e.message).slice(0,120)});}}
+    financial=require('./sec-last-good').preserveSameFiling(financial,state.financial,reporting);
     const errors=p.validateFinancial(financial,company.cik);if(errors.length)throw new Error('INVALID_EXTRACTION');
     const candidateFacts=obs.observations(financial),oldFacts=obs.observations(state.financial);
     if(oldFacts.some(f=>!candidateFacts.some(n=>n.field===f.field && n.periodEnd===f.periodEnd && n.historyBasis===f.historyBasis && n.unit===f.unit)))throw new Error('EXTRACTION_HISTORY_REGRESSION');
@@ -69,7 +70,7 @@ function createResolver(deps={}) {
   }
   const filed=obs.observations(financial);
   if(reporting.latestEarningsRelease || /^6-K/.test(reporting.latestPeriodic?.form || '')) {
-   try{const release=await (network.fetchRelease || require('./issuer-release').fetchRelease)(issuer.cik,reporting.latestEarningsRelease || reporting.latestPeriodic,fields);supplemental.push(...release.observations);attempts.push(...release.attempts);}catch(e){attempts.push({source:'Official issuer release',status:'retrieval_failed',reason:String(e.code || e.response?.status || e.message).slice(0,120)});}
+   try{const release=await (network.fetchRelease || require('./issuer-release').fetchRelease)(issuer.cik,reporting.latestEarningsRelease || reporting.latestPeriodic,fields,{sic:reporting.sic});supplemental.push(...release.observations);attempts.push(...release.attempts);}catch(e){attempts.push({source:'Official issuer release',status:'retrieval_failed',reason:String(e.code || e.response?.status || e.message).slice(0,120)});}
   }
   const missing=obs.gaps([...filed,...supplemental.filter(f=>f.state==='available')],fields,periods,reporting.reportingCadence,reporting);
   let profileMissing=!profile;try{const raw=require('./fundamentals-cache').loadRawFundamentals(company.symbol);profileMissing=!profile && !raw?.overview?.Description;}catch(_){}

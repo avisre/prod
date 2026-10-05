@@ -56,6 +56,7 @@ function verifiedField(data, row, field, accessions) {
     // These narrower/broader concepts are not equivalent to the displayed field.
     const incompatible={longTermDebt:['LongTermDebt','LongTermBorrowings'],shortTermDebt:['ShortTermBorrowings'],sellingGeneralAndAdministrative:['GeneralAndAdministrativeExpense','AdministrativeExpense'],interestExpense:['InterestExpenseDebt','FinanceCosts'],depreciationDepletionAndAmortization:['DepreciationDepletionAndAmortizationPropertyPlantAndEquipment','DepreciationAmortisationAndImpairmentLossReversalOfImpairmentLossRecognisedInProfitOrLoss']};
     if(!derived && sources.some(s=>incompatible[field]?.includes(s?.concept)))return false;
+    if(field==='grossProfit' && derived && /^(602|603|609|63)/.test(String(data.reportingSic || '')))return false;
     if(['sum_fields','difference_fields'].includes(derived?.formula)) {
         const permitted={totalRevenue:['netInterestIncome','nonInterestIncome'],grossProfit:['totalRevenue','costOfRevenue'],shortTermDebt:['shortTermBorrowings','currentLongTermDebt'],shortLongTermDebtTotal:['shortTermDebt','longTermDebt']};
         const inputs=permitted[field];

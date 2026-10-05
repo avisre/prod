@@ -49,7 +49,7 @@ Annual-minus-nine-month derivations apply to compatible monetary flows only.
 Quarterly EPS and weighted share counts are not obtained by subtraction. Debt
 keeps current, noncurrent and combined definitions distinct. Bank net revenue
 excludes customer-contract fee revenue and requires compatible net-interest and noninterest observations. Insurers use comprehensive reported revenue, rather than customer-contract revenue that excludes insurance and investment activity. Financial
-calculations retain their inputs; missing values never substitute for zero.
+calculations retain their inputs; missing values never substitute for zero. Previously captured facts omitted from Company Facts can be retained only with their validated receipt from the same annual filing version. Bank and insurance gross profit is not derived from generic revenue-minus-cost arithmetic.
 
 The public Mongo cache uses dedicated collections:
 

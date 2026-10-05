@@ -21,3 +21,8 @@ test('amendment without original and only current reports remain ineligible',asy
  const raw={cik:123,name:'Example',filings:{recent:{accessionNumber:['0000000123-26-000001'],form:['10-K/A'],filingDate:['2026-05-01'],reportDate:['2025-12-31'],primaryDocument:['ex.htm']},files:[]}};
  const e=await reporting.fetchReporting({cik:'0000000123'},{asOf:'2026-10-03',request:async()=>raw});assert.equal(e.latestAnnual,null);assert.equal(p.reportingStatus(e,'2026-10-03'),'unverified');
 });
+test('resumed reconciliation never treats an interrupted or modified financial file as a completed checkpoint',()=>{
+ const fs=require('node:fs'),os=require('node:os'),path=require('node:path'),{matchingFinancialFile}=require('../../scripts/refresh-sec-coverage');
+ const dir=fs.mkdtempSync(path.join(os.tmpdir(),'sec-checkpoint-')),file=path.join(dir,'facts.json');
+ try{fs.writeFileSync(file,'{"value":1}');const e={financialDigest:p.digest(fs.readFileSync(file,'utf8'))};assert.equal(matchingFinancialFile(e,file),true);fs.writeFileSync(file,'{"value":2}');assert.equal(matchingFinancialFile(e,file),false);fs.unlinkSync(file);assert.equal(matchingFinancialFile(e,file),false);}finally{fs.rmSync(dir,{recursive:true,force:true});}
+});

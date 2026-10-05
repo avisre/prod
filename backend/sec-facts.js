@@ -171,7 +171,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    if(st==='income') {
     // Bank net revenue is a monetary flow, not gross interest income.
     if(/^(602|603|609)/.test(String(evidence.sic || '')))combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
-    combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
+    if(!/^(602|603|609|63)/.test(out.reportingSic))combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
    }
    if(st==='balance') {
     combine('shortTermDebt','shortTermBorrowings','currentLongTermDebt','sum_fields');
@@ -185,4 +185,4 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  if(document.industryTables?.length)out.industryObservations=require('./sec-industry-tables').extractTables(document.industryTables,document.industryFiling,issuer,out);
  return out;
 }
-module.exports={extract,MAPS,OUTFLOWS,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept};
+module.exports={extract,MAPS,OUTFLOWS,EXTRACTION_VERSION,VALIDATION_VERSION,partialRevenueConcept,scope};
