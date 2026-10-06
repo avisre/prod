@@ -59,7 +59,9 @@ function toRow(quote) {
     const change = Number(quote.regularMarketChangePercent);
     const time = quote.regularMarketTime;
     if(!time || !Number.isFinite(new Date(time).getTime()))return null;
-    const asOf=new Date(time).toISOString();
+    // The trading day, not the instant: every reader of this file (and the
+    // quote-store contract test) keys on a calendar date.
+    const asOf=new Date(time).toISOString().slice(0, 10);
     return {
         price,
         previousClose: Number.isFinite(prev) ? prev : null,
