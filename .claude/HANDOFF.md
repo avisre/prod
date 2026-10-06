@@ -29,10 +29,14 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   path runs. `segments.storedSegments()` is re-run on every cached dossier read. `scripts/audit-segment-display.js`
   sweeps all issuers: 2,390 of 2,925 shown, 0 failures; 20 more (BRK) get a `partial` table (≥3 rows, 60–90%) when text extraction is empty, shown against its own year with the remainder named; 515 withheld;
   `test/segment-display.test.js` runs it. Page table caps at 8 rows + "Other segments" + "Not broken out".
+- **Revenue sources (owner, 10/7, on AMZN):** product/service lines now lead over operating segments when the
+  same year's lines are usable with ≥3 rows and either have more rows or the segments are purely geographic
+  (AMZN → Online Stores/3P/AWS/Advertising…, AAPL → iPhone/Services…, MSFT, NVDA). Exact filed subtotals are
+  removed before pruning (prune alone kept ORCL's "Software Revenues" beside its parts). Ask still uses `primary`.
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-segments4`.
+- Asset stamp `20261007-segments5`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use

@@ -154,7 +154,7 @@ async function storedSegments(symbol, { partial = false } = {}) {
     // The stored note is a provenance rule for the pipeline, not something to print.
     const note=coverage>1.02?'Segments are reported before eliminations between them, so they add up to slightly more than total revenue.'
         :coverage<0.9?`These lines are the filing’s own breakdown and cover ${Math.round(coverage*100)}% of revenue; the rest is not broken out in this table.`:null;
-    return {...result,note,segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
+    return {...result,note,breakdown:store.kind(group),segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
 }
 
 async function extractSegments(symbol) {

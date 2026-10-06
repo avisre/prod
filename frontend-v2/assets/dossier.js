@@ -531,12 +531,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       // reader sees account for revenue.
       const rows = sorted.slice(0, 8);
       const restUsd = sorted.slice(8).reduce((a, x) => a + (Number(x.revenueUsd) || 0), 0);
-      if (restUsd > 0) rows.push({ name: `Other segments (${sorted.length - 8})`, revenueUsd: restUsd });
+      if (restUsd > 0) rows.push({ name: `${sg.breakdown === 'product and service lines' ? 'Other sources' : 'Other segments'} (${sorted.length - 8})`, revenueUsd: restUsd });
       const listedUsd = sorted.reduce((a, x) => a + (Number(x.revenueUsd) || 0), 0);
       if (rev > 0 && listedUsd > 0 && rev - listedUsd > rev * 0.005) rows.push({ name: 'Not broken out in the filing', revenueUsd: rev - listedUsd });
       const segTable = rows.length ? `
         <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
-          <thead><tr><th>Segment${otherYear && sg.fiscalYear ? ' · ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
+          <thead><tr><th>${sg.breakdown === 'product and service lines' ? 'Revenue source' : 'Segment'}${otherYear && sg.fiscalYear ? ' · ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
           <tbody>${rows.map((x) => {
             const v = Number(x.revenueUsd);
             // Compute the share from the dollars wherever possible, and fall

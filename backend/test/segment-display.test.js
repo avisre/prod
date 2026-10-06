@@ -24,9 +24,14 @@ test('a partial table is offered only when nothing usable exists', () => {
     assert.equal(store.preferred([group(PRODUCT, '2025-12-31', [5, 3, 1])]).partial, null, 'a sliver is still withheld');
 });
 
-test('operating segments lead product lines in the same period when both account for revenue', () => {
-    const segments = group(BUSINESS, '2025-12-31', [60, 40]), lines = group(PRODUCT, '2025-12-31', [50, 30, 20]);
-    assert.equal(store.preferred([lines, segments]).usable, segments);
+test('product lines lead when they say more than the operating segments of the same year', () => {
+    const geography = group(BUSINESS, '2025-12-31', [60, 22, 18]), sources = group(PRODUCT, '2025-12-31', [38, 24, 18, 10, 7, 3]);
+    assert.equal(store.preferred([geography, sources]).usable, sources, 'what is sold beats where it is sold');
+    assert.equal(store.kind(sources), 'product and service lines');
+    const two = group(PRODUCT, '2025-12-31', [70, 30]);
+    assert.equal(store.preferred([group(BUSINESS, '2025-12-31', [58, 42]), two]).usable.axis, BUSINESS, 'a bare products/services split does not');
+    const older = group(PRODUCT, '2024-12-31', [40, 30, 20, 10]);
+    assert.equal(store.preferred([geography, older]).usable, geography, 'lines from another year never displace this year');
 });
 
 test('product lines are used when the segment axis holds a single member', () => {

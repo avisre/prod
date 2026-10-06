@@ -48,10 +48,21 @@ const displayName=e=>e.label || SPELLED[e.member] || require('./ask-inline-segme
 // What a reader would actually see from a group: its positive rows with filed
 // subtotals pruned, and how much of revenue they account for.
 function shown(g) {
- const rows=require('./ask-inline-segments').prune((g?.entries || []).map(e=>({member:e.member,value:e.value})),g?.totalRevenue);
+ // When the rows over-count revenue, a row that is exactly the sum of others is
+ // a filed subtotal and goes first; only then is the closest-fit pruning used.
+ // Pruning alone can keep a subtotal beside its own parts and still land on 100%.
+ const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0).map(e=>({member:e.member,value:e.value}));
+ const over=list=>list.reduce((n,r)=>n+r.value,0)>(g?.totalRevenue || 0)*1.02;
+ // Exact, to the filed unit: a real line that merely lands near the sum of two others stays.
+ const subtotal=row=>{const rest=all.filter(r=>r!==row && r.value<row.value);
+  for(let i=0;i<rest.length;i++)for(let j=i+1;j<rest.length;j++){if(rest[i].value+rest[j].value===row.value)return true;
+   for(let k=j+1;k<rest.length;k++)if(rest[i].value+rest[j].value+rest[k].value===row.value)return true;}
+  return false;};
+ const rows=inline.prune(over(all) && all.length<=14?all.filter(r=>!subtotal(r)):all,g?.totalRevenue);
  const coverage=g?.totalRevenue>0?rows.reduce((n,r)=>n+r.value,0)/g.totalRevenue:0;
  return {rows,coverage,usable:rows.length>=2 && coverage>=0.9 && coverage<=1.1};
 }
+const GEOGRAPHY=/^(?:(?:North|South|Latin|Central|Greater|Rest of|Other|All Other|Asia|Europe|Middle East|Africa|EMEA|APAC|Americas?|International|Domestic|Foreign|US|United States|Canada|China|Japan|India|Pacific|and|of|the|,|\s)+)$/i;
 const BUSINESS=/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/,PRODUCT=/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/;
 // Newest period first. A single-member "segment" axis says nothing, so the
 // product and service lines lead when that is all the segment note holds.
@@ -63,7 +74,14 @@ function preferred(groups) {
  const business=latest(BUSINESS),product=latest(PRODUCT);
  const rank=g=>BUSINESS.test(g.axis)?0:PRODUCT.test(g.axis)?1:2;
  const ordered=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b));
- const usable=ordered.find(g=>shown(g).usable) || null;
+ let usable=ordered.find(g=>shown(g).usable) || null;
+ // Product and service lines are what a company actually sells ("Online stores,
+ // Advertising, AWS"), where its operating segments are often geography ("North
+ // America, International"). They lead when the same year's lines account for
+ // revenue and say more: at least three rows, and more rows than the segments.
+ const lines=usable && !PRODUCT.test(usable.axis) && ordered.find(g=>g.periodEnd===usable.periodEnd && PRODUCT.test(g.axis) && shown(g).usable);
+ const places=g=>shown(g).rows.every(r=>GEOGRAPHY.test(displayName(g.entries.find(e=>e.member===r.member))));
+ if(lines && shown(lines).rows.length>=3 && (shown(lines).rows.length>shown(usable).rows.length || places(usable)))usable=lines;
  // A real table that leaves part of revenue out (an insurer-conglomerate's
  // product lines exclude premiums). Shown only when nothing better exists, and
  // only with the remainder named beside it.
@@ -80,4 +98,5 @@ function toolPayload(g,data,symbol) {
   filing:{form:sources[g.totalSourceIds[0]].form,date:g.publicationDate,accessionNumber:g.sourceVersion,url:g.sourceUrl},storedSegmentsReceipt:g,financialWitness:witness,
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
-module.exports={extract,validGroup,toolPayload,preferred,shown,displayName,LABELS};
+const kind=g=>PRODUCT.test(g?.axis || '')?'product and service lines':'operating segments';
+module.exports={extract,validGroup,toolPayload,preferred,shown,kind,displayName,LABELS};
