@@ -34,10 +34,11 @@ const MAPS = {
   nonInterestIncome:mapping(['NoninterestIncome'],[]),
   incomeTaxExpense:mapping(['IncomeTaxExpenseBenefit'],['IncomeTaxExpenseContinuingOperations']),
   incomeBeforeTax:mapping(['IncomeLossFromContinuingOperationsBeforeIncomeTaxesExtraordinaryItemsNoncontrollingInterest','IncomeLossFromContinuingOperationsBeforeIncomeTaxesMinorityInterestAndIncomeLossFromEquityMethodInvestments'],['ProfitLossBeforeTax']),
-  eps:mapping(['EarningsPerShareBasic'],['BasicEarningsLossPerShare'],'parent'),
+  // A partnership reports earnings per unit, not per share (AllianceBernstein Holding, Natural Resource Partners).
+  eps:mapping(['EarningsPerShareBasic','NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax'],['BasicEarningsLossPerShare'],'parent'),
   weightedAverageSharesOutstanding:mapping(['WeightedAverageNumberOfSharesOutstandingBasic'],['WeightedAverageNumberOfSharesOutstandingBasic'],'parent'),
   weightedAverageSharesDiluted:mapping(['WeightedAverageNumberOfDilutedSharesOutstanding'],['AdjustedWeightedAverageShares'],'parent'),
-  dilutedEPS:mapping(['EarningsPerShareDiluted'],['DilutedEarningsLossPerShare'],'parent'),
+  dilutedEPS:mapping(['EarningsPerShareDiluted','NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted'],['DilutedEarningsLossPerShare'],'parent'),
   // Helper inputs sit last so they can never set a row's period ahead of an original field.
   revenueFromSaleOfGoods:mapping([],['RevenueFromSaleOfGoods']),
   otherRevenue:mapping([],['OtherRevenue'])
@@ -96,7 +97,7 @@ const STAND_INS = {
 // that was already extracted can change.
 const LAST_RESORT = new Set(['us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic','us-gaap:LiabilitiesAndStockholdersEquity','ifrs-full:EquityAndLiabilities','us-gaap:PartnersCapital','us-gaap:MembersEquity',
  'us-gaap:PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','us-gaap:LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest',
- 'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue','us-gaap:GrossInvestmentIncomeOperating']);
+ 'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue','us-gaap:GrossInvestmentIncomeOperating','us-gaap:NetIncomeLossPerOutstandingLimitedPartnershipUnitBasicNetOfTax','us-gaap:NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted']);
 const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock']);
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
 function scope(concept, fallback) {
@@ -180,7 +181,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
   const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;sourceCache.set(f,id);return id;
  }
- const yearRevenueLine=new Map();
+ const yearRevenueLine=new Map(),yearLines=new Map();let quartersAsFiled=true;
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
   const restrict=basis==='annual' && a?.reportDate===end;
@@ -260,6 +261,10 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   }
   const tags=['us-gaap','ifrs-full'].flatMap(taxonomy=>def[taxonomy].map(concept=>[taxonomy,concept]));
   const ordered=[...tags.filter(t=>!LAST_RESORT.has(t.join(':'))),...tags.filter(t=>LAST_RESORT.has(t.join(':')))];
+  // Net income attributable to the parent in the year and consolidated net
+  // income in its quarters are different figures; a quarter is read from the
+  // line its fiscal year used whenever that line is filed for the quarter.
+  if(basis==='quarterly' && field!=='totalRevenue' && yearLines.has(field)){const lines=yearLines.get(field),years=[...lines.keys()].sort(),line=lines.get(years.find(e=>e>=end) || years.at(-1));ordered.sort((x,y)=>(y.join(':')===line)-(x.join(':')===line));}
   if(revenueFirst)ordered.sort((x,y)=>(y[0]===revenueFirst.taxonomy && y[1]===revenueFirst.concept)-(x[0]===revenueFirst.taxonomy && x[1]===revenueFirst.concept));
   for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
@@ -268,13 +273,16 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    // Its quarters must be too: next year's 10-Qs restate them as comparatives
    // (Aptiv's 2025 quarters after a spin-off), and a restated quarter beside an
    // as-reported year no longer adds up to it.
-   if(asReportedQuarter){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
+   if(asReportedQuarter && quartersAsFiled){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
    const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=QUARTER_MAX_DAYS));
+   // A full-year figure mis-dated as the fourth quarter (NiSource, in SEC's
+   // feed) is not a quarter: the same filing gives the same amount for the year.
+   if(basis==='quarterly' && st!=='balance')for(let i=candidates.length-1;i>=0;i--){const c=candidates[i];if(c.val!==0 && all.some(r=>r.accn===c.accn && r.end===c.end && r.days>=340 && r.val===c.val))candidates.splice(i,1);}
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
    const guards=STAND_INS[taxonomy+':'+concept];
    if(selected && guards && ['netIncome','operatingCashflow'].includes(field) && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===end && r.accn===selected.accn && r.start===selected.start && r.val!==0))continue;
-   if(selected){if(field==='totalRevenue' && basis==='annual')yearRevenueLine.set(end,taxonomy+':'+concept);return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};}
+   if(selected){if(basis==='annual'){if(field==='totalRevenue')yearRevenueLine.set(end,taxonomy+':'+concept);else if(ordered.length>1){if(!yearLines.has(field))yearLines.set(field,new Map());yearLines.get(field).set(end,taxonomy+':'+concept);}}return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};}
    if(basis==='quarterly' && st!=='balance' && unit===cur) {
     const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
     if(ytd?.ambiguous)return null;
@@ -287,7 +295,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   }
   return null;
  }
- for(const basis of ['annual','quarterly']) for(const end of [...(basis==='annual'?annualEnds:quarterEnds)].filter(p.day).sort().reverse().slice(0,basis==='annual'?25:48)) {
+ const build=basis=>{ for(const end of [...(basis==='annual'?annualEnds:quarterEnds)].filter(p.day).sort().reverse().slice(0,basis==='annual'?25:48)) {
   const cur=currency(end,basis==='annual');if(!cur)continue;
   for(const st of ['income','balance','cash']) {
    const row={fiscalDateEnding:end,periodStart:null,reportedCurrency:cur,periodType:st==='balance'?'instant':basis,_sources:{},_derivations:{},_scopes:{},_signs:{}};
@@ -312,7 +320,15 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    }
    if(st==='income') {
     // Bank net revenue is a monetary flow, not gross interest income.
-    if(/^(602|603|609)/.test(String(evidence.sic || '')))combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
+    // and where a bank files both parts, their sum is its revenue: the bare
+    // "Revenues" tag on a bank filing is often a fragment (First Bancorp $68m
+    // against $390m of net interest plus noninterest income) or zero.
+    if(/^(602|603|609)/.test(String(evidence.sic || ''))) {
+     const filings=f=>[...new Set(row._sources[f].map(id=>out.sources[id].accessionNumber))].sort().join('|');
+     if(row.totalRevenue!==null && row.netInterestIncome!==null && row.nonInterestIncome!==null && row.totalRevenue!==row.netInterestIncome+row.nonInterestIncome && p.verifiedField(out,row,'netInterestIncome') && p.verifiedField(out,row,'nonInterestIncome')
+      && row._scopes.netInterestIncome===row._scopes.nonInterestIncome && filings('netInterestIncome')===filings('nonInterestIncome')){row.totalRevenue=null;delete row._sources.totalRevenue;delete row._scopes.totalRevenue;delete row._derivations.totalRevenue;}
+     combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
+    }
     if(row.totalRevenue===null && row.revenueFromSaleOfGoods!==null && row.otherRevenue!==null && row.grossProfit!==null && row.costOfRevenue!==null && row.revenueFromSaleOfGoods+row.otherRevenue===row.grossProfit+row.costOfRevenue)combine('totalRevenue','revenueFromSaleOfGoods','otherRevenue','sum_fields');
     if(!/^(602|603|609|63)/.test(out.reportingSic))combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
    }
@@ -323,6 +339,25 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    }
    for(const field of Object.keys(row._sources))if(!p.verifiedField(out,row,field)){row[field]=null;delete row._sources[field];delete row._derivations[field];out.issues.push({code:'INCOMPATIBLE_PERIOD',field,periodEnd:end});}
    if(Object.keys(row._sources).length)out[st][basis+'Reports'].push(row);
+  }
+ } };
+ build('annual');build('quarterly');
+ // The newest year's four quarters should add up to the year. They are read
+ // as filed up to the annual report; when a disposal was restated in the annual
+ // report itself (AppLovin) only the later, restated quarters add up, so that
+ // reading is tried too and the one that reconciles is kept. A year that
+ // reconciles neither way is recorded, never silently published as consistent.
+ if(a) {
+  const unreconciled=()=>{const year=out.income.annualReports.find(r=>r.fiscalDateEnding===a.reportDate);if(!year?.periodStart)return 0;
+   const quarters=out.income.quarterlyReports.filter(q=>q.fiscalDateEnding<=a.reportDate && q.periodStart && q.periodStart>=year.periodStart);if(quarters.length!==4)return 0;
+   return ['totalRevenue','netIncome'].filter(f=>year[f]!==null && quarters.every(q=>q[f]!==null) && Math.abs(quarters.reduce((n,q)=>n+q[f],0)-year[f])>Math.max(Math.abs(year[f])*0.02,1e6)).length;};
+  const first=unreconciled();
+  if(first) {
+   const kept={income:out.income.quarterlyReports,balance:out.balance.quarterlyReports,cash:out.cash.quarterlyReports,issues:out.issues.length};
+   quartersAsFiled=false;for(const st of ['income','balance','cash'])out[st].quarterlyReports=[];
+   build('quarterly');
+   if(unreconciled()>=first){for(const st of ['income','balance','cash'])out[st].quarterlyReports=kept[st];out.issues.length=kept.issues;}
+   if(unreconciled())out.issues.push({code:'QUARTERS_DO_NOT_SUM',periodEnd:a.reportDate});
   }
  }
  if(document.segmentFacts?.length){const segments=require('./sec-segment-observations'),groups=segments.extract(document.segmentFacts,out,document.industryFiling);out.segmentObservations=groups.filter(g=>{if(segments.validGroup(g,out))return true;out.issues.push({code:'UNSUPPORTED_SEGMENT_PROVENANCE',periodEnd:g.periodEnd,reason:'The original segment context or numerical receipt did not pass validation'});return false;});}

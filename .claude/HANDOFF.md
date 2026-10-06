@@ -47,6 +47,25 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Quarter reconciliation and bank revenue — 2026-10-06 (eighth, NOT pushed; rotate this file at push, it is past 400 lines)
+
+- Newest-year quarters are read as filed up to the annual report; if they do not add up to the year the later-filed
+  (restated) reading is tried and the reconciling one kept (APP); neither → issue `QUARTERS_DO_NOT_SUM`.
+- Quarters follow their fiscal year's line for every multi-tag field (net income parent vs consolidated).
+- A full-year figure mis-dated as Q4 in SEC's feed is dropped (NiSource). `QUARTER_MAX_DAYS` 119.
+- Banks (SIC 602/603/609) with both parts filed: revenue = net interest + noninterest income, over a stray `Revenues`
+  tag (FBNC $68m → $390m, GBFH $1.24bn → $0.08bn). This makes bank revenue net of interest expense throughout.
+- Partnership per-unit earnings read as EPS (AB, NRP).
+
+**Final regression, 5,251 issuers, production rules vs these**: 271 become complete; newest-year revenue changes 231
+(200 up); provider-copy agreement 3,048 → 3,176 of 3,394 (138 fixed, 10 differ — HOG and bank net-revenue cases);
+four quarters ≠ year on revenue **100 → 11** of 3,456; no other annual field changed; 4 old cash-flow values dropped
+(RDN 2011, RH 2015); gross profit > revenue 55 → 29 issuers. Tests 1,423/1,429 (same six failures).
+
+**Checked and left alone**: of the 130 "complete except revenue" issuers, 86 are blank-check shells (SIC 67) with no
+revenue to report and class-specific EPS — not a data error. ~100 report a first or successor period shorter than a
+year. MC tags only `InvestmentBankingRevenue`; using it as revenue would be wrong for banks, so it is not used.
+
 ## Earlier-year revenue check and the five follow-ups — 2026-10-06 (seventh, NOT pushed)
 
 Owner asked to check the earlier-year revenue changes and fix the remaining gaps. `EXTRACTION_VERSION` stays `core4`

@@ -82,3 +82,17 @@ test('revenue is the largest revenue line of the filing, or net revenues where a
  assert.equal(rev({Revenues:f(9756),RevenueFromContractWithCustomerExcludingAssessedTax:f(9139),GrossProfit:f(4639),CostOfGoodsAndServicesSold:f(4500)}),9139);
  assert.equal(rev({Revenues:f(10600),RevenueFromContractWithCustomerExcludingAssessedTax:f(900),OperatingIncomeLoss:f(4600),CostsAndExpenses:f(6000)}),10600);
 });
+// Quarter and bank rules added after the 2026-10-06 audit.
+test('a 16-week first quarter is a quarter, and a full-year figure mis-dated as a quarter is not',()=>{
+ const {doc,evidence}=fixture();const q=(start,end,val,accn,form='10-Q',filed)=>({val,start,end,accn,form,filed:filed||end});
+ doc.facts['us-gaap'].Revenues.units.USD=[{val:1000,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'},q('2025-01-01','2025-04-22',400,'0000000123-25-000002'),
+  q('2025-10-01','2025-12-31',1000,ACC,'10-K','2026-02-01')];
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});const ends=d.income.quarterlyReports.map(r=>r.fiscalDateEnding);
+ assert.ok(ends.includes('2025-04-22'));assert.equal(d.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2025-04-22').totalRevenue,400);
+ assert.notEqual(d.income.quarterlyReports.find(r=>r.fiscalDateEnding==='2025-12-31')?.totalRevenue,1000);
+});
+test('a bank that files net interest and noninterest income is measured on their sum, not a stray Revenues tag',()=>{
+ const {doc,evidence}=fixture();evidence.sic='6022';const f=val=>({units:{USD:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
+ Object.assign(doc.facts['us-gaap'],{Revenues:f(68),InterestIncomeExpenseNet:f(300),NoninterestIncome:f(90)});
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.income.annualReports[0].totalRevenue,390);assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);
+});
