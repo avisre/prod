@@ -41,3 +41,27 @@ test('inline bindings reject wrong issuer, quarter, currency, concept and confli
     const conflict = f.html + '<ix:nonFraction name="us-gaap:Revenues" contextRef="Cloud" unitRef="native" scale="6">66</ix:nonFraction>';
     assert.equal(inline.select(inline.bindings(conflict, f.anchor, '0000000123'), 'Cloud', 65e6, 1e6, f.anchor, '0000000123'), null);
 });
+
+// Segment tables used to need an extraction model call per company, and failed
+// outright for filers that tag segments with a second "operating segments" axis.
+function tagged(rows, { extraAxis = false, axis = 'us-gaap:StatementBusinessSegmentsAxis' } = {}) {
+    const context = m => `<xbrli:context id="${m}"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">123</xbrli:identifier><xbrli:segment>${extraAxis ? '<xbrldi:explicitMember dimension="srt:ConsolidationItemsAxis">us-gaap:OperatingSegmentsMember</xbrldi:explicitMember>' : ''}<xbrldi:explicitMember dimension="${axis}">x:${m}Member</xbrldi:explicitMember></xbrli:segment></xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>`;
+    return rows.map(([m]) => context(m)).join('') + '<xbrli:unit id="u"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit>' +
+        rows.map(([m, v]) => `<ix:nonFraction name="us-gaap:Revenues" contextRef="${m}" unitRef="u" scale="6" format="ixt:num-dot-decimal">${v}</ix:nonFraction>`).join('');
+}
+const ANCHOR = { value: 100e6, currency: 'USD', periodStart: '2025-01-01', periodEnd: '2025-12-31' };
+test('tagged segment revenue is read without a model, including the operating-segments axis', () => {
+    for (const extraAxis of [false, true]) {
+        const g = inline.groups(tagged([['GoogleCloud', 40], ['GoogleServicesSegment', 60]], { extraAxis }), ANCHOR, 123).segments;
+        assert.deepEqual(g.rows.map(r => [r.name, r.value]), [['Google Cloud', 40e6], ['Google Services', 60e6]]);
+        assert.equal(g.reconciled, true);
+    }
+});
+test('a subtotal tagged beside its parts is dropped; another issuer or period is ignored', () => {
+    const g = inline.groups(tagged([['Product', 70], ['IPhone', 50], ['Mac', 20], ['Service', 30]], { axis: 'srt:ProductOrServiceAxis' }), ANCHOR, 123).products;
+    assert.deepEqual(g.rows.map(r => r.name), ['iPhone', 'Mac', 'Service']);
+    assert.deepEqual(inline.groups(tagged([['A', 40], ['B', 60]]), ANCHOR, 999), {});
+    assert.deepEqual(inline.groups(tagged([['A', 40], ['B', 60]]), { ...ANCHOR, periodEnd: '2024-12-31' }, 123), {});
+    // Rows adding up to more than filed revenue with no removable subtotal are not a breakdown.
+    assert.equal(inline.groups(tagged([['A', 90], ['B', 80]]), ANCHOR, 123).segments, undefined);
+});

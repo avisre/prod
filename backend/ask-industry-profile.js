@@ -82,6 +82,21 @@ const PROFILES = {
         lines: [],
         note: 'This listing reports no operating business, so there are no margins, returns or trends to compare. Say so plainly instead of showing empty metric rows.'
     },
+    mining: {
+        metrics: ['opMarginPct', 'fcfMarginPct', 'capexPctRevenue', 'debtToEquity'],
+        lines: ['totalRevenue', 'operatingCashflow', 'capitalExpenditures'],
+        note: 'Miners and metals producers sell a commodity at a price they do not set: read the operating margin against the capital needed to keep the mines running, and leverage against a cyclical revenue base.'
+    },
+    'telecom-media': {
+        metrics: ['opMarginPct', 'fcfMarginPct', 'capexPctRevenue', 'debtToEquity'],
+        lines: ['totalRevenue', 'operatingCashflow', 'capitalExpenditures'],
+        note: 'Telecom, cable and media companies carry heavy networks or content budgets financed with debt: cash left after capital spending and leverage matter more than gross margin.'
+    },
+    services: {
+        metrics: ['opMarginPct', 'netMarginPct', 'fcfMarginPct', 'ocfToNetIncome'],
+        lines: ['totalRevenue', 'netIncome', 'operatingCashflow'],
+        note: 'Service businesses own few hard assets: the story is in operating margin and how reliably profit turns into cash.'
+    },
     generic: {
         metrics: ['grossMarginPct', 'opMarginPct', 'netMarginPct', 'fcfMarginPct'],
         lines: ['totalRevenue', 'netIncome'],
@@ -121,9 +136,48 @@ const SECTOR_TO_ARCHETYPE = {
     'Communication Services': 'software'
 };
 
-function archetypeFor(industry, sector) {
+// Half the covered universe (2,248 of 4,649 on 2026-10-06 — foreign filers and
+// most small caps) arrives with no industry label and no sector, and was being
+// answered with the catch-all metric set. Every SEC registrant has a SIC code,
+// so the code decides whenever the labels cannot. Ordered: first match wins.
+const SIC_RULES = [
+    [/^6770$/, 'shell'],
+    [/^60|^6035$|^6036$/, 'bank'],
+    [/^63|^64/, 'insurer'],
+    [/^6798$|^65/, 'reit'],
+    [/^6795$/, 'mining'],
+    [/^6794$/, 'services'],
+    [/^6[127]/, 'capital-markets'],
+    [/^283|^384|^3826$|^5122$|^80|^8731$|^8734$/, 'pharma-biotech'],
+    [/^737/, 'software'],
+    [/^357|^36[67]|^3651$|^3861$|^38[1-3]|^3695$/, 'semis-hardware'],
+    [/^13|^29|^46|^5171$|^5172$|^12/, 'energy'],
+    [/^49(?!5)/, 'utility'],
+    [/^1[04]/, 'mining'],
+    [/^48|^27|^78|^731/, 'telecom-media'],
+    [/^0[1-9]|^2[0-35]|^31|^39|^5[2-9]|^514|^518|^70|^72|^79|^82|^284/, 'consumer'],
+    [/^7[3-6]|^8[1-9]/, 'services'],
+    [/^1[5-7]|^2[4-9]|^3[0-9]|^4[0-7]|^495|^5[01]/, 'industrial']
+];
+function sicArchetype(sic) {
+    const code = String(sic || '').trim();
+    if (!/^\d{3,4}$/.test(code)) return null;
+    const padded = code.padStart(4, '0');
+    for (const [re, key] of SIC_RULES) if (re.test(padded)) return key;
+    return null;
+}
+// The registrant's SIC code from the stored SEC issuer record; null when unknown.
+function sicFor(symbol) {
+    try {
+        const company = require('./stock-universe').lookup(symbol);
+        return require('./public-stock-index').view().issuers[company?.cik]?.evidence?.sic || null;
+    } catch (_) { return null; }
+}
+function archetypeFor(industry, sector, sic) {
     const ind = String(industry || '').trim();
     if (ind) for (const [re, key] of RULES) if (re.test(ind)) return key;
+    const bySic = sicArchetype(sic);
+    if (bySic) return bySic;
     const sec = sectorVocab.canonical(sector);
     if (sec && SECTOR_TO_ARCHETYPE[sec]) return SECTOR_TO_ARCHETYPE[sec];
     return 'generic';
@@ -132,8 +186,8 @@ function archetypeFor(industry, sector) {
 // `industryProfile` is handed to the model as a tool result, so it must be
 // self-explaining: which archetype was chosen, from which label, and what the
 // omitted metrics mean.
-function profile(industry, sector) {
-    const archetype = archetypeFor(industry, sector);
+function profile(industry, sector, sic) {
+    const archetype = archetypeFor(industry, sector, sic);
     const p = PROFILES[archetype];
     return {
         archetype,
@@ -166,4 +220,4 @@ function select(profileOrIndustry, history) {
     };
 }
 
-module.exports = { profile, select, archetypeFor, RATIOS, LINES, PROFILES, SECTOR_TO_ARCHETYPE };
+module.exports = { profile, select, archetypeFor, sicArchetype, sicFor, RATIOS, LINES, PROFILES, SECTOR_TO_ARCHETYPE };

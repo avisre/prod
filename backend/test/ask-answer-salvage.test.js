@@ -207,3 +207,21 @@ test('the model is sent values and tables, while the check keeps the full source
     assert.deepEqual(supplied.observations[0].fields.totalRevenue.sourceIds, ['a1']);
     assert.ok(supplied.provenance.sources.a1);
 });
+
+// A company report is the same for every reader for the day; anything personal
+// to the asker must always be researched fresh.
+test('only a plain, impersonal company report is eligible for the same-day cache', () => {
+    const chat = require('../ai-chat');
+    const company = { symbol: 'INTC', name: 'Intel Corporation' }, policy = { kind: 'company_report', company };
+    const key = (question, extra = {}, p = policy) => chat.reportCacheKey({ question, history: [], ctx: {}, mode: 'analyst', ...extra }, p);
+    assert.ok(key('intel'));
+    assert.equal(key('intel'), key('Tell me about Intel Corporation stock'));
+    assert.equal(key('INTC'), key('intel'));
+    assert.notEqual(key('intel'), key('is intel debt a problem'));
+    assert.notEqual(key('intel'), key('intel', { mode: 'normal' }));
+    assert.notEqual(key('intel'), key('intel', {}, { ...policy, story: true }));
+    assert.equal(key('intel', { history: [{ role: 'user', content: 'x' }] }), null);
+    assert.equal(key('intel', { ctx: { attachments: [{ kind: 'doc' }] } }), null);
+    assert.equal(key('intel', {}, { ...policy, explicitWordLimit: true }), null);
+    assert.equal(key('intel', {}, { kind: 'focused', company }), null);
+});

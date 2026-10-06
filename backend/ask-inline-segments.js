@@ -60,4 +60,113 @@ function select(rows, name, value, scale, anchor, issuer) {
     if (new Set(named.map(r => r.value + ':' + r.currency)).size !== 1) return null;
     return named.find(r => matches(r, name, value, scale, anchor, issuer)) || null;
 }
-module.exports = { bindings, matches, select };
+// ---- Model-free reading of the filing's own tagged revenue breakdowns ----
+// A filing tags each segment, product-line and regional revenue figure with the
+// axis it belongs to, so the tables can be read directly; no extraction model
+// is involved and nothing is estimated.
+const AXES = [
+    [/^(?:us-gaap:StatementBusinessSegmentsAxis|ifrs-full:SegmentsAxis)$/, 'segments'],
+    [/^(?:srt:ProductOrServiceAxis|ifrs-full:ProductsAndServicesAxis)$/, 'products'],
+    [/^(?:srt:StatementGeographicalAxis|ifrs-full:GeographicalAreasAxis)$/, 'regions']
+];
+const BROAD_REVENUE = /^(?:us-gaap:(?:Revenues|SalesRevenueNet|RevenueFromContractWithCustomerExcludingAssessedTax|RevenueFromContractWithCustomerIncludingAssessedTax|RevenuesNetOfInterestExpense|RegulatedAndUnregulatedOperatingRevenue|RevenueNotFromContractWithCustomer|RealEstateRevenueNet|ElectricUtilityRevenue|PremiumsEarnedNet)|ifrs-full:(?:Revenue|RevenueFromContractsWithCustomers))$/;
+// What the rows measure when it is not plain revenue: an insurer's segment note
+// breaks down premiums, and the table must say so.
+const MEASURES = { 'us-gaap:PremiumsEarnedNet': 'net premiums earned' };
+const SMALL = new Set(['And', 'Of', 'The', 'For', 'In', 'To', 'Or']);
+// "us-gaap:AmazonWebServicesSegmentMember" -> "Amazon Web Services"
+function label(member) {
+    const bare = String(member || '').split(':').pop().replace(/Member$/, '');
+    const raw = bare.replace(/(?:Reportable|Operating)?Segments?$/, '').replace(/^Segment(?=[A-Z])/, '') || bare;
+    const words = raw.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2').split(/\s+/).filter(Boolean);
+    return words.map((w, i) => i && SMALL.has(w) ? w.toLowerCase() : w).join(' ').replace(/\bI (Phone|Pad|Cloud)\b/g, 'i$1').replace(/\bU S\b/g, 'US').trim();
+}
+// A breakdown often carries its own subtotals next to their parts ("Products"
+// beside iPhone, Mac and iPad). While the rows add up to more than filed
+// revenue, drop the row whose removal lands closest to it.
+function prune(rows, total) {
+    let kept = rows.filter(r => r.value > 0);
+    const sum = list => list.reduce((n, r) => n + r.value, 0);
+    for (let i = 0; i < 6 && kept.length > 2 && sum(kept) > total * 1.005; i++) {
+        const current = sum(kept);
+        const best = kept.slice().sort((a, b) => Math.abs(total - (current - a.value)) - Math.abs(total - (current - b.value)))[0];
+        if (Math.abs(total - (current - best.value)) >= Math.abs(total - current)) break;
+        kept = kept.filter(r => r !== best);
+    }
+    return kept;
+}
+// Operating segments are reported before intersegment eliminations, so they may
+// legitimately add up to more than revenue: only a row that is exactly the sum
+// of two or three others (a filed subtotal) is dropped, never a real segment.
+function dropSubtotals(rows) {
+    const kept = rows.filter(r => r.value > 0), near = (a, b) => Math.abs(a - b) <= Math.max(a, b) * 0.001;
+    const subtotal = row => { const rest = kept.filter(r => r !== row && r.value < row.value);
+        for (let i = 0; i < rest.length; i++) for (let j = i + 1; j < rest.length; j++) {
+            if (near(rest[i].value + rest[j].value, row.value)) return true;
+            for (let k = j + 1; k < rest.length; k++) if (near(rest[i].value + rest[j].value + rest[k].value, row.value)) return true;
+        }
+        return rest.length > 3 && near(rest.reduce((n, r) => n + r.value, 0), row.value); };
+    return kept.length > 12 ? kept : kept.filter(r => !subtotal(r));
+}
+// A member that is itself a roll-up of the segments is not a segment.
+const AGGREGATE = /Aggregation|SegmentsTotal|TotalSegments|TotalReportable|AllReportableSegments/i;
+function taggedFacts(html, anchor, issuer) {
+    const contexts = new Map(), units = new Map(), found = new Map();
+    for (const m of html.matchAll(/<(?:[\w.-]+:)?context\b[^>]*>[\s\S]*?<\/(?:[\w.-]+:)?context>/gi)) {
+        const id = attributes(m[0]).id;
+        if (!id || m[0].length > 5000 || content(m[0], 'startDate') !== anchor.periodStart || content(m[0], 'endDate') !== anchor.periodEnd) continue;
+        if (Number(content(m[0], 'identifier')) !== Number(issuer) || /typedMember/i.test(m[0])) continue;
+        const members = [...m[0].matchAll(/<(?:[\w.-]+:)?explicitMember\b([^>]*)>([^<]+)<\/(?:[\w.-]+:)?explicitMember>/gi)]
+            .map(x => ({ dimension: attributes(x[1]).dimension || '', member: x[2].trim() }))
+            .filter(x => !(x.dimension === 'srt:ConsolidationItemsAxis' && x.member === 'us-gaap:OperatingSegmentsMember'))
+            .map(x => ({ ...x, kind: AXES.find(([re]) => re.test(x.dimension))?.[1] }));
+        if (members.length === 1 && members[0].kind) contexts.set(id, { kind: members[0].kind, member: members[0].member });
+        // A segment split again by region or product ("Upstream / United States"):
+        // the parts are added back up to the segment.
+        else if (members.length === 2 && members.every(x => x.kind) && members.filter(x => x.kind === 'segments').length === 1)
+            contexts.set(id, { kind: 'segments-by-part', member: members.find(x => x.kind === 'segments').member, part: members.find(x => x.kind !== 'segments').member });
+    }
+    if (!contexts.size) return found;
+    for (const m of html.matchAll(/<(?:[\w.-]+:)?unit\b[^>]*>[\s\S]*?<\/(?:[\w.-]+:)?unit>/gi)) {
+        const id = attributes(m[0]).id; if (id && m[0].length <= 1500 && content(m[0], 'measure') === 'iso4217:' + anchor.currency) units.set(id, true);
+    }
+    for (const m of html.matchAll(/<ix:nonfraction\b([^>]*)>([\s\S]*?)<\/ix:nonfraction>/gi)) {
+        const fact = attributes(m[1]), context = contexts.get(fact.contextref);
+        if (!context || !units.has(fact.unitref) || !BROAD_REVENUE.test(fact.name || '') || fact.sign === '-' || m[0].length > 1500) continue;
+        const power = Number(fact.scale || 0);
+        let printed = compact(m[2].replace(/<[^>]+>/g, '')).replace(/&nbsp;|&#160;/g, '').replace(/\s+/g, '');
+        if (/num[-]?comma[-]?decimal/i.test(fact.format || '')) printed = printed.replace(/\./g, '').replace(',', '.'); else printed = printed.replace(/,/g, '');
+        if (!/^\d+(?:\.\d+)?$/.test(printed) || ![0, 3, 6, 9].includes(power)) continue;
+        const value = Number(printed) * 10 ** power; if (!(value > 0)) continue;
+        const key = context.kind + '|' + fact.name, group = found.get(key) || new Map(), id = context.member + (context.part ? '|' + context.part : ''), old = group.get(id);
+        group.set(id, old !== undefined && old !== value ? null : value); found.set(key, group);
+    }
+    return found;
+}
+function groups(html, anchor, issuer) {
+    const out = {};
+    const consider = (kind, concept, rows) => {
+        rows = kind === 'segments' ? dropSubtotals(rows) : prune(rows, anchor.value);
+        const sum = rows.reduce((n, r) => n + r.value, 0), share = sum / anchor.value;
+        if (rows.length < 2 || share < 0.5 || share > (kind === 'segments' ? 1.6 : 1.005)) return;
+        const candidate = { concept, measure: MEASURES[concept] || 'revenue', rows, sum, share, reconciled: Math.abs(1 - share) <= 0.005 };
+        // Plain revenue outranks another measure; then the closest to filed revenue wins.
+        const rank = g => (g.measure === 'revenue' ? 0 : 10) + Math.abs(1 - g.share);
+        if (!out[kind] || rank(candidate) < rank(out[kind])) out[kind] = candidate;
+    };
+    const found = taggedFacts(html, anchor, issuer);
+    for (const [key, group] of found) {
+        const [kind, concept] = key.split('|');
+        if (kind !== 'segments-by-part') consider(kind, concept, [...group].filter(([member, v]) => v !== null && !AGGREGATE.test(member)).map(([member, value]) => ({ member, name: label(member), value })));
+    }
+    if (!out.segments) for (const [key, group] of found) {
+        const [kind, concept] = key.split('|'); if (kind !== 'segments-by-part') continue;
+        const bySegment = new Map(), parts = new Map();
+        for (const [id, value] of group) { if (value === null) continue; const [member, part] = id.split('|'); (parts.get(member) || parts.set(member, []).get(member)).push({ member: part, value }); }
+        // Within one segment the parts may carry their own total; keep the parts.
+        for (const [member, list] of parts) bySegment.set(member, dropSubtotals(list).reduce((n, r) => n + r.value, 0));
+        consider('segments', concept, [...bySegment].map(([member, value]) => ({ member, name: label(member), value })));
+    }
+    return out;
+}
+module.exports = { bindings, matches, select, groups, label, prune, dropSubtotals };

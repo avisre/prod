@@ -74,3 +74,18 @@ test('select keeps only metrics with a value, and names those it dropped', () =>
     // A shell company has no metric rows to fill in the first place.
     assert.deepEqual(ip.select(ip.profile('Shell Companies', ''), history).metrics, []);
 });
+
+// 2,248 of 4,649 covered companies carried no industry label and no sector on
+// 2026-10-06 and were answered with the catch-all metric set.
+test('an unlabelled company is typed by its SEC SIC code', () => {
+    const cases = { 6022: 'bank', 6331: 'insurer', 6798: 'reit', 6199: 'capital-markets', 2834: 'pharma-biotech', 3841: 'pharma-biotech',
+        7372: 'software', 3674: 'semis-hardware', 1311: 'energy', 2911: 'energy', 4911: 'utility', 1040: 'mining', 4813: 'telecom-media',
+        5812: 'consumer', 3711: 'industrial', 8742: 'services', 6770: 'shell', 100: 'consumer' };
+    for (const [sic, want] of Object.entries(cases)) assert.strictEqual(ip.archetypeFor('', '', sic), want, 'SIC ' + sic);
+});
+test('an industry label still outranks the SIC code, and a missing code falls back to the sector', () => {
+    assert.strictEqual(ip.archetypeFor('Semiconductors', '', '6022'), 'semis-hardware');
+    assert.strictEqual(ip.archetypeFor('', 'Energy', null), 'energy');
+    assert.strictEqual(ip.archetypeFor('', '', '0000'), 'generic');
+    assert.strictEqual(ip.profile('', '', '1040').metrics.length, 4);
+});

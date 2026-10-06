@@ -13,6 +13,8 @@ const inline = require('./ask-inline-segments');
 const CACHE_VERSION = proof.VERSION;
 const COLLECTION = `ask_segments_v${CACHE_VERSION}`;
 const MAX_ACTIVE = 2, MAX_HISTORY = 256, RETRY_AFTER_MS = 5 * 60 * 1000;
+// A filing is read as one string; refuse new reads only when memory is genuinely short.
+const RSS_LIMIT_MB = Number(process.env.ASK_SEGMENT_RSS_LIMIT_MB) || 400;
 const pending = new Map(), recent = new Map();
 let recentBytes = 0, starts = [];
 const EXTRACT_SYSTEM = [
@@ -54,7 +56,19 @@ async function extractWork(listing, income) {
         if (proof.filingMatches(selected, issuer)) filing = selected;
     }
     if (!filing) filing = await legacySegments.latestTenK(listing.symbol);
-    const anchor = proof.exactAnnualRevenue(filing, income, issuer);
+    let anchor = proof.exactAnnualRevenue(filing, income, issuer);
+    // Revenue restated in an amended filing carries the amendment's accession
+    // number, not the original report's. The tagged figures read below are
+    // matched to this issuer, period and currency inside the filing itself, so
+    // the period's filed revenue is enough to size them against; the model
+    // path keeps its exact-accession requirement.
+    let taggedOnly = false;
+    if (!anchor && proof.filingMatches(filing, issuer)) {
+        const full = require('./ask-report-evidence').expand(income);
+        const row = (full?.observations || []).find(o => (!filing.reportDate || o.periodEnd === filing.reportDate) && o.fields?.totalRevenue?.value > 0 && /^[A-Z]{3}$/.test(o.currency || ''));
+        const source = row && (row.fields.totalRevenue.sourceIds || []).map(id => full.provenance?.sources?.[id]).find(x => x?.periodStart && x.periodEnd === row.periodEnd);
+        if (source) { anchor = { value: row.fields.totalRevenue.value, currency: row.currency, periodEnd: row.periodEnd, periodStart: source.periodStart }; taggedOnly = true; }
+    }
     if (!anchor) return unavailable(listing.symbol, 'No unique verified annual revenue fact matches this issuer’s exact SEC annual filing, period and currency.');
     const cacheId = `askseg:v${CACHE_VERSION}:${issuer}:${proof.accession(filing.accession)}`;
     const cached = recent.get(cacheId);
@@ -69,6 +83,13 @@ async function extractWork(listing, income) {
             }
         } catch (_) { /* source extraction remains available during a cache outage */ }
     }
+    const inlineId = `askseg-inline:v1:${issuer}:${proof.accession(filing.accession)}`;
+    const inlineHit = recent.get(inlineId);
+    if (inlineHit) return { ...inlineHit.payload, symbol: listing.symbol, cached: true };
+    if (col) {
+        try { const hit = await col.findOne({ _id: inlineId }, { maxTimeMS: 1500 }); if (hit?.payload?.segments?.length) { remember(inlineId, hit.payload); return { ...hit.payload, symbol: listing.symbol, cached: true }; } }
+        catch (_) { /* read the filing instead */ }
+    }
     const failure = recent.get(cacheId + ':failure');
     if (failure && Date.now() - failure.at < RETRY_AFTER_MS) return { ...failure.payload, symbol: listing.symbol };
     const now = Date.now(); starts = starts.filter(time => now - time < 10 * 60 * 1000);
@@ -76,7 +97,35 @@ async function extractWork(listing, income) {
     starts.push(now);
     let full, inlineBindings;
     try {
-        const response = await axios.get(filing.url, { headers: secSource.SEC_HEADERS, timeout: 20000, maxContentLength: 20 * 1024 * 1024 });
+        // Read as bytes and scan as a one-byte string: the tags and figures are
+        // ASCII, and a 13 MB bank filing then costs 13 MB instead of 26.
+        const response = await axios.get(filing.url, { headers: secSource.SEC_HEADERS, timeout: 20000, maxContentLength: 20 * 1024 * 1024, responseType: 'arraybuffer' });
+        const bytes = Buffer.isBuffer(response.data) ? response.data : null;
+        // The filing's own tagged breakdown needs no model at all. Most
+        // companies are answered here; only an untagged filing goes on to the
+        // extraction model below.
+        const tagged = inline.groups(bytes ? bytes.toString('latin1') : String(response.data || ''), anchor, issuer);
+        const primary = tagged.segments || tagged.products;
+        if (primary) {
+            const rows = g => g.rows.map(r => ({ name: r.name, member: r.member, value: r.value, reportedRevenue: r.value, revenueUsd: anchor.currency === 'USD' ? r.value : null, revenuePct: r.value / anchor.value * 100 }));
+            const observation = (r, kind) => ({ name: r.name, periodEnd: anchor.periodEnd, currency: anchor.currency, fields: { segmentRevenue: { value: r.value, unit: anchor.currency, currency: anchor.currency, scope: kind,
+                sourceIds: [`sec-inline-segment:${issuer}:${proof.accession(filing.accession)}:${r.member}`] } } });
+            const extra = k => tagged[k] && tagged[k] !== primary ? { [k === 'products' ? 'productLines' : 'regions']: rows(tagged[k]) } : {};
+            const payload = { schemaVersion: CACHE_VERSION, symbol: listing.symbol, cik: issuer, basis: 'annual segment disclosures', periodEnd: anchor.periodEnd, currency: anchor.currency, fiscalYear: 'FY' + anchor.periodEnd.slice(0, 4),
+                breakdown: primary === tagged.segments ? 'operating segments' : 'product and service lines', measure: primary.measure, totalRevenue: anchor.value, segments: rows(primary), ...extra('products'), ...extra('regions'),
+                observations: ['segments', 'products', 'regions'].flatMap(k => tagged[k] ? tagged[k].rows.map(r => observation(r, k === 'segments' ? 'segment' : k)) : []),
+                filing: { form: filing.form, date: filing.date, accessionNumber: filing.accession, url: filing.url },
+                verificationStatus: primary.reconciled ? 'reconciled' : 'partial', taggedBreakdown: true,
+                ...(primary.reconciled ? {} : { note: primary.measure !== 'revenue' ? `Rows are ${primary.measure} by segment, not total revenue.`
+                    : primary.share > 1.005 ? 'Segment figures are as filed, before intersegment eliminations, so they add up to more than consolidated revenue.'
+                    : 'The filed rows cover part of consolidated revenue; the remainder is corporate, other or eliminations.' }),
+                source: 'Revenue breakdown read directly from the tagged figures in the SEC annual report; amounts are in filing currency.' };
+            response.data = null; remember(inlineId, payload);
+            if (col) { try { await col.updateOne({ _id: inlineId }, { $set: { payload, at: new Date() } }, { upsert: true, maxTimeMS: 1500 }); } catch (_) { /* best effort */ } }
+            return payload;
+        }
+        if (taggedOnly) { response.data = null; return unavailable(listing.symbol, 'The annual report does not tag a revenue breakdown.'); }
+        if (bytes) response.data = bytes.toString('utf8');
         inlineBindings = inline.bindings(String(response.data || ''), anchor, issuer);
         full = readable(response.data); response.data = null;
     } catch (_) { const result = unavailable(listing.symbol, 'SEC annual report text could not be retrieved.'); remember(cacheId + ':failure', result); return result; }
@@ -117,7 +166,7 @@ async function extractAskSegments(symbol, income) {
     const issuer = coverage.cik(listing.cik);
     if (!issuer) return unavailable(listing.symbol, 'A validated SEC issuer identity is unavailable for segment research.');
     if (pending.has(issuer)) return { ...await pending.get(issuer), symbol: listing.symbol };
-    if (pending.size >= MAX_ACTIVE || process.memoryUsage().rss > 320 * 1024 * 1024)
+    if (pending.size >= MAX_ACTIVE || process.memoryUsage().rss > RSS_LIMIT_MB * 1024 * 1024)
         return { ...unavailable(listing.symbol, 'SEC segment research is busy. Retry shortly.'), retryable: true };
     const work = extractWork(listing, income).catch(() => unavailable(listing.symbol, 'SEC segment research is temporarily unavailable.'));
     pending.set(issuer, work);

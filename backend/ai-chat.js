@@ -73,8 +73,10 @@ const defaultDeps = {
     runTool: (name, args, ctx) => runTool(name, args, ctx)
 };
 let deps = { ...defaultDeps };
-function __setDeps(overrides) { deps = { ...defaultDeps, ...overrides }; }
-function __resetDeps() { deps = { ...defaultDeps }; }
+const reportCache = new Map();
+// A scripted provider must never be answered from another test's cached report.
+function __setDeps(overrides) { deps = { ...defaultDeps, ...overrides }; reportCache.clear(); }
+function __resetDeps() { deps = { ...defaultDeps }; reportCache.clear(); }
 
 const MAX_ITERS = 10;          // LLM calls per question (1 final + up to 9 tool rounds) — headroom for multi-company / causal questions
 const MAX_TOOLCALLS_PER_ROUND = 12;
@@ -603,12 +605,26 @@ async function toolGetSegments({ symbol }) {
         {
             const online=process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1';
             const stored=await require('./verified-fundamentals').getCompanyEvidence(company.symbol, [], {annual:5,quarterly:4}, online);
-            const group=(stored.statements?.segmentObservations || []).find(g=>/StatementBusinessSegmentsAxis$/.test(g.axis)) || stored.statements?.segmentObservations?.[0];
-            if(group){const result=require('./sec-segment-observations').toolPayload(group,stored.statements,company.symbol);if(result)return {...result,sankeyEvidence:answerQuality.segmentEvidence(result,null)};}
+            // Newest period first; a single-member "segment" axis says nothing, so the
+            // product and service lines lead when that is all the segment note holds.
+            const groups=stored.statements?.segmentObservations || [];
+            const latest=re=>groups.filter(g=>re.test(g.axis)).sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
+            const business=latest(/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/),product=latest(/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/);
+            const primary=business && (business.entries.length>1 || !product)?business:product || business || groups[0];
+            const segmentStore=require('./sec-segment-observations'),inlineSegments=require('./ask-inline-segments');
+            const readable=result=>{const kept=new Set(inlineSegments.prune(result.segments.map(s=>({...s})),result.storedSegmentsReceipt.totalRevenue).map(s=>s.name));
+                const name=n=>/:|Member$/.test(n)?inlineSegments.label(n):n;
+                return {...result,segments:result.segments.filter(s=>kept.has(s.name)).map(s=>({...s,name:name(s.name)})),observations:result.observations.map(o=>({...o,name:name(o.name)}))};};
+            if(primary){const result=segmentStore.toolPayload(primary,stored.statements,company.symbol);if(result){
+                const out={...readable(result),breakdown:primary===business?'operating segments':'product and service lines',sankeyEvidence:answerQuality.segmentEvidence(result,null)};
+                if(product && product!==primary && product.periodEnd===primary.periodEnd){const lines=segmentStore.toolPayload(product,stored.statements,company.symbol);
+                    if(lines){const view=readable(lines);out.productLines=view.segments.map(({name,value,revenuePct})=>({name,value,revenuePct}));out.observations=[...out.observations,...view.observations];}}
+                return out;}}
         }
         const income = await toolGetFinancials({ symbol: company.symbol, statement: 'income', basis: 'annual', limit: 5 });
         const r = await askSegments.extractAskSegments(company.symbol, income);
         if (r.error) return r;
+        if (r.taggedBreakdown) return { ...r, sankeyEvidence: { status: 'unverified', reason: 'Present the filed table; a complete flow diagram needs the stored reconciliation.' } };
         const sankeyEvidence = answerQuality.segmentEvidence(r, income);
         return {
             ...r,
@@ -1098,7 +1114,7 @@ async function toolGetPeerContext({ symbol }) {
         const peers = dossierAnalysis.peerAnalysis(key, overview);
         const ind = await industry.buildIndustry(key, { overview, peers, allowAi: false, filingReference: data.coverage?.latestAnnual });
         return { symbol: key, sector: overview.Sector || '', peerPositioning: peers, industry: ind,
-            industryProfile: askIndustry.profile(overview.Industry, overview.Sector) };
+            industryProfile: askIndustry.profile(overview.Industry, overview.Sector, askIndustry.sicFor(key)) };
     } catch (e) {
         return { error: 'Peer/industry context failed: ' + (e.message || 'unknown') };
     }
@@ -2008,7 +2024,64 @@ const FRAMEWORK_NORMAL = 'ANSWER SHAPE — full company report in everyday Engli
 //   {type:'rollback'}              meaning "discard streamed text so far".
 // The resolved return value stays identical to the non-streaming path and is
 // authoritative — callers should render result.answer over streamed text.
-async function ask({ question, history, ctx, mode, onEvent }) {
+// ---- Same-day company report cache ----
+// A report on a company is the same for every reader until the next price or
+// filing: the question "nvidia" asked a hundred times in a day was a hundred
+// full research runs and model write-ups. The checked answer is kept for the
+// day and replayed; anything personal to the asker (earlier turns, attachments,
+// saved memories, a word limit) always gets a fresh run.
+const REPORT_CACHE_TTL_MS = 12 * 60 * 60 * 1000, REPORT_CACHE_MAX = 300, REPORT_CACHE_COLLECTION = 'ask_report_cache';
+const REPORT_FILLER = /\b(?:please|can you|could you|tell me|show me|give me|write|about|what is|what's|whats|who is|analy[sz]e|analysis|research|explain|overview|report|full|company|stock|shares?|inc|corp|corporation|the|of|on|for|me|a|an|is|does|do|story|history)\b/g;
+function reportCacheKey({ question, history, ctx, mode }, policy) {
+    if (process.env.ASK_REPORT_CACHE === '0') return null;
+    if (policy.kind !== 'company_report' || policy.explicitWordLimit || !policy.company?.symbol) return null;
+    if ((history || []).length || ctx?.attachments?.length || ctx?.aiPaperContext) return null;
+    const company = policy.company;
+    let rest = ' ' + String(question || '').toLowerCase().replace(/[^a-z0-9.& ]+/g, ' ') + ' ';
+    for (const word of [company.symbol, ...String(company.name || '').split(/\s+/)]) {
+        const w = String(word || '').toLowerCase().replace(/[^a-z0-9]+/g, ''); if (w.length > 1) rest = rest.split(' ' + w + ' ').join(' ');
+    }
+    rest = rest.replace(REPORT_FILLER, ' ').replace(/[.&]/g, ' ').replace(/\s+/g, ' ').trim();
+    // Words left over mean the reader asked for something particular; that
+    // wording becomes part of the key so it never receives the generic report.
+    return [reportPolicy.VERSION, company.symbol, policy.story ? 'story' : 'report', mode === 'normal' ? 'normal' : 'analyst',
+        new Date().toISOString().slice(0, 10), rest.slice(0, 120)].join('|');
+}
+async function readReportCache(key) {
+    const hit = reportCache.get(key);
+    if (hit && Date.now() - hit.at < REPORT_CACHE_TTL_MS) return hit.payload;
+    if (mongoose.connection.readyState !== 1) return null;
+    try {
+        const doc = await mongoose.connection.collection(REPORT_CACHE_COLLECTION).findOne({ _id: key }, { maxTimeMS: 1500 });
+        if (doc?.payload?.answer && Date.now() - new Date(doc.at).getTime() < REPORT_CACHE_TTL_MS) { reportCache.set(key, { payload: doc.payload, at: new Date(doc.at).getTime() }); return doc.payload; }
+    } catch (_) { /* a cache outage only costs a fresh run */ }
+    return null;
+}
+async function writeReportCache(key, payload) {
+    reportCache.delete(key); reportCache.set(key, { payload, at: Date.now() });
+    while (reportCache.size > REPORT_CACHE_MAX) reportCache.delete(reportCache.keys().next().value);
+    if (mongoose.connection.readyState !== 1) return;
+    try { await mongoose.connection.collection(REPORT_CACHE_COLLECTION).updateOne({ _id: key }, { $set: { payload, at: new Date() } }, { upsert: true, maxTimeMS: 1500 }); } catch (_) { /* best effort */ }
+}
+async function ask(input) {
+    let key = null;
+    try {
+        const q = String(input.question || '').trim().slice(0, QUESTION_MAX_CHARS);
+        const policy = q ? reportPolicy.select(q, input.mode) : null;
+        if (policy && aiClient.isConfigured()) key = reportCacheKey({ ...input, question: q }, policy);
+        if (key && input.ctx?.userId && input.ctx.memoryConsent !== false && (await loadMemories(input.ctx.userId)).length) key = null;
+        const cached = key ? await readReportCache(key) : null;
+        if (cached) {
+            if (input.onEvent) { try { input.onEvent({ type: 'status', text: `Loading today's checked ${policy.company.symbol} report` }); input.onEvent({ type: 'delta', text: cached.answer }); } catch (_) { /* client gone */ } }
+            return { ...cached, totalTokens: 0, cached: true };
+        }
+    } catch (_) { key = null; }
+    const out = await askFresh(input);
+    if (key && out && out.source === 'ai' && !out.quality?.fallback) await writeReportCache(key, { answer: out.answer, toolsUsed: out.toolsUsed, source: out.source, quality: out.quality });
+    return out;
+}
+
+async function askFresh({ question, history, ctx, mode, onEvent }) {
     const q = String(question || '').trim().slice(0, QUESTION_MAX_CHARS);
     if (!q) return { answer: 'Ask me something about a company, your portfolio, or the market data we cover.', toolsUsed: [], source: 'empty', quality: { terminalReason: 'empty_question' } };
     let policy = reportPolicy.select(q, mode);
@@ -2272,7 +2345,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         }
         messages.push({ role: 'system', content: policy.story
             ? 'The company story evidence was retrieved before generation. Reuse its supported financial history and original business context. Supplement historical gaps using accessible original documents within the remaining web budgets. A failed source affects only its missing details; write the supported story, rather than replacing it with a stock quote or asking the user to narrow the request.'
-            : 'All required full-report evidence was retrieved before generation. Reuse these exact results; do not repeat completed pulls. A failed source affects only its missing details. Write the supported company report from the available evidence and name specific gaps instead of replacing the report with a financial receipt.' });
+            : 'All required full-report evidence was retrieved before generation. Reuse these exact results; do not repeat completed pulls. A failed source affects only its missing details. Write the company report from what was supplied and simply leave out what was not: never mention missing data, failed sources or the research itself.' });
         // Not a data pull: it tells the reader the research is done and the
         // wait that follows is the write-up, not a stalled tool.
         emit({ type: 'status', text: policy.story ? `Writing the ${policy.company.symbol} story` : `Writing the ${policy.company.symbol} report` });
@@ -2628,4 +2701,4 @@ async function recordUse(userId) {
 // `watchdog` loads this module while it is initializing; replacing
 // `module.exports` here would leave watchdog holding a stale partial object and
 // emit repeated "healthChecksFromData" circular-dependency warnings at runtime.
-Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });
+Object.assign(module.exports, { freshness, ask, getUsage, hasEverUsed, recordUse, saveExchange, recentHistory, threadHistory, loadMemories, toolRemember, toolViewImage, toolReadDocument, limits, TOOLS, runTool, screenRows, screenArgsFromClient, resolveScreenAnchor, similarityDistance, sectorList, metricsFor, redFlagsFor, makeRoundStreamer, ASK_SYSTEM, frameworkApplies, reportCacheKey, FRAMEWORK_ANALYST, FRAMEWORK_NORMAL, __setDeps, __resetDeps, loadFund, loadFundAny, healthChecksFromData, buildScreenIndex, revCagrFromData, warmPeerContext, toolSearchFilings });

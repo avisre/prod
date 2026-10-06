@@ -79,7 +79,7 @@ function expand(result){
 }
 function defaults(symbol,statement,basis){
  const company=require('./stock-universe').lookup(symbol),raw=require('./fundamentals-cache').loadRawFundamentals(symbol)?.overview || {};
- const profile=require('./ask-industry-profile').profile(raw.Industry,raw.Sector || company?.sector);
+ const profile=require('./ask-industry-profile').profile(raw.Industry,raw.Sector || company?.sector,require('./ask-industry-profile').sicFor(symbol));
  const bank=profile.archetype==='bank', financial=['bank','insurer','capital-markets'].includes(profile.archetype);
  const fields=statement==='income'?['totalRevenue','netIncome',...(bank?['netInterestIncome','nonInterestIncome']:['grossProfit','operatingIncome','researchAndDevelopment'])]
   :statement==='balance'?['totalAssets','totalShareholderEquity','shortLongTermDebtTotal','longTermDebt','shortTermDebt','cashAndCashEquivalentsAtCarryingValue']
