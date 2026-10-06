@@ -8923,6 +8923,19 @@ app.get('/api/health', (req, res) => {
     res.status(dbConnected ? 200 : 503).json({ ok: dbConnected });
 });
 
+// Are prices (daily) and SEC statements (weekly) on this server as fresh as
+// their schedules promise? Dates and counts only; 503 when either is stale so
+// an uptime monitor can alert on it. `node scripts/check-data-freshness.js`
+// reads this.
+app.get('/api/health/data', (req, res) => {
+    try {
+        const verdict = require('./data-freshness').current();
+        res.set('Cache-Control', 'no-store').status(verdict.ok ? 200 : 503).json(verdict);
+    } catch (_) {
+        res.status(500).json({ status: 'stale', ok: false, reasons: ['freshness check could not read the data files'] });
+    }
+});
+
 // ----- Portfolio routes (used by the Dashboard tracker) -----
 function portfolioOwnerId(req) {
     return req.userId;
