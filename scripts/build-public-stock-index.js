@@ -7,9 +7,14 @@ const {content}=require('../backend/public-stock-content');
 const adapter=require('../backend/verified-fundamentals');
 const {loadRawFundamentals}=require('../backend/fundamentals-cache');
 function read(file,fallback){try{return JSON.parse(fs.readFileSync(file,'utf8'));}catch(e){if(e.code==='ENOENT')return fallback;throw e;}}
-function build({asOf=p.day(new Date().toISOString()),write=true}={}) {
+function build({asOf,write=true}={}) {
  const directoryRaw=fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8');
  const directory=JSON.parse(directoryRaw),report=read(path.join(p.DATA_DIR,'sec-reporting.json'),{schemaVersion:1,issuers:{}});
+ // The dataset is dated by the reconciliation cycle that checked its issuers,
+ // not by the day the index happens to be rebuilt: the deploy gate requires
+ // every issuer to have been checked in the index's own cycle, so a daily
+ // price refresh stamped with today's date could never be deployed.
+ asOf=asOf || p.day(report.asOf) || p.day(new Date().toISOString());
  const rates=read(path.join(p.DATA_DIR,'sec-fx.json'),{rates:{}}).rates;
  const previous=read(path.join(p.DATA_DIR,'public-stock-index.json'),null);
  const issuers={},securities=[],rows=[],marketDigests=[],priceDigests=[];const oldSecurities=new Map((previous?.securities || []).map(s=>[s.symbol,s]));
