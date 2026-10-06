@@ -47,6 +47,27 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Ask context budget: lean model view, no process talk — 2026-10-06 (third release)
+
+- Owner report after release two: Visa and HOOD answers listed "exceeded the research context budget" for
+  segments, key points, filing diff, peers, even the quote, plus a "Gaps I could not source" section and a
+  recency preamble. **Root cause, measured on the live data path:** each statement/ratio result is 17–36 KB
+  (per-fact source records, reportEvidence refs, per-gap sourcesAttempted, provider audit trail); the nine
+  non-narrative pulls total 127–216 KB against a 160 KB budget, so later pulls were rejected whole. The backup
+  (pre-`8d8e0a56`) returned a ~1–2 KB table per statement and had no budget.
+- **Why local testing missed it:** read-only mode (`SEC_COVERAGE_READ_ONLY`/`DISABLE_ON_DEMAND`) uses
+  `loadFund`; production uses `verified-fundamentals.getCompanyEvidence`, which returns far larger results.
+  **Always test Ask on the online path**: scratch probes run with both flags unset and every write under
+  `frontend/data` blocked by an fs guard (no Mongo). Model calls only in the full-answer probe.
+- **Fix:** `ask-report-evidence.forModel(tool,result,remaining)` sends the model a lean view (values, periods,
+  table, short gap notes, minimal provider rows) and returns the FULL record as `supplied` for the audit.
+  Nine pulls now send 23–39 KB (18 companies measured), leaving ~95–108 KB for filing text and extras.
+- **Owner rule:** the reader never hears about our research. Prompt rule NO PROCESS TALK + deterministic
+  `stripProcessTalk` in `normalizeDraft` remove gap sections, recency notes and budget/tool sentences.
+  A part with no evidence is left out; "n/a" only with a business reason.
+- Open data faults seen while measuring (not fixed): XOM and TSM have no verified annual ratio history; segment
+  extraction fails for XOM/JPM/WMT/PFE/GOOGL in the probe (may be throttling without Mongo — check live).
+
 ## Ask detail restore, live progress, screener fixes — 2026-10-06 (second release)
 
 - Compared with the owner's backup (`~/Downloads/prod-main.zip`, main just before `8d8e0a56`): the old engine

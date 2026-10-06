@@ -52,7 +52,7 @@ test('full reports preload required evidence once, supplement gaps, then draft f
  const policy=p.select('AMD'), required=p.missingResearch(policy,[]);let calls=0,supplements=0;
  engine.__setDeps({chatRaw:async(messages)=>{
   calls++;
-  if(calls===1){const supplied=messages.filter(m=>m.role==='tool').map(m=>JSON.parse(m.content));assert.ok(supplied.some(r=>r.statement==='income'));assert.ok(supplied.some(r=>r.sourceAttempts?.some(a=>a.source==='Yahoo Finance')));return {tool_calls:required.map((r,i)=>tc('r'+i,r.tool,r.args))};}
+  if(calls===1){const supplied=messages.filter(m=>m.role==='tool').map(m=>JSON.parse(m.content));assert.ok(supplied.some(r=>r.statement==='income'));/* source attempts stay with the engine (asserted on quality below), not in the model's view */return {tool_calls:required.map((r,i)=>tc('r'+i,r.tool,r.args))};}
   return {content:'The requested company history is unavailable. The source outage prevents a full supported report.'};
  },runTool:async(tool,args)=>{
   if(tool==='get_supplemental_context'){supplements++;return {symbol:'AMD',sourceAttempts:[{source:'Yahoo Finance',status:'retrieval_failed'}],remainingGaps:[{field:'totalRevenue',state:'retrieval_failed',reason:'Provider outage'}]};}

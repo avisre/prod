@@ -150,3 +150,60 @@ test('the quote tool supplies provider valuation again, dated separately from th
     assert.match(source, /const pv = provider\.valuation\(symbol, \{ perShareAllowed \}\);/);
     assert.doesNotMatch(source, /const pv = null;/);
 });
+
+// The owner's rule (2026-10-06): the reader never hears about our research.
+test('gap sections, recency notes and research-process sentences never reach the reader', () => {
+    const draft = [
+        '# Visa Inc. (V) — company report',
+        '',
+        'Recency note first: the quarterly figures below run through the quarter ended 31 March 2026. A later 10-Q could not be extracted within this session\'s research budget.',
+        '',
+        '## 2. Business segments',
+        '',
+        'Segment-level revenue detail could not be retrieved within the research context budget, so no segment table is included. Visa reports as one operating segment in its filings.',
+        '',
+        '## 6. Key risks',
+        '',
+        '| Risk | Detail |',
+        '|---|---|',
+        '| Litigation exposure | Not retrievable this session — the filing-narrative tools exceeded the research context budget |',
+        '| Consumer spending | Revenue is a direct function of payment volumes |',
+        '',
+        '## 8. Gaps I could not source',
+        '',
+        'Segment revenue, filing-change diff and peer context all exceeded the research context budget. Capex has no verified SEC fact.',
+        '',
+        '**The read** — A strong network business. Those are exactly the angles this session\'s budget couldn\'t retrieve.',
+        '',
+        '> Next: What growth does the valuation imply?'
+    ].join('\n');
+    const out = q.stripProcessTalk(draft);
+    assert.doesNotMatch(out, /budget|this session|Recency note|Gaps I could not|could not be retrieved|Not retrievable|exceeded/i);
+    assert.match(out, /Visa reports as one operating segment in its filings\./);
+    assert.match(out, /\| Consumer spending \| Revenue is a direct function of payment volumes \|/);
+    assert.match(out, /\*\*The read\*\* — A strong network business\./);
+    assert.match(out, /> Next: What growth does the valuation imply\?/);
+    const clean = '## 3. Recent quarters\n\nRevenue rose 17% year on year.\n\n**The read** — Steady growth.';
+    assert.equal(q.stripProcessTalk(clean), clean);
+});
+
+test('the model is sent values and tables, while the check keeps the full source record', () => {
+    const re = require('../ask-report-evidence');
+    const fld = (value, id) => ({ periodStart: '2024-10-01', periodEnd: '2025-09-30', currency: 'USD', unit: 'USD', scope: 'entity', value, sourceIds: [id] });
+    const full = { symbol: 'V', statement: 'income', basis: 'annual (fiscal years)', currency: 'USD', table: 'period_end|totalRevenue\n2025-09-30|40000',
+        coverage: { financialCoverage: 'ready', perShareAllowed: true, remainingGaps: [{ field: 'grossProfit', basis: 'annual', state: 'missing', reason: 'Insufficient compatible reported periods', sourcesAttempted: [{ source: 'SEC', status: 'success' }] }], sourceAttempts: [{ source: 'SEC', status: 'success' }] },
+        freshness: { lastAttemptAt: 'x' }, provenance: { sources: { a1: { concept: 'Revenues', accessionNumber: '0001' } } },
+        observations: [{ periodEnd: '2025-09-30', periodStart: '2024-10-01', currency: 'USD', fields: { totalRevenue: fld(40000000000, 'a1') } }],
+        supplementalObservations: [{ state: 'available', field: 'grossProfit', value: 1, currency: 'USD', unit: 'USD', periodEnd: '2025-09-30', basis: 'annual', accountingBasis: 'provider-reported', sourceName: 'Yahoo Finance', publicationDate: '2026-10-05', definition: 'long text', issuer: '0001403161', sourceIds: ['y1'], verificationMethod: 'x' }] };
+    const { content, supplied } = re.forModel('get_financials', full, 64 * 1024);
+    const sent = JSON.parse(content);
+    assert.equal(sent.observations[0].fields.totalRevenue, 40000000000);
+    assert.equal(sent.table, full.table);
+    assert.ok(!('provenance' in sent) && !('freshness' in sent));
+    assert.ok(!JSON.stringify(sent).includes('sourcesAttempted'));
+    assert.deepEqual(Object.keys(sent.supplementalObservations[0]).sort(), ['accountingBasis', 'basis', 'currency', 'field', 'periodEnd', 'publicationDate', 'sourceName', 'unit', 'value']);
+    assert.ok(Buffer.byteLength(content) < Buffer.byteLength(JSON.stringify(full)) * 0.7);
+    // The engine's copy is untouched, so every figure is still checked against its source.
+    assert.deepEqual(supplied.observations[0].fields.totalRevenue.sourceIds, ['a1']);
+    assert.ok(supplied.provenance.sources.a1);
+});

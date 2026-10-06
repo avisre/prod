@@ -1031,8 +1031,40 @@ function salvage(text, results, options = {}) {
 
 // The renderer and the coverage check key on the bold marker; a model that
 // follows the numbered format sometimes writes part 8 as a heading instead.
+// The reader asked about a company. A paragraph about our research budget, the
+// tools that ran, or what "could not be sourced this session" is our problem
+// leaking into their answer, so it is removed whatever the model was told:
+// a whole "gaps" section, an opening recency note, and any sentence, bullet or
+// table row that talks about the research itself.
+const PROCESS_HEADING = /^#{1,4}[ \t]*(?:\d+\.[ \t]*)?[^\n]*\b(?:gaps?|could ?n[o']t (?:be )?sourced?|couldn['’]t source|not sourced|what i could ?n[o'’]t|data (?:gaps|limitations|availability)|limitations|caveats?|sources? not found)\b[^\n]*$/i;
+const PROCESS_TALK = /\b(?:research (?:context )?budget|context budget|this session|within (?:this|the) session|could ?n[o']t be (?:retrieved|extracted|sourced)|couldn['’]t (?:be )?(?:retrieve|extract|source)\w*|not retrievable|(?:tool|tools) (?:exceeded|was busy|were busy|failed|returned)|exceeded the (?:research|context)|i (?:could ?n[o']t|couldn['’]t|can['’]t|cannot) (?:retrieve|extract|source|report|say|pull)|was unavailable this|no verified sec facts?|not sec[- ]verified facts? (?:were|was) (?:extractable|available))\b/i;
+function stripProcessTalk(text) {
+    const parts = String(text || '').split(/(```[\s\S]*?```)/);
+    let skipping = false;
+    const cleaned = parts.map(segment => {
+        if (segment.startsWith('```')) return skipping ? '' : segment;
+        const out = [];
+        for (const line of segment.split('\n')) {
+            const heading = /^#{1,4}\s/.test(line), closing = /^\*\*The read\*\*/i.test(line.trim()) || /^>\s*Next:/i.test(line.trim()) || /^SEC sources:/i.test(line.trim());
+            if (heading) skipping = PROCESS_HEADING.test(line);
+            else if (closing) skipping = false;
+            if (skipping) continue;
+            if (/^\s*(?:>\s*)?(?:\*\*)?(?:a note on recency|recency note)\b/i.test(line)) continue;
+            if (!PROCESS_TALK.test(line)) { out.push(line); continue; }
+            if (/^\s*\|/.test(line) || /^\s*(?:[-*+]|\d+\.)\s/.test(line)) continue;
+            if (/^>\s*Next:/i.test(line.trim()) || /^SEC sources:/i.test(line.trim())) { out.push(line); continue; }
+            // Prose: drop only the sentences that talk about the research.
+            const lead = (line.match(/^\s*\*\*The read\*\*\s*[—–-]?\s*/i) || [''])[0];
+            const kept = line.slice(lead.length).split(/(?<=[.!?])\s+(?=[A-Z“"'(])/).filter(sentence => !PROCESS_TALK.test(sentence)).join(' ').trim();
+            if (kept) out.push(lead + kept);
+        }
+        return out.join('\n');
+    }).join('');
+    return dropEmptyHeadings(cleaned).replace(/\n{3,}/g, '\n\n').trim();
+}
+
 function normalizeDraft(text) {
-    return normalizeFacetedViz(String(text || '').replace(/^#{1,4}\s*(?:8\.\s*)?The read\s*\n+(?:\*\*The read\*\*\s*[—–-]?\s*)?/mi, '**The read** — '));
+    return normalizeFacetedViz(stripProcessTalk(text).replace(/^#{1,4}\s*(?:8\.\s*)?The read\s*\n+(?:\*\*The read\*\*\s*[—–-]?\s*)?/mi, '**The read** — '));
 }
 
 function requestedPeriodCount(question) {
@@ -1594,4 +1626,4 @@ function appendSegmentSankey(lines, results, question) {
     }
 }
 
-module.exports = { audit, salvage, normalizeDraft, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };
+module.exports = { audit, salvage, normalizeDraft, stripProcessTalk, chartEvidence, normalizeFacetedViz, numericClaims, wordCount, wordLimit, fallback, companyReportFallback, segmentEvidence, verifiedSegmentEvidence, filingNarrativeEvidence, disclosureCategory, issuerDisclosureEvidence, appendDisclosureSummary };

@@ -118,4 +118,84 @@ function serialize(result,remaining){
  }
  return evidence.serializeResult(packed,remaining);
 }
-module.exports={compact,expand,defaults,boundNarrative,serialize,CONTEXT_RESERVE_BYTES};
+// What the model reads versus what the answer check needs are different things.
+// A statement result carries a source record, period, unit and scope for every
+// figure, the list of sources tried for every gap, and provider rows with their
+// full audit trail — 17–26 KB each on the live data path, six of them per
+// report. Measured on Visa (2026-10-06): those six used 116 KB of the 160 KB
+// budget, so segments, business text and filing changes were rejected as "over
+// budget" and the answer listed them as gaps. The model only ever reads the
+// values, the periods and the table, so that is all it is sent; the full
+// record stays with the engine, where the audit resolves every claim.
+const SUPPLEMENT_KEYS=['field','value','currency','unit','periodEnd','basis','accountingBasis','sourceName','sourceUrl','publicationDate','sourceDataDate'];
+const scalars=o=>Object.fromEntries(Object.entries(o || {}).filter(([,v])=>v!==undefined && (v===null || typeof v!=='object')));
+const supplements=list=>(Array.isArray(list)?list:[]).filter(f=>f && f.state==='available').map(f=>Object.fromEntries(SUPPLEMENT_KEYS.filter(k=>f[k]!==undefined && f[k]!==null).map(k=>[k,f[k]])));
+function coverageView(c){
+ if(!c || typeof c!=='object')return undefined;
+ const gaps=[...new Map((Array.isArray(c.remainingGaps)?c.remainingGaps:[]).map(g=>[[g.field,g.basis].join('|'),{field:g.field,basis:g.basis,reason:g.reason || g.state}])).values()].slice(0,10);
+ return {financialCoverage:c.financialCoverage,perShareAllowed:c.perShareAllowed,
+  ...(c.latestAnnual?{latestAnnual:{form:c.latestAnnual.form,filingDate:c.latestAnnual.filingDate,reportDate:c.latestAnnual.reportDate}}:{}),
+  ...(c.missingReason?{missingReason:c.missingReason}:{}),...(gaps.length?{remainingGaps:gaps}:{})};
+}
+function comparisonView(c){
+ if(!c || typeof c!=='object')return c;
+ const side=s=>s && typeof s==='object'?{periodEnd:s.periodEnd,...(s.missingReason?{missingReason:s.missingReason}:{}),
+  changePct:Object.fromEntries(Object.entries(s.metrics || {}).filter(([,m])=>m && m.changePct!==null && m.changePct!==undefined).map(([k,m])=>[k,Number(Number(m.changePct).toFixed(2))]))}:undefined;
+ return {periodEnd:c.periodEnd,...(c.yoy?{yoy:side(c.yoy)}:{}),...(c.qoq?{qoq:side(c.qoq)}:{})};
+}
+function modelView(tool,full){
+ if(!full || typeof full!=='object')return full;
+ // A statement with no filed history still arrives with a full provider trail
+ // and gap log (Exxon's annual statements: 22–36 KB each with no observations).
+ if((tool==='get_financials' || tool==='get_ratios_history') && !Array.isArray(full.observations)){
+  const {provenance,freshness,coverage,reportEvidence,sourceAttempts,verifiedObservations,...rest}=full;
+  return {...rest,...(coverage?{coverage:coverageView(coverage)}:{}),
+   ...(Array.isArray(full.supplementalObservations)?{supplementalObservations:supplements(full.supplementalObservations)}:{})};
+ }
+ if(full.error)return full;
+ if(tool==='get_financials' && Array.isArray(full.observations)){
+  const {provenance,freshness,coverage,reportEvidence,latestPeriodAgeDays,...rest}=full;
+  return {...rest,coverage:coverageView(coverage),
+   observations:full.observations.map(o=>({periodEnd:o.periodEnd,periodStart:o.periodStart,currency:o.currency,
+    fields:Object.fromEntries(Object.entries(o.fields || {}).map(([k,f])=>[k,f && typeof f==='object'?f.value ?? null:f]))})),
+   comparisons:comparisonView(full.comparisons),
+   calculations:(full.calculations || []).filter(c=>c && c.value!==null && c.value!==undefined).map(scalars),
+   capitalReturns:(full.capitalReturns || []).filter(c=>c && (c.totalDistributions!==null && c.totalDistributions!==undefined || c.freeCashflow!==null && c.freeCashflow!==undefined)).map(scalars),
+   supplementalObservations:supplements(full.supplementalObservations),
+   industryObservations:(full.industryObservations || []).map(scalars)};
+ }
+ if(tool==='get_ratios_history' && Array.isArray(full.observations)){
+  const {provenance,coverage,reportEvidence,...rest}=full;
+  return {...rest,coverage:coverageView(coverage),
+   observations:full.observations.map(o=>({periodEnd:o.periodEnd,currency:o.currency,
+    metrics:Object.fromEntries(Object.entries(o.metrics || {}).map(([k,m])=>[k,m && typeof m==='object'?m.value ?? null:m]))}))};
+ }
+ if(tool==='get_quote'){
+  const {coverage,provenance,epsObservation,marketObservations,reportEvidence,...rest}=full;
+  return {...rest,coverage:coverageView(coverage)};
+ }
+ if(tool==='get_segments'){
+  const {storedSegmentsReceipt,financialWitness,observations,provenance,reportEvidence,...rest}=full;
+  return rest;
+ }
+ if(tool==='get_supplemental_context'){
+  const {provenance,reportEvidence,coverage,sourceAttempts,...rest}=full;
+  return {...rest,...(coverage?{coverage:coverageView(coverage)}:{}),
+   ...(Array.isArray(full.supplementalObservations)?{supplementalObservations:supplements(full.supplementalObservations)}:{}),
+   ...(Array.isArray(full.remainingGaps)?{remainingGaps:full.remainingGaps.map(g=>({field:g.field,section:g.section,basis:g.basis,reason:g.reason || g.state})).slice(0,10)}:{})};
+ }
+ return full;
+}
+// content is what the model is sent; supplied is what the engine checks claims
+// against. For the tools with a lean view that is the full record; for the
+// rest it is exactly what was sent, as before.
+// report: a company report shares one budget across eleven pulls, so its
+// excerpts are shortened to fit; a focused question keeps a page it fetched whole.
+function forModel(tool,result,remaining,{report=true}={}){
+ const full=expand(result),view=modelView(tool,full),lean=view!==full;
+ const content=lean || !report?require('./ask-evidence').serializeResult(lean?view:result,remaining):serialize(result,remaining);
+ const parsed=JSON.parse(content);
+ if(parsed && parsed.code==='TOOL_CONTEXT_LIMIT')return {content,supplied:parsed};
+ return {content,supplied:lean?full:expand(parsed)};
+}
+module.exports={compact,expand,defaults,boundNarrative,serialize,modelView,forModel,CONTEXT_RESERVE_BYTES};

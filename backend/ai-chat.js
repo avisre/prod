@@ -1982,15 +1982,16 @@ const FULL_REPORT = [
     'Give the full company picture. Both modes may use up to 1,600 prose words, plus tables and visuals. Choose the length useful for this company without a preset target or minimum. A requested shorter answer uses its strict limit. When a bounded source search leaves real gaps, a shorter supported report is appropriate.',
     'For an open-ended report, the engine retrieves required statement, ratio, peer, segment, quote, filing-context and filing-change evidence before drafting. Reuse supplied results; do not request them again. For an explicit user word limit, match the research depth to the requested scope. Use other tools only for a specific unresolved question, and do not repeat an unsuccessful source check.',
     'Before writing, inspect coverage and remainingGaps. Request get_supplemental_context for missing fields, periods or business sections. The shared resolver checks SEC filings, original issuer releases and Yahoo Finance. For remaining narrative gaps, use original issuer documents or accessible reputable articles within the existing search/page budgets. Search snippets, forums and remembered figures are not financial evidence. Explain specific gaps only after bounded retrieval.',
-    'REPORT FORMAT — every company report has these eight parts, in this order, each under its own heading. Prefer tables to paragraphs; keep prose between tables to a few sentences. A part whose evidence was not retrieved keeps its heading and says in one line what is missing and why — never drop a part and never fill it from memory.',
+    'REPORT FORMAT — every company report has these eight parts, in this order, each under its own heading. Prefer tables to paragraphs; keep prose between tables to a few sentences. Never fill a part from memory.',
+    'NO PROCESS TALK — the reader asked about the company, not about this research. Never write a section, note, table row or sentence about gaps, what could not be sourced, retrieved or extracted, tools, budgets, sessions, context limits or data availability, and never open with a recency, freshness or caveat note. A part with no supplied evidence is left out entirely — no heading, no apology, no list of what is missing. State each period by its date and let the dates speak; do not explain how recent the data is. A single metric with a business reason for being absent may read "n/a" with that reason (negative earnings, no dividend paid) — never a retrieval reason; a metric that was simply not supplied is left out of the table.',
     '1. What the company does — two to four plain sentences: what it sells, to whom, and why it matters now.',
     '2. Business segments — one sub-heading per reported segment with its revenue and share of total revenue from get_segments, written with the plain segment name rather than the XBRL member id. Use the reported segment values even when no Sankey is eligible; when segments overlap or include internal sales, say so instead of adding them up. Under each segment, a Markdown table (Product line | What it makes | Who buys it or why it matters) built from get_key_points — its dossier lists the product lines, platforms, customers and competitors, and its original excerpts carry the wording of the filing itself. Give one row per product line the filing names, usually three to six per segment — a table, not bullets or a paragraph. A dossier figure may be stated only when it appears in dossier.verifiedFigures. Name a customer only when the filing or a cited source names it.',
     '3. Recent quarters — a table of the four latest quarters, newest first: revenue, gross margin, operating margin, net income (or the industry equivalents). One line on the direction.',
     '4. Annual trend — a five-year table and the annual trend chart. One sentence for any year that breaks the pattern, with its cause only when the filing context states it.',
     '5. What makes it different — a Factor | Detail table of the company\'s distinguishing features, including scale facts the evidence supplies (revenue, employees, market value, peer standing).',
     '6. Key risks — a Risk | Detail table. Put the filing\'s own number in the detail wherever it gives one (customer concentration, debt, supplier dependence, regulation).',
-    '7. Valuation snapshot — a Metric | Value table from get_quote: market cap, trailing P/E and 52-week range with the quote date, then forward P/E, EV/EBITDA and dividend yield from its providerValuation block, each row naming that provider and its own asOf date. A metric the quote does not supply is listed as "n/a" with the reason (for example negative earnings); it is never estimated.',
-    '8. The read — no heading and nothing after it but the question: one paragraph that begins exactly "**The read** — " and ties the business, the numbers and the valuation together, then one > Next: question. Do not add a ninth part.',
+    '7. Valuation snapshot — a Metric | Value table from get_quote: market cap, trailing P/E and 52-week range with the quote date, then forward P/E, EV/EBITDA and dividend yield from its providerValuation block, each row naming that provider and its own asOf date. A metric with a business reason for being absent reads "n/a" with that reason (for example negative earnings); one that was not supplied is left out; none is ever estimated.',
+    '8. The read — no heading and nothing after it but the question: one paragraph that begins exactly "**The read** — " and ties the business, the numbers and the valuation together, then one > Next: question. Do not add a ninth part, and never a part about gaps or sources not found.',
     'In every financial table, label each period with its fiscal period-end date in YYYY-MM-DD form (for example "FY2025 (2025-12-27)"), keep periods in order, and state units. Use get_peer_context.industryProfile to choose metrics and get_ratios_history to quote printed ratios exactly. Quarter margins come from the supplied quarterly ratios. Table figures remain useful alongside a trend chart of the same history: the table gives precise values and the visual shows change.',
     'VISUAL FREEDOM: choose and arrange meaningful line charts, bars, faceted bars, eligible Sankeys and tables yourself. Include an annual trend visualization whenever compatible annual history exists. Additional visuals are your choice when they improve understanding. Do not force a fixed chart type or layout. Preserve gaps, signed values and comparable periods. When scales span more than about 10x it is a faceted bars block if those metrics are compared together; a line chart cannot facet. A Sankey requires eligible reconciliation, not an invented total.',
     'Keep GAAP, adjusted, fiscal/calendar periods and currencies distinct. Attribute supplemental observations with their source and date; never describe provider figures as SEC-verified. A provider chart uses one compatible source series and names its provider and data date. A reported zero is different from missing data.',
@@ -2226,8 +2227,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         };
         const supply = ({ tool, args, result, ms }) => {
             const reportEvidence = require('./ask-report-evidence');
-            const content = reportEvidence.serialize(result, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
-            const supplied = require('./ask-report-evidence').expand(JSON.parse(content));
+            const { content, supplied } = reportEvidence.forModel(tool, result, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
             suppliedResults.push({ tool, result: supplied });
             preparedReportEvidence.push({ tool, args, result: supplied });
             contextBytes += Buffer.byteLength(content);
@@ -2366,11 +2366,11 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                     // every tool_call_id still needs a response when full.
                     const remaining = evidence.MAX_CONTEXT_BYTES - (policy.kind==='company_report' && !policy.explicitWordLimit
                         ? require('./ask-report-evidence').CONTEXT_RESERVE_BYTES : 32*1024) - contextBytes;
-                    const content = reused
-                        ? JSON.stringify(result)
-                        : policy.kind==='company_report' && !policy.explicitWordLimit
-                            ? require('./ask-report-evidence').serialize(result, remaining) : evidence.serializeResult(result, remaining);
-                    const supplied = reused ? result : require('./ask-report-evidence').expand(JSON.parse(content));
+                    // Every question gets the lean view: a focused follow-up pulls
+                    // the same statements a report does.
+                    const prepared = reused ? null : require('./ask-report-evidence').forModel(tc.function.name, result, remaining, { report: policy.kind === 'company_report' && !policy.explicitWordLimit });
+                    const content = prepared ? prepared.content : JSON.stringify(result);
+                    const supplied = prepared ? prepared.supplied : result;
                     suppliedResults.push({ tool: tc.function.name, result: supplied });
                     if (!policy.company && supplied.symbol) {
                         const company = stockUniverse.lookup(supplied.symbol) || (['etf','mutual_fund','closed_end_fund'].includes(supplied.assetType) ? {symbol:supplied.symbol,name:supplied.name,securityType:supplied.assetType} : null);
@@ -2447,8 +2447,8 @@ async function ask({ question, history, ctx, mode, onEvent }) {
                 try { result = await deps.runTool('get_supplemental_context', supplemental, ctx); }
                 catch (error) { result = evidence.toolError(error); }
                 const reportEvidence = require('./ask-report-evidence');
-                const content = reportEvidence.serialize(result || { error: 'Supplemental retrieval returned no evidence.' }, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
-                const supplied = require('./ask-report-evidence').expand(JSON.parse(content)), id = 'report-supplement';
+                const { content, supplied } = reportEvidence.forModel('get_supplemental_context', result || { error: 'Supplemental retrieval returned no evidence.' }, evidence.MAX_CONTEXT_BYTES - reportEvidence.CONTEXT_RESERVE_BYTES - contextBytes);
+                const id = 'report-supplement';
                 suppliedResults.push({ tool: 'get_supplemental_context', result: supplied });
                 contextBytes += Buffer.byteLength(content);
                 sourceLinks.push(...evidence.filingLinks(supplied));
