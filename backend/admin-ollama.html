@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Ollama usage · StockPortfolio.pro</title>
   <style>
-    :root{color-scheme:light;--ink:#172033;--muted:#64748b;--line:#e2e8f0;--panel:#fff;--bg:#f6f8fb;--blue:#2563eb;--green:#059669;--red:#dc2626}
+    :root{color-scheme:light;--ink:#1c1b18;--muted:#726e65;--line:#e8e6e0;--panel:#fff;--bg:#faf9f6;--blue:#1c1b18;--green:#059669;--red:#dc2626}
     *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
     main{max-width:1240px;margin:auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:0 0 12px;font-size:18px}.muted{color:var(--muted)}
     .top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap}.controls{display:flex;gap:8px;align-items:center}.controls select,.controls button{border:1px solid var(--line);border-radius:8px;background:#fff;padding:8px 10px;font:inherit}.controls button{cursor:pointer;color:var(--blue)}
-    .status{margin:18px 0;padding:10px 12px;border-radius:8px;background:#eef2ff;color:#3730a3}.status.live{background:#ecfdf5;color:#047857}.status.error{background:#fef2f2;color:#b91c1c}
+    .status{margin:18px 0;padding:10px 12px;border-radius:8px;background:#f1efe9;color:#1c1b18}.status.live{background:#ecfdf5;color:#047857}.status.error{background:#fef2f2;color:#b91c1c}
     .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}.card,.panel{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.05em}.card strong{display:block;font-size:28px;margin:3px 0}.card small{color:var(--muted)}.panel{padding:16px;margin-top:16px;overflow:auto}
-    table{border-collapse:collapse;width:100%;min-width:760px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{font-size:11px;text-transform:uppercase;color:var(--muted)}.active{color:var(--blue);font-weight:700}.ok{color:var(--green)}.bad{color:var(--red)}.pill{display:inline-block;border-radius:999px;padding:2px 8px;background:#eef2ff;color:#3730a3;font-size:12px}.empty{color:var(--muted);padding:20px 0}.note{margin-top:14px;color:var(--muted);font-size:12px}
+    table{border-collapse:collapse;width:100%;min-width:760px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{font-size:11px;text-transform:uppercase;color:var(--muted)}.active{color:var(--blue);font-weight:700}.ok{color:var(--green)}.bad{color:var(--red)}.pill{display:inline-block;border-radius:999px;padding:2px 8px;background:#f1efe9;color:#1c1b18;font-size:12px}.empty{color:var(--muted);padding:20px 0}.note{margin-top:14px;color:var(--muted);font-size:12px}
     @media(max-width:700px){main{padding:20px 12px}.top{display:block}.controls{margin-top:12px;flex-wrap:wrap}}
   </style>
 </head>

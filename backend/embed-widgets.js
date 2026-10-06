@@ -43,30 +43,30 @@ function compactUsd(value) {
 const CSS = `
 :root{color-scheme:light}
 *{box-sizing:border-box}
-body{margin:0;background:#f8fafc;color:#0f172a;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{margin:0;background:#f8fafc;color:#1c1b18;font:15px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .wrap{padding:12px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;overflow:hidden;max-width:640px}
+.card{background:#fff;border:1px solid #e8e6e0;border-radius:14px;overflow:hidden;max-width:640px}
 .head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:14px 16px 0}
 .sym{font-size:19px;font-weight:700;letter-spacing:-.01em}
-.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#64748b;font-weight:600}
-.period{margin-left:auto;font-size:12.5px;color:#64748b}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:#e2e8f0;border-top:1px solid #e2e8f0;margin-top:12px}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#726e65;font-weight:600}
+.period{margin-left:auto;font-size:12.5px;color:#726e65}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1px;background:#e8e6e0;border-top:1px solid #e8e6e0;margin-top:12px}
 .cell{background:#fff;padding:11px 14px}
-.cell span{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:600}
+.cell span{display:block;font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:#726e65;font-weight:600}
 .cell strong{display:block;font-size:18px;font-variant-numeric:tabular-nums;margin-top:3px}
-.verdict{padding:11px 16px;font-size:13.5px;color:#334155;border-top:1px solid #e2e8f0;background:#f8fafc}
-table{border-collapse:collapse;width:100%;margin-top:12px;border-top:1px solid #e2e8f0}
-th,td{text-align:left;padding:9px 14px;border-bottom:1px solid #eef2f7;font-size:13.5px;vertical-align:top}
-th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:#64748b;font-weight:600}
-td a{color:#1d4ed8;text-decoration:none;font-weight:600}
+.verdict{padding:11px 16px;font-size:13.5px;color:#45423c;border-top:1px solid #e8e6e0;background:#f8fafc}
+table{border-collapse:collapse;width:100%;margin-top:12px;border-top:1px solid #e8e6e0}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid #efede8;font-size:13.5px;vertical-align:top}
+th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:#726e65;font-weight:600}
+td a{color:#1c1b18;text-decoration:underline;text-underline-offset:2px;font-weight:600}
 td a:hover{text-decoration:underline}
-.note{padding:10px 16px;font-size:12.5px;color:#64748b}
-.foot{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid #e2e8f0;background:#f8fafc;font-size:12.5px}
-.foot a{color:#1d4ed8;text-decoration:none;font-weight:600}
+.note{padding:10px 16px;font-size:12.5px;color:#726e65}
+.foot{display:flex;align-items:center;gap:8px;padding:10px 16px;border-top:1px solid #e8e6e0;background:#f8fafc;font-size:12.5px}
+.foot a{color:#1c1b18;text-decoration:underline;text-underline-offset:2px;font-weight:600}
 .foot a:hover{text-decoration:underline}
 .foot .dot{width:6px;height:6px;border-radius:50%;background:#16a34a;flex:none}
 .err{padding:16px;font-size:14px;color:#b91c1c}
-.err a{color:#1d4ed8}
+.err a{color:#1c1b18}
 `.trim();
 
 function shell(bodyHtml) {

@@ -309,9 +309,9 @@ test('multiple rejected attachments each get their error line', () => {
 // ---- Stamps ----
 
 test('asset stamps were bumped together (the ritual that bites twice)', () => {
-    assert.match(askHtml, /assets\/app\.js\?v=20261006-doppel2/);
-    assert.match(askHtml, /assets\/system\.css\?v=20261006-doppel2/);
-    assert.match(profileHtml, /assets\/profile\.js\?v=20260925-creditline1/);   // the AI Paper credit row
+    assert.match(askHtml, /assets\/app\.js\?v=20261007-noblue1/);
+    assert.match(askHtml, /assets\/system\.css\?v=20261007-noblue1/);
+    assert.match(profileHtml, /assets\/profile\.js\?v=20261007-noblue1/);   // the AI Paper credit row
     [askHtml, bundleSource].forEach((src) => assert.doesNotMatch(src, /20260829-askthreads1/));
 });
 // ---- chrome collapsed from three buttons to two (2026-08-30) ----

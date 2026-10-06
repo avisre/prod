@@ -10,10 +10,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261006-doppel2" />
+  <link rel="stylesheet" href="assets/system.css?v=20261007-noblue1" />
   <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
   <style>
-    .pcard { margin-top: 18px; max-width: 720px; }
+    .pcard { margin-top: 18px; }
     .psec + .psec { border-top: 1px solid var(--line); }
     .psec summary {
       display: flex; align-items: baseline; gap: 10px;
@@ -50,7 +50,7 @@
     .credits-seg { height: 100%; min-width: 2px; transition: width .3s ease; }
     .credits-seg + .credits-seg { box-shadow: inset 1px 0 0 var(--surface); }
     .credits-seg-ask { background: var(--ink); }
-    .credits-seg-dossier { background: var(--accent); }
+    .credits-seg-dossier { background: var(--chart-2); }
     .credits-seg-monitor { background: var(--ink-3); }
     .credits-seg-aipaper { background: #8a5f00; }
     .credits-seg-other { background: var(--line-strong); }
@@ -112,6 +112,108 @@
     .admin-links li a strong { font-weight: 650; font-size: var(--text-sm); }
     .admin-links li a span { font-size: var(--text-xs); color: var(--ink-3); text-align: right; }
     .admin-links li a:hover strong { color: var(--accent-ink); }
+    /* Side menu (861px and up). Every section is still a <details>, so the
+       accordion on narrower screens, the #hash deep links and messages.js's
+       lazy load all work as before; the menu only decides which one is open.
+       The card used to stop at 720px inside a 1480px page. */
+    .pmenu, .psec-title { display: none; }
+    .uplan { padding-top: 18px; }
+    .ubreak { margin-top: 18px; }
+    #credits-section { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); }
+    .account-rows { margin: 0; }
+    .account-row { display: grid; grid-template-columns: 130px minmax(0, 1fr) auto; gap: 8px 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .account-row:last-child { border-bottom: 0; }
+    .account-row dt { font-size: var(--text-sm); color: var(--ink-2); }
+    .account-row dd { margin: 0; overflow-wrap: anywhere; color: var(--ink); }
+    @media (max-width: 520px) { .account-row { grid-template-columns: minmax(0, 1fr) auto; } .account-row dt { grid-column: 1 / -1; } }
+    @media (min-width: 861px) {
+      .pgrid { display: grid; grid-template-columns: 236px minmax(0, 1fr); min-height: 540px; }
+      .pmenu { display: flex; flex-direction: column; padding: 10px 0; border-right: 1px solid var(--line); }
+      .pmenu-item { display: block; width: 100%; padding: 11px 18px; border: 0; background: transparent; text-align: left; font: inherit; color: var(--ink); cursor: pointer; }
+      .pmenu-item:hover { background: var(--paper); }
+      .pmenu-item[aria-current='true'] { background: var(--accent-tint); box-shadow: inset 3px 0 0 var(--ink); }
+      .pmenu-name { display: block; font-size: 14.5px; font-weight: 550; }
+      .pmenu-item[aria-current='true'] .pmenu-name { font-weight: 680; }
+      .pmenu-meta { display: block; margin-top: 2px; font-size: 12px; line-height: 1.35; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+      .pmenu-meta:empty { display: none; }
+      .ppane { min-width: 0; }
+      .psec > summary { display: none; }
+      .psec + .psec { border-top: 0; }
+      .psec-body { padding: 30px 36px 36px; border-top: 0; }
+      .psec-body.flush { padding: 30px 0 0; }
+      .psec-title { display: block; margin: 0 0 18px; font-size: 20px; line-height: 1.25; font-weight: 650; letter-spacing: -0.014em; color: var(--ink); }
+      .psec-body.flush > .psec-title { padding: 0 36px; }
+      .psec-foot { padding: 14px 36px; }
+      /* Usage: the meter beside the plan, the breakdown beside the ledger. */
+      .ugrid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); column-gap: 44px; row-gap: 30px; align-items: start; }
+      #credits-section:not([hidden]) { display: contents; }
+      .umeter { grid-column: 1; grid-row: 1; }
+      .uplan { grid-column: 2; grid-row: 1; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); }
+      .ugrid:has(#credits-section[hidden]) .uplan { grid-column: 1 / -1; }
+      .ubreak { grid-column: 1; grid-row: 2; margin-top: 0; padding-top: 26px; border-top: 1px solid var(--line); }
+      #credits-activity-wrap { grid-column: 2; grid-row: 2; padding-top: 26px; border-top: 1px solid var(--line); }
+      .credits-headline { margin-top: 10px; font-size: 32px; }
+      .credits-activity-head { margin-top: 0; }
+      .credits-activity-list { max-height: 420px; }
+      .credits-breakdown { margin-top: 10px; }
+      .settings-fact-list.is-wide { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+      .admin-links { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+      .admin-links li a { flex-direction: column; align-items: flex-start; gap: 4px; padding: 14px 16px; border: 1px solid var(--line); border-radius: var(--radius); }
+      .admin-links li:last-child a { border-bottom: 1px solid var(--line); }
+      .admin-links li a span { text-align: left; }
+    }
+    /* Messages as a reading view: newest first, full width, 17px. A message
+       sent from the broadcast tool is a product update and reads as a short
+       article (title, headings, bullets); older long ones fold. Scoped to this
+       page so the admin console keeps the chat layout in messages.css. */
+    .reading-thread .message-compose { flex-direction: column; gap: 12px; padding: 18px 24px 22px; border-top: 0; border-bottom: 1px solid var(--line); }
+    .reading-thread .message-compose textarea { font-size: 16px; line-height: 1.55; padding: 13px 15px; min-height: 96px; }
+    .reading-thread .compose-row { display: flex; justify-content: flex-end; align-items: center; gap: 14px; }
+    .reading-thread .message-list { min-height: 0; max-height: none; overflow: visible; padding: 0; gap: 0; background: var(--surface); }
+    .reading-thread .message-list > p { margin: 0; padding: 22px 24px; }
+    .reading-thread .message-bubble,
+    .reading-thread .message-bubble.customer,
+    .reading-thread .message-bubble.admin {
+      max-width: 100%; justify-self: stretch; display: grid; grid-template-columns: 40px minmax(0, 72ch); column-gap: 16px; row-gap: 6px;
+      padding: 22px 24px; border-radius: 0; border-bottom: 1px solid var(--line); background: var(--surface); color: var(--ink);
+      font-size: 17px; line-height: 1.65; white-space: normal;
+    }
+    .reading-thread .message-bubble:last-child { border-bottom: 0; }
+    .reading-thread .message-bubble::before { grid-column: 1; grid-row: 1 / span 4; width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; line-height: 1; }
+    .reading-thread .message-bubble.admin::before { content: 'SP'; background: var(--ink); color: var(--paper); }
+    .reading-thread .message-bubble.customer::before { content: 'You'; background: var(--accent-tint); color: var(--ink); }
+    .reading-thread .message-time { grid-column: 2; margin: 0; font-size: 13.5px; line-height: 1.4; font-weight: 600; opacity: 1; color: var(--ink-2); }
+    .reading-thread .message-text { grid-column: 2; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .reading-thread .message-text.is-rich { white-space: normal; }
+    .reading-thread .message-text.is-rich > :first-child { margin-top: 0; }
+    .reading-thread .message-text p { margin: 12px 0 0; font-size: inherit; line-height: inherit; color: inherit; }
+    .reading-thread .message-text h3 { margin: 24px 0 0; font-size: 17px; line-height: 1.35; font-weight: 680; letter-spacing: -0.008em; }
+    .reading-thread .message-text ul { margin: 10px 0 0; padding-left: 22px; display: grid; gap: 6px; }
+    .reading-thread .message-text strong { font-weight: 650; }
+    .reading-thread .message-text a { text-decoration: underline; text-underline-offset: 3px; }
+    .reading-thread .message-pill { grid-column: 2; justify-self: start; padding: 2px 9px; border-radius: 999px; background: var(--accent-tint); color: var(--ink); font-size: 11.5px; line-height: 1.5; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; }
+    .reading-thread .message-title { grid-column: 2; margin: 4px 0 0; font-size: 22px; line-height: 1.25; font-weight: 680; letter-spacing: -0.015em; text-wrap: balance; }
+    .reading-thread .is-folded .message-text { max-height: 5em; overflow: hidden; -webkit-mask-image: linear-gradient(#000 45%, transparent); mask-image: linear-gradient(#000 45%, transparent); }
+    .reading-thread .message-more { grid-column: 2; justify-self: start; margin-top: 2px; padding: 7px 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); font: inherit; font-size: 13.5px; font-weight: 600; color: var(--ink); cursor: pointer; }
+    .reading-thread .message-more:hover { border-color: var(--ink); }
+    .reading-thread .message-actions { grid-column: 2; justify-self: start; margin: 2px 0 0; gap: 14px; }
+    .reading-thread .message-actions button { font-size: 13px; color: var(--ink-3); opacity: 1; }
+    @media (min-width: 861px) {
+      .reading-thread .message-card-head { display: none; }
+      .reading-thread .message-compose { padding: 0 36px 26px; }
+      .reading-thread .message-bubble,
+      .reading-thread .message-bubble.customer,
+      .reading-thread .message-bubble.admin { padding: 24px 36px; }
+      .reading-thread .message-list > p { padding: 24px 36px; }
+    }
+    @media (max-width: 560px) {
+      .reading-thread .message-bubble,
+      .reading-thread .message-bubble.customer,
+      .reading-thread .message-bubble.admin { grid-template-columns: 32px minmax(0, 1fr); column-gap: 12px; padding: 18px 16px; font-size: 16px; }
+      .reading-thread .message-bubble::before { width: 32px; height: 32px; font-size: 10px; }
+      .reading-thread .message-title { font-size: 19px; }
+      .reading-thread .message-compose { padding: 14px 16px 18px; }
+    }
     @media (max-width: 640px) {
       .psec summary { padding: 13px 16px; }
       .psec-meta { max-width: 55%; }
@@ -139,6 +241,21 @@
         </div>
 
         <div class="card pcard">
+         <div class="pgrid">
+
+          <!-- Desktop side menu. profile.js opens the matching <details>,
+               mirrors each row's summary meta here, and hides the rows whose
+               section this account does not have. -->
+          <nav class="pmenu" id="profile-menu" aria-label="Profile sections">
+            <button type="button" class="pmenu-item" data-target="usage-details" data-meta="usage-meta"><span class="pmenu-name">Usage</span><span class="pmenu-meta"></span></button>
+            <button type="button" class="pmenu-item" data-target="apikeys-section" data-meta="apikeys-meta" hidden><span class="pmenu-name">Developer access</span><span class="pmenu-meta"></span></button>
+            <button type="button" class="pmenu-item" data-target="settings-section" data-meta="settings-meta"><span class="pmenu-name">Ask memory</span><span class="pmenu-meta"></span></button>
+            <button type="button" class="pmenu-item" data-target="messages-details" data-meta="v2-message-badge" data-meta-suffix=" new"><span class="pmenu-name">Messages</span><span class="pmenu-meta"></span></button>
+            <button type="button" class="pmenu-item" data-target="account-section" data-meta="account-meta"><span class="pmenu-name">Account</span><span class="pmenu-meta"></span></button>
+            <button type="button" class="pmenu-item" data-target="admin-section" hidden><span class="pmenu-name">Admin</span><span class="pmenu-meta">Owner tools</span></button>
+          </nav>
+
+          <div class="ppane">
 
           <!-- USAGE: plan + credits ledger. Collapsed by default; the summary
                meta is filled by profile.js once the session/credits load. -->
@@ -148,13 +265,18 @@
               <span class="psec-meta small muted" id="usage-meta"></span>
             </summary>
             <div id="plan-status" class="psec-body" hidden>
-              <p class="label" style="padding-top:18px;">Your plan</p>
-              <p class="title-3" id="plan-name" style="margin:6px 0 4px;">&nbsp;</p>
-              <p class="small muted" id="plan-quota" style="margin:0 0 10px;"></p>
-              <p class="small muted" id="plan-includes" style="margin:0;"></p>
-              <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
+              <h2 class="psec-title">Usage</h2>
+             <div class="ugrid">
+              <div class="uplan">
+                <p class="label" style="margin:0;">Your plan</p>
+                <p class="title-3" id="plan-name" style="margin:6px 0 4px;">&nbsp;</p>
+                <p class="small muted" id="plan-quota" style="margin:0 0 10px;"></p>
+                <p class="small muted" id="plan-includes" style="margin:0;"></p>
+                <p class="small" id="plan-upgrade" style="margin:10px 0 0;" hidden></p>
+              </div>
 
-              <div id="credits-section" hidden style="margin-top:18px; padding-top:16px; border-top:1px solid var(--line);">
+              <div id="credits-section" hidden>
+               <div class="umeter">
                 <div class="credits-head">
                   <p class="label" style="margin:0;">AI credits</p>
                   <span class="small muted" id="credits-reset"></span>
@@ -168,12 +290,15 @@
                 <div class="credits-bar-track" id="credits-bar"></div>
 
                 <p class="small credits-low" id="credits-low" hidden></p>
-
-                <table class="credits-breakdown" id="credits-breakdown" hidden></table>
-
                 <p class="small credits-wallet" id="credits-wallet"></p>
                 <p class="small credits-pace" id="credits-pace" hidden></p>
+               </div>
+
+               <div class="ubreak">
+                <p class="label" style="margin:0;">Where it went</p>
+                <table class="credits-breakdown" id="credits-breakdown" hidden></table>
                 <p class="small muted" id="credits-cost-line" style="margin:12px 0 0;"></p>
+               </div>
 
                 <div id="credits-activity-wrap" hidden>
                   <div class="credits-head credits-activity-head">
@@ -184,6 +309,7 @@
                   <button type="button" class="btn btn-ghost btn-sm" id="credits-activity-more" hidden style="margin-top:10px;">Show the whole month</button>
                 </div>
               </div>
+             </div>
             </div>
           </details>
 
@@ -197,7 +323,8 @@
               <span class="psec-meta small muted" id="apikeys-meta"></span>
             </summary>
             <div class="psec-body">
-              <p class="small muted" style="margin:14px 0 0;">API keys for the <a href="/licensing#mcp-api">public REST API and MCP endpoint</a>. Calls spend from this same credit wallet — see "What things cost" above. Once you have a key, the <a href="/docs/api-mcp">setup guide</a> covers Claude, ChatGPT and your own code.</p>
+              <h2 class="psec-title">Developer access</h2>
+              <p class="small muted" style="margin:14px 0 0;">API keys for the <a href="/licensing#mcp-api">public REST API and MCP endpoint</a>. Calls spend from the same credit wallet shown under Usage, where "What things cost" lists the prices. Once you have a key, the <a href="/docs/api-mcp">setup guide</a> covers Claude, ChatGPT and your own code.</p>
 
               <ul class="settings-fact-list" id="apikeys-list" style="margin-top:12px;"></ul>
               <p class="small muted" id="apikeys-empty" style="margin:10px 0 0;">No API keys yet.</p>
@@ -221,10 +348,11 @@
           <!-- SETTINGS: Ask memory. -->
           <details class="psec" id="settings-section">
             <summary>
-              <span class="label">Settings</span>
+              <span class="label">Ask memory</span>
               <span class="psec-meta small muted" id="settings-meta"></span>
             </summary>
-            <div id="settings-card" class="psec-body" hidden aria-label="Settings">
+            <div id="settings-card" class="psec-body" hidden aria-label="Ask memory">
+              <h2 class="psec-title">Ask memory</h2>
               <div style="display:flex; align-items:flex-start; gap:10px; margin-top:0; flex-wrap:wrap;">
                 <input type="checkbox" id="mem-toggle" style="margin-top:2px;" aria-describedby="mem-hint" />
                 <label for="mem-toggle" class="small" style="font-weight:650;">Memory</label>
@@ -233,7 +361,7 @@
 
               <div id="mem-panel" style="margin-top:14px;">
                 <div id="mem-list-wrap">
-                  <ul class="settings-fact-list" id="mem-list"></ul>
+                  <ul class="settings-fact-list is-wide" id="mem-list"></ul>
                 </div>
                 <p class="small muted" id="mem-empty" style="margin:6px 0 0;">Nothing saved yet. Tell Ask something worth remembering in a chat.</p>
                 <div style="display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center;">
@@ -264,13 +392,31 @@
           <details class="psec" id="messages-details">
             <summary>
               <span class="label">Messages</span>
-              <span class="psec-meta small muted" id="message-status" role="status"></span>
+              <span class="psec-meta small muted" id="messages-meta"></span>
             </summary>
-            <div class="psec-body flush">
+            <div class="psec-body flush reading-thread">
+              <h2 class="psec-title">Messages</h2>
               <div class="message-card-head"><div><strong>StockPortfolio.pro</strong><p class="small muted">We&rsquo;ll reply here when we can help.</p></div><span class="small muted"></span></div>
+              <form id="message-form" class="message-compose"><label class="sr-only" for="message-body">Your message</label><textarea id="message-body" class="input" maxlength="4000" rows="3" placeholder="Write to the StockPortfolio.pro team&hellip;" required></textarea><div class="compose-row"><span class="small muted" id="message-status" role="status"></span><button class="btn btn-primary" type="submit">Send</button></div></form>
               <div id="message-list" class="message-list" aria-live="polite"></div>
-              <form id="message-form" class="message-compose"><label class="sr-only" for="message-body">Your message</label><textarea id="message-body" class="input" maxlength="4000" rows="3" placeholder="Write a message&hellip;" required></textarea><button class="btn btn-primary" type="submit">Send</button></form>
               <p class="psec-foot" id="messages-admin-link" hidden><a href="/admin/messages">→ Customer messages dashboard</a></p>
+            </div>
+          </details>
+
+          <!-- ACCOUNT: sign-in details. The page had no place for the address
+               an account is under, a way to change the password, or sign-out. -->
+          <details class="psec" id="account-section">
+            <summary>
+              <span class="label">Account</span>
+              <span class="psec-meta small muted" id="account-meta"></span>
+            </summary>
+            <div class="psec-body">
+              <h2 class="psec-title">Account</h2>
+              <dl class="account-rows">
+                <div class="account-row"><dt>Email</dt><dd id="account-email">&nbsp;</dd><span></span></div>
+                <div class="account-row"><dt>Password</dt><dd class="small muted">We email you a link to set a new one.</dd><a class="btn btn-quiet" href="/forgot-password.html">Reset password</a></div>
+                <div class="account-row"><dt>This device</dt><dd class="small muted">Signed in</dd><button class="btn btn-quiet" type="button" id="account-signout">Sign out</button></div>
+              </dl>
             </div>
           </details>
 
@@ -283,6 +429,7 @@
               <span class="psec-meta small muted">Owner tools</span>
             </summary>
             <div class="psec-body">
+              <h2 class="psec-title">Admin</h2>
               <p class="small muted" style="margin:14px 0 10px;">Only this account sees this row — each page re-checks the signed-in account server-side.</p>
               <ul class="admin-links" style="margin:0 0 8px;">
                 <li><a href="/admin/messages"><strong>✉ Customer messages</strong><span>Unread replies · broadcast tool</span></a></li>
@@ -293,13 +440,15 @@
             </div>
           </details>
 
+          </div>
+         </div>
         </div>
 
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261006-doppel2"></script>
-  <script src="assets/profile.js?v=20260925-creditline1"></script>
-  <script src="assets/messages.js?v=20260830-msgmodal1"></script>
+  <script src="assets/app.js?v=20261007-noblue1"></script>
+  <script src="assets/profile.js?v=20261007-noblue1"></script>
+  <script src="assets/messages.js?v=20261007-noblue1"></script>
 </body>
 </html>

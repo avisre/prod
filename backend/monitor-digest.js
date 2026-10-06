@@ -50,19 +50,19 @@ function renderEmail(name, items, appUrl, unsubUrl) {
     const base = String(appUrl || 'https://stockportfolio.pro').replace(/\/$/, '');
     const rows = items.map((it) => `
       <div style="padding:2px 0;margin:0 0 18px">
-        <div style="font-size:15px;font-weight:700;color:#0f172a">${esc(it.symbol)}
-          <span style="font-weight:500;color:#64748b">· ${esc((it.filing && it.filing.label) || '')} ${esc((it.filing && it.filing.date) || '')} · materiality ${esc(String(it.materiality))}</span>
+        <div style="font-size:15px;font-weight:700;color:#1c1b18">${esc(it.symbol)}
+          <span style="font-weight:500;color:#726e65">· ${esc((it.filing && it.filing.label) || '')} ${esc((it.filing && it.filing.date) || '')} · materiality ${esc(String(it.materiality))}</span>
         </div>
-        <div style="font-size:14px;line-height:1.6;color:#334155;margin-top:4px">${esc(it.summary)}</div>
-        <a href="${base}/monitor?symbol=${encodeURIComponent(it.symbol)}" style="font-size:13px;color:#1a4fd6;text-decoration:none">Read the full filing report →</a>
+        <div style="font-size:14px;line-height:1.6;color:#45423c;margin-top:4px">${esc(it.summary)}</div>
+        <a href="${base}/monitor?symbol=${encodeURIComponent(it.symbol)}" style="font-size:13px;color:#1c1b18;text-decoration:underline">Read the full filing report →</a>
       </div>`).join('');
-    const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#0f172a">
+    const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:600px;margin:0 auto;color:#1c1b18">
       <h1 style="font-size:20px;margin:0 0 6px">What changed in your watchlist this week</h1>
-      <p style="font-size:14px;color:#64748b;margin:0 0 20px">${items.length} compan${items.length === 1 ? 'y' : 'ies'} filed — read for you, every figure taken from the filing.</p>
+      <p style="font-size:14px;color:#726e65;margin:0 0 20px">${items.length} compan${items.length === 1 ? 'y' : 'ies'} filed — read for you, every figure taken from the filing.</p>
       ${rows}
-      <p style="font-size:12px;color:#94a3b8;line-height:1.6;margin-top:24px;border-top:1px solid #e8e6e0;padding-top:12px">
+      <p style="font-size:12px;color:#a09c93;line-height:1.6;margin-top:24px;border-top:1px solid #e8e6e0;padding-top:12px">
         You're receiving this because the Filing Monitor is active on your account. Educational, not investment advice.<br/>
-        <a href="${esc(unsubUrl)}" style="color:#94a3b8">Unsubscribe from these digests</a>
+        <a href="${esc(unsubUrl)}" style="color:#a09c93">Unsubscribe from these digests</a>
       </p>
     </div>`;
     const text = `What changed in your watchlist this week\n\n`

@@ -137,7 +137,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
   }
 
   // ---- compact inline SVG charts (print-friendly, dependency-free) ----
-  const C = { ink: '#1c1b18', accent: '#1a4fd6', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
+  const C = { ink: '#1c1b18', accent: '#8a5f00', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
   function chartBars(rows, key, fmt, color) {
     const pts = rows.map((r) => ({ fy: r.fy, v: r[key] })).filter((p) => p.v !== null && p.v !== undefined);
     if (pts.length < 2) return '';
@@ -193,7 +193,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
   // That green/red pair measures ΔE 6.1 under deuteranopia — inside the 6–8
   // band that is only legal alongside a second channel — so every band carries
   // a direct text label and a visible gap. Identity is never colour alone.
-  const SEG_RAMP = ['#143da6', '#1a4fd6', '#3b63db', '#6386e4', '#8fa9ee', '#b9caf5', '#dbe4fa'];
+  const SEG_RAMP = ['#1c1b18', '#45413a', '#6b665c', '#8f8a7f', '#b3aea3', '#d0ccc2', '#e7e4dd'];
 
   function sankey(inc, segs) {
     if (!inc || !(inc.revenue > 0)) return '';

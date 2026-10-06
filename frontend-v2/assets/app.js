@@ -703,7 +703,7 @@
         const all = segments.concat(unallocated > 0 ? [{ name: 'Unallocated / eliminations', value: unallocated }] : []);
         const W = vizWidth(), plotH = Math.max(190, all.length * 42), H = plotH + 68, top = 28;
         const sx = 18, tx = Math.max(110, Math.round(W * 0.52)), nodeW = 13, labelX = tx + nodeW + 10;
-        const colors = ['var(--ink)', 'var(--accent)', 'var(--pos)', 'var(--neg)', 'var(--ink-3)', '#7c5ce7', '#16a6a1', '#c67a26', '#9e557c'];
+        const colors = ['var(--ink)', '#c67a26', 'var(--pos)', 'var(--neg)', 'var(--ink-3)', '#16a6a1', '#9e557c', '#8a7a1f', '#c98aa8'];
         let sourceOffset = 0, targetOffset = 0, paths = '', nodes = '', labels = [], legend = [], totalFmt = compactBarValue(total, spec.unit);
         all.forEach((item, i) => {
             const size = item.value / total * plotH;
@@ -1098,7 +1098,45 @@
     // owner, and Upgrade/Recharge when they apply. Sign out deliberately
     // stays OUT of the tray — the nav's standalone button is the only one, so
     // the irrevocable action keeps its distance from the menu rows.
+    // What the tray last showed, kept for the tab's lifetime so the next page
+    // paints it the instant it opens. Only the handful of fields the tray
+    // reads are stored. The login cookie is httpOnly, so the entry cannot be
+    // tied to an account; it is dropped on sign-out and whenever a page loads
+    // signed out, and every page's own /api/session answer overwrites it.
+    const TRAY_CACHE_KEY = 'v2-account-tray';
+    function readTrayCache() {
+        try { return JSON.parse(sessionStorage.getItem(TRAY_CACHE_KEY) || 'null') || {}; } catch (_) { return {}; }
+    }
+    function writeTrayCache(patch) {
+        try { sessionStorage.setItem(TRAY_CACHE_KEY, JSON.stringify({ ...readTrayCache(), ...patch })); } catch (_) {}
+    }
+    function clearTrayCache() {
+        try { sessionStorage.removeItem(TRAY_CACHE_KEY); } catch (_) {}
+    }
+    function traySessionFields(s) {
+        const sub = s.subscription || {};
+        const as = s.appsumo || null;
+        return {
+            tier: s.tier,
+            subscription: { planName: sub.planName, planId: sub.planId },
+            appsumo: as ? { isAppSumo: as.isAppSumo, tier: as.tier, upgradeUrl: as.upgradeUrl } : null,
+            profile: { email: (s.profile || {}).email }
+        };
+    }
+
     function accountMenuHtml(session, credits, messages, unread) {
+        // Before the first /api/session answer of a tab there is no plan to
+        // name. Show the rows, which never depend on it, and hold back the
+        // plan line and the upgrade prompts rather than guess "Free".
+        if (!session) {
+            return `<div class="nav-account-links" role="none">
+              <a href="/profile.html#usage-details" role="menuitem">Usage</a>
+              <a href="/profile.html#settings-section" role="menuitem">Ask memory</a>
+              <a href="/profile.html#messages-details" role="menuitem">Messages${unread ? ` <span class="nav-account-unread">${esc(unread)}</span>` : ''}</a>
+            </div>
+            <div class="nav-account-sep"></div>
+            <div class="nav-account-links"><a href="/profile.html">Full profile &rarr;</a></div>`;
+        }
         const sub = (session && session.subscription) || {};
         const planName = sub.planName || (session && session.tier === 'core' ? 'Core' : session && session.tier === 'pro' ? 'Pro' : 'Free');
         const allowance = Number(credits.allowance) || 0;
@@ -1117,7 +1155,7 @@
         <div class="nav-account-sep"></div>
         <div class="nav-account-links" role="none">
           ${row('/profile.html#usage-details', 'Usage')}
-          ${row('/profile.html#settings-section', 'Settings')}
+          ${row('/profile.html#settings-section', 'Ask memory')}
           ${row('/profile.html#messages-details', 'Messages', unread ? ` <span class="nav-account-unread">${esc(unread)}</span>` : '')}
           ${isOwner ? row('/profile.html#admin-section', 'Admin') : ''}
         </div>`;
@@ -1141,7 +1179,48 @@
     function mountAccountMenu(trigger, menu, sessionPromise) {
         if (!trigger || !menu || menu.dataset.wired === '1') return;
         menu.dataset.wired = '1';   // nav() is already idempotent; belt and braces
-        let loaded = false;
+        // The tray used to open first and fill in later: hover showed an empty
+        // 148px box, and the rows only appeared once /api/session and then
+        // /api/credits had both come back. Now it is painted before it is
+        // shown, from whatever is known at that moment, and repainted in place
+        // when fresher numbers land.
+        const cached = readTrayCache();
+        let session = cached.session || null;
+        let credits = cached.credits || null;
+        let creditsRequest = null;
+        const paint = () => {
+            const badge = document.getElementById('v2-message-badge');
+            const unread = badge && !badge.hidden ? badge.textContent : '';
+            menu.innerHTML = accountMenuHtml(session, credits || {}, [], unread);
+        };
+        sessionPromise.then((fresh) => {
+            if (!fresh) return;
+            session = fresh;
+            writeTrayCache({ session: traySessionFields(fresh) });
+            if (isOpen()) paint();
+        }).catch(() => {});
+        // One request per page, started while the browser is idle so the
+        // number is already here by the time the pointer reaches the icon.
+        const refreshCredits = () => {
+            if (creditsRequest) return creditsRequest;
+            creditsRequest = fetch(`${API}/credits`, { headers: { Authorization: `Bearer ${token()}` } })
+                .then((r) => r.ok ? r.json() : null)
+                .then((data) => {
+                    if (!data) return;
+                    credits = { allowance: data.allowance, used: data.used, remaining: data.remaining };
+                    writeTrayCache({ credits, creditsAt: Date.now() });
+                    if (isOpen()) paint();
+                })
+                .catch(() => {});
+            return creditsRequest;
+        };
+        // A number under a minute old is good enough to open with; opening
+        // the tray refreshes it regardless.
+        if (!credits || Date.now() - (Number(cached.creditsAt) || 0) > 60000) {
+            if (window.requestIdleCallback) window.requestIdleCallback(refreshCredits, { timeout: 1500 });
+            else window.setTimeout(refreshCredits, 400);
+        }
+
         // The tray opens on hover AND toggles on click. Without remembering
         // which one opened it, a click that lands after the pointer already
         // opened the tray toggled it straight back shut — the "sometimes the
@@ -1157,28 +1236,11 @@
         const isOpen = () => menu.dataset.open === '1';
         const close = () => { menu.dataset.open = '0'; trigger.setAttribute('aria-expanded', 'false'); openedByClick = false; };
 
-        async function load() {
-            const badge = document.getElementById('v2-message-badge');
-            const unread = badge && !badge.hidden ? badge.textContent : '';
-            let session = null;
-            let credits = {};
-            try {
-                // Reuses the /api/session response the trial banner already
-                // fetched; the one extra call prices the tray's credit line.
-                // The message-thread preview is gone from the tray, so that
-                // fetch went with it — opening is cheap, always.
-                const sessionData = await sessionPromise.catch(() => null);
-                session = sessionData;
-                const r = await fetch(`${API}/credits`, { headers: { Authorization: `Bearer ${token()}` } });
-                credits = r.ok ? await r.json() : {};
-            } catch (_) { /* the fallback below still opens */ }
-            menu.innerHTML = accountMenuHtml(session, credits || {}, [], unread);
-        }
-
         const open = () => {
+            paint();                       // rows first, then visible: never an empty box
             menu.dataset.open = '1';
             trigger.setAttribute('aria-expanded', 'true');
-            if (!loaded) { loaded = true; load(); }
+            refreshCredits();
         };
 
         trigger.addEventListener('click', (e) => {
@@ -1352,9 +1414,10 @@
         document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && mobileNav.classList.contains('is-open')) closeMenu(); });
 
         const out = el.querySelector('#v2-signout');
-        if (out) out.addEventListener('click', async (e) => { e.preventDefault(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
+        if (!authed) clearTrayCache();
+        if (out) out.addEventListener('click', async (e) => { e.preventDefault(); clearTrayCache(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
         const mobileOut = mob.querySelector('#v2-mobile-signout');
-        if (mobileOut) mobileOut.addEventListener('click', async (e) => { e.preventDefault(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
+        if (mobileOut) mobileOut.addEventListener('click', async (e) => { e.preventDefault(); clearTrayCache(); await fetch(`${V2.API}/logout`, { method: 'POST' }).catch(() => {}); location.reload(); });
 
         wireSearch(el.querySelector('#v2-search'), el.querySelector('#v2-search-results'));
         // phones get the search in the drawer — the header input is crushed at 390px

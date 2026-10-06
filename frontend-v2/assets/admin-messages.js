@@ -9,7 +9,6 @@
   const loadMore = $('load-more');
   const selectedCount = $('selected-count');
   const emailToggle = $('send-email');
-  const emailSubjectField = $('email-subject-field');
   const compose = $('admin-message-form');
   const status = $('bulk-status');
 
@@ -183,7 +182,6 @@
   search.addEventListener('input', () => { clearTimeout(state.timer); state.timer = setTimeout(() => loadCustomers(true), 250); });
   audience.addEventListener('change', () => loadCustomers(true));
   loadMore.addEventListener('click', () => { state.page++; loadMore.disabled = true; loadCustomers(false); });
-  emailToggle.addEventListener('change', () => { emailSubjectField.hidden = !emailToggle.checked; });
   compose.addEventListener('submit', async (event) => {
     event.preventDefault();
     const body = $('admin-message-body').value.trim();
@@ -193,7 +191,7 @@
     if (ids.length > 100) { status.textContent = 'Select no more than 100 customers per batch.'; return; }
     const sendEmail = emailToggle.checked;
     const subject = $('admin-message-subject').value.trim();
-    if (sendEmail && !subject) { status.textContent = 'Enter an email subject.'; return; }
+    if (sendEmail && !subject) { status.textContent = 'Enter a title: it is the email subject.'; return; }
     let confirmation = `SEND ${ids.length}`;
     if (ids.length > 1) {
       // Typed confirmation kept (error prevention), but inside the shared

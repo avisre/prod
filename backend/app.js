@@ -2922,7 +2922,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-doppel2" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-noblue1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2951,7 +2951,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261006-doppel2"></script>
+<script src="/assets/app.js?v=20261007-noblue1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3043,7 +3043,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-doppel2" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-noblue1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3071,7 +3071,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261006-doppel2"></script>
+<script src="/assets/app.js?v=20261007-noblue1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3179,7 +3179,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261006-doppel2" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-noblue1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3191,7 +3191,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   .fd-pair { display: grid; gap: 12px; }
   @media (min-width: 720px) { .fd-pair { grid-template-columns: 1fr 1fr; } }
   .fd-lab { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink-3); margin-bottom: 5px; }
-  .fd-q { margin: 0; padding: 12px 14px; border-left: 3px solid var(--accent, #1a4fd6); background: var(--paper); font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+  .fd-q { margin: 0; padding: 12px 14px; border-left: 3px solid var(--accent, #1c1b18); background: var(--paper); font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
   .fd-prev { border-left-color: var(--line); color: var(--ink-2); }
   .fd-lock { margin-top: 32px; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--accent-tint); }
   .fd-foot { margin-top: 26px; font-size: 13px; }
@@ -3212,7 +3212,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261006-doppel2"></script>
+<script src="/assets/app.js?v=20261007-noblue1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3511,6 +3511,9 @@ const CustomerMessageSchema = new mongoose.Schema({
     threadId: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerMessageThread', required: true, index: true },
     sender: { type: String, enum: ['admin', 'customer'], required: true, index: true },
     body: { type: String, required: true, maxlength: 4000 },
+    // Set only on a message sent from the broadcast tool with a typed title:
+    // the customer's page shows it as the headline of a product update.
+    title: { type: String, default: null, maxlength: 180 },
     editedAt: { type: Date, default: null },
     broadcastId: { type: mongoose.Schema.Types.ObjectId, ref: 'CustomerMessageBroadcast', default: null, index: true }
 }, { timestamps: true, versionKey: false, collection: 'customer_messages' });
@@ -6168,9 +6171,9 @@ function oauthErrorPage(res, status, title, detail) {
     res.status(status).type('html').send(`<!doctype html><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>${escapeHtmlOauth(title)}</title>
-<style>body{font:15px/1.6 -apple-system,Segoe UI,Arial;margin:0;padding:48px 20px;background:#f8fafc;color:#0f172a}
-.card{max-width:520px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px}
-h1{font-size:19px;margin:0 0 10px}p{margin:0 0 8px;color:#475569}</style>
+<style>body{font:15px/1.6 -apple-system,Segoe UI,Arial;margin:0;padding:48px 20px;background:#f8fafc;color:#1c1b18}
+.card{max-width:520px;margin:0 auto;background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:28px}
+h1{font-size:19px;margin:0 0 10px}p{margin:0 0 8px;color:#5f5c55}</style>
 <div class="card"><h1>${escapeHtmlOauth(title)}</h1><p>${escapeHtmlOauth(detail)}</p></div>`);
 }
 
@@ -6220,17 +6223,17 @@ app.get('/oauth/authorize', async (req, res) => {
     const head = `<!doctype html><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Connect ${escapeHtmlOauth(client.clientName)}</title>
-<style>body{font:15px/1.6 -apple-system,Segoe UI,Arial;margin:0;padding:48px 20px;background:#f8fafc;color:#0f172a}
-.card{max-width:460px;margin:0 auto;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:28px}
-h1{font-size:20px;margin:0 0 6px}.sub{color:#64748b;font-size:14px;margin:0 0 20px}
-ul{margin:0 0 20px;padding-left:20px;color:#334155}li{margin:4px 0}
+<style>body{font:15px/1.6 -apple-system,Segoe UI,Arial;margin:0;padding:48px 20px;background:#f8fafc;color:#1c1b18}
+.card{max-width:460px;margin:0 auto;background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:28px}
+h1{font-size:20px;margin:0 0 6px}.sub{color:#726e65;font-size:14px;margin:0 0 20px}
+ul{margin:0 0 20px;padding-left:20px;color:#45423c}li{margin:4px 0}
 label{display:block;font-size:13px;font-weight:600;margin:12px 0 4px}
-input[type=email],input[type=password]{width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:8px;font-size:15px;box-sizing:border-box}
-button{width:100%;padding:12px;border:0;border-radius:8px;background:#111827;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:16px}
-.ghost{background:#fff;color:#334155;border:1px solid #cbd5e1;margin-top:8px}
+input[type=email],input[type=password]{width:100%;padding:10px;border:1px solid #d8d5cd;border-radius:8px;font-size:15px;box-sizing:border-box}
+button{width:100%;padding:12px;border:0;border-radius:8px;background:#1c1b18;color:#fff;font-size:15px;font-weight:600;cursor:pointer;margin-top:16px}
+.ghost{background:#fff;color:#45423c;border:1px solid #d8d5cd;margin-top:8px}
 .err{color:#b91c1c;font-size:13px;margin-top:10px;min-height:18px}
-.alt{font-size:13px;color:#64748b;text-align:center;margin-top:14px}
-a{color:#0f172a}</style>`;
+.alt{font-size:13px;color:#726e65;text-align:center;margin-top:14px}
+a{color:#1c1b18}</style>`;
 
     if (!user) {
         // Sign-in is inline so the consent request survives it. The new-tab
@@ -6974,14 +6977,14 @@ function notifySupportInbox(t) {
         const to = process.env.SUPPORT_INBOX_EMAIL || 'support@stockportfolio.pro';
         const when = new Date().toISOString();
         const text = `New support ticket\n\nName: ${t.name}\nEmail: ${t.email}\nSubject: ${t.subject}\nWhen: ${when}\n\nMessage:\n${t.message}`;
-        const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#0f172a">`
+        const html = `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#1c1b18">`
             + `<h2 style="margin:0 0 10px">New support ticket</h2>`
             + `<table style="font-size:14px;border-collapse:collapse">`
-            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">Name</td><td>${escapeHtml(t.name)}</td></tr>`
-            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">Email</td><td><a href="mailto:${escapeHtml(t.email)}">${escapeHtml(t.email)}</a></td></tr>`
-            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">Subject</td><td>${escapeHtml(t.subject)}</td></tr>`
-            + `<tr><td style="padding:4px 12px 4px 0;color:#64748b">When</td><td>${when}</td></tr></table>`
-            + `<div style="margin-top:14px;white-space:pre-wrap;font-size:14px;line-height:1.6;border-left:3px solid #e2e8f0;padding-left:12px">${escapeHtml(t.message)}</div></div>`;
+            + `<tr><td style="padding:4px 12px 4px 0;color:#726e65">Name</td><td>${escapeHtml(t.name)}</td></tr>`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#726e65">Email</td><td><a href="mailto:${escapeHtml(t.email)}">${escapeHtml(t.email)}</a></td></tr>`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#726e65">Subject</td><td>${escapeHtml(t.subject)}</td></tr>`
+            + `<tr><td style="padding:4px 12px 4px 0;color:#726e65">When</td><td>${when}</td></tr></table>`
+            + `<div style="margin-top:14px;white-space:pre-wrap;font-size:14px;line-height:1.6;border-left:3px solid #e8e6e0;padding-left:12px">${escapeHtml(t.message)}</div></div>`;
         return sendMail({ to, replyTo: t.email, subject: `[Support] ${t.subject}`, html, text });
     } catch (e) {
         console.error('[support] mailer wiring error:', e && e.message);
@@ -7794,6 +7797,27 @@ function cleanCustomerMessage(value) {
     const body = String(value || '').trim();
     return body && body.length <= 4000 ? body : null;
 }
+const DEFAULT_CUSTOMER_MESSAGE_SUBJECT = 'New message from StockPortfolio.pro';
+// The same four plain-text conventions the customer's page reads
+// (frontend-v2/assets/messages.js): a blank line starts a paragraph, "# " a
+// heading, "- " a bullet, **bold**. Escaped first, so nothing typed becomes
+// markup beyond these. Without this an emailed update shows its "# " and "**".
+function customerMessageHtml(body) {
+    const inline = (s) => escapeHtml(s).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    return String(body || '').split(/\n{2,}/).map((block) => {
+        let out = '';
+        let items = [];
+        const flush = () => { if (items.length) { out += `<ul style="margin:10px 0 0;padding-left:22px">${items.join('')}</ul>`; items = []; } };
+        block.split('\n').forEach((line) => {
+            if (/^- /.test(line)) { items.push(`<li style="margin:0 0 6px">${inline(line.slice(2))}</li>`); return; }
+            flush();
+            if (/^# /.test(line)) out += `<h3 style="margin:22px 0 0;font-size:16px;line-height:1.35">${inline(line.slice(2))}</h3>`;
+            else if (line.trim()) out += `<p style="margin:12px 0 0">${inline(line)}</p>`;
+        });
+        flush();
+        return out;
+    }).join('');
+}
 function cleanCustomerMessageSubject(value) {
     const subject = String(value || '').trim().replace(/\s+/g, ' ');
     return subject && subject.length <= 180 ? subject : null;
@@ -7806,11 +7830,11 @@ function customerMessageMailFor(user, subject, body) {
     const inboxUrl = `${appUrl}/inbox.html`;
     const unsubscribeUrl = `${appUrl}/api/messages/unsubscribe?token=${encodeURIComponent(customerMessageEmailUnsubToken(user._id))}`;
     const first = String(user.name || '').trim().split(/\s+/)[0] || 'there';
-    const safeBody = escapeHtml(body).replace(/\n/g, '<br>');
+    const safeBody = customerMessageHtml(body);
     return {
         subject,
         text: `Hi ${first},\n\n${body}\n\nReply in your private StockPortfolio.pro inbox: ${inboxUrl}\n\nTo stop these customer-message emails: ${unsubscribeUrl}\n\n— StockPortfolio.pro Support`,
-        html: `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#172033"><p>Hi ${escapeHtml(first)},</p><div style="white-space:normal;line-height:1.6">${safeBody}</div><p style="margin:22px 0"><a href="${escapeHtml(inboxUrl)}" style="background:#201f1d;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;display:inline-block">Reply in your private inbox</a></p><p style="font-size:12px;color:#64748b;line-height:1.55">This is a customer message from StockPortfolio.pro. <a href="${escapeHtml(unsubscribeUrl)}" style="color:#64748b">Stop customer-message emails</a>. In-app messages remain available in your account.</p></div>`
+        html: `<div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:560px;margin:0 auto;color:#1c1b18"><p>Hi ${escapeHtml(first)},</p><div style="white-space:normal;line-height:1.6">${safeBody}</div><p style="margin:22px 0"><a href="${escapeHtml(inboxUrl)}" style="background:#201f1d;color:#fff;text-decoration:none;padding:12px 18px;border-radius:8px;font-weight:700;display:inline-block">Reply in your private inbox</a></p><p style="font-size:12px;color:#726e65;line-height:1.55">This is a customer message from StockPortfolio.pro. <a href="${escapeHtml(unsubscribeUrl)}" style="color:#726e65">Stop customer-message emails</a>. In-app messages remain available in your account.</p></div>`
     };
 }
 async function sendCustomerMessageEmail(user, subject, body) {
@@ -7850,7 +7874,11 @@ async function getCustomerThread(userId) {
     return thread;
 }
 function messageDto(message) {
-    return { id: String(message._id), sender: message.sender, body: message.body, createdAt: message.createdAt, editedAt: message.editedAt || null };
+    return {
+        id: String(message._id), sender: message.sender, body: message.body, createdAt: message.createdAt, editedAt: message.editedAt || null,
+        // A broadcast is a product update on the customer's page, not a chat line.
+        isUpdate: !!message.broadcastId, title: message.title || null
+    };
 }
 // A broadcast reduced to what an operator needs to audit it: how many went out,
 // and how many carry the SMTP acceptance record.
@@ -7886,7 +7914,7 @@ function recipientReceiptDto(recipient) {
 }
 
 app.get('/api/messages/unsubscribe', async (req, res) => {
-    const page = (title, copy) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><main style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:520px;margin:54px auto;padding:0 20px;color:#172033;line-height:1.6"><h1>${title}</h1><p>${copy}</p></main>`;
+    const page = (title, copy) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><main style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:520px;margin:54px auto;padding:0 20px;color:#1c1b18;line-height:1.6"><h1>${title}</h1><p>${copy}</p></main>`;
     try {
         const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
         if (decoded.p !== 'customer-message-email') throw new Error('Wrong token purpose');
@@ -8172,7 +8200,7 @@ app.post('/api/admin/messages/broadcasts', authMiddleware, customerMessagesAdmin
     const body = cleanCustomerMessage(req.body && req.body.body);
     const sendInApp = req.body && req.body.sendInApp !== false;
     const sendEmail = !!(req.body && req.body.sendEmail);
-    const subject = sendEmail ? cleanCustomerMessageSubject(req.body && req.body.subject) : (cleanCustomerMessageSubject(req.body && req.body.subject) || 'New message from StockPortfolio.pro');
+    const subject = sendEmail ? cleanCustomerMessageSubject(req.body && req.body.subject) : (cleanCustomerMessageSubject(req.body && req.body.subject) || DEFAULT_CUSTOMER_MESSAGE_SUBJECT);
     const idempotencyKey = String(req.body && req.body.idempotencyKey || '').trim();
     const rawIds = Array.isArray(req.body && req.body.userIds) ? req.body.userIds : [];
     const userIds = [...new Set(rawIds.map(String))];
@@ -8205,7 +8233,9 @@ app.post('/api/admin/messages/broadcasts', authMiddleware, customerMessagesAdmin
                 const thread = await getCustomerThread(recipient.userId);
                 const prior = await CustomerMessage.findOne({ threadId: thread._id, broadcastId: broadcast._id }).lean();
                 if (!prior) {
-                    const message = await CustomerMessage.create({ threadId: thread._id, sender: 'admin', body: broadcast.body, broadcastId: broadcast._id });
+                    // The stand-in subject is not something the owner wrote, so it is never shown as a headline.
+                    const title = broadcast.subject && broadcast.subject !== DEFAULT_CUSTOMER_MESSAGE_SUBJECT ? broadcast.subject : null;
+                    const message = await CustomerMessage.create({ threadId: thread._id, sender: 'admin', body: broadcast.body, title, broadcastId: broadcast._id });
                     await CustomerMessageThread.updateOne({ _id: thread._id }, { $set: { lastMessageAt: message.createdAt }, $inc: { userUnread: 1 } });
                 }
                 recipient.inAppSentAt = new Date();
@@ -9472,7 +9502,7 @@ app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
                 to: email,
                 subject: 'Your 2 more Ask questions — verify in one click',
                 text: `Confirm this address and ${ASK_TRIAL_BONUS} more free Ask questions unlock in your browser, grounded in the actual SEC filings:\n\n${verifyUrl}\n\nThis link works for 3 days. No account is created; you can start the full paid plan anytime at ${PUBLIC_APP_URL}/register.html.\n\nStockPortfolio.pro — support@stockportfolio.pro`,
-                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#66717d;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $49.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
+                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#726e65;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $49.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
             });
         }
         trackFunnel('anon_email_captured', null, null, { leadId: lead ? String(lead._id) : null, hadClaim: Boolean(visitorUsed), mailer: isMailerConfigured() ? 'smtp' : 'skipped' });
@@ -13763,7 +13793,7 @@ app.get('/api/thesis/:symbol/grade', authMiddleware, monitorGate, async (req, re
 function digestUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'digest' }, JWT_SECRET, { expiresIn: '180d' }); }
 
 app.get('/api/digest/unsubscribe', async (req, res) => {
-    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#1c1b18;line-height:1.6">${msg}</div>`;
     try {
         const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
         if (decoded.p !== 'digest') throw new Error('wrong token purpose');
@@ -13799,7 +13829,7 @@ app.post('/api/digest/unsubscribe', express.urlencoded({ extended: false }), asy
 // the reason cold recipients click "spam" instead — the thing that actually
 // damages a sending domain.
 app.get('/api/outreach/unsubscribe', async (req, res) => {
-    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#1c1b18;line-height:1.6">${msg}</div>`;
     const email = outreachMailer.verifyUnsubToken(String(req.query.token || ''), JWT_SECRET);
     if (!email) {
         return res.status(400).set('Content-Type', 'text/html').send(page('<h2>Invalid link</h2><p>This unsubscribe link is not valid. If you are still getting mail you did not ask for, reply to it and it will stop.</p>'));
@@ -13990,7 +14020,7 @@ function startScheduledEmails() {
 function appsumoUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'as-review' }, JWT_SECRET, { expiresIn: '180d' }); }
 
 app.get('/api/appsumo/unsubscribe', async (req, res) => {
-    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#1c1b18;line-height:1.6">${msg}</div>`;
     try {
         const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
         if (decoded.p !== 'as-review') throw new Error('wrong token purpose');
@@ -14005,7 +14035,7 @@ app.get('/api/appsumo/unsubscribe', async (req, res) => {
 function trialUnsubToken(userId) { return jwt.sign({ userId: String(userId), p: 'trial-emails' }, JWT_SECRET, { expiresIn: '180d' }); }
 
 app.get('/api/trial/unsubscribe', async (req, res) => {
-    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#0f172a;line-height:1.6">${msg}</div>`;
+    const page = (msg) => `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:480px;margin:48px auto;padding:0 20px;color:#1c1b18;line-height:1.6">${msg}</div>`;
     try {
         const decoded = jwt.verify(String(req.query.token || ''), JWT_SECRET);
         if (decoded.p !== 'trial-emails') throw new Error('wrong token purpose');
@@ -14511,7 +14541,7 @@ app.get('/admin/growth/august-2026', authMiddleware, marketingDashboardOnly, asy
         const money = (v) => `$${Number(v || 0).toLocaleString('en-US', { maximumFractionDigits: 0 })}`;
         const c = data.customerSuccess;
         const e = data.emailObservability;
-        res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>August AppSumo sprint — StockPortfolio.pro</title><style>body{font:15px/1.5 system-ui;margin:0;background:#f6f8fb;color:#172033}main{max-width:1100px;margin:auto;padding:28px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card,section{background:white;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:14px 0}.card strong{display:block;font-size:28px}.muted{color:#64748b}.warning{background:#fffbeb;border-color:#fde68a;color:#92400e}.row{display:flex;gap:8px;flex-wrap:wrap}input,button{padding:9px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}button{background:#172033;color:#fff;cursor:pointer}</style><main><p class="muted"><a href="/admin/marketing">Marketing dashboard</a></p><h1>August AppSumo sprint</h1><p>Goal: ${money(data.targetRevenue)} net revenue · <span class="muted">${esc(data.campaign.deadlineLabel)}</span></p><div class="grid"><div class="card"><span class="muted">Net manual GMV</span><strong>${money(data.gmv.netSales)}</strong></div><div class="card"><span class="muted">Meaningful activations</span><strong>${c.meaningfulActivations}</strong></div><div class="card"><span class="muted">Customers saying “yes”</span><strong>${c.yes}</strong></div><div class="card"><span class="muted">Review eligible</span><strong>${c.reviewEligible}</strong></div></div><section><h2>Lifecycle email observability</h2><div class="grid"><div class="card"><span class="muted">Scheduled</span><strong>${e.scheduled}</strong></div><div class="card"><span class="muted">Attempted</span><strong>${e.attempted}</strong></div><div class="card"><span class="muted">Sent</span><strong>${e.sent}</strong></div><div class="card"><span class="muted">Failed</span><strong>${e.failed}</strong></div><div class="card"><span class="muted">Suppressed</span><strong>${e.suppressed}</strong></div><div class="card"><span class="muted">Duplicate prevented</span><strong>${e.duplicatePrevented}</strong></div></div><p class="muted">Application delivery states only; inbox delivery and opens are not confirmed.</p></section><section><h2>Warnings</h2>${data.warnings.length ? data.warnings.map((w) => `<p class="warning">${esc(w)}</p>`).join('') : '<p>No current warnings.</p>'}</section><section><h2>Enter a Partner Portal snapshot</h2><p class="muted">Manual only; no checkout or payout action is performed.</p><form id="gmv"><div class="row"><input name="date" type="date" required><input name="grossOrders" type="number" min="0" placeholder="Gross orders"><input name="grossSales" type="number" min="0" step="0.01" placeholder="Gross sales USD"><input name="refunds" type="number" min="0" step="0.01" placeholder="Refunds USD"><button>Save snapshot</button></div></form><p id="status" class="muted"></p></section><section><h2>Customer-success gate</h2><p>Three real customers selecting “Yes, clearly” are required before the affiliate program can be enabled. Current count: <strong>${c.yes}</strong>.</p></section><script>document.getElementById('gmv').addEventListener('submit',async function(e){e.preventDefault();const b=Object.fromEntries(new FormData(e.target));const r=await fetch('/api/admin/growth/gmv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});document.getElementById('status').textContent=r.ok?'Saved. Reload to refresh totals.':'Could not save snapshot.';});</script></main>`);
+        res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>August AppSumo sprint — StockPortfolio.pro</title><style>body{font:15px/1.5 system-ui;margin:0;background:#faf9f6;color:#1c1b18}main{max-width:1100px;margin:auto;padding:28px 18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.card,section{background:white;border:1px solid #e8e6e0;border-radius:12px;padding:16px;margin:14px 0}.card strong{display:block;font-size:28px}.muted{color:#726e65}.warning{background:#fffbeb;border-color:#fde68a;color:#92400e}.row{display:flex;gap:8px;flex-wrap:wrap}input,button{padding:9px;border:1px solid #d8d5cd;border-radius:8px;font:inherit}button{background:#1c1b18;color:#fff;cursor:pointer}</style><main><p class="muted"><a href="/admin/marketing">Marketing dashboard</a></p><h1>August AppSumo sprint</h1><p>Goal: ${money(data.targetRevenue)} net revenue · <span class="muted">${esc(data.campaign.deadlineLabel)}</span></p><div class="grid"><div class="card"><span class="muted">Net manual GMV</span><strong>${money(data.gmv.netSales)}</strong></div><div class="card"><span class="muted">Meaningful activations</span><strong>${c.meaningfulActivations}</strong></div><div class="card"><span class="muted">Customers saying “yes”</span><strong>${c.yes}</strong></div><div class="card"><span class="muted">Review eligible</span><strong>${c.reviewEligible}</strong></div></div><section><h2>Lifecycle email observability</h2><div class="grid"><div class="card"><span class="muted">Scheduled</span><strong>${e.scheduled}</strong></div><div class="card"><span class="muted">Attempted</span><strong>${e.attempted}</strong></div><div class="card"><span class="muted">Sent</span><strong>${e.sent}</strong></div><div class="card"><span class="muted">Failed</span><strong>${e.failed}</strong></div><div class="card"><span class="muted">Suppressed</span><strong>${e.suppressed}</strong></div><div class="card"><span class="muted">Duplicate prevented</span><strong>${e.duplicatePrevented}</strong></div></div><p class="muted">Application delivery states only; inbox delivery and opens are not confirmed.</p></section><section><h2>Warnings</h2>${data.warnings.length ? data.warnings.map((w) => `<p class="warning">${esc(w)}</p>`).join('') : '<p>No current warnings.</p>'}</section><section><h2>Enter a Partner Portal snapshot</h2><p class="muted">Manual only; no checkout or payout action is performed.</p><form id="gmv"><div class="row"><input name="date" type="date" required><input name="grossOrders" type="number" min="0" placeholder="Gross orders"><input name="grossSales" type="number" min="0" step="0.01" placeholder="Gross sales USD"><input name="refunds" type="number" min="0" step="0.01" placeholder="Refunds USD"><button>Save snapshot</button></div></form><p id="status" class="muted"></p></section><section><h2>Customer-success gate</h2><p>Three real customers selecting “Yes, clearly” are required before the affiliate program can be enabled. Current count: <strong>${c.yes}</strong>.</p></section><script>document.getElementById('gmv').addEventListener('submit',async function(e){e.preventDefault();const b=Object.fromEntries(new FormData(e.target));const r=await fetch('/api/admin/growth/gmv',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(b)});document.getElementById('status').textContent=r.ok?'Saved. Reload to refresh totals.':'Could not save snapshot.';});</script></main>`);
     } catch (_) { res.status(500).send('Growth dashboard unavailable'); }
 });
 
@@ -14530,7 +14560,7 @@ app.get('/api/admin/growth/content', authMiddleware, marketingDashboardOnly, asy
 });
 
 app.get('/admin/growth/content', authMiddleware, marketingDashboardOnly, (req, res) => {
-    res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Content generator — StockPortfolio.pro</title><style>body{font:15px/1.5 system-ui;margin:0;background:#f6f8fb;color:#172033}main{max-width:840px;margin:auto;padding:28px 18px}.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:18px;margin:14px 0}.row{display:flex;gap:8px;flex-wrap:wrap}input,select,button{padding:10px;border:1px solid #cbd5e1;border-radius:8px;font:inherit}button{background:#172033;color:#fff}.out{white-space:pre-wrap;word-break:break-word}</style><main><p><a href="/admin/growth/august-2026">← August dashboard</a></p><h1>Private content generator</h1><p>Generate a current deterministic result and tracked URLs. Nothing is published automatically.</p><div class="card"><form id="f"><div class="row"><input name="ticker" placeholder="AAPL" maxlength="10" required><select name="tool"><option value="earnings-quality">Earnings quality</option><option value="dilution">Dilution</option><option value="filing-timeline">Filing timeline</option></select><select name="channel"><option>website</option><option>x</option><option>linkedin</option><option>reddit</option><option>creator</option><option>newsletter</option></select><input name="contentId" placeholder="tool-earnings-quality"><button>Generate preview</button></div></form></div><div id="out" class="card out"></div><script>document.getElementById('f').addEventListener('submit',async function(e){e.preventDefault();const b=Object.fromEntries(new FormData(e.target));const q=new URLSearchParams(b);const r=await fetch('/api/admin/growth/content?'+q);document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);});</script></main>`);
+    res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Content generator — StockPortfolio.pro</title><style>body{font:15px/1.5 system-ui;margin:0;background:#faf9f6;color:#1c1b18}main{max-width:840px;margin:auto;padding:28px 18px}.card{background:#fff;border:1px solid #e8e6e0;border-radius:12px;padding:18px;margin:14px 0}.row{display:flex;gap:8px;flex-wrap:wrap}input,select,button{padding:10px;border:1px solid #d8d5cd;border-radius:8px;font:inherit}button{background:#1c1b18;color:#fff}.out{white-space:pre-wrap;word-break:break-word}</style><main><p><a href="/admin/growth/august-2026">← August dashboard</a></p><h1>Private content generator</h1><p>Generate a current deterministic result and tracked URLs. Nothing is published automatically.</p><div class="card"><form id="f"><div class="row"><input name="ticker" placeholder="AAPL" maxlength="10" required><select name="tool"><option value="earnings-quality">Earnings quality</option><option value="dilution">Dilution</option><option value="filing-timeline">Filing timeline</option></select><select name="channel"><option>website</option><option>x</option><option>linkedin</option><option>reddit</option><option>creator</option><option>newsletter</option></select><input name="contentId" placeholder="tool-earnings-quality"><button>Generate preview</button></div></form></div><div id="out" class="card out"></div><script>document.getElementById('f').addEventListener('submit',async function(e){e.preventDefault();const b=Object.fromEntries(new FormData(e.target));const q=new URLSearchParams(b);const r=await fetch('/api/admin/growth/content?'+q);document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);});</script></main>`);
 });
 
 // Owner-only, real-time Ollama attribution. This is deliberately separate from
@@ -14651,10 +14681,10 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         const maxTrend = Math.max(1, ...data.trend.map((row) => Math.max(row.signup, row.trial_start, row.paid, row.activation)));
         const trendRows = data.trend.map((row) => {
             const bar = (value, color) => `<span class="bar" style="width:${Math.round((value / maxTrend) * 100)}%;background:${color}"></span>`;
-            return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#2563eb')}${n(row.signup)}</td><td>${bar(row.trial_start, '#7c3aed')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
+            return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#1c1b18')}${n(row.signup)}</td><td>${bar(row.trial_start, '#8a5f00')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
         }).join('');
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
-body{margin:0;background:#f6f8fb;color:#172033;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#64748b}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#64748b}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #edf2f7;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#64748b;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#64748b;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#2563eb;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the $19.99 Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
+body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the $19.99 Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;
@@ -15564,7 +15594,7 @@ app.get('/admin/affiliates', affiliateAdminAuth, async (req, res) => {
         const rows = await affiliateCandidateReport({ limit: 100 });
         const escape = (value) => escapeHtml(value == null ? '' : String(value));
         const body = rows.map((row) => `<tr><td>${escape(row.email)}</td><td>${escape(row.purchaseSource)}</td><td>${escape(row.planName)}</td><td>${escape(row.supportStatus)}</td><td>${escape(row.ambassadorEligibility)}</td><td>${row.profile ? `<a href="${escape(row.profile.referralUrl)}">link</a>` : '—'}</td></tr>`).join('');
-        res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Affiliate operations — StockPortfolio.pro</title><style>body{font:14px/1.5 system-ui;margin:24px;color:#172033}table{border-collapse:collapse;width:100%;overflow:auto}th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left;white-space:nowrap}th{font-size:12px;color:#66717d;text-transform:uppercase}.note{color:#66717d}</style><h1>Customer ambassador operations</h1><p class="note">Read-only candidate reconciliation. Invitations, commission approvals and payouts are manual API actions; no emails or automatic payouts are sent.</p><table><tr><th>Email</th><th>Source</th><th>Plan</th><th>Support status</th><th>Eligibility</th><th>Referral</th></tr>${body || '<tr><td colspan="6">No verified paying candidates</td></tr>'}</table>`);
+        res.set('Cache-Control', 'no-store').type('html').send(`<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1"><title>Affiliate operations — StockPortfolio.pro</title><style>body{font:14px/1.5 system-ui;margin:24px;color:#1c1b18}table{border-collapse:collapse;width:100%;overflow:auto}th,td{padding:8px;border-bottom:1px solid #ddd;text-align:left;white-space:nowrap}th{font-size:12px;color:#726e65;text-transform:uppercase}.note{color:#726e65}</style><h1>Customer ambassador operations</h1><p class="note">Read-only candidate reconciliation. Invitations, commission approvals and payouts are manual API actions; no emails or automatic payouts are sent.</p><table><tr><th>Email</th><th>Source</th><th>Plan</th><th>Support status</th><th>Eligibility</th><th>Referral</th></tr>${body || '<tr><td colspan="6">No verified paying candidates</td></tr>'}</table>`);
     } catch (error) { console.error('[affiliate] admin page failed:', error && error.message); res.status(500).send('Affiliate operations unavailable'); }
 });
 

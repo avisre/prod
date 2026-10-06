@@ -31,20 +31,23 @@ button, input, select, textarea { font: inherit; color: inherit; }
   --line-strong: #d8d5cd;
 
   /* meaning */
-  --accent: #1a4fd6;
-  --accent-ink: #15409f;
-  --accent-tint: #eef2fd;
+  /* No brand hue: the accent is the ink. Links are told apart by an
+     underline (see the anchor rules below), selection and hover by a warm
+     grey tint. */
+  --accent: #1c1b18;
+  --accent-ink: #000000;
+  --accent-tint: #f1efe9;
   --pos: #1b7a4b;
   --pos-tint: #ecf5ef;
   --neg: #b3261e;
   --neg-tint: #fbeeec;
 
   /* chart series — its own slots, because a series colour answers to a
-     different test than a UI accent: these three were validated against the
-     white card surface for lightness band, chroma floor and colour-vision
-     separation (all-pairs ΔE 9.2 deuteranopia / 9.6 tritanopia). --accent and
-     --pos are meaning colours and stay out of the series order. */
-  --chart-1: #2a78d6;
+     different test than a UI accent. The first series is the ink (the site
+     carries no blue); orange and green were validated against the white card
+     surface for lightness band, chroma floor and colour-vision separation.
+     --pos is a meaning colour and stays out of the series order. */
+  --chart-1: #1c1b18;
   --chart-2: #eb6834;
   --chart-3: #1baf7a;
 
@@ -80,6 +83,14 @@ body {
 }
 a { color: var(--accent); text-decoration: none; }
 a:hover { color: var(--accent-ink); }
+/* With no hue to mark them, links inside running text are underlined, and
+   any other plain link underlines on hover. Buttons, the nav and menu rows
+   keep their own treatment. */
+p a:not(.btn), .small a:not(.btn), .muted a:not(.btn), dd a:not(.btn), blockquote a:not(.btn), figcaption a:not(.btn) {
+  text-decoration: underline; text-decoration-color: var(--ink-3); text-decoration-thickness: 1px; text-underline-offset: 3px;
+}
+a:not(.btn):not([role='menuitem']):hover { text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.nav a:hover, .nav-mobile a:hover, .wordmark:hover { text-decoration: none; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
 ::selection { background: var(--accent-tint); }
 
@@ -1225,7 +1236,7 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .tour-q-menu li { margin: 0; }
 .tour-q-menu button { width: 100%; text-align: left; background: none; border: 0; color: #fff; padding: 6px 10px; border-radius: 5px; cursor: pointer; font: inherit; }
 .tour-q-menu button:hover { background: rgba(255, 255, 255, 0.15); }
-.tour-q-menu button[aria-current="true"] { color: #5b9bff; font-weight: 600; }
+.tour-q-menu button[aria-current="true"] { color: #fff; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 
 /* ---------- Alerts / notices ---------- */
 .notice {

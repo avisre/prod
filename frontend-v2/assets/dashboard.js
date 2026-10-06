@@ -220,8 +220,8 @@
 
     // ---------- allocation doughnut + portfolio value line (the v1 charts,
     // reset into the paper/ink system: muted tonal palette, hairlines) ----
-    const ALLOC_COLORS = ['#1c1b18', '#1a4fd6', '#1b7a4b', '#8a877e', '#6b86c8', '#b3a16e', '#5e5c55', '#9db8a0', '#c4b9a4', '#444239',
-        '#3d6fd8', '#2c6b4f', '#7d7a70', '#8fa3d6', '#c8b98d', '#78766d', '#b1c6b5', '#a99e83', '#2e2d29', '#57806b'];
+    const ALLOC_COLORS = ['#1c1b18', '#c2571a', '#1b7a4b', '#8a877e', '#c98a5e', '#b3a16e', '#5e5c55', '#9db8a0', '#c4b9a4', '#444239',
+        '#9e557c', '#2c6b4f', '#7d7a70', '#d4a5bd', '#c8b98d', '#78766d', '#b1c6b5', '#a99e83', '#2e2d29', '#57806b'];
     function renderAllocation(rows) {
         const host = $('alloc-chart');
         const legend = $('alloc-legend');

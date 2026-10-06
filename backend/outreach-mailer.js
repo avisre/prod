@@ -208,7 +208,7 @@ async function sendOutreach({ to, subject, text, html, campaign, secret, env = p
     // sending domain.
     const textWithUnsub = `${text}\n\n---\nNot interested? Unsubscribe and I won't contact you again: ${unsub.url}`;
     const htmlWithUnsub = html
-        ? `${html}<p style="font-size:12px;color:#64748b;margin-top:22px">Not interested? <a href="${unsub.url}">Unsubscribe</a> and I won't contact you again.</p>`
+        ? `${html}<p style="font-size:12px;color:#726e65;margin-top:22px">Not interested? <a href="${unsub.url}">Unsubscribe</a> and I won't contact you again.</p>`
         : undefined;
 
     // Pin the Message-ID so the receipt logged below names the same id that

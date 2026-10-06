@@ -392,3 +392,11 @@ explicit authorization.**
     account, then re-run the publish.
 16. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
     `DEVELOPMENT` review status. Separate from the directory submission in item 2.
+
+## 2026-10-07 — no blue, profile side menu, account tray (stamp `20261007-noblue1`)
+- **Blue is gone from the main site.** `--accent` is now the ink, `--accent-tint` a warm grey, `--chart-1` the ink; prose links are underlined instead (`system.css` anchor rules). 228 hard-coded blue and slate literals in `backend/` + `lib/` (emails, widgets, server-rendered pages) mapped to the same ink and warm greys. Checked in a headless browser: 0 blue computed colours on 15 pages.
+- **Still blue, not touched:** the four legacy pages served from `frontend/` (`/fundamentals.html`, `/founding.html`, `/demo-dashboard.html`, `/demo-fundamentals.html`) — an old dark theme, unlinked from the site. Owner to decide: retire or redirect.
+- **Profile is a side menu at 861px+** (`profile.html`, `profile.js`): each section is still a `<details>`, the menu picks which is open, `#usage-details`-style hashes still work. New Account section (email, reset password, sign out).
+- **Messages are a reading view, newest first.** A broadcast is a "product update": title = the broadcast title, body reads `# `, `- `, `**bold**`, blank line (`messages.js` and `customerMessageHtml` in `app.js` for the email). `CustomerMessage.title` is new. Body cap is still 4,000 characters.
+- **Account tray** paints before it opens (session + credits cached in `sessionStorage`, credits prefetched at idle); it used to show an empty box until two requests returned.
+- This file is past 400 lines: rotate it at the next edit.

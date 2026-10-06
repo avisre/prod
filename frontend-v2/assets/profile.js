@@ -709,6 +709,9 @@
             // authenticated session's email; every /admin/* page behind the
             // links re-checks the account server-side (customerMessagesAdminOnly
             // / marketingDashboardOnly in backend/app.js).
+            const accountEmail = String(((session.profile || {}).email) || '').trim();
+            if ($('account-email')) $('account-email').textContent = accountEmail || 'Not available';
+            if ($('account-meta')) $('account-meta').textContent = accountEmail;
             const isOwner = String(((session.profile || {}).email) || '').trim().toLowerCase() === 'rin@gmail.com';
             const adminSection = $('admin-section');
             if (adminSection) adminSection.hidden = !isOwner;
@@ -719,21 +722,79 @@
             mountApiKeys(credits.hasApiAccess);
         } catch (_) { /* profile card is non-blocking */ }
     }
-    // messages.js writes into the thread while the section is collapsed
-    // (scrollTop on a zero-height element is a no-op), so re-seat the newest
-    // bubble once the section actually paints.
-    const messagesDetails = $('messages-details');
-    if (messagesDetails) {
-        messagesDetails.addEventListener('toggle', () => {
-            if (!messagesDetails.open) return;
-            const msgList = $('message-list');
-            if (msgList) msgList.scrollTop = msgList.scrollHeight;
+    // ---- Sections: a side menu at 861px and up, the accordion below it ----
+    // Each section stays a <details>, so messages.js's open-on-toggle load and
+    // the nav tray's #hash links need nothing new. On a wide screen exactly
+    // one is open and the menu chooses which; on a narrow one the summaries
+    // are the controls, as before.
+    const sections = Array.from(document.querySelectorAll('details.psec'));
+    const menuItems = Array.from(document.querySelectorAll('#profile-menu [data-target]'));
+    const wide = window.matchMedia('(min-width: 861px)');
+    const usable = (id) => {
+        const d = id ? $(id) : null;
+        return d && d.matches('details.psec') && !d.hidden ? d : null;
+    };
+    const wanted = () => { try { return decodeURIComponent(location.hash.slice(1)); } catch (_) { return ''; } };
+
+    function syncMenu() {
+        menuItems.forEach((item) => {
+            const d = $(item.dataset.target);
+            item.hidden = !d || d.hidden;
+            item.setAttribute('aria-current', String(!!(d && d.open && !d.hidden)));
+            const source = item.dataset.meta ? $(item.dataset.meta) : null;
+            const metaEl = item.querySelector('.pmenu-meta');
+            if (source && metaEl) {
+                const text = source.hidden ? '' : source.textContent.trim();
+                metaEl.textContent = text ? text + (item.dataset.metaSuffix || '') : '';
+            }
         });
     }
-    // /profile.html#admin-section and friends: a hash pointing at a section
-    // opens it (:target needs no parsing, so a bogus hash just misses).
-    const targetDetail = document.querySelector(':target');
-    if (targetDetail && targetDetail.matches('details')) targetDetail.open = true;
+    function showSection(id, remember) {
+        const target = usable(id) || usable('usage-details');
+        if (!target) return;
+        sections.forEach((d) => { d.open = d === target; });
+        if (remember && history.replaceState) history.replaceState(null, '', '#' + target.id);
+        syncMenu();
+    }
+    // A section the hash names can still be hidden when this first runs (Admin
+    // and Developer access are revealed once the session loads), so this is
+    // re-run whenever one is revealed: the hash wins as soon as it can.
+    function settle() {
+        const target = usable(wanted());
+        if (wide.matches) {
+            const open = sections.find((d) => d.open && !d.hidden);
+            showSection(target ? target.id : (open ? open.id : 'usage-details'), false);
+        } else {
+            if (target) target.open = true;
+            syncMenu();
+        }
+    }
+    menuItems.forEach((item) => item.addEventListener('click', () => showSection(item.dataset.target, true)));
+    window.addEventListener('hashchange', settle);
+    if (wide.addEventListener) wide.addEventListener('change', settle);
+    if (window.MutationObserver) {
+        const revealed = new MutationObserver(settle);
+        sections.forEach((d) => revealed.observe(d, { attributes: true, attributeFilter: ['hidden'] }));
+        const relabel = new MutationObserver(syncMenu);
+        menuItems.forEach((item) => {
+            const source = item.dataset.meta ? $(item.dataset.meta) : null;
+            if (source) relabel.observe(source, { childList: true, characterData: true, subtree: true, attributes: true, attributeFilter: ['hidden'] });
+        });
+    }
+    sections.forEach((d) => d.addEventListener('toggle', syncMenu));
+    settle();
+
+    const signOut = $('account-signout');
+    if (signOut) {
+        signOut.addEventListener('click', async () => {
+            // The nav's own button owns sign-out (it also clears what the
+            // account tray cached); fall back to the request it makes.
+            const navButton = document.getElementById('v2-signout') || document.getElementById('v2-mobile-signout');
+            if (navButton) { navButton.click(); return; }
+            await fetch(`${API}/logout`, { method: 'POST' }).catch(() => {});
+            location.reload();
+        });
+    }
 
     mountProfile();
 })();

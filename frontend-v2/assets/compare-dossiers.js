@@ -34,8 +34,8 @@
 
   // ---- drawing + formats (same rules as dossier.js: dependency-free SVG,
   // tabular numbers, latest value labelled; nothing recomputed beyond CAGR) --
-  const C = { ink: '#1c1b18', accent: '#1a4fd6', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
-  const COL_ACCENT = ['#1c1b18', '#1a4fd6', '#8a5f00'];
+  const C = { ink: '#1c1b18', accent: '#8a5f00', pos: '#1b7a4b', neg: '#b4422f', grey: '#8a877e', faint: '#e7e4dd' };
+  const COL_ACCENT = ['#1c1b18', '#c2571a', '#8a5f00'];
   const bn = (v) => {
     if (v == null) return '—';
     const sign = v < 0 ? '−' : '';
