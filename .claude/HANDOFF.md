@@ -47,7 +47,7 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
-## Every changed revenue figure checked one by one — 2026-10-06 (ninth, NOT pushed)
+## Every changed revenue figure checked one by one — 2026-10-06 (ninth)
 
 `docs/qa/data-audit-2026-10-06/revenue-changes.csv`: all 2,137 revenue figures (461 companies; 231 newest-year,
 1,906 earlier) that differ between production rules and the new rules, each with old/new value, old/new line, filing
@@ -60,7 +60,7 @@ The check exposed four rule gaps, now fixed: net revenues win only for financial
 the same confirmed amount are one total (Xylem); revenue including assessed tax never outranks excluding (Cronos);
 an exact ×1,000 / ×1,000,000 line is a scale slip (SS Innovations).
 
-## Quarter reconciliation and bank revenue — 2026-10-06 (eighth, NOT pushed; rotate this file at push, it is past 400 lines)
+## Quarter reconciliation and bank revenue — 2026-10-06 (eighth)
 
 - Newest-year quarters are read as filed up to the annual report; if they do not add up to the year the later-filed
   (restated) reading is tried and the reconciling one kept (APP); neither → issue `QUARTERS_DO_NOT_SUM`.
@@ -79,7 +79,7 @@ four quarters ≠ year on revenue **100 → 11** of 3,456; no other annual field
 revenue to report and class-specific EPS — not a data error. ~100 report a first or successor period shorter than a
 year. MC tags only `InvestmentBankingRevenue`; using it as revenue would be wrong for banks, so it is not used.
 
-## Earlier-year revenue check and the five follow-ups — 2026-10-06 (seventh, NOT pushed)
+## Earlier-year revenue check and the five follow-ups — 2026-10-06 (seventh)
 
 Owner asked to check the earlier-year revenue changes and fix the remaining gaps. `EXTRACTION_VERSION` stays `core4`
 (nothing has been published with it yet). Scripts: scratchpad `sim8.js` (earlier years + blockers), `fallback.js`.
@@ -109,7 +109,7 @@ Owner asked to check the earlier-year revenue changes and fix the remaining gaps
 banks); ~102 with stub or successor periods instead of a full year (PSKY, WOLF); 13 companies that have not filed in
 15 months; COP/SNA/RSG revenue line; 53 revenue and 39 net-income quarter mismatches; BHP iron ore; segment labels.
 
-## Full data audit and the revenue-line fix — 2026-10-06 (sixth, NOT pushed)
+## Full data audit and the revenue-line fix — 2026-10-06 (sixth)
 
 Owner asked for an audit of every company's stored data, then "fix this and the ones found before".
 Audit scripts (no model): scratchpad `dbaudit.js` (stored data), `verify.js` (vs live SEC facts), `sim2.js` (old vs new rules).
@@ -176,50 +176,13 @@ gained, **0 figures lost, 0 existing figures changed**. Tests: SEC files 74/74, 
 SKT — 40-F exhibits, co-registrants, filings over 18 MB, IFRS banks with no revenue total); LHX revenue (SEC feed has a
 wrong start date); NEE, BAC, AZN, TD segments still need the model; BHP iron ore; de-camel-cased segment names.
 
-## Ask for every kind of company: typing, model-free segments, report cache — 2026-10-06 (fourth, NOT pushed)
+## Shipped 2026-10-06, detail in `.claude/handoff-archive/2026-10-06b.md`
 
-Branch `fix/ask-detail-restore-20261006` in this worktree, on top of `68f1bc0e` (lean model view, also unpushed).
-Owner asked for a proper answer for every kind of company and for far fewer model calls. Nothing is pushed; push needs owner approval.
-
-**Census (no model calls, 4,649 screenable companies).** 2,248 had no industry label and no sector and were answered with
-the catch-all metric set. Annual form: mostly 10-K, 733 20-F, 108 40-F; ~200 report in a currency other than USD; 933 have a
-fiscal year that does not end in December. 1,961 had no stored segment facts (`sec-financials/<cik>.json`
-`segmentObservations`), 1,466 had a business-segment group, 1,222 only a product/service group.
-
-**What changed**
-- `ask-industry-profile.js`: `sicArchetype`/`sicFor`; `profile(industry, sector, sic)`. Industry label still wins, then the
-  SEC SIC code, then sector. New types `mining`, `telecom-media`, `services`. Generic bucket 2,248 → 14 (BDCs with no SIC).
-- `ask-inline-segments.js` `groups()`: reads segment, product-line and regional revenue straight from the filing's inline
-  XBRL — no model. Handles the extra `ConsolidationItemsAxis=OperatingSegmentsMember` dimension (why JPM, PFE, WELL read as
-  empty), segments split again by region (CVX), insurer premiums by segment (CB, flagged `measure`), filed subtotals
-  (`dropSubtotals` for segments, `prune` for product lines), roll-up members.
-- `ask-segments.js`: tagged read runs before the extraction model and is cached (`askseg-inline:v1:*`, memory + Mongo);
-  filing fetched as bytes and scanned as latin1 (half the memory); amended-filing revenue no longer blocks the tagged read;
-  memory guard is `ASK_SEGMENT_RSS_LIMIT_MB` (default 400, was a hard 320 — at ~315 MiB resting RSS that refused nearly
-  every request as "busy"). **Watch memory after deploy**; set the env var lower if the instance is tight.
-- `ai-chat.js` `toolGetSegments`: newest stored period, readable member names, product lines added beside segments,
-  product lines lead when the segment axis has one member (LLY, MA).
-- `ai-chat.js` same-day report cache (`ask_report_cache`, 12 h, memory + Mongo): a plain company report with no history,
-  attachments, saved memories or word limit is replayed after the first checked `source: ai` answer. `ASK_REPORT_CACHE=0`
-  turns it off. Key = policy version, symbol, story/report, mode, UTC date, leftover question words.
-- Removed the last "name specific gaps" instruction from the pre-generation system note.
-
-**Measured.** Tagged read works (no model): WMT, GOOGL, TSLA, TSM, JPM, WELL, CVX, CB, HOOD, PFE, GE, BHP (partial).
-Real answers on the online path: `jpmorgan` 70 s and `chevron` 58 s, both `source: ai`, eight parts, 12/12 pulls ok, no
-process talk; `JPM` asked again returned from cache in 0 s. Tests: Ask files 228/228; full suite 1,413/1,419 — the five
-known baseline failures plus `mcp-apps` "responses carry no timestamps" (a `freshness` key; MCP financials, not this change).
-
-**Still open (data foundation, not Ask code)**
-- XOM: no verified annual statements at all (new holding-company CIK) → no ratios, no segments. NVS, SNY: latest annual
-  `totalRevenue` is null (IFRS sales concept not mapped). These need the dataset rebuild, not a prompt.
-- NEE, BAC, AZN, TD, ASML do not tag segment revenue in a way the tagged read accepts → they fall to the extraction model.
-- Foreign filers have no quarterly ratios (they file half-yearly) and mostly no provider valuation; the report omits those rows.
-- BHP's tagged read misses iron ore (conflicting values) — shows Copper and Coal only, marked partial.
-- Labels are de-camel-cased member names ("Assetand Wealth Management"); only AMD and AVGO have reviewed labels.
-- `toyota` asks which listing; expected.
-
-Earlier Ask releases of 10-04 → 10-06 (story recovery, eight-part report, detail restore, lean view) and the data
-foundation release gates are in `.claude/handoff-archive/2026-10-06.md`.
+- Ask for every kind of company: SIC typing (`ask-industry-profile.js`), model-free segment/product/region read
+  (`ask-inline-segments.js` `groups`), same-day report cache (`ask_report_cache`, `ASK_REPORT_CACHE=0` disables),
+  `ASK_SEGMENT_RSS_LIMIT_MB` (default 400 — watch memory).
+- Data foundation repair (first pass): missing core figures, convenience-translation currency, 15-month recency,
+  Exxon registration continuity until 2027-03-31, common-name resolution in Ask.
 
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render
