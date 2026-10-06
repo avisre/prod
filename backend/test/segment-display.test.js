@@ -16,6 +16,14 @@ test('a breakdown covering a sliver of revenue is not usable', () => {
     assert.equal(store.preferred([]).usable, null);
 });
 
+test('a partial table is offered only when nothing usable exists', () => {
+    const part = group(PRODUCT, '2024-12-31', [40, 25, 15]);
+    assert.equal(store.preferred([part]).usable, null);
+    assert.equal(store.preferred([part]).partial, part);
+    assert.equal(store.preferred([part, group(BUSINESS, '2024-12-31', [60, 40])]).partial, null);
+    assert.equal(store.preferred([group(PRODUCT, '2025-12-31', [5, 3, 1])]).partial, null, 'a sliver is still withheld');
+});
+
 test('operating segments lead product lines in the same period when both account for revenue', () => {
     const segments = group(BUSINESS, '2025-12-31', [60, 40]), lines = group(PRODUCT, '2025-12-31', [50, 30, 20]);
     assert.equal(store.preferred([lines, segments]).usable, segments);

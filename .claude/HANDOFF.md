@@ -27,12 +27,12 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
 - **Selection (second commit):** `preferred().usable` picks the newest group with ≥2 rows covering 90–110% of
   revenue (segments before product lines); otherwise the stored breakdown is withheld and the older extraction
   path runs. `segments.storedSegments()` is re-run on every cached dossier read. `scripts/audit-segment-display.js`
-  sweeps all issuers: 2,390 of 2,925 shown, 535 withheld (BRK: only an FY2024 product table at ~80%), 0 failures;
+  sweeps all issuers: 2,390 of 2,925 shown, 0 failures; 20 more (BRK) get a `partial` table (≥3 rows, 60–90%) when text extraction is empty, shown against its own year with the remainder named; 515 withheld;
   `test/segment-display.test.js` runs it. Page table caps at 8 rows + "Other segments" + "Not broken out".
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-segments2`.
+- Asset stamp `20261007-segments3`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use

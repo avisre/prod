@@ -114,8 +114,13 @@ function readableSegments(seg) {
 // the filing but no longer qualifies is withheld rather than shown.
 async function currentSegments(seg, sym) {
     const stored = await segments.storedSegments(sym).catch(() => null);
-    if (stored) return { fiscalYear: stored.fiscalYear, items: stored.segments, note: stored.note || null, basis: stored.basis || null, filing: stored.filing || null };
-    if (seg && Array.isArray(seg.items) && seg.items.some(x => x && 'reportedRevenue' in x)) return null;
+    if (stored) return { fiscalYear: stored.fiscalYear, periodEnd: stored.periodEnd || null, totalRevenue: stored.storedSegmentsReceipt?.totalRevenue || null, items: stored.segments, note: stored.note || null, basis: stored.basis || null, filing: stored.filing || null };
+    // Nothing usable was cached either (an empty extraction, or a filing table
+    // that no longer qualifies): fall back to a partial filing table if there is one.
+    if (!seg || !Array.isArray(seg.items) || !seg.items.length || seg.items.some(x => x && 'reportedRevenue' in x)) {
+        const partial = await segments.storedSegments(sym, { partial: true }).catch(() => null);
+        return partial ? { fiscalYear: partial.fiscalYear, periodEnd: partial.periodEnd || null, totalRevenue: partial.storedSegmentsReceipt?.totalRevenue || null, items: partial.segments, note: partial.note || null, basis: partial.basis || null, filing: partial.filing || null } : (seg && seg.items && !seg.items.length ? seg : null);
+    }
     return readableSegments(seg);
 }
 async function refreshValuation(payload, sym, data) {
@@ -478,6 +483,10 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         industry: industryData || null,
         segments: segs ? {
             fiscalYear: segs.fiscalYear,
+            // The year and revenue the split belongs to, which is not always the
+            // latest statement year; the page must not set one against the other.
+            periodEnd: segs.periodEnd || null,
+            totalRevenue: segs.storedSegmentsReceipt?.totalRevenue || null,
             items: segs.segments,
             note: segs.note || null,
             // Kept so the panel can cite the exact filing the split came from

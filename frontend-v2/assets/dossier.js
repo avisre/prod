@@ -197,6 +197,9 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
 
   function sankey(inc, segs) {
     if (!inc || !(inc.revenue > 0)) return '';
+    // A split filed for an earlier year cannot be drawn into this year's
+    // revenue; the table beneath still shows it, against its own year.
+    if (segs && segs.periodEnd && inc.periodEnd && segs.periodEnd !== inc.periodEnd) segs = null;
     const rev = inc.revenue;
 
     // The chain of retained figures. Each step's cost band is the exact
@@ -486,7 +489,8 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       if (!svg) return '';
       const inc = d.incomeStatement || {};
       const sg = d.segments || {};
-      const rev = inc.revenue;
+      const otherYear = sg.periodEnd && inc.periodEnd && sg.periodEnd !== inc.periodEnd;
+      const rev = otherYear ? (Number(sg.totalRevenue) > 0 ? Number(sg.totalRevenue) : null) : inc.revenue;
       const sorted = ((sg.items) || [])
         .slice()
         .sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0));
@@ -501,7 +505,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       if (rev > 0 && listedUsd > 0 && rev - listedUsd > rev * 0.005) rows.push({ name: 'Not broken out in the filing', revenueUsd: rev - listedUsd });
       const segTable = rows.length ? `
         <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
-          <thead><tr><th>Segment</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
+          <thead><tr><th>Segment${otherYear && sg.fiscalYear ? ' Â· ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
           <tbody>${rows.map((x) => {
             const v = Number(x.revenueUsd);
             // Compute the share from the dollars wherever possible, and fall
@@ -956,7 +960,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     let flowPlain = '';
     {
       const sgPlain = d.segments && d.segments.items
-        ? { items: d.segments.items.slice().sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0)).slice(0, 5) }
+        ? { periodEnd: d.segments.periodEnd, items: d.segments.items.slice().sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0)).slice(0, 5) }
         : null;
       const svgPlain = sankey(d.incomeStatement, sgPlain);
       if (svgPlain) {

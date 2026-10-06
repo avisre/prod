@@ -137,10 +137,10 @@ const EXTRACT_SYSTEM = [
 
 // The breakdown read straight from the filing's own tagged figures, when one
 // exists that a reader can use; null otherwise. No model and no network.
-async function storedSegments(symbol) {
+async function storedSegments(symbol, { partial = false } = {}) {
     if(process.env.SEC_COVERAGE_READ_ONLY==='1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND==='1') return null;
     const evidence=await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(()=>null);
-    const store=require('./sec-segment-observations'),group=store.preferred(evidence?.statements?.segmentObservations).usable;
+    const store=require('./sec-segment-observations'),group=store.preferred(evidence?.statements?.segmentObservations)[partial?'partial':'usable'];
     const result=group && store.toolPayload(group,evidence.statements,symbol);
     if(!result) return null;
     // A product table carries its own subtotals; an operating-segment table can
@@ -152,13 +152,22 @@ async function storedSegments(symbol) {
         else for(const k of ['value','reportedRevenue','revenueUsd','revenuePct']) same[k]=same[k]===null || s[k]===null?null:Math.round((same[k]+s[k])*10)/10;
     }
     // The stored note is a provenance rule for the pipeline, not something to print.
-    const note=coverage>1.02?'Segments are reported before eliminations between them, so they add up to slightly more than total revenue.':null;
+    const note=coverage>1.02?'Segments are reported before eliminations between them, so they add up to slightly more than total revenue.'
+        :coverage<0.9?`These lines are the filing’s own breakdown and cover ${Math.round(coverage*100)}% of revenue; the rest is not broken out in this table.`:null;
     return {...result,note,segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
 }
 
 async function extractSegments(symbol) {
     const stored=await storedSegments(symbol);
     if(stored) return stored;
+    // When the text extraction finds nothing, a partial table from the filing
+    // with its remainder named is better than an empty panel.
+    const extracted=await extractFromText(symbol).catch(error=>({error:error.message}));
+    if(!extracted.error && extracted.segments?.length) return extracted;
+    return await storedSegments(symbol,{partial:true}) || extracted;
+}
+
+async function extractFromText(symbol) {
     const tenK = await latestTenK(symbol);
     if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No annual report (10-K or 20-F) found for this company.' };
 

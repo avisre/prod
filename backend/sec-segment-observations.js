@@ -62,8 +62,13 @@ function preferred(groups) {
  const all=groups || [],latest=re=>all.filter(g=>re.test(g.axis)).sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
  const business=latest(BUSINESS),product=latest(PRODUCT);
  const rank=g=>BUSINESS.test(g.axis)?0:PRODUCT.test(g.axis)?1:2;
- const usable=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b)).find(g=>shown(g).usable) || null;
- return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable};
+ const ordered=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b));
+ const usable=ordered.find(g=>shown(g).usable) || null;
+ // A real table that leaves part of revenue out (an insurer-conglomerate's
+ // product lines exclude premiums). Shown only when nothing better exists, and
+ // only with the remainder named beside it.
+ const partial=usable?null:ordered.find(g=>{const v=shown(g);return v.rows.length>=3 && v.coverage>=0.6 && v.coverage<0.9;}) || null;
+ return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable,partial};
 }
 function toolPayload(g,data,symbol) {
  if(!validGroup(g,data))return null;

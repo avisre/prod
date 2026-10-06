@@ -203,5 +203,5 @@ test('the dashboard renders the reveal from the payload and settles its counts',
     assert.match(dashboardJs, /renderReveal\(x\.reveal\)/, 'loadXray must pass the reveal to the renderer');
     assert.match(dashboardJs, /settleInt\(\$\('reveal-companies'\), rv\.companies\)/, 'the count must settle');
     assert.match(dashboardHtml, /id="xray-reveal"/, 'the container must exist');
-    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261007-segments2/, 'the stamp must ship the change');
+    assert.match(dashboardHtml, /assets\/dashboard\.js\?v=20261007-segments3/, 'the stamp must ship the change');
 });
