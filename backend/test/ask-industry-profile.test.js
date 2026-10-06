@@ -89,3 +89,13 @@ test('an industry label still outranks the SIC code, and a missing code falls ba
     assert.strictEqual(ip.archetypeFor('', '', '0000'), 'generic');
     assert.strictEqual(ip.profile('', '', '1040').metrics.length, 4);
 });
+
+// 3,130 of 4,593 covered companies had no sector on 2026-10-06 (everything added
+// beyond the S&P 1500), so they had no peers and appeared in no sector screen.
+test('a company with no curated sector takes one of the eleven sectors from its SEC industry code', () => {
+    const sector = require('../sector');
+    const cases = { 6798: 'Real Estate', 6022: 'Financials', 2834: 'Health Care', 7372: 'Information Technology', 1311: 'Energy', 4911: 'Utilities',
+        4813: 'Communication Services', 2080: 'Consumer Staples', 1040: 'Materials', 5812: 'Consumer Discretionary', 3711: 'Consumer Discretionary', 3559: 'Industrials' };
+    for (const [sic, want] of Object.entries(cases)) { assert.strictEqual(sector.fromSic(sic), want, 'SIC ' + sic); assert.ok(sector.CANONICAL.includes(sector.fromSic(sic))); }
+    assert.strictEqual(sector.fromSic('0000'), ''); assert.strictEqual(sector.fromSic(''), '');
+});

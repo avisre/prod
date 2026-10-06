@@ -15,10 +15,12 @@ test('insurance and conglomerate total revenue includes the broader reported rev
   assert.equal(r.totalRevenue,value);assert.equal(d.sources[r._sources.totalRevenue[0]].concept,'Revenues');assert.ok(p.verifiedField(d,r,'totalRevenue'));
  }
 });
-test('legacy partial insurance revenue is quarantined rather than presented as total revenue',()=>{
+// The filing's total now wins over its customer-contract line for every issuer,
+// so the partial figure is no longer produced even when the industry code is unknown
+// (it used to be 2,436,000,000 and had to be quarantined afterwards).
+test('total revenue is the filing total, not its customer-contract line, with or without an industry code',()=>{
  const f=load('MET'),d=extract(f.facts,{...f.evidence,sic:''},{asOf:'2026-10-05'}),r=d.income.annualReports.find(r=>r.fiscalDateEnding===f.evidence.latestAnnual.reportDate);
- assert.equal(r.totalRevenue,2436000000);d.reportingSic=f.evidence.sic;assert.equal(p.verifiedField(d,r,'totalRevenue'),false);
- const result=sanitize(d);assert.equal(r.totalRevenue,null);assert.equal(r._superseded.totalRevenue.value,2436000000);assert.ok(result.excluded>0);
+ assert.equal(r.totalRevenue,77084000000);assert.equal(d.sources[r._sources.totalRevenue[0]].concept,'Revenues');d.reportingSic=f.evidence.sic;assert.ok(p.verifiedField(d,r,'totalRevenue'));
 });
 test('legacy bank fee revenue is quarantined and reconstructed from compatible inputs',()=>{
  const f=load('AX'),d=extract(f.facts,{...f.evidence,sic:''},{asOf:'2026-10-05'}),r=d.income.annualReports.find(r=>r.fiscalDateEnding===f.evidence.latestAnnual.reportDate);

@@ -2,7 +2,7 @@
 // Deterministic extraction. No network, provider data, split guesses, or FX.
 const p = require('./sec-coverage');
 const DAY = 86400000;
-const EXTRACTION_VERSION = '20261006-core3';
+const EXTRACTION_VERSION = '20261006-core4';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
@@ -15,8 +15,6 @@ const MAPS = {
   // IFRS filers such as Novartis and Sanofi report net sales and other revenues
   // as two lines with no total; the two are added below when, and only when,
   // the filing's own gross profit plus cost of sales confirms the sum.
-  revenueFromSaleOfGoods:mapping([],['RevenueFromSaleOfGoods']),
-  otherRevenue:mapping([],['OtherRevenue']),
   netIncome:mapping(['NetIncomeLoss','ProfitLoss','NetIncomeLossAvailableToCommonStockholdersBasic'],['ProfitLossAttributableToOwnersOfParent','ProfitLoss']),
   operatingIncome:mapping(['OperatingIncomeLoss'],['ProfitLossFromOperatingActivities']),
   grossProfit:mapping(['GrossProfit'],['GrossProfit']),
@@ -35,7 +33,10 @@ const MAPS = {
   eps:mapping(['EarningsPerShareBasic'],['BasicEarningsLossPerShare'],'parent'),
   weightedAverageSharesOutstanding:mapping(['WeightedAverageNumberOfSharesOutstandingBasic'],['WeightedAverageNumberOfSharesOutstandingBasic'],'parent'),
   weightedAverageSharesDiluted:mapping(['WeightedAverageNumberOfDilutedSharesOutstanding'],['AdjustedWeightedAverageShares'],'parent'),
-  dilutedEPS:mapping(['EarningsPerShareDiluted'],['DilutedEarningsLossPerShare'],'parent')
+  dilutedEPS:mapping(['EarningsPerShareDiluted'],['DilutedEarningsLossPerShare'],'parent'),
+  // Helper inputs sit last so they can never set a row's period ahead of an original field.
+  revenueFromSaleOfGoods:mapping([],['RevenueFromSaleOfGoods']),
+  otherRevenue:mapping([],['OtherRevenue'])
  },
  balance: {
   // Total liabilities and equity equals total assets on every balance sheet; a
@@ -65,8 +66,6 @@ const MAPS = {
   // A filer with a discontinued business tags operating cash flow in two parts
   // and no total (Dollar Tree, DuPont, Dover, Johnson Controls, FIS, Darden);
   // the two filed parts are added below.
-  operatingCashflowContinuing:mapping(['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
-  operatingCashflowDiscontinued:mapping(['CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']),
   capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment'],['PurchaseOfPropertyPlantAndEquipment']),
   cashflowFromInvestment:mapping(['NetCashProvidedByUsedInInvestingActivities'],['CashFlowsFromUsedInInvestingActivities']),
   cashflowFromFinancing:mapping(['NetCashProvidedByUsedInFinancingActivities'],['CashFlowsFromUsedInFinancingActivities']),
@@ -74,7 +73,9 @@ const MAPS = {
   dividendPayoutCommonStock:mapping(['PaymentsOfDividendsCommonStock'],[]),
   paymentsForRepurchaseOfCommonStock:mapping(['PaymentsForRepurchaseOfCommonStock'],[]),
   shareBasedCompensation:mapping(['ShareBasedCompensation'],[]),
-  depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization'],[])
+  depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization'],[]),
+  operatingCashflowContinuing:mapping(['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
+  operatingCashflowDiscontinued:mapping(['CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations'])
  }
 };
 // A narrower tag stands in for the full figure only when the filing shows the
@@ -107,6 +108,10 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  const wanted = new Map();
  for(const fields of Object.values(MAPS)) for(const def of Object.values(fields)) for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) wanted.set(taxonomy + ':' + concept,true);
  for(const guards of Object.values(STAND_INS)) for(const concept of guards) wanted.set(concept,true);
+ wanted.set('us-gaap:CostsAndExpenses',true);
+ // Tags introduced on 2026-10-06 may fill a figure but never add a reporting
+ // period of their own, so the set of years and quarters is what it was.
+ const added=new Set([...LAST_RESORT,...Object.values(STAND_INS).flat(),'us-gaap:CostsAndExpenses','us-gaap:RevenuesNetOfInterestExpense','ifrs-full:RevenueFromSaleOfGoods','ifrs-full:OtherRevenue','us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {
@@ -121,9 +126,9 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  for(const row of rows){const key=row.taxonomy+':'+row.concept+'|'+row.unit;const concept=byConceptUnit.get(key) || [];concept.push(row);byConceptUnit.set(key,concept);const ending=byEnd.get(row.end) || [];ending.push(row);byEnd.set(row.end,ending);}
  const a=evidence.latestAnnual;
  const annualAccessions=new Set(a?[a.accessionNumber,...(a.amendments || []).map(x=>x.accessionNumber)]:[]);
- const annualEnds=new Set(rows.filter(r=>r.days>=340 && r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form)).map(r=>r.end));
+ const annualEnds=new Set(rows.filter(r=>!added.has(r.taxonomy+':'+r.concept) && r.days>=340 && r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form)).map(r=>r.end));
  if(a) annualEnds.add(a.reportDate);
- const quarterEnds=new Set(rows.filter(r=>r.days>=75 && r.days<=105).map(r=>r.end));
+ const quarterEnds=new Set(rows.filter(r=>!added.has(r.taxonomy+':'+r.concept) && r.days>=75 && r.days<=105).map(r=>r.end));
  for(const end of annualEnds) quarterEnds.add(end);
  // Original core tags only: the last-resort tags must not widen what counts as a candidate currency.
  const coreTags=new Set();for(const [st,field] of [['income','netIncome'],['income','totalRevenue'],['balance','totalAssets'],['balance','totalShareholderEquity'],['cash','operatingCashflow']])for(const taxonomy of ['us-gaap','ifrs-full'])for(const concept of MAPS[st][field][taxonomy])if(!LAST_RESORT.has(taxonomy+':'+concept))coreTags.add(taxonomy+':'+concept);
@@ -174,10 +179,72 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
   const restrict=basis==='annual' && a?.reportDate===end;
+  // Revenue: a filing often carries both "revenue from contracts with customers"
+  // and its total revenues, and the contract figure used to win. For a landlord,
+  // an equipment renter, a lender or a commodity trader that is a fraction of
+  // the business: on 2026-10-06, 187 covered companies were understated, 86 of
+  // them by more than 20% (American Tower $0.9bn of $10.6bn, ADM $25bn of
+  // $80bn, American Express $41bn of $72bn). Within the newest filing that
+  // reports the period, the total is the largest of the revenue lines — or net
+  // revenues, where a financial firm reports them, since that is its top line.
+  let revenueFirst=null,revenueStart=null;
+  if(field==='totalRevenue') {
+   // A revenue figure for a different span than the year's net income (a merger
+   // stub tagged with the same year end) would set the wrong period for the row.
+   // The chosen line must cover the same span the row already had: the span of
+   // the line the original order would have picked, or, where there was none,
+   // of the year's net income. A merger stub tagged with the same year end
+   // would otherwise set the wrong period for the whole row.
+   if(basis==='annual'){
+    const annualRows=tag=>(byConceptUnit.get(tag+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && r.end===end && r.days>=340 && r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form)).sort((x,y)=>y.filed.localeCompare(x.filed)||y.accn.localeCompare(x.accn));
+    for(const taxonomy of ['us-gaap','ifrs-full']){for(const concept of def[taxonomy]){if(added.has(taxonomy+':'+concept) || partialRevenueConcept(out.reportingSic,concept))continue;const rows=annualRows(taxonomy+':'+concept);if(rows.length){revenueStart=rows[0].start;break;}}if(revenueStart)break;}
+    if(!revenueStart)for(const tag of ['us-gaap:NetIncomeLoss','us-gaap:ProfitLoss','ifrs-full:ProfitLossAttributableToOwnersOfParent','ifrs-full:ProfitLoss']){const rows=annualRows(tag);if(rows.length){revenueStart=rows[0].start;break;}}
+   }
+   const pickFor=test=>{
+    const picks=[];
+    for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) {
+     if(partialRevenueConcept(out.reportingSic,concept))continue;
+     const candidates=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && r.end===end && test(r) && (!revenueStart || r.start===revenueStart));
+     if(!candidates.length)continue;
+     candidates.sort((x,y)=>y.filed.localeCompare(x.filed)||y.accn.localeCompare(x.accn));
+     const first=candidates[0],same=candidates.filter(r=>r.accn===first.accn && r.start===first.start);
+     if(new Set(same.map(r=>r.val)).size===1)picks.push({row:first,taxonomy,concept});
+    }
+    if(!picks.length)return null;
+    const newest=picks.slice().sort((x,y)=>y.row.filed.localeCompare(x.row.filed)||y.row.accn.localeCompare(x.row.accn))[0].row;
+    const filing=picks.filter(x=>x.row.accn===newest.accn && x.row.start===newest.start);
+    if(filing.length<2)return filing[0];
+    const largest=Math.max(...filing.map(x=>x.row.val));
+    // A financial firm's top line is revenue net of interest expense.
+    const net=filing.find(x=>x.concept==='RevenuesNetOfInterestExpense');
+    if(net && net.row.val>=largest*0.25)return net;
+    // The filing's own arithmetic names the total: gross profit plus cost of
+    // revenue, or operating income plus total costs, equals exactly one line.
+    const fact=names=>{for(const name of names){const rows=(byConceptUnit.get(newest.taxonomy+':'+name+'|'+unit) || []).filter(r=>r.accn===newest.accn && r.end===end && r.start===newest.start);if(rows.length && new Set(rows.map(r=>r.val)).size===1)return rows[0].val;}return null;};
+    const gross=fact(['GrossProfit']),cost=fact(MAPS.income.costOfRevenue[newest.taxonomy]),operating=fact(newest.taxonomy==='us-gaap'?['OperatingIncomeLoss']:['ProfitLossFromOperatingActivities']),costs=fact(['CostsAndExpenses']);
+    for(const total of [gross!==null && cost!==null?gross+cost:null,operating!==null && costs!==null?operating+costs:null]) {
+     if(total===null)continue;
+     const match=filing.filter(x=>Math.abs(x.row.val-total)<=Math.abs(total)*0.001);
+     if(match.length===1)return match[0];
+    }
+    // With nothing in the filing to arbitrate: a line under four fifths of the
+    // largest is plainly a part (rent, leasing and interest are not customer
+    // contracts), so the largest is the total. A narrower gap can be excise tax
+    // or intercompany sales either way, and the original choice stands.
+    const legacy=filing[0];
+    return legacy.row.val<largest*0.8?filing.find(x=>x.row.val===largest):legacy;
+   };
+   revenueFirst=pickFor(r=>basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=105);
+   // A quarter with no three-month figure is derived from year-to-date figures;
+   // it must use the same line the year-to-date total was chosen from.
+   if(!revenueFirst && basis==='quarterly')revenueFirst=pickFor(r=>r.days>=160&&r.days<=380);
+  }
   const tags=['us-gaap','ifrs-full'].flatMap(taxonomy=>def[taxonomy].map(concept=>[taxonomy,concept]));
-  for(const [taxonomy,concept] of [...tags.filter(t=>!LAST_RESORT.has(t.join(':'))),...tags.filter(t=>LAST_RESORT.has(t.join(':')))]) {
+  const ordered=[...tags.filter(t=>!LAST_RESORT.has(t.join(':'))),...tags.filter(t=>LAST_RESORT.has(t.join(':')))];
+  if(revenueFirst)ordered.sort((x,y)=>(y[0]===revenueFirst.taxonomy && y[1]===revenueFirst.concept)-(x[0]===revenueFirst.taxonomy && x[1]===revenueFirst.concept));
+  for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
-   const all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>!restrict || annualAccessions.has(r.accn));
+   const all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
    const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=105));
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;

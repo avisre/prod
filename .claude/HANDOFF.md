@@ -47,6 +47,40 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Full data audit and the revenue-line fix — 2026-10-06 (sixth, NOT pushed)
+
+Owner asked for an audit of every company's stored data, then "fix this and the ones found before".
+Audit scripts (no model): scratchpad `dbaudit.js` (stored data), `verify.js` (vs live SEC facts), `sim2.js` (old vs new rules).
+
+**Audit of the 4,593 covered issuers (data as of 2026-10-05)**
+- All 19,666 newest-year core figures are identical to the SEC record for the same filing (no copying errors).
+- **Revenue understated for 187 issuers, 86 by >20%**: the customer-contract tag was tried before total `Revenues`
+  (AMT $0.9bn of $10.6bn, ADM $25bn of $80bn, AXP $41bn of $72bn, URI, BG, CCI, EXR, ESS, UDR, WELL).
+- Price/market value on only 1,463 of 4,649 listings; sector on ~32%; share count ~32%; description ~56%; segments ~58%.
+  `quotes.json` was last refreshed 2026-10-03 against the old 1,502-symbol list; `us-companies.json` now has 6,099 and
+  `refresh-quotes.yml` reads it, so the next scheduled run fills prices, market value and share counts
+  (dry run on 199 uncovered symbols: 199/199 returned).
+- 153 covered issuers a quarter behind: SEC's company-facts feed has no facts for their newest 10-Q (ABT, ACHC, AAT).
+
+**Fixes (EXTRACTION_VERSION `20261006-core4`)**
+- `sec-facts.js` revenue: within the newest filing reporting the period — net revenues if a financial firm reports
+  them (≥25% of the largest line); else the line that equals gross profit + cost of revenue, or operating income +
+  `CostsAndExpenses`; else the largest line only when the original line is under 80% of it; otherwise unchanged.
+  Derived quarters use the same line as their year-to-date total. Helper inputs sit last in `MAPS` and new tags never
+  add a reporting period.
+- `scripts/refresh-sec-coverage.js`: reads the newest 10-Q itself when the feed has not produced its quarter.
+- `backend/sector.js` `fromSic` + `build-public-stock-index.js`: a company with no curated sector takes its SIC sector.
+
+**Measured, production rules vs new rules, all 5,251 issuers with an annual report**: 263 become complete; newest-year
+revenue changes for 188 (172 up, 16 down); agreement with the provider copy 3,048 → 3,161 of 3,380 (118 fixed, 5 now
+differ: HOG, PGY, CRON, TIGR, BRLS); gross profit larger than revenue 55 → 18 issuers; no other field changes.
+Dropped: 40 derived gross-profit values in old years (2009–2022, revenue and cost now come from different filings)
+and 4 old cash-flow values (RDN 2011, RH 2015). Tests: full suite 1,421/1,427, same six failures as before.
+
+**Not fixed**: small-gap revenue cases with nothing to arbitrate keep the original line (GM $168bn vs $185bn total,
+COP, WMT net sales, SNA, RSG); business descriptions for ~44% of covered issuers; ACI-style 10-Qs the direct read
+does not parse; derived-Q4 mismatches (APTV); the 266 partial / 253 history-only issuers listed below.
+
 ## Data foundation repair: missing core figures, currency, recency, Exxon — 2026-10-06 (fifth, NOT pushed)
 
 Owner: "our entire business lives and dies by the accuracy of our data". Audit of the stored statements (no model):

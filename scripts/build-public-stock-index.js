@@ -22,7 +22,9 @@ function build({asOf=p.day(new Date().toISOString()),write=true}={}) {
   const data=raw?JSON.parse(raw):null,classification=p.classify(evidence,data,asOf);
   const compactEvidence={cik:id,lastSuccessfulCheckAt:evidence.lastSuccessfulCheckAt || null,lastAttemptResult:evidence.lastAttemptResult,sic:evidence.sic || null,reportingCurrency:evidence.reportingCurrency || null,reportingCadence:evidence.reportingCadence || null,latestAnnual:evidence.latestAnnual || null,amendmentOnly:!!evidence.amendmentOnly};
   issuers[id]={...classification,evidence:compactEvidence,financialDigest:evidence.financialDigest || null};
-  for(const company of companies) {
+  for(let company of companies) {
+   // A company with no curated sector takes the sector of its SEC industry code.
+   if(!company.sector){const sector=require('../backend/sector').fromSic(evidence.sic);if(sector)company={...company,sector};}
    const eligible=company.securityType==='stock' && classification.financialCoverage==='ready';
    const view=adapter.adapt(company,loadRawFundamentals(company.symbol),data,classification,issuers[id]);
    const state=content({...company,cik:id},view,classification,evidence.financialDigest || null,{asOf,previous:oldSecurities.get(company.symbol),rates});

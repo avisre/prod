@@ -35,6 +35,15 @@ async function refreshIssuer(issuer,old={}, {asOf,force=false,clientImpl=client}
    try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,merged.latestAnnual);raw=require('../backend/sec-original').mergeFacts(raw,original);if(original.reportingCurrency)merged.reportingCurrency=original.reportingCurrency;data=extract(raw,merged,{asOf});merged.originalExtraction={status:'success',source:original.originalDocument,segmentCount:original.segments.length};}
    catch(error){merged.originalExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
   }
+  // SEC's facts feed sometimes carries nothing for a filing that is on EDGAR:
+  // on 2026-10-06, 153 covered companies (Abbott, Acadia, American Assets Trust)
+  // were a quarter behind for that reason alone. Read the newest quarterly
+  // report itself whenever the feed has not produced its period.
+  const periodic=merged.latestPeriodic;
+  if(periodic && periodic.form==='10-Q' && periodic.primaryDocument && !data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)) {
+   try {const original=await (clientImpl.fetchOriginal || require('../backend/sec-original').fetchOriginal)(issuer.cik,periodic);raw=require('../backend/sec-original').mergeFacts(raw,original);data=extract(raw,merged,{asOf});merged.periodicExtraction={status:data.income.quarterlyReports.some(r=>r.fiscalDateEnding===periodic.reportDate)?'success':'no_quarter_found',source:original.originalDocument};}
+   catch(error){merged.periodicExtraction={status:'retrieval_failed',reason:String(error.code || error.message).slice(0,120)};}
+  }
   const previous=read(file,null);
   data=require('../backend/sec-last-good').preserveSameFiling(data,previous,merged);
   const errors=p.validateFinancial(data,issuer.cik,asOf);if(errors.length)throw new Error('INVALID_EXTRACTION: '+errors[0]);
