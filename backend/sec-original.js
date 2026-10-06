@@ -6,9 +6,11 @@ const p = require('./sec-coverage');
 const { MAPS } = require('./sec-facts');
 const { HEADERS } = require('./sec-reporting');
 const MAX_BYTES = 18 * 1024 * 1024;
-function parseOriginal(text, filing, cik) {
+// shared: the periods and units of a multi-document filing are declared once,
+// in whichever document carries the header, and referenced from the others.
+function parseOriginal(text, filing, cik, shared) {
  if(Buffer.byteLength(text)>MAX_BYTES)throw new Error('ORIGINAL_DOCUMENT_TOO_LARGE');
- const contexts=new Map(),units=new Map(),facts=[],stack=[];let context=null,unit=null,fact=null,narrative='';
+ const contexts=shared?.contexts || new Map(),units=shared?.units || new Map(),facts=[],stack=[];let context=null,unit=null,fact=null,narrative='';
  const local=name=>name.split(':').pop().toLowerCase();
  const parser=new Parser({
   onopentag(name,attrs) {
@@ -75,7 +77,29 @@ async function fetchOriginal(cik,filing) {
  if(!filing?.primaryDocument || !/^[a-zA-Z0-9_.-]+$/.test(filing.primaryDocument))throw new Error('ORIGINAL_DOCUMENT_PATH_UNAVAILABLE');
  const documentUrl=`https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${filing.accessionNumber.replace(/-/g,'')}/${filing.primaryDocument}`;
  const response=await axios.get(documentUrl,{headers:HEADERS,timeout:20000,maxContentLength:MAX_BYTES,responseType:'text'});
- return parseOriginal(String(response.data),{...filing,documentUrl},cik);
+ const shared={contexts:new Map(),units:new Map()};
+ const primary=parseOriginal(String(response.data),{...filing,documentUrl},cik,shared);
+ if(Object.keys(primary.facts).length)return primary;
+ // Some filers put only a cover page in the primary document and the financial
+ // statements in a second tagged document of the same filing (Clorox's annual
+ // report exhibit, Canadian National's 40-F exhibits). SEC's company-facts feed
+ // carries nothing for those filings, so 115 issuers had no current year at
+ // all on 2026-10-06. Read the filing's other documents and keep the one that
+ // holds the statements; every figure still cites the document it came from.
+ const base=documentUrl.replace(/[^/]*$/,'');
+ let listing;try{listing=(await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;}catch(_){return primary;}
+ const items=(listing?.directory?.item || []).filter(i=>/^[a-zA-Z0-9_.-]+\.html?$/.test(i.name || '') && i.name!==filing.primaryDocument && Number(i.size)>50000 && Number(i.size)<=MAX_BYTES)
+  .sort((a,b)=>Number(b.size)-Number(a.size)).slice(0,4);
+ let best=primary,count=0;
+ for(const item of items) {
+  try {
+   const url=base+item.name,text=String((await axios.get(url,{headers:HEADERS,timeout:20000,maxContentLength:MAX_BYTES,responseType:'text'})).data);
+   if(!/<ix:nonfraction/i.test(text))continue;
+   const doc=parseOriginal(text,{...filing,documentUrl:url},cik,shared),n=Object.values(doc.facts).reduce((sum,defs)=>sum+Object.keys(defs).length,0);
+   if(n>count){best=doc;count=n;}
+  } catch(_) { /* an unreadable exhibit leaves the others to be tried */ }
+ }
+ return best;
 }
 function mergeFacts(raw,original) {
  const annual=/^(10-K|20-F|40-F)(\/A)?$/.test(original.originalDocument?.form || '');

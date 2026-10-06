@@ -47,6 +47,39 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Data foundation repair: missing core figures, currency, recency, Exxon — 2026-10-06 (fifth, NOT pushed)
+
+Owner: "our entire business lives and dies by the accuracy of our data". Audit of the stored statements (no model):
+1,104 stock issuers lacked at least one of the five core figures in their newest annual report; 1,450 listed stocks were
+not screenable at all (MU, XOM, BKNG, JCI, APD, BDX, PDD, JD, BABA...). Causes found and fixed in the extraction code —
+**the stored data only changes when the weekly workflow re-runs** (`gh workflow run refresh-fundamentals.yml`; the
+`EXTRACTION_VERSION` bump to `20261006-core3` forces every issuer to be re-extracted).
+
+- `sec-facts.js`: revenue tag was misspelt (`RevenueNetOfInterestExpense` → `RevenuesNetOfInterestExpense`: MS, GS had no
+  revenue); added utility revenue, partners'/members' capital, total liabilities-and-equity as total assets, net income to
+  common and continuing-operations cash flow (both only when the filing shows no preferred dividend / discontinued cash
+  flow), continuing + discontinued cash flow summed, IFRS net sales + other revenue summed only when gross profit + cost
+  of sales confirms it (NVS $56.674bn, SNY €46.716bn). New tags are `LAST_RESORT`: tried after every original tag.
+- Currency: a dollar convenience translation beside the reporting currency was "ambiguous" and dropped every year
+  (253 issuers; PDD stuck at 2017). Now the currency with ≥1.5× the core figures inside the reporting filing wins.
+- `sec-coverage.js`: recent annual = filed within **15** months (was 12; MU and 8 others fell out for the days before
+  this year's filing). The 18-month period test is unchanged. `verifiedField` accepts the two new sums.
+- `sec-original.js`: when the primary document is only a cover page, the filing's other documents are read with the
+  shared period declarations (CLX FY2026 now ready).
+- `scripts/lib/us-listings.js` `REGISTRATION_CONTINUITY`: XOM keeps CIK 0000034088 until 2027-03-31 (ExxonMobil Holdings,
+  new CIK 0002115436 since 2026-07-01, has no annual report of its own).
+- `ask-report-policy.js`: `COMMON_NAMES` and `narrow()` — google→GOOGL (was a hedged fund), exxon→XOM (was nothing),
+  toyota/shell/berkshire/alphabet no longer ask which listing. `ask-segments.js` download limit 32 MB (ASML).
+
+**Measured** (old vs new rules on live SEC facts, 1,484 issuers incl. 380 already-ready as a regression sample; the
+filing-read fallback is not in this run): 263 issuers become ready (122 partial, 141 historical-only), 887 annual periods
+gained, **0 figures lost, 0 existing figures changed**. Tests: SEC files 74/74, Ask files 233/233, full suite 1,419/1,425
+(same six failures as before this work).
+
+**Still open after this**: 266 partial and 115 historical-only issuers in the affected set (SU, DB, VALE, NGG, CNI, KEP,
+SKT — 40-F exhibits, co-registrants, filings over 18 MB, IFRS banks with no revenue total); LHX revenue (SEC feed has a
+wrong start date); NEE, BAC, AZN, TD segments still need the model; BHP iron ore; de-camel-cased segment names.
+
 ## Ask for every kind of company: typing, model-free segments, report cache — 2026-10-06 (fourth, NOT pushed)
 
 Branch `fix/ask-detail-restore-20261006` in this worktree, on top of `68f1bc0e` (lean model view, also unpushed).

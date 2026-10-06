@@ -43,10 +43,24 @@ function securityType(row) {
     if (row.confirmedFund || /closed[ -]end fund/i.test(row.name)) return 'closed_end_fund';
     return 'stock';
 }
+// A holding-company reorganisation gives a listing a brand-new SEC registration
+// with no annual report of its own: ExxonMobil Holdings (2026-07-01) left XOM
+// with no statements at all while every year of its history sat under the old
+// registration, which is still filing. Until the successor has filed its own
+// annual report the listing keeps the registration that holds the filings. Each
+// entry is a reviewed fact from the issuer's 8-K12B; `until` is when the
+// successor's first annual report is due, after which SEC's own mapping resumes.
+const REGISTRATION_CONTINUITY = {
+    XOM: { successor: '0002115436', predecessor: '0000034088', until: '2027-03-31' }
+};
+function continuity(symbolKey, cik, today = new Date().toISOString().slice(0, 10)) {
+    const entry = REGISTRATION_CONTINUITY[symbolKey];
+    return entry && cik === entry.successor && today <= entry.until ? entry.predecessor : cik;
+}
 function buildUniverse(nasdaq, other, sec, curated = [], previous = [], metadata = {}) {
     if (!Array.isArray(sec.fields) || !Array.isArray(sec.data)) throw new Error('Invalid SEC ticker directory');
     const secRows = sec.data.map((r) => Object.fromEntries(sec.fields.map((f, i) => [f, r[i]])));
-    const issuers = new Map(secRows.filter((r) => r.ticker).map((r) => [key(r.ticker), r]));
+    const issuers = new Map(secRows.filter((r) => r.ticker).map((r) => [key(r.ticker), { ...r, cik: r.cik ? continuity(key(r.ticker), String(r.cik).padStart(10, '0')) : r.cik }]));
     const names = new Map(curated.map((r) => [key(r.symbol), r]));
     const old = new Map(previous.map((r) => [key(r.symbol), r]));
     const outcomes = [];
@@ -96,4 +110,4 @@ function validateManifest(manifest,companies) {
  for(const directory of ['nasdaq','other','sec_issuer_identity'])if(!(manifest.sources || []).some(s=>s.directory===directory))errors.push('Missing authoritative directory source '+directory);
  return errors;
 }
-module.exports = { parseDirectory, securityType, buildUniverse,validateTimestamp,validateManifest };
+module.exports = { parseDirectory, securityType, buildUniverse,validateTimestamp,validateManifest, continuity, REGISTRATION_CONTINUITY };

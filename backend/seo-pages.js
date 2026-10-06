@@ -295,7 +295,7 @@ function renderStockIndex() {
 <main class="seo-wrap">
   <h1 class="seo-h1">Stock fundamentals directory</h1>
   <p class="seo-sub">${snapshot.counts.listedSecurities.toLocaleString('en-US')} directory records: ${all.filter(c=>c.securityType==='stock').length.toLocaleString('en-US')} stock listings and ${all.filter(c=>c.securityType==='closed_end_fund').length.toLocaleString('en-US')} closed-end funds, with legacy units and rights listed separately. ${snapshot.counts.financialReadyIssuers.toLocaleString('en-US')} distinct companies have verified core SEC financial coverage; ${snapshot.counts.recentAnnualIssuers.toLocaleString('en-US')} have recent annual SEC reports. Coverage calculated ${esc(snapshot.asOf)}.</p>
-  <p>A ready company has an original annual SEC report filed within 12 months, reporting checked within 35 days, and verified annual income, assets, equity and operating cash flow. Partial and historical profiles remain available with their status. Country does not affect eligibility.</p>
+  <p>A ready company has an original annual SEC report filed within 15 months, reporting checked within 35 days, and verified annual income, assets, equity and operating cash flow. Partial and historical profiles remain available with their status. Country does not affect eligibility.</p>
   ${sectorBlocks}
 </main>` + footer();
 }

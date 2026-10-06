@@ -2,14 +2,22 @@
 // Deterministic extraction. No network, provider data, split guesses, or FX.
 const p = require('./sec-coverage');
 const DAY = 86400000;
-const EXTRACTION_VERSION = '20261005-core2';
+const EXTRACTION_VERSION = '20261006-core3';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
 const mapping = (gaap, ifrs = [], scope = 'entity') => ({ 'us-gaap': gaap, 'ifrs-full': ifrs, scope });
 const MAPS = {
  income: {
-  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenueNetOfInterestExpense'],['RevenueFromContractsWithCustomers','Revenue']),
-  netIncome:mapping(['NetIncomeLoss','ProfitLoss'],['ProfitLossAttributableToOwnersOfParent','ProfitLoss']),
+  // 'RevenuesNetOfInterestExpense' was misspelt here without its first "s", which
+  // left every broker-dealer that reports net revenues (Morgan Stanley, Goldman
+  // Sachs) with no revenue at all. Regulated utilities report operating revenue.
+  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense','RegulatedAndUnregulatedOperatingRevenue'],['RevenueFromContractsWithCustomers','Revenue']),
+  // IFRS filers such as Novartis and Sanofi report net sales and other revenues
+  // as two lines with no total; the two are added below when, and only when,
+  // the filing's own gross profit plus cost of sales confirms the sum.
+  revenueFromSaleOfGoods:mapping([],['RevenueFromSaleOfGoods']),
+  otherRevenue:mapping([],['OtherRevenue']),
+  netIncome:mapping(['NetIncomeLoss','ProfitLoss','NetIncomeLossAvailableToCommonStockholdersBasic'],['ProfitLossAttributableToOwnersOfParent','ProfitLoss']),
   operatingIncome:mapping(['OperatingIncomeLoss'],['ProfitLossFromOperatingActivities']),
   grossProfit:mapping(['GrossProfit'],['GrossProfit']),
   costOfRevenue:mapping(['CostOfRevenue','CostOfGoodsAndServicesSold','CostOfGoodsSold'],['CostOfSales']),
@@ -30,8 +38,11 @@ const MAPS = {
   dilutedEPS:mapping(['EarningsPerShareDiluted'],['DilutedEarningsLossPerShare'],'parent')
  },
  balance: {
-  totalAssets:mapping(['Assets'],['Assets']),
-  totalShareholderEquity:mapping(['StockholdersEquity','StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest'],['EquityAttributableToOwnersOfParent','Equity']),
+  // Total liabilities and equity equals total assets on every balance sheet; a
+  // filer that tags only that line still reported its total assets. Partnerships
+  // and LLCs report partners' capital or members' equity in place of stockholders' equity.
+  totalAssets:mapping(['Assets','LiabilitiesAndStockholdersEquity'],['Assets','EquityAndLiabilities']),
+  totalShareholderEquity:mapping(['StockholdersEquity','PartnersCapital','MembersEquity','StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest','PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest'],['EquityAttributableToOwnersOfParent','Equity']),
   totalLiabilities:mapping(['Liabilities'],['Liabilities']),
   totalCurrentAssets:mapping(['AssetsCurrent'],['CurrentAssets']),
   totalCurrentLiabilities:mapping(['LiabilitiesCurrent'],['CurrentLiabilities']),
@@ -50,7 +61,12 @@ const MAPS = {
   retainedEarnings:mapping(['RetainedEarningsAccumulatedDeficit'],['RetainedEarnings'])
  },
  cash: {
-  operatingCashflow:mapping(['NetCashProvidedByUsedInOperatingActivities'],['CashFlowsFromUsedInOperatingActivities']),
+  operatingCashflow:mapping(['NetCashProvidedByUsedInOperatingActivities','NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivities','CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
+  // A filer with a discontinued business tags operating cash flow in two parts
+  // and no total (Dollar Tree, DuPont, Dover, Johnson Controls, FIS, Darden);
+  // the two filed parts are added below.
+  operatingCashflowContinuing:mapping(['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'],['CashFlowsFromUsedInOperatingActivitiesContinuingOperations']),
+  operatingCashflowDiscontinued:mapping(['CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],['CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']),
   capitalExpenditures:mapping(['PaymentsToAcquirePropertyPlantAndEquipment'],['PurchaseOfPropertyPlantAndEquipment']),
   cashflowFromInvestment:mapping(['NetCashProvidedByUsedInInvestingActivities'],['CashFlowsFromUsedInInvestingActivities']),
   cashflowFromFinancing:mapping(['NetCashProvidedByUsedInFinancingActivities'],['CashFlowsFromUsedInFinancingActivities']),
@@ -61,11 +77,26 @@ const MAPS = {
   depreciationDepletionAndAmortization:mapping(['DepreciationDepletionAndAmortization'],[])
  }
 };
+// A narrower tag stands in for the full figure only when the filing shows the
+// difference is nil: net income to common equals net income when no preferred
+// dividend is reported, and continuing-operations cash flow equals total cash
+// flow when no discontinued operating cash flow is reported.
+const STAND_INS = {
+ 'us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic':['us-gaap:PreferredStockDividendsIncomeStatementImpact','us-gaap:DividendsPreferredStock','us-gaap:PreferredStockDividendsAndOtherAdjustments','us-gaap:NetIncomeLossAttributableToNoncontrollingInterest'],
+ 'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations':['us-gaap:CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations'],
+ 'ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations':['ifrs-full:CashFlowsFromUsedInOperatingActivitiesDiscontinuedOperations']
+};
+// Tags added on 2026-10-06 for filers that use nothing else. They are tried only
+// after every original tag in either taxonomy has come up empty, so no figure
+// that was already extracted can change.
+const LAST_RESORT = new Set(['us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic','us-gaap:LiabilitiesAndStockholdersEquity','ifrs-full:EquityAndLiabilities','us-gaap:PartnersCapital','us-gaap:MembersEquity',
+ 'us-gaap:PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','us-gaap:LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest',
+ 'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue']);
 const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock']);
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
 function scope(concept, fallback) {
- if (['NetIncomeLoss','StockholdersEquity','ProfitLossAttributableToOwnersOfParent','EquityAttributableToOwnersOfParent'].includes(concept)) return 'parent';
- if (['ProfitLoss','StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest','Equity'].includes(concept)) return 'consolidated';
+ if (['NetIncomeLoss','NetIncomeLossAvailableToCommonStockholdersBasic','StockholdersEquity','PartnersCapital','MembersEquity','ProfitLossAttributableToOwnersOfParent','EquityAttributableToOwnersOfParent'].includes(concept)) return 'parent';
+ if (['ProfitLoss','StockholdersEquityIncludingPortionAttributableToNoncontrollingInterest','PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest','Equity'].includes(concept)) return 'consolidated';
  return fallback;
 }
 function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = {}) {
@@ -75,6 +106,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  const rows = [];
  const wanted = new Map();
  for(const fields of Object.values(MAPS)) for(const def of Object.values(fields)) for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) wanted.set(taxonomy + ':' + concept,true);
+ for(const guards of Object.values(STAND_INS)) for(const concept of guards) wanted.set(concept,true);
  for(const [taxonomy, concepts] of Object.entries(document.facts)) for(const [concept, def] of Object.entries(concepts)) {
   if(!wanted.has(taxonomy + ':' + concept)) continue;
   for(const [unit, facts] of Object.entries(def.units || {})) for(const f of facts) {
@@ -93,12 +125,14 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  if(a) annualEnds.add(a.reportDate);
  const quarterEnds=new Set(rows.filter(r=>r.days>=75 && r.days<=105).map(r=>r.end));
  for(const end of annualEnds) quarterEnds.add(end);
+ // Original core tags only: the last-resort tags must not widen what counts as a candidate currency.
+ const coreTags=new Set();for(const [st,field] of [['income','netIncome'],['income','totalRevenue'],['balance','totalAssets'],['balance','totalShareholderEquity'],['cash','operatingCashflow']])for(const taxonomy of ['us-gaap','ifrs-full'])for(const concept of MAPS[st][field][taxonomy])if(!LAST_RESORT.has(taxonomy+':'+concept))coreTags.add(taxonomy+':'+concept);
  function currency(end, annual) {
   const restrict = annual && a?.reportDate===end;
   const sets=[];
   for(const [st,field] of [['income','netIncome'],['income','totalRevenue'],['balance','totalAssets'],['balance','totalShareholderEquity'],['cash','operatingCashflow']]) {
    const def=MAPS[st][field];
-   const found=new Set((byEnd.get(end) || []).filter(r=>r.end===end && /^[A-Z]{3}$/.test(r.unit) && def[r.taxonomy]?.includes(r.concept) && (!restrict || annualAccessions.has(r.accn)) && (st==='balance'?r.days===null:annual?r.days>=340&&r.days<=380:r.days!==null&&r.days<=380)).map(r=>r.unit));
+   const found=new Set((byEnd.get(end) || []).filter(r=>r.end===end && /^[A-Z]{3}$/.test(r.unit) && def[r.taxonomy]?.includes(r.concept) && !LAST_RESORT.has(r.taxonomy+':'+r.concept) && (!restrict || annualAccessions.has(r.accn)) && (st==='balance'?r.days===null:annual?r.days>=340&&r.days<=380:r.days!==null&&r.days<=380)).map(r=>r.unit));
    if(found.size) sets.push(found);
   }
   const possible=sets.length?[...sets[0]].filter(u=>sets.every(s=>s.has(u))):[];
@@ -108,6 +142,20 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   for(const concept of ['EntityReportingCurrencyISOCode','EntityReportingCurrency']) for(const facts of Object.values(document.facts.dei?.[concept]?.units || {})) for(const f of facts) if(annualAccessions.has(f.accn) && /^[A-Z]{3}$/.test(String(f.val))) declared.add(f.val);
   if(declared.size===1 && possible.includes([...declared][0])) return [...declared][0];
   if(possible.length===1) return possible[0];
+  // A foreign filer often prints a US-dollar "convenience translation" of the
+  // current year beside its own currency (Alibaba, PDD, JD, NetEase: 253 issuers
+  // on 2026-10-06, some stuck at 2017 because of it). Each filing carries the
+  // reporting currency for the current year and its comparatives but the
+  // translation for the current year only, so within the filing that reports
+  // this period the reporting currency has clearly more core figures.
+  if(possible.length>1){
+   const reporting=(byEnd.get(end) || []).filter(r=>coreTags.has(r.taxonomy+':'+r.concept) && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form) && possible.includes(r.unit) && (!restrict || annualAccessions.has(r.accn))).sort((x,y)=>y.filed.localeCompare(x.filed)||y.accn.localeCompare(x.accn))[0];
+   if(reporting){
+    const counts=new Map();for(const r of rows)if(r.accn===reporting.accn && coreTags.has(r.taxonomy+':'+r.concept) && possible.includes(r.unit))counts.set(r.unit,(counts.get(r.unit) || 0)+1);
+    const ranked=[...counts].sort((x,y)=>y[1]-x[1]);
+    if(ranked.length>1 && ranked[0][1]>=ranked[1][1]*1.5 && ranked[0][1]>=4) return ranked[0][0];
+   }
+  }
   out.issues.push({code:'AMBIGUOUS_CURRENCY',periodEnd:end,currencies:possible});return null;
  }
  function select(candidates, key) {
@@ -126,12 +174,15 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
   const restrict=basis==='annual' && a?.reportDate===end;
-  for(const taxonomy of ['us-gaap','ifrs-full']) for(const concept of def[taxonomy]) {
+  const tags=['us-gaap','ifrs-full'].flatMap(taxonomy=>def[taxonomy].map(concept=>[taxonomy,concept]));
+  for(const [taxonomy,concept] of [...tags.filter(t=>!LAST_RESORT.has(t.join(':'))),...tags.filter(t=>LAST_RESORT.has(t.join(':')))]) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
    const all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>!restrict || annualAccessions.has(r.accn));
    const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=105));
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
+   const guards=STAND_INS[taxonomy+':'+concept];
+   if(selected && guards && ['netIncome','operatingCashflow'].includes(field) && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===end && r.accn===selected.accn && r.start===selected.start && r.val!==0))continue;
    if(selected)return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};
    if(basis==='quarterly' && st!=='balance' && unit===cur) {
     const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
@@ -171,8 +222,10 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
    if(st==='income') {
     // Bank net revenue is a monetary flow, not gross interest income.
     if(/^(602|603|609)/.test(String(evidence.sic || '')))combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
+    if(row.totalRevenue===null && row.revenueFromSaleOfGoods!==null && row.otherRevenue!==null && row.grossProfit!==null && row.costOfRevenue!==null && row.revenueFromSaleOfGoods+row.otherRevenue===row.grossProfit+row.costOfRevenue)combine('totalRevenue','revenueFromSaleOfGoods','otherRevenue','sum_fields');
     if(!/^(602|603|609|63)/.test(out.reportingSic))combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
    }
+   if(st==='cash')combine('operatingCashflow','operatingCashflowContinuing','operatingCashflowDiscontinued','sum_fields');
    if(st==='balance') {
     combine('shortTermDebt','shortTermBorrowings','currentLongTermDebt','sum_fields');
     combine('shortLongTermDebtTotal','shortTermDebt','longTermDebt','sum_fields');

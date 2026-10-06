@@ -19,3 +19,18 @@ test('unknown inline transformation, nil values and segment contexts do not beco
  const text='<context id="a"><entity><identifier>123</identifier><segment><explicitMember dimension="x:CountryAxis">x:USMember</explicitMember></segment></entity><period><startDate>2025-01-01</startDate><endDate>2025-12-31</endDate></period></context><unit id="usd"><measure>iso4217:USD</measure></unit><ix:nonFraction name="us-gaap:Revenues" contextRef="a" unitRef="usd">12</ix:nonFraction>';
  assert.deepEqual(parseOriginal(text,filing,CIK).facts,{});
 });
+
+// Clorox's FY2026 10-K: the primary document is a cover page that declares the
+// periods and units; the statements sit in a second document that only refers to them.
+test('a second document reads its figures against the periods declared in the first',()=>{
+ const {parseOriginal}=require('../sec-original');
+ const filing={form:'10-K',filingDate:'2026-08-07',accessionNumber:'0000000123-26-000001',documentUrl:'https://www.sec.gov/Archives/edgar/data/123/000000012326000001/a.htm'};
+ const header='<ix:header><ix:resources><xbrli:context id="c1"><xbrli:entity><xbrli:identifier scheme="http://www.sec.gov/CIK">0000000123</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2025-07-01</xbrli:startDate><xbrli:endDate>2026-06-30</xbrli:endDate></xbrli:period></xbrli:context><xbrli:unit id="usd"><xbrli:measure>iso4217:USD</xbrli:measure></xbrli:unit></ix:resources></ix:header>';
+ const body='<ix:nonFraction name="us-gaap:Revenues" contextRef="c1" unitRef="usd" scale="6" decimals="-6" format="ixt:num-dot-decimal">6,720</ix:nonFraction>';
+ assert.deepEqual(parseOriginal('<html>'+body+'</html>',filing,'123').facts,{});
+ const shared={contexts:new Map(),units:new Map()};
+ assert.deepEqual(parseOriginal('<html>'+header+'</html>',filing,'123',shared).facts,{});
+ const second=parseOriginal('<html>'+body+'</html>',{...filing,documentUrl:filing.documentUrl.replace('a.htm','a_d2.htm')},'123',shared);
+ assert.equal(second.facts['us-gaap'].Revenues.units.USD[0].val,6720000000);
+ assert.match(second.facts['us-gaap'].Revenues.units.USD[0]._original.documentUrl,/a_d2\.htm$/);
+});

@@ -30,3 +30,39 @@ test('identity mismatch is rejected before financial extraction',()=>{
  const {doc,evidence}=fixture();assert.throws(()=>extract({...doc,cik:456},evidence),/IDENTITY/);
 });
 module.exports={fixture};
+
+// Measured 2026-10-06: 1,104 stock issuers lacked a core figure in their newest
+// annual report and whole companies were dropped from coverage for it.
+const swap=(doc,from,to)=>{doc.facts['us-gaap'][to]=doc.facts['us-gaap'][from];delete doc.facts['us-gaap'][from];};
+test('net revenues, utility revenue, partners capital and balance-sheet totals are read under the tags filers use',()=>{
+ for(const tag of ['RevenuesNetOfInterestExpense','RegulatedAndUnregulatedOperatingRevenue']){const {doc,evidence}=fixture();swap(doc,'Revenues',tag);doc.facts['us-gaap'][tag].units.USD[0].val=500;assert.equal(extract(doc,evidence,{asOf:'2026-10-03'}).income.annualReports[0].totalRevenue,500,tag);}
+ const {doc,evidence}=fixture();swap(doc,'StockholdersEquity','PartnersCapital');swap(doc,'Assets','LiabilitiesAndStockholdersEquity');
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.balance.annualReports[0].totalShareholderEquity,100);assert.equal(d.balance.annualReports[0].totalAssets,100);
+ assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);assert.equal(p.classify(evidence,d,'2026-10-03').financialCoverage,'ready');
+});
+test('a narrower tag stands in only when the filing shows no difference, and never displaces an original tag',()=>{
+ let {doc,evidence}=fixture();swap(doc,'NetCashProvidedByUsedInOperatingActivities','NetCashProvidedByUsedInOperatingActivitiesContinuingOperations');swap(doc,'NetIncomeLoss','NetIncomeLossAvailableToCommonStockholdersBasic');
+ let d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.cash.annualReports[0].operatingCashflow,100);assert.equal(d.income.annualReports[0].netIncome,100);
+ const period={start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'};
+ doc.facts['us-gaap'].CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations={units:{USD:[{...period,val:7}]}};doc.facts['us-gaap'].DividendsPreferredStock={units:{USD:[{...period,val:3}]}};
+ d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.cash.annualReports[0].operatingCashflow,107);assert.equal(d.income.annualReports[0].netIncome,null);
+ ({doc,evidence}=fixture());doc.facts['us-gaap'].NetCashProvidedByUsedInOperatingActivitiesContinuingOperations={units:{USD:[{...period,val:999}]}};
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-03'}).cash.annualReports[0].operatingCashflow,100);
+});
+test('a dollar convenience translation of the current year does not hide the reporting currency',()=>{
+ const {doc,evidence}=fixture('us-gaap','CNY');
+ for(const fact of Object.values(doc.facts['us-gaap'])){const row=fact.units.CNY[0];fact.units.CNY.push({...row,...(row.start?{start:'2024-01-01'}:{}),end:'2024-12-31'});fact.units.USD=[{...row,val:row.val/7}];}
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.income.annualReports[0].reportedCurrency,'CNY');assert.equal(d.income.annualReports[0].netIncome,100);
+ assert.ok(!d.issues.some(i=>i.code==='AMBIGUOUS_CURRENCY' && i.periodEnd==='2025-12-31'));
+});
+test('net sales and other revenues are added only when gross profit plus cost of sales confirms the total',()=>{
+ const build=gross=>{const {doc,evidence}=fixture('ifrs-full','EUR');delete doc.facts['ifrs-full'].Revenue;const f=(val)=>({units:{EUR:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'20-F',filed:'2026-02-01'}]}});
+  Object.assign(doc.facts['ifrs-full'],{RevenueFromSaleOfGoods:f(900),OtherRevenue:f(100),GrossProfit:f(gross),CostOfSales:f(300)});return {d:extract(doc,evidence,{asOf:'2026-10-03'}),evidence};};
+ const ok=build(700);assert.equal(ok.d.income.annualReports[0].totalRevenue,1000);assert.deepEqual(p.validateFinancial(ok.d,CIK,'2026-10-03'),[]);
+ assert.equal(build(650).d.income.annualReports[0].totalRevenue,null);
+});
+test('operating cash flow filed as continuing and discontinued parts is their sum',()=>{
+ const {doc,evidence}=fixture();swap(doc,'NetCashProvidedByUsedInOperatingActivities','NetCashProvidedByUsedInOperatingActivitiesContinuingOperations');
+ doc.facts['us-gaap'].CashProvidedByUsedInOperatingActivitiesDiscontinuedOperations={units:{USD:[{val:-30,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}};
+ const d=extract(doc,evidence,{asOf:'2026-10-03'});assert.equal(d.cash.annualReports[0].operatingCashflow,70);assert.deepEqual(p.validateFinancial(d,CIK,'2026-10-03'),[]);assert.equal(p.classify(evidence,d,'2026-10-03').financialCoverage,'ready');
+});

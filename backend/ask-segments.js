@@ -99,7 +99,7 @@ async function extractWork(listing, income) {
     try {
         // Read as bytes and scan as a one-byte string: the tags and figures are
         // ASCII, and a 13 MB bank filing then costs 13 MB instead of 26.
-        const response = await axios.get(filing.url, { headers: secSource.SEC_HEADERS, timeout: 20000, maxContentLength: 20 * 1024 * 1024, responseType: 'arraybuffer' });
+        const response = await axios.get(filing.url, { headers: secSource.SEC_HEADERS, timeout: 30000, maxContentLength: 32 * 1024 * 1024, responseType: 'arraybuffer' });
         const bytes = Buffer.isBuffer(response.data) ? response.data : null;
         // The filing's own tagged breakdown needs no model at all. Most
         // companies are answered here; only an untagged filing goes on to the

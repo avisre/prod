@@ -40,7 +40,12 @@ function reportingStatus(evidence, asOf = day(new Date().toISOString())) {
     const a = evidence.latestAnnual;
     if (!a) return evidence.amendmentOnly ? 'unverified' : 'no_recent_annual';
     if (!/^(10-K|20-F|40-F)$/.test(a.form) || !day(a.filingDate) || !day(a.reportDate) || a.filingDate > asOf || a.reportDate > asOf) return 'unverified';
-    return a.filingDate >= monthsBefore(asOf, 12) && a.reportDate >= monthsBefore(asOf, 18) ? 'recent_annual' : 'no_recent_annual';
+    // A company is current until its next annual report is overdue, not until
+    // the anniversary of the last one: Micron filed on 2025-10-03, and a strict
+    // twelve months dropped it (and Ferguson, and seven others) from coverage for
+    // the days before this year's filing. Fifteen months covers the filing
+    // deadline plus a late-filing extension; the 18-month period test is unchanged.
+    return a.filingDate >= monthsBefore(asOf, 15) && a.reportDate >= monthsBefore(asOf, 18) ? 'recent_annual' : 'no_recent_annual';
 }
 function validSource(source, issuerCik) {
     if(source?.verificationMethod==='original_inline_xbrl' && require('./sec-inline-number').number(source.originalDocument?.numericReceipt)!==source.rawValue)return false;
@@ -59,7 +64,9 @@ function verifiedField(data, row, field, accessions) {
     if(field==='grossProfit' && derived && /^(602|603|609|63)/.test(String(data.reportingSic || '')))return false;
     if(['sum_fields','difference_fields'].includes(derived?.formula)) {
         const permitted={totalRevenue:['netInterestIncome','nonInterestIncome'],grossProfit:['totalRevenue','costOfRevenue'],shortTermDebt:['shortTermBorrowings','currentLongTermDebt'],shortLongTermDebtTotal:['shortTermDebt','longTermDebt']};
-        const inputs=permitted[field];
+        // Net sales plus other revenues, for IFRS filers that report no total line.
+        const alternate={totalRevenue:['revenueFromSaleOfGoods','otherRevenue'],operatingCashflow:['operatingCashflowContinuing','operatingCashflowDiscontinued']};
+        const inputs=JSON.stringify(derived.inputs)===JSON.stringify(alternate[field])?alternate[field]:permitted[field];
         if(!inputs || JSON.stringify(derived.inputs)!==JSON.stringify(inputs) || !inputs.every(f=>verifiedField(data,row,f,accessions)))return false;
         if(row._scopes?.[inputs[0]]!==row._scopes?.[inputs[1]])return false;
         const versions=field=>[...new Set((row._sources[field] || []).map(id=>data.sources[id]?.accessionNumber))].sort().join('|');

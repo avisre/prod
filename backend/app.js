@@ -10102,7 +10102,7 @@ function screenerCriteria(q) {
 }
 
 app.get('/api/stock-coverage', (req, res) => {
-    try { const {counts,asOf,generatedAt,policyVersion,datasetId}=require('./public-stock-index').view(); const financialCoverage=require('./financial-coverage').summary(datasetId);res.json({counts,asOf,generatedAt,policyVersion,datasetId,financialCoverage,definition:'Validated issuer with an original 10-K, 20-F or 40-F filed within 12 calendar months, a report period ending within 18 calendar months, and submissions checked within 35 days. That annual report or its verified amendment supplies annual net income, assets, shareholders’ equity, operating cash flow, and revenue or basic/diluted EPS, with exact SEC provenance.'}); }
+    try { const {counts,asOf,generatedAt,policyVersion,datasetId}=require('./public-stock-index').view(); const financialCoverage=require('./financial-coverage').summary(datasetId);res.json({counts,asOf,generatedAt,policyVersion,datasetId,financialCoverage,definition:'Validated issuer with an original 10-K, 20-F or 40-F filed within 15 calendar months, a report period ending within 18 calendar months, and submissions checked within 35 days. That annual report or its verified amendment supplies annual net income, assets, shareholders’ equity, operating cash flow, and revenue or basic/diluted EPS, with exact SEC provenance.'}); }
     catch(error) { res.status(503).json({code:'STOCK_COVERAGE_UNAVAILABLE',message:'Verified coverage is temporarily unavailable.'}); }
 });
 

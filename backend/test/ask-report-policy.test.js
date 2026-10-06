@@ -11,7 +11,9 @@ test('names, tickers and open questions select the same full policy in both mode
 });
 test('identity precedes keyword exclusions; ambiguous listings and funds keep their own treatment',()=>{
  assert.equal(p.select('Realty Income').company.symbol,'O');
- const choice=p.select('Alphabet');assert.equal(choice.kind,'listing_choice');assert.deepEqual(new Set(choice.choices.map(c=>c.symbol)),new Set(['GOOG','GOOGL']));
+ // Two share classes or a hedged product on the shares are one company, not a question for the reader.
+ for(const [name,symbol] of [['Alphabet','GOOGL'],['google','GOOGL'],['berkshire','BRK.B'],['toyota','TM'],['shell','SHEL'],['exxon','XOM'],['apple','AAPL']]){const one=p.select(name);assert.equal(one.kind,'company_report',name);assert.equal(one.company.symbol,symbol,name);}
+ const choice=p.select('United');assert.equal(choice.kind,'listing_choice');assert.ok(new Set(choice.choices.map(c=>c.symbol)).has('UAL'));assert.ok(choice.choices.length>2);
  assert.equal(p.select('SPY').kind,'fund');assert.equal(p.select('NEA').kind,'fund');
  const mutual={symbol:'VTSAX',name:'Vanguard Total Stock Market',securityType:'mutual_fund'};assert.equal(p.select('VTSAX','normal',{companies:[mutual]}).kind,'fund');
  for(const question of ['AMD revenue last quarter','Compare AMD and NVDA','How is my portfolio doing?','Summarise AMD latest results'])assert.equal(p.select(question).kind,'focused',question);
@@ -46,7 +48,7 @@ const tc=(id,tool,args)=>({id,type:'function',function:{name:tool,arguments:JSON
 test('bare tickers cannot publish an interjection without research, and listing choices use no model calls',async()=>{
  let calls=0;engine.__setDeps({chatRaw:async()=>{calls++;return {content:'Oh, interesting.'};},runTool:async()=>({error:'Offline test fixture'})});
  const noEvidence=await engine.ask({question:'O',mode:'analyst'});assert.equal(noEvidence.source,'partial');assert.notEqual(noEvidence.answer,'Oh, interesting.');assert.equal(calls,2);
- calls=0;const choice=await engine.ask({question:'Alphabet'});assert.equal(choice.source,'disambiguation');assert.match(choice.answer,/GOOG/);assert.equal(calls,0);
+ calls=0;const choice=await engine.ask({question:'United'});assert.equal(choice.source,'disambiguation');assert.match(choice.answer,/UAL/);assert.equal(calls,0);
 });
 test('full reports preload required evidence once, supplement gaps, then draft from the prepared results',async()=>{
  const policy=p.select('AMD'), required=p.missingResearch(policy,[]);let calls=0,supplements=0;
@@ -175,7 +177,7 @@ test('company story spelling and history requests resolve the listing before sel
   assert.deepEqual(p.missingResearch(policy,[]).map(r=>r.tool),['get_financials','get_key_points']);
  }
  for(const question of ['AMD price history','AMD stock price','tell me the stock of AMD'])assert.equal(p.select(question).story,false,question);
- assert.equal(p.select('Tell me the stroy of Alphabet').kind,'listing_choice');assert.equal(p.select('Tell me the stroy of SPY').kind,'fund');
+ assert.equal(p.select('Tell me the stroy of United').kind,'listing_choice');assert.equal(p.select('Tell me the stroy of Alphabet').company.symbol,'GOOGL');assert.equal(p.select('Tell me the stroy of SPY').kind,'fund');
 });
 
 test('AMD story evidence precedes generation even when the model chooses only a quote',async()=>{

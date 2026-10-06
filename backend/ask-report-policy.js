@@ -31,6 +31,39 @@ function listings() {
     }
     return registry;
 }
+// What people type for the largest companies is often not the registered name:
+// "google" is listed as Alphabet, "exxon" as ExxonMobil, and "apple" is also the
+// first word of an unrelated REIT. Measured 2026-10-06: "google" resolved to a
+// hedged fund, "exxon" to nothing, and "toyota", "shell" and "berkshire" each
+// stopped to ask which listing was meant.
+const COMMON_NAMES = {
+    google: 'GOOGL', alphabet: 'GOOGL', facebook: 'META', meta: 'META', exxon: 'XOM', 'exxon mobil': 'XOM', exxonmobil: 'XOM',
+    jpmorgan: 'JPM', 'j p morgan': 'JPM', 'jp morgan': 'JPM', 'jpmorgan chase': 'JPM', berkshire: 'BRK.B', 'berkshire hathaway': 'BRK.B',
+    'bank of america': 'BAC', bofa: 'BAC', tsmc: 'TSM', 'taiwan semiconductor': 'TSM', coke: 'KO', 'coca cola': 'KO', mcdonalds: 'MCD',
+    disney: 'DIS', walmart: 'WMT', 'at t': 'T', verizon: 'VZ', pepsi: 'PEP', pepsico: 'PEP', 'johnson johnson': 'JNJ', 'procter gamble': 'PG',
+    lilly: 'LLY', 'eli lilly': 'LLY', goldman: 'GS', 'goldman sachs': 'GS', 'morgan stanley': 'MS', 'wells fargo': 'WFC', citi: 'C',
+    citigroup: 'C', chevron: 'CVX', 'home depot': 'HD', 'general electric': 'GE', 'general motors': 'GM', ford: 'F', ibm: 'IBM', '3m': 'MMM',
+    nvidia: 'NVDA', tesla: 'TSLA', apple: 'AAPL', amazon: 'AMZN', microsoft: 'MSFT', netflix: 'NFLX', intel: 'INTC', broadcom: 'AVGO',
+    visa: 'V', mastercard: 'MA', costco: 'COST', oracle: 'ORCL', salesforce: 'CRM', adobe: 'ADBE', paypal: 'PYPL', uber: 'UBER', boeing: 'BA',
+    starbucks: 'SBUX', nike: 'NKE', pfizer: 'PFE', merck: 'MRK', abbvie: 'ABBV', unitedhealth: 'UNH', toyota: 'TM', shell: 'SHEL',
+    'novo nordisk': 'NVO', astrazeneca: 'AZN', alibaba: 'BABA', sony: 'SONY', micron: 'MU', caterpillar: 'CAT', robinhood: 'HOOD',
+    palantir: 'PLTR', coinbase: 'COIN', booking: 'BKNG', 'booking holdings': 'BKNG', honeywell: 'HON', lockheed: 'LMT', 'lockheed martin': 'LMT'
+};
+// Several listings can carry one company name: a hedged or leveraged product
+// built on the shares, or a second share class. Neither is a reason to stop and
+// ask — the operating company's own most-traded listing is what was meant.
+const DERIVED_PRODUCT = /hedged|leverag|\b[1-3]x\b|\binverse\b|\bETF\b|\bETN\b|daily target|option income|yield ?max/i;
+const PRIMARY_CLASS = { 'BRK-A': 'BRK.B', 'BRK.A': 'BRK.B', GOOG: 'GOOGL' };
+function narrow(matches) {
+    if (matches.length < 2) return matches;
+    const own = matches.filter(c => (c.securityType || 'stock') === 'stock' && !DERIVED_PRODUCT.test((c.securityName || '') + ' ' + (c.name || '')));
+    const list = own.length ? own : matches;
+    if (list.length > 1 && list.every(c => c.cik) && new Set(list.map(c => c.cik)).size === 1) {
+        const preferred = list.find(c => Object.values(PRIMARY_CLASS).includes(c.symbol) && list.some(o => PRIMARY_CLASS[o.symbol] === c.symbol));
+        return [preferred || list.slice().sort((a, b) => a.symbol.length - b.symbol.length || a.symbol.localeCompare(b.symbol))[0]];
+    }
+    return list;
+}
 function resolve(question, companies = listings()) {
     const subject = narrativeQuestion(question).replace(EXPLICIT, '').trim().replace(/[?.!,]+$/g, '')
         .replace(/^(?:please\s+)?(?:tell me about|what do you think (?:of|about)|give me (?:an? )?(?:overview|report|analysis) (?:of|on)|how is|what does|analy[sz]e|explain)\s+/i, '')
@@ -41,9 +74,9 @@ function resolve(question, companies = listings()) {
     const symbol = require('./symbol-resolver').normalizeTicker(subject.replace(/^\$/, ''));
     let matches = companies.filter(c => require('./symbol-resolver').normalizeTicker(c.symbol) === symbol);
     const key = nameKey(subject);
-    if (!matches.length && key) matches = companies.filter(c => nameKey(c.name) === key);
-    if (!matches.length && /^(?:jpmorgan|j p morgan)$/.test(key)) matches = companies.filter(c => c.symbol === 'JPM');
-    if (!matches.length && key.length >= 3) matches = companies.filter(c => nameKey(c.name).startsWith(key + ' '));
+    if (!matches.length && COMMON_NAMES[key]) matches = companies.filter(c => c.symbol === COMMON_NAMES[key]);
+    if (!matches.length && key) matches = narrow(companies.filter(c => nameKey(c.name) === key));
+    if (!matches.length && key.length >= 3) matches = narrow(companies.filter(c => nameKey(c.name).startsWith(key + ' ')));
     return { subject, matches, bare: matches.length > 0 };
 }
 function select(question = '', mode = 'analyst', options = {}) {

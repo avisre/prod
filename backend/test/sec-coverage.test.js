@@ -16,7 +16,11 @@ function financial() {
 test('annual clock is inclusive, calendar-based, and distinct from verification freshness',()=>{
     assert.equal(p.monthsBefore('2024-02-29',12),'2023-02-28');
     const e=evidence();assert.equal(p.reportingStatus(e,'2026-10-03'),'recent_annual');
-    assert.equal(p.reportingStatus(e,'2026-10-04'),'no_recent_annual');
+    assert.equal(p.reportingStatus(e,'2026-10-04'),'recent_annual');
+    // Current past the filing anniversary, until fifteen months from the filing or eighteen from the period end.
+    const late=evidence();late.latestAnnual.reportDate='2025-04-30';late.latestAnnual.filingDate='2025-07-03';assert.equal(p.reportingStatus(late,'2026-10-03'),'recent_annual');
+    late.latestAnnual.filingDate='2025-07-02';assert.equal(p.reportingStatus(late,'2026-10-03'),'no_recent_annual');
+    const old=evidence();old.latestAnnual.reportDate='2025-04-02';old.latestAnnual.filingDate='2025-09-01';assert.equal(p.reportingStatus(old,'2026-10-03'),'no_recent_annual');
     e.lastSuccessfulCheckAt='2026-08-01';assert.equal(p.reportingStatus(e,'2026-10-03'),'unverified');
 });
 test('amendments never reset the original filing date and annual selection uses report period',()=>{
