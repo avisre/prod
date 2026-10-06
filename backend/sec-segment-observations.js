@@ -40,14 +40,26 @@ function validGroup(g,data) {
  if(g.entries.some(e=>!e.contextRef || !e.sourceUrl?.startsWith(base) || e.sourceVersion!==g.sourceVersion || e.sourceFact?.rawValue!==e.value || e.sourceFact?.unit!==g.currency || e.sourceFact?.periodStart!==g.periodStart || e.sourceFact?.periodEnd!==g.periodEnd || !concepts[e.sourceFact?.taxonomy]?.includes(e.sourceFact.concept) || !e.sourceIds?.length || e.label && LABELS[g.issuer]?.[e.member]!==e.label))return false;
  const sum=g.entries.reduce((n,e)=>n+e.value,0);return sum===g.sum && g.difference===g.totalRevenue-sum && g.reconciliationStatus===(Math.abs(g.difference)<=g.roundingTolerance?'reconciled':'partial');
 }
+// The reviewed label where one exists; otherwise the issuer's own element name
+// set in plain words. A raw "meta:FamilyOfAppsMember" never reaches a reader.
+// Members whose element name is an initialism the filing spells out.
+const SPELLED={'inod:DdsMember':'Digital Data Solutions'};
+const displayName=e=>e.label || SPELLED[e.member] || require('./ask-inline-segments').label(e.member) || e.member;
+// Newest period first. A single-member "segment" axis says nothing, so the
+// product and service lines lead when that is all the segment note holds.
+function preferred(groups) {
+ const latest=re=>(groups || []).filter(g=>re.test(g.axis)).sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
+ const business=latest(/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/),product=latest(/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/);
+ return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || (groups || [])[0]};
+}
 function toolPayload(g,data,symbol) {
  if(!validGroup(g,data))return null;
  const row=data.income.annualReports.find(r=>r.fiscalDateEnding===g.periodEnd),sources=Object.fromEntries(g.totalSourceIds.map(id=>[id,data.sources[id]]));
  const witness={cik:data.cik,income:{annualReports:[{fiscalDateEnding:row.fiscalDateEnding,periodStart:row.periodStart,periodType:row.periodType,reportedCurrency:row.reportedCurrency,totalRevenue:row.totalRevenue,_sources:{totalRevenue:row._sources.totalRevenue},_derivations:{},_scopes:{totalRevenue:row._scopes.totalRevenue}}]},sources};
  return {symbol,cik:g.issuer,basis:'annual segment disclosures',periodEnd:g.periodEnd,currency:g.currency,fiscalYear:'FY'+g.periodEnd.slice(0,4),
-  segments:g.entries.map(e=>({name:e.label || e.member,value:e.value,reportedRevenue:e.value,revenueUsd:g.currency==='USD'?e.value:null,revenuePct:g.totalRevenue>0?e.value/g.totalRevenue*100:null,description:'Reported segment member '+e.member})),
-  observations:g.entries.map(e=>({name:e.label || e.member,periodEnd:g.periodEnd,currency:g.currency,fields:{segmentRevenue:{value:e.value,unit:g.currency,currency:g.currency,scope:'segment',sourceIds:e.sourceIds}}})),
+  segments:g.entries.map(e=>({name:displayName(e),member:e.member,value:e.value,reportedRevenue:e.value,revenueUsd:g.currency==='USD'?e.value:null,revenuePct:g.totalRevenue>0?Math.round(e.value/g.totalRevenue*1000)/10:null,description:''})),
+  observations:g.entries.map(e=>({name:displayName(e),periodEnd:g.periodEnd,currency:g.currency,fields:{segmentRevenue:{value:e.value,unit:g.currency,currency:g.currency,scope:'segment',sourceIds:e.sourceIds}}})),
   filing:{form:sources[g.totalSourceIds[0]].form,date:g.publicationDate,accessionNumber:g.sourceVersion,url:g.sourceUrl},storedSegmentsReceipt:g,financialWitness:witness,
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
-module.exports={extract,validGroup,toolPayload,LABELS};
+module.exports={extract,validGroup,toolPayload,preferred,displayName,LABELS};

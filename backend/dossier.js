@@ -17,6 +17,7 @@ const aiChat = require('./ai-chat');
 const { plainSummary, plainJsonArray, plainBullBear } = require('./plain-language');
 const insights = require('./insights');
 const segments = require('./segments');
+const offBalanceSheet = require('./off-balance-sheet');
 const unitEconomics = require('./unit-economics');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
@@ -86,7 +87,30 @@ async function cachedDossier(col, sym, fyEnd, depth = 'standard', evidenceFinger
 }
 
 // Prices refresh independently of the saved filing analysis. No model call.
+// Commitments outside the balance sheet, read from the latest periodic filing.
+// Bounded: a slow SEC fetch must not hold the page, and the reader caches per
+// filing, so the next view has it.
+async function offBalanceFor(sym) {
+    if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return null;
+    let timer;
+    try {
+        const r = await Promise.race([offBalanceSheet.extract(sym), new Promise(resolve => { timer = setTimeout(() => resolve(null), 12000); })]);
+        return r && !r.error && r.categories?.length ? r : null;
+    } catch (_) { return null; } finally { clearTimeout(timer); }
+}
+// A dossier cached before segment names were set in plain words still holds the
+// raw XBRL member ("meta:FamilyOfAppsMember") and an unrounded share. Repair it
+// on read rather than rebuilding every cached dossier.
+function readableSegments(seg) {
+    if (!seg || !Array.isArray(seg.items)) return seg;
+    return { ...seg, note: /^Reported eliminations and unallocated members/.test(String(seg.note || '')) ? null : seg.note, items: seg.items.map(x => ({ ...x,
+        name: /:|Member$/.test(String(x.name || '')) ? require('./sec-segment-observations').displayName({ member: x.name }) : x.name,
+        revenuePct: Number.isFinite(x.revenuePct) ? Math.round(x.revenuePct * 10) / 10 : x.revenuePct,
+        description: /^Reported segment member /.test(String(x.description || '')) ? '' : x.description })) };
+}
 async function refreshValuation(payload, sym, data) {
+    payload = { ...payload, segments: readableSegments(payload.segments),
+        offBalanceSheet: payload.offBalanceSheet || await offBalanceFor(sym) };
     if(!data.marketData?.asOf)return payload;
     const rdcf=reverseDcf.computeFromData(sym,data);
     const forward=await valuationDcf.buildValuation(sym,{data,rdcf:rdcf.error?null:rdcf});
@@ -349,20 +373,22 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         // tripling them would be expensive and mostly redundant. Its value is
         // the year-over-year keypoints comparison: newly disclosed risks,
         // dropped risks, strategy drift — reused here rather than rebuilt.
-        const [rdcfR, checksR, insightsR, segsR, monitorR, ueR, trendR] = await Promise.allSettled([
+        const [rdcfR, checksR, insightsR, segsR, monitorR, ueR, trendR, obsR] = await Promise.allSettled([
             reverseDcf.computeReverseDcf(sym),
             Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
             insights.generateInsights(sym),
             segments.extractSegments(sym),
             filingMonitor.buildReport(sym).catch(() => null),
             unitEconomics.extract(sym),
-            depth === 'deep' ? keypoints.extractKeyPoints(sym, { depth: 'deep', allowAi: true }) : Promise.resolve(null)
+            depth === 'deep' ? keypoints.extractKeyPoints(sym, { depth: 'deep', allowAi: true }) : Promise.resolve(null),
+            offBalanceFor(sym)
         ]);
     const ok = (r) => (r.status === 'fulfilled' && r.value && !r.value.error ? r.value : null);
     const rdcf = ok(rdcfR);
     const checks = (checksR.status === 'fulfilled' && checksR.value && Array.isArray(checksR.value.checks)) ? checksR.value.checks : [];
     const insightItems = (ok(insightsR) || {}).insights || [];
     const segs = ok(segsR);
+    const offBalance = obsR.status === 'fulfilled' ? obsR.value : null;
     const monitor = ok(monitorR);
     const ue = ok(ueR);
     const deltas = monitor && monitor.deltas ? monitor.deltas : [];
@@ -449,6 +475,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
             basis: segs.basis || null,
             filing: segs.filing || null
         } : null,
+        offBalanceSheet: offBalance,
         unitEconomics: ue && (ue.derived || (ue.metrics && ue.metrics.length)) ? {
             unitLabel: ue.unitLabel || (ue.derived && ue.derived.unitLabel) || null,
             fiscalYear: ue.fiscalYear || null,

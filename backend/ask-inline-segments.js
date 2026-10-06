@@ -4,7 +4,7 @@
 const crypto = require('node:crypto');
 const hash = s => crypto.createHash('sha256').update(s).digest('hex');
 const compact = s => String(s || '').replace(/\s+/g, ' ').trim();
-const labelKey = s => String(s || '').replace(/Member$/, '').replace(/[^a-z0-9]/gi, '').toLowerCase();
+const labelKey = s => String(s || '').replace(/Member$/, '').replace(/[^a-z0-9]/gi, '').toLowerCase().replace(/threesixfive/g, '365');
 const attributes = s => Object.fromEntries([...s.matchAll(/([\w:-]+)\s*=\s*(["'])(.*?)\2/g)].map(m => [m[1].toLowerCase(), m[3]]));
 const content = (s, tag) => s.match(new RegExp(`<(?:[\\w.-]+:)?${tag}\\b[^>]*>([\\s\\S]*?)<\\/(?:[\\w.-]+:)?${tag}>`, 'i'))?.[1]?.trim();
 const REVENUE = /^(?:us-gaap:(?:Revenues|SalesRevenueNet|RevenueFromContractWithCustomerExcludingAssessedTax|RevenueFromContractWithCustomerIncludingAssessedTax)|ifrs-full:Revenue)$/;
@@ -74,12 +74,31 @@ const BROAD_REVENUE = /^(?:us-gaap:(?:Revenues|SalesRevenueNet|RevenueFromContra
 // breaks down premiums, and the table must say so.
 const MEASURES = { 'us-gaap:PremiumsEarnedNet': 'net premiums earned' };
 const SMALL = new Set(['And', 'Of', 'The', 'For', 'In', 'To', 'Or']);
+// Element names glue a trailing conjunction onto the word before it
+// ("AssetandWealthManagement"). These are the real words that end the same way,
+// measured across every stored segment member, and they are left whole.
+const WHOLE = /^(?:[a-z]*land|(?:co)?brand|(?:broad|head|hus)?band|(?:before|first|second)?hand|(?:under)?stand|demand|command|expand|(?:quick)?sand|strand|grand|errand|operand|thousand|[a-z]*(?:roof|proof)|hoof|thereof)$/i;
+const UNGLUED = /^(?:oil|small|rental|control|cereal|agricultural|individual|commercial|land)and$/i;
+const unglue = w => {
+    const m = w.match(/^([A-Za-z]{3,})(and|of)$/);
+    return m && (UNGLUED.test(w) || !WHOLE.test(w)) ? m[1] + ' ' + m[2] : w;
+};
+const ACRONYMS = new Set(['usa', 'us', 'uk', 'eu', 'emea', 'apac', 'aws', 'oem', 'atm', 'it', 'ai', 'ip', 'tv', 'ev', 'hvac', 'reit', 'etf', 'api', 'crm', 'erp', 'gps', 'led', 'lng', 'llc', 'pc', 'rv']);
+const ABBREVIATIONS = new Set(['ltd', 'st', 'mr', 'dr', 'vs', 'jr', 'sr', 'mt', 'by', 'my']);
+// A short token with no vowel is an initialism the filer wrote in title case
+// ("Dds" for Digital Data Solutions), not a word.
+const initialism = w => ACRONYMS.has(w.toLowerCase()) || /^[B-DF-HJ-NP-TV-XZ][b-df-hj-np-tv-xz]{1,3}$/.test(w) && !ABBREVIATIONS.has(w.toLowerCase());
+const BRANDS = [[/\bThree Six Five\b/g, '365'], [/\bLinked in\b/gi, 'LinkedIn'], [/\bXBOX\b/g, 'Xbox'], [/\bYou Tube\b/g, 'YouTube'],
+    [/\bWhats App\b/g, 'WhatsApp'], [/\bGit Hub\b/g, 'GitHub'], [/\b([SPBI])aa ?[Ss]\b/g, '$1aaS'], [/\bIo T\b/g, 'IoT'],
+    [/\bI (Phone|Pad|Cloud)\b/g, 'i$1'], [/\bU S\b/g, 'US'], [/\bU K\b/g, 'UK']];
 // "us-gaap:AmazonWebServicesSegmentMember" -> "Amazon Web Services"
 function label(member) {
-    const bare = String(member || '').split(':').pop().replace(/Member$/, '');
+    const bare = String(member || '').split(':').pop().replace(/(?:Member)+$/, '').replace(/^UsGaap_/i, '');
     const raw = bare.replace(/(?:Reportable|Operating)?Segments?$/, '').replace(/^Segment(?=[A-Z])/, '') || bare;
-    const words = raw.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2').split(/\s+/).filter(Boolean);
-    return words.map((w, i) => i && SMALL.has(w) ? w.toLowerCase() : w).join(' ').replace(/\bI (Phone|Pad|Cloud)\b/g, 'i$1').replace(/\bU S\b/g, 'US').trim();
+    const words = raw.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2').split(/\s+/).filter(Boolean)
+        .flatMap(w => unglue(w).split(' ')).map(w => initialism(w) ? w.toUpperCase() : w);
+    const text = words.map((w, i) => i && SMALL.has(w[0].toUpperCase() + w.slice(1)) ? w.toLowerCase() : w).join(' ');
+    return BRANDS.reduce((out, [pattern, value]) => out.replace(pattern, value), text).trim();
 }
 // A breakdown often carries its own subtotals next to their parts ("Products"
 // beside iPhone, Mac and iPad). While the rows add up to more than filed

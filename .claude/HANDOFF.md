@@ -11,6 +11,24 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Segment names and off-balance-sheet commitments — 2026-10-07
+- **Why:** the company page showed `meta:FamilyOfAppsMember` / "Reported segment member …" / `98.90180428530199%`.
+  `sec-segment-observations.toolPayload` only had reviewed labels for AMD and AVGO; all 2,925 issuers with stored
+  segment groups (10,619 distinct members) fell back to the raw XBRL member.
+- **Fix:** `ask-inline-segments.label()` is the one humanizer (unglues "Assetand", upper-cases vowel-less
+  initialisms, 365/LinkedIn/SaaS); `displayName()` and `preferred()` in `sec-segment-observations.js` are used by
+  both the page (`segments.extractSegments`) and Ask. Ask's Sankey no longer requires a reviewed label, so it is
+  eligible for any reconciled group (META, INOD, MSFT… were all "unverified" before). Cached dossiers are repaired
+  on read in `dossier.refreshValuation` — no schema bump, nothing rebuilt.
+- **New:** `backend/off-balance-sheet.js` reads leases not yet commenced, unrecorded purchase obligations,
+  guarantees and unconsolidated-entity exposure from the latest 10-K/10-Q/20-F inline XBRL, each with its filing
+  sentence; no model. Page section `#dos-off-balance`. Measured live: META $279.0B leases + $28B RVG + $46.0B
+  Louisiana venture exposure, MSFT $329.1B, ORCL $288B, GOOGL $85.2B, AMZN $137.2B, NVDA, CRWV. Never summed.
+- **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
+  and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
+  400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
+- Asset stamp `20261007-offbalance1`.
+
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use
   `mongodb://127.0.0.1:27017/<scratch>`.
@@ -393,7 +411,7 @@ explicit authorization.**
 16. **ChatGPT connector polish** (optional): the icon is the default placeholder, and the plugin still reads
     `DEVELOPMENT` review status. Separate from the directory submission in item 2.
 
-## 2026-10-07 — no blue, profile side menu, account tray (stamp `20261007-noblue1`)
+## 2026-10-07 — no blue, profile side menu, account tray (stamp `20261007-offbalance1`)
 - **Blue is gone from the main site.** `--accent` is now the ink, `--accent-tint` a warm grey, `--chart-1` the ink; prose links are underlined instead (`system.css` anchor rules). 228 hard-coded blue and slate literals in `backend/` + `lib/` (emails, widgets, server-rendered pages) mapped to the same ink and warm greys. Checked in a headless browser: 0 blue computed colours on 15 pages.
 - **Still blue, not touched:** the four legacy pages served from `frontend/` (`/fundamentals.html`, `/founding.html`, `/demo-dashboard.html`, `/demo-fundamentals.html`) — an old dark theme, unlinked from the site. Owner to decide: retire or redirect.
 - **Profile is a side menu at 861px+** (`profile.html`, `profile.js`): each section is still a `<details>`, the menu picks which is open, `#usage-details`-style hashes still work. New Account section (email, reset password, sign out).

@@ -607,11 +607,8 @@ async function toolGetSegments({ symbol }) {
             const stored=await require('./verified-fundamentals').getCompanyEvidence(company.symbol, [], {annual:5,quarterly:4}, online);
             // Newest period first; a single-member "segment" axis says nothing, so the
             // product and service lines lead when that is all the segment note holds.
-            const groups=stored.statements?.segmentObservations || [];
-            const latest=re=>groups.filter(g=>re.test(g.axis)).sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
-            const business=latest(/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/),product=latest(/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/);
-            const primary=business && (business.entries.length>1 || !product)?business:product || business || groups[0];
             const segmentStore=require('./sec-segment-observations'),inlineSegments=require('./ask-inline-segments');
+            const {business,product,primary}=segmentStore.preferred(stored.statements?.segmentObservations);
             const readable=result=>{const kept=new Set(inlineSegments.prune(result.segments.map(s=>({...s})),result.storedSegmentsReceipt.totalRevenue).map(s=>s.name));
                 const name=n=>/:|Member$/.test(n)?inlineSegments.label(n):n;
                 return {...result,segments:result.segments.filter(s=>kept.has(s.name)).map(s=>({...s,name:name(s.name)})),observations:result.observations.map(o=>({...o,name:name(o.name)}))};};

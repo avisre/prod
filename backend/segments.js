@@ -138,8 +138,15 @@ const EXTRACT_SYSTEM = [
 async function extractSegments(symbol) {
     if(process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1') {
         const evidence=await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(()=>null);
-        const group=evidence?.statements?.segmentObservations?.find(g=>/StatementBusinessSegmentsAxis$/.test(g.axis)) || evidence?.statements?.segmentObservations?.[0];
-        if(group){const result=require('./sec-segment-observations').toolPayload(group,evidence.statements,symbol);if(result)return result;}
+        const store=require('./sec-segment-observations'),group=store.preferred(evidence?.statements?.segmentObservations).primary;
+        if(group){const result=store.toolPayload(group,evidence.statements,symbol);if(result) {
+            // A product table carries its own subtotals; an operating-segment
+            // table can carry signed eliminations. Neither is a slice of revenue.
+            const kept=new Set(require('./ask-inline-segments').prune(result.segments.map(s=>({...s})),group.totalRevenue).map(s=>s.member));
+            // The stored note is a provenance rule for the pipeline, not something to print.
+            const note=group.reconciliationStatus==='reconciled'?null:'These lines are the filing’s own breakdown and do not add up exactly to total revenue.';
+            return {...result,note,segments:result.segments.filter(s=>kept.has(s.member)).sort((a,b)=>b.value-a.value)};
+        }}
     }
     const tenK = await latestTenK(symbol);
     if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No annual report (10-K or 20-F) found for this company.' };
