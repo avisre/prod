@@ -5,7 +5,11 @@ const {promote}=require('../../scripts/promote-financial-cache');
 const issuer='0000000123';
 fs.writeFileSync(path.join(dir,'us-companies.json'),JSON.stringify({companies:[{symbol:'EX',cik:issuer,securityType:'stock'}]}));
 function fact(value=100){return {issuer,field:'totalRevenue',definition:'Provider reported revenue',value,scale:1,unit:'USD',currency:'USD',periodStart:'2025-01-01',periodEnd:'2025-12-31',basis:'annual',historyBasis:'annual',statement:'income',accountingBasis:'provider reported',scope:'entity',sourceType:'provider',sourceName:'Yahoo Finance',sourceUrl:'https://finance.yahoo.com/quote/EX/financials/',publicationDate:null,sourceDataDate:'2026-10-04',sourceDateKind:'retrieval',retrievedAt:'2026-10-04T01:00:00Z',sourceIds:['provider:fixture'],sourceVersions:['fixture'],state:'available'};}
-function collection(rows){return {find(){return {sort(){return (async function*(){yield* rows;})();}};}};}
+// Like the driver: no server-side sort is available for whole requests, and
+// natural order is not newest-first.
+function collection(rows){const stored=rows.map((row,i)=>({_id:i,createdAt:new Date(Date.UTC(2026,9,5)-i*1000),...row})).reverse();
+ return {find(query={}){const ids=query._id?.$in;return {sort(){throw Object.assign(new Error('Sort exceeded memory limit'),{code:292});},
+  [Symbol.asyncIterator]:async function*(){yield* stored.filter(row=>!ids || ids.includes(row._id));}};}};}
 test.after(()=>fs.rmSync(dir,{recursive:true,force:true}));
 test('a newer empty request does not hide valid older evidence; unavailable provider retains dated last good',async()=>{
  const r=await promote(collection([{issuer,value:{supplemental:[]}},{issuer,value:{supplemental:[{...fact(),currency:'BADUNIT'},fact()]}}]),{asOf:'2026-10-05',refresh:async()=>{throw new Error('outage');}});

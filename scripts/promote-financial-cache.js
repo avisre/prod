@@ -6,7 +6,14 @@ const p=require('../backend/sec-coverage'),obs=require('../backend/company-obser
 async function promote(collection,{asOf=p.day(new Date().toISOString()),refresh=require('../backend/yahoo-source').fetchSupplementalSnapshot}={}) {
  const stocks=JSON.parse(fs.readFileSync(path.join(p.DATA_DIR,'us-companies.json'),'utf8')).companies.filter(c=>c.securityType==='stock');
  const allowed=new Set(stocks.map(c=>p.cik(c.cik) || 'listing:'+c.symbol.replace(/\./g,'-'))),symbolFor=new Map(stocks.map(c=>[p.cik(c.cik) || 'listing:'+c.symbol.replace(/\./g,'-'),c.symbol]));const seen=new Set();let promoted=0,rejected=0,refreshFailures=0;
- async function* candidates(){yield* collection.find({},{projection:{issuer:1,value:1,createdAt:1}}).sort({createdAt:-1});for(const record of require('../backend/committed-supplements').readAll())yield {issuer:record.issuer,value:{supplemental:record.doc.observations}};}
+ // Order the small heads here and fetch bodies in batches: a server-side sort
+ // over whole requests exceeds the database's in-memory sort limit (code 292).
+ async function* candidates(){const heads=[];for await(const head of collection.find({},{projection:{issuer:1,createdAt:1}}))heads.push(head);
+  heads.sort((a,b)=>new Date(b.createdAt || 0)-new Date(a.createdAt || 0));
+  for(let i=0;i<heads.length;i+=10){const ids=heads.slice(i,i+10).map(head=>head._id),rows=new Map();
+   for await(const row of collection.find({_id:{$in:ids}},{projection:{issuer:1,value:1,createdAt:1}}))rows.set(String(row._id),row);
+   for(const id of ids)if(rows.has(String(id)))yield rows.get(String(id));}
+  for(const record of require('../backend/committed-supplements').readAll())yield {issuer:record.issuer,value:{supplemental:record.doc.observations}};}
  for await(const row of candidates()) {
   if(!allowed.has(row.issuer) || seen.has(row.issuer))continue;
   let facts=(row.value?.supplemental || []).filter(f=>obs.validSupplement(f,row.issuer) && f.sourceType!=='sec_filing' && f.basis!=='market' && f.periodEnd<=asOf && obs.sourceDate(f)<=asOf && p.day(f.retrievedAt)<=asOf && f.state==='available');
