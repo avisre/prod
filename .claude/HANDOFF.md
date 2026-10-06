@@ -176,7 +176,7 @@ gained, **0 figures lost, 0 existing figures changed**. Tests: SEC files 74/74, 
 SKT — 40-F exhibits, co-registrants, filings over 18 MB, IFRS banks with no revenue total); LHX revenue (SEC feed has a
 wrong start date); NEE, BAC, AZN, TD segments still need the model; BHP iron ore; de-camel-cased segment names.
 
-## Shipped 2026-10-06, detail in `.claude/handoff-archive/2026-10-06b.md`
+## Shipped 2026-10-06, detail in `.claude/handoff-archive/2026-10-06.md (second snapshot)`
 
 - Ask for every kind of company: SIC typing (`ask-industry-profile.js`), model-free segment/product/region read
   (`ask-inline-segments.js` `groups`), same-day report cache (`ask_report_cache`, `ASK_REPORT_CACHE=0` disables),
