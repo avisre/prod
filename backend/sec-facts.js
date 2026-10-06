@@ -229,7 +229,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
     const largest=Math.max(...filing.map(x=>x.row.val));
     // A financial firm's top line is revenue net of interest expense.
     const net=filing.find(x=>x.concept==='RevenuesNetOfInterestExpense');
-    if(net && net.row.val>=largest*0.25)return net;
+    if(net && net.row.val>=largest*0.25 && /^6/.test(String(out.reportingSic || '')))return net;
     // The filing's own arithmetic names the total: gross profit plus cost of
     // revenue, or operating income plus total costs, equals exactly one line.
     const fact=names=>{for(const name of names){const rows=(byConceptUnit.get(newest.taxonomy+':'+name+'|'+unit) || []).filter(r=>r.accn===newest.accn && r.end===end && r.start===newest.start);if(rows.length && new Set(rows.map(r=>r.val)).size===1)return rows[0].val;}return null;};
@@ -242,14 +242,22 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
     for(const total of [sum(gross,cost),sum(operating,costs),sum(operating,expenses),sum(pretax,costs),sum(operating,cost,selling)]) {
      if(total===null)continue;
      const match=filing.filter(x=>Math.abs(x.row.val-total)<=Math.abs(total)*0.001);
-     if(match.length===1)return match[0];
+     // Two lines carrying the same confirmed amount are the same total.
+     if(match.length && new Set(match.map(x=>x.row.val)).size===1)return match[0];
     }
     // With nothing in the filing to arbitrate: a line under four fifths of the
     // largest is plainly a part (rent, leasing and interest are not customer
     // contracts), so the largest is the total. A narrower gap can be excise tax
     // or intercompany sales either way, and the original choice stands.
     const legacy=filing[0];
-    return legacy.row.val<largest*0.8?filing.find(x=>x.row.val===largest):legacy;
+    // Revenue including taxes collected for the government is not a larger
+    // total than revenue excluding them (Cronos, excise duty), and a line that
+    // is exactly a thousand or a million times another is a scale slip in the
+    // filing (SS Innovations), not a bigger business.
+    const rivals=filing.filter(x=>!(x.concept==='RevenueFromContractWithCustomerIncludingAssessedTax' && filing.some(y=>y.concept==='RevenueFromContractWithCustomerExcludingAssessedTax'))
+     && !(legacy.row.val>0 && [1e3,1e6].some(k=>Math.abs(x.row.val/legacy.row.val-k)<=k*0.001)));
+    const top=Math.max(...rivals.map(x=>x.row.val));
+    return legacy.row.val<top*0.8?rivals.find(x=>x.row.val===top):legacy;
    };
    // A quarter reports on the same line its fiscal year was read from, so the
    // quarters and the year describe the same thing.

@@ -47,6 +47,19 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Every changed revenue figure checked one by one — 2026-10-06 (ninth, NOT pushed)
+
+`docs/qa/data-audit-2026-10-06/revenue-changes.csv`: all 2,137 revenue figures (461 companies; 231 newest-year,
+1,906 earlier) that differ between production rules and the new rules, each with old/new value, old/new line, filing
+and a verdict (scratchpad `each.js`). 1,352 confirmed by the filing's own arithmetic; 401 definitional (248 bank sum
+of two filed parts, 153 financial-firm net revenues); 350 part replaced by the filing total and corroborated; 8 fit
+adjacent years better; **26 not confirmed automatically** — 19 of those recognised as right (ETN 2011–14 from $0,
+PG 2012, HSY 2011, PSMT, COP 2022, BP 2018, ENS 2018, KKR, BAM, TPG, FRO, SDRL, MRX), 7 are tiny companies with
+nothing to check against (AHR 2017–18, INSE 2015, IPHA, MRNO, LGHL, CHGA, AUPH).
+The check exposed four rule gaps, now fixed: net revenues win only for financial SIC codes (Kornit); two lines with
+the same confirmed amount are one total (Xylem); revenue including assessed tax never outranks excluding (Cronos);
+an exact ×1,000 / ×1,000,000 line is a scale slip (SS Innovations).
+
 ## Quarter reconciliation and bank revenue — 2026-10-06 (eighth, NOT pushed; rotate this file at push, it is past 400 lines)
 
 - Newest-year quarters are read as filed up to the annual report; if they do not add up to the year the later-filed

@@ -69,15 +69,21 @@ test('operating cash flow filed as continuing and discontinued parts is their su
 // 187 covered companies were understated on 2026-10-06 because the customer-contract line won.
 test('revenue is the largest revenue line of the filing, or net revenues where a financial firm reports them',()=>{
  const period={start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'},f=val=>({units:{USD:[{...period,val}]}});
- const rev=extra=>{const {doc,evidence}=fixture();Object.assign(doc.facts['us-gaap'],extra);return extract(doc,evidence,{asOf:'2026-10-03'}).income.annualReports[0].totalRevenue;};
+ const rev=(extra,sic)=>{const {doc,evidence}=fixture();if(sic)evidence.sic=sic;Object.assign(doc.facts['us-gaap'],extra);return extract(doc,evidence,{asOf:'2026-10-03'}).income.annualReports[0].totalRevenue;};
  assert.equal(rev({Revenues:f(10600),RevenueFromContractWithCustomerExcludingAssessedTax:f(900)}),10600);
  assert.equal(rev({Revenues:f(130),RevenueFromContractWithCustomerExcludingAssessedTax:f(980)}),980);
- assert.equal(rev({Revenues:f(126000),RevenuesNetOfInterestExpense:f(58000),RevenueFromContractWithCustomerExcludingAssessedTax:f(20000)}),58000);
+ assert.equal(rev({Revenues:f(126000),RevenuesNetOfInterestExpense:f(58000),RevenueFromContractWithCustomerExcludingAssessedTax:f(20000)},'6211'),58000);
+ // The net-revenue tag on a manufacturer's filing is a mis-tag, not its top line (Kornit).
+ assert.equal(rev({Revenues:f(193),RevenuesNetOfInterestExpense:f(77)},'3555'),193);
+ // Including taxes collected is not a larger total; an exact x1000 line is a scale slip; equal confirmed lines are one total.
+ assert.equal(rev({RevenueFromContractWithCustomerExcludingAssessedTax:f(146),RevenueFromContractWithCustomerIncludingAssessedTax:f(193)}),146);
+ assert.equal(rev({RevenueFromContractWithCustomerExcludingAssessedTax:f(1436),SalesRevenueNet:f(1436000)}),1436);
+ assert.equal(rev({Revenues:f(8562),RevenueFromContractWithCustomerExcludingAssessedTax:f(8562),RevenueFromContractWithCustomerIncludingAssessedTax:f(8273),GrossProfit:f(3212),CostOfRevenue:f(5350),OperatingIncomeLoss:f(1009),SellingGeneralAndAdministrativeExpense:f(1911)}),8562);
  assert.equal(rev({Revenues:f(500)}),500);
  // A gap under a fifth with nothing to arbitrate keeps the original line.
  assert.equal(rev({Revenues:f(1900),RevenueFromContractWithCustomerExcludingAssessedTax:f(1660)}),1660);
  // StoneX: a small net figure beside a far larger total is not the top line.
- assert.equal(rev({Revenues:f(132000),RevenuesNetOfInterestExpense:f(2000)}),132000);
+ assert.equal(rev({Revenues:f(132000),RevenuesNetOfInterestExpense:f(2000)},'6200'),132000);
  // Sales before excise tax are larger, but gross profit plus cost names net sales as the total.
  assert.equal(rev({Revenues:f(9756),RevenueFromContractWithCustomerExcludingAssessedTax:f(9139),GrossProfit:f(4639),CostOfGoodsAndServicesSold:f(4500)}),9139);
  assert.equal(rev({Revenues:f(10600),RevenueFromContractWithCustomerExcludingAssessedTax:f(900),OperatingIncomeLoss:f(4600),CostsAndExpenses:f(6000)}),10600);
