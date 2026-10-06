@@ -238,7 +238,7 @@ async function extractFromText(symbol) {
 }
 
 module.exports = {
-    extractSegments, storedSegments, latestTenK, htmlToText, anchorWindows, filedRevenue,
+    extractSegments, storedSegments, extractFromText, latestTenK, htmlToText, anchorWindows, filedRevenue,
     // for the model probe + A/B harnesses in scripts/ — they must send the
     // production extraction prompt, not a copy of it
     EXTRACT_SYSTEM, segmentWindows, usdRate, repairUnits

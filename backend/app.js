@@ -2922,7 +2922,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-segments5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-breakdown1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2951,7 +2951,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-segments5"></script>
+<script src="/assets/app.js?v=20261007-breakdown1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3043,7 +3043,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-segments5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-breakdown1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3071,7 +3071,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-segments5"></script>
+<script src="/assets/app.js?v=20261007-breakdown1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3179,7 +3179,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-segments5" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-breakdown1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3212,7 +3212,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-segments5"></script>
+<script src="/assets/app.js?v=20261007-breakdown1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -12822,6 +12822,17 @@ function priceProbeAdminOnly(req, res, next) {
 }
 app.post('/api/admin/price-probe', priceProbeAdminOnly, (req, res) => res.status(202).json(require('./price-probe').start()));
 app.get('/api/admin/price-probe', priceProbeAdminOnly, (req, res) => res.json(require('./price-probe').status()));
+
+// ---- /api/admin/revenue-breakdown/:symbol — what the company page will show ----
+// Token-gated (ADMIN_TOKEN). Read-only and model-free: the same contract the
+// dossier renders, so a deploy can be checked from outside without a login.
+//   curl https://www.stockportfolio.pro/api/admin/revenue-breakdown/AMZN -H "x-admin-token: $ADMIN_TOKEN"
+app.get('/api/admin/revenue-breakdown/:symbol', priceProbeAdminOnly, async (req, res) => {
+    try {
+        const breakdown = require('./revenue-breakdown'), contract = await breakdown.forSymbol(safeUpper(req.params.symbol), { text: false });
+        res.json({ ...contract, violations: breakdown.violations(contract) });
+    } catch (error) { res.status(500).json({ message: publicErrorMessage(error, 'Revenue breakdown failed') }); }
+});
 
 // ---- /admin/funnel — private funnel dashboard (token-gated) ----
 // Protect with ADMIN_TOKEN env var; if not set the route returns 403.

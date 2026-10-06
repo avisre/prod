@@ -18,6 +18,7 @@ const { plainSummary, plainJsonArray, plainBullBear } = require('./plain-languag
 const insights = require('./insights');
 const segments = require('./segments');
 const offBalanceSheet = require('./off-balance-sheet');
+const revenueBreakdown = require('./revenue-breakdown');
 const unitEconomics = require('./unit-economics');
 const reverseDcf = require('./reverse-dcf');
 const filingMonitor = require('./filing-monitor');
@@ -108,20 +109,16 @@ function readableSegments(seg) {
         revenuePct: Number.isFinite(x.revenuePct) ? Math.round(x.revenuePct * 10) / 10 : x.revenuePct,
         description: /^Reported segment member /.test(String(x.description || '')) ? '' : x.description })) };
 }
-// The filing's own breakdown is chosen again on every read, so a dossier cached
-// with an older choice (a table covering a sliver of revenue, or raw member
-// names) is corrected without being rebuilt. A cached breakdown that came from
-// the filing but no longer qualifies is withheld rather than shown.
+// The breakdown is decided again on every read by revenue-breakdown.js, so a
+// dossier cached with an older choice (raw member names, a table covering a
+// sliver of revenue, another year set against this one) is corrected without
+// being rebuilt. A read never calls the extraction model: a text-extracted
+// breakdown already in the cache is graded as it stands.
 async function currentSegments(seg, sym) {
-    const stored = await segments.storedSegments(sym).catch(() => null);
-    if (stored) return { fiscalYear: stored.fiscalYear, breakdown: stored.breakdown || null, periodEnd: stored.periodEnd || null, totalRevenue: stored.storedSegmentsReceipt?.totalRevenue || null, items: stored.segments, note: stored.note || null, basis: stored.basis || null, filing: stored.filing || null };
-    // Nothing usable was cached either (an empty extraction, or a filing table
-    // that no longer qualifies): fall back to a partial filing table if there is one.
-    if (!seg || !Array.isArray(seg.items) || !seg.items.length || seg.items.some(x => x && 'reportedRevenue' in x)) {
-        const partial = await segments.storedSegments(sym, { partial: true }).catch(() => null);
-        return partial ? { fiscalYear: partial.fiscalYear, breakdown: partial.breakdown || null, periodEnd: partial.periodEnd || null, totalRevenue: partial.storedSegmentsReceipt?.totalRevenue || null, items: partial.segments, note: partial.note || null, basis: partial.basis || null, filing: partial.filing || null } : (seg && seg.items && !seg.items.length ? seg : null);
-    }
-    return readableSegments(seg);
+    const fromText = seg && Array.isArray(seg.items) && seg.items.length && !seg.items.some(x => x && 'reportedRevenue' in x) && !seg.grade
+        ? { segments: readableSegments(seg).items, fiscalYear: seg.fiscalYear, filing: seg.filing } : null;
+    const contract = await revenueBreakdown.forSymbol(sym, { text: false, cachedText: fromText }).catch(() => null);
+    return contract ? revenueBreakdown.forPage(contract) : readableSegments(seg);
 }
 async function refreshValuation(payload, sym, data) {
     payload = { ...payload, segments: await currentSegments(payload.segments, sym),
@@ -392,7 +389,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
             reverseDcf.computeReverseDcf(sym),
             Promise.resolve().then(() => aiChat.runTool('get_health_checks', { symbol: sym }, {})),
             insights.generateInsights(sym),
-            segments.extractSegments(sym),
+            revenueBreakdown.forSymbol(sym),
             filingMonitor.buildReport(sym).catch(() => null),
             unitEconomics.extract(sym),
             depth === 'deep' ? keypoints.extractKeyPoints(sym, { depth: 'deep', allowAi: true }) : Promise.resolve(null),
@@ -402,7 +399,9 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     const rdcf = ok(rdcfR);
     const checks = (checksR.status === 'fulfilled' && checksR.value && Array.isArray(checksR.value.checks)) ? checksR.value.checks : [];
     const insightItems = (ok(insightsR) || {}).insights || [];
-    const segs = ok(segsR);
+    const breakdown = segsR.status === 'fulfilled' ? segsR.value : null;
+    // The digest reads names and shares only.
+    const segs = breakdown && breakdown.rows.length ? { segments: breakdown.rows.map(r => ({ name: r.name, revenuePct: r.share })) } : null;
     const offBalance = obsR.status === 'fulfilled' ? obsR.value : null;
     const monitor = ok(monitorR);
     const ue = ok(ueR);
@@ -481,20 +480,8 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
         partial: true,
         keyFigures: pack ? pack.lines : null,
         industry: industryData || null,
-        segments: segs ? {
-            fiscalYear: segs.fiscalYear,
-            // The year and revenue the split belongs to, which is not always the
-            // latest statement year; the page must not set one against the other.
-            periodEnd: segs.periodEnd || null,
-            breakdown: segs.breakdown || null,
-            totalRevenue: segs.storedSegmentsReceipt?.totalRevenue || null,
-            items: segs.segments,
-            note: segs.note || null,
-            // Kept so the panel can cite the exact filing the split came from
-            // rather than asserting it unsourced; both were dropped before.
-            basis: segs.basis || null,
-            filing: segs.filing || null
-        } : null,
+        // One contract for every surface: rows, shares, remainder, year and grade.
+        segments: revenueBreakdown.forPage(breakdown),
         offBalanceSheet: offBalance,
         unitEconomics: ue && (ue.derived || (ue.metrics && ue.metrics.length)) ? {
             unitLabel: ue.unitLabel || (ue.derived && ue.derived.unitLabel) || null,

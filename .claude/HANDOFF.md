@@ -33,10 +33,21 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   same year's lines are usable with ≥3 rows and either have more rows or the segments are purely geographic
   (AMZN → Online Stores/3P/AWS/Advertising…, AAPL → iPhone/Services…, MSFT, NVDA). Exact filed subtotals are
   removed before pruning (prune alone kept ORCL's "Software Revenues" beside its parts). Ask still uses `primary`.
+- **Overhaul, plan `~/.claude/plans/federated-brewing-petal.md` (approved 10/7). Phases 1+5 shipped:**
+  `backend/revenue-breakdown.js` is the only place that decides the breakdown and returns one contract
+  (`grade` complete/partial/none, rows with shares of their own year, `remainder`, `reason`); the dossier build,
+  every cached read, and Ask's `get_segments` use it; the page's `breakdownTable()` renders it without recomputing.
+  Gate: `scripts/audit-segment-display.js` runs in `deploy-render.yml` validate; golden set of 63 tickers in
+  `backend/test/fixtures/revenue-breakdown-golden.json` (regenerate with `--golden` when a change is intended);
+  `scripts/render-dossier-gallery.js` writes a contact sheet to look at; live check without login:
+  `GET /api/admin/revenue-breakdown/:symbol` with `x-admin-token`.
+  **Baseline to beat in Phase 2:** S&P 500 complete 313 / partial 37 / none 153 (GOOGL, ADBE, AMD, BAC, CVX, XOM,
+  WMT have nothing stored; 70 carry `INCOMPATIBLE_PERIOD`). Remaining: Phase 2 data backfill, Phase 3 filed
+  labels, Phase 4 expense split + full view unification.
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-segments5`.
+- Asset stamp `20261007-breakdown1`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use

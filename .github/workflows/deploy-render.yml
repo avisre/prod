@@ -48,6 +48,8 @@ jobs:
         run: node scripts/test-stock-coverage.js
       - name: Committed dataset validation
         run: node scripts/validate-stock-coverage.js --bootstrap
+      - name: Revenue breakdown contract for every issuer
+        run: node scripts/audit-segment-display.js
       - name: Offline exhaustive rendering and sitemap validation
         run: node scripts/verify-public-stock-pages.js
       - name: Resource acceptance

@@ -444,6 +444,47 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     return (sentences.length ? sentences : [String(text || '')]).map((sentence) => `<p>${esc(sentence)}</p>`).join('');
   }
 
+  // The revenue breakdown table. The server sends one contract (rows with
+  // their shares, the remainder the filing leaves out, the fiscal year and a
+  // grade), and this renders it as given: no share, remainder or year is worked
+  // out here. A payload from before the contract falls back to its dollars.
+  function breakdownTable(sg, inc) {
+    sg = sg || {};
+    if (sg.grade === 'none') return sg.reason ? `<p class="small faint" style="margin-top:14px;">${esc(sg.reason)}</p>` : '';
+    const graded = sg.grade === 'complete' || sg.grade === 'partial';
+    const total = graded ? Number(sg.totalRevenue) : Number(inc && inc.revenue);
+    const amount = (x) => { const v = Number(x.revenueUsd != null ? x.revenueUsd : x.value); return Number.isFinite(v) ? v : null; };
+    const share = (x) => {
+      if (graded && x.revenuePct != null) return Number(x.revenuePct);
+      const v = amount(x);
+      return v != null && total > 0 ? (v / total) * 100 : (x.revenuePct != null ? Number(x.revenuePct) : null);
+    };
+    const sorted = (sg.items || []).slice().sort((a, b) => (amount(b) || 0) - (amount(a) || 0));
+    if (!sorted.length) return '';
+    const lines = sg.breakdown === 'product and service lines';
+    // A long schedule (a drug maker lists twenty products) buries the mix: keep
+    // the eight largest and fold the rest into one row.
+    const rows = sorted.slice(0, 8).map((x) => ({ name: x.name, v: amount(x), pct: share(x) }));
+    const rest = sorted.slice(8);
+    if (rest.length) rows.push({ name: `${lines ? 'Other sources' : 'Other segments'} (${rest.length})`,
+      v: rest.reduce((a, x) => a + (amount(x) || 0), 0), pct: rest.reduce((a, x) => a + (share(x) || 0), 0) });
+    if (graded && sg.remainder) rows.push({ name: sg.remainder.name, v: Number(sg.remainder.value), pct: Number(sg.remainder.share) });
+    else if (!graded && total > 0) {
+      const listed = sorted.reduce((a, x) => a + (amount(x) || 0), 0);
+      if (listed > 0 && total - listed > total * 0.005) rows.push({ name: 'Not broken out in the filing', v: total - listed, pct: ((total - listed) / total) * 100 });
+    }
+    const otherYear = sg.periodEnd && inc && inc.periodEnd && sg.periodEnd !== inc.periodEnd;
+    return `
+        <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
+          <thead><tr><th>${lines ? 'Revenue source' : 'Segment'}${otherYear && sg.fiscalYear ? ' · ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
+          <tbody>${rows.map((r) => `<tr>
+              <td>${esc(r.name)}</td>
+              <td style="text-align:right;white-space:nowrap;">${r.v != null && r.v > 0 ? esc(bn(r.v)) : '—'}</td>
+              <td style="text-align:right;white-space:nowrap;">${r.pct != null && Number.isFinite(r.pct) ? r.pct.toFixed(1) + '%' : '—'}</td>
+            </tr>`).join('')}</tbody>
+        </table></div>`;
+  }
+
   // Commitments outside the balance sheet. Each row is a figure the filing
   // tags, shown with the sentence it was printed in; rows are never summed,
   // because a filer's own tables overlap.
@@ -520,40 +561,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       if (!svg) return '';
       const inc = d.incomeStatement || {};
       const sg = d.segments || {};
-      const otherYear = sg.periodEnd && inc.periodEnd && sg.periodEnd !== inc.periodEnd;
-      const rev = otherYear ? (Number(sg.totalRevenue) > 0 ? Number(sg.totalRevenue) : null) : inc.revenue;
-      const sorted = ((sg.items) || [])
-        .slice()
-        .sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0));
-      // A long schedule (a drug maker lists twenty products) buries the mix:
-      // keep the eight largest and fold the rest into one row. Whatever the
-      // filing does not break out is named as its own row, so the shares the
-      // reader sees account for revenue.
-      const rows = sorted.slice(0, 8);
-      const restUsd = sorted.slice(8).reduce((a, x) => a + (Number(x.revenueUsd) || 0), 0);
-      if (restUsd > 0) rows.push({ name: `${sg.breakdown === 'product and service lines' ? 'Other sources' : 'Other segments'} (${sorted.length - 8})`, revenueUsd: restUsd });
-      const listedUsd = sorted.reduce((a, x) => a + (Number(x.revenueUsd) || 0), 0);
-      if (rev > 0 && listedUsd > 0 && rev - listedUsd > rev * 0.005) rows.push({ name: 'Not broken out in the filing', revenueUsd: rev - listedUsd });
-      const segTable = rows.length ? `
-        <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
-          <thead><tr><th>${sg.breakdown === 'product and service lines' ? 'Revenue source' : 'Segment'}${otherYear && sg.fiscalYear ? ' · ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
-          <tbody>${rows.map((x) => {
-            const v = Number(x.revenueUsd);
-            // Compute the share from the dollars wherever possible, and fall
-            // back to the extracted percentage only when there are no dollars.
-            // repairUnits reconciles the dollars against filed revenue, but the
-            // percentages get no such treatment and do not always tie — PGR
-            // FY2025 came back 89.1% + 13% = 102.1% against dollars that summed
-            // to revenue exactly.
-            const pct = (Number.isFinite(v) && rev > 0) ? (v / rev) * 100
-              : (x.revenuePct != null ? Number(x.revenuePct) : null);
-            return `<tr>
-              <td>${esc(x.name)}${x.description ? `<br /><span class="small faint">${esc(x.description)}</span>` : ''}</td>
-              <td style="text-align:right;white-space:nowrap;">${Number.isFinite(v) ? esc(bn(v)) : '—'}</td>
-              <td style="text-align:right;white-space:nowrap;">${pct != null ? pct.toFixed(1) + '%' : '—'}</td>
-            </tr>`;
-          }).join('')}</tbody>
-        </table></div>` : '';
+      const segTable = breakdownTable(sg, inc);
       const cite = sg.filing && sg.filing.url
         ? `<a href="${esc(sg.filing.url)}" rel="nofollow noopener" target="_blank">${esc(sg.filing.form || 'filing')}${sg.filing.date ? ' filed ' + esc(sg.filing.date) : ''}</a>`
         : (sg.basis ? esc(sg.basis) : '');

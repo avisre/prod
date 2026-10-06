@@ -93,7 +93,7 @@ const BRANDS = [[/\bThree Six Five\b/g, '365'], [/\bLinked in\b/gi, 'LinkedIn'],
     [/\bI (Phone|Pad|Cloud)\b/g, 'i$1'], [/\bU S\b/g, 'US'], [/\bU K\b/g, 'UK']];
 // "us-gaap:AmazonWebServicesSegmentMember" -> "Amazon Web Services"
 function label(member) {
-    const bare = String(member || '').split(':').pop().replace(/(?:Member)+$/, '').replace(/^[A-Za-z]{2,10}_(?=[A-Z])/, '').replace(/_+/g, ' ');
+    const bare = String(member || '').split(':').pop().replace(/(?:Member)+$/, '').replace(/^[A-Za-z]{2,10}_(?=[A-Z])/, '').replace(/_+/g, ' ').replace(/^ProductAndServiceOther(?=[A-Z])/, '');
     const raw = bare.replace(/(?:Reportable|Operating)?Segments?$/, '').replace(/^Segment(?=[A-Z])/, '') || bare;
     const words = raw.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2').split(/\s+/).filter(Boolean)
         .flatMap(w => unglue(w).split(' ')).map(w => initialism(w) ? w.toUpperCase() : w);

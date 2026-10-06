@@ -608,7 +608,8 @@ async function toolGetSegments({ symbol }) {
             // Newest period first; a single-member "segment" axis says nothing, so the
             // product and service lines lead when that is all the segment note holds.
             const segmentStore=require('./sec-segment-observations'),inlineSegments=require('./ask-inline-segments');
-            const {business,product,primary}=segmentStore.preferred(stored.statements?.segmentObservations);
+            // The same table the company page shows, when one qualifies.
+            const choice=segmentStore.preferred(stored.statements?.segmentObservations),{business,product}=choice,primary=choice.usable || choice.primary;
             const readable=result=>{const kept=new Set(inlineSegments.prune(result.segments.map(s=>({...s})),result.storedSegmentsReceipt.totalRevenue).map(s=>s.name));
                 const name=n=>/:|Member$/.test(n)?inlineSegments.label(n):n;
                 return {...result,segments:result.segments.filter(s=>kept.has(s.name)).map(s=>({...s,name:name(s.name)})),observations:result.observations.map(o=>({...o,name:name(o.name)}))};};

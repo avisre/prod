@@ -52,9 +52,3 @@ test('filed subtotals are pruned before coverage is judged, and eliminations are
     assert.ok(!store.shown(group(BUSINESS, '2025-12-31', [90, 80])).usable);
     assert.ok(store.shown(group(BUSINESS, '2025-12-31', [70, 32, -2])).usable, 'a signed elimination is not a slice of revenue');
 });
-
-test('every issuer in the dataset shows plain names and a breakdown that accounts for revenue', { skip: !fs.existsSync(path.join(require('../sec-coverage').DATA_DIR, 'sec-financials')) }, () => {
-    const result = require('../../scripts/audit-segment-display').audit();
-    assert.deepEqual(result.failures.slice(0, 10), []);
-    assert.ok(result.shown > 0);
-});
