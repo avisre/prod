@@ -47,6 +47,29 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Ask detail restore, live progress, screener fixes — 2026-10-06 (second release)
+
+- Compared with the owner's backup (`~/Downloads/prod-main.zip`, main just before `8d8e0a56`): the old engine
+  published unchecked answers but fed Ask the model-written 10-K dossier and provider valuation; the rewrite
+  dropped both. Restored, with the checks kept.
+- **Dossier**: `keypoints.contextWithDossier` gives a company report the original excerpts plus the cached
+  dossier (business + risk passes; three summary calls once per company per annual filing). A dossier figure is
+  claimable only if listed in `verifiedFigures` — found verbatim in the filing text at build time.
+- **Valuation**: `toolGetQuote` uses `provider.valuation` again (switched off in `af97f900`), so forward P/E,
+  EV/EBITDA and dividend yield return under `providerValuation` with their own date.
+- **Progress**: prefetch pulls are announced as they start; new `status` stream event carries
+  Writing / Drafting: <section> / Checking / Correcting / Revising: <section>. Text is still held until checked.
+- **Page**: SEC sources fold into `details.ask-filings`; `.ask-next` works on answers re-rendered from a saved
+  chat (delegated listener in `ask.html`). `ask-page.js` caches the template in memory — restart to see edits.
+- **Screener**: `divYieldPct` was null on all 4,649 rows (hard-coded in `financial-metrics.screenRow`); now derived
+  at read time in `buildScreenIndex` from `latestDividendPayout` / market cap, USD filers only. Doppelganger sits
+  before Clear and fills the table directly (company → `?criteria={similar_to}`; plain words → one Ask, only
+  the `screen_universe` args are read). Owner decision: this replaces the old "adoption is a click" rule.
+- Local full-site testing: `scripts/dev-local.js` with AI env loaded from the main checkout, plus
+  `SEC_COVERAGE_READ_ONLY=1 SEC_COVERAGE_DISABLE_ON_DEMAND=1 ASK_REVIEW_LIVE_FILING_CONTEXT=1`; sign in as
+  `rin@gmail.com` / `devlocal`. Verified in headless Chrome over CDP. Stamp `20261006-doppel2`.
+- Open: reasoning (not figures) is unchecked; first ask per company ~40s; this file is past 450 lines — rotate.
+
 ## Ask eight-part company report + narrative salvage — 2026-10-06
 
 - Owner report: `tell me the story of intel` and `intel` both returned the "partial company report" receipt.

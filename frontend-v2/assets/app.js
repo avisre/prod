@@ -818,6 +818,13 @@
             else if (ol) { if (list !== 'ol') { close(); out.push('<ol>'); list = 'ol'; } out.push(`<li>${inlineMd(ol[1])}</li>`); }
             else if (line.trim() === '') close();
             else if (/^\*\*The read\*\*/i.test(line.trim())) { close(); out.push(`<p class="ask-read">${inlineMd(line)}</p>`); }
+            // The filing list is reference material: eight links in a row push the
+            // follow-up question off the screen, so it stays folded until asked for.
+            else if (/^SEC sources:\s*\S/i.test(line.trim())) {
+                close();
+                const items = line.trim().replace(/^SEC sources:\s*/i, '').replace(/\.\s*$/, '').split(/;\s+/).filter(Boolean);
+                out.push(`<details class="ask-filings"><summary>SEC sources (${items.length})</summary><ul>${items.map((item) => `<li>${inlineMd(item)}</li>`).join('')}</ul></details>`);
+            }
             else { close(); out.push(`<p>${inlineMd(line)}</p>`); }
             i++;
         }
@@ -1831,6 +1838,7 @@
         get_governance: (a) => `${(a.symbol || '').toUpperCase()} governance & ownership`,
         get_esg: (a) => `${(a.symbol || '').toUpperCase()} ESG disclosure`,
         get_filing_diff: (a) => `${(a.symbol || '').toUpperCase()} filing diff`,
+        get_supplemental_context: (a) => `${(a.symbol || '').toUpperCase()} supplemental sources`,
         get_guru_ownership: (a) => `${(a.symbol || '').toUpperCase()} guru ownership`,
         get_portfolio_xray: () => 'Portfolio X-Ray',
         view_image: (a) => `🔍 Reading ${String(a.attachment || 'image').slice(0, 40)}…`,
@@ -2188,6 +2196,11 @@
                         if (t) { noteEl.textContent = t; noteEl.hidden = false; }
                         workingEl.textContent = 'Working on it';
                         workingRow.hidden = false;
+                    } else if (ev === 'status') {
+                        // what the engine is doing between data pulls and the
+                        // first words: drafting a section, checking figures
+                        const t = String(d.text || '').trim();
+                        if (t) { workingEl.textContent = t + '…'; workingRow.hidden = false; }
                     } else if (ev === 'delta') {
                         text += d.text || '';
                         answerEl.innerHTML = markdown(text);

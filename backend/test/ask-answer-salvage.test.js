@@ -133,3 +133,20 @@ test('a scaled figure cut short instead of rounded is still the supplied figure'
     assert.equal(q.numericClaims('Market cap is $632bn.', [quote]).length, 1);
     assert.equal(q.numericClaims('Market cap is $629bn.', [quote]).length, 1);
 });
+
+test('a dossier figure is claimable only when it was found printed in the filing', () => {
+    const kp = require('../keypoints');
+    const sections = [{ heading: 'Customers', points: ['Top five customers were 40% of revenue.', 'Debt was $67,120 million.', 'Backlog was $999 million.'] }];
+    const verified = kp.verifiedFigures(sections, 'our top five end customers accounted for approximately 40% of net revenue. Aggregate indebtedness was $67,120 million.');
+    assert.deepEqual(verified.sort(), ['$67,120 million', '40%']);
+    const result = { tool: 'get_key_points', result: { symbol: 'AVGO', filing: { url: 'https://www.sec.gov/Archives/edgar/data/1730168/000173016825000121/avgo-20251102.htm', date: '2025-12-18' },
+        sections: [], dossier: { sections, verifiedFigures: verified } } };
+    assert.deepEqual(q.numericClaims('The top five customers were 40% of revenue and debt was $67.1bn.', [AMD, result]), []);
+    assert.equal(q.numericClaims('Backlog was $999 million.', [AMD, result]).length, 1);
+});
+
+test('the quote tool supplies provider valuation again, dated separately from the quote', () => {
+    const source = require('node:fs').readFileSync(require.resolve('../ai-chat'), 'utf8');
+    assert.match(source, /const pv = provider\.valuation\(symbol, \{ perShareAllowed \}\);/);
+    assert.doesNotMatch(source, /const pv = null;/);
+});

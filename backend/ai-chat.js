@@ -442,7 +442,11 @@ async function toolGetQuote({ symbol }) {
     // forwardPE, priceToBook, evToEbitda, beta and the rest read as null on every
     // request while the stored provider snapshot carries them. They come back
     // here with their own source and date, which the daily quote's asOf is not.
-    const pv = null; // Price-derived ratios must come from the dated quote, not a weekly profile.
+    // Switched off on 10-05 because a weekly profile is staler than the daily
+    // quote — which left forward P/E, EV/EBITDA and dividend yield "n/a" on
+    // every report. They are supplied again under providerValuation, with the
+    // snapshot's own source and date, so they are never read as the quote's.
+    const pv = provider.valuation(symbol, { perShareAllowed });
     const pf = pv?.fields || {};
     const epsField = num(annual?.dilutedEPS) !== null ? 'dilutedEPS' : 'eps';
     const epsObservation = evidence.observation(annual, epsField);
@@ -676,7 +680,20 @@ function buildScreenIndex() {
     if (!_screenIndex || _screenIndex.datasetId !== snapshot.datasetId) _screenIndex=loadScreenIndex();
     const eligible=new Map(snapshot.securities.filter(s=>s.screenable).map(s=>[s.symbol,s]));
     const changed=require('./sec-on-demand').screenOverrides();
-    return [..._screenIndex.rows.filter(r=>!changed.has(r.symbol)),...changed.values()].filter(r=>eligible.has(r.symbol) && r.financialDigest === eligible.get(r.symbol).financialDigest);
+    return [..._screenIndex.rows.filter(r=>!changed.has(r.symbol)),...changed.values()].filter(r=>eligible.has(r.symbol) && r.financialDigest === eligible.get(r.symbol).financialDigest).map(withDividendYield);
+}
+// The SEC rebuild writes divYieldPct as null on every row, which left the
+// "Dividend payers" screen — and any dividend filter — matching nothing across
+// all 4,649 companies. The yield is derived here from two values the row
+// already carries: the dividends the company filed as paid in its latest
+// fiscal year, over the dated market value. USD filers only, since the market
+// value is in dollars; a payout larger than the company is a data fault.
+function withDividendYield(row) {
+    if (row.divYieldPct !== null && row.divYieldPct !== undefined) return row;
+    const paid = num(row.latestDividendPayout), capB = num(row.marketCapB);
+    if (row.financialCurrency !== 'USD' || paid === null || capB === null || capB <= 0) return row;
+    const pct = Math.abs(paid) / (capB * 1e9) * 100;
+    return pct > 0 && pct < 100 ? { ...row, divYieldPct: Number(pct.toFixed(4)) } : row;
 }
 
 function primaryListings(rows) {
@@ -1108,12 +1125,12 @@ async function warmPeerContext(symbols) {
 }
 
 // ---- Tool: get_key_points (customers, products, revenue breakup — from the 10-K) ----
-async function toolGetKeyPoints({ symbol }) {
+async function toolGetKeyPoints({ symbol }, ctx) {
     const key = String(symbol || '').toUpperCase().trim();
     if (!key) return { error: 'No symbol given.' };
     try {
         const data = await loadFundAny(key);
-        return await keypoints.extractKeyPoints(key, { allowAi: false, contextOnly: true, filingReference: data?.coverage?.latestAnnual });
+        return await keypoints.extractKeyPoints(key, { allowAi: false, contextOnly: true, filingReference: data?.coverage?.latestAnnual, withDossier: !!ctx?.companyReportEvidence });
     } catch (e) {
         return { error: 'Key-points extraction failed: ' + (e.message || 'unknown') };
     }
@@ -1819,7 +1836,7 @@ function runTool(name, args, ctx) {
         case 'get_red_flags': return toolGetRedFlags(args || {});
         case 'get_reverse_dcf': return toolGetReverseDcf(args || {});
         case 'get_peer_context': return toolGetPeerContext(args || {});
-        case 'get_key_points': return toolGetKeyPoints(args || {});
+        case 'get_key_points': return toolGetKeyPoints(args || {}, ctx);
         case 'get_supplemental_context': return require('./ask-supplemental-context').getSupplementalContext(args || {});
         case 'get_governance': return toolGetGovernance(args || {});
         case 'get_esg': return toolGetEsg(args || {});
@@ -1903,10 +1920,11 @@ const SYNTHESIS_DIRECTIVE =
 // "<think>" at the chunk boundary) and kills the stream the moment the
 // accumulated visible text trips the identity blocklist. The client only ever
 // sees 'delta' (append text) and 'rollback' (discard what I streamed so far).
-function makeRoundStreamer(emit, buffered = false) {
+function makeRoundStreamer(emit, buffered = false, verb = 'Drafting') {
     let raw = '';
     let emitted = '';
     let blocked = false;
+    let announced = 0;
     return {
         onDelta(d) {
             if (blocked) return;
@@ -1921,7 +1939,18 @@ function makeRoundStreamer(emit, buffered = false) {
                 if (emitted) { emit({ type: 'rollback' }); emitted = ''; }
                 return;
             }
-            if (buffered) return; // publish financial prose only after checks
+            if (buffered) {
+                // The prose is held back until its figures are checked, which
+                // left twenty-odd seconds of silence. The section headings are
+                // not figures: name each one as the draft reaches it.
+                const headings = vis.match(/^#{1,3}[ \t]+.+\n/gm) || [];
+                if (headings.length > announced) {
+                    announced = headings.length;
+                    const title = headings[headings.length - 1].replace(/^#+\s+/, '').replace(/[*_`]/g, '').replace(/\s*\(.*$/, '').trim().slice(0, 60);
+                    if (title && !aiClient.leaksIdentity(title)) emit({ type: 'status', text: verb + ': ' + title });
+                }
+                return; // publish financial prose only after checks
+            }
             if (vis.startsWith(emitted)) {
                 if (vis.length > emitted.length) emit({ type: 'delta', text: vis.slice(emitted.length) });
             } else {
@@ -1955,12 +1984,12 @@ const FULL_REPORT = [
     'Before writing, inspect coverage and remainingGaps. Request get_supplemental_context for missing fields, periods or business sections. The shared resolver checks SEC filings, original issuer releases and Yahoo Finance. For remaining narrative gaps, use original issuer documents or accessible reputable articles within the existing search/page budgets. Search snippets, forums and remembered figures are not financial evidence. Explain specific gaps only after bounded retrieval.',
     'REPORT FORMAT — every company report has these eight parts, in this order, each under its own heading. Prefer tables to paragraphs; keep prose between tables to a few sentences. A part whose evidence was not retrieved keeps its heading and says in one line what is missing and why — never drop a part and never fill it from memory.',
     '1. What the company does — two to four plain sentences: what it sells, to whom, and why it matters now.',
-    '2. Business segments — one sub-heading per reported segment with its revenue and share of total revenue from get_segments, written with the plain segment name rather than the XBRL member id. Use the reported segment values even when no Sankey is eligible; when segments overlap or include internal sales, say so instead of adding them up. Under each segment, a Markdown table (Product line | What it makes | Who buys it or why it matters) built from the filing business context — a table, not bullets or a paragraph. Name a customer only when the filing or a cited source names it.',
+    '2. Business segments — one sub-heading per reported segment with its revenue and share of total revenue from get_segments, written with the plain segment name rather than the XBRL member id. Use the reported segment values even when no Sankey is eligible; when segments overlap or include internal sales, say so instead of adding them up. Under each segment, a Markdown table (Product line | What it makes | Who buys it or why it matters) built from get_key_points — its dossier lists the product lines, platforms, customers and competitors, and its original excerpts carry the wording of the filing itself. Give one row per product line the filing names, usually three to six per segment — a table, not bullets or a paragraph. A dossier figure may be stated only when it appears in dossier.verifiedFigures. Name a customer only when the filing or a cited source names it.',
     '3. Recent quarters — a table of the four latest quarters, newest first: revenue, gross margin, operating margin, net income (or the industry equivalents). One line on the direction.',
     '4. Annual trend — a five-year table and the annual trend chart. One sentence for any year that breaks the pattern, with its cause only when the filing context states it.',
     '5. What makes it different — a Factor | Detail table of the company\'s distinguishing features, including scale facts the evidence supplies (revenue, employees, market value, peer standing).',
     '6. Key risks — a Risk | Detail table. Put the filing\'s own number in the detail wherever it gives one (customer concentration, debt, supplier dependence, regulation).',
-    '7. Valuation snapshot — a Metric | Value table from get_quote: market cap, trailing P/E, forward P/E, EV/EBITDA, dividend yield, 52-week range, with the quote date. A metric the quote does not supply is listed as "n/a" with the reason (for example negative earnings); it is never estimated.',
+    '7. Valuation snapshot — a Metric | Value table from get_quote: market cap, trailing P/E and 52-week range with the quote date, then forward P/E, EV/EBITDA and dividend yield from its providerValuation block, each row naming that provider and its own asOf date. A metric the quote does not supply is listed as "n/a" with the reason (for example negative earnings); it is never estimated.',
     '8. The read — no heading and nothing after it but the question: one paragraph that begins exactly "**The read** — " and ties the business, the numbers and the valuation together, then one > Next: question. Do not add a ninth part.',
     'In every financial table, label each period with its fiscal period-end date in YYYY-MM-DD form (for example "FY2025 (2025-12-27)"), keep periods in order, and state units. Use get_peer_context.industryProfile to choose metrics and get_ratios_history to quote printed ratios exactly. Quarter margins come from the supplied quarterly ratios. Table figures remain useful alongside a trend chart of the same history: the table gives precise values and the visual shows change.',
     'VISUAL FREEDOM: choose and arrange meaningful line charts, bars, faceted bars, eligible Sankeys and tables yourself. Include an annual trend visualization whenever compatible annual history exists. Additional visuals are your choice when they improve understanding. Do not force a fixed chart type or layout. Preserve gaps, signed values and comparable periods. When scales span more than about 10x it is a faceted bars block if those metrics are compared together; a line chart cannot facet. A Sankey requires eligible reconciliation, not an invented total.',
@@ -2077,6 +2106,7 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         const modelText = String(text || '');
         text = evidence.appendCitations(visualization.ensure(answerQuality.normalizeDraft(modelText), suppliedResults, { ...policy, question: q }), sourceLinks);
         const normalizedChart = text !== modelText;
+        emit({ type: 'status', text: 'Checking every figure against the filings' });
         let issues = answerQuality.audit(text, suppliedResults, { question: q, mode, policy });
         const correctionAttempted = issues.length > 0;
         const rewritten = normalizedChart || correctionAttempted;
@@ -2085,8 +2115,12 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         let salvaged = null;
         if (rewritten && streamed) { emit({ type: 'rollback' }); streamed = false; }
         if (issues.length > 0) {
+            emit({ type: 'status', text: `Correcting ${issues.length} item${issues.length === 1 ? '' : 's'} the check flagged` });
             try {
-                const corrected = await deps.chatRaw(messages.concat(
+                // Streamed only to report progress: the revised text stays held
+                // back until it has been checked, like the first draft.
+                const reviser = onEvent ? makeRoundStreamer(emit, true, 'Revising') : null;
+                const corrected = await (reviser ? (m, o) => deps.chatRawStream(m, o, reviser.onDelta) : deps.chatRaw)(messages.concat(
                     { role: 'assistant', content: text },
                     { role: 'system', content: 'Revise the answer once using ONLY the existing tool evidence. No further research. Fix every issue below, keep the requested scope and omit unsupported explanations. Use observations/calculations in raw units for charts. Delete unsupported figures and their dependent claims; preserve supported detail. Structural issues may be fixed by reorganising the existing evidence. For unsupported precision: a figure the tool results do not carry is deleted together with the sentence that needs it — never restated at another precision, never replaced with one from memory, never rounded to look like a different figure. Do not add any figure that is not already in the tool results. When the issue says the answer is over the word limit, remove repetition first and keep the useful supported business explanation, requested tables, visuals and gap reasons within the selected policy limit.\n' + issues.join('\n') }
                 ), { purpose: 'chat', temperature: 0.1, maxTokens: 8000, toolChoice: 'none' });
@@ -2174,6 +2208,10 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (tool === 'get_financials') args = { ...args, fields: require('./ask-report-evidence').defaults(args.symbol, args.statement, args.basis).fields };
             if (tool === 'get_ratios_history') args = { ...args, metrics: require('./ask-report-evidence').defaults(args.symbol, 'income', args.basis).metrics };
             const started = Date.now();
+            // Announce each pull as it starts. These used to be reported only
+            // after every one of them had finished, so the reader watched an
+            // idle status line for the ten-odd seconds the filing reads take.
+            emit({ type: 'tool', tool, args, ok: true });
             let result;
             if (WEB_BUDGET[tool] !== undefined && ++webUsed[tool] > WEB_BUDGET[tool]) result = { error: `Web budget exhausted for ${tool} — use the existing evidence.` };
             else {
@@ -2196,13 +2234,16 @@ async function ask({ question, history, ctx, mode, onEvent }) {
             if (!supplied.error) hasResearchEvidence = true;
             sourceLinks.push(...evidence.filingLinks(supplied));
             const trace = { tool, args, ok: !supplied.error, ms };
-            toolsUsed.push(trace); emit({ type: 'tool', ...trace });
+            toolsUsed.push(trace);
             const id = `story-research-${toolsUsed.length}`;
             messages.push({ role: 'assistant', content: '', tool_calls: [{ id, type: 'function', function: { name: tool, arguments: JSON.stringify(args) } }] },
                 { role: 'tool', tool_call_id: id, content });
         };
         // Keep the same concurrency bound as model-selected tool rounds while
         // making the required report evidence independent of model tool choice.
+        emit({ type: 'note', text: policy.story
+            ? `Gathering ${policy.company.name || policy.company.symbol}'s filed history and business background.`
+            : `Pulling ${policy.company.name || policy.company.symbol}'s filings, financial statements, segments and market data.` });
         const fetched = new Array(pending.length);
         let next = 0;
         await Promise.all(Array.from({ length: Math.min(ASK_TOOL_CONCURRENCY, pending.length) }, async () => {
@@ -2232,6 +2273,9 @@ async function ask({ question, history, ctx, mode, onEvent }) {
         messages.push({ role: 'system', content: policy.story
             ? 'The company story evidence was retrieved before generation. Reuse its supported financial history and original business context. Supplement historical gaps using accessible original documents within the remaining web budgets. A failed source affects only its missing details; write the supported story, rather than replacing it with a stock quote or asking the user to narrow the request.'
             : 'All required full-report evidence was retrieved before generation. Reuse these exact results; do not repeat completed pulls. A failed source affects only its missing details. Write the supported company report from the available evidence and name specific gaps instead of replacing the report with a financial receipt.' });
+        // Not a data pull: it tells the reader the research is done and the
+        // wait that follows is the write-up, not a stalled tool.
+        emit({ type: 'status', text: policy.story ? `Writing the ${policy.company.symbol} story` : `Writing the ${policy.company.symbol} report` });
     };
     try {
         for (let iter = 0; iter < MAX_ITERS; iter++) {

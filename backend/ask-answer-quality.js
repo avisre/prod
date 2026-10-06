@@ -190,6 +190,29 @@ function originalBusinessAmounts(results) {
     return facts;
 }
 
+// Figures from the model-written filing dossier that were found printed in the
+// filing text when the dossier was built (keypoints.verifiedFigures). They are
+// the filing's own numbers, so prose may repeat them; like the excerpt amounts
+// above they are not statement observations and cannot seed a chart.
+function dossierFigures(results) {
+    const money = [], percentages = [];
+    for (const { tool, result } of results || []) {
+        if (tool !== 'get_key_points' || result?.error || !Array.isArray(result?.dossier?.verifiedFigures)) continue;
+        const currency = filingCurrency.filingBasis(results, { url: result.filing?.url, text: '', currencyEvidence: result.currencyEvidence });
+        for (const figure of result.dossier.verifiedFigures) {
+            const pct = /^(\d+(?:\.\d+)?)\s?%$/.exec(figure);
+            if (pct) { percentages.push(Number(pct[1])); continue; }
+            const m = /^(US\$|\$|€|£|¥)\s?(\d[\d,]*(?:\.\d+)?)\s?(trillion|billion|million|thousand|bn|m|k)?$/i.exec(figure);
+            if (!m) continue;
+            const unit = m[1].toUpperCase() === 'US$' ? 'USD' : filingCurrency.code(m[1], currency) || (m[1] === '$' ? 'USD' : null);
+            const suffix = (m[3] || '').toLowerCase();
+            const scale = /^(?:trillion)$/.test(suffix) ? 1e12 : /^(?:billion|bn)$/.test(suffix) ? 1e9 : /^(?:million|m)$/.test(suffix) ? 1e6 : /^(?:thousand|k)$/.test(suffix) ? 1e3 : 1;
+            if (unit) money.push({ value: Number(m[2].replace(/,/g, '')) * scale, unit, sourceType: 'sec_filing_dossier' });
+        }
+    }
+    return { money, percentages };
+}
+
 // Table rows are data, not prose — a metrics-over-periods table is the shape
 // the answer prompt asks for, so charging its cells against the prose budget
 // made the two rules unsatisfiable. Tables are bounded separately in audit().
@@ -583,6 +606,8 @@ function numericClaims(text, results, question = '') {
     // calculation keeps its currency only when every input shared one.
     for (const c of calculatorClaims(results, facts)) if (c.unit) facts.push({ value: c.value, unit: c.unit, calculated: true });
     facts.push(...originalBusinessAmounts(results));
+    const dossier = dossierFigures(results);
+    facts.push(...dossier.money);
     const prose = text.replace(/```[\s\S]*?```/g, '').replace(/\[([^\]]+)\]\([^)]*\)/g, '$1');
     const issues = [];
     const currencies = { '$': 'USD', '¥': 'JPY', '€': 'EUR', '£': 'GBP' };
@@ -646,6 +671,7 @@ function numericClaims(text, results, question = '') {
             issues.push(`Monetary claim ${m[0]} is not a figure any tool result supplies. Delete this figure, and the sentence that depends on it — do not restate it at another precision and do not substitute a figure from memory.`);
     }
     const percentages = percentageEvidence(results, facts);
+    percentages.push(...dossier.percentages);
     // A computed figure is as often a percentage as an amount — a share of
     // revenue, a premium to a peer median — so the same gated results are
     // claimable on this channel too.

@@ -77,6 +77,8 @@ const TREND_SYSTEM = [
 const cacheCol = () => mongoose.connection.collection('company_keypoints');
 
 function readCache(query) {
+    // No connection (local review, a cold start) is a cache miss, not a failure.
+    if (mongoose.connection.readyState !== 1) return Promise.resolve(null);
     return cacheCol().findOne(query)
         .then((hit) => (hit && hit.payload && Number(hit.payload.version) === KEYPOINTS_VERSION
             ? { ...hit.payload, cached: true }
@@ -85,6 +87,7 @@ function readCache(query) {
 }
 
 function writeCache(query, payload) {
+    if (mongoose.connection.readyState !== 1) return Promise.resolve();
     return cacheCol()
         .updateOne(query, { $set: { payload, at: new Date() } }, { upsert: true })
         .catch(() => {}); // cache is best-effort
@@ -92,9 +95,21 @@ function writeCache(query, payload) {
 
 // Extract one filing. Keyed on the accession alone, so a Deep run reuses any
 // year already extracted — and next year's Deep run reuses two of three.
-async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = false } = {}) {
+// Money and percentage figures in a dossier point, kept only when the same
+// figure is printed in the filing text the point was written from. The dossier
+// is model-written, so this is what lets Ask repeat one of its numbers.
+const FIGURE = /(?:US\$|\$|€|£|¥)\s?\d[\d,]*(?:\.\d+)?(?:\s?(?:trillion|billion|million|thousand|bn|m|k)\b)?|\d+(?:\.\d+)?\s?%/gi;
+function verifiedFigures(sections, sourceText) {
+    const flat = String(sourceText || '').replace(/&#\d+;|&[a-z]+;/gi, ' ').replace(/\s+/g, '').toLowerCase();
+    const out = new Set();
+    for (const section of sections) for (const point of section.points || [])
+        for (const m of String(point).match(FIGURE) || []) if (flat.includes(m.replace(/\s+/g, '').toLowerCase())) out.add(m.trim());
+    return [...out].slice(0, 80);
+}
+
+async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = false, rawOnly = false } = {}) {
     const key = { symbol, accession: tenK.accession, depth: 'standard' };
-    const cached = contextOnly && mongoose.connection.readyState !== 1 ? null : await readCache(key);
+    const cached = rawOnly || (contextOnly && mongoose.connection.readyState !== 1) ? null : await readCache(key);
     if (cached) return cached;
 
     if (!contextOnly && (!allowAi || !aiClient.isConfigured())) {
@@ -106,13 +121,14 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
     if (contextOnly) await require('./sec-throttle').take();
     const r = await axios.get(tenK.url, { headers: secSource.SEC_HEADERS, timeout: contextOnly ? 15000 : 30000, maxContentLength: contextOnly ? 15e6 : 60e6 });
     const extracted = filingSections.extractSections(r.data, { form: tenK.form });
-    if (contextOnly) {
+    {
         // Business first: it is what a company report most needs and what the
         // 28,000-character context budget below would otherwise cut last-in.
+        // The dossier passes read the same recovered text, at their own size.
         const recovered = {};
         for (const [key, label, budget] of [['1', 'Business', 9000], ['1A', 'Risk Factors', 6000]]) {
             if ((extracted.sections[key]?.text || '').length >= 1500) continue;
-            const text = filingSections.narrativeFallback(extracted.text, key, budget);
+            const text = filingSections.narrativeFallback(extracted.text, key, contextOnly ? budget : 30000);
             if (text) recovered[key] = { label, text, chars: text.length, trimmed: true };
         }
         if (Object.keys(recovered).length) extracted.sections = { ...recovered, ...extracted.sections, ...recovered };
@@ -159,7 +175,7 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
 
     const seen = new Set();
     const sections = [];
-    for (const group of results) {
+    for (const [index, group] of results.entries()) {
         for (const s of Array.isArray(group) ? group : []) {
             const heading = String(s.heading || '').slice(0, 60).trim();
             const key = heading.toLowerCase();
@@ -168,7 +184,7 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
                 .slice(0, 8).map((p) => String(p).slice(0, 320)).filter(Boolean);
             if (!points.length) continue;
             seen.add(key);
-            sections.push({ heading, points });
+            sections.push({ heading, points, pass: PASSES[index].id });
         }
     }
 
@@ -185,6 +201,7 @@ async function extractOneFiling(symbol, tenK, { allowAi = true, contextOnly = fa
         extractedAt: new Date().toISOString()
     };
     if (!payload.sections.length) return { error: 'Nothing extractable from this filing.' };
+    payload.verifiedFigures = verifiedFigures(payload.sections, extracted.text);
     await writeCache(key, payload);
     return payload;
 }
@@ -253,13 +270,41 @@ async function extractDeep(symbol, tenKs, { allowAi = true } = {}) {
     return payload;
 }
 
-async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard', contextOnly = false, filingReference = null } = {}) {
+// A company report needs both: the original excerpts (the only text whose
+// amounts the answer audit accepts) and the model-written dossier, which reads
+// far more of the filing than fits in the report context and is where product
+// lines, customers and specific risks come from. The dossier is cached per
+// filing, so the three extraction calls are paid once per company per year.
+const DOSSIER_WAIT_MS = 30000;
+async function contextWithDossier(symbol, filing) {
+    const dossierRun = aiClient.isConfigured()
+        ? Promise.race([extractOneFiling(symbol, filing, { allowAi: true }).catch(() => null),
+            new Promise(resolve => setTimeout(() => resolve(null), DOSSIER_WAIT_MS).unref())])
+        : Promise.resolve(null);
+    const [context, dossier] = await Promise.all([
+        extractOneFiling(symbol, filing, { allowAi: false, contextOnly: true, rawOnly: true }).catch(e => ({ error: e.message })), dossierRun]);
+    if (!dossier || dossier.error || !Array.isArray(dossier.sections) || !dossier.sections.some(s => Array.isArray(s.points))) return context;
+    // Financial performance comes from the statement tools, which are checked
+    // figure by figure; the dossier contributes the business and the risks.
+    const block = { sections: dossier.sections.filter(s => Array.isArray(s.points) && s.pass !== 'performance').map(s => ({ heading: s.heading, points: s.points })),
+        verifiedFigures: dossier.verifiedFigures || [], extractedAt: dossier.extractedAt || null,
+        note: 'Model-written summary of this same filing. Use it for product lines, customers, competitors and specific risks. A money or percentage figure from it may be stated only when it is listed in verifiedFigures (printed in the filing text); otherwise describe the point without the number.' };
+    if (context?.error) return { symbol, filing: dossier.filing, sections: [], dossier: block, note: 'Original filing excerpts were unavailable; only the summary is supplied.' };
+    // The dossier already covers MD&A and legal detail; keep the two original
+    // sections the report quotes from so both fit the context budget.
+    const keep = (context.sections || []).filter(s => /^(?:Business|Risk Factors|Information on the Company)$/i.test(s.heading));
+    return { ...context, sections: keep.length ? keep : context.sections, dossier: block };
+}
+
+async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard', contextOnly = false, filingReference = null, withDossier = false } = {}) {
     if (contextOnly) {
         const company = require('./stock-universe').lookup(symbol);
         const annual = filingReference || (company && require('./public-stock-index').view().issuers[require('./sec-coverage').cik(company.cik)]?.evidence?.latestAnnual);
         if (annual?.primaryDocument && /^[\w.-]+\.html?$/i.test(annual.primaryDocument)) {
-            return extractOneFiling(symbol, { form: annual.form, date: annual.filingDate,
-                accession: annual.accessionNumber, url: String(annual.filingUrl).replace(/[^/]*$/, '') + annual.primaryDocument }, { allowAi: false, contextOnly: true });
+            const filing = { form: annual.form, date: annual.filingDate,
+                accession: annual.accessionNumber, url: String(annual.filingUrl).replace(/[^/]*$/, '') + annual.primaryDocument };
+            if (withDossier) return contextWithDossier(symbol, filing);
+            return extractOneFiling(symbol, filing, { allowAi: false, contextOnly: true });
         }
         if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return { error: 'No cached original annual business document is available; live retrieval is disabled in this review.' };
     }
@@ -276,4 +321,4 @@ async function extractKeyPoints(symbol, { allowAi = true, depth = 'standard', co
         : extractOneFiling(symbol, tenKs[0], { allowAi, contextOnly });
 }
 
-module.exports = { extractKeyPoints, DEPTHS: ['standard', 'deep'], KEYPOINTS_VERSION };
+module.exports = { extractKeyPoints, verifiedFigures, DEPTHS: ['standard', 'deep'], KEYPOINTS_VERSION };

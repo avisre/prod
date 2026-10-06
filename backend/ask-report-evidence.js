@@ -110,6 +110,12 @@ function serialize(result,remaining){
   narrativeBytes=Math.max(0,Math.min(Math.floor(narrativeBytes/2),narrativeBytes-(Buffer.byteLength(JSON.stringify(packed))-cap)-256));
   packed=compact(boundNarrative(result,narrativeBytes));
  }
+ // The dossier is the densest part of the business context; when even the
+ // empty excerpts leave it too large, drop its last sections, never all of it.
+ if(Buffer.byteLength(JSON.stringify(packed))>cap && result?.dossier?.sections?.length>1){
+  let trimmed=structuredClone(result);
+  while(trimmed.dossier.sections.length>1 && Buffer.byteLength(JSON.stringify(packed))>cap){trimmed.dossier.sections.pop();packed=compact(boundNarrative(trimmed,narrativeBytes));}
+ }
  return evidence.serializeResult(packed,remaining);
 }
 module.exports={compact,expand,defaults,boundNarrative,serialize,CONTEXT_RESERVE_BYTES};

@@ -38,16 +38,23 @@ test('screener page: its own asset carries the page stamp, not a stale one', () 
     assert.ok(html.includes(`assets/screener.js?v=${stamp}`), 'screener.js must share the page stamp or the fix never reaches browsers');
 });
 
-test('screener page: adoption is a click, never a side effect of Ask finishing', () => {
+// Owner decision 2026-10-06, replacing "adoption is a click": a Doppelganger
+// result belongs in the results table like every preset, not in the Ask chat.
+test('screener page: a Doppelganger result fills the table, never the Ask chat', () => {
     const js = read('frontend-v2', 'assets', 'screener.js');
-    assert.match(js, /V2\.askFloor\.send\(/);
-    assert.match(js, /addEventListener\(AI_TOOL_EVT/);
-    const handler = js.slice(js.indexOf('document.addEventListener(AI_TOOL_EVT'));
-    const body = handler.slice(0, handler.indexOf('document.addEventListener(AI_DONE_EVT'));
-    assert.match(body, /pendingScreenArgs = args/, 'the handler only stages the screen');
-    assert.ok(!body.includes('adoptAiScreen'), 'the tool event must not adopt the screen by itself');
-    assert.match(js, /id="ai-use-btn"[^]*?addEventListener\('click', adoptAiScreen\)/, 'a visible button is the only path in');
-    assert.match(js, /function adoptAiScreen[\s\S]*?run\(\);/, 'adoption syncs controls and re-runs the screen');
+    assert.ok(!/V2\.askFloor\.send\(/.test(js), 'the chip no longer opens the Ask conversation');
+    // A named company is answered by the page's own screen endpoint.
+    assert.match(js, /criteria: JSON\.stringify\(\{ similar_to: company \}\)/);
+    assert.match(js, /adoptAiScreen\(\{ similar_to: probe\.similarTo\.symbol \}\)/);
+    // Plain words: only the screen's arguments are read off the stream.
+    assert.match(js, /d\.tool === 'screen_universe' && d\.args/);
+    assert.match(js, /function adoptAiScreen[\s\S]*?syncFiltersTo\(aiCriteria\);[\s\S]*?run\(\);/, 'adoption syncs controls and re-runs the screen');
+});
+
+test('screener page: Doppelganger sits with the screens, before Clear', () => {
+    const html = read('frontend-v2', 'screener.html');
+    assert.ok(html.indexOf('id="ai-screen-btn"') < html.indexOf('data-preset="clear"'), 'Clear stays the last chip');
+    assert.ok(html.indexOf('id="ai-screen-btn"') > html.indexOf('data-preset="earnings"'));
 });
 
 test('screener page: the AI screen survives the round trip through ?criteria=', () => {

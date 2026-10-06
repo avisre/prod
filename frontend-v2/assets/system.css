@@ -1068,6 +1068,15 @@ th.sortable[data-dir='asc']::after { content: ' ↑'; }
 .ask-trace summary::after { content: '▸'; font-size: 9px; transition: transform 0.12s ease; }
 .ask-trace details[open] summary::after { transform: rotate(90deg); }
 .ask-trace details > div { display: flex; flex-wrap: wrap; gap: 5px 14px; padding: 8px 0 2px; }
+.ask-filings { margin: 12px 0; }
+.ask-filings summary {
+  font-size: var(--text-xs); color: var(--ink-3); cursor: pointer; list-style: none;
+  display: inline-flex; align-items: center; gap: 6px; user-select: none;
+}
+.ask-filings summary::-webkit-details-marker { display: none; }
+.ask-filings summary::after { content: '▸'; font-size: 9px; transition: transform 0.12s ease; }
+.ask-filings[open] summary::after { transform: rotate(90deg); }
+.ask-filings ul { margin: 8px 0 0; padding-left: 18px; font-size: var(--text-xs); color: var(--ink-3); }
 .ask-disclaimer { margin: 10px 0 0; font-size: var(--text-xs); color: var(--ink-3); }
 .ask-step { font-size: var(--text-xs); color: var(--ink-3); }
 .ask-step::before { content: '✓ '; color: var(--pos); }

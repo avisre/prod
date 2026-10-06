@@ -269,34 +269,34 @@
         }
     });
 
-    // ---- AI screen: plain words in, a real screen out ----------------------
-    // The chip hands the question to the page's Ask floor; when Ask actually
-    // runs screen_universe, the page offers to adopt the screen it ran — never
-    // automatically. Adoption re-runs the exact tool args server-side through
+    // ---- Doppelganger: a company (or plain words) in, the table out ---------
+    // The result lands in the same table every preset fills — never in a chat.
+    // Naming a company is answered by the page's own screen endpoint, which
+    // ranks the closest matches by the filed numbers. A screen described in
+    // words needs one Ask to turn the words into criteria; the page reads that
+    // run's screen_universe arguments off the stream and re-runs them through
     // ?criteria=, so the rows, the count and the export stay one code path.
     let aiCriteria = null;        // screen_universe args the page re-runs
     let aiSimilar = null;         // the result's similarTo block, for the note
-    let pendingAiScreen = false;  // the chip started the in-flight Ask
-    let pendingScreenArgs = null; // a screen Ask ran, waiting for adoption
+    let aiStatus = null;          // { text, html } shown while a screen is built
 
-    const AI_TOOL_EVT = (window.V2 && V2.askToolEvent) || 'v2:ask-tool';
-    const AI_DONE_EVT = (window.V2 && V2.askDoneEvent) || 'v2:ask-done';
     const AI_MAPPED_KEYS = new Set(['similar_to', 'min_revenue_cagr_5y_pct', 'min_net_margin_pct', 'min_roe_pct', 'max_pe', 'min_dividend_yield_pct', 'min_latest_qtr_earnings_growth_yoy_pct', 'require_positive_fcf', 'min_market_cap_billions', 'max_market_cap_billions', 'sector']);
 
     function clearAiScreen() {
         aiCriteria = null;
         aiSimilar = null;
+        aiStatus = null;
         renderAiNote();
     }
 
     function renderAiNote() {
         const el = $('ai-note');
-        $('ai-screen-btn').classList.toggle('chip-accent', !!(pendingScreenArgs || aiCriteria));
+        $('ai-screen-btn').classList.toggle('chip-accent', !!(aiStatus || aiCriteria));
         const clearBtn = '<button type="button" class="chip" id="ai-clear" title="Back to plain filters">×</button>';
-        if (pendingScreenArgs) {
+        if (aiStatus) {
             el.style.display = 'flex';
-            el.innerHTML = '<button type="button" class="chip chip-accent" id="ai-use-btn">Use this screen on the page</button><span class="muted">Doppelganger ran a screen over the filed fundamentals.</span>';
-            $('ai-use-btn').addEventListener('click', adoptAiScreen);
+            el.innerHTML = aiStatus.html || '<span class="muted">' + esc(aiStatus.text) + '</span>';
+            el.querySelectorAll('[data-ai-pick]').forEach((b) => b.addEventListener('click', () => adoptAiScreen({ similar_to: b.dataset.aiPick })));
             return;
         }
         if (aiSimilar) {
@@ -306,14 +306,15 @@
             if (f.netMarginPct !== null && f.netMarginPct !== undefined) bits.push('net margin ' + pct(f.netMarginPct));
             const floor = (aiCriteria && aiCriteria.min_market_cap_billions) ? '' : ' · $2B+ market cap';
             el.style.display = 'flex';
-            el.innerHTML = `<span class="muted">Ranked by resemblance to <strong>${esc(aiSimilar.symbol)}</strong>${bits.length ? ' — ' + esc(bits.join(', ')) : ''}${esc(floor)}; ${esc(aiSimilar.symbol)} excluded.</span>${clearBtn}`;
+            el.innerHTML = '<span class="muted">Ranked by resemblance to <strong>' + esc(aiSimilar.symbol) + '</strong>' + (bits.length ? ' — ' + esc(bits.join(', ')) : '') + esc(floor) + '; ' + esc(aiSimilar.symbol) + ' excluded.</span>' + clearBtn;
             $('ai-clear').addEventListener('click', () => { clearAiScreen(); run(); });
             return;
         }
         if (aiCriteria) {
-            const extra = Object.keys(aiCriteria).filter((k) => !AI_MAPPED_KEYS.has(k));
+            // limit and sort_by belong to the page, and the server drops them anyway.
+            const extra = Object.keys(aiCriteria).filter((k) => !AI_MAPPED_KEYS.has(k) && k !== 'limit' && k !== 'sort_by');
             el.style.display = 'flex';
-            el.innerHTML = `<span class="muted">Doppelganger screen applied${extra.length ? ' — also ' + esc(extra.map((k) => k.replace(/_/g, ' ')).join(', ')) : ''}.</span>${clearBtn}`;
+            el.innerHTML = '<span class="muted">Doppelganger screen applied' + (extra.length ? ' — also ' + esc(extra.map((k) => k.replace(/_/g, ' ')).join(', ')) : '') + '.</span>' + clearBtn;
             $('ai-clear').addEventListener('click', () => { clearAiScreen(); run(); });
             return;
         }
@@ -339,43 +340,105 @@
         $('f-sector').value = opt ? opt.value : '';
     }
 
-    function adoptAiScreen() {
-        aiCriteria = pendingScreenArgs;
-        pendingScreenArgs = null;
+    function adoptAiScreen(args) {
+        aiCriteria = args;
+        aiStatus = null;
+        document.querySelectorAll('#presets .chip[data-preset]').forEach((x) => x.classList.remove('chip-accent'));
         syncFiltersTo(aiCriteria);
-        run();
+        return run();
     }
 
-    document.addEventListener(AI_TOOL_EVT, (e) => {
-        // Only a screen from an Ask this chip started is ever offered, and an
-        // explicit click still stands between Ask's run and the page's table.
-        if (!pendingAiScreen) return;
-        const d = e.detail || {};
-        if (d.tool !== 'screen_universe' || d.ok === false) return;
-        const args = d.args || {};
-        if (!Object.keys(args).length) return; // an unfiltered screen is nothing to adopt
-        pendingScreenArgs = args;
+    function aiMessage(text, html) {
+        aiStatus = { text, html };
         renderAiNote();
-    });
-    document.addEventListener(AI_DONE_EVT, () => { pendingAiScreen = false; });
+    }
+    const dismissible = (text) => '<span class="muted">' + text + '</span><button type="button" class="chip" id="ai-dismiss" title="Dismiss">×</button>';
+    function aiFail(text) {
+        aiMessage(null, dismissible(text));
+        const x = $('ai-dismiss');
+        if (x) x.addEventListener('click', () => { aiStatus = null; renderAiNote(); });
+    }
+    function tableBusy(text) {
+        $('results-body').innerHTML = '<tr><td colspan="10" style="text-align:center;padding:40px;" class="faint">' + esc(text) + '</td></tr>';
+    }
+
+    // A screen described in words: one Ask turns it into criteria. Only the
+    // screen_universe arguments are read from the stream — the written answer
+    // is never shown, because the table is the answer here.
+    async function screenFromWords(q) {
+        const headers = { 'Content-Type': 'application/json' };
+        if (window.V2 && V2.token && V2.token()) headers.Authorization = 'Bearer ' + V2.token();
+        let r;
+        try {
+            r = await fetch('/api/ai/chat', { method: 'POST', headers, credentials: 'same-origin',
+                body: JSON.stringify({ question: 'Run a stock screen for: ' + q, history: [], stream: true, mode: 'normal' }) });
+        } catch (_) { return null; }
+        if (r.status === 401 || r.status === 402 || r.status === 429) return { denied: true };
+        if (!r.ok || !r.body || !/event-stream/.test(r.headers.get('content-type') || '')) return { denied: r.ok };
+        const reader = r.body.getReader();
+        const dec = new TextDecoder();
+        let buf = '', args = null;
+        for (;;) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            buf += dec.decode(value, { stream: true });
+            let cut;
+            while ((cut = buf.indexOf('\n\n')) >= 0) {
+                const frame = buf.slice(0, cut); buf = buf.slice(cut + 2);
+                const ev = (frame.match(/^event: (.*)$/m) || [])[1];
+                const data = (frame.match(/^data: (.*)$/m) || [])[1];
+                if (ev !== 'tool' || !data) continue;
+                try {
+                    const d = JSON.parse(data);
+                    if (d.tool === 'screen_universe' && d.args && Object.keys(d.args).length) args = d.args;
+                } catch (_) { /* a malformed frame is not a screen */ }
+            }
+        }
+        return { args };
+    }
+
+    async function runDoppelganger(q) {
+        const named = /\b(?:like|similar to|resembl\w*|lookalikes? (?:of|for)|doppelg[aä]ngers? (?:of|for))\s+/i.test(q);
+        const company = q.replace(/^.*?\b(?:like|similar to|resembl\w*|lookalikes? (?:of|for)|doppelg[aä]ngers? (?:of|for))\s+/i, '').replace(/[?.!]+$/, '').trim() || q;
+        aiCriteria = null; aiSimilar = null;
+        aiMessage('Finding the closest matches to ' + company + '…');
+        tableBusy('Running the screen…');
+        let probe = null;
+        try {
+            probe = await (await fetch('/api/screener?' + new URLSearchParams({ criteria: JSON.stringify({ similar_to: company }), limit: 1 }))).json();
+        } catch (_) { /* fall through to the words path */ }
+        if (probe && probe.similarTo && probe.similarTo.symbol) return adoptAiScreen({ similar_to: probe.similarTo.symbol });
+        if (probe && Array.isArray(probe.candidates) && probe.candidates.length) {
+            aiMessage(null, '<span class="muted">Several companies match — pick one:</span>' + probe.candidates.map((c) =>
+                '<button type="button" class="chip" data-ai-pick="' + esc(c.symbol) + '">' + esc(c.symbol) + '&ensp;<span class="muted">' + esc(c.name) + '</span></button>').join(''));
+            return run();
+        }
+        if (named) { aiFail('No US-listed company with filed fundamentals matches “' + esc(company) + '”.'); return run(); }
+        aiMessage('Turning that into a screen…');
+        const built = await screenFromWords(q);
+        if (built && built.args) return adoptAiScreen(built.args);
+        if (built && built.denied) aiFail('Describing a screen in words uses Ask — <a href="/login.html?next=/screener.html">sign in</a>, or name a company to match instead.');
+        else aiFail('Couldn’t turn that into a screen. Name a company to match, or use the filters below.');
+        return run();
+    }
 
     const AI_EXAMPLES = ['Companies like AppLovin', 'High-margin growers under 30× earnings', 'Cash machines with steady dividends'];
     $('ai-screen-btn').addEventListener('click', () => {
-        if (!(window.V2 && V2.askFloor && V2.modal)) return;
-        const ask = (q) => { pendingAiScreen = true; V2.askFloor.send(q); };
+        if (!(window.V2 && V2.modal)) return;
         const m = V2.modal({
             label: 'Doppelganger',
             title: "Find a stock's doppelganger",
-            bodyHtml: `<p class="small muted" style="margin:0 0 10px;">Closest matches by the numbers — any sector. Name a company to match, or describe a screen.</p>
-              <input class="input" id="ai-screen-q" maxlength="500" placeholder="A company to match — or a screen in plain words…" style="width:100%;">
-              <p class="small muted" style="margin:12px 0 0;">Try:</p>
-              <p style="margin:6px 0 0;">${AI_EXAMPLES.map((x) => `<button type="button" class="chip" data-ai-example="${esc(x)}">${esc(x)}</button>`).join(' ')}</p>
-              <p class="small faint" style="margin:12px 0 0;">Runs a real screen over the filed fundamentals — spends one Ask.</p>`,
+            bodyHtml: '<p class="small muted" style="margin:0 0 10px;">Closest matches by the numbers — any sector. Name a company to match, or describe a screen.</p>' +
+              '<input class="input" id="ai-screen-q" maxlength="500" placeholder="A company to match — or a screen in plain words…" style="width:100%;">' +
+              '<p class="small muted" style="margin:12px 0 0;">Try:</p>' +
+              '<p style="margin:6px 0 0;">' + AI_EXAMPLES.map((x) => '<button type="button" class="chip" data-ai-example="' + esc(x) + '">' + esc(x) + '</button>').join(' ') + '</p>' +
+              '<p class="small faint" style="margin:12px 0 0;">Results appear in the table below. Matching a company is instant; a screen described in words spends one Ask.</p>',
             actions: [
-                { label: 'Run it', primary: true, onClick: () => {
+                { label: 'Run it', primary: true, onClick: (close) => {
                     const q = (m.el.querySelector('#ai-screen-q').value || '').trim();
                     if (!q) return;
-                    ask(q);
+                    close();
+                    runDoppelganger(q);
                 } },
                 { label: 'Cancel' }
             ]
@@ -390,7 +453,7 @@
         field.focus();
         field.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); m.el.querySelector('.v2-modal-btn-primary').click(); } });
     });
-    if (!(window.V2 && V2.askFloor)) $('ai-screen-btn').style.display = 'none';
+    if (!(window.V2 && V2.modal)) $('ai-screen-btn').style.display = 'none';
 
     document.querySelectorAll('#presets .chip[data-preset]').forEach((b) =>
         b.addEventListener('click', () => {
