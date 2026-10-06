@@ -93,12 +93,14 @@ const BRANDS = [[/\bThree Six Five\b/g, '365'], [/\bLinked in\b/gi, 'LinkedIn'],
     [/\bI (Phone|Pad|Cloud)\b/g, 'i$1'], [/\bU S\b/g, 'US'], [/\bU K\b/g, 'UK']];
 // "us-gaap:AmazonWebServicesSegmentMember" -> "Amazon Web Services"
 function label(member) {
-    const bare = String(member || '').split(':').pop().replace(/(?:Member)+$/, '').replace(/^UsGaap_/i, '');
+    const bare = String(member || '').split(':').pop().replace(/(?:Member)+$/, '').replace(/^[A-Za-z]{2,10}_(?=[A-Z])/, '').replace(/_+/g, ' ');
     const raw = bare.replace(/(?:Reportable|Operating)?Segments?$/, '').replace(/^Segment(?=[A-Z])/, '') || bare;
     const words = raw.replace(/([a-z0-9])([A-Z])/g, '$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2').split(/\s+/).filter(Boolean)
         .flatMap(w => unglue(w).split(' ')).map(w => initialism(w) ? w.toUpperCase() : w);
     const text = words.map((w, i) => i && SMALL.has(w[0].toUpperCase() + w.slice(1)) ? w.toLowerCase() : w).join(' ');
-    return BRANDS.reduce((out, [pattern, value]) => out.replace(pattern, value), text).trim();
+    // "Otherrevenues" and a doubled "Other Other Revenue" are filer typos in the element name.
+    const tidy = text.replace(/\bOther(?!wise\b)([a-z])([a-z]{4,})\b/g, (_, a, rest) => 'Other ' + a.toUpperCase() + rest).replace(/\b(\w+) \1\b/g, '$1');
+    return BRANDS.reduce((out, [pattern, value]) => out.replace(pattern, value), tidy).trim();
 }
 // A breakdown often carries its own subtotals next to their parts ("Products"
 // beside iPhone, Mac and iPad). While the rows add up to more than filed

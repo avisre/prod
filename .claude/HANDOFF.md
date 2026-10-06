@@ -24,10 +24,15 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   guarantees and unconsolidated-entity exposure from the latest 10-K/10-Q/20-F inline XBRL, each with its filing
   sentence; no model. Page section `#dos-off-balance`. Measured live: META $279.0B leases + $28B RVG + $46.0B
   Louisiana venture exposure, MSFT $329.1B, ORCL $288B, GOOGL $85.2B, AMZN $137.2B, NVDA, CRWV. Never summed.
+- **Selection (second commit):** `preferred().usable` picks the newest group with ≥2 rows covering 90–110% of
+  revenue (segments before product lines); otherwise the stored breakdown is withheld and the older extraction
+  path runs. `segments.storedSegments()` is re-run on every cached dossier read. `scripts/audit-segment-display.js`
+  sweeps all issuers: 2,390 of 2,925 shown, 535 withheld (BRK: only an FY2024 product table at ~80%), 0 failures;
+  `test/segment-display.test.js` runs it. Page table caps at 8 rows + "Other segments" + "Not broken out".
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-offbalance1`.
+- Asset stamp `20261007-segments2`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use

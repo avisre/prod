@@ -135,19 +135,30 @@ const EXTRACT_SYSTEM = [
     'Never invent, estimate or recall figures from memory. "basis" briefly states where the numbers came from (e.g. "segment note, FY2025 10-K").'
 ].join('\n');
 
-async function extractSegments(symbol) {
-    if(process.env.SEC_COVERAGE_READ_ONLY!=='1' && process.env.SEC_COVERAGE_DISABLE_ON_DEMAND!=='1') {
-        const evidence=await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(()=>null);
-        const store=require('./sec-segment-observations'),group=store.preferred(evidence?.statements?.segmentObservations).primary;
-        if(group){const result=store.toolPayload(group,evidence.statements,symbol);if(result) {
-            // A product table carries its own subtotals; an operating-segment
-            // table can carry signed eliminations. Neither is a slice of revenue.
-            const kept=new Set(require('./ask-inline-segments').prune(result.segments.map(s=>({...s})),group.totalRevenue).map(s=>s.member));
-            // The stored note is a provenance rule for the pipeline, not something to print.
-            const note=group.reconciliationStatus==='reconciled'?null:'These lines are the filing’s own breakdown and do not add up exactly to total revenue.';
-            return {...result,note,segments:result.segments.filter(s=>kept.has(s.member)).sort((a,b)=>b.value-a.value)};
-        }}
+// The breakdown read straight from the filing's own tagged figures, when one
+// exists that a reader can use; null otherwise. No model and no network.
+async function storedSegments(symbol) {
+    if(process.env.SEC_COVERAGE_READ_ONLY==='1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND==='1') return null;
+    const evidence=await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(()=>null);
+    const store=require('./sec-segment-observations'),group=store.preferred(evidence?.statements?.segmentObservations).usable;
+    const result=group && store.toolPayload(group,evidence.statements,symbol);
+    if(!result) return null;
+    // A product table carries its own subtotals; an operating-segment table can
+    // carry signed eliminations. Neither is a slice of revenue.
+    const {rows,coverage}=store.shown(group),kept=new Set(rows.map(r=>r.member)),byName=new Map();
+    for(const s of result.segments.filter(s=>kept.has(s.member))) {
+        const same=byName.get(s.name);
+        if(!same) byName.set(s.name,{...s});
+        else for(const k of ['value','reportedRevenue','revenueUsd','revenuePct']) same[k]=same[k]===null || s[k]===null?null:Math.round((same[k]+s[k])*10)/10;
     }
+    // The stored note is a provenance rule for the pipeline, not something to print.
+    const note=coverage>1.02?'Segments are reported before eliminations between them, so they add up to slightly more than total revenue.':null;
+    return {...result,note,segments:[...byName.values()].sort((a,b)=>b.value-a.value)};
+}
+
+async function extractSegments(symbol) {
+    const stored=await storedSegments(symbol);
+    if(stored) return stored;
     const tenK = await latestTenK(symbol);
     if (!tenK || !tenK.url || !/\.htm/i.test(tenK.url)) return { error: 'No annual report (10-K or 20-F) found for this company.' };
 
@@ -218,7 +229,7 @@ async function extractSegments(symbol) {
 }
 
 module.exports = {
-    extractSegments, latestTenK, htmlToText, anchorWindows, filedRevenue,
+    extractSegments, storedSegments, latestTenK, htmlToText, anchorWindows, filedRevenue,
     // for the model probe + A/B harnesses in scripts/ — they must send the
     // production extraction prompt, not a copy of it
     EXTRACT_SYSTEM, segmentWindows, usdRate, repairUnits

@@ -487,9 +487,18 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
       const inc = d.incomeStatement || {};
       const sg = d.segments || {};
       const rev = inc.revenue;
-      const rows = ((sg.items) || [])
+      const sorted = ((sg.items) || [])
         .slice()
         .sort((a, b) => (Number(b.revenueUsd) || 0) - (Number(a.revenueUsd) || 0));
+      // A long schedule (a drug maker lists twenty products) buries the mix:
+      // keep the eight largest and fold the rest into one row. Whatever the
+      // filing does not break out is named as its own row, so the shares the
+      // reader sees account for revenue.
+      const rows = sorted.slice(0, 8);
+      const restUsd = sorted.slice(8).reduce((a, x) => a + (Number(x.revenueUsd) || 0), 0);
+      if (restUsd > 0) rows.push({ name: `Other segments (${sorted.length - 8})`, revenueUsd: restUsd });
+      const listedUsd = sorted.reduce((a, x) => a + (Number(x.revenueUsd) || 0), 0);
+      if (rev > 0 && listedUsd > 0 && rev - listedUsd > rev * 0.005) rows.push({ name: 'Not broken out in the filing', revenueUsd: rev - listedUsd });
       const segTable = rows.length ? `
         <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
           <thead><tr><th>Segment</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>

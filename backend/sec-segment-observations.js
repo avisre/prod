@@ -45,12 +45,25 @@ function validGroup(g,data) {
 // Members whose element name is an initialism the filing spells out.
 const SPELLED={'inod:DdsMember':'Digital Data Solutions'};
 const displayName=e=>e.label || SPELLED[e.member] || require('./ask-inline-segments').label(e.member) || e.member;
+// What a reader would actually see from a group: its positive rows with filed
+// subtotals pruned, and how much of revenue they account for.
+function shown(g) {
+ const rows=require('./ask-inline-segments').prune((g?.entries || []).map(e=>({member:e.member,value:e.value})),g?.totalRevenue);
+ const coverage=g?.totalRevenue>0?rows.reduce((n,r)=>n+r.value,0)/g.totalRevenue:0;
+ return {rows,coverage,usable:rows.length>=2 && coverage>=0.9 && coverage<=1.1};
+}
+const BUSINESS=/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/,PRODUCT=/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/;
 // Newest period first. A single-member "segment" axis says nothing, so the
 // product and service lines lead when that is all the segment note holds.
+// `usable` is the stricter choice for a page: the newest group, operating
+// segments before product lines, that has at least two rows and accounts for
+// revenue. A table covering 8% of revenue reads as the whole business and is not one.
 function preferred(groups) {
- const latest=re=>(groups || []).filter(g=>re.test(g.axis)).sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
- const business=latest(/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/),product=latest(/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/);
- return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || (groups || [])[0]};
+ const all=groups || [],latest=re=>all.filter(g=>re.test(g.axis)).sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)))[0];
+ const business=latest(BUSINESS),product=latest(PRODUCT);
+ const rank=g=>BUSINESS.test(g.axis)?0:PRODUCT.test(g.axis)?1:2;
+ const usable=all.slice().sort((a,b)=>String(b.periodEnd).localeCompare(String(a.periodEnd)) || rank(a)-rank(b)).find(g=>shown(g).usable) || null;
+ return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable};
 }
 function toolPayload(g,data,symbol) {
  if(!validGroup(g,data))return null;
@@ -62,4 +75,4 @@ function toolPayload(g,data,symbol) {
   filing:{form:sources[g.totalSourceIds[0]].form,date:g.publicationDate,accessionNumber:g.sourceVersion,url:g.sourceUrl},storedSegmentsReceipt:g,financialWitness:witness,
   verificationStatus:g.reconciliationStatus,note:g.note,source:'Original SEC inline XBRL contexts; source units and issuer member identities are preserved'};
 }
-module.exports={extract,validGroup,toolPayload,preferred,displayName,LABELS};
+module.exports={extract,validGroup,toolPayload,preferred,shown,displayName,LABELS};

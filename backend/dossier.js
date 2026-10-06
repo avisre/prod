@@ -108,8 +108,18 @@ function readableSegments(seg) {
         revenuePct: Number.isFinite(x.revenuePct) ? Math.round(x.revenuePct * 10) / 10 : x.revenuePct,
         description: /^Reported segment member /.test(String(x.description || '')) ? '' : x.description })) };
 }
+// The filing's own breakdown is chosen again on every read, so a dossier cached
+// with an older choice (a table covering a sliver of revenue, or raw member
+// names) is corrected without being rebuilt. A cached breakdown that came from
+// the filing but no longer qualifies is withheld rather than shown.
+async function currentSegments(seg, sym) {
+    const stored = await segments.storedSegments(sym).catch(() => null);
+    if (stored) return { fiscalYear: stored.fiscalYear, items: stored.segments, note: stored.note || null, basis: stored.basis || null, filing: stored.filing || null };
+    if (seg && Array.isArray(seg.items) && seg.items.some(x => x && 'reportedRevenue' in x)) return null;
+    return readableSegments(seg);
+}
 async function refreshValuation(payload, sym, data) {
-    payload = { ...payload, segments: readableSegments(payload.segments),
+    payload = { ...payload, segments: await currentSegments(payload.segments, sym),
         offBalanceSheet: payload.offBalanceSheet || await offBalanceFor(sym) };
     if(!data.marketData?.asOf)return payload;
     const rdcf=reverseDcf.computeFromData(sym,data);
