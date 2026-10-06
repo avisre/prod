@@ -12767,6 +12767,19 @@ app.post('/api/admin/comp', async (req, res) => {
     }
 });
 
+// ---- /api/admin/price-probe — can this server fetch every listing's quote? ----
+// Token-gated (ADMIN_TOKEN). Read-only: fetches quotes from Yahoo once and keeps
+// a summary in memory; nothing is written. POST starts a pass, GET reads the
+// result:
+//   curl -X POST https://www.stockportfolio.pro/api/admin/price-probe -H "x-admin-token: $ADMIN_TOKEN"
+function priceProbeAdminOnly(req, res, next) {
+    const token = process.env.ADMIN_TOKEN;
+    if (!token || !timingSafeStrEqual(req.headers['x-admin-token'], token)) return res.status(403).json({ message: 'Forbidden' });
+    next();
+}
+app.post('/api/admin/price-probe', priceProbeAdminOnly, (req, res) => res.status(202).json(require('./price-probe').start()));
+app.get('/api/admin/price-probe', priceProbeAdminOnly, (req, res) => res.json(require('./price-probe').status()));
+
 // ---- /admin/funnel — private funnel dashboard (token-gated) ----
 // Protect with ADMIN_TOKEN env var; if not set the route returns 403.
 app.get('/admin/funnel', async (req, res) => {
