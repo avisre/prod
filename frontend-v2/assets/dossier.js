@@ -444,6 +444,37 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
     return (sentences.length ? sentences : [String(text || '')]).map((sentence) => `<p>${esc(sentence)}</p>`).join('');
   }
 
+  // Commitments outside the balance sheet. Each row is a figure the filing
+  // tags, shown with the sentence it was printed in; rows are never summed,
+  // because a filer's own tables overlap.
+  function offBalanceHtml(d, plain) {
+    const ob = d.offBalanceSheet;
+    if (!ob || !Array.isArray(ob.categories) || !ob.categories.length) return '';
+    const amount = (i) => (i.currency && i.currency !== 'USD' ? esc(i.currency) + ' ' + esc(bn(i.value)).replace('$', '') : esc(bn(i.value)));
+    // Laid out as blocks, not a data table: each row carries a full sentence
+    // from the filing, and table cells on this page do not wrap.
+    const body = ob.categories.map((c) => `
+        <div style="padding:10px 16px;background:var(--surface-2, rgba(0,0,0,.03));font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">${esc(c.title)}</div>
+        ${c.items.map((i) => `<div style="display:flex;gap:20px;align-items:flex-start;padding:12px 16px;border-top:1px solid var(--line, rgba(0,0,0,.1));">
+          <div style="flex:1;min-width:0;">${esc(i.name)}${i.scope && i.scope.length ? ` <span class="faint">· ${esc(i.scope.join(', '))}</span>` : ''}${i.asOf && i.asOf !== ob.periodEnd ? ` <span class="faint">· as of ${esc(i.asOf)}</span>` : ''}
+            ${i.excerpt ? `<div class="small faint" style="margin-top:4px;line-height:1.55;overflow-wrap:anywhere;">“${esc(i.excerpt)}”</div>` : ''}</div>
+          <div style="flex:none;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600;">${amount(i)}</div>
+        </div>`).join('')}`).join('');
+    const cite = ob.filing && ob.filing.url
+      ? `<a href="${esc(ob.filing.url)}" rel="nofollow noopener" target="_blank">${esc(ob.filing.form || 'filing')}${ob.filing.date ? ' filed ' + esc(ob.filing.date) : ''}</a>` : '';
+    const open = plain
+      ? `<div class="pv-card" id="dos-off-balance"><h2>Promises that are not on the balance sheet yet</h2>
+        <p class="small faint" style="margin:0 0 12px;">Leases signed but not started, purchase commitments and guarantees. They are real obligations, but accounting rules do not count them as debt today.</p>`
+      : `<section class="dos-sec" id="dos-off-balance">
+      <span class="dos-kicker">Off the balance sheet</span>
+      <h2>What the company has committed to that is not yet a liability</h2>`;
+    return `
+    ${open}
+      <div style="margin-top:14px;border:1px solid var(--line, rgba(0,0,0,.1));border-radius:10px;overflow:hidden;background:var(--surface, #fff);">${body}</div>
+      <p class="small faint" style="margin-top:8px;">${ob.periodEnd ? `As of ${esc(ob.periodEnd)} unless a row says otherwise · ` : ''}${cite}${cite ? ' · ' : ''}These are separate disclosures that overlap in the filing’s own tables, so they are not added together, and none of them is debt on the balance sheet.</p>
+    ${plain ? '</div>' : '</section>'}`;
+  }
+
   function render(out, d, sym) {
     // Mounted before the fund branch, and with the fund wording, so an ETF or
     // mutual fund gets the bar too — the fund view's own copy sends people to
@@ -542,32 +573,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         ${(inc.derived && inc.derived.length) ? `<p class="small faint" style="margin-top:4px;">Derived from the filed figures rather than reported directly: ${esc(inc.derived.join(', '))}.</p>` : ''}
       </section>`;
     })();
-    // Commitments outside the balance sheet. Each row is a figure the filing
-    // tags, shown with the sentence it was printed in; rows are never summed,
-    // because a filer's own tables overlap.
-    const offBalanceSection = (() => {
-      const ob = d.offBalanceSheet;
-      if (!ob || !Array.isArray(ob.categories) || !ob.categories.length) return '';
-      const amount = (i) => (i.currency && i.currency !== 'USD' ? esc(i.currency) + ' ' + esc(bn(i.value)).replace('$', '') : esc(bn(i.value)));
-      // Laid out as blocks, not a data table: each row carries a full sentence
-      // from the filing, and table cells on this page do not wrap.
-      const body = ob.categories.map((c) => `
-          <div style="padding:10px 16px;background:var(--surface-2, rgba(0,0,0,.03));font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;">${esc(c.title)}</div>
-          ${c.items.map((i) => `<div style="display:flex;gap:20px;align-items:flex-start;padding:12px 16px;border-top:1px solid var(--line, rgba(0,0,0,.1));">
-            <div style="flex:1;min-width:0;">${esc(i.name)}${i.scope && i.scope.length ? ` <span class="faint">· ${esc(i.scope.join(', '))}</span>` : ''}${i.asOf && i.asOf !== ob.periodEnd ? ` <span class="faint">· as of ${esc(i.asOf)}</span>` : ''}
-              ${i.excerpt ? `<div class="small faint" style="margin-top:4px;line-height:1.55;overflow-wrap:anywhere;">“${esc(i.excerpt)}”</div>` : ''}</div>
-            <div style="flex:none;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600;">${amount(i)}</div>
-          </div>`).join('')}`).join('');
-      const cite = ob.filing && ob.filing.url
-        ? `<a href="${esc(ob.filing.url)}" rel="nofollow noopener" target="_blank">${esc(ob.filing.form || 'filing')}${ob.filing.date ? ' filed ' + esc(ob.filing.date) : ''}</a>` : '';
-      return `
-      <section class="dos-sec" id="dos-off-balance">
-        <span class="dos-kicker">Off the balance sheet</span>
-        <h2>What the company has committed to that is not yet a liability</h2>
-        <div style="margin-top:14px;border:1px solid var(--line, rgba(0,0,0,.1));border-radius:10px;overflow:hidden;background:var(--surface, #fff);">${body}</div>
-        <p class="small faint" style="margin-top:8px;">${ob.periodEnd ? `As of ${esc(ob.periodEnd)} unless a row says otherwise · ` : ''}${cite}${cite ? ' · ' : ''}These are separate disclosures that overlap in the filing’s own tables, so they are not added together, and none of them is debt on the balance sheet.</p>
-      </section>`;
-    })();
+    const offBalanceSection = offBalanceHtml(d, false);
     const mc = num(s.marketCap);
     const pct = (x) => { const n = num(x); return n == null ? null : (Math.abs(n) <= 1 ? (n * 100).toFixed(1) : Number(n).toFixed(1)) + '%'; };
     const keyStrip = [
@@ -1075,6 +1081,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
       </div>
       ${verdictHtml}
       ${flowPlain}
+      ${offBalanceHtml(d, true)}
       ${unitHtml}
       ${moneyHtml}
       ${trendHtml}
