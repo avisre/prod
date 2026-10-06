@@ -47,6 +47,36 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
+## Earlier-year revenue check and the five follow-ups — 2026-10-06 (seventh, NOT pushed)
+
+Owner asked to check the earlier-year revenue changes and fix the remaining gaps. `EXTRACTION_VERSION` stays `core4`
+(nothing has been published with it yet). Scripts: scratchpad `sim8.js` (earlier years + blockers), `fallback.js`.
+
+- **Earlier years, all 5,251 issuers**: 1,699 revenue figures change in 421 companies — 943 match the provider copy,
+  534 have no second figure, 56 match neither, 166 matched the old figure. The provider copy's older years were
+  extended from our own SEC extraction, so "matched the old figure" is not independent evidence; the ones recognised
+  are corrections (HAS 2014 $2.0bn→$4.3bn, MA 2019 gross $25.0bn→net $16.9bn, TAP net sales, WMB, EQT).
+  The switch now stays inside the filing the original line came from, so an as-reported year is never swapped for a
+  restated one (eBay 2014 stays $17.9bn).
+- **Small revenue gaps**: three more arithmetic checks (operating income + operating expenses; pre-tax income + total
+  costs; operating income + cost of sales + SG&A). GM $185.0bn, WMT $713.2bn, CVX $189.0bn now total. COP, SNA, RSG have
+  nothing to arbitrate and keep the original line.
+- **Quarters vs year**: the newest year's quarters use figures filed up to its annual report (later 10-Qs restate
+  them: APTV, BDX, ACA), and quarters follow the revenue line of their fiscal year (BG, CRC, LYFT, AAT). Newest-year
+  revenue mismatches: 100 under production rules → 53.
+- **16-week quarters**: `QUARTER_MAX_DAYS` 105 → 119. Albertsons and Kroger had no first quarter at all.
+- **Descriptions**: `scripts/refresh-profiles.js` → `frontend/data/company-profiles.json` (description, sector, industry;
+  1,500 symbols a run, in `refresh-quotes.yml`); `stock-universe.withIdentity` merges it where the fundamentals file
+  has none. Dry run: 59 of 60 filled; 2,814 symbols wanted.
+- **Feed-less annual filings** (264 issuers; SEC's facts feed has nothing for the 20-F/40-F/10-K): with the
+  multi-document read and `SEC_ORIGINAL_MAX_MB=64` in the weekly workflow, 203 become complete (TM, BHP, SONY, HDB,
+  CLX); 27 stay partial, 32 have no readable tagged figures, 2 have an undecided currency.
+- BDC top line: `GrossInvestmentIncomeOperating` as last-resort revenue (OTF, OBDC, PFLT now complete).
+
+**Still open**: ~130 issuers complete except revenue and EPS (advisory firms like MC that tag neither total; IFRS
+banks); ~102 with stub or successor periods instead of a full year (PSKY, WOLF); 13 companies that have not filed in
+15 months; COP/SNA/RSG revenue line; 53 revenue and 39 net-income quarter mismatches; BHP iron ore; segment labels.
+
 ## Full data audit and the revenue-line fix — 2026-10-06 (sixth, NOT pushed)
 
 Owner asked for an audit of every company's stored data, then "fix this and the ones found before".

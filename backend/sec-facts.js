@@ -2,6 +2,9 @@
 // Deterministic extraction. No network, provider data, split guesses, or FX.
 const p = require('./sec-coverage');
 const DAY = 86400000;
+// A fiscal quarter is usually 13 weeks, but a 16/12/12/12-week calendar opens
+// with a 112-day first quarter (Albertsons, Kroger); 105 days dropped it.
+const QUARTER_MAX_DAYS = 119;
 const EXTRACTION_VERSION = '20261006-core4';
 const VALIDATION_VERSION = '20261005-validation3';
 function partialRevenueConcept(sic, concept) { return /^(602|603|609|63)/.test(String(sic || '')) && /RevenueFromContract|SalesRevenue/.test(concept || ''); }
@@ -10,8 +13,9 @@ const MAPS = {
  income: {
   // 'RevenuesNetOfInterestExpense' was misspelt here without its first "s", which
   // left every broker-dealer that reports net revenues (Morgan Stanley, Goldman
-  // Sachs) with no revenue at all. Regulated utilities report operating revenue.
-  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense','RegulatedAndUnregulatedOperatingRevenue'],['RevenueFromContractsWithCustomers','Revenue']),
+  // Sachs) with no revenue at all. Regulated utilities report operating revenue;
+  // a business development company's top line is its total investment income.
+  totalRevenue:mapping(['RevenueFromContractWithCustomerExcludingAssessedTax','Revenues','SalesRevenueNet','RevenueFromContractWithCustomerIncludingAssessedTax','RevenuesNetOfInterestExpense','RegulatedAndUnregulatedOperatingRevenue','GrossInvestmentIncomeOperating'],['RevenueFromContractsWithCustomers','Revenue']),
   // IFRS filers such as Novartis and Sanofi report net sales and other revenues
   // as two lines with no total; the two are added below when, and only when,
   // the filing's own gross profit plus cost of sales confirms the sum.
@@ -92,7 +96,7 @@ const STAND_INS = {
 // that was already extracted can change.
 const LAST_RESORT = new Set(['us-gaap:NetIncomeLossAvailableToCommonStockholdersBasic','us-gaap:LiabilitiesAndStockholdersEquity','ifrs-full:EquityAndLiabilities','us-gaap:PartnersCapital','us-gaap:MembersEquity',
  'us-gaap:PartnersCapitalIncludingPortionAttributableToNoncontrollingInterest','us-gaap:LimitedLiabilityCompanyLlcMembersEquityIncludingPortionAttributableToNoncontrollingInterest',
- 'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue']);
+ 'us-gaap:NetCashProvidedByUsedInOperatingActivitiesContinuingOperations','ifrs-full:CashFlowsFromUsedInOperatingActivitiesContinuingOperations','us-gaap:RegulatedAndUnregulatedOperatingRevenue','us-gaap:GrossInvestmentIncomeOperating']);
 const OUTFLOWS = new Set(['capitalExpenditures','dividendPayout','dividendPayoutCommonStock','paymentsForRepurchaseOfCommonStock']);
 const FORM = /^(10-K|10-Q|20-F|40-F|6-K)(\/A)?$/;
 function scope(concept, fallback) {
@@ -128,7 +132,7 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
  const annualAccessions=new Set(a?[a.accessionNumber,...(a.amendments || []).map(x=>x.accessionNumber)]:[]);
  const annualEnds=new Set(rows.filter(r=>!added.has(r.taxonomy+':'+r.concept) && r.days>=340 && r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form)).map(r=>r.end));
  if(a) annualEnds.add(a.reportDate);
- const quarterEnds=new Set(rows.filter(r=>!added.has(r.taxonomy+':'+r.concept) && r.days>=75 && r.days<=105).map(r=>r.end));
+ const quarterEnds=new Set(rows.filter(r=>!added.has(r.taxonomy+':'+r.concept) && r.days>=75 && r.days<=QUARTER_MAX_DAYS).map(r=>r.end));
  for(const end of annualEnds) quarterEnds.add(end);
  // Original core tags only: the last-resort tags must not widen what counts as a candidate currency.
  const coreTags=new Set();for(const [st,field] of [['income','netIncome'],['income','totalRevenue'],['balance','totalAssets'],['balance','totalShareholderEquity'],['cash','operatingCashflow']])for(const taxonomy of ['us-gaap','ifrs-full'])for(const concept of MAPS[st][field][taxonomy])if(!LAST_RESORT.has(taxonomy+':'+concept))coreTags.add(taxonomy+':'+concept);
@@ -176,9 +180,11 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   const s={type:'sec_xbrl_fact',cik:issuer,taxonomy:f.taxonomy,concept:f.concept,unit:f.unit,rawValue:f.val,periodStart:f.start,periodEnd:f.end,form:f.form,filingDate:f.filed,accessionNumber:f.accn,filingUrl:`https://www.sec.gov/Archives/edgar/data/${Number(issuer)}/${f.accn.replace(/-/g,'')}/${f.accn}-index.htm`,linkage:'xbrl_fact',...(f.original?{originalDocument:f.original,verificationMethod:'original_inline_xbrl'}:{verificationMethod:'company_facts'}),accountingBasis:f.taxonomy==='ifrs-full'?'IFRS':'US GAAP',scope:scope(f.concept,'entity'),retrievedAt:out.fetchedAt,extractionVersion:EXTRACTION_VERSION};
   const id=p.digest({...s,retrievedAt:null}).slice(0,24);out.sources[id]=s;sourceCache.set(f,id);return id;
  }
+ const yearRevenueLine=new Map();
  function resolve(st,field,end,cur,basis) {
   const def=MAPS[st][field],unit=/(?:EPS|^eps$)/.test(field)?cur+'/shares':/Shares/.test(field)?'shares':cur;
   const restrict=basis==='annual' && a?.reportDate===end;
+  const asReportedQuarter=basis==='quarterly' && st!=='balance' && !!a && end<=a.reportDate && Date.parse(a.reportDate)-Date.parse(end)<330*DAY;
   // Revenue: a filing often carries both "revenue from contracts with customers"
   // and its total revenues, and the contract figure used to win. For a landlord,
   // an equipment renter, a lender or a commodity trader that is a fraction of
@@ -211,7 +217,12 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
      if(new Set(same.map(r=>r.val)).size===1)picks.push({row:first,taxonomy,concept});
     }
     if(!picks.length)return null;
-    const newest=picks.slice().sort((x,y)=>y.row.filed.localeCompare(x.row.filed)||y.row.accn.localeCompare(x.row.accn))[0].row;
+    // Stay inside the filing the original line came from: switching to a later
+    // filing would silently swap an as-reported year for a restated one (eBay
+    // 2014 is $17.9bn as filed and $8.8bn restated after the PayPal spin-off).
+    // Only a year that had no revenue before takes the newest filing.
+    const original=picks.find(x=>!added.has(x.taxonomy+':'+x.concept));
+    const newest=original?original.row:picks.slice().sort((x,y)=>y.row.filed.localeCompare(x.row.filed)||y.row.accn.localeCompare(x.row.accn))[0].row;
     const filing=picks.filter(x=>x.row.accn===newest.accn && x.row.start===newest.start);
     if(filing.length<2)return filing[0];
     const largest=Math.max(...filing.map(x=>x.row.val));
@@ -222,7 +233,12 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
     // revenue, or operating income plus total costs, equals exactly one line.
     const fact=names=>{for(const name of names){const rows=(byConceptUnit.get(newest.taxonomy+':'+name+'|'+unit) || []).filter(r=>r.accn===newest.accn && r.end===end && r.start===newest.start);if(rows.length && new Set(rows.map(r=>r.val)).size===1)return rows[0].val;}return null;};
     const gross=fact(['GrossProfit']),cost=fact(MAPS.income.costOfRevenue[newest.taxonomy]),operating=fact(newest.taxonomy==='us-gaap'?['OperatingIncomeLoss']:['ProfitLossFromOperatingActivities']),costs=fact(['CostsAndExpenses']);
-    for(const total of [gross!==null && cost!==null?gross+cost:null,operating!==null && costs!==null?operating+costs:null]) {
+    const expenses=fact(['OperatingExpenses']),selling=fact(['SellingGeneralAndAdministrativeExpense']),pretax=fact(MAPS.income.incomeBeforeTax[newest.taxonomy]);
+    const sum=(...parts)=>parts.every(x=>x!==null)?parts.reduce((n,x)=>n+x,0):null;
+    // General Motors: operating income plus operating expenses is total revenue.
+    // Chevron: pre-tax income plus total costs. Walmart: operating income plus
+    // cost of sales plus selling and administrative expense.
+    for(const total of [sum(gross,cost),sum(operating,costs),sum(operating,expenses),sum(pretax,costs),sum(operating,cost,selling)]) {
      if(total===null)continue;
      const match=filing.filter(x=>Math.abs(x.row.val-total)<=Math.abs(total)*0.001);
      if(match.length===1)return match[0];
@@ -234,7 +250,10 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
     const legacy=filing[0];
     return legacy.row.val<largest*0.8?filing.find(x=>x.row.val===largest):legacy;
    };
-   revenueFirst=pickFor(r=>basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=105);
+   // A quarter reports on the same line its fiscal year was read from, so the
+   // quarters and the year describe the same thing.
+   if(basis==='quarterly' && yearRevenueLine.size){const years=[...yearRevenueLine.keys()].sort(),year=years.find(e=>e>=end) || years.at(-1),line=yearRevenueLine.get(year).split(':');revenueFirst={taxonomy:line[0],concept:line[1]};}
+   else revenueFirst=pickFor(r=>basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=QUARTER_MAX_DAYS);
    // A quarter with no three-month figure is derived from year-to-date figures;
    // it must use the same line the year-to-date total was chosen from.
    if(!revenueFirst && basis==='quarterly')revenueFirst=pickFor(r=>r.days>=160&&r.days<=380);
@@ -244,18 +263,23 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
   if(revenueFirst)ordered.sort((x,y)=>(y[0]===revenueFirst.taxonomy && y[1]===revenueFirst.concept)-(x[0]===revenueFirst.taxonomy && x[1]===revenueFirst.concept));
   for(const [taxonomy,concept] of ordered) {
    if(field==='totalRevenue' && partialRevenueConcept(out.reportingSic,concept))continue;
-   const all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
-   const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=105));
+   let all=(byConceptUnit.get(taxonomy+':'+concept+'|'+unit) || []).filter(r=>(!restrict || annualAccessions.has(r.accn)) && (!revenueStart || r.end!==end || r.start===revenueStart));
+   // The newest year's annual figures are as reported in its own annual report.
+   // Its quarters must be too: next year's 10-Qs restate them as comparatives
+   // (Aptiv's 2025 quarters after a spin-off), and a restated quarter beside an
+   // as-reported year no longer adds up to it.
+   if(asReportedQuarter){const filed=all.filter(r=>r.filed<=a.filingDate);if(filed.some(r=>r.end===end))all=filed;}
+   const candidates=all.filter(r=>r.end===end && (st==='balance'?r.days===null:basis==='annual'?r.days>=340&&r.days<=380 && /^(10-K|20-F|40-F)(\/A)?$/.test(r.form):r.days>=75&&r.days<=QUARTER_MAX_DAYS));
    const selected=select(candidates,field);
    if(selected?.ambiguous)return null;
    const guards=STAND_INS[taxonomy+':'+concept];
    if(selected && guards && ['netIncome','operatingCashflow'].includes(field) && rows.some(r=>guards.includes(r.taxonomy+':'+r.concept) && r.end===end && r.accn===selected.accn && r.start===selected.start && r.val!==0))continue;
-   if(selected)return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};
+   if(selected){if(field==='totalRevenue' && basis==='annual')yearRevenueLine.set(end,taxonomy+':'+concept);return {value:selected.val,refs:[source(selected)],start:selected.start,scope:scope(concept,def.scope)};}
    if(basis==='quarterly' && st!=='balance' && unit===cur) {
     const ytd=select(all.filter(r=>r.end===end && r.days>=160 && r.days<=380),field);
     if(ytd?.ambiguous)return null;
     if(ytd) {
-     const prev=select(all.filter(r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-105 && r.days<=ytd.days-75 && r.filed<=ytd.filed && (!/\/A$/.test(ytd.form) || r.accn===ytd.accn)),field);
+     const prev=select(all.filter(r=>r.start===ytd.start && r.end<end && r.days>=ytd.days-QUARTER_MAX_DAYS && r.days<=ytd.days-75 && r.filed<=ytd.filed && (!/\/A$/.test(ytd.form) || r.accn===ytd.accn)),field);
      if(prev?.ambiguous)return null;
      if(prev){const start=new Date(Date.parse(prev.end)+DAY).toISOString().slice(0,10);return {value:ytd.val-prev.val,refs:[source(ytd),source(prev)],start,scope:scope(concept,def.scope),derivation:{formula:'ytd_difference',inputValues:[ytd.val,prev.val]}};}
     }

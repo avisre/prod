@@ -52,6 +52,12 @@ jobs:
           MAX_SYMBOLS: ${{ github.event.inputs.max_symbols || '0' }}
         run: node scripts/refresh-quotes.js frontend/data/us-companies.json
 
+      # Descriptions, sector and industry for companies that have none; at most
+      # 1,500 symbols a day, so the backlog clears in two runs and then idles.
+      - name: Refresh missing company profiles
+        continue-on-error: true
+        run: node scripts/refresh-profiles.js frontend/data/us-companies.json
+
       - name: Build consistent public and screen snapshots
         run: |
           node --max-old-space-size=1536 scripts/build-public-stock-index.js
@@ -65,6 +71,7 @@ jobs:
 
       - name: Stage quote file
         run: |
+          if [ -f frontend/data/company-profiles.json ]; then git add frontend/data/company-profiles.json; fi
           git add frontend/data/quotes.json frontend/data/us-companies.json frontend/data/public-stock-index.json frontend/data/screen-index.json frontend/data/financial-coverage.json
           if git diff --cached --quiet; then
             echo "no_changes=true" >> $GITHUB_ENV

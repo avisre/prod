@@ -21,9 +21,23 @@ function hasStatements(data) {
             !/date|currency|source|form|accession|filed|^fy$|^fp$/i.test(k) && v !== '' && v !== null && v !== undefined && Number.isFinite(Number(v))))));
 }
 function usable(data) { return !!(data?.overview?.Symbol && data.overview.Name && hasStatements(data)); }
+// Description, sector and industry for companies whose fundamentals file has
+// none (scripts/refresh-profiles.js). Read once; absent file means no profiles.
+let profiles;
+function profileFor(symbol) {
+    if (profiles === undefined) {
+        try { profiles = JSON.parse(fs.readFileSync(path.join(path.dirname(FILE), 'company-profiles.json'), 'utf8')).profiles || {}; }
+        catch (e) { if (e.code !== 'ENOENT') throw e; profiles = {}; }
+    }
+    return profiles[symbol] || profiles[String(symbol).replace(/-/g, '.')] || profiles[String(symbol).replace(/\./g, '-')] || null;
+}
 function withIdentity(data, company) {
     if (!data || !company) return data;
-    const ov = data.overview || {};
+    const profile = profileFor(company.symbol), stored = data.overview || {};
+    const ov = profile ? { ...stored,
+        ...(profile.description && !String(stored.Description || '').trim() ? { Description: profile.description } : {}),
+        ...(profile.sector && !stored.Sector && !company.sector ? { Sector: profile.sector } : {}),
+        ...(profile.industry && !stored.Industry ? { Industry: profile.industry } : {}) } : stored;
     if (ov.Symbol && key(ov.Symbol) !== key(company.symbol)) throw new Error('Fundamentals symbol does not match listing');
     return { ...data, overview: { ...ov, Symbol: company.symbol, Name: ov.Name || company.name,
         ...(company.cik && !ov.CIK ? { CIK: String(company.cik) } : {}),

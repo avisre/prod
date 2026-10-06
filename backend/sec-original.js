@@ -5,7 +5,10 @@ const axios = require('axios');
 const p = require('./sec-coverage');
 const { MAPS } = require('./sec-facts');
 const { HEADERS } = require('./sec-reporting');
-const MAX_BYTES = 18 * 1024 * 1024;
+// The weekly reconciliation raises this (SEC_ORIGINAL_MAX_MB): large foreign
+// annual reports run past 18 MB (National Grid, Korea Electric), and a runner
+// has the memory a web instance does not.
+const MAX_BYTES = (Number(process.env.SEC_ORIGINAL_MAX_MB) || 18) * 1024 * 1024;
 // shared: the periods and units of a multi-document filing are declared once,
 // in whichever document carries the header, and referenced from the others.
 function parseOriginal(text, filing, cik, shared) {
