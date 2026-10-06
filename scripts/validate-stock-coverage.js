@@ -25,7 +25,9 @@ function validate({asOf,bootstrap=false}={}){
   const e=report.issuers[id],file=path.join(p.DATA_DIR,'sec-financials',id+'.json');let data=null;
   if(e?.financialDigest){try{const raw=fs.readFileSync(file,'utf8');if(p.digest(raw)!==e.financialDigest || item.financialDigest!==e.financialDigest)fail('Financial digest mismatch '+id);data=JSON.parse(raw);files++;for(const error of p.validateFinancial(data,id,asOf))fail(id+': '+error);for(const st of ['income','balance','cash'])for(const basis of ['annualReports','quarterlyReports'])for(const row of data[st]?.[basis] || [])values+=Object.keys(row._sources || {}).length;}catch(err){fail('Financial file '+id+': '+err.message);}}
   const status=p.classify(e,data,asOf);
-  for(const company of dir.companies.filter(c=>c.cik===id)){
+  for(let company of dir.companies.filter(c=>c.cik===id)){
+   // Same sector fill as the builder: no curated sector means the SEC industry code's sector.
+   if(!company.sector){const sector=require('../backend/sector').fromSic(e?.sic);if(sector)company={...company,sector};}
    const view=adapter.adapt(company,rawFunds.loadRawFundamentals(company.symbol),data,status,item);
    const state=content(company,view,status,e?.financialDigest || null,{asOf,rates});
    marketDigests.push([company.symbol,state.marketDigest]);priceDigests.push([company.symbol,state.priceDigest]);if(state.screenRow)expectedRows.push(state.screenRow);
