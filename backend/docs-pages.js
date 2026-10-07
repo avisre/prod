@@ -20,7 +20,10 @@
 const credits = require('./credits');
 
 const COST = credits.COST;
-const STAMP = '20261007-breakdown4';
+// The keyless allowance is env-switchable, so the docs quote the live config
+// instead of a typed number (it said "two" while the default was three).
+const ANON = require('./mcp-anon').config();
+const STAMP = '20261007-connect1';
 const UPDATED = '25 September 2026';
 
 function esc(value) {
@@ -402,9 +405,9 @@ const DOC_PAGES = Object.freeze({
         setup: [
             {
                 title: 'Claude — claude.ai, Claude Desktop and the mobile apps',
-                body: 'Claude reaches a remote MCP server as a <em>custom connector</em>, and it authenticates over OAuth rather than a pasted key: Claude cannot send a static <code>Authorization</code> header to a custom connector, so there is no key to paste here. Add the server URL and approve the sign-in window Claude opens.',
+                body: 'StockPortfolio is listed in the Claude connector directory, so the short path is to add it from there: open <b>Customize → Connectors</b>, browse the directory, search for <b>StockPortfolio</b> and press <b>Connect</b> — <a class="prose-link" href="/connect#claude">details</a>. It authenticates over OAuth rather than a pasted key, so you approve the sign-in window Claude opens and paste nothing. To add it by hand as a <em>custom connector</em> instead, use this URL:',
                 code: 'https://www.stockportfolio.pro/mcp',
-                note: 'On a Pro or Max plan: <b>Customize → Connectors → + → Add custom connector</b>, paste the URL, then <b>Add</b>. On Team or Enterprise an owner adds it first (<b>Organization settings → Connectors → Add → Custom → Web</b>) and members then press <b>Connect</b>. Leave <b>Advanced settings</b> — the OAuth client ID and secret fields — empty, because we register each client automatically. Turn it on for a conversation with <b>+ → Connectors</b>.'
+                note: 'Manual setup, on a Pro or Max plan: <b>Customize → Connectors → + → Add custom connector</b>, paste the URL, then <b>Add</b>. On Team or Enterprise an owner adds it first (<b>Organization settings → Connectors → Add → Custom → Web</b>) and members then press <b>Connect</b>. Leave <b>Advanced settings</b> — the OAuth client ID and secret fields — empty, because we register each client automatically. Turn it on for a conversation with <b>+ → Connectors</b>.'
             },
             {
                 title: 'Claude Code',
@@ -430,9 +433,9 @@ const DOC_PAGES = Object.freeze({
             },
             {
                 title: 'ChatGPT',
-                body: 'ChatGPT requires OAuth 2.1 for a custom connector and does not accept a bearer token, so — exactly as with Claude — you add the URL and approve a sign-in instead of pasting a key.',
+                body: 'StockPortfolio is listed in the ChatGPT app directory, so the short path is to add it from there: open the directory, search for <b>StockPortfolio</b> and connect it — <a class="prose-link" href="/connect#chatgpt">details</a>. No Developer mode is needed for the listed app. ChatGPT uses OAuth 2.1 and does not accept a bearer token, so — exactly as with Claude — you approve a sign-in instead of pasting a key. To add it by hand as a custom connector instead, use this URL:',
                 code: 'https://www.stockportfolio.pro/mcp',
-                note: 'ChatGPT gates custom connectors behind <b>Developer mode</b>: turn it on under <b>Settings → Security and login</b>, then go to <b>chatgpt.com/plugins → Add → Create MCP App</b>, paste the URL, set <b>Authentication</b> to <b>OAuth</b> and press <b>Create</b>. Whether Developer mode is offered at all can depend on account and workspace policy, and a managed workspace may not offer it — Claude needs no such switch, so it is the shorter path. Where neither is open to you, the API routes below reach the same filings at the same prices.'
+                note: 'Manual setup only: ChatGPT gates <em>custom</em> connectors behind <b>Developer mode</b> — turn it on under <b>Settings → Security and login</b>, then go to <b>chatgpt.com/plugins → Add → Create MCP App</b>, paste the URL, set <b>Authentication</b> to <b>OAuth</b> and press <b>Create</b>. Whether Developer mode is offered at all can depend on account and workspace policy, and a managed workspace may not offer it. Where neither is open to you, the API routes below reach the same filings at the same prices.'
             },
             {
                 title: 'OpenAI API — the Responses API',
@@ -487,7 +490,7 @@ Accept: application/json, text/event-stream`
             { title: 'Rate limit', body: '60 requests per minute per key. Past that you get a 429 — back off rather than retrying in a tight loop.' },
             { title: 'Lookups and AI answers are priced very differently', body: 'A lookup returns filed data and costs ' + COST.api_lookup + ' credits, on REST and MCP alike. An AI answer costs ' + COST.api_ask + ' on either surface, because it reads and reasons over whole filings. Structure integrations to use lookups for data and reserve AI answers for questions that genuinely need them.' },
             { title: 'Access is checked on every call', body: 'Not just when the key is created. If the plan behind a key lapses, the key stops working immediately with <code>API_ACCESS_REQUIRED</code>.' },
-            { title: 'An assistant can try it before anyone buys a key', body: 'Call the MCP endpoint with no key at all and you get a small free allowance — two AI answers and fifty data lookups by default — so a client can see a cited answer before signing up. Past that it asks for a key, and a connector that signed in over OAuth keeps going without one.' },
+            { title: 'An assistant can try it before anyone buys a key', body: 'Call the MCP endpoint with no key at all and you get a small free allowance — ' + ANON.askLimit + ' AI answers and ' + ANON.lookupLimit + ' data lookups every ' + ANON.windowDays + ' days by default — so a client can see a cited answer before signing up. Past that it asks for a key, and a connector that signed in over OAuth keeps going without one.' },
             { title: 'Keep your key server-side', body: 'A key spends your credit allowance. Never ship one in client-side code or a public repository. Revoke and reissue from your profile if one is exposed.' },
             { title: 'The connector shows no tools', body: 'Restart the client. MCP configuration is read once at startup, so a server added to a running client stays invisible until it restarts.' },
             { title: 'Use the www host, not the bare domain', body: 'Every URL above carries <code>www</code> deliberately. The apex redirect from <code>stockportfolio.pro</code> to <code>www.stockportfolio.pro</code> drops the <code>Authorization</code> header, so a client pointed at the apex arrives as an anonymous caller and quietly falls back to the free allowance instead of your key.' }

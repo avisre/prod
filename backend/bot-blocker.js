@@ -131,7 +131,11 @@ const DENY_PATTERNS = [
 // them: the listing declares a terms URL and a support URL, and a reviewer's
 // automated fetch of either must not hit the scraper wall.
 // The two Filing Watch sales/sample pages contain only public prose.
-const EXEMPT_PATH_PATTERNS = [/^\/filing-watch(?:-sample)?\/?$/, /^\/api\//, /^\/api$/, /^\/mcp$/, /^\/mcp\/apps$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/, /^\/terms\/?$/, /^\/support\/?$/,
+// /connect is the landing page for the Claude and ChatGPT directory listings.
+// Its readers include the assistants themselves, fetching the page to answer
+// "is StockPortfolio available in ChatGPT?" — and DENY_PATTERNS would refuse
+// exactly those agents. Static prose, no data, no query parameter read.
+const EXEMPT_PATH_PATTERNS = [/^\/filing-watch(?:-sample)?\/?$/, /^\/connect\/?$/, /^\/api\//, /^\/api$/, /^\/mcp$/, /^\/mcp\/apps$/, /^\/oauth\//, /^\/appsumo\/redeem$/, /^\/robots\.txt$/, /^\/sitemap\.xml$/, /^\/sitemaps\//, /^\/llms.*\.txt$/, /^\/\.well-known\//, /^\/licensing$/, /^\/docs\/api-mcp\/?$/, /^\/privacy\/?$/, /^\/terms\/?$/, /^\/support\/?$/,
     // IndexNow key file: 32 hex chars at the site root. IndexNow's spec requires
     // this be publicly fetchable, and participants fetch it asynchronously AFTER
     // accepting the POST -- so it must not depend on browser headers. It was

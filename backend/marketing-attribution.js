@@ -20,7 +20,12 @@ const ATTRIBUTION_MAX_AGE_SECONDS = (Number.isFinite(configuredAttributionDays) 
 const SESSION_ID_RE = /^[A-Za-z0-9_-]{16}$/;
 const VALUE_RE = /^[A-Za-z0-9._:-]+$/;
 const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', site: 'website', web: 'website', hn: 'hackernews', 'hacker-news': 'hackernews' });
-const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo', 'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator', 'appsumo', 'website', 'facebook', 'instagram', 'referral']);
+const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo', 'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator', 'appsumo', 'website', 'facebook', 'instagram', 'referral',
+    // The assistant channel. `chatgpt` / `claude` are a visit referred from the
+    // assistant's own site (a listing page, or a link in an answer); `connector`
+    // is the upgrade link shown inside a connector session (mcp-anon.js), where
+    // there is no referrer to read.
+    'chatgpt', 'claude', 'connector']);
 
 function safeEqual(left, right) {
     const a = Buffer.from(String(left || ''));
@@ -240,6 +245,8 @@ function referrerSource(value) {
         if (host === 'instagram.com' || host.endsWith('.instagram.com')) return 'instagram';
         if (host === 'news.ycombinator.com') return 'hackernews';
         if (host === 'appsumo.com' || host.endsWith('.appsumo.com')) return 'appsumo';
+        if (host === 'chatgpt.com' || host.endsWith('.chatgpt.com') || host === 'chat.openai.com') return 'chatgpt';
+        if (host === 'claude.ai' || host.endsWith('.claude.ai')) return 'claude';
         if (host === 'stockportfolio.pro' || host.endsWith('.stockportfolio.pro')) return 'internal';
         if (host === 'prod-gpln.onrender.com' || host === 'localhost' || host === '127.0.0.1') return 'internal';
         return host ? 'referral' : 'direct';

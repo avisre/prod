@@ -105,11 +105,16 @@ async function readGlobalAsks(now = new Date()) {
     return Number((doc && doc.asks) || 0);
 }
 
-const SIGNUP_URL = 'https://www.stockportfolio.pro/register?plan=dev';
+// utm_source=connector: this link is only ever shown inside an assistant, so a
+// signup carrying it came through a directory listing rather than the website.
+const SIGNUP_URL = 'https://www.stockportfolio.pro/register?plan=dev&utm_source=connector&utm_campaign=cap_hit';
 const SETUP_URL = 'https://www.stockportfolio.pro/docs/api-mcp';
 
+// The caller already has the connector installed — that is how they hit the
+// cap. So the step after paying is "sign in on the connector you added", not
+// the manual setup guide; SETUP_URL is kept for clients that take a bearer key.
 function upgradeInstructions() {
-    return `To get more MCP usage now, open ${SIGNUP_URL} and choose the Dev plan ($19.99/month for 200 credits; each AI question costs 42 credits). After subscribing, follow ${SETUP_URL}: it has OAuth steps for ChatGPT and Claude, and API-key steps for clients that support bearer keys.`;
+    return `To get more MCP usage now, open ${SIGNUP_URL} and choose the Dev plan ($19.99/month for 200 credits; each AI question costs 42 credits). After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
 }
 
 function askUsageNotice(used, allowance, windowDays = 30) {

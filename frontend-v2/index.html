@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261007-breakdown4" />
+  <link rel="stylesheet" href="assets/system.css?v=20261007-connect1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -185,6 +185,20 @@
       font-size: 13.5px; font-weight: 600; color: var(--ink-2); }
     .trust-badge .stars { color: var(--stars); font-size: 14px; letter-spacing: 1.5px; }
     .trust-badge a { font-weight: 650; }
+    /* ---- Claude + ChatGPT directory listings (2026-10-07) -----------------
+       Page-scoped for the same reason as the AppSumo badge above. Product
+       names are plain text on purpose: no third-party logos. */
+    .trust-row { display: flex; flex-wrap: wrap; gap: 0 10px; }
+    .trust-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pos); flex: none; }
+    .connect-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 16px; margin-top: 18px; }
+    .connect-card { padding: 22px; display: flex; flex-direction: column; gap: 10px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: var(--radius); }
+    .connect-card h3 { margin: 0; font-size: 17px; font-weight: 700; color: var(--ink); }
+    .connect-card p { margin: 0; font-size: 14px; line-height: 1.55; color: var(--ink-2); }
+    .connect-card .btn { align-self: flex-start; margin-top: 4px; }
+    .connect-ask { margin-top: 16px; padding: 16px 18px; border: 1px dashed var(--line-strong); border-radius: var(--radius);
+      font-size: 14px; line-height: 1.6; color: var(--ink-2); }
+    @media (max-width: 720px) { .connect-grid { grid-template-columns: 1fr; } }
     .reviews-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; margin-top: 22px; }
     .review-card { padding: 24px; display: flex; flex-direction: column; gap: 14px; background: var(--surface);
       border: 1px solid var(--line); border-radius: var(--radius); }
@@ -235,11 +249,21 @@
           <p class="hero-sub">Research dossiers on any covered US company — every figure cited to its SEC filing — and a <strong>Filing Change Monitor</strong> that reads each new filing on your watchlist and tells you what changed, in plain English.</p>
           <!-- the one third-party rating a visitor can go and check for
                themselves — AppSumo shows the review count next to the score -->
-          <div class="trust-badge">
-            <span class="stars" aria-hidden="true">★★★★★</span>
-            <span>5.0 on AppSumo</span>
-            <span class="faint" aria-hidden="true">·</span>
-            <a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener" aria-label="Read all 3 AppSumo reviews">3 reviews →</a>
+          <div class="trust-row">
+            <div class="trust-badge">
+              <span class="stars" aria-hidden="true">★★★★★</span>
+              <span>5.0 on AppSumo</span>
+              <span class="faint" aria-hidden="true">·</span>
+              <a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener" aria-label="Read all 3 AppSumo reviews">3 reviews →</a>
+            </div>
+            <!-- the second checkable claim: both directory listings are public,
+                 and /connect links straight to them -->
+            <div class="trust-badge" id="hero-connect">
+              <span class="dot" aria-hidden="true"></span>
+              <span>Available in Claude and ChatGPT</span>
+              <span class="faint" aria-hidden="true">·</span>
+              <a href="/connect" aria-label="Add StockPortfolio to Claude or ChatGPT">Add it →</a>
+            </div>
           </div>
           <div class="hero-actions">
             <a class="btn btn-primary" href="#home-try">Try 3 questions free</a>
@@ -252,6 +276,7 @@
             <ul class="hero-free-list">
               <li>Screener — verified companies, <a href="/screener">free for everyone</a></li>
               <li>Ask with citations — 3 free, no account</li>
+              <li>Inside Claude or ChatGPT — <a href="/connect">free to try, no account</a></li>
               <li id="hero-dossier">Full dossiers from $49.99/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
             </ul>
             <p class="hero-note">The <a href="/monitor">Filing Change Monitor</a> reads each new 10-K, 10-Q and 8-K on your watchlist for you.</p>
@@ -353,6 +378,30 @@
           $('cc-claim').addEventListener('keydown', (e) => { if (e.key === 'Enter') go(); });
         })();
         </script>
+      </section>
+
+      <!-- Claude + ChatGPT directory listings. Every link here goes to /connect,
+           which holds the two outbound listing URLs — so a listing URL changes
+           in one file (lib/connector-listings.js), never in this page. -->
+      <section class="section" id="connect">
+        <div class="section-head">
+          <div><span class="label" style="color:var(--accent-ink);">New · listed in both directories</span><h2 class="title-1" style="margin-top:7px;">Already use Claude or ChatGPT? Ask filings there.</h2></div>
+          <span class="small faint"><a href="/connect">How it works →</a></span>
+        </div>
+        <p style="max-width:62ch; color:var(--ink-2); margin-top:8px;">StockPortfolio is listed in the Claude connector directory and the ChatGPT app directory. Add it once and every answer about a US company comes back with the SEC filing it was read from — in the assistant you already have open.</p>
+        <div class="connect-grid">
+          <div class="connect-card">
+            <h3>Claude</h3>
+            <p>Listed in the Claude connector directory. Works in claude.ai, Claude Desktop and the mobile apps.</p>
+            <a class="btn btn-primary" href="/connect#claude">Add to Claude →</a>
+          </div>
+          <div class="connect-card">
+            <h3>ChatGPT</h3>
+            <p>Listed in the ChatGPT app directory. Add it once, then call it from any conversation.</p>
+            <a class="btn btn-primary" href="/connect#chatgpt">Add to ChatGPT →</a>
+          </div>
+        </div>
+        <p class="connect-ask"><strong>Try asking:</strong> &ldquo;What did NVIDIA report for revenue and free cash flow last fiscal year? Cite the filing.&rdquo; Free to try without an account; plans with API &amp; MCP access spend their existing credits there.</p>
       </section>
 
       <section class="section asset-launch" id="stocks-etfs-funds">
@@ -736,6 +785,7 @@
           </div>
         </div>
         <p class="reviews-foot"><span class="stars" aria-hidden="true">★★★★★</span> 5.0 average · 3 reviews on AppSumo — <a href="https://appsumo.com/products/stockportfoliopro/#reviews" target="_blank" rel="noopener">see them all →</a></p>
+        <p class="reviews-foot" style="margin-top:8px;">Also listed in the Claude connector directory and the ChatGPT app directory — <a href="/connect">check the listings →</a></p>
       </section>
 
       <!-- Featured on: third-party directory badges (social proof + backlinks) -->
@@ -779,7 +829,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20261007-breakdown4"></script>
+  <script src="assets/app.js?v=20261007-connect1"></script>
   <script>
     V2.nav('home');
     V2.footer();

@@ -2350,8 +2350,14 @@ const WALL_PAGE_EXEMPT_PREFIXES = [
     // it). /licensing sells bulk data to a different buyer (RIAs, data desks)
     // than this experiment targets, so walling it only breaks a funnel with no
     // consumer-subscription overlap to protect.
-    '/licensing'
+    '/licensing',
+    // The landing page for the Claude and ChatGPT directory listings. Its
+    // visitor arrives from inside an assistant to find out what the connector
+    // is before paying — bouncing them to /register answers a different
+    // question than the one they clicked on.
+    '/connect'
 ];
+
 const WALL_ASSET_EXTENSIONS = new Set([
     'css', 'js', 'mjs', 'map', 'json', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'webp',
     'ico', 'txt', 'xml', 'woff', 'woff2', 'ttf', 'webmanifest', 'mp4', 'webm', 'pdf'
@@ -2581,6 +2587,13 @@ app.get('/licensing', (req, res) => {
 app.get('/api', (req, res) => {
     res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderApiLanding());
 });
+// The non-developer twin of /api: where someone who uses Claude or ChatGPT
+// lands from the homepage badge, the directory listings' own links and the
+// cap-hit message inside the assistant.
+app.get('/connect', (req, res) => {
+    res.set('Content-Type', 'text/html; charset=utf-8').send(seoPages.renderConnect());
+});
+
 app.get('/stocks/:ticker', async (req, res) => {
     let canonicalSymbol = seoPages.resolveCanonicalSymbol(req.params.ticker);
     if(!canonicalSymbol && !quoteStore.isLikelyCrawler(req.get('user-agent'))){const listing=await require('./stock-universe').resolveListing(req.params.ticker);canonicalSymbol=listing?.symbol || null;}
@@ -2918,7 +2931,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-breakdown4" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2947,7 +2960,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-breakdown4"></script>
+<script src="/assets/app.js?v=20261007-connect1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3039,7 +3052,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-breakdown4" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3067,7 +3080,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-breakdown4"></script>
+<script src="/assets/app.js?v=20261007-connect1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3175,7 +3188,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-breakdown4" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3208,7 +3221,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-breakdown4"></script>
+<script src="/assets/app.js?v=20261007-connect1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);

@@ -49,7 +49,9 @@ const SOURCE_ALIASES = Object.freeze({ twitter: 'x', tw: 'x', site: 'website', w
     organic: 'google', search: 'google', hn: 'hackernews', 'hacker-news': 'hackernews' });
 const SOURCES = new Set(['direct', 'unknown', 'internal', 'bot', 'google', 'bing', 'duckduckgo',
     'x', 'linkedin', 'reddit', 'hackernews', 'youtube', 'newsletter', 'email', 'creator',
-    'appsumo', 'website', 'facebook', 'instagram', 'referral']);
+    'appsumo', 'website', 'facebook', 'instagram', 'referral',
+    // kept in step with marketing-attribution.js SOURCES
+    'chatgpt', 'claude', 'connector']);
 const PAGE_TYPES = new Set(['metric', 'comparison', 'stock', 'screen', 'research', 'tool', 'pricing', 'other']);
 const ENTITLEMENTS = new Set(['stripe', 'appsumo', 'trial', 'free', 'comp', 'unknown']);
 const FEATURE_TYPES = new Set(['ask', 'comparison', 'portfolio', 'filing_monitor', 'dossier', 'screener', 'tool', 'other']);
