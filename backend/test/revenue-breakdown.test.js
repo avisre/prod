@@ -172,3 +172,24 @@ test('segments filed before eliminations take their shares from the segment tota
     assert.equal(breakdown.forPage(c).totalRevenue, 1180, 'the page measures rows against the same base');
     assert.deepEqual(breakdown.violations(c), []);
 });
+
+test('a table that over-counts is read again without the filer’s own repeats', () => {
+    const names = c => c.rows.map(r => r.name).sort();
+    const twice = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { EngineeringAndConsulting: 280, InstallationAndMaintenance: 720, EngineeringConsulting: 280, InstallationMaintenance: 720 })], 'T');
+    assert.equal(twice.grade, 'complete', 'one figure tagged under two member names counts once');
+    assert.equal(twice.rows.length, 2);
+    assert.equal(twice.basis, null);
+    const total = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { CropProtection: 550, CropNutrition: 270, Seeds: 180, EntityWide: 1000 })], 'T');
+    assert.deepEqual(names(total), ['Crop Nutrition', 'Crop Protection', 'Seeds'], 'a member equal to the filed total is the total');
+    const two = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { Security: 520, IndustrialServices: 470, Corporate: 10, UnitedStates: 930, UnitedKingdom: 70 })], 'T');
+    assert.deepEqual(names(two), ['Corporate', 'Industrial Services', 'Security'], 'the leading rows that add to the total are the table; the rest is a second table');
+    const scale = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { Emea: 690000, Americas: 310000 })], 'T');
+    assert.equal(scale.grade, 'none', 'figures that cannot be reconciled are withheld, never rescaled');
+});
+
+test('the stricter reading never touches a table that already accounts for revenue', () => {
+    const same = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { Retail: 400, Wholesale: 400, Other: 200 })], 'T');
+    assert.equal(same.rows.length, 3, 'two segments reporting the same figure both stay');
+    const gross = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { HealthServices: 480, Benefits: 360, Pharmacy: 340 })], 'T');
+    assert.equal(gross.basis, 'before eliminations');
+});

@@ -97,7 +97,7 @@ function validGroup(g,data) {
 // The reviewed label where one exists; otherwise the issuer's own element name
 // set in plain words. A raw "meta:FamilyOfAppsMember" never reaches a reader.
 // Members whose element name is an initialism the filing spells out.
-const SPELLED={'inod:DdsMember':'Digital Data Solutions','us-gaap:OtherCapitalizedPropertyPlantAndEquipmentMember':'Equipment'};
+const SPELLED={'nexa:PEMember':'Peru','inod:DdsMember':'Digital Data Solutions','us-gaap:OtherCapitalizedPropertyPlantAndEquipmentMember':'Equipment'};
 // A filed label is used when it reads as a name: some filers leave the label
 // equal to the element name, or label a member with a sentence.
 const filed=e=>{
@@ -114,13 +114,30 @@ const displayName=e=>e.label || SPELLED[e.member] || filed(e) || require('./ask-
 // What a reader would actually see from a group: its positive rows with filed
 // subtotals pruned, and how much of revenue they account for.
 function shown(g) {
+ const first=read(g,false);
+ // A table that still adds to more than revenue is read once more with the
+ // filer's own repeats taken out. Only then: these rules never touch a table
+ // that already accounts for revenue, and the stricter reading is kept only
+ // when it does.
+ if(first.usable || !(first.coverage>1.1))return first;
+ const second=read(g,true);
+ return second.usable?second:first;
+}
+function read(g,strict) {
  // When the rows over-count revenue, a row that is exactly the sum of others is
  // a filed subtotal and goes first; only then is the closest-fit pruning used.
  // Pruning alone can keep a subtotal beside its own parts and still land on 100%.
  // A member that is itself a roll-up of the others ("Reportable Segment,
  // Aggregation", "Total") is not a row of the table.
  const rollup=e=>/Aggregat|SegmentsTotal|TotalSegments?|TotalReportable|AllReportableSegments|ReportableSegmentsMember$|^[a-z-]+:TotalMember$/i.test(e.member || '') || /^(?:Total|Reportable Segments?)$/i.test(String(e.filedLabel || '').trim());
- const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0 && !rollup(e)).map(e=>({member:e.member,value:e.value}));
+ // Strict reading. A member equal to the filed total is the total under
+ // another name, as is one called "Entity-wide" or "Consolidated entities"; a revenue figure
+ // restated by currency is a memo line; and two members carrying one exact
+ // value are one figure tagged twice (a renamed element kept beside its
+ // replacement), of which the first is kept.
+ const total=g?.totalRevenue || 0,seen=new Set();
+ const repeat=e=>total>0 && e.value===total || /^[a-z-]+:(?:Currency[A-Z]\w*|ConsolidatedEntit\w*|EntityWide|OperatingSegments?)Member$/.test(e.member || '') || seen.has(e.value) || !seen.add(e.value);
+ const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0 && !rollup(e) && !(strict && repeat(e))).map(e=>({member:e.member,value:e.value}));
  const over=list=>list.reduce((n,r)=>n+r.value,0)>(g?.totalRevenue || 0)*1.02;
  // Exact, to the filed unit: a real line that merely lands near the sum of two others stays.
  const subtotal=row=>{const rest=all.filter(r=>r!==row && r.value<row.value);
@@ -130,14 +147,17 @@ function shown(g) {
  // Closest-fit pruning is for product and region tables, which mix levels of
  // detail. Operating segments are never pruned to fit: one that sells to
  // another is still a segment, so only an exact filed subtotal is removed.
- const exact=over(all) && all.length<=14?all.filter(r=>!subtotal(r)):all;
+ // Two tables filed on one axis (segments, then the same revenue by country):
+ // the leading rows that add exactly to the filed total are the first table.
+ const lead=()=>{let sum=0;for(let i=0;i<all.length;i++){sum+=all[i].value;if(i>0 && i<all.length-1 && Math.abs(sum-total)<=(g?.roundingTolerance || 0))return all.slice(0,i+1);if(sum>total*1.01)break;}return null;};
+ const exact=strict && lead() || (over(all) && all.length<=14?all.filter(r=>!subtotal(r)):all);
  const rows=BUSINESS.test(g?.axis || '')?exact:inline.prune(exact,g?.totalRevenue);
  const coverage=g?.totalRevenue>0?rows.reduce((n,r)=>n+r.value,0)/g.totalRevenue:0;
  // Operating segments that sell to each other are filed before eliminations
  // and can add up to well over revenue (CVS 118%, Humana 113%). They are the
  // company's real segments; `gross` marks them so shares are taken of the
  // segment total, not of consolidated revenue.
- const gross=BUSINESS.test(g?.axis || '') && rows.length>=2 && coverage>1.1 && coverage<=1.6;
+ const gross=!strict && BUSINESS.test(g?.axis || '') && rows.length>=2 && coverage>1.1 && coverage<=1.6;
  return {rows,coverage,gross,usable:rows.length>=2 && coverage>=0.9 && (coverage<=1.1 || gross)};
 }
 const GEOGRAPHY=/^(?:(?:North|South|Latin|Central|Greater|Rest of|Other|All Other|Asia|Europe|Middle East|Africa|EMEA|APAC|Americas?|International|Domestic|Foreign|US|United States|Canada|China|Japan|India|Pacific|and|of|the|,|\s)+)$/i;

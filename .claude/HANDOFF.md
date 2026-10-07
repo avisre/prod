@@ -35,9 +35,16 @@ nothing downstream recomputes a share, a remainder or a year. Selection and nami
 are geography; regions only when nothing else is usable; operating segments are never pruned to fit and, where they
 sell to each other (110–160% of revenue: CVS, HUM, UNH), are shown with shares of the segment total and a note;
 roll-up members ("Reportable Segment, Aggregation", "Total") are never rows; a table at 60–98% is `partial`.
+**Over-counted tables get a second, stricter reading** (`shown()` → `read(g, true)`, only when the first reading is
+not usable and is over 110%, and kept only if the result is usable — so a table that already works cannot change):
+drops a member equal to the filed total or named Entity-wide / Consolidated entities / Operating segments, a
+`Currency…` memo member, and a second member carrying an exact value already seen (one figure tagged twice); and when
+the leading rows add exactly to the total, takes them as the table (segments then countries on one axis: CETX, BHST).
+**Measured and rejected, do not retry:** withholding any table with a negative entry (kills TSN, MO, TFC, RTX — a
+negative eliminations line is normal) and de-duplicating in every table (reshuffled ~190 good tables).
 
-**Coverage, 4,923 screenable issuers:** complete 3,267 + partial 154 = 3,421; filed revenue is zero 47; single-row
-295; tags no table 601; covers <60% 127; over 110% 16; **no total revenue in our statement data ~416**.
+**Coverage, 4,923 screenable issuers:** complete 3,273 + partial 154 = 3,427; filed revenue is zero 47; single-row
+295; tags no table 609; covers <60% 127; over 110% 10; **no total revenue in our statement data ~416**.
 **Those 422 were checked one by one** (`docs/qa/revenue-missing-check-2026-10-07.csv`, SEC company facts + each
 latest annual filing): 146 have never filed revenue (pre-revenue, R&D only); only 18 file an undimensioned total, and
 most of those are fragments the revenue rule rejects on purpose (`partialRevenueConcept`: a bank's fee line).
@@ -54,6 +61,12 @@ S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
 
 **Measured, do not redo:** reading untagged tables from annual-report text recovered **0 of 39** sampled issuers
 (48 model calls; nothing passed the literal-quote check), so no text-extraction layer was built.
+
+**The <60% and >110% groups were examined 10/7 and are correctly withheld:** of the 127 under 60%, 100 are banks and
+12 REITs whose only tagged table is fee or ancillary income (net interest income / rent is not broken out). The 10 over
+110%: PBR (four tables on one axis; segments are 171% before eliminations), TYGO (filer tagged thousands as millions —
+not rescaled, by the owner rule), MBI (a segment with negative revenue), TII (a gross-to-net reconciliation), DARE,
+and INBX/ATOM/RLYB/NMTC/UTMD (one line tagged twice, i.e. really a single line).
 
 **Known gaps, with cause:** CVX — Upstream/Downstream are tagged with a second dimension the reader skips;
 PGR — Personal/Commercial Lines premiums are not captured; ELV — segments only by premiums with a "Total" member;
