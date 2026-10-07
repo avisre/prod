@@ -195,6 +195,24 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
   // a direct text label and a visible gap. Identity is never colour alone.
   const SEG_RAMP = ['#1c1b18', '#45413a', '#6b665c', '#8f8a7f', '#b3aea3', '#d0ccc2', '#e7e4dd'];
 
+  // The filed components of operating expenses, largest first, or null when
+  // the filing gives none, they exceed the total, or a part would be too thin
+  // to label. `height` maps a value to its drawn height.
+  function opexParts(inc, total, height) {
+    const filed = [['Research & development', Number(inc.researchAndDevelopment)], ['Selling, general & admin', Number(inc.sellingGeneralAndAdministrative)]]
+      .filter((p) => Number.isFinite(p[1]) && p[1] > 0).map((p) => ({ label: p[0], v: p[1] }));
+    const sum = filed.reduce((a, p) => a + p.v, 0);
+    if (!filed.length || !(total > 0) || sum > total * 1.005) return null;
+    const MIN = 26; // two lines of label text
+    let parts = filed.filter((p) => height(p.v) >= MIN).sort((a, b) => b.v - a.v);
+    const rest = total - parts.reduce((a, p) => a + p.v, 0);
+    if (rest > total * 0.005) {
+      if (height(rest) >= MIN) parts.push({ label: 'Other operating costs', v: rest });
+      else if (parts.length) parts[parts.length - 1] = { label: parts[parts.length - 1].label + ' & other', v: parts[parts.length - 1].v + rest };
+    }
+    return parts.length >= 2 ? parts : null;
+  }
+
   function sankey(inc, segs) {
     if (!inc || !(inc.revenue > 0)) return '';
     // A split filed for an earlier year cannot be drawn into this year's
@@ -318,9 +336,25 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} �
         const cTop = PAD_T + nnh + GAP;
         const cTitle = `${next.cost.label}: ${bn(next.cost.value)} (${((next.cost.value / rev) * 100).toFixed(1)}% of revenue)`;
         svg += band(x + NW, PAD_T + nnh, PAD_T + nh, nx, cTop, cTop + ch, C.neg, 0.34, cTitle);
-        svg += `<rect x="${nx.toFixed(1)}" y="${cTop.toFixed(1)}" width="${NW}" height="${ch.toFixed(1)}" rx="2" fill="${C.neg}"><title>${esc(cTitle)}</title></rect>`;
-        svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(next.cost.label)}</text>`;
-        svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(bn(next.cost.value))} · ${((next.cost.value / rev) * 100).toFixed(0)}%</text>`;
+        // Operating expenses are split into the lines the filing reports
+        // (research, selling and administration), with whatever is left named
+        // as its own part, so the split always adds back to the filed total.
+        const parts = next.cost.label === 'Operating expenses' ? opexParts(inc, next.cost.value, (v) => (v / next.cost.value) * ch) : null;
+        if (!parts) {
+          svg += `<rect x="${nx.toFixed(1)}" y="${cTop.toFixed(1)}" width="${NW}" height="${ch.toFixed(1)}" rx="2" fill="${C.neg}"><title>${esc(cTitle)}</title></rect>`;
+          svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(next.cost.label)}</text>`;
+          svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(cTop + Math.min(ch / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(bn(next.cost.value))} · ${((next.cost.value / rev) * 100).toFixed(0)}%</text>`;
+        } else {
+          let py = cTop;
+          parts.forEach((part, k) => {
+            const ph = (part.v / next.cost.value) * ch;
+            const pTitle = `${part.label}: ${bn(part.v)} (${((part.v / rev) * 100).toFixed(1)}% of revenue) — part of operating expenses ${bn(next.cost.value)}`;
+            svg += `<rect x="${nx.toFixed(1)}" y="${(py + (k ? 1 : 0)).toFixed(1)}" width="${NW}" height="${Math.max(1, ph - (k ? 1 : 0)).toFixed(1)}" rx="2" fill="${C.neg}" opacity="${(1 - k * 0.22).toFixed(2)}"><title>${esc(pTitle)}</title></rect>`;
+            svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(part.label)}</text>`;
+            svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(bn(part.v))} · ${((part.v / rev) * 100).toFixed(0)}%</text>`;
+            py += ph;
+          });
+        }
       }
     }
 

@@ -61,11 +61,14 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   filing read and reports no usable breakdown 850 (measured on a 70-filing sample: these tag nothing by any axis).
   S&P 500: 430 complete / 35 partial / 38 none. Kinds: product lines 1,752, segments 1,287, regions 317.
   Known: BAC shows regions (segment revenue is under a custom `bac:` concept); PGR none; HD "Primary / Other".
-  Remaining from the plan: Phase 4 expense split + full view unification.
+  **Phase 4:** `opexParts()` splits the Operating expenses band into filed R&D / SG&A plus a named remainder
+  (only `researchAndDevelopment` and `sellingGeneralAndAdministrative` are mapped — AMZN's fulfillment/technology
+  lines and META's separate S&M/G&A are not, so those stay one band or "Other operating costs"). Both views share
+  `sankey`, `breakdownTable` data and `offBalanceHtml`, pinned by a parity test.
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-breakdown2`.
+- Asset stamp `20261007-breakdown3`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use

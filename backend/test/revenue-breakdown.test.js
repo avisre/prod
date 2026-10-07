@@ -130,3 +130,19 @@ test('a stand-in measure is named in the note, and a company with no revenue say
     const regions = breakdown.fromGroups([group('srt:StatementGeographicalAxis', '2025-12-31', { UnitedStates: 790, International: 210 })], 'T');
     assert.equal(regions.kind, 'regions');
 });
+
+test('operating expenses split into filed components that add back to the total', () => {
+    const parts = pageFunction('opexParts', '  function sankey(');
+    const height = v => v / 5; // 5 units of value per pixel
+    assert.deepEqual(JSON.parse(JSON.stringify(parts({ researchAndDevelopment: 574, sellingGeneralAndAdministrative: null }, 815, height))),
+        [{ label: 'Research & development', v: 574 }, { label: 'Other operating costs', v: 241 }]);
+    const both = parts({ researchAndDevelopment: 300, sellingGeneralAndAdministrative: 500 }, 800, height);
+    assert.deepEqual(Array.from(both, p => p.label), ['Selling, general & admin', 'Research & development']);
+    assert.equal(both.reduce((n, p) => n + p.v, 0), 800);
+    assert.equal(parts({}, 800, height), null, 'nothing filed, nothing split');
+    assert.equal(parts({ researchAndDevelopment: 900 }, 800, height), null, 'a component larger than the total is not drawn');
+    assert.equal(parts({ researchAndDevelopment: 790 }, 800, height), null, 'one part and a sliver is still one band');
+    const thin = parts({ researchAndDevelopment: 400, sellingGeneralAndAdministrative: 300 }, 800, height);
+    assert.equal(thin.length, 2, 'the remainder (20px) is too thin for its own label');
+    assert.equal(thin.reduce((n, p) => n + p.v, 0), 800, 'a remainder too thin to label is folded in, not dropped');
+});
