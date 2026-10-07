@@ -5,70 +5,64 @@ Durable working memory — **keep under 500 lines** (CLAUDE.md), enforced by
 cap can no longer be crossed silently. Current state and open actions only, never a transcript. At ~400 lines,
 snapshot this file to `.claude/handoff-archive/<date>.md` and rewrite it fresh; **delete superseded items to
 the snapshot rather than compressing them here**.
-Earlier snapshots: `handoff-archive/2026-10-04.md` (verbatim, taken 10/04 at 395 lines — the SEC coverage
+Earlier snapshots: `handoff-archive/2026-10-07.md` (verbatim, taken 10/07 at 461 lines — the full
+revenue-breakdown build narrative and the six dated 10/06 data-audit write-ups), `handoff-archive/2026-10-04.md` (verbatim, taken 10/04 at 395 lines — the SEC coverage
 release narrative, the three earlier Ask quality/engineering release write-ups, the AppSumo v8 detail, the
 OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archive/2026-10-03.md`,
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
-## Segment names and off-balance-sheet commitments — 2026-10-07
-- **Why:** the company page showed `meta:FamilyOfAppsMember` / "Reported segment member …" / `98.90180428530199%`.
-  `sec-segment-observations.toolPayload` only had reviewed labels for AMD and AVGO; all 2,925 issuers with stored
-  segment groups (10,619 distinct members) fell back to the raw XBRL member.
-- **Fix:** `ask-inline-segments.label()` is the one humanizer (unglues "Assetand", upper-cases vowel-less
-  initialisms, 365/LinkedIn/SaaS); `displayName()` and `preferred()` in `sec-segment-observations.js` are used by
-  both the page (`segments.extractSegments`) and Ask. Ask's Sankey no longer requires a reviewed label, so it is
-  eligible for any reconciled group (META, INOD, MSFT… were all "unverified" before). Cached dossiers are repaired
-  on read in `dossier.refreshValuation` — no schema bump, nothing rebuilt.
-- **New:** `backend/off-balance-sheet.js` reads leases not yet commenced, unrecorded purchase obligations,
-  guarantees and unconsolidated-entity exposure from the latest 10-K/10-Q/20-F inline XBRL, each with its filing
-  sentence; no model. Page section `#dos-off-balance`, in both Normal and Analyst views (it was Analyst-only until `segments4`). Measured live: META $279.0B leases + $28B RVG + $46.0B
-  Louisiana venture exposure, MSFT $329.1B, ORCL $288B, GOOGL $85.2B, AMZN $137.2B, NVDA, CRWV. Never summed.
-- **Selection (second commit):** `preferred().usable` picks the newest group with ≥2 rows covering 90–110% of
-  revenue (segments before product lines); otherwise the stored breakdown is withheld and the older extraction
-  path runs. `segments.storedSegments()` is re-run on every cached dossier read. `scripts/audit-segment-display.js`
-  sweeps all issuers: 2,390 of 2,925 shown, 0 failures; 20 more (BRK) get a `partial` table (≥3 rows, 60–90%) when text extraction is empty, shown against its own year with the remainder named; 515 withheld;
-  `test/segment-display.test.js` runs it. Page table caps at 8 rows + "Other segments" + "Not broken out".
-- **Revenue sources (owner, 10/7, on AMZN):** product/service lines now lead over operating segments when the
-  same year's lines are usable with ≥3 rows and either have more rows or the segments are purely geographic
-  (AMZN → Online Stores/3P/AWS/Advertising…, AAPL → iPhone/Services…, MSFT, NVDA). Exact filed subtotals are
-  removed before pruning (prune alone kept ORCL's "Software Revenues" beside its parts). Ask still uses `primary`.
-- **Overhaul, plan `~/.claude/plans/federated-brewing-petal.md` (approved 10/7). Phases 1+5 shipped:**
-  `backend/revenue-breakdown.js` is the only place that decides the breakdown and returns one contract
-  (`grade` complete/partial/none, rows with shares of their own year, `remainder`, `reason`); the dossier build,
-  every cached read, and Ask's `get_segments` use it; the page's `breakdownTable()` renders it without recomputing.
-  Gate: `scripts/audit-segment-display.js` runs in `deploy-render.yml` validate; golden set of 63 tickers in
-  `backend/test/fixtures/revenue-breakdown-golden.json` (regenerate with `--golden` when a change is intended);
-  `scripts/render-dossier-gallery.js` writes a contact sheet to look at; live check without login:
-  `GET /api/admin/revenue-breakdown/:symbol` with `x-admin-token`.
-  **Baseline to beat in Phase 2:** S&P 500 complete 313 / partial 37 / none 153 (GOOGL, ADBE, AMD, BAC, CVX, XOM,
-  WMT had nothing stored).
-- **Phases 2+3 shipped as one data release (10/7):** two extractor bugs fixed — `sec-segment-observations.extract`
-  threw a table away when a member was tagged under two revenue concepts or both before/after eliminations (now one
-  candidate per concept and view, best kept); `sec-industry.enrich` discarded segments when an unrelated statement
-  field failed validation (now keeps segments alone). `sec-original` reads the filing's label file (`*_lab.xml`, or
-  the `.xsd` when embedded) and stores `filedLabel` per entry; `displayName` = reviewed → printed label → tag name.
-  Industry `VERSION` is `20261007-industry4`; all 5,276 issuers re-extracted locally with
-  `scripts/refresh-sec-industry.js` (45 `retrieval_failed`, mostly 20-F filers: HSBC, UBS, BP…), then
-  `build-public-stock-index.js` + `build-screen-index.js`. **Result:** all issuers complete 2,288 → 2,770;
-  S&P 500 complete 313 → 399, none 153 → 71; 41,396 of 41,598 entries carry a printed label.
-- **Third pass, `20261007-industry5` (owner: "make sure 4000+ are covered"):** the extractor now also reads
-  revenue by region (`kind` `regions`, used only when no segment or product table is usable), insurer premium
-  measures, and the one allowed composite — a bank's segment = `InterestIncomeExpenseNet` + `NoninterestIncome`,
-  each part stored in `entry.components` with its own receipt and checked by `validGroup`. A group not stated in
-  revenue carries `measure`, which the page prints. Run with `SEC_ORIGINAL_MAX_MB=64` (0 fetch failures).
-  **Screenable coverage (4,923):** complete 3,201 + partial 155 = 3,356; no revenue 464; single business 253;
-  filing read and reports no usable breakdown 850 (measured on a 70-filing sample: these tag nothing by any axis).
-  S&P 500: 430 complete / 35 partial / 38 none. Kinds: product lines 1,752, segments 1,287, regions 317.
-  Known: BAC shows regions (segment revenue is under a custom `bac:` concept); PGR none; HD "Primary / Other".
-  **Phase 4:** `opexParts()` splits the Operating expenses band into filed R&D / SG&A plus a named remainder
-  (only `researchAndDevelopment` and `sellingGeneralAndAdministrative` are mapped — AMZN's fulfillment/technology
-  lines and META's separate S&M/G&A are not, so those stay one band or "Other operating costs"). Both views share
-  `sankey`, `breakdownTable` data and `offBalanceHtml`, pinned by a parity test.
-- **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
-  and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
-  400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-breakdown3`.
+## Revenue breakdown on the company page — state on 2026-10-07
+
+**One module decides:** `backend/revenue-breakdown.js` returns a graded contract (`complete`, `partial` with a named
+`remainder`, or `none` with a plain `reason`; rows carry shares of their own fiscal year). The dossier build, every
+cached dossier read (`dossier.refreshValuation`), Ask's `get_segments` and the page's `breakdownTable()` all use it;
+nothing downstream recomputes a share, a remainder or a year. Selection and naming rules live in
+`backend/sec-segment-observations.js` (`extract`, `shown`, `preferred`, `displayName`, `validGroup`).
+
+**What the stored data holds** (`frontend/data/sec-financials/*.json`, industry `VERSION` `20261007-industry6`):
+- `segmentObservations`: one table per axis and year — operating segments, product/service lines, regions. Each entry
+  has the filed value with its receipt and `filedLabel` (the company's printed label, read from `*_lab.xml` or the
+  `.xsd`). A table not stated in revenue carries `measure` (insurer premiums; a bank's
+  `InterestIncomeExpenseNet` + `NoninterestIncome`, stored in `entry.components`; an issuer's own
+  `RevenuesNetOfInterestExpense…` concept, e.g. BAC).
+- `operatingExpenseLines`: the expense lines the filer reports (R&D, sales and marketing, G&A, fulfillment,
+  technology) with printed labels; `opexParts()` in `frontend-v2/assets/dossier.js` draws the set that adds up to
+  the filed total and never counts a combined line twice.
+- Total revenue may be cited to an amendment (10-K/A, 20-F/A) of the same report; any other filing is rejected.
+
+**Display rules:** product/service lines lead when they have ≥3 rows and say more than the segments or the segments
+are geography; regions only when nothing else is usable; operating segments are never pruned to fit and, where they
+sell to each other (110–160% of revenue: CVS, HUM, UNH), are shown with shares of the segment total and a note;
+roll-up members ("Reportable Segment, Aggregation", "Total") are never rows; a table at 60–98% is `partial`.
+
+**Coverage, 4,923 screenable issuers:** complete 3,267 + partial 154 = 3,421; no revenue 462; single business
+165; filing reports no usable breakdown 875. S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
+`node scripts/audit-segment-display.js --sp500` (0 violations required; it runs in the deploy gate).
+
+**Measured, do not redo:** reading untagged tables from annual-report text recovered **0 of 39** sampled issuers
+(48 model calls; nothing passed the literal-quote check), so no text-extraction layer was built.
+
+**Known gaps, with cause:** CVX — Upstream/Downstream are tagged with a second dimension the reader skips;
+PGR — Personal/Commercial Lines premiums are not captured; ELV — segments only by premiums with a "Total" member;
+HD — its filing tags "Primary / Other"; AZO — regions are just US / Non-US; ~790 small issuers tag nothing at all.
+
+**How to change data safely:** edit the extractor, bump `VERSION` in `backend/sec-industry.js`, run
+`SEC_ORIGINAL_MAX_MB=64 node scripts/refresh-sec-industry.js` (≈2.5 h, all issuers; `--symbols` for a subset), then
+`build-public-stock-index.js`, `build-screen-index.js`, `audit-segment-display.js --golden`, full tests and the four
+gate scripts. Golden set: `backend/test/fixtures/revenue-breakdown-golden.json` (63 tickers).
+
+**Checking a deploy without a login:** `GET /api/admin/revenue-breakdown/:symbol` with `x-admin-token`.
+`scripts/render-dossier-gallery.js` renders real sections to look at. **Nobody has viewed a logged-in company page
+for this work** — a script to sign a test-account session was refused by the permission layer; the owner should
+open one.
+
+**Off-balance-sheet section:** `backend/off-balance-sheet.js` reads leases not yet commenced, unrecorded purchase
+obligations, guarantees and unconsolidated-entity exposure from the latest 10-K/10-Q inline XBRL with the filing
+sentence; shown in both views (`offBalanceHtml`). Ask has no tool for it. 20-F filers return nothing.
+
+Asset stamp `20261007-breakdown4`.
+
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use
@@ -106,142 +100,11 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   in-process, hand it straight to the DOM, never through argv or stdout.
 - **`notes/filing-watch-*.csv` must stay untracked — the repo is PUBLIC** and they will hold prospect PII.
 
-## Every changed revenue figure checked one by one — 2026-10-06 (ninth)
+## 2026-10-06 data-audit work — moved to the snapshot
 
-`docs/qa/data-audit-2026-10-06/revenue-changes.csv`: all 2,137 revenue figures (461 companies; 231 newest-year,
-1,906 earlier) that differ between production rules and the new rules, each with old/new value, old/new line, filing
-and a verdict (scratchpad `each.js`). 1,352 confirmed by the filing's own arithmetic; 401 definitional (248 bank sum
-of two filed parts, 153 financial-firm net revenues); 350 part replaced by the filing total and corroborated; 8 fit
-adjacent years better; **26 not confirmed automatically** — 19 of those recognised as right (ETN 2011–14 from $0,
-PG 2012, HSY 2011, PSMT, COP 2022, BP 2018, ENS 2018, KKR, BAM, TPG, FRO, SDRL, MRX), 7 are tiny companies with
-nothing to check against (AHR 2017–18, INSE 2015, IPHA, MRNO, LGHL, CHGA, AUPH).
-The check exposed four rule gaps, now fixed: net revenues win only for financial SIC codes (Kornit); two lines with
-the same confirmed amount are one total (Xylem); revenue including assessed tax never outranks excluding (Cronos);
-an exact ×1,000 / ×1,000,000 line is a scale slip (SS Innovations).
-
-## Quarter reconciliation and bank revenue — 2026-10-06 (eighth)
-
-- Newest-year quarters are read as filed up to the annual report; if they do not add up to the year the later-filed
-  (restated) reading is tried and the reconciling one kept (APP); neither → issue `QUARTERS_DO_NOT_SUM`.
-- Quarters follow their fiscal year's line for every multi-tag field (net income parent vs consolidated).
-- A full-year figure mis-dated as Q4 in SEC's feed is dropped (NiSource). `QUARTER_MAX_DAYS` 119.
-- Banks (SIC 602/603/609) with both parts filed: revenue = net interest + noninterest income, over a stray `Revenues`
-  tag (FBNC $68m → $390m, GBFH $1.24bn → $0.08bn). This makes bank revenue net of interest expense throughout.
-- Partnership per-unit earnings read as EPS (AB, NRP).
-
-**Final regression, 5,251 issuers, production rules vs these**: 271 become complete; newest-year revenue changes 231
-(200 up); provider-copy agreement 3,048 → 3,176 of 3,394 (138 fixed, 10 differ — HOG and bank net-revenue cases);
-four quarters ≠ year on revenue **100 → 11** of 3,456; no other annual field changed; 4 old cash-flow values dropped
-(RDN 2011, RH 2015); gross profit > revenue 55 → 29 issuers. Tests 1,423/1,429 (same six failures).
-
-**Checked and left alone**: of the 130 "complete except revenue" issuers, 86 are blank-check shells (SIC 67) with no
-revenue to report and class-specific EPS — not a data error. ~100 report a first or successor period shorter than a
-year. MC tags only `InvestmentBankingRevenue`; using it as revenue would be wrong for banks, so it is not used.
-
-## Earlier-year revenue check and the five follow-ups — 2026-10-06 (seventh)
-
-Owner asked to check the earlier-year revenue changes and fix the remaining gaps. `EXTRACTION_VERSION` stays `core4`
-(nothing has been published with it yet). Scripts: scratchpad `sim8.js` (earlier years + blockers), `fallback.js`.
-
-- **Earlier years, all 5,251 issuers**: 1,699 revenue figures change in 421 companies — 943 match the provider copy,
-  534 have no second figure, 56 match neither, 166 matched the old figure. The provider copy's older years were
-  extended from our own SEC extraction, so "matched the old figure" is not independent evidence; the ones recognised
-  are corrections (HAS 2014 $2.0bn→$4.3bn, MA 2019 gross $25.0bn→net $16.9bn, TAP net sales, WMB, EQT).
-  The switch now stays inside the filing the original line came from, so an as-reported year is never swapped for a
-  restated one (eBay 2014 stays $17.9bn).
-- **Small revenue gaps**: three more arithmetic checks (operating income + operating expenses; pre-tax income + total
-  costs; operating income + cost of sales + SG&A). GM $185.0bn, WMT $713.2bn, CVX $189.0bn now total. COP, SNA, RSG have
-  nothing to arbitrate and keep the original line.
-- **Quarters vs year**: the newest year's quarters use figures filed up to its annual report (later 10-Qs restate
-  them: APTV, BDX, ACA), and quarters follow the revenue line of their fiscal year (BG, CRC, LYFT, AAT). Newest-year
-  revenue mismatches: 100 under production rules → 53.
-- **16-week quarters**: `QUARTER_MAX_DAYS` 105 → 119. Albertsons and Kroger had no first quarter at all.
-- **Descriptions**: `scripts/refresh-profiles.js` → `frontend/data/company-profiles.json` (description, sector, industry;
-  1,500 symbols a run, in `refresh-quotes.yml`); `stock-universe.withIdentity` merges it where the fundamentals file
-  has none. Dry run: 59 of 60 filled; 2,814 symbols wanted.
-- **Feed-less annual filings** (264 issuers; SEC's facts feed has nothing for the 20-F/40-F/10-K): with the
-  multi-document read and `SEC_ORIGINAL_MAX_MB=64` in the weekly workflow, 203 become complete (TM, BHP, SONY, HDB,
-  CLX); 27 stay partial, 32 have no readable tagged figures, 2 have an undecided currency.
-- BDC top line: `GrossInvestmentIncomeOperating` as last-resort revenue (OTF, OBDC, PFLT now complete).
-
-**Still open**: ~130 issuers complete except revenue and EPS (advisory firms like MC that tag neither total; IFRS
-banks); ~102 with stub or successor periods instead of a full year (PSKY, WOLF); 13 companies that have not filed in
-15 months; COP/SNA/RSG revenue line; 53 revenue and 39 net-income quarter mismatches; BHP iron ore; segment labels.
-
-## Full data audit and the revenue-line fix — 2026-10-06 (sixth)
-
-Owner asked for an audit of every company's stored data, then "fix this and the ones found before".
-Audit scripts (no model): scratchpad `dbaudit.js` (stored data), `verify.js` (vs live SEC facts), `sim2.js` (old vs new rules).
-
-**Audit of the 4,593 covered issuers (data as of 2026-10-05)**
-- All 19,666 newest-year core figures are identical to the SEC record for the same filing (no copying errors).
-- **Revenue understated for 187 issuers, 86 by >20%**: the customer-contract tag was tried before total `Revenues`
-  (AMT $0.9bn of $10.6bn, ADM $25bn of $80bn, AXP $41bn of $72bn, URI, BG, CCI, EXR, ESS, UDR, WELL).
-- Price/market value on only 1,463 of 4,649 listings; sector on ~32%; share count ~32%; description ~56%; segments ~58%.
-  `quotes.json` was last refreshed 2026-10-03 against the old 1,502-symbol list; `us-companies.json` now has 6,099 and
-  `refresh-quotes.yml` reads it, so the next scheduled run fills prices, market value and share counts
-  (dry run on 199 uncovered symbols: 199/199 returned).
-- 153 covered issuers a quarter behind: SEC's company-facts feed has no facts for their newest 10-Q (ABT, ACHC, AAT).
-
-**Fixes (EXTRACTION_VERSION `20261006-core4`)**
-- `sec-facts.js` revenue: within the newest filing reporting the period — net revenues if a financial firm reports
-  them (≥25% of the largest line); else the line that equals gross profit + cost of revenue, or operating income +
-  `CostsAndExpenses`; else the largest line only when the original line is under 80% of it; otherwise unchanged.
-  Derived quarters use the same line as their year-to-date total. Helper inputs sit last in `MAPS` and new tags never
-  add a reporting period.
-- `scripts/refresh-sec-coverage.js`: reads the newest 10-Q itself when the feed has not produced its quarter.
-- `backend/sector.js` `fromSic` + `build-public-stock-index.js`: a company with no curated sector takes its SIC sector.
-
-**Measured, production rules vs new rules, all 5,251 issuers with an annual report**: 263 become complete; newest-year
-revenue changes for 188 (172 up, 16 down); agreement with the provider copy 3,048 → 3,161 of 3,380 (118 fixed, 5 now
-differ: HOG, PGY, CRON, TIGR, BRLS); gross profit larger than revenue 55 → 18 issuers; no other field changes.
-Dropped: 40 derived gross-profit values in old years (2009–2022, revenue and cost now come from different filings)
-and 4 old cash-flow values (RDN 2011, RH 2015). Tests: full suite 1,421/1,427, same six failures as before.
-
-**Not fixed**: small-gap revenue cases with nothing to arbitrate keep the original line (GM $168bn vs $185bn total,
-COP, WMT net sales, SNA, RSG); business descriptions for ~44% of covered issuers; ACI-style 10-Qs the direct read
-does not parse; derived-Q4 mismatches (APTV); the 266 partial / 253 history-only issuers listed below.
-
-## Data foundation repair: missing core figures, currency, recency, Exxon — 2026-10-06 (fifth, NOT pushed)
-
-Owner: "our entire business lives and dies by the accuracy of our data". Audit of the stored statements (no model):
-1,104 stock issuers lacked at least one of the five core figures in their newest annual report; 1,450 listed stocks were
-not screenable at all (MU, XOM, BKNG, JCI, APD, BDX, PDD, JD, BABA...). Causes found and fixed in the extraction code —
-**the stored data only changes when the weekly workflow re-runs** (`gh workflow run refresh-fundamentals.yml`; the
-`EXTRACTION_VERSION` bump to `20261006-core3` forces every issuer to be re-extracted).
-
-- `sec-facts.js`: revenue tag was misspelt (`RevenueNetOfInterestExpense` → `RevenuesNetOfInterestExpense`: MS, GS had no
-  revenue); added utility revenue, partners'/members' capital, total liabilities-and-equity as total assets, net income to
-  common and continuing-operations cash flow (both only when the filing shows no preferred dividend / discontinued cash
-  flow), continuing + discontinued cash flow summed, IFRS net sales + other revenue summed only when gross profit + cost
-  of sales confirms it (NVS $56.674bn, SNY €46.716bn). New tags are `LAST_RESORT`: tried after every original tag.
-- Currency: a dollar convenience translation beside the reporting currency was "ambiguous" and dropped every year
-  (253 issuers; PDD stuck at 2017). Now the currency with ≥1.5× the core figures inside the reporting filing wins.
-- `sec-coverage.js`: recent annual = filed within **15** months (was 12; MU and 8 others fell out for the days before
-  this year's filing). The 18-month period test is unchanged. `verifiedField` accepts the two new sums.
-- `sec-original.js`: when the primary document is only a cover page, the filing's other documents are read with the
-  shared period declarations (CLX FY2026 now ready).
-- `scripts/lib/us-listings.js` `REGISTRATION_CONTINUITY`: XOM keeps CIK 0000034088 until 2027-03-31 (ExxonMobil Holdings,
-  new CIK 0002115436 since 2026-07-01, has no annual report of its own).
-- `ask-report-policy.js`: `COMMON_NAMES` and `narrow()` — google→GOOGL (was a hedged fund), exxon→XOM (was nothing),
-  toyota/shell/berkshire/alphabet no longer ask which listing. `ask-segments.js` download limit 32 MB (ASML).
-
-**Measured** (old vs new rules on live SEC facts, 1,484 issuers incl. 380 already-ready as a regression sample; the
-filing-read fallback is not in this run): 263 issuers become ready (122 partial, 141 historical-only), 887 annual periods
-gained, **0 figures lost, 0 existing figures changed**. Tests: SEC files 74/74, Ask files 233/233, full suite 1,419/1,425
-(same six failures as before this work).
-
-**Still open after this**: 266 partial and 115 historical-only issuers in the affected set (SU, DB, VALE, NGG, CNI, KEP,
-SKT — 40-F exhibits, co-registrants, filings over 18 MB, IFRS banks with no revenue total); LHX revenue (SEC feed has a
-wrong start date); NEE, BAC, AZN, TD segments still need the model; BHP iron ore; de-camel-cased segment names.
-
-## Shipped 2026-10-06, detail in `.claude/handoff-archive/2026-10-06.md (second snapshot)`
-
-- Ask for every kind of company: SIC typing (`ask-industry-profile.js`), model-free segment/product/region read
-  (`ask-inline-segments.js` `groups`), same-day report cache (`ask_report_cache`, `ASK_REPORT_CACHE=0` disables),
-  `ASK_SEGMENT_RSS_LIMIT_MB` (default 400 — watch memory).
-- Data foundation repair (first pass): missing core figures, convenience-translation currency, 15-month recency,
-  Exxon registration continuity until 2027-03-31, common-name resolution in Ask.
+Six dated write-ups (revenue figures checked one by one; quarter reconciliation and bank revenue; earlier-year
+revenue check; full data audit and the revenue-line fix; data foundation repair; shipped 10/06) are verbatim in
+`.claude/handoff-archive/2026-10-07.md`. Read them there before touching core statement extraction.
 
 ## Production state — 2026-10-04
 - **The industry-personalized Ask framework is deployed.** Production commit `6898cdb4` went live as Render

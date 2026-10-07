@@ -164,6 +164,7 @@
   "fiscalYear": "FY2025",
   "rows": [
    "Client Computing Group",
+   "Intel Foundry",
    "Datacenter and AI",
    "All Other"
   ],
@@ -218,13 +219,13 @@
  },
  "BAC": {
   "grade": "complete",
-  "kind": "regions",
+  "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "U.S.",
-   "Europe, Middle East and Africa",
-   "Asia",
-   "Latin America and the Caribbean"
+   "Consumer Banking",
+   "Global Wealth & Investment Management",
+   "Global Banking",
+   "Global Markets"
   ],
   "remainder": false
  },
@@ -544,15 +545,21 @@
   "fiscalYear": "FY2025",
   "rows": [
    "Unitedhealthcare",
-   "Optum Health"
+   "Optum Rx",
+   "Optum Health",
+   "Optum Insight"
   ],
   "remainder": false
  },
  "CVS": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Health Services",
+   "Health Care Benefits",
+   "Pharmacy & Consumer Wellness"
+  ],
   "remainder": false
  },
  "XOM": {
@@ -579,9 +586,11 @@
   "fiscalYear": "FY2025",
   "rows": [
    "Lower 48",
+   "Europe, Middle East and North Africa",
    "Alaska",
    "Canada",
-   "Asia Pacific"
+   "Asia Pacific",
+   "Corporate"
   ],
   "remainder": false
  },
@@ -684,16 +693,17 @@
   "remainder": false
  },
  "CMCSA": {
-  "grade": "partial",
+  "grade": "complete",
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
    "Residential Connectivity & Platforms",
    "Media",
    "Studios",
-   "Business Services Connectivity"
+   "Business Services Connectivity",
+   "Theme Parks"
   ],
-  "remainder": true
+  "remainder": false
  },
  "T": {
   "grade": "complete",

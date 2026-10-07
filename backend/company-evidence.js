@@ -53,7 +53,7 @@ function createResolver(deps={}) {
    if(changed || missing.some(g=>mapped(g.field)) || financial?.extractionVersion!==EXTRACTION_VERSION || financial?.validationVersion!==VALIDATION_VERSION) {
     financialAttemptResult='retrieval_failed';
     let raw;try{raw=await network.fetchFacts(issuer.cik);}catch(e){if(e.response?.status!==404 || !reporting.latestAnnual)throw e;raw={cik:Number(issuer.cik),facts:{}};}financial=extract(raw,reporting);
-    if(!changed){financial.industryObservations=state.financial?.industryObservations || [];financial.segmentObservations=state.financial?.segmentObservations || [];financial.industryExtraction=state.financial?.industryExtraction;}
+    if(!changed){financial.industryObservations=state.financial?.industryObservations || [];financial.segmentObservations=state.financial?.segmentObservations || [];financial.industryExtraction=state.financial?.industryExtraction;if(state.financial?.operatingExpenseLines)financial.operatingExpenseLines=state.financial.operatingExpenseLines;}
     const coreMissing=obs.gaps(obs.observations(financial),fields,{annual:1,quarterly:0}).some(g=>mapped(g.field));
     if(coreMissing || financial.issues.some(i=>i.code==='AMBIGUOUS_CURRENCY') || (financial.industryExtraction?.sourceVersion!==reporting.latestAnnual?.accessionNumber && require('./sec-industry-tables').REGISTRY[issuer.cik])) {
      try{const original=await fetchOriginal(reporting.latestAnnual);raw=require('./sec-original').mergeFacts(raw,original);reporting.reportingCurrency=original.reportingCurrency || reporting.reportingCurrency;financial=extract(raw,reporting);attempts.push({source:'SEC original filing',status:'success',url:original.originalDocument.url});}

@@ -68,15 +68,17 @@ function fromGroups(groups, symbol = null, { read = false, revenue = null } = {}
         const name = store.displayName(byMember.get(row.member));
         byName.set(name, (byName.get(name) || 0) + row.value);
     }
-    const rows = [...byName].map(([name, value]) => ({ name, value, share: round1(value / group.totalRevenue * 100) })).sort((a, b) => b.value - a.value);
+    const segmentTotal = [...byName.values()].reduce((n, v) => n + v, 0), base = view.gross ? segmentTotal : group.totalRevenue;
+    const rows = [...byName].map(([name, value]) => ({ name, value, share: round1(value / base * 100) })).sort((a, b) => b.value - a.value);
     const listed = rows.reduce((n, r) => n + r.value, 0), gap = group.totalRevenue - listed;
-    const level = grade(view.coverage, rows.length);
+    const level = view.gross ? 'complete' : grade(view.coverage, rows.length);
     if (level === 'none') return none(symbol, whyNone(groups, read));
     return { symbol, grade: level, reason: null, kind: store.kind(group), fiscalYear: 'FY' + String(group.periodEnd).slice(0, 4), periodEnd: group.periodEnd,
         currency: group.currency, totalRevenue: group.totalRevenue, rows,
         remainder: gap > group.totalRevenue * 0.005 ? { name: 'Not broken out in the filing', value: gap, share: round1(gap / group.totalRevenue * 100) } : null,
-        coverage: view.coverage, measure: group.measure || null,
-        note: measureNote(group.measure, view.coverage) || (view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
+        coverage: view.coverage, measure: group.measure || null, basis: view.gross ? 'before eliminations' : null,
+        note: view.gross ? `Segments are shown before sales between them are eliminated, so they add up to more than total revenue; shares are of the segment total.`
+            : measureNote(group.measure, view.coverage) || (view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
             : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null),
         source: 'SEC inline XBRL', filing: { accessionNumber: group.sourceVersion, date: group.publicationDate, url: group.sourceUrl } };
 }
@@ -125,8 +127,10 @@ async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
 // to work out a share, a remainder or a year for itself.
 function forPage(contract) {
     if (!contract) return null;
-    return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
-        totalRevenue: contract.totalRevenue, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
+    // For segments shown before eliminations the base is their own total, so the page's shares and chart agree with the contract.
+    const pageTotal = contract.basis === 'before eliminations' ? contract.rows.reduce((n, r) => n + r.value, 0) : contract.totalRevenue;
+    return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, basis: contract.basis || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
+        totalRevenue: pageTotal, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
         items: contract.rows.map(r => ({ name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: '' })) };
 }
 
@@ -143,6 +147,7 @@ function violations(contract) {
     if (!(contract.totalRevenue > 0)) out.push('no revenue to measure against');
     const shares = contract.rows.reduce((n, r) => n + r.share, 0) + (contract.remainder ? contract.remainder.share : 0);
     if (contract.grade === 'complete' && (shares < 97.5 || shares > 110.5)) out.push(`shares add to ${shares.toFixed(1)}%`);
+    if (contract.basis === 'before eliminations' && Math.abs(shares - 100) > 1) out.push('gross segments whose shares are not of the segment total');
     if (contract.grade === 'partial' && (!contract.remainder || Math.abs(shares - 100) > 1.5)) out.push('partial table without its remainder');
     return out;
 }

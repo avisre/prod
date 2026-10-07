@@ -199,12 +199,25 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
   // the filing gives none, they exceed the total, or a part would be too thin
   // to label. `height` maps a value to its drawn height.
   function opexParts(inc, total, height) {
-    const filed = [['Research & development', Number(inc.researchAndDevelopment)], ['Selling, general & admin', Number(inc.sellingGeneralAndAdministrative)]]
-      .filter((p) => Number.isFinite(p[1]) && p[1] > 0).map((p) => ({ label: p[0], v: p[1] }));
-    const sum = filed.reduce((a, p) => a + p.v, 0);
-    if (!filed.length || !(total > 0) || sum > total * 1.005) return null;
-    const MIN = 26; // two lines of label text
-    let parts = filed.filter((p) => height(p.v) >= MIN).sort((a, b) => b.v - a.v);
+    // The filer's own expense lines when the server sent them, otherwise the
+    // two mapped fields. Lines can overlap (a combined selling, general and
+    // administrative line beside its two halves), so the set drawn is the one
+    // that comes closest to the filed total without passing it, with the most
+    // lines on a tie.
+    const pool = (Array.isArray(inc.opexLines) && inc.opexLines.length ? inc.opexLines.map((l) => ({ label: String(l.label || ''), v: Number(l.value) }))
+      : [{ label: 'Research & development', v: Number(inc.researchAndDevelopment) }, { label: 'Selling, general & admin', v: Number(inc.sellingGeneralAndAdministrative) }])
+      .filter((p) => p.label && Number.isFinite(p.v) && p.v > 0).slice(0, 10);
+    if (!pool.length || !(total > 0)) return null;
+    let filed = null, best = -1;
+    for (let mask = 1; mask < (1 << pool.length); mask++) {
+      const set = pool.filter((_, i) => mask & (1 << i)), sum = set.reduce((a, p) => a + p.v, 0);
+      if (sum > total * 1.005) continue;
+      const score = sum + set.length * total * 1e-9;
+      if (score > best) { best = score; filed = set; }
+    }
+    if (!filed) return null;
+    const MIN = 13; // one line of label text; a taller part gets two
+    const parts = filed.filter((p) => height(p.v) >= MIN).sort((a, b) => b.v - a.v);
     const rest = total - parts.reduce((a, p) => a + p.v, 0);
     if (rest > total * 0.005) {
       if (height(rest) >= MIN) parts.push({ label: 'Other operating costs', v: rest });
@@ -350,8 +363,14 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
             const ph = (part.v / next.cost.value) * ch;
             const pTitle = `${part.label}: ${bn(part.v)} (${((part.v / rev) * 100).toFixed(1)}% of revenue) â€” part of operating expenses ${bn(next.cost.value)}`;
             svg += `<rect x="${nx.toFixed(1)}" y="${(py + (k ? 1 : 0)).toFixed(1)}" width="${NW}" height="${Math.max(1, ph - (k ? 1 : 0)).toFixed(1)}" rx="2" fill="${C.neg}" opacity="${(1 - k * 0.22).toFixed(2)}"><title>${esc(pTitle)}</title></rect>`;
-            svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(part.label)}</text>`;
-            svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(bn(part.v))} Â· ${((part.v / rev) * 100).toFixed(0)}%</text>`;
+            const figure = `${bn(part.v)} Â· ${((part.v / rev) * 100).toFixed(0)}%`;
+            if (ph >= 26) {
+              svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 4).toFixed(1)}" font-size="10.5" fill="${C.ink}">${esc(part.label)}</text>`;
+              svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + Math.min(ph / 2, 14) + 16).toFixed(1)}" font-size="10" fill="${C.grey}">${esc(figure)}</text>`;
+            } else {
+              // A thin part keeps its name on one line beside the figure.
+              svg += `<text x="${(nx + NW + 7).toFixed(1)}" y="${(py + ph / 2 + 3.5).toFixed(1)}" font-size="10" fill="${C.ink}">${esc(part.label)} <tspan fill="${C.grey}">${esc(figure)}</tspan></text>`;
+            }
             py += ph;
           });
         }

@@ -12,7 +12,15 @@ const AGGREGATES={'0001730168':['avgo:SemiconductorSolutionsAndInfrastructureSof
 const EXTRA_MEASURES={'us-gaap':{PremiumsEarnedNet:'net premiums earned',SupplementaryInsuranceInformationPremiumRevenue:'premium revenue',RevenuesNetOfInterestExpenseFullTaxEquivalentBasis:'revenue on a tax-equivalent basis'},'ifrs-full':{InsuranceRevenue:'insurance revenue'}};
 const BANK_PAIR=['InterestIncomeExpenseNet','NoninterestIncome'],BANK_MEASURE='net interest income plus noninterest income';
 const revenueConcepts=()=>require('./sec-facts').MAPS.income.totalRevenue;
-const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.includes(concept) || EXTRA_MEASURES[taxonomy]?.[concept] || taxonomy==='us-gaap' && BANK_PAIR.includes(concept));
+// A bank that reports segment revenue under a concept of its own (Bank of
+// America's tax-equivalent net revenue) still names it as net revenue.
+const CUSTOM_NET_REVENUE=/^RevenuesNetOfInterestExpense[A-Za-z]{0,40}$/;
+const measureOf=(taxonomy,concept)=>EXTRA_MEASURES[taxonomy]?.[concept] || (!['us-gaap','ifrs-full','srt','dei'].includes(taxonomy) && CUSTOM_NET_REVENUE.test(concept || '')?(/TaxEquivalent/.test(concept)?'revenue on a tax-equivalent basis':'revenue net of interest expense'):null);
+const segmentMeasure=(taxonomy,concept)=>!!(revenueConcepts()[taxonomy]?.includes(concept) || measureOf(taxonomy,concept) || taxonomy==='us-gaap' && BANK_PAIR.includes(concept));
+// Total revenue may be cited to an amendment of the same annual report: the
+// amendment restates the same period, and the segment figures still have to
+// add up to it. Any other filing is a different report and is not accepted.
+const sameReport=(source,accession)=>!!source && (source.accessionNumber===accession || /^(?:10-K|20-F|40-F)\/A$/.test(source.form || ''));
 function extract(segments,financial,filing) {
  const groups=new Map();
  for(const f of segments || []) {
@@ -33,7 +41,7 @@ function extract(segments,financial,filing) {
   const members=byMember(values);if(!members)continue;
   const concept=values[0].concept;
   if(concept && BANK_PAIR.includes(concept))continue; // only ever shown added to its partner, below
-  candidates.push({sample:values[0],measure:EXTRA_MEASURES[values[0].taxonomy]?.[concept] || null,rows:[...members.values()].map(f=>({f,value:f.val,components:null}))});
+  candidates.push({sample:values[0],measure:measureOf(values[0].taxonomy,concept),rows:[...members.values()].map(f=>({f,value:f.val,components:null}))});
  }
  for(const [key,values] of groups) {
   if(values[0].concept!==BANK_PAIR[0] || values[0].taxonomy!=='us-gaap')continue;
@@ -45,7 +53,7 @@ function extract(segments,financial,filing) {
  const output=[];
  for(const {sample,measure,rows} of candidates) {
   const row=financial.income.annualReports.find(r=>r.fiscalDateEnding===sample.end && r.periodStart===sample.start && r.reportedCurrency===sample.unit && p.verifiedField(financial,r,'totalRevenue'));
-  if(!row || !row._sources.totalRevenue.every(id=>financial.sources[id].accessionNumber===sample.accn))continue;
+  if(!row || !row._sources.totalRevenue.every(id=>sameReport(financial.sources[id],sample.accn)))continue;
   const aggregate=x=>(AGGREGATES[financial.cik] || []).includes(x.f._original.dimensions[0].member);
   const aggregateMembers=rows.filter(aggregate).map(x=>x.f);
   const entries=rows.filter(x=>!aggregate(x)).map(({f,value,components})=>({member:f._original.dimensions[0].member,label:LABELS[financial.cik]?.[f._original.dimensions[0].member] || null,...(f._original.memberLabel?{filedLabel:f._original.memberLabel}:{}),value,contextRef:f._original.contextRef,decimals:f._original.decimals,sourceUrl:f._original.documentUrl,sourceVersion:f.accn,
@@ -63,7 +71,9 @@ function extract(segments,financial,filing) {
  const best=new Map();
  for(const g of output) {
   const key=[g.periodStart,g.periodEnd,g.currency,g.axis].join('|'),old=best.get(key);
-  const miss=x=>(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(x.difference)/Math.max(1,Math.abs(x.totalRevenue))+(x.measure?0.02:0);
+  // A lone member holding all of revenue reconciles perfectly and says nothing;
+  // a real table of several rows is preferred to it even when it fits less well.
+  const miss=x=>(x.entries.length<2?2:0)+(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(x.difference)/Math.max(1,Math.abs(x.totalRevenue))+(x.measure?0.02:0);
   if(!old || miss(g)<miss(old) || miss(g)===miss(old) && g.entries.length>old.entries.length)best.set(key,g);
  }
  return [...best.values()];
@@ -71,7 +81,7 @@ function extract(segments,financial,filing) {
 function validGroup(g,data) {
  if(!g || !data || g.issuer!==data.cik || !p.day(g.periodStart) || !p.day(g.periodEnd) || !Array.isArray(g.entries) || !g.entries.length)return false;
  const row=data.income?.annualReports?.find(r=>r.fiscalDateEnding===g.periodEnd && r.periodStart===g.periodStart && r.reportedCurrency===g.currency && p.verifiedField(data,r,'totalRevenue'));
- if(!row || row.totalRevenue!==g.totalRevenue || JSON.stringify(row._sources.totalRevenue)!==JSON.stringify(g.totalSourceIds) || !g.totalSourceIds.every(id=>data.sources[id]?.accessionNumber===g.sourceVersion))return false;
+ if(!row || row.totalRevenue!==g.totalRevenue || JSON.stringify(row._sources.totalRevenue)!==JSON.stringify(g.totalSourceIds) || !g.totalSourceIds.every(id=>sameReport(data.sources[id],g.sourceVersion)))return false;
  const base='https://www.sec.gov/Archives/edgar/data/'+Number(g.issuer)+'/'+g.sourceVersion.replace(/-/g,'')+'/';
  if(!g.sourceUrl?.startsWith(base) || !p.day(g.publicationDate) || g.publicationDate<g.periodEnd)return false;
  const number=require('./sec-inline-number').number;
@@ -80,7 +90,7 @@ function validGroup(g,data) {
   e.components.every(c=>c.taxonomy==='us-gaap' && BANK_PAIR.includes(c.concept) && c.contextRef && number(c.numericReceipt)===c.value) &&
   e.components.reduce((n,c)=>n+c.value,0)===e.value && e.sourceFact?.concept===BANK_PAIR.join('+') && g.measure===BANK_MEASURE;
  if(g.entries.some(e=>e.components?!composite(e):number(e.sourceFact?.numericReceipt)!==e.value))return false;
- if(g.measure!==undefined && g.measure!==BANK_MEASURE && !g.entries.every(e=>EXTRA_MEASURES[e.sourceFact?.taxonomy]?.[e.sourceFact?.concept]===g.measure))return false;
+ if(g.measure!==undefined && g.measure!==BANK_MEASURE && !g.entries.every(e=>measureOf(e.sourceFact?.taxonomy,e.sourceFact?.concept)===g.measure))return false;
  if(g.entries.some(e=>!e.contextRef || !e.sourceUrl?.startsWith(base) || e.sourceVersion!==g.sourceVersion || e.sourceFact?.rawValue!==e.value || e.sourceFact?.unit!==g.currency || e.sourceFact?.periodStart!==g.periodStart || e.sourceFact?.periodEnd!==g.periodEnd || !(e.components || segmentMeasure(e.sourceFact?.taxonomy,e.sourceFact?.concept) && !BANK_PAIR.includes(e.sourceFact.concept)) || !e.sourceIds?.length || e.label && LABELS[g.issuer]?.[e.member]!==e.label || e.filedLabel!==undefined && (typeof e.filedLabel!=='string' || !e.filedLabel || e.filedLabel.length>120)))return false;
  const sum=g.entries.reduce((n,e)=>n+e.value,0);return sum===g.sum && g.difference===g.totalRevenue-sum && g.reconciliationStatus===(Math.abs(g.difference)<=g.roundingTolerance?'reconciled':'partial');
 }
@@ -107,16 +117,28 @@ function shown(g) {
  // When the rows over-count revenue, a row that is exactly the sum of others is
  // a filed subtotal and goes first; only then is the closest-fit pruning used.
  // Pruning alone can keep a subtotal beside its own parts and still land on 100%.
- const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0).map(e=>({member:e.member,value:e.value}));
+ // A member that is itself a roll-up of the others ("Reportable Segment,
+ // Aggregation", "Total") is not a row of the table.
+ const rollup=e=>/Aggregat|SegmentsTotal|TotalSegments?|TotalReportable|AllReportableSegments|ReportableSegmentsMember$|^[a-z-]+:TotalMember$/i.test(e.member || '') || /^(?:Total|Reportable Segments?)$/i.test(String(e.filedLabel || '').trim());
+ const inline=require('./ask-inline-segments'),all=(g?.entries || []).filter(e=>e.value>0 && !rollup(e)).map(e=>({member:e.member,value:e.value}));
  const over=list=>list.reduce((n,r)=>n+r.value,0)>(g?.totalRevenue || 0)*1.02;
  // Exact, to the filed unit: a real line that merely lands near the sum of two others stays.
  const subtotal=row=>{const rest=all.filter(r=>r!==row && r.value<row.value);
   for(let i=0;i<rest.length;i++)for(let j=i+1;j<rest.length;j++){if(rest[i].value+rest[j].value===row.value)return true;
    for(let k=j+1;k<rest.length;k++)if(rest[i].value+rest[j].value+rest[k].value===row.value)return true;}
   return false;};
- const rows=inline.prune(over(all) && all.length<=14?all.filter(r=>!subtotal(r)):all,g?.totalRevenue);
+ // Closest-fit pruning is for product and region tables, which mix levels of
+ // detail. Operating segments are never pruned to fit: one that sells to
+ // another is still a segment, so only an exact filed subtotal is removed.
+ const exact=over(all) && all.length<=14?all.filter(r=>!subtotal(r)):all;
+ const rows=BUSINESS.test(g?.axis || '')?exact:inline.prune(exact,g?.totalRevenue);
  const coverage=g?.totalRevenue>0?rows.reduce((n,r)=>n+r.value,0)/g.totalRevenue:0;
- return {rows,coverage,usable:rows.length>=2 && coverage>=0.9 && coverage<=1.1};
+ // Operating segments that sell to each other are filed before eliminations
+ // and can add up to well over revenue (CVS 118%, Humana 113%). They are the
+ // company's real segments; `gross` marks them so shares are taken of the
+ // segment total, not of consolidated revenue.
+ const gross=BUSINESS.test(g?.axis || '') && rows.length>=2 && coverage>1.1 && coverage<=1.6;
+ return {rows,coverage,gross,usable:rows.length>=2 && coverage>=0.9 && (coverage<=1.1 || gross)};
 }
 const GEOGRAPHY=/^(?:(?:North|South|Latin|Central|Greater|Rest of|Other|All Other|Asia|Europe|Middle East|Africa|EMEA|APAC|Americas?|International|Domestic|Foreign|US|United States|Canada|China|Japan|India|Pacific|and|of|the|,|\s)+)$/i;
 const BUSINESS=/(?:StatementBusinessSegmentsAxis|:SegmentsAxis)$/,PRODUCT=/(?:ProductOrServiceAxis|ProductsAndServicesAxis)$/,REGION=/(?:StatementGeographicalAxis|GeographicalAreasAxis|GeographicDistributionAxis)$/;
@@ -143,7 +165,7 @@ function preferred(groups) {
  // A real table that leaves part of revenue out (an insurer-conglomerate's
  // product lines exclude premiums). Shown only when nothing better exists, and
  // only with the remainder named beside it.
- const partial=usable?null:ordered.find(g=>{const v=shown(g);return v.rows.length>=3 && v.coverage>=0.6 && v.coverage<0.9;}) || null;
+ const partial=usable?null:ordered.find(g=>{const v=shown(g);return v.coverage<0.9 && (v.rows.length>=3 && v.coverage>=0.6 || v.rows.length>=2 && v.coverage>=0.75);}) || null;
  return {business,product,primary:business && (business.entries.length>1 || !product)?business:product || business || all[0],usable,partial};
 }
 function toolPayload(g,data,symbol) {

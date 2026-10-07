@@ -67,6 +67,10 @@ function parseOriginal(text, filing, cik, shared) {
    if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    continue;
   }
+  // The lines a filer breaks operating expenses into on its income statement
+  // (research, marketing, fulfillment, administration). Standard or the
+  // filer's own concept; kept apart from the mapped statement fields.
+  if(OPEX_LINE.test(concept) && f.start && /^[A-Z]{3}$/.test(measure || ''))(doc.operatingExpenseLines ||= []).push({concept,taxonomy,unit:measure,...f});
   if(!wanted.has(name))continue;
   ((doc.facts[taxonomy] ||= {})[concept] ||= {units:{}}).units[measure] ||= [];
   doc.facts[taxonomy][concept].units[measure].push(f);
@@ -78,6 +82,9 @@ function parseOriginal(text, filing, cik, shared) {
  if(require('./sec-industry-tables').REGISTRY[p.cik(cik)])doc.industryTables=require('./sec-industry-tables').tablesFrom(text).filter(t=>/reconciliation/i.test(t.caption) && t.rows.some(r=>r.some(c=>/FFO available to common stockholders/.test(c))));
  return doc;
 }
+// Income-statement expense lines by name. Costs of revenue, totals, taxes,
+// interest and one-off charges are not operating-expense components.
+const OPEX_LINE=/^(?:ResearchAndDevelopmentExpense(?:ExcludingAcquiredInProcessCost)?|SellingAndMarketingExpense|MarketingExpense|SalesAndMarketingExpense|GeneralAndAdministrativeExpense|SellingGeneralAndAdministrativeExpense|SellingExpense|FulfillmentExpense|TechnologyAndInfrastructureExpense|TechnologyAndContentExpense|TechnologyAndDevelopmentExpense|ProductDevelopmentExpense)$/;
 // The label a company prints for each member, from the filing's own label
 // file. An element name is the filer's internal shorthand ("DdsMember",
 // "Clearingandtransactionfees"); the label is what the filing shows a reader.
@@ -97,7 +104,7 @@ function parseLabels(xml) {
 }
 // Best effort: a filing without a readable label file keeps its segments unlabelled.
 async function attachLabels(doc,base,listing) {
- if(!doc.segments?.length)return doc;
+ if(!doc.segments?.length && !doc.operatingExpenseLines?.length)return doc;
  try {
   listing ||= (await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;
   // Some filers embed the label linkbase in the schema instead of a separate file.
@@ -106,6 +113,7 @@ async function attachLabels(doc,base,listing) {
   if(!file)return doc;
   const labels=parseLabels(String((await axios.get(base+file.name,{headers:HEADERS,timeout:20000,maxContentLength:12*1024*1024,responseType:'text',transformResponse:x=>x})).data));
   for(const f of doc.segments){const value=labels.get(f._original.dimensions[0].member);if(value)f._original.memberLabel=value.slice(0,120);}
+  for(const f of doc.operatingExpenseLines || []){const value=labels.get(f.taxonomy+':'+f.concept);if(value)f._original.conceptLabel=value.slice(0,120);}
  } catch(_) { /* labels are an improvement, never a requirement */ }
  return doc;
 }

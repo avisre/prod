@@ -172,3 +172,30 @@ test('an insurer’s premiums stand in for revenue and are named as such; revenu
         assert.ok(store.segmentMeasure('us-gaap', 'Revenues') && store.segmentMeasure('us-gaap', 'NoninterestIncome') && !store.segmentMeasure('us-gaap', 'CostOfRevenue'));
     } finally { p.verifiedField = original; }
 });
+
+test('revenue cited to an amendment of the same annual report still anchors the breakdown; another filing does not', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        const facts = [fact('Revenues', 'SendTech', 664), fact('Revenues', 'Presort', 336)];
+        const amended = { ...DATA, sources: { rev: { accessionNumber: '0000000001-26-000009', form: '10-K/A' } } };
+        assert.equal(store.extract(facts, amended, FILING).length, 1);
+        const later = { ...DATA, sources: { rev: { accessionNumber: '0000000001-27-000001', form: '10-K' } } };
+        assert.equal(store.extract(facts, later, FILING).length, 0);
+    } finally { p.verifiedField = original; }
+});
+
+test('a bank’s own net-revenue concept is accepted and named; an arbitrary custom concept is not', () => {
+    assert.ok(store.segmentMeasure('bac', 'RevenuesNetOfInterestExpenseFullTaxEquivalentBasis'));
+    assert.ok(!store.segmentMeasure('bac', 'TotalSegmentIncome'));
+    assert.ok(!store.segmentMeasure('us-gaap', 'RevenuesNetOfInterestExpenseSomethingElse'), 'the standard taxonomy is matched by its exact list only');
+});
+
+test('a roll-up member is never a row; segments before eliminations are shown as shares of their own total', () => {
+    const withTotal = { axis: BUSINESS, periodEnd: '2025-12-31', totalRevenue: 1000, entries: [{ member: 'x:HealthBenefitsMember', value: 800 }, { member: 'x:ServicesMember', value: 60 }, { member: 'x:ReportableSegmentAggregationBeforeOtherOperatingSegmentMember', value: 990 }, { member: 'x:OtherMember', value: 30, filedLabel: 'Total' }] };
+    assert.deepEqual(store.shown(withTotal).rows.map(r => r.member), ['x:HealthBenefitsMember', 'x:ServicesMember']);
+    const gross = group(BUSINESS, '2025-12-31', [48, 36, 34]);
+    assert.ok(store.shown(gross).gross && store.shown(gross).usable, '118% of revenue is a real set of segments that sell to each other');
+    assert.ok(!store.shown(group(PRODUCT, '2025-12-31', [48, 36, 34])).usable, 'product lines that over-count are not');
+    assert.ok(!store.shown(group(BUSINESS, '2025-12-31', [90, 80])).usable, 'nor is anything past 160%');
+});

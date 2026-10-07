@@ -133,7 +133,7 @@ test('a stand-in measure is named in the note, and a company with no revenue say
 
 test('operating expenses split into filed components that add back to the total', () => {
     const parts = pageFunction('opexParts', '  function sankey(');
-    const height = v => v / 5; // 5 units of value per pixel
+    const height = v => v / 10; // 10 units of value per pixel
     assert.deepEqual(JSON.parse(JSON.stringify(parts({ researchAndDevelopment: 574, sellingGeneralAndAdministrative: null }, 815, height))),
         [{ label: 'Research & development', v: 574 }, { label: 'Other operating costs', v: 241 }]);
     const both = parts({ researchAndDevelopment: 300, sellingGeneralAndAdministrative: 500 }, 800, height);
@@ -143,6 +143,30 @@ test('operating expenses split into filed components that add back to the total'
     assert.equal(parts({ researchAndDevelopment: 900 }, 800, height), null, 'a component larger than the total is not drawn');
     assert.equal(parts({ researchAndDevelopment: 790 }, 800, height), null, 'one part and a sliver is still one band');
     const thin = parts({ researchAndDevelopment: 400, sellingGeneralAndAdministrative: 300 }, 800, height);
-    assert.equal(thin.length, 2, 'the remainder (20px) is too thin for its own label');
+    assert.equal(thin.length, 2, 'the remainder (10px) is too thin for its own label');
     assert.equal(thin.reduce((n, p) => n + p.v, 0), 800, 'a remainder too thin to label is folded in, not dropped');
+});
+
+test('the filer’s own expense lines are drawn, choosing the set that adds up to the filed total', () => {
+    const parts = pageFunction('opexParts', '  function sankey(');
+    const height = v => v / 2;
+    const amazon = { opexLines: [{ label: 'Fulfillment', value: 1091 }, { label: 'Technology and infrastructure', value: 1085 }, { label: 'Sales and marketing', value: 471 }, { label: 'General and administrative', value: 112 }] };
+    const drawn = parts(amazon, 2805, height);
+    assert.deepEqual(Array.from(drawn, p => p.label), ['Fulfillment', 'Technology and infrastructure', 'Sales and marketing', 'General and administrative', 'Other operating costs']);
+    assert.equal(drawn.reduce((n, p) => n + p.v, 0), 2805, 'the parts always add back to the filed total');
+    // A combined line beside its own halves is never counted twice.
+    const overlap = { opexLines: [{ label: 'Selling, general and administrative', value: 500 }, { label: 'Sales and marketing', value: 300 }, { label: 'General and administrative', value: 200 }, { label: 'Research and development', value: 400 }] };
+    assert.deepEqual(Array.from(parts(overlap, 900, height), p => p.label).sort(), ['General and administrative', 'Research and development', 'Sales and marketing']);
+    assert.equal(parts({ opexLines: [{ label: 'Research and development', value: 2000 }] }, 900, height), null, 'a line larger than the total is not drawn');
+});
+
+test('segments filed before eliminations take their shares from the segment total and say so', () => {
+    const c = breakdown.fromGroups([group(BUSINESS, '2025-12-31', { HealthServices: 480, Benefits: 360, Pharmacy: 340 })], 'T');
+    assert.equal(c.grade, 'complete');
+    assert.equal(c.basis, 'before eliminations');
+    assert.deepEqual(c.rows.map(r => r.share), [40.7, 30.5, 28.8]);
+    assert.match(c.note, /before sales between them are eliminated/);
+    assert.equal(c.remainder, null);
+    assert.equal(breakdown.forPage(c).totalRevenue, 1180, 'the page measures rows against the same base');
+    assert.deepEqual(breakdown.violations(c), []);
 });

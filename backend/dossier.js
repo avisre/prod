@@ -120,8 +120,18 @@ async function currentSegments(seg, sym) {
     const contract = await revenueBreakdown.forSymbol(sym, { text: false, cachedText: fromText }).catch(() => null);
     return contract ? revenueBreakdown.forPage(contract) : readableSegments(seg);
 }
+// The operating-expense lines the filer reports for the statement year, as
+// label and value. Attached on build and on every cached read, like segments.
+async function withExpenseLines(income, sym) {
+    if (!income || !income.periodEnd || process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return income;
+    const evidence = await require('./verified-fundamentals').getCompanyEvidence(sym).catch(() => null);
+    const stored = evidence?.statements?.operatingExpenseLines;
+    if (!stored || stored.periodEnd !== income.periodEnd || stored.currency !== income.currency) return { ...income, opexLines: null };
+    const { label } = require('./ask-inline-segments');
+    return { ...income, opexLines: stored.lines.map(l => ({ label: l.filedLabel || label(l.concept.replace(/Expense$/, '')), value: l.value })) };
+}
 async function refreshValuation(payload, sym, data) {
-    payload = { ...payload, segments: await currentSegments(payload.segments, sym),
+    payload = { ...payload, incomeStatement: await withExpenseLines(payload.incomeStatement, sym), segments: await currentSegments(payload.segments, sym),
         offBalanceSheet: payload.offBalanceSheet || await offBalanceFor(sym) };
     if(!data.marketData?.asOf)return payload;
     const rdcf=reverseDcf.computeFromData(sym,data);
@@ -424,6 +434,7 @@ async function buildDossier(symbol, { force = false, onStage = () => {}, depth =
     let incomeStatement = null;
     try {
         incomeStatement = incomeStmt.repairIncome((((data.income || {}).annualReports) || [])[0]);
+        incomeStatement = await withExpenseLines(incomeStatement, sym);
     } catch (_) { incomeStatement = null; }
 
     // Initiation-grade grounded sections — industry, governance and the forward

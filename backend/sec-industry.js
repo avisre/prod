@@ -1,6 +1,6 @@
 'use strict';
 const p=require('./sec-coverage'),{extract}=require('./sec-facts'),original=require('./sec-original');
-const VERSION='20261007-industry5';
+const VERSION='20261007-industry6';
 // The statement fields the original filing can fill and its segment tables are
 // independent. One statement field failing validation used to discard the whole
 // enrichment, segment tables included (Alphabet, AMD and 70 others had no
@@ -29,6 +29,16 @@ function enrichWith(financial,document,reporting,{asOf=p.day(new Date().toISOStr
  out.industryObservations=(mergeStatements && incoming.industryObservations) || out.industryObservations || [];
  const segments=require('./sec-segment-observations'),groups=segments.extract(document.segments,out,document.originalDocument);
  out.segmentObservations=groups.filter(g=>{if(segments.validGroup(g,out))return true;out.issues.push({code:'UNSUPPORTED_SEGMENT_PROVENANCE',periodEnd:g.periodEnd,reason:'The original segment context or numerical receipt did not pass validation'});return false;});
+ // Operating-expense lines for the latest annual period, each with its receipt.
+ const number=require('./sec-inline-number').number,latest=out.income.annualReports.slice().sort((a,b)=>String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
+ const lines=new Map();
+ for(const f of document.operatingExpenseLines || []) {
+  if(!latest || f.end!==latest.fiscalDateEnding || f.start!==latest.periodStart || f.unit!==latest.reportedCurrency || !(f.val>0) || number(f._original.numericReceipt)!==f.val)continue;
+  const key=f.taxonomy+':'+f.concept,old=lines.get(key);if(old && old.value!==f.val){lines.set(key,null);continue;}
+  if(old!==null)lines.set(key,{concept:f.concept,taxonomy:f.taxonomy,...(f._original.conceptLabel?{filedLabel:f._original.conceptLabel}:{}),value:f.val,contextRef:f._original.contextRef,numericReceipt:f._original.numericReceipt});
+ }
+ const kept=[...lines.values()].filter(Boolean);
+ if(kept.length)out.operatingExpenseLines={periodStart:latest.periodStart,periodEnd:latest.fiscalDateEnding,currency:latest.reportedCurrency,sourceVersion:document.originalDocument.accessionNumber,sourceUrl:document.originalDocument.url,lines:kept};else delete out.operatingExpenseLines;
  out.industryExtraction={version:VERSION,sourceVersion:document.originalDocument.accessionNumber,sourceUrl:document.originalDocument.url,checkedAt:new Date().toISOString(),status:'success',remainingReason:'Only standard mapped concepts and reviewed issuer tables are eligible; unsupported custom disclosures remain explicit gaps'};
  const errors=p.validateFinancial(out,out.cik,asOf);if(errors.length)throw new Error('INVALID_INDUSTRY_EXTRACTION: '+errors[0]);
  return out;
