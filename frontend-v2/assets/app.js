@@ -841,8 +841,8 @@
     // (the value is seen, not described) above one upgrade panel with the plan
     // ladder and a single CTA. Pro users just get a reset note, no upsell.
     const ASK_PLANS = {
-        core: { name: 'Monthly', price: '$49.99', per: '/mo', q: 50 },
-        pro: { name: 'Pro', price: '$499.99', per: '/yr', q: 300 }
+        core: { name: 'Monthly', price: '$79.99', per: '/mo', q: 50 },
+        pro: { name: 'Pro', price: '$799.99', per: '/yr', q: 300 }
     };
     // Anon preview wall: the free questions are spent. The next rung is an
     // email for +2 more verified questions (one POST, no account — see
@@ -866,7 +866,7 @@
               <button class="btn btn-primary" type="submit">Send 2 more →</button>
             </form>
             <p class="small faint ask-trial-msg" style="margin:8px 0 0;" role="status"></p>
-            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start secure checkout — $49.99/month</a>
+            <a class="btn btn-primary ask-wall-cta" href="/register.html?plan=monthly" style="margin-top:14px;">Start secure checkout — $79.99/month</a>
             <p class="small faint" style="margin-top:12px;">Paid-first signup · the initial payment is refundable within 7 days. Already have an account? <a href="/login.html">Log in</a>.
             Or <a href="/verify.html">verify one headline against the filing — free, no account</a>.</p>
           </div>

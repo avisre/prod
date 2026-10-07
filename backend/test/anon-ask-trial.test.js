@@ -21,7 +21,7 @@ test('Anon ask wall copy routes to the email rung and paid checkout — never a 
     const src = backendSource();
     assert.ok(!src.includes('create a free account to keep asking'), 'stale free-account wall copy is gone');
     assert.match(src, /leave your email for/, 'the spent-preview wall offers the email rung');
-    assert.match(src, /\$49\.99\/month/, 'the wall names the paid entry rung');
+    assert.match(src, /\$79\.99\/month/, 'the wall names the paid entry rung');
     assert.match(src, /anon_wall_shown/);
     assert.match(src, /anon_ask_started/);
     assert.match(src, /anon_ask_done/);
@@ -58,11 +58,11 @@ test('Frontend trial wall renders the inline email capture, not a dead-end notic
     assert.doesNotMatch(askTrialWallBody, /register(?:\.html)?\?plan=free/, 'no /register?plan=free links remain in the ask wall');
     assert.match(src, /api\/ask-trial\/email/);
     assert.match(src, /refundable within 7 days/);
-    assert.match(src, /Start secure checkout — \$49\.99\/month/);
+    assert.match(src, /Start secure checkout — \$79\.99\/month/);
     const quotaWall = src.match(/const ASK_PLANS = \{[\s\S]*?\};/)[0];
     assert.ok(!quotaWall.includes('\$0'), 'the unsellable Free — $0/forever card is gone from the ladder');
-    assert.match(quotaWall, /'Monthly', price: '\$49\.99'/);
-    assert.match(quotaWall, /'Pro', price: '\$499\.99'/);
+    assert.match(quotaWall, /'Monthly', price: '\$79\.99'/);
+    assert.match(quotaWall, /'Pro', price: '\$799\.99'/);
 });
 
 test('Homepage leads with Dossier + Monitor — Ask is NOT the primary marketing', () => {

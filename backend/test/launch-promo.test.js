@@ -142,9 +142,9 @@ test('no pricing page hardcodes the launch rate — the copy is runtime-only', (
     // is simply what renders. A hardcoded $8.99 would keep advertising a rate
     // the checkout no longer honours, with no deploy to fix it.
     const surfaces = [
-        ['register.html', /amount: '\$49\.99', cadence: 'per month'/],
-        ['upgrade.html', /fig: '\$49\.99', per: '\/month'/],
-        ['index.html', /\$49\.99<span>\/month<\/span>/]
+        ['register.html', /amount: '\$79\.99', cadence: 'per month'/],
+        ['upgrade.html', /fig: '\$79\.99', per: '\/month'/],
+        ['index.html', /\$79\.99<span>\/month<\/span>/]
     ];
     for (const [page, listPrice] of surfaces) {
         const source = pageSource(page);
@@ -171,16 +171,16 @@ test('the promo copy drops the annual claims it would falsify', () => {
     // to be the cheaper one.
     for (const page of ['register.html', 'upgrade.html']) {
         const fn = promoFn(page);
-        assert.doesNotMatch(fn, /save \$(100|179\.89)|two months free/i, `${page} drops the savings claim while promoted`);
-        assert.match(fn, /35\.00\/month effective/, `${page} keeps the effective-rate framing`);
+        assert.doesNotMatch(fn, /save \$(100|309\.89)|two months free/i, `${page} drops the savings claim while promoted`);
+        assert.match(fn, /54\.17\/month effective/, `${page} keeps the effective-rate framing`);
     }
     // The homepage keeps "save $100" in its shipped markup — the same rule as
     // the price: it is only ever removed at runtime, by the promo branch.
     const home = pageSource('index.html');
-    assert.match(home, /Save \$179\.89 a year<\/strong> — \$35\.00\/month effective versus \$49\.99 monthly/);
+    assert.match(home, /Save \$309\.89 a year<\/strong> — \$54\.17\/month effective versus \$79\.99 monthly/);
     const homePromo = stripComments(home.slice(home.indexOf("var promo = cfg && cfg.monthlyPromo;"),
         home.indexOf("config unreachable: keep the list prices above")));
-    assert.doesNotMatch(homePromo, /save \$(100|179\.89)/i);
-    assert.match(homePromo, /annualWas\.hidden = true/, 'the $599.88 monthly comparison goes too');
-    assert.match(homePromo, /set\('annual-save', 'One payment covers the year — \$35\.00\/month effective'\)/);
+    assert.doesNotMatch(homePromo, /save \$(100|309\.89)/i);
+    assert.match(homePromo, /annualWas\.hidden = true/, 'the $959.88 monthly comparison goes too');
+    assert.match(homePromo, /set\('annual-save', 'One payment covers the year — \$54\.17\/month effective'\)/);
 });

@@ -33,9 +33,9 @@ const SOFTWARE_LD = JSON.stringify({
         offerCount: 5,
         offers: [
             { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Monthly', price: '49.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Annual', price: '419.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Pro', price: '499.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Monthly', price: '79.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '649.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro', price: '799.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Desk', price: '1999.99', priceCurrency: 'USD' }
         ]
     }
@@ -54,7 +54,7 @@ const COMPETITORS = {
         blurb: 'Sharesight is a well-established portfolio tracker focused on performance and tax reporting, popular with investors who want detailed dividend and capital-gains records.',
         theirPrice: 'Free up to 10 holdings; paid tiers roughly $7–$23/month (billed annually).',
         rows: [
-            ['Monthly price', '$49.99/mo or $419.99/yr ($35.00/mo)', '$7–$23/mo (annual billing)'],
+            ['Monthly price', '$79.99/mo or $649.99/yr ($54.17/mo)', '$7–$23/mo (annual billing)'],
             ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free up to 10 holdings'],
             ['Company fundamentals', 'Income, balance sheet & cash flow built in', 'Limited; focus is performance & tax'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes — strong tax & dividend reporting'],
@@ -69,7 +69,7 @@ const COMPETITORS = {
         blurb: 'Stock Rover is a powerful research and screening platform aimed at US investors who want deep screeners, ratings and detailed data tables.',
         theirPrice: 'Free plan available; paid tiers roughly $7–$28/month.',
         rows: [
-            ['Monthly price', '$49.99/mo or $419.99/yr ($35.00/mo)', '$7–$28/mo'],
+            ['Monthly price', '$79.99/mo or $649.99/yr ($54.17/mo)', '$7–$28/mo'],
             ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free plan + paid trials'],
             ['Learning curve', 'Simple, calm, opinionated UI', 'Powerful but dense — lots of screens'],
             ['Company fundamentals', 'Clean income, balance sheet & cash flow', 'Extensive data & screeners'],
@@ -84,7 +84,7 @@ const COMPETITORS = {
         blurb: 'Macrotrends is a long-running free reference site for historical stock charts and financial-statement data, with decades of history on large caps. It is a lookup tool rather than a research workspace.',
         theirPrice: 'Free tier (ad-supported); paid subscription unlocks more data and downloads.',
         rows: [
-            ['Price', 'Free stock pages & screener; $49.99/mo for the full workspace', 'Free tier with ads; paid unlocks downloads'],
+            ['Price', 'Free stock pages & screener; $79.99/mo for the full workspace', 'Free tier with ads; paid unlocks downloads'],
             ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, from SEC filings', 'Long histories, sourced from Zacks'],
             ['AI research assistant', 'Yes — Ask answers from SEC filings, sources shown', 'No'],
             ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, alerts', 'No'],
@@ -99,7 +99,7 @@ const COMPETITORS = {
         blurb: 'StockAnalysis.com is a popular free site for clean stock statistics and financial statements, with a Pro tier for deeper history and exports.',
         theirPrice: 'Free site; Pro about $9.99/month (or $79/year), Unlimited $199/year.',
         rows: [
-            ['Price', 'Free stock pages & screener; $49.99/mo full workspace', 'Free; Pro ~$9.99/mo'],
+            ['Price', 'Free stock pages & screener; $79.99/mo full workspace', 'Free; Pro ~$9.99/mo'],
             ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, from SEC filings', '10+ yrs free, more on Pro'],
             ['AI research assistant', 'Yes — Ask answers from SEC filings, sources shown', 'No'],
             ['Portfolio tracking', 'Yes — holdings, allocation, X-Ray, SEC filing alerts', 'Watchlists'],
@@ -113,7 +113,7 @@ const COMPETITORS = {
         blurb: 'Koyfin is a professional-grade market dashboard with broad asset coverage (equities, macro, FX) aimed at advanced users and advisors.',
         theirPrice: 'Free plan; Plus ~$39/month and Premium ~$79/month (annual billing); advisor tiers from $209/month.',
         rows: [
-            ['Monthly price', '$49.99/mo; Pro with AI analyst + Filing Monitor $499.99/yr', 'Plus ~$39/mo, Premium ~$79/mo (annual)'],
+            ['Monthly price', '$79.99/mo; Pro with AI analyst + Filing Monitor $799.99/yr', 'Plus ~$39/mo, Premium ~$79/mo (annual)'],
             ['Free / trial', 'Free screener & stock pages; paid app starts at signup, refundable within 7 days', 'Free plan with limits'],
             ['Fundamentals depth', 'Up to 19 years, SEC-filed, with health checks', 'Deep, multi-asset, customizable dashboards'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'Limited'],
@@ -127,7 +127,7 @@ const COMPETITORS = {
         blurb: 'Fiscal.ai (formerly FinChat) is an AI-first stock research platform known for KPI datasets and copilot-style chat over company data.',
         theirPrice: 'Free plan; Pro ~$39/month billed annually ($49 monthly); Max ~$79/month billed annually.',
         rows: [
-            ['Monthly price', 'Pro with AI analyst + Filing Monitor $499.99/yr; Core $49.99/mo', 'Pro ~$39/mo, Max ~$79/mo (annual billing)'],
+            ['Monthly price', 'Pro with AI analyst + Filing Monitor $799.99/yr; Core $79.99/mo', 'Pro ~$39/mo, Max ~$79/mo (annual billing)'],
             ['AI grounding', 'Answers only from SEC filings + live web, sources shown; refuses when unsure', 'AI copilot over its datasets'],
             ['Fundamentals depth', 'Up to 19 years annual + 48 quarters, SEC-filed', '10+ yrs, 20+ on Max; segment KPIs'],
             ['Portfolio tracking', 'Yes — holdings, X-Ray, SEC filing alerts', 'Watchlists & dashboards'],
@@ -141,7 +141,7 @@ const COMPETITORS = {
         blurb: 'TIKR is a research terminal built on S&P Capital IQ data, popular for global coverage and superinvestor portfolio tracking.',
         theirPrice: 'Free plan (limited); Plus ~$24.95/month; Pro ~$54.95/month.',
         rows: [
-            ['Monthly price', '$49.99/mo; Pro with AI analyst + Filing Monitor $499.99/yr', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
+            ['Monthly price', '$79.99/mo; Pro with AI analyst + Filing Monitor $799.99/yr', 'Plus ~$24.95/mo, Pro ~$54.95/mo'],
             ['Data source', 'Official SEC filings, refreshed on a rolling schedule', 'S&P Capital IQ (global)'],
             ['AI research assistant', 'Yes — grounded in SEC filings, sources shown', 'No'],
             ['US coverage', 'Every USD-reporting US-listed company, 19 yrs', 'Global, full history on Pro'],
@@ -155,7 +155,7 @@ const COMPETITORS = {
         blurb: 'Simply Wall St is known for its visual "snowflake" company analysis and is popular with investors who like infographic-style research.',
         theirPrice: 'Free plan available; paid roughly $10/month (annual billing).',
         rows: [
-            ['Monthly price', '$49.99/mo or $419.99/yr ($35.00/mo)', '~$10/mo (annual billing)'],
+            ['Monthly price', '$79.99/mo or $649.99/yr ($54.17/mo)', '~$10/mo (annual billing)'],
             ['Free / trial', 'Paid at signup, refundable within 7 days', 'Free plan + paid annual'],
             ['Fundamentals format', 'Real statements: income, balance, cash flow', 'Visual infographics & summaries'],
             ['Portfolio tracking', 'Yes — holdings, allocation, performance', 'Yes'],
@@ -170,7 +170,7 @@ const COMPETITORS = {
         blurb: "WallStreetZen is a stock research platform built around a 115-factor quantitative rating system (Zen Ratings) and transparent analyst performance rankings, aimed at part-time investors who want screeners and due diligence tools.",
         theirPrice: "Free tier (limited screener); Premium $19.50/month when billed yearly ($234/year) or $59/month if paid monthly; 14-day trial for $1.",
         rows: [
-            ["Monthly price (annual plan)","$49.99/mo or $419.99/yr; paid at signup, refundable within 7 days","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
+            ["Monthly price (annual plan)","$79.99/mo or $649.99/yr; paid at signup, refundable within 7 days","~$19.50/mo when paid yearly ($234/yr); $1 trial, 14-day access"],
             ["Fundamentals depth","Up to 19 years annual + 48 quarters, from SEC filings; health checks included","Historical fundamentals + 115-factor Zen Ratings; no explicit statement of years back"],
             ["AI research assistant","Yes — Ask answers from SEC filings, sources shown; refuses when unsure","No AI assistant; offers analyst rankings and due diligence checks instead"],
             ["Analyst ratings & consensus","No analyst consensus or call transcripts included","Ranks 130+ top analysts by historical accuracy, win rate, and returns; shows analyst consensus — a genuine strength"],
@@ -241,10 +241,10 @@ const COMPETITORS = {
         blurb: "Established multi-tier financial platform with global market coverage, portfolio tools, and professional-grade analysis at higher price points.",
         theirPrice: "Bronze $9.95/mo (~$95/yr); Silver ~$24.95/mo (~$239/yr); Gold ~$49.95/mo (~$479/yr) with 20% annual discount",
         rows: [
-            ["Entry Price","$49.99/mo or $419.99/yr ($35.00/mo)","Bronze $9.95/mo (lowest tier)"],
+            ["Entry Price","$79.99/mo or $649.99/yr ($54.17/mo)","Bronze $9.95/mo (lowest tier)"],
             ["Data Depth (History)","Up to 19 years annual + 48 quarters from verified SEC filings (10-K/10-Q)","~40 years downloadable data (Gold tier); breadth unclear, not SEC-verified"],
             ["Geographic Coverage","US equities only, no international","Global coverage + UK studio + 24/5 US market data; supports non-US stocks on US exchanges — a genuine strength"],
-            ["AI/Research","Grounded AI analyst (Pro tier, $499.99/yr) with SEC filing sources; refuses when unsure","Research reports, stock recommendations, Motley Fool Stock Advisor (Gold); analyst estimates & consensus not emphasized"],
+            ["AI/Research","Grounded AI analyst (Pro tier, $799.99/yr) with SEC filing sources; refuses when unsure","Research reports, stock recommendations, Motley Fool Stock Advisor (Gold); analyst estimates & consensus not emphasized"],
             ["Alerts & Monitoring","SEC filing-change alerts (free + paid), holdings & portfolio X-Ray","Premium alerts + advanced portfolio analysis at Bronze tier; broader market monitoring"],
             ["Best For","US-focused value investors wanting auditable SEC-sourced research + filing alerts at low cost","Global traders & multi-asset portfolio managers needing professional tools, analyst research, and 24/5 market data"]
         ]
@@ -267,7 +267,7 @@ function head(title, description, canonical, jsonld) {
 <meta name="twitter:image" content="${OG_IMAGE}" />
 <link rel="icon" href="/Media/icon.png" />
 <link rel="stylesheet" href="/styles.css?v=20260610-1" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-price1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -294,7 +294,7 @@ function head(title, description, canonical, jsonld) {
 }
 
 function nav() {
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261007-connect1"></script><script>V2.nav('compare');</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261007-price1"></script><script>V2.nav('compare');</script>`;
 }
 function footer() {
     return `<footer class="seo-foot"><p><a href="/">Home</a> &middot; <a href="/stocks">All stocks</a> &middot; <a href="/demo" rel="nofollow">Live demo</a> &middot; <a href="/register?plan=monthly">Plans</a></p>
@@ -311,7 +311,7 @@ function renderComparison(slug) {
     // price keeps the words that earn the click; the page body still carries the
     // full price ladder for anyone who lands.
     const title = `stockportfolio.pro vs ${c.name}: Pricing & Features`;
-    const description = `${c.name} alternative? stockportfolio.pro vs ${c.name} on price, SEC-filed fundamentals and portfolio tracking — from $49.99/mo.`;
+    const description = `${c.name} alternative? stockportfolio.pro vs ${c.name} on price, SEC-filed fundamentals and portfolio tracking — from $79.99/mo.`;
     // Was a bare WebPage node. Naming both products as entities and adding
     // breadcrumbs brings these vendor pages up to the same structure the stock
     // comparison and metric pages already use.
@@ -338,7 +338,7 @@ function renderComparison(slug) {
     return head(title, description, canonical, jsonld) + nav() + `
 <main class="seo-wrap">
   <h1 class="seo-h1">stockportfolio.pro vs ${esc(c.name)}</h1>
-  <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>$49.99/month or $419.99/year</strong>.</p>
+  <p class="seo-sub">${esc(c.blurb)} If you&rsquo;re weighing ${esc(c.name)}, here&rsquo;s an honest side-by-side. stockportfolio.pro is a calm, single-screen workflow for long-term investors — holdings, allocation, fundamentals and news in one place for <strong>$79.99/month or $649.99/year</strong>.</p>
   <table class="cmp-table">
     <thead><tr><th>&nbsp;</th><th>stockportfolio.pro</th><th>${esc(c.name)}</th></tr></thead>
     <tbody>${rows}</tbody>

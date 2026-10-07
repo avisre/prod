@@ -4,13 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Create your account — stockportfolio.pro</title>
-  <meta name="description" content="Stripe checkout. Monthly $49.99, Annual $419.99, Pro $499.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
+  <meta name="description" content="Stripe checkout. Monthly $79.99, Annual $649.99, Pro $799.99/year or Desk $1,999.99/year. Request a refund within 7 days." />
   <link rel="canonical" href="https://www.stockportfolio.pro/register" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261007-connect1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261007-price1" />
   <style>
     /* Checkout is a two-column object: what you're buying (left, sticky) and
        what you do next (right). The left column is identical across both
@@ -97,7 +97,7 @@
           <div>
             <span class="sum-label" id="sum-plan-name">Monthly</span>
             <div class="sum-price">
-              <span class="sum-amount" id="sum-amount">$49.99</span>
+              <span class="sum-amount" id="sum-amount">$79.99</span>
               <span class="sum-was" id="sum-was" hidden style="text-decoration:line-through; color:var(--ink-3); font-size:14px; font-weight:500;"></span>
               <span class="sum-cadence" id="sum-cadence">per month</span>
             </div>
@@ -165,7 +165,7 @@
     </div>
   </main>
   <script src="https://js.stripe.com/v3/"></script>
-  <script src="assets/app.js?v=20261007-connect1"></script>
+  <script src="assets/app.js?v=20261007-price1"></script>
   <script src="assets/social.js?v=20260831-paidfirst1"></script>
   <script>
     V2.nav('register');
@@ -179,21 +179,21 @@
         features: ['Three supported US-listed stocks', 'Starting brief within 48 hours of submitting your stocks', 'A Friday email with filing changes, source links and open questions', 'A clear update when there are no new filings', 'Standard Monthly software access included', 'Factual research assistance; no buy or sell recommendations']
       },
       monthly: {
-        name: 'Monthly', amount: '$49.99', cadence: 'per month',
+        name: 'Monthly', amount: '$79.99', cadence: 'per month',
         note: 'Charged today through Stripe. Cancel anytime.',
         cta: 'Continue to secure checkout',
         features: ['Up to 19 years of statements and 48 quarters on covered US-listed filers', 'Ratios, health checks and growth records computed for you', 'Peer comparison and side-by-side company compare', 'Portfolio tracker, watchlist and SEC filing alerts', '50 Ask questions a month, every answer sourced', 'CSV export of any table']
       },
       annual: {
-        name: 'Annual', amount: '$419.99', cadence: 'per year',
-        note: 'Billed today, renews yearly. Save $179.89 a year versus monthly.',
+        name: 'Annual', amount: '$649.99', cadence: 'per year',
+        note: 'Billed today, renews yearly. Save $309.89 a year versus monthly.',
         cta: 'Continue to annual checkout',
-        features: ['Everything in the Monthly plan', 'Save $179.89 a year vs monthly — $35.00/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
+        features: ['Everything in the Monthly plan', 'Save $309.89 a year vs monthly — $54.17/month effective', 'One renewal a year, nothing else to think about', 'Upgrade to Pro anytime, prorated']
       },
       // Pro monthly is retired — the picker's Pro card is pro-annual, and a
       // ?plan=pro URL is remapped to it above (RETIRED_PLAN_REMAP).
       'pro-annual': {
-        name: 'Pro', amount: '$499.99', cadence: 'per year',
+        name: 'Pro', amount: '$799.99', cadence: 'per year',
         note: 'Billed today, renews yearly — the analyst tier with the Filing Change Monitor. Everything in Monthly, plus the AI analyst.',
         cta: 'Continue to Pro checkout',
         features: ['Everything in Pro, billed once a year', '300 Ask questions a month, with charts and tables', 'Filing Change Monitor — every watchlist filing, read for you', 'Wash-sale guard across accounts and brokers', 'Filing Diff, smart alerts and daily attribution', 'Weekly portfolio briefing, every Monday']
@@ -231,7 +231,7 @@
       }
     };
     // Purchase values are reported in the actual charged currency: USD.
-    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 49.99, annual: 419.99, pro: 79.99, 'pro-annual': 499.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
+    const PLAN_VALUE = { 'filing-watch': 49, free: 0, monthly: 79.99, annual: 649.99, pro: 79.99, 'pro-annual': 799.99, power: 1499.99, 'power-monthly': 149.99, desk: 1999.99, dev: 19.99 };
     // Premium plans sold via direct links (outreach): charged today, no trial.
     // Dev joins them: it is reached from /api, and a developer who arrived to
     // buy API access should see that checkout and nothing else.
@@ -276,7 +276,7 @@
     // September launch rate. The offer itself lives on the server — a Stripe
     // coupon that makes the monthly charge $8.99 (LAUNCH_PROMO_* in
     // backend/app.js) — and /stripe/config reports it only while the window is
-    // open, so this copy reverts to $49.99 on its own on Oct 1 with no deploy.
+    // open, so this copy reverts to $79.99 on its own on Oct 1 with no deploy.
     // Nothing here decides a price: it mirrors what Stripe is about to charge.
     const PLANS_AT_LIST_PRICE = {
       monthly: { amount: PLANS.monthly.amount, note: PLANS.monthly.note },
@@ -287,7 +287,7 @@
       const list = PLANS_AT_LIST_PRICE;
       // No promo (or unreadable config): show the list price. A failed fetch
       // never reaches here at all, so the page can't advertise a rate the
-      // checkout won't honour — it just keeps the $49.99 it shipped with.
+      // checkout won't honour — it just keeps the $79.99 it shipped with.
       if (!promo || !promo.price) {
         PLANS.monthly.amount = list.monthly.amount;
         PLANS.monthly.was = '';
@@ -312,7 +312,7 @@
       PLANS.annual.note = 'Billed today, renews yearly.';
       PLANS.annual.features = [
         'Everything in the Monthly plan',
-        'One payment covers the full year — $35.00/month effective',
+        'One payment covers the full year — $54.17/month effective',
         'One renewal a year, nothing else to think about',
         'Upgrade to Pro anytime, prorated'
       ];

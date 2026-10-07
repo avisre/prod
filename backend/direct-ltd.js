@@ -84,6 +84,18 @@ function enabled(env = process.env) {
   return String(env.DIRECT_LTD_ENABLED || 'false').toLowerCase() === 'true';
 }
 
+// Direct lifetime SALES were retired on 2026-10-07: we no longer sell a
+// lifetime plan ourselves (AppSumo is the only lifetime channel). This is a
+// code constant rather than DIRECT_LTD_ENABLED=false because that flag also
+// gates the webhook, refund and licence paths that people who ALREADY bought
+// still depend on. salesOpen() is read only by the surfaces that sell — the
+// public config, the two checkout routes and the pricing experiment — so
+// turning sales off cannot take anything away from an existing buyer.
+const SALES_RETIRED = true;
+function salesOpen(env = process.env) {
+  return !SALES_RETIRED && enabled(env);
+}
+
 /**
  * Test mode routes direct-LTD checkout at Stripe's TEST account/keys instead
  * of the live sk_live path, so a real end-to-end purchase can be exercised
@@ -322,7 +334,7 @@ function publicTiers(env = process.env) {
 module.exports = {
   TIERS, TIER_NUMBERS, CHANNEL, CHECKOUT_TYPE, USD,
   PriceFloorViolation,
-  enabled, refundDays, testModeEnabled, tierConfig, normalizeTier,
+  enabled, salesOpen, SALES_RETIRED, refundDays, testModeEnabled, tierConfig, normalizeTier,
   appsumoReferenceUsd, assertPriceFloor, assertAllPriceFloors, priceFloorsOk,
   priceIdFor, tierFromPriceId, validateStripePrice,
   mintLicenseKey, isDirectLicenseKey, unitAmountFor, publicTiers

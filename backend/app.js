@@ -699,22 +699,23 @@ const FREE_PLAN_ID = 'free';
 // These defaults mirror the active self-serve Stripe prices. Environment
 // variables remain the source of truth when prices are intentionally changed.
 // 2026-08-31 Jobs cut: four prices a visitor can buy —
-// $24.99/mo · $199.99/yr · Pro $499.99/yr · Desk $1,999.99/yr (Monthly was
-// repriced to $49.99 and Annual to $419.99 — 30% off twelve months — on
-// 2026-10-06; earlier subscribers are grandfathered via
-// LEGACY_MONTHLY_2499_PRICE_ID / LEGACY_ANNUAL_19999_PRICE_ID). The Pro and
+// $24.99/mo · $199.99/yr · Pro $499.99/yr · Desk $1,999.99/yr. Monthly went to
+// $49.99 and Annual to $419.99 on 2026-10-06, then on 2026-10-07 Monthly to
+// $79.99, Annual to $649.99 (about 32% off twelve months) and Pro to $799.99;
+// Dev and Desk did not move. Earlier subscribers are grandfathered via the
+// LEGACY_*_PRICE_ID constants below. The Pro and
 // Power rungs are retired from the menus (legacy subscribers keep their
 // legacy price ids at the old amounts via LEGACY_PLAN_PRICE_SPECS below).
 // DEPLOY GATE: the matching active Stripe prices (same product, amount and
 // interval) must exist and STRIPE_PRICE_ID_* must point at them before this
 // ships — resolveStripeCheckoutPlan refuses to sell a plan whose Stripe price
 // doesn't match, so an early deploy fails safe but sells nothing.
-const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '49.99');
+const CORE_PLAN_PRICE = parseFloat(process.env.CORE_PLAN_PRICE || '79.99');
 const CORE_PLAN_CURRENCY = process.env.CORE_PLAN_CURRENCY || 'USD';
-const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '419.99');
+const ANNUAL_PLAN_PRICE = parseFloat(process.env.ANNUAL_PLAN_PRICE || '649.99');
 const ANNUAL_PLAN_CURRENCY = process.env.ANNUAL_PLAN_CURRENCY || CORE_PLAN_CURRENCY;
 const PRO_PLAN_PRICE = parseFloat(process.env.PRO_PLAN_PRICE || '79.99'); // retired rung — legacy only
-const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '499.99');
+const PRO_ANNUAL_PLAN_PRICE = parseFloat(process.env.PRO_ANNUAL_PLAN_PRICE || '799.99');
 // Premium Filing Monitor tiers — both unlock the full Pro feature set; differ
 // only by price, positioning and support. USD, billed yearly.
 const POWER_PLAN_ID = 'power';
@@ -807,7 +808,7 @@ const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP 
 const LAUNCH_PROMO_COUPON_ID = process.env.LAUNCH_PROMO_COUPON_ID || '';
 const LAUNCH_PROMO_UNTIL = process.env.LAUNCH_PROMO_UNTIL || '';
 const LAUNCH_PROMO_PRICE = process.env.LAUNCH_PROMO_PRICE || '8.99';
-const LAUNCH_PROMO_LIST_PRICE = process.env.LAUNCH_PROMO_LIST_PRICE || '49.99';
+const LAUNCH_PROMO_LIST_PRICE = process.env.LAUNCH_PROMO_LIST_PRICE || '79.99';
 
 // A bare date means "through the end of that day, UTC" — so 2026-09-30 keeps
 // the offer up for all of the last day of September. A full timestamp is taken
@@ -843,7 +844,7 @@ function launchPromoActive(now = Date.now()) {
 // corresponding *_PLAN_PRICE; test/dev-plan.test.js pins the Dev one so the two
 // can't drift.
 //
-// Dev's entry differs from Monthly's in amount alone ($19.99 vs $49.99), and
+// Dev's entry differs from Monthly's in amount alone ($19.99 vs $79.99), and
 // that is what makes it resolvable: the matcher below is amount+currency+
 // interval+product, so a unique amount identifies the price without needing a
 // distinct product name. Keep the amount unique in the account — a second
@@ -851,9 +852,9 @@ function launchPromoActive(now = Date.now()) {
 // to sell (the safe failure, but still a failure).
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [FILING_WATCH_PLAN_ID]: { amount: 49, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [MONTHLY_PLAN_ID]: { amount: 49.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
-  [ANNUAL_PLAN_ID]: { amount: 419.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
-  [PRO_ANNUAL_PLAN_ID]: { amount: 499.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [MONTHLY_PLAN_ID]: { amount: 79.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
+  [ANNUAL_PLAN_ID]: { amount: 649.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
+  [PRO_ANNUAL_PLAN_ID]: { amount: 799.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' },
   [DEV_PLAN_ID]: { amount: 19.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' }
 });
@@ -875,12 +876,33 @@ const LEGACY_PLAN_PRICE_SPECS = Object.freeze({
 });
 // Monthly was $24.99 until 2026-10-06. The owner sets this to that Stripe
 // Price ID so its subscribers keep resolving to Monthly at the amount Stripe
-// actually charges them, rather than displaying the new $49.99 list price.
+// actually charges them, rather than displaying the current list price.
 const LEGACY_MONTHLY_2499_PRICE_ID = process.env.LEGACY_STRIPE_PRICE_ID_MONTHLY_2499 || '';
 const LEGACY_MONTHLY_2499_PRICE = 24.99;
-// Annual was $199.99 until 2026-10-06 (now 30% off twelve months of Monthly).
+// Annual was $199.99 until 2026-10-06.
 const LEGACY_ANNUAL_19999_PRICE_ID = process.env.LEGACY_STRIPE_PRICE_ID_ANNUAL_19999 || '';
 const LEGACY_ANNUAL_19999_PRICE = 199.99;
+// The 2026-10-06 ladder ($49.99 / $419.99) and the 8/31 Pro price ($499.99)
+// were replaced on 2026-10-07. Their Stripe prices stay ACTIVE so anyone on
+// them keeps the rate; these ids make such a subscription resolve to its plan
+// at the amount Stripe actually charges. The ids are code defaults, not only
+// env vars, because a price id is a public identifier (the browser sees it at
+// checkout) and a grandfather rule that needs a Render change to exist is one
+// that silently does not exist.
+const LEGACY_REPRICED_20261007 = Object.freeze([
+  { planId: MONTHLY_PLAN_ID, price: 49.99, priceId: process.env.LEGACY_STRIPE_PRICE_ID_MONTHLY_4999 || 'price_1UNLH3AUeKapY1OPrVGTZMdD' },
+  { planId: ANNUAL_PLAN_ID, price: 419.99, priceId: process.env.LEGACY_STRIPE_PRICE_ID_ANNUAL_41999 || 'price_1UNLTuAUeKapY1OPkAGOVUJI' },
+  { planId: PRO_ANNUAL_PLAN_ID, price: 499.99, priceId: process.env.LEGACY_STRIPE_PRICE_ID_PRO_ANNUAL_49999 || 'price_1UAcD5AUeKapY1OPdN21eUjX' }
+]);
+// The prices the 2026-10-07 ladder sells on. resolveStripeCheckoutPlan finds
+// them by product + amount + interval whatever STRIPE_PRICE_ID_* says, so a
+// renewal can arrive carrying an id no env var names; this keeps that id
+// resolving to its plan instead of falling through to null.
+const CURRENT_REPRICED_20261007 = Object.freeze([
+  { planId: MONTHLY_PLAN_ID, priceId: 'price_1UNszxAUeKapY1OPEr0yxh1S' },
+  { planId: ANNUAL_PLAN_ID, priceId: 'price_1UNszxAUeKapY1OP1glIJtcG' },
+  { planId: PRO_ANNUAL_PLAN_ID, priceId: 'price_1UAUOfAUeKapY1OP0cr1G3pD' }
+]);
 const SELF_SERVE_PRICE_LOOKUP_TTL_MS = 5 * 60 * 1000;
 
 // China wallet checkout (Alipay / WeChat Pay). Both are structurally
@@ -1216,7 +1238,7 @@ function normalizePlanSelection(value) {
   }
   // Checked BEFORE the monthly fallback below: `normalizePlanSelection` returns
   // MONTHLY_PLAN_ID for anything unrecognised, so an unhandled 'dev' would
-  // silently sell a $49.99 Monthly subscription to a developer who clicked the
+  // silently sell a $79.99 Monthly subscription to a developer who clicked the
   // API plan — the wrong product at the wrong price, with no error.
   if (plan === DEV_PLAN_ID || plan === 'developer' || plan === 'api') {
     return DEV_PLAN_ID;
@@ -1410,6 +1432,7 @@ function ambiguousStripePriceIds() {
   }
   claim(LEGACY_MONTHLY_2499_PRICE_ID, MONTHLY_PLAN_ID);
   claim(LEGACY_ANNUAL_19999_PRICE_ID, ANNUAL_PLAN_ID);
+  for (const entry of [...LEGACY_REPRICED_20261007, ...CURRENT_REPRICED_20261007]) claim(entry.priceId, entry.planId);
   const shared = new Set();
   for (const [priceId, planIds] of plansByPriceId) {
     if (planIds.size > 1) shared.add(priceId);
@@ -1432,6 +1455,12 @@ function getPlanConfigByPriceId(priceId) {
   }
   if (priceId && LEGACY_ANNUAL_19999_PRICE_ID && priceId === LEGACY_ANNUAL_19999_PRICE_ID) {
     return { ...getPlanConfig(ANNUAL_PLAN_ID), stripePriceId: priceId, price: LEGACY_ANNUAL_19999_PRICE };
+  }
+  if (priceId) {
+    const legacy = LEGACY_REPRICED_20261007.find((entry) => entry.priceId === priceId);
+    if (legacy) return { ...getPlanConfig(legacy.planId), stripePriceId: priceId, price: legacy.price };
+    const current = CURRENT_REPRICED_20261007.find((entry) => entry.priceId === priceId);
+    if (current) return { ...getPlanConfig(current.planId), stripePriceId: priceId };
   }
   if (priceId) {
     for (const [planId, legacy] of Object.entries(LEGACY_PLAN_PRICE_SPECS)) {
@@ -2146,7 +2175,7 @@ const HTML_TWIN_REDIRECTS = {
     '/verify.html': '/verify', '/company.html': '/company', '/compare-dossiers.html': '/compare-dossiers',
     '/dossier.html': '/dossier', '/appsumo.html': '/appsumo', '/partners.html': '/partners',
     '/partners-apply.html': '/partners-apply', '/features.html': '/features', '/gurus.html': '/gurus',
-    '/lifetime.html': '/lifetime', '/sitemap.html': '/sitemap', '/tour.html': '/tour', '/zh.html': '/zh',
+    '/sitemap.html': '/sitemap', '/tour.html': '/tour', '/zh.html': '/zh',
     // Route-only twins: served by a dual-path route array with no file on disk,
     // so a file-derived list can never see them. Both answered 200 alongside
     // their clean route when measured live 2026-09-28, and /verify-ledger is in
@@ -2747,7 +2776,14 @@ const staticCacheHeaders = (res, filePath) => {
 // /appsumo below) so the path is stable regardless of static-middleware
 // resolution rules. Prices are rendered client-side from /api/lifetime/config
 // so the page can never drift from the tier definitions in direct-ltd.js.
-app.get('/lifetime', (req, res, next) => {
+app.get(/^\/lifetime(?:-checkout)?(?:\.html)?$/, (req, res, next) => {
+    // Sales retired 2026-10-07 (direct-ltd.js SALES_RETIRED): every spelling of
+    // both lifetime pages sends the visitor to the plans that are sold. One
+    // regex route rather than an array, because lifetime.html is now noindex
+    // and so has no row in HTML_TWIN_REDIRECTS. The html files stay in the repo
+    // so flipping the constant back restores the pages.
+    if (!directLtd.salesOpen()) return res.redirect(301, '/#pricing');
+    if (req.path !== '/lifetime') return next();
     res.setHeader('Cache-Control', 'no-cache');
     res.sendFile(path.join(__dirname, '../frontend-v2/lifetime.html'), (error) => {
         if (error && !res.headersSent) next(error);
@@ -2931,7 +2967,7 @@ app.get('/verify-ledger', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-price1" />
 <style>
   .ledger-wrap { max-width: 980px; }
   .ledger-head { padding: 56px 0 8px; }
@@ -2960,7 +2996,7 @@ app.get('/verify-ledger', async (req, res) => {
   <div class="ledger-cta"><strong>See a headline about a stock?</strong> <a href="/verify">Check it against the filing — free, no account &rarr;</a></div>
   <p class="ledger-foot muted">Source: Company SEC filings (10-K), stockportfolio.pro fundamentals cache. Figures as filed &mdash; verify in the filing before acting. Not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-connect1"></script>
+<script src="/assets/app.js?v=20261007-price1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3052,7 +3088,7 @@ app.get('/filing-changes', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-price1" />
 <style>
   .fc-wrap { max-width: 980px; }
   .fc-head { padding: 56px 0 8px; }
@@ -3080,7 +3116,7 @@ app.get('/filing-changes', async (req, res) => {
   <div class="fc-cta"><strong>Want this for your whole watchlist, with the what-changed narrative?</strong> <a href="/monitor">Try the Filing Change Monitor — free for 3 stocks, no account &rarr;</a></div>
   <p class="fc-foot muted">Source: Company SEC filings (10-K / 10-Q / 8-K), stockportfolio.pro Filing Change Monitor. Numeric differences are computed from comparable filed periods. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-connect1"></script>
+<script src="/assets/app.js?v=20261007-price1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -3188,7 +3224,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-price1" />
 <script type="application/ld+json">${jsonLd}</script>
 <style>
   .fd-wrap { max-width: 820px; }
@@ -3221,7 +3257,7 @@ app.get('/filing-changes/:symbol', async (req, res) => {
   </div>
   <p class="fd-foot muted">${esc(p.note || 'Quotes are verbatim from the filing named above.')} Source: company SEC filings via stockportfolio.pro. Educational, not investment advice.</p>
 </main>
-<script src="/assets/app.js?v=20261007-connect1"></script>
+<script src="/assets/app.js?v=20261007-price1"></script>
 <script>window.V2.nav(''); window.V2.footer();</script>
 </body></html>`;
     res.send(html);
@@ -4953,7 +4989,7 @@ async function resolveDirectLtdPrice(tier) {
 
 async function createDirectLtdCheckoutSession(user, tier, extraMetadata = {}) {
     if (!directLtdStripe) throw createHttpError(500, 'Stripe is not configured');
-    if (!directLtd.enabled()) throw createHttpError(503, 'Direct lifetime purchase is not enabled.');
+    if (!directLtd.salesOpen()) throw createHttpError(503, 'Direct lifetime purchase is not enabled.');
     const cfg = directLtd.tierConfig(tier);
     if (!cfg) throw createHttpError(400, 'Unknown lifetime tier');
 
@@ -5343,7 +5379,7 @@ async function createCheckoutSessionForUser(user, extraMetadata = {}) {
         client_reference_id: subjectRef,
         // Referral codes (GATTOMORTO et al.) are entered on this screen — the
         // coupon takes $24.99 off the first invoice, once (so $25.00 is charged on
-        // the $49.99 Monthly plan). The one-off CNY and
+        // the $79.99 Monthly plan). The one-off CNY and
         // credit-recharge sessions deliberately don't allow codes.
         ...(launchPromoApplied ? { discounts: [{ coupon: LAUNCH_PROMO_COUPON_ID }] } : { allow_promotion_codes: !filingSeat }),
         ...(filingSeat ? { expires_at: Math.floor(Date.now() / 1000) + 3600 } : {}),
@@ -8408,9 +8444,9 @@ app.post('/api/checkout/china', authMiddleware, async (req, res) => {
 app.get('/api/lifetime/config', (req, res) => {
     res.set('Cache-Control', 'no-store');
     res.json({
-        enabled: directLtd.enabled() && directLtd.priceFloorsOk(),
+        enabled: directLtd.salesOpen() && directLtd.priceFloorsOk(),
         currency: directLtd.USD,
-        tiers: directLtd.publicTiers(),
+        tiers: directLtd.salesOpen() ? directLtd.publicTiers() : [],
         refundDays: directLtd.refundDays()
     });
 });
@@ -8421,7 +8457,9 @@ app.get('/api/lifetime/config', (req, res) => {
 // mode can never be reported as 'ltd_only').
 app.get('/api/pricing/experiment', (req, res) => {
     res.set('Cache-Control', 'no-store');
-    const mode = pricingExperiment.mode();
+    // The experiment sells the direct lifetime tiers, so it cannot run while
+    // those sales are retired, whatever PRICING_EXPERIMENT_MODE says.
+    const mode = directLtd.salesOpen() ? pricingExperiment.mode() : 'off';
     res.json({
         mode,
         revertsAt: pricingExperiment.revertsAt(),
@@ -8431,6 +8469,7 @@ app.get('/api/pricing/experiment', (req, res) => {
 });
 
 app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
+    if (!directLtd.salesOpen()) return res.status(410).json({ message: 'The lifetime plan is no longer sold.', code: 'LIFETIME_RETIRED' });
     const tier = directLtd.normalizeTier(req.body?.tier);
     if (!tier) {
         return res.status(400).json({ message: 'Choose a lifetime tier.', code: 'LIFETIME_TIER_INVALID' });
@@ -8479,6 +8518,8 @@ app.post('/api/checkout/lifetime', authMiddleware, async (req, res) => {
 // LTD-specific logic. Returns a clientSecret for Stripe's embedded checkout,
 // exactly like /api/subscribe does for card-required subscription plans.
 app.post('/api/lifetime/signup', subscribeLimiter, async (req, res) => {
+    // Refuse before anything is written: this route creates an account.
+    if (!directLtd.salesOpen()) return res.status(410).json({ message: 'The lifetime plan is no longer sold.', code: 'LIFETIME_RETIRED' });
     const { email, password } = req.body || {};
     if (String(req.body?.website || '').trim()) {
         return res.status(200).json({ ok: true });
@@ -9414,12 +9455,12 @@ async function anonAskHandler(req, res) {
     };
     if (visitorUsed >= limit) {
         return res.status(429).json(wall(bonusUsed
-            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $49.99, or $419.99 a year.`
-            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $49.99, or $419.99 a year.`));
+            ? `That was all ${ANON_ASK_LIMIT + ASK_TRIAL_BONUS} free questions — the full analyst is 50 a month from $79.99, or $649.99 a year.`
+            : `That's your ${ANON_ASK_LIMIT} free ${ANON_ASK_LIMIT === 1 ? 'question' : 'questions'} — leave your email for ${ASK_TRIAL_BONUS} more, or start the full plan: 50 questions a month from $79.99, or $649.99 a year.`));
     }
     if (ipUsed >= ANON_ASK_IP_DAY || _anonAsk.global >= ANON_ASK_GLOBAL_DAY) {
         trackFunnel('anon_wall_shown', null, null, { bonus: bonusUsed, reason: 'busy', limit });
-        return res.status(429).json({ message: 'The free preview is busy right now — try again later, or start the full plan from $49.99/month.', code: 'ASK_TRIAL', trial: true,
+        return res.status(429).json({ message: 'The free preview is busy right now — try again later, or start the full plan from $79.99/month.', code: 'ASK_TRIAL', trial: true,
             quota: { used: limit, limit, remaining: 0 } });
     }
     // cost is incurred on the call → count the IP/global attempt now; the
@@ -9514,7 +9555,7 @@ app.post('/api/ask-trial/email', askTrialEmailLimiter, async (req, res) => {
                 to: email,
                 subject: 'Your 2 more Ask questions — verify in one click',
                 text: `Confirm this address and ${ASK_TRIAL_BONUS} more free Ask questions unlock in your browser, grounded in the actual SEC filings:\n\n${verifyUrl}\n\nThis link works for 3 days. No account is created; you can start the full paid plan anytime at ${PUBLIC_APP_URL}/register.html.\n\nStockPortfolio.pro — support@stockportfolio.pro`,
-                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#726e65;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $49.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
+                html: `<p>Confirm this address and <strong>${ASK_TRIAL_BONUS} more free Ask questions</strong> unlock in your browser — every answer grounded in the actual SEC filings, with the source attached.</p><p><a href="${verifyUrl}">Unlock ${ASK_TRIAL_BONUS} more questions →</a></p><p style="color:#726e65;font-size:13px">This link works for 3 days. No account is created. Paid plans start at $79.99/month with 50 questions a month and a 7-day refund on the initial payment. — StockPortfolio.pro</p>`
             });
         }
         trackFunnel('anon_email_captured', null, null, { leadId: lead ? String(lead._id) : null, hadClaim: Boolean(visitorUsed), mailer: isMailerConfigured() ? 'smtp' : 'skipped' });

@@ -73,5 +73,5 @@ test('the frontend renders a partial and keeps polling until the full dossier la
 
 test('the frontend asset stamp is bumped for the progressive change', () => {
     const html = fs.readFileSync(path.join(__dirname, '..', '..', 'frontend-v2', 'dossier.html'), 'utf8');
-    assert.match(html, /dossier\.js\?v=20261007-connect1/, 'the dossier.js cache stamp must change whenever the asset does');
+    assert.match(html, /dossier\.js\?v=20261007-price1/, 'the dossier.js cache stamp must change whenever the asset does');
 });

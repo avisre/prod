@@ -76,6 +76,32 @@ sentence; shown in both views (`offBalanceHtml`). Ask has no tool for it. 20-F f
 Asset stamp `20261007-breakdown4`.
 
 
+## 2026-10-07 — new price ladder, direct lifetime sales retired, /connect (stamp `20261007-price1`)
+- **Ladder: Dev $19.99 · Monthly $79.99 · Annual $649.99 · Pro $799.99/yr · Desk $1,999.99.** Dev and Desk did
+  not move. Annual is $54.17/mo effective, saves $309.89, "32% off". Owner decision; nothing was measured —
+  Monthly had been $49.99 for one day and no subscription existed on any replaced price.
+- **Stripe (live, done):** created `price_1UNszxAUeKapY1OPEr0yxh1S` (79.99/mo) and
+  `price_1UNszxAUeKapY1OP1glIJtcG` (649.99/yr); Pro reuses the 8/31 `price_1UAUOfAUeKapY1OP0cr1G3pD`
+  (799.99/yr). **Archived** `price_1UAUOoAUeKapY1OPKtXHogz4` (the retired Pro-monthly 79.99, zero subs) so each
+  amount has exactly one active match. The 49.99 / 419.99 / 499.99 prices stay ACTIVE and are grandfathered
+  by id in `LEGACY_REPRICED_20261007` (code defaults — no Render change needed).
+- **`resolveStripeCheckoutPlan` does NOT fail closed on a mismatch.** With zero or two active matches it
+  returns the config unchanged, i.e. the stale `STRIPE_PRICE_ID_*` from Render at the OLD amount. Exactly one
+  active Stripe price per amount is what keeps checkout honest; re-run the matcher replay before any reprice.
+- **Top-up now undercuts Pro per credit** ($0.100 vs $0.111). Copy on /recharge was made true; the top-up
+  price itself is an open owner decision.
+- **Direct lifetime sales are OFF in code:** `direct-ltd.js` `SALES_RETIRED` → config disabled, both
+  checkout routes 410, `/lifetime*` 301 → `/#pricing`, out of the sitemap, page noindex. `enabled()` and
+  `DIRECT_LTD_ENABLED` are untouched because webhooks/refunds for existing buyers read them. /appsumo untouched.
+- **`/connect`** is the landing page for the Claude and ChatGPT directory listings (hero badge + `#connect`
+  section on the homepage, footer link). Listing URLs live ONLY in `lib/connector-listings.js`: Claude's is
+  the known slug, never seen loading from outside; **ChatGPT's is not recorded** (set `CHATGPT_LISTING_URL`).
+  Outreach drafts, nothing sent: `docs/growth/connector-launch-2026-10-07.md`.
+- Suite: **6 failures pre-exist on `main`** with a proper `npm ci` (mcp-apps, metric-ownership, money-formatter,
+  reasoning-effort-coupling, reliability-guard), untriaged. Borrowing `node_modules` from the stale `~/prod`
+  tree adds ten fake ones (no `htmlparser2`). A stray `*.html` in `frontend-v2/` fails
+  `legacy-html-redirects` — never write temp files there.
+
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use
   `mongodb://127.0.0.1:27017/<scratch>`.
@@ -154,7 +180,7 @@ incumbents hold them; EDGAR/XBRL-derived moats are copyable. Strongest near-miss
 track-record registry), viable only reframed at $49–149/mo self-serve; never panel-tested in that form.
 `notes/2026-10-02-breakthrough-product-hunt-result.md`.
 
-**OpenAI ChatGPT plugin directory — SUBMITTED 10/01, "In review"; package-side items all DONE.**
+**OpenAI ChatGPT plugin directory — owner reports APPROVED AND PUBLIC (10/07), not independently verified.**
 Surface is `POST /mcp/apps` (`backend/mcp-apps.js` + `backend/mcp-financials.js`), 7 read-only intent tools.
 Package: `OPENAI_PLUGIN_SUBMISSION.md`; design note: `notes/2026-09-29-openai-plugin-architecture.md`.
 - **Live checks:** `scripts/verify-mcp-apps.js --review-cases` = **23/23** against production (re-run after
@@ -179,7 +205,7 @@ Package: `OPENAI_PLUGIN_SUBMISSION.md`; design note: `notes/2026-09-29-openai-pl
 Submit at **claude.ai/directory/manage** (the Console form is retired).
 - **Plugin bundle — `Publish requested`**; repo public, MIT, `claude plugin validate .` passes. **Do not press
   `Cancel review`.**
-- **MCP connector — `In review`**, listing slug **`stockportfolio`** (permanent). The portal only re-reads a
+- **MCP connector — `Published` (10/07, community connector)**, listing slug **`stockportfolio`** (permanent). The portal only re-reads a
   tool list on reconnect, not on reload.
 - **Auth is declared `Required when the server asks` + DCR** — honest (the free tier is real), but a directory
   user is not forced to sign in. One click on Settings changes it to `Always required`.

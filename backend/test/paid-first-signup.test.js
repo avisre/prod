@@ -35,26 +35,27 @@ test('retired rungs keep legacy pricing but cannot be freshly purchased', () => 
   // (LEGACY_PLAN_PRICE_SPECS at the old amounts) but are unsellable: they are
   // absent from the new-sale checkout spec map entirely.
   assert.match(appSource, /LEGACY_PLAN_PRICE_SPECS/);
-  assert.doesNotMatch(appSource, /\[PRO_ANNUAL_PLAN_ID\]: \{ amount: 799\.99/);
+  // Pro annual is back at $799.99 as of 2026-10-07 (it was cut to $499.99 on 8/31).
+  assert.match(appSource, /\[PRO_ANNUAL_PLAN_ID\]: \{ amount: 799\.99/);
   assert.doesNotMatch(appSource, /\[POWER_PLAN_ID\]: \{ amount: 1499\.99/);
   assert.match(appSource, /LEGACY_STRIPE_PRICE_ID_POWER_MONTHLY/);
 });
 
 test('the four-rung menu prices hold across homepage, register, upgrade, dossier and terms', () => {
-  assert.match(registerSource, /amount: '\$49\.99', cadence: 'per month'/);
-  assert.match(registerSource, /amount: '\$419\.99', cadence: 'per year'/);
-  assert.match(registerSource, /'pro-annual': \{\s*\n\s*name: 'Pro', amount: '\$499\.99', cadence: 'per year'/);
+  assert.match(registerSource, /amount: '\$79\.99', cadence: 'per month'/);
+  assert.match(registerSource, /amount: '\$649\.99', cadence: 'per year'/);
+  assert.match(registerSource, /'pro-annual': \{\s*\n\s*name: 'Pro', amount: '\$799\.99', cadence: 'per year'/);
   assert.match(registerSource, /\$1,999\.99', cadence: 'per year'/);
   assert.doesNotMatch(registerSource, /amount: '\$39\.99'/);
-  assert.match(homepageSource, /\$49\.99<span>\/month<\/span>/);
-  assert.match(homepageSource, /\$419\.99<span>\/year<\/span>/);
-  assert.match(homepageSource, /\$499\.99<span>\/year<\/span>/);
+  assert.match(homepageSource, /\$79\.99<span>\/month<\/span>/);
+  assert.match(homepageSource, /\$649\.99<span>\/year<\/span>/);
+  assert.match(homepageSource, /\$799\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /\$1,999\.99<span>\/year<\/span>/);
   assert.match(homepageSource, /register\?plan=pro-annual/);
   assert.doesNotMatch(homepageSource, /register(?:\.html)?\?plan=power-monthly/);
   assert.match(dossierSource, /plan=pro-annual"\>Start Pro checkout/);
   assert.match(dossierSource, /plan=desk"\>\$1,999\.99\/yr/);
-  assert.match(termsSource, /\$49\.99\/month \(Monthly\), \$419\.99\/year \(Annual\), \$499\.99\/year \(Pro/);
+  assert.match(termsSource, /\$79\.99\/month \(Monthly\), \$649\.99\/year \(Annual\), \$799\.99\/year \(Pro/);
   assert.match(termsSource, /\$1,999\.99\/year \(Desk\)/);
 });
 
@@ -71,7 +72,7 @@ test('signup surfaces describe payment and refund terms instead of a no-card tri
   assert.match(registerSource, /refund within 7 days/);
   assert.match(socialSource, /data\.subscription && data\.subscription\.isActive/);
   assert.match(termsSource, /initial payment is refundable within 7 days/);
-  assert.match(registerSource, /amount: '\$49\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
+  assert.match(registerSource, /amount: '\$79\.99', cadence: 'per month'[\s\S]{0,160}Charged today through Stripe/);
   assert.doesNotMatch(termsSource, /7-day free trial \(no card required\)/);
   // No plan card advertises a trial or a no-card option.
   assert.doesNotMatch(registerSource, /free-trial-card|no card required|Start my free trial/i);
@@ -156,12 +157,12 @@ test('the AppSumo redeem page opens on signup and offers one-click Google', () =
   assert.match(appSource, /asRedeem: true \}, JWT_SECRET, \{ expiresIn: '60m' \}\)/);
 });
 
-test('Monthly lists at $49.99 and $24.99 subscribers are grandfathered', () => {
-  assert.match(appSource, /process\.env\.CORE_PLAN_PRICE \|\| '49\.99'/);
-  assert.match(appSource, /\[MONTHLY_PLAN_ID\]: \{ amount: 49\.99, currency: 'USD', interval: 'month'/);
+test('Monthly lists at $79.99 and $24.99 subscribers are grandfathered', () => {
+  assert.match(appSource, /process\.env\.CORE_PLAN_PRICE \|\| '79\.99'/);
+  assert.match(appSource, /\[MONTHLY_PLAN_ID\]: \{ amount: 79\.99, currency: 'USD', interval: 'month'/);
   assert.match(appSource, /LEGACY_MONTHLY_2499_PRICE_ID = process\.env\.LEGACY_STRIPE_PRICE_ID_MONTHLY_2499 \|\| ''/);
   assert.match(appSource, /priceId === LEGACY_MONTHLY_2499_PRICE_ID\) \{\s*return \{ \.\.\.getPlanConfig\(MONTHLY_PLAN_ID\), stripePriceId: priceId, price: LEGACY_MONTHLY_2499_PRICE \}/);
-  assert.match(registerSource, /name: 'Monthly', amount: '\$49\.99', cadence: 'per month'/);
-  assert.match(homepageSource, /"name": "Monthly", "price": "49\.99"/);
+  assert.match(registerSource, /name: 'Monthly', amount: '\$79\.99', cadence: 'per month'/);
+  assert.match(homepageSource, /"name": "Monthly", "price": "79\.99"/);
   assert.doesNotMatch(registerSource + homepageSource, /24\.99/);
 });

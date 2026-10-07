@@ -155,7 +155,7 @@ test('the paid handler is idempotent on the Stripe session id', () => {
 });
 
 test('/lifetime and its public config route are registered', () => {
-  assert.match(appSource, /app\.get\('\/lifetime'/);
+  assert.match(appSource, /app\.get\(\/\^\\\/lifetime/);
   assert.match(appSource, /app\.get\('\/api\/lifetime\/config'/);
   assert.match(appSource, /app\.post\('\/api\/checkout\/lifetime'/);
 });

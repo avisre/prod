@@ -9,7 +9,7 @@ stockportfolio.pro is an AI-first equity research tool for US-listed stocks,
 grounded entirely in SEC filings: up to 19 years of filed financials per
 company, a free screener over the S&P 1500, free public fundamentals pages for
 1,500+ companies, and an AI analyst that answers only from filings. From
-$49.99/month; the screener and stock pages are free.
+$79.99/month; the screener and stock pages are free.
 
 ## Canonical URLs
 
@@ -59,9 +59,9 @@ $49.99/month; the screener and stock pages are free.
 ## Pricing
 
 - Free: the screener, all /stocks pages, and the demo — no account required.
-- Monthly: $49.99/month — full research library, portfolio tracker, 100 AI credits a month (50 Ask questions if spent there).
-- Annual: $419.99/year — $35.00/month effective, save $179.89 versus monthly billing.
-- Pro: $499.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
+- Monthly: $79.99/month — full research library, portfolio tracker, 100 AI credits a month (50 Ask questions if spent there).
+- Annual: $649.99/year — $54.17/month effective, save $309.89 versus monthly billing.
+- Pro: $799.99/year — 300 Ask questions a month with charts and tables, Dossier, Filing Diff, the Filing Change Monitor across your watchlist, wash-sale guard, smart alerts, weekly portfolio briefing.
 - Desk: $1,999.99/year — Pro for one named professional with a limited client-facing licence, priority support, personal onboarding.
 - Credit top-ups: $14.99 for 150 credits.
 - Card added at signup; the initial payment can be refunded within 7 days. Cancel anytime.
@@ -131,8 +131,8 @@ A: No. Positions are added manually.
 
 Q: Can I get my money back?
 A: Yes — the initial payment is refundable within 7 days if the service is
-not right for you. The chosen plan starts immediately on signup ($49.99
-monthly, $419.99 annual, $499.99 Pro, or $1,999.99 Desk). Cancel anytime
+not right for you. The chosen plan starts immediately on signup ($79.99
+monthly, $649.99 annual, $799.99 Pro, or $1,999.99 Desk). Cancel anytime
 from account settings.
 
 ## Contact

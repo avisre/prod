@@ -23,7 +23,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261007-connect1" />
+  <link rel="stylesheet" href="assets/system.css?v=20261007-price1" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -53,9 +53,9 @@
         "description": "Initiation-grade Research Dossiers on US stocks, SEC-filed financials, sourced AI answers, free screeners, side-by-side comparisons and portfolio tracking.",
         "offers": [
           { "@type": "Offer", "name": "Free screener", "price": "0", "priceCurrency": "USD", "description": "Screen companies with verified core SEC financial data by filed fundamentals — no account needed." },
-          { "@type": "Offer", "name": "Monthly", "price": "49.99", "priceCurrency": "USD", "description": "$49.99 charged today; request a refund within 7 days if the service is not right for you." },
-          { "@type": "Offer", "name": "Annual", "price": "419.99", "priceCurrency": "USD", "description": "$419.99 per year ($35.00/month effective) — save $179.89 versus the $49.99 monthly plan." },
-          { "@type": "Offer", "name": "Pro", "price": "499.99", "priceCurrency": "USD", "description": "$499.99 per year — the AI analyst tier with the Filing Change Monitor, billed annually." },
+          { "@type": "Offer", "name": "Monthly", "price": "79.99", "priceCurrency": "USD", "description": "$79.99 charged today; request a refund within 7 days if the service is not right for you." },
+          { "@type": "Offer", "name": "Annual", "price": "649.99", "priceCurrency": "USD", "description": "$649.99 per year ($54.17/month effective) — save $309.89 versus the $79.99 monthly plan." },
+          { "@type": "Offer", "name": "Pro", "price": "799.99", "priceCurrency": "USD", "description": "$799.99 per year — the AI analyst tier with the Filing Change Monitor, billed annually." },
           { "@type": "Offer", "name": "Desk", "price": "1999.99", "priceCurrency": "USD", "description": "$1,999.99 per year — Pro for one named professional seat, with a client-facing licence." }
         ],
         "featureList": [
@@ -147,8 +147,8 @@
     .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
-    /* Ladder layout (2026-09-01): line 1 = Good $49.99 · Pro $499.99 ·
-       Good — annual $419.99 (actual monthly price struck through);
+    /* Ladder layout (2026-09-01): line 1 = Good $79.99 · Pro $799.99 ·
+       Good — annual $649.99 (actual monthly price struck through);
        Desk and Enterprise share the next line (grid auto-places them at
        columns 1–2 of the second row). */
     #pricing-subscription-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -277,7 +277,7 @@
               <li>Screener — verified companies, <a href="/screener">free for everyone</a></li>
               <li>Ask with citations — 3 free, no account</li>
               <li>Inside Claude or ChatGPT — <a href="/connect">free to try, no account</a></li>
-              <li id="hero-dossier">Full dossiers from $49.99/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
+              <li id="hero-dossier">Full dossiers from $79.99/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a></li>
             </ul>
             <p class="hero-note">The <a href="/monitor">Filing Change Monitor</a> reads each new 10-K, 10-Q and 8-K on your watchlist for you.</p>
           </div>
@@ -536,8 +536,8 @@
         <div class="price-grid" id="pricing-subscription-grid">
           <div class="card price-card">
             <span class="label">Good</span>
-            <div class="price-fig" id="good-fig">$49.99<span>/month</span></div>
-            <p class="small muted" style="margin:4px 0 14px;" id="good-note">Core research desk. Same plan yearly is <strong>$419.99 — $35.00/month, save $179.89</strong>.</p>
+            <div class="price-fig" id="good-fig">$79.99<span>/month</span></div>
+            <p class="small muted" style="margin:4px 0 14px;" id="good-note">Core research desk. Same plan yearly is <strong>$649.99 — $54.17/month, save $309.89</strong>.</p>
             <ul class="price-list">
               <li>Covered US-listed companies, in their reported currency — up to 19 years of statements and 48 quarters, subject to data availability</li>
               <li>Ratios, health checks &amp; growth records computed for you</li>
@@ -553,7 +553,7 @@
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
             <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Pro</span><span class="small" style="color:var(--accent-ink); font-weight:650;">The analyst tier</span></div>
-            <div class="price-fig">$499.99<span>/year</span></div>
+            <div class="price-fig">$799.99<span>/year</span></div>
             <p class="small muted" style="margin:4px 0 14px;">AI analyst + Filing Change Monitor — everything in Good, billed yearly.</p>
             <ul class="price-list">
               <li><strong>600 AI credits a month</strong> — 60 Research Dossiers or 120 Filing Monitor reports, or 300 Ask questions; mix them however you like</li>
@@ -568,12 +568,12 @@
             <a class="btn btn-primary" style="margin-top:auto;" href="/register?plan=pro-annual">Start Pro checkout</a>
           </div>
           <div class="card price-card" style="border-color: var(--ink);">
-            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Good — annual</span><span class="small" id="annual-best" style="color:var(--accent-ink); font-weight:650;">30% off monthly — $35.00/month</span></div>
-            <div class="price-fig">$419.99<span>/year</span><s class="price-was" id="annual-was">$599.88</s></div>
-            <p class="small muted" style="margin:4px 0 14px;">Same Good, priced once a year — <strong>$35.00/month effective</strong>.</p>
+            <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Good — annual</span><span class="small" id="annual-best" style="color:var(--accent-ink); font-weight:650;">32% off monthly — $54.17/month</span></div>
+            <div class="price-fig">$649.99<span>/year</span><s class="price-was" id="annual-was">$959.88</s></div>
+            <p class="small muted" style="margin:4px 0 14px;">Same Good, priced once a year — <strong>$54.17/month effective</strong>.</p>
             <ul class="price-list">
               <li>Everything in the Good plan, including the same 100 AI credits a month</li>
-              <li id="annual-save"><strong>Save $179.89 a year</strong> — $35.00/month effective versus $49.99 monthly</li>
+              <li id="annual-save"><strong>Save $309.89 a year</strong> — $54.17/month effective versus $79.99 monthly</li>
               <li>One renewal a year — nothing else to think about</li>
               <li>Upgrade to Pro anytime, prorated</li>
             </ul>
@@ -608,86 +608,13 @@
         <p class="small faint" style="margin:10px 0 0;">Prefer to pay once? See the <a href="/appsumo">lifetime option →</a></p>
         <p class="provenance" id="pricing-subscription-note">New accounts complete paid Stripe checkout before access. The initial payment can be refunded within 7 days if the service is not right for you; subscriptions can be cancelled anytime. No first-year discount games — the price you see is the price it stays. The free screener covers companies with verified core SEC financial data, and the public stock directory lists US-listed securities. Available financial statements depend on each company’s filings and data availability. Not investment advice.</p>
 
-        <!-- Pricing-swap experiment (PRICING_EXPERIMENT_MODE=ltd_only): hidden
-             unless the backend reports the experiment active; see
-             backend/pricing-experiment.js. Reuses the /api/lifetime/config
-             tier data and the /api/checkout/lifetime flow verbatim — nothing
-             about subscription checkout is touched. -->
-        <div id="pricing-experiment-block" hidden>
-          <p class="small faint" style="margin:4px 0 14px;">One payment. Lifetime access, no renewal.</p>
-          <div class="price-grid" id="pricing-experiment-grid"><p class="muted">Loading…</p></div>
-          <p class="lt-status" id="pricing-experiment-status" role="status"></p>
-          <p class="provenance">Purchases here carry a <span id="pricing-experiment-refund-days">30</span>-day refund window. Prefer a subscription instead? <a href="/pricing?px=off">See subscription pricing</a>.</p>
-        </div>
       </section>
-
-      <script>
-      (function () {
-        // Pricing-swap experiment: server-gated (PRICING_EXPERIMENT_MODE) and
-        // auto-reverting (pricing-experiment.js). This block only decides what
-        // to SHOW; every buy button below calls the existing, already-tested
-        // /api/checkout/lifetime route — no new checkout path.
-        if (/[?&]px=off\b/.test(window.location.search)) return;
-
-        function esc(value) {
-          return String(value == null ? '' : value).replace(/[&<>"']/g, function (c) {
-            return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-          });
-        }
-
-        fetch('/api/pricing/experiment', { credentials: 'same-origin' })
-          .then(function (r) { return r.json(); })
-          .then(function (cfg) {
-            if (!cfg || cfg.mode !== 'ltd_only' || !cfg.tiers || !cfg.tiers.length) return;
-
-            document.getElementById('pricing-subscription-grid').hidden = true;
-            document.getElementById('pricing-subscription-note').hidden = true;
-            var subhead = document.getElementById('pricing-subhead');
-            if (subhead) subhead.textContent = 'One payment · no renewal · limited-time pricing';
-
-            var block = document.getElementById('pricing-experiment-block');
-            var grid = document.getElementById('pricing-experiment-grid');
-            var status = document.getElementById('pricing-experiment-status');
-            block.hidden = false;
-            if (cfg.refundDays) document.getElementById('pricing-experiment-refund-days').textContent = cfg.refundDays;
-
-            grid.innerHTML = cfg.tiers.map(function (t) {
-              return '<div class="card price-card">'
-                + '<span class="label">' + esc(t.label) + '</span>'
-                + '<div class="price-fig">' + esc(t.priceDisplay) + '</div>'
-                + '<p class="small muted" style="margin:4px 0 14px;">One payment &middot; lifetime</p>'
-                + '<ul class="price-list">'
-                + '<li><strong>' + esc(t.askCap) + ' AI Asks / month</strong> &mdash; filing-grounded answers, not guesses</li>'
-                + '<li><strong>Dossier</strong> &mdash; full research report in minutes</li>'
-                + '<li><strong>Red-flag scanner</strong> &mdash; accounting &amp; governance risk warnings</li>'
-                + '<li><strong>Reverse-DCF</strong> &mdash; see growth priced into any stock</li>'
-                + '<li><strong>Screener &amp; AI verdict</strong> &mdash; compare stocks, get the call</li>'
-                + '<li><strong>Unlimited portfolio tracking</strong></li>'
-                + '<li><strong>Full Pro access, for life</strong></li>'
-                + '</ul>'
-                + '<button class="btn btn-primary" style="margin-top:auto;" type="button" data-tier="' + esc(t.slug) + '">Buy ' + esc(t.label) + '</button>'
-                + '</div>';
-            }).join('');
-
-            // Same procedure and pages as the professional tiers and the
-            // /lifetime page: a direct link to the dedicated checkout page,
-            // which creates the account and mounts Stripe's embedded
-            // checkout inline — no bespoke fetch + off-site redirect here.
-            grid.addEventListener('click', function (event) {
-              var button = event.target.closest('button[data-tier]');
-              if (!button) return;
-              window.location.href = '/lifetime-checkout.html?tier=' + encodeURIComponent(button.getAttribute('data-tier')) + '&px=1';
-            });
-          })
-          .catch(function () { /* experiment endpoint unreachable: leave subscription pricing showing */ });
-      })();
-      </script>
 
       <script>
       (function () {
         // September launch rate — mirrors the server's LAUNCH_PROMO_* coupon
         // (reported by /stripe/config only while the window is open, so the
-        // $49.99 list copy below comes back on Oct 1 with no deploy). Every
+        // $79.99 list copy below comes back on Oct 1 with no deploy). Every
         // node it touches keeps its list price in the HTML above, so a failed
         // or slow fetch leaves the standard price on screen, never a discount
         // the checkout won't honour.
@@ -714,13 +641,13 @@
             set('hero-dossier', 'Full dossiers from $' + price + '/mo — <a rel="nofollow" href="/dashboard.html?demo=1">or see a demo portfolio</a>');
 
             // Twelve months of Monthly now costs less than the annual plan, so
-            // the annual card's "save $179.89" math and its
-            // $599.88 monthly comparison stop being true while the launch rate
+            // the annual card's "save $309.89" math and its
+            // $959.88 monthly comparison stop being true while the launch rate
             // runs. The card keeps its one-payment framing, which still holds.
             var annualWas = document.getElementById('annual-was');
             if (annualWas) annualWas.hidden = true;
             set('annual-best', 'One payment a year');
-            set('annual-save', 'One payment covers the year — $35.00/month effective');
+            set('annual-save', 'One payment covers the year — $54.17/month effective');
           })
           .catch(function () { /* config unreachable: keep the list prices above */ });
       })();
@@ -730,7 +657,7 @@
            itself sits in the main pricing grid above). Enterprise also lives in
            that grid — one Enterprise card, one place. -->
       <section class="section" id="pro-plans" style="margin-top:40px;">
-        <p class="provenance">Pro is billed yearly and includes everything in the research desk plus the Filing Change Monitor; the &ldquo;about $42 per month&rdquo; framing is $499.99 divided by twelve — Desk is billed annually and adds a limited commercial-use licence for one named user to incorporate verified outputs into customer-authored research and client communications; it does not include account sharing, raw-data redistribution, or any authorisation to provide regulated advice. Not investment advice.</p>
+        <p class="provenance">Pro is billed yearly and includes everything in the research desk plus the Filing Change Monitor; the &ldquo;about $67 per month&rdquo; framing is $799.99 divided by twelve — Desk is billed annually and adds a limited commercial-use licence for one named user to incorporate verified outputs into customer-authored research and client communications; it does not include account sharing, raw-data redistribution, or any authorisation to provide regulated advice. Not investment advice.</p>
       </section>
 
       <!-- AppSumo social proof. All three reviews are verbatim from the public
@@ -829,7 +756,7 @@
 
     </div>
   </main>
-  <script src="assets/app.js?v=20261007-connect1"></script>
+  <script src="assets/app.js?v=20261007-price1"></script>
   <script>
     V2.nav('home');
     V2.footer();

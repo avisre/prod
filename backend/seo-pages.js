@@ -55,9 +55,9 @@ const SOFTWARE_LD = JSON.stringify({
         offerCount: 5,
         offers: [
             { '@type': 'Offer', name: 'Free', price: '0', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Monthly', price: '49.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Annual', price: '419.99', priceCurrency: 'USD' },
-            { '@type': 'Offer', name: 'Pro', price: '499.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Monthly', price: '79.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Annual', price: '649.99', priceCurrency: 'USD' },
+            { '@type': 'Offer', name: 'Pro', price: '799.99', priceCurrency: 'USD' },
             { '@type': 'Offer', name: 'Desk', price: '1999.99', priceCurrency: 'USD' }
         ]
     }
@@ -193,7 +193,7 @@ function head(title, description, canonical, jsonld, ask, robots = 'index, follo
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-<link rel="stylesheet" href="/assets/system.css?v=20261007-connect1" />
+<link rel="stylesheet" href="/assets/system.css?v=20261007-price1" />
 <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}',{anonymize_ip:true});</script>
 <script type="text/javascript">if(location.hostname.endsWith("stockportfolio.pro"))(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${CLARITY_ID}");</script>
@@ -255,7 +255,7 @@ function nav(current = '') {
         : '';
     // SEO pages retain their own source-aware page-view beacon in footer().
     // The flag prevents the shared runtime from recording the same view twice.
-    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261007-connect1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
+    return `<script>window.__spSkipAutoPageView=true;</script><script src="/assets/app.js?v=20261007-price1"></script><script>V2.nav(${JSON.stringify(active)});</script>`;
 }
 
 function footer() {
@@ -374,7 +374,7 @@ function staticPageMtime(route) {
         // (measured 2026-09-28, all four answering 200) — without an entry here
         // their lastmod would fall back to this module's own mtime.
         '/verify': 'verify.html', '/company': 'company.html', '/compare-dossiers': 'compare-dossiers.html',
-        '/partners': 'partners.html', '/partners-apply': 'partners-apply.html', '/lifetime': 'lifetime.html'
+        '/partners': 'partners.html', '/partners-apply': 'partners-apply.html'
     };
     if (route.startsWith('/tools/')) return isoMtime(path.join(__dirname, 'free-tools.js'));
     if (names[route]) return isoMtime(path.join(__dirname, '..', 'frontend-v2', names[route]));
@@ -394,14 +394,13 @@ function buildSitemapInventory() {
     const coreRoutes = ['/filing-watch', '/filing-watch-sample', '/', '/zh', '/register', '/appsumo', '/tour', '/monitor-demo', '/features', '/stocks', '/screener', '/compare', '/ask', '/support', '/methodology', '/editorial-policy', '/licensing', '/api', '/connect', '/privacy', '/terms', '/sitemap', '/gurus', '/monitor', '/dossier', '/tools', '/docs', '/verify-ledger', '/filing-changes',
         // Indexable and internally linked, but in no shard until 2026-09-28 — Bing's
         // Site Scan reports exactly this as "important pages missing from sitemaps".
-        // /lifetime is the direct-sale twin of /appsumo (index,follow, prices from
-        // /api/lifetime/config) and had no inbound link at all.
+        // /lifetime left this list on 2026-10-07, when direct lifetime sales were retired.
         // /company is deliberately absent: bare /company is a JS-only skeleton (the
         // name is filled in client-side) that nothing links, and /stocks/:symbol
         // already covers per-symbol pages — advertising a thin page is worse than
         // leaving an unlinked URL out of the sitemap. Its `.html` twin still 301s
         // to it, so the redirect table stays file-complete.
-        '/verify', '/compare-dossiers', '/partners', '/partners-apply', '/lifetime'];
+        '/verify', '/compare-dossiers', '/partners', '/partners-apply'];
     try { Object.values(require('./free-tools').TOOL_DEFINITIONS).forEach((tool) => coreRoutes.push(tool.path)); } catch (_) {}
     try { Object.values(require('./docs-pages').DOC_PAGES).forEach((d) => coreRoutes.push(d.path)); } catch (_) {}
     try { require('./comparison-pages').competitors.forEach((s) => coreRoutes.push(`/vs/${s}`)); } catch (_) {}
