@@ -23,7 +23,7 @@ const store = require('./sec-segment-observations');
 
 const REASONS = {
     single: 'The company reports as a single business, so its filing has no revenue breakdown to show.',
-    untagged: 'The latest annual filing does not tag a revenue breakdown that accounts for total revenue.',
+    untagged: 'The latest annual filing does not report a revenue breakdown that accounts for total revenue.',
     unavailable: 'No revenue breakdown could be read from the latest annual filing.',
     unread: 'A revenue breakdown has not been read from this company’s latest annual filing yet.'
 };
@@ -40,8 +40,10 @@ function none(symbol, reason) {
 }
 // Why the filing's tagged groups yield nothing: one member holding all of
 // revenue is a single-segment company, which is a fact worth stating.
-function whyNone(groups) {
-    if (!(groups || []).length) return REASONS.unread;
+function whyNone(groups, read) {
+    // Nothing stored means "not read yet" only when the filing was not read;
+    // a filing that was read and tags no breakdown is a different, definite fact.
+    if (!(groups || []).length) return read ? REASONS.untagged : REASONS.unread;
     const single = (groups || []).some(g => { const v = store.shown(g); return v.rows.length === 1 && v.coverage > 0.98 && v.coverage < 1.02; });
     return single ? REASONS.single : REASONS.untagged;
 }
@@ -49,9 +51,9 @@ function whyNone(groups) {
 // The deterministic answer from the filing's own tagged figures. No model and
 // no network: the same input always gives the same contract, which is what the
 // audit and the golden set check.
-function fromGroups(groups, symbol = null) {
+function fromGroups(groups, symbol = null, { read = false } = {}) {
     const choice = store.preferred(groups), group = choice.usable || choice.partial;
-    if (!group) return none(symbol, whyNone(groups));
+    if (!group) return none(symbol, whyNone(groups, read));
     const view = store.shown(group), byMember = new Map(group.entries.map(e => [e.member, e])), byName = new Map();
     for (const row of view.rows) {
         const name = store.displayName(byMember.get(row.member));
@@ -60,12 +62,12 @@ function fromGroups(groups, symbol = null) {
     const rows = [...byName].map(([name, value]) => ({ name, value, share: round1(value / group.totalRevenue * 100) })).sort((a, b) => b.value - a.value);
     const listed = rows.reduce((n, r) => n + r.value, 0), gap = group.totalRevenue - listed;
     const level = grade(view.coverage, rows.length);
-    if (level === 'none') return none(symbol, whyNone(groups));
+    if (level === 'none') return none(symbol, whyNone(groups, read));
     return { symbol, grade: level, reason: null, kind: store.kind(group), fiscalYear: 'FY' + String(group.periodEnd).slice(0, 4), periodEnd: group.periodEnd,
         currency: group.currency, totalRevenue: group.totalRevenue, rows,
         remainder: gap > group.totalRevenue * 0.005 ? { name: 'Not broken out in the filing', value: gap, share: round1(gap / group.totalRevenue * 100) } : null,
         coverage: view.coverage,
-        note: view.coverage > 1.02 ? 'Segments are reported before eliminations between them, so they add up to slightly more than total revenue.'
+        note: view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
             : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null,
         source: 'SEC inline XBRL', filing: { accessionNumber: group.sourceVersion, date: group.publicationDate, url: group.sourceUrl } };
 }
@@ -87,16 +89,16 @@ function fromText(payload, symbol, filedRevenue) {
 }
 
 async function storedGroups(symbol) {
-    if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return null;
+    if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return {};
     const evidence = await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(() => null);
-    return evidence?.statements?.segmentObservations || null;
+    return { groups: evidence?.statements?.segmentObservations || null, read: evidence?.statements?.industryExtraction?.status === 'success' };
 }
 
 // The answer for a symbol. `text: false` never calls the extraction model (a
 // cached page read must not), and grades whatever text result is handed in.
 async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
-    const sym = String(symbol || '').toUpperCase(), groups = await storedGroups(sym);
-    const tagged = fromGroups(groups || [], sym);
+    const sym = String(symbol || '').toUpperCase(), { groups, read: wasRead } = await storedGroups(sym);
+    const tagged = fromGroups(groups || [], sym, { read: wasRead });
     if (tagged.grade === 'complete') return tagged;
     const segments = require('./segments');
     let extracted = cachedText;

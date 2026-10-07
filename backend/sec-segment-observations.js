@@ -7,11 +7,17 @@ const LABELS={
 };
 const AGGREGATES={'0001730168':['avgo:SemiconductorSolutionsAndInfrastructureSoftwareMember']};
 function extract(segments,financial,filing) {
- const groups=new Map();
+ const groups=new Map(),REVENUE_CONCEPTS=require('./sec-facts').MAPS.income.totalRevenue;
  for(const f of segments || []) {
   const dims=f._original?.dimensions;if(dims?.length!==1 || !/^[A-Z]{3}$/.test(f.unit || '') || !p.day(f.start))continue;
   const days=(Date.parse(f.end)-Date.parse(f.start))/86400000+1;if(days<340 || days>380)continue;
-  const key=[f.start,f.end,f.unit,dims[0].axis,f.accn].join('|');const group=groups.get(key) || [];group.push(f);groups.set(key,group);
+  // One table per concept and per consolidation view. A filing tags the same
+  // member under several revenue concepts (total revenue beside contract
+  // revenue) and both before and after intersegment eliminations; read as one
+  // table those disagree, and the whole breakdown used to be thrown away.
+  if(f.concept && !REVENUE_CONCEPTS[f.taxonomy]?.includes(f.concept))continue;
+  const view=(f._original.allDimensions || dims).length>dims.length?'operating':'reported';
+  const key=[f.start,f.end,f.unit,dims[0].axis,f.accn,f.taxonomy+':'+f.concept,view].join('|');const group=groups.get(key) || [];group.push(f);groups.set(key,group);
  }
  const output=[];
  for(const values of groups.values()) {
@@ -21,13 +27,21 @@ function extract(segments,financial,filing) {
   for(const f of values) {const member=f._original.dimensions[0].member;const old=members.get(member);if(old && old.val!==f.val){conflicting=true;break;}members.set(member,f);}
   if(conflicting)continue;
   const aggregateMembers=[...members.values()].filter(f=>(AGGREGATES[financial.cik] || []).includes(f._original.dimensions[0].member));
-  const entries=[...members.values()].filter(f=>!aggregateMembers.includes(f)).map(f=>({member:f._original.dimensions[0].member,label:LABELS[financial.cik]?.[f._original.dimensions[0].member] || null,value:f.val,contextRef:f._original.contextRef,decimals:f._original.decimals,sourceUrl:f._original.documentUrl,sourceVersion:f.accn,sourceFact:{concept:f.concept,taxonomy:f.taxonomy,unit:f.unit,periodStart:f.start,periodEnd:f.end,rawValue:f.val,numericReceipt:f._original.numericReceipt},sourceIds:['segment:'+p.digest({cik:financial.cik,accession:f.accn,context:f._original.contextRef,concept:f.concept}).slice(0,24)]}));
+  const entries=[...members.values()].filter(f=>!aggregateMembers.includes(f)).map(f=>({member:f._original.dimensions[0].member,label:LABELS[financial.cik]?.[f._original.dimensions[0].member] || null,...(f._original.memberLabel?{filedLabel:f._original.memberLabel}:{}),value:f.val,contextRef:f._original.contextRef,decimals:f._original.decimals,sourceUrl:f._original.documentUrl,sourceVersion:f.accn,sourceFact:{concept:f.concept,taxonomy:f.taxonomy,unit:f.unit,periodStart:f.start,periodEnd:f.end,rawValue:f.val,numericReceipt:f._original.numericReceipt},sourceIds:['segment:'+p.digest({cik:financial.cik,accession:f.accn,context:f._original.contextRef,concept:f.concept}).slice(0,24)]}));
   const precision=f=>/^-?\d+$/.test(f.decimals || '')?10**-Number(f.decimals):0;
   const tolerance=entries.reduce((n,f)=>n+precision(f)/2,0);
   const sum=entries.reduce((n,f)=>n+f.value,0),difference=row.totalRevenue-sum;
   output.push({issuer:financial.cik,axis:sample._original.dimensions[0].axis,periodStart:sample.start,periodEnd:sample.end,currency:sample.unit,accountingBasis:sample.taxonomy==='ifrs-full'?'IFRS':'US GAAP',sourceUrl:filing.url,sourceVersion:sample.accn,publicationDate:sample.filed,retrievedAt:financial.fetchedAt,entries,aggregateMembers,totalRevenue:row.totalRevenue,totalSourceIds:row._sources.totalRevenue,sum,difference,roundingTolerance:tolerance,reconciliationStatus:Math.abs(difference)<=tolerance?'reconciled':'partial',note:'Reported eliminations and unallocated members remain signed. Reviewed aggregate members are retained separately from the component sum. Partial groups must not be forced to sum or used as a complete company Sankey.'});
  }
- return output;
+ // Several candidate tables can survive for one axis and year; the one that
+ // accounts for revenue is the table, and the others are views of it.
+ const best=new Map();
+ for(const g of output) {
+  const key=[g.periodStart,g.periodEnd,g.currency,g.axis].join('|'),old=best.get(key);
+  const miss=x=>(x.reconciliationStatus==='reconciled'?0:1)+Math.abs(x.difference)/Math.max(1,Math.abs(x.totalRevenue));
+  if(!old || miss(g)<miss(old) || miss(g)===miss(old) && g.entries.length>old.entries.length)best.set(key,g);
+ }
+ return [...best.values()];
 }
 function validGroup(g,data) {
  if(!g || !data || g.issuer!==data.cik || !p.day(g.periodStart) || !p.day(g.periodEnd) || !Array.isArray(g.entries) || !g.entries.length)return false;
@@ -37,14 +51,26 @@ function validGroup(g,data) {
  if(!g.sourceUrl?.startsWith(base) || !p.day(g.publicationDate) || g.publicationDate<g.periodEnd)return false;
  const concepts=require('./sec-facts').MAPS.income.totalRevenue;
  if(g.entries.some(e=>require('./sec-inline-number').number(e.sourceFact?.numericReceipt)!==e.value))return false;
- if(g.entries.some(e=>!e.contextRef || !e.sourceUrl?.startsWith(base) || e.sourceVersion!==g.sourceVersion || e.sourceFact?.rawValue!==e.value || e.sourceFact?.unit!==g.currency || e.sourceFact?.periodStart!==g.periodStart || e.sourceFact?.periodEnd!==g.periodEnd || !concepts[e.sourceFact?.taxonomy]?.includes(e.sourceFact.concept) || !e.sourceIds?.length || e.label && LABELS[g.issuer]?.[e.member]!==e.label))return false;
+ if(g.entries.some(e=>!e.contextRef || !e.sourceUrl?.startsWith(base) || e.sourceVersion!==g.sourceVersion || e.sourceFact?.rawValue!==e.value || e.sourceFact?.unit!==g.currency || e.sourceFact?.periodStart!==g.periodStart || e.sourceFact?.periodEnd!==g.periodEnd || !concepts[e.sourceFact?.taxonomy]?.includes(e.sourceFact.concept) || !e.sourceIds?.length || e.label && LABELS[g.issuer]?.[e.member]!==e.label || e.filedLabel!==undefined && (typeof e.filedLabel!=='string' || !e.filedLabel || e.filedLabel.length>120)))return false;
  const sum=g.entries.reduce((n,e)=>n+e.value,0);return sum===g.sum && g.difference===g.totalRevenue-sum && g.reconciliationStatus===(Math.abs(g.difference)<=g.roundingTolerance?'reconciled':'partial');
 }
 // The reviewed label where one exists; otherwise the issuer's own element name
 // set in plain words. A raw "meta:FamilyOfAppsMember" never reaches a reader.
 // Members whose element name is an initialism the filing spells out.
-const SPELLED={'inod:DdsMember':'Digital Data Solutions'};
-const displayName=e=>e.label || SPELLED[e.member] || require('./ask-inline-segments').label(e.member) || e.member;
+const SPELLED={'inod:DdsMember':'Digital Data Solutions','us-gaap:OtherCapitalizedPropertyPlantAndEquipmentMember':'Equipment'};
+// A filed label is used when it reads as a name: some filers leave the label
+// equal to the element name, or label a member with a sentence.
+const filed=e=>{
+ const tagName=require('./ask-inline-segments').label(e.member),bare=String(e.member || '').split(':').pop().replace(/(?:Member)+$/,'');
+ const v=String(e.filedLabel || '').replace(/\s*\[(?:Member|Domain)\]$/i,'').replace(/,?\s+Member$/i,'').replace(/\s*\(Segment\)$/i,'').replace(/\s+segments?$/i,'').replace(/\s+/g,' ').trim();
+ if(v.length<2 || v.length>70 || !/[A-Za-z]/.test(v) || /Member$|:|_/.test(v) || /[a-z]{24,}/.test(v))return null;
+ // A one-word label that is only the element name again says nothing the tag does not.
+ if(!/\s/.test(v) && v.toLowerCase()===bare.toLowerCase())return null;
+ // An abbreviation ("CCG", "USCS") where the element name spells it out.
+ if(/^[A-Z0-9&]{2,6}$/.test(v) && tagName.length>v.length+3 && tagName.split(' ').length>1)return null;
+ return v;};
+// Reviewed override, then the company's own printed label, then the element name in plain words.
+const displayName=e=>e.label || SPELLED[e.member] || filed(e) || require('./ask-inline-segments').label(e.member) || e.member;
 // What a reader would actually see from a group: its positive rows with filed
 // subtotals pruned, and how much of revenue they account for.
 function shown(g) {

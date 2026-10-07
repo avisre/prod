@@ -84,13 +84,13 @@ const unglue = w => {
     return m && (UNGLUED.test(w) || !WHOLE.test(w)) ? m[1] + ' ' + m[2] : w;
 };
 const ACRONYMS = new Set(['usa', 'us', 'uk', 'eu', 'emea', 'apac', 'aws', 'oem', 'atm', 'it', 'ai', 'ip', 'tv', 'ev', 'hvac', 'reit', 'etf', 'api', 'crm', 'erp', 'gps', 'led', 'lng', 'llc', 'pc', 'rv']);
-const ABBREVIATIONS = new Set(['ltd', 'st', 'mr', 'dr', 'vs', 'jr', 'sr', 'mt', 'by', 'my']);
+const ABBREVIATIONS = new Set(['ltd', 'st', 'mr', 'dr', 'vs', 'jr', 'sr', 'mt', 'by', 'my', 'mc']);
 // A short token with no vowel is an initialism the filer wrote in title case
 // ("Dds" for Digital Data Solutions), not a word.
 const initialism = w => ACRONYMS.has(w.toLowerCase()) || /^[B-DF-HJ-NP-TV-XZ][b-df-hj-np-tv-xz]{1,3}$/.test(w) && !ABBREVIATIONS.has(w.toLowerCase());
 const BRANDS = [[/\bThree Six Five\b/g, '365'], [/\bLinked in\b/gi, 'LinkedIn'], [/\bXBOX\b/g, 'Xbox'], [/\bYou Tube\b/g, 'YouTube'],
     [/\bWhats App\b/g, 'WhatsApp'], [/\bGit Hub\b/g, 'GitHub'], [/\b([SPBI])aa ?[Ss]\b/g, '$1aaS'], [/\bIo T\b/g, 'IoT'],
-    [/\bI (Phone|Pad|Cloud)\b/g, 'i$1'], [/\bU S\b/g, 'US'], [/\bU K\b/g, 'UK']];
+    [/\b[Ii] (Phone|Pad|Cloud)\b/g, 'i$1'], [/\bMc ([A-Z][a-z])/g, 'Mc$1'], [/\bU S\b/g, 'US'], [/\bU K\b/g, 'UK']];
 // "us-gaap:AmazonWebServicesSegmentMember" -> "Amazon Web Services"
 function label(member) {
     const bare = String(member || '').split(':').pop().replace(/(?:Member)+$/, '').replace(/^[A-Za-z]{2,10}_(?=[A-Z])/, '').replace(/_+/g, ' ').replace(/^ProductAndServiceOther(?=[A-Z])/, '');

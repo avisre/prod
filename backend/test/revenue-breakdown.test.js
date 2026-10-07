@@ -106,7 +106,8 @@ test('well-known companies keep the breakdown a reader expects', { skip: !fs.exi
     const audit = require('../../scripts/audit-segment-display');
     const expected = JSON.parse(fs.readFileSync(audit.GOLDEN, 'utf8'));
     assert.deepEqual(audit.golden(), expected, 'a company’s shown breakdown changed — if intended, run: node scripts/audit-segment-display.js --golden');
-    assert.deepEqual(expected.AMZN.rows.slice(0, 3), ['Online Stores', 'Third Party Seller Services', 'Amazon Web Services']);
+    assert.deepEqual(expected.AMZN.rows.slice(0, 3), ['Online stores', 'Third-party seller services', 'Amazon Web Services'], 'names as Amazon prints them');
+    assert.deepEqual(expected.GOOGL.rows, ['Google Services', 'Google Cloud', 'Other Bets']);
     assert.deepEqual(expected.META.rows, ['Family of Apps', 'Reality Labs']);
     assert.equal(expected.AAPL.rows[0], 'iPhone');
 });

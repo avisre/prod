@@ -1,11 +1,23 @@
 'use strict';
 const p=require('./sec-coverage'),{extract}=require('./sec-facts'),original=require('./sec-original');
-const VERSION='20261005-industry2';
-function enrich(financial,document,reporting,{asOf=p.day(new Date().toISOString())}={}) {
+const VERSION='20261007-industry4';
+// The statement fields the original filing can fill and its segment tables are
+// independent. One statement field failing validation used to discard the whole
+// enrichment, segment tables included (Alphabet, AMD and 70 others had no
+// breakdown for that reason alone); the segments are now kept on their own.
+function enrich(financial,document,reporting,options={}) {
+ try{return enrichWith(financial,document,reporting,options,true);}
+ catch(error){if(!/^INVALID_INDUSTRY_EXTRACTION/.test(error.message || ''))throw error;
+  const out=enrichWith(financial,document,reporting,options,false);
+  out.industryExtraction.remainingReason='Segment tables were read; statement fields from the original filing were not merged because one failed validation ('+String(error.message).replace(/^INVALID_INDUSTRY_EXTRACTION: /,'').slice(0,90)+')';
+  return out;}
+}
+function enrichWith(financial,document,reporting,{asOf=p.day(new Date().toISOString())}={},mergeStatements=true) {
  const facts=original.mergeFacts({cik:Number(financial.cik),facts:{}},document);
  const incoming=extract(facts,{...reporting,reportingCurrency:document.reportingCurrency || reporting.reportingCurrency},{asOf});
  const out=structuredClone(financial);out.sources={...out.sources,...incoming.sources};
- for(const st of ['income','balance','cash'])for(const basis of ['annualReports','quarterlyReports'])for(const row of incoming[st][basis]) {
+ if(!mergeStatements)out.sources={...financial.sources};
+ for(const st of mergeStatements?['income','balance','cash']:[])for(const basis of ['annualReports','quarterlyReports'])for(const row of incoming[st][basis]) {
   const old=out[st][basis].find(r=>r.fiscalDateEnding===row.fiscalDateEnding);
   if(!old || old.reportedCurrency!==row.reportedCurrency || old.periodStart!==row.periodStart)continue;
   const oldVersions=new Set(Object.values(old._sources).flat().map(id=>out.sources[id]?.accessionNumber));
@@ -14,7 +26,7 @@ function enrich(financial,document,reporting,{asOf=p.day(new Date().toISOString(
    old[field]=row[field];for(const map of ['_sources','_derivations','_scopes','_signs'])if(row[map]?.[field]!==undefined)old[map][field]=row[map][field];
   }
  }
- out.industryObservations=incoming.industryObservations || out.industryObservations || [];
+ out.industryObservations=(mergeStatements && incoming.industryObservations) || out.industryObservations || [];
  const segments=require('./sec-segment-observations'),groups=segments.extract(document.segments,out,document.originalDocument);
  out.segmentObservations=groups.filter(g=>{if(segments.validGroup(g,out))return true;out.issues.push({code:'UNSUPPORTED_SEGMENT_PROVENANCE',periodEnd:g.periodEnd,reason:'The original segment context or numerical receipt did not pass validation'});return false;});
  out.industryExtraction={version:VERSION,sourceVersion:document.originalDocument.accessionNumber,sourceUrl:document.originalDocument.url,checkedAt:new Date().toISOString(),status:'success',remainingReason:'Only standard mapped concepts and reviewed issuer tables are eligible; unsupported custom disclosures remain explicit gaps'};

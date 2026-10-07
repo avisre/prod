@@ -76,13 +76,44 @@ function parseOriginal(text, filing, cik, shared) {
  if(require('./sec-industry-tables').REGISTRY[p.cik(cik)])doc.industryTables=require('./sec-industry-tables').tablesFrom(text).filter(t=>/reconciliation/i.test(t.caption) && t.rows.some(r=>r.some(c=>/FFO available to common stockholders/.test(c))));
  return doc;
 }
+// The label a company prints for each member, from the filing's own label
+// file. An element name is the filer's internal shorthand ("DdsMember",
+// "Clearingandtransactionfees"); the label is what the filing shows a reader.
+function parseLabels(xml) {
+ const attr=(tag,name)=>tag.match(new RegExp('\\b'+name+'\\s*=\\s*"([^"]*)"'))?.[1];
+ const element=new Map(),target=new Map(),text=new Map();
+ for(const m of xml.matchAll(/<(?:link:)?loc\b[^>]*>/g)){const href=attr(m[0],'xlink:href'),label=attr(m[0],'xlink:label'),id=href?.split('#')[1];if(id && label && id.includes('_'))element.set(label,id.replace('_',':'));}
+ for(const m of xml.matchAll(/<(?:link:)?labelArc\b[^>]*>/g)){const from=attr(m[0],'xlink:from'),to=attr(m[0],'xlink:to');if(element.has(from) && to)target.set(to,element.get(from));}
+ const RANK={'http://www.xbrl.org/2003/role/terseLabel':0,'http://www.xbrl.org/2003/role/label':1,'http://www.xbrl.org/2003/role/verboseLabel':2};
+ for(const m of xml.matchAll(/<(?:link:)?label\b([^>]*)>([^<]{1,300})<\/(?:link:)?label>/g)) {
+  const name=target.get(attr(m[1],'xlink:label')),rank=RANK[attr(m[1],'xlink:role')],lang=attr(m[1],'xml:lang') || 'en';
+  if(!name || rank===undefined || !/^en/i.test(lang))continue;
+  const value=m[2].replace(/&amp;/g,'&').replace(/&apos;|&#39;|&#8217;/g,'’').replace(/&quot;/g,'"').replace(/&#\d+;|&[a-z]+;/gi,' ').replace(/\s*\[(?:Member|Domain|Axis)\]\s*$/i,'').replace(/\s+/g,' ').trim();
+  if(value && (!text.has(name) || rank<text.get(name).rank))text.set(name,{rank,value});
+ }
+ return new Map([...text].map(([name,v])=>[name,v.value]));
+}
+// Best effort: a filing without a readable label file keeps its segments unlabelled.
+async function attachLabels(doc,base,listing) {
+ if(!doc.segments?.length)return doc;
+ try {
+  listing ||= (await axios.get(base+'index.json',{headers:HEADERS,timeout:20000,maxContentLength:2*1024*1024,responseType:'json'})).data;
+  // Some filers embed the label linkbase in the schema instead of a separate file.
+  const items=(listing?.directory?.item || []).filter(i=>Number(i.size)<=12*1024*1024);
+  const file=items.find(i=>/^[a-zA-Z0-9_.-]+_lab\.xml$/.test(i.name || '')) || items.find(i=>/^[a-zA-Z0-9_.-]+\.xsd$/.test(i.name || ''));
+  if(!file)return doc;
+  const labels=parseLabels(String((await axios.get(base+file.name,{headers:HEADERS,timeout:20000,maxContentLength:12*1024*1024,responseType:'text',transformResponse:x=>x})).data));
+  for(const f of doc.segments){const value=labels.get(f._original.dimensions[0].member);if(value)f._original.memberLabel=value.slice(0,120);}
+ } catch(_) { /* labels are an improvement, never a requirement */ }
+ return doc;
+}
 async function fetchOriginal(cik,filing) {
  if(!filing?.primaryDocument || !/^[a-zA-Z0-9_.-]+$/.test(filing.primaryDocument))throw new Error('ORIGINAL_DOCUMENT_PATH_UNAVAILABLE');
  const documentUrl=`https://www.sec.gov/Archives/edgar/data/${Number(cik)}/${filing.accessionNumber.replace(/-/g,'')}/${filing.primaryDocument}`;
  const response=await axios.get(documentUrl,{headers:HEADERS,timeout:20000,maxContentLength:MAX_BYTES,responseType:'text'});
  const shared={contexts:new Map(),units:new Map()};
  const primary=parseOriginal(String(response.data),{...filing,documentUrl},cik,shared);
- if(Object.keys(primary.facts).length)return primary;
+ if(Object.keys(primary.facts).length)return attachLabels(primary,documentUrl.replace(/[^/]*$/,''));
  // Some filers put only a cover page in the primary document and the financial
  // statements in a second tagged document of the same filing (Clorox's annual
  // report exhibit, Canadian National's 40-F exhibits). SEC's company-facts feed
@@ -102,7 +133,7 @@ async function fetchOriginal(cik,filing) {
    if(n>count){best=doc;count=n;}
   } catch(_) { /* an unreadable exhibit leaves the others to be tried */ }
  }
- return best;
+ return attachLabels(best,base,listing);
 }
 function mergeFacts(raw,original) {
  const annual=/^(10-K|20-F|40-F)(\/A)?$/.test(original.originalDocument?.form || '');
@@ -117,4 +148,4 @@ function mergeFacts(raw,original) {
  }
  return merged;
 }
-module.exports={parseOriginal,fetchOriginal,mergeFacts,MAX_BYTES};
+module.exports={parseOriginal,fetchOriginal,mergeFacts,parseLabels,MAX_BYTES};

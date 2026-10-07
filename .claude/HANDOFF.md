@@ -42,8 +42,19 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   `scripts/render-dossier-gallery.js` writes a contact sheet to look at; live check without login:
   `GET /api/admin/revenue-breakdown/:symbol` with `x-admin-token`.
   **Baseline to beat in Phase 2:** S&P 500 complete 313 / partial 37 / none 153 (GOOGL, ADBE, AMD, BAC, CVX, XOM,
-  WMT have nothing stored; 70 carry `INCOMPATIBLE_PERIOD`). Remaining: Phase 2 data backfill, Phase 3 filed
-  labels, Phase 4 expense split + full view unification.
+  WMT had nothing stored).
+- **Phases 2+3 shipped as one data release (10/7):** two extractor bugs fixed — `sec-segment-observations.extract`
+  threw a table away when a member was tagged under two revenue concepts or both before/after eliminations (now one
+  candidate per concept and view, best kept); `sec-industry.enrich` discarded segments when an unrelated statement
+  field failed validation (now keeps segments alone). `sec-original` reads the filing's label file (`*_lab.xml`, or
+  the `.xsd` when embedded) and stores `filedLabel` per entry; `displayName` = reviewed → printed label → tag name.
+  Industry `VERSION` is `20261007-industry4`; all 5,276 issuers re-extracted locally with
+  `scripts/refresh-sec-industry.js` (45 `retrieval_failed`, mostly 20-F filers: HSBC, UBS, BP…), then
+  `build-public-stock-index.js` + `build-screen-index.js`. **Result:** all issuers complete 2,288 → 2,770;
+  S&P 500 complete 313 → 399, none 153 → 71; 41,396 of 41,598 entries carry a printed label.
+  **Still none (screenable):** 365 single-business, ~1,180 whose filing was read and tags no revenue breakdown
+  (BOX, DDOG — and banks/insurers that segment by premiums or noninterest income: BAC, AIG, PGR — the next
+  extension), 143 covering <60%. Remaining from the plan: Phase 4 expense split + full view unification.
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.

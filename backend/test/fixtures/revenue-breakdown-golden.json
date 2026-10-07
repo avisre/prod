@@ -5,8 +5,8 @@
   "fiscalYear": "FY2025",
   "rows": [
    "iPhone",
-   "Service",
-   "Wearables Home and Accessories",
+   "Services",
+   "Wearables, Home and Accessories",
    "Mac",
    "iPad"
   ],
@@ -20,13 +20,13 @@
    "Server Products and Cloud Services",
    "Microsoft 365 Commercial Products and Cloud Services",
    "Xbox",
-   "LinkedIn Corporation",
+   "LinkedIn",
    "Windows and Devices",
-   "Search Advertising",
-   "Microsoft 365 Consumer Products and Cloud Services",
-   "Dynamics Products and Cloud Services",
-   "Enterprise and Partner Services",
-   "Other Products and Services"
+   "Search advertising",
+   "Microsoft 365 Consumer products and cloud services",
+   "Dynamics products and cloud services",
+   "Enterprise and partner services",
+   "Other"
   ],
   "remainder": false
  },
@@ -35,21 +35,25 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Online Stores",
-   "Third Party Seller Services",
+   "Online stores",
+   "Third-party seller services",
    "Amazon Web Services",
-   "Advertising",
-   "Subscription Services",
-   "Physical Stores",
-   "Other Services"
+   "Advertising services",
+   "Subscription services",
+   "Physical stores",
+   "Other"
   ],
   "remainder": false
  },
  "GOOGL": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Google Services",
+   "Google Cloud",
+   "Other Bets"
+  ],
   "remainder": false
  },
  "META": {
@@ -81,9 +85,9 @@
   "kind": "operating segments",
   "fiscalYear": "FY2026",
   "rows": [
-   "Cloud and Software Business",
-   "Services Business",
-   "Hardware Business"
+   "Cloud and Software",
+   "Services",
+   "Hardware"
   ],
   "remainder": false
  },
@@ -98,10 +102,17 @@
   "remainder": false
  },
  "TSLA": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "product and service lines",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Automotive sales",
+   "Services and other",
+   "Energy generation and storage sales",
+   "Automotive regulatory credits",
+   "Automotive leasing",
+   "Energy generation and storage leasing"
+  ],
   "remainder": false
  },
  "NFLX": {
@@ -118,25 +129,33 @@
   "rows": [
    "Agentforce Service",
    "Agentforce Sales",
-   "Agentforce360 Platform Slack and Other",
+   "Agentforce 360 Platform, Slack and Other",
    "Agentforce Integration and Agentforce Analytics",
    "Agentforce Marketing and Agentforce Commerce",
-   "Professional Services and Other"
+   "Professional services and other"
   ],
   "remainder": false
  },
  "ADBE": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Digital Media",
+   "Digital Experience",
+   "Publishing and Advertising"
+  ],
   "remainder": false
  },
  "AMD": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Data Center",
+   "Client and Gaming",
+   "Embedded"
+  ],
   "remainder": false
  },
  "INTC": {
@@ -151,10 +170,15 @@
   "remainder": false
  },
  "IBM": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Software",
+   "Consulting",
+   "Infrastructure",
+   "Financing"
+  ],
   "remainder": false
  },
  "CSCO": {
@@ -162,9 +186,9 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2026",
   "rows": [
-   "Subscription Revenue Product",
-   "Service",
-   "Subscription Revenue Service",
+   "Subscription, Product",
+   "Services",
+   "Subscription, Service",
    "Security",
    "Collaboration",
    "Observability"
@@ -172,20 +196,23 @@
   "remainder": true
  },
  "QCOM": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
-  "remainder": false
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "QCT",
+   "QTL"
+  ],
+  "remainder": true
  },
  "JPM": {
   "grade": "partial",
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Commercial and Investment Bank",
-   "Consumer Community Banking",
-   "Asset and Wealth Management"
+   "Commercial & Investment Bank",
+   "Consumer & Community Banking",
+   "Asset & Wealth Management"
   ],
   "remainder": true
  },
@@ -203,7 +230,7 @@
   "rows": [
    "Consumer Banking and Lending",
    "Corporate and Investment Banking",
-   "Wealth and Investment Management",
+   "Wealth Management",
    "Commercial Banking"
   ],
   "remainder": false
@@ -213,8 +240,8 @@
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Global Banking and Markets",
-   "Asset and Wealth Management",
+   "Global Banking & Markets",
+   "Asset & Wealth Management",
    "Platform Solutions"
   ],
   "remainder": false
@@ -244,22 +271,19 @@
   "remainder": true
  },
  "BRK-B": {
-  "grade": "partial",
-  "kind": "product and service lines",
-  "fiscalYear": "FY2024",
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
   "rows": [
-   "Other Retail and Wholesale Distribution",
-   "Railroad Utilities and Energy",
-   "Service",
-   "Grocery and Convenience Store Distribution",
-   "Manufactured Industrial and Commercial Products",
-   "Electricity and Natural Gas",
-   "Manufactured Building Products",
-   "Consumer Products",
-   "Food and Beverage",
-   "Auto Sales"
+   "Insurance, Corporate and Other",
+   "Manufacturing Businesses",
+   "McLane",
+   "Service and Retailing",
+   "Pilot Travel Centers LLC",
+   "Berkshire Hathaway Energy (\"BHE\")",
+   "Burlington Northern Santa Fe Corporation"
   ],
-  "remainder": true
+  "remainder": false
  },
  "AIG": {
   "grade": "none",
@@ -280,9 +304,9 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Service",
-   "International Transaction Revenues",
-   "Value Added Services"
+   "Service revenue",
+   "International transaction revenue",
+   "Value-Added Services"
   ],
   "remainder": false
  },
@@ -291,23 +315,32 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Payment Network",
-   "Value Added Services and Solutions"
+   "Payment network",
+   "Value-added services and solutions"
   ],
   "remainder": false
  },
  "AXP": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "US Consumer Services",
+   "Commercial Services",
+   "International Card Services",
+   "Global Merchant and Network Services"
+  ],
   "remainder": false
  },
  "WMT": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2026",
+  "rows": [
+   "Walmart U.S.",
+   "Walmart International",
+   "Sam's Club U.S."
+  ],
   "remainder": false
  },
  "TGT": {
@@ -315,16 +348,16 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2026",
   "rows": [
-   "Food and Beverage",
-   "Household Essentials",
+   "Food & beverage",
+   "Household essentials",
    "Hardlines",
-   "Apparel and Accessories",
+   "Apparel And Accessories",
    "Home Furnishings and Decor",
    "Beauty",
-   "Advertising Revenue",
-   "Other Revenue",
-   "Credit Card Profit Sharing",
-   "Other Product"
+   "Advertising revenue",
+   "Other",
+   "Credit card profit sharing",
+   "Other merchandise sales"
   ],
   "remainder": false
  },
@@ -334,20 +367,20 @@
   "fiscalYear": "FY2025",
   "rows": [
    "Food and Sundries",
-   "Non Foods",
-   "Other",
-   "Fresh Food",
-   "Membership"
+   "Non-Foods",
+   "Warehouse ancillary and other businesses",
+   "Fresh Foods",
+   "Membership fees"
   ],
   "remainder": false
  },
  "HD": {
   "grade": "complete",
-  "kind": "product and service lines",
+  "kind": "operating segments",
   "fiscalYear": "FY2026",
   "rows": [
-   "Product",
-   "Service"
+   "Primary",
+   "Other"
   ],
   "remainder": false
  },
@@ -357,8 +390,8 @@
   "fiscalYear": "FY2025",
   "rows": [
    "International Operated Markets",
-   "US Market",
-   "International Developmental Licensed Markets and Corporate"
+   "U.S.",
+   "International Developmental Licensed Markets & Corporate"
   ],
   "remainder": false
  },
@@ -381,8 +414,8 @@
   "rows": [
    "Footwear",
    "Apparel",
-   "Sporting Equipment",
-   "Product and Service Other"
+   "Equipment",
+   "Other"
   ],
   "remainder": false
  },
@@ -395,7 +428,7 @@
    "Europe Middle East Africa",
    "Latin America",
    "Bottling Investments",
-   "A.Pacific"
+   "Asia Pacific"
   ],
   "remainder": false
  },
@@ -404,9 +437,9 @@
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Pepsi Co Beverages North America",
-   "Pepsi Co Foods North America",
-   "Europe Middle East Africa",
+   "PepsiCo Beverages North America",
+   "PepsiCo Foods North America",
+   "Europe, Middle East & Africa",
    "Latin America Foods",
    "International Beverage Franchise",
    "Asia Pacific Foods"
@@ -418,8 +451,8 @@
   "kind": "operating segments",
   "fiscalYear": "FY2026",
   "rows": [
-   "Fabric Home Care",
-   "Baby Feminine Family Care",
+   "Fabric & Home Care",
+   "Baby, Feminine & Family Care",
    "Beauty",
    "Health Care",
    "Grooming"
@@ -427,10 +460,13 @@
   "remainder": true
  },
  "JNJ": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Innovative Medicine",
+   "Med Tech"
+  ],
   "remainder": false
  },
  "PFE": {
@@ -445,8 +481,8 @@
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Pharmaceuticalsegment",
-   "Animal Healthsegment"
+   "Pharmaceutical",
+   "Animal Health"
   ],
   "remainder": true
  },
@@ -455,7 +491,7 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Product",
+   "Net product revenue",
    "Collaboration and Other Revenue"
   ],
   "remainder": false
@@ -469,22 +505,22 @@
    "Opdivo",
    "Orencia",
    "Revlimid",
-   "Pomalyst Imnovid",
+   "Pomalyst/Imnovid",
    "Reblozyl",
-   "Other Growth Brands",
-   "Alliance and Other Revenues",
+   "Other Growth products",
+   "Alliance and other revenues",
    "Breyanzi",
    "Opdualag",
    "Camzyos",
-   "Other Revenues",
-   "Other Legacy Brands",
+   "Other revenues",
+   "Other Legacy products",
    "Zeposia",
    "Sprycel",
-   "Alliance Revenues",
+   "Alliance revenues",
    "Abecma",
    "Abraxane",
    "Sotyktu",
-   "Opdivo Ovantig",
+   "Opdivo Qvantig",
    "Krazati",
    "Cobenfy"
   ],
@@ -495,11 +531,10 @@
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Total Optum",
-   "Optumrx",
-   "Optuminsight"
+   "Unitedhealthcare",
+   "Optum Health"
   ],
-  "remainder": true
+  "remainder": false
  },
  "CVS": {
   "grade": "none",
@@ -509,10 +544,14 @@
   "remainder": false
  },
  "XOM": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "product and service lines",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Sales and other operating revenue",
+   "Income from equity affiliates",
+   "Other income"
+  ],
   "remainder": false
  },
  "CVX": {
@@ -523,10 +562,15 @@
   "remainder": false
  },
  "COP": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Lower 48",
+   "Alaska",
+   "Canada",
+   "Asia Pacific"
+  ],
   "remainder": false
  },
  "BA": {
@@ -535,7 +579,7 @@
   "fiscalYear": "FY2025",
   "rows": [
    "Commercial Airplanes",
-   "Defense Space and Security",
+   "Defense, Space & Security",
    "Global Services"
   ],
   "remainder": false
@@ -545,24 +589,32 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Machinery Power Energy",
+   "Machinery, Power & Energy",
    "Financial Products"
   ],
   "remainder": false
  },
  "DE": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Production & Precision Agriculture (PPA)",
+   "Construction & Forestry (CF)",
+   "Small Agriculture & Turf (SAT)",
+   "Financial Services (FS)"
+  ],
   "remainder": false
  },
  "GE": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
-  "remainder": false
+  "grade": "partial",
+  "kind": "operating segments",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "Commercial Engines & Services",
+   "Defense & Propulsion Technologies"
+  ],
+  "remainder": true
  },
  "HON": {
   "grade": "complete",
@@ -588,14 +640,14 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Passenger Air Traffic",
+   "Air traffic liability",
    "Refinery",
-   "Passenger Loyalty Travel Awards",
-   "Loyalty Program",
-   "Passenger Travel Related Services",
+   "Loyalty travel awards",
+   "Loyalty program",
+   "Travel-related services",
    "Miscellaneous",
-   "Ancillary Businesses",
-   "Cargo and Freight"
+   "Ancillary businesses",
+   "Cargo"
   ],
   "remainder": false
  },
@@ -604,15 +656,15 @@
   "kind": "product and service lines",
   "fiscalYear": "FY2025",
   "rows": [
-   "Subscription and Affiliate Fees",
-   "Admission",
+   "Subscription and affiliate fees",
+   "Theme park admissions",
    "Advertising",
-   "Retailandwholesalesalesofmerchandisefoodandbeverage",
-   "Resortandvacations",
-   "Other Revenue",
-   "License",
-   "TVVOD and Home Entertainment Distribution",
-   "Theatricaldistributionlicensing"
+   "Retail and wholesale sales of merchandise, food and beverage",
+   "Resort and vacations",
+   "Other",
+   "Merchandise licensing",
+   "TV/VOD and home entertainment distribution",
+   "Theatrical distribution licensing"
   ],
   "remainder": false
  },
@@ -621,7 +673,7 @@
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Residential Connectivity and Platforms",
+   "Residential Connectivity & Platforms",
    "Media",
    "Studios",
    "Business Services Connectivity"
@@ -634,7 +686,7 @@
   "fiscalYear": "FY2025",
   "rows": [
    "Wireless Service",
-   "Other Capitalized Property Plant and Equipment",
+   "Equipment",
    "Business Service",
    "Legacy Voice and Data",
    "IP Broadband",
@@ -647,8 +699,8 @@
   "kind": "operating segments",
   "fiscalYear": "FY2025",
   "rows": [
-   "Verizon Consumer Group",
-   "Verizon Business Group"
+   "Consumer",
+   "Business"
   ],
   "remainder": true
  },

@@ -32,7 +32,7 @@ function audit() {
         const data = load(file.replace('.json', ''));
         if (!data) continue;
         out.issuers++;
-        const contract = breakdown.fromGroups(data.segmentObservations || [], data.issuerName);
+        const contract = breakdown.fromGroups(data.segmentObservations || [], data.issuerName, { read: data.industryExtraction?.status === 'success' });
         out[contract.grade]++;
         if (contract.kind === 'product and service lines') out.productLines++; else if (contract.kind) out.operatingSegments++;
         for (const v of breakdown.violations(contract)) out.failures.push(`${data.issuerName} [${file.replace('.json', '')}]: ${v}`);
@@ -41,7 +41,7 @@ function audit() {
 }
 function golden() {
     const map = symbols(), out = {};
-    for (const s of GOLDEN_SYMBOLS) { const cik = map.get(s) || map.get(s.replace('-', '.')), data = cik && load(cik); if (data) out[s] = brief(breakdown.fromGroups(data.segmentObservations || [], s)); }
+    for (const s of GOLDEN_SYMBOLS) { const cik = map.get(s) || map.get(s.replace('-', '.')), data = cik && load(cik); if (data) out[s] = brief(breakdown.fromGroups(data.segmentObservations || [], s, { read: data.industryExtraction?.status === 'success' })); }
     return out;
 }
 function sp500() {
