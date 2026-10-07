@@ -1,6 +1,6 @@
 'use strict';
 const p=require('./sec-coverage'),{extract}=require('./sec-facts'),original=require('./sec-original');
-const VERSION='20261007-industry4';
+const VERSION='20261007-industry5';
 // The statement fields the original filing can fill and its segment tables are
 // independent. One statement field failing validation used to discard the whole
 // enrichment, segment tables included (Alphabet, AMD and 70 others had no

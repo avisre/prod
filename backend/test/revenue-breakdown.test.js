@@ -117,3 +117,16 @@ test('every issuer in the dataset passes the contract', { skip: !fs.existsSync(D
     assert.deepEqual(result.failures.slice(0, 10), []);
     assert.ok(result.complete > 2000);
 });
+
+test('a stand-in measure is named in the note, and a company with no revenue says so', () => {
+    const g = { ...group(BUSINESS, '2025-12-31', { Benefits: 364, Wealth: 172, Investment: 121 }), measure: 'premium revenue' };
+    const c = breakdown.fromGroups([g], 'T');
+    assert.equal(c.grade, 'partial');
+    assert.equal(c.measure, 'premium revenue');
+    assert.match(c.note, /^Shown by premium revenue, the figure this company reports by segment; it comes to 66% of total revenue\.$/);
+    assert.equal(breakdown.forPage(c).measure, 'premium revenue');
+    assert.equal(breakdown.fromGroups([], 'T', { read: true, revenue: 0 }).reason, breakdown.REASONS.noRevenue);
+    assert.equal(breakdown.fromGroups([], 'T', { read: true, revenue: 5 }).reason, breakdown.REASONS.untagged);
+    const regions = breakdown.fromGroups([group('srt:StatementGeographicalAxis', '2025-12-31', { UnitedStates: 790, International: 210 })], 'T');
+    assert.equal(regions.kind, 'regions');
+});

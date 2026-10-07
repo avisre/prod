@@ -217,10 +217,15 @@
   "remainder": true
  },
  "BAC": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "regions",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "U.S.",
+   "Europe, Middle East and Africa",
+   "Asia",
+   "Latin America and the Caribbean"
+  ],
   "remainder": false
  },
  "WFC": {
@@ -286,10 +291,13 @@
   "remainder": false
  },
  "AIG": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "regions",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "International",
+   "North America"
+  ],
   "remainder": false
  },
  "PGR": {
@@ -470,10 +478,14 @@
   "remainder": false
  },
  "PFE": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "regions",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "U.S.",
+   "Developed Markets",
+   "Emerging Markets"
+  ],
   "remainder": false
  },
  "MRK": {
@@ -629,10 +641,13 @@
   "remainder": false
  },
  "UPS": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "regions",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "United States",
+   "International"
+  ],
   "remainder": false
  },
  "DAL": {
@@ -716,17 +731,28 @@
   "remainder": false
  },
  "CRWV": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "regions",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "United States",
+   "All other countries"
+  ],
   "remainder": false
  },
  "BMI": {
-  "grade": "none",
-  "kind": null,
-  "fiscalYear": null,
-  "rows": [],
+  "grade": "complete",
+  "kind": "regions",
+  "fiscalYear": "FY2025",
+  "rows": [
+   "United States",
+   "Europe",
+   "Canada",
+   "Asia",
+   "Middle East",
+   "Other",
+   "Mexico"
+  ],
   "remainder": false
  }
 }

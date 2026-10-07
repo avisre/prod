@@ -62,7 +62,9 @@ function parseOriginal(text, filing, cik, shared) {
   if(c.dimensions.length) {
    // A single disclosed segment axis is retained separately, never entity revenue.
    const segmentDims=c.dimensions.filter(d=>!(d.axis==='srt:ConsolidationItemsAxis' && d.member==='us-gaap:OperatingSegmentsMember'));
-   if(wanted.has(name) && /Revenue/.test(concept) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
+   // Operating segments, product and service lines, and regions; revenue, or the
+   // measure a bank or insurer breaks out by segment in its place.
+   if((wanted.has(name) && /Revenue/.test(concept) || require('./sec-segment-observations').segmentMeasure(taxonomy,concept)) && segmentDims.length===1 && /(?:StatementBusinessSegments|Segments|ProductOrService|ProductsAndServices|StatementGeographical|GeographicalAreas|GeographicDistribution)Axis$/.test(segmentDims[0].axis || ''))doc.segments.push({concept,taxonomy,unit:measure,...f,_original:{...f._original,dimensions:segmentDims,allDimensions:c.dimensions}});
    continue;
   }
   if(!wanted.has(name))continue;

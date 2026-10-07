@@ -15,6 +15,7 @@ const vm = require('vm');
 const { execFileSync } = require('child_process');
 const root = path.join(__dirname, '..');
 const breakdown = require('../backend/revenue-breakdown');
+const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return r ? Number(r.totalRevenue) || 0 : null; };
 const audit = require('./audit-segment-display');
 const DATA = require('../backend/sec-coverage').DATA_DIR;
 
@@ -45,7 +46,7 @@ for (const symbol of [...golden, ...extra]) {
     try { data = JSON.parse(fs.readFileSync(path.join(DATA, 'sec-financials', cik + '.json'), 'utf8')); } catch (_) { /* no file */ }
     const latest = data && (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
     if (!latest) { tally.skipped++; continue; }
-    const contract = breakdown.fromGroups(data.segmentObservations || [], symbol, { read: data.industryExtraction?.status === 'success' }), bad = breakdown.violations(contract);
+    const contract = breakdown.fromGroups(data.segmentObservations || [], symbol, { read: data.industryExtraction?.status === 'success', revenue: latestRevenue(data) }), bad = breakdown.violations(contract);
     tally[contract.grade]++;
     let html = '';
     try { html = ctx.section(repairIncome(latest), breakdown.forPage(contract)); } catch (error) { html = `<p style="color:#b4422f">render failed: ${ctx.esc(error.message)}</p>`; }

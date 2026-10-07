@@ -25,7 +25,8 @@ const REASONS = {
     single: 'The company reports as a single business, so its filing has no revenue breakdown to show.',
     untagged: 'The latest annual filing does not report a revenue breakdown that accounts for total revenue.',
     unavailable: 'No revenue breakdown could be read from the latest annual filing.',
-    unread: 'A revenue breakdown has not been read from this company’s latest annual filing yet.'
+    unread: 'A revenue breakdown has not been read from this company’s latest annual filing yet.',
+    noRevenue: 'The company reported no revenue in its latest fiscal year, so there is nothing to break down.'
 };
 const round1 = n => Math.round(n * 10) / 10;
 
@@ -48,10 +49,18 @@ function whyNone(groups, read) {
     return single ? REASONS.single : REASONS.untagged;
 }
 
+// A financial company's segments are stated in the measure it reports by
+// segment, which is not always revenue; the reader is told which.
+function measureNote(measure, coverage) {
+    if (!measure) return null;
+    const pct = Math.round(coverage * 100);
+    return `Shown by ${measure}, the figure this company reports by segment` + (pct >= 98 && pct <= 102 ? '.' : `; it comes to ${pct}% of total revenue.`);
+}
 // The deterministic answer from the filing's own tagged figures. No model and
 // no network: the same input always gives the same contract, which is what the
 // audit and the golden set check.
-function fromGroups(groups, symbol = null, { read = false } = {}) {
+function fromGroups(groups, symbol = null, { read = false, revenue = null } = {}) {
+    if (revenue !== null && !(revenue > 0) && !(groups || []).length) return none(symbol, REASONS.noRevenue);
     const choice = store.preferred(groups), group = choice.usable || choice.partial;
     if (!group) return none(symbol, whyNone(groups, read));
     const view = store.shown(group), byMember = new Map(group.entries.map(e => [e.member, e])), byName = new Map();
@@ -66,9 +75,9 @@ function fromGroups(groups, symbol = null, { read = false } = {}) {
     return { symbol, grade: level, reason: null, kind: store.kind(group), fiscalYear: 'FY' + String(group.periodEnd).slice(0, 4), periodEnd: group.periodEnd,
         currency: group.currency, totalRevenue: group.totalRevenue, rows,
         remainder: gap > group.totalRevenue * 0.005 ? { name: 'Not broken out in the filing', value: gap, share: round1(gap / group.totalRevenue * 100) } : null,
-        coverage: view.coverage,
-        note: view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
-            : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null,
+        coverage: view.coverage, measure: group.measure || null,
+        note: measureNote(group.measure, view.coverage) || (view.coverage > 1.02 ? 'These lines are reported gross, before eliminations or deductions, so they add up to slightly more than total revenue.'
+            : level === 'partial' ? `These lines are the filing’s own breakdown and cover ${Math.round(view.coverage * 100)}% of revenue; the rest is not broken out in this table.` : null),
         source: 'SEC inline XBRL', filing: { accessionNumber: group.sourceVersion, date: group.publicationDate, url: group.sourceUrl } };
 }
 
@@ -91,14 +100,16 @@ function fromText(payload, symbol, filedRevenue) {
 async function storedGroups(symbol) {
     if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return {};
     const evidence = await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(() => null);
-    return { groups: evidence?.statements?.segmentObservations || null, read: evidence?.statements?.industryExtraction?.status === 'success' };
+    const latest = (evidence?.statements?.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
+    return { groups: evidence?.statements?.segmentObservations || null, read: evidence?.statements?.industryExtraction?.status === 'success',
+        revenue: latest ? Number(latest.totalRevenue) || 0 : null };
 }
 
 // The answer for a symbol. `text: false` never calls the extraction model (a
 // cached page read must not), and grades whatever text result is handed in.
 async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
-    const sym = String(symbol || '').toUpperCase(), { groups, read: wasRead } = await storedGroups(sym);
-    const tagged = fromGroups(groups || [], sym, { read: wasRead });
+    const sym = String(symbol || '').toUpperCase(), { groups, read: wasRead, revenue = null } = await storedGroups(sym);
+    const tagged = fromGroups(groups || [], sym, { read: wasRead, revenue });
     if (tagged.grade === 'complete') return tagged;
     const segments = require('./segments');
     let extracted = cachedText;
@@ -114,7 +125,7 @@ async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
 // to work out a share, a remainder or a year for itself.
 function forPage(contract) {
     if (!contract) return null;
-    return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
+    return { grade: contract.grade, reason: contract.reason, breakdown: contract.kind, measure: contract.measure || null, fiscalYear: contract.fiscalYear, periodEnd: contract.periodEnd,
         totalRevenue: contract.totalRevenue, remainder: contract.remainder, note: contract.note, basis: contract.source, filing: contract.filing,
         items: contract.rows.map(r => ({ name: r.name, revenueUsd: contract.currency === 'USD' ? r.value : null, value: r.value, revenuePct: r.share, description: '' })) };
 }

@@ -12,6 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 const breakdown = require('../backend/revenue-breakdown');
+const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return r ? Number(r.totalRevenue) || 0 : null; };
 const DATA = require('../backend/sec-coverage').DATA_DIR;
 const GOLDEN = path.join(__dirname, '..', 'backend', 'test', 'fixtures', 'revenue-breakdown-golden.json');
 const GOLDEN_SYMBOLS = ['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'NVDA', 'ORCL', 'AVGO', 'TSLA', 'NFLX', 'CRM', 'ADBE', 'AMD', 'INTC', 'IBM', 'CSCO', 'QCOM',
@@ -27,21 +28,21 @@ const load = cik => { try { return JSON.parse(fs.readFileSync(path.join(DATA, 's
 const brief = c => ({ grade: c.grade, kind: c.kind, fiscalYear: c.fiscalYear, rows: c.rows.map(r => r.name), remainder: !!c.remainder });
 
 function audit() {
-    const dir = path.join(DATA, 'sec-financials'), out = { issuers: 0, complete: 0, partial: 0, none: 0, productLines: 0, operatingSegments: 0, failures: [] };
+    const dir = path.join(DATA, 'sec-financials'), out = { issuers: 0, complete: 0, partial: 0, none: 0, productLines: 0, operatingSegments: 0, regions: 0, failures: [] };
     for (const file of fs.readdirSync(dir)) {
         const data = load(file.replace('.json', ''));
         if (!data) continue;
         out.issuers++;
-        const contract = breakdown.fromGroups(data.segmentObservations || [], data.issuerName, { read: data.industryExtraction?.status === 'success' });
+        const contract = breakdown.fromGroups(data.segmentObservations || [], data.issuerName, { read: data.industryExtraction?.status === 'success', revenue: latestRevenue(data) });
         out[contract.grade]++;
-        if (contract.kind === 'product and service lines') out.productLines++; else if (contract.kind) out.operatingSegments++;
+        if (contract.kind === 'product and service lines') out.productLines++; else if (contract.kind === 'regions') out.regions++; else if (contract.kind) out.operatingSegments++;
         for (const v of breakdown.violations(contract)) out.failures.push(`${data.issuerName} [${file.replace('.json', '')}]: ${v}`);
     }
     return out;
 }
 function golden() {
     const map = symbols(), out = {};
-    for (const s of GOLDEN_SYMBOLS) { const cik = map.get(s) || map.get(s.replace('-', '.')), data = cik && load(cik); if (data) out[s] = brief(breakdown.fromGroups(data.segmentObservations || [], s, { read: data.industryExtraction?.status === 'success' })); }
+    for (const s of GOLDEN_SYMBOLS) { const cik = map.get(s) || map.get(s.replace('-', '.')), data = cik && load(cik); if (data) out[s] = brief(breakdown.fromGroups(data.segmentObservations || [], s, { read: data.industryExtraction?.status === 'success', revenue: latestRevenue(data) })); }
     return out;
 }
 function sp500() {

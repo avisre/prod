@@ -126,3 +126,49 @@ test('the printed label names a row unless it does not read as a name', () => {
     assert.equal(name('x:FamilyOfAppsMember', 'Revenue from the family of applications segment including all advertising sold on them'), 'Family of Apps', 'a sentence is not a name');
     assert.equal(name('avgo:SemiconductorSolutionsMember', 'Semis', 'Semiconductor Solutions'), 'Semiconductor Solutions', 'a reviewed override still wins');
 });
+
+test('a bank’s segments are its net interest income and noninterest income added, each part kept with its receipt', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        const groups = store.extract([
+            fact('InterestIncomeExpenseNet', 'Banking', 600), fact('NoninterestIncome', 'Banking', 150),
+            fact('InterestIncomeExpenseNet', 'Mortgage', 100), fact('NoninterestIncome', 'Mortgage', 150)
+        ], DATA, FILING);
+        assert.equal(groups.length, 1);
+        const [g] = groups;
+        assert.equal(g.measure, 'net interest income plus noninterest income');
+        assert.deepEqual(g.entries.map(e => [e.member, e.value]), [['x:BankingMember', 750], ['x:MortgageMember', 250]]);
+        assert.deepEqual(g.entries[0].components.map(c => [c.concept, c.value]), [['InterestIncomeExpenseNet', 600], ['NoninterestIncome', 150]]);
+        assert.equal(g.reconciliationStatus, 'reconciled');
+        assert.equal(g.entries[0].sourceIds.length, 2, 'both filed figures are cited');
+        // Neither half is ever a table on its own.
+        assert.equal(store.extract([fact('InterestIncomeExpenseNet', 'Banking', 600), fact('InterestIncomeExpenseNet', 'Mortgage', 400)], DATA, FILING).length, 0);
+    } finally { p.verifiedField = original; }
+});
+
+test('revenue by region is read, and used only when nothing says what the company sells', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        const regions = store.extract([fact('Revenues', 'UnitedStates', 790, { axis: 'srt:StatementGeographicalAxis' }), fact('Revenues', 'International', 210, { axis: 'srt:StatementGeographicalAxis' })], DATA, FILING);
+        assert.equal(regions.length, 1);
+        assert.equal(store.kind(regions[0]), 'regions');
+        assert.equal(store.preferred(regions).usable, regions[0]);
+        const segments = group(BUSINESS, '2025-12-31', [60, 40]);
+        assert.equal(store.preferred([{ ...regions[0], periodEnd: '2025-12-31' }, segments]).usable, segments, 'segments of the same year come first');
+    } finally { p.verifiedField = original; }
+});
+
+test('an insurer’s premiums stand in for revenue and are named as such; revenue itself wins a tie', () => {
+    const p = require('../sec-coverage'), original = p.verifiedField;
+    p.verifiedField = () => true;
+    try {
+        const premiums = store.extract([fact('PremiumsEarnedNet', 'Personal', 500), fact('PremiumsEarnedNet', 'Commercial', 300)], DATA, FILING);
+        assert.equal(premiums[0].measure, 'net premiums earned');
+        const both = store.extract([fact('PremiumsEarnedNet', 'Personal', 600), fact('PremiumsEarnedNet', 'Commercial', 400), fact('Revenues', 'Personal', 600), fact('Revenues', 'Commercial', 400)], DATA, FILING);
+        assert.equal(both.length, 1);
+        assert.equal(both[0].measure, undefined);
+        assert.ok(store.segmentMeasure('us-gaap', 'Revenues') && store.segmentMeasure('us-gaap', 'NoninterestIncome') && !store.segmentMeasure('us-gaap', 'CostOfRevenue'));
+    } finally { p.verifiedField = original; }
+});

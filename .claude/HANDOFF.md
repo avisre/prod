@@ -52,13 +52,20 @@ Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.
   `scripts/refresh-sec-industry.js` (45 `retrieval_failed`, mostly 20-F filers: HSBC, UBS, BP…), then
   `build-public-stock-index.js` + `build-screen-index.js`. **Result:** all issuers complete 2,288 → 2,770;
   S&P 500 complete 313 → 399, none 153 → 71; 41,396 of 41,598 entries carry a printed label.
-  **Still none (screenable):** 365 single-business, ~1,180 whose filing was read and tags no revenue breakdown
-  (BOX, DDOG — and banks/insurers that segment by premiums or noninterest income: BAC, AIG, PGR — the next
-  extension), 143 covering <60%. Remaining from the plan: Phase 4 expense split + full view unification.
+- **Third pass, `20261007-industry5` (owner: "make sure 4000+ are covered"):** the extractor now also reads
+  revenue by region (`kind` `regions`, used only when no segment or product table is usable), insurer premium
+  measures, and the one allowed composite — a bank's segment = `InterestIncomeExpenseNet` + `NoninterestIncome`,
+  each part stored in `entry.components` with its own receipt and checked by `validGroup`. A group not stated in
+  revenue carries `measure`, which the page prints. Run with `SEC_ORIGINAL_MAX_MB=64` (0 fetch failures).
+  **Screenable coverage (4,923):** complete 3,201 + partial 155 = 3,356; no revenue 464; single business 253;
+  filing read and reports no usable breakdown 850 (measured on a 70-filing sample: these tag nothing by any axis).
+  S&P 500: 430 complete / 35 partial / 38 none. Kinds: product lines 1,752, segments 1,287, regions 317.
+  Known: BAC shows regions (segment revenue is under a custom `bac:` concept); PGR none; HD "Primary / Other".
+  Remaining from the plan: Phase 4 expense split + full view unification.
 - **Not done:** Ask has no tool for this; off-book questions still go through `search_filings` + `fetch_page`
   and the provenance gate at `ask-answer-quality.js` ~867. 20-F filers (TSM) return nothing. This file is past
   400 lines and due for rotation — left alone because two other sessions have it open with uncommitted edits.
-- Asset stamp `20261007-breakdown1`.
+- Asset stamp `20261007-breakdown2`.
 
 ## Session start
 - `bash scripts/dev-doctor.sh` once. Local mongo: `brew services start mongodb-community`; harnesses use

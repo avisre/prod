@@ -461,12 +461,12 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     };
     const sorted = (sg.items || []).slice().sort((a, b) => (amount(b) || 0) - (amount(a) || 0));
     if (!sorted.length) return '';
-    const lines = sg.breakdown === 'product and service lines';
+    const lines = sg.breakdown === 'product and service lines', regions = sg.breakdown === 'regions';
     // A long schedule (a drug maker lists twenty products) buries the mix: keep
     // the eight largest and fold the rest into one row.
     const rows = sorted.slice(0, 8).map((x) => ({ name: x.name, v: amount(x), pct: share(x) }));
     const rest = sorted.slice(8);
-    if (rest.length) rows.push({ name: `${lines ? 'Other sources' : 'Other segments'} (${rest.length})`,
+    if (rest.length) rows.push({ name: `${lines ? 'Other sources' : regions ? 'Other regions' : 'Other segments'} (${rest.length})`,
       v: rest.reduce((a, x) => a + (amount(x) || 0), 0), pct: rest.reduce((a, x) => a + (share(x) || 0), 0) });
     if (graded && sg.remainder) rows.push({ name: sg.remainder.name, v: Number(sg.remainder.value), pct: Number(sg.remainder.share) });
     else if (!graded && total > 0) {
@@ -476,7 +476,7 @@ ${reset ? `      <p class="small faint" style="margin:12px 0 0;">${esc(reset)} â
     const otherYear = sg.periodEnd && inc && inc.periodEnd && sg.periodEnd !== inc.periodEnd;
     return `
         <div class="table-wrap" style="margin-top:18px;"><table class="table-data dos-seg">
-          <thead><tr><th>${lines ? 'Revenue source' : 'Segment'}${otherYear && sg.fiscalYear ? ' Â· ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
+          <thead><tr><th>${lines ? 'Revenue source' : regions ? 'Region' : 'Segment'}${otherYear && sg.fiscalYear ? ' Â· ' + esc(sg.fiscalYear) : ''}</th><th style="text-align:right;">Revenue</th><th style="text-align:right;">Share</th></tr></thead>
           <tbody>${rows.map((r) => `<tr>
               <td>${esc(r.name)}</td>
               <td style="text-align:right;white-space:nowrap;">${r.v != null && r.v > 0 ? esc(bn(r.v)) : 'â€”'}</td>
