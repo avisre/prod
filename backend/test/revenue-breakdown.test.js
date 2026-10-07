@@ -127,6 +127,7 @@ test('a stand-in measure is named in the note, and a company with no revenue say
     assert.equal(breakdown.forPage(c).measure, 'premium revenue');
     assert.equal(breakdown.fromGroups([], 'T', { read: true, revenue: 0 }).reason, breakdown.REASONS.noRevenue);
     assert.equal(breakdown.fromGroups([], 'T', { read: true, revenue: 5 }).reason, breakdown.REASONS.untagged);
+    assert.equal(breakdown.fromGroups([], 'T', { read: true, revenue: 'missing' }).reason, breakdown.REASONS.revenueMissing, 'a figure we do not hold is never reported as zero revenue');
     const regions = breakdown.fromGroups([group('srt:StatementGeographicalAxis', '2025-12-31', { UnitedStates: 790, International: 210 })], 'T');
     assert.equal(regions.kind, 'regions');
 });

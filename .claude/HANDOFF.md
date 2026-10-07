@@ -36,8 +36,10 @@ are geography; regions only when nothing else is usable; operating segments are 
 sell to each other (110–160% of revenue: CVS, HUM, UNH), are shown with shares of the segment total and a note;
 roll-up members ("Reportable Segment, Aggregation", "Total") are never rows; a table at 60–98% is `partial`.
 
-**Coverage, 4,923 screenable issuers:** complete 3,267 + partial 154 = 3,421; no revenue 462; single business
-165; filing reports no usable breakdown 875. S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
+**Coverage, 4,923 screenable issuers:** complete 3,267 + partial 154 = 3,421; filed revenue is zero 47; **total
+revenue missing in our statement data 415** (HSBC, SAN, UBS, SYF, APA, 49 financials, 242 health care — a core
+extraction gap, not a breakdown gap; the page says the figure is unavailable, never "no revenue"); single-row
+295; tags no table 601; covers <60% 127; over 110% 16. S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
 `node scripts/audit-segment-display.js --sp500` (0 violations required; it runs in the deploy gate).
 
 **Measured, do not redo:** reading untagged tables from annual-report text recovered **0 of 39** sampled issuers

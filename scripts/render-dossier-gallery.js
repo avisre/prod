@@ -15,7 +15,7 @@ const vm = require('vm');
 const { execFileSync } = require('child_process');
 const root = path.join(__dirname, '..');
 const breakdown = require('../backend/revenue-breakdown');
-const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return r ? Number(r.totalRevenue) || 0 : null; };
+const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return !r ? null : r.totalRevenue === null || r.totalRevenue === undefined || r.totalRevenue === '' || !Number.isFinite(Number(r.totalRevenue)) ? 'missing' : Number(r.totalRevenue); };
 const audit = require('./audit-segment-display');
 const DATA = require('../backend/sec-coverage').DATA_DIR;
 

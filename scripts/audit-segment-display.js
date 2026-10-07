@@ -12,7 +12,7 @@
 const fs = require('fs');
 const path = require('path');
 const breakdown = require('../backend/revenue-breakdown');
-const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return r ? Number(r.totalRevenue) || 0 : null; };
+const latestRevenue = data => { const r = (data.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0]; return !r ? null : r.totalRevenue === null || r.totalRevenue === undefined || r.totalRevenue === '' || !Number.isFinite(Number(r.totalRevenue)) ? 'missing' : Number(r.totalRevenue); };
 const DATA = require('../backend/sec-coverage').DATA_DIR;
 const GOLDEN = path.join(__dirname, '..', 'backend', 'test', 'fixtures', 'revenue-breakdown-golden.json');
 const GOLDEN_SYMBOLS = ['AAPL', 'MSFT', 'AMZN', 'GOOGL', 'META', 'NVDA', 'ORCL', 'AVGO', 'TSLA', 'NFLX', 'CRM', 'ADBE', 'AMD', 'INTC', 'IBM', 'CSCO', 'QCOM',
