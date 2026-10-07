@@ -41,7 +41,12 @@ const MAPS = {
   dilutedEPS:mapping(['EarningsPerShareDiluted','NetIncomeLossNetOfTaxPerOutstandingLimitedPartnershipUnitDiluted'],['DilutedEarningsLossPerShare'],'parent'),
   // Helper inputs sit last so they can never set a row's period ahead of an original field.
   revenueFromSaleOfGoods:mapping([],['RevenueFromSaleOfGoods']),
-  otherRevenue:mapping([],['OtherRevenue'])
+  otherRevenue:mapping([],['OtherRevenue']),
+  // A company's own total under a line the revenue rule above does not read: a
+  // gas utility's regulated operating revenue, an IFRS filer's "revenue and
+  // operating income". A helper input, used only to fill a year that has no
+  // revenue at all (see the income rules below).
+  reportedRevenueTotal:mapping(['RegulatedOperatingRevenue'],['RevenueAndOperatingIncome'])
  },
  balance: {
   // Total liabilities and equity equals total assets on every balance sheet; a
@@ -338,6 +343,13 @@ function extract(document, evidence, {asOf = p.day(new Date().toISOString())} = 
      combine('totalRevenue','netInterestIncome','nonInterestIncome','sum_fields');
     }
     if(row.totalRevenue===null && row.revenueFromSaleOfGoods!==null && row.otherRevenue!==null && row.grossProfit!==null && row.costOfRevenue!==null && row.revenueFromSaleOfGoods+row.otherRevenue===row.grossProfit+row.costOfRevenue)combine('totalRevenue','revenueFromSaleOfGoods','otherRevenue','sum_fields');
+    // Filled only when the year has no revenue figure, never in place of one,
+    // and never from a line smaller than the profit it would have to produce:
+    // that is a fragment (a parent-only statement, a single fee line), not the
+    // company's total. The filed line stays the cited source.
+    if(row.totalRevenue===null && row.reportedRevenueTotal!==null && row.reportedRevenueTotal>0 && p.verifiedField(out,row,'reportedRevenueTotal') && row.netIncome!==null && row.reportedRevenueTotal>=Math.abs(row.netIncome)) {
+     row.totalRevenue=row.reportedRevenueTotal;row._sources.totalRevenue=row._sources.reportedRevenueTotal;row._scopes.totalRevenue=row._scopes.reportedRevenueTotal;
+    }
     if(!/^(602|603|609|63)/.test(out.reportingSic))combine('grossProfit','totalRevenue','costOfRevenue','difference_fields');
    }
    if(st==='cash')combine('operatingCashflow','operatingCashflowContinuing','operatingCashflowDiscontinued','sum_fields');

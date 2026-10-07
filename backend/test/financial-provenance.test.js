@@ -68,3 +68,17 @@ test('provider-only charts and fallback receipts use retrieval dates without cla
  const receipt=q.fallback(results,'Revenue?');assert.match(receipt,/Yahoo Finance 2026-10-04/);assert.match(receipt,/100000000/);assert.doesNotMatch(receipt,/verified SEC evidence/);assert.deepEqual(q.audit(receipt,results,{question:'Revenue?'}),[]);
  assert.ok(q.audit('SEC-verified revenue was USD 100 million (Yahoo Finance 2026-10-04).',results,{question:'Revenue?'}).some(s=>s.includes('must not be described as SEC-verified')));
 });
+test('a filed total under an unread line fills a year with no revenue, and only then',()=>{
+ const year=(val)=>({units:{USD:[{val,start:'2025-01-01',end:'2025-12-31',accn:ACC,form:'10-K',filed:'2026-02-01'}]}});
+ // A gas utility files regulated operating revenue and no "Revenues" line.
+ let {doc,evidence}=fixture();delete doc.facts['us-gaap'].Revenues;doc.facts['us-gaap'].RegulatedOperatingRevenue=year(2400);
+ let data=extract(doc,evidence,{asOf:'2026-10-04'}),row=data.income.annualReports[0];
+ assert.equal(row.totalRevenue,2400);assert.deepEqual(row._sources.totalRevenue,row._sources.reportedRevenueTotal,'the filed line stays the cited source');
+ assert.equal(data.sources[row._sources.totalRevenue[0]].concept,'RegulatedOperatingRevenue');assert.deepEqual(p.validateFinancial(data,CIK,'2026-10-04'),[]);
+ // A line smaller than the profit it would have to produce is a fragment, not a total.
+ ({doc,evidence}=fixture());delete doc.facts['us-gaap'].Revenues;doc.facts['us-gaap'].RegulatedOperatingRevenue=year(30);
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-04'}).income.annualReports[0].totalRevenue,null);
+ // Revenue the main rule already found is never replaced.
+ ({doc,evidence}=fixture());doc.facts['us-gaap'].Revenues=year(500);doc.facts['us-gaap'].RegulatedOperatingRevenue=year(2400);
+ assert.equal(extract(doc,evidence,{asOf:'2026-10-04'}).income.annualReports[0].totalRevenue,500);
+});

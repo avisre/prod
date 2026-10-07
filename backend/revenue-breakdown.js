@@ -27,7 +27,8 @@ const REASONS = {
     unavailable: 'No revenue breakdown could be read from the latest annual filing.',
     unread: 'A revenue breakdown has not been read from this company’s latest annual filing yet.',
     noRevenue: 'The company reported no revenue in its latest fiscal year, so there is nothing to break down.',
-    revenueMissing: 'A total revenue figure for the latest fiscal year is not available here, so a breakdown cannot be shown.'
+    revenueMissing: 'Not available: the latest annual filing does not report a single company-wide revenue total, so there is nothing to break down.',
+    revenueInParts: 'Not available: the company files its income as separate lines (interest, fees or premiums) with no single revenue total, so a breakdown cannot be shown.'
 };
 const round1 = n => Math.round(n * 10) / 10;
 
@@ -60,11 +61,11 @@ function measureNote(measure, coverage) {
 // The deterministic answer from the filing's own tagged figures. No model and
 // no network: the same input always gives the same contract, which is what the
 // audit and the golden set check.
-function fromGroups(groups, symbol = null, { read = false, revenue = null } = {}) {
+function fromGroups(groups, symbol = null, { read = false, revenue = null, incomeInParts = false } = {}) {
     // Zero filed revenue and a revenue figure we do not hold are different facts:
     // HSBC has revenue; a pre-revenue biotech does not. `revenue` is a number,
     // 'missing' when the statement row has no figure, or null when unknown.
-    if (!(groups || []).length && revenue === 'missing') return none(symbol, REASONS.revenueMissing);
+    if (!(groups || []).length && revenue === 'missing') return none(symbol, incomeInParts ? REASONS.revenueInParts : REASONS.revenueMissing);
     if (!(groups || []).length && typeof revenue === 'number' && !(revenue > 0)) return none(symbol, REASONS.noRevenue);
     const choice = store.preferred(groups), group = choice.usable || choice.partial;
     if (!group) return none(symbol, whyNone(groups, read));
@@ -108,15 +109,17 @@ async function storedGroups(symbol) {
     if (process.env.SEC_COVERAGE_READ_ONLY === '1' || process.env.SEC_COVERAGE_DISABLE_ON_DEMAND === '1') return {};
     const evidence = await require('./verified-fundamentals').getCompanyEvidence(symbol).catch(() => null);
     const latest = (evidence?.statements?.income?.annualReports || []).slice().sort((a, b) => String(b.fiscalDateEnding).localeCompare(String(a.fiscalDateEnding)))[0];
+    const filed = k => latest && latest[k] !== null && latest[k] !== undefined && latest[k] !== '';
     return { groups: evidence?.statements?.segmentObservations || null, read: evidence?.statements?.industryExtraction?.status === 'success',
+        incomeInParts: ['netInterestIncome', 'interestIncome', 'nonInterestIncome', 'premiums', 'investmentIncome'].some(filed),
         revenue: !latest ? null : latest.totalRevenue === null || latest.totalRevenue === undefined || latest.totalRevenue === '' || !Number.isFinite(Number(latest.totalRevenue)) ? 'missing' : Number(latest.totalRevenue) };
 }
 
 // The answer for a symbol. `text: false` never calls the extraction model (a
 // cached page read must not), and grades whatever text result is handed in.
 async function forSymbol(symbol, { text = true, cachedText = null } = {}) {
-    const sym = String(symbol || '').toUpperCase(), { groups, read: wasRead, revenue = null } = await storedGroups(sym);
-    const tagged = fromGroups(groups || [], sym, { read: wasRead, revenue });
+    const sym = String(symbol || '').toUpperCase(), { groups, read: wasRead, revenue = null, incomeInParts = false } = await storedGroups(sym);
+    const tagged = fromGroups(groups || [], sym, { read: wasRead, revenue, incomeInParts });
     if (tagged.grade === 'complete') return tagged;
     const segments = require('./segments');
     let extracted = cachedText;

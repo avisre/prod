@@ -36,10 +36,20 @@ are geography; regions only when nothing else is usable; operating segments are 
 sell to each other (110–160% of revenue: CVS, HUM, UNH), are shown with shares of the segment total and a note;
 roll-up members ("Reportable Segment, Aggregation", "Total") are never rows; a table at 60–98% is `partial`.
 
-**Coverage, 4,923 screenable issuers:** complete 3,267 + partial 154 = 3,421; filed revenue is zero 47; **total
-revenue missing in our statement data 415** (HSBC, SAN, UBS, SYF, APA, 49 financials, 242 health care — a core
-extraction gap, not a breakdown gap; the page says the figure is unavailable, never "no revenue"); single-row
-295; tags no table 601; covers <60% 127; over 110% 16. S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
+**Coverage, 4,923 screenable issuers:** complete 3,267 + partial 154 = 3,421; filed revenue is zero 47; single-row
+295; tags no table 601; covers <60% 127; over 110% 16; **no total revenue in our statement data ~416**.
+**Those 422 were checked one by one** (`docs/qa/revenue-missing-check-2026-10-07.csv`, SEC company facts + each
+latest annual filing): 146 have never filed revenue (pre-revenue, R&D only); only 18 file an undimensioned total, and
+most of those are fragments the revenue rule rejects on purpose (`partialRevenueConcept`: a bank's fee line).
+`sec-facts.js` now has a helper field `reportedRevenueTotal` (us-gaap `RegulatedOperatingRevenue`, ifrs-full
+`RevenueAndOperatingIncome`) that fills `totalRevenue` **only when it is null** and the line is ≥ |net income|:
+filled HSBC, UBS, ARGX, BCH, OGS, GGAL; rejected BBVA (a €316M fragment). The rest stay empty and the page says why
+(`REASONS.revenueInParts` for lenders filing interest/fees/premiums separately, else `revenueMissing`) — owner's
+rule 10/7: never show a figure the company did not file; say it is not available and why; fill only genuine cases.
+LHX, MTH tag revenue only by segment/product with no company total; APA, NRP, TG use company-specific concepts.
+**Do not run `refresh-sec-coverage.js --symbols` on a day after `sec-reporting.json` `asOf`:** the new check
+timestamps post-date the snapshot and `sec-runtime.test.js` fails; the six fills above were capped to the asOf day.
+S&P 500: 438 complete / 35 partial / 30 none. Rerun the numbers with
 `node scripts/audit-segment-display.js --sp500` (0 violations required; it runs in the deploy gate).
 
 **Measured, do not redo:** reading untagged tables from annual-report text recovered **0 of 39** sampled issuers
