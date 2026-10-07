@@ -79,6 +79,21 @@ function isValidRedirectUri(value) {
     return /^[a-z][a-z0-9+.-]*:$/i.test(url.protocol) && url.protocol !== 'javascript:' && url.protocol !== 'data:';
 }
 
+// Where an approved code is actually delivered, for the consent screen. The
+// client name is whatever the registrant typed, so it cannot be what a user
+// relies on; this is derived from the registered redirect_uri instead.
+function redirectDisplayHost(value) {
+    let url;
+    try {
+        url = new URL(String(value));
+    } catch (_) {
+        return '';
+    }
+    if (url.protocol === 'https:') return url.host;
+    if (url.protocol === 'http:') return `${url.host} (this device)`;
+    return `the ${url.protocol.slice(0, -1)} app on this device`;
+}
+
 /**
  * Dynamic Client Registration (RFC 7591). Open registration by design — that is
  * what "dynamic" means here, and ChatGPT will not connect without it. The
@@ -275,6 +290,7 @@ module.exports = {
     ACCESS_TTL_MS,
     REFRESH_TTL_MS,
     isValidRedirectUri,
+    redirectDisplayHost,
     scopeList,
     registerClient,
     getClient,

@@ -41,6 +41,16 @@ test('redirect_uri validation: https anywhere, http only on loopback', () => {
     assert.equal(oauth.isValidRedirectUri('not a url'), false);
 });
 
+test('the consent screen names the real destination, not the self-chosen client name', () => {
+    assert.equal(oauth.redirectDisplayHost('https://chatgpt.com/connector_platform_oauth_redirect'), 'chatgpt.com');
+    assert.equal(oauth.redirectDisplayHost('https://attacker-alpha.example.com:8443/cb'), 'attacker-alpha.example.com:8443');
+    // Userinfo must not be able to dress an attacker host up as a trusted one.
+    assert.equal(oauth.redirectDisplayHost('https://chatgpt.com@evil.example.com/cb'), 'evil.example.com');
+    assert.equal(oauth.redirectDisplayHost('http://127.0.0.1:54321/callback'), '127.0.0.1:54321 (this device)');
+    assert.equal(oauth.redirectDisplayHost('myapp://callback'), 'the myapp app on this device');
+    assert.equal(oauth.redirectDisplayHost('not a url'), '');
+});
+
 test('registration rejects a client with no usable redirect_uri', { timeout: 60000 }, async (t) => {
     await withMongo(t);
     await assert.rejects(() => oauth.registerClient({ clientName: 'x', redirectUris: [] }), /redirect_uri is required/);

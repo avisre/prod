@@ -1027,10 +1027,6 @@ function isMongoSrvResolutionError(error) {
     message.includes('querysrv') || message.includes('srv');
 }
 
-function redactMongoUri(uri = '') {
-  return String(uri || '').replace(/\/\/([^:@/]+):([^@/]+)@/, '//***:***@');
-}
-
 function encodeMongoCredential(value = '') {
   return encodeURIComponent(decodeURIComponent(String(value || '')));
 }
@@ -1163,7 +1159,7 @@ async function connectMongoWithFallback(uri) {
   for (let attempt = 1; ; attempt++) {
     try {
       await mongoose.connect(uri, options);
-      console.log(`MongoDB connected (${redactMongoUri(uri)})`);
+      console.log('MongoDB connected');
       // One-shot: carry legacy ask_memories rows into personal_memory and flip
       // pre-default opt-outs back ON (marker-guarded — user opt-outs made after
       // this boot are permanent). Best-effort; failure retries next boot.
@@ -1183,7 +1179,7 @@ async function connectMongoWithFallback(uri) {
         try {
           const directUri = await expandMongoSrvUri(uri);
           await mongoose.connect(directUri, options);
-          console.log(`MongoDB connected via SRV fallback (${redactMongoUri(directUri)})`);
+          console.log('MongoDB connected via SRV fallback');
           pm.bootMigrate();
           await mongoose.connection.collection('funnel_events').createIndex(
             { event: 1, userId: 1, activationJob: 1 },
@@ -6217,6 +6213,7 @@ app.get('/oauth/authorize', async (req, res) => {
 
     const user = await oauthCurrentUser(req);
     const selfUrl = oauthBase(req) + req.originalUrl;
+    const destination = `<p class="sub">Access will be sent to <strong>${escapeHtmlOauth(oauthMcp.redirectDisplayHost(redirectUri))}</strong>. Only continue if you started this from that app.</p>`;
     const hidden = ['client_id', 'redirect_uri', 'state', 'code_challenge', 'code_challenge_method', 'scope', 'resource']
         .map((k) => `<input type="hidden" name="${k}" value="${escapeHtmlOauth(k === 'scope' ? scopeResult : k === 'resource' ? (resourceResult.value || '') : (q[k] || ''))}">`).join('');
 
@@ -6244,6 +6241,7 @@ a{color:#1c1b18}</style>`;
 <div class="card">
   <h1>Sign in to connect</h1>
   <p class="sub"><strong>${escapeHtmlOauth(client.clientName)}</strong> wants to use your StockPortfolio.pro account.</p>
+  ${destination}
   <form id="f">
     <label for="e">Email</label><input id="e" type="email" autocomplete="username" required>
     <label for="p">Password</label><input id="p" type="password" autocomplete="current-password" required>
@@ -6275,6 +6273,7 @@ document.getElementById('f').addEventListener('submit', async function (ev) {
 <div class="card">
   <h1>Connect ${escapeHtmlOauth(client.clientName)}</h1>
   <p class="sub">Signed in as ${email}</p>
+  ${destination}
   <ul>
     <li>Read filing-grounded company data through your account</li>
     <li>Spend credits from your monthly allowance</li>
