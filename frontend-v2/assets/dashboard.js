@@ -31,7 +31,32 @@
             const reason = $('billing-refund-reason');
             const details = $('billing-refund-details');
             const detailsLabel = $('billing-refund-details-label');
-            if (!section || !copy || !button || !reason || !details || !policy || !policy.eligible) return;
+            if (!section || !copy || !button || !reason || !details || !policy) return;
+            // Other pages link here as /dashboard.html#billing-refund. The card is
+            // hidden until this runs, so the browser's own anchor jump finds
+            // nothing — scroll once the card is on screen.
+            const linkedHere = location.hash === '#billing-refund';
+            const reveal = () => {
+                section.hidden = false;
+                if (linkedHere) section.scrollIntoView({ block: 'center' });
+            };
+            if (!policy.eligible) {
+                // Only someone who followed a refund link gets an answer here;
+                // everyone else keeps a dashboard without a dead card on it.
+                if (!linkedHere) return;
+                const form = $('billing-refund-form');
+                if (form) form.hidden = true;
+                const ended = policy.eligibleUntil && new Date(policy.eligibleUntil).getTime() < Date.now();
+                copy.textContent = policy.status === 'refunded'
+                    ? 'Your initial payment has already been refunded.'
+                    : policy.status === 'requested'
+                        ? 'Your refund request is being processed.'
+                        : ended
+                            ? 'The 7-day refund window for your initial payment has ended. Email support@stockportfolio.pro if you need help.'
+                            : 'This account has no initial payment that can be refunded here. Email support@stockportfolio.pro if you need help.';
+                reveal();
+                return;
+            }
             (Array.isArray(policy.reasons) ? policy.reasons : []).forEach((item) => {
                 const option = document.createElement('option');
                 option.value = item.id;
@@ -55,7 +80,7 @@
             const until = policy.eligibleUntil ? new Date(policy.eligibleUntil) : null;
             const dateText = until && !Number.isNaN(until.getTime()) ? ` before ${until.toLocaleDateString()}` : '';
             copy.textContent = `Your initial Stripe payment is eligible for a refund${dateText}. Requesting it cancels the subscription and removes paid access.`;
-            section.hidden = false;
+            reveal();
             button.addEventListener('click', async () => {
                 status.hidden = false;
                 if (!reason.value) {

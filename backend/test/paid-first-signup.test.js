@@ -96,6 +96,12 @@ test('a refund request must carry a reason, which is stored and sent to the owne
   // A validation prompt must clear once the customer picks a reason or types.
   assert.match(dashboardJs, /reason\.addEventListener\('change', \(\) => \{[\s\S]{0,260}clearPrompt\(\);/);
   assert.match(dashboardJs, /details\.addEventListener\('input', clearPrompt\)/);
+  // The card must be reachable: other pages link to it, and it answers the link.
+  assert.match(dashboardHtml, /Refund your first payment/);
+  assert.match(dashboardJs, /location\.hash === '#billing-refund'/);
+  for (const page of ['support.html', 'terms.html', 'upgrade.html']) {
+    assert.match(fs.readFileSync(require.resolve(`../../frontend-v2/${page}`), 'utf8'), /href="\/dashboard\.html#billing-refund"/, page);
+  }
 });
 
 test('signup surfaces describe payment and refund terms instead of a no-card trial', () => {
