@@ -293,12 +293,30 @@ function hasCampaignMarker(query) {
     });
 }
 
+// A tracking beacon is a request to /api/track/*, so its own path says nothing
+// about where the visitor landed — and for a visitor with no campaign marker
+// the beacon is the request that creates the journey. Until 2026-10-08 every
+// such first touch was stored with landingPath "/api/track/page_view". The page
+// that sent the beacon is the landing page: the body's `path`
+// (location.pathname), else the first-party Referer header.
+function beaconPagePath(req) {
+    const bodyPath = req && req.body && typeof req.body.path === 'string' ? req.body.path.trim().split(/[?#]/)[0] : '';
+    if (/^\/(?!\/)/.test(bodyPath) && !bodyPath.startsWith('/api/')) return shortValue(bodyPath, 240);
+    const referrer = sanitizeReferrer(req && req.headers && (req.headers.referer || req.headers.referrer));
+    if (!referrer || referrerSource(referrer) !== 'internal') return null;
+    try {
+        const pagePath = new URL(referrer).pathname;
+        return pagePath.startsWith('/api/') ? null : shortValue(pagePath, 240);
+    } catch (_) { return null; }
+}
+
 function attributionTouch(req, { now = Date.now() } = {}) {
     const query = req && req.query && typeof req.query === 'object' ? req.query : {};
     const referrer = sanitizeReferrer(req && (req.headers.referer || req.headers.referrer));
     const refHost = referrerHostname(referrer);
     const refSource = referrerSource(referrer);
-    const allowQueryAttribution = Boolean(req && req.method === 'GET' && !String(req.path || '').startsWith('/api/'));
+    const isApiRequest = String(req && req.path || '').startsWith('/api/');
+    const allowQueryAttribution = Boolean(req && req.method === 'GET' && !isApiRequest);
     const querySource = allowQueryAttribution ? normalizeSource(query.utm_source || query.source) : null;
     let source = querySource || refSource || 'direct';
     if (source === 'internal' || (refHost && (refHost === 'stockportfolio.pro' || refHost.endsWith('.stockportfolio.pro')))) source = 'internal';
@@ -310,7 +328,7 @@ function attributionTouch(req, { now = Date.now() } = {}) {
         contentId: shortValue(query.content_id || query.utm_content, 120),
         clickId: shortValue(query.click_id || query.gclid || query.msclkid || query.fbclid || query.twclid || query.li_fat_id || query.dclid || query.gbraid || query.wbraid || query.ttclid, 80),
         referrerHost: refHost,
-        landingPath: shortValue(req && req.path, 240) || '/',
+        landingPath: isApiRequest ? beaconPagePath(req) : (shortValue(req && req.path, 240) || '/'),
         ctaId: shortValue(query.cta_id, 100),
         environment: shortValue(process.env.NODE_ENV || 'development', 20),
         occurredAt: new Date(now).toISOString()

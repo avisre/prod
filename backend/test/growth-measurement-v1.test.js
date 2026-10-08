@@ -30,6 +30,29 @@ test('attribution preserves non-direct touch when a later visit is direct', () =
     assert.equal(direct.currentSessionTouch.source, 'direct');
 });
 
+test('a journey that starts on a tracking beacon records the page, not the beacon', () => {
+    // Regression: a paying customer who arrived on /docs/api-mcp was stored with
+    // landingPath "/api/track/page_view", so the page that sold him was invisible.
+    const beacon = (body, referer) => ({ method: 'POST', path: '/api/track/page_view', query: {}, body, headers: { host: 'www.stockportfolio.pro', ...(referer ? { referer } : {}), 'user-agent': 'Mozilla/5.0 Chrome/150.0.0.0' } });
+    const capture = (req) => tracking.captureAttribution(req, responseMock(), { secret: SECRET, now: Date.parse('2026-10-08T00:00:00Z'), secure: false });
+
+    const fromBody = capture(beacon({ path: '/docs/api-mcp?x=1#top', referrer: '' }, 'https://www.stockportfolio.pro/docs/api-mcp'));
+    assert.equal(fromBody.firstTouch.landingPath, '/docs/api-mcp');
+    assert.equal(fromBody.firstTouch.source, 'direct');
+
+    const fromReferer = capture(beacon({}, 'https://www.stockportfolio.pro/screener'));
+    assert.equal(fromReferer.firstTouch.landingPath, '/screener');
+
+    // Nothing first-party to go on: unknown, never the beacon's own path.
+    for (const req of [beacon({}), beacon({ path: '/api/track/page_view' }), beacon({ path: '//evil.example/x' }), beacon({}, 'https://evil.example/landing')]) {
+        assert.equal(capture(req).firstTouch.landingPath, null);
+    }
+
+    // A public HTML request still records its own path.
+    const html = capture({ method: 'GET', path: '/gurus', query: {}, headers: { host: 'www.stockportfolio.pro', 'user-agent': 'Mozilla/5.0 Chrome/150.0.0.0' } });
+    assert.equal(html.firstTouch.landingPath, '/gurus');
+});
+
 test('attribution self-referral is internal and values are bounded', () => {
     const req = { method: 'GET', path: '/compare/AAPL-vs-MSFT', query: { utm_source: 'x', content_id: 'bad value with spaces' }, headers: { referer: 'https://x.com/investor/status/1?email=secret', 'user-agent': 'Mozilla/5.0 Firefox/130.0' } };
     const fields = tracking.attributionTouch(req);
