@@ -817,6 +817,17 @@ function renderConnect() {
     ${listings.map(card).join('\n    ')}
   </div>
 
+  <div class="seo-section"><h2>Watch it answer a real question</h2><div class="seo-about">
+    <p>Claude is asked for Micron&#39;s last eight quarters of revenue, gross profit and free cash flow. Each row comes back with the 10-Q or 10-K it was read from. 34 seconds, no sound.</p>
+    <div style="position:relative;width:100%;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#000;aspect-ratio:16/9;margin-top:12px">
+      <video controls preload="none" playsinline poster="/assets/connect-claude-poster.jpg" width="1280" height="720" style="width:100%;height:100%;display:block;background:#000" aria-label="Claude answering a Micron filing question through the StockPortfolio connector">
+        <source src="/assets/connect-claude-1080p.mp4" type="video/mp4">
+        <source src="/assets/connect-claude-720p.mp4" type="video/mp4">
+        <a href="/assets/connect-claude-1080p.mp4">Download the demo (MP4)</a>
+      </video>
+    </div>
+  </div></div>
+
   ${S('What to ask', `<ul>
       <li>&ldquo;What did NVIDIA report for revenue and free cash flow last fiscal year? Cite the filing.&rdquo;</li>
       <li>&ldquo;What has Apple filed in the last 90 days, and what changed in the latest 10-Q?&rdquo;</li>
