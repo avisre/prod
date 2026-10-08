@@ -549,14 +549,24 @@ function errorResult(code, message, details, extra) {
     return { isError: true, content: [{ type: 'text', text: JSON.stringify(payload, null, 2) }] };
 }
 
-// Commerce-neutral, per the OpenAI plugin guidelines the /mcp/apps surface is
-// submitted under: these explain what is missing and never name a plan, a price
-// or a checkout. Both surfaces share this module, so the copy must satisfy the
-// stricter of the two.
-const MSG_NO_CREDENTIALS = 'This tool needs a StockPortfolio.pro account. Reconnect this server with authentication, then call it again. search_companies and sp_health work without an account.';
+// These explain what is missing and stop. /mcp/apps, the surface submitted
+// under the OpenAI plugin guidelines (no plan, price or checkout in the app),
+// keeps its own commerce-neutral copy in mcp-apps.js and reads none of these.
+// MSG_NO_ENTITLEMENT below is the exception on this surface: it names the plan.
+const MSG_NO_CREDENTIALS = 'This tool needs a StockPortfolio.pro account. Reconnect this server with authentication, then call it again. sp_health works without an account.';
 const MSG_NETWORK = 'This connection cannot use the free allowance from a data-centre or VPN network. Authenticate the connection to continue.';
 const MSG_REGION = 'The free allowance is not available from this region. Authenticate the connection to continue.';
-const MSG_NO_ENTITLEMENT = 'This capability is not included in the connected StockPortfolio.pro account.';
+// The caller is signed in, so the fix is a plan change on the account they
+// already have (/upgrade.html), not a new signup. Entitlement is read on every
+// call, so the same connection works as soon as the plan changes. Price and
+// rates mirror mcp-anon.js's upgradeInstructions(); this is the bare message a
+// paying Monthly customer met on every call before the 2026-10-08 access fix,
+// with nothing to say what to do about it.
+const UPGRADE_URL = 'https://www.stockportfolio.pro/upgrade.html?utm_source=connector&utm_campaign=no_access';
+const MSG_NO_ENTITLEMENT = 'The plan on the connected StockPortfolio.pro account does not include this connector. '
+    + `To use it, open ${UPGRADE_URL} and choose the Monthly plan ($79.99/month, cancel anytime). `
+    + 'It includes this connector with 100 credits a month (a data lookup costs 2 credits, an AI answer 42). '
+    + 'This connection picks the new plan up on the next call; there is nothing to reconnect.';
 
 // ---------------------------------------------------------------------------
 // Server
@@ -657,7 +667,7 @@ function buildMcpServer(ctx, deps) {
             // mcpAccessGate before the transport was reached, which a caller
             // could only read as a broken server.
             if (!ctx.anonymous && typeof deps.entitled === 'function' && !deps.entitled()) {
-                return finish(errorResult('ENTITLEMENT_REQUIRED', MSG_NO_ENTITLEMENT, { tool: def.name }), 'ENTITLEMENT_REQUIRED');
+                return finish(errorResult('ENTITLEMENT_REQUIRED', MSG_NO_ENTITLEMENT, { tool: def.name, upgradeUrl: UPGRADE_URL }), 'ENTITLEMENT_REQUIRED');
             }
 
             if (!gate.ok) {

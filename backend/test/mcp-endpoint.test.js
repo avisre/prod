@@ -490,6 +490,10 @@ test('a drained wallet is refused with the REST shortfall body', { timeout: 6000
     const refused = await client2.callTool({ name: 'search_filings', arguments: { ticker: 'AAPL' } });
     assert.equal(refused.isError, true);
     assert.equal(jsonOf(refused).code, 'ENTITLEMENT_REQUIRED', 'a plan without the capability is explained, not 402ed');
+    // The refusal says what to do: which plan, what it costs, where to get it.
+    assert.match(jsonOf(refused).error, /Monthly plan \(\$79\.99\/month/);
+    assert.match(jsonOf(refused).error, /stockportfolio\.pro\/upgrade\.html/);
+    assert.match(jsonOf(refused).upgradeUrl, /^https:\/\/www\.stockportfolio\.pro\/upgrade\.html/);
 });
 
 // ---------------------------------------------------------------------------
