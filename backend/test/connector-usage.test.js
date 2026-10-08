@@ -26,6 +26,12 @@ test('the subject is the ticker, or the ticker and the first words of the questi
     assert.equal(usage.subjectFor({ ticker: 'A\nB', question: 'x\ty\u0000z' }), 'A B: x y z');
     assert.ok(usage.subjectFor({ question: 'w'.repeat(500) }).length <= 80);
     for (const empty of [undefined, null, {}, { ticker: '   ' }, 'AAPL', ['AAPL']]) assert.equal(usage.subjectFor(empty), null);
+    // The ChatGPT app endpoint names things differently: a company, a list, a metric.
+    assert.equal(usage.subjectFor({ company: 'Apple Inc.' }), 'Apple Inc.');
+    assert.equal(usage.subjectFor({ company: 'nvda', metric: 'revenue' }), 'NVDA: revenue');
+    assert.equal(usage.subjectFor({ companies: ['aapl', 'msft'], metrics: ['revenue', 'net_income'] }), 'AAPL, MSFT: revenue, net_income');
+    assert.equal(usage.subjectFor({ companies: ['a', 'b', 'c', 'd', 'e', 'f', 'g'] }), 'A, B, C, D, E…');
+    assert.equal(usage.subjectFor({ company: { ticker: 'AAPL' } }), null, 'an object is not a name');
 });
 
 test('a burst folds into one session, and a gap starts another', () => {
@@ -53,6 +59,16 @@ test('a burst folds into one session, and a gap starts another', () => {
     assert.deepEqual(first.tools[0], { tool: 'get_company_fundamentals', count: 3 });
     assert.deepEqual(first.subjects, ['NVDA', 'NVDA: What drove data centre growth?', 'AMD', 'TSM'], 'each subject once, in the order asked');
     assert.equal(first.client, 'Claude');
+    // Call by call, in order, with the refusal where it happened.
+    assert.equal(first.items.length, 6);
+    assert.deepEqual(first.items[1], { at: '2026-10-08T12:57:02.000Z', tool: 'ask_filings', subject: 'NVDA: What drove data centre growth?', credits: 42, refused: null });
+    assert.deepEqual(first.items[5], { at: '2026-10-08T12:58:10.000Z', tool: 'get_company_fundamentals', subject: 'TSM', credits: 0, refused: 'Out of credits' });
+    // A runaway session is capped in the response; the count of what was left out is kept.
+    const long = Array.from({ length: 230 }, (_, i) => call(`12:${String(Math.floor(i / 60)).padStart(2, '0')}:${String(i % 60).padStart(2, '0')}`, 'get_company_fundamentals', 'T' + i));
+    const [capped] = usage.sessions(long, []);
+    assert.equal(capped.calls, 230);
+    assert.equal(capped.items.length, 200);
+    assert.equal(capped.itemsDropped, 30);
 });
 
 test('only connector and API spend is a call: web spend, grants and comps are not', () => {
@@ -136,6 +152,13 @@ test('the connector passes the subject to the ledger and keeps it out of the app
     assert.match(app, /collection\('connector_refusals'\)\.find\(\{ userId: String\(userId\), month \}\)/);
 
     assert.match(read('credits.js'), /\.\.\.\(client \? \{ client: String\(client\)\.slice\(0, 60\) \} : \{\}\)/);
+
+    // The ChatGPT app endpoint does the same, or its calls show up with no detail.
+    const apps = read('mcp-apps.js');
+    assert.match(apps, /const subject = ctx\.anonymous \? null : connectorUsage\.subjectFor\(args\);/);
+    assert.match(apps, /deps\.limiter\.spend\(ctx\.userId, 'mcp_lookup', `mcp-apps:\$\{name\}`, subject, ctx\.client \|\| null\);/);
+    assert.match(apps, /caller: ctx\.logId \|\| null \}, \{ subject \}\);/);
+    assert.match(app, /onLog: \(evt, detail\) => \{ console\.log\('\[mcp-apps\]', JSON\.stringify\(evt\)\); nudgeOnRefusal\(req, evt\); recordConnectorRefusal\(req, evt, detail, client\); \}/);
 });
 
 test('the profile page carries the panel, the refill button and the script', () => {

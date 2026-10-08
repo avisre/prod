@@ -23,8 +23,12 @@ while a session is running and a refill button beside the balance.
   so it does not reach the application log. Rows before this deploy have neither.
 - Refused calls (out of credits, no connector on the plan, region, network) go to `connector_refusals`, capped at
   60 per account per hour. They were recorded nowhere before.
-- **Not done:** `/mcp/apps` calls still store no subject and do not record refusals; the panel has not been
-  checked against a real signed-in account, only in a browser harness with generated data.
+- `/mcp/apps` (the ChatGPT app endpoint) records subject, client and refusals the same way. Each session also
+  carries `items` (every call: time, tool, subject, credits; capped at 200, the rest in the CSV).
+- Calls made before the 2026-10-08 deploys have no subject and no client, and nothing else stored what they asked
+  for, so they cannot be backfilled. They show as "AI assistant" with "not recorded".
+- Checked: the live endpoint returns the test account's real sessions. **Not checked:** the panel drawn in a real
+  signed-in browser (harness only), and a real call through `/mcp/apps` landing with its subject.
 
 ## Credit refill sizes — 2026-10-08 (owner decision)
 

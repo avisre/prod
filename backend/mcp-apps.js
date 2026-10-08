@@ -30,6 +30,7 @@
 // transport is stateless, and closes it over the already-resolved caller so a
 // tool handler never re-derives identity or entitlement.
 
+const connectorUsage = require('./connector-usage');
 const { Server } = require('@modelcontextprotocol/sdk/server/index.js');
 const { StreamableHTTPServerTransport } = require('@modelcontextprotocol/sdk/server/streamableHttp.js');
 const { CallToolRequestSchema, ListToolsRequestSchema } = require('@modelcontextprotocol/sdk/types.js');
@@ -508,11 +509,15 @@ function buildMcpAppsServer(ctx, deps) {
         const args = rawArgs && typeof rawArgs === 'object' ? rawArgs : {};
         const def = TOOL_BY_NAME.get(name);
         const started = Date.now();
+        // What the call was about, for the account's own usage log (see
+        // connector-usage.js). It rides beside the event, never inside it: the
+        // event is printed to the application log.
+        const subject = ctx.anonymous ? null : connectorUsage.subjectFor(args);
 
         const log = (ok, code) => {
             if (typeof deps.onLog !== 'function') return;
             try {
-                deps.onLog({ tool: name, ok, code: code || null, ms: Date.now() - started, caller: ctx.logId || null });
+                deps.onLog({ event: 'tools/call', tool: name, ok, code: code || null, ms: Date.now() - started, caller: ctx.logId || null }, { subject });
             } catch (_) { /* telemetry must never fail a call */ }
         };
 
@@ -539,7 +544,7 @@ function buildMcpAppsServer(ctx, deps) {
                 return errorResult('QUOTA_EXCEEDED', message);
             }
             const result = await def.handler(args);
-            await deps.limiter.spend(ctx.userId, 'mcp_lookup', `mcp-apps:${name}`, null);
+            await deps.limiter.spend(ctx.userId, 'mcp_lookup', `mcp-apps:${name}`, subject, ctx.client || null);
             log(true, null);
             return textResult(result);
         } catch (err) {

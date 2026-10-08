@@ -43,12 +43,20 @@ function clean(value, max) {
 // ticker for a lookup, the ticker plus the first few words for a question.
 function subjectFor(args) {
     const a = args && typeof args === 'object' ? args : {};
-    const ticker = clean(a.ticker || a.symbol, 12).toUpperCase();
+    // One company (a ticker, or a name on the app endpoint) or a short list of
+    // them. A ticker is upper-cased; a company name is left as typed.
+    const one = clean(a.ticker || a.symbol || (typeof a.company === 'string' ? a.company : ''), 24);
+    const many = [a.companies, a.tickers].find(Array.isArray) || [];
+    const names = many.map((x) => clean(x, 24)).filter(Boolean);
+    const tidy = (s) => (/^[A-Za-z][A-Za-z.\-]{0,6}$/.test(s) ? s.toUpperCase() : s);
+    const who = one ? tidy(one) : names.slice(0, 5).map(tidy).join(', ') + (names.length > 5 ? '…' : '');
     const asked = clean(a.question || a.query, 400);
     const words = asked ? asked.split(' ') : [];
     const snippet = words.slice(0, QUESTION_WORDS).join(' ') + (words.length > QUESTION_WORDS ? '…' : '');
+    // What was looked up about them, when the tool takes a metric instead of a question.
+    const metric = clean(typeof a.metric === 'string' ? a.metric : (Array.isArray(a.metrics) ? a.metrics.slice(0, 3).join(', ') : ''), 40);
     const accession = clean(a.accession_number, 30);
-    const subject = [ticker, snippet].filter(Boolean).join(': ') || accession;
+    const subject = [who, snippet || metric].filter(Boolean).join(': ') || accession;
     return subject ? subject.slice(0, SUBJECT_MAX) : null;
 }
 
@@ -124,12 +132,12 @@ function events(ledgerRows, refusalRows) {
 // Fold events into sittings, newest first. A session is what the customer did
 // in one go, so it is the unit they recognise: "Claude, 12:56 to 13:24, 32
 // calls, 104 credits" rather than 32 identical lines.
-function sessions(ledgerRows, refusalRows, { gapMs = SESSION_GAP_MS, subjectCap = 60 } = {}) {
+function sessions(ledgerRows, refusalRows, { gapMs = SESSION_GAP_MS, subjectCap = 60, itemCap = 200 } = {}) {
     const out = [];
     let cur = null;
     for (const e of events(ledgerRows, refusalRows)) {
         if (!cur || e.at - cur.end > gapMs) {
-            cur = { start: e.at, end: e.at, calls: 0, credits: 0, refused: 0, tools: {}, refusedBy: {}, subjects: [], clients: [], via: [] };
+            cur = { start: e.at, end: e.at, calls: 0, credits: 0, refused: 0, tools: {}, refusedBy: {}, subjects: [], clients: [], via: [], items: [], itemsDropped: 0 };
             out.push(cur);
         }
         cur.end = e.at;
@@ -141,6 +149,12 @@ function sessions(ledgerRows, refusalRows, { gapMs = SESSION_GAP_MS, subjectCap 
             cur.refused += 1;
             cur.refusedBy[e.code] = (cur.refusedBy[e.code] || 0) + 1;
         }
+        // The session, call by call: what a customer reads to answer "what did I
+        // use it for". Capped so one runaway session cannot make the response
+        // unbounded; the CSV always has every row.
+        if (cur.items.length < itemCap) {
+            cur.items.push({ at: e.at.toISOString(), tool: e.tool, subject: e.subject, credits: e.credits, refused: e.kind === 'refused' ? (REFUSAL_LABELS[e.code] || e.code) : null });
+        } else cur.itemsDropped += 1;
         if (e.subject && !cur.subjects.includes(e.subject) && cur.subjects.length < subjectCap) cur.subjects.push(e.subject);
         if (e.client && !cur.clients.includes(e.client)) cur.clients.push(e.client);
         if (!cur.via.includes(e.via)) cur.via.push(e.via);
@@ -154,6 +168,8 @@ function sessions(ledgerRows, refusalRows, { gapMs = SESSION_GAP_MS, subjectCap 
         refusedBy: Object.entries(s.refusedBy).map(([code, count]) => ({ code, label: REFUSAL_LABELS[code] || code, count })),
         tools: Object.entries(s.tools).map(([tool, count]) => ({ tool, count })).sort((a, b) => b.count - a.count),
         subjects: s.subjects,
+        items: s.items,
+        itemsDropped: s.itemsDropped,
         client: s.clients.length === 1 ? s.clients[0] : (s.clients.length > 1 ? s.clients.join(' and ') : null),
         via: s.via.length === 1 ? s.via[0] : 'connector'
     }));

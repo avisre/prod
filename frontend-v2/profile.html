@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..750&display=swap" />
-  <link rel="stylesheet" href="assets/system.css?v=20261008-features2" />
+  <link rel="stylesheet" href="assets/system.css?v=20261008-usage1" />
   <link rel="stylesheet" href="assets/messages.css?v=20260824-msgreply1" />
   <style>
     .pcard { margin-top: 18px; }
@@ -73,13 +73,22 @@
     #connector-usage { margin-top: 22px; }
     .cu-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 10px; font-size: var(--text-sm); }
     .cu-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .cu-sessions { list-style: none; margin: 12px 0 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); max-height: 420px; overflow-y: auto; }
+    .cu-sessions { list-style: none; margin: 12px 0 0; padding: 0; border: 1px solid var(--line); border-radius: var(--radius-sm); max-height: 680px; overflow-y: auto; }
     .cu-sessions li + li { border-top: 1px solid var(--line); }
     .cu-sessions summary { padding: 11px 14px; cursor: pointer; font-size: var(--text-sm); color: var(--ink); font-variant-numeric: tabular-nums; }
     .cu-body { padding: 0 14px 13px; }
     .cu-chips { display: flex; flex-wrap: wrap; gap: 6px; }
     .cu-chip { font-size: 12px; padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink-2); max-width: 100%; overflow-wrap: anywhere; }
     .cu-refused { color: var(--neg, #b42318); }
+    .cu-items-wrap { margin-top: 12px; max-height: 380px; overflow-y: auto; border-top: 1px solid var(--line); }
+    .cu-items { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+    .cu-items td { padding: 6px 8px 6px 0; border-bottom: 1px solid var(--line); vertical-align: baseline; color: var(--ink-2); }
+    .cu-items tr:last-child td { border-bottom: 0; }
+    .cu-items .t { white-space: nowrap; color: var(--ink-3); }
+    .cu-items .k { white-space: nowrap; }
+    .cu-items .s { width: 100%; color: var(--ink); overflow-wrap: anywhere; }
+    .cu-items .c { white-space: nowrap; text-align: right; padding-right: 0; }
+    .cu-items tr.cu-refused td { color: var(--neg, #b42318); }
     /* Recent activity: a fixed window showing the ~6 newest rows; older rows
        (the server still sends up to 12) are reached by scrolling inside the
        list. Shadow layers only "wake" on the scrolling edge, so the card reads
@@ -478,9 +487,9 @@
       </div>
     </div>
   </main>
-  <script src="assets/app.js?v=20261008-features2"></script>
-  <script src="assets/profile.js?v=20261008-features2"></script>
-  <script src="assets/messages.js?v=20261008-features2"></script>
-  <script src="assets/connector-usage.js?v=20261008-features2"></script>
+  <script src="assets/app.js?v=20261008-usage1"></script>
+  <script src="assets/profile.js?v=20261008-usage1"></script>
+  <script src="assets/messages.js?v=20261008-usage1"></script>
+  <script src="assets/connector-usage.js?v=20261008-usage1"></script>
 </body>
 </html>

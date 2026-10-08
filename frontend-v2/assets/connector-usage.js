@@ -37,7 +37,21 @@
     return `${day(s)}, ${time(s)} to ${day(s) === day(e) ? '' : `${day(e)}, `}${time(e)}`;
   }
 
-  function sessionRow(s) {
+  // Every call in the session, in order: when, which tool, what about, what it
+  // cost. This is the answer to "what did I use it for".
+  function itemRows(s) {
+    const time = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const rows = (s.items || []).map((it) => `<tr${it.refused ? ' class="cu-refused"' : ''}>`
+      + `<td class="t">${esc(time(it.at))}</td>`
+      + `<td class="k">${esc(toolLabel(it.tool))}</td>`
+      + `<td class="s">${it.subject ? esc(it.subject) : '<span class="muted">not recorded</span>'}</td>`
+      + `<td class="c">${it.refused ? `refused: ${esc(it.refused)}` : plural(it.credits, 'credit', 'credits')}</td></tr>`).join('');
+    if (!rows) return '';
+    const dropped = s.itemsDropped ? `<p class="small muted" style="margin:8px 0 0;">${plural(s.itemsDropped, 'more call is', 'more calls are')} in the CSV.</p>` : '';
+    return `<div class="cu-items-wrap"><table class="cu-items">${rows}</table></div>${dropped}`;
+  }
+
+  function sessionRow(s, index) {
     const who = s.client || (s.via === 'api' ? 'API key' : 'AI assistant');
     const parts = [esc(who), esc(when(s.start, s.end))];
     if (s.calls) parts.push(plural(s.calls, 'call', 'calls'), plural(s.credits, 'credit', 'credits'));
@@ -48,9 +62,11 @@
     const body = [
       tools ? `<p class="small muted" style="margin:0 0 8px;">${tools}</p>` : '',
       refused ? `<p class="small cu-refused" style="margin:0 0 8px;">${refused}</p>` : '',
-      subjects ? `<div class="cu-chips">${subjects}</div>` : '<p class="small muted" style="margin:0;">Calls made before 8 Oct 2026 did not record what was asked for.</p>'
+      subjects ? `<div class="cu-chips">${subjects}</div>` : '<p class="small muted" style="margin:0 0 4px;">These calls were made before the connector began recording what was asked for (8 Oct 2026), so only the tool and the time are known.</p>',
+      itemRows(s)
     ].join('');
-    return `<li><details><summary>${parts.join(' · ')}</summary><div class="cu-body">${body}</div></details></li>`;
+    // The newest session starts open: it is the one the reader came to check.
+    return `<li><details${index === 0 ? ' open' : ''}><summary>${parts.join(' · ')}</summary><div class="cu-body">${body}</div></details></li>`;
   }
 
   function paceLine(d) {
