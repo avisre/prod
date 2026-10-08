@@ -38,6 +38,29 @@ of the below in one call, which is cheaper than rediscovering it by trial.
   using it: on 9/28 a data commit that argued against the marker in its own body
   was silently skipped and had to be deployed with `gh workflow run`.
 
+## Do not roll back production (2026-10-08 — this happened, read before any push)
+
+- **Two things deploy every push to `main`, and they race.** Render auto-deploys the
+  pushed commit in about 4 minutes. `deploy-render.yml` validates for 30–40 minutes and
+  then deploys **its own `$GITHUB_SHA`**, not the head of `main`. Runs queue; they do
+  not cancel each other. So a run that started on an OLDER commit finishes later and
+  redeploys that older commit over everything pushed since. On 10/08 this silently
+  removed a live customer fix 35 minutes after it had been verified working.
+- **Before pushing:** `gh run list --workflow deploy-render.yml --limit 5`. If a run is
+  `in_progress` or `pending` on an older commit, production WILL regress to that commit
+  when it finishes, and stays there until the run for the newest commit completes.
+- **After pushing:** a change is not live until the run for the NEWEST commit on `main`
+  has completed. Verify against the live site then, not after the first quick deploy.
+- **Never ship whole-file copies from the `~/prod` working tree.** It sits on an old
+  branch with uncommitted edits and does NOT contain what is on `main` (its
+  `backend/app.js` lacks the 10/08 access fix). Start from `origin/main` and patch in
+  only your own hunks.
+- **Owner decision 10/08, do not revert:** `hasApiAccess` (`backend/app.js`) includes
+  `monthly`, `annual` and `pro-annual` alongside `power`, `power-monthly`, `desk`, `dev`.
+  A paying Monthly customer was refused on every Claude connector call before this.
+  Bare `'pro'` must stay OUT of that list (lifetime grants are stored as `pro`).
+  Guard: `test/api-access-gating.test.js`.
+
 ## Editing frontend assets — bump the cache stamp
 
 `backend/app.js` serves every `.js`/`.css` with
