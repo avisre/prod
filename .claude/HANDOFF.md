@@ -12,6 +12,17 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Credit refill sizes — 2026-10-08 (owner decision)
+
+`/recharge` sells five sizes: the existing $14.99 / 150 (Stripe price id, unchanged) plus $50 / $100 / $250 / $500 at
+10 credits per dollar (`CREDIT_TOPUP_PACKS` in `backend/app.js`). The larger packs use inline `price_data`, so there
+is no Stripe price or env var to create. The page sends only a pack id; the webhook grants only when
+`creditTopupPackSettled` sees the paid total match the table. Tests: `test/credit-topup-packs.test.js`.
+**Why:** Todd (todd@insideedgecapital.com, Monthly, connector only) spent his 100-credit month in 28 minutes on
+2026-10-08; he was comped 500 month-scoped credits (ledger reason `comp`, expires 1 Nov) and emailed.
+**Open:** no top-up has ever been bought, so the sizes are untested by demand; serving cost per lookup and per AI
+answer is unmeasured; copy elsewhere (homepage, connector nudge, profile) still mentions only the $14.99 pack.
+
 ## Geo wall: crawler claims are verified inside walled countries — 2026-10-08 (`fa0c46c98`, live)
 
 **What was seen:** GA realtime showed a Singapore user on `/screens/quality-compounders`. `funnel_events` had the same

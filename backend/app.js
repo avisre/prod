@@ -814,6 +814,37 @@ const STRIPE_PRICE_ID_DEV = process.env.STRIPE_PRICE_ID_DEV || '';
 const CREDIT_TOPUP_PRICE = parseFloat(process.env.CREDIT_TOPUP_PRICE || '14.99');
 const CREDIT_TOPUP_CREDITS = parseInt(process.env.CREDIT_TOPUP_CREDITS || '150', 10);
 const STRIPE_PRICE_ID_CREDITS_TOPUP = process.env.STRIPE_PRICE_ID_CREDITS_TOPUP || '';
+// Larger refills (owner decision 2026-10-08). The connector spends in bursts —
+// the first paying connector customer used a 100-credit month in 28 minutes —
+// and one 150-credit pack is seven checkouts for a 500-company pull. Same rate
+// as the base pack, 10 credits per dollar, so no pack undercuts another and the
+// only thing a bigger one buys is fewer trips to checkout.
+//
+// The table is the whole authority: the client sends a pack id, never an
+// amount or a credit count, the session is created at this amount with inline
+// price_data (no Stripe price to create, drift or leave inactive), and the
+// webhook grants only when the paid total matches this table again.
+const CREDIT_TOPUP_PACKS = Object.freeze({
+    50: Object.freeze({ usd: 50, credits: 500 }),
+    100: Object.freeze({ usd: 100, credits: 1000 }),
+    250: Object.freeze({ usd: 250, credits: 2500 }),
+    500: Object.freeze({ usd: 500, credits: 5000 })
+});
+function creditTopupPack(id) {
+    const key = String(id == null ? '' : id);
+    return Object.prototype.hasOwnProperty.call(CREDIT_TOPUP_PACKS, key) ? CREDIT_TOPUP_PACKS[key] : null;
+}
+// True when a completed session that names a pack paid exactly what that pack
+// costs and carries exactly its credits. A session with no pack is the base
+// refill and is not this function's business.
+function creditTopupPackSettled(payload) {
+    const meta = (payload && payload.metadata) || {};
+    const pack = creditTopupPack(meta.pack);
+    return Boolean(pack
+        && Number(payload.amount_total) === pack.usd * 100
+        && String(payload.currency || '').toLowerCase() === 'usd'
+        && Number(meta.credits) === pack.credits);
+}
 // September launch rate (2026-09): the Monthly rung at $8.99/mo for anyone who
 // starts it this month, and that rate stays theirs for as long as they keep the
 // subscription — October signups return to the $24.99 list price.
@@ -8541,6 +8572,33 @@ app.post('/api/credits/topup', authMiddleware, async (req, res) => {
         if (!stripe || !stripeSecretKey) {
             return res.status(503).json({ message: 'Checkout is temporarily unavailable. Please try again shortly.', code: 'CHECKOUT_UNAVAILABLE' });
         }
+        const packId = String((req.body && req.body.pack) || '');
+        if (packId) {
+            const pack = creditTopupPack(packId);
+            if (!pack) return res.status(400).json({ message: 'That refill size is not available.', code: 'TOPUP_PACK_UNKNOWN' });
+            const packName = `Credit refill: ${pack.credits.toLocaleString('en-US')} credits`;
+            const packSession = await stripe.checkout.sessions.create({
+                payment_method_types: ['card'],
+                mode: 'payment',
+                customer_email: req.user.email,
+                line_items: [{ price_data: { currency: 'usd', unit_amount: pack.usd * 100, product_data: { name: packName } }, quantity: 1 }],
+                client_reference_id: req.userId.toString(),
+                success_url: `${getRequestOrigin(req)}/profile.html?recharge=success#usage-details`,
+                cancel_url: `${getRequestOrigin(req)}/recharge.html?recharge=cancelled`,
+                custom_text: { submit: { message: `Adds ${pack.credits.toLocaleString('en-US')} credits to your wallet. They don't expire: unused credits carry over month to month until you use them.` } },
+                metadata: {
+                    userId: String(req.userId),
+                    checkoutType: 'credit_topup',
+                    pack: packId,
+                    credits: String(pack.credits),
+                    product: packName
+                }
+            });
+            if (!packSession?.url) {
+                return res.status(502).json({ message: 'Checkout session could not be created. Please try again.', code: 'CHECKOUT_URL_MISSING' });
+            }
+            return res.json({ url: packSession.url });
+        }
         if (!STRIPE_PRICE_ID_CREDITS_TOPUP) {
             return res.status(503).json({ message: 'Credit refills are not available yet.', code: 'TOPUP_UNAVAILABLE' });
         }
@@ -11445,7 +11503,12 @@ app.post('/stripe/webhook', express.raw({ type: 'application/json' }), async (re
                         // always null) — handled before the subscription branches, same
                         // reason as the china pass. grant() is idempotent on the session
                         // id, so Stripe webhook redelivery never double-credits.
-                        if (payload.payment_status === 'paid') {
+                        // A session that names a pack must have paid that pack's
+                        // price; the credit count is never taken on the metadata's
+                        // word alone.
+                        if (payload.metadata?.pack && !creditTopupPackSettled(payload)) {
+                            console.error(`[credits] topup session ${payload.id} names pack ${payload.metadata.pack} but paid ${payload.amount_total} ${payload.currency} for ${payload.metadata.credits} credits; no credits granted.`);
+                        } else if (payload.payment_status === 'paid') {
                             const inserted = await credits.grant(
                                 userId,
                                 Number(payload.metadata?.credits) || CREDIT_TOPUP_CREDITS,

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Credit refill — stockportfolio.pro</title>
-  <meta name="description" content="Top up your AI credit wallet. 150 credits, one payment of $14.99 — Ask, Dossier and Monitor draw from the same wallet." />
+  <meta name="description" content="Top up your AI credit wallet. 150 credits for $14.99, or 500 to 5,000 credits from $50 to $500 — Ask, Dossier, Monitor and the Claude and ChatGPT connector draw from the same wallet." />
   <meta name="robots" content="noindex" />
   <link rel="icon" href="/Media/icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -19,6 +19,12 @@
     .price-fig span { font-size: 14px; font-weight: 500; color: var(--ink-3); letter-spacing: 0; }
     .price-list { margin: 6px 0 14px; padding: 0; list-style: none; display: grid; gap: 8px; font-size: 13.5px; color: var(--ink-2); }
     .price-list li::before { content: '—  '; color: var(--ink-3); }
+    .pack-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; margin: 2px 0 6px; }
+    .pack { font: inherit; font-size: 15px; font-weight: 650; padding: 12px 6px; border: 1px solid var(--line, #d9d6cf); border-radius: 12px; background: transparent; color: var(--ink); cursor: pointer; }
+    .pack small { display: block; font-size: 11.5px; font-weight: 500; color: var(--ink-3); margin-top: 2px; }
+    .pack[aria-pressed="true"] { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+    .pack:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+    @media (max-width: 520px) { .pack-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   </style>
 </head>
 <body>
@@ -42,13 +48,21 @@
 
       <div class="card price-card" id="recharge-card" style="max-width:720px; border-color: var(--ink);" hidden>
         <div style="display:flex; justify-content:space-between; align-items:baseline;"><span class="label">Credit refill</span><span class="small" style="color:var(--accent-ink); font-weight:650;">One payment, no subscription</span></div>
+        <div class="pack-row" id="recharge-packs" role="group" aria-label="Refill size">
+          <button class="pack" type="button" data-pack="" data-price="14.99" data-credits="150" aria-pressed="true">$14.99<small>150 credits</small></button>
+          <button class="pack" type="button" data-pack="50" data-price="50" data-credits="500" aria-pressed="false">$50<small>500 credits</small></button>
+          <button class="pack" type="button" data-pack="100" data-price="100" data-credits="1000" aria-pressed="false">$100<small>1,000 credits</small></button>
+          <button class="pack" type="button" data-pack="250" data-price="250" data-credits="2500" aria-pressed="false">$250<small>2,500 credits</small></button>
+          <button class="pack" type="button" data-pack="500" data-price="500" data-credits="5000" aria-pressed="false">$500<small>5,000 credits</small></button>
+        </div>
         <div class="price-fig">$14.99<span> one-time</span></div>
-        <p class="small muted" style="margin:4px 0 14px;">150 credits land in <strong>your wallet</strong> — the same pool your plan draws from, and they <strong>stay until you use them</strong>.</p>
+        <p class="small muted" style="margin:4px 0 14px;"><span id="pack-credits">150</span> credits land in <strong>your wallet</strong> — the same pool your plan draws from, and they <strong>stay until you use them</strong>. Every size is the same rate: 10 credits per dollar.</p>
         <ul class="price-list">
-          <li>Each <strong>Ask question</strong> costs 2 credits — 150 buys about <strong>75 questions</strong></li>
-          <li>Each <strong>Filing Monitor report</strong> costs 8 — about <strong>18 reports</strong></li>
-          <li>Each <strong>Standard Dossier</strong> costs 21 — about <strong>7 dossiers</strong>; a <strong>Deep Dossier</strong> costs 41 — about <strong>3</strong></li>
-          <li id="aipaper-price" hidden>Each <strong>AI Paper Portfolio</strong> build costs 10 — about <strong>15 builds</strong>; the nightly review adds 4/day while it tracks</li>
+          <li>Each <strong>Ask question</strong> costs 2 credits — <span data-per="2">150</span> buys about <strong><span data-count="2">75</span> questions</strong></li>
+          <li>In <strong>Claude or ChatGPT</strong>, a data lookup costs 2 — about <strong><span data-count="2">75</span> lookups</strong>; an AI answer over the filings costs 42 — about <strong><span data-count="42">3</span></strong></li>
+          <li>Each <strong>Filing Monitor report</strong> costs 8 — about <strong><span data-count="8">18</span> reports</strong></li>
+          <li>Each <strong>Standard Dossier</strong> costs 21 — about <strong><span data-count="21">7</span> dossiers</strong>; a <strong>Deep Dossier</strong> costs 41 — about <strong><span data-count="41">3</span></strong></li>
+          <li id="aipaper-price" hidden>Each <strong>AI Paper Portfolio</strong> build costs 10 — about <strong><span data-count="10">15</span> builds</strong>; the nightly review adds 4/day while it tracks</li>
           <li>Credits work the instant the payment settles — no restart, no refresh</li>
           <li>They don't expire. Each month your plan's allowance is used first; recharge credits you haven't used carry over to the next month until they're spent</li>
         </ul>
@@ -101,13 +115,33 @@
           .catch(() => {});
       } catch (_) {}
 
+      // The size picker only chooses which pack id is sent. The server owns
+      // the price and the credit count for every pack, so nothing here can
+      // change what is charged or granted.
+      let selectedPack = '';
+      const packs = Array.from(document.querySelectorAll('#recharge-packs .pack'));
+      const fmt = (n) => Number(n).toLocaleString('en-US');
+      function choosePack(el) {
+        selectedPack = el.dataset.pack || '';
+        const credits = Number(el.dataset.credits);
+        const price = '$' + el.dataset.price;
+        packs.forEach((p) => p.setAttribute('aria-pressed', p === el ? 'true' : 'false'));
+        card.querySelector('.price-fig').firstChild.nodeValue = price;
+        document.getElementById('pack-credits').textContent = fmt(credits);
+        document.querySelectorAll('#recharge-card [data-per]').forEach((n) => { n.textContent = fmt(credits); });
+        document.querySelectorAll('#recharge-card [data-count]').forEach((n) => { n.textContent = fmt(Math.floor(credits / Number(n.dataset.count))); });
+        btn.textContent = `Recharge ${fmt(credits)} credits — ${price}`;
+      }
+      packs.forEach((p) => p.addEventListener('click', () => { if (!btn.disabled) choosePack(p); }));
+
       btn.addEventListener('click', async () => {
         btn.disabled = true;
         status.textContent = 'Opening Stripe…';
         try {
           const r = await fetch(`${API}/credits/topup`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${window.V2.token()}` }
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${window.V2.token()}` },
+            body: JSON.stringify(selectedPack ? { pack: selectedPack } : {})
           });
           const d = await r.json().catch(() => ({}));
           if (r.ok && d.url) { window.location.href = d.url; return; }
