@@ -157,7 +157,7 @@ Reply to own post with a screenshot of one cited answer inside each assistant.
 > and a keyless free tier turned out to be necessary, because a directory user will not create an
 > account before seeing one answer.
 >
-> Free without an account: 3 AI answers and 50 lookups per 30 days. After that it is $19.99/month.
+> Free without an account: 3 AI answers and 50 lookups per 30 days. After that it is $200/month.
 >
 > https://www.stockportfolio.pro/connect?utm_source=hackernews&utm_campaign=connector_launch
 >

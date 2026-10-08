@@ -210,7 +210,7 @@ function hasApiAccess(req) {
 }
 function apiAccessGate(req, res, next) {
     if (hasApiAccess(req)) return next();
-    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($19.99/mo), the Monthly, Annual, Pro, Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
+    return res.status(402).json({ message: 'API/MCP access is available on the Dev plan ($200/mo), the Monthly, Annual, Pro, Power and Desk plans, the Investor and Pro AppSumo/DealMirror tiers, and any AppSumo/DealMirror tier purchased on or before 22 September 2026.', code: 'API_ACCESS_REQUIRED' });
 }
 require('dotenv').config({ path: path.join(__dirname, 'prod.env') });
 
@@ -743,30 +743,30 @@ const DESK_PLAN_CURRENCY = process.env.DESK_PLAN_CURRENCY || 'USD';
 // directory listings, embeddable widgets), which is why it exists at all: a
 // $1,499 Power plan is not a price a developer tries a new data source at.
 //
-// It is priced at $19.99/month on its OWN Stripe price — a new recurring price
-// on the existing "stockportfolio.pro" product, which the owner creates (see
-// prod.env.example). It briefly shared Monthly's $24.99 price id, when the
-// constraint was that no new Stripe object could be created; that constraint
-// was lifted for this rung on 9/11 and the plan moved back to the price the
-// growth plan specified. A distinct amount also keeps
-// resolveStripeCheckoutPlan's amount+product matcher unambiguous — a second
-// $24.99/mo price on the same product would have matched twice and refused to
-// sell.
+// It is priced at $200/month on its OWN Stripe price — a recurring price on
+// the existing "stockportfolio.pro" product, which the owner creates (see
+// prod.env.example and scripts/create-dev-stripe-price.sh). It sold at
+// $19.99/month from 9/11 until the owner raised it to $200 on 2026-10-08, for
+// the same 200 credits; before that it briefly shared Monthly's $24.99 price
+// id, when the constraint was that no new Stripe object could be created. A
+// distinct amount also keeps resolveStripeCheckoutPlan's amount+product
+// matcher unambiguous — a second price at the same monthly amount on the same
+// product would match twice and refuse to sell.
 //
 // subscription.metadata.planId is still written at checkout
 // (subscription_data.metadata, further down) and still read FIRST by
 // syncSubscriptionFromStripe(); see ambiguousStripePriceIds() for why that
 // ordering survives even though the ids no longer collide. What the buyer gets
-// for $19.99 is the API instead of the web app: 200 credits and the
+// for $200 is the API instead of the web app: 200 credits and the
 // programmatic surface, with no web-app features.
 //
-// Credit economics: 200 credits/mo at $19.99 = $0.09995/credit, effectively at
-// parity with the $14.99/150 top-up rate ($0.09993). See PLAN_ALLOWANCE_FLOOR
-// in credits.js for the allowance side of this, including the 0.017% gap.
+// Credit economics: 200 credits/mo at $200 = $1.00/credit, ten times the
+// $14.99/150 top-up rate ($0.09993). See PLAN_ALLOWANCE_FLOOR in credits.js
+// for the allowance side of this.
 const FILING_WATCH_PLAN_ID = 'filing-watch';
 const STRIPE_PRICE_ID_FILING_WATCH = process.env.STRIPE_PRICE_ID_FILING_WATCH || '';
 const DEV_PLAN_ID = 'dev';
-const DEV_PLAN_PRICE = parseFloat(process.env.DEV_PLAN_PRICE || '19.99');
+const DEV_PLAN_PRICE = parseFloat(process.env.DEV_PLAN_PRICE || '200');
 const DEV_PLAN_CURRENCY = process.env.DEV_PLAN_CURRENCY || 'USD';
 const TRIAL_DAYS = parseInt(process.env.TRIAL_DAYS || '7', 10);
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
@@ -867,11 +867,11 @@ function launchPromoActive(now = Date.now()) {
 // corresponding *_PLAN_PRICE; test/dev-plan.test.js pins the Dev one so the two
 // can't drift.
 //
-// Dev's entry differs from Monthly's in amount alone ($19.99 vs $79.99), and
+// Dev's entry differs from Monthly's in amount alone ($200 vs $79.99), and
 // that is what makes it resolvable: the matcher below is amount+currency+
 // interval+product, so a unique amount identifies the price without needing a
 // distinct product name. Keep the amount unique in the account — a second
-// $19.99/mo price on this product would match twice and the plan would refuse
+// $200/mo price on this product would match twice and the plan would refuse
 // to sell (the safe failure, but still a failure).
 const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [FILING_WATCH_PLAN_ID]: { amount: 49, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' },
@@ -879,7 +879,7 @@ const CHECKOUT_STRIPE_PRICE_SPECS = Object.freeze({
   [ANNUAL_PLAN_ID]: { amount: 649.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [PRO_ANNUAL_PLAN_ID]: { amount: 799.99, currency: 'USD', interval: 'year', productName: 'stockportfolio.pro' },
   [DESK_PLAN_ID]: { amount: 1999.99, currency: 'USD', interval: 'year', productName: 'desk — stockportfolio.pro' },
-  [DEV_PLAN_ID]: { amount: 19.99, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' }
+  [DEV_PLAN_ID]: { amount: 200, currency: 'USD', interval: 'month', productName: 'stockportfolio.pro' }
 });
 // Grandfathered subscribers keep their pre-reprice Stripe price until they
 // move to a new one. Webhook re-syncs resolve a renewal by the price id the
@@ -1367,10 +1367,9 @@ function getPlanConfig(value) {
       price: DEV_PLAN_PRICE,
       currency: DEV_PLAN_CURRENCY,
       stripePriceId: STRIPE_PRICE_ID_DEV,
-      // No trial: the whole point of this rung is a price a developer can try
-      // without a decision. A 7-day trial on $19.99 buys a support burden and
-      // a churn cliff, not a conversion — and the free tier already exists
-      // above it for anyone who wants to evaluate first.
+      // No trial: a 7-day trial buys a support burden and a churn cliff, not
+      // a conversion — and the free tier already exists above it for anyone
+      // who wants to evaluate first.
       trialDays: 0
     };
   }
@@ -1414,7 +1413,7 @@ function getPlanConfig(value) {
 // whichever plan's branch sits higher silently wins for BOTH populations —
 // there is no ordering that makes an ambiguous id correct.
 //
-// Dev no longer shares Monthly's price (it has its own $19.99 one), so this
+// Dev no longer shares Monthly's price (it has its own), so this
 // fires on nothing today. It stays because the failure it guards is silent and
 // expensive: while the two DID share a $24.99 id, and Dev's branch sits
 // deliberately ABOVE Monthly's so an unrecognised plan selection cannot fall
@@ -1584,6 +1583,10 @@ async function resolveStripeCheckoutPlan(planConfig) {
   if (matches.length !== 1) {
     // Never fall back to a stale/unverified price for this new bundle.
     if (planConfig.planId === FILING_WATCH_PLAN_ID) return { ...planConfig, stripePriceId: null };
+    // Nor for Dev: STRIPE_PRICE_ID_DEV may still name the $19.99 price it sold
+    // on until 2026-10-08, and falling back to it would charge a tenth of the
+    // price the page quotes. Refuse to sell until the $200 price exists.
+    if (planConfig.planId === DEV_PLAN_ID) return { ...planConfig, stripePriceId: null };
     return planConfig;
   }
 
@@ -6562,7 +6565,7 @@ app.post('/mcp', jsonParser, apiKeyAuthOptional, mcpRateLimit, async (req, res) 
             const deps = {
                 // The cap-hit callback is the developer funnel's only demand
                 // signal: a keyless caller who wanted more than the free
-                // allowance is precisely the population the $19.99 Dev plan is
+                // allowance is precisely the population the Dev plan is
                 // for, and until now none of it was recorded anywhere.
                 // dedupeKey collapses it to one row per identity per reason per
                 // day, so a hammering client counts once instead of filling the
@@ -14508,7 +14511,7 @@ async function collectMarketingDashboard() {
 //
 // What matters here is one number: how many distinct keyless callers were
 // REFUSED for wanting more than the free allowance. That is the only measured
-// demand signal for the $19.99 Dev plan. Cap-hit events dedupe to one row per
+// demand signal for the Dev plan. Cap-hit events dedupe to one row per
 // identity per reason per day, so these are distinct-caller-days, not raw
 // refusals — a client hammering the endpoint counts once.
 async function collectMcpCohort(col, now) {
@@ -14778,7 +14781,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
         // POST /mcp, with no page view, no session and no signup step to align
         // against. "Hit the free cap" is the number that matters — it counts
         // callers who wanted MORE than the free allowance, which is the only
-        // measured demand the $19.99 Dev plan has ever had.
+        // measured demand the Dev plan has ever had.
         const mcp = data.mcpCohort || { capHits: 0, byReason: {}, clientsRegistered: 0, authorized: 0 };
         const reasonNames = { ask_limit: 'Ran out of free questions', lookup_limit: 'Ran out of free lookups', global_ask_day: 'Hit the global daily ceiling' };
         const mcpReasonRows = Object.entries(mcp.byReason).sort((a, b) => b[1] - a[1])
@@ -14797,7 +14800,7 @@ app.get('/admin/marketing', authMiddleware, marketingDashboardOnly, async (req, 
             return `<tr><td>${e(row.day)}</td><td>${n(row.page_view)}</td><td>${bar(row.signup, '#1c1b18')}${n(row.signup)}</td><td>${bar(row.trial_start, '#8a5f00')}${n(row.trial_start)}</td><td>${bar(row.paid, '#059669')}${n(row.paid)}</td><td>${bar(row.activation, '#d97706')}${n(row.activation)}</td></tr>`;
         }).join('');
         const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Marketing dashboard — StockPortfolio.pro</title><style>
-body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the $19.99 Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
+body{margin:0;background:#faf9f6;color:#1c1b18;font:14px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}main{max-width:1180px;margin:0 auto;padding:28px 20px 60px}h1{margin:0 0 4px;font-size:28px}h2{margin:28px 0 10px;font-size:18px}.muted{color:#726e65}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));gap:12px;margin:22px 0}.card,.panel{background:#fff;border:1px solid #e8e6e0;border-radius:12px;box-shadow:0 2px 8px #0f172a0a}.card{padding:16px}.label{color:#726e65;font-size:12px;text-transform:uppercase;letter-spacing:.04em}.card strong{display:block;font-size:30px;margin:4px 0}.card small{color:#726e65}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid{grid-template-columns:1fr}}.panel{padding:16px;overflow:auto}table{border-collapse:collapse;width:100%;min-width:460px}th,td{border-bottom:1px solid #efede8;padding:9px 8px;text-align:left;white-space:nowrap}th{color:#726e65;font-size:12px;text-transform:uppercase}.rate{font-size:24px;font-weight:700}.barcell{min-width:150px}.bar{display:inline-block;height:9px;border-radius:6px;margin-right:7px;vertical-align:middle;max-width:90%;min-width:0}.legend{color:#726e65;font-size:12px;margin-top:8px}.nav{float:right}.nav a,.nav button{color:#1c1b18;text-decoration:none;margin-left:10px;background:none;border:0;padding:0;font:inherit;cursor:pointer}</style></head><body><main><div class="nav"><a href="/admin/funnel">Funnel detail</a><a href="/admin/ollama">Ollama usage</a><a href="/api/admin/marketing">JSON</a><button id="qa-on" type="button">Exclude my QA</button><button id="qa-off" type="button">End QA</button></div><h1>Marketing progress</h1><div class="muted">Reportable browser activity only · generated ${e(data.generatedAt)}</div><div class="cards">${cards}</div><div class="grid"><section class="panel"><h2>Conversion funnel · 30 days</h2><table><tr><th>Step</th><th>Count</th><th>Rate</th></tr><tr><td>Page views → signups</td><td>${n(w.page_view)} → ${n(w.signup)}</td><td class="rate">${pct(w.signup, w.page_view)}</td></tr><tr><td>Signups → trials</td><td>${n(w.signup)} → ${n(w.trial_start)}</td><td class="rate">${pct(w.trial_start, w.signup)}</td></tr><tr><td>Trials → paid/redeemed</td><td>${n(w.trial_start)} → ${n(w.appsumoRedemptions)}</td><td class="rate">${pct(w.appsumoRedemptions, w.trial_start)}</td></tr><tr><td>Trials → activation</td><td>${n(w.trial_start)} → ${n(w.activation)}</td><td class="rate">${pct(w.activation, w.trial_start)}</td></tr></table></section><section class="panel"><h2>Source performance</h2><table><tr><th>Source</th><th>Trials</th><th>Activated</th><th>Converted</th><th>Trial → converted</th></tr>${sourceRows}</table><div class="legend">Unattributed means the trial predates signed campaign-source tracking.</div></section></div><section class="panel" style="margin-top:16px"><h2>Developer funnel · 7 days <span class="muted" style="font-size:13px;font-weight:400">(API/MCP — no browser involved)</span></h2><div class="cards" style="margin:10px 0"><div class="card"><span class="label">Hit the free cap</span><strong>${n(mcp.capHits)}</strong><small>distinct callers/day who wanted more</small></div><div class="card"><span class="label">Chatbots registered</span><strong>${n(mcp.clientsRegistered)}</strong><small>OAuth dynamic registration</small></div><div class="card"><span class="label">Accounts authorised</span><strong>${n(mcp.authorized)}</strong><small>a real user approved a client</small></div></div><table><tr><th>Why they were refused</th><th>Count</th></tr>${mcpReasonRows}</table><div class="legend">Cap hits dedupe to one per caller, per reason, per day, so a client retrying in a loop counts once. These are the people to sell the Dev plan to — they asked for more and were told no.</div></section><section class="panel" style="margin-top:16px"><h2>Activation jobs</h2><table><tr><th>Meaningful job</th><th>Completions</th></tr>${jobRows}</table></section><section class="panel" style="margin-top:16px"><h2>14-day trend</h2><table><tr><th>Date (IST)</th><th>Visits</th><th>Signups</th><th>Trials</th><th>Paid events</th><th>Activations</th></tr>${trendRows}</table><div class="legend">Bars are scaled to the largest daily value in the signups/trials/paid/activation series.</div></section><script>for(const [id,enabled] of [['qa-on',true],['qa-off',false]])document.getElementById(id).addEventListener('click',async()=>{const r=await fetch('/api/admin/marketing/qa-session',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({enabled})});if(r.ok)alert(enabled?'QA exclusion is on for this browser.':'QA exclusion is off.');});</script></main></body></html>`;
         const toolPanel = `<section class="panel" style="margin-top:16px"><h2>Engineering-as-marketing tools</h2><table><tr><th>Tool</th><th>Views</th><th>Completed</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${toolRows}</table><div class="legend">Tool events are first-party and attributed by signed content ID when a user continues to AppSumo.</div></section>`;
         const researchPanel = `<section class="panel" style="margin-top:16px"><h2>Organic research hubs</h2><table><tr><th>Research page</th><th>Views</th><th>CTA clicks</th><th>Trials</th><th>Activated</th><th>Converted</th></tr>${researchRows}</table><div class="legend">Research views and downstream AppSumo conversion use allowlisted content IDs and first-party attribution.</div></section>`;
         const trafficPanel = `<section class="panel" style="margin-top:16px"><h2>Acquisition traffic · 30 days</h2><table><tr><th>Source</th><th>Human sessions</th><th>Page views</th><th>Tool completions</th><th>AppSumo clicks</th></tr>${trafficRows}</table><div class="legend">Social is judged by AppSumo progress; search is judged by genuine tool/product usage. Sessions are anonymous browser estimates, not identity verification.</div></section>`;

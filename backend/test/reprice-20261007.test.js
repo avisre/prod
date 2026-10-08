@@ -1,8 +1,9 @@
 'use strict';
 
 // 2026-10-07: Monthly $49.99 -> $79.99, Annual $419.99 -> $649.99, Pro annual
-// $499.99 -> $799.99; Dev ($19.99) and Desk ($1,999.99) did not move. The same
-// day the direct lifetime deal stopped being sold.
+// $499.99 -> $799.99; Desk ($1,999.99) did not move. The same day the direct
+// lifetime deal stopped being sold. Dev stayed at $19.99 that day and went to
+// $200 on 2026-10-08.
 //
 // What this pins is the three ways a reprice goes wrong quietly: a display
 // price that disagrees with the amount checkout matches on, a derived figure
@@ -37,15 +38,15 @@ const specAmount = (planConst) => {
 test('the display price and the amount checkout matches on are the same number', () => {
     for (const [name, planConst, want] of [
         ['CORE_PLAN_PRICE', 'MONTHLY_PLAN_ID', MONTHLY], ['ANNUAL_PLAN_PRICE', 'ANNUAL_PLAN_ID', ANNUAL],
-        ['PRO_ANNUAL_PLAN_PRICE', 'PRO_ANNUAL_PLAN_ID', PRO], ['DEV_PLAN_PRICE', 'DEV_PLAN_ID', 19.99], ['DESK_PLAN_PRICE', 'DESK_PLAN_ID', 1999.99]
+        ['PRO_ANNUAL_PLAN_PRICE', 'PRO_ANNUAL_PLAN_ID', PRO], ['DEV_PLAN_PRICE', 'DEV_PLAN_ID', 200], ['DESK_PLAN_PRICE', 'DESK_PLAN_ID', 1999.99]
     ]) {
         assert.equal(envDefault(name), want, `${name} default`);
         assert.equal(specAmount(planConst), want, `${planConst} checkout spec`);
     }
 });
 
-test('Dev and Desk did not move', () => {
-    assert.equal(envDefault('DEV_PLAN_PRICE'), 19.99);
+test('Desk did not move, and Dev is at its 2026-10-08 price', () => {
+    assert.equal(envDefault('DEV_PLAN_PRICE'), 200);
     assert.equal(envDefault('DESK_PLAN_PRICE'), 1999.99);
     assert.match(HOME, /\$1,999\.99<span>\/year<\/span>/);
 });

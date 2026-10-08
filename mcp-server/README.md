@@ -5,7 +5,7 @@ comparisons and fund profiles, where every returned value carries the URL of the
 from. Missing data comes back missing; nothing is estimated.
 
 ```bash
-# Get a key (Dev plan: $19.99/month, 200 credits) → https://stockportfolio.pro/api
+# Get a key (Dev plan: $200/month, 200 credits) → https://stockportfolio.pro/api
 ```
 
 ## Install

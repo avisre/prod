@@ -90,8 +90,9 @@ Asset stamp `20261007-breakdown4`.
 
 
 ## 2026-10-07 — new price ladder, direct lifetime sales retired, /connect (stamp `20261007-price1`)
-- **Ladder: Dev $19.99 · Monthly $79.99 · Annual $649.99 · Pro $799.99/yr · Desk $1,999.99.** Dev and Desk did
-  not move. Annual is $54.17/mo effective, saves $309.89, "32% off". Owner decision; nothing was measured —
+- **Ladder: Dev $200 · Monthly $79.99 · Annual $649.99 · Pro $799.99/yr · Desk $1,999.99.** Dev went from
+  $19.99 to $200/mo (still 200 credits) on 2026-10-08, and sells nothing until the $200 Stripe price exists
+  (`scripts/create-dev-stripe-price.sh`); Desk did not move. Annual is $54.17/mo effective, saves $309.89, "32% off". Owner decision; nothing was measured —
   Monthly had been $49.99 for one day and no subscription existed on any replaced price.
 - **Stripe (live, done):** created `price_1UNszxAUeKapY1OPEr0yxh1S` (79.99/mo) and
   `price_1UNszxAUeKapY1OP1glIJtcG` (649.99/yr); Pro reuses the 8/31 `price_1UAUOfAUeKapY1OP0cr1G3pD`

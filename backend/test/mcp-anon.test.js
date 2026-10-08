@@ -34,7 +34,7 @@ test('keyless MCP allowance: limits, messaging, ceilings and rollover', { timeou
     const exhausted = await wallet.check(IP, 'mcp_ask', 0, null, null);
     assert.equal(exhausted.ok, false, 'the ask allowance is enforced');
     assert.match(exhausted.message, /all 3 free questions/, 'says how many were free');
-    assert.match(exhausted.message, /\$19\.99/, 'quotes the Dev price');
+    assert.match(exhausted.message, /\$200\/month/, 'quotes the Dev price');
     assert.match(exhausted.message, /register\?plan=dev/, 'links somewhere a purchase can happen');
     assert.doesNotMatch(exhausted.message, /Out of credits for this month/, 'does not reuse the wallet wording');
 

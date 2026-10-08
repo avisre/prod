@@ -114,7 +114,7 @@ const SETUP_URL = 'https://www.stockportfolio.pro/docs/api-mcp';
 // cap. So the step after paying is "sign in on the connector you added", not
 // the manual setup guide; SETUP_URL is kept for clients that take a bearer key.
 function upgradeInstructions() {
-    return `To get more MCP usage now, open ${SIGNUP_URL} and choose the Dev plan ($19.99/month for 200 credits; each AI question costs 42 credits). After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
+    return `To get more MCP usage now, open ${SIGNUP_URL} and choose the Dev plan ($200/month for 200 credits; each AI question costs 42 credits). After subscribing, reconnect this StockPortfolio connector in ChatGPT or Claude and sign in with the same account — nothing else to set up. Clients that use an API key instead: ${SETUP_URL}.`;
 }
 
 function askUsageNotice(used, allowance, windowDays = 30) {

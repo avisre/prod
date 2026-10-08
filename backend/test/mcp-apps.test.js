@@ -397,7 +397,7 @@ test('an unentitled connection gets a commerce-neutral entitlement error and is 
 
 test('an exhausted allowance gets the neutral message, not the legacy upsell', async (t) => {
     const { client } = await withClient(t, {
-        limiter: { check: async () => ({ ok: false, message: 'Dev plan is $19.99/month: https://x/signup' }), spend: async () => {} }
+        limiter: { check: async () => ({ ok: false, message: 'Dev plan is $200/month: https://x/signup' }), spend: async () => {} }
     });
     const result = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
     assert.equal(result.isError, true);
@@ -410,7 +410,7 @@ test('an exhausted allowance gets the neutral message, not the legacy upsell', a
 test('a keyless trial caller gets its own neutral message, never a plan promotion', async (t) => {
     const { client } = await withClient(t, {
         ctx: { anonymous: true, user: null, subscription: null, tier: 'free' },
-        limiter: { check: async () => ({ ok: false, message: 'Dev plan is $19.99/month: https://x/signup' }), spend: async () => {} }
+        limiter: { check: async () => ({ ok: false, message: 'Dev plan is $200/month: https://x/signup' }), spend: async () => {} }
     });
     const result = await client.callTool({ name: 'search_companies', arguments: { query: 'Apple' } });
     assert.equal(result.isError, true);

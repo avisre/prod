@@ -610,12 +610,12 @@ function renderEditorialPolicy() {
 function renderApiLanding() {
     const canonical = `${SITE}/api`;
     const title = 'Stock Data API & MCP Server — SEC filing data for developers';
-    const description = 'A REST API and hosted MCP server over US SEC filings. Every value carries the filing it came from. $19.99/mo for 200 credits, no sales call.';
+    const description = 'A REST API and hosted MCP server over US SEC filings. Every value carries the filing it came from. $200/mo for 200 credits, no sales call.';
     const jsonld = JSON.stringify({
         '@context': 'https://schema.org', '@type': 'SoftwareApplication', name: 'stockportfolio.pro API & MCP server', url: canonical,
         applicationCategory: 'DeveloperApplication', operatingSystem: 'Any',
         publisher: { '@id': `${SITE}/#org` }, isBasedOn: 'https://www.sec.gov/edgar',
-        offers: { '@type': 'Offer', price: '19.99', priceCurrency: 'USD', description: 'Dev plan — 200 API/MCP credits per month' }
+        offers: { '@type': 'Offer', price: '200.00', priceCurrency: 'USD', description: 'Dev plan — 200 API/MCP credits per month' }
     });
     const S = (h, body) => `<div class="seo-section"><h2>${h}</h2><div class="seo-about">${body}</div></div>`;
     // Two MCP configs, because the two clients need different things and a
@@ -703,11 +703,11 @@ function renderApiLanding() {
 <main class="seo-wrap">
   <div class="seo-crumbs"><a href="/">Home</a> / API</div>
   <h1 class="seo-h1">Stock data your agent can cite</h1>
-  <p class="seo-sub">A REST API and a hosted MCP server over US SEC filings. Every value carries the filing it came from — <code>null</code> when the filing is silent, never interpolated. No sales call, no minimum contract: $19.99/mo.</p>
+  <p class="seo-sub">A REST API and a hosted MCP server over US SEC filings. Every value carries the filing it came from — <code>null</code> when the filing is silent, never interpolated. No sales call, no minimum contract: $200/mo.</p>
 
   <div class="seo-next-action">
     <p class="seo-next-action-kicker">Dev plan</p>
-    <h2>$19.99/month — 200 credits, every tool</h2>
+    <h2>$200/month — 200 credits, every tool</h2>
     <p>One API key covers both surfaces: the REST API at <code>/api/v1</code> and the MCP server at <code>/mcp</code>. A data lookup costs ${COST.mcp_lookup} credits, an AI answer ${COST.mcp_ask}, the same on both surfaces. Credits reset monthly. Cancel any time.</p>
     <p><a class="seo-cta-btn" href="/register?plan=dev">Get a key &rarr;</a></p>
     <p style="font-size:13px;margin-top:10px">Already on Power or Desk? API/MCP access is included — generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a>.</p>
@@ -789,7 +789,7 @@ function renderConnect() {
     const faq = [
         ['Is StockPortfolio available in Claude?', `Yes. StockPortfolio is listed in the Claude connector directory. Add it from Claude's connector settings and ask about a company; answers come from SEC filings and each figure carries its source.`],
         ['Is StockPortfolio available in ChatGPT?', `Yes. StockPortfolio is listed in the ChatGPT app directory. Add it there and ask about a company in any conversation.`],
-        ['Is it free?', `You can try it without an account: ${free}. Past that, the Dev plan is $19.99 a month for 200 credits — a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}.`],
+        ['Is it free?', `You can try it without an account: ${free}. Past that, the Dev plan is $200 a month for 200 credits — a data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}.`],
         ['Where do the numbers come from?', 'From the company\'s own SEC filings — 10-K, 10-Q and 8-K. A value the filing does not report comes back empty; it is never estimated. Every figure carries a link to the filing it was read from.'],
         ['I already have a StockPortfolio plan. Do I pay again?', 'No. Sign in from the connector with your StockPortfolio account and it spends the credits your plan already includes, on the plans that carry API and MCP access.']
     ];
@@ -835,7 +835,7 @@ function renderConnect() {
     <p style="margin-top:12px">Each value arrives with a link to the filer&#39;s EDGAR record, so the assistant can point at the document instead of asserting a number. Where a filing is silent the value is empty, never filled in.</p>`)}
 
   ${S('What it costs', `<p><strong>Free:</strong> ${free}, with no account and nothing to install.</p>
-    <p><strong>Dev plan — $19.99/month:</strong> 200 credits. A data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}. Cancel any time. <a href="/register?plan=dev&amp;utm_source=website&amp;utm_campaign=connect">Get the Dev plan &rarr;</a></p>
+    <p><strong>Dev plan — $200/month:</strong> 200 credits. A data lookup costs ${COST.mcp_lookup} credits and an AI answer ${COST.mcp_ask}. Cancel any time. <a href="/register?plan=dev&amp;utm_source=website&amp;utm_campaign=connect">Get the Dev plan &rarr;</a></p>
     <p><strong>Already a customer?</strong> Sign in from the connector and it spends the credits your plan already includes. Which plans carry API and MCP access is on the <a href="/docs/plans">plans page</a>.</p>`)}
 
   ${S('Questions', faq.map(([q, a]) => `<p style="margin-bottom:14px"><strong>${esc(q)}</strong><br>${esc(a)}</p>`).join(''))}
@@ -884,7 +884,7 @@ function renderLicensing() {
     </ul>`)}
   <div class="seo-section" id="mcp-api"><h2>MCP &amp; API access</h2><div class="seo-about">
     <p>A separate, self-serve surface from the bulk corpus above — no quote needed. Filing-grounded tools reachable two ways: a hosted <strong>MCP endpoint</strong> for agent clients (search, fundamentals, filings, one filing, ask, health), or a plain <strong>REST API</strong> at <code>/api/v1</code> (financials, filing timeline, compare, screen, fund data, ask, health). Every response cites the filing it drew from, the same as everywhere else on this site. Reading the tool list is free on both — only calling a metered tool spends credits. The MCP endpoint is also listed in the Claude connector directory and the ChatGPT app directory — <a href="/connect">add it from either &rarr;</a></p>
-    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $19.99/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Monthly, Annual, Pro, Power or Desk subscription, the Investor and Pro AppSumo/DealMirror lifetime tiers, or any AppSumo/DealMirror tier purchased on or before 22 September 2026. Generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a> once you&#39;re on a qualifying plan.</p>
+    <p><strong>Who has access:</strong> the <strong>Dev plan</strong> at $200/month (200 credits, self-serve — <a href="/api">full details &rarr;</a>), included with a Monthly, Annual, Pro, Power or Desk subscription, the Investor and Pro AppSumo/DealMirror lifetime tiers, or any AppSumo/DealMirror tier purchased on or before 22 September 2026. Generate a key from your <a href="/profile.html" rel="nofollow">Profile page</a> once you&#39;re on a qualifying plan.</p>
     <ul>
       <li><strong>MCP</strong> — 2 credits per lookup, 42 credits per AI-backed ask. The agent-native path: your client calls the tools directly, no HTTP code to write.</li>
       <li><strong>REST API</strong> — 2 credits per lookup, 42 credits per ask. Identical pricing to MCP: same call, same filings, same price.</li>

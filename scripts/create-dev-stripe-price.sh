@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Creates the ONE new Stripe price the Dev plan needs: $19.99/month, USD,
+# Creates the ONE new Stripe price the Dev plan needs: $200/month, USD,
 # recurring, on the EXISTING product named `stockportfolio.pro`.
 #
 # Why this exists and create-stripe-prices.sh is not reused:
@@ -12,9 +12,12 @@
 #     found — the buy button would answer 500 "Stripe price is not configured".
 #   * The amount is the only thing that tells Dev apart from Monthly. They share
 #     a product, and resolveStripeCheckoutPlan REFUSES unless exactly one active
-#     price matches amount+currency+interval+product. No legacy price in this
-#     account is $19.99/mo, so the amount is unique — this script checks that
-#     before creating anything and stops if it is not.
+#     price matches amount+currency+interval+product. The amount has to be
+#     unique — this script checks that before creating anything and stops if
+#     it is not.
+#   * Dev sold at $19.99/month until 2026-10-08. Leave that price ACTIVE: its
+#     subscribers keep renewing on it, and at a different amount it cannot
+#     clash with this one.
 #
 # Your secret key stays in your shell — it is never printed or stored.
 #
@@ -37,7 +40,7 @@ set -euo pipefail
 
 # Must equal the spec's productName in backend/app.js exactly (modulo case).
 export P_NAME="stockportfolio.pro"
-export P_AMOUNT=1999        # $19.99 in cents
+export P_AMOUNT=20000       # $200.00 in cents
 export P_CURRENCY="usd"
 export P_INTERVAL="month"
 
@@ -184,7 +187,7 @@ Now point the app at it — locally in backend/.env, and on Render with:
     -f key=STRIPE_PRICE_ID_DEV -f value=${PRICE_ID}
 
 Then verify a checkout really works: open https://stockportfolio.pro/api, click
-the Dev buy button, and confirm the Stripe page shows \$19.99/month. If it
+the Dev buy button, and confirm the Stripe page shows \$200.00/month. If it
 answers 500 "Stripe price is not configured", the price is not active, is not on
 '${P_NAME}', or the env var has not reached Render yet.
 EOT

@@ -72,7 +72,7 @@ Source of truth: `backend/app.js` checkout specs (`CHECKOUT_STRIPE_PRICE_SPECS`
 | Annual | $199.99/yr | no trial |
 | Pro-Annual | $499.99/yr | no trial |
 | Desk | $1,999.99/yr | full Pro + API/MCP + Monitor |
-| **Dev (API/MCP)** | **$19.99/mo, 200 credits** | API only — `userTier('dev')` = `'free'`, no web features, **no trial (deliberate)** |
+| **Dev (API/MCP)** | **$200/mo, 200 credits** (was $19.99 until 2026-10-08) | API only — `userTier('dev')` = `'free'`, no web features, **no trial (deliberate)** |
 | Credit top-up | $14.99 / 150 credits | one-time; ~$0.0999/credit, at parity with Dev's rate |
 | Research Briefing | $149/yr | hand-written, 2 companies/mo; buyer needs no account |
 | AppSumo LTD | $39 / $79 / $149 | tiers 1/2/3 (askCap 30/100/300) |
@@ -205,7 +205,7 @@ measured fresh for this file.*
   badge links back. Snippets published on tool pages and on `/api`.
 
 ### 5.5 API / MCP developer funnel — the newest bet, unproven
-- **Offer**: Dev $19.99/mo, 200 credits, all 7 tools, 60 req/min; REST `/api/v1`
+- **Offer**: Dev $200/mo, 200 credits, all 7 tools, 60 req/min; REST `/api/v1`
   and hosted `/mcp` (Streamable HTTP); keys `sp_live_*` (hash-only storage,
   self-serve CRUD in Profile → Developer access). Also included with
   Power/Desk/top AppSumo tier.

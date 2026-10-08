@@ -263,21 +263,18 @@ async function grant(userId, amount, reason, refId) {
 // drawing from that same pool. Keyed on the *uncollapsed* planId so it must be
 // read from req.subscription.planId, not req.tier. Every other plan keeps the
 // plain ×2 — no current user's capacity shrinks.
-// The Dev plan (app.js DEV_PLAN_ID) is the API/MCP-only rung: $19.99/mo for 200
+// The Dev plan (app.js DEV_PLAN_ID) is the API/MCP-only rung: $200/mo for 200
 // credits. It gets an explicit floor rather than the derived x2 for the same
 // reason Power/Desk do — its Ask limit is the FREE tier's (it deliberately
 // grants no web-app features, so userTier() reads it as 'free'), and x2 off
 // that would be 6 credits, not the 200 that were sold. Keyed on the
 // uncollapsed planId, so it must be read from req.subscription.planId.
 //
-// $19.99 for 200 credits = $0.09995/credit against the $14.99/150 recharge-pack
-// rate of $0.09993 — a 0.017% gap, which means the pack is very slightly the
-// cheaper of the two per credit. That is the inversion the rule above forbids,
-// recorded here rather than rounded away: it sits inside the 1e-4 tolerance
-// test/dev-plan.test.js allows. It is a consequence of pricing the rung at a
-// round $19.99, not of any Stripe constraint — 210 credits would clear the rule
-// outright at $0.09519/credit and cost about three points of gross margin, so
-// make that change if the rule is judged worth more than the round number.
+// $200 for 200 credits = $1.00/credit against the $14.99/150 recharge-pack
+// rate of $0.09993, so since the 2026-10-08 reprice (from $19.99) the pack is
+// ten times the cheaper of the two per credit. That is the inversion the rule
+// above forbids, by an owner decision on the price rather than by rounding;
+// test/dev-plan.test.js pins the two rates so the gap stays a recorded fact.
 // Worst case all 200 credits go to mcp_ask (42 each) = 4 AI calls, the same
 // tail the V2 LTD note below is protecting against.
 const PLAN_ALLOWANCE_FLOOR = { power: 2000, 'power-monthly': 2000, desk: 10000, dev: 200 };

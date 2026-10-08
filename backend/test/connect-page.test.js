@@ -101,7 +101,7 @@ test('the cap-hit message sends a connector user back to the connector, not to m
     const notice = anon.askUsageNotice(3, 3);
     assert.match(notice, /register\?plan=dev/);
     assert.match(notice, /reconnect this StockPortfolio connector/);
-    assert.match(notice, /\$19\.99\/month/);
+    assert.match(notice, /\$200\/month/);
 });
 
 test('the setup guide leads with the directory listing for both assistants', () => {

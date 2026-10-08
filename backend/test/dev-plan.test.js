@@ -1,6 +1,6 @@
 'use strict';
 
-// The Dev plan ($19.99/mo, 200 credits) is the self-serve rung the entire
+// The Dev plan ($200/mo, 200 credits) is the self-serve rung the entire
 // developer funnel converts on — the npm package, the MCP directory listings,
 // the embeddable widgets and the programmatic SEO pages all land on /api and
 // end at this checkout. These are structural guards on the parts of that
@@ -13,7 +13,7 @@
 //     DEV_PLAN_PRICE is env-overridable, so the two can drift apart and the
 //     Stripe price lookup will simply stop matching (refusing to sell) or, if
 //     the spec is the stale side, match a product at the wrong amount.
-//   - The credit floor is what makes the plan worth $19.99: without it the
+//   - The credit floor is what the plan's $200 buys: without it the
 //     wallet derives from the free-tier Ask limit (x2 of 3 = 6 credits).
 //   - Dev's Stripe price is identified by its AMOUNT, so that amount has to
 //     stay unique in the account: resolveStripeCheckoutPlan matches
@@ -72,7 +72,7 @@ test('the checkout spec amount and DEV_PLAN_PRICE agree, and the Stripe product 
     const spec = appSource.slice(appSource.indexOf('const CHECKOUT_STRIPE_PRICE_SPECS'), appSource.indexOf('// Grandfathered subscribers keep'));
     const devSpec = /\[DEV_PLAN_ID\]:\s*\{\s*amount:\s*([\d.]+),\s*currency:\s*'(\w+)',\s*interval:\s*'(\w+)',\s*productName:\s*'([^']+)'\s*\}/.exec(spec);
     assert.ok(devSpec, 'CHECKOUT_STRIPE_PRICE_SPECS carries a Dev entry');
-    assert.equal(Number(devSpec[1]), 19.99, 'Dev checkout amount is $19.99');
+    assert.equal(Number(devSpec[1]), 200, 'Dev checkout amount is $200');
     assert.equal(devSpec[2], 'USD');
     assert.equal(devSpec[3], 'month', 'Dev is a recurring monthly price — the first monthly rung since Power Monthly was retired');
     // resolveStripeCheckoutPlan matches this against the Stripe product name
@@ -101,7 +101,7 @@ test('the Dev amount is unique among the published plans — that is what identi
         'both sell on the same Stripe product — the amount is the discriminator');
     assert.notEqual(dev.amount, monthly.amount,
         'a shared amount makes the price matcher ambiguous and the plan refuses to sell');
-    // No other published rung may claim $19.99 either — same failure, other pair.
+    // No other published rung may claim $200 either — same failure, other pair.
     for (const name of ['ANNUAL_PLAN_ID', 'PRO_ANNUAL_PLAN_ID', 'DESK_PLAN_ID']) {
         assert.notEqual(entry(name).amount, dev.amount, `${name} must not share the Dev amount`);
     }
@@ -214,16 +214,15 @@ test('the Dev credit floor is 200 and beats the derived wallet', () => {
     // Sanity: the same call for a plan with no floor derives 3 x 2 = 6, which
     // is what Dev would get without the floor above.
     assert.equal(credits.allowance(3, 'monthly', null), 6, 'an unfloored plan still derives from the Ask limit');
-    // The plan must not be dearer per credit than the recharge pack it would
-    // otherwise be bought alongside: $19.99/200 = $0.09995 vs $14.99/150 =
-    // $0.09993. The gap is 0.017% and in the wrong direction — the pack is very
-    // slightly the cheaper of the two — which is inside the 1e-4 tolerance here
-    // but is a real, if tiny, inversion of the stated rule. It is a consequence
-    // of pricing the rung at a round $19.99; 210 credits would clear it
-    // outright. Recorded, not hidden.
-    const planRate = 19.99 / 200;
+    // Since the 2026-10-08 reprice the plan is dearer per credit than the
+    // recharge pack it would otherwise be bought alongside: $200/200 = $1.00
+    // vs $14.99/150 = $0.09993, about ten times. That inverts the rule in
+    // credits.js on purpose (an owner decision on the price). Recorded, not
+    // hidden: pin both rates so neither moves without this being re-read.
+    const planRate = 200 / 200;
     const packRate = 14.99 / 150;
-    assert.ok(planRate <= packRate + 1e-4, `plan rate ${planRate} must not exceed pack rate ${packRate}`);
+    assert.equal(planRate, 1, 'Dev is $1.00 per credit');
+    assert.ok(planRate > packRate * 10, `plan rate ${planRate} is about ten times pack rate ${packRate}`);
     // Guard the arithmetic above, so a future edit to the price or the floor
     // has to re-derive the rate rather than inherit a stale claim.
     assert.equal(credits.COST.mcp_ask, 42, 'the AI-backed MCP action is priced at the 6x-frontier anchor');
@@ -252,7 +251,7 @@ test('the API landing page renders, prices the Dev plan, and carries the real ex
     const html = seoPages.renderApiLanding();
     assert.ok(typeof html === 'string' && html.length > 2000, 'renderApiLanding returns a page');
     assert.match(html, /<link rel="canonical" href="https:\/\/www\.stockportfolio\.pro\/api" \/>/, 'canonical is /api');
-    assert.match(html, /\$19\.99\/mo/, 'the page states the Dev price');
+    assert.match(html, /\$200\/mo/, 'the page states the Dev price');
     assert.match(html, /200 credits/, 'the page states the Dev allowance');
     assert.match(html, /register\?plan=dev/, 'the CTA routes to the Dev checkout');
     // The example payload is a real captured response, not a mock-up — if it

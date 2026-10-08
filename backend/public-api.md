@@ -6,7 +6,7 @@ SEC filing it was drawn from.
 
 ## Who can get a key
 
-API/MCP access is a paid feature: the **Dev plan** ($19.99/mo), **Power**, **Desk**,
+API/MCP access is a paid feature: the **Dev plan** ($200/mo), **Power**, **Desk**,
 the **Investor and Pro AppSumo/DealMirror tiers (tiers 2 and 3)**, or **any
 AppSumo/DealMirror tier purchased on or before 22 September 2026**. It's checked live on every call, not
 just at key creation — a plan downgrade takes effect immediately, the same way
