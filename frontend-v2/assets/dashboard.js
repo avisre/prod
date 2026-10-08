@@ -28,26 +28,55 @@
             const copy = $('billing-refund-copy');
             const button = $('billing-refund-button');
             const status = $('billing-refund-status');
-            if (!section || !copy || !button || !policy || !policy.eligible) return;
+            const reason = $('billing-refund-reason');
+            const details = $('billing-refund-details');
+            const detailsLabel = $('billing-refund-details-label');
+            if (!section || !copy || !button || !reason || !details || !policy || !policy.eligible) return;
+            (Array.isArray(policy.reasons) ? policy.reasons : []).forEach((item) => {
+                const option = document.createElement('option');
+                option.value = item.id;
+                option.textContent = item.label;
+                reason.appendChild(option);
+            });
+            if (policy.detailsMax) details.maxLength = policy.detailsMax;
+            reason.addEventListener('change', () => {
+                if (detailsLabel) detailsLabel.textContent = reason.value === 'other' ? 'Please tell us more' : 'Anything else we should know? (optional)';
+            });
             const until = policy.eligibleUntil ? new Date(policy.eligibleUntil) : null;
             const dateText = until && !Number.isNaN(until.getTime()) ? ` before ${until.toLocaleDateString()}` : '';
             copy.textContent = `Your initial Stripe payment is eligible for a refund${dateText}. Requesting it cancels the subscription and removes paid access.`;
             section.hidden = false;
             button.addEventListener('click', async () => {
-                button.disabled = true;
                 status.hidden = false;
+                if (!reason.value) {
+                    status.textContent = 'Please choose a reason for the refund.';
+                    reason.focus();
+                    return;
+                }
+                if (reason.value === 'other' && !details.value.trim()) {
+                    status.textContent = 'Please add a few words about why you are requesting a refund.';
+                    details.focus();
+                    return;
+                }
+                button.disabled = true;
                 status.textContent = 'Processing your refund…';
                 try {
-                    const response = await fetch(`${API}/billing/refund`, { method: 'POST', headers: { ...auth, 'Content-Type': 'application/json' } });
+                    const response = await fetch(`${API}/billing/refund`, {
+                        method: 'POST',
+                        headers: { ...auth, 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ reason: reason.value, details: details.value.trim() })
+                    });
                     const result = await response.json().catch(() => ({}));
                     if (!response.ok) throw new Error(result.message || 'The refund could not be completed.');
                     status.textContent = result.message || 'Your payment was refunded.';
                     button.hidden = true;
+                    reason.disabled = true;
+                    details.disabled = true;
                 } catch (error) {
                     status.textContent = error.message || 'The refund could not be completed.';
                     button.disabled = false;
                 }
-            }, { once: true });
+            });
         } catch (_) { /* billing panel is non-blocking */ }
     }
     mountInitialRefund();

@@ -769,6 +769,20 @@ const STRIPE_CANCEL_URL = process.env.STRIPE_CANCEL_URL || '';
 const REQUIRE_INITIAL_STRIPE_PAYMENT = String(process.env.REQUIRE_INITIAL_STRIPE_PAYMENT ?? 'true').toLowerCase() !== 'false';
 const INITIAL_REFUND_DAYS = Math.max(1, Math.min(30, Number.parseInt(process.env.INITIAL_REFUND_DAYS || '7', 10) || 7));
 const INITIAL_REFUND_WINDOW_MS = INITIAL_REFUND_DAYS * 24 * 60 * 60 * 1000;
+// A refund request must say why. The dashboard offers these as a list; the
+// code is what gets stored, the label is what the owner reads. 'other' needs
+// the free-text details, every other choice may add them.
+const INITIAL_REFUND_REASONS = Object.freeze({
+  too_expensive: 'Too expensive',
+  missing_feature: 'Missing a feature or data I need',
+  inaccurate_answers: 'Answers or data were not accurate enough',
+  hard_to_use: 'Too hard to use',
+  no_longer_needed: 'I no longer need it',
+  using_alternative: 'I am using a different tool',
+  purchased_by_mistake: 'I bought it by mistake',
+  other: 'Other'
+});
+const INITIAL_REFUND_DETAILS_MAX = 500;
 const STRIPE_WEBHOOK_SECRET = process.env.STRIPE_WEBHOOK_SECRET || '';
 const STRIPE_PUBLISHABLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY || '';
 const STRIPE_PRICE_ID = process.env.STRIPE_PRICE_ID || '';
@@ -3470,6 +3484,8 @@ const UserSchema = new mongoose.Schema({
     initialRefundUntil: { type: Date, default: null },
     initialRefundStatus: { type: String, enum: ['not_eligible', 'eligible', 'requested', 'refunded'], default: 'not_eligible' },
     initialRefundRequestedAt: { type: Date, default: null },
+    initialRefundReason: { type: String, default: null },
+    initialRefundDetails: { type: String, default: null },
     initialRefundedAt: { type: Date, default: null },
     initialInvoiceId: { type: String, default: null },
     initialPaymentIntentId: { type: String, default: null },
@@ -7716,9 +7732,17 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
     if (user.initialRefundStatus === 'refunded') {
         return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment has already been refunded.' });
     }
+    const reason = typeof req.body?.reason === 'string' ? req.body.reason.trim() : '';
+    const details = typeof req.body?.details === 'string' ? req.body.details.trim().slice(0, INITIAL_REFUND_DETAILS_MAX) : '';
+    if (!Object.prototype.hasOwnProperty.call(INITIAL_REFUND_REASONS, reason)) {
+        return res.status(400).json({ message: 'Please tell us why you are requesting a refund.', code: 'REFUND_REASON_REQUIRED' });
+    }
+    if (reason === 'other' && !details) {
+        return res.status(400).json({ message: 'Please add a few words about why you are requesting a refund.', code: 'REFUND_DETAILS_REQUIRED' });
+    }
     const claimed = await User.findOneAndUpdate(
         { _id: user._id, initialRefundStatus: 'eligible', initialRefundUntil: { $gte: new Date() } },
-        { $set: { initialRefundStatus: 'requested', initialRefundRequestedAt: new Date() } },
+        { $set: { initialRefundStatus: 'requested', initialRefundRequestedAt: new Date(), initialRefundReason: reason, initialRefundDetails: details || null } },
         { new: true }
     );
     if (!claimed) {
@@ -7738,7 +7762,7 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
         const refund = await stripe.refunds.create({
             ...(paymentIntentId ? { payment_intent: paymentIntentId } : { charge: chargeId }),
             reason: 'requested_by_customer',
-            metadata: { userId: String(claimed._id), type: 'initial_seven_day_refund' }
+            metadata: { userId: String(claimed._id), type: 'initial_seven_day_refund', refundReason: reason, ...(details ? { refundDetails: details } : {}) }
         });
         if (claimed.stripeSubscriptionId) {
             await stripe.subscriptions.cancel(claimed.stripeSubscriptionId).catch((cancelError) => {
@@ -7754,6 +7778,20 @@ app.post('/api/billing/refund', authMiddleware, async (req, res) => {
         claimed.markModified('subscription');
         await claimed.save();
         if (claimed.subscription?.planId === FILING_WATCH_PLAN_ID) await filingWatch.recordBilling(claimed._id, { status: 'refunded', refundId: refund.id, refundedAmountMinor: refund.amount });
+        if (mailer.config().owner) {
+            const ownerMail = mailer.refundRequestedOwnerEmail({
+                name: claimed.name,
+                email: claimed.email,
+                plan: claimed.subscription?.planName,
+                reason: INITIAL_REFUND_REASONS[reason],
+                details,
+                amountMinor: refund.amount,
+                currency: refund.currency,
+                paidAt: claimed.initialPaymentAt
+            });
+            mailer.sendMail({ to: mailer.config().owner, subject: ownerMail.subject, html: ownerMail.html, text: ownerMail.text })
+                .catch((mailError) => console.error('[mailer] refund reason email error:', mailError && mailError.message));
+        }
         return res.status(200).json({ ok: true, status: 'refunded', message: 'Your initial payment was refunded and the subscription was cancelled.' });
     } catch (error) {
         await User.updateOne({ _id: claimed._id, initialRefundStatus: 'requested' }, { $set: { initialRefundStatus: 'eligible' } }).catch(() => {});
@@ -7814,7 +7852,9 @@ app.get('/api/session', authMiddleware, async (req, res) => {
                 eligibleUntil: user.initialRefundUntil || null,
                 eligible: user.initialRefundStatus === 'eligible'
                     && user.initialRefundUntil
-                    && new Date(user.initialRefundUntil).getTime() >= Date.now()
+                    && new Date(user.initialRefundUntil).getTime() >= Date.now(),
+                reasons: Object.entries(INITIAL_REFUND_REASONS).map(([id, label]) => ({ id, label })),
+                detailsMax: INITIAL_REFUND_DETAILS_MAX
             },
             onboarding: onboardingState(user),
             tier: req.tier

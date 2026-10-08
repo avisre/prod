@@ -205,6 +205,31 @@ function internalCustomerEventEmail({ name, email, type, plan, tier, occurredAt 
   return { subject: `${label}: ${email || 'unknown'}`, html, text };
 }
 
+// Owner-only: why a customer used the seven-day refund. The customer already
+// sees the outcome in their dashboard, so nothing here is sent to them.
+function refundRequestedOwnerEmail({ name, email, plan, reason, details, amountMinor, currency, paidAt }) {
+  const amount = Number.isFinite(amountMinor) ? `${(amountMinor / 100).toFixed(2)} ${String(currency || '').toUpperCase()}`.trim() : '(unknown)';
+  const paid = paidAt ? new Date(paidAt).toISOString() : '(unknown)';
+  const rows = [
+    ['Name', name || '(not provided)'],
+    ['Email', email || '(unknown)'],
+    ['Plan', plan || '(unknown)'],
+    ['Refunded', amount],
+    ['Paid', paid],
+    ['Reason', reason || '(unknown)'],
+    ['Details', details || '(none given)']
+  ];
+  const html = `
+  <div style="font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#1c1b18">
+    <h2 style="margin:0 0 10px">Refund requested</h2>
+    <table style="font-size:14px;border-collapse:collapse">
+      ${rows.map(([k, v]) => `<tr><td style="padding:4px 10px 4px 0;color:#75736c;vertical-align:top">${k}</td><td>${escapeHtml(v)}</td></tr>`).join('')}
+    </table>
+  </div>`;
+  const text = `Refund requested\n${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}`;
+  return { subject: `Refund requested: ${email || 'unknown'} — ${reason || 'no reason'}`, html, text };
+}
+
 function passwordResetEmail(name, resetUrl) {
   const first = (String(name || '').trim().split(/\s+/)[0]) || 'there';
   const safeFirst = escapeHtml(first);
@@ -815,4 +840,4 @@ async function sendBriefingPaidEmails({ name, email, priceUsd, companiesPerMonth
   return out;
 }
 
-module.exports = { sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };
+module.exports = { refundRequestedOwnerEmail, sendNewUserEmails, sendBriefingPaidEmails, briefingWelcomeEmail, briefingOwnerEmail, sendCustomerLifecycleEmails, customerLifecycleEmail, sendPasswordResetEmail, appsumoReviewEmail, appsumoOnboardingEmail, appsumoActivationNextEmail, appsumoInactiveEmail, appsumoReviewEligibleEmail, trialEndingEmail, trialExpiredEmail, isMailerConfigured, smtpStatus, sendMail, newMessageId, receiptFrom, sendOwnerMail, isOwnerMailerConfigured, ownerMailConfig, config, escapeHtml, SUPPORT_EMAIL, partnerApplicationReceivedEmail, partnerApplicationNotificationEmail, partnerApprovedEmail, partnerDeclinedEmail };

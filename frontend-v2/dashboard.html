@@ -268,6 +268,12 @@
         <section class="card card-pad" id="billing-refund" hidden style="margin-top:18px; max-width:720px;">
           <p class="label">Initial payment</p>
           <p class="small muted" id="billing-refund-copy" style="margin:6px 0 12px;"></p>
+          <label class="small" for="billing-refund-reason" style="display:block; margin-bottom:6px;">Why are you requesting a refund?</label>
+          <select class="input" id="billing-refund-reason" required style="max-width:420px; margin-bottom:10px;">
+            <option value="">Choose a reason…</option>
+          </select>
+          <label class="small" for="billing-refund-details" id="billing-refund-details-label" style="display:block; margin-bottom:6px;">Anything else we should know? (optional)</label>
+          <textarea class="input" id="billing-refund-details" rows="3" maxlength="500" style="max-width:420px; display:block; margin-bottom:12px;"></textarea>
           <button class="btn btn-ghost" type="button" id="billing-refund-button">Request a refund</button>
           <p class="small muted" id="billing-refund-status" role="status" aria-live="polite" hidden style="margin-top:10px;"></p>
         </section>
@@ -498,7 +504,7 @@
     </div>
   </div>
   <script src="assets/app.js?v=20261007-price1"></script>
-  <script src="assets/dashboard.js?v=20261007-price1"></script>
+  <script src="assets/dashboard.js?v=20261008-refund1"></script>
   <script>
   // Pro Annual weekly-digest opt-in. Hidden by default and never blocks the
   // dashboard: a failed or absent preference check leaves it hidden.

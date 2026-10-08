@@ -67,6 +67,34 @@ test('seven-day refund state is recorded and protected by an authenticated route
   assert.match(appSource, /stripe\.refunds\.create/);
 });
 
+test('a refund request must carry a reason, which is stored and sent to the owner', () => {
+  const route = appSource.slice(appSource.indexOf("app.post('/api/billing/refund'"));
+  const claim = route.indexOf('User.findOneAndUpdate');
+  const guard = route.indexOf('REFUND_REASON_REQUIRED');
+  assert.ok(guard > 0 && guard < claim, 'the reason is validated before the refund is claimed');
+  assert.match(route.slice(0, claim), /REFUND_DETAILS_REQUIRED/);
+  assert.match(route, /initialRefundReason: reason/);
+  assert.match(route, /refundReason: reason/);
+  assert.match(route, /refundRequestedOwnerEmail/);
+  assert.match(appSource, /initialRefundReason: \{ type: String/);
+
+  const mailer = require('../mailer');
+  const mail = mailer.refundRequestedOwnerEmail({
+    name: 'Ada', email: 'ada@example.com', plan: 'Monthly', reason: 'Too expensive',
+    details: '<b>price</b> went up', amountMinor: 7999, currency: 'usd', paidAt: new Date('2026-10-07T22:05:24Z')
+  });
+  assert.match(mail.subject, /ada@example\.com — Too expensive/);
+  assert.match(mail.text, /Refunded: 79\.99 USD/);
+  assert.match(mail.text, /Details: <b>price<\/b> went up/);
+  assert.match(mail.html, /&lt;b&gt;price&lt;\/b&gt; went up/);
+
+  const dashboardHtml = fs.readFileSync(require.resolve('../../frontend-v2/dashboard.html'), 'utf8');
+  const dashboardJs = fs.readFileSync(require.resolve('../../frontend-v2/assets/dashboard.js'), 'utf8');
+  assert.match(dashboardHtml, /id="billing-refund-reason"/);
+  assert.match(dashboardJs, /JSON\.stringify\(\{ reason: reason\.value, details: details\.value\.trim\(\) \}\)/);
+  assert.doesNotMatch(registerSource, /no questions/);
+});
+
 test('signup surfaces describe payment and refund terms instead of a no-card trial', () => {
   assert.match(registerSource, /Continue to secure checkout/);
   assert.match(registerSource, /refund within 7 days/);
