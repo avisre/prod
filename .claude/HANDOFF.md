@@ -12,6 +12,32 @@ OIDC fix, the breakthrough-hunt post-mortem, the Bing fix list), `handoff-archiv
 `handoff-archive/2026-10-01.md`, `handoff-archive/2026-09-30.md`, `handoff-archive/2026-09-28.md`.
 Deep history: `git log`, `notes/2026-09-*.md`, `docs/growth/`, `docs/seo/`, `~/.claude/plans/`.
 
+## Geo wall: crawler claims are verified inside walled countries — 2026-10-08 (`fa0c46c98`, live)
+
+**What was seen:** GA realtime showed a Singapore user on `/screens/quality-compounders`. `funnel_events` had the same
+hit (country `SG`, anonymous). Since 09-23 one user agent (`Macintosh; Intel Mac OS X 10_15_7 … Chrome/145.0.0.0`) made
+60 SG content page views on 59 distinct deep pages, one view per fresh session, spread over all 24 hours. Every other
+SG browser appears only on `/register`.
+
+**Hole closed:** `wallAllPagesMiddleware` returned `next()` for any `allowed-claim`/`internal` UA before checking the
+country, and `botBlocker.checkCrawlerClaim` serves the first request from an unseen address. Inside
+`GEO_WALL_COUNTRIES` the wall now awaits `botBlocker.verifyCrawlerClaim`: `verified` is served, `impostor` is walled
+like a visitor, `unknown` (lookup failed) gets 503 + `Retry-After`, never the 302. `internal` earns no exemption from a
+walled country (the marker is in a public repo). Crawling from other countries is unchanged. Tests:
+`test/geo-wall.test.js` runs the middleware cut out of `app.js`.
+
+**Not proven:** that the SG client used this route. Successful page loads were not logged, so its document request was
+never seen. Every page served to a walled country now logs `[geo-wall] {outcome:'served', reason}` (reasons
+`verified-crawler`, `paid-account`); refused claims log `refused-crawler-claim`.
+
+**Open:**
+- Check `funnel_events` for SG content views by that UA after 2026-10-08 14:14 UTC. If they continue, read the
+  `[geo-wall]` lines in the Render logs for the reason.
+- `hostingWalled` still exempts an unverified crawler claim (first request from a hosting address is served).
+- `backend/node_modules` is tracked on `main` as a symlink to `/Users/drasharaghavan/prod/backend/node_modules`, so
+  `npm ci --prefix backend` in any worktree wipes and rewrites the `~/prod` install, and `git stash` in the worktree
+  empties it. Never stage the resulting `D backend/node_modules`. Removing the symlink needs a check of the Render build.
+
 ## Revenue breakdown on the company page — state on 2026-10-07
 
 **One module decides:** `backend/revenue-breakdown.js` returns a graded contract (`complete`, `partial` with a named
